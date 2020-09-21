@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C7D272803
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:40:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 926FE272806
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:41:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4190C6E38A;
-	Mon, 21 Sep 2020 14:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631E66E375;
+	Mon, 21 Sep 2020 14:40:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68DC46E397;
- Mon, 21 Sep 2020 14:40:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D87306E398;
+ Mon, 21 Sep 2020 14:40:48 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 56D0B2220C;
- Mon, 21 Sep 2020 14:40:46 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B5DF3221EC;
+ Mon, 21 Sep 2020 14:40:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600699247;
- bh=Y6JoQtbzzygBA+PtwLLeftoDBuRRRju8FF5/VAidqUU=;
+ s=default; t=1600699248;
+ bh=iCMmlg68NCVnUTDoPJQ2F3o7x/tEUQScwr2ioQlr60U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mPkIsHYoZNeiPfKCDFOjrJTkP3qsr3PvEtYtBbl30n+wjNjUoCyE0Zyzkma54y6S1
- o7sYLU4MOlA3eqhkxyfOqU/EsKwszOyPMCorIAHbOB/O7nVfuFuKQ4k62+vD7+hlh8
- VGO9wGAEG2+rvEzgY1E5wU1WO5MULWyJJ3cf6DhA=
+ b=2lnBbpQmhPKQJv1ktrw2p5aX3nc0anvr2XsSZECUs0PasrlZa05IXVtHQIXd1wWqD
+ s6Mp9WYKCS7JanSCzGSsrZXgsaoO30UcTIYMhYwauE+IneT/imEV5qoXBEBe7Z8kFS
+ 2+Og412dlryBcE9Gwtax3VP8RS8iyW27fJpsIJQk=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 15/20] drm/amdgpu/dc: Require primary plane to be
- enabled whenever the CRTC is
-Date: Mon, 21 Sep 2020 10:40:22 -0400
-Message-Id: <20200921144027.2135390-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 16/20] drm/amd/display: Don't log hdcp module
+ warnings in dmesg
+Date: Mon, 21 Sep 2020 10:40:23 -0400
+Message-Id: <20200921144027.2135390-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200921144027.2135390-1-sashal@kernel.org>
 References: <20200921144027.2135390-1-sashal@kernel.org>
@@ -50,77 +50,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTWljaGVsIETDpG56ZXIgPG1kYWVuemVyQHJlZGhhdC5jb20+CgpbIFVwc3RyZWFtIGNv
-bW1pdCAyZjIyOGFhYjIxYmJjNzRlOTBlMjY3YTcyMTIxNWVjOGJlNTFkYWY3IF0KCkRvbid0IGNo
-ZWNrIGRybV9jcnRjX3N0YXRlOjphY3RpdmUgZm9yIHRoaXMgZWl0aGVyLCBwZXIgaXRzCmRvY3Vt
-ZW50YXRpb24gaW4gaW5jbHVkZS9kcm0vZHJtX2NydGMuaDoKCiAqIEhlbmNlIGRyaXZlcnMgbXVz
-dCBub3QgY29uc3VsdCBAYWN0aXZlIGluIHRoZWlyIHZhcmlvdXMKICogJmRybV9tb2RlX2NvbmZp
-Z19mdW5jcy5hdG9taWNfY2hlY2sgY2FsbGJhY2sgdG8gcmVqZWN0IGFuIGF0b21pYwogKiBjb21t
-aXQuCgphdG9taWNfcmVtb3ZlX2ZiIGRpc2FibGVzIHRoZSBDUlRDIGFzIG5lZWRlZCBmb3IgZGlz
-YWJsaW5nIHRoZSBwcmltYXJ5CnBsYW5lLgoKVGhpcyBwcmV2ZW50cyBhdCBsZWFzdCB0aGUgZm9s
-bG93aW5nIHByb2JsZW1zIGlmIHRoZSBwcmltYXJ5IHBsYW5lIGdldHMKZGlzYWJsZWQgKGUuZy4g
-ZHVlIHRvIGRlc3Ryb3lpbmcgdGhlIEZCIGFzc2lnbmVkIHRvIHRoZSBwcmltYXJ5IHBsYW5lLAph
-cyBoYXBwZW5zIGUuZy4gd2l0aCBtdXR0ZXIgaW4gV2F5bGFuZCBtb2RlKToKCiogVGhlIGxlZ2Fj
-eSBjdXJzb3IgaW9jdGwgcmV0dXJuZWQgRUlOVkFMIGZvciBhIG5vbi0wIGN1cnNvciBGQiBJRAog
-ICh3aGljaCBlbmFibGVzIHRoZSBjdXJzb3IgcGxhbmUpLgoqIElmIHRoZSBjdXJzb3IgcGxhbmUg
-d2FzIGVuYWJsZWQsIGNoYW5naW5nIHRoZSBsZWdhY3kgRFBNUyBwcm9wZXJ0eQogIHZhbHVlIGZy
-b20gb2ZmIHRvIG9uIHJldHVybmVkIEVJTlZBTC4KCnYyOgoqIE1pbm9yIGNoYW5nZXMgdG8gY29k
-ZSBjb21tZW50IGFuZCBjb21taXQgbG9nLCBwZXIgcmV2aWV3IGZlZWRiYWNrLgoKR2l0TGFiOiBo
-dHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbXV0dGVyLy0vaXNzdWVzLzExMDgKR2l0TGFi
-OiBodHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbXV0dGVyLy0vaXNzdWVzLzExNjUKR2l0
-TGFiOiBodHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbXV0dGVyLy0vaXNzdWVzLzEzNDQK
-U3VnZ2VzdGVkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpBY2tl
-ZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KUmV2aWV3ZWQtYnk6
-IE5pY2hvbGFzIEthemxhdXNrYXMgPG5pY2hvbGFzLmthemxhdXNrYXNAYW1kLmNvbT4KU2lnbmVk
-LW9mZi1ieTogTWljaGVsIETDpG56ZXIgPG1kYWVuemVyQHJlZGhhdC5jb20+ClNpZ25lZC1vZmYt
-Ynk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KU2lnbmVkLW9mZi1i
-eTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIC4uLi9ncHUvZHJtL2FtZC9k
-aXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYyB8IDMyICsrKysrKy0tLS0tLS0tLS0tLS0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAyMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwppbmRleCAz
-ZjdlY2VkOTJjMGM4Li43YzFjYzBiYTMwYTU1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-YW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMKQEAgLTUyNTcsMTkgKzUyNTcsNiBAQCBz
-dGF0aWMgdm9pZCBkbV9jcnRjX2hlbHBlcl9kaXNhYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykK
-IHsKIH0KIAotc3RhdGljIGJvb2wgZG9lc19jcnRjX2hhdmVfYWN0aXZlX2N1cnNvcihzdHJ1Y3Qg
-ZHJtX2NydGNfc3RhdGUgKm5ld19jcnRjX3N0YXRlKQotewotCXN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYgPSBuZXdfY3J0Y19zdGF0ZS0+Y3J0Yy0+ZGV2OwotCXN0cnVjdCBkcm1fcGxhbmUgKnBsYW5l
-OwotCi0JZHJtX2Zvcl9lYWNoX3BsYW5lX21hc2socGxhbmUsIGRldiwgbmV3X2NydGNfc3RhdGUt
-PnBsYW5lX21hc2spIHsKLQkJaWYgKHBsYW5lLT50eXBlID09IERSTV9QTEFORV9UWVBFX0NVUlNP
-UikKLQkJCXJldHVybiB0cnVlOwotCX0KLQotCXJldHVybiBmYWxzZTsKLX0KLQogc3RhdGljIGlu
-dCBjb3VudF9jcnRjX2FjdGl2ZV9wbGFuZXMoc3RydWN0IGRybV9jcnRjX3N0YXRlICpuZXdfY3J0
-Y19zdGF0ZSkKIHsKIAlzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUgPSBuZXdfY3J0Y19z
-dGF0ZS0+c3RhdGU7CkBAIC01MzQ5LDE5ICs1MzM2LDIwIEBAIHN0YXRpYyBpbnQgZG1fY3J0Y19o
-ZWxwZXJfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAkJcmV0dXJuIHJldDsK
-IAl9CiAKLQkvKiBJbiBzb21lIHVzZSBjYXNlcywgbGlrZSByZXNldCwgbm8gc3RyZWFtIGlzIGF0
-dGFjaGVkICovCi0JaWYgKCFkbV9jcnRjX3N0YXRlLT5zdHJlYW0pCi0JCXJldHVybiAwOwotCiAJ
-LyoKLQkgKiBXZSB3YW50IGF0IGxlYXN0IG9uZSBoYXJkd2FyZSBwbGFuZSBlbmFibGVkIHRvIHVz
-ZQotCSAqIHRoZSBzdHJlYW0gd2l0aCBhIGN1cnNvciBlbmFibGVkLgorCSAqIFdlIHJlcXVpcmUg
-dGhlIHByaW1hcnkgcGxhbmUgdG8gYmUgZW5hYmxlZCB3aGVuZXZlciB0aGUgQ1JUQyBpcywgb3Ro
-ZXJ3aXNlCisJICogZHJtX21vZGVfY3Vyc29yX3VuaXZlcnNhbCBtYXkgZW5kIHVwIHRyeWluZyB0
-byBlbmFibGUgdGhlIGN1cnNvciBwbGFuZSB3aGlsZSBhbGwgb3RoZXIKKwkgKiBwbGFuZXMgYXJl
-IGRpc2FibGVkLCB3aGljaCBpcyBub3Qgc3VwcG9ydGVkIGJ5IHRoZSBoYXJkd2FyZS4gQW5kIHRo
-ZXJlIGlzIGxlZ2FjeQorCSAqIHVzZXJzcGFjZSB3aGljaCBzdG9wcyB1c2luZyB0aGUgSFcgY3Vy
-c29yIGFsdG9nZXRoZXIgaW4gcmVzcG9uc2UgdG8gdGhlIHJlc3VsdGluZyBFSU5WQUwuCiAJICov
-Ci0JaWYgKHN0YXRlLT5lbmFibGUgJiYgc3RhdGUtPmFjdGl2ZSAmJgotCSAgICBkb2VzX2NydGNf
-aGF2ZV9hY3RpdmVfY3Vyc29yKHN0YXRlKSAmJgotCSAgICBkbV9jcnRjX3N0YXRlLT5hY3RpdmVf
-cGxhbmVzID09IDApCisJaWYgKHN0YXRlLT5lbmFibGUgJiYKKwkgICAgIShzdGF0ZS0+cGxhbmVf
-bWFzayAmIGRybV9wbGFuZV9tYXNrKGNydGMtPnByaW1hcnkpKSkKIAkJcmV0dXJuIC1FSU5WQUw7
-CiAKKwkvKiBJbiBzb21lIHVzZSBjYXNlcywgbGlrZSByZXNldCwgbm8gc3RyZWFtIGlzIGF0dGFj
-aGVkICovCisJaWYgKCFkbV9jcnRjX3N0YXRlLT5zdHJlYW0pCisJCXJldHVybiAwOworCiAJaWYg
-KGRjX3ZhbGlkYXRlX3N0cmVhbShkYywgZG1fY3J0Y19zdGF0ZS0+c3RyZWFtKSA9PSBEQ19PSykK
-IAkJcmV0dXJuIDA7CiAKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+
+[ Upstream commit 875d369d8f75275d30e59421602d9366426abff7 ]
+
+[Why]
+DTM topology updates happens by default now. This results in DTM
+warnings when hdcp is not even being enabled. This spams the dmesg
+and doesn't effect normal display functionality so it is better to log it
+using DRM_DEBUG_KMS()
+
+[How]
+Change the DRM_WARN() to DRM_DEBUG_KMS()
+
+Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h
+index d3192b9d0c3d8..47f8ee2832ff0 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h
+@@ -27,7 +27,7 @@
+ #define MOD_HDCP_LOG_H_
+ 
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+-#define HDCP_LOG_ERR(hdcp, ...) DRM_WARN(__VA_ARGS__)
++#define HDCP_LOG_ERR(hdcp, ...) DRM_DEBUG_KMS(__VA_ARGS__)
+ #define HDCP_LOG_VER(hdcp, ...) DRM_DEBUG_KMS(__VA_ARGS__)
+ #define HDCP_LOG_FSM(hdcp, ...) DRM_DEBUG_KMS(__VA_ARGS__)
+ #define HDCP_LOG_TOP(hdcp, ...) pr_debug("[HDCP_TOP]:"__VA_ARGS__)
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
