@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C15B273C8B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6EC273C7A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:48:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C22D6E828;
-	Tue, 22 Sep 2020 07:49:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6B86E7EC;
+	Tue, 22 Sep 2020 07:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7896889D52
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 13:10:04 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id AB584AD019DE5FA38497;
- Mon, 21 Sep 2020 21:09:58 +0800 (CST)
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E75F589D52
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 13:10:05 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id E30D6ADE57EAF59913BA;
+ Mon, 21 Sep 2020 21:10:02 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 21 Sep 2020 21:09:51 +0800
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 21 Sep 2020 21:09:53 +0800
 From: Qinglang Miao <miaoqinglang@huawei.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH -next] drm: omapdrm: dss: simplify the return expression of
- hdmi_init_pll_data
-Date: Mon, 21 Sep 2020 21:10:15 +0800
-Message-ID: <20200921131015.91422-1-miaoqinglang@huawei.com>
+Subject: [PATCH -next] drm/omap: dss: simplify the return expression of
+ dss_setup_default_clock()
+Date: Mon, 21 Sep 2020 21:10:17 +0800
+Message-ID: <20200921131017.91468-1-miaoqinglang@huawei.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.175.113.25]
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:36 +0000
+X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,34 +53,34 @@ Simplify the return expression.
 
 Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi_pll.c | 7 +------
+ drivers/gpu/drm/omapdrm/dss/dss.c | 7 +------
  1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c b/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c
-index cf2b000f3..c3e85b636 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi_pll.c
-@@ -131,7 +131,6 @@ static int hdmi_init_pll_data(struct dss_device *dss,
- {
- 	struct dss_pll *pll = &hpll->pll;
- 	struct clk *clk;
+diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
+index 6ccbc29c4..b74579270 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dss.c
++++ b/drivers/gpu/drm/omapdrm/dss/dss.c
+@@ -672,7 +672,6 @@ static int dss_setup_default_clock(struct dss_device *dss)
+ 	unsigned long max_dss_fck, prate;
+ 	unsigned long fck;
+ 	unsigned int fck_div;
 -	int r;
  
- 	clk = devm_clk_get(&pdev->dev, "sys_clk");
- 	if (IS_ERR(clk)) {
-@@ -151,11 +150,7 @@ static int hdmi_init_pll_data(struct dss_device *dss,
+ 	max_dss_fck = dss->feat->fck_freq_max;
  
- 	pll->ops = &hdmi_pll_ops;
+@@ -687,11 +686,7 @@ static int dss_setup_default_clock(struct dss_device *dss)
+ 		    * dss->feat->dss_fck_multiplier;
+ 	}
  
--	r = dss_pll_register(dss, pll);
+-	r = dss_set_fck_rate(dss, fck);
 -	if (r)
 -		return r;
 -
 -	return 0;
-+	return dss_pll_register(dss, pll);
++	return dss_set_fck_rate(dss, fck);
  }
  
- int hdmi_pll_init(struct dss_device *dss, struct platform_device *pdev,
+ void dss_set_venc_output(struct dss_device *dss, enum omap_dss_venc_type type)
 -- 
 2.23.0
 
