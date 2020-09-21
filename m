@@ -2,36 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECAD0273CA4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FC8273C70
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:48:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91AA289A7A;
-	Tue, 22 Sep 2020 07:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C465A6E7DA;
+	Tue, 22 Sep 2020 07:48:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B03C6E06D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 13:10:12 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id E5BE9870B19003D22290;
- Mon, 21 Sep 2020 21:10:06 +0800 (CST)
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B3876E06D;
+ Mon, 21 Sep 2020 13:10:11 +0000 (UTC)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 0577B86AF4BD5483D1DB;
+ Mon, 21 Sep 2020 21:10:09 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 21 Sep 2020 21:09:57 +0800
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 21 Sep 2020 21:09:58 +0800
 From: Qinglang Miao <miaoqinglang@huawei.com>
-To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>, 
- Steven Price <steven.price@arm.com>, Alyssa Rosenzweig
- <alyssa.rosenzweig@collabora.com>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/panfrost: simplify the return expression of
- panfrost_devfreq_target()
-Date: Mon, 21 Sep 2020 21:10:21 +0800
-Message-ID: <20200921131021.91604-1-miaoqinglang@huawei.com>
+To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "David Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH -next] drm/qxl: simplify the return expression of
+ qxl_plane_prepare_fb()
+Date: Mon, 21 Sep 2020 21:10:22 +0800
+Message-ID: <20200921131022.91649-1-miaoqinglang@huawei.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.175.113.25]
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:34 +0000
+X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,8 +42,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qinglang Miao <miaoqinglang@huawei.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: spice-devel@lists.freedesktop.org, Qinglang Miao <miaoqinglang@huawei.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -55,33 +54,34 @@ Simplify the return expression.
 
 Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_devfreq.c | 7 +------
+ drivers/gpu/drm/qxl/qxl_display.c | 7 +------
  1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-index 8ab025d00..913eaa6d0 100644
---- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-@@ -29,18 +29,13 @@ static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
- 				   u32 flags)
- {
- 	struct dev_pm_opp *opp;
--	int err;
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index 6063f3a15..65de1f69a 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -768,7 +768,6 @@ static int qxl_plane_prepare_fb(struct drm_plane *plane,
+ 	struct drm_gem_object *obj;
+ 	struct qxl_bo *user_bo;
+ 	struct qxl_surface surf;
+-	int ret;
  
- 	opp = devfreq_recommended_opp(dev, freq, flags);
- 	if (IS_ERR(opp))
- 		return PTR_ERR(opp);
- 	dev_pm_opp_put(opp);
+ 	if (!new_state->fb)
+ 		return 0;
+@@ -804,11 +803,7 @@ static int qxl_plane_prepare_fb(struct drm_plane *plane,
+ 		}
+ 	}
  
--	err = dev_pm_opp_set_rate(dev, *freq);
--	if (err)
--		return err;
+-	ret = qxl_bo_pin(user_bo);
+-	if (ret)
+-		return ret;
 -
 -	return 0;
-+	return dev_pm_opp_set_rate(dev, *freq);
++	return qxl_bo_pin(user_bo);
  }
  
- static void panfrost_devfreq_reset(struct panfrost_devfreq *pfdevfreq)
+ static void qxl_plane_cleanup_fb(struct drm_plane *plane,
 -- 
 2.23.0
 
