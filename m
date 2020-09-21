@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926FE272806
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9367527280D
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 16:41:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 631E66E375;
-	Mon, 21 Sep 2020 14:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CD189F19;
+	Mon, 21 Sep 2020 14:41:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D87306E398;
- Mon, 21 Sep 2020 14:40:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2C889F07;
+ Mon, 21 Sep 2020 14:41:09 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B5DF3221EC;
- Mon, 21 Sep 2020 14:40:47 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0F75A23719;
+ Mon, 21 Sep 2020 14:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600699248;
- bh=iCMmlg68NCVnUTDoPJQ2F3o7x/tEUQScwr2ioQlr60U=;
+ s=default; t=1600699268;
+ bh=yXmewIWDXlBhmb3VzfAZZFKO+0DKCsEThF1ITQoq03s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2lnBbpQmhPKQJv1ktrw2p5aX3nc0anvr2XsSZECUs0PasrlZa05IXVtHQIXd1wWqD
- s6Mp9WYKCS7JanSCzGSsrZXgsaoO30UcTIYMhYwauE+IneT/imEV5qoXBEBe7Z8kFS
- 2+Og412dlryBcE9Gwtax3VP8RS8iyW27fJpsIJQk=
+ b=0RjYQ4mIhlQQLk3BGUkYcUoVt7Tcu0GO/C1alPBHUbjLUZL0d49NSdfhi3MwjdJt7
+ O5L11Q5MbqLevGANWC9sRITM2xKOM0r8KsPGY6UrI3sftjMRvNOQogemN6lDF/ykbZ
+ b6QbrV2DTY/tm4rPXMaOmiEt5+0wLMvylVSf6VrE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 16/20] drm/amd/display: Don't log hdcp module
- warnings in dmesg
-Date: Mon, 21 Sep 2020 10:40:23 -0400
-Message-Id: <20200921144027.2135390-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 11/15] drm/amdkfd: fix a memory leak issue
+Date: Mon, 21 Sep 2020 10:40:50 -0400
+Message-Id: <20200921144054.2135602-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200921144027.2135390-1-sashal@kernel.org>
-References: <20200921144027.2135390-1-sashal@kernel.org>
+In-Reply-To: <20200921144054.2135602-1-sashal@kernel.org>
+References: <20200921144054.2135602-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,50 +49,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Dennis Li <Dennis.Li@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+From: Dennis Li <Dennis.Li@amd.com>
 
-[ Upstream commit 875d369d8f75275d30e59421602d9366426abff7 ]
+[ Upstream commit 087d764159996ae378b08c0fdd557537adfd6899 ]
 
-[Why]
-DTM topology updates happens by default now. This results in DTM
-warnings when hdcp is not even being enabled. This spams the dmesg
-and doesn't effect normal display functionality so it is better to log it
-using DRM_DEBUG_KMS()
+In the resume stage of GPU recovery, start_cpsch will call pm_init
+which set pm->allocated as false, cause the next pm_release_ib has
+no chance to release ib memory.
 
-[How]
-Change the DRM_WARN() to DRM_DEBUG_KMS()
+Add pm_release_ib in stop_cpsch which will be called in the suspend
+stage of GPU recovery.
 
-Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Dennis Li <Dennis.Li@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h
-index d3192b9d0c3d8..47f8ee2832ff0 100644
---- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h
-+++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.h
-@@ -27,7 +27,7 @@
- #define MOD_HDCP_LOG_H_
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index a2ed9c257cb0d..e9a2784400792 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -1075,6 +1075,8 @@ static int stop_cpsch(struct device_queue_manager *dqm)
+ 	unmap_queues_cpsch(dqm, KFD_UNMAP_QUEUES_FILTER_ALL_QUEUES, 0);
+ 	dqm_unlock(dqm);
  
- #ifdef CONFIG_DRM_AMD_DC_HDCP
--#define HDCP_LOG_ERR(hdcp, ...) DRM_WARN(__VA_ARGS__)
-+#define HDCP_LOG_ERR(hdcp, ...) DRM_DEBUG_KMS(__VA_ARGS__)
- #define HDCP_LOG_VER(hdcp, ...) DRM_DEBUG_KMS(__VA_ARGS__)
- #define HDCP_LOG_FSM(hdcp, ...) DRM_DEBUG_KMS(__VA_ARGS__)
- #define HDCP_LOG_TOP(hdcp, ...) pr_debug("[HDCP_TOP]:"__VA_ARGS__)
++	pm_release_ib(&dqm->packets);
++
+ 	kfd_gtt_sa_free(dqm->dev, dqm->fence_mem);
+ 	pm_uninit(&dqm->packets);
+ 
 -- 
 2.25.1
 
