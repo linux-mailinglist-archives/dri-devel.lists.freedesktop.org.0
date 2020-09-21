@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749662729DF
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 17:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B444272A37
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 17:33:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B651880C6;
-	Mon, 21 Sep 2020 15:20:58 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14DBF6E4E6
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 15:20:56 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id k18so13147499wmj.5
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 08:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=L4bLRGp7fGx2MknkK1rcPvRD/2kcqQUQu2s4wMlqMkw=;
- b=XVPz4n/zlQcN4jyMyrNIZ2vLXHT266ErcWI8LLrSqHrsI9fkXIxDApXK6WCh6ZpquF
- e4/4l/xm6ito5hkBhvL5/m1L3I/IkyNOmF+ueb8PdfAnMHN0vIA1qXxPUH3DVOR5BJYh
- bJo6zmTNC5ciKMfl7d/TzqyXhNeBcRYzTDToW356D6JdzjYUS0Vvv2NdYm12ev3WpUI/
- g81slmjWQt54Aw15o+lEyaKQOZzFy39qX2eJ/DC1J4rVPcggWAuVRHqzQwUFz+PK6xeZ
- tLa5pt8SJWKXjIJrL0z92rR8ElLZx/j6YjsBBp6apetbjE280+NdIf0R2RaXTVj/whvH
- /UgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=L4bLRGp7fGx2MknkK1rcPvRD/2kcqQUQu2s4wMlqMkw=;
- b=fBtq+CrRp1AmgtBgUHGEiFjsG+TSzareb6kwwvU2JrPBJU7UE95TP3CzmTvf+71tF+
- sJuczBm0C6TcJEN+fFW9EB6qLgrX6pd2zNPm2BAw5/3Z4m4Bzu+D2VW/ZCNXokMx1tMs
- l2EJm43/Nb8NC5o/FROJAFRXr9J+om3j+8ewKgUKX3r/bDxWolbyuIQjT5/8wnWcqJ9v
- 9OXgwdAliooo27t+f9fnzGZ0b/uYQpVSCaDsM69wI0puene2RtgQ1xlV37oZ3uluPHgl
- CYZpukMxLQPD+r9Yn8tFj4GyCDLnSroUCu8gR3piHQnHHgHwbmsB5X+y3W0dcmBQl1OG
- MK9w==
-X-Gm-Message-State: AOAM5309oD6SMAetUHdE4/KXl2hYYscVs5eOClG1sKoZF6AD1VN0YCJV
- 4/QuQTEk+Yao+anbnX01Pi5hWPcpQv7D+sjrwXU=
-X-Google-Smtp-Source: ABdhPJwvf88sXA+M0lx6styzoy1Nw4TB6P0u+sDQBGKctBcgrrcjZszU4+Hn1o8vU4wH9LKVhuwRjN1qFEbb+uscRpw=
-X-Received: by 2002:a1c:b388:: with SMTP id c130mr115189wmf.175.1600701654573; 
- Mon, 21 Sep 2020 08:20:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200919193727.2093945-1-robdclark@gmail.com>
- <20200921092154.GJ438822@phenom.ffwll.local>
- <CAF6AEGuDRk9D_aqyb6R8N5VHx2rvbZDf4uTqF3gQTrmzno+qtw@mail.gmail.com>
-In-Reply-To: <CAF6AEGuDRk9D_aqyb6R8N5VHx2rvbZDf4uTqF3gQTrmzno+qtw@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 21 Sep 2020 08:20:42 -0700
-Message-ID: <CAF6AEGumdr5p9Unqnx6xwUeJX81kLGn=iobjjXF=oVd+nhEZ0Q@mail.gmail.com>
-Subject: Re: [PATCH 0/3] drm: commit_work scheduling
-To: Rob Clark <robdclark@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Rob Clark <robdclark@chromium.org>, Peter Zijlstra <peterz@infradead.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, 
- Tim Murray <timmurray@google.com>, Tejun Heo <tj@kernel.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6866E514;
+	Mon, 21 Sep 2020 15:33:13 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+X-Greylist: delayed 330 seconds by postgrey-1.36 at gabe;
+ Mon, 21 Sep 2020 15:33:02 UTC
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68E6C6E508
+ for <dri-devel@freedesktop.org>; Mon, 21 Sep 2020 15:33:02 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1600702384; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=s7K9SEo1X6Ibc0tt1bXFMEPa50tfSsiMzV95wUizo+8=;
+ b=eLtwBm5KP9SEK71L5e1yhzasj3l9IBKNeZok7v6By/Bgn2CP+OrjxEb7vj0Ea3UWkJBvARHI
+ 0HJSRXPxnVcPDAeu36UT5Qr60kS6a0TkCQknsyCavqnSBK2e5ZBKxWh0pmVsD/dhGqbvKQ3B
+ FnRGCsdNrQAy2AMQIXL1OT1Jqco=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5f68c6630566e2dcd74a13b9 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 21 Sep 2020 15:27:31
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id CFB46C433FE; Mon, 21 Sep 2020 15:27:30 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from akhilpo-linux.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D577EC433FE;
+ Mon, 21 Sep 2020 15:27:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D577EC433FE
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/msm: Replace active_list with refcount
+Date: Mon, 21 Sep 2020 20:57:17 +0530
+Message-Id: <1600702038-10893-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,119 +65,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: jonathan@marek.ca, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dianders@chromium.org, mka@chromium.org,
+ dri-devel@freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 21, 2020 at 8:16 AM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Mon, Sep 21, 2020 at 2:21 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Sat, Sep 19, 2020 at 12:37:23PM -0700, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > The android userspace treats the display pipeline as a realtime problem.
-> > > And arguably, if your goal is to not miss frame deadlines (ie. vblank),
-> > > it is.  (See https://lwn.net/Articles/809545/ for the best explaination
-> > > that I found.)
-> > >
-> > > But this presents a problem with using workqueues for non-blocking
-> > > atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
-> > > preempt the worker.  Which is not really the outcome you want.. once
-> > > the required fences are scheduled, you want to push the atomic commit
-> > > down to hw ASAP.
-> > >
-> > > But the decision of whether commit_work should be RT or not really
-> > > depends on what userspace is doing.  For a pure CFS userspace display
-> > > pipeline, commit_work() should remain SCHED_NORMAL.
-> > >
-> > > To handle this, convert non-blocking commit_work() to use per-CRTC
-> > > kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
-> > > used to avoid serializing commits when userspace is using a per-CRTC
-> > > update loop.
-> > >
-> > > A client-cap is introduced so that userspace can opt-in to SCHED_FIFO
-> > > priority commit work.
-> > >
-> > > A potential issue is that since 616d91b68cd ("sched: Remove
-> > > sched_setscheduler*() EXPORTs") we have limited RT priority levels,
-> > > meaning that commit_work() ends up running at the same priority level
-> > > as vblank-work.  This shouldn't be a big problem *yet*, due to limited
-> > > use of vblank-work at this point.  And if it could be arranged that
-> > > vblank-work is scheduled before signaling out-fences and/or sending
-> > > pageflip events, it could probably work ok to use a single priority
-> > > level for both commit-work and vblank-work.
-> >
-> > The part I don't like about this is that it all feels rather hacked
-> > together, and if we add more stuff (or there's some different thing in the
-> > system that also needs rt scheduling) then it doesn't compose.
->
-> The ideal thing would be that userspace is in control of the
-> priorities.. the setclientcap approach seemed like a reasonable way to
-> give the drm-master a way to opt in.
->
-> I suppose instead userspace could use sched_setscheduler().. but that
-> would require userspace to be root, and would require some way to find
-> the tid.
->
-> Is there some way we could arrange for the per-crtc kthread's to be
-> owned by the drm master?  That would solve the "must be root" issue.
-> And since the target audience is an atomic userspace, I suppose we
-> could expose the tid as a read-only property on the crtc?
+In the case where we have a back-to-back submission that shares the same
+BO, this BO will be prematurely moved to inactive_list while retiring the
+first submit. But it will be still part of the second submit which is
+being processed by the GPU. Now, if the shrinker happens to be triggered at
+this point, it will result in premature purging of this BO.
 
-Side-note, we have the same issue with work scheduled when GPU
-completes a batch/submit.. I'm less sure what to do with that, so
-figured I'd start with the commit_work because that was the "easy"
-part ;-)
+To fix this, we can replace the active_list with reference counting and
+move the BO to inactive list only when this count becomes zero.
 
-The retire_work tends to complete quickly, so maybe sched_set_fifo()
-is sufficient.  (That plus these days things that run android tend to
-have 8 cores so you can kinda get away with multiple things at the
-same RT priority level to some degree..)
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
+ drivers/gpu/drm/msm/msm_drv.h |  5 ++---
+ drivers/gpu/drm/msm/msm_gem.c | 30 ++++++++++++++++--------------
+ drivers/gpu/drm/msm/msm_gem.h |  4 +++-
+ drivers/gpu/drm/msm/msm_gpu.c | 11 +++++++----
+ 4 files changed, 28 insertions(+), 22 deletions(-)
 
-> BR,
-> -R
->
-> > So question to rt/worker folks: What's the best way to let userspace set
-> > the scheduling mode and priorities of things the kernel does on its
-> > behalf? Surely we're not the first ones where if userspace runs with some
-> > rt priority it'll starve out the kernel workers that it needs. Hardcoding
-> > something behind a subsystem ioctl (which just means every time userspace
-> > changes what it does, we need a new such flag or mode) can't be the right
-> > thing.
-> >
-> > Peter, Tejun?
-> >
-> > Thanks, Daniel
-> >
-> > >
-> > > Rob Clark (3):
-> > >   drm/crtc: Introduce per-crtc kworker
-> > >   drm/atomic: Use kthread worker for nonblocking commits
-> > >   drm: Add a client-cap to set scheduling mode
-> > >
-> > >  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++----
-> > >  drivers/gpu/drm/drm_auth.c          |  4 ++++
-> > >  drivers/gpu/drm/drm_crtc.c          | 37 +++++++++++++++++++++++++++++
-> > >  drivers/gpu/drm/drm_ioctl.c         | 13 ++++++++++
-> > >  include/drm/drm_atomic.h            | 31 ++++++++++++++++++++++++
-> > >  include/drm/drm_crtc.h              | 10 ++++++++
-> > >  include/uapi/drm/drm.h              | 13 ++++++++++
-> > >  7 files changed, 117 insertions(+), 4 deletions(-)
-> > >
-> > > --
-> > > 2.26.2
-> > >
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index 3193274..28e3c8d 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -309,9 +309,8 @@ void msm_gem_put_vaddr(struct drm_gem_object *obj);
+ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv);
+ int msm_gem_sync_object(struct drm_gem_object *obj,
+ 		struct msm_fence_context *fctx, bool exclusive);
+-void msm_gem_move_to_active(struct drm_gem_object *obj,
+-		struct msm_gpu *gpu, bool exclusive, struct dma_fence *fence);
+-void msm_gem_move_to_inactive(struct drm_gem_object *obj);
++void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu);
++void msm_gem_active_put(struct drm_gem_object *obj);
+ int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout);
+ int msm_gem_cpu_fini(struct drm_gem_object *obj);
+ void msm_gem_free_object(struct drm_gem_object *obj);
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 76a6c52..accc106 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -743,33 +743,36 @@ int msm_gem_sync_object(struct drm_gem_object *obj,
+ 	return 0;
+ }
+ 
+-void msm_gem_move_to_active(struct drm_gem_object *obj,
+-		struct msm_gpu *gpu, bool exclusive, struct dma_fence *fence)
++void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
+ {
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
++	WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
+ 	WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED);
++
+ 	msm_obj->gpu = gpu;
+-	if (exclusive)
+-		dma_resv_add_excl_fence(obj->resv, fence);
+-	else
+-		dma_resv_add_shared_fence(obj->resv, fence);
+ 	list_del_init(&msm_obj->mm_list);
+-	list_add_tail(&msm_obj->mm_list, &gpu->active_list);
++	atomic_inc(&msm_obj->active_count);
+ }
+ 
+-void msm_gem_move_to_inactive(struct drm_gem_object *obj)
++static void move_to_inactive(struct msm_gem_object *msm_obj)
+ {
+-	struct drm_device *dev = obj->dev;
++	struct drm_device *dev = msm_obj->base.dev;
+ 	struct msm_drm_private *priv = dev->dev_private;
+-	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+-
+-	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
+ 
+ 	msm_obj->gpu = NULL;
+-	list_del_init(&msm_obj->mm_list);
+ 	list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
+ }
+ 
++void msm_gem_active_put(struct drm_gem_object *obj)
++{
++	struct msm_gem_object *msm_obj = to_msm_bo(obj);
++
++	WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
++
++	if (atomic_dec_and_test(&msm_obj->active_count))
++		move_to_inactive(msm_obj);
++}
++
+ int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout)
+ {
+ 	bool write = !!(op & MSM_PREP_WRITE);
+@@ -1104,7 +1107,6 @@ static struct drm_gem_object *_msm_gem_new(struct drm_device *dev,
+ 	}
+ 
+ 	if (struct_mutex_locked) {
+-		WARN_ON(!mutex_is_locked(&dev->struct_mutex));
+ 		list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
+ 	} else {
+ 		mutex_lock(&dev->struct_mutex);
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 7b1c7a5..a1bf741 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -88,12 +88,14 @@ struct msm_gem_object {
+ 	struct mutex lock; /* Protects resources associated with bo */
+ 
+ 	char name[32]; /* Identifier to print for the debugfs files */
++
++	atomic_t active_count;
+ };
+ #define to_msm_bo(x) container_of(x, struct msm_gem_object, base)
+ 
+ static inline bool is_active(struct msm_gem_object *msm_obj)
+ {
+-	return msm_obj->gpu != NULL;
++	return atomic_read(&msm_obj->active_count);
+ }
+ 
+ static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index 29c8d73c..55d1648 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -698,8 +698,8 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+ 
+ 	for (i = 0; i < submit->nr_bos; i++) {
+ 		struct msm_gem_object *msm_obj = submit->bos[i].obj;
+-		/* move to inactive: */
+-		msm_gem_move_to_inactive(&msm_obj->base);
++
++		msm_gem_active_put(&msm_obj->base);
+ 		msm_gem_unpin_iova(&msm_obj->base, submit->aspace);
+ 		drm_gem_object_put_locked(&msm_obj->base);
+ 	}
+@@ -774,6 +774,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 
+ 	for (i = 0; i < submit->nr_bos; i++) {
+ 		struct msm_gem_object *msm_obj = submit->bos[i].obj;
++		struct drm_gem_object *drm_obj = &msm_obj->base;
+ 		uint64_t iova;
+ 
+ 		/* can't happen yet.. but when we add 2d support we'll have
+@@ -786,9 +787,11 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 		msm_gem_get_and_pin_iova(&msm_obj->base, submit->aspace, &iova);
+ 
+ 		if (submit->bos[i].flags & MSM_SUBMIT_BO_WRITE)
+-			msm_gem_move_to_active(&msm_obj->base, gpu, true, submit->fence);
++			dma_resv_add_excl_fence(drm_obj->resv, submit->fence);
+ 		else if (submit->bos[i].flags & MSM_SUBMIT_BO_READ)
+-			msm_gem_move_to_active(&msm_obj->base, gpu, false, submit->fence);
++			dma_resv_add_shared_fence(drm_obj->resv, submit->fence);
++
++		msm_gem_active_get(drm_obj, gpu);
+ 	}
+ 
+ 	gpu->funcs->submit(gpu, submit);
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
