@@ -2,67 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF7D272B9B
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 18:19:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B06272BCD
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Sep 2020 18:23:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA93F6E39C;
-	Mon, 21 Sep 2020 16:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAAE26E4EC;
+	Mon, 21 Sep 2020 16:23:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EACC06E39C
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 16:19:40 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id z9so101122wmk.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 09:19:40 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A82AE6E4EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 16:23:50 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id s12so13435332wrw.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 09:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2Um6c81r/1MBT+fI9iGjg9/o4XDqZdY7rKMNqEREgyE=;
- b=ryoM2PMyrWMXEMclmgyN0lykLS3VG6GXyKh4BC5ZVuURKw5hMiI7c0HZAetAVJ9uHu
- WHPCmKob3GZAwHB0bI+A+2bGumaPKa/LcayBImqxBLqSTWGPWgRIMaJNnzvsltdIClFm
- RkamjI+3JgSIgX4e1nBRWo7MQ7hnY7fBVUTSj05a22ySRbVJdIZNenzaMknU984WS4Ff
- oJXiT3JErczZ+ll+Fj95go1Z4vbo6Ay394q5fOCK4bcUb0WH0Lj7f+j3SmVyZSGTA862
- vTxr3cmVPwuCj3G6rHPq98xrSw5GP3ZVb+Ds8kVgwUWtg000Tnlu5BKL9ISmU0qFih12
- YEIQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GV+zIN6sJJxPejVZB8htxxkYICDKzmVCyZUaXHnp5g4=;
+ b=dasbI4zhocNjyUPwfomYAW9onoLwPccSgrQi8tap4RhvutB8a1/agZkei9+nL2NUA7
+ STEf4fljwFsbovWCl6LRA/cr9/t5SpRlnVpxpE3N3a94+IAsWoPpuTuLGt4lp1RtLqJV
+ r1S32zwpb+B/7I0UIrTI2NJcQM4d42gKi7MVFMaMG6x3U2FAhPW9pJm23pHQW+vPnYT7
+ SxvtnDiy4p5uE65mQdF1ORa2Q3p7mhomtEIoM2B/JiOnCS7QgBZsS8QU9TFD6yYAS89C
+ psUZdIOQJIbRGJ+f/hDN6cjqEfSWajzsulp2hYsM+E8+X1KncdISmqvqk8IBfIrX77uv
+ UAKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2Um6c81r/1MBT+fI9iGjg9/o4XDqZdY7rKMNqEREgyE=;
- b=F2lg5cl+74VqmPvphVDoGDD9kH9OOjS6/DRSRcj75xNQhrIJP5jmreOY0RdUmoTJ1c
- HRvh3/QlJ2hEU3C3hQQAKa1T7yBXxJ3O2sDk8CHgWL4DKy1iNacpx3Asf2Mm61eHABse
- b6utpOKEpI57GTDJmdU0vy4vvjJsZYVQqmq+JATM3ZCXxKxPe2ZOXHDPrq1b8DVO5haA
- xQKDWbTbxTnDz1l0NrY0y6c8z2mZ0a8QSpGs04dUDy3chWM4E7xlul6z1F+b1tr8nV2w
- 0m8Qs+9GINXXHTN2E7rpBnE9KzA3Lr0Il9UOirJdtvotduKV+2L6RedCg3IBlP38FNrM
- hPyA==
-X-Gm-Message-State: AOAM533sCCBXnyRgZXWJdwl8dVlA2UxK0riRhr8Cylt7thZvS2eL8DAn
- 9HKaFo3g/AnjG6fnpkN9CNY=
-X-Google-Smtp-Source: ABdhPJxs7Ibc11EIGRwgCKphObeQv/hmih2hCL7dWsWP43DVc7B0GpSzQHeXgsihEEbfpQhdROSDTQ==
-X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr145783wms.77.1600705179633; 
- Mon, 21 Sep 2020 09:19:39 -0700 (PDT)
-Received: from ziggy.stardust ([213.195.113.201])
- by smtp.gmail.com with ESMTPSA id a83sm67121wmh.48.2020.09.21.09.19.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Sep 2020 09:19:39 -0700 (PDT)
-Subject: Re: [PATCH v3 8/9] soc: mediatek: cmdq: add clear option in
- cmdq_pkt_wfe api
-To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>,
- Bibby Hsieh <bibby.hsieh@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>
-References: <1594136714-11650-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1594136714-11650-9-git-send-email-dennis-yc.hsieh@mediatek.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <728ace99-e5e6-f8bf-1687-e9b51dfae8d7@gmail.com>
-Date: Mon, 21 Sep 2020 18:19:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GV+zIN6sJJxPejVZB8htxxkYICDKzmVCyZUaXHnp5g4=;
+ b=Hg4iHHSK9SzyGX8YZAZA8Wj9xPaZpxlBWZatCxF5w2HsU9MXyu2QY9xwVqtSHlQHo9
+ DsE2Z6FJBjUeANbQ7Gwoun/fNr5nua1L3fl7V4bM1xP013mW36kzxOGziSYXxWs8A5AN
+ LOvBrJs3KkQO4bGvcSverpoxeOr0X+DUyKEu7Kl4SK72fePayI42Fdcj3H5sG6tQT1qn
+ DGTEVVk6tJbRbmoUU28UPd3X4JWW1g5ebc8CAppfUgbjuRBfWtoaZhB4lmEKQCmTRr+G
+ JIGEGhndJyXqPwYQlXUryUIyhQdzAA2MHJfHNq8BSUJtMzUTYLZFRRHDlFfTqra+jhJQ
+ Fhpw==
+X-Gm-Message-State: AOAM532sQX5aJdP3lw87AzCpEIpM9F+iCFWuEq9wRLJSweTWk2jPvFFl
+ 9wgEnLfSA+F0eQjCsRR1IM+PxBgGwuH551eScmc=
+X-Google-Smtp-Source: ABdhPJx911Aw5XJoH0FHLZ+BtstzWpG2MMi4tjv4LMT5e184l4ts5ETwRI5ps/eE+scP3HaiwEz2lW2tgtla49J0v80=
+X-Received: by 2002:adf:e6c7:: with SMTP id y7mr521596wrm.147.1600705429283;
+ Mon, 21 Sep 2020 09:23:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1594136714-11650-9-git-send-email-dennis-yc.hsieh@mediatek.com>
-Content-Language: en-US
+References: <20200919193727.2093945-1-robdclark@gmail.com>
+ <20200921161020.pjd6v6ul3beljwot@e107158-lin.cambridge.arm.com>
+In-Reply-To: <20200921161020.pjd6v6ul3beljwot@e107158-lin.cambridge.arm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 21 Sep 2020 09:23:37 -0700
+Message-ID: <CAF6AEGvyFTDaftbjny=FvC7kfDZQFFBiCPv+tJ8v9KDUmV8tJg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm: commit_work scheduling
+To: Qais Yousef <qais.yousef@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,112 +61,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>, Peter Zijlstra <peterz@infradead.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 21, 2020 at 9:10 AM Qais Yousef <qais.yousef@arm.com> wrote:
+>
+> On 09/19/20 12:37, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > The android userspace treats the display pipeline as a realtime problem.
+> > And arguably, if your goal is to not miss frame deadlines (ie. vblank),
+> > it is.  (See https://lwn.net/Articles/809545/ for the best explaination
+> > that I found.)
+> >
+> > But this presents a problem with using workqueues for non-blocking
+> > atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
+> > preempt the worker.  Which is not really the outcome you want.. once
+> > the required fences are scheduled, you want to push the atomic commit
+> > down to hw ASAP.
+> >
+> > But the decision of whether commit_work should be RT or not really
+> > depends on what userspace is doing.  For a pure CFS userspace display
+> > pipeline, commit_work() should remain SCHED_NORMAL.
+>
+> Just a side note; this RT vs CFS inter-operatability is an issue that
+> creeps up every now and again.
+>
+> https://lore.kernel.org/lkml/1567048502-6064-1-git-send-email-jing-ting.wu@mediatek.com/
+>
+> Does the UI thread in Android ever run as RT by the way? I always suspected it
+> is one susceptible to such potential delays since it is part of the application
+> thread and thought it can't be trusted to become RT.
 
+The application itself is not RT, since there is no good way to know
+what other things the app may be doing.  Although that is mentioned in
+the lwn article (ie. the hypothetical SCHED_DEADLINE + token passing
+part)
 
-On 07/07/2020 17:45, Dennis YC Hsieh wrote:
-> Add clear parameter to let client decide if
-> event should be clear to 0 after GCE receive it.
-> 
-> Change since v2:
-> - Keep behavior in drm crtc driver and
->    separate bug fix code into another patch.
+But at least once the app / ui thread is done, then it is all (or at
+least in theory "all" if atomic-helper doesn't gum up the works ;-))
+SCHED_FIFO from there to the display.
 
-This, should go...
+> Those 120MHz displays will stress the pipeline :-)
 
-> 
-> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> ---
+indeed
 
-...here :)
+BR,
+-R
 
-I fixed to commit message and pushed the patch to v5.9-next/soc
-
-Thanks!
-
->   drivers/gpu/drm/mediatek/mtk_drm_crtc.c  |    2 +-
->   drivers/soc/mediatek/mtk-cmdq-helper.c   |    5 +++--
->   include/linux/mailbox/mtk-cmdq-mailbox.h |    3 +--
->   include/linux/soc/mediatek/mtk-cmdq.h    |    5 +++--
->   4 files changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> index ec6c9ffbf35e..c84e7a14d4a8 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -490,7 +490,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
->   		mbox_flush(mtk_crtc->cmdq_client->chan, 2000);
->   		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
->   		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
-> -		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event);
-> +		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, true);
->   		mtk_crtc_ddp_config(crtc, cmdq_handle);
->   		cmdq_pkt_finalize(cmdq_handle);
->   		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
-> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> index d55dc3296105..505651b0d715 100644
-> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> @@ -316,15 +316,16 @@ int cmdq_pkt_write_s_mask_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
->   }
->   EXPORT_SYMBOL(cmdq_pkt_write_s_mask_value);
->   
-> -int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
-> +int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event, bool clear)
->   {
->   	struct cmdq_instruction inst = { {0} };
-> +	u32 clear_option = clear ? CMDQ_WFE_UPDATE : 0;
->   
->   	if (event >= CMDQ_MAX_EVENT)
->   		return -EINVAL;
->   
->   	inst.op = CMDQ_CODE_WFE;
-> -	inst.value = CMDQ_WFE_OPTION;
-> +	inst.value = CMDQ_WFE_OPTION | clear_option;
->   	inst.event = event;
->   
->   	return cmdq_pkt_append_command(pkt, inst);
-> diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> index efbd8a9eb2d1..d5a983d65f05 100644
-> --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
-> +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> @@ -28,8 +28,7 @@
->    * bit 16-27: update value
->    * bit 31: 1 - update, 0 - no update
->    */
-> -#define CMDQ_WFE_OPTION			(CMDQ_WFE_UPDATE | CMDQ_WFE_WAIT | \
-> -					CMDQ_WFE_WAIT_VALUE)
-> +#define CMDQ_WFE_OPTION			(CMDQ_WFE_WAIT | CMDQ_WFE_WAIT_VALUE)
->   
->   /** cmdq event maximum */
->   #define CMDQ_MAX_EVENT			0x3ff
-> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-> index 34354e952f60..960704d75994 100644
-> --- a/include/linux/soc/mediatek/mtk-cmdq.h
-> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-> @@ -182,11 +182,12 @@ int cmdq_pkt_write_s_mask_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
->   /**
->    * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
->    * @pkt:	the CMDQ packet
-> - * @event:	the desired event type to "wait and CLEAR"
-> + * @event:	the desired event type to wait
-> + * @clear:	clear event or not after event arrive
->    *
->    * Return: 0 for success; else the error code is returned
->    */
-> -int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event);
-> +int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event, bool clear);
->   
->   /**
->    * cmdq_pkt_clear_event() - append clear event command to the CMDQ packet
-> 
+> >
+> > To handle this, convert non-blocking commit_work() to use per-CRTC
+> > kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
+> > used to avoid serializing commits when userspace is using a per-CRTC
+> > update loop.
+> >
+> > A client-cap is introduced so that userspace can opt-in to SCHED_FIFO
+> > priority commit work.
+> >
+> > A potential issue is that since 616d91b68cd ("sched: Remove
+> > sched_setscheduler*() EXPORTs") we have limited RT priority levels,
+> > meaning that commit_work() ends up running at the same priority level
+> > as vblank-work.  This shouldn't be a big problem *yet*, due to limited
+> > use of vblank-work at this point.  And if it could be arranged that
+> > vblank-work is scheduled before signaling out-fences and/or sending
+> > pageflip events, it could probably work ok to use a single priority
+> > level for both commit-work and vblank-work.
+>
+> This is a function of num_cpus too. As long as nr_cpus > nr_running_rt_tasks
+> you should be fine.
+>
+> Cheers
+>
+> --
+> Qais Yousef
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
