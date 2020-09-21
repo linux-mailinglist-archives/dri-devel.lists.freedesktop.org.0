@@ -2,41 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2B72735B5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 00:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C1F2735D6
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 00:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC8889D9A;
-	Mon, 21 Sep 2020 22:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249006E0C9;
+	Mon, 21 Sep 2020 22:35:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34CA989D9A
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 22:24:40 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2157523A63;
- Mon, 21 Sep 2020 22:24:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600727080;
- bh=1PUJ5hNzZTNJHRrWsG3qH9Ptt+duX4WCMYgHNreOFF4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=x1+tx4t5xnc8rNe7UWv5d0zvDRXkj6XToXs0Pyf/+5XHpb3DF5wqgSaHpgyzmVx3V
- 7ZoJ+jLyb8mOgdPTOYNlXScX9cHDSUghI946B+JsMOUk0PvUp1YpH3s62uCof9b8Jf
- XGpyPrxLFD8nYYIX4fWIYYzjfp/D1vv/F9ThLdAA=
-Date: Mon, 21 Sep 2020 23:24:34 +0100
-From: Will Deacon <will@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 1/3] iommu/io-pgtable-arm: Support coherency for Mali LPAE
-Message-ID: <20200921222434.GB4409@willie-the-truck>
-References: <cover.1600213517.git.robin.murphy@arm.com>
- <d2a3ddb17b3270e268e2f1adf7682ea938823941.1600213517.git.robin.murphy@arm.com>
- <20200921175717.GF3141@willie-the-truck>
- <71cc6c53-7bd1-da1a-05fa-8172510b33d8@arm.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 706FC6E0C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 22:35:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600727724;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Bv308wt74EoBs6AVElOXpr7+00zdHSmspBNFfgp+CM=;
+ b=dsh/1u9b7G81zlBNgoySoh6WCZf6EgT21IST7yX3BHlEpjiWJ+jd60eUGXRR3y4Q3bDArv
+ LW7OA0LCad1nKiTuwELreNbdOMTIibb9a5Hi+3ifsTRruBpl5op0rWvgTjaYyDuXeaJAze
+ TZZLwBE7Zh/zrfi6Br6mUD3OZ039XFc=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-OUZAu8VzOZK0EjzwB6c_gA-1; Mon, 21 Sep 2020 18:35:20 -0400
+X-MC-Unique: OUZAu8VzOZK0EjzwB6c_gA-1
+Received: by mail-qv1-f72.google.com with SMTP id w2so10357345qvr.19
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 15:35:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=7Bv308wt74EoBs6AVElOXpr7+00zdHSmspBNFfgp+CM=;
+ b=WnS6o9TvLNd38kvgeZqb2QJQxAGSgmRcKEpwMMY5X4/Ezr5i8ukzip+sqJh/dTQM7C
+ vKuS7ORI9bZAn62CHkGfGyjK3/JPi/SG/9U8hGAQAM/4M6Bkg9kTRkeMTZ4/OGuIlpzI
+ 8pZSeqMuTu9r6mF57Xjc9kGyrr8bEj+sQpzA9wfId3e43osx4o4pArdGM2YiJ5Ub1+eJ
+ tLSF2p3YskIfoSvX8ZDf65qkGpdFbzf3hBHziO0kxsMPxQM3Ucv2stAURPKj55G3HOZj
+ pwUaONjX3WFvsTLaydbTfg8kSXCAMnzmpphTuRAa4bwFtB80EqI03wfuAy22+zv3x0dm
+ /djA==
+X-Gm-Message-State: AOAM531IzCMTvSBLDh6mN1Rm1om3SURNIXkJ7lGiS6jltPhcQ42O+Zgc
+ koWTliPyl4E0hK9juckTzMmoOb1unjxdfda+L0V0vLd0Zf6HQ9kmN6ZV5Nb+j7KaOIxipv7Baxp
+ JhFSirvemr9OysHNhYg6pHamC8R4L
+X-Received: by 2002:a37:a483:: with SMTP id n125mr1997895qke.286.1600727719917; 
+ Mon, 21 Sep 2020 15:35:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0yHNf68UJC7Hz9eWb6otQaSzaW2zUJcw35KsrMO+/R8qZZ/UV7xW+1OAroWltmA4PsazH2Q==
+X-Received: by 2002:a37:a483:: with SMTP id n125mr1997869qke.286.1600727719634; 
+ Mon, 21 Sep 2020 15:35:19 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id h68sm10390223qkf.30.2020.09.21.15.35.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Sep 2020 15:35:18 -0700 (PDT)
+Message-ID: <470a3a448a80ae6f8e6e6f6a82f5ffc01c1d6033.camel@redhat.com>
+Subject: Re: [PATCH] drm/i915/dp: Tweak initial dpcd backlight.enabled value
+From: Lyude Paul <lyude@redhat.com>
+To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
+Date: Mon, 21 Sep 2020 18:35:17 -0400
+In-Reply-To: <20200918002845.32766-1-sean@poorly.run>
+References: <20200918002845.32766-1-sean@poorly.run>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <71cc6c53-7bd1-da1a-05fa-8172510b33d8@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,55 +80,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, narmstrong@baylibre.com, khilman@baylibre.com,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
- iommu@lists.linux-foundation.org, alyssa.rosenzweig@collabora.com,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- jbrunet@baylibre.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Kevin Chowski <chowski@chromium.org>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 21, 2020 at 10:53:23PM +0100, Robin Murphy wrote:
-> On 2020-09-21 18:57, Will Deacon wrote:
-> > On Wed, Sep 16, 2020 at 12:51:05AM +0100, Robin Murphy wrote:
-> > > Midgard GPUs have ACE-Lite master interfaces which allows systems to
-> > > integrate them in an I/O-coherent manner. It seems that from the GPU's
-> > > viewpoint, the rest of the system is its outer shareable domain, and so
-> > > even when snoop signals are wired up, they are only emitted for outer
-> > > shareable accesses. As such, setting the TTBR_SHARE_OUTER bit does
-> > > indeed get coherent pagetable walks working nicely for the coherent
-> > > T620 in the Arm Juno SoC.
-> > 
-> > I can't help but think some of this commentary deserves to be in the code
-> > as well.
-> 
-> Sure, if you want.
-
-Yes, please.
-
-> > Do you know if this sort of thing is done for other SoCs too, or is this
-> > just a Juno quirk?
-> 
-> Yup, this is a "Midgard working as designed" thing. Juno is the coherent
-> example I have to hand, but off the top of my head I believe some of the
-> Exynos SoCs can also use their GPUs coherently if a switch is flipped in the
-> interconnect to change routing between the CCI and a direct-to-RAM path; I
-> expect there are probably further Midgard examples that I'm not aware of.
-> Then there are definitely coherent Bifrost GPUs like the Amlogic S922/A311
-> that prompted me to revive this patch, which we currently drive in "Legacy"
-> mode and thus behave the same way as Midgard (Bifrost's "AArch64" mode
-> realigns Ish and Osh with the rest of the system, and instead invents a new
-> "Internal Shareable" value in between Nsh and Ish to represent the
-> shareability between cores within the GPU for which Midgard hijacked Ish).
-
-That is more than I wanted to know :) "Internal Shareable", jeez...
-
-Thanks,
-
-Will
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+U28gaWYgSSB1bmRlcnN0YW5kIHRoaXMgY29ycmVjdGx5LCBpdCBzb3VuZHMgbGlrZSB0aGF0IHNv
+bWUgUGl4ZWxib29rcyBib290IHVwCndpdGggRFBfRURQX0JBQ0tMSUdIVF9CUklHSFRORVNTX01T
+QiBzZXQgdG8gYSBub24temVybyB2YWx1ZSwgd2l0aG91dCB0aGUKcGFuZWwgYWN0dWFsbHkgaGF2
+aW5nIERQQ0QgYmFja2xpZ2h0IGNvbnRyb2xzIGVuYWJsZWQ/CgpJZiBJJ20gdW5kZXJzdGFuZGlu
+ZyB0aGF0IGNvcnJlY3RseSwgdGhlbiB0aGlzIHBhdGNoIGxvb2tzIGdvb2QgdG8gbWU6CgpSZXZp
+ZXdlZC1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KCk9uIFRodSwgMjAyMC0wOS0x
+NyBhdCAyMDoyOCAtMDQwMCwgU2VhbiBQYXVsIHdyb3RlOgo+IEZyb206IFNlYW4gUGF1bCA8c2Vh
+bnBhdWxAY2hyb21pdW0ub3JnPgo+IAo+IEluIGNvbW1pdCA3OTk0NjcyMzA5MmIgKCJkcm0vaTkx
+NTogQXNzdW1lIDEwMCUgYnJpZ2h0bmVzcyB3aGVuIG5vdCBpbgo+IERQQ0QgY29udHJvbCBtb2Rl
+IiksIHdlIGZpeGVkIHRoZSBicmlnaHRuZXNzIGxldmVsIHdoZW4gRFBDRCBjb250cm9sIHdhcwo+
+IG5vdCBhY3RpdmUgdG8gbWF4IGJyaWdodG5lc3MuIFRoaXMgaXMgYXMgZ29vZCBhcyB3ZSBjYW4g
+Z3Vlc3Mgc2luY2UgbW9zdAo+IGJhY2tsaWdodHMgZ28gb24gZnVsbCB3aGVuIHVuY29udHJvbGxl
+ZC4KPiAKPiBIb3dldmVyIGluIGRvaW5nIHNvIHdlIGNoYW5nZWQgdGhlIHNlbWFudGljcyBvZiB0
+aGUgaW5pdGlhbAo+ICdiYWNrbGlnaHQuZW5hYmxlZCcgdmFsdWUuIEF0IGxlYXN0IG9uIFBpeGVs
+Ym9va3MsIHRoZXkgIHdlcmUgcmVseWluZwo+IG9uIHRoZSBicmlnaHRuZXNzIGxldmVsIGluIERQ
+X0VEUF9CQUNLTElHSFRfQlJJR0hUTkVTU19NU0IgdG8gYmUgMCBvbgo+IGJvb3Qgc3VjaCB0aGF0
+IGVuYWJsZWQgd291bGQgYmUgZmFsc2UuIFRoaXMgY2F1c2VzIHRoZSBkZXZpY2UgdG8gYmUKPiBl
+bmFibGVkIHdoZW4gdGhlIGJyaWdodG5lc3MgaXMgc2V0LiBXaXRob3V0IHRoaXMsIGJyaWdodG5l
+c3MgY29udHJvbAo+IGRvZXNuJ3Qgd29yay4gU28gYnkgY2hhbmdpbmcgYnJpZ2h0bmVzcyB0byBt
+YXgsIHdlIGFsc28gZmxpcHBlZCBlbmFibGVkCj4gdG8gYmUgdHJ1ZSBvbiBib290Lgo+IAo+IFRv
+IGZpeCB0aGlzLCBtYWtlIGVuYWJsZWQgYSBmdW5jdGlvbiBvZiBicmlnaHRuZXNzIGFuZCBiYWNr
+bGlnaHQgY29udHJvbAo+IG1lY2hhbmlzbS4KPiAKPiBGaXhlczogNzk5NDY3MjMwOTJiICgiZHJt
+L2k5MTU6IEFzc3VtZSAxMDAlIGJyaWdodG5lc3Mgd2hlbiBub3QgaW4gRFBDRAo+IGNvbnRyb2wg
+bW9kZSIpCj4gQ2M6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gQ2M6IEphbmkgTmlr
+dWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Cj4gQ2M6IEp1aGEtUGVra2EgSGVpa2tpbGEgPGp1
+aGFwZWtrYS5oZWlra2lsYUBnbWFpbC5jb20+Cj4gQ2M6ICJWaWxsZSBTeXJqw6Rsw6QiIDx2aWxs
+ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBDYzogUm9kcmlnbyBWaXZpIDxyb2RyaWdvLnZp
+dmlAaW50ZWwuY29tPgo+IENjOiBLZXZpbiBDaG93c2tpIDxjaG93c2tpQGNocm9taXVtLm9yZz4+
+Cj4gU2lnbmVkLW9mZi1ieTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+Cj4gLS0t
+Cj4gIC4uLi9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX2F1eF9iYWNrbGlnaHQuYyB8IDMxICsr
+KysrKysrKysrKy0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDEx
+IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
+bGF5L2ludGVsX2RwX2F1eF9iYWNrbGlnaHQuYwo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
+cGxheS9pbnRlbF9kcF9hdXhfYmFja2xpZ2h0LmMKPiBpbmRleCBhY2JkN2ViNjZjYmUuLjAzNmY1
+MDRhYzdkYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
+X2RwX2F1eF9iYWNrbGlnaHQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aW50ZWxfZHBfYXV4X2JhY2tsaWdodC5jCj4gQEAgLTUyLDE3ICs1MiwxMSBAQCBzdGF0aWMgdm9p
+ZCBzZXRfYXV4X2JhY2tsaWdodF9lbmFibGUoc3RydWN0IGludGVsX2RwCj4gKmludGVsX2RwLCBi
+b29sIGVuYWJsZSkKPiAgCX0KPiAgfQo+ICAKPiAtLyoKPiAtICogUmVhZCB0aGUgY3VycmVudCBi
+YWNrbGlnaHQgdmFsdWUgZnJvbSBEUENEIHJlZ2lzdGVyKHMpIGJhc2VkCj4gLSAqIG9uIGlmIDgt
+Yml0KE1TQikgb3IgMTYtYml0KE1TQiBhbmQgTFNCKSB2YWx1ZXMgYXJlIHN1cHBvcnRlZAo+IC0g
+Ki8KPiAtc3RhdGljIHUzMiBpbnRlbF9kcF9hdXhfZ2V0X2JhY2tsaWdodChzdHJ1Y3QgaW50ZWxf
+Y29ubmVjdG9yICpjb25uZWN0b3IpCj4gK3N0YXRpYyBib29sIGludGVsX2RwX2F1eF9iYWNrbGln
+aHRfZHBjZF9tb2RlKHN0cnVjdCBpbnRlbF9jb25uZWN0b3IKPiAqY29ubmVjdG9yKQo+ICB7Cj4g
+IAlzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwID0gaW50ZWxfYXR0YWNoZWRfZHAoY29ubmVjdG9y
+KTsKPiAgCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1ID0gZHBfdG9faTkxNShpbnRlbF9k
+cCk7Cj4gLQl1OCByZWFkX3ZhbFsyXSA9IHsgMHgwIH07Cj4gIAl1OCBtb2RlX3JlZzsKPiAtCXUx
+NiBsZXZlbCA9IDA7Cj4gIAo+ICAJaWYgKGRybV9kcF9kcGNkX3JlYWRiKCZpbnRlbF9kcC0+YXV4
+LAo+ICAJCQkgICAgICBEUF9FRFBfQkFDS0xJR0hUX01PREVfU0VUX1JFR0lTVEVSLAo+IEBAIC03
+MCwxNSArNjQsMjkgQEAgc3RhdGljIHUzMiBpbnRlbF9kcF9hdXhfZ2V0X2JhY2tsaWdodChzdHJ1
+Y3QKPiBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3RvcikKPiAgCQlkcm1fZGJnX2ttcygmaTkxNS0+
+ZHJtLAo+ICAJCQkgICAgIkZhaWxlZCB0byByZWFkIHRoZSBEUENEIHJlZ2lzdGVyIDB4JXhcbiIs
+Cj4gIAkJCSAgICBEUF9FRFBfQkFDS0xJR0hUX01PREVfU0VUX1JFR0lTVEVSKTsKPiAtCQlyZXR1
+cm4gMDsKPiArCQlyZXR1cm4gZmFsc2U7Cj4gIAl9Cj4gIAo+ICsJcmV0dXJuIChtb2RlX3JlZyAm
+IERQX0VEUF9CQUNLTElHSFRfQ09OVFJPTF9NT0RFX01BU0spID09Cj4gKwkgICAgICAgRFBfRURQ
+X0JBQ0tMSUdIVF9DT05UUk9MX01PREVfRFBDRDsKPiArfQo+ICsKPiArLyoKPiArICogUmVhZCB0
+aGUgY3VycmVudCBiYWNrbGlnaHQgdmFsdWUgZnJvbSBEUENEIHJlZ2lzdGVyKHMpIGJhc2VkCj4g
+KyAqIG9uIGlmIDgtYml0KE1TQikgb3IgMTYtYml0KE1TQiBhbmQgTFNCKSB2YWx1ZXMgYXJlIHN1
+cHBvcnRlZAo+ICsgKi8KPiArc3RhdGljIHUzMiBpbnRlbF9kcF9hdXhfZ2V0X2JhY2tsaWdodChz
+dHJ1Y3QgaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IpCj4gK3sKPiArCXN0cnVjdCBpbnRlbF9k
+cCAqaW50ZWxfZHAgPSBpbnRlbF9hdHRhY2hlZF9kcChjb25uZWN0b3IpOwo+ICsJc3RydWN0IGRy
+bV9pOTE1X3ByaXZhdGUgKmk5MTUgPSBkcF90b19pOTE1KGludGVsX2RwKTsKPiArCXU4IHJlYWRf
+dmFsWzJdID0geyAweDAgfTsKPiArCXUxNiBsZXZlbCA9IDA7Cj4gKwo+ICAJLyoKPiAgCSAqIElm
+IHdlJ3JlIG5vdCBpbiBEUENEIGNvbnRyb2wgbW9kZSB5ZXQsIHRoZSBwcm9ncmFtbWVkIGJyaWdo
+dG5lc3MKPiAgCSAqIHZhbHVlIGlzIG1lYW5pbmdsZXNzIGFuZCB3ZSBzaG91bGQgYXNzdW1lIG1h
+eCBicmlnaHRuZXNzCj4gIAkgKi8KPiAtCWlmICgobW9kZV9yZWcgJiBEUF9FRFBfQkFDS0xJR0hU
+X0NPTlRST0xfTU9ERV9NQVNLKSAhPQo+IC0JICAgIERQX0VEUF9CQUNLTElHSFRfQ09OVFJPTF9N
+T0RFX0RQQ0QpCj4gKwlpZiAoIWludGVsX2RwX2F1eF9iYWNrbGlnaHRfZHBjZF9tb2RlKGNvbm5l
+Y3RvcikpCj4gIAkJcmV0dXJuIGNvbm5lY3Rvci0+cGFuZWwuYmFja2xpZ2h0Lm1heDsKPiAgCj4g
+IAlpZiAoZHJtX2RwX2RwY2RfcmVhZCgmaW50ZWxfZHAtPmF1eCwgRFBfRURQX0JBQ0tMSUdIVF9C
+UklHSFRORVNTX01TQiwKPiBAQCAtMzE5LDcgKzMyNyw4IEBAIHN0YXRpYyBpbnQgaW50ZWxfZHBf
+YXV4X3NldHVwX2JhY2tsaWdodChzdHJ1Y3QKPiBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3RvciwK
+PiAgCj4gIAlwYW5lbC0+YmFja2xpZ2h0Lm1pbiA9IDA7Cj4gIAlwYW5lbC0+YmFja2xpZ2h0Lmxl
+dmVsID0gaW50ZWxfZHBfYXV4X2dldF9iYWNrbGlnaHQoY29ubmVjdG9yKTsKPiAtCXBhbmVsLT5i
+YWNrbGlnaHQuZW5hYmxlZCA9IHBhbmVsLT5iYWNrbGlnaHQubGV2ZWwgIT0gMDsKPiArCXBhbmVs
+LT5iYWNrbGlnaHQuZW5hYmxlZCA9IGludGVsX2RwX2F1eF9iYWNrbGlnaHRfZHBjZF9tb2RlKGNv
+bm5lY3RvcikKPiAmJgo+ICsJCQkJICAgcGFuZWwtPmJhY2tsaWdodC5sZXZlbCAhPSAwOwo+ICAK
+PiAgCXJldHVybiAwOwo+ICB9Ci0tIApDaGVlcnMsCglMeXVkZSBQYXVsIChzaGUvaGVyKQoJU29m
+dHdhcmUgRW5naW5lZXIgYXQgUmVkIEhhdAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
