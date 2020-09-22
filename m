@@ -1,40 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FB7274275
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 14:51:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D28A2742C4
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 15:18:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 108ED6E85D;
-	Tue, 22 Sep 2020 12:51:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0D86E101;
+	Tue, 22 Sep 2020 13:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 185FB6E85F;
- Tue, 22 Sep 2020 12:51:33 +0000 (UTC)
-IronPort-SDR: BaXtYfo/BO1Qk5zrU9YCpQjMM5ASbQ80f8m3uZWSefwQ0te0cvLj7/0Kh/SgL1DZNCTrIWb8TW
- zqmm7YxrbO3g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="148342816"
-X-IronPort-AV: E=Sophos;i="5.77,290,1596524400"; d="scan'208";a="148342816"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2020 05:51:32 -0700
-IronPort-SDR: paPSrR/0fFI0wP/i0esNWwd7P1Klye9YtS75/8sR0iGfYLtPzqRnTdD0Bo8Pt7w6hLdHFeUWcp
- XIhZLzxwBUOg==
-X-IronPort-AV: E=Sophos;i="5.77,290,1596524400"; d="scan'208";a="309485630"
-Received: from ideak-desk.fi.intel.com (HELO localhost) ([10.237.68.141])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2020 05:51:31 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/7] drm/dp: Add LTTPR helpers
-Date: Tue, 22 Sep 2020 15:51:04 +0300
-Message-Id: <20200922125106.30540-6-imre.deak@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200922125106.30540-1-imre.deak@intel.com>
-References: <20200922125106.30540-1-imre.deak@intel.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD95A6E101
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 13:18:17 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id c18so17033434wrm.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 06:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ulDXZe62cg9q0pWHvj25dMr9OefSQ2Lms8zz3fQsI8U=;
+ b=U/9Qx3fjuwOeRopvo8mwBcOn7Uh9HK8xQz4PXypyHS9JILaivkcnO4MpfbR6TJOsEz
+ irSTrtlfFtn1qfheG02tf6JKQ0RPzluPHYpGVP2xPpsq/q6tmxJXo6BCcL1yyGzm6RyT
+ iuyO5dXyp/CMyWaRVDK/2LxiZ635Vkru4nHM0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ulDXZe62cg9q0pWHvj25dMr9OefSQ2Lms8zz3fQsI8U=;
+ b=aw41jzt9afIxd4ZchzNqPD5lVq5Bqq6wv8u1nYvQGmd5vJi1pz/p+IUUNJ3KphJcjH
+ 3ZNLwHZAaF+zg6yFKkoUtcDkQeLDlVqJyBBuw5fXuRSr9cGSSu8QA/y2KEG+sy5vqE1H
+ HdSl3PXzECdk28BxYofIXDhUM60orSVGtb9E/81yos+s3iECCizXkw8BopsNu9WZotCQ
+ nB4MPdNB1/j8k8ZJlaeYSGV6C6cC79BN17Ntr584To6wlIt9PtnJZ8itSGIw9PfRvcQX
+ 7/skKLWSBVQYTx0jS0WLP74VN6OcB22Wj/MHJh1ktqgayJWGRS6ws2vlpck9uT4IBEY6
+ cA8Q==
+X-Gm-Message-State: AOAM532aZf2sGKwO4E4OihQ1KeKYbYkHw0Ew8jZ3NOOdtDLi7L+A0tNe
+ OfYx4LlgEqYpzPQ5gceFrVwGew==
+X-Google-Smtp-Source: ABdhPJzLA0IJMNKNnPSjgdq+u8OKkX1pYrMrE0tYnSM5AzqPX9ycb4zFPC1OTcILhTxqMXMPMcgFhA==
+X-Received: by 2002:adf:e7ce:: with SMTP id e14mr5188236wrn.43.1600780696311; 
+ Tue, 22 Sep 2020 06:18:16 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c205sm4688134wmd.33.2020.09.22.06.18.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Sep 2020 06:18:15 -0700 (PDT)
+Date: Tue, 22 Sep 2020 15:18:13 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH 2/3] drm/atomic: Use kthread worker for nonblocking commits
+Message-ID: <20200922131813.GL438822@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
+ timmurray@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Rob Clark <robdclark@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20200919193727.2093945-1-robdclark@gmail.com>
+ <20200919193727.2093945-3-robdclark@gmail.com>
+ <20200921092322.GK438822@phenom.ffwll.local>
+ <CAF6AEGu9b_6NOk-PcZnpv3UCi_muYdrayCaA83me1RTGoU+jHw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGu9b_6NOk-PcZnpv3UCi_muYdrayCaA83me1RTGoU+jHw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,327 +78,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: Rob Clark <robdclark@chromium.org>, Peter Zijlstra <peterz@infradead.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, timmurray@google.com,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tejun Heo <tj@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the helpers and register definitions needed to read out the common
-and per-PHY LTTPR capabilities and perform link training in the LTTPR
-non-transparent mode.
+On Mon, Sep 21, 2020 at 07:55:42AM -0700, Rob Clark wrote:
+> On Mon, Sep 21, 2020 at 2:23 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Sat, Sep 19, 2020 at 12:37:25PM -0700, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > This will allow us to more easily switch scheduling rules based on what
+> > > userspace wants.
+> > >
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >
+> > I still think switching to the highpriority systemwq as a start (like i915
+> > already does) would be a good first step no matter what we end up doing
+> > for the android thing.
+> 
+> highpri wq is probably better than the current state, but it doesn't
+> really address the problem.  You'll still end up with surfaceflinger
+> preempting commit_work..
+> 
+> And with non-RT priority, you'll still occasionally get lower priority
+> threads which haven't had a chance to run for a while preempting you.
 
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/drm_dp_helper.c | 179 +++++++++++++++++++++++++++++++-
- include/drm/drm_dp_helper.h     |  56 ++++++++++
- 2 files changed, 231 insertions(+), 4 deletions(-)
+Sure the priority inversion is still there and needs a different fix. But
+maybe it'll make everyone else at least a bit happier.
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 90807a6b415c..115d2c3320ef 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -150,11 +150,8 @@ void drm_dp_link_train_clock_recovery_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
- }
- EXPORT_SYMBOL(drm_dp_link_train_clock_recovery_delay);
- 
--void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-+static void __drm_dp_link_train_channel_eq_delay(unsigned long rd_interval)
- {
--	unsigned long rd_interval = dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
--					 DP_TRAINING_AUX_RD_MASK;
--
- 	if (rd_interval > 4)
- 		DRM_DEBUG_KMS("AUX interval %lu, out of range (max 4)\n",
- 			      rd_interval);
-@@ -166,8 +163,35 @@ void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
- 
- 	usleep_range(rd_interval, rd_interval * 2);
- }
-+
-+void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
-+{
-+	__drm_dp_link_train_channel_eq_delay(dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
-+					     DP_TRAINING_AUX_RD_MASK);
-+}
- EXPORT_SYMBOL(drm_dp_link_train_channel_eq_delay);
- 
-+void drm_dp_lttpr_link_train_clock_recovery_delay(void)
-+{
-+	usleep_range(100, 200);
-+}
-+EXPORT_SYMBOL(drm_dp_lttpr_link_train_clock_recovery_delay);
-+
-+static u8 dp_lttpr_phy_cap(const u8 phy_cap[DP_LTTPR_PHY_CAP_SIZE], int r)
-+{
-+	return phy_cap[r - DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1];
-+}
-+
-+void drm_dp_lttpr_link_train_channel_eq_delay(const u8 phy_cap[DP_LTTPR_PHY_CAP_SIZE])
-+{
-+	u8 interval = dp_lttpr_phy_cap(phy_cap,
-+				       DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1) &
-+		      DP_TRAINING_AUX_RD_MASK;
-+
-+	__drm_dp_link_train_channel_eq_delay(interval);
-+}
-+EXPORT_SYMBOL(drm_dp_lttpr_link_train_channel_eq_delay);
-+
- u8 drm_dp_link_rate_to_bw_code(int link_rate)
- {
- 	/* Spec says link_bw = link_rate / 0.27Gbps */
-@@ -2093,6 +2117,153 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_S
- }
- EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
- 
-+/**
-+ * drm_dp_read_lttpr_common_caps - read the LTTPR common capabilities
-+ * @aux: DisplayPort AUX channel
-+ * @caps: buffer to return the capability info in
-+ *
-+ * Read capabilities common to all LTTPRs.
-+ *
-+ * Returns 0 on success or a negative error code on failure.
-+ */
-+int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
-+				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
-+{
-+	int ret;
-+
-+	ret = drm_dp_dpcd_read(aux,
-+			       DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV,
-+			       caps, DP_LTTPR_COMMON_CAP_SIZE);
-+	if (ret < 0)
-+		return ret;
-+
-+	WARN_ON(ret != DP_LTTPR_COMMON_CAP_SIZE);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_dp_read_lttpr_common_caps);
-+
-+/**
-+ * drm_dp_read_lttpr_phy_caps - read the capabilities for a given LTTPR PHY
-+ * @aux: DisplayPort AUX channel
-+ * @dp_phy: LTTPR PHY to read the capabilities for
-+ * @caps: buffer to return the capability info in
-+ *
-+ * Read the capabilities for the given LTTPR PHY.
-+ *
-+ * Returns 0 on success or a negative error code on failure.
-+ */
-+int drm_dp_read_lttpr_phy_caps(struct drm_dp_aux *aux,
-+			       enum drm_dp_phy dp_phy,
-+			       u8 caps[DP_LTTPR_PHY_CAP_SIZE])
-+{
-+	int ret;
-+
-+	ret = drm_dp_dpcd_read(aux,
-+			       DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER(dp_phy),
-+			       caps, DP_LTTPR_PHY_CAP_SIZE);
-+	if (ret < 0)
-+		return ret;
-+
-+	WARN_ON(ret != DP_LTTPR_PHY_CAP_SIZE);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_dp_read_lttpr_phy_caps);
-+
-+static u8 dp_lttpr_common_cap(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE], int r)
-+{
-+	return caps[r - DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV];
-+}
-+
-+/**
-+ * drm_dp_lttpr_count - get the number of detected LTTPRs
-+ * @caps: LTTPR common capabilities
-+ *
-+ * Get the number of detected LTTPRs from the LTTPR common capabilities info.
-+ *
-+ * Returns:
-+ *   -ERANGE if more than supported number (8) of LTTPRs are detected
-+ *   -EINVAL if the DP_PHY_REPEATER_CNT register contains an invalid value
-+ *   otherwise the number of detected LTTPRs
-+ */
-+int drm_dp_lttpr_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
-+{
-+	u8 count = dp_lttpr_common_cap(caps, DP_PHY_REPEATER_CNT);
-+
-+	switch (hweight8(count)) {
-+	case 0:
-+		return 0;
-+	case 1:
-+		return 8 - ilog2(count);
-+	case 8:
-+		return -ERANGE;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+EXPORT_SYMBOL(drm_dp_lttpr_count);
-+
-+/**
-+ * drm_dp_lttpr_max_link_rate - get the maximum link rate supported by all LTTPRs
-+ * @caps: LTTPR common capabilities
-+ *
-+ * Returns the maximum link rate supported by all detected LTTPRs.
-+ */
-+int drm_dp_lttpr_max_link_rate(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
-+{
-+	u8 rate = dp_lttpr_common_cap(caps, DP_MAX_LINK_RATE_PHY_REPEATER);
-+
-+	return drm_dp_bw_code_to_link_rate(rate);
-+}
-+EXPORT_SYMBOL(drm_dp_lttpr_max_link_rate);
-+
-+/**
-+ * drm_dp_lttpr_max_lane_count - get the maximum lane count supported by all LTTPRs
-+ * @caps: LTTPR common capabilities
-+ *
-+ * Returns the maximum lane count supported by all detected LTTPRs.
-+ */
-+int drm_dp_lttpr_max_lane_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
-+{
-+	u8 max_lanes = dp_lttpr_common_cap(caps, DP_MAX_LANE_COUNT_PHY_REPEATER);
-+
-+	return max_lanes & DP_MAX_LANE_COUNT_MASK;
-+}
-+EXPORT_SYMBOL(drm_dp_lttpr_max_lane_count);
-+
-+/**
-+ * drm_dp_lttpr_voltage_swing_level_3_supported - check for LTTPR vswing3 support
-+ * @caps: LTTPR PHY capabilities
-+ *
-+ * Returns true if the @caps for an LTTPR TX PHY indicate support for
-+ * voltage swing level 3.
-+ */
-+bool
-+drm_dp_lttpr_voltage_swing_level_3_supported(const u8 caps[DP_LTTPR_PHY_CAP_SIZE])
-+{
-+	u8 txcap = dp_lttpr_phy_cap(caps, DP_TRANSMITTER_CAPABILITY_PHY_REPEATER1);
-+
-+	return txcap & DP_VOLTAGE_SWING_LEVEL_3_SUPPORTED;
-+}
-+EXPORT_SYMBOL(drm_dp_lttpr_voltage_swing_level_3_supported);
-+
-+/**
-+ * drm_dp_lttpr_pre_emphasis_level_3_supported - check for LTTPR preemph3 support
-+ * @caps: LTTPR PHY capabilities
-+ *
-+ * Returns true if the @caps for an LTTPR TX PHY indicate support for
-+ * pre-emphasis level 3.
-+ */
-+bool
-+drm_dp_lttpr_pre_emphasis_level_3_supported(const u8 caps[DP_LTTPR_PHY_CAP_SIZE])
-+{
-+	u8 txcap = dp_lttpr_phy_cap(caps, DP_TRANSMITTER_CAPABILITY_PHY_REPEATER1);
-+
-+	return txcap & DP_PRE_EMPHASIS_LEVEL_3_SUPPORTED;
-+}
-+EXPORT_SYMBOL(drm_dp_lttpr_pre_emphasis_level_3_supported);
-+
- /**
-  * drm_dp_get_phy_test_pattern() - get the requested pattern from the sink.
-  * @aux: DisplayPort AUX channel
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index c9f2851904d0..de9ea7602f80 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1066,15 +1066,56 @@ struct drm_device;
- #define DP_MAX_LANE_COUNT_PHY_REPEATER			    0xf0004 /* 1.4a */
- #define DP_Repeater_FEC_CAPABILITY			    0xf0004 /* 1.4 */
- #define DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT		    0xf0005 /* 1.4a */
-+
-+enum drm_dp_phy {
-+	DP_PHY_DPRX,
-+
-+	DP_PHY_LTTPR1,
-+	DP_PHY_LTTPR2,
-+	DP_PHY_LTTPR3,
-+	DP_PHY_LTTPR4,
-+	DP_PHY_LTTPR5,
-+	DP_PHY_LTTPR6,
-+	DP_PHY_LTTPR7,
-+	DP_PHY_LTTPR8,
-+
-+	DP_MAX_LTTPR_COUNT = DP_PHY_LTTPR8,
-+};
-+
-+#define __DP_LTTPR1_BASE				    0xf0010 /* 1.3 */
-+#define __DP_LTTPR2_BASE				    0xf0060 /* 1.3 */
-+#define DP_LTTPR_BASE(dp_phy) \
-+	(__DP_LTTPR1_BASE + (__DP_LTTPR2_BASE - __DP_LTTPR1_BASE) * \
-+		((dp_phy) - DP_PHY_LTTPR1))
-+
-+#define DP_LTTPR_REG(dp_phy, lttpr1_reg) \
-+	(DP_LTTPR_BASE(dp_phy) - DP_LTTPR_BASE(DP_PHY_LTTPR1) + (lttpr1_reg))
-+
- #define DP_TRAINING_PATTERN_SET_PHY_REPEATER1		    0xf0010 /* 1.3 */
-+#define DP_TRAINING_PATTERN_SET_PHY_REPEATER(dp_phy) \
-+	DP_LTTPR_REG(dp_phy, DP_TRAINING_PATTERN_SET_PHY_REPEATER1)
-+
- #define DP_TRAINING_LANE0_SET_PHY_REPEATER1		    0xf0011 /* 1.3 */
-+#define DP_TRAINING_LANE0_SET_PHY_REPEATER(dp_phy) \
-+	DP_LTTPR_REG(dp_phy, DP_TRAINING_LANE0_SET_PHY_REPEATER1)
-+
- #define DP_TRAINING_LANE1_SET_PHY_REPEATER1		    0xf0012 /* 1.3 */
- #define DP_TRAINING_LANE2_SET_PHY_REPEATER1		    0xf0013 /* 1.3 */
- #define DP_TRAINING_LANE3_SET_PHY_REPEATER1		    0xf0014 /* 1.3 */
- #define DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1	    0xf0020 /* 1.4a */
-+#define DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER(dp_phy)	\
-+	DP_LTTPR_REG(dp_phy, DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1)
-+
- #define DP_TRANSMITTER_CAPABILITY_PHY_REPEATER1		    0xf0021 /* 1.4a */
-+# define DP_VOLTAGE_SWING_LEVEL_3_SUPPORTED		    BIT(0)
-+# define DP_PRE_EMPHASIS_LEVEL_3_SUPPORTED		    BIT(1)
-+
- #define DP_LANE0_1_STATUS_PHY_REPEATER1			    0xf0030 /* 1.3 */
-+#define DP_LANE0_1_STATUS_PHY_REPEATER(dp_phy) \
-+	DP_LTTPR_REG(dp_phy, DP_LANE0_1_STATUS_PHY_REPEATER1)
-+
- #define DP_LANE2_3_STATUS_PHY_REPEATER1			    0xf0031 /* 1.3 */
-+
- #define DP_LANE_ALIGN_STATUS_UPDATED_PHY_REPEATER1	    0xf0032 /* 1.3 */
- #define DP_ADJUST_REQUEST_LANE0_1_PHY_REPEATER1		    0xf0033 /* 1.3 */
- #define DP_ADJUST_REQUEST_LANE2_3_PHY_REPEATER1		    0xf0034 /* 1.3 */
-@@ -1184,9 +1225,13 @@ u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZ
- #define DP_DSC_RECEIVER_CAP_SIZE        0xf
- #define EDP_PSR_RECEIVER_CAP_SIZE	2
- #define EDP_DISPLAY_CTL_CAP_SIZE	3
-+#define DP_LTTPR_COMMON_CAP_SIZE	8
-+#define DP_LTTPR_PHY_CAP_SIZE		3
- 
- void drm_dp_link_train_clock_recovery_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
-+void drm_dp_lttpr_link_train_clock_recovery_delay(void);
- void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SIZE]);
-+void drm_dp_lttpr_link_train_channel_eq_delay(const u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
- 
- u8 drm_dp_link_rate_to_bw_code(int link_rate);
- int drm_dp_bw_code_to_link_rate(u8 link_bw);
-@@ -1694,6 +1739,17 @@ bool drm_dp_read_sink_count_cap(struct drm_connector *connector,
- 				const struct drm_dp_desc *desc);
- int drm_dp_read_sink_count(struct drm_dp_aux *aux);
- 
-+int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
-+				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
-+int drm_dp_read_lttpr_phy_caps(struct drm_dp_aux *aux,
-+			       enum drm_dp_phy dp_phy,
-+			       u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
-+int drm_dp_lttpr_count(const u8 cap[DP_LTTPR_COMMON_CAP_SIZE]);
-+int drm_dp_lttpr_max_link_rate(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
-+int drm_dp_lttpr_max_lane_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
-+bool drm_dp_lttpr_voltage_swing_level_3_supported(const u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
-+bool drm_dp_lttpr_pre_emphasis_level_3_supported(const u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
-+
- void drm_dp_remote_aux_init(struct drm_dp_aux *aux);
- void drm_dp_aux_init(struct drm_dp_aux *aux);
- int drm_dp_aux_register(struct drm_dp_aux *aux);
+Plus it's really hard to make kms drivers rt, it's not really been part of
+the design (nor are gpus really rt friendly, if they even can preempt it
+generally takes forever compared to the deadline you might want for some
+present work).
+-Daniel
+> 
+> BR,
+> -R
+> 
+> 
+> > -Daniel
+> >
+> > > ---
+> > >  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++++----
+> > >  include/drm/drm_atomic.h            | 31 +++++++++++++++++++++++++++++
+> > >  2 files changed, 40 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> > > index 9e1ad493e689..75eeec5e7b10 100644
+> > > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > > @@ -1659,11 +1659,11 @@ static void commit_tail(struct drm_atomic_state *old_state)
+> > >       drm_atomic_state_put(old_state);
+> > >  }
+> > >
+> > > -static void commit_work(struct work_struct *work)
+> > > +static void commit_work(struct kthread_work *work)
+> > >  {
+> > >       struct drm_atomic_state *state = container_of(work,
+> > >                                                     struct drm_atomic_state,
+> > > -                                                   commit_work);
+> > > +                                                   commit_kwork);
+> > >       commit_tail(state);
+> > >  }
+> > >
+> > > @@ -1797,6 +1797,7 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+> > >                            struct drm_atomic_state *state,
+> > >                            bool nonblock)
+> > >  {
+> > > +     struct kthread_worker *worker = NULL;
+> > >       int ret;
+> > >
+> > >       if (state->async_update) {
+> > > @@ -1814,7 +1815,7 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+> > >       if (ret)
+> > >               return ret;
+> > >
+> > > -     INIT_WORK(&state->commit_work, commit_work);
+> > > +     kthread_init_work(&state->commit_kwork, commit_work);
+> > >
+> > >       ret = drm_atomic_helper_prepare_planes(dev, state);
+> > >       if (ret)
+> > > @@ -1857,8 +1858,12 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+> > >        */
+> > >
+> > >       drm_atomic_state_get(state);
+> > > +
+> > >       if (nonblock)
+> > > -             queue_work(system_unbound_wq, &state->commit_work);
+> > > +             worker = drm_atomic_pick_worker(state);
+> > > +
+> > > +     if (worker)
+> > > +             kthread_queue_work(worker, &state->commit_kwork);
+> > >       else
+> > >               commit_tail(state);
+> > >
+> > > diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> > > index d07c851d255b..8d0ee19953df 100644
+> > > --- a/include/drm/drm_atomic.h
+> > > +++ b/include/drm/drm_atomic.h
+> > > @@ -373,8 +373,18 @@ struct drm_atomic_state {
+> > >        *
+> > >        * Work item which can be used by the driver or helpers to execute the
+> > >        * commit without blocking.
+> > > +      *
+> > > +      * This is deprecated, use commit_kwork.
+> > >        */
+> > >       struct work_struct commit_work;
+> > > +
+> > > +     /**
+> > > +      * @commit_kwork:
+> > > +      *
+> > > +      * Work item which can be used by the driver or helpers to execute the
+> > > +      * commit without blocking.
+> > > +      */
+> > > +     struct kthread_work commit_kwork;
+> > >  };
+> > >
+> > >  void __drm_crtc_commit_free(struct kref *kref);
+> > > @@ -954,6 +964,27 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
+> > >                     (new_obj_state) = (__state)->private_objs[__i].new_state, 1); \
+> > >            (__i)++)
+> > >
+> > > +/**
+> > > + * drm_atomic_pick_worker - helper to get kworker to use for nonblocking commit
+> > > + * @state: the &drm_atomic_state for the commit
+> > > + *
+> > > + * Pick an appropriate worker for a given atomic update.  The first CRTC
+> > > + * invovled in the atomic update is used to pick the worker, to prevent
+> > > + * serializing multiple pageflips / atomic-updates on indenpendent CRTCs.
+> > > + */
+> > > +static inline struct kthread_worker *
+> > > +drm_atomic_pick_worker(const struct drm_atomic_state *state)
+> > > +{
+> > > +     struct drm_crtc_state *crtc_state;
+> > > +     struct drm_crtc *crtc;
+> > > +     unsigned i;
+> > > +
+> > > +     for_each_new_crtc_in_state(state, crtc, crtc_state, i)
+> > > +             return crtc->worker;
+> > > +
+> > > +     return NULL;
+> > > +}
+> > > +
+> > >  /**
+> > >   * drm_atomic_crtc_needs_modeset - compute combined modeset need
+> > >   * @state: &drm_crtc_state for the CRTC
+> > > --
+> > > 2.26.2
+> > >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
 -- 
-2.17.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
