@@ -2,33 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0410A274416
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 16:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA9627442E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 16:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E29F6E229;
-	Tue, 22 Sep 2020 14:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A04B6E88A;
+	Tue, 22 Sep 2020 14:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4DEC86E87C
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 14:17:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34DBB1396;
- Tue, 22 Sep 2020 07:17:03 -0700 (PDT)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
- [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 99A313F718;
- Tue, 22 Sep 2020 07:17:01 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: will@kernel.org, robh@kernel.org, tomeu.vizoso@collabora.com,
- steven.price@arm.com, alyssa.rosenzweig@collabora.com,
- khilman@baylibre.com, narmstrong@baylibre.com, jbrunet@baylibre.com
-Subject: [PATCH v2 3/3] arm64: dts: meson: Describe G12b GPU as coherent
-Date: Tue, 22 Sep 2020 15:16:50 +0100
-Message-Id: <765446e529e50b304af63432da7836c4d31eb8d4.1600780574.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.28.0.dirty
-In-Reply-To: <cover.1600780574.git.robin.murphy@arm.com>
-References: <cover.1600780574.git.robin.murphy@arm.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC37289DA2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 14:18:54 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209345] [nouveau] unknown chipset (0f22d0a1) (nVidia Tesla K80)
+Date: Tue, 22 Sep 2020 14:18:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: imirkin@alum.mit.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209345-2300-RepkWqkKG1@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209345-2300@https.bugzilla.kernel.org/>
+References: <bug-209345-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,42 +51,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, iommu@lists.linux-foundation.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to a downstream commit I found in the Khadas vendor kernel,
-the GPU on G12b is wired up for ACE-lite, so (now that Panfrost knows
-how to handle this properly) we should describe it as such. Otherwise
-the mismatch leads to all manner of fun with mismatched attributes and
-inadvertently snooping stale data from caches, which would account for
-at least some of the brokenness observed on this platform.
+https://bugzilla.kernel.org/show_bug.cgi?id=209345
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
-Tested-by: Neil Armstrong <narmstrong@baylibre.com>
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- arch/arm64/boot/dts/amlogic/meson-g12b.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+--- Comment #10 from Ilia Mirkin (imirkin@alum.mit.edu) ---
+[  176.562278] nouveau 0000:08:00.0: bar: one-time init failed, -12
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi
-index 9b8548e5f6e5..ee8fcae9f9f0 100644
---- a/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi
-@@ -135,3 +135,7 @@ map1 {
- 		};
- 	};
- };
-+
-+&mali {
-+	dma-coherent;
-+};
+08:00.0 3D controller: NVIDIA Corporation GK210GL [Tesla K80] (rev a1)
+        Subsystem: NVIDIA Corporation Device 106c
+        Control: I/O- Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr+
+Stepping- SERR- FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort-
+<MAbort- >SERR- <PERR- INTx-
+        Interrupt: pin A routed to IRQ 18
+        Region 0: Memory at c4000000 (32-bit, non-prefetchable) [size=16M]
+        Region 1: Memory at <unassigned> (64-bit, prefetchable)
+        Region 3: Memory at a0000000 (64-bit, prefetchable) [size=32M]
+
+That's not good. BAR1 is unassigned. We want BAR1. This is fallout from the TB
+enclosure. I know nothing about this stuff... there are various memory windows,
+etc. And apparently we don't fit in the window. I'm guessing there are errors
+further up about how there's not enough space to assign those BAR's.
+
 -- 
-2.28.0.dirty
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
