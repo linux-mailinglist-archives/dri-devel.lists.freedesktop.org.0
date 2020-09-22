@@ -1,99 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8E6273D57
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 10:32:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38334273D7F
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 10:40:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C43389930;
-	Tue, 22 Sep 2020 08:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E375C6E1E2;
+	Tue, 22 Sep 2020 08:40:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8DD989930
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 08:32:23 +0000 (UTC)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20200922083221epoutp04a0014a5c3bbbe25e6d3b6307a184f8b8~3DfWh-ydU2867628676epoutp04w
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 08:32:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20200922083221epoutp04a0014a5c3bbbe25e6d3b6307a184f8b8~3DfWh-ydU2867628676epoutp04w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1600763541;
- bh=fGPi3yuodYVA3M593PyFWDwnUuFC9Z4QYIo5H1/3txs=;
- h=From:To:Cc:Subject:Date:References:From;
- b=kv8yRsauO1mcYiKUgJMhygbd5EzItGdXBsqHmVKkFzVM9QZvJwLBqZKNPks6ATeYo
- k4qTinPvXYK6f0HlWFCTlFntF4IB8aip6zFSUNKqg1GDUxnOQEDNsB+oE9lrTPZImo
- 6tntSbvCsgNnpqUCI+UIVbrlma21nDZBLfzDZO48=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200922083220epcas1p21630dcfe30dbfdd5fbce896401e71b37~3DfV4BLG92356023560epcas1p2s;
- Tue, 22 Sep 2020 08:32:20 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.40.154]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 4BwZL85KllzMqYkt; Tue, 22 Sep
- 2020 08:32:16 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
- epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
- 5B.E9.09582.C86B96F5; Tue, 22 Sep 2020 17:32:12 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20200922083212epcas1p3874ca74fbb2d46214b69bc0dd757aaaf~3DfOfJVCG0436704367epcas1p3T;
- Tue, 22 Sep 2020 08:32:12 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200922083212epsmtrp11df77360deae260fd90eb229e9f529d7~3DfOeivM_0032600326epsmtrp1u;
- Tue, 22 Sep 2020 08:32:12 +0000 (GMT)
-X-AuditID: b6c32a37-8afff7000000256e-44-5f69b68c7b59
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 17.3C.08604.C86B96F5; Tue, 22 Sep 2020 17:32:12 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.113.221.211]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200922083212epsmtip11955315706774bcded1db345e9d0b4bd~3DfOQy9Dz2032420324epsmtip1n;
- Tue, 22 Sep 2020 08:32:12 +0000 (GMT)
-From: Inki Dae <inki.dae@samsung.com>
-To: airlied@linux.ie, dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] exynos-drm-next
-Date: Tue, 22 Sep 2020 17:38:59 +0900
-Message-Id: <1600763939-20032-1-git-send-email-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.7.4
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCKsWRmVeSWpSXmKPExsWy7bCmvm7Ptsx4g2udlha9504yWVz5+p7N
- Ysb5fUwOzB7bvz1g9bjffZzJ4/MmuQDmqGybjNTElNQihdS85PyUzLx0WyXv4HjneFMzA0Nd
- Q0sLcyWFvMTcVFslF58AXbfMHKBFSgpliTmlQKGAxOJiJX07m6L80pJUhYz84hJbpdSClJwC
- ywK94sTc4tK8dL3k/FwrQwMDI1OgwoTsjPfT5zMXbOSqWHJ9K3MD4wOOLkZODgkBE4mNx98z
- dTFycQgJ7GCUmLrtASuE84lR4t3SfWwQzjdGifVveplgWvZtOcgOkdjLKNF2/TyU84VR4uec
- NWBVbAKqEhNX3GcDsUUETCU6Ji1lAbGZgeL/1v9hBrGFBZQldl/fxwpiswDFH+2+AdbLK+Ai
- cf/cChaIbXISN891MoMskBBoZpc40vOFDSLhInHv0FxWCFtY4tXxLewQtpTEy/42dqgGRomJ
- M04zQTgdjBJ3H1+HGmsssX/pZKAEB9BJmhLrd+lDhBUldv6eywhxKZ/Eu689rCAlEgK8Eh1t
- QhAlShLHLt5ghLAlJC4smQh1j4fExo/PwOJCArESX76sZZ7AKDsLYcECRsZVjGKpBcW56anF
- hgXGyPG0iRGcfLTMdzBOe/tB7xAjEwfjIUYJDmYlEV41o/R4Id6UxMqq1KL8+KLSnNTiQ4ym
- wBCbyCwlmpwPTH95JfGGpkbGxsYWJoZmpoaGSuK8D28pxAsJpCeWpGanphakFsH0MXFwSjUw
- xf7eeqBJ/1Sc/NUP3qqBk5X6T5XpMm/6GBGSybtOsy3+E+f3RW8S99xO3lIS8EpEWFg0wP0f
- l4Xu2ao/YT+kNkscq/m+8mzWq3Pi/dwzPQwibr50+xHtqJj4y3hR9/Pg4NMOjrOqBf/lTH9U
- 6LvVJ1d5dWQ6D3vzhbxw1bozSSeEuQ5+9Z/7NTmkbeJKuTVLD6y7x/6AK6GfT0ZfQ3vL92mK
- eze/X50v7rBM4PeReLs+sQ4z5z9nIq4Itjd8fy/5d0NMxD7vKobHmQL13NueR6vVsU3Uddml
- 3zR7q96RC8zRTt7+G32mThMV38+eolP5p8L3QeufhnP7I98b7Pt0roenV22ht77Cbamve/qV
- WIozEg21mIuKEwHR4HpoxwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPJMWRmVeSWpSXmKPExsWy7bCSnG7Ptsx4g+YGSYvecyeZLK58fc9m
- MeP8PiYHZo/t3x6wetzvPs7k8XmTXABzFJdNSmpOZllqkb5dAlfG++nzmQs2clUsub6VuYHx
- AUcXIyeHhICJxL4tB9m7GLk4hAR2M0p8PDuHsYuRAyghIbFlKweEKSxx+HAxRMknRomlfz+x
- gPSyCahKTFxxnw3EFhEwlzhx8TYjiM0MFP+3/g8ziC0soCyx+/o+VhCbBSj+aPcNJhCbV8BF
- 4v65FSwQN8hJ3DzXyTyBkWcBI8MqRsnUguLc9NxiwwLDvNRyveLE3OLSvHS95PzcTYzgMNDS
- 3MG4fdUHvUOMTByMhxglOJiVRHjVjNLjhXhTEiurUovy44tKc1KLDzFKc7AoifPeKFwYJySQ
- nliSmp2aWpBaBJNl4uCUamC6cmn7rL8381WSfv1kePOviW2+ppv4/rXNZ45fOeGz8uGUyw98
- G/84TgsWK05YYrhdoGTF/+qJWu2J58puSaxmeXib46X96y1dy3917RRJyk+reLg+St7CU+XY
- toit2oemrnQR19g3Kbt7yeEjd7mFX5u0bDI75d+6PHaP1A6l/mtnyiM92T+Hytwwtd7P8DKo
- L9qY5amaW4bma/Vk1991MhYuh+d+yvOvKF9c0/Fz554otsyYdRbpcx/5KLrErcrce/lJVoLe
- n71zm5b9Cvq1omL39dBnP4yXfE6Qu/bBm+erzJaHP5mT/LjiJ6bK3ig29bgjYPRZaW329QeK
- h85e38xevP2BEseOiTzMiZnZSizFGYmGWsxFxYkA5Hoc6nICAAA=
-X-CMS-MailID: 20200922083212epcas1p3874ca74fbb2d46214b69bc0dd757aaaf
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200922083212epcas1p3874ca74fbb2d46214b69bc0dd757aaaf
-References: <CGME20200922083212epcas1p3874ca74fbb2d46214b69bc0dd757aaaf@epcas1p3.samsung.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6F06E1E2;
+ Tue, 22 Sep 2020 08:40:07 +0000 (UTC)
+Received: from localhost (unknown [213.57.247.131])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1F07B23A34;
+ Tue, 22 Sep 2020 08:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600764006;
+ bh=tvhij8pgV6SUhbNJ0YXjdpggUwFiSRg+69/kr1GP5xo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=uL/Dk1Q2J4t7IB3gxjpObZyP0l/Mume8siqJcyeS/5XNP+X6qcEAh2HRzM63kgEcU
+ u4TPaoBWl1+IBziVD0Fbo9sj0AMA/qnQ8Xz/EF6yWmm+1X9PoRK36HxyRu3uF7gR2k
+ E9AdqrRipCUcj2cVmWDTn9VZ7SC5UcEplhLkTTQo=
+From: Leon Romanovsky <leon@kernel.org>
+To: 
+Subject: [PATCH rdma-next v3 0/2] Dynamicaly allocate SG table from the pages
+Date: Tue, 22 Sep 2020 11:39:56 +0300
+Message-Id: <20200922083958.2150803-1-leon@kernel.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,51 +43,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>, Maor Gottlieb <maorg@nvidia.com>,
+ intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Leon Romanovsky <leonro@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+From: Leon Romanovsky <leonro@nvidia.com>
 
-   Just two cleanups.
+Changelog:
+v3:
+ * Squashed Christopher's suggestion to avoid introduced new API, but extend existing one.
+v2: https://lore.kernel.org/linux-rdma/20200916140726.839377-1-leon@kernel.org
+ * Fixed indentations and comments
+ * Deleted sg_alloc_next()
+ * Squashed lib/scatterlist patches into one
+v1: https://lore.kernel.org/lkml/20200910134259.1304543-1-leon@kernel.org
+ * Changed _sg_chain to be __sg_chain
+ * Added dependency on ARCH_NO_SG_CHAIN
+ * Removed struct sg_append
+v0:
+ * https://lore.kernel.org/lkml/20200903121853.1145976-1-leon@kernel.org
 
-   Please kindly let me know if there is any problem.
+--------------------------------------------------------------------------
+From Maor:
 
-Thanks,
-Inki Dae
+This series extends __sg_alloc_table_from_pages to allow chaining of
+new pages to already initialized SG table.
 
-The following changes since commit b40be05ed255d9a0257fb66ab2728ecca2c9d597:
+This allows drivers to utilize the optimization of merging contiguous
+pages without a need to pre allocate all the pages and hold them in
+a very large temporary buffer prior to the call to SG table initialization.
 
-  Merge branch 'for-5.10-drm-sg-fix' of https://github.com/mszyprow/linux into drm-next (2020-09-17 16:07:11 +1000)
+The second patch changes the Infiniband driver to use the new API. It
+removes duplicate functionality from the code and benefits the
+optimization of allocating dynamic SG table from pages.
 
-are available in the git repository at:
+In huge pages system of 2MB page size, without this change, the SG table
+would contain x512 SG entries.
+E.g. for 100GB memory registration:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-next-v5.10
+             Number of entries      Size
+    Before        26214400          600.0MB
+    After            51200            1.2MB
 
-for you to fetch changes up to ddfd4ab6bb08832e1261d7c8c4ae11e5568485af:
+Thanks
 
-  drm/exynos: Fix dma_parms allocation (2020-09-22 13:49:09 +0900)
+Maor Gottlieb (2):
+  lib/scatterlist: Add support in dynamic allocation of SG table from
+    pages
+  RDMA/umem: Move to allocate SG table from pages
 
-----------------------------------------------------------------
-Two cleanups
-- Simply use dev_err_probe() instead of returning -EPROBE_DEFER.
-- Drop drm_parms allocation and deallocation code which aren't needed.
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c |  12 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c  |  15 +-
+ drivers/infiniband/core/umem.c              |  92 ++----------
+ include/linux/scatterlist.h                 |  43 +++---
+ lib/scatterlist.c                           | 158 +++++++++++++++-----
+ lib/sg_pool.c                               |   3 +-
+ tools/testing/scatterlist/main.c            |   9 +-
+ 7 files changed, 175 insertions(+), 157 deletions(-)
 
-----------------------------------------------------------------
-Krzysztof Kozlowski (2):
-      drm/exynos: dsi: Simplify with dev_err_probe()
-      drm/exynos: hdmi: Simplify with dev_err_probe()
+--
+2.26.2
 
-Marek Szyprowski (1):
-      drm/exynos: Fix dma_parms allocation
-
- drivers/gpu/drm/exynos/exynos_drm_dma.c | 27 +--------------------------
- drivers/gpu/drm/exynos/exynos_drm_dsi.c |  7 ++-----
- drivers/gpu/drm/exynos/exynos_hdmi.c    |  7 ++-----
- 3 files changed, 5 insertions(+), 36 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
