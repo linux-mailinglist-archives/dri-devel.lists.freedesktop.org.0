@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D33273C89
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:49:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A26273C60
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:47:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93A9B6E829;
-	Tue, 22 Sep 2020 07:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 133BC6E178;
+	Tue, 22 Sep 2020 07:46:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
- [IPv6:2607:f8b0:4864:20::e41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7460B89D7F
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 04:11:11 +0000 (UTC)
-Received: by mail-vs1-xe41.google.com with SMTP id q13so9465507vsj.13
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 21:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=82DxSWpxsHCA8jyBc1KAE4+/FRKa8lh8HBsyuhDwhbw=;
- b=V0tFx2/61mzkwTOAmhe0jZOoeQmUoIfy2i05w7LAWCe+/WSVKXzmKCVNh4a/BayTvx
- Fqs/6BNZ9vEvnjsBxko+FfKCAe+B6hSVg8uGQVZIo7l0gpF4SyRpkDYzUk0an+56ksPR
- iA2MuPI/5KaT+6elwp/mvAYq4LAfd3ifMq5lXfCvBdEmxwCGnapYmliDlkJT+i3FknUy
- Nt49Ly1K6+giiXxVAAdnBQkOqF7yAb+a8pHzqgjTB1GaP+SsQt28qE/y6dlXRYvL1/cl
- i1O8PZIqtmxdU3ipTRu8fXVvgICGhgpnKBxLA6SoB/fzyxxCiStDRXs/GCim/S7Km0V/
- jPoA==
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
+ [IPv6:2607:f8b0:4864:20::f43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFFD66E054;
+ Tue, 22 Sep 2020 05:48:22 +0000 (UTC)
+Received: by mail-qv1-xf43.google.com with SMTP id f11so8924155qvw.3;
+ Mon, 21 Sep 2020 22:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=a6SQCCgOvcVnYbZwR03FGL/qrYw5HjNsY2fRdLjl82U=;
+ b=tyxd8motev6kgLZAmtucstDnnqDnmRrH1bXuX8dpwrbECLXnH1JtDxKqoxjgE0uC84
+ 7n9GPEGtLPig1f11FKwN4BbeUiL1H/uO1foqLPkARf/52IgAKH7ztxlGaHfn526dxaZJ
+ NPqKyOEc281EQ9Uab7r0EdPwKX0dUaJnPSKEokB9UWfFPSVNz8HMkBbbCKUGeh/VmQHK
+ b+hqP2KuGBETHFdMYNxVA/P4hCdE7gUbgI0JS6i+iJyLP1oMz1gaYc2yGX8On+Baqodm
+ qpr+KvJnF+ZqjtAwln2PwQLrkuTppySz8EskYw5z/3PQZpru3gb+V5z7k2L8P+HyAbIu
+ BVbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=82DxSWpxsHCA8jyBc1KAE4+/FRKa8lh8HBsyuhDwhbw=;
- b=ubE07pu1AWxpAWeSclfqy8lGTaNYLeTz/c0kRl+xPtH/mPagW+BzCoDKBXGVqBV2fu
- BsZVNvjFDC8fJf89PEM4QaHtP9mOrRdQnVT5k6GzV4K3DLVgWW/o+5OEPAVURfP84CXT
- kE8AqZDzaTUSBqIdJ6xf99ibb8awlxZUPtjG+FFfH0pGQFTM9Efr1QlNMWHo/HEWL0Ma
- m7BjSTzV+av5uZ+hsn2+v4fe2s1JtDDNZnKLY+1X2HxYJz8d5zeZ1gCg3sqQmgwET1px
- XYPsELtUOcnen5Nev5aSV0dyOeYmJPipLq00jdDKHY81JInPxDpPOJFmupaF7Q775Ci5
- FnFA==
-X-Gm-Message-State: AOAM533wx1arHkH0TsLVqoVcLyNCND0i6H4tnlJxPhPLxkhFyAJSBWnV
- JeAhaX5aplzUh1oz/636uFiaIYTTc4xYkLunqjYwng==
-X-Google-Smtp-Source: ABdhPJy2gZHYson/kOX5GXKhm2EP3dJOn9icv/4vxx9r8Ppg/qJuqw0fvmemdOll7KLYP+eJZkckmAvSKNrXH8TBzWE=
-X-Received: by 2002:a67:8a8a:: with SMTP id m132mr2006215vsd.14.1600747869833; 
- Mon, 21 Sep 2020 21:11:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=a6SQCCgOvcVnYbZwR03FGL/qrYw5HjNsY2fRdLjl82U=;
+ b=oushioi3Q1RzRc3GPHVpKZ4RC6LeCJdhqwQExfsosPu2ihf8FvkHqsfrlThynDt6qC
+ t65ki1crXKcM4LBtzwL5VUEh6SNvvl2r/KqLPeMBg0avUMneWK4tdVOI3326y/uzJFkv
+ VaYd+1doeCfmXDRW+uerVEGgLpTaPmVfzMY5h9fDrsdr79ta76KDqw0/7zudOLL9Xf46
+ hVNsh2nBrfT39/q3d/8UXPpR7LqhD+sfLCbAQ5PY0fbVtO/hqQ7GA/0fBMEwRpOh3l7t
+ 7seRZPw8jer/ZSVv1800eoN0FZ3VrsPuqA8gh9JIxiPjtmDIKN/teb5i+eTKW6KqWa+f
+ E9sQ==
+X-Gm-Message-State: AOAM531xDj9h95s/TlJEHkS8WFhZd6OxSb08Zi20D+912REe/fpUOO3R
+ nWnoG1R7e3XUJHIcziQUsPk=
+X-Google-Smtp-Source: ABdhPJwDGs7jGImCpG+LB2Wp3WIK7lBkKjX1BDHsgY5T+UNvYa3EP/dCUzbFJjmmzMUvzLl0gjP1ew==
+X-Received: by 2002:a0c:a4c5:: with SMTP id x63mr4315522qvx.58.1600753701601; 
+ Mon, 21 Sep 2020 22:48:21 -0700 (PDT)
+Received: from localhost.localdomain ([2604:1380:45d1:2600::1])
+ by smtp.gmail.com with ESMTPSA id i187sm10961909qke.43.2020.09.21.22.48.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Sep 2020 22:48:19 -0700 (PDT)
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] drm/amd/display: Simplify condition in try_disable_dsc
+Date: Mon, 21 Sep 2020 22:47:43 -0700
+Message-Id: <20200922054743.2422929-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200609200446.153209-1-linus.walleij@linaro.org>
- <20200609200446.153209-2-linus.walleij@linaro.org>
- <CAMn1gO52PQ-dFbCU49FCnJZz=gyLEE3F2vZ5rtbF_C-H+ur7qw@mail.gmail.com>
- <CACRpkdYnXXvPAbCMdG8OOPYqWqDHFh_=z9mR5vKZ+ri8sDyAgA@mail.gmail.com>
-In-Reply-To: <CACRpkdYnXXvPAbCMdG8OOPYqWqDHFh_=z9mR5vKZ+ri8sDyAgA@mail.gmail.com>
-From: Peter Collingbourne <pcc@google.com>
-Date: Mon, 21 Sep 2020 21:10:57 -0700
-Message-ID: <CAMn1gO5svZNrzWYMO5mbcCYbQ8St5UjksztcXQ7OubtOTpdZyw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] video: fbdev: amba-clcd: Retire elder CLCD driver
-To: Linus Walleij <linus.walleij@linaro.org>
+X-Patchwork-Bot: notify
 X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,177 +68,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Brodsky <Kevin.Brodsky@arm.com>, Russell King <linux@armlinux.org.uk>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: clang-built-linux@googlegroups.com,
+ Nathan Chancellor <natechancellor@gmail.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 21, 2020 at 2:32 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Tue, Sep 15, 2020 at 3:10 AM Peter Collingbourne <pcc@google.com> wrote:
-> > On Tue, Jun 9, 2020 at 1:08 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> > >
-> > > All the functionality in this driver has been reimplemented
-> > > in the new DRM driver in drivers/gpu/drm/pl111/* and all
-> > > the boards using it have been migrated to use the DRM driver
-> > > with all configuration coming from the device tree.
-> >
-> > Android's FVP configuration still uses FBDEV.
->
-> But all DRM drivers support frame buffer emulation so I don't
-> see how this can be a problem? The new DRM driver provides
-> a framebuffer.
+Clang warns:
 
-Okay, I was unaware of that feature and it is disabled in Android
-kernels. I am now testing the DRM driver by applying this diff to
-FVP's kernel config:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:637:8:
+warning: logical not is only applied to the left hand side of this
+comparison [-Wlogical-not-parentheses]
+                                && !params[i].clock_force_enable == DSC_CLK_FORCE_DEFAULT) {
+                                   ^                             ~~
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:637:8:
+note: add parentheses after the '!' to evaluate the comparison first
+                                && !params[i].clock_force_enable == DSC_CLK_FORCE_DEFAULT) {
+                                   ^
+                                    (
+)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:637:8:
+note: add parentheses around left hand side expression to silence this
+warning
+                                && !params[i].clock_force_enable == DSC_CLK_FORCE_DEFAULT) {
+                                   ^
+                                   (                            )
+1 warning generated.
 
-diff --git a/fvp.fragment b/fvp.fragment
-index b12be37278a4..481767c06ac9 100644
---- a/fvp.fragment
-+++ b/fvp.fragment
-@@ -1,5 +1,6 @@
--CONFIG_FB=m
--CONFIG_FB_ARMCLCD=m
-+CONFIG_DRM_PANEL_SIMPLE=m
-+CONFIG_DRM_PL111=m
-+CONFIG_DRM_FBDEV_EMULATION=y
- CONFIG_MOUSE_PS2=m
- CONFIG_SERIO_AMBAKMI=m
- CONFIG_MMC_ARMMMCI=m
+The expression "!a == 0" can be more simply written as "a", which makes
+it easier to reason about the logic and prevents the warning.
 
-> I'm also confused about how this can be in use.
-> fvp-base-revc.dts includes rtsm_ve-motherboard.dtsi
-> where the PL111 is defined.
->
-> commit f1fe12c8bf33241e04c57a0fc5b25b16ba77ba2d
-> "ARM: dts: Modernize the Vexpress PL111 integration"
-> changes the DTS for the FVP such that only the new DRM
-> driver really works with it: it removes the panel-dpi encoded
-> panel and defines the panel
-> "arm,rtsm-display" for FVP and that is *only* supported
-> by drivers/gpu/drm/panel/panel-simple.c from DRM.
+Fixes: 0749ddeb7d6c ("drm/amd/display: Add DSC force disable to dsc_clock_en debugfs entry")
+Link: https://github.com/ClangBuiltLinux/linux/issues/1158
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That commit predates commit fa083b99eb284186ae65193ae856ef2801a1646d
-which added the DTS for FVP, along with a panel-dpi compatible panel
-which is still present:
-https://github.com/torvalds/linux/blob/98477740630f270aecf648f1d6a9dbc6027d4ff1/arch/arm64/boot/dts/arm/fvp-base-revc.dts#L189
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+index 9d7333a36fac..0852a24ee392 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+@@ -634,7 +634,7 @@ static void try_disable_dsc(struct drm_atomic_state *state,
+ 	for (i = 0; i < count; i++) {
+ 		if (vars[i].dsc_enabled
+ 				&& vars[i].bpp_x16 == params[i].bw_range.max_target_bpp_x16
+-				&& !params[i].clock_force_enable == DSC_CLK_FORCE_DEFAULT) {
++				&& params[i].clock_force_enable) {
+ 			kbps_increase[i] = params[i].bw_range.stream_kbps - params[i].bw_range.max_kbps;
+ 			tried[i] = false;
+ 			remaining_to_try += 1;
 
-> The upstream FVP has been using the new DRM driver
-> by default since
-> commit 37ad688497785c9ad1471236e28efda1e2f39741
-> "arm64: defconfig: Switch to PL11x DRM driver"
-> in january 2019.
+base-commit: 6651cdf3bfeeaeb499db11668313666bf756579a
+-- 
+2.28.0
 
-That only affected defconfig though which Android doesn't use.
-
-> Are you using old or outoftree devicetrees with a newer
-> kernel?
-
-No, I'm using an up-to-date device tree (pretty sure about that
-otherwise I wouldn't have hit problems like
-https://android-review.googlesource.com/c/device/generic/goldfish/+/1394347
-).
-
-> > While it would be great
-> > to see it migrated to DRM, this first requires resolving a design
-> > incompatibility between Android's composer and DRM devices that only
-> > support software rendering. I proposed a patch that would help resolve
-> > this [1], but there was disagreement about the approach and I haven't
-> > had time to get back to this.
-> >
-> > Can this please be reverted until FVP on Android can be migrated to DRM?
->
-> We need a clear technical reason, I understand that using DRM
-> directly might be a problem, but DRM supports full framebuffer
-> emulation and from a userspace point of view, what the new
-> driver provides should be equivalent.
->
-> I can think of problems like Android seeing the new fancy
-> DRM userspace ABI but surely it can be instructed to
-> ignore that and just use the framebuffer emulation instead?
->
-> If there is anything else making DRMs framebuffer emulation
-> substandard I am sure the DRM developers would like to know,
-> especially if it makes Android unhappy.
-
-Okay, I found at least two issues so far. The first is that the driver
-does not come up in 32bpp mode, seemingly because of this line of code
-here:
-https://github.com/torvalds/linux/blob/98477740630f270aecf648f1d6a9dbc6027d4ff1/drivers/gpu/drm/pl111/pl111_versatile.c#L368
-
-The second problem seems to be that Android's calls to
-ioctl(FBIOPUT_VSCREENINFO) fail. I thought that this might be related
-to the declared lack of 32bpp support, but even with the above line
-changed to .fb_bpp = 32 (probably not the right fix given the comment
-above it would probably break any users of the "real" Versatile
-Express board; the driver probably instead needs to select the bpp
-based on the max-memory-bandwidth like the old fbdev driver did) I
-still get this logcat output:
-
-09-22 01:31:08.807   272   272 W gralloc : FBIOPUT_VSCREENINFO failed,
-page flipping not supported
-09-22 01:31:08.807   272   272 W gralloc : page flipping not supported
-(yres_virtual=768, requested=1536)
-09-22 01:31:08.807   272   272 I gralloc : using (fd=7)
-09-22 01:31:08.807   272   272 I gralloc : id           = pl111drmfb
-09-22 01:31:08.807   272   272 I gralloc : xres         = 1024 px
-09-22 01:31:08.807   272   272 I gralloc : yres         = 768 px
-09-22 01:31:08.807   272   272 I gralloc : xres_virtual = 1024 px
-09-22 01:31:08.807   272   272 I gralloc : yres_virtual = 768 px
-09-22 01:31:08.807   272   272 I gralloc : bpp          = 32
-09-22 01:31:08.807   272   272 I gralloc : r            = 16:8
-09-22 01:31:08.807   272   272 I gralloc : g            =  8:8
-09-22 01:31:08.807   272   272 I gralloc : b            =  0:8
-09-22 01:31:08.807   272   272 I gralloc : width        = 400 mm (65.024002 dpi)
-09-22 01:31:08.807   272   272 I gralloc : height       = 300 mm (65.023994 dpi)
-09-22 01:31:08.807   272   272 I gralloc : refresh rate = 60.00 Hz
-
-which is coming from the code starting here:
-https://cs.android.com/android/platform/superproject/+/master:hardware/libhardware/modules/gralloc/framebuffer.cpp;l=185
-(you can ignore the part of the log message that talks about page
-flipping; in this context the main purpose of the ioctl is to give
-effect to the code on lines 166-172 that sets the pixel format, and as
-can be seen from the subsequent output the format remains BGRX888
-rather than RGBX8888).
-
-The output from a successful boot with the old fbdev driver looks like this:
-
-09-22 00:54:57.750   272   272 W gralloc : page flipping not supported
-(yres_virtual=768, requested=1536)
-09-22 00:54:57.750   272   272 I gralloc : using (fd=7)
-09-22 00:54:57.750   272   272 I gralloc : id           = CLCD FB
-09-22 00:54:57.750   272   272 I gralloc : xres         = 1024 px
-09-22 00:54:57.750   272   272 I gralloc : yres         = 768 px
-09-22 00:54:57.750   272   272 I gralloc : xres_virtual = 1024 px
-09-22 00:54:57.750   272   272 I gralloc : yres_virtual = 768 px
-09-22 00:54:57.750   272   272 I gralloc : bpp          = 32
-09-22 00:54:57.750   272   272 I gralloc : r            =  0:8
-09-22 00:54:57.750   272   272 I gralloc : g            =  8:8
-09-22 00:54:57.750   272   272 I gralloc : b            = 16:8
-09-22 00:54:57.750   272   272 I gralloc : width        = 163 mm
-(159.568100 dpi)
-09-22 00:54:57.750   272   272 I gralloc : height       = 122 mm
-(159.895081 dpi)
-09-22 00:54:57.750   272   272 I gralloc : refresh rate = 65.34 Hz
-
-which aside from the pixel format indicates some differences with the
-width, height and refresh rate which may be significant.
-
-As a result of FBIOPUT_VSCREENINFO failing, the FVP window fails to
-resize so I don't see any graphical output (this ioctl in the fbdev
-driver set the magic registers that caused FVP to resize its window;
-my investigation into DRM earlier this year revealed the equivalent
-register-setting operation in DRM to be DRM_IOCTL_MODE_ATOMIC).
-
-I'll try to look at this closer tomorrow to see whether Android is
-doing something wrong, but it seems plausible that DRM's FBDEV
-emulation is missing a critical feature, at least for pl111.
-
-Peter
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
