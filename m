@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2206A2742C9
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 15:19:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC59E2742D1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 15:20:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A5136E864;
-	Tue, 22 Sep 2020 13:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C67426E865;
+	Tue, 22 Sep 2020 13:20:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E15156E864
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 13:19:20 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id g4so17027295wrs.5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 06:19:20 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DACAA6E86D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 13:20:49 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id s12so17039300wrw.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 06:20:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=9GewOd7ipMCxF1aHwWxW4PsJZfwIrEIh8kBMz05Lk/w=;
- b=PzjE8iv+J3iIp+Oj4o3PfIPMtV8nUR7EAaBbIYDmYOpwjFlmejWWdMfF61ABZKnIML
- 96KhiUwPwUKgo5Qo3t6TfKg5SFqQBL59u7bTjgQQv4SkvNWOxHUNtCDNQK+w8W1FHwKc
- P9m7bN1PVj3l46dRCfH2kjE28+5MztTu3wmxI=
+ bh=PDxFBsdzhqglAsjtf28c/y3OAG0uxodhHBxS0E/7Jd8=;
+ b=Q8ohkniG1biUWmKbxmcgW6iu6A0ozWJ/wHbh5EdHbq6YPm1Yqokf5Smqn2f95gloMG
+ rz59LDzWOW5FyxiGvmOxb09m3asZZ+c8dE4v6Da7LR43jnsTcohAjfHekidB265iA1i4
+ q7ehVTT6jRwetK5Bl/gV5z11+qR3EmSw2/9wU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=9GewOd7ipMCxF1aHwWxW4PsJZfwIrEIh8kBMz05Lk/w=;
- b=dO+q285JgKbsPPT1xyXNeonzGJ7lNZvMIsjByBR6ArMn9D1eF+I0MEZVtEmin1u42y
- AiKdFbz4d1l8XcbSP0KP9cmW3tb+O2lokvAzMPWjCGH3aKunV7xrX7RPPhpZMefgI25q
- MnomgT4cFhN48915ftZRumX/505hn+ZRyJ7xczcQrTEuouhws8LgSqvfjrRMwIjg0WZy
- wsz3zr2yAnU3Y8sULq1jGkeOlHSstOQFsMxTBOkRVb4KvuHA8sMJxCMB4rbLH6hoMblT
- PzpPCuKBUGqC4Qy72FZs2e0KVoIMb6zm//Qkm8mfgPuha3rTbfNC73kb/5Ya4MtgQe90
- aGjQ==
-X-Gm-Message-State: AOAM532p8mOW444PkKjrl+1sbM35ON1ugQCEG5qfH+PJZCqMMBFJBKvQ
- yVy1K8jt5/ipLSqDJlHtZh4jIw==
-X-Google-Smtp-Source: ABdhPJzk2cI1GO9aUXv3aroOKwskrl9jpqIgCYu3y/tFOrzYAI88vNvGrwji8l2K4v5ufLKV4CXjgA==
-X-Received: by 2002:adf:ec86:: with SMTP id z6mr5457066wrn.109.1600780759566; 
- Tue, 22 Sep 2020 06:19:19 -0700 (PDT)
+ bh=PDxFBsdzhqglAsjtf28c/y3OAG0uxodhHBxS0E/7Jd8=;
+ b=kwkNqB3LkKtHkIjBJ6QPy/Sha/ESy4hB8I8/kAiym9ccPVFOYCzQI5wEhjxOE53qip
+ tHhE69EiLPIBxiWqP14e3dWf8X3jNFLxSGRjQT+NDnzsR8hEK8Ncg55WrwNtfkmUlTV7
+ pD2aOnpGqKMStEjqcrelC8pNc/OlSOUFBqZSaEUnfqr40PEPx4GvYXaDBfijTLugit3p
+ S40kJcInFfN9UUd6+icde/pje0MHYDijpfJ8GYyMoftjRlR4yDue4o5v0PTimxf/MoAr
+ 5RQfswbX1A5mAER+Cc0QxrHgCHneMPnBXl3+1/oei6soep0w4ZZj6pXO/OoAAzFtjaP+
+ vOrw==
+X-Gm-Message-State: AOAM532/knIf8w+OnqOS1PKFAYO5xPnEGsGYl/QxAaNOXNrHl23HSyAY
+ IDMybgloXXR8Qn1/uZMS7sYtGEoMjd01SMY/
+X-Google-Smtp-Source: ABdhPJweoQg7bZ8uxspQfUQZW9VTW/MLMSfQJQqzN87TEoP+S1zXqDNPAKFWlHYxU6MMPyWrf4dpoQ==
+X-Received: by 2002:adf:f34f:: with SMTP id e15mr5121626wrp.387.1600780848571; 
+ Tue, 22 Sep 2020 06:20:48 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y5sm26160278wrh.6.2020.09.22.06.19.18
+ by smtp.gmail.com with ESMTPSA id n3sm4461810wmn.28.2020.09.22.06.20.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Sep 2020 06:19:18 -0700 (PDT)
-Date: Tue, 22 Sep 2020 15:19:16 +0200
+ Tue, 22 Sep 2020 06:20:47 -0700 (PDT)
+Date: Tue, 22 Sep 2020 15:20:45 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Colin King <colin.king@canonical.com>
-Subject: Re: [PATCH] drm/gma500: clean up indentation issues
-Message-ID: <20200922131916.GM438822@phenom.ffwll.local>
-Mail-Followup-To: Colin King <colin.king@canonical.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200920141407.32672-1-colin.king@canonical.com>
+To: Qinglang Miao <miaoqinglang@huawei.com>
+Subject: Re: [PATCH -next] vga_switcheroo: simplify the return expression of
+ vga_switcheroo_runtime_resume
+Message-ID: <20200922132045.GN438822@phenom.ffwll.local>
+Mail-Followup-To: Qinglang Miao <miaoqinglang@huawei.com>,
+ Lukas Wunner <lukas@wunner.de>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20200921131110.93365-1-miaoqinglang@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200920141407.32672-1-colin.king@canonical.com>
+In-Reply-To: <20200921131110.93365-1-miaoqinglang@huawei.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,53 +72,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 20, 2020 at 03:14:07PM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On Mon, Sep 21, 2020 at 09:11:10PM +0800, Qinglang Miao wrote:
+> Simplify the return expression.
 > 
-> There are a couple of statements that are indented too deeply,
-> remove the extraneous tabs and also an empty line.
-> 
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
 
 Pushed to drm-misc-next, thanks for your patch.
 -Daniel
 
 > ---
->  drivers/gpu/drm/gma500/cdv_intel_dp.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/gpu/vga/vga_switcheroo.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> index 720a767118c9..50016a754172 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-> @@ -1501,8 +1501,7 @@ cdv_intel_dp_start_link_train(struct gma_encoder *encoder)
->  	clock_recovery = false;
+> diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switcheroo.c
+> index 087304b1a..1401fd52f 100644
+> --- a/drivers/gpu/vga/vga_switcheroo.c
+> +++ b/drivers/gpu/vga/vga_switcheroo.c
+> @@ -1034,17 +1034,12 @@ static int vga_switcheroo_runtime_suspend(struct device *dev)
+>  static int vga_switcheroo_runtime_resume(struct device *dev)
+>  {
+>  	struct pci_dev *pdev = to_pci_dev(dev);
+> -	int ret;
 >  
->  	DRM_DEBUG_KMS("Start train\n");
-> -		reg = DP | DP_LINK_TRAIN_PAT_1;
+>  	mutex_lock(&vgasr_mutex);
+>  	vga_switcheroo_power_switch(pdev, VGA_SWITCHEROO_ON);
+>  	mutex_unlock(&vgasr_mutex);
+>  	pci_wakeup_bus(pdev->bus);
+> -	ret = dev->bus->pm->runtime_resume(dev);
+> -	if (ret)
+> -		return ret;
 > -
-> +	reg = DP | DP_LINK_TRAIN_PAT_1;
+> -	return 0;
+> +	return dev->bus->pm->runtime_resume(dev);
+>  }
 >  
->  	for (;;) {
->  		/* Use intel_dp->train_set[0] to set the voltage and pre emphasis values */
-> @@ -1575,7 +1574,7 @@ cdv_intel_dp_complete_link_train(struct gma_encoder *encoder)
->  	cr_tries = 0;
->  
->  	DRM_DEBUG_KMS("\n");
-> -		reg = DP | DP_LINK_TRAIN_PAT_2;
-> +	reg = DP | DP_LINK_TRAIN_PAT_2;
->  
->  	for (;;) {
->  
+>  /**
 > -- 
-> 2.27.0
+> 2.23.0
 > 
 
 -- 
