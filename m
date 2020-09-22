@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE407273997
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 06:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EABB4273998
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 06:07:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDDA788A3E;
-	Tue, 22 Sep 2020 04:05:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C83B16E5D5;
+	Tue, 22 Sep 2020 04:07:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1A16E037
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 04:05:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 331096E5D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 04:07:33 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209345] [nouveau] unknown chipset (0f22d0a1) (nVidia Tesla K80)
-Date: Tue, 22 Sep 2020 04:05:55 +0000
+Date: Tue, 22 Sep 2020 04:07:32 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209345-2300-Vo2mlbSrga@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-209345-2300-1KBLmKgFH2@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209345-2300@https.bugzilla.kernel.org/>
 References: <bug-209345-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,19 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209345
 
---- Comment #5 from Alexander von Gluck (kallisti5@unixzen.com) ---
-[ 2208.130049] nouveau: version magic '5.8.10 SMP mod_unload ' should be
-'5.8.10-200.fc32.x86_64 SMP mod_unload '
-[ 2460.923164] ACPI Warning: \_SB.PCI0.GFX0._DSM: Argument #4 type mismatch -
-Found [Buffer], ACPI requires [Package] (20200528/nsarguments-59)
-[ 2460.923220] nouveau 0000:08:00.0: can't change power state from D3hot to D0
-(config space inaccessible)
-[ 2460.923393] nouveau 0000:08:00.0: GPU not supported on big-endian
-[ 2460.923411] nouveau: probe of 0000:08:00.0 failed with error -38
-[ 2460.923424] nouveau 0000:09:00.0: can't change power state from D3hot to D0
-(config space inaccessible)
-[ 2460.923504] nouveau 0000:09:00.0: GPU not supported on big-endian
-[ 2460.923507] nouveau: probe of 0000:09:00.0 failed with error -38
+--- Comment #6 from Alexander von Gluck (kallisti5@unixzen.com) ---
+Created attachment 292557
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292557&action=edit
+tesla k80 patch
 
 -- 
 You are receiving this mail because:
