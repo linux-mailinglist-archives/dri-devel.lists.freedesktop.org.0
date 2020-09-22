@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B416273C87
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF789273C7C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3309D6E825;
-	Tue, 22 Sep 2020 07:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840DB6E7FE;
+	Tue, 22 Sep 2020 07:48:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77B5B6E5D4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 02:32:30 +0000 (UTC)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 095C3B7D920535714ADE;
- Tue, 22 Sep 2020 10:32:26 +0800 (CST)
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D39016E5D4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 02:33:28 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id A910716B416F9FC71983;
+ Tue, 22 Sep 2020 10:33:26 +0800 (CST)
 Received: from [10.174.179.91] (10.174.179.91) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 22 Sep 2020 10:32:22 +0800
-Subject: Re: [PATCH -next] drm: omapdrm: dss: simplify the return expression
- of hdmi_init_pll_data
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20200921131015.91422-1-miaoqinglang@huawei.com>
- <1f22b1c4-d92e-2dc8-7052-f6df23a187a6@ti.com>
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 22 Sep 2020 10:33:21 +0800
+Subject: Re: [PATCH -next] gpu: host1x: simplify the return expression of
+ host1x_cdma_init()
+To: Mikko Perttunen <cyndis@kapsi.fi>, Thierry Reding
+ <thierry.reding@gmail.com>
+References: <20200921131032.91972-1-miaoqinglang@huawei.com>
+ <4378d69a-2338-779f-ab4d-3c64fbf7dfd3@kapsi.fi>
 From: miaoqinglang <miaoqinglang@huawei.com>
-Message-ID: <75a43778-c374-89e3-3f5a-8eea028472e9@huawei.com>
-Date: Tue, 22 Sep 2020 10:32:21 +0800
+Message-ID: <1d224422-a67d-8157-4212-646098f223c9@huawei.com>
+Date: Tue, 22 Sep 2020 10:33:21 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1f22b1c4-d92e-2dc8-7052-f6df23a187a6@ti.com>
+In-Reply-To: <4378d69a-2338-779f-ab4d-3c64fbf7dfd3@kapsi.fi>
 X-Originating-IP: [10.174.179.91]
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:38 +0000
+X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,37 +46,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgrlnKggMjAyMC85LzIxIDIxOjM5LCBUb21pIFZhbGtlaW5lbiDlhpnpgZM6Cj4gSGksCj4gCj4g
-T24gMjEvMDkvMjAyMCAxNjoxMCwgUWluZ2xhbmcgTWlhbyB3cm90ZToKPj4gU2ltcGxpZnkgdGhl
-IHJldHVybiBleHByZXNzaW9uLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBRaW5nbGFuZyBNaWFvIDxt
-aWFvcWluZ2xhbmdAaHVhd2VpLmNvbT4KPj4gLS0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL29tYXBk
-cm0vZHNzL2hkbWlfcGxsLmMgfCA3ICstLS0tLS0KPj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKyksIDYgZGVsZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vb21hcGRybS9kc3MvaGRtaV9wbGwuYyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9o
-ZG1pX3BsbC5jCj4+IGluZGV4IGNmMmIwMDBmMy4uYzNlODViNjM2IDEwMDY0NAo+PiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3MvaGRtaV9wbGwuYwo+PiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vb21hcGRybS9kc3MvaGRtaV9wbGwuYwo+PiBAQCAtMTMxLDcgKzEzMSw2IEBAIHN0YXRp
-YyBpbnQgaGRtaV9pbml0X3BsbF9kYXRhKHN0cnVjdCBkc3NfZGV2aWNlICpkc3MsCj4+ICAgewo+
-PiAgIAlzdHJ1Y3QgZHNzX3BsbCAqcGxsID0gJmhwbGwtPnBsbDsKPj4gICAJc3RydWN0IGNsayAq
-Y2xrOwo+PiAtCWludCByOwo+PiAgIAo+PiAgIAljbGsgPSBkZXZtX2Nsa19nZXQoJnBkZXYtPmRl
-diwgInN5c19jbGsiKTsKPj4gICAJaWYgKElTX0VSUihjbGspKSB7Cj4+IEBAIC0xNTEsMTEgKzE1
-MCw3IEBAIHN0YXRpYyBpbnQgaGRtaV9pbml0X3BsbF9kYXRhKHN0cnVjdCBkc3NfZGV2aWNlICpk
-c3MsCj4+ICAgCj4+ICAgCXBsbC0+b3BzID0gJmhkbWlfcGxsX29wczsKPj4gICAKPj4gLQlyID0g
-ZHNzX3BsbF9yZWdpc3Rlcihkc3MsIHBsbCk7Cj4+IC0JaWYgKHIpCj4+IC0JCXJldHVybiByOwo+
-PiAtCj4+IC0JcmV0dXJuIDA7Cj4+ICsJcmV0dXJuIGRzc19wbGxfcmVnaXN0ZXIoZHNzLCBwbGwp
-Owo+PiAgIH0KPj4gICAKPj4gICBpbnQgaGRtaV9wbGxfaW5pdChzdHJ1Y3QgZHNzX2RldmljZSAq
-ZHNzLCBzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2LAo+Pgo+IAo+IEkgbGlrZSBpdCBtb3Jl
-IHdoZW4gdGhlcmUncyBhIHJldHVybiAwIGF0IHRoZSBlbmQgb2YgdGhlIGZ1bmN0aW9uLCBlc3Bl
-Y2lhbGx5IGluIGZ1bmN0aW9ucyB3aGVyZQo+IHRoZXJlIGFyZSBtdWx0aXBsZSBjYXNlcyBvZiBp
-ZiguLi4pIHJldHVybiByLiBJdCdzIG1vcmUgZWFzaWx5IHJlYWRhYmxlLCBhdCBsZWFzdCB0byBt
-eSBleWVzLgo+IAo+ICAgVG9taQoKSGkgVG9taSwKCkdsYWQgdG8ga25vdyB5b3VyIG9wbmlvbiBh
-bmQgaXQgc291bmRzIGZpbmUgdG8gbWUuCgpUaGFua3MKCj4gCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+CgrlnKggMjAyMC85LzIxIDIxOjEyLCBNaWtrbyBQZXJ0dHVuZW4g5YaZ6YGTOgo+IE9uIDkvMjEv
+MjAgNDoxMCBQTSwgUWluZ2xhbmcgTWlhbyB3cm90ZToKPj4gU2ltcGxpZnkgdGhlIHJldHVybiBl
+eHByZXNzaW9uLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBRaW5nbGFuZyBNaWFvIDxtaWFvcWluZ2xh
+bmdAaHVhd2VpLmNvbT4KPj4gLS0tCj4+IMKgIGRyaXZlcnMvZ3B1L2hvc3QxeC9jZG1hLmMgfCA4
+ICstLS0tLS0tCj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgNyBkZWxldGlv
+bnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2hvc3QxeC9jZG1hLmMgYi9kcml2
+ZXJzL2dwdS9ob3N0MXgvY2RtYS5jCj4+IGluZGV4IGU4ZDNmZGE5MS4uMDhhMGY5ZTEwIDEwMDY0
+NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9ob3N0MXgvY2RtYS5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2hvc3QxeC9jZG1hLmMKPj4gQEAgLTQ0OCw4ICs0NDgsNiBAQCB2b2lkIGhvc3QxeF9jZG1hX3Vw
+ZGF0ZV9zeW5jX3F1ZXVlKHN0cnVjdCAKPj4gaG9zdDF4X2NkbWEgKmNkbWEsCj4+IMKgwqAgKi8K
+Pj4gwqAgaW50IGhvc3QxeF9jZG1hX2luaXQoc3RydWN0IGhvc3QxeF9jZG1hICpjZG1hKQo+PiDC
+oCB7Cj4+IC3CoMKgwqAgaW50IGVycjsKPj4gLQo+PiDCoMKgwqDCoMKgIG11dGV4X2luaXQoJmNk
+bWEtPmxvY2spOwo+PiDCoMKgwqDCoMKgIGluaXRfY29tcGxldGlvbigmY2RtYS0+Y29tcGxldGUp
+Owo+PiBAQCAtNDU5LDExICs0NTcsNyBAQCBpbnQgaG9zdDF4X2NkbWFfaW5pdChzdHJ1Y3QgaG9z
+dDF4X2NkbWEgKmNkbWEpCj4+IMKgwqDCoMKgwqAgY2RtYS0+cnVubmluZyA9IGZhbHNlOwo+PiDC
+oMKgwqDCoMKgIGNkbWEtPnRvcm5kb3duID0gZmFsc2U7Cj4+IC3CoMKgwqAgZXJyID0gaG9zdDF4
+X3B1c2hidWZmZXJfaW5pdCgmY2RtYS0+cHVzaF9idWZmZXIpOwo+PiAtwqDCoMKgIGlmIChlcnIp
+Cj4+IC3CoMKgwqDCoMKgwqDCoCByZXR1cm4gZXJyOwo+PiAtCj4+IC3CoMKgwqAgcmV0dXJuIDA7
+Cj4+ICvCoMKgwqAgcmV0dXJuIGhvc3QxeF9wdXNoYnVmZmVyX2luaXQoJmNkbWEtPnB1c2hfYnVm
+ZmVyKTsKPiAKPiBJTUhPLCB0aGlzIG1ha2VzIGl0IGxlc3MgcmVhZGFibGUgc2luY2Ugbm93IGl0
+IGtpbmQgb2YgbG9va3MgbGlrZSAKPiBob3N0MXhfcHVzaGJ1ZmZlcl9pbml0IGlzIHJldHVybmlu
+ZyBzb21lIG1lYW5pbmdmdWwgdmFsdWUsIGluc3RlYWQgb2YgCj4gdGhlIGNvZGUganVzdCBoYW5k
+bGluZyBlcnJvciB2YWx1ZXMgaW4gYSBzZXF1ZW5jZS4KPiAKPiBNaWtrbwo+IApIaSBNaWtrbywK
+Ckl0IHNvdW5kcyByZXNvbmFibGUsIHRoYW5rcyBmb3IgeW91ciByZXBseS4KCj4+IMKgIH0KPj4g
+wqAgLyoKPj4KPiAuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
