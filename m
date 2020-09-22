@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FFF27459E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 17:42:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD142745BC
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 17:50:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC0486E8AA;
-	Tue, 22 Sep 2020 15:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C629D6E88D;
+	Tue, 22 Sep 2020 15:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76FF96E84B;
- Tue, 22 Sep 2020 15:42:46 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id o5so17581174wrn.13;
- Tue, 22 Sep 2020 08:42:46 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E660A6E88D;
+ Tue, 22 Sep 2020 15:50:05 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id g4so17628993wrs.5;
+ Tue, 22 Sep 2020 08:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5zqe84Nk1UowCxWHEiI4DgdqPuTuGGYYmgeHmTBq0fk=;
- b=uHadmq3Kz2/+CUFAUGs/3cB8L1OaAkv/I+ZV8ZYzgFHRz2FsDq65zy5S8iqf3cN4jq
- 8h9cAwvHa8idmrrH4ZpHw1qPEGpcxVIHNCr9NuY1vRhvhNLIJ9lNCMc5DviJQy8oqsEb
- NnR1rL3ma/9uNi9Hopsfs7oqbz7Grs20FVqgFW9MP9ofBiFG7xBQVGzLAVNu8oAXq9PM
- 7jk9wJrr4275SyylH/FxyBzL9A6nhdiQ8VXpM8/xky2R8GqWrHPVZ1KjbxF5JEVsKROb
- VUJTVVwj1zfHyeWUk3mGkDKhWSQXET8j28VgkEsnu9DXm0ba1gLO0Y2z3t9fmfygxOHJ
- 49TA==
+ :cc:content-transfer-encoding;
+ bh=k1qiM4bUagO9PvzG1mYjhQ2oeaOlyE+NHa+RI/UKMuI=;
+ b=OffjgK1VvQU3R4J2PDeHOOirKPulZND04R2KV4wX2yXgAdKlN82m3+qgP/YLrgHdoP
+ XRGEQpgSy/EvjUge6T9J532EjQGUOMSKUUm2YjrwEEnfFJYXoItcvuYoojcMCiFOLfCl
+ +a9sSbot03midkDhZaSzd4yF71ySdX6mfEYJ8UiYu3QOnw1082QuhAksGSZ6TEBI4DqE
+ YXpTPsDBx4UiAtoiXHGouZPixegjYM59VecZEk+F8kHX62SO35UKc/naF7K0IgW1DkdP
+ s9pm7Hru94v9+btXnyu2IXDVeNLGSWoDFO8I+lUf5O0ulzIoYYO61eFmy6f9gCBnvy+b
+ +miQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5zqe84Nk1UowCxWHEiI4DgdqPuTuGGYYmgeHmTBq0fk=;
- b=lLBneGJsGjaCScM1B+bmly2YoVM4gMXWQgwoGY9vLsX/3GZ9YhLtvRNG7x78GuQllT
- jsbHodeDNvdu6EeeX7qdHYs5bpsEaZYt1sE5E8be2c+q00h1ZNh1IbMxwUwmunFvQEYV
- ugJib+J5FSxlq7uYPzOXRZLROyT3WdZowhE8z94AGxxq0asQ4KM22Td+7Ze8mXHbRj+W
- C1qCL3a2XVDieMiu+lr3cjOWds8lTEE8CnA9ZDidLpdHNS+B6q/0YQHTSjhj+TnFbvvw
- 8hNlrPDa7BR5y55IWjFKyelxCszJn/mApgcUfmYlieHL1cHbbIRd5ZodrCAe7cUp4lzm
- NJZA==
-X-Gm-Message-State: AOAM530pz+/LI4ZuoQ78+o5/4NE9/nWg7jux8aJX8WwiQ36sb3KHdST4
- 1w39F+pK44Vu1egUKdbiNEeJl3sNzEOKtu1ybcg=
-X-Google-Smtp-Source: ABdhPJxF6Yvtfum2cD2X7jpiXkb4a9Vmy8ViEa3nivHp1A5xnwW3JO/PQV7tnrzLGN7mG0h8o9ULIacpXRoA7QLPSAg=
-X-Received: by 2002:adf:fc0a:: with SMTP id i10mr6081863wrr.111.1600789365196; 
- Tue, 22 Sep 2020 08:42:45 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=k1qiM4bUagO9PvzG1mYjhQ2oeaOlyE+NHa+RI/UKMuI=;
+ b=hIJPHl/z+u2gsk47wITf5x87oB6CuQ6mqspXaYwulXhKyvgtG4JogjPlEHKge1bMyc
+ hWoaUmMhI1/MxpoA1TO6nAW9HlEDArYIcR54f1G+ejG4hvjqsuBYqmXh4cMAoecSETZ/
+ axE1qZj6IWM7vUKqr39xNeCRoG07v2lSAe+eXY04h9KkDBh8l7gtXEq2tO49ZSLcr5/T
+ JZ5A/e7ywYcW2V1X9ea6j/soBKO7A1ISiQ64EX+XGlqTWrbjFnV8Rx6rSdS1UE5Uh7JX
+ fLqpTHx0c5Y94VV1TuJNCuCuH4TZCszy8Gzh1usKj1zkeMNRc2RdA63hiWmi+k3fOqRH
+ EoXg==
+X-Gm-Message-State: AOAM530yY5cJwbHJEJoeq/vTGZovnA31WBt6EerlnjPvuEqAg3+I4yI8
+ ZVTT6Jxn48qAOauZZF60ZO1POHTCwhXA0Vov86Q=
+X-Google-Smtp-Source: ABdhPJzNUoLcCUJtNlHpGP5CHl4ouHNhSErzbaqeG9ZEfR+X8xgDw8Vu/pgn8/BMiFFtwMkSUKK2DOChEI2ZoswOEhw=
+X-Received: by 2002:adf:dd82:: with SMTP id x2mr6452043wrl.419.1600789804606; 
+ Tue, 22 Sep 2020 08:50:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200922021106.24733-1-bernard@vivo.com>
-In-Reply-To: <20200922021106.24733-1-bernard@vivo.com>
+References: <1600773099-32693-1-git-send-email-wangqing@vivo.com>
+ <CAD=4a=URYhNswOBfBj39b00HWR3vWeHF9ntP-n_SPa94YJZbTg@mail.gmail.com>
+In-Reply-To: <CAD=4a=URYhNswOBfBj39b00HWR3vWeHF9ntP-n_SPa94YJZbTg@mail.gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 22 Sep 2020 11:42:34 -0400
-Message-ID: <CADnq5_OrnViA+RQkkrmTuBFkuK++yPY4Mhmp4grEuKzJiOmAEg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amd/display: optimize code runtime a bit
-To: Bernard Zhao <bernard@vivo.com>
+Date: Tue, 22 Sep 2020 11:49:53 -0400
+Message-ID: <CADnq5_ObAjsxfKsJgk6mE7OKK6Jw=-bacva6_rxySKSD8nqAjg@mail.gmail.com>
+Subject: Re: [PATCH] gpu/drm/radeon: fix spellint typo in comments
+To: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,79 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Leo Li <sunpeng.li@amd.com>,
- Wenjing Liu <wenjing.liu@amd.com>, Martin Leung <martin.leung@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Brandon Syu <Brandon.Syu@amd.com>, Michael Strauss <michael.strauss@amd.com>,
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Wang Qing <wangqing@vivo.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- abdoulaye berthe <abdoulaye.berthe@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Tue, Sep 22, 2020 at 3:52 AM Bernard Zhao <bernard@vivo.com> wrote:
->
-> In the function dal_ddc_service_query_ddc_data,
-> get rid of dal_ddc_i2c_payloads_destroy, call
-> dal_vector_destruct() directly.
-> This change is to make the code run a bit fast.
->
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
-> Changes since V1:
-> *get rid of dal_ddc_i2c_payloads_destroy, call
-> dal_vector_destruct() directly.
->
-> Link for V1:
-> *https://lore.kernel.org/patchwork/patch/1309014/
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-> index b984eecca58b..dec12de37642 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-> @@ -148,14 +148,6 @@ static uint32_t dal_ddc_i2c_payloads_get_count(struct i2c_payloads *p)
->         return p->payloads.count;
->  }
->
-> -static void dal_ddc_i2c_payloads_destroy(struct i2c_payloads *p)
-> -{
-> -       if (!p)
-> -               return;
-> -
-> -       dal_vector_destruct(&p->payloads);
-> -}
-> -
->  #define DDC_MIN(a, b) (((a) < (b)) ? (a) : (b))
->
->  void dal_ddc_i2c_payloads_add(
-> @@ -582,7 +574,7 @@ bool dal_ddc_service_query_ddc_data(
->                                 ddc->link,
->                                 &command);
->
-> -               dal_ddc_i2c_payloads_destroy(&payloads);
-> +               dal_vector_destruct(&payloads.payloads);
->         }
->
->         return success;
-> --
-> 2.28.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXBwbGllZCB3aXRoIHN1YmplY3QgdHlwbyBmaXhlZC4gIFRoYW5rcyEKCkFsZXgKCk9uIFR1ZSwg
+U2VwIDIyLCAyMDIwIGF0IDEwOjA3IEFNIEVybnN0IFNqw7ZzdHJhbmQgPGVybnN0cEBnbWFpbC5j
+b20+IHdyb3RlOgo+Cj4gVGhlcmUgaXMgYSB0eXBvIGluIHlvdXIgcGF0Y2ggc3ViamVjdC4gOy0p
+Cj4KPiBSZWdhcmRzCj4gLy9Fcm5zdAo+Cj4gRGVuIHRpcyAyMiBzZXAuIDIwMjAga2wgMTU6MTEg
+c2tyZXYgV2FuZyBRaW5nIDx3YW5ncWluZ0B2aXZvLmNvbT46Cj4+Cj4+IE1vZGlmeSB0aGUgY29t
+bWVudCB0eXBvOiAiZGVmaW5hdGVseSIgLT4gImRlZmluaXRlbHkiLgo+Pgo+PiBTaWduZWQtb2Zm
+LWJ5OiBXYW5nIFFpbmcgPHdhbmdxaW5nQHZpdm8uY29tPgo+PiAtLS0KPj4gIGRyaXZlcnMvZ3B1
+L2RybS9yYWRlb24vcmFkZW9uX3ZtLmMgfCAyICstCj4+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDEgZGVsZXRpb24oLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9yYWRlb24vcmFkZW9uX3ZtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl92bS5j
+Cj4+IGluZGV4IGY2MGZhZTAuLjNkNmUyY2QKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JhZGVv
+bi9yYWRlb25fdm0uYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl92bS5j
+Cj4+IEBAIC0xODgsNyArMTg4LDcgQEAgc3RydWN0IHJhZGVvbl9mZW5jZSAqcmFkZW9uX3ZtX2dy
+YWJfaWQoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYsCj4+ICAgICAgICAgICAgIHZtX2lkLT5s
+YXN0X2lkX3VzZSA9PSByZGV2LT52bV9tYW5hZ2VyLmFjdGl2ZVt2bV9pZC0+aWRdKQo+PiAgICAg
+ICAgICAgICAgICAgcmV0dXJuIE5VTEw7Cj4+Cj4+IC0gICAgICAgLyogd2UgZGVmaW5hdGVseSBu
+ZWVkIHRvIGZsdXNoICovCj4+ICsgICAgICAgLyogd2UgZGVmaW5pdGVseSBuZWVkIHRvIGZsdXNo
+ICovCj4+ICAgICAgICAgdm1faWQtPnBkX2dwdV9hZGRyID0gfjBsbDsKPj4KPj4gICAgICAgICAv
+KiBza2lwIG92ZXIgVk1JRCAwLCBzaW5jZSBpdCBpcyB0aGUgc3lzdGVtIFZNICovCj4+IC0tCj4+
+IDIuNy40Cj4+Cj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCj4+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1k
+LWdmeAo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+PiBhbWQtZ2Z4IG1haWxpbmcgbGlzdAo+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQtZ2Z4Cl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
