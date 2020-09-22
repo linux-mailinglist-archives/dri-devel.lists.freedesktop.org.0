@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C022C2745FA
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 18:02:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB5627461B
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 18:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A79436E8A8;
-	Tue, 22 Sep 2020 16:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9EC6E8BA;
+	Tue, 22 Sep 2020 16:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00FF06E8A8
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 16:01:59 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id x69so21543910oia.8
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 09:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jzGx9lNDQDNvXf55+zZV1XJczdG5Tj1hGWl7xVKxg1M=;
- b=AbruHcePTxOWEF854e6hnz/8QaFNhQAY+slB4rUkja6Zj6kCCbk3umIijEqzQanieU
- yeIQ1xS/LWBxCCGI5gpPR66Oa8uZl/04jVVfDBb0GtWtUkxkz1CcbrmWQ3Qwvl31mzpp
- BL8DTdMQ49vHk7PU5rBIHpBnBg4g3ZlYD3v3Q=
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+ [209.85.166.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1545F6E8EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 16:04:54 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id y9so17826489ilq.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 09:04:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jzGx9lNDQDNvXf55+zZV1XJczdG5Tj1hGWl7xVKxg1M=;
- b=YopVpEIMXs8pzp437/ssf09u0ZKUy2+nmb9MXt0/17N4UZkZcaZ0d6WwFYBHPRpd9Q
- Nf4WzEjLlvnGaAdS+QIGkO36LyjAmtsh1td/oVWHKrTxs2StKCw8aVbNcM98yj3MAvum
- XUuSkqV5Chj1CvVJh5jrGaxdz5ete3JlVeFJ2ayH5WaF8yYhBx6uBnWfr5MnD15KE04J
- 1Le76KCMIWeiyhz1FLfYDzP5Usv+MofmH91ANu4tRWNR0jQzCioRWSDArjgoShDOxRnO
- UHFlhKnAU7Pw5wCFnxNXGcvXsq5n8mRX1KfxtUIdCqF2MvNhuoaipTEZTl422tFd2tlp
- oVjA==
-X-Gm-Message-State: AOAM5313/H7/h//E8JSA4ciH6pJzoVrnI7YkZjvPjl81m+RW9r6aiasd
- oqjPLOo/PW6kCw4W1WmIZLyggXspPdsWAjtwh6W4cg==
-X-Google-Smtp-Source: ABdhPJxUCOo0K3uccb6V78Xey0Gvm3PTUf1Xm+2P+JTQizT3twxEF7VlbI4OYn7TQy4fV9tVym4U9rJE/5W8CN474ZY=
-X-Received: by 2002:aca:49c2:: with SMTP id w185mr2629161oia.101.1600790518782; 
- Tue, 22 Sep 2020 09:01:58 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CKfLdUexUfPdpjwTDlKQ3XKMxqzDUbFupt+mG72mDMc=;
+ b=SHGmIrwbSrR8C76zodkIO7iAgYelIoQQ36AHI6sc6YY1PX5vYM4/Jny6hQk3zeF1nW
+ JBJuDwWQyaA2EOpSrO+bmQqHwMW49zb+GqCK9C622OA8exuPEuf6ewDR1YlbhZ1zSdbu
+ 0X4s4ymyzyUqvN3JYVynOhXtBpxlUjueVsPfriPX4CU/gzaj69xO5RJSajKlDSBNclHx
+ jFvIzDbeMMUG+/u5OGFdOZPaQowxUqc02XzQvOM+HVatcWaBlgTIYw/Y55J3sG8ZU7Wx
+ dVFwr3ND+A3++M6IEdNoeFzyrrrf7rHyZPCAlri6Uo9MyrGmYCvcJd1Rb5SQmIvyp19c
+ rnFQ==
+X-Gm-Message-State: AOAM530o4Ss0rLvgE6gvsdcEeRJV5zTs8VcC7m3EDOSzSrAuETIork9C
+ Qe+BPlW5BvQpK8Wlhm1xww==
+X-Google-Smtp-Source: ABdhPJyGE4qpjft/53rjEnM1nes6ybplFwv2lRkqN4ajfiISqxLZHyh9XWi1DNlUUSO+vOKKTAg4Fw==
+X-Received: by 2002:a92:730b:: with SMTP id o11mr4773209ilc.91.1600790694176; 
+ Tue, 22 Sep 2020 09:04:54 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id k2sm7557712ioj.2.2020.09.22.09.04.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Sep 2020 09:04:53 -0700 (PDT)
+Received: (nullmailer pid 2769164 invoked by uid 1000);
+ Tue, 22 Sep 2020 16:04:52 -0000
+Date: Tue, 22 Sep 2020 10:04:52 -0600
+From: Rob Herring <robh@kernel.org>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Subject: Re: [PATCH 2/4] dt-bindings: phy: convert phy-mtk-tphy.txt to YAML
+ schema
+Message-ID: <20200922160452.GA2768616@bogus>
+References: <5af7c097d1c71a180d8ed1f1a44055859b42f1a0.1600760719.git.chunfeng.yun@mediatek.com>
+ <33b4c569db10d983c7a9485a8bd6ec4efc0a1242.1600760719.git.chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-References: <20180705101043.4883-1-daniel.vetter@ffwll.ch>
- <20180705102121.5091-1-daniel.vetter@ffwll.ch>
- <CAPj87rN48S8+pLd0ksOX4pdCTqtO=bDgjhkPxpWr_AnpVvgaSQ@mail.gmail.com>
- <20200922133636.GA2369@xpredator>
- <CAKMK7uHCeFan4+agMn0sr-z9UDyZwEJv0_dL-K-gA1n0=m+A2w@mail.gmail.com>
- <CAPj87rNLzFjn7xyePmEBEY8teL7TnL-HrQHXbp7C1tXDdWgeUA@mail.gmail.com>
-In-Reply-To: <CAPj87rNLzFjn7xyePmEBEY8teL7TnL-HrQHXbp7C1tXDdWgeUA@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 22 Sep 2020 18:01:47 +0200
-Message-ID: <CAKMK7uEyt0d0LidUCQL4oHZRYZdDEFhy=DnRF7WwD1S1+ackFQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic
- modesets
-To: Daniel Stone <daniel@fooishbar.org>
+Content-Disposition: inline
+In-Reply-To: <33b4c569db10d983c7a9485a8bd6ec4efc0a1242.1600760719.git.chunfeng.yun@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,51 +60,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- stable <stable@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>,
- Marius Vlad <marius.vlad@collabora.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Stanley Chu <stanley.chu@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 22, 2020 at 4:14 PM Daniel Stone <daniel@fooishbar.org> wrote:
->
-> On Tue, 22 Sep 2020 at 15:04, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > On Tue, Sep 22, 2020 at 3:36 PM Marius Vlad <marius.vlad@collabora.com> wrote:
-> > > Gentle ping. I've tried out Linus's master tree and, and like Pekka,
-> > > I've noticed this isn't integrated/added.
-> >
-> > Defacto the uapi we have now is that userspace needs to ignore "spurious" EBUSY.
->
-> This really, really, really, bites.
->
-> I think we need a guarantee that this never happens if ALLOW_MODESET
-> is always used in blocking mode, plus in future a cap we can use to
-> detect that we won't be getting spurious EBUSY events.
->
-> I really don't want to ever paper over this, because it's one of the
-> clearest indications that userspace has its timing/signalling wrong.
+On Tue, 22 Sep 2020 15:55:06 +0800, Chunfeng Yun wrote:
+> Convert phy-mtk-tphy.txt to YAML schema mediatek,tphy.yaml
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+>  .../bindings/phy/mediatek,tphy.yaml           | 260 ++++++++++++++++++
+>  .../devicetree/bindings/phy/phy-mtk-tphy.txt  | 162 -----------
+>  2 files changed, 260 insertions(+), 162 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/phy/phy-mtk-tphy.txt
+> 
 
-Ok so the hang-up last time around iirc was that I broke igt by making
-a few things more synchronous. Let's hope I'm not also breaking stuff
-with the WARN_ON ...
 
-New plan:
-- make this patch here only document existing behaviour and enforce it
-with the WARN_ON
-- new uapi would be behind a flag or something, with userspace and
-everything hanging off it.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Thoughts?
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11290800:clocks: [[4294967295, 15]] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11290800:clock-names: ['ref'] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11290900:clocks: [[4294967295]] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11290900:clock-names: ['ref'] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11291000:clocks: [[4294967295, 15]] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11291000:clock-names: ['ref'] is too short
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+See https://patchwork.ozlabs.org/patch/1368817
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
