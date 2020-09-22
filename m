@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74EE62744A9
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 16:48:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4041A2744B7
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 16:52:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF6A6E888;
-	Tue, 22 Sep 2020 14:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF4226E897;
+	Tue, 22 Sep 2020 14:51:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB606E888
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 14:48:23 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id v12so1807312wmh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 07:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 504A86E897
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 14:51:57 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id s205so14367073lja.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 07:51:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QGE4ym/Uaa7H6dh42EwLEIYXv6MD8ykJS8aLJNDxkcU=;
- b=S08putSaHeLUuphCDia5cHpsk4+TmEbQ6y7lnkPLjxRua0s9CeTprpw2VMUG+fPh6a
- /DJEU6izPbZLBZuE+Iz8J0lKQ/eJar7McTc67LMBW3aLxlQutQRSabu4pJUMoRbovCeN
- 2rG6H9iP/3jUasK2ShLQkmAMCw970QOPEQX98MnIidEeHwz273UkMOj6ehLwbrbCl9/b
- Hau4Y3qKHwnINLpMAmbEp8O1wnOidaZE7o61A1PkiZ6m+/ccohgDJ6gBrafsqC3Bq2HS
- Df8dwj9LOh+WMfO1X+0Lhcig7EEpl0h5qwQiPR+Uv8tXqzECbZXWOdfJHBtUwt6q13ZA
- bG1A==
+ :cc:content-transfer-encoding;
+ bh=bzR1gxnRoZXjib0y+EllAgb8353tQk04gCemc3kID8w=;
+ b=Zy8iW9TQcugkIzEGW/pU5DvFHSWArgwWW5vg1vSaanKjEpSMvnoljwAIo9Pu44WJKy
+ OIoRVAgmFjK8qGjrEHgenNyFUqGf1IQROkUhyLmm3Ba7ddEv7hz2PRAEyYSTDjzNt+xG
+ tu5RLsuel0ENBLwXk8A2yFHVAavL0BH7T6JiXwgzxMFhkJMVYquQc18lQhmbwjH8Awcb
+ rH0cnwkrxpxui9pgGiz9pGkG10OF1SSpzfMzB5zrz4MEfaetf4yi+GJv/dKacSGIf0GF
+ 9RK9n80GHWdYuBN6iooSVgsSHbrifpli/ZWXsBIvpUTxGWvDhxU86W5gnQtoK5Iyvg+K
+ VEvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QGE4ym/Uaa7H6dh42EwLEIYXv6MD8ykJS8aLJNDxkcU=;
- b=bElPh2fBv/bUBV+zld8HVTBd6G1hs1zBbLxeI9lUjWrf84i8QpvnZZqOu1y1BWuVI6
- CZqk12vNjhfVc2jqVBSh4dJk0DhJMSGFiF0bnfOMeRX24KqrwAG1htf1OQKa5MqyND56
- 0JgyKobl4x9IfQut9o+GfkeQt9X39PyU5hQe7sAP0glDOZ0Uv298BsHRID4Nc+rRzSPl
- Xq5ymrrT35t5KBkqeaH/uJ7P9oOj72ariCdDkilOi6eTAo/zcfeIRe9oySD+O4+9nejp
- 0Zpj7kMK9ZbQTfA0bKBtG2btKz3yPvFxzQuc4rb2qaGre7mmMVKNBQCqbAKPXgM2DVJO
- JeWQ==
-X-Gm-Message-State: AOAM533z06P8F1FX79ciihglD2OaSMm2LJF2x4v//LuYYnuhedVt9jDA
- gzqFQBcCnaBv16N6UrbUYcjsDlliJk1cbSS7j0meGkFQ
-X-Google-Smtp-Source: ABdhPJzaWeF7RKKBaheeqnDyrbYqlgLNhxtprVuZPC4QKyBgC6lIp8+pBRfxBu0Z45F0SSblhaOH1teeVadq0UZ6CVU=
-X-Received: by 2002:a05:600c:2183:: with SMTP id
- e3mr1501554wme.49.1600786101897; 
- Tue, 22 Sep 2020 07:48:21 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bzR1gxnRoZXjib0y+EllAgb8353tQk04gCemc3kID8w=;
+ b=l68NRqi163hOYukq+LKMc2j0aqkGrpO8qpgZZVuYDLLE+g+QGvhjDJbr228LxoCQPP
+ L455TB09C4TEnZIwduhMhuoclZ1y/PLAkjKrbjtIKFlIDKP6DDAkWcxtvFMLOl7ulkPM
+ /CqAyRLDjmxqs0RdvcrO4MNOKq52P0Wd+63sXLE7uje9VBX5kUkmK8wsZv6sgPBANPRX
+ pcFczDBMHUnaqGTlSedhKN0AgYPg/ZrFShqT9cLq5uLI98MlyCSX9zAifHKF6u96WR7H
+ MjwIOtEPezOmFt8dgHNt54WT+O/4tN+XW5uzLASQyskl54iBCBuGFaVPc6GKMxX65Sjf
+ O3Mw==
+X-Gm-Message-State: AOAM533nGNwkCo5u3dQqQ02H5aYf8lm4jq40L3mfA3oVjeunBoxR1dMe
+ hU4CaNv8M1eobhuLfa80wuLgcsaowhaZNMpOpWoFtw==
+X-Google-Smtp-Source: ABdhPJzKH8OQ0ibiB5TcLvCcwuehtiNBqqIIuvG+ZJlWITOsxvhm5s/+BLFL6uh/wql70FfMyu1bYxOEWOl2C3HREcI=
+X-Received: by 2002:a05:651c:552:: with SMTP id
+ q18mr1591731ljp.248.1600786315624; 
+ Tue, 22 Sep 2020 07:51:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200919193727.2093945-1-robdclark@gmail.com>
- <20200921092154.GJ438822@phenom.ffwll.local>
- <CAF6AEGuDRk9D_aqyb6R8N5VHx2rvbZDf4uTqF3gQTrmzno+qtw@mail.gmail.com>
- <CAKMK7uEqDD-oDAQKyA9DQbxkCgEjC5yyjvKR7d8T0Gj0SqEZ4A@mail.gmail.com>
-In-Reply-To: <CAKMK7uEqDD-oDAQKyA9DQbxkCgEjC5yyjvKR7d8T0Gj0SqEZ4A@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 22 Sep 2020 07:48:10 -0700
-Message-ID: <CAF6AEGtYAn+W8HxP7SXtxPr5FsEB1hYGU91WrHCtwX89UmUR5w@mail.gmail.com>
-Subject: Re: [PATCH 0/3] drm: commit_work scheduling
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <1600761208-45229-1-git-send-email-zou_wei@huawei.com>
+ <16d720b7-9bf3-ad3a-0785-76f21c87c9e1@amd.com>
+In-Reply-To: <16d720b7-9bf3-ad3a-0785-76f21c87c9e1@amd.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Tue, 22 Sep 2020 20:21:42 +0530
+Message-ID: <CAO_48GHVUnHm38nPSc3zYU7ZoFmZDTZdc7Du5pyrVbz6ytwgEA@mail.gmail.com>
+Subject: Re: [PATCH -next] dma-buf: heaps: Remove unused variable ret
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,163 +63,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Peter Zijlstra <peterz@infradead.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: LKML <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
+ "Andrew F. Davis" <afd@ti.com>, Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Zou Wei <zou_wei@huawei.com>, Laura Abbott <labbott@redhat.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 21, 2020 at 11:59 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Sep 21, 2020 at 5:16 PM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Mon, Sep 21, 2020 at 2:21 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Sat, Sep 19, 2020 at 12:37:23PM -0700, Rob Clark wrote:
-> > > > From: Rob Clark <robdclark@chromium.org>
-> > > >
-> > > > The android userspace treats the display pipeline as a realtime problem.
-> > > > And arguably, if your goal is to not miss frame deadlines (ie. vblank),
-> > > > it is.  (See https://lwn.net/Articles/809545/ for the best explaination
-> > > > that I found.)
-> > > >
-> > > > But this presents a problem with using workqueues for non-blocking
-> > > > atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
-> > > > preempt the worker.  Which is not really the outcome you want.. once
-> > > > the required fences are scheduled, you want to push the atomic commit
-> > > > down to hw ASAP.
-> > > >
-> > > > But the decision of whether commit_work should be RT or not really
-> > > > depends on what userspace is doing.  For a pure CFS userspace display
-> > > > pipeline, commit_work() should remain SCHED_NORMAL.
-> > > >
-> > > > To handle this, convert non-blocking commit_work() to use per-CRTC
-> > > > kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
-> > > > used to avoid serializing commits when userspace is using a per-CRTC
-> > > > update loop.
-> > > >
-> > > > A client-cap is introduced so that userspace can opt-in to SCHED_FIFO
-> > > > priority commit work.
-> > > >
-> > > > A potential issue is that since 616d91b68cd ("sched: Remove
-> > > > sched_setscheduler*() EXPORTs") we have limited RT priority levels,
-> > > > meaning that commit_work() ends up running at the same priority level
-> > > > as vblank-work.  This shouldn't be a big problem *yet*, due to limited
-> > > > use of vblank-work at this point.  And if it could be arranged that
-> > > > vblank-work is scheduled before signaling out-fences and/or sending
-> > > > pageflip events, it could probably work ok to use a single priority
-> > > > level for both commit-work and vblank-work.
-> > >
-> > > The part I don't like about this is that it all feels rather hacked
-> > > together, and if we add more stuff (or there's some different thing in the
-> > > system that also needs rt scheduling) then it doesn't compose.
-> >
-> > The ideal thing would be that userspace is in control of the
-> > priorities.. the setclientcap approach seemed like a reasonable way to
-> > give the drm-master a way to opt in.
-> >
-> > I suppose instead userspace could use sched_setscheduler().. but that
-> > would require userspace to be root, and would require some way to find
-> > the tid.
->
-> Userspace already needs that for the SCHED_FIFO for surface-flinger.
-> Or is the problem that CAP_SYS_NICE is only good for your own
-> processes?
-
-tbh, I'm not completely sure offhand what gives surfaceflinger
-permission to set itself SCHED_FIFO
-
-(But on CrOS there are a few more pieces to the puzzle)
-
-> Other question I have for this is whether there's any recommendations
-> for naming the kthreads (since I guess that name is what becomes the
-> uapi for userspace to control this)?
->
-> Otherwise I think "userspace calls sched_setscheduler on the right
-> kthreads" sounds like a good interface, since it lets userspace decide
-> how it all needs to fit together and compose. Anything we hard-code in
-> an ioctl is kinda lost cause. And we can choose the default values to
-> work reasonably well when the compositor runs at normal priority
-> (lowest niceness or something like that for the commit work).
-
-I don't really like the naming convention approach.. what is to stop
-some unrelated process to name it's thread the same thing to get a
-SCHED_FIFO boost..
-
-But we can stick with my idea to expose the thread id as a read-only
-CRTC property, for userspace to find the things to call
-sched_setscheduler() on.  If for whatever reason the drm master is not
-privileged (or is running in a sandbox, etc), a small helper that has
-the necessary permissions could open the drm device to find the CRTC
-thread-ids and call sched_setscheduler()..
-
-BR,
--R
-
-> -Daniel
->
-> > Is there some way we could arrange for the per-crtc kthread's to be
-> > owned by the drm master?  That would solve the "must be root" issue.
-> > And since the target audience is an atomic userspace, I suppose we
-> > could expose the tid as a read-only property on the crtc?
-> >
-> > BR,
-> > -R
-> >
-> > > So question to rt/worker folks: What's the best way to let userspace set
-> > > the scheduling mode and priorities of things the kernel does on its
-> > > behalf? Surely we're not the first ones where if userspace runs with some
-> > > rt priority it'll starve out the kernel workers that it needs. Hardcoding
-> > > something behind a subsystem ioctl (which just means every time userspace
-> > > changes what it does, we need a new such flag or mode) can't be the right
-> > > thing.
-> > >
-> > > Peter, Tejun?
-> > >
-> > > Thanks, Daniel
-> > >
-> > > >
-> > > > Rob Clark (3):
-> > > >   drm/crtc: Introduce per-crtc kworker
-> > > >   drm/atomic: Use kthread worker for nonblocking commits
-> > > >   drm: Add a client-cap to set scheduling mode
-> > > >
-> > > >  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++----
-> > > >  drivers/gpu/drm/drm_auth.c          |  4 ++++
-> > > >  drivers/gpu/drm/drm_crtc.c          | 37 +++++++++++++++++++++++++++++
-> > > >  drivers/gpu/drm/drm_ioctl.c         | 13 ++++++++++
-> > > >  include/drm/drm_atomic.h            | 31 ++++++++++++++++++++++++
-> > > >  include/drm/drm_crtc.h              | 10 ++++++++
-> > > >  include/uapi/drm/drm.h              | 13 ++++++++++
-> > > >  7 files changed, 117 insertions(+), 4 deletions(-)
-> > > >
-> > > > --
-> > > > 2.26.2
-> > > >
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8gWm91LAoKT24gVHVlLCAyMiBTZXAgMjAyMCBhdCAxODoxMiwgQ2hyaXN0aWFuIEvDtm5p
+ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFtIDIyLjA5LjIwIHVtIDA5
+OjUzIHNjaHJpZWIgWm91IFdlaToKPiA+IFRoaXMgcGF0Y2ggZml4ZXMgYmVsb3cgd2FybmluZ3Mg
+cmVwb3J0ZWQgYnkgY29jY2ljaGVjawo+ID4KPiA+IC4vZHJpdmVycy9kbWEtYnVmL2hlYXBzL2hl
+YXAtaGVscGVycy5jOjIwMjo1LTg6IFVubmVlZGVkIHZhcmlhYmxlOiAicmV0Ii4gUmV0dXJuICIw
+IiBvbiBsaW5lIDIxNQo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IFpvdSBXZWkgPHpvdV93ZWlAaHVh
+d2VpLmNvbT4KPgo+IEFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmln
+QGFtZC5jb20+Cj4KPiBHb2luZyB0byBwaWNrIHRoaXMgdXAgZm9yIGRybS1taXNjLW5leHQuClRo
+YW5rcyBDaHJpc3RpYW4hCkZ3aXcsIGZlZWwgZnJlZSB0byBhZGQgbXkKQWNrZWQtYnk6IFN1bWl0
+IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+Cj4KPiA+IC0tLQo+ID4gICBkcml2ZXJz
+L2RtYS1idWYvaGVhcHMvaGVhcC1oZWxwZXJzLmMgfCAzICstLQo+ID4gICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZG1hLWJ1Zi9oZWFwcy9oZWFwLWhlbHBlcnMuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFw
+cy9oZWFwLWhlbHBlcnMuYwo+ID4gaW5kZXggZDA2OTZjZi4uNzk2OTUxMCAxMDA2NDQKPiA+IC0t
+LSBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9oZWFwLWhlbHBlcnMuYwo+ID4gKysrIGIvZHJpdmVy
+cy9kbWEtYnVmL2hlYXBzL2hlYXAtaGVscGVycy5jCj4gPiBAQCAtMTk5LDcgKzE5OSw2IEBAIHN0
+YXRpYyBpbnQgZG1hX2hlYXBfZG1hX2J1Zl9iZWdpbl9jcHVfYWNjZXNzKHN0cnVjdCBkbWFfYnVm
+ICpkbWFidWYsCj4gPiAgIHsKPiA+ICAgICAgIHN0cnVjdCBoZWFwX2hlbHBlcl9idWZmZXIgKmJ1
+ZmZlciA9IGRtYWJ1Zi0+cHJpdjsKPiA+ICAgICAgIHN0cnVjdCBkbWFfaGVhcHNfYXR0YWNobWVu
+dCAqYTsKPiA+IC0gICAgIGludCByZXQgPSAwOwo+ID4KPiA+ICAgICAgIG11dGV4X2xvY2soJmJ1
+ZmZlci0+bG9jayk7Cj4gPgo+ID4gQEAgLTIxMiw3ICsyMTEsNyBAQCBzdGF0aWMgaW50IGRtYV9o
+ZWFwX2RtYV9idWZfYmVnaW5fY3B1X2FjY2VzcyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLAo+ID4g
+ICAgICAgfQo+ID4gICAgICAgbXV0ZXhfdW5sb2NrKCZidWZmZXItPmxvY2spOwo+ID4KPiA+IC0g
+ICAgIHJldHVybiByZXQ7Cj4gPiArICAgICByZXR1cm4gMDsKPiA+ICAgfQo+ID4KPiA+ICAgc3Rh
+dGljIGludCBkbWFfaGVhcF9kbWFfYnVmX2VuZF9jcHVfYWNjZXNzKHN0cnVjdCBkbWFfYnVmICpk
+bWFidWYsCj4KCkJlc3QsClN1bWl0LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWwK
