@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BB827528A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:53:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 589FD2752A5
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B52D6E448;
-	Wed, 23 Sep 2020 07:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E9D16E471;
+	Wed, 23 Sep 2020 07:54:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 582376E833
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 07:55:15 +0000 (UTC)
-X-UUID: 03c42a6be468462f8e894b535cd8f7d8-20200922
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BD6A96E83E
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 08:00:26 +0000 (UTC)
+X-UUID: 7158b61a1e5448668abfe74e009a824d-20200922
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=tAy9SIgzJcPBsk985GJ+X6+hIqQmLFQwVgOe/UUyf+c=; 
- b=InvGFg9F+YFHjWyC3zKkmG8RZthX5p/q5EfP9ygTeGbfQ8nMVu5aZYL0lDDinjD5iwZPuF5Zqg6PXOzYO8ljY/WRmBPCogSQH8OSd0+LNwrnxYSs9cToPOnMfeZ/eQtOr1QLhDMiIjOemWKEQ+Iz6D6H18AO18WiHxXKrJgFLvg=;
-X-UUID: 03c42a6be468462f8e894b535cd8f7d8-20200922
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
+ bh=kzHH5APnEkOj/iTmhtuS6d+iRdyxeZzVST6CIJYTUHw=; 
+ b=qTznJrcRIO9Wdi5AD/vUcmfRsiM5TuE0+pyF6SpqUHlyXdTOC/OHwzOgPO8/XCotoxo9R5A0F8M9b+Gq3hcePbNYH3Qsrc/BFJFkPCjIisJcuV/hnE2BF/WICJP0Uuh8IqXEi/8xSDwo/YikTZSCjvOZxk+ktwIRCGFFDFS0FMg=;
+X-UUID: 7158b61a1e5448668abfe74e009a824d-20200922
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
+ mailgw02.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 492823032; Tue, 22 Sep 2020 15:55:11 +0800
+ with ESMTP id 1974907599; Tue, 22 Sep 2020 15:55:11 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Tue, 22 Sep 2020 15:55:08 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
@@ -34,9 +34,9 @@ From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
  Kishon Vijay Abraham I <kishon@ti.com>, Stanley Chu
  <stanley.chu@mediatek.com>
-Subject: [PATCH 3/4] dt-bindings: phy: convert phy-mtk-ufs.txt to YAML schema
-Date: Tue, 22 Sep 2020 15:55:07 +0800
-Message-ID: <006ecd5b88fd7d23a355f2522c37e745f72ac45a.1600760719.git.chunfeng.yun@mediatek.com>
+Subject: [PATCH 4/4] dt-bindings: phy: convert HDMI PHY binding to YAML schema
+Date: Tue, 22 Sep 2020 15:55:08 +0800
+Message-ID: <4817a10e1c3b2beeb79b0cf5e182df747ce268e7.1600760719.git.chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <5af7c097d1c71a180d8ed1f1a44055859b42f1a0.1600760719.git.chunfeng.yun@mediatek.com>
 References: <5af7c097d1c71a180d8ed1f1a44055859b42f1a0.1600760719.git.chunfeng.yun@mediatek.com>
@@ -65,130 +65,139 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert phy-mtk-ufs.txt to YAML schema mediatek,ufs-phy.yaml
+Convert HDMI PHY binding to YAML schema mediatek,ufs-phy.yaml
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- .../bindings/phy/mediatek,ufs-phy.yaml        | 64 +++++++++++++++++++
- .../devicetree/bindings/phy/phy-mtk-ufs.txt   | 38 -----------
- 2 files changed, 64 insertions(+), 38 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/phy/mediatek,ufs-phy.yaml
- delete mode 100644 Documentation/devicetree/bindings/phy/phy-mtk-ufs.txt
+ .../display/mediatek/mediatek,hdmi.txt        | 17 +---
+ .../bindings/phy/mediatek,hdmi-phy.yaml       | 90 +++++++++++++++++++
+ 2 files changed, 91 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
 
-diff --git a/Documentation/devicetree/bindings/phy/mediatek,ufs-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,ufs-phy.yaml
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
+index 7b124242b0c5..edac18951a75 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.txt
+@@ -50,22 +50,7 @@ Required properties:
+ 
+ HDMI PHY
+ ========
+-
+-The HDMI PHY serializes the HDMI encoder's three channel 10-bit parallel
+-output and drives the HDMI pads.
+-
+-Required properties:
+-- compatible: "mediatek,<chip>-hdmi-phy"
+-- reg: Physical base address and length of the module's registers
+-- clocks: PLL reference clock
+-- clock-names: must contain "pll_ref"
+-- clock-output-names: must be "hdmitx_dig_cts" on mt8173
+-- #phy-cells: must be <0>
+-- #clock-cells: must be <0>
+-
+-Optional properties:
+-- mediatek,ibias: TX DRV bias current for <1.65Gbps, defaults to 0xa
+-- mediatek,ibias_up: TX DRV bias current for >1.65Gbps, defaults to 0x1c
++See phy/mediatek,hdmi-phy.yaml
+ 
+ Example:
+ 
+diff --git a/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
 new file mode 100644
-index 000000000000..629819d7f1c8
+index 000000000000..679b4005ee62
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/mediatek,ufs-phy.yaml
-@@ -0,0 +1,64 @@
++++ b/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
+@@ -0,0 +1,90 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +# Copyright (c) 2020 MediaTek
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/phy/mediatek,ufs-phy.yaml#
++$id: http://devicetree.org/schemas/phy/mediatek,hdmi-phy.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: MediaTek Universal Flash Storage (UFS) M-PHY binding
++title: MediaTek High Definition Multimedia Interface (HDMI) PHY binding
 +
 +maintainers:
-+  - Stanley Chu <stanley.chu@mediatek.com>
++  - CK Hu <ck.hu@mediatek.com>
 +  - Chunfeng Yun <chunfeng.yun@mediatek.com>
 +
 +description: |
-+  UFS M-PHY nodes are defined to describe on-chip UFS M-PHY hardware macro.
-+  Each UFS M-PHY node should have its own node.
-+  To bind UFS M-PHY with UFS host controller, the controller node should
-+  contain a phandle reference to UFS M-PHY node.
++  The HDMI PHY serializes the HDMI encoder's three channel 10-bit parallel
++  output and drives the HDMI pads.
 +
 +properties:
 +  $nodename:
-+    pattern: "^ufs-phy@[0-9a-f]+$"
++    pattern: "^hdmi-phy@[0-9a-f]+$"
 +
 +  compatible:
-+    const: mediatek,mt8183-ufsphy
++    enum:
++      - mediatek,mt2701-hdmi-phy
++      - mediatek,mt8173-hdmi-phy
 +
 +  reg:
 +    maxItems: 1
 +
 +  clocks:
 +    items:
-+      - description: Unipro core control clock.
-+      - description: M-PHY core control clock.
++      - description: PLL reference clock
 +
 +  clock-names:
 +    items:
-+      - const: unipro
-+      - const: mp
++      - const: pll_ref
++
++  clock-output-names:
++    items:
++      - const: hdmitx_dig_cts
 +
 +  "#phy-cells":
 +    const: 0
 +
++  "#clock-cells":
++    const: 0
++
++  mediatek,ibias:
++    description:
++      TX DRV bias current for < 1.65Gbps
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 63
++    default: 0xa
++
++  mediatek,ibias_up:
++    description:
++      TX DRV bias current for >= 1.65Gbps
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 63
++    default: 0x1c
++
 +required:
 +  - compatible
 +  - reg
-+  - "#phy-cells"
 +  - clocks
 +  - clock-names
++  - clock-output-names
++  - "#phy-cells"
++  - "#clock-cells"
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    #include <dt-bindings/clock/mt8183-clk.h>
-+    ufsphy: ufs-phy@11fa0000 {
-+        compatible = "mediatek,mt8183-ufsphy";
-+        reg = <0 0x11fa0000 0 0xc000>;
-+        clocks = <&infracfg CLK_INFRA_UNIPRO_SCK>,
-+                 <&infracfg CLK_INFRA_UFS_MP_SAP_BCLK>;
-+        clock-names = "unipro", "mp";
++    #include <dt-bindings/clock/mt8173-clk.h>
++    hdmi_phy: hdmi-phy@10209100 {
++        compatible = "mediatek,mt8173-hdmi-phy";
++        reg = <0 0x10209100 0 0x24>;
++        clocks = <&apmixedsys CLK_APMIXED_HDMI_REF>;
++        clock-names = "pll_ref";
++        clock-output-names = "hdmitx_dig_cts";
++        mediatek,ibias = <0xa>;
++        mediatek,ibias_up = <0x1c>;
++        #clock-cells = <0>;
 +        #phy-cells = <0>;
 +    };
 +
 +...
-diff --git a/Documentation/devicetree/bindings/phy/phy-mtk-ufs.txt b/Documentation/devicetree/bindings/phy/phy-mtk-ufs.txt
-deleted file mode 100644
-index 5789029a1d42..000000000000
---- a/Documentation/devicetree/bindings/phy/phy-mtk-ufs.txt
-+++ /dev/null
-@@ -1,38 +0,0 @@
--MediaTek Universal Flash Storage (UFS) M-PHY binding
----------------------------------------------------------
--
--UFS M-PHY nodes are defined to describe on-chip UFS M-PHY hardware macro.
--Each UFS M-PHY node should have its own node.
--
--To bind UFS M-PHY with UFS host controller, the controller node should
--contain a phandle reference to UFS M-PHY node.
--
--Required properties for UFS M-PHY nodes:
--- compatible         : Compatible list, contains the following controller:
--                       "mediatek,mt8183-ufsphy" for ufs phy
--                       persent on MT81xx chipsets.
--- reg                : Address and length of the UFS M-PHY register set.
--- #phy-cells         : This property shall be set to 0.
--- clocks             : List of phandle and clock specifier pairs.
--- clock-names        : List of clock input name strings sorted in the same
--                       order as the clocks property. Following clocks are
--                       mandatory.
--                       "unipro": Unipro core control clock.
--                       "mp": M-PHY core control clock.
--
--Example:
--
--	ufsphy: phy@11fa0000 {
--		compatible = "mediatek,mt8183-ufsphy";
--		reg = <0 0x11fa0000 0 0xc000>;
--		#phy-cells = <0>;
--
--		clocks = <&infracfg_ao INFRACFG_AO_UNIPRO_SCK_CG>,
--			 <&infracfg_ao INFRACFG_AO_UFS_MP_SAP_BCLK_CG>;
--		clock-names = "unipro", "mp";
--	};
--
--	ufshci@11270000 {
--		...
--		phys = <&ufsphy>;
--	};
 -- 
 2.18.0
 _______________________________________________
