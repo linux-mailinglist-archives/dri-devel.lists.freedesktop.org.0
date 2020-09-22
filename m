@@ -1,63 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A51274360
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 15:39:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A41962743B3
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 15:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B16EA6E2F9;
-	Tue, 22 Sep 2020 13:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE4F8922A;
+	Tue, 22 Sep 2020 13:59:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAFFF89DA5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 13:39:47 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id y11so15502950qtn.9
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 06:39:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DN5HrV6lRK11U7swBKzqMYVTceYfF67vW6UB3xFMDX0=;
- b=MEH74Edu9ILhusR5nRoWNe//d9MXwoD7+H/pGPrliC0dBY1GarFQmBYjdtKAhFxXyd
- Nb1YCf9qRyuJR1qNODyYqadxzgDtOLGxEsxn5jcKIs138kHe2t8bErCpDOkZ0opvcQ6I
- s8YY2thzwmFLFvP4PiKaSvkYeRPoASWObXtGg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DN5HrV6lRK11U7swBKzqMYVTceYfF67vW6UB3xFMDX0=;
- b=ityOj/vwtESSZbPGhSgtFykX0Giu9LobdepwXcdL8q+xtr7Eb6UapIn4iEfWx+s8hg
- l+dg18aPFwyc4sxF0hAzSUu053rtglqVdUmF5lAp7E0FFo6KtUvNvI1IMvjrUh5sBsqS
- djjy0BT3L25AqtYYHhqpR/HUcACgeqyQ7derT+NBhdWl9DA7acJ2YKMwRiBlpcYyxOE+
- OOntyUeM0esisU5nQ0mpBYcXugGNKhpMw3ZkXxe1MW1+JVffCCGKOsYtCZYV59fZ5Yom
- Xzejm+yN0hp+s/gtppeuu5mWk20VT5y7wFhj6p5tjr/oBMmEw+XE1BPocoHCCDFKCI56
- ZneQ==
-X-Gm-Message-State: AOAM5336j6m2phK5SzonduqoYg+gXEbenvxUwOKHWhSgxIg/nF4KeC57
- E12uKOsW0KbJTBDTJaAqitG4CKriTs4bRg==
-X-Google-Smtp-Source: ABdhPJxE7D2mFh8mJ0bq6d7KbLfX8L8ucQCnLFcol49T3sPLtZHags4Y0qgd6FFwr++svgtWnA321A==
-X-Received: by 2002:ac8:44aa:: with SMTP id a10mr4947361qto.116.1600781986681; 
- Tue, 22 Sep 2020 06:39:46 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
- [209.85.219.182])
- by smtp.gmail.com with ESMTPSA id u55sm13262989qtu.42.2020.09.22.06.39.45
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Sep 2020 06:39:45 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id g96so12868874ybi.12
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 06:39:45 -0700 (PDT)
-X-Received: by 2002:a25:16c4:: with SMTP id 187mr7262306ybw.496.1600781984688; 
- Tue, 22 Sep 2020 06:39:44 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A538922A
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 13:59:17 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209345] [nouveau] unknown chipset (0f22d0a1) (nVidia Tesla K80)
+Date: Tue, 22 Sep 2020 13:59:16 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: imirkin@alum.mit.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209345-2300-FtPMHCY0bB@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209345-2300@https.bugzilla.kernel.org/>
+References: <bug-209345-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20200918002845.32766-1-sean@poorly.run>
- <470a3a448a80ae6f8e6e6f6a82f5ffc01c1d6033.camel@redhat.com>
-In-Reply-To: <470a3a448a80ae6f8e6e6f6a82f5ffc01c1d6033.camel@redhat.com>
-From: Sean Paul <seanpaul@chromium.org>
-Date: Tue, 22 Sep 2020 09:39:07 -0400
-X-Gmail-Original-Message-ID: <CAOw6vb+chhRTvF0kHy55uXb9BKqbPAhwJCuJ=_1uOPEHbRXMcA@mail.gmail.com>
-Message-ID: <CAOw6vb+chhRTvF0kHy55uXb9BKqbPAhwJCuJ=_1uOPEHbRXMcA@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915/dp: Tweak initial dpcd backlight.enabled value
-To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,110 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Chowski <chowski@chromium.org>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBTZXAgMjEsIDIwMjAgYXQgNjozNSBQTSBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQu
-Y29tPiB3cm90ZToKPgo+IFNvIGlmIEkgdW5kZXJzdGFuZCB0aGlzIGNvcnJlY3RseSwgaXQgc291
-bmRzIGxpa2UgdGhhdCBzb21lIFBpeGVsYm9va3MgYm9vdCB1cAo+IHdpdGggRFBfRURQX0JBQ0tM
-SUdIVF9CUklHSFRORVNTX01TQiBzZXQgdG8gYSBub24temVybyB2YWx1ZSwgd2l0aG91dCB0aGUK
-PiBwYW5lbCBhY3R1YWxseSBoYXZpbmcgRFBDRCBiYWNrbGlnaHQgY29udHJvbHMgZW5hYmxlZD8K
-Ckl0IGJvb3RzIHdpdGggRFBfRURQX0JBQ0tMSUdIVF9CUklHSFRORVNTX01TQiA9PSAwLCB3aGlj
-aCB1c2VkIHRvIHNldApiYWNrbGlnaHQuZW5hYmxlZCA9IGZhbHNlLiBCeSBjaGFuZ2luZyBiYWNr
-bGlnaHQubGV2ZWwgPSBtYXgsCmJhY2tsaWdodC5lbmFibGVkIGlzIG5vdyBzZXQgdG8gdHJ1ZS4g
-VGhpcyByZXN1bHRzIGluIGxvc2luZyBiYWNrbGlnaHQKY29udHJvbCBvbiBib290IChzaW5jZSB0
-aGUgZW5hYmxlIHJvdXRpbmUgaXMgbm8gbG9uZ2VyIGludm9rZWQpLgoKU2VhbgoKPgo+IElmIEkn
-bSB1bmRlcnN0YW5kaW5nIHRoYXQgY29ycmVjdGx5LCB0aGVuIHRoaXMgcGF0Y2ggbG9va3MgZ29v
-ZCB0byBtZToKPgo+IFJldmlld2VkLWJ5OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+
-Cj4gT24gVGh1LCAyMDIwLTA5LTE3IGF0IDIwOjI4IC0wNDAwLCBTZWFuIFBhdWwgd3JvdGU6Cj4g
-PiBGcm9tOiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9taXVtLm9yZz4KPiA+Cj4gPiBJbiBjb21t
-aXQgNzk5NDY3MjMwOTJiICgiZHJtL2k5MTU6IEFzc3VtZSAxMDAlIGJyaWdodG5lc3Mgd2hlbiBu
-b3QgaW4KPiA+IERQQ0QgY29udHJvbCBtb2RlIiksIHdlIGZpeGVkIHRoZSBicmlnaHRuZXNzIGxl
-dmVsIHdoZW4gRFBDRCBjb250cm9sIHdhcwo+ID4gbm90IGFjdGl2ZSB0byBtYXggYnJpZ2h0bmVz
-cy4gVGhpcyBpcyBhcyBnb29kIGFzIHdlIGNhbiBndWVzcyBzaW5jZSBtb3N0Cj4gPiBiYWNrbGln
-aHRzIGdvIG9uIGZ1bGwgd2hlbiB1bmNvbnRyb2xsZWQuCj4gPgo+ID4gSG93ZXZlciBpbiBkb2lu
-ZyBzbyB3ZSBjaGFuZ2VkIHRoZSBzZW1hbnRpY3Mgb2YgdGhlIGluaXRpYWwKPiA+ICdiYWNrbGln
-aHQuZW5hYmxlZCcgdmFsdWUuIEF0IGxlYXN0IG9uIFBpeGVsYm9va3MsIHRoZXkgIHdlcmUgcmVs
-eWluZwo+ID4gb24gdGhlIGJyaWdodG5lc3MgbGV2ZWwgaW4gRFBfRURQX0JBQ0tMSUdIVF9CUklH
-SFRORVNTX01TQiB0byBiZSAwIG9uCj4gPiBib290IHN1Y2ggdGhhdCBlbmFibGVkIHdvdWxkIGJl
-IGZhbHNlLiBUaGlzIGNhdXNlcyB0aGUgZGV2aWNlIHRvIGJlCj4gPiBlbmFibGVkIHdoZW4gdGhl
-IGJyaWdodG5lc3MgaXMgc2V0LiBXaXRob3V0IHRoaXMsIGJyaWdodG5lc3MgY29udHJvbAo+ID4g
-ZG9lc24ndCB3b3JrLiBTbyBieSBjaGFuZ2luZyBicmlnaHRuZXNzIHRvIG1heCwgd2UgYWxzbyBm
-bGlwcGVkIGVuYWJsZWQKPiA+IHRvIGJlIHRydWUgb24gYm9vdC4KPiA+Cj4gPiBUbyBmaXggdGhp
-cywgbWFrZSBlbmFibGVkIGEgZnVuY3Rpb24gb2YgYnJpZ2h0bmVzcyBhbmQgYmFja2xpZ2h0IGNv
-bnRyb2wKPiA+IG1lY2hhbmlzbS4KPiA+Cj4gPiBGaXhlczogNzk5NDY3MjMwOTJiICgiZHJtL2k5
-MTU6IEFzc3VtZSAxMDAlIGJyaWdodG5lc3Mgd2hlbiBub3QgaW4gRFBDRAo+ID4gY29udHJvbCBt
-b2RlIikKPiA+IENjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+ID4gQ2M6IEphbmkg
-TmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Cj4gPiBDYzogSnVoYS1QZWtrYSBIZWlra2ls
-YSA8anVoYXBla2thLmhlaWtraWxhQGdtYWlsLmNvbT4KPiA+IENjOiAiVmlsbGUgU3lyasOkbMOk
-IiA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4gPiBDYzogUm9kcmlnbyBWaXZpIDxy
-b2RyaWdvLnZpdmlAaW50ZWwuY29tPgo+ID4gQ2M6IEtldmluIENob3dza2kgPGNob3dza2lAY2hy
-b21pdW0ub3JnPj4KPiA+IFNpZ25lZC1vZmYtYnk6IFNlYW4gUGF1bCA8c2VhbnBhdWxAY2hyb21p
-dW0ub3JnPgo+ID4gLS0tCj4gPiAgLi4uL2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfYXV4X2Jh
-Y2tsaWdodC5jIHwgMzEgKysrKysrKysrKysrLS0tLS0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAy
-MCBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9hdXhfYmFja2xpZ2h0LmMKPiA+IGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9hdXhfYmFja2xpZ2h0LmMKPiA+
-IGluZGV4IGFjYmQ3ZWI2NmNiZS4uMDM2ZjUwNGFjN2RiIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9hdXhfYmFja2xpZ2h0LmMKPiA+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfYXV4X2JhY2tsaWdodC5jCj4g
-PiBAQCAtNTIsMTcgKzUyLDExIEBAIHN0YXRpYyB2b2lkIHNldF9hdXhfYmFja2xpZ2h0X2VuYWJs
-ZShzdHJ1Y3QgaW50ZWxfZHAKPiA+ICppbnRlbF9kcCwgYm9vbCBlbmFibGUpCj4gPiAgICAgICB9
-Cj4gPiAgfQo+ID4KPiA+IC0vKgo+ID4gLSAqIFJlYWQgdGhlIGN1cnJlbnQgYmFja2xpZ2h0IHZh
-bHVlIGZyb20gRFBDRCByZWdpc3RlcihzKSBiYXNlZAo+ID4gLSAqIG9uIGlmIDgtYml0KE1TQikg
-b3IgMTYtYml0KE1TQiBhbmQgTFNCKSB2YWx1ZXMgYXJlIHN1cHBvcnRlZAo+ID4gLSAqLwo+ID4g
-LXN0YXRpYyB1MzIgaW50ZWxfZHBfYXV4X2dldF9iYWNrbGlnaHQoc3RydWN0IGludGVsX2Nvbm5l
-Y3RvciAqY29ubmVjdG9yKQo+ID4gK3N0YXRpYyBib29sIGludGVsX2RwX2F1eF9iYWNrbGlnaHRf
-ZHBjZF9tb2RlKHN0cnVjdCBpbnRlbF9jb25uZWN0b3IKPiA+ICpjb25uZWN0b3IpCj4gPiAgewo+
-ID4gICAgICAgc3RydWN0IGludGVsX2RwICppbnRlbF9kcCA9IGludGVsX2F0dGFjaGVkX2RwKGNv
-bm5lY3Rvcik7Cj4gPiAgICAgICBzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IGRwX3Rv
-X2k5MTUoaW50ZWxfZHApOwo+ID4gLSAgICAgdTggcmVhZF92YWxbMl0gPSB7IDB4MCB9Owo+ID4g
-ICAgICAgdTggbW9kZV9yZWc7Cj4gPiAtICAgICB1MTYgbGV2ZWwgPSAwOwo+ID4KPiA+ICAgICAg
-IGlmIChkcm1fZHBfZHBjZF9yZWFkYigmaW50ZWxfZHAtPmF1eCwKPiA+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBEUF9FRFBfQkFDS0xJR0hUX01PREVfU0VUX1JFR0lTVEVSLAo+ID4gQEAg
-LTcwLDE1ICs2NCwyOSBAQCBzdGF0aWMgdTMyIGludGVsX2RwX2F1eF9nZXRfYmFja2xpZ2h0KHN0
-cnVjdAo+ID4gaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IpCj4gPiAgICAgICAgICAgICAgIGRy
-bV9kYmdfa21zKCZpOTE1LT5kcm0sCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICJGYWls
-ZWQgdG8gcmVhZCB0aGUgRFBDRCByZWdpc3RlciAweCV4XG4iLAo+ID4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICBEUF9FRFBfQkFDS0xJR0hUX01PREVfU0VUX1JFR0lTVEVSKTsKPiA+IC0gICAg
-ICAgICAgICAgcmV0dXJuIDA7Cj4gPiArICAgICAgICAgICAgIHJldHVybiBmYWxzZTsKPiA+ICAg
-ICAgIH0KPiA+Cj4gPiArICAgICByZXR1cm4gKG1vZGVfcmVnICYgRFBfRURQX0JBQ0tMSUdIVF9D
-T05UUk9MX01PREVfTUFTSykgPT0KPiA+ICsgICAgICAgICAgICBEUF9FRFBfQkFDS0xJR0hUX0NP
-TlRST0xfTU9ERV9EUENEOwo+ID4gK30KPiA+ICsKPiA+ICsvKgo+ID4gKyAqIFJlYWQgdGhlIGN1
-cnJlbnQgYmFja2xpZ2h0IHZhbHVlIGZyb20gRFBDRCByZWdpc3RlcihzKSBiYXNlZAo+ID4gKyAq
-IG9uIGlmIDgtYml0KE1TQikgb3IgMTYtYml0KE1TQiBhbmQgTFNCKSB2YWx1ZXMgYXJlIHN1cHBv
-cnRlZAo+ID4gKyAqLwo+ID4gK3N0YXRpYyB1MzIgaW50ZWxfZHBfYXV4X2dldF9iYWNrbGlnaHQo
-c3RydWN0IGludGVsX2Nvbm5lY3RvciAqY29ubmVjdG9yKQo+ID4gK3sKPiA+ICsgICAgIHN0cnVj
-dCBpbnRlbF9kcCAqaW50ZWxfZHAgPSBpbnRlbF9hdHRhY2hlZF9kcChjb25uZWN0b3IpOwo+ID4g
-KyAgICAgc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUgPSBkcF90b19pOTE1KGludGVsX2Rw
-KTsKPiA+ICsgICAgIHU4IHJlYWRfdmFsWzJdID0geyAweDAgfTsKPiA+ICsgICAgIHUxNiBsZXZl
-bCA9IDA7Cj4gPiArCj4gPiAgICAgICAvKgo+ID4gICAgICAgICogSWYgd2UncmUgbm90IGluIERQ
-Q0QgY29udHJvbCBtb2RlIHlldCwgdGhlIHByb2dyYW1tZWQgYnJpZ2h0bmVzcwo+ID4gICAgICAg
-ICogdmFsdWUgaXMgbWVhbmluZ2xlc3MgYW5kIHdlIHNob3VsZCBhc3N1bWUgbWF4IGJyaWdodG5l
-c3MKPiA+ICAgICAgICAqLwo+ID4gLSAgICAgaWYgKChtb2RlX3JlZyAmIERQX0VEUF9CQUNLTElH
-SFRfQ09OVFJPTF9NT0RFX01BU0spICE9Cj4gPiAtICAgICAgICAgRFBfRURQX0JBQ0tMSUdIVF9D
-T05UUk9MX01PREVfRFBDRCkKPiA+ICsgICAgIGlmICghaW50ZWxfZHBfYXV4X2JhY2tsaWdodF9k
-cGNkX21vZGUoY29ubmVjdG9yKSkKPiA+ICAgICAgICAgICAgICAgcmV0dXJuIGNvbm5lY3Rvci0+
-cGFuZWwuYmFja2xpZ2h0Lm1heDsKPiA+Cj4gPiAgICAgICBpZiAoZHJtX2RwX2RwY2RfcmVhZCgm
-aW50ZWxfZHAtPmF1eCwgRFBfRURQX0JBQ0tMSUdIVF9CUklHSFRORVNTX01TQiwKPiA+IEBAIC0z
-MTksNyArMzI3LDggQEAgc3RhdGljIGludCBpbnRlbF9kcF9hdXhfc2V0dXBfYmFja2xpZ2h0KHN0
-cnVjdAo+ID4gaW50ZWxfY29ubmVjdG9yICpjb25uZWN0b3IsCj4gPgo+ID4gICAgICAgcGFuZWwt
-PmJhY2tsaWdodC5taW4gPSAwOwo+ID4gICAgICAgcGFuZWwtPmJhY2tsaWdodC5sZXZlbCA9IGlu
-dGVsX2RwX2F1eF9nZXRfYmFja2xpZ2h0KGNvbm5lY3Rvcik7Cj4gPiAtICAgICBwYW5lbC0+YmFj
-a2xpZ2h0LmVuYWJsZWQgPSBwYW5lbC0+YmFja2xpZ2h0LmxldmVsICE9IDA7Cj4gPiArICAgICBw
-YW5lbC0+YmFja2xpZ2h0LmVuYWJsZWQgPSBpbnRlbF9kcF9hdXhfYmFja2xpZ2h0X2RwY2RfbW9k
-ZShjb25uZWN0b3IpCj4gPiAmJgo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-cGFuZWwtPmJhY2tsaWdodC5sZXZlbCAhPSAwOwo+ID4KPiA+ICAgICAgIHJldHVybiAwOwo+ID4g
-IH0KPiAtLQo+IENoZWVycywKPiAgICAgICAgIEx5dWRlIFBhdWwgKHNoZS9oZXIpCj4gICAgICAg
-ICBTb2Z0d2FyZSBFbmdpbmVlciBhdCBSZWQgSGF0Cj4KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=209345
+
+--- Comment #7 from Ilia Mirkin (imirkin@alum.mit.edu) ---
+[ 2460.923220] nouveau 0000:08:00.0: can't change power state from D3hot to D0
+(config space inaccessible)
+
+That's just really bad. My guess is that the "big-endian" notice is just due to
+a register returning all 0xffffffff (we try to flip the GPU into little-endian
+mode if we can). Seems like there are issues with the TB enclosure, or
+something along those lines.
+
+It does seem like you got further earlier to have gotten the "unknown chipset"
+error, but by the time you were running lspci above, they were gone already
+(returning all 1's, and PCI is active-low, so that just means it's all off).
+Don't know what the difference is, I know nothing about those enclosures. I'd
+try to disable any sort of power management that might be turning the enclosure
+off.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
