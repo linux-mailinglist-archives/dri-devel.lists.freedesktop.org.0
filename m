@@ -1,51 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A71A274730
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 19:05:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E80327479A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 19:39:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C91886E8B6;
-	Tue, 22 Sep 2020 17:04:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABD688929D;
+	Tue, 22 Sep 2020 17:39:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDAF6E8B6;
- Tue, 22 Sep 2020 17:04:53 +0000 (UTC)
-IronPort-SDR: Ld6WS8CriGcr9x8zS1HMgK3nruiRUrOpvXdZWbkdXiFNwtFoQ9vYd1jzVubQ+tw2toMGwFIxwc
- OoEevvPTkjiA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9752"; a="148414903"
-X-IronPort-AV: E=Sophos;i="5.77,291,1596524400"; d="scan'208";a="148414903"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2020 10:04:46 -0700
-IronPort-SDR: pDr7f0tvI2tkaSrmro3ZOlGNzDsLFUlZA0Y2mT+eov61oD3VbMWAcbZ9JV/I+/GzNzMjkvUYD3
- Fddbwl4KcUrw==
-X-IronPort-AV: E=Sophos;i="5.77,291,1596524400"; d="scan'208";a="454564080"
-Received: from atroib-mobl2.ger.corp.intel.com (HELO [10.214.238.184])
- ([10.214.238.184])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2020 10:04:40 -0700
-Subject: Re: [Intel-gfx] [PATCH 3/6] drm/i915: use vmap in shmem_pin_map
-To: Christoph Hellwig <hch@lst.de>
-References: <20200918163724.2511-1-hch@lst.de>
- <20200918163724.2511-4-hch@lst.de>
- <20200921191157.GX32101@casper.infradead.org> <20200922062249.GA30831@lst.de>
- <43d10588-2033-038b-14e4-9f41cd622d7b@linux.intel.com>
- <20200922143141.GA26637@lst.de>
- <e429c3e6-2143-f51a-4c1c-c1470076ad3e@linux.intel.com>
- <20200922163346.GA1701@lst.de>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <1b05b9d6-a14c-85cd-0728-d0d40c9ff84b@linux.intel.com>
-Date: Tue, 22 Sep 2020 18:04:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2388929D
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 17:39:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600796389;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EOvZa58bQwSg9zZxQrzzDfDSI+YPZEHlTilezlciasI=;
+ b=J/ePqRWkxR2jNiCG1+/BoEj+j8n9VMqrInmusJzWmI2BAA//FXhtGuavuaOyEfNJKyn1Dl
+ T4OrifbQnLqcLkIWIH9odzW733UyF6IJ1FhqQF9uZc5b4zu8hFJLMyYjOnsOV1tS3slzcR
+ zOSFJ9aCVr7ufxkARxyoj9ZMfXCYbpE=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-89-81ZLVN0IOd2FFzJUPXaeOQ-1; Tue, 22 Sep 2020 13:39:44 -0400
+X-MC-Unique: 81ZLVN0IOd2FFzJUPXaeOQ-1
+Received: by mail-qv1-f71.google.com with SMTP id l1so12043787qvr.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 10:39:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=EOvZa58bQwSg9zZxQrzzDfDSI+YPZEHlTilezlciasI=;
+ b=OyPXIYOHmFvEmAd1SyAxt9v0C8/cZ0R7XbyTVqTS53dcXQlQ3nFPc+yZ2G8kBO/ixK
+ H3FO9s2Cf7/uBuNCzfxI7b9+9Cg0VT6jyr6F8e+4U0WUvn/0JyDDbaLeJaqZPG3T2dL7
+ fv6k9RNlYRnR3g3fVqhgX/erOP/XWO2B85MDtW+7fqXWWKdWQBrJ4C9TxXzzI8H5HcE0
+ YmEjQ/NqtmrvjpI6pddlA6YoCTmLbo/oMHg90gT536oIBXKG236NIzbPETmaStPto8aN
+ B6Trf0hHrzfELhAJNvVyqkRl27FvERSegEMglpKn+hsRpV2s1o91z2an3Yeil21IV1Nx
+ Uv4w==
+X-Gm-Message-State: AOAM532xxIE+/YBp6OzJA0jCimyAzPy7o3XWLMJMHan5YsihFNRDdVk3
+ K/Am8NxeoXhTESAtzGfg9sG/tkroaAEsLxaMK0RUQO0BMpnou1FbCpgsKgPolZbw05bTdCusDto
+ BpxVvnb0bw7ZXba+fsfjmLNKeLobl
+X-Received: by 2002:ac8:37bb:: with SMTP id d56mr5776235qtc.222.1600796383808; 
+ Tue, 22 Sep 2020 10:39:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZKmhFVNxcmIKWH3PdQ/839r2qc0cP5cXBSbUPc3Oje/ERMJ7b6/wgKScyuW5Qim8DezYHrQ==
+X-Received: by 2002:ac8:37bb:: with SMTP id d56mr5776210qtc.222.1600796383565; 
+ Tue, 22 Sep 2020 10:39:43 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id v30sm13285520qtj.52.2020.09.22.10.39.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Sep 2020 10:39:42 -0700 (PDT)
+Message-ID: <a2c0d1ac02fb4bef142196d837323bcde41e9427.camel@redhat.com>
+Subject: Re: [PATCH 0/3] Fix Kernel-doc warnings introduced on next-20200921
+From: Lyude Paul <lyude@redhat.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Date: Tue, 22 Sep 2020 13:39:41 -0400
+In-Reply-To: <cover.1600773619.git.mchehab+huawei@kernel.org>
+References: <cover.1600773619.git.mchehab+huawei@kernel.org>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-In-Reply-To: <20200922163346.GA1701@lst.de>
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,93 +81,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Minchan Kim <minchan@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, intel-gfx@lists.freedesktop.org,
- x86@kernel.org, linux-kernel@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, Chris Wilson <chris@chris-wilson.co.uk>,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>, Nitin Gupta <ngupta@vflare.org>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Jiri Pirko <jiri@mellanox.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Francesco Ruggeri <fruggeri@arista.com>, Alexei Starovoitov <ast@kernel.org>,
+ linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+ Taehee Yoo <ap420073@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ Cong Wang <xiyou.wangcong@gmail.com>, Andrii Nakryiko <andriin@fb.com>, "David
+ S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+For patches 2 and 3:
 
-On 22/09/2020 17:33, Christoph Hellwig wrote:
-> On Tue, Sep 22, 2020 at 05:13:45PM +0100, Tvrtko Ursulin wrote:
->>>    void *shmem_pin_map(struct file *file)
->>>    {
->>> -	const size_t n_pte = shmem_npte(file);
->>> -	pte_t *stack[32], **ptes, **mem;
->>
->> Chris can comment how much he'd miss the 32 page stack shortcut.
-> 
-> I'd like to see a profile that claim that kmalloc matters in a
-> path that does a vmap and reads pages through the page cache.
-> Especially when the kmalloc saves doing another page cache lookup
-> on the free side.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Only reason I can come up with now is if mapping side is on a latency 
-sensitive path, while un-mapping is lazy/delayed so can be more costly. 
-Then fast map and extra cost on unmap may make sense.
+I'll go ahead and push these to drm-intel-next-queued (since drm-misc-next
+doesn't have these patches in yet, and the commits these fix were originally
+merged through drm-intel-next-queued anyway). thanks!
 
-It more applies to the other i915 patch, which implements a much more 
-used API, but whether or not we can demonstrate any difference in the 
-perf profiles I couldn't tell you without trying to collect some.
+On Tue, 2020-09-22 at 13:22 +0200, Mauro Carvalho Chehab wrote:
+> A few new warnings were added at linux-next. Address them, in order for us
+> to keep zero warnings at the docs.
+> 
+> The entire patchset fixing all kernel-doc warnings is at:
+> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=doc-fixes
+> 
+> Mauro Carvalho Chehab (3):
+>   net: fix a new kernel-doc warning at dev.c
+>   drm/dp: fix kernel-doc warnings at drm_dp_helper.c
+>   drm/dp: fix a kernel-doc issue at drm_edid.c
+> 
+>  drivers/gpu/drm/drm_dp_helper.c | 5 +++++
+>  drivers/gpu/drm/drm_edid.c      | 2 +-
+>  net/core/dev.c                  | 4 ++--
+>  3 files changed, 8 insertions(+), 3 deletions(-)
+> 
+-- 
+Cheers,
+	Lyude Paul (she/her)
+	Software Engineer at Red Hat
 
->> Is there something in vmap() preventing us from freeing the pages array
->> here? I can't spot anything that is holding on to the pointer. Or it was
->> just a sketch before you realized we could walk the vm_area?
->>
->> Also, I may be totally misunderstanding something, but I think you need to
->> assign area->pages manually so shmem_unpin_map can access it below.
-> 
-> We need area->pages to hold the pages for the free side.  That being
-> said the patch I posted is broken because it never assigned to that.
-> As said it was a sketch.  This is the patch I just rebooted into on
-> my Laptop:
-> 
-> http://git.infradead.org/users/hch/misc.git/commitdiff/048522dfa26b6667adfb0371ff530dc263abe829
-> 
-> it needs extra prep patches from the series:
-> 
-> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/alloc_vm_area
-> 
->>>    	mapping_clear_unevictable(file->f_mapping);
->>> -	__shmem_unpin_map(file, ptr, shmem_npte(file));
->>> +	for (i = 0; i < shmem_npages(file); i++)
->>> +		put_page(area->pages[i]);
->>> +	kvfree(area->pages);
->>> +	vunmap(ptr);
->>
->> Is the verdict from mm experts that we can't use vfree due __free_pages vs
->> put_page differences?
-> 
-> Switched to vfree now.
-> 
->> Could we get from ptes to pages, so that we don't have to keep the
->> area->pages array allocated for the duration of the pin?
-> 
-> We could do vmalloc_to_page, but that is fairly expensive (not as bad
-> as reading from the page cache..).  Are you really worried about the
-> allocation?
-
-Not so much given how we don't even use shmem_pin_map outside selftests.
-
-If we start using it I expect it will be for tiny objects anyway. Only 
-if they end up being pinned for the lifetime of the driver, it may be a 
-pointless waste of memory compared to the downsides of vmalloc_to_page. 
-But we can revisit this particular edge case optimization if the need 
-arises.
-
-I'll look at your other i915 patch tomorrow.
-
-Regards,
-
-Tvrtko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
