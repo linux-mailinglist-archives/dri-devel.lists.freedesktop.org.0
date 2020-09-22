@@ -1,32 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D8F274413
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 16:21:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E930274411
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 16:21:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C668989B49;
-	Tue, 22 Sep 2020 14:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDC0388E87;
+	Tue, 22 Sep 2020 14:21:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 33D5189C80
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 14:16:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 33F1789C89
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 14:16:58 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7377101E;
- Tue, 22 Sep 2020 07:16:55 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5046111B3;
+ Tue, 22 Sep 2020 07:16:58 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
  [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2F8BC3F718;
- Tue, 22 Sep 2020 07:16:54 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BB3813F718;
+ Tue, 22 Sep 2020 07:16:56 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: will@kernel.org, robh@kernel.org, tomeu.vizoso@collabora.com,
  steven.price@arm.com, alyssa.rosenzweig@collabora.com,
  khilman@baylibre.com, narmstrong@baylibre.com, jbrunet@baylibre.com
-Subject: [PATCH v2 0/3] drm: panfrost: Coherency support
-Date: Tue, 22 Sep 2020 15:16:47 +0100
-Message-Id: <cover.1600780574.git.robin.murphy@arm.com>
+Subject: [PATCH v2 1/3] iommu/io-pgtable-arm: Support coherency for Mali LPAE
+Date: Tue, 22 Sep 2020 15:16:48 +0100
+Message-Id: <8df778355378127ea7eccc9521d6427e3e48d4f2.1600780574.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.28.0.dirty
+In-Reply-To: <cover.1600780574.git.robin.murphy@arm.com>
+References: <cover.1600780574.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,27 +49,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Midgard GPUs have ACE-Lite master interfaces which allows systems to
+integrate them in an I/O-coherent manner. It seems that from the GPU's
+viewpoint, the rest of the system is its outer shareable domain, and so
+even when snoop signals are wired up, they are only emitted for outer
+shareable accesses. As such, setting the TTBR_SHARE_OUTER bit does
+indeed get coherent pagetable walks working nicely for the coherent
+T620 in the Arm Juno SoC.
 
-Here's a quick v2 with the tags so far picked up and some inline
-commentary about the shareability domains for the pagetable code.
+Reviewed-by: Steven Price <steven.price@arm.com>
+Tested-by: Neil Armstrong <narmstrong@baylibre.com>
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+ drivers/iommu/io-pgtable-arm.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-Robin.
-
-
-Robin Murphy (3):
-  iommu/io-pgtable-arm: Support coherency for Mali LPAE
-  drm/panfrost: Support cache-coherent integrations
-  arm64: dts: meson: Describe G12b GPU as coherent
-
- arch/arm64/boot/dts/amlogic/meson-g12b.dtsi |  4 ++++
- drivers/gpu/drm/panfrost/panfrost_device.h  |  1 +
- drivers/gpu/drm/panfrost/panfrost_drv.c     |  2 ++
- drivers/gpu/drm/panfrost/panfrost_gem.c     |  2 ++
- drivers/gpu/drm/panfrost/panfrost_mmu.c     |  1 +
- drivers/iommu/io-pgtable-arm.c              | 11 ++++++++++-
- 6 files changed, 20 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+index dc7bcf858b6d..b4072a18e45d 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -440,7 +440,13 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
+ 				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+ 	}
+ 
+-	if (prot & IOMMU_CACHE)
++	/*
++	 * Also Mali has its own notions of shareability wherein its Inner
++	 * domain covers the cores within the GPU, and its Outer domain is
++	 * "outside the GPU" (i.e. either the Inner or System domain in CPU
++	 * terms, depending on coherency).
++	 */
++	if (prot & IOMMU_CACHE && data->iop.fmt != ARM_MALI_LPAE)
+ 		pte |= ARM_LPAE_PTE_SH_IS;
+ 	else
+ 		pte |= ARM_LPAE_PTE_SH_OS;
+@@ -1049,6 +1055,9 @@ arm_mali_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
+ 	cfg->arm_mali_lpae_cfg.transtab = virt_to_phys(data->pgd) |
+ 					  ARM_MALI_LPAE_TTBR_READ_INNER |
+ 					  ARM_MALI_LPAE_TTBR_ADRMODE_TABLE;
++	if (cfg->coherent_walk)
++		cfg->arm_mali_lpae_cfg.transtab |= ARM_MALI_LPAE_TTBR_SHARE_OUTER;
++
+ 	return &data->iop;
+ 
+ out_free_data:
 -- 
 2.28.0.dirty
 
