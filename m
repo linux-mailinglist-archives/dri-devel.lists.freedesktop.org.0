@@ -2,42 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D4C274AEC
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 23:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24145274AF6
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 23:15:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54611884E2;
-	Tue, 22 Sep 2020 21:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E12AD892FE;
+	Tue, 22 Sep 2020 21:15:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C0C6E8ED
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 21:14:03 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77401DC4;
- Tue, 22 Sep 2020 23:14:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1600809240;
- bh=IspY7zmKSKTK0yKRTpmrxP/B48RKkBYDnlSnhKbLOsI=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=ojMNBHWz6585mqafFKi/Ol3j+T9T/TPYZT9MimnioPI3ckTHxFzuNFOg4F5MyCo2D
- rdDaeowhvoYz02U3PGtC7F6tU1UVxt6wi0HN3AMrkBzQGjyexPV8erumI6ckXPJbYg
- SSAu/HYNaKi0btOEOZMHIAEgPXjITxo0QdbsHHBk=
-Date: Wed, 23 Sep 2020 00:13:27 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org, Dave Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [GIT PULL FOR v5.10 - v3] R-Car display drivers miscellaneous
- changes
-Message-ID: <20200922211327.GA4506@pendragon.ideasonboard.com>
-References: <20200908160336.GA20954@pendragon.ideasonboard.com>
- <20200915175730.GA28219@pendragon.ideasonboard.com>
- <20200917012059.GU3853@pendragon.ideasonboard.com>
- <20200922111526.GG8290@pendragon.ideasonboard.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B073892FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 21:14:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600809297;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Mf4ET5A6pTrj1XKJ2ODwFO2BG7xSVsbhE8JSNbeonVk=;
+ b=KYghOLKrfvDQicfRlE0xxj5/5lkyTvOB0/9dF8aL72v4smpii9hQIuEzNaFbMS4RwWWi/V
+ PamNarr0aFWbucGH/6r/szqNlXmPd4qJtkhQy0pvcvPHUCTd0kPzLgDOUsfPkwjKOYtpc9
+ i8FjUVFvLisH539teds0U9bilY7IWsc=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-zjN7eStSNTuBPMzLk0XLPg-1; Tue, 22 Sep 2020 17:14:51 -0400
+X-MC-Unique: zjN7eStSNTuBPMzLk0XLPg-1
+Received: by mail-qt1-f199.google.com with SMTP id t56so17333779qtt.19
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 14:14:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=Mf4ET5A6pTrj1XKJ2ODwFO2BG7xSVsbhE8JSNbeonVk=;
+ b=kOTO66ZxMX+8Y6lWi5UzpeLzMbhRSmN/NkMkI8AIPtGOxFaBjcaaDIEV6E3h2K6vzJ
+ s+quXD4rw6KfBPPOrevaFDGlAb26P6ZrM6bNljuIj7Jgl8HodogNa9Fj57cbKvoX0eoD
+ ycZ1IOvTAnyMwtXBQ268CLMQysng0+IbN/VKj3mg/QViQ9PG15/ypC8Hz8UoHl2pfGjH
+ HF1atGaN5Ec7Rh5vWzw5UH+UGyVm4k6s/N2pUnp9zX31D5tobbfnd0R0PDStHBWcMdz/
+ BMiiVAlAsDBGmSbIhMwmCaW6GUjsKFW9VQ6pdX6jjBhSx820FkRk/WQ5lHVit3hqW4PT
+ VWEg==
+X-Gm-Message-State: AOAM530C5x3UUA1jeMHyLO/P7wSFD8CacuHl1kALezX/uuK/KxUnVgqB
+ NhBISGnkQLlFgyKi6wioocrrKH9siAlyCggx9F/tBQsQgErmiwR25u5V1JUCR2d9KEGnRaUvxrM
+ ofW3o1yBnRsb7NtC6krQnOib0tbAn
+X-Received: by 2002:a0c:e904:: with SMTP id a4mr7914300qvo.24.1600809290649;
+ Tue, 22 Sep 2020 14:14:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwv6gSFioEwHgineyjomjrnvy/onWXozophZU2EmPW55rL8svms5nqe+QTj+1TwMznKFQcpaA==
+X-Received: by 2002:a0c:e904:: with SMTP id a4mr7914282qvo.24.1600809290396;
+ Tue, 22 Sep 2020 14:14:50 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id d22sm6495452qkj.93.2020.09.22.14.14.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Sep 2020 14:14:49 -0700 (PDT)
+Message-ID: <7b10668ee337e531b14705ebecb1f6c1004728d6.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/kms/nv50-: Fix clock checking algorithm in
+ nv50_dp_mode_valid()
+From: Lyude Paul <lyude@redhat.com>
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Tue, 22 Sep 2020 17:14:48 -0400
+In-Reply-To: <CAKb7UvhAb0wFd9Qi1FGJ=TAYZJ9DYXL6XXMfnG49xEO=a9TuYg@mail.gmail.com>
+References: <20200922210510.156220-1-lyude@redhat.com>
+ <CAKb7UvhAb0wFd9Qi1FGJ=TAYZJ9DYXL6XXMfnG49xEO=a9TuYg@mail.gmail.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200922111526.GG8290@pendragon.ideasonboard.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,90 +82,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, "open
+ list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 22, 2020 at 02:15:26PM +0300, Laurent Pinchart wrote:
-> Hi Dave and Daniel,
-> 
-> Still because the original pull request hasn't been pulled yet, here's
-> an updated version that fixes one small issue. I had initially fixed it
-> in a separate patch to be merged in the fixes branch for v5.10, but
-> realized the offending commit wasn't in -next yet.
-> 
-> Is there still time to get this merged in v5.10 ? The originally pull
-> request was sent two weeks ago and seems to have fallen through the
-> cracks.
-> 
-> The following changes since commit 818280d5adf1d80e78f95821815148abe9407e14:
-> 
->   Merge v5.9-rc5 into drm-next (2020-09-14 17:19:11 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/pinchartl/media.git
-
-Modelled after the "my dog ate my homework", something ate the tag name
-:-) It should read du-next-20200922 (which corresponds to the commit ID
-just below).
-
-> for you to fetch changes up to 2a32dbdc2c7db5463483fa01fb220fd1b770c6bc:
-> 
->   drm: rcar-du: Put reference to VSP device (2020-09-22 14:10:05 +0300)
-> 
-> ----------------------------------------------------------------
-> Biju Das (2):
->       dt-bindings: display: bridge: lvds-codec: Document power-supply property
->       drm/bridge: lvds-codec: Add support for regulator
-> 
-> Kuninori Morimoto (4):
->       dt-bindings: display: renesas: du: Document the r8a77961 bindings
->       dt-bindings: display: renesas: dw-hdmi: Tidyup example compatible
->       dt-bindings: display: renesas: dw-hdmi: Add R8A77961 support
->       drm: rcar-du: Add r8a77961 support
-> 
-> Lad Prabhakar (5):
->       dt-bindings: display: renesas,du: Document the r8a7742 bindings
->       drm: rcar-du: Add r8a7742 support
->       dt-bindings: display: renesas,lvds: Document r8a7742 bindings
->       drm: rcar-du: lvds: Add r8a7742 support
->       drm: rcar-du: Update description for DRM_RCAR_DW_HDMI Kconfig entry
-> 
-> Laurent Pinchart (3):
->       drm: rcar-du: Fix pitch handling for fully planar YUV formats
->       drm: rcar-du: Fix crash when enabling a non-visible plane
->       drm: rcar-du: Put reference to VSP device
-> 
-> Marian-Cristian Rotariu (5):
->       dt-bindings: display: renesas,du: Document r8a774e1 bindings
->       drm: rcar-du: Add support for R8A774E1 SoC
->       dt-bindings: display: renesas,lvds: Document r8a774e1 bindings
->       dt-bindings: display: renesas,dw-hdmi: Add r8a774e1 support
->       drm: rcar-du: lvds: Add support for R8A774E1 SoC
-> 
-> Qian Cai (1):
->       drm: rcar-du: Make DRM_RCAR_WRITEBACK depends on DRM_RCAR_DU
-> 
->  .../bindings/display/bridge/lvds-codec.yaml        |  3 ++
->  .../bindings/display/bridge/renesas,dw-hdmi.txt    |  4 +-
->  .../bindings/display/bridge/renesas,lvds.yaml      |  2 +
->  .../devicetree/bindings/display/renesas,du.txt     |  6 +++
->  drivers/gpu/drm/bridge/lvds-codec.c                | 29 ++++++++++++
->  drivers/gpu/drm/rcar-du/Kconfig                    |  5 +-
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c              | 37 ++++++++++++++-
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c              | 54 +++++++++++++++++++++-
->  drivers/gpu/drm/rcar-du/rcar_du_kms.h              |  1 +
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c              | 14 +++++-
->  drivers/gpu/drm/rcar-du/rcar_lvds.c                |  2 +
->  11 files changed, 149 insertions(+), 8 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAyMDIwLTA5LTIyIGF0IDE3OjEwIC0wNDAwLCBJbGlhIE1pcmtpbiB3cm90ZToKPiBD
+YW4gd2UgdXNlIDZicGMgb24gYXJiaXRyYXJ5IERQIG1vbml0b3JzLCBvciBpcyB0aGVyZSBhIGNh
+cGFiaWxpdHkgZm9yCj4gaXQ/IE1heWJlIG9ubHkgdXNlIDZicGMgaWYgZGlzcGxheV9pbmZvLmJw
+YyA9PSA2IGFuZCBvdGhlcndpc2UgdXNlIDg/CgpJIGRvbid0IHRoaW5rIHRoYXQgZGlzcGxheV9p
+bmZvLmJwYyBhY3R1YWxseSBpbXBsaWVzIGEgbWluaW11bSBicGMsIG9ubHkgYQptYXhpbXVtIGJw
+YyBpaXJjIChWaWxsZSB3b3VsZCBrbm93IHRoZSBhbnN3ZXIgdG8gdGhpcyBvbmUpLiBUaGUgb3Ro
+ZXIgdGhpbmcgdG8Kbm90ZSBoZXJlIGlzIHRoYXQgd2Ugd2FudCB0byBhc3N1bWUgdGhlIGxvd2Vz
+dCBwb3NzaWJsZSBicGMgaGVyZSBzaW5jZSB3ZSdyZQpvbmx5IGNvbmNlcm5lZCBpZiB0aGUgbW9k
+ZSBwYXNzZWQgdG8gLT5tb2RlX3ZhbGlkIGNhbiBiZSBzZXQgdW5kZXIgLWFueS0KY29uZGl0aW9u
+cyAoaW5jbHVkaW5nIHRob3NlIHRoYXQgcmVxdWlyZSBsb3dlcmluZyB0aGUgYnBjIGJleW9uZCBp
+dCdzIG1heGltdW0KdmFsdWUpLCBzbyB3ZSBkZWZpbml0ZWx5IGRvIHdhbnQgdG8gYWx3YXlzIHVz
+ZSA2YnBjIGhlcmUgZXZlbiBvbmNlIHdlIGdldApzdXBwb3J0IGZvciBvcHRpbWl6aW5nIHRoZSBi
+cGMgYmFzZWQgb24gdGhlIGF2YWlsYWJsZSBkaXNwbGF5IGJhbmR3aWR0aC4KPiAKPiBPbiBUdWUs
+IFNlcCAyMiwgMjAyMCBhdCA1OjA2IFBNIEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+IHdy
+b3RlOgo+ID4gV2hpbGUgSSB0aG91Z2h0IEkgaGFkIHRoaXMgY29ycmVjdCAoc2luY2UgaXQgYWN0
+dWFsbHkgZGlkIHJlamVjdCBtb2Rlcwo+ID4gbGlrZSBJIGV4cGVjdGVkIGR1cmluZyB0ZXN0aW5n
+KSwgVmlsbGUgU3lyamFsYSBmcm9tIEludGVsIHBvaW50ZWQgb3V0Cj4gPiB0aGF0IHRoZSBsb2dp
+YyBoZXJlIGlzbid0IGNvcnJlY3QuIG1heF9jbG9jayByZWZlcnMgdG8gdGhlIG1heCBzeW1ib2wK
+PiA+IHJhdGUgc3VwcG9ydGVkIGJ5IHRoZSBlbmNvZGVyLCBzbyBsaW1pdGluZyBjbG9jayB0byBk
+c19jbG9jayB1c2luZyBtYXgoKQo+ID4gZG9lc24ndCBtYWtlIHNlbnNlLiBBZGRpdGlvbmFsbHks
+IHdlIHdhbnQgdG8gY2hlY2sgYWdhaW5zdCA2YnBjIGZvciB0aGUKPiA+IHRpbWUgYmVpbmcgc2lu
+Y2UgdGhhdCdzIHRoZSBtaW5pbXVtIHBvc3NpYmxlIGJwYyBoZXJlLCBub3QgdGhlIHJlcG9ydGVk
+Cj4gPiBicGMgZnJvbSB0aGUgY29ubmVjdG9yLiBTZWU6Cj4gPiAKPiA+IGh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDIwLVNlcHRlbWJlci8yODAyNzYu
+aHRtbAo+ID4gCj4gPiBGb3IgbW9yZSBpbmZvLgo+ID4gCj4gPiBTbywgbGV0J3MgcmV3cml0ZSB0
+aGlzIHVzaW5nIFZpbGxlJ3MgYWR2aWNlLgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBMeXVkZSBQ
+YXVsIDxseXVkZUByZWRoYXQuY29tPgo+ID4gRml4ZXM6IDQwOWQzODEzOWI0MiAoImRybS9ub3V2
+ZWF1L2ttcy9udjUwLTogVXNlIGRvd25zdHJlYW0gRFAgY2xvY2sKPiA+IGxpbWl0cyBmb3IgbW9k
+ZSB2YWxpZGF0aW9uIikKPiA+IENjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGlu
+dXguaW50ZWwuY29tPgo+ID4gQ2M6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gPiBD
+YzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRoYXQuY29tPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcC5jIHwgMjMgKysrKysrKysrKysrKy0tLS0tLS0tLS0K
+PiA+ICAxIGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCj4g
+PiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RwLmMK
+PiA+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcC5jCj4gPiBpbmRleCA3YjY0
+MGUwNWJkNGNkLi4yNGM4MWU0MjNkMzQ5IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L25vdXZlYXUvbm91dmVhdV9kcC5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9u
+b3V2ZWF1X2RwLmMKPiA+IEBAIC0yMzEsMjMgKzIzMSwyNiBAQCBudjUwX2RwX21vZGVfdmFsaWQo
+c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKPiA+ICAgICAgICAgICAgICAgICAgICBj
+b25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSwKPiA+ICAgICAgICAgICAgICAgICAg
+ICB1bnNpZ25lZCAqb3V0X2Nsb2NrKQo+ID4gIHsKPiA+IC0gICAgICAgY29uc3QgdW5zaWduZWQg
+bWluX2Nsb2NrID0gMjUwMDA7Cj4gPiAtICAgICAgIHVuc2lnbmVkIG1heF9jbG9jaywgZHNfY2xv
+Y2ssIGNsb2NrOwo+ID4gKyAgICAgICBjb25zdCB1bnNpZ25lZCBpbnQgbWluX2Nsb2NrID0gMjUw
+MDA7Cj4gPiArICAgICAgIHVuc2lnbmVkIGludCBtYXhfY2xvY2ssIGRzX2Nsb2NrLCBjbG9jazsK
+PiA+ICsgICAgICAgY29uc3QgdTggYnBwID0gMTg7IC8qIDYgYnBjICovCj4gPiAgICAgICAgIGVu
+dW0gZHJtX21vZGVfc3RhdHVzIHJldDsKPiA+IAo+ID4gICAgICAgICBpZiAobW9kZS0+ZmxhZ3Mg
+JiBEUk1fTU9ERV9GTEFHX0lOVEVSTEFDRSAmJiAhb3V0cC0KPiA+ID5jYXBzLmRwX2ludGVybGFj
+ZSkKPiA+ICAgICAgICAgICAgICAgICByZXR1cm4gTU9ERV9OT19JTlRFUkxBQ0U7Cj4gPiAKPiA+
+ICAgICAgICAgbWF4X2Nsb2NrID0gb3V0cC0+ZHAubGlua19uciAqIG91dHAtPmRwLmxpbmtfYnc7
+Cj4gPiAtICAgICAgIGRzX2Nsb2NrID0gZHJtX2RwX2Rvd25zdHJlYW1fbWF4X2RvdGNsb2NrKG91
+dHAtPmRwLmRwY2QsCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIG91dHAtCj4gPiA+ZHAuZG93bnN0cmVhbV9wb3J0cyk7Cj4gPiAtICAgICAgIGlm
+IChkc19jbG9jaykKPiA+IC0gICAgICAgICAgICAgICBtYXhfY2xvY2sgPSBtaW4obWF4X2Nsb2Nr
+LCBkc19jbG9jayk7Cj4gPiAtCj4gPiAtICAgICAgIGNsb2NrID0gbW9kZS0+Y2xvY2sgKiAoY29u
+bmVjdG9yLT5kaXNwbGF5X2luZm8uYnBjICogMykgLyAxMDsKPiA+IC0gICAgICAgcmV0ID0gbm91
+dmVhdV9jb25uX21vZGVfY2xvY2tfdmFsaWQobW9kZSwgbWluX2Nsb2NrLCBtYXhfY2xvY2ssCj4g
+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZjbG9jayk7Cj4g
+PiArICAgICAgIGNsb2NrID0gbW9kZS0+Y2xvY2sgKiBicHAgLyA4Owo+ID4gKyAgICAgICBpZiAo
+Y2xvY2sgPiBtYXhfY2xvY2spCj4gPiArICAgICAgICAgICAgICAgcmV0dXJuIE1PREVfQ0xPQ0tf
+SElHSDsKPiA+ICsKPiA+ICsgICAgICAgZHNfY2xvY2sgPSBkcm1fZHBfZG93bnN0cmVhbV9tYXhf
+ZG90Y2xvY2sob3V0cC0+ZHAuZHBjZCwgb3V0cC0KPiA+ID5kcC5kb3duc3RyZWFtX3BvcnRzKTsK
+PiA+ICsgICAgICAgaWYgKGRzX2Nsb2NrICYmIG1vZGUtPmNsb2NrID4gZHNfY2xvY2spCj4gPiAr
+ICAgICAgICAgICAgICAgcmV0dXJuIE1PREVfQ0xPQ0tfSElHSDsKPiA+ICsKPiA+ICsgICAgICAg
+cmV0ID0gbm91dmVhdV9jb25uX21vZGVfY2xvY2tfdmFsaWQobW9kZSwgbWluX2Nsb2NrLCBtYXhf
+Y2xvY2ssCj4gPiAmY2xvY2spOwo+ID4gICAgICAgICBpZiAob3V0X2Nsb2NrKQo+ID4gICAgICAg
+ICAgICAgICAgICpvdXRfY2xvY2sgPSBjbG9jazsKPiA+ICsKPiA+ICAgICAgICAgcmV0dXJuIHJl
+dDsKPiA+ICB9Cj4gPiAtLQo+ID4gMi4yNi4yCj4gPiAKPiA+IF9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4g
+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAotLSAKQ2hlZXJzLAoJTHl1ZGUg
+UGF1bCAoc2hlL2hlcikKCVNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
