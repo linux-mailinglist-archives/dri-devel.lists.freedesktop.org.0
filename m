@@ -2,33 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231AB273B17
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 08:45:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E422273B50
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 08:59:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB66789F49;
-	Tue, 22 Sep 2020 06:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A576E0AF;
+	Tue, 22 Sep 2020 06:59:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8BB889F49
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 06:45:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3385AB071;
- Tue, 22 Sep 2020 06:46:25 +0000 (UTC)
-Subject: Re: [PATCH 04/11] drm/vmwgfx: stop using ttm_bo_create
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, airlied@gmail.com, bskeggs@redhat.com,
- kraxel@redhat.com, airlied@redhat.com, sroland@vmware.com
-References: <20200921144856.2797-1-christian.koenig@amd.com>
- <20200921144856.2797-5-christian.koenig@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <cb5b1af9-c027-bd2a-c0c8-174a57f951d7@suse.de>
-Date: Tue, 22 Sep 2020 08:45:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5E696E0AF
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 06:59:04 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id a2so14663366otr.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Sep 2020 23:59:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Io98OQKBfXmad/V5Q3HChdQn8Hkya8lVT+DVztPEK0M=;
+ b=AioUavmhttbZsg6L2SE47l6JcfE1MR6+gVCAomNSCMju2+GLeB86QrlTrNzvB58hXI
+ ApyMtZS7ES4NFw4Cc8d8FSab11HKf+kHAt3c4T5/PeZAsJOaLyT3rP3DpjPjDdyC1l+J
+ EBifR3byk3XmU5t68/AW++nBzxFAG903BNxlc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Io98OQKBfXmad/V5Q3HChdQn8Hkya8lVT+DVztPEK0M=;
+ b=TXCSw321MVZCLRqY64Xh5FpjgbURRs+BGvRq8uEx/c3bHOxP7zHPiNS587Ljta9ZqH
+ sKl0phyZjrPDMAaqzVLxsb3Ql+qC54n2rZ0DyEsjE3Cm2tmY0kOBWhhF2vzYQFcpbsFh
+ Zpeu2rUQGrrIZluerz/zudOU/lDAf7Ha6NYC/LPm/bp0r45aDWt5TyaU2wCdvRXbhhlR
+ Tq87FCelKdizDuMDBwWNVMnfjkJ9fCNObQfSiAhEpY+o6rAHSzMpfTWNrht01nKe/9+e
+ G6eYxN2b6znvDDJ7okJEMH6Zr8Hbrev7YV25P9j/upC0osEiWoj+WPTgekLjSUEGDUZZ
+ 6ghQ==
+X-Gm-Message-State: AOAM531rx9DPACE0C0rvs2CfR3J+CYeS6wWwqrxUcN1xRYKwys/dcTPc
+ InBbUj/38B9Wb2++nORc4xchGV1iVQAKvfUwOzekTA==
+X-Google-Smtp-Source: ABdhPJzqEo4sG1xO1og6aPPmhSOuPNObimtE6YLwGcDblat5DcM+OlaSQ6ZplmhgNPIDy5laHiAIjZKXC4wvkIlbe28=
+X-Received: by 2002:a05:6830:1e56:: with SMTP id
+ e22mr1852217otj.303.1600757943823; 
+ Mon, 21 Sep 2020 23:59:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200921144856.2797-5-christian.koenig@amd.com>
+References: <20200919193727.2093945-1-robdclark@gmail.com>
+ <20200921092154.GJ438822@phenom.ffwll.local>
+ <CAF6AEGuDRk9D_aqyb6R8N5VHx2rvbZDf4uTqF3gQTrmzno+qtw@mail.gmail.com>
+In-Reply-To: <CAF6AEGuDRk9D_aqyb6R8N5VHx2rvbZDf4uTqF3gQTrmzno+qtw@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 22 Sep 2020 08:58:52 +0200
+Message-ID: <CAKMK7uEqDD-oDAQKyA9DQbxkCgEjC5yyjvKR7d8T0Gj0SqEZ4A@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm: commit_work scheduling
+To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,211 +60,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0683230381=="
+Cc: Rob Clark <robdclark@chromium.org>, Peter Zijlstra <peterz@infradead.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0683230381==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="1QraqnOSFAzHt6LiKaY6asoTlDGJKqCFW"
+On Mon, Sep 21, 2020 at 5:16 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Mon, Sep 21, 2020 at 2:21 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Sat, Sep 19, 2020 at 12:37:23PM -0700, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > The android userspace treats the display pipeline as a realtime problem.
+> > > And arguably, if your goal is to not miss frame deadlines (ie. vblank),
+> > > it is.  (See https://lwn.net/Articles/809545/ for the best explaination
+> > > that I found.)
+> > >
+> > > But this presents a problem with using workqueues for non-blocking
+> > > atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
+> > > preempt the worker.  Which is not really the outcome you want.. once
+> > > the required fences are scheduled, you want to push the atomic commit
+> > > down to hw ASAP.
+> > >
+> > > But the decision of whether commit_work should be RT or not really
+> > > depends on what userspace is doing.  For a pure CFS userspace display
+> > > pipeline, commit_work() should remain SCHED_NORMAL.
+> > >
+> > > To handle this, convert non-blocking commit_work() to use per-CRTC
+> > > kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
+> > > used to avoid serializing commits when userspace is using a per-CRTC
+> > > update loop.
+> > >
+> > > A client-cap is introduced so that userspace can opt-in to SCHED_FIFO
+> > > priority commit work.
+> > >
+> > > A potential issue is that since 616d91b68cd ("sched: Remove
+> > > sched_setscheduler*() EXPORTs") we have limited RT priority levels,
+> > > meaning that commit_work() ends up running at the same priority level
+> > > as vblank-work.  This shouldn't be a big problem *yet*, due to limited
+> > > use of vblank-work at this point.  And if it could be arranged that
+> > > vblank-work is scheduled before signaling out-fences and/or sending
+> > > pageflip events, it could probably work ok to use a single priority
+> > > level for both commit-work and vblank-work.
+> >
+> > The part I don't like about this is that it all feels rather hacked
+> > together, and if we add more stuff (or there's some different thing in the
+> > system that also needs rt scheduling) then it doesn't compose.
+>
+> The ideal thing would be that userspace is in control of the
+> priorities.. the setclientcap approach seemed like a reasonable way to
+> give the drm-master a way to opt in.
+>
+> I suppose instead userspace could use sched_setscheduler().. but that
+> would require userspace to be root, and would require some way to find
+> the tid.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---1QraqnOSFAzHt6LiKaY6asoTlDGJKqCFW
-Content-Type: multipart/mixed; boundary="mTJobVqhAFXPREy18b4OkFw978KtKvt1d";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, airlied@gmail.com, bskeggs@redhat.com,
- kraxel@redhat.com, airlied@redhat.com, sroland@vmware.com
-Message-ID: <cb5b1af9-c027-bd2a-c0c8-174a57f951d7@suse.de>
-Subject: Re: [PATCH 04/11] drm/vmwgfx: stop using ttm_bo_create
-References: <20200921144856.2797-1-christian.koenig@amd.com>
- <20200921144856.2797-5-christian.koenig@amd.com>
-In-Reply-To: <20200921144856.2797-5-christian.koenig@amd.com>
+Userspace already needs that for the SCHED_FIFO for surface-flinger.
+Or is the problem that CAP_SYS_NICE is only good for your own
+processes?
 
---mTJobVqhAFXPREy18b4OkFw978KtKvt1d
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Other question I have for this is whether there's any recommendations
+for naming the kthreads (since I guess that name is what becomes the
+uapi for userspace to control this)?
 
-Hi
+Otherwise I think "userspace calls sched_setscheduler on the right
+kthreads" sounds like a good interface, since it lets userspace decide
+how it all needs to fit together and compose. Anything we hard-code in
+an ioctl is kinda lost cause. And we can choose the default values to
+work reasonably well when the compositor runs at normal priority
+(lowest niceness or something like that for the commit work).
+-Daniel
 
-Am 21.09.20 um 16:48 schrieb Christian K=C3=B6nig:
-> Implement in the driver instead since it is the only user of that funct=
-ion.
-
-Maybe merge this patch with patch 10.
-
-Best regards
-Thomas
-
->=20
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c         | 42 ++++++++++++++++++++++=
-
->  drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c     |  6 ++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  4 +++
->  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  8 ++---
->  4 files changed, 52 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgf=
-x/vmwgfx_bo.c
-> index 813f1b148094..30d19b45b602 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> @@ -487,6 +487,48 @@ static void vmw_user_bo_destroy(struct ttm_buffer_=
-object *bo)
->  	ttm_prime_object_kfree(vmw_user_bo, prime);
->  }
-> =20
-> +/**
-> + * vmw_bo_create_kernel - Create a pinned BO for internal kernel use.
-> + *
-> + * @dev_priv: Pointer to the device private struct
-> + * @size: size of the BO we need
-> + * @placement: where to put it
-> + * @p_bo: resulting BO
-> + *
-> + * Creates and pin a simple BO for in kernel use.
-> + */
-> +int vmw_bo_create_kernel(struct vmw_private *dev_priv, unsigned long s=
-ize,
-> +			 struct ttm_placement *placement,
-> +			 struct ttm_buffer_object **p_bo)
-> +{
-> +	unsigned npages =3D PAGE_ALIGN(size) >> PAGE_SHIFT;
-> +	struct ttm_buffer_object *bo;
-> +	size_t acc_size;
-> +	int ret;
-> +
-> +	bo =3D kzalloc(sizeof(*bo), GFP_KERNEL);
-> +	if (unlikely(!bo))
-> +		return -ENOMEM;
-> +
-> +	acc_size =3D ttm_round_pot(sizeof(*bo));
-> +	acc_size +=3D ttm_round_pot(npages * sizeof(void *));
-> +	acc_size +=3D ttm_round_pot(sizeof(struct ttm_tt));
-> +	ret =3D ttm_bo_init_reserved(&dev_priv->bdev, bo, size,
-> +				   ttm_bo_type_device, placement, 0,
-> +				   false, acc_size, NULL, NULL, NULL);
-> +	if (unlikely(ret))
-> +		goto error_free;
-> +
-> +	ttm_bo_pin(bo);
-> +	ttm_bo_unreserve(bo);
-> +	*p_bo =3D bo;
-> +
-> +	return 0;
-> +
-> +error_free:
-> +	kfree(bo);
-> +	return ret;
-> +}
-> =20
->  /**
->   * vmw_bo_init - Initialize a vmw buffer object
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/v=
-mwgfx/vmwgfx_cmdbuf.c
-> index 3b41cf63110a..9a9fe10d829b 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-> @@ -1245,9 +1245,9 @@ int vmw_cmdbuf_set_pool_size(struct vmw_cmdbuf_ma=
-n *man,
->  		    !dev_priv->has_mob)
->  			return -ENOMEM;
-> =20
-> -		ret =3D ttm_bo_create(&dev_priv->bdev, size, ttm_bo_type_device,
-> -				    &vmw_mob_ne_placement, 0, false,
-> -				    &man->cmd_space);
-> +		ret =3D vmw_bo_create_kernel(dev_priv, size,
-> +					   &vmw_mob_placement,
-> +					   &man->cmd_space);
->  		if (ret)
->  			return ret;
-> =20
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwg=
-fx/vmwgfx_drv.h
-> index 9ceee4eb0b13..5d07de5183e1 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> @@ -845,6 +845,10 @@ extern void vmw_bo_get_guest_ptr(const struct ttm_=
-buffer_object *buf,
->  				 SVGAGuestPtr *ptr);
->  extern void vmw_bo_pin_reserved(struct vmw_buffer_object *bo, bool pin=
-);
->  extern void vmw_bo_bo_free(struct ttm_buffer_object *bo);
-> +extern int vmw_bo_create_kernel(struct vmw_private *dev_priv,
-> +				unsigned long size,
-> +				struct ttm_placement *placement,
-> +				struct ttm_buffer_object **p_bo);
->  extern int vmw_bo_init(struct vmw_private *dev_priv,
->  		       struct vmw_buffer_object *vmw_bo,
->  		       size_t size, struct ttm_placement *placement,
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/d=
-rm/vmwgfx/vmwgfx_ttm_buffer.c
-> index d7ea658e9910..39a2f720f4ed 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -793,11 +793,9 @@ int vmw_bo_create_and_populate(struct vmw_private =
-*dev_priv,
->  	struct ttm_buffer_object *bo;
->  	int ret;
-> =20
-> -	ret =3D ttm_bo_create(&dev_priv->bdev, bo_size,
-> -			    ttm_bo_type_device,
-> -			    &vmw_sys_ne_placement,
-> -			    0, false, &bo);
-> -
-> +	ret =3D vmw_bo_create_kernel(dev_priv, bo_size,
-> +				   &vmw_sys_placement,
-> +				   &bo);
->  	if (unlikely(ret !=3D 0))
->  		return ret;
-> =20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> Is there some way we could arrange for the per-crtc kthread's to be
+> owned by the drm master?  That would solve the "must be root" issue.
+> And since the target audience is an atomic userspace, I suppose we
+> could expose the tid as a read-only property on the crtc?
+>
+> BR,
+> -R
+>
+> > So question to rt/worker folks: What's the best way to let userspace set
+> > the scheduling mode and priorities of things the kernel does on its
+> > behalf? Surely we're not the first ones where if userspace runs with some
+> > rt priority it'll starve out the kernel workers that it needs. Hardcoding
+> > something behind a subsystem ioctl (which just means every time userspace
+> > changes what it does, we need a new such flag or mode) can't be the right
+> > thing.
+> >
+> > Peter, Tejun?
+> >
+> > Thanks, Daniel
+> >
+> > >
+> > > Rob Clark (3):
+> > >   drm/crtc: Introduce per-crtc kworker
+> > >   drm/atomic: Use kthread worker for nonblocking commits
+> > >   drm: Add a client-cap to set scheduling mode
+> > >
+> > >  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++----
+> > >  drivers/gpu/drm/drm_auth.c          |  4 ++++
+> > >  drivers/gpu/drm/drm_crtc.c          | 37 +++++++++++++++++++++++++++++
+> > >  drivers/gpu/drm/drm_ioctl.c         | 13 ++++++++++
+> > >  include/drm/drm_atomic.h            | 31 ++++++++++++++++++++++++
+> > >  include/drm/drm_crtc.h              | 10 ++++++++
+> > >  include/uapi/drm/drm.h              | 13 ++++++++++
+> > >  7 files changed, 117 insertions(+), 4 deletions(-)
+> > >
+> > > --
+> > > 2.26.2
+> > >
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 
---mTJobVqhAFXPREy18b4OkFw978KtKvt1d--
 
---1QraqnOSFAzHt6LiKaY6asoTlDGJKqCFW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9pnZwUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMO5wf9EfwHWrOJcLqOogHlvDrIQLs4T4M2
-0jhOEVTWqjDEd/9rwYA8HpnnqznyW2znb40xzvYgnK5GYi6DqfTOoK9IuKtDDQDf
-CQcSKChW7sicE31ZGUMxdAnxPSBNp/3+xFr2z8oFMGlbPIZwM40EZ4mdrvjYiNk0
-6d6fABj9/GwRw1IVK/9+R5S6ETc3vhC8YRSlvOLOyWR957AGdbfN3U3xpmoXvWxb
-c/XhH5XdcGfyMTV29bYRx9manK2wejvIzrETDk+Z1FN96USusfWjk3HrKN/+3qBy
-LrIZ5V7I3AWMPnG5SCYYJlINVZpB0Hsgc2n6AuFkJ2yoo/p44HZgMUBXiQ==
-=ZUDn
------END PGP SIGNATURE-----
-
---1QraqnOSFAzHt6LiKaY6asoTlDGJKqCFW--
-
---===============0683230381==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0683230381==--
