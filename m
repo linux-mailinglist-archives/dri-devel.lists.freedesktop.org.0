@@ -2,59 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD9A27527E
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28951275290
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAB146E113;
-	Wed, 23 Sep 2020 07:53:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8CEA6E456;
+	Wed, 23 Sep 2020 07:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2939 seconds by postgrey-1.36 at gabe;
- Tue, 22 Sep 2020 10:13:09 UTC
-Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45D3389D2F
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 10:13:08 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.32])
- by regular1.263xmail.com (Postfix) with ESMTP id CC290974;
- Tue, 22 Sep 2020 18:13:04 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED: 0
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from [172.16.12.39] (unknown [58.22.7.114])
- by smtp.263.net (postfix) whith ESMTP id
- P19669T139950651582208S1600769583305895_; 
- Tue, 22 Sep 2020 18:13:04 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <f469c07bda61fd24a13ec089fd1bd8ac>
-X-RL-SENDER: algea.cao@rock-chips.com
-X-SENDER: algea.cao@rock-chips.com
-X-LOGIN-NAME: algea.cao@rock-chips.com
-X-FST-TO: dianders@chromium.org
-X-SENDER-IP: 58.22.7.114
-X-ATTACHMENT-NUM: 0
-X-DNS-TYPE: 0
-X-System-Flag: 0
-Subject: =?UTF-8?Q?Re=3a_=5bPATCH_1/3=5d_drm=3a_rockchip=3a_hdmi=3a_remove_v?=
- =?UTF-8?B?b3BfY3J0Y19tb2RlX2ZpeHVwIHRvIGZpeCBjbG9jayBoYW5kbGluZ+OAkOivtw==?=
- =?UTF-8?B?5rOo5oSP77yM6YKu5Lu255SxbGludXgtcm9ja2NoaXAtYm91bmNlcythbmR5Lnlh?=
- =?UTF-8?B?bj1yb2NrLWNoaXBzLmNvbUBsaXN0cy5pbmZyYWRlYWQub3Jn5Luj5Y+R44CR?=
-To: Vicente Bergas <vicencb@gmail.com>
-References: <20200921181803.1160-1-vicencb@gmail.com>
- <20200921181803.1160-2-vicencb@gmail.com>
- <76b8f420-2afb-eba9-5c98-6f10762c4b37@rock-chips.com>
- <1ada2daf-16f3-191f-ccc1-d3d7d0c319fc@rock-chips.com>
- <CAAMcf8Az5AVWNzMHuxXda5WUm4_E5QCwpgb2fVtaT0w2+cQELw@mail.gmail.com>
-From: crj <algea.cao@rock-chips.com>
-Message-ID: <bd2d67ee-4023-ccde-3b2a-e88c3e076d12@rock-chips.com>
-Date: Tue, 22 Sep 2020 18:13:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.1
+Received: from JPN01-OS2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1410110.outbound.protection.outlook.com [40.107.141.110])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C32DE89F75
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 11:01:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ax86WpBJyi/OUfn9FC6skJSe44ISl5T/GF2nxTV1dfHCgSj98ilCgwVlu+39oE+a7ULR8xfWf2/RDHn+zAf4Ju0YYgE18Euc24yuCEv09f2r+o8K8kuAbbQAUiIPimLbR3yJ5FQquFGIlsayrKwNUX4LWA8YS9Xv0Ne3KX/0ZVki2yBJYJE/GlzQu0jZ3gfJWp+W+rpehvgNFSDRSLQsB7MbCjPzRRep+5CyOo/nzuXuWidAeUYp0Y4hNWAVEPFij6m7iJAGXKm5u3tUavlT0JgtalggjF6a/r+cdQ9CJxL0a4h/m9BssghwBVCpNqVutzVI+kiMI1KPFrhCYYhoKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tvZzfI0EAzwDnGijqJqCZ53EXq3Rw0tzwrQD+WL2uDA=;
+ b=jBnoaLhRv1lrMeV6wBuMRoPOIVBWlsJoqZLXlgDjzQMHaXc2FfZbeoJJzaCLpOSNslK5GbiaZq0xOsYPLkZ1rWxUWLpY74bP+59z6dp5s++RKWycrAUJwve1aHTHkXp1zLUryATNpd5GyFAbr61sQ9F/XNjrUzksgTcYdcPWDzf3Q/qG/MTxIIJyN/VT2ZW4ffsIWQLEbdF1Vdx9SK2upEA+4gJ9Wcgjq1NDWNkcYnMhfKxV0dFoL79lyh9MdZbSAgq8CXJjcXCX3/YLDnrUpbFScZjgq5/VzQO9igwpBK5GS8tAMqdt5MwEfqZVUdOwOWL/bo9woBdIj4/j6cgmkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tvZzfI0EAzwDnGijqJqCZ53EXq3Rw0tzwrQD+WL2uDA=;
+ b=A+uT2RfkgxBWZ1cDI/CHiCMMSXiyBNgQvgMNW7G8TDq2Yj3ktuZ9KsFcb/3w8JCDDCl/3a+gGxQO2uqrzuigARpDkEBbncIBMab6mbFbQ3xF+JtILooC/UzppYI+ok0AoDd032joZZhTgGj52FhZVihstcglyIHh3ZJneDZ1jTE=
+Received: from OS0PR01MB5300.jpnprd01.prod.outlook.com (2603:1096:604:a3::12)
+ by OS0PR01MB5426.jpnprd01.prod.outlook.com (2603:1096:604:96::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Tue, 22 Sep
+ 2020 11:01:51 +0000
+Received: from OS0PR01MB5300.jpnprd01.prod.outlook.com
+ ([fe80::299d:3952:4ffc:31ad]) by OS0PR01MB5300.jpnprd01.prod.outlook.com
+ ([fe80::299d:3952:4ffc:31ad%5]) with mapi id 15.20.3391.026; Tue, 22 Sep 2020
+ 11:01:51 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
+Thread-Topic: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
+Thread-Index: AQHWkM76/jGpsPjEXkKsonm7MZkvwal0fYGw
+Date: Tue, 22 Sep 2020 11:01:51 +0000
+Message-ID: <OS0PR01MB5300DCD7AC601699F1879A54863B0@OS0PR01MB5300.jpnprd01.prod.outlook.com>
+References: <20200922105526.5252-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200922105526.5252-1-laurent.pinchart+renesas@ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: ideasonboard.com; dkim=none (message not signed)
+ header.d=none;ideasonboard.com; dmarc=none action=none
+ header.from=bp.renesas.com;
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: a8ec5440-1bce-49d6-4bd9-08d85ee6e8f7
+x-ms-traffictypediagnostic: OS0PR01MB5426:
+x-microsoft-antispam-prvs: <OS0PR01MB5426A745E4231F85564999CC863B0@OS0PR01MB5426.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: J2g4FxxmFH0qQxM8yGDgBgHXOVfOUtlkTlUJMbZCcxREZj8KaoKOVKQaLoxTPrYAbRq6i1dfGGoOxn+ymKyaL2APPjw4EyNfV4kSVSXEX7iJeT+/AdHDCOnU1f2/AwYD2pNA4Y7QX4MsWwZricTjmc3fJVrD3vd4UytJHvNvd9+27ITJDDRu75p9BOmU16lT/OD0DYo7J27jyaD/jeNXkA5aVLK6YDgsl7TUDzb+y4CJBJk+yT0+aUmTHziKpFzrfrV4aZHua36wHvjpRGhDGY2oDo9xoxKpNfJZST42USZQwHKTLUGocDSO8TNh6FQu
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS0PR01MB5300.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(136003)(39860400002)(346002)(366004)(64756008)(8676002)(186003)(26005)(316002)(54906003)(478600001)(4326008)(110136005)(52536014)(55016002)(66446008)(66476007)(2906002)(66556008)(71200400001)(66946007)(86362001)(6506007)(33656002)(7696005)(76116006)(8936002)(5660300002)(9686003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: xZ+TSmxNgrEVdf5Lc5tBncuW/gfnoeuBWDVaP75rmUcPYjnQb1vokhWGjMEgLZa//IxAODPUcBbmuhqWDK+yos03YcEvNQj+Aiwd1HeOaLSYrG8jh4C/fgnC0y452FRoVb1wq456QC2N2g3a/4xzzpDa2NVHDqXp/dz9BoLFMnDMFL4iKiTzg8GBQWXtwESv3UlakYMKm6Ye93SBAlgYdrpZorkOjFgnIwxphI5DXvMMY4lbva4fLiIO47U/IUDQ4AxGmJXvUXZdlmOuf6eRgbHnBbs7iGoI89Q2sxFOfsPgT8yurLwoYLfOZ0Jut9f51Jw7A+lrRZxumNLsxTL4Cn8ZNZMHu+4VALjQ5eT65nLHUEz7ZRxAN91cXitutXVcczDgsZK9qYDW8Ga35VtveSXw4RanU/J7kbbpAAgLS/mTouEF0iJljpVWaX92fElc/Fsm3n0idTsahbL3QtHWeJsWeayAnhNKQjaLux6ZaRYNPsrfgCXFi6P6i7Yo1Pcssoy5YZ/frvm/Nqf9qLUUDyWYz0GSvBSTv6LAW6d3n8CoaWZjawuLJRLxepb7Z3WBF9AnFPSZcsklOWqvRNumSbzOC99DA/zy18VlBvLQAuMoPGCGUFC7vcf5ULcINELaHMguryBM3nDIKrPXOcISXA==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-In-Reply-To: <CAAMcf8Az5AVWNzMHuxXda5WUm4_E5QCwpgb2fVtaT0w2+cQELw@mail.gmail.com>
-X-Mailman-Approved-At: Wed, 23 Sep 2020 07:53:19 +0000
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5300.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8ec5440-1bce-49d6-4bd9-08d85ee6e8f7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2020 11:01:51.5093 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GA8QS6OW5gZjj3yWunVQ1cJxCFh3+R+Cc7MGLHRYaqSlTJd2wRvBSncQFQXbW+E5pMpHJcYXfbY+RTBK12FtSZWm95WVRhGik+vuBio7fTY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5426
+X-Mailman-Approved-At: Wed, 23 Sep 2020 07:53:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,94 +94,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Andy Yan <andy.yan@rock-chips.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIERvdWdsYXMKCuWcqCAyMDIwLzkvMjIgMTc6MzEsIFZpY2VudGUgQmVyZ2FzIOWGmemBkzoK
-PiBPbiBUdWUsIFNlcCAyMiwgMjAyMCBhdCAxMToyNCBBTSBjcmogPGFsZ2VhLmNhb0Byb2NrLWNo
-aXBzLmNvbT4gd3JvdGU6Cj4+IEhlbGxvIFZpY2VudGUsCj4+Cj4+IOWcqCAyMDIwLzkvMjIgMTU6
-NDAsIEFuZHkgWWFuIOWGmemBkzoKPj4+IEFkZCBvdXIgSERNSSBkcml2ZXIgb3duZXIgQWxnZWEg
-dG8gbGlzdC4KPj4+Cj4+PiBPbiA5LzIyLzIwIDI6MTggQU0sIFZpY2VudGUgQmVyZ2FzIHdyb3Rl
-Ogo+Pj4+IFVuZGVyIGNlcnRhaW4gY29uZGl0aW9ucyB2b3BfY3J0Y19tb2RlX2ZpeHVwIHJvdW5k
-cyB0aGUgY2xvY2sKPj4KPj4gTWF5IEkgYXNrIHVuZGVyIHdoYXQgY29uZGl0aW9ucyB0aGF0IHRo
-ZSBjbG9jayBvZiBIRE1JIHdpbGwKPj4KPj4gYmUgY2hhbmdlZCB0byAxNDg1MDEwMDA/ICBJbiBn
-ZW5lcmFsLCB0aGUgZGVzY3JpcHRpb24gb2YgY2xvY2sKPj4KPj4gaW4gRURJRCB3aWxsIG5vdCBi
-ZSBkZXRhaWxlZCBiZWxvdyB0aGUgdGhvdXNhbmRzIHBsYWNlLgo+IFRoZXJlIGlzIG5vIGNsb2Nr
-IGluIHRoZSBFRElEIHdpdGggMUtIeiByZXNvbHV0aW9uLCB0aGUgY2xvY2sgaXMKPiAxNDg1MDAw
-MDAgd2hpY2ggaGFzIDUwMEtIeiByZXNvbHV0aW9uLgo+IEl0IGlzIHRoZSBmdW5jdGlvbiB2b3Bf
-Y3J0Y19tb2RlX2ZpeHVwIHRoYXQgZ2V0cyB4eHgwMDAwIGFuZCByZXR1cm5zIHh4eDEwMDAKCkkg
-Y2hlY2tlZCB0aGUgY29tbWl0IG1zZyBvZiBjb21taXQgMjg3NDIyYTk1ZmUyICgiZHJtL3JvY2tj
-aGlwOiBSb3VuZCB1cCAKX2JlZm9yZV8gZ2l2aW5nIHRvIHRoZSBjbG9jayBmcmFtZXdvcmsiKS4K
-ClJvdW5kIHVwIGhkbWkgY2xvY2sgaXMgZm9yIHNvbWUgcGFuZWxzIHdpdGggc3BlY2lhbCBjbG9j
-a3MuwqAgQXJlIHRoZXNlIApwYW5lbHMgY2xvY2sgY2FuJ3QgYmUgZGl2aWRlZCBjb3JyZWN0bHkg
-Y29tbW9uPwoKPj4+PiAxNDg1MDAwMDAgdG8gMTQ4NTAxMDAwIHdoaWNoIGxlYWRzIHRvIHRoZSBm
-b2xsb3dpbmcgZXJyb3I6Cj4+Pj4gZHdoZG1pLXJvY2tjaGlwIGZmOTQwMDAwLmhkbWk6IFBIWSBj
-b25maWd1cmF0aW9uIGZhaWxlZCAoY2xvY2sKPj4+PiAxNDg1MDEwMDApCj4+Pj4KPj4+PiBUaGUg
-aXNzdWUgd2FzIGZvdW5kIG9uIFJLMzM5OSBib290aW5nIHdpdGggdS1ib290LiBVLWJvb3QgY29u
-ZmlndXJlcyB0aGUKPj4+PiBkaXNwbGF5IGF0IDI1NjB4MTQ0MCBhbmQgdGhlbiBsaW51eCBjb21l
-cyB1cCB3aXRoIGEgYmxhY2sgc2NyZWVuLgo+Pj4+IEEgd29ya2Fyb3VuZCB3YXMgdG8gdW4tcGx1
-ZyBhbmQgcmUtcGx1ZyB0aGUgSERNSSBkaXNwbGF5Lgo+Pj4+Cj4+Pj4gU2lnbmVkLW9mZi1ieTog
-VmljZW50ZSBCZXJnYXMgPHZpY2VuY2JAZ21haWwuY29tPgo+Pj4+IFRlc3RlZC1ieTogVmljZW50
-ZSBCZXJnYXMgPHZpY2VuY2JAZ21haWwuY29tPgo+Pj4+IC0tLQo+Pj4+ICAgIGRyaXZlcnMvZ3B1
-L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMgfCA0NSAtLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KPj4+PiAgICAxIGZpbGUgY2hhbmdlZCwgNDUgZGVsZXRpb25zKC0pCj4+Pj4KPj4+PiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AuYwo+Pj4+
-IGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AuYwo+Pj4+IGluZGV4
-IGM4MGY3ZDlmZDEzZi4uZmU4MGRhNjUyOTk0IDEwMDY0NAo+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMKPj4+PiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jCj4+Pj4gQEAgLTExNDIsNTAgKzExNDIsNiBA
-QCBzdGF0aWMgdm9pZCB2b3BfY3J0Y19kaXNhYmxlX3ZibGFuayhzdHJ1Y3QKPj4+PiBkcm1fY3J0
-YyAqY3J0YykKPj4+PiAgICAgICAgc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmdm9wLT5pcnFfbG9j
-aywgZmxhZ3MpOwo+Pj4+ICAgIH0KPj4+PiAgICAtc3RhdGljIGJvb2wgdm9wX2NydGNfbW9kZV9m
-aXh1cChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4+Pj4gLSAgICAgICAgICAgICAgICBjb25zdCBz
-dHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSwKPj4+PiAtICAgICAgICAgICAgICAgIHN0cnVj
-dCBkcm1fZGlzcGxheV9tb2RlICphZGp1c3RlZF9tb2RlKQo+Pj4+IC17Cj4+Pj4gLSAgICBzdHJ1
-Y3Qgdm9wICp2b3AgPSB0b192b3AoY3J0Yyk7Cj4+Pj4gLSAgICB1bnNpZ25lZCBsb25nIHJhdGU7
-Cj4+Pj4gLQo+Pj4+IC0gICAgLyoKPj4+PiAtICAgICAqIENsb2NrIGNyYXppbmVzcy4KPj4+PiAt
-ICAgICAqCj4+Pj4gLSAgICAgKiBLZXkgcG9pbnRzOgo+Pj4+IC0gICAgICoKPj4+PiAtICAgICAq
-IC0gRFJNIHdvcmtzIGluIGluIGtIei4KPj4+PiAtICAgICAqIC0gQ2xvY2sgZnJhbWV3b3JrIHdv
-cmtzIGluIEh6Lgo+Pj4+IC0gICAgICogLSBSb2NrY2hpcCdzIGNsb2NrIGRyaXZlciBwaWNrcyB0
-aGUgY2xvY2sgcmF0ZSB0aGF0IGlzIHRoZQo+Pj4+IC0gICAgICogICBzYW1lIF9PUiBMT1dFUl8g
-dGhhbiB0aGUgb25lIHJlcXVlc3RlZC4KPj4+PiAtICAgICAqCj4+Pj4gLSAgICAgKiBBY3Rpb24g
-cGxhbjoKPj4+PiAtICAgICAqCj4+Pj4gLSAgICAgKiAxLiBXaGVuIERSTSBnaXZlcyB1cyBhIG1v
-ZGUsIHdlIHNob3VsZCBhZGQgOTk5IEh6IHRvIGl0Lgo+Pj4+IFRoYXQgd2F5Cj4+Pj4gLSAgICAg
-KiAgICBpZiB0aGUgY2xvY2sgd2UgbmVlZCBpcyA2MDAwMDAwMSBIeiAofjYwIE1IeikgYW5kIERS
-TQo+Pj4+IHRlbGxzIHVzIHRvCj4+Pj4gLSAgICAgKiAgICBtYWtlIDYwMDAwIGtIeiB0aGVuIHRo
-ZSBjbG9jayBmcmFtZXdvcmsgd2lsbCBhY3R1YWxseSBnaXZlIHVzCj4+Pj4gLSAgICAgKiAgICB0
-aGUgcmlnaHQgY2xvY2suCj4+Pj4gLSAgICAgKgo+Pj4+IC0gICAgICogICAgTk9URTogaWYgdGhl
-IFBMTCAobWF5YmUgdGhyb3VnaCBhIGRpdmlkZXIpIGNvdWxkIGFjdHVhbGx5Cj4+Pj4gbWFrZQo+
-Pj4+IC0gICAgICogICAgYSBjbG9jayByYXRlIDk5OSBIeiBoaWdoZXIgaW5zdGVhZCBvZiB0aGUg
-b25lIHdlIHdhbnQgdGhlbgo+Pj4+IHRoaXMKPj4+PiAtICAgICAqICAgIGNvdWxkIGJlIGEgcHJv
-YmxlbS4gIFVuZm9ydHVuYXRlbHkgdGhlcmUncyBub3QgbXVjaCB3ZSBjYW4gZG8KPj4+PiAtICAg
-ICAqICAgIHNpbmNlIGl0J3MgYmFrZWQgaW50byBEUk0gdG8gdXNlIGtIei4gIEl0IHNob3VsZG4n
-dCBtYXR0ZXIgaW4KPj4+PiAtICAgICAqICAgIHByYWN0aWNlIHNpbmNlIFJvY2tjaGlwIFBMTHMg
-YXJlIGNvbnRyb2xsZWQgYnkgdGFibGVzIGFuZAo+Pj4+IC0gICAgICogICAgZXZlbiBpZiB0aGVy
-ZSBpcyBhIGRpdmlkZXIgaW4gdGhlIG1pZGRsZSBJIHdvdWxkbid0IGV4cGVjdAo+Pj4+IFBMTAo+
-Pj4+IC0gICAgICogICAgcmF0ZXMgaW4gdGhlIHRhYmxlIHRoYXQgYXJlIGp1c3QgYSBmZXcga0h6
-IGRpZmZlcmVudC4KPj4+PiAtICAgICAqCj4+Pj4gLSAgICAgKiAyLiBHZXQgdGhlIGNsb2NrIGZy
-YW1ld29yayB0byByb3VuZCB0aGUgcmF0ZSBmb3IgdXMgdG8gdGVsbCB1cwo+Pj4+IC0gICAgICog
-ICAgd2hhdCBpdCB3aWxsIGFjdHVhbGx5IG1ha2UuCj4+Pj4gLSAgICAgKgo+Pj4+IC0gICAgICog
-My4gU3RvcmUgdGhlIHJvdW5kZWQgdXAgcmF0ZSBzbyB0aGF0IHdlIGRvbid0IG5lZWQgdG8gd29y
-cnkKPj4+PiBhYm91dAo+Pj4+IC0gICAgICogICAgdGhpcyBpbiB0aGUgYWN0dWFsIGNsa19zZXRf
-cmF0ZSgpLgo+Pj4+IC0gICAgICovCj4+Pj4gLSAgICByYXRlID0gY2xrX3JvdW5kX3JhdGUodm9w
-LT5kY2xrLCBhZGp1c3RlZF9tb2RlLT5jbG9jayAqIDEwMDAgKwo+Pj4+IDk5OSk7Cj4+Pj4gLSAg
-ICBhZGp1c3RlZF9tb2RlLT5jbG9jayA9IERJVl9ST1VORF9VUChyYXRlLCAxMDAwKTsKPj4+PiAt
-Cj4+Pj4gLSAgICByZXR1cm4gdHJ1ZTsKPj4+PiAtfQo+Pj4+IC0KPj4+PiAgICBzdGF0aWMgYm9v
-bCB2b3BfZHNwX2x1dF9pc19lbmFibGVkKHN0cnVjdCB2b3AgKnZvcCkKPj4+PiAgICB7Cj4+Pj4g
-ICAgICAgIHJldHVybiB2b3BfcmVhZF9yZWcodm9wLCAwLCAmdm9wLT5kYXRhLT5jb21tb24tPmRz
-cF9sdXRfZW4pOwo+Pj4+IEBAIC0xNTEyLDcgKzE0NjgsNiBAQCBzdGF0aWMgdm9pZCB2b3BfY3J0
-Y19hdG9taWNfZmx1c2goc3RydWN0Cj4+Pj4gZHJtX2NydGMgKmNydGMsCj4+Pj4gICAgfQo+Pj4+
-ICAgICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19oZWxwZXJfZnVuY3Mgdm9wX2NydGNf
-aGVscGVyX2Z1bmNzID0gewo+Pj4+IC0gICAgLm1vZGVfZml4dXAgPSB2b3BfY3J0Y19tb2RlX2Zp
-eHVwLAo+Pj4+ICAgICAgICAuYXRvbWljX2NoZWNrID0gdm9wX2NydGNfYXRvbWljX2NoZWNrLAo+
-Pj4+ICAgICAgICAuYXRvbWljX2JlZ2luID0gdm9wX2NydGNfYXRvbWljX2JlZ2luLAo+Pj4+ICAg
-ICAgICAuYXRvbWljX2ZsdXNoID0gdm9wX2NydGNfYXRvbWljX2ZsdXNoLAo+CgoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Laurent,
+
+Thanks for the patch.
+
+> Subject: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
+>
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> Add the support for enabling optional regulator that may be used as VCC
+> source.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> [Replaced 'error' variable with 'ret']
+> [Renamed regulator from 'vcc' to 'power']
+> Signed-off-by: Laurent Pinchart
+> <laurent.pinchart+renesas@ideasonboard.com>
+
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Cheers,
+Biju
+
+> ---
+> Changes since v2:
+>
+> - Use the correct regulator name
+> ---
+>  drivers/gpu/drm/bridge/lvds-codec.c | 29
+> +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c
+> b/drivers/gpu/drm/bridge/lvds-codec.c
+> index f19d9f7a5db2..f52ccffc1bd1 100644
+> --- a/drivers/gpu/drm/bridge/lvds-codec.c
+> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> @@ -10,13 +10,16 @@
+>  #include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/regulator/consumer.h>
+>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_panel.h>
+>
+>  struct lvds_codec {
+> +struct device *dev;
+>  struct drm_bridge bridge;
+>  struct drm_bridge *panel_bridge;
+> +struct regulator *vcc;
+>  struct gpio_desc *powerdown_gpio;
+>  u32 connector_type;
+>  };
+> @@ -38,6 +41,14 @@ static int lvds_codec_attach(struct drm_bridge
+> *bridge,  static void lvds_codec_enable(struct drm_bridge *bridge)  {
+>  struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
+> +int ret;
+> +
+> +ret = regulator_enable(lvds_codec->vcc);
+> +if (ret) {
+> +dev_err(lvds_codec->dev,
+> +"Failed to enable regulator \"vcc\": %d\n", ret);
+> +return;
+> +}
+>
+>  if (lvds_codec->powerdown_gpio)
+>  gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
+> 0); @@ -46,9 +57,15 @@ static void lvds_codec_enable(struct drm_bridge
+> *bridge)  static void lvds_codec_disable(struct drm_bridge *bridge)  {
+>  struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
+> +int ret;
+>
+>  if (lvds_codec->powerdown_gpio)
+>  gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
+> 1);
+> +
+> +ret = regulator_disable(lvds_codec->vcc);
+> +if (ret)
+> +dev_err(lvds_codec->dev,
+> +"Failed to disable regulator \"vcc\": %d\n", ret);
+>  }
+>
+>  static const struct drm_bridge_funcs funcs = { @@ -63,12 +80,24 @@ static
+> int lvds_codec_probe(struct platform_device *pdev)
+>  struct device_node *panel_node;
+>  struct drm_panel *panel;
+>  struct lvds_codec *lvds_codec;
+> +int ret;
+>
+>  lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
+>  if (!lvds_codec)
+>  return -ENOMEM;
+>
+> +lvds_codec->dev = &pdev->dev;
+>  lvds_codec->connector_type =
+> (uintptr_t)of_device_get_match_data(dev);
+> +
+> +lvds_codec->vcc = devm_regulator_get(lvds_codec->dev, "power");
+> +if (IS_ERR(lvds_codec->vcc)) {
+> +ret = PTR_ERR(lvds_codec->vcc);
+> +if (ret != -EPROBE_DEFER)
+> +dev_err(lvds_codec->dev,
+> +"Unable to get \"vcc\" supply: %d\n", ret);
+> +return ret;
+> +}
+> +
+>  lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev,
+> "powerdown",
+>
+> GPIOD_OUT_HIGH);
+>  if (IS_ERR(lvds_codec->powerdown_gpio))
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, 40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldorf, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WEEE reg. no.: DE 14978647
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
