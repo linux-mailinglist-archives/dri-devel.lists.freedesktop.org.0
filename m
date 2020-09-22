@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB5627461B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 18:05:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F110727462E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 18:07:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9EC6E8BA;
-	Tue, 22 Sep 2020 16:04:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36EB6E8AD;
+	Tue, 22 Sep 2020 16:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1545F6E8EA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 16:04:54 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id y9so17826489ilq.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 09:04:54 -0700 (PDT)
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDC1B6E8B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 16:07:20 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id y74so20159260iof.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 09:07:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=CKfLdUexUfPdpjwTDlKQ3XKMxqzDUbFupt+mG72mDMc=;
- b=SHGmIrwbSrR8C76zodkIO7iAgYelIoQQ36AHI6sc6YY1PX5vYM4/Jny6hQk3zeF1nW
- JBJuDwWQyaA2EOpSrO+bmQqHwMW49zb+GqCK9C622OA8exuPEuf6ewDR1YlbhZ1zSdbu
- 0X4s4ymyzyUqvN3JYVynOhXtBpxlUjueVsPfriPX4CU/gzaj69xO5RJSajKlDSBNclHx
- jFvIzDbeMMUG+/u5OGFdOZPaQowxUqc02XzQvOM+HVatcWaBlgTIYw/Y55J3sG8ZU7Wx
- dVFwr3ND+A3++M6IEdNoeFzyrrrf7rHyZPCAlri6Uo9MyrGmYCvcJd1Rb5SQmIvyp19c
- rnFQ==
-X-Gm-Message-State: AOAM530o4Ss0rLvgE6gvsdcEeRJV5zTs8VcC7m3EDOSzSrAuETIork9C
- Qe+BPlW5BvQpK8Wlhm1xww==
-X-Google-Smtp-Source: ABdhPJyGE4qpjft/53rjEnM1nes6ybplFwv2lRkqN4ajfiISqxLZHyh9XWi1DNlUUSO+vOKKTAg4Fw==
-X-Received: by 2002:a92:730b:: with SMTP id o11mr4773209ilc.91.1600790694176; 
- Tue, 22 Sep 2020 09:04:54 -0700 (PDT)
+ bh=zF77TzjrjYmXHXCkSrv/gVnYfB2PIU90P8T+fzmt7Pk=;
+ b=jsuOkBv3JvJcYazyRYrDbH1eroaYWHGd4QbwQZbvHxuFjHMP2pX0lhyRWXW3xxuQLp
+ CuW6XrdNCrJZvyv+kaN2G//JSqFrunj6bnUSc05oNfO+f7DNqbAhft1clpnLbiUvhltS
+ weYnGd/mMP2ndDhho+/1PVl0iD3LDP7maj/h12qvMJz0uI/52jaVhylj8VQWAOm4KGF5
+ ZeJiUeJr69vM/vF/+EpfPkXPjdryUv3HgZiJwaWYm3544bFr2Q+aBXQSqdpJHgmrKfuA
+ lIhJvdd6hTkVYxv91AmbaGfozlMFZzBKUleGNs/pP3QbyQmwqtg62G8nVNjZZ5q/OgYn
+ Qq4A==
+X-Gm-Message-State: AOAM533K4wSsaUQce2/BapXA/q0n6N8++XYDGUMpyJFIWdNXkl7ZIlEP
+ OZvxHnlkDaUcPpGkebj8uA==
+X-Google-Smtp-Source: ABdhPJzt0CvS500bgQNFVROZZ0PumLBOgLUdWUuWg7zB0QotcFRl7mSab3HVsaqhvkXOoytRw5oRZg==
+X-Received: by 2002:a05:6602:2013:: with SMTP id
+ y19mr3976939iod.148.1600790840376; 
+ Tue, 22 Sep 2020 09:07:20 -0700 (PDT)
 Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id k2sm7557712ioj.2.2020.09.22.09.04.52
+ by smtp.gmail.com with ESMTPSA id 2sm5005397iow.4.2020.09.22.09.07.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Sep 2020 09:04:53 -0700 (PDT)
-Received: (nullmailer pid 2769164 invoked by uid 1000);
- Tue, 22 Sep 2020 16:04:52 -0000
-Date: Tue, 22 Sep 2020 10:04:52 -0600
+ Tue, 22 Sep 2020 09:07:19 -0700 (PDT)
+Received: (nullmailer pid 2773058 invoked by uid 1000);
+ Tue, 22 Sep 2020 16:07:18 -0000
+Date: Tue, 22 Sep 2020 10:07:18 -0600
 From: Rob Herring <robh@kernel.org>
 To: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Subject: Re: [PATCH 2/4] dt-bindings: phy: convert phy-mtk-tphy.txt to YAML
+Subject: Re: [PATCH 3/4] dt-bindings: phy: convert phy-mtk-ufs.txt to YAML
  schema
-Message-ID: <20200922160452.GA2768616@bogus>
+Message-ID: <20200922160718.GA2772140@bogus>
 References: <5af7c097d1c71a180d8ed1f1a44055859b42f1a0.1600760719.git.chunfeng.yun@mediatek.com>
- <33b4c569db10d983c7a9485a8bd6ec4efc0a1242.1600760719.git.chunfeng.yun@mediatek.com>
+ <006ecd5b88fd7d23a355f2522c37e745f72ac45a.1600760719.git.chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <33b4c569db10d983c7a9485a8bd6ec4efc0a1242.1600760719.git.chunfeng.yun@mediatek.com>
+In-Reply-To: <006ecd5b88fd7d23a355f2522c37e745f72ac45a.1600760719.git.chunfeng.yun@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,36 +72,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 22 Sep 2020 15:55:06 +0800, Chunfeng Yun wrote:
-> Convert phy-mtk-tphy.txt to YAML schema mediatek,tphy.yaml
+On Tue, 22 Sep 2020 15:55:07 +0800, Chunfeng Yun wrote:
+> Convert phy-mtk-ufs.txt to YAML schema mediatek,ufs-phy.yaml
 > 
 > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 > ---
->  .../bindings/phy/mediatek,tphy.yaml           | 260 ++++++++++++++++++
->  .../devicetree/bindings/phy/phy-mtk-tphy.txt  | 162 -----------
->  2 files changed, 260 insertions(+), 162 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
->  delete mode 100644 Documentation/devicetree/bindings/phy/phy-mtk-tphy.txt
+>  .../bindings/phy/mediatek,ufs-phy.yaml        | 64 +++++++++++++++++++
+>  .../devicetree/bindings/phy/phy-mtk-ufs.txt   | 38 -----------
+>  2 files changed, 64 insertions(+), 38 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,ufs-phy.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/phy/phy-mtk-ufs.txt
 > 
 
 
 My bot found errors running 'make dt_binding_check' on your patch:
 
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11290800:clocks: [[4294967295, 15]] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11290800:clock-names: ['ref'] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11290900:clocks: [[4294967295]] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11290900:clock-names: ['ref'] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11291000:clocks: [[4294967295, 15]] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.example.dt.yaml: t-phy@11290000: usb-phy@11291000:clock-names: ['ref'] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,tphy.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/mediatek,ufs-phy.example.dt.yaml: example-0: ufs-phy@11fa0000:reg:0: [0, 301596672, 0, 49152] is too long
+	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
 
 
-See https://patchwork.ozlabs.org/patch/1368817
+See https://patchwork.ozlabs.org/patch/1368813
 
 If you already ran 'make dt_binding_check' and didn't see the above
 error(s), then make sure dt-schema is up to date:
