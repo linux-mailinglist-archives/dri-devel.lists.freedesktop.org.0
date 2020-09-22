@@ -1,60 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20432748B5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 21:02:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F22BF2748FF
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 21:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF806E2DF;
-	Tue, 22 Sep 2020 19:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43D6D6E2E3;
+	Tue, 22 Sep 2020 19:22:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
  [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A64626E2DF
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 19:02:48 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id e16so18315850wrm.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 12:02:48 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C1F6E8D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 19:22:41 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id a17so18309330wrn.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 12:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rm/MUGiqEj6w9zoNKJAAAmLZqiJ10V/BIIAqAEoPPYo=;
- b=nHx+oCJ4c6Paf+lALa+5KspNBYN+hXRQkk9hBttFTN+rje5X8/9FAUvaCBwnGOPWQ1
- F4R0U65sfyBNDYw+IPkqYN/j3Q/YMan4JXmbRcOW/ASi5k1hxBIiRxiCHJJqQK1aycZl
- VBAJ78k7zPaOieZI67vbAaNfJPc8l78oZiXdnreDjhWtR6rsN9vfcznLyR49mkwjUtFs
- E2jco4SRrE6jQD2v3CBXzKCrByqErFTzls6gcpddlM0Nz8pB508/uQX3YGIbykHJImTo
- tHnjh25yK6E3gcJ8UoyNvbJRSMpiFSGPo2YN4QrEg7DYjbZBzI0cK7+uQtTUwkZrNa73
- 1akA==
+ :cc; bh=I3TzcxT+agQSzXap31GmXBqpQ5l+VuHWFFx46ZHwwbk=;
+ b=0/AizksPP03va9xtTssFRnX0Nfgr7YhRF6a60XPsQPz+YAg6xKJPbUiqNqcJQCrpCJ
+ L21Q17H64vLFWtNoNGlS9OFFKfMtvaekSfmjKWajS+pnMmS7Z5Ker0COQk+f5gFfrGkv
+ HKz8d+SL7byDfnGFj4FZDz85iyVQXJ5NAq9Jt8H/FBDtjBleZ5w048dhAwivsMwOSTwm
+ TX/XL/dF3vDxLvEG2owC6aa4rgMMR/++gZ4uBaaMoBXQT4F1n8YYhTNMqmJwjM3dTjj8
+ OhyayKxwX2aV/YpnW7znBPqnlbktcmx4FweomQq+ZOXQGpweKmQEScJ7O9sbcM5aHKqP
+ 65zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rm/MUGiqEj6w9zoNKJAAAmLZqiJ10V/BIIAqAEoPPYo=;
- b=nJUp1g8dUtOpcboYldeOF9X/TKbbRmYdcArHLxD8Sw8u6BjZSQHSFvDa180Hq4gzI8
- V24F4U3mEsea8G4cfLcZwiYZR//rvw8dtNsdw9Hck07PPUjo4Cls/REpT8bcgs+p5Bf+
- hmmNLLztquFs2SSNQC4PU55YK5uAzCAZzBdNuVEypLgwlnhvL9w9DFgzJDjLi1RgGY+5
- KG0DlHBHCOxOZygv5FLrA58Yx1j71XQ95vA/L4RxRUUQVlIBR2fNVDke8UkxjaxZ8yql
- nYl/95jE4xc3Q+tlQSbLRjN2PESVpRNc4r6VkbnJyX+5PcSFMf6CFa8CfZtIADScw/BD
- /sUg==
-X-Gm-Message-State: AOAM533B10MvjFHsHQ0AdfCBGtSiC/kZ8HD4FUhcd7KqKS+Pj+aXlX8a
- IxDNdAO98mztoPFj8iqAlQ5qHmzKNOAZXoE5o0p/yA==
-X-Google-Smtp-Source: ABdhPJwvwQBt4Q6HDn51fnSs2PQD3j8FLapI/mLE772a0J4HTg0bK9kCG9427Njb47eon1VCQkDPa5MIGFa14BvVrEY=
-X-Received: by 2002:adf:e292:: with SMTP id v18mr6915557wri.256.1600801367216; 
- Tue, 22 Sep 2020 12:02:47 -0700 (PDT)
+ bh=I3TzcxT+agQSzXap31GmXBqpQ5l+VuHWFFx46ZHwwbk=;
+ b=f9Lq/2MiwHfm2XgCMPqhEBbgmm7S4fI9hWfZSTmx10WBbD33VUOEoDbdw7AyppPYqL
+ 95Jp/T9LAEoIgPrUHkMX3146Nhw1jmRmzJTe9l1WTM5v/wRDAaCG4dx14BpD/g6EkAmd
+ fFGo0ccumrLBmEI2+VdVhr1BxBpTZs0ZMMkH3rypbqwCFuzOpzpj3xwauAzIVNOMohuI
+ puRefYeQADfv9Y69+AJBxNomzGY/24MBrteVzicgFbhaqkANA2N2P7h0F5Hzc7nfFD6E
+ v2QGBRSteMhleXF5pi6C3GCrZZG/Jq+iiYZkcXHghtiakXCEcK8KV3eWb8ioUdUFZS8B
+ N6MA==
+X-Gm-Message-State: AOAM532zDd1NtGwU4yUagV7UPX2ZMbXKB1kq1fgGjO9ViGGXDjmmuZRD
+ Ry+p4fh2SL1+w9sp/jDDo1SAcO8hCGI2yWalJe7SmQ==
+X-Google-Smtp-Source: ABdhPJyOWSJqfljRuC2AmZxTrv6cdELKH1mZZGRhKl+KB3PwLlQsNSaHT7K6ID4ys3oDH2QukhpyqqmVrOQGGDMuPBY=
+X-Received: by 2002:a5d:608f:: with SMTP id w15mr7005612wrt.244.1600802559703; 
+ Tue, 22 Sep 2020 12:22:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180705101043.4883-1-daniel.vetter@ffwll.ch>
- <20180705102121.5091-1-daniel.vetter@ffwll.ch>
- <CAPj87rN48S8+pLd0ksOX4pdCTqtO=bDgjhkPxpWr_AnpVvgaSQ@mail.gmail.com>
- <20200922133636.GA2369@xpredator>
- <CAKMK7uHCeFan4+agMn0sr-z9UDyZwEJv0_dL-K-gA1n0=m+A2w@mail.gmail.com>
- <CAPj87rNLzFjn7xyePmEBEY8teL7TnL-HrQHXbp7C1tXDdWgeUA@mail.gmail.com>
- <CAKMK7uEyt0d0LidUCQL4oHZRYZdDEFhy=DnRF7WwD1S1+ackFQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uEyt0d0LidUCQL4oHZRYZdDEFhy=DnRF7WwD1S1+ackFQ@mail.gmail.com>
+References: <20200922181834.2913552-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200922181834.2913552-1-daniel.vetter@ffwll.ch>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 22 Sep 2020 20:02:35 +0100
-Message-ID: <CAPj87rNO+_2dBSJtaNi5PemvS3oG2uuoCwP_AmtOw3qbjUQ-ZA@mail.gmail.com>
-Subject: Re: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic
- modesets
+Date: Tue, 22 Sep 2020 20:22:28 +0100
+Message-ID: <CAPj87rP1uBqhhBfJ0phSaOfoAptauTmeOkk_uD-N2kCCnH=_tw@mail.gmail.com>
+Subject: Re: [PATCH] drm: document and enforce rules around "spurious" EBUSY
+ from atomic_commit
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,10 +63,10 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable <stable@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- stable <stable@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>,
- Marius Vlad <marius.vlad@collabora.com>
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -80,33 +74,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, 22 Sep 2020 at 17:02, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> On Tue, Sep 22, 2020 at 4:14 PM Daniel Stone <daniel@fooishbar.org> wrote:
-> > I think we need a guarantee that this never happens if ALLOW_MODESET
-> > is always used in blocking mode, plus in future a cap we can use to
-> > detect that we won't be getting spurious EBUSY events.
-> >
-> > I really don't want to ever paper over this, because it's one of the
-> > clearest indications that userspace has its timing/signalling wrong.
->
-> Ok so the hang-up last time around iirc was that I broke igt by making
-> a few things more synchronous. Let's hope I'm not also breaking stuff
-> with the WARN_ON ...
->
-> New plan:
-> - make this patch here only document existing behaviour and enforce it
-> with the WARN_ON
-> - new uapi would be behind a flag or something, with userspace and
-> everything hanging off it.
->
-> Thoughts?
+On Tue, 22 Sep 2020 at 19:18, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> +       for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+> +               affected_crtc |= drm_crtc_mask(crtc);
+> +
+> +       /*
+> +        * For commits that allow modesets drivers can add other CRTCs to the
+> +        * atomic commit, e.g. when they need to reallocate global resources.
+> +        * This can cause spurious EBUSY, which robs compositors of a very
+> +        * effective sanity check for their drawing loop. Therefor only allow
+> +        * this for modeset commits.
+> +        *
+> +        * FIXME: Should add affected_crtc mask to the ATOMIC IOCTL as an output
+> +        * so compositors know what's going on.
+> +        */
+> +       if (affected_crtc != requested_crtc) {
+> +               /* adding other CRTC is only allowed for modeset commits */
+> +               WARN_ON(!state->allow_modeset);
+> +       }
+> +
 
-What do you mean by 'new uapi'? The proposal that the kernel
-communicates back which object IDs have been added to the state behind
-your back? That it's been made automatically blocking? Something else?
+Can we please add a DRM_DEBUG() here, regardless of the WARN_ON(), to
+let people know what's happening?
+
+With that, R-b me.
 
 Cheers,
-Daniel (the other one)
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
