@@ -2,54 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9F5274AE9
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 23:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D4C274AEC
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 23:14:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE9A76E8EC;
-	Tue, 22 Sep 2020 21:13:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54611884E2;
+	Tue, 22 Sep 2020 21:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FF086E8EC
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 21:13:06 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f6a68b20000>; Tue, 22 Sep 2020 14:12:18 -0700
-Received: from [10.20.170.18] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 22 Sep
- 2020 21:12:54 +0000
-Date: Tue, 22 Sep 2020 16:12:49 -0500
-From: Alex Goins <agoins@nvidia.com>
-X-X-Sender: agoins@agoins-DiGiTS
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH v5 05/38] drm: prime: use sgtable iterators in
- drm_prime_sg_to_page_addr_arrays()
-In-Reply-To: <afb59d1b-1fcf-fd6d-2b48-e078e129f1eb@samsung.com>
-Message-ID: <alpine.DEB.2.20.2009221610450.27953@agoins-DiGiTS>
-References: <20200513132114.6046-1-m.szyprowski@samsung.com>
- <20200513133245.6408-1-m.szyprowski@samsung.com>
- <CGME20200513133259eucas1p273f0e05005b7b1158d884295d35745fd@eucas1p2.samsung.com>
- <20200513133245.6408-5-m.szyprowski@samsung.com>
- <alpine.DEB.2.20.2009211803580.19454@agoins-DiGiTS>
- <afb59d1b-1fcf-fd6d-2b48-e078e129f1eb@samsung.com>
-User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
-X-NVConfidentiality: public
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84C0C6E8ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 21:14:03 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77401DC4;
+ Tue, 22 Sep 2020 23:14:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1600809240;
+ bh=IspY7zmKSKTK0yKRTpmrxP/B48RKkBYDnlSnhKbLOsI=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=ojMNBHWz6585mqafFKi/Ol3j+T9T/TPYZT9MimnioPI3ckTHxFzuNFOg4F5MyCo2D
+ rdDaeowhvoYz02U3PGtC7F6tU1UVxt6wi0HN3AMrkBzQGjyexPV8erumI6ckXPJbYg
+ SSAu/HYNaKi0btOEOZMHIAEgPXjITxo0QdbsHHBk=
+Date: Wed, 23 Sep 2020 00:13:27 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [GIT PULL FOR v5.10 - v3] R-Car display drivers miscellaneous
+ changes
+Message-ID: <20200922211327.GA4506@pendragon.ideasonboard.com>
+References: <20200908160336.GA20954@pendragon.ideasonboard.com>
+ <20200915175730.GA28219@pendragon.ideasonboard.com>
+ <20200917012059.GU3853@pendragon.ideasonboard.com>
+ <20200922111526.GG8290@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1600809138; bh=eDw/Y+WvGisaFJLGeLDL1cgx4wGsvRwxMR3w6+tFJgE=;
- h=Date:From:X-X-Sender:To:CC:Subject:In-Reply-To:Message-ID:
- References:User-Agent:X-NVConfidentiality:MIME-Version:
- Content-Type:X-Originating-IP:X-ClientProxiedBy;
- b=Eo9od3YgFzrokUrlC+GkylUgaEM6H3/JoZ8VAsxxdIl9L1k7fmfTTeaMtcSVONyNe
- ugVp5jMHoqMBBnEgkhlJLszfUZYtSl8RQ5G3uRlXt7zoCgIY/0h6XX4FNuiH8Kb0S7
- WyRCcKI/bgFvn3zgzEfYD2tAqDxNiPDV/Dq3tjbte0g6Nhf4/YhF6akfbfcy/Styf4
- bUNbi2Zb7AFaWAuZBIsbRGocbT6iAy6lQbVA6v2eMw6KTlEKdB+PzvydytW5YeufYd
- t70q9gBMMRUD1C9tRuLLmMiYDa1OQo3J792HaY7U0hejkWFXmjlraDz1/kB/W6H1mV
- 4/CT5hDoP5xiQ==
+Content-Disposition: inline
+In-Reply-To: <20200922111526.GG8290@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,76 +50,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- iommu@lists.linux-foundation.org, Thomas
- Zimmermann <tzimmermann@suse.de>, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+On Tue, Sep 22, 2020 at 02:15:26PM +0300, Laurent Pinchart wrote:
+> Hi Dave and Daniel,
+> 
+> Still because the original pull request hasn't been pulled yet, here's
+> an updated version that fixes one small issue. I had initially fixed it
+> in a separate patch to be merged in the fixes branch for v5.10, but
+> realized the offending commit wasn't in -next yet.
+> 
+> Is there still time to get this merged in v5.10 ? The originally pull
+> request was sent two weeks ago and seems to have fallen through the
+> cracks.
+> 
+> The following changes since commit 818280d5adf1d80e78f95821815148abe9407e14:
+> 
+>   Merge v5.9-rc5 into drm-next (2020-09-14 17:19:11 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/pinchartl/media.git
 
-On Tue, 22 Sep 2020, Marek Szyprowski wrote:
+Modelled after the "my dog ate my homework", something ate the tag name
+:-) It should read du-next-20200922 (which corresponds to the commit ID
+just below).
 
-> External email: Use caution opening links or attachments
+> for you to fetch changes up to 2a32dbdc2c7db5463483fa01fb220fd1b770c6bc:
 > 
+>   drm: rcar-du: Put reference to VSP device (2020-09-22 14:10:05 +0300)
 > 
-> Hi Alex,
+> ----------------------------------------------------------------
+> Biju Das (2):
+>       dt-bindings: display: bridge: lvds-codec: Document power-supply property
+>       drm/bridge: lvds-codec: Add support for regulator
 > 
-> On 22.09.2020 01:15, Alex Goins wrote:
-> > Tested-by: Alex Goins <agoins@nvidia.com>
-> >
-> > This change fixes a regression with drm_prime_sg_to_page_addr_arrays() and
-> > AMDGPU in v5.9.
+> Kuninori Morimoto (4):
+>       dt-bindings: display: renesas: du: Document the r8a77961 bindings
+>       dt-bindings: display: renesas: dw-hdmi: Tidyup example compatible
+>       dt-bindings: display: renesas: dw-hdmi: Add R8A77961 support
+>       drm: rcar-du: Add r8a77961 support
 > 
-> Thanks for testing!
+> Lad Prabhakar (5):
+>       dt-bindings: display: renesas,du: Document the r8a7742 bindings
+>       drm: rcar-du: Add r8a7742 support
+>       dt-bindings: display: renesas,lvds: Document r8a7742 bindings
+>       drm: rcar-du: lvds: Add r8a7742 support
+>       drm: rcar-du: Update description for DRM_RCAR_DW_HDMI Kconfig entry
 > 
-> > Commit 39913934 similarly revamped AMDGPU to use sgtable helper functions. When
-> > it changed from dma_map_sg_attrs() to dma_map_sgtable(), as a side effect it
-> > started correctly updating sgt->nents to the return value of dma_map_sg_attrs().
-> > However, drm_prime_sg_to_page_addr_arrays() incorrectly uses sgt->nents to
-> > iterate over pages, rather than sgt->orig_nents, resulting in it now returning
-> > the incorrect number of pages on AMDGPU.
-> >
-> > I had written a patch that changes drm_prime_sg_to_page_addr_arrays() to use
-> > for_each_sgtable_sg() instead of for_each_sg(), iterating using sgt->orig_nents:
-> >
-> > -       for_each_sg(sgt->sgl, sg, sgt->nents, count) {
-> > +       for_each_sgtable_sg(sgt, sg, count) {
-> >
-> > This patch takes it further, but still has the effect of fixing the number of
-> > pages that drm_prime_sg_to_page_addr_arrays() returns. Something like this
-> > should be included in v5.9 to prevent a regression with AMDGPU.
+> Laurent Pinchart (3):
+>       drm: rcar-du: Fix pitch handling for fully planar YUV formats
+>       drm: rcar-du: Fix crash when enabling a non-visible plane
+>       drm: rcar-du: Put reference to VSP device
 > 
-> Probably the easiest way to handle a fix for v5.9 would be to simply
-> merge the latest version of this patch also to v5.9-rcX:
-> https://lore.kernel.org/dri-devel/20200904131711.12950-3-m.szyprowski@samsung.com/
+> Marian-Cristian Rotariu (5):
+>       dt-bindings: display: renesas,du: Document r8a774e1 bindings
+>       drm: rcar-du: Add support for R8A774E1 SoC
+>       dt-bindings: display: renesas,lvds: Document r8a774e1 bindings
+>       dt-bindings: display: renesas,dw-hdmi: Add r8a774e1 support
+>       drm: rcar-du: lvds: Add support for R8A774E1 SoC
+> 
+> Qian Cai (1):
+>       drm: rcar-du: Make DRM_RCAR_WRITEBACK depends on DRM_RCAR_DU
+> 
+>  .../bindings/display/bridge/lvds-codec.yaml        |  3 ++
+>  .../bindings/display/bridge/renesas,dw-hdmi.txt    |  4 +-
+>  .../bindings/display/bridge/renesas,lvds.yaml      |  2 +
+>  .../devicetree/bindings/display/renesas,du.txt     |  6 +++
+>  drivers/gpu/drm/bridge/lvds-codec.c                | 29 ++++++++++++
+>  drivers/gpu/drm/rcar-du/Kconfig                    |  5 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c              | 37 ++++++++++++++-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c              | 54 +++++++++++++++++++++-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.h              |  1 +
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c              | 14 +++++-
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c                |  2 +
+>  11 files changed, 149 insertions(+), 8 deletions(-)
 
-Tested-by: Alex Goins <agoins@nvidia.com> that version too.
+-- 
+Regards,
 
-> 
-> This way we would get it fixed and avoid possible conflict in the -next.
-
-> Do you have any AMDGPU fixes for v5.9 in the queue? Maybe you can add that
-> patch to the queue? 
-
-I don't have any more AMDGPU fixes, just want to ensure that this makes it in.
-
-Thanks,
-Alex
-
-> Dave: would it be okay that way?
-> 
-> Best regards
-> --
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
-> 
-> 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
