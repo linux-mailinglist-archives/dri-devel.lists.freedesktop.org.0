@@ -2,44 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C90274AD4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 23:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9F5274AE9
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 23:13:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36EFF6E311;
-	Tue, 22 Sep 2020 21:10:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE9A76E8EC;
+	Tue, 22 Sep 2020 21:13:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
- [209.85.222.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C62B46E311;
- Tue, 22 Sep 2020 21:10:15 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id g16so5949754uan.5;
- Tue, 22 Sep 2020 14:10:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=y3bqfEWtFeqz84XjleRuAjyIAbuP49WihE9gT5z0Xpk=;
- b=fO6bQpILKIsW7/BDVLxkHI14RiujScJ6nudt0iPWZs3KzTlWpfKWIRUcCc/JJ5ORd6
- GBcYzjxTyTAK/kuwWmSMv3zdMSHxX9GBWVJIuL4cxp6n3Bvy9Mem1pXiGryf6pwzUmP4
- 8QT+fNb/woDd5EHufJZoeEZsmKERufB9ioGdcqdQkt74PpTkyR4eGT0IwUY4vzGFm6bt
- PmR/G27+eyogLwhwudnPJP6eUrgN3kqP+wm1qSogR+iAu0UKXCuX3sM3Re2HnEspJNqK
- ZfpTCHT8+By6dzouag+75vZ1hGFrem8vsvF1A5V319p8bG6FXEk2QwDMdkGsLSd8/Hfj
- r7gg==
-X-Gm-Message-State: AOAM5317bBNPO4oyFHEN7CngdjpkFVaS7YiljMWBBqQ8ItFyfZQwBdk0
- /R6wjq3S5EUr2TJqr5xbsDwPaSt2kyfSeA/y4l6013zgcso=
-X-Google-Smtp-Source: ABdhPJwf458xGexI6j9rzdx76r+ZgU0CiTh4q+ebSzA/OSJtbqpD6+k8+n46tHaIl1obplPxHctYUXzksc5F574jzus=
-X-Received: by 2002:a9f:24d4:: with SMTP id 78mr4744540uar.47.1600809014913;
- Tue, 22 Sep 2020 14:10:14 -0700 (PDT)
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FF086E8EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 21:13:06 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f6a68b20000>; Tue, 22 Sep 2020 14:12:18 -0700
+Received: from [10.20.170.18] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 22 Sep
+ 2020 21:12:54 +0000
+Date: Tue, 22 Sep 2020 16:12:49 -0500
+From: Alex Goins <agoins@nvidia.com>
+X-X-Sender: agoins@agoins-DiGiTS
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v5 05/38] drm: prime: use sgtable iterators in
+ drm_prime_sg_to_page_addr_arrays()
+In-Reply-To: <afb59d1b-1fcf-fd6d-2b48-e078e129f1eb@samsung.com>
+Message-ID: <alpine.DEB.2.20.2009221610450.27953@agoins-DiGiTS>
+References: <20200513132114.6046-1-m.szyprowski@samsung.com>
+ <20200513133245.6408-1-m.szyprowski@samsung.com>
+ <CGME20200513133259eucas1p273f0e05005b7b1158d884295d35745fd@eucas1p2.samsung.com>
+ <20200513133245.6408-5-m.szyprowski@samsung.com>
+ <alpine.DEB.2.20.2009211803580.19454@agoins-DiGiTS>
+ <afb59d1b-1fcf-fd6d-2b48-e078e129f1eb@samsung.com>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+X-NVConfidentiality: public
 MIME-Version: 1.0
-References: <20200922210510.156220-1-lyude@redhat.com>
-In-Reply-To: <20200922210510.156220-1-lyude@redhat.com>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Tue, 22 Sep 2020 17:10:03 -0400
-Message-ID: <CAKb7UvhAb0wFd9Qi1FGJ=TAYZJ9DYXL6XXMfnG49xEO=a9TuYg@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/kms/nv50-: Fix clock checking algorithm in
- nv50_dp_mode_valid()
-To: Lyude Paul <lyude@redhat.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1600809138; bh=eDw/Y+WvGisaFJLGeLDL1cgx4wGsvRwxMR3w6+tFJgE=;
+ h=Date:From:X-X-Sender:To:CC:Subject:In-Reply-To:Message-ID:
+ References:User-Agent:X-NVConfidentiality:MIME-Version:
+ Content-Type:X-Originating-IP:X-ClientProxiedBy;
+ b=Eo9od3YgFzrokUrlC+GkylUgaEM6H3/JoZ8VAsxxdIl9L1k7fmfTTeaMtcSVONyNe
+ ugVp5jMHoqMBBnEgkhlJLszfUZYtSl8RQ5G3uRlXt7zoCgIY/0h6XX4FNuiH8Kb0S7
+ WyRCcKI/bgFvn3zgzEfYD2tAqDxNiPDV/Dq3tjbte0g6Nhf4/YhF6akfbfcy/Styf4
+ bUNbi2Zb7AFaWAuZBIsbRGocbT6iAy6lQbVA6v2eMw6KTlEKdB+PzvydytW5YeufYd
+ t70q9gBMMRUD1C9tRuLLmMiYDa1OQo3J792HaY7U0hejkWFXmjlraDz1/kB/W6H1mV
+ 4/CT5hDoP5xiQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,72 +62,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ iommu@lists.linux-foundation.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q2FuIHdlIHVzZSA2YnBjIG9uIGFyYml0cmFyeSBEUCBtb25pdG9ycywgb3IgaXMgdGhlcmUgYSBj
-YXBhYmlsaXR5IGZvcgppdD8gTWF5YmUgb25seSB1c2UgNmJwYyBpZiBkaXNwbGF5X2luZm8uYnBj
-ID09IDYgYW5kIG90aGVyd2lzZSB1c2UgOD8KCk9uIFR1ZSwgU2VwIDIyLCAyMDIwIGF0IDU6MDYg
-UE0gTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4gd3JvdGU6Cj4KPiBXaGlsZSBJIHRob3Vn
-aHQgSSBoYWQgdGhpcyBjb3JyZWN0IChzaW5jZSBpdCBhY3R1YWxseSBkaWQgcmVqZWN0IG1vZGVz
-Cj4gbGlrZSBJIGV4cGVjdGVkIGR1cmluZyB0ZXN0aW5nKSwgVmlsbGUgU3lyamFsYSBmcm9tIElu
-dGVsIHBvaW50ZWQgb3V0Cj4gdGhhdCB0aGUgbG9naWMgaGVyZSBpc24ndCBjb3JyZWN0LiBtYXhf
-Y2xvY2sgcmVmZXJzIHRvIHRoZSBtYXggc3ltYm9sCj4gcmF0ZSBzdXBwb3J0ZWQgYnkgdGhlIGVu
-Y29kZXIsIHNvIGxpbWl0aW5nIGNsb2NrIHRvIGRzX2Nsb2NrIHVzaW5nIG1heCgpCj4gZG9lc24n
-dCBtYWtlIHNlbnNlLiBBZGRpdGlvbmFsbHksIHdlIHdhbnQgdG8gY2hlY2sgYWdhaW5zdCA2YnBj
-IGZvciB0aGUKPiB0aW1lIGJlaW5nIHNpbmNlIHRoYXQncyB0aGUgbWluaW11bSBwb3NzaWJsZSBi
-cGMgaGVyZSwgbm90IHRoZSByZXBvcnRlZAo+IGJwYyBmcm9tIHRoZSBjb25uZWN0b3IuIFNlZToK
-Pgo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDIw
-LVNlcHRlbWJlci8yODAyNzYuaHRtbAo+Cj4gRm9yIG1vcmUgaW5mby4KPgo+IFNvLCBsZXQncyBy
-ZXdyaXRlIHRoaXMgdXNpbmcgVmlsbGUncyBhZHZpY2UuCj4KPiBTaWduZWQtb2ZmLWJ5OiBMeXVk
-ZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+IEZpeGVzOiA0MDlkMzgxMzliNDIgKCJkcm0vbm91
-dmVhdS9rbXMvbnY1MC06IFVzZSBkb3duc3RyZWFtIERQIGNsb2NrIGxpbWl0cyBmb3IgbW9kZSB2
-YWxpZGF0aW9uIikKPiBDYzogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4Lmlu
-dGVsLmNvbT4KPiBDYzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiBDYzogQmVuIFNr
-ZWdncyA8YnNrZWdnc0ByZWRoYXQuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbm91dmVh
-dS9ub3V2ZWF1X2RwLmMgfCAyMyArKysrKysrKysrKysrLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hh
-bmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcC5jIGIvZHJpdmVycy9ncHUvZHJtL25v
-dXZlYXUvbm91dmVhdV9kcC5jCj4gaW5kZXggN2I2NDBlMDViZDRjZC4uMjRjODFlNDIzZDM0OSAx
-MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RwLmMKPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RwLmMKPiBAQCAtMjMxLDIzICsyMzEs
-MjYgQEAgbnY1MF9kcF9tb2RlX3ZhbGlkKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3Is
-Cj4gICAgICAgICAgICAgICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2Rl
-LAo+ICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCAqb3V0X2Nsb2NrKQo+ICB7Cj4gLSAgICAg
-ICBjb25zdCB1bnNpZ25lZCBtaW5fY2xvY2sgPSAyNTAwMDsKPiAtICAgICAgIHVuc2lnbmVkIG1h
-eF9jbG9jaywgZHNfY2xvY2ssIGNsb2NrOwo+ICsgICAgICAgY29uc3QgdW5zaWduZWQgaW50IG1p
-bl9jbG9jayA9IDI1MDAwOwo+ICsgICAgICAgdW5zaWduZWQgaW50IG1heF9jbG9jaywgZHNfY2xv
-Y2ssIGNsb2NrOwo+ICsgICAgICAgY29uc3QgdTggYnBwID0gMTg7IC8qIDYgYnBjICovCj4gICAg
-ICAgICBlbnVtIGRybV9tb2RlX3N0YXR1cyByZXQ7Cj4KPiAgICAgICAgIGlmIChtb2RlLT5mbGFn
-cyAmIERSTV9NT0RFX0ZMQUdfSU5URVJMQUNFICYmICFvdXRwLT5jYXBzLmRwX2ludGVybGFjZSkK
-PiAgICAgICAgICAgICAgICAgcmV0dXJuIE1PREVfTk9fSU5URVJMQUNFOwo+Cj4gICAgICAgICBt
-YXhfY2xvY2sgPSBvdXRwLT5kcC5saW5rX25yICogb3V0cC0+ZHAubGlua19idzsKPiAtICAgICAg
-IGRzX2Nsb2NrID0gZHJtX2RwX2Rvd25zdHJlYW1fbWF4X2RvdGNsb2NrKG91dHAtPmRwLmRwY2Qs
-Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBvdXRw
-LT5kcC5kb3duc3RyZWFtX3BvcnRzKTsKPiAtICAgICAgIGlmIChkc19jbG9jaykKPiAtICAgICAg
-ICAgICAgICAgbWF4X2Nsb2NrID0gbWluKG1heF9jbG9jaywgZHNfY2xvY2spOwo+IC0KPiAtICAg
-ICAgIGNsb2NrID0gbW9kZS0+Y2xvY2sgKiAoY29ubmVjdG9yLT5kaXNwbGF5X2luZm8uYnBjICog
-MykgLyAxMDsKPiAtICAgICAgIHJldCA9IG5vdXZlYXVfY29ubl9tb2RlX2Nsb2NrX3ZhbGlkKG1v
-ZGUsIG1pbl9jbG9jaywgbWF4X2Nsb2NrLAo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgJmNsb2NrKTsKPiArICAgICAgIGNsb2NrID0gbW9kZS0+Y2xvY2sgKiBi
-cHAgLyA4Owo+ICsgICAgICAgaWYgKGNsb2NrID4gbWF4X2Nsb2NrKQo+ICsgICAgICAgICAgICAg
-ICByZXR1cm4gTU9ERV9DTE9DS19ISUdIOwo+ICsKPiArICAgICAgIGRzX2Nsb2NrID0gZHJtX2Rw
-X2Rvd25zdHJlYW1fbWF4X2RvdGNsb2NrKG91dHAtPmRwLmRwY2QsIG91dHAtPmRwLmRvd25zdHJl
-YW1fcG9ydHMpOwo+ICsgICAgICAgaWYgKGRzX2Nsb2NrICYmIG1vZGUtPmNsb2NrID4gZHNfY2xv
-Y2spCj4gKyAgICAgICAgICAgICAgIHJldHVybiBNT0RFX0NMT0NLX0hJR0g7Cj4gKwo+ICsgICAg
-ICAgcmV0ID0gbm91dmVhdV9jb25uX21vZGVfY2xvY2tfdmFsaWQobW9kZSwgbWluX2Nsb2NrLCBt
-YXhfY2xvY2ssICZjbG9jayk7Cj4gICAgICAgICBpZiAob3V0X2Nsb2NrKQo+ICAgICAgICAgICAg
-ICAgICAqb3V0X2Nsb2NrID0gY2xvY2s7Cj4gKwo+ICAgICAgICAgcmV0dXJuIHJldDsKPiAgfQo+
-IC0tCj4gMi4yNi4yCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+Hi Marek,
+
+On Tue, 22 Sep 2020, Marek Szyprowski wrote:
+
+> External email: Use caution opening links or attachments
+> 
+> 
+> Hi Alex,
+> 
+> On 22.09.2020 01:15, Alex Goins wrote:
+> > Tested-by: Alex Goins <agoins@nvidia.com>
+> >
+> > This change fixes a regression with drm_prime_sg_to_page_addr_arrays() and
+> > AMDGPU in v5.9.
+> 
+> Thanks for testing!
+> 
+> > Commit 39913934 similarly revamped AMDGPU to use sgtable helper functions. When
+> > it changed from dma_map_sg_attrs() to dma_map_sgtable(), as a side effect it
+> > started correctly updating sgt->nents to the return value of dma_map_sg_attrs().
+> > However, drm_prime_sg_to_page_addr_arrays() incorrectly uses sgt->nents to
+> > iterate over pages, rather than sgt->orig_nents, resulting in it now returning
+> > the incorrect number of pages on AMDGPU.
+> >
+> > I had written a patch that changes drm_prime_sg_to_page_addr_arrays() to use
+> > for_each_sgtable_sg() instead of for_each_sg(), iterating using sgt->orig_nents:
+> >
+> > -       for_each_sg(sgt->sgl, sg, sgt->nents, count) {
+> > +       for_each_sgtable_sg(sgt, sg, count) {
+> >
+> > This patch takes it further, but still has the effect of fixing the number of
+> > pages that drm_prime_sg_to_page_addr_arrays() returns. Something like this
+> > should be included in v5.9 to prevent a regression with AMDGPU.
+> 
+> Probably the easiest way to handle a fix for v5.9 would be to simply
+> merge the latest version of this patch also to v5.9-rcX:
+> https://lore.kernel.org/dri-devel/20200904131711.12950-3-m.szyprowski@samsung.com/
+
+Tested-by: Alex Goins <agoins@nvidia.com> that version too.
+
+> 
+> This way we would get it fixed and avoid possible conflict in the -next.
+
+> Do you have any AMDGPU fixes for v5.9 in the queue? Maybe you can add that
+> patch to the queue? 
+
+I don't have any more AMDGPU fixes, just want to ensure that this makes it in.
+
+Thanks,
+Alex
+
+> Dave: would it be okay that way?
+> 
+> Best regards
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+> 
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
