@@ -1,38 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65183275282
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:53:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9C3275296
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:54:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A9F46E44A;
-	Wed, 23 Sep 2020 07:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BB076E463;
+	Wed, 23 Sep 2020 07:53:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m17618.mail.qiye.163.com (m17618.mail.qiye.163.com
- [59.111.176.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 010FC8984D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 11:11:50 +0000 (UTC)
-Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.231])
- by m17618.mail.qiye.163.com (Hmail) with ESMTPA id 495464E17B2;
- Tue, 22 Sep 2020 19:11:45 +0800 (CST)
-From: Wang Qing <wangqing@vivo.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] gpu/drm/radeon: fix spellint typo in comments
-Date: Tue, 22 Sep 2020 19:11:37 +0800
-Message-Id: <1600773099-32693-1-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZHRgeS09ITUgfGUgeVkpNS0tMTEhKS05NTU1VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MTo6PAw4Sz8YTw4LSAJKQyIh
- MjoaFBNVSlVKTUtLTExISktNS01OVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
- SU5KVUxPVUlISllXWQgBWUFKTExCNwY+
-X-HM-Tid: 0a74b58327919376kuws495464e17b2
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A59346E848;
+ Tue, 22 Sep 2020 11:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=v+IUea/CGhLMdjL8zbCOPAxfGNu+qZhlo3dcebaU5kY=; b=iLgsfzwxwT611QKOl+WmOf2wbN
+ /apXK6gTmDsVL/BXsA2nSeYw00AYm7of+qlZIT5seKhZdu6vVFYUh9VHKNyMaCNUtuxTWQsjq/fQb
+ o+HH9FqL3yy9RUdN/gEnhHaw8zj6LjLVf/SMpazertMDW0M+AsMsYpsjEY6RqiGrpxc2TfV1v186b
+ /dak9QRJGkXVmw5CYmBXsQSP0ryzf3Fj1FCPgdtdTrj8+Ud5C+5S63kHgzqMV4tMTbzbXE/7lodhh
+ 8x3U5eQq2tiq0PS1EC76b9HHLbxCqMbJHon71YuO6JArA0Hf33RL3+JVtd3CmHZv47m4GshGX8kOv
+ xhVaWjtQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red
+ Hat Linux)) id 1kKgMi-000579-Gi; Tue, 22 Sep 2020 11:21:44 +0000
+Date: Tue, 22 Sep 2020 12:21:44 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 3/6] drm/i915: use vmap in shmem_pin_map
+Message-ID: <20200922112144.GB32101@casper.infradead.org>
+References: <20200918163724.2511-1-hch@lst.de>
+ <20200918163724.2511-4-hch@lst.de>
+ <20200921191157.GX32101@casper.infradead.org>
+ <20200922062249.GA30831@lst.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200922062249.GA30831@lst.de>
 X-Mailman-Approved-At: Wed, 23 Sep 2020 07:53:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,36 +50,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wang Qing <wangqing@vivo.com>
-MIME-Version: 1.0
+Cc: Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, linux-mm@kvack.org,
+ Peter Zijlstra <peterz@infradead.org>, intel-gfx@lists.freedesktop.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ xen-devel@lists.xenproject.org, Andrew Morton <akpm@linux-foundation.org>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Nitin Gupta <ngupta@vflare.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Modify the comment typo: "definately" -> "definitely".
+On Tue, Sep 22, 2020 at 08:22:49AM +0200, Christoph Hellwig wrote:
+> On Mon, Sep 21, 2020 at 08:11:57PM +0100, Matthew Wilcox wrote:
+> > This is awkward.  I'd like it if we had a vfree() variant which called
+> > put_page() instead of __free_pages().  I'd like it even more if we
+> > used release_pages() instead of our own loop that called put_page().
+> 
+> Note that we don't need a new vfree variant, we can do this manually if
+> we want, take a look at kernel/dma/remap.c.  But I thought this code
+> intentionally doesn't want to do that to avoid locking in the memory
+> for the pages array.  Maybe the i915 maintainers can clarify.
 
-Signed-off-by: Wang Qing <wangqing@vivo.com>
----
- drivers/gpu/drm/radeon/radeon_vm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Actually, vfree() will work today; I cc'd you on a documentation update
+to make it clear that this is permitted.
 
-diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
-index f60fae0..3d6e2cd
---- a/drivers/gpu/drm/radeon/radeon_vm.c
-+++ b/drivers/gpu/drm/radeon/radeon_vm.c
-@@ -188,7 +188,7 @@ struct radeon_fence *radeon_vm_grab_id(struct radeon_device *rdev,
- 	    vm_id->last_id_use == rdev->vm_manager.active[vm_id->id])
- 		return NULL;
- 
--	/* we definately need to flush */
-+	/* we definitely need to flush */
- 	vm_id->pd_gpu_addr = ~0ll;
- 
- 	/* skip over VMID 0, since it is the system VM */
--- 
-2.7.4
-
+From my current experience with the i915 shmem code, I think that the
+i915 maintainers are experts at graphics, and are unfamiliar with the MM.
+There are a number of places where they do things the hard way.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
