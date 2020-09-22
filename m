@@ -2,44 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D0627528B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:53:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEACD2752A9
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:54:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C343D6E441;
-	Wed, 23 Sep 2020 07:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDCE56E8F7;
+	Wed, 23 Sep 2020 07:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
- [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32F606E864
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 12:54:41 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.124])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 532B948296B;
- Tue, 22 Sep 2020 20:54:38 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Alex Sierra <alex.sierra@amd.com>,
- Nirmoy Das <nirmoy.das@amd.com>, xinhui pan <xinhui.pan@amd.com>,
- Bernard Zhao <bernard@vivo.com>, Jonathan Kim <jonathan.kim@amd.com>,
- James Zhu <James.Zhu@amd.com>, Huang Rui <ray.huang@amd.com>,
- Leo Liu <leo.liu@amd.com>, Boyuan Zhang <boyuan.zhang@amd.com>,
- Monk Liu <Monk.Liu@amd.com>, Jane Jian <Jane.Jian@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd:fix typoes in comments
-Date: Tue, 22 Sep 2020 05:54:18 -0700
-Message-Id: <20200922125431.27943-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.28.0
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF5F6E899
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 14:52:51 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id v8so13121411iom.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 07:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=auvNshkQXlE/m5OXuIgsj7xJP48f/Ct9u31njnfdrtU=;
+ b=c9g/0TYQTGGhZl39Sj84oFYkzNJh7Q3tlG8nT7Qz8HcpsOatxr07ZCRiAAPUVoftOI
+ dE6pWG+cA+pAVNyTICtJUksSMg9UDjW+vReFM2Jz5WAmaufVeP5CEHH8steCoW30T0Yk
+ kOMwlBjsUoEkITQl2JgFtBA2dOkTkTXda/0P1bmJ3wbnjvoT9ztmeIEPWbUWBy3vXohg
+ kL/91/GUyibFQRdCUEF+bEO/w2junq639N0t7/DU0atMhrbv2tywz8VQ2SFWyctOHwE2
+ 64ec/kXfL2XIYB1p5w8NOzZWhmHp4dze8EsWbYatcNvkfzVS1MDSe3mIz4cvk5CQcJqq
+ JNlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=auvNshkQXlE/m5OXuIgsj7xJP48f/Ct9u31njnfdrtU=;
+ b=k0f0QbVT3T/8r0pBJ5hc0Q05Zwyadait5CZdW3A19fO6DCddf7+xe4ud4T4BZAlqdD
+ L8tKHuJeMQMRweG7h7gnS7bUbnwWTYrtsQj6Pr9s4HIxjgrrDvyRf6oWTXcA9fB2EPC6
+ 2i5QWUEqh4qWAYMn21XoliS+YO/wkFRtPf1q6q9msSXENSTB/M2QpWMSeCAs5/LKz5Xu
+ +MRhi5m1dCL+QepqMXESLpcOwY5yOQzqqKW8k1k+IH9hOAwj6MyFvESFG4aAt3Iyew5y
+ X9naExPZbrBOSZv4cXBbr/aLrbKtY9hGtHi/8C371NDjg3EG5nUj2kw4fmBDlPcjQfeG
+ MlMw==
+X-Gm-Message-State: AOAM533LKIPJecocdYGsE2DszBrIADe+R+BedIFBx+El5TqeJEbxt0dJ
+ 7R5X7Aqqbld4ijPbAIJGD1GrpHkuRpkz2VEdwWQ=
+X-Google-Smtp-Source: ABdhPJy3lIncqE3dJ64jlkYjMfYjRnYNyKU/jC+Sh+sQagdJKVqt1/7sXHBIc/K3qps5rIDrcG1k1tex/2I06cXmrd0=
+X-Received: by 2002:a6b:8b8c:: with SMTP id n134mr3733091iod.204.1600786370936; 
+ Tue, 22 Sep 2020 07:52:50 -0700 (PDT)
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZSR4dS0gaHklIGkhKVkpNS0tMTEJJTENNTUxVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NDY6Aww*Oj8sTw5JCTMsTEk9
- PgkaCUlVSlVKTUtLTExCSUxCS0xDVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU9ZV1kIAVlBQkJKSDcG
-X-HM-Tid: 0a74b5e1591393bakuws532b948296b
+References: <20200921181803.1160-1-vicencb@gmail.com>
+ <20200921181803.1160-2-vicencb@gmail.com>
+ <76b8f420-2afb-eba9-5c98-6f10762c4b37@rock-chips.com>
+ <1ada2daf-16f3-191f-ccc1-d3d7d0c319fc@rock-chips.com>
+ <CAAMcf8Az5AVWNzMHuxXda5WUm4_E5QCwpgb2fVtaT0w2+cQELw@mail.gmail.com>
+ <bd2d67ee-4023-ccde-3b2a-e88c3e076d12@rock-chips.com>
+ <CAD=FV=Xv+CZhvXc583VTR2HpSEtkpho3aV5qG5_1-tKFgw_vaQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=Xv+CZhvXc583VTR2HpSEtkpho3aV5qG5_1-tKFgw_vaQ@mail.gmail.com>
+From: Vicente Bergas <vicencb@gmail.com>
+Date: Tue, 22 Sep 2020 16:52:39 +0200
+Message-ID: <CAAMcf8Btd4iTAVXXKd6knJdBcufTrKiX5UPas9ugV01p1ffHpg@mail.gmail.com>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCAxLzNdIGRybTogcm9ja2NoaXA6IGhkbWk6IHJlbW92ZSB2b3BfY3J0Yw==?=
+ =?UTF-8?B?X21vZGVfZml4dXAgdG8gZml4IGNsb2NrIGhhbmRsaW5n44CQ6K+35rOo5oSP77yM6YKu5Lu255SxbGlu?=
+ =?UTF-8?B?dXgtcm9ja2NoaXAtYm91bmNlcythbmR5Lnlhbj1yb2NrLWNoaXBzLmNvbUBsaXN0cy5pbmZyYWRlYWQu?=
+ =?UTF-8?B?b3Jn5Luj5Y+R44CR?=
+To: Doug Anderson <dianders@chromium.org>
 X-Mailman-Approved-At: Wed, 23 Sep 2020 07:53:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,188 +71,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: crj <algea.cao@rock-chips.com>, David Airlie <airlied@linux.ie>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Andy Yan <andy.yan@rock-chips.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the comment typo: "programm" -> "program".
-
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h | 2 +-
- drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c  | 4 ++--
- drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c  | 4 ++--
- drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c  | 4 ++--
- drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c  | 2 +-
- drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c  | 4 ++--
- drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c  | 4 ++--
- drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c  | 4 ++--
- 8 files changed, 14 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-index 770025a5e500..7c46937c1c0e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-@@ -98,7 +98,7 @@ struct amdgpu_bo_list_entry;
- #define AMDGPU_PTE_MTYPE_NV10(a)       ((uint64_t)(a) << 48)
- #define AMDGPU_PTE_MTYPE_NV10_MASK     AMDGPU_PTE_MTYPE_NV10(7ULL)
- 
--/* How to programm VM fault handling */
-+/* How to program VM fault handling */
- #define AMDGPU_VM_FAULT_STOP_NEVER	0
- #define AMDGPU_VM_FAULT_STOP_FIRST	1
- #define AMDGPU_VM_FAULT_STOP_ALWAYS	2
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c b/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c
-index 3cafba726587..b0c0c438fc93 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v4_2.c
-@@ -348,7 +348,7 @@ static int uvd_v4_2_start(struct amdgpu_device *adev)
- 	/* Set the write pointer delay */
- 	WREG32(mmUVD_RBC_RB_WPTR_CNTL, 0);
- 
--	/* programm the 4GB memory segment for rptr and ring buffer */
-+	/* program the 4GB memory segment for rptr and ring buffer */
- 	WREG32(mmUVD_LMI_EXT40_ADDR, upper_32_bits(ring->gpu_addr) |
- 				   (0x7 << 16) | (0x1 << 31));
- 
-@@ -541,7 +541,7 @@ static void uvd_v4_2_mc_resume(struct amdgpu_device *adev)
- 	uint64_t addr;
- 	uint32_t size;
- 
--	/* programm the VCPU memory controller bits 0-27 */
-+	/* program the VCPU memory controller bits 0-27 */
- 	addr = (adev->uvd.inst->gpu_addr + AMDGPU_UVD_FIRMWARE_OFFSET) >> 3;
- 	size = AMDGPU_UVD_FIRMWARE_SIZE(adev) >> 3;
- 	WREG32(mmUVD_VCPU_CACHE_OFFSET0, addr);
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c
-index a566ff926e90..6e57001f6d0a 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v5_0.c
-@@ -253,7 +253,7 @@ static void uvd_v5_0_mc_resume(struct amdgpu_device *adev)
- 	uint64_t offset;
- 	uint32_t size;
- 
--	/* programm memory controller bits 0-27 */
-+	/* program memory controller bits 0-27 */
- 	WREG32(mmUVD_LMI_VCPU_CACHE_64BIT_BAR_LOW,
- 			lower_32_bits(adev->uvd.inst->gpu_addr));
- 	WREG32(mmUVD_LMI_VCPU_CACHE_64BIT_BAR_HIGH,
-@@ -404,7 +404,7 @@ static int uvd_v5_0_start(struct amdgpu_device *adev)
- 	/* set the wb address */
- 	WREG32(mmUVD_RBC_RB_RPTR_ADDR, (upper_32_bits(ring->gpu_addr) >> 2));
- 
--	/* programm the RB_BASE for ring buffer */
-+	/* program the RB_BASE for ring buffer */
- 	WREG32(mmUVD_LMI_RBC_RB_64BIT_BAR_LOW,
- 			lower_32_bits(ring->gpu_addr));
- 	WREG32(mmUVD_LMI_RBC_RB_64BIT_BAR_HIGH,
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
-index 0a880bc101b8..d2d90fe5c6f8 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c
-@@ -583,7 +583,7 @@ static void uvd_v6_0_mc_resume(struct amdgpu_device *adev)
- 	uint64_t offset;
- 	uint32_t size;
- 
--	/* programm memory controller bits 0-27 */
-+	/* program memory controller bits 0-27 */
- 	WREG32(mmUVD_LMI_VCPU_CACHE_64BIT_BAR_LOW,
- 			lower_32_bits(adev->uvd.inst->gpu_addr));
- 	WREG32(mmUVD_LMI_VCPU_CACHE_64BIT_BAR_HIGH,
-@@ -825,7 +825,7 @@ static int uvd_v6_0_start(struct amdgpu_device *adev)
- 	/* set the wb address */
- 	WREG32(mmUVD_RBC_RB_RPTR_ADDR, (upper_32_bits(ring->gpu_addr) >> 2));
- 
--	/* programm the RB_BASE for ring buffer */
-+	/* program the RB_BASE for ring buffer */
- 	WREG32(mmUVD_LMI_RBC_RB_64BIT_BAR_LOW,
- 			lower_32_bits(ring->gpu_addr));
- 	WREG32(mmUVD_LMI_RBC_RB_64BIT_BAR_HIGH,
-diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-index e07e3fae99b5..b44c8677ce8d 100644
---- a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-@@ -1073,7 +1073,7 @@ static int uvd_v7_0_start(struct amdgpu_device *adev)
- 		WREG32_SOC15(UVD, k, mmUVD_RBC_RB_RPTR_ADDR,
- 				(upper_32_bits(ring->gpu_addr) >> 2));
- 
--		/* programm the RB_BASE for ring buffer */
-+		/* program the RB_BASE for ring buffer */
- 		WREG32_SOC15(UVD, k, mmUVD_LMI_RBC_RB_64BIT_BAR_LOW,
- 				lower_32_bits(ring->gpu_addr));
- 		WREG32_SOC15(UVD, k, mmUVD_LMI_RBC_RB_64BIT_BAR_HIGH,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-index 927c330fad21..73699eafb51e 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c
-@@ -910,7 +910,7 @@ static int vcn_v1_0_start_spg_mode(struct amdgpu_device *adev)
- 	WREG32_SOC15(UVD, 0, mmUVD_RBC_RB_RPTR_ADDR,
- 			(upper_32_bits(ring->gpu_addr) >> 2));
- 
--	/* programm the RB_BASE for ring buffer */
-+	/* program the RB_BASE for ring buffer */
- 	WREG32_SOC15(UVD, 0, mmUVD_LMI_RBC_RB_64BIT_BAR_LOW,
- 			lower_32_bits(ring->gpu_addr));
- 	WREG32_SOC15(UVD, 0, mmUVD_LMI_RBC_RB_64BIT_BAR_HIGH,
-@@ -1068,7 +1068,7 @@ static int vcn_v1_0_start_dpg_mode(struct amdgpu_device *adev)
- 	WREG32_SOC15(UVD, 0, mmUVD_RBC_RB_RPTR_ADDR,
- 								(upper_32_bits(ring->gpu_addr) >> 2));
- 
--	/* programm the RB_BASE for ring buffer */
-+	/* program the RB_BASE for ring buffer */
- 	WREG32_SOC15(UVD, 0, mmUVD_LMI_RBC_RB_64BIT_BAR_LOW,
- 								lower_32_bits(ring->gpu_addr));
- 	WREG32_SOC15(UVD, 0, mmUVD_LMI_RBC_RB_64BIT_BAR_HIGH,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-index 23a9eb5b2c8a..e5d29dee0c88 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_0.c
-@@ -900,7 +900,7 @@ static int vcn_v2_0_start_dpg_mode(struct amdgpu_device *adev, bool indirect)
- 	WREG32_SOC15(UVD, 0, mmUVD_RBC_RB_RPTR_ADDR,
- 		(upper_32_bits(ring->gpu_addr) >> 2));
- 
--	/* programm the RB_BASE for ring buffer */
-+	/* program the RB_BASE for ring buffer */
- 	WREG32_SOC15(UVD, 0, mmUVD_LMI_RBC_RB_64BIT_BAR_LOW,
- 		lower_32_bits(ring->gpu_addr));
- 	WREG32_SOC15(UVD, 0, mmUVD_LMI_RBC_RB_64BIT_BAR_HIGH,
-@@ -1060,7 +1060,7 @@ static int vcn_v2_0_start(struct amdgpu_device *adev)
- 	WREG32_SOC15(UVD, 0, mmUVD_RBC_RB_CNTL, tmp);
- 
- 	fw_shared->multi_queue.decode_queue_mode |= FW_QUEUE_RING_RESET;
--	/* programm the RB_BASE for ring buffer */
-+	/* program the RB_BASE for ring buffer */
- 	WREG32_SOC15(UVD, 0, mmUVD_LMI_RBC_RB_64BIT_BAR_LOW,
- 		lower_32_bits(ring->gpu_addr));
- 	WREG32_SOC15(UVD, 0, mmUVD_LMI_RBC_RB_64BIT_BAR_HIGH,
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-index e99bef6e2354..aa6f66c31709 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-@@ -887,7 +887,7 @@ static int vcn_v2_5_start_dpg_mode(struct amdgpu_device *adev, int inst_idx, boo
- 	WREG32_SOC15(VCN, inst_idx, mmUVD_RBC_RB_RPTR_ADDR,
- 		(upper_32_bits(ring->gpu_addr) >> 2));
- 
--	/* programm the RB_BASE for ring buffer */
-+	/* program the RB_BASE for ring buffer */
- 	WREG32_SOC15(VCN, inst_idx, mmUVD_LMI_RBC_RB_64BIT_BAR_LOW,
- 		lower_32_bits(ring->gpu_addr));
- 	WREG32_SOC15(VCN, inst_idx, mmUVD_LMI_RBC_RB_64BIT_BAR_HIGH,
-@@ -1067,7 +1067,7 @@ static int vcn_v2_5_start(struct amdgpu_device *adev)
- 		WREG32_SOC15(VCN, i, mmUVD_RBC_RB_CNTL, tmp);
- 
- 		fw_shared->multi_queue.decode_queue_mode |= FW_QUEUE_RING_RESET;
--		/* programm the RB_BASE for ring buffer */
-+		/* program the RB_BASE for ring buffer */
- 		WREG32_SOC15(VCN, i, mmUVD_LMI_RBC_RB_64BIT_BAR_LOW,
- 			lower_32_bits(ring->gpu_addr));
- 		WREG32_SOC15(VCN, i, mmUVD_LMI_RBC_RB_64BIT_BAR_HIGH,
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBTZXAgMjIsIDIwMjAgYXQgNDoyOCBQTSBEb3VnIEFuZGVyc29uIDxkaWFuZGVyc0Bj
+aHJvbWl1bS5vcmc+IHdyb3RlOgo+Cj4gSGksCj4KPiBPbiBUdWUsIFNlcCAyMiwgMjAyMCBhdCAz
+OjEzIEFNIGNyaiA8YWxnZWEuY2FvQHJvY2stY2hpcHMuY29tPiB3cm90ZToKPiA+Cj4gPiBIaSwg
+RG91Z2xhcwo+ID4KPiA+IOWcqCAyMDIwLzkvMjIgMTc6MzEsIFZpY2VudGUgQmVyZ2FzIOWGmemB
+kzoKPiA+ID4gT24gVHVlLCBTZXAgMjIsIDIwMjAgYXQgMTE6MjQgQU0gY3JqIDxhbGdlYS5jYW9A
+cm9jay1jaGlwcy5jb20+IHdyb3RlOgo+ID4gPj4gSGVsbG8gVmljZW50ZSwKPiA+ID4+Cj4gPiA+
+PiDlnKggMjAyMC85LzIyIDE1OjQwLCBBbmR5IFlhbiDlhpnpgZM6Cj4gPiA+Pj4gQWRkIG91ciBI
+RE1JIGRyaXZlciBvd25lciBBbGdlYSB0byBsaXN0Lgo+ID4gPj4+Cj4gPiA+Pj4gT24gOS8yMi8y
+MCAyOjE4IEFNLCBWaWNlbnRlIEJlcmdhcyB3cm90ZToKPiA+ID4+Pj4gVW5kZXIgY2VydGFpbiBj
+b25kaXRpb25zIHZvcF9jcnRjX21vZGVfZml4dXAgcm91bmRzIHRoZSBjbG9jawo+ID4gPj4KPiA+
+ID4+IE1heSBJIGFzayB1bmRlciB3aGF0IGNvbmRpdGlvbnMgdGhhdCB0aGUgY2xvY2sgb2YgSERN
+SSB3aWxsCj4gPiA+Pgo+ID4gPj4gYmUgY2hhbmdlZCB0byAxNDg1MDEwMDA/ICBJbiBnZW5lcmFs
+LCB0aGUgZGVzY3JpcHRpb24gb2YgY2xvY2sKPiA+ID4+Cj4gPiA+PiBpbiBFRElEIHdpbGwgbm90
+IGJlIGRldGFpbGVkIGJlbG93IHRoZSB0aG91c2FuZHMgcGxhY2UuCj4gPiA+IFRoZXJlIGlzIG5v
+IGNsb2NrIGluIHRoZSBFRElEIHdpdGggMUtIeiByZXNvbHV0aW9uLCB0aGUgY2xvY2sgaXMKPiA+
+ID4gMTQ4NTAwMDAwIHdoaWNoIGhhcyA1MDBLSHogcmVzb2x1dGlvbi4KPiA+ID4gSXQgaXMgdGhl
+IGZ1bmN0aW9uIHZvcF9jcnRjX21vZGVfZml4dXAgdGhhdCBnZXRzIHh4eDAwMDAgYW5kIHJldHVy
+bnMgeHh4MTAwMAo+ID4KPiA+IEkgY2hlY2tlZCB0aGUgY29tbWl0IG1zZyBvZiBjb21taXQgMjg3
+NDIyYTk1ZmUyICgiZHJtL3JvY2tjaGlwOiBSb3VuZCB1cAo+ID4gX2JlZm9yZV8gZ2l2aW5nIHRv
+IHRoZSBjbG9jayBmcmFtZXdvcmsiKS4KPiA+Cj4gPiBSb3VuZCB1cCBoZG1pIGNsb2NrIGlzIGZv
+ciBzb21lIHBhbmVscyB3aXRoIHNwZWNpYWwgY2xvY2tzLiAgQXJlIHRoZXNlCj4gPiBwYW5lbHMg
+Y2xvY2sgY2FuJ3QgYmUgZGl2aWRlZCBjb3JyZWN0bHkgY29tbW9uPwo+Cj4gSSdtIHNvcnJ5LCBi
+dXQgSSBkb24ndCB1bmRlcnN0YW5kIHRoZSBxdWVzdGlvbi4gIENhbiB5b3UgcmVzdGF0ZT8gIEkK
+PiB0aGluayB0aGUgY29tbWl0IG1lc3NhZ2UgdGhhdCB5b3UgcmVmZXIgdG8gaXMgcHJldHR5IHRo
+b3JvdWdoLgo+IFNwZWNpZmljYWxseSB0aGUgcHJvYmxlbSBpcyBhbGwgYXJvdW5kIHRoZSBmYWN0
+IHRoYXQsIGludGVybmFsbHksIERSTQo+IG9mdGVuIHJlZmVycyB0byBjbG9ja3MgaW4ga0h6LiAg
+V2UgZW5kIHVwIHdpdGggaXNzdWVzIHdoZW4gY29udmVydGluZwo+IGJhY2sgYW5kIGZvcnRoIGJl
+dHdlZW4gbnVtYmVycyBpbiBrSHogYW5kIGluIE1Iei4gIFNpbmNlIERSTSBhbHdheXMKPiByb3Vu
+ZHMgZG93biB3aGVuIGdvaW5nIHRvIGtIeiB3ZSBlbmQgdXAgd2l0aCBwcm9ibGVtcy4KPgo+IEkn
+bSBjdXJpb3VzIGhvdyB5b3UncmUgZW5kaW5nIHVwIHdpdGggYW4gZXJyb3IsIHRob3VnaC4gIEhv
+dyBjb3VsZAo+IGFkZGluZyA5OTkgdG8gMTQ4NTAwMDAwIGFuZCB0aGVuIHJvdW5kaW5nIGRvd24g
+Y2F1c2UgeW91IHRvIGdldAo+IDE0ODUwMTAwMD8KClRoZSBuYW1lIG9mIHRoZSBtYWNybyBpcyBE
+SVZfUk9VTkRfVVAsIG9yIGlzIGNsa19yb3VuZF9yYXRlIHdobyBzaG91bGQKcm91bmQgZG93bj8K
+Cj4gPiA+Pj4+IDE0ODUwMDAwMCB0byAxNDg1MDEwMDAgd2hpY2ggbGVhZHMgdG8gdGhlIGZvbGxv
+d2luZyBlcnJvcjoKPiA+ID4+Pj4gZHdoZG1pLXJvY2tjaGlwIGZmOTQwMDAwLmhkbWk6IFBIWSBj
+b25maWd1cmF0aW9uIGZhaWxlZCAoY2xvY2sKPiA+ID4+Pj4gMTQ4NTAxMDAwKQo+ID4gPj4+Pgo+
+ID4gPj4+PiBUaGUgaXNzdWUgd2FzIGZvdW5kIG9uIFJLMzM5OSBib290aW5nIHdpdGggdS1ib290
+LiBVLWJvb3QgY29uZmlndXJlcyB0aGUKPiA+ID4+Pj4gZGlzcGxheSBhdCAyNTYweDE0NDAgYW5k
+IHRoZW4gbGludXggY29tZXMgdXAgd2l0aCBhIGJsYWNrIHNjcmVlbi4KPiA+ID4+Pj4gQSB3b3Jr
+YXJvdW5kIHdhcyB0byB1bi1wbHVnIGFuZCByZS1wbHVnIHRoZSBIRE1JIGRpc3BsYXkuCj4gPiA+
+Pj4+Cj4gPiA+Pj4+IFNpZ25lZC1vZmYtYnk6IFZpY2VudGUgQmVyZ2FzIDx2aWNlbmNiQGdtYWls
+LmNvbT4KPiA+ID4+Pj4gVGVzdGVkLWJ5OiBWaWNlbnRlIEJlcmdhcyA8dmljZW5jYkBnbWFpbC5j
+b20+Cj4gPiA+Pj4+IC0tLQo+ID4gPj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9j
+a2NoaXBfZHJtX3ZvcC5jIHwgNDUgLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiA+Pj4+ICAgIDEg
+ZmlsZSBjaGFuZ2VkLCA0NSBkZWxldGlvbnMoLSkKPiA+ID4+Pj4KPiA+ID4+Pj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMKPiA+ID4+Pj4g
+Yi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jCj4gPiA+Pj4+IGlu
+ZGV4IGM4MGY3ZDlmZDEzZi4uZmU4MGRhNjUyOTk0IDEwMDY0NAo+ID4gPj4+PiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jCj4gPiA+Pj4+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMKPiA+ID4+Pj4gQEAgLTEx
+NDIsNTAgKzExNDIsNiBAQCBzdGF0aWMgdm9pZCB2b3BfY3J0Y19kaXNhYmxlX3ZibGFuayhzdHJ1
+Y3QKPiA+ID4+Pj4gZHJtX2NydGMgKmNydGMpCj4gPiA+Pj4+ICAgICAgICBzcGluX3VubG9ja19p
+cnFyZXN0b3JlKCZ2b3AtPmlycV9sb2NrLCBmbGFncyk7Cj4gPiA+Pj4+ICAgIH0KPiA+ID4+Pj4g
+ICAgLXN0YXRpYyBib29sIHZvcF9jcnRjX21vZGVfZml4dXAoc3RydWN0IGRybV9jcnRjICpjcnRj
+LAo+ID4gPj4+PiAtICAgICAgICAgICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2Rl
+ICptb2RlLAo+ID4gPj4+PiAtICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fZGlzcGxheV9tb2Rl
+ICphZGp1c3RlZF9tb2RlKQo+ID4gPj4+PiAtewo+ID4gPj4+PiAtICAgIHN0cnVjdCB2b3AgKnZv
+cCA9IHRvX3ZvcChjcnRjKTsKPiA+ID4+Pj4gLSAgICB1bnNpZ25lZCBsb25nIHJhdGU7Cj4gPiA+
+Pj4+IC0KPiA+ID4+Pj4gLSAgICAvKgo+ID4gPj4+PiAtICAgICAqIENsb2NrIGNyYXppbmVzcy4K
+PiA+ID4+Pj4gLSAgICAgKgo+ID4gPj4+PiAtICAgICAqIEtleSBwb2ludHM6Cj4gPiA+Pj4+IC0g
+ICAgICoKPiA+ID4+Pj4gLSAgICAgKiAtIERSTSB3b3JrcyBpbiBpbiBrSHouCj4gPiA+Pj4+IC0g
+ICAgICogLSBDbG9jayBmcmFtZXdvcmsgd29ya3MgaW4gSHouCj4gPiA+Pj4+IC0gICAgICogLSBS
+b2NrY2hpcCdzIGNsb2NrIGRyaXZlciBwaWNrcyB0aGUgY2xvY2sgcmF0ZSB0aGF0IGlzIHRoZQo+
+ID4gPj4+PiAtICAgICAqICAgc2FtZSBfT1IgTE9XRVJfIHRoYW4gdGhlIG9uZSByZXF1ZXN0ZWQu
+Cj4gPiA+Pj4+IC0gICAgICoKPiA+ID4+Pj4gLSAgICAgKiBBY3Rpb24gcGxhbjoKPiA+ID4+Pj4g
+LSAgICAgKgo+ID4gPj4+PiAtICAgICAqIDEuIFdoZW4gRFJNIGdpdmVzIHVzIGEgbW9kZSwgd2Ug
+c2hvdWxkIGFkZCA5OTkgSHogdG8gaXQuCj4gPiA+Pj4+IFRoYXQgd2F5Cj4gPiA+Pj4+IC0gICAg
+ICogICAgaWYgdGhlIGNsb2NrIHdlIG5lZWQgaXMgNjAwMDAwMDEgSHogKH42MCBNSHopIGFuZCBE
+Uk0KPiA+ID4+Pj4gdGVsbHMgdXMgdG8KPiA+ID4+Pj4gLSAgICAgKiAgICBtYWtlIDYwMDAwIGtI
+eiB0aGVuIHRoZSBjbG9jayBmcmFtZXdvcmsgd2lsbCBhY3R1YWxseSBnaXZlIHVzCj4gPiA+Pj4+
+IC0gICAgICogICAgdGhlIHJpZ2h0IGNsb2NrLgo+ID4gPj4+PiAtICAgICAqCj4gPiA+Pj4+IC0g
+ICAgICogICAgTk9URTogaWYgdGhlIFBMTCAobWF5YmUgdGhyb3VnaCBhIGRpdmlkZXIpIGNvdWxk
+IGFjdHVhbGx5Cj4gPiA+Pj4+IG1ha2UKPiA+ID4+Pj4gLSAgICAgKiAgICBhIGNsb2NrIHJhdGUg
+OTk5IEh6IGhpZ2hlciBpbnN0ZWFkIG9mIHRoZSBvbmUgd2Ugd2FudCB0aGVuCj4gPiA+Pj4+IHRo
+aXMKPiA+ID4+Pj4gLSAgICAgKiAgICBjb3VsZCBiZSBhIHByb2JsZW0uICBVbmZvcnR1bmF0ZWx5
+IHRoZXJlJ3Mgbm90IG11Y2ggd2UgY2FuIGRvCj4gPiA+Pj4+IC0gICAgICogICAgc2luY2UgaXQn
+cyBiYWtlZCBpbnRvIERSTSB0byB1c2Uga0h6LiAgSXQgc2hvdWxkbid0IG1hdHRlciBpbgo+ID4g
+Pj4+PiAtICAgICAqICAgIHByYWN0aWNlIHNpbmNlIFJvY2tjaGlwIFBMTHMgYXJlIGNvbnRyb2xs
+ZWQgYnkgdGFibGVzIGFuZAo+ID4gPj4+PiAtICAgICAqICAgIGV2ZW4gaWYgdGhlcmUgaXMgYSBk
+aXZpZGVyIGluIHRoZSBtaWRkbGUgSSB3b3VsZG4ndCBleHBlY3QKPiA+ID4+Pj4gUExMCj4gPiA+
+Pj4+IC0gICAgICogICAgcmF0ZXMgaW4gdGhlIHRhYmxlIHRoYXQgYXJlIGp1c3QgYSBmZXcga0h6
+IGRpZmZlcmVudC4KPiA+ID4+Pj4gLSAgICAgKgo+ID4gPj4+PiAtICAgICAqIDIuIEdldCB0aGUg
+Y2xvY2sgZnJhbWV3b3JrIHRvIHJvdW5kIHRoZSByYXRlIGZvciB1cyB0byB0ZWxsIHVzCj4gPiA+
+Pj4+IC0gICAgICogICAgd2hhdCBpdCB3aWxsIGFjdHVhbGx5IG1ha2UuCj4gPiA+Pj4+IC0gICAg
+ICoKPiA+ID4+Pj4gLSAgICAgKiAzLiBTdG9yZSB0aGUgcm91bmRlZCB1cCByYXRlIHNvIHRoYXQg
+d2UgZG9uJ3QgbmVlZCB0byB3b3JyeQo+ID4gPj4+PiBhYm91dAo+ID4gPj4+PiAtICAgICAqICAg
+IHRoaXMgaW4gdGhlIGFjdHVhbCBjbGtfc2V0X3JhdGUoKS4KPiA+ID4+Pj4gLSAgICAgKi8KPiA+
+ID4+Pj4gLSAgICByYXRlID0gY2xrX3JvdW5kX3JhdGUodm9wLT5kY2xrLCBhZGp1c3RlZF9tb2Rl
+LT5jbG9jayAqIDEwMDAgKwo+ID4gPj4+PiA5OTkpOwo+ID4gPj4+PiAtICAgIGFkanVzdGVkX21v
+ZGUtPmNsb2NrID0gRElWX1JPVU5EX1VQKHJhdGUsIDEwMDApOwo+ID4gPj4+PiAtCj4gPiA+Pj4+
+IC0gICAgcmV0dXJuIHRydWU7Cj4gPiA+Pj4+IC19Cj4gPiA+Pj4+IC0KPiA+ID4+Pj4gICAgc3Rh
+dGljIGJvb2wgdm9wX2RzcF9sdXRfaXNfZW5hYmxlZChzdHJ1Y3Qgdm9wICp2b3ApCj4gPiA+Pj4+
+ICAgIHsKPiA+ID4+Pj4gICAgICAgIHJldHVybiB2b3BfcmVhZF9yZWcodm9wLCAwLCAmdm9wLT5k
+YXRhLT5jb21tb24tPmRzcF9sdXRfZW4pOwo+ID4gPj4+PiBAQCAtMTUxMiw3ICsxNDY4LDYgQEAg
+c3RhdGljIHZvaWQgdm9wX2NydGNfYXRvbWljX2ZsdXNoKHN0cnVjdAo+ID4gPj4+PiBkcm1fY3J0
+YyAqY3J0YywKPiA+ID4+Pj4gICAgfQo+ID4gPj4+PiAgICAgIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+ZHJtX2NydGNfaGVscGVyX2Z1bmNzIHZvcF9jcnRjX2hlbHBlcl9mdW5jcyA9IHsKPiA+ID4+Pj4g
+LSAgICAubW9kZV9maXh1cCA9IHZvcF9jcnRjX21vZGVfZml4dXAsCj4gPiA+Pj4+ICAgICAgICAu
+YXRvbWljX2NoZWNrID0gdm9wX2NydGNfYXRvbWljX2NoZWNrLAo+ID4gPj4+PiAgICAgICAgLmF0
+b21pY19iZWdpbiA9IHZvcF9jcnRjX2F0b21pY19iZWdpbiwKPiA+ID4+Pj4gICAgICAgIC5hdG9t
+aWNfZmx1c2ggPSB2b3BfY3J0Y19hdG9taWNfZmx1c2gsCj4gPiA+Cj4gPgo+ID4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
