@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB35273CA0
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:52:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B416273C87
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Sep 2020 09:49:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718B56E184;
-	Tue, 22 Sep 2020 07:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3309D6E825;
+	Tue, 22 Sep 2020 07:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
- [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFAB6E5D5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 02:11:20 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.124])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id A31534827CA;
- Tue, 22 Sep 2020 10:11:13 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Jun Lei <Jun.Lei@amd.com>,
- Aric Cyr <aric.cyr@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
- Brandon Syu <Brandon.Syu@amd.com>,
- Michael Strauss <michael.strauss@amd.com>,
- abdoulaye berthe <abdoulaye.berthe@amd.com>,
- Martin Leung <martin.leung@amd.com>, Bernard Zhao <bernard@vivo.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/amd/display: optimize code runtime a bit
-Date: Mon, 21 Sep 2020 19:11:03 -0700
-Message-Id: <20200922021106.24733-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.28.0
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77B5B6E5D4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 02:32:30 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 095C3B7D920535714ADE;
+ Tue, 22 Sep 2020 10:32:26 +0800 (CST)
+Received: from [10.174.179.91] (10.174.179.91) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 22 Sep 2020 10:32:22 +0800
+Subject: Re: [PATCH -next] drm: omapdrm: dss: simplify the return expression
+ of hdmi_init_pll_data
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20200921131015.91422-1-miaoqinglang@huawei.com>
+ <1f22b1c4-d92e-2dc8-7052-f6df23a187a6@ti.com>
+From: miaoqinglang <miaoqinglang@huawei.com>
+Message-ID: <75a43778-c374-89e3-3f5a-8eea028472e9@huawei.com>
+Date: Tue, 22 Sep 2020 10:32:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZSh5ISRhJSB5CQ0kaVkpNS0tMT0tNTE9LTEhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pkk6EQw*Qj8hPA8PMEkONSJJ
- GQNPCxdVSlVKTUtLTE9LTUxPTk1PVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU9ZV1kIAVlBSElNQzcG
-X-HM-Tid: 0a74b3944a0993bakuwsa31534827ca
+In-Reply-To: <1f22b1c4-d92e-2dc8-7052-f6df23a187a6@ti.com>
+X-Originating-IP: [10.174.179.91]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 22 Sep 2020 07:46:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,60 +46,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the function dal_ddc_service_query_ddc_data,
-get rid of dal_ddc_i2c_payloads_destroy, call
-dal_vector_destruct() directly.
-This change is to make the code run a bit fast.
-
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
-Changes since V1:
-*get rid of dal_ddc_i2c_payloads_destroy, call
-dal_vector_destruct() directly.
-
-Link for V1:
-*https://lore.kernel.org/patchwork/patch/1309014/
----
- drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-index b984eecca58b..dec12de37642 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c
-@@ -148,14 +148,6 @@ static uint32_t dal_ddc_i2c_payloads_get_count(struct i2c_payloads *p)
- 	return p->payloads.count;
- }
- 
--static void dal_ddc_i2c_payloads_destroy(struct i2c_payloads *p)
--{
--	if (!p)
--		return;
--
--	dal_vector_destruct(&p->payloads);
--}
--
- #define DDC_MIN(a, b) (((a) < (b)) ? (a) : (b))
- 
- void dal_ddc_i2c_payloads_add(
-@@ -582,7 +574,7 @@ bool dal_ddc_service_query_ddc_data(
- 				ddc->link,
- 				&command);
- 
--		dal_ddc_i2c_payloads_destroy(&payloads);
-+		dal_vector_destruct(&payloads.payloads);
- 	}
- 
- 	return success;
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgrlnKggMjAyMC85LzIxIDIxOjM5LCBUb21pIFZhbGtlaW5lbiDlhpnpgZM6Cj4gSGksCj4gCj4g
+T24gMjEvMDkvMjAyMCAxNjoxMCwgUWluZ2xhbmcgTWlhbyB3cm90ZToKPj4gU2ltcGxpZnkgdGhl
+IHJldHVybiBleHByZXNzaW9uLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBRaW5nbGFuZyBNaWFvIDxt
+aWFvcWluZ2xhbmdAaHVhd2VpLmNvbT4KPj4gLS0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL29tYXBk
+cm0vZHNzL2hkbWlfcGxsLmMgfCA3ICstLS0tLS0KPj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDYgZGVsZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vb21hcGRybS9kc3MvaGRtaV9wbGwuYyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9o
+ZG1pX3BsbC5jCj4+IGluZGV4IGNmMmIwMDBmMy4uYzNlODViNjM2IDEwMDY0NAo+PiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3MvaGRtaV9wbGwuYwo+PiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vb21hcGRybS9kc3MvaGRtaV9wbGwuYwo+PiBAQCAtMTMxLDcgKzEzMSw2IEBAIHN0YXRp
+YyBpbnQgaGRtaV9pbml0X3BsbF9kYXRhKHN0cnVjdCBkc3NfZGV2aWNlICpkc3MsCj4+ICAgewo+
+PiAgIAlzdHJ1Y3QgZHNzX3BsbCAqcGxsID0gJmhwbGwtPnBsbDsKPj4gICAJc3RydWN0IGNsayAq
+Y2xrOwo+PiAtCWludCByOwo+PiAgIAo+PiAgIAljbGsgPSBkZXZtX2Nsa19nZXQoJnBkZXYtPmRl
+diwgInN5c19jbGsiKTsKPj4gICAJaWYgKElTX0VSUihjbGspKSB7Cj4+IEBAIC0xNTEsMTEgKzE1
+MCw3IEBAIHN0YXRpYyBpbnQgaGRtaV9pbml0X3BsbF9kYXRhKHN0cnVjdCBkc3NfZGV2aWNlICpk
+c3MsCj4+ICAgCj4+ICAgCXBsbC0+b3BzID0gJmhkbWlfcGxsX29wczsKPj4gICAKPj4gLQlyID0g
+ZHNzX3BsbF9yZWdpc3Rlcihkc3MsIHBsbCk7Cj4+IC0JaWYgKHIpCj4+IC0JCXJldHVybiByOwo+
+PiAtCj4+IC0JcmV0dXJuIDA7Cj4+ICsJcmV0dXJuIGRzc19wbGxfcmVnaXN0ZXIoZHNzLCBwbGwp
+Owo+PiAgIH0KPj4gICAKPj4gICBpbnQgaGRtaV9wbGxfaW5pdChzdHJ1Y3QgZHNzX2RldmljZSAq
+ZHNzLCBzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2LAo+Pgo+IAo+IEkgbGlrZSBpdCBtb3Jl
+IHdoZW4gdGhlcmUncyBhIHJldHVybiAwIGF0IHRoZSBlbmQgb2YgdGhlIGZ1bmN0aW9uLCBlc3Bl
+Y2lhbGx5IGluIGZ1bmN0aW9ucyB3aGVyZQo+IHRoZXJlIGFyZSBtdWx0aXBsZSBjYXNlcyBvZiBp
+ZiguLi4pIHJldHVybiByLiBJdCdzIG1vcmUgZWFzaWx5IHJlYWRhYmxlLCBhdCBsZWFzdCB0byBt
+eSBleWVzLgo+IAo+ICAgVG9taQoKSGkgVG9taSwKCkdsYWQgdG8ga25vdyB5b3VyIG9wbmlvbiBh
+bmQgaXQgc291bmRzIGZpbmUgdG8gbWUuCgpUaGFua3MKCj4gCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
