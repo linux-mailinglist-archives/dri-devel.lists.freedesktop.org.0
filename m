@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C5B275799
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 13:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D2027579B
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 13:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0A06E992;
-	Wed, 23 Sep 2020 11:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0941D6E994;
+	Wed, 23 Sep 2020 11:58:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 742996E984
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 11:58:29 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08NBwORt029752;
- Wed, 23 Sep 2020 06:58:24 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D95BF6E994
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 11:58:30 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08NBwRug029762;
+ Wed, 23 Sep 2020 06:58:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1600862304;
- bh=81kpyZX9IZ53paxCu9E0Kb8n3WeCSE4d3i/WYG2myJw=;
+ s=ti-com-17Q1; t=1600862307;
+ bh=YochQlWGFyA3cWoEkbNumxFSI6n0LilPR4enz10eGT8=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=u6ZKIu5NwMGOv1qOr57qWLuobRPc20sawRATq3Mx6tHWluPbV98H2vcwj8dwBY8T+
- j1UwoFy+ASXrOfPaIE0gJt4zTa3nMjkzTmMgMElGadxIFC8g4a2W0WOgx3CA1/XZDB
- j3t9vG6Jnm/16RLNdUPyW9uT1vgt+TgU582e3iUI=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08NBwOV4047783;
- Wed, 23 Sep 2020 06:58:24 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ b=FYwvp9t17FC50cFweulATgnfoRAw4tSc8jXlAw/mMzcqveUPipXoV3M0JOa81w1B7
+ vVRVDu5z2HHJYak0PhcsNuNtbKpr7zA/2RlzvkGAg17Genntrv8hdkNTRtNP/hra9j
+ VsDRy8cVioJOrC9fpsq7nzXXVbh42iG9QUxMWte0=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08NBwQeu036822
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 23 Sep 2020 06:58:26 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 23
- Sep 2020 06:58:24 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2020 06:58:26 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 23 Sep 2020 06:58:24 -0500
+ Frontend Transport; Wed, 23 Sep 2020 06:58:26 -0500
 Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08NBwJhv038765;
- Wed, 23 Sep 2020 06:58:22 -0500
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08NBwJhw038765;
+ Wed, 23 Sep 2020 06:58:24 -0500
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>, Pekka Paalanen <ppaalanen@gmail.com>,
  Daniel Stone <daniel@fooishbar.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>, Jyri Sarha <jsarha@ti.com>, Daniel
  Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH 1/5] drm: add legacy support for using degamma for gamma
-Date: Wed, 23 Sep 2020 14:57:23 +0300
-Message-ID: <20200923115727.248705-2-tomi.valkeinen@ti.com>
+Subject: [PATCH 2/5] drm/omap: use degamma property for gamma table
+Date: Wed, 23 Sep 2020 14:57:24 +0300
+Message-ID: <20200923115727.248705-3-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200923115727.248705-1-tomi.valkeinen@ti.com>
 References: <20200923115727.248705-1-tomi.valkeinen@ti.com>
@@ -68,160 +69,78 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We currently have drm_atomic_helper_legacy_gamma_set() helper which can
-be used to handle legacy gamma-set ioctl.
-drm_atomic_helper_legacy_gamma_set() sets GAMMA_LUT, and clears
-CTM and DEGAMMA_LUT. This works fine on HW where we have either:
+omapdrm supports gamma via GAMMA_LUT property. However, the HW we have
+is:
 
-degamma -> ctm -> gamma -> out
+gamma -> ctm -> out
 
-or
+instead of what the model DRM framework uses:
 
 ctm -> gamma -> out
 
-However, if the HW has gamma table before ctm, the atomic property
-should be DEGAMMA_LUT, and thus we have:
+As the following patches add CTM support for omapdrm, lets first fix the
+gamma.
+
+This patch changes the property from GAMMA_LUT to DEGAMMA_LUT, and uses
+drm_atomic_helper_legacy_degamma_set for gamma_set helper. Thus we will
+have:
 
 degamma -> ctm -> out
 
-This is fine for userspace which sets gamma table using the properties,
-as the userspace can check for the existence of gamma & degamma, but the
-legacy gamma-set ioctl does not work.
-
-This patch adds a new helper, drm_atomic_helper_legacy_degamma_set(),
-which can be used instead of drm_atomic_helper_legacy_gamma_set() when
-the DEGAMMA_LUT is the underlying property that needs to be set.
+and the legacy ioctl will continue working as before.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 81 ++++++++++++++++++++++-------
- include/drm/drm_atomic_helper.h     |  4 ++
- 2 files changed, 65 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_crtc.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 9e1ad493e689..5ba359114df6 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -3469,24 +3469,11 @@ int drm_atomic_helper_page_flip_target(struct drm_crtc *crtc,
- }
- EXPORT_SYMBOL(drm_atomic_helper_page_flip_target);
- 
--/**
-- * drm_atomic_helper_legacy_gamma_set - set the legacy gamma correction table
-- * @crtc: CRTC object
-- * @red: red correction table
-- * @green: green correction table
-- * @blue: green correction table
-- * @size: size of the tables
-- * @ctx: lock acquire context
-- *
-- * Implements support for legacy gamma correction table for drivers
-- * that support color management through the DEGAMMA_LUT/GAMMA_LUT
-- * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
-- * how the atomic color management and gamma tables work.
-- */
--int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
--				       u16 *red, u16 *green, u16 *blue,
--				       uint32_t size,
--				       struct drm_modeset_acquire_ctx *ctx)
-+static int legacy_gamma_degamma_set(struct drm_crtc *crtc,
-+				    u16 *red, u16 *green, u16 *blue,
-+				    uint32_t size,
-+				    struct drm_modeset_acquire_ctx *ctx,
-+				    bool use_degamma)
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index 328a4a74f534..6116af920660 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -573,8 +573,8 @@ static int omap_crtc_atomic_check(struct drm_crtc *crtc,
  {
- 	struct drm_device *dev = crtc->dev;
- 	struct drm_atomic_state *state;
-@@ -3525,9 +3512,11 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+ 	struct drm_plane_state *pri_state;
+ 
+-	if (state->color_mgmt_changed && state->gamma_lut) {
+-		unsigned int length = state->gamma_lut->length /
++	if (state->color_mgmt_changed && state->degamma_lut) {
++		unsigned int length = state->degamma_lut->length /
+ 			sizeof(struct drm_color_lut);
+ 
+ 		if (length < 2)
+@@ -614,10 +614,10 @@ static void omap_crtc_atomic_flush(struct drm_crtc *crtc,
+ 		struct drm_color_lut *lut = NULL;
+ 		unsigned int length = 0;
+ 
+-		if (crtc->state->gamma_lut) {
++		if (crtc->state->degamma_lut) {
+ 			lut = (struct drm_color_lut *)
+-				crtc->state->gamma_lut->data;
+-			length = crtc->state->gamma_lut->length /
++				crtc->state->degamma_lut->data;
++			length = crtc->state->degamma_lut->length /
+ 				sizeof(*lut);
+ 		}
+ 		priv->dispc_ops->mgr_set_gamma(priv->dispc, omap_crtc->channel,
+@@ -738,7 +738,7 @@ static const struct drm_crtc_funcs omap_crtc_funcs = {
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.destroy = omap_crtc_destroy,
+ 	.page_flip = drm_atomic_helper_page_flip,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
++	.gamma_set = drm_atomic_helper_legacy_degamma_set,
+ 	.atomic_duplicate_state = omap_crtc_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+ 	.atomic_set_property = omap_crtc_atomic_set_property,
+@@ -839,7 +839,7 @@ struct drm_crtc *omap_crtc_init(struct drm_device *dev,
+ 	if (priv->dispc_ops->mgr_gamma_size(priv->dispc, channel)) {
+ 		unsigned int gamma_lut_size = 256;
+ 
+-		drm_crtc_enable_color_mgmt(crtc, 0, false, gamma_lut_size);
++		drm_crtc_enable_color_mgmt(crtc, gamma_lut_size, false, 0);
+ 		drm_mode_crtc_set_gamma_size(crtc, gamma_lut_size);
  	}
  
- 	/* Reset DEGAMMA_LUT and CTM properties. */
--	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut, NULL);
-+	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
-+					      use_degamma ? blob : NULL);
- 	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
--	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut, blob);
-+	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
-+					      use_degamma ? NULL : blob);
- 	crtc_state->color_mgmt_changed |= replaced;
- 
- 	ret = drm_atomic_commit(state);
-@@ -3537,8 +3526,60 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
- 	drm_property_blob_put(blob);
- 	return ret;
- }
-+
-+/**
-+ * drm_atomic_helper_legacy_gamma_set - set the legacy gamma correction table using gamma_lut
-+ * @crtc: CRTC object
-+ * @red: red correction table
-+ * @green: green correction table
-+ * @blue: green correction table
-+ * @size: size of the tables
-+ * @ctx: lock acquire context
-+ *
-+ * Implements support for legacy gamma correction table for drivers
-+ * that support color management through the DEGAMMA_LUT/GAMMA_LUT
-+ * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
-+ * how the atomic color management and gamma tables work.
-+ *
-+ * This function uses GAMMA_LUT property for the gamma table. This function
-+ * can be used when the driver exposes either only GAMMA_LUT or both GAMMA_LUT
-+ * and DEGAMMA_LUT.
-+ */
-+int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
-+				       u16 *red, u16 *green, u16 *blue,
-+				       uint32_t size,
-+				       struct drm_modeset_acquire_ctx *ctx)
-+{
-+	return legacy_gamma_degamma_set(crtc, red, green, blue, size, ctx, false);
-+}
- EXPORT_SYMBOL(drm_atomic_helper_legacy_gamma_set);
- 
-+/**
-+ * drm_atomic_helper_legacy_degamma_set - set the legacy gamma correction table using degamma_lut
-+ * @crtc: CRTC object
-+ * @red: red correction table
-+ * @green: green correction table
-+ * @blue: green correction table
-+ * @size: size of the tables
-+ * @ctx: lock acquire context
-+ *
-+ * Implements support for legacy gamma correction table for drivers
-+ * that support color management through the DEGAMMA_LUT/GAMMA_LUT
-+ * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
-+ * how the atomic color management and gamma tables work.
-+ *
-+ * This function uses DEGAMMA_LUT property for the gamma table. This function
-+ * can be used when the driver exposes only DEGAMNMA_LUT.
-+ */
-+int drm_atomic_helper_legacy_degamma_set(struct drm_crtc *crtc,
-+					 u16 *red, u16 *green, u16 *blue,
-+					 uint32_t size,
-+					 struct drm_modeset_acquire_ctx *ctx)
-+{
-+	return legacy_gamma_degamma_set(crtc, red, green, blue, size, ctx, true);
-+}
-+EXPORT_SYMBOL(drm_atomic_helper_legacy_degamma_set);
-+
- /**
-  * drm_atomic_helper_bridge_propagate_bus_fmt() - Propagate output format to
-  *						  the input end of a bridge
-diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-index b268180c97eb..e60f5a600195 100644
---- a/include/drm/drm_atomic_helper.h
-+++ b/include/drm/drm_atomic_helper.h
-@@ -148,6 +148,10 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
- 				       u16 *red, u16 *green, u16 *blue,
- 				       uint32_t size,
- 				       struct drm_modeset_acquire_ctx *ctx);
-+int drm_atomic_helper_legacy_degamma_set(struct drm_crtc *crtc,
-+					 u16 *red, u16 *green, u16 *blue,
-+					 uint32_t size,
-+					 struct drm_modeset_acquire_ctx *ctx);
- 
- /**
-  * drm_atomic_crtc_for_each_plane - iterate over planes currently attached to CRTC
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
