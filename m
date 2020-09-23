@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5289B27646A
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 01:25:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F25427646C
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 01:25:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C221A6EA14;
-	Wed, 23 Sep 2020 23:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44C3C6EA16;
+	Wed, 23 Sep 2020 23:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4146EA14
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 23:25:05 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1600903505; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=b2IYzLoqy+RT6Zl15hZRzCvo04WPMSa3Qlqf25e7kvM=;
- b=SB+GP4fpmKzRsn2AVnQ1nJkoS0bfjWM+CxF3Y7bifYzy1YpKPKuLk6IMtWLNbRS621IL8p4s
- UryaKvFFKALti41awA+taMmGWF7Fjoa5CP/D95oHSlUkZgJPfJIGQBtTFN4x6SWef7KhqQOe
- aN+b8pGARYzeTumfy6TNJxjH/8M=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 5f6bd94e51ea4325f325e176 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 23 Sep 2020 23:25:02
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id ADA34C433C8; Wed, 23 Sep 2020 23:25:02 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7BCE3C433CA;
- Wed, 23 Sep 2020 23:25:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7BCE3C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/dp: fix incorrect function prototype of dp_debug_get()
-Date: Wed, 23 Sep 2020 16:24:48 -0700
-Message-Id: <20200923232448.24516-1-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 2.23.0
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
+ [IPv6:2607:f8b0:4864:20::a44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12CFD6EA16
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 23:25:17 +0000 (UTC)
+Received: by mail-vk1-xa44.google.com with SMTP id t189so429806vka.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 16:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=igFosv3WHmZdFWzvJm5qSZpEZaXrR05wtVSmYLWQPio=;
+ b=RxDcOkouxfb96CzAOBTyyNO+peLSevHCEfGS1Vku/cz4ys8d+JIagVDFcDSZKz123I
+ ZKXDIoyFtK/N6fDlX/gR9a2ixS6z+RcPVI1Vw9mm+BqfNWYBdWKrvGjv51BQteTl0SqT
+ PKUwM3kl/85jbZXeiJwAj4JegIUoaTBGagHTw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=igFosv3WHmZdFWzvJm5qSZpEZaXrR05wtVSmYLWQPio=;
+ b=pZNwsmVSUxBaPjzRoI1Cufq2k93ISev7yruQRMg8SQ6wRJdk0Qo465fFwAAM8ZRY/v
+ 3BemjIm0PBD6+crKaYGAxI5IcEBLx2qKO9MO/jICIwHb1SVw8HAzqblR+Qm2SfD5MdM+
+ ZL+mQ80CNr8xNFxUYI+7rUSJu0HiSGQVn9DRJhqhfO0JrH42Mq9wgo8ggmPViA5SYfpY
+ lNJCIdeqvIQjdmDYlJ7UZQ8Ym2I7vhQUIskcByxa03FzdQ6V324HUDO6aYj0+iTkBBVe
+ ceyCMkgp9Um/txBSw/Kj5i/cuvmdhi5grEGPigcBJOfpdD5s7DDCvA6d4n60/T9Pq/DK
+ BbGQ==
+X-Gm-Message-State: AOAM531aExWRKZnuBXYSXm4qnFSn/EW0gyOHUBT8iDb9wkK6i+baECwx
+ URhVRcx9/UXwZfeQgtOgvrdLhvFjUSqicA==
+X-Google-Smtp-Source: ABdhPJy60RaL13LUAulOpZ6SMYwMb9fmCfJrHlU+o+nxO1+JQIylTm1AyRc0pOuiTaQfRiNZjndGWg==
+X-Received: by 2002:a1f:f884:: with SMTP id w126mr2286883vkh.1.1600903515866; 
+ Wed, 23 Sep 2020 16:25:15 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com.
+ [209.85.217.52])
+ by smtp.gmail.com with ESMTPSA id r14sm184033uao.14.2020.09.23.16.25.14
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Sep 2020 16:25:15 -0700 (PDT)
+Received: by mail-vs1-f52.google.com with SMTP id y190so1024303vsy.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 16:25:14 -0700 (PDT)
+X-Received: by 2002:a67:ec9a:: with SMTP id h26mr2221819vsp.34.1600903514424; 
+ Wed, 23 Sep 2020 16:25:14 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200922203107.2932-1-vicencb@gmail.com>
+In-Reply-To: <20200922203107.2932-1-vicencb@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 23 Sep 2020 16:25:03 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VrTzYibXrkVTgMuQa1ZXk64s5UnDtrtLs8rBayxmnKOQ@mail.gmail.com>
+Message-ID: <CAD=FV=VrTzYibXrkVTgMuQa1ZXk64s5UnDtrtLs8rBayxmnKOQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] drm: rockchip: hdmi: enable higher resolutions
+ than FHD
+To: Vicente Bergas <vicencb@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,42 +69,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, swboyd@chromium.org,
- khsieh@codeaurora.org, seanpaul@chromium.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: crj <algea.cao@rock-chips.com>, David Airlie <airlied@linux.ie>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Andy Yan <andy.yan@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the incorrect function prototype for dp_debug_get()
-in the dp_debug module to address compilation warning.
+Hi,
 
-Fixes: f913454aae8e ("drm/msm/dp: move debugfs node to /sys/kernel/debug/dri/*/")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
----
- drivers/gpu/drm/msm/dp/dp_debug.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Sep 22, 2020 at 1:31 PM Vicente Bergas <vicencb@gmail.com> wrote:
+>
+> This patch series enable a QHD HDMI monitor to work at native resolution.
+> Tested on a Sapphire board with RK3399 connected to a Q27q-10 monitor at 2560x1440@60
+>
+> Changes since v1:
+> Use alternative clock rounding code proposed by Doug Anderson
+>
+> Vicente Bergas (3):
+>   drm: rockchip: hdmi: fix clock rounding code
+>   drm: rockchip: hdmi: allow any clock that is within the range
+>   drm: rockchip: hdmi: add higher pixel clock frequencies
+>
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 8 +++++++-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 7 ++-----
+>  2 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_debug.h b/drivers/gpu/drm/msm/dp/dp_debug.h
-index 377e166fd0ea..7eaedfbb149c 100644
---- a/drivers/gpu/drm/msm/dp/dp_debug.h
-+++ b/drivers/gpu/drm/msm/dp/dp_debug.h
-@@ -60,7 +60,7 @@ void dp_debug_put(struct dp_debug *dp_debug);
- static inline
- struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
- 		struct dp_usbpd *usbpd, struct dp_link *link,
--		struct drm_connector **connector)
-+		struct drm_connector **connector, struct drm_minor *minor)
- {
- 	return ERR_PTR(-EINVAL);
- }
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+So I haven't looked at all this code in over a year and that was
+mostly just a quick re-hash of the work I did years and years ago...
+...but:
 
+1. On rk3288, which also uses dw-hdmi, things get super complicated
+because of the PLL sharing on the Rockchip platform.  I don't _think_
+this has all been worked out, has it?  Specifically there is only one
+"free" PLL but two VOPs, so if you have two displays (like eDP and
+HDMI), one of those two has to make due with a very limited set of
+pixel clocks that it can make.  On downstream Chrome OS tree we made
+the simplifying assumption that the internal panel was going to be the
+one to suffer (so we had to futz around w/ non-standard pixels clocks
+for all our panels) and added some not-so-generic code to then give
+the HDMI VOP full control of one of the PLLs.  Without these tricks
+then you really shouldn't be advertising a lot of clock rates because
+the PLL won't be guaranteed to make them.  I've never had time to find
+a wonderful solution myself and I've tried (at least 3 times) to
+convince others to solve this but failed.  :(
+
+2. In order to get all the clock rates working reliably across a large
+number of monitors on rk3288, I spent a lot of time tweaking all these
+parameters, and it mattered.  You can see what's in the downstream
+tree at:
+
+https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-4.19/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+
+Those numbers came from me staring at pages and pages or hardcoded
+numbers for different display modes until my eyes bled and then coming
+up with a script:
+
+https://chromium.googlesource.com/chromiumos/platform/drm-tests/+/f806cb7d7f14dd17087ae8ebed67bd3589708812/rk3288_hdmitables.py
+
+You are certainly free to totally ignore all that, but I figured I'd
+at last point you at it in case it helped make your rates more
+reliable.  I spent many hours in a lab tweaking settings of dw_hdmi
+and various PLL settings for rk3288 to make sure we could actually
+produce a low enough jitter signal that plugging into a random monitor
+would actually work.
+
+NOTE: I only enabled this on rk3288.  All rk3399 Chromebooks only
+supported DP out (through Type C), so I have zero idea about HDMI
+support on rk3399 or any other Rockchip SoCs and whether any of my
+work would actually be relevant there...
+
+
+Though I would have liked to get everything resolved with upstream
+last year, I just wasn't able to find the time to do it.  I at least
+(hopefully) documented this in:
+
+https://crbug.com/970892
+
+In any case, I'll probably step aside now and let upstream folks
+decide how they want to move forward.  I don't think I have enough
+skin ihe game these days to really make stink about whatever you guys
+decide to do.  ;-)
+
+
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
