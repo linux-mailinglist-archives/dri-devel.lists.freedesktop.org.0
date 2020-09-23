@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C1027548A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 11:29:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C92B2754D2
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 11:52:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D16706E909;
-	Wed, 23 Sep 2020 09:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 187EA6E093;
+	Wed, 23 Sep 2020 09:52:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBE96E909
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 09:29:23 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id y5so18332230otg.5
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 02:29:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=AyIBdj4ulMqoj+WvdvWpX98udPwFTDgNOPS3nGh5FGQ=;
- b=CmKIf0zrFheeQtif9Ive+QGme2JRbFAlPKuCB5APcCJz7cxLArqZ3yRNkj09aHSAB0
- vV9kq99ugKTBtTxKHjlI24dpguL0MdsKsYlcqHhsCmP6tk+3CYgF3ff6hUrSGK8mV9LA
- U9hlxinp0tg3tVxl3v8aKsCjSlHLv0NbYqWfo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AyIBdj4ulMqoj+WvdvWpX98udPwFTDgNOPS3nGh5FGQ=;
- b=dQX3qodFWuzuewPCBdUjOPPS0n3zjPO8JSrZuk6GZKEsRdl0Nz2XhaVjo1RXxUeLze
- s7rk+s9riRJt1M3ewTybkYJWrc/vkCOmcuITfXsmWJD8Wmbf/sMFLn0r/vqTfdDEWFjD
- WLzOzBYCCcVF845knEOCqMWhxMfF7qbv/CuWhXGKfCK5eCeBRjRSo62u7TByfB/BHO/f
- //8qu39snHZLPpDl00LKO9LL+Kviw3ibAJTq9MLPIxSXEe/QcZpwQfmaOJROJED8AZPK
- BpUd+/dXpQZrN3W4iUGiyiyDgguA5+0c7+Xanzd/4cjSNW6b8ZFiolk2DPF+UOVBW4jq
- b/1w==
-X-Gm-Message-State: AOAM5333kitL46fUPkDKY5D//mb13QpsmJxeZGHn5T34bgSqLB4pPLFZ
- ZYQ5Fe+OFPVu5voWo24uf0miDxtujB4whnLm5tOUkg==
-X-Google-Smtp-Source: ABdhPJzJ/vE5D76xdCqxGXnT4dNdIrvnpwi3jCqfhy3QCvbB/ftOjd18Uu4hm7LLMaZUIL0VAVMmaFUEV8qnp5A4Qa0=
-X-Received: by 2002:a05:6830:14d9:: with SMTP id
- t25mr5809712otq.188.1600853362471; 
- Wed, 23 Sep 2020 02:29:22 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65CB66E093;
+ Wed, 23 Sep 2020 09:52:43 +0000 (UTC)
+IronPort-SDR: UQo/hK2K3gff/26nznxVtZmu69MENX3p8U4srk5hVmrvjCKPV6lpEWa9ETox+E2d7bjjRxvGAT
+ wIE/V+vdUupQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9752"; a="148500533"
+X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="148500533"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2020 02:52:41 -0700
+IronPort-SDR: seIxyGE1Vw8wLigC1YT863o99ElqSWQAiuSZRkgjZoMQsFRRWMV/uMP79du30Xlum1gHB9JcsL
+ DrdLmgIHayQA==
+X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="486376229"
+Received: from yymichae-mobl.ger.corp.intel.com (HELO [10.214.208.219])
+ ([10.214.208.219])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2020 02:52:36 -0700
+Subject: Re: [Intel-gfx] [PATCH 4/6] drm/i915: use vmap in i915_gem_object_map
+To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>
+References: <20200918163724.2511-1-hch@lst.de>
+ <20200918163724.2511-5-hch@lst.de>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <9b5d40af-7378-9e68-ca51-73b2148287f3@linux.intel.com>
+Date: Wed, 23 Sep 2020 10:52:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <fabf5079-6c39-7c8f-2973-5b32494f852a@gmail.com>
- <5fb55684-c797-a104-253f-bf43634f0cec@daenzer.net>
- <9181f6be-0da1-2f43-2014-7c3195147194@amd.com>
- <CAPM=9tzWw3x345AHeODiQ9noDNN6XuTd6J2GsADhu4bQns1_XA@mail.gmail.com>
- <3c75bf5b45f3a345407dc099de8b1a96ee9b4b81.camel@intel.com>
-In-Reply-To: <3c75bf5b45f3a345407dc099de8b1a96ee9b4b81.camel@intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 23 Sep 2020 11:29:11 +0200
-Message-ID: <CAKMK7uFptmux=s32m4i64f3BG0uAVtYdnWO6o+8TXHSn=-+1qg@mail.gmail.com>
-Subject: Re: Why can't ttm_tt_swapout() handle uncached or WC BOs?
-To: "Hellstrom, Thomas" <thomas.hellstrom@intel.com>
+In-Reply-To: <20200918163724.2511-5-hch@lst.de>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,83 +53,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "michel@daenzer.net" <michel@daenzer.net>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Minchan Kim <minchan@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, intel-gfx@lists.freedesktop.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, xen-devel@lists.xenproject.org,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Nitin Gupta <ngupta@vflare.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBTZXAgMjMsIDIwMjAgYXQgMTE6MjQgQU0gSGVsbHN0cm9tLCBUaG9tYXMKPHRob21h
-cy5oZWxsc3Ryb21AaW50ZWwuY29tPiB3cm90ZToKPgo+IE9uIFdlZCwgMjAyMC0wOS0yMyBhdCAx
-MzoxNyArMTAwMCwgRGF2ZSBBaXJsaWUgd3JvdGU6Cj4gPiBPbiBGcmksIDE4IFNlcCAyMDIwIGF0
-IDAwOjQ5LCBDaHJpc3RpYW4gS8O2bmlnIDwKPiA+IGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4g
-d3JvdGU6Cj4gPiA+IEFtIDE3LjA5LjIwIHVtIDE2OjQ0IHNjaHJpZWIgTWljaGVsIETDpG56ZXI6
-Cj4gPiA+ID4gT24gMjAyMC0wOS0xNyAyOjIwIHAubS4sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6
-Cj4gPiA+ID4gPiBIaSBndXlzLAo+ID4gPiA+ID4KPiA+ID4gPiA+IE1pY2hlbCBvbmNlIHN1Ym1p
-dHRlZCBhIHBhdGNoIHRvIGZpeCB0cmlnZ2VyaW5nIHRoaXMgQlVHX09OIGluCj4gPiA+ID4gPiB0
-dG1fdHRfc3dhcG91dCgpOgo+ID4gPiA+ID4KPiA+ID4gPiA+ID4gQlVHX09OKHR0bS0+Y2FjaGlu
-Z19zdGF0ZSAhPSB0dF9jYWNoZWQpOwo+ID4gPiA+ID4KPiA+ID4gPiA+IE5vdyBteSBxdWVzdGlv
-biBpcyBkb2VzIGFueWJvZHkga25vdyB3aHkgd2UgaGF2ZSB0aGF0IGluIHRoZQo+ID4gPiA+ID4g
-Zmlyc3QKPiA+ID4gPiA+IHBsYWNlPwo+ID4gPiA+ID4KPiA+ID4gPiA+IFRoZSBvbmx5IHByb2Js
-ZW1hdGljIHRoaW5nIEkgY2FuIHNlZSBpcyBjYWxsaW5nIGNvcHlfaGlnaHBhZ2UoKQo+ID4gPiA+
-ID4gYW5kCj4gPiA+ID4gPiB0aGF0IG9uZSBpcyBqdXN0IGRvaW5nIGEga21hcF9hdG9taWMoKS9r
-dW5tYXBfYXRvbWljKCkgb24gdGhlCj4gPiA+ID4gPiBzb3VyY2UKPiA+ID4gPiA+IGFuZCBkZXN0
-aW5hdGlvbi4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBJIGNhbid0IHNlZSB3aHkgaXQgc2hvdWxkIGJl
-IHByb2JsZW1hdGljIGZvciB0aGlzIHRlbXBvcmFyeQo+ID4gPiA+ID4gbWFwcGluZwo+ID4gPiA+
-ID4gdG8gYmUgY2FjaGVkIGluc3RlYWQgb2YgdW5jYWNoZWQgb3IgV0M/Cj4gPiA+ID4gPgo+ID4g
-PiA+ID4gRG9lcyBhbnlib2R5IGhhcyBhbnkgaWRlYT8KPiA+ID4gPgo+ID4gPiA+IE9uZSB0aGlu
-ZyBpcyB0aGF0IEFGQUlLIHNvbWUgKEFSTT8pIENQVXMgY2FuIGdldCB2ZXJ5IHVwc2V0IHdoZW4K
-PiA+ID4gPiB0aGVyZSdzIGJvdGggYSBjYWNoZWQgYW5kIHVuY2FjaGVhYmxlIG1hcHBpbmcgZm9y
-IHRoZSBzYW1lCj4gPiA+ID4gcGh5c2ljYWwgcGFnZS4KPiA+ID4KPiA+ID4gR29vZCBwb2ludCwg
-YnV0IEkgYWxyZWFkeSBjb25zaWRlcmVkIHRoaXMuCj4gPiA+Cj4gPiA+IElmIHRoZXJlIGlzIGFu
-b3RoZXIgbWFwcGluZyBmb3IgdGhhdCBwYWdlIGxlZnQgd2UgYXJlIGNvbXBsZXRlbHkKPiA+ID4g
-YnVzdGVkCj4gPiA+IGFueXdheSBzaW5jZSB3ZSBhcmUgY3VycmVudGx5IGNoYW5naW5nIHRoZSB1
-bmRlcmx5aW5nIHN0b3JhZ2UuCj4gPiA+Cj4gPgo+ID4gSXQncyBub3QganVzdCBBUk0gb2YgY291
-cnNlLCB4ODYgUEFUIGFsc28gaGFzIG1hbnkgaXNzdWVzIGFib3V0Cj4gPiBtdWx0aXBsZSBtYXBw
-aW5ncyBvZiB0aGUgc2FtZSBiYWNraW5nIHBhZ2Ugd2l0aCBkaWZmZXJlbnQgYXR0cmlidXRlcy4K
-PiA+Cj4gPiBUaGUgb25seSBtYXBwaW5ncyBtaWdodCBiZSBpbiB0aGUgbGluZWFyIG1hcHBpbmcs
-IHNpbmNlIG5vdCBhbGwgcGFnZXMKPiA+IHdlIGdldCBoZXJlIHdpbGwgbmVjZXNzYXJpbHkgYmUg
-aGlnaCBwYWdlcyBJIGFzc3VtZSBhbmQgdGhlcmVmb3JlCj4gPiBjb3VsZCBoYXZlIGEgbGluZWFy
-IG1hcHBpbmcuIElmIHdlJ3ZlIGNoYW5nZWQgdGhlIGxpbmVhciBtYXBwaW5nIHRvCj4gPiBub24t
-Y2FjaGVkLCB0aGVuIGNyZWF0ZSBhIGNhY2hlZCBrbWFwIEknbSBub3QgMTAwJSB0aGF0IHdvbid0
-IGNhdXNlCj4gPiBpc3N1ZXMuCj4gPgo+ID4gYnV0IHRoaXMgaXMgYSBkZWZpbml0ZSBtYXplIG9m
-IHR3aXN0eSBwYXNzYWdlcyBhbmQgSSdkIHByb2JhYmx5IG5lZWQKPiA+IHRvIHNpdCBkb3duIGFu
-ZCBicmVhayBpdCBhIGJpdCBtb3JlLgo+ID4KPiA+IERhdmUuCj4KPiBUaGlzIGlzIGEgcHJvYmxl
-bSB0aGF0IGdvZXMgYmFjayB3YXkgZmFyICgxMispIHllYXJzIHRoYXQgdGhlIHg4Ngo+IGFyY2hp
-dGVjdHVyZSBpcyBub3QgYWxsb3dlZCB0byBkbyBhbGlhc2VkIG1hcHBpbmdzIG9mIHBhZ2VzLCBl
-dmVuCj4gdGhyb3VnaCBtYXBwYWJsZSBHVFRzOiBUaGVyZSBhcmUgdHdvIGFzcGVjdHM6Cj4KPiAx
-KSBDcmVhdGUgYSBXQyBtYXBwaW5nIG9mIGEgcGFnZSB3aXRoIGRhdGEgaW4gdGhlIGNhY2hlLiBX
-aGVuIHRoZSBjYWNoZQo+IGRvZXMgYSB3cml0ZWJhY2ssIGFueXRoaW5nIHdyaXR0ZW4gdGhyb3Vn
-aCB0aGUgV0MgbWFwcGluZyB3aWxsIGdldAo+IG92ZXJ3cml0dGVuLgo+Cj4gMikgRmx1c2hpbmcg
-dGhlIFdCIG1hcHBpbmdzIGZpcnN0IG1pZ2h0IG5vdCBoZWxwLCBzaW5jZSBhdCB0aGF0IHRpbWUK
-PiB0aGVyZSB3ZXJlIHNvbWUgQU1EIHByb2Nlc3NvcnMgKEF0aGxvbnM/KSB0aGF0IHdlcmUgc3Bl
-Y3VsYXRpdmVseQo+IHByZWZldGNoaW5nIGRhdGEgb24gdGhlIFdCIG1hcHBpbmcgaW50byB0aGUg
-Y2FjaGUgYXQgYW55IHRpbWUsIGFuZCBldmVuCj4gdGhvdWdoIGl0IHdhc24ndCBjaGFuZ2VkIGl0
-IGRpZCBhIHdyaXRlYmFjay4gQW55dGhpbmcgd3JpdHRlbiB0aHJvdWdoCj4gV0MgaW4tYmV0d2Vl
-biB0aGUgcHJlZmV0Y2ggYW5kIHRoZSB3cml0ZWJhY2sgZ290IG92ZXJ3cml0dGVuLiBUaGF0IHdh
-cwo+IGEgcmVhbCBhbmQgb2NjdXJpbmcgcHJvYmxlbSBhdCB0aGF0IHRpbWUuIEFNRCBjbGFpbWVk
-IGl0IHdhcyBub3QKPiB2aW9sYXRpbmcgc3BlY3MuCj4KPiBTbyBhbGlhc2VkIG1hcHBpbmdzIGlz
-IHByb2JhYmx5IGF0IGJlc3QgdmVyeSBmcmFnaWxlLgoKSW50ZWwgaGFzIGFuIGFyY2hpdGVjdHVy
-YWwgZ3VhcmFudGVlIChhcHBhcmVudGx5KSB0aGF0IGNsZWFuCmNhY2hlbGluZXMgZ2V0IGRyb3Bw
-ZWQsIG5ldmVyIHdyaXR0ZW4gYmFjay4gV2UgaGVhdmlseSByZWx5IG9uIHRoYXQKd2l0aCBhbGwg
-b3VyIGNhY2hlbGluZSBmbHVzaGluZyB0cmlja3MgZm9yIGludGVncmF0ZWQgaTkxNS5rby4gU2lu
-Y2UKU29DIGtlZXAgYmVpbmcgbm9uLWNvaGVyZW50IGZvciB0aGUgZ3B1IGZvciBwZXJmIHJlYXNv
-bnMgSSBkb24ndApleHBlY3QgdGhlc2Uga2luZCBvZiBnYW1lcyB0byBnbyBhd2F5IGFueXRpbWUg
-c29vbiAod2UgZXZlbiBkbyB0aGVzZQpjYWNoZSBmbHVzaGVzIGluIHVzZXJzcGFjZSBub3dhZGF5
-cywgdG8gY3V0IG91dCB0aGUga2VybmVsKS4KCkZvciBkaXNjcmV0ZSBpdCdzIGEgZGlmZmVyZW50
-IHN0b3J5IG9mYy4KLURhbmllbAoKPgo+IC9UaG9tYXMKPgo+Cj4KPgo+IC0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
-PiBJbnRlbCBTd2VkZW4gQUIKPiBSZWdpc3RlcmVkIE9mZmljZTogSXNhZmpvcmRzZ2F0YW4gMzBC
-LCAxNjQgNDAgS2lzdGEsIFN0b2NraG9sbSwgU3dlZGVuCj4gUmVnaXN0cmF0aW9uIE51bWJlcjog
-NTU2MTg5LTYwMjcKPgo+IFRoaXMgZS1tYWlsIGFuZCBhbnkgYXR0YWNobWVudHMgbWF5IGNvbnRh
-aW4gY29uZmlkZW50aWFsIG1hdGVyaWFsIGZvcgo+IHRoZSBzb2xlIHVzZSBvZiB0aGUgaW50ZW5k
-ZWQgcmVjaXBpZW50KHMpLiBBbnkgcmV2aWV3IG9yIGRpc3RyaWJ1dGlvbgo+IGJ5IG90aGVycyBp
-cyBzdHJpY3RseSBwcm9oaWJpdGVkLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQKPiByZWNp
-cGllbnQsIHBsZWFzZSBjb250YWN0IHRoZSBzZW5kZXIgYW5kIGRlbGV0ZSBhbGwgY29waWVzLgoK
-CgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24K
-aHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+
+On 18/09/2020 17:37, Christoph Hellwig wrote:
+> i915_gem_object_map implements fairly low-level vmap functionality in
+> a driver.  Split it into two helpers, one for remapping kernel memory
+> which can use vmap, and one for I/O memory that uses vmap_pfn.
+> 
+> The only practical difference is that alloc_vm_area prefeaults the
+> vmalloc area PTEs, which doesn't seem to be required here for the
+> kernel memory case (and could be added to vmap using a flag if actually
+> required).
+
+Patch looks good to me.
+
+Series did not get a CI run from our side because of a different base so 
+I don't know if you would like to have a run there? If so you would need 
+to rebase against git://anongit.freedesktop.org/drm-tip drm-tip and you 
+could even send a series to intel-gfx-trybot@lists.freedesktop.org, 
+suppressing cc, to check it out without sending a copy to the real 
+mailing list.
+
+Regards,
+
+Tvrtko
+
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   drivers/gpu/drm/i915/Kconfig              |   1 +
+>   drivers/gpu/drm/i915/gem/i915_gem_pages.c | 101 ++++++++++------------
+>   2 files changed, 47 insertions(+), 55 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index 9afa5c4a6bf006..1e1cb245fca778 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -25,6 +25,7 @@ config DRM_I915
+>   	select CRC32
+>   	select SND_HDA_I915 if SND_HDA_CORE
+>   	select CEC_CORE if CEC_NOTIFIER
+> +	select VMAP_PFN
+>   	help
+>   	  Choose this option if you have a system that has "Intel Graphics
+>   	  Media Accelerator" or "HD Graphics" integrated graphics,
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> index e8a083743e0927..90029ea83aede9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> @@ -234,50 +234,24 @@ int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj)
+>   	return err;
+>   }
+>   
+> -static inline pte_t iomap_pte(resource_size_t base,
+> -			      dma_addr_t offset,
+> -			      pgprot_t prot)
+> -{
+> -	return pte_mkspecial(pfn_pte((base + offset) >> PAGE_SHIFT, prot));
+> -}
+> -
+>   /* The 'mapping' part of i915_gem_object_pin_map() below */
+> -static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
+> +static void *i915_gem_object_map_page(struct drm_i915_gem_object *obj,
+>   				 enum i915_map_type type)
+>   {
+> -	unsigned long n_pte = obj->base.size >> PAGE_SHIFT;
+> -	struct sg_table *sgt = obj->mm.pages;
+> -	pte_t *stack[32], **mem;
+> -	struct vm_struct *area;
+> +	unsigned long n_pages = obj->base.size >> PAGE_SHIFT, i;
+> +	struct page *stack[32], **pages = stack, *page;
+> +	struct sgt_iter iter;
+>   	pgprot_t pgprot;
+> -
+> -	if (!i915_gem_object_has_struct_page(obj) && type != I915_MAP_WC)
+> -		return NULL;
+> -
+> -	/* A single page can always be kmapped */
+> -	if (n_pte == 1 && type == I915_MAP_WB)
+> -		return kmap(sg_page(sgt->sgl));
+> -
+> -	mem = stack;
+> -	if (n_pte > ARRAY_SIZE(stack)) {
+> -		/* Too big for stack -- allocate temporary array instead */
+> -		mem = kvmalloc_array(n_pte, sizeof(*mem), GFP_KERNEL);
+> -		if (!mem)
+> -			return NULL;
+> -	}
+> -
+> -	area = alloc_vm_area(obj->base.size, mem);
+> -	if (!area) {
+> -		if (mem != stack)
+> -			kvfree(mem);
+> -		return NULL;
+> -	}
+> +	void *vaddr;
+>   
+>   	switch (type) {
+>   	default:
+>   		MISSING_CASE(type);
+>   		fallthrough;	/* to use PAGE_KERNEL anyway */
+>   	case I915_MAP_WB:
+> +		/* A single page can always be kmapped */
+> +		if (n_pages == 1)
+> +			return kmap(sg_page(obj->mm.pages->sgl));
+>   		pgprot = PAGE_KERNEL;
+>   		break;
+>   	case I915_MAP_WC:
+> @@ -285,30 +259,44 @@ static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
+>   		break;
+>   	}
+>   
+> -	if (i915_gem_object_has_struct_page(obj)) {
+> -		struct sgt_iter iter;
+> -		struct page *page;
+> -		pte_t **ptes = mem;
+> -
+> -		for_each_sgt_page(page, iter, sgt)
+> -			**ptes++ = mk_pte(page, pgprot);
+> -	} else {
+> -		resource_size_t iomap;
+> -		struct sgt_iter iter;
+> -		pte_t **ptes = mem;
+> -		dma_addr_t addr;
+> +	if (n_pages > ARRAY_SIZE(stack)) {
+> +		/* Too big for stack -- allocate temporary array instead */
+> +		pages = kvmalloc_array(n_pages, sizeof(*pages), GFP_KERNEL);
+> +		if (!pages)
+> +			return NULL;
+> +	}
+>   
+> -		iomap = obj->mm.region->iomap.base;
+> -		iomap -= obj->mm.region->region.start;
+> +	for_each_sgt_page(page, iter, obj->mm.pages)
+> +		pages[i++] = page;
+> +	vaddr = vmap(pages, n_pages, 0, pgprot);
+> +	if (pages != stack)
+> +		kvfree(pages);
+> +	return vaddr;
+> +}
+>   
+> -		for_each_sgt_daddr(addr, iter, sgt)
+> -			**ptes++ = iomap_pte(iomap, addr, pgprot);
+> +static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj)
+> +{
+> +	resource_size_t iomap = obj->mm.region->iomap.base -
+> +		obj->mm.region->region.start;
+> +	unsigned long n_pfn = obj->base.size >> PAGE_SHIFT;
+> +	unsigned long stack[32], *pfns = stack, i;
+> +	struct sgt_iter iter;
+> +	dma_addr_t addr;
+> +	void *vaddr;
+> +
+> +	if (n_pfn > ARRAY_SIZE(stack)) {
+> +		/* Too big for stack -- allocate temporary array instead */
+> +		pfns = kvmalloc_array(n_pfn, sizeof(*pfns), GFP_KERNEL);
+> +		if (!pfns)
+> +			return NULL;
+>   	}
+>   
+> -	if (mem != stack)
+> -		kvfree(mem);
+> -
+> -	return area->addr;
+> +	for_each_sgt_daddr(addr, iter, obj->mm.pages)
+> +		pfns[i++] = (iomap + addr) >> PAGE_SHIFT;
+> +	vaddr = vmap_pfn(pfns, n_pfn, pgprot_writecombine(PAGE_KERNEL_IO));
+> +	if (pfns != stack)
+> +		kvfree(pfns);
+> +	return vaddr;
+>   }
+>   
+>   /* get, pin, and map the pages of the object into kernel space */
+> @@ -360,7 +348,10 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
+>   	}
+>   
+>   	if (!ptr) {
+> -		ptr = i915_gem_object_map(obj, type);
+> +		if (i915_gem_object_has_struct_page(obj))
+> +			ptr = i915_gem_object_map_page(obj, type);
+> +		else if (type == I915_MAP_WC)
+> +			ptr = i915_gem_object_map_pfn(obj);
+>   		if (!ptr) {
+>   			err = -ENOMEM;
+>   			goto err_unpin;
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
