@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F667276A8D
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68816276A8B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:19:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 588556EAB9;
-	Thu, 24 Sep 2020 07:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BF86EAB1;
+	Thu, 24 Sep 2020 07:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD57D6E97A
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 16:53:36 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08NGrYUc073873;
- Wed, 23 Sep 2020 11:53:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1600880014;
- bh=v/OdQtLrwg8yFHMiXDvciypEO6WxHuaqhFeT3aUYHVk=;
- h=Subject:To:References:From:Date:In-Reply-To;
- b=bPXmP2CUn6HstssqRQAJHuvz8dGAJpgOb44WcJiChOvDH5JjqhtpWwfpiqSfRM3Pw
- pa0uVcKlGFPxYYoMhQMmlLsSOiqovFxNpf+k/wp06OeNuSt03GhjMTxwMOle+5eVV3
- CTu99N+bQ8HczmerxJF38khSQ3FO4mQuVekEsCmI=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08NGrYso032957
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 23 Sep 2020 11:53:34 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 23
- Sep 2020 11:53:34 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 23 Sep 2020 11:53:34 -0500
-Received: from [10.250.36.88] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08NGrXwg008341;
- Wed, 23 Sep 2020 11:53:33 -0500
-Subject: Re: [PATCH v2] MAINTAINERS: add Dan Murphy as TP LP8xxx drivers
- maintainer
-To: Krzysztof Kozlowski <krzk@kernel.org>, Mark Brown <broonie@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Jonathan Cameron <jic23@kernel.org>, Lee Jones
- <lee.jones@linaro.org>, Sebastian Reichel <sre@kernel.org>, Bartlomiej
- Zolnierkiewicz <b.zolnierkie@samsung.com>, <linux-iio@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- <linux-leds@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>
-References: <20200922152839.2744-1-krzk@kernel.org>
-From: Dan Murphy <dmurphy@ti.com>
-Message-ID: <fe4609b5-5aab-46ed-5280-9a4742b97fe5@ti.com>
-Date: Wed, 23 Sep 2020 11:53:33 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BFF6E9FD;
+ Wed, 23 Sep 2020 20:55:57 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1600894555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l2WJ9VY/ovlOeTamqA6hSSk6rkurGuhlcvh+V81qWPQ=;
+ b=KMxSh7B9yWMw8PeMibjvvc2K7UOxI4lmPORR16F3qgfamXgPw6W2rNezAEQwEe6OJiYe4H
+ KA1VFmz3v9+AAAyGKXqh0V2F00BcNrhxAyYwtww9hIJko06aHPQ0Qs+ySI2L/J2EXxUy++
+ CvEgXKPNZfLsjh7NP0EX4EMRBspJVLGoRpGEZGVn28aSQB2FMNShRbroRGx95X5g5CH1z2
+ Jmfoo6OzXyLS27oCCIOZJaxYLXmXXqVHJpj66p+awnyn1l9VeiLy2JKTO40uT7ro90AvQj
+ BedSnC4tHLgo1VR7G3ERu+f8FeVmrMFkGCEBOb66xrRWFUbPXEpMUqIwQ2qEcQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1600894555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l2WJ9VY/ovlOeTamqA6hSSk6rkurGuhlcvh+V81qWPQ=;
+ b=2urhFSWhq3UaaqI7581rYD0LbsWTkSa2pjmt+peY735+/10gUPHibCgr+piKbh9Xsfbp65
+ bVJ9t3cFY/BDWVBQ==
+To: Steven Rostedt <rostedt@goodmis.org>, peterz@infradead.org
+Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
+ kmap_atomic & friends
+In-Reply-To: <20200923115251.7cc63a7e@oasis.local.home>
+References: <20200919091751.011116649@linutronix.de>
+ <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
+ <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+ <87k0wode9a.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
+ <87eemwcpnq.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
+ <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
+ <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
+ <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
+ <20200923115251.7cc63a7e@oasis.local.home>
+Date: Wed, 23 Sep 2020 22:55:54 +0200
+Message-ID: <874kno9pr9.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20200922152839.2744-1-krzk@kernel.org>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Thu, 24 Sep 2020 07:19:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,26 +64,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
+ Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
+ Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Mel Gorman <mgorman@suse.de>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Greentime Hu <green.hu@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Vineet Gupta <vgupta@synopsys.com>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello
-
-On 9/22/20 10:28 AM, Krzysztof Kozlowski wrote:
-> Milo Kim's email in TI bounces with permanent error (550: Invalid
-> recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
-> credits and add Dan Murphy from TI to look after:
->   - TI LP855x backlight driver,
->   - TI LP8727 charger driver,
->   - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
+On Wed, Sep 23 2020 at 11:52, Steven Rostedt wrote:
+> On Wed, 23 Sep 2020 10:40:32 +0200
+> peterz@infradead.org wrote:
 >
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+>> However, with migrate_disable() we can have each task preempted in a
+>> migrate_disable() region, worse we can stack them all on the _same_ CPU
+>> (super ridiculous odds, sure). And then we end up only able to run one
+>> task, with the rest of the CPUs picking their nose.
+>
+> What if we just made migrate_disable() a local_lock() available for !RT?
+>
+> I mean make it a priority inheritance PER CPU lock.
+>
+> That is, no two tasks could do a migrate_disable() on the same CPU? If
+> one task does a migrate_disable() and then gets preempted and the
+> preempting task does a migrate_disable() on the same CPU, it will block
+> and wait for the first task to do a migrate_enable().
+>
+> No two tasks on the same CPU could enter the migrate_disable() section
+> simultaneously, just like no two tasks could enter a preempt_disable()
+> section.
+>
+> In essence, we just allow local_lock() to be used for both RT and !RT.
+>
+> Perhaps make migrate_disable() an anonymous local_lock()?
+>
+> This should lower the SHC in theory, if you can't have stacked migrate
+> disables on the same CPU.
 
-Acked-by: Dan Murphy <dmurphy@ti.com>
+I'm pretty sure this ends up in locking hell pretty fast and aside of
+that it's not working for scenarios like:
 
+     kmap_local();
+       migrate_disable();
+       ...
+
+     copy_from_user()
+        -> #PF
+           -> schedule()
+
+which brought us into that discussion in the first place. You would stop
+any other migrate disable user from running until the page fault is
+resolved...
+
+Thanks,
+
+        tglx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
