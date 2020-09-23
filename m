@@ -1,47 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F452274D9D
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 02:05:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13156274DFB
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 02:53:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2C3889E5B;
-	Wed, 23 Sep 2020 00:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 301FC6E3D8;
+	Wed, 23 Sep 2020 00:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 090B46E3B7;
- Wed, 23 Sep 2020 00:05:38 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CB822239A1;
- Wed, 23 Sep 2020 00:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600819538;
- bh=BN2JO8cF+jS2JfvaTCuvroT3lVzAjAOUVtydtxaO3O4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=mmPGcm7LxHfM3JkO5ukjrArXyU1stUbRtAzscnDWEGc5Aza2N+gH0OERfj402Z7+n
- 8PvMXWK05ebNEqKv4755UuUp0qiqi0R46iiKvnS6ot9b86RGdNOKVtk3VzgEbcs4gc
- 6pcfGM0E8ZH8NSSWjmZRwuT92Y5H/UBEelVk9/FM=
-Received: by mail-lf1-f46.google.com with SMTP id u8so20025051lff.1;
- Tue, 22 Sep 2020 17:05:37 -0700 (PDT)
-X-Gm-Message-State: AOAM5306P/jZamt5BT5gI+5vdWUGWSqL7hOFgEYTwldQVTd3e1FbS2KQ
- Dg/HPeaiTrWgSWIWAoPPH09H3p4JG4aDuxwO4WI=
-X-Google-Smtp-Source: ABdhPJzKHKLgsGXChluCkkkYPY85+IzWQtpjD+xwRPqP5lLV/gun1FBs3gKk0smb1Hrbxlj4VdZ3a5tMZisYukVr51E=
-X-Received: by 2002:ac2:51aa:: with SMTP id f10mr2347652lfk.451.1600819535428; 
- Tue, 22 Sep 2020 17:05:35 -0700 (PDT)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C65B6E3B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 00:53:02 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id u8so20118121lff.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 17:53:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=63NW9gk7HRpDHGoorZLXSxJtBEzJkCrOurZGFYdeq1s=;
+ b=QEiJCmMJ+abH4jXWF874MeS11eIiKXKE3h+n39sqAGLPIycrn0MxhLfS6Wo+aHjo6o
+ BgjErpz4dkHZ481e5ATkWq93dIaYf6zudSHfhcDNkoV5W8p3tDbaqO0s4spGS+JLBOVL
+ xn4KEw0MJ1HUUzUo1qdlmI3HLQin57sr4yXqNNwLYhvbPhHVBqnKcLDYDRBfUSirJosj
+ 6VaWUYcV9FK1rBmUDtcRLgsOTXJ8dZ55TiXMjedniQ+O9jvUR4qfgY1xDTm4+TC3Ugui
+ fAgPDzIRGT2lufyhiDkf+4OuUSwYygqW1DEk06diJYWny7csi55q33hB6fNRubbxlgJ1
+ Vk+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=63NW9gk7HRpDHGoorZLXSxJtBEzJkCrOurZGFYdeq1s=;
+ b=J7TqmvnN2Nd8VbKccrg8jOvqtcizXyuYpx5LCwyDGemmtcRCKxYWCRBkHdwiTFGWh2
+ Q2OnT9UfYh0BBNstot8y1ysf8VbqH+ZXQc3TAtia1E+RE4HremaYFlD0AfMJkkDzu47S
+ nw5G7Hw1Iux/3cROcY6cSNT+57/XbvzHjTziOsY4z1N7ZEK44UGbHloWXHdQoHlUMFNT
+ ekr0TIkH9hOxzAE//G/014BVYD6/Ux0OiHhsW0/tyxNotALhFdAVdWbj3maChXGsuxb2
+ AdNWtF7/v1MfecQs8YrTPIUtKJI+cCOrsdkrA3T9LcWxkjE2ieJ6nt2iJMgHaWQLzLJZ
+ FB+Q==
+X-Gm-Message-State: AOAM532FOBxhBFuSqzWOLb7YL9SY82SnbtYCTBZRGAISMq8346UDrvMO
+ 90JxuLICqskviiyL7XG/Q95k0929e1B2r3Ac07mEy8OTUkQ=
+X-Google-Smtp-Source: ABdhPJxEyMjaWBOlTNqZq+aOqsUhRrRJuhmMZTQc6iiISsny0Ld0R8ZOQAu5Co8gVaeeYbMO5GjUCtpLRRG7qTwcHRY=
+X-Received: by 2002:aa7:c511:: with SMTP id o17mr7090354edq.300.1600821793001; 
+ Tue, 22 Sep 2020 17:43:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200919091751.011116649@linutronix.de>
- <20200919092616.432209211@linutronix.de>
-In-Reply-To: <20200919092616.432209211@linutronix.de>
-From: Guo Ren <guoren@kernel.org>
-Date: Wed, 23 Sep 2020 08:05:24 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTcs2589gj6iYhumuoXPa6ejycedAKv4O8QwXQkKU0_fw@mail.gmail.com>
-Message-ID: <CAJF2gTTcs2589gj6iYhumuoXPa6ejycedAKv4O8QwXQkKU0_fw@mail.gmail.com>
-Subject: Re: [patch RFC 06/15] csky/mm/highmem: Switch to generic kmap atomic
-To: Thomas Gleixner <tglx@linutronix.de>
+References: <159643094279.4062302.17779410714418721328.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <c59111f9-7c94-8b9e-2b8c-4cb96b9aa848@redhat.com>
+ <CAPcyv4j8-5nWU5GPDBoFicwR84qM=hWRtd78DkcCg4PW-8i6Vg@mail.gmail.com>
+ <20200821162134.97d551c6fe45b489992841a8@linux-foundation.org>
+ <7d51834a-9544-b2e8-bfba-1c3e2da0e470@redhat.com>
+In-Reply-To: <7d51834a-9544-b2e8-bfba-1c3e2da0e470@redhat.com>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Tue, 22 Sep 2020 17:43:01 -0700
+Message-ID: <CAPcyv4gfBj66Dwy0yn2CX=cCT=yqR9wHE2gY1Q5_Nq2vnh0zPg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/23] device-dax: Support sub-dividing soft-reserved
+ ranges
+To: David Hildenbrand <david@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,182 +66,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
- Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Paul Mackerras <paulus@samba.org>, sparclinux@vger.kernel.org,
- Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Mel Gorman <mgorman@suse.de>,
- linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
- Paul McKenney <paulmck@kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, linuxppc-dev@lists.ozlabs.org,
- Steven Rostedt <rostedt@goodmis.org>,
- Linus Torvalds <torvalds@linuxfoundation.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
- Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Greentime Hu <green.hu@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Paul Mackerras <paulus@ozlabs.org>, Linux MM <linux-mm@kvack.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, "H. Peter Anvin" <hpa@zytor.com>,
+ Joao Martins <joao.m.martins@oracle.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+ Linux ACPI <linux-acpi@vger.kernel.org>,
+ linux-nvdimm <linux-nvdimm@lists.01.org>,
+ Vishal Verma <vishal.l.verma@intel.com>, X86 ML <x86@kernel.org>,
+ Mike Rapoport <rppt@linux.ibm.com>, Peter Zijlstra <peterz@infradead.org>,
+ Jeff Moyer <jmoyer@redhat.com>, Jason Gunthorpe <jgg@mellanox.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Pavel Tatashin <pasha.tatashin@soleen.com>, Ira Weiny <ira.weiny@intel.com>,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, Jia He <justin.he@arm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Wei Yang <richardw.yang@linux.intel.com>, Brice Goglin <Brice.Goglin@inria.fr>,
+ Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acked-by: Guo Ren <guoren@kernel.org>
+On Tue, Sep 8, 2020 at 3:46 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 22.08.20 01:21, Andrew Morton wrote:
+> > On Wed, 19 Aug 2020 18:53:57 -0700 Dan Williams <dan.j.williams@intel.com> wrote:
+> >
+> >>> I think I am missing some important pieces. Bear with me.
+> >>
+> >> No worries, also bear with me, I'm going to be offline intermittently
+> >> until at least mid-September. Hopefully Joao and/or Vishal can jump in
+> >> on this discussion.
+> >
+> > Ordinarily I'd prefer a refresh&resend for 2+ week-old series such as
+> > this.
+> >
+> > But given that v4 all applies OK and that Dan has pending outages, I'll
+> > scoop up this version, even though at least one change has been suggested.
+> >
+>
+> Should I try to fix patch #11 while Dan is away? Because I think at
+> least two things in there are wrong (and it would have been better to
+> split that patch into reviewable pieces).
 
-On Sat, Sep 19, 2020 at 5:50 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Guo Ren <guoren@kernel.org>
-> Cc: linux-csky@vger.kernel.org
-> ---
-> Note: Completely untested
-> ---
->  arch/csky/Kconfig               |    1
->  arch/csky/include/asm/highmem.h |    4 +-
->  arch/csky/mm/highmem.c          |   75 ----------------------------------------
->  3 files changed, 5 insertions(+), 75 deletions(-)
->
-> --- a/arch/csky/Kconfig
-> +++ b/arch/csky/Kconfig
-> @@ -285,6 +285,7 @@ config NR_CPUS
->  config HIGHMEM
->         bool "High Memory Support"
->         depends on !CPU_CK610
-> +       select KMAP_ATOMIC_GENERIC
->         default y
->
->  config FORCE_MAX_ZONEORDER
-> --- a/arch/csky/include/asm/highmem.h
-> +++ b/arch/csky/include/asm/highmem.h
-> @@ -32,10 +32,12 @@ extern pte_t *pkmap_page_table;
->
->  #define ARCH_HAS_KMAP_FLUSH_TLB
->  extern void kmap_flush_tlb(unsigned long addr);
-> -extern void *kmap_atomic_pfn(unsigned long pfn);
->
->  #define flush_cache_kmaps() do {} while (0)
->
-> +#define arch_kmap_temp_post_map(vaddr, pteval) kmap_flush_tlb(vaddr)
-> +#define arch_kmap_temp_post_unmap(vaddr)       kmap_flush_tlb(vaddr)
-> +
->  extern void kmap_init(void);
->
->  #endif /* __KERNEL__ */
-> --- a/arch/csky/mm/highmem.c
-> +++ b/arch/csky/mm/highmem.c
-> @@ -9,8 +9,6 @@
->  #include <asm/tlbflush.h>
->  #include <asm/cacheflush.h>
->
-> -static pte_t *kmap_pte;
-> -
->  unsigned long highstart_pfn, highend_pfn;
->
->  void kmap_flush_tlb(unsigned long addr)
-> @@ -19,67 +17,7 @@ void kmap_flush_tlb(unsigned long addr)
->  }
->  EXPORT_SYMBOL(kmap_flush_tlb);
->
-> -void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
-> -{
-> -       unsigned long vaddr;
-> -       int idx, type;
-> -
-> -       type = kmap_atomic_idx_push();
-> -       idx = type + KM_TYPE_NR*smp_processor_id();
-> -       vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
-> -#ifdef CONFIG_DEBUG_HIGHMEM
-> -       BUG_ON(!pte_none(*(kmap_pte - idx)));
-> -#endif
-> -       set_pte(kmap_pte-idx, mk_pte(page, prot));
-> -       flush_tlb_one((unsigned long)vaddr);
-> -
-> -       return (void *)vaddr;
-> -}
-> -EXPORT_SYMBOL(kmap_atomic_high_prot);
-> -
-> -void kunmap_atomic_high(void *kvaddr)
-> -{
-> -       unsigned long vaddr = (unsigned long) kvaddr & PAGE_MASK;
-> -       int idx;
-> -
-> -       if (vaddr < FIXADDR_START)
-> -               return;
-> -
-> -#ifdef CONFIG_DEBUG_HIGHMEM
-> -       idx = KM_TYPE_NR*smp_processor_id() + kmap_atomic_idx();
-> -
-> -       BUG_ON(vaddr != __fix_to_virt(FIX_KMAP_BEGIN + idx));
-> -
-> -       pte_clear(&init_mm, vaddr, kmap_pte - idx);
-> -       flush_tlb_one(vaddr);
-> -#else
-> -       (void) idx; /* to kill a warning */
-> -#endif
-> -       kmap_atomic_idx_pop();
-> -}
-> -EXPORT_SYMBOL(kunmap_atomic_high);
-> -
-> -/*
-> - * This is the same as kmap_atomic() but can map memory that doesn't
-> - * have a struct page associated with it.
-> - */
-> -void *kmap_atomic_pfn(unsigned long pfn)
-> -{
-> -       unsigned long vaddr;
-> -       int idx, type;
-> -
-> -       pagefault_disable();
-> -
-> -       type = kmap_atomic_idx_push();
-> -       idx = type + KM_TYPE_NR*smp_processor_id();
-> -       vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
-> -       set_pte(kmap_pte-idx, pfn_pte(pfn, PAGE_KERNEL));
-> -       flush_tlb_one(vaddr);
-> -
-> -       return (void *) vaddr;
-> -}
-> -
-> -static void __init kmap_pages_init(void)
-> +void __init kmap_init(void)
->  {
->         unsigned long vaddr;
->         pgd_t *pgd;
-> @@ -96,14 +34,3 @@ static void __init kmap_pages_init(void)
->         pte = pte_offset_kernel(pmd, vaddr);
->         pkmap_page_table = pte;
->  }
-> -
-> -void __init kmap_init(void)
-> -{
-> -       unsigned long vaddr;
-> -
-> -       kmap_pages_init();
-> -
-> -       vaddr = __fix_to_virt(FIX_KMAP_BEGIN);
-> -
-> -       kmap_pte = pte_offset_kernel((pmd_t *)pgd_offset_k(vaddr), vaddr);
-> -}
->
+Hey David,
 
-
--- 
-Best Regards
- Guo Ren
-
-ML: https://lore.kernel.org/linux-csky/
+Back now, I'll take a look. I didn't immediately see a way to
+meaningfully break up that patch without some dead-code steps in the
+conversion, but I'll take another run at it.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
