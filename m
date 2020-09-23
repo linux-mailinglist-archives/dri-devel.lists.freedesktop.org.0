@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92CD275B76
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 17:19:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 945B7275B81
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 17:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D5226E927;
-	Wed, 23 Sep 2020 15:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0709F6E95F;
+	Wed, 23 Sep 2020 15:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9802A6E923
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 15:18:59 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id a17so449376wrn.6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 08:18:59 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C46E56E949
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 15:21:28 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id e2so485054wme.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 08:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0DsCCpKvYxPY+GV4zFILK6LBWa/KKJdBK4453zhPMjg=;
- b=bhwjoy09kAk3AY7au0E0Un/CNQvaV3kduQxGLzsXAmw2UeTrAHpOAPs6arPqXc4GsF
- 67PXjlF378yI8M4tWzFwlGzRyEO0ivgNC1JmeMU27++qeV5t+fXIVo4CMf5KTXIjx91M
- wk1+XtmruPtBqqczX09bpd3vmUvfOP0Qc5Ck0=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=2K9Z7Gv19r32rwISFfeeU+p3IhQHbLyZj3mcqhUjB5I=;
+ b=MERnuQXGwroua2if1L0VAdqH0dK2zxzg/yeRefum0A/26toU0brOQ1vVClrhlN8DaM
+ Qi9cWKc57sAFuosYFkjTNH9hUOULge0gNOU6SMztChxwzMCbDrgD/vUFFx7S1rtC4Wws
+ wMx1OtUeVG0f9iOHsHWvx6enLnLqH2jrGug7A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0DsCCpKvYxPY+GV4zFILK6LBWa/KKJdBK4453zhPMjg=;
- b=aAzQPhrGXMndqFpA92CP2VmiKsD0rg5q6uy1cj5IbT0doURpJDtcuwp1u6GFBFiBUU
- xqQEfQC7G8jRoO7IiW2qq9+9WFONwGRd1Urc60LHL4wUD26jrmnhbNwTRN79LQ8lx0gV
- FS0qztUoujQLRuSDvGCStka7wvp5Z6mLiPyHiY66UNTIQSAS6Cp+41tVYibwAgtxBB+q
- vOQZsZxQZKQaQSTzFyi03f4q4LMZ23K52vdjrdLFvL0noF3mquNflLDReVFlAz+0uziD
- iHvBsnQzM+lawT59L2O91GqKzlKB54UeGaGlX04KqEAM2JeFHIe9PnHz3oR0dJKHZ/UY
- +QsQ==
-X-Gm-Message-State: AOAM533zNY6WRqT4Oi6eZZS7BXYQDrw+4b2FfqxglxSDY3GApuIAjmYc
- /BXbQtfvGAv5drhYRkSo5RKrLjDmVikPdnqX
-X-Google-Smtp-Source: ABdhPJwiDk3psN0MkuOeX06vh14qpXcve3KUeJ2+h40S9pg8k3ce8AleU0PuzscUxj/Iufuq8L2FNQ==
-X-Received: by 2002:a05:6000:12c3:: with SMTP id
- l3mr191768wrx.164.1600874337981; 
- Wed, 23 Sep 2020 08:18:57 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2K9Z7Gv19r32rwISFfeeU+p3IhQHbLyZj3mcqhUjB5I=;
+ b=D5xSsJktN75SQPQK83Y97eZSaEYbuCKT6NeN6gxxSuPRvjBc6f98S3C6YmozHZ0eMx
+ VLHczgdbYM5NSuNic6J4E6Z6/1HiA7IhFdRg57avrXzFQ/yu87wYAXyhBJdz9VRt/MVM
+ 0VR/pDDy4NdRQVHJCbB/kdSlnBOiKLwKV1YOvJpdrJQRHZEdvcXQmwxyUTTCYyraeON5
+ GacEumMB7Sokx0BiYuE5MeezEvCWqgYCWvvqjaRHiAc9kzYIP/5EOeBeuRszTg5SDdeU
+ MrBOMWYu7f4jFL/PQVAx3XnLB7AC8ItwS5+oTq+W0UNMkeqhrhikrVlu0ZZEn+ClAon/
+ 46sA==
+X-Gm-Message-State: AOAM530G3/6Vude1qcGLPwPE/kdhZ1aioZivr/27jyJfrfDqdqfsHdHx
+ 9dD/y4//UNfSclCmwYKxOUz4vA==
+X-Google-Smtp-Source: ABdhPJxH2AEo1L7I/ztdxnpoPdTHMcs8+vqe1evuGgCmQJAOjRv/sEDWITiVdrOYZe8ze1pDTkn5gw==
+X-Received: by 2002:a1c:2ed0:: with SMTP id u199mr38440wmu.125.1600874487324; 
+ Wed, 23 Sep 2020 08:21:27 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b11sm140017wrt.38.2020.09.23.08.18.56
+ by smtp.gmail.com with ESMTPSA id y5sm162482wrh.6.2020.09.23.08.21.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 08:18:57 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/atomic: document and enforce rules around "spurious" EBUSY
-Date: Wed, 23 Sep 2020 17:18:52 +0200
-Message-Id: <20200923151852.2952812-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200923105737.2943649-1-daniel.vetter@ffwll.ch>
-References: <20200923105737.2943649-1-daniel.vetter@ffwll.ch>
+ Wed, 23 Sep 2020 08:21:26 -0700 (PDT)
+Date: Wed, 23 Sep 2020 17:21:24 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [Nouveau] [PATCH 0/6] drm/nouveau: Support sync FDs and sync
+ objects
+Message-ID: <20200923152124.GO438822@phenom.ffwll.local>
+References: <20200828104016.1672195-1-thierry.reding@gmail.com>
+ <20200923091853.GA1229032@ulmo>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200923091853.GA1229032@ulmo>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,91 +66,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: nouveau@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hlbiBkb2luZyBhbiBhdG9taWMgbW9kZXNldCB3aXRoIEFMTE9XX01PREVTRVQgZHJpdmVycyBh
-cmUgYWxsb3dlZCB0bwpwdWxsIGluIGFyYml0cmFyeSBvdGhlciByZXNvdXJjZXMsIGluY2x1ZGlu
-ZyBDUlRDcyAoZS5nLiB3aGVuCnJlY29uZmlndXJpbmcgZ2xvYmFsIHJlc291cmNlcykuCgpCdXQg
-aW4gbm9uYmxvY2tpbmcgbW9kZSB1c2Vyc3BhY2UgaGFzIHRoZW4gbm8gaWRlYSB0aGlzIGhhcHBl
-bmVkLAp3aGljaCBjYW4gbGVhZCB0byBzcHVyaW91cyBFQlVTWSBjYWxscywgYm90aDoKLSB3aGVu
-IHRoYXQgb3RoZXIgQ1JUQyBpcyBjdXJyZW50bHkgYnVzeSBkb2luZyBhIHBhZ2VfZmxpcCB0aGUK
-ICBBTExPV19NT0RFU0VUIGNvbW1pdCBjYW4gZmFpbCB3aXRoIGFuIEVCVVNZCi0gb24gdGhlIG90
-aGVyIENSVEMgYSBub3JtYWwgYXRvbWljIGZsaXAgY2FuIGZhaWwgd2l0aCBFQlVTWSBiZWNhdXNl
-CiAgb2YgdGhlIGFkZGl0aW9uYWwgY29tbWl0IGluc2VydGVkIGJ5IHRoZSBrZXJuZWwgd2l0aG91
-dCB1c2Vyc3BhY2UncwogIGtub3dsZWRnZQoKRm9yIGJsb2NraW5nIGNvbW1pdHMgdGhpcyBpc24n
-dCBhIHByb2JsZW0sIGJlY2F1c2UgZXZlcnlvbmUgZWxzZSB3aWxsCmp1c3QgYmxvY2sgdW50aWwg
-YWxsIHRoZSBDUlRDIGFyZSByZWNvbmZpZ3VyZWQuIE9ubHkgdGhpbmcgdXNlcnNwYWNlCmNhbiBu
-b3RpY2UgaXMgdGhlIGRyb3BwZWQgZnJhbWVzIHdpdGhvdXQgYW55IHJlYXNvbiBmb3Igd2h5IGZy
-YW1lcyBnb3QKZHJvcHBlZC4KCkNvbnNlbnN1cyBpcyB0aGF0IHdlIG5lZWQgbmV3IHVhcGkgdG8g
-aGFuZGxlIHRoaXMgcHJvcGVybHksIGJ1dCBubyBvbmUKaGFzIGFueSBpZGVhIHdoYXQgZXhhY3Rs
-eSB0aGUgbmV3IHVhcGkgc2hvdWxkIGxvb2sgbGlrZS4gU2luY2UgdGhpcwpoYXMgYmVlbiBzaGlw
-cGluZyBmb3IgeWVhcnMgYWxyZWFkeSBjb21wb3NpdG9ycyBuZWVkIHRvIGRlYWwgbm8gbWF0dGVy
-CndoYXQsIHNvIGFzIGEgZmlyc3Qgc3RlcCBqdXN0IHRyeSB0byBlbmZvcmNlIHRoaXMgYWNyb3Nz
-IGRyaXZlcnMKYmV0dGVyIHdpdGggc29tZSBjaGVja3MuCgp2MjogQWRkIGNvbW1lbnRzIGFuZCBh
-IFdBUk5fT04gdG8gZW5mb3JjZSB0aGlzIG9ubHkgd2hlbiBhbGxvd2VkIC0gd2UKZG9uJ3Qgd2Fu
-dCB0byBzaWxlbnRseSBjb252ZXJ0IHBhZ2UgZmxpcHMgaW50byBibG9ja2luZyBwbGFuZSB1cGRh
-dGVzCmp1c3QgYmVjYXVzZSB0aGUgZHJpdmVyIGlzIGJ1Z2d5LgoKdjM6IEZpeCBpbnZlcnRlZCBX
-QVJOX09OIChQZWtrYSkuCgp2NDogRHJvcCB0aGUgdWFwaSBjaGFuZ2VzLCBvbmx5IGFkZCBhIFdB
-Uk5fT04gZm9yIG5vdyB0byBlbmZvcmNlIHNvbWUKcnVsZXMgZm9yIGRyaXZlcnMuCgp2NTogTWFr
-ZSB0aGUgV0FSTklORyBtb3JlIGluZm9ybWF0aXZlIChEYW5pZWwpCgp2NjogQWRkIHVuY29uZGl0
-aW9uYWwgZGVidWcgb3V0cHV0IGZvciBjb21wb3NpdG9yIGhhY2tlcnMgdG8gZmlndXJlCm91dCB3
-aGF0J3MgZ29pbmcgb24gd2hlbiB0aGV5IGdldCBhbiBFQlVTWSAoRGFuaWVsKQoKUmVmZXJlbmNl
-czogaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTgt
-SnVseS8xODIyODEuaHRtbApCdWd6aWxsYTogaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3Jn
-L3dheWxhbmQvd2VzdG9uL2lzc3Vlcy8yNCNub3RlXzk1NjgKQ2M6IERhbmllbCBTdG9uZSA8ZGFu
-aWVsQGZvb2lzaGJhci5vcmc+CkNjOiBQZWtrYSBQYWFsYW5lbiA8cGVra2EucGFhbGFuZW5AY29s
-bGFib3JhLmNvLnVrPgpDYzogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgpDYzogVmls
-bGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KU2lnbmVkLW9mZi1i
-eTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9n
-cHUvZHJtL2RybV9hdG9taWMuYyB8IDI5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiAx
-IGZpbGUgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fYXRvbWljLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jCmluZGV4IDU4
-NTI3ZjE1MTk4NC4uZjFhOTEyZTgwODQ2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2F0b21pYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMKQEAgLTI4MSw2ICsy
-ODEsMTAgQEAgRVhQT1JUX1NZTUJPTChfX2RybV9hdG9taWNfc3RhdGVfZnJlZSk7CiAgKiBuZWVk
-ZWQuIEl0IHdpbGwgYWxzbyBncmFiIHRoZSByZWxldmFudCBDUlRDIGxvY2sgdG8gbWFrZSBzdXJl
-IHRoYXQgdGhlIHN0YXRlCiAgKiBpcyBjb25zaXN0ZW50LgogICoKKyAqIFdBUk5JTkc6IERyaXZl
-cnMgbWF5IG9ubHkgYWRkIG5ldyBDUlRDIHN0YXRlcyB0byBhIEBzdGF0ZSBpZgorICogZHJtX2F0
-b21pY19zdGF0ZS5hbGxvd19tb2Rlc2V0IGlzIHNldCwgb3IgaWYgaXQncyBhIGRyaXZlci1pbnRl
-cm5hbCBjb21taXQKKyAqIG5vdCBjcmVhdGVkIGJ5IHVzZXJzcGFjZSB0aHJvdWdoIGFuIElPQ1RM
-IGNhbGwuCisgKgogICogUmV0dXJuczoKICAqCiAgKiBFaXRoZXIgdGhlIGFsbG9jYXRlZCBzdGF0
-ZSBvciB0aGUgZXJyb3IgY29kZSBlbmNvZGVkIGludG8gdGhlIHBvaW50ZXIuIFdoZW4KQEAgLTEy
-NjIsMTAgKzEyNjYsMTUgQEAgaW50IGRybV9hdG9taWNfY2hlY2tfb25seShzdHJ1Y3QgZHJtX2F0
-b21pY19zdGF0ZSAqc3RhdGUpCiAJc3RydWN0IGRybV9jcnRjX3N0YXRlICpuZXdfY3J0Y19zdGF0
-ZTsKIAlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubjsKIAlzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9z
-dGF0ZSAqY29ubl9zdGF0ZTsKKwl1bnNpZ25lZCByZXF1ZXN0ZWRfY3J0YyA9IDA7CisJdW5zaWdu
-ZWQgYWZmZWN0ZWRfY3J0YyA9IDA7CiAJaW50IGksIHJldCA9IDA7CiAKIAlEUk1fREVCVUdfQVRP
-TUlDKCJjaGVja2luZyAlcFxuIiwgc3RhdGUpOwogCisJZm9yX2VhY2hfbmV3X2NydGNfaW5fc3Rh
-dGUoc3RhdGUsIGNydGMsIG9sZF9jcnRjX3N0YXRlLCBpKQorCQlyZXF1ZXN0ZWRfY3J0YyB8PSBk
-cm1fY3J0Y19tYXNrKGNydGMpOworCiAJZm9yX2VhY2hfb2xkbmV3X3BsYW5lX2luX3N0YXRlKHN0
-YXRlLCBwbGFuZSwgb2xkX3BsYW5lX3N0YXRlLCBuZXdfcGxhbmVfc3RhdGUsIGkpIHsKIAkJcmV0
-ID0gZHJtX2F0b21pY19wbGFuZV9jaGVjayhvbGRfcGxhbmVfc3RhdGUsIG5ld19wbGFuZV9zdGF0
-ZSk7CiAJCWlmIChyZXQpIHsKQEAgLTEzMTMsNiArMTMyMiwyNiBAQCBpbnQgZHJtX2F0b21pY19j
-aGVja19vbmx5KHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKIAkJfQogCX0KIAorCWZv
-cl9lYWNoX25ld19jcnRjX2luX3N0YXRlKHN0YXRlLCBjcnRjLCBvbGRfY3J0Y19zdGF0ZSwgaSkK
-KwkJYWZmZWN0ZWRfY3J0YyB8PSBkcm1fY3J0Y19tYXNrKGNydGMpOworCisJLyoKKwkgKiBGb3Ig
-Y29tbWl0cyB0aGF0IGFsbG93IG1vZGVzZXRzIGRyaXZlcnMgY2FuIGFkZCBvdGhlciBDUlRDcyB0
-byB0aGUKKwkgKiBhdG9taWMgY29tbWl0LCBlLmcuIHdoZW4gdGhleSBuZWVkIHRvIHJlYWxsb2Nh
-dGUgZ2xvYmFsIHJlc291cmNlcy4KKwkgKiBUaGlzIGNhbiBjYXVzZSBzcHVyaW91cyBFQlVTWSwg
-d2hpY2ggcm9icyBjb21wb3NpdG9ycyBvZiBhIHZlcnkKKwkgKiBlZmZlY3RpdmUgc2FuaXR5IGNo
-ZWNrIGZvciB0aGVpciBkcmF3aW5nIGxvb3AuIFRoZXJlZm9yIG9ubHkgYWxsb3cKKwkgKiBkcml2
-ZXJzIHRvIGFkZCB1bnJlbGF0ZWQgQ1JUQyBzdGF0ZXMgZm9yIG1vZGVzZXQgY29tbWl0cy4KKwkg
-KgorCSAqIEZJWE1FOiBTaG91bGQgYWRkIGFmZmVjdGVkX2NydGMgbWFzayB0byB0aGUgQVRPTUlD
-IElPQ1RMIGFzIGFuIG91dHB1dAorCSAqIHNvIGNvbXBvc2l0b3JzIGtub3cgd2hhdCdzIGdvaW5n
-IG9uLgorCSAqLworCWlmIChhZmZlY3RlZF9jcnRjICE9IHJlcXVlc3RlZF9jcnRjKSB7CisJCURS
-TV9ERUJVR19BVE9NSUMoImRyaXZlciBhZGRlZCBDUlRDIHRvIGNvbW1pdDogcmVxdWVzdGVkIDB4
-JXgsIGFmZmVjdGVkIDB4JTB4XG4iLAorCQkJCSByZXF1ZXN0ZWRfY3J0YywgYWZmZWN0ZWRfY3J0
-Yyk7CisJCVdBUk4oIXN0YXRlLT5hbGxvd19tb2Rlc2V0LCAiYWRkaW5nIENSVEMgbm90IGFsbG93
-ZWQgd2l0aG91dCBtb2Rlc2V0czogcmVxdWVzdGVkIDB4JXgsIGFmZmVjdGVkIDB4JTB4XG4iLAor
-CQkgICAgIHJlcXVlc3RlZF9jcnRjLCBhZmZlY3RlZF9jcnRjKTsKKwl9CisKIAlyZXR1cm4gMDsK
-IH0KIEVYUE9SVF9TWU1CT0woZHJtX2F0b21pY19jaGVja19vbmx5KTsKLS0gCjIuMjguMAoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, Sep 23, 2020 at 11:18:53AM +0200, Thierry Reding wrote:
+> On Fri, Aug 28, 2020 at 12:40:10PM +0200, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> > 
+> > Hi,
+> > 
+> > This series implements a new IOCTL to submit push buffers that can
+> > optionally return a sync FD or sync object to userspace. This is useful
+> > in cases where userspace wants to synchronize operations between the GPU
+> > and another driver (such as KMS for display). Among other things this
+> > allows extensions such as eglDupNativeFenceFDANDROID to be implemented.
+> > 
+> > Note that patch 4 modifies the ABI introduced in patch 3 by allowing DRM
+> > sync objects to be passed rather than only sync FDs. It also allows any
+> > number of sync FDs/objects to be passed in or emitted. I think those are
+> > useful features, but I left them in a separate patch in case everybody
+> > else thinks that this won't be needed. If we decide to merge the new ABI
+> > then patch 4 should be squashed into patch 3.
+> > 
+> > The corresponding userspace changes can be found here:
+> > 
+> >   libdrm: https://gitlab.freedesktop.org/tagr/drm/-/commits/nouveau-sync-fd-v2/
+> >   mesa: https://gitlab.freedesktop.org/tagr/mesa/-/commits/nouveau-sync-fd/
+> > 
+> > I've verified that this works with kmscube's --atomic mode and Weston.
+> 
+> Hi Ben,
+> 
+> any thoughts on this series? I realize that this is somewhat suboptimal
+> because we're effectively adding a duplicate of the existing IOCTL with
+> only the "minor" extension of adding sync FDs/objects, but at the same
+> time I don't have any good ideas on what else to add to make this more
+> appealing or if you have any plans of your own to address this in the
+> future.
+
+drm core automatically zero-extends ioctl structs both ways, so if all you
+do is add more stuff to the top level ioctl struct at the bottom, there's
+no need to duplicate any code. At least as long as you guarantee that 0 ==
+old behaviour for both in and out parameters.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
