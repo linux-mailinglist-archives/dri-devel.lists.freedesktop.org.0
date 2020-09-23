@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234EE275639
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:23:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36838275663
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:31:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D75376E95B;
-	Wed, 23 Sep 2020 10:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A00236E91B;
+	Wed, 23 Sep 2020 10:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB816E993;
- Wed, 23 Sep 2020 10:22:24 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 19FDEB296;
- Wed, 23 Sep 2020 10:23:00 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
- robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
- tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com,
- heiko@sntech.de, thierry.reding@gmail.com, jonathanh@nvidia.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
- sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
- tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
- andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
- aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
- matthew.auld@intel.com, tvrtko.ursulin@linux.intel.com,
- andi.shyti@intel.com, sam@ravnborg.org, miaoqinglang@huawei.com,
- emil.velikov@collabora.com, laurentiu.palcu@oss.nxp.com,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com
-Subject: [PATCH v3 22/22] drm: Remove obsolete GEM and PRIME callbacks from
- struct drm_driver
-Date: Wed, 23 Sep 2020 12:21:59 +0200
-Message-Id: <20200923102159.24084-23-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200923102159.24084-1-tzimmermann@suse.de>
-References: <20200923102159.24084-1-tzimmermann@suse.de>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E39156E91B;
+ Wed, 23 Sep 2020 10:31:41 +0000 (UTC)
+IronPort-SDR: opwFi/DyMJQF86tFASptCl/3tgIC8jxq0fkCMQurZzBsmzneailZXBMo7zYfkUbZYdgmQ6JomC
+ TifgypZe7rhA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9752"; a="224989365"
+X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="224989365"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2020 03:31:41 -0700
+IronPort-SDR: dJLHP6x6OTti6lvlOm/HzCQP17j2glmN4Z43Bj7jAlZABciWOXFfk5ZPXkj2TjSwlgG+cji7r9
+ ReJHzSDQrQ8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="309857330"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 23 Sep 2020 03:31:37 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 23 Sep 2020 13:31:37 +0300
+Date: Wed, 23 Sep 2020 13:31:37 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm: document and enforce rules around "spurious" EBUSY
+ from atomic_commit
+Message-ID: <20200923103137.GD6112@intel.com>
+References: <20200922181834.2913552-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200922181834.2913552-1-daniel.vetter@ffwll.ch>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,485 +53,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several GEM and PRIME callbacks have been deprecated in favor of
-per-instance GEM object functions. Remove the callbacks as they are
-now unused. The only exception is .gem_prime_mmap, which is still
-in use by several drivers.
+On Tue, Sep 22, 2020 at 08:18:34PM +0200, Daniel Vetter wrote:
+> When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
+> pull in arbitrary other resources, including CRTCs (e.g. when
+> reconfiguring global resources).
+> =
 
-What is also gone is gem_vm_ops in struct drm_driver. All drivers now
-use struct drm_gem_object_funcs.vm_ops instead.
+> But in nonblocking mode userspace has then no idea this happened,
+> which can lead to spurious EBUSY calls, both:
+> - when that other CRTC is currently busy doing a page_flip the
+>   ALLOW_MODESET commit can fail with an EBUSY
+> - on the other CRTC a normal atomic flip can fail with EBUSY because
+>   of the additional commit inserted by the kernel without userspace's
+>   knowledge
+> =
 
-While at it, the patch also improves error handling around calls
-to .free and .get_sg_table callbacks.
+> For blocking commits this isn't a problem, because everyone else will
+> just block until all the CRTC are reconfigured. Only thing userspace
+> can notice is the dropped frames without any reason for why frames got
+> dropped.
+> =
 
-v3:
-	* restore default call to drm_gem_prime_export() in
-	  drm_gem_prime_handle_to_fd()
-	* return -ENOSYS if get_sg_table is not set
-	* drop all checks for obj->funcs
-	* clean up TODO list and documentation
-v2:
-	* update related TODO item (Sam)
+> Consensus is that we need new uapi to handle this properly, but no one
+> has any idea what exactly the new uapi should look like. Since this
+> has been shipping for years already compositors need to deal no matter
+> what, so as a first step just try to enforce this across drivers
+> better with some checks.
+> =
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- Documentation/gpu/drm-mm.rst         |  4 +-
- Documentation/gpu/todo.rst           |  9 +--
- drivers/gpu/drm/drm_gem.c            | 53 ++++++-----------
- drivers/gpu/drm/drm_gem_cma_helper.c |  8 +--
- drivers/gpu/drm/drm_prime.c          | 14 ++---
- include/drm/drm_drv.h                | 85 ++--------------------------
- include/drm/drm_gem.h                |  2 +-
- 7 files changed, 38 insertions(+), 137 deletions(-)
+> v2: Add comments and a WARN_ON to enforce this only when allowed - we
+> don't want to silently convert page flips into blocking plane updates
+> just because the driver is buggy.
+> =
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 9abee1589c1e..21be6deadc12 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -182,11 +182,11 @@ acquired and release by calling drm_gem_object_get() and drm_gem_object_put()
- respectively.
- 
- When the last reference to a GEM object is released the GEM core calls
--the :c:type:`struct drm_driver <drm_driver>` gem_free_object_unlocked
-+the :c:type:`struct drm_gem_object_funcs <gem_object_funcs>` free
- operation. That operation is mandatory for GEM-enabled drivers and must
- free the GEM object and all associated resources.
- 
--void (\*gem_free_object) (struct drm_gem_object \*obj); Drivers are
-+void (\*free) (struct drm_gem_object \*obj); Drivers are
- responsible for freeing all GEM object resources. This includes the
- resources created by the GEM core, which need to be released with
- drm_gem_object_release().
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index b0ea17da8ff6..3751ac976c3e 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -149,7 +149,7 @@ have to keep track of that lock and either call ``unreference`` or
- ``unreference_locked`` depending upon context.
- 
- Core GEM doesn't have a need for ``struct_mutex`` any more since kernel 4.8,
--and there's a ``gem_free_object_unlocked`` callback for any drivers which are
-+and there's a GEM object ``free`` callback for any drivers which are
- entirely ``struct_mutex`` free.
- 
- For drivers that need ``struct_mutex`` it should be replaced with a driver-
-@@ -289,11 +289,8 @@ struct drm_gem_object_funcs
- ---------------------------
- 
- GEM objects can now have a function table instead of having the callbacks on the
--DRM driver struct. This is now the preferred way and drivers can be moved over.
--
--We also need a 2nd version of the CMA define that doesn't require the
--vmapping to be present (different hook for prime importing). Plus this needs to
--be rolled out to all drivers using their own implementations, too.
-+DRM driver struct. This is now the preferred way. Callbacks in drivers have been
-+converted, except for struct drm_driver.gem_prime_mmap.
- 
- Level: Intermediate
- 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 19d73868490e..1da67d34e55d 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -247,12 +247,9 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
- {
- 	struct drm_file *file_priv = data;
- 	struct drm_gem_object *obj = ptr;
--	struct drm_device *dev = obj->dev;
- 
--	if (obj->funcs && obj->funcs->close)
-+	if (obj->funcs->close)
- 		obj->funcs->close(obj, file_priv);
--	else if (dev->driver->gem_close_object)
--		dev->driver->gem_close_object(obj, file_priv);
- 
- 	drm_gem_remove_prime_handles(obj, file_priv);
- 	drm_vma_node_revoke(&obj->vma_node, file_priv);
-@@ -403,14 +400,10 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
- 	if (ret)
- 		goto err_remove;
- 
--	if (obj->funcs && obj->funcs->open) {
-+	if (obj->funcs->open) {
- 		ret = obj->funcs->open(obj, file_priv);
- 		if (ret)
- 			goto err_revoke;
--	} else if (dev->driver->gem_open_object) {
--		ret = dev->driver->gem_open_object(obj, file_priv);
--		if (ret)
--			goto err_revoke;
- 	}
- 
- 	*handlep = handle;
-@@ -982,12 +975,11 @@ drm_gem_object_free(struct kref *kref)
- {
- 	struct drm_gem_object *obj =
- 		container_of(kref, struct drm_gem_object, refcount);
--	struct drm_device *dev = obj->dev;
- 
--	if (obj->funcs)
--		obj->funcs->free(obj);
--	else if (dev->driver->gem_free_object_unlocked)
--		dev->driver->gem_free_object_unlocked(obj);
-+	if (WARN_ON(!obj->funcs->free))
-+		return;
-+
-+	obj->funcs->free(obj);
- }
- EXPORT_SYMBOL(drm_gem_object_free);
- 
-@@ -1049,9 +1041,9 @@ EXPORT_SYMBOL(drm_gem_vm_close);
-  * @obj_size: the object size to be mapped, in bytes
-  * @vma: VMA for the area to be mapped
-  *
-- * Set up the VMA to prepare mapping of the GEM object using the gem_vm_ops
-- * provided by the driver. Depending on their requirements, drivers can either
-- * provide a fault handler in their gem_vm_ops (in which case any accesses to
-+ * Set up the VMA to prepare mapping of the GEM object using the GEM object's
-+ * vm_ops. Depending on their requirements, GEM objects can either
-+ * provide a fault handler in their vm_ops (in which case any accesses to
-  * the object will be trapped, to perform migration, GTT binding, surface
-  * register allocation, or performance monitoring), or mmap the buffer memory
-  * synchronously after calling drm_gem_mmap_obj.
-@@ -1065,12 +1057,11 @@ EXPORT_SYMBOL(drm_gem_vm_close);
-  * callers must verify access restrictions before calling this helper.
-  *
-  * Return 0 or success or -EINVAL if the object size is smaller than the VMA
-- * size, or if no gem_vm_ops are provided.
-+ * size, or if no vm_ops are provided.
-  */
- int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 		     struct vm_area_struct *vma)
- {
--	struct drm_device *dev = obj->dev;
- 	int ret;
- 
- 	/* Check for valid size. */
-@@ -1085,7 +1076,7 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 	 */
- 	drm_gem_object_get(obj);
- 
--	if (obj->funcs && obj->funcs->mmap) {
-+	if (obj->funcs->mmap) {
- 		ret = obj->funcs->mmap(obj, vma);
- 		if (ret) {
- 			drm_gem_object_put(obj);
-@@ -1093,10 +1084,8 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 		}
- 		WARN_ON(!(vma->vm_flags & VM_DONTEXPAND));
- 	} else {
--		if (obj->funcs && obj->funcs->vm_ops)
-+		if (obj->funcs->vm_ops)
- 			vma->vm_ops = obj->funcs->vm_ops;
--		else if (dev->driver->gem_vm_ops)
--			vma->vm_ops = dev->driver->gem_vm_ops;
- 		else {
- 			drm_gem_object_put(obj);
- 			return -EINVAL;
-@@ -1198,36 +1187,30 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
- 	drm_printf_indent(p, indent, "imported=%s\n",
- 			  obj->import_attach ? "yes" : "no");
- 
--	if (obj->funcs && obj->funcs->print_info)
-+	if (obj->funcs->print_info)
- 		obj->funcs->print_info(p, indent, obj);
- }
- 
- int drm_gem_pin(struct drm_gem_object *obj)
- {
--	if (obj->funcs && obj->funcs->pin)
-+	if (obj->funcs->pin)
- 		return obj->funcs->pin(obj);
--	else if (obj->dev->driver->gem_prime_pin)
--		return obj->dev->driver->gem_prime_pin(obj);
- 	else
- 		return 0;
- }
- 
- void drm_gem_unpin(struct drm_gem_object *obj)
- {
--	if (obj->funcs && obj->funcs->unpin)
-+	if (obj->funcs->unpin)
- 		obj->funcs->unpin(obj);
--	else if (obj->dev->driver->gem_prime_unpin)
--		obj->dev->driver->gem_prime_unpin(obj);
- }
- 
- void *drm_gem_vmap(struct drm_gem_object *obj)
- {
- 	void *vaddr;
- 
--	if (obj->funcs && obj->funcs->vmap)
-+	if (obj->funcs->vmap)
- 		vaddr = obj->funcs->vmap(obj);
--	else if (obj->dev->driver->gem_prime_vmap)
--		vaddr = obj->dev->driver->gem_prime_vmap(obj);
- 	else
- 		vaddr = ERR_PTR(-EOPNOTSUPP);
- 
-@@ -1242,10 +1225,8 @@ void drm_gem_vunmap(struct drm_gem_object *obj, void *vaddr)
- 	if (!vaddr)
- 		return;
- 
--	if (obj->funcs && obj->funcs->vunmap)
-+	if (obj->funcs->vunmap)
- 		obj->funcs->vunmap(obj, vaddr);
--	else if (obj->dev->driver->gem_prime_vunmap)
--		obj->dev->driver->gem_prime_vunmap(obj, vaddr);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 59b9ca207b42..8247b96babe4 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -171,7 +171,7 @@ drm_gem_cma_create_with_handle(struct drm_file *file_priv,
-  * GEM object state and frees the memory used to store the object itself.
-  * If the buffer is imported and the virtual address is set, it is released.
-  * Drivers using the CMA helpers should set this as their
-- * &drm_driver.gem_free_object_unlocked callback.
-+ * &drm_gem_object_funcs.free callback.
-  */
- void drm_gem_cma_free_object(struct drm_gem_object *gem_obj)
- {
-@@ -419,7 +419,7 @@ EXPORT_SYMBOL(drm_gem_cma_print_info);
-  *
-  * This function exports a scatter/gather table suitable for PRIME usage by
-  * calling the standard DMA mapping API. Drivers using the CMA helpers should
-- * set this as their &drm_driver.gem_prime_get_sg_table callback.
-+ * set this as their &drm_gem_object_funcs.get_sg_table callback.
-  *
-  * Returns:
-  * A pointer to the scatter/gather table of pinned pages or NULL on failure.
-@@ -525,7 +525,7 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_prime_mmap);
-  * virtual address space. Since the CMA buffers are already mapped into the
-  * kernel virtual address space this simply returns the cached virtual
-  * address. Drivers using the CMA helpers should set this as their DRM
-- * driver's &drm_driver.gem_prime_vmap callback.
-+ * driver's &drm_gem_object_funcs.vmap callback.
-  *
-  * Returns:
-  * The kernel virtual address of the CMA GEM object's backing store.
-@@ -547,7 +547,7 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_prime_vmap);
-  * This function removes a buffer exported via DRM PRIME from the kernel's
-  * virtual address space. This is a no-op because CMA buffers cannot be
-  * unmapped from kernel space. Drivers using the CMA helpers should set this
-- * as their &drm_driver.gem_prime_vunmap callback.
-+ * as their &drm_gem_object_funcs.vunmap callback.
-  */
- void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
- {
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 11fe9ff76fd5..c0455ad09f3d 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -386,8 +386,6 @@ static struct dma_buf *export_and_register_object(struct drm_device *dev,
- 
- 	if (obj->funcs && obj->funcs->export)
- 		dmabuf = obj->funcs->export(obj, flags);
--	else if (dev->driver->gem_prime_export)
--		dmabuf = dev->driver->gem_prime_export(obj, flags);
- 	else
- 		dmabuf = drm_gem_prime_export(obj, flags);
- 	if (IS_ERR(dmabuf)) {
-@@ -419,7 +417,7 @@ static struct dma_buf *export_and_register_object(struct drm_device *dev,
-  * This is the PRIME export function which must be used mandatorily by GEM
-  * drivers to ensure correct lifetime management of the underlying GEM object.
-  * The actual exporting from GEM object to a dma-buf is done through the
-- * &drm_driver.gem_prime_export driver callback.
-+ * &drm_gem_object_funcs.export callback.
-  */
- int drm_gem_prime_handle_to_fd(struct drm_device *dev,
- 			       struct drm_file *file_priv, uint32_t handle,
-@@ -622,10 +620,12 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
- 	if (WARN_ON(dir == DMA_NONE))
- 		return ERR_PTR(-EINVAL);
- 
--	if (obj->funcs)
--		sgt = obj->funcs->get_sg_table(obj);
--	else
--		sgt = obj->dev->driver->gem_prime_get_sg_table(obj);
-+	if (WARN_ON(!obj->funcs->get_sg_table))
-+		return ERR_PTR(-ENOSYS);
-+
-+	sgt = obj->funcs->get_sg_table(obj);
-+	if (IS_ERR(sgt))
-+		return sgt;
- 
- 	ret = dma_map_sgtable(attach->dev, sgt, dir,
- 			      DMA_ATTR_SKIP_CPU_SYNC);
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 9b11a2f0babc..240b0eab8018 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -36,10 +36,12 @@ struct drm_file;
- struct drm_gem_object;
- struct drm_master;
- struct drm_minor;
-+struct dma_buf;
- struct dma_buf_attachment;
- struct drm_display_mode;
- struct drm_mode_create_dumb;
- struct drm_printer;
-+struct sg_table;
- 
- /**
-  * enum drm_driver_feature - feature flags
-@@ -326,32 +328,6 @@ struct drm_driver {
- 	 */
- 	void (*debugfs_init)(struct drm_minor *minor);
- 
--	/**
--	 * @gem_free_object_unlocked: deconstructor for drm_gem_objects
--	 *
--	 * This is deprecated and should not be used by new drivers. Use
--	 * &drm_gem_object_funcs.free instead.
--	 */
--	void (*gem_free_object_unlocked) (struct drm_gem_object *obj);
--
--	/**
--	 * @gem_open_object:
--	 *
--	 * This callback is deprecated in favour of &drm_gem_object_funcs.open.
--	 *
--	 * Driver hook called upon gem handle creation
--	 */
--	int (*gem_open_object) (struct drm_gem_object *, struct drm_file *);
--
--	/**
--	 * @gem_close_object:
--	 *
--	 * This callback is deprecated in favour of &drm_gem_object_funcs.close.
--	 *
--	 * Driver hook called upon gem handle release
--	 */
--	void (*gem_close_object) (struct drm_gem_object *, struct drm_file *);
--
- 	/**
- 	 * @gem_create_object: constructor for gem objects
- 	 *
-@@ -360,6 +336,7 @@ struct drm_driver {
- 	 */
- 	struct drm_gem_object *(*gem_create_object)(struct drm_device *dev,
- 						    size_t size);
-+
- 	/**
- 	 * @prime_handle_to_fd:
- 	 *
-@@ -382,14 +359,7 @@ struct drm_driver {
- 	 */
- 	int (*prime_fd_to_handle)(struct drm_device *dev, struct drm_file *file_priv,
- 				int prime_fd, uint32_t *handle);
--	/**
--	 * @gem_prime_export:
--	 *
--	 * Export hook for GEM drivers. Deprecated in favour of
--	 * &drm_gem_object_funcs.export.
--	 */
--	struct dma_buf * (*gem_prime_export)(struct drm_gem_object *obj,
--					     int flags);
-+
- 	/**
- 	 * @gem_prime_import:
- 	 *
-@@ -399,29 +369,6 @@ struct drm_driver {
- 	 */
- 	struct drm_gem_object * (*gem_prime_import)(struct drm_device *dev,
- 				struct dma_buf *dma_buf);
--
--	/**
--	 * @gem_prime_pin:
--	 *
--	 * Deprecated hook in favour of &drm_gem_object_funcs.pin.
--	 */
--	int (*gem_prime_pin)(struct drm_gem_object *obj);
--
--	/**
--	 * @gem_prime_unpin:
--	 *
--	 * Deprecated hook in favour of &drm_gem_object_funcs.unpin.
--	 */
--	void (*gem_prime_unpin)(struct drm_gem_object *obj);
--
--
--	/**
--	 * @gem_prime_get_sg_table:
--	 *
--	 * Deprecated hook in favour of &drm_gem_object_funcs.get_sg_table.
--	 */
--	struct sg_table *(*gem_prime_get_sg_table)(struct drm_gem_object *obj);
--
- 	/**
- 	 * @gem_prime_import_sg_table:
- 	 *
-@@ -432,22 +379,6 @@ struct drm_driver {
- 				struct drm_device *dev,
- 				struct dma_buf_attachment *attach,
- 				struct sg_table *sgt);
--	/**
--	 * @gem_prime_vmap:
--	 *
--	 * Deprecated vmap hook for GEM drivers. Please use
--	 * &drm_gem_object_funcs.vmap instead.
--	 */
--	void *(*gem_prime_vmap)(struct drm_gem_object *obj);
--
--	/**
--	 * @gem_prime_vunmap:
--	 *
--	 * Deprecated vunmap hook for GEM drivers. Please use
--	 * &drm_gem_object_funcs.vunmap instead.
--	 */
--	void (*gem_prime_vunmap)(struct drm_gem_object *obj, void *vaddr);
--
- 	/**
- 	 * @gem_prime_mmap:
- 	 *
-@@ -522,14 +453,6 @@ struct drm_driver {
- 			    struct drm_device *dev,
- 			    uint32_t handle);
- 
--	/**
--	 * @gem_vm_ops: Driver private ops for this object
--	 *
--	 * For GEM drivers this is deprecated in favour of
--	 * &drm_gem_object_funcs.vm_ops.
--	 */
--	const struct vm_operations_struct *gem_vm_ops;
--
- 	/** @major: driver major number */
- 	int major;
- 	/** @minor: driver minor number */
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 337a48321705..c38dd35da00b 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -272,7 +272,7 @@ struct drm_gem_object {
- 	 * attachment point for the device. This is invariant over the lifetime
- 	 * of a gem object.
- 	 *
--	 * The &drm_driver.gem_free_object_unlocked callback is responsible for
-+	 * The &drm_gem_object_funcs.free callback is responsible for
- 	 * cleaning up the dma_buf attachment and references acquired at import
- 	 * time.
- 	 *
--- 
-2.28.0
+> v3: Fix inverted WARN_ON (Pekka).
+> =
 
+> v4: Drop the uapi changes, only add a WARN_ON for now to enforce some
+> rules for drivers.
+> =
+
+> References: https://lists.freedesktop.org/archives/dri-devel/2018-July/18=
+2281.html
+> Bugzilla: https://gitlab.freedesktop.org/wayland/weston/issues/24#note_95=
+68
+> Cc: Daniel Stone <daniel@fooishbar.org>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: stable@vger.kernel.org
+> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/drm_atomic.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> =
+
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 58527f151984..ef106e7153a6 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -281,6 +281,10 @@ EXPORT_SYMBOL(__drm_atomic_state_free);
+>   * needed. It will also grab the relevant CRTC lock to make sure that th=
+e state
+>   * is consistent.
+>   *
+> + * WARNING: Drivers may only add new CRTC states to a @state if
+> + * drm_atomic_state.allow_modeset is set, or if it's a driver-internal c=
+ommit
+> + * not created by userspace through an IOCTL call.
+> + *
+>   * Returns:
+>   *
+>   * Either the allocated state or the error code encoded into the pointer=
+. When
+> @@ -1262,10 +1266,15 @@ int drm_atomic_check_only(struct drm_atomic_state=
+ *state)
+>  	struct drm_crtc_state *new_crtc_state;
+>  	struct drm_connector *conn;
+>  	struct drm_connector_state *conn_state;
+> +	unsigned requested_crtc =3D 0;
+> +	unsigned affected_crtc =3D 0;
+>  	int i, ret =3D 0;
+>  =
+
+>  	DRM_DEBUG_ATOMIC("checking %p\n", state);
+>  =
+
+> +	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+> +		requested_crtc |=3D drm_crtc_mask(crtc);
+> +
+>  	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane=
+_state, i) {
+>  		ret =3D drm_atomic_plane_check(old_plane_state, new_plane_state);
+>  		if (ret) {
+> @@ -1313,6 +1322,24 @@ int drm_atomic_check_only(struct drm_atomic_state =
+*state)
+>  		}
+>  	}
+>  =
+
+> +	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+
+Inconsistent old vs. new.
+
+> +		affected_crtc |=3D drm_crtc_mask(crtc);
+> +
+> +	/*
+> +	 * For commits that allow modesets drivers can add other CRTCs to the
+> +	 * atomic commit, e.g. when they need to reallocate global resources.
+> +	 * This can cause spurious EBUSY, which robs compositors of a very
+> +	 * effective sanity check for their drawing loop. Therefor only allow
+> +	 * this for modeset commits.
+> +	 *
+> +	 * FIXME: Should add affected_crtc mask to the ATOMIC IOCTL as an output
+> +	 * so compositors know what's going on.
+> +	 */
+> +	if (affected_crtc !=3D requested_crtc) {
+> +		/* adding other CRTC is only allowed for modeset commits */
+> +		WARN_ON(!state->allow_modeset);
+> +	}
+
+I think this means pretty much all non-pageflip commits will
+have to have allow_modeset=3D=3Dtrue on i915 or else we just can't
+guarantee that we can anything (due to sagv and/or cdclk mainly).
+
+Also a bit baffled that CI didn't hit this. I think it should be
+totally possible to hit this now. To avoid that I guess we'd just
+need to make intel_atomic_serialize_global_state() fail if it
+has to add any new crtcs when allow_modeset=3D=3Dfalse. Hopefully
+there aren't many other places that add crtcs to the state
+without forcing a modeset on them.
+
+> +
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_atomic_check_only);
+> -- =
+
+> 2.28.0
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
