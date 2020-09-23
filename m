@@ -1,72 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F21276A8A
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:19:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FCB276A89
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:19:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67B896EAB7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 709576EAB8;
 	Thu, 24 Sep 2020 07:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1247D6E900
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 08:27:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9248F6E117
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 08:40:35 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 8B18D5C0103;
- Wed, 23 Sep 2020 04:27:39 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id F206C5C024B;
+ Wed, 23 Sep 2020 04:40:34 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 23 Sep 2020 04:27:39 -0400
+ by compute4.internal (MEProxy); Wed, 23 Sep 2020 04:40:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=7T7QXEn/2rftvLggghlnS9aGECh
- JB37LxGCGbbm8eOk=; b=cucSkwiSFqG2Jgq8dPZPbzjE7Rg+3+cn1KVNOQee4oW
- wb1K/QkQugTr12AL5wjzL5sulJHELzVd7d441uZdoPS0LyNzdrR3ljFUpJemY1NL
- jtTYP9wwwCybjvIMNWQf/LkixytKb97xToMeM44T27nwWP5Dc4ajKO1tEng+pPbi
- tUw+lMWL/xUYbA1cln7Gn4VHUC3Py6y6tF+4fiJ1B1g0P7b5ekCnPVO3bTuwFA1A
- aK1BgJn/HEmzdnvvCUEDD+28fqK4BfeL5J605VkOa5uHbHY0ggYg0l9t4S+VpIxD
- tJO1JW0Kv70HxHc7gyaU3FlOaHkQs7SeYmAMDZX8erw==
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=KiG29+cx4RKmN1lcyumz822CbC
+ Dd70GdGTr7Brbk0gI=; b=FzKNyllATASbcobohcAkcm2kf10ZkAMUXc2cWdOKw2
+ 0aWKCjaybnl7xC1xnpPa8Rz5BWNASmFiTY7c+zD+USweLfTgU+0LZGSQqiVJMD60
+ DNJgxpPXndRu7mnkIE+je9+OwU1K/5IeOhWfIm631PTbjejIvBvJ9lWb5is+o6gz
+ PAF6UORmTEAYJebxbjlMqIhil8FuaBx3p6xpgWS74izXRQeSlm3BePwqxiPul8Qq
+ sokANGtk5lOPRKacqxzA/CuDo/XExSq412U+cwGUHqaAPBDa2F8lD+BJ347L2ioX
+ CmjdLa5kow7dAufcDrnNMH98qy++kfauvGu5QOtF6J/g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=7T7QXE
- n/2rftvLggghlnS9aGEChJB37LxGCGbbm8eOk=; b=qgdwA3wdvl2fD2NEOI14Fx
- ihe7A2b6DvNrxSB/EuJbB/uME9jxqo4+XJj8Rjn3DJBGzWnoPfEOGQlYYY9/j5h7
- 1ZWDi+ZoIIy5JtYF9h78Urt1CgzayUtGXIt9Ahra8kMeTdAW3WEoQLzp+Gm5Xte7
- hLM73KwL2uGy83Wrv5Cf7Y5YcXCdgy0T6w57Ikt0Jqi6+zYJV0SgmMNGMWp2JHFU
- uZeKo0z0MpDzlS6QFoDWtN4B2UPIBXS5qQ/CRZUNWOYxGhP2Qz2psOguphNYv2Tr
- ub5shVAGV609DpssKYt+oFoCr2R0h9+7SxEmf27AISUc8S2JPNnO+rSbsYtmSSGw
- ==
-X-ME-Sender: <xms:-gZrX73fAtB221bvb_YcDzyL52AdHvYzqIuV8bxJFRl9qM7LM8HaWA>
- <xme:-gZrX6Etb5YQhzxfgZq7hKNIcRIWqptVagYp0qpJHSasA84gHJF0v4qNFgAWtjxy1
- xMs0wcV4Y9A6nTqdMI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeigddtgecutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=KiG29+cx4RKmN1lcy
+ umz822CbCDd70GdGTr7Brbk0gI=; b=UVJNgGOeirWNRrfnkMR8a2no1P/13cHpN
+ PkfuXDfSwRAPgjyyKyqCtNY2KV0QSaIfKOYI2MJZBbjkzrcTL7259ewrtJgNfcKt
+ +U9IPeFI6Ch4qghRZVri3mU1JIDVnzWzpS2GjDxG0ihgpzZpcqTBwAXw8HWkkWZ4
+ 4cPkxDvB/tmjTHLL0EPyqOx0AMGHwZProZP7agbJcYR0M+yt0n0l/1mlQUI2rihP
+ zPtiXZ32DqCY4lFXAIWU07obOOfuSI2oREu41hiN89D3S+pKvIi43ZItwww2GqZ2
+ Wik8PnlNED1itAjD+zFybxERVMpEAleRKGiQsRakataIGVrf82p2w==
+X-ME-Sender: <xms:AgprX6X_nmexaQ1DXJ-7w7R72ulBWOtZQTvwjyoMyCqO3qrU2mDTXA>
+ <xme:AgprX2kzcwIuN1i8ESb-DOnqOf6iFC7tVXYWrnwgLu8wEZXUgocBa5-sCPH3wVWqm
+ tn9eZwX44y7LWv_6LM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeigddtiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:-gZrX75rIZZHSYDZs33tiFaArcwdBo9MSoRR991x_2twtrvAdqMwiA>
- <xmx:-gZrXw0AE0_rfw_wZa1EyR_iwvEnI0KIPcOOxbgGkb0IhvNZjQ8UjA>
- <xmx:-gZrX-F3YkveWOtiMNRL9RZFqXmTNI5n-bIxOUy8iJK3cbNDcuNwVA>
- <xmx:-wZrX7MDHWePfw9lblsaNCQB-cSD2qrl1vSP4eXUJ2dxrK-QTZdC1g>
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:AgprX-aRafVAz_QVHJsocXGOBTwLGPUz5vnI3vInsQfQCImdpL0k0A>
+ <xmx:AgprXxUv848JtO6UI_dcu8k6YZLGCWneb8SF5aCdD84LywBE1GUI6w>
+ <xmx:AgprX0mud6DvYQFmt6acGlSHeuUbTGic8Fwlf4qKwSJBTTYMegRdDw>
+ <xmx:AgprXyaYj-8wN6YmIq5vOm-4ddAvggv_oNWtkhxWmPEEfTskxYGEYA>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id EE21A328005E;
- Wed, 23 Sep 2020 04:27:37 -0400 (EDT)
-Date: Wed, 23 Sep 2020 10:27:35 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2EDC9328005D;
+ Wed, 23 Sep 2020 04:40:34 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 1/2] drm/vc4: kms: Assign a FIFO to enabled CRTCs instead
- of active
-Message-ID: <20200923082735.zbwz5mdrkgdnugby@gilmour.lan>
-References: <20200918145918.101068-1-maxime@cerno.tech>
- <CAPY8ntAHcPzZqS77-9=4Rz-vpu9=3LL8xM2Kwa28spb1vLHv-w@mail.gmail.com>
+To: Eric Anholt <eric@anholt.net>
+Subject: [PATCH v2 1/2] drm/vc4: crtc: Rework a bit the CRTC state code
+Date: Wed, 23 Sep 2020 10:40:31 +0200
+Message-Id: <20200923084032.218619-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAPY8ntAHcPzZqS77-9=4Rz-vpu9=3LL8xM2Kwa28spb1vLHv-w@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 24 Sep 2020 07:19:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,71 +77,65 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tim Gover <tim.gover@raspberrypi.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0914415309=="
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The current CRTC state reset hook in vc4 allocates a vc4_crtc_state
+structure as a drm_crtc_state, and relies on the fact that vc4_crtc_state
+embeds drm_crtc_state as its first member, and therefore can be safely
+casted.
 
---===============0914415309==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="tkwoz5hzds3dzeu3"
-Content-Disposition: inline
+However, this is pretty fragile especially since there's no check for this
+in place, and we're going to need to access vc4_crtc_state member at reset
+so this looks like a good occasion to make it more robust.
 
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
---tkwoz5hzds3dzeu3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+---
 
-On Fri, Sep 18, 2020 at 04:43:20PM +0100, Dave Stevenson wrote:
-> Hi Maxime
->=20
-> Thanks for the patch.
->=20
-> On Fri, 18 Sep 2020 at 15:59, Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > The HVS has three FIFOs that can be assigned to a number of PixelValves
-> > through a mux.
-> >
-> > However, changing that FIFO requires that we disable and then enable the
-> > pixelvalve, so we want to assign FIFOs to all the enabled CRTCs, and not
-> > just the active ones.
-> >
-> > Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatic=
-ally")
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Changes from v1:
+  - new patch
+---
+ drivers/gpu/drm/vc4/vc4_crtc.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-Applied, thanks!
-Maxime
-
---tkwoz5hzds3dzeu3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX2sG9wAKCRDj7w1vZxhR
-xbXYAQD3GFGAsy8QQKDPiApkaPz1pl2BUuIIsasWGXVt8m/dSwEAxkvbtFPZPLg8
-g79oxBCYeFrXdHlciExYWvAIDU82Rwg=
-=4Yta
------END PGP SIGNATURE-----
-
---tkwoz5hzds3dzeu3--
-
---===============0914415309==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index a393f93390a2..7ef20adedee5 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -852,11 +852,18 @@ void vc4_crtc_destroy_state(struct drm_crtc *crtc,
+ 
+ void vc4_crtc_reset(struct drm_crtc *crtc)
+ {
++	struct vc4_crtc_state *vc4_crtc_state;
++
+ 	if (crtc->state)
+ 		vc4_crtc_destroy_state(crtc, crtc->state);
+-	crtc->state = kzalloc(sizeof(struct vc4_crtc_state), GFP_KERNEL);
+-	if (crtc->state)
+-		__drm_atomic_helper_crtc_reset(crtc, crtc->state);
++
++	vc4_crtc_state = kzalloc(sizeof(*vc4_crtc_state), GFP_KERNEL);
++	if (!vc4_crtc_state) {
++		crtc->state = NULL;
++		return;
++	}
++
++	__drm_atomic_helper_crtc_reset(crtc, &vc4_crtc_state->base);
+ }
+ 
+ static const struct drm_crtc_funcs vc4_crtc_funcs = {
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0914415309==--
