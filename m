@@ -1,52 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C80275D29
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 18:17:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA1C275E6B
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 19:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 824526E972;
-	Wed, 23 Sep 2020 16:17:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 338BB6E98B;
+	Wed, 23 Sep 2020 17:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
- [209.85.166.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F265A6E972
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 16:17:14 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id y13so60919iow.4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 09:17:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=6SQ6n7+tg5duNFb+wRc7wNGDsNgiQxy+sYGpkWZIShY=;
- b=a+SFcLuKJ0hwE9hKJ3344DyiJi1the26sgD+jl7kZKBWTyZ9NdCZAsUOuvC5vqPFPP
- Jzk6yPN0a/5O0ntuZUtitreM7WwXBMJb1n8tsGNLHfWktn/e3tmNF+n+FPmVjkV+s0dD
- +/ZSjeFAccuVuMjMoi2D/y1G/NldWYdOQ5gifenUvyQcBoSQmTwmFV1vYm+mA7Pf1u4r
- nMOEFZ9NpvfxUfuXbNHMG3MrYV8fyQr2pUXhCe0ndW6gJJh2+bw7bmlqstHEVWR/Jc72
- 0py1cPxoegSrikvQ6lRQf5rC97UQCjs7SwqSQWg2IIvPq5CTLkHrCED7hOBDUg3FFKka
- xBGA==
-X-Gm-Message-State: AOAM530ZNYA98r0FySjAnCRnROKcWrM/+SsLQ8gZg7+vbfW3Ij0O+pkS
- Ly0tD1MvZydTYWNWM1W7pQ==
-X-Google-Smtp-Source: ABdhPJxpYKAVLagbR20YcNbcHw7nZz6VjjRgsGsDe9UV6plLdrV55DxVoaEKsTiCzT32smc1BAriTg==
-X-Received: by 2002:a02:a1d0:: with SMTP id o16mr113440jah.141.1600877834276; 
- Wed, 23 Sep 2020 09:17:14 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id v14sm156295iol.17.2020.09.23.09.17.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 09:17:13 -0700 (PDT)
-Received: (nullmailer pid 857808 invoked by uid 1000);
- Wed, 23 Sep 2020 16:17:12 -0000
-Date: Wed, 23 Sep 2020 10:17:12 -0600
-From: Rob Herring <robh@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A06966E98B
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 17:15:30 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08NHFKXo087475;
+ Wed, 23 Sep 2020 12:15:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1600881320;
+ bh=r8HOyXiGU54STKU6S811Il3oIJwaV6yhgGzfkd2uQ10=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=KwhKedNvEiP8fYI6JZEmDGiZS/WagcavMjkPdA6YxtQD/mwyG+vZcquVV1fHIRYIa
+ 9yVGGzRAbokDSoRUgM8OejJhG1o/bqcj5Dflm2nmoFDqyjR2HnK2zoXOmNH7Alz2P/
+ 1lzoysO8xely2tzEp/rslecey5B9NOyoRpnziGS0=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08NHFKLV037525
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 23 Sep 2020 12:15:20 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 23
+ Sep 2020 12:15:19 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 23 Sep 2020 12:15:19 -0500
+Received: from [192.168.2.10] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08NHFHWR115783;
+ Wed, 23 Sep 2020 12:15:17 -0500
 Subject: Re: [PATCHv2] dt-bindings: dp-connector: add binding for DisplayPort
  connector
-Message-ID: <20200923161712.GA836725@bogus>
+To: Rob Herring <robh@kernel.org>
 References: <20200917055210.22868-1-tomi.valkeinen@ti.com>
+ <20200923161712.GA836725@bogus>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <04d93618-12b1-d8f5-ece5-0f87e644d52e@ti.com>
+Date: Wed, 23 Sep 2020 20:15:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200917055210.22868-1-tomi.valkeinen@ti.com>
+In-Reply-To: <20200923161712.GA836725@bogus>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,120 +68,58 @@ Cc: devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
  Andrzej Hajda <a.hajda@samsung.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Swapnil Kashinath Jakhade <sjakhade@cadence.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 17, 2020 at 08:52:10AM +0300, Tomi Valkeinen wrote:
-> Add binding for DisplayPort connector. A few notes:
-> 
-> * Similar to hdmi-connector, it has hpd-gpios as an optional property,
->   as the HPD could also be handled by, e.g., the DP bridge.
-> 
-> * dp-pwr-supply, which provides 3.3V on DP_PWR pin, is optional, as it
->   is not strictly required: standard DP cables do not even have the pin
->   connected.
-> 
-> * Connector type. Full size and mini connectors are identical except for
->   the connector size and form, so I believe there is no functional need
->   for this property. But similar to 'label' property, it might be used
->   to present information about the connector to the userspace.
-> 
-> * No eDP. There's really no "eDP connector", as it's always a custom
->   made connection between the DP and the DP panel. So possibly there is
->   no need for edp-connector binding, but even if there is, I don't want
->   to guess what it could look like, and could it be part of the
->   dp-connector binding.
+Hi Rob,
 
-I don't think that's true. Do an image search for 'edp pinout'. AFAICT, 
-there's 2 lane 30 pin and 4 lane 40 pin. One image says 'Table 5-3 in 
-eDP v1.2'. Of course, I'm sure there's custom ones too. From a binding 
-perspective, we probably don't care about the differences, but just need 
-to be able to describe HPD, backlight power, enable, and pwm, and LCD 
-power.
+On 23/09/2020 19:17, Rob Herring wrote:
 
-That said, it's fine to not handle eDP here.
+>> * No eDP. There's really no "eDP connector", as it's always a custom
+>>    made connection between the DP and the DP panel. So possibly there is
+>>    no need for edp-connector binding, but even if there is, I don't want
+>>    to guess what it could look like, and could it be part of the
+>>    dp-connector binding.
+> 
+> I don't think that's true. Do an image search for 'edp pinout'. AFAICT,
+> there's 2 lane 30 pin and 4 lane 40 pin. One image says 'Table 5-3 in
+> eDP v1.2'. Of course, I'm sure there's custom ones too. From a binding
+> perspective, we probably don't care about the differences, but just need
+> to be able to describe HPD, backlight power, enable, and pwm, and LCD
+> power.
 
-> 
-> * No DP++. I'm not familiar with DP++, but I think it's all handled by
->   the DP bridge, and does not need any new properties to the dp-connector.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> ---
-> 
-> Changes in v2: Add connector type.
-> 
-> 
->  .../display/connector/dp-connector.yaml       | 55 +++++++++++++++++++
->  1 file changed, 55 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/connector/dp-connector.yaml b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-> new file mode 100644
-> index 000000000000..b5fc3e52899e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-> @@ -0,0 +1,55 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/connector/dp-connector.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: DisplayPort Connector
-> +
-> +maintainers:
-> +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: dp-connector
-> +
-> +  label: true
-> +
-> +  type:
-> +    enum:
-> +      - full-size
-> +      - mini
-> +
-> +  hpd-gpios:
-> +    description: A GPIO line connected to HPD
-> +    maxItems: 1
-> +
-> +  dp-pwr-supply:
-> +    description: Power supply for the DP_PWR pin
-> +    maxItems: 1
-> +
-> +  port:
-> +    description: Connection to controller providing DP signals
-> +
-> +required:
-> +  - compatible
-> +  - type
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    connector {
-> +        compatible = "dp-connector";
-> +        label = "dp0";
-> +        type = "full-size";
-> +
-> +        port {
-> +            dp_connector_in: endpoint {
-> +                remote-endpoint = <&dp_out>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-> 
+That's true. The eDP spec lists 4 different standard pinouts (how 
+strictly those are followed, I have no idea). But it does not define a 
+connector or a cable. And afaik eDP is defined to be not user-detachable.
+
+I think from the binding perspective the connectors present in the dts 
+files are user-visible connectors, meant for plugging in and out. The 
+connector node is the "end of the chain".
+
+And non user-detachable ones (like MIPI DPI) do not have a connector in 
+the dts, but just the video source and the panel linked together, and 
+the panel is the end of the chain.
+
+My thinking was that eDP is similar to MIPI DPI, and that we always 
+define the eDP panel in the dts too. But I guess that might not be the 
+case, as eDP does have all the bells and whistles to fully detect the 
+panel. Although can it do all the probing needed for backlight and 
+touch... And even then, should we have a generic-epd-panel present in 
+the dts, or just a connector...
+
+I don't know. So as I said, I'd rather leave eDP out for now (and you 
+agreed, so no disagreement =).
+
+I think we can later extend this binding, or if eDP just doesn't seem to 
+fit into this, we can create a fully separate binding for eDP.
+
+  Tomi
+
+--
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
