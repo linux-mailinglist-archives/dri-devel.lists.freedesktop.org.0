@@ -2,89 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998DB275A8F
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 16:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE62275ABF
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 16:51:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0ED26E9CB;
-	Wed, 23 Sep 2020 14:46:05 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2055.outbound.protection.outlook.com [40.107.92.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C782E6E9C7
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 14:46:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O1OScZJiMl3zGVk1yCedfA2AywokAWZoz/BSF1IJeAomPa+hOLSw92zwIGh9PDc8ZsdolGoq/M/MLquilf5/AdfiQzxSKSd0LdB9iJRYCz0IFhQMCRKRBuv9G0RebnRYMU9p38u2xbXDEiYZTeSuOiqcwYGNsp6RzS+4HIbaQJOtJRrcLrAMg9ucZbM+peroF6Ns3uJ51vyE/dE+zApvwUTzu6itX/oA83wtL3PTOBkQq/obFW8roFarG1Zy1SeOmJRiSXdnupct9xbW23YRLRuS5U/4ebQbbXxsqlstDZby+vrAUlhyIUv2OCBuDJGONo7/axrl12KvKDDGK//7eQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0Xm7y0S0VxaGq61La9EcKe1PrV4X/+Pf+IcWui9Ohq8=;
- b=c2CR0gMcLlt9XWBktMuGzt0cPQOQ08HQVTU7her2H8bJT9lGe47Lx2Xivpn8AtHRB7cF0xnQTonkBIxTjwCcM0Ysj7AIm6mPMBsjscs7ODgiClLcAW7/G1u97H5tV0QuNEIDcwbZrUj2H1B33oG6DY5Jwdwb7ee0Q2NoKYUqw1CMvJY6h3NVeZ34lmG/GpUEF4hi4RJXdwMaFFSs68AZ8fjBFV0w4kSKjfbbdXGhSHRaLjz40nSF2uE09jRpSXdotT+vH9yM+WnJm0Cb5JD2YiWXY00wzyA95w9YaqE6fSmANZXoM9UZ6gOufdrld0WzAEmZpj7jmajvZCGlsnIcMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0Xm7y0S0VxaGq61La9EcKe1PrV4X/+Pf+IcWui9Ohq8=;
- b=uf16kxlMYgyJM8uqVEkYuec+SB8A5S2HaYI/2NTHTyGi3f7Jrqu4okkYsXlGnv9DxJkWoSu3mjw9RI30WmmvZVElPwX2vTXozEwxdM+KCT3EsgdSqc5mvPtiIi2OK604BWE1sDCL6DBciDhVwYk6TIKTdmj3ju2Ie29KnSgoarE=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4239.namprd12.prod.outlook.com (2603:10b6:208:1d2::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.19; Wed, 23 Sep
- 2020 14:46:03 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3412.022; Wed, 23 Sep 2020
- 14:46:03 +0000
-Subject: Re: [PATCH 07/10] drm/amdgpu/ttm: handle tt moves properly.
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200923030454.362731-1-airlied@gmail.com>
- <20200923030454.362731-8-airlied@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <51eae609-0ea5-d204-f34b-ea5d67989760@amd.com>
-Date: Wed, 23 Sep 2020 16:45:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200923030454.362731-8-airlied@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR06CA0118.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::23) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3A46E15F;
+	Wed, 23 Sep 2020 14:51:30 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62F316E15F
+ for <dri-devel@freedesktop.org>; Wed, 23 Sep 2020 14:51:25 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1600872689; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=ESkeylNUl1FVxKx50DfBnz4zr7RE1eH47m6PTA1AtBw=;
+ b=Stl+Zmzk3Q2R71lvU1zX7RBEvCXBnpMRPuHPjE0y8wOc98Bkz1PBrLPAysI/HJ1cBRBElADY
+ V9ckisWlH1UfRpxufRDySUvS/gw1dfyzCq4DHFy1qYyRlV7gfvn3bF7vGE4OaLEaVXospzNs
+ D4+sxTVpSuGDL7vg0Kb2sJsB9+U=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5f6b60cc3e7bfb5c37770bef (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 23 Sep 2020 14:50:52
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 065E5C433C8; Wed, 23 Sep 2020 14:50:52 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 95E42C433CA;
+ Wed, 23 Sep 2020 14:50:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 95E42C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+Date: Wed, 23 Sep 2020 08:50:47 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [PATCH v2 1/2] drm/msm: Fix premature purging of BO
+Message-ID: <20200923145047.GB31425@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Akhil P Oommen <akhilpo@codeaurora.org>,
+ freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mka@chromium.org, jonathan@marek.ca, robdclark@gmail.com,
+ dianders@chromium.org
+References: <1600786527-7343-1-git-send-email-akhilpo@codeaurora.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR06CA0118.eurprd06.prod.outlook.com (2603:10a6:208:ab::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3412.22 via Frontend Transport; Wed, 23 Sep 2020 14:46:02 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 12c7d5ba-762a-40d8-40a2-08d85fcf653b
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4239:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB423934F414AB3F0ED46B1FA783380@MN2PR12MB4239.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hNwrp9xqFNAGVUEheLcSaC2v5Q7y6bGjVrAeAdNZ6fLZS6RJFgVMczcRwtzo6Y+3dsGmb4m5xONiTVBYhu/E001BPoOO8PJ10SDrisvlmKMUvpPS4MUSSOffHE5n6TMFmpQ1VVAwZGsVUa211zGq5VKLA3uy4LdpVWG46JB30bX5G7pyGrVHzoVx5Nh5yfh2xfGnPkAWG1CnYaQEYiJTZST8Oy/ejRGi1M65X3FLvieIJRsv6E8N5aZ8ReMtjePS9oAUClAauru4L61unDun0mwMYaAG+BHnwpB/7oS0PCTNCmSIN12ojyDA/yopA6UBtGMI9cMOmZeNIZ9ERo+pTr/HpOnxA06UDX3yotDt3ch6PGf1VN3j2jgcAI5696eb
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(346002)(136003)(366004)(39860400002)(5660300002)(2616005)(86362001)(31686004)(16526019)(186003)(66476007)(83380400001)(66556008)(8676002)(8936002)(4326008)(31696002)(478600001)(66946007)(52116002)(6486002)(316002)(6666004)(2906002)(36756003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: TfatwKZWxxmfEjqU05+jJrST8+eCBUKahv0b4zS0r2ynt9hOXzuZ6bshwD5ILRbPxFn4Ix2PUJojqrQ1fQ7NsX/XkYwxR2ZYhhG+HTKq+YyHKpGxVGOzYuMWhvAOibV124R7bWVe9ZLTshVBl6BckRSljbovuUu6mzBzCvlassltmF1NOLo5zSFoJlUm38Y/wpn46lgn9CdOoTiQWuSlichvQfhkt4aRfChNuNB8mojjYxDJFIYJq1NwEawnTejqMPuBUEwUhyyoGqIbabvPJ3xXKdbBdSIcxWRjDZQtKucPNwoZ2Y6YVtjdtv3cmQ8mUqna05TvIQ/rmJQZ6eY4sDK/vZLGh/E+KLlzoSVCWXR45NKe5U3Y5zfiDjUbO9TsWiaqRbsWRNQhdouFxukXMCe6vFZVDDmwX4EXFbYDvkScq1ZflIKCVwH2826YNfwKqEWi0/Mp6KqWR4jFmPXhpvrvjwZfH63KhERpl0CPmsuxtzOS/AkOleFI8CmhV4ubFFeUeEF9a2FgtXc2eFlIGm1zCzbCm6b/zW7S2jq+HOxbBDyMzgQI035+EC3cqJMNtzXF6aTlio0sfX6TZ+C74F/wkgyR74hu6TflgGNQebK3e6MTLE0aWSOn+ZxojcaPjydOQx2j3Xp1n9ESE9qVsxr8umZyfR9Trnx1quDn+nbb8JeSX2XxYWac+/YXA82aNi1AIJdM0YUWjS0HEeQYCA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12c7d5ba-762a-40d8-40a2-08d85fcf653b
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2020 14:46:03.5265 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p2PGUCnjBy34DmCirXbaOhxkCbP0PfHaU52TVzklj4+kikrruRe2xpsyaFUE6GRz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4239
+Content-Disposition: inline
+In-Reply-To: <1600786527-7343-1-git-send-email-akhilpo@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,62 +74,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bskeggs@redhat.com
+Cc: jonathan@marek.ca, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dianders@chromium.org, mka@chromium.org,
+ dri-devel@freedesktop.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 23.09.20 um 05:04 schrieb Dave Airlie:
-> From: Dave Airlie <airlied@redhat.com>
->
-> The core move code currently handles use_tt moves, for amdgpu
-> this was being handled also in the driver, but not using the same
-> paths.
->
-> If moving between TT/SYSTEM (all the use_tt paths on amdgpu) use
-> the core move function.
->
-> Eventually the core will be flipped over to calling the driver.
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+On Tue, Sep 22, 2020 at 08:25:26PM +0530, Akhil P Oommen wrote:
+> In the case where we have a back-to-back submission that shares the same
+> BO, this BO will be prematurely moved to inactive_list while retiring the
+> first submit. But it will be still part of the second submit which is
+> being processed by the GPU. Now, if the shrinker happens to be triggered at
+> this point, it will result in a premature purging of this BO.
+> 
+> To fix this, we need to refcount BO while doing submit and retire. Then,
+> it should be moved to inactive list when this refcount becomes 0.
+> 
+> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index db5f761f37ec..d3bd2fd448be 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -671,14 +671,16 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
->   		ttm_bo_move_null(bo, new_mem);
->   		return 0;
->   	}
-> -	if ((old_mem->mem_type == TTM_PL_TT &&
-> -	     new_mem->mem_type == TTM_PL_SYSTEM) ||
-> -	    (old_mem->mem_type == TTM_PL_SYSTEM &&
-> -	     new_mem->mem_type == TTM_PL_TT)) {
-> -		/* bind is enough */
-> +	if (old_mem->mem_type == TTM_PL_SYSTEM &&
-> +	    new_mem->mem_type == TTM_PL_TT) {
->   		ttm_bo_move_null(bo, new_mem);
-
-I would feel better if we nuke ttm_bo_move_null() and always use 
-ttm_bo_move_ttm().
-
-Christian.
-
->   		return 0;
->   	}
+> Changes in v2:
+> 	1. Keep Active List around
+> 	2. Put back the deleted WARN_ON
+> 
+>  drivers/gpu/drm/msm/msm_drv.h |  5 ++---
+>  drivers/gpu/drm/msm/msm_gem.c | 32 ++++++++++++++++----------------
+>  drivers/gpu/drm/msm/msm_gem.h |  4 +++-
+>  drivers/gpu/drm/msm/msm_gpu.c | 11 +++++++----
+>  4 files changed, 28 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 3193274..28e3c8d 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -309,9 +309,8 @@ void msm_gem_put_vaddr(struct drm_gem_object *obj);
+>  int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv);
+>  int msm_gem_sync_object(struct drm_gem_object *obj,
+>  		struct msm_fence_context *fctx, bool exclusive);
+> -void msm_gem_move_to_active(struct drm_gem_object *obj,
+> -		struct msm_gpu *gpu, bool exclusive, struct dma_fence *fence);
+> -void msm_gem_move_to_inactive(struct drm_gem_object *obj);
+> +void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu);
+> +void msm_gem_active_put(struct drm_gem_object *obj);
+>  int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout);
+>  int msm_gem_cpu_fini(struct drm_gem_object *obj);
+>  void msm_gem_free_object(struct drm_gem_object *obj);
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index 76a6c52..14e14ca 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -743,31 +743,31 @@ int msm_gem_sync_object(struct drm_gem_object *obj,
+>  	return 0;
+>  }
+>  
+> -void msm_gem_move_to_active(struct drm_gem_object *obj,
+> -		struct msm_gpu *gpu, bool exclusive, struct dma_fence *fence)
+> +void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
+>  {
+>  	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+> +	WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
+>  	WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED);
+> -	msm_obj->gpu = gpu;
+> -	if (exclusive)
+> -		dma_resv_add_excl_fence(obj->resv, fence);
+> -	else
+> -		dma_resv_add_shared_fence(obj->resv, fence);
+> -	list_del_init(&msm_obj->mm_list);
+> -	list_add_tail(&msm_obj->mm_list, &gpu->active_list);
 > +
-> +	if (old_mem->mem_type == TTM_PL_TT &&
-> +	    new_mem->mem_type == TTM_PL_SYSTEM)
-> +		return ttm_bo_move_ttm(bo, ctx, new_mem);
-> +
->   	if (old_mem->mem_type == AMDGPU_PL_GDS ||
->   	    old_mem->mem_type == AMDGPU_PL_GWS ||
->   	    old_mem->mem_type == AMDGPU_PL_OA ||
+> +	if (!atomic_fetch_inc(&msm_obj->active_count)) {
+> +		msm_obj->gpu = gpu;
+> +		list_del_init(&msm_obj->mm_list);
+> +		list_add_tail(&msm_obj->mm_list, &gpu->active_list);
+> +	}
 
+I'm not sure if all the renaming and reorganization are really needed here -
+this is the meat of the change and it would have fit in reasonably well with the
+existing function design.
+
+>  }
+>  
+> -void msm_gem_move_to_inactive(struct drm_gem_object *obj)
+> +void msm_gem_active_put(struct drm_gem_object *obj)
+>  {
+> -	struct drm_device *dev = obj->dev;
+> -	struct msm_drm_private *priv = dev->dev_private;
+>  	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+> +	struct msm_drm_private *priv = obj->dev->dev_private;
+>  
+> -	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
+> +	WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
+>  
+> -	msm_obj->gpu = NULL;
+> -	list_del_init(&msm_obj->mm_list);
+> -	list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
+> +	if (!atomic_dec_return(&msm_obj->active_count)) {
+> +		msm_obj->gpu = NULL;
+> +		list_del_init(&msm_obj->mm_list);
+> +		list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
+> +	}
+
+Same.
+
+Jordan
+>  }
+>  
+>  int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout)
+> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+> index 7b1c7a5..a1bf741 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.h
+> +++ b/drivers/gpu/drm/msm/msm_gem.h
+> @@ -88,12 +88,14 @@ struct msm_gem_object {
+>  	struct mutex lock; /* Protects resources associated with bo */
+>  
+>  	char name[32]; /* Identifier to print for the debugfs files */
+> +
+> +	atomic_t active_count;
+>  };
+>  #define to_msm_bo(x) container_of(x, struct msm_gem_object, base)
+>  
+>  static inline bool is_active(struct msm_gem_object *msm_obj)
+>  {
+> -	return msm_obj->gpu != NULL;
+> +	return atomic_read(&msm_obj->active_count);
+>  }
+>  
+>  static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> index 29c8d73c..55d1648 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> @@ -698,8 +698,8 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>  
+>  	for (i = 0; i < submit->nr_bos; i++) {
+>  		struct msm_gem_object *msm_obj = submit->bos[i].obj;
+> -		/* move to inactive: */
+> -		msm_gem_move_to_inactive(&msm_obj->base);
+> +
+> +		msm_gem_active_put(&msm_obj->base);
+>  		msm_gem_unpin_iova(&msm_obj->base, submit->aspace);
+>  		drm_gem_object_put_locked(&msm_obj->base);
+>  	}
+> @@ -774,6 +774,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>  
+>  	for (i = 0; i < submit->nr_bos; i++) {
+>  		struct msm_gem_object *msm_obj = submit->bos[i].obj;
+> +		struct drm_gem_object *drm_obj = &msm_obj->base;
+>  		uint64_t iova;
+>  
+>  		/* can't happen yet.. but when we add 2d support we'll have
+> @@ -786,9 +787,11 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>  		msm_gem_get_and_pin_iova(&msm_obj->base, submit->aspace, &iova);
+>  
+>  		if (submit->bos[i].flags & MSM_SUBMIT_BO_WRITE)
+> -			msm_gem_move_to_active(&msm_obj->base, gpu, true, submit->fence);
+> +			dma_resv_add_excl_fence(drm_obj->resv, submit->fence);
+>  		else if (submit->bos[i].flags & MSM_SUBMIT_BO_READ)
+> -			msm_gem_move_to_active(&msm_obj->base, gpu, false, submit->fence);
+> +			dma_resv_add_shared_fence(drm_obj->resv, submit->fence);
+> +
+> +		msm_gem_active_get(drm_obj, gpu);
+>  	}
+>  
+>  	gpu->funcs->submit(gpu, submit);
+> -- 
+> 2.7.4
+> 
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
