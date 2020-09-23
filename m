@@ -2,45 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C92B2754D2
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 11:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95922754E0
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 11:55:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 187EA6E093;
-	Wed, 23 Sep 2020 09:52:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EDD26E2DC;
+	Wed, 23 Sep 2020 09:55:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65CB66E093;
- Wed, 23 Sep 2020 09:52:43 +0000 (UTC)
-IronPort-SDR: UQo/hK2K3gff/26nznxVtZmu69MENX3p8U4srk5hVmrvjCKPV6lpEWa9ETox+E2d7bjjRxvGAT
- wIE/V+vdUupQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9752"; a="148500533"
-X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="148500533"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2020 02:52:41 -0700
-IronPort-SDR: seIxyGE1Vw8wLigC1YT863o99ElqSWQAiuSZRkgjZoMQsFRRWMV/uMP79du30Xlum1gHB9JcsL
- DrdLmgIHayQA==
-X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="486376229"
-Received: from yymichae-mobl.ger.corp.intel.com (HELO [10.214.208.219])
- ([10.214.208.219])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2020 02:52:36 -0700
-Subject: Re: [Intel-gfx] [PATCH 4/6] drm/i915: use vmap in i915_gem_object_map
-To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>
-References: <20200918163724.2511-1-hch@lst.de>
- <20200918163724.2511-5-hch@lst.de>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <9b5d40af-7378-9e68-ca51-73b2148287f3@linux.intel.com>
-Date: Wed, 23 Sep 2020 10:52:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29A746E25B;
+ Wed, 23 Sep 2020 09:55:08 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id w11so21392866lfn.2;
+ Wed, 23 Sep 2020 02:55:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=rZX18Nb4B451H35fKxXNz+FOKZsolDgT7G8y6qr1qK8=;
+ b=uLypUFcA0E5rVNI+RHeLjOrO4R8ls0qGgb1mQ4xXOjxL4P+SVeUDySQixtaLA2ndbU
+ lKcSyW3bD8EfQEQePh+TxLXQHxTA5s9ePEm7DRnXLtO3CcHWhqZqJBUi7rmsPrqW1G3F
+ aCE3b230KvbVW9TzmlxeIa/DQtape50xveN6eMW7kVr2rZsGQ4Gl8V8P3RCmkZHESKfu
+ J2jVGJJQFNAYEwJGbTeSfY+Ze/HzUlJ6JtsJfqdBBk0OgU47cITD9UbcexFrXZGOmdao
+ 7vRp5+KY9kApwJ2iq+ikXE60TBTjqa6Ug80zU7x8A5ddtDqP94hAxuFZvPqGgSh7/zbY
+ czVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=rZX18Nb4B451H35fKxXNz+FOKZsolDgT7G8y6qr1qK8=;
+ b=Ar0wpUKhQbpTKs8+IgmFLk+Q8MYpQL2lZs8tN5PASB/rV7s8017z2xr73HRIVdBqpN
+ PG+gQOoGPVGUMXWwA2sikxUT1YhpUo3StFQ9XV+9Vuy13Nc8dUsAYsUHYKQEu+tWIXZT
+ o9uDA9MvPHVeDp9RIb+lxxu7A3hDhtnYhkPUNMEelWbgvTBBkfXgxKFgFmziZbSVXm2f
+ T0am64IOQRMo+2FKUIr078rKNw2VzsR9/fZJx2iPgIqCVAKZ4K08TVgyJR2wS+kpSoyq
+ iDHP4jQMC28EbwGxWhX6YIsmeDJaOwYDHPKoiYGUHuYJwQdyQlmaM1iMLCCKm7SR1Z+Y
+ /JXw==
+X-Gm-Message-State: AOAM531io4ByidVGPqTUE1cB8nYlgURdVvAOAibccvwrHANXT7/KNJwP
+ N2UH70fsQqAEQvKjCdN+Nyw=
+X-Google-Smtp-Source: ABdhPJyFeme2PzRuZLADYLxEONkLoODcIN2LPNtvFAqYLkEDt5nJjxLqw/RieypMiZXXaxpboW4iuA==
+X-Received: by 2002:a05:6512:3606:: with SMTP id
+ f6mr3398610lfs.282.1600854906538; 
+ Wed, 23 Sep 2020 02:55:06 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id 78sm4635269lfi.81.2020.09.23.02.55.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Sep 2020 02:55:06 -0700 (PDT)
+Date: Wed, 23 Sep 2020 12:55:02 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm: document and enforce rules around "spurious" EBUSY
+ from atomic_commit
+Message-ID: <20200923125502.4735f720@eldfell>
+In-Reply-To: <CAKMK7uFvaMRK3Zh-s21OG=V3sPQZjn7Z_WQaNMcL=_R36enR2g@mail.gmail.com>
+References: <20200922181834.2913552-1-daniel.vetter@ffwll.ch>
+ <20200923111717.68d9eb51@eldfell>
+ <CAKMK7uFvaMRK3Zh-s21OG=V3sPQZjn7Z_WQaNMcL=_R36enR2g@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200918163724.2511-5-hch@lst.de>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,201 +69,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Minchan Kim <minchan@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, intel-gfx@lists.freedesktop.org,
- x86@kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, xen-devel@lists.xenproject.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, Nitin Gupta <ngupta@vflare.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable <stable@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============0903763790=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============0903763790==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/HSKGjOiwSV7m_k8F45bc62z"; protocol="application/pgp-signature"
 
-On 18/09/2020 17:37, Christoph Hellwig wrote:
-> i915_gem_object_map implements fairly low-level vmap functionality in
-> a driver.  Split it into two helpers, one for remapping kernel memory
-> which can use vmap, and one for I/O memory that uses vmap_pfn.
-> 
-> The only practical difference is that alloc_vm_area prefeaults the
-> vmalloc area PTEs, which doesn't seem to be required here for the
-> kernel memory case (and could be added to vmap using a flag if actually
-> required).
+--Sig_/HSKGjOiwSV7m_k8F45bc62z
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Patch looks good to me.
+On Wed, 23 Sep 2020 11:26:39 +0200
+Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 
-Series did not get a CI run from our side because of a different base so 
-I don't know if you would like to have a run there? If so you would need 
-to rebase against git://anongit.freedesktop.org/drm-tip drm-tip and you 
-could even send a series to intel-gfx-trybot@lists.freedesktop.org, 
-suppressing cc, to check it out without sending a copy to the real 
-mailing list.
+> I'm really not awake yet ...
+>=20
+> On Wed, Sep 23, 2020 at 10:17 AM Pekka Paalanen <ppaalanen@gmail.com> wro=
+te:
+> >
+> > On Tue, 22 Sep 2020 20:18:34 +0200
+> > Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > =20
+> > > When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
+> > > pull in arbitrary other resources, including CRTCs (e.g. when
+> > > reconfiguring global resources).
 
-Regards,
+> > If yes, and *if* userspace is single-threaded wrt. to KMS updates,
+> > that might offer a way to work around it in userspace. But if userspace
+> > is flipping other CRTCs from other threads, TEST_ONLY commit does not
+> > help because another thread may cut in and make a CRTC busy. =20
+>=20
+> This is not a legit programming model for atomic. An atomic commit is
+> always relative to the current state. If that state changes, then you
+> need to re-run your TEST_ONLY commit. So multiple threads changing
+> state in parallel isn't really a good idea anyway. Minimally we'd need
+> some kind of TEST_ONLY pile-up, so you can validate a change assuming
+> another commit has already happened. That's even harder than deep
+> queues on the commit side, we'd probably need full rollback of
+> commits.
 
-Tvrtko
+Yes, very good point. I forgot that for a moment.
 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/gpu/drm/i915/Kconfig              |   1 +
->   drivers/gpu/drm/i915/gem/i915_gem_pages.c | 101 ++++++++++------------
->   2 files changed, 47 insertions(+), 55 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-> index 9afa5c4a6bf006..1e1cb245fca778 100644
-> --- a/drivers/gpu/drm/i915/Kconfig
-> +++ b/drivers/gpu/drm/i915/Kconfig
-> @@ -25,6 +25,7 @@ config DRM_I915
->   	select CRC32
->   	select SND_HDA_I915 if SND_HDA_CORE
->   	select CEC_CORE if CEC_NOTIFIER
-> +	select VMAP_PFN
->   	help
->   	  Choose this option if you have a system that has "Intel Graphics
->   	  Media Accelerator" or "HD Graphics" integrated graphics,
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> index e8a083743e0927..90029ea83aede9 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> @@ -234,50 +234,24 @@ int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj)
->   	return err;
->   }
->   
-> -static inline pte_t iomap_pte(resource_size_t base,
-> -			      dma_addr_t offset,
-> -			      pgprot_t prot)
-> -{
-> -	return pte_mkspecial(pfn_pte((base + offset) >> PAGE_SHIFT, prot));
-> -}
-> -
->   /* The 'mapping' part of i915_gem_object_pin_map() below */
-> -static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
-> +static void *i915_gem_object_map_page(struct drm_i915_gem_object *obj,
->   				 enum i915_map_type type)
->   {
-> -	unsigned long n_pte = obj->base.size >> PAGE_SHIFT;
-> -	struct sg_table *sgt = obj->mm.pages;
-> -	pte_t *stack[32], **mem;
-> -	struct vm_struct *area;
-> +	unsigned long n_pages = obj->base.size >> PAGE_SHIFT, i;
-> +	struct page *stack[32], **pages = stack, *page;
-> +	struct sgt_iter iter;
->   	pgprot_t pgprot;
-> -
-> -	if (!i915_gem_object_has_struct_page(obj) && type != I915_MAP_WC)
-> -		return NULL;
-> -
-> -	/* A single page can always be kmapped */
-> -	if (n_pte == 1 && type == I915_MAP_WB)
-> -		return kmap(sg_page(sgt->sgl));
-> -
-> -	mem = stack;
-> -	if (n_pte > ARRAY_SIZE(stack)) {
-> -		/* Too big for stack -- allocate temporary array instead */
-> -		mem = kvmalloc_array(n_pte, sizeof(*mem), GFP_KERNEL);
-> -		if (!mem)
-> -			return NULL;
-> -	}
-> -
-> -	area = alloc_vm_area(obj->base.size, mem);
-> -	if (!area) {
-> -		if (mem != stack)
-> -			kvfree(mem);
-> -		return NULL;
-> -	}
-> +	void *vaddr;
->   
->   	switch (type) {
->   	default:
->   		MISSING_CASE(type);
->   		fallthrough;	/* to use PAGE_KERNEL anyway */
->   	case I915_MAP_WB:
-> +		/* A single page can always be kmapped */
-> +		if (n_pages == 1)
-> +			return kmap(sg_page(obj->mm.pages->sgl));
->   		pgprot = PAGE_KERNEL;
->   		break;
->   	case I915_MAP_WC:
-> @@ -285,30 +259,44 @@ static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
->   		break;
->   	}
->   
-> -	if (i915_gem_object_has_struct_page(obj)) {
-> -		struct sgt_iter iter;
-> -		struct page *page;
-> -		pte_t **ptes = mem;
-> -
-> -		for_each_sgt_page(page, iter, sgt)
-> -			**ptes++ = mk_pte(page, pgprot);
-> -	} else {
-> -		resource_size_t iomap;
-> -		struct sgt_iter iter;
-> -		pte_t **ptes = mem;
-> -		dma_addr_t addr;
-> +	if (n_pages > ARRAY_SIZE(stack)) {
-> +		/* Too big for stack -- allocate temporary array instead */
-> +		pages = kvmalloc_array(n_pages, sizeof(*pages), GFP_KERNEL);
-> +		if (!pages)
-> +			return NULL;
-> +	}
->   
-> -		iomap = obj->mm.region->iomap.base;
-> -		iomap -= obj->mm.region->region.start;
-> +	for_each_sgt_page(page, iter, obj->mm.pages)
-> +		pages[i++] = page;
-> +	vaddr = vmap(pages, n_pages, 0, pgprot);
-> +	if (pages != stack)
-> +		kvfree(pages);
-> +	return vaddr;
-> +}
->   
-> -		for_each_sgt_daddr(addr, iter, sgt)
-> -			**ptes++ = iomap_pte(iomap, addr, pgprot);
-> +static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj)
-> +{
-> +	resource_size_t iomap = obj->mm.region->iomap.base -
-> +		obj->mm.region->region.start;
-> +	unsigned long n_pfn = obj->base.size >> PAGE_SHIFT;
-> +	unsigned long stack[32], *pfns = stack, i;
-> +	struct sgt_iter iter;
-> +	dma_addr_t addr;
-> +	void *vaddr;
-> +
-> +	if (n_pfn > ARRAY_SIZE(stack)) {
-> +		/* Too big for stack -- allocate temporary array instead */
-> +		pfns = kvmalloc_array(n_pfn, sizeof(*pfns), GFP_KERNEL);
-> +		if (!pfns)
-> +			return NULL;
->   	}
->   
-> -	if (mem != stack)
-> -		kvfree(mem);
-> -
-> -	return area->addr;
-> +	for_each_sgt_daddr(addr, iter, obj->mm.pages)
-> +		pfns[i++] = (iomap + addr) >> PAGE_SHIFT;
-> +	vaddr = vmap_pfn(pfns, n_pfn, pgprot_writecombine(PAGE_KERNEL_IO));
-> +	if (pfns != stack)
-> +		kvfree(pfns);
-> +	return vaddr;
->   }
->   
->   /* get, pin, and map the pages of the object into kernel space */
-> @@ -360,7 +348,10 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
->   	}
->   
->   	if (!ptr) {
-> -		ptr = i915_gem_object_map(obj, type);
-> +		if (i915_gem_object_has_struct_page(obj))
-> +			ptr = i915_gem_object_map_page(obj, type);
-> +		else if (type == I915_MAP_WC)
-> +			ptr = i915_gem_object_map_pfn(obj);
->   		if (!ptr) {
->   			err = -ENOMEM;
->   			goto err_unpin;
-> 
+
+Thanks,
+pq
+
+--Sig_/HSKGjOiwSV7m_k8F45bc62z
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9rG3YACgkQI1/ltBGq
+qqeSUA//X6te+sf+nLiLiPV9iiFduKqr69eeaBnYPlJXqr1GWWR+3jQ16GV39RUT
+E+kx2ZmlTm8eJ0lQFbrbvbEpyikbOv+gH4s4E1t7GHOBjEldzGD30xtylfSUDIJJ
+YdJw3bxYFt3bPGshSWIub6p0ig3OuBe9jvonzNggWRqwBMY/zVvVwrpVBhZDy10T
+jHZ0HQT2OwFoxqbF46WO87+Dc6i+HHvQPHMjfj7Otk10ZuGAiWUKq+ry58iDliGn
+KNbc5QWaSMInsTDq/anoMaB36yFG/s1/eYc8mEjjSj6Xh+GGPfrT1vxZHjIOB0qd
+JvW2wW9bTEKOjaNlj7KIipGbpnvjFyAxX7kF6xarTkgLUbNoRw7xSTUNPOEatW9R
+/3b/k2voBaagpdVEnUyxxjQYkrO36SCSrUHn5wFnJUXCfO/FyijqWGg7EDdc2Apr
+no9vATwKFSNPI4Ilr6pe0wLTw8ETDUAtu2XCkaWuAQDvPg4759/MBPZjZgWAEFX0
+XaddqM8nOm2+zZzGkx7L5XGcFta09TbaMqKFIO5KlypU6tapZf7u44dw1az4ninm
+aAoX4kGBNQAEaB1ryfA+1hGR8OWwzl2fluArXiSOP+7OZNXgLv/i0Uu44YE/uN68
+FqvTbwEuwMIAtKd/kTyoh7AOYK5W8/D/l7U/dpfGt96xge17R4o=
+=BdYf
+-----END PGP SIGNATURE-----
+
+--Sig_/HSKGjOiwSV7m_k8F45bc62z--
+
+--===============0903763790==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0903763790==--
