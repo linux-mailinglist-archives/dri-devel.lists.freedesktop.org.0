@@ -2,39 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D992763B0
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 00:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F357276438
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 00:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 474996EA0A;
-	Wed, 23 Sep 2020 22:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 768D66EA11;
+	Wed, 23 Sep 2020 22:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5BE506EA0A
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 22:18:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88DB8113E;
- Wed, 23 Sep 2020 15:18:23 -0700 (PDT)
-Received: from [10.57.48.76] (unknown [10.57.48.76])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 05AC13F73B;
- Wed, 23 Sep 2020 15:18:21 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] drm: rockchip: hdmi: enable higher resolutions
- than FHD
-To: Vicente Bergas <vicencb@gmail.com>, Doug Anderson
- <dianders@chromium.org>, crj <algea.cao@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
-References: <20200922203107.2932-1-vicencb@gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <340b1e7f-9149-3dcc-e6a3-74ab02fcc6e5@arm.com>
-Date: Wed, 23 Sep 2020 23:18:20 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
+ [IPv6:2607:f8b0:4864:20::a43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC6876EA11
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 22:55:41 +0000 (UTC)
+Received: by mail-vk1-xa43.google.com with SMTP id c63so418071vkb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 15:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vlysOyKJkFmadKzqukaQyhHtYSz6cPklZSFksdyIyRg=;
+ b=UT6OKO8QO/bCPpV2cyrz5jV7YLF30uiPhGO4zqV3EYySmxbmK3iExKdq2ppzKoAosx
+ P8zhEflR6m7/WxBgbMx7L1m+yryJ9p3jL9DImYYnocNB6BEeercvuVcMlAGYUzCimYhH
+ fnjXsD5Xs91goRkoT2EN6129Lckn/P+hv96Jc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vlysOyKJkFmadKzqukaQyhHtYSz6cPklZSFksdyIyRg=;
+ b=lU1xSUIaanUnVqaapho1k86IawLuA7u5B2Y3BgKGxi6B5Itd8ndiedPeocg4Q2PbBo
+ akPUZLVT2X4E1hVKBxGRgZ/W9bAPpmioaJCTbgFI3eZ+yEdZtezxnkq5x7XKcQ4CBaMp
+ vW6WB9JvC4Y5Auo5cTwtJMb7h81NSsOMS/tUTz910L2Hua3EuQ/3Ve/f+qdPpzCz5ZuH
+ SxOUhkkmsi5TdMvqmPnYvZUtHnbFDWPtY2k2VSqReSFX823H9KWudtmNEyf1w+KQVjIb
+ /fOEFkGRQ9AqYqjD03eUzn9eMh+RPX4Jk8aN8ExNfgIP7soFI7CaE2QpRegjQ3QbBlPH
+ 5eMg==
+X-Gm-Message-State: AOAM5328ZOEdLg1RLgg7YI4qFfD+Z1vxukpc2DBkh6xoZlCkeJ8fAFtc
+ 89sl5ntpPUzADH86Gpfi//PuBor6gOw/4w==
+X-Google-Smtp-Source: ABdhPJzvSG/VA6FQWd46+LVOWKoRR6mmrhETxdwsJYfk1RQlOOINwP7FgI0yTHz24STqsLiK9BuDpA==
+X-Received: by 2002:a1f:3144:: with SMTP id x65mr2172428vkx.3.1600901740640;
+ Wed, 23 Sep 2020 15:55:40 -0700 (PDT)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com.
+ [209.85.217.49])
+ by smtp.gmail.com with ESMTPSA id l134sm198125vkl.55.2020.09.23.15.55.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Sep 2020 15:55:39 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id e23so984932vsk.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 15:55:39 -0700 (PDT)
+X-Received: by 2002:a67:ad0e:: with SMTP id t14mr2079101vsl.34.1600901739443; 
+ Wed, 23 Sep 2020 15:55:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200922203107.2932-1-vicencb@gmail.com>
-Content-Language: en-GB
+References: <20200922203107.2932-1-vicencb@gmail.com>
+ <20200922203107.2932-2-vicencb@gmail.com>
+In-Reply-To: <20200922203107.2932-2-vicencb@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 23 Sep 2020 15:55:27 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Wjd-OCdR1-vpiApFPnJbSbfQdv88kbAhHaQLLM71a2gg@mail.gmail.com>
+Message-ID: <CAD=FV=Wjd-OCdR1-vpiApFPnJbSbfQdv88kbAhHaQLLM71a2gg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm: rockchip: hdmi: fix clock rounding code
+To: Vicente Bergas <vicencb@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,44 +69,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: crj <algea.cao@rock-chips.com>, David Airlie <airlied@linux.ie>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Andy Yan <andy.yan@rock-chips.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-09-22 21:31, Vicente Bergas wrote:
-> This patch series enable a QHD HDMI monitor to work at native resolution.
-> Tested on a Sapphire board with RK3399 connected to a Q27q-10 monitor at 2560x1440@60
+Hi,
 
-Indeed for RK3399 it also allows my 1920x1200 monitor (Dell U2415) to be 
-driven at its native resolution with a 154MHz pixel clock. However, as 
-predicted, it also breaks RK3328 for the same monitor - instead of 
-rejecting the native mode and falling back to "standard" 1920x1080, it 
-now tries to use it, which results in no signal and a spam of CRTC 
-timeout warnings in dmesg :(
+On Tue, Sep 22, 2020 at 1:31 PM Vicente Bergas <vicencb@gmail.com> wrote:
+>
+> Under certain conditions vop_crtc_mode_fixup rounds the clock
+> 148500000 to 148501000 which leads to the following error:
+> dwhdmi-rockchip ff940000.hdmi: PHY configuration failed (clock 148501000)
+>
+> The issue was found on RK3399 booting with u-boot. U-boot configures the
+> display at 2560x1440 and then linux comes up with a black screen.
+> A workaround was to un-plug and re-plug the HDMI display.
+>
+> Signed-off-by: Vicente Bergas <vicencb@gmail.com>
+> Tested-by: Vicente Bergas <vicencb@gmail.com>
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 
-I'll try to test RK3288 as well soon - I tried hacking a specific entry 
-for 154MHz into the tables a while ago, and while it worked perfectly on 
-RK3399, RK3288 gave a fairly glitchy picture as if the clock signal was 
-unstable or slightly out of spec. I'm interested to see if patch #1 
-makes any difference there.
+My rk3288-veyron-minnie is stuck at work (but not plugged in) and it's
+Covid times, so I can't easily test this.  ...but it looks fine to me
+and makes things more symmetric / clean.
 
-Thanks,
-Robin.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-> 
-> Changes since v1:
-> Use alternative clock rounding code proposed by Doug Anderson
-> 
-> Vicente Bergas (3):
->    drm: rockchip: hdmi: fix clock rounding code
->    drm: rockchip: hdmi: allow any clock that is within the range
->    drm: rockchip: hdmi: add higher pixel clock frequencies
-> 
->   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 8 +++++++-
->   drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 7 ++-----
->   2 files changed, 9 insertions(+), 6 deletions(-)
-> 
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
