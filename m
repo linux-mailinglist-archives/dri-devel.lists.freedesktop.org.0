@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E052757FC
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 14:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572F8275801
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 14:32:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0F6A6E99B;
-	Wed, 23 Sep 2020 12:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9D986E9B0;
+	Wed, 23 Sep 2020 12:32:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED3926E99A;
- Wed, 23 Sep 2020 12:32:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D4AA6E99A;
+ Wed, 23 Sep 2020 12:32:11 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DC130AFF4;
- Wed, 23 Sep 2020 12:32:46 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 12910B120;
+ Wed, 23 Sep 2020 12:32:47 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: sumit.semwal@linaro.org, christian.koenig@amd.com, afd@ti.com,
  corbet@lwn.net, benjamin.gaignard@linaro.org, lmark@codeaurora.org,
@@ -28,10 +28,10 @@ To: sumit.semwal@linaro.org, christian.koenig@amd.com, afd@ti.com,
  m.szyprowski@samsung.com, kyungmin.park@samsung.com, tfiga@chromium.org,
  mchehab@kernel.org, matthew.auld@intel.com, robin.murphy@arm.com,
  thomas.hellstrom@intel.com, sam@ravnborg.org, kraxel@redhat.com
-Subject: [PATCH v2 1/3] dma-buf: Add struct dma-buf-map for storing struct
- dma_buf.vaddr_ptr
-Date: Wed, 23 Sep 2020 14:32:03 +0200
-Message-Id: <20200923123205.30671-2-tzimmermann@suse.de>
+Subject: [PATCH v2 2/3] dma-buf: Use struct dma_buf_map in dma_buf_vmap()
+ interfaces
+Date: Wed, 23 Sep 2020 14:32:04 +0200
+Message-Id: <20200923123205.30671-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200923123205.30671-1-tzimmermann@suse.de>
 References: <20200923123205.30671-1-tzimmermann@suse.de>
@@ -57,210 +57,589 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new type struct dma_buf_map represents a mapping of dma-buf memory
-into kernel space. It contains a flag, is_iomem, that signals users to
-access the mapped memory with I/O operations instead of regular loads
-and stores.
+This patch updates dma_buf_vmap() and dma-buf's vmap callback to use
+struct dma_buf_map.
 
-It was assumed that DMA buffer memory can be accessed with regular load
-and store operations. Some architectures, such as sparc64, require the
-use of I/O operations to access dma-map buffers that are located in I/O
-memory. Providing struct dma_buf_map allows drivers to implement this.
-This was specifically a problem when refreshing the graphics framebuffer
-on such systems. [1]
+The interfaces used to return a buffer address. This address now gets
+stored in an instance of the structure that is given as an additional
+argument. The functions return an errno code on errors.
 
-As the first step, struct dma_buf stores an instance of struct dma_buf_map
-internally. Afterwards, dma-buf's vmap and vunmap interfaces are be
-converted. Finally, affected drivers can be fixed.
+Users of the functions are updated accordingly. This is only an interface
+change. It is currently expected that dma-buf memory can be accessed with
+system memory load/store operations.
 
-[1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg.org/
+v2:
+	* always clear map parameter in dma_buf_vmap() (Daniel)
+	* include dma-buf-heaps and i915 selftests (kernel test robot)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
 ---
- Documentation/driver-api/dma-buf.rst |  3 +
- drivers/dma-buf/dma-buf.c            | 14 ++---
- include/linux/dma-buf-map.h          | 87 ++++++++++++++++++++++++++++
- include/linux/dma-buf.h              |  3 +-
- 4 files changed, 99 insertions(+), 8 deletions(-)
- create mode 100644 include/linux/dma-buf-map.h
+ drivers/dma-buf/dma-buf.c                     | 28 +++++++++++--------
+ drivers/dma-buf/heaps/heap-helpers.c          |  8 ++++--
+ drivers/gpu/drm/drm_gem_cma_helper.c          | 13 +++++----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 14 ++++++----
+ drivers/gpu/drm/drm_prime.c                   |  8 ++++--
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  8 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    | 11 ++++++--
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 12 ++++++--
+ .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  | 10 +++++--
+ drivers/gpu/drm/tegra/gem.c                   | 18 ++++++++----
+ .../common/videobuf2/videobuf2-dma-contig.c   | 14 +++++++---
+ .../media/common/videobuf2/videobuf2-dma-sg.c | 16 +++++++----
+ .../common/videobuf2/videobuf2-vmalloc.c      | 15 +++++++---
+ include/drm/drm_prime.h                       |  3 +-
+ include/linux/dma-buf-map.h                   | 13 +++++++++
+ include/linux/dma-buf.h                       |  6 ++--
+ 16 files changed, 138 insertions(+), 59 deletions(-)
 
-diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-index 13ea0cc0a3fa..3244c600a9a1 100644
---- a/Documentation/driver-api/dma-buf.rst
-+++ b/Documentation/driver-api/dma-buf.rst
-@@ -115,6 +115,9 @@ Kernel Functions and Structures Reference
- .. kernel-doc:: include/linux/dma-buf.h
-    :internal:
- 
-+.. kernel-doc:: include/linux/dma-buf-map.h
-+   :internal:
-+
- Reservation Objects
- -------------------
- 
 diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 58564d82a3a2..5e849ca241a0 100644
+index 5e849ca241a0..61bd24d21b38 100644
 --- a/drivers/dma-buf/dma-buf.c
 +++ b/drivers/dma-buf/dma-buf.c
-@@ -1207,12 +1207,12 @@ void *dma_buf_vmap(struct dma_buf *dmabuf)
+@@ -1186,46 +1186,50 @@ EXPORT_SYMBOL_GPL(dma_buf_mmap);
+  * dma_buf_vmap - Create virtual mapping for the buffer object into kernel
+  * address space. Same restrictions as for vmap and friends apply.
+  * @dmabuf:	[in]	buffer to vmap
++ * @map:	[out]	returns the vmap pointer
+  *
+  * This call may fail due to lack of virtual mapping address space.
+  * These calls are optional in drivers. The intended use for them
+  * is for mapping objects linear in kernel space for high use objects.
+  * Please attempt to use kmap/kunmap before thinking about these interfaces.
+  *
+- * Returns NULL on error.
++ * Returns 0 on success, or a negative errno code otherwise.
+  */
+-void *dma_buf_vmap(struct dma_buf *dmabuf)
++int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+ {
+-	void *ptr;
++	struct dma_buf_map ptr;
++	int ret = 0;
++
++	dma_buf_map_clear(map);
+ 
+ 	if (WARN_ON(!dmabuf))
+-		return NULL;
++		return -EINVAL;
+ 
+ 	if (!dmabuf->ops->vmap)
+-		return NULL;
++		return -EINVAL;
+ 
  	mutex_lock(&dmabuf->lock);
  	if (dmabuf->vmapping_counter) {
  		dmabuf->vmapping_counter++;
--		BUG_ON(!dmabuf->vmap_ptr);
--		ptr = dmabuf->vmap_ptr;
-+		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
-+		ptr = dmabuf->vmap_ptr.vaddr;
+ 		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+-		ptr = dmabuf->vmap_ptr.vaddr;
++		*map = dmabuf->vmap_ptr;
  		goto out_unlock;
  	}
  
--	BUG_ON(dmabuf->vmap_ptr);
-+	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
+ 	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
  
- 	ptr = dmabuf->ops->vmap(dmabuf);
- 	if (WARN_ON_ONCE(IS_ERR(ptr)))
-@@ -1220,7 +1220,7 @@ void *dma_buf_vmap(struct dma_buf *dmabuf)
- 	if (!ptr)
+-	ptr = dmabuf->ops->vmap(dmabuf);
+-	if (WARN_ON_ONCE(IS_ERR(ptr)))
+-		ptr = NULL;
+-	if (!ptr)
++	ret = dmabuf->ops->vmap(dmabuf, &ptr);
++	if (WARN_ON_ONCE(ret))
  		goto out_unlock;
  
--	dmabuf->vmap_ptr = ptr;
-+	dmabuf->vmap_ptr.vaddr = ptr;
+-	dmabuf->vmap_ptr.vaddr = ptr;
++	dmabuf->vmap_ptr = ptr;
  	dmabuf->vmapping_counter = 1;
  
++	*map = dmabuf->vmap_ptr;
++
  out_unlock:
-@@ -1239,15 +1239,15 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
- 	if (WARN_ON(!dmabuf))
- 		return;
- 
--	BUG_ON(!dmabuf->vmap_ptr);
-+	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
- 	BUG_ON(dmabuf->vmapping_counter == 0);
--	BUG_ON(dmabuf->vmap_ptr != vaddr);
-+	BUG_ON(!dma_buf_map_is_vaddr(&dmabuf->vmap_ptr, vaddr));
- 
- 	mutex_lock(&dmabuf->lock);
- 	if (--dmabuf->vmapping_counter == 0) {
- 		if (dmabuf->ops->vunmap)
- 			dmabuf->ops->vunmap(dmabuf, vaddr);
--		dmabuf->vmap_ptr = NULL;
-+		dma_buf_map_clear(&dmabuf->vmap_ptr);
- 	}
  	mutex_unlock(&dmabuf->lock);
+-	return ptr;
++	return ret;
  }
-diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
-new file mode 100644
-index 000000000000..d4b1bb3cc4b0
---- /dev/null
-+++ b/include/linux/dma-buf-map.h
-@@ -0,0 +1,87 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Pointer to dma-buf-mapped memory, plus helpers.
-+ */
+ EXPORT_SYMBOL_GPL(dma_buf_vmap);
+ 
+diff --git a/drivers/dma-buf/heaps/heap-helpers.c b/drivers/dma-buf/heaps/heap-helpers.c
+index d0696cf937af..aeb9e100f339 100644
+--- a/drivers/dma-buf/heaps/heap-helpers.c
++++ b/drivers/dma-buf/heaps/heap-helpers.c
+@@ -235,7 +235,7 @@ static int dma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+ 	return 0;
+ }
+ 
+-static void *dma_heap_dma_buf_vmap(struct dma_buf *dmabuf)
++static int dma_heap_dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+ {
+ 	struct heap_helper_buffer *buffer = dmabuf->priv;
+ 	void *vaddr;
+@@ -244,7 +244,11 @@ static void *dma_heap_dma_buf_vmap(struct dma_buf *dmabuf)
+ 	vaddr = dma_heap_buffer_vmap_get(buffer);
+ 	mutex_unlock(&buffer->lock);
+ 
+-	return vaddr;
++	if (!vaddr)
++		return -ENOMEM;
++	dma_buf_map_set_vaddr(map, vaddr);
 +
-+#ifndef __DMA_BUF_MAP_H__
-+#define __DMA_BUF_MAP_H__
++	return 0;
+ }
+ 
+ static void dma_heap_dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
+diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+index 59b9ca207b42..1ece73fd3fe9 100644
+--- a/drivers/gpu/drm/drm_gem_cma_helper.c
++++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+@@ -617,22 +617,23 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *dev,
+ {
+ 	struct drm_gem_cma_object *cma_obj;
+ 	struct drm_gem_object *obj;
+-	void *vaddr;
++	struct dma_buf_map map;
++	int ret;
+ 
+-	vaddr = dma_buf_vmap(attach->dmabuf);
+-	if (!vaddr) {
++	ret = dma_buf_vmap(attach->dmabuf, &map);
++	if (ret) {
+ 		DRM_ERROR("Failed to vmap PRIME buffer\n");
+-		return ERR_PTR(-ENOMEM);
++		return ERR_PTR(ret);
+ 	}
+ 
+ 	obj = drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
+ 	if (IS_ERR(obj)) {
+-		dma_buf_vunmap(attach->dmabuf, vaddr);
++		dma_buf_vunmap(attach->dmabuf, map.vaddr);
+ 		return obj;
+ 	}
+ 
+ 	cma_obj = to_drm_gem_cma_obj(obj);
+-	cma_obj->vaddr = vaddr;
++	cma_obj->vaddr = map.vaddr;
+ 
+ 	return obj;
+ }
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index d77c9f8ff26c..6328cfbb828e 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -261,13 +261,16 @@ EXPORT_SYMBOL(drm_gem_shmem_unpin);
+ static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+-	int ret;
++	struct dma_buf_map map;
++	int ret = 0;
+ 
+ 	if (shmem->vmap_use_count++ > 0)
+ 		return shmem->vaddr;
+ 
+ 	if (obj->import_attach) {
+-		shmem->vaddr = dma_buf_vmap(obj->import_attach->dmabuf);
++		ret = dma_buf_vmap(obj->import_attach->dmabuf, &map);
++		if (!ret)
++			shmem->vaddr = map.vaddr;
+ 	} else {
+ 		pgprot_t prot = PAGE_KERNEL;
+ 
+@@ -279,11 +282,12 @@ static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem)
+ 			prot = pgprot_writecombine(prot);
+ 		shmem->vaddr = vmap(shmem->pages, obj->size >> PAGE_SHIFT,
+ 				    VM_MAP, prot);
++		if (!shmem->vaddr)
++			ret = -ENOMEM;
+ 	}
+ 
+-	if (!shmem->vaddr) {
+-		DRM_DEBUG_KMS("Failed to vmap pages\n");
+-		ret = -ENOMEM;
++	if (ret) {
++		DRM_DEBUG_KMS("Failed to vmap pages, error %d\n", ret);
+ 		goto err_put_pages;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 11fe9ff76fd5..2b3fd01867e4 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -669,16 +669,18 @@ EXPORT_SYMBOL(drm_gem_unmap_dma_buf);
+  *
+  * Returns the kernel virtual address or NULL on failure.
+  */
+-void *drm_gem_dmabuf_vmap(struct dma_buf *dma_buf)
++int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
+ {
+ 	struct drm_gem_object *obj = dma_buf->priv;
+ 	void *vaddr;
+ 
+ 	vaddr = drm_gem_vmap(obj);
+ 	if (IS_ERR(vaddr))
+-		vaddr = NULL;
++		return PTR_ERR(vaddr);
+ 
+-	return vaddr;
++	dma_buf_map_set_vaddr(map, vaddr);
 +
-+#include <linux/io.h>
++	return 0;
+ }
+ EXPORT_SYMBOL(drm_gem_dmabuf_vmap);
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index 4aa3426a9ba4..80a9fc143bbb 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -85,9 +85,15 @@ static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
+ 
+ static void *etnaviv_gem_prime_vmap_impl(struct etnaviv_gem_object *etnaviv_obj)
+ {
++	struct dma_buf_map map;
++	int ret;
 +
-+/**
-+ * struct dma_buf_map - Pointer to vmap'ed dma-buf memory.
-+ * @vaddr_iomem:	The buffer's address if in I/O memory
-+ * @vaddr:		The buffer's address if in system memory
-+ * @is_iomem:		True if the dma-buf memory is located in I/O
-+ *			memory, or false otherwise.
-+ *
-+ * Calling dma-buf's vmap operation returns a pointer to the buffer.
-+ * Depending on the location of the buffer, users may have to access it
-+ * with I/O operations or memory load/store operations. struct dma_buf_map
-+ * stores the buffer address and a flag that signals the required access.
-+ */
-+struct dma_buf_map {
-+	union {
-+		void __iomem *vaddr_iomem;
-+		void *vaddr;
-+	};
-+	bool is_iomem;
-+};
+ 	lockdep_assert_held(&etnaviv_obj->lock);
+ 
+-	return dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf);
++	ret = dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf, &map);
++	if (ret)
++		return NULL;
++	return map.vaddr;
+ }
+ 
+ static int etnaviv_gem_prime_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index 8dd295dbe241..6ee8f2cfd8c1 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -77,11 +77,18 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_attachment *attachment,
+ 	i915_gem_object_unpin_pages(obj);
+ }
+ 
+-static void *i915_gem_dmabuf_vmap(struct dma_buf *dma_buf)
++static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
+ {
+ 	struct drm_i915_gem_object *obj = dma_buf_to_obj(dma_buf);
++	void *vaddr;
+ 
+-	return i915_gem_object_pin_map(obj, I915_MAP_WB);
++	vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
++	if (IS_ERR(vaddr))
++		return PTR_ERR(vaddr);
 +
-+/* API transition helper */
-+static inline bool dma_buf_map_is_vaddr(const struct dma_buf_map *map, const void *vaddr)
-+{
-+	return !map->is_iomem && (map->vaddr == vaddr);
-+}
++	dma_buf_map_set_vaddr(map, vaddr);
 +
-+/**
-+ * dma_buf_map_is_null - Tests for a dma-buf mapping to be NULL
-+ * @map:	The dma-buf mapping structure
-+ *
-+ * Depending on the state of struct dma_buf_map.is_iomem, tests if the
-+ * mapping is NULL.
-+ *
-+ * Returns:
-+ * True if the mapping is NULL, or false otherwise.
-+ */
-+static inline bool dma_buf_map_is_null(const struct dma_buf_map *map)
-+{
-+	if (map->is_iomem)
-+		return map->vaddr_iomem == NULL;
-+	return map->vaddr == NULL;
-+}
++	return 0;
+ }
+ 
+ static void i915_gem_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr)
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+index 2a52b92586b9..f79ebc5329b7 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+@@ -82,6 +82,7 @@ static int igt_dmabuf_import(void *arg)
+ 	struct drm_i915_gem_object *obj;
+ 	struct dma_buf *dmabuf;
+ 	void *obj_map, *dma_map;
++	struct dma_buf_map map;
+ 	u32 pattern[] = { 0, 0xaa, 0xcc, 0x55, 0xff };
+ 	int err, i;
+ 
+@@ -110,7 +111,8 @@ static int igt_dmabuf_import(void *arg)
+ 		goto out_obj;
+ 	}
+ 
+-	dma_map = dma_buf_vmap(dmabuf);
++	err = dma_buf_vmap(dmabuf, &map);
++	dma_map = err ? NULL : map.vaddr;
+ 	if (!dma_map) {
+ 		pr_err("dma_buf_vmap failed\n");
+ 		err = -ENOMEM;
+@@ -163,6 +165,7 @@ static int igt_dmabuf_import_ownership(void *arg)
+ 	struct drm_i915_private *i915 = arg;
+ 	struct drm_i915_gem_object *obj;
+ 	struct dma_buf *dmabuf;
++	struct dma_buf_map map;
+ 	void *ptr;
+ 	int err;
+ 
+@@ -170,7 +173,8 @@ static int igt_dmabuf_import_ownership(void *arg)
+ 	if (IS_ERR(dmabuf))
+ 		return PTR_ERR(dmabuf);
+ 
+-	ptr = dma_buf_vmap(dmabuf);
++	err = dma_buf_vmap(dmabuf, &map);
++	ptr = err ? NULL : map.vaddr;
+ 	if (!ptr) {
+ 		pr_err("dma_buf_vmap failed\n");
+ 		err = -ENOMEM;
+@@ -212,6 +216,7 @@ static int igt_dmabuf_export_vmap(void *arg)
+ 	struct drm_i915_private *i915 = arg;
+ 	struct drm_i915_gem_object *obj;
+ 	struct dma_buf *dmabuf;
++	struct dma_buf_map map;
+ 	void *ptr;
+ 	int err;
+ 
+@@ -228,7 +233,8 @@ static int igt_dmabuf_export_vmap(void *arg)
+ 	}
+ 	i915_gem_object_put(obj);
+ 
+-	ptr = dma_buf_vmap(dmabuf);
++	err = dma_buf_vmap(dmabuf, &map);
++	ptr = err ? NULL : map.vaddr;
+ 	if (!ptr) {
+ 		pr_err("dma_buf_vmap failed\n");
+ 		err = -ENOMEM;
+diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
+index be30b27e2926..becd9fb95d58 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
+@@ -61,11 +61,17 @@ static void mock_dmabuf_release(struct dma_buf *dma_buf)
+ 	kfree(mock);
+ }
+ 
+-static void *mock_dmabuf_vmap(struct dma_buf *dma_buf)
++static int mock_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
+ {
+ 	struct mock_dmabuf *mock = to_mock(dma_buf);
++	void *vaddr;
+ 
+-	return vm_map_ram(mock->pages, mock->npages, 0);
++	vaddr = vm_map_ram(mock->pages, mock->npages, 0);
++	if (!vaddr)
++		return -ENOMEM;
++	dma_buf_map_set_vaddr(map, vaddr);
 +
-+/**
-+ * dma_buf_map_is_set - Tests is the dma-buf mapping has been set
-+ * @map:	The dma-buf mapping structure
-+ *
-+ * Depending on the state of struct dma_buf_map.is_iomem, tests if the
-+ * mapping has been set.
-+ *
-+ * Returns:
-+ * True if the mapping is been set, or false otherwise.
-+ */
-+static inline bool dma_buf_map_is_set(const struct dma_buf_map *map)
-+{
-+	return !dma_buf_map_is_null(map);
-+}
-+
-+/**
-+ * dma_buf_map_clear - Clears a dma-buf mapping structure
-+ * @map:	The dma-buf mapping structure
-+ *
-+ * Clears all fields to zero; including struct dma_buf_map.is_iomem. So
-+ * mapping structures that were set to point to I/O memory are reset for
-+ * system memory. Pointers are cleared to NULL. This is the default.
-+ */
-+static inline void dma_buf_map_clear(struct dma_buf_map *map)
-+{
-+	if (map->is_iomem) {
-+		map->vaddr_iomem = NULL;
-+		map->is_iomem = false;
++	return 0;
+ }
+ 
+ static void mock_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr)
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index a2bac20ff19d..6f04d7855f95 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -132,14 +132,18 @@ static void tegra_bo_unpin(struct device *dev, struct sg_table *sgt)
+ static void *tegra_bo_mmap(struct host1x_bo *bo)
+ {
+ 	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
++	struct dma_buf_map map;
++	int ret;
+ 
+-	if (obj->vaddr)
++	if (obj->vaddr) {
+ 		return obj->vaddr;
+-	else if (obj->gem.import_attach)
+-		return dma_buf_vmap(obj->gem.import_attach->dmabuf);
+-	else
++	} else if (obj->gem.import_attach) {
++		ret = dma_buf_vmap(obj->gem.import_attach->dmabuf, &map);
++		return ret ? NULL : map.vaddr;
 +	} else {
-+		map->vaddr = NULL;
+ 		return vmap(obj->pages, obj->num_pages, VM_MAP,
+ 			    pgprot_writecombine(PAGE_KERNEL));
 +	}
+ }
+ 
+ static void tegra_bo_munmap(struct host1x_bo *bo, void *addr)
+@@ -634,12 +638,14 @@ static int tegra_gem_prime_mmap(struct dma_buf *buf, struct vm_area_struct *vma)
+ 	return __tegra_gem_mmap(gem, vma);
+ }
+ 
+-static void *tegra_gem_prime_vmap(struct dma_buf *buf)
++static int tegra_gem_prime_vmap(struct dma_buf *buf, struct dma_buf_map *map)
+ {
+ 	struct drm_gem_object *gem = buf->priv;
+ 	struct tegra_bo *bo = to_tegra_bo(gem);
+ 
+-	return bo->vaddr;
++	dma_buf_map_set_vaddr(map, bo->vaddr);
++
++	return 0;
+ }
+ 
+ static void tegra_gem_prime_vunmap(struct dma_buf *buf, void *vaddr)
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+index ec3446cc45b8..11428287bdf3 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+@@ -81,9 +81,13 @@ static void *vb2_dc_cookie(void *buf_priv)
+ static void *vb2_dc_vaddr(void *buf_priv)
+ {
+ 	struct vb2_dc_buf *buf = buf_priv;
++	struct dma_buf_map map;
++	int ret;
+ 
+-	if (!buf->vaddr && buf->db_attach)
+-		buf->vaddr = dma_buf_vmap(buf->db_attach->dmabuf);
++	if (!buf->vaddr && buf->db_attach) {
++		ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
++		buf->vaddr = ret ? NULL : map.vaddr;
++	}
+ 
+ 	return buf->vaddr;
+ }
+@@ -365,11 +369,13 @@ vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
+ 	return 0;
+ }
+ 
+-static void *vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf)
++static int vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct dma_buf_map *map)
+ {
+ 	struct vb2_dc_buf *buf = dbuf->priv;
+ 
+-	return buf->vaddr;
++	dma_buf_map_set_vaddr(map, buf->vaddr);
++
++	return 0;
+ }
+ 
+ static int vb2_dc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+index 0a40e00f0d7e..c51170e9c1b9 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+@@ -300,14 +300,18 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
+ static void *vb2_dma_sg_vaddr(void *buf_priv)
+ {
+ 	struct vb2_dma_sg_buf *buf = buf_priv;
++	struct dma_buf_map map;
++	int ret;
+ 
+ 	BUG_ON(!buf);
+ 
+ 	if (!buf->vaddr) {
+-		if (buf->db_attach)
+-			buf->vaddr = dma_buf_vmap(buf->db_attach->dmabuf);
+-		else
++		if (buf->db_attach) {
++			ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
++			buf->vaddr = ret ? NULL : map.vaddr;
++		} else {
+ 			buf->vaddr = vm_map_ram(buf->pages, buf->num_pages, -1);
++		}
+ 	}
+ 
+ 	/* add offset in case userptr is not page-aligned */
+@@ -489,11 +493,13 @@ vb2_dma_sg_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
+ 	return 0;
+ }
+ 
+-static void *vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf)
++static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf, struct dma_buf_map *map)
+ {
+ 	struct vb2_dma_sg_buf *buf = dbuf->priv;
+ 
+-	return vb2_dma_sg_vaddr(buf);
++	dma_buf_map_set_vaddr(map, buf->vaddr);
++
++	return 0;
+ }
+ 
+ static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
+diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+index c66fda4a65e4..7b68e2379c65 100644
+--- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
++++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+@@ -318,11 +318,13 @@ static void vb2_vmalloc_dmabuf_ops_release(struct dma_buf *dbuf)
+ 	vb2_vmalloc_put(dbuf->priv);
+ }
+ 
+-static void *vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf)
++static int vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct dma_buf_map *map)
+ {
+ 	struct vb2_vmalloc_buf *buf = dbuf->priv;
+ 
+-	return buf->vaddr;
++	dma_buf_map_set_vaddr(map, buf->vaddr);
++
++	return 0;
+ }
+ 
+ static int vb2_vmalloc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+@@ -374,10 +376,15 @@ static struct dma_buf *vb2_vmalloc_get_dmabuf(void *buf_priv, unsigned long flag
+ static int vb2_vmalloc_map_dmabuf(void *mem_priv)
+ {
+ 	struct vb2_vmalloc_buf *buf = mem_priv;
++	struct dma_buf_map map;
++	int ret;
+ 
+-	buf->vaddr = dma_buf_vmap(buf->dbuf);
++	ret = dma_buf_vmap(buf->dbuf, &map);
++	if (ret)
++		return -EFAULT;
++	buf->vaddr = map.vaddr;
+ 
+-	return buf->vaddr ? 0 : -EFAULT;
++	return 0;
+ }
+ 
+ static void vb2_vmalloc_unmap_dmabuf(void *mem_priv)
+diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+index 0f69f9fbf12c..5125f84c28f6 100644
+--- a/include/drm/drm_prime.h
++++ b/include/drm/drm_prime.h
+@@ -54,6 +54,7 @@ struct device;
+ struct dma_buf_export_info;
+ struct dma_buf;
+ struct dma_buf_attachment;
++struct dma_buf_map;
+ 
+ enum dma_data_direction;
+ 
+@@ -82,7 +83,7 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
+ void drm_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
+ 			   struct sg_table *sgt,
+ 			   enum dma_data_direction dir);
+-void *drm_gem_dmabuf_vmap(struct dma_buf *dma_buf);
++int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map);
+ void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr);
+ 
+ int drm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
+diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
+index d4b1bb3cc4b0..6b4f6e0e8b5d 100644
+--- a/include/linux/dma-buf-map.h
++++ b/include/linux/dma-buf-map.h
+@@ -28,6 +28,19 @@ struct dma_buf_map {
+ 	bool is_iomem;
+ };
+ 
++/**
++ * dma_buf_map_set_vaddr - Sets a dma-buf mapping structure to an address in system memory
++ * @map:	The dma-buf mapping structure
++ * @vaddr:	A system-memory address
++ *
++ * Sets the address and clears the I/O-memory flag.
++ */
++static inline void dma_buf_map_set_vaddr(struct dma_buf_map *map, void *vaddr)
++{
++	map->vaddr = vaddr;
++	map->is_iomem = false;
 +}
 +
-+#endif /* __DMA_BUF_MAP_H__ */
+ /* API transition helper */
+ static inline bool dma_buf_map_is_vaddr(const struct dma_buf_map *map, const void *vaddr)
+ {
 diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 957b398d30e5..fcc2ddfb6d18 100644
+index fcc2ddfb6d18..7237997cfa38 100644
 --- a/include/linux/dma-buf.h
 +++ b/include/linux/dma-buf.h
-@@ -13,6 +13,7 @@
- #ifndef __DMA_BUF_H__
- #define __DMA_BUF_H__
+@@ -266,7 +266,7 @@ struct dma_buf_ops {
+ 	 */
+ 	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
  
-+#include <linux/dma-buf-map.h>
- #include <linux/file.h>
- #include <linux/err.h>
- #include <linux/scatterlist.h>
-@@ -309,7 +310,7 @@ struct dma_buf {
- 	const struct dma_buf_ops *ops;
- 	struct mutex lock;
- 	unsigned vmapping_counter;
--	void *vmap_ptr;
-+	struct dma_buf_map vmap_ptr;
- 	const char *exp_name;
- 	const char *name;
- 	spinlock_t name_lock;
+-	void *(*vmap)(struct dma_buf *);
++	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+ 	void (*vunmap)(struct dma_buf *, void *vaddr);
+ };
+ 
+@@ -503,6 +503,6 @@ int dma_buf_end_cpu_access(struct dma_buf *dma_buf,
+ 
+ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
+ 		 unsigned long);
+-void *dma_buf_vmap(struct dma_buf *);
+-void dma_buf_vunmap(struct dma_buf *, void *vaddr);
++int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
++void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr);
+ #endif /* __DMA_BUF_H__ */
 -- 
 2.28.0
 
