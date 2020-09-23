@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FE0275627
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:23:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0756D275633
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:23:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A49036E963;
-	Wed, 23 Sep 2020 10:22:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A53CF6E93D;
+	Wed, 23 Sep 2020 10:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 631776E948;
- Wed, 23 Sep 2020 10:22:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5904D6E940;
+ Wed, 23 Sep 2020 10:22:20 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 27618B287;
- Wed, 23 Sep 2020 10:22:55 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 26F23B288;
+ Wed, 23 Sep 2020 10:22:56 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  daniel@ffwll.ch, linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
@@ -40,9 +40,10 @@ To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  emil.velikov@collabora.com, laurentiu.palcu@oss.nxp.com,
  shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
  festevam@gmail.com, linux-imx@nxp.com
-Subject: [PATCH v3 17/22] drm/vgem: Introduce GEM object functions
-Date: Wed, 23 Sep 2020 12:21:54 +0200
-Message-Id: <20200923102159.24084-18-tzimmermann@suse.de>
+Subject: [PATCH v3 18/22] drm/virtgpu: Set PRIME export function in struct
+ drm_gem_object_funcs
+Date: Wed, 23 Sep 2020 12:21:55 +0200
+Message-Id: <20200923102159.24084-19-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200923102159.24084-1-tzimmermann@suse.de>
 References: <20200923102159.24084-1-tzimmermann@suse.de>
@@ -61,7 +62,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
  amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
@@ -73,75 +74,40 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 GEM object functions deprecate several similar callback interfaces in
-struct drm_driver. This patch replaces the per-driver callbacks with
-per-instance callbacks in vgem. The only exception is gem_prime_mmap,
-which is non-trivial to convert.
+struct drm_driver. This patch replaces virtgpu's per-driver PRIME export
+function with a per-object function.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/vgem/vgem_drv.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.c    | 1 -
+ drivers/gpu/drm/virtio/virtgpu_object.c | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-index cb884c890065..fa54a6d1403d 100644
---- a/drivers/gpu/drm/vgem/vgem_drv.c
-+++ b/drivers/gpu/drm/vgem/vgem_drv.c
-@@ -50,6 +50,8 @@
- #define DRIVER_MAJOR	1
- #define DRIVER_MINOR	0
- 
-+static const struct drm_gem_object_funcs vgem_gem_object_funcs;
-+
- static struct vgem_device {
- 	struct drm_device drm;
- 	struct platform_device *platform;
-@@ -167,6 +169,8 @@ static struct drm_vgem_gem_object *__vgem_gem_create(struct drm_device *dev,
- 	if (!obj)
- 		return ERR_PTR(-ENOMEM);
- 
-+	obj->base.funcs = &vgem_gem_object_funcs;
-+
- 	ret = drm_gem_object_init(dev, &obj->base, roundup(size, PAGE_SIZE));
- 	if (ret) {
- 		kfree(obj);
-@@ -401,12 +405,20 @@ static int vgem_prime_mmap(struct drm_gem_object *obj,
- 	return 0;
- }
- 
-+static const struct drm_gem_object_funcs vgem_gem_object_funcs = {
-+	.free = vgem_gem_free_object,
-+	.pin = vgem_prime_pin,
-+	.unpin = vgem_prime_unpin,
-+	.get_sg_table = vgem_prime_get_sg_table,
-+	.vmap = vgem_prime_vmap,
-+	.vunmap = vgem_prime_vunmap,
-+	.vm_ops = &vgem_gem_vm_ops,
-+};
-+
- static struct drm_driver vgem_driver = {
- 	.driver_features		= DRIVER_GEM | DRIVER_RENDER,
- 	.open				= vgem_open,
- 	.postclose			= vgem_postclose,
--	.gem_free_object_unlocked	= vgem_gem_free_object,
--	.gem_vm_ops			= &vgem_gem_vm_ops,
- 	.ioctls				= vgem_ioctls,
- 	.num_ioctls 			= ARRAY_SIZE(vgem_ioctls),
- 	.fops				= &vgem_driver_fops,
-@@ -415,13 +427,8 @@ static struct drm_driver vgem_driver = {
- 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index b039f493bda9..1f8d6ed11d21 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -203,7 +203,6 @@ static struct drm_driver driver = {
  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_pin = vgem_prime_pin,
--	.gem_prime_unpin = vgem_prime_unpin,
- 	.gem_prime_import = vgem_prime_import,
- 	.gem_prime_import_sg_table = vgem_prime_import_sg_table,
--	.gem_prime_get_sg_table = vgem_prime_get_sg_table,
--	.gem_prime_vmap = vgem_prime_vmap,
--	.gem_prime_vunmap = vgem_prime_vunmap,
- 	.gem_prime_mmap = vgem_prime_mmap,
+ 	.gem_prime_mmap = drm_gem_prime_mmap,
+-	.gem_prime_export = virtgpu_gem_prime_export,
+ 	.gem_prime_import = virtgpu_gem_prime_import,
+ 	.gem_prime_import_sg_table = virtgpu_gem_prime_import_sg_table,
  
- 	.name	= DRIVER_NAME,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 00d6b95e259d..42560afc3875 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -107,6 +107,7 @@ static const struct drm_gem_object_funcs virtio_gpu_shmem_funcs = {
+ 	.close = virtio_gpu_gem_object_close,
+ 
+ 	.print_info = drm_gem_shmem_print_info,
++	.export = virtgpu_gem_prime_export,
+ 	.pin = drm_gem_shmem_pin,
+ 	.unpin = drm_gem_shmem_unpin,
+ 	.get_sg_table = drm_gem_shmem_get_sg_table,
 -- 
 2.28.0
 
