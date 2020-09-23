@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693AF2752A3
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:54:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC4E27529F
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:54:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E240089DD8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0C4F89D86;
 	Wed, 23 Sep 2020 07:54:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9BB36E3DF
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 01:37:50 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.32])
- by regular1.263xmail.com (Postfix) with ESMTP id CC57111AC;
- Wed, 23 Sep 2020 09:37:45 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED: 0
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from [172.16.12.39] (unknown [58.22.7.114])
- by smtp.263.net (postfix) whith ESMTP id
- P19669T139950693541632S1600825059359918_; 
- Wed, 23 Sep 2020 09:37:40 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <6ceb410db81355261b525d39c7a6a36f>
-X-RL-SENDER: algea.cao@rock-chips.com
-X-SENDER: algea.cao@rock-chips.com
-X-LOGIN-NAME: algea.cao@rock-chips.com
-X-FST-TO: linux-rockchip@lists.infradead.org
-X-SENDER-IP: 58.22.7.114
-X-ATTACHMENT-NUM: 0
-X-DNS-TYPE: 0
-X-System-Flag: 0
-Subject: Re: [PATCH v2 1/3] drm: rockchip: hdmi: fix clock rounding code
-To: Vicente Bergas <vicencb@gmail.com>, Doug Anderson
- <dianders@chromium.org>, Andy Yan <andy.yan@rock-chips.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
- <heiko@sntech.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org
-References: <20200922203107.2932-1-vicencb@gmail.com>
- <20200922203107.2932-2-vicencb@gmail.com>
-From: crj <algea.cao@rock-chips.com>
-Message-ID: <50002e7b-d1f2-8209-fe65-7f60f036f7d3@rock-chips.com>
-Date: Wed, 23 Sep 2020 09:37:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA816E400
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 02:16:47 +0000 (UTC)
+Received: from mail-oi1-f198.google.com ([209.85.167.198])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <koba.ko@canonical.com>) id 1kKuKr-0007Jx-WB
+ for dri-devel@lists.freedesktop.org; Wed, 23 Sep 2020 02:16:46 +0000
+Received: by mail-oi1-f198.google.com with SMTP id k78so8573933oib.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Sep 2020 19:16:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y8KnY5LD0NHhoP43zjX0d7M1I3RNfGZr68FzzWqbIXA=;
+ b=TfX1oN4VyR6D4XduQ/O5nNE827ZaaQ7/gBmYPtj/4scImvNi7bBOeypGI2GeF3HSoV
+ pWsjNRyF+wG0YBkppyQX8UlbB+otEDAonuN41SBGQedy8w77bXYBRJvJw0dKjEcSYjSc
+ 0C6xkygABAAP84yUozXyXT59hOrbW7jQ4jRWs5Fc7+1jcpJNRoM/EWgpL3RHzr/2/ST8
+ 7x+PqFfKSd9LiMXnGLdsB9m2pAg13Cab2qidI8L6ZfTxb7sn3aimesX8qcng+8bCZbME
+ IulpkyJzVzlbV8/jDPqgnhILMcjaKJz814I+6e2MozLjv7ML+1/Bbt6VcnIfggKR42tw
+ ZYdw==
+X-Gm-Message-State: AOAM533FdVj58YxFD+NYIzpwEAx/8wSC0YAYJwP1nJa6bRoRojMBj1Z1
+ 4se5+06YpstvfAOW+VRqiCbDyPpdRWiGUy0QaWELs62p5hxvALc3F1YPWw5PfS2Ys0yaCEN/yBH
+ qDcLQAmU8SO6UprcG+YwoYTXnZxrIEEBKDjqPZRVW0ap6GyOyi8CbJara6v21DQ==
+X-Received: by 2002:a9d:6491:: with SMTP id g17mr4419893otl.326.1600827404800; 
+ Tue, 22 Sep 2020 19:16:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzNu3+Q2WaRNqHQicrUqSqPPGJLJGS/Wbrczh0WSxJi0/l5DO7fl633zoEHsWNGUXegasqKvoowP0DcxiurA40=
+X-Received: by 2002:a9d:6491:: with SMTP id g17mr4419879otl.326.1600827404471; 
+ Tue, 22 Sep 2020 19:16:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200922203107.2932-2-vicencb@gmail.com>
+References: <20200922065313.4794-1-koba.ko@canonical.com>
+ <7231e2199a19aa6c8ecbecf5e80725e2a1aded73.camel@redhat.com>
+In-Reply-To: <7231e2199a19aa6c8ecbecf5e80725e2a1aded73.camel@redhat.com>
+From: Koba Ko <koba.ko@canonical.com>
+Date: Wed, 23 Sep 2020 10:16:33 +0800
+Message-ID: <CAJB-X+U0M1YXUyAX2nDxddwwxnPygfkk47PFrFnvERh4fUBxiw@mail.gmail.com>
+Subject: Re: [PATCH V4] drm/dp_mst: Retrieve extended DPCD caps for topology
+ manager
+To: Lyude Paul <lyude@redhat.com>
 X-Mailman-Approved-At: Wed, 23 Sep 2020 07:53:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,50 +62,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="gbk"; Format="flowed"
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Anthony Wong <anthony.wong@canonical.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CtTaIDIwMjAvOS8yMyA0OjMxLCBWaWNlbnRlIEJlcmdhcyDQtLXAOgo+IFVuZGVyIGNlcnRhaW4g
-Y29uZGl0aW9ucyB2b3BfY3J0Y19tb2RlX2ZpeHVwIHJvdW5kcyB0aGUgY2xvY2sKPiAxNDg1MDAw
-MDAgdG8gMTQ4NTAxMDAwIHdoaWNoIGxlYWRzIHRvIHRoZSBmb2xsb3dpbmcgZXJyb3I6Cj4gZHdo
-ZG1pLXJvY2tjaGlwIGZmOTQwMDAwLmhkbWk6IFBIWSBjb25maWd1cmF0aW9uIGZhaWxlZCAoY2xv
-Y2sgMTQ4NTAxMDAwKQo+Cj4gVGhlIGlzc3VlIHdhcyBmb3VuZCBvbiBSSzMzOTkgYm9vdGluZyB3
-aXRoIHUtYm9vdC4gVS1ib290IGNvbmZpZ3VyZXMgdGhlCj4gZGlzcGxheSBhdCAyNTYweDE0NDAg
-YW5kIHRoZW4gbGludXggY29tZXMgdXAgd2l0aCBhIGJsYWNrIHNjcmVlbi4KPiBBIHdvcmthcm91
-bmQgd2FzIHRvIHVuLXBsdWcgYW5kIHJlLXBsdWcgdGhlIEhETUkgZGlzcGxheS4KPgo+IFNpZ25l
-ZC1vZmYtYnk6IFZpY2VudGUgQmVyZ2FzIDx2aWNlbmNiQGdtYWlsLmNvbT4KPiBUZXN0ZWQtYnk6
-IFZpY2VudGUgQmVyZ2FzIDx2aWNlbmNiQGdtYWlsLmNvbT4KPiAtLS0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMgfCA3ICsrLS0tLS0KPiAgIDEgZmlsZSBj
-aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMKPiBpbmRleCBjODBmN2Q5ZmQxM2YuLjky
-ZWZiZDg5OWRlZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2No
-aXBfZHJtX3ZvcC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2Ry
-bV92b3AuYwo+IEBAIC0xMTc2LDEyICsxMTc2LDkgQEAgc3RhdGljIGJvb2wgdm9wX2NydGNfbW9k
-ZV9maXh1cChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4gICAJICoKPiAgIAkgKiAyLiBHZXQgdGhl
-IGNsb2NrIGZyYW1ld29yayB0byByb3VuZCB0aGUgcmF0ZSBmb3IgdXMgdG8gdGVsbCB1cwo+ICAg
-CSAqICAgIHdoYXQgaXQgd2lsbCBhY3R1YWxseSBtYWtlLgo+IC0JICoKPiAtCSAqIDMuIFN0b3Jl
-IHRoZSByb3VuZGVkIHVwIHJhdGUgc28gdGhhdCB3ZSBkb24ndCBuZWVkIHRvIHdvcnJ5IGFib3V0
-Cj4gLQkgKiAgICB0aGlzIGluIHRoZSBhY3R1YWwgY2xrX3NldF9yYXRlKCkuCj4gICAJICovCj4g
-ICAJcmF0ZSA9IGNsa19yb3VuZF9yYXRlKHZvcC0+ZGNsaywgYWRqdXN0ZWRfbW9kZS0+Y2xvY2sg
-KiAxMDAwICsgOTk5KTsKPiAtCWFkanVzdGVkX21vZGUtPmNsb2NrID0gRElWX1JPVU5EX1VQKHJh
-dGUsIDEwMDApOwo+ICsJYWRqdXN0ZWRfbW9kZS0+Y2xvY2sgPSByYXRlIC8gMTAwMDsKPiAgIAo+
-ICAgCXJldHVybiB0cnVlOwo+ICAgfQo+IEBAIC0xMzgwLDcgKzEzNzcsNyBAQCBzdGF0aWMgdm9p
-ZCB2b3BfY3J0Y19hdG9taWNfZW5hYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPiAgIAo+ICAg
-CVZPUF9SRUdfU0VUKHZvcCwgaW50ciwgbGluZV9mbGFnX251bVswXSwgdmFjdF9lbmQpOwo+ICAg
-Cj4gLQljbGtfc2V0X3JhdGUodm9wLT5kY2xrLCBhZGp1c3RlZF9tb2RlLT5jbG9jayAqIDEwMDAp
-Owo+ICsJY2xrX3NldF9yYXRlKHZvcC0+ZGNsaywgYWRqdXN0ZWRfbW9kZS0+Y2xvY2sgKiAxMDAw
-ICsgOTk5KTsKCgpJbiBzb21lIFJLIHBsYXRmb3JtLCBzdWNoIGFzIFJLMzMyOCwgZGNsayBpcyBn
-ZW5lcmF0ZWQgYnkgdGhlIElOTk8gSERNSSAKUEhZIFBMTCwgd2hpY2ggc3VwcG9ydAoKZnJhYyBk
-aXZpZGVyIGNhbiBzdXBwb3J0IGFueSBkY2xrIGZyZXF1ZW5jeS4gQW5kIFRoZSBQTEwgbXVzdCB1
-c2UgdGhlIApleGFjdCBjbG9jayB0byBkZXRlcm1pbmUKCnRoZSBQTEwgY29uZmlndXJhdGlvbi4g
-U28gYWRqdXN0ZWRfbW9kZS0+Y2xvY2sgKiAxMDAwICsgOTk5IG1heSBjYXVzZSAKSU5OTyBIRE1J
-IFBIWSBQTEwKCmNvdWxkbid0IGZpbmQgdGhlIHJpZ2h0IGNvbmZpZ3VyYXRpb24uIElOTk8gSERN
-SSBQSFkncyBkcml2ZXIgcGF0aCBpczoKCmRyaXZlcnMvcGh5L3JvY2tjaGlwL3BoeS1yb2NrY2hp
-cC1pbm5vLWhkbWkuYwoKCj4gICAKPiAgIAlWT1BfUkVHX1NFVCh2b3AsIGNvbW1vbiwgc3RhbmRi
-eSwgMCk7Cj4gICAJbXV0ZXhfdW5sb2NrKCZ2b3AtPnZvcF9sb2NrKTsKCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Thanks for the review.
+Sorry for that I thought the review tag should be appended by myself.
+One thing to confirm with you, will you or I push this patch to drm-misc-next ?
+
+Thanks a lot.
+
+On Wed, Sep 23, 2020 at 2:01 AM Lyude Paul <lyude@redhat.com> wrote:
+>
+> One last change I realized we should do is print the name of the AUX adapter
+> in question. I don't mind just adding that myself before I push it though so
+> you don't need to send a respin.
+>
+> Going to go push this to drm-misc-next, thanks!
+>
+> On Tue, 2020-09-22 at 14:53 +0800, Koba Ko wrote:
+> > As per DP-1.3, First check DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT.
+> > If DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT is 1,read the DP_DP13_DPCD_REV to
+> > get the faster capability.
+> > If DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT is 0,read DP_DPCD_REV.
+> >
+> > Signed-off-by: Koba Ko <koba.ko@canonical.com>
+> > Reviewed-by: Lyude Paul <lyude@redhat.com>
+> > ---
+> >  drivers/gpu/drm/drm_dp_mst_topology.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > index e87542533640..63f8809b9aa4 100644
+> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > @@ -3686,9 +3686,9 @@ int drm_dp_mst_topology_mgr_set_mst(struct
+> > drm_dp_mst_topology_mgr *mgr, bool ms
+> >               WARN_ON(mgr->mst_primary);
+> >
+> >               /* get dpcd info */
+> > -             ret = drm_dp_dpcd_read(mgr->aux, DP_DPCD_REV, mgr->dpcd,
+> > DP_RECEIVER_CAP_SIZE);
+> > -             if (ret != DP_RECEIVER_CAP_SIZE) {
+> > -                     DRM_DEBUG_KMS("failed to read DPCD\n");
+> > +             ret = drm_dp_read_dpcd_caps(mgr->aux, mgr->dpcd);
+> > +             if (ret < 0) {
+> > +                     drm_dbg_kms(mgr->dev, "failed to read DPCD, ret %d\n",
+> > ret);
+> >                       goto out_unlock;
+> >               }
+> >
+> --
+> Cheers,
+>         Lyude Paul (she/her)
+>         Software Engineer at Red Hat
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
