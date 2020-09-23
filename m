@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7610F275371
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 10:42:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E023F275432
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 11:16:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EABD6E169;
-	Wed, 23 Sep 2020 08:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C801C6E11A;
+	Wed, 23 Sep 2020 09:16:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADEF16E169;
- Wed, 23 Sep 2020 08:42:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=XUajjvVX4H86jnKIk5XMmvtu2ykOTjeXul3/BJu/hwU=; b=vqx/B66IY6FJeZM3oZmg/+Un+I
- juk4SYQ/onu0T+HuU6X7fOPUIa6l9h67CTBxy3SeH234BxCXwizgdRSm3ioDdv8gF+TwH9O22nczg
- iqTkLZMjcnlPg/CQhzPF7llJEWqzYy/Dtj1pYfU2/xkQ01m00/IofSzmAb4/u67Eqx5ofz6yzA4Jr
- k+ENSw1eHzIn/yXomefawgme8b2QPv9bNql8zuIi3CmNCPYqKCAg5yJhl56cZVRivF4fUyQXVfWDV
- f/qwJzeMoNXuRo68QwZoXhQ3RDUab4cXjbENpYgZ4B+vroJlmNEOdrOdKJLG7gc49cxKVxNJisFa1
- TLPApaFA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kL0KM-0004t5-Gu; Wed, 23 Sep 2020 08:40:38 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A998D300455;
- Wed, 23 Sep 2020 10:40:32 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 6A1AD213DCC80; Wed, 23 Sep 2020 10:40:32 +0200 (CEST)
-Date: Wed, 23 Sep 2020 10:40:32 +0200
-From: peterz@infradead.org
-To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
- kmap_atomic & friends
-Message-ID: <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
-References: <20200919091751.011116649@linutronix.de>
- <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
- <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
- <87k0wode9a.fsf@nanos.tec.linutronix.de>
- <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
- <87eemwcpnq.fsf@nanos.tec.linutronix.de>
- <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
- <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
- <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
- <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC7AC6E11A
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 09:16:22 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id o8so18299243otl.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 02:16:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xx0elKkoqWt7m+sCqzFWJsTw/Aq7bHK/TIsEYQIB+Kw=;
+ b=Kda1GqkfVMWLKwtHkGejsRapj3CscIBeM63GCgpNfbguApi3aJegx7lRDECtlhvtM6
+ cpvdg4qCsObLab+1sj7k4OcgQ5VhQ3Uje5FAk/U66q9FlFGFDYo/+Zt8NlnHJ+tMLiCB
+ hUO2r8x7vwtOzK80zcBtGdY12RAGRChzDFiGE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xx0elKkoqWt7m+sCqzFWJsTw/Aq7bHK/TIsEYQIB+Kw=;
+ b=twsG0CKiZY/moPyf7HCxCB/UeDXj+eqF8i9KZdd8t4mjOgOuomNf55pnfLxIDbwG+5
+ Y+33H0AL8UF5L8YLRmKsf4l1otcmjtcS3c6ZIIDI+qO3sQpY47PEiqKqhXezyaVG/jss
+ x/UWbjAKcoALlw3RqT9R1Oba8SP8DTZe4JJikFVkksfecVqLoRFL3toBL/1xIbwYLSlf
+ MsWeLqpQcKu4NJL+WktzybKX5gea3GhZqkCHRMRf+9+lo/gkm7DAZ8idq6Ib6/qUAcmD
+ BVd9LaDequENgpe7k8I50i4K/j76fkQtCwzaz882hLMEy44XlcrqTVRrx7V4A3Fm+JLh
+ z/tA==
+X-Gm-Message-State: AOAM531LwCgnBzTbzkEq9LZ5ES/M54p7GMP50Ev7F6F2LJUzKHgcJ3G5
+ E17MQoVjdbpLKAAUwrUr5a5Ko9k9SzFHKiKJuGf5Fg==
+X-Google-Smtp-Source: ABdhPJwCztWczfYQgjICqeAPa0u/oulXSCDaMET7lWOtt0q6htifXm+6w9u41E2ol9CyiZNqPJhaL5xEPPsNNGr5QWU=
+X-Received: by 2002:a05:6830:14d9:: with SMTP id
+ t25mr5782676otq.188.1600852582007; 
+ Wed, 23 Sep 2020 02:16:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
+References: <20200922181834.2913552-1-daniel.vetter@ffwll.ch>
+ <20200923111717.68d9eb51@eldfell>
+In-Reply-To: <20200923111717.68d9eb51@eldfell>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 23 Sep 2020 11:16:11 +0200
+Message-ID: <CAKMK7uF02DVRm9cEOnVbSQVXiOqk0_pFdDbX2igae1gfREK1GQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: document and enforce rules around "spurious" EBUSY
+ from atomic_commit
+To: Pekka Paalanen <ppaalanen@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,94 +60,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
- Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
- Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Michael Ellerman <mpe@ellerman.id.au>,
- the arch/x86 maintainers <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- Mel Gorman <mgorman@suse.de>,
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Vineet Gupta <vgupta@synopsys.com>, Paul Mackerras <paulus@samba.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Greentime Hu <green.hu@gmail.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable <stable@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 21, 2020 at 09:27:57PM +0200, Thomas Gleixner wrote:
-> On Mon, Sep 21 2020 at 09:24, Linus Torvalds wrote:
-> > On Mon, Sep 21, 2020 at 12:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
-> >>
-> >> If a task is migrated to a different CPU then the mapping address will
-> >> change which will explode in colourful ways.
+On Wed, Sep 23, 2020 at 10:17 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Tue, 22 Sep 2020 20:18:34 +0200
+> Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> > When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
+> > pull in arbitrary other resources, including CRTCs (e.g. when
+> > reconfiguring global resources).
 > >
-> > Right you are.
+> > But in nonblocking mode userspace has then no idea this happened,
+> > which can lead to spurious EBUSY calls, both:
+> > - when that other CRTC is currently busy doing a page_flip the
+> >   ALLOW_MODESET commit can fail with an EBUSY
+> > - on the other CRTC a normal atomic flip can fail with EBUSY because
+> >   of the additional commit inserted by the kernel without userspace's
+> >   knowledge
 > >
-> > Maybe we really *could* call this new kmap functionality something
-> > like "kmap_percpu()" (or maybe "local" is good enough), and make it
-> > act like your RT code does for spinlocks - not disable preemption, but
-> > only disabling CPU migration.
-> 
-> I"m all for it, but the scheduler people have opinions :)
+> > For blocking commits this isn't a problem, because everyone else will
+> > just block until all the CRTC are reconfigured. Only thing userspace
+> > can notice is the dropped frames without any reason for why frames got
+> > dropped.
+> >
+> > Consensus is that we need new uapi to handle this properly, but no one
+> > has any idea what exactly the new uapi should look like. Since this
+> > has been shipping for years already compositors need to deal no matter
+> > what, so as a first step just try to enforce this across drivers
+> > better with some checks.
+> >
+> > v2: Add comments and a WARN_ON to enforce this only when allowed - we
+> > don't want to silently convert page flips into blocking plane updates
+> > just because the driver is buggy.
+> >
+> > v3: Fix inverted WARN_ON (Pekka).
+> >
+> > v4: Drop the uapi changes, only add a WARN_ON for now to enforce some
+> > rules for drivers.
+>
+> Dropped all addresses, because gmail refused to send this email
+> otherwise.
+>
+> > ---
+> >  drivers/gpu/drm/drm_atomic.c | 27 +++++++++++++++++++++++++++
+> >  1 file changed, 27 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> > index 58527f151984..ef106e7153a6 100644
+> > --- a/drivers/gpu/drm/drm_atomic.c
+> > +++ b/drivers/gpu/drm/drm_atomic.c
+> > @@ -281,6 +281,10 @@ EXPORT_SYMBOL(__drm_atomic_state_free);
+> >   * needed. It will also grab the relevant CRTC lock to make sure that the state
+> >   * is consistent.
+> >   *
+> > + * WARNING: Drivers may only add new CRTC states to a @state if
+> > + * drm_atomic_state.allow_modeset is set, or if it's a driver-internal commit
+> > + * not created by userspace through an IOCTL call.
+> > + *
+> >   * Returns:
+> >   *
+> >   * Either the allocated state or the error code encoded into the pointer. When
+> > @@ -1262,10 +1266,15 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+> >       struct drm_crtc_state *new_crtc_state;
+> >       struct drm_connector *conn;
+> >       struct drm_connector_state *conn_state;
+> > +     unsigned requested_crtc = 0;
+> > +     unsigned affected_crtc = 0;
+> >       int i, ret = 0;
+> >
+> >       DRM_DEBUG_ATOMIC("checking %p\n", state);
+> >
+> > +     for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+> > +             requested_crtc |= drm_crtc_mask(crtc);
+> > +
+> >       for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
+> >               ret = drm_atomic_plane_check(old_plane_state, new_plane_state);
+> >               if (ret) {
+> > @@ -1313,6 +1322,24 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+> >               }
+> >       }
+> >
+> > +     for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+> > +             affected_crtc |= drm_crtc_mask(crtc);
+> > +
+> > +     /*
+> > +      * For commits that allow modesets drivers can add other CRTCs to the
+> > +      * atomic commit, e.g. when they need to reallocate global resources.
+> > +      * This can cause spurious EBUSY, which robs compositors of a very
+> > +      * effective sanity check for their drawing loop. Therefor only allow
+> > +      * this for modeset commits.
+> > +      *
+> > +      * FIXME: Should add affected_crtc mask to the ATOMIC IOCTL as an output
+> > +      * so compositors know what's going on.
+>
+> Hi,
+>
+> I think telling userspace the affected_crtc mask would only solve half
+> of the problem: it would allow userspace to avoid attempting flips on
+> the other affected CRTCs until this modeset is done, but it doesn't
+> stop this non-blocking modeset from EBUSY'ing because other affected
+> CRTCs are busy flipping.
+>
+> If the aim is to indicate userspace bugs with EBUSY, then EBUSY because
+> of other CRTCs needs to be differentiable from EBUSY due to a mistake
+> on this CRTC. Maybe the CRTC mask should instead be "conflicting/busy
+> CRTCs", not simply "affected CRTCS"?
+>
+> Userspace might also be designed to always avoid modesets while any
+> CRTC is busy flipping. In that case any EBUSY would be an indication of
+> a (userspace) bug and a "busy CRTCs" mask could help pinpoint the issue.
+>
+> If userspace does a TEST_ONLY commit with a modeset on one CRTC and the
+> driver pulls in another CRTC that is currently busy, will the test
+> commit return with EBUSY?
+>
+> If yes, and *if* userspace is single-threaded wrt. to KMS updates,
+> that might offer a way to work around it in userspace. But if userspace
+> is flipping other CRTCs from other threads, TEST_ONLY commit does not
+> help because another thread may cut in and make a CRTC busy.
 
-Right, so I'm concerned. migrate_disable() wrecks pretty much all
-Real-Time scheduler theory we have, and PREEMPRT_RT bringing it in is
-somewhat ironic.
+You'd also get this from TEST_ONLY commit, so userspace can:
+- wait for any affected crtc to complete out their pending updates,
+which avoids the EBUSY
+- do a blocking modeset (which avoids the EBUSY since it stalls either way)
+- insert a note into it's per-crtc draw loop/tracking that there will
+be another event inserted by the kernel that needs to be waited on
 
-Yes, it allows breaking up non-preemptible regions of non-deterministic
-duration, and thereby both reduce and bound the scheduling latency, the
-cost for doing that is that the theory on CPU utilization/bandwidth go
-out the window.
+As long as this doesn't race with any other atomic commit or
+processing the event queue, this should be race free. And allow you to
+handle spurious EBUSY both here because of other pending flips, and in
+the next atomic flips because of this commit here.
 
-To easily see this consider an SMP system with a number of tasks equal
-to the number of CPUs. On a regular (preempt_disable) kernel we can
-always run each task, by virtue of always having an idle CPU to take the
-task.
+Also I don't think the kernel needs to tell you which of these crtc
+are busy, since userspace knows that (by tracking outstanding events).
+Plus that information is racy anyway, you'll just have to synchronize
+with your drm event processing.
+-Daniel
 
-However, with migrate_disable() we can have each task preempted in a
-migrate_disable() region, worse we can stack them all on the _same_ CPU
-(super ridiculous odds, sure). And then we end up only able to run one
-task, with the rest of the CPUs picking their nose.
+>
+>
+> Thanks,
+> pq
+>
+> > +      */
+> > +     if (affected_crtc != requested_crtc) {
+> > +             /* adding other CRTC is only allowed for modeset commits */
+> > +             WARN_ON(!state->allow_modeset);
+> > +     }
+> > +
+> >       return 0;
+> >  }
+> >  EXPORT_SYMBOL(drm_atomic_check_only);
+>
 
-The end result is that, like with unbounded latency, we will still miss
-our deadline, simply because we got starved for CPU.
 
-
-Now, while we could (with a _lot_ of work) rework the kernel to not rely
-on the implicit per-cpu ness of things like spinlock_t, the moment we
-bring in basic primitives that rely on migrate_disable() we're stuck
-with it.
-
-
-The problem is; afaict there's been no research into this problem. There
-might be scheduling (read: balancing) schemes that can mitigate/solve
-this problem, or it might prove to be a 'hard' problem, I just don't
-know. But once we start down this road, it's going to be hell to get rid
-of it.
-
-That's why I've been arguing (for many years) to strictly limit this to
-PREEMPT_RT and only as a gap-stop, not a fundamental primitive to build
-on.
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
