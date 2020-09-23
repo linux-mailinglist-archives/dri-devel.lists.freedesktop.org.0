@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44E827557E
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90772755E5
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:22:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 807C46E918;
-	Wed, 23 Sep 2020 10:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 816F96E926;
+	Wed, 23 Sep 2020 10:22:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 546506E919;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6B3E6E91A;
  Wed, 23 Sep 2020 10:22:04 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AECA9B279;
- Wed, 23 Sep 2020 10:22:39 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 9C6DBB27C;
+ Wed, 23 Sep 2020 10:22:40 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  daniel@ffwll.ch, linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
@@ -40,9 +40,9 @@ To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  emil.velikov@collabora.com, laurentiu.palcu@oss.nxp.com,
  shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
  festevam@gmail.com, linux-imx@nxp.com
-Subject: [PATCH v3 01/22] drm/amdgpu: Introduce GEM object functions
-Date: Wed, 23 Sep 2020 12:21:38 +0200
-Message-Id: <20200923102159.24084-2-tzimmermann@suse.de>
+Subject: [PATCH v3 02/22] drm/armada: Introduce GEM object functions
+Date: Wed, 23 Sep 2020 12:21:39 +0200
+Message-Id: <20200923102159.24084-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200923102159.24084-1-tzimmermann@suse.de>
 References: <20200923102159.24084-1-tzimmermann@suse.de>
@@ -62,96 +62,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, nouveau@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Russell King <rmk+kernel@armlinux.org.uk>, linux-mediatek@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-R0VNIG9iamVjdCBmdW5jdGlvbnMgZGVwcmVjYXRlIHNldmVyYWwgc2ltaWxhciBjYWxsYmFjayBp
-bnRlcmZhY2VzIGluCnN0cnVjdCBkcm1fZHJpdmVyLiBUaGlzIHBhdGNoIHJlcGxhY2VzIHRoZSBw
-ZXItZHJpdmVyIGNhbGxiYWNrcyB3aXRoCnBlci1pbnN0YW5jZSBjYWxsYmFja3MgaW4gYW1kZ3B1
-LiBUaGUgb25seSBleGNlcHRpb24gaXMgZ2VtX3ByaW1lX21tYXAsCndoaWNoIGlzIG5vbi10cml2
-aWFsIHRvIGNvbnZlcnQuCgp2MzoKCSogcmVtb3ZlIGFtZGdwdV9vYmplY3QuYyBmcm9tIHBhdGNo
-IChDaHJpc3RpYW4pCnYyOgoJKiBtb3ZlIG9iamVjdC1mdW5jdGlvbiBpbnN0YW5jZSB0byBhbWRn
-cHVfZ2VtLmMgKENocmlzdGlhbikKCSogc2V0IGNhbGxiYWNrcyBpbiBhbWRncHVfZ2VtX29iamVj
-dF9jcmVhdGUoKSAoQ2hyaXN0aWFuKQoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4g
-PHR6aW1tZXJtYW5uQHN1c2UuZGU+ClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
-c3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X2Rydi5jIHwgIDYgLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-Z2VtLmMgfCAyMyArKysrKysrKysrKysrKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvYW1kZ3B1X2dlbS5oIHwgIDUgLS0tLS0KIDMgZmlsZXMgY2hhbmdlZCwgMTggaW5zZXJ0
-aW9ucygrKSwgMTYgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvYW1kZ3B1X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
-X2Rydi5jCmluZGV4IDZlZGRlMmI5ZTQwMi4uODQwY2E4ZjljMWUxIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jCkBAIC0xNTA1LDE5ICsxNTA1LDEzIEBAIHN0YXRpYyBz
-dHJ1Y3QgZHJtX2RyaXZlciBrbXNfZHJpdmVyID0gewogCS5sYXN0Y2xvc2UgPSBhbWRncHVfZHJp
-dmVyX2xhc3RjbG9zZV9rbXMsCiAJLmlycV9oYW5kbGVyID0gYW1kZ3B1X2lycV9oYW5kbGVyLAog
-CS5pb2N0bHMgPSBhbWRncHVfaW9jdGxzX2ttcywKLQkuZ2VtX2ZyZWVfb2JqZWN0X3VubG9ja2Vk
-ID0gYW1kZ3B1X2dlbV9vYmplY3RfZnJlZSwKLQkuZ2VtX29wZW5fb2JqZWN0ID0gYW1kZ3B1X2dl
-bV9vYmplY3Rfb3BlbiwKLQkuZ2VtX2Nsb3NlX29iamVjdCA9IGFtZGdwdV9nZW1fb2JqZWN0X2Ns
-b3NlLAogCS5kdW1iX2NyZWF0ZSA9IGFtZGdwdV9tb2RlX2R1bWJfY3JlYXRlLAogCS5kdW1iX21h
-cF9vZmZzZXQgPSBhbWRncHVfbW9kZV9kdW1iX21tYXAsCiAJLmZvcHMgPSAmYW1kZ3B1X2RyaXZl
-cl9rbXNfZm9wcywKIAogCS5wcmltZV9oYW5kbGVfdG9fZmQgPSBkcm1fZ2VtX3ByaW1lX2hhbmRs
-ZV90b19mZCwKIAkucHJpbWVfZmRfdG9faGFuZGxlID0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5k
-bGUsCi0JLmdlbV9wcmltZV9leHBvcnQgPSBhbWRncHVfZ2VtX3ByaW1lX2V4cG9ydCwKIAkuZ2Vt
-X3ByaW1lX2ltcG9ydCA9IGFtZGdwdV9nZW1fcHJpbWVfaW1wb3J0LAotCS5nZW1fcHJpbWVfdm1h
-cCA9IGFtZGdwdV9nZW1fcHJpbWVfdm1hcCwKLQkuZ2VtX3ByaW1lX3Z1bm1hcCA9IGFtZGdwdV9n
-ZW1fcHJpbWVfdnVubWFwLAogCS5nZW1fcHJpbWVfbW1hcCA9IGFtZGdwdV9nZW1fcHJpbWVfbW1h
-cCwKIAogCS5uYW1lID0gRFJJVkVSX05BTUUsCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfZ2VtLmMKaW5kZXggYWE3ZjIzMGM3MWJmLi5hZWVjZDVkYzNjZTQgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0uYworKysgYi9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMKQEAgLTM2LDkgKzM2LDEyIEBACiAKICNpbmNsdWRl
-ICJhbWRncHUuaCIKICNpbmNsdWRlICJhbWRncHVfZGlzcGxheS5oIgorI2luY2x1ZGUgImFtZGdw
-dV9kbWFfYnVmLmgiCiAjaW5jbHVkZSAiYW1kZ3B1X3hnbWkuaCIKIAotdm9pZCBhbWRncHVfZ2Vt
-X29iamVjdF9mcmVlKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqZ29iaikKK3N0YXRpYyBjb25zdCBz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3RfZnVuY3MgYW1kZ3B1X2dlbV9vYmplY3RfZnVuY3M7CisKK3N0
-YXRpYyB2b2lkIGFtZGdwdV9nZW1fb2JqZWN0X2ZyZWUoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpn
-b2JqKQogewogCXN0cnVjdCBhbWRncHVfYm8gKnJvYmogPSBnZW1fdG9fYW1kZ3B1X2JvKGdvYmop
-OwogCkBAIC04Nyw2ICs5MCw3IEBAIGludCBhbWRncHVfZ2VtX29iamVjdF9jcmVhdGUoc3RydWN0
-IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHVuc2lnbmVkIGxvbmcgc2l6ZSwKIAkJcmV0dXJuIHI7CiAJ
-fQogCSpvYmogPSAmYm8tPnRiby5iYXNlOworCSgqb2JqKS0+ZnVuY3MgPSAmYW1kZ3B1X2dlbV9v
-YmplY3RfZnVuY3M7CiAKIAlyZXR1cm4gMDsKIH0KQEAgLTExOSw4ICsxMjMsOCBAQCB2b2lkIGFt
-ZGdwdV9nZW1fZm9yY2VfcmVsZWFzZShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKICAqIENh
-bGwgZnJvbSBkcm1fZ2VtX2hhbmRsZV9jcmVhdGUgd2hpY2ggYXBwZWFyIGluIGJvdGggbmV3IGFu
-ZCBvcGVuIGlvY3RsCiAgKiBjYXNlLgogICovCi1pbnQgYW1kZ3B1X2dlbV9vYmplY3Rfb3Blbihz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKLQkJCSAgIHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9w
-cml2KQorc3RhdGljIGludCBhbWRncHVfZ2VtX29iamVjdF9vcGVuKHN0cnVjdCBkcm1fZ2VtX29i
-amVjdCAqb2JqLAorCQkJCSAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYpCiB7CiAJc3RydWN0
-IGFtZGdwdV9ibyAqYWJvID0gZ2VtX3RvX2FtZGdwdV9ibyhvYmopOwogCXN0cnVjdCBhbWRncHVf
-ZGV2aWNlICphZGV2ID0gYW1kZ3B1X3R0bV9hZGV2KGFiby0+dGJvLmJkZXYpOwpAQCAtMTUyLDgg
-KzE1Niw4IEBAIGludCBhbWRncHVfZ2VtX29iamVjdF9vcGVuKHN0cnVjdCBkcm1fZ2VtX29iamVj
-dCAqb2JqLAogCXJldHVybiAwOwogfQogCi12b2lkIGFtZGdwdV9nZW1fb2JqZWN0X2Nsb3NlKHN0
-cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLAotCQkJICAgICBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVf
-cHJpdikKK3N0YXRpYyB2b2lkIGFtZGdwdV9nZW1fb2JqZWN0X2Nsb3NlKHN0cnVjdCBkcm1fZ2Vt
-X29iamVjdCAqb2JqLAorCQkJCSAgICBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdikKIHsKIAlz
-dHJ1Y3QgYW1kZ3B1X2JvICpibyA9IGdlbV90b19hbWRncHVfYm8ob2JqKTsKIAlzdHJ1Y3QgYW1k
-Z3B1X2RldmljZSAqYWRldiA9IGFtZGdwdV90dG1fYWRldihiby0+dGJvLmJkZXYpOwpAQCAtMjEx
-LDYgKzIxNSwxNSBAQCB2b2lkIGFtZGdwdV9nZW1fb2JqZWN0X2Nsb3NlKHN0cnVjdCBkcm1fZ2Vt
-X29iamVjdCAqb2JqLAogCXR0bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uKCZ0aWNrZXQsICZsaXN0
-KTsKIH0KIAorc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcyBhbWRncHVf
-Z2VtX29iamVjdF9mdW5jcyA9IHsKKwkuZnJlZSA9IGFtZGdwdV9nZW1fb2JqZWN0X2ZyZWUsCisJ
-Lm9wZW4gPSBhbWRncHVfZ2VtX29iamVjdF9vcGVuLAorCS5jbG9zZSA9IGFtZGdwdV9nZW1fb2Jq
-ZWN0X2Nsb3NlLAorCS5leHBvcnQgPSBhbWRncHVfZ2VtX3ByaW1lX2V4cG9ydCwKKwkudm1hcCA9
-IGFtZGdwdV9nZW1fcHJpbWVfdm1hcCwKKwkudnVubWFwID0gYW1kZ3B1X2dlbV9wcmltZV92dW5t
-YXAsCit9OworCiAvKgogICogR0VNIGlvY3Rscy4KICAqLwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X2dlbS5oCmluZGV4IGUwZjAyNWRkMWIxNC4uNjM3YmY1MWRiZjA2IDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmgKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5oCkBAIC0zMywxMSArMzMsNiBAQAogI2Rl
-ZmluZSBBTURHUFVfR0VNX0RPTUFJTl9NQVgJCTB4MwogI2RlZmluZSBnZW1fdG9fYW1kZ3B1X2Jv
-KGdvYmopIGNvbnRhaW5lcl9vZigoZ29iaiksIHN0cnVjdCBhbWRncHVfYm8sIHRiby5iYXNlKQog
-Ci12b2lkIGFtZGdwdV9nZW1fb2JqZWN0X2ZyZWUoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmop
-OwotaW50IGFtZGdwdV9nZW1fb2JqZWN0X29wZW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmos
-Ci0JCQkJc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYpOwotdm9pZCBhbWRncHVfZ2VtX29iamVj
-dF9jbG9zZShzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKLQkJCQlzdHJ1Y3QgZHJtX2ZpbGUg
-KmZpbGVfcHJpdik7CiB1bnNpZ25lZCBsb25nIGFtZGdwdV9nZW1fdGltZW91dCh1aW50NjRfdCB0
-aW1lb3V0X25zKTsKIAogLyoKLS0gCjIuMjguMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+GEM object functions deprecate several similar callback interfaces in
+struct drm_driver. This patch replaces the per-driver callbacks with
+per-instance callbacks in armada.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Russell King <rmk+kernel@armlinux.org.uk>
+---
+ drivers/gpu/drm/armada/armada_drv.c |  3 ---
+ drivers/gpu/drm/armada/armada_gem.c | 12 +++++++++++-
+ drivers/gpu/drm/armada/armada_gem.h |  2 --
+ 3 files changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
+index 980d3f1f8f16..22247cfce80b 100644
+--- a/drivers/gpu/drm/armada/armada_drv.c
++++ b/drivers/gpu/drm/armada/armada_drv.c
+@@ -37,13 +37,10 @@ DEFINE_DRM_GEM_FOPS(armada_drm_fops);
+ 
+ static struct drm_driver armada_drm_driver = {
+ 	.lastclose		= drm_fb_helper_lastclose,
+-	.gem_free_object_unlocked = armada_gem_free_object,
+ 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+-	.gem_prime_export	= armada_gem_prime_export,
+ 	.gem_prime_import	= armada_gem_prime_import,
+ 	.dumb_create		= armada_gem_dumb_create,
+-	.gem_vm_ops		= &armada_gem_vm_ops,
+ 	.major			= 1,
+ 	.minor			= 0,
+ 	.name			= "armada-drm",
+diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
+index 6654bccd9466..21909642ee4c 100644
+--- a/drivers/gpu/drm/armada/armada_gem.c
++++ b/drivers/gpu/drm/armada/armada_gem.c
+@@ -25,7 +25,7 @@ static vm_fault_t armada_gem_vm_fault(struct vm_fault *vmf)
+ 	return vmf_insert_pfn(vmf->vma, vmf->address, pfn);
+ }
+ 
+-const struct vm_operations_struct armada_gem_vm_ops = {
++static const struct vm_operations_struct armada_gem_vm_ops = {
+ 	.fault	= armada_gem_vm_fault,
+ 	.open	= drm_gem_vm_open,
+ 	.close	= drm_gem_vm_close,
+@@ -184,6 +184,12 @@ armada_gem_map_object(struct drm_device *dev, struct armada_gem_object *dobj)
+ 	return dobj->addr;
+ }
+ 
++static const struct drm_gem_object_funcs armada_gem_object_funcs = {
++	.free = armada_gem_free_object,
++	.export = armada_gem_prime_export,
++	.vm_ops = &armada_gem_vm_ops,
++};
++
+ struct armada_gem_object *
+ armada_gem_alloc_private_object(struct drm_device *dev, size_t size)
+ {
+@@ -195,6 +201,8 @@ armada_gem_alloc_private_object(struct drm_device *dev, size_t size)
+ 	if (!obj)
+ 		return NULL;
+ 
++	obj->obj.funcs = &armada_gem_object_funcs;
++
+ 	drm_gem_private_object_init(dev, &obj->obj, size);
+ 
+ 	DRM_DEBUG_DRIVER("alloc private obj %p size %zu\n", obj, size);
+@@ -214,6 +222,8 @@ static struct armada_gem_object *armada_gem_alloc_object(struct drm_device *dev,
+ 	if (!obj)
+ 		return NULL;
+ 
++	obj->obj.funcs = &armada_gem_object_funcs;
++
+ 	if (drm_gem_object_init(dev, &obj->obj, size)) {
+ 		kfree(obj);
+ 		return NULL;
+diff --git a/drivers/gpu/drm/armada/armada_gem.h b/drivers/gpu/drm/armada/armada_gem.h
+index de04cc2c8f0e..ffcc7e8dd351 100644
+--- a/drivers/gpu/drm/armada/armada_gem.h
++++ b/drivers/gpu/drm/armada/armada_gem.h
+@@ -21,8 +21,6 @@ struct armada_gem_object {
+ 	void			*update_data;
+ };
+ 
+-extern const struct vm_operations_struct armada_gem_vm_ops;
+-
+ #define drm_to_armada_gem(o) container_of(o, struct armada_gem_object, obj)
+ 
+ void armada_gem_free_object(struct drm_gem_object *);
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
