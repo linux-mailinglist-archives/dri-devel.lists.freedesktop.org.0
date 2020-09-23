@@ -2,58 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F9A276346
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 23:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D992763B0
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 00:18:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10EAD6EA06;
-	Wed, 23 Sep 2020 21:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 474996EA0A;
+	Wed, 23 Sep 2020 22:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B3596EA06
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 21:41:58 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id i26so1582529ejb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 14:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4h/RkUUdwjIPqFz1gTT0y7JkCLow5mQtN0rQpacgcms=;
- b=JCni4lxaiZYVrmErS1js3kV9RMqH+yMaUhmxSb2biXg+NxceGuRWwUcjOUYKvuk4EF
- i7h8djcftPLdWtyW2ZCTbvztQ2QkGV6hyZuyfd+DrsvP0SavOfFcmzLqPgWjao/niJN8
- xTPjeAdMq/cqzGM7k0A1RxUyzDcgH4Dl0C4KVxc3b7dANp170gJ0fxC5DutOMdDoe+nk
- wbKwwsTK5gjqSxLEgy64cPvZzJgRmLx6s6uHvM2IFtebLaRY7B8kgLv0WAqOQj+ADboE
- k/4GYgwXtFFHnQCLp+2XvzJUrtAsOR/+uhlobUfdAfpr9276v1bCYVoP8QbQQyb16alu
- 2x2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4h/RkUUdwjIPqFz1gTT0y7JkCLow5mQtN0rQpacgcms=;
- b=AO5tUVgxjqAuha2WfAVuty2UB5KZDBQWSE0SVcu3wzX1/8E/rFBvuN2nRfh2otfSbJ
- oxfRvZ4gmyP/MPHlTe3nzlOzS5i9UNpxYw1rcjpQCXJhh5gkxqjy/I/rcdSArfxbQNCx
- GL93xAjqD3YYyJ0ia6YAsPvtmNw7YURhWAXcgZHtcmIWaHruANGwR19Ypzy4hxkADR70
- XM7aRAzk8wu69PBqO8n+qzSu+E46rVR8z/s/Bv5NF/f8yt11s/uYQXegRqi0rinzSJI2
- XXSrV1HaX1m9MHWM0ZMUQB+vVrj0kjwYRkPdV9izCjtARLaZrLTrRrsKbm6xXfZVPw/C
- c0wg==
-X-Gm-Message-State: AOAM532MPKCh4AlEzK43dt9eVf8O0iHRRZVk5Prsov+iMsymIVo2l4RQ
- l41/3hF3P9NDOEKPXWPBQvhyHtP5bOiRKhHnlpDyfQ==
-X-Google-Smtp-Source: ABdhPJwhmaJTy+DwDRpY4gTDZ5tj7/qFfAQYU5pGD1zHam4Ng3Y7EU7X2pGbjv+OHeoNHevly5P95IKLkFku3R9OLDU=
-X-Received: by 2002:a17:906:8289:: with SMTP id
- h9mr1597984ejx.45.1600897317154; 
- Wed, 23 Sep 2020 14:41:57 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5BE506EA0A
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 22:18:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88DB8113E;
+ Wed, 23 Sep 2020 15:18:23 -0700 (PDT)
+Received: from [10.57.48.76] (unknown [10.57.48.76])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 05AC13F73B;
+ Wed, 23 Sep 2020 15:18:21 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] drm: rockchip: hdmi: enable higher resolutions
+ than FHD
+To: Vicente Bergas <vicencb@gmail.com>, Doug Anderson
+ <dianders@chromium.org>, crj <algea.cao@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
+References: <20200922203107.2932-1-vicencb@gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <340b1e7f-9149-3dcc-e6a3-74ab02fcc6e5@arm.com>
+Date: Wed, 23 Sep 2020 23:18:20 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-References: <159643094279.4062302.17779410714418721328.stgit@dwillia2-desk3.amr.corp.intel.com>
- <159643100485.4062302.976628339798536960.stgit@dwillia2-desk3.amr.corp.intel.com>
- <a3ad70a2-77a8-d50e-f372-731a8e27c03b@redhat.com>
- <17686fcc-202e-0982-d0de-54d5349cfb5d@oracle.com>
- <9acc6148-72eb-7016-dba9-46fa87ded5a5@redhat.com>
-In-Reply-To: <9acc6148-72eb-7016-dba9-46fa87ded5a5@redhat.com>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Wed, 23 Sep 2020 14:41:45 -0700
-Message-ID: <CAPcyv4h5GGV3F-0rFY_pyv9Bj8LAkrwXruxGE=K2y9=dA8oDHw@mail.gmail.com>
-Subject: Re: [PATCH v4 11/23] device-dax: Kill dax_kmem_res
-To: David Hildenbrand <david@redhat.com>
+In-Reply-To: <20200922203107.2932-1-vicencb@gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,206 +47,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavel Tatashin <pasha.tatashin@soleen.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Peter Zijlstra <peterz@infradead.org>, Vishal Verma <vishal.l.verma@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>, Joao Martins <joao.m.martins@oracle.com>,
- Linux ACPI <linux-acpi@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-nvdimm <linux-nvdimm@lists.01.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 23, 2020 at 1:04 AM David Hildenbrand <david@redhat.com> wrote:
->
-> On 08.09.20 17:33, Joao Martins wrote:
-> > [Sorry for the late response]
-> >
-> > On 8/21/20 11:06 AM, David Hildenbrand wrote:
-> >> On 03.08.20 07:03, Dan Williams wrote:
-> >>> @@ -37,109 +45,94 @@ int dev_dax_kmem_probe(struct device *dev)
-> >>>      * could be mixed in a node with faster memory, causing
-> >>>      * unavoidable performance issues.
-> >>>      */
-> >>> -   numa_node = dev_dax->target_node;
-> >>>     if (numa_node < 0) {
-> >>>             dev_warn(dev, "rejecting DAX region with invalid node: %d\n",
-> >>>                             numa_node);
-> >>>             return -EINVAL;
-> >>>     }
-> >>>
-> >>> -   /* Hotplug starting at the beginning of the next block: */
-> >>> -   kmem_start = ALIGN(range->start, memory_block_size_bytes());
-> >>> -
-> >>> -   kmem_size = range_len(range);
-> >>> -   /* Adjust the size down to compensate for moving up kmem_start: */
-> >>> -   kmem_size -= kmem_start - range->start;
-> >>> -   /* Align the size down to cover only complete blocks: */
-> >>> -   kmem_size &= ~(memory_block_size_bytes() - 1);
-> >>> -   kmem_end = kmem_start + kmem_size;
-> >>> -
-> >>> -   new_res_name = kstrdup(dev_name(dev), GFP_KERNEL);
-> >>> -   if (!new_res_name)
-> >>> +   res_name = kstrdup(dev_name(dev), GFP_KERNEL);
-> >>> +   if (!res_name)
-> >>>             return -ENOMEM;
-> >>>
-> >>> -   /* Region is permanently reserved if hotremove fails. */
-> >>> -   new_res = request_mem_region(kmem_start, kmem_size, new_res_name);
-> >>> -   if (!new_res) {
-> >>> -           dev_warn(dev, "could not reserve region [%pa-%pa]\n",
-> >>> -                    &kmem_start, &kmem_end);
-> >>> -           kfree(new_res_name);
-> >>> +   res = request_mem_region(range.start, range_len(&range), res_name);
-> >>
-> >> I think our range could be empty after aligning. I assume
-> >> request_mem_region() would check that, but maybe we could report a
-> >> better error/warning in that case.
-> >>
-> > dax_kmem_range() already returns a memory-block-aligned @range but
-> > IIUC request_mem_region() isn't checking for that. Having said that
-> > the returned @res wouldn't be different from the passed range.start.
-> >
-> >>>     /*
-> >>>      * Ensure that future kexec'd kernels will not treat this as RAM
-> >>>      * automatically.
-> >>>      */
-> >>> -   rc = add_memory_driver_managed(numa_node, new_res->start,
-> >>> -                                  resource_size(new_res), kmem_name);
-> >>> +   rc = add_memory_driver_managed(numa_node, res->start,
-> >>> +                                  resource_size(res), kmem_name);
-> >>> +
-> >>> +   res->flags |= IORESOURCE_BUSY;
-> >>
-> >> Hm, I don't think that's correct. Any specific reason why to mark the
-> >> not-added, unaligned parts BUSY? E.g., walk_system_ram_range() could
-> >> suddenly stumble over it - and e.g., similarly kexec code when trying to
-> >> find memory for placing kexec images. I think we should leave this
-> >> !BUSY, just as it is right now.
-> >>
-> > Agreed.
-> >
-> >>>     if (rc) {
-> >>> -           release_resource(new_res);
-> >>> -           kfree(new_res);
-> >>> -           kfree(new_res_name);
-> >>> +           release_mem_region(range.start, range_len(&range));
-> >>> +           kfree(res_name);
-> >>>             return rc;
-> >>>     }
-> >>> -   dev_dax->dax_kmem_res = new_res;
-> >>> +
-> >>> +   dev_set_drvdata(dev, res_name);
-> >>>
-> >>>     return 0;
-> >>>  }
-> >>>
-> >>>  #ifdef CONFIG_MEMORY_HOTREMOVE
-> >>> -static int dev_dax_kmem_remove(struct device *dev)
-> >>> +static void dax_kmem_release(struct dev_dax *dev_dax)
-> >>>  {
-> >>> -   struct dev_dax *dev_dax = to_dev_dax(dev);
-> >>> -   struct resource *res = dev_dax->dax_kmem_res;
-> >>> -   resource_size_t kmem_start = res->start;
-> >>> -   resource_size_t kmem_size = resource_size(res);
-> >>> -   const char *res_name = res->name;
-> >>>     int rc;
-> >>> +   struct device *dev = &dev_dax->dev;
-> >>> +   const char *res_name = dev_get_drvdata(dev);
-> >>> +   struct range range = dax_kmem_range(dev_dax);
-> >>>
-> >>>     /*
-> >>>      * We have one shot for removing memory, if some memory blocks were not
-> >>>      * offline prior to calling this function remove_memory() will fail, and
-> >>>      * there is no way to hotremove this memory until reboot because device
-> >>> -    * unbind will succeed even if we return failure.
-> >>> +    * unbind will proceed regardless of the remove_memory result.
-> >>>      */
-> >>> -   rc = remove_memory(dev_dax->target_node, kmem_start, kmem_size);
-> >>> -   if (rc) {
-> >>> -           any_hotremove_failed = true;
-> >>> -           dev_err(dev,
-> >>> -                   "DAX region %pR cannot be hotremoved until the next reboot\n",
-> >>> -                   res);
-> >>> -           return rc;
-> >>> +   rc = remove_memory(dev_dax->target_node, range.start, range_len(&range));
-> >>> +   if (rc == 0) {
-> >>
-> >> if (!rc) ?
-> >>
-> > Better off would be to keep the old order:
-> >
-> >       if (rc) {
-> >               any_hotremove_failed = true;
-> >               dev_err(dev, "%#llx-%#llx cannot be hotremoved until the next reboot\n",
-> >                               range.start, range.end);
-> >               return;
-> >       }
-> >
-> >       release_mem_region(range.start, range_len(&range));
-> >       dev_set_drvdata(dev, NULL);
-> >       kfree(res_name);
-> >       return;
-> >
-> >
-> >>> +           release_mem_region(range.start, range_len(&range));
-> >>
-> >> remove_memory() does a release_mem_region_adjustable(). Don't you
-> >> actually want to release the *unaligned* region you requested?
-> >>
-> > Isn't it what we're doing here?
-> > (The release_mem_region_adjustable() is using the same
-> > dax_kmem-aligned range and there's no split/adjust)
-> >
-> > Meaning right now (+ parent marked as !BUSY), and if I am understanding
-> > this correctly:
-> >
-> > request_mem_region(range.start, range_len)
-> >    __request_region(iomem_res, range.start, range_len) -> alloc @parent
-> > add_memory_driver_managed(parent.start, resource_size(parent))
-> >    __request_region(parent.start, resource_size(parent)) -> alloc @child
-> >
-> > [...]
-> >
-> > remove_memory(range.start, range_len)
-> >  request_mem_region_adjustable(range.start, range_len)
-> >   __release_region(range.start, range_len) -> remove @child
-> >
-> > release_mem_region(range.start, range_len)
-> >   __release_region(range.start, range_len) -> doesn't remove @parent because !BUSY?
-> >
-> > The add/removal of this relies on !BUSY. But now I am wondering if the parent remaining
-> > unreleased is deliberate even on CONFIG_MEMORY_HOTREMOVE=y.
-> >
-> >       Joao
-> >
->
-> Thinking about it, if we don't set the parent resource BUSY (which is
-> what I think is the right way of doing things), and don't want to store
-> the parent resource pointer, we could add something like
-> lookup_resource() - e.g., lookup_mem_resource() - , however, searching
-> properly in the whole hierarchy (instead of only the first level), and
-> traversing down to the last hierarchy. Then it would be as simple as
->
-> remove_memory(range.start, range_len)
-> res = lookup_mem_resource(range.start);
-> release_resource(res);
+On 2020-09-22 21:31, Vicente Bergas wrote:
+> This patch series enable a QHD HDMI monitor to work at native resolution.
+> Tested on a Sapphire board with RK3399 connected to a Q27q-10 monitor at 2560x1440@60
 
-Another thought... I notice that you've taught
-register_memory_resource() a IORESOURCE_MEM_DRIVER_MANAGED special
-case. Lets just make the assumption of add_memory_driver_managed()
-that it is the driver's responsibility to mark the range busy before
-calling, and the driver's responsibility to release the region. I.e.
-validate (rather than request) that the range is busy in
-register_memory_resource(), and teach release_memory_resource() to
-skip releasing the region when the memory is marked driver managed.
-That would let dax_kmem drop its manipulation of the 'busy' flag which
-is a layering violation no matter how many comments we put around it.
+Indeed for RK3399 it also allows my 1920x1200 monitor (Dell U2415) to be 
+driven at its native resolution with a 154MHz pixel clock. However, as 
+predicted, it also breaks RK3328 for the same monitor - instead of 
+rejecting the native mode and falling back to "standard" 1920x1080, it 
+now tries to use it, which results in no signal and a spam of CRTC 
+timeout warnings in dmesg :(
+
+I'll try to test RK3288 as well soon - I tried hacking a specific entry 
+for 154MHz into the tables a while ago, and while it worked perfectly on 
+RK3399, RK3288 gave a fairly glitchy picture as if the clock signal was 
+unstable or slightly out of spec. I'm interested to see if patch #1 
+makes any difference there.
+
+Thanks,
+Robin.
+
+> 
+> Changes since v1:
+> Use alternative clock rounding code proposed by Doug Anderson
+> 
+> Vicente Bergas (3):
+>    drm: rockchip: hdmi: fix clock rounding code
+>    drm: rockchip: hdmi: allow any clock that is within the range
+>    drm: rockchip: hdmi: add higher pixel clock frequencies
+> 
+>   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 8 +++++++-
+>   drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 7 ++-----
+>   2 files changed, 9 insertions(+), 6 deletions(-)
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
