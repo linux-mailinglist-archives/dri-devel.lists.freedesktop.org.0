@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D373274F00
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 04:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7970E274F55
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 05:01:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86EBB89B97;
-	Wed, 23 Sep 2020 02:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8BC6E107;
+	Wed, 23 Sep 2020 03:01:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAFBC89B69
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 02:29:12 +0000 (UTC)
-IronPort-SDR: HwQ7KMvemjGohI4sDFjioGK+pCf1W5fqUEmcEiKhlhXhN8m0pOCvckgrXZtQGRTcwPnOHL2uev
- XrPakfeVzS7g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9752"; a="245594228"
-X-IronPort-AV: E=Sophos;i="5.77,292,1596524400"; d="scan'208";a="245594228"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2020 19:29:12 -0700
-IronPort-SDR: Ab0WJOAcJM0Ok4pA3ol8weVrH+JKgOs+lpUik2T3y9kt4R6D/TFHzkPBmF/caNbwcn0fPMKC0p
- VWCpgQf4T7ig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,292,1596524400"; d="scan'208";a="510814702"
-Received: from lkp-server01.sh.intel.com (HELO 928d8e596b58) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 22 Sep 2020 19:29:10 -0700
-Received: from kbuild by 928d8e596b58 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1kKuWs-0000jy-Cs; Wed, 23 Sep 2020 02:29:10 +0000
-Date: Wed, 23 Sep 2020 10:28:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>
-Subject: [RFC PATCH radeon-alex] drm/amdgpu: kfd_initialized can be static
-Message-ID: <20200923022828.GA49981@6c0fda7302fc>
-References: <202009231033.xsCmjah5%lkp@intel.com>
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D8EF6E107;
+ Wed, 23 Sep 2020 03:01:27 +0000 (UTC)
+Received: by mail-ej1-x644.google.com with SMTP id e23so25689167eja.3;
+ Tue, 22 Sep 2020 20:01:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gOojx+HNvqSVgIted5OL+X0FuEsZeCka+hK+XKnYZ/k=;
+ b=Wf7haWMqJ+qOOyqyH+rWrwgvPuBAp178N7qXP/Wk8yALc8At/YQZ0GRs5whjxlFwSG
+ w7dDpSdveGnw+3vEY+vbpggfkhOkbq6tG6uvwoz9dtblN9dg7X2tTGXhSvlfqdaeJ/BO
+ sCtQJuta/Xs3GF7LTR9RUCE1Ln1oYD0cnDD+lEjwB+U7inQMcHB/9OBHVwf3ZiWFTXLk
+ crsJ/1KVwfSW1DZS3N/mFTwhrvR5nJSmMvOG7IXhHgSBN25B6tFcp3imj1TtepRAgE7A
+ qzAGDspPhkIBkHw7ilItS1t3mqNAqu7W5bfb3vLOz9bjU36NkZzQc/Nvgmveff+CAy4z
+ voqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gOojx+HNvqSVgIted5OL+X0FuEsZeCka+hK+XKnYZ/k=;
+ b=YHmaPHYSfw019q/01B0f/hkqLa/eyS1US3pmlhcBG0/JwABkoxuW3ZkBCSAh1W4O28
+ 9CUTPtu1eziKCyJJo8u5CziT7AHiKs6dvrhSWY47RiFuTQRPFwW+wATUhvqTA3mjbwhp
+ LlUs1AsT/tIJ2WiP10TGmg8JkTU95FkFQqPoqW3+iBFREwQROG+BMnOyLefW1oGrpgX5
+ W//+oxe6jvKQsg9kLXlJ6PATRlmSMM4rd0kXTjPlcdq+y9Ki+UjW5ZgMjzDph6/iWlCT
+ PbumEm2Gn+ieC5GmbEBXCQGRYVPmdTEH1NdB2tBCltq8yv68KAi3Cbhgjn4VDsMiwprB
+ Qq8g==
+X-Gm-Message-State: AOAM533TBG4g9bQCmDi5A7/PcAM8jWZ/2X7s6ZuR9YYSFzxlKGd/WbRW
+ 1wNa8hBFPdBQkeVlTI3vFju1zVVBhpM1MTXIl8wlX8ud
+X-Google-Smtp-Source: ABdhPJzW0X+uvrpBbSgw1hTq0+vyynyVZTXPlBxrK8/DcsH9Xj4RSYVZsQjedN88BtY+/PhivfWzBPB+3pLeczEA30E=
+X-Received: by 2002:a17:906:f92:: with SMTP id
+ q18mr7903128ejj.237.1600830085894; 
+ Tue, 22 Sep 2020 20:01:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <202009231033.xsCmjah5%lkp@intel.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200922133208.1273-1-christian.koenig@amd.com>
+In-Reply-To: <20200922133208.1273-1-christian.koenig@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 23 Sep 2020 13:01:14 +1000
+Message-ID: <CAPM=9tzhALOXZeuzGaaNS=ThrZNXLSZuaKYnp7XK7SyzX+8-yw@mail.gmail.com>
+Subject: Re: [PATCH 01/11] drm/ttm: add ttm_bo_pin()/ttm_bo_unpin() v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,34 +62,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Kent Russell <kent.russell@amd.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
+ Linux-graphics-maintainer <linux-graphics-maintainer@vmware.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Fixes: 0b54e1e30e9f ("drm/amdgpu: Fix handling of KFD initialization failures")
-Signed-off-by: kernel test robot <lkp@intel.com>
----
- amdgpu_amdkfd.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-index 7f14461f7f402..01780bb8727f6 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-@@ -36,7 +36,7 @@
-  */
- uint64_t amdgpu_amdkfd_total_mem_size;
- 
--bool kfd_initialized;
-+static bool kfd_initialized;
- 
- int amdgpu_amdkfd_init(void)
- {
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAyMiBTZXAgMjAyMCBhdCAyMzozMiwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
+ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQXMgYW4gYWx0ZXJuYXRpdmUgdG8g
+dGhlIHBsYWNlbWVudCBmbGFnIGFkZCBhCj4gcGluIGNvdW50IHRvIHRoZSB0dG0gYnVmZmVyIG9i
+amVjdC4KClRoZXNlIGFsbCBsb29rIGdvb2QgdG8gbWUsIG5pY2UgY2xlYW51cC4KCkZvciB0aGUg
+c2VyaWVzOgpSZXZpZXdlZC1ieTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
