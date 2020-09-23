@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE13275312
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 10:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1B827533B
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 10:31:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90936E8FB;
-	Wed, 23 Sep 2020 08:17:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A75B6E110;
+	Wed, 23 Sep 2020 08:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9206E8FB;
- Wed, 23 Sep 2020 08:17:23 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id k25so16440931ljg.9;
- Wed, 23 Sep 2020 01:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Kyt0FNBLjc7CNsYuogySNQVNdNJgBdTSeuLbQ0WfSds=;
- b=Is6SRXkrpKHA8g4Hh/QCULr7JgP02XDlSyqhqi5OlKZK8+Q//bl8iJgYnJK40uQnRI
- YdO93z2ztfyRNyJ0bn5aHrznxo7bjKJpeaBFomPLdwhtoAAPQnCSqKqFi2bqJoRCdXGE
- 75oRLeVro3SWOn69bP3Gs8SR+owgVJ1hfRKYREMj3Cvx9JmFWqiqZWPsMazOI0Oi5Gak
- zW4ero4NCmu70la6Yuj2M7iRf1wOOiGwdrKt/7eBAE2HfBvnNDNbUzkUbHyOrxgjeVAm
- U6OUmYs76vmNUPLBLBiectGXCsKt2FkArXNYuErBk0v5RXNWxReFDqpObCcWnE4/7brn
- Chkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=Kyt0FNBLjc7CNsYuogySNQVNdNJgBdTSeuLbQ0WfSds=;
- b=rS+r0CFJx3Gw9SRNAkEqQVAtU+FqCkEBxAYPJHNVfzERWyLPRekjw+NZ3/jP3LQQG3
- ihshn9uDqzRjiKVntc59aiAL+/7pSWfLukSgkWaUQ6hW73zsdC9A6HECyAqFAX3Ru8ql
- srI48OasU1O3MJUMcaz/+fFZaJLOofQLPzqO0AkiLdChmHqEXgRA8WsBYTgYG4O+Jy14
- PKek53dMd1rcDo7BmAVpGR2Hf7340IfpQ3ILnu9Aw/V0E/znonTVepwgSB2EFP/I/pkj
- pIto/mcND3gcASdv2EfsqK2D73zUt6VgJgaq9ADsndRmGc0l6hMz5lGjzx5gcGd5iHCM
- 6M/Q==
-X-Gm-Message-State: AOAM533XO7D/zhgOqwQRyqR+JFpq/OR8v+VaSLYit4ZVNqxSyTg7ev+T
- dSudhVaq+Bzo4E7797jv7FY=
-X-Google-Smtp-Source: ABdhPJz2jIRBhshqLJo4dU8gupTkoiQLwB5Q0q5W20O98jtXz4Ui9anag9qI6BJlmNcAnzdpiXxDmg==
-X-Received: by 2002:a2e:5051:: with SMTP id v17mr2632933ljd.295.1600849041918; 
- Wed, 23 Sep 2020 01:17:21 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id b7sm4428048lfi.123.2020.09.23.01.17.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 01:17:21 -0700 (PDT)
-Date: Wed, 23 Sep 2020 11:17:17 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm: document and enforce rules around "spurious" EBUSY
- from atomic_commit
-Message-ID: <20200923111717.68d9eb51@eldfell>
-In-Reply-To: <20200922181834.2913552-1-daniel.vetter@ffwll.ch>
-References: <20200922181834.2913552-1-daniel.vetter@ffwll.ch>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8EB6E110
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 08:31:28 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08N8VJcM053386;
+ Wed, 23 Sep 2020 03:31:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1600849879;
+ bh=w0Z/hwA78SqaUqirCb6UrOsWePBUG7ZwwqlbQ0+9weA=;
+ h=From:To:CC:Subject:Date;
+ b=NtZUDtxOaOWEBpwvXpyqK96bnp4I2fKbdjIr2BXrjQCZAr5pLdUVHu88vn85xWNtY
+ 4RlQz5ngbVy0GrdNKUy7p3WMGcKFsAkthahW6y3vNdYZcheS23PGwSbUuoEasBeEl5
+ 2UJib91k2RJ57fxh59JreWq8BwoF9P27J0aPNVmQ=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08N8VJ9j015075
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 23 Sep 2020 03:31:19 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 23
+ Sep 2020 03:31:18 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 23 Sep 2020 03:31:18 -0500
+Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08N8VGZo065685;
+ Wed, 23 Sep 2020 03:31:16 -0500
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+To: <dri-devel@lists.freedesktop.org>, Swapnil Jakhade <sjakhade@cadence.com>, 
+ Yuti Amonkar <yamonkar@cadence.com>
+Subject: [PATCH] drm: bridge: cdns-mhdp8546: fix compile warning
+Date: Wed, 23 Sep 2020 11:30:57 +0300
+Message-ID: <20200923083057.113367-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,190 +58,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============0747194375=="
+Cc: Dave Airlie <airlied@linux.ie>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0747194375==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/OM_kZCIkmK1nOa/u1cD6zI="; protocol="application/pgp-signature"
+On x64 we get:
 
---Sig_/OM_kZCIkmK1nOa/u1cD6zI=
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:751:10: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '18446744073709551613' to '4294967293' [-Woverflow]
 
-On Tue, 22 Sep 2020 20:18:34 +0200
-Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+The registers are 32 bit, so fix by casting to u32.
 
-> When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
-> pull in arbitrary other resources, including CRTCs (e.g. when
-> reconfiguring global resources).
->=20
-> But in nonblocking mode userspace has then no idea this happened,
-> which can lead to spurious EBUSY calls, both:
-> - when that other CRTC is currently busy doing a page_flip the
->   ALLOW_MODESET commit can fail with an EBUSY
-> - on the other CRTC a normal atomic flip can fail with EBUSY because
->   of the additional commit inserted by the kernel without userspace's
->   knowledge
->=20
-> For blocking commits this isn't a problem, because everyone else will
-> just block until all the CRTC are reconfigured. Only thing userspace
-> can notice is the dropped frames without any reason for why frames got
-> dropped.
->=20
-> Consensus is that we need new uapi to handle this properly, but no one
-> has any idea what exactly the new uapi should look like. Since this
-> has been shipping for years already compositors need to deal no matter
-> what, so as a first step just try to enforce this across drivers
-> better with some checks.
->=20
-> v2: Add comments and a WARN_ON to enforce this only when allowed - we
-> don't want to silently convert page flips into blocking plane updates
-> just because the driver is buggy.
->=20
-> v3: Fix inverted WARN_ON (Pekka).
->=20
-> v4: Drop the uapi changes, only add a WARN_ON for now to enforce some
-> rules for drivers.
+Fixes: fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546 DPI/DP bridge")
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+---
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Dropped all addresses, because gmail refused to send this email
-otherwise.
-
-> ---
->  drivers/gpu/drm/drm_atomic.c | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 58527f151984..ef106e7153a6 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -281,6 +281,10 @@ EXPORT_SYMBOL(__drm_atomic_state_free);
->   * needed. It will also grab the relevant CRTC lock to make sure that th=
-e state
->   * is consistent.
->   *
-> + * WARNING: Drivers may only add new CRTC states to a @state if
-> + * drm_atomic_state.allow_modeset is set, or if it's a driver-internal c=
-ommit
-> + * not created by userspace through an IOCTL call.
-> + *
->   * Returns:
->   *
->   * Either the allocated state or the error code encoded into the pointer=
-. When
-> @@ -1262,10 +1266,15 @@ int drm_atomic_check_only(struct drm_atomic_state=
- *state)
->  	struct drm_crtc_state *new_crtc_state;
->  	struct drm_connector *conn;
->  	struct drm_connector_state *conn_state;
-> +	unsigned requested_crtc =3D 0;
-> +	unsigned affected_crtc =3D 0;
->  	int i, ret =3D 0;
-> =20
->  	DRM_DEBUG_ATOMIC("checking %p\n", state);
-> =20
-> +	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
-> +		requested_crtc |=3D drm_crtc_mask(crtc);
-> +
->  	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane=
-_state, i) {
->  		ret =3D drm_atomic_plane_check(old_plane_state, new_plane_state);
->  		if (ret) {
-> @@ -1313,6 +1322,24 @@ int drm_atomic_check_only(struct drm_atomic_state =
-*state)
->  		}
->  	}
-> =20
-> +	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
-> +		affected_crtc |=3D drm_crtc_mask(crtc);
-> +
-> +	/*
-> +	 * For commits that allow modesets drivers can add other CRTCs to the
-> +	 * atomic commit, e.g. when they need to reallocate global resources.
-> +	 * This can cause spurious EBUSY, which robs compositors of a very
-> +	 * effective sanity check for their drawing loop. Therefor only allow
-> +	 * this for modeset commits.
-> +	 *
-> +	 * FIXME: Should add affected_crtc mask to the ATOMIC IOCTL as an output
-> +	 * so compositors know what's going on.
-
-Hi,
-
-I think telling userspace the affected_crtc mask would only solve half
-of the problem: it would allow userspace to avoid attempting flips on
-the other affected CRTCs until this modeset is done, but it doesn't
-stop this non-blocking modeset from EBUSY'ing because other affected
-CRTCs are busy flipping.
-
-If the aim is to indicate userspace bugs with EBUSY, then EBUSY because
-of other CRTCs needs to be differentiable from EBUSY due to a mistake
-on this CRTC. Maybe the CRTC mask should instead be "conflicting/busy
-CRTCs", not simply "affected CRTCS"?
-
-Userspace might also be designed to always avoid modesets while any
-CRTC is busy flipping. In that case any EBUSY would be an indication of
-a (userspace) bug and a "busy CRTCs" mask could help pinpoint the issue.
-
-If userspace does a TEST_ONLY commit with a modeset on one CRTC and the
-driver pulls in another CRTC that is currently busy, will the test
-commit return with EBUSY?
-
-If yes, and *if* userspace is single-threaded wrt. to KMS updates,
-that might offer a way to work around it in userspace. But if userspace
-is flipping other CRTCs from other threads, TEST_ONLY commit does not
-help because another thread may cut in and make a CRTC busy.
-
-
-Thanks,
-pq
-
-> +	 */
-> +	if (affected_crtc !=3D requested_crtc) {
-> +		/* adding other CRTC is only allowed for modeset commits */
-> +		WARN_ON(!state->allow_modeset);
-> +	}
-> +
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_atomic_check_only);
-
-
---Sig_/OM_kZCIkmK1nOa/u1cD6zI=
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9rBI0ACgkQI1/ltBGq
-qqeO2w/9G0hvfFGCHCnG0KnS9H2LcBZdDS5H/ZZcbTBc5TdrYQIxvswPCJR9Z2i6
-Fgn8LlpBH4cCfnCBpdUUm8FG6dosENPnlh8+3a489Tzma0lgr5ojoxDp+mItKVl3
-w7PpGYwFGmXurhCLb2BlcV6rGIZq1I1F9Rs2BinyHRoXTKHHLy1MZj8NZWBmdsAk
-uWebY2x57jhrQBbSIbSxkefot4bq3ywWbwgVVSKwvKStJwTDO+A/ZxpMsbUrITM7
-Edtq9p91a5olB3ve8dG3VInQ0w3EZdZSYx08uBxJG1rxFWWCXjrMx+DhSPK3bNHv
-LkZ3JzIXEbfhZgcmcZMFns4a4W/fMcHAbS+Dm/bmACs239ylILpxxWziQyrdE0rT
-o1Xt4uEgtjLO4QMKhveyYFRcq5ir1CwA6zqyzEWHSs2q3Hy+eGUCzOT8AArtX0Ct
-eTvu10VVpxG9/9k9FAvcGcYrOgXoZOn1Y62FSx+8OF5LyHfwiGYeCzXynRMCSbvM
-iBHrFkGCpjsdoigysjRiGCPNQvW6J6p/c/pJtX7e465ALzYJDgT8pK7UqYfT+fiL
-dkWDuq5HyOSwe5llenvR2GU8eGS4B67MPgB0h1o+fn01USldklktmKXPNRrvuKER
-849umj9afHg6CIQq8Uoexi5VWHmbrzqDWRCme3g/a1ISRPK/87w=
-=eHzN
------END PGP SIGNATURE-----
-
---Sig_/OM_kZCIkmK1nOa/u1cD6zI=--
-
---===============0747194375==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index 621ebdbff8a3..d0c65610ebb5 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -748,7 +748,7 @@ static int cdns_mhdp_fw_activate(const struct firmware *fw,
+ 	 * bridge should already be detached.
+ 	 */
+ 	if (mhdp->bridge_attached)
+-		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
++		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+ 		       mhdp->regs + CDNS_APB_INT_MASK);
+ 
+ 	spin_unlock(&mhdp->start_lock);
+@@ -1689,7 +1689,7 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
+ 
+ 	/* Enable SW event interrupts */
+ 	if (hw_ready)
+-		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
++		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+ 		       mhdp->regs + CDNS_APB_INT_MASK);
+ 
+ 	return 0;
+@@ -2122,7 +2122,7 @@ static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
+ 
+ 	/* Enable SW event interrupts */
+ 	if (mhdp->bridge_attached)
+-		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
++		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+ 		       mhdp->regs + CDNS_APB_INT_MASK);
+ }
+ 
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0747194375==--
