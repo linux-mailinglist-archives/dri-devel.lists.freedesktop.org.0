@@ -2,50 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1B827533B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 10:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7610F275371
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 10:42:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A75B6E110;
-	Wed, 23 Sep 2020 08:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EABD6E169;
+	Wed, 23 Sep 2020 08:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8EB6E110
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 08:31:28 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08N8VJcM053386;
- Wed, 23 Sep 2020 03:31:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1600849879;
- bh=w0Z/hwA78SqaUqirCb6UrOsWePBUG7ZwwqlbQ0+9weA=;
- h=From:To:CC:Subject:Date;
- b=NtZUDtxOaOWEBpwvXpyqK96bnp4I2fKbdjIr2BXrjQCZAr5pLdUVHu88vn85xWNtY
- 4RlQz5ngbVy0GrdNKUy7p3WMGcKFsAkthahW6y3vNdYZcheS23PGwSbUuoEasBeEl5
- 2UJib91k2RJ57fxh59JreWq8BwoF9P27J0aPNVmQ=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08N8VJ9j015075
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 23 Sep 2020 03:31:19 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 23
- Sep 2020 03:31:18 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 23 Sep 2020 03:31:18 -0500
-Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08N8VGZo065685;
- Wed, 23 Sep 2020 03:31:16 -0500
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: <dri-devel@lists.freedesktop.org>, Swapnil Jakhade <sjakhade@cadence.com>, 
- Yuti Amonkar <yamonkar@cadence.com>
-Subject: [PATCH] drm: bridge: cdns-mhdp8546: fix compile warning
-Date: Wed, 23 Sep 2020 11:30:57 +0300
-Message-ID: <20200923083057.113367-1-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.25.1
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADEF16E169;
+ Wed, 23 Sep 2020 08:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=XUajjvVX4H86jnKIk5XMmvtu2ykOTjeXul3/BJu/hwU=; b=vqx/B66IY6FJeZM3oZmg/+Un+I
+ juk4SYQ/onu0T+HuU6X7fOPUIa6l9h67CTBxy3SeH234BxCXwizgdRSm3ioDdv8gF+TwH9O22nczg
+ iqTkLZMjcnlPg/CQhzPF7llJEWqzYy/Dtj1pYfU2/xkQ01m00/IofSzmAb4/u67Eqx5ofz6yzA4Jr
+ k+ENSw1eHzIn/yXomefawgme8b2QPv9bNql8zuIi3CmNCPYqKCAg5yJhl56cZVRivF4fUyQXVfWDV
+ f/qwJzeMoNXuRo68QwZoXhQ3RDUab4cXjbENpYgZ4B+vroJlmNEOdrOdKJLG7gc49cxKVxNJisFa1
+ TLPApaFA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kL0KM-0004t5-Gu; Wed, 23 Sep 2020 08:40:38 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A998D300455;
+ Wed, 23 Sep 2020 10:40:32 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 6A1AD213DCC80; Wed, 23 Sep 2020 10:40:32 +0200 (CEST)
+Date: Wed, 23 Sep 2020 10:40:32 +0200
+From: peterz@infradead.org
+To: Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
+ kmap_atomic & friends
+Message-ID: <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
+References: <20200919091751.011116649@linutronix.de>
+ <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
+ <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+ <87k0wode9a.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
+ <87eemwcpnq.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
+ <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
+ <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,61 +66,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
+ Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
+ Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Mel Gorman <mgorman@suse.de>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Vineet Gupta <vgupta@synopsys.com>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Greentime Hu <green.hu@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On x64 we get:
+On Mon, Sep 21, 2020 at 09:27:57PM +0200, Thomas Gleixner wrote:
+> On Mon, Sep 21 2020 at 09:24, Linus Torvalds wrote:
+> > On Mon, Sep 21, 2020 at 12:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+> >>
+> >> If a task is migrated to a different CPU then the mapping address will
+> >> change which will explode in colourful ways.
+> >
+> > Right you are.
+> >
+> > Maybe we really *could* call this new kmap functionality something
+> > like "kmap_percpu()" (or maybe "local" is good enough), and make it
+> > act like your RT code does for spinlocks - not disable preemption, but
+> > only disabling CPU migration.
+> 
+> I"m all for it, but the scheduler people have opinions :)
 
-drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:751:10: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '18446744073709551613' to '4294967293' [-Woverflow]
+Right, so I'm concerned. migrate_disable() wrecks pretty much all
+Real-Time scheduler theory we have, and PREEMPRT_RT bringing it in is
+somewhat ironic.
 
-The registers are 32 bit, so fix by casting to u32.
+Yes, it allows breaking up non-preemptible regions of non-deterministic
+duration, and thereby both reduce and bound the scheduling latency, the
+cost for doing that is that the theory on CPU utilization/bandwidth go
+out the window.
 
-Fixes: fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546 DPI/DP bridge")
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
----
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+To easily see this consider an SMP system with a number of tasks equal
+to the number of CPUs. On a regular (preempt_disable) kernel we can
+always run each task, by virtue of always having an idle CPU to take the
+task.
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 621ebdbff8a3..d0c65610ebb5 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -748,7 +748,7 @@ static int cdns_mhdp_fw_activate(const struct firmware *fw,
- 	 * bridge should already be detached.
- 	 */
- 	if (mhdp->bridge_attached)
--		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-+		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
- 		       mhdp->regs + CDNS_APB_INT_MASK);
- 
- 	spin_unlock(&mhdp->start_lock);
-@@ -1689,7 +1689,7 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
- 
- 	/* Enable SW event interrupts */
- 	if (hw_ready)
--		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-+		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
- 		       mhdp->regs + CDNS_APB_INT_MASK);
- 
- 	return 0;
-@@ -2122,7 +2122,7 @@ static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
- 
- 	/* Enable SW event interrupts */
- 	if (mhdp->bridge_attached)
--		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-+		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
- 		       mhdp->regs + CDNS_APB_INT_MASK);
- }
- 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+However, with migrate_disable() we can have each task preempted in a
+migrate_disable() region, worse we can stack them all on the _same_ CPU
+(super ridiculous odds, sure). And then we end up only able to run one
+task, with the rest of the CPUs picking their nose.
 
+The end result is that, like with unbounded latency, we will still miss
+our deadline, simply because we got starved for CPU.
+
+
+Now, while we could (with a _lot_ of work) rework the kernel to not rely
+on the implicit per-cpu ness of things like spinlock_t, the moment we
+bring in basic primitives that rely on migrate_disable() we're stuck
+with it.
+
+
+The problem is; afaict there's been no research into this problem. There
+might be scheduling (read: balancing) schemes that can mitigate/solve
+this problem, or it might prove to be a 'hard' problem, I just don't
+know. But once we start down this road, it's going to be hell to get rid
+of it.
+
+That's why I've been arguing (for many years) to strictly limit this to
+PREEMPT_RT and only as a gap-stop, not a fundamental primitive to build
+on.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
