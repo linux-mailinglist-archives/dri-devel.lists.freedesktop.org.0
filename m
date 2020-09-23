@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44B9276A8F
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:19:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33589276A86
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:19:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5788989916;
-	Thu, 24 Sep 2020 07:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1611F89E33;
+	Thu, 24 Sep 2020 07:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5120E6E9A1;
- Wed, 23 Sep 2020 12:33:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2E946E2C7;
+ Wed, 23 Sep 2020 13:35:54 +0000 (UTC)
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600864398;
+ s=2020; t=1600868152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4zUEMW9wU+kwouVfGxKhtf6Di/IFhmYOqDGQKAREV8o=;
- b=mQ42gd2DhQ/RG0jBtJb4meJN+5wV2pj9iVLxHpupYAkadW+bY5A7tLe5ML2OCxkUDyFcOz
- 1ID+60xXG2OjXRxOxnGUclm3zYFaTcjPF9ahEeidyum940F7pRvQQ+6fARlpRL8arWBYw5
- sXQ3YFT0QLJJsnhzzhPX5pkUAQdcb0r75msvmD5rVzIQdvYOpaNOYhzVgXEW9+SvrTpZ5S
- VYlZevpT0pbNGk2c2vrUKV2OAsLRNBNh2/g0YkvfbfbDyed7rHhHQWMZYKtR79LU83j38G
- 5r/WEDgX3y9hgl7i7P9JlU2XJG/6OaMoTDqwD5QZO9LvlKLV3P7ptN62EV3bIA==
+ bh=sQi8lZPkv33+2/p+CxEr9K+rfH1Bs0rDvL8F8tfBhFM=;
+ b=hb9E+fGbYyw9hvwyuwWM5aRsnhQZbpwkXik+PBbS9GmRNPaEQzDG2cas3gsgGMI/WqcOgS
+ fzq1pqwEssy4yQFNCOYopo/e6I6jqzzZ4/sCJexHt/8fEprytMHFGaMU02dXYOBLgdkUgL
+ Ersq8pwIzxU83Z+Lnw2OTTDxn4eDleCVSMd1vext49huWceSLfCZht2xC3ZtNhkANl7Ot/
+ SVxZ2XAQzZwFf5mjt/d8lr3db+PL5Yzj4qA7Tij8EewuBMC7eY/3tZzMEuUPieoxSXXFsl
+ 1/cA0sdEQ5mELiFAqkhL4mvqLWDQUGjcscHh4gzy8DesABDK4kf+8a+fZno/OA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600864398;
+ s=2020e; t=1600868152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4zUEMW9wU+kwouVfGxKhtf6Di/IFhmYOqDGQKAREV8o=;
- b=ohpCeECCtFRlt7dpUmuCjEyhCy6FZxCGdV74xdJ5JgvLxUGaba5R+t2Tfw4DYzdeiW9o4A
- 74IrdXtsMBTtycCw==
+ bh=sQi8lZPkv33+2/p+CxEr9K+rfH1Bs0rDvL8F8tfBhFM=;
+ b=y8RA9Mp+iOMW8NAuIAQx5KwO92xGItjHMxSGsmGMHVaYsVtr0nXOezo7T+MTtRUT9KlaF2
+ bd7Z3u4QE1LVBqCQ==
 To: peterz@infradead.org
 Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
  kmap_atomic & friends
-In-Reply-To: <20200923101953.GT2674@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
 References: <20200919091751.011116649@linutronix.de>
  <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
  <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
@@ -47,9 +47,9 @@ References: <20200919091751.011116649@linutronix.de>
  <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
  <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
  <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
- <20200923101953.GT2674@hirez.programming.kicks-ass.net>
-Date: Wed, 23 Sep 2020 14:33:17 +0200
-Message-ID: <87sgb8ad0y.fsf@nanos.tec.linutronix.de>
+ <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
+Date: Wed, 23 Sep 2020 15:35:52 +0200
+Message-ID: <87imc4aa4n.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 24 Sep 2020 07:19:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,38 +98,108 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 23 2020 at 12:19, peterz wrote:
-> On Mon, Sep 21, 2020 at 09:27:57PM +0200, Thomas Gleixner wrote:
->> Alternatively this could of course be solved with per CPU page tables
->> which will come around some day anyway I fear.
->
-> Previously (with PTI) we looked at making the entire kernel map per-CPU,
-> and that takes a 2K copy on switch_mm() (or more general, the user part
-> of whatever the top level directory is for architectures that have a
-> shared kernel/user page-table setup in the first place).
->
-> The idea was having a fixed per-cpu kernel page-table, share a bunch of
-> (kernel) page-tables between all CPUs and then copy in the user part on
-> switch.
->
-> I've forgotten what the plan was for ASID/PCID in that scheme.
->
-> For x86_64 we've been fearing the performance of that 2k copy, but I
-> don't think we've ever actually bit the bullet and implemented it to see
-> how bad it really is.
+On Wed, Sep 23 2020 at 10:40, peterz wrote:
+> Right, so I'm concerned. migrate_disable() wrecks pretty much all
+> Real-Time scheduler theory we have, and PREEMPRT_RT bringing it in is
+> somewhat ironic.
 
-I actually did at some point and depending on the workload the overhead
-was clearly measurable. And yes, it fell apart with PCID and I could not
-come up with a scheme for it which did not suck horribly. So I burried
-the patches in the poison cabinet.
+It's even more ironic that the approach of PREEMPT_RT has been
+'pragmatic ignorance of theory' from the very beginning and despite
+violating all theories it still works. :)
 
-Aside of that, we'd need to implement that for a eight other
-architectures as well...
+> Yes, it allows breaking up non-preemptible regions of non-deterministic
+> duration, and thereby both reduce and bound the scheduling latency, the
+> cost for doing that is that the theory on CPU utilization/bandwidth go
+> out the window.
+
+I agree, that the theory goes out of the window, but does it matter in
+practice? I've yet to see a report of migrate disable stacking being the
+culprit of a missed deadline and I surely have stared at lots of reports
+in the past 10+ years.
+
+> To easily see this consider an SMP system with a number of tasks equal
+> to the number of CPUs. On a regular (preempt_disable) kernel we can
+> always run each task, by virtue of always having an idle CPU to take the
+> task.
+>
+> However, with migrate_disable() we can have each task preempted in a
+> migrate_disable() region, worse we can stack them all on the _same_ CPU
+> (super ridiculous odds, sure). And then we end up only able to run one
+> task, with the rest of the CPUs picking their nose.
+>
+> The end result is that, like with unbounded latency, we will still miss
+> our deadline, simply because we got starved for CPU.
+
+I'm well aware of that.
+
+> Now, while we could (with a _lot_ of work) rework the kernel to not rely
+> on the implicit per-cpu ness of things like spinlock_t, the moment we
+> bring in basic primitives that rely on migrate_disable() we're stuck
+> with it.
+
+Right, but we are stuck with per CPUness and distangling that is just
+infeasible IMO.
+
+> The problem is; afaict there's been no research into this problem.
+
+There is no research on a lot of things the kernel does :)
+
+> There might be scheduling (read: balancing) schemes that can
+> mitigate/solve this problem, or it might prove to be a 'hard' problem,
+> I just don't know.
+
+In practive balancing surely can take the number of preempted tasks
+which are in a migrate disable section into account which would be just
+another measure to work around the fact that the kernel is not adhering
+to the theories. It never did that even w/o migrate disable.
+
+> But once we start down this road, it's going to be hell to get rid of
+> it.
+
+Like most of the other things the kernel came up with to deal with the
+oddities of modern hardware :)
+
+> That's why I've been arguing (for many years) to strictly limit this to
+> PREEMPT_RT and only as a gap-stop, not a fundamental primitive to build
+> on.
+
+I know, but short of rewriting the world, I'm not seing the faintest
+plan to remove the stop gap. :)
+
+As we discussed not long ago we have too many inconsistent preemption
+models already. RT is adding yet another one. And that's worse than
+introducing migrate disable as a general available facility.
+
+IMO, reaching a point of consistency where our different preemption
+models (NONE, VOLUNTARY, PREEMPT. RT) build on each other is far more
+important.
+
+For !RT migrate disable is far less of an danger than for RT kernels
+because the amount of code which will use it is rather limited compared
+to code which still will disable preemption implicit through spin and rw
+locks.
+
+On RT converting these locks to 'sleepable spinlocks' is just possible
+because RT forces almost everything into task context and migrate
+disable is just the obvious decomposition of preempt disable which
+implicitely disables migration.
+
+But that means that RT is by orders of magnitude more prone to run into
+the scheduling trainwreck you are worried about. It just refuses to do
+so at least with real world work loads.
+
+I'm surely in favour of having solid theories behind implementation, but
+at some point you just have to bite the bullet and chose pragmatism in
+order to make progress.
+
+Proliferating inconsistency is not real progress, as it is violating the
+most fundamental engineering principles. That's by far more dangerous
+than violating scheduling theories which are built on perfect models and
+therefore enforce violation by practical implementations anyway.
 
 Thanks,
 
         tglx
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
