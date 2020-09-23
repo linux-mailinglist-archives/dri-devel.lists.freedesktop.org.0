@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EE7275480
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 11:26:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C1027548A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 11:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3846E12B;
-	Wed, 23 Sep 2020 09:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D16706E909;
+	Wed, 23 Sep 2020 09:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784066E908
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 09:26:51 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id o8so18321867otl.4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 02:26:51 -0700 (PDT)
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBE96E909
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 09:29:23 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id y5so18332230otg.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 02:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Fwy9i1khoLax7Hq0RUO99NG0b7ul7bbEQzOnfJCcIbQ=;
- b=UlyZU+HgWiO3UIcvpWl2oSGsC4e/ksDINGbPAM8WHyY3Kgho5zZluah6DwgzKjpKcQ
- FBlK7yWi6S6i+PZB5zHXUIRIHDX6AkrtBbI/GPzmGxpf9CmyEZDKy7bNoj51D68ca3oo
- PujGzLpArRKhpACmxQZgfBQkehApCAckq1KVA=
+ :cc:content-transfer-encoding;
+ bh=AyIBdj4ulMqoj+WvdvWpX98udPwFTDgNOPS3nGh5FGQ=;
+ b=CmKIf0zrFheeQtif9Ive+QGme2JRbFAlPKuCB5APcCJz7cxLArqZ3yRNkj09aHSAB0
+ vV9kq99ugKTBtTxKHjlI24dpguL0MdsKsYlcqHhsCmP6tk+3CYgF3ff6hUrSGK8mV9LA
+ U9hlxinp0tg3tVxl3v8aKsCjSlHLv0NbYqWfo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Fwy9i1khoLax7Hq0RUO99NG0b7ul7bbEQzOnfJCcIbQ=;
- b=VQ8+fSGY5sfHL+JhUEK9aamDSKojihNFRjOBtdKx1mg1JH6ZvYGGCo9aXwnIfvhXML
- Zf7n8ZG8O4JQexePQ42iC2RwjJp27gKLewE1nnYhDWYK9tW40X0YZCW8TsJ3AHrfwUPM
- UCYB6KanL74H0PhHxHGqXzHTklGTqQaz+Iw7OevwC9Xy4LM2XBNC8ovUGKmDeUix7CEA
- dTPaZdHpjOteOJKDUlj2OlotBHJWPAagsSXgrZlJh04PJ8lNEfwzYh1D5zvfFJkuLpVg
- 2WxjVnw+madrZGh2CDVJjXAZQquhCe5L7PC8mKFX+U7nKruzUyzWC/OiZqaNnbLxviTp
- srIw==
-X-Gm-Message-State: AOAM53201OgiOBYeDBFt8A0PgdO9Gmuf1e+lzjsc+UROf+0oRM2Wt0ei
- xI3n4SBPjH4WrN9DYnMocpzIglshtwxcExSnGyyc8A==
-X-Google-Smtp-Source: ABdhPJyJf/2ipzjDzTUbuzwUwjZNd9XcNNVSN3n3xKYP5sa9e1YgkcwA+GZU9AA4OeLZBswlQE31AGllTFWvEjpMF4A=
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AyIBdj4ulMqoj+WvdvWpX98udPwFTDgNOPS3nGh5FGQ=;
+ b=dQX3qodFWuzuewPCBdUjOPPS0n3zjPO8JSrZuk6GZKEsRdl0Nz2XhaVjo1RXxUeLze
+ s7rk+s9riRJt1M3ewTybkYJWrc/vkCOmcuITfXsmWJD8Wmbf/sMFLn0r/vqTfdDEWFjD
+ WLzOzBYCCcVF845knEOCqMWhxMfF7qbv/CuWhXGKfCK5eCeBRjRSo62u7TByfB/BHO/f
+ //8qu39snHZLPpDl00LKO9LL+Kviw3ibAJTq9MLPIxSXEe/QcZpwQfmaOJROJED8AZPK
+ BpUd+/dXpQZrN3W4iUGiyiyDgguA5+0c7+Xanzd/4cjSNW6b8ZFiolk2DPF+UOVBW4jq
+ b/1w==
+X-Gm-Message-State: AOAM5333kitL46fUPkDKY5D//mb13QpsmJxeZGHn5T34bgSqLB4pPLFZ
+ ZYQ5Fe+OFPVu5voWo24uf0miDxtujB4whnLm5tOUkg==
+X-Google-Smtp-Source: ABdhPJzJ/vE5D76xdCqxGXnT4dNdIrvnpwi3jCqfhy3QCvbB/ftOjd18Uu4hm7LLMaZUIL0VAVMmaFUEV8qnp5A4Qa0=
 X-Received: by 2002:a05:6830:14d9:: with SMTP id
- t25mr5804565otq.188.1600853210764; 
- Wed, 23 Sep 2020 02:26:50 -0700 (PDT)
+ t25mr5809712otq.188.1600853362471; 
+ Wed, 23 Sep 2020 02:29:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200922181834.2913552-1-daniel.vetter@ffwll.ch>
- <20200923111717.68d9eb51@eldfell>
-In-Reply-To: <20200923111717.68d9eb51@eldfell>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 23 Sep 2020 11:26:39 +0200
-Message-ID: <CAKMK7uFvaMRK3Zh-s21OG=V3sPQZjn7Z_WQaNMcL=_R36enR2g@mail.gmail.com>
-Subject: Re: [PATCH] drm: document and enforce rules around "spurious" EBUSY
- from atomic_commit
-To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <fabf5079-6c39-7c8f-2973-5b32494f852a@gmail.com>
+ <5fb55684-c797-a104-253f-bf43634f0cec@daenzer.net>
+ <9181f6be-0da1-2f43-2014-7c3195147194@amd.com>
+ <CAPM=9tzWw3x345AHeODiQ9noDNN6XuTd6J2GsADhu4bQns1_XA@mail.gmail.com>
+ <3c75bf5b45f3a345407dc099de8b1a96ee9b4b81.camel@intel.com>
+In-Reply-To: <3c75bf5b45f3a345407dc099de8b1a96ee9b4b81.camel@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 23 Sep 2020 11:29:11 +0200
+Message-ID: <CAKMK7uFptmux=s32m4i64f3BG0uAVtYdnWO6o+8TXHSn=-+1qg@mail.gmail.com>
+Subject: Re: Why can't ttm_tt_swapout() handle uncached or WC BOs?
+To: "Hellstrom, Thomas" <thomas.hellstrom@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,166 +63,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable <stable@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "michel@daenzer.net" <michel@daenzer.net>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm really not awake yet ...
-
-On Wed, Sep 23, 2020 at 10:17 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Tue, 22 Sep 2020 20:18:34 +0200
-> Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> > When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
-> > pull in arbitrary other resources, including CRTCs (e.g. when
-> > reconfiguring global resources).
-> >
-> > But in nonblocking mode userspace has then no idea this happened,
-> > which can lead to spurious EBUSY calls, both:
-> > - when that other CRTC is currently busy doing a page_flip the
-> >   ALLOW_MODESET commit can fail with an EBUSY
-> > - on the other CRTC a normal atomic flip can fail with EBUSY because
-> >   of the additional commit inserted by the kernel without userspace's
-> >   knowledge
-> >
-> > For blocking commits this isn't a problem, because everyone else will
-> > just block until all the CRTC are reconfigured. Only thing userspace
-> > can notice is the dropped frames without any reason for why frames got
-> > dropped.
-> >
-> > Consensus is that we need new uapi to handle this properly, but no one
-> > has any idea what exactly the new uapi should look like. Since this
-> > has been shipping for years already compositors need to deal no matter
-> > what, so as a first step just try to enforce this across drivers
-> > better with some checks.
-> >
-> > v2: Add comments and a WARN_ON to enforce this only when allowed - we
-> > don't want to silently convert page flips into blocking plane updates
-> > just because the driver is buggy.
-> >
-> > v3: Fix inverted WARN_ON (Pekka).
-> >
-> > v4: Drop the uapi changes, only add a WARN_ON for now to enforce some
-> > rules for drivers.
->
-> Dropped all addresses, because gmail refused to send this email
-> otherwise.
->
-> > ---
-> >  drivers/gpu/drm/drm_atomic.c | 27 +++++++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> > index 58527f151984..ef106e7153a6 100644
-> > --- a/drivers/gpu/drm/drm_atomic.c
-> > +++ b/drivers/gpu/drm/drm_atomic.c
-> > @@ -281,6 +281,10 @@ EXPORT_SYMBOL(__drm_atomic_state_free);
-> >   * needed. It will also grab the relevant CRTC lock to make sure that the state
-> >   * is consistent.
-> >   *
-> > + * WARNING: Drivers may only add new CRTC states to a @state if
-> > + * drm_atomic_state.allow_modeset is set, or if it's a driver-internal commit
-> > + * not created by userspace through an IOCTL call.
-> > + *
-> >   * Returns:
-> >   *
-> >   * Either the allocated state or the error code encoded into the pointer. When
-> > @@ -1262,10 +1266,15 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
-> >       struct drm_crtc_state *new_crtc_state;
-> >       struct drm_connector *conn;
-> >       struct drm_connector_state *conn_state;
-> > +     unsigned requested_crtc = 0;
-> > +     unsigned affected_crtc = 0;
-> >       int i, ret = 0;
-> >
-> >       DRM_DEBUG_ATOMIC("checking %p\n", state);
-> >
-> > +     for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
-> > +             requested_crtc |= drm_crtc_mask(crtc);
-> > +
-> >       for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
-> >               ret = drm_atomic_plane_check(old_plane_state, new_plane_state);
-> >               if (ret) {
-> > @@ -1313,6 +1322,24 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
-> >               }
-> >       }
-> >
-> > +     for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
-> > +             affected_crtc |= drm_crtc_mask(crtc);
-> > +
-> > +     /*
-> > +      * For commits that allow modesets drivers can add other CRTCs to the
-> > +      * atomic commit, e.g. when they need to reallocate global resources.
-> > +      * This can cause spurious EBUSY, which robs compositors of a very
-> > +      * effective sanity check for their drawing loop. Therefor only allow
-> > +      * this for modeset commits.
-> > +      *
-> > +      * FIXME: Should add affected_crtc mask to the ATOMIC IOCTL as an output
-> > +      * so compositors know what's going on.
->
-> Hi,
->
-> I think telling userspace the affected_crtc mask would only solve half
-> of the problem: it would allow userspace to avoid attempting flips on
-> the other affected CRTCs until this modeset is done, but it doesn't
-> stop this non-blocking modeset from EBUSY'ing because other affected
-> CRTCs are busy flipping.
->
-> If the aim is to indicate userspace bugs with EBUSY, then EBUSY because
-> of other CRTCs needs to be differentiable from EBUSY due to a mistake
-> on this CRTC. Maybe the CRTC mask should instead be "conflicting/busy
-> CRTCs", not simply "affected CRTCS"?
->
-> Userspace might also be designed to always avoid modesets while any
-> CRTC is busy flipping. In that case any EBUSY would be an indication of
-> a (userspace) bug and a "busy CRTCs" mask could help pinpoint the issue.
->
-> If userspace does a TEST_ONLY commit with a modeset on one CRTC and the
-> driver pulls in another CRTC that is currently busy, will the test
-> commit return with EBUSY?
->
-> If yes, and *if* userspace is single-threaded wrt. to KMS updates,
-> that might offer a way to work around it in userspace. But if userspace
-> is flipping other CRTCs from other threads, TEST_ONLY commit does not
-> help because another thread may cut in and make a CRTC busy.
-
-This is not a legit programming model for atomic. An atomic commit is
-always relative to the current state. If that state changes, then you
-need to re-run your TEST_ONLY commit. So multiple threads changing
-state in parallel isn't really a good idea anyway. Minimally we'd need
-some kind of TEST_ONLY pile-up, so you can validate a change assuming
-another commit has already happened. That's even harder than deep
-queues on the commit side, we'd probably need full rollback of
-commits.
--Daniel
-
->
->
-> Thanks,
-> pq
->
-> > +      */
-> > +     if (affected_crtc != requested_crtc) {
-> > +             /* adding other CRTC is only allowed for modeset commits */
-> > +             WARN_ON(!state->allow_modeset);
-> > +     }
-> > +
-> >       return 0;
-> >  }
-> >  EXPORT_SYMBOL(drm_atomic_check_only);
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBTZXAgMjMsIDIwMjAgYXQgMTE6MjQgQU0gSGVsbHN0cm9tLCBUaG9tYXMKPHRob21h
+cy5oZWxsc3Ryb21AaW50ZWwuY29tPiB3cm90ZToKPgo+IE9uIFdlZCwgMjAyMC0wOS0yMyBhdCAx
+MzoxNyArMTAwMCwgRGF2ZSBBaXJsaWUgd3JvdGU6Cj4gPiBPbiBGcmksIDE4IFNlcCAyMDIwIGF0
+IDAwOjQ5LCBDaHJpc3RpYW4gS8O2bmlnIDwKPiA+IGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4g
+d3JvdGU6Cj4gPiA+IEFtIDE3LjA5LjIwIHVtIDE2OjQ0IHNjaHJpZWIgTWljaGVsIETDpG56ZXI6
+Cj4gPiA+ID4gT24gMjAyMC0wOS0xNyAyOjIwIHAubS4sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6
+Cj4gPiA+ID4gPiBIaSBndXlzLAo+ID4gPiA+ID4KPiA+ID4gPiA+IE1pY2hlbCBvbmNlIHN1Ym1p
+dHRlZCBhIHBhdGNoIHRvIGZpeCB0cmlnZ2VyaW5nIHRoaXMgQlVHX09OIGluCj4gPiA+ID4gPiB0
+dG1fdHRfc3dhcG91dCgpOgo+ID4gPiA+ID4KPiA+ID4gPiA+ID4gQlVHX09OKHR0bS0+Y2FjaGlu
+Z19zdGF0ZSAhPSB0dF9jYWNoZWQpOwo+ID4gPiA+ID4KPiA+ID4gPiA+IE5vdyBteSBxdWVzdGlv
+biBpcyBkb2VzIGFueWJvZHkga25vdyB3aHkgd2UgaGF2ZSB0aGF0IGluIHRoZQo+ID4gPiA+ID4g
+Zmlyc3QKPiA+ID4gPiA+IHBsYWNlPwo+ID4gPiA+ID4KPiA+ID4gPiA+IFRoZSBvbmx5IHByb2Js
+ZW1hdGljIHRoaW5nIEkgY2FuIHNlZSBpcyBjYWxsaW5nIGNvcHlfaGlnaHBhZ2UoKQo+ID4gPiA+
+ID4gYW5kCj4gPiA+ID4gPiB0aGF0IG9uZSBpcyBqdXN0IGRvaW5nIGEga21hcF9hdG9taWMoKS9r
+dW5tYXBfYXRvbWljKCkgb24gdGhlCj4gPiA+ID4gPiBzb3VyY2UKPiA+ID4gPiA+IGFuZCBkZXN0
+aW5hdGlvbi4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBJIGNhbid0IHNlZSB3aHkgaXQgc2hvdWxkIGJl
+IHByb2JsZW1hdGljIGZvciB0aGlzIHRlbXBvcmFyeQo+ID4gPiA+ID4gbWFwcGluZwo+ID4gPiA+
+ID4gdG8gYmUgY2FjaGVkIGluc3RlYWQgb2YgdW5jYWNoZWQgb3IgV0M/Cj4gPiA+ID4gPgo+ID4g
+PiA+ID4gRG9lcyBhbnlib2R5IGhhcyBhbnkgaWRlYT8KPiA+ID4gPgo+ID4gPiA+IE9uZSB0aGlu
+ZyBpcyB0aGF0IEFGQUlLIHNvbWUgKEFSTT8pIENQVXMgY2FuIGdldCB2ZXJ5IHVwc2V0IHdoZW4K
+PiA+ID4gPiB0aGVyZSdzIGJvdGggYSBjYWNoZWQgYW5kIHVuY2FjaGVhYmxlIG1hcHBpbmcgZm9y
+IHRoZSBzYW1lCj4gPiA+ID4gcGh5c2ljYWwgcGFnZS4KPiA+ID4KPiA+ID4gR29vZCBwb2ludCwg
+YnV0IEkgYWxyZWFkeSBjb25zaWRlcmVkIHRoaXMuCj4gPiA+Cj4gPiA+IElmIHRoZXJlIGlzIGFu
+b3RoZXIgbWFwcGluZyBmb3IgdGhhdCBwYWdlIGxlZnQgd2UgYXJlIGNvbXBsZXRlbHkKPiA+ID4g
+YnVzdGVkCj4gPiA+IGFueXdheSBzaW5jZSB3ZSBhcmUgY3VycmVudGx5IGNoYW5naW5nIHRoZSB1
+bmRlcmx5aW5nIHN0b3JhZ2UuCj4gPiA+Cj4gPgo+ID4gSXQncyBub3QganVzdCBBUk0gb2YgY291
+cnNlLCB4ODYgUEFUIGFsc28gaGFzIG1hbnkgaXNzdWVzIGFib3V0Cj4gPiBtdWx0aXBsZSBtYXBw
+aW5ncyBvZiB0aGUgc2FtZSBiYWNraW5nIHBhZ2Ugd2l0aCBkaWZmZXJlbnQgYXR0cmlidXRlcy4K
+PiA+Cj4gPiBUaGUgb25seSBtYXBwaW5ncyBtaWdodCBiZSBpbiB0aGUgbGluZWFyIG1hcHBpbmcs
+IHNpbmNlIG5vdCBhbGwgcGFnZXMKPiA+IHdlIGdldCBoZXJlIHdpbGwgbmVjZXNzYXJpbHkgYmUg
+aGlnaCBwYWdlcyBJIGFzc3VtZSBhbmQgdGhlcmVmb3JlCj4gPiBjb3VsZCBoYXZlIGEgbGluZWFy
+IG1hcHBpbmcuIElmIHdlJ3ZlIGNoYW5nZWQgdGhlIGxpbmVhciBtYXBwaW5nIHRvCj4gPiBub24t
+Y2FjaGVkLCB0aGVuIGNyZWF0ZSBhIGNhY2hlZCBrbWFwIEknbSBub3QgMTAwJSB0aGF0IHdvbid0
+IGNhdXNlCj4gPiBpc3N1ZXMuCj4gPgo+ID4gYnV0IHRoaXMgaXMgYSBkZWZpbml0ZSBtYXplIG9m
+IHR3aXN0eSBwYXNzYWdlcyBhbmQgSSdkIHByb2JhYmx5IG5lZWQKPiA+IHRvIHNpdCBkb3duIGFu
+ZCBicmVhayBpdCBhIGJpdCBtb3JlLgo+ID4KPiA+IERhdmUuCj4KPiBUaGlzIGlzIGEgcHJvYmxl
+bSB0aGF0IGdvZXMgYmFjayB3YXkgZmFyICgxMispIHllYXJzIHRoYXQgdGhlIHg4Ngo+IGFyY2hp
+dGVjdHVyZSBpcyBub3QgYWxsb3dlZCB0byBkbyBhbGlhc2VkIG1hcHBpbmdzIG9mIHBhZ2VzLCBl
+dmVuCj4gdGhyb3VnaCBtYXBwYWJsZSBHVFRzOiBUaGVyZSBhcmUgdHdvIGFzcGVjdHM6Cj4KPiAx
+KSBDcmVhdGUgYSBXQyBtYXBwaW5nIG9mIGEgcGFnZSB3aXRoIGRhdGEgaW4gdGhlIGNhY2hlLiBX
+aGVuIHRoZSBjYWNoZQo+IGRvZXMgYSB3cml0ZWJhY2ssIGFueXRoaW5nIHdyaXR0ZW4gdGhyb3Vn
+aCB0aGUgV0MgbWFwcGluZyB3aWxsIGdldAo+IG92ZXJ3cml0dGVuLgo+Cj4gMikgRmx1c2hpbmcg
+dGhlIFdCIG1hcHBpbmdzIGZpcnN0IG1pZ2h0IG5vdCBoZWxwLCBzaW5jZSBhdCB0aGF0IHRpbWUK
+PiB0aGVyZSB3ZXJlIHNvbWUgQU1EIHByb2Nlc3NvcnMgKEF0aGxvbnM/KSB0aGF0IHdlcmUgc3Bl
+Y3VsYXRpdmVseQo+IHByZWZldGNoaW5nIGRhdGEgb24gdGhlIFdCIG1hcHBpbmcgaW50byB0aGUg
+Y2FjaGUgYXQgYW55IHRpbWUsIGFuZCBldmVuCj4gdGhvdWdoIGl0IHdhc24ndCBjaGFuZ2VkIGl0
+IGRpZCBhIHdyaXRlYmFjay4gQW55dGhpbmcgd3JpdHRlbiB0aHJvdWdoCj4gV0MgaW4tYmV0d2Vl
+biB0aGUgcHJlZmV0Y2ggYW5kIHRoZSB3cml0ZWJhY2sgZ290IG92ZXJ3cml0dGVuLiBUaGF0IHdh
+cwo+IGEgcmVhbCBhbmQgb2NjdXJpbmcgcHJvYmxlbSBhdCB0aGF0IHRpbWUuIEFNRCBjbGFpbWVk
+IGl0IHdhcyBub3QKPiB2aW9sYXRpbmcgc3BlY3MuCj4KPiBTbyBhbGlhc2VkIG1hcHBpbmdzIGlz
+IHByb2JhYmx5IGF0IGJlc3QgdmVyeSBmcmFnaWxlLgoKSW50ZWwgaGFzIGFuIGFyY2hpdGVjdHVy
+YWwgZ3VhcmFudGVlIChhcHBhcmVudGx5KSB0aGF0IGNsZWFuCmNhY2hlbGluZXMgZ2V0IGRyb3Bw
+ZWQsIG5ldmVyIHdyaXR0ZW4gYmFjay4gV2UgaGVhdmlseSByZWx5IG9uIHRoYXQKd2l0aCBhbGwg
+b3VyIGNhY2hlbGluZSBmbHVzaGluZyB0cmlja3MgZm9yIGludGVncmF0ZWQgaTkxNS5rby4gU2lu
+Y2UKU29DIGtlZXAgYmVpbmcgbm9uLWNvaGVyZW50IGZvciB0aGUgZ3B1IGZvciBwZXJmIHJlYXNv
+bnMgSSBkb24ndApleHBlY3QgdGhlc2Uga2luZCBvZiBnYW1lcyB0byBnbyBhd2F5IGFueXRpbWUg
+c29vbiAod2UgZXZlbiBkbyB0aGVzZQpjYWNoZSBmbHVzaGVzIGluIHVzZXJzcGFjZSBub3dhZGF5
+cywgdG8gY3V0IG91dCB0aGUga2VybmVsKS4KCkZvciBkaXNjcmV0ZSBpdCdzIGEgZGlmZmVyZW50
+IHN0b3J5IG9mYy4KLURhbmllbAoKPgo+IC9UaG9tYXMKPgo+Cj4KPgo+IC0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+PiBJbnRlbCBTd2VkZW4gQUIKPiBSZWdpc3RlcmVkIE9mZmljZTogSXNhZmpvcmRzZ2F0YW4gMzBC
+LCAxNjQgNDAgS2lzdGEsIFN0b2NraG9sbSwgU3dlZGVuCj4gUmVnaXN0cmF0aW9uIE51bWJlcjog
+NTU2MTg5LTYwMjcKPgo+IFRoaXMgZS1tYWlsIGFuZCBhbnkgYXR0YWNobWVudHMgbWF5IGNvbnRh
+aW4gY29uZmlkZW50aWFsIG1hdGVyaWFsIGZvcgo+IHRoZSBzb2xlIHVzZSBvZiB0aGUgaW50ZW5k
+ZWQgcmVjaXBpZW50KHMpLiBBbnkgcmV2aWV3IG9yIGRpc3RyaWJ1dGlvbgo+IGJ5IG90aGVycyBp
+cyBzdHJpY3RseSBwcm9oaWJpdGVkLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQKPiByZWNp
+cGllbnQsIHBsZWFzZSBjb250YWN0IHRoZSBzZW5kZXIgYW5kIGRlbGV0ZSBhbGwgY29waWVzLgoK
+CgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24K
+aHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
