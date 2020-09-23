@@ -2,54 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AAA27579C
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 13:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8582757DF
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 14:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5B3C6E996;
-	Wed, 23 Sep 2020 11:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9353C6E990;
+	Wed, 23 Sep 2020 12:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1C26E996
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 11:58:37 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08NBwXTK029844;
- Wed, 23 Sep 2020 06:58:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1600862313;
- bh=HSH6w98vZ5KUzWOPpRJA2krlz2qkBQvm0lL/aJtWvbM=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=af7DSjr3JpkAyT9Ujp0748sak2zxzcnKpk8jugHdIj2G48Ik9now49Zcwk6kJ8coD
- qNkk6SRYlM6ou+QqQ+iYa3YQtJIbacxQ/7KnAwX+yNQPjOyYL3UkY5kWaNE+TT2vg6
- w6he08t9XzWonYKht0fVtgfjSLHA1S5QZjQeCj08=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08NBwXP3047931;
- Wed, 23 Sep 2020 06:58:33 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 23
- Sep 2020 06:58:33 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 23 Sep 2020 06:58:33 -0500
-Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08NBwJi1038765;
- Wed, 23 Sep 2020 06:58:31 -0500
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: <dri-devel@lists.freedesktop.org>, Pekka Paalanen <ppaalanen@gmail.com>,
- Daniel Stone <daniel@fooishbar.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Jyri Sarha <jsarha@ti.com>, Daniel
- Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH 5/5] drm/omap: Enable COLOR_ENCODING and COLOR_RANGE
- properties for planes
-Date: Wed, 23 Sep 2020 14:57:27 +0300
-Message-ID: <20200923115727.248705-6-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200923115727.248705-1-tomi.valkeinen@ti.com>
-References: <20200923115727.248705-1-tomi.valkeinen@ti.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE0386E989
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 12:30:23 +0000 (UTC)
+Received: from [2a0a:edc0:0:900:6245:cbff:fea0:1793]
+ (helo=kresse.office.stw.pengutronix.de)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1kL3sK-0001Gu-2L; Wed, 23 Sep 2020 14:27:57 +0200
+Message-ID: <3411d277f84ec42eca6c467ceafb10d59c0fd482.camel@pengutronix.de>
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ linux@armlinux.org.uk,  maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org,  christian.gmeiner@gmail.com, inki.dae@samsung.com,
+ jy0922.shim@samsung.com,  sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org,  krzk@kernel.org,
+ patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com, 
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ chunkuang.hu@kernel.org,  p.zabel@pengutronix.de, matthias.bgg@gmail.com,
+ robdclark@gmail.com,  sean@poorly.run, bskeggs@redhat.com,
+ tomi.valkeinen@ti.com, eric@anholt.net,  hjc@rock-chips.com,
+ heiko@sntech.de, thierry.reding@gmail.com,  jonathanh@nvidia.com,
+ rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com, 
+ oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com, 
+ laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com, 
+ sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com, 
+ tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com, 
+ andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com, 
+ aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk, 
+ matthew.auld@intel.com, tvrtko.ursulin@linux.intel.com,
+ andi.shyti@intel.com,  sam@ravnborg.org, miaoqinglang@huawei.com,
+ emil.velikov@collabora.com,  laurentiu.palcu@oss.nxp.com,
+ shawnguo@kernel.org, s.hauer@pengutronix.de,  kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com
+Date: Wed, 23 Sep 2020 14:27:37 +0200
+In-Reply-To: <20200923102159.24084-4-tzimmermann@suse.de>
+References: <20200923102159.24084-1-tzimmermann@suse.de>
+ <20200923102159.24084-4-tzimmermann@suse.de>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:6245:cbff:fea0:1793
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
+ metis.ext.pengutronix.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.2 required=4.0 tests=AWL,BAYES_00,RDNS_NONE,
+ SPF_HELO_NONE,SPF_SOFTFAIL,URIBL_BLOCKED autolearn=no
+ autolearn_force=no version=3.4.2
+Subject: Re: [PATCH v3 03/22] drm/etnaviv: Introduce GEM object functions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on metis.ext.pengutronix.de)
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,280 +74,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jyri Sarha <jsarha@ti.com>
+On Mi, 2020-09-23 at 12:21 +0200, Thomas Zimmermann wrote:
+> GEM object functions deprecate several similar callback interfaces in
+> struct drm_driver. This patch replaces the per-driver callbacks with
+> per-instance callbacks in etnaviv. The only exception is gem_prime_mmap,
+> which is non-trivial to convert.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Adds support for COLOR_ENCODING and COLOR_RANGE properties to
-omap_plane.c and dispc.c. The supported encodings and ranges are
-presets are:
-
-For COLOR_ENCODING:
-- YCbCr BT.601 (default)
-- YCbCr BT.709
-
-For COLOR_RANGE:
-- YCbCr limited range
-- YCbCr full range (default)
-
-Signed-off-by: Jyri Sarha <jsarha@ti.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
----
- drivers/gpu/drm/omapdrm/dss/dispc.c   | 104 ++++++++++++++++----------
- drivers/gpu/drm/omapdrm/dss/omapdss.h |   4 +
- drivers/gpu/drm/omapdrm/omap_plane.c  |  30 ++++++++
- 3 files changed, 97 insertions(+), 41 deletions(-)
-
-diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
-index 48593932bddf..bf0c9d293077 100644
---- a/drivers/gpu/drm/omapdrm/dss/dispc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
-@@ -874,50 +874,67 @@ static void dispc_ovl_write_color_conv_coef(struct dispc_device *dispc,
- #undef CVAL
- }
- 
--static void dispc_wb_write_color_conv_coef(struct dispc_device *dispc,
--					   const struct csc_coef_rgb2yuv *ct)
--{
--	const enum omap_plane_id plane = OMAP_DSS_WB;
--
--#define CVAL(x, y) (FLD_VAL(x, 26, 16) | FLD_VAL(y, 10, 0))
-+/* YUV -> RGB, ITU-R BT.601, full range */
-+static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_full = {
-+	256,   0,  358,		/* ry, rcb, rcr |1.000  0.000  1.402|*/
-+	256, -88, -182,		/* gy, gcb, gcr |1.000 -0.344 -0.714|*/
-+	256, 452,    0,		/* by, bcb, bcr |1.000  1.772  0.000|*/
-+	true,			/* full range */
-+};
- 
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 0), CVAL(ct->yg,  ct->yr));
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 1), CVAL(ct->crr, ct->yb));
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 2), CVAL(ct->crb, ct->crg));
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 3), CVAL(ct->cbg, ct->cbr));
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 4), CVAL(0, ct->cbb));
-+/* YUV -> RGB, ITU-R BT.601, limited range */
-+static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_lim = {
-+	298,    0,  409,	/* ry, rcb, rcr |1.164  0.000  1.596|*/
-+	298, -100, -208,	/* gy, gcb, gcr |1.164 -0.392 -0.813|*/
-+	298,  516,    0,	/* by, bcb, bcr |1.164  2.017  0.000|*/
-+	false,			/* limited range */
-+};
- 
--	REG_FLD_MOD(dispc, DISPC_OVL_ATTRIBUTES(plane), ct->full_range, 11, 11);
-+/* YUV -> RGB, ITU-R BT.709, full range */
-+static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt709_full = {
-+	256,    0,  402,        /* ry, rcb, rcr |1.000  0.000  1.570|*/
-+	256,  -48, -120,        /* gy, gcb, gcr |1.000 -0.187 -0.467|*/
-+	256,  475,    0,        /* by, bcb, bcr |1.000  1.856  0.000|*/
-+	true,                   /* full range */
-+};
- 
--#undef CVAL
--}
-+/* YUV -> RGB, ITU-R BT.709, limited range */
-+static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt709_lim = {
-+	298,    0,  459,	/* ry, rcb, rcr |1.164  0.000  1.793|*/
-+	298,  -55, -136,	/* gy, gcb, gcr |1.164 -0.213 -0.533|*/
-+	298,  541,    0,	/* by, bcb, bcr |1.164  2.112  0.000|*/
-+	false,			/* limited range */
-+};
- 
--static void dispc_setup_color_conv_coef(struct dispc_device *dispc)
-+static int dispc_ovl_set_csc(struct dispc_device *dispc,
-+			     enum omap_plane_id plane,
-+			     enum drm_color_encoding color_encoding,
-+			     enum drm_color_range color_range)
- {
--	int i;
--	int num_ovl = dispc_get_num_ovls(dispc);
--
--	/* YUV -> RGB, ITU-R BT.601, limited range */
--	const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_lim = {
--		298,    0,  409,	/* ry, rcb, rcr */
--		298, -100, -208,	/* gy, gcb, gcr */
--		298,  516,    0,	/* by, bcb, bcr */
--		false,			/* limited range */
--	};
-+	const struct csc_coef_yuv2rgb *csc;
- 
--	/* RGB -> YUV, ITU-R BT.601, limited range */
--	const struct csc_coef_rgb2yuv coefs_rgb2yuv_bt601_lim = {
--		 66, 129,  25,		/* yr,   yg,  yb */
--		-38, -74, 112,		/* cbr, cbg, cbb */
--		112, -94, -18,		/* crr, crg, crb */
--		false,			/* limited range */
--	};
-+	switch (color_encoding) {
-+	case DRM_COLOR_YCBCR_BT601:
-+		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
-+			csc = &coefs_yuv2rgb_bt601_full;
-+		else
-+			csc = &coefs_yuv2rgb_bt601_lim;
-+		break;
-+	case DRM_COLOR_YCBCR_BT709:
-+		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
-+			csc = &coefs_yuv2rgb_bt709_full;
-+		else
-+			csc = &coefs_yuv2rgb_bt709_lim;
-+		break;
-+	default:
-+		DSSERR("Unsupported CSC mode %d for plane %d\n",
-+		       color_encoding, plane);
-+		return -EINVAL;
-+	}
- 
--	for (i = 1; i < num_ovl; i++)
--		dispc_ovl_write_color_conv_coef(dispc, i, &coefs_yuv2rgb_bt601_lim);
-+	dispc_ovl_write_color_conv_coef(dispc, plane, csc);
- 
--	if (dispc->feat->has_writeback)
--		dispc_wb_write_color_conv_coef(dispc, &coefs_rgb2yuv_bt601_lim);
-+	return 0;
- }
- 
- static void dispc_ovl_set_ba0(struct dispc_device *dispc,
-@@ -2598,7 +2615,9 @@ static int dispc_ovl_setup_common(struct dispc_device *dispc,
- 				  u8 pre_mult_alpha, u8 global_alpha,
- 				  enum omap_dss_rotation_type rotation_type,
- 				  bool replication, const struct videomode *vm,
--				  bool mem_to_mem)
-+				  bool mem_to_mem,
-+				  enum drm_color_encoding color_encoding,
-+				  enum drm_color_range color_range)
- {
- 	bool five_taps = true;
- 	bool fieldmode = false;
-@@ -2747,6 +2766,9 @@ static int dispc_ovl_setup_common(struct dispc_device *dispc,
- 				      fieldmode, fourcc, rotation);
- 		dispc_ovl_set_output_size(dispc, plane, out_width, out_height);
- 		dispc_ovl_set_vid_color_conv(dispc, plane, cconv);
-+
-+		if (plane != OMAP_DSS_WB)
-+			dispc_ovl_set_csc(dispc, plane, color_encoding, color_range);
- 	}
- 
- 	dispc_ovl_set_rotation_attrs(dispc, plane, rotation, rotation_type,
-@@ -2783,7 +2805,8 @@ static int dispc_ovl_setup(struct dispc_device *dispc,
- 		oi->screen_width, oi->pos_x, oi->pos_y, oi->width, oi->height,
- 		oi->out_width, oi->out_height, oi->fourcc, oi->rotation,
- 		oi->zorder, oi->pre_mult_alpha, oi->global_alpha,
--		oi->rotation_type, replication, vm, mem_to_mem);
-+		oi->rotation_type, replication, vm, mem_to_mem,
-+		oi->color_encoding, oi->color_range);
- 
- 	return r;
- }
-@@ -2816,7 +2839,8 @@ static int dispc_wb_setup(struct dispc_device *dispc,
- 		wi->buf_width, pos_x, pos_y, in_width, in_height, wi->width,
- 		wi->height, wi->fourcc, wi->rotation, zorder,
- 		wi->pre_mult_alpha, global_alpha, wi->rotation_type,
--		replication, vm, mem_to_mem);
-+		replication, vm, mem_to_mem, DRM_COLOR_YCBCR_BT601,
-+		DRM_COLOR_YCBCR_LIMITED_RANGE);
- 	if (r)
- 		return r;
- 
-@@ -3927,8 +3951,6 @@ static void _omap_dispc_initial_config(struct dispc_device *dispc)
- 	    dispc->feat->has_gamma_table)
- 		REG_FLD_MOD(dispc, DISPC_CONFIG, 1, 9, 9);
- 
--	dispc_setup_color_conv_coef(dispc);
--
- 	dispc_set_loadmode(dispc, OMAP_DSS_LOAD_FRAME_ONLY);
- 
- 	dispc_init_fifos(dispc);
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 8e9a2019f173..816424eb2d41 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -7,6 +7,7 @@
- #ifndef __OMAP_DRM_DSS_H
- #define __OMAP_DRM_DSS_H
- 
-+#include <drm/drm_color_mgmt.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_mode.h>
- #include <linux/device.h>
-@@ -243,6 +244,9 @@ struct omap_overlay_info {
- 	u8 global_alpha;
- 	u8 pre_mult_alpha;
- 	u8 zorder;
-+
-+	enum drm_color_encoding color_encoding;
-+	enum drm_color_range color_range;
- };
- 
- struct omap_overlay_manager_info {
-diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-index 73ec99819a3d..1f433fb5f207 100644
---- a/drivers/gpu/drm/omapdrm/omap_plane.c
-+++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-@@ -59,6 +59,8 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
- 		info.pre_mult_alpha = 1;
- 	else
- 		info.pre_mult_alpha = 0;
-+	info.color_encoding = state->color_encoding;
-+	info.color_range = state->color_range;
- 
- 	/* update scanout: */
- 	omap_framebuffer_update_scanout(state->fb, state, &info);
-@@ -189,6 +191,8 @@ static void omap_plane_reset(struct drm_plane *plane)
- 	 */
- 	plane->state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY
- 			   ? 0 : omap_plane->id;
-+	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
-+	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
- }
- 
- static int omap_plane_atomic_set_property(struct drm_plane *plane,
-@@ -232,6 +236,23 @@ static const struct drm_plane_funcs omap_plane_funcs = {
- 	.atomic_get_property = omap_plane_atomic_get_property,
- };
- 
-+static bool omap_plane_supports_yuv(struct drm_plane *plane)
-+{
-+	struct omap_drm_private *priv = plane->dev->dev_private;
-+	struct omap_plane *omap_plane = to_omap_plane(plane);
-+	const u32 *formats =
-+		priv->dispc_ops->ovl_get_color_modes(priv->dispc, omap_plane->id);
-+	u32 i;
-+
-+	for (i = 0; formats[i]; i++)
-+		if (formats[i] == DRM_FORMAT_YUYV ||
-+		    formats[i] == DRM_FORMAT_UYVY ||
-+		    formats[i] == DRM_FORMAT_NV12)
-+			return true;
-+
-+	return false;
-+}
-+
- static const char *plane_id_to_name[] = {
- 	[OMAP_DSS_GFX] = "gfx",
- 	[OMAP_DSS_VIDEO1] = "vid1",
-@@ -293,6 +314,15 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
- 	drm_plane_create_blend_mode_property(plane, BIT(DRM_MODE_BLEND_PREMULTI) |
- 					     BIT(DRM_MODE_BLEND_COVERAGE));
- 
-+	if (omap_plane_supports_yuv(plane))
-+		drm_plane_create_color_properties(plane,
-+						  BIT(DRM_COLOR_YCBCR_BT601) |
-+						  BIT(DRM_COLOR_YCBCR_BT709),
-+						  BIT(DRM_COLOR_YCBCR_FULL_RANGE) |
-+						  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE),
-+						  DRM_COLOR_YCBCR_BT601,
-+						  DRM_COLOR_YCBCR_FULL_RANGE);
-+
- 	return plane;
- 
- error:
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Acked-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 13 -------------
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.h |  1 -
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 19 ++++++++++++++++++-
+>  3 files changed, 18 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index a9a3afaef9a1..aa270b79e585 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -468,12 +468,6 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+>  	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+>  };
+>  
+> -static const struct vm_operations_struct vm_ops = {
+> -	.fault = etnaviv_gem_fault,
+> -	.open = drm_gem_vm_open,
+> -	.close = drm_gem_vm_close,
+> -};
+> -
+>  static const struct file_operations fops = {
+>  	.owner              = THIS_MODULE,
+>  	.open               = drm_open,
+> @@ -490,16 +484,9 @@ static struct drm_driver etnaviv_drm_driver = {
+>  	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
+>  	.open               = etnaviv_open,
+>  	.postclose           = etnaviv_postclose,
+> -	.gem_free_object_unlocked = etnaviv_gem_free_object,
+> -	.gem_vm_ops         = &vm_ops,
+>  	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+> -	.gem_prime_pin      = etnaviv_gem_prime_pin,
+> -	.gem_prime_unpin    = etnaviv_gem_prime_unpin,
+> -	.gem_prime_get_sg_table = etnaviv_gem_prime_get_sg_table,
+>  	.gem_prime_import_sg_table = etnaviv_gem_prime_import_sg_table,
+> -	.gem_prime_vmap     = etnaviv_gem_prime_vmap,
+> -	.gem_prime_vunmap   = etnaviv_gem_prime_vunmap,
+>  	.gem_prime_mmap     = etnaviv_gem_prime_mmap,
+>  #ifdef CONFIG_DEBUG_FS
+>  	.debugfs_init       = etnaviv_debugfs_init,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> index 4d8dc9236e5f..914f0867ff71 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> @@ -49,7 +49,6 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  		struct drm_file *file);
+>  
+>  int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+> -vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf);
+>  int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offset);
+>  struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj);
+>  void *etnaviv_gem_prime_vmap(struct drm_gem_object *obj);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> index d1533bdc1335..67d9a2b9ea6a 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -171,7 +171,7 @@ int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+>  	return obj->ops->mmap(obj, vma);
+>  }
+>  
+> -vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
+> +static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
+>  {
+>  	struct vm_area_struct *vma = vmf->vma;
+>  	struct drm_gem_object *obj = vma->vm_private_data;
+> @@ -559,6 +559,22 @@ void etnaviv_gem_obj_add(struct drm_device *dev, struct drm_gem_object *obj)
+>  	mutex_unlock(&priv->gem_lock);
+>  }
+>  
+> +static const struct vm_operations_struct vm_ops = {
+> +	.fault = etnaviv_gem_fault,
+> +	.open = drm_gem_vm_open,
+> +	.close = drm_gem_vm_close,
+> +};
+> +
+> +static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+> +	.free = etnaviv_gem_free_object,
+> +	.pin = etnaviv_gem_prime_pin,
+> +	.unpin = etnaviv_gem_prime_unpin,
+> +	.get_sg_table = etnaviv_gem_prime_get_sg_table,
+> +	.vmap = etnaviv_gem_prime_vmap,
+> +	.vunmap = etnaviv_gem_prime_vunmap,
+> +	.vm_ops = &vm_ops,
+> +};
+> +
+>  static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>  	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+>  {
+> @@ -593,6 +609,7 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>  	INIT_LIST_HEAD(&etnaviv_obj->vram_list);
+>  
+>  	*obj = &etnaviv_obj->base;
+> +	(*obj)->funcs = &etnaviv_gem_object_funcs;
+>  
+>  	return 0;
+>  }
 
 _______________________________________________
 dri-devel mailing list
