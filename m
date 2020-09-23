@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B612756B7
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:57:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C2B2756BD
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:58:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD80F6E944;
-	Wed, 23 Sep 2020 10:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E53196E959;
+	Wed, 23 Sep 2020 10:58:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B4106E941
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 10:57:47 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id d4so6667975wmd.5
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 03:57:46 -0700 (PDT)
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C486E959
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 10:58:41 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id a3so24597656oib.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 03:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uPw+l3CsCZok/jqHNeOqwasz2nuf5/t4fLWio+vnMlk=;
- b=ZLQVdlsHmFQNIYgIuNlsq1yL+vk2glRmn6H32Yxkwuu9xnMXK8rKRPnWw1Su+FauXv
- 6Z6xVGQGDiC6HHBg7WZCuNrU1ai66aOejeHiZiXKVKLbujOInw9UDKHnABYwYOJeZAH7
- bzSh+X3VD2CLfW3YME5rn9BhybTcNpwt4WIt0=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wDiVGOW2BwVoj+byF8GmVc4hZoZxCN4FNEDgvLDpQ1k=;
+ b=Qdl9ZA+ZTkR35bC8SLkZu9gmZz0yIkZzf7fKlMtexw60Ein4nPVkpSZdq9H4b/uQNE
+ ym/7FKqm2OjdqPm5ssrHThHs7fQORtaSTkbYAoMJcXd6zsMkSRPtq+uCBJ7yDajwu2T7
+ 3POcxNH9Erym7dLnHVvozChqgrTpMfAQqddds=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uPw+l3CsCZok/jqHNeOqwasz2nuf5/t4fLWio+vnMlk=;
- b=jhWtFzmtolAcHGCNLr9Ryl5/x+kektZZsVKY8cM1fGN0mUBGI+9OEVEqGjMQ9G9kGH
- xiaKf8crtq+RjS7o3QYGtRjdDxorVj+vr3tmsnmWC59qGYwLYPmms2MIgxne5gIaGGsW
- BmWqeAkBcz9EeS7nnF6KaAJJSyXUD1JCEncgHqcb75yEZGECTSLInjRK4KkNYflILLuB
- ym1fZy2CmdCaN7b/CEiNfR/afsPwVsca4+ReAmyYmR5q6mXy9s5oFSTPxLJWJSTMhpvL
- xg1WGK9+mLxTplamnR7Ryyha9BImLwSOah+5TJN4/II1+CJ63mSKa4ZSsE/og9aB11Y4
- DuvQ==
-X-Gm-Message-State: AOAM533YlSUgRiVaFL5DGY3xM3P2JD2jPgi/g1bbbKRqE0b0nZPKAh+j
- +pINQflaWF3bKGAXCJJbIXXvUrzHjGzkjtWA
-X-Google-Smtp-Source: ABdhPJworPP414/tpSUtLrvM0vlaq9b7cn26dS+ajIZBqfXBAsUdWZB+9SX6czIPTmP+EKUsemEsCw==
-X-Received: by 2002:a7b:cb82:: with SMTP id m2mr6287053wmi.56.1600858665454;
- Wed, 23 Sep 2020 03:57:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i14sm5678758wro.96.2020.09.23.03.57.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 03:57:44 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/atomic: debug output for EBUSY
-Date: Wed, 23 Sep 2020 12:57:37 +0200
-Message-Id: <20200923105737.2943649-2-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200923105737.2943649-1-daniel.vetter@ffwll.ch>
-References: <20200923105737.2943649-1-daniel.vetter@ffwll.ch>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wDiVGOW2BwVoj+byF8GmVc4hZoZxCN4FNEDgvLDpQ1k=;
+ b=Ki0+Axga+NwIbjkUyT/6kfz47oSz41bbyJYQg17rY1wSiBqAW4texk/Gv93Zd1MhsX
+ igj0wl0qk4va7ck8PvmpudUeUKyD06OD3zRENpMwU+MUBxIudR39qOn3Da0rNuBmrz/V
+ vZf9WmGiYggdtQUW/9DRT3l0uRQc2oiVmispSPIIFFdD8tC8qtrqCb2qQLsoxWeWgSnL
+ RLbDdYbCJLSAd3+UWsiCiY7UK4KJqXJSCHQ+KotQaCGGl/nmIxFVI8ZnJoo14MUEjzoj
+ 9POyBkB2Iobj/pmJ7+vTEmIqSAF4U6O2ZzdgV0CBDi4T+HDxpfkDCIJ6tqifjZp9rJYn
+ DQ5w==
+X-Gm-Message-State: AOAM531sW6RRckQV10EBJheHRCcfY2ZmX66ij8T/VH+lbZ1+0eDOjZkr
+ VBagancZc8tTYx/4D5qLiK1TENfCfCyCo83zelkXYg==
+X-Google-Smtp-Source: ABdhPJxfxLPKhyX0sj8rLdjW3NuP47epv2iLZ1JCv3JNotaYE+HIg78XpuC6HN1WlipJCa2mmIVWRxwkFtnAzZPhCt0=
+X-Received: by 2002:aca:49c2:: with SMTP id w185mr4818246oia.101.1600858720790; 
+ Wed, 23 Sep 2020 03:58:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <20180705101043.4883-1-daniel.vetter@ffwll.ch>
+ <20180705102121.5091-1-daniel.vetter@ffwll.ch>
+ <CAPj87rN48S8+pLd0ksOX4pdCTqtO=bDgjhkPxpWr_AnpVvgaSQ@mail.gmail.com>
+ <20200922133636.GA2369@xpredator>
+In-Reply-To: <20200922133636.GA2369@xpredator>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 23 Sep 2020 12:58:30 +0200
+Message-ID: <CAKMK7uHr3dKu8o4e3hoSe3S5MfVtZ92nLk1VGZTqSuDsH6kphg@mail.gmail.com>
+Subject: Re: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic
+ modesets
+To: Marius Vlad <marius.vlad@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,83 +61,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>,
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ stable <stable@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>,
  Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SG9wZWZ1bGx5IHdlJ2xsIGhhdmUgdGhlIGRybSBjcmFzaCByZWNvcmRlciBSU04sIGJ1dCBtZWFu
-d2hpbGUKY29tcG9zaXRvcnMgd291bGQgbGlrZSB0byBrbm93IGEgYml0IGJldHRlciB3aHkgdGhl
-eSBnZXQgYW4gRUJVU1kuCgpDYzogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+CkNj
-OiBEYW5pZWwgU3RvbmUgPGRhbmllbEBmb29pc2hiYXIub3JnPgpDYzogUGVra2EgUGFhbGFuZW4g
-PHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5jby51az4KQ2M6IFNpbW9uIFNlciA8Y29udGFjdEBl
-bWVyc2lvbi5mcj4KQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRl
-bC5jb20+ClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwu
-Y29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMgICAgICAgIHwgIDQgKystLQog
-ZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVscGVyLmMgfCAyMCArKysrKysrKysrKysrKysr
-Ky0tLQogMiBmaWxlcyBjaGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2F0b21pYy5jCmluZGV4IGUyMjY2OWI2NDUyMS4uNjg2NGU1MjAyNjlkIDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fYXRvbWljLmMKQEAgLTEyNzIsNyArMTI3Miw3IEBAIGludCBkcm1fYXRvbWljX2NoZWNrX29u
-bHkoc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQogCiAJRFJNX0RFQlVHX0FUT01JQygi
-Y2hlY2tpbmcgJXBcbiIsIHN0YXRlKTsKIAotCWZvcl9lYWNoX25ld19jcnRjX2luX3N0YXRlKHN0
-YXRlLCBjcnRjLCBvbGRfY3J0Y19zdGF0ZSwgaSkKKwlmb3JfZWFjaF9uZXdfY3J0Y19pbl9zdGF0
-ZShzdGF0ZSwgY3J0YywgbmV3X2NydGNfc3RhdGUsIGkpCiAJCXJlcXVlc3RlZF9jcnRjIHw9IGRy
-bV9jcnRjX21hc2soY3J0Yyk7CiAKIAlmb3JfZWFjaF9vbGRuZXdfcGxhbmVfaW5fc3RhdGUoc3Rh
-dGUsIHBsYW5lLCBvbGRfcGxhbmVfc3RhdGUsIG5ld19wbGFuZV9zdGF0ZSwgaSkgewpAQCAtMTMy
-Miw3ICsxMzIyLDcgQEAgaW50IGRybV9hdG9taWNfY2hlY2tfb25seShzdHJ1Y3QgZHJtX2F0b21p
-Y19zdGF0ZSAqc3RhdGUpCiAJCX0KIAl9CiAKLQlmb3JfZWFjaF9uZXdfY3J0Y19pbl9zdGF0ZShz
-dGF0ZSwgY3J0Yywgb2xkX2NydGNfc3RhdGUsIGkpCisJZm9yX2VhY2hfbmV3X2NydGNfaW5fc3Rh
-dGUoc3RhdGUsIGNydGMsIG5ld19jcnRjX3N0YXRlLCBpKQogCQlhZmZlY3RlZF9jcnRjIHw9IGRy
-bV9jcnRjX21hc2soY3J0Yyk7CiAKIAkvKgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9hdG9taWNfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYwpp
-bmRleCBlOGFiYWFhYTdmZDEuLjZiM2JmYWJhYzI2YyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2RybV9hdG9taWNfaGVscGVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNf
-aGVscGVyLmMKQEAgLTE3NDAsOCArMTc0MCwxMSBAQCBpbnQgZHJtX2F0b21pY19oZWxwZXJfYXN5
-bmNfY2hlY2soc3RydWN0IGRybV9kZXZpY2UgKmRldiwKIAkgKiBvdmVycmlkZGVuIGJ5IGEgcHJl
-dmlvdXMgc3luY2hyb25vdXMgdXBkYXRlJ3Mgc3RhdGUuCiAJICovCiAJaWYgKG9sZF9wbGFuZV9z
-dGF0ZS0+Y29tbWl0ICYmCi0JICAgICF0cnlfd2FpdF9mb3JfY29tcGxldGlvbigmb2xkX3BsYW5l
-X3N0YXRlLT5jb21taXQtPmh3X2RvbmUpKQorCSAgICAhdHJ5X3dhaXRfZm9yX2NvbXBsZXRpb24o
-Jm9sZF9wbGFuZV9zdGF0ZS0+Y29tbWl0LT5od19kb25lKSkgeworCQlEUk1fREVCVUdfQVRPTUlD
-KCJbUExBTkU6JWQ6JXNdIGluZmxpZ2h0IHByZXZpb3VzIGNvbW1pdCBwcmV2ZW50aW5nIGFzeW5j
-IGNvbW1pdFxuIiwKKwkJCXBsYW5lLT5iYXNlLmlkLCBwbGFuZS0+bmFtZSk7CiAJCXJldHVybiAt
-RUJVU1k7CisJfQogCiAJcmV0dXJuIGZ1bmNzLT5hdG9taWNfYXN5bmNfY2hlY2socGxhbmUsIG5l
-d19wbGFuZV9zdGF0ZSk7CiB9CkBAIC0xOTY0LDYgKzE5NjcsOSBAQCBzdGF0aWMgaW50IHN0YWxs
-X2NoZWNrcyhzdHJ1Y3QgZHJtX2NydGMgKmNydGMsIGJvb2wgbm9uYmxvY2spCiAJCQkgKiBjb21t
-aXQgd2l0aCBub25ibG9ja2luZyBvbmVzLiAqLwogCQkJaWYgKCFjb21wbGV0ZWQgJiYgbm9uYmxv
-Y2spIHsKIAkJCQlzcGluX3VubG9jaygmY3J0Yy0+Y29tbWl0X2xvY2spOworCQkJCURSTV9ERUJV
-R19BVE9NSUMoIltDUlRDOiVkOiVzXSBidXN5IHdpdGggYSBwcmV2aW91cyBjb21taXRcbiIsCisJ
-CQkJCWNydGMtPmJhc2UuaWQsIGNydGMtPm5hbWUpOworCiAJCQkJcmV0dXJuIC1FQlVTWTsKIAkJ
-CX0KIAkJfSBlbHNlIGlmIChpID09IDEpIHsKQEAgLTIxMzIsOCArMjEzOCwxMiBAQCBpbnQgZHJt
-X2F0b21pY19oZWxwZXJfc2V0dXBfY29tbWl0KHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
-ZSwKIAkJLyogVXNlcnNwYWNlIGlzIG5vdCBhbGxvd2VkIHRvIGdldCBhaGVhZCBvZiB0aGUgcHJl
-dmlvdXMKIAkJICogY29tbWl0IHdpdGggbm9uYmxvY2tpbmcgb25lcy4gKi8KIAkJaWYgKG5vbmJs
-b2NrICYmIG9sZF9jb25uX3N0YXRlLT5jb21taXQgJiYKLQkJICAgICF0cnlfd2FpdF9mb3JfY29t
-cGxldGlvbigmb2xkX2Nvbm5fc3RhdGUtPmNvbW1pdC0+ZmxpcF9kb25lKSkKKwkJICAgICF0cnlf
-d2FpdF9mb3JfY29tcGxldGlvbigmb2xkX2Nvbm5fc3RhdGUtPmNvbW1pdC0+ZmxpcF9kb25lKSkg
-eworCQkJRFJNX0RFQlVHX0FUT01JQygiW0NPTk5FQ1RPUjolZDolc10gYnVzeSB3aXRoIGEgcHJl
-dmlvdXMgY29tbWl0XG4iLAorCQkJCWNvbm4tPmJhc2UuaWQsIGNvbm4tPm5hbWUpOworCiAJCQly
-ZXR1cm4gLUVCVVNZOworCQl9CiAKIAkJLyogQWx3YXlzIHRyYWNrIGNvbm5lY3RvcnMgZXhwbGlj
-aXRseSBmb3IgZS5nLiBsaW5rIHJldHJhaW5pbmcuICovCiAJCWNvbW1pdCA9IGNydGNfb3JfZmFr
-ZV9jb21taXQoc3RhdGUsIG5ld19jb25uX3N0YXRlLT5jcnRjID86IG9sZF9jb25uX3N0YXRlLT5j
-cnRjKTsKQEAgLTIxNDcsOCArMjE1NywxMiBAQCBpbnQgZHJtX2F0b21pY19oZWxwZXJfc2V0dXBf
-Y29tbWl0KHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKIAkJLyogVXNlcnNwYWNlIGlz
-IG5vdCBhbGxvd2VkIHRvIGdldCBhaGVhZCBvZiB0aGUgcHJldmlvdXMKIAkJICogY29tbWl0IHdp
-dGggbm9uYmxvY2tpbmcgb25lcy4gKi8KIAkJaWYgKG5vbmJsb2NrICYmIG9sZF9wbGFuZV9zdGF0
-ZS0+Y29tbWl0ICYmCi0JCSAgICAhdHJ5X3dhaXRfZm9yX2NvbXBsZXRpb24oJm9sZF9wbGFuZV9z
-dGF0ZS0+Y29tbWl0LT5mbGlwX2RvbmUpKQorCQkgICAgIXRyeV93YWl0X2Zvcl9jb21wbGV0aW9u
-KCZvbGRfcGxhbmVfc3RhdGUtPmNvbW1pdC0+ZmxpcF9kb25lKSkgeworCQkJRFJNX0RFQlVHX0FU
-T01JQygiW1BMQU5FOiVkOiVzXSBidXN5IHdpdGggYSBwcmV2aW91cyBjb21taXRcbiIsCisJCQkJ
-cGxhbmUtPmJhc2UuaWQsIHBsYW5lLT5uYW1lKTsKKwogCQkJcmV0dXJuIC1FQlVTWTsKKwkJfQog
-CiAJCS8qIEFsd2F5cyB0cmFjayBwbGFuZXMgZXhwbGljaXRseSBmb3IgYXN5bmMgcGFnZWZsaXAg
-c3VwcG9ydC4gKi8KIAkJY29tbWl0ID0gY3J0Y19vcl9mYWtlX2NvbW1pdChzdGF0ZSwgbmV3X3Bs
-YW5lX3N0YXRlLT5jcnRjID86IG9sZF9wbGFuZV9zdGF0ZS0+Y3J0Yyk7Ci0tIAoyLjI4LjAKCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Sep 22, 2020 at 3:36 PM Marius Vlad <marius.vlad@collabora.com> wrote:
+>
+> On Fri, Jan 31, 2020 at 07:34:00AM +0000, Daniel Stone wrote:
+> > On Thu, 5 Jul 2018 at 11:21, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
+> > > pull in arbitrary other resources, including CRTCs (e.g. when
+> > > reconfiguring global resources).
+> > >
+> > > But in nonblocking mode userspace has then no idea this happened,
+> > > which can lead to spurious EBUSY calls, both:
+> > > - when that other CRTC is currently busy doing a page_flip the
+> > >   ALLOW_MODESET commit can fail with an EBUSY
+> > > - on the other CRTC a normal atomic flip can fail with EBUSY because
+> > >   of the additional commit inserted by the kernel without userspace's
+> > >   knowledge
+> > >
+> > > For blocking commits this isn't a problem, because everyone else will
+> > > just block until all the CRTC are reconfigured. Only thing userspace
+> > > can notice is the dropped frames without any reason for why frames got
+> > > dropped.
+> > >
+> > > Consensus is that we need new uapi to handle this properly, but no one
+> > > has any idea what exactly the new uapi should look like. As a stop-gap
+> > > plug this problem by demoting nonblocking commits which might cause
+> > > issues by including CRTCs not in the original request to blocking
+> > > commits.
+> Gentle ping. I've tried out Linus's master tree and, and like Pekka,
+> I've noticed this isn't integrated/added.
+>
+> Noticed this is fixing (also) DPMS when multiple outputs are in use.
+> Wondering if we can just use a _ONCE() variant instead of WARN_ON(). I'm seeing
+> the warning quite often.
+
+On which driver/chip does this happen?
+-Daniel
+
+>
+> >
+> > Thanks for writing this up Daniel, and for reminding me about it some
+> > time later as well ...
+> >
+> > Reviewed-by: Daniel Stone <daniels@collabora.com>
+> >
+> > Cheers,
+> > Daniel
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
