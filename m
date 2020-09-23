@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F26E27517B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 08:28:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDAE275218
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 09:05:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4536E43D;
-	Wed, 23 Sep 2020 06:28:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF3A6E10B;
+	Wed, 23 Sep 2020 07:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5E586E43D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 06:28:06 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08N6Rub1108395;
- Wed, 23 Sep 2020 01:27:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1600842476;
- bh=J43iLKNMWm0OCcoOCQ2lfQNIz3v7B4TM6gJmz2s5NN8=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=xlbDUH03WEAizpY9xQ4JssbH3UlBBoVgmSXx2+12ohgr15LkjoUCUrxSV0wcqzw8V
- lT8x2Lf1q1d90HpVt3hyWa2XPBgd9ddKO/WEkY/SaYBq+FJp0pbD6nXR9jAxNpIzap
- dnYkb3YcPKNOy6SsOgTkAUBUrriZpQGt06Br2zII=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08N6RuFO119638
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 23 Sep 2020 01:27:56 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 23
- Sep 2020 01:27:56 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 23 Sep 2020 01:27:56 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08N6Rr7k076442;
- Wed, 23 Sep 2020 01:27:54 -0500
-Subject: Re: linux-next: build warning after merge of the drm tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
- DRI <dri-devel@lists.freedesktop.org>
-References: <20200923133601.293b4fe6@canb.auug.org.au>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <f4581178-77b1-758b-84e5-4810ed0f46d1@ti.com>
-Date: Wed, 23 Sep 2020 09:27:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDA5E6E10B
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 07:05:46 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id w1so18737580edr.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 00:05:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=k5J2Eht8iwERJLC/7nmn6+F8QQIm7Qe9FlpuPjuUNh0=;
+ b=IUP+GctGsxnWTAxoXSisdL3bxTaO/X6VchTniO6zByHcl+IugOcjctHGry3mNpZtV/
+ s2eKdPi3BPHFt4kHJTrOXgNXY1vnr2vS0jlvXjhP+9VZi/5D3QQkPYeBNeKmafTJbYCE
+ I6Ol9RQx+TEzIJD+IhllImdyZg6pAtLdgG/udt1RzlrWD5ZuBsTlHFTZe4spVvFuyYeB
+ jtbvk5OYum9C1Rse+3e8WKpU3Qe9W8sy4SpjWZe3CCMElFyxQxMBdoHTu8HkvE8YzOrp
+ 1jyEjxCx6GWc0dHHLI7iCLTBKchBTKbL5nNaWG3vlc7SBXGcaH8ZL1jSwn4yhvU1fTDE
+ 7snw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k5J2Eht8iwERJLC/7nmn6+F8QQIm7Qe9FlpuPjuUNh0=;
+ b=gYPakpCimVX01w//hPFGsKmmTVhyodlhmQog6u8rwTiTrILqZBMjZDYy5RFUTGd59J
+ f0AD0XaykWDyIQbimTyL3p54cgxwgZdZM6CYwTXeof/xWhiCWwApDbKUGLkP3+50dLqr
+ k4+ctMnByuc7OnZpYVToewn6ra2izQjP/sv0yllHdHA5BwMGNJvlXHLXp8BjV+zJSzkp
+ r2p/UfmqT27XptDGQVIo9IJt0PUestLYTY/+d80rC9LDvU6rJy/L+Z0Jud190x1Zm9U/
+ AdBzN/Ceaj9NlwfgzgAZhOyzWjBjKa4i5s2DptHK3OzV5IMAWWIGtyLdJ7W1vUQd0nO3
+ HB6g==
+X-Gm-Message-State: AOAM533wxcvT5vXm9kpq4z2Y+tPEuHEj3wbEbWv1Shv7xbtSdBNQR0+2
+ 9erXpCW9JyM6rqpE662CIObXZCfi4W0KEsZ5wUU=
+X-Google-Smtp-Source: ABdhPJyo7c1bRZQRQ6sB+ZAz5ef3egpcl4ZZjxNH5fj49RmNLHI7HY9A6iCt87WHujB5d9zRMwm0PHzz0MDVWvH+PrI=
+X-Received: by 2002:a50:d987:: with SMTP id w7mr8205256edj.113.1600844745570; 
+ Wed, 23 Sep 2020 00:05:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200923133601.293b4fe6@canb.auug.org.au>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <CAPM=9tzrrjzx=msAadV8Ru_7shvOWdCunQt733Gy_fdyYS=4Xg@mail.gmail.com>
+In-Reply-To: <CAPM=9tzrrjzx=msAadV8Ru_7shvOWdCunQt733Gy_fdyYS=4Xg@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 23 Sep 2020 17:05:34 +1000
+Message-ID: <CAPM=9tzf8+OhF0UXRRweCRwT8wXa4mdhTNT31rZwR1Rd9ZUzPQ@mail.gmail.com>
+Subject: Re: rfc/wip ttm get rid of binding branch
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,79 +61,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yuti Amonkar <yamonkar@cadence.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jyri Sarha <jsarha@ti.com>, Quentin Schulz <quentin.schulz@free-electrons.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Swapnil Jakhade <sjakhade@cadence.com>
+Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
+On Wed, 23 Sep 2020 at 16:27, Dave Airlie <airlied@gmail.com> wrote:
+>
+> Spent today trying to straighten out some of the ideas I had for
+> dropping bind/unbind paths into drivers.
+>
+> https://github.com/airlied/linux/commits/ttm-no-more-bind
+>
+> I think it mostly trends to the right place, the bind/unbind paths all
+> end up in drivers, you get a move/invalidate_notify or move_notify in
+> drivers (only drm_gem_vram, still uses move_notify).
+>
+> I've only booted nouveau with this so far, just looking to see if it's
+> a good idea or maybe I've gone too far :-P
 
-On 23/09/2020 06:36, Stephen Rothwell wrote:
-> Hi all,
-> 
-> After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
-> produced this warning:
-> 
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c: In function 'cdns_mhdp_fw_activate':
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:751:10: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '18446744073709551613' to '4294967293' [-Woverflow]
->   751 |   writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c: In function 'cdns_mhdp_attach':
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:1692:10: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '18446744073709551613' to '4294967293' [-Woverflow]
->  1692 |   writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c: In function 'cdns_mhdp_bridge_hpd_enable':
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2125:10: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '18446744073709551613' to '4294967293' [-Woverflow]
->  2125 |   writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-> 
-> Introduced by commit
-> 
->   fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546 DPI/DP bridge")
-> 
+I've thrown some more patches on the end to refactor out the common
+code from the accel move paths.
 
-Thanks. I think we can just do:
+Dave.
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 621ebdbff8a3..d0c65610ebb5 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -748,7 +748,7 @@ static int cdns_mhdp_fw_activate(const struct firmware *fw,
- 	 * bridge should already be detached.
- 	 */
- 	if (mhdp->bridge_attached)
--		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-+		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
- 		       mhdp->regs + CDNS_APB_INT_MASK);
- 
- 	spin_unlock(&mhdp->start_lock);
-@@ -1689,7 +1689,7 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
- 
- 	/* Enable SW event interrupts */
- 	if (hw_ready)
--		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-+		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
- 		       mhdp->regs + CDNS_APB_INT_MASK);
- 
- 	return 0;
-@@ -2122,7 +2122,7 @@ static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
- 
- 	/* Enable SW event interrupts */
- 	if (mhdp->bridge_attached)
--		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-+		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
- 		       mhdp->regs + CDNS_APB_INT_MASK);
- }
-
-I'll send a patch.
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>
+> Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
