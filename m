@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64775274F5A
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 05:05:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D94F5274F5C
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 05:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3021888F04;
-	Wed, 23 Sep 2020 03:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 837CE6E405;
+	Wed, 23 Sep 2020 03:05:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D04F88F04
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 03:05:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 685DF6E405
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 03:05:06 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-mBkJkj_PNdSer57po4S62w-1; Tue, 22 Sep 2020 23:04:59 -0400
-X-MC-Unique: mBkJkj_PNdSer57po4S62w-1
+ us-mta-413-2qP6KD8yMF2UsZBpdkFS8g-1; Tue, 22 Sep 2020 23:05:00 -0400
+X-MC-Unique: 2qP6KD8yMF2UsZBpdkFS8g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FAC1393B1;
- Wed, 23 Sep 2020 03:04:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD46F10082E7;
+ Wed, 23 Sep 2020 03:04:59 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-60.bne.redhat.com
  [10.64.54.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59A985D9CC;
- Wed, 23 Sep 2020 03:04:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B74195D9CC;
+ Wed, 23 Sep 2020 03:04:58 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 00/10] ttm driver cleanups and invert move
-Date: Wed, 23 Sep 2020 13:04:44 +1000
-Message-Id: <20200923030454.362731-1-airlied@gmail.com>
+Subject: [PATCH 01/10] drm/radeon: kill radeon_bo_wait
+Date: Wed, 23 Sep 2020 13:04:45 +1000
+Message-Id: <20200923030454.362731-2-airlied@gmail.com>
+In-Reply-To: <20200923030454.362731-1-airlied@gmail.com>
+References: <20200923030454.362731-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,16 +56,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The first 5 patches are just cleanups to remove unused functions
-and handle ttm operation ctx nicer in driver move paths.
+From: Dave Airlie <airlied@redhat.com>
 
-The last 5 patches have the goal to invert the operation of the
-move driver callback. Currently the core does some tt related moves
-itself and pass the drivers the rest. I'd like to have the driver
-decide things instead, so only use the fallback paths when a driver
-has no move callback.
+this is unused
 
-Dave.
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/radeon/radeon_object.c | 15 ---------------
+ drivers/gpu/drm/radeon/radeon_object.h |  3 ---
+ 2 files changed, 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index 0de267ab3913..689426dd8480 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -825,21 +825,6 @@ int radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
+ 	return 0;
+ }
+ 
+-int radeon_bo_wait(struct radeon_bo *bo, u32 *mem_type, bool no_wait)
+-{
+-	int r;
+-
+-	r = ttm_bo_reserve(&bo->tbo, true, no_wait, NULL);
+-	if (unlikely(r != 0))
+-		return r;
+-	if (mem_type)
+-		*mem_type = bo->tbo.mem.mem_type;
+-
+-	r = ttm_bo_wait(&bo->tbo, true, no_wait);
+-	ttm_bo_unreserve(&bo->tbo);
+-	return r;
+-}
+-
+ /**
+  * radeon_bo_fence - add fence to buffer object
+  *
+diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
+index e097a915277d..27cfb64057fe 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.h
++++ b/drivers/gpu/drm/radeon/radeon_object.h
+@@ -133,9 +133,6 @@ static inline u64 radeon_bo_mmap_offset(struct radeon_bo *bo)
+ 	return drm_vma_node_offset_addr(&bo->tbo.base.vma_node);
+ }
+ 
+-extern int radeon_bo_wait(struct radeon_bo *bo, u32 *mem_type,
+-			  bool no_wait);
+-
+ extern int radeon_bo_create(struct radeon_device *rdev,
+ 			    unsigned long size, int byte_align,
+ 			    bool kernel, u32 domain, u32 flags,
+-- 
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
