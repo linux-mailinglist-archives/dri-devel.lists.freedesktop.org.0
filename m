@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3E9275637
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F812275631
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 536C16E978;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5176E96D;
 	Wed, 23 Sep 2020 10:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5684A6E96C;
- Wed, 23 Sep 2020 10:22:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 392076E97C;
+ Wed, 23 Sep 2020 10:22:22 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1D620B27A;
- Wed, 23 Sep 2020 10:22:57 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 03337B28E;
+ Wed, 23 Sep 2020 10:22:58 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  daniel@ffwll.ch, linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
@@ -40,9 +40,9 @@ To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
  emil.velikov@collabora.com, laurentiu.palcu@oss.nxp.com,
  shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
  festevam@gmail.com, linux-imx@nxp.com
-Subject: [PATCH v3 19/22] drm/vkms: Introduce GEM object functions
-Date: Wed, 23 Sep 2020 12:21:56 +0200
-Message-Id: <20200923102159.24084-20-tzimmermann@suse.de>
+Subject: [PATCH v3 20/22] drm/xen: Introduce GEM object functions
+Date: Wed, 23 Sep 2020 12:21:57 +0200
+Message-Id: <20200923102159.24084-21-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200923102159.24084-1-tzimmermann@suse.de>
 References: <20200923102159.24084-1-tzimmermann@suse.de>
@@ -61,12 +61,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
- linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, nouveau@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -74,72 +73,140 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 GEM object functions deprecate several similar callback interfaces in
 struct drm_driver. This patch replaces the per-driver callbacks with
-per-instance callbacks in vkms.
+per-instance callbacks in xen. The only exception is gem_prime_mmap,
+which is non-trivial to convert.
+
+v2:
+	* convert xen_drm_drv_free_object_unlocked() to static
+	  callback (Oleksandr)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
+Acked-by: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c |  8 --------
- drivers/gpu/drm/vkms/vkms_gem.c | 13 +++++++++++++
- 2 files changed, 13 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/xen/xen_drm_front.c     | 44 ++++++++++---------------
+ drivers/gpu/drm/xen/xen_drm_front.h     |  2 ++
+ drivers/gpu/drm/xen/xen_drm_front_gem.c | 15 +++++++++
+ 3 files changed, 34 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index cb0b6230c22c..726801ab44d4 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -51,12 +51,6 @@ static const struct file_operations vkms_driver_fops = {
- 	.release	= drm_release,
+diff --git a/drivers/gpu/drm/xen/xen_drm_front.c b/drivers/gpu/drm/xen/xen_drm_front.c
+index cc93a8c9547b..98b6d2ba088a 100644
+--- a/drivers/gpu/drm/xen/xen_drm_front.c
++++ b/drivers/gpu/drm/xen/xen_drm_front.c
+@@ -381,6 +381,23 @@ void xen_drm_front_on_frame_done(struct xen_drm_front_info *front_info,
+ 					fb_cookie);
+ }
+ 
++void xen_drm_front_gem_object_free(struct drm_gem_object *obj)
++{
++	struct xen_drm_front_drm_info *drm_info = obj->dev->dev_private;
++	int idx;
++
++	if (drm_dev_enter(obj->dev, &idx)) {
++		xen_drm_front_dbuf_destroy(drm_info->front_info,
++					   xen_drm_front_dbuf_to_cookie(obj));
++		drm_dev_exit(idx);
++	} else {
++		dbuf_free(&drm_info->front_info->dbuf_list,
++			  xen_drm_front_dbuf_to_cookie(obj));
++	}
++
++	xen_drm_front_gem_free_object_unlocked(obj);
++}
++
+ static int xen_drm_drv_dumb_create(struct drm_file *filp,
+ 				   struct drm_device *dev,
+ 				   struct drm_mode_create_dumb *args)
+@@ -435,23 +452,6 @@ static int xen_drm_drv_dumb_create(struct drm_file *filp,
+ 	return ret;
+ }
+ 
+-static void xen_drm_drv_free_object_unlocked(struct drm_gem_object *obj)
+-{
+-	struct xen_drm_front_drm_info *drm_info = obj->dev->dev_private;
+-	int idx;
+-
+-	if (drm_dev_enter(obj->dev, &idx)) {
+-		xen_drm_front_dbuf_destroy(drm_info->front_info,
+-					   xen_drm_front_dbuf_to_cookie(obj));
+-		drm_dev_exit(idx);
+-	} else {
+-		dbuf_free(&drm_info->front_info->dbuf_list,
+-			  xen_drm_front_dbuf_to_cookie(obj));
+-	}
+-
+-	xen_drm_front_gem_free_object_unlocked(obj);
+-}
+-
+ static void xen_drm_drv_release(struct drm_device *dev)
+ {
+ 	struct xen_drm_front_drm_info *drm_info = dev->dev_private;
+@@ -483,22 +483,12 @@ static const struct file_operations xen_drm_dev_fops = {
+ 	.mmap           = xen_drm_front_gem_mmap,
  };
  
--static const struct vm_operations_struct vkms_gem_vm_ops = {
--	.fault = vkms_gem_fault,
--	.open = drm_gem_vm_open,
--	.close = drm_gem_vm_close,
+-static const struct vm_operations_struct xen_drm_drv_vm_ops = {
+-	.open           = drm_gem_vm_open,
+-	.close          = drm_gem_vm_close,
 -};
 -
- static void vkms_release(struct drm_device *dev)
- {
- 	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
-@@ -98,8 +92,6 @@ static struct drm_driver vkms_driver = {
- 	.release		= vkms_release,
- 	.fops			= &vkms_driver_fops,
- 	.dumb_create		= vkms_dumb_create,
--	.gem_vm_ops		= &vkms_gem_vm_ops,
--	.gem_free_object_unlocked = vkms_gem_free_object,
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
- 	.gem_prime_import_sg_table = vkms_prime_import_sg_table,
+ static struct drm_driver xen_drm_driver = {
+ 	.driver_features           = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+ 	.release                   = xen_drm_drv_release,
+-	.gem_vm_ops                = &xen_drm_drv_vm_ops,
+-	.gem_free_object_unlocked  = xen_drm_drv_free_object_unlocked,
+ 	.prime_handle_to_fd        = drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle        = drm_gem_prime_fd_to_handle,
+ 	.gem_prime_import_sg_table = xen_drm_front_gem_import_sg_table,
+-	.gem_prime_get_sg_table    = xen_drm_front_gem_get_sg_table,
+-	.gem_prime_vmap            = xen_drm_front_gem_prime_vmap,
+-	.gem_prime_vunmap          = xen_drm_front_gem_prime_vunmap,
+ 	.gem_prime_mmap            = xen_drm_front_gem_prime_mmap,
+ 	.dumb_create               = xen_drm_drv_dumb_create,
+ 	.fops                      = &xen_drm_dev_fops,
+diff --git a/drivers/gpu/drm/xen/xen_drm_front.h b/drivers/gpu/drm/xen/xen_drm_front.h
+index 54486d89650e..cefafe859aba 100644
+--- a/drivers/gpu/drm/xen/xen_drm_front.h
++++ b/drivers/gpu/drm/xen/xen_drm_front.h
+@@ -160,4 +160,6 @@ int xen_drm_front_page_flip(struct xen_drm_front_info *front_info,
+ void xen_drm_front_on_frame_done(struct xen_drm_front_info *front_info,
+ 				 int conn_idx, u64 fb_cookie);
  
-diff --git a/drivers/gpu/drm/vkms/vkms_gem.c b/drivers/gpu/drm/vkms/vkms_gem.c
-index a017fc59905e..19a0e260a4df 100644
---- a/drivers/gpu/drm/vkms/vkms_gem.c
-+++ b/drivers/gpu/drm/vkms/vkms_gem.c
-@@ -7,6 +7,17 @@
++void xen_drm_front_gem_object_free(struct drm_gem_object *obj);
++
+ #endif /* __XEN_DRM_FRONT_H_ */
+diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/xen/xen_drm_front_gem.c
+index 2f464ef2d53e..4f34ef34ba60 100644
+--- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
++++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
+@@ -57,6 +57,19 @@ static void gem_free_pages_array(struct xen_gem_object *xen_obj)
+ 	xen_obj->pages = NULL;
+ }
  
- #include "vkms_drv.h"
- 
-+static const struct vm_operations_struct vkms_gem_vm_ops = {
-+	.fault = vkms_gem_fault,
-+	.open = drm_gem_vm_open,
-+	.close = drm_gem_vm_close,
++static const struct vm_operations_struct xen_drm_drv_vm_ops = {
++	.open           = drm_gem_vm_open,
++	.close          = drm_gem_vm_close,
 +};
 +
-+static const struct drm_gem_object_funcs vkms_gem_object_funcs = {
-+	.free = vkms_gem_free_object,
-+	.vm_ops = &vkms_gem_vm_ops,
++static const struct drm_gem_object_funcs xen_drm_front_gem_object_funcs = {
++	.free = xen_drm_front_gem_object_free,
++	.get_sg_table = xen_drm_front_gem_get_sg_table,
++	.vmap = xen_drm_front_gem_prime_vmap,
++	.vunmap = xen_drm_front_gem_prime_vunmap,
++	.vm_ops = &xen_drm_drv_vm_ops,
 +};
 +
- static struct vkms_gem_object *__vkms_gem_create(struct drm_device *dev,
- 						 u64 size)
+ static struct xen_gem_object *gem_create_obj(struct drm_device *dev,
+ 					     size_t size)
  {
-@@ -17,6 +28,8 @@ static struct vkms_gem_object *__vkms_gem_create(struct drm_device *dev,
- 	if (!obj)
+@@ -67,6 +80,8 @@ static struct xen_gem_object *gem_create_obj(struct drm_device *dev,
+ 	if (!xen_obj)
  		return ERR_PTR(-ENOMEM);
  
-+	obj->gem.funcs = &vkms_gem_object_funcs;
++	xen_obj->base.funcs = &xen_drm_front_gem_object_funcs;
 +
- 	size = roundup(size, PAGE_SIZE);
- 	ret = drm_gem_object_init(dev, &obj->gem, size);
- 	if (ret) {
+ 	ret = drm_gem_object_init(dev, &xen_obj->base, size);
+ 	if (ret < 0) {
+ 		kfree(xen_obj);
 -- 
 2.28.0
 
