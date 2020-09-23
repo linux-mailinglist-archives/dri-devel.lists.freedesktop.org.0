@@ -2,54 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7970E274F55
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 05:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64775274F5A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 05:05:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8BC6E107;
-	Wed, 23 Sep 2020 03:01:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3021888F04;
+	Wed, 23 Sep 2020 03:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D8EF6E107;
- Wed, 23 Sep 2020 03:01:27 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id e23so25689167eja.3;
- Tue, 22 Sep 2020 20:01:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gOojx+HNvqSVgIted5OL+X0FuEsZeCka+hK+XKnYZ/k=;
- b=Wf7haWMqJ+qOOyqyH+rWrwgvPuBAp178N7qXP/Wk8yALc8At/YQZ0GRs5whjxlFwSG
- w7dDpSdveGnw+3vEY+vbpggfkhOkbq6tG6uvwoz9dtblN9dg7X2tTGXhSvlfqdaeJ/BO
- sCtQJuta/Xs3GF7LTR9RUCE1Ln1oYD0cnDD+lEjwB+U7inQMcHB/9OBHVwf3ZiWFTXLk
- crsJ/1KVwfSW1DZS3N/mFTwhrvR5nJSmMvOG7IXhHgSBN25B6tFcp3imj1TtepRAgE7A
- qzAGDspPhkIBkHw7ilItS1t3mqNAqu7W5bfb3vLOz9bjU36NkZzQc/Nvgmveff+CAy4z
- voqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gOojx+HNvqSVgIted5OL+X0FuEsZeCka+hK+XKnYZ/k=;
- b=YHmaPHYSfw019q/01B0f/hkqLa/eyS1US3pmlhcBG0/JwABkoxuW3ZkBCSAh1W4O28
- 9CUTPtu1eziKCyJJo8u5CziT7AHiKs6dvrhSWY47RiFuTQRPFwW+wATUhvqTA3mjbwhp
- LlUs1AsT/tIJ2WiP10TGmg8JkTU95FkFQqPoqW3+iBFREwQROG+BMnOyLefW1oGrpgX5
- W//+oxe6jvKQsg9kLXlJ6PATRlmSMM4rd0kXTjPlcdq+y9Ki+UjW5ZgMjzDph6/iWlCT
- PbumEm2Gn+ieC5GmbEBXCQGRYVPmdTEH1NdB2tBCltq8yv68KAi3Cbhgjn4VDsMiwprB
- Qq8g==
-X-Gm-Message-State: AOAM533TBG4g9bQCmDi5A7/PcAM8jWZ/2X7s6ZuR9YYSFzxlKGd/WbRW
- 1wNa8hBFPdBQkeVlTI3vFju1zVVBhpM1MTXIl8wlX8ud
-X-Google-Smtp-Source: ABdhPJzW0X+uvrpBbSgw1hTq0+vyynyVZTXPlBxrK8/DcsH9Xj4RSYVZsQjedN88BtY+/PhivfWzBPB+3pLeczEA30E=
-X-Received: by 2002:a17:906:f92:: with SMTP id
- q18mr7903128ejj.237.1600830085894; 
- Tue, 22 Sep 2020 20:01:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200922133208.1273-1-christian.koenig@amd.com>
-In-Reply-To: <20200922133208.1273-1-christian.koenig@amd.com>
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D04F88F04
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 03:05:05 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-mBkJkj_PNdSer57po4S62w-1; Tue, 22 Sep 2020 23:04:59 -0400
+X-MC-Unique: mBkJkj_PNdSer57po4S62w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FAC1393B1;
+ Wed, 23 Sep 2020 03:04:58 +0000 (UTC)
+Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-60.bne.redhat.com
+ [10.64.54.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59A985D9CC;
+ Wed, 23 Sep 2020 03:04:57 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 23 Sep 2020 13:01:14 +1000
-Message-ID: <CAPM=9tzhALOXZeuzGaaNS=ThrZNXLSZuaKYnp7XK7SyzX+8-yw@mail.gmail.com>
-Subject: Re: [PATCH 01/11] drm/ttm: add ttm_bo_pin()/ttm_bo_unpin() v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/10] ttm driver cleanups and invert move
+Date: Wed, 23 Sep 2020 13:04:44 +1000
+Message-Id: <20200923030454.362731-1-airlied@gmail.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,20 +50,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Roland Scheidegger <sroland@vmware.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
- Linux-graphics-maintainer <linux-graphics-maintainer@vmware.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: christian.koenig@amd.com, bskeggs@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMiBTZXAgMjAyMCBhdCAyMzozMiwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
-ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQXMgYW4gYWx0ZXJuYXRpdmUgdG8g
-dGhlIHBsYWNlbWVudCBmbGFnIGFkZCBhCj4gcGluIGNvdW50IHRvIHRoZSB0dG0gYnVmZmVyIG9i
-amVjdC4KClRoZXNlIGFsbCBsb29rIGdvb2QgdG8gbWUsIG5pY2UgY2xlYW51cC4KCkZvciB0aGUg
-c2VyaWVzOgpSZXZpZXdlZC1ieTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The first 5 patches are just cleanups to remove unused functions
+and handle ttm operation ctx nicer in driver move paths.
+
+The last 5 patches have the goal to invert the operation of the
+move driver callback. Currently the core does some tt related moves
+itself and pass the drivers the rest. I'd like to have the driver
+decide things instead, so only use the fallback paths when a driver
+has no move callback.
+
+Dave.
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
