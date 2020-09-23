@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064F5274F62
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 05:06:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40041274F5E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 05:05:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 918C86E416;
-	Wed, 23 Sep 2020 03:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDF506E40A;
+	Wed, 23 Sep 2020 03:05:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 428B76E40F
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 03:05:11 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1D96E416
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 03:05:13 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-LYYs5QXTNeq7N0Vp5Vt-Mg-1; Tue, 22 Sep 2020 23:05:08 -0400
-X-MC-Unique: LYYs5QXTNeq7N0Vp5Vt-Mg-1
+ us-mta-329-bCPxAoHyNZSd3xv8UGaH5w-1; Tue, 22 Sep 2020 23:05:10 -0400
+X-MC-Unique: bCPxAoHyNZSd3xv8UGaH5w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92E8A85C708;
- Wed, 23 Sep 2020 03:05:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2B4480BCA4;
+ Wed, 23 Sep 2020 03:05:08 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-60.bne.redhat.com
  [10.64.54.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AED45D9CC;
- Wed, 23 Sep 2020 03:05:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EAA485D9CC;
+ Wed, 23 Sep 2020 03:05:07 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 05/10] drm/ttm: add bo wait that takes a ctx wrapper.
-Date: Wed, 23 Sep 2020 13:04:49 +1000
-Message-Id: <20200923030454.362731-6-airlied@gmail.com>
+Subject: [PATCH 06/10] drm/ttm: handle the SYSTEM->TT path in same place as
+ others.
+Date: Wed, 23 Sep 2020 13:04:50 +1000
+Message-Id: <20200923030454.362731-7-airlied@gmail.com>
 In-Reply-To: <20200923030454.362731-1-airlied@gmail.com>
 References: <20200923030454.362731-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -60,103 +61,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-I'm thinking of pushing the wait into the drivers.
+This just consolidates the code making the flow easier to understand
+and also helps when moving move to the driver side.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ++--
- drivers/gpu/drm/qxl/qxl_ttm.c        | 2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c  | 2 +-
- drivers/gpu/drm/ttm/ttm_bo_util.c    | 4 ++--
- include/drm/ttm/ttm_bo_api.h         | 5 +++++
- 5 files changed, 11 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 8a90b07f17a4..8d51cfca07c8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1038,7 +1038,7 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct nouveau_drm_tile *new_tile = NULL;
- 	int ret = 0;
- 
--	ret = ttm_bo_wait(bo, ctx->interruptible, ctx->no_wait_gpu);
-+	ret = ttm_bo_wait_ctx(bo, ctx);
- 	if (ret)
- 		return ret;
- 
-@@ -1073,7 +1073,7 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 5737b3fae1b3..993a87443c37 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -265,20 +265,18 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+ 			if (ret)
+ 				goto out_err;
+ 		}
+-
+-		if (bo->mem.mem_type == TTM_PL_SYSTEM) {
+-			if (bdev->driver->move_notify)
+-				bdev->driver->move_notify(bo, evict, mem);
+-			bo->mem = *mem;
+-			goto moved;
+-		}
  	}
  
- 	/* Fallback to software copy. */
--	ret = ttm_bo_wait(bo, ctx->interruptible, ctx->no_wait_gpu);
-+	ret = ttm_bo_wait_ctx(bo, ctx);
- 	if (ret == 0)
- 		ret = ttm_bo_move_memcpy(bo, ctx, new_reg);
+ 	if (bdev->driver->move_notify)
+ 		bdev->driver->move_notify(bo, evict, mem);
  
-diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index 01fe0c3a3d9a..2c35ca4270c6 100644
---- a/drivers/gpu/drm/qxl/qxl_ttm.c
-+++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -160,7 +160,7 @@ static int qxl_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource *old_mem = &bo->mem;
- 	int ret;
+-	if (old_man->use_tt && new_man->use_tt)
+-		ret = ttm_bo_move_ttm(bo, ctx, mem);
++	if (old_man->use_tt && new_man->use_tt) {
++		if (bo->mem.mem_type == TTM_PL_SYSTEM) {
++			ttm_bo_assign_mem(bo, mem);
++			ret = 0;
++		} else
++			ret = ttm_bo_move_ttm(bo, ctx, mem);
++	}
+ 	else if (bdev->driver->move)
+ 		ret = bdev->driver->move(bo, evict, ctx, mem);
+ 	else
+@@ -294,7 +292,6 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+ 		goto out_err;
+ 	}
  
--	ret = ttm_bo_wait(bo, ctx->interruptible, ctx->no_wait_gpu);
-+	ret = ttm_bo_wait_ctx(bo, ctx);
- 	if (ret)
- 		return ret;
+-moved:
+ 	ctx->bytes_moved += bo->num_pages << PAGE_SHIFT;
+ 	return 0;
  
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 9ff8c81d7784..ea9ffa6198da 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -302,7 +302,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource *old_mem = &bo->mem;
- 	int r;
- 
--	r = ttm_bo_wait(bo, ctx->interruptible, ctx->no_wait_gpu);
-+	r = ttm_bo_wait_ctx(bo, ctx);
- 	if (r)
- 		return r;
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 1968df9743fc..bdee4df1f3f2 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -59,7 +59,7 @@ int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
- 	int ret;
- 
- 	if (old_mem->mem_type != TTM_PL_SYSTEM) {
--		ret = ttm_bo_wait(bo, ctx->interruptible, ctx->no_wait_gpu);
-+		ret = ttm_bo_wait_ctx(bo, ctx);
- 
- 		if (unlikely(ret != 0)) {
- 			if (ret != -ERESTARTSYS)
-@@ -231,7 +231,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- 	unsigned long add = 0;
- 	int dir;
- 
--	ret = ttm_bo_wait(bo, ctx->interruptible, ctx->no_wait_gpu);
-+	ret = ttm_bo_wait_ctx(bo, ctx);
- 	if (ret)
- 		return ret;
- 
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index 6cbe59bc97ab..b840756dbcca 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -262,6 +262,11 @@ ttm_bo_get_unless_zero(struct ttm_buffer_object *bo)
-  */
- int ttm_bo_wait(struct ttm_buffer_object *bo, bool interruptible, bool no_wait);
- 
-+static inline int ttm_bo_wait_ctx(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx)
-+{
-+	return ttm_bo_wait(bo, ctx->interruptible, ctx->no_wait_gpu);
-+}
-+
- /**
-  * ttm_bo_mem_compat - Check if proposed placement is compatible with a bo
-  *
 -- 
 2.27.0
 
