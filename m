@@ -1,54 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C2B2756BD
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 12:58:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3592756D3
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Sep 2020 13:05:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E53196E959;
-	Wed, 23 Sep 2020 10:58:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA6CB6E952;
+	Wed, 23 Sep 2020 11:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C486E959
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 10:58:41 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id a3so24597656oib.4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 03:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wDiVGOW2BwVoj+byF8GmVc4hZoZxCN4FNEDgvLDpQ1k=;
- b=Qdl9ZA+ZTkR35bC8SLkZu9gmZz0yIkZzf7fKlMtexw60Ein4nPVkpSZdq9H4b/uQNE
- ym/7FKqm2OjdqPm5ssrHThHs7fQORtaSTkbYAoMJcXd6zsMkSRPtq+uCBJ7yDajwu2T7
- 3POcxNH9Erym7dLnHVvozChqgrTpMfAQqddds=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wDiVGOW2BwVoj+byF8GmVc4hZoZxCN4FNEDgvLDpQ1k=;
- b=Ki0+Axga+NwIbjkUyT/6kfz47oSz41bbyJYQg17rY1wSiBqAW4texk/Gv93Zd1MhsX
- igj0wl0qk4va7ck8PvmpudUeUKyD06OD3zRENpMwU+MUBxIudR39qOn3Da0rNuBmrz/V
- vZf9WmGiYggdtQUW/9DRT3l0uRQc2oiVmispSPIIFFdD8tC8qtrqCb2qQLsoxWeWgSnL
- RLbDdYbCJLSAd3+UWsiCiY7UK4KJqXJSCHQ+KotQaCGGl/nmIxFVI8ZnJoo14MUEjzoj
- 9POyBkB2Iobj/pmJ7+vTEmIqSAF4U6O2ZzdgV0CBDi4T+HDxpfkDCIJ6tqifjZp9rJYn
- DQ5w==
-X-Gm-Message-State: AOAM531sW6RRckQV10EBJheHRCcfY2ZmX66ij8T/VH+lbZ1+0eDOjZkr
- VBagancZc8tTYx/4D5qLiK1TENfCfCyCo83zelkXYg==
-X-Google-Smtp-Source: ABdhPJxfxLPKhyX0sj8rLdjW3NuP47epv2iLZ1JCv3JNotaYE+HIg78XpuC6HN1WlipJCa2mmIVWRxwkFtnAzZPhCt0=
-X-Received: by 2002:aca:49c2:: with SMTP id w185mr4818246oia.101.1600858720790; 
- Wed, 23 Sep 2020 03:58:40 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 411AB6E952
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 11:05:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8526AD6E;
+ Wed, 23 Sep 2020 04:05:36 -0700 (PDT)
+Received: from [10.57.48.76] (unknown [10.57.48.76])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2B57D3F718;
+ Wed, 23 Sep 2020 04:05:35 -0700 (PDT)
+Subject: Re: [PATCH] drm/rockchip: skip probed failed device
+To: Jian-Hong Pan <jhp@endlessos.org>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
+ <heiko@sntech.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <CAPpJ_efHX70Ej0uzRi-iRf7N0n6ZO5sMN-wK_YpszvVD-Un9RQ@mail.gmail.com>
+ <20200923065900.658666-1-jhp@endlessos.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <439c4b59-b1e6-88bb-568e-1c2a0feceed4@arm.com>
+Date: Wed, 23 Sep 2020 12:05:26 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-References: <20180705101043.4883-1-daniel.vetter@ffwll.ch>
- <20180705102121.5091-1-daniel.vetter@ffwll.ch>
- <CAPj87rN48S8+pLd0ksOX4pdCTqtO=bDgjhkPxpWr_AnpVvgaSQ@mail.gmail.com>
- <20200922133636.GA2369@xpredator>
-In-Reply-To: <20200922133636.GA2369@xpredator>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 23 Sep 2020 12:58:30 +0200
-Message-ID: <CAKMK7uHr3dKu8o4e3hoSe3S5MfVtZ92nLk1VGZTqSuDsH6kphg@mail.gmail.com>
-Subject: Re: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic
- modesets
-To: Marius Vlad <marius.vlad@collabora.com>
+In-Reply-To: <20200923065900.658666-1-jhp@endlessos.org>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +44,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- stable <stable@vger.kernel.org>, Daniel Vetter <daniel.vetter@intel.com>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux@endlessm.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 22, 2020 at 3:36 PM Marius Vlad <marius.vlad@collabora.com> wrote:
->
-> On Fri, Jan 31, 2020 at 07:34:00AM +0000, Daniel Stone wrote:
-> > On Thu, 5 Jul 2018 at 11:21, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
-> > > pull in arbitrary other resources, including CRTCs (e.g. when
-> > > reconfiguring global resources).
-> > >
-> > > But in nonblocking mode userspace has then no idea this happened,
-> > > which can lead to spurious EBUSY calls, both:
-> > > - when that other CRTC is currently busy doing a page_flip the
-> > >   ALLOW_MODESET commit can fail with an EBUSY
-> > > - on the other CRTC a normal atomic flip can fail with EBUSY because
-> > >   of the additional commit inserted by the kernel without userspace's
-> > >   knowledge
-> > >
-> > > For blocking commits this isn't a problem, because everyone else will
-> > > just block until all the CRTC are reconfigured. Only thing userspace
-> > > can notice is the dropped frames without any reason for why frames got
-> > > dropped.
-> > >
-> > > Consensus is that we need new uapi to handle this properly, but no one
-> > > has any idea what exactly the new uapi should look like. As a stop-gap
-> > > plug this problem by demoting nonblocking commits which might cause
-> > > issues by including CRTCs not in the original request to blocking
-> > > commits.
-> Gentle ping. I've tried out Linus's master tree and, and like Pekka,
-> I've noticed this isn't integrated/added.
->
-> Noticed this is fixing (also) DPMS when multiple outputs are in use.
-> Wondering if we can just use a _ONCE() variant instead of WARN_ON(). I'm seeing
-> the warning quite often.
+On 2020-09-23 07:59, Jian-Hong Pan wrote:
+> The cdn-dp sub driver probes the device failed on PINEBOOK Pro.
+> 
+> kernel: cdn-dp fec00000.dp: [drm:cdn_dp_probe [rockchipdrm]] *ERROR* missing extcon or phy
+> kernel: cdn-dp: probe of fec00000.dp failed with error -22
 
-On which driver/chip does this happen?
--Daniel
+Wouldn't it make more sense to simply not enable the DisplayPort node in 
+the upstream DT, until the type-C phy work has been done to make it 
+usable at all? AIUI the "official" Manjaro kernel is carrying a bunch of 
+hacks to make type-C work via extcon, but they know that isn't an 
+upstreamable solution.
 
->
-> >
-> > Thanks for writing this up Daniel, and for reminding me about it some
-> > time later as well ...
-> >
-> > Reviewed-by: Daniel Stone <daniels@collabora.com>
-> >
-> > Cheers,
-> > Daniel
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Robin.
 
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Then, the device halts all of the DRM related device jobs. For example,
+> the operations: vop_component_ops, vop_component_ops and
+> rockchip_dp_component_ops cannot be bound to corresponding devices. So,
+> Xorg cannot find the correct DRM device.
+> 
+> This patch skips the probing failed devices to fix this issue.
+> 
+> Link: http://lists.infradead.org/pipermail/linux-rockchip/2020-September/022352.html
+> Signed-off-by: Jian-Hong Pan <jhp@endlessos.org>
+> ---
+>   drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> index 0f3eb392fe39..de13588602b4 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> @@ -331,6 +331,12 @@ static struct component_match *rockchip_drm_match_add(struct device *dev)
+>   
+>   			if (!d)
+>   				break;
+> +			if (!d->driver) {
+> +				DRM_DEV_ERROR(d,
+> +					      "%s did not probe successfully",
+> +					      drv->driver.name);
+> +				continue;
+> +			}
+>   
+>   			device_link_add(dev, d, DL_FLAG_STATELESS);
+>   			component_match_add(dev, &match, compare_dev, d);
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
