@@ -1,70 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE97D276A85
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:19:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D44B9276A8F
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:19:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88C0E6EAAD;
-	Thu, 24 Sep 2020 07:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5788989916;
+	Thu, 24 Sep 2020 07:19:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52E196E117
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 08:40:37 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id BEAE55C01D7;
- Wed, 23 Sep 2020 04:40:36 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 23 Sep 2020 04:40:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=Jw+oCdGGxeJ5s
- jQ2hz/P19McQuRJdY/BzYPNDIviwNo=; b=JPwMIwIhxAzo9tFBrQs53iSjzbD78
- mgztXjXklum8rJzhR8sCD0wJ7BIgchr09OZ6FK/Qyj1E2f8+013kvow6hntjC5kd
- qUj+cqVH1VQgwKrm5N9Y6nHCPitzIqAGGu48x7EKz+EhnN+1C+1jqLyR8uO3KpFy
- wCBXkC6xVvux8U2Rq1XunW1l1KOHzrz49lWjNnEhIvtQmLQnhzkMO4HyicsPxCVq
- D6f9VC/ECCODoy/IfoUSPIT3Ttv+hX422ddM/fRsfE2ozo6kJYmL65D/j5slQk7d
- vkWrcx7EAI7Qu+zk5+5pqXLarzTy00C7rBDsO0/T2VMywy5Z8pjFBWVfg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=Jw+oCdGGxeJ5sjQ2hz/P19McQuRJdY/BzYPNDIviwNo=; b=LXcpv4dv
- 2mBlvaqtlq3SqQkw3QP1jT3IeE39EZucyMOW3bjwiVBjbaPekTrdc5e5nb8vhCZj
- oBjsKeKsUSI5CbNLU1ouNdwAObIX70cAhGPhNaEzfgRR3neYiAqJkVTziksDwpZN
- 4OKZn+QARrv+YlEyvpFiOFN1OhgLFMMCDogcE0Hfs3+YfaNeERbW6xLxZZ/fz6T5
- Vn9FuhybtdsJXdPipdnatGSgxqSyLi94W6a/4uuKYf7OXW0mg3a4HrM46Rr7euOE
- UuwCdCdzlcVQdepBIgiMgLoQn9zdPNQO0ZDMv04aIsTjHKAMyInlPHe1Vc+EKwCY
- mGygUVteeGyzeA==
-X-ME-Sender: <xms:BAprX1kVA9ePAMU6c8hadzQsIHL9LDulWrmbEnqvAPTBd_WHP5h1-Q>
- <xme:BAprXw0pgHUFeIRLwONZ1x9XpIOJILa0Smk1qR6Qhlz-Z1MDVlHrwbi3Mikelivcc
- 3ZiliXs_mLAZKwZKh8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeigddtiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:BAprX7qAz0FGAUklD2v_sQ6UPO1hhvrNFzdIbhdWPThY6_3AFqbATA>
- <xmx:BAprX1lXXK-_bDW2BTr47hGHS7qngiN2Yhpvlj402v-LTZBxp-3kdA>
- <xmx:BAprXz3rGpGiQbWFl-nKcdAwj1m_HeDLfRqwYLVSuxsDldatxc1F_Q>
- <xmx:BAprX9qCtFU8DWqKf7_GA31MGGkFVI0jyvoggI1xd9jsGpLZPQ0VHA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5E40F3064684;
- Wed, 23 Sep 2020 04:40:36 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 2/2] drm/vc4: crtc: Keep the previously assigned HVS FIFO
-Date: Wed, 23 Sep 2020 10:40:32 +0200
-Message-Id: <20200923084032.218619-2-maxime@cerno.tech>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200923084032.218619-1-maxime@cerno.tech>
-References: <20200923084032.218619-1-maxime@cerno.tech>
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5120E6E9A1;
+ Wed, 23 Sep 2020 12:33:20 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1600864398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4zUEMW9wU+kwouVfGxKhtf6Di/IFhmYOqDGQKAREV8o=;
+ b=mQ42gd2DhQ/RG0jBtJb4meJN+5wV2pj9iVLxHpupYAkadW+bY5A7tLe5ML2OCxkUDyFcOz
+ 1ID+60xXG2OjXRxOxnGUclm3zYFaTcjPF9ahEeidyum940F7pRvQQ+6fARlpRL8arWBYw5
+ sXQ3YFT0QLJJsnhzzhPX5pkUAQdcb0r75msvmD5rVzIQdvYOpaNOYhzVgXEW9+SvrTpZ5S
+ VYlZevpT0pbNGk2c2vrUKV2OAsLRNBNh2/g0YkvfbfbDyed7rHhHQWMZYKtR79LU83j38G
+ 5r/WEDgX3y9hgl7i7P9JlU2XJG/6OaMoTDqwD5QZO9LvlKLV3P7ptN62EV3bIA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1600864398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4zUEMW9wU+kwouVfGxKhtf6Di/IFhmYOqDGQKAREV8o=;
+ b=ohpCeECCtFRlt7dpUmuCjEyhCy6FZxCGdV74xdJ5JgvLxUGaba5R+t2Tfw4DYzdeiW9o4A
+ 74IrdXtsMBTtycCw==
+To: peterz@infradead.org
+Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
+ kmap_atomic & friends
+In-Reply-To: <20200923101953.GT2674@hirez.programming.kicks-ass.net>
+References: <20200919091751.011116649@linutronix.de>
+ <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
+ <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+ <87k0wode9a.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
+ <87eemwcpnq.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
+ <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
+ <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
+ <20200923101953.GT2674@hirez.programming.kicks-ass.net>
+Date: Wed, 23 Sep 2020 14:33:17 +0200
+Message-ID: <87sgb8ad0y.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 24 Sep 2020 07:19:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,129 +64,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
+Cc: Juri Lelli <juri.lelli@redhat.com>, David Airlie <airlied@linux.ie>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
+ Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
+ Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Mel Gorman <mgorman@suse.de>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Vineet Gupta <vgupta@synopsys.com>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Greentime Hu <green.hu@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HVS FIFOs are currently assigned each time we have an atomic_check
-for all the enabled CRTCs.
+On Wed, Sep 23 2020 at 12:19, peterz wrote:
+> On Mon, Sep 21, 2020 at 09:27:57PM +0200, Thomas Gleixner wrote:
+>> Alternatively this could of course be solved with per CPU page tables
+>> which will come around some day anyway I fear.
+>
+> Previously (with PTI) we looked at making the entire kernel map per-CPU,
+> and that takes a 2K copy on switch_mm() (or more general, the user part
+> of whatever the top level directory is for architectures that have a
+> shared kernel/user page-table setup in the first place).
+>
+> The idea was having a fixed per-cpu kernel page-table, share a bunch of
+> (kernel) page-tables between all CPUs and then copy in the user part on
+> switch.
+>
+> I've forgotten what the plan was for ASID/PCID in that scheme.
+>
+> For x86_64 we've been fearing the performance of that 2k copy, but I
+> don't think we've ever actually bit the bullet and implemented it to see
+> how bad it really is.
 
-However, if we are running multiple outputs in parallel and we happen to
-disable the first (by index) CRTC, we end up changing the assigned FIFO
-of the second CRTC without disabling and reenabling the pixelvalve which
-ends up in a stall and eventually a VBLANK timeout.
+I actually did at some point and depending on the workload the overhead
+was clearly measurable. And yes, it fell apart with PCID and I could not
+come up with a scheme for it which did not suck horribly. So I burried
+the patches in the poison cabinet.
 
-In order to fix this, we can create a special value for our assigned
-channel to mark it as disabled, and if our CRTC already had an assigned
-channel in its previous state, we keep on using it.
+Aside of that, we'd need to implement that for a eight other
+architectures as well...
 
-Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Thanks,
 
----
-
-Changes from v1:
-  - Split away the crtc state reset refactoring
-  - Fixed the checkpatch warnings
----
- drivers/gpu/drm/vc4/vc4_crtc.c |  1 +
- drivers/gpu/drm/vc4/vc4_drv.h  |  2 ++
- drivers/gpu/drm/vc4/vc4_kms.c  | 22 ++++++++++++++++------
- 3 files changed, 19 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 7ef20adedee5..482219fb4db2 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -863,6 +863,7 @@ void vc4_crtc_reset(struct drm_crtc *crtc)
- 		return;
- 	}
- 
-+	vc4_crtc_state->assigned_channel = VC4_HVS_CHANNEL_DISABLED;
- 	__drm_atomic_helper_crtc_reset(crtc, &vc4_crtc_state->base);
- }
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 8c8d96b6289f..90b911fd2a7f 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -532,6 +532,8 @@ struct vc4_crtc_state {
- 	} margins;
- };
- 
-+#define VC4_HVS_CHANNEL_DISABLED ((unsigned int)-1)
-+
- static inline struct vc4_crtc_state *
- to_vc4_crtc_state(struct drm_crtc_state *crtc_state)
- {
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 01fa60844695..149825ff5df8 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -616,7 +616,7 @@ static int
- vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- {
- 	unsigned long unassigned_channels = GENMASK(NUM_CHANNELS - 1, 0);
--	struct drm_crtc_state *crtc_state;
-+	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct drm_crtc *crtc;
- 	int i, ret;
- 
-@@ -629,6 +629,8 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 	 * modified.
- 	 */
- 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
-+		struct drm_crtc_state *crtc_state;
-+
- 		if (!crtc->state->enable)
- 			continue;
- 
-@@ -637,15 +639,23 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 			return PTR_ERR(crtc_state);
- 	}
- 
--	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
--		struct vc4_crtc_state *vc4_crtc_state =
--			to_vc4_crtc_state(crtc_state);
-+	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
-+		struct vc4_crtc_state *new_vc4_crtc_state =
-+			to_vc4_crtc_state(new_crtc_state);
- 		struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
- 		unsigned int matching_channels;
- 
--		if (!crtc_state->enable)
-+		if (old_crtc_state->enable && !new_crtc_state->enable)
-+			new_vc4_crtc_state->assigned_channel = VC4_HVS_CHANNEL_DISABLED;
-+
-+		if (!new_crtc_state->enable)
- 			continue;
- 
-+		if (new_vc4_crtc_state->assigned_channel != VC4_HVS_CHANNEL_DISABLED) {
-+			unassigned_channels &= ~BIT(new_vc4_crtc_state->assigned_channel);
-+			continue;
-+		}
-+
- 		/*
- 		 * The problem we have to solve here is that we have
- 		 * up to 7 encoders, connected to up to 6 CRTCs.
-@@ -674,7 +684,7 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 		if (matching_channels) {
- 			unsigned int channel = ffs(matching_channels) - 1;
- 
--			vc4_crtc_state->assigned_channel = channel;
-+			new_vc4_crtc_state->assigned_channel = channel;
- 			unassigned_channels &= ~BIT(channel);
- 		} else {
- 			return -EINVAL;
--- 
-2.26.2
+        tglx
 
 _______________________________________________
 dri-devel mailing list
