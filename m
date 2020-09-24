@@ -2,42 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846FE276838
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14391276843
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:19:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 791546EA77;
-	Thu, 24 Sep 2020 05:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFE6B6EA88;
+	Thu, 24 Sep 2020 05:19:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43A826EA7B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A146EA7B
  for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:19:18 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-oP_-Qm2ZPpyxCO5ha4RXpQ-1; Thu, 24 Sep 2020 01:19:12 -0400
-X-MC-Unique: oP_-Qm2ZPpyxCO5ha4RXpQ-1
+ us-mta-225-OSZc3kRyMACFRLOP_nBbiA-1; Thu, 24 Sep 2020 01:19:13 -0400
+X-MC-Unique: OSZc3kRyMACFRLOP_nBbiA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D8CD1891E91;
- Thu, 24 Sep 2020 05:19:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92D3A1891E80;
+ Thu, 24 Sep 2020 05:19:12 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-60.bne.redhat.com
  [10.64.54.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 453BD19D7C;
- Thu, 24 Sep 2020 05:19:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96CA219D7D;
+ Thu, 24 Sep 2020 05:19:11 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 16/45] drm/radeon/ttm: do move notify actions inside move.
-Date: Thu, 24 Sep 2020 15:18:16 +1000
-Message-Id: <20200924051845.397177-17-airlied@gmail.com>
+Subject: [PATCH 17/45] drm/amdgpu/ttm: handle invalidation in move callback.
+Date: Thu, 24 Sep 2020 15:18:17 +1000
+Message-Id: <20200924051845.397177-18-airlied@gmail.com>
 In-Reply-To: <20200924051845.397177-1-airlied@gmail.com>
 References: <20200924051845.397177-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,110 +58,130 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-move notify can be gotten done inside moves instead of a separate
-callback for radeon. move notify is now only called from one other
-place where new_mem == NULL, so handle that properly.
+Leave the delete path alone (new_mem == NULL), but otherwise
+do all the invalidate and accounting in the move callback.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/radeon/radeon_object.c | 28 +++++++++++++++++---------
- drivers/gpu/drm/radeon/radeon_object.h |  4 ++++
- drivers/gpu/drm/radeon/radeon_ttm.c    |  8 +++++++-
- 3 files changed, 30 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 35 ++++++++++------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 13 ++++++--
+ 3 files changed, 28 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index 689426dd8480..36a16d7a24b2 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -754,6 +754,21 @@ int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
- 	return radeon_bo_get_surface_reg(bo);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 63e9c5793c30..42d530e2351a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -1246,6 +1246,19 @@ int amdgpu_bo_get_metadata(struct amdgpu_bo *bo, void *buffer,
+ 	return 0;
  }
  
-+
-+void radeon_bo_invalidate(struct radeon_bo *rbo)
++void amdgpu_bo_move_invalidate(struct amdgpu_bo *abo,
++			       bool evict)
 +{
-+	radeon_bo_check_tiling(rbo, 0, 1);
-+	radeon_vm_bo_invalidate(rbo->rdev, rbo);
-+}
++	struct amdgpu_device *adev = amdgpu_ttm_adev(abo->tbo.bdev);
 +
-+void radeon_bo_memory_usage(struct radeon_bo *rbo,
-+			    uint32_t old_mem_type,
-+			    uint32_t new_mem_type)
-+{
-+	radeon_update_memory_usage(rbo, old_mem_type, -1);
-+	radeon_update_memory_usage(rbo, new_mem_type, 1);
-+}
++	amdgpu_vm_bo_invalidate(adev, abo, evict);
++	amdgpu_bo_kunmap(abo);
 +
- void radeon_bo_move_notify(struct ttm_buffer_object *bo,
++	if (abo->tbo.base.dma_buf && !abo->tbo.base.import_attach &&
++	    abo->tbo.mem.mem_type != TTM_PL_SYSTEM)
++		dma_buf_move_notify(abo->tbo.base.dma_buf);
++
++}
+ /**
+  * amdgpu_bo_move_notify - notification about a memory move
+  * @bo: pointer to a buffer object
+@@ -1260,32 +1273,14 @@ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
  			   bool evict,
  			   struct ttm_resource *new_mem)
-@@ -763,16 +778,11 @@ void radeon_bo_move_notify(struct ttm_buffer_object *bo,
- 	if (!radeon_ttm_bo_is_radeon_bo(bo))
+ {
+-	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
+ 	struct amdgpu_bo *abo;
+-	struct ttm_resource *old_mem = &bo->mem;
+ 
+ 	if (!amdgpu_bo_is_amdgpu_bo(bo))
  		return;
  
--	rbo = container_of(bo, struct radeon_bo, tbo);
--	radeon_bo_check_tiling(rbo, 0, 1);
--	radeon_vm_bo_invalidate(rbo->rdev, rbo);
+-	abo = ttm_to_amdgpu_bo(bo);
+-	amdgpu_vm_bo_invalidate(adev, abo, evict);
+-
+-	amdgpu_bo_kunmap(abo);
+-
+-	if (abo->tbo.base.dma_buf && !abo->tbo.base.import_attach &&
+-	    bo->mem.mem_type != TTM_PL_SYSTEM)
+-		dma_buf_move_notify(abo->tbo.base.dma_buf);
+-
+-	/* remember the eviction */
+-	if (evict)
+-		atomic64_inc(&adev->num_evictions);
 -
 -	/* update statistics */
--	if (!new_mem)
-+	/* the new_mem path is handled via the move callback now */
-+	if (new_mem)
- 		return;
++	/* new_mem path is handled in move */
+ 	if (!new_mem)
+-		return;
 -
--	radeon_update_memory_usage(rbo, bo->mem.mem_type, -1);
--	radeon_update_memory_usage(rbo, new_mem->mem_type, 1);
-+	rbo = container_of(bo, struct radeon_bo, tbo);
-+	radeon_bo_invalidate(rbo);
+-	/* move_notify is called before move happens */
+-	trace_amdgpu_bo_move(abo, new_mem->mem_type, old_mem->mem_type);
++		amdgpu_bo_move_invalidate(abo, false);
  }
  
- int radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
-diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
-index 27cfb64057fe..6f886e2ffaf3 100644
---- a/drivers/gpu/drm/radeon/radeon_object.h
-+++ b/drivers/gpu/drm/radeon/radeon_object.h
-@@ -160,6 +160,10 @@ extern void radeon_bo_get_tiling_flags(struct radeon_bo *bo,
- 				u32 *tiling_flags, u32 *pitch);
- extern int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
- 				bool force_drop);
-+void radeon_bo_memory_usage(struct radeon_bo *rbo,
-+			    uint32_t old_mem_type,
-+			    uint32_t new_mem_type);
-+void radeon_bo_invalidate(struct radeon_bo *rbo);
- extern void radeon_bo_move_notify(struct ttm_buffer_object *bo,
- 				  bool evict,
- 				  struct ttm_resource *new_mem);
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 10d25d3b83f2..e814b11187b3 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -316,12 +316,16 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource *old_mem = &bo->mem;
- 	int r;
+ /**
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+index e91750e43448..53d980661410 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+@@ -283,6 +283,8 @@ int amdgpu_bo_get_metadata(struct amdgpu_bo *bo, void *buffer,
+ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
+ 			   bool evict,
+ 			   struct ttm_resource *new_mem);
++void amdgpu_bo_move_invalidate(struct amdgpu_bo *abo,
++			       bool evict);
+ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo);
+ int amdgpu_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
+ void amdgpu_bo_fence(struct amdgpu_bo *bo, struct dma_fence *fence,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index d165edacc347..38ddced2775d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -679,6 +679,12 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
  
-+	rbo = container_of(bo, struct radeon_bo, tbo);
+ 	adev = amdgpu_ttm_adev(bo->bdev);
+ 
++	amdgpu_bo_move_invalidate(abo, evict);
++	/* remember the eviction */
++	if (evict)
++		atomic64_inc(&adev->num_evictions);
++	trace_amdgpu_bo_move(abo, new_mem->mem_type, bo->mem.mem_type);
 +
-+	radeon_bo_invalidate(rbo);
-+	radeon_bo_memory_usage(rbo, bo->mem.mem_type, new_mem->mem_type);
-+
- 	r = ttm_bo_wait_ctx(bo, ctx);
- 	if (r)
- 		return r;
- 
- 	/* Can't move a pinned BO */
--	rbo = container_of(bo, struct radeon_bo, tbo);
- 	if (WARN_ON_ONCE(rbo->tbo.pin_count > 0))
- 		return -EINVAL;
- 
-@@ -361,6 +365,8 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- memcpy:
- 		r = ttm_bo_move_memcpy(bo, ctx, new_mem);
- 		if (r) {
-+			radeon_bo_invalidate(rbo);
-+			radeon_bo_memory_usage(rbo, new_mem->mem_type, old_mem->mem_type);
- 			return r;
+ 	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
+ 		ttm_bo_move_null(bo, new_mem);
+ 		return 0;
+@@ -726,12 +732,12 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 		if (!amdgpu_mem_visible(adev, old_mem) ||
+ 		    !amdgpu_mem_visible(adev, new_mem)) {
+ 			pr_err("Move buffer fallback to memcpy unavailable\n");
+-			return r;
++			goto out_invalidate;
  		}
+ 
+ 		r = ttm_bo_move_memcpy(bo, ctx, new_mem);
+ 		if (r)
+-			return r;
++			goto out_invalidate;
  	}
+ 
+ 	if (bo->type == ttm_bo_type_device &&
+@@ -746,6 +752,9 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	/* update statistics */
+ 	atomic64_add((u64)bo->num_pages << PAGE_SHIFT, &adev->num_bytes_moved);
+ 	return 0;
++out_invalidate:
++	amdgpu_bo_move_invalidate(abo, evict);
++	return r;
+ }
+ 
+ /**
 -- 
 2.27.0
 
