@@ -1,59 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5006276C91
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 11:01:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02241276CDB
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 11:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C73F26E197;
-	Thu, 24 Sep 2020 09:01:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3456E1B8;
+	Thu, 24 Sep 2020 09:12:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 225286E197
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 09:01:03 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id l15so6310337wmh.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 02:01:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=qCkDGWZX97ynHjFjHujFdo86OA+40MBxMrOQVS3IaAM=;
- b=cdCbheIqDUrioR30U47CVZw9JlOK2RPWQTZac1BPS+YgMoDhzxWikJBl2shJ/hgzs/
- amQx5nr8ytP39HZ4aAXf8BcUb93DuCHAHfbpxhZnjLnWobdDQgbC9zDm2Nja9gQwXfW6
- 50xC7yGpQg8fOMyDOM5oODamWlgtzFKUXDgB0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=qCkDGWZX97ynHjFjHujFdo86OA+40MBxMrOQVS3IaAM=;
- b=lA1v/uLuyXeCJrXYmyvWqQOvGGbf3rYdPhieo2zcxMT3ka/Lv/oJZiz/bK1w8qL/EO
- Gyhj6vwvJzoSkXjcmxATEmxoiHardQ7zc1E9ddFZdQvHfDm1HQGXmv13n9gsUA9BYlXQ
- kKPFXZptoWP0QSfB3FDToxGOSPI6xVkJoaLNc1LamGwy3TGnqevLAkQwzA3u7HE3K3Mg
- 5bFLzY7yTO9Oivjs1Sv83636b4oJWHkNRulapbIBl7ljiDy/t6AeetcNbWqPUIlER4c5
- 3TDTMkFVsJjNMZzmgZojSyV7mGthkAk36X43waUK3yqexZuo02MWhtjS9DN3hpAjHVFE
- ErAw==
-X-Gm-Message-State: AOAM532dvmykPxjNFbkAY6bn7508659+46VJUgfD13Ypev7oROq8ppjw
- S9lr1FskTYfo8Bp+WD8+gylDTA==
-X-Google-Smtp-Source: ABdhPJzB0Ca6IeAFm7nX17AldeXw82XTj2lvvGYh5jO1nS4wPy/iE0qMIHIZUoLfVNkqnHAY4Hqxpw==
-X-Received: by 2002:a1c:a593:: with SMTP id o141mr3718420wme.88.1600938062413; 
- Thu, 24 Sep 2020 02:01:02 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w21sm2516264wmk.34.2020.09.24.02.01.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Sep 2020 02:01:01 -0700 (PDT)
-Date: Thu, 24 Sep 2020 11:00:59 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH 01/11] drm/ttm: add ttm_bo_pin()/ttm_bo_unpin() v2
-Message-ID: <20200924090059.GZ438822@phenom.ffwll.local>
-References: <20200922133208.1273-1-christian.koenig@amd.com>
- <CAPM=9tzhALOXZeuzGaaNS=ThrZNXLSZuaKYnp7XK7SyzX+8-yw@mail.gmail.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D496E194;
+ Thu, 24 Sep 2020 09:12:09 +0000 (UTC)
+IronPort-SDR: qpHfHcG4LrAntDb4K+2hYSmz17YJAeOQq6GPVIcb+hrl5oLZ4wCxQiUXrDjK/2rycBa/2h0FsF
+ SZeZxPA81sbg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9753"; a="225289152"
+X-IronPort-AV: E=Sophos;i="5.77,297,1596524400"; d="scan'208";a="225289152"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2020 02:12:08 -0700
+IronPort-SDR: P86bosMa7MQ29QaYgRe2bSFcPqEnCcFL8li00en4Qjd3ZxRHeM95deyu2fA0Mv8RpPSrOnBjZf
+ IYR3n27sbXDA==
+X-IronPort-AV: E=Sophos;i="5.77,297,1596524400"; d="scan'208";a="486825788"
+Received: from echristi-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.10.63])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2020 02:12:05 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+Subject: [PULL] drm-intel-fixes
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Thu, 24 Sep 2020 12:12:17 +0300
+Message-ID: <87zh5fpmha.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAPM=9tzhALOXZeuzGaaNS=ThrZNXLSZuaKYnp7XK7SyzX+8-yw@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,46 +47,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Roland Scheidegger <sroland@vmware.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Huang Rui <ray.huang@amd.com>,
- Linux-graphics-maintainer <linux-graphics-maintainer@vmware.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 23, 2020 at 01:01:14PM +1000, Dave Airlie wrote:
-> On Tue, 22 Sep 2020 at 23:32, Christian K=F6nig
-> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >
-> > As an alternative to the placement flag add a
-> > pin count to the ttm buffer object.
-> =
 
-> These all look good to me, nice cleanup.
-> =
+Hi Dave & Daniel -
 
-> For the series:
-> Reviewed-by: Dave Airlie <airlied@redhat.com>
+Just a couple of simple fixes.
 
-Yeah I like, but plenty of review already so I wont bother.
+With Daniel's irc ack I backmerged Linus' tree at an arbitrary commit
+due to a build failure in v5.9-rc6 that blocked CI.
 
-I do wonder whether we should/could lift this one more level to
-drm_gem_object, since cma/shmem gem helpers have this too.
 
-But they have hand-rolled locking for it of dubious quality, and don't use
-dma_resv_lock for any of this unfortunately. And I guess that would need
-to be fixed first.
--Daniel
--- =
+drm-intel-fixes-2020-09-24:
+drm/i915 fixes for v5.9-rc7:
+- Fix selftest reference to stack data out of scope
+- Fix GVT null pointer dereference
+- Backmerge from Linus' master to fix build
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+BR,
+Jani.
+
+The following changes since commit 98477740630f270aecf648f1d6a9dbc6027d4ff1:
+
+  Merge branch 'rcu/urgent' of git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu (2020-09-21 12:42:31 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2020-09-24
+
+for you to fetch changes up to 16cce04cdb200ba905d1241b425ac48da5a9ace5:
+
+  drm/i915/selftests: Push the fake iommu device from the stack to data (2020-09-23 10:15:46 +0300)
+
+----------------------------------------------------------------
+drm/i915 fixes for v5.9-rc7:
+- Fix selftest reference to stack data out of scope
+- Fix GVT null pointer dereference
+- Backmerge from Linus' master to fix build
+
+----------------------------------------------------------------
+Chris Wilson (1):
+      drm/i915/selftests: Push the fake iommu device from the stack to data
+
+Jani Nikula (2):
+      Merge remote-tracking branch 'origin/master' into drm-intel-fixes
+      Merge tag 'gvt-fixes-2020-09-17' of https://github.com/intel/gvt-linux into drm-intel-fixes
+
+Zhenyu Wang (1):
+      drm/i915/gvt: Fix port number for BDW on EDID region setup
+
+ drivers/gpu/drm/i915/gvt/vgpu.c                  |  6 +++++-
+ drivers/gpu/drm/i915/selftests/mock_gem_device.c | 12 +++++-------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
