@@ -1,91 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF382770E6
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 14:25:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E31BC277112
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 14:32:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 352156EADE;
-	Thu, 24 Sep 2020 12:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C967C6EACD;
+	Thu, 24 Sep 2020 12:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2058.outbound.protection.outlook.com [40.107.243.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B696EAD5
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 12:25:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F5AHebKwfFVXz5YtMP31E/lPX0XcfSb/a1mAkSQJby9n48Bt5SX3WdRJutbpztAT4A0ALBsCHhleb2M30WPvUt7nwXw4x+B5lW46LEGnoZCMT+nO16l02bXGU9dKDWd8ivMvZuEd5cW9TGSTRFBYcd/0Fx3SEC6Fk9xRaZ6eW8B9dd6NVkVBDxdJcXpHojDo1rS6yX3IVjjSnwCJGaFJpB9Cb3vpCtu/eEnBN7o7jpUgC5XIaaeDZSOT/mNeLlGNtiw9G7UM3s3oRjci5DmwrGykL1XKuS8eP/XresTtr7eFFMBHRxETedmafjzA0Qg2C5drm7bEVaZMjm3Qrrap+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q9Iwt8BrQ+XFWIJYTTytZehXuycQJUm/8F0Gv3z0xDk=;
- b=dH61RFIMs0GztHyD674whbA/YEdx8sKzEfHUxcUiJ6ZrqNieYuUWbcuvoEru/QxV3Bw7edx7YvettUfAyWGF0oPxvcF7hvjfOAubm0rPmBUWFk7Iy0s8CLvt0Gk07nQydKm6gxBf2IHBwAtP5A3TaSwQPe5YyE16ryytgMloqxoxru6JQ+q0LlD34iGCK6LzLpCnm3qFH5U81mTqniGDLKlCAwgjfsAuYM2BU0UCk1++Zkec6EQwNiNBDaQdhekLwF4/qOsVG96V2H1aEOajvRuhnHr83lOBhr0M2dzeHT7A+l08TPYGxOlOnagD407RogRyrrzk8k0dmZbQgtKKhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q9Iwt8BrQ+XFWIJYTTytZehXuycQJUm/8F0Gv3z0xDk=;
- b=Q3ar3gJf8VD0aq0YYLTmFWWHMN3MxqJwtBc38SVQoQYJ4sh7EwdlwAvvS2XmnPn02CY2DxioLBLiiLRF/EruH2fuqIxr0N9wWZudmkkqEFgls4uEROOXTWmJh1k9yscgVgwnQh7F3cwYC1zcEeJj1zkwWpg1avL+0wB+ClT8tU8=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3773.namprd12.prod.outlook.com (2603:10b6:208:164::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Thu, 24 Sep
- 2020 12:25:38 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3412.022; Thu, 24 Sep 2020
- 12:25:38 +0000
-Subject: Re: [PATCH 30/45] drm/ttm: add a new invalidate notify callback.
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200924051845.397177-1-airlied@gmail.com>
- <20200924051845.397177-31-airlied@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <2608ea3c-5838-8fdb-59b6-d984d18f17d9@amd.com>
-Date: Thu, 24 Sep 2020 14:25:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200924051845.397177-31-airlied@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM4PR0302CA0008.eurprd03.prod.outlook.com
- (2603:10a6:205:2::21) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46BAE6EACD;
+ Thu, 24 Sep 2020 12:32:48 +0000 (UTC)
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
+ [66.24.58.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3E4EA205F4;
+ Thu, 24 Sep 2020 12:32:43 +0000 (UTC)
+Date: Thu, 24 Sep 2020 08:32:41 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
+ kmap_atomic & friends
+Message-ID: <20200924083241.314f2102@gandalf.local.home>
+In-Reply-To: <871riracgf.fsf@nanos.tec.linutronix.de>
+References: <20200919091751.011116649@linutronix.de>
+ <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
+ <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
+ <87k0wode9a.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
+ <87eemwcpnq.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
+ <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
+ <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
+ <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
+ <20200923115251.7cc63a7e@oasis.local.home>
+ <874kno9pr9.fsf@nanos.tec.linutronix.de>
+ <20200923171234.0001402d@oasis.local.home>
+ <871riracgf.fsf@nanos.tec.linutronix.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR0302CA0008.eurprd03.prod.outlook.com (2603:10a6:205:2::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend
- Transport; Thu, 24 Sep 2020 12:25:37 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d973c6db-5c20-4438-5a89-08d86084f186
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3773:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3773C439170985AF1DEBF05483390@MN2PR12MB3773.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WIxur3XoFc4uPJTuBG4ccBI6C3Y5TT4zYTh2El4s3TkNTYTfZv5CssaAjE4TmGEvMaPv32WBkBX0egU/Pzk2Uy70OmOaHturG1Nmo4ebtx/r0MoPbMZ56Wt7lVMbcqVeNSMiQtXm+rBtIUAvvn+kAXYC+Nk6WlJsqQqCYUhyV6o6C8Ce7wodF1BZyeDUXnwXMOZ5cdxsvhsC+COAIh3gno87Fhk5B0MzZi1HNz2iDSP+uWYUafb5cgoPG2N7ypbJyXxuF4acAGN5nFvTPQqMI1pZk1zwuoy1o2KssMxrCrjC4zp4i+o++/uhirOq3bL8mmLF8pQrv5+ULKt0VsaLKGGGAL0LXzmDLY1vI5XGl3hKyQv5SCv+GeP4MCL1HdSngVOM7LVs9/P+DqiMyAFSTfDxPmcEnS2axtt3bhH9ArSVOlxP/S+uZ/F1IJCZ8ip8
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(136003)(366004)(376002)(396003)(4326008)(31686004)(83380400001)(52116002)(6666004)(478600001)(186003)(36756003)(66946007)(5660300002)(2616005)(316002)(31696002)(6486002)(86362001)(16526019)(66556008)(66476007)(8676002)(8936002)(2906002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 1/UgkuoQN0Tm/3qc6WuLggxTGDUddEwdT4AV+MqGQicN1RFg/Cca5MiqNId68ihiQeBW/CPuFjTsrUppLl/N9iIubbWuFjaVSdY3udJEID4txPrRUoRk8E0SmAXuVQcR4bHiRI4fEbvrHUS/kxo4S1OzJouLg7U5cEXn/bCgye8PUvQsiAHIYVc3aEJGxHtt8kzxCgfRFZK5a7sxvPhEcmC5L6+zjnLpTE67bvjH1tSy3ufr8Og+8363AXCOMMoTq6G3XE6SRV8uamUoLBLfv+LdGwF+O22+eCsDwM6XbxpZbw2S9TvM2mKPHHPIKebFJPl5gWGGSwf7o2tP1hmGzczsuUzbcyNVVziSlXKOCRcHjMSuhtsBrRT0cKCemuAV2uBokaPgN/Q+oabGDr+4MI929Bla4g1ZqCehR1zz183XhFxl/ZjJyz6C37mUSdWymHxEDqvpyY7botHLuDE3zOy9SUl1CMulaZmIpFoW8731m+EWmkiRjoabUklz9fEB8PowLANITid47yeWk8CDaWR3QpOE30tQwVSG/UXcVITPu8wyxkgko0II2VGYEsKR79iwCiINC31POU5u/KRWgEYf3WV9zF5TUIfSxp8F/b+gkHM9VbjNeU/ivbPw+IorwnjeAYVDkG/S+st7ypfFFVcQcykQeCW36QkGmXu0g67MhqHU93/+S47isgGC0i3P+6FJBlVLgR47ylSVNq4EJg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d973c6db-5c20-4438-5a89-08d86084f186
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 12:25:37.9877 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q3bsHu6X1X2Nq0uazEZEYWAsXYQJzm9t/OnOIQoLCvWnhltccbuyWGvYeX6osuFy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3773
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,65 +54,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bskeggs@redhat.com
+Cc: Juri Lelli <juri.lelli@redhat.com>, peterz@infradead.org,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
+ Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
+ Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Mel Gorman <mgorman@suse.de>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Greentime Hu <green.hu@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Vineet Gupta <vgupta@synopsys.com>, Paul Mackerras <paulus@samba.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 24.09.20 um 07:18 schrieb Dave Airlie:
-> From: Dave Airlie <airlied@redhat.com>
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+On Thu, 24 Sep 2020 08:57:52 +0200
+Thomas Gleixner <tglx@linutronix.de> wrote:
 
-NAK, completely unnecessary.
+> > Now as for migration disabled nesting, at least now we would have
+> > groupings of this, and perhaps the theorists can handle that. I mean,
+> > how is this much different that having a bunch of tasks blocked on a
+> > mutex with the owner is pinned on a CPU?
+> >
+> > migrate_disable() is a BKL of pinning affinity.  
+> 
+> No. That's just wrong. preempt disable is a concurrency control,
 
-We should rather do the remaining accounting in the already existing 
-release_notify() callback.
+I think you totally misunderstood what I was saying. The above wasn't about
+comparing preempt_disable to migrate_disable. It was comparing
+migrate_disable to a chain of tasks blocked on mutexes where the top owner
+has preempt_disable set. You still have a bunch of tasks that can't move to
+other CPUs.
 
-That makes much more sense and if I'm not completely mistaken could 
-actually fix a bug in amdgpu.
 
-Christian.
+> > If we only have local_lock() available (even on !RT), then it makes
+> > the blocking in groups. At least this way you could grep for all the
+> > different local_locks in the system and plug that into the algorithm
+> > for WCS, just like one would with a bunch of mutexes.  
+> 
+> You cannot do that on RT at all where migrate disable is substituting
+> preempt disable in spin and rw locks. The result would be the same as
+> with a !RT kernel just with horribly bad performance.
 
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c    | 4 +++-
->   include/drm/ttm/ttm_bo_driver.h | 7 +++++++
->   2 files changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index a2a61a8d1394..ba69c682e53b 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -282,7 +282,9 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
->   
->   static void ttm_bo_cleanup_memtype_use(struct ttm_buffer_object *bo)
->   {
-> -	if (bo->bdev->driver->move_notify)
-> +	if (bo->bdev->driver->invalidate_notify)
-> +		bo->bdev->driver->invalidate_notify(bo);
-> +	else if (bo->bdev->driver->move_notify)
->   		bo->bdev->driver->move_notify(bo, false, NULL);
->   
->   	ttm_bo_tt_destroy(bo);
-> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-> index cfb151dbb2d0..da4afe669664 100644
-> --- a/include/drm/ttm/ttm_bo_driver.h
-> +++ b/include/drm/ttm/ttm_bo_driver.h
-> @@ -165,6 +165,13 @@ struct ttm_bo_driver {
->   	void (*move_notify)(struct ttm_buffer_object *bo,
->   			    bool evict,
->   			    struct ttm_resource *new_mem);
-> +
-> +	/**
-> +	 * Hook to notify driver about a bo being torn down.
-> +	 * can be used for invalidation instead of move_notify.
-> +	 */
-> +	void (*invalidate_notify)(struct ttm_buffer_object *bo);
-> +
->   	/* notify the driver we are taking a fault on this BO
->   	 * and have reserved it */
->   	int (*fault_reserve_notify)(struct ttm_buffer_object *bo);
+Note, the spin and rwlocks already have a lock associated with them. Why
+would it be any different on RT? I wasn't suggesting adding another lock
+inside a spinlock. Why would I recommend THAT? I wasn't recommending
+blindly replacing migrate_disable() with local_lock(). I just meant expose
+local_lock() but not migrate_disable().
+
+> 
+> That means the stacking problem has to be solved anyway.
+> 
+> So why on earth do you want to create yet another special duct tape case
+> for kamp_local() which proliferates inconsistency instead of aiming for
+> consistency accross all preemption models?
+
+The idea was to help with the scheduling issue.
+
+Anyway, instead of blocking. What about having a counter of number of
+migrate disabled tasks per cpu, and when taking a migrate_disable(), and there's
+already another task with migrate_disabled() set, and the current task has
+an affinity greater than 1, it tries to migrate to another CPU?
+
+This way migrate_disable() is less likely to have a bunch of tasks blocked
+on one CPU serialized by each task exiting the migrate_disable() section.
+
+Yes, there's more overhead, but it only happens if multiple tasks are in a
+migrate disable section on the same CPU.
+
+-- Steve
 
 _______________________________________________
 dri-devel mailing list
