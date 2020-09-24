@@ -2,90 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631CD276EA2
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 12:24:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45688276EB3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 12:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 612D96E1B6;
-	Thu, 24 Sep 2020 10:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 873F26E1BB;
+	Thu, 24 Sep 2020 10:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
- (mail-eopbgr760052.outbound.protection.outlook.com [40.107.76.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5FD86E1BB
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 10:24:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GRB80da/ey/zFjZlP+ZqGHQktFGuz3FZz7nc2eaDVhTfrrC4e75jUdg+JXB/ABQIb0cXWSaxG9KQPUJPlsPrCFNjh8OPb9giX3lw0GrcVoBCJ5qv9N4RS8odEC/9ftUciy4tfH2ZSOUfwkFmtIkH41sT8u9e3meRhZJJ9NQTZAHdFS6MS7QVnmT8slzEi8AmuPJOmFDTd13WPT0vP6yZbnSsU3ywydPZ52OAO78q2I9klwe68YR6uQKMzckQ9dt1u1zAMwptIfUfCot4jVgzlQ/B4rI0O55XvrR5rGRhztBI7rww19LJKwuoQPsCQnufvDEZcLg8jRdn0dWogjfHnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pUYoPMAZejP4ubaRONWstkdvHDMbyquKfVugtGoVpfg=;
- b=QbYVg4+i1NBs/QexqoUqoMlNCQYwmueTgrEMLd+n8+t66MaAeLYup1JNc4rJnqqqOEXVgp3WO+z7R84tQfrOyF0wVbJ3kuy32D40AxPT/0mdVq9gTdFdXcmvZHEXY+4RziErutGwKnqOL/KX5wBO9F32u60qLnxEr54sSGX5xrnXmGROBem/DqyqS67FVD6SaMwexc1OkGnfbFlVfUlsfpTzhie3QY+dYnq7GB0V3D6ChTWs4ZQt7V6jKr+awkyXwRWgpVOWJtLjyomp27C0vFqwG8cvQ7ghbvysB0ANqlYCosZu3u5B1r/ybXEmcO6oyoOH4CljcueX/EVWIWtS/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pUYoPMAZejP4ubaRONWstkdvHDMbyquKfVugtGoVpfg=;
- b=MEA5wafuxzSmfuLOGCC7QljRyu/cXNqRsfj0ZHBKk0q8nOyfszqE2m1iMIHHs5VZuY3eRCuf1kHv2TE3+Ec24gnwfMy7gCmNyFN71c/UKEuwnc20pbYuK57zDXaZ8nXDUY8wynOoZsXcry18BwAhuU+qL6MybeBcf4n4PGsy2CQ=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4334.namprd12.prod.outlook.com (2603:10b6:208:1d1::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Thu, 24 Sep
- 2020 10:24:27 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3412.022; Thu, 24 Sep 2020
- 10:24:27 +0000
-Subject: Re: [PATCH 02/45] drm/ttm: handle the SYSTEM->TT path in same place
- as others.
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200924051845.397177-1-airlied@gmail.com>
- <20200924051845.397177-3-airlied@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <1333ecf0-22e6-aaca-3c62-9f7029c3521e@amd.com>
-Date: Thu, 24 Sep 2020 12:24:22 +0200
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 196B26E1BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 10:27:43 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E6365ACC6;
+ Thu, 24 Sep 2020 10:28:18 +0000 (UTC)
+Subject: Re: [PATCH] drm/ast: Reload gamma LUT after changing primary plane's
+ color format
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200922144655.23624-1-tzimmermann@suse.de>
+ <20200923153017.GR438822@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <0cc79212-1b45-135b-3a7b-e872c8efaf69@suse.de>
+Date: Thu, 24 Sep 2020 12:27:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200924051845.397177-3-airlied@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR03CA0081.eurprd03.prod.outlook.com
- (2603:10a6:208:69::22) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR03CA0081.eurprd03.prod.outlook.com (2603:10a6:208:69::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3412.20 via Frontend Transport; Thu, 24 Sep 2020 10:24:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: bd32f50d-1d54-435c-1a22-08d8607403a4
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4334:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB43342496C0791A04006D9F9483390@MN2PR12MB4334.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2512;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kbQWOgY4Yeex0mpMe4oW12XLwyO+yvfvkx+v3Q+jsBQaApqmaHgTfgAQ99CiLFtmBcYWI2RtC2mkNdAnUZ1P+0fGLMMA+z/GPDgDaBOHGj+3aWy76dtAYwyiZbWt9KIuGwme7neFHn1iu1rKeJh10coJIbfA5IR+mIfq13KloUycGH9q4dCOr3lwNZuU+h9ShPc5xfUTgrvjE0mWJTmatt4/9WdF9sUyu2a6c3QTdYi4SkUgH5w/SnL8u5sZYP09HnQEui7gl1yGZ7+R3Im2LGSrqy30Fm1ShSg/OAJbF4EixRp88IdaDFYOtp3YsCs1TTdYu36/1vWw9bcfmB6W1Ut9ZQS8VQlbS3BEUUtUm5+suGQHpoKeoi5Zy0xcnBrbUiBBw7k/qkxrhVjveTq+irYF7R0JYR0Z6NU3i35Xw1M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(376002)(136003)(366004)(396003)(316002)(52116002)(5660300002)(6666004)(66946007)(83380400001)(16526019)(31696002)(66476007)(36756003)(66556008)(8676002)(6486002)(2906002)(8936002)(86362001)(186003)(478600001)(4326008)(2616005)(31686004)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: e2SH21C8ezgcd5xUHznAqYJGU/ExtjIm9/K4l9pGuHoawEFEfbUVLOO3DjLDKVqSCE0y7lE6Um53gXqwt7dQoxxKtLyMElgGgnQGnoR+TVDoWA58hi+dBxnoGlP+OFSbTChJ8t5D8+6Qul8cPUUMU9mA2Ygn/iBtBCajEccgKUXN2hiVgTxNjfYDPdVIvUM4Yll7GpjXV7s1hap9ExlTR9QgUVNYuJhm+2ZTrTUDbkbG5TYRSAneuMhCPF3Nhoyq/L6n5R47YICvVvLcTQ/SrF5vfaKC5X1mNjj9mDT2ZtIac2eI3ucpBul6CO3/t2Ij3JLHCSnbZgbdWv5lDi+Y8f0S++N3zl/cpPv56Dwuw96KJr/Y1AN7E+HQREJYWGgIiFtrcT31LclO/zeLgKmuguNRFBsqv2UwgyEW5kpz9qBnl5B6gYeJgwAtC8JItUOHwbf77yMftF/NL0dMu1Euyd3un/BUSqDsi/Kbv+Yz28Qv/SsfUNu02KMAeSfYwBHS+a53boSMPkj+RJ4bTZ6NeSNEWLi7ijIh84KkRihcjegVXyKvT+HjFTjh8bFK+i87KFBZr1eLVY+Dlf8Nx0Ytp9my4iy0ICxELdFpr2OP5VGMTsA6N/a5cnziTDQEfrrm1cLCVhMLzpel7Xu34rBznHzNgq9mCxH+Fk31I9NvtyInxQzYrT/+uxcLKq60jGrFwJeUo/ElTV3wEoI0bc1rPg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd32f50d-1d54-435c-1a22-08d8607403a4
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 10:24:26.9772 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ofIoSnrAGgQktbaUkSIRvpkTKcMagjIoF0mxOXtWNmZ4dtwu2D7UhWLA4GlVU0Ig
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4334
+In-Reply-To: <20200923153017.GR438822@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,43 +40,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bskeggs@redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: multipart/mixed; boundary="===============2010859360=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjQuMDkuMjAgdW0gMDc6MTggc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
-cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gVGhpcyBqdXN0IGNvbnNvbGlkYXRlcyB0aGUg
-Y29kZSBtYWtpbmcgdGhlIGZsb3cgZWFzaWVyIHRvIHVuZGVyc3RhbmQKPiBhbmQgYWxzbyBoZWxw
-cyB3aGVuIG1vdmluZyBtb3ZlIHRvIHRoZSBkcml2ZXIgc2lkZS4KPgo+IFNpZ25lZC1vZmYtYnk6
-IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9k
-cm0vdHRtL3R0bV9iby5jIHwgMTcgKysrKysrKy0tLS0tLS0tLS0KPiAgIDEgZmlsZSBjaGFuZ2Vk
-LCA3IGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4g
-aW5kZXggYzM0MmJmYzJiNGMxLi42ZDE1MjAyNTVmYzEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fYm8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMK
-PiBAQCAtMjY1LDIwICsyNjUsMTggQEAgc3RhdGljIGludCB0dG1fYm9faGFuZGxlX21vdmVfbWVt
-KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCj4gICAJCQlpZiAocmV0KQo+ICAgCQkJCWdv
-dG8gb3V0X2VycjsKPiAgIAkJfQo+IC0KPiAtCQlpZiAoYm8tPm1lbS5tZW1fdHlwZSA9PSBUVE1f
-UExfU1lTVEVNKSB7Cj4gLQkJCWlmIChiZGV2LT5kcml2ZXItPm1vdmVfbm90aWZ5KQo+IC0JCQkJ
-YmRldi0+ZHJpdmVyLT5tb3ZlX25vdGlmeShibywgZXZpY3QsIG1lbSk7Cj4gLQkJCWJvLT5tZW0g
-PSAqbWVtOwo+IC0JCQlnb3RvIG1vdmVkOwo+IC0JCX0KPiAgIAl9Cj4gICAKPiAgIAlpZiAoYmRl
-di0+ZHJpdmVyLT5tb3ZlX25vdGlmeSkKPiAgIAkJYmRldi0+ZHJpdmVyLT5tb3ZlX25vdGlmeShi
-bywgZXZpY3QsIG1lbSk7Cj4gICAKPiAtCWlmIChvbGRfbWFuLT51c2VfdHQgJiYgbmV3X21hbi0+
-dXNlX3R0KQo+IC0JCXJldCA9IHR0bV9ib19tb3ZlX3R0bShibywgY3R4LCBtZW0pOwo+ICsJaWYg
-KG9sZF9tYW4tPnVzZV90dCAmJiBuZXdfbWFuLT51c2VfdHQpIHsKPiArCQlpZiAoYm8tPm1lbS5t
-ZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVNKSB7Cj4gKwkJCXR0bV9ib19hc3NpZ25fbWVtKGJvLCBt
-ZW0pOwo+ICsJCQlyZXQgPSAwOwo+ICsJCX0gZWxzZQo+ICsJCQlyZXQgPSB0dG1fYm9fbW92ZV90
-dG0oYm8sIGN0eCwgbWVtKTsKPiArCX0KPiAgIAllbHNlIGlmIChiZGV2LT5kcml2ZXItPm1vdmUp
-CgpUaGlzIHNob3VsZCB0aGVuIHVzZSAifSBlbHNlIGlmICguLi4pIHsiLCBhcGFydCBmcm9tIHRo
-YXQgdGhlIHBhdGNoIGlzIApSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFu
-LmtvZW5pZ0BhbWQuY29tPi4KCkNocmlzdGlhbi4KCj4gICAJCXJldCA9IGJkZXYtPmRyaXZlci0+
-bW92ZShibywgZXZpY3QsIGN0eCwgbWVtKTsKPiAgIAllbHNlCj4gQEAgLTI5NCw3ICsyOTIsNiBA
-QCBzdGF0aWMgaW50IHR0bV9ib19oYW5kbGVfbW92ZV9tZW0oc3RydWN0IHR0bV9idWZmZXJfb2Jq
-ZWN0ICpibywKPiAgIAkJZ290byBvdXRfZXJyOwo+ICAgCX0KPiAgIAo+IC1tb3ZlZDoKPiAgIAlj
-dHgtPmJ5dGVzX21vdmVkICs9IGJvLT5udW1fcGFnZXMgPDwgUEFHRV9TSElGVDsKPiAgIAlyZXR1
-cm4gMDsKPiAgIAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============2010859360==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4cddwez388lYGimaf3XOYuIYdwcC3WqLd"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4cddwez388lYGimaf3XOYuIYdwcC3WqLd
+Content-Type: multipart/mixed; boundary="5r7R1LcnlWksI5uNHPLlp8GnUDj3cBMHC";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Message-ID: <0cc79212-1b45-135b-3a7b-e872c8efaf69@suse.de>
+Subject: Re: [PATCH] drm/ast: Reload gamma LUT after changing primary plane's
+ color format
+References: <20200922144655.23624-1-tzimmermann@suse.de>
+ <20200923153017.GR438822@phenom.ffwll.local>
+In-Reply-To: <20200923153017.GR438822@phenom.ffwll.local>
+
+--5r7R1LcnlWksI5uNHPLlp8GnUDj3cBMHC
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 23.09.20 um 17:30 schrieb Daniel Vetter:
+> On Tue, Sep 22, 2020 at 04:46:55PM +0200, Thomas Zimmermann wrote:
+>> The gamma LUT has to be reloaded after changing the primary plane's
+>> color format. This used to be done implicitly by the CRTC atomic_enabl=
+e()
+>> helper after updating the primary plane. With the recent reordering of=
+
+>> the steps, the primary plane's setup was moved last and invalidated
+>> the gamma LUT. Fix this by setting the LUT from within atomic_flush().=
+
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: 2f0ddd89fe32 ("drm/ast: Enable CRTC before planes")
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: Dave Airlie <airlied@redhat.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>=20
+> Does what it says in the commit message, and makes sense.
+>=20
+> Maybe add a comment to the load_lut function or where it's called stati=
+ng
+> that this must be done after every plane color change, seems like an
+> important piece of information to carry around in the code itself and n=
+ot
+> just in the commit message.
+
+I'll do that before committing the patch.
+
+>=20
+> Either way: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Thanks
+
+Best regards
+Thomas
+
+>=20
+>> ---
+>>  drivers/gpu/drm/ast/ast_mode.c | 13 ++++++++++++-
+>>  1 file changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_=
+mode.c
+>> index 834a156e3a75..ba3bf76e104d 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -742,7 +742,6 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, i=
+nt mode)
+>>  	case DRM_MODE_DPMS_SUSPEND:
+>>  		if (ast->tx_chip_type =3D=3D AST_TX_DP501)
+>>  			ast_set_dp501_video_output(crtc->dev, 1);
+>> -		ast_crtc_load_lut(ast, crtc);
+>>  		break;
+>>  	case DRM_MODE_DPMS_OFF:
+>>  		if (ast->tx_chip_type =3D=3D AST_TX_DP501)
+>> @@ -777,6 +776,17 @@ static int ast_crtc_helper_atomic_check(struct dr=
+m_crtc *crtc,
+>>  	return 0;
+>>  }
+>> =20
+>> +static void
+>> +ast_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_crtc_s=
+tate *old_crtc_state)
+>> +{
+>> +	struct ast_private *ast =3D to_ast_private(crtc->dev);
+>> +	struct ast_crtc_state *ast_crtc_state =3D to_ast_crtc_state(crtc->st=
+ate);
+>> +	struct ast_crtc_state *old_ast_crtc_state =3D to_ast_crtc_state(old_=
+crtc_state);
+>> +
+>> +	if (old_ast_crtc_state->format !=3D ast_crtc_state->format)
+>> +		ast_crtc_load_lut(ast, crtc);
+>> +}
+>> +
+>>  static void
+>>  ast_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+>>  			      struct drm_crtc_state *old_crtc_state)
+>> @@ -830,6 +840,7 @@ ast_crtc_helper_atomic_disable(struct drm_crtc *cr=
+tc,
+>> =20
+>>  static const struct drm_crtc_helper_funcs ast_crtc_helper_funcs =3D {=
+
+>>  	.atomic_check =3D ast_crtc_helper_atomic_check,
+>> +	.atomic_flush =3D ast_crtc_helper_atomic_flush,
+>>  	.atomic_enable =3D ast_crtc_helper_atomic_enable,
+>>  	.atomic_disable =3D ast_crtc_helper_atomic_disable,
+>>  };
+>> --=20
+>> 2.28.0
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--5r7R1LcnlWksI5uNHPLlp8GnUDj3cBMHC--
+
+--4cddwez388lYGimaf3XOYuIYdwcC3WqLd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9sdJUUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOOXgf/difMOu6y4OoNEfRwlWhKjE11t0+5
+980DltJzLpPCzEO0aggyBrrf2gmFzIB81Z5/AQLainUPleN1+octnT4Ai9IUzBsb
++lpu0MppWNxnZTjc0zatl/YEnElcLF5bpKqhi5yHh3GyPA1CSHkY01hw5E8SMWr9
+GRyul+wGVd8guO+VtVInlbwyVUnG+pdTcTWX9LtJTcdv8T0rWRVSMJJAtKRpBVTB
+YHKMAg6sFSwFcd+PtJKN/6knT8frIQpZHIRBUbRHjjBcEenE85N9znH3X6A75iAC
+aS0zTsJp/csKp6dzjwlFb5f8cZ3rEEyNsZnvVjuHzN5MTdmb1Jg4MdUzGA==
+=hcLi
+-----END PGP SIGNATURE-----
+
+--4cddwez388lYGimaf3XOYuIYdwcC3WqLd--
+
+--===============2010859360==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2010859360==--
