@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7016A276858
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:20:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC14D276859
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:20:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A3F06EA9F;
-	Thu, 24 Sep 2020 05:20:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 153C06EA9E;
+	Thu, 24 Sep 2020 05:20:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9A806EA89
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:19:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2570B6EA8A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:19:55 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-TIHjG114NaqJi-rZCqPYdw-1; Thu, 24 Sep 2020 01:19:45 -0400
-X-MC-Unique: TIHjG114NaqJi-rZCqPYdw-1
+ us-mta-315-bRST97gGOmiHxAEb0yymnw-1; Thu, 24 Sep 2020 01:19:46 -0400
+X-MC-Unique: bRST97gGOmiHxAEb0yymnw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9236E1891E80;
- Thu, 24 Sep 2020 05:19:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E25A7800FFF;
+ Thu, 24 Sep 2020 05:19:45 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-60.bne.redhat.com
  [10.64.54.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 995C019D7C;
- Thu, 24 Sep 2020 05:19:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9F4D19D7C;
+ Thu, 24 Sep 2020 05:19:44 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 39/45] drm/radeon/ttm: use new helper to create tmp tt
-Date: Thu, 24 Sep 2020 15:18:39 +1000
-Message-Id: <20200924051845.397177-40-airlied@gmail.com>
+Subject: [PATCH 40/45] drm/amdgpu/ttm: use new ttm helper to create temp tt
+Date: Thu, 24 Sep 2020 15:18:40 +1000
+Message-Id: <20200924051845.397177-41-airlied@gmail.com>
 In-Reply-To: <20200924051845.397177-1-airlied@gmail.com>
 References: <20200924051845.397177-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -60,14 +60,14 @@ From: Dave Airlie <airlied@redhat.com>
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/radeon/radeon_ttm.c | 28 ++--------------------------
- 1 file changed, 2 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 29 ++-----------------------
+ 1 file changed, 2 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index b38bc688f665..b004857f536b 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -214,21 +214,9 @@ static int radeon_move_vram_ram(struct ttm_buffer_object *bo,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index e1133acb8536..1fbcb16a3c24 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -526,22 +526,9 @@ static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
  {
  	struct ttm_resource *old_mem = &bo->mem;
  	struct ttm_resource tmp_mem;
@@ -75,6 +75,7 @@ index b38bc688f665..b004857f536b 100644
 -	struct ttm_placement placement;
  	int r;
  
+-	/* create space/pages for new_mem in GTT space */
 -	tmp_mem = *new_mem;
 -	tmp_mem.mm_node = NULL;
 -	placement.num_placement = 1;
@@ -88,9 +89,9 @@ index b38bc688f665..b004857f536b 100644
 -	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
 +	r = ttm_bo_create_tt_tmp(bo, ctx, new_mem, &tmp_mem);
  	if (unlikely(r)) {
+ 		pr_err("Failed to find GTT space for blit from VRAM\n");
  		return r;
- 	}
-@@ -275,21 +263,9 @@ static int radeon_move_ram_vram(struct ttm_buffer_object *bo,
+@@ -597,22 +584,10 @@ static int amdgpu_move_ram_vram(struct ttm_buffer_object *bo, bool evict,
  {
  	struct ttm_resource *old_mem = &bo->mem;
  	struct ttm_resource tmp_mem;
@@ -98,6 +99,7 @@ index b38bc688f665..b004857f536b 100644
 -	struct ttm_place placements;
  	int r;
  
+ 	/* make space in GTT for old_mem buffer */
 -	tmp_mem = *new_mem;
 -	tmp_mem.mm_node = NULL;
 -	placement.num_placement = 1;
@@ -111,8 +113,8 @@ index b38bc688f665..b004857f536b 100644
 -	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
 +	r = ttm_bo_create_tt_tmp(bo, ctx, new_mem, &tmp_mem);
  	if (unlikely(r)) {
+ 		pr_err("Failed to find GTT space for blit to VRAM\n");
  		return r;
- 	}
 -- 
 2.27.0
 
