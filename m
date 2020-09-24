@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4C327682D
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E69F276840
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:19:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89D616EA71;
-	Thu, 24 Sep 2020 05:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73DA96EA85;
+	Thu, 24 Sep 2020 05:19:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 459286EA70
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:18:56 +0000 (UTC)
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDEF36EA73
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:18:58 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-XbZD-ldDNF2leZo4wxdsjg-1; Thu, 24 Sep 2020 01:18:53 -0400
-X-MC-Unique: XbZD-ldDNF2leZo4wxdsjg-1
+ us-mta-3-Xb2q7WauMeWsfNgAGiAiEg-1; Thu, 24 Sep 2020 01:18:54 -0400
+X-MC-Unique: Xb2q7WauMeWsfNgAGiAiEg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B5988027E2;
- Thu, 24 Sep 2020 05:18:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DE391084D93;
+ Thu, 24 Sep 2020 05:18:53 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-60.bne.redhat.com
  [10.64.54.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06E5D26357;
- Thu, 24 Sep 2020 05:18:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 640CF26357;
+ Thu, 24 Sep 2020 05:18:52 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/45] drm/ttm: handle the SYSTEM->TT path in same place as
- others.
-Date: Thu, 24 Sep 2020 15:18:02 +1000
-Message-Id: <20200924051845.397177-3-airlied@gmail.com>
+Subject: [PATCH 03/45] drm/amdgpu/ttm: handle tt moves properly.
+Date: Thu, 24 Sep 2020 15:18:03 +1000
+Message-Id: <20200924051845.397177-4-airlied@gmail.com>
 In-Reply-To: <20200924051845.397177-1-airlied@gmail.com>
 References: <20200924051845.397177-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,54 +60,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-This just consolidates the code making the flow easier to understand
-and also helps when moving move to the driver side.
+The core move code currently handles use_tt moves, for amdgpu
+this was being handled also in the driver, but not using the same
+paths.
+
+If moving between TT/SYSTEM (all the use_tt paths on amdgpu) use
+the core move function.
+
+Eventually the core will be flipped over to calling the driver.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index c342bfc2b4c1..6d1520255fc1 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -265,20 +265,18 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
- 			if (ret)
- 				goto out_err;
- 		}
--
--		if (bo->mem.mem_type == TTM_PL_SYSTEM) {
--			if (bdev->driver->move_notify)
--				bdev->driver->move_notify(bo, evict, mem);
--			bo->mem = *mem;
--			goto moved;
--		}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index db5f761f37ec..d3bd2fd448be 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -671,14 +671,16 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 		ttm_bo_move_null(bo, new_mem);
+ 		return 0;
  	}
- 
- 	if (bdev->driver->move_notify)
- 		bdev->driver->move_notify(bo, evict, mem);
- 
--	if (old_man->use_tt && new_man->use_tt)
--		ret = ttm_bo_move_ttm(bo, ctx, mem);
-+	if (old_man->use_tt && new_man->use_tt) {
-+		if (bo->mem.mem_type == TTM_PL_SYSTEM) {
-+			ttm_bo_assign_mem(bo, mem);
-+			ret = 0;
-+		} else
-+			ret = ttm_bo_move_ttm(bo, ctx, mem);
-+	}
- 	else if (bdev->driver->move)
- 		ret = bdev->driver->move(bo, evict, ctx, mem);
- 	else
-@@ -294,7 +292,6 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
- 		goto out_err;
+-	if ((old_mem->mem_type == TTM_PL_TT &&
+-	     new_mem->mem_type == TTM_PL_SYSTEM) ||
+-	    (old_mem->mem_type == TTM_PL_SYSTEM &&
+-	     new_mem->mem_type == TTM_PL_TT)) {
+-		/* bind is enough */
++	if (old_mem->mem_type == TTM_PL_SYSTEM &&
++	    new_mem->mem_type == TTM_PL_TT) {
+ 		ttm_bo_move_null(bo, new_mem);
+ 		return 0;
  	}
- 
--moved:
- 	ctx->bytes_moved += bo->num_pages << PAGE_SHIFT;
- 	return 0;
- 
++
++	if (old_mem->mem_type == TTM_PL_TT &&
++	    new_mem->mem_type == TTM_PL_SYSTEM)
++		return ttm_bo_move_ttm(bo, ctx, new_mem);
++
+ 	if (old_mem->mem_type == AMDGPU_PL_GDS ||
+ 	    old_mem->mem_type == AMDGPU_PL_GWS ||
+ 	    old_mem->mem_type == AMDGPU_PL_OA ||
 -- 
 2.27.0
 
