@@ -1,61 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C75D27812D
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 09:09:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 294C8278132
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 09:10:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC2C16EC06;
-	Fri, 25 Sep 2020 07:09:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 569D06EC1A;
+	Fri, 25 Sep 2020 07:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDD636E48B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 20:05:20 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id m12so146644otr.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 13:05:20 -0700 (PDT)
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E669D89A5E
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 20:34:06 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id n61so169592ota.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 13:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=857T7F4rzq03Unnc/Mc2XwCHG0TcRs4Qu8Df7doMZL4=;
- b=JWGsgkBsj6pfRbjE39f2NIz/OoE06+8RwtnQCOldTnlPp8jifBR80qGgqFcp71iSlV
- a03WamSCCRB1vhuc1FdooyUGpwn+Dwc6oYN72p0JRXenhsw9fpjJhmbJj7daStKcFKP8
- dH3OBN33aiMsaMIRNXEkzKtNaTIBTY1liFF8N2dXF/3CIk58Xu1ez64VLcKL6o5IsLlH
- UnS3vHA7STRc7f4E5rkTMT6o1E2+hCRzEx/3xNWqUamRk6flRaXz+U0vy3e3o3F64cfv
- a0x8wrz0udt6GZWZY9ftkfiUbrPd59d0oUfkcmEvTm5yF/MpE6kjG/5PIcO8r20OOtqz
- cP3Q==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ehQMQDpfRuKgE9q3WkgCEw7GDoAOhOo3QuUUp/OPUqQ=;
+ b=l312+u+7ga5J92oQ6XTu4UEadfft1HHNg8cWkHDfv1zdbNqUNoPaYJJf+u5myxV0ze
+ NhB7GnffmjU6GM2/5X55WeGIODktQ6O6FmCo8F3UTN9IJtVE7NxD00no52Ng12M75Km0
+ FIBHT+scEFtSSBIWf7qVEGVJxI1Ju9ltKeAFPQWvM8gXvlFoMsfvWIHpApaBsbGYIVru
+ VYmj73BdUKflBMum1ph00dBuR5+gBntRrg6/ZG9gxNNBZU3Q5chIwW8YCtkTe6cuktJ2
+ NEKqJ/me49prJuHwT6dMRKXGIRaG6jeuskOiW4JfyuFNjGPah4xM8pxuyFke4Z5S+OF1
+ Jtcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=857T7F4rzq03Unnc/Mc2XwCHG0TcRs4Qu8Df7doMZL4=;
- b=VeIEad0vI3rygBKMDM3bSo3XNjlK19fEFEgsomQNChsju3ulLGlqKvi+z2TSra5mkH
- J+WuT4rDN8ALFR9/6u34mD523SWfeqvZeDQj1XfLUfFbDSg4QnfGYU5CoI+9S0ocj/Rd
- Gjh6BbGTAkMQq6KKTSxZg0OSMTJRjofdauPcxlhj7IJpPPmU21k9L4UwgId8TVyPOMcA
- KaylYpsr2qiGJFyas/wd8CIIVSMd+lpUBUFv4VvN/bg68JZdmZkf+iMcOqK96CW4FxHo
- 6axAC16Bu7rD3Y+o9wQqbuNKN8jhiN+9B/D3IJVT2cNXYkAQwMgR1DnZ8BanaoKmfeHq
- ZzCQ==
-X-Gm-Message-State: AOAM532RbTkdGUySPI8rRddRp/c3VqN4STq9f8CEZBGelxYCR5uwHrAM
- SQPpqhiP4PeD+qYOwC7Ysjzof53xal4uqg==
-X-Google-Smtp-Source: ABdhPJwGiIt0ArCj3FJVqvxe8EgRJSxg1iwSynzZlTKEwkNIpSvfMMLNr/cg2LmGGPuZg1m8ZffQMA==
-X-Received: by 2002:a9d:6a0e:: with SMTP id g14mr607342otn.126.1600977920048; 
- Thu, 24 Sep 2020 13:05:20 -0700 (PDT)
-Received: from nuclearis2-1.lan (c-98-195-139-126.hsd1.tx.comcast.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ehQMQDpfRuKgE9q3WkgCEw7GDoAOhOo3QuUUp/OPUqQ=;
+ b=dUd2cAetqukocE9ypmciqajgsSGEbhyVZUSdDNsfmnQw9aBUmSGsA8N3XujZcX4n4z
+ lCMPCUgogC92DT/r/qfdVxD7dakapicB0MYz/1+UaAfnwol4dKWsI8OIww7c7PLN/WuP
+ nhsO+tvbCn6qsa8kw6st99Gx74YGXkodooO4eCldgmstdUuLwYbpHtSIPHHLiceTJjl0
+ WlwXt47Zz4BZfSTpuZQlHpfOtzBJ1lJ+abuvGaUyY6rPfIZv3HK6pfPcQ/4dInPr5gam
+ GRwznw+pQiZymqtnpK3AiJuF+madJHR0eUvfL8Njh6eTrgv4aKjyzSpI+ReUO9cCaFiu
+ RNKg==
+X-Gm-Message-State: AOAM533409JHf/ZTX25DtJjoicc0rYmQmjg2c5BnXYrzWLP11sUjzWbH
+ Mqm4XyC4pqTcnqDReC7PqUw=
+X-Google-Smtp-Source: ABdhPJx2d9TJEBv6QBxIXw1aHF4k4DJ3YCNStZz1ImZ4Pxd88NKzog6I53M3G4zKwxUTDfWnZqDSVg==
+X-Received: by 2002:a9d:75d1:: with SMTP id c17mr636430otl.59.1600979646227;
+ Thu, 24 Sep 2020 13:34:06 -0700 (PDT)
+Received: from nuclearis2-1.gtech (c-98-195-139-126.hsd1.tx.comcast.net.
  [98.195.139.126])
- by smtp.gmail.com with ESMTPSA id n13sm85590oic.14.2020.09.24.13.05.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Sep 2020 13:05:19 -0700 (PDT)
-From: Alexandru Gagniuc <mr.nuke.me@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH 2/2] dt-bindings: display: sii902x: Add supply bindings
-Date: Thu, 24 Sep 2020 15:05:06 -0500
-Message-Id: <20200924200507.1175888-2-mr.nuke.me@gmail.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20200924200507.1175888-1-mr.nuke.me@gmail.com>
+ by smtp.gmail.com with ESMTPSA id y84sm103879oia.10.2020.09.24.13.34.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Sep 2020 13:34:05 -0700 (PDT)
+Subject: Re: [PATCH 1/2] drm/bridge: sii902x: Enable I/O and core VCC supplies
+ if present
+To: Fabio Estevam <festevam@gmail.com>
 References: <20200924200507.1175888-1-mr.nuke.me@gmail.com>
+ <CAOMZO5B4S3JCVQAi-y=vKaQv3AF6eXronTkmG_DZs_ALtEHtgA@mail.gmail.com>
+From: "Alex G." <mr.nuke.me@gmail.com>
+Message-ID: <4ea79371-8036-1e26-e1ba-1bb98d1e5410@gmail.com>
+Date: Thu, 24 Sep 2020 15:34:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <CAOMZO5B4S3JCVQAi-y=vKaQv3AF6eXronTkmG_DZs_ALtEHtgA@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 25 Sep 2020 07:09:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,53 +73,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
  Mark Brown <broonie@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
- Rob Herring <robh+dt@kernel.org>, Alexandru Gagniuc <mr.nuke.me@gmail.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sii902x chip family requires IO and core voltages to reach the
-correct voltage before chip initialization. Add binding for describing
-the two supplies.
+On 9/24/20 3:22 PM, Fabio Estevam wrote:
+Hi Fabio,
 
-Signed-off-by: Alexandru Gagniuc <mr.nuke.me@gmail.com>
----
- Documentation/devicetree/bindings/display/bridge/sii902x.txt | 4 ++++
- 1 file changed, 4 insertions(+)
+> On Thu, Sep 24, 2020 at 5:16 PM Alexandru Gagniuc <mr.nuke.me@gmail.com> wrote:
+> 
+>> +       ret = regulator_enable(sii902x->cvcc12);
+>> +       if (ret < 0) {
+>> +               dev_err(dev, "Failed to enable cvcc12 supply: %d\n", ret);
+>> +               regulator_disable(sii902x->iovcc);
+>> +               return PTR_ERR(sii902x->cvcc12);
+> 
+> return ret;
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/sii902x.txt b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
-index 0d1db3f9da84..02c21b584741 100644
---- a/Documentation/devicetree/bindings/display/bridge/sii902x.txt
-+++ b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
-@@ -8,6 +8,8 @@ Optional properties:
- 	- interrupts: describe the interrupt line used to inform the host
- 	  about hotplug events.
- 	- reset-gpios: OF device-tree gpio specification for RST_N pin.
-+	- iovcc-supply: I/O Supply Voltage (1.8V or 3.3V)
-+	- cvcc12-supply: Digital Core Supply Voltage (1.2V)
- 
- 	HDMI audio properties:
- 	- #sound-dai-cells: <0> or <1>. <0> if only i2s or spdif pin
-@@ -54,6 +56,8 @@ Example:
- 		compatible = "sil,sii9022";
- 		reg = <0x39>;
- 		reset-gpios = <&pioA 1 0>;
-+		iovcc-supply = <&v3v3_hdmi>;
-+		cvcc12-supply = <&v1v2_hdmi>;
- 
- 		#sound-dai-cells = <0>;
- 		sil,i2s-data-lanes = < 0 1 2 >;
--- 
-2.25.4
+Thank you for catching that. I will fix it in v2.
 
+>>
+>>          ret = regmap_write(sii902x->regmap, SII902X_REG_TPI_RQB, 0x0);
+>> @@ -1012,11 +1052,11 @@ static int sii902x_probe(struct i2c_client *client,
+>>          regmap_read(sii902x->regmap, SII902X_INT_STATUS, &status);
+>>          regmap_write(sii902x->regmap, SII902X_INT_STATUS, status);
+>>
+>> -       if (client->irq > 0) {
+>> +       if (sii902x->i2c->irq > 0) {
+> 
+> Unrelated change.
+[snip]
+>   Unrelated change.
+[snip]
+> Unrelated change.
+[snip]
+> Unrelated change.
+
+The i2c initialization is moved into a separate function. Hence 'client' 
+is no longer available. Instead, it can be accessed via 'sii902x->i2c'.
+
+Alex
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
