@@ -1,76 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374C02775AF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 17:45:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B7A27783D
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 20:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF5216EB2B;
-	Thu, 24 Sep 2020 15:45:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECA106E314;
+	Thu, 24 Sep 2020 18:06:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5EA26EB2B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 15:45:45 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OFZ23Y158292;
- Thu, 24 Sep 2020 15:45:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=ptE4rBnIcvQs1r3P1XI5UZCVxhNT0iC7WiQxJa50zew=;
- b=azWkeHZmC4B21Ls1F5NpziOnh0GPmAKktox4SDp1B2wsB7xTxHCviZWLxEjyeI1lRkKr
- jdBRozHvrcFs7JkdOCZhPY3XsR6aMBb5BL2A9MjMUrpSNWV1kdhuqM25exJHTnXqSEr9
- r0OYAa5cM14a5xYZa5Bo+purM3NnfEg5dHQ+AtYJ6XRahrIf8QjRobUe4ZgXykUDUlXd
- e7BGihSe81vycIPnTfpsKWrNLUdVDeNBTjdxs5O8kF4ETbea7jyc9XehgcJ/jJ9M+4z7
- q/TA6PY2o0xI9aDw/WLPKAXoDy9nwA2puGkFCBkZvcbhYB4zZj+7BWmwPk3dSJYRigSj Xg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 33ndnus4k2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 24 Sep 2020 15:45:34 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OFUAKT131611;
- Thu, 24 Sep 2020 15:45:34 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 33r28x5gas-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Sep 2020 15:45:33 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08OFjOVg029780;
- Thu, 24 Sep 2020 15:45:24 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Sep 2020 08:45:23 -0700
-Date: Thu, 24 Sep 2020 18:45:16 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
- buffers
-Message-ID: <20200924154516.GL4282@kadam>
-References: <0000000000006b9e8d059952095e@google.com>
- <cover.1600953813.git.yepeilin.cs@gmail.com>
- <20200924140937.GA749208@kroah.com>
- <394733ab6fae47488d078cb22f22a85b@AcuMS.aculab.com>
- <20200924153035.GA879703@PWN>
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 055DC6E314
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 18:06:42 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1600970805; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=ALhUP7sAqZrosBEby/VQO6Cy4FEeZWO8qfo6Ml+PqXc=;
+ b=Cn16UYo1UmgdtX0jsYaUDiv/EVCR+bfMgt6I5JhEmon3Ifyxo+CN4pzhR365hgCIErMA7UV5
+ zdjnTSLLQXytwaTWrqbe1ur9cFzyvk8CJ/cpUcpSUb1dDLM/J1yM8+27pbJI4xQI2VL6Z0PQ
+ HL6J5rvtRqkYN/0CieNygMI6ecM=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 5f6ce02f1dcd99b9f253adef (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 24 Sep 2020 18:06:39
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 57D64C433FE; Thu, 24 Sep 2020 18:06:39 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 8C519C433CA;
+ Thu, 24 Sep 2020 18:06:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200924153035.GA879703@PWN>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=999
- suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009240118
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 suspectscore=0 bulkscore=0
- clxscore=1011 impostorscore=0 mlxlogscore=999 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009240118
+Date: Thu, 24 Sep 2020 11:06:38 -0700
+From: abhinavk@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH] drm/msm/dp: fix incorrect function prototype of
+ dp_debug_get()
+In-Reply-To: <160092913200.310579.7777419545906412437@swboyd.mtv.corp.google.com>
+References: <20200923232448.24516-1-abhinavk@codeaurora.org>
+ <160092913200.310579.7777419545906412437@swboyd.mtv.corp.google.com>
+Message-ID: <9b14d270ac94a7b17e13a2d4ac86ffdc@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,53 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Laight <David.Laight@ACULAB.COM>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: kernel test robot <lkp@intel.com>, linux-arm-msm@vger.kernel.org,
+ tanmay@codeaurora.org, khsieh@codeaurora.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Smatch has a tool to show where struct members are set.
+Hi Stephen
 
-`~/smatch/smatch_data/db/smdb.py where console_font height`
+Thanks for the review.
 
-It's not perfect and this output comes from allmodconfig on yesterday's
-linux-next.
+On 2020-09-23 23:32, Stephen Boyd wrote:
+> Quoting Abhinav Kumar (2020-09-23 16:24:48)
+>> Fix the incorrect function prototype for dp_debug_get()
+>> in the dp_debug module to address compilation warning.
+>> 
+>> Fixes: f913454aae8e ("drm/msm/dp: move debugfs node to 
+>> /sys/kernel/debug/dri/*/")
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+>> ---
+> 
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> 
+> Will the compliance testing parts be moved out of debugfs at some 
+> point?
+> Just curious what the plan is there.
 
-regards,
-dan carpenter
+No, the video pattern compliance testing parts will remain in debugfs as 
+they use
+IGT as the userspace entity which is debugfs based for DP compliance 
+tests.
 
-drivers/video/console/vgacon.c | vgacon_init                    | (struct console_font)->height | 0-32
-drivers/video/console/vgacon.c | vgacon_adjust_height           | (struct console_font)->height | 1-32
-drivers/video/fbdev/core/fbcon.c | fbcon_startup                  | (struct console_font)->height | 6,8,10-11,14,16,18,22,32
-drivers/video/fbdev/core/fbcon.c | fbcon_init                     | (struct console_font)->height | 6,8,10-11,14,16,18,22,32
-drivers/video/fbdev/core/fbcon.c | fbcon_do_set_font              | (struct console_font)->height | 0-u32max
-drivers/video/fbdev/core/fbcon.c | fbcon_set_def_font             | (struct console_font)->height | 6,8,10-11,14,16,18,22,32
-drivers/usb/misc/sisusbvga/sisusb_con.c | sisusbcon_init                 | (struct console_font)->height | 0-u32max
-drivers/usb/misc/sisusbvga/sisusb_con.c | sisusbcon_do_font_op           | (struct console_font)->height | 1-32
-drivers/tty/vt/vt_ioctl.c      | vt_k_ioctl                     | (struct console_font)->height | ignore
-drivers/tty/vt/vt_ioctl.c      | vt_resizex                     | (struct console_font)->height | 0-u32max
-drivers/tty/vt/vt_ioctl.c      | vt_ioctl                       | (struct console_font)->height | ignore
-drivers/tty/vt/vt_ioctl.c      | vt_compat_ioctl                | (struct console_font)->height | ignore
-drivers/tty/vt/vt.c            | vc_allocate                    | (struct console_font)->height | 0
-drivers/tty/vt/vt.c            | vt_resize                      | (struct console_font)->height | ignore
-drivers/tty/vt/vt.c            | do_con_write                   | (struct console_font)->height | ignore
-drivers/tty/vt/vt.c            | con_unthrottle                 | (struct console_font)->height | ignore
-drivers/tty/vt/vt.c            | con_flush_chars                | (struct console_font)->height | ignore
-drivers/tty/vt/vt.c            | con_shutdown                   | (struct console_font)->height | ignore
-drivers/tty/vt/vt.c            | con_cleanup                    | (struct console_font)->height | ignore
-drivers/tty/vt/vt.c            | con_init                       | (struct console_font)->height | 0
-drivers/tty/vt/vt.c            | con_font_set                   | (struct console_font)->height | 1-32
-drivers/tty/vt/vt.c            | con_font_default               | (struct console_font)->height | 0-u32max
-drivers/tty/vt/selection.c     | paste_selection                | (struct console_font)->height | ignore
-
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
