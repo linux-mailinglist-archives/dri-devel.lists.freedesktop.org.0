@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5664E276844
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846FE276838
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:19:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 953806EA87;
-	Thu, 24 Sep 2020 05:19:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 791546EA77;
+	Thu, 24 Sep 2020 05:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36CEA6EA77
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:19:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43A826EA7B
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:19:18 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-bu9y_zjSOAGdX-pikoxdxQ-1; Thu, 24 Sep 2020 01:19:10 -0400
-X-MC-Unique: bu9y_zjSOAGdX-pikoxdxQ-1
+ us-mta-35-oP_-Qm2ZPpyxCO5ha4RXpQ-1; Thu, 24 Sep 2020 01:19:12 -0400
+X-MC-Unique: oP_-Qm2ZPpyxCO5ha4RXpQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1BEE802B68;
- Thu, 24 Sep 2020 05:19:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D8CD1891E91;
+ Thu, 24 Sep 2020 05:19:11 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-60.bne.redhat.com
  [10.64.54.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8F4919D7C;
- Thu, 24 Sep 2020 05:19:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 453BD19D7C;
+ Thu, 24 Sep 2020 05:19:10 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 15/45] drm/ttm: push copy unbind into drivers.
-Date: Thu, 24 Sep 2020 15:18:15 +1000
-Message-Id: <20200924051845.397177-16-airlied@gmail.com>
+Subject: [PATCH 16/45] drm/radeon/ttm: do move notify actions inside move.
+Date: Thu, 24 Sep 2020 15:18:16 +1000
+Message-Id: <20200924051845.397177-17-airlied@gmail.com>
 In-Reply-To: <20200924051845.397177-1-airlied@gmail.com>
 References: <20200924051845.397177-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -60,99 +60,110 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-This uninlines ttm_bo_move_old_to_system into 3 places
+move notify can be gotten done inside moves instead of a separate
+callback for radeon. move notify is now only called from one other
+place where new_mem == NULL, so handle that properly.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 7 ++++++-
- drivers/gpu/drm/nouveau/nouveau_bo.c    | 7 +++++--
- drivers/gpu/drm/radeon/radeon_ttm.c     | 7 ++++++-
- 3 files changed, 17 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/radeon/radeon_object.c | 28 +++++++++++++++++---------
+ drivers/gpu/drm/radeon/radeon_object.h |  4 ++++
+ drivers/gpu/drm/radeon/radeon_ttm.c    |  8 +++++++-
+ 3 files changed, 30 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index e20ce380f627..d165edacc347 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -66,6 +66,8 @@
- static int amdgpu_ttm_backend_bind(struct ttm_bo_device *bdev,
- 				   struct ttm_tt *ttm,
- 				   struct ttm_resource *bo_mem);
-+static void amdgpu_ttm_backend_unbind(struct ttm_bo_device *bdev,
-+				      struct ttm_tt *ttm);
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index 689426dd8480..36a16d7a24b2 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -754,6 +754,21 @@ int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
+ 	return radeon_bo_get_surface_reg(bo);
+ }
  
- static int amdgpu_ttm_init_on_chip(struct amdgpu_device *adev,
- 				    unsigned int type,
-@@ -568,10 +570,13 @@ static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
- 	}
- 
- 	/* move BO (in tmp_mem) to new_mem */
--	r = ttm_bo_move_old_to_system(bo, ctx);
-+	r = ttm_bo_wait_ctx(bo, ctx);
- 	if (unlikely(r))
- 		goto out_cleanup;
- 
-+	amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
-+	ttm_resource_free(bo, &bo->mem);
 +
- 	r = ttm_tt_set_placement_caching(bo->ttm, new_mem->placement);
- 	if (unlikely(r))
- 		goto out_cleanup;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index a95d208c76a1..1e6c2561d692 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -46,7 +46,7 @@
++void radeon_bo_invalidate(struct radeon_bo *rbo)
++{
++	radeon_bo_check_tiling(rbo, 0, 1);
++	radeon_vm_bo_invalidate(rbo->rdev, rbo);
++}
++
++void radeon_bo_memory_usage(struct radeon_bo *rbo,
++			    uint32_t old_mem_type,
++			    uint32_t new_mem_type)
++{
++	radeon_update_memory_usage(rbo, old_mem_type, -1);
++	radeon_update_memory_usage(rbo, new_mem_type, 1);
++}
++
+ void radeon_bo_move_notify(struct ttm_buffer_object *bo,
+ 			   bool evict,
+ 			   struct ttm_resource *new_mem)
+@@ -763,16 +778,11 @@ void radeon_bo_move_notify(struct ttm_buffer_object *bo,
+ 	if (!radeon_ttm_bo_is_radeon_bo(bo))
+ 		return;
  
- static int nouveau_ttm_tt_bind(struct ttm_bo_device *bdev, struct ttm_tt *ttm,
- 			       struct ttm_resource *reg);
+-	rbo = container_of(bo, struct radeon_bo, tbo);
+-	radeon_bo_check_tiling(rbo, 0, 1);
+-	radeon_vm_bo_invalidate(rbo->rdev, rbo);
 -
-+static void nouveau_ttm_tt_unbind(struct ttm_bo_device *bdev, struct ttm_tt *ttm);
- /*
-  * NV10-NV40 tiling helpers
-  */
-@@ -915,10 +915,13 @@ nouveau_bo_move_flipd(struct ttm_buffer_object *bo, bool evict,
- 	if (ret)
- 		goto out;
+-	/* update statistics */
+-	if (!new_mem)
++	/* the new_mem path is handled via the move callback now */
++	if (new_mem)
+ 		return;
+-
+-	radeon_update_memory_usage(rbo, bo->mem.mem_type, -1);
+-	radeon_update_memory_usage(rbo, new_mem->mem_type, 1);
++	rbo = container_of(bo, struct radeon_bo, tbo);
++	radeon_bo_invalidate(rbo);
+ }
  
--	ret = ttm_bo_move_old_to_system(bo, ctx);
-+	ret = ttm_bo_wait_ctx(bo, ctx);
- 	if (ret)
- 		goto out;
- 
-+	nouveau_ttm_tt_unbind(bo->bdev, bo->ttm);
-+	ttm_resource_free(bo, &bo->mem);
-+
- 	ret = ttm_tt_set_placement_caching(bo->ttm, new_reg->placement);
- 	if (ret)
- 		goto out;
+ int radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
+diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
+index 27cfb64057fe..6f886e2ffaf3 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.h
++++ b/drivers/gpu/drm/radeon/radeon_object.h
+@@ -160,6 +160,10 @@ extern void radeon_bo_get_tiling_flags(struct radeon_bo *bo,
+ 				u32 *tiling_flags, u32 *pitch);
+ extern int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
+ 				bool force_drop);
++void radeon_bo_memory_usage(struct radeon_bo *rbo,
++			    uint32_t old_mem_type,
++			    uint32_t new_mem_type);
++void radeon_bo_invalidate(struct radeon_bo *rbo);
+ extern void radeon_bo_move_notify(struct ttm_buffer_object *bo,
+ 				  bool evict,
+ 				  struct ttm_resource *new_mem);
 diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 89455f2d3bb6..10d25d3b83f2 100644
+index 10d25d3b83f2..e814b11187b3 100644
 --- a/drivers/gpu/drm/radeon/radeon_ttm.c
 +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -59,6 +59,8 @@ static void radeon_ttm_debugfs_fini(struct radeon_device *rdev);
- static int radeon_ttm_tt_bind(struct ttm_bo_device *bdev,
- 			      struct ttm_tt *ttm,
- 			      struct ttm_resource *bo_mem);
-+static void radeon_ttm_tt_unbind(struct ttm_bo_device *bdev,
-+				 struct ttm_tt *ttm);
+@@ -316,12 +316,16 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	struct ttm_resource *old_mem = &bo->mem;
+ 	int r;
  
- struct radeon_device *radeon_get_rdev(struct ttm_bo_device *bdev)
- {
-@@ -249,10 +251,13 @@ static int radeon_move_vram_ram(struct ttm_buffer_object *bo,
- 	if (unlikely(r)) {
- 		goto out_cleanup;
- 	}
--	r = ttm_bo_move_old_to_system(bo, ctx);
-+	r = ttm_bo_wait_ctx(bo, ctx);
- 	if (unlikely(r))
- 		goto out_cleanup;
- 
-+	radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
-+	ttm_resource_free(bo, &bo->mem);
++	rbo = container_of(bo, struct radeon_bo, tbo);
 +
- 	r = ttm_tt_set_placement_caching(bo->ttm, new_mem->placement);
- 	if (unlikely(r))
- 		goto out_cleanup;
++	radeon_bo_invalidate(rbo);
++	radeon_bo_memory_usage(rbo, bo->mem.mem_type, new_mem->mem_type);
++
+ 	r = ttm_bo_wait_ctx(bo, ctx);
+ 	if (r)
+ 		return r;
+ 
+ 	/* Can't move a pinned BO */
+-	rbo = container_of(bo, struct radeon_bo, tbo);
+ 	if (WARN_ON_ONCE(rbo->tbo.pin_count > 0))
+ 		return -EINVAL;
+ 
+@@ -361,6 +365,8 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ memcpy:
+ 		r = ttm_bo_move_memcpy(bo, ctx, new_mem);
+ 		if (r) {
++			radeon_bo_invalidate(rbo);
++			radeon_bo_memory_usage(rbo, new_mem->mem_type, old_mem->mem_type);
+ 			return r;
+ 		}
+ 	}
 -- 
 2.27.0
 
