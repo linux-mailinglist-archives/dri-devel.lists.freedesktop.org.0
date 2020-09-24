@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D3A276856
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB80A276849
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:20:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC816EA9D;
-	Thu, 24 Sep 2020 05:20:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 128066EA93;
+	Thu, 24 Sep 2020 05:20:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE5F06EA89
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:19:47 +0000 (UTC)
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73D266EA89
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:19:49 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-3MHQ4GXbMIqu4nHgeCnxVA-1; Thu, 24 Sep 2020 01:19:42 -0400
-X-MC-Unique: 3MHQ4GXbMIqu4nHgeCnxVA-1
+ us-mta-545-6KpwY0kCOMSO5R21vs7yVA-1; Thu, 24 Sep 2020 01:19:44 -0400
+X-MC-Unique: 6KpwY0kCOMSO5R21vs7yVA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E00971017DC1;
- Thu, 24 Sep 2020 05:19:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 404221091066;
+ Thu, 24 Sep 2020 05:19:43 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-60.bne.redhat.com
  [10.64.54.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7F5119D7C;
- Thu, 24 Sep 2020 05:19:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44DE119D7C;
+ Thu, 24 Sep 2020 05:19:42 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 37/45] drm/ttm: add a helper to allocate a temp tt for copies.
-Date: Thu, 24 Sep 2020 15:18:37 +1000
-Message-Id: <20200924051845.397177-38-airlied@gmail.com>
+Subject: [PATCH 38/45] drm/nouveau/ttm: use helper to allocate tt temp
+Date: Thu, 24 Sep 2020 15:18:38 +1000
+Message-Id: <20200924051845.397177-39-airlied@gmail.com>
 In-Reply-To: <20200924051845.397177-1-airlied@gmail.com>
 References: <20200924051845.397177-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -58,66 +58,70 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-All the accel moves do the same pattern here, provide a helper
-
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c    | 28 ++++++++++++++++++++++++++++
- include/drm/ttm/ttm_bo_driver.h |  5 +++++
- 2 files changed, 33 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 30 +++-------------------------
+ 1 file changed, 3 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index eb76002aa53d..358d1580dc16 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1541,3 +1541,31 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
- 	ttm_tt_destroy(bo->bdev, bo->ttm);
- 	bo->ttm = NULL;
- }
-+
-+int ttm_bo_create_tt_tmp(struct ttm_buffer_object *bo,
-+			 struct ttm_operation_ctx *ctx,
-+			 struct ttm_resource *new_mem,
-+			 struct ttm_resource *new_temp)
-+{
-+	struct ttm_place placement_memtype = {
-+		.fpfn = 0,
-+		.lpfn = 0,
-+		.mem_type = TTM_PL_TT,
-+		.flags = TTM_PL_MASK_CACHING
-+	};
-+	struct ttm_placement placement;
-+	int ret;
-+
-+	placement.num_placement = placement.num_busy_placement = 1;
-+	placement.placement = placement.busy_placement = &placement_memtype;
-+
-+	*new_temp = *new_mem;
-+	new_temp->mm_node = NULL;
-+
-+	ret = ttm_bo_mem_space(bo, &placement, new_temp, ctx);
-+	if (ret)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index a032fdacf5f8..93f24b828ede 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -884,28 +884,16 @@ nouveau_bo_move_flipd(struct ttm_buffer_object *bo, bool evict,
+ 		      struct ttm_operation_ctx *ctx,
+ 		      struct ttm_resource *new_reg)
+ {
+-	struct ttm_place placement_memtype = {
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = TTM_PL_TT,
+-		.flags = TTM_PL_MASK_CACHING
+-	};
+-	struct ttm_placement placement;
+ 	struct ttm_resource tmp_reg;
+ 	int ret;
+ 
+-	placement.num_placement = placement.num_busy_placement = 1;
+-	placement.placement = placement.busy_placement = &placement_memtype;
+-
+-	tmp_reg = *new_reg;
+-	tmp_reg.mm_node = NULL;
+-	ret = ttm_bo_mem_space(bo, &placement, &tmp_reg, ctx);
++	ret = ttm_bo_create_tt_tmp(bo, ctx, new_reg, &tmp_reg);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+ 	if (ret)
+-		goto out;
 +		return ret;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(ttm_bo_create_tt_tmp);
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index 4a63fec24e90..a7507dfaa89d 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -558,6 +558,11 @@ void ttm_mem_io_free(struct ttm_bo_device *bdev,
- int ttm_bo_move_to_new_tt_mem(struct ttm_buffer_object *bo,
- 			      struct ttm_operation_ctx *ctx,
- 			      struct ttm_resource *new_mem);
-+
-+int ttm_bo_create_tt_tmp(struct ttm_buffer_object *bo,
-+			 struct ttm_operation_ctx *ctx,
-+			 struct ttm_resource *new_mem,
-+			 struct ttm_resource *new_temp);
- /**
-  * ttm_bo_move_memcpy
-  *
+ 
+ 	ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_reg);
+ 	if (ret)
+@@ -936,22 +924,10 @@ nouveau_bo_move_flips(struct ttm_buffer_object *bo, bool evict,
+ 		      struct ttm_operation_ctx *ctx,
+ 		      struct ttm_resource *new_reg)
+ {
+-	struct ttm_place placement_memtype = {
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = TTM_PL_TT,
+-		.flags = TTM_PL_MASK_CACHING
+-	};
+-	struct ttm_placement placement;
+ 	struct ttm_resource tmp_reg;
+ 	int ret;
+ 
+-	placement.num_placement = placement.num_busy_placement = 1;
+-	placement.placement = placement.busy_placement = &placement_memtype;
+-
+-	tmp_reg = *new_reg;
+-	tmp_reg.mm_node = NULL;
+-	ret = ttm_bo_mem_space(bo, &placement, &tmp_reg, ctx);
++	ret = ttm_bo_create_tt_tmp(bo, ctx, new_reg, &tmp_reg);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.27.0
 
