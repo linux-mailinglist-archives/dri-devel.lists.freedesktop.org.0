@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F267277A30
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 22:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49504277A83
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 22:34:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26BBB6E497;
-	Thu, 24 Sep 2020 20:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1DB56E49A;
+	Thu, 24 Sep 2020 20:34:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1411D6E497
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 20:29:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17CFD6E49A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 20:34:50 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 388BE2007E;
- Thu, 24 Sep 2020 22:29:36 +0200 (CEST)
-Date: Thu, 24 Sep 2020 22:29:34 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 1B48A20079;
+ Thu, 24 Sep 2020 22:34:47 +0200 (CEST)
+Date: Thu, 24 Sep 2020 22:34:46 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 3/3] drm/ingenic: Add support for reserved memory
-Message-ID: <20200924202934.GK1223313@ravnborg.org>
-References: <20200915123818.13272-1-paul@crapouillou.net>
- <20200915123818.13272-4-paul@crapouillou.net>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: Re: [PATCH] MAINTAINERS: mark FRAMEBUFFER LAYER as Orphan
+Message-ID: <20200924203446.GL1223313@ravnborg.org>
+References: <CGME20200924112530eucas1p13af17d649767ed51c619d303392fa1e1@eucas1p1.samsung.com>
+ <7b709254-9412-8473-250c-0c4e006259b3@samsung.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200915123818.13272-4-paul@crapouillou.net>
+In-Reply-To: <7b709254-9412-8473-250c-0c4e006259b3@samsung.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8 a=7gkXJVJtAAAA:8
- a=Uiir0mAzoKyVEoIzVM8A:9 a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22
- a=E9Po1WZjFZOl8hwRPBS3:22
+ a=kj9zAlcOel0A:10 a=hD80L64hAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
+ a=VwQbUJbxAAAA:8 a=KIuVEvK59YeNV9IdMJ8A:9 a=CjuIK1q_8ugA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,72 +46,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, od@zcrc.me,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15, 2020 at 02:38:18PM +0200, Paul Cercueil wrote:
-> Add support for static memory reserved from Device Tree. Since we're
-> using GEM buffers backed by CMA, it is interesting to have an option to
-> specify the CMA area where the GEM buffers will be allocated.
+Hi Bartlomiej
+
+On Thu, Sep 24, 2020 at 01:25:30PM +0200, Bartlomiej Zolnierkiewicz wrote:
+> It has been a fun ride since 2017 but unfortunately I don't have
+> enough time to look after it properly anymore.
+
+Thanks for all your work on fbdev, and other stuff.
+
+I hope you have fun in the current job with whatever you do or
+even better manage to find something else so we can get you back.
+
+I could see that Daniel thinks we shall keep fbdev in drm-misc
+but we shall no longer rely on you sweeping the mailing list
+for all the pending patches :-( So I will likely start breaking
+fbdev some more (read: applying a few more fbdev patches).
+
 > 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
+Please consider a proper entry in CREDITS too!
+
+	Sam
+
 > ---
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+>  MAINTAINERS |    3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index aa32660033d2..44b0d029095e 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -14,6 +14,7 @@
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/of_device.h>
-> +#include <linux/of_reserved_mem.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
+> Index: b/MAINTAINERS
+> ===================================================================
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6894,10 +6894,9 @@ F:	drivers/net/wan/dlci.c
+>  F:	drivers/net/wan/sdla.c
 >  
-> @@ -827,6 +828,11 @@ static void ingenic_drm_unbind_all(void *d)
->  	component_unbind_all(priv->dev, &priv->drm);
->  }
->  
-> +static void __maybe_unused ingenic_drm_release_rmem(void *d)
-> +{
-> +	of_reserved_mem_device_release(d);
-> +}
-> +
->  static int ingenic_drm_bind(struct device *dev, bool has_components)
->  {
->  	struct platform_device *pdev = to_platform_device(dev);
-> @@ -848,6 +854,19 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
->  		return -EINVAL;
->  	}
->  
-> +	if (IS_ENABLED(CONFIG_OF_RESERVED_MEM)) {
-> +		ret = of_reserved_mem_device_init(dev);
-> +
-> +		if (ret && ret != -ENODEV)
-> +			return dev_err_probe(dev, ret, "Failed to get reserved memory\n");
-> +
-> +		if (ret != -ENODEV) {
-> +			ret = devm_add_action_or_reset(dev, ingenic_drm_release_rmem, dev);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +	}
-> +
->  	priv = devm_drm_dev_alloc(dev, &ingenic_drm_driver_data,
->  				  struct ingenic_drm, drm);
->  	if (IS_ERR(priv))
-> -- 
-> 2.28.0
+>  FRAMEBUFFER LAYER
+> -M:	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+>  L:	dri-devel@lists.freedesktop.org
+>  L:	linux-fbdev@vger.kernel.org
+> -S:	Maintained
+> +S:	Orphan
+>  Q:	http://patchwork.kernel.org/project/linux-fbdev/list/
+>  T:	git git://anongit.freedesktop.org/drm/drm-misc
+>  F:	Documentation/fb/
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
