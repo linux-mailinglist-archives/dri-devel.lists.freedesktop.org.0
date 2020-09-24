@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390FA2764FC
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 02:20:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5971276510
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 02:32:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A0946EA1C;
-	Thu, 24 Sep 2020 00:20:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E7066E067;
+	Thu, 24 Sep 2020 00:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7736EA1C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 00:20:09 +0000 (UTC)
-Received: by mail-ej1-x641.google.com with SMTP id u21so2068651eja.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 17:20:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RO2haehJbbmPliMQGTCUNzlFgZJnCjxEpos9821TVn0=;
- b=En/LtzUx6Nx1VzEujx5wyKAJ0XIQq5wKwFYkAepIX/VlhBPzpudpgMcX07DyWsc9KE
- L0v7M0atHzjOW2hkUbp1DBt12nSpcYTPsgLaEYBHr7urJcxLDEcAaQDQ+lAnT7YwvtIW
- SUHkDcX3EqclOpzFyy2tondWEfjI+8+ZLUDP3S6cP0SD7I+Mbba3r28HaJaE/Z4S6f06
- VlUXfrTinKgHlbSB73XOPLT2/mdV7NDqvgGcEpjZutCSlkhFOBhx5Rg88mkxAYMlZIQ0
- TsN0YOKDP+Qz3m7YtmHugBQUhgBv6j51sNmXaczj4eyJDWZihe4chPsRUE6LPJzTrJuP
- iTPg==
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD2EB6E067
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 00:32:17 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id z19so741215pfn.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 17:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dCeErYaYU/OrSRlMHth62JhyG2DwbGqcl8xZ6TAfBZs=;
+ b=JcgK0TG2QFhnJcjddAuVYXwC9peg7zHnVdEq+LKYnj/R+UzPMllRU/D4UQbUYSI3J6
+ +3lacNTePlukZXSG5H69vWYXIFKf2jX4B7v0Z1LRDrdQgbiQAMjf8Q9vEfrOiySEr0kr
+ jdogWiQd1EJW6uDj705dUw+c0Yz1bVpR+QGnM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RO2haehJbbmPliMQGTCUNzlFgZJnCjxEpos9821TVn0=;
- b=B4Xwtl2Bo/WsUZyfjkE87+Bwz6dSZ3RZjZniS29gdohulNRTeTrFuFEvm23guvwp+y
- ocFkIgVcDYikr7mBm7bXCT/r/6okUA+AECMkDBseZucmXB1nBPVrDLUopDOiQ+3RyYC3
- UJd/BudJrYtnGKO2HuKFwMxdhJWI2uUwVsmP3L9y5wRF5NcrNRH1vo7QHI2xG/M3CwJb
- xKfdfwngUgocw/v9NuoEbXprR9eBcnjDWcEbMfS8EiuZXa2C8pH5fFmzHg5rFlimsaKJ
- uJpCp8Oagv/LOPr7ciuHFsIIVrEou3msnogmLAbeZVyMlHbv4bjDYFHCtPwCFdj3g/H0
- bBUw==
-X-Gm-Message-State: AOAM532yNkp8zVoqpDWTUV5dkcZjfXcq6AFxxJr2s+bCUM8d1N9ZmrrP
- 9jvdBQTqAB/ibWpIIWUkqz1JsZryqwi2SJ0qej0IRt4T
-X-Google-Smtp-Source: ABdhPJz1shAj7jQLZ67FRWDRo6Adn7dBNSxUSncpbtudJz8EXxm/4t43GiS8sk/BJGFa46wESF8WcooG4pW5RiHG1Ds=
-X-Received: by 2002:a17:906:d787:: with SMTP id
- pj7mr2011309ejb.340.1600906808161; 
- Wed, 23 Sep 2020 17:20:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dCeErYaYU/OrSRlMHth62JhyG2DwbGqcl8xZ6TAfBZs=;
+ b=OW6mOkvlScmwapcEI5jN7o9LV2+8YPbBVhPDBV3nMgIzaUDvj2+P/JpJAl0eDHp6th
+ zL0zU2+2Z7C/0cBYG/KfmiMahpXuH6dbmOden/aSsmGnW/rZthhC0RuErVdpPNVJs/CJ
+ DZ8F0jBxnzZ1U75hCaNQ1+kxwwge0gs3VD3+PJIOMMN430Jj2wiJYj3IK0x4ueqB8f8J
+ Ask4Snyv++mAtP0UXuBjqDmlU0VJpFMVDT2oOjG5lV8pS3skGwkThslR6ijVSg0/U/aw
+ 8clsZ3Iw095kwdjLOoNBPbT2oqc2r/GU2isXstCmLLm8xAvufwkBY5gyLbvP5rmnT0CD
+ 2cPA==
+X-Gm-Message-State: AOAM530kT/hpY1FVQZFjd1i3kJN4KV/+qc64m6tLSlFc3MyeQSXsO20C
+ TrFcKyvQ5xLI98Rp7I1ynbf3TQTos7K+Sw==
+X-Google-Smtp-Source: ABdhPJyFhmEFuvIzNCXQSCsAyUuYJYNanWSPTWeGBOS08sv0yOXCh9Bt1a9LqquTh+CeLnjDDKM9Rg==
+X-Received: by 2002:a62:bd05:0:b029:142:2501:3a02 with SMTP id
+ a5-20020a62bd050000b029014225013a02mr2037584pff.81.1600907537086; 
+ Wed, 23 Sep 2020 17:32:17 -0700 (PDT)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
+ by smtp.gmail.com with ESMTPSA id 64sm735312pfd.7.2020.09.23.17.32.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Sep 2020 17:32:16 -0700 (PDT)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 01/19] drm/virtio: blob prep: refactor getting pages and
+ attaching backing
+Date: Wed, 23 Sep 2020 17:31:56 -0700
+Message-Id: <20200924003214.662-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200917142917.3178-1-christian.koenig@amd.com>
- <4b32960a-2322-bdd7-cba5-b8f41e896e97@gmail.com>
-In-Reply-To: <4b32960a-2322-bdd7-cba5-b8f41e896e97@gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 24 Sep 2020 10:19:56 +1000
-Message-ID: <CAPM=9twOkJCWnYk5+AamVWqkSMVR6o1pUc=wSr51_y+5cyYbeQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/nouveau: stop using persistent_swap_storage
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,35 +64,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, Ben Skeggs <skeggsb@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kraxel@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UmV2aWV3ZWQtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+CgpGb3IgYm90aCBw
-YXRjaGVzLgoKT24gV2VkLCAyMyBTZXAgMjAyMCBhdCAyMzowMywgQ2hyaXN0aWFuIEvDtm5pZwo8
-Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gUGluZz8gQmVuLCBE
-YXZlIGFueSBjb21tZW50IG9uIHRoaXM/Cj4KPiBBbSAxNy4wOS4yMCB1bSAxNjoyOSBzY2hyaWVi
-IENocmlzdGlhbiBLw7ZuaWc6Cj4gPiBBY2NvcmRpbmcgdG8gQmVuIHRoaXMgaXMgbW9zdCBsaWtl
-bHkganVzdCBhIGxlZnRvdmVyLgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7Zu
-aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiA+IC0tLQo+ID4gICBkcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9ub3V2ZWF1X2dlbS5jIHwgMSAtCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGRl
-bGV0aW9uKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25v
-dXZlYXVfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2dlbS5jCj4gPiBp
-bmRleCA4OWFkYWRmNDcwNmIuLjU5NDVjNjYzMzgxZCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZ2VtLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9u
-b3V2ZWF1L25vdXZlYXVfZ2VtLmMKPiA+IEBAIC0yMDksNyArMjA5LDYgQEAgbm91dmVhdV9nZW1f
-bmV3KHN0cnVjdCBub3V2ZWF1X2NsaSAqY2xpLCB1NjQgc2l6ZSwgaW50IGFsaWduLCB1aW50MzJf
-dCBkb21haW4sCj4gPiAgICAgICBpZiAoZHJtLT5jbGllbnQuZGV2aWNlLmluZm8uZmFtaWx5ID49
-IE5WX0RFVklDRV9JTkZPX1YwX1RFU0xBKQo+ID4gICAgICAgICAgICAgICBudmJvLT52YWxpZF9k
-b21haW5zICY9IGRvbWFpbjsKPiA+Cj4gPiAtICAgICBudmJvLT5iby5wZXJzaXN0ZW50X3N3YXBf
-c3RvcmFnZSA9IG52Ym8tPmJvLmJhc2UuZmlscDsKPiA+ICAgICAgICpwbnZibyA9IG52Ym87Cj4g
-PiAgICAgICByZXR1cm4gMDsKPiA+ICAgfQo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+Useful for upcoming blob resources.
+
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_object.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 842f8b61aa897..4c107b53e81a0 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -228,22 +228,22 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 			goto err_put_objs;
+ 	}
+ 
++	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
++	if (ret != 0) {
++		virtio_gpu_free_object(&shmem_obj->base);
++		return ret;
++	}
++
+ 	if (params->virgl) {
+ 		virtio_gpu_cmd_resource_create_3d(vgdev, bo, params,
+ 						  objs, fence);
++		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 	} else {
+ 		virtio_gpu_cmd_create_resource(vgdev, bo, params,
+ 					       objs, fence);
++		virtio_gpu_object_attach(vgdev, bo, ents, nents);
+ 	}
+ 
+-	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+-	if (ret != 0) {
+-		virtio_gpu_free_object(&shmem_obj->base);
+-		return ret;
+-	}
+-
+-	virtio_gpu_object_attach(vgdev, bo, ents, nents);
+-
+ 	*bo_ptr = bo;
+ 	return 0;
+ 
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
