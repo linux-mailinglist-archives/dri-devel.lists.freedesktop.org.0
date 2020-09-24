@@ -2,59 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD86276A84
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7071276A1D
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:10:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD9E6E0C1;
-	Thu, 24 Sep 2020 07:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB7F989341;
+	Thu, 24 Sep 2020 07:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 061356EAAE;
- Thu, 24 Sep 2020 06:57:54 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1600930672;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5rTYnFSI7MvYdctqS1tc/c91OuHk2uQv9NNDSCQ04XQ=;
- b=ToSaPZLxQ2AH6wpji2/x8TcisM3A51I/7u6foK9kSTrf7OV6+B/sYvPqQhMtEJrg0N9zIx
- Cxs2etUyPDaehZQCOzhxH7PpvSyJSfy+zT5nw6FTVB78t6JNp7mDPmryw8BrJtWSznRbjf
- 8WXrnLC1goQovtz1OVkxeDIie+039a2C5Ao2dLue3fpVFSN5R/cBi6m5tXzS9aMxE6UJwX
- Uwp2HtahcdV3lHGQhtB2rKe1baF/Au/D2y5x0sKC4vrpIL/XuoPxLZOPdKWgIlvAl5aFPa
- sm2IQ31/n393ddHyPDhkeJ4Ev5cXAXShQDmJK93cRSzGvYG6PFna1CfbOLLbSA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1600930672;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5rTYnFSI7MvYdctqS1tc/c91OuHk2uQv9NNDSCQ04XQ=;
- b=EvF/NhfcVha3UwOSEREyL46c1SondfygAd7QtbHcK6NXwedthX3cPGyjT7D4JChbCJd2jo
- pNgVY6bwfByW4sDA==
-To: Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [patch RFC 00/15] mm/highmem: Provide a preemptible variant of
- kmap_atomic & friends
-In-Reply-To: <20200923171234.0001402d@oasis.local.home>
-References: <20200919091751.011116649@linutronix.de>
- <CAHk-=wiYGyrFRbA1cc71D2-nc5U9LM9jUJesXGqpPnB7E4X1YQ@mail.gmail.com>
- <87mu1lc5mp.fsf@nanos.tec.linutronix.de>
- <87k0wode9a.fsf@nanos.tec.linutronix.de>
- <CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com>
- <87eemwcpnq.fsf@nanos.tec.linutronix.de>
- <CAHk-=wgF-upZVpqJWK=TK7MS9H-Rp1ZxGfOG+dDW=JThtxAzVQ@mail.gmail.com>
- <87a6xjd1dw.fsf@nanos.tec.linutronix.de>
- <CAHk-=wjhxzx3KHHOMvdDj3Aw-_Mk5eRiNTUBB=tFf=vTkw1FeA@mail.gmail.com>
- <87sgbbaq0y.fsf@nanos.tec.linutronix.de>
- <20200923084032.GU1362448@hirez.programming.kicks-ass.net>
- <20200923115251.7cc63a7e@oasis.local.home>
- <874kno9pr9.fsf@nanos.tec.linutronix.de>
- <20200923171234.0001402d@oasis.local.home>
-Date: Thu, 24 Sep 2020 08:57:52 +0200
-Message-ID: <871riracgf.fsf@nanos.tec.linutronix.de>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10DD789341
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 07:10:53 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5DC49AA55;
+ Thu, 24 Sep 2020 07:11:29 +0000 (UTC)
+Subject: Re: [PATCH 35/45] drm/vram-helper: move to invalidate callback.
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20200924051845.397177-1-airlied@gmail.com>
+ <20200924051845.397177-36-airlied@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <e6e66c4f-2f76-504b-b054-b72fd0253895@suse.de>
+Date: Thu, 24 Sep 2020 09:10:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 24 Sep 2020 07:19:09 +0000
+In-Reply-To: <20200924051845.397177-36-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,90 +39,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juri Lelli <juri.lelli@redhat.com>, peterz@infradead.org,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
- Ben Segall <bsegall@google.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Guo Ren <guoren@kernel.org>, linux-sparc <sparclinux@vger.kernel.org>,
- Vincent Chen <deanbo422@gmail.com>, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, linux-arch <linux-arch@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Michael Ellerman <mpe@ellerman.id.au>,
- the arch/x86 maintainers <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Mel Gorman <mgorman@suse.de>,
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- linux-xtensa@linux-xtensa.org, Paul McKenney <paulmck@kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Greentime Hu <green.hu@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Vineet Gupta <vgupta@synopsys.com>, Paul Mackerras <paulus@samba.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: christian.koenig@amd.com, bskeggs@redhat.com
+Content-Type: multipart/mixed; boundary="===============1688480953=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 23 2020 at 17:12, Steven Rostedt wrote:
-> On Wed, 23 Sep 2020 22:55:54 +0200
-> Then scratch the idea of having anonymous local_lock() and just bring
-> local_lock in directly? Then have a kmap local lock, which would only
-> block those that need to do a kmap.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1688480953==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Kh7xKd4CHWwx3rOsdeY1Nckh6ESraZimi"
 
-That's still going to end up in lock ordering nightmares and you lose
-the ability to use kmap_local from arbitrary contexts which was again
-one of the goals of this exercise.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Kh7xKd4CHWwx3rOsdeY1Nckh6ESraZimi
+Content-Type: multipart/mixed; boundary="bOH1lNVYu3OSu0hkLkdOS1HhCbpe9phX4";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: christian.koenig@amd.com, bskeggs@redhat.com
+Message-ID: <e6e66c4f-2f76-504b-b054-b72fd0253895@suse.de>
+Subject: Re: [PATCH 35/45] drm/vram-helper: move to invalidate callback.
+References: <20200924051845.397177-1-airlied@gmail.com>
+ <20200924051845.397177-36-airlied@gmail.com>
+In-Reply-To: <20200924051845.397177-36-airlied@gmail.com>
 
-Aside of that you're imposing reentrancy protections on something which
-does not need it in the first place.
+--bOH1lNVYu3OSu0hkLkdOS1HhCbpe9phX4
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> Now as for migration disabled nesting, at least now we would have
-> groupings of this, and perhaps the theorists can handle that. I mean,
-> how is this much different that having a bunch of tasks blocked on a
-> mutex with the owner is pinned on a CPU?
->
-> migrate_disable() is a BKL of pinning affinity.
+Hi
 
-No. That's just wrong. preempt disable is a concurrency control,
-i.e. protecting against reentrancy on a given CPU. But it's a cpu global
-protection which means that it's not protecting a specific code path.
+Am 24.09.20 um 07:18 schrieb Dave Airlie:
+> From: Dave Airlie <airlied@redhat.com>
+>=20
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_gem_vram_helper.c | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/dr=
+m_gem_vram_helper.c
+> index 5d4182f5c22f..9d4100071e1d 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -433,7 +433,7 @@ static void drm_gem_vram_kunmap_locked(struct drm_g=
+em_vram_object *gbo)
+>  	 * Permanently mapping and unmapping buffers adds overhead from
+>  	 * updating the page tables and creates debugging output. Therefore,
+>  	 * we delay the actual unmap operation until the BO gets evicted
+> -	 * from memory. See drm_gem_vram_bo_driver_move_notify().
+> +	 * from memory. See drm_gem_vram_bo_driver_invalidate_notify().
+>  	 */
+>  }
+> =20
+> @@ -585,9 +585,7 @@ static void drm_gem_vram_bo_driver_evict_flags(stru=
+ct drm_gem_vram_object *gbo,
+>  	*pl =3D gbo->placement;
+>  }
+> =20
+> -static void drm_gem_vram_bo_driver_move_notify(struct drm_gem_vram_obj=
+ect *gbo,
+> -					       bool evict,
+> -					       struct ttm_resource *new_mem)
+> +static void drm_gem_vram_bo_driver_invalidate_notify(struct drm_gem_vr=
+am_object *gbo)
+>  {
+>  	struct ttm_bo_kmap_obj *kmap =3D &gbo->kmap;
+> =20
+> @@ -605,7 +603,7 @@ static int drm_gem_vram_bo_driver_move(struct drm_g=
+em_vram_object *gbo,
+>  				       struct ttm_operation_ctx *ctx,
+>  				       struct ttm_resource *new_mem)
+>  {
+> -	drm_gem_vram_bo_driver_move_notify(gbo, evict, new_mem);
+> +	drm_gem_vram_bo_driver_invalidate_notify(gbo);
+>  	return ttm_bo_move_memcpy(&gbo->bo, ctx, new_mem);
+>  }
 
-Contrary to preempt disable, migrate disable is not protecting against
-reentrancy on a given CPU. It's a temporary restriction to the scheduler
-on placement.
+I don't fully understand TTM's order of operation, so this might be a
+dumb question: why is invalidate_notify() called from within the move()
+callback? I'd expect that the invalidate_notify() callback is called by
+TTM before moving the BO?
 
-The fact that disabling preemption implicitely disables migration does
-not make them semantically equivalent.
+> =20
+> @@ -956,9 +954,7 @@ static void bo_driver_evict_flags(struct ttm_buffer=
+_object *bo,
+>  	drm_gem_vram_bo_driver_evict_flags(gbo, placement);
+>  }
+> =20
+> -static void bo_driver_move_notify(struct ttm_buffer_object *bo,
+> -				  bool evict,
+> -				  struct ttm_resource *new_mem)
+> +static void bo_driver_invalidate_notify(struct ttm_buffer_object *bo)
+>  {
+>  	struct drm_gem_vram_object *gbo;
+> =20
+> @@ -968,7 +964,7 @@ static void bo_driver_move_notify(struct ttm_buffer=
+_object *bo,
+> =20
+>  	gbo =3D drm_gem_vram_of_bo(bo);
+> =20
+> -	drm_gem_vram_bo_driver_move_notify(gbo, evict, new_mem);
+> +	drm_gem_vram_bo_driver_invalidate_notify(gbo);
+>  }
+> =20
+>  static int bo_driver_move(struct ttm_buffer_object *bo,
+> @@ -1008,7 +1004,7 @@ static struct ttm_bo_driver bo_driver =3D {
+>  	.eviction_valuable =3D ttm_bo_eviction_valuable,
+>  	.evict_flags =3D bo_driver_evict_flags,
+>  	.move =3D bo_driver_move,
+> -	.move_notify =3D bo_driver_move_notify,
+> +	.invalidate_notify =3D bo_driver_invalidate_notify,
+>  	.io_mem_reserve =3D bo_driver_io_mem_reserve,
+>  };
+> =20
+>=20
 
-> If we only have local_lock() available (even on !RT), then it makes
-> the blocking in groups. At least this way you could grep for all the
-> different local_locks in the system and plug that into the algorithm
-> for WCS, just like one would with a bunch of mutexes.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-You cannot do that on RT at all where migrate disable is substituting
-preempt disable in spin and rw locks. The result would be the same as
-with a !RT kernel just with horribly bad performance.
 
-That means the stacking problem has to be solved anyway.
+--bOH1lNVYu3OSu0hkLkdOS1HhCbpe9phX4--
 
-So why on earth do you want to create yet another special duct tape case
-for kamp_local() which proliferates inconsistency instead of aiming for
-consistency accross all preemption models?
+--Kh7xKd4CHWwx3rOsdeY1Nckh6ESraZimi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Thanks,
+-----BEGIN PGP SIGNATURE-----
 
-        tglx
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9sRnoUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOtLQf/aNguTOTVuBEj/l5Qj2WeVX7FWMkm
+oJglrX/Pikr2nPPqPmeR3o+Iy2JSIZ+Zoen1CVptI+g0G2sCOrUrdYa9XBVR+pGO
+sxhdyBmLW2u+mOF+hk5qED7Pgo1STpJuLSzDtfTiJ+gs3KuaSfmwa3psD6a4jddP
+5xiCyQlVjo8S73jH1QPvhIYXFRL5bj8eZ6DM2CCtySIi+0Q4QJAEGHZMfAQWnGhK
+PVhJTRR29bhL0fszXi2o2ZjVScH3rm2igMarfK7FLF3xUzpYXCtF2jd9w7cQDqSQ
+6XMDrkKV2IwCp0gaPRdoMEG0YVxMrYxrZmOvGMasHrqpEA6Wyi8DEqTXaw==
+=mFi8
+-----END PGP SIGNATURE-----
+
+--Kh7xKd4CHWwx3rOsdeY1Nckh6ESraZimi--
+
+--===============1688480953==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1688480953==--
