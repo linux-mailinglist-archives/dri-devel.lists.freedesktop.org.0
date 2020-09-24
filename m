@@ -2,90 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73915276FA3
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 13:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E46B276FA7
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 13:16:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 955496E1ED;
-	Thu, 24 Sep 2020 11:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B28A6E20C;
+	Thu, 24 Sep 2020 11:16:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2056.outbound.protection.outlook.com [40.107.93.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3956E1ED
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 11:15:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GA845dC2YMyC4pBwpZ+sULWtmgRVP6yuS1MMYCIPXiSwsgx6vEuXXOjoLZOOuXb40L/RU13Tvj1U204qVy+4zsGhJlWBfujP41mRuISjAyk52K3lcdcExc45odkOjVc2fYQDuu/UHDzUdMx6QlYOU4183C0RoRgk37RhjAo4stinEtrTDWDYESSRyY2tmf/WKWRX9xgOOkYGO6l2ZmEeBCu8LoEflDaAX/If58FaXJS571lBsdLExKyWjAJ5MDvAdECbDg2beGyMnsHfR54Uzf3kSjj7bq0g3UFTbmFslxDST8de4gSK9clJTBpDjfGGSNL6zZR6kXuIU4gBDejQNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nAIoAAdNILvPopzbzsPX5DqFJObF2YErQbSUcXJuhLI=;
- b=B7f5rqMrZ2WZMjaIJiErUVqgYupf6/h8p0KRI1IqHpCyyd1lyyOs3cYY9z3DaUk0j5BV+fTxx52YX8px6ro4t+Flo1KmfGqVvAwy2f0OF4eM8cA5d4ZTlkivm93UFwRJRRmWMhMiPNveQ5ExWP52J4bJ/IA+oUumZl3sAUaIkGafMLSHd67HONR2SKa7UoXCT3OJul2pHUo4yCYsXUwKpBCzSCkXiDVvxRwrq755TrdQcWKGiBx6Ji53ddJ54qqfgJBM57EojeWAibhSSuWgUB2JpepW2LAc72xFO1nMDs3kndWnEfAHKQ9pxrzX+UE+zFTykvDD4N4zw+f+nAIgzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nAIoAAdNILvPopzbzsPX5DqFJObF2YErQbSUcXJuhLI=;
- b=s2hgshhggqkWPJ2I3TZD7BF6pXITCUJlzIm3e2M8QPnGbQTx5f21/4ThTTDn+IG10KCdI9Cz6te6P6+za6HfHg5z4QiaPl7DKS9cr6iaMIJ75Vk174dG62rRZo1JEqDORLJE2d0jIERcj8ein8iUzaRsTKevzoLzc5GS2+SJ2ZQ=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.21; Thu, 24 Sep
- 2020 11:15:26 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3412.022; Thu, 24 Sep 2020
- 11:15:26 +0000
-Subject: Re: [PATCH 09/45] drm/ttm: make move callback compulstory
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200924051845.397177-1-airlied@gmail.com>
- <20200924051845.397177-10-airlied@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <4ddeb558-a556-a01f-1cba-eb5feb1b26e6@amd.com>
-Date: Thu, 24 Sep 2020 13:15:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200924051845.397177-10-airlied@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR02CA0093.eurprd02.prod.outlook.com
- (2603:10a6:208:154::34) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C35B36E20C
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 11:16:53 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id m13so2748831otl.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 04:16:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EUffDHVR2Yv6MCCT8PCpcsVqmKxjAwJSMcwmmyvnucc=;
+ b=VF7T//62eV6rXVhYQn17mtsF3W0XKvPN/z5QrI+xMgYUX6byJw0pf11AOsNKqCRuTS
+ IGP9jxos39i+Bo5CegbvJCCZQBy0pEzUKtr0JjejwpwaxwEhn9A6OrxtjdBrnXFdtsph
+ qCCWm6psPgVDS1qmqNSSEBU+kkBRBJS0tSzJ4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EUffDHVR2Yv6MCCT8PCpcsVqmKxjAwJSMcwmmyvnucc=;
+ b=q9uu3obHFXqWyKWmM2GxsFXaUnUM+A2GcKC7FtHslrhQCAvY4prAU2+YOL8LuIll79
+ q82CN50pL6ebfllMbOzily9YZTSaQ2uvInMth2+96PrZuoxcwed+mgEd924amn/OAXwr
+ 7GALCz1VqmSzOhzR5XYCFGDwtJCUQ+PnzXIf+wN1VFyYwd+lgiAtdAg+D+4WwHks/IeU
+ JdWhLIOKgGMnEbWNU61RINJ/n6KE1FTMwmr5KRIQCQK5GNskBjAkkPj7/rZMbCOw0GKi
+ SEiaNOlAmDqvhDbqYcYh8Z9vHx0AutrF8m0qB/nVi2Wovi2bfzfMBC4VEu/acsZo7w/z
+ 3Q7g==
+X-Gm-Message-State: AOAM5315NPhP95cR3JkKyPm+8hkJxgX9zcM+Xr8rMVsFz+VZ5HxmxAoc
+ OtNR26JtWTF9tg27n9u1nkrL7Gff3MP5B6oIteUo+A==
+X-Google-Smtp-Source: ABdhPJwEFjmKOPVpkpvPPLv6s6Ly5U3TjxZ7Lk3KqykuP1iMklc8VSHFYtWZTyU2/nGMhS4Oa+6LSPt4eonYgqqavfA=
+X-Received: by 2002:a05:6830:14d9:: with SMTP id
+ t25mr2888208otq.188.1600946213067; 
+ Thu, 24 Sep 2020 04:16:53 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR02CA0093.eurprd02.prod.outlook.com (2603:10a6:208:154::34) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22 via Frontend
- Transport; Thu, 24 Sep 2020 11:15:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 521c203a-9332-45ff-3f32-08d8607b2327
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB2353DB54AAD5B2A6E1D518ED83390@BL0PR12MB2353.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:530;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gFiRzBNuFA+a3xKapiIIYg6klDiG6Mb+d9kR8OSe7VwwaFcfDx/rsKkXKRR6lVh+DyYkMJDXtzvd1eAqID8Pf5MvW1rVdpnCJKTuq9QAfzBNyyX+XBHcSmAkHSD7xtYhC2r5Akdu2WeH5yPCJiS1VxFzQz6YACCHwghvmGFvS4axZq3+fSOkhA/e0wCjxIA3sD9kpbUp1uIrXSAR/8QR/JD2cqbqmHCu/27N+AabH9iOcji4CeCir9MhdZgSqziSqgvPxATiN6PKeuHxqN0Jc/e58GVarEbw8aoYcJFMUeQxJx7DjqgBoBAUA7Q3kKhOSOoeIyK8tu164VE3MBQd51Xfth3lwVfhtPyRwSrlM3ZkOal+t9g9+k/EcksjFjY7
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39860400002)(376002)(136003)(366004)(66556008)(66476007)(66946007)(31696002)(186003)(36756003)(16526019)(2906002)(6666004)(83380400001)(86362001)(31686004)(8936002)(478600001)(4326008)(6486002)(5660300002)(316002)(2616005)(52116002)(8676002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: eC6sgQ1xeD9U4rC+uZULqF2L/gMYvvD9m7S6DjihCLg2k8D1nuKq6VdHfXkhyaJqtlgWruFIeVvfOb/Kkp0EOKB+pDzkdmQEyzhGfGH+43BuyADkcxyMvMw1rT50qmIQu0QTx23+6FkcSyKKGR4NcqONhsIFYWBLuV0BC/Cx3Jk7PKn4UYYHaFv3WjnmAtOoHHkWzM4Z4jcTnw+GgkW22poUCvgPv6a+nFChS+t6V73leKXUiCcKVVItNJBe/E1Ffe5sE05NvkE63LV0tgMBK6g0b13rtlsxYQj3fL8it/nwNMd93UHYJ5BnV1W5dfdstwlVcYZF1+LEfTWU33mhuEI2Ig5wclzsypOTZYd971R3adHq866DmMXA4FxWDpk05Q7zOQwdm40PCyS5maBsWMd4FSj/W/ngsc514aNjZCXkPcCEVSeBNaRsiNrdHEJSrj40KihRBQEofAlLDfAPnN9BefQRY2o67aetD7e8Ffq9ZR6ohxO/bbVpmvqZrACkAeTRS/60rEnaczViguyVAbtD0kGANWPt/P3u5PFUHJuG25zMVnHIp5sFtwVMpBX2dbS3pgZan+jHQHNXzMmpQfQupB6Fh2iSGlonWL9w42No9xQgh1g4AiHNM2AslcxhdQ7KPjrgZCEpNcaZmV8sJPRWCzb0o307oHgL8gBg+qyfntS8VlSoDjIKXsadkYz0g24y4Ane20PaEwSqx1BnmQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 521c203a-9332-45ff-3f32-08d8607b2327
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 11:15:26.1183 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vweA7orRlPRUrweA2Y7BH4Npr2ECToXPnBQALSBtFFz7xE7bw0I7H1PnB9DyRsOD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2353
+References: <20200828104016.1672195-1-thierry.reding@gmail.com>
+ <20200923091853.GA1229032@ulmo> <20200923152124.GO438822@phenom.ffwll.local>
+ <20200924100509.GD2483160@ulmo>
+In-Reply-To: <20200924100509.GD2483160@ulmo>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 24 Sep 2020 13:16:42 +0200
+Message-ID: <CAKMK7uEO6jLkwiLbvW1Xz6=z+TM6ahY6TXLNNC52GGyg9r5==Q@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH 0/6] drm/nouveau: Support sync FDs and sync
+ objects
+To: Thierry Reding <thierry.reding@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,34 +61,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bskeggs@redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Nouveau Dev <nouveau@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjQuMDkuMjAgdW0gMDc6MTggc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
-cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gQWxsIGRyaXZlcnMgc2hvdWxkIGhhdmUgYSBt
-b3ZlIGNhbGxiYWNrIG5vdyBzbyBtYWtlIGl0IGNvbXB1bHNvcnkuCj4KPiBTaWduZWQtb2ZmLWJ5
-OiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgoKUmV2aWV3ZWQtYnk6IENocmlzdGlh
-biBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KCj4gLS0tCj4gICBkcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9iby5jIHwgMTMgKy0tLS0tLS0tLS0tLQo+ICAgMSBmaWxlIGNoYW5nZWQs
-IDEgaW5zZXJ0aW9uKCspLCAxMiBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vdHRtL3R0bV9iby5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+IGlu
-ZGV4IDZkMTUyMDI1NWZjMS4uNmE3ZjRjMDI4ODAxIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS90dG0vdHRtX2JvLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4g
-QEAgLTI3MCwxOCArMjcwLDcgQEAgc3RhdGljIGludCB0dG1fYm9faGFuZGxlX21vdmVfbWVtKHN0
-cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCj4gICAJaWYgKGJkZXYtPmRyaXZlci0+bW92ZV9u
-b3RpZnkpCj4gICAJCWJkZXYtPmRyaXZlci0+bW92ZV9ub3RpZnkoYm8sIGV2aWN0LCBtZW0pOwo+
-ICAgCj4gLQlpZiAob2xkX21hbi0+dXNlX3R0ICYmIG5ld19tYW4tPnVzZV90dCkgewo+IC0JCWlm
-IChiby0+bWVtLm1lbV90eXBlID09IFRUTV9QTF9TWVNURU0pIHsKPiAtCQkJdHRtX2JvX2Fzc2ln
-bl9tZW0oYm8sIG1lbSk7Cj4gLQkJCXJldCA9IDA7Cj4gLQkJfSBlbHNlCj4gLQkJCXJldCA9IHR0
-bV9ib19tb3ZlX3R0bShibywgY3R4LCBtZW0pOwo+IC0JfQo+IC0JZWxzZSBpZiAoYmRldi0+ZHJp
-dmVyLT5tb3ZlKQo+IC0JCXJldCA9IGJkZXYtPmRyaXZlci0+bW92ZShibywgZXZpY3QsIGN0eCwg
-bWVtKTsKPiAtCWVsc2UKPiAtCQlyZXQgPSB0dG1fYm9fbW92ZV9tZW1jcHkoYm8sIGN0eCwgbWVt
-KTsKPiAtCj4gKwlyZXQgPSBiZGV2LT5kcml2ZXItPm1vdmUoYm8sIGV2aWN0LCBjdHgsIG1lbSk7
-Cj4gICAJaWYgKHJldCkgewo+ICAgCQlpZiAoYmRldi0+ZHJpdmVyLT5tb3ZlX25vdGlmeSkgewo+
-ICAgCQkJc3dhcCgqbWVtLCBiby0+bWVtKTsKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Sep 24, 2020 at 12:05 PM Thierry Reding
+<thierry.reding@gmail.com> wrote:
+>
+> On Wed, Sep 23, 2020 at 05:21:24PM +0200, Daniel Vetter wrote:
+> > On Wed, Sep 23, 2020 at 11:18:53AM +0200, Thierry Reding wrote:
+> > > On Fri, Aug 28, 2020 at 12:40:10PM +0200, Thierry Reding wrote:
+> > > > From: Thierry Reding <treding@nvidia.com>
+> > > >
+> > > > Hi,
+> > > >
+> > > > This series implements a new IOCTL to submit push buffers that can
+> > > > optionally return a sync FD or sync object to userspace. This is useful
+> > > > in cases where userspace wants to synchronize operations between the GPU
+> > > > and another driver (such as KMS for display). Among other things this
+> > > > allows extensions such as eglDupNativeFenceFDANDROID to be implemented.
+> > > >
+> > > > Note that patch 4 modifies the ABI introduced in patch 3 by allowing DRM
+> > > > sync objects to be passed rather than only sync FDs. It also allows any
+> > > > number of sync FDs/objects to be passed in or emitted. I think those are
+> > > > useful features, but I left them in a separate patch in case everybody
+> > > > else thinks that this won't be needed. If we decide to merge the new ABI
+> > > > then patch 4 should be squashed into patch 3.
+> > > >
+> > > > The corresponding userspace changes can be found here:
+> > > >
+> > > >   libdrm: https://gitlab.freedesktop.org/tagr/drm/-/commits/nouveau-sync-fd-v2/
+> > > >   mesa: https://gitlab.freedesktop.org/tagr/mesa/-/commits/nouveau-sync-fd/
+> > > >
+> > > > I've verified that this works with kmscube's --atomic mode and Weston.
+> > >
+> > > Hi Ben,
+> > >
+> > > any thoughts on this series? I realize that this is somewhat suboptimal
+> > > because we're effectively adding a duplicate of the existing IOCTL with
+> > > only the "minor" extension of adding sync FDs/objects, but at the same
+> > > time I don't have any good ideas on what else to add to make this more
+> > > appealing or if you have any plans of your own to address this in the
+> > > future.
+> >
+> > drm core automatically zero-extends ioctl structs both ways, so if all you
+> > do is add more stuff to the top level ioctl struct at the bottom, there's
+> > no need to duplicate any code. At least as long as you guarantee that 0 ==
+> > old behaviour for both in and out parameters.
+>
+> But that only works if the structure size remains fixed, right? In this
+> case, however, we have to extend the structure with additional fields,
+> so the size is going to change and therefore the IOCTL number will also
+> change.
+
+Nope, drm_ioctl() is pretty much magic, and will zero-extend size
+mismatches in both ways. Which means you can run userspace compile
+against old kernels (so user_sz > kernel_sz) and you can run old
+userspace on new kernels (so user_sz < kernel_sz) and it will all work
+correctly. No need to allocate new ioctl numbers for this case, just
+extend at the bottom. We're doing this pretty much all the time.
+
+You might still want a getparam (or explicit flag, if all versions of
+that ioctl validated the flags correctly) since doing since a dummy
+pushbuf on an old kernel won't result in anything getting rejected.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
