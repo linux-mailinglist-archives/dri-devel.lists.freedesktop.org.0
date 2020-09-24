@@ -1,90 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43EDD276FCF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 13:23:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47692276FD6
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 13:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 634066E28B;
-	Thu, 24 Sep 2020 11:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B526E1EE;
+	Thu, 24 Sep 2020 11:25:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2049.outbound.protection.outlook.com [40.107.92.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E8F6E28B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 11:23:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WnKNwFh0Ui+u/EFbz624aAp29dAQ8BaFiLVnIJ6e0cgQRf37atdza53hrp851OAl93DdtMntTYSvAXQAry02FC0bqQeHTc7ESY06TqxkC3lc5sU92q7R3HjA0Cii6szxYTsHK0yeE3dmnjVX6T1s07KQLxwYinicaCOjsMD6cXwj4va+Pj6L3JijFQq8MMop0KWiY1pGRIsRg0rggGWDnH2PCtb/cGDeOfqcm1VrV5tuFpboaY2Ob5TN3Bkiy08YRfO5vLbpOsSelb/kZDPiSjhdiWgYXXCEG6LhkFJaEZlynpbpoceZtM9oTO3TU7RzxehSPks3DxRK0jTlHT/JOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OiXZfE+/SOTGPsdRORLeTiDKegFW1CTHvJbaI4WE9c4=;
- b=VcK5QE5xWsPHoA0E9YAU3I8HtV9THAA2uKJkTlVR6RCF8YzyNV+dKaRDYseP1+t9a84cI5flBcnVZ6ZTjmDfkNHnMtP/QmI3pNcONQFHrmYvbxHSeQZgjTfM6ORa4wIbre1OBrwrNVKfp3JsNzuQYlZY0YEXH5tgRjXlO6umWiD446pPq1H5Gj0W4aUygUeUPcoUaxRWgy7rL0O9Xgpwrvi3hDtl6dUwLyHv8W7B4WJHa4Hv+rvDwM6q5mwAyQ2o94gW7f53Oh1vudFDhhpRrSkTqvxx8ZuyZ3TOjqFiSY9MmOXGsE3ZGx2TEtHs5CU77PrsbYv1WmvTYwgqUxGEfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OiXZfE+/SOTGPsdRORLeTiDKegFW1CTHvJbaI4WE9c4=;
- b=MFwpsxfolJylszZPK6pTn/Grduaj5glYWQUOUayDrCmTOo5Y37k9xxF+dUDhrsiTl1yE7EmujyYuFPPkhvajabn1V7YUdHR6cXNuqM3tc0qutpQSeyUvQH9211WSG8WIIwWgd5CZSqlCqYwmdBmhP7aZRSuHhxLrFbQ07DaT9jk=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4408.namprd12.prod.outlook.com (2603:10b6:208:26c::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Thu, 24 Sep
- 2020 11:23:37 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3412.022; Thu, 24 Sep 2020
- 11:23:37 +0000
-Subject: Re: [PATCH 12/45] drm/ttm: drop free old node wrapper.
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200924051845.397177-1-airlied@gmail.com>
- <20200924051845.397177-13-airlied@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <e4760c47-8658-7b24-e65c-7cea8cfa813d@amd.com>
-Date: Thu, 24 Sep 2020 13:23:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200924051845.397177-13-airlied@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM4PR07CA0008.eurprd07.prod.outlook.com
- (2603:10a6:205:1::21) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4F596E1EE
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 11:25:32 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200924112531euoutp012175fda43efe941c7016cf1863fc7aec~3tJHss2i92206622066euoutp01N
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 11:25:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200924112531euoutp012175fda43efe941c7016cf1863fc7aec~3tJHss2i92206622066euoutp01N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1600946731;
+ bh=Pn+KGQ/0eatnz1SDI+bsUyx5p9cGhrP+Kp+I3LL12qc=;
+ h=To:Cc:From:Subject:Date:References:From;
+ b=N1ysM0YwxHr33WxdxYUJa7XUv3PPL9DFzbRyE04TOsUw4L6sg9j2LqRwrVbWXiHNb
+ djgRZJkQ/iXE0ZNI1TCIuIn3uOQpb/+wArqqpPOE216BC5crcW8sVWvwx6bQeZjM7j
+ x93LumkPkNKlT0M9aVzYDE8mC4BdCtBJX+1JfcMI=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200924112531eucas1p1668db225031030382029a38e83124885~3tJHh2Rwr1613116131eucas1p1K;
+ Thu, 24 Sep 2020 11:25:31 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 74.38.06456.B228C6F5; Thu, 24
+ Sep 2020 12:25:31 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200924112530eucas1p13af17d649767ed51c619d303392fa1e1~3tJHHbx-M0888208882eucas1p1S;
+ Thu, 24 Sep 2020 11:25:30 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200924112530eusmtrp2b8e5323a5b9ebadd09bc8b1397ea3e2a~3tJHGzuAQ2695626956eusmtrp2P;
+ Thu, 24 Sep 2020 11:25:30 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-96-5f6c822b74cc
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 6E.07.06017.A228C6F5; Thu, 24
+ Sep 2020 12:25:30 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200924112530eusmtip2670c2f340d655aa29e50cc87fde8787f~3tJGz2XsT0714307143eusmtip2b;
+ Thu, 24 Sep 2020 11:25:30 +0000 (GMT)
+To: Linus Torvalds <torvalds@linux-foundation.org>
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH] MAINTAINERS: mark FRAMEBUFFER LAYER as Orphan
+Message-ID: <7b709254-9412-8473-250c-0c4e006259b3@samsung.com>
+Date: Thu, 24 Sep 2020 13:25:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR07CA0008.eurprd07.prod.outlook.com (2603:10a6:205:1::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.13 via Frontend Transport; Thu, 24 Sep 2020 11:23:37 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: dc80a219-3a0b-48d4-99e8-08d8607c482e
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4408:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB44083931615911F673F23E9383390@MN2PR12MB4408.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:660;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LyWOkNKuhSOfY/loeojlVdzzncZFXTk38JxI9h7BxSiokZoUD61lmq1Wksbe3LZCq3z722r7MIo5lf0tyg1fLRj6TfSMnuKYdoHQiU0YWGvjpCmz3zpQ1g9zSqNPCFXVmv47Ooqiiap4hnanlpvy3/kZZaoNnGAZDf+U9dcAozlFiE0spTAJTnvlNCy4wGxIa0SMfMMO28gztgXfPU/cM3N8iMLv4hbSBdXk0gQLDSv9hATLDo7jzBDbGss7CvPF7FvvBdsRdXaiOm+VEMobnwHqys6E24u1TMDyNZYFztK4tdzGv6nq2hUORdcYgJ3H/YL24x+UrX5Ci2lmABy4dO3Kd04QSHDdTrxFs7RE2I/IfY5uZYYmtG0qHiTwGgqE
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(39860400002)(396003)(376002)(346002)(31696002)(66946007)(16526019)(66574015)(8676002)(186003)(66476007)(6666004)(5660300002)(2616005)(52116002)(83380400001)(66556008)(86362001)(2906002)(36756003)(316002)(6486002)(8936002)(31686004)(478600001)(4326008)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: lW+AlDZOkn3IuGCzC7E7Cpd6Q5dKS8p5FckvS/Dr6MY/40tH+e1PCPYAYhuhGdExEsQ34WrpTx5p3DXjojbHMDQ21iWLnN+S7Y+/LMTgikHnhHqP7MY5qs45GmHwRzIiXyJA1ZufMYesNVYCGht36FzHTRhxLNBXKp84pwGDyMMeHE1yQCx/kz2jSbn4iqyQGpXlrXe9CgFx6OPZpbyjwTen7Ww37AczYP6tKfCCN0JXdCqNNQUV59UKPsYS/lNDTWZcbZAQlf7lJz2VJP4Di/DaTwAtY4iEz0WtcfqQrZCcqF2D+GV8Sy0Udj0yxmv952NqpdFb2s2JtaVnvll8Ym/5yXaM6E0qjBMQNYX3WifmgUh6VgN5vFjFA2yU7NGz1YPJ3EHyFKlOhU36OdHl3N8UCReoU2CVXusRU/SunR+9YF8D/RypzjCPvJKwqOrEuUfWtE6abk7kToS9Jg8gytvOcbzuLc0ZSmsNK5wq0NMhiTXaWTuL7483+6UEJHZwU8VKQYoIF63XNUX7QDVtoIcYeR2bqXlSiFQc+3z5o4Vnl6F2sgLBC9rzAMyza7D1fMJMCqCNQcNJOD56Wqn2JugXNy0XSjKjwkmLFaIc3CUl8A/jCyLrNYd8fmZMuccAxHZG70IhuZxOXOXcKRwLME9ZpAKvzrO92p7CvuzOc/kp1QWLHX6gR/jG1ziWweu6g/MuXbTMXxVR7PzNAZGCrg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc80a219-3a0b-48d4-99e8-08d8607c482e
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 11:23:37.7919 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 77Hkal7PpB6G4nNMq84GZ+I6D3ck96u4uhlUMdzWwJ2GXEbwsjIOh45d777l3hLV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4408
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAKsWRmVeSWpSXmKPExsWy7djP87raTTnxBt+mcVhc+fqezeJE3wdW
+ i8u75rBZPOp7y+7A4nFixm8Wj/vdx5k8Pm+SC2CO4rJJSc3JLEst0rdL4MrYvWcra8Ektop9
+ 3zczNTAuZO1i5OSQEDCRuHbzE1MXIxeHkMAKRolD19+yQjhfGCXOX7jDBFIlJPCZUeLz1FSY
+ jgcf7zBDFC1nlDj8/ycbhPOWUeLu+nXsIFUiAkYSn19cAdvBLJAgcXrRPRYQm03ASmJi+yrG
+ LkYODmEBO4n176RAwrxA5vsD38BaWQRUJaYsOskIYosKREh8enCYFaJGUOLkzCcsECPFJW49
+ mc8EYctLbH87B+wgCYHvbBJ7nn6G+s1FYuWtT+wQtrDEq+NboGwZif875zNBNKxjlPjb8QKq
+ ezujxPLJ/9ggqqwl7pz7xQZyKbOApsT6XfogpoSAo8T2Pj8Ik0/ixltBiBv4JCZtm84MEeaV
+ 6GgTgpihJrFh2QY2mK1dO1cyQ9geEmfvd7FNYFScheSzWUg+m4Xks1kIJyxgZFnFKJ5aWpyb
+ nlpsmJdarlecmFtcmpeul5yfu4kRmE5O/zv+aQfj10tJhxgFOBiVeHgfNOTEC7EmlhVX5h5i
+ lOBgVhLhdTp7Ok6INyWxsiq1KD++qDQntfgQozQHi5I4r/Gil7FCAumJJanZqakFqUUwWSYO
+ TqkGRg7fCW576p0Vdwdt1337Kfb19F6ZF8wye4xbGF3nzVyd1335bs+xlp8TGDYdTDowKZRJ
+ 633TbPOpj9yn/eAIyGUJfpU4JfLk3ycPfCdy1xW0Bhg+N7z5w1O2/6KaQtfy2T//fJlXnl6m
+ bqwjYSoxd8Oh6HvNd7cU/L0530EwfPL3iS9fixuo5iqxFGckGmoxFxUnAgBpALBdIwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkkeLIzCtJLcpLzFFi42I5/e/4PV2tppx4g6lPNC2ufH3PZnGi7wOr
+ xeVdc9gsHvW9ZXdg8Tgx4zeLx/3u40wenzfJBTBH6dkU5ZeWpCpk5BeX2CpFG1oY6RlaWugZ
+ mVjqGRqbx1oZmSrp29mkpOZklqUW6dsl6GXs3rOVtWASW8W+75uZGhgXsnYxcnJICJhIPPh4
+ h7mLkYtDSGApo8Tm5vVsXYwcQAkZiePryyBqhCX+XOtig6h5zSjRuuUTO0hCRMBI4vOLK6wg
+ 9cwCCRLP5qWAhNkErCQmtq9iBAkLC9hJrH8nBRLmBTLfH/gG1skioCoxZdFJRhBbVCBC4vCO
+ WYwQNYISJ2c+YQGxmQXUJf7Mu8QMYYtL3HoynwnClpfY/nYO8wRGgVlIWmYhaZmFpGUWkpYF
+ jCyrGEVSS4tz03OLjfSKE3OLS/PS9ZLzczcxAqNh27GfW3Ywdr0LPsQowMGoxMPLoZsdL8Sa
+ WFZcmXuIUYKDWUmE1+ns6Tgh3pTEyqrUovz4otKc1OJDjKZAD01klhJNzgdGal5JvKGpobmF
+ paG5sbmxmYWSOG+HwMEYIYH0xJLU7NTUgtQimD4mDk6pBsa50uZ5Dzk09n5gVelXuTe3UuyR
+ 9Iup77VeFCvv8b2dorGC43bfQ5MPriWB2awGvZcvnfkaX71m9xurALlXRqzZaoIpb76cs5O+
+ dIbfiD/X3u+Qp9b6u3wR61/Iy93XkUmqkl5ox8sSwGQ8Z/eyV1E9z5TkzvNl2ZbzfNj2+F+z
+ ztqLE/5O0VRiKc5INNRiLipOBAAoG/SYnAIAAA==
+X-CMS-MailID: 20200924112530eucas1p13af17d649767ed51c619d303392fa1e1
+X-Msg-Generator: CA
+X-RootMTR: 20200924112530eucas1p13af17d649767ed51c619d303392fa1e1
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200924112530eucas1p13af17d649767ed51c619d303392fa1e1
+References: <CGME20200924112530eucas1p13af17d649767ed51c619d303392fa1e1@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,56 +102,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bskeggs@redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjQuMDkuMjAgdW0gMDc6MTggc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
-cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gVGhpcyBpc24ndCByZWFsbHkgdXNlZCBhbnlt
-b3JlLCBpZiBkcml2ZXJzIG5lZWRzIGl0IGxhdGVyLAo+IGp1c3QgYWRkIGJhY2sgYW4gaW5saW5l
-IHdyYXBwZXIuCj4KPiBTaWduZWQtb2ZmLWJ5OiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQu
-Y29tPgoKUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4KCj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMgfCAxMSAr
-KystLS0tLS0tLQo+ICAgaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaCAgIHwgIDkgLS0t
-LS0tLS0tCj4gICAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25z
-KC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jIGIv
-ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jCj4gaW5kZXggMGFkMDJlMjc4NjVkLi5k
-YWY5YTkxODU3ZjggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRp
-bC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jCj4gQEAgLTQ1LDEx
-ICs0NSw2IEBAIHN0cnVjdCB0dG1fdHJhbnNmZXJfb2JqIHsKPiAgIAlzdHJ1Y3QgdHRtX2J1ZmZl
-cl9vYmplY3QgKmJvOwo+ICAgfTsKPiAgIAo+IC12b2lkIHR0bV9ib19mcmVlX29sZF9ub2RlKHN0
-cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8pCj4gLXsKPiAtCXR0bV9yZXNvdXJjZV9mcmVlKGJv
-LCAmYm8tPm1lbSk7Cj4gLX0KPiAtCj4gICBpbnQgdHRtX2JvX21vdmVfdG9fbmV3X3R0X21lbShz
-dHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCQkJICAgICAgc3RydWN0IHR0bV9vcGVy
-YXRpb25fY3R4ICpjdHgsCj4gICAJCQkgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpuZXdfbWVt
-KQo+IEBAIC05MCw3ICs4NSw3IEBAIHN0YXRpYyBpbnQgdHRtX2JvX21vdmVfb2xkX3RvX3N5c3Rl
-bShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCX0KPiAgIAo+ICAgCXR0bV9ib190
-dF91bmJpbmQoYm8pOwo+IC0JdHRtX2JvX2ZyZWVfb2xkX25vZGUoYm8pOwo+ICsJdHRtX3Jlc291
-cmNlX2ZyZWUoYm8sICZiby0+bWVtKTsKPiAgIAlvbGRfbWVtLT5tZW1fdHlwZSA9IFRUTV9QTF9T
-WVNURU07Cj4gICAJcmV0dXJuIDA7Cj4gICB9Cj4gQEAgLTU1Nyw3ICs1NTIsNyBAQCBzdGF0aWMg
-aW50IHR0bV9ib193YWl0X2ZyZWVfbm9kZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+
-ICAgCj4gICAJaWYgKCFkc3RfdXNlX3R0KQo+ICAgCQl0dG1fYm9fdHRfZGVzdHJveShibyk7Cj4g
-LQl0dG1fYm9fZnJlZV9vbGRfbm9kZShibyk7Cj4gKwl0dG1fcmVzb3VyY2VfZnJlZShibywgJmJv
-LT5tZW0pOwo+ICAgCXJldHVybiAwOwo+ICAgfQo+ICAgCj4gQEAgLTYxOCw3ICs2MTMsNyBAQCBz
-dGF0aWMgdm9pZCB0dG1fYm9fbW92ZV9waXBlbGluZV9ldmljdChzdHJ1Y3QgdHRtX2J1ZmZlcl9v
-YmplY3QgKmJvLAo+ICAgCX0KPiAgIAlzcGluX3VubG9jaygmZnJvbS0+bW92ZV9sb2NrKTsKPiAg
-IAo+IC0JdHRtX2JvX2ZyZWVfb2xkX25vZGUoYm8pOwo+ICsJdHRtX3Jlc291cmNlX2ZyZWUoYm8s
-ICZiby0+bWVtKTsKPiAgIAo+ICAgCWRtYV9mZW5jZV9wdXQoYm8tPm1vdmluZyk7Cj4gICAJYm8t
-Pm1vdmluZyA9IGRtYV9mZW5jZV9nZXQoZmVuY2UpOwo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2Ry
-bS90dG0vdHRtX2JvX2RyaXZlci5oIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaAo+
-IGluZGV4IDIwZTY4MzllOWI3My4uNjY5MGVjNWQ5MGVjIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUv
-ZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgKPiArKysgYi9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2Ry
-aXZlci5oCj4gQEAgLTYzMCwxNSArNjMwLDYgQEAgaW50IHR0bV9ib19tb3ZlX21lbWNweShzdHJ1
-Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCQkgICAgICAgc3RydWN0IHR0bV9vcGVyYXRp
-b25fY3R4ICpjdHgsCj4gICAJCSAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpuZXdfbWVtKTsK
-PiAgIAo+IC0vKioKPiAtICogdHRtX2JvX2ZyZWVfb2xkX25vZGUKPiAtICoKPiAtICogQGJvOiBB
-IHBvaW50ZXIgdG8gYSBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QuCj4gLSAqCj4gLSAqIFV0aWxp
-dHkgZnVuY3Rpb24gdG8gZnJlZSBhbiBvbGQgcGxhY2VtZW50IGFmdGVyIGEgc3VjY2Vzc2Z1bCBt
-b3ZlLgo+IC0gKi8KPiAtdm9pZCB0dG1fYm9fZnJlZV9vbGRfbm9kZShzdHJ1Y3QgdHRtX2J1ZmZl
-cl9vYmplY3QgKmJvKTsKPiAtCj4gICAvKioKPiAgICAqIHR0bV9ib19tb3ZlX2FjY2VsX2NsZWFu
-dXAuCj4gICAgKgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+It has been a fun ride since 2017 but unfortunately I don't have
+enough time to look after it properly anymore.
+
+Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+---
+ MAINTAINERS |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+Index: b/MAINTAINERS
+===================================================================
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6894,10 +6894,9 @@ F:	drivers/net/wan/dlci.c
+ F:	drivers/net/wan/sdla.c
+ 
+ FRAMEBUFFER LAYER
+-M:	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+ L:	dri-devel@lists.freedesktop.org
+ L:	linux-fbdev@vger.kernel.org
+-S:	Maintained
++S:	Orphan
+ Q:	http://patchwork.kernel.org/project/linux-fbdev/list/
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	Documentation/fb/
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
