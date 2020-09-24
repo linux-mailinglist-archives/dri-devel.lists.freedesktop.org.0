@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4C0277A8E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 22:39:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75872277AA0
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 22:42:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7E56EB5D;
-	Thu, 24 Sep 2020 20:39:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95E116E49F;
+	Thu, 24 Sep 2020 20:42:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 224426EB6C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 20:39:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF8FC6E49F
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 20:42:11 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 283BB20079;
- Thu, 24 Sep 2020 22:39:53 +0200 (CEST)
-Date: Thu, 24 Sep 2020 22:39:51 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 17F6420079;
+ Thu, 24 Sep 2020 22:42:09 +0200 (CEST)
+Date: Thu, 24 Sep 2020 22:42:07 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Yannick Fertre <yannick.fertre@st.com>
-Subject: Re: [PATCH v2] drm/panel: otm8009a: allow using non-continuous dsi
- clock
-Message-ID: <20200924203951.GN1223313@ravnborg.org>
-References: <20200922074253.28810-1-yannick.fertre@st.com>
+Subject: Re: [PATCH] drm/stm: dsi: Avoid printing errors for -EPROBE_DEFER
+Message-ID: <20200924204207.GO1223313@ravnborg.org>
+References: <20200918114624.10759-1-yannick.fertre@st.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200922074253.28810-1-yannick.fertre@st.com>
+In-Reply-To: <20200918114624.10759-1-yannick.fertre@st.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
  a=kj9zAlcOel0A:10 a=8b9GpE9nAAAA:8 a=e5mUnYsNAAAA:8
- a=jgFxdXKw9Db9PIIa09sA:9 a=CjuIK1q_8ugA:10 a=T3LWEMljR5ZiDmsYVIUa:22
+ a=A0EKk_GVOdhxRvflaKsA:9 a=CjuIK1q_8ugA:10 a=T3LWEMljR5ZiDmsYVIUa:22
  a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,40 +55,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 22, 2020 at 09:42:53AM +0200, Yannick Fertre wrote:
-> From: Antonio Borneo <antonio.borneo@st.com>
-> 
-> The panel is able to work when dsi clock is non-continuous, thus
-> the system power consumption can be reduced using such feature.
-> 
-> Add MIPI_DSI_CLOCK_NON_CONTINUOUS to panel's mode_flags.
-> 
-> Changes in v2:
->   - Added my signed-off
-> 
-> Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
-> Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
+Hi Yannick
 
-Applied to drm-misc-next.
+On Fri, Sep 18, 2020 at 01:46:24PM +0200, Yannick Fertre wrote:
+> Don't print error when probe deferred error is returned.
+> 
+> Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
+> ---
+>  drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> index 2e1f2664495d..164f79ef6269 100644
+> --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> @@ -419,7 +419,8 @@ static int dw_mipi_dsi_stm_probe(struct platform_device *pdev)
+>  	dsi->dsi = dw_mipi_dsi_probe(pdev, &dw_mipi_dsi_stm_plat_data);
+>  	if (IS_ERR(dsi->dsi)) {
+>  		ret = PTR_ERR(dsi->dsi);
+> -		DRM_ERROR("Failed to initialize mipi dsi host: %d\n", ret);
+> +		if (ret != -EPROBE_DEFER)
+> +			DRM_ERROR("Failed to initialize mipi dsi host: %d\n", ret);
+>  		goto err_dsi_probe;
+
+Please use dev_err_probe() here.
+We will loose [drm] but gain more than we loose.
 
 	Sam
-> ---
->  drivers/gpu/drm/panel/panel-orisetech-otm8009a.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> index b6e377aa1131..6ac1accade80 100644
-> --- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> +++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> @@ -452,7 +452,7 @@ static int otm8009a_probe(struct mipi_dsi_device *dsi)
->  	dsi->lanes = 2;
->  	dsi->format = MIPI_DSI_FMT_RGB888;
->  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> -			  MIPI_DSI_MODE_LPM;
-> +			  MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS;
+
+>  	}
 >  
->  	drm_panel_init(&ctx->panel, dev, &otm8009a_drm_funcs,
->  		       DRM_MODE_CONNECTOR_DSI);
 > -- 
 > 2.17.1
 > 
