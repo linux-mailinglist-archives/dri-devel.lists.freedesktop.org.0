@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F620276848
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:20:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DBB276857
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 07:20:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98B3A6EA90;
-	Thu, 24 Sep 2020 05:19:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79E4F6EAA0;
+	Thu, 24 Sep 2020 05:20:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B15E6EA89
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:19:56 +0000 (UTC)
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD7A86EA89
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 05:19:57 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-l3LF-_0YO-KYtbZg-a7Yeg-1; Thu, 24 Sep 2020 01:19:52 -0400
-X-MC-Unique: l3LF-_0YO-KYtbZg-a7Yeg-1
+ us-mta-111-OKLnLqH0OD2C51fQhLLwCA-1; Thu, 24 Sep 2020 01:19:53 -0400
+X-MC-Unique: OKLnLqH0OD2C51fQhLLwCA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43ABD802B68;
- Thu, 24 Sep 2020 05:19:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 967661DE19;
+ Thu, 24 Sep 2020 05:19:52 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-60.bne.redhat.com
  [10.64.54.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A6EF19D7C;
- Thu, 24 Sep 2020 05:19:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D4B819D7C;
+ Thu, 24 Sep 2020 05:19:51 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 44/45] drm/ttm: move more functionality into helper function.
-Date: Thu, 24 Sep 2020 15:18:44 +1000
-Message-Id: <20200924051845.397177-45-airlied@gmail.com>
+Subject: [PATCH 45/45] drm/ttm: add a new helper for a cleaning up after a ram
+ move
+Date: Thu, 24 Sep 2020 15:18:45 +1000
+Message-Id: <20200924051845.397177-46-airlied@gmail.com>
 In-Reply-To: <20200924051845.397177-1-airlied@gmail.com>
 References: <20200924051845.397177-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -60,108 +61,154 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
+This is a pretty common pattern in the drivers.
+
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 10 ----------
- drivers/gpu/drm/nouveau/nouveau_bo.c    |  7 -------
- drivers/gpu/drm/radeon/radeon_ttm.c     |  8 --------
- drivers/gpu/drm/ttm/ttm_bo.c            |  4 ++++
- 4 files changed, 4 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 13 ++-----------
+ drivers/gpu/drm/nouveau/nouveau_bo.c    | 14 +++-----------
+ drivers/gpu/drm/radeon/radeon_ttm.c     | 13 ++-----------
+ drivers/gpu/drm/ttm/ttm_bo.c            | 15 +++++++++++++++
+ include/drm/ttm/ttm_bo_driver.h         |  3 +++
+ 5 files changed, 25 insertions(+), 33 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 099752bc42e9..efb74ddc1877 100644
+index efb74ddc1877..72a1c06ef15c 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -534,11 +534,6 @@ static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
- 		return r;
- 	}
+@@ -552,12 +552,8 @@ static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
+ 		goto out_cleanup;
  
--	/* set caching flags */
--	r = ttm_bo_move_to_new_tt_mem(bo, ctx, &tmp_mem);
+ 	amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
+-	ttm_resource_free(bo, &bo->mem);
+ 
+-	r = ttm_tt_set_placement_caching(bo->ttm, new_mem->placement);
 -	if (unlikely(r))
 -		goto out_cleanup;
--
- 	/* Bind the memory to the GTT space */
- 	r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, &tmp_mem);
- 	if (unlikely(r)) {
-@@ -588,11 +583,6 @@ static int amdgpu_move_ram_vram(struct ttm_buffer_object *bo, bool evict,
- 		return r;
+-	ttm_bo_assign_mem(bo, new_mem);
++	r = ttm_bo_cleanup_ram_move(bo, new_mem);
+ out_cleanup:
+ 	ttm_resource_free(bo, &tmp_mem);
+ 	return r;
+@@ -674,13 +670,8 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 		if (r)
+ 			return r;
+ 		amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
+-		ttm_resource_free(bo, &bo->mem);
+ 
+-		r = ttm_tt_set_placement_caching(bo->ttm, new_mem->placement);
+-		if (r)
+-			return r;
+-		ttm_bo_assign_mem(bo, new_mem);
+-		return 0;
++		return ttm_bo_cleanup_ram_move(bo, new_mem);
  	}
  
--	/* move/bind old memory to GTT space */
--	r = ttm_bo_move_to_new_tt_mem(bo, ctx, &tmp_mem);
--	if (unlikely(r)) {
--		goto out_cleanup;
--	}
- 	r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, &tmp_mem);
- 	if (unlikely(r))
- 		goto out_cleanup;
+ 	if (old_mem->mem_type == AMDGPU_PL_GDS ||
 diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 1786c92bf3fc..08beb92b0571 100644
+index 08beb92b0571..9b5acb7dae50 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -891,10 +891,6 @@ nouveau_bo_move_flipd(struct ttm_buffer_object *bo, bool evict,
- 	if (ret)
- 		return ret;
- 
--	ret = ttm_bo_move_to_new_tt_mem(bo, ctx, &tmp_reg);
--	if (ret)
--		return ret;
--
- 	ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_reg);
- 	if (ret)
+@@ -904,12 +904,8 @@ nouveau_bo_move_flipd(struct ttm_buffer_object *bo, bool evict,
  		goto out;
-@@ -931,9 +927,6 @@ nouveau_bo_move_flips(struct ttm_buffer_object *bo, bool evict,
- 	if (ret)
- 		return ret;
  
--	ret = ttm_bo_move_to_new_tt_mem(bo, ctx, &tmp_reg);
+ 	nouveau_ttm_tt_unbind(bo->bdev, bo->ttm);
+-	ttm_resource_free(bo, &bo->mem);
+ 
+-	ret = ttm_tt_set_placement_caching(bo->ttm, new_reg->placement);
 -	if (ret)
 -		goto out;
- 	ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_reg);
- 	if (ret)
- 		goto out;
+-	ttm_bo_assign_mem(bo, new_reg);
++	ret = ttm_bo_cleanup_ram_move(bo, new_reg);
+ out:
+ 	ttm_resource_free(bo, &tmp_reg);
+ 	return ret;
+@@ -1072,13 +1068,9 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	if (old_reg->mem_type == TTM_PL_TT &&
+ 	    new_reg->mem_type == TTM_PL_SYSTEM) {
+ 		nouveau_ttm_tt_unbind(bo->bdev, bo->ttm);
+-		ttm_resource_free(bo, &bo->mem);
+ 
+-		ret = ttm_tt_set_placement_caching(bo->ttm, new_reg->placement);
+-		if (ret)
+-			goto out;
+-		ttm_bo_assign_mem(bo, new_reg);
+-		return 0;
++		ret = ttm_bo_cleanup_ram_move(bo, new_reg);
++		goto out;
+ 	}
+ 
+ 	/* Hardware assisted copy. */
 diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index ccd588bd4ea5..6698e288cfbc 100644
+index 6698e288cfbc..83ca0a519752 100644
 --- a/drivers/gpu/drm/radeon/radeon_ttm.c
 +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -220,10 +220,6 @@ static int radeon_move_vram_ram(struct ttm_buffer_object *bo,
- 	if (unlikely(r)) {
- 		return r;
- 	}
--	r = ttm_bo_move_to_new_tt_mem(bo, ctx, &tmp_mem);
--	if (unlikely(r)) {
--		goto out_cleanup;
--	}
- 
- 	r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_mem);
- 	if (unlikely(r)) {
-@@ -260,10 +256,6 @@ static int radeon_move_ram_vram(struct ttm_buffer_object *bo,
- 	int r;
- 
- 	r = ttm_bo_create_tt_tmp(bo, ctx, new_mem, &tmp_mem);
--	if (unlikely(r)) {
--		return r;
--	}
--	r = ttm_bo_move_to_new_tt_mem(bo, ctx, &tmp_mem);
- 	if (unlikely(r)) {
+@@ -234,13 +234,8 @@ static int radeon_move_vram_ram(struct ttm_buffer_object *bo,
  		goto out_cleanup;
+ 
+ 	radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
+-	ttm_resource_free(bo, &bo->mem);
+-
+-	r = ttm_tt_set_placement_caching(bo->ttm, new_mem->placement);
+-	if (unlikely(r))
+-		goto out_cleanup;
+-	ttm_bo_assign_mem(bo, new_mem);
+ 
++	r = ttm_bo_cleanup_ram_move(bo, new_mem);
+ out_cleanup:
+ 	ttm_resource_free(bo, &tmp_mem);
+ 	return r;
+@@ -314,12 +309,8 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	if (old_mem->mem_type == TTM_PL_TT &&
+ 	    new_mem->mem_type == TTM_PL_SYSTEM) {
+ 		radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
+-		ttm_resource_free(bo, &bo->mem);
+ 
+-		r = ttm_tt_set_placement_caching(bo->ttm, new_mem->placement);
+-		if (r)
+-			return r;
+-		goto out_assign;
++		return ttm_bo_cleanup_ram_move(bo, new_mem);
  	}
+ 
+ 	if (!rdev->ring[radeon_copy_ring_index(rdev)].ready ||
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 358d1580dc16..7ea7ed85e289 100644
+index 7ea7ed85e289..a3955fde448b 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1566,6 +1566,10 @@ int ttm_bo_create_tt_tmp(struct ttm_buffer_object *bo,
- 	if (ret)
- 		return ret;
- 
-+	ret  = ttm_bo_move_to_new_tt_mem(bo, ctx, new_temp);
-+	if (ret)
-+		return ret;
-+
+@@ -1573,3 +1573,18 @@ int ttm_bo_create_tt_tmp(struct ttm_buffer_object *bo,
  	return 0;
  }
  EXPORT_SYMBOL(ttm_bo_create_tt_tmp);
++
++int ttm_bo_cleanup_ram_move(struct ttm_buffer_object *bo,
++			    struct ttm_resource *new_mem)
++{
++	int ret;
++
++	ttm_resource_free(bo, &bo->mem);
++
++	ret = ttm_tt_set_placement_caching(bo->ttm, new_mem->placement);
++	if (ret)
++		return ret;
++	ttm_bo_assign_mem(bo, new_mem);
++	return 0;
++}
++EXPORT_SYMBOL(ttm_bo_cleanup_ram_move);
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index a7507dfaa89d..a89149b440b0 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -563,6 +563,9 @@ int ttm_bo_create_tt_tmp(struct ttm_buffer_object *bo,
+ 			 struct ttm_operation_ctx *ctx,
+ 			 struct ttm_resource *new_mem,
+ 			 struct ttm_resource *new_temp);
++
++int ttm_bo_cleanup_ram_move(struct ttm_buffer_object *bo,
++			    struct ttm_resource *new_mem);
+ /**
+  * ttm_bo_move_memcpy
+  *
 -- 
 2.27.0
 
