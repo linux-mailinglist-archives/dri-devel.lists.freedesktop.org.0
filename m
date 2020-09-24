@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C541F276518
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 02:32:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FF1276513
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 02:32:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3235C6EA21;
-	Thu, 24 Sep 2020 00:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEAB6EA1B;
+	Thu, 24 Sep 2020 00:32:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 197E46EA1A
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDECD6EA1A
  for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 00:32:20 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id r19so686572pls.1
+Received: by mail-pf1-x441.google.com with SMTP id d6so739186pfn.9
  for <dri-devel@lists.freedesktop.org>; Wed, 23 Sep 2020 17:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RCQ+EYT2MzbQv/dr3N4s0E8HTwBjP5d0FY0g8w6KX0M=;
- b=Yh1zR0gjXv0GjRvZeDLiifp1UwkQNeOPR3BYGfAjXk0Cs+MOkn4Ps+xUR07Xlx/1ZX
- /vvrW6MD4zwzLqZXTITMbZiPFQIOaldMpfqQh4xax0HHRVR/lqjgXYctxoCI0C+lZAlH
- QQ6x03yA8kGXS1JdMrIiEeZIn22eq+zm4PbJA=
+ bh=XSX/urUFLsiFC1lKYCAeObeY4sFWjg0RKAvq3ynqLts=;
+ b=j/udGvnVqj8KCOFOER/N7xuiHQS38nl+C1oayfYuIwMYdqwO3jcbkBydPU2zZuFg0q
+ 4rk744yvBegVR94F+AS6sfvJlzYTdtb0sbPrmOEH21bN/IIakyLg1bvYgm6731CcP/7/
+ nLmnTPlhj/WUSOBB2C5fyNmk3W+de8xZ8FgEA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RCQ+EYT2MzbQv/dr3N4s0E8HTwBjP5d0FY0g8w6KX0M=;
- b=RJ9Lq4f0fnuFxUB8zMxDLMqyaXOeSKE5Zxx1qJkoDcFxHfxVy1uAmKD1gzpWvGu2b+
- W+cOPIPzP8FIpa4hGYK4PSc8PY37X+h0A9pPmk98vggMKpAkUoNFmfsmdboOB52QHyaY
- 5EPfStfywigF9Bpkn1IidZB94GJpY60znwAq41nbMq4r9tlcvDsIJpoCiLS/ePvMXtAj
- n+0Zz2d++zbCmBEkPiQpr2R2NVyREucyW8chvnSnEB07pf50mlIWrrPsA4vZQDdayzd4
- Isrc1Qa1v8vig1W/rNjsNxswVuF8dxN7ntCS/B9sGLOnFF1/+9Yp2NqqDg7mIBMndLxz
- tA9w==
-X-Gm-Message-State: AOAM532IQt48M08t8gJiLBIZv34g9hE+RYuBeO0Etplm/pXQ+H3uTYGA
- jbLLu1FcDnBJIMquf+b+pmSoiVBoTsfI2Q==
-X-Google-Smtp-Source: ABdhPJywgAU06xARCaE20LKD96lT3RM2T4Qq7720moTiT1yKImfPx7LA2rDrnfIhNDoMQnXp3/B9uA==
-X-Received: by 2002:a17:902:6903:b029:d2:2503:e5c1 with SMTP id
- j3-20020a1709026903b02900d22503e5c1mr2178157plk.60.1600907539304; 
- Wed, 23 Sep 2020 17:32:19 -0700 (PDT)
+ bh=XSX/urUFLsiFC1lKYCAeObeY4sFWjg0RKAvq3ynqLts=;
+ b=DyEHl8g5iftVrqhrztfyzX4TnJXQmshqZczraiphDjlVuYITwlYUGSssD6JSEiiiSS
+ XaCzCpDuLCh8o02gAluNIHxrYwIHg4LjrlFclfpIHJ0kgHvexhhIUK1M5revfJeJvoGA
+ W39IoXasSEBf5tz/AbdoRYiVKm6QoCRBlfQIxxGyehJr0yfqd+zj5m0K4oS1ivH3bGGK
+ OpvdsDN9LBtj6ZhCY0tJrwBuVPU3wnQjrSHd6gvSa7prvEjinuYl8PXXqd/MpM2E2Kek
+ s4qx5KTT4MBffi/sjOtpC62jRiYWKuz1MIXkfpSUVg353NvEHLO1ihpiIZWiq/RQrWCb
+ BQxg==
+X-Gm-Message-State: AOAM531BZz1LAHFdG8ph79SHJd3j9Ji3sYSzNc8qrlDoJXRU4p2tbpBm
+ rVU6TtaQZsKRC5qlK6gpE+ayJ0cRQ7/B7w==
+X-Google-Smtp-Source: ABdhPJw5mw1zbMHQOrBT1dX8jADBMo+pmAckqKYtMyko0ouQ9+Y/o/OJMYotUKFMO/CzEuRQmw/EFA==
+X-Received: by 2002:a63:4f10:: with SMTP id d16mr1836133pgb.152.1600907540306; 
+ Wed, 23 Sep 2020 17:32:20 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id 64sm735312pfd.7.2020.09.23.17.32.18
+ by smtp.gmail.com with ESMTPSA id 64sm735312pfd.7.2020.09.23.17.32.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 17:32:18 -0700 (PDT)
+ Wed, 23 Sep 2020 17:32:19 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 03/19] virtio-gpu api: blob resources
-Date: Wed, 23 Sep 2020 17:31:58 -0700
-Message-Id: <20200924003214.662-3-gurchetansingh@chromium.org>
+Subject: [PATCH v4 04/19] virtio-gpu api: host visible feature
+Date: Wed, 23 Sep 2020 17:31:59 -0700
+Message-Id: <20200924003214.662-4-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200924003214.662-1-gurchetansingh@chromium.org>
 References: <20200924003214.662-1-gurchetansingh@chromium.org>
@@ -73,133 +72,108 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-A blob resource is a container for:
-   - VIRTIO_GPU_BLOB_MEM_GUEST: a guest memory allocation
-     (referred to as a "guest-only blob resource")
+This patch adds a new virtgpu feature that allows directly
+mapping host allocated resources.
 
-   - VIRTIO_GPU_BLOB_MEM_HOST3D: a host3d memory allocation
-     (referred to as a "host-only blob resource")
+This is based on virtio shared memory regions, which allows
+querying for memory regions using PCI transport. Each shared
+memory region has an associated "shmid", the meaning of which
+is device specific.
 
-   - VIRTIO_GPU_BLOB_MEM_HOST3D_GUEST: a guest + host3d memory allocation
-     (referred to as a "default blob resource").
+For virtio-gpu, we can define the shared memory region with id
+VIRTIO_GPU_SHM_ID_HOST_VISIBLE to be the "host visible memory
+region".
 
-The memory properties of the blob resource must be described by
-`blob_mem`.
+The presence of the host visible memory region means the following
+hypercalls are supported:
 
-For default and guest only blob resources set, `nents` guest system
-pages are assigned to the resource.  For default blob resources,
-these guest pages are used for transfer operations. Attach/detach is
-also possible to allow swap-in/swap-out, but isn't required since it
-may not be applicable to future blob mem types
-(shared guest/guest vram).
+1) VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB
 
-Host allocations depend on whether the 3D is supported. If 3D is not
-supported, the only valid field for `blob_mem` is
-VIRTIO_GPU_BLOB_MEM_GUEST.
+This hypercall tells the host to inject the host resource's
+mapping in an offset into virtio-gpu's PCI address space.
+This is typically done via KVM_SET_USER_MEMORY_REGION on Linux
+hosts.
 
-If 3D is supported, the virtio-gpu resource is created from the
-context local object identified by the `blob_id`. The actual host
-allocation done by the CMD_SUBMIT_3D.
+On success, VIRTIO_GPU_RESP_OK_MAP_INFO is returned, which
+specifies the host buffer's caching type and possibly in the
+future performance hints about the buffer..
 
-Userspace must specify if the blob resource is intended to be used
-for userspace mapping, sharing between virtio-gpu contexts and/or
-sharing between virtio devices. This is done via `blob_flags`.
+2) VIRTIO_GPU_CMD_RESOURCE_UNMAP_BLOB
 
-For 3D hosts, both VIRTIO_GPU_CMD_TRANSFER_TO_HOST_3D and
-VIRTIO_GPU_CMD_TRANSFER_FROM_HOST_3D may be used to update
-the host resource. There is no restriction on the image/buffer
-view the guest/host userspace has on the blob resource.
-
-VIRTIO_GPU_CMD_SET_SCANOUT_BLOB / VIRTIO_GPU_CMD_RESOURCE_FLUSH may
-be used with blob resources as well.  The modifier is intentionally
-left out of SCANOUT_BLOB, and auxilary blobs are also left out
-as a simplification.
-
-The use case for blob resources is zero-copy, needed for coherent
-memory in virglrenderer. Host only blob resources are not mappable
-without the feature described in the next patch, but are shareable.
-
-Future work:
-   - Emulated coherent `blob_mem` type for QEMU/vhost-user
-   - A `blob_mem` type for guest-only resources imported in
-     cache-coherent FOSS GPU/display drivers.
-   - Display integration involving the blob model using seamless
-     Wayland windows.
+This hypercall tells the host to remove the host resource's
+mapping from the guest VM.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Co-developed-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Acked-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Acked-by: Chia-I Wu <olvaffe@gmail.com>
 Acked-by: Lingfeng Yang <lfy@google.com>
-Link: https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/374
 ---
- include/uapi/linux/virtio_gpu.h | 43 +++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ include/uapi/linux/virtio_gpu.h | 35 +++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
-index 747a5c5cc4e60..4ddf2fe342ed0 100644
+index 4ddf2fe342ed0..fa2ae4a1da5f9 100644
 --- a/include/uapi/linux/virtio_gpu.h
 +++ b/include/uapi/linux/virtio_gpu.h
-@@ -55,6 +55,11 @@
-  */
- #define VIRTIO_GPU_F_RESOURCE_UUID       2
+@@ -88,6 +88,8 @@ enum virtio_gpu_ctrl_type {
+ 	VIRTIO_GPU_CMD_TRANSFER_TO_HOST_3D,
+ 	VIRTIO_GPU_CMD_TRANSFER_FROM_HOST_3D,
+ 	VIRTIO_GPU_CMD_SUBMIT_3D,
++	VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB,
++	VIRTIO_GPU_CMD_RESOURCE_UNMAP_BLOB,
  
-+/*
-+ * VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB
-+ */
-+#define VIRTIO_GPU_F_RESOURCE_BLOB       3
-+
- enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_UNDEFINED = 0,
+ 	/* cursor commands */
+ 	VIRTIO_GPU_CMD_UPDATE_CURSOR = 0x0300,
+@@ -100,6 +102,7 @@ enum virtio_gpu_ctrl_type {
+ 	VIRTIO_GPU_RESP_OK_CAPSET,
+ 	VIRTIO_GPU_RESP_OK_EDID,
+ 	VIRTIO_GPU_RESP_OK_RESOURCE_UUID,
++	VIRTIO_GPU_RESP_OK_MAP_INFO,
  
-@@ -71,6 +76,8 @@ enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_CMD_GET_CAPSET,
- 	VIRTIO_GPU_CMD_GET_EDID,
- 	VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID,
-+	VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB,
-+	VIRTIO_GPU_CMD_SET_SCANOUT_BLOB,
- 
- 	/* 3d commands */
- 	VIRTIO_GPU_CMD_CTX_CREATE = 0x0200,
-@@ -359,4 +366,40 @@ struct virtio_gpu_resp_resource_uuid {
- 	__u8 uuid[16];
+ 	/* error responses */
+ 	VIRTIO_GPU_RESP_ERR_UNSPEC = 0x1200,
+@@ -110,6 +113,11 @@ enum virtio_gpu_ctrl_type {
+ 	VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER,
  };
  
-+/* VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB */
-+struct virtio_gpu_resource_create_blob {
-+	struct virtio_gpu_ctrl_hdr hdr;
-+	__le32 resource_id;
-+#define VIRTIO_GPU_BLOB_MEM_GUEST             0x0001
-+#define VIRTIO_GPU_BLOB_MEM_HOST3D            0x0002
-+#define VIRTIO_GPU_BLOB_MEM_HOST3D_GUEST      0x0003
-+
-+#define VIRTIO_GPU_BLOB_FLAG_USE_MAPPABLE     0x0001
-+#define VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE    0x0002
-+#define VIRTIO_GPU_BLOB_FLAG_USE_CROSS_DEVICE 0x0004
-+	/* zero is invalid blob mem */
-+	__le32 blob_mem;
-+	__le32 blob_flags;
-+	__le64 blob_id;
-+	__le64 size;
-+	__le32 nr_entries;
-+	/*
-+	 * sizeof(nr_entries * virtio_gpu_mem_entry) bytes follow
-+	 */
++enum virtio_gpu_shm_id {
++	VIRTIO_GPU_SHM_ID_UNDEFINED = 0,
++	VIRTIO_GPU_SHM_ID_HOST_VISIBLE = 1
 +};
 +
-+/* VIRTIO_GPU_CMD_SET_SCANOUT_BLOB */
-+struct virtio_gpu_set_scanout_blob {
+ #define VIRTIO_GPU_FLAG_FENCE (1 << 0)
+ 
+ struct virtio_gpu_ctrl_hdr {
+@@ -402,4 +410,31 @@ struct virtio_gpu_set_scanout_blob {
+ 	__le32 offsets[4];
+ };
+ 
++/* VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB */
++struct virtio_gpu_resource_map_blob {
 +	struct virtio_gpu_ctrl_hdr hdr;
-+	struct virtio_gpu_rect r;
-+	__le32 scanout_id;
 +	__le32 resource_id;
-+	__le32 width;
-+	__le32 height;
-+	__le32 format;
 +	__le32 padding;
-+	__le32 strides[4];
-+	__le32 offsets[4];
++	__le64 offset;
++};
++
++/* VIRTIO_GPU_RESP_OK_MAP_INFO */
++#define VIRTIO_GPU_MAP_CACHE_MASK     0x0f
++#define VIRTIO_GPU_MAP_CACHE_NONE     0x00
++#define VIRTIO_GPU_MAP_CACHE_CACHED   0x01
++#define VIRTIO_GPU_MAP_CACHE_UNCACHED 0x02
++#define VIRTIO_GPU_MAP_CACHE_WC       0x03
++struct virtio_gpu_resp_map_info {
++	struct virtio_gpu_ctrl_hdr hdr;
++	__u32 map_info;
++	__u32 padding;
++};
++
++/* VIRTIO_GPU_CMD_RESOURCE_UNMAP_BLOB */
++struct virtio_gpu_resource_unmap_blob {
++	struct virtio_gpu_ctrl_hdr hdr;
++	__le32 resource_id;
++	__le32 padding;
 +};
 +
  #endif
