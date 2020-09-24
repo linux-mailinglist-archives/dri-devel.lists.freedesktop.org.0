@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BB0277B08
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 23:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D81277B32
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 23:41:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFEA36E02C;
-	Thu, 24 Sep 2020 21:26:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECD166E49C;
+	Thu, 24 Sep 2020 21:41:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16E386E02C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 21:26:32 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id lo4so748734ejb.8
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 14:26:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=in8Rg86VvfYuzQh6U7/hDwBGxF8v1AUSBmpO9E789oQ=;
- b=Prvekm5qZ88alNocW0qFgn9cNj4Z7QPimTG+psr7zIONUFcW/sHjWqo//GgbjmL/pf
- Qyi3kbx59KsXbxbt5zVjLpfbDD5wqchk4ncB4m9x1sIIdLR7f/KrMYOWvVfcwXkCNzE0
- mMBAE2hS6VPIeqVq5TwF/2xMYdk/evhZkCGinbxKW92OUZfrQKMIfnXtfyq1OMrF6fiI
- 7hM62hDuLhBPU6MmQIBfypJfSQi8cEJujTeoPII/G5Q0qktgQrL9sWDMLtSQcH2vxa1e
- pAec2dHwsj0ZX6DcdP0RlhkEqNAcUa606Ui3etrBGY/9HZZN4lq2/eQdVX6P9Cnh39Wc
- BhzQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE6596E49C
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 21:41:49 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600983708;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pHEGyEcLx4wAmD4wOcYy6+1bBrCfu6/M5kZTaPojpLc=;
+ b=I/AB1j0LIVIvtwDycuwEqhFK+iNVmK8RR3iOIdCMv3LBSCmbNgtzhUxFBiPyeI4PQ4BVmS
+ IpOsA0wSYckfo2UaJpvezUcl3x/o9NZ8WGw5ea+5o7J1MyIMLurWQpcMsY/RiL5B5sWcxj
+ 2o+gTF0ufpb1K5D+W1crG0x6nvCWAuc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-s9rSCZ5bM424miOJHcrS5Q-1; Thu, 24 Sep 2020 17:41:44 -0400
+X-MC-Unique: s9rSCZ5bM424miOJHcrS5Q-1
+Received: by mail-wm1-f71.google.com with SMTP id r10so261147wmh.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 14:41:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=in8Rg86VvfYuzQh6U7/hDwBGxF8v1AUSBmpO9E789oQ=;
- b=mNig8jXfYfkUgeK1RLNX3iZG9ZlZOlwCc9yGZ/umQSz0dahfJ3jkiQ3VGkxXIG7Nmv
- CkNSRukrApHYFF7rFzNkPsWp2f6q5PHFkX/ttR1CmSAkN29M8k6Un+KpOSUfkf4wlGyY
- qf6RLgOmQZL5lPXoQGAV4GYD5r3k/OHtirllZk9ZBxSjgbTxwGEHgp16NLU0Og6h8Z0S
- 74i7Vgw7R6Ykae/lzq3Rh2wT7qUo4pMBsCMI7Z3tB8KCUYtNUrR11YTMVhnwzyf1Yqm0
- QQ+MqS3IhiiOHYT4Kcm66KTLQgIEEaA9MwZjnKnwkwUwJrHEU2ZPl9QGt+m7BHnRvz46
- 5sIA==
-X-Gm-Message-State: AOAM531JGocOum8ewq3xiFSszpUvTVQcHAslo43dz6RUMeHJpeeak/5/
- emuZE17N4wEZoq57ANEG6hU2DQfWZAQ6WN4B3GBsKQ==
-X-Google-Smtp-Source: ABdhPJwo2nc1Tk13TPjt0rD146GmflS4xaeaqP6B2BkyjnC8iqLNN+AT1GEdOa+lozWWeYUYn6ojXC5A3ZlNsX+AQxo=
-X-Received: by 2002:a17:907:4035:: with SMTP id
- nk5mr592391ejb.418.1600982790747; 
- Thu, 24 Sep 2020 14:26:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <159643094279.4062302.17779410714418721328.stgit@dwillia2-desk3.amr.corp.intel.com>
- <159643100485.4062302.976628339798536960.stgit@dwillia2-desk3.amr.corp.intel.com>
- <a3ad70a2-77a8-d50e-f372-731a8e27c03b@redhat.com>
- <17686fcc-202e-0982-d0de-54d5349cfb5d@oracle.com>
- <9acc6148-72eb-7016-dba9-46fa87ded5a5@redhat.com>
- <CAPcyv4h5GGV3F-0rFY_pyv9Bj8LAkrwXruxGE=K2y9=dA8oDHw@mail.gmail.com>
- <d160c05b-9caa-1ffb-9c01-5bb261c744b5@redhat.com>
- <CAPcyv4jf9fK5oOcROMx=c-3q6aGFp89MNi-+GoZ-dy1gdNTrJw@mail.gmail.com>
- <28ad3045-9238-2a77-d74d-9660a36aa4da@redhat.com>
-In-Reply-To: <28ad3045-9238-2a77-d74d-9660a36aa4da@redhat.com>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Thu, 24 Sep 2020 14:26:19 -0700
-Message-ID: <CAPcyv4iQ4VnXMU0+_7rfXwPowgcdoABSFUH4WO_3P9vHtWAzPg@mail.gmail.com>
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=g/Xbd+gOY1D7k7S7s+pOd/hTecpIxif1KV3RUcYn5rQ=;
+ b=CL2tguC7Se8EpWzPDcWlQJcrXMf+a9ZNvAQjg/sfVoq1U3ogGpzbsbMCcyv5zDDQGp
+ kl106b6v/LMrTOsjMTZHI7oLGH99ieRyrqTgSNZk2NOT6ZSmg1PMNM2nhHB8IwXXcI8P
+ Tayv4b47IGm2busu0AcGrlX1IAAT+tHw8mnL1qO1z08zBEPlJmtrVN0/n55M+TX7GT5H
+ 8hFniOQNaeZX2G/izg85zdOpP+3qG3VD+qODR2w0/WdfwtV2IA00Pcih/kemwyYAKyEB
+ 0vFFrVMNpwqhE4IxhCnbHOKqkKhqlXshL61Ah7dps9d2edisqK66NQJQcMwXXjcKF9+a
+ fEpg==
+X-Gm-Message-State: AOAM532vzg8hPtRmjdBFk0E+FT2AxElSBV+xom4QoX/WBByMjVTCvVSb
+ 1rVD2yZ7knDpFoFFR9PZ8NldFkD8x8bkiDCiGjO3OecE1zRs6dIfPrOJHDl3Ak8P7UhnzCkm7Pm
+ 95zMVNvjkRb9MAyC0ffleCC+eVn3D
+X-Received: by 2002:adf:ff90:: with SMTP id j16mr1019726wrr.105.1600983703564; 
+ Thu, 24 Sep 2020 14:41:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwcmOcMLK9ieZTe6UE9SIsXG/tKkkWvHxZX+em+xkUyTPxjCgMj7blLOZyUvF+KwveIZvdq7w==
+X-Received: by 2002:adf:ff90:: with SMTP id j16mr1019712wrr.105.1600983703320; 
+ Thu, 24 Sep 2020 14:41:43 -0700 (PDT)
+Received: from localhost.localdomain (p4ff23f51.dip0.t-ipconnect.de.
+ [79.242.63.81])
+ by smtp.gmail.com with ESMTPSA id e13sm490886wre.60.2020.09.24.14.41.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Sep 2020 14:41:42 -0700 (PDT)
+From: David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
 Subject: Re: [PATCH v4 11/23] device-dax: Kill dax_kmem_res
-To: David Hildenbrand <david@redhat.com>
+Date: Thu, 24 Sep 2020 23:41:41 +0200
+Message-Id: <79BEC711-C769-432B-9A50-63C6A3AEB0E3@redhat.com>
+References: <CAPcyv4iQ4VnXMU0+_7rfXwPowgcdoABSFUH4WO_3P9vHtWAzPg@mail.gmail.com>
+In-Reply-To: <CAPcyv4iQ4VnXMU0+_7rfXwPowgcdoABSFUH4WO_3P9vHtWAzPg@mail.gmail.com>
+To: Dan Williams <dan.j.williams@intel.com>
+X-Mailer: iPhone Mail (18A373)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,9 +78,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pavel Tatashin <pasha.tatashin@soleen.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Peter Zijlstra <peterz@infradead.org>, Vishal Verma <vishal.l.verma@intel.com>,
+Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Pavel Tatashin <pasha.tatashin@soleen.com>,
+ David Hildenbrand <david@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Vishal Verma <vishal.l.verma@intel.com>,
  Dave Hansen <dave.hansen@linux.intel.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
@@ -80,46 +89,38 @@ Cc: Pavel Tatashin <pasha.tatashin@soleen.com>,
  Linux ACPI <linux-acpi@vger.kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
  linux-nvdimm <linux-nvdimm@lists.01.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[..]
-> > I'm not suggesting to busy the whole "virtio" range, just the portion
-> > that's about to be passed to add_memory_driver_managed().
->
-> I'm afraid I don't get your point. For virtio-mem:
->
-> Before:
->
-> 1. Create virtio0 container resource
->
-> 2. (somewhen in the future) add_memory_driver_managed()
->  - Create resource (System RAM (virtio_mem)), marking it busy/driver
->    managed
->
-> After:
->
-> 1. Create virtio0 container resource
->
-> 2. (somewhen in the future) Create resource (System RAM (virtio_mem)),
->    marking it busy/driver managed
-> 3. add_memory_driver_managed()
->
-> Not helpful or simpler IMHO.
-
-The concern I'm trying to address is the theoretical race window and
-layering violation in this sequence in the kmem driver:
-
-1/ res = request_mem_region(...);
-2/ res->flags = IORESOURCE_MEM;
-3/ add_memory_driver_managed();
-
-Between 2/ and 3/ something can race and think that it owns the
-region. Do I think it will happen in practice, no, but it's still a
-pattern that deserves come cleanup.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Cgo+IEFtIDI0LjA5LjIwMjAgdW0gMjM6MjYgc2NocmllYiBEYW4gV2lsbGlhbXMgPGRhbi5qLndp
+bGxpYW1zQGludGVsLmNvbT46Cj4gCj4g77u/Wy4uXQo+Pj4gSSdtIG5vdCBzdWdnZXN0aW5nIHRv
+IGJ1c3kgdGhlIHdob2xlICJ2aXJ0aW8iIHJhbmdlLCBqdXN0IHRoZSBwb3J0aW9uCj4+PiB0aGF0
+J3MgYWJvdXQgdG8gYmUgcGFzc2VkIHRvIGFkZF9tZW1vcnlfZHJpdmVyX21hbmFnZWQoKS4KPj4g
+Cj4+IEknbSBhZnJhaWQgSSBkb24ndCBnZXQgeW91ciBwb2ludC4gRm9yIHZpcnRpby1tZW06Cj4+
+IAo+PiBCZWZvcmU6Cj4+IAo+PiAxLiBDcmVhdGUgdmlydGlvMCBjb250YWluZXIgcmVzb3VyY2UK
+Pj4gCj4+IDIuIChzb21ld2hlbiBpbiB0aGUgZnV0dXJlKSBhZGRfbWVtb3J5X2RyaXZlcl9tYW5h
+Z2VkKCkKPj4gLSBDcmVhdGUgcmVzb3VyY2UgKFN5c3RlbSBSQU0gKHZpcnRpb19tZW0pKSwgbWFy
+a2luZyBpdCBidXN5L2RyaXZlcgo+PiAgIG1hbmFnZWQKPj4gCj4+IEFmdGVyOgo+PiAKPj4gMS4g
+Q3JlYXRlIHZpcnRpbzAgY29udGFpbmVyIHJlc291cmNlCj4+IAo+PiAyLiAoc29tZXdoZW4gaW4g
+dGhlIGZ1dHVyZSkgQ3JlYXRlIHJlc291cmNlIChTeXN0ZW0gUkFNICh2aXJ0aW9fbWVtKSksCj4+
+ICAgbWFya2luZyBpdCBidXN5L2RyaXZlciBtYW5hZ2VkCj4+IDMuIGFkZF9tZW1vcnlfZHJpdmVy
+X21hbmFnZWQoKQo+PiAKPj4gTm90IGhlbHBmdWwgb3Igc2ltcGxlciBJTUhPLgo+IAo+IFRoZSBj
+b25jZXJuIEknbSB0cnlpbmcgdG8gYWRkcmVzcyBpcyB0aGUgdGhlb3JldGljYWwgcmFjZSB3aW5k
+b3cgYW5kCj4gbGF5ZXJpbmcgdmlvbGF0aW9uIGluIHRoaXMgc2VxdWVuY2UgaW4gdGhlIGttZW0g
+ZHJpdmVyOgo+IAo+IDEvIHJlcyA9IHJlcXVlc3RfbWVtX3JlZ2lvbiguLi4pOwo+IDIvIHJlcy0+
+ZmxhZ3MgPSBJT1JFU09VUkNFX01FTTsKPiAzLyBhZGRfbWVtb3J5X2RyaXZlcl9tYW5hZ2VkKCk7
+Cj4gCj4gQmV0d2VlbiAyLyBhbmQgMy8gc29tZXRoaW5nIGNhbiByYWNlIGFuZCB0aGluayB0aGF0
+IGl0IG93bnMgdGhlCj4gcmVnaW9uLiBEbyBJIHRoaW5rIGl0IHdpbGwgaGFwcGVuIGluIHByYWN0
+aWNlLCBubywgYnV0IGl0J3Mgc3RpbGwgYQo+IHBhdHRlcm4gdGhhdCBkZXNlcnZlcyBjb21lIGNs
+ZWFudXAuCgpJIHRoaW5rIGluIHRoYXQgdW5saWtlbHkgZXZlbnQgKHJhdGhlciBpbXBvc3NpYmxl
+KSwgYWRkX21lbW9yeV9kcml2ZXJfbWFuYWdlZCgpIHNob3VsZCBmYWlsLCBkZXRlY3RpbmcgYSBj
+b25mbGljdGluZyAoYnVzeSkgcmVzb3VyY2UuIE5vdCBzdXJlIHdoYXQgd2lsbCBoYXBwZW4gbmV4
+dCAoIGFuZCBkaWQgbm90IGRvdWJsZS1jaGVjaykuCgpCdXQgeWVhaCwgdGhlIHdheSB0aGUgQlVT
+WSBiaXQgaXMgY2xlYXJlZCBoZXJlIGlzIHdyb25nIC0gc2ltcGx5IG92ZXJ3cml0aW5nIG90aGVy
+IGJpdHMuIEFuZCBpdCB3b3VsZCBiZSBldmVuIGJldHRlciBpZiB3ZSBjb3VsZCBhdm9pZCBtYW51
+YWxseSBtZXNzaW5nIHdpdGggZmxhZ3MgaGVyZS4KPiAKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
