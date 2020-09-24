@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978D427797A
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 21:38:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FA62779A5
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 21:46:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2536EB57;
-	Thu, 24 Sep 2020 19:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 405936EB56;
+	Thu, 24 Sep 2020 19:46:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 935C96EB57
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 19:38:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D5F6EB56
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 19:46:09 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id D99292007A;
- Thu, 24 Sep 2020 21:38:08 +0200 (CEST)
-Date: Thu, 24 Sep 2020 21:38:07 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 687FB20073;
+ Thu, 24 Sep 2020 21:46:07 +0200 (CEST)
+Date: Thu, 24 Sep 2020 21:46:06 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-Subject: Re: [RFC PATCH v1 3/3] dt-binding: display: Require two rests on
- mantix panel
-Message-ID: <20200924193807.GA1223313@ravnborg.org>
-References: <cover.1600707235.git.agx@sigxcpu.org>
- <71a9108f3472ba9af4bead01b1b770d1e73eb08e.1600707235.git.agx@sigxcpu.org>
+To: Qinglang Miao <miaoqinglang@huawei.com>
+Subject: Re: [PATCH -next] drm/panel: simplify the return expression of
+ td028ttec1_prepare
+Message-ID: <20200924194606.GB1223313@ravnborg.org>
+References: <20200921131018.91513-1-miaoqinglang@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <71a9108f3472ba9af4bead01b1b770d1e73eb08e.1600707235.git.agx@sigxcpu.org>
+In-Reply-To: <20200921131018.91513-1-miaoqinglang@huawei.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=8nJEP1OIZ-IA:10 a=ze386MxoAAAA:8 a=6LdyRFKnEOD0PBeQgTUA:9
- a=wPNLvfGTeEIA:10 a=iBZjaW-pnkserzjvUTHh:22
+ a=kj9zAlcOel0A:10 a=i0EeH86SAAAA:8 a=t2hpYR1j4ttwukXXcmsA:9
+ a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,71 +44,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Guido.
+Hi Qinglang
 
-On Mon, Sep 21, 2020 at 06:55:52PM +0200, Guido G=FCnther wrote:
-> We need to reset both for the panel to show an image.
-> =
+On Mon, Sep 21, 2020 at 09:10:18PM +0800, Qinglang Miao wrote:
+> Simplify the return expression.
+> 
+> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
 
-> Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
-> ---
->  .../bindings/display/panel/mantix,mlaf057we51-x.yaml       | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> =
 
-> diff --git a/Documentation/devicetree/bindings/display/panel/mantix,mlaf0=
-57we51-x.yaml b/Documentation/devicetree/bindings/display/panel/mantix,mlaf=
-057we51-x.yaml
-> index 937323cc9aaa..ba5a18fac9f9 100644
-> --- a/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-=
-x.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-=
-x.yaml
-> @@ -35,7 +35,9 @@ properties:
->    vddi-supply:
->      description: 1.8V I/O voltage supply
->  =
-
-> -  reset-gpios: true
-> +  reset-gpios:
-> +    minItems: 2
-> +    maxItems: 2
-
-reset-gpios is, as you already wrote, defined in panel-common.yaml.
-Do not try to change it here.
-It would be much better, I think, to introduce a mantix,reset-gpios
-property.
-
-This would avoid that we had two different reset-gpios definitions.
+Thanks, applied to drm-misc-next.
 
 	Sam
 
->  =
-
->    backlight: true
->  =
-
-> @@ -62,7 +64,8 @@ examples:
->              avdd-supply =3D <&reg_avdd>;
->              avee-supply =3D <&reg_avee>;
->              vddi-supply =3D <&reg_1v8_p>;
-> -            reset-gpios =3D <&gpio1 29 GPIO_ACTIVE_LOW>;
-> +            reset-gpios =3D <&gpio1 29 GPIO_ACTIVE_LOW>,
-> +                          <&gpio1 24 GPIO_ACTIVE_LOW>;
->              backlight =3D <&backlight>;
->          };
->      };
-> -- =
-
-> 2.26.2
+> ---
+>  drivers/gpu/drm/panel/panel-tpo-td028ttec1.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c b/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
+> index 037c14fd6..ba0c00d1a 100644
+> --- a/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
+> +++ b/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
+> @@ -242,13 +242,8 @@ static int td028ttec1_prepare(struct drm_panel *panel)
+>  static int td028ttec1_enable(struct drm_panel *panel)
+>  {
+>  	struct td028ttec1_panel *lcd = to_td028ttec1_device(panel);
+> -	int ret;
+>  
+> -	ret = jbt_ret_write_0(lcd, JBT_REG_DISPLAY_ON, NULL);
+> -	if (ret)
+> -		return ret;
+> -
+> -	return 0;
+> +	return jbt_ret_write_0(lcd, JBT_REG_DISPLAY_ON, NULL);
+>  }
+>  
+>  static int td028ttec1_disable(struct drm_panel *panel)
+> -- 
+> 2.23.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
