@@ -1,34 +1,103 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7124C276A51
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:14:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CC1276AB7
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 09:26:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0AFF89415;
-	Thu, 24 Sep 2020 07:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 158046EAB2;
+	Thu, 24 Sep 2020 07:26:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 220EA8914B;
- Thu, 24 Sep 2020 07:14:29 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 85B86AA55;
- Thu, 24 Sep 2020 07:15:05 +0000 (UTC)
-Subject: Re: [PATCH v2 2/3] dma-buf: Use struct dma_buf_map in dma_buf_vmap()
- interfaces
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200923123205.30671-1-tzimmermann@suse.de>
- <20200923123205.30671-3-tzimmermann@suse.de>
- <20200923153908.GT438822@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <5ebffa27-4479-7487-bbc5-8230c8dbde91@suse.de>
-Date: Thu, 24 Sep 2020 09:14:26 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B10926EAB2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 07:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600932365;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=sfgIAySa/A08wWDXkoelNWjNVbM5AALzahJpdX5IxUs=;
+ b=aobDqK0S1Wa+IBmRkrTlqPsVhFNRmU7nyPcvNys4GS0j3K/BeWELOKOs8V3lnnXffFLz7y
+ 3aydgB0V2X+7RaNxcwXRFW9g/ZpPlsYCaLjLefL2jiClNxYsX+lOapyqJRsjep5UsTAcyf
+ FEgtTBouqc9aypSWZScBraDv709Ji/8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-zmkHPT1BP3STx7H0xp7Phw-1; Thu, 24 Sep 2020 03:26:03 -0400
+X-MC-Unique: zmkHPT1BP3STx7H0xp7Phw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E0B2186DD28;
+ Thu, 24 Sep 2020 07:26:01 +0000 (UTC)
+Received: from [10.36.114.4] (ovpn-114-4.ams2.redhat.com [10.36.114.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91BC578828;
+ Thu, 24 Sep 2020 07:25:58 +0000 (UTC)
+Subject: Re: [PATCH v4 11/23] device-dax: Kill dax_kmem_res
+To: Dan Williams <dan.j.williams@intel.com>
+References: <159643094279.4062302.17779410714418721328.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <159643100485.4062302.976628339798536960.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <a3ad70a2-77a8-d50e-f372-731a8e27c03b@redhat.com>
+ <17686fcc-202e-0982-d0de-54d5349cfb5d@oracle.com>
+ <9acc6148-72eb-7016-dba9-46fa87ded5a5@redhat.com>
+ <CAPcyv4h5GGV3F-0rFY_pyv9Bj8LAkrwXruxGE=K2y9=dA8oDHw@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat GmbH
+Message-ID: <d160c05b-9caa-1ffb-9c01-5bb261c744b5@redhat.com>
+Date: Thu, 24 Sep 2020 09:25:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200923153908.GT438822@phenom.ffwll.local>
+In-Reply-To: <CAPcyv4h5GGV3F-0rFY_pyv9Bj8LAkrwXruxGE=K2y9=dA8oDHw@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,756 +110,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, thierry.reding@gmail.com, kraxel@redhat.com,
- afd@ti.com, sam@ravnborg.org, m.szyprowski@samsung.com, corbet@lwn.net,
- jonathanh@nvidia.com, matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
- labbott@redhat.com, linux-media@vger.kernel.org, pawel@osciak.com,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
- rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org, mchehab@kernel.org,
- lmark@codeaurora.org, tfiga@chromium.org, kyungmin.park@samsung.com,
- robin.murphy@arm.com, christian.koenig@amd.com
-Content-Type: multipart/mixed; boundary="===============0526613079=="
+Cc: Pavel Tatashin <pasha.tatashin@soleen.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Peter Zijlstra <peterz@infradead.org>, Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>, Joao Martins <joao.m.martins@oracle.com>,
+ Linux ACPI <linux-acpi@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-nvdimm <linux-nvdimm@lists.01.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0526613079==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0PDgmugOtYTKuFhKgfUTndpr73KvkO8XC"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0PDgmugOtYTKuFhKgfUTndpr73KvkO8XC
-Content-Type: multipart/mixed; boundary="KIiFM399i8teHRQYXyQAuqo6O85s8fAO1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: christian.koenig@amd.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- kraxel@redhat.com, tfiga@chromium.org, sam@ravnborg.org,
- m.szyprowski@samsung.com, corbet@lwn.net, linux-doc@vger.kernel.org,
- jonathanh@nvidia.com, matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
- labbott@redhat.com, linux-media@vger.kernel.org, pawel@osciak.com,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
- rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org, mchehab@kernel.org,
- lmark@codeaurora.org, afd@ti.com, kyungmin.park@samsung.com,
- robin.murphy@arm.com
-Message-ID: <5ebffa27-4479-7487-bbc5-8230c8dbde91@suse.de>
-Subject: Re: [PATCH v2 2/3] dma-buf: Use struct dma_buf_map in dma_buf_vmap()
- interfaces
-References: <20200923123205.30671-1-tzimmermann@suse.de>
- <20200923123205.30671-3-tzimmermann@suse.de>
- <20200923153908.GT438822@phenom.ffwll.local>
-In-Reply-To: <20200923153908.GT438822@phenom.ffwll.local>
-
---KIiFM399i8teHRQYXyQAuqo6O85s8fAO1
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 23.09.20 um 17:39 schrieb Daniel Vetter:
-> On Wed, Sep 23, 2020 at 02:32:04PM +0200, Thomas Zimmermann wrote:
->> This patch updates dma_buf_vmap() and dma-buf's vmap callback to use
->> struct dma_buf_map.
+On 23.09.20 23:41, Dan Williams wrote:
+> On Wed, Sep 23, 2020 at 1:04 AM David Hildenbrand <david@redhat.com> wrote:
 >>
->> The interfaces used to return a buffer address. This address now gets
->> stored in an instance of the structure that is given as an additional
->> argument. The functions return an errno code on errors.
+>> On 08.09.20 17:33, Joao Martins wrote:
+>>> [Sorry for the late response]
+>>>
+>>> On 8/21/20 11:06 AM, David Hildenbrand wrote:
+>>>> On 03.08.20 07:03, Dan Williams wrote:
+>>>>> @@ -37,109 +45,94 @@ int dev_dax_kmem_probe(struct device *dev)
+>>>>>      * could be mixed in a node with faster memory, causing
+>>>>>      * unavoidable performance issues.
+>>>>>      */
+>>>>> -   numa_node = dev_dax->target_node;
+>>>>>     if (numa_node < 0) {
+>>>>>             dev_warn(dev, "rejecting DAX region with invalid node: %d\n",
+>>>>>                             numa_node);
+>>>>>             return -EINVAL;
+>>>>>     }
+>>>>>
+>>>>> -   /* Hotplug starting at the beginning of the next block: */
+>>>>> -   kmem_start = ALIGN(range->start, memory_block_size_bytes());
+>>>>> -
+>>>>> -   kmem_size = range_len(range);
+>>>>> -   /* Adjust the size down to compensate for moving up kmem_start: */
+>>>>> -   kmem_size -= kmem_start - range->start;
+>>>>> -   /* Align the size down to cover only complete blocks: */
+>>>>> -   kmem_size &= ~(memory_block_size_bytes() - 1);
+>>>>> -   kmem_end = kmem_start + kmem_size;
+>>>>> -
+>>>>> -   new_res_name = kstrdup(dev_name(dev), GFP_KERNEL);
+>>>>> -   if (!new_res_name)
+>>>>> +   res_name = kstrdup(dev_name(dev), GFP_KERNEL);
+>>>>> +   if (!res_name)
+>>>>>             return -ENOMEM;
+>>>>>
+>>>>> -   /* Region is permanently reserved if hotremove fails. */
+>>>>> -   new_res = request_mem_region(kmem_start, kmem_size, new_res_name);
+>>>>> -   if (!new_res) {
+>>>>> -           dev_warn(dev, "could not reserve region [%pa-%pa]\n",
+>>>>> -                    &kmem_start, &kmem_end);
+>>>>> -           kfree(new_res_name);
+>>>>> +   res = request_mem_region(range.start, range_len(&range), res_name);
+>>>>
+>>>> I think our range could be empty after aligning. I assume
+>>>> request_mem_region() would check that, but maybe we could report a
+>>>> better error/warning in that case.
+>>>>
+>>> dax_kmem_range() already returns a memory-block-aligned @range but
+>>> IIUC request_mem_region() isn't checking for that. Having said that
+>>> the returned @res wouldn't be different from the passed range.start.
+>>>
+>>>>>     /*
+>>>>>      * Ensure that future kexec'd kernels will not treat this as RAM
+>>>>>      * automatically.
+>>>>>      */
+>>>>> -   rc = add_memory_driver_managed(numa_node, new_res->start,
+>>>>> -                                  resource_size(new_res), kmem_name);
+>>>>> +   rc = add_memory_driver_managed(numa_node, res->start,
+>>>>> +                                  resource_size(res), kmem_name);
+>>>>> +
+>>>>> +   res->flags |= IORESOURCE_BUSY;
+>>>>
+>>>> Hm, I don't think that's correct. Any specific reason why to mark the
+>>>> not-added, unaligned parts BUSY? E.g., walk_system_ram_range() could
+>>>> suddenly stumble over it - and e.g., similarly kexec code when trying to
+>>>> find memory for placing kexec images. I think we should leave this
+>>>> !BUSY, just as it is right now.
+>>>>
+>>> Agreed.
+>>>
+>>>>>     if (rc) {
+>>>>> -           release_resource(new_res);
+>>>>> -           kfree(new_res);
+>>>>> -           kfree(new_res_name);
+>>>>> +           release_mem_region(range.start, range_len(&range));
+>>>>> +           kfree(res_name);
+>>>>>             return rc;
+>>>>>     }
+>>>>> -   dev_dax->dax_kmem_res = new_res;
+>>>>> +
+>>>>> +   dev_set_drvdata(dev, res_name);
+>>>>>
+>>>>>     return 0;
+>>>>>  }
+>>>>>
+>>>>>  #ifdef CONFIG_MEMORY_HOTREMOVE
+>>>>> -static int dev_dax_kmem_remove(struct device *dev)
+>>>>> +static void dax_kmem_release(struct dev_dax *dev_dax)
+>>>>>  {
+>>>>> -   struct dev_dax *dev_dax = to_dev_dax(dev);
+>>>>> -   struct resource *res = dev_dax->dax_kmem_res;
+>>>>> -   resource_size_t kmem_start = res->start;
+>>>>> -   resource_size_t kmem_size = resource_size(res);
+>>>>> -   const char *res_name = res->name;
+>>>>>     int rc;
+>>>>> +   struct device *dev = &dev_dax->dev;
+>>>>> +   const char *res_name = dev_get_drvdata(dev);
+>>>>> +   struct range range = dax_kmem_range(dev_dax);
+>>>>>
+>>>>>     /*
+>>>>>      * We have one shot for removing memory, if some memory blocks were not
+>>>>>      * offline prior to calling this function remove_memory() will fail, and
+>>>>>      * there is no way to hotremove this memory until reboot because device
+>>>>> -    * unbind will succeed even if we return failure.
+>>>>> +    * unbind will proceed regardless of the remove_memory result.
+>>>>>      */
+>>>>> -   rc = remove_memory(dev_dax->target_node, kmem_start, kmem_size);
+>>>>> -   if (rc) {
+>>>>> -           any_hotremove_failed = true;
+>>>>> -           dev_err(dev,
+>>>>> -                   "DAX region %pR cannot be hotremoved until the next reboot\n",
+>>>>> -                   res);
+>>>>> -           return rc;
+>>>>> +   rc = remove_memory(dev_dax->target_node, range.start, range_len(&range));
+>>>>> +   if (rc == 0) {
+>>>>
+>>>> if (!rc) ?
+>>>>
+>>> Better off would be to keep the old order:
+>>>
+>>>       if (rc) {
+>>>               any_hotremove_failed = true;
+>>>               dev_err(dev, "%#llx-%#llx cannot be hotremoved until the next reboot\n",
+>>>                               range.start, range.end);
+>>>               return;
+>>>       }
+>>>
+>>>       release_mem_region(range.start, range_len(&range));
+>>>       dev_set_drvdata(dev, NULL);
+>>>       kfree(res_name);
+>>>       return;
+>>>
+>>>
+>>>>> +           release_mem_region(range.start, range_len(&range));
+>>>>
+>>>> remove_memory() does a release_mem_region_adjustable(). Don't you
+>>>> actually want to release the *unaligned* region you requested?
+>>>>
+>>> Isn't it what we're doing here?
+>>> (The release_mem_region_adjustable() is using the same
+>>> dax_kmem-aligned range and there's no split/adjust)
+>>>
+>>> Meaning right now (+ parent marked as !BUSY), and if I am understanding
+>>> this correctly:
+>>>
+>>> request_mem_region(range.start, range_len)
+>>>    __request_region(iomem_res, range.start, range_len) -> alloc @parent
+>>> add_memory_driver_managed(parent.start, resource_size(parent))
+>>>    __request_region(parent.start, resource_size(parent)) -> alloc @child
+>>>
+>>> [...]
+>>>
+>>> remove_memory(range.start, range_len)
+>>>  request_mem_region_adjustable(range.start, range_len)
+>>>   __release_region(range.start, range_len) -> remove @child
+>>>
+>>> release_mem_region(range.start, range_len)
+>>>   __release_region(range.start, range_len) -> doesn't remove @parent because !BUSY?
+>>>
+>>> The add/removal of this relies on !BUSY. But now I am wondering if the parent remaining
+>>> unreleased is deliberate even on CONFIG_MEMORY_HOTREMOVE=y.
+>>>
+>>>       Joao
+>>>
 >>
->> Users of the functions are updated accordingly. This is only an interf=
-ace
->> change. It is currently expected that dma-buf memory can be accessed w=
-ith
->> system memory load/store operations.
+>> Thinking about it, if we don't set the parent resource BUSY (which is
+>> what I think is the right way of doing things), and don't want to store
+>> the parent resource pointer, we could add something like
+>> lookup_resource() - e.g., lookup_mem_resource() - , however, searching
+>> properly in the whole hierarchy (instead of only the first level), and
+>> traversing down to the last hierarchy. Then it would be as simple as
 >>
->> v2:
->> 	* always clear map parameter in dma_buf_vmap() (Daniel)
->> 	* include dma-buf-heaps and i915 selftests (kernel test robot)
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
->=20
-> Too lazy to check for all possible conversion issues, but I think I've
-> done a close look last time around. As long as this is build tested acr=
-oss
-> all drivers and architectures we care about we should be fine.
+>> remove_memory(range.start, range_len)
+>> res = lookup_mem_resource(range.start);
+>> release_resource(res);
+> 
+> Another thought... I notice that you've taught
+> register_memory_resource() a IORESOURCE_MEM_DRIVER_MANAGED special
+> case. Lets just make the assumption of add_memory_driver_managed()
+> that it is the driver's responsibility to mark the range busy before
+> calling, and the driver's responsibility to release the region. I.e.
+> validate (rather than request) that the range is busy in
+> register_memory_resource(), and teach release_memory_resource() to
+> skip releasing the region when the memory is marked driver managed.
+> That would let dax_kmem drop its manipulation of the 'busy' flag which
+> is a layering violation no matter how many comments we put around it.
 
-I built for x86-64, i586, aarch64 and arm. Apparently the kernel test
-robot keeps digging up new build errors, so I'll double check before
-committing. In any case, the errors should be trivial to fix.
+IIUC, that won't work for virtio-mem, whereby the parent resource spans
+multiple possible (future) add_memory_driver_managed() calls and is
+(just like for kmem) a pure indication to which device memory ranges belong.
 
-Best regards
-Thomas
+For example, when exposing 2GB via a virtio-mem device with max 4GB:
 
->=20
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> ---
->>  drivers/dma-buf/dma-buf.c                     | 28 +++++++++++-------=
--
->>  drivers/dma-buf/heaps/heap-helpers.c          |  8 ++++--
->>  drivers/gpu/drm/drm_gem_cma_helper.c          | 13 +++++----
->>  drivers/gpu/drm/drm_gem_shmem_helper.c        | 14 ++++++----
->>  drivers/gpu/drm/drm_prime.c                   |  8 ++++--
->>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  8 +++++-
->>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    | 11 ++++++--
->>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 12 ++++++--
->>  .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  | 10 +++++--
->>  drivers/gpu/drm/tegra/gem.c                   | 18 ++++++++----
->>  .../common/videobuf2/videobuf2-dma-contig.c   | 14 +++++++---
->>  .../media/common/videobuf2/videobuf2-dma-sg.c | 16 +++++++----
->>  .../common/videobuf2/videobuf2-vmalloc.c      | 15 +++++++---
->>  include/drm/drm_prime.h                       |  3 +-
->>  include/linux/dma-buf-map.h                   | 13 +++++++++
->>  include/linux/dma-buf.h                       |  6 ++--
->>  16 files changed, 138 insertions(+), 59 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index 5e849ca241a0..61bd24d21b38 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -1186,46 +1186,50 @@ EXPORT_SYMBOL_GPL(dma_buf_mmap);
->>   * dma_buf_vmap - Create virtual mapping for the buffer object into k=
-ernel
->>   * address space. Same restrictions as for vmap and friends apply.
->>   * @dmabuf:	[in]	buffer to vmap
->> + * @map:	[out]	returns the vmap pointer
->>   *
->>   * This call may fail due to lack of virtual mapping address space.
->>   * These calls are optional in drivers. The intended use for them
->>   * is for mapping objects linear in kernel space for high use objects=
-=2E
->>   * Please attempt to use kmap/kunmap before thinking about these inte=
-rfaces.
->>   *
->> - * Returns NULL on error.
->> + * Returns 0 on success, or a negative errno code otherwise.
->>   */
->> -void *dma_buf_vmap(struct dma_buf *dmabuf)
->> +int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
->>  {
->> -	void *ptr;
->> +	struct dma_buf_map ptr;
->> +	int ret =3D 0;
->> +
->> +	dma_buf_map_clear(map);
->> =20
->>  	if (WARN_ON(!dmabuf))
->> -		return NULL;
->> +		return -EINVAL;
->> =20
->>  	if (!dmabuf->ops->vmap)
->> -		return NULL;
->> +		return -EINVAL;
->> =20
->>  	mutex_lock(&dmabuf->lock);
->>  	if (dmabuf->vmapping_counter) {
->>  		dmabuf->vmapping_counter++;
->>  		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
->> -		ptr =3D dmabuf->vmap_ptr.vaddr;
->> +		*map =3D dmabuf->vmap_ptr;
->>  		goto out_unlock;
->>  	}
->> =20
->>  	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
->> =20
->> -	ptr =3D dmabuf->ops->vmap(dmabuf);
->> -	if (WARN_ON_ONCE(IS_ERR(ptr)))
->> -		ptr =3D NULL;
->> -	if (!ptr)
->> +	ret =3D dmabuf->ops->vmap(dmabuf, &ptr);
->> +	if (WARN_ON_ONCE(ret))
->>  		goto out_unlock;
->> =20
->> -	dmabuf->vmap_ptr.vaddr =3D ptr;
->> +	dmabuf->vmap_ptr =3D ptr;
->>  	dmabuf->vmapping_counter =3D 1;
->> =20
->> +	*map =3D dmabuf->vmap_ptr;
->> +
->>  out_unlock:
->>  	mutex_unlock(&dmabuf->lock);
->> -	return ptr;
->> +	return ret;
->>  }
->>  EXPORT_SYMBOL_GPL(dma_buf_vmap);
->> =20
->> diff --git a/drivers/dma-buf/heaps/heap-helpers.c b/drivers/dma-buf/he=
-aps/heap-helpers.c
->> index d0696cf937af..aeb9e100f339 100644
->> --- a/drivers/dma-buf/heaps/heap-helpers.c
->> +++ b/drivers/dma-buf/heaps/heap-helpers.c
->> @@ -235,7 +235,7 @@ static int dma_heap_dma_buf_end_cpu_access(struct =
-dma_buf *dmabuf,
->>  	return 0;
->>  }
->> =20
->> -static void *dma_heap_dma_buf_vmap(struct dma_buf *dmabuf)
->> +static int dma_heap_dma_buf_vmap(struct dma_buf *dmabuf, struct dma_b=
-uf_map *map)
->>  {
->>  	struct heap_helper_buffer *buffer =3D dmabuf->priv;
->>  	void *vaddr;
->> @@ -244,7 +244,11 @@ static void *dma_heap_dma_buf_vmap(struct dma_buf=
- *dmabuf)
->>  	vaddr =3D dma_heap_buffer_vmap_get(buffer);
->>  	mutex_unlock(&buffer->lock);
->> =20
->> -	return vaddr;
->> +	if (!vaddr)
->> +		return -ENOMEM;
->> +	dma_buf_map_set_vaddr(map, vaddr);
->> +
->> +	return 0;
->>  }
->> =20
->>  static void dma_heap_dma_buf_vunmap(struct dma_buf *dmabuf, void *vad=
-dr)
->> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/dr=
-m_gem_cma_helper.c
->> index 59b9ca207b42..1ece73fd3fe9 100644
->> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
->> @@ -617,22 +617,23 @@ drm_gem_cma_prime_import_sg_table_vmap(struct dr=
-m_device *dev,
->>  {
->>  	struct drm_gem_cma_object *cma_obj;
->>  	struct drm_gem_object *obj;
->> -	void *vaddr;
->> +	struct dma_buf_map map;
->> +	int ret;
->> =20
->> -	vaddr =3D dma_buf_vmap(attach->dmabuf);
->> -	if (!vaddr) {
->> +	ret =3D dma_buf_vmap(attach->dmabuf, &map);
->> +	if (ret) {
->>  		DRM_ERROR("Failed to vmap PRIME buffer\n");
->> -		return ERR_PTR(-ENOMEM);
->> +		return ERR_PTR(ret);
->>  	}
->> =20
->>  	obj =3D drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
->>  	if (IS_ERR(obj)) {
->> -		dma_buf_vunmap(attach->dmabuf, vaddr);
->> +		dma_buf_vunmap(attach->dmabuf, map.vaddr);
->>  		return obj;
->>  	}
->> =20
->>  	cma_obj =3D to_drm_gem_cma_obj(obj);
->> -	cma_obj->vaddr =3D vaddr;
->> +	cma_obj->vaddr =3D map.vaddr;
->> =20
->>  	return obj;
->>  }
->> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/=
-drm_gem_shmem_helper.c
->> index d77c9f8ff26c..6328cfbb828e 100644
->> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> @@ -261,13 +261,16 @@ EXPORT_SYMBOL(drm_gem_shmem_unpin);
->>  static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *s=
-hmem)
->>  {
->>  	struct drm_gem_object *obj =3D &shmem->base;
->> -	int ret;
->> +	struct dma_buf_map map;
->> +	int ret =3D 0;
->> =20
->>  	if (shmem->vmap_use_count++ > 0)
->>  		return shmem->vaddr;
->> =20
->>  	if (obj->import_attach) {
->> -		shmem->vaddr =3D dma_buf_vmap(obj->import_attach->dmabuf);
->> +		ret =3D dma_buf_vmap(obj->import_attach->dmabuf, &map);
->> +		if (!ret)
->> +			shmem->vaddr =3D map.vaddr;
->>  	} else {
->>  		pgprot_t prot =3D PAGE_KERNEL;
->> =20
->> @@ -279,11 +282,12 @@ static void *drm_gem_shmem_vmap_locked(struct dr=
-m_gem_shmem_object *shmem)
->>  			prot =3D pgprot_writecombine(prot);
->>  		shmem->vaddr =3D vmap(shmem->pages, obj->size >> PAGE_SHIFT,
->>  				    VM_MAP, prot);
->> +		if (!shmem->vaddr)
->> +			ret =3D -ENOMEM;
->>  	}
->> =20
->> -	if (!shmem->vaddr) {
->> -		DRM_DEBUG_KMS("Failed to vmap pages\n");
->> -		ret =3D -ENOMEM;
->> +	if (ret) {
->> +		DRM_DEBUG_KMS("Failed to vmap pages, error %d\n", ret);
->>  		goto err_put_pages;
->>  	}
->> =20
->> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c=
+(/proc/iomem)
+240000000-33fffffff : virtio0
+  240000000-2bfffffff : System RAM (virtio_mem)
 
->> index 11fe9ff76fd5..2b3fd01867e4 100644
->> --- a/drivers/gpu/drm/drm_prime.c
->> +++ b/drivers/gpu/drm/drm_prime.c
->> @@ -669,16 +669,18 @@ EXPORT_SYMBOL(drm_gem_unmap_dma_buf);
->>   *
->>   * Returns the kernel virtual address or NULL on failure.
->>   */
->> -void *drm_gem_dmabuf_vmap(struct dma_buf *dma_buf)
->> +int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *=
-map)
->>  {
->>  	struct drm_gem_object *obj =3D dma_buf->priv;
->>  	void *vaddr;
->> =20
->>  	vaddr =3D drm_gem_vmap(obj);
->>  	if (IS_ERR(vaddr))
->> -		vaddr =3D NULL;
->> +		return PTR_ERR(vaddr);
->> =20
->> -	return vaddr;
->> +	dma_buf_map_set_vaddr(map, vaddr);
->> +
->> +	return 0;
->>  }
->>  EXPORT_SYMBOL(drm_gem_dmabuf_vmap);
->> =20
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu=
-/drm/etnaviv/etnaviv_gem_prime.c
->> index 4aa3426a9ba4..80a9fc143bbb 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> @@ -85,9 +85,15 @@ static void etnaviv_gem_prime_release(struct etnavi=
-v_gem_object *etnaviv_obj)
->> =20
->>  static void *etnaviv_gem_prime_vmap_impl(struct etnaviv_gem_object *e=
-tnaviv_obj)
->>  {
->> +	struct dma_buf_map map;
->> +	int ret;
->> +
->>  	lockdep_assert_held(&etnaviv_obj->lock);
->> =20
->> -	return dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf);
->> +	ret =3D dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf, &map);=
+And after hotplugging additional 2GB:
 
->> +	if (ret)
->> +		return NULL;
->> +	return map.vaddr;
->>  }
->> =20
->>  static int etnaviv_gem_prime_mmap_obj(struct etnaviv_gem_object *etna=
-viv_obj,
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/=
-drm/i915/gem/i915_gem_dmabuf.c
->> index 8dd295dbe241..6ee8f2cfd8c1 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> @@ -77,11 +77,18 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_=
-attachment *attachment,
->>  	i915_gem_object_unpin_pages(obj);
->>  }
->> =20
->> -static void *i915_gem_dmabuf_vmap(struct dma_buf *dma_buf)
->> +static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_b=
-uf_map *map)
->>  {
->>  	struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dma_buf);
->> +	void *vaddr;
->> =20
->> -	return i915_gem_object_pin_map(obj, I915_MAP_WB);
->> +	vaddr =3D i915_gem_object_pin_map(obj, I915_MAP_WB);
->> +	if (IS_ERR(vaddr))
->> +		return PTR_ERR(vaddr);
->> +
->> +	dma_buf_map_set_vaddr(map, vaddr);
->> +
->> +	return 0;
->>  }
->> =20
->>  static void i915_gem_dmabuf_vunmap(struct dma_buf *dma_buf, void *vad=
-dr)
->> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/dr=
-ivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
->> index 2a52b92586b9..f79ebc5329b7 100644
->> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
->> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
->> @@ -82,6 +82,7 @@ static int igt_dmabuf_import(void *arg)
->>  	struct drm_i915_gem_object *obj;
->>  	struct dma_buf *dmabuf;
->>  	void *obj_map, *dma_map;
->> +	struct dma_buf_map map;
->>  	u32 pattern[] =3D { 0, 0xaa, 0xcc, 0x55, 0xff };
->>  	int err, i;
->> =20
->> @@ -110,7 +111,8 @@ static int igt_dmabuf_import(void *arg)
->>  		goto out_obj;
->>  	}
->> =20
->> -	dma_map =3D dma_buf_vmap(dmabuf);
->> +	err =3D dma_buf_vmap(dmabuf, &map);
->> +	dma_map =3D err ? NULL : map.vaddr;
->>  	if (!dma_map) {
->>  		pr_err("dma_buf_vmap failed\n");
->>  		err =3D -ENOMEM;
->> @@ -163,6 +165,7 @@ static int igt_dmabuf_import_ownership(void *arg)
->>  	struct drm_i915_private *i915 =3D arg;
->>  	struct drm_i915_gem_object *obj;
->>  	struct dma_buf *dmabuf;
->> +	struct dma_buf_map map;
->>  	void *ptr;
->>  	int err;
->> =20
->> @@ -170,7 +173,8 @@ static int igt_dmabuf_import_ownership(void *arg)
->>  	if (IS_ERR(dmabuf))
->>  		return PTR_ERR(dmabuf);
->> =20
->> -	ptr =3D dma_buf_vmap(dmabuf);
->> +	err =3D dma_buf_vmap(dmabuf, &map);
->> +	ptr =3D err ? NULL : map.vaddr;
->>  	if (!ptr) {
->>  		pr_err("dma_buf_vmap failed\n");
->>  		err =3D -ENOMEM;
->> @@ -212,6 +216,7 @@ static int igt_dmabuf_export_vmap(void *arg)
->>  	struct drm_i915_private *i915 =3D arg;
->>  	struct drm_i915_gem_object *obj;
->>  	struct dma_buf *dmabuf;
->> +	struct dma_buf_map map;
->>  	void *ptr;
->>  	int err;
->> =20
->> @@ -228,7 +233,8 @@ static int igt_dmabuf_export_vmap(void *arg)
->>  	}
->>  	i915_gem_object_put(obj);
->> =20
->> -	ptr =3D dma_buf_vmap(dmabuf);
->> +	err =3D dma_buf_vmap(dmabuf, &map);
->> +	ptr =3D err ? NULL : map.vaddr;
->>  	if (!ptr) {
->>  		pr_err("dma_buf_vmap failed\n");
->>  		err =3D -ENOMEM;
->> diff --git a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c b/driver=
-s/gpu/drm/i915/gem/selftests/mock_dmabuf.c
->> index be30b27e2926..becd9fb95d58 100644
->> --- a/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
->> +++ b/drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c
->> @@ -61,11 +61,17 @@ static void mock_dmabuf_release(struct dma_buf *dm=
-a_buf)
->>  	kfree(mock);
->>  }
->> =20
->> -static void *mock_dmabuf_vmap(struct dma_buf *dma_buf)
->> +static int mock_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_m=
-ap *map)
->>  {
->>  	struct mock_dmabuf *mock =3D to_mock(dma_buf);
->> +	void *vaddr;
->> =20
->> -	return vm_map_ram(mock->pages, mock->npages, 0);
->> +	vaddr =3D vm_map_ram(mock->pages, mock->npages, 0);
->> +	if (!vaddr)
->> +		return -ENOMEM;
->> +	dma_buf_map_set_vaddr(map, vaddr);
->> +
->> +	return 0;
->>  }
->> =20
->>  static void mock_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr)
->> diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c=
+240000000-33fffffff : virtio0
+  240000000-33fffffff : System RAM (virtio_mem)
 
->> index a2bac20ff19d..6f04d7855f95 100644
->> --- a/drivers/gpu/drm/tegra/gem.c
->> +++ b/drivers/gpu/drm/tegra/gem.c
->> @@ -132,14 +132,18 @@ static void tegra_bo_unpin(struct device *dev, s=
-truct sg_table *sgt)
->>  static void *tegra_bo_mmap(struct host1x_bo *bo)
->>  {
->>  	struct tegra_bo *obj =3D host1x_to_tegra_bo(bo);
->> +	struct dma_buf_map map;
->> +	int ret;
->> =20
->> -	if (obj->vaddr)
->> +	if (obj->vaddr) {
->>  		return obj->vaddr;
->> -	else if (obj->gem.import_attach)
->> -		return dma_buf_vmap(obj->gem.import_attach->dmabuf);
->> -	else
->> +	} else if (obj->gem.import_attach) {
->> +		ret =3D dma_buf_vmap(obj->gem.import_attach->dmabuf, &map);
->> +		return ret ? NULL : map.vaddr;
->> +	} else {
->>  		return vmap(obj->pages, obj->num_pages, VM_MAP,
->>  			    pgprot_writecombine(PAGE_KERNEL));
->> +	}
->>  }
->> =20
->>  static void tegra_bo_munmap(struct host1x_bo *bo, void *addr)
->> @@ -634,12 +638,14 @@ static int tegra_gem_prime_mmap(struct dma_buf *=
-buf, struct vm_area_struct *vma)
->>  	return __tegra_gem_mmap(gem, vma);
->>  }
->> =20
->> -static void *tegra_gem_prime_vmap(struct dma_buf *buf)
->> +static int tegra_gem_prime_vmap(struct dma_buf *buf, struct dma_buf_m=
-ap *map)
->>  {
->>  	struct drm_gem_object *gem =3D buf->priv;
->>  	struct tegra_bo *bo =3D to_tegra_bo(gem);
->> =20
->> -	return bo->vaddr;
->> +	dma_buf_map_set_vaddr(map, bo->vaddr);
->> +
->> +	return 0;
->>  }
->> =20
->>  static void tegra_gem_prime_vunmap(struct dma_buf *buf, void *vaddr)
->> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/d=
-rivers/media/common/videobuf2/videobuf2-dma-contig.c
->> index ec3446cc45b8..11428287bdf3 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> @@ -81,9 +81,13 @@ static void *vb2_dc_cookie(void *buf_priv)
->>  static void *vb2_dc_vaddr(void *buf_priv)
->>  {
->>  	struct vb2_dc_buf *buf =3D buf_priv;
->> +	struct dma_buf_map map;
->> +	int ret;
->> =20
->> -	if (!buf->vaddr && buf->db_attach)
->> -		buf->vaddr =3D dma_buf_vmap(buf->db_attach->dmabuf);
->> +	if (!buf->vaddr && buf->db_attach) {
->> +		ret =3D dma_buf_vmap(buf->db_attach->dmabuf, &map);
->> +		buf->vaddr =3D ret ? NULL : map.vaddr;
->> +	}
->> =20
->>  	return buf->vaddr;
->>  }
->> @@ -365,11 +369,13 @@ vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf =
-*dbuf,
->>  	return 0;
->>  }
->> =20
->> -static void *vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf)
->> +static int vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct dma_bu=
-f_map *map)
->>  {
->>  	struct vb2_dc_buf *buf =3D dbuf->priv;
->> =20
->> -	return buf->vaddr;
->> +	dma_buf_map_set_vaddr(map, buf->vaddr);
->> +
->> +	return 0;
->>  }
->> =20
->>  static int vb2_dc_dmabuf_ops_mmap(struct dma_buf *dbuf,
->> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drive=
-rs/media/common/videobuf2/videobuf2-dma-sg.c
->> index 0a40e00f0d7e..c51170e9c1b9 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
->> @@ -300,14 +300,18 @@ static void vb2_dma_sg_put_userptr(void *buf_pri=
-v)
->>  static void *vb2_dma_sg_vaddr(void *buf_priv)
->>  {
->>  	struct vb2_dma_sg_buf *buf =3D buf_priv;
->> +	struct dma_buf_map map;
->> +	int ret;
->> =20
->>  	BUG_ON(!buf);
->> =20
->>  	if (!buf->vaddr) {
->> -		if (buf->db_attach)
->> -			buf->vaddr =3D dma_buf_vmap(buf->db_attach->dmabuf);
->> -		else
->> +		if (buf->db_attach) {
->> +			ret =3D dma_buf_vmap(buf->db_attach->dmabuf, &map);
->> +			buf->vaddr =3D ret ? NULL : map.vaddr;
->> +		} else {
->>  			buf->vaddr =3D vm_map_ram(buf->pages, buf->num_pages, -1);
->> +		}
->>  	}
->> =20
->>  	/* add offset in case userptr is not page-aligned */
->> @@ -489,11 +493,13 @@ vb2_dma_sg_dmabuf_ops_end_cpu_access(struct dma_=
-buf *dbuf,
->>  	return 0;
->>  }
->> =20
->> -static void *vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf)
->> +static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf, struct dm=
-a_buf_map *map)
->>  {
->>  	struct vb2_dma_sg_buf *buf =3D dbuf->priv;
->> =20
->> -	return vb2_dma_sg_vaddr(buf);
->> +	dma_buf_map_set_vaddr(map, buf->vaddr);
->> +
->> +	return 0;
->>  }
->> =20
->>  static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
->> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/driv=
-ers/media/common/videobuf2/videobuf2-vmalloc.c
->> index c66fda4a65e4..7b68e2379c65 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
->> @@ -318,11 +318,13 @@ static void vb2_vmalloc_dmabuf_ops_release(struc=
-t dma_buf *dbuf)
->>  	vb2_vmalloc_put(dbuf->priv);
->>  }
->> =20
->> -static void *vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf)
->> +static int vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct d=
-ma_buf_map *map)
->>  {
->>  	struct vb2_vmalloc_buf *buf =3D dbuf->priv;
->> =20
->> -	return buf->vaddr;
->> +	dma_buf_map_set_vaddr(map, buf->vaddr);
->> +
->> +	return 0;
->>  }
->> =20
->>  static int vb2_vmalloc_dmabuf_ops_mmap(struct dma_buf *dbuf,
->> @@ -374,10 +376,15 @@ static struct dma_buf *vb2_vmalloc_get_dmabuf(vo=
-id *buf_priv, unsigned long flag
->>  static int vb2_vmalloc_map_dmabuf(void *mem_priv)
->>  {
->>  	struct vb2_vmalloc_buf *buf =3D mem_priv;
->> +	struct dma_buf_map map;
->> +	int ret;
->> =20
->> -	buf->vaddr =3D dma_buf_vmap(buf->dbuf);
->> +	ret =3D dma_buf_vmap(buf->dbuf, &map);
->> +	if (ret)
->> +		return -EFAULT;
->> +	buf->vaddr =3D map.vaddr;
->> =20
->> -	return buf->vaddr ? 0 : -EFAULT;
->> +	return 0;
->>  }
->> =20
->>  static void vb2_vmalloc_unmap_dmabuf(void *mem_priv)
->> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
->> index 0f69f9fbf12c..5125f84c28f6 100644
->> --- a/include/drm/drm_prime.h
->> +++ b/include/drm/drm_prime.h
->> @@ -54,6 +54,7 @@ struct device;
->>  struct dma_buf_export_info;
->>  struct dma_buf;
->>  struct dma_buf_attachment;
->> +struct dma_buf_map;
->> =20
->>  enum dma_data_direction;
->> =20
->> @@ -82,7 +83,7 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_=
-attachment *attach,
->>  void drm_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
->>  			   struct sg_table *sgt,
->>  			   enum dma_data_direction dir);
->> -void *drm_gem_dmabuf_vmap(struct dma_buf *dma_buf);
->> +int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *=
-map);
->>  void drm_gem_dmabuf_vunmap(struct dma_buf *dma_buf, void *vaddr);
->> =20
->>  int drm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_str=
-uct *vma);
->> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h=
+So marking "virtio0" always BUSY (especially right from the start) would
+be wrong. The assumption is that anything that's IORESOURCE_SYSTEM_RAM
+and IORESOUCE_BUSY is currently added to the system as system RAM (e.g.,
+after add_memory() and friends, or during boot).
 
->> index d4b1bb3cc4b0..6b4f6e0e8b5d 100644
->> --- a/include/linux/dma-buf-map.h
->> +++ b/include/linux/dma-buf-map.h
->> @@ -28,6 +28,19 @@ struct dma_buf_map {
->>  	bool is_iomem;
->>  };
->> =20
->> +/**
->> + * dma_buf_map_set_vaddr - Sets a dma-buf mapping structure to an add=
-ress in system memory
->> + * @map:	The dma-buf mapping structure
->> + * @vaddr:	A system-memory address
->> + *
->> + * Sets the address and clears the I/O-memory flag.
->> + */
->> +static inline void dma_buf_map_set_vaddr(struct dma_buf_map *map, voi=
-d *vaddr)
->> +{
->> +	map->vaddr =3D vaddr;
->> +	map->is_iomem =3D false;
->> +}
->> +
->>  /* API transition helper */
->>  static inline bool dma_buf_map_is_vaddr(const struct dma_buf_map *map=
-, const void *vaddr)
->>  {
->> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->> index fcc2ddfb6d18..7237997cfa38 100644
->> --- a/include/linux/dma-buf.h
->> +++ b/include/linux/dma-buf.h
->> @@ -266,7 +266,7 @@ struct dma_buf_ops {
->>  	 */
->>  	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
->> =20
->> -	void *(*vmap)(struct dma_buf *);
->> +	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
->>  	void (*vunmap)(struct dma_buf *, void *vaddr);
->>  };
->> =20
->> @@ -503,6 +503,6 @@ int dma_buf_end_cpu_access(struct dma_buf *dma_buf=
-,
->> =20
->>  int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
->>  		 unsigned long);
->> -void *dma_buf_vmap(struct dma_buf *);
->> -void dma_buf_vunmap(struct dma_buf *, void *vaddr);
->> +int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
->> +void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr);
->>  #endif /* __DMA_BUF_H__ */
->> --=20
->> 2.28.0
->>
->=20
+I do agree that manually clearing the busy flag is ugly. What we most
+probably want is request_mem_region() that performs similar checks (no
+overlaps with existing BUSY resources), but doesn't set the region busy.
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+-- 
+Thanks,
 
-
---KIiFM399i8teHRQYXyQAuqo6O85s8fAO1--
-
---0PDgmugOtYTKuFhKgfUTndpr73KvkO8XC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9sR1IUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNTzgf/VhLUkn8nUhcYMli73b9AHPIjKBw0
-JUhQ6yG/jiyVHgyHf6NVfRxlg+dOdJSYnmKbk3vcq371PSAC6E2pDnq9lwTTDISf
-LzjCEsmZQIeVvhoAnAOyOxW6HnBCm8Wrkoi/FvioqchPG6ggGTAUUKZTP2cWrHbr
-4F/g9MntcrbGI7yv01vlZaepXeRTRfrPuEIVGBfoLh5z1WetRC7+pWF0zicsKNnH
-am0FHe4GZJ7mhCfGr33H4rhGqthklnAVLviVnI8Q4PnBd+YNG45wMhALVD0xoPfv
-Kc6XxyTXN8LsgtLJEedrlzQ57W+3LsBgcJv1Qn59QATvkl8X/mK2OXcGdA==
-=hV25
------END PGP SIGNATURE-----
-
---0PDgmugOtYTKuFhKgfUTndpr73KvkO8XC--
-
---===============0526613079==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+David / dhildenb
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0526613079==--
