@@ -1,42 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA133276EF6
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 12:47:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F80276F38
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 13:01:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D88846E1D7;
-	Thu, 24 Sep 2020 10:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C230A6E1F3;
+	Thu, 24 Sep 2020 11:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A99FD6E1BA;
- Thu, 24 Sep 2020 10:47:09 +0000 (UTC)
-IronPort-SDR: BU6UaC0WVAwqJPsmi6wrZaGD5v1fSIlhUaBsL3LzJm+czhdb1E+s5de7EOLYPzt0Gegd6SqzCn
- a4rX6+L/zrMA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9753"; a="148922924"
-X-IronPort-AV: E=Sophos;i="5.77,297,1596524400"; d="scan'208";a="148922924"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5126E1BA;
+ Thu, 24 Sep 2020 11:01:40 +0000 (UTC)
+IronPort-SDR: 2R1QqWiEJIncFhKiuYIDHk8uVWE5c+wzY45dqUIsznQkHIzxXp90qcAwaAzSI+ImNRCDfvsNXi
+ 5tVWqeQ8WtaA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9753"; a="141184569"
+X-IronPort-AV: E=Sophos;i="5.77,297,1596524400"; d="scan'208";a="141184569"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2020 03:47:09 -0700
-IronPort-SDR: GL65Yuwc+QJlKzw3HP6MsYar/L1nd0RjVRUB4thcCknSyPn7RpuyNzk+UWQjgDPaEiAxST7Dya
- NwZFwFXrnWlA==
-X-IronPort-AV: E=Sophos;i="5.77,297,1596524400"; d="scan'208";a="486852741"
-Received: from mwiktor-mobl.ger.corp.intel.com (HELO [10.249.47.51])
- ([10.249.47.51])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2020 03:47:06 -0700
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <4106c21e-f52c-4c05-6cdb-daa743bb8617@linux.intel.com>
-Date: Thu, 24 Sep 2020 12:47:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2020 04:01:39 -0700
+IronPort-SDR: 40EV3xhybvGzIHYU0Ng65UYYdevJxB6Nm9nsV6TLE66lpxB2vm8MS9OF27Da5/3Zf+LDoSpDK/
+ PruilT+9+Sjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,297,1596524400"; d="scan'208";a="349219856"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 24 Sep 2020 04:01:36 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 24 Sep 2020 14:01:35 +0300
+Date: Thu, 24 Sep 2020 14:01:35 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH] drm/atomic: document and enforce rules around "spurious"
+ EBUSY
+Message-ID: <20200924110135.GJ6112@intel.com>
+References: <20200923105737.2943649-1-daniel.vetter@ffwll.ch>
+ <20200923151852.2952812-1-daniel.vetter@ffwll.ch>
+ <20200923191724.GA62596@xpredator>
+ <CAKMK7uH0WiEPP1H1DZPdE4mJdStTTtnZJQN5rjnkG_6va_1Tdg@mail.gmail.com>
+ <20200924104101.63be1c13@eldfell>
+ <CAKMK7uHwU0r7Z699qw3Y2HPuvzL3-B12fw3gDbdrxOX1V6iK2w@mail.gmail.com>
+ <20200924131056.54beb12e@eldfell>
 MIME-Version: 1.0
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200924131056.54beb12e@eldfell>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,39 +59,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Marius Vlad <marius.vlad@collabora.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm-misc-fixes-2020-09-24:
-drm-misc-fixes for v5.9:
-- Single null pointer deref fix for dma-buf.
-The following changes since commit 74ea06164cda81dc80e97790164ca533fd7e3087:
+On Thu, Sep 24, 2020 at 01:10:56PM +0300, Pekka Paalanen wrote:
+> On Thu, 24 Sep 2020 10:04:12 +0200
+> Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> =
 
-  drm/sun4i: mixer: Extend regmap max_register (2020-09-10 13:08:48 +0200)
+> > On Thu, Sep 24, 2020 at 9:41 AM Pekka Paalanen <ppaalanen@gmail.com> wr=
+ote:
+> > >
+> > > On Wed, 23 Sep 2020 22:01:25 +0200
+> > > Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > >  =
 
-are available in the Git repository at:
+> > > > On Wed, Sep 23, 2020 at 9:17 PM Marius Vlad <marius.vlad@collabora.=
+com> wrote:  =
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2020-09-24
+> > > > >
+> > > > > On Wed, Sep 23, 2020 at 05:18:52PM +0200, Daniel Vetter wrote:  =
 
-for you to fetch changes up to 19a508bd1ad8e444de86873bf2f2b2ab8edd6552:
+> > > > > > When doing an atomic modeset with ALLOW_MODESET drivers are all=
+owed to
+> > > > > > pull in arbitrary other resources, including CRTCs (e.g. when
+> > > > > > reconfiguring global resources).  =
 
-  dmabuf: fix NULL pointer dereference in dma_buf_release() (2020-09-21 11:17:06 +0200)
+> > >
+> > > ...
+> > >  =
 
-----------------------------------------------------------------
-drm-misc-fixes for v5.9:
-- Single null pointer deref fix for dma-buf.
+> > > > > > @@ -1313,6 +1322,26 @@ int drm_atomic_check_only(struct drm_ato=
+mic_state *state)
+> > > > > >               }
+> > > > > >       }
+> > > > > >
+> > > > > > +     for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+> > > > > > +             affected_crtc |=3D drm_crtc_mask(crtc);
+> > > > > > +
+> > > > > > +     /*
+> > > > > > +      * For commits that allow modesets drivers can add other =
+CRTCs to the
+> > > > > > +      * atomic commit, e.g. when they need to reallocate globa=
+l resources.
+> > > > > > +      * This can cause spurious EBUSY, which robs compositors =
+of a very
+> > > > > > +      * effective sanity check for their drawing loop. Therefo=
+r only allow
+> > > > > > +      * drivers to add unrelated CRTC states for modeset commi=
+ts.
+> > > > > > +      *
+> > > > > > +      * FIXME: Should add affected_crtc mask to the ATOMIC IOC=
+TL as an output
+> > > > > > +      * so compositors know what's going on.
+> > > > > > +      */
+> > > > > > +     if (affected_crtc !=3D requested_crtc) {
+> > > > > > +             DRM_DEBUG_ATOMIC("driver added CRTC to commit: re=
+quested 0x%x, affected 0x%0x\n",
+> > > > > > +                              requested_crtc, affected_crtc);
+> > > > > > +             WARN(!state->allow_modeset, "adding CRTC not allo=
+wed without modesets: requested 0x%x, affected 0x%0x\n",
+> > > > > > +                  requested_crtc, affected_crtc);  =
 
-----------------------------------------------------------------
-Charan Teja Reddy (1):
-      dmabuf: fix NULL pointer dereference in dma_buf_release()
+> > > > > Previous patch had the warn on state->allow_modeset now is
+> > > > > !state->allow_modeset. Is that correct?  =
 
- drivers/dma-buf/dma-buf.c | 2 ++
- 1 file changed, 2 insertions(+)
+> > > >
+> > > > We need to fire a warning when allow_modeset is _not_ set. An earli=
+er
+> > > > version got that wrong, and yes that would have caused a _ton_ of
+> > > > warnings on any fairly new intel platform.
+> > > >  =
+
+> > > > > I haven't followed the entire thread on this matter, but I guess =
+the idea
+> > > > > is that somehow the kernel would pass to userspace a CRTC mask of
+> > > > > affected_crtc (somehow, we don't know how atm) and with it, users=
+pace
+> > > > > can then issue a new commit (this commit blocking) with those?  =
+
+> > > >
+> > > > Either that, or just use that to track all the in-flight drm events.
+> > > > Userspace will get events for all the crtc, not just the one it ask=
+ed
+> > > > to update.  =
+
+> > >
+> > > Wait, does that happen already? Getting CRTC events for CRTCs userspa=
+ce
+> > > didn't include in the atomic commit?  =
+
+> > =
+
+> > Yeah I'm pretty sure. With the affected_crtc mask you could update
+> > your internal book-keeping to catch these, which should also prevent
+> > all the spurious EBUSY. But I'm not entirely sure, I just read the
+> > code, haven't tested.
+> =
+
+> If that actually happens, how does userspace know whether the
+> userdata argument with the event is valid or not?
+
+At some point I was worried about the kernel potentially sending spurious
+events, but IIRC I managed to convince myself that it shouldn't happen.
+I think I came to the conclusion the events were populated before the
+core calls into the driver. But maybe I misanalyzed it, or something
+has since broken?
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
