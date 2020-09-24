@@ -2,37 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BD4277A05
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 22:14:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5806C277A1C
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Sep 2020 22:22:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAC586E04B;
-	Thu, 24 Sep 2020 20:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6846E06B;
+	Thu, 24 Sep 2020 20:22:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4BA76E04B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 20:14:16 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 262C92007A;
- Thu, 24 Sep 2020 22:14:14 +0200 (CEST)
-Date: Thu, 24 Sep 2020 22:14:12 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 1/3] drm/ingenic: Add support for 30-bit modes
-Message-ID: <20200924201412.GI1223313@ravnborg.org>
-References: <20200915123818.13272-1-paul@crapouillou.net>
- <20200915123818.13272-2-paul@crapouillou.net>
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 822276E06B
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 20:22:37 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id y17so271660lfa.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 13:22:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=brE6v+PgA6FJ2dU2AD140ORTA0itDZcq4xRrk6BKZMM=;
+ b=DtyfFRVunusaNAXahnNWGweC32SHMmshwBPIJAKLPbmbKDKZqRbmsXpq9MwzHT2ZTL
+ ECQ9ILRpREa9cJoWCjLrYnZpgoTaq3adkRZiBSzHGkmbJFK6A+hV2BFCDbYIXlmMsyLO
+ nrpkXSgbEUJ25/HL1e8GbxY2Np21CiAjiqzKNWV8RozczEnwvJlit9EpdZsOClsECxYd
+ NmxxqdebgGBYLW1y9tNc4YsJhOk+qyjKePTZ/+5WkDslH068i5RDrOSXZB2cfseiPwXi
+ 1XHpb61yiD5IqIwtSzPGctjyrvopYwIRhrsYa/g21mKtpXovNnBI+yaSK6Di1pctOSeu
+ ry3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=brE6v+PgA6FJ2dU2AD140ORTA0itDZcq4xRrk6BKZMM=;
+ b=MdhveAAnDSqGkjfZXRGODWx0yOAtpqh1J3zI8oXs3Qpu8FeI4Zd/54Cpi63fotWIN+
+ PMP3p5CLMgHho4zqcFKRslFBEoVVENl0gQrH7g1mDmEE3C5E/f27VS0g4yrw/+sULYKq
+ 3s2Iiw5/hPUIbhJoPgG/KpqHkinU6Z3wvmH6If/Lct538dQ7IwGJ9DDi7j5TfHWH0arY
+ OK7uI25lJeACPqbL3Cu7siqWGeb27Nirb7BZVtWXsdm1tpcq7btvPMNiDYP9ku5EanMq
+ 3/fqM08310qcud5E3yUvIAPKmEazJjIVkXNTwTnAW/Bp55j+nziw3YjArBOw1YM8RjQ5
+ UiTQ==
+X-Gm-Message-State: AOAM533nZpo7LlLPTmSJrZzNv5BqdeDBMkxku/ZJeTjTEEHtIFKZPmZ4
+ TEWqS5/y/AwkYBK4l1kIZCSnChnS9AKeV3eh+Zs=
+X-Google-Smtp-Source: ABdhPJyzsymEO5+8ArwUCaLPi7Z1BAU2Eh2QCjGHPncS54IsFCJ5uYytpqdEDWHlwytq1l/0Nzwk22meeaFRsJ1Xk0w=
+X-Received: by 2002:ac2:4e92:: with SMTP id o18mr197010lfr.527.1600978955722; 
+ Thu, 24 Sep 2020 13:22:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200915123818.13272-2-paul@crapouillou.net>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8 a=7gkXJVJtAAAA:8
- a=8mMx-f4Fzkueeq2di20A:9 a=eo8WO0KQHPbVX7Ve:21 a=7VUDQDM0WFQinG1v:21
- a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22 a=E9Po1WZjFZOl8hwRPBS3:22
+References: <20200924200507.1175888-1-mr.nuke.me@gmail.com>
+In-Reply-To: <20200924200507.1175888-1-mr.nuke.me@gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Thu, 24 Sep 2020 17:22:23 -0300
+Message-ID: <CAOMZO5B4S3JCVQAi-y=vKaQv3AF6eXronTkmG_DZs_ALtEHtgA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/bridge: sii902x: Enable I/O and core VCC supplies
+ if present
+To: Alexandru Gagniuc <mr.nuke.me@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,152 +61,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, od@zcrc.me,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Mark Brown <broonie@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 15, 2020 at 02:38:16PM +0200, Paul Cercueil wrote:
-> Starting from the JZ4760 SoC, the primary and overlay planes support
-> 30-bit pixel modes (10 bits per color component). Add support for these
-> in the ingenic-drm driver.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 41 +++++++++++++++++------
->  drivers/gpu/drm/ingenic/ingenic-drm.h     |  1 +
->  2 files changed, 32 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 937d080f5d06..fb62869befdc 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -49,6 +49,8 @@ struct jz_soc_info {
->  	bool needs_dev_clk;
->  	bool has_osd;
->  	unsigned int max_width, max_height;
-> +	const u32 *formats;
-> +	unsigned int num_formats;
->  };
->  
->  struct ingenic_drm {
-> @@ -73,12 +75,6 @@ struct ingenic_drm {
->  	bool no_vblank;
->  };
->  
-> -static const u32 ingenic_drm_primary_formats[] = {
-> -	DRM_FORMAT_XRGB1555,
-> -	DRM_FORMAT_RGB565,
-> -	DRM_FORMAT_XRGB8888,
-> -};
-> -
->  static bool ingenic_drm_cached_gem_buf;
->  module_param_named(cached_gem_buffers, ingenic_drm_cached_gem_buf, bool, 0400);
->  MODULE_PARM_DESC(cached_gem_buffers,
-> @@ -411,6 +407,9 @@ void ingenic_drm_plane_config(struct device *dev,
->  		case DRM_FORMAT_XRGB8888:
->  			ctrl |= JZ_LCD_OSDCTRL_BPP_18_24;
->  			break;
-> +		case DRM_FORMAT_XRGB2101010:
-> +			ctrl |= JZ_LCD_OSDCTRL_BPP_30;
-> +			break;
->  		}
->  
->  		regmap_update_bits(priv->map, JZ_REG_LCD_OSDCTRL,
-> @@ -426,6 +425,9 @@ void ingenic_drm_plane_config(struct device *dev,
->  		case DRM_FORMAT_XRGB8888:
->  			ctrl |= JZ_LCD_CTRL_BPP_18_24;
->  			break;
-> +		case DRM_FORMAT_XRGB2101010:
-> +			ctrl |= JZ_LCD_CTRL_BPP_30;
-> +			break;
->  		}
->  
->  		regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
-> @@ -894,8 +896,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
->  
->  	ret = drm_universal_plane_init(drm, &priv->f1, 1,
->  				       &ingenic_drm_primary_plane_funcs,
-> -				       ingenic_drm_primary_formats,
-> -				       ARRAY_SIZE(ingenic_drm_primary_formats),
-> +				       priv->soc_info->formats,
-> +				       priv->soc_info->num_formats,
->  				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
->  	if (ret) {
->  		dev_err(dev, "Failed to register plane: %i\n", ret);
-> @@ -919,8 +921,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
->  
->  		ret = drm_universal_plane_init(drm, &priv->f0, 1,
->  					       &ingenic_drm_primary_plane_funcs,
-> -					       ingenic_drm_primary_formats,
-> -					       ARRAY_SIZE(ingenic_drm_primary_formats),
-> +					       priv->soc_info->formats,
-> +					       priv->soc_info->num_formats,
->  					       NULL, DRM_PLANE_TYPE_OVERLAY,
->  					       NULL);
->  		if (ret) {
-> @@ -1121,11 +1123,26 @@ static int ingenic_drm_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +static const u32 jz4740_formats[] = {
-> +	DRM_FORMAT_XRGB1555,
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_XRGB8888,
-> +};
-> +
-> +static const u32 jz4770_formats[] = {
-> +	DRM_FORMAT_XRGB1555,
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_XRGB2101010,
-> +};
-> +
->  static const struct jz_soc_info jz4740_soc_info = {
->  	.needs_dev_clk = true,
->  	.has_osd = false,
->  	.max_width = 800,
->  	.max_height = 600,
-> +	.formats = jz4740_formats,
-> +	.num_formats = ARRAY_SIZE(jz4740_formats),
->  };
->  
->  static const struct jz_soc_info jz4725b_soc_info = {
-> @@ -1133,6 +1150,8 @@ static const struct jz_soc_info jz4725b_soc_info = {
->  	.has_osd = true,
->  	.max_width = 800,
->  	.max_height = 600,
-> +	.formats = jz4740_formats,
-> +	.num_formats = ARRAY_SIZE(jz4740_formats),
->  };
->  
->  static const struct jz_soc_info jz4770_soc_info = {
-> @@ -1140,6 +1159,8 @@ static const struct jz_soc_info jz4770_soc_info = {
->  	.has_osd = true,
->  	.max_width = 1280,
->  	.max_height = 720,
-> +	.formats = jz4770_formats,
-> +	.num_formats = ARRAY_SIZE(jz4770_formats),
->  };
->  
->  static const struct of_device_id ingenic_drm_of_match[] = {
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.h b/drivers/gpu/drm/ingenic/ingenic-drm.h
-> index df99f0f75d39..f05e18e6b6fa 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm.h
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.h
-> @@ -124,6 +124,7 @@
->  #define JZ_LCD_CTRL_BPP_8			0x3
->  #define JZ_LCD_CTRL_BPP_15_16			0x4
->  #define JZ_LCD_CTRL_BPP_18_24			0x5
-> +#define JZ_LCD_CTRL_BPP_30			0x7
->  #define JZ_LCD_CTRL_BPP_MASK			(JZ_LCD_CTRL_RGB555 | 0x7)
->  
->  #define JZ_LCD_CMD_SOF_IRQ			BIT(31)
-> -- 
-> 2.28.0
+Hi Alexandre,
+
+On Thu, Sep 24, 2020 at 5:16 PM Alexandru Gagniuc <mr.nuke.me@gmail.com> wrote:
+
+> +       ret = regulator_enable(sii902x->cvcc12);
+> +       if (ret < 0) {
+> +               dev_err(dev, "Failed to enable cvcc12 supply: %d\n", ret);
+> +               regulator_disable(sii902x->iovcc);
+> +               return PTR_ERR(sii902x->cvcc12);
+
+return ret;
+
+>
+>         ret = regmap_write(sii902x->regmap, SII902X_REG_TPI_RQB, 0x0);
+> @@ -1012,11 +1052,11 @@ static int sii902x_probe(struct i2c_client *client,
+>         regmap_read(sii902x->regmap, SII902X_INT_STATUS, &status);
+>         regmap_write(sii902x->regmap, SII902X_INT_STATUS, status);
+>
+> -       if (client->irq > 0) {
+> +       if (sii902x->i2c->irq > 0) {
+
+Unrelated change.
+
+>                 regmap_write(sii902x->regmap, SII902X_INT_ENABLE,
+>                              SII902X_HOTPLUG_EVENT);
+>
+> -               ret = devm_request_threaded_irq(dev, client->irq, NULL,
+> +               ret = devm_request_threaded_irq(dev, sii902x->i2c->irq, NULL,
+
+ Unrelated change.
+                                                 sii902x_interrupt,
+>                                                 IRQF_ONESHOT, dev_name(dev),
+>                                                 sii902x);
+> @@ -1031,9 +1071,9 @@ static int sii902x_probe(struct i2c_client *client,
+>
+>         sii902x_audio_codec_init(sii902x, dev);
+>
+> -       i2c_set_clientdata(client, sii902x);
+> +       i2c_set_clientdata(sii902x->i2c, sii902x);
+
+Unrelated change.
+
+> -       sii902x->i2cmux = i2c_mux_alloc(client->adapter, dev,
+> +       sii902x->i2cmux = i2c_mux_alloc(sii902x->i2c->adapter, dev,
+
+Unrelated change.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
