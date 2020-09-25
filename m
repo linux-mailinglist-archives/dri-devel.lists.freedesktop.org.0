@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC98279386
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 23:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3835C2793CC
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 23:55:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8376ED5F;
-	Fri, 25 Sep 2020 21:27:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 110A96ED63;
+	Fri, 25 Sep 2020 21:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA6106ED5E
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 21:27:55 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601069274;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=eCE9IgIpBRrqzinh4uFdyHdFnL8q1y6u187qAngLgcA=;
- b=Ae4wn8p/BJmTSmiLv9Yq2WeyA0GNQq9dsA2duI9fAYoywqnKjJ5c7GAQhl7t3m7d6Xk5ES
- REIu2wE/MOAnGwZgmJKdq3tS78Q7TuKFUXHdES9iVxjr9vMZ7sE5J3dM3oCrCKVn/fCBoT
- xpdXlQxWnefnULUYkfn8dC4nZQdGoQo=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-kXZ1msOQPwm7hR3PZsdfGg-1; Fri, 25 Sep 2020 17:27:43 -0400
-X-MC-Unique: kXZ1msOQPwm7hR3PZsdfGg-1
-Received: by mail-qk1-f200.google.com with SMTP id y17so3087313qky.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 14:27:43 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFDEC6ED63
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 21:55:32 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id a15so3668011ljk.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 14:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=i6oMAURkfpsM1dUr55Vm2bufPN+8aF78G8f5BFLLR3A=;
+ b=Dely0EKLau8IdL+nmqudTWOrZEDuMKsHtwbTN+Mq3/wE2V4qnSFfzqyZvmURYLANuU
+ xSyUT8rfi4ZPe8YK4Uezz2oqLqzwXqT99D11x9RIVnyhCc45WjfyfpG8wCZWbW2WjG2N
+ NQDXGnB9v4619n4KwHtsNwoR7N/5m1Nc6613PIJ1aVUB54m0ocrhLQTfT0QZWSqsc+mT
+ jIzHDLhrM2t6QtHrm3c7DO0VzEe7ZUDozMx4uvuWJuNu6SyJlDHLlfvFoPRHasS1XqNC
+ B6B0pjWRx0+rFmDjglE7D3vWINQxwAoMq5GKvtfrJcIj9R08QnRdK3qFDNKLKC02xNEA
+ mWWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=eCE9IgIpBRrqzinh4uFdyHdFnL8q1y6u187qAngLgcA=;
- b=Vby6uh9B6GcQJD/ahxoA6KXjCL2NLNh1WDiTaqnI1LTbkShlSxUPYa0vm1ld4VGeUs
- jd3juCo0kxrrwz4gvIHbRBf5WugzkX8PNm+3jujB+DjNI7M6EZV3Nz5AGf6UMgkNwpJz
- yPDPDwln0lBAHrz74U6/ZYqK9VtmeiehoSqfs+6Emt59G+UkOdgdo0k6+/PXaOi7DsvS
- 1OuYS6jJZ5HroBf2xF6XbNchD3jbF1r0yekP0r110nc06FKwcmqIoR1xADZqiMdlFcn7
- hqUFYGDCMuEXZEcuRVIQegyXb4dkGDv8wTzjaFp+nNtSCp94jqktlEVDzieIDeeWtDJk
- Sfqg==
-X-Gm-Message-State: AOAM533V2ZVfd7vidPGzWZKcVX4FJ3yE4kRka2Lsur4S1dLIYtQgg1V4
- K38mQMMEUzdSMf3k+EAezrvpHtxvmAw1M6wIYgq23ebh1JPnbEJ1QvlpziQfWmrlTz46M6NUwO7
- kXLOg9NTLOzczJG4Hx6mtF3GIUiE6S4s4IMZe1qj2UfnN
-X-Received: by 2002:a37:7805:: with SMTP id t5mr2005229qkc.157.1601069263075; 
- Fri, 25 Sep 2020 14:27:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzRmcRtelReyh19dAZ0XYkEP+FKTJnm/L/0WMJPajleWzOVqy3LGtKMQVjdfA1iW3gz45OlXxfYW4RKflRra74=
-X-Received: by 2002:a37:7805:: with SMTP id t5mr2005208qkc.157.1601069262688; 
- Fri, 25 Sep 2020 14:27:42 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=i6oMAURkfpsM1dUr55Vm2bufPN+8aF78G8f5BFLLR3A=;
+ b=rknIn9oOzi0l0bovOW+yzVrkK2w8Q51e0TPmG9iPS+c//ENQem7AzJRiRPOqPqzDKy
+ cHVywl1GdbkiNRazb65ctw2OTTLHf/70BI2OPyl2Odr2rj8m7R61GOFRHpnOQeOxvvu2
+ UCwMtltG8ZQ7kt8tXvi5KdjLl1vMSpaPAVNIpuvsvtX1qtE2Gjk6n1x1z1h+NYZKyq8l
+ T914kZ4t/abiX+ATUhirfuRgnfbAdKqJ4FXG2ikDVkADg5+OOkb4PI7Dhd9VxC9Mnzdl
+ VEV5zvQ1fvV+TRUreIBzxBBfl++cWt7fbXh+y/JL0+aJ82Jx7Gai2T0JVmrQgYo9gy5U
+ 1glA==
+X-Gm-Message-State: AOAM532uhvfC++DpcmKduZun4HgrC6TW0h6laxBjhu4hHy2MOSXhDoPS
+ KWIUp+AiBrHD/8UTNByHfXTlipYNprfamg==
+X-Google-Smtp-Source: ABdhPJxIf8FGzG2G3JmzwlnNX51K9ts8L4rukeGTKUh4OsuMTdytpe0dTkcn46fNV0lf5jOQyhdNww==
+X-Received: by 2002:a2e:8153:: with SMTP id t19mr2079197ljg.334.1601070930792; 
+ Fri, 25 Sep 2020 14:55:30 -0700 (PDT)
+Received: from saturn.localdomain ([2a00:fd00:805f:db00:3926:b59a:e618:9f9c])
+ by smtp.gmail.com with ESMTPSA id
+ j8sm261277lfr.80.2020.09.25.14.55.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 14:55:30 -0700 (PDT)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org, Heiko Stuebner <heiko@sntech.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v1 0/2] drm/rockchip: fix build + warning
+Date: Fri, 25 Sep 2020 23:55:22 +0200
+Message-Id: <20200925215524.2899527-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Karol Herbst <kherbst@redhat.com>
-Date: Fri, 25 Sep 2020 23:27:31 +0200
-Message-ID: <CACO55ts6hfd_v8V8_yJ45wm8MAN7TENL9pZZmijFaB3h-FrR=A@mail.gmail.com>
-Subject: Nouveau wiki migration
-To: nouveau <nouveau@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,58 +66,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeremy Cline <jcline@redhat.com>
+Cc: Sandy Huang <hjc@rock-chips.com>, stable@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everybody,
+Fix a newly introduced build breakge in drm-misc-next
+Patch 1/2 should be applied to drm-misc-next
 
-I think it's time to finally move our wiki from the old infrastructure
-over to gitlab pages.
+Also fix a warning in the same driver - the warning is present in v5.8
+Patch 2/2 is a drm-misc-fixes candidate
 
-This comes with several benefits:
-* full control through git over the ikiwiki pipeline (setup files,
-plugins, system packages, ...)
-* random users are able to create MRs against the wiki as long as they
-are willing to create a gitlab account.
-* possible to migrate over to a different wiki generator or mix and
-match or whatever.
-* no CGI stuff on the wiki as we don't use ikiwiki for the git
-operations anymore
+	Sam
 
-To view the migrate wiki visit this URL:
-https://nouveau.pages.freedesktop.org/wiki/
-the gitlab project lives here: https://gitlab.freedesktop.org/nouveau/wiki
+Sam Ravnborg (2):
+      drm/rockchip: fix build due to undefined drm_gem_cma_vm_ops
+      drm/rockchip: fix warning from cdn_dp_resume
 
-There are a couple of changes I already made:
-* convert the perl ikiwiki setup file to yaml:
-https://gitlab.freedesktop.org/nouveau/wiki/-/blob/master/nouveau.yml
-* reworked the setup file to throw out unused plugins and adjust
-settings for gitlab
-* enabled HTML5 (does change the style slightly, but also fixed some
-regressions)
-* pulled in external sources (from the fdo.org server)
-* moved mdwn files into their own subdirectory
+ drivers/gpu/drm/rockchip/cdn-dp-core.c      | 2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-For now I changed everything inside one big commit:
-https://gitlab.freedesktop.org/nouveau/wiki/-/commit/6f2d1669884af186863718ad827f65372a0c5c43
-
-There are a couple of remaining issues/questions:
-* the gitlab CI pipeline fails quite a bit, which could be annoying
-* there is a delay between editing and changes going live (usually
-below a minute though)
-* should we disallow direct editing of files for project members so we
-could CI the changes are still valid?
-
-Next steps:
-* verify everything still works
-* fix remaining issues
-* final step: point the subdomain to the new gitlab pages URL
-
-If anybody else is interested in moving their wikis over, don't
-hesitate to ask me questions or just copy whatever I did :)
 
 _______________________________________________
 dri-devel mailing list
