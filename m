@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3559127825D
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 10:14:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8AF278272
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 10:16:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF506EC4E;
-	Fri, 25 Sep 2020 08:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC626EC4B;
+	Fri, 25 Sep 2020 08:16:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 476056EC4E
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 08:14:18 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id b12so1808175lfp.9
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 01:14:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=bDllcyiSqhQXI1IZoFS1d9S0Z5j8kQBsPwOF+Baje8Q=;
- b=IfOVUaoG568RQbf51JeNswcgFGVQ1jyui5w7mvSP3mMt4h0sN4L9Y6r0sfUgzqC8AV
- SXgY+KEtFrdC+wyK+nR2indrX7DwJWvu9cOa0cKMWfv8BFkMeFBXPPe1sqMoai53Ibt5
- w1D1H7v42b+JeQKOLPkYdWwj3wizHQ+DTKDBpxPHiLJvXDLTxdRhQcvuVyWyKwuo9oE/
- CIvNBoDlLeHij2N5plTGmd8N2akctyue6IL2OksAampldL+ePgBotnLRbUZ2ahDEnhKS
- bYG6hbWWPAgiA430Orcglw2bTQKXXgNKfCJyaldNJPBkRFs8/VcrwkrGI+VHogzHIJcX
- Wv3Q==
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 729796EC4B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 08:16:18 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id u126so1904658oif.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 01:16:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7K4vbJneE6H4oJPKifDuktq6VtT40w3Cs8Pe+FysnkE=;
+ b=L34WWoC/PWSjuetzYMOk5F9/RIKzev8llyOd3USBGK1NIQ7xBhYEjmesxljRktHP5n
+ wieurJkuJuXvcsvCALLRszpwfxCJQHdp46bRXSQMs4+hJwe4wpvlngtOxaEIgfky4VTW
+ oBMe/cDS9mH7C2flwoGmNVINUBjmv5SKWF8g8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=bDllcyiSqhQXI1IZoFS1d9S0Z5j8kQBsPwOF+Baje8Q=;
- b=b1GyNOT3SosVR7u8zI6+J/91FalBio+folxZQehwsatYbpV2NngDQM/sjFAxJKpGCr
- nPB6WDemTWNcii//M7fHChNN4eQjVWEW3RCIuReBo3nKouAsNoVfMQFrUnzAj1VAX8Xz
- K2/VQJymoBmfn+MCk/xtHdE3ijjm9CPGi1f1B2rS8GwQ6C+f+RLzkWqJrbh8mDAlBfKL
- tMoAH0s6pjdkotyQL9C5WXbOrE4O6keKAltjcNSUUuyucMbjfNXVaVy/RbxM0Cxyz76v
- Klbs95DIcRRxMC4x7dCQj7XljcS8H7XbiWy0rwLPYfYrG6XbBACzUyhzRI5PnLDP9gBO
- xIqA==
-X-Gm-Message-State: AOAM53059F9YtYtEMztdYKM8TbPVscTsXK0aDMbuxggCzLeeV7ppxng1
- OWBLDrNKnpneMFwOfjFdgyE=
-X-Google-Smtp-Source: ABdhPJyL0AzUNmC02jLlNoXs7ZZGS9bXvwncsswO6bNrzf0tbChKELfgDNnNyC0W/YTQ5snmREHG5g==
-X-Received: by 2002:a19:7fc8:: with SMTP id a191mr898706lfd.591.1601021656648; 
- Fri, 25 Sep 2020 01:14:16 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id v10sm1755230lji.128.2020.09.25.01.14.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 01:14:16 -0700 (PDT)
-Date: Fri, 25 Sep 2020 11:14:12 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 2/5] drm/omap: use degamma property for gamma table
-Message-ID: <20200925111412.0982cb76@eldfell>
-In-Reply-To: <20200923115727.248705-3-tomi.valkeinen@ti.com>
-References: <20200923115727.248705-1-tomi.valkeinen@ti.com>
- <20200923115727.248705-3-tomi.valkeinen@ti.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7K4vbJneE6H4oJPKifDuktq6VtT40w3Cs8Pe+FysnkE=;
+ b=uMxePo5Gtxe5S/zjOi5S/poHls82KdsAmUCpSGVM2k5s/4sbb269RAsfsDut3+DNXU
+ hdshHERkowoxBzUVEjQ6/o3e0TkQveH1vs0Q/4zFw9nHDDU8w+bAr+flTiyEmsmjroop
+ bVldymV1ni+EtWq3xqKLSCWJDmM6kHvi/pRrfbMkAfRYGMHqEJUmPhF5eLqfqe/2TSQI
+ f0sYAf3PMFLCMIgJWNjuPV/Fiv39R5BHFOUbJB8TUc3oXMwX9MP+6O0npZHrNXsCPd0T
+ QWZvz2BBNFa57bTOE616UsyT1H4FUQ1t0dv0SMbN7I6gYBREDq6H0l9azTbsXVV6J66B
+ kWdQ==
+X-Gm-Message-State: AOAM531FUV93fQ2j/m344lJ25cEj2eJnSSbB/zUupVesWciufC1BeDvp
+ zR0gRGoOYX1nWTwQEhHgJue6AdQhj85rRNjmA6yrHA==
+X-Google-Smtp-Source: ABdhPJygUVAdCCmvBulKRWDJc0DxjWztqPC1p0Pccj1J+dbV/T3wlUhRm6W8w4StASsyvmvJnURHVprQQCy50DOnrxE=
+X-Received: by 2002:a05:6808:206:: with SMTP id
+ l6mr879863oie.128.1601021777691; 
+ Fri, 25 Sep 2020 01:16:17 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200924051845.397177-1-airlied@gmail.com>
+ <20200924051845.397177-38-airlied@gmail.com>
+ <39ca897a-e7f2-93c8-e844-449ccbfe6041@amd.com>
+ <CAPM=9tw6a6E+KZV7LceHUj=SHFaTe9M+KjjYgouhdX0gkDsuzw@mail.gmail.com>
+ <4b16b60d-228d-164d-396f-f8344fd67674@amd.com>
+In-Reply-To: <4b16b60d-228d-164d-396f-f8344fd67674@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 25 Sep 2020 10:16:06 +0200
+Message-ID: <CAKMK7uF0CnQDCnCVLL2dReh0Tmo=gou=XLvAihq7VVihz0ysBg@mail.gmail.com>
+Subject: Re: [PATCH 37/45] drm/ttm: add a helper to allocate a temp tt for
+ copies.
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,143 +64,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Jyri Sarha <jsarha@ti.com>, Nikhil Devshatwar <nikhil.nd@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: multipart/mixed; boundary="===============0881764366=="
+Cc: Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0881764366==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/mewE.XEeQBAtUFg.21j4._a"; protocol="application/pgp-signature"
-
---Sig_/mewE.XEeQBAtUFg.21j4._a
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 23 Sep 2020 14:57:24 +0300
-Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
-
-> omapdrm supports gamma via GAMMA_LUT property. However, the HW we have
-> is:
->=20
-> gamma -> ctm -> out
->=20
-> instead of what the model DRM framework uses:
->=20
-> ctm -> gamma -> out
->=20
-> As the following patches add CTM support for omapdrm, lets first fix the
-> gamma.
->=20
-> This patch changes the property from GAMMA_LUT to DEGAMMA_LUT, and uses
-> drm_atomic_helper_legacy_degamma_set for gamma_set helper. Thus we will
-> have:
->=20
-> degamma -> ctm -> out
->=20
-> and the legacy ioctl will continue working as before.
->=20
-
-Makes sense to me:
-
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
-> ---
->  drivers/gpu/drm/omapdrm/omap_crtc.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdr=
-m/omap_crtc.c
-> index 328a4a74f534..6116af920660 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-> @@ -573,8 +573,8 @@ static int omap_crtc_atomic_check(struct drm_crtc *cr=
-tc,
->  {
->  	struct drm_plane_state *pri_state;
-> =20
-> -	if (state->color_mgmt_changed && state->gamma_lut) {
-> -		unsigned int length =3D state->gamma_lut->length /
-> +	if (state->color_mgmt_changed && state->degamma_lut) {
-> +		unsigned int length =3D state->degamma_lut->length /
->  			sizeof(struct drm_color_lut);
-> =20
->  		if (length < 2)
-> @@ -614,10 +614,10 @@ static void omap_crtc_atomic_flush(struct drm_crtc =
-*crtc,
->  		struct drm_color_lut *lut =3D NULL;
->  		unsigned int length =3D 0;
-> =20
-> -		if (crtc->state->gamma_lut) {
-> +		if (crtc->state->degamma_lut) {
->  			lut =3D (struct drm_color_lut *)
-> -				crtc->state->gamma_lut->data;
-> -			length =3D crtc->state->gamma_lut->length /
-> +				crtc->state->degamma_lut->data;
-> +			length =3D crtc->state->degamma_lut->length /
->  				sizeof(*lut);
->  		}
->  		priv->dispc_ops->mgr_set_gamma(priv->dispc, omap_crtc->channel,
-> @@ -738,7 +738,7 @@ static const struct drm_crtc_funcs omap_crtc_funcs =
-=3D {
->  	.set_config =3D drm_atomic_helper_set_config,
->  	.destroy =3D omap_crtc_destroy,
->  	.page_flip =3D drm_atomic_helper_page_flip,
-> -	.gamma_set =3D drm_atomic_helper_legacy_gamma_set,
-> +	.gamma_set =3D drm_atomic_helper_legacy_degamma_set,
->  	.atomic_duplicate_state =3D omap_crtc_duplicate_state,
->  	.atomic_destroy_state =3D drm_atomic_helper_crtc_destroy_state,
->  	.atomic_set_property =3D omap_crtc_atomic_set_property,
-> @@ -839,7 +839,7 @@ struct drm_crtc *omap_crtc_init(struct drm_device *de=
-v,
->  	if (priv->dispc_ops->mgr_gamma_size(priv->dispc, channel)) {
->  		unsigned int gamma_lut_size =3D 256;
-> =20
-> -		drm_crtc_enable_color_mgmt(crtc, 0, false, gamma_lut_size);
-> +		drm_crtc_enable_color_mgmt(crtc, gamma_lut_size, false, 0);
->  		drm_mode_crtc_set_gamma_size(crtc, gamma_lut_size);
->  	}
-> =20
-
-
---Sig_/mewE.XEeQBAtUFg.21j4._a
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9tptQACgkQI1/ltBGq
-qqdMYQ//SVaHwVc51QSH1nfA8jZs01gNusyOqa8WRucMyeFCTUi4OYItL1vPHJ1z
-r9XXkH3YauJwTIiAI8KIRUqhSl8IutMZ5DIZ4dHXisgwuOffUycy5fxGSli6c4tZ
-i3VhYo5rEEZxSv3s0NJbOdO36dKVUGPQWIv0Vvxb7Ey99BWdpIfQw5BOBMDiUmIo
-F8yNutxck1+gHkQTHh3Noh+injCPYcZ0AtXjaktM2ONZV92MXZwVOs3Itnsxk1RH
-GKhNxULrKVyUSsb+F51q3hkzR0H7pBWcD3zPSvkgk1cPjbJyqtxfR0PT6C45dYVS
-ksq0AhQpjeRmsG2vqxywDO5Vo/3R9hQ7A7j6rp/I9OF59kkNvkTFM5VZ3Gmr3Ijt
-U5WWvoZIX2adoc0T8mB54QfBiT0cm64KXTMWrUEsL9k9CFFVJNc+hcip+bprNhrg
-jCoQHUaviWYS2/mbuGzSZ0iE9QaIma76UylBcEgj0qQfb5dpEdNDO/ZPsDixoL12
-qAe7Sv7iBMoykRhgYXsgOqanRoVwUd0HQ6g4DwHknJymOhBhDTp1vfHt+KJjZKTD
-7O/lBfnt2MAaYTHdMqXzb9RcgrlocA7pWYcKLqW/Lz8oIyfMLMWIRcDpO9WEI5Md
-Ws3DvPCl/Sj/9dyQUEfry/ORo+gztyNdgxE4zLjPbLjuUcJFAtg=
-=7Q1A
------END PGP SIGNATURE-----
-
---Sig_/mewE.XEeQBAtUFg.21j4._a--
-
---===============0881764366==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0881764366==--
+T24gRnJpLCBTZXAgMjUsIDIwMjAgYXQgOTozOSBBTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMjUuMDkuMjAgdW0gMDE6MTQgc2Nocmll
+YiBEYXZlIEFpcmxpZToKPiA+IE9uIFRodSwgMjQgU2VwIDIwMjAgYXQgMjI6NDIsIENocmlzdGlh
+biBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4gPj4gQW0gMjQuMDku
+MjAgdW0gMDc6MTggc2NocmllYiBEYXZlIEFpcmxpZToKPiA+Pj4gRnJvbTogRGF2ZSBBaXJsaWUg
+PGFpcmxpZWRAcmVkaGF0LmNvbT4KPiA+Pj4KPiA+Pj4gQWxsIHRoZSBhY2NlbCBtb3ZlcyBkbyB0
+aGUgc2FtZSBwYXR0ZXJuIGhlcmUsIHByb3ZpZGUgYSBoZWxwZXIKPiA+PiBBbmQgZXhhY3RseSB0
+aGF0IHBhdHRlcm4gSSB3YW50IHRvIGdldCBhd2F5IGZyb20uCj4gPiBDdXJyZW50bHkgdGhpcyBp
+cyBqdXN0IHJlZmFjdG9yaW5nIG91dCB0aGUgaGVscGVyIGNvZGUgaW4gZWFjaCBkcml2ZXIsIGJ1
+dCBJIHNlZQo+ID4gc2luY2UgaXQgY2FsbHMgYm9fbWVtX3NwYWNlIHdlIGFyZSBwcm9iYWJseSBt
+b3ZpbmcgYSBiaXQgaW4gdGhlIHdyb25nIGRpcmVjdGlvbi4KPgo+IEV4YWN0bHkgdGhhdCdzIHdo
+eSBJJ20gbm90aW5nIHRoaXMuCj4KPiA+Cj4gPj4gU2VlIHdoYXQgaGFwcGVucyBpZiB3ZSAoZm9y
+IGV4YW1wbGUpIGhhdmUgYSBWUkFNIC0+IFNZU1RFTSBtb3ZlIGlzIHRoZQo+ID4+IGZvbGxvd2lu
+ZzoKPiA+Pgo+ID4+IDEuIFRUTSBhbGxvY2F0ZXMgYSBuZXcgdHRtX3Jlc291cmNlIG9iamVjdCBp
+biB0aGUgU1lTVEVNIGRvbWFpbi4KPiA+PiAyLiBXZSBjYWxsIHRoZSBkcml2ZXIgdG8gbW92ZSBm
+cm9tIFZSQU0gdG8gU1lTVEVNLgo+ID4+IDMuIERyaXZlciBmaW5kcyB0aGF0IGl0IGNhbid0IGRv
+IHRoaXMgYW5kIGNhbGxzIFRUTSAgdG8gYWxsb2NhdGUgR1RULgo+ID4+IDQuIFNpbmNlIHdlIGFy
+ZSBtYXliZSBvdXQgb2YgR1RUIFRUTSBldmljdHMgYSBkaWZmZXJlbnQgQk8gZnJvbSBHVFQgdG8K
+PiA+PiBTWVNURU0gYW5kIGNhbGwgZHJpdmVyIGFnYWluLgo+ID4+Cj4gPj4gVGhpcyBpcyBhIGhv
+cnJpYmxlIHBpbmcvcG9uZyBiZXR3ZWVuIGRyaXZlci9UVE0vZHJpdmVyL1RUTS9kcml2ZXIgYW5k
+IHdlCj4gPj4gc2hvdWxkIHN0b3AgdGhhdCBpbW1lZGlhdGVseS4KPiA+Pgo+ID4+IE15IHN1Z2dl
+c3Rpb24gaXMgdGhhdCB3ZSByZXdyaXRlIGhvdyBkcml2ZXJzIGNhbGwgdGhlIHR0bV9ib192YWxp
+ZGF0ZSgpCj4gPj4gZnVuY3Rpb24gc28gdGhhdCB3ZSBjYW4gZ3VhcmFudGVlIHRoYXQgdGhpcyBu
+ZXZlciBoYXBwZW5zLgo+ID4+Cj4gPj4gV2hhdCBkbyB5b3UgdGhpbms/Cj4gPiBJIHRoaW5rIHRo
+YXQgaXMgbGlrZWx5IHRoZSBuZXh0IHN0ZXAgSSdkIGxpa2UgdG8gdGFrZSBhZnRlciB0aGlzCj4g
+PiByZWZhY3RvciwgaXQncyBhIGxvdCBiaWdnZXIsIGFuZCBJJ20gbm90IHN1cmUgaG93IGl0IHdp
+bGwgbG9vayB5ZXQuCj4KPiBBZ3JlZSwgeWVzLiBJIGhhdmUgc29tZSBpZGVhcyBpbiBtaW5kIGZv
+ciB0aGF0LCBidXQgbm90IGZ1bGx5IGJha2VkIGVpdGhlci4KPgo+ID4gRG8gd2UgZW52aXNpb24g
+dGhlIGRyaXZlciBjYWxsaW5nIHZhbGlkYXRlIGluIGEgbG9vcCBidXQgd2hlbiBpdCBjYW4ndAo+
+ID4gZmluZCBzcGFjZSBpdCB0ZWxscyB0aGUgZHJpdmVyIGFuZCB0aGUgZHJpdmVyIGRvZXMgZXZp
+Y3Rpb24gYW5kCj4gPiByZWNhbGxzIHZhbGlkYXRlPwo+Cj4gTm90IGluIGEgbG9vcCwgYnV0IG1v
+cmUgbGlrZSBpbiBhIGNoYWluLgo+Cj4gTXkgcGxhbiBpcyBzb21ldGhpbmcgbGlrZSB0aGlzOgo+
+IEluc3RlYWQgb2YgaGF2aW5nICJub3JtYWwiIGFuZCAiYnVzeSIgcGxhY2VtZW50IHdlIGhhdmUg
+YSBmbGFnIGluIHRoZQo+IGNvbnRleHQgaWYgZXZpY3Rpb25zIGFyZSBhbGxvd2VkIG9yIG5vdC4K
+PiBUaGUgY2FsbCB0byB0dG1fYm9fdmFsaWRhdGUgYXJlIHRoZW4gcmVwbGFjZWQgd2l0aCB0d28g
+Y2FsbHMsIGZpcnN0Cj4gd2l0aG91dCBldmljdGlvbnMgYW5kIGlmIHRoYXQgZGlkbid0IHdvcmtl
+ZCBvbmUgd2l0aCBldmljdGlvbnMuCj4KPiBUaGVuIHRoZSBub3JtYWwgdmFsaWRhdGUgc2VxdWVu
+Y2Ugc2hvdWxkIGxvb2sgbGlrZSB0aGlzOgo+IDEuIElmIGEgQk8gaXMgaW4gdGhlIFNZU1RFTSAo
+b3IgU1dBUCBkb21haW4pIHdlIHZhbGlkYXRlIGl0IHRvIEdUVCBmaXJzdAo+IHdpdGggZXZpY3Rp
+b25zPXRydWUuCj4gMi4gSWYgYSBCTyBzaG91bGQgYmUgaW4gVlJBTSB3ZSB0aGVuIHZhbGlkYXRl
+IGl0IHRvIFZSQU0uIElmIGV2aWN0aW9ucwo+IGFyZSBvbmx5IGFsbG93ZWQgaWYgdGhlIEdFTSBm
+bGFncyBzYXkgdGhhdCBHVFQgaXMgbm90IGRlc2lyZWQuCgpUaGF0IHNvbHZlcyB0aGUgdHJvdWJs
+ZSB3aGVuIHlvdSBtb3ZlIGEgYm8gaW50byB2cmFtIGFzIHBhcnQgb2YKdmFsaWRhdGUuIEJ1dCBJ
+J20gbm90IHNlZWluZyBob3cgdGhpcyBzb2x2ZXMgdGhlICJuZWVkIGd0dCBtYXBwaW5nIHRvCm1v
+dmUgc29tZXRoaW5nIG91dCBvZiB2cmFtIiBwcm9ibGVtLgoKT3Igc2hvdWxkIHdlIGluc3RlYWQg
+bW92ZSB0aGUgZW50aXJlIGV2aWN0aW9uIGxvZ2ljIG91dCBmcm9tIHR0bSBpbnRvCmRyaXZlcnMs
+IGJ1aWxkaW5nIGl0IHVwIGZyb20gaGVscGVycz8gVGhlbiBkcml2ZXJzIHdoaWNoIG5lZWQgZ3R0
+IGZvcgptb3Zpbmcgc3R1ZmYgb3V0IG9mIHZyYW0gY2FuIGRvIHRoYXQgcmlnaHQgYXdheS4gQWxz
+bywgdGhpcyB3b3VsZAphbGxvdyB1cyB0byBpbXBsZW1lbnQgdmVyeSBmYW5jeSBldmljdGlvbiBh
+bGdvcml0aG1zIGxpa2UgYWxsIHRoZQpub25zZW5zZSB3ZSdyZSBkb2luZyBpbiBpOTE1IGZvciBn
+dHQgaGFuZGxpbmcgb24gZ2VuMi8zIChidXQgSSByZWFsbHkKaG9wZSB0aGF0IG5ldmVyIGV2ZXIg
+YmVjb21lcyBhIHRoaW5nIGFnYWluIGluIGZ1dHVyZSBncHVzLCBzbyB0aGlzIGlzCm1heWJlIG1v
+cmUgYSB3aGF0LWlmIGtpbmQgb2YgdGhpbmcpLiBOb3Qgc3VyZSBob3cgdGhhdCB3b3VsZCBsb29r
+Cmxpa2UsIG1heWJlIGEgc3BlY2lhbCB2YWxpZGF0ZSBmdW5jdGlvbiB3aGljaCB0YWtlcyBhIHR0
+bV9yZXNvdXJjZSB0aGUKZHJpdmVyIGFscmVhZHkgZm91bmQgKHRocm91Z2ggZXZpY3Rpbmcgc3R1
+ZmYgb3Igd2hhdGV2ZXIpIGFuZCB0aGVuIHR0bQpqdXN0IGRvZXMgdGhlIG1vdmUgYW5kIGJvb2st
+a2VlcGluZyBhbmQgZXZlcnl0aGluZy4gQW5kIGRyaXZlcnMgd291bGQKYXQgZmlyc3Qgb25seSBj
+YWxsIHZhbGlkYXRlIHdpdGhvdXQgYWxsb3dpbmcgYW55IGV2aWN0aW9uLiBPZmMgYW55b25lCndp
+dGhvdXQgc3BlY2lhbCBuZWVkcyBjb3VsZCB1c2UgdGhlIHN0YW5kYXJkIGV2aWN0aW9uIGZ1bmN0
+aW9uIHRoYXQKdmFsaWRhdGUgYWxyZWFkeSBoYXMuCi1EYW5pZWwKCj4gRm9yIHNwZWNpYWwgQk9z
+LCBsaWtlIGFtZGdwdXMgR0RTLCBHV1MgYW5kIE9BIGRvbWFpbiBvciBWTVdHRlggc3BlY2lhbAo+
+IGRvbWFpbnMgdGhhdCB3aWxsIG9idmlvdXNseSBsb29rIGEgYml0IGRpZmZlcmVudC4KPgo+IENo
+cmlzdGlhbi4KPgo+ID4KPiA+IERhdmUuCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5n
+aW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
