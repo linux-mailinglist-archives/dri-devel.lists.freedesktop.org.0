@@ -2,33 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3115278B54
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 16:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F53A278B60
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 16:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2285C6ED03;
-	Fri, 25 Sep 2020 14:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44DAA6ED11;
+	Fri, 25 Sep 2020 14:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C78D6ED03
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 14:55:09 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 25CEAAD72;
- Fri, 25 Sep 2020 14:55:08 +0000 (UTC)
-Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-2-tzimmermann@suse.de>
- <20200629084044.GL3278063@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
-Date: Fri, 25 Sep 2020 16:55:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 508AA6ED19
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 14:55:43 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id r7so3993247ejs.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 07:55:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RutlKtRpt9bk66pnLU8lxpgIYD/UbI40WUX9sv8pWns=;
+ b=RzhC6wA0ggFbV2knXHtPkjmdo+pTzvSSFMcX7WtJ4v+fcGwMkpvtySYqT5Mvxr3eP1
+ TNrJHHh55btiqU4q8ELI0+FVefHvFh70DJ0+Dg0kJcXqcbMIPL7Frj7zNE6wlIHrcozN
+ mhdVGeeHXdEqnF10zGK4D8IqcaL1dNmQ23VE9xuV8zIh5yZliyeD2JQXUHd35JNCCMtw
+ BsJQS7bP9RAuVOZtIxuMjFedQmZobAGpzZnIwdwCTmpBiu+Wj6gUhhZkvWXUatKppH4P
+ w7qRSrSb/ugaMK89Fd2O0nTbbtGBTSqU+MQ55P+Lq7YKF92xkgv5el7jji7DKPNWMApa
+ B5gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RutlKtRpt9bk66pnLU8lxpgIYD/UbI40WUX9sv8pWns=;
+ b=h7Z8ZVi3KB1yD1l/9n/1vV/IbPyDHNgzPu9nKSLUaOXOEJj35dvkOZDTin6QkGZ1mt
+ mvRZ/6mYdtJI8jjrnGLqehWlIOZNcyvr/ns0HDIQnE/yFWcCQbO3ocGEI+i5Cc3DpTZp
+ ONruTPKcDmNm3L420NCxZC3r1Wvks7ewjai1A6BZYBLT5AdeFnbZr3BVet9Vx/573z/Z
+ rDldCXGI8DdjRaebzQdlzFITU1E1uxGFPBuhcc/yl73lY5b7IiWoj6Rns8Fz00AB+B2m
+ hifgWjx47e9+Q9mWuA0PsOvy7s/qZNnbNwX2Ks5mNFd+tbmSYeNcfum7GB5Nkh44HupD
+ +4Gw==
+X-Gm-Message-State: AOAM532RY5FAnK1Sg88qKx6NHSXfQ0ifynJki415RFyDnRBA9yS3gkSI
+ IYzSytD6NGwsTIaH5AdJd/0wX0eEVww=
+X-Google-Smtp-Source: ABdhPJx0urppDAWkRmaf0XOK2xK5D6Zcpn05F94lE3ulVwiWCgUQ9PM+An+rJjMi3auKmA1Yv7O6wQ==
+X-Received: by 2002:a17:906:b784:: with SMTP id
+ dt4mr3295119ejb.376.1601045741724; 
+ Fri, 25 Sep 2020 07:55:41 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:c75e:403f:87d4:6d00])
+ by smtp.gmail.com with ESMTPSA id lo25sm2029990ejb.53.2020.09.25.07.55.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 07:55:41 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	ray.huang@amd.com,
+	airlied@redhat.com
+Subject: [PATCH 1/5] drm/ttm: move SG flag check into ttm_bo_vm_reserve
+Date: Fri, 25 Sep 2020 16:55:36 +0200
+Message-Id: <20200925145540.1214-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200629084044.GL3278063@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,219 +69,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1614320173=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1614320173==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="kDiacfcIijuUKBfdAjXiQACCPbrTm8b40"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---kDiacfcIijuUKBfdAjXiQACCPbrTm8b40
-Content-Type: multipart/mixed; boundary="A9L1xDk6jW0FmwNvLqlHLTtWsUSTjbRcL";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- kraxel@redhat.com, lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
- sam@ravnborg.org, emil.l.velikov@gmail.com, noralf@tronnes.org,
- geert+renesas@glider.be, hdegoede@redhat.com, dri-devel@lists.freedesktop.org
-Message-ID: <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
-Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-2-tzimmermann@suse.de>
- <20200629084044.GL3278063@phenom.ffwll.local>
-In-Reply-To: <20200629084044.GL3278063@phenom.ffwll.local>
-
---A9L1xDk6jW0FmwNvLqlHLTtWsUSTjbRcL
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 29.06.20 um 10:40 schrieb Daniel Vetter:
-> On Thu, Jun 25, 2020 at 02:00:03PM +0200, Thomas Zimmermann wrote:
->> The memcpy's destination buffer might have a different pitch than the
->> source. Support different pitches as function argument.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
-> But I do have questions ... why did we allocate a source drm_framebuffe=
-r
-> with mismatching pitch? That sounds backwards, especially for simplekms=
-=2E
-
-There's userspace that allocates framebuffers in tiles of 64x64 pixels.
-I think I've seen this with Gnome. So if you have a 800x600 display
-mode, the allocated framebuffer has a scanline pitch of 832 pixels and
-the final 32 pixels are ignored.
-
-In regular drivers, we can handle this with the VGA offset register [1]
-or some equivalent. That's obviously not an option with simplekms, so
-the different pitch is required.
-
-Best regards
-Thomas
-
-[1]
-https://web.stanford.edu/class/cs140/projects/pintos/specs/freevga/vga/cr=
-tcreg.htm#13
-
->=20
-> Would be good to add the reasons why we need this to the commit message=
-,
-> I'm sure I'll discover it later on eventually.
-> -Daniel
->=20
->> ---
->>  drivers/gpu/drm/drm_format_helper.c    | 9 +++++----
->>  drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
->>  drivers/gpu/drm/tiny/cirrus.c          | 2 +-
->>  include/drm/drm_format_helper.h        | 2 +-
->>  4 files changed, 8 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm=
-_format_helper.c
->> index c043ca364c86..8d5a683afea7 100644
->> --- a/drivers/gpu/drm/drm_format_helper.c
->> +++ b/drivers/gpu/drm/drm_format_helper.c
->> @@ -52,6 +52,7 @@ EXPORT_SYMBOL(drm_fb_memcpy);
->>  /**
->>   * drm_fb_memcpy_dstclip - Copy clip buffer
->>   * @dst: Destination buffer (iomem)
->> + * @dst_pitch: Number of bytes between two consecutive scanlines with=
-in dst
->>   * @vaddr: Source buffer
->>   * @fb: DRM framebuffer
->>   * @clip: Clip rectangle area to copy
->> @@ -59,12 +60,12 @@ EXPORT_SYMBOL(drm_fb_memcpy);
->>   * This function applies clipping on dst, i.e. the destination is a
->>   * full (iomem) framebuffer but only the clip rect content is copied =
-over.
->>   */
->> -void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
->> -			   struct drm_framebuffer *fb,
->> +void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch,=
-
->> +			   void *vaddr, struct drm_framebuffer *fb,
->>  			   struct drm_rect *clip)
->>  {
->>  	unsigned int cpp =3D fb->format->cpp[0];
->> -	unsigned int offset =3D clip_offset(clip, fb->pitches[0], cpp);
->> +	unsigned int offset =3D clip_offset(clip, dst_pitch, cpp);
->>  	size_t len =3D (clip->x2 - clip->x1) * cpp;
->>  	unsigned int y, lines =3D clip->y2 - clip->y1;
->> =20
->> @@ -73,7 +74,7 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, void *=
-vaddr,
->>  	for (y =3D 0; y < lines; y++) {
->>  		memcpy_toio(dst, vaddr, len);
->>  		vaddr +=3D fb->pitches[0];
->> -		dst +=3D fb->pitches[0];
->> +		dst +=3D dst_pitch;
->>  	}
->>  }
->>  EXPORT_SYMBOL(drm_fb_memcpy_dstclip);
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/=
-mgag200/mgag200_mode.c
->> index f16bd278ab7e..7d4f3a62d885 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -1586,7 +1586,7 @@ mgag200_handle_damage(struct mga_device *mdev, s=
-truct drm_framebuffer *fb,
->>  	if (drm_WARN_ON(dev, !vmap))
->>  		return; /* BUG: SHMEM BO should always be vmapped */
->> =20
->> -	drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
->> +	drm_fb_memcpy_dstclip(mdev->vram, fb->pitches[0], vmap, fb, clip);
->> =20
->>  	drm_gem_shmem_vunmap(fb->obj[0], vmap);
->> =20
->> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirr=
-us.c
->> index 744a8e337e41..2dd9e5e31e3d 100644
->> --- a/drivers/gpu/drm/tiny/cirrus.c
->> +++ b/drivers/gpu/drm/tiny/cirrus.c
->> @@ -327,7 +327,7 @@ static int cirrus_fb_blit_rect(struct drm_framebuf=
-fer *fb,
->>  		goto out_dev_exit;
->> =20
->>  	if (cirrus->cpp =3D=3D fb->format->cpp[0])
->> -		drm_fb_memcpy_dstclip(cirrus->vram,
->> +		drm_fb_memcpy_dstclip(cirrus->vram, fb->pitches[0],
->>  				      vmap, fb, rect);
->> =20
->>  	else if (fb->format->cpp[0] =3D=3D 4 && cirrus->cpp =3D=3D 2)
->> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_=
-helper.h
->> index 5f9e37032468..2b5036a5fbe7 100644
->> --- a/include/drm/drm_format_helper.h
->> +++ b/include/drm/drm_format_helper.h
->> @@ -11,7 +11,7 @@ struct drm_rect;
->> =20
->>  void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer *fb=
-,
->>  		   struct drm_rect *clip);
->> -void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
->> +void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch,=
- void *vaddr,
->>  			   struct drm_framebuffer *fb,
->>  			   struct drm_rect *clip);
->>  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
->> --=20
->> 2.27.0
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---A9L1xDk6jW0FmwNvLqlHLTtWsUSTjbRcL--
-
---kDiacfcIijuUKBfdAjXiQACCPbrTm8b40
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9uBMgUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiONuQgAieR3dDSUQF97TGQNMssWjDaI1AZT
-11Hu89gGwhTwPBHTCoMpBq3eSQArZ1FhGI9J86WuY944B6D7gXlPBqQPUczVEYTH
-Eb2m8mtcHD59AiXUWxX+ASvzO7a8dy0HI6o9tqz0kPMsl1vO2IAq5uqazX/Hn3pQ
-rKSGGTLM1E5uIkcDx00Lw4b3GkEhJK+sBsO8P14D79408RzogFWhPP57EshbsrHB
-ubPaLSP9xqx9oqZ+SGtgyt3sSMzGevqNMepwgFQg8tdy067VMT7bUlAz8TkEgu42
-72kmU09Wekja+SWr/pvcfw54oXJ0Y9pB0jz8CsDFG3tGoM6SHE4Gsv41Bg==
-=uukp
------END PGP SIGNATURE-----
-
---kDiacfcIijuUKBfdAjXiQACCPbrTm8b40--
-
---===============1614320173==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1614320173==--
+SnVzdCBjaGVjayBlYXJsaWVyIGlmIGEgQk8gY2FuIGJlIHBhZ2UgZmF1bHRlZCBpbiB0aGUgZmly
+c3QgcGxhY2UuCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29l
+bmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0uYyB8IDE2ICsr
+KysrKysrKy0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDcgZGVsZXRp
+b25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0uYyBiL2Ry
+aXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKaW5kZXggOThhMDA2ZmMzMGE1Li45OTFlZjEz
+MmUxMDggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3ZtLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm9fdm0uYwpAQCAtMTU3LDYgKzE1NywxNSBAQCB2bV9m
+YXVsdF90IHR0bV9ib192bV9yZXNlcnZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sCiAJ
+CQlyZXR1cm4gVk1fRkFVTFRfTk9QQUdFOwogCX0KIAorCS8qCisJICogUmVmdXNlIHRvIGZhdWx0
+IGltcG9ydGVkIHBhZ2VzLiBUaGlzIHNob3VsZCBiZSBoYW5kbGVkCisJICogKGlmIGF0IGFsbCkg
+YnkgcmVkaXJlY3RpbmcgbW1hcCB0byB0aGUgZXhwb3J0ZXIuCisJICovCisJaWYgKGJvLT50dG0g
+JiYgKGJvLT50dG0tPnBhZ2VfZmxhZ3MgJiBUVE1fUEFHRV9GTEFHX1NHKSkgeworCQlkbWFfcmVz
+dl91bmxvY2soYm8tPmJhc2UucmVzdik7CisJCXJldHVybiBWTV9GQVVMVF9TSUdCVVM7CisJfQor
+CiAJcmV0dXJuIDA7CiB9CiBFWFBPUlRfU1lNQk9MKHR0bV9ib192bV9yZXNlcnZlKTsKQEAgLTI4
+MSwxMyArMjkwLDYgQEAgdm1fZmF1bHRfdCB0dG1fYm9fdm1fZmF1bHRfcmVzZXJ2ZWQoc3RydWN0
+IHZtX2ZhdWx0ICp2bWYsCiAJdm1fZmF1bHRfdCByZXQgPSBWTV9GQVVMVF9OT1BBR0U7CiAJdW5z
+aWduZWQgbG9uZyBhZGRyZXNzID0gdm1mLT5hZGRyZXNzOwogCi0JLyoKLQkgKiBSZWZ1c2UgdG8g
+ZmF1bHQgaW1wb3J0ZWQgcGFnZXMuIFRoaXMgc2hvdWxkIGJlIGhhbmRsZWQKLQkgKiAoaWYgYXQg
+YWxsKSBieSByZWRpcmVjdGluZyBtbWFwIHRvIHRoZSBleHBvcnRlci4KLQkgKi8KLQlpZiAoYm8t
+PnR0bSAmJiAoYm8tPnR0bS0+cGFnZV9mbGFncyAmIFRUTV9QQUdFX0ZMQUdfU0cpKQotCQlyZXR1
+cm4gVk1fRkFVTFRfU0lHQlVTOwotCiAJaWYgKGJkZXYtPmRyaXZlci0+ZmF1bHRfcmVzZXJ2ZV9u
+b3RpZnkpIHsKIAkJc3RydWN0IGRtYV9mZW5jZSAqbW92aW5nID0gZG1hX2ZlbmNlX2dldChiby0+
+bW92aW5nKTsKIAotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWwK
