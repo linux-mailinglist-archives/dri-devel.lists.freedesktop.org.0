@@ -2,73 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3C727A84F
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8677927A84E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8FCA6E41D;
-	Mon, 28 Sep 2020 07:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76E316E425;
+	Mon, 28 Sep 2020 07:07:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAC5C6E02D
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 15:14:15 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 8FD6F5CF;
- Fri, 25 Sep 2020 11:14:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 25 Sep 2020 11:14:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=FebPny5OSgC5PCIL/63WgOmsmm/
- Mw5Zls8MDyN6IYRY=; b=msmmBTb4mfzh1hX50aWiICwMKn6jVvjgDCzlrQgHtxB
- IR6ZojeF1WMsEFTaKRIeQFr59DaAjDLeoItp6T/quF1peT7qHzeJXgGsEMM/Ybtz
- 18UKV5x4gFf8+dCFpIQOHsk60yDNYrj36CXIfNoF5rJiQ2+XDdNYdDe5ZyQl130z
- nrYt0n/k03PNLk2SHyX832abE+lhd3fMfoJtsEWEHGssw+QNydeofJaaCLPPoXB0
- Bq8lHrZ55XrTS+bDLx6xJga6l//Xqj+dfKRaGx4nAIlN3rESOaPxcWomFJYHBuSQ
- rki7LDVispqQ1CZlTuUvddIFeG27BSUvYBTvBk5wwcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=FebPny
- 5OSgC5PCIL/63WgOmsmm/Mw5Zls8MDyN6IYRY=; b=dH2CCZr2WbeYcSb4gpUJ95
- iEzmMrmFy9sHIcqOEy8d8tLn6546muFPYH//duGxMsSURc8Y07YWAa9xwcW0hll6
- QxCBkp1D4SoNw/rCz1Gtyrg8NguLbd4OPTuyknt/LRKTVwDTAMdb3OhY4C9CCAVV
- hQzIXmFwwUdWU8mEjGPh18dStO0tG/nbuXQKj0Ws9tYQCvjePK3VCvZ1X7PDm1Yi
- p7uBsPfMP1eyefQGvOq2KvaWvJ9vRGokZ1vTaDNBQroMAbjmfy8+2AFdD0APYaif
- VGkbL0vDUKA6TIifPzDe/jLxgSKhKMxH0Ac3Z2eHWPWubyQzOQl9oxrhxNCt2EhQ
- ==
-X-ME-Sender: <xms:RAluX_c2cVSQw3NtZ-IxWUGjYOAvHpPuF9ZAE49h4ImpaeCPm06FEQ>
- <xme:RAluX1NtQNGHwMAvycSTsFZlc3YRcmGhWRpZqEFIzCNWB_nt1EDxWl3WSFofIGbNB
- amLtWyKnVr0mtuQEuM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtgdekgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
- vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrje
- einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
- gihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:RAluX4h2i7THf5CGBxcJkGqOCsEc8I0k9pcZ0sXRD4EVIRLUoacVvQ>
- <xmx:RAluXw8UI6aYH3n-Civ4wkJUZJe_qlzKqJCWCzp91RUts6UhIjpq5g>
- <xmx:RAluX7vIDP2maRTSnU_RwQkQt3-smBrOo5oRgWC6s7auORr6HMfCcg>
- <xmx:RgluX_GGDy8dJb2EAv9jRhxmqLKsbG22l4qMt_jsXQG1NIJOITHDxe9kl4U>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id C27403280063;
- Fri, 25 Sep 2020 11:14:11 -0400 (EDT)
-Date: Fri, 25 Sep 2020 17:14:10 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/9] drm: Add simplekms driver
-Message-ID: <20200925151410.zrivxvskxh3sr5n7@gilmour.lan>
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-4-tzimmermann@suse.de>
- <20200629090657.GN3278063@phenom.ffwll.local>
- <da512368-508d-15f5-823a-5a037364887a@suse.de>
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFFBE6ED15
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 15:35:17 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id o25so2916681pgm.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 08:35:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=H/9+qYXF9GN9bRK/C5H5FmZN11jhXx2ehr1k98ass28=;
+ b=bQGnqsi9trU4rchmHNT+IDgA2k6+MHytIahgg3FdvAvXLkOqo3HSiPipNaPY6tzrU0
+ saZMEvvp18hb5cctMiXbAwwdqEtAcLz7sPvZhAyVhlZpBF4LYs/hKpLIA5BlM5T20YeV
+ tPTDEoH1GxEm2CV8U0/mJ2mOBJ9L7PUKyJbQqCPOnpyX8ohd15TlgMC+DsiZGV26XGE+
+ 2z1CA7TU+0K7gKWYNUiZQKGUlLyMebr9WRQx81Q6djTGlGxLXvfJaDgaOcnN1p4Ru3Hc
+ IRA49OvXD0yIN8n62rf0CT17tM4MRnhc4nUc9FKLj1sZrJjcK+wxUdsUOgzFdSL/g+p4
+ fzdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=H/9+qYXF9GN9bRK/C5H5FmZN11jhXx2ehr1k98ass28=;
+ b=iL4Pg5f1WS1f+tD6mk74u4TORYuy4XSBKK5RGVZodZxHVn4EhueL4U9zZd8fZJsoTJ
+ 1E8oL+NuAu6dDLeGbdngjavgcDO1z3V/0iJ+ej+cU9iOAZndQKEqUbX03iju/+UJEAyk
+ 8dg/zcL0n5263G917DLwNsscBse3Rv6SXogTjyMuihQ81LewQUVmJ5DJtljTJuw99dpf
+ ERYrw5ddi76WObJwzvnnmCO4aaOe7r9eQa2bvGKdrnsVeST9j8yPyk2u8e4Z6B25js2m
+ 9/kPEWf6i/bZ8Cm+58QI92Md8syZ2KulCrZrEu6IgUgaRCfUppO2LNYPxCnb2V5HTBd7
+ 2dNw==
+X-Gm-Message-State: AOAM531Gyj+2igJTWzdA17y2ebze6m3wJDPMGMtpkhnhhrhCVKpMQvc/
+ QkiZF257xYAl1VcjB5slQQ==
+X-Google-Smtp-Source: ABdhPJypCGDd/spbzL267gES6OYRMPR4S4hEJjiFO5vQCn8uHug/BJxwZZg36Chf8IEvIzbCNPLsJw==
+X-Received: by 2002:a62:7c43:0:b029:139:858b:8033 with SMTP id
+ x64-20020a627c430000b0290139858b8033mr4515529pfc.3.1601048117493; 
+ Fri, 25 Sep 2020 08:35:17 -0700 (PDT)
+Received: from PWN (n11212042027.netvigator.com. [112.120.42.27])
+ by smtp.gmail.com with ESMTPSA id 123sm2680229pgd.83.2020.09.25.08.35.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 08:35:16 -0700 (PDT)
+Date: Fri, 25 Sep 2020 11:35:09 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
+ buffers
+Message-ID: <20200925153509.GA895804@PWN>
+References: <0000000000006b9e8d059952095e@google.com>
+ <cover.1600953813.git.yepeilin.cs@gmail.com>
+ <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
+ <20200925101300.GA890211@PWN>
+ <20200925132551.GF438822@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <da512368-508d-15f5-823a-5a037364887a@suse.de>
+Content-Disposition: inline
+In-Reply-To: <20200925132551.GF438822@phenom.ffwll.local>
 X-Mailman-Approved-At: Mon, 28 Sep 2020 07:06:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,86 +73,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
- lgirdwood@gmail.com, dri-devel@lists.freedesktop.org, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============0740892519=="
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jiri Slaby <jirislaby@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 25, 2020 at 03:25:51PM +0200, Daniel Vetter wrote:
+> I think the only way to make this work is that we have one place which
+> takes in the userspace uapi struct, and then converts it once into a
+> kernel_console_font. With all the error checking.
 
---===============0740892519==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ervpwhin4d4bbvy6"
-Content-Disposition: inline
+Ah, I didn't think of that! When trying to introduce
+`kernel_console_font` I ended up using the uapi version and the kernel
+version in parallel...
 
+> Then all internal code deals in terms of kernel_console_font, with
+> properly typed and named struct members and helper functions and
+> everything. And we might need a gradual conversion for this, so that first
+> we can convert over invidual console drivers, then subsystems, until at
+> the end we've pushed the conversion from uapi array to kernel_console_font
+> all the way to the ioctl entry points.
+> 
+> But that's indeed a huge pile of work, and fair warning: fbcon is
+> semi-orphaned, so by doing this you'll pretty much volunteer for
+> maintainership :-)
+>
+> But I'd be very happy to help get this done and throw some maintainership
+> credentials at you in the proces ...
 
---ervpwhin4d4bbvy6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sounds exciting, I will be glad to do this! I'm just a beginner, but I
+will try to do what I can do.
 
-Hi Thomas,
-
-On Fri, Sep 25, 2020 at 05:01:23PM +0200, Thomas Zimmermann wrote:
-> >> +					   ARRAY_SIZE(simplekms_formats),
-> >> +					   simplekms_format_modifiers,
-> >> +					   connector);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >> +	drm_mode_config_reset(dev);
-> >=20
-> > This breaks fastboot. I think ideally we'd have the state represent
-> > everything is on, and allocate an fb + buffer with the current contents=
- of
-> > the framebuffer. Since we can allocate an fb that matches this shouldn't
-> > be a problem, just a raw memcpy_fromio should do the job.
->=20
-> I'm trying to wrap my head around how the fastboot setup is implemented.
->=20
-> Apparently, i915's fbdev code goes through the existing pipeline state
-> and fills the fb_info structure with compatible settings.
->=20
-> Where is the initial pipeline state created? If I write reset handlers
-> that initialize the pipeline to the simple-framebuffer's fixed state,
-> whould that be sufficient? A later stage could then do the equivalent of
-> intel_fbdev_init_bios().
->=20
-> The simple-kms helpers don't seem to support custom reset handlers or
-> atomic-state callbacks. I guess that would require and update as well?
-
-You probably want to read the following :)
-
-https://lore.kernel.org/dri-devel/CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPvJ=3D=
-9BwmvfU-O0gg@mail.gmail.com/
-
-It's been on my todo-list since, but I never got to work on it :/
-
-Maxime
-
---ervpwhin4d4bbvy6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX24JQgAKCRDj7w1vZxhR
-xcflAQD/smmNaiuWG8+eskkYdYrpSwlJRNF4sD4/qxfBLWZ28gEAl3t5YkI9Jvw7
-5E61IUz+SBXv6Hw3R/eSs14EOBLQNgI=
-=s5yv
------END PGP SIGNATURE-----
-
---ervpwhin4d4bbvy6--
-
---===============0740892519==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Thank you,
+Peilin Ye
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0740892519==--
