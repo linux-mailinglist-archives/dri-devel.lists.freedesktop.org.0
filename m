@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5329027866F
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 13:56:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D12A0278686
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 14:01:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B096EC9D;
-	Fri, 25 Sep 2020 11:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8FED6ECAB;
+	Fri, 25 Sep 2020 12:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7306EC9D;
- Fri, 25 Sep 2020 11:56:08 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9EFF8AF4D;
- Fri, 25 Sep 2020 11:56:06 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, afd@ti.com,
- corbet@lwn.net, benjamin.gaignard@linaro.org, lmark@codeaurora.org,
- labbott@redhat.com, Brian.Starkey@arm.com, john.stultz@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- thierry.reding@gmail.com, jonathanh@nvidia.com, pawel@osciak.com,
- m.szyprowski@samsung.com, kyungmin.park@samsung.com, tfiga@chromium.org,
- mchehab@kernel.org, matthew.auld@intel.com, robin.murphy@arm.com,
- thomas.hellstrom@intel.com, sam@ravnborg.org, kraxel@redhat.com,
- arnd@arndb.de, gregkh@linuxfoundation.org
-Subject: [PATCH v3 4/4] dma-buf: Document struct dma_buf_map
-Date: Fri, 25 Sep 2020 13:56:01 +0200
-Message-Id: <20200925115601.23955-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200925115601.23955-1-tzimmermann@suse.de>
-References: <20200925115601.23955-1-tzimmermann@suse.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A48C16ECAB
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 12:01:00 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87A472D7;
+ Fri, 25 Sep 2020 14:00:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1601035252;
+ bh=/66WXA2v5Bh+rbipAKDQwvrcBrXCVAjVdapUnZeAXxM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dNp6q90GX97UuIiim/MIPi4qs58GG3Wd/YY6HSOj95tQRagh1romJfs285jZntFg5
+ ieajwB4amG11oucO3EjvRJFeVN9jH9OiX3ngks3H6KEsguRwNw1uvzKdXxgpj7Xv+l
+ CqxO8GcumyXWyjm5y/JZkrZkKSrY50l5O6RXZKec=
+Date: Fri, 25 Sep 2020 15:00:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH] drm: bridge: cdns-mhdp8546: fix compile warning
+Message-ID: <20200925120018.GC3933@pendragon.ideasonboard.com>
+References: <20200923083057.113367-1-tomi.valkeinen@ti.com>
+ <20200924114810.GB3968@pendragon.ideasonboard.com>
+ <01359a54-964f-c748-442e-eeab30f08e56@ti.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <01359a54-964f-c748-442e-eeab30f08e56@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,96 +47,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Dave Airlie <airlied@linux.ie>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Yuti Amonkar <yamonkar@cadence.com>, dri-devel@lists.freedesktop.org,
+ Swapnil Jakhade <sjakhade@cadence.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCBhZGRzIHN0cnVjdCBkbWFfYnVmX21hcCBhbmQgaXRzIGhlbHBlcnMgdG8gdGhl
-IGRvY3VtZW50YXRpb24uIEEKc2hvcnQgdHV0b3JpYWwgaXMgaW5jbHVkZWQuCgp2MzoKCSogdXBk
-YXRlIGRvY3VtZW50YXRpb24gaW4gYSBzZXBhcmF0ZSBwYXRjaAoJKiBleHBhbmQgZG9jcyAoRGFu
-aWVsKQoJKiBjYXJyeS1vdmVyIGFja3MgZnJvbSBwYXRjaCAxCgpTaWduZWQtb2ZmLWJ5OiBUaG9t
-YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KUmV2aWV3ZWQtYnk6IENocmlzdGlh
-biBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KUmV2aWV3ZWQtYnk6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkFja2VkLWJ5OiBTdW1pdCBTZW13YWwgPHN1
-bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgotLS0KIERvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEt
-YnVmLnJzdCB8ICA5ICsrKysKIGluY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaCAgICAgICAgICB8
-IDcyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgODEgaW5z
-ZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVm
-LnJzdCBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVmLnJzdAppbmRleCAxM2VhMGNj
-MGEzZmEuLjZkYmNjNDcxNGIwYiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBp
-L2RtYS1idWYucnN0CisrKyBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9kbWEtYnVmLnJzdApA
-QCAtMTE1LDYgKzExNSwxNSBAQCBLZXJuZWwgRnVuY3Rpb25zIGFuZCBTdHJ1Y3R1cmVzIFJlZmVy
-ZW5jZQogLi4ga2VybmVsLWRvYzo6IGluY2x1ZGUvbGludXgvZG1hLWJ1Zi5oCiAgICA6aW50ZXJu
-YWw6CiAKK0J1ZmZlciBNYXBwaW5nIEhlbHBlcnMKK35+fn5+fn5+fn5+fn5+fn5+fn5+fn4KKwor
-Li4ga2VybmVsLWRvYzo6IGluY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaAorICAgOmRvYzogb3Zl
-cnZpZXcKKworLi4ga2VybmVsLWRvYzo6IGluY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaAorICAg
-OmludGVybmFsOgorCiBSZXNlcnZhdGlvbiBPYmplY3RzCiAtLS0tLS0tLS0tLS0tLS0tLS0tCiAK
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi1tYXAuaCBiL2luY2x1ZGUvbGludXgv
-ZG1hLWJ1Zi1tYXAuaAppbmRleCBjMTczYTRhYmY0YmEuLmZkMWFiYTU0NWZkZiAxMDA2NDQKLS0t
-IGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLW1hcC5oCisrKyBiL2luY2x1ZGUvbGludXgvZG1hLWJ1
-Zi1tYXAuaApAQCAtOCw2ICs4LDc4IEBACiAKICNpbmNsdWRlIDxsaW51eC9pby5oPgogCisvKioK
-KyAqIERPQzogb3ZlcnZpZXcKKyAqCisgKiBDYWxsaW5nIGRtYS1idWYncyB2bWFwIG9wZXJhdGlv
-biByZXR1cm5zIGEgcG9pbnRlciB0byB0aGUgYnVmZmVyJ3MgbWVtb3J5LgorICogRGVwZW5kaW5n
-IG9uIHRoZSBsb2NhdGlvbiBvZiB0aGUgYnVmZmVyLCB1c2VycyBtYXkgaGF2ZSB0byBhY2Nlc3Mg
-aXQgd2l0aAorICogSS9PIG9wZXJhdGlvbnMgb3IgbWVtb3J5IGxvYWQvc3RvcmUgb3BlcmF0aW9u
-cy4gRm9yIGV4YW1wbGUsIGNvcHlpbmcgdG8KKyAqIHN5c3RlbSBtZW1vcnkgY291bGQgYmUgZG9u
-ZSB3aXRoIG1lbWNweSgpLCBjb3B5aW5nIHRvIEkvTyBtZW1vcnkgd291bGQgYmUKKyAqIGRvbmUg
-d2l0aCBtZW1jcHlfdG9pbygpLgorICoKKyAqIC4uIGNvZGUtYmxvY2s6OiBjCisgKgorICoJdm9p
-ZCAqdmFkZHIgPSAuLi47IC8vIHBvaW50ZXIgdG8gc3lzdGVtIG1lbW9yeQorICoJbWVtY3B5KHZh
-ZGRyLCBzcmMsIGxlbik7CisgKgorICoJdm9pZCAqdmFkZHJfaW9tZW0gPSAuLi47IC8vIHBvaW50
-ZXIgdG8gSS9PIG1lbW9yeQorICoJbWVtY3B5X3RvaW8odmFkZHIsIF9pb21lbSwgc3JjLCBsZW4p
-OworICoKKyAqIFdoZW4gdXNpbmcgZG1hLWJ1ZidzIHZtYXAgb3BlcmF0aW9uLCB0aGUgcmV0dXJu
-ZWQgcG9pbnRlciBpcyBlbmNvZGVkIGFzCisgKiA6Yzp0eXBlOmBzdHJ1Y3QgZG1hX2J1Zl9tYXAg
-PGRtYV9idWZfbWFwPmAuCisgKiA6Yzp0eXBlOmBzdHJ1Y3QgZG1hX2J1Zl9tYXAgPGRtYV9idWZf
-bWFwPmAgc3RvcmVzIHRoZSBidWZmZXIncyBhZGRyZXNzIGluCisgKiBzeXN0ZW0gb3IgSS9PIG1l
-bW9yeSBhbmQgYSBmbGFnIHRoYXQgc2lnbmFscyB0aGUgcmVxdWlyZWQgbWV0aG9kIG9mCisgKiBh
-Y2Nlc3NpbmcgdGhlIGJ1ZmZlci4gVXNlIHRoZSByZXR1cm5lZCBpbnN0YW5jZSBhbmQgdGhlIGhl
-bHBlciBmdW5jdGlvbnMKKyAqIHRvIGFjY2VzcyB0aGUgYnVmZmVyJ3MgbWVtb3J5IGluIHRoZSBj
-b3JyZWN0IHdheS4KKyAqCisgKiBPcGVuLWNvZGluZyBhY2Nlc3MgdG8gOmM6dHlwZTpgc3RydWN0
-IGRtYV9idWZfbWFwIDxkbWFfYnVmX21hcD5gIGlzCisgKiBjb25zaWRlcmVkIGJhZCBzdHlsZS4g
-UmF0aGVyIHRoZW4gYWNjZXNzaW5nIGl0cyBmaWVsZHMgZGlyZWN0bHksIHVzZSBvbmUKKyAqIG9m
-IHRoZSBwcm92aWRlZCBoZWxwZXIgZnVuY3Rpb25zLCBvciBpbXBsZW1lbnQgeW91ciBvd24uIEZv
-ciBleGFtcGxlLAorICogaW5zdGFuY2VzIG9mIDpjOnR5cGU6YHN0cnVjdCBkbWFfYnVmX21hcCA8
-ZG1hX2J1Zl9tYXA+YCBjYW4gYmUgaW5pdGlhbGl6ZWQKKyAqIHN0YXRpY2FsbHkgd2l0aCBETUFf
-QlVGX01BUF9JTklUX1ZBRERSKCksIG9yIGF0IHJ1bnRpbWUgd2l0aAorICogZG1hX2J1Zl9tYXBf
-c2V0X3ZhZGRyKCkuIFRoZXNlIGhlbHBlcnMgd2lsbCBzZXQgYW4gYWRkcmVzcyBpbiBzeXN0ZW0g
-bWVtb3J5LgorICoKKyAqIC4uIGNvZGUtYmxvY2s6OiBjCisgKgorICoJc3RydWN0IGRtYV9idWZf
-bWFwIG1hcCA9IERNQV9CVUZfTUFQX0lOSVRfVkFERFIoMHhkZWFkYmVhZik7CisgKgorICoJZG1h
-X2J1Zl9tYXBfc2V0X3ZhZGRyKCZtYXAuIDB4ZGVhZGJlYWYpOworICoKKyAqIFRlc3QgaWYgYSBt
-YXBwaW5nIGlzIHZhbGlkIHdpdGggZWl0aGVyIGRtYV9idWZfbWFwX2lzX3NldCgpIG9yCisgKiBk
-bWFfYnVmX21hcF9pc19udWxsKCkuCisgKgorICogLi4gY29kZS1ibG9jazo6IGMKKyAqCisgKglp
-ZiAoZG1hX2J1Zl9tYXBfaXNfc2V0KCZtYXApICE9IGRtYV9idWZfbWFwX2lzX251bGwoJm1hcCkp
-CisgKgkJLy8gYWx3YXlzIHRydWUKKyAqCisgKiBJbnN0YW5jZXMgb2YgOmM6dHlwZTpgc3RydWN0
-IGRtYV9idWZfbWFwIDxkbWFfYnVmX21hcD5gIGNhbiBiZSBjb21wYXJlZAorICogZm9yIGVxdWFs
-aXR5IHdpdGggZG1hX2J1Zl9tYXBfaXNfZXF1YWwoKS4gTWFwcGluZ3MgdGhlIHBvaW50IHRvIGRp
-ZmZlcmVudAorICogbWVtb3J5IHNwYWNlcywgc3lzdGVtIG9yIEkvTywgYXJlIG5ldmVyIGVxdWFs
-LiBUaGF0J3MgZXZlbiB0cnVlIGlmIGJvdGgKKyAqIHNwYWNlcyBhcmUgbG9jYXRlZCBpbiB0aGUg
-c2FtZSBhZGRyZXNzIHNwYWNlLCBib3RoIG1hcHBpbmdzIGNvbnRhaW4gdGhlCisgKiBzYW1lIGFk
-ZHJlc3MgdmFsdWUsIG9yIGJvdGggbWFwcGluZ3MgcmVmZXIgdG8gTlVMTC4KKyAqCisgKiAuLiBj
-b2RlLWJsb2NrOjogYworICoKKyAqCXN0cnVjdCBkbWFfYnVmX21hcCBzeXNfbWFwOyAvLyByZWZl
-cnMgdG8gc3lzdGVtIG1lbW9yeQorICoJc3RydWN0IGRtYV9idWZfbWFwIGlvX21hcDsgLy8gcmVm
-ZXJzIHRvIEkvTyBtZW1vcnkKKyAqCisgKglpZiAoZG1hX2J1Zl9tYXBfaXNfZXF1YWwoJnN5c19t
-YXAsICZpb19tYXApKQorICoJCS8vIGFsd2F5cyBmYWxzZQorICoKKyAqIEluc3RhbmNlcyBvZiBz
-dHJ1Y3QgZG1hX2J1Zl9tYXAgZG8gbm90IGhhdmUgdG8gYmUgY2xlYW5lZCB1cCwgYnV0CisgKiBj
-YW4gYmUgY2xlYXJlZCB0byBOVUxMIHdpdGggZG1hX2J1Zl9tYXBfY2xlYXIoKS4gQ2xlYXJlZCBt
-YXBwaW5ncworICogYWx3YXlzIHJlZmVyIHRvIHN5c3RlbSBtZW1vcnkuCisgKgorICogVGhlIHR5
-cGUgOmM6dHlwZTpgc3RydWN0IGRtYV9idWZfbWFwIDxkbWFfYnVmX21hcD5gIGFuZCBpdHMgaGVs
-cGVycyBhcmUKKyAqIGFjdHVhbGx5IGluZGVwZW5kZW50IGZyb20gdGhlIGRtYS1idWYgaW5mcmFz
-dHJ1Y3R1cmUuIFdoZW4gc2hhcmluZyBidWZmZXJzCisgKiBhbW9uZyBkZXZpY2VzLCBkcml2ZXJz
-IGhhdmUgdG8ga25vdyB0aGUgbG9jYXRpb24gb2YgdGhlIG1lbW9yeSB0byBhY2Nlc3MKKyAqIHRo
-ZSBidWZmZXJzIGluIGEgc2FmZSB3YXkuIDpjOnR5cGU6YHN0cnVjdCBkbWFfYnVmX21hcCA8ZG1h
-X2J1Zl9tYXA+YAorICogc29sdmVzIHRoaXMgcHJvYmxlbSBmb3IgZG1hLWJ1ZiBhbmQgaXRzIHVz
-ZXJzLiBJZiBvdGhlciBkcml2ZXJzIG9yCisgKiBzdWItc3lzdGVtcyByZXF1aXJlIHNpbWlsYXIg
-ZnVuY3Rpb25hbGl0eSwgdGhlIHR5cGUgY291bGQgYmUgZ2VuZXJhbGl6ZWQKKyAqIGFuZCBtb3Zl
-ZCB0byBhIG1vcmUgcHJvbWluZW50IGhlYWRlciBmaWxlLgorICovCisKIC8qKgogICogc3RydWN0
-IGRtYV9idWZfbWFwIC0gUG9pbnRlciB0byB2bWFwJ2VkIGRtYS1idWYgbWVtb3J5LgogICogQHZh
-ZGRyX2lvbWVtOglUaGUgYnVmZmVyJ3MgYWRkcmVzcyBpZiBpbiBJL08gbWVtb3J5Ci0tIAoyLjI4
-LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Sep 25, 2020 at 10:36:44AM +0300, Tomi Valkeinen wrote:
+> On 24/09/2020 14:48, Laurent Pinchart wrote:
+> > Hi Tomi,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Wed, Sep 23, 2020 at 11:30:57AM +0300, Tomi Valkeinen wrote:
+> >> On x64 we get:
+> >>
+> >> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:751:10: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '18446744073709551613' to '4294967293' [-Woverflow]
+> >>
+> >> The registers are 32 bit, so fix by casting to u32.
+> > 
+> > I wonder if we need a BIT32 macro... This is a common issue, it would be
+> > nice to handle it in the macros that define register fields.
+> 
+> That's probably a good idea. I think
+> 
+> #define BIT32(nr) (1u << (nr))
+> 
+> should work correct on all archs. Although I'm not quite sure if nr should be cast to u32, but in my
+> tests a u64 nr doesn't cause type promotion to u64.
+
+I don't think we need to support nr values larger than 2^32-1 ;-)
+
+> Anyway, I'd like to merge this fix as it is to get rid of the warning for the merge window.
+
+Sounds good to me.
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
