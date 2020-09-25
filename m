@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8496E278904
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 15:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7B5278914
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 15:11:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E46F6E372;
-	Fri, 25 Sep 2020 13:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69FF96EC5D;
+	Fri, 25 Sep 2020 13:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E10D6E372;
- Fri, 25 Sep 2020 13:06:04 +0000 (UTC)
-IronPort-SDR: 3+YTvPDrdj9y/wvAWz+9hKzyGBc7Wb3rfvfm41wE9qRAAtGL7yoI6KPP08uUI38yz/oJCsywR7
- YC4YL/A2tfrQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="223112495"
-X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; d="scan'208";a="223112495"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AA7C6EB2E;
+ Fri, 25 Sep 2020 13:11:42 +0000 (UTC)
+IronPort-SDR: rAu/0Jz1/y86PQdl419TefK6I6/letQAa9AgvdKgvpVBqU+6B7maqrQiHM9yWAglKRY0/n7gQk
+ QKOH1JL5kXNg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="140934121"
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; d="scan'208";a="140934121"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2020 06:05:41 -0700
-IronPort-SDR: 5Dwboiqhy5yHPzqfhh5/S6fzq83iIqIUdZO8emD2bnlcA/WE0SaYoeYBpYxDMx5CtVPALBxtts
- ZUeFrbRupJww==
-X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; d="scan'208";a="455824158"
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2020 06:11:41 -0700
+IronPort-SDR: Cx9GTgN932+B5kZwf5dsa5xKxL7N/hfSSwW0z4VmSrslkwicASqHt4X6SFa68TyEONbCGp1Y40
+ IRYR97di+wig==
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; d="scan'208";a="455828530"
 Received: from mlevy2-mobl.ger.corp.intel.com (HELO [10.251.176.131])
  ([10.251.176.131])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2020 06:05:34 -0700
-Subject: Re: [PATCH 06/11] drm/i915: use vmap in shmem_pin_map
+ 25 Sep 2020 06:11:35 -0700
+Subject: Re: [PATCH 08/11] drm/i915: use vmap in i915_gem_object_map
 To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>
 References: <20200924135853.875294-1-hch@lst.de>
- <20200924135853.875294-7-hch@lst.de>
+ <20200924135853.875294-9-hch@lst.de>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <9459e195-a412-3357-c53d-4349e600896d@linux.intel.com>
-Date: Fri, 25 Sep 2020 14:05:32 +0100
+Message-ID: <63e331f4-2283-b579-f9b1-795a73f80bb8@linux.intel.com>
+Date: Fri, 25 Sep 2020 14:11:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200924135853.875294-7-hch@lst.de>
+In-Reply-To: <20200924135853.875294-9-hch@lst.de>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,122 +69,200 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 24/09/2020 14:58, Christoph Hellwig wrote:
-> shmem_pin_map somewhat awkwardly reimplements vmap using
-> alloc_vm_area and manual pte setup.  The only practical difference
-> is that alloc_vm_area prefeaults the vmalloc area PTEs, which doesn't
-> seem to be required here (and could be added to vmap using a flag if
-> actually required).  Switch to use vmap, and use vfree to free both the
-> vmalloc mapping and the page array, as well as dropping the references
-> to each page.
+> i915_gem_object_map implements fairly low-level vmap functionality in
+> a driver.  Split it into two helpers, one for remapping kernel memory
+> which can use vmap, and one for I/O memory that uses vmap_pfn.
+> 
+> The only practical difference is that alloc_vm_area prefeaults the
+> vmalloc area PTEs, which doesn't seem to be required here for the
+> kernel memory case (and could be added to vmap using a flag if actually
+> required).
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   drivers/gpu/drm/i915/gt/shmem_utils.c | 76 +++++++--------------------
->   1 file changed, 18 insertions(+), 58 deletions(-)
+>   drivers/gpu/drm/i915/Kconfig              |   1 +
+>   drivers/gpu/drm/i915/gem/i915_gem_pages.c | 126 ++++++++++------------
+>   2 files changed, 59 insertions(+), 68 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/shmem_utils.c b/drivers/gpu/drm/i915/gt/shmem_utils.c
-> index 43c7acbdc79dea..f011ea42487e11 100644
-> --- a/drivers/gpu/drm/i915/gt/shmem_utils.c
-> +++ b/drivers/gpu/drm/i915/gt/shmem_utils.c
-> @@ -49,80 +49,40 @@ struct file *shmem_create_from_object(struct drm_i915_gem_object *obj)
->   	return file;
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index 9afa5c4a6bf006..1e1cb245fca778 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -25,6 +25,7 @@ config DRM_I915
+>   	select CRC32
+>   	select SND_HDA_I915 if SND_HDA_CORE
+>   	select CEC_CORE if CEC_NOTIFIER
+> +	select VMAP_PFN
+>   	help
+>   	  Choose this option if you have a system that has "Intel Graphics
+>   	  Media Accelerator" or "HD Graphics" integrated graphics,
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> index 6550c0bc824ea2..b519417667eb4b 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> @@ -232,34 +232,21 @@ int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj)
+>   	return err;
 >   }
 >   
-> -static size_t shmem_npte(struct file *file)
+> -static inline pte_t iomap_pte(resource_size_t base,
+> -			      dma_addr_t offset,
+> -			      pgprot_t prot)
 > -{
-> -	return file->f_mapping->host->i_size >> PAGE_SHIFT;
+> -	return pte_mkspecial(pfn_pte((base + offset) >> PAGE_SHIFT, prot));
 > -}
 > -
-> -static void __shmem_unpin_map(struct file *file, void *ptr, size_t n_pte)
-> -{
-> -	unsigned long pfn;
-> -
-> -	vunmap(ptr);
-> -
-> -	for (pfn = 0; pfn < n_pte; pfn++) {
-> -		struct page *page;
-> -
-> -		page = shmem_read_mapping_page_gfp(file->f_mapping, pfn,
-> -						   GFP_KERNEL);
-> -		if (!WARN_ON(IS_ERR(page))) {
-> -			put_page(page);
-> -			put_page(page);
-> -		}
-> -	}
-> -}
-> -
->   void *shmem_pin_map(struct file *file)
+>   /* The 'mapping' part of i915_gem_object_pin_map() below */
+> -static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
+> -				 enum i915_map_type type)
+> +static void *i915_gem_object_map_page(struct drm_i915_gem_object *obj,
+> +		enum i915_map_type type)
 >   {
-> -	const size_t n_pte = shmem_npte(file);
-> -	pte_t *stack[32], **ptes, **mem;
+> -	unsigned long n_pte = obj->base.size >> PAGE_SHIFT;
+> -	struct sg_table *sgt = obj->mm.pages;
+> -	pte_t *stack[32], **mem;
 > -	struct vm_struct *area;
-> -	unsigned long pfn;
+> +	unsigned long n_pages = obj->base.size >> PAGE_SHIFT, i;
+> +	struct page *stack[32], **pages = stack, *page;
+> +	struct sgt_iter iter;
+>   	pgprot_t pgprot;
+> +	void *vaddr;
+>   
+> -	if (!i915_gem_object_has_struct_page(obj) && type != I915_MAP_WC)
+> -		return NULL;
+> -
+> -	if (GEM_WARN_ON(type == I915_MAP_WC &&
+> -			!static_cpu_has(X86_FEATURE_PAT)))
+> -		return NULL;
+> -
+> -	/* A single page can always be kmapped */
+> -	if (n_pte == 1 && type == I915_MAP_WB) {
+> -		struct page *page = sg_page(sgt->sgl);
+> -
+> +	switch (type) {
+> +	default:
+> +		MISSING_CASE(type);
+> +		fallthrough;	/* to use PAGE_KERNEL anyway */
+> +	case I915_MAP_WB:
+>   		/*
+>   		 * On 32b, highmem using a finite set of indirect PTE (i.e.
+>   		 * vmap) to provide virtual mappings of the high pages.
+> @@ -277,30 +264,8 @@ static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
+>   		 * So if the page is beyond the 32b boundary, make an explicit
+>   		 * vmap.
+>   		 */
+> -		if (!PageHighMem(page))
+> -			return page_address(page);
+> -	}
 > -
 > -	mem = stack;
 > -	if (n_pte > ARRAY_SIZE(stack)) {
+> -		/* Too big for stack -- allocate temporary array instead */
 > -		mem = kvmalloc_array(n_pte, sizeof(*mem), GFP_KERNEL);
 > -		if (!mem)
 > -			return NULL;
 > -	}
-> +	struct page **pages;
-> +	size_t n_pages, i;
-> +	void *vaddr;
->   
-> -	area = alloc_vm_area(n_pte << PAGE_SHIFT, mem);
+> -
+> -	area = alloc_vm_area(obj->base.size, mem);
 > -	if (!area) {
 > -		if (mem != stack)
 > -			kvfree(mem);
-> +	n_pages = file->f_mapping->host->i_size >> PAGE_SHIFT;
-> +	pages = kvmalloc_array(n_pages, sizeof(*pages), GFP_KERNEL);
-> +	if (!pages)
->   		return NULL;
+> -		return NULL;
 > -	}
+> -
+> -	switch (type) {
+> -	default:
+> -		MISSING_CASE(type);
+> -		fallthrough;	/* to use PAGE_KERNEL anyway */
+> -	case I915_MAP_WB:
+> +		if (n_pages == 1 && !PageHighMem(sg_page(obj->mm.pages->sgl)))
+> +			return page_address(sg_page(obj->mm.pages->sgl));
+>   		pgprot = PAGE_KERNEL;
+>   		break;
+>   	case I915_MAP_WC:
+> @@ -308,30 +273,49 @@ static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
+>   		break;
+>   	}
 >   
-> -	ptes = mem;
-> -	for (pfn = 0; pfn < n_pte; pfn++) {
+> -	if (i915_gem_object_has_struct_page(obj)) {
+> -		struct sgt_iter iter;
 > -		struct page *page;
-> -
-> -		page = shmem_read_mapping_page_gfp(file->f_mapping, pfn,
-> -						   GFP_KERNEL);
-> -		if (IS_ERR(page))
-> +	for (i = 0; i < n_pages; i++) {
-> +		pages[i] = shmem_read_mapping_page_gfp(file->f_mapping, i,
-> +						       GFP_KERNEL);
-> +		if (IS_ERR(pages[i]))
->   			goto err_page;
-> -
-> -		**ptes++ = mk_pte(page,  PAGE_KERNEL);
+> -		pte_t **ptes = mem;
+> +	if (n_pages > ARRAY_SIZE(stack)) {
+> +		/* Too big for stack -- allocate temporary array instead */
+> +		pages = kvmalloc_array(n_pages, sizeof(*pages), GFP_KERNEL);
+> +		if (!pages)
+> +			return NULL;
+> +	}
+>   
+> -		for_each_sgt_page(page, iter, sgt)
+> -			**ptes++ = mk_pte(page, pgprot);
+> -	} else {
+> -		resource_size_t iomap;
+> -		struct sgt_iter iter;
+> -		pte_t **ptes = mem;
+> -		dma_addr_t addr;
+> +	i = 0;
+> +	for_each_sgt_page(page, iter, obj->mm.pages)
+> +		pages[i++] = page;
+> +	vaddr = vmap(pages, n_pages, 0, pgprot);
+> +	if (pages != stack)
+> +		kvfree(pages);
+> +	return vaddr;
+> +}
+>   
+> -		iomap = obj->mm.region->iomap.base;
+> -		iomap -= obj->mm.region->region.start;
+> +static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
+> +		enum i915_map_type type)
+> +{
+> +	resource_size_t iomap = obj->mm.region->iomap.base -
+> +		obj->mm.region->region.start;
+> +	unsigned long n_pfn = obj->base.size >> PAGE_SHIFT;
+> +	unsigned long stack[32], *pfns = stack, i;
+> +	struct sgt_iter iter;
+> +	dma_addr_t addr;
+> +	void *vaddr;
+> +
+> +	if (type != I915_MAP_WC)
+> +		return NULL;
+>   
+> -		for_each_sgt_daddr(addr, iter, sgt)
+> -			**ptes++ = iomap_pte(iomap, addr, pgprot);
+> +	if (n_pfn > ARRAY_SIZE(stack)) {
+> +		/* Too big for stack -- allocate temporary array instead */
+> +		pfns = kvmalloc_array(n_pfn, sizeof(*pfns), GFP_KERNEL);
+> +		if (!pfns)
+> +			return NULL;
 >   	}
 >   
 > -	if (mem != stack)
 > -		kvfree(mem);
 > -
-> +	vaddr = vmap(pages, n_pages, VM_MAP_PUT_PAGES, PAGE_KERNEL);
-> +	if (!vaddr)
-> +		goto err_page;
->   	mapping_set_unevictable(file->f_mapping);
 > -	return area->addr;
-> -
+> +	for_each_sgt_daddr(addr, iter, obj->mm.pages)
+> +		pfns[i++] = (iomap + addr) >> PAGE_SHIFT;
+> +	vaddr = vmap_pfn(pfns, n_pfn, pgprot_writecombine(PAGE_KERNEL_IO));
+> +	if (pfns != stack)
+> +		kvfree(pfns);
 > +	return vaddr;
->   err_page:
-> -	if (mem != stack)
-> -		kvfree(mem);
-> -
-> -	__shmem_unpin_map(file, area->addr, pfn);
-> +	while (--i >= 0)
-> +		put_page(pages[i]);
-> +	kvfree(pages);
->   	return NULL;
 >   }
 >   
->   void shmem_unpin_map(struct file *file, void *ptr)
->   {
->   	mapping_clear_unevictable(file->f_mapping);
-> -	__shmem_unpin_map(file, ptr, shmem_npte(file));
-> +	vfree(ptr);
->   }
+>   /* get, pin, and map the pages of the object into kernel space */
+> @@ -383,7 +367,13 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
+>   	}
 >   
->   static int __shmem_rw(struct file *file, loff_t off,
+>   	if (!ptr) {
+> -		ptr = i915_gem_object_map(obj, type);
+> +		if (GEM_WARN_ON(type == I915_MAP_WC &&
+> +				!static_cpu_has(X86_FEATURE_PAT)))
+> +			ptr = NULL;
+> +		else if (i915_gem_object_has_struct_page(obj))
+> +			ptr = i915_gem_object_map_page(obj, type);
+> +		else
+> +			ptr = i915_gem_object_map_pfn(obj, type);
+>   		if (!ptr) {
+>   			err = -ENOMEM;
+>   			goto err_unpin;
 > 
 
 Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
