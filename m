@@ -1,61 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1182C278AAF
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 16:16:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32798278ADA
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 16:29:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED386ECE6;
-	Fri, 25 Sep 2020 14:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63CC16ECF0;
+	Fri, 25 Sep 2020 14:29:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA886ECE6
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 14:16:29 +0000 (UTC)
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08PECell020376; Fri, 25 Sep 2020 16:16:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : subject :
- date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=FhgKpihRju6KwvA2I7sLOgchQYgMunlC1jVEupShDnU=;
- b=fxYWpL8GHnEWyOQ90cu/3CJgMpZ2N+MjcgrUFu4oVOTxdioh9aZR7PdfIls1ZG2kvOcm
- ZgdKrIKCZKE1MuHKddByQe42PHlRcd7N2T15u63svEgGFvjtVnhSDhyuSv0/Af62Dq7L
- zWsdwGZFoxm8iCVmjfj4V+JDq/uh3OaGZUIZpE0ywWSukzGAzCha3xVF6qF4Txs3m75Y
- MrZj03AXQwqcy9pKYrmdYnjjq/Ufu9eEuCHpHJUZlp3y2sCuEi5PSUvcsx/i4gek9bma
- 7ojIqzMDQIXI5B+KUeNjbxOher11q+59867cjK7j3Gh9iahKT7kv3L6QXReQfg35H9Da /A== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 33n7rwaq4m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Sep 2020 16:16:26 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7C62210002A;
- Fri, 25 Sep 2020 16:16:25 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag6node1.st.com [10.75.127.16])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5B6632BA2C0;
- Fri, 25 Sep 2020 16:16:25 +0200 (CEST)
-Received: from localhost (10.75.127.48) by SFHDAG6NODE1.st.com (10.75.127.16)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3;
- Fri, 25 Sep 2020 16:16:24 +0200
-From: Yannick Fertre <yannick.fertre@st.com>
-To: Yannick Fertre <yannick.fertre@st.com>, Philippe Cornu
- <philippe.cornu@st.com>, Antonio Borneo <antonio.borneo@st.com>, Thierry
- Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, David
- Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/panel: rm68200: fix mode to 50fps
-Date: Fri, 25 Sep 2020 16:16:18 +0200
-Message-ID: <20200925141618.12097-1-yannick.fertre@st.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34B2A6ECEA;
+ Fri, 25 Sep 2020 14:29:35 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E1393AEA2;
+ Fri, 25 Sep 2020 14:29:33 +0000 (UTC)
+To: dri-devel <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: CONFIG_AMDGPU triggers full rebuild
+Message-ID: <e7f5e4ae-7a6a-0a3c-666c-05180a8fe726@suse.de>
+Date: Fri, 25 Sep 2020 16:29:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG5NODE2.st.com (10.75.127.14) To SFHDAG6NODE1.st.com
- (10.75.127.16)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-25_12:2020-09-24,
- 2020-09-25 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,49 +37,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0713821189=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compute new timings to get a framerate of 50fps with a pixel clock
-@54Mhz.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0713821189==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="FCYlPvSobQc4FLFylqGr9WvYc5BskF5lw"
 
-Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
----
- drivers/gpu/drm/panel/panel-raydium-rm68200.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--FCYlPvSobQc4FLFylqGr9WvYc5BskF5lw
+Content-Type: multipart/mixed; boundary="EJ9fEwxZLb7Y7f0SXXJRND0msh2nlhCLL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Message-ID: <e7f5e4ae-7a6a-0a3c-666c-05180a8fe726@suse.de>
+Subject: CONFIG_AMDGPU triggers full rebuild
 
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm68200.c b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-index 2b9e48b0a491..412c0dbcb2b6 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-@@ -82,15 +82,15 @@ struct rm68200 {
- };
- 
- static const struct drm_display_mode default_mode = {
--	.clock = 52582,
-+	.clock = 54000,
- 	.hdisplay = 720,
--	.hsync_start = 720 + 38,
--	.hsync_end = 720 + 38 + 8,
--	.htotal = 720 + 38 + 8 + 38,
-+	.hsync_start = 720 + 48,
-+	.hsync_end = 720 + 48 + 9,
-+	.htotal = 720 + 48 + 9 + 48,
- 	.vdisplay = 1280,
- 	.vsync_start = 1280 + 12,
--	.vsync_end = 1280 + 12 + 4,
--	.vtotal = 1280 + 12 + 4 + 12,
-+	.vsync_end = 1280 + 12 + 5,
-+	.vtotal = 1280 + 12 + 5 + 12,
- 	.flags = 0,
- 	.width_mm = 68,
- 	.height_mm = 122,
--- 
-2.17.1
+--EJ9fEwxZLb7Y7f0SXXJRND0msh2nlhCLL
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+whenever I change the option CONFIG_AMDGPU, I have to rebuild the whole
+kernel. I guess it auto-selects some architecture-specific feature. That
+full rebuild might be avoidable if I could enable that feature permanentl=
+y.
+
+Any ideas what this could be and how to avoid the full rebuilt?
+
+Best regards
+Thomas
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--EJ9fEwxZLb7Y7f0SXXJRND0msh2nlhCLL--
+
+--FCYlPvSobQc4FLFylqGr9WvYc5BskF5lw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9t/soUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNF3Af/SDh245RuXSjq3ti1xXlpSCxnsIrD
+zcltr53jmV+1KIBPOYNyvI4/jHeL2b36gMlkx6WPHy3/wfTLCTlasnKHQrVWmLxY
+/GM7F/ezbN5uZIKvhL0XS52Rt9TA4sc4WS0NCNubH3bGcalQUqbl7ZOHHRJweXZF
+bwkii8gcz3JjGrS2E1Nt8wBjZYLVbB/SWUgwFmgJKvDOKrN7ZpCGt6r0P4Qzyxkf
+gSaInqAvUAtImoBHByZKr7lIT11/zPZHW/CPUuLF+H9PgybknXM2qJ7MFdJM4OeA
+gzkYOj6r8FSx9X4MdUK9RRDsaHPXQUd+l2FWpwJdh0KAK2HTqhIj1rf4xA==
+=sPgD
+-----END PGP SIGNATURE-----
+
+--FCYlPvSobQc4FLFylqGr9WvYc5BskF5lw--
+
+--===============0713821189==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0713821189==--
