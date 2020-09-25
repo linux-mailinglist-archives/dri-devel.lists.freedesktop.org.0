@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42982782B1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 10:24:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3F32782BE
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 10:28:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9648A6E3F4;
-	Fri, 25 Sep 2020 08:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56DD76EC52;
+	Fri, 25 Sep 2020 08:27:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF20A6E3F4;
- Fri, 25 Sep 2020 08:24:51 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id b22so1817874lfs.13;
- Fri, 25 Sep 2020 01:24:51 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 828066EC4F;
+ Fri, 25 Sep 2020 08:27:56 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id y11so1869007lfl.5;
+ Fri, 25 Sep 2020 01:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=kWLGofJtx8gJw5I7qvgPtCcsq/nSR9Q6u7xcp+xmI7A=;
- b=eBVViVJv+yzYj4CBMRvivzGlZaF9elIKqgcByJI7m8mUEIrJSYpjiBZpW7/dxVpgi6
- +fZqI0sJm0X1cDolFOjvTHHjRBgZL85vp43qENqbdcV+/2EBVEROt1jOPCiJHzLvIArE
- r59uYP2K0Rhy1apL96gq0v2UZ+AppWJwMnoldx7RqvFiy4CfezwZJCZ1sW+6dsTtjJlc
- w4K2uMolTOoCabABFvTAB/rfMC9cFtBguX/K6XhmioWKXeFFYXWCfPgRr/sEG8KLyVhD
- M/W0cP9fV2gDq9qlx1ZuoWs0rqP+nFSi4ZATIEEHnwTIjEwmYa0Rv2emTizzK56TIhSg
- 62Pg==
+ :mime-version; bh=z+zAXX/avZwGf8U2LJb+JjlSIUZT4FcxQjuWAkVJlC0=;
+ b=DOYr8ogRiTvzUkZ0PRUjmpfRucK8YLfhdQf2/vZXw94t6MFY0SsctO5defPSf0dqIc
+ +7CEwf8vjDWCr0gRaCHZ7qVHUGSNvlbc41vBH8BNMO5XtlA6ThoaOJrEG0Zbcpr++3Iz
+ r1wGOT5tLoMwyu5rserhuGNh7oqHPJQF0Rc8KXBoE8UV1s3UppI69zJYjFtXekaPA0Qm
+ MMWmivvlDlMCkBq+bbMmKZmLIKjg3WglLCZ18BIj6xsfda4iQM2hS9UXTLN3YYVGpLcS
+ GLIu6diOJuE5M4fWYmJSYUYKB7rY5ZucQYgg7EvKK5O7q51gbLeg0f9++gwzEtUpc7Ku
+ FO2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=kWLGofJtx8gJw5I7qvgPtCcsq/nSR9Q6u7xcp+xmI7A=;
- b=IU2him65hGuORkQpcrSqsQ8Y/Uu1WZdUsoAVDfyFo3xPqxXgP4E32nbz4M+DdVB3pw
- 5Qmr+GybkXrL0OVNvg3eee1Sz60yhb9fatogAjmJ0SLH0UL49+nKEYJWhNX2Fs+A+lvp
- 0fO6Fg3CYS62YOQ6CrtzJrCpdj7hp8JtwiLOTxMz61Fcpehr5fOSLaEfknptMrMkT2uR
- su6lUqstgw32QNpdR4PSEJRscmCeTx9S3WKdXOy2sBHaF5HhEk9nDwnaBaXThourlHIb
- WRZBOGbfdguTEl88Fzr1gUIpQhE1ihxh6sL0vo6Ma48fbLEL4uk9uiPpClZotoiqMYQc
- 9pPQ==
-X-Gm-Message-State: AOAM531LJoz1PI5PinjOmsQ1g0hhinwkGT9uMPXRNu7QtyHs2zKXGpDI
- Qmejx/lqx8Ih80K3sY2X0bs=
-X-Google-Smtp-Source: ABdhPJxZfSdwl3MrD5R4vjvzYsYghlo3qQD8d3GrcACREW26KrUhLHU6ObeuCO7TugeA759eChERpQ==
-X-Received: by 2002:a19:bed2:: with SMTP id o201mr967722lff.134.1601022290328; 
- Fri, 25 Sep 2020 01:24:50 -0700 (PDT)
+ bh=z+zAXX/avZwGf8U2LJb+JjlSIUZT4FcxQjuWAkVJlC0=;
+ b=Qvn/6wPuWrnEX7Hxw39+PUgIzGbE9uDwiGx7zHMQS25kc6S8YIpjjcRBQsVXqCUfHC
+ gRTcPEXX57L8D5x4z9uwurqnABw7DjOOtmTw82RUN8W9PrcTjK2wcXweYwXRgCwjALCg
+ RoCUqBz80YH68Lvflcoon2MTdRHHz+EEgqracjXUldZuVzspGl4NhhCyjpzjg0H80/1f
+ iIkcH28j0g0NftXBMg44ej5lcQmXbZDyk1R/nTUfSoeqipD6tyw+3dgWrvO5ONiG6Ix8
+ HEq5qgK2dSGtVEGadGnYrxGJHlnubM0tVBQ4k1oe/DARgLvbAjczjmarVpMXnd/ckXx4
+ YjsQ==
+X-Gm-Message-State: AOAM531v+L51zqqXhMhv6zlRL0bax9mXqWp2+BHHZpKF5kbRuCOdeLBv
+ 3vu0sIX9OAppaoY1SaK8IXM=
+X-Google-Smtp-Source: ABdhPJxJ016NxEJhFqn97YUKqLmOwGEuGzBOELxPI7yMM03IKIXb1h2QS8u6g2vS24ZIe8g1FB+MrA==
+X-Received: by 2002:a19:3847:: with SMTP id d7mr907067lfj.507.1601022474883;
+ Fri, 25 Sep 2020 01:27:54 -0700 (PDT)
 Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id 13sm1671554lfn.239.2020.09.25.01.24.49
+ by smtp.gmail.com with ESMTPSA id 195sm1702941lfh.250.2020.09.25.01.27.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 01:24:50 -0700 (PDT)
-Date: Fri, 25 Sep 2020 11:24:46 +0300
+ Fri, 25 Sep 2020 01:27:54 -0700 (PDT)
+Date: Fri, 25 Sep 2020 11:27:50 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/atomic: document and enforce rules around
- "spurious" EBUSY
-Message-ID: <20200925112446.1b3cb2c8@eldfell>
-In-Reply-To: <20200923151852.2952812-1-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/2] drm/atomic: debug output for EBUSY
+Message-ID: <20200925112750.130f25a6@eldfell>
+In-Reply-To: <20200923105737.2943649-2-daniel.vetter@ffwll.ch>
 References: <20200923105737.2943649-1-daniel.vetter@ffwll.ch>
- <20200923151852.2952812-1-daniel.vetter@ffwll.ch>
+ <20200923105737.2943649-2-daniel.vetter@ffwll.ch>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,175 +68,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>,
  DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0432015221=="
+Content-Type: multipart/mixed; boundary="===============0197919482=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0432015221==
+--===============0197919482==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/NxmQzQUN.y=c0IZLob8JFR+"; protocol="application/pgp-signature"
+ boundary="Sig_/r_8Ij2soxv+jfO+J_P2.Z6a"; protocol="application/pgp-signature"
 
---Sig_/NxmQzQUN.y=c0IZLob8JFR+
+--Sig_/r_8Ij2soxv+jfO+J_P2.Z6a
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 23 Sep 2020 17:18:52 +0200
+On Wed, 23 Sep 2020 12:57:37 +0200
 Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 
-> When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
-> pull in arbitrary other resources, including CRTCs (e.g. when
-> reconfiguring global resources).
+> Hopefully we'll have the drm crash recorder RSN, but meanwhile
+> compositors would like to know a bit better why they get an EBUSY.
 >=20
-> But in nonblocking mode userspace has then no idea this happened,
-> which can lead to spurious EBUSY calls, both:
-> - when that other CRTC is currently busy doing a page_flip the
->   ALLOW_MODESET commit can fail with an EBUSY
-> - on the other CRTC a normal atomic flip can fail with EBUSY because
->   of the additional commit inserted by the kernel without userspace's
->   knowledge
->=20
-> For blocking commits this isn't a problem, because everyone else will
-> just block until all the CRTC are reconfigured. Only thing userspace
-> can notice is the dropped frames without any reason for why frames got
-> dropped.
->=20
-> Consensus is that we need new uapi to handle this properly, but no one
-> has any idea what exactly the new uapi should look like. Since this
-> has been shipping for years already compositors need to deal no matter
-> what, so as a first step just try to enforce this across drivers
-> better with some checks.
->=20
-> v2: Add comments and a WARN_ON to enforce this only when allowed - we
-> don't want to silently convert page flips into blocking plane updates
-> just because the driver is buggy.
->=20
-> v3: Fix inverted WARN_ON (Pekka).
->=20
-> v4: Drop the uapi changes, only add a WARN_ON for now to enforce some
-> rules for drivers.
->=20
-> v5: Make the WARNING more informative (Daniel)
->=20
-> v6: Add unconditional debug output for compositor hackers to figure
-> out what's going on when they get an EBUSY (Daniel)
 
-... gmail workaround ...
+These debug messages will be especially useful with the flight
+recorder, but also without. :-)
+
+...
 
 > ---
->  drivers/gpu/drm/drm_atomic.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
+>  drivers/gpu/drm/drm_atomic.c        |  4 ++--
+>  drivers/gpu/drm/drm_atomic_helper.c | 20 +++++++++++++++++---
+>  2 files changed, 19 insertions(+), 5 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 58527f151984..f1a912e80846 100644
+> index e22669b64521..6864e520269d 100644
 > --- a/drivers/gpu/drm/drm_atomic.c
 > +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -281,6 +281,10 @@ EXPORT_SYMBOL(__drm_atomic_state_free);
->   * needed. It will also grab the relevant CRTC lock to make sure that th=
-e state
->   * is consistent.
->   *
-> + * WARNING: Drivers may only add new CRTC states to a @state if
-> + * drm_atomic_state.allow_modeset is set, or if it's a driver-internal c=
-ommit
-> + * not created by userspace through an IOCTL call.
-> + *
->   * Returns:
->   *
->   * Either the allocated state or the error code encoded into the pointer=
-. When
-> @@ -1262,10 +1266,15 @@ int drm_atomic_check_only(struct drm_atomic_state=
- *state)
->  	struct drm_crtc_state *new_crtc_state;
->  	struct drm_connector *conn;
->  	struct drm_connector_state *conn_state;
-> +	unsigned requested_crtc =3D 0;
-> +	unsigned affected_crtc =3D 0;
->  	int i, ret =3D 0;
+> @@ -1272,7 +1272,7 @@ int drm_atomic_check_only(struct drm_atomic_state *=
+state)
 > =20
 >  	DRM_DEBUG_ATOMIC("checking %p\n", state);
 > =20
-> +	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
-> +		requested_crtc |=3D drm_crtc_mask(crtc);
-
-Is "old crtc state" the state that userspace is requesting as the new
-state?
-
-> +
+> -	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+>  		requested_crtc |=3D drm_crtc_mask(crtc);
+> =20
 >  	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane=
 _state, i) {
->  		ret =3D drm_atomic_plane_check(old_plane_state, new_plane_state);
->  		if (ret) {
-> @@ -1313,6 +1322,26 @@ int drm_atomic_check_only(struct drm_atomic_state =
-*state)
+> @@ -1322,7 +1322,7 @@ int drm_atomic_check_only(struct drm_atomic_state *=
+state)
 >  		}
 >  	}
 > =20
-> +	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
-> +		affected_crtc |=3D drm_crtc_mask(crtc);
+> -	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+>  		affected_crtc |=3D drm_crtc_mask(crtc);
 
-And after driver check processing, the "old crtc state" has been
-modified by the driver to add anything it will necessarily need like
-other CRTCs?
+Oops, these belong in the previous patch?
 
-What is "new state" then?
-
-> +
-> +	/*
-> +	 * For commits that allow modesets drivers can add other CRTCs to the
-> +	 * atomic commit, e.g. when they need to reallocate global resources.
-> +	 * This can cause spurious EBUSY, which robs compositors of a very
-> +	 * effective sanity check for their drawing loop. Therefor only allow
-> +	 * drivers to add unrelated CRTC states for modeset commits.
-> +	 *
-> +	 * FIXME: Should add affected_crtc mask to the ATOMIC IOCTL as an output
-> +	 * so compositors know what's going on.
-> +	 */
-> +	if (affected_crtc !=3D requested_crtc) {
-> +		DRM_DEBUG_ATOMIC("driver added CRTC to commit: requested 0x%x, affecte=
-d 0x%0x\n",
-> +				 requested_crtc, affected_crtc);
-> +		WARN(!state->allow_modeset, "adding CRTC not allowed without modesets:=
- requested 0x%x, affected 0x%0x\n",
-> +		     requested_crtc, affected_crtc);
+> =20
+>  	/*
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
+omic_helper.c
+> index e8abaaaa7fd1..6b3bfabac26c 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1740,8 +1740,11 @@ int drm_atomic_helper_async_check(struct drm_devic=
+e *dev,
+>  	 * overridden by a previous synchronous update's state.
+>  	 */
+>  	if (old_plane_state->commit &&
+> -	    !try_wait_for_completion(&old_plane_state->commit->hw_done))
+> +	    !try_wait_for_completion(&old_plane_state->commit->hw_done)) {
+> +		DRM_DEBUG_ATOMIC("[PLANE:%d:%s] inflight previous commit preventing as=
+ync commit\n",
+> +			plane->base.id, plane->name);
+>  		return -EBUSY;
 > +	}
+> =20
+>  	return funcs->atomic_async_check(plane, new_plane_state);
+>  }
+> @@ -1964,6 +1967,9 @@ static int stall_checks(struct drm_crtc *crtc, bool=
+ nonblock)
+>  			 * commit with nonblocking ones. */
+>  			if (!completed && nonblock) {
+>  				spin_unlock(&crtc->commit_lock);
+> +				DRM_DEBUG_ATOMIC("[CRTC:%d:%s] busy with a previous commit\n",
+> +					crtc->base.id, crtc->name);
+> +
+>  				return -EBUSY;
+>  			}
+>  		} else if (i =3D=3D 1) {
+> @@ -2132,8 +2138,12 @@ int drm_atomic_helper_setup_commit(struct drm_atom=
+ic_state *state,
+>  		/* Userspace is not allowed to get ahead of the previous
+>  		 * commit with nonblocking ones. */
+>  		if (nonblock && old_conn_state->commit &&
+> -		    !try_wait_for_completion(&old_conn_state->commit->flip_done))
+> +		    !try_wait_for_completion(&old_conn_state->commit->flip_done)) {
+> +			DRM_DEBUG_ATOMIC("[CONNECTOR:%d:%s] busy with a previous commit\n",
+> +				conn->base.id, conn->name);
+> +
+>  			return -EBUSY;
+> +		}
+> =20
+>  		/* Always track connectors explicitly for e.g. link retraining. */
+>  		commit =3D crtc_or_fake_commit(state, new_conn_state->crtc ?: old_conn=
+_state->crtc);
+> @@ -2147,8 +2157,12 @@ int drm_atomic_helper_setup_commit(struct drm_atom=
+ic_state *state,
+>  		/* Userspace is not allowed to get ahead of the previous
+>  		 * commit with nonblocking ones. */
+>  		if (nonblock && old_plane_state->commit &&
+> -		    !try_wait_for_completion(&old_plane_state->commit->flip_done))
+> +		    !try_wait_for_completion(&old_plane_state->commit->flip_done)) {
+> +			DRM_DEBUG_ATOMIC("[PLANE:%d:%s] busy with a previous commit\n",
+> +				plane->base.id, plane->name);
+> +
+>  			return -EBUSY;
+> +		}
+> =20
+>  		/* Always track planes explicitly for async pageflip support. */
+>  		commit =3D crtc_or_fake_commit(state, new_plane_state->crtc ?: old_pla=
+ne_state->crtc);
 
-This hunk looks good to me.
+The new debug messages sound good to me.
 
 
 Thanks,
 pq
 
-> +
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_atomic_check_only);
-
-
---Sig_/NxmQzQUN.y=c0IZLob8JFR+
+--Sig_/r_8Ij2soxv+jfO+J_P2.Z6a
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9tqU4ACgkQI1/ltBGq
-qqdUtg/9GUT1bnbjaI4t1/O/KODLbTdQsEnShUJ8Qb6scwve07BMwEutyzhLQhjj
-n1wIKG2fsyIy+WWz4hWm2VaRjNyXbYQLyc7yFcAPOMD8wd/cF1x/x3YaT8R5dYbW
-ohjp+ZlvQqnpaqRIEhgLrDiwtxIR7wpIYAlA6G9lXtYxvNVIB1xk2jYVe0wxzSfx
-g+z+qm2B5zpjQO0PGc9c6XwOnwIQlNXsZTRNxWLFShxx0Ulm9vMqNxUKuiW6H+/b
-TAl9/LivTNXCqCt2DGQKjXcQAevnClbFpVwQhZ3s3C5gd/Q7QGUaXeEFLCWJtQdr
-tggy/U6IxmP5j+AHMCvNnrNjtvPczKprC8tjM8wX0uSNbPInKCm+2DCwxWBChnaL
-6wOiKkKuPbFZlbMqYDtVbgCz6t42+XMtfJNyR66tMaWWX+788/JAqR2tcPe3e5Cj
-1/cB/iyVA3jS3bl+mq00VvMBQAwDtINxnykqDYSFVKa2qYX3VO76DheYD2HK0f52
-UWbLsCUN/9wrI4VoZW2idwpFz2YKKJwX/8K0qm4AOnBb2OIImof9mTfUFX9+6+ri
-BYqvbBzYBttMgpRMtx+HU161IESWhB++P8dikvdYkyWP+ly1WQLRmJJl+IHACv5i
-PSAT6Cnp1VQ22oHq1WVWX/F2fDb6tAdt69OnXiPILumFlms8uic=
-=ynGy
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9tqgYACgkQI1/ltBGq
+qqeTfQ//Z40KaNK9Xw6jnqenDYKQ1VRjR0S282/gKnOshFfqnQz+m/13DBO6zz7l
+/UcZfPmbBD5WwlIbBnH0mRxWjYxAoh97nVrV9jRaFtHxAHUgGDdXrYL7NLMDx/fw
+aJegJcM89y1bjPsDtJNGslqSHu+0AnyWek6r3RkXQnBeM19HTqBjYnk/h53/ODq1
+fRnNKXW3JG4al4tXk0hoz4rsXrgYZZwXubnbkGiMloz4qr1YznE38g++KyfxodBz
+YdlpOkcLoVOzwohJnSjVEhf2UfJeeTlaqe8tMPaSdSlX5Tn3iqNCJci8zM6Yd3rw
+fdE+vwt4wa/IijsJutzt4X3dFyqzCtkjsrVhxEyeZ79D5T6Uw8Acj9xwP+T18Y4B
+Xy4MGpVptcv+VKHaN7AGn4BD3Nv9L56esglJRiKynTB3OJ5nlOVN3OWja/BlzPno
+I3/5Ue/3T7cjuHTt6BlU7W5LMPVwhGUYfGvI+OYHzuM/nhbucwxUq+747DPPZFyr
+sEC5oWxp7uZE+iDFUz8dM+69YtY+OtPdckfpfbdS+3b2nvYyxYAkktZOk456br7D
+Rps37j3JmURadVYPa6jz+etyPv9/n++KHfjlKXWjiTowJ5pGFh0xfTA+OZ0vIg89
+aX8DDe9ynz5Dh2KmbAanppuRh5kfqlwodtHOKQZ/ReLH9hIv+ag=
+=wC4t
 -----END PGP SIGNATURE-----
 
---Sig_/NxmQzQUN.y=c0IZLob8JFR+--
+--Sig_/r_8Ij2soxv+jfO+J_P2.Z6a--
 
---===============0432015221==
+--===============0197919482==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -248,4 +231,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0432015221==--
+--===============0197919482==--
