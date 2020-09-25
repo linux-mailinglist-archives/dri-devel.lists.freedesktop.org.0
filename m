@@ -2,48 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA1C27861D
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 13:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A36227863D
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 13:47:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F1B46EC75;
-	Fri, 25 Sep 2020 11:41:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35EC46EC9A;
+	Fri, 25 Sep 2020 11:47:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 955576EC75;
- Fri, 25 Sep 2020 11:41:37 +0000 (UTC)
-IronPort-SDR: JGENP5wRN4COqy9NMYpIFUsRYG7jLsY98WIexDOMr+zLhOCebRpP7ORxAFszqizx3v1Wp3ak38
- AEqLjn8pWDnA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="140916174"
-X-IronPort-AV: E=Sophos;i="5.77,301,1596524400"; d="scan'208";a="140916174"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2020 04:41:37 -0700
-IronPort-SDR: Bh89z21wP4UPubbehDOPSbIFlU2kCItKkV3v2WG82ykGMvVdjwVsVhZN8AyzuwWxlFpZ9elKTb
- cyawhtmjpDcg==
-X-IronPort-AV: E=Sophos;i="5.77,301,1596524400"; d="scan'208";a="455798120"
-Received: from mlevy2-mobl.ger.corp.intel.com (HELO [10.251.176.131])
- ([10.251.176.131])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2020 04:41:32 -0700
-Subject: Re: [Intel-gfx] [PATCH rdma-next v3 1/2] lib/scatterlist: Add support
- in dynamic allocation of SG table from pages
-To: Leon Romanovsky <leon@kernel.org>
-References: <20200922083958.2150803-1-leon@kernel.org>
- <20200922083958.2150803-2-leon@kernel.org>
- <118a03ef-d160-e202-81cc-16c9c39359fc@linux.intel.com>
- <20200925071330.GA2280698@unreal>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <adff5752-582c-2065-89e2-924ef732911a@linux.intel.com>
-Date: Fri, 25 Sep 2020 12:41:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 683576EC9A
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 11:47:32 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id x14so3223137wrl.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 04:47:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zPb7jtZE0stRH6b28UQT8hG77F4MGezdhJ0kKzxG8tM=;
+ b=ffjRA4zuZJFBDqPWzBfAFz0uG97qqd+3pcD2R4C/nDqFwXJyWqdsQ2ujc0sF8LNPc3
+ IXibe0GXwX0qqZIg6t6JWOcb4fmZ3Ch3ydaniXFcFOrF1EED5Wu991Rp7Rz6gmOUSWHO
+ QwOpqTflXex6izlACaB8YRx0+FNtFANtJMJ/nlTkhds5+zyaHjGMiusEf2RiHBnXUC8c
+ IX8i7Ez1deOBVXdEbLJ04D1CXSjPB+Zt9PFOtXJBMAmrqlYNJ/JmGoPQEGOG9dbNUggp
+ 6qSU6fg67m3D2O3GGcclVoaTnJb4d6HdWaXpohhEzPXs12Tk7OF/k2TBy6GmoRhB0jgT
+ Oe8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zPb7jtZE0stRH6b28UQT8hG77F4MGezdhJ0kKzxG8tM=;
+ b=h8SlYDe39w0ok34Gzocl1nyCF4no0dfcgTBXm4YrLAcUCp35Nd2YjKSpZuuii8Zi53
+ A5OpuinY0qKgy4cOg7uuMtQ5Ea3S/0OIemnC6MFY67Ql0jN9ha86Hau23TMtSAbxVBJm
+ NYOHzf33NLYuW5gJ4mFXVX2Osr/fl52096/IWDaXZSqKfTGkAUbn8gBl6swUKBEvxxpb
+ pPQnt4QMyoniTj7WSq4UCx0o89rWxQBzKkALPwyVSeLntMMhzw8J+N6fe1no7NBhbPdV
+ 1/0IKDVHnuXC7c9Vd0Yl2x3TPamiPop9FnPrdM9dLZfImNKi3JWag5cR0jhW/eSfwHCE
+ GG1w==
+X-Gm-Message-State: AOAM5316X1j1nyQB+5tdNuEjQvocG6PqehiiyOtIKxr1Qfqe/mWKXF/O
+ CNLQQc0r2dHshFIVQMrgLLmJ8/EoXoiYcqtC3wcORg==
+X-Google-Smtp-Source: ABdhPJyNriywyz0aaB3asBRaJLAQSNaXLsDZkwY3zo+CggyhzyPvhy5NRjPW0Oy4XUktzChe7N+70cb11fVidMrngVk=
+X-Received: by 2002:adf:dd10:: with SMTP id a16mr2051589wrm.42.1601034450969; 
+ Fri, 25 Sep 2020 04:47:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200925071330.GA2280698@unreal>
-Content-Language: en-US
+References: <20200923084032.218619-1-maxime@cerno.tech>
+ <CAPY8ntAjiBeAoB=PZzNWW_5Vi3ZstXnD59GSkPXoeBj4XbGt0Q@mail.gmail.com>
+ <20200925113840.nemma2q7stujf57f@gilmour.lan>
+In-Reply-To: <20200925113840.nemma2q7stujf57f@gilmour.lan>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 25 Sep 2020 12:47:13 +0100
+Message-ID: <CAPY8ntBk=ZqN6NSVg0zXa4=8jjQ3ZJ6aYMX+3AF_Tzdgj4e-gw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/vc4: crtc: Rework a bit the CRTC state code
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,97 +63,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Roland Scheidegger <sroland@vmware.com>, dri-devel@lists.freedesktop.org,
- Maor Gottlieb <maorg@mellanox.com>, David Airlie <airlied@linux.ie>,
- Doug Ledford <dledford@redhat.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 25 Sep 2020 at 12:38, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi Dave,
+>
+> On Wed, Sep 23, 2020 at 03:59:04PM +0100, Dave Stevenson wrote:
+> > Hi Maxime
+> >
+> > On Wed, 23 Sep 2020 at 09:40, Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > The current CRTC state reset hook in vc4 allocates a vc4_crtc_state
+> > > structure as a drm_crtc_state, and relies on the fact that vc4_crtc_state
+> > > embeds drm_crtc_state as its first member, and therefore can be safely
+> > > casted.
+> >
+> > s/casted/cast
+> >
+> > > However, this is pretty fragile especially since there's no check for this
+> > > in place, and we're going to need to access vc4_crtc_state member at reset
+> > > so this looks like a good occasion to make it more robust.
+> > >
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >
+> > Based on the issue I perceived with the previous patch, I'm happy. I
+> > haven't thought about how the framework handles losing the state, but
+> > that's not the driver's problem.
+> >
+> > There is still an implicit assumption that drm_crtc_state is the first
+> > member from the implementation of to_vc4_crtc_state in vc4_drv.h. To
+> > make it even more robust that could be a container_of instead. I
+> > haven't checked for any other places that make the assumption though.
+>
+> Good catch, I'll send another patch to fix it
+>
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>
+> Does it apply to the second patch as well?
 
-On 25/09/2020 08:13, Leon Romanovsky wrote:
-> On Thu, Sep 24, 2020 at 09:21:20AM +0100, Tvrtko Ursulin wrote:
->>
->> On 22/09/2020 09:39, Leon Romanovsky wrote:
->>> From: Maor Gottlieb <maorg@mellanox.com>
->>>
->>> Extend __sg_alloc_table_from_pages to support dynamic allocation of
->>> SG table from pages. It should be used by drivers that can't supply
->>> all the pages at one time.
->>>
->>> This function returns the last populated SGE in the table. Users should
->>> pass it as an argument to the function from the second call and forward.
->>> As before, nents will be equal to the number of populated SGEs (chunks).
->>
->> So it's appending and growing the "list", did I get that right? Sounds handy
->> indeed. Some comments/questions below.
-> 
-> Yes, we (RDMA) use this function to chain contiguous pages.
+No. I got another interrupt before I'd refreshed my memory over what
+the second patch was doing and responding to it. I'll do that now (I
+don't think it changed much from v1)
 
-I will eveluate if i915 could start using it. We have some loops which 
-build page by page and coalesce.
-
-[snip]
-
->>>    	if (unlikely(ret))
->>> diff --git a/tools/testing/scatterlist/main.c b/tools/testing/scatterlist/main.c
->>> index 0a1464181226..4899359a31ac 100644
->>> --- a/tools/testing/scatterlist/main.c
->>> +++ b/tools/testing/scatterlist/main.c
->>> @@ -55,14 +55,13 @@ int main(void)
->>>    	for (i = 0, test = tests; test->expected_segments; test++, i++) {
->>>    		struct page *pages[MAX_PAGES];
->>>    		struct sg_table st;
->>> -		int ret;
->>> +		struct scatterlist *sg;
->>>
->>>    		set_pages(pages, test->pfn, test->num_pages);
->>>
->>> -		ret = __sg_alloc_table_from_pages(&st, pages, test->num_pages,
->>> -						  0, test->size, test->max_seg,
->>> -						  GFP_KERNEL);
->>> -		assert(ret == test->alloc_ret);
->>> +		sg = __sg_alloc_table_from_pages(&st, pages, test->num_pages, 0,
->>> +				test->size, test->max_seg, NULL, 0, GFP_KERNEL);
->>> +		assert(PTR_ERR_OR_ZERO(sg) == test->alloc_ret);
->>
->> Some test coverage for relatively complex code would be very welcomed. Since
->> the testing framework is already there, even if it bit-rotted a bit, but
->> shouldn't be hard to fix.
->>
->> A few tests to check append/grow works as expected, in terms of how the end
->> table looks like given the initial state and some different page patterns
->> added to it. And both crossing and not crossing into sg chaining scenarios.
-> 
-> This function is basic for all RDMA devices and we are pretty confident
-> that the old and new flows are tested thoroughly.
-> 
-> We will add proper test in next kernel cycle.
-
-Patch seems to be adding a requirement that all callers of 
-(__)sg_alloc_table_from_pages pass in zeroed struct sg_table, which 
-wasn't the case so far.
-
-Have you audited all the callers and/or fixed them? There seems to be 
-quite a few. Gut feel says problem would probably be better solved in 
-lib/scatterlist.c and not by making all the callers memset. Should be 
-possible if you make sure you only read st->nents if prev was passed in?
-
-I've fixed the unit test and with this change the existing tests do 
-pass. But without zeroing it does fail on the very first, single page, 
-test scenario.
-
-You can pull the unit test hacks from 
-git://people.freedesktop.org/~tursulin/drm-intel sgtest.
-
-Regards,
-
-Tvrtko
+  Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
