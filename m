@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88BD277DB7
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 03:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689E92780DA
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 08:46:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24D136E11E;
-	Fri, 25 Sep 2020 01:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C87766E17F;
+	Fri, 25 Sep 2020 06:46:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA2E6E11E
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 01:45:17 +0000 (UTC)
-Received: by mail-ej1-x641.google.com with SMTP id r7so1377734ejs.11
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 18:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=OIz6/ORhAIJp1gRpHaBfwrrhOvDcKKYo5RAAhFMxaBk=;
- b=Ad/T2Yn8/tI1sTm2Qz1yl1jr9vlwjQNGk7/C6g96RsgMLhkpgCx/dArtcNoOozakPL
- 0lcaHSQvWfGfKYojFn/kcN9fvSJQtjui4kOXD7BU/U2pPFuIRTUjJdtGGBdLSSzdm2SF
- X1HfdTrMls/5z4Vts5pk9FVJGssYypz0sD/bWVc6WZ5h7SgOopcOgvAreSIYPmBTpjfk
- ZedGzYI/IFVMTuS8QAFkeGJptmGyUcGcXxedclNjj+tx/TqQ+TNzx9rkLVzd9sQsg2Af
- /X4kQK7EoexOVG4r11A3P1mL51I7vD+O0o3+w397Nb1BVguP0oYn1ERzpJ5PCty7tjSO
- ldyQ==
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+ [209.85.218.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0386E17F
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 06:46:08 +0000 (UTC)
+Received: by mail-ej1-f67.google.com with SMTP id lo4so2106489ejb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Sep 2020 23:46:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=OIz6/ORhAIJp1gRpHaBfwrrhOvDcKKYo5RAAhFMxaBk=;
- b=n/7KuVZbsvEFmICFtrUAWdR8G7qPgtZbO2qNFlRbrmESy59QFgnolN9XDy0TlP5iUl
- nJ8gICVEBfzr5ot5UPBquReZgumwq6lgR2jPRlVbe8QRHghrlTBApAiMmjYzkY1IcLlB
- HBrJgyNDbB+wa7ZLcTpIZQpzUAERU4iyhGofe1bv+YYzZ5gLz/Xpd2rPUZ0AHk+opvFD
- 9uAOuz0oAsNnHtnE0kCv9lk2Gktmj727KSkW0chwM9oQhMnnCmA4TkzljD1oZXAA7OcJ
- 4lJ0n9YcMw9JR2OunkvY7wNvwQl4RzTmJq05XLJ36NhpH197rf5tJJqj0imYua585knU
- 9TRg==
-X-Gm-Message-State: AOAM5309tW8s1v3zzkEuv3HzW+meSeGNczhWtXzu8IToQnwZtkQQRbG0
- Xc5m3KtzcgS/utwGFfLFG0dKZkYqJTy7ggRExG4=
-X-Google-Smtp-Source: ABdhPJwZn6N4c3vYDY6ZTdR14hIl2y4PrO3Hu3OXw0ANzVwYMtjumff0Wooqgzfq8iigJC3v2WTeI1k8n3xyEYDR5Tc=
-X-Received: by 2002:a17:906:3aca:: with SMTP id
- z10mr440277ejd.419.1600998315856; 
- Thu, 24 Sep 2020 18:45:15 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eYUVlOT19blT7yQ0uNpxiiyC65ymzzyJu/JFbGh28VU=;
+ b=CkNw5x+Odl7jgE6L80vwT+i/2KLQDYMkWGJ3Km+MESfEOjdOZlnRUf2Nh+m5nrQO3X
+ wEAzB4Dk1mc7T8s03CzAxwJHMoveZVYxggV+B6MrGVCg2uP7RYArcQMaCyShdoyuLRHt
+ RwCgN72t1Sv8X1kxsdrpHCOv+ttlPcLF6C+44EhVnGJKHwqylx0RJt3pKRaTROnP+DKO
+ 2wf/15LZl+o6nPXwAWFNwIbU4deE7g7593M/CuiH0OQdJNoU6dXygJSk7lSBk17kDlnh
+ 9N3G6Q8q9swe//q+esTUcZ0uNzhmYS5OYXuQN8sbOwg2I92Q6GyocSNyTWmNJ7NqhVcX
+ MP/g==
+X-Gm-Message-State: AOAM533KJNb+zE9ZUXSp5IBjoiiiD123RppBwUILyRoWqknUXJXUz6v7
+ 7S+IwOyhSDvuKuJA9FSG3ng=
+X-Google-Smtp-Source: ABdhPJxgebLlwHKK36J+ozJlcSYTuZirtezaJm/YbNIHt6jb6McE2nmJtmt/9E/eEdXLK6mduUzIlg==
+X-Received: by 2002:a17:906:119b:: with SMTP id
+ n27mr1273157eja.124.1601016366763; 
+ Thu, 24 Sep 2020 23:46:06 -0700 (PDT)
+Received: from ?IPv6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
+ by smtp.gmail.com with ESMTPSA id s7sm1210953ejd.103.2020.09.24.23.46.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Sep 2020 23:46:06 -0700 (PDT)
+Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
+ buffers
+To: Peilin Ye <yepeilin.cs@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+References: <0000000000006b9e8d059952095e@google.com>
+ <cover.1600953813.git.yepeilin.cs@gmail.com>
+From: Jiri Slaby <jirislaby@kernel.org>
+Message-ID: <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
+Date: Fri, 25 Sep 2020 08:46:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 25 Sep 2020 11:45:04 +1000
-Message-ID: <CAPM=9tzV6xvuqq9wnzhUY+qQPj9Q5K0BMpJX+7YUKX_a-EJTLA@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.9-rc7
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <cover.1600953813.git.yepeilin.cs@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,105 +64,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On 24. 09. 20, 15:38, Peilin Ye wrote:
+> Hi all,
+> 
+> syzbot has reported [1] a global out-of-bounds read issue in
+> fbcon_get_font(). A malicious user may resize `vc_font.height` to a large
+> value in vt_ioctl(), causing fbcon_get_font() to overflow our built-in
+> font data buffers, declared in lib/fonts/font_*.c:
+> 
+> (e.g. lib/fonts/font_8x8.c)
+> #define FONTDATAMAX 2048
+> 
+> static const unsigned char fontdata_8x8[FONTDATAMAX] = {
+> 
+>         /* 0 0x00 '^@' */
+>         0x00, /* 00000000 */
+>         0x00, /* 00000000 */
+>         0x00, /* 00000000 */
+>         0x00, /* 00000000 */
+>         0x00, /* 00000000 */
+>         0x00, /* 00000000 */
+>         0x00, /* 00000000 */
+>         0x00, /* 00000000 */
+>         [...]
+> 
+> In order to perform a reliable range check, fbcon_get_font() needs to know
+> `FONTDATAMAX` for each built-in font under lib/fonts/. Unfortunately, we
+> do not keep that information in our font descriptor,
+> `struct console_font`:
+> 
+> (include/uapi/linux/kd.h)
+> struct console_font {
+> 	unsigned int width, height;	/* font size */
+> 	unsigned int charcount;
+> 	unsigned char *data;	/* font data with height fixed to 32 */
+> };
+> 
+> To make things worse, `struct console_font` is part of the UAPI, so we
+> cannot add a new field to keep track of `FONTDATAMAX`.
 
-Due to the dax merge fail in rc6, this has two backmerges, Intel
-pulled in a later point in time to fix their CI systems, I also pulled
-in an earlier point to fix my local builds.
+Hi,
 
-Otherwise fairly quiet, a couple of i915 fixes, one dma-buf fix, one
-vc4 and two sun4i changes.
+but you still can define struct kernel_console_font containing struct
+console_font and the 4 more members you need in the kernel. See below.
 
-I realised I missed the sun4i + vc4 fixes in the tag itself. They are below.
+> Fortunately, the framebuffer layer itself gives us a hint of how to
+> resolve this issue without changing UAPI. When allocating a buffer for a
+> user-provided font, fbcon_set_font() reserves four "extra words" at the
+> beginning of the buffer:
+> 
+> (drivers/video/fbdev/core/fbcon.c)
+> 	new_data = kmalloc(FONT_EXTRA_WORDS * sizeof(int) + size, GFP_USER);
 
-Dave.
+I might be missing something (like coffee in the morning), but why don't
+you just:
+1) declare struct font_data as
+{
+  unsigned sum, char_count, size, refcnt;
+  const unsigned char data[];
+}
 
-vc4:
-- fill asoc card owner
+Or maybe "struct console_font font" instead of "const unsigned char
+data[]", if need be.
 
-sun4i:
-- program secondary CSC correctly.
+2) allocate by:
+  kmalloc(struct_size(struct font_data, data, size));
 
-drm-fixes-2020-09-25:
-drm fixes for 5.9-rc7
+3) use container_of wherever needed
 
-dma-buf:
-- Single null pointer deref fix for dma-buf
+That is you name the data on negative indexes using struct as you
+already have to define one.
 
-i915:
-- Fix selftest reference to stack data out of scope
-- Fix GVT null pointer dereference
-The following changes since commit 98477740630f270aecf648f1d6a9dbc6027d4ff1:
+Then you don't need the ugly macros with negative indexes. And you can
+pass this structure down e.g. to fbcon_do_set_font, avoiding potential
+mistakes in accessing data[-1] and similar.
 
-  Merge branch 'rcu/urgent' of
-git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu
-(2020-09-21 12:42:31 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-09-25
-
-for you to fetch changes up to ba78755e0c25dec4151880a14f523e929b2052c6:
-
-  Merge tag 'drm-misc-fixes-2020-09-24' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-09-25
-11:30:00 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.9-rc7
-
-dma-buf:
-- Single null pointer deref fix for dma-buf
-
-i915:
-- Fix selftest reference to stack data out of scope
-- Fix GVT null pointer dereference
-
-----------------------------------------------------------------
-Charan Teja Reddy (1):
-      dmabuf: fix NULL pointer dereference in dma_buf_release()
-
-Chris Wilson (1):
-      drm/i915/selftests: Push the fake iommu device from the stack to data
-
-Dave Airlie (4):
-      Merge tag 'drm-misc-fixes-2020-09-18' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      BackMerge commit '98477740630f270aecf648f1d6a9dbc6027d4ff1' into drm-fixes
-      Merge tag 'drm-intel-fixes-2020-09-24' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm-misc-fixes-2020-09-24' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Jani Nikula (2):
-      Merge remote-tracking branch 'origin/master' into drm-intel-fixes
-      Merge tag 'gvt-fixes-2020-09-17' of
-https://github.com/intel/gvt-linux into drm-intel-fixes
-
-Marek Szyprowski (1):
-      drm/vc4/vc4_hdmi: fill ASoC card owner
-
-Martin Cerveny (2):
-      drm/sun4i: sun8i-csc: Secondary CSC register correction
-      drm/sun4i: mixer: Extend regmap max_register
-
-Zhenyu Wang (1):
-      drm/i915/gvt: Fix port number for BDW on EDID region setup
-
- drivers/dma-buf/dma-buf.c                        |  2 ++
- drivers/gpu/drm/i915/gvt/vgpu.c                  |  6 +++++-
- drivers/gpu/drm/i915/selftests/mock_gem_device.c | 12 +++++-------
- drivers/gpu/drm/sun4i/sun8i_csc.h                |  2 +-
- drivers/gpu/drm/sun4i/sun8i_mixer.c              |  2 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                   |  1 +
- 6 files changed, 15 insertions(+), 10 deletions(-)
+thanks,
+-- 
+js
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
