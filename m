@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E36278665
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 13:56:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C9227866A
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 13:56:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30DF96EC9B;
-	Fri, 25 Sep 2020 11:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F6696ECA6;
+	Fri, 25 Sep 2020 11:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA4796EC9B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF6966EC9C;
  Fri, 25 Sep 2020 11:56:06 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 44E1DAEF5;
+ by mx2.suse.de (Postfix) with ESMTP id 44894ABF4;
  Fri, 25 Sep 2020 11:56:05 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: sumit.semwal@linaro.org, christian.koenig@amd.com, afd@ti.com,
@@ -29,10 +29,13 @@ To: sumit.semwal@linaro.org, christian.koenig@amd.com, afd@ti.com,
  mchehab@kernel.org, matthew.auld@intel.com, robin.murphy@arm.com,
  thomas.hellstrom@intel.com, sam@ravnborg.org, kraxel@redhat.com,
  arnd@arndb.de, gregkh@linuxfoundation.org
-Subject: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O memory
-Date: Fri, 25 Sep 2020 13:55:57 +0200
-Message-Id: <20200925115601.23955-1-tzimmermann@suse.de>
+Subject: [PATCH v3 1/4] dma-buf: Add struct dma-buf-map for storing struct
+ dma_buf.vaddr_ptr
+Date: Fri, 25 Sep 2020 13:55:58 +0200
+Message-Id: <20200925115601.23955-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200925115601.23955-1-tzimmermann@suse.de>
+References: <20200925115601.23955-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,92 +49,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dma-buf provides vmap() and vunmap() for retriving and releasing mappings
-of dma-buf memory in kernel address space. The functions operate with plain
-addresses and the assumption is that the memory can be accessed with load
-and store operations. This is not the case on some architectures (e.g.,
-sparc64) where I/O memory can only be accessed with dedicated instructions.
-
-This patchset introduces struct dma_buf_map, which contains the address of
-a buffer and a flag that tells whether system- or I/O-memory instructions
-are required.
-
-Some background: updating the DRM framebuffer console on sparc64 makes the
-kernel panic. This is because the framebuffer memory cannot be accessed with
-system-memory instructions. We currently employ a workaround in DRM to
-address this specific problem. [1]
-
-To resolve the problem, we'd like to address it at the most common point,
-which is the dma-buf framework. The dma-buf mapping ideally knows if I/O
-instructions are required and exports this information to it's users. The
-new structure struct dma_buf_map stores the buffer address and a flag that
-signals I/O memory. Affected users of the buffer (e.g., drivers, frameworks)
-can then access the memory accordingly.
-
-This patchset only introduces struct dma_buf_map, and updates struct dma_buf
-and it's interfaces. Further patches can update dma-buf users. For example,
-there's a prototype patchset for DRM that fixes the framebuffer problem. [2]
-
-Further work: TTM, one of DRM's memory managers, already exports an
-is_iomem flag of its own. It could later be switched over to exporting struct
-dma_buf_map, thus simplifying some code. Several DRM drivers expect their
-fbdev console to operate on I/O memory. These could possibly be switched over
-to the generic fbdev emulation, as soon as the generic code uses struct
-dma_buf_map.
-
-v3:
-	* update fastrpc driver (kernel test robot)
-	* expand documentation (Daniel)
-	* move documentation into separate patch
-v2:
-	* always clear map parameter in dma_buf_vmap() (Daniel)
-	* include dma-buf-heaps and i915 selftests (kernel test robot)
-	* initialize cma_obj before using it in drm_gem_cma_free_object()
-	  (kernel test robot)
-
-[1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg.org/
-[2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmermann@suse.de/
-
-Thomas Zimmermann (4):
-  dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr
-  dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
-  dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
-  dma-buf: Document struct dma_buf_map
-
- Documentation/driver-api/dma-buf.rst          |   9 +
- drivers/dma-buf/dma-buf.c                     |  42 ++--
- drivers/dma-buf/heaps/heap-helpers.c          |  10 +-
- drivers/gpu/drm/drm_gem_cma_helper.c          |  20 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 +-
- drivers/gpu/drm/drm_prime.c                   |  15 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
- .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 +-
- .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |  14 +-
- drivers/gpu/drm/tegra/gem.c                   |  23 ++-
- .../common/videobuf2/videobuf2-dma-contig.c   |  17 +-
- .../media/common/videobuf2/videobuf2-dma-sg.c |  19 +-
- .../common/videobuf2/videobuf2-vmalloc.c      |  21 +-
- drivers/misc/fastrpc.c                        |   6 +-
- include/drm/drm_prime.h                       |   5 +-
- include/linux/dma-buf-map.h                   | 193 ++++++++++++++++++
- include/linux/dma-buf.h                       |  11 +-
- 18 files changed, 372 insertions(+), 94 deletions(-)
- create mode 100644 include/linux/dma-buf-map.h
-
---
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIG5ldyB0eXBlIHN0cnVjdCBkbWFfYnVmX21hcCByZXByZXNlbnRzIGEgbWFwcGluZyBvZiBk
+bWEtYnVmIG1lbW9yeQppbnRvIGtlcm5lbCBzcGFjZS4gSXQgY29udGFpbnMgYSBmbGFnLCBpc19p
+b21lbSwgdGhhdCBzaWduYWxzIHVzZXJzIHRvCmFjY2VzcyB0aGUgbWFwcGVkIG1lbW9yeSB3aXRo
+IEkvTyBvcGVyYXRpb25zIGluc3RlYWQgb2YgcmVndWxhciBsb2FkcwphbmQgc3RvcmVzLgoKSXQg
+d2FzIGFzc3VtZWQgdGhhdCBETUEgYnVmZmVyIG1lbW9yeSBjYW4gYmUgYWNjZXNzZWQgd2l0aCBy
+ZWd1bGFyIGxvYWQKYW5kIHN0b3JlIG9wZXJhdGlvbnMuIFNvbWUgYXJjaGl0ZWN0dXJlcywgc3Vj
+aCBhcyBzcGFyYzY0LCByZXF1aXJlIHRoZQp1c2Ugb2YgSS9PIG9wZXJhdGlvbnMgdG8gYWNjZXNz
+IGRtYS1tYXAgYnVmZmVycyB0aGF0IGFyZSBsb2NhdGVkIGluIEkvTwptZW1vcnkuIFByb3ZpZGlu
+ZyBzdHJ1Y3QgZG1hX2J1Zl9tYXAgYWxsb3dzIGRyaXZlcnMgdG8gaW1wbGVtZW50IHRoaXMuClRo
+aXMgd2FzIHNwZWNpZmljYWxseSBhIHByb2JsZW0gd2hlbiByZWZyZXNoaW5nIHRoZSBncmFwaGlj
+cyBmcmFtZWJ1ZmZlcgpvbiBzdWNoIHN5c3RlbXMuIFsxXQoKQXMgdGhlIGZpcnN0IHN0ZXAsIHN0
+cnVjdCBkbWFfYnVmIHN0b3JlcyBhbiBpbnN0YW5jZSBvZiBzdHJ1Y3QgZG1hX2J1Zl9tYXAKaW50
+ZXJuYWxseS4gQWZ0ZXJ3YXJkcywgZG1hLWJ1ZidzIHZtYXAgYW5kIHZ1bm1hcCBpbnRlcmZhY2Vz
+IGFyZSBiZQpjb252ZXJ0ZWQuIEZpbmFsbHksIGFmZmVjdGVkIGRyaXZlcnMgY2FuIGJlIGZpeGVk
+LgoKdjM6CgkqIG1vdmVkIGRvY3VtZW50YXRpb24gaW50byBzZXBhcmF0ZSBwYXRjaAoJKiB0ZXN0
+IGZvciBOVUxMIHBvaW50ZXJzIHdpdGggITxwdHI+CgpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
+cmcvZHJpLWRldmVsLzIwMjAwNzI1MTkxMDEyLkdBNDM0OTU3QHJhdm5ib3JnLm9yZy8KClNpZ25l
+ZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpSZXZpZXdl
+ZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpSZXZpZXdl
+ZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KQWNrZWQtYnk6IFN1
+bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9kbWEtYnVm
+L2RtYS1idWYuYyAgIHwgMTQgKysrLS0tLQogaW5jbHVkZS9saW51eC9kbWEtYnVmLW1hcC5oIHwg
+ODIgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogaW5jbHVkZS9saW51eC9k
+bWEtYnVmLmggICAgIHwgIDMgKy0KIDMgZmlsZXMgY2hhbmdlZCwgOTEgaW5zZXJ0aW9ucygrKSwg
+OCBkZWxldGlvbnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2xpbnV4L2RtYS1idWYt
+bWFwLmgKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIvZHJpdmVycy9k
+bWEtYnVmL2RtYS1idWYuYwppbmRleCA1ODU2NGQ4MmEzYTIuLjVlODQ5Y2EyNDFhMCAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYworKysgYi9kcml2ZXJzL2RtYS1idWYvZG1h
+LWJ1Zi5jCkBAIC0xMjA3LDEyICsxMjA3LDEyIEBAIHZvaWQgKmRtYV9idWZfdm1hcChzdHJ1Y3Qg
+ZG1hX2J1ZiAqZG1hYnVmKQogCW11dGV4X2xvY2soJmRtYWJ1Zi0+bG9jayk7CiAJaWYgKGRtYWJ1
+Zi0+dm1hcHBpbmdfY291bnRlcikgewogCQlkbWFidWYtPnZtYXBwaW5nX2NvdW50ZXIrKzsKLQkJ
+QlVHX09OKCFkbWFidWYtPnZtYXBfcHRyKTsKLQkJcHRyID0gZG1hYnVmLT52bWFwX3B0cjsKKwkJ
+QlVHX09OKGRtYV9idWZfbWFwX2lzX251bGwoJmRtYWJ1Zi0+dm1hcF9wdHIpKTsKKwkJcHRyID0g
+ZG1hYnVmLT52bWFwX3B0ci52YWRkcjsKIAkJZ290byBvdXRfdW5sb2NrOwogCX0KIAotCUJVR19P
+TihkbWFidWYtPnZtYXBfcHRyKTsKKwlCVUdfT04oZG1hX2J1Zl9tYXBfaXNfc2V0KCZkbWFidWYt
+PnZtYXBfcHRyKSk7CiAKIAlwdHIgPSBkbWFidWYtPm9wcy0+dm1hcChkbWFidWYpOwogCWlmIChX
+QVJOX09OX09OQ0UoSVNfRVJSKHB0cikpKQpAQCAtMTIyMCw3ICsxMjIwLDcgQEAgdm9pZCAqZG1h
+X2J1Zl92bWFwKHN0cnVjdCBkbWFfYnVmICpkbWFidWYpCiAJaWYgKCFwdHIpCiAJCWdvdG8gb3V0
+X3VubG9jazsKIAotCWRtYWJ1Zi0+dm1hcF9wdHIgPSBwdHI7CisJZG1hYnVmLT52bWFwX3B0ci52
+YWRkciA9IHB0cjsKIAlkbWFidWYtPnZtYXBwaW5nX2NvdW50ZXIgPSAxOwogCiBvdXRfdW5sb2Nr
+OgpAQCAtMTIzOSwxNSArMTIzOSwxNSBAQCB2b2lkIGRtYV9idWZfdnVubWFwKHN0cnVjdCBkbWFf
+YnVmICpkbWFidWYsIHZvaWQgKnZhZGRyKQogCWlmIChXQVJOX09OKCFkbWFidWYpKQogCQlyZXR1
+cm47CiAKLQlCVUdfT04oIWRtYWJ1Zi0+dm1hcF9wdHIpOworCUJVR19PTihkbWFfYnVmX21hcF9p
+c19udWxsKCZkbWFidWYtPnZtYXBfcHRyKSk7CiAJQlVHX09OKGRtYWJ1Zi0+dm1hcHBpbmdfY291
+bnRlciA9PSAwKTsKLQlCVUdfT04oZG1hYnVmLT52bWFwX3B0ciAhPSB2YWRkcik7CisJQlVHX09O
+KCFkbWFfYnVmX21hcF9pc192YWRkcigmZG1hYnVmLT52bWFwX3B0ciwgdmFkZHIpKTsKIAogCW11
+dGV4X2xvY2soJmRtYWJ1Zi0+bG9jayk7CiAJaWYgKC0tZG1hYnVmLT52bWFwcGluZ19jb3VudGVy
+ID09IDApIHsKIAkJaWYgKGRtYWJ1Zi0+b3BzLT52dW5tYXApCiAJCQlkbWFidWYtPm9wcy0+dnVu
+bWFwKGRtYWJ1ZiwgdmFkZHIpOwotCQlkbWFidWYtPnZtYXBfcHRyID0gTlVMTDsKKwkJZG1hX2J1
+Zl9tYXBfY2xlYXIoJmRtYWJ1Zi0+dm1hcF9wdHIpOwogCX0KIAltdXRleF91bmxvY2soJmRtYWJ1
+Zi0+bG9jayk7CiB9CmRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmggYi9p
+bmNsdWRlL2xpbnV4L2RtYS1idWYtbWFwLmgKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAw
+MDAwMDAwMDAwLi4wMDE0M2M4OGZlYjYKLS0tIC9kZXYvbnVsbAorKysgYi9pbmNsdWRlL2xpbnV4
+L2RtYS1idWYtbWFwLmgKQEAgLTAsMCArMSw4MiBAQAorLyogU1BEWC1MaWNlbnNlLUlkZW50aWZp
+ZXI6IEdQTC0yLjAtb25seSAqLworLyoKKyAqIFBvaW50ZXIgdG8gZG1hLWJ1Zi1tYXBwZWQgbWVt
+b3J5LCBwbHVzIGhlbHBlcnMuCisgKi8KKworI2lmbmRlZiBfX0RNQV9CVUZfTUFQX0hfXworI2Rl
+ZmluZSBfX0RNQV9CVUZfTUFQX0hfXworCisjaW5jbHVkZSA8bGludXgvaW8uaD4KKworLyoqCisg
+KiBzdHJ1Y3QgZG1hX2J1Zl9tYXAgLSBQb2ludGVyIHRvIHZtYXAnZWQgZG1hLWJ1ZiBtZW1vcnku
+CisgKiBAdmFkZHJfaW9tZW06CVRoZSBidWZmZXIncyBhZGRyZXNzIGlmIGluIEkvTyBtZW1vcnkK
+KyAqIEB2YWRkcjoJCVRoZSBidWZmZXIncyBhZGRyZXNzIGlmIGluIHN5c3RlbSBtZW1vcnkKKyAq
+IEBpc19pb21lbToJCVRydWUgaWYgdGhlIGRtYS1idWYgbWVtb3J5IGlzIGxvY2F0ZWQgaW4gSS9P
+CisgKgkJCW1lbW9yeSwgb3IgZmFsc2Ugb3RoZXJ3aXNlLgorICovCitzdHJ1Y3QgZG1hX2J1Zl9t
+YXAgeworCXVuaW9uIHsKKwkJdm9pZCBfX2lvbWVtICp2YWRkcl9pb21lbTsKKwkJdm9pZCAqdmFk
+ZHI7CisJfTsKKwlib29sIGlzX2lvbWVtOworfTsKKworLyogQVBJIHRyYW5zaXRpb24gaGVscGVy
+ICovCitzdGF0aWMgaW5saW5lIGJvb2wgZG1hX2J1Zl9tYXBfaXNfdmFkZHIoY29uc3Qgc3RydWN0
+IGRtYV9idWZfbWFwICptYXAsIGNvbnN0IHZvaWQgKnZhZGRyKQoreworCXJldHVybiAhbWFwLT5p
+c19pb21lbSAmJiAobWFwLT52YWRkciA9PSB2YWRkcik7Cit9CisKKy8qKgorICogZG1hX2J1Zl9t
+YXBfaXNfbnVsbCAtIFRlc3RzIGZvciBhIGRtYS1idWYgbWFwcGluZyB0byBiZSBOVUxMCisgKiBA
+bWFwOglUaGUgZG1hLWJ1ZiBtYXBwaW5nIHN0cnVjdHVyZQorICoKKyAqIERlcGVuZGluZyBvbiB0
+aGUgc3RhdGUgb2Ygc3RydWN0IGRtYV9idWZfbWFwLmlzX2lvbWVtLCB0ZXN0cyBpZiB0aGUKKyAq
+IG1hcHBpbmcgaXMgTlVMTC4KKyAqCisgKiBSZXR1cm5zOgorICogVHJ1ZSBpZiB0aGUgbWFwcGlu
+ZyBpcyBOVUxMLCBvciBmYWxzZSBvdGhlcndpc2UuCisgKi8KK3N0YXRpYyBpbmxpbmUgYm9vbCBk
+bWFfYnVmX21hcF9pc19udWxsKGNvbnN0IHN0cnVjdCBkbWFfYnVmX21hcCAqbWFwKQoreworCWlm
+IChtYXAtPmlzX2lvbWVtKQorCQlyZXR1cm4gIW1hcC0+dmFkZHJfaW9tZW07CisJcmV0dXJuICFt
+YXAtPnZhZGRyOworfQorCisvKioKKyAqIGRtYV9idWZfbWFwX2lzX3NldCAtIFRlc3RzIGlzIHRo
+ZSBkbWEtYnVmIG1hcHBpbmcgaGFzIGJlZW4gc2V0CisgKiBAbWFwOglUaGUgZG1hLWJ1ZiBtYXBw
+aW5nIHN0cnVjdHVyZQorICoKKyAqIERlcGVuZGluZyBvbiB0aGUgc3RhdGUgb2Ygc3RydWN0IGRt
+YV9idWZfbWFwLmlzX2lvbWVtLCB0ZXN0cyBpZiB0aGUKKyAqIG1hcHBpbmcgaGFzIGJlZW4gc2V0
+LgorICoKKyAqIFJldHVybnM6CisgKiBUcnVlIGlmIHRoZSBtYXBwaW5nIGlzIGJlZW4gc2V0LCBv
+ciBmYWxzZSBvdGhlcndpc2UuCisgKi8KK3N0YXRpYyBpbmxpbmUgYm9vbCBkbWFfYnVmX21hcF9p
+c19zZXQoY29uc3Qgc3RydWN0IGRtYV9idWZfbWFwICptYXApCit7CisJcmV0dXJuICFkbWFfYnVm
+X21hcF9pc19udWxsKG1hcCk7Cit9CisKKy8qKgorICogZG1hX2J1Zl9tYXBfY2xlYXIgLSBDbGVh
+cnMgYSBkbWEtYnVmIG1hcHBpbmcgc3RydWN0dXJlCisgKiBAbWFwOglUaGUgZG1hLWJ1ZiBtYXBw
+aW5nIHN0cnVjdHVyZQorICoKKyAqIENsZWFycyBhbGwgZmllbGRzIHRvIHplcm87IGluY2x1ZGlu
+ZyBzdHJ1Y3QgZG1hX2J1Zl9tYXAuaXNfaW9tZW0uIFNvCisgKiBtYXBwaW5nIHN0cnVjdHVyZXMg
+dGhhdCB3ZXJlIHNldCB0byBwb2ludCB0byBJL08gbWVtb3J5IGFyZSByZXNldCBmb3IKKyAqIHN5
+c3RlbSBtZW1vcnkuIFBvaW50ZXJzIGFyZSBjbGVhcmVkIHRvIE5VTEwuIFRoaXMgaXMgdGhlIGRl
+ZmF1bHQuCisgKi8KK3N0YXRpYyBpbmxpbmUgdm9pZCBkbWFfYnVmX21hcF9jbGVhcihzdHJ1Y3Qg
+ZG1hX2J1Zl9tYXAgKm1hcCkKK3sKKwlpZiAobWFwLT5pc19pb21lbSkgeworCQltYXAtPnZhZGRy
+X2lvbWVtID0gTlVMTDsKKwkJbWFwLT5pc19pb21lbSA9IGZhbHNlOworCX0gZWxzZSB7CisJCW1h
+cC0+dmFkZHIgPSBOVUxMOworCX0KK30KKworI2VuZGlmIC8qIF9fRE1BX0JVRl9NQVBfSF9fICov
+CmRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaCBiL2luY2x1ZGUvbGludXgvZG1h
+LWJ1Zi5oCmluZGV4IDk1N2IzOThkMzBlNS4uZmNjMmRkZmI2ZDE4IDEwMDY0NAotLS0gYS9pbmNs
+dWRlL2xpbnV4L2RtYS1idWYuaAorKysgYi9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaApAQCAtMTMs
+NiArMTMsNyBAQAogI2lmbmRlZiBfX0RNQV9CVUZfSF9fCiAjZGVmaW5lIF9fRE1BX0JVRl9IX18K
+IAorI2luY2x1ZGUgPGxpbnV4L2RtYS1idWYtbWFwLmg+CiAjaW5jbHVkZSA8bGludXgvZmlsZS5o
+PgogI2luY2x1ZGUgPGxpbnV4L2Vyci5oPgogI2luY2x1ZGUgPGxpbnV4L3NjYXR0ZXJsaXN0Lmg+
+CkBAIC0zMDksNyArMzEwLDcgQEAgc3RydWN0IGRtYV9idWYgewogCWNvbnN0IHN0cnVjdCBkbWFf
+YnVmX29wcyAqb3BzOwogCXN0cnVjdCBtdXRleCBsb2NrOwogCXVuc2lnbmVkIHZtYXBwaW5nX2Nv
+dW50ZXI7Ci0Jdm9pZCAqdm1hcF9wdHI7CisJc3RydWN0IGRtYV9idWZfbWFwIHZtYXBfcHRyOwog
+CWNvbnN0IGNoYXIgKmV4cF9uYW1lOwogCWNvbnN0IGNoYXIgKm5hbWU7CiAJc3BpbmxvY2tfdCBu
+YW1lX2xvY2s7Ci0tIAoyLjI4LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
