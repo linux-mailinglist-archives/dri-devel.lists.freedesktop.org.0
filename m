@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677A42782F6
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 10:40:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FCB278309
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 10:45:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3396EC55;
-	Fri, 25 Sep 2020 08:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84ED86EC57;
+	Fri, 25 Sep 2020 08:45:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0FBF6E0D7;
- Fri, 25 Sep 2020 08:40:16 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 75502ACAC;
- Fri, 25 Sep 2020 08:40:15 +0000 (UTC)
-Subject: Re: [PATCH v3 00/22] Convert all remaining drivers to GEM object
- functions
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
- robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
- tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
- thierry.reding@gmail.com, jonathanh@nvidia.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
- sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
- tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
- andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
- aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
- matthew.auld@intel.com, tvrtko.ursulin@linux.intel.com,
- andi.shyti@intel.com, sam@ravnborg.org, miaoqinglang@huawei.com,
- emil.velikov@collabora.com, laurentiu.palcu@oss.nxp.com,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com
-References: <20200923102159.24084-1-tzimmermann@suse.de>
- <f6ee9aab-1568-1896-ef07-a4de6ceec989@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <6c6b429c-8f74-99f3-73de-920dad26197a@suse.de>
-Date: Fri, 25 Sep 2020 10:40:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 602456EC57
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 08:45:16 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id t10so2696306wrv.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 01:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ZnwReSneJ0EO6tWXOlzzoVfdgoKgSlfHWIcUmw1JhbA=;
+ b=hszl6QUtZrcVG7xoM6AvT9Ozl1zkctTNylIsk++ekkW5wMJBImOUuMmaiBJoAv0z5l
+ bJ3dkFI3PjTbGWziETF0I7sMCJFd5obZQuKfff3bY7/HEt+vz2j6lVziKzdbsj+I6F8q
+ PcM8rbsKL0VpZ4hFxHwg7sDI+wl7PNn9IillM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZnwReSneJ0EO6tWXOlzzoVfdgoKgSlfHWIcUmw1JhbA=;
+ b=e2HuBN8pDF/ycjYgAj2z6PEeKROwWJRWz6AQx41FtBAsKnwCrO/tkmsnVcUwHmQbTL
+ 6EFzGNfpH6qREeZudgDbSVz+XdruwweUP7hbSBFks87DmPtK4A8rMH8raT4W6HSGPkvm
+ 632b/LPqJ8qIpG4d/H2Z2g36pSQyz9o7ZAyOWluciEoJgw444IzeWyvRCAd6eWfkfJNA
+ lJq+ICmzcMNy0Psxy/W42cb7oeqfVZJP4LR3N6vf5J1CYo5y2xm4m1rQvr4cMHsWPeGa
+ soMyuB+mrkoB9RsG+fDS+W4/81K/QSL5F3wP1t0y7G9tMr4EtpbgeCBM13l0IkHXze12
+ 39Gw==
+X-Gm-Message-State: AOAM533WBcTiOfiH7ca2T8YQ54E6pzSjADiphWe9IRc+kXrnLpIfTcN7
+ 849AMAYobBYT3OGhwlISJDNm84Fyc2vNEeB5
+X-Google-Smtp-Source: ABdhPJwcUlLcUlRlrBROz3Pgd3a9H64lUYbF76tZV4vDjuNWwE5PS1qzjw+1paPk8/wSxHgdR+wDiA==
+X-Received: by 2002:adf:81e6:: with SMTP id 93mr3261429wra.412.1601023515037; 
+ Fri, 25 Sep 2020 01:45:15 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u66sm2060780wmg.44.2020.09.25.01.45.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 01:45:14 -0700 (PDT)
+Date: Fri, 25 Sep 2020 10:45:12 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH] drm/atomic: document and enforce rules around "spurious"
+ EBUSY
+Message-ID: <20200925084512.GD438822@phenom.ffwll.local>
+References: <20200923105737.2943649-1-daniel.vetter@ffwll.ch>
+ <20200923151852.2952812-1-daniel.vetter@ffwll.ch>
+ <20200925112446.1b3cb2c8@eldfell>
 MIME-Version: 1.0
-In-Reply-To: <f6ee9aab-1568-1896-ef07-a4de6ceec989@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20200925112446.1b3cb2c8@eldfell>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,358 +67,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1283307012=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1283307012==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="LabGFb9cZphJ6FpQUA9KWxOwS9aPh02zb"
+On Fri, Sep 25, 2020 at 11:24:46AM +0300, Pekka Paalanen wrote:
+> On Wed, 23 Sep 2020 17:18:52 +0200
+> Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> 
+> > When doing an atomic modeset with ALLOW_MODESET drivers are allowed to
+> > pull in arbitrary other resources, including CRTCs (e.g. when
+> > reconfiguring global resources).
+> > 
+> > But in nonblocking mode userspace has then no idea this happened,
+> > which can lead to spurious EBUSY calls, both:
+> > - when that other CRTC is currently busy doing a page_flip the
+> >   ALLOW_MODESET commit can fail with an EBUSY
+> > - on the other CRTC a normal atomic flip can fail with EBUSY because
+> >   of the additional commit inserted by the kernel without userspace's
+> >   knowledge
+> > 
+> > For blocking commits this isn't a problem, because everyone else will
+> > just block until all the CRTC are reconfigured. Only thing userspace
+> > can notice is the dropped frames without any reason for why frames got
+> > dropped.
+> > 
+> > Consensus is that we need new uapi to handle this properly, but no one
+> > has any idea what exactly the new uapi should look like. Since this
+> > has been shipping for years already compositors need to deal no matter
+> > what, so as a first step just try to enforce this across drivers
+> > better with some checks.
+> > 
+> > v2: Add comments and a WARN_ON to enforce this only when allowed - we
+> > don't want to silently convert page flips into blocking plane updates
+> > just because the driver is buggy.
+> > 
+> > v3: Fix inverted WARN_ON (Pekka).
+> > 
+> > v4: Drop the uapi changes, only add a WARN_ON for now to enforce some
+> > rules for drivers.
+> > 
+> > v5: Make the WARNING more informative (Daniel)
+> > 
+> > v6: Add unconditional debug output for compositor hackers to figure
+> > out what's going on when they get an EBUSY (Daniel)
+> 
+> ... gmail workaround ...
+> 
+> > ---
+> >  drivers/gpu/drm/drm_atomic.c | 29 +++++++++++++++++++++++++++++
+> >  1 file changed, 29 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> > index 58527f151984..f1a912e80846 100644
+> > --- a/drivers/gpu/drm/drm_atomic.c
+> > +++ b/drivers/gpu/drm/drm_atomic.c
+> > @@ -281,6 +281,10 @@ EXPORT_SYMBOL(__drm_atomic_state_free);
+> >   * needed. It will also grab the relevant CRTC lock to make sure that the state
+> >   * is consistent.
+> >   *
+> > + * WARNING: Drivers may only add new CRTC states to a @state if
+> > + * drm_atomic_state.allow_modeset is set, or if it's a driver-internal commit
+> > + * not created by userspace through an IOCTL call.
+> > + *
+> >   * Returns:
+> >   *
+> >   * Either the allocated state or the error code encoded into the pointer. When
+> > @@ -1262,10 +1266,15 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+> >  	struct drm_crtc_state *new_crtc_state;
+> >  	struct drm_connector *conn;
+> >  	struct drm_connector_state *conn_state;
+> > +	unsigned requested_crtc = 0;
+> > +	unsigned affected_crtc = 0;
+> >  	int i, ret = 0;
+> >  
+> >  	DRM_DEBUG_ATOMIC("checking %p\n", state);
+> >  
+> > +	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+> > +		requested_crtc |= drm_crtc_mask(crtc);
+> 
+> Is "old crtc state" the state that userspace is requesting as the new
+> state?
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---LabGFb9cZphJ6FpQUA9KWxOwS9aPh02zb
-Content-Type: multipart/mixed; boundary="YrgllsXxrG3yDVk9eYt3PnZ2tiJ3YeTQ7";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, l.stach@pengutronix.de, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- patrik.r.jakobsson@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- chunkuang.hu@kernel.org, p.zabel@pengutronix.de, matthias.bgg@gmail.com,
- robdclark@gmail.com, sean@poorly.run, bskeggs@redhat.com,
- tomi.valkeinen@ti.com, eric@anholt.net, hjc@rock-chips.com, heiko@sntech.de,
- thierry.reding@gmail.com, jonathanh@nvidia.com,
- rodrigosiqueiramelo@gmail.com, hamohammed.sa@gmail.com,
- oleksandr_andrushchenko@epam.com, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
- sumit.semwal@linaro.org, evan.quan@amd.com, Hawking.Zhang@amd.com,
- tianci.yin@amd.com, marek.olsak@amd.com, hdegoede@redhat.com,
- andrey.grodzovsky@amd.com, Felix.Kuehling@amd.com, xinhui.pan@amd.com,
- aaron.liu@amd.com, nirmoy.das@amd.com, chris@chris-wilson.co.uk,
- matthew.auld@intel.com, tvrtko.ursulin@linux.intel.com,
- andi.shyti@intel.com, sam@ravnborg.org, miaoqinglang@huawei.com,
- emil.velikov@collabora.com, laurentiu.palcu@oss.nxp.com,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- xen-devel@lists.xenproject.org
-Message-ID: <6c6b429c-8f74-99f3-73de-920dad26197a@suse.de>
-Subject: Re: [PATCH v3 00/22] Convert all remaining drivers to GEM object
- functions
-References: <20200923102159.24084-1-tzimmermann@suse.de>
- <f6ee9aab-1568-1896-ef07-a4de6ceec989@amd.com>
-In-Reply-To: <f6ee9aab-1568-1896-ef07-a4de6ceec989@amd.com>
+It's a dummy iterator variable we don't care about, all we really want is
+to know which crtc are all part of the update. But everyone else also
+wants the state.
 
---YrgllsXxrG3yDVk9eYt3PnZ2tiJ3YeTQ7
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I'll shuffle the patches so the hunk Ville requested is in the right
+patch.
+-Daniel
 
-Hi
-
-Am 23.09.20 um 16:33 schrieb Christian K=C3=B6nig:
-> Feel free to add an Acked-by: Christian K=C3=B6nig <christian.koenig@am=
-d.com>
-> to all patches which I haven't explicitly reviewed.
-
-Done, thanks.
-
->=20
-> I would say we should just push this to drm-misc-next now.
-
-It's merged now.
-
-Best regards
-Thomas
-
->=20
-> Thanks for the nice cleanup,
-> Christian.
->=20
-> Am 23.09.20 um 12:21 schrieb Thomas Zimmermann:
->> The GEM and PRIME related callbacks in struct drm_driver are
->> deprecated in
->> favor of GEM object functions in struct drm_gem_object_funcs. This
->> patchset
->> converts the remaining drivers to object functions and removes most of=
-
->> the
->> obsolete interfaces.
->>
->> Version 3 of this patchset mostly fixes drm_gem_prime_handle_to_fd and=
-
->> updates i.MX's dcss driver. The driver was missing from earlier versio=
-ns
->> and still needs review.
->>
->> Patches #1 to #6, #8 to #17 and #19 to #20 convert DRM drivers to GEM
->> object
->> functions, one by one. Each patch moves existing callbacks from struct=
-
->> drm_driver to an instance of struct drm_gem_object_funcs, and sets the=
-se
->> funcs when the GEM object is initialized. The expection is
->> .gem_prime_mmap.
->> There are different ways of how drivers implement the callback, and
->> moving
->> it to GEM object functions requires a closer review for each.
->>
->> Patch #18 fixes virtgpu to use GEM object functions where possible. Th=
-e
->> driver recently introduced a function for one of the deprecated
->> callbacks.
->>
->> Patches #7 and #20 convert i.MX's dcss and xlnx to CMA helper macros.
->> There's
->> no apparent reason why the drivers do the GEM setup on their's own.
->> Using CMA
->> helper macros adds GEM object functions implicitly.
->>
->> With most of the GEM and PRIME moved to GEM object functions, related
->> code
->> in struct drm_driver and in the DRM core/helpers is being removed by
->> patch
->> #22.
->>
->> Further testing is welcome. I tested the drivers for which I have HW
->> available. These are gma500, i915, nouveau, radeon and vc4. The consol=
-e,
->> Weston and Xorg apparently work with the patches applied.
->>
->> v3:
->> =C2=A0=C2=A0=C2=A0=C2=A0* restore default call to drm_gem_prime_export=
-() in
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_gem_prime_handle_to_fd()
->> =C2=A0=C2=A0=C2=A0=C2=A0* return -ENOSYS if get_sg_table is not set
->> =C2=A0=C2=A0=C2=A0=C2=A0* drop all checks for obj->funcs
->> =C2=A0=C2=A0=C2=A0=C2=A0* clean up TODO list and documentation
->> v2:
->> =C2=A0=C2=A0=C2=A0=C2=A0* moved code in amdgpu and radeon
->> =C2=A0=C2=A0=C2=A0=C2=A0* made several functions static in various dri=
-vers
->> =C2=A0=C2=A0=C2=A0=C2=A0* updated TODO-list item
->> =C2=A0=C2=A0=C2=A0=C2=A0* fix virtgpu
->>
->> Thomas Zimmermann (22):
->> =C2=A0=C2=A0 drm/amdgpu: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/armada: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/etnaviv: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/exynos: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/gma500: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/i915: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/imx/dcss: Initialize DRM driver instance with CMA hel=
-per macro
->> =C2=A0=C2=A0 drm/mediatek: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/msm: Introduce GEM object funcs
->> =C2=A0=C2=A0 drm/nouveau: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/omapdrm: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/pl111: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/radeon: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/rockchip: Convert to drm_gem_object_funcs
->> =C2=A0=C2=A0 drm/tegra: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/vc4: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/vgem: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/virtgpu: Set PRIME export function in struct drm_gem_=
-object_funcs
->> =C2=A0=C2=A0 drm/vkms: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/xen: Introduce GEM object functions
->> =C2=A0=C2=A0 drm/xlnx: Initialize DRM driver instance with CMA helper =
-macro
->> =C2=A0=C2=A0 drm: Remove obsolete GEM and PRIME callbacks from struct =
-drm_driver
->>
->> =C2=A0 Documentation/gpu/drm-mm.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 4 +-
->> =C2=A0 Documentation/gpu/todo.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 9 +-
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 6 --
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 23 +++--
->> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 5 --
->> =C2=A0 drivers/gpu/drm/armada/armada_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 -
->> =C2=A0 drivers/gpu/drm/armada/armada_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 12 ++-
->> =C2=A0 drivers/gpu/drm/armada/armada_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 -
->> =C2=A0 drivers/gpu/drm/drm_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 53 ++++--------
->> =C2=A0 drivers/gpu/drm/drm_gem_cma_helper.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 8 +-
->> =C2=A0 drivers/gpu/drm/drm_prime.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-| 14 +--
->> =C2=A0 drivers/gpu/drm/etnaviv/etnaviv_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 13 ---
->> =C2=A0 drivers/gpu/drm/etnaviv/etnaviv_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
->> =C2=A0 drivers/gpu/drm/etnaviv/etnaviv_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 19 ++++-
->> =C2=A0 drivers/gpu/drm/exynos/exynos_drm_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 10 ---
->> =C2=A0 drivers/gpu/drm/exynos/exynos_drm_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 15 ++++
->> =C2=A0 drivers/gpu/drm/gma500/framebuffer.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
->> =C2=A0 drivers/gpu/drm/gma500/gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 +=
-++-
->> =C2=A0 drivers/gpu/drm/gma500/gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 3 +
->> =C2=A0 drivers/gpu/drm/gma500/psb_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 --
->> =C2=A0 drivers/gpu/drm/gma500/psb_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 -
->> =C2=A0 drivers/gpu/drm/i915/gem/i915_gem_object.c=C2=A0=C2=A0=C2=A0 | =
-21 ++++-
->> =C2=A0 drivers/gpu/drm/i915/gem/i915_gem_object.h=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 3 -
->> =C2=A0 drivers/gpu/drm/i915/i915_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 -
->> =C2=A0 .../gpu/drm/i915/selftests/mock_gem_device.c=C2=A0 |=C2=A0 3 -
->> =C2=A0 drivers/gpu/drm/imx/dcss/dcss-kms.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 14 +--
->> =C2=A0 drivers/gpu/drm/mediatek/mtk_drm_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 5 --
->> =C2=A0 drivers/gpu/drm/mediatek/mtk_drm_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 11 +++
->> =C2=A0 drivers/gpu/drm/msm/msm_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 13 ---
->> =C2=A0 drivers/gpu/drm/msm/msm_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
->> =C2=A0 drivers/gpu/drm/msm/msm_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19 ++++-
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_drm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 --
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 13 +++
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
->> =C2=A0 drivers/gpu/drm/nouveau/nouveau_prime.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 2 +
->> =C2=A0 drivers/gpu/drm/omapdrm/omap_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 --
->> =C2=A0 drivers/gpu/drm/omapdrm/omap_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 +++-
->> =C2=A0 drivers/gpu/drm/omapdrm/omap_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 -
->> =C2=A0 drivers/gpu/drm/pl111/pl111_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
->> =C2=A0 drivers/gpu/drm/radeon/radeon_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +----
->> =C2=A0 drivers/gpu/drm/radeon/radeon_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 31 ++++++-
->> =C2=A0 drivers/gpu/drm/rockchip/rockchip_drm_drv.c=C2=A0=C2=A0 |=C2=A0=
- 5 --
->> =C2=A0 drivers/gpu/drm/rockchip/rockchip_drm_gem.c=C2=A0=C2=A0 | 12 ++=
--
->> =C2=A0 drivers/gpu/drm/tegra/drm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 4 -
->> =C2=A0 drivers/gpu/drm/tegra/gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 8 ++
->> =C2=A0 drivers/gpu/drm/vc4/vc4_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 21 +=
-+++-
->> =C2=A0 drivers/gpu/drm/vc4/vc4_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 12 ---
->> =C2=A0 drivers/gpu/drm/vc4/vc4_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
->> =C2=A0 drivers/gpu/drm/vgem/vgem_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 21 +++--
->> =C2=A0 drivers/gpu/drm/virtio/virtgpu_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
->> =C2=A0 drivers/gpu/drm/virtio/virtgpu_object.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 1 +
->> =C2=A0 drivers/gpu/drm/vkms/vkms_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 8 --
->> =C2=A0 drivers/gpu/drm/vkms/vkms_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 13 +++
->> =C2=A0 drivers/gpu/drm/xen/xen_drm_front.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 44 ++++------
->> =C2=A0 drivers/gpu/drm/xen/xen_drm_front.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
->> =C2=A0 drivers/gpu/drm/xen/xen_drm_front_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 15 ++++
->> =C2=A0 drivers/gpu/drm/xlnx/zynqmp_dpsub.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 14 +--
->> =C2=A0 include/drm/drm_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 85 +------------------
->> =C2=A0 include/drm/drm_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
->> =C2=A0 59 files changed, 333 insertions(+), 375 deletions(-)
->>
->> --=20
->> 2.28.0
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> 
+> > +
+> >  	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
+> >  		ret = drm_atomic_plane_check(old_plane_state, new_plane_state);
+> >  		if (ret) {
+> > @@ -1313,6 +1322,26 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+> >  		}
+> >  	}
+> >  
+> > +	for_each_new_crtc_in_state(state, crtc, old_crtc_state, i)
+> > +		affected_crtc |= drm_crtc_mask(crtc);
+> 
+> And after driver check processing, the "old crtc state" has been
+> modified by the driver to add anything it will necessarily need like
+> other CRTCs?
+> 
+> What is "new state" then?
+> 
+> > +
+> > +	/*
+> > +	 * For commits that allow modesets drivers can add other CRTCs to the
+> > +	 * atomic commit, e.g. when they need to reallocate global resources.
+> > +	 * This can cause spurious EBUSY, which robs compositors of a very
+> > +	 * effective sanity check for their drawing loop. Therefor only allow
+> > +	 * drivers to add unrelated CRTC states for modeset commits.
+> > +	 *
+> > +	 * FIXME: Should add affected_crtc mask to the ATOMIC IOCTL as an output
+> > +	 * so compositors know what's going on.
+> > +	 */
+> > +	if (affected_crtc != requested_crtc) {
+> > +		DRM_DEBUG_ATOMIC("driver added CRTC to commit: requested 0x%x, affected 0x%0x\n",
+> > +				 requested_crtc, affected_crtc);
+> > +		WARN(!state->allow_modeset, "adding CRTC not allowed without modesets: requested 0x%x, affected 0x%0x\n",
+> > +		     requested_crtc, affected_crtc);
+> > +	}
+> 
+> This hunk looks good to me.
+> 
+> 
+> Thanks,
+> pq
+> 
+> > +
+> >  	return 0;
+> >  }
+> >  EXPORT_SYMBOL(drm_atomic_check_only);
+> 
 
 
---YrgllsXxrG3yDVk9eYt3PnZ2tiJ3YeTQ7--
 
---LabGFb9cZphJ6FpQUA9KWxOwS9aPh02zb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9trOsUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOxhwgAkAYiN5cpH8HCfFm3pzUjLe2BtrJz
-k+Vt8Wd5qvXc3y7iQBBR9qx0E6z51ZNcxHhULFx+Wyw10/EVyYFJHNJO2440itG5
-nHcvl5zihIXi5kx82/2AhYI0rWUDgvkNFz4tiqTYfdyEFW2RWBYNb0cAhJPGpVQN
-7GRODf0jQdkZK3W79ZKSzjqq2lx3dlwviA0EYCWhe6yKDyUXC9/3oWiJlmf4Mlp5
-mHUlNVt+QVbdOxtYtGJ9nBC6iRxS2xUPfAVJPTPELlCphnxroZPrkNd1x+O+zMNv
-5giRN+hDTtrRwlH+XPkgqtpwt/LD2tMSFBAZscDhhifadDzYXOKCgjfQvg==
-=AWHl
------END PGP SIGNATURE-----
-
---LabGFb9cZphJ6FpQUA9KWxOwS9aPh02zb--
-
---===============1283307012==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1283307012==--
