@@ -1,61 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A222793CF
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 23:55:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCA22793F1
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Sep 2020 00:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6F686ED67;
-	Fri, 25 Sep 2020 21:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BB056ED69;
+	Fri, 25 Sep 2020 22:08:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE26D6ED65
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 21:55:36 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id b19so3616775lji.11
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 14:55:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IqWRtJXL3h+0YNOWDfr/oyE5XU2E5SGs9B5R12b/mYU=;
- b=smLOvcFFfth/d/eCeWfi6sPNLPRxKuTHjZl6Qa78IJFY39bb2+0XlYQLC/pEPb0S5f
- krWWfpXYbxD08VHxrcxWjPchRtbLuzebmEukSrshxr4xU4tX1dR3f82OTovIcu62v4qP
- g20pfMDZ8diisUnm+1Se1IT4VvLZ2kruNSpscC6of4431D4LgyhrDdtXJZYCE10wtpdt
- gxO0psNfOrRHtRtDqjM8ju1BdpYSQbTemoNMxpKvwnAofmyb1mB3SQUq2a4pcitvlfIv
- b+hARjlJum+osgCVbXdK/+NORGUg++RWT54fIlmgTwTdM1sxpO02quE75L1NTKySgjPZ
- KjOA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6E76ED69
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 22:08:12 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601071690;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oyEiYOKdzKVlvL5D6nWRiuLWCYpicqvgUJmqZ1lXRwE=;
+ b=S4VCRM7z511tDDXNkQn+fs0sWD7OaV1Zn6kN8aY3kVQDFCidnXV2KCNmHAtOyX04QnP33U
+ 6Kab1bAtzOZizUJDtYIUPPauQRwVgQYa51KPfEckmg9A91jDiAae8kuIU5erx3s9/e7Opw
+ JGwrK9FLoaJ1qRYw+oFliB5u79mke5o=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-0ofXqLsLOR2zBXTOywSa9w-1; Fri, 25 Sep 2020 18:08:09 -0400
+X-MC-Unique: 0ofXqLsLOR2zBXTOywSa9w-1
+Received: by mail-qt1-f200.google.com with SMTP id z27so3352670qtu.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 15:08:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IqWRtJXL3h+0YNOWDfr/oyE5XU2E5SGs9B5R12b/mYU=;
- b=hRMkQX5PtsTtr/EWy58U3DQ2JJiDS1W7q8PO8oWmhHJ+ohxalXCW8sbLg3EMxFtTUF
- 9CPWXQlfgwrXmbY2Sc7IO5PFSYbAWBahx+shKyc+zUDA04WjSL8NNDOr+yqYsJksfiT3
- G1a3bXD0SCVqScnpoohIUGB0bP+4iwqLZVbbM8f6D6h/DDZiiJUmvugxEuxSPjwTgTMZ
- 4EjpvJIGQbcHX7IUVqj0CFfjPFIlyqNtgzEcDJ0mv72Wr7P1mONCa7029zmHGjBZXtLz
- 5kd7wtDAGboisyAeESv9N82rRIKc5B6VAJmfP/TXiTFYbHs9jviOZ5zpsDWjjmaPp79f
- cX1A==
-X-Gm-Message-State: AOAM530RFDrvK97vv/FwpjkClyIdf+tu1znD+b6n6+ZOBoONaA73ifwx
- cXG/M26gJaAnpuMQEr2/PCgUc5LPVB3nzA==
-X-Google-Smtp-Source: ABdhPJwmQGAytj+dmXke/hXv+JGQ4Kg6h02qEjK+GXB10/h+Q3MdC1ggeZKjWovNpDVBdcczonRk5w==
-X-Received: by 2002:a2e:90d6:: with SMTP id o22mr1769262ljg.442.1601070935198; 
- Fri, 25 Sep 2020 14:55:35 -0700 (PDT)
-Received: from saturn.localdomain ([2a00:fd00:805f:db00:3926:b59a:e618:9f9c])
- by smtp.gmail.com with ESMTPSA id
- j8sm261277lfr.80.2020.09.25.14.55.34
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=oyEiYOKdzKVlvL5D6nWRiuLWCYpicqvgUJmqZ1lXRwE=;
+ b=Js6NI9P84cCN9k41bYIgM7uKPJ7zreUWb9RK178V7d3tVkmC7FJxxPPaGrpaZzd1LU
+ jeovSnu2fhG8WRPMhbjE65NdgZCAi29t06FJBx88TPKWaYniqrqVhLDhZLvlnQgENf0k
+ 6E6fkYHgAA6IdHo9ZGhMUbiwTkezvqfS5heuiQFTVAu4wA3ArZ2NqzYv6EF3yCvwOPOz
+ SeNtN/8JO24qzjPBo75uau/niGNAQ556oubjIzg+9HjdDNi46bqTvYSpBDXDw/FvRbWG
+ MDWgBbF9YeH1YLMmA5xK3lSHz7yRf1q3O4u8WlEEERM2uyo47n3qW/EN9oqiglT48fCd
+ tqEg==
+X-Gm-Message-State: AOAM530a+0RMhQFc+baSDW6yAgs+cZxfSlfr9cm4ugML8V3IsX91vHnT
+ BT9jB/rU3OeuT4MNWEJrVssZD3yukeWW4D5MYBDLofMqn6R7TzssJstz74yHxChViDSpH9HP2nM
+ OJ/NmHLiCknOp4KFbmEJK45g7NCs3
+X-Received: by 2002:a37:6805:: with SMTP id d5mr2172647qkc.116.1601071688736; 
+ Fri, 25 Sep 2020 15:08:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaqMI5NTbDpcpde/1VdVcXIUjX7In3tEFt7Qxf4XnALVe2p6YGM2Pd1kZuXyUxB7ftE3XQxQ==
+X-Received: by 2002:a37:6805:: with SMTP id d5mr2172612qkc.116.1601071688377; 
+ Fri, 25 Sep 2020 15:08:08 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id h68sm2659867qkf.30.2020.09.25.15.08.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 14:55:34 -0700 (PDT)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, Heiko Stuebner <heiko@sntech.de>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v1 2/2] drm/rockchip: fix warning from cdn_dp_resume
-Date: Fri, 25 Sep 2020 23:55:24 +0200
-Message-Id: <20200925215524.2899527-3-sam@ravnborg.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200925215524.2899527-1-sam@ravnborg.org>
-References: <20200925215524.2899527-1-sam@ravnborg.org>
+ Fri, 25 Sep 2020 15:08:07 -0700 (PDT)
+Message-ID: <8bd8ee03f88e7e674e0ea8c6d63d783777cfe414.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/kms/nv50-: Fix clock checking algorithm in
+ nv50_dp_mode_valid()
+From: Lyude Paul <lyude@redhat.com>
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Fri, 25 Sep 2020 18:08:06 -0400
+In-Reply-To: <CAKb7Uvj++15aEXiLGgSZb37wwzDSRCetVT+trP6JNwhk8n-whA@mail.gmail.com>
+References: <20200922210510.156220-1-lyude@redhat.com>
+ <CAKb7UvhAb0wFd9Qi1FGJ=TAYZJ9DYXL6XXMfnG49xEO=a9TuYg@mail.gmail.com>
+ <7b10668ee337e531b14705ebecb1f6c1004728d6.camel@redhat.com>
+ <CAKb7Uvj++15aEXiLGgSZb37wwzDSRCetVT+trP6JNwhk8n-whA@mail.gmail.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,38 +85,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>, stable@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: lyude@redhat.com
+Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, "open
+ list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q29tbWl0IDdjNDlhYmI0YzJmOCAoImRybS9yb2NrY2hpcDogY2RuLWRwLWNvcmU6IE1ha2UgY2Ru
-X2RwX2NvcmVfc3VzcGVuZC9yZXN1bWUgc3RhdGljIikKaW50cm9kdWNlZCB0aGUgZm9sbG93aW5n
-IHdhcm5pbmcgaW4gc29tZSBidWlsZHM6CgpjZG4tZHAtY29yZS5jOjExMjQ6MTI6IHdhcm5pbmc6
-IOKAmGNkbl9kcF9yZXN1bWXigJkgZGVmaW5lZCBidXQgbm90IHVzZWQKIDExMjQgfCBzdGF0aWMg
-aW50IGNkbl9kcF9yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQogICAgICB8ICAgICAgICAgICAg
-Xn5+fn5+fn5+fn5+fgoKRml4IHRoaXMgYnkgZGVmaW5pbmcgY2RuX2RwX3Jlc3VtZSBfX21heWJl
-X3VudXNlZAoKU2lnbmVkLW9mZi1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpG
-aXhlczogN2M0OWFiYjRjMmY4ICgiZHJtL3JvY2tjaGlwOiBjZG4tZHAtY29yZTogTWFrZSBjZG5f
-ZHBfY29yZV9zdXNwZW5kL3Jlc3VtZSBzdGF0aWMiKQpDYzogRW5yaWMgQmFsbGV0Ym8gaSBTZXJy
-YSA8ZW5yaWMuYmFsbGV0Ym9AY29sbGFib3JhLmNvbT4KQ2M6IEhlaWtvIFN0dWVibmVyIDxoZWlr
-b0BzbnRlY2guZGU+CkNjOiBTYW5keSBIdWFuZyA8aGpjQHJvY2stY2hpcHMuY29tPgpDYzogbGlu
-dXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCkNjOiBsaW51eC1yb2NrY2hpcEBsaXN0
-cy5pbmZyYWRlYWQub3JnCkNjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2NS44KwotLS0K
-IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9jZG4tZHAtY29yZS5jIHwgMiArLQogMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL2Nkbi1kcC1jb3JlLmMgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2No
-aXAvY2RuLWRwLWNvcmUuYwppbmRleCBhNGE0NWRhZjkzZjIuLjExNjJlMzIxYWFlZCAxMDA2NDQK
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2Nkbi1kcC1jb3JlLmMKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL2Nkbi1kcC1jb3JlLmMKQEAgLTExMjEsNyArMTEyMSw3IEBAIHN0
-YXRpYyBpbnQgY2RuX2RwX3N1c3BlbmQoc3RydWN0IGRldmljZSAqZGV2KQogCXJldHVybiByZXQ7
-CiB9CiAKLXN0YXRpYyBpbnQgY2RuX2RwX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpCitzdGF0
-aWMgaW50IF9fbWF5YmVfdW51c2VkIGNkbl9kcF9yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQog
-ewogCXN0cnVjdCBjZG5fZHBfZGV2aWNlICpkcCA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwogCi0t
-IAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, 2020-09-22 at 17:22 -0400, Ilia Mirkin wrote:
+> On Tue, Sep 22, 2020 at 5:14 PM Lyude Paul <lyude@redhat.com> wrote:
+> > On Tue, 2020-09-22 at 17:10 -0400, Ilia Mirkin wrote:
+> > > Can we use 6bpc on arbitrary DP monitors, or is there a capability for
+> > > it? Maybe only use 6bpc if display_info.bpc == 6 and otherwise use 8?
+> > 
+> > I don't think that display_info.bpc actually implies a minimum bpc, only a
+> > maximum bpc iirc (Ville would know the answer to this one). The other thing
+> > to
+> > note here is that we want to assume the lowest possible bpc here since we're
+> > only concerned if the mode passed to ->mode_valid can be set under -any-
+> > conditions (including those that require lowering the bpc beyond it's
+> > maximum
+> > value), so we definitely do want to always use 6bpc here even once we get
+> > support for optimizing the bpc based on the available display bandwidth.
+> 
+> Yeah, display_info is the max bpc. But would an average monitor
+> support 6bpc? And if it does, does the current link training code even
+> try that when display_info.bpc != 6?
+
+So I did confirm that 6bpc support is mandatory for DP, so yes-6 bpc will always
+work.
+
+But also, your second comment doesn't really apply here. So: to be clear, we're
+not really concerned here about whether nouveau will actually use 6bpc or not. 
+In truth I'm not actually sure either if we have any code that uses 6bpc (iirc
+we don't), since we don't current optimize bpc. I think it's very possible for
+us to use 6bpc for eDP displays if I recall though, but I'm not sure on that.
+
+But that's also not the point of this code. ->mode_valid() is only used in two
+situations in DRM modesetting: when probing connector modes, and when checking
+if a mode is valid or not during the atomic check for atomic modesetting. Its
+purpose is only to reject display modes that are physically impossible to set in
+hardware due to static hardware constraints. Put another way, we only check the
+given mode against constraints which will always remain constant regardless of
+the rest of the display state. An example of a static constraint would be the
+max pixel clock supported by the hardware, since on sensible hardware this never
+changes. A dynamic constraint would be something like how much bandwidth is
+currently unused on an MST topology, since that value is entirely dependent on
+the rest of the display state.
+
+So - with that said, bpc is technically a dynamic constraint because while a
+sink and source both likely have their own bpc limits, any bpc which is equal or
+below that limit can be used depending on what the driver decides - which will
+be based on the max_bpc property, and additionally for MST displays it will also
+depend on the available bandwidth on the topology. The only non-dynamic thing
+about bpc is that at a minimum, it will be 6 - so any mode that doesn't fit on
+the link with a bpc of 6 is guaranteed to be a mode that we'll never be able to
+set and therefore want to prune.
+
+So, even if we're not using 6 in the majority of situations, I'm fairly
+confident it's the right value here. It's also what i915 does as well (and they
+previously had to fix a bug that was the result of assuming a minimum of 8bpc
+instead of 6).
+
+> 
+>   -ilia
+> 
+-- 
+Sincerely,
+      Lyude Paul (she/her)
+      Software Engineer at Red Hat
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
