@@ -1,42 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1872786BC
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 14:12:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1852786F7
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 14:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B3B76ECAE;
-	Fri, 25 Sep 2020 12:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5006ECB4;
+	Fri, 25 Sep 2020 12:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F286ECAE
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 12:12:09 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 050D72D7;
- Fri, 25 Sep 2020 14:12:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1601035927;
- bh=mo11rEg2eQFnoWXSP+QBfFAd9AXFpZDesn5yHp9T5cs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DDiFPXHvlIUo+cNG9s+hIX0Qt0fpKfY7f/+l9pZaRYwb5HnvLkMuki6tYDbj+LO95
- eL9Z2XO/XQnlGPosoYy+Jz141vghDdcPKhyUxr6JoJ3t9Conzm4lJG0bMXfMH4IVPC
- FTIxZayntDHtYZ8UZ2gm/vgy0mwZoRx4/D8RaDoU=
-Date: Fri, 25 Sep 2020 15:11:33 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH] drm: bridge: cdns-mhdp8546: fix compile warning
-Message-ID: <20200925121133.GD3933@pendragon.ideasonboard.com>
-References: <20200923083057.113367-1-tomi.valkeinen@ti.com>
- <20200924114810.GB3968@pendragon.ideasonboard.com>
- <01359a54-964f-c748-442e-eeab30f08e56@ti.com>
- <20200925120018.GC3933@pendragon.ideasonboard.com>
- <0abebdad-45fb-9862-b031-e1c9107ba820@ti.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B506C6ECB4;
+ Fri, 25 Sep 2020 12:21:00 +0000 (UTC)
+IronPort-SDR: 5d6WB9WtEBXMAuuqCn2gmK1Jsq+VPkfwCQTGqUa8Kq6mxh5bIsQtNBbcN+ktdgl75Et4gWRNdZ
+ pS1gN9YVPyuQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="149163855"
+X-IronPort-AV: E=Sophos;i="5.77,301,1596524400"; d="scan'208";a="149163855"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2020 05:20:59 -0700
+IronPort-SDR: Lsm8bWnGAlbWTA7kb2AstTJPcd3vxCL0JQRppMoiWzcPFPbRUIOpAxfHXE0jAih+iA329RWLTR
+ qkg29cbYGmnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,301,1596524400"; d="scan'208";a="383460341"
+Received: from unknown (HELO linux-akn.iind.intel.com) ([10.223.34.148])
+ by orsmga001.jf.intel.com with ESMTP; 25 Sep 2020 05:20:57 -0700
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [RFC 0/7] Add support for DP-HDMI2.1 PCON
+Date: Fri, 25 Sep 2020 17:43:33 +0530
+Message-Id: <20200925121340.29497-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0abebdad-45fb-9862-b031-e1c9107ba820@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,60 +46,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Yuti Amonkar <yamonkar@cadence.com>, dri-devel@lists.freedesktop.org,
- Swapnil Jakhade <sjakhade@cadence.com>
+Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com,
+ dri-devel@lists.freedesktop.org, swati2.sharma@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 25, 2020 at 03:05:52PM +0300, Tomi Valkeinen wrote:
-> On 25/09/2020 15:00, Laurent Pinchart wrote:
-> > On Fri, Sep 25, 2020 at 10:36:44AM +0300, Tomi Valkeinen wrote:
-> >> On 24/09/2020 14:48, Laurent Pinchart wrote:
-> >>> Hi Tomi,
-> >>>
-> >>> Thank you for the patch.
-> >>>
-> >>> On Wed, Sep 23, 2020 at 11:30:57AM +0300, Tomi Valkeinen wrote:
-> >>>> On x64 we get:
-> >>>>
-> >>>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:751:10: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '18446744073709551613' to '4294967293' [-Woverflow]
-> >>>>
-> >>>> The registers are 32 bit, so fix by casting to u32.
-> >>>
-> >>> I wonder if we need a BIT32 macro... This is a common issue, it would be
-> >>> nice to handle it in the macros that define register fields.
-> >>
-> >> That's probably a good idea. I think
-> >>
-> >> #define BIT32(nr) (1u << (nr))
-> >>
-> >> should work correct on all archs. Although I'm not quite sure if nr should be cast to u32, but in my
-> >> tests a u64 nr doesn't cause type promotion to u64.
-> > 
-> > I don't think we need to support nr values larger than 2^32-1 ;-)
-> 
-> That's true, but we might have:
-> 
-> u64 nr = 1;
-> BIT32(nr)
-> 
-> Afaics, we don't need to cast nr to u32, but maybe that's still the safe thing to do.
-> 
-> >> Anyway, I'd like to merge this fix as it is to get rid of the warning for the merge window.
-> > 
-> > Sounds good to me.
-> 
-> Was that a reviewed-by? =)
+This patch series attempts to add support for a DP-HDMI2.1 Protocol
+Convertor. The VESA spec for the HDMI2.1 PCON are proposed in Errata
+E5 to DisplayPort_v2.0:
+https://vesa.org/join-vesamemberships/member-downloads/?action=stamp&fileid=42299
+The details are mentioned in DP to HDMI2.1 PCON Enum/Config
+improvement slide decks:
+https://groups.vesa.org/wg/DP/document/folder/1316
 
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+This RFC series starts with adding support for FRL (Fixed Rate Link)
+Training between the PCON and HDMI2.1 sink.
+As per HDMI2.1 specification, a new data-channel or lane is added in
+FRL mode, by repurposing the TMDS clock Channel. Through FRL, higher
+bit-rate can be supported, ie. up to 12 Gbps/lane (48 Gbps over 4
+lanes).
+
+With these patches, the HDMI2.1 PCON can be configured to achieve FRL
+training based on the maximum FRL rate supported by the panel, source
+and the PCON.
+The approach is to add the support for FRL training between PCON and
+HDMI2.1 sink and gradually add other blocks for supporting higher
+resolutions and other HDMI2.1 features, that can be supported by pcon
+for the sources that do not natively support HDMI2.1.
+
+This is done before the DP Link training between the source and PCON
+is started. In case of FRL training is not achieved, the PCON will
+work in the regular TMDS mode, without HDMI2.1 feature support.
+Any interruption in FRL training between the PCON and HDMI2.1 sink is
+notified through IRQ_HPD. On receiving the IRQ_HPD the concerned DPCD
+registers are read and FRL training is re-attempted.
+
+Currently, we have tested the FRL training and are able to enable 4K
+display with TGL Platform + Realtek PCON RTD2173 with HDMI2.1 supporting
+panel.
+
+Ankit Nautiyal (3):
+  drm/dp_helper: Add FRL training support for a DP-HDMI2.1 PCON
+  drm/i915: Add support for starting FRL training for HDMI2.1 via PCON
+  drm/i915: Check for FRL training before DP Link training
+
+Swati Sharma (4):
+  drm/edid: Add additional HFVSDB fields for HDMI2.1
+  drm/edid: Parse MAX_FRL field from HFVSDB block
+  drm/dp_helper: Add support for link status and link recovery
+  drm/i915: Add support for enabling link status and recovery
+
+ drivers/gpu/drm/drm_dp_helper.c               | 338 ++++++++++++++++++
+ drivers/gpu/drm/drm_edid.c                    |  50 +++
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   2 +
+ .../drm/i915/display/intel_display_types.h    |   6 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 251 ++++++++++++-
+ drivers/gpu/drm/i915/display/intel_dp.h       |   2 +
+ include/drm/drm_connector.h                   |   6 +
+ include/drm/drm_dp_helper.h                   |  97 +++++
+ include/drm/drm_edid.h                        |  30 ++
+ 9 files changed, 779 insertions(+), 3 deletions(-)
 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
