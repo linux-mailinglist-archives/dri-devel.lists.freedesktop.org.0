@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7E9278398
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 11:10:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5292783AB
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 11:12:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D768C6E02E;
-	Fri, 25 Sep 2020 09:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB806EC69;
+	Fri, 25 Sep 2020 09:12:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15F1A6E02E
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 09:10:27 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id e17so2280960wme.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 02:10:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=4bxN2fagu2rIKQxxyvxxjzncZ5aqxZkwbZ2FY0Psst0=;
- b=LxdC9Zu/73+wFvQcMk2+2joqpYrO9qtRHkxX8hNdZGlt7eQGoB9dygmySiEslOrlEF
- wYF0qYgQZbhczxJ8t5Tbl0VtdDZ+vruEJxtx0jq6acTdd+c4jq3aJAVLO1nc6afAK3qQ
- RgBq81pCn5niW1axKn/dLdeUnGx5zfai6EX7g=
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C7296EC66;
+ Fri, 25 Sep 2020 09:11:58 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id x69so2014519lff.3;
+ Fri, 25 Sep 2020 02:11:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=unpbWfhbNUvAm8U48dnsh3o85sr3kUdiLNKs33mxuPc=;
+ b=ukpXSwmGdEKM/a1BgktI36RmiBcoZh6E8KVTrV/GSdoNpeAKyo5C+jph7CPazhc40x
+ msh2ywq+ETqTfSW7Xc5vZNbSonMWpASOlrCS1viFJ0Pkk7+udf1PVT8IH2+Gtqhwq1e1
+ XaZjgNvSP340iz66j+dfuI6TJBJpa1cH9dx6uKNFbA5EUkelmuAmIW22ZZeZhifk5ry5
+ 3td1nKNAB8USvVcwM5Hft5H7coiYNEqxe1ucMbPWvgolE7bqLAEZJtGYusDt7SRPjQXe
+ OERTRPyGo52ksdVtIGP+LL91H42KQb31rUUvvDU0ejOTRZ+VnB6CGIIU6BJdSP9vfGjA
+ UtbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=4bxN2fagu2rIKQxxyvxxjzncZ5aqxZkwbZ2FY0Psst0=;
- b=SmsLdB9gpv54TtIwTWFUtU9MAmjCpORPch7hhuLI5cuSPzPBXQVsrAknmvDKby/qJg
- 0EjGnSRCMt3vM48pnd0awvXKUdUKwR5aiHt2bYisWiiYsdUkzNZAZAYFlk5Q1UTrb3Vs
- Ai7l7F1c2G96hiKSu9/BD/TS9p0LHyo3nIDSxoi/401sipl0YZ6lf8IxFbH70nHoy1O3
- DvgcbZXwJu505t3gOUlTRB8qLT04fWEssfJTx6oAw5UO4+dR7HPwi+aqq+eO/I6YBNG2
- 73CJpuH+EtPqesP4rfT+gBKa9Y0/C3EnOc2F0nuDAz1lGGU55yjbYbaxchTGS0Yj7NOr
- Ecng==
-X-Gm-Message-State: AOAM531vp6kKAXxTJK+XQnpleiWa53TJB6Sc8SeYeK2QcgQaRNfmMufK
- nVfWvwxIOTQGvCulUoVRkFnEZg==
-X-Google-Smtp-Source: ABdhPJz39Njw83y/iQ1by8WVklDBrwBAysH2nbHjX1h9i0Z3FFq/537COlQ1R7PRkQNkxthD8z2i+g==
-X-Received: by 2002:a1c:5f46:: with SMTP id t67mr2003936wmb.71.1601025025796; 
- Fri, 25 Sep 2020 02:10:25 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b11sm2106005wrt.38.2020.09.25.02.10.24
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=unpbWfhbNUvAm8U48dnsh3o85sr3kUdiLNKs33mxuPc=;
+ b=NzRcb5DJ2NBjlaXa4L/+H78uvF0/11HsaSIigvlalPnRynoHan5KCIgnHp5pNvuQSq
+ iEUtht4GK5DTzDD70wGLOLciQugj2aoDP7nob2NykmhGLbTCyCnETW42nwQ41u0crMxu
+ G40hFf8r1XDujLAsH6LcFg9xiGnLTDNW7ZPS5uCTNiJpXe600jNeuU1LcDDPbCMsCvcF
+ b+QQd42RzZ5huNtq8Vqi23C83o6z6XgzChc2Ul7fL2fyW3LuH+Xk3rAmgXhgDpTWAnxE
+ YRJ1n4llmPTjlIrxj6MU4xLLUjJNpQlE6yjiacjjSahzL8XdrtzRHcwMzClxPxDN/BvZ
+ WyyQ==
+X-Gm-Message-State: AOAM530P/kK2Li6zeBH4pyIiysHr8DxkSNcPAAyVruvWwYvi24/uY2gv
+ IcyM56Ul+uEi1ndQnF48qyM=
+X-Google-Smtp-Source: ABdhPJyJKW01SOgRu4nDjxv92QAAy49QKRTw5T55DlKuqMG45XiWOqOcL+2yBFcv73XnzWGzbA6AqA==
+X-Received: by 2002:a19:50d:: with SMTP id 13mr920156lff.500.1601025116968;
+ Fri, 25 Sep 2020 02:11:56 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id a192sm1776717lfd.51.2020.09.25.02.11.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 02:10:24 -0700 (PDT)
-Date: Fri, 25 Sep 2020 11:10:23 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH] drm/vc4: Deleted the drm_device declaration
-Message-ID: <20200925091023.GE438822@phenom.ffwll.local>
-Mail-Followup-To: Tian Tao <tiantao6@hisilicon.com>, eric@anholt.net,
- airlied@linux.ie, sumit.semwal@linaro.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <1601023898-29886-1-git-send-email-tiantao6@hisilicon.com>
+ Fri, 25 Sep 2020 02:11:56 -0700 (PDT)
+Date: Fri, 25 Sep 2020 12:11:47 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/2] drm/atomic: debug output for EBUSY
+Message-ID: <20200925121147.791ea941@eldfell>
+In-Reply-To: <20200925084651.3250104-2-daniel.vetter@ffwll.ch>
+References: <20200925084651.3250104-1-daniel.vetter@ffwll.ch>
+ <20200925084651.3250104-2-daniel.vetter@ffwll.ch>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1601023898-29886-1-git-send-email-tiantao6@hisilicon.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,56 +66,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============2133480258=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 25, 2020 at 04:51:38PM +0800, Tian Tao wrote:
-> drm_modeset_lock.h already declares struct drm_device, so there's no
-> need to declare it in vc4_drv.h
-> 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+--===============2133480258==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/7LK.RtQplWEQivx6GV828S."; protocol="application/pgp-signature"
 
-Just an aside, when submitting patches please use
-scripts/get_maintainers.pl to generate the recipient list. Looking through
-past few patches from you it seems fairly arbitrary and often misses the
-actual maintainers for a given piece of code, which increases the odds the
-patch will get lost a lot.
+--Sig_/7LK.RtQplWEQivx6GV828S.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-E.g. for this one I'm only like the 5th or so fallback person, and the
-main maintainer isn't on the recipient list.
+On Fri, 25 Sep 2020 10:46:51 +0200
+Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 
-Cheeers, Daniel
+> Hopefully we'll have the drm crash recorder RSN, but meanwhile
+> compositors would like to know a bit better why they get an EBUSY.
+>=20
+> v2: Move misplaced hunk to the right patch (Pekka)
 
-> ---
->  drivers/gpu/drm/vc4/vc4_drv.h | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index 8c8d96b..8717a1c 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -19,7 +19,6 @@
->  
->  #include "uapi/drm/vc4_drm.h"
->  
-> -struct drm_device;
->  struct drm_gem_object;
->  
->  /* Don't forget to update vc4_bo.c: bo_type_names[] when adding to
-> -- 
-> 2.7.4
-> 
+Hi,
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+both patches
+
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+
+Thanks,
+pq
+
+--Sig_/7LK.RtQplWEQivx6GV828S.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl9ttFMACgkQI1/ltBGq
+qqfggRAAjsmSK5GFhOAwb8lwZXoa7S4lHH/tTQTjUDiEN9Dv6bF8wC9wHb6LHktr
+FFhXpGJtpXALkzI8pHmi4cU7Y7tuX0RADA0EIthLQS2ni2H2JS+X7xpJ4hQeFJuP
+JdC5qVcN/svnUXAcdMgzqzoMnMuoMkLJHsPUA4QUi2KWwtYmM2jU9caI7c3nsle+
+JjG41sbbLkg6ukRtJgA+wbhkSKwN9kSXYQFTKyVxim6EwwpHYSCkN9MtUquS6F5T
+VySWylR5AGfxf076TUPQShn64akCugPFz6V3WOLSLjMVVETqKqOdYgdTn/Ybq1Le
+mopSVd16rqJjuAq1AI8JVmBm56xQjCnVMu6aDlnpIHw1J6K+3yw+oItqEg2KhI6y
+eNGO5TZUgH6C6ZKkzLsa6OsE1ku+tdpK05mQTxHazQRre4NYg/Z805SumnrcHC5T
+6ULt6zU/1Qi6l2U3RkVNmbRKfqic2937C8FhM2ptFZQHzXblCfyaStpQbcfcleCZ
+5kReV6z5FRc4G4gy/ZKMZ8Y4VMzdnZNJZs7yUaj29LnM4gPqGyBCqM02aAteKygq
+fnipLN7H1uQSsY0Vp5LVGLEM6qMGR2DoyfOFEKRAh7yujVthy6OhJyjNI8Pv4puJ
+pKkDfl+3eK78kJA41hsjripHkv8Nd/tIMWDdZcF8W6dkcvTwS/o=
+=Ua5v
+-----END PGP SIGNATURE-----
+
+--Sig_/7LK.RtQplWEQivx6GV828S.--
+
+--===============2133480258==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2133480258==--
