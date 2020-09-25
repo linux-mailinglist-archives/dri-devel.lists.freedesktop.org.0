@@ -1,61 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15095278A1C
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 15:57:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3572278A6B
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 16:09:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA5C36ECDF;
-	Fri, 25 Sep 2020 13:57:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF5BD6ECDD;
+	Fri, 25 Sep 2020 14:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 319C86ECDF
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 13:57:06 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id z26so2827481oih.12
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 06:57:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
+ [IPv6:2607:f8b0:4864:20::944])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAB76ECDD;
+ Fri, 25 Sep 2020 14:09:27 +0000 (UTC)
+Received: by mail-ua1-x944.google.com with SMTP id h15so976710uab.3;
+ Fri, 25 Sep 2020 07:09:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0BLMFHQKi0K1MwliQDsfd75yxbHRpvx3w1RVyDxX+wE=;
- b=B8zwT6H28qP9S7RCOgpnKjEPTooRDW8YuT289hsyb4efebZ8DjhivX5Wsrt45R/IN3
- KOufwg5br5Ju+czRi+0/d+P+ryWbgB8C9YieRQm/mGWbst6u1Zjt/cjKdvHOTYGOlegk
- Vp8ZZbsQ9IQunhA1uGpiuyatOcmKZzvWAhi+w=
+ :cc; bh=W4ybNDBj3JkG7xwtC+pQm/GVM9Ki73UbHYGcb1DNgoE=;
+ b=VAE/JCw4Kc2YKn1yJ8L/Q9+LADI9BPVrPzMbIS0mOQDh1e+IitPGEnQLZfakaeotSX
+ fJpnesPgh6fudFH4hBFOTUzOvja6IHah1EG+sAlo5mDeRe30T7WE5Z+EmmrqyLBVjPT2
+ Y6MypsxJU5ecTFL5KTTnudzV3iHFKzBhkicIF7nAwXtRPFhwdOi9g9/Y/qXRPNUiOlZ/
+ S833Agy78MEYaybNf9Tk+M+dZyKRMHoBkxs25nGIJGGXWhSky07MsU9xI+7dnENL4I7l
+ bH2CDxH5hj1vhP5g8v/h/6Mm80YH+iZTF4wuYNk0h7j6DAwbRzp57D1NpHpN8KHRNu/G
+ TlSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0BLMFHQKi0K1MwliQDsfd75yxbHRpvx3w1RVyDxX+wE=;
- b=E6SWuI7xrN8aNJBT5YqoTDqurTi7mmK8a+9V9fB7+fWwUNlLpnm/P9hLEfhwQLGzv3
- thPI6MhLyE/w1UOOKqV7s8jWZQTGjmVgoeQMFzZ2ozf0kh+z77S7Xvm0UHLGIOzGg//L
- wvn5RzdBMtFG+dvbh3ZDB9IbQ6a5UshvNlMvFwte5OjqoU2O8yYRhlUFN2NWamVd8939
- fiPRpXH+5TclszUcQ+G68No8Oe1Y7QYHRsuiGZIfDm71JS0IEg4QZlO6W6gb/ELdRF6q
- IjzxZiAV7+rgsZKweHtrfQVsKnYBIzy6GIRZ+ewV0QzArUGNmBgKukWJM6jHrZQfQ1Fm
- fi0g==
-X-Gm-Message-State: AOAM5311vda41li0lGRHT2tHN1u+OMXtQgjFc8YQs+r5WKXhjuBGJZgX
- 1FSWEAKlR3W0yeghDBxs0OWJoYbyKeUFczYMOVr82A==
-X-Google-Smtp-Source: ABdhPJzbO6kDJE/zyvaA2CXSQi8G5nO5Cm3FcA3GbcyO8TXGZOlOtI6WpQV8u800dLtPggX0BKNBN8zHIrJ5lsFLjno=
-X-Received: by 2002:aca:6083:: with SMTP id u125mr335754oib.14.1601042225390; 
- Fri, 25 Sep 2020 06:57:05 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=W4ybNDBj3JkG7xwtC+pQm/GVM9Ki73UbHYGcb1DNgoE=;
+ b=iT+rGlEO8i49daiE7JlxXd5aVJhQ1exTWoxm46UeUdAZebvdC/es70NBQQiBD+kqih
+ 63RNhn887ffcA6O3+BXbcNoVDj8CECE+iUAxVsq4dlmzDHjHbcA1mTPT9T/9fvffjRAD
+ mw5A/Nu53iZVNeBnzluU/+HYUvc1Ub1exWLOVpI588VkLPiyakUE9QdpPAVot5TjNc97
+ hevOMa+FcPwMLgDd2pIzAGiaNs/5JZDdJIo0qBuF4bARnUgGmVMU9i9gNA+4AmL1Xi5/
+ F0+wITliEA207dds+og9lg1W7S/Xz4M8EYaNHjio06dmwK1zOQxAwbftz7jjDhAZWL7f
+ 9w8A==
+X-Gm-Message-State: AOAM5324kCxQ0zqiAPqBIe8hOssvJMFq10SIMb8sD57iaS1Ihu6OlTSJ
+ 8gS7AZ2YnqNfBEgM7WQkMjr+QrB1cnna9cIUeds=
+X-Google-Smtp-Source: ABdhPJy0IxUr4anWia0Qm7ztGxjztU5H4LAKNIvZHwQZc9rZ+mSfXU53xRXTbzCYoiyClMt8qe//fl65KD/2aNPSkzU=
+X-Received: by 2002:ab0:6f91:: with SMTP id f17mr2536965uav.129.1601042966264; 
+ Fri, 25 Sep 2020 07:09:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200924051845.397177-1-airlied@gmail.com>
- <20200924051845.397177-38-airlied@gmail.com>
- <39ca897a-e7f2-93c8-e844-449ccbfe6041@amd.com>
- <CAPM=9tw6a6E+KZV7LceHUj=SHFaTe9M+KjjYgouhdX0gkDsuzw@mail.gmail.com>
- <4b16b60d-228d-164d-396f-f8344fd67674@amd.com>
- <CAKMK7uF0CnQDCnCVLL2dReh0Tmo=gou=XLvAihq7VVihz0ysBg@mail.gmail.com>
- <CAKMK7uGMNh=uFHnBdk2B3A5VGTHFzaX65Bw4-3cz5RB717pwMw@mail.gmail.com>
- <f299a276-53b4-4eb1-416d-3aa56407ebdb@amd.com>
- <CAKMK7uH+rupecO8uSvK3MzJ8OpDsFMhm0w7e_-9kzdiK-k+Dvg@mail.gmail.com>
- <94a603bf-7a91-dc6f-9ba9-2561ab8e6f64@amd.com>
-In-Reply-To: <94a603bf-7a91-dc6f-9ba9-2561ab8e6f64@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 25 Sep 2020 15:56:54 +0200
-Message-ID: <CAKMK7uEsnNx18mCCiFQQt5dPOKCYQUgf8jfo0s0Hv3u1EaBxOw@mail.gmail.com>
-Subject: Re: [PATCH 37/45] drm/ttm: add a helper to allocate a temp tt for
- copies.
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20200924135853.875294-1-hch@lst.de>
+ <20200924135853.875294-9-hch@lst.de>
+In-Reply-To: <20200924135853.875294-9-hch@lst.de>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Fri, 25 Sep 2020 15:08:59 +0100
+Message-ID: <CAM0jSHPaqpX2A5T4iybfLF+F=cBX05GW8u54cUe7AG0QKDJt2g@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 08/11] drm/i915: use vmap in
+ i915_gem_object_map
+To: Christoph Hellwig <hch@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,109 +62,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ben Skeggs <bskeggs@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Minchan Kim <minchan@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>, x86@kernel.org,
+ kernel list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, linux-mm@kvack.org,
+ Matthew Wilcox <willy@infradead.org>, xen-devel@lists.xenproject.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Nitin Gupta <ngupta@vflare.org>,
+ Matthew Auld <matthew.auld@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBTZXAgMjUsIDIwMjAgYXQgMzo0MCBQTSBDaHJpc3RpYW4gS8O2bmlnCjxjaHJpc3Rp
-YW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMjUuMDkuMjAgdW0gMTU6MTcgc2Nocmll
-YiBEYW5pZWwgVmV0dGVyOgo+ID4gW1NOSVBdCj4gPj4gRXZpY3Rpb24gaXMgbm90IGEgcHJvYmxl
-bSBiZWNhdXNlIHRoZSBkcml2ZXIgZ2V0cyBhc2tlZCB3aGVyZSB0byBwdXQgYW4KPiA+PiBldmlj
-dGVkIEJPIGFuZCB0aGVuIFRUTSBkb2VzIGFsbCB0aGUgbW92aW5nLgo+ID4gSG0gSSBndWVzcyB0
-aGVuIEkgZG9uJ3QgcXVpdGUgZ2V0IHdoZXJlIHlvdSBzZWUgdGhlIHBpbmctcG9uZwo+ID4gaGFw
-cGVuaW5nLCBJIHRob3VnaHQgdGhhdCBvbmx5IGhhcHBlbnMgZm9yIGV2aWN0aW5nIHN0dWZmLgo+
-Cj4gTm8sIGV2aWN0aW9uIGlzIHRoZSBuaWNlIGNhc2UuIE9uZSBzdGVwIGFmdGVyIGFub3RoZXIu
-Cj4KPiBFLmcuIGZyb20gVlJBTSB0byBHVFQsIHRoZW4gZnJvbSBHVFQgdG8gU1lTVEVNIGFuZCB0
-aGVuIGV2ZW50dWFsbHkKPiBzd2FwcGVkIG91dC4KPgo+ID4gQnV0IGhleSBub3QgbXVjaCBhY3R1
-YWwgd29ya2luZyBleHBlcmllbmNlIHdpdGggdHRtIG92ZXIgaGVyZSwgSSdtIGp1c3QgcmVhZGlu
-Zwo+ID4gOi0pIEkgdGhvdWdodCB0aGUgaXNzdWUgaXMgdGhhdCB0dG0gd2FudHMgdG8gZXZpY3Qg
-ZnJvbSAkc29tZXRoaW5nIHRvCj4gPiBTWVNURU0sIGFuZCB0byBkbyB0aGF0IHRoZSBkcml2ZXIg
-Zmlyc3QgbmVlZHMgdG8gc2V0IGEgR1RUIG1hcHBpbmcgZm9yCj4gPiB0aGUgU1lTVEVNIHR0bV9y
-ZXNvdXJjZSBhbGxvY2F0aW9uLCBzbyB0aGF0IGl0IGNhbiB1c2UgdGhlCj4gPiBibGl0dGVyL3Nk
-bWEgZW5naW5lIG9yIHdoYXRldmVyIHRvIG1vdmUgdGhlIGRhdGEgb3Zlci4gQnV0IGZvcgo+ID4g
-c3dhcC1pbi92YWxpZGF0aW9uIEknbSBjb25mdXNlZCBob3cgeW91IGNhbiBlbmQgdXAgd2l0aCB0
-aGUgIndyb25nIgo+ID4gcGxhY2VtZW50LCB0aGF0IGZlZWxzIGxpa2UgYSBkcml2ZXIgYnVnLgo+
-Cj4gVGhlIHByb2JsZW0gaGFwcGVucyBpbiB0aGUgb3RoZXIgZGlyZWN0aW9uIGFuZCBhbHdheXMg
-ZGlyZWN0bHkgdHJpZ2dlcmVkCj4gYnkgdGhlIGRyaXZlci4KPgo+ID4gSG93IGV4YWN0bHkgY2Fu
-IHlvdSBnZXQgaW50byBhIHNpdHVhdGlvbiB3aXRoIHZhbGlkYXRpb24gd2hlcmUgdHRtCj4gPiBn
-aXZlcyB5b3UgU1lTVEVNLCBidXQgbm90IEdUVCBhbmQgdGhlIGRyaXZlciBoYXMgdG8gZml4IHRo
-YXQgdXA/IEknbQo+ID4gbm90IHJlYWxseSBmb2xsb3dpbmcgSSB0aGluaywgSSBndWVzcyB0aGVy
-ZSdzIHNvbWV0aGluZyBvYnZpb3VzIEknbQo+ID4gbWlzc2luZy4KPgo+IEZvciBleGFtcGxlIGEg
-YnVmZmVyIHdoaWNoIHdhcyBldmljdGVkIHRvIFNZU1RFTSBuZWVkcyB0byBiZSBtb3ZlZCBiYWNr
-Cj4gZGlyZWN0bHkgdG8gVlJBTS4KPgo+IE9yIHdlIHdhbnQgdG8gZXZhY3VhdGUgYWxsIGJ1ZmZl
-cnMgZnJvbSBWUkFNIHRvIFNZU1RFTSBiZWNhdXNlIG9mCj4gaGliZXJuYXRpb24uCj4KPiBldGMu
-Li4uCgpPaywgSSB0aGluayBJIGdldCBpdC4gRXZpY3Rpb24gYWx3YXlzIGdvZXMgb25lIHN0ZXAg
-b25seSBpbiB0aGUgY2hhaW4KKGJ1dCBtYXliZSBtdWx0aXBsZSB0aW1lcyBhcyBwYXJ0IG9mIGFu
-IG92ZXJhbGwgZXUgdmFsaWRhdGUgZm9yIGFsbAp0aGUgYnVmZmVycykuIEJ1dCBzd2FwIGluIGNh
-biBnbyB0aGUgZW50aXJlIGxlbmd0aCBpbiBvbmUgZ28uIFNvIHllYWgKZGVtaWRsYXllcmluZyBl
-dmljdGlvbiBpc24ndCBxdWl0ZSB0aGUgcmlnaHQgdGhpbmcgaGVyZSwgc2luY2UgaXQncwpub3Qg
-dGhlIHByb2JsZW0uCi1EYW5pZWwKCj4KPiA+Pj4+IE9yIHNob3VsZCB3ZSBpbnN0ZWFkIG1vdmUg
-dGhlIGVudGlyZSBldmljdGlvbiBsb2dpYyBvdXQgZnJvbSB0dG0gaW50bwo+ID4+Pj4gZHJpdmVy
-cywgYnVpbGRpbmcgaXQgdXAgZnJvbSBoZWxwZXJzPwo+ID4+IEkndmUgYmVlbiBwbGF5aW5nIHdp
-dGggdGhhdCB0aG91Z2h0IGZvciBhIHdoaWxlIGFzIHdlbGwsIGJ1dCB0aGVuCj4gPj4gZGVjaWRl
-ZCBhZ2FpbnN0IGl0Lgo+ID4+Cj4gPj4gVGhlIG1haW4gcHJvYmxlbSBJIHNlZSBpcyB0aGF0IHdl
-IHNvbWV0aW1lcyBuZWVkIHRvIGV2aWN0IHRoaW5ncyBmcm9tCj4gPj4gb3RoZXIgZHJpdmVycy4K
-PiA+Pgo+ID4+IEUuZy4gd2hlbiB3ZSBvdmVyY29tbWl0dGVkIHN5c3RlbSBtZW1vcnkgYW5kIG1v
-dmUgdGhpbmdzIHRvIHN3YXAgZm9yCj4gPj4gZXhhbXBsZS4KPiA+IEhtIHllYWggdHRtIGhhcyB0
-aGF0IGxpbWl0IHRvIGF2b2lkIHN0ZXBwaW5nIGludG8gdGhlIHNocmlua2VyLAo+ID4gZGlyZWN0
-bHkgY2FsbGluZyBpbnRvIGFub3RoZXIgZHJpdmVyIHRvIGtlZXAgd2l0aGluIHRoZSBsaW1pdCB3
-aGlsZQo+ID4gaWdub3JpbmcgdGhhdCB0aGVyZSdzIG90aGVyIG1lbW9yeSB1c2VycyBhbmQgY2Fj
-aGVzIG91dCB0aGVyZSBzdGlsbAo+ID4gZmVlbHMgd3JvbmcsIGl0J3Mga2luZGEgYSBwYXJhbGxl
-bCB3b3JsZCB2cyBzaHJpbmtlciBjYWxsYmFja3MuIEFuZAo+ID4gdGhlcmUncyBub3RoaW5nIHN0
-b3BwaW5nIHlvdSBmcm9tIGRvaW5nIHRoZSBTWVNURU0tPlNXQVAgbW92ZW1lbnQgZnJvbQo+ID4g
-YSBzaHJpbmtlciBjYWxsYmFjayB3aXRoIHRoZSBsb2NraW5nIHJ1bGVzIHdlJ3ZlIGVzdGFibGlz
-aGVkIGFyb3VuZAo+ID4gZG1hX3Jlc3YgKGp1c3QgbmVlZHMgdG8gYmUgYSB0cnlsb2NrKS4KPiA+
-Cj4gPiBTbyBmZWVscyBhIGJpdCBiYWNrd2FyZHMgaWYgd2UgZGVzaWduIHR0bSBldmljdGlvbiBh
-cm91bmQgdGhpcyBwYXJ0IG9mIGl0IC4uLgo+Cj4gT2ssIHRoYXQncyBhIGdvb2QgcG9pbnQuIE5l
-ZWQgdG8gdGhpbmsgYWJvdXQgdGhhdCBhIGJpdCBtb3JlIHRoZW4uCj4KPiA+Pj4+IFRoZW4gZHJp
-dmVycyB3aGljaCBuZWVkIGd0dCBmb3IKPiA+Pj4+IG1vdmluZyBzdHVmZiBvdXQgb2YgdnJhbSBj
-YW4gZG8gdGhhdCByaWdodCBhd2F5LiBBbHNvLCB0aGlzIHdvdWxkCj4gPj4+PiBhbGxvdyB1cyB0
-byBpbXBsZW1lbnQgdmVyeSBmYW5jeSBldmljdGlvbiBhbGdvcml0aG1zIGxpa2UgYWxsIHRoZQo+
-ID4+Pj4gbm9uc2Vuc2Ugd2UncmUgZG9pbmcgaW4gaTkxNSBmb3IgZ3R0IGhhbmRsaW5nIG9uIGdl
-bjIvMyAoYnV0IEkgcmVhbGx5Cj4gPj4+PiBob3BlIHRoYXQgbmV2ZXIgZXZlciBiZWNvbWVzIGEg
-dGhpbmcgYWdhaW4gaW4gZnV0dXJlIGdwdXMsIHNvIHRoaXMgaXMKPiA+Pj4+IG1heWJlIG1vcmUg
-YSB3aGF0LWlmIGtpbmQgb2YgdGhpbmcpLiBOb3Qgc3VyZSBob3cgdGhhdCB3b3VsZCBsb29rCj4g
-Pj4+PiBsaWtlLCBtYXliZSBhIHNwZWNpYWwgdmFsaWRhdGUgZnVuY3Rpb24gd2hpY2ggdGFrZXMg
-YSB0dG1fcmVzb3VyY2UgdGhlCj4gPj4+PiBkcml2ZXIgYWxyZWFkeSBmb3VuZCAodGhyb3VnaCBl
-dmljdGluZyBzdHVmZiBvciB3aGF0ZXZlcikgYW5kIHRoZW4gdHRtCj4gPj4+PiBqdXN0IGRvZXMg
-dGhlIG1vdmUgYW5kIGJvb2sta2VlcGluZyBhbmQgZXZlcnl0aGluZy4gQW5kIGRyaXZlcnMgd291
-bGQKPiA+Pj4+IGF0IGZpcnN0IG9ubHkgY2FsbCB2YWxpZGF0ZSB3aXRob3V0IGFsbG93aW5nIGFu
-eSBldmljdGlvbi4gT2ZjIGFueW9uZQo+ID4+Pj4gd2l0aG91dCBzcGVjaWFsIG5lZWRzIGNvdWxk
-IHVzZSB0aGUgc3RhbmRhcmQgZXZpY3Rpb24gZnVuY3Rpb24gdGhhdAo+ID4+Pj4gdmFsaWRhdGUg
-YWxyZWFkeSBoYXMuCj4gPj4+IFNwaW5uaW5nIHRoaXMgYSBiaXQgbW9yZSwgd2UgY291bGQgaGF2
-ZSBkaWZmZXJlbnQgZGVmYXVsdCBldmljdGlvbgo+ID4+PiBmdW5jdGlvbnMgd2l0aCB0aGlzLCBl
-LmcuIHNvIGFsbCB0aGUgZHJpdmVycyB0aGF0IG5lZWQgZ3R0IG1hcHBpbmcgZm9yCj4gPj4+IG1v
-dmluZyBzdHVmZiBhcm91bmQgY2FuIHNoYXJlIHRoYXQgY29kZSwgYnV0IHdpdGggc3BlY2lmaWMm
-ZmxhdAo+ID4+PiBjb250cm9sIGZsb3cgaW5zdGVhZCBvZiBsb3RzIG9mIHBpbmctcGluZy4gQW5k
-IGRyaXZlcnMgdGhhdCBkb24ndCBuZWVkCj4gPj4+IGd0dCBtYXBwaW5nIChsaWtlIGk5MTUsIHdl
-IGp1c3QgbmVlZCBkbWFfbWFwX3NnIHdoaWNoIHdlIGFzc3VtZSB3b3Jrcwo+ID4+PiBhbHdheXMs
-IG9yIHNvbWV0aGluZyBmcm9tIHRoZSB0dG0gZG1hIHBhZ2UgcG9vbCwgd2hpY2ggcmVhbGx5IGFs
-d2F5cwo+ID4+PiB3b3JrcykgY2FuIHRoZW4gdXNlIHNvbWV0aGluZyBzaW1wbGVyIHRoYXQncyBj
-b21wbGV0ZWx5IGZsYXQuCj4gPj4gT2sgeW91IG5lZWQgdG8gZXhwbGFpbiBhIGJpdCBtb3JlIHdo
-YXQgZXhhY3RseSB0aGUgcHJvYmxlbSB3aXRoIHRoZSBHVFQKPiA+PiBldmljdGlvbiBpcyBoZXJl
-IDopCj4gPiBTbyB0aGUgZnVsbCBzZXQgb2YgbGltaXRhdGlvbnMgYXJlCj4gPiAtIHJhbmdlIGxp
-bWl0cwo+ID4gLSBwb3dlci1vZi10d28gYWxpZ25lbWVudCBvZiBzdGFydAo+ID4gLSBzb21lIG90
-aGVyIChzbWFsbGVyKSBwb3dlciBvZiB0d28gYWxpZ25tZW50IGZvciBzaXplIChsb2wpCj4gPiAt
-ICJjb2xvciIsIGkuZS4gZGlmZmVyZW50IGNhY2hpbmcgbW9kZXMgbmVlZHMgYXQgbGVhc3Qgb25l
-IHBhZ2Ugb2YKPiA+IGVtcHR5IHNwYWNlIGluLWJldHdlZW4KPiA+Cj4gPiBTdHVmZmluZyBhbGwg
-dGhhdCBpbnRvIGEgZ2VuZXJpYyBldmljdGlvbiBsb2dpYyBpcyBpbW8gc2lsbHkuIE9uIHRvcAo+
-ID4gb2YgdGhhdCB3ZSBoYXZlIHRoZSBldmljdGlvbiBjb2xsZWN0b3Igd2hlcmUgd2Ugc2NhbiB0
-aGUgZW50aXJlIHRoaW5nCj4gPiB1bnRpbCB3ZSd2ZSBidWlsdCB1cCBhIHN1ZmZpY2llbnRseSBi
-aWcgaG9sZSwgdGhlbiBldmljdCBqdXN0IHRoZXNlCj4gPiBidWZmZXJzLiBJZiB3ZSBkb24ndCBk
-byB0aGlzIHRoZW4gcHJldHR5IG11Y2ggYW55IGJpZyBidWZmZXIgd2l0aAo+ID4gY29uc3RyYWlu
-dHMgcmVzdWx0cyBpbiB0aGUgZW50aXJlIEdUVCBnZXR0aW5nIGV2aWN0ZWQuIEFnYWluIHNvbWV0
-aGluZwo+ID4gdGhhdCdzIG9ubHkgd29ydGggaXQgaWYgeW91IGhhdmUgcmlkaWN1bG91cyBwbGFj
-ZW1lbnQgY29uc3RyYWludHMgbGlrZQo+ID4gdGhlc2Ugb2xkIGludGVsIGNoaXBzLiBnZW4yLzMg
-aW4gaTkxNS5rbyBpcyBtYXliZSBhIGJpdCBleHRyZW1lLCBidXQKPiA+IGhhdmluZyB0aGUgZHJp
-dmVyIGluIGNvbnRyb2wgb2YgdGhlIGV2aWN0aW9uIGNvZGUgZmVlbHMgbGlrZSBhIG11Y2gKPiA+
-IGJldHRlciBkZXNpZ24gdGhhbiB0dG0gaW5mbGljdGluZyBhIG9uZS1zaXplLWZpdHMtYWxsIG9u
-IGV2ZXJ5b25lLiBPZmMKPiA+IHdpdGggZGVmYXVsdHMgYW5kIGJ1aWxkaW5nIGJsb2NrcyBhbmQg
-YWxsIHRoYXQuCj4KPiBZZWFoLCB0aGF0IG1ha2VzIGEgbG90IG9mIHNlbnNlLgo+Cj4gQ2hyaXN0
-aWFuLgo+Cj4gPiAtRGFuaWVsCj4gPgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5n
-aW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, 24 Sep 2020 at 14:59, Christoph Hellwig <hch@lst.de> wrote:
+>
+> i915_gem_object_map implements fairly low-level vmap functionality in
+> a driver.  Split it into two helpers, one for remapping kernel memory
+> which can use vmap, and one for I/O memory that uses vmap_pfn.
+>
+> The only practical difference is that alloc_vm_area prefeaults the
+> vmalloc area PTEs, which doesn't seem to be required here for the
+> kernel memory case (and could be added to vmap using a flag if actually
+> required).
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/gpu/drm/i915/Kconfig              |   1 +
+>  drivers/gpu/drm/i915/gem/i915_gem_pages.c | 126 ++++++++++------------
+>  2 files changed, 59 insertions(+), 68 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index 9afa5c4a6bf006..1e1cb245fca778 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -25,6 +25,7 @@ config DRM_I915
+>         select CRC32
+>         select SND_HDA_I915 if SND_HDA_CORE
+>         select CEC_CORE if CEC_NOTIFIER
+> +       select VMAP_PFN
+>         help
+>           Choose this option if you have a system that has "Intel Graphics
+>           Media Accelerator" or "HD Graphics" integrated graphics,
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> index 6550c0bc824ea2..b519417667eb4b 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> @@ -232,34 +232,21 @@ int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj)
+>         return err;
+>  }
+>
+> -static inline pte_t iomap_pte(resource_size_t base,
+> -                             dma_addr_t offset,
+> -                             pgprot_t prot)
+> -{
+> -       return pte_mkspecial(pfn_pte((base + offset) >> PAGE_SHIFT, prot));
+> -}
+> -
+>  /* The 'mapping' part of i915_gem_object_pin_map() below */
+> -static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
+> -                                enum i915_map_type type)
+> +static void *i915_gem_object_map_page(struct drm_i915_gem_object *obj,
+> +               enum i915_map_type type)
+>  {
+> -       unsigned long n_pte = obj->base.size >> PAGE_SHIFT;
+> -       struct sg_table *sgt = obj->mm.pages;
+> -       pte_t *stack[32], **mem;
+> -       struct vm_struct *area;
+> +       unsigned long n_pages = obj->base.size >> PAGE_SHIFT, i;
+> +       struct page *stack[32], **pages = stack, *page;
+> +       struct sgt_iter iter;
+>         pgprot_t pgprot;
+> +       void *vaddr;
+>
+> -       if (!i915_gem_object_has_struct_page(obj) && type != I915_MAP_WC)
+> -               return NULL;
+> -
+> -       if (GEM_WARN_ON(type == I915_MAP_WC &&
+> -                       !static_cpu_has(X86_FEATURE_PAT)))
+> -               return NULL;
+> -
+> -       /* A single page can always be kmapped */
+> -       if (n_pte == 1 && type == I915_MAP_WB) {
+> -               struct page *page = sg_page(sgt->sgl);
+> -
+> +       switch (type) {
+> +       default:
+> +               MISSING_CASE(type);
+> +               fallthrough;    /* to use PAGE_KERNEL anyway */
+> +       case I915_MAP_WB:
+>                 /*
+>                  * On 32b, highmem using a finite set of indirect PTE (i.e.
+>                  * vmap) to provide virtual mappings of the high pages.
+> @@ -277,30 +264,8 @@ static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
+>                  * So if the page is beyond the 32b boundary, make an explicit
+>                  * vmap.
+>                  */
+> -               if (!PageHighMem(page))
+> -                       return page_address(page);
+> -       }
+> -
+> -       mem = stack;
+> -       if (n_pte > ARRAY_SIZE(stack)) {
+> -               /* Too big for stack -- allocate temporary array instead */
+> -               mem = kvmalloc_array(n_pte, sizeof(*mem), GFP_KERNEL);
+> -               if (!mem)
+> -                       return NULL;
+> -       }
+> -
+> -       area = alloc_vm_area(obj->base.size, mem);
+> -       if (!area) {
+> -               if (mem != stack)
+> -                       kvfree(mem);
+> -               return NULL;
+> -       }
+> -
+> -       switch (type) {
+> -       default:
+> -               MISSING_CASE(type);
+> -               fallthrough;    /* to use PAGE_KERNEL anyway */
+> -       case I915_MAP_WB:
+> +               if (n_pages == 1 && !PageHighMem(sg_page(obj->mm.pages->sgl)))
+> +                       return page_address(sg_page(obj->mm.pages->sgl));
+>                 pgprot = PAGE_KERNEL;
+>                 break;
+>         case I915_MAP_WC:
+> @@ -308,30 +273,49 @@ static void *i915_gem_object_map(struct drm_i915_gem_object *obj,
+>                 break;
+>         }
+>
+> -       if (i915_gem_object_has_struct_page(obj)) {
+> -               struct sgt_iter iter;
+> -               struct page *page;
+> -               pte_t **ptes = mem;
+> +       if (n_pages > ARRAY_SIZE(stack)) {
+> +               /* Too big for stack -- allocate temporary array instead */
+> +               pages = kvmalloc_array(n_pages, sizeof(*pages), GFP_KERNEL);
+> +               if (!pages)
+> +                       return NULL;
+> +       }
+>
+> -               for_each_sgt_page(page, iter, sgt)
+> -                       **ptes++ = mk_pte(page, pgprot);
+> -       } else {
+> -               resource_size_t iomap;
+> -               struct sgt_iter iter;
+> -               pte_t **ptes = mem;
+> -               dma_addr_t addr;
+> +       i = 0;
+> +       for_each_sgt_page(page, iter, obj->mm.pages)
+> +               pages[i++] = page;
+> +       vaddr = vmap(pages, n_pages, 0, pgprot);
+> +       if (pages != stack)
+> +               kvfree(pages);
+> +       return vaddr;
+> +}
+>
+> -               iomap = obj->mm.region->iomap.base;
+> -               iomap -= obj->mm.region->region.start;
+> +static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
+> +               enum i915_map_type type)
+> +{
+> +       resource_size_t iomap = obj->mm.region->iomap.base -
+> +               obj->mm.region->region.start;
+> +       unsigned long n_pfn = obj->base.size >> PAGE_SHIFT;
+> +       unsigned long stack[32], *pfns = stack, i;
+> +       struct sgt_iter iter;
+> +       dma_addr_t addr;
+> +       void *vaddr;
+> +
+> +       if (type != I915_MAP_WC)
+> +               return NULL;
+>
+> -               for_each_sgt_daddr(addr, iter, sgt)
+> -                       **ptes++ = iomap_pte(iomap, addr, pgprot);
+> +       if (n_pfn > ARRAY_SIZE(stack)) {
+> +               /* Too big for stack -- allocate temporary array instead */
+> +               pfns = kvmalloc_array(n_pfn, sizeof(*pfns), GFP_KERNEL);
+> +               if (!pfns)
+> +                       return NULL;
+>         }
+>
+> -       if (mem != stack)
+> -               kvfree(mem);
+> -
+> -       return area->addr;
+> +       for_each_sgt_daddr(addr, iter, obj->mm.pages)
+> +               pfns[i++] = (iomap + addr) >> PAGE_SHIFT;
+
+Missing the i = 0 fix from Dan?
+
+> +       vaddr = vmap_pfn(pfns, n_pfn, pgprot_writecombine(PAGE_KERNEL_IO));
+> +       if (pfns != stack)
+> +               kvfree(pfns);
+> +       return vaddr;
+>  }
+>
+>  /* get, pin, and map the pages of the object into kernel space */
+> @@ -383,7 +367,13 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
+>         }
+>
+>         if (!ptr) {
+> -               ptr = i915_gem_object_map(obj, type);
+> +               if (GEM_WARN_ON(type == I915_MAP_WC &&
+> +                               !static_cpu_has(X86_FEATURE_PAT)))
+> +                       ptr = NULL;
+> +               else if (i915_gem_object_has_struct_page(obj))
+> +                       ptr = i915_gem_object_map_page(obj, type);
+> +               else
+> +                       ptr = i915_gem_object_map_pfn(obj, type);
+>                 if (!ptr) {
+>                         err = -ENOMEM;
+>                         goto err_unpin;
+> --
+> 2.28.0
+>
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
