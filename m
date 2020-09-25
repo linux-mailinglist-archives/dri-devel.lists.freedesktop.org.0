@@ -2,40 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEA4278708
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 14:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FBF278741
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 14:30:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B8826ECCA;
-	Fri, 25 Sep 2020 12:21:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A49B66ECC7;
+	Fri, 25 Sep 2020 12:29:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3095A6ECC8;
- Fri, 25 Sep 2020 12:21:16 +0000 (UTC)
-IronPort-SDR: gd7/5BHgMrdGTsNPRUabhNUI+z8CGFXzzl0rJdfYeVvdZ2qrE7UMkVmvgDca1WyekN/xohTT/5
- 48S1CDeP831g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="149163889"
-X-IronPort-AV: E=Sophos;i="5.77,301,1596524400"; d="scan'208";a="149163889"
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F38266ECA2;
+ Fri, 25 Sep 2020 12:29:58 +0000 (UTC)
+IronPort-SDR: +wh+9JjWD6SR3YeNt7AWNYC2AyoHzKNGJncEUhpRb/DanJ9mbEsjJD2H5kOD4oUcNfZkVKpRDz
+ AuJg8Wad6qzQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="225671247"
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; d="scan'208";a="225671247"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Sep 2020 05:21:14 -0700
-IronPort-SDR: FgPwf+mQVcERVTiDWHhk+q1SYj6K2mvAhgew5sSN16iduNbBGP7xoWycKZpAJr5BLYqt8azVuU
- exMBIrjSMPQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,301,1596524400"; d="scan'208";a="383460433"
-Received: from unknown (HELO linux-akn.iind.intel.com) ([10.223.34.148])
- by orsmga001.jf.intel.com with ESMTP; 25 Sep 2020 05:21:12 -0700
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [RFC 7/7] drm/i915: Add support for enabling link status and recovery
-Date: Fri, 25 Sep 2020 17:43:40 +0530
-Message-Id: <20200925121340.29497-8-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200925121340.29497-1-ankit.k.nautiyal@intel.com>
-References: <20200925121340.29497-1-ankit.k.nautiyal@intel.com>
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2020 05:29:58 -0700
+IronPort-SDR: OatOg+mI2cktpFK85pdpyPjv0iQQ+N/4tqSMOhX/do3enQSWt2VmuP8C841vmZkqHsUfbL0sie
+ MthwJq7tkFmA==
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; d="scan'208";a="455808533"
+Received: from mlevy2-mobl.ger.corp.intel.com (HELO [10.251.176.131])
+ ([10.251.176.131])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2020 05:29:53 -0700
+Subject: Re: [Intel-gfx] [PATCH rdma-next v3 1/2] lib/scatterlist: Add support
+ in dynamic allocation of SG table from pages
+To: Jason Gunthorpe <jgg@nvidia.com>
+References: <20200922083958.2150803-1-leon@kernel.org>
+ <20200922083958.2150803-2-leon@kernel.org>
+ <118a03ef-d160-e202-81cc-16c9c39359fc@linux.intel.com>
+ <20200925071330.GA2280698@unreal>
+ <adff5752-582c-2065-89e2-924ef732911a@linux.intel.com>
+ <20200925115833.GZ9475@nvidia.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <c5956163-1769-ee40-e4ed-45532d8c4e19@linux.intel.com>
+Date: Fri, 25 Sep 2020 13:29:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200925115833.GZ9475@nvidia.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,73 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com,
- dri-devel@lists.freedesktop.org, swati2.sharma@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
+ dri-devel@lists.freedesktop.org, Maor Gottlieb <maorg@mellanox.com>,
+ David Airlie <airlied@linux.ie>, Doug Ledford <dledford@redhat.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Christoph Hellwig <hch@lst.de>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU3dhdGkgU2hhcm1hIDxzd2F0aTIuc2hhcm1hQGludGVsLmNvbT4KCkluIHRoaXMgcGF0
-Y2ggZW5hYmxlZCBzdXBwb3J0IGZvciBsaW5rIHN0YXR1cyBhbmQgcmVjb3ZlcnkgaW4gaTkxNQpk
-cml2ZXIuIEhETUkgbGluayBsb3NzIGluZGljYXRpb24gdG8gdXBzdHJlYW0gRFAgc291cmNlIGlz
-IGluZGljYXRlZAp2aWEgSVJRX0hQRC4gVGhpcyBpcyBmb2xsb3dlZCBieSByZWFkaW5nIG9mIEhE
-TUkgbGluayBjb25maWd1cmF0aW9uCnN0YXR1cyAoSERNSV9UWF9MSU5LX0FDVElWRV9TVEFUVVMp
-LiBJZiB0aGUgUENPTiDihpIgSERNSSAyLjEgbGluayBzdGF0dXMKaXMgb2ZmOyByZWluaXRpYXRl
-IGZybCBsaW5rIHRyYWluaW5nIHRvIHJlY292ZXIuCkFsc28sIEhETUkgRlJMIGxpbmsgZXJyb3Ig
-Y291bnQgcmFuZ2UgZm9yIGVhY2ggaW5kaXZpZHVhbCBGUkwKYWN0aXZlIGxhbmUgaXMgaW5kaWNh
-dGVkIGJ5IERPV05TVFJFQU1fSERNSV9FUlJPUl9TVEFUVVNfTE4gcmVnaXN0ZXJzLgoKU2lnbmVk
-LW9mZi1ieTogU3dhdGkgU2hhcm1hIDxzd2F0aTIuc2hhcm1hQGludGVsLmNvbT4KU2lnbmVkLW9m
-Zi1ieTogQW5raXQgTmF1dGl5YWwgPGFua2l0LmsubmF1dGl5YWxAaW50ZWwuY29tPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyB8IDQ3ICsrKysrKysrKysrKysr
-KysrKysrKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCA0NCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
-cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwppbmRleCBiNmU1M2U0
-ZjA2ZWUuLjBkZTRjNzJlNjZjMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9kcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
-ZHAuYwpAQCAtNTg5Myw2ICs1ODkzLDI5IEBAIGludGVsX2RwX2NoZWNrX21zdF9zdGF0dXMoc3Ry
-dWN0IGludGVsX2RwICppbnRlbF9kcCkKIAlyZXR1cm4gbGlua19vazsKIH0KIAorc3RhdGljIHZv
-aWQKK2ludGVsX2RwX2hhbmRsZV9oZG1pX2xpbmtfc3RhdHVzX2NoYW5nZShzdHJ1Y3QgaW50ZWxf
-ZHAgKmludGVsX2RwKQoreworCWJvb2wgaXNfYWN0aXZlOworCXU4IGJ1ZiA9IDA7CisKKwlpc19h
-Y3RpdmUgPSBkcm1fZHBfcGNvbl9oZG1pX2xpbmtfYWN0aXZlKCZpbnRlbF9kcC0+YXV4KTsKKwlp
-ZiAoaW50ZWxfZHAtPmZybC5pc190cmFpbmVkICYmICFpc19hY3RpdmUpIHsKKwkJaWYgKGRybV9k
-cF9kcGNkX3JlYWRiKCZpbnRlbF9kcC0+YXV4LCBEUF9QQ09OX0hETUlfTElOS19DT05GSUdfMSwg
-JmJ1ZikgPCAwKQorCQkJcmV0dXJuOworCisJCWJ1ZiAmPSAgfkRQX1BDT05fRU5BQkxFX0hETUlf
-TElOSzsKKwkJaWYgKGRybV9kcF9kcGNkX3dyaXRlYigmaW50ZWxfZHAtPmF1eCwgRFBfUENPTl9I
-RE1JX0xJTktfQ09ORklHXzEsIGJ1ZikgPCAwKQorCQkJcmV0dXJuOworCisJCWludGVsX2RwLT5m
-cmwuaXNfdHJhaW5lZCA9IGZhbHNlOworCQlpbnRlbF9kcC0+ZnJsLnRyYWluZWRfcmF0ZV9nYnBz
-ID0gMDsKKworCQlpbnRlbF9kcF9jaGVja19mcmxfdHJhaW5pbmcoaW50ZWxfZHApOworCQlkcm1f
-ZHBfcGNvbl9oZG1pX2ZybF9saW5rX2Vycm9yX2NvdW50KCZpbnRlbF9kcC0+YXV4LCAmaW50ZWxf
-ZHAtPmF0dGFjaGVkX2Nvbm5lY3Rvci0+YmFzZSk7CisJfQorfQorCiBzdGF0aWMgYm9vbAogaW50
-ZWxfZHBfbmVlZHNfbGlua19yZXRyYWluKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiB7CkBA
-IC02MTIxLDcgKzYxNDQsNyBAQCBpbnRlbF9kcF9ob3RwbHVnKHN0cnVjdCBpbnRlbF9lbmNvZGVy
-ICplbmNvZGVyLAogCXJldHVybiBzdGF0ZTsKIH0KIAotc3RhdGljIHZvaWQgaW50ZWxfZHBfY2hl
-Y2tfc2VydmljZV9pcnEoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkKK3N0YXRpYyB2b2lkIGlu
-dGVsX2RwX2NoZWNrX2RldmljZV9zZXJ2aWNlX2lycShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2Rw
-KQogewogCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1ID0gZHBfdG9faTkxNShpbnRlbF9k
-cCk7CiAJdTggdmFsOwpAQCAtNjE0NSw2ICs2MTY4LDIzIEBAIHN0YXRpYyB2b2lkIGludGVsX2Rw
-X2NoZWNrX3NlcnZpY2VfaXJxKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiAJCWRybV9kYmdf
-a21zKCZpOTE1LT5kcm0sICJTaW5rIHNwZWNpZmljIGlycSB1bmhhbmRsZWRcbiIpOwogfQogCitz
-dGF0aWMgdm9pZCBpbnRlbF9kcF9jaGVja19saW5rX3NlcnZpY2VfaXJxKHN0cnVjdCBpbnRlbF9k
-cCAqaW50ZWxfZHApCit7CisJdTggdmFsOworCisJaWYgKGludGVsX2RwLT5kcGNkW0RQX0RQQ0Rf
-UkVWXSA8IDB4MTEpCisJCXJldHVybjsKKworCWlmIChkcm1fZHBfZHBjZF9yZWFkYigmaW50ZWxf
-ZHAtPmF1eCwKKwkJCSAgICAgIERQX0xJTktfU0VSVklDRV9JUlFfVkVDVE9SX0VTSTAsICZ2YWwp
-ICE9IDEgfHwgIXZhbCkKKwkJcmV0dXJuOworCisJZHJtX2RwX2RwY2Rfd3JpdGViKCZpbnRlbF9k
-cC0+YXV4LCBEUF9MSU5LX1NFUlZJQ0VfSVJRX1ZFQ1RPUl9FU0kwLCB2YWwpOworCisJaWYgKHZh
-bCAmIEhETUlfTElOS19TVEFUVVNfQ0hBTkdFRCkKKwkJaW50ZWxfZHBfaGFuZGxlX2hkbWlfbGlu
-a19zdGF0dXNfY2hhbmdlKGludGVsX2RwKTsKK30KKwogLyoKICAqIEFjY29yZGluZyB0byBEUCBz
-cGVjCiAgKiA1LjEuMjoKQEAgLTYxODQsNyArNjIyNCw4IEBAIGludGVsX2RwX3Nob3J0X3B1bHNl
-KHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiAJCXJldHVybiBmYWxzZTsKIAl9CiAKLQlpbnRl
-bF9kcF9jaGVja19zZXJ2aWNlX2lycShpbnRlbF9kcCk7CisJaW50ZWxfZHBfY2hlY2tfZGV2aWNl
-X3NlcnZpY2VfaXJxKGludGVsX2RwKTsKKwlpbnRlbF9kcF9jaGVja19saW5rX3NlcnZpY2VfaXJx
-KGludGVsX2RwKTsKIAogCS8qIEhhbmRsZSBDRUMgaW50ZXJydXB0cywgaWYgYW55ICovCiAJZHJt
-X2RwX2NlY19pcnEoJmludGVsX2RwLT5hdXgpOwpAQCAtNjU5NCw3ICs2NjM1LDcgQEAgaW50ZWxf
-ZHBfZGV0ZWN0KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCiAJICAgIHRvX2ludGVs
-X2Nvbm5lY3Rvcihjb25uZWN0b3IpLT5kZXRlY3RfZWRpZCkKIAkJc3RhdHVzID0gY29ubmVjdG9y
-X3N0YXR1c19jb25uZWN0ZWQ7CiAKLQlpbnRlbF9kcF9jaGVja19zZXJ2aWNlX2lycShpbnRlbF9k
-cCk7CisJaW50ZWxfZHBfY2hlY2tfZGV2aWNlX3NlcnZpY2VfaXJxKGludGVsX2RwKTsKIAogb3V0
-OgogCWlmIChzdGF0dXMgIT0gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQgJiYgIWludGVsX2Rw
-LT5pc19tc3QpCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+
+On 25/09/2020 12:58, Jason Gunthorpe wrote:
+> On Fri, Sep 25, 2020 at 12:41:29PM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 25/09/2020 08:13, Leon Romanovsky wrote:
+>>> On Thu, Sep 24, 2020 at 09:21:20AM +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 22/09/2020 09:39, Leon Romanovsky wrote:
+>>>>> From: Maor Gottlieb <maorg@mellanox.com>
+>>>>>
+>>>>> Extend __sg_alloc_table_from_pages to support dynamic allocation of
+>>>>> SG table from pages. It should be used by drivers that can't supply
+>>>>> all the pages at one time.
+>>>>>
+>>>>> This function returns the last populated SGE in the table. Users should
+>>>>> pass it as an argument to the function from the second call and forward.
+>>>>> As before, nents will be equal to the number of populated SGEs (chunks).
+>>>>
+>>>> So it's appending and growing the "list", did I get that right? Sounds handy
+>>>> indeed. Some comments/questions below.
+>>>
+>>> Yes, we (RDMA) use this function to chain contiguous pages.
+>>
+>> I will eveluate if i915 could start using it. We have some loops which build
+>> page by page and coalesce.
+> 
+> Christoph H doesn't like it, but if there are enough cases we should
+> really have a pin_user_pages_to_sg() rather than open code this all
+> over the place.
+> 
+> With THP the chance of getting a coalescing SG is much higher, and
+> everything is more efficient with larger SGEs.
+
+Right, I was actually referring to i915 sites where we build sg tables 
+out of shmem and plain kernel pages. In those areas we have some open 
+coded coalescing loops (see for instance our shmem_get_pages). Plus a 
+local "trim" to discard the unused entries, since we allocate 
+pessimistically not knowing how coalescing will pan out. This kind of 
+core function which appends pages could replace some of that. Maybe it 
+would be slightly less efficient but I will pencil in to at least 
+evaluate it.
+
+Otherwise I do agree that coalescing is a win and in the past I have 
+measured savings in a few MiB range just for struct scatterlist storage.
+
+Regards,
+
+Tvrtko
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
