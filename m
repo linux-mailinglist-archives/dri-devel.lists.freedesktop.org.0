@@ -2,125 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F8727A82F
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0333027A84B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:08:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B01E56E3EB;
-	Mon, 28 Sep 2020 07:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 589476E423;
+	Mon, 28 Sep 2020 07:07:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FFDF6E215;
- Fri, 25 Sep 2020 12:34:18 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f6de3690000>; Fri, 25 Sep 2020 05:32:41 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 25 Sep
- 2020 12:34:13 +0000
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
- by HQMAIL101.nvidia.com (172.20.187.10) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Fri, 25 Sep 2020 12:34:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W0jjRPsHfE8U/qTYft2FmHo2rf4Vd29LQSgcPY0FshMo7XRktr1mjxZ9OG/bGImnft12h9/SIgA1xr68NNFm6W2rn8UPaQkDPBmh2m0SaKnj5C6Mlo7RYGqauvOjGp1VKyi5gyF93WwnTsGyPHAky7P7itQXXGX0KYv8+NdtyYb1uWDhKKjubMKT0cFpSz3qE/Gykys+oJM9WNig/De1BGiR1iQHE0aq1ZjnJ/zK7fNc4x8fQvKs4uLOQU9+koIqK5UD9+bQZEB0nFLhuFm01V1zSRQKM2F68zAUgsNLE8vf6oBTmy0BSeT2lqLZ6rqkrPtX037G3j1GPwhoSxwhlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LVv89qw5CwXSZ8qOghWfBQYpAqxXhazOniUnTnG3Zwo=;
- b=h5KMdkKty25JEShVuk6+GM7tAV8p+hUYx9N2+otOkSivjmOVuIJjvoAp44eLqfsDt8dzZdtfNFPqlEFWGcJv7t9llP0LRjS0pwAidD6OdWYTAtqjP/HngbYC17nPVaZxiQ4tk02iRPpsRfK24y2gbLqlRUMuk43QPyzuvyhrW1N0y5byQgNM9jLwp+opE8p/mp4R//NvgZOp9BKInkgQtAKlL6jGI/q/khq3q5tM822MElqLSHkrn4hiXeYIV9U92xFutRSipbnKClYbZQgiU1CZwNkRHG6evc6S0S21Zy35nNeU6NokRU8BstIYzER1YIuK/3bFaJPx6m0HJ74Wvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none; linux.intel.com; dmarc=none action=none header.from=nvidia.com; 
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR1201MB0105.namprd12.prod.outlook.com (2603:10b6:4:54::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Fri, 25 Sep
- 2020 12:34:12 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3412.024; Fri, 25 Sep 2020
- 12:34:12 +0000
-Date: Fri, 25 Sep 2020 09:34:10 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH rdma-next v3 1/2] lib/scatterlist: Add
- support in dynamic allocation of SG table from pages
-Message-ID: <20200925123410.GB9475@nvidia.com>
-References: <20200922083958.2150803-1-leon@kernel.org>
- <20200922083958.2150803-2-leon@kernel.org>
- <118a03ef-d160-e202-81cc-16c9c39359fc@linux.intel.com>
- <20200925071330.GA2280698@unreal>
- <adff5752-582c-2065-89e2-924ef732911a@linux.intel.com>
- <20200925115833.GZ9475@nvidia.com>
- <c5956163-1769-ee40-e4ed-45532d8c4e19@linux.intel.com>
-Content-Disposition: inline
-In-Reply-To: <c5956163-1769-ee40-e4ed-45532d8c4e19@linux.intel.com>
-X-Originating-IP: [156.34.48.30]
-X-ClientProxiedBy: MN2PR19CA0012.namprd19.prod.outlook.com
- (2603:10b6:208:178::25) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 656106E203
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 13:00:53 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 7743E7DB;
+ Fri, 25 Sep 2020 09:00:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 25 Sep 2020 09:00:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=O7zys1SiDDN/VUVcFcM3e3Lvwo
+ 5yIKrUOPZV/VBJ9sQ=; b=EqHUBXV9mVa7Ayo/q61gjB97OYCizv79oQ+HL2A1sS
+ pNq3lUJH7JpjWW341BjuGrzMXgxI4NcD762o9D4cOh8XFmHa1i7ttGq0qzTuMC5u
+ +HgBnPlVrKnqjlMvFn4o1yEA6MJB2xYqWdblksq267h23urtS21Mq3uD7cF7YgRa
+ AeMqDEhF/ffPDT4fn5IjTCmWv0ohL/O/8Hh+3Xh91w+0cVkg1tle8MnLePgf8j3/
+ yE/J/vfxX6F3lNrdDc1DrLZPJRFo0C9foy/GlX34IxAem7qb7K7ETXKWzARKk1zr
+ U/u7GKVeTC7XQLpqLAckH8DnbVR2lUQwCxbE8s46c2Xw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=O7zys1SiDDN/VUVcF
+ cM3e3Lvwo5yIKrUOPZV/VBJ9sQ=; b=Kq5UJ7SL6vzbC9HP/QElMq1RwO2m+NKWj
+ EdniTBCxgVjDz0ZS721PmG58RpGtu9+SAnQy2mZdH0Ey8EFm3TRFZjxJ8+6U9hlm
+ jvMcyTKM0r/L0e9GxOGqYCdWLT4M6Fvi5BELxzkusshyRkzwn6fMaZA8F6lgGXE5
+ uNE8kGKl7YML+6OG6jD2A6vUH9bGiUJf4929qIzK7vFk9BsvotWnBu9KxkSk+AKM
+ 0aOqY4RDFEp+on78xYZrvAol7Ljik1bH1xa84GEFP+N6np56zfFMczqcNiiw5C4k
+ cALhTU6URH+Jyw81taa2O96pKHkKmonxuprO9j+/yWHOcBWP6WUeA==
+X-ME-Sender: <xms:AOptX1Qt8JM4Cw5twJsmDMBk8QizX_fMZjX8zg8jxpBs9sXGl7epwg>
+ <xme:AOptX-zgYq9Na3sT5LghBJeKjtgqNLKYcvT836KphvRwZQx9ihBXNNNCYjlXnMIya
+ fxuFim5qvH39j7bmac>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtgdehjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:AOptX60kHny_JDfmKX9Y5p84NCPsjViZ9RE2Q0V0qHAJ_aJJHL3NOg>
+ <xmx:AOptX9B3KAjgn4qs98IZicDzNsYy6aDsbwPSSYIhzuqKbIcVIPHypw>
+ <xmx:AOptX-in4-QOMdShNOpEckJ3UwFINqb3163HD2t5CROlNWq8gRLltg>
+ <xmx:AeptXzYEpIq9VcHyaO3aVdWyJ4XbHmzYgkU86GVhqiingrBvSAzvQYqYi8U>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id CE173328005D;
+ Fri, 25 Sep 2020 09:00:47 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Eric Anholt <eric@anholt.net>
+Subject: [PATCH] drm/vc4: hdmi: Block odd horizontal timings
+Date: Fri, 25 Sep 2020 15:00:44 +0200
+Message-Id: <20200925130044.574220-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by
- MN2PR19CA0012.namprd19.prod.outlook.com (2603:10b6:208:178::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend
- Transport; Fri, 25 Sep 2020 12:34:12 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1kLmvS-000o9Y-AT; Fri, 25 Sep 2020 09:34:10 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 98e5d078-c12a-4d0c-af73-08d8614f4e87
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB0105:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB010518B90B279F540DA2C5C4C2360@DM5PR1201MB0105.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2k+WvxUCKhe+yOdboPSeK5gg6Gbhn2U0SxTPr7Xad5/XLlusJzZoavTaa/ksznhkZHmaADduc/rRrpJFuz/FB9zOQP37C3G00rZwpTqDRLMF03zb8YEFzBPX2cQuvexSOShyJwvHrs9lJUfndHCToryQBSFJeT5v+a8mLnyfa+gNSmoePwDD2a2ZtRlMy/GZT6cPJXCyFf9BZCirhaN1/88II+XSrX8kDd0frQVRQ7J8UsaApepOEbyhwnAn8UJ+DRNJSJzP3Y3vz+SaQX2H2hFUihBFYWVMbAZJklwJ8Pp1dGynsAZdeMk0l/KV2IdH6ZVF68nO1mfi2MDjya6lMlpHQAIvSzQMHXADmvyEZHkOol0DPVFwst2p3P0fHH4I
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(396003)(346002)(39860400002)(136003)(66476007)(66556008)(66946007)(2906002)(5660300002)(9786002)(9746002)(2616005)(107886003)(316002)(36756003)(426003)(53546011)(4326008)(33656002)(26005)(1076003)(6916009)(8676002)(186003)(478600001)(8936002)(86362001)(7416002)(54906003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: Bp/f4Y41Y9mqOHKmYD4lNTYmN82OmU5BOT2OQtXKevBQ/DkeWx441XhHAMRx9DxZ99odNGhSEDv+0HH0JyS2CVXCam9s99dDWLAEWHEmspqBZ26yaw9S1lpK7ATB1svz64p1hDze+A+weP3WdmPbN9zjDqC4sF410eVEyKxpzRR0vxIV0PV5vpNtN2eXYTdGRhOmu/txsnYZi4NRdoanq2lKB5k4WWOSuIL0Ae2DIrqFH5cgWdX+1DqFn8Wx+mzef6tgObIplfHUX0M07R3cFJwsSzpHzagsd15GQ6amaItTXhcRNMT3eGPdg3fv7nbm0p8eHakQzTMY2BXMehlDsEzDV9VYUAOtTQZD9IQ44wKoJMN3uKGI5wJqipR6mI53t2Ek3JPLLdOr+71Zp/Yq7BwdX5gYyRE7YoHQk4cQJ2jjkgBiVT+0D6lDP8OQcC8bThf0uWdBvKEnMX/9RipP5vEHpX6/JnpQwPxSeGzjLYRDecp/B+X+1N9wF7dORVZdBWxiKEL0jcrD+e7IELhFpe/QOoNeDcfz4IIRm6psZ7M1DQAT8Vu1Xs7NtTBZNglRy2O0yEvHXLp9oi1Qtc3QusrdcbBOnhl3zmb7LD+PrI0rlg+g0wiwUTkSBNKA8XOqIl/M9rvgWIh0k2R08Ed5pw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98e5d078-c12a-4d0c-af73-08d8614f4e87
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2020 12:34:12.2619 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nP3LDA9tHbYl8K08gGqjzk3RelVIT+dwNgKclpMs2WT0YS0cPTGZ5BTIjAKzwMVp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0105
-X-OriginatorOrg: Nvidia.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1601037161; bh=LVv89qw5CwXSZ8qOghWfBQYpAqxXhazOniUnTnG3Zwo=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:
- Authentication-Results:Date:From:To:CC:Subject:Message-ID:
- References:Content-Type:Content-Disposition:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
- X-MS-Office365-Filtering-Correlation-Id:X-MS-TrafficTypeDiagnostic:
- X-MS-Exchange-Transport-Forked:X-Microsoft-Antispam-PRVS:
- X-MS-Oob-TLC-OOBClassifiers:X-MS-Exchange-SenderADCheck:
- X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
- X-Forefront-Antispam-Report:X-MS-Exchange-AntiSpam-MessageData:
- X-MS-Exchange-CrossTenant-Network-Message-Id:
- X-MS-Exchange-CrossTenant-AuthSource:
- X-MS-Exchange-CrossTenant-AuthAs:
- X-MS-Exchange-CrossTenant-OriginalArrivalTime:
- X-MS-Exchange-CrossTenant-FromEntityHeader:
- X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
- X-MS-Exchange-CrossTenant-UserPrincipalName:
- X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
- b=RLL2U2m82i7etYr0XorLpUXVwoTsFJ8R+dWV532yZwld6XZagjbtidK4yOaro15Vw
- c5oSdd/CKlDmj9rManJjOcGBz5l+PtvD+BU9TecVMcFQ5XFtNwsJDpxwoMIiId8jmD
- hJFcMSwHmwxWQY3c4TirKc76FiyNG9XpKGiB9Q1GofrUymPY9HuX6VqI4BYrsilueG
- Uam/bCJL+ifjY6In1OrmG2wx3JBr05tnuf6LYBruYcqKarZJkCz9+ToSO1w2LRC8ja
- oscP+MSshZ4Hq9/vCaHueD7+l1ndc0+TR5voHJuaqTYj3FHjjldH1SxCBvCGcy9Z7R
- QN13Gd+pfmELg==
 X-Mailman-Approved-At: Mon, 28 Sep 2020 07:06:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -134,71 +79,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
- dri-devel@lists.freedesktop.org, Maor Gottlieb <maorg@mellanox.com>,
- David Airlie <airlied@linux.ie>, Doug Ledford <dledford@redhat.com>, VMware
- Graphics <linux-graphics-maintainer@vmware.com>,
- Maor Gottlieb <maorg@nvidia.com>, Christoph Hellwig <hch@lst.de>
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 25, 2020 at 01:29:49PM +0100, Tvrtko Ursulin wrote:
-> 
-> On 25/09/2020 12:58, Jason Gunthorpe wrote:
-> > On Fri, Sep 25, 2020 at 12:41:29PM +0100, Tvrtko Ursulin wrote:
-> > > 
-> > > On 25/09/2020 08:13, Leon Romanovsky wrote:
-> > > > On Thu, Sep 24, 2020 at 09:21:20AM +0100, Tvrtko Ursulin wrote:
-> > > > > 
-> > > > > On 22/09/2020 09:39, Leon Romanovsky wrote:
-> > > > > > From: Maor Gottlieb <maorg@mellanox.com>
-> > > > > > 
-> > > > > > Extend __sg_alloc_table_from_pages to support dynamic allocation of
-> > > > > > SG table from pages. It should be used by drivers that can't supply
-> > > > > > all the pages at one time.
-> > > > > > 
-> > > > > > This function returns the last populated SGE in the table. Users should
-> > > > > > pass it as an argument to the function from the second call and forward.
-> > > > > > As before, nents will be equal to the number of populated SGEs (chunks).
-> > > > > 
-> > > > > So it's appending and growing the "list", did I get that right? Sounds handy
-> > > > > indeed. Some comments/questions below.
-> > > > 
-> > > > Yes, we (RDMA) use this function to chain contiguous pages.
-> > > 
-> > > I will eveluate if i915 could start using it. We have some loops which build
-> > > page by page and coalesce.
-> > 
-> > Christoph H doesn't like it, but if there are enough cases we should
-> > really have a pin_user_pages_to_sg() rather than open code this all
-> > over the place.
-> > 
-> > With THP the chance of getting a coalescing SG is much higher, and
-> > everything is more efficient with larger SGEs.
-> 
-> Right, I was actually referring to i915 sites where we build sg tables out
-> of shmem and plain kernel pages. In those areas we have some open coded
-> coalescing loops (see for instance our shmem_get_pages). Plus a local "trim"
-> to discard the unused entries, since we allocate pessimistically not knowing
-> how coalescing will pan out. This kind of core function which appends pages
-> could replace some of that. Maybe it would be slightly less efficient but I
-> will pencil in to at least evaluate it.
-> 
-> Otherwise I do agree that coalescing is a win and in the past I have
-> measured savings in a few MiB range just for struct scatterlist storage.
+The FIFO between the pixelvalve and the HDMI controller runs at 2 pixels
+per clock cycle, and cannot deal with odd timings.
 
-I think the eventual dream is to have a pin_user_pages_bvec or similar
-that is integrated into the GUP logic so avoids all the extra work,
-just allocates pages of bvecs on the fly. No extra step through a
-linear array of page *'s
+Let's reject any mode with such timings.
 
-Starting to structuring things to take advantage of that makes some
-sense
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++++++++
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  3 +++
+ 2 files changed, 15 insertions(+)
 
-Jason
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 1c4dc774d56e..acfb4e235214 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -879,6 +879,11 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+ 	unsigned long long pixel_rate = mode->clock * 1000;
+ 
++	if (vc4_hdmi->variant->broken_odd_h_timings &&
++	    ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
++	     (mode->hsync_end % 2) || (mode->htotal % 2)))
++		return -EINVAL;
++
+ 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+ 		pixel_rate *= 2;
+ 
+@@ -901,6 +906,11 @@ vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+ 
++	if (vc4_hdmi->variant->broken_odd_h_timings &&
++	    ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
++	     (mode->hsync_end % 2) || (mode->htotal % 2)))
++		return MODE_H_ILLEGAL;
++
+ 	if ((mode->clock * 1000) > vc4_hdmi->variant->max_pixel_clock)
+ 		return MODE_CLOCK_HIGH;
+ 
+@@ -1950,6 +1960,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
+ 		PHY_LANE_2,
+ 		PHY_LANE_CK,
+ 	},
++	.broken_odd_h_timings	= true,
+ 
+ 	.init_resources		= vc5_hdmi_init_resources,
+ 	.csc_setup		= vc5_hdmi_csc_setup,
+@@ -1975,6 +1986,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi1_variant = {
+ 		PHY_LANE_CK,
+ 		PHY_LANE_2,
+ 	},
++	.broken_odd_h_timings	= true,
+ 
+ 	.init_resources		= vc5_hdmi_init_resources,
+ 	.csc_setup		= vc5_hdmi_csc_setup,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index af45b0d81dec..40e51ece8efe 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -62,6 +62,9 @@ struct vc4_hdmi_variant {
+ 	 */
+ 	enum vc4_hdmi_phy_channel phy_lane_mapping[4];
+ 
++	/* The BCM2711 cannot deal with odd horizontal pixel timings */
++	bool broken_odd_h_timings;
++
+ 	/* Callback to get the resources (memory region, interrupts,
+ 	 * clocks, etc) for that variant.
+ 	 */
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
