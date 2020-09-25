@@ -1,60 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9DCD278949
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 15:18:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E70278980
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Sep 2020 15:25:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF48D6ECF4;
-	Fri, 25 Sep 2020 13:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDFA16EB30;
+	Fri, 25 Sep 2020 13:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1C066ECF4
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 13:18:07 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id h17so2263675otr.1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 06:18:07 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A14A96EB30
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 13:25:55 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id l15so1887559wmh.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 06:25:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sPdA2nYIizUv0AzReU4zdwtYwwYRW3j28zK40B4n+Ss=;
- b=a1jBrYodJ4ZQw8tpVoGNHRW0pfpvfVWgaP2orT/0aV0wSNVuxHoOVcFSJpbpkgurUX
- AQ/shxg+a8qu2/Sn9Ky1ivNMyqtzayGLB6gCRWv/rXYZfkn7DkamfeDzFCLyQdCzs3ea
- M6zAdsqW8gzJpAinJrNzHqkthpFWOd1fhWAeM=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yoij1P7j+Xx2RWFa9SVqI2FsfBHkpzDlIUwpiLGvHCs=;
+ b=O5Wv1IsSLOcxCzcYzyGteQ12YwvQDDgtGufFm3QgoL3W9ikTTvLPP56IBzaY85PZFs
+ p7JxOohdXRnM2KsAxLCSc5felltd/SWWA6JwHieEfFf8z6q8p7bV0yK56vOcTBaEQJZK
+ nQZdCFnKQyDz4RX3JYfbOSd9QXr6fN1Z9n6g0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sPdA2nYIizUv0AzReU4zdwtYwwYRW3j28zK40B4n+Ss=;
- b=FxJzvoUbN76D9uQY+KHNE5zqhdjoabwRLb7d7yV7knZS1tFCum4Xtkcp/JqD4Kl9n8
- 9QEMNDlqxvaOjVK2nwiBe++hlzVVAS+aDKueoCw0ilnpTaaq53RBag1P15Vln9L5bpaX
- aNd8G9kErjmbi/KrhxVoLfptuiw6iOs6LcLkfd8r2c5d1d/CH7HE6m6bHXc0TSYdL4zB
- lUhaQLdfMYeOnoih1CE2uw0DUjjiTiHlY82qdg3ZxDK0A1L8MSIUOevhp2Qgi481b7N2
- 2/iofXiL/rErs3QF+hg0tilwFTED3A9XwrzSycyY7LZB2TQRXATdq/qCtR+gBwWE8Kzf
- TLJQ==
-X-Gm-Message-State: AOAM531IesAkEkdmLNQZbFI3Q1HnrhI3z7jFWTny5yIdHV+r6cWb1kEa
- U/2UGv2qVuqJS+uVb4CuQ1CeuzqcFVp3asoaCILAoQ==
-X-Google-Smtp-Source: ABdhPJz9IiCmEUXj7hXQYq2pzsgEYfxfjdDRkRZC7lu2cbHRD57n6pXwtsuy6ZqNRCJpJcMfFXqKMGyZjfdd3E04J6c=
-X-Received: by 2002:a05:6830:14d9:: with SMTP id
- t25mr276423otq.188.1601039886853; 
- Fri, 25 Sep 2020 06:18:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200924051845.397177-1-airlied@gmail.com>
- <20200924051845.397177-38-airlied@gmail.com>
- <39ca897a-e7f2-93c8-e844-449ccbfe6041@amd.com>
- <CAPM=9tw6a6E+KZV7LceHUj=SHFaTe9M+KjjYgouhdX0gkDsuzw@mail.gmail.com>
- <4b16b60d-228d-164d-396f-f8344fd67674@amd.com>
- <CAKMK7uF0CnQDCnCVLL2dReh0Tmo=gou=XLvAihq7VVihz0ysBg@mail.gmail.com>
- <CAKMK7uGMNh=uFHnBdk2B3A5VGTHFzaX65Bw4-3cz5RB717pwMw@mail.gmail.com>
- <f299a276-53b4-4eb1-416d-3aa56407ebdb@amd.com>
-In-Reply-To: <f299a276-53b4-4eb1-416d-3aa56407ebdb@amd.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=yoij1P7j+Xx2RWFa9SVqI2FsfBHkpzDlIUwpiLGvHCs=;
+ b=kG1yRLbdDU6PI4jz7nB3TtfjJNoZr6sFmWWDLrcoSaB3HS0unb83mSHres75aAj8kC
+ mCEUUksWOrUVA5uiPIfdpzwBs1rEHpktgWgjwH6BhQyw5NPaEDzLLGcLA4szriatgy86
+ ufeqY8Og8CgcflbiHqtNiZI66VLhHLGaPe317xDw+pm+hnf9dJdT2f9LTwtiulZ3R1cq
+ qCQsIcctnkFlpEHkS+LqmvSVoyhdRSFlQiA5josm9IaVET79TugzRjhv9lOq0U5drRUk
+ CL+Tkkgp0GYjEmByUo0pMZ3k1jwC1mDLS5xvGpFOPKhw/wMroLAHro/jfic6oi13/cHA
+ pY1g==
+X-Gm-Message-State: AOAM532Uu0JUALCm50GW9ISA6subpogyS61dLNNugOHUOKZeQj7f2tlI
+ 1Es/0wTTiIpIeEqIW+Lxb/jxow==
+X-Google-Smtp-Source: ABdhPJyBZrVOoGGq5hPUstHZ/Y1HyDY0PIguaVz0GuDdkIvNUqMBJyEp1I87FKugY2GqQ8LaJuCahA==
+X-Received: by 2002:a7b:c1d3:: with SMTP id a19mr3071230wmj.19.1601040354194; 
+ Fri, 25 Sep 2020 06:25:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u2sm3275837wre.7.2020.09.25.06.25.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 06:25:53 -0700 (PDT)
+Date: Fri, 25 Sep 2020 15:25:51 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 25 Sep 2020 15:17:55 +0200
-Message-ID: <CAKMK7uH+rupecO8uSvK3MzJ8OpDsFMhm0w7e_-9kzdiK-k+Dvg@mail.gmail.com>
-Subject: Re: [PATCH 37/45] drm/ttm: add a helper to allocate a temp tt for
- copies.
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
+ buffers
+Message-ID: <20200925132551.GF438822@phenom.ffwll.local>
+Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org
+References: <0000000000006b9e8d059952095e@google.com>
+ <cover.1600953813.git.yepeilin.cs@gmail.com>
+ <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
+ <20200925101300.GA890211@PWN>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200925101300.GA890211@PWN>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,157 +76,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ben Skeggs <bskeggs@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBTZXAgMjUsIDIwMjAgYXQgMTE6MzQgQU0gQ2hyaXN0aWFuIEvDtm5pZwo8Y2hyaXN0
-aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFtIDI1LjA5LjIwIHVtIDEwOjE4IHNjaHJp
-ZWIgRGFuaWVsIFZldHRlcjoKPiA+IE9uIEZyaSwgU2VwIDI1LCAyMDIwIGF0IDEwOjE2IEFNIERh
-bmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4gd3JvdGU6Cj4gPj4gT24gRnJpLCBTZXAgMjUs
-IDIwMjAgYXQgOTozOSBBTSBDaHJpc3RpYW4gS8O2bmlnCj4gPj4gPGNocmlzdGlhbi5rb2VuaWdA
-YW1kLmNvbT4gd3JvdGU6Cj4gPj4+IEFtIDI1LjA5LjIwIHVtIDAxOjE0IHNjaHJpZWIgRGF2ZSBB
-aXJsaWU6Cj4gPj4+PiBPbiBUaHUsIDI0IFNlcCAyMDIwIGF0IDIyOjQyLCBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+ID4+Pj4+IEFtIDI0LjA5LjIw
-IHVtIDA3OjE4IHNjaHJpZWIgRGF2ZSBBaXJsaWU6Cj4gPj4+Pj4+IEZyb206IERhdmUgQWlybGll
-IDxhaXJsaWVkQHJlZGhhdC5jb20+Cj4gPj4+Pj4+Cj4gPj4+Pj4+IEFsbCB0aGUgYWNjZWwgbW92
-ZXMgZG8gdGhlIHNhbWUgcGF0dGVybiBoZXJlLCBwcm92aWRlIGEgaGVscGVyCj4gPj4+Pj4gQW5k
-IGV4YWN0bHkgdGhhdCBwYXR0ZXJuIEkgd2FudCB0byBnZXQgYXdheSBmcm9tLgo+ID4+Pj4gQ3Vy
-cmVudGx5IHRoaXMgaXMganVzdCByZWZhY3RvcmluZyBvdXQgdGhlIGhlbHBlciBjb2RlIGluIGVh
-Y2ggZHJpdmVyLCBidXQgSSBzZWUKPiA+Pj4+IHNpbmNlIGl0IGNhbGxzIGJvX21lbV9zcGFjZSB3
-ZSBhcmUgcHJvYmFibHkgbW92aW5nIGEgYml0IGluIHRoZSB3cm9uZyBkaXJlY3Rpb24uCj4gPj4+
-IEV4YWN0bHkgdGhhdCdzIHdoeSBJJ20gbm90aW5nIHRoaXMuCj4gPj4+Cj4gPj4+Pj4gU2VlIHdo
-YXQgaGFwcGVucyBpZiB3ZSAoZm9yIGV4YW1wbGUpIGhhdmUgYSBWUkFNIC0+IFNZU1RFTSBtb3Zl
-IGlzIHRoZQo+ID4+Pj4+IGZvbGxvd2luZzoKPiA+Pj4+Pgo+ID4+Pj4+IDEuIFRUTSBhbGxvY2F0
-ZXMgYSBuZXcgdHRtX3Jlc291cmNlIG9iamVjdCBpbiB0aGUgU1lTVEVNIGRvbWFpbi4KPiA+Pj4+
-PiAyLiBXZSBjYWxsIHRoZSBkcml2ZXIgdG8gbW92ZSBmcm9tIFZSQU0gdG8gU1lTVEVNLgo+ID4+
-Pj4+IDMuIERyaXZlciBmaW5kcyB0aGF0IGl0IGNhbid0IGRvIHRoaXMgYW5kIGNhbGxzIFRUTSAg
-dG8gYWxsb2NhdGUgR1RULgo+ID4+Pj4+IDQuIFNpbmNlIHdlIGFyZSBtYXliZSBvdXQgb2YgR1RU
-IFRUTSBldmljdHMgYSBkaWZmZXJlbnQgQk8gZnJvbSBHVFQgdG8KPiA+Pj4+PiBTWVNURU0gYW5k
-IGNhbGwgZHJpdmVyIGFnYWluLgo+ID4+Pj4+Cj4gPj4+Pj4gVGhpcyBpcyBhIGhvcnJpYmxlIHBp
-bmcvcG9uZyBiZXR3ZWVuIGRyaXZlci9UVE0vZHJpdmVyL1RUTS9kcml2ZXIgYW5kIHdlCj4gPj4+
-Pj4gc2hvdWxkIHN0b3AgdGhhdCBpbW1lZGlhdGVseS4KPiA+Pj4+Pgo+ID4+Pj4+IE15IHN1Z2dl
-c3Rpb24gaXMgdGhhdCB3ZSByZXdyaXRlIGhvdyBkcml2ZXJzIGNhbGwgdGhlIHR0bV9ib192YWxp
-ZGF0ZSgpCj4gPj4+Pj4gZnVuY3Rpb24gc28gdGhhdCB3ZSBjYW4gZ3VhcmFudGVlIHRoYXQgdGhp
-cyBuZXZlciBoYXBwZW5zLgo+ID4+Pj4+Cj4gPj4+Pj4gV2hhdCBkbyB5b3UgdGhpbms/Cj4gPj4+
-PiBJIHRoaW5rIHRoYXQgaXMgbGlrZWx5IHRoZSBuZXh0IHN0ZXAgSSdkIGxpa2UgdG8gdGFrZSBh
-ZnRlciB0aGlzCj4gPj4+PiByZWZhY3RvciwgaXQncyBhIGxvdCBiaWdnZXIsIGFuZCBJJ20gbm90
-IHN1cmUgaG93IGl0IHdpbGwgbG9vayB5ZXQuCj4gPj4+IEFncmVlLCB5ZXMuIEkgaGF2ZSBzb21l
-IGlkZWFzIGluIG1pbmQgZm9yIHRoYXQsIGJ1dCBub3QgZnVsbHkgYmFrZWQgZWl0aGVyLgo+ID4+
-Pgo+ID4+Pj4gRG8gd2UgZW52aXNpb24gdGhlIGRyaXZlciBjYWxsaW5nIHZhbGlkYXRlIGluIGEg
-bG9vcCBidXQgd2hlbiBpdCBjYW4ndAo+ID4+Pj4gZmluZCBzcGFjZSBpdCB0ZWxscyB0aGUgZHJp
-dmVyIGFuZCB0aGUgZHJpdmVyIGRvZXMgZXZpY3Rpb24gYW5kCj4gPj4+PiByZWNhbGxzIHZhbGlk
-YXRlPwo+ID4+PiBOb3QgaW4gYSBsb29wLCBidXQgbW9yZSBsaWtlIGluIGEgY2hhaW4uCj4gPj4+
-Cj4gPj4+IE15IHBsYW4gaXMgc29tZXRoaW5nIGxpa2UgdGhpczoKPiA+Pj4gSW5zdGVhZCBvZiBo
-YXZpbmcgIm5vcm1hbCIgYW5kICJidXN5IiBwbGFjZW1lbnQgd2UgaGF2ZSBhIGZsYWcgaW4gdGhl
-Cj4gPj4+IGNvbnRleHQgaWYgZXZpY3Rpb25zIGFyZSBhbGxvd2VkIG9yIG5vdC4KPiA+Pj4gVGhl
-IGNhbGwgdG8gdHRtX2JvX3ZhbGlkYXRlIGFyZSB0aGVuIHJlcGxhY2VkIHdpdGggdHdvIGNhbGxz
-LCBmaXJzdAo+ID4+PiB3aXRob3V0IGV2aWN0aW9ucyBhbmQgaWYgdGhhdCBkaWRuJ3Qgd29ya2Vk
-IG9uZSB3aXRoIGV2aWN0aW9ucy4KPiA+Pj4KPiA+Pj4gVGhlbiB0aGUgbm9ybWFsIHZhbGlkYXRl
-IHNlcXVlbmNlIHNob3VsZCBsb29rIGxpa2UgdGhpczoKPiA+Pj4gMS4gSWYgYSBCTyBpcyBpbiB0
-aGUgU1lTVEVNIChvciBTV0FQIGRvbWFpbikgd2UgdmFsaWRhdGUgaXQgdG8gR1RUIGZpcnN0Cj4g
-Pj4+IHdpdGggZXZpY3Rpb25zPXRydWUuCj4gPj4+IDIuIElmIGEgQk8gc2hvdWxkIGJlIGluIFZS
-QU0gd2UgdGhlbiB2YWxpZGF0ZSBpdCB0byBWUkFNLiBJZiBldmljdGlvbnMKPiA+Pj4gYXJlIG9u
-bHkgYWxsb3dlZCBpZiB0aGUgR0VNIGZsYWdzIHNheSB0aGF0IEdUVCBpcyBub3QgZGVzaXJlZC4K
-PiA+PiBUaGF0IHNvbHZlcyB0aGUgdHJvdWJsZSB3aGVuIHlvdSBtb3ZlIGEgYm8gaW50byB2cmFt
-IGFzIHBhcnQgb2YKPiA+PiB2YWxpZGF0ZS4gQnV0IEknbSBub3Qgc2VlaW5nIGhvdyB0aGlzIHNv
-bHZlcyB0aGUgIm5lZWQgZ3R0IG1hcHBpbmcgdG8KPiA+PiBtb3ZlIHNvbWV0aGluZyBvdXQgb2Yg
-dnJhbSIgcHJvYmxlbS4KPgo+IEV2aWN0aW9uIGlzIG5vdCBhIHByb2JsZW0gYmVjYXVzZSB0aGUg
-ZHJpdmVyIGdldHMgYXNrZWQgd2hlcmUgdG8gcHV0IGFuCj4gZXZpY3RlZCBCTyBhbmQgdGhlbiBU
-VE0gZG9lcyBhbGwgdGhlIG1vdmluZy4KCkhtIEkgZ3Vlc3MgdGhlbiBJIGRvbid0IHF1aXRlIGdl
-dCB3aGVyZSB5b3Ugc2VlIHRoZSBwaW5nLXBvbmcKaGFwcGVuaW5nLCBJIHRob3VnaHQgdGhhdCBv
-bmx5IGhhcHBlbnMgZm9yIGV2aWN0aW5nIHN0dWZmLiBCdXQgaGV5IG5vdAptdWNoIGFjdHVhbCB3
-b3JraW5nIGV4cGVyaWVuY2Ugd2l0aCB0dG0gb3ZlciBoZXJlLCBJJ20ganVzdCByZWFkaW5nCjot
-KSBJIHRob3VnaHQgdGhlIGlzc3VlIGlzIHRoYXQgdHRtIHdhbnRzIHRvIGV2aWN0IGZyb20gJHNv
-bWV0aGluZyB0bwpTWVNURU0sIGFuZCB0byBkbyB0aGF0IHRoZSBkcml2ZXIgZmlyc3QgbmVlZHMg
-dG8gc2V0IGEgR1RUIG1hcHBpbmcgZm9yCnRoZSBTWVNURU0gdHRtX3Jlc291cmNlIGFsbG9jYXRp
-b24sIHNvIHRoYXQgaXQgY2FuIHVzZSB0aGUKYmxpdHRlci9zZG1hIGVuZ2luZSBvciB3aGF0ZXZl
-ciB0byBtb3ZlIHRoZSBkYXRhIG92ZXIuIEJ1dCBmb3IKc3dhcC1pbi92YWxpZGF0aW9uIEknbSBj
-b25mdXNlZCBob3cgeW91IGNhbiBlbmQgdXAgd2l0aCB0aGUgIndyb25nIgpwbGFjZW1lbnQsIHRo
-YXQgZmVlbHMgbGlrZSBhIGRyaXZlciBidWcuCgpIb3cgZXhhY3RseSBjYW4geW91IGdldCBpbnRv
-IGEgc2l0dWF0aW9uIHdpdGggdmFsaWRhdGlvbiB3aGVyZSB0dG0KZ2l2ZXMgeW91IFNZU1RFTSwg
-YnV0IG5vdCBHVFQgYW5kIHRoZSBkcml2ZXIgaGFzIHRvIGZpeCB0aGF0IHVwPyBJJ20Kbm90IHJl
-YWxseSBmb2xsb3dpbmcgSSB0aGluaywgSSBndWVzcyB0aGVyZSdzIHNvbWV0aGluZyBvYnZpb3Vz
-IEknbQptaXNzaW5nLgoKPiA+PiBPciBzaG91bGQgd2UgaW5zdGVhZCBtb3ZlIHRoZSBlbnRpcmUg
-ZXZpY3Rpb24gbG9naWMgb3V0IGZyb20gdHRtIGludG8KPiA+PiBkcml2ZXJzLCBidWlsZGluZyBp
-dCB1cCBmcm9tIGhlbHBlcnM/Cj4KPiBJJ3ZlIGJlZW4gcGxheWluZyB3aXRoIHRoYXQgdGhvdWdo
-dCBmb3IgYSB3aGlsZSBhcyB3ZWxsLCBidXQgdGhlbgo+IGRlY2lkZWQgYWdhaW5zdCBpdC4KPgo+
-IFRoZSBtYWluIHByb2JsZW0gSSBzZWUgaXMgdGhhdCB3ZSBzb21ldGltZXMgbmVlZCB0byBldmlj
-dCB0aGluZ3MgZnJvbQo+IG90aGVyIGRyaXZlcnMuCj4KPiBFLmcuIHdoZW4gd2Ugb3ZlcmNvbW1p
-dHRlZCBzeXN0ZW0gbWVtb3J5IGFuZCBtb3ZlIHRoaW5ncyB0byBzd2FwIGZvcgo+IGV4YW1wbGUu
-CgpIbSB5ZWFoIHR0bSBoYXMgdGhhdCBsaW1pdCB0byBhdm9pZCBzdGVwcGluZyBpbnRvIHRoZSBz
-aHJpbmtlciwKZGlyZWN0bHkgY2FsbGluZyBpbnRvIGFub3RoZXIgZHJpdmVyIHRvIGtlZXAgd2l0
-aGluIHRoZSBsaW1pdCB3aGlsZQppZ25vcmluZyB0aGF0IHRoZXJlJ3Mgb3RoZXIgbWVtb3J5IHVz
-ZXJzIGFuZCBjYWNoZXMgb3V0IHRoZXJlIHN0aWxsCmZlZWxzIHdyb25nLCBpdCdzIGtpbmRhIGEg
-cGFyYWxsZWwgd29ybGQgdnMgc2hyaW5rZXIgY2FsbGJhY2tzLiBBbmQKdGhlcmUncyBub3RoaW5n
-IHN0b3BwaW5nIHlvdSBmcm9tIGRvaW5nIHRoZSBTWVNURU0tPlNXQVAgbW92ZW1lbnQgZnJvbQph
-IHNocmlua2VyIGNhbGxiYWNrIHdpdGggdGhlIGxvY2tpbmcgcnVsZXMgd2UndmUgZXN0YWJsaXNo
-ZWQgYXJvdW5kCmRtYV9yZXN2IChqdXN0IG5lZWRzIHRvIGJlIGEgdHJ5bG9jaykuCgpTbyBmZWVs
-cyBhIGJpdCBiYWNrd2FyZHMgaWYgd2UgZGVzaWduIHR0bSBldmljdGlvbiBhcm91bmQgdGhpcyBw
-YXJ0IG9mIGl0IC4uLgoKPiA+PiBUaGVuIGRyaXZlcnMgd2hpY2ggbmVlZCBndHQgZm9yCj4gPj4g
-bW92aW5nIHN0dWZmIG91dCBvZiB2cmFtIGNhbiBkbyB0aGF0IHJpZ2h0IGF3YXkuIEFsc28sIHRo
-aXMgd291bGQKPiA+PiBhbGxvdyB1cyB0byBpbXBsZW1lbnQgdmVyeSBmYW5jeSBldmljdGlvbiBh
-bGdvcml0aG1zIGxpa2UgYWxsIHRoZQo+ID4+IG5vbnNlbnNlIHdlJ3JlIGRvaW5nIGluIGk5MTUg
-Zm9yIGd0dCBoYW5kbGluZyBvbiBnZW4yLzMgKGJ1dCBJIHJlYWxseQo+ID4+IGhvcGUgdGhhdCBu
-ZXZlciBldmVyIGJlY29tZXMgYSB0aGluZyBhZ2FpbiBpbiBmdXR1cmUgZ3B1cywgc28gdGhpcyBp
-cwo+ID4+IG1heWJlIG1vcmUgYSB3aGF0LWlmIGtpbmQgb2YgdGhpbmcpLiBOb3Qgc3VyZSBob3cg
-dGhhdCB3b3VsZCBsb29rCj4gPj4gbGlrZSwgbWF5YmUgYSBzcGVjaWFsIHZhbGlkYXRlIGZ1bmN0
-aW9uIHdoaWNoIHRha2VzIGEgdHRtX3Jlc291cmNlIHRoZQo+ID4+IGRyaXZlciBhbHJlYWR5IGZv
-dW5kICh0aHJvdWdoIGV2aWN0aW5nIHN0dWZmIG9yIHdoYXRldmVyKSBhbmQgdGhlbiB0dG0KPiA+
-PiBqdXN0IGRvZXMgdGhlIG1vdmUgYW5kIGJvb2sta2VlcGluZyBhbmQgZXZlcnl0aGluZy4gQW5k
-IGRyaXZlcnMgd291bGQKPiA+PiBhdCBmaXJzdCBvbmx5IGNhbGwgdmFsaWRhdGUgd2l0aG91dCBh
-bGxvd2luZyBhbnkgZXZpY3Rpb24uIE9mYyBhbnlvbmUKPiA+PiB3aXRob3V0IHNwZWNpYWwgbmVl
-ZHMgY291bGQgdXNlIHRoZSBzdGFuZGFyZCBldmljdGlvbiBmdW5jdGlvbiB0aGF0Cj4gPj4gdmFs
-aWRhdGUgYWxyZWFkeSBoYXMuCj4gPiBTcGlubmluZyB0aGlzIGEgYml0IG1vcmUsIHdlIGNvdWxk
-IGhhdmUgZGlmZmVyZW50IGRlZmF1bHQgZXZpY3Rpb24KPiA+IGZ1bmN0aW9ucyB3aXRoIHRoaXMs
-IGUuZy4gc28gYWxsIHRoZSBkcml2ZXJzIHRoYXQgbmVlZCBndHQgbWFwcGluZyBmb3IKPiA+IG1v
-dmluZyBzdHVmZiBhcm91bmQgY2FuIHNoYXJlIHRoYXQgY29kZSwgYnV0IHdpdGggc3BlY2lmaWMm
-ZmxhdAo+ID4gY29udHJvbCBmbG93IGluc3RlYWQgb2YgbG90cyBvZiBwaW5nLXBpbmcuIEFuZCBk
-cml2ZXJzIHRoYXQgZG9uJ3QgbmVlZAo+ID4gZ3R0IG1hcHBpbmcgKGxpa2UgaTkxNSwgd2UganVz
-dCBuZWVkIGRtYV9tYXBfc2cgd2hpY2ggd2UgYXNzdW1lIHdvcmtzCj4gPiBhbHdheXMsIG9yIHNv
-bWV0aGluZyBmcm9tIHRoZSB0dG0gZG1hIHBhZ2UgcG9vbCwgd2hpY2ggcmVhbGx5IGFsd2F5cwo+
-ID4gd29ya3MpIGNhbiB0aGVuIHVzZSBzb21ldGhpbmcgc2ltcGxlciB0aGF0J3MgY29tcGxldGVs
-eSBmbGF0Lgo+Cj4gT2sgeW91IG5lZWQgdG8gZXhwbGFpbiBhIGJpdCBtb3JlIHdoYXQgZXhhY3Rs
-eSB0aGUgcHJvYmxlbSB3aXRoIHRoZSBHVFQKPiBldmljdGlvbiBpcyBoZXJlIDopCgpTbyB0aGUg
-ZnVsbCBzZXQgb2YgbGltaXRhdGlvbnMgYXJlCi0gcmFuZ2UgbGltaXRzCi0gcG93ZXItb2YtdHdv
-IGFsaWduZW1lbnQgb2Ygc3RhcnQKLSBzb21lIG90aGVyIChzbWFsbGVyKSBwb3dlciBvZiB0d28g
-YWxpZ25tZW50IGZvciBzaXplIChsb2wpCi0gImNvbG9yIiwgaS5lLiBkaWZmZXJlbnQgY2FjaGlu
-ZyBtb2RlcyBuZWVkcyBhdCBsZWFzdCBvbmUgcGFnZSBvZgplbXB0eSBzcGFjZSBpbi1iZXR3ZWVu
-CgpTdHVmZmluZyBhbGwgdGhhdCBpbnRvIGEgZ2VuZXJpYyBldmljdGlvbiBsb2dpYyBpcyBpbW8g
-c2lsbHkuIE9uIHRvcApvZiB0aGF0IHdlIGhhdmUgdGhlIGV2aWN0aW9uIGNvbGxlY3RvciB3aGVy
-ZSB3ZSBzY2FuIHRoZSBlbnRpcmUgdGhpbmcKdW50aWwgd2UndmUgYnVpbHQgdXAgYSBzdWZmaWNp
-ZW50bHkgYmlnIGhvbGUsIHRoZW4gZXZpY3QganVzdCB0aGVzZQpidWZmZXJzLiBJZiB3ZSBkb24n
-dCBkbyB0aGlzIHRoZW4gcHJldHR5IG11Y2ggYW55IGJpZyBidWZmZXIgd2l0aApjb25zdHJhaW50
-cyByZXN1bHRzIGluIHRoZSBlbnRpcmUgR1RUIGdldHRpbmcgZXZpY3RlZC4gQWdhaW4gc29tZXRo
-aW5nCnRoYXQncyBvbmx5IHdvcnRoIGl0IGlmIHlvdSBoYXZlIHJpZGljdWxvdXMgcGxhY2VtZW50
-IGNvbnN0cmFpbnRzIGxpa2UKdGhlc2Ugb2xkIGludGVsIGNoaXBzLiBnZW4yLzMgaW4gaTkxNS5r
-byBpcyBtYXliZSBhIGJpdCBleHRyZW1lLCBidXQKaGF2aW5nIHRoZSBkcml2ZXIgaW4gY29udHJv
-bCBvZiB0aGUgZXZpY3Rpb24gY29kZSBmZWVscyBsaWtlIGEgbXVjaApiZXR0ZXIgZGVzaWduIHRo
-YW4gdHRtIGluZmxpY3RpbmcgYSBvbmUtc2l6ZS1maXRzLWFsbCBvbiBldmVyeW9uZS4gT2ZjCndp
-dGggZGVmYXVsdHMgYW5kIGJ1aWxkaW5nIGJsb2NrcyBhbmQgYWxsIHRoYXQuCi1EYW5pZWwKCj4g
-Q2hyaXN0aWFuLgo+Cj4gPiAtRGFuaWVsCj4gPgo+ID4+PiBGb3Igc3BlY2lhbCBCT3MsIGxpa2Ug
-YW1kZ3B1cyBHRFMsIEdXUyBhbmQgT0EgZG9tYWluIG9yIFZNV0dGWCBzcGVjaWFsCj4gPj4+IGRv
-bWFpbnMgdGhhdCB3aWxsIG9idmlvdXNseSBsb29rIGEgYml0IGRpZmZlcmVudC4KPiA+Pj4KPiA+
-Pj4gQ2hyaXN0aWFuLgo+ID4+Pgo+ID4+Pj4gRGF2ZS4KPiA+Pj4gX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlz
-dAo+ID4+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPj4+IGh0dHBzOi8vbmFt
-MTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmxp
-c3RzLmZyZWVkZXNrdG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0aW5mbyUyRmRyaS1kZXZlbCZhbXA7
-ZGF0YT0wMiU3QzAxJTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0M2NmI1YzJiZmVkODU0
-MWNkOTg2MjA4ZDg2MTJiOGUxZCU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdD
-MCU3QzAlN0M2MzczNjYxODcwMDIyMTMxNTImYW1wO3NkYXRhPU9QZFhNZTJyRzFVeSUyQlpEJTJC
-allLSGZrTGM5eFZBUTFBTDIzUWJFdTNkcm5FJTNEJmFtcDtyZXNlcnZlZD0wCj4gPj4KPiA+Pgo+
-ID4+IC0tCj4gPj4gRGFuaWVsIFZldHRlcgo+ID4+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBD
-b3Jwb3JhdGlvbgo+ID4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9v
-ay5jb20vP3VybD1odHRwJTNBJTJGJTJGYmxvZy5mZndsbC5jaCUyRiZhbXA7ZGF0YT0wMiU3QzAx
-JTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0M2NmI1YzJiZmVkODU0MWNkOTg2MjA4ZDg2
-MTJiOGUxZCU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzcz
-NjYxODcwMDIyMjMxMzYmYW1wO3NkYXRhPTdPTVYwMW41cHpacSUyRjFDOXRkckI4MUUwS3N1WFhh
-R2swcmFGQXlRWGlZZyUzRCZhbXA7cmVzZXJ2ZWQ9MAo+ID4KPiA+Cj4KCgotLSAKRGFuaWVsIFZl
-dHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3
-bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, Sep 25, 2020 at 06:13:00AM -0400, Peilin Ye wrote:
+> Hi all!
+> 
+> On Fri, Sep 25, 2020 at 08:46:04AM +0200, Jiri Slaby wrote:
+> > > In order to perform a reliable range check, fbcon_get_font() needs to know
+> > > `FONTDATAMAX` for each built-in font under lib/fonts/. Unfortunately, we
+> > > do not keep that information in our font descriptor,
+> > > `struct console_font`:
+> > > 
+> > > (include/uapi/linux/kd.h)
+> > > struct console_font {
+> > > 	unsigned int width, height;	/* font size */
+> > > 	unsigned int charcount;
+> > > 	unsigned char *data;	/* font data with height fixed to 32 */
+> > > };
+> > > 
+> > > To make things worse, `struct console_font` is part of the UAPI, so we
+> > > cannot add a new field to keep track of `FONTDATAMAX`.
+> > 
+> > Hi,
+> > 
+> > but you still can define struct kernel_console_font containing struct
+> > console_font and the 4 more members you need in the kernel. See below.
+> > 
+> > > Fortunately, the framebuffer layer itself gives us a hint of how to
+> > > resolve this issue without changing UAPI. When allocating a buffer for a
+> > > user-provided font, fbcon_set_font() reserves four "extra words" at the
+> > > beginning of the buffer:
+> > > 
+> > > (drivers/video/fbdev/core/fbcon.c)
+> > > 	new_data = kmalloc(FONT_EXTRA_WORDS * sizeof(int) + size, GFP_USER);
+> > 
+> > I might be missing something (like coffee in the morning), but why don't
+> > you just:
+> > 1) declare struct font_data as
+> > {
+> >   unsigned sum, char_count, size, refcnt;
+> >   const unsigned char data[];
+> > }
+> > 
+> > Or maybe "struct console_font font" instead of "const unsigned char
+> > data[]", if need be.
+> > 
+> > 2) allocate by:
+> >   kmalloc(struct_size(struct font_data, data, size));
+> > 
+> > 3) use container_of wherever needed
+> > 
+> > That is you name the data on negative indexes using struct as you
+> > already have to define one.
+> > 
+> > Then you don't need the ugly macros with negative indexes. And you can
+> > pass this structure down e.g. to fbcon_do_set_font, avoiding potential
+> > mistakes in accessing data[-1] and similar.
+> 
+> Sorry that I didn't mention it in the cover letter, but yes, I've tried
+> this - a new `kernel_console_font` would be much cleaner than negative
+> array indexing.
+> 
+> The reason I ended up giving it up was, frankly speaking, these macros
+> are being used at about 30 places, and I am not familiar enough with the
+> framebuffer and newport_con code, so I wasn't confident how to clean
+> them up and plug in `kernel_console_font` properly...
+> 
+> Another reason was that, functions like fbcon_get_font() handle both user
+> fonts and built-in fonts, so I wanted a single solution for both of
+> them. I think we can't really introduce `kernel_console_font` while
+> keeping these macros, that would make the error handling logics etc.
+> very messy.
+> 
+> I'm not very sure what to do now. Should I give it another try cleaning
+> up all the macros?
+> 
+> And thank you for reviewing this!
+
+I think the only way to make this work is that we have one place which
+takes in the userspace uapi struct, and then converts it once into a
+kernel_console_font. With all the error checking.
+
+Then all internal code deals in terms of kernel_console_font, with
+properly typed and named struct members and helper functions and
+everything. And we might need a gradual conversion for this, so that first
+we can convert over invidual console drivers, then subsystems, until at
+the end we've pushed the conversion from uapi array to kernel_console_font
+all the way to the ioctl entry points.
+
+But that's indeed a huge pile of work, and fair warning: fbcon is
+semi-orphaned, so by doing this you'll pretty much volunteer for
+maintainership :-)
+
+But I'd be very happy to help get this done and throw some maintainership
+credentials at you in the proces ...
+
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
