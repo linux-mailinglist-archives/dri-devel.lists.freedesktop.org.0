@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769412796D9
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Sep 2020 06:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42746279705
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Sep 2020 06:51:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E386ED98;
-	Sat, 26 Sep 2020 04:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFD316ED9A;
+	Sat, 26 Sep 2020 04:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF24D6ED93
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 04:25:06 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id z18so5075178pfg.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 21:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vw5JB3RRsbohaer3Y56R1IPsXZfXmp2s3xn/82rJ0CY=;
- b=D1xoiKNDyt3hh17/hK6uqP4SAJ0L1P3/8IXEZSgrQKf9rBZXqkaliK02LneXiMkHGc
- hxYhfBZgNzpCVtoUOBPYp/QXx5X4/02K3L9IlZyEnsTLPVYvwP/uqLK4KsdUC+CbktyT
- 8DNFlax8CYkd9Trrqr9xoxsbV9QIMOilaXcPWav2ATUes6LDMvL85b+AkLVf6tvVHYom
- +Id89kS5caa8WGXDDtF5fDnl4RarlgFQyvitdpowCBq68FauqBrCZSuZArik8Bp9lmvK
- Fh0WjZM6QEhINjtqmgHLGVqCcIl0sx1uE4RQxjHaCKgOy70fCPRfjDyzqBwVCDnyFq3g
- I5WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vw5JB3RRsbohaer3Y56R1IPsXZfXmp2s3xn/82rJ0CY=;
- b=Kq+Z67e5El+adUx0UNrsTsaXlN5xq/OsrOJNOUY9UYau2iXBqd7us8hbDcfwPjzbrg
- BT8MGIWs2hd/3vjGfAL2bn3wzaQNF1faw2zOzEIJz89ho0QWiGfuFzxTT+gSrA2fPFPl
- s2Oo4InVLdNzd5o1rUpLrz694D1IowSyygjYSGawDt641li4WczcnbwfZxCmP8UOKX2O
- Q/IpPrgP+Uqg1MM51kXGACu8LohIbq373ry61UwB0iawb+0SOjwgKb5Rvb0PQalYxGSk
- h84YnYP+6KDXWq//m3ih6gWTtXbimf2GttBM7SN13jOAmKET45srowyH2bKkyrMFyFCm
- AgIg==
-X-Gm-Message-State: AOAM533RzTgQGemDcYy+aOoidKpMXY+G9B986NKmwyFUzEDfIuDKNoRf
- /qnw8foP6fq5Ytyf4s8zjAZUpQ==
-X-Google-Smtp-Source: ABdhPJyvQ50xfxJX8TpnL1MvlzaJmF3SWzncH/tqsov+stEHycC5jsIv3tQvdZov8P+AXKPfVqQiWA==
-X-Received: by 2002:a62:cd49:0:b029:150:7742:c6c8 with SMTP id
- o70-20020a62cd490000b02901507742c6c8mr2126731pfg.61.1601094306220; 
- Fri, 25 Sep 2020 21:25:06 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- a5sm3585886pgk.13.2020.09.25.21.25.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 21:25:05 -0700 (PDT)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH 6/6] dma-buf: heaps: Skip sync if not mapped
-Date: Sat, 26 Sep 2020 04:24:53 +0000
-Message-Id: <20200926042453.67517-7-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200926042453.67517-1-john.stultz@linaro.org>
-References: <20200926042453.67517-1-john.stultz@linaro.org>
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C9546ED9A
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 04:51:51 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1601095911; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=DTXwOW1hmbrLyDmXb2wq+4otAe5l4L0w+uetysGZBWs=;
+ b=JdDuxZHfT/JM/geWBmGG+usobmzAHGGMp/QeIsFJAGfBOeIw+LKyARlhHAAOtgXBEMfLbLRJ
+ w8ZElbC0kPh0rDX/UXSEszHb7XSu6dq0Nvq9JXPJwGr2ZbGgvLKghJ8wTn2YNan19Rm2Vq7e
+ R7m1+4pFd0YGHyqVzkwqVNHzN2o=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5f6ec8e663643dee62ceb424 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 26 Sep 2020 04:51:50
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id C07F5C433C8; Sat, 26 Sep 2020 04:51:50 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: tanmay)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5C708C433CA;
+ Sat, 26 Sep 2020 04:51:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5C708C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=tanmay@codeaurora.org
+From: Tanmay Shah <tanmay@codeaurora.org>
+To: dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm/dp: DisplayPort PHY compliance tests fixup
+Date: Fri, 25 Sep 2020 21:50:48 -0700
+Message-Id: <20200926045048.16175-1-tanmay@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,128 +67,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, swboyd@chromium.org,
+ khsieh@codeaurora.org, seanpaul@chromium.org,
+ Tanmay Shah <tanmay@codeaurora.org>, aravindh@codeaurora.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCBpcyBiYXNpY2FsbHkgYSBwb3J0IG9mIMOYcmphbiBFaWRlJ3Mgc2ltaWxhciBw
-YXRjaCBmb3IgSU9OCiBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMjAwNDE0MTM0NjI5
-LjU0NTY3LTEtb3JqYW4uZWlkZUBhcm0uY29tLwoKT25seSBzeW5jIHRoZSBzZy1saXN0IG9mIGRt
-YS1idWYgaGVhcCBhdHRhY2htZW50IHdoZW4gdGhlIGF0dGFjaG1lbnQKaXMgYWN0dWFsbHkgbWFw
-cGVkIG9uIHRoZSBkZXZpY2UuCgpkbWEtYnVmcyBtYXkgYmUgc3luY2VkIGF0IGFueSB0aW1lLiBJ
-dCBjYW4gYmUgcmVhY2hlZCBmcm9tIHVzZXIgc3BhY2UKdmlhIERNQV9CVUZfSU9DVExfU1lOQywg
-c28gdGhlcmUgYXJlIG5vIGd1YXJhbnRlZXMgZnJvbSBjYWxsZXJzIG9uIHdoZW4Kc3luY3MgbWF5
-IGJlIGF0dGVtcHRlZCwgYW5kIGRtYV9idWZfZW5kX2NwdV9hY2Nlc3MoKSBhbmQKZG1hX2J1Zl9i
-ZWdpbl9jcHVfYWNjZXNzKCkgbWF5IG5vdCBiZSBwYWlyZWQuCgpTaW5jZSB0aGUgc2dfbGlzdCdz
-IGRtYV9hZGRyZXNzIGlzbid0IHNldCB1cCB1bnRpbCB0aGUgYnVmZmVyIGlzIHVzZWQKb24gdGhl
-IGRldmljZSwgYW5kIGRtYV9tYXBfc2coKSBpcyBjYWxsZWQgb24gaXQsIHRoZSBkbWFfYWRkcmVz
-cyB3aWxsIGJlCk5VTEwgaWYgc3luYyBpcyBhdHRlbXB0ZWQgb24gdGhlIGRtYS1idWYgYmVmb3Jl
-IGl0J3MgbWFwcGVkIG9uIGEgZGV2aWNlLgoKQmVmb3JlIHY1LjAgKGNvbW1pdCA1NTg5N2FmNjMw
-OTEgKCJkbWEtZGlyZWN0OiBtZXJnZSBzd2lvdGxiX2RtYV9vcHMKaW50byB0aGUgZG1hX2RpcmVj
-dCBjb2RlIikpIHRoaXMgd2FzIGEgcHJvYmxlbSBhcyB0aGUgZG1hLWFwaSAoYXQgbGVhc3QKdGhl
-IHN3aW90bGJfZG1hX29wcyBvbiBhcm02NCkgd291bGQgdXNlIHRoZSBwb3RlbnRpYWxseSBpbnZh
-bGlkCmRtYV9hZGRyZXNzLiBIb3cgdGhhdCBmYWlsZWQgZGVwZW5kZWQgb24gaG93IHRoZSBkZXZp
-Y2UgaGFuZGxlZCBwaHlzaWNhbAphZGRyZXNzIDAuIElmIDAgd2FzIGEgdmFsaWQgYWRkcmVzcyB0
-byBwaHlzaWNhbCByYW0sIHRoYXQgcGFnZSB3b3VsZCBnZXQKZmx1c2hlZCBhIGxvdCwgd2hpbGUg
-dGhlIGFjdHVhbCBwYWdlcyBpbiB0aGUgYnVmZmVyIHdvdWxkIG5vdCBnZXQgc3luY2VkCmNvcnJl
-Y3RseS4gV2hpbGUgaWYgMCBpcyBhbiBpbnZhbGlkIHBoeXNpY2FsIGFkZHJlc3MgaXQgbWF5IGNh
-dXNlIGEKZmF1bHQgYW5kIHRyaWdnZXIgYSBjcmFzaC4KCkluIHY1LjAgdGhpcyB3YXMgaW5jaWRl
-bnRhbGx5IGZpeGVkIGJ5IGNvbW1pdCA1NTg5N2FmNjMwOTEgKCJkbWEtZGlyZWN0OgptZXJnZSBz
-d2lvdGxiX2RtYV9vcHMgaW50byB0aGUgZG1hX2RpcmVjdCBjb2RlIiksIGFzIHRoaXMgbW92ZWQg
-dGhlCmRtYS1hcGkgdG8gdXNlIHRoZSBwYWdlIHBvaW50ZXIgaW4gdGhlIHNnX2xpc3QsIGFuZCAo
-Zm9yIElvbiBidWZmZXJzIGF0CmxlYXN0KSB0aGlzIHdpbGwgYWx3YXlzIGJlIHZhbGlkIGlmIHRo
-ZSBzZ19saXN0IGV4aXN0cyBhdCBhbGwuCgpCdXQsIHRoaXMgaXNzdWUgaXMgcmUtaW50cm9kdWNl
-ZCBpbiB2NS4zIHdpdGgKY29tbWl0IDQ0OWZhNTRkNjgxNSAoImRtYS1kaXJlY3Q6IGNvcnJlY3Qg
-dGhlIHBoeXNpY2FsIGFkZHIgaW4KZG1hX2RpcmVjdF9zeW5jX3NnX2Zvcl9jcHUvZGV2aWNlIikg
-bW92ZXMgdGhlIGRtYS1hcGkgYmFjayB0byB0aGUgb2xkCmJlaGF2aW91ciBhbmQgcGlja3MgdGhl
-IGRtYV9hZGRyZXNzIHRoYXQgbWF5IGJlIGludmFsaWQuCgpkbWEtYnVmIGNvcmUgZG9lc24ndCBl
-bnN1cmUgdGhhdCB0aGUgYnVmZmVyIGlzIG1hcHBlZCBvbiB0aGUgZGV2aWNlLCBhbmQKdGh1cyBo
-YXZlIGEgdmFsaWQgc2dfbGlzdCwgYmVmb3JlIGNhbGxpbmcgdGhlIGV4cG9ydGVyJ3MKYmVnaW5f
-Y3B1X2FjY2Vzcy4KCkxvZ2ljIGFuZCBjb21taXQgbWVzc2FnZSBvcmlnaW5hbGx5IGJ5OiDDmHJq
-YW4gRWlkZSA8b3JqYW4uZWlkZUBhcm0uY29tPgoKQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vt
-d2FsQGxpbmFyby5vcmc+CkNjOiBMaWFtIE1hcmsgPGxtYXJrQGNvZGVhdXJvcmEub3JnPgpDYzog
-TGF1cmEgQWJib3R0IDxsYWJib3R0QGtlcm5lbC5vcmc+CkNjOiBCcmlhbiBTdGFya2V5IDxCcmlh
-bi5TdGFya2V5QGFybS5jb20+CkNjOiBIcmlkeWEgVmFsc2FyYWp1IDxocmlkeWFAZ29vZ2xlLmNv
-bT4KQ2M6IFN1cmVuIEJhZ2hkYXNhcnlhbiA8c3VyZW5iQGdvb2dsZS5jb20+CkNjOiBTYW5kZWVw
-IFBhdGlsIDxzc3BhdGlsQGdvb2dsZS5jb20+CkNjOiDDmHJqYW4gRWlkZSA8b3JqYW4uZWlkZUBh
-cm0uY29tPgpDYzogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KQ2M6IEV6ZXF1
-aWVsIEdhcmNpYSA8ZXplcXVpZWxAY29sbGFib3JhLmNvbT4KQ2M6IFNpbW9uIFNlciA8Y29udGFj
-dEBlbWVyc2lvbi5mcj4KQ2M6IEphbWVzIEpvbmVzIDxqYWpvbmVzQG52aWRpYS5jb20+CkNjOiBs
-aW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKU2lnbmVkLW9mZi1ieTogSm9obiBTdHVsdHogPGpvaG4uc3R1bHR6QGxpbmFyby5vcmc+
-Ci0tLQogZHJpdmVycy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMgICAgfCAxMCArKysrKysrKysr
-CiBkcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYyB8IDEwICsrKysrKysrKysKIDIg
-ZmlsZXMgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1h
-LWJ1Zi9oZWFwcy9jbWFfaGVhcC5jIGIvZHJpdmVycy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMK
-aW5kZXggM2FkZmRiZWQwODI5Li5iNmFiMDM5MmFkOWEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZG1h
-LWJ1Zi9oZWFwcy9jbWFfaGVhcC5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9jbWFfaGVh
-cC5jCkBAIC00NCw2ICs0NCw3IEBAIHN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50IHsKIAlzdHJ1
-Y3QgZGV2aWNlICpkZXY7CiAJc3RydWN0IHNnX3RhYmxlIHRhYmxlOwogCXN0cnVjdCBsaXN0X2hl
-YWQgbGlzdDsKKwlib29sIG1hcHBlZDsKIH07CiAKIHN0YXRpYyBpbnQgY21hX2hlYXBfYXR0YWNo
-KHN0cnVjdCBkbWFfYnVmICpkbWFidWYsCkBAIC02OCw2ICs2OSw3IEBAIHN0YXRpYyBpbnQgY21h
-X2hlYXBfYXR0YWNoKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsCiAKIAlhLT5kZXYgPSBhdHRhY2ht
-ZW50LT5kZXY7CiAJSU5JVF9MSVNUX0hFQUQoJmEtPmxpc3QpOworCWEtPm1hcHBlZCA9IGZhbHNl
-OwogCiAJYXR0YWNobWVudC0+cHJpdiA9IGE7CiAKQEAgLTEwMSw2ICsxMDMsNyBAQCBzdGF0aWMg
-c3RydWN0IHNnX3RhYmxlICpjbWFfaGVhcF9tYXBfZG1hX2J1ZihzdHJ1Y3QgZG1hX2J1Zl9hdHRh
-Y2htZW50ICphdHRhY2htZQogCWlmICghZG1hX21hcF9zZyhhdHRhY2htZW50LT5kZXYsIHRhYmxl
-LT5zZ2wsIHRhYmxlLT5uZW50cywKIAkJCWRpcmVjdGlvbikpCiAJCXRhYmxlID0gRVJSX1BUUigt
-RU5PTUVNKTsKKwlhLT5tYXBwZWQgPSB0cnVlOwogCXJldHVybiB0YWJsZTsKIH0KIApAQCAtMTA4
-LDYgKzExMSw5IEBAIHN0YXRpYyB2b2lkIGNtYV9oZWFwX3VubWFwX2RtYV9idWYoc3RydWN0IGRt
-YV9idWZfYXR0YWNobWVudCAqYXR0YWNobWVudCwKIAkJCQkgICBzdHJ1Y3Qgc2dfdGFibGUgKnRh
-YmxlLAogCQkJCSAgIGVudW0gZG1hX2RhdGFfZGlyZWN0aW9uIGRpcmVjdGlvbikKIHsKKwlzdHJ1
-Y3QgZG1hX2hlYXBfYXR0YWNobWVudCAqYSA9IGF0dGFjaG1lbnQtPnByaXY7CisKKwlhLT5tYXBw
-ZWQgPSBmYWxzZTsKIAlkbWFfdW5tYXBfc2coYXR0YWNobWVudC0+ZGV2LCB0YWJsZS0+c2dsLCB0
-YWJsZS0+bmVudHMsIGRpcmVjdGlvbik7CiB9CiAKQEAgLTEyMyw2ICsxMjksOCBAQCBzdGF0aWMg
-aW50IGNtYV9oZWFwX2RtYV9idWZfYmVnaW5fY3B1X2FjY2VzcyhzdHJ1Y3QgZG1hX2J1ZiAqZG1h
-YnVmLAogCiAJbXV0ZXhfbG9jaygmYnVmZmVyLT5sb2NrKTsKIAlsaXN0X2Zvcl9lYWNoX2VudHJ5
-KGEsICZidWZmZXItPmF0dGFjaG1lbnRzLCBsaXN0KSB7CisJCWlmICghYS0+bWFwcGVkKQorCQkJ
-Y29udGludWU7CiAJCWRtYV9zeW5jX3NnX2Zvcl9jcHUoYS0+ZGV2LCBhLT50YWJsZS5zZ2wsIGEt
-PnRhYmxlLm5lbnRzLAogCQkJCSAgICBkaXJlY3Rpb24pOwogCX0KQEAgLTE0Miw2ICsxNTAsOCBA
-QCBzdGF0aWMgaW50IGNtYV9oZWFwX2RtYV9idWZfZW5kX2NwdV9hY2Nlc3Moc3RydWN0IGRtYV9i
-dWYgKmRtYWJ1ZiwKIAogCW11dGV4X2xvY2soJmJ1ZmZlci0+bG9jayk7CiAJbGlzdF9mb3JfZWFj
-aF9lbnRyeShhLCAmYnVmZmVyLT5hdHRhY2htZW50cywgbGlzdCkgeworCQlpZiAoIWEtPm1hcHBl
-ZCkKKwkJCWNvbnRpbnVlOwogCQlkbWFfc3luY19zZ19mb3JfZGV2aWNlKGEtPmRldiwgYS0+dGFi
-bGUuc2dsLCBhLT50YWJsZS5uZW50cywKIAkJCQkgICAgICAgZGlyZWN0aW9uKTsKIAl9CmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYyBiL2RyaXZlcnMvZG1h
-LWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jCmluZGV4IDlmNTdiNGM4YWU2OS4uOGE1MjNiNmZkNTFh
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYworKysgYi9k
-cml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYwpAQCAtMzgsNiArMzgsNyBAQCBzdHJ1
-Y3QgZG1hX2hlYXBfYXR0YWNobWVudCB7CiAJc3RydWN0IGRldmljZSAqZGV2OwogCXN0cnVjdCBz
-Z190YWJsZSAqdGFibGU7CiAJc3RydWN0IGxpc3RfaGVhZCBsaXN0OworCWJvb2wgbWFwcGVkOwog
-fTsKIAogI2RlZmluZSBISUdIX09SREVSX0dGUCAgKCgoR0ZQX0hJR0hVU0VSIHwgX19HRlBfWkVS
-TyB8IF9fR0ZQX05PV0FSTiBcCkBAIC05NCw2ICs5NSw3IEBAIHN0YXRpYyBpbnQgc3lzdGVtX2hl
-YXBfYXR0YWNoKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsCiAJYS0+dGFibGUgPSB0YWJsZTsKIAlh
-LT5kZXYgPSBhdHRhY2htZW50LT5kZXY7CiAJSU5JVF9MSVNUX0hFQUQoJmEtPmxpc3QpOworCWEt
-Pm1hcHBlZCA9IGZhbHNlOwogCiAJYXR0YWNobWVudC0+cHJpdiA9IGE7CiAKQEAgLTEyOCw2ICsx
-MzAsNyBAQCBzdGF0aWMgc3RydWN0IHNnX3RhYmxlICpzeXN0ZW1faGVhcF9tYXBfZG1hX2J1Zihz
-dHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhYwogCWlmICghZG1hX21hcF9zZyhhdHRhY2ht
-ZW50LT5kZXYsIHRhYmxlLT5zZ2wsIHRhYmxlLT5uZW50cywgZGlyZWN0aW9uKSkKIAkJcmV0dXJu
-IEVSUl9QVFIoLUVOT01FTSk7CiAKKwlhLT5tYXBwZWQgPSB0cnVlOwogCXJldHVybiB0YWJsZTsK
-IH0KIApAQCAtMTM1LDYgKzEzOCw5IEBAIHN0YXRpYyB2b2lkIHN5c3RlbV9oZWFwX3VubWFwX2Rt
-YV9idWYoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNobWVudCwKIAkJCQkgICAgICBz
-dHJ1Y3Qgc2dfdGFibGUgKnRhYmxlLAogCQkJCSAgICAgIGVudW0gZG1hX2RhdGFfZGlyZWN0aW9u
-IGRpcmVjdGlvbikKIHsKKwlzdHJ1Y3QgZG1hX2hlYXBfYXR0YWNobWVudCAqYSA9IGF0dGFjaG1l
-bnQtPnByaXY7CisKKwlhLT5tYXBwZWQgPSBmYWxzZTsKIAlkbWFfdW5tYXBfc2coYXR0YWNobWVu
-dC0+ZGV2LCB0YWJsZS0+c2dsLCB0YWJsZS0+bmVudHMsIGRpcmVjdGlvbik7CiB9CiAKQEAgLTE1
-MSw2ICsxNTcsOCBAQCBzdGF0aWMgaW50IHN5c3RlbV9oZWFwX2RtYV9idWZfYmVnaW5fY3B1X2Fj
-Y2VzcyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLAogCQlpbnZhbGlkYXRlX2tlcm5lbF92bWFwX3Jh
-bmdlKGJ1ZmZlci0+dmFkZHIsIGJ1ZmZlci0+bGVuKTsKIAogCWxpc3RfZm9yX2VhY2hfZW50cnko
-YSwgJmJ1ZmZlci0+YXR0YWNobWVudHMsIGxpc3QpIHsKKwkJaWYgKCFhLT5tYXBwZWQpCisJCQlj
-b250aW51ZTsKIAkJZG1hX3N5bmNfc2dfZm9yX2NwdShhLT5kZXYsIGEtPnRhYmxlLT5zZ2wsIGEt
-PnRhYmxlLT5uZW50cywKIAkJCQkgICAgZGlyZWN0aW9uKTsKIAl9CkBAIC0xNzEsNiArMTc5LDgg
-QEAgc3RhdGljIGludCBzeXN0ZW1faGVhcF9kbWFfYnVmX2VuZF9jcHVfYWNjZXNzKHN0cnVjdCBk
-bWFfYnVmICpkbWFidWYsCiAJCWZsdXNoX2tlcm5lbF92bWFwX3JhbmdlKGJ1ZmZlci0+dmFkZHIs
-IGJ1ZmZlci0+bGVuKTsKIAogCWxpc3RfZm9yX2VhY2hfZW50cnkoYSwgJmJ1ZmZlci0+YXR0YWNo
-bWVudHMsIGxpc3QpIHsKKwkJaWYgKCFhLT5tYXBwZWQpCisJCQljb250aW51ZTsKIAkJZG1hX3N5
-bmNfc2dfZm9yX2RldmljZShhLT5kZXYsIGEtPnRhYmxlLT5zZ2wsIGEtPnRhYmxlLT5uZW50cywK
-IAkJCQkgICAgICAgZGlyZWN0aW9uKTsKIAl9Ci0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Bandwidth code was being used as test link rate. Fix this by converting
+bandwidth code to test link rate
+
+Do not reset voltage and pre-emphasis level during IRQ HPD attention
+interrupt. Also fix pre-emphasis parsing during test link status process
+
+Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    |  3 ---
+ drivers/gpu/drm/msm/dp/dp_display.c |  1 +
+ drivers/gpu/drm/msm/dp/dp_link.c    | 12 +++++++++++-
+ drivers/gpu/drm/msm/dp/dp_link.h    |  1 +
+ 4 files changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 2e3e1917351f..872b12689e31 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1643,9 +1643,6 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 	if (rc)
+ 		return rc;
+ 
+-	ctrl->link->phy_params.p_level = 0;
+-	ctrl->link->phy_params.v_level = 0;
+-
+ 	while (--link_train_max_retries &&
+ 		!atomic_read(&ctrl->dp_ctrl.aborted)) {
+ 		rc = dp_ctrl_reinitialize_mainlink(ctrl);
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index e175aa3fd3a9..ae9989ece73f 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -335,6 +335,7 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+ 	dp->dp_display.max_pclk_khz = DP_MAX_PIXEL_CLK_KHZ;
+ 	dp->dp_display.max_dp_lanes = dp->parser->max_dp_lanes;
+ 
++	dp_link_reset_phy_params_vx_px(dp->link);
+ 	rc = dp_ctrl_on_link(dp->ctrl);
+ 	if (rc) {
+ 		DRM_ERROR("failed to complete DP link training\n");
+diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+index c811da515fb3..49d7fad36fc4 100644
+--- a/drivers/gpu/drm/msm/dp/dp_link.c
++++ b/drivers/gpu/drm/msm/dp/dp_link.c
+@@ -869,6 +869,9 @@ static int dp_link_parse_vx_px(struct dp_link_private *link)
+ 		drm_dp_get_adjust_request_voltage(link->link_status, 0);
+ 	link->dp_link.phy_params.p_level =
+ 		drm_dp_get_adjust_request_pre_emphasis(link->link_status, 0);
++
++	link->dp_link.phy_params.p_level >>= DP_TRAIN_PRE_EMPHASIS_SHIFT;
++
+ 	DRM_DEBUG_DP("Requested: v_level = 0x%x, p_level = 0x%x\n",
+ 			link->dp_link.phy_params.v_level,
+ 			link->dp_link.phy_params.p_level);
+@@ -911,7 +914,8 @@ static int dp_link_process_phy_test_pattern_request(
+ 			link->request.test_lane_count);
+ 
+ 	link->dp_link.link_params.num_lanes = link->request.test_lane_count;
+-	link->dp_link.link_params.rate = link->request.test_link_rate;
++	link->dp_link.link_params.rate =
++		drm_dp_bw_code_to_link_rate(link->request.test_link_rate);
+ 
+ 	ret = dp_link_parse_vx_px(link);
+ 
+@@ -1156,6 +1160,12 @@ int dp_link_adjust_levels(struct dp_link *dp_link, u8 *link_status)
+ 	return 0;
+ }
+ 
++void dp_link_reset_phy_params_vx_px(struct dp_link *dp_link)
++{
++	dp_link->phy_params.v_level = 0;
++	dp_link->phy_params.p_level = 0;
++}
++
+ u32 dp_link_get_test_bits_depth(struct dp_link *dp_link, u32 bpp)
+ {
+ 	u32 tbd;
+diff --git a/drivers/gpu/drm/msm/dp/dp_link.h b/drivers/gpu/drm/msm/dp/dp_link.h
+index 49811b6221e5..9dd4dd926530 100644
+--- a/drivers/gpu/drm/msm/dp/dp_link.h
++++ b/drivers/gpu/drm/msm/dp/dp_link.h
+@@ -135,6 +135,7 @@ static inline u32 dp_link_bit_depth_to_bpc(u32 tbd)
+ 	}
+ }
+ 
++void dp_link_reset_phy_params_vx_px(struct dp_link *dp_link);
+ u32 dp_link_get_test_bits_depth(struct dp_link *dp_link, u32 bpp);
+ int dp_link_process_request(struct dp_link *dp_link);
+ int dp_link_get_colorimetry_config(struct dp_link *dp_link);
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
