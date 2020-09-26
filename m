@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E407D27A811
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E68927A844
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:08:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7D36E125;
-	Mon, 28 Sep 2020 07:06:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACE8F6E41A;
+	Mon, 28 Sep 2020 07:07:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF0BA6EDB4
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 07:40:03 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id b17so643402pji.1
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 00:40:03 -0700 (PDT)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A8806EDB4
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 07:41:17 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id 34so4308277pgo.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 00:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:content-transfer-encoding:in-reply-to:references
  :subject:from:cc:to:date:message-id:user-agent;
- bh=qRaxhiyZE90m+amIVHIeCMA0LL3BWUXSOy1qHRMz/HE=;
- b=REsQD2UwdR9mJ2mZr8Lka7ng3h1M5e4t5YBSNhbSVEe4dBJq1XzPkdnga8WsA4blA7
- enldgWNaqTvjHUwuEuZ8zTdyodiiex2GstukHEm8QqFfnaUL5b2Qp+86p01XKfBONkbv
- 94+OWFKFNefSgIloF+EIod5O3TihXi4rkG8pA=
+ bh=OaqWuxy2M9eImPpuAf5glJGxxD92OtFncd8r97AgYM4=;
+ b=O0dm9hMEqc1vEs0A9s9u8sPtT4XYPZ+egumnSlp7wUZCtw2BJSRbP/BmWpow8IJPxL
+ Xr4GAJvwYtoZjZdrGgwyAlfx6tFy5hmlmjfsBeeKYS9zlsvk3uFiD3LvQqHc/Uy+OV6p
+ nQ0seqgfAIQ5iuHLtYk83rKNW9diUkuC+45Zo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:content-transfer-encoding
  :in-reply-to:references:subject:from:cc:to:date:message-id
  :user-agent;
- bh=qRaxhiyZE90m+amIVHIeCMA0LL3BWUXSOy1qHRMz/HE=;
- b=egdc8ito0ym2xXXABgvz8GQcLgK+wgN372kgKMKsezWq8PA6WvyGwaUbtVjm1tOSjA
- vk69VMGQRwKFw5Mr14iSVBzjyyNooNzVqqxR/6U2GWqfycNHq3P7zpfzMjisEIP4P6OV
- vVfGbDVEu3wtUZsALpTrYhc7rTuO0bd+e7qCbHS2yg1H1UOdS/pN0DReIrk1uLeobNVz
- x8qNMjYrce821Br0EVUxKTHS/v/TZjkU4hZVxY0KPnTOx2MfB3Y0Snf442Y8Fd7gqiSJ
- gJD17yqzG/KyHFP3624snH76Gk2x9RVsCHbO3WXMk4JjFZNjMua2KoQKdxaJOsZRWHJj
- 7QYQ==
-X-Gm-Message-State: AOAM532XnYvVIkNTgbVz+lAHJAeHqE1TAETKpVT4cU+1jReGXYHh/NA6
- cpL4NSX2LiZwbNGhg9bxozZAMw==
-X-Google-Smtp-Source: ABdhPJx66j3Z3S4vye5sgwXdj+nfn5Pw1dqJE3BCIxshfgN+WI4IsNFGybEL3NUhX6uz2b9yZrS6uw==
-X-Received: by 2002:a17:90a:69e3:: with SMTP id
- s90mr1129884pjj.130.1601106003310; 
- Sat, 26 Sep 2020 00:40:03 -0700 (PDT)
+ bh=OaqWuxy2M9eImPpuAf5glJGxxD92OtFncd8r97AgYM4=;
+ b=BTOveoGjJAmcjEtBbDcVVuvg/BzKHF2spUl/L/ZwBQrrPJIV7c8sOg9ed8ICZNzTlK
+ GUO7sybIIyyX1aPYkhp06XvpJue6idpEcyK9KrQxjWerveAmDoQ/I2PTeLre5OZYO7Of
+ zsDb5Zija4EcQDsSXL3aSuU3p9mQX6Kot6Ajc3NAIBTKaWKOCcTDyVrtxkqTibqXOYQC
+ OZPWuBTaqASF4xEqChMwjEkkyRYpqvSrPI+e/Q9f6MvbfrOB6ykM7l6mrs42T6qa2mPI
+ IENqg2LWJpv9I388MHc+n8w3/LBTA/epca4MNx1tUgdOw8QxbUUfJDre3Iy7rY5gCRGz
+ UMSQ==
+X-Gm-Message-State: AOAM533QeieHjuvvbDso9lXyr6+u+HtchbEkj2AyD9bcCoBJiFMl1SiD
+ zw9+QqAPtYh05eXQBd+8MMwE2g==
+X-Google-Smtp-Source: ABdhPJzEAKDRyk+rvxA2q8CkeH8Jl0KDYYDLphxH3dmvJ35XQzgM6LZvJ3fC1/ASAZVYwNv2FOMcew==
+X-Received: by 2002:a63:490d:: with SMTP id w13mr2027849pga.24.1601106077143; 
+ Sat, 26 Sep 2020 00:41:17 -0700 (PDT)
 Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id c12sm4540274pfj.164.2020.09.26.00.40.02
+ by smtp.gmail.com with ESMTPSA id m188sm4836662pfd.56.2020.09.26.00.41.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Sep 2020 00:40:02 -0700 (PDT)
+ Sat, 26 Sep 2020 00:41:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200926045048.16175-1-tanmay@codeaurora.org>
-References: <20200926045048.16175-1-tanmay@codeaurora.org>
-Subject: Re: [PATCH] drm/msm/dp: DisplayPort PHY compliance tests fixup
+In-Reply-To: <20200926025512.15145-1-abhinavk@codeaurora.org>
+References: <20200926025512.15145-1-abhinavk@codeaurora.org>
+Subject: Re: [PATCH v2] drm/msm/dp: fix incorrect function prototype of
+ dp_debug_get()
 From: Stephen Boyd <swboyd@chromium.org>
-To: Tanmay Shah <tanmay@codeaurora.org>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Date: Sat, 26 Sep 2020 00:40:01 -0700
-Message-ID: <160110600102.310579.8458722739510072790@swboyd.mtv.corp.google.com>
+To: Abhinav Kumar <abhinavk@codeaurora.org>, dri-devel@lists.freedesktop.org
+Date: Sat, 26 Sep 2020 00:41:15 -0700
+Message-ID: <160110607539.310579.6954031617378004352@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9.1
 X-Mailman-Approved-At: Mon, 28 Sep 2020 07:06:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,26 +66,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, khsieh@codeaurora.org,
- seanpaul@chromium.org, Tanmay Shah <tanmay@codeaurora.org>,
- aravindh@codeaurora.org
+Cc: kernel test robot <lkp@intel.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, khsieh@codeaurora.org,
+ seanpaul@chromium.org, tanmay@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tanmay Shah (2020-09-25 21:50:48)
-> Bandwidth code was being used as test link rate. Fix this by converting
-> bandwidth code to test link rate
+Quoting Abhinav Kumar (2020-09-25 19:55:12)
+> Fix the incorrect function prototype for dp_debug_get()
+> in the dp_debug module to address compilation warning.
+> Also add prototype for msm_dp_debugfs_init() for fixing compilation
+> issue with other defconfigs.
 > 
-> Do not reset voltage and pre-emphasis level during IRQ HPD attention
-> interrupt. Also fix pre-emphasis parsing during test link status process
+> changes in v2:
+>         - add prototype for msm_dp_debugfs_init()
 > 
-> Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
+> Fixes: f913454aae8e ("drm/msm/dp: move debugfs node to /sys/kernel/debug/dri/*/")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
 > ---
 
-Fixes: 8ede2ecc3e5e ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 _______________________________________________
 dri-devel mailing list
