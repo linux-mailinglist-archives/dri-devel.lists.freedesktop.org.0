@@ -1,32 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6286127A80E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:06:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25EF727A847
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:08:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C45966E12C;
-	Mon, 28 Sep 2020 07:06:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 550466E406;
+	Mon, 28 Sep 2020 07:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B172F6E17B
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 17:05:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D766E0F6
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 17:05:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1601139911; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1601139913; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CR6w83gwHN18JZ2Q3DyR8varXN6+RB0Yd4kBoEdPsAk=;
- b=aFgh+8StM6Un93C1B5T2HM5e1xbkd4j1ahKywOu6c2Crmr93M3J+Fe+eN/DY7aMh9+HqBn
- YxsW4I/AKxqNbfKkAmCXogVyQy5B+Sihxns8aoEW6RJD1r12DdvSfUQ7FskXhvWB07ziu6
- k77tQ67YbNhcOd5r7f0mRkf8fKnKORw=
+ bh=USgjbNdGyw5p9Xc+uNjChURWrYWAIwKYSffHpj4OmAw=;
+ b=U0HCvjIfVRkEpgHzJFgp1j0mKfxhylIhRwnVbVvTfl60uXHi/SN7LG5UxiF4IYv8uDzLYX
+ UT9pwpXsXM29w0IUqEzzyvEPnhB/p3DAP4d8WT8BOpqSYOwLD09FS1Aw6ZalZ1jBzrDlEQ
+ 19IHWIiebH3HVvx90FMifKrf7egyg58=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 3/7] drm/ingenic: Alloc F0 and F1 DMA descriptors at once
-Date: Sat, 26 Sep 2020 19:04:57 +0200
-Message-Id: <20200926170501.1109197-4-paul@crapouillou.net>
+Subject: [PATCH v2 4/7] drm/ingenic: Support handling different pixel formats
+ in F0/F1 planes
+Date: Sat, 26 Sep 2020 19:04:58 +0200
+Message-Id: <20200926170501.1109197-5-paul@crapouillou.net>
 In-Reply-To: <20200926170501.1109197-1-paul@crapouillou.net>
 References: <20200926170501.1109197-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -51,125 +52,137 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of calling dmam_alloc_coherent() once for each 4-bit DMA
-hardware descriptor, we can have them both in a physical memory page, as
-long as they are aligned to 16 bytes. This reduces memory consumption,
-and will make it easier to add more DMA descriptors in the future.
+Until now the ingenic-drm driver supported the same pixel formats on the
+F0 and F1 planes, and across all SoCs. However, the F0 plane does support
+paletted 8bpp, while the F1 plane doesn't.
 
-Note that the old code would not create the F0 descriptor on SoCs that
-don't support multiple planes. We don't care, because:
-- we don't use more memory by allocating two descriptors instead of a
-  single one;
-- the only SoC that does not support multiple planes (JZ4740) still has
-  two independent DMA channels, for an unknown reason.
+Furthermore, the three SoCs currently supported all have different pixel
+formats available; 24bpp was added in JZ4725B, 30bpp was added in
+JZ4770.
+
+Prepare the inclusion of paletted 8bpp, 24bpp and 30bpp support by
+having separate pixel format lists for F0 and F1 planes.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 51 +++++++++++++----------
- 1 file changed, 28 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 57 +++++++++++++++++++----
+ 1 file changed, 47 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index d34e76f5f57d..e8d47549ff2e 100644
+index e8d47549ff2e..567facfb7217 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -45,7 +45,12 @@ struct ingenic_dma_hwdesc {
- 	u32 addr;
- 	u32 id;
- 	u32 cmd;
--} __packed;
-+} __aligned(16);
-+
-+struct ingenic_dma_hwdescs {
-+	struct ingenic_dma_hwdesc hwdesc_f0;
-+	struct ingenic_dma_hwdesc hwdesc_f1;
-+};
- 
- struct jz_soc_info {
+@@ -56,6 +56,8 @@ struct jz_soc_info {
  	bool needs_dev_clk;
-@@ -68,8 +73,8 @@ struct ingenic_drm {
- 	struct clk *lcd_clk, *pix_clk;
- 	const struct jz_soc_info *soc_info;
+ 	bool has_osd;
+ 	unsigned int max_width, max_height;
++	const u32 *formats_f0, *formats_f1;
++	unsigned int num_formats_f0, num_formats_f1;
+ };
  
--	struct ingenic_dma_hwdesc *dma_hwdesc_f0, *dma_hwdesc_f1;
--	dma_addr_t dma_hwdesc_phys_f0, dma_hwdesc_phys_f1;
-+	struct ingenic_dma_hwdescs *dma_hwdescs;
-+	dma_addr_t dma_hwdescs_phys;
+ struct ingenic_drm {
+@@ -95,12 +97,6 @@ struct ingenic_drm {
+ 	struct notifier_block clock_nb;
+ };
  
- 	bool panel_is_sharp;
- 	bool no_vblank;
-@@ -546,9 +551,9 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 		cpp = state->fb->format->cpp[0];
+-static const u32 ingenic_drm_primary_formats[] = {
+-	DRM_FORMAT_XRGB1555,
+-	DRM_FORMAT_RGB565,
+-	DRM_FORMAT_XRGB8888,
+-};
+-
+ static bool ingenic_drm_cached_gem_buf;
+ module_param_named(cached_gem_buffers, ingenic_drm_cached_gem_buf, bool, 0400);
+ MODULE_PARM_DESC(cached_gem_buffers,
+@@ -963,8 +959,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
  
- 		if (priv->soc_info->has_osd && plane->type == DRM_PLANE_TYPE_OVERLAY)
--			hwdesc = priv->dma_hwdesc_f0;
-+			hwdesc = &priv->dma_hwdescs->hwdesc_f0;
- 		else
--			hwdesc = priv->dma_hwdesc_f1;
-+			hwdesc = &priv->dma_hwdescs->hwdesc_f1;
+ 	ret = drm_universal_plane_init(drm, &priv->f1, 1,
+ 				       &ingenic_drm_primary_plane_funcs,
+-				       ingenic_drm_primary_formats,
+-				       ARRAY_SIZE(ingenic_drm_primary_formats),
++				       priv->soc_info->formats_f1,
++				       priv->soc_info->num_formats_f1,
+ 				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to register plane: %i\n", ret);
+@@ -988,8 +984,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
  
- 		hwdesc->addr = addr;
- 		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
-@@ -856,6 +861,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	void __iomem *base;
- 	long parent_rate;
- 	unsigned int i, clone_mask = 0;
-+	dma_addr_t dma_hwdesc_phys_f0, dma_hwdesc_phys_f1;
- 	int ret, irq;
+ 		ret = drm_universal_plane_init(drm, &priv->f0, 1,
+ 					       &ingenic_drm_primary_plane_funcs,
+-					       ingenic_drm_primary_formats,
+-					       ARRAY_SIZE(ingenic_drm_primary_formats),
++					       priv->soc_info->formats_f0,
++					       priv->soc_info->num_formats_f0,
+ 					       NULL, DRM_PLANE_TYPE_OVERLAY,
+ 					       NULL);
+ 		if (ret) {
+@@ -1204,11 +1200,44 @@ static int ingenic_drm_remove(struct platform_device *pdev)
+ 	return 0;
+ }
  
- 	soc_info = of_device_get_match_data(dev);
-@@ -930,26 +936,25 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 		return PTR_ERR(priv->pix_clk);
- 	}
++static const u32 jz4740_formats[] = {
++	DRM_FORMAT_XRGB1555,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_XRGB8888,
++};
++
++static const u32 jz4725b_formats_f1[] = {
++	DRM_FORMAT_XRGB1555,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_XRGB8888,
++};
++
++static const u32 jz4725b_formats_f0[] = {
++	DRM_FORMAT_XRGB1555,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_XRGB8888,
++};
++
++static const u32 jz4770_formats_f1[] = {
++	DRM_FORMAT_XRGB1555,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_XRGB8888,
++};
++
++static const u32 jz4770_formats_f0[] = {
++	DRM_FORMAT_XRGB1555,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_XRGB8888,
++};
++
+ static const struct jz_soc_info jz4740_soc_info = {
+ 	.needs_dev_clk = true,
+ 	.has_osd = false,
+ 	.max_width = 800,
+ 	.max_height = 600,
++	.formats_f1 = jz4740_formats,
++	.num_formats_f1 = ARRAY_SIZE(jz4740_formats),
++	/* JZ4740 has only one plane */
+ };
  
--	priv->dma_hwdesc_f1 = dmam_alloc_coherent(dev, sizeof(*priv->dma_hwdesc_f1),
--						  &priv->dma_hwdesc_phys_f1,
--						  GFP_KERNEL);
--	if (!priv->dma_hwdesc_f1)
-+	priv->dma_hwdescs = dmam_alloc_coherent(dev,
-+						sizeof(*priv->dma_hwdescs),
-+						&priv->dma_hwdescs_phys,
-+						GFP_KERNEL);
-+	if (!priv->dma_hwdescs)
- 		return -ENOMEM;
+ static const struct jz_soc_info jz4725b_soc_info = {
+@@ -1216,6 +1245,10 @@ static const struct jz_soc_info jz4725b_soc_info = {
+ 	.has_osd = true,
+ 	.max_width = 800,
+ 	.max_height = 600,
++	.formats_f1 = jz4725b_formats_f1,
++	.num_formats_f1 = ARRAY_SIZE(jz4725b_formats_f1),
++	.formats_f0 = jz4725b_formats_f0,
++	.num_formats_f0 = ARRAY_SIZE(jz4725b_formats_f0),
+ };
  
--	priv->dma_hwdesc_f1->next = priv->dma_hwdesc_phys_f1;
--	priv->dma_hwdesc_f1->id = 0xf1;
+ static const struct jz_soc_info jz4770_soc_info = {
+@@ -1223,6 +1256,10 @@ static const struct jz_soc_info jz4770_soc_info = {
+ 	.has_osd = true,
+ 	.max_width = 1280,
+ 	.max_height = 720,
++	.formats_f1 = jz4770_formats_f1,
++	.num_formats_f1 = ARRAY_SIZE(jz4770_formats_f1),
++	.formats_f0 = jz4770_formats_f0,
++	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
+ };
  
--	if (priv->soc_info->has_osd) {
--		priv->dma_hwdesc_f0 = dmam_alloc_coherent(dev,
--							  sizeof(*priv->dma_hwdesc_f0),
--							  &priv->dma_hwdesc_phys_f0,
--							  GFP_KERNEL);
--		if (!priv->dma_hwdesc_f0)
--			return -ENOMEM;
-+	/* Configure DMA hwdesc for foreground0 plane */
-+	dma_hwdesc_phys_f0 = priv->dma_hwdescs_phys
-+		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
-+	priv->dma_hwdescs->hwdesc_f0.next = dma_hwdesc_phys_f0;
-+	priv->dma_hwdescs->hwdesc_f0.id = 0xf0;
- 
--		priv->dma_hwdesc_f0->next = priv->dma_hwdesc_phys_f0;
--		priv->dma_hwdesc_f0->id = 0xf0;
--	}
-+	/* Configure DMA hwdesc for foreground1 plane */
-+	dma_hwdesc_phys_f1 = priv->dma_hwdescs_phys
-+		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f1);
-+	priv->dma_hwdescs->hwdesc_f1.next = dma_hwdesc_phys_f1;
-+	priv->dma_hwdescs->hwdesc_f1.id = 0xf1;
- 
- 	if (soc_info->has_osd)
- 		priv->ipu_plane = drm_plane_from_index(drm, 0);
-@@ -1101,8 +1106,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	}
- 
- 	/* Set address of our DMA descriptor chain */
--	regmap_write(priv->map, JZ_REG_LCD_DA0, priv->dma_hwdesc_phys_f0);
--	regmap_write(priv->map, JZ_REG_LCD_DA1, priv->dma_hwdesc_phys_f1);
-+	regmap_write(priv->map, JZ_REG_LCD_DA0, dma_hwdesc_phys_f0);
-+	regmap_write(priv->map, JZ_REG_LCD_DA1, dma_hwdesc_phys_f1);
- 
- 	/* Enable OSD if available */
- 	if (soc_info->has_osd)
+ static const struct of_device_id ingenic_drm_of_match[] = {
 -- 
 2.28.0
 
