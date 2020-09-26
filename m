@@ -1,29 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7484527A81D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:07:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3CE27A846
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:08:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7357F6E30D;
-	Mon, 28 Sep 2020 07:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39DA86E40A;
+	Mon, 28 Sep 2020 07:07:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 465 seconds by postgrey-1.36 at gabe;
- Fri, 25 Sep 2020 22:44:48 UTC
-Received: from agrajag.zerfleddert.de (agrajag.zerfleddert.de [88.198.237.222])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80CA06ED70
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Sep 2020 22:44:48 +0000 (UTC)
-Received: by agrajag.zerfleddert.de (Postfix, from userid 1000)
- id 249275B2098B; Sat, 26 Sep 2020 00:44:47 +0200 (CEST)
-Date: Sat, 26 Sep 2020 00:44:47 +0200
-From: Tobias Jordan <kernel@cdqe.de>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: of: fix leak of endpoint
-Message-ID: <20200925224447.GA27832@agrajag.zerfleddert.de>
+Received: from shell.v3.sk (mail.v3.sk [167.172.186.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A842E6E05C
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 00:07:28 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id 7BD27DFAA7;
+ Sat, 26 Sep 2020 00:05:48 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id LqQVOdPoNVsV; Sat, 26 Sep 2020 00:05:48 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id E2033DFA9E;
+ Sat, 26 Sep 2020 00:05:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id BcYztc59Bi2f; Sat, 26 Sep 2020 00:05:47 +0000 (UTC)
+Received: from localhost (unknown [109.183.109.54])
+ by zimbra.v3.sk (Postfix) with ESMTPSA id EB362DFA3C;
+ Sat, 26 Sep 2020 00:05:46 +0000 (UTC)
+From: Lubomir Rintel <lkundrak@v3.sk>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Subject: [RESEND PATCH v5 0/2] Add a Himax HX8837 display controller driver
+Date: Sat, 26 Sep 2020 02:07:17 +0200
+Message-Id: <20200926000719.229204-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Mon, 28 Sep 2020 07:06:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,62 +48,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The for_each_child_of_node loop in drm_of_lvds_get_remote_pixels_type
-bails out in two occasions. Originally, both were calling of_node_put to
-clean up, but (probably a typo) for the wrong variable.
+Hi,
 
-One of these typos was fixed in commit 4ee48cc5586b ("drm: of: Fix
-double-free bug"), but that missed the leak of the original endpoint
-and also the first error path which was obviously wrong as well.
+please take a look at the patches chained to this messages and consider
+applying them. They add support for the controller that drives the panel
+on the OLPC XO laptops.
 
-Fix the leak of endpoint in the error path by calling of_node_put on
-it.
+The only change since the previous version is the Reviewed-by tag in DT
+bindings.
 
-Fixes: 6529007522de ("drm: of: Add drm_of_lvds_get_dual_link_pixel_order")
-Signed-off-by: Tobias Jordan <kernel@cdqe.de>
----
-Sorry for the confusion, it seems it's not that easy to get the variable
-name right. Please disregard the patch sent a few minutes ago, this is
-the right one.
+Compared to v3 the bindings have been converted to YAML and the driver
+itself has been rewritten without any fancy features such as the
+self-refresh so that the bare minimum works before the rest can be figured
+out. Detailed change logs are in individual patches.
 
- drivers/gpu/drm/drm_of.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Tested on an OLPC XO-1.75 laptop.
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index ca04c34e8251..997b8827fed2 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -315,7 +315,7 @@ static int drm_of_lvds_get_remote_pixels_type(
- 
- 		remote_port = of_graph_get_remote_port(endpoint);
- 		if (!remote_port) {
--			of_node_put(remote_port);
-+			of_node_put(endpoint);
- 			return -EPIPE;
- 		}
- 
-@@ -331,8 +331,10 @@ static int drm_of_lvds_get_remote_pixels_type(
- 		 * configurations by passing the endpoints explicitly to
- 		 * drm_of_lvds_get_dual_link_pixel_order().
- 		 */
--		if (!current_pt || pixels_type != current_pt)
-+		if (!current_pt || pixels_type != current_pt) {
-+			of_node_put(endpoint);
- 			return -EINVAL;
-+		}
- 	}
- 
- 	return pixels_type;
--- 
-2.20.1
+Thank you
+Lubo
+
+
 
 _______________________________________________
 dri-devel mailing list
