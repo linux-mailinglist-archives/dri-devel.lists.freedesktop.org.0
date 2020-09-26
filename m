@@ -2,54 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F01279B08
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Sep 2020 18:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD1E279BD2
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Sep 2020 20:23:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F20376E116;
-	Sat, 26 Sep 2020 16:42:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EDD36E053;
+	Sat, 26 Sep 2020 18:23:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com
- [IPv6:2607:f8b0:4864:20::c43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC556E116
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 16:42:37 +0000 (UTC)
-Received: by mail-oo1-xc43.google.com with SMTP id 4so1522106ooh.11
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 09:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=THVcnXoVnH+GWn/oU8HKwBMa/PMlTP/APKEGYkTez3E=;
- b=erI4L1cTdGYQAKBhLjwscSKI7reouHiYrDIYUduJfNuP4O9vdeAgHeRPHyh7uNp3KI
- O4aSB1qmvRm1n1aXM66Rm2Bm6Ja/hqVI2yT/q6Rxprl5EXWnhuw63vt6GF/VSGR564EZ
- A70Snpo2NbEk21uzuMiXbe4ruigH8x/1pEx8I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=THVcnXoVnH+GWn/oU8HKwBMa/PMlTP/APKEGYkTez3E=;
- b=nNwRQTuKZNCM8A+karpz/ZS5zG3Ac0mEnxUgQ9koTRMEsEJETcRSzQjG+bkZhIbkun
- XNXxJUaeAkz2JySsP8ESmA1Edk5/8ksC3abY41fiKZtY++QnFLTgTWiyD/iDWoUIdaRe
- pYZSFen8sP5IxOQAYOZxms/CJWvJVgd0cfl6Z9Vm8WlMlkClVmx83xeUCt+pFJwtpTZW
- dAZ+0d4OPbN0qIj0t0zLAGc4SQWQzqq+jL1ceG9IJvOv8nLK42hWgYke6A35HbMFWCah
- bM782vIbnXW5L2m1GUvrpsgZKSgTt/Gxk1qwHFInY4MqVfrIJwC3YrTe9JXRlfumIDGN
- 7OfA==
-X-Gm-Message-State: AOAM533ordxURvXOLZzf3FxknbDpwPEFJLyd6T9C5wEhhuNyR1O//Rdi
- IbBOV1hxeJJzyhEfUSF1GhtJ/E7jMYh7IqrTvVGl8xV8+M/t3w==
-X-Google-Smtp-Source: ABdhPJzWEImOpNeqfVEVgLHRHXz8WPYkobEhZGcO95lhvwJPzaoNi0qD9JDftJZbbhVfkOkTuk8fg1+3h9ZH1VuacTE=
-X-Received: by 2002:a4a:344b:: with SMTP id n11mr4408578oof.89.1601138557114; 
- Sat, 26 Sep 2020 09:42:37 -0700 (PDT)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4CE56E053
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 18:23:28 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 96D8880685;
+ Sat, 26 Sep 2020 20:23:24 +0200 (CEST)
+Date: Sat, 26 Sep 2020 20:23:22 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 5/7] drm/ingenic: Add support for paletted 8bpp
+Message-ID: <20200926182322.GA91317@ravnborg.org>
+References: <20200926170501.1109197-1-paul@crapouillou.net>
+ <20200926170501.1109197-6-paul@crapouillou.net>
 MIME-Version: 1.0
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-2-tzimmermann@suse.de>
- <20200629084044.GL3278063@phenom.ffwll.local>
- <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
-In-Reply-To: <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sat, 26 Sep 2020 18:42:26 +0200
-Message-ID: <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Disposition: inline
+In-Reply-To: <20200926170501.1109197-6-paul@crapouillou.net>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=A5ZCwZeG c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8 a=fUiApicmrrs-xE08C9oA:9
+ a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,123 +44,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Mark Brown <broonie@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, od@zcrc.me,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBTZXAgMjUsIDIwMjAgYXQgNDo1NSBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMjkuMDYuMjAgdW0gMTA6NDAgc2No
-cmllYiBEYW5pZWwgVmV0dGVyOgo+ID4gT24gVGh1LCBKdW4gMjUsIDIwMjAgYXQgMDI6MDA6MDNQ
-TSArMDIwMCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gPj4gVGhlIG1lbWNweSdzIGRlc3Rp
-bmF0aW9uIGJ1ZmZlciBtaWdodCBoYXZlIGEgZGlmZmVyZW50IHBpdGNoIHRoYW4gdGhlCj4gPj4g
-c291cmNlLiBTdXBwb3J0IGRpZmZlcmVudCBwaXRjaGVzIGFzIGZ1bmN0aW9uIGFyZ3VtZW50Lgo+
-ID4+Cj4gPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
-c2UuZGU+Cj4gPgo+ID4gUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJA
-ZmZ3bGwuY2g+Cj4gPgo+ID4gQnV0IEkgZG8gaGF2ZSBxdWVzdGlvbnMgLi4uIHdoeSBkaWQgd2Ug
-YWxsb2NhdGUgYSBzb3VyY2UgZHJtX2ZyYW1lYnVmZmVyCj4gPiB3aXRoIG1pc21hdGNoaW5nIHBp
-dGNoPyBUaGF0IHNvdW5kcyBiYWNrd2FyZHMsIGVzcGVjaWFsbHkgZm9yIHNpbXBsZWttcy4KPgo+
-IFRoZXJlJ3MgdXNlcnNwYWNlIHRoYXQgYWxsb2NhdGVzIGZyYW1lYnVmZmVycyBpbiB0aWxlcyBv
-ZiA2NHg2NCBwaXhlbHMuCj4gSSB0aGluayBJJ3ZlIHNlZW4gdGhpcyB3aXRoIEdub21lLiBTbyBp
-ZiB5b3UgaGF2ZSBhIDgwMHg2MDAgZGlzcGxheQo+IG1vZGUsIHRoZSBhbGxvY2F0ZWQgZnJhbWVi
-dWZmZXIgaGFzIGEgc2NhbmxpbmUgcGl0Y2ggb2YgODMyIHBpeGVscyBhbmQKPiB0aGUgZmluYWwg
-MzIgcGl4ZWxzIGFyZSBpZ25vcmVkLgoKQXQgbGVhc3Qgd2l0aCBkdW1iIGJ1ZmZlciBhbGxvY2F0
-aW9uIGlvY3RscyB1c2Vyc3BhY2Ugc2hvdWxkIG5vdCBkbwp0aGF0LiBJZiBpdCB3YW50cyA4MDB4
-NjAwLCBpdCBuZWVkcyB0byBhbGxvY2F0ZSA4MDB4NjAwLCBub3Qgc29tZXRoaW5nCmVsc2UuIFRo
-ZSBkcml2ZXIgaXMgc3VwcG9zZWQgdG8gYXBwbHkgYW55IHJvdW5kaW5nIG5lY2Vzc2FyeSBmb3Ig
-dGhlCnNpemUuIE9yIGlzIHRoaXMgYSBidWZmZXIgYWxsb2NhdGVkIHNvbWV3aGVyZSBlbHNlIGFu
-ZCB0aGVuIHNoYXJlZD8KLURhbmllbAoKPiBJbiByZWd1bGFyIGRyaXZlcnMsIHdlIGNhbiBoYW5k
-bGUgdGhpcyB3aXRoIHRoZSBWR0Egb2Zmc2V0IHJlZ2lzdGVyIFsxXQo+IG9yIHNvbWUgZXF1aXZh
-bGVudC4gVGhhdCdzIG9idmlvdXNseSBub3QgYW4gb3B0aW9uIHdpdGggc2ltcGxla21zLCBzbwo+
-IHRoZSBkaWZmZXJlbnQgcGl0Y2ggaXMgcmVxdWlyZWQuCj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9t
-YXMKPgo+IFsxXQo+IGh0dHBzOi8vd2ViLnN0YW5mb3JkLmVkdS9jbGFzcy9jczE0MC9wcm9qZWN0
-cy9waW50b3Mvc3BlY3MvZnJlZXZnYS92Z2EvY3J0Y3JlZy5odG0jMTMKPgo+ID4KPiA+IFdvdWxk
-IGJlIGdvb2QgdG8gYWRkIHRoZSByZWFzb25zIHdoeSB3ZSBuZWVkIHRoaXMgdG8gdGhlIGNvbW1p
-dCBtZXNzYWdlLAo+ID4gSSdtIHN1cmUgSSdsbCBkaXNjb3ZlciBpdCBsYXRlciBvbiBldmVudHVh
-bGx5Lgo+ID4gLURhbmllbAo+ID4KPiA+PiAtLS0KPiA+PiAgZHJpdmVycy9ncHUvZHJtL2RybV9m
-b3JtYXRfaGVscGVyLmMgICAgfCA5ICsrKysrLS0tLQo+ID4+ICBkcml2ZXJzL2dwdS9kcm0vbWdh
-ZzIwMC9tZ2FnMjAwX21vZGUuYyB8IDIgKy0KPiA+PiAgZHJpdmVycy9ncHUvZHJtL3RpbnkvY2ly
-cnVzLmMgICAgICAgICAgfCAyICstCj4gPj4gIGluY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVy
-LmggICAgICAgIHwgMiArLQo+ID4+ICA0IGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwg
-NyBkZWxldGlvbnMoLSkKPiA+Pgo+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2Zvcm1hdF9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9ybWF0X2hlbHBlci5jCj4g
-Pj4gaW5kZXggYzA0M2NhMzY0Yzg2Li44ZDVhNjgzYWZlYTcgMTAwNjQ0Cj4gPj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2Zvcm1hdF9oZWxwZXIuYwo+ID4+IEBAIC01Miw2ICs1Miw3IEBAIEVYUE9SVF9TWU1C
-T0woZHJtX2ZiX21lbWNweSk7Cj4gPj4gIC8qKgo+ID4+ICAgKiBkcm1fZmJfbWVtY3B5X2RzdGNs
-aXAgLSBDb3B5IGNsaXAgYnVmZmVyCj4gPj4gICAqIEBkc3Q6IERlc3RpbmF0aW9uIGJ1ZmZlciAo
-aW9tZW0pCj4gPj4gKyAqIEBkc3RfcGl0Y2g6IE51bWJlciBvZiBieXRlcyBiZXR3ZWVuIHR3byBj
-b25zZWN1dGl2ZSBzY2FubGluZXMgd2l0aGluIGRzdAo+ID4+ICAgKiBAdmFkZHI6IFNvdXJjZSBi
-dWZmZXIKPiA+PiAgICogQGZiOiBEUk0gZnJhbWVidWZmZXIKPiA+PiAgICogQGNsaXA6IENsaXAg
-cmVjdGFuZ2xlIGFyZWEgdG8gY29weQo+ID4+IEBAIC01OSwxMiArNjAsMTIgQEAgRVhQT1JUX1NZ
-TUJPTChkcm1fZmJfbWVtY3B5KTsKPiA+PiAgICogVGhpcyBmdW5jdGlvbiBhcHBsaWVzIGNsaXBw
-aW5nIG9uIGRzdCwgaS5lLiB0aGUgZGVzdGluYXRpb24gaXMgYQo+ID4+ICAgKiBmdWxsIChpb21l
-bSkgZnJhbWVidWZmZXIgYnV0IG9ubHkgdGhlIGNsaXAgcmVjdCBjb250ZW50IGlzIGNvcGllZCBv
-dmVyLgo+ID4+ICAgKi8KPiA+PiAtdm9pZCBkcm1fZmJfbWVtY3B5X2RzdGNsaXAodm9pZCBfX2lv
-bWVtICpkc3QsIHZvaWQgKnZhZGRyLAo+ID4+IC0gICAgICAgICAgICAgICAgICAgICAgIHN0cnVj
-dCBkcm1fZnJhbWVidWZmZXIgKmZiLAo+ID4+ICt2b2lkIGRybV9mYl9tZW1jcHlfZHN0Y2xpcCh2
-b2lkIF9faW9tZW0gKmRzdCwgdW5zaWduZWQgaW50IGRzdF9waXRjaCwKPiA+PiArICAgICAgICAg
-ICAgICAgICAgICAgICB2b2lkICp2YWRkciwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsCj4g
-Pj4gICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRybV9yZWN0ICpjbGlwKQo+ID4+ICB7
-Cj4gPj4gICAgICB1bnNpZ25lZCBpbnQgY3BwID0gZmItPmZvcm1hdC0+Y3BwWzBdOwo+ID4+IC0g
-ICAgdW5zaWduZWQgaW50IG9mZnNldCA9IGNsaXBfb2Zmc2V0KGNsaXAsIGZiLT5waXRjaGVzWzBd
-LCBjcHApOwo+ID4+ICsgICAgdW5zaWduZWQgaW50IG9mZnNldCA9IGNsaXBfb2Zmc2V0KGNsaXAs
-IGRzdF9waXRjaCwgY3BwKTsKPiA+PiAgICAgIHNpemVfdCBsZW4gPSAoY2xpcC0+eDIgLSBjbGlw
-LT54MSkgKiBjcHA7Cj4gPj4gICAgICB1bnNpZ25lZCBpbnQgeSwgbGluZXMgPSBjbGlwLT55MiAt
-IGNsaXAtPnkxOwo+ID4+Cj4gPj4gQEAgLTczLDcgKzc0LDcgQEAgdm9pZCBkcm1fZmJfbWVtY3B5
-X2RzdGNsaXAodm9pZCBfX2lvbWVtICpkc3QsIHZvaWQgKnZhZGRyLAo+ID4+ICAgICAgZm9yICh5
-ID0gMDsgeSA8IGxpbmVzOyB5KyspIHsKPiA+PiAgICAgICAgICAgICAgbWVtY3B5X3RvaW8oZHN0
-LCB2YWRkciwgbGVuKTsKPiA+PiAgICAgICAgICAgICAgdmFkZHIgKz0gZmItPnBpdGNoZXNbMF07
-Cj4gPj4gLSAgICAgICAgICAgIGRzdCArPSBmYi0+cGl0Y2hlc1swXTsKPiA+PiArICAgICAgICAg
-ICAgZHN0ICs9IGRzdF9waXRjaDsKPiA+PiAgICAgIH0KPiA+PiAgfQo+ID4+ICBFWFBPUlRfU1lN
-Qk9MKGRybV9mYl9tZW1jcHlfZHN0Y2xpcCk7Cj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
-ZzIwMF9tb2RlLmMKPiA+PiBpbmRleCBmMTZiZDI3OGFiN2UuLjdkNGYzYTYyZDg4NSAxMDA2NDQK
-PiA+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYwo+ID4+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jCj4gPj4gQEAgLTE1ODYs
-NyArMTU4Niw3IEBAIG1nYWcyMDBfaGFuZGxlX2RhbWFnZShzdHJ1Y3QgbWdhX2RldmljZSAqbWRl
-diwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsCj4gPj4gICAgICBpZiAoZHJtX1dBUk5fT04o
-ZGV2LCAhdm1hcCkpCj4gPj4gICAgICAgICAgICAgIHJldHVybjsgLyogQlVHOiBTSE1FTSBCTyBz
-aG91bGQgYWx3YXlzIGJlIHZtYXBwZWQgKi8KPiA+Pgo+ID4+IC0gICAgZHJtX2ZiX21lbWNweV9k
-c3RjbGlwKG1kZXYtPnZyYW0sIHZtYXAsIGZiLCBjbGlwKTsKPiA+PiArICAgIGRybV9mYl9tZW1j
-cHlfZHN0Y2xpcChtZGV2LT52cmFtLCBmYi0+cGl0Y2hlc1swXSwgdm1hcCwgZmIsIGNsaXApOwo+
-ID4+Cj4gPj4gICAgICBkcm1fZ2VtX3NobWVtX3Z1bm1hcChmYi0+b2JqWzBdLCB2bWFwKTsKPiA+
-Pgo+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9jaXJydXMuYyBiL2RyaXZl
-cnMvZ3B1L2RybS90aW55L2NpcnJ1cy5jCj4gPj4gaW5kZXggNzQ0YThlMzM3ZTQxLi4yZGQ5ZTVl
-MzFlM2QgMTAwNjQ0Cj4gPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvY2lycnVzLmMKPiA+
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9jaXJydXMuYwo+ID4+IEBAIC0zMjcsNyArMzI3
-LDcgQEAgc3RhdGljIGludCBjaXJydXNfZmJfYmxpdF9yZWN0KHN0cnVjdCBkcm1fZnJhbWVidWZm
-ZXIgKmZiLAo+ID4+ICAgICAgICAgICAgICBnb3RvIG91dF9kZXZfZXhpdDsKPiA+Pgo+ID4+ICAg
-ICAgaWYgKGNpcnJ1cy0+Y3BwID09IGZiLT5mb3JtYXQtPmNwcFswXSkKPiA+PiAtICAgICAgICAg
-ICAgZHJtX2ZiX21lbWNweV9kc3RjbGlwKGNpcnJ1cy0+dnJhbSwKPiA+PiArICAgICAgICAgICAg
-ZHJtX2ZiX21lbWNweV9kc3RjbGlwKGNpcnJ1cy0+dnJhbSwgZmItPnBpdGNoZXNbMF0sCj4gPj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2bWFwLCBmYiwgcmVjdCk7Cj4gPj4K
-PiA+PiAgICAgIGVsc2UgaWYgKGZiLT5mb3JtYXQtPmNwcFswXSA9PSA0ICYmIGNpcnJ1cy0+Y3Bw
-ID09IDIpCj4gPj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmgg
-Yi9pbmNsdWRlL2RybS9kcm1fZm9ybWF0X2hlbHBlci5oCj4gPj4gaW5kZXggNWY5ZTM3MDMyNDY4
-Li4yYjUwMzZhNWZiZTcgMTAwNjQ0Cj4gPj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2Zvcm1hdF9o
-ZWxwZXIuaAo+ID4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmgKPiA+PiBA
-QCAtMTEsNyArMTEsNyBAQCBzdHJ1Y3QgZHJtX3JlY3Q7Cj4gPj4KPiA+PiAgdm9pZCBkcm1fZmJf
-bWVtY3B5KHZvaWQgKmRzdCwgdm9pZCAqdmFkZHIsIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZi
-LAo+ID4+ICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX3JlY3QgKmNsaXApOwo+ID4+IC12b2lk
-IGRybV9mYl9tZW1jcHlfZHN0Y2xpcCh2b2lkIF9faW9tZW0gKmRzdCwgdm9pZCAqdmFkZHIsCj4g
-Pj4gK3ZvaWQgZHJtX2ZiX21lbWNweV9kc3RjbGlwKHZvaWQgX19pb21lbSAqZHN0LCB1bnNpZ25l
-ZCBpbnQgZHN0X3BpdGNoLCB2b2lkICp2YWRkciwKPiA+PiAgICAgICAgICAgICAgICAgICAgICAg
-ICBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwKPiA+PiAgICAgICAgICAgICAgICAgICAgICAg
-ICBzdHJ1Y3QgZHJtX3JlY3QgKmNsaXApOwo+ID4+ICB2b2lkIGRybV9mYl9zd2FiKHZvaWQgKmRz
-dCwgdm9pZCAqc3JjLCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwKPiA+PiAtLQo+ID4+IDIu
-MjcuMAo+ID4+Cj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdyYXBoaWNzIERyaXZl
-ciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhm
-ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xy
-bmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+CgoKLS0gCkRh
-bmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9i
-bG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Hi Paul.
+
+On Sat, Sep 26, 2020 at 07:04:59PM +0200, Paul Cercueil wrote:
+> On JZ4725B and newer, the F0 plane supports paletted 8bpp with a
+> 256-entry palette. Add support for it.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 60 +++++++++++++++++++++--
+>  1 file changed, 56 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 567facfb7217..48e88827f332 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -21,6 +21,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_color_mgmt.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_damage_helper.h>
+> @@ -50,6 +51,8 @@ struct ingenic_dma_hwdesc {
+>  struct ingenic_dma_hwdescs {
+>  	struct ingenic_dma_hwdesc hwdesc_f0;
+>  	struct ingenic_dma_hwdesc hwdesc_f1;
+> +	struct ingenic_dma_hwdesc hwdesc_pal;
+> +	u16 palette[256] __aligned(16);
+>  };
+>  
+>  struct jz_soc_info {
+> @@ -464,6 +467,9 @@ void ingenic_drm_plane_config(struct device *dev,
+>  				   JZ_LCD_OSDCTRL_BPP_MASK, ctrl);
+>  	} else {
+>  		switch (fourcc) {
+> +		case DRM_FORMAT_C8:
+> +			ctrl |= JZ_LCD_CTRL_BPP_8;
+> +			break;
+>  		case DRM_FORMAT_XRGB1555:
+>  			ctrl |= JZ_LCD_CTRL_RGB555;
+>  			fallthrough;
+> @@ -529,16 +535,34 @@ void ingenic_drm_sync_data(struct device *dev,
+>  	}
+>  }
+>  
+> +static void ingenic_drm_update_palette(struct ingenic_drm *priv,
+> +				       const struct drm_color_lut *lut)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++) {
+> +		u16 color = drm_color_lut_extract(lut[i].red, 5) << 11
+> +			| drm_color_lut_extract(lut[i].green, 6) << 5
+> +			| drm_color_lut_extract(lut[i].blue, 5);
+> +
+> +		priv->dma_hwdescs->palette[i] = color;
+> +	}
+> +}
+> +
+>  static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>  					    struct drm_plane_state *oldstate)
+>  {
+>  	struct ingenic_drm *priv = drm_device_get_priv(plane->dev);
+>  	struct drm_plane_state *state = plane->state;
+> +	struct drm_crtc_state *crtc_state;
+>  	struct ingenic_dma_hwdesc *hwdesc;
+> -	unsigned int width, height, cpp;
+> +	unsigned int width, height, cpp, offset;
+>  	dma_addr_t addr;
+> +	u32 fourcc;
+>  
+>  	if (state && state->fb) {
+> +		crtc_state = state->crtc->state;
+> +
+>  		ingenic_drm_sync_data(priv->dev, oldstate, state);
+>  
+>  		addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
+> @@ -554,9 +578,23 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>  		hwdesc->addr = addr;
+>  		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
+>  
+> -		if (drm_atomic_crtc_needs_modeset(state->crtc->state))
+> -			ingenic_drm_plane_config(priv->dev, plane,
+> -						 state->fb->format->format);
+> +		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+> +			fourcc = state->fb->format->format;
+> +
+> +			ingenic_drm_plane_config(priv->dev, plane, fourcc);
+> +
+> +			if (fourcc == DRM_FORMAT_C8)
+> +				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_pal);
+> +			else
+> +				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
+> +
+> +			priv->dma_hwdescs->hwdesc_f0.next = priv->dma_hwdescs_phys + offset;
+> +
+> +			crtc_state->color_mgmt_changed = fourcc == DRM_FORMAT_C8;
+> +		}
+> +
+> +		if (crtc_state->color_mgmt_changed)
+> +			ingenic_drm_update_palette(priv, crtc_state->gamma_lut->data);
+What guarantee the size of gamma_lut->data?
+In other word - should drm_color_lut_size() be checked here?
+Maybe only accept a fully populated palette?
+This is what I can see rcar-du and armada does.
+
+	Sam
+
+>  	}
+>  }
+>  
+> @@ -952,6 +990,15 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+>  	priv->dma_hwdescs->hwdesc_f1.next = dma_hwdesc_phys_f1;
+>  	priv->dma_hwdescs->hwdesc_f1.id = 0xf1;
+>  
+> +	/* Configure DMA hwdesc for palette */
+> +	priv->dma_hwdescs->hwdesc_pal.next = priv->dma_hwdescs_phys
+> +		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
+> +	priv->dma_hwdescs->hwdesc_pal.id = 0xc0;
+> +	priv->dma_hwdescs->hwdesc_pal.addr = priv->dma_hwdescs_phys
+> +		+ offsetof(struct ingenic_dma_hwdescs, palette);
+> +	priv->dma_hwdescs->hwdesc_pal.cmd = JZ_LCD_CMD_ENABLE_PAL
+> +		| (sizeof(priv->dma_hwdescs->palette) / 4);
+> +
+>  	if (soc_info->has_osd)
+>  		priv->ipu_plane = drm_plane_from_index(drm, 0);
+>  
+> @@ -978,6 +1025,9 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+>  		return ret;
+>  	}
+>  
+> +	drm_crtc_enable_color_mgmt(&priv->crtc, 0, false,
+> +				   ARRAY_SIZE(priv->dma_hwdescs->palette));
+> +
+>  	if (soc_info->has_osd) {
+>  		drm_plane_helper_add(&priv->f0,
+>  				     &ingenic_drm_plane_helper_funcs);
+> @@ -1213,6 +1263,7 @@ static const u32 jz4725b_formats_f1[] = {
+>  };
+>  
+>  static const u32 jz4725b_formats_f0[] = {
+> +	DRM_FORMAT_C8,
+>  	DRM_FORMAT_XRGB1555,
+>  	DRM_FORMAT_RGB565,
+>  	DRM_FORMAT_XRGB8888,
+> @@ -1225,6 +1276,7 @@ static const u32 jz4770_formats_f1[] = {
+>  };
+>  
+>  static const u32 jz4770_formats_f0[] = {
+> +	DRM_FORMAT_C8,
+>  	DRM_FORMAT_XRGB1555,
+>  	DRM_FORMAT_RGB565,
+>  	DRM_FORMAT_XRGB8888,
+> -- 
+> 2.28.0
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
