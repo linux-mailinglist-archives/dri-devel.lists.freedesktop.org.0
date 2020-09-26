@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42B8279833
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Sep 2020 12:00:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A74279834
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Sep 2020 12:02:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 759836E138;
-	Sat, 26 Sep 2020 10:00:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225E86E167;
+	Sat, 26 Sep 2020 10:01:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7476E138
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 10:00:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F6DD6E167
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 10:01:56 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209401] New: arm64: display locks on rk3399 gru-kevin chromebook
-Date: Sat, 26 Sep 2020 10:00:03 +0000
+Subject: [Bug 209401] arm64: display locks on rk3399 gru-kevin chromebook
+Date: Sat, 26 Sep 2020 10:01:56 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -32,10 +32,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-209401-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-209401-2300-q1KklIpJd0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209401-2300@https.bugzilla.kernel.org/>
+References: <bug-209401-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -51,44 +51,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209401
-
-            Bug ID: 209401
-           Summary: arm64: display locks on rk3399 gru-kevin chromebook
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.4 and up
-          Hardware: ARM
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: mps@arvanta.net
-        Regression: No
-
-on arm64 rockchip rk3399 chromebook gru-kevin display locks at random time,
-sometimes few times on the day (2-3 times) but on some days it can happen 10
-and more times. suspend2ram and resume unlock display and it works until next
-random lock.
-
-This behavior started on linux kernel version 5.4 and up. On 5.3 and lower
-kernels this doesn't happen (at least I didn't noticed it anytime)
-
-I'm attaching part from dmesg output which shows errors when the display locks
-and goes blank (dark).
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDk0MDEKCi0tLSBD
+b21tZW50ICMxIGZyb20gTWlsYW4gUC4gU3RhbmnEhyAobXBzQGFydmFudGEubmV0KSAtLS0KQ3Jl
+YXRlZCBhdHRhY2htZW50IDI5MjY1OQogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcv
+YXR0YWNobWVudC5jZ2k/aWQ9MjkyNjU5JmFjdGlvbj1lZGl0CmRtZXNnIG91dHB1dAoKLS0gCllv
+dSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBh
+c3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
