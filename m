@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25EF727A847
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:08:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BDA627A829
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:07:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 550466E406;
-	Mon, 28 Sep 2020 07:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840996E3C4;
+	Mon, 28 Sep 2020 07:06:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11D766E0F6
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 17:05:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8AC6E210
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Sep 2020 17:05:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1601139913; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1601139914; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=USgjbNdGyw5p9Xc+uNjChURWrYWAIwKYSffHpj4OmAw=;
- b=U0HCvjIfVRkEpgHzJFgp1j0mKfxhylIhRwnVbVvTfl60uXHi/SN7LG5UxiF4IYv8uDzLYX
- UT9pwpXsXM29w0IUqEzzyvEPnhB/p3DAP4d8WT8BOpqSYOwLD09FS1Aw6ZalZ1jBzrDlEQ
- 19IHWIiebH3HVvx90FMifKrf7egyg58=
+ bh=g09vTNCEzBYWxtVRAK/tTvJbYs02qEWAssjae6RTIwY=;
+ b=Z1Km/2xtEGt9fbxEj3tdG1kksA691fZv8Wg7Wv8E948Iq0Rk88HurkpRJAwbuLQWyeWGoE
+ MV85ByCZJ9gRE7bwTfzlp1U7+y18NudEvnD8wv9R1ZEDBuq7ROkpqcvQ4Ru8qIEeN2UhzW
+ WmrRxKLbDT9wrBksy6yXB+ar88CwEmY=
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 4/7] drm/ingenic: Support handling different pixel formats
- in F0/F1 planes
-Date: Sat, 26 Sep 2020 19:04:58 +0200
-Message-Id: <20200926170501.1109197-5-paul@crapouillou.net>
+Subject: [PATCH v2 5/7] drm/ingenic: Add support for paletted 8bpp
+Date: Sat, 26 Sep 2020 19:04:59 +0200
+Message-Id: <20200926170501.1109197-6-paul@crapouillou.net>
 In-Reply-To: <20200926170501.1109197-1-paul@crapouillou.net>
 References: <20200926170501.1109197-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -52,137 +51,150 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Until now the ingenic-drm driver supported the same pixel formats on the
-F0 and F1 planes, and across all SoCs. However, the F0 plane does support
-paletted 8bpp, while the F1 plane doesn't.
-
-Furthermore, the three SoCs currently supported all have different pixel
-formats available; 24bpp was added in JZ4725B, 30bpp was added in
-JZ4770.
-
-Prepare the inclusion of paletted 8bpp, 24bpp and 30bpp support by
-having separate pixel format lists for F0 and F1 planes.
+On JZ4725B and newer, the F0 plane supports paletted 8bpp with a
+256-entry palette. Add support for it.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 57 +++++++++++++++++++----
- 1 file changed, 47 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 60 +++++++++++++++++++++--
+ 1 file changed, 56 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index e8d47549ff2e..567facfb7217 100644
+index 567facfb7217..48e88827f332 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -56,6 +56,8 @@ struct jz_soc_info {
- 	bool needs_dev_clk;
- 	bool has_osd;
- 	unsigned int max_width, max_height;
-+	const u32 *formats_f0, *formats_f1;
-+	unsigned int num_formats_f0, num_formats_f1;
+@@ -21,6 +21,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_color_mgmt.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_damage_helper.h>
+@@ -50,6 +51,8 @@ struct ingenic_dma_hwdesc {
+ struct ingenic_dma_hwdescs {
+ 	struct ingenic_dma_hwdesc hwdesc_f0;
+ 	struct ingenic_dma_hwdesc hwdesc_f1;
++	struct ingenic_dma_hwdesc hwdesc_pal;
++	u16 palette[256] __aligned(16);
  };
  
- struct ingenic_drm {
-@@ -95,12 +97,6 @@ struct ingenic_drm {
- 	struct notifier_block clock_nb;
- };
- 
--static const u32 ingenic_drm_primary_formats[] = {
--	DRM_FORMAT_XRGB1555,
--	DRM_FORMAT_RGB565,
--	DRM_FORMAT_XRGB8888,
--};
--
- static bool ingenic_drm_cached_gem_buf;
- module_param_named(cached_gem_buffers, ingenic_drm_cached_gem_buf, bool, 0400);
- MODULE_PARM_DESC(cached_gem_buffers,
-@@ -963,8 +959,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 
- 	ret = drm_universal_plane_init(drm, &priv->f1, 1,
- 				       &ingenic_drm_primary_plane_funcs,
--				       ingenic_drm_primary_formats,
--				       ARRAY_SIZE(ingenic_drm_primary_formats),
-+				       priv->soc_info->formats_f1,
-+				       priv->soc_info->num_formats_f1,
- 				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
- 	if (ret) {
- 		dev_err(dev, "Failed to register plane: %i\n", ret);
-@@ -988,8 +984,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 
- 		ret = drm_universal_plane_init(drm, &priv->f0, 1,
- 					       &ingenic_drm_primary_plane_funcs,
--					       ingenic_drm_primary_formats,
--					       ARRAY_SIZE(ingenic_drm_primary_formats),
-+					       priv->soc_info->formats_f0,
-+					       priv->soc_info->num_formats_f0,
- 					       NULL, DRM_PLANE_TYPE_OVERLAY,
- 					       NULL);
- 		if (ret) {
-@@ -1204,11 +1200,44 @@ static int ingenic_drm_remove(struct platform_device *pdev)
- 	return 0;
+ struct jz_soc_info {
+@@ -464,6 +467,9 @@ void ingenic_drm_plane_config(struct device *dev,
+ 				   JZ_LCD_OSDCTRL_BPP_MASK, ctrl);
+ 	} else {
+ 		switch (fourcc) {
++		case DRM_FORMAT_C8:
++			ctrl |= JZ_LCD_CTRL_BPP_8;
++			break;
+ 		case DRM_FORMAT_XRGB1555:
+ 			ctrl |= JZ_LCD_CTRL_RGB555;
+ 			fallthrough;
+@@ -529,16 +535,34 @@ void ingenic_drm_sync_data(struct device *dev,
+ 	}
  }
  
-+static const u32 jz4740_formats[] = {
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB8888,
-+};
++static void ingenic_drm_update_palette(struct ingenic_drm *priv,
++				       const struct drm_color_lut *lut)
++{
++	unsigned int i;
 +
-+static const u32 jz4725b_formats_f1[] = {
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB8888,
-+};
++	for (i = 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++) {
++		u16 color = drm_color_lut_extract(lut[i].red, 5) << 11
++			| drm_color_lut_extract(lut[i].green, 6) << 5
++			| drm_color_lut_extract(lut[i].blue, 5);
 +
-+static const u32 jz4725b_formats_f0[] = {
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB8888,
-+};
++		priv->dma_hwdescs->palette[i] = color;
++	}
++}
 +
-+static const u32 jz4770_formats_f1[] = {
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB8888,
-+};
+ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 					    struct drm_plane_state *oldstate)
+ {
+ 	struct ingenic_drm *priv = drm_device_get_priv(plane->dev);
+ 	struct drm_plane_state *state = plane->state;
++	struct drm_crtc_state *crtc_state;
+ 	struct ingenic_dma_hwdesc *hwdesc;
+-	unsigned int width, height, cpp;
++	unsigned int width, height, cpp, offset;
+ 	dma_addr_t addr;
++	u32 fourcc;
+ 
+ 	if (state && state->fb) {
++		crtc_state = state->crtc->state;
 +
-+static const u32 jz4770_formats_f0[] = {
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB8888,
-+};
+ 		ingenic_drm_sync_data(priv->dev, oldstate, state);
+ 
+ 		addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
+@@ -554,9 +578,23 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+ 		hwdesc->addr = addr;
+ 		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
+ 
+-		if (drm_atomic_crtc_needs_modeset(state->crtc->state))
+-			ingenic_drm_plane_config(priv->dev, plane,
+-						 state->fb->format->format);
++		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
++			fourcc = state->fb->format->format;
 +
- static const struct jz_soc_info jz4740_soc_info = {
- 	.needs_dev_clk = true,
- 	.has_osd = false,
- 	.max_width = 800,
- 	.max_height = 600,
-+	.formats_f1 = jz4740_formats,
-+	.num_formats_f1 = ARRAY_SIZE(jz4740_formats),
-+	/* JZ4740 has only one plane */
++			ingenic_drm_plane_config(priv->dev, plane, fourcc);
++
++			if (fourcc == DRM_FORMAT_C8)
++				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_pal);
++			else
++				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
++
++			priv->dma_hwdescs->hwdesc_f0.next = priv->dma_hwdescs_phys + offset;
++
++			crtc_state->color_mgmt_changed = fourcc == DRM_FORMAT_C8;
++		}
++
++		if (crtc_state->color_mgmt_changed)
++			ingenic_drm_update_palette(priv, crtc_state->gamma_lut->data);
+ 	}
+ }
+ 
+@@ -952,6 +990,15 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 	priv->dma_hwdescs->hwdesc_f1.next = dma_hwdesc_phys_f1;
+ 	priv->dma_hwdescs->hwdesc_f1.id = 0xf1;
+ 
++	/* Configure DMA hwdesc for palette */
++	priv->dma_hwdescs->hwdesc_pal.next = priv->dma_hwdescs_phys
++		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
++	priv->dma_hwdescs->hwdesc_pal.id = 0xc0;
++	priv->dma_hwdescs->hwdesc_pal.addr = priv->dma_hwdescs_phys
++		+ offsetof(struct ingenic_dma_hwdescs, palette);
++	priv->dma_hwdescs->hwdesc_pal.cmd = JZ_LCD_CMD_ENABLE_PAL
++		| (sizeof(priv->dma_hwdescs->palette) / 4);
++
+ 	if (soc_info->has_osd)
+ 		priv->ipu_plane = drm_plane_from_index(drm, 0);
+ 
+@@ -978,6 +1025,9 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 		return ret;
+ 	}
+ 
++	drm_crtc_enable_color_mgmt(&priv->crtc, 0, false,
++				   ARRAY_SIZE(priv->dma_hwdescs->palette));
++
+ 	if (soc_info->has_osd) {
+ 		drm_plane_helper_add(&priv->f0,
+ 				     &ingenic_drm_plane_helper_funcs);
+@@ -1213,6 +1263,7 @@ static const u32 jz4725b_formats_f1[] = {
  };
  
- static const struct jz_soc_info jz4725b_soc_info = {
-@@ -1216,6 +1245,10 @@ static const struct jz_soc_info jz4725b_soc_info = {
- 	.has_osd = true,
- 	.max_width = 800,
- 	.max_height = 600,
-+	.formats_f1 = jz4725b_formats_f1,
-+	.num_formats_f1 = ARRAY_SIZE(jz4725b_formats_f1),
-+	.formats_f0 = jz4725b_formats_f0,
-+	.num_formats_f0 = ARRAY_SIZE(jz4725b_formats_f0),
+ static const u32 jz4725b_formats_f0[] = {
++	DRM_FORMAT_C8,
+ 	DRM_FORMAT_XRGB1555,
+ 	DRM_FORMAT_RGB565,
+ 	DRM_FORMAT_XRGB8888,
+@@ -1225,6 +1276,7 @@ static const u32 jz4770_formats_f1[] = {
  };
  
- static const struct jz_soc_info jz4770_soc_info = {
-@@ -1223,6 +1256,10 @@ static const struct jz_soc_info jz4770_soc_info = {
- 	.has_osd = true,
- 	.max_width = 1280,
- 	.max_height = 720,
-+	.formats_f1 = jz4770_formats_f1,
-+	.num_formats_f1 = ARRAY_SIZE(jz4770_formats_f1),
-+	.formats_f0 = jz4770_formats_f0,
-+	.num_formats_f0 = ARRAY_SIZE(jz4770_formats_f0),
- };
- 
- static const struct of_device_id ingenic_drm_of_match[] = {
+ static const u32 jz4770_formats_f0[] = {
++	DRM_FORMAT_C8,
+ 	DRM_FORMAT_XRGB1555,
+ 	DRM_FORMAT_RGB565,
+ 	DRM_FORMAT_XRGB8888,
 -- 
 2.28.0
 
