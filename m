@@ -1,46 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BF927A837
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:07:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F5E27A84D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:08:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A25CB6E3DB;
-	Mon, 28 Sep 2020 07:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8066E429;
+	Mon, 28 Sep 2020 07:07:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B85688E33
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Sep 2020 11:46:51 +0000 (UTC)
-Received: from fsav105.sakura.ne.jp (fsav105.sakura.ne.jp [27.133.134.232])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 08RBkVsj015800;
- Sun, 27 Sep 2020 20:46:31 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav105.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav105.sakura.ne.jp);
- Sun, 27 Sep 2020 20:46:31 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav105.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 08RBkVRr015794
- (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
- Sun, 27 Sep 2020 20:46:31 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: [PATCH] vt_ioctl: make VT_RESIZEX behave like VT_RESIZE
-To: gregkh@linuxfoundation.org, jirislaby@kernel.org
-References: <000000000000226d3f05b02dd607@google.com>
- <bbcef674-4ac6-c933-b55d-8961ada97f4c@i-love.sakura.ne.jp>
- <47907f77-b14b-b433-45c6-a315193f0c1a@i-love.sakura.ne.jp>
- <494395bc-a7dd-fdb1-8196-a236a266ef54@i-love.sakura.ne.jp>
- <20200927092701.GA1037755@PWN>
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <4933b81b-9b1a-355b-df0e-9b31e8280ab9@i-love.sakura.ne.jp>
-Date: Sun, 27 Sep 2020 20:46:30 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
+ [IPv6:2607:f8b0:4864:20::b41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6E76E0D8
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Sep 2020 13:02:17 +0000 (UTC)
+Received: by mail-yb1-xb41.google.com with SMTP id k18so5780583ybh.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Sep 2020 06:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SAgGtci5pGecpxPxGPjkaSEL4OVE7rwFSl1wZa7p8ZY=;
+ b=ZM4F3xWDK6Hw1/9ibUUgPDIAgYDxVN3QLZsTkuSfAokHTmaggKeC633Lxv3P17nn3a
+ okJzI1AnjcabtKEquUqGeCMD9S+DN93vG6imDFp5bUccfj0dX9VG7I+f9YFIiav3QMBw
+ IQAFr9I1oJU0QAn7mCskfQ++jD5vouovrj/e563oA1YGT3ptndyrVhNtUJ9JGfUnGsuX
+ sNJSiG8tIJ/kZFxOIn7s8fdG/6AH1xdfr6y8k+2a831tTL8dcGfT3UkmK5cdYBA3I5hc
+ 70wXMZj9nVM4pZVRb1yef5SV6GGTxp8YpfA+UdC9N5wymUKfCZKrEZ/MnRj39mcWzNVa
+ CCEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SAgGtci5pGecpxPxGPjkaSEL4OVE7rwFSl1wZa7p8ZY=;
+ b=G4TGuGYVT/n9W6xk415bDAVHt+xtRSL8lgdZblOheUIZZWSKQ+5oeczzr8W1t4oWoN
+ dPgsrIIszh53sR9KeQUfiJxMxl3d/khRH0pGMqjRVPRxrLy8DOR3hx5W58w0qWJw1O0D
+ JkRE/LuiLjMyX0eVI5h+glR5rpsRR+A5QMdHTYP+oHxU43CLSnoYW+WcDsoD3WbrDXI7
+ heg8Z4HBHGapTPTqG8JRh8L1KOCE7wfY3C7xWLN+G3Ct6HBvtp+XhxXJTZZ2AewFEE/p
+ RhdMe3Rv4gJaqdhtwj4TNpyW9GDZaF125xkVR7PYMnWq9MIxricg7XOMeMXTEX4JKZwb
+ Mlfw==
+X-Gm-Message-State: AOAM530NpIRT/Mjragmow7vuPYRZYQkK72fT7kJz2Tk5Bl1CjAIH36Yu
+ NFbUr2WRIHNxBc1OTNsryK3XrsfEapzAIzHyK0o=
+X-Google-Smtp-Source: ABdhPJyf2LbuC9m1ScfusKpq0d3iN7yhTosuIes5dzz8UTrb5Umw71LAHs+SEJ7Z0H8q1p3Wj4tzuzLMVTgelpoGODQ=
+X-Received: by 2002:a25:6849:: with SMTP id d70mr9684946ybc.395.1601211736814; 
+ Sun, 27 Sep 2020 06:02:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200927092701.GA1037755@PWN>
-Content-Language: en-US
+References: <20200813140041.5082-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200824004816.GS6002@pendragon.ideasonboard.com>
+In-Reply-To: <20200824004816.GS6002@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Sun, 27 Sep 2020 14:01:50 +0100
+Message-ID: <CA+V-a8uq44hKOxbwBXZ_90q6e4JjCEPwOWp4BDY7BJJaP1Cg6g@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: dts: r8a7742-iwg21d-q7: Add LCD support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-Mailman-Approved-At: Mon, 28 Sep 2020 07:06:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,124 +62,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: syzbot <syzbot+b308f5fd049fbbc6e74f@syzkaller.appspotmail.com>,
- linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch,
- deller@gmx.de, syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, George Kennedy <george.kennedy@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Peilin Ye <yepeilin.cs@gmail.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot is reporting UAF/OOB read at bit_putcs()/soft_cursor() [1][2], for
-vt_resizex() from ioctl(VT_RESIZEX) allows setting font height larger than
-actual font height calculated by con_font_set() from ioctl(PIO_FONT).
-Since fbcon_set_font() from con_font_set() allocates minimal amount of
-memory based on actual font height calculated by con_font_set(),
-use of vt_resizex() can cause UAF/OOB read for font data.
+Hi Laurent,
 
-VT_RESIZEX was introduced in Linux 1.3.3, but it is unclear that what
-comes to the "+ more" part, and I couldn't find a user of VT_RESIZEX.
+On Mon, Aug 24, 2020 at 1:48 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Thu, Aug 13, 2020 at 03:00:41PM +0100, Lad Prabhakar wrote:
+> > The iwg21d comes with a 7" capacitive touch screen, therefore
+> > add support for it.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+>
+> Everything seems to match the schematics :-)
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > ---
+> > v1->v2
+> > * This patch is part of series [1] (rest of the patches have be accepted
+> >   by Geert [2]).
+> > * Added regulator for lvds
+> > * Added reset pin for touchpanel
+> > * This patch is based on series [3]
+> >
+> > [1] https://patchwork.kernel.org/project/linux-renesas-soc/list/
+> >     ?series=330277
+> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
+> >     renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
+> > [3] https://patchwork.kernel.org/project/linux-renesas-soc/list/
+> >     ?series=330957
+> > ---
+> >  arch/arm/boot/dts/r8a7742-iwg21d-q7.dts | 99 +++++++++++++++++++++++++
+> >  1 file changed, 99 insertions(+)
+> >
+Would you be queueing this patch along with DRM driver patches for v5.10 ?
 
-  #define VT_RESIZE   0x5609 /* set kernel's idea of screensize */
-  #define VT_RESIZEX  0x560A /* set kernel's idea of screensize + more */
+Cheers,
+Prabhakar
 
-So far we are not aware of syzbot reports caused by setting non-zero value
-to v_vlin parameter. But given that it is possible that nobody is using
-VT_RESIZEX, we can try removing support for v_clin and v_vlin parameters.
-
-Therefore, this patch effectively makes VT_RESIZEX behave like VT_RESIZE,
-with emitting a message if somebody is still using v_clin and/or v_vlin
-parameters.
-
-[1] https://syzkaller.appspot.com/bug?id=32577e96d88447ded2d3b76d71254fb855245837
-[2] https://syzkaller.appspot.com/bug?id=6b8355d27b2b94fb5cedf4655e3a59162d9e48e3
-
-Reported-by: syzbot <syzbot+b308f5fd049fbbc6e74f@syzkaller.appspotmail.com>
-Reported-by: syzbot <syzbot+16469b5e8e5a72e9131e@syzkaller.appspotmail.com>
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
- drivers/tty/vt/vt_ioctl.c | 57 +++++++--------------------------------
- 1 file changed, 10 insertions(+), 47 deletions(-)
-
-diff --git a/drivers/tty/vt/vt_ioctl.c b/drivers/tty/vt/vt_ioctl.c
-index a4e520bdd521..bc33938e2f20 100644
---- a/drivers/tty/vt/vt_ioctl.c
-+++ b/drivers/tty/vt/vt_ioctl.c
-@@ -773,58 +773,21 @@ static int vt_resizex(struct vc_data *vc, struct vt_consize __user *cs)
- 	if (copy_from_user(&v, cs, sizeof(struct vt_consize)))
- 		return -EFAULT;
- 
--	/* FIXME: Should check the copies properly */
--	if (!v.v_vlin)
--		v.v_vlin = vc->vc_scan_lines;
--
--	if (v.v_clin) {
--		int rows = v.v_vlin / v.v_clin;
--		if (v.v_rows != rows) {
--			if (v.v_rows) /* Parameters don't add up */
--				return -EINVAL;
--			v.v_rows = rows;
--		}
--	}
--
--	if (v.v_vcol && v.v_ccol) {
--		int cols = v.v_vcol / v.v_ccol;
--		if (v.v_cols != cols) {
--			if (v.v_cols)
--				return -EINVAL;
--			v.v_cols = cols;
--		}
--	}
--
--	if (v.v_clin > 32)
--		return -EINVAL;
-+	if (v.v_vlin)
-+		pr_info_once("\"struct vt_consize\"->v_vlin is ignored. Please report if you need this.\n");
-+	if (v.v_clin)
-+		pr_info_once("\"struct vt_consize\"->v_clin is ignored. Please report if you need this.\n");
- 
-+	console_lock();
- 	for (i = 0; i < MAX_NR_CONSOLES; i++) {
--		struct vc_data *vcp;
-+		vc = vc_cons[i].d;
- 
--		if (!vc_cons[i].d)
--			continue;
--		console_lock();
--		vcp = vc_cons[i].d;
--		if (vcp) {
--			int ret;
--			int save_scan_lines = vcp->vc_scan_lines;
--			int save_font_height = vcp->vc_font.height;
--
--			if (v.v_vlin)
--				vcp->vc_scan_lines = v.v_vlin;
--			if (v.v_clin)
--				vcp->vc_font.height = v.v_clin;
--			vcp->vc_resize_user = 1;
--			ret = vc_resize(vcp, v.v_cols, v.v_rows);
--			if (ret) {
--				vcp->vc_scan_lines = save_scan_lines;
--				vcp->vc_font.height = save_font_height;
--				console_unlock();
--				return ret;
--			}
-+		if (vc) {
-+			vc->vc_resize_user = 1;
-+			vc_resize(vc, v.v_cols, v.v_rows);
- 		}
--		console_unlock();
- 	}
-+	console_unlock();
- 
- 	return 0;
- }
--- 
-2.25.1
-
+> > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> > index b3461a61a4bf..9bf4fbd9c736 100644
+> > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> > @@ -30,6 +30,7 @@
+> >
+> >  /dts-v1/;
+> >  #include "r8a7742-iwg21m.dtsi"
+> > +#include <dt-bindings/pwm/pwm.h>
+> >
+> >  / {
+> >       model = "iWave Systems RainboW-G21D-Qseven board based on RZ/G1H";
+> > @@ -52,6 +53,51 @@
+> >               clock-frequency = <26000000>;
+> >       };
+> >
+> > +     lcd_backlight: backlight {
+> > +             compatible = "pwm-backlight";
+> > +             pwms = <&tpu 2 5000000 0>;
+> > +             brightness-levels = <0 4 8 16 32 64 128 255>;
+> > +             pinctrl-0 = <&backlight_pins>;
+> > +             pinctrl-names = "default";
+> > +             default-brightness-level = <7>;
+> > +             enable-gpios = <&gpio3 11 GPIO_ACTIVE_HIGH>;
+> > +     };
+> > +
+> > +     lvds-receiver {
+> > +             compatible = "ti,ds90cf384a", "lvds-decoder";
+> > +             vcc-supply = <&vcc_3v3_tft1>;
+> > +
+> > +             ports {
+> > +                     #address-cells = <1>;
+> > +                     #size-cells = <0>;
+> > +
+> > +                     port@0 {
+> > +                             reg = <0>;
+> > +                             lvds_receiver_in: endpoint {
+> > +                                     remote-endpoint = <&lvds0_out>;
+> > +                             };
+> > +                     };
+> > +                     port@1 {
+> > +                             reg = <1>;
+> > +                             lvds_receiver_out: endpoint {
+> > +                                     remote-endpoint = <&panel_in>;
+> > +                             };
+> > +                     };
+> > +             };
+> > +     };
+> > +
+> > +     panel {
+> > +             compatible = "edt,etm0700g0dh6";
+> > +             backlight = <&lcd_backlight>;
+> > +             power-supply = <&vcc_3v3_tft1>;
+> > +
+> > +             port {
+> > +                     panel_in: endpoint {
+> > +                             remote-endpoint = <&lvds_receiver_out>;
+> > +                     };
+> > +             };
+> > +     };
+> > +
+> >       reg_1p5v: 1p5v {
+> >               compatible = "regulator-fixed";
+> >               regulator-name = "1P5V";
+> > @@ -75,6 +121,17 @@
+> >               };
+> >       };
+> >
+> > +     vcc_3v3_tft1: regulator-panel {
+> > +             compatible = "regulator-fixed";
+> > +
+> > +             regulator-name = "vcc-3v3-tft1";
+> > +             regulator-min-microvolt = <3300000>;
+> > +             regulator-max-microvolt = <3300000>;
+> > +             enable-active-high;
+> > +             startup-delay-us = <500>;
+> > +             gpio = <&gpio5 28 GPIO_ACTIVE_HIGH>;
+> > +     };
+> > +
+> >       vcc_sdhi2: regulator-vcc-sdhi2 {
+> >               compatible = "regulator-fixed";
+> >
+> > @@ -129,12 +186,34 @@
+> >               VDDIO-supply = <&reg_3p3v>;
+> >               VDDD-supply = <&reg_1p5v>;
+> >       };
+> > +
+> > +     touch: touchpanel@38 {
+> > +             compatible = "edt,edt-ft5406";
+> > +             reg = <0x38>;
+> > +             interrupt-parent = <&gpio0>;
+> > +             interrupts = <24 IRQ_TYPE_EDGE_FALLING>;
+> > +             /* GP1_29 is also shared with audio codec reset pin */
+> > +             reset-gpios = <&gpio1 29 GPIO_ACTIVE_LOW>;
+> > +             vcc-supply = <&vcc_3v3_tft1>;
+> > +     };
+> >  };
+> >
+> >  &cmt0 {
+> >       status = "okay";
+> >  };
+> >
+> > +&du {
+> > +     status = "okay";
+> > +};
+> > +
+> > +&gpio0 {
+> > +     touch-interrupt {
+> > +             gpio-hog;
+> > +             gpios = <24 GPIO_ACTIVE_LOW>;
+> > +             input;
+> > +     };
+> > +};
+> > +
+> >  &hsusb {
+> >       pinctrl-0 = <&usb0_pins>;
+> >       pinctrl-names = "default";
+> > @@ -165,6 +244,11 @@
+> >               function = "avb";
+> >       };
+> >
+> > +     backlight_pins: backlight {
+> > +             groups = "tpu0_to2";
+> > +             function = "tpu0";
+> > +     };
+> > +
+> >       i2c2_pins: i2c2 {
+> >               groups = "i2c2_b";
+> >               function = "i2c2";
+> > @@ -208,6 +292,17 @@
+> >       };
+> >  };
+> >
+> > +&lvds0 {
+> > +     status = "okay";
+> > +     ports {
+> > +             port@1 {
+> > +                     lvds0_out: endpoint {
+> > +                             remote-endpoint = <&lvds_receiver_in>;
+> > +                     };
+> > +             };
+> > +     };
+> > +};
+> > +
+> >  &rcar_sound {
+> >       pinctrl-0 = <&sound_pins>;
+> >       pinctrl-names = "default";
+> > @@ -261,6 +356,10 @@
+> >       shared-pin;
+> >  };
+> >
+> > +&tpu {
+> > +     status = "okay";
+> > +};
+> > +
+> >  &usbphy {
+> >       status = "okay";
+> >  };
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
