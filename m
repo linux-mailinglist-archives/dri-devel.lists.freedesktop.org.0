@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44254279F05
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Sep 2020 08:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FA6279F0A
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Sep 2020 08:47:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E9286E23D;
-	Sun, 27 Sep 2020 06:47:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F8806E23F;
+	Sun, 27 Sep 2020 06:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35D1C6E239;
- Sun, 27 Sep 2020 06:47:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC286E23F;
+ Sun, 27 Sep 2020 06:47:07 +0000 (UTC)
 Received: from localhost (unknown [213.57.247.131])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5B2A023A04;
- Sun, 27 Sep 2020 06:46:59 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 41E7F23A51;
+ Sun, 27 Sep 2020 06:47:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601189220;
- bh=X0Gx2aQ5HAIcUm/V+07epd86vOJhBgOcCwwTjg4zaDU=;
+ s=default; t=1601189227;
+ bh=m2a9Oz2DB63lwgxQQj+FGgp6ecAxvfnEpmZRjOKwjzo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=K4Ior6ILrlGRKpyGEEUKlL1f/2LiM3+lhS3EnTrH1srs0Abz9bV5NZgx68aaIGJTP
- djnmHurCY9sNUaX/vb5TRzCIACdJhdfMiAkgNam+RJP4hqdPDry4Q0xkmFPrBz1kEk
- 3cEphCTgiiI2weVFh7SvR4Bt8eGnpGLoSZmI5DxE=
+ b=nVGrLlOZntNclCIAhTNx9fGbNC5GNHwLw0vsJ3pyWAOXJ5yl6VMNyH/yknQgbJ3vM
+ ju+3ChxnMHuEEqqHFg0Ec7IlyLPXiCkmMeknkQRe3eRITITMOQYKPH82iy/Qs41MR7
+ dcMILQqHsJCYv5AagArelmJcAJph2HRuIfbF3jVk=
 From: Leon Romanovsky <leon@kernel.org>
 To: Doug Ledford <dledford@redhat.com>,
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH rdma-next v4 2/4] tools/testing/scatterlist: Rejuvenate
- bit-rotten test
-Date: Sun, 27 Sep 2020 09:46:45 +0300
-Message-Id: <20200927064647.3106737-3-leon@kernel.org>
+Subject: [PATCH rdma-next v4 3/4] tools/testing/scatterlist: Show errors in
+ human readable form
+Date: Sun, 27 Sep 2020 09:46:46 +0300
+Message-Id: <20200927064647.3106737-4-leon@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200927064647.3106737-1-leon@kernel.org>
 References: <20200927064647.3106737-1-leon@kernel.org>
@@ -61,87 +61,88 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-A couple small tweaks are needed to make the test build and run
-on current kernels.
+Instead of just asserting dump some more useful info about what the test
+saw versus what it expected to see.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Signed-off-by: Maor Gottlieb <maorg@nvidia.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- tools/testing/scatterlist/Makefile   |  3 ++-
- tools/testing/scatterlist/linux/mm.h | 35 ++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+), 1 deletion(-)
+ tools/testing/scatterlist/main.c | 44 ++++++++++++++++++++++++--------
+ 1 file changed, 34 insertions(+), 10 deletions(-)
 
-diff --git a/tools/testing/scatterlist/Makefile b/tools/testing/scatterlist/Makefile
-index cbb003d9305e..c65233876622 100644
---- a/tools/testing/scatterlist/Makefile
-+++ b/tools/testing/scatterlist/Makefile
-@@ -14,7 +14,7 @@ targets: include $(TARGETS)
- main: $(OFILES)
+diff --git a/tools/testing/scatterlist/main.c b/tools/testing/scatterlist/main.c
+index 4899359a31ac..b2c7e9f7b8d3 100644
+--- a/tools/testing/scatterlist/main.c
++++ b/tools/testing/scatterlist/main.c
+@@ -5,6 +5,15 @@
 
- clean:
--	$(RM) $(TARGETS) $(OFILES) scatterlist.c linux/scatterlist.h linux/highmem.h linux/kmemleak.h asm/io.h
-+	$(RM) $(TARGETS) $(OFILES) scatterlist.c linux/scatterlist.h linux/highmem.h linux/kmemleak.h linux/slab.h asm/io.h
- 	@rmdir asm
+ #define MAX_PAGES (64)
 
- scatterlist.c: ../../../lib/scatterlist.c
-@@ -28,4 +28,5 @@ include: ../../../include/linux/scatterlist.h
- 	@touch asm/io.h
- 	@touch linux/highmem.h
- 	@touch linux/kmemleak.h
-+	@touch linux/slab.h
- 	@cp $< linux/scatterlist.h
-diff --git a/tools/testing/scatterlist/linux/mm.h b/tools/testing/scatterlist/linux/mm.h
-index 6f9ac14aa800..6ae907f375d2 100644
---- a/tools/testing/scatterlist/linux/mm.h
-+++ b/tools/testing/scatterlist/linux/mm.h
-@@ -114,6 +114,12 @@ static inline void *kmalloc(unsigned int size, unsigned int flags)
- 	return malloc(size);
- }
++struct test {
++	int alloc_ret;
++	unsigned num_pages;
++	unsigned *pfn;
++	unsigned size;
++	unsigned int max_seg;
++	unsigned int expected_segments;
++};
++
+ static void set_pages(struct page **pages, const unsigned *array, unsigned num)
+ {
+ 	unsigned int i;
+@@ -17,17 +26,32 @@ static void set_pages(struct page **pages, const unsigned *array, unsigned num)
 
-+static inline void *
-+kmalloc_array(unsigned int n, unsigned int size, unsigned int flags)
+ #define pfn(...) (unsigned []){ __VA_ARGS__ }
+
++static void fail(struct test *test, struct sg_table *st, const char *cond)
 +{
-+	return malloc(n * size);
++	unsigned int i;
++
++	fprintf(stderr, "Failed on '%s'!\n\n", cond);
++
++	printf("size = %u, max segment = %u, expected nents = %u\nst->nents = %u, st->orig_nents= %u\n",
++	       test->size, test->max_seg, test->expected_segments, st->nents,
++	       st->orig_nents);
++
++	printf("%u input PFNs:", test->num_pages);
++	for (i = 0; i < test->num_pages; i++)
++		printf(" %x", test->pfn[i]);
++	printf("\n");
++
++	exit(1);
 +}
 +
- #define kfree(x) free(x)
++#define VALIDATE(cond, st, test) \
++	if (!(cond)) \
++		fail((test), (st), #cond);
++
+ int main(void)
+ {
+ 	const unsigned int sgmax = SCATTERLIST_MAX_SEGMENT;
+-	struct test {
+-		int alloc_ret;
+-		unsigned num_pages;
+-		unsigned *pfn;
+-		unsigned size;
+-		unsigned int max_seg;
+-		unsigned int expected_segments;
+-	} *test, tests[] = {
++	struct test *test, tests[] = {
+ 		{ -EINVAL, 1, pfn(0), PAGE_SIZE, PAGE_SIZE + 1, 1 },
+ 		{ -EINVAL, 1, pfn(0), PAGE_SIZE, 0, 1 },
+ 		{ -EINVAL, 1, pfn(0), PAGE_SIZE, sgmax + 1, 1 },
+@@ -66,8 +90,8 @@ int main(void)
+ 		if (test->alloc_ret)
+ 			continue;
 
- #define kmemleak_alloc(a, b, c, d)
-@@ -122,4 +128,33 @@ static inline void *kmalloc(unsigned int size, unsigned int flags)
- #define PageSlab(p) (0)
- #define flush_kernel_dcache_page(p)
+-		assert(st.nents == test->expected_segments);
+-		assert(st.orig_nents == test->expected_segments);
++		VALIDATE(st.nents == test->expected_segments, &st, test);
++		VALIDATE(st.orig_nents == test->expected_segments, &st, test);
 
-+#define MAX_ERRNO	4095
-+
-+#define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >= (unsigned long)-MAX_ERRNO)
-+
-+static inline void * __must_check ERR_PTR(long error)
-+{
-+	return (void *) error;
-+}
-+
-+static inline long __must_check PTR_ERR(__force const void *ptr)
-+{
-+	return (long) ptr;
-+}
-+
-+static inline bool __must_check IS_ERR(__force const void *ptr)
-+{
-+	return IS_ERR_VALUE((unsigned long)ptr);
-+}
-+
-+static inline int __must_check PTR_ERR_OR_ZERO(__force const void *ptr)
-+{
-+	if (IS_ERR(ptr))
-+		return PTR_ERR(ptr);
-+	else
-+		return 0;
-+}
-+
-+#define IS_ENABLED(x) (0)
-+
- #endif
+ 		sg_free_table(&st);
+ 	}
 --
 2.26.2
 
