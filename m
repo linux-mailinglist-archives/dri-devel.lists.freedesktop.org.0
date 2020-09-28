@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B84327A9FF
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 10:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E6E27AA2A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 11:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F91F89B49;
-	Mon, 28 Sep 2020 08:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1295689C9B;
+	Mon, 28 Sep 2020 09:02:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
  [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE1EC895C3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:53:43 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id a2so144427otr.11
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 01:53:43 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D107D89C9B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 09:02:22 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id g96so164586otb.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 02:02:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+LtSXklMn7xozuSC6rE20iy3mKga8/0HBMR4rpqTIqI=;
- b=kllpJf3NSPxEg5uWbwq10rhKTg8HculIbVB3VWRb7naAAYqSZfvphc67EyoIu7IWt7
- Wt6YKGpX3M2K6XK5K6OEqZoF8dMBQ5pQjC7B5BntJ+CZUACX6W/yEr/Wf9uZ5z1xwNr5
- yAwFyd6bsy+gUCtpLmDhDe3+jOQm8OjUqMtiU=
+ :cc; bh=JTLdvESzKL3sin7nSAfmPRYlBKMWaQyO8M8qi1wB0vA=;
+ b=P3WC+B+zbq6ccamhC8om9venVo4Ki4C0Jv56FZRlnkvjwh4JDCiZMfhtCBE2RVCFiY
+ w8pwMUnH+ZhNY6o/sZ0pZavPl4aHNuk5yuWGmi6VD1Kn9ldnqlEbrjWgSrj66MTZ8Fiq
+ Ke2bvKok1z5NI1SjBMmp5i1+K2WniOLRrQfsw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+LtSXklMn7xozuSC6rE20iy3mKga8/0HBMR4rpqTIqI=;
- b=fvFwGphKbj+T/tNVjXYROW5A6to1t/t5mHO8WHCfwIFnKeYBSaaK2dA4ETu1OByKfu
- rmOWCV/uN4a2fFHHzB3Z1MK4c2IMIa02fekfWHJIvC5oszYM2OL9WvQHcrCGcthFTa+G
- 9Iba0Fw5HkI8s84fv5c3f3KJ1sz+1/iF1xGPzuBgL5RtiEczwFkbU5wnNbuWzmzNSjoa
- cwCNKKZOzIeLWA+uuPlkMoooHdPmkyrSGB/ua9Mn4yVcwRYsZFzuYaEUv0nfXpIUrpX0
- MDAc8trXUb5Dp6a0/SGi6yo7KRDzmg/blSYo6wM/p5JMQhYkO+23rVUH2APygskihtQj
- HRQQ==
-X-Gm-Message-State: AOAM532djKsDaFH4W/SUsyQgfdRQIfpowLm0Z9fRIn1KsvhMT1T2Nx3+
- j1dhPlsyToF6sEZL4vpLHhXZJU+sPoGKMz/TU83ilA==
-X-Google-Smtp-Source: ABdhPJwbH5BsZoq99oeFgFSv4yNe/7A5pxd3eXKZYon2ZbFSVm4Rwqzv8ZKB68ckroWGZLVrVNnxraiBXrIc0OGVr8o=
+ :message-id:subject:to:cc;
+ bh=JTLdvESzKL3sin7nSAfmPRYlBKMWaQyO8M8qi1wB0vA=;
+ b=bR5oH9LRfBXhUxVUJPzn5BpOGl7GvkbtDA/fQK/2+rAMhaKZz2zemct4x31mc+KfRU
+ uaZD0Gyd+Lpm5RGfANFFyymvFO3IBgHQCVyKiA5F793SC26T3ZRtXD0DFcPSgl6NtD4X
+ 4EtLy/ZBDWrx58xhhduDY3DrbmPpE/ocoekac3PloD2+3kuXo336sUKyYX5kCHhqVtKt
+ alrjjqx09l7OwO0MWCMayT62fvOHHIx2/oRz+srtffQS2wj7US1d7/MtLc7Fe/TPcVuQ
+ efgfLjZHbT23cYrjnq/Vulv532qsMhPb0u57PQDLkZbSONnIghTAFzEmvAz/VsOz2RN9
+ PYnw==
+X-Gm-Message-State: AOAM530b0lSsJ8VoQXiLLn0yc/U3E3E1Pmf4xYDzbjaP8zaIaQXnR5SG
+ j99oA+iA1tQEpllGlpj2JRaMWcNYmi7cPVtWZPv25w==
+X-Google-Smtp-Source: ABdhPJyU9867B8TXTjJniqPLDSpiY941W+DcOl0jwbG9DyQbz/8S6Go5xRxLVGl+hpcEAvncUjfrOTKeB+JK4nZSMxo=
 X-Received: by 2002:a05:6830:14d9:: with SMTP id
- t25mr292995otq.188.1601283223132; 
- Mon, 28 Sep 2020 01:53:43 -0700 (PDT)
+ t25mr309022otq.188.1601283742161; 
+ Mon, 28 Sep 2020 02:02:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-2-tzimmermann@suse.de>
- <20200629084044.GL3278063@phenom.ffwll.local>
- <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
- <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
- <35822c4b-7821-7b33-d6ce-cfe51a85ff74@suse.de>
-In-Reply-To: <35822c4b-7821-7b33-d6ce-cfe51a85ff74@suse.de>
+References: <20200925130744.575725-1-maxime@cerno.tech>
+In-Reply-To: <20200925130744.575725-1-maxime@cerno.tech>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 28 Sep 2020 10:53:31 +0200
-Message-ID: <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Mon, 28 Sep 2020 11:02:11 +0200
+Message-ID: <CAKMK7uG8=depCjWACjFxSph6o4rrPu1Ng28F7om_CYaiMj_HQQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/vc4: hdmi: Disable Wifi Frequencies
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,146 +58,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBTZXAgMjgsIDIwMjAgYXQgOToyMiBBTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMjYuMDkuMjAgdW0gMTg6NDIgc2No
-cmllYiBEYW5pZWwgVmV0dGVyOgo+ID4gT24gRnJpLCBTZXAgMjUsIDIwMjAgYXQgNDo1NSBQTSBU
-aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4gPj4KPiA+PiBI
-aQo+ID4+Cj4gPj4gQW0gMjkuMDYuMjAgdW0gMTA6NDAgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+
-ID4+PiBPbiBUaHUsIEp1biAyNSwgMjAyMCBhdCAwMjowMDowM1BNICswMjAwLCBUaG9tYXMgWmlt
-bWVybWFubiB3cm90ZToKPiA+Pj4+IFRoZSBtZW1jcHkncyBkZXN0aW5hdGlvbiBidWZmZXIgbWln
-aHQgaGF2ZSBhIGRpZmZlcmVudCBwaXRjaCB0aGFuIHRoZQo+ID4+Pj4gc291cmNlLiBTdXBwb3J0
-IGRpZmZlcmVudCBwaXRjaGVzIGFzIGZ1bmN0aW9uIGFyZ3VtZW50Lgo+ID4+Pj4KPiA+Pj4+IFNp
-Z25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+ID4+
-Pgo+ID4+PiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5j
-aD4KPiA+Pj4KPiA+Pj4gQnV0IEkgZG8gaGF2ZSBxdWVzdGlvbnMgLi4uIHdoeSBkaWQgd2UgYWxs
-b2NhdGUgYSBzb3VyY2UgZHJtX2ZyYW1lYnVmZmVyCj4gPj4+IHdpdGggbWlzbWF0Y2hpbmcgcGl0
-Y2g/IFRoYXQgc291bmRzIGJhY2t3YXJkcywgZXNwZWNpYWxseSBmb3Igc2ltcGxla21zLgo+ID4+
-Cj4gPj4gVGhlcmUncyB1c2Vyc3BhY2UgdGhhdCBhbGxvY2F0ZXMgZnJhbWVidWZmZXJzIGluIHRp
-bGVzIG9mIDY0eDY0IHBpeGVscy4KPiA+PiBJIHRoaW5rIEkndmUgc2VlbiB0aGlzIHdpdGggR25v
-bWUuIFNvIGlmIHlvdSBoYXZlIGEgODAweDYwMCBkaXNwbGF5Cj4gPj4gbW9kZSwgdGhlIGFsbG9j
-YXRlZCBmcmFtZWJ1ZmZlciBoYXMgYSBzY2FubGluZSBwaXRjaCBvZiA4MzIgcGl4ZWxzIGFuZAo+
-ID4+IHRoZSBmaW5hbCAzMiBwaXhlbHMgYXJlIGlnbm9yZWQuCj4gPgo+ID4gQXQgbGVhc3Qgd2l0
-aCBkdW1iIGJ1ZmZlciBhbGxvY2F0aW9uIGlvY3RscyB1c2Vyc3BhY2Ugc2hvdWxkIG5vdCBkbwo+
-ID4gdGhhdC4gSWYgaXQgd2FudHMgODAweDYwMCwgaXQgbmVlZHMgdG8gYWxsb2NhdGUgODAweDYw
-MCwgbm90IHNvbWV0aGluZwo+Cj4gVGhhdCBzaGlwIGhhcyBzYWlsZWQuCgpOb3QgcmVhbGx5LCBy
-aWdodCBub3cgdGhhdCBzaGlwIGlzIHNpbXBseSBsZWFraW5nIGFuZCBzaW5raW5nLiBJZiB3ZQpk
-ZWNpZGUgdG8gcGF0Y2ggdGhpcyB1cCBmcm9tIHRoZSBrZXJuZWwgc2lkZSwgdGhlbiBpbmRlZWQg
-aXQgaGFzCnNhaWxlZC4gQW5kIEknbSBub3Qgc3VyZSB0aGF0J3MgYSBnb29kIGlkZWEuCgo+ID4g
-ZWxzZS4gVGhlIGRyaXZlciBpcyBzdXBwb3NlZCB0byBhcHBseSBhbnkgcm91bmRpbmcgbmVjZXNz
-YXJ5IGZvciB0aGUKPiA+IHNpemUuIE9yIGlzIHRoaXMgYSBidWZmZXIgYWxsb2NhdGVkIHNvbWV3
-aGVyZSBlbHNlIGFuZCB0aGVuIHNoYXJlZD8KPgo+IEkgZG9uJ3QgcXVpdGUgcmVtZW1iZXIgd2hl
-cmUgZXhhY3RseSB0aGlzIHdhcyBpbXBsZW1lbnRlZC4gSXQgd2FzIG5vdCBhCj4gc2hhcmVkIGJ1
-ZmZlciwgdGhvdWdoLiBJSVJDIHRoZSBidWZmZXIgYWxsb2NhdGlvbiBjb2RlIGluIG9uZSBvZiB0
-aGUKPiBsaWJzIHJvdW5kZWQgdGhlIHNpemUgdG93YXJkcyBtdWx0aXBsZXMgb2YgNjQuIEkgcmVt
-ZW1iZXIgdGhpbmtpbmcgdGhhdAo+IGl0IHdhcyBwcm9iYWJseSBkb25lIGZvciB0aWxlZCByZW5k
-ZXJpbmcuCgpZZWFoLCBidXQgeW91IGRvbid0IGRvIHJlbmRlcmluZyBvbiBkdW1iIGJ1ZmZlcnMu
-IExpa2UgZXZlci4gU28gdGhpcwpzbWVsbHMgbGlrZSBhIHVzZXJzcGFjZSBidWcuCgpJZiBpdCdz
-IGZvciBzaGFyZWQgYnVmZmVycyB0aGVuIEkgdGhpbmsgdGhhdCBzb3VuZHMgbW9yZSByZWFzb25h
-YmxlLgotRGFuaWVsCgo+Cj4gQmVzdCByZWdhcmRzCj4gVGhvbWFzCj4KPiA+IC1EYW5pZWwKPiA+
-Cj4gPj4gSW4gcmVndWxhciBkcml2ZXJzLCB3ZSBjYW4gaGFuZGxlIHRoaXMgd2l0aCB0aGUgVkdB
-IG9mZnNldCByZWdpc3RlciBbMV0KPiA+PiBvciBzb21lIGVxdWl2YWxlbnQuIFRoYXQncyBvYnZp
-b3VzbHkgbm90IGFuIG9wdGlvbiB3aXRoIHNpbXBsZWttcywgc28KPiA+PiB0aGUgZGlmZmVyZW50
-IHBpdGNoIGlzIHJlcXVpcmVkLgo+ID4+Cj4gPj4gQmVzdCByZWdhcmRzCj4gPj4gVGhvbWFzCj4g
-Pj4KPiA+PiBbMV0KPiA+PiBodHRwczovL3dlYi5zdGFuZm9yZC5lZHUvY2xhc3MvY3MxNDAvcHJv
-amVjdHMvcGludG9zL3NwZWNzL2ZyZWV2Z2EvdmdhL2NydGNyZWcuaHRtIzEzCj4gPj4KPiA+Pj4K
-PiA+Pj4gV291bGQgYmUgZ29vZCB0byBhZGQgdGhlIHJlYXNvbnMgd2h5IHdlIG5lZWQgdGhpcyB0
-byB0aGUgY29tbWl0IG1lc3NhZ2UsCj4gPj4+IEknbSBzdXJlIEknbGwgZGlzY292ZXIgaXQgbGF0
-ZXIgb24gZXZlbnR1YWxseS4KPiA+Pj4gLURhbmllbAo+ID4+Pgo+ID4+Pj4gLS0tCj4gPj4+PiAg
-ZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMgICAgfCA5ICsrKysrLS0tLQo+ID4+
-Pj4gIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jIHwgMiArLQo+ID4+Pj4g
-IGRyaXZlcnMvZ3B1L2RybS90aW55L2NpcnJ1cy5jICAgICAgICAgIHwgMiArLQo+ID4+Pj4gIGlu
-Y2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmggICAgICAgIHwgMiArLQo+ID4+Pj4gIDQgZmls
-ZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+ID4+Pj4KPiA+Pj4+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZm9ybWF0X2hlbHBlci5jCj4gPj4+PiBpbmRleCBjMDQzY2EzNjRjODYu
-LjhkNWE2ODNhZmVhNyAxMDA2NDQKPiA+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9y
-bWF0X2hlbHBlci5jCj4gPj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Zvcm1hdF9oZWxw
-ZXIuYwo+ID4+Pj4gQEAgLTUyLDYgKzUyLDcgQEAgRVhQT1JUX1NZTUJPTChkcm1fZmJfbWVtY3B5
-KTsKPiA+Pj4+ICAvKioKPiA+Pj4+ICAgKiBkcm1fZmJfbWVtY3B5X2RzdGNsaXAgLSBDb3B5IGNs
-aXAgYnVmZmVyCj4gPj4+PiAgICogQGRzdDogRGVzdGluYXRpb24gYnVmZmVyIChpb21lbSkKPiA+
-Pj4+ICsgKiBAZHN0X3BpdGNoOiBOdW1iZXIgb2YgYnl0ZXMgYmV0d2VlbiB0d28gY29uc2VjdXRp
-dmUgc2NhbmxpbmVzIHdpdGhpbiBkc3QKPiA+Pj4+ICAgKiBAdmFkZHI6IFNvdXJjZSBidWZmZXIK
-PiA+Pj4+ICAgKiBAZmI6IERSTSBmcmFtZWJ1ZmZlcgo+ID4+Pj4gICAqIEBjbGlwOiBDbGlwIHJl
-Y3RhbmdsZSBhcmVhIHRvIGNvcHkKPiA+Pj4+IEBAIC01OSwxMiArNjAsMTIgQEAgRVhQT1JUX1NZ
-TUJPTChkcm1fZmJfbWVtY3B5KTsKPiA+Pj4+ICAgKiBUaGlzIGZ1bmN0aW9uIGFwcGxpZXMgY2xp
-cHBpbmcgb24gZHN0LCBpLmUuIHRoZSBkZXN0aW5hdGlvbiBpcyBhCj4gPj4+PiAgICogZnVsbCAo
-aW9tZW0pIGZyYW1lYnVmZmVyIGJ1dCBvbmx5IHRoZSBjbGlwIHJlY3QgY29udGVudCBpcyBjb3Bp
-ZWQgb3Zlci4KPiA+Pj4+ICAgKi8KPiA+Pj4+IC12b2lkIGRybV9mYl9tZW1jcHlfZHN0Y2xpcCh2
-b2lkIF9faW9tZW0gKmRzdCwgdm9pZCAqdmFkZHIsCj4gPj4+PiAtICAgICAgICAgICAgICAgICAg
-ICAgICBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwKPiA+Pj4+ICt2b2lkIGRybV9mYl9tZW1j
-cHlfZHN0Y2xpcCh2b2lkIF9faW9tZW0gKmRzdCwgdW5zaWduZWQgaW50IGRzdF9waXRjaCwKPiA+
-Pj4+ICsgICAgICAgICAgICAgICAgICAgICAgIHZvaWQgKnZhZGRyLCBzdHJ1Y3QgZHJtX2ZyYW1l
-YnVmZmVyICpmYiwKPiA+Pj4+ICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fcmVj
-dCAqY2xpcCkKPiA+Pj4+ICB7Cj4gPj4+PiAgICAgIHVuc2lnbmVkIGludCBjcHAgPSBmYi0+Zm9y
-bWF0LT5jcHBbMF07Cj4gPj4+PiAtICAgIHVuc2lnbmVkIGludCBvZmZzZXQgPSBjbGlwX29mZnNl
-dChjbGlwLCBmYi0+cGl0Y2hlc1swXSwgY3BwKTsKPiA+Pj4+ICsgICAgdW5zaWduZWQgaW50IG9m
-ZnNldCA9IGNsaXBfb2Zmc2V0KGNsaXAsIGRzdF9waXRjaCwgY3BwKTsKPiA+Pj4+ICAgICAgc2l6
-ZV90IGxlbiA9IChjbGlwLT54MiAtIGNsaXAtPngxKSAqIGNwcDsKPiA+Pj4+ICAgICAgdW5zaWdu
-ZWQgaW50IHksIGxpbmVzID0gY2xpcC0+eTIgLSBjbGlwLT55MTsKPiA+Pj4+Cj4gPj4+PiBAQCAt
-NzMsNyArNzQsNyBAQCB2b2lkIGRybV9mYl9tZW1jcHlfZHN0Y2xpcCh2b2lkIF9faW9tZW0gKmRz
-dCwgdm9pZCAqdmFkZHIsCj4gPj4+PiAgICAgIGZvciAoeSA9IDA7IHkgPCBsaW5lczsgeSsrKSB7
-Cj4gPj4+PiAgICAgICAgICAgICAgbWVtY3B5X3RvaW8oZHN0LCB2YWRkciwgbGVuKTsKPiA+Pj4+
-ICAgICAgICAgICAgICB2YWRkciArPSBmYi0+cGl0Y2hlc1swXTsKPiA+Pj4+IC0gICAgICAgICAg
-ICBkc3QgKz0gZmItPnBpdGNoZXNbMF07Cj4gPj4+PiArICAgICAgICAgICAgZHN0ICs9IGRzdF9w
-aXRjaDsKPiA+Pj4+ICAgICAgfQo+ID4+Pj4gIH0KPiA+Pj4+ICBFWFBPUlRfU1lNQk9MKGRybV9m
-Yl9tZW1jcHlfZHN0Y2xpcCk7Cj4gPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21n
-YWcyMDAvbWdhZzIwMF9tb2RlLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21v
-ZGUuYwo+ID4+Pj4gaW5kZXggZjE2YmQyNzhhYjdlLi43ZDRmM2E2MmQ4ODUgMTAwNjQ0Cj4gPj4+
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYwo+ID4+Pj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMKPiA+Pj4+IEBAIC0xNTg2
-LDcgKzE1ODYsNyBAQCBtZ2FnMjAwX2hhbmRsZV9kYW1hZ2Uoc3RydWN0IG1nYV9kZXZpY2UgKm1k
-ZXYsIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAo+ID4+Pj4gICAgICBpZiAoZHJtX1dBUk5f
-T04oZGV2LCAhdm1hcCkpCj4gPj4+PiAgICAgICAgICAgICAgcmV0dXJuOyAvKiBCVUc6IFNITUVN
-IEJPIHNob3VsZCBhbHdheXMgYmUgdm1hcHBlZCAqLwo+ID4+Pj4KPiA+Pj4+IC0gICAgZHJtX2Zi
-X21lbWNweV9kc3RjbGlwKG1kZXYtPnZyYW0sIHZtYXAsIGZiLCBjbGlwKTsKPiA+Pj4+ICsgICAg
-ZHJtX2ZiX21lbWNweV9kc3RjbGlwKG1kZXYtPnZyYW0sIGZiLT5waXRjaGVzWzBdLCB2bWFwLCBm
-YiwgY2xpcCk7Cj4gPj4+Pgo+ID4+Pj4gICAgICBkcm1fZ2VtX3NobWVtX3Z1bm1hcChmYi0+b2Jq
-WzBdLCB2bWFwKTsKPiA+Pj4+Cj4gPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rp
-bnkvY2lycnVzLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9jaXJydXMuYwo+ID4+Pj4gaW5kZXgg
-NzQ0YThlMzM3ZTQxLi4yZGQ5ZTVlMzFlM2QgMTAwNjQ0Cj4gPj4+PiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vdGlueS9jaXJydXMuYwo+ID4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3RpbnkvY2ly
-cnVzLmMKPiA+Pj4+IEBAIC0zMjcsNyArMzI3LDcgQEAgc3RhdGljIGludCBjaXJydXNfZmJfYmxp
-dF9yZWN0KHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAo+ID4+Pj4gICAgICAgICAgICAgIGdv
-dG8gb3V0X2Rldl9leGl0Owo+ID4+Pj4KPiA+Pj4+ICAgICAgaWYgKGNpcnJ1cy0+Y3BwID09IGZi
-LT5mb3JtYXQtPmNwcFswXSkKPiA+Pj4+IC0gICAgICAgICAgICBkcm1fZmJfbWVtY3B5X2RzdGNs
-aXAoY2lycnVzLT52cmFtLAo+ID4+Pj4gKyAgICAgICAgICAgIGRybV9mYl9tZW1jcHlfZHN0Y2xp
-cChjaXJydXMtPnZyYW0sIGZiLT5waXRjaGVzWzBdLAo+ID4+Pj4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICB2bWFwLCBmYiwgcmVjdCk7Cj4gPj4+Pgo+ID4+Pj4gICAgICBlbHNl
-IGlmIChmYi0+Zm9ybWF0LT5jcHBbMF0gPT0gNCAmJiBjaXJydXMtPmNwcCA9PSAyKQo+ID4+Pj4g
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmggYi9pbmNsdWRlL2Ry
-bS9kcm1fZm9ybWF0X2hlbHBlci5oCj4gPj4+PiBpbmRleCA1ZjllMzcwMzI0NjguLjJiNTAzNmE1
-ZmJlNyAxMDA2NDQKPiA+Pj4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmgK
-PiA+Pj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmgKPiA+Pj4+IEBAIC0x
-MSw3ICsxMSw3IEBAIHN0cnVjdCBkcm1fcmVjdDsKPiA+Pj4+Cj4gPj4+PiAgdm9pZCBkcm1fZmJf
-bWVtY3B5KHZvaWQgKmRzdCwgdm9pZCAqdmFkZHIsIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZi
-LAo+ID4+Pj4gICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fcmVjdCAqY2xpcCk7Cj4gPj4+PiAt
-dm9pZCBkcm1fZmJfbWVtY3B5X2RzdGNsaXAodm9pZCBfX2lvbWVtICpkc3QsIHZvaWQgKnZhZGRy
-LAo+ID4+Pj4gK3ZvaWQgZHJtX2ZiX21lbWNweV9kc3RjbGlwKHZvaWQgX19pb21lbSAqZHN0LCB1
-bnNpZ25lZCBpbnQgZHN0X3BpdGNoLCB2b2lkICp2YWRkciwKPiA+Pj4+ICAgICAgICAgICAgICAg
-ICAgICAgICAgIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAo+ID4+Pj4gICAgICAgICAgICAg
-ICAgICAgICAgICAgc3RydWN0IGRybV9yZWN0ICpjbGlwKTsKPiA+Pj4+ICB2b2lkIGRybV9mYl9z
-d2FiKHZvaWQgKmRzdCwgdm9pZCAqc3JjLCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwKPiA+
-Pj4+IC0tCj4gPj4+PiAyLjI3LjAKPiA+Pj4+Cj4gPj4+Cj4gPj4KPiA+PiAtLQo+ID4+IFRob21h
-cyBaaW1tZXJtYW5uCj4gPj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcgo+ID4+IFNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSAo+ID4+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
-vHJuYmVyZywgR2VybWFueQo+ID4+IChIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykKPiA+PiBHZXNj
-aMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCj4gPj4KPiA+Cj4gPgo+Cj4gLS0KPiBU
-aG9tYXMgWmltbWVybWFubgo+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJl
-cmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhy
-ZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5n
-aW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Sep 28, 2020 at 9:06 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> There's cross-talk on the RPi4 between the 2.4GHz channels used by the WiFi
+> chip and some resolutions, most notably 1440p at 60Hz.
+>
+> In such a case, we can either reject entirely the mode, or lower slightly
+> the pixel frequency to remove the overlap. Let's go for the latter.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  .../bindings/display/brcm,bcm2711-hdmi.yaml        |  6 ++++++
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                     | 14 +++++++++++++-
+>  drivers/gpu/drm/vc4/vc4_hdmi.h                     |  8 ++++++++
+>  3 files changed, 27 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> index 03a76729d26c..63e7fe999c0a 100644
+> --- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> @@ -76,6 +76,12 @@ properties:
+>    resets:
+>      maxItems: 1
+>
+> +  raspberrypi,disable-wifi-frequencies:
+> +    type: boolean
+> +    description: >
+> +      Should the pixel frequencies in the WiFi frequencies range be
+> +      avoided?
+> +
+>  required:
+>    - compatible
+>    - reg
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index acfb4e235214..74da7c00ecd0 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -877,13 +877,22 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+>         struct vc4_hdmi_connector_state *vc4_state = conn_state_to_vc4_hdmi_conn_state(conn_state);
+>         struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+>         struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+> -       unsigned long long pixel_rate = mode->clock * 1000;
+> +       unsigned long long pixel_rate;
+>
+>         if (vc4_hdmi->variant->broken_odd_h_timings &&
+>             ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
+>              (mode->hsync_end % 2) || (mode->htotal % 2)))
+>                 return -EINVAL;
+>
+> +       /*
+> +        * The 1440p@60 pixel rate is in the same range than the WiFi
+> +        * channels. Slightly lower the frequency to bring it out of the
+> +        * WiFi range.
+> +        */
+> +       if (vc4_hdmi->disable_wifi_frequencies && mode->clock == 241500)
+> +               mode->clock = 238560;
+
+Don't you want to map for a (narrow) range of frequencies here? Just
+for that infamous 60p vs 59.99p thing and similar. And I think that
+would still be in that band you want to avoid.
+-Daniel
+
+> +
+> +       pixel_rate = mode->clock * 1000;
+>         if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+>                 pixel_rate *= 2;
+>
+> @@ -1837,6 +1846,9 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+>                 vc4_hdmi->hpd_active_low = hpd_gpio_flags & OF_GPIO_ACTIVE_LOW;
+>         }
+>
+> +       vc4_hdmi->disable_wifi_frequencies =
+> +               of_property_read_bool(dev->of_node, "raspberrypi,disable-wifi-frequencies");
+> +
+>         pm_runtime_enable(dev);
+>
+>         drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index 40e51ece8efe..6618ee758890 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -143,6 +143,14 @@ struct vc4_hdmi {
+>         int hpd_gpio;
+>         bool hpd_active_low;
+>
+> +       /*
+> +        * On some systems (like the RPi4), some modes are in the same
+> +        * frequency range than the WiFi channels (1440p@60Hz for
+> +        * example). Should we take evasive actions because that system
+> +        * has a wifi adapter.
+> +        */
+> +       bool disable_wifi_frequencies;
+> +
+>         struct cec_adapter *cec_adap;
+>         struct cec_msg cec_rx_msg;
+>         bool cec_tx_ok;
+> --
+> 2.26.2
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
