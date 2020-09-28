@@ -1,69 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE3A27AA3A
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 11:07:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 887C527AA6D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 11:13:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5389289DE3;
-	Mon, 28 Sep 2020 09:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9324389F4A;
+	Mon, 28 Sep 2020 09:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABEF889DE3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 09:07:48 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08S94xLQ017411;
- Mon, 28 Sep 2020 09:07:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=Q15cfDi+iFiBJmoqPF0YaJiicxWKNYmOrAfOM7IwpWo=;
- b=KGYR3KWzSym/sRKJkv6METKdIIk4Ifnd2ahlL2mkc5yMESuzqUpdwQ3FKX13z26XLr2x
- VFMWPF/kbT/vxn/uKByiD79oOv9obxyBNaRX5QeXTWF7YL6nKCjIRfR3TBwB57/1OrMX
- im7X5awOn6ssxcJu/yM9jmMg3y6ASQVRoirJmFnorVWGN2jCnZXTvxIaWP8dJ8F+ijkn
- in12y2lTdvIGOIZZSuDqEt/WXLOyy2X7dR1KDmZWAp826QJXdf1xlAExl8ukJdXOu4BJ
- GRJrM34d7MvPWo/BMNwvUbVBqWJP/b4C/Yfz/1kHMI42bqnVQQL9mLU4wlVq/503V6Qk WQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 33sx9muv8x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 28 Sep 2020 09:07:41 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08S96KvA029274;
- Mon, 28 Sep 2020 09:07:40 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 33tfhw0wv7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 28 Sep 2020 09:07:40 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08S97XD8007028;
- Mon, 28 Sep 2020 09:07:34 GMT
-Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 28 Sep 2020 02:07:33 -0700
-Date: Mon, 28 Sep 2020 12:07:26 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm: prime: Potential Oops in drm_gem_map_dma_buf()
-Message-ID: <20200928090726.GB377727@mwanda>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43B1889F61
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 09:13:11 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 907A6B2C8;
+ Mon, 28 Sep 2020 09:13:09 +0000 (UTC)
+Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
+ drm_fb_memcpy_dstclip()
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200625120011.16168-1-tzimmermann@suse.de>
+ <20200625120011.16168-2-tzimmermann@suse.de>
+ <20200629084044.GL3278063@phenom.ffwll.local>
+ <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
+ <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
+ <35822c4b-7821-7b33-d6ce-cfe51a85ff74@suse.de>
+ <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <a4cd3180-b21d-7464-ad63-5b616acf2c7a@suse.de>
+Date: Mon, 28 Sep 2020 11:13:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9757
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999 bulkscore=0
- phishscore=0 malwarescore=0 adultscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009280076
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9757
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- suspectscore=0
- phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009280076
+In-Reply-To: <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,40 +45,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============0686490862=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This code doesn't check if the call to ->get_sg_table() fails so it
-could dereference an error pointer and Oops.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0686490862==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="2kkUw2ZoVBGmU67xLqiuptPG95xqLyrTw"
 
-Fixes: c614d7e66c6a ("drm: remove prime sg_table caching")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/gpu/drm/drm_prime.c | 3 +++
- 1 file changed, 3 insertions(+)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--2kkUw2ZoVBGmU67xLqiuptPG95xqLyrTw
+Content-Type: multipart/mixed; boundary="QvIVDwZKD39vfoxwLLPL5OG0DQiF70OjC";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <a4cd3180-b21d-7464-ad63-5b616acf2c7a@suse.de>
+Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
+ drm_fb_memcpy_dstclip()
+References: <20200625120011.16168-1-tzimmermann@suse.de>
+ <20200625120011.16168-2-tzimmermann@suse.de>
+ <20200629084044.GL3278063@phenom.ffwll.local>
+ <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
+ <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
+ <35822c4b-7821-7b33-d6ce-cfe51a85ff74@suse.de>
+ <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
+In-Reply-To: <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 11fe9ff76fd5..1e2c7ff63f16 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -627,6 +627,9 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
- 	else
- 		sgt = obj->dev->driver->gem_prime_get_sg_table(obj);
- 
-+	if (IS_ERR(sgt))
-+		return sgt;
-+
- 	ret = dma_map_sgtable(attach->dev, sgt, dir,
- 			      DMA_ATTR_SKIP_CPU_SYNC);
- 	if (ret) {
--- 
-2.28.0
+--QvIVDwZKD39vfoxwLLPL5OG0DQiF70OjC
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 28.09.20 um 10:53 schrieb Daniel Vetter:
+> On Mon, Sep 28, 2020 at 9:22 AM Thomas Zimmermann <tzimmermann@suse.de>=
+ wrote:
+>>
+>> Hi
+>>
+>> Am 26.09.20 um 18:42 schrieb Daniel Vetter:
+>>> On Fri, Sep 25, 2020 at 4:55 PM Thomas Zimmermann <tzimmermann@suse.d=
+e> wrote:
+>>>>
+>>>> Hi
+>>>>
+>>>> Am 29.06.20 um 10:40 schrieb Daniel Vetter:
+>>>>> On Thu, Jun 25, 2020 at 02:00:03PM +0200, Thomas Zimmermann wrote:
+>>>>>> The memcpy's destination buffer might have a different pitch than =
+the
+>>>>>> source. Support different pitches as function argument.
+>>>>>>
+>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>>
+>>>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>>>
+>>>>> But I do have questions ... why did we allocate a source drm_frameb=
+uffer
+>>>>> with mismatching pitch? That sounds backwards, especially for simpl=
+ekms.
+>>>>
+>>>> There's userspace that allocates framebuffers in tiles of 64x64 pixe=
+ls.
+>>>> I think I've seen this with Gnome. So if you have a 800x600 display
+>>>> mode, the allocated framebuffer has a scanline pitch of 832 pixels a=
+nd
+>>>> the final 32 pixels are ignored.
+>>>
+>>> At least with dumb buffer allocation ioctls userspace should not do
+>>> that. If it wants 800x600, it needs to allocate 800x600, not somethin=
+g
+>>
+>> That ship has sailed.
+>=20
+> Not really, right now that ship is simply leaking and sinking. If we
+> decide to patch this up from the kernel side, then indeed it has
+> sailed. And I'm not sure that's a good idea.
+
+We have code in at least cirrus, ast and mgag200 to support this. And
+userspace has been behaving like this since at least when I got involved
+(2017).
+
+>=20
+>>> else. The driver is supposed to apply any rounding necessary for the
+>>> size. Or is this a buffer allocated somewhere else and then shared?
+>>
+>> I don't quite remember where exactly this was implemented. It was not =
+a
+>> shared buffer, though. IIRC the buffer allocation code in one of the
+>> libs rounded the size towards multiples of 64. I remember thinking tha=
+t
+>> it was probably done for tiled rendering.
+>=20
+> Yeah, but you don't do rendering on dumb buffers. Like ever. So this
+> smells like a userspace bug.
+
+It's also part of the software rendering. It is not a bug, but
+implemented deliberately in one of the userspace components that
+allocates framebuffers (but I cannot remember which one.)
+
+Best regards
+Thomas
+
+>=20
+> If it's for shared buffers then I think that sounds more reasonable.
+> -Daniel
+>=20
+>>
+>> Best regards
+>> Thomas
+>>
+>>> -Daniel
+>>>
+>>>> In regular drivers, we can handle this with the VGA offset register =
+[1]
+>>>> or some equivalent. That's obviously not an option with simplekms, s=
+o
+>>>> the different pitch is required.
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>> [1]
+>>>> https://web.stanford.edu/class/cs140/projects/pintos/specs/freevga/v=
+ga/crtcreg.htm#13
+>>>>
+>>>>>
+>>>>> Would be good to add the reasons why we need this to the commit mes=
+sage,
+>>>>> I'm sure I'll discover it later on eventually.
+>>>>> -Daniel
+>>>>>
+>>>>>> ---
+>>>>>>  drivers/gpu/drm/drm_format_helper.c    | 9 +++++----
+>>>>>>  drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
+>>>>>>  drivers/gpu/drm/tiny/cirrus.c          | 2 +-
+>>>>>>  include/drm/drm_format_helper.h        | 2 +-
+>>>>>>  4 files changed, 8 insertions(+), 7 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm=
+/drm_format_helper.c
+>>>>>> index c043ca364c86..8d5a683afea7 100644
+>>>>>> --- a/drivers/gpu/drm/drm_format_helper.c
+>>>>>> +++ b/drivers/gpu/drm/drm_format_helper.c
+>>>>>> @@ -52,6 +52,7 @@ EXPORT_SYMBOL(drm_fb_memcpy);
+>>>>>>  /**
+>>>>>>   * drm_fb_memcpy_dstclip - Copy clip buffer
+>>>>>>   * @dst: Destination buffer (iomem)
+>>>>>> + * @dst_pitch: Number of bytes between two consecutive scanlines =
+within dst
+>>>>>>   * @vaddr: Source buffer
+>>>>>>   * @fb: DRM framebuffer
+>>>>>>   * @clip: Clip rectangle area to copy
+>>>>>> @@ -59,12 +60,12 @@ EXPORT_SYMBOL(drm_fb_memcpy);
+>>>>>>   * This function applies clipping on dst, i.e. the destination is=
+ a
+>>>>>>   * full (iomem) framebuffer but only the clip rect content is cop=
+ied over.
+>>>>>>   */
+>>>>>> -void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
+>>>>>> -                       struct drm_framebuffer *fb,
+>>>>>> +void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pi=
+tch,
+>>>>>> +                       void *vaddr, struct drm_framebuffer *fb,
+>>>>>>                         struct drm_rect *clip)
+>>>>>>  {
+>>>>>>      unsigned int cpp =3D fb->format->cpp[0];
+>>>>>> -    unsigned int offset =3D clip_offset(clip, fb->pitches[0], cpp=
+);
+>>>>>> +    unsigned int offset =3D clip_offset(clip, dst_pitch, cpp);
+>>>>>>      size_t len =3D (clip->x2 - clip->x1) * cpp;
+>>>>>>      unsigned int y, lines =3D clip->y2 - clip->y1;
+>>>>>>
+>>>>>> @@ -73,7 +74,7 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, vo=
+id *vaddr,
+>>>>>>      for (y =3D 0; y < lines; y++) {
+>>>>>>              memcpy_toio(dst, vaddr, len);
+>>>>>>              vaddr +=3D fb->pitches[0];
+>>>>>> -            dst +=3D fb->pitches[0];
+>>>>>> +            dst +=3D dst_pitch;
+>>>>>>      }
+>>>>>>  }
+>>>>>>  EXPORT_SYMBOL(drm_fb_memcpy_dstclip);
+>>>>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/=
+drm/mgag200/mgag200_mode.c
+>>>>>> index f16bd278ab7e..7d4f3a62d885 100644
+>>>>>> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+>>>>>> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>>>>>> @@ -1586,7 +1586,7 @@ mgag200_handle_damage(struct mga_device *mde=
+v, struct drm_framebuffer *fb,
+>>>>>>      if (drm_WARN_ON(dev, !vmap))
+>>>>>>              return; /* BUG: SHMEM BO should always be vmapped */
+>>>>>>
+>>>>>> -    drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
+>>>>>> +    drm_fb_memcpy_dstclip(mdev->vram, fb->pitches[0], vmap, fb, c=
+lip);
+>>>>>>
+>>>>>>      drm_gem_shmem_vunmap(fb->obj[0], vmap);
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/=
+cirrus.c
+>>>>>> index 744a8e337e41..2dd9e5e31e3d 100644
+>>>>>> --- a/drivers/gpu/drm/tiny/cirrus.c
+>>>>>> +++ b/drivers/gpu/drm/tiny/cirrus.c
+>>>>>> @@ -327,7 +327,7 @@ static int cirrus_fb_blit_rect(struct drm_fram=
+ebuffer *fb,
+>>>>>>              goto out_dev_exit;
+>>>>>>
+>>>>>>      if (cirrus->cpp =3D=3D fb->format->cpp[0])
+>>>>>> -            drm_fb_memcpy_dstclip(cirrus->vram,
+>>>>>> +            drm_fb_memcpy_dstclip(cirrus->vram, fb->pitches[0],
+>>>>>>                                    vmap, fb, rect);
+>>>>>>
+>>>>>>      else if (fb->format->cpp[0] =3D=3D 4 && cirrus->cpp =3D=3D 2)=
+
+>>>>>> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_for=
+mat_helper.h
+>>>>>> index 5f9e37032468..2b5036a5fbe7 100644
+>>>>>> --- a/include/drm/drm_format_helper.h
+>>>>>> +++ b/include/drm/drm_format_helper.h
+>>>>>> @@ -11,7 +11,7 @@ struct drm_rect;
+>>>>>>
+>>>>>>  void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer=
+ *fb,
+>>>>>>                 struct drm_rect *clip);
+>>>>>> -void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
+>>>>>> +void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pi=
+tch, void *vaddr,
+>>>>>>                         struct drm_framebuffer *fb,
+>>>>>>                         struct drm_rect *clip);
+>>>>>>  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb=
+,
+>>>>>> --
+>>>>>> 2.27.0
+>>>>>>
+>>>>>
+>>>>
+>>>> --
+>>>> Thomas Zimmermann
+>>>> Graphics Driver Developer
+>>>> SUSE Software Solutions Germany GmbH
+>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>>>> (HRB 36809, AG N=C3=BCrnberg)
+>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>>
+>>>
+>>>
+>>
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--QvIVDwZKD39vfoxwLLPL5OG0DQiF70OjC--
+
+--2kkUw2ZoVBGmU67xLqiuptPG95xqLyrTw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9xqSIUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiODZwf/enFO33O2I9PhtHUEfCgxWPHgQfXm
+BRyQF95nKkmAPxknFMX5ubkDILjGP4OnK4xtLsAxlmrUZUVMtC+1bdEiIk/MfFKa
+Oph2ioWffU2uTRRmCw/aVLWAQgCzqfTRdz0vCbW4ut9LYT8qT522r6rzeZSP2nlF
+p34VTVv4d7qRsJLmqwI8ZG2XyEF8zr8qK8WzG056+w+ySVZCx6rONbn7wjuRHiYE
+IVydQin2RRgGGJS1sApM402+dxlxvOekpTnJYDPzZdm2xqE0nKPc6AT8QoXGmsIi
+uLQh3IVXl5hzcEdk+owdBtJmGB3k4f6F4O+zybZ3Ut9IDttKTIWcPGBSoQ==
+=ys4z
+-----END PGP SIGNATURE-----
+
+--2kkUw2ZoVBGmU67xLqiuptPG95xqLyrTw--
+
+--===============0686490862==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0686490862==--
