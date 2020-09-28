@@ -2,54 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FA427ABC8
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 12:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7FD27ABD3
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 12:33:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDFFF6E11A;
-	Mon, 28 Sep 2020 10:26:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A592A89F77;
+	Mon, 28 Sep 2020 10:33:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7F2F6E11A
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 10:26:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=Vc5TPB8gzwYQ4bV3QPrFgoBi6Jlg1QoC2FUYpd7zyDo=; b=tcB2Ty+lP6MFCVih7DRU4PWnRS
- Aj3y4brI3ONLGXo3KFO88/n8Xd23Dme6MEQTMnJF+wZVw1d4XFzWhSNiM4eERDWiEkKK2vbdXV/Gn
- AUkrBfUJLW+EIoiPhBVPObIzyxGdaovissYnz9d3+yufRgPfCwqCyPvOWSl4b/J7w3x3K9IkNxdw2
- UuRtIEJTNpHdYg1pIe73yAEFhIq7OLQ9YcGfOJrLT0z7cfSrkepMEznzHXUcLlF3w/gLYyXgUmpz2
- 4tk/HelTC06z3gm8jpz+9WGXLTpCrhpMCCazb98TqwREF2iWG+LGbaU89/w8Y5oe7oLUIw5aapLIG
- x8+munNA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kMqM5-0005Mm-GJ; Mon, 28 Sep 2020 10:26:02 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABBF489F77
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 10:33:30 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9002A300DB4;
- Mon, 28 Sep 2020 12:25:59 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 6B41E2006F633; Mon, 28 Sep 2020 12:25:59 +0200 (CEST)
-Date: Mon, 28 Sep 2020 12:25:59 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Chengming Zhou <zhouchengming@bytedance.com>
-Subject: Re: [External] Re: [PATCH 2/2] sched: mark
- PRINTK_DEFERRED_CONTEXT_MASK in __schedule()
-Message-ID: <20200928102559.GF2611@hirez.programming.kicks-ass.net>
-References: <20200927161130.33172-1-zhouchengming@bytedance.com>
- <20200927161130.33172-2-zhouchengming@bytedance.com>
- <20200928073202.GA2611@hirez.programming.kicks-ass.net>
- <40ab934e-5b8b-735b-da65-3043efab9fdc@bytedance.com>
- <20200928090143.GA2628@hirez.programming.kicks-ass.net>
- <688eadd7-4ca3-3e32-3520-25977ff059a6@bytedance.com>
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 297B58051F;
+ Mon, 28 Sep 2020 12:33:26 +0200 (CEST)
+Date: Mon, 28 Sep 2020 12:33:24 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/rockchip: Include <drm/drm_gem_cma_helper> for
+ drm_gem_cm_vm_ops
+Message-ID: <20200928103324.GA634445@ravnborg.org>
+References: <20200928081643.8575-1-tzimmermann@suse.de>
+ <20200928084019.GA625010@ravnborg.org>
+ <7e928cd3-d185-065d-40de-1541b08d2ec4@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <688eadd7-4ca3-3e32-3520-25977ff059a6@bytedance.com>
+In-Reply-To: <7e928cd3-d185-065d-40de-1541b08d2ec4@suse.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=A5ZCwZeG c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=8nJEP1OIZ-IA:10 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8 a=zd2uoN0lAAAA:8
+ a=s8YR1HE3AAAA:8 a=e5mUnYsNAAAA:8 a=JfrnYn6hAAAA:8 a=BVKix5vYCW0Mtb0Nrh8A:9
+ a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=jGH_LyMDp9YhSvY-UuyI:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=1CNFftbPRP8L7MoqJWF3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,59 +48,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: juri.lelli@redhat.com, pmladek@suse.com, vincent.guittot@linaro.org,
- tzimmermann@suse.de, john.ogness@linutronix.de, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bsegall@google.com, sergey.senozhatsky@gmail.com, mingo@redhat.com,
- rostedt@goodmis.org, songmuchun@bytedance.com, dietmar.eggemann@arm.com,
- mgorman@suse.de
+Cc: kernel test robot <lkp@intel.com>, airlied@linux.ie,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ christian.koenig@amd.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 28, 2020 at 06:04:23PM +0800, Chengming Zhou wrote:
-
-> Well, you are lucky. So it's a problem in our printk implementation.
-
-Not lucky; I just kicked it in the groin really hard:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git debug/expe=
-rimental
-
-> The deadlock path is:
+On Mon, Sep 28, 2020 at 10:48:31AM +0200, Thomas Zimmermann wrote:
+> Hi
 > =
 
-> printk
-> =A0 vprintk_emit
-> =A0=A0=A0 console_unlock
-> =A0 =A0 =A0 vt_console_print
-> =A0 =A0 =A0 =A0 hide_cursor
-> =A0 =A0 =A0 =A0 =A0 bit_cursor
-> =A0 =A0 =A0 =A0 =A0 =A0 soft_cursor
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 queue_work_on
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 __queue_work
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 try_to_wake_up
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 _raw_spin_lock
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 native_queued_spin_lock_slowp=
-ath
+> Am 28.09.20 um 10:40 schrieb Sam Ravnborg:
+> > Hi Thomas.
+> > On Mon, Sep 28, 2020 at 10:16:43AM +0200, Thomas Zimmermann wrote:
+> >> Include <drm/drm_gem_cma_helper.h> to get drm_gem_cma_vm_ops. Fallout
+> >> from the recent conversion to GEM object functions.
+> >>
+> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >> Reported-by: kernel test robot <lkp@intel.com>
+> >> Fixes: 0d590af3140d ("drm/rockchip: Convert to drm_gem_object_funcs")
+> > =
+
+> > As this has only hit drm-misc-next and not pushed anywhere else there is
+> > really no need for the Fixes: tag. At least thats my understanding.
 > =
 
-> Looks like it's introduced by this commit:
+> I'm not sure what the upstream requirements are. As part of my dayjob, I
+> maintain drivers for Suse distributions. If we pick the original patch,
+> we also want the fixes. We have scripts that look for these Fixes tags
+> to find the fixes. So it's helpful.
+That makes sense, I will keep Fixes tags in the future also for
+"internal" fixes then.
+
+	Sam
 > =
 
-> eaa434defaca1781fb2932c685289b610aeb8b4b
+> > =
+
+> > Otherwise the patch is equal to what I posted in the weekend so:
+> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 > =
 
-> "drm/fb-helper: Add fb_deferred_io support"
+> Thanks
+> =
 
-Oh gawd, yeah, all the !serial consoles are utter batshit.
+> Best regards
+> Thomas
+> =
 
-Please look at John's last printk rewrite, IIRC it farms all that off to
-a kernel thread instead of doing it from the printk() caller's context.
+> > =
 
-I'm not sure where he hides his latests patches, but I'm sure he'll be
-more than happy to tell you.
+> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> >> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >> Cc: Christian K=F6nig <christian.koenig@amd.com>
+> >> Cc: Sandy Huang <hjc@rock-chips.com>
+> >> Cc: "Heiko St=FCbner" <heiko@sntech.de>
+> >> Cc: dri-devel@lists.freedesktop.org
+> >> Cc: linux-arm-kernel@lists.infradead.org
+> >> Cc: linux-rockchip@lists.infradead.org
+> >> ---
+> >>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu=
+/drm/rockchip/rockchip_drm_gem.c
+> >> index 1cf4631461c9..7d5ebb10323b 100644
+> >> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> >> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> >> @@ -10,6 +10,7 @@
+> >>  =
+
+> >>  #include <drm/drm.h>
+> >>  #include <drm/drm_gem.h>
+> >> +#include <drm/drm_gem_cma_helper.h>
+> >>  #include <drm/drm_prime.h>
+> >>  #include <drm/drm_vma_manager.h>
+> >>  =
+
+> >> -- =
+
+> >> 2.28.0
+> >>
+> >> _______________________________________________
+> >> dri-devel mailing list
+> >> dri-devel@lists.freedesktop.org
+> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
+
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
