@@ -2,37 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887C527AA6D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 11:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024CE27AA7F
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 11:14:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9324389F4A;
-	Mon, 28 Sep 2020 09:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB22B8922B;
+	Mon, 28 Sep 2020 09:14:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B1889F61
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 09:13:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 225238922B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 09:14:24 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 907A6B2C8;
- Mon, 28 Sep 2020 09:13:09 +0000 (UTC)
-Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
+ by mx2.suse.de (Postfix) with ESMTP id C3BF3AC82;
+ Mon, 28 Sep 2020 09:14:22 +0000 (UTC)
+Subject: Re: [PATCH 8/9] drm: Add infrastructure for platform devices
 To: Daniel Vetter <daniel@ffwll.ch>
 References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-2-tzimmermann@suse.de>
- <20200629084044.GL3278063@phenom.ffwll.local>
- <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
- <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
- <35822c4b-7821-7b33-d6ce-cfe51a85ff74@suse.de>
- <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
+ <20200625120011.16168-9-tzimmermann@suse.de>
+ <20200629092741.GR3278063@phenom.ffwll.local>
+ <a43a9c67-a659-fb85-928d-0e51e6ec3479@suse.de>
+ <CAKMK7uE+GxH5=VKAeYtKtqxFUk1YzFZ818iJHa=M4ANy9sozjQ@mail.gmail.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <a4cd3180-b21d-7464-ad63-5b616acf2c7a@suse.de>
-Date: Mon, 28 Sep 2020 11:13:06 +0200
+Message-ID: <a90e056d-30ca-247a-4c3c-2b90aaac6b68@suse.de>
+Date: Mon, 28 Sep 2020 11:14:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
+In-Reply-To: <CAKMK7uE+GxH5=VKAeYtKtqxFUk1YzFZ818iJHa=M4ANy9sozjQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,263 +44,404 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
  Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0686490862=="
+ Liam Girdwood <lgirdwood@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ Mark Brown <broonie@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============1239023412=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0686490862==
+--===============1239023412==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="2kkUw2ZoVBGmU67xLqiuptPG95xqLyrTw"
+ boundary="l3dBBG3bTgnCSRj5x8jUgMgdGdCegvgAb"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---2kkUw2ZoVBGmU67xLqiuptPG95xqLyrTw
-Content-Type: multipart/mixed; boundary="QvIVDwZKD39vfoxwLLPL5OG0DQiF70OjC";
+--l3dBBG3bTgnCSRj5x8jUgMgdGdCegvgAb
+Content-Type: multipart/mixed; boundary="MnPPyDMl9pgERW6Yp8cLyABxkMHKrTtyC";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <a4cd3180-b21d-7464-ad63-5b616acf2c7a@suse.de>
-Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.l.velikov@gmail.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Hans de Goede <hdegoede@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <a90e056d-30ca-247a-4c3c-2b90aaac6b68@suse.de>
+Subject: Re: [PATCH 8/9] drm: Add infrastructure for platform devices
 References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-2-tzimmermann@suse.de>
- <20200629084044.GL3278063@phenom.ffwll.local>
- <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
- <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
- <35822c4b-7821-7b33-d6ce-cfe51a85ff74@suse.de>
- <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
-In-Reply-To: <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
+ <20200625120011.16168-9-tzimmermann@suse.de>
+ <20200629092741.GR3278063@phenom.ffwll.local>
+ <a43a9c67-a659-fb85-928d-0e51e6ec3479@suse.de>
+ <CAKMK7uE+GxH5=VKAeYtKtqxFUk1YzFZ818iJHa=M4ANy9sozjQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uE+GxH5=VKAeYtKtqxFUk1YzFZ818iJHa=M4ANy9sozjQ@mail.gmail.com>
 
---QvIVDwZKD39vfoxwLLPL5OG0DQiF70OjC
+--MnPPyDMl9pgERW6Yp8cLyABxkMHKrTtyC
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 28.09.20 um 10:53 schrieb Daniel Vetter:
-> On Mon, Sep 28, 2020 at 9:22 AM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
+Am 28.09.20 um 10:50 schrieb Daniel Vetter:
+> On Mon, Sep 28, 2020 at 10:40 AM Thomas Zimmermann <tzimmermann@suse.de=
+> wrote:
 >>
 >> Hi
 >>
->> Am 26.09.20 um 18:42 schrieb Daniel Vetter:
->>> On Fri, Sep 25, 2020 at 4:55 PM Thomas Zimmermann <tzimmermann@suse.d=
-e> wrote:
->>>>
->>>> Hi
->>>>
->>>> Am 29.06.20 um 10:40 schrieb Daniel Vetter:
->>>>> On Thu, Jun 25, 2020 at 02:00:03PM +0200, Thomas Zimmermann wrote:
->>>>>> The memcpy's destination buffer might have a different pitch than =
+>> Am 29.06.20 um 11:27 schrieb Daniel Vetter:
+>>> On Thu, Jun 25, 2020 at 02:00:10PM +0200, Thomas Zimmermann wrote:
+>>>> Platform devices might operate on firmware framebuffers, such as VES=
+A or
+>>>> EFI. Before a native driver for the graphics hardware can take over =
 the
->>>>>> source. Support different pitches as function argument.
->>>>>>
->>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>
->>>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>>>
->>>>> But I do have questions ... why did we allocate a source drm_frameb=
-uffer
->>>>> with mismatching pitch? That sounds backwards, especially for simpl=
-ekms.
+>>>> device, it has to remove any platform driver that operates on the fi=
+rmware
+>>>> framebuffer. Platform helpers provide the infrastructure for platfor=
+m
+>>>> drivers to acquire firmware framebuffers, and for native drivers to =
+remove
+>>>> them lateron.
 >>>>
->>>> There's userspace that allocates framebuffers in tiles of 64x64 pixe=
-ls.
->>>> I think I've seen this with Gnome. So if you have a 800x600 display
->>>> mode, the allocated framebuffer has a scanline pitch of 832 pixels a=
-nd
->>>> the final 32 pixels are ignored.
+>>>> It works similar to the related fbdev mechanism. During initializati=
+on, the
+>>>> platform driver acquires the firmware framebuffer's I/O memory and p=
+rovides
+>>>> a callback to be removed. The native driver later uses this inforamt=
+ion to
+>>>> remove any platform driver for it's framebuffer I/O memory.
+>>>>
+>>>> The platform helper's removal code is integrated into the existing c=
+ode for
+>>>> removing conflicting fraembuffers, so native drivers use it automati=
+cally.
+>>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >>>
->>> At least with dumb buffer allocation ioctls userspace should not do
->>> that. If it wants 800x600, it needs to allocate 800x600, not somethin=
-g
+>>> I have some ideas for how to do this a notch cleaner in the next patc=
+h.
+>>> Maybe best to discuss the actual implmenentation stuff there.
+>>>
+>>> Aside from that usual nits:
+>>> - kerneldoc for these please, pulled into drm-kms.rst.
+>>> - naming isn't super ocd with drm_platform.c but that prefix not used=
+, but
+>>>   I also don't have better ideas.
 >>
->> That ship has sailed.
+>> I was never really happy with the naming either. Maybe call it apertur=
+e
+>> helpers with drm_aperture_ and CONFIG_DRM_APERTURE_HELPER?
 >=20
-> Not really, right now that ship is simply leaking and sinking. If we
-> decide to patch this up from the kernel side, then indeed it has
-> sailed. And I'm not sure that's a good idea.
-
-We have code in at least cirrus, ast and mgag200 to support this. And
-userspace has been behaving like this since at least when I got involved
-(2017).
-
+> +1
 >=20
->>> else. The driver is supposed to apply any rounding necessary for the
->>> size. Or is this a buffer allocated somewhere else and then shared?
+>>> - I think the functions from drm_fb_helper.h for removing other
+>>>   framebuffers should be moved here, and function name prefix adjuste=
+d
+>>>   acoordingly
+>>>
+>>> I'm wondering about the locking and deadlock potential here, is lockd=
+ep
+>>> all happy with this?
 >>
->> I don't quite remember where exactly this was implemented. It was not =
-a
->> shared buffer, though. IIRC the buffer allocation code in one of the
->> libs rounded the size towards multiples of 64. I remember thinking tha=
-t
->> it was probably done for tiled rendering.
+>> I haven't seen any complains, but I'll double check.
 >=20
-> Yeah, but you don't do rendering on dumb buffers. Like ever. So this
-> smells like a userspace bug.
+> Might be worth it to cc Greg on this, since the device driver model
+> has a lot of corner cases to make sure it doesn't get stuck here with
+> hiararchical drivers/device getting removed while something else is
+> probing them at the same time.
 
-It's also part of the software rendering. It is not a bug, but
-implemented deliberately in one of the userspace components that
-allocates framebuffers (but I cannot remember which one.)
+Oh, OK. I'll keep that in mind when sending out v2 of these patches.
 
 Best regards
 Thomas
 
->=20
-> If it's for shared buffers then I think that sounds more reasonable.
 > -Daniel
 >=20
->>
 >> Best regards
 >> Thomas
 >>
->>> -Daniel
 >>>
->>>> In regular drivers, we can handle this with the VGA offset register =
-[1]
->>>> or some equivalent. That's obviously not an option with simplekms, s=
-o
->>>> the different pitch is required.
+>>> Cheers, Daniel
+>>>
+>>>> ---
+>>>>  drivers/gpu/drm/Kconfig        |   6 ++
+>>>>  drivers/gpu/drm/Makefile       |   1 +
+>>>>  drivers/gpu/drm/drm_platform.c | 118 ++++++++++++++++++++++++++++++=
++++
+>>>>  include/drm/drm_fb_helper.h    |  18 ++++-
+>>>>  include/drm/drm_platform.h     |  42 ++++++++++++
+>>>>  5 files changed, 184 insertions(+), 1 deletion(-)
+>>>>  create mode 100644 drivers/gpu/drm/drm_platform.c
+>>>>  create mode 100644 include/drm/drm_platform.h
 >>>>
->>>> Best regards
->>>> Thomas
+>>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>>>> index c4fd57d8b717..e9d6892f9d38 100644
+>>>> --- a/drivers/gpu/drm/Kconfig
+>>>> +++ b/drivers/gpu/drm/Kconfig
+>>>> @@ -229,6 +229,12 @@ config DRM_SCHED
+>>>>      tristate
+>>>>      depends on DRM
 >>>>
->>>> [1]
->>>> https://web.stanford.edu/class/cs140/projects/pintos/specs/freevga/v=
-ga/crtcreg.htm#13
+>>>> +config DRM_PLATFORM_HELPER
+>>>> +    bool
+>>>> +    depends on DRM
+>>>> +    help
+>>>> +      Helpers for DRM platform devices
+>>>> +
+>>>>  source "drivers/gpu/drm/i2c/Kconfig"
 >>>>
->>>>>
->>>>> Would be good to add the reasons why we need this to the commit mes=
-sage,
->>>>> I'm sure I'll discover it later on eventually.
->>>>> -Daniel
->>>>>
->>>>>> ---
->>>>>>  drivers/gpu/drm/drm_format_helper.c    | 9 +++++----
->>>>>>  drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
->>>>>>  drivers/gpu/drm/tiny/cirrus.c          | 2 +-
->>>>>>  include/drm/drm_format_helper.h        | 2 +-
->>>>>>  4 files changed, 8 insertions(+), 7 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm=
-/drm_format_helper.c
->>>>>> index c043ca364c86..8d5a683afea7 100644
->>>>>> --- a/drivers/gpu/drm/drm_format_helper.c
->>>>>> +++ b/drivers/gpu/drm/drm_format_helper.c
->>>>>> @@ -52,6 +52,7 @@ EXPORT_SYMBOL(drm_fb_memcpy);
->>>>>>  /**
->>>>>>   * drm_fb_memcpy_dstclip - Copy clip buffer
->>>>>>   * @dst: Destination buffer (iomem)
->>>>>> + * @dst_pitch: Number of bytes between two consecutive scanlines =
-within dst
->>>>>>   * @vaddr: Source buffer
->>>>>>   * @fb: DRM framebuffer
->>>>>>   * @clip: Clip rectangle area to copy
->>>>>> @@ -59,12 +60,12 @@ EXPORT_SYMBOL(drm_fb_memcpy);
->>>>>>   * This function applies clipping on dst, i.e. the destination is=
- a
->>>>>>   * full (iomem) framebuffer but only the clip rect content is cop=
-ied over.
->>>>>>   */
->>>>>> -void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
->>>>>> -                       struct drm_framebuffer *fb,
->>>>>> +void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pi=
-tch,
->>>>>> +                       void *vaddr, struct drm_framebuffer *fb,
->>>>>>                         struct drm_rect *clip)
->>>>>>  {
->>>>>>      unsigned int cpp =3D fb->format->cpp[0];
->>>>>> -    unsigned int offset =3D clip_offset(clip, fb->pitches[0], cpp=
-);
->>>>>> +    unsigned int offset =3D clip_offset(clip, dst_pitch, cpp);
->>>>>>      size_t len =3D (clip->x2 - clip->x1) * cpp;
->>>>>>      unsigned int y, lines =3D clip->y2 - clip->y1;
->>>>>>
->>>>>> @@ -73,7 +74,7 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, vo=
-id *vaddr,
->>>>>>      for (y =3D 0; y < lines; y++) {
->>>>>>              memcpy_toio(dst, vaddr, len);
->>>>>>              vaddr +=3D fb->pitches[0];
->>>>>> -            dst +=3D fb->pitches[0];
->>>>>> +            dst +=3D dst_pitch;
->>>>>>      }
->>>>>>  }
->>>>>>  EXPORT_SYMBOL(drm_fb_memcpy_dstclip);
->>>>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/=
-drm/mgag200/mgag200_mode.c
->>>>>> index f16bd278ab7e..7d4f3a62d885 100644
->>>>>> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->>>>>> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->>>>>> @@ -1586,7 +1586,7 @@ mgag200_handle_damage(struct mga_device *mde=
-v, struct drm_framebuffer *fb,
->>>>>>      if (drm_WARN_ON(dev, !vmap))
->>>>>>              return; /* BUG: SHMEM BO should always be vmapped */
->>>>>>
->>>>>> -    drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
->>>>>> +    drm_fb_memcpy_dstclip(mdev->vram, fb->pitches[0], vmap, fb, c=
-lip);
->>>>>>
->>>>>>      drm_gem_shmem_vunmap(fb->obj[0], vmap);
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/=
-cirrus.c
->>>>>> index 744a8e337e41..2dd9e5e31e3d 100644
->>>>>> --- a/drivers/gpu/drm/tiny/cirrus.c
->>>>>> +++ b/drivers/gpu/drm/tiny/cirrus.c
->>>>>> @@ -327,7 +327,7 @@ static int cirrus_fb_blit_rect(struct drm_fram=
-ebuffer *fb,
->>>>>>              goto out_dev_exit;
->>>>>>
->>>>>>      if (cirrus->cpp =3D=3D fb->format->cpp[0])
->>>>>> -            drm_fb_memcpy_dstclip(cirrus->vram,
->>>>>> +            drm_fb_memcpy_dstclip(cirrus->vram, fb->pitches[0],
->>>>>>                                    vmap, fb, rect);
->>>>>>
->>>>>>      else if (fb->format->cpp[0] =3D=3D 4 && cirrus->cpp =3D=3D 2)=
+>>>>  source "drivers/gpu/drm/arm/Kconfig"
+>>>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+>>>> index 2c0e5a7e5953..8ceb21d0770a 100644
+>>>> --- a/drivers/gpu/drm/Makefile
+>>>> +++ b/drivers/gpu/drm/Makefile
+>>>> @@ -32,6 +32,7 @@ drm-$(CONFIG_AGP) +=3D drm_agpsupport.o
+>>>>  drm-$(CONFIG_PCI) +=3D drm_pci.o
+>>>>  drm-$(CONFIG_DEBUG_FS) +=3D drm_debugfs.o drm_debugfs_crc.o
+>>>>  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) +=3D drm_edid_load.o
+>>>> +drm-$(CONFIG_DRM_PLATFORM_HELPER) +=3D drm_platform.o
+>>>>
+>>>>  drm_vram_helper-y :=3D drm_gem_vram_helper.o
+>>>>  obj-$(CONFIG_DRM_VRAM_HELPER) +=3D drm_vram_helper.o
+>>>> diff --git a/drivers/gpu/drm/drm_platform.c b/drivers/gpu/drm/drm_pl=
+atform.c
+>>>> new file mode 100644
+>>>> index 000000000000..09a2f2a31aa5
+>>>> --- /dev/null
+>>>> +++ b/drivers/gpu/drm/drm_platform.c
+>>>> @@ -0,0 +1,118 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>>>> +
+>>>> +#include <linux/mutex.h>
+>>>> +#include <linux/slab.h>
+>>>> +
+>>>> +#include <drm/drm_drv.h>
+>>>> +#include <drm/drm_managed.h>
+>>>> +#include <drm/drm_platform.h>
+>>>> +
+>>>> +static LIST_HEAD(drm_apertures);
+>>>> +
+>>>> +static DEFINE_MUTEX(drm_apertures_lock);
+>>>> +
+>>>> +static bool overlap(resource_size_t base1, resource_size_t end1,
+>>>> +                resource_size_t base2, resource_size_t end2)
+>>>> +{
+>>>> +    return (base1 < end2) && (end1 > base2);
+>>>> +}
+>>>> +
+>>>> +static struct drm_aperture *
+>>>> +drm_aperture_acquire(struct drm_device *dev,
+>>>> +                 resource_size_t base, resource_size_t size,
+>>>> +                 const struct drm_aperture_funcs *funcs)
+>>>> +{
+>>>> +    size_t end =3D base + size;
+>>>> +    struct list_head *pos;
+>>>> +    struct drm_aperture *ap;
+>>>> +
+>>>> +    mutex_lock(&drm_apertures_lock);
+>>>> +
+>>>> +    list_for_each(pos, &drm_apertures) {
+>>>> +            ap =3D container_of(pos, struct drm_aperture, lh);
+>>>> +            if (overlap(base, end, ap->base, ap->base + ap->size))
+>>>> +                    return ERR_PTR(-EBUSY);
+>>>> +    }
+>>>> +
+>>>> +    ap =3D drmm_kzalloc(dev, sizeof(*ap), GFP_KERNEL);
+>>>> +    if (!ap)
+>>>> +            return ERR_PTR(-ENOMEM);
+>>>> +
+>>>> +    ap->dev =3D dev;
+>>>> +    ap->base =3D base;
+>>>> +    ap->size =3D size;
+>>>> +    ap->funcs =3D funcs;
+>>>> +    INIT_LIST_HEAD(&ap->lh);
+>>>> +
+>>>> +    list_add(&ap->lh, &drm_apertures);
+>>>> +
+>>>> +    mutex_unlock(&drm_apertures_lock);
+>>>> +
+>>>> +    return ap;
+>>>> +}
+>>>> +
+>>>> +static void drm_aperture_release(struct drm_aperture *ap)
+>>>> +{
+>>>> +    bool kicked_out =3D ap->kicked_out;
+>>>> +
+>>>> +    if (!kicked_out)
+>>>> +            mutex_lock(&drm_apertures_lock);
+>>>> +
+>>>> +    list_del(&ap->lh);
+>>>> +    if (ap->funcs->release)
+>>>> +            ap->funcs->release(ap);
+>>>> +
+>>>> +    if (!kicked_out)
+>>>> +            mutex_unlock(&drm_apertures_lock);
+>>>> +}
+>>>> +
+>>>> +static void drm_aperture_acquire_release(struct drm_device *dev, vo=
+id *ptr)
+>>>> +{
+>>>> +    struct drm_aperture *ap =3D ptr;
+>>>> +
+>>>> +    drm_aperture_release(ap);
+>>>> +}
+>>>> +
+>>>> +struct drm_aperture *
+>>>> +drmm_aperture_acquire(struct drm_device *dev,
+>>>> +                  resource_size_t base, resource_size_t size,
+>>>> +                  const struct drm_aperture_funcs *funcs)
+>>>> +{
+>>>> +    struct drm_aperture *ap;
+>>>> +    int ret;
+>>>> +
+>>>> +    ap =3D drm_aperture_acquire(dev, base, size, funcs);
+>>>> +    if (IS_ERR(ap))
+>>>> +            return ap;
+>>>> +    ret =3D drmm_add_action_or_reset(dev, drm_aperture_acquire_rele=
+ase, ap);
+>>>> +    if (ret)
+>>>> +            return ERR_PTR(ret);
+>>>> +
+>>>> +    return ap;
+>>>> +}
+>>>> +EXPORT_SYMBOL(drmm_aperture_acquire);
+>>>> +
+>>>> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t=
+ size)
+>>>> +{
+>>>> +    resource_size_t end =3D base + size;
+>>>> +    struct list_head *pos, *n;
+>>>> +
+>>>> +    mutex_lock(&drm_apertures_lock);
+>>>> +
+>>>> +    list_for_each_safe(pos, n, &drm_apertures) {
+>>>> +            struct drm_aperture *ap =3D
+>>>> +                    container_of(pos, struct drm_aperture, lh);
+>>>> +
+>>>> +            if (!overlap(base, end, ap->base, ap->base + ap->size))=
 
->>>>>> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_for=
-mat_helper.h
->>>>>> index 5f9e37032468..2b5036a5fbe7 100644
->>>>>> --- a/include/drm/drm_format_helper.h
->>>>>> +++ b/include/drm/drm_format_helper.h
->>>>>> @@ -11,7 +11,7 @@ struct drm_rect;
->>>>>>
->>>>>>  void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer=
- *fb,
->>>>>>                 struct drm_rect *clip);
->>>>>> -void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
->>>>>> +void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pi=
-tch, void *vaddr,
->>>>>>                         struct drm_framebuffer *fb,
->>>>>>                         struct drm_rect *clip);
->>>>>>  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb=
+>>>> +                    continue;
+>>>> +
+>>>> +            ap->kicked_out =3D true;
+>>>> +            if (ap->funcs->kickout)
+>>>> +                    ap->funcs->kickout(ap);
+>>>> +            else
+>>>> +                    drm_dev_put(ap->dev);
+>>>> +    }
+>>>> +
+>>>> +    mutex_unlock(&drm_apertures_lock);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_kickout_apertures_at);
+>>>> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper=
+=2Eh
+>>>> index 306aa3a60be9..a919b78b1961 100644
+>>>> --- a/include/drm/drm_fb_helper.h
+>>>> +++ b/include/drm/drm_fb_helper.h
+>>>> @@ -35,7 +35,9 @@ struct drm_fb_helper;
+>>>>  #include <drm/drm_client.h>
+>>>>  #include <drm/drm_crtc.h>
+>>>>  #include <drm/drm_device.h>
+>>>> +#include <drm/drm_platform.h>
+>>>>  #include <linux/kgdb.h>
+>>>> +#include <linux/pci.h>
+>>>>  #include <linux/vgaarb.h>
+>>>>
+>>>>  enum mode_set_atomic {
+>>>> @@ -465,6 +467,11 @@ static inline int
+>>>>  drm_fb_helper_remove_conflicting_framebuffers(struct apertures_stru=
+ct *a,
+>>>>                                            const char *name, bool pr=
+imary)
+>>>>  {
+>>>> +    int i;
+>>>> +
+>>>> +    for (i =3D 0; i < a->count; ++i)
+>>>> +            drm_kickout_apertures_at(a->ranges[i].base, a->ranges[i=
+].size);
+>>>> +
+>>>>  #if IS_REACHABLE(CONFIG_FB)
+>>>>      return remove_conflicting_framebuffers(a, name, primary);
+>>>>  #else
+>>>> @@ -487,7 +494,16 @@ static inline int
+>>>>  drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *p=
+dev,
+>>>>                                                const char *name)
+>>>>  {
+>>>> -    int ret =3D 0;
+>>>> +    resource_size_t base, size;
+>>>> +    int bar, ret =3D 0;
+>>>> +
+>>>> +    for (bar =3D 0; bar < PCI_STD_NUM_BARS; bar++) {
+>>>> +            if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+>>>> +                    continue;
+>>>> +            base =3D pci_resource_start(pdev, bar);
+>>>> +            size =3D pci_resource_len(pdev, bar);
+>>>> +            drm_kickout_apertures_at(base, size);
+>>>> +    }
+>>>>
+>>>>      /*
+>>>>       * WARNING: Apparently we must kick fbdev drivers before vgacon=
 ,
->>>>>> --
->>>>>> 2.27.0
->>>>>>
->>>>>
->>>>
+>>>> diff --git a/include/drm/drm_platform.h b/include/drm/drm_platform.h=
+
+>>>> new file mode 100644
+>>>> index 000000000000..475e88ee1fbd
+>>>> --- /dev/null
+>>>> +++ b/include/drm/drm_platform.h
+>>>> @@ -0,0 +1,42 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>>>> +
+>>>> +#ifndef _DRM_PLATFORM_H_
+>>>> +#define _DRM_PLATFORM_H_
+>>>> +
+>>>> +#include <linux/list.h>
+>>>> +#include <linux/types.h>
+>>>> +
+>>>> +struct drm_aperture;
+>>>> +struct drm_device;
+>>>> +
+>>>> +struct drm_aperture_funcs {
+>>>> +    void (*kickout)(struct drm_aperture *ap);
+>>>> +    void (*release)(struct drm_aperture *ap);
+>>>> +};
+>>>> +
+>>>> +struct drm_aperture {
+>>>> +    struct drm_device *dev;
+>>>> +    resource_size_t base;
+>>>> +    resource_size_t size;
+>>>> +
+>>>> +    const struct drm_aperture_funcs *funcs;
+>>>> +
+>>>> +    struct list_head lh;
+>>>> +    bool kicked_out;
+>>>> +};
+>>>> +
+>>>> +struct drm_aperture *
+>>>> +drmm_aperture_acquire(struct drm_device *dev,
+>>>> +                  resource_size_t base, resource_size_t size,
+>>>> +                  const struct drm_aperture_funcs *funcs);
+>>>> +
+>>>> +#if defined (CONFIG_DRM_PLATFORM_HELPER)
+>>>> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t=
+ size);
+>>>> +#else
+>>>> +static inline void
+>>>> +drm_kickout_apertures_at(resource_size_t base, resource_size_t size=
+)
+>>>> +{
+>>>> +}
+>>>> +#endif
+>>>> +
+>>>> +#endif
 >>>> --
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Software Solutions Germany GmbH
->>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>>> (HRB 36809, AG N=C3=BCrnberg)
->>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>> 2.27.0
 >>>>
->>>
 >>>
 >>
 >> --
@@ -326,28 +464,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---QvIVDwZKD39vfoxwLLPL5OG0DQiF70OjC--
+--MnPPyDMl9pgERW6Yp8cLyABxkMHKrTtyC--
 
---2kkUw2ZoVBGmU67xLqiuptPG95xqLyrTw
+--l3dBBG3bTgnCSRj5x8jUgMgdGdCegvgAb
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9xqSIUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiODZwf/enFO33O2I9PhtHUEfCgxWPHgQfXm
-BRyQF95nKkmAPxknFMX5ubkDILjGP4OnK4xtLsAxlmrUZUVMtC+1bdEiIk/MfFKa
-Oph2ioWffU2uTRRmCw/aVLWAQgCzqfTRdz0vCbW4ut9LYT8qT522r6rzeZSP2nlF
-p34VTVv4d7qRsJLmqwI8ZG2XyEF8zr8qK8WzG056+w+ySVZCx6rONbn7wjuRHiYE
-IVydQin2RRgGGJS1sApM402+dxlxvOekpTnJYDPzZdm2xqE0nKPc6AT8QoXGmsIi
-uLQh3IVXl5hzcEdk+owdBtJmGB3k4f6F4O+zybZ3Ut9IDttKTIWcPGBSoQ==
-=ys4z
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9xqW0UHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOkfgf8DgDuJMe5SVmq5lS/NhP6Oehl4th0
+x26T8WgWObpVUjPtM63A3oYWI133axtmsqDVcgfDE4d4EVLH9lCSBzGN98F7KRn/
+wmXlFKOqYHlP3kuv+OgcrvjH7ODMeCL7hsOQVneGSiz2apS5RdSj9PZ7xKN83tT2
+Mhn2fXghcT9js0pAovjGZTFteECgO5SrpFYPc7++qKP+PKTBX2O0DZeUiTrfRNdl
+MF7pVS4jJroQ2gQTNktpmMGQNrcs/fUu/5mlbmtxBxciAlNJw/yZSezIt231m6rV
++RHpYQU0P4QIhpqbrpbyllHH0S9HaF5av/Tp+fYCSzbqg7ZRyCJrlYKa5g==
+=yKkv
 -----END PGP SIGNATURE-----
 
---2kkUw2ZoVBGmU67xLqiuptPG95xqLyrTw--
+--l3dBBG3bTgnCSRj5x8jUgMgdGdCegvgAb--
 
---===============0686490862==
+--===============1239023412==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -358,4 +496,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0686490862==--
+--===============1239023412==--
