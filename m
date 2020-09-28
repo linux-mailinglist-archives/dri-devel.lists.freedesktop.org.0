@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D55C27BDD1
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78D527BDC3
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:14:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E95B189C1B;
-	Tue, 29 Sep 2020 07:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 296036E44E;
+	Tue, 29 Sep 2020 07:13:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 627C789E2B
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 16:30:20 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1601310620; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=SAmnBQWegwIwm9Xn+KJtdwofE2MDCDVVlnjeJizgtgQ=;
- b=WzhNVOdnZbqaMzNDLCEFBC0ocWF1M6Riq9OkW6tOPz1htnjQcQ4gw/87JB+Z4FNebRnlIx2U
- IHHQabmq9cZsKNnT27i2l6IwHJ1sQ1YzLuOLKA7bPVduR/7ksiV1iFqw36faGipeozEUSFq8
- b9ux/j+/KdgdU2PEXWCyk86821o=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5f720f9b19fe605f25694f2c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 28 Sep 2020 16:30:19
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 804C2C43382; Mon, 28 Sep 2020 16:30:19 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 1C0E8C433CB;
- Mon, 28 Sep 2020 16:30:18 +0000 (UTC)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F2FE8986D
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 17:14:23 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id c18so2185107wrm.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 10:14:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ZAW6dcCoUbddPaYdr5/lbjgYoSVn9vUyYWWh66IQR2M=;
+ b=nkFN+z9v1kUNrol7AqK7Z6xx6MoDko4TE7Cw30iHBx68So86SMFHvxbK9rNAYyLh8O
+ kJomHCfJB+poR3gVVUrh7734yNNn0CCyVz2lwjDs7LVEoYYFIpH0xHXz0moihZ2JcOQ1
+ uacch0SprOmJexYeiwRvnwkhF2iEnvEWLeUdzbGpTH8wbfBzCT75o9+WyEP07HT5bXsA
+ Y5M5XGLcKMIOcnWaX+0e5Mfx00oZZpVMok6cBnqY/UPWM1Gh6Xtz65EGxMygG/Sbg7MI
+ hGd8wOBw5MEXXEojX9/J/IiOQYUiisVOwVtlc/nUmfEdqNG0OWcw5pUQHx3vEc7GbAhp
+ m6xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZAW6dcCoUbddPaYdr5/lbjgYoSVn9vUyYWWh66IQR2M=;
+ b=RxY/fCTx2rWMQ6AhdNHzjhhOIjuQC7DJx66jBiSj1/5afqISOGzXZCt9tx64MLKtji
+ rjMUNPoJ3X6UZqfXpOncBKJCXvvj2hWH/gX+5TUigSNVAlo5XC0X6tBAdefqteY90BJ0
+ lu6vhX/niTJFDgU1Fqj5odmz1d3ouOQPIRVbxT+fCMjukJ52dDBk3iB74AwDG5WxiHbB
+ x0+RhJqA8/yP8l4/CVUFt8n4oZcySd9fBg0QD02BqooOkdy9VzoiJeGxDY5XAXQUqDln
+ E0dBuP/e2mltj1r2cRVLKv7LkwWM26jeEPQ0CLG5x8RtuQ27QDlCcr3CjD2kZXWb78gB
+ d/Jg==
+X-Gm-Message-State: AOAM5322hv1iDYNCGIna6U/tYM375HYsTy0HGpCJa6SjiTiTju6GITZD
+ wPGk6ewh8/h4vst/PQacA7s=
+X-Google-Smtp-Source: ABdhPJxzDWkSo4Db8lLVYiLe3RVkBDu7Qbr3OCQEll/PrffgJ7nvwrBvb7FsZx00rdn33neO2ikp2g==
+X-Received: by 2002:adf:ef48:: with SMTP id c8mr2818976wrp.370.1601313261840; 
+ Mon, 28 Sep 2020 10:14:21 -0700 (PDT)
+Received: from a-VirtualBox ([103.120.71.253])
+ by smtp.gmail.com with ESMTPSA id q20sm2010984wmj.5.2020.09.28.10.14.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Sep 2020 10:14:21 -0700 (PDT)
+Date: Mon, 28 Sep 2020 22:14:14 +0500
+From: Bilal Wasim <bilalwasim676@gmail.com>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Subject: Re: [v3 PATCH] drm/mediatek: dsi: fix scrolling of panel with small
+ hfp or hbp
+Message-ID: <20200928221414.5cb079a9@a-VirtualBox>
+In-Reply-To: <20200917033009.24799-1-jitao.shi@mediatek.com>
+References: <20200917033009.24799-1-jitao.shi@mediatek.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Date: Mon, 28 Sep 2020 22:00:17 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Jordan Crouse <jcrouse@codeaurora.org>
-Subject: Re: [PATCHv5 4/6] drm/msm/a6xx: Add support for using system
- cache(LLC)
-In-Reply-To: <20200928161125.GA29832@jcrouse1-lnx.qualcomm.com>
-References: <cover.1600754909.git.saiprakash.ranjan@codeaurora.org>
- <889a32458cec92ed110b94f393aa1c2f0d64dca5.1600754909.git.saiprakash.ranjan@codeaurora.org>
- <20200923150320.GD31425@jcrouse1-lnx.qualcomm.com>
- <800c2108606cb921fef1ffc27569ffb2@codeaurora.org>
- <20200928161125.GA29832@jcrouse1-lnx.qualcomm.com>
-Message-ID: <4bac115897afae4fac4401c57201424e@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Tue, 29 Sep 2020 07:12:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,168 +68,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, jcrouse=codeaurora.org@codeaurora.org,
- Jonathan Marek <jonathan@marek.ca>, Will Deacon <will@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Akhil P Oommen <akhilpo@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Robin Murphy <robin.murphy@arm.com>, Sharat Masetty <smasetty@codeaurora.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, cawa.cheng@mediatek.com,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-09-28 21:41, Jordan Crouse wrote:
-> On Mon, Sep 28, 2020 at 05:56:55PM +0530, Sai Prakash Ranjan wrote:
->> Hi Jordan,
->> 
->> On 2020-09-23 20:33, Jordan Crouse wrote:
->> >On Tue, Sep 22, 2020 at 11:48:17AM +0530, Sai Prakash Ranjan wrote:
->> >>From: Sharat Masetty <smasetty@codeaurora.org>
->> >>
->> >>The last level system cache can be partitioned to 32 different
->> >>slices of which GPU has two slices preallocated. One slice is
->> >>used for caching GPU buffers and the other slice is used for
->> >>caching the GPU SMMU pagetables. This talks to the core system
->> >>cache driver to acquire the slice handles, configure the SCID's
->> >>to those slices and activates and deactivates the slices upon
->> >>GPU power collapse and restore.
->> >>
->> >>Some support from the IOMMU driver is also needed to make use
->> >>of the system cache to set the right TCR attributes. GPU then
->> >>has the ability to override a few cacheability parameters which
->> >>it does to override write-allocate to write-no-allocate as the
->> >>GPU hardware does not benefit much from it.
->> >>
->> >>DOMAIN_ATTR_SYS_CACHE is another domain level attribute used by the
->> >>IOMMU driver to set the right attributes to cache the hardware
->> >>pagetables into the system cache.
->> >>
->> >>Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
->> >>[saiprakash.ranjan: fix to set attr before device attach to iommu and
->> >>rebase]
->> >>Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
->> >>---
->> >> drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 83 +++++++++++++++++++++++++
->> >> drivers/gpu/drm/msm/adreno/a6xx_gpu.h   |  4 ++
->> >> drivers/gpu/drm/msm/adreno/adreno_gpu.c | 17 +++++
->> >> 3 files changed, 104 insertions(+)
->> >>
->> >>diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> >>b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> >>index 8915882e4444..151190ff62f7 100644
->> >>--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> >>+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> >>@@ -8,7 +8,9 @@
->> >> #include "a6xx_gpu.h"
->> >> #include "a6xx_gmu.xml.h"
->> >>
->> >>+#include <linux/bitfield.h>
->> >> #include <linux/devfreq.h>
->> >>+#include <linux/soc/qcom/llcc-qcom.h>
->> >>
->> >> #define GPU_PAS_ID 13
->> >>
->> >>@@ -1022,6 +1024,79 @@ static irqreturn_t a6xx_irq(struct msm_gpu *gpu)
->> >> 	return IRQ_HANDLED;
->> >> }
->> >>
->> >>+static void a6xx_llc_rmw(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 mask,
->> >>u32 or)
->> >>+{
->> >>+	return msm_rmw(a6xx_gpu->llc_mmio + (reg << 2), mask, or);
->> >>+}
->> >>+
->> >>+static void a6xx_llc_write(struct a6xx_gpu *a6xx_gpu, u32 reg, u32
->> >>value)
->> >>+{
->> >>+	return msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
->> >>+}
->> >>+
->> >>+static void a6xx_llc_deactivate(struct a6xx_gpu *a6xx_gpu)
->> >>+{
->> >>+	llcc_slice_deactivate(a6xx_gpu->llc_slice);
->> >>+	llcc_slice_deactivate(a6xx_gpu->htw_llc_slice);
->> >>+}
->> >>+
->> >>+static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
->> >>+{
->> >>+	u32 cntl1_regval = 0;
->> >>+
->> >>+	if (IS_ERR(a6xx_gpu->llc_mmio))
->> >>+		return;
->> >>+
->> >>+	if (!llcc_slice_activate(a6xx_gpu->llc_slice)) {
->> >>+		u32 gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
->> >>+
->> >>+		gpu_scid &= 0x1f;
->> >>+		cntl1_regval = (gpu_scid << 0) | (gpu_scid << 5) | (gpu_scid << 10) |
->> >>+			       (gpu_scid << 15) | (gpu_scid << 20);
->> >>+	}
->> >>+
->> >>+	if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
->> >>+		u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
->> >>+
->> >>+		gpuhtw_scid &= 0x1f;
->> >>+		cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
->> >>+	}
->> >>+
->> >>+	if (cntl1_regval) {
->> >>+		/*
->> >>+		 * Program the slice IDs for the various GPU blocks and GPU MMU
->> >>+		 * pagetables
->> >>+		 */
->> >>+		a6xx_llc_write(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1,
->> >>cntl1_regval);
->> >>+
->> >>+		/*
->> >>+		 * Program cacheability overrides to not allocate cache lines on
->> >>+		 * a write miss
->> >>+		 */
->> >>+		a6xx_llc_rmw(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF,
->> >>0x03);
->> >>+	}
->> >>+}
->> >
->> >This code has been around long enough that it pre-dates a650. On a650 and
->> >other
->> >MMU-500 targets the htw_llc is configured by the firmware and the
->> >llc_slice is
->> >configured in a different register.
->> >
->> >I don't think we need to pause everything and add support for the MMU-500
->> >path,
->> >but we do need a way to disallow LLCC on affected targets until such time
->> >that
->> >we can get it fixed up.
->> >
->> 
->> Thanks for taking a close look, does something like below look ok or
->> something
->> else is needed here?
->> 
->> +         /* Till the time we get in LLCC support for A650 */
->> +         if (!(info && info->revn == 650))
->> +                 a6xx_llc_slices_init(pdev, a6xx_gpu);
-> 
-> It doesn't look like Rob picked this up for 5.10, so we have some time 
-> to do it
-> right.  Would you like me to give you an add-on patch for mmu-500 
-> targets?
-> 
+Hi Jitao, 
 
-Yes that will be great.
+On Thu, 17 Sep 2020 11:30:09 +0800
+Jitao Shi <jitao.shi@mediatek.com> wrote:
+
+> Replace horizontal_backporch_byte with vm->hback_porch * bpp to aovid
+> flowing judgement negative number.
+> 
+> if ((vm->hfront_porch * dsi_tmp_buf_bpp + horizontal_backporch_byte) >
+> 	data_phy_cycles * dsi->lanes + delta)
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 54
+> ++++++++++++++------------------------ 1 file changed, 19
+> insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> b/drivers/gpu/drm/mediatek/mtk_dsi.c index 16fd99dcdacf..ddddf69ebeaf
+> 100644 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -445,6 +445,7 @@ static void mtk_dsi_config_vdo_timing(struct
+> mtk_dsi *dsi) u32 horizontal_backporch_byte;
+>  	u32 horizontal_frontporch_byte;
+>  	u32 dsi_tmp_buf_bpp, data_phy_cycles;
+> +	u32 delta;
+>  	struct mtk_phy_timing *timing = &dsi->phy_timing;
+>  
+>  	struct videomode *vm = &dsi->vm;
+> @@ -475,42 +476,25 @@ static void mtk_dsi_config_vdo_timing(struct
+> mtk_dsi *dsi) data_phy_cycles = timing->lpx + timing->da_hs_prepare +
+>  			  timing->da_hs_zero + timing->da_hs_exit +
+> 3; 
+> -	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
+> -		if ((vm->hfront_porch + vm->hback_porch) *
+> dsi_tmp_buf_bpp >
+> -		    data_phy_cycles * dsi->lanes + 18) {
+> -			horizontal_frontporch_byte =
+> -				vm->hfront_porch * dsi_tmp_buf_bpp -
+> -				(data_phy_cycles * dsi->lanes + 18) *
+> -				vm->hfront_porch /
+> -				(vm->hfront_porch + vm->hback_porch);
+> -
+> -			horizontal_backporch_byte =
+> -				horizontal_backporch_byte -
+> -				(data_phy_cycles * dsi->lanes + 18) *
+> -				vm->hback_porch /
+> -				(vm->hfront_porch + vm->hback_porch);
+> -		} else {
+> -			DRM_WARN("HFP less than d-phy, FPS will
+> under 60Hz\n");
+> -			horizontal_frontporch_byte =
+> vm->hfront_porch *
+> -						     dsi_tmp_buf_bpp;
+> -		}
+> +	delta = (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) ? 18 :
+> 12; +
+> +	if ((vm->hfront_porch * dsi_tmp_buf_bpp +
+> horizontal_backporch_byte) >
+> +	    data_phy_cycles * dsi->lanes + delta) {
+> +		horizontal_frontporch_byte =
+> +			vm->hfront_porch * dsi_tmp_buf_bpp -
+> +			(data_phy_cycles * dsi->lanes + delta) *
+> +			vm->hfront_porch /
+> +			(vm->hfront_porch + vm->hback_porch);
+> +
+> +		horizontal_backporch_byte =
+> +			horizontal_backporch_byte -
+> +			(data_phy_cycles * dsi->lanes + delta) *
+> +			vm->hback_porch /
+> +			(vm->hfront_porch + vm->hback_porch);
+>  	} else {
+> -		if ((vm->hfront_porch + vm->hback_porch) *
+> dsi_tmp_buf_bpp >
+> -		    data_phy_cycles * dsi->lanes + 12) {
+> -			horizontal_frontporch_byte =
+> -				vm->hfront_porch * dsi_tmp_buf_bpp -
+> -				(data_phy_cycles * dsi->lanes + 12) *
+> -				vm->hfront_porch /
+> -				(vm->hfront_porch + vm->hback_porch);
+> -			horizontal_backporch_byte =
+> horizontal_backporch_byte -
+> -				(data_phy_cycles * dsi->lanes + 12) *
+> -				vm->hback_porch /
+> -				(vm->hfront_porch + vm->hback_porch);
+> -		} else {
+> -			DRM_WARN("HFP less than d-phy, FPS will
+> under 60Hz\n");
+> -			horizontal_frontporch_byte =
+> vm->hfront_porch *
+> -						     dsi_tmp_buf_bpp;
+> -		}
+> +		DRM_WARN("HFP + HBP less than d-phy, FPS will under
+> 60Hz\n");
+> +		horizontal_frontporch_byte = vm->hfront_porch *
+> +					     dsi_tmp_buf_bpp;
+>  	}
+>  
+>  	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
+
+Can you explain how this patch is relevant to
+https://patchwork.kernel.org/patch/11718191/? It was sent out on
+17/Sept while the v2 was merged before that. 
+
+As the v2 patch (https://patchwork.kernel.org/patch/11718191/) breaks
+HDMI (eDP) on my Chromebook Elm (starting from 5.9-rc6), I'm guessing
+that that was a bad patch, and should be reverted? Instead, this v3
+should be applied? Is this correct? 
+
+If so, can you kindly send a new patch which reverts v2 and applies
+this one, as application of this patch on rc7 fails.
 
 Thanks,
-Sai
+Bilal
 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
