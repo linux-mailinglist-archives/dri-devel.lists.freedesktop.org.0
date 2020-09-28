@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0839627A878
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E94227A880
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:25:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D696E2DF;
-	Mon, 28 Sep 2020 07:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84A456E2E1;
+	Mon, 28 Sep 2020 07:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E83746E2DF
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 07:22:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA8D6E2E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 07:25:14 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6B8D6AD77;
- Mon, 28 Sep 2020 07:22:39 +0000 (UTC)
-Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
-To: Daniel Vetter <daniel@ffwll.ch>
+ by mx2.suse.de (Postfix) with ESMTP id 430EFABC1;
+ Mon, 28 Sep 2020 07:25:13 +0000 (UTC)
+Subject: Re: [PATCH 3/9] drm: Add simplekms driver
+To: Maxime Ripard <maxime@cerno.tech>
 References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-2-tzimmermann@suse.de>
- <20200629084044.GL3278063@phenom.ffwll.local>
- <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
- <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
+ <20200625120011.16168-4-tzimmermann@suse.de>
+ <20200629090657.GN3278063@phenom.ffwll.local>
+ <da512368-508d-15f5-823a-5a037364887a@suse.de>
+ <20200925151410.zrivxvskxh3sr5n7@gilmour.lan>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <35822c4b-7821-7b33-d6ce-cfe51a85ff74@suse.de>
-Date: Mon, 28 Sep 2020 09:22:34 +0200
+Message-ID: <47d244c6-4bc5-e635-2c73-4b4d0490f6ab@suse.de>
+Date: Mon, 28 Sep 2020 09:25:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
+In-Reply-To: <20200925151410.zrivxvskxh3sr5n7@gilmour.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,260 +42,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0870621010=="
+Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
+ lgirdwood@gmail.com, dri-devel@lists.freedesktop.org, hdegoede@redhat.com,
+ broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
+Content-Type: multipart/mixed; boundary="===============1185053477=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0870621010==
+--===============1185053477==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="JHBPGGibWz6yFB3XesSdrXmvfKyVrBOSs"
+ boundary="8EjxTlQIFnmOyr6egDHzqmcpmJ0OUDjtx"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JHBPGGibWz6yFB3XesSdrXmvfKyVrBOSs
-Content-Type: multipart/mixed; boundary="T91xRdoolh4lvcQKgQgHNVF8KTAEURDKF";
+--8EjxTlQIFnmOyr6egDHzqmcpmJ0OUDjtx
+Content-Type: multipart/mixed; boundary="QOPiqDXoyu625bfeJzq38HLPg4lnYhFCx";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Mark Brown <broonie@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <35822c4b-7821-7b33-d6ce-cfe51a85ff74@suse.de>
-Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Daniel Vetter <daniel@ffwll.ch>, maarten.lankhorst@linux.intel.com,
+ airlied@linux.ie, kraxel@redhat.com, lgirdwood@gmail.com,
+ broonie@kernel.org, robh@kernel.org, sam@ravnborg.org,
+ emil.l.velikov@gmail.com, noralf@tronnes.org, geert+renesas@glider.be,
+ hdegoede@redhat.com, dri-devel@lists.freedesktop.org
+Message-ID: <47d244c6-4bc5-e635-2c73-4b4d0490f6ab@suse.de>
+Subject: Re: [PATCH 3/9] drm: Add simplekms driver
 References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-2-tzimmermann@suse.de>
- <20200629084044.GL3278063@phenom.ffwll.local>
- <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
- <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
-In-Reply-To: <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
+ <20200625120011.16168-4-tzimmermann@suse.de>
+ <20200629090657.GN3278063@phenom.ffwll.local>
+ <da512368-508d-15f5-823a-5a037364887a@suse.de>
+ <20200925151410.zrivxvskxh3sr5n7@gilmour.lan>
+In-Reply-To: <20200925151410.zrivxvskxh3sr5n7@gilmour.lan>
 
---T91xRdoolh4lvcQKgQgHNVF8KTAEURDKF
-Content-Type: text/plain; charset=utf-8
+--QOPiqDXoyu625bfeJzq38HLPg4lnYhFCx
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 26.09.20 um 18:42 schrieb Daniel Vetter:
-> On Fri, Sep 25, 2020 at 4:55 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->>
->> Hi
->>
->> Am 29.06.20 um 10:40 schrieb Daniel Vetter:
->>> On Thu, Jun 25, 2020 at 02:00:03PM +0200, Thomas Zimmermann wrote:
->>>> The memcpy's destination buffer might have a different pitch than th=
-e
->>>> source. Support different pitches as function argument.
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>
->>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>
->>> But I do have questions ... why did we allocate a source drm_framebuf=
-fer
->>> with mismatching pitch? That sounds backwards, especially for simplek=
-ms.
->>
->> There's userspace that allocates framebuffers in tiles of 64x64 pixels=
-=2E
->> I think I've seen this with Gnome. So if you have a 800x600 display
->> mode, the allocated framebuffer has a scanline pitch of 832 pixels and=
-
->> the final 32 pixels are ignored.
+Am 25.09.20 um 17:14 schrieb Maxime Ripard:
+> Hi Thomas,
 >=20
-> At least with dumb buffer allocation ioctls userspace should not do
-> that. If it wants 800x600, it needs to allocate 800x600, not something
+> On Fri, Sep 25, 2020 at 05:01:23PM +0200, Thomas Zimmermann wrote:
+>>>> +					   ARRAY_SIZE(simplekms_formats),
+>>>> +					   simplekms_format_modifiers,
+>>>> +					   connector);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>> +	drm_mode_config_reset(dev);
+>>>
+>>> This breaks fastboot. I think ideally we'd have the state represent
+>>> everything is on, and allocate an fb + buffer with the current conten=
+ts of
+>>> the framebuffer. Since we can allocate an fb that matches this should=
+n't
+>>> be a problem, just a raw memcpy_fromio should do the job.
+>>
+>> I'm trying to wrap my head around how the fastboot setup is implemente=
+d.
+>>
+>> Apparently, i915's fbdev code goes through the existing pipeline state=
 
-That ship has sailed.
+>> and fills the fb_info structure with compatible settings.
+>>
+>> Where is the initial pipeline state created? If I write reset handlers=
 
-> else. The driver is supposed to apply any rounding necessary for the
-> size. Or is this a buffer allocated somewhere else and then shared?
+>> that initialize the pipeline to the simple-framebuffer's fixed state,
+>> whould that be sufficient? A later stage could then do the equivalent =
+of
+>> intel_fbdev_init_bios().
+>>
+>> The simple-kms helpers don't seem to support custom reset handlers or
+>> atomic-state callbacks. I guess that would require and update as well?=
 
-I don't quite remember where exactly this was implemented. It was not a
-shared buffer, though. IIRC the buffer allocation code in one of the
-libs rounded the size towards multiples of 64. I remember thinking that
-it was probably done for tiled rendering.
+>=20
+> You probably want to read the following :)
+>=20
+> https://lore.kernel.org/dri-devel/CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPv=
+J=3D9BwmvfU-O0gg@mail.gmail.com/
+>=20
+> It's been on my todo-list since, but I never got to work on it :/
+
+Thanks for the pointer. This looks like the optimal solution, although
+overkill for this simple use case.
+
+For now, I'll probably initialize the state during initialization. When
+the readout helpers materialize, I'll convert the driver.
 
 Best regards
 Thomas
 
-> -Daniel
 >=20
->> In regular drivers, we can handle this with the VGA offset register [1=
-]
->> or some equivalent. That's obviously not an option with simplekms, so
->> the different pitch is required.
->>
->> Best regards
->> Thomas
->>
->> [1]
->> https://web.stanford.edu/class/cs140/projects/pintos/specs/freevga/vga=
-/crtcreg.htm#13
->>
->>>
->>> Would be good to add the reasons why we need this to the commit messa=
-ge,
->>> I'm sure I'll discover it later on eventually.
->>> -Daniel
->>>
->>>> ---
->>>>  drivers/gpu/drm/drm_format_helper.c    | 9 +++++----
->>>>  drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
->>>>  drivers/gpu/drm/tiny/cirrus.c          | 2 +-
->>>>  include/drm/drm_format_helper.h        | 2 +-
->>>>  4 files changed, 8 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/d=
-rm_format_helper.c
->>>> index c043ca364c86..8d5a683afea7 100644
->>>> --- a/drivers/gpu/drm/drm_format_helper.c
->>>> +++ b/drivers/gpu/drm/drm_format_helper.c
->>>> @@ -52,6 +52,7 @@ EXPORT_SYMBOL(drm_fb_memcpy);
->>>>  /**
->>>>   * drm_fb_memcpy_dstclip - Copy clip buffer
->>>>   * @dst: Destination buffer (iomem)
->>>> + * @dst_pitch: Number of bytes between two consecutive scanlines wi=
-thin dst
->>>>   * @vaddr: Source buffer
->>>>   * @fb: DRM framebuffer
->>>>   * @clip: Clip rectangle area to copy
->>>> @@ -59,12 +60,12 @@ EXPORT_SYMBOL(drm_fb_memcpy);
->>>>   * This function applies clipping on dst, i.e. the destination is a=
-
->>>>   * full (iomem) framebuffer but only the clip rect content is copie=
-d over.
->>>>   */
->>>> -void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
->>>> -                       struct drm_framebuffer *fb,
->>>> +void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitc=
-h,
->>>> +                       void *vaddr, struct drm_framebuffer *fb,
->>>>                         struct drm_rect *clip)
->>>>  {
->>>>      unsigned int cpp =3D fb->format->cpp[0];
->>>> -    unsigned int offset =3D clip_offset(clip, fb->pitches[0], cpp);=
-
->>>> +    unsigned int offset =3D clip_offset(clip, dst_pitch, cpp);
->>>>      size_t len =3D (clip->x2 - clip->x1) * cpp;
->>>>      unsigned int y, lines =3D clip->y2 - clip->y1;
->>>>
->>>> @@ -73,7 +74,7 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, void=
- *vaddr,
->>>>      for (y =3D 0; y < lines; y++) {
->>>>              memcpy_toio(dst, vaddr, len);
->>>>              vaddr +=3D fb->pitches[0];
->>>> -            dst +=3D fb->pitches[0];
->>>> +            dst +=3D dst_pitch;
->>>>      }
->>>>  }
->>>>  EXPORT_SYMBOL(drm_fb_memcpy_dstclip);
->>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/dr=
-m/mgag200/mgag200_mode.c
->>>> index f16bd278ab7e..7d4f3a62d885 100644
->>>> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->>>> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->>>> @@ -1586,7 +1586,7 @@ mgag200_handle_damage(struct mga_device *mdev,=
- struct drm_framebuffer *fb,
->>>>      if (drm_WARN_ON(dev, !vmap))
->>>>              return; /* BUG: SHMEM BO should always be vmapped */
->>>>
->>>> -    drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
->>>> +    drm_fb_memcpy_dstclip(mdev->vram, fb->pitches[0], vmap, fb, cli=
-p);
->>>>
->>>>      drm_gem_shmem_vunmap(fb->obj[0], vmap);
->>>>
->>>> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/ci=
-rrus.c
->>>> index 744a8e337e41..2dd9e5e31e3d 100644
->>>> --- a/drivers/gpu/drm/tiny/cirrus.c
->>>> +++ b/drivers/gpu/drm/tiny/cirrus.c
->>>> @@ -327,7 +327,7 @@ static int cirrus_fb_blit_rect(struct drm_frameb=
-uffer *fb,
->>>>              goto out_dev_exit;
->>>>
->>>>      if (cirrus->cpp =3D=3D fb->format->cpp[0])
->>>> -            drm_fb_memcpy_dstclip(cirrus->vram,
->>>> +            drm_fb_memcpy_dstclip(cirrus->vram, fb->pitches[0],
->>>>                                    vmap, fb, rect);
->>>>
->>>>      else if (fb->format->cpp[0] =3D=3D 4 && cirrus->cpp =3D=3D 2)
->>>> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_forma=
-t_helper.h
->>>> index 5f9e37032468..2b5036a5fbe7 100644
->>>> --- a/include/drm/drm_format_helper.h
->>>> +++ b/include/drm/drm_format_helper.h
->>>> @@ -11,7 +11,7 @@ struct drm_rect;
->>>>
->>>>  void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer *=
-fb,
->>>>                 struct drm_rect *clip);
->>>> -void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
->>>> +void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitc=
-h, void *vaddr,
->>>>                         struct drm_framebuffer *fb,
->>>>                         struct drm_rect *clip);
->>>>  void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
->>>> --
->>>> 2.27.0
->>>>
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
+> Maxime
 >=20
 
 --=20
 Thomas Zimmermann
 Graphics Driver Developer
 SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
 
 
---T91xRdoolh4lvcQKgQgHNVF8KTAEURDKF--
+--QOPiqDXoyu625bfeJzq38HLPg4lnYhFCx--
 
---JHBPGGibWz6yFB3XesSdrXmvfKyVrBOSs
+--8EjxTlQIFnmOyr6egDHzqmcpmJ0OUDjtx
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9xjz4UHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiM7uggAmg6r74F2nPCyBca6AbCns6lMFaZK
-h51JVxlv5MLSXm1a6YQ2MJHQ8iUHAahfmrhd/fcGw3Ex4PhHANu9pGERG7/4u+N6
-4EspC4me4ZqD+doHVb72FnnDBuv7XaAfeVKOqR4zobCJR0hLoO1M0Bemz9HHAC8F
-BvT86/cY/RVea9RgLPIM11nYdSKI1cayp2R49Ad1rICPV9UPiGXahqpBVjHfQjbX
-Ol5093ZSbdA/aiB8DZqz5+pTPKOE4rmmpss9sI/qOFuOyOambIsdZrT+Nec0cOKH
-/gJg2GcbjdiPExNnPAt0jHX6aEfIc59BeUiV204gLUV5wBx8jp8HeKjq8Q==
-=kFxy
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9xj9gUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiODigf/S4FbKxuGmgCR2RQ/v9SeqHRIZV/R
+zC0o6EOoxBSO7V48p1rRJWigyPUPflsxJumMmFFQNIuuXPi3nwvlqSJl7eg9s3wt
+wOw/TNp+e+TbWVJ/ZedM6hjhVXKzf/anPqQjJ91F47OGYSMxHeQ8hCud5LAQ8N90
+8QYHjHS7MvPzrYCS3+284t6SdDPw7mlFv4tuZqsVJcMX+NucAM5A1OJEHz01U7wu
+i6eBiO+ARrcTK0UpVHOwE008/RPkL3VJZ59dK26fC6PO9giGlxrAzA1KbLCwMxgh
+Zg4iSIrY0urtEQZR3gOG1NOo8uISs3Kzx57YaozoqpSG+J4XJ2JgXEYwcQ==
+=UeQQ
 -----END PGP SIGNATURE-----
 
---JHBPGGibWz6yFB3XesSdrXmvfKyVrBOSs--
+--8EjxTlQIFnmOyr6egDHzqmcpmJ0OUDjtx--
 
---===============0870621010==
+--===============1185053477==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -307,4 +180,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0870621010==--
+--===============1185053477==--
