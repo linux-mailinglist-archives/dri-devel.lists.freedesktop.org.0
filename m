@@ -1,30 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42D227A95D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 10:16:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A006D27A9BD
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 10:40:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 970C689F3B;
-	Mon, 28 Sep 2020 08:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDF5E6E0FF;
+	Mon, 28 Sep 2020 08:40:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31EFC89F3B
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:16:48 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E0DB1B1AD;
- Mon, 28 Sep 2020 08:16:46 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: hjc@rock-chips.com, heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch,
- christian.koenig@amd.com
-Subject: [PATCH] drm/rockchip: Include <drm/drm_gem_cma_helper> for
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B8B6E0FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:40:25 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id D649B20043;
+ Mon, 28 Sep 2020 10:40:20 +0200 (CEST)
+Date: Mon, 28 Sep 2020 10:40:19 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/rockchip: Include <drm/drm_gem_cma_helper> for
  drm_gem_cm_vm_ops
-Date: Mon, 28 Sep 2020 10:16:43 +0200
-Message-Id: <20200928081643.8575-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.28.0
+Message-ID: <20200928084019.GA625010@ravnborg.org>
+References: <20200928081643.8575-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200928081643.8575-1-tzimmermann@suse.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=8nJEP1OIZ-IA:10 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8 a=zd2uoN0lAAAA:8
+ a=s8YR1HE3AAAA:8 a=e5mUnYsNAAAA:8 a=JfrnYn6hAAAA:8 a=tvGS8sPWz2o3X_C6TT0A:9
+ a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=jGH_LyMDp9YhSvY-UuyI:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=1CNFftbPRP8L7MoqJWF3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,34 +46,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: kernel test robot <lkp@intel.com>, airlied@linux.ie,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, hjc@rock-chips.com,
  dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ christian.koenig@amd.com, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SW5jbHVkZSA8ZHJtL2RybV9nZW1fY21hX2hlbHBlci5oPiB0byBnZXQgZHJtX2dlbV9jbWFfdm1f
-b3BzLiBGYWxsb3V0CmZyb20gdGhlIHJlY2VudCBjb252ZXJzaW9uIHRvIEdFTSBvYmplY3QgZnVu
-Y3Rpb25zLgoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
-c2UuZGU+ClJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4KRml4
-ZXM6IDBkNTkwYWYzMTQwZCAoImRybS9yb2NrY2hpcDogQ29udmVydCB0byBkcm1fZ2VtX29iamVj
-dF9mdW5jcyIpCkNjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KQ2M6
-IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkNjOiBTYW5keSBIdWFuZyA8aGpjQHJvY2st
-Y2hpcHMuY29tPgpDYzogIkhlaWtvIFN0w7xibmVyIiA8aGVpa29Ac250ZWNoLmRlPgpDYzogZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5p
-bmZyYWRlYWQub3JnCkNjOiBsaW51eC1yb2NrY2hpcEBsaXN0cy5pbmZyYWRlYWQub3JnCi0tLQog
-ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYyB8IDEgKwogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Jv
-Y2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2Nr
-Y2hpcF9kcm1fZ2VtLmMKaW5kZXggMWNmNDYzMTQ2MWM5Li43ZDVlYmIxMDMyM2IgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYwpAQCAtMTAsNiArMTAsNyBA
-QAogCiAjaW5jbHVkZSA8ZHJtL2RybS5oPgogI2luY2x1ZGUgPGRybS9kcm1fZ2VtLmg+CisjaW5j
-bHVkZSA8ZHJtL2RybV9nZW1fY21hX2hlbHBlci5oPgogI2luY2x1ZGUgPGRybS9kcm1fcHJpbWUu
-aD4KICNpbmNsdWRlIDxkcm0vZHJtX3ZtYV9tYW5hZ2VyLmg+CiAKLS0gCjIuMjguMAoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Thomas.
+On Mon, Sep 28, 2020 at 10:16:43AM +0200, Thomas Zimmermann wrote:
+> Include <drm/drm_gem_cma_helper.h> to get drm_gem_cma_vm_ops. Fallout
+> from the recent conversion to GEM object functions.
+> =
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Fixes: 0d590af3140d ("drm/rockchip: Convert to drm_gem_object_funcs")
+
+As this has only hit drm-misc-next and not pushed anywhere else there is
+really no need for the Fixes: tag. At least thats my understanding.
+
+Otherwise the patch is equal to what I posted in the weekend so:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Christian K=F6nig <christian.koenig@amd.com>
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: "Heiko St=FCbner" <heiko@sntech.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-rockchip@lists.infradead.org
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 1 +
+>  1 file changed, 1 insertion(+)
+> =
+
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_gem.c
+> index 1cf4631461c9..7d5ebb10323b 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> @@ -10,6 +10,7 @@
+>  =
+
+>  #include <drm/drm.h>
+>  #include <drm/drm_gem.h>
+> +#include <drm/drm_gem_cma_helper.h>
+>  #include <drm/drm_prime.h>
+>  #include <drm/drm_vma_manager.h>
+>  =
+
+> -- =
+
+> 2.28.0
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
