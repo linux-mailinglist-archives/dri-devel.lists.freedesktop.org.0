@@ -1,32 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9920B27BDB2
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:13:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB1127BDAD
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8A7D89E63;
-	Tue, 29 Sep 2020 07:13:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 112B989E26;
+	Tue, 29 Sep 2020 07:12:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF4689DFE
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 14:43:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id 5769329A5CD
-Subject: Re: [PATCH v1 2/2] drm/rockchip: fix warning from cdn_dp_resume
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- Heiko Stuebner <heiko@sntech.de>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20200925215524.2899527-1-sam@ravnborg.org>
- <20200925215524.2899527-3-sam@ravnborg.org>
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <dcc5d70e-5c95-be50-a6bf-cee62bed6bf6@collabora.com>
-Date: Mon, 28 Sep 2020 16:42:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
+ [IPv6:2607:f8b0:4864:20::a44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD1F89FF7
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 15:58:22 +0000 (UTC)
+Received: by mail-vk1-xa44.google.com with SMTP id a16so1681418vke.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:58:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skarbek.name; s=google;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=z7HCB+V/9/s0aVUEKsoSbFdR3sjfSN4Z5lZRR15GnCw=;
+ b=ra8YHlS5NSorGdhwec0zWV4XDkpqqTQH0ut+iPVjBp0djFaJshYuYjGGs68d5erNzv
+ 9ORN9v6wzKgWMg4uIxmqQlO60LT/y5tojrqKpL1cmSB/rLOwxkhEfQQtcJRDV0QFJ7Pz
+ IoNQR73berpBGHEOlUgn5zzg9cJHSRxFCxajc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=z7HCB+V/9/s0aVUEKsoSbFdR3sjfSN4Z5lZRR15GnCw=;
+ b=YxH1cykg128nMnwBVQh+0Okh9+GyE9IoqlVFdq7cTXcMrKDpVlRsYfPqwSZfuV91sd
+ 8z1w7uHl9xYEnyW++aXKV1cVNV1RrP5KOWC0bnJxzh3Dys3OfJVTLiT+5L/QTSQmzGcJ
+ appZk4DlG2jVNSWKZ7HUMFud4G0n5yEgL9BjeFFX9H3Bgfy1za11PZj0QyCUa3vAJSKC
+ onqK4ICXITQmIk0k2Qm1+r8n8iGhM3Vt/SRpxGCbhveWQPLAs6WnK8PhQuJL42lx8VOj
+ yn9sGaUtBhkS6mzhj7A5zWjKPyEGVVp0B9UxTabHkGGtvfGh4sWKop9tScIiWmyQODqM
+ 6WMw==
+X-Gm-Message-State: AOAM531Eji+9VAHMAMtJY2OE/uIrh81MYwQjLUFxtYYJwnwIwDkPYcbw
+ u7oldvWC1BJANFktRdPOtvB6IRaTiphhkrVOQNREo7pmLJmFuECqQ6g=
+X-Google-Smtp-Source: ABdhPJxIEe0kE2BA0JWRXMsn4fCUKS6FYNJqPnlDzgaIOH1lzfbg1AXc9BKRKEkbDT1Z6C2qv5A86tEmOv4r/d7yE7s=
+X-Received: by 2002:a1f:26cd:: with SMTP id m196mr69017vkm.7.1601308701762;
+ Mon, 28 Sep 2020 08:58:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200925215524.2899527-3-sam@ravnborg.org>
-Content-Language: en-US
+From: Marcin Skarbek <marcin@skarbek.name>
+Date: Mon, 28 Sep 2020 17:58:11 +0200
+Message-ID: <CA+StVuDqPHYZwG_GscLFGEiZ=TfchBw7Dh96tuer15jXej50fw@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
+ video device
+To: dri-devel@lists.freedesktop.org
 X-Mailman-Approved-At: Tue, 29 Sep 2020 07:12:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,47 +56,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, stable@vger.kernel.org,
- Sandy Huang <hjc@rock-chips.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1959784657=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2FtLAoKVGhhbmsgeW91IGZvciB5b3VyIHBhdGNoLgoKT24gMjUvOS8yMCAyMzo1NSwgU2Ft
-IFJhdm5ib3JnIHdyb3RlOgo+IENvbW1pdCA3YzQ5YWJiNGMyZjggKCJkcm0vcm9ja2NoaXA6IGNk
-bi1kcC1jb3JlOiBNYWtlIGNkbl9kcF9jb3JlX3N1c3BlbmQvcmVzdW1lIHN0YXRpYyIpCj4gaW50
-cm9kdWNlZCB0aGUgZm9sbG93aW5nIHdhcm5pbmcgaW4gc29tZSBidWlsZHM6Cj4gCj4gY2RuLWRw
-LWNvcmUuYzoxMTI0OjEyOiB3YXJuaW5nOiDigJhjZG5fZHBfcmVzdW1l4oCZIGRlZmluZWQgYnV0
-IG5vdCB1c2VkCj4gIDExMjQgfCBzdGF0aWMgaW50IGNkbl9kcF9yZXN1bWUoc3RydWN0IGRldmlj
-ZSAqZGV2KQo+ICAgICAgIHwgICAgICAgICAgICBefn5+fn5+fn5+fn5+Cj4gCj4gRml4IHRoaXMg
-YnkgZGVmaW5pbmcgY2RuX2RwX3Jlc3VtZSBfX21heWJlX3VudXNlZAo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiBGaXhlczogN2M0OWFiYjRjMmY4
-ICgiZHJtL3JvY2tjaGlwOiBjZG4tZHAtY29yZTogTWFrZSBjZG5fZHBfY29yZV9zdXNwZW5kL3Jl
-c3VtZSBzdGF0aWMiKQo+IENjOiBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIDxlbnJpYy5iYWxsZXRi
-b0Bjb2xsYWJvcmEuY29tPgo+IENjOiBIZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPgo+
-IENjOiBTYW5keSBIdWFuZyA8aGpjQHJvY2stY2hpcHMuY29tPgo+IENjOiBsaW51eC1hcm0ta2Vy
-bmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBDYzogbGludXgtcm9ja2NoaXBAbGlzdHMuaW5mcmFk
-ZWFkLm9yZwo+IENjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2NS44Kwo+IC0tLQoKSG9w
-ZWZ1bGx5IHRoaXMgdGltZSB0aGlzIGNoYW5nZSBsYW5kcyA7LSkgU2ltaWxhciBwYXRjaGVzIFsx
-XSwgWzJdLCBbM10sIHdlcmUKc2VudCBpbiB0aGUgcGFzdCBieSBkaWZmZXJlbnQgYXV0aG9ycyBi
-dXQgZm9yIHNvbWUgcmVhc29uIG5ldmVyIHJlYWNoZWQgdXBzdHJlYW0uCgpbMV0gaHR0cHM6Ly9s
-a21sLm9yZy9sa21sLzIwMjAvNC8yOC8xNzAzClsyXSBodHRwczovL3d3dy5zcGluaWNzLm5ldC9s
-aXN0cy9kcmktZGV2ZWwvbXNnMjY4ODE4Lmh0bWwKWzNdIGh0dHBzOi8vbGttbC5vcmcvbGttbC8y
-MDIwLzgvMTAvMTQxMgoKPiAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2Nkbi1kcC1jb3JlLmMg
-fCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+
-IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRwLWNvcmUuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9jZG4tZHAtY29yZS5jCj4gaW5kZXggYTRhNDVkYWY5
-M2YyLi4xMTYyZTMyMWFhZWQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
-L2Nkbi1kcC1jb3JlLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRwLWNv
-cmUuYwo+IEBAIC0xMTIxLDcgKzExMjEsNyBAQCBzdGF0aWMgaW50IGNkbl9kcF9zdXNwZW5kKHN0
-cnVjdCBkZXZpY2UgKmRldikKClNob3VsZG4ndCBjZG5fZHBfc3VzcGVuZCBhbHNvIGhhdmUgYSBf
-X21heWJlX3VudXNlZD8KCldpdGggdGhhdCwKClJldmlld2VkLWJ5OiBFbnJpYyBCYWxsZXRibyBp
-IFNlcnJhIDxlbnJpYy5iYWxsZXRib0Bjb2xsYWJvcmEuY29tPgoKPiAgCXJldHVybiByZXQ7Cj4g
-IH0KPiAgCj4gLXN0YXRpYyBpbnQgY2RuX2RwX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpCj4g
-K3N0YXRpYyBpbnQgX19tYXliZV91bnVzZWQgY2RuX2RwX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpk
-ZXYpCj4gIHsKPiAgCXN0cnVjdCBjZG5fZHBfZGV2aWNlICpkcCA9IGRldl9nZXRfZHJ2ZGF0YShk
-ZXYpOwo+ICAKPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+--===============1959784657==
+Content-Type: multipart/alternative; boundary="000000000000583e5505b061bcc4"
+
+--000000000000583e5505b061bcc4
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Deepak,
+
+I have tested your patch using Fedora 32 as a guest and Windows 10 Pro 1809
+as host (Gen 2 VM). No issues with building or loading the kernel module
+and I have successfully run SwayWM inside VM using hyperv_drm.
+Unfortunately, I'm unable to change the resolution beyond FHD. I have a
+WQHD monitor and I would like to utilize it fully with VM running in
+full-screen mode but SwayWM detects only FHD as a max available resolution.
+Also, performance is less than desirable, even mouse pointer rendering is
+sluggish.
+I'm a poor C programmer so I won't be very helpful with development but let
+me know if there is anything I can do to help with testing future versions
+of this patch. This is something that I really would like to see in future
+kernel releases.
+
+-- 
+Regards
+Marcin Skarbek
+
+--000000000000583e5505b061bcc4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Deepak,<div><br></div><div>I have tested your patch usi=
+ng Fedora 32 as a guest and Windows 10 Pro 1809 as host (Gen 2 VM). No issu=
+es with building or loading the kernel module and I have successfully run S=
+wayWM inside VM using hyperv_drm. Unfortunately, I&#39;m unable to=C2=A0cha=
+nge the resolution beyond FHD. I have a WQHD monitor and I would like to ut=
+ilize it fully with VM running in full-screen mode but SwayWM detects only =
+FHD as a max available resolution.  Also, performance is less than desirabl=
+e, even mouse pointer rendering is sluggish. </div><div>I&#39;m a poor C pr=
+ogrammer so I won&#39;t be very helpful with development but let me know if=
+ there is anything I can do to help with testing future versions of this pa=
+tch. This is something that I really <span style=3D"font-size:calc(var(--re=
+m)*1px*1.0625);letter-spacing:0px">would </span><span style=3D"font-size:ca=
+lc(var(--rem)*1px*1.0625);letter-spacing:0px">like to see in future kernel =
+releases.</span></div><div><div><br></div>-- <br><div data-smartmail=3D"gma=
+il_signature" class=3D"gmail_signature" dir=3D"ltr"><div dir=3D"ltr"><div>R=
+egards<br></div>Marcin Skarbek<br></div></div></div></div>
+
+--000000000000583e5505b061bcc4--
+
+--===============1959784657==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1959784657==--
