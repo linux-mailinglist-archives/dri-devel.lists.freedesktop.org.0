@@ -2,40 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7FD27ABD3
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 12:33:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBD027ABEA
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 12:37:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A592A89F77;
-	Mon, 28 Sep 2020 10:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8853E89C13;
+	Mon, 28 Sep 2020 10:36:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABBF489F77
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 10:33:30 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 297B58051F;
- Mon, 28 Sep 2020 12:33:26 +0200 (CEST)
-Date: Mon, 28 Sep 2020 12:33:24 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/rockchip: Include <drm/drm_gem_cma_helper> for
- drm_gem_cm_vm_ops
-Message-ID: <20200928103324.GA634445@ravnborg.org>
-References: <20200928081643.8575-1-tzimmermann@suse.de>
- <20200928084019.GA625010@ravnborg.org>
- <7e928cd3-d185-065d-40de-1541b08d2ec4@suse.de>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2065.outbound.protection.outlook.com [40.107.236.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4491C89C13
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 10:36:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gMTvNQrW/DlFKrgsgTJdxDiIRpQMegaGegAn+zxm+pJyf4cgPGD+WOaGVfxLW+xHg3WuABWeyYIy265JBJyNFrfCbGRDVY2FWj+SxvFLy4brCnMZW3myUx89sF2OPEHBSmgi+MaO3lbMcOKIHfPmFFUJQwZcOj8fvxjbk5VYIELBr9VJwP9ynfQhS4ZY+YjNOoSHJ4VSUePlWrHL/+pQ9Oiv8HEfLj3eegH5cpDWiGeH7TRGCNgJWVYqb9Eji6/iPEEd/+qy1HalqcZgdoxSpm+6pAJufWAgP8TfcJBS2v8ckt6Sf6ZxE2N+9v63LaOM4HKrGxVIJpGpkx+HYTxltQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VrSly3puDlzDvL4VXOgN5Em+aIyhljJrVW1b+SG+WBU=;
+ b=Dj+Y6dk5kz0Qoi8rb0Tq2kAzIy2MadLz58ac4So0cLaMjx2Mo8BI1sbn1twA8SxEI/KWkFJAKNQJ6akz/Py+8YcZbWdaRJxdmXAZ1rVf2FT8+4PYQPwIc5yJ+FSvrkywgq9lsmLkdoJm5rX4fb7klOw70DDSq08Gm9mS3GSUIDLD9K6dXLctWY+fFzQcC6PSAARsyZpIsXBKC4KCUWLCPbf06VUrCg+dKBMq6YjIodlBqLqj7oyxQr8aWf9UBmo71UMaHvp++GFOTmgS/0iUrPHTQ9K0noAcDxR4QZtFs+H6t03EOzt3tHUlcOHtwamuhvb1V14nikyGsdf7HzZNNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VrSly3puDlzDvL4VXOgN5Em+aIyhljJrVW1b+SG+WBU=;
+ b=WnYOEWtDi/W+fRp6EVD9NPlQ1+vF6YjBVOr3YZl1tlPYOHlLzpnee8f1Y7vxbrFxCpAv0WU3tAVpEHG2mWm0j7w31vLp1B6F+AaDOmk8WM9OZg3H+//xl29xnbYz1V4CrBl8tNSQFoEr91mVzIiuqkDhOBY2qHjcCak335v/S7Q=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4438.namprd12.prod.outlook.com (2603:10b6:208:267::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Mon, 28 Sep
+ 2020 10:36:55 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3412.029; Mon, 28 Sep 2020
+ 10:36:55 +0000
+Subject: Re: [PATCH] drm: prime: Potential Oops in drm_gem_map_dma_buf()
+To: Dan Carpenter <dan.carpenter@oracle.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20200928090726.GB377727@mwanda>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <a8ef41fa-9864-6159-5748-98d286ab22a9@amd.com>
+Date: Mon, 28 Sep 2020 12:36:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200928090726.GB377727@mwanda>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR08CA0009.eurprd08.prod.outlook.com
+ (2603:10a6:208:d2::22) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7e928cd3-d185-065d-40de-1541b08d2ec4@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=A5ZCwZeG c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=8nJEP1OIZ-IA:10 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8 a=zd2uoN0lAAAA:8
- a=s8YR1HE3AAAA:8 a=e5mUnYsNAAAA:8 a=JfrnYn6hAAAA:8 a=BVKix5vYCW0Mtb0Nrh8A:9
- a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=jGH_LyMDp9YhSvY-UuyI:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=1CNFftbPRP8L7MoqJWF3:22
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR08CA0009.eurprd08.prod.outlook.com (2603:10a6:208:d2::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3412.20 via Frontend Transport; Mon, 28 Sep 2020 10:36:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 9592596b-56c7-4e20-721d-08d8639a6b1d
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4438:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB443887C7E82FABBE6E651A1083350@MN2PR12MB4438.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZOC2CHAkytiYdFqrdiaBwtb24I/TUPXFMxejxJvz9O+MvPwAop9msweTLusSwnk5xRxJhyHikthCuYmPHnmawC22ekwQbKgmcc8CwTfATl0oxICeT5Khpor9cnXShX4NK8HFUHRWyln4ZZxPEdnSYPbe1JsDjMSvwH0fqvhDU9eArjs14ZxLnoZJ1yLOMUgRh0X5t/+VOfRHw9xUvF1gO5cXvv6HSXmLiDA+ACi/4zs2EwX1nFhqG5drvE+3JrapmV3/TRdKpBtYhTCE7tFJaxW+N6NtiquObEntlaYqkJoIPRxfIqmOIhXC5zKRAm0nCGppvGXrZejg7buk6EO7jTiFzCXr2k3/Lz7GuFT7bPRjAyaTb1/PU1bEigyFJyxfQ0fdEdRK+rrtmEDMnyXG9KzM5t7DzY2laz1mcRaCrfs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(396003)(366004)(376002)(346002)(2906002)(36756003)(2616005)(54906003)(8936002)(31686004)(6486002)(8676002)(110136005)(316002)(478600001)(6666004)(16526019)(186003)(31696002)(86362001)(5660300002)(66476007)(52116002)(4326008)(66946007)(66556008)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 7kDvPcXLvo4WfYe8yg30bxL/t131EOQ425BTg273YVphamPvZy7nDslmuf3/Tx4JiEIbY5n2Iyp39Fx5skfcAIbFsQD3OvMMR7pUHXNeSsyqmnPfwZxVDyWG99B+SYC8TRIjaIQxlhKF14Df/haswB9/Z7j1oJTjoF4JTW3zf5Kgu1B+me2PZKZC4hfNiiqWAA86my7QPFE6gBx5s022oFwRxfXkzz28m2tVREyKHE0cK7gfYmXM3L5j9hH8N0I0jBZgmWJpAsR+kM1atY4aoubuwP9IM72o+i+lRsi37apYGZjaAJWCe5+i5TzHZXNHlp3Cmj+kpEPMAcnBKslc4Z1jcHXAToFCgSeU52KAKePaMOIgL1hwAEhNUI11DqFMTZ8KgZ1cWQBYdDGeP3XMu+tUQHJag3OZguhgLlHJhVVNjSlKAwl5K3V0YclxW7o/oKUc+Rhziz0vvRvap/TDXLq8TeffLivBIipAk8bBZdAWclESkKPe/dNsBeXped+EfykilzuiAV6DH9S243KkD/lC+KM7SLh5bPIcJ5fck6HH4hn7pMnc0SgUYKFsU5xE97hIOHz+2CgDzB++xMNdAJY0j13gi1IpBoEFgRiNUxbtZ65Xz1l+WK/dQ/uU2Eo6sqW8vFybHg4kR+VvNdI4wEMbWnWGAsJ7zGfHmIpyLkrABUqgU+3/Q1/KvQDj9/JUkQm0/SQXViprRiIrN+aQ5A==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9592596b-56c7-4e20-721d-08d8639a6b1d
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2020 10:36:54.9828 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7zQtrdlxtrFRM5D32y1o1JHlOHJUhEbnWGBIyMZvg9nfa3ip4XTxbGT0OZodRo1e
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4438
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,108 +97,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, airlied@linux.ie,
- Daniel Vetter <daniel.vetter@ffwll.ch>, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- christian.koenig@amd.com, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 28, 2020 at 10:48:31AM +0200, Thomas Zimmermann wrote:
-> Hi
-> =
+Hi Dan,
 
-> Am 28.09.20 um 10:40 schrieb Sam Ravnborg:
-> > Hi Thomas.
-> > On Mon, Sep 28, 2020 at 10:16:43AM +0200, Thomas Zimmermann wrote:
-> >> Include <drm/drm_gem_cma_helper.h> to get drm_gem_cma_vm_ops. Fallout
-> >> from the recent conversion to GEM object functions.
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Reported-by: kernel test robot <lkp@intel.com>
-> >> Fixes: 0d590af3140d ("drm/rockchip: Convert to drm_gem_object_funcs")
-> > =
+Am 28.09.20 um 11:07 schrieb Dan Carpenter:
+> This code doesn't check if the call to ->get_sg_table() fails so it
+> could dereference an error pointer and Oops.
+>
+> Fixes: c614d7e66c6a ("drm: remove prime sg_table caching")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-> > As this has only hit drm-misc-next and not pushed anywhere else there is
-> > really no need for the Fixes: tag. At least thats my understanding.
-> =
+this patch is based on outdated code, please take a look at current 
+drm-misc-next.
 
-> I'm not sure what the upstream requirements are. As part of my dayjob, I
-> maintain drivers for Suse distributions. If we pick the original patch,
-> we also want the fixes. We have scripts that look for these Fixes tags
-> to find the fixes. So it's helpful.
-That makes sense, I will keep Fixes tags in the future also for
-"internal" fixes then.
+The gem_prime_get_sg_table callback was removed from the driver 
+functions and the missing error check already fixed.
 
-	Sam
-> =
+Regards,
+Christian.
 
-> > =
-
-> > Otherwise the patch is equal to what I posted in the weekend so:
-> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> =
-
-> Thanks
-> =
-
-> Best regards
-> Thomas
-> =
-
-> > =
-
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >> Cc: Christian K=F6nig <christian.koenig@amd.com>
-> >> Cc: Sandy Huang <hjc@rock-chips.com>
-> >> Cc: "Heiko St=FCbner" <heiko@sntech.de>
-> >> Cc: dri-devel@lists.freedesktop.org
-> >> Cc: linux-arm-kernel@lists.infradead.org
-> >> Cc: linux-rockchip@lists.infradead.org
-> >> ---
-> >>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu=
-/drm/rockchip/rockchip_drm_gem.c
-> >> index 1cf4631461c9..7d5ebb10323b 100644
-> >> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> >> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> >> @@ -10,6 +10,7 @@
-> >>  =
-
-> >>  #include <drm/drm.h>
-> >>  #include <drm/drm_gem.h>
-> >> +#include <drm/drm_gem_cma_helper.h>
-> >>  #include <drm/drm_prime.h>
-> >>  #include <drm/drm_vma_manager.h>
-> >>  =
-
-> >> -- =
-
-> >> 2.28.0
-> >>
-> >> _______________________________________________
-> >> dri-devel mailing list
-> >> dri-devel@lists.freedesktop.org
-> >> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
+> ---
+>   drivers/gpu/drm/drm_prime.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 11fe9ff76fd5..1e2c7ff63f16 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -627,6 +627,9 @@ struct sg_table *drm_gem_map_dma_buf(struct dma_buf_attachment *attach,
+>   	else
+>   		sgt = obj->dev->driver->gem_prime_get_sg_table(obj);
+>   
+> +	if (IS_ERR(sgt))
+> +		return sgt;
+> +
+>   	ret = dma_map_sgtable(attach->dev, sgt, dir,
+>   			      DMA_ATTR_SKIP_CPU_SYNC);
+>   	if (ret) {
 
 _______________________________________________
 dri-devel mailing list
