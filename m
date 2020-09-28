@@ -1,47 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E8D27A883
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:26:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AFD27A8B7
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:36:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DE9A6E32F;
-	Mon, 28 Sep 2020 07:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9CDE89BB0;
+	Mon, 28 Sep 2020 07:36:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com
- [209.85.161.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50CF46E2ED
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 07:26:28 +0000 (UTC)
-Received: by mail-oo1-f66.google.com with SMTP id t3so57116ook.8
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 00:26:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FIXuEXH1Fk3QAlLQe9GSnuwlSzVtMlZPFzZmwI9UqQo=;
- b=q8cUou8WudwzV52MGD/6BFzA8cJqJ5LMJMANxw5R+C004qepLRh+0rrAN3FWnghk1+
- AXXGPeiudZEPOMxoFJpn2+afXd7j3Eeq/LIajQbPXViEDy9r0zn8PX+2eYXvLS56AQ6+
- oWvMMH3LFDqGrECuyJhnu364Oiz4cctw1bUe494DtCOgbfLfQnLKwqWGmNkmbbGfdmWe
- dhOxMgAcJ5M+wklWT0SlLlNj8nwgwxr1a0RFNaTXw2MHpcgyjcWaLBHEx8T38n7S+6da
- eA//dFTsEsuIiazSSPq+LUAQiiE8XUSa4BH1SCZWGE+veBXp4S3dC2AiWCd8Krg0sVOY
- IY5w==
-X-Gm-Message-State: AOAM531+JlhvH8G7AUvfRx4tXzIyLmhxrcL65I2V80BCG/WCoJTGAhgT
- kIcc14//prcWo7YHJ4d7nN7trV3nTVrsCMfJj+m7Sjj7kGg=
-X-Google-Smtp-Source: ABdhPJwi1FqBvCqk6eXHKuHxD5zI6xr62zVsPkSsss785K8jM34uDKUyzRoSrlbneMqYlq2BfkG/5PiagZhx5YxubQ0=
-X-Received: by 2002:a4a:e616:: with SMTP id f22mr155254oot.11.1601277987442;
- Mon, 28 Sep 2020 00:26:27 -0700 (PDT)
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A12B89BB0
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 07:36:06 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08S7WEUW023843; Mon, 28 Sep 2020 09:36:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type : content-id :
+ content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=bmWZg1imqAg7aGfoNL/JguR7NrLHXxFP6oBzs89LewE=;
+ b=P4fiwDWswvUbqa/SwVjlNhzH8TkjUvOJYPjf2UP9EwSNbVoolcPWF2eP3sm6vMGWaKyt
+ nGy49MKYtgHosMVCMObcGhytKeeHPMfLNbbeTHH9hGmTXG7Zmc3feKo58vBx4bOHPzGh
+ UMs5F9yseJQ4G71OfCAMBgUCM3OFHUai2zM8NJmw4eA35mSg1YJ8OsZGwKnZ6W9kzd06
+ c626YhsnID4T+HNG59v1GC8mDaa94l+wtl8GWMlLPK+pJnaMZmuGMYKq/wHZ0pmpgib4
+ B2OrvxWzMdjH6EwsNrUxKngfQyogqc1paB+5RJTKvXbCmYSEkaBJiYoETUzYhrwMb2Nc XQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 33sts7hfqj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Sep 2020 09:36:04 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BFFEC10002A;
+ Mon, 28 Sep 2020 09:36:01 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag5node3.st.com [10.75.127.15])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A33CD21E686;
+ Mon, 28 Sep 2020 09:36:01 +0200 (CEST)
+Received: from SFHDAG6NODE1.st.com (10.75.127.16) by SFHDAG5NODE3.st.com
+ (10.75.127.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 28 Sep
+ 2020 09:36:01 +0200
+Received: from SFHDAG6NODE1.st.com ([fe80::8d96:4406:44e3:eb27]) by
+ SFHDAG6NODE1.st.com ([fe80::8d96:4406:44e3:eb27%20]) with mapi id
+ 15.00.1473.003; Mon, 28 Sep 2020 09:36:01 +0200
+From: Yannick FERTRE <yannick.fertre@st.com>
+To: Joe Perches <joe@perches.com>, Philippe CORNU <philippe.cornu@st.com>,
+ Antonio BORNEO <antonio.borneo@st.com>, Vincent ABRIOU
+ <vincent.abriou@st.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, "Alexandre
+ TORGUE" <alexandre.torgue@st.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/stm: dsi: Use dev_ based logging
+Thread-Topic: [PATCH] drm/stm: dsi: Use dev_ based logging
+Thread-Index: AQHWkyXKfX9abUar20eb4rtFyqzMOal5H6aAgARsjoA=
+Date: Mon, 28 Sep 2020 07:36:01 +0000
+Message-ID: <0f034258-c0b7-4739-ddea-b7abe9589504@st.com>
+References: <20200925102233.18016-1-yannick.fertre@st.com>
+ <c28eae83c4297e14ed039eb00154d3a7e0fddaaa.camel@perches.com>
+In-Reply-To: <c28eae83c4297e14ed039eb00154d3a7e0fddaaa.camel@perches.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.45]
+Content-ID: <D6EE5DFB51C631478802CC95F60C7892@st.com>
 MIME-Version: 1.0
-References: <20200813140041.5082-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200824004816.GS6002@pendragon.ideasonboard.com>
- <CA+V-a8uq44hKOxbwBXZ_90q6e4JjCEPwOWp4BDY7BJJaP1Cg6g@mail.gmail.com>
- <20200927200418.GA3986@pendragon.ideasonboard.com>
-In-Reply-To: <20200927200418.GA3986@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 28 Sep 2020 09:26:15 +0200
-Message-ID: <CAMuHMdX0_VDVw41ZuGy0M+d6sgNMujSas4x+YqZMWwpF-TvOZg@mail.gmail.com>
-Subject: Re: [PATCH v2] ARM: dts: r8a7742-iwg21d-q7: Add LCD support
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-28_07:2020-09-24,
+ 2020-09-28 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,75 +88,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
 
-On Sun, Sep 27, 2020 at 10:04 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Sun, Sep 27, 2020 at 02:01:50PM +0100, Lad, Prabhakar wrote:
-> > On Mon, Aug 24, 2020 at 1:48 AM Laurent Pinchart wrote:
-> > > On Thu, Aug 13, 2020 at 03:00:41PM +0100, Lad Prabhakar wrote:
-> > > > The iwg21d comes with a 7" capacitive touch screen, therefore
-> > > > add support for it.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > >
-> > > Everything seems to match the schematics :-)
-> > >
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >
-> > > > ---
-> > > > v1->v2
-> > > > * This patch is part of series [1] (rest of the patches have be accepted
-> > > >   by Geert [2]).
-> > > > * Added regulator for lvds
-> > > > * Added reset pin for touchpanel
-> > > > * This patch is based on series [3]
-> > > >
-> > > > [1] https://patchwork.kernel.org/project/linux-renesas-soc/list/
-> > > >     ?series=330277
-> > > > [2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
-> > > >     renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
-> > > > [3] https://patchwork.kernel.org/project/linux-renesas-soc/list/
-> > > >     ?series=330957
-> > > > ---
-> > > >  arch/arm/boot/dts/r8a7742-iwg21d-q7.dts | 99 +++++++++++++++++++++++++
-> > > >  1 file changed, 99 insertions(+)
-> >
-> > Would you be queueing this patch along with DRM driver patches for v5.10 ?
->
-> No, I expect Geert to do so, DT patches go through his tree. I handle
-> the drivers and DT bindings.
 
-Indeed.
+On 9/25/20 2:02 PM, Joe Perches wrote:
+> On Fri, 2020-09-25 at 12:22 +0200, Yannick Fertre wrote:
+>> Standardize on the dev_ based logging and drop the include of drm_print.h.
+>> Remove useless dsi_color_from_mipi function.
+> []
+>> diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> []
+>> -	DRM_DEBUG_DRIVER("pll_in %ukHz pll_out %ukHz lane_mbps %uMHz\n",
+>> -			 pll_in_khz, pll_out_khz, *lane_mbps);
+>> +	dev_dbg(dsi->dev, "pll_in %ukHz pll_out %ukHz lane_mbps %uMHz\n", pll_in_khz, pll_out_khz,
+>> +		*lane_mbps);
+> 
+> The line wrapping change here is pretty pointless and IMO
+> makes the code harder to read.
 
-As the dependencies are now in linux-next, I'm queueing this in
-renesas-devel for v5.11, after fixing all conflicts due to recent
-additions, and sorting &lvds0 before &pfc.
+Hi,
+ok, I will restore the line wrapping.
 
-Gr{oetje,eeting}s,
+Best regards
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yannick
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
