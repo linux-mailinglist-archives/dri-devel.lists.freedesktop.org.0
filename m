@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0453D27A471
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 01:04:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE83327A604
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 05:54:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3857B6E042;
-	Sun, 27 Sep 2020 23:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A626889BF8;
+	Mon, 28 Sep 2020 03:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5912E6E042
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Sep 2020 23:04:40 +0000 (UTC)
-Received: from DESKTOP-GFFITBK.localdomain (218-161-90-76.HINET-IP.hinet.net
- [218.161.90.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CA77223998;
- Sun, 27 Sep 2020 23:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601247880;
- bh=nQke9MOov7c5mbpzrlTleJeouUlfSQN45atI9kVqkwg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0JG8El3REpYx4bww5AJjWCe/7Mw5hIn48fZbiIl9YscTE57ap9cSmUyrC7y4O2IOW
- +y0V5cWQuxZKc1I+dl0tpIRmLe2q7xE9IPTV3hxC2+FLDF32vN4oey3ma4oFJep3D+
- oN0OluLv5mJQ1nmszLj3C1GZcDcyoz1ybof02hDU=
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: Jassi Brar <jassisinghbrar@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH 4/4] drm/mediatek: Detect CMDQ execution timeout
-Date: Mon, 28 Sep 2020 07:04:22 +0800
-Message-Id: <20200927230422.11610-5-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200927230422.11610-1-chunkuang.hu@kernel.org>
-References: <20200927230422.11610-1-chunkuang.hu@kernel.org>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE43D898E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 03:54:13 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4C07tS6Dtrz9sSC;
+ Mon, 28 Sep 2020 13:54:07 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1601265250;
+ bh=zJZbAuZVkx42FoKhUXPLJIvzQCvkeCOXLrWnMARQTLM=;
+ h=Date:From:To:Cc:Subject:From;
+ b=InBSiV7PACLpqSfam1oCU3GUsUkYDYzaH9tnw8L20pgNLTrNDbrjAYPORCvV/IEKH
+ RzeeVX3zGBfbgsbQAwYvdE8BuW1ALkEwwfzq5dbvQbzEokt4CEKhNJzgD/LI2yxyQY
+ kUZFcQAHTs3GuTj+hojmRgly0bM3n58YFOkqGlWbt9Igzyz3yrJ85+JFKRXxzShMm6
+ gez+DbcZtmLFBRbsvi1fZTRjqAbQ8HotvHVtsnGZ5NeC26K5DaKLBkKz/JYuZjh3Hl
+ AQ6v0PGQQO0Rxnq756hL4Q1UGpT/7vsYY+yGKE5iGqYKaay9ZHGSp6POkS2BZbLWrC
+ q3wObpwmu3k8g==
+Date: Mon, 28 Sep 2020 13:54:05 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
+ Christoph Hellwig <hch@lst.de>
+Subject: linux-next: build failure after merge of the drm tree
+Message-ID: <20200928135405.73404219@canb.auug.org.au>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,76 +47,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Paul Cercueil <paul@crapouillou.net>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0985420519=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CMDQ is used to update display register in vblank period, so
-it should be execute in next vblank. If it fail to execute
-in next 2 vblank, tiemout happen.
+--===============0985420519==
+Content-Type: multipart/signed; boundary="Sig_/TtqDvJSRZxzN_9i5h=CBwVG";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+--Sig_/TtqDvJSRZxzN_9i5h=CBwVG
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index f99c9d2032b8..71f770e25ad2 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -52,6 +52,7 @@ struct mtk_drm_crtc {
- 	struct mbox_client		cmdq_cl;
- 	struct mbox_chan		*cmdq_chan;
- 	u32				cmdq_event;
-+	u32				cmdq_vblank_cnt;
- #endif
- 
- 	struct device			*mmsys_dev;
-@@ -244,6 +245,7 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- 	struct mtk_drm_crtc *mtk_crtc = container_of(cl, struct mtk_drm_crtc, cmdq_cl);
- 	struct cmdq_cb_data *data = mssg;
- 
-+	mtk_crtc->cmdq_vblank_cnt = 0;
- 	cmdq_pkt_destroy(mtk_crtc->cmdq_chan, data->pkt);
- }
- #endif
-@@ -494,6 +496,11 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- 					   cmdq_handle->pa_base,
- 					   cmdq_handle->cmd_buf_size,
- 					   DMA_TO_DEVICE);
-+		/*
-+		 * CMDQ command should execute in next vblank,
-+		 * If it fail to execute in next 2 vblank, timeout happen.
-+		 */
-+		mtk_crtc->cmdq_vblank_cnt = 2;
- 		cmdq_pkt_flush_async(mtk_crtc->cmdq_chan, cmdq_handle);
- 	}
- #endif
-@@ -674,10 +681,14 @@ void mtk_crtc_ddp_irq(struct drm_crtc *crtc, struct mtk_ddp_comp *comp)
- 
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	if (!priv->data->shadow_register && !mtk_crtc->cmdq_chan)
-+		mtk_crtc_ddp_config(crtc, NULL);
-+	else if (mtk_crtc->cmdq_vblank_cnt && --mtk_crtc->cmdq_vblank_cnt == 0)
-+		DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
-+			  drm_crtc_index(&mtk_crtc->base));
- #else
- 	if (!priv->data->shadow_register)
--#endif
- 		mtk_crtc_ddp_config(crtc, NULL);
-+#endif
- 
- 	mtk_drm_finish_page_flip(mtk_crtc);
- }
--- 
-2.17.1
+Hi all,
+
+After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
+failed like this:
+
+drivers/gpu/drm/ingenic/ingenic-drm-drv.c: In function 'ingenic_drm_sync_da=
+ta':
+drivers/gpu/drm/ingenic/ingenic-drm-drv.c:478:4: error: implicit declaratio=
+n of function 'dma_cache_sync'; did you mean 'regcache_sync'? [-Werror=3Dim=
+plicit-function-declaration]
+  478 |    dma_cache_sync(priv->dev, addr + offset,
+      |    ^~~~~~~~~~~~~~
+      |    regcache_sync
+drivers/gpu/drm/ingenic/ingenic-drm-drv.c: In function 'ingenic_drm_gem_mma=
+p':
+drivers/gpu/drm/ingenic/ingenic-drm-drv.c:671:11: error: 'DMA_ATTR_NON_CONS=
+ISTENT' undeclared (first use in this function)
+  671 |   attrs =3D DMA_ATTR_NON_CONSISTENT;
+      |           ^~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/ingenic/ingenic-drm-drv.c:671:11: note: each undeclared ide=
+ntifier is reported only once for each function it appears in
+
+Caused by commit
+
+  37054fc81443 ("gpu/drm: ingenic: Add option to mmap GEM buffers cached")
+
+interacting with commits
+
+  5a8429227140 ("dma-mapping: remove dma_cache_sync")
+  efa70f2fdc84 ("dma-mapping: add a new dma_alloc_pages API")
+
+from the dma-mapping tree.
+
+Its not immediately obvious how to fix this up, so I have just marked
+CONFIG_DRM_INGENIC as BROKEN until a fix up is provided.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/TtqDvJSRZxzN_9i5h=CBwVG
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl9xXl0ACgkQAVBC80lX
+0GwLMwf9HC4vQnyBXp4F+rGioMw5maEobTmfFn1IC5QL/ahSKbDX1Sv0pYo2WCfR
+afvxdZbG1SFC9U5jF9n/gnBxyq3DIdPK+/3TScFbMGKWq23BpyA+50oVl1joZq7l
+ThZ31182NgnYUgiGnDPpSuNF2olCo0ot4c9tCuu9wHau47tqxsWm2ijp1SuzMdT8
+0rDEShd5HHDG4a9WwRpJUCsIVslKT9tfcFwjYwXGz3R+nWyIxkICLjCXQ0ze39zD
+iGJN0IVEWnzt3Ix8acp+R0OHJVEqcZwA5xmSkv8O3nOAMvm8UoU0lN2b6aOxQRYi
+o4N4nqROvaXI1VM9nzW1CA+I9WAJhw==
+=/EiK
+-----END PGP SIGNATURE-----
+
+--Sig_/TtqDvJSRZxzN_9i5h=CBwVG--
+
+--===============0985420519==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0985420519==--
