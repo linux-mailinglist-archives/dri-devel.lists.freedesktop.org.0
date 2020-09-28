@@ -2,47 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB1127BDAD
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D55C27BDD1
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:14:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112B989E26;
-	Tue, 29 Sep 2020 07:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95B189C1B;
+	Tue, 29 Sep 2020 07:14:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
- [IPv6:2607:f8b0:4864:20::a44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD1F89FF7
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 15:58:22 +0000 (UTC)
-Received: by mail-vk1-xa44.google.com with SMTP id a16so1681418vke.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skarbek.name; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=z7HCB+V/9/s0aVUEKsoSbFdR3sjfSN4Z5lZRR15GnCw=;
- b=ra8YHlS5NSorGdhwec0zWV4XDkpqqTQH0ut+iPVjBp0djFaJshYuYjGGs68d5erNzv
- 9ORN9v6wzKgWMg4uIxmqQlO60LT/y5tojrqKpL1cmSB/rLOwxkhEfQQtcJRDV0QFJ7Pz
- IoNQR73berpBGHEOlUgn5zzg9cJHSRxFCxajc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=z7HCB+V/9/s0aVUEKsoSbFdR3sjfSN4Z5lZRR15GnCw=;
- b=YxH1cykg128nMnwBVQh+0Okh9+GyE9IoqlVFdq7cTXcMrKDpVlRsYfPqwSZfuV91sd
- 8z1w7uHl9xYEnyW++aXKV1cVNV1RrP5KOWC0bnJxzh3Dys3OfJVTLiT+5L/QTSQmzGcJ
- appZk4DlG2jVNSWKZ7HUMFud4G0n5yEgL9BjeFFX9H3Bgfy1za11PZj0QyCUa3vAJSKC
- onqK4ICXITQmIk0k2Qm1+r8n8iGhM3Vt/SRpxGCbhveWQPLAs6WnK8PhQuJL42lx8VOj
- yn9sGaUtBhkS6mzhj7A5zWjKPyEGVVp0B9UxTabHkGGtvfGh4sWKop9tScIiWmyQODqM
- 6WMw==
-X-Gm-Message-State: AOAM531Eji+9VAHMAMtJY2OE/uIrh81MYwQjLUFxtYYJwnwIwDkPYcbw
- u7oldvWC1BJANFktRdPOtvB6IRaTiphhkrVOQNREo7pmLJmFuECqQ6g=
-X-Google-Smtp-Source: ABdhPJxIEe0kE2BA0JWRXMsn4fCUKS6FYNJqPnlDzgaIOH1lzfbg1AXc9BKRKEkbDT1Z6C2qv5A86tEmOv4r/d7yE7s=
-X-Received: by 2002:a1f:26cd:: with SMTP id m196mr69017vkm.7.1601308701762;
- Mon, 28 Sep 2020 08:58:21 -0700 (PDT)
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 627C789E2B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 16:30:20 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1601310620; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=SAmnBQWegwIwm9Xn+KJtdwofE2MDCDVVlnjeJizgtgQ=;
+ b=WzhNVOdnZbqaMzNDLCEFBC0ocWF1M6Riq9OkW6tOPz1htnjQcQ4gw/87JB+Z4FNebRnlIx2U
+ IHHQabmq9cZsKNnT27i2l6IwHJ1sQ1YzLuOLKA7bPVduR/7ksiV1iFqw36faGipeozEUSFq8
+ b9ux/j+/KdgdU2PEXWCyk86821o=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5f720f9b19fe605f25694f2c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 28 Sep 2020 16:30:19
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 804C2C43382; Mon, 28 Sep 2020 16:30:19 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1C0E8C433CB;
+ Mon, 28 Sep 2020 16:30:18 +0000 (UTC)
 MIME-Version: 1.0
-From: Marcin Skarbek <marcin@skarbek.name>
-Date: Mon, 28 Sep 2020 17:58:11 +0200
-Message-ID: <CA+StVuDqPHYZwG_GscLFGEiZ=TfchBw7Dh96tuer15jXej50fw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
- video device
-To: dri-devel@lists.freedesktop.org
+Date: Mon, 28 Sep 2020 22:00:17 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Jordan Crouse <jcrouse@codeaurora.org>
+Subject: Re: [PATCHv5 4/6] drm/msm/a6xx: Add support for using system
+ cache(LLC)
+In-Reply-To: <20200928161125.GA29832@jcrouse1-lnx.qualcomm.com>
+References: <cover.1600754909.git.saiprakash.ranjan@codeaurora.org>
+ <889a32458cec92ed110b94f393aa1c2f0d64dca5.1600754909.git.saiprakash.ranjan@codeaurora.org>
+ <20200923150320.GD31425@jcrouse1-lnx.qualcomm.com>
+ <800c2108606cb921fef1ffc27569ffb2@codeaurora.org>
+ <20200928161125.GA29832@jcrouse1-lnx.qualcomm.com>
+Message-ID: <4bac115897afae4fac4401c57201424e@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Tue, 29 Sep 2020 07:12:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,67 +69,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1959784657=="
+Cc: freedreno@lists.freedesktop.org, jcrouse=codeaurora.org@codeaurora.org,
+ Jonathan Marek <jonathan@marek.ca>, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Akhil P Oommen <akhilpo@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sharat Masetty <smasetty@codeaurora.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1959784657==
-Content-Type: multipart/alternative; boundary="000000000000583e5505b061bcc4"
+On 2020-09-28 21:41, Jordan Crouse wrote:
+> On Mon, Sep 28, 2020 at 05:56:55PM +0530, Sai Prakash Ranjan wrote:
+>> Hi Jordan,
+>> 
+>> On 2020-09-23 20:33, Jordan Crouse wrote:
+>> >On Tue, Sep 22, 2020 at 11:48:17AM +0530, Sai Prakash Ranjan wrote:
+>> >>From: Sharat Masetty <smasetty@codeaurora.org>
+>> >>
+>> >>The last level system cache can be partitioned to 32 different
+>> >>slices of which GPU has two slices preallocated. One slice is
+>> >>used for caching GPU buffers and the other slice is used for
+>> >>caching the GPU SMMU pagetables. This talks to the core system
+>> >>cache driver to acquire the slice handles, configure the SCID's
+>> >>to those slices and activates and deactivates the slices upon
+>> >>GPU power collapse and restore.
+>> >>
+>> >>Some support from the IOMMU driver is also needed to make use
+>> >>of the system cache to set the right TCR attributes. GPU then
+>> >>has the ability to override a few cacheability parameters which
+>> >>it does to override write-allocate to write-no-allocate as the
+>> >>GPU hardware does not benefit much from it.
+>> >>
+>> >>DOMAIN_ATTR_SYS_CACHE is another domain level attribute used by the
+>> >>IOMMU driver to set the right attributes to cache the hardware
+>> >>pagetables into the system cache.
+>> >>
+>> >>Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+>> >>[saiprakash.ranjan: fix to set attr before device attach to iommu and
+>> >>rebase]
+>> >>Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+>> >>---
+>> >> drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 83 +++++++++++++++++++++++++
+>> >> drivers/gpu/drm/msm/adreno/a6xx_gpu.h   |  4 ++
+>> >> drivers/gpu/drm/msm/adreno/adreno_gpu.c | 17 +++++
+>> >> 3 files changed, 104 insertions(+)
+>> >>
+>> >>diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> >>b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> >>index 8915882e4444..151190ff62f7 100644
+>> >>--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> >>+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> >>@@ -8,7 +8,9 @@
+>> >> #include "a6xx_gpu.h"
+>> >> #include "a6xx_gmu.xml.h"
+>> >>
+>> >>+#include <linux/bitfield.h>
+>> >> #include <linux/devfreq.h>
+>> >>+#include <linux/soc/qcom/llcc-qcom.h>
+>> >>
+>> >> #define GPU_PAS_ID 13
+>> >>
+>> >>@@ -1022,6 +1024,79 @@ static irqreturn_t a6xx_irq(struct msm_gpu *gpu)
+>> >> 	return IRQ_HANDLED;
+>> >> }
+>> >>
+>> >>+static void a6xx_llc_rmw(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 mask,
+>> >>u32 or)
+>> >>+{
+>> >>+	return msm_rmw(a6xx_gpu->llc_mmio + (reg << 2), mask, or);
+>> >>+}
+>> >>+
+>> >>+static void a6xx_llc_write(struct a6xx_gpu *a6xx_gpu, u32 reg, u32
+>> >>value)
+>> >>+{
+>> >>+	return msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
+>> >>+}
+>> >>+
+>> >>+static void a6xx_llc_deactivate(struct a6xx_gpu *a6xx_gpu)
+>> >>+{
+>> >>+	llcc_slice_deactivate(a6xx_gpu->llc_slice);
+>> >>+	llcc_slice_deactivate(a6xx_gpu->htw_llc_slice);
+>> >>+}
+>> >>+
+>> >>+static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+>> >>+{
+>> >>+	u32 cntl1_regval = 0;
+>> >>+
+>> >>+	if (IS_ERR(a6xx_gpu->llc_mmio))
+>> >>+		return;
+>> >>+
+>> >>+	if (!llcc_slice_activate(a6xx_gpu->llc_slice)) {
+>> >>+		u32 gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
+>> >>+
+>> >>+		gpu_scid &= 0x1f;
+>> >>+		cntl1_regval = (gpu_scid << 0) | (gpu_scid << 5) | (gpu_scid << 10) |
+>> >>+			       (gpu_scid << 15) | (gpu_scid << 20);
+>> >>+	}
+>> >>+
+>> >>+	if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
+>> >>+		u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
+>> >>+
+>> >>+		gpuhtw_scid &= 0x1f;
+>> >>+		cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
+>> >>+	}
+>> >>+
+>> >>+	if (cntl1_regval) {
+>> >>+		/*
+>> >>+		 * Program the slice IDs for the various GPU blocks and GPU MMU
+>> >>+		 * pagetables
+>> >>+		 */
+>> >>+		a6xx_llc_write(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1,
+>> >>cntl1_regval);
+>> >>+
+>> >>+		/*
+>> >>+		 * Program cacheability overrides to not allocate cache lines on
+>> >>+		 * a write miss
+>> >>+		 */
+>> >>+		a6xx_llc_rmw(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF,
+>> >>0x03);
+>> >>+	}
+>> >>+}
+>> >
+>> >This code has been around long enough that it pre-dates a650. On a650 and
+>> >other
+>> >MMU-500 targets the htw_llc is configured by the firmware and the
+>> >llc_slice is
+>> >configured in a different register.
+>> >
+>> >I don't think we need to pause everything and add support for the MMU-500
+>> >path,
+>> >but we do need a way to disallow LLCC on affected targets until such time
+>> >that
+>> >we can get it fixed up.
+>> >
+>> 
+>> Thanks for taking a close look, does something like below look ok or
+>> something
+>> else is needed here?
+>> 
+>> +         /* Till the time we get in LLCC support for A650 */
+>> +         if (!(info && info->revn == 650))
+>> +                 a6xx_llc_slices_init(pdev, a6xx_gpu);
+> 
+> It doesn't look like Rob picked this up for 5.10, so we have some time 
+> to do it
+> right.  Would you like me to give you an add-on patch for mmu-500 
+> targets?
+> 
 
---000000000000583e5505b061bcc4
-Content-Type: text/plain; charset="UTF-8"
+Yes that will be great.
 
-Hi Deepak,
-
-I have tested your patch using Fedora 32 as a guest and Windows 10 Pro 1809
-as host (Gen 2 VM). No issues with building or loading the kernel module
-and I have successfully run SwayWM inside VM using hyperv_drm.
-Unfortunately, I'm unable to change the resolution beyond FHD. I have a
-WQHD monitor and I would like to utilize it fully with VM running in
-full-screen mode but SwayWM detects only FHD as a max available resolution.
-Also, performance is less than desirable, even mouse pointer rendering is
-sluggish.
-I'm a poor C programmer so I won't be very helpful with development but let
-me know if there is anything I can do to help with testing future versions
-of this patch. This is something that I really would like to see in future
-kernel releases.
+Thanks,
+Sai
 
 -- 
-Regards
-Marcin Skarbek
-
---000000000000583e5505b061bcc4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Deepak,<div><br></div><div>I have tested your patch usi=
-ng Fedora 32 as a guest and Windows 10 Pro 1809 as host (Gen 2 VM). No issu=
-es with building or loading the kernel module and I have successfully run S=
-wayWM inside VM using hyperv_drm. Unfortunately, I&#39;m unable to=C2=A0cha=
-nge the resolution beyond FHD. I have a WQHD monitor and I would like to ut=
-ilize it fully with VM running in full-screen mode but SwayWM detects only =
-FHD as a max available resolution.  Also, performance is less than desirabl=
-e, even mouse pointer rendering is sluggish. </div><div>I&#39;m a poor C pr=
-ogrammer so I won&#39;t be very helpful with development but let me know if=
- there is anything I can do to help with testing future versions of this pa=
-tch. This is something that I really <span style=3D"font-size:calc(var(--re=
-m)*1px*1.0625);letter-spacing:0px">would </span><span style=3D"font-size:ca=
-lc(var(--rem)*1px*1.0625);letter-spacing:0px">like to see in future kernel =
-releases.</span></div><div><div><br></div>-- <br><div data-smartmail=3D"gma=
-il_signature" class=3D"gmail_signature" dir=3D"ltr"><div dir=3D"ltr"><div>R=
-egards<br></div>Marcin Skarbek<br></div></div></div></div>
-
---000000000000583e5505b061bcc4--
-
---===============1959784657==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1959784657==--
