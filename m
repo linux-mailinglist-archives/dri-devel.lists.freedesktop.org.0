@@ -2,64 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40BD27BDC9
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:14:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B6927BDB3
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B52F889BD4;
-	Tue, 29 Sep 2020 07:14:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E204189E69;
+	Tue, 29 Sep 2020 07:13:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 640B189FE3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 12:00:00 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id c2so619496qkf.10
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 05:00:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Nnyy03xtiFPqmZlbmE+teLd8X53Eyq870inKRyNgjhU=;
- b=cpTT38evNw+rKQlt8Mlfz+BF1L43eGL86jpoXMo+Dx5radXSYHjzMU4Ix0wbNMvD0H
- fvZcy2qIWnsxh6v42+ZhCo25LYDNx1+q6ijgiffs3Iu24+bsigZ/TM0X65cDYdtsVZ6C
- t6vNqOrmQ9xjh2s/D20MAfG0vXooZEloQRp9WHymBxHn/JfNF7dIKcp4kOBU2+7OPoIg
- Uyv9GlNtnrkczuMmQjyYtC7TWKuZT15bnCNwPI2cOG2R/GZAY0Sjmi6Oy/qfPFQfA1p+
- KWxQxzawW7qf7uH2R0j1ReHvVA4h96xyCCAyEb60H0dWNZa71DG3pdblyQSdxENWNM9q
- v0CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Nnyy03xtiFPqmZlbmE+teLd8X53Eyq870inKRyNgjhU=;
- b=Ibxwr6qPXzbNvzuGDo10xCRK+/7Ot8K5qlZsL+pRj5Ror7gA6g8atVf0i+KqSF58zO
- DqxgGzJuVcwvK4jNzRtCmxjTL907HjVlA2nGD+8sTWB/msX4ZWIeG5AO5ONNv/yYgvBL
- SAX0NXrSblW8oeO20ogCO/uMbi4XpQF0dURAHHcTANnuP9OxtdYT6iLjMz0rhQAeZhzk
- +KFBnfci1p+798FHDXW5RXJ3YusjZ5ep0QDUIe734RUhntMVWOCtT25gOJtTv0R7c9LX
- ppq6zkTKxupprgrydGQKeX1uLdbTXQqGlsmIIkEiEtsUy/RyEU6fFu4yjD5Vg9Zn26zZ
- hROw==
-X-Gm-Message-State: AOAM533zx/JgD59mv7YXWD7B/EQkUngzZ+piMMvDGHkO5+Nn2gr80GUL
- /a79WCy18x79oKqnRU/zkJNNGQ==
-X-Google-Smtp-Source: ABdhPJy4ItawkHdUEb++0v6F8cioYGcvW7vFqwz9rqzCYPXyBaZkc0rsz2ludjLRsOxbhbldqcQIUA==
-X-Received: by 2002:a37:b8c2:: with SMTP id i185mr968855qkf.87.1601294399390; 
- Mon, 28 Sep 2020 04:59:59 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id q72sm727727qka.22.2020.09.28.04.59.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Sep 2020 04:59:58 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kMroz-001tq4-Rn; Mon, 28 Sep 2020 08:59:57 -0300
-Date: Mon, 28 Sep 2020 08:59:57 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH] mm: do not rely on mm == current->mm in
- __get_user_pages_locked
-Message-ID: <20200928115957.GM9916@ziepe.ca>
-References: <CAHmME9ppPhLLtS4Vd5g-Yz9dZUUc7V_yjA8qOkYs4HsnGWtpcQ@mail.gmail.com>
- <20200928103507.2164-1-Jason@zx2c4.com>
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3825A6E117
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 12:27:04 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1601296025; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=KkChGI+YeqZAg3DuMRg/VqX+l3pGX1T0VLK9izTxs/U=;
+ b=nZkpYMIJZgE5/CAHUj801eO48YZrWCPyYzyqLHMoxImgqgfwuLfsP6qi2y6QMR6P0/cLqYAe
+ 07rQBQ8tbVKJ55dqAV3GaPe7Wsw6tULUuBRm3fhbRRFJbGZzanGfkNH7BhZkMiEWTCDWb8sW
+ Tcz4HL+4CB8ygEsp5Ez3bbFG4Pk=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5f71d69197ca3ed0fb2dca55 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 28 Sep 2020 12:26:57
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2FA9FC433F1; Mon, 28 Sep 2020 12:26:57 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id DAD27C433CA;
+ Mon, 28 Sep 2020 12:26:55 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200928103507.2164-1-Jason@zx2c4.com>
+Date: Mon, 28 Sep 2020 17:56:55 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Jordan Crouse <jcrouse@codeaurora.org>
+Subject: Re: [PATCHv5 4/6] drm/msm/a6xx: Add support for using system
+ cache(LLC)
+In-Reply-To: <20200923150320.GD31425@jcrouse1-lnx.qualcomm.com>
+References: <cover.1600754909.git.saiprakash.ranjan@codeaurora.org>
+ <889a32458cec92ed110b94f393aa1c2f0d64dca5.1600754909.git.saiprakash.ranjan@codeaurora.org>
+ <20200923150320.GD31425@jcrouse1-lnx.qualcomm.com>
+Message-ID: <800c2108606cb921fef1ffc27569ffb2@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Tue, 29 Sep 2020 07:12:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,75 +67,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, linux-mm@kvack.org, peterx@redhat.com,
- akpm@linux-foundation.org, torvalds@linux-foundation.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ iommu@lists.linux-foundation.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sharat Masetty <smasetty@codeaurora.org>,
+ linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 28, 2020 at 12:35:07PM +0200, Jason A. Donenfeld wrote:
-> It seems likely this block was pasted from internal_get_user_pages_fast,
-> which is not passed an mm struct and therefore uses current's. But
-> __get_user_pages_locked is passed an explicit mm, and current->mm is not
-> always valid. This was hit when being called from i915, which uses:
-> 
->   pin_user_pages_remote->
->     __get_user_pages_remote->
->       __gup_longterm_locked->
->         __get_user_pages_locked
-> 
-> Before, this would lead to an OOPS:
-> 
->   BUG: kernel NULL pointer dereference, address: 0000000000000064
->   #PF: supervisor write access in kernel mode
->   #PF: error_code(0x0002) - not-present page
->   PGD 0 P4D 0
->   Oops: 0002 [#1] SMP
->   CPU: 10 PID: 1431 Comm: kworker/u33:1 Tainted: P S   U     O      5.9.0-rc7+ #140
->   Hardware name: LENOVO 20QTCTO1WW/20QTCTO1WW, BIOS N2OET47W (1.34 ) 08/06/2020
->   Workqueue: i915-userptr-acquire __i915_gem_userptr_get_pages_worker [i915]
->   RIP: 0010:__get_user_pages_remote+0xd7/0x310
->   Code: f5 01 00 00 83 7d 00 01 0f 85 ed 01 00 00 f7 c1 00 00 04 00 0f 84 58 01 00 00 65 48 8b 04 25 00 6d 01 00 48 8b 80 40 03 00 00 <c7> 40 64 01 00 00 00 65 48 8b 04 25 00 6d 01 00 48 c7 44 24 18 00
->   RSP: 0018:ffff888fdfe47de0 EFLAGS: 00010206
->   RAX: 0000000000000000 RBX: 00007fe188531000 RCX: 0000000000040001
->   RDX: 0000000000000001 RSI: 00007fe188531000 RDI: ffff888ff0748f00
->   RBP: ffff888fdfe47e54 R08: ffff888fedc7d7c8 R09: 0000000000000000
->   R10: 0000000000000018 R11: fefefefefefefeff R12: ffff888ff0748f00
->   R13: ffff888fedc7d7c8 R14: ffff888f81fe3a40 R15: 0000000000042003
->   FS:  0000000000000000(0000) GS:ffff888ffc480000(0000) knlGS:0000000000000000
->   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->   CR2: 0000000000000064 CR3: 0000000002009003 CR4: 00000000003706e0
->   DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
->   DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
->   Call Trace:
->    __i915_gem_userptr_get_pages_worker+0xc8/0x260 [i915]
->    process_one_work+0x1ca/0x390
->    worker_thread+0x48/0x3c0
->    ? rescuer_thread+0x3d0/0x3d0
->    kthread+0x114/0x130
->    ? kthread_create_worker_on_cpu+0x40/0x40
->    ret_from_fork+0x1f/0x30
->   CR2: 0000000000000064
-> 
-> This commit fixes the problem by using the mm pointer passed to the
-> function rather than the bogus one in current.
-> 
-> Fixes: 008cfe4418b3 ("mm: Introduce mm_struct.has_pinned")
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Peter Xu <peterx@redhat.com>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
->  mm/gup.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Jordan,
 
-Yes this looks like the right fix
+On 2020-09-23 20:33, Jordan Crouse wrote:
+> On Tue, Sep 22, 2020 at 11:48:17AM +0530, Sai Prakash Ranjan wrote:
+>> From: Sharat Masetty <smasetty@codeaurora.org>
+>> 
+>> The last level system cache can be partitioned to 32 different
+>> slices of which GPU has two slices preallocated. One slice is
+>> used for caching GPU buffers and the other slice is used for
+>> caching the GPU SMMU pagetables. This talks to the core system
+>> cache driver to acquire the slice handles, configure the SCID's
+>> to those slices and activates and deactivates the slices upon
+>> GPU power collapse and restore.
+>> 
+>> Some support from the IOMMU driver is also needed to make use
+>> of the system cache to set the right TCR attributes. GPU then
+>> has the ability to override a few cacheability parameters which
+>> it does to override write-allocate to write-no-allocate as the
+>> GPU hardware does not benefit much from it.
+>> 
+>> DOMAIN_ATTR_SYS_CACHE is another domain level attribute used by the
+>> IOMMU driver to set the right attributes to cache the hardware
+>> pagetables into the system cache.
+>> 
+>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+>> [saiprakash.ranjan: fix to set attr before device attach to iommu and 
+>> rebase]
+>> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+>> ---
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 83 
+>> +++++++++++++++++++++++++
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h   |  4 ++
+>>  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 17 +++++
+>>  3 files changed, 104 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c 
+>> b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> index 8915882e4444..151190ff62f7 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> @@ -8,7 +8,9 @@
+>>  #include "a6xx_gpu.h"
+>>  #include "a6xx_gmu.xml.h"
+>> 
+>> +#include <linux/bitfield.h>
+>>  #include <linux/devfreq.h>
+>> +#include <linux/soc/qcom/llcc-qcom.h>
+>> 
+>>  #define GPU_PAS_ID 13
+>> 
+>> @@ -1022,6 +1024,79 @@ static irqreturn_t a6xx_irq(struct msm_gpu 
+>> *gpu)
+>>  	return IRQ_HANDLED;
+>>  }
+>> 
+>> +static void a6xx_llc_rmw(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 
+>> mask, u32 or)
+>> +{
+>> +	return msm_rmw(a6xx_gpu->llc_mmio + (reg << 2), mask, or);
+>> +}
+>> +
+>> +static void a6xx_llc_write(struct a6xx_gpu *a6xx_gpu, u32 reg, u32 
+>> value)
+>> +{
+>> +	return msm_writel(value, a6xx_gpu->llc_mmio + (reg << 2));
+>> +}
+>> +
+>> +static void a6xx_llc_deactivate(struct a6xx_gpu *a6xx_gpu)
+>> +{
+>> +	llcc_slice_deactivate(a6xx_gpu->llc_slice);
+>> +	llcc_slice_deactivate(a6xx_gpu->htw_llc_slice);
+>> +}
+>> +
+>> +static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+>> +{
+>> +	u32 cntl1_regval = 0;
+>> +
+>> +	if (IS_ERR(a6xx_gpu->llc_mmio))
+>> +		return;
+>> +
+>> +	if (!llcc_slice_activate(a6xx_gpu->llc_slice)) {
+>> +		u32 gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
+>> +
+>> +		gpu_scid &= 0x1f;
+>> +		cntl1_regval = (gpu_scid << 0) | (gpu_scid << 5) | (gpu_scid << 10) 
+>> |
+>> +			       (gpu_scid << 15) | (gpu_scid << 20);
+>> +	}
+>> +
+>> +	if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
+>> +		u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
+>> +
+>> +		gpuhtw_scid &= 0x1f;
+>> +		cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
+>> +	}
+>> +
+>> +	if (cntl1_regval) {
+>> +		/*
+>> +		 * Program the slice IDs for the various GPU blocks and GPU MMU
+>> +		 * pagetables
+>> +		 */
+>> +		a6xx_llc_write(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, 
+>> cntl1_regval);
+>> +
+>> +		/*
+>> +		 * Program cacheability overrides to not allocate cache lines on
+>> +		 * a write miss
+>> +		 */
+>> +		a6xx_llc_rmw(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 
+>> 0x03);
+>> +	}
+>> +}
+> 
+> This code has been around long enough that it pre-dates a650. On a650 
+> and other
+> MMU-500 targets the htw_llc is configured by the firmware and the 
+> llc_slice is
+> configured in a different register.
+> 
+> I don't think we need to pause everything and add support for the 
+> MMU-500 path,
+> but we do need a way to disallow LLCC on affected targets until such 
+> time that
+> we can get it fixed up.
+> 
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Thanks for taking a close look, does something like below look ok or 
+something
+else is needed here?
+
++         /* Till the time we get in LLCC support for A650 */
++         if (!(info && info->revn == 650))
++                 a6xx_llc_slices_init(pdev, a6xx_gpu);
 
 Thanks,
-Jason
+Sai
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
