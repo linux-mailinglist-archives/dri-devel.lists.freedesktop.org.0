@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F30927B197
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 18:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032AF27B19E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 18:16:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A85F89D5C;
-	Mon, 28 Sep 2020 16:14:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F81089D61;
+	Mon, 28 Sep 2020 16:16:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C26FC89D5C
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 16:14:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 024BE89D61
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 16:16:00 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209417] New: kernel-5.8*, amdgpu - Blank screen shortly after
- boot, "fixed" with suspend and wake up
-Date: Mon, 28 Sep 2020 16:14:53 +0000
+Subject: [Bug 209417] kernel-5.8*, amdgpu - Blank screen shortly after boot,
+ "fixed" with suspend and wake up
+Date: Mon, 28 Sep 2020 16:15:59 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-209417-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-209417-2300-K2ZhsvFLSG@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209417-2300@https.bugzilla.kernel.org/>
+References: <bug-209417-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -59,54 +59,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209417
 
-            Bug ID: 209417
-           Summary: kernel-5.8*, amdgpu - Blank screen shortly after boot,
-                    "fixed" with suspend and wake up
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: >=5.8
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: juantxorena@gmail.com
-        Regression: No
+--- Comment #1 from Juan (juantxorena@gmail.com) ---
+Created attachment 292701
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292701&action=edit
+boot log 5.7.17 fedora - working
 
-Created attachment 292699
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292699&action=edit
-boot log 5.8.11 fedora
-
-When using a 5.8.* kernel, the following happens:
-
-- During boot, some initial messages appear, then the screen flickers a couple
-of times and it goes blank
-
-- I blind-enter the LUKS password, and it appears to work because
-
-- pressing the sleep key of the keyboard (laptop) works and the laptop suspends
-
-- after waking it up, it works normally
-
-This happens with the normal boot options and without options "rhgb" and
-"quiet". The problem goes away when using the "nomodeset" option in the kernel.
-
-Hardware: Dell Precision 7530 laptop, Radeon Pro WX 4150 and integrated GPU
-Intel UHD Graphics 630.
-
-I have tried this with fedora kernels (the distro I use), and also with an
-OpenSUSE live USB with a kernel 5.8.10. The problem persists, and the "fix" is
-the same.
-
-I attach the kernel log of a boot with the 5.8.11 kernel.
-
-Extra information: I have had some problems with suspend, after suspending the
-screen is blank and I have to close the lid and open again. This happens since
-various kernels ago, but I never reported because it wasn't serious and I use
-hibernate anyway. It may be related, since it works after suspend-wake up.
+This is the boot log of a boot with the kernel 5.7.17 with fedora, which
+doesn't present this problem.
 
 -- 
 You are receiving this mail because:
