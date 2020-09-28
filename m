@@ -1,73 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379FD27BDAB
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:13:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E38F27BDC0
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7D4A89E14;
-	Tue, 29 Sep 2020 07:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED53F6E433;
+	Tue, 29 Sep 2020 07:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2EAF89FED
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:20:32 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 40A43580337;
- Mon, 28 Sep 2020 04:20:32 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 28 Sep 2020 04:20:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=bixeI4z/Tx3lM/3t0n5bNHbdn38
- 15ed3FVCipXmzsAU=; b=Rgce63ZKkJ/T3RrowNF4L4Q3kmxBOOZfuK+JaybTVRT
- s8qklFUBkrmiKyxKCd4FxOwnXw15cQ/7f7CwlheHLtRwzSygn+p06iVZeTSNEFWf
- uNw86PQqnLPlTR4s72NAoUkDXE4O79sj3mjUK72IQVuYo2spXKQz44GYJSRdM/Y6
- a4DcG2moWyt6CLVvLYnWhaHZlaVQ443Ibkt5FpEjYTpQFAwwCHUQPv0fZ8aL9wke
- ViqY4IQGL4ctJUeKRh026DWMwEcVTW2OJtnkhhllreFq17J6lk6e3yJOFo159Zqv
- OAOYV/QCZbyOwT5TNFDxZr0uwO5FVm9Caahu7NldE0g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=bixeI4
- z/Tx3lM/3t0n5bNHbdn3815ed3FVCipXmzsAU=; b=POCJp1WNMFUWDYGWrH5XK4
- d7qgz1s+jPfWhBF/QtQS/28LpIAyeHNDfo/o1xtBE60qpuLGyrQIDBnAnEVWa2Pg
- Ujz/GwQcCb2qYIYTdfp3cqM3qcKaVvNYq89KY0OYZRU6ltNlJw2lTAHe+695ATvU
- NaNBeWcKrrytuuTwx1+OV5MbP5cUZdHvCx+jRz+HCuVbxgGyUWtVS39apm03Gose
- kHy2wuJO4ea6phva4wa/3TjuMUXZReC0014aLrH8PZETIpBMqPlTZGndIy7HwHVE
- w5DOczx3+a6fCSel7zK48rJYtxbZ6+BNxnd/OgpYVHo6tiKxxSqntoUdqnaIiTcA
- ==
-X-ME-Sender: <xms:z5xxX4eCtpu7lzZrInOCWR9NNTl8qj_DDrQvSddNQ1aP8VNvR6REUw>
- <xme:z5xxX6P5ZPQbuNWZNVaaqs6INu7A6tQC8GxfU132mROz4dTXokbnk2gbu2vknsyIG
- qk-neYGb6p8p8B36j0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdeigddtfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeffteetveeijeetuefhffegkeetgffhieelheehtdduudethffhjedtvddtudel
- vdenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecukfhppeeltddrkeelrd
- eikedrjeeinecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhho
- mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:z5xxX5gU6zoJpQcNvA1Hgfcw5B4DMWnkj2HfMZNqp_WHL9GYLKBa3g>
- <xmx:z5xxX9_Am1vsbnU0E4mfUeEU5yY06ALMlazOEt_be6ZpJsKPZAawCA>
- <xmx:z5xxX0s9cVxozOzr451vgxUPEIsvuFgUXpGlsHHBr1X2T_V6wObCRA>
- <xmx:0JxxXyBTaFhMvV_e1Wyki_Ywby_11yekfsQu5JaLy9mJa8oF5biB3Q>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5B7F7306467E;
- Mon, 28 Sep 2020 04:20:31 -0400 (EDT)
-Date: Mon, 28 Sep 2020 10:20:29 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Kevin Tang <kevin3.tang@gmail.com>
-Subject: Re: [PATCH RFC v7 5/6] dt-bindings: display: add Unisoc's mipi
- dsi&dphy bindings
-Message-ID: <20200928082029.cohvqu5zf3uiqz4a@gilmour.lan>
-References: <1601274460-7866-1-git-send-email-kevin3.tang@gmail.com>
- <1601274460-7866-6-git-send-email-kevin3.tang@gmail.com>
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44EDF89E5B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:35:20 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 032E453F7FBAD8837765;
+ Mon, 28 Sep 2020 16:35:17 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 28 Sep 2020 16:35:14 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
+ <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
+ <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/hisilicon: Using the to_hibmc_drm_private to convert
+Date: Mon, 28 Sep 2020 16:32:43 +0800
+Message-ID: <1601281963-42133-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <1601274460-7866-6-git-send-email-kevin3.tang@gmail.com>
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 29 Sep 2020 07:12:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,145 +43,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, airlied@linux.ie, zhang.lyra@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, orsonzhai@gmail.com, sean@poorly.run
-Content-Type: multipart/mixed; boundary="===============1003052488=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Using the to_hibmc_drm_private to convert over all uses of dev_private
+over to the function, and fix a little formatting issue.
 
---===============1003052488==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7d5qhqeqot6eoq5f"
-Content-Disposition: inline
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   | 22 +++++++++++-----------
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  |  5 ++---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c |  4 ++--
+ 3 files changed, 15 insertions(+), 16 deletions(-)
 
-
---7d5qhqeqot6eoq5f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-On Mon, Sep 28, 2020 at 02:27:39PM +0800, Kevin Tang wrote:
-> From: Kevin Tang <kevin.tang@unisoc.com>
->=20
-> Adds MIPI DSI Master and MIPI DSI-PHY (D-PHY)
-> support for Unisoc's display subsystem.
->=20
-> RFC v7:
->   - Fix DTC unit name warnings
->   - Fix the problem of maintainers
->=20
-> Cc: Orson Zhai <orsonzhai@gmail.com>
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
-> ---
->  .../display/sprd/sprd,sharkl3-dsi-host.yaml        | 98 ++++++++++++++++=
-++++++
->  .../display/sprd/sprd,sharkl3-dsi-phy.yaml         | 75 +++++++++++++++++
->  2 files changed, 173 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,s=
-harkl3-dsi-host.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,s=
-harkl3-dsi-phy.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-=
-dsi-host.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3=
--dsi-host.yaml
-> new file mode 100644
-> index 0000000..b6bbf67
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-hos=
-t.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/sprd/sprd,sharkl3-dsi-host.ya=
-ml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Unisoc MIPI DSI Controller
-> +
-> +maintainers:
-> +  - Kevin Tang <kevin.tang@unisoc.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: sprd,sharkl3-dsi-host
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description:
-> +      Physical base address and length of the registers set for the devi=
-ce.
-> +
-> +  interrupts:
-> +    maxItems: 2
-> +    description:
-> +      Should contain DSI interrupt.
-> +
-> +  clocks:
-> +    minItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: clk_src_96m
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +    description: A phandle to DSIM power domain node
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  port@0:
-> +    type: object
-> +    description:
-> +      A port node with endpoint definitions as defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +      That port should be the input endpoint, usually coming from
-> +      the associated DPU.
-> +  port@1:
-> +    type: object
-> +    description:
-> +      A port node with endpoint definitions as defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +      That port should be the output endpoint, usually output to
-> +      the associated DPHY.
-
-Is there a specific reason you don't follow the OF-graph and have a
-ports subnode with your two port@X in there?
-
-Maxime
-
---7d5qhqeqot6eoq5f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3GczQAKCRDj7w1vZxhR
-xaEhAPoDwZxD/133V+O4UvvxlCA2w7GoDA0azjp49ZAg91P0cAD/bsePZrvlU2gX
-NCA1N4MmNff7GhGySuL7p74K0xGS2Q8=
-=5iWP
------END PGP SIGNATURE-----
-
---7d5qhqeqot6eoq5f--
-
---===============1003052488==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+index 4d57ec6..a98f993 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+@@ -105,7 +105,7 @@ static void hibmc_plane_atomic_update(struct drm_plane *plane,
+ 	u32 reg;
+ 	s64 gpu_addr = 0;
+ 	unsigned int line_l;
+-	struct hibmc_drm_private *priv = plane->dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(plane->dev);
+ 	struct drm_gem_vram_object *gbo;
+ 
+ 	if (!state->fb)
+@@ -159,7 +159,7 @@ static const struct drm_plane_helper_funcs hibmc_plane_helper_funcs = {
+ 
+ static void hibmc_crtc_dpms(struct drm_crtc *crtc, int dpms)
+ {
+-	struct hibmc_drm_private *priv = crtc->dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+ 	unsigned int reg;
+ 
+ 	reg = readl(priv->mmio + HIBMC_CRT_DISP_CTL);
+@@ -175,7 +175,7 @@ static void hibmc_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				     struct drm_crtc_state *old_state)
+ {
+ 	unsigned int reg;
+-	struct hibmc_drm_private *priv = crtc->dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+ 
+ 	hibmc_set_power_mode(priv, HIBMC_PW_MODE_CTL_MODE_MODE0);
+ 
+@@ -194,7 +194,7 @@ static void hibmc_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				      struct drm_crtc_state *old_state)
+ {
+ 	unsigned int reg;
+-	struct hibmc_drm_private *priv = crtc->dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+ 
+ 	hibmc_crtc_dpms(crtc, HIBMC_CRT_DPMS_OFF);
+ 	drm_crtc_vblank_off(crtc);
+@@ -254,7 +254,7 @@ static unsigned int format_pll_reg(void)
+ static void set_vclock_hisilicon(struct drm_device *dev, unsigned long pll)
+ {
+ 	u32 val;
+-	struct hibmc_drm_private *priv = dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 
+ 	val = readl(priv->mmio + CRT_PLL1_HS);
+ 	val &= ~(CRT_PLL1_HS_OUTER_BYPASS(1));
+@@ -315,7 +315,7 @@ static unsigned int display_ctrl_adjust(struct drm_device *dev,
+ 	unsigned long x, y;
+ 	u32 pll1; /* bit[31:0] of PLL */
+ 	u32 pll2; /* bit[63:32] of PLL */
+-	struct hibmc_drm_private *priv = dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 
+ 	x = mode->hdisplay;
+ 	y = mode->vdisplay;
+@@ -363,7 +363,7 @@ static void hibmc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 	unsigned int val;
+ 	struct drm_display_mode *mode = &crtc->state->mode;
+ 	struct drm_device *dev = crtc->dev;
+-	struct hibmc_drm_private *priv = dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 	int width = mode->hsync_end - mode->hsync_start;
+ 	int height = mode->vsync_end - mode->vsync_start;
+ 
+@@ -397,7 +397,7 @@ static void hibmc_crtc_atomic_begin(struct drm_crtc *crtc,
+ {
+ 	unsigned int reg;
+ 	struct drm_device *dev = crtc->dev;
+-	struct hibmc_drm_private *priv = dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 
+ 	hibmc_set_power_mode(priv, HIBMC_PW_MODE_CTL_MODE_MODE0);
+ 
+@@ -427,7 +427,7 @@ static void hibmc_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ static int hibmc_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct hibmc_drm_private *priv = crtc->dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+ 
+ 	writel(HIBMC_RAW_INTERRUPT_EN_VBLANK(1),
+ 	       priv->mmio + HIBMC_RAW_INTERRUPT_EN);
+@@ -437,7 +437,7 @@ static int hibmc_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void hibmc_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct hibmc_drm_private *priv = crtc->dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+ 
+ 	writel(HIBMC_RAW_INTERRUPT_EN_VBLANK(0),
+ 	       priv->mmio + HIBMC_RAW_INTERRUPT_EN);
+@@ -445,7 +445,7 @@ static void hibmc_crtc_disable_vblank(struct drm_crtc *crtc)
+ 
+ static void hibmc_crtc_load_lut(struct drm_crtc *crtc)
+ {
+-	struct hibmc_drm_private *priv = crtc->dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+ 	void __iomem   *mmio = priv->mmio;
+ 	u16 *r, *g, *b;
+ 	unsigned int reg;
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 085d1b2..5632bce 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -29,8 +29,7 @@ DEFINE_DRM_GEM_FOPS(hibmc_fops);
+ static irqreturn_t hibmc_drm_interrupt(int irq, void *arg)
+ {
+ 	struct drm_device *dev = (struct drm_device *)arg;
+-	struct hibmc_drm_private *priv =
+-		(struct hibmc_drm_private *)dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 	u32 status;
+ 
+ 	status = readl(priv->mmio + HIBMC_RAW_INTERRUPT);
+@@ -244,7 +243,7 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
+ 
+ static int hibmc_unload(struct drm_device *dev)
+ {
+-	struct hibmc_drm_private *priv = dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 
+ 	drm_atomic_helper_shutdown(dev);
+ 
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+index c6999ed..74e26c2 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+@@ -43,7 +43,7 @@ static int hibmc_connector_get_modes(struct drm_connector *connector)
+ }
+ 
+ static enum drm_mode_status hibmc_connector_mode_valid(struct drm_connector *connector,
+-				      struct drm_display_mode *mode)
++						       struct drm_display_mode *mode)
+ {
+ 	return MODE_OK;
+ }
+@@ -76,7 +76,7 @@ static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
+ {
+ 	u32 reg;
+ 	struct drm_device *dev = encoder->dev;
+-	struct hibmc_drm_private *priv = dev->dev_private;
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 
+ 	reg = readl(priv->mmio + HIBMC_DISPLAY_CONTROL_HISILE);
+ 	reg |= HIBMC_DISPLAY_CONTROL_FPVDDEN(1);
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1003052488==--
