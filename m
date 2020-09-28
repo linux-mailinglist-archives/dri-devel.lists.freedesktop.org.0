@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B16327B143
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 17:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B90427B14F
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 17:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D80789949;
-	Mon, 28 Sep 2020 15:55:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D269895E2;
+	Mon, 28 Sep 2020 15:59:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 943A589949
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 15:55:19 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2C2FE21548
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 15:55:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601308519;
- bh=aSV7ZH6xNk5TES2uXpq9qodN2hGgszJyb+Qy8dtrr9Q=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UC+Urg/4tXj0ESHccTXdy6Mn9iOb0dzqNdBA82i9sv+QgGUw/nzBtpd5sGCqnsAQd
- 4GpISw3LiYghb0X9MMpVWP5jkFTPFgBxd2Rbzkn7OjRJpTzIFeXl82aJHVtpAfryaL
- +35qwXG6LAtgIARn1B2Ay7j2YOAmr2xy00rb/bqY=
-Received: by mail-ed1-f43.google.com with SMTP id t16so1912194edw.7
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:55:19 -0700 (PDT)
-X-Gm-Message-State: AOAM532PXob1oyvq4AqO5sf4mbS6grPoOEyb08M/JV5jboIutx8ODq9M
- E0w9BXf+AtiaKCV1JGYIpIGrFwQ/NSfMyctFMw==
-X-Google-Smtp-Source: ABdhPJx4YanUWfNwGENzNdM53m6d3jHq61s+O+2C0Gkq0tQ8HJb7RSlQaQey6NWxQ/TyXJJ2f/dg/3N5SilLFir7BdQ=
-X-Received: by 2002:a05:6402:d09:: with SMTP id
- eb9mr2465473edb.219.1601308517772; 
- Mon, 28 Sep 2020 08:55:17 -0700 (PDT)
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92BB3895E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 15:59:55 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id v20so1861592oiv.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 08:59:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pDZaQ21Usp87w25mzRYuT8tC9E3ltWzHrXuhQk5quZo=;
+ b=X3iI2OK8Y5ys8yhs9lNkYfHN+Z4itTcLuez/33yOQ9jM59ecbulaEIjp+5f2BtvFut
+ fKtUDQXaBk7h4LO3pCajfx4nxUcebHoVs+Xx+ms85p709Fh1bdzdJH40O7ZXujtPWiQa
+ ifdf2RCaGHMMQLQR+2uDiFUF1HG6TWY8F/53czW7TT+BkmevCSjhy7BqtIxqNE14A46A
+ llYNi6tW3eC79ZESd6kfJOotJw7UCAmpkKUdkjisHObL31EV0yaWZK37duiul4J5lkyk
+ xkLakXa6r4FpE80gRnhQfKm3fJf2hWSMCr4PEUFhZzdmtxpcukLlAO9OPFRfVwUfEdtY
+ sgVQ==
+X-Gm-Message-State: AOAM5300/0b7a/b5CvNCcojbuO/nHhggMicHIGtOR4vjvbnJT5E0am5b
+ ygX474rjSR1Lck9q4HnWCg==
+X-Google-Smtp-Source: ABdhPJzx+t1SOL3gjMvBl7qVDgfaG2ctw26l0RciW4e4fNOhVNui+5TwEJ9WxZinHySz68G0w5+aZg==
+X-Received: by 2002:aca:f203:: with SMTP id q3mr1238105oih.148.1601308794852; 
+ Mon, 28 Sep 2020 08:59:54 -0700 (PDT)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.googlemail.com with ESMTPSA id u2sm2170497oot.39.2020.09.28.08.59.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Sep 2020 08:59:54 -0700 (PDT)
+From: Rob Herring <robh@kernel.org>
+To: devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: Fix 'reg' size issues in zynqmp examples
+Date: Mon, 28 Sep 2020 10:59:53 -0500
+Message-Id: <20200928155953.2819930-1-robh@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200914231227.30500-1-chunkuang.hu@kernel.org>
-In-Reply-To: <20200914231227.30500-1-chunkuang.hu@kernel.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 28 Sep 2020 23:55:07 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__u7AgKuLc6mVoVZrt1sQnu4vYyn8EwhK7B4dh7FoNAug@mail.gmail.com>
-Message-ID: <CAAOTY__u7AgKuLc6mVoVZrt1sQnu4vYyn8EwhK7B4dh7FoNAug@mail.gmail.com>
-Subject: Re: [GIT PULL] mediatek drm next for 5.10
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,98 +55,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>, Michal Simek <michal.simek@xilinx.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dmaengine@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIERhdmUgJiBEYW5pZWw6CgpJIGRvZXMgbm90IHNlZSB0aGVzZSBwYXRjaGVzIGluIGRybS1u
-ZXh0IGJyYW5jaC4gRG9lcyB0aGVzZSBwYXRjaGVzCmhhdmUgYW55IHByb2JsZW0/CgpSZWdhcmRz
-LApDaHVuLUt1YW5nLgoKQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+IOaW
-vCAyMDIw5bm0OeaciDE15pelIOmAseS6jCDkuIrljYg3OjEy5a+r6YGT77yaCj4KPiBIaSwgRGF2
-ZSAmIERhbmllbDoKPgo+IFRoaXMgaW5jbHVkZXM6Cj4KPiAxLiBNb3ZlIE1lZGlhdGVrIEhETUkg
-UEhZIGRyaXZlciBmcm9tIERSTSBmb2xkZXIgdG8gUEhZIGZvbGRlcgo+IDIuIENvbnZlcnQgbXRr
-LWRwaSB0byBkcm1fYnJpZGdlIEFQSQo+IDMuIERpc2FibGUgdG1kcyBvbiBtdDI3MDEKPgo+IFJl
-Z2FyZHMsCj4gQ2h1bi1LdWFuZy4KPgo+IFRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21t
-aXQgOTEyM2UzYTc0ZWM3YjkzNGE0YTA5OWU5OGFmNmE2MWMyZjgwYmJmNToKPgo+ICAgTGludXgg
-NS45LXJjMSAoMjAyMC0wOC0xNiAxMzowNDo1NyAtMDcwMCkKPgo+IGFyZSBhdmFpbGFibGUgaW4g
-dGhlIEdpdCByZXBvc2l0b3J5IGF0Ogo+Cj4gICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9z
-Y20vbGludXgva2VybmVsL2dpdC9jaHVua3VhbmcuaHUvbGludXguZ2l0IHRhZ3MvbWVkaWF0ZWst
-ZHJtLW5leHQtNS4xMAo+Cj4gZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDA5ZTg3MmQ1
-NThiYTZhN2Y0NDY4YzRlOGNkZjBjZDVhOTliZmMxNzU6Cj4KPiAgIGRybS9tZWRpYXRlazogRGlz
-YWJsZSB0bWRzIG9uIG10MjcwMSAoMjAyMC0wOS0xNCAyMzowNToyMyArMDgwMCkKPgo+IC0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KPiBNZWRpYXRlayBEUk0gTmV4dCBmb3IgTGludXggNS4xMAo+Cj4gMS4gTW92ZSBNZWRpYXRl
-ayBIRE1JIFBIWSBkcml2ZXIgZnJvbSBEUk0gZm9sZGVyIHRvIFBIWSBmb2xkZXIKPiAyLiBDb252
-ZXJ0IG10ay1kcGkgdG8gZHJtX2JyaWRnZSBBUEkKPiAzLiBEaXNhYmxlIHRtZHMgb24gbXQyNzAx
-Cj4KPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tCj4gQ0sgSHUgKDMpOgo+ICAgICAgIGRybS9tZWRpYXRlazogTW92ZSB0el9k
-aXNhYmxlZCBmcm9tIG10a19oZG1pX3BoeSB0byBtdGtfaGRtaSBkcml2ZXIKPiAgICAgICBkcm0v
-bWVkaWF0ZWs6IFNlcGFyYXRlIG10a19oZG1pX3BoeSB0byBhbiBpbmRlcGVuZGVudCBtb2R1bGUK
-PiAgICAgICBwaHk6IG1lZGlhdGVrOiBNb3ZlIG10a19oZG1pX3BoeSBkcml2ZXIgaW50byBkcml2
-ZXJzL3BoeS9tZWRpYXRlayBmb2xkZXIKPgo+IENodW4tS3VhbmcgSHUgKDEpOgo+ICAgICAgIE1B
-SU5UQUlORVJTOiBhZGQgZmlsZXMgZm9yIE1lZGlhdGVrIERSTSBkcml2ZXJzCj4KPiBFbnJpYyBC
-YWxsZXRibyBpIFNlcnJhICgyKToKPiAgICAgICBkcm0vbWVkaWF0ZWs6IG10a19kcGk6IFJlbmFt
-ZSBicmlkZ2UgdG8gbmV4dF9icmlkZ2UKPiAgICAgICBkcm0vbWVkaWF0ZWs6IG10a19kcGk6IENv
-bnZlcnQgdG8gYnJpZGdlIGRyaXZlcgo+Cj4gRnJhbmsgV3VuZGVybGljaCAoMik6Cj4gICAgICAg
-ZHQtYmluZGluZ3M6IG1lZGlhdGVrOiBhZGQgbXQ3NjIzIGRpc3BsYXktbm9kZXMKPiAgICAgICBk
-cm0vbWVkaWF0ZWs6IEFkZCBkZHAgcm91dGluZyBmb3IgbXQ3NjIzCj4KPiBTdHUgSHNpZWggKDEp
-Ogo+ICAgICAgIGRybS9tZWRpYXRlazogZHBpL2RzaTogQ2hhbmdlIHRoZSBnZXR0aW5nIHBvc3Np
-YmxlX2NydGMgd2F5Cj4KPiBjaHVuaHVpIGRhaSAoMSk6Cj4gICAgICAgZHJtL21lZGlhdGVrOiBE
-aXNhYmxlIHRtZHMgb24gbXQyNzAxCj4KPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgICAgICAgICAgICAgICAgICAg
-fCAgMiArLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRp
-YXRlay9tZWRpYXRlayxkcGkudHh0ICAgICAgICAgICAgICAgICAgICB8ICAyICstCj4gIERvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRz
-aS50eHQgICAgICAgICAgICAgICAgICAgIHwgIDQgKystLQo+ICBEb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxoZG1pLnR4dCAgICAgICAg
-ICAgICAgICAgICB8ICA0ICsrKysKPiAgTUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAg
-MSArCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9LY29uZmlnICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAgZHJpdmVycy9n
-cHUvZHJtL21lZGlhdGVrL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgfCAgNSArLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
-ZWsvbXRrX2RwaS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICB8IDgwICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwgMzggKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysK
-PiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuaCAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArKwo+ICBkcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICB8IDIzICsrKysrKysrKysrKysrKysrKysrKysrCj4gIGRyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIHwgIDYgKy0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfaGRtaS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHwgMjEgKysrKysrKysrKysrKysrKystLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfaGRtaS5oICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwgIDEgLQo+ICBkcml2ZXJzL3BoeS9tZWRpYXRlay9LY29uZmlnICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICA3
-ICsrKysrKysKPiAgZHJpdmVycy9waHkvbWVkaWF0ZWsvTWFrZWZpbGUgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgNSArKysrKwo+ICBk
-cml2ZXJzL3tncHUvZHJtL21lZGlhdGVrL210a19tdDI3MDFfaGRtaV9waHkuYyA9PiBwaHkvbWVk
-aWF0ZWsvcGh5LW10ay1oZG1pLW10MjcwMS5jfSB8ICA0ICsrLS0KPiAgZHJpdmVycy97Z3B1L2Ry
-bS9tZWRpYXRlay9tdGtfbXQ4MTczX2hkbWlfcGh5LmMgPT4gcGh5L21lZGlhdGVrL3BoeS1tdGst
-aGRtaS1tdDgxNzMuY30gfCAgMiArLQo+ICBkcml2ZXJzL3tncHUvZHJtL21lZGlhdGVrL210a19o
-ZG1pX3BoeS5jID0+IHBoeS9tZWRpYXRlay9waHktbXRrLWhkbWkuY30gICAgICAgICAgICAgICB8
-ICA2ICsrKysrLQo+ICBkcml2ZXJzL3tncHUvZHJtL21lZGlhdGVrL210a19oZG1pX3BoeS5oID0+
-IHBoeS9tZWRpYXRlay9waHktbXRrLWhkbWkuaH0gICAgICAgICAgICAgICB8ICAzICstLQo+ICAy
-MCBmaWxlcyBjaGFuZ2VkLCAxNTkgaW5zZXJ0aW9ucygrKSwgNTkgZGVsZXRpb25zKC0pCj4gIHJl
-bmFtZSBkcml2ZXJzL3tncHUvZHJtL21lZGlhdGVrL210a19tdDI3MDFfaGRtaV9waHkuYyA9PiBw
-aHkvbWVkaWF0ZWsvcGh5LW10ay1oZG1pLW10MjcwMS5jfSAoOTklKQo+ICByZW5hbWUgZHJpdmVy
-cy97Z3B1L2RybS9tZWRpYXRlay9tdGtfbXQ4MTczX2hkbWlfcGh5LmMgPT4gcGh5L21lZGlhdGVr
-L3BoeS1tdGstaGRtaS1tdDgxNzMuY30gKDk5JSkKPiAgcmVuYW1lIGRyaXZlcnMve2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2hkbWlfcGh5LmMgPT4gcGh5L21lZGlhdGVrL3BoeS1tdGstaGRtaS5jfSAo
-OTYlKQo+ICByZW5hbWUgZHJpdmVycy97Z3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaV9waHkuaCA9
-PiBwaHkvbWVkaWF0ZWsvcGh5LW10ay1oZG1pLmh9ICg5NSUpCj4gX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4g
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+The default sizes in examples for 'reg' are 1 cell each. Fix the
+incorrect sizes in zynqmp examples:
+
+Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dpdma.example.dt.yaml: example-0: dma-controller@fd4c0000:reg:0: [0, 4249616384, 0, 4096] is too long
+	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
+Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.example.dt.yaml: example-0: display@fd4a0000:reg:0: [0, 4249485312, 0, 4096] is too long
+	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
+Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.example.dt.yaml: example-0: display@fd4a0000:reg:1: [0, 4249526272, 0, 4096] is too long
+	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
+Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.example.dt.yaml: example-0: display@fd4a0000:reg:2: [0, 4249530368, 0, 4096] is too long
+	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
+Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.example.dt.yaml: example-0: display@fd4a0000:reg:3: [0, 4249534464, 0, 4096] is too long
+	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
+
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: dmaengine@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml          | 8 ++++----
+ .../devicetree/bindings/dma/xilinx/xlnx,zynqmp-dpdma.yaml | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
+index 52a939cade3b..7b9d468c3e52 100644
+--- a/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
++++ b/Documentation/devicetree/bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml
+@@ -145,10 +145,10 @@ examples:
+ 
+     display@fd4a0000 {
+         compatible = "xlnx,zynqmp-dpsub-1.7";
+-        reg = <0x0 0xfd4a0000 0x0 0x1000>,
+-              <0x0 0xfd4aa000 0x0 0x1000>,
+-              <0x0 0xfd4ab000 0x0 0x1000>,
+-              <0x0 0xfd4ac000 0x0 0x1000>;
++        reg = <0xfd4a0000 0x1000>,
++              <0xfd4aa000 0x1000>,
++              <0xfd4ab000 0x1000>,
++              <0xfd4ac000 0x1000>;
+         reg-names = "dp", "blend", "av_buf", "aud";
+         interrupts = <0 119 4>;
+         interrupt-parent = <&gic>;
+diff --git a/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dpdma.yaml b/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dpdma.yaml
+index 5de510f8c88c..2a595b18ff6c 100644
+--- a/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dpdma.yaml
++++ b/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dpdma.yaml
+@@ -57,7 +57,7 @@ examples:
+ 
+     dma: dma-controller@fd4c0000 {
+       compatible = "xlnx,zynqmp-dpdma";
+-      reg = <0x0 0xfd4c0000 0x0 0x1000>;
++      reg = <0xfd4c0000 0x1000>;
+       interrupts = <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>;
+       interrupt-parent = <&gic>;
+       clocks = <&dpdma_clk>;
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
