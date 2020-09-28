@@ -2,47 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735CE27B782
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 01:10:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8084A27B82B
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 01:31:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D40089D56;
-	Mon, 28 Sep 2020 23:10:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D4E6E15F;
+	Mon, 28 Sep 2020 23:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44AAF89D52;
- Mon, 28 Sep 2020 23:10:24 +0000 (UTC)
-IronPort-SDR: gAROvgnnTOKncwufqneR67LGQWW+L3iZFYCqkWeUJiQQhd4yj+OPlomBwdr32AKJz9/P/bcZhU
- Kqa0dde1n9SA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="246817862"
-X-IronPort-AV: E=Sophos;i="5.77,315,1596524400"; d="scan'208";a="246817862"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2020 16:10:23 -0700
-IronPort-SDR: jzzB2ktw+5o9UilhvKjWJ6uYd6yq1BpHpPLyEHNdX0M5ASEIiNL8oqeVQlfsxn+nq4yEki9aY6
- sNlJlaGid8LQ==
-X-IronPort-AV: E=Sophos;i="5.77,315,1596524400"; d="scan'208";a="350003184"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.168])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2020 16:10:23 -0700
-Date: Mon, 28 Sep 2020 16:10:22 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/edp/jsl: Update vswing table
- for HBR and HBR2
-Message-ID: <20200928231022.GF2157395@mdroper-desk1.amr.corp.intel.com>
-References: <20200928080931.246347-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <20200928080931.246347-3-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <87a6xaow40.fsf@intel.com>
- <SN6PR11MB3421725FE60CC7930FC02AB6DF350@SN6PR11MB3421.namprd11.prod.outlook.com>
- <871rilq0um.fsf@intel.com>
- <20200928230739.vpj22bwebqhtehuk@ldmartin-desk1>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200928230739.vpj22bwebqhtehuk@ldmartin-desk1>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5996E2DC;
+ Mon, 28 Sep 2020 23:31:07 +0000 (UTC)
+Received: from paulmck-ThinkPad-P72.home (unknown [50.45.173.55])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id AB36020774;
+ Mon, 28 Sep 2020 23:31:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601335866;
+ bh=Sp+zAn1zjwwev3l5w3lCSxo4W4MlUTJTdRaZ0QZC+n4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=H4+BYV920oJWpV8cxT3QkUForkAcb5Zd2wa7mYxP/IOWWboQRWIbis27EZRxTBW9m
+ PVTV4AOLLz+V55txe53ntc9jyDf1SjGrZLWqYH0cINACtFTwgb64cKKZH6WkptmA6n
+ 4M4bams1uUsWazbpOY4ztBBjDttTrjLbchd9w6Ng=
+From: paulmck@kernel.org
+To: rcu@vger.kernel.org
+Subject: [PATCH tip/core/rcu 11/15] drm/i915: Cleanup PREEMPT_COUNT leftovers
+Date: Mon, 28 Sep 2020 16:30:58 -0700
+Message-Id: <20200928233102.24265-11-paulmck@kernel.org>
+X-Mailer: git-send-email 2.9.5
+In-Reply-To: <20200928233041.GA23230@paulmck-ThinkPad-P72>
+References: <20200928233041.GA23230@paulmck-ThinkPad-P72>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,68 +44,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pandey, Hariom" <hariom.pandey@intel.com>, "Ausmus,
- James" <james.ausmus@intel.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>, "Souza, Jose" <jose.souza@intel.com>,
- "Surendrakumar Upadhyay,
- TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Cc: peterz@infradead.org, fweisbec@gmail.com, jiangshanlai@gmail.com,
+ dri-devel@lists.freedesktop.org, oleg@redhat.com, dhowells@redhat.com,
+ edumazet@google.com, joel@joelfernandes.org, mingo@kernel.org,
+ David Airlie <airlied@linux.ie>, kernel-team@fb.com,
+ "Paul E . McKenney" <paulmck@kernel.org>, intel-gfx@lists.freedesktop.org,
+ josh@joshtriplett.org, rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, tglx@linutronix.de, mhocko@kernel.org,
+ mgorman@techsingularity.net, linux-kernel@vger.kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 28, 2020 at 04:07:39PM -0700, Lucas De Marchi wrote:
-> On Mon, Sep 28, 2020 at 08:15:29PM +0300, Jani Nikula wrote:
-> > On Mon, 28 Sep 2020, "Surendrakumar Upadhyay, TejaskumarX"	<tejaskumarx.surendrakumar.upadhyay@intel.com> wrote:
-> > > This is a good example of a potential trap that having
-> > > IS_ELKHARTLAKE() cover both ELK and JSP creates. An unsuspecting coder
-> > > might change the if ladder to have IS_ELKHARTLAKE() first, and the
-> > > subsequent IS_JASPERLAKE() branch would never be taken.
-> > > 
-> > > BR,
-> > > Jani.
-> > > 
-> > > Tejas : In that case I will put attention note in comment about
-> > > platform checks such that ladder distrubance can be avoided. What you
-> > > suggest?
-> 
-> > The solution is to make IS_ELKHARTLAKE() mean ELK and only ELK.
-> 
-> Since we are talking about the TLA for JSL in the other patch, for
-> elkhartlake it is EHL, not ELK. ELK is something else, but I'm not sure
-> what:
-> 
-> $ git grep -w ELK -- drivers/gpu/drm/
-> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:             IS_GM45(i915) ? "CTG" : "ELK", reg_val);
-> drivers/gpu/drm/i915/gem/i915_gem_stolen.c:      * Whether ILK really reuses the ELK register for this is unclear.
-> drivers/gpu/drm/i915/intel_pm.c:         * Not 100% sure which way ELK should go here as the
-> drivers/gpu/drm/i915/intel_pm.c:         * assume ELK doesn't need this.
+From: Thomas Gleixner <tglx@linutronix.de>
 
-Yeah, ELK = Eagle Lake, CTG = Cantiga.  Both are old gen5 platforms IIRC.
+CONFIG_PREEMPT_COUNT is now unconditionally enabled and will be
+removed. Cleanup the leftovers before doing so.
 
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+---
+ drivers/gpu/drm/i915/Kconfig.debug | 1 -
+ drivers/gpu/drm/i915/i915_utils.h  | 3 +--
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-Matt
-
-> 
-> Lucas De Marchi
-> 
-> > 
-> > BR,
-> > Jani.
-> > 
-> > 
-> > -- 
-> > Jani Nikula, Intel Open Source Graphics Center
-
+diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
+index 1cb28c2..17d9b00 100644
+--- a/drivers/gpu/drm/i915/Kconfig.debug
++++ b/drivers/gpu/drm/i915/Kconfig.debug
+@@ -20,7 +20,6 @@ config DRM_I915_DEBUG
+ 	bool "Enable additional driver debugging"
+ 	depends on DRM_I915
+ 	select DEBUG_FS
+-	select PREEMPT_COUNT
+ 	select I2C_CHARDEV
+ 	select STACKDEPOT
+ 	select DRM_DP_AUX_CHARDEV
+diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+index 5477337..ecfed86 100644
+--- a/drivers/gpu/drm/i915/i915_utils.h
++++ b/drivers/gpu/drm/i915/i915_utils.h
+@@ -337,8 +337,7 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
+ 						   (Wmax))
+ #define wait_for(COND, MS)		_wait_for((COND), (MS) * 1000, 10, 1000)
+ 
+-/* If CONFIG_PREEMPT_COUNT is disabled, in_atomic() always reports false. */
+-#if defined(CONFIG_DRM_I915_DEBUG) && defined(CONFIG_PREEMPT_COUNT)
++#ifdef CONFIG_DRM_I915_DEBUG
+ # define _WAIT_FOR_ATOMIC_CHECK(ATOMIC) WARN_ON_ONCE((ATOMIC) && !in_atomic())
+ #else
+ # define _WAIT_FOR_ATOMIC_CHECK(ATOMIC) do { } while (0)
 -- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+2.9.5
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
