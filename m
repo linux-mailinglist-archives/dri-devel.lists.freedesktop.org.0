@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8701E27B064
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 16:59:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CEB27B077
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 17:02:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3E489D4B;
-	Mon, 28 Sep 2020 14:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4436489D67;
+	Mon, 28 Sep 2020 15:02:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1487689D4B
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 14:59:11 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7A80C21974;
- Mon, 28 Sep 2020 14:59:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601305150;
- bh=5ymSvknDn6nUQNSDP3i0GXvhB11Sl5F2mvHL8TiNGAU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DTBK1StoSdAzLTkbX9Cbg2wlNIZTB/tA/FfgNDKflPWf7wT6VjOIhBjhNw2ZSd6Q6
- W5lOIasPWg6JKGHX3oU6h6mf+f3cmLN7xUjbUy+xTfncoWwgb8aVhuMFPP2n18zhnm
- vO0fOlie8+JkqEo8l6YX6+XX93iCzTrjUlBBDAu4=
-Date: Mon, 28 Sep 2020 15:59:05 +0100
-From: Will Deacon <will@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 1/3] iommu/io-pgtable-arm: Support coherency for Mali
- LPAE
-Message-ID: <20200928145904.GA11610@willie-the-truck>
-References: <cover.1600780574.git.robin.murphy@arm.com>
- <8df778355378127ea7eccc9521d6427e3e48d4f2.1600780574.git.robin.murphy@arm.com>
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB47389D67
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 15:02:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id A27F6FB03;
+ Mon, 28 Sep 2020 17:02:07 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id q109Wptkrg7z; Mon, 28 Sep 2020 17:02:04 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 461E045BEF; Mon, 28 Sep 2020 17:02:03 +0200 (CEST)
+Date: Mon, 28 Sep 2020 17:02:03 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [RFC PATCH v1 3/3] dt-binding: display: Require two rests on
+ mantix panel
+Message-ID: <20200928150203.GA58525@bogon.m.sigxcpu.org>
+References: <cover.1600707235.git.agx@sigxcpu.org>
+ <71a9108f3472ba9af4bead01b1b770d1e73eb08e.1600707235.git.agx@sigxcpu.org>
+ <20200924193807.GA1223313@ravnborg.org>
+ <20200928065039.GB2837573@ulmo>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8df778355378127ea7eccc9521d6427e3e48d4f2.1600780574.git.robin.murphy@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200928065039.GB2837573@ulmo>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,65 +46,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, narmstrong@baylibre.com, khilman@baylibre.com,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
- iommu@lists.linux-foundation.org, alyssa.rosenzweig@collabora.com,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- jbrunet@baylibre.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 22, 2020 at 03:16:48PM +0100, Robin Murphy wrote:
-> Midgard GPUs have ACE-Lite master interfaces which allows systems to
-> integrate them in an I/O-coherent manner. It seems that from the GPU's
-> viewpoint, the rest of the system is its outer shareable domain, and so
-> even when snoop signals are wired up, they are only emitted for outer
-> shareable accesses. As such, setting the TTBR_SHARE_OUTER bit does
-> indeed get coherent pagetable walks working nicely for the coherent
-> T620 in the Arm Juno SoC.
-> 
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Tested-by: Neil Armstrong <narmstrong@baylibre.com>
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> ---
->  drivers/iommu/io-pgtable-arm.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index dc7bcf858b6d..b4072a18e45d 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -440,7 +440,13 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
->  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
->  	}
->  
-> -	if (prot & IOMMU_CACHE)
-> +	/*
-> +	 * Also Mali has its own notions of shareability wherein its Inner
-> +	 * domain covers the cores within the GPU, and its Outer domain is
-> +	 * "outside the GPU" (i.e. either the Inner or System domain in CPU
-> +	 * terms, depending on coherency).
-> +	 */
-> +	if (prot & IOMMU_CACHE && data->iop.fmt != ARM_MALI_LPAE)
->  		pte |= ARM_LPAE_PTE_SH_IS;
->  	else
->  		pte |= ARM_LPAE_PTE_SH_OS;
-> @@ -1049,6 +1055,9 @@ arm_mali_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
->  	cfg->arm_mali_lpae_cfg.transtab = virt_to_phys(data->pgd) |
->  					  ARM_MALI_LPAE_TTBR_READ_INNER |
->  					  ARM_MALI_LPAE_TTBR_ADRMODE_TABLE;
-> +	if (cfg->coherent_walk)
-> +		cfg->arm_mali_lpae_cfg.transtab |= ARM_MALI_LPAE_TTBR_SHARE_OUTER;
-> +
+Hi Thierry,
+On Mon, Sep 28, 2020 at 08:50:39AM +0200, Thierry Reding wrote:
+> On Thu, Sep 24, 2020 at 09:38:07PM +0200, Sam Ravnborg wrote:
+> > Hi Guido.
+> > =
 
-Acked-by: Will Deacon <will@kernel.org>
+> > On Mon, Sep 21, 2020 at 06:55:52PM +0200, Guido G=FCnther wrote:
+> > > We need to reset both for the panel to show an image.
+> > > =
 
-I'm assuming I'm not the right person to merge this, and it needs to go
-alongside the other patches in this series.
+> > > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
+> > > ---
+> > >  .../bindings/display/panel/mantix,mlaf057we51-x.yaml       | 7 +++++=
+--
+> > >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > > =
 
-Will
+> > > diff --git a/Documentation/devicetree/bindings/display/panel/mantix,m=
+laf057we51-x.yaml b/Documentation/devicetree/bindings/display/panel/mantix,=
+mlaf057we51-x.yaml
+> > > index 937323cc9aaa..ba5a18fac9f9 100644
+> > > --- a/Documentation/devicetree/bindings/display/panel/mantix,mlaf057w=
+e51-x.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057w=
+e51-x.yaml
+> > > @@ -35,7 +35,9 @@ properties:
+> > >    vddi-supply:
+> > >      description: 1.8V I/O voltage supply
+> > >  =
+
+> > > -  reset-gpios: true
+> > > +  reset-gpios:
+> > > +    minItems: 2
+> > > +    maxItems: 2
+> > =
+
+> > reset-gpios is, as you already wrote, defined in panel-common.yaml.
+> > Do not try to change it here.
+> > It would be much better, I think, to introduce a mantix,reset-gpios
+> > property.
+> > =
+
+> > This would avoid that we had two different reset-gpios definitions.
+> =
+
+> My understanding is that this will only override the defaults defined in
+> panel-common.yaml. So everything else about the
+> panel-common.yaml#/properties/reset-gpios definition remains valid and
+> all this does is say that when this matched on "mantix,mlaf057we51-x",
+> then the "reset-gpios" property is expected to contain two entries as
+> opposed to the single entry that is expected by default.
+
+I thought so too but I get:
+
+linux/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.=
+example.dt.yaml: panel@0: reset-gpios: [[4294967295, 29, 1], [4294967295, 2=
+4, 1]] is too long
+	From schema: /.../linux/Documentation/devicetree/bindings/display/panel/ma=
+ntix,mlaf057we51-x.yaml
+
+It seems to bepossible to *extend* reset-gpios though because when i use
+an example like:
+
+            reset-gpios =3D <&gpio1 29 GPIO_ACTIVE_LOW>,
+                          <&gpio1 24 GPIO_ACTIVE_LOW>;
+
+i correctly get
+
+linux/linux/Documentation/devicetree/bindings/display/panel/mantix,mlaf057w=
+e51-x.example.dt.yaml: panel@0: reset-gpios: [[4294967295, 29, 1]] is too s=
+hort
+	From schema: /.../linux/Documentation/devicetree/bindings/display/panel/ma=
+ntix,mlaf057we51-x.yaml
+ =
+
+so the `minItems: 2` is being picked up. This mens i can add
+properties but i can't overwrite the existing `maxItems: 2` - that's why
+i was wondering how that is supposed to work (if properties should be
+overrideable from common files or not).
+Cheers,
+ -- Guido
+
+> =
+
+> Thierry
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
