@@ -1,64 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0526027ABBF
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 12:24:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FA427ABC8
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 12:26:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B692389CB5;
-	Mon, 28 Sep 2020 10:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDFFF6E11A;
+	Mon, 28 Sep 2020 10:26:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 707FD89CB5
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 10:24:35 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601288674;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KMSU9xcKJcBn6z9ETPEhLj/MWrekJcU/XVOL610uM2s=;
- b=QGSHeyAgTuMsiOOStWnd9G2679cGkDg+5eOchVZMNWpaGgn2u/MxaOO6HKH21MOYruePFK
- V6RDpVBv0NWWJM0wL1n4jV+CD6KXKiMOTTbLgel7707ScAN3GgLArd/STdpS/CwOR94T7W
- 60GFEPIMcZIm9B7A0qY3J54+tEc+wmU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-FDPcWzniMkCU6HSD1tH1UA-1; Mon, 28 Sep 2020 06:24:32 -0400
-X-MC-Unique: FDPcWzniMkCU6HSD1tH1UA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91490186840D;
- Mon, 28 Sep 2020 10:24:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D32427C2A;
- Mon, 28 Sep 2020 10:24:28 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0C3E09CAE; Mon, 28 Sep 2020 12:24:28 +0200 (CEST)
-Date: Mon, 28 Sep 2020 12:24:28 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/9] drm/format-helper: Pass destination pitch to
- drm_fb_memcpy_dstclip()
-Message-ID: <20200928102428.23kix246wli3knjs@sirius.home.kraxel.org>
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-2-tzimmermann@suse.de>
- <20200629084044.GL3278063@phenom.ffwll.local>
- <89cff54c-789f-02fd-4939-35956b51cb56@suse.de>
- <CAKMK7uESYkP4Fa9mrN5dxT1bDxkHxhHkBF4FbosiOiyMzYJ=Bg@mail.gmail.com>
- <35822c4b-7821-7b33-d6ce-cfe51a85ff74@suse.de>
- <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7F2F6E11A
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 10:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=Vc5TPB8gzwYQ4bV3QPrFgoBi6Jlg1QoC2FUYpd7zyDo=; b=tcB2Ty+lP6MFCVih7DRU4PWnRS
+ Aj3y4brI3ONLGXo3KFO88/n8Xd23Dme6MEQTMnJF+wZVw1d4XFzWhSNiM4eERDWiEkKK2vbdXV/Gn
+ AUkrBfUJLW+EIoiPhBVPObIzyxGdaovissYnz9d3+yufRgPfCwqCyPvOWSl4b/J7w3x3K9IkNxdw2
+ UuRtIEJTNpHdYg1pIe73yAEFhIq7OLQ9YcGfOJrLT0z7cfSrkepMEznzHXUcLlF3w/gLYyXgUmpz2
+ 4tk/HelTC06z3gm8jpz+9WGXLTpCrhpMCCazb98TqwREF2iWG+LGbaU89/w8Y5oe7oLUIw5aapLIG
+ x8+munNA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kMqM5-0005Mm-GJ; Mon, 28 Sep 2020 10:26:02 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9002A300DB4;
+ Mon, 28 Sep 2020 12:25:59 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 6B41E2006F633; Mon, 28 Sep 2020 12:25:59 +0200 (CEST)
+Date: Mon, 28 Sep 2020 12:25:59 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Chengming Zhou <zhouchengming@bytedance.com>
+Subject: Re: [External] Re: [PATCH 2/2] sched: mark
+ PRINTK_DEFERRED_CONTEXT_MASK in __schedule()
+Message-ID: <20200928102559.GF2611@hirez.programming.kicks-ass.net>
+References: <20200927161130.33172-1-zhouchengming@bytedance.com>
+ <20200927161130.33172-2-zhouchengming@bytedance.com>
+ <20200928073202.GA2611@hirez.programming.kicks-ass.net>
+ <40ab934e-5b8b-735b-da65-3043efab9fdc@bytedance.com>
+ <20200928090143.GA2628@hirez.programming.kicks-ass.net>
+ <688eadd7-4ca3-3e32-3520-25977ff059a6@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uGem0wKdmRwmk-ztNZbVW6UFmnPkXWSxicRG1S+8VszbA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
+In-Reply-To: <688eadd7-4ca3-3e32-3520-25977ff059a6@bytedance.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,42 +62,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Dave Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: juri.lelli@redhat.com, pmladek@suse.com, vincent.guittot@linaro.org,
+ tzimmermann@suse.de, john.ogness@linutronix.de, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bsegall@google.com, sergey.senozhatsky@gmail.com, mingo@redhat.com,
+ rostedt@goodmis.org, songmuchun@bytedance.com, dietmar.eggemann@arm.com,
+ mgorman@suse.de
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+On Mon, Sep 28, 2020 at 06:04:23PM +0800, Chengming Zhou wrote:
 
-> > I don't quite remember where exactly this was implemented. It was not a
-> > shared buffer, though. IIRC the buffer allocation code in one of the
-> > libs rounded the size towards multiples of 64. I remember thinking that
-> > it was probably done for tiled rendering.
+> Well, you are lucky. So it's a problem in our printk implementation.
 
-Happens when running gnome in wayland mode, so whatever the display
-server is in that case (mutter?) or one of the libraries it uses.
+Not lucky; I just kicked it in the groin really hard:
 
-> Yeah, but you don't do rendering on dumb buffers. Like ever. So this
-> smells like a userspace bug.
-> 
-> If it's for shared buffers then I think that sounds more reasonable.
+  git://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git debug/expe=
+rimental
 
-Well, wayland can use dma-bufs for buffer sharing between wayland server
-and wayland client.  Dunno whenever it also does that for the software
-rendering case, and I have absolutely no idea how the buffer allocation
-code paths look like.  But possibly it isn't known at buffer allocation
-time whenever a given buffer will be touched by a gpu at some point in
-the future?
+> The deadlock path is:
+> =
 
-take care,
-  Gerd
+> printk
+> =A0 vprintk_emit
+> =A0=A0=A0 console_unlock
+> =A0 =A0 =A0 vt_console_print
+> =A0 =A0 =A0 =A0 hide_cursor
+> =A0 =A0 =A0 =A0 =A0 bit_cursor
+> =A0 =A0 =A0 =A0 =A0 =A0 soft_cursor
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 queue_work_on
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 __queue_work
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 try_to_wake_up
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 _raw_spin_lock
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 native_queued_spin_lock_slowp=
+ath
+> =
 
+> Looks like it's introduced by this commit:
+> =
+
+> eaa434defaca1781fb2932c685289b610aeb8b4b
+> =
+
+> "drm/fb-helper: Add fb_deferred_io support"
+
+Oh gawd, yeah, all the !serial consoles are utter batshit.
+
+Please look at John's last printk rewrite, IIRC it farms all that off to
+a kernel thread instead of doing it from the printk() caller's context.
+
+I'm not sure where he hides his latests patches, but I'm sure he'll be
+more than happy to tell you.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
