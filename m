@@ -2,34 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E94227A880
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E8D27A883
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:26:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84A456E2E1;
-	Mon, 28 Sep 2020 07:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DE9A6E32F;
+	Mon, 28 Sep 2020 07:26:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA8D6E2E1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 07:25:14 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 430EFABC1;
- Mon, 28 Sep 2020 07:25:13 +0000 (UTC)
-Subject: Re: [PATCH 3/9] drm: Add simplekms driver
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-4-tzimmermann@suse.de>
- <20200629090657.GN3278063@phenom.ffwll.local>
- <da512368-508d-15f5-823a-5a037364887a@suse.de>
- <20200925151410.zrivxvskxh3sr5n7@gilmour.lan>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <47d244c6-4bc5-e635-2c73-4b4d0490f6ab@suse.de>
-Date: Mon, 28 Sep 2020 09:25:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com
+ [209.85.161.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50CF46E2ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 07:26:28 +0000 (UTC)
+Received: by mail-oo1-f66.google.com with SMTP id t3so57116ook.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 00:26:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FIXuEXH1Fk3QAlLQe9GSnuwlSzVtMlZPFzZmwI9UqQo=;
+ b=q8cUou8WudwzV52MGD/6BFzA8cJqJ5LMJMANxw5R+C004qepLRh+0rrAN3FWnghk1+
+ AXXGPeiudZEPOMxoFJpn2+afXd7j3Eeq/LIajQbPXViEDy9r0zn8PX+2eYXvLS56AQ6+
+ oWvMMH3LFDqGrECuyJhnu364Oiz4cctw1bUe494DtCOgbfLfQnLKwqWGmNkmbbGfdmWe
+ dhOxMgAcJ5M+wklWT0SlLlNj8nwgwxr1a0RFNaTXw2MHpcgyjcWaLBHEx8T38n7S+6da
+ eA//dFTsEsuIiazSSPq+LUAQiiE8XUSa4BH1SCZWGE+veBXp4S3dC2AiWCd8Krg0sVOY
+ IY5w==
+X-Gm-Message-State: AOAM531+JlhvH8G7AUvfRx4tXzIyLmhxrcL65I2V80BCG/WCoJTGAhgT
+ kIcc14//prcWo7YHJ4d7nN7trV3nTVrsCMfJj+m7Sjj7kGg=
+X-Google-Smtp-Source: ABdhPJwi1FqBvCqk6eXHKuHxD5zI6xr62zVsPkSsss785K8jM34uDKUyzRoSrlbneMqYlq2BfkG/5PiagZhx5YxubQ0=
+X-Received: by 2002:a4a:e616:: with SMTP id f22mr155254oot.11.1601277987442;
+ Mon, 28 Sep 2020 00:26:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200925151410.zrivxvskxh3sr5n7@gilmour.lan>
+References: <20200813140041.5082-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200824004816.GS6002@pendragon.ideasonboard.com>
+ <CA+V-a8uq44hKOxbwBXZ_90q6e4JjCEPwOWp4BDY7BJJaP1Cg6g@mail.gmail.com>
+ <20200927200418.GA3986@pendragon.ideasonboard.com>
+In-Reply-To: <20200927200418.GA3986@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 28 Sep 2020 09:26:15 +0200
+Message-ID: <CAMuHMdX0_VDVw41ZuGy0M+d6sgNMujSas4x+YqZMWwpF-TvOZg@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: dts: r8a7742-iwg21d-q7: Add LCD support
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,142 +54,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
- lgirdwood@gmail.com, dri-devel@lists.freedesktop.org, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1185053477=="
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1185053477==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="8EjxTlQIFnmOyr6egDHzqmcpmJ0OUDjtx"
+Hi Prabhakar,
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---8EjxTlQIFnmOyr6egDHzqmcpmJ0OUDjtx
-Content-Type: multipart/mixed; boundary="QOPiqDXoyu625bfeJzq38HLPg4lnYhFCx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Daniel Vetter <daniel@ffwll.ch>, maarten.lankhorst@linux.intel.com,
- airlied@linux.ie, kraxel@redhat.com, lgirdwood@gmail.com,
- broonie@kernel.org, robh@kernel.org, sam@ravnborg.org,
- emil.l.velikov@gmail.com, noralf@tronnes.org, geert+renesas@glider.be,
- hdegoede@redhat.com, dri-devel@lists.freedesktop.org
-Message-ID: <47d244c6-4bc5-e635-2c73-4b4d0490f6ab@suse.de>
-Subject: Re: [PATCH 3/9] drm: Add simplekms driver
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-4-tzimmermann@suse.de>
- <20200629090657.GN3278063@phenom.ffwll.local>
- <da512368-508d-15f5-823a-5a037364887a@suse.de>
- <20200925151410.zrivxvskxh3sr5n7@gilmour.lan>
-In-Reply-To: <20200925151410.zrivxvskxh3sr5n7@gilmour.lan>
+On Sun, Sep 27, 2020 at 10:04 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Sun, Sep 27, 2020 at 02:01:50PM +0100, Lad, Prabhakar wrote:
+> > On Mon, Aug 24, 2020 at 1:48 AM Laurent Pinchart wrote:
+> > > On Thu, Aug 13, 2020 at 03:00:41PM +0100, Lad Prabhakar wrote:
+> > > > The iwg21d comes with a 7" capacitive touch screen, therefore
+> > > > add support for it.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > >
+> > > Everything seems to match the schematics :-)
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >
+> > > > ---
+> > > > v1->v2
+> > > > * This patch is part of series [1] (rest of the patches have be accepted
+> > > >   by Geert [2]).
+> > > > * Added regulator for lvds
+> > > > * Added reset pin for touchpanel
+> > > > * This patch is based on series [3]
+> > > >
+> > > > [1] https://patchwork.kernel.org/project/linux-renesas-soc/list/
+> > > >     ?series=330277
+> > > > [2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
+> > > >     renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
+> > > > [3] https://patchwork.kernel.org/project/linux-renesas-soc/list/
+> > > >     ?series=330957
+> > > > ---
+> > > >  arch/arm/boot/dts/r8a7742-iwg21d-q7.dts | 99 +++++++++++++++++++++++++
+> > > >  1 file changed, 99 insertions(+)
+> >
+> > Would you be queueing this patch along with DRM driver patches for v5.10 ?
+>
+> No, I expect Geert to do so, DT patches go through his tree. I handle
+> the drivers and DT bindings.
 
---QOPiqDXoyu625bfeJzq38HLPg4lnYhFCx
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Indeed.
 
-Hi
+As the dependencies are now in linux-next, I'm queueing this in
+renesas-devel for v5.11, after fixing all conflicts due to recent
+additions, and sorting &lvds0 before &pfc.
 
-Am 25.09.20 um 17:14 schrieb Maxime Ripard:
-> Hi Thomas,
->=20
-> On Fri, Sep 25, 2020 at 05:01:23PM +0200, Thomas Zimmermann wrote:
->>>> +					   ARRAY_SIZE(simplekms_formats),
->>>> +					   simplekms_format_modifiers,
->>>> +					   connector);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>> +	drm_mode_config_reset(dev);
->>>
->>> This breaks fastboot. I think ideally we'd have the state represent
->>> everything is on, and allocate an fb + buffer with the current conten=
-ts of
->>> the framebuffer. Since we can allocate an fb that matches this should=
-n't
->>> be a problem, just a raw memcpy_fromio should do the job.
->>
->> I'm trying to wrap my head around how the fastboot setup is implemente=
-d.
->>
->> Apparently, i915's fbdev code goes through the existing pipeline state=
+Gr{oetje,eeting}s,
 
->> and fills the fb_info structure with compatible settings.
->>
->> Where is the initial pipeline state created? If I write reset handlers=
+                        Geert
 
->> that initialize the pipeline to the simple-framebuffer's fixed state,
->> whould that be sufficient? A later stage could then do the equivalent =
-of
->> intel_fbdev_init_bios().
->>
->> The simple-kms helpers don't seem to support custom reset handlers or
->> atomic-state callbacks. I guess that would require and update as well?=
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
->=20
-> You probably want to read the following :)
->=20
-> https://lore.kernel.org/dri-devel/CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPv=
-J=3D9BwmvfU-O0gg@mail.gmail.com/
->=20
-> It's been on my todo-list since, but I never got to work on it :/
-
-Thanks for the pointer. This looks like the optimal solution, although
-overkill for this simple use case.
-
-For now, I'll probably initialize the state during initialization. When
-the readout helpers materialize, I'll convert the driver.
-
-Best regards
-Thomas
-
->=20
-> Maxime
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-(HRB 36809, AG N=FCrnberg)
-Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-
-
---QOPiqDXoyu625bfeJzq38HLPg4lnYhFCx--
-
---8EjxTlQIFnmOyr6egDHzqmcpmJ0OUDjtx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9xj9gUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiODigf/S4FbKxuGmgCR2RQ/v9SeqHRIZV/R
-zC0o6EOoxBSO7V48p1rRJWigyPUPflsxJumMmFFQNIuuXPi3nwvlqSJl7eg9s3wt
-wOw/TNp+e+TbWVJ/ZedM6hjhVXKzf/anPqQjJ91F47OGYSMxHeQ8hCud5LAQ8N90
-8QYHjHS7MvPzrYCS3+284t6SdDPw7mlFv4tuZqsVJcMX+NucAM5A1OJEHz01U7wu
-i6eBiO+ARrcTK0UpVHOwE008/RPkL3VJZ59dK26fC6PO9giGlxrAzA1KbLCwMxgh
-Zg4iSIrY0urtEQZR3gOG1NOo8uISs3Kzx57YaozoqpSG+J4XJ2JgXEYwcQ==
-=UeQQ
------END PGP SIGNATURE-----
-
---8EjxTlQIFnmOyr6egDHzqmcpmJ0OUDjtx--
-
---===============1185053477==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1185053477==--
