@@ -1,47 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA4627B346
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 19:32:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC2F27B4F2
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 21:03:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 167806E155;
-	Mon, 28 Sep 2020 17:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC7289F6B;
+	Mon, 28 Sep 2020 19:03:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0621B6E14F;
- Mon, 28 Sep 2020 17:32:28 +0000 (UTC)
-IronPort-SDR: BwRWlioCwVGqBxK5SW0FW4N5w5ziVAWAhK8bG9cBNU0p4yR0LTJU5kfoom5iXDK0JTC+h07kDl
- U7tf+B0WdwQw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="159414029"
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; d="scan'208";a="159414029"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2020 10:32:26 -0700
-IronPort-SDR: j8xoHDJJ45rGwOwoyZZF+HllFLLJ158Zya1dckhQLHFShb8AsHRsnJgHZ0XZbKAsPILnuPhSUL
- yTL6bLE1PmoA==
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; d="scan'208";a="488674823"
-Received: from lizwalsh-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.251.86.12])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2020 10:32:21 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH 1/2] drm/i915/jsl: Split EHL/JSL platform info and PCI ids
-In-Reply-To: <20200928172447.GA2157395@mdroper-desk1.amr.corp.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200928080931.246347-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <20200928080931.246347-2-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <87d026owdq.fsf@intel.com>
- <SN6PR11MB3421571FA9A490C67E0E9D82DF350@SN6PR11MB3421.namprd11.prod.outlook.com>
- <874knhq0x1.fsf@intel.com>
- <20200928172447.GA2157395@mdroper-desk1.amr.corp.intel.com>
-Date: Mon, 28 Sep 2020 20:32:38 +0300
-Message-ID: <87sgb1olhl.fsf@intel.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A7989F6B
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 19:03:50 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 62EBC20058;
+ Mon, 28 Sep 2020 21:03:42 +0200 (CEST)
+Date: Mon, 28 Sep 2020 21:03:41 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: "Alex G." <mr.nuke.me@gmail.com>
+Subject: Re: [PATCH 1/2] drm/bridge: sii902x: Enable I/O and core VCC
+ supplies if present
+Message-ID: <20200928190341.GA673726@ravnborg.org>
+References: <20200924200507.1175888-1-mr.nuke.me@gmail.com>
+ <20200926184919.GB98875@ravnborg.org>
+ <9c3ce766-743c-705f-7926-21e753c2d02d@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <9c3ce766-743c-705f-7926-21e753c2d02d@gmail.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=CaYmGojl c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=n0pIf5krzdTGiaSpMTQA:9
+ a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,38 +46,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pandey, Hariom" <hariom.pandey@intel.com>, "Ausmus,
- James" <james.ausmus@intel.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Souza,
- Jose" <jose.souza@intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "Surendrakumar Upadhyay,
- TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Rob Herring <robh+dt@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ David Airlie <airlied@linux.ie>, Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Sep 2020, Matt Roper <matthew.d.roper@intel.com> wrote:
-> Why are we adding IS_JASPERLAKE at all?  EHL/JSL are documented as the
-> same graphics IP, but are paired with different PCHs in the final SoCs,
-> which is what causes the minor differences in programming.  My
-> understanding is that the voltage programming differences are ultimately
-> due to that difference in PCH so we should just use HAS_PCH_MCC (EHL)
-> and HAS_PCH_JSP (JSL) to distinguish which type of programming is needed
-> rather than using a platform test.
+Hi Alex.
 
-Good point. If the difference is in the PCH, then of course the PCH
-check should be used instead. Which avoids the problem altogether.
+On Mon, Sep 28, 2020 at 12:35:01PM -0500, Alex G. wrote:
+> On 9/26/20 1:49 PM, Sam Ravnborg wrote:
+> > Hi Alexandru
+> > 
+> > On Thu, Sep 24, 2020 at 03:05:05PM -0500, Alexandru Gagniuc wrote:
+> > > On the SII9022, the IOVCC and CVCC12 supplies must reach the correct
+> > > voltage before the reset sequence is initiated. On most boards, this
+> > > assumption is true at boot-up, so initialization succeeds.
+> > > 
+> > > However, when we try to initialize the chip with incorrect supply
+> > > voltages, it will not respond to I2C requests. sii902x_probe() fails
+> > > with -ENXIO.
+> > > 
+> > > To resolve this, look for the "iovcc" and "cvcc12" regulators, and
+> > > make sure they are enabled before starting the reset sequence. If
+> > > these supplies are not available in devicetree, then they will default
+> > > to dummy-regulator. In that case everything will work like before.
+> > > 
+> > > This was observed on a STM32MP157C-DK2 booting in u-boot falcon mode.
+> > > On this board, the supplies would be set by the second stage
+> > > bootloader, which does not run in falcon mode.
+> > > 
+> > > Signed-off-by: Alexandru Gagniuc <mr.nuke.me@gmail.com>
+> > 
+> > One nitpick here. The binding should be present in the tree before
+> > you start using it. So this patch should be applied after the binding.
+> 
+> It is :)
+>   * arch/arm/boot/dts/stm32mp15xx-dkx.dtsi
 
-BR,
-Jani.
+This is the device tree. So essentially there is part of the device
+tree that is not yet documented - so in a perfect world all parts of the
+device tree is documented in bindings
+(Documentation/devicetree/bindings/* ) before the device tree is
+committed.
 
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
