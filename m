@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D3627A82C
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:07:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3D927A81C
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 09:07:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6116E3D0;
-	Mon, 28 Sep 2020 07:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2645D6E2C8;
+	Mon, 28 Sep 2020 07:06:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD1016E084;
- Mon, 28 Sep 2020 04:54:42 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id z26so10252418oih.12;
- Sun, 27 Sep 2020 21:54:42 -0700 (PDT)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 384206E0D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 06:27:49 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id u3so25505pjr.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Sep 2020 23:27:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=zBQfoV2KczaLF/np9UnNTPVIq5S9FrhPz7MqxIsQ7cA=;
- b=AtgQNxEFowexaGYVxU1pq4BqpzFDpT/fSCZ0vOPk3unI6qkON6+N1p5GfjTKc5rtds
- K+cT1+C5m90vsRJ4g6RBqEXi0XZN1VxDpN7xO4vaokUM74XXF8D0J40NUrBQsFZI/Uzg
- Aa74nKycLxpfauSkJxuxVjY0Ozk4KIQYBwg+o03GL+TT+/s8Ffb/8bhnIKUk/62A/6yp
- 6p5phJ+fJcn3M046+Ubru0YikCMeAmGNLEFlEmZLdwgcm/0nK94OwDSzbuPALp6Lmm/w
- ZP7fWU6AWOSstfpcjm9YK6kUJjS4VqT2tfU/SA4y/cEYQhHkAZ446MY1d7RfV6QEmnAM
- ejjg==
+ h=from:to:cc:subject:date:message-id;
+ bh=G1XCap02BLqu2h42U/isRlPU6JhGouPh7A8Cyw/JWKQ=;
+ b=ZO6P/eNhvYPE6cwsvUntTdngmCHlY/B/gr9tqd/AZFvQmnrsr1xTfC7FgfvU88Zypi
+ dEqfaskzB/AiSdVsEe0drCLcpSurjw/Q3G5I7c83eADd4V5K+i0BrOuMtXzGV1xp64Er
+ rQcm4m/TKY3TOfEKWLo+gdnrGNsDxwPu88irxSPhGZeHiEkrznNcOIb+EvYfoTAeA9zm
+ +34psCwgX1KUNcAuTm6j58qzEMF+03rQGOWreUIIUhkpVAa7/uKyUdwGZceza+xVs20V
+ DX0UZUBZb/qfsy8D2T5VunWKxBpztcAleQYqWlBltsGLuUlxfXwBkEXseVp0OxXHFEcu
+ 8jWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=zBQfoV2KczaLF/np9UnNTPVIq5S9FrhPz7MqxIsQ7cA=;
- b=C1IPc3kYU45fIITYlRdltpCUF8aS5KY32eYpnovDbB5qQgV2XkXXoyxbFoGky/Q4pj
- 8SNRMWW2FR5lELnaefmzbRgs66rDAgFV/E6B7tnT42+S3QPV8SyZJtrd4PYN3sxrf8yW
- 6DDNp8DL9ec0sHZ6Aa6UA87gCsRxrEC4NYcg72Ay5QFeaAgSwVZkcq5ab4lzqNCYo8Ur
- p238we5Z1Hipnkeu9tD0xUiVz+4+l2YeJ80UYmQqIFrENvql256rZcARkUN7trq22SVy
- /8G2zAYSJD4aSfrbZ73ftstmBMl4NABRUYnPh6jbOfii8n5BOR2Xl8vBHXddwAXpXC8i
- /Y7g==
-X-Gm-Message-State: AOAM531+tZ9jyjdNALdxEqvuisEtFMRgL04SmgNZtyAmt9A3uEH+1P6f
- 959JzJvik4bBgNErX5bp3je9n5hcigdN1f+FJLU=
-X-Google-Smtp-Source: ABdhPJzujeU1dIUd3UMJ9hrjw4Co0k9IW+9THC7E7XCRtIQW0JgBY+mKZDs2Oh1yGsrovMg+cq/6FXTkE/KoS49Dgo8=
-X-Received: by 2002:aca:4710:: with SMTP id u16mr4766570oia.25.1601268881982; 
- Sun, 27 Sep 2020 21:54:41 -0700 (PDT)
-MIME-Version: 1.0
-From: Tony Fischetti <tony.fischetti@gmail.com>
-Date: Mon, 28 Sep 2020 00:54:31 -0400
-Message-ID: <CAOMV6SXOMu1wVPeWR9=d7e7A7qy4ZupBVGB_1B2HneVA-WEizQ@mail.gmail.com>
-Subject: REGRESSION: [i915] kernel NULL pointer dereference
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com, 
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=G1XCap02BLqu2h42U/isRlPU6JhGouPh7A8Cyw/JWKQ=;
+ b=ooqyl7cz4gkW5Lskek4H3rw5+AmLkR+rNubHFmO6djmiX4RcDyZpmfsyLFFEp/kpgc
+ uiDx2w/F8cG+vG8sfHHuEim2clzDAgkwmHX7DcBLYxh4cMJ3XO85k8j8RED+nbGi2ayP
+ vTVCcyFbFxWvD0ImN/0FxqvQEMIq7RPWyf4DCKmF3BOWYMmT72sjPrXiqud4ueOinQpQ
+ jL1hol/ulslZpugR2uwXbAQOSRdzgDXsDf66q+wpAwEu/RXQe72904VJzHyM2t37H5dI
+ aZuvk+daNJV39w6/IjjfOZQN6/PT7HOhyAQ7mwE0SOwlag3A55cfzhcOfuX9dq/JACFH
+ orgg==
+X-Gm-Message-State: AOAM532X+pxPoUtm+gk6ao5Iz9lFh4hxPWU17AyyX3yPeBKD1dwO8CNy
+ yckEqC0IRTUP3aLVGNDGtWk=
+X-Google-Smtp-Source: ABdhPJwj/ZvOX29MNdvg7vVs2zdmBwg8lcRzhlDcreobFJUmyVAIW14dQTS5Q3cUEEz/93U5RiturA==
+X-Received: by 2002:a17:90a:6282:: with SMTP id d2mr24088pjj.86.1601274468836; 
+ Sun, 27 Sep 2020 23:27:48 -0700 (PDT)
+Received: from nj08008nbu.spreadtrum.com ([117.18.48.82])
+ by smtp.gmail.com with ESMTPSA id il14sm5712509pjb.54.2020.09.27.23.27.45
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 27 Sep 2020 23:27:48 -0700 (PDT)
+From: Kevin Tang <kevin3.tang@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ mark.rutland@arm.com, kevin3.tang@gmail.com
+Subject: [PATCH RFC v7 0/6] Add Unisoc's drm kms module
+Date: Mon, 28 Sep 2020 14:27:34 +0800
+Message-Id: <1601274460-7866-1-git-send-email-kevin3.tang@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Mon, 28 Sep 2020 07:06:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,132 +64,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2079114642=="
+Cc: orsonzhai@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, zhang.lyra@gmail.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2079114642==
-Content-Type: multipart/alternative; boundary="000000000000e689cb05b0587602"
+ChangeList:
+v1:
+1. only upstream modeset and atomic at first commit. 
+2. remove some unused code;
+3. use alpha and blend_mode properties;
+3. add yaml support;
+4. remove auto-adaptive panel driver;
+5. bugfix
 
---000000000000e689cb05b0587602
-Content-Type: text/plain; charset="UTF-8"
+v2:
+1. add sprd crtc and plane module for KMS, preparing for multi crtc&encoder
+2. remove gem drivers, use generic CMA handlers
+3. remove redundant "module_init", all the sub modules loading by KMS
 
-I just tested the v5.9-rc7 release on two of my machines and on one of the
-machines, I got a bug/oops that prevents the video driver from working
-properly.
+v3:
+1. multi crtc&encoder design have problem, so rollback to v1
 
-This regression must have occurred somewhere between v5.9-rc8 and v5.9-rc9.
-I'm attempting to git bisect it, but I wanted to bring it to your attention
-since I'm unfamiliar with this subsystem and it's unlikely that I'll be
-able to fix it/offer a patch myself.
+v4:
+1. update to gcc-linaro-7.5.0
+2. update to Linux 5.6-rc3
+3. remove pm_runtime support
+4. add COMPILE_TEST, remove unused kconfig
+5. "drm_dev_put" on drm_unbind
+6. fix some naming convention issue
+7. remove semaphore lock for crtc flip
+8. remove static variables
 
-Below are the relevant journal log entries. Please let me know if there's
-any more information I can provide.
+v5:
+1. optimize encoder and connector code implementation
+2. use "platform_get_irq" and "platform_get_resource"
+3. drop useless function return type, drop unless debug log
+4. custom properties should be separate, so drop it
+5. use DRM_XXX replase pr_xxx
+6. drop dsi&dphy hal callback ops
+7. drop unless callback ops checking
+8. add comments for sprd dpu structure
 
+v6:
+1. Access registers via readl/writel
+2. Checking for unsupported KMS properties (format, rotation, blend_mode, etc) on plane_check ops
+3. Remove always true checks for dpu core ops
 
-BUG: kernel NULL pointer dereference, address: 0000000000000054
-#PF: supervisor write access in kernel mode
-#PF: error_code(0x0002) - not-present page
-PGD 0 P4D 0
-Oops: 0002 [#1] PREEMPT SMP NOPTI
-CPU: 1 PID: 480 Comm: kworker/u25:0 Not tainted 5.9.0-rc7-alice-glass+ #1
-Hardware name: LENOVO 10ST001QUS/312A, BIOS M1UKT4BA 11/11/2019
-Workqueue: i915-userptr-acquire __i915_gem_userptr_get_pages_worker [i915]
-RIP: 0010:__get_user_pages_remote+0xa0/0x2d0
-Code: 85 e7 01 00 00 83 3b 01 0f 85 e0 01 00 00 f7 c1 00 00 04 00 0f 84 12
-01 00 00 65 48 8b 04 25 00 6d 01 00 48 8b 80 58 03 00 00 <c7> 40 54 01 00
-00 00 c6 04 24 00 4d 8d 6f 68 48
+v7:
+1. Fix DTC unit name warnings
+2. Fix the problem of maintainers
+3. Call drmm_mode_config_init to mode config init
+4. Embed drm_device in sprd_drm and use devm_drm_dev_alloc
+5. Replace DRM_XXX with drm_xxx on KMS module, but not suitable for other subsystems
+6. Remove plane_update stuff, dpu handles all the HW update in crtc->atomic_flush
+7. Dsi&Dphy Code structure adjustment, all move to "sprd/"
 
-RSP: 0018:ffffaa38005a3df0 EFLAGS: 00010206
-RAX: 0000000000000000 RBX: ffffaa38005a3e64 RCX: 0000000000040001
-RDX: 00000000000007e9 RSI: 00007ff21f800000 RDI: ffff8afde99a0440
-RBP: 00007ff21f800000 R08: ffff8afde221c000 R09: 0000000000000000
-R10: 0000000000000006 R11: 0000000000000005 R12: ffff8afde221c000
-R13: ffff8afde221c000 R14: 0000000000042003 R15: ffff8afde99a0440
-FS:  0000000000000000(0000) GS:ffff8afdfe240000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000054 CR3: 000000048320a005 CR4: 00000000001706e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- __i915_gem_userptr_get_pages_worker+0xd1/0x2b0 [i915]
- process_one_work+0x1c7/0x310
- worker_thread+0x28/0x3c0
- ? set_worker_desc+0xb0/0xb0
- kthread+0x123/0x140
- ? kthread_use_mm+0xe0/0xe0
- ret_from_fork+0x1f/0x30
-Modules linked in: snd_hda_codec_hdmi snd_hda_codec_realtek
-snd_hda_codec_generic ledtrig_audio iwlmvm mac80211 libarc4
-x86_pkg_temp_thermal intel_powerclamp coretemp crct10dif_pclm ul
-crc32_pclmul crc32c_intel iwlwifi i915 ghash_clmulni_intel i2c_algo_bit
-drm_kms_helper snd_hda_intel syscopyarea snd_intel_dspcfg sysfillrect
-mei_hdcp sysimgblt tpm_crb fb_sys_fops snd_hda_codec aesni_intel cec
-snd_hwdep crypto_simd snd_hda_core glue_helper drm wmi_bmof
-intel_wmi_thunderbolt snd_pcm intel_cstate i2c_i801 snd_timer mei_me
-cfg80211 mei i2c_smbus pcspkr i2c_core wmi thermal tpm_tis tpm_tis_core tpm
-rng_core acpi_pad ppdev lp ip_tables x_tables
-CR2: 0000000000000054
----[ end trace aa62f3a2cc9e91a3 ]---
+Kevin Tang (6):
+  dt-bindings: display: add Unisoc's drm master bindings
+  drm/sprd: add Unisoc's drm kms master
+  dt-bindings: display: add Unisoc's dpu bindings
+  drm/sprd: add Unisoc's drm display controller driver
+  dt-bindings: display: add Unisoc's mipi dsi&dphy bindings
+  drm/sprd: add Unisoc's drm mipi dsi&dphy driver
 
---000000000000e689cb05b0587602
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ .../display/sprd/sprd,display-subsystem.yaml       |   39 +
+ .../bindings/display/sprd/sprd,sharkl3-dpu.yaml    |   83 ++
+ .../display/sprd/sprd,sharkl3-dsi-host.yaml        |   98 ++
+ .../display/sprd/sprd,sharkl3-dsi-phy.yaml         |   75 +
+ drivers/gpu/drm/Kconfig                            |    2 +
+ drivers/gpu/drm/Makefile                           |    1 +
+ drivers/gpu/drm/sprd/Kconfig                       |   13 +
+ drivers/gpu/drm/sprd/Makefile                      |   12 +
+ drivers/gpu/drm/sprd/dpu_r2p0.c                    |  636 +++++++++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl.c                 |  792 +++++++++++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl.h                 | 1475 ++++++++++++++++++++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c             |  276 ++++
+ drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h             |   34 +
+ drivers/gpu/drm/sprd/megacores_pll.c               |  315 +++++
+ drivers/gpu/drm/sprd/megacores_pll.h               |  146 ++
+ drivers/gpu/drm/sprd/sprd_dphy.c                   |  335 +++++
+ drivers/gpu/drm/sprd/sprd_dphy.h                   |   39 +
+ drivers/gpu/drm/sprd/sprd_dpu.c                    |  501 +++++++
+ drivers/gpu/drm/sprd/sprd_dpu.h                    |  217 +++
+ drivers/gpu/drm/sprd/sprd_drm.c                    |  263 ++++
+ drivers/gpu/drm/sprd/sprd_drm.h                    |   20 +
+ drivers/gpu/drm/sprd/sprd_dsi.c                    | 1102 +++++++++++++++
+ drivers/gpu/drm/sprd/sprd_dsi.h                    |  105 ++
+ 23 files changed, 6579 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-phy.yaml
+ create mode 100644 drivers/gpu/drm/sprd/Kconfig
+ create mode 100644 drivers/gpu/drm/sprd/Makefile
+ create mode 100644 drivers/gpu/drm/sprd/dpu_r2p0.c
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.c
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl.h
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.c
+ create mode 100644 drivers/gpu/drm/sprd/dw_dsi_ctrl_ppi.h
+ create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c
+ create mode 100644 drivers/gpu/drm/sprd/megacores_pll.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dphy.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
+ create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
 
-<div dir=3D"ltr"><div>I just tested the v5.9-rc7 release on two of my machi=
-nes and on one of the machines, I got a bug/oops that prevents the video dr=
-iver from working properly.</div><div><br></div><div>This regression must h=
-ave occurred somewhere between v5.9-rc8 and v5.9-rc9.</div><div>I&#39;m att=
-empting to git bisect it, but I wanted to bring it to your attention since =
-I&#39;m unfamiliar with this subsystem and it&#39;s unlikely that I&#39;ll =
-be able to fix it/offer a patch myself.</div><div><br></div><div>Below are =
-the relevant journal log entries. Please let me know if there&#39;s any mor=
-e information I can provide.<br></div><div><br></div><div><br></div><div>BU=
-G: kernel NULL pointer dereference, address: 0000000000000054</div>#PF: sup=
-ervisor write access in kernel mode<br>#PF: error_code(0x0002) - not-presen=
-t page<br>PGD 0 P4D 0<br>Oops: 0002 [#1] PREEMPT SMP NOPTI<br>CPU: 1 PID: 4=
-80 Comm: kworker/u25:0 Not tainted 5.9.0-rc7-alice-glass+ #1<br>Hardware na=
-me: LENOVO 10ST001QUS/312A, BIOS M1UKT4BA 11/11/2019<br>Workqueue: i915-use=
-rptr-acquire __i915_gem_userptr_get_pages_worker [i915]<br>RIP: 0010:__get_=
-user_pages_remote+0xa0/0x2d0<br>Code: 85 e7 01 00 00 83 3b 01 0f 85 e0 01 0=
-0 00 f7 c1 00 00 04 00 0f 84 12 01 00 00 65 48 8b 04 25 00 6d 01 00 48 8b 8=
-0 58 03 00 00 &lt;c7&gt; 40 54 01 00 00 00 c6 04 24 00 4d 8d 6f 68 48<br><b=
-r>RSP: 0018:ffffaa38005a3df0 EFLAGS: 00010206<br>RAX: 0000000000000000 RBX:=
- ffffaa38005a3e64 RCX: 0000000000040001<br>RDX: 00000000000007e9 RSI: 00007=
-ff21f800000 RDI: ffff8afde99a0440<br>RBP: 00007ff21f800000 R08: ffff8afde22=
-1c000 R09: 0000000000000000<br>R10: 0000000000000006 R11: 0000000000000005 =
-R12: ffff8afde221c000<br>R13: ffff8afde221c000 R14: 0000000000042003 R15: f=
-fff8afde99a0440<br>FS: =C2=A00000000000000000(0000) GS:ffff8afdfe240000(000=
-0) knlGS:0000000000000000<br>CS: =C2=A00010 DS: 0000 ES: 0000 CR0: 00000000=
-80050033<br>CR2: 0000000000000054 CR3: 000000048320a005 CR4: 00000000001706=
-e0<br>DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000<br>=
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400<br>Call T=
-race:<br>=C2=A0__i915_gem_userptr_get_pages_worker+0xd1/0x2b0 [i915]<br>=C2=
-=A0process_one_work+0x1c7/0x310<br>=C2=A0worker_thread+0x28/0x3c0<br>=C2=A0=
-? set_worker_desc+0xb0/0xb0<br>=C2=A0kthread+0x123/0x140<br>=C2=A0? kthread=
-_use_mm+0xe0/0xe0<br>=C2=A0ret_from_fork+0x1f/0x30<br>Modules linked in: sn=
-d_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio =
-iwlmvm mac80211 libarc4 x86_pkg_temp_thermal intel_powerclamp coretemp crct=
-10dif_pclm ul crc32_pclmul crc32c_intel iwlwifi i915 ghash_clmulni_intel i2=
-c_algo_bit drm_kms_helper snd_hda_intel syscopyarea snd_intel_dspcfg sysfil=
-lrect mei_hdcp sysimgblt tpm_crb fb_sys_fops snd_hda_codec aesni_intel cec =
-snd_hwdep crypto_simd snd_hda_core glue_helper drm wmi_bmof intel_wmi_thund=
-erbolt snd_pcm intel_cstate i2c_i801 snd_timer mei_me cfg80211 mei i2c_smbu=
-s pcspkr i2c_core wmi thermal tpm_tis tpm_tis_core tpm rng_core acpi_pad pp=
-dev lp ip_tables x_tables<br>CR2: 0000000000000054<br>---[ end trace aa62f3=
-a2cc9e91a3 ]---<br></div>
-
---000000000000e689cb05b0587602--
-
---===============2079114642==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2079114642==--
