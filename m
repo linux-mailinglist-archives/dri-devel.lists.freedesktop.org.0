@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2753427AE8F
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 15:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7907427AF29
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Sep 2020 15:37:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D564989E0E;
-	Mon, 28 Sep 2020 13:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4B3E89F63;
+	Mon, 28 Sep 2020 13:37:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7307F89E0E;
- Mon, 28 Sep 2020 13:02:40 +0000 (UTC)
-IronPort-SDR: k2GsFVEF033j6lvbStwWYZOYL5HMpEZ5B/QIbyHSmrZQiG4I5P4fKQAcDPibWrH0SgT2ts69ln
- bcfaI5IrBCHw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9757"; a="162871208"
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; d="scan'208";a="162871208"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25EEF89F63;
+ Mon, 28 Sep 2020 13:37:10 +0000 (UTC)
+IronPort-SDR: YKKgUUT6tZ74kTMTnVt7JJMQDfzd+bnh8qSouH+2NwRwfl9GjDuhUMrqV0RuxuKyUsn29lVKpB
+ Z+fHdnjD7TFg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9757"; a="246734983"
+X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; d="scan'208";a="246734983"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2020 06:01:45 -0700
-IronPort-SDR: 2PYb7chxyfjfrLHr1gMCoPXK20Doql8Ipysr3XEkekNBhef/3QikprX/1U1qDPFgKsaDmmqgcW
- UeaWQB1ewDJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; d="scan'208";a="340409775"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga008.jf.intel.com with SMTP; 28 Sep 2020 06:01:42 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 28 Sep 2020 16:01:41 +0300
-Date: Mon, 28 Sep 2020 16:01:41 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/kms/nv50-: Fix clock checking algorithm in
- nv50_dp_mode_valid()
-Message-ID: <20200928130141.GV6112@intel.com>
-References: <20200922210510.156220-1-lyude@redhat.com>
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2020 06:37:09 -0700
+IronPort-SDR: OLZxjiXOr/5BwX+rto37oFgNE72aMNGYJ36SUAoCZkhSx1kOjtJj8TFkIo+0B3LbPO0Nq4gqs0
+ +v9YXBpu9bNg==
+X-IronPort-AV: E=Sophos;i="5.77,313,1596524400"; d="scan'208";a="307338790"
+Received: from lizwalsh-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.251.86.12])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2020 06:37:04 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, james.ausmus@intel.com,
+ matthew.d.roper@intel.com, jose.souza@intel.com, ville.syrjala@linux.intel.com,
+ lucas.demarchi@intel.com, hariom.pandey@intel.com
+Subject: Re: [PATCH 1/2] drm/i915/jsl: Split EHL/JSL platform info and PCI ids
+In-Reply-To: <20200928080931.246347-2-tejaskumarx.surendrakumar.upadhyay@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200928080931.246347-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+ <20200928080931.246347-2-tejaskumarx.surendrakumar.upadhyay@intel.com>
+Date: Mon, 28 Sep 2020 16:37:21 +0300
+Message-ID: <87d026owdq.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200922210510.156220-1-lyude@redhat.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,114 +55,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 22, 2020 at 05:05:10PM -0400, Lyude Paul wrote:
-> While I thought I had this correct (since it actually did reject modes
-> like I expected during testing), Ville Syrjala from Intel pointed out
-> that the logic here isn't correct. max_clock refers to the max symbol
-> rate supported by the encoder, so limiting clock to ds_clock using max()
-> doesn't make sense. Additionally, we want to check against 6bpc for the
-> time being since that's the minimum possible bpc here, not the reported
-> bpc from the connector. See:
-> =
-
-> https://lists.freedesktop.org/archives/dri-devel/2020-September/280276.ht=
-ml
-> =
-
-> For more info.
-> =
-
-> So, let's rewrite this using Ville's advice.
-> =
-
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Fixes: 409d38139b42 ("drm/nouveau/kms/nv50-: Use downstream DP clock limi=
-ts for mode validation")
-> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
+On Mon, 28 Sep 2020, Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com> wrote:
+> Split the basic platform definition, macros, and PCI IDs to
+> differentiate between EHL and JSL platforms.
+>
+> Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
 > ---
->  drivers/gpu/drm/nouveau/nouveau_dp.c | 23 +++++++++++++----------
->  1 file changed, 13 insertions(+), 10 deletions(-)
-> =
+>  drivers/gpu/drm/i915/i915_drv.h          | 4 +++-
+>  drivers/gpu/drm/i915/i915_pci.c          | 9 +++++++++
+>  drivers/gpu/drm/i915/intel_device_info.c | 1 +
+>  drivers/gpu/drm/i915/intel_device_info.h | 1 +
+>  include/drm/i915_pciids.h                | 9 ++++++---
+>  5 files changed, 20 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 72a9449b674e..4f20acebb038 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1417,7 +1417,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+>  #define IS_COMETLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_COMETLAKE)
+>  #define IS_CANNONLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_CANNONLAKE)
+>  #define IS_ICELAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ICELAKE)
+> -#define IS_ELKHARTLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE)
+> +#define IS_ELKHARTLAKE(dev_priv) (IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE) || \
+> +				IS_PLATFORM(dev_priv, INTEL_JASPERLAKE))
+> +#define IS_JASPERLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_JASPERLAKE)
 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouve=
-au/nouveau_dp.c
-> index 7b640e05bd4cd..24c81e423d349 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-> @@ -231,23 +231,26 @@ nv50_dp_mode_valid(struct drm_connector *connector,
->  		   const struct drm_display_mode *mode,
->  		   unsigned *out_clock)
->  {
-> -	const unsigned min_clock =3D 25000;
-> -	unsigned max_clock, ds_clock, clock;
-> +	const unsigned int min_clock =3D 25000;
-> +	unsigned int max_clock, ds_clock, clock;
-> +	const u8 bpp =3D 18; /* 6 bpc */
+I think we've learned from history that we want the platform checks to
+be independent. I.e. if you need to split ELK and JSP, you need to make
+IS_ELKHARTLAKE() match *only* ELK, and you need to replace every current
+IS_ELKHARTLAKE() check with IS_ELKHARTLAKE() || IS_JASPERLAKE().
 
-AFAICS nv50_outp_atomic_check() and nv50_msto_atomic_check()
-just blindly use connector->display_info.bpc without any fallback
-logic to lower the bpc. So Ilia's concerns seem well founded.
-Without that logic I guess you should just use
-connector->display_info.bpc here as well.
+We've been here before, and we've thought before that we can get by with
+the minimal change. It's just postponing the inevitable and generates
+confusion.
 
->  	enum drm_mode_status ret;
->  =
+BR,
+Jani.
 
->  	if (mode->flags & DRM_MODE_FLAG_INTERLACE && !outp->caps.dp_interlace)
->  		return MODE_NO_INTERLACE;
->  =
 
->  	max_clock =3D outp->dp.link_nr * outp->dp.link_bw;
-> -	ds_clock =3D drm_dp_downstream_max_dotclock(outp->dp.dpcd,
-> -						  outp->dp.downstream_ports);
-> -	if (ds_clock)
-> -		max_clock =3D min(max_clock, ds_clock);
-> -
-> -	clock =3D mode->clock * (connector->display_info.bpc * 3) / 10;
-> -	ret =3D nouveau_conn_mode_clock_valid(mode, min_clock, max_clock,
-> -					    &clock);
-> +	clock =3D mode->clock * bpp / 8;
-> +	if (clock > max_clock)
-> +		return MODE_CLOCK_HIGH;
-
-This stuff vs. nouveau_conn_mode_clock_valid() still seems a bit messy.
-The max_clock you pass to nouveau_conn_mode_clock_valid() is the max
-symbol clock, but nouveau_conn_mode_clock_valid() checks it against the
-dotclock. Also only nouveau_conn_mode_clock_valid() has any kind of
-stereo 3D handling, but AFAICS stereo_allowed is also set for DP?
-
+>  #define IS_TIGERLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_TIGERLAKE)
+>  #define IS_ROCKETLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ROCKETLAKE)
+>  #define IS_DG1(dev_priv)        IS_PLATFORM(dev_priv, INTEL_DG1)
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index 366ddfc8df6b..8690b69fcf33 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -846,6 +846,14 @@ static const struct intel_device_info ehl_info = {
+>  	.ppgtt_size = 36,
+>  };
+>  
+> +static const struct intel_device_info jsl_info = {
+> +	GEN11_FEATURES,
+> +	PLATFORM(INTEL_JASPERLAKE),
+> +	.require_force_probe = 1,
+> +	.platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(VCS0) | BIT(VECS0),
+> +	.ppgtt_size = 36,
+> +};
 > +
-> +	ds_clock =3D drm_dp_downstream_max_dotclock(outp->dp.dpcd, outp->dp.dow=
-nstream_ports);
-> +	if (ds_clock && mode->clock > ds_clock)
-> +		return MODE_CLOCK_HIGH;
+>  #define GEN12_FEATURES \
+>  	GEN11_FEATURES, \
+>  	GEN(12), \
+> @@ -985,6 +993,7 @@ static const struct pci_device_id pciidlist[] = {
+>  	INTEL_CNL_IDS(&cnl_info),
+>  	INTEL_ICL_11_IDS(&icl_info),
+>  	INTEL_EHL_IDS(&ehl_info),
+> +	INTEL_JSL_IDS(&jsl_info),
+>  	INTEL_TGL_12_IDS(&tgl_info),
+>  	INTEL_RKL_IDS(&rkl_info),
+>  	{0, 0, 0}
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+> index adc836f15fde..e67cec8fa2aa 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.c
+> +++ b/drivers/gpu/drm/i915/intel_device_info.c
+> @@ -62,6 +62,7 @@ static const char * const platform_names[] = {
+>  	PLATFORM_NAME(CANNONLAKE),
+>  	PLATFORM_NAME(ICELAKE),
+>  	PLATFORM_NAME(ELKHARTLAKE),
+> +	PLATFORM_NAME(JASPERLAKE),
+>  	PLATFORM_NAME(TIGERLAKE),
+>  	PLATFORM_NAME(ROCKETLAKE),
+>  	PLATFORM_NAME(DG1),
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+> index 6a3d607218aa..d92fa041c700 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.h
+> +++ b/drivers/gpu/drm/i915/intel_device_info.h
+> @@ -79,6 +79,7 @@ enum intel_platform {
+>  	/* gen11 */
+>  	INTEL_ICELAKE,
+>  	INTEL_ELKHARTLAKE,
+> +	INTEL_JASPERLAKE,
+>  	/* gen12 */
+>  	INTEL_TIGERLAKE,
+>  	INTEL_ROCKETLAKE,
+> diff --git a/include/drm/i915_pciids.h b/include/drm/i915_pciids.h
+> index 7eeecb07c9a1..1b5e09cfa11e 100644
+> --- a/include/drm/i915_pciids.h
+> +++ b/include/drm/i915_pciids.h
+> @@ -579,15 +579,18 @@
+>  	INTEL_VGA_DEVICE(0x8A51, info), \
+>  	INTEL_VGA_DEVICE(0x8A5D, info)
+>  
+> -/* EHL/JSL */
+> +/* EHL */
+>  #define INTEL_EHL_IDS(info) \
+>  	INTEL_VGA_DEVICE(0x4500, info),	\
+>  	INTEL_VGA_DEVICE(0x4571, info), \
+>  	INTEL_VGA_DEVICE(0x4551, info), \
+>  	INTEL_VGA_DEVICE(0x4541, info), \
+> -	INTEL_VGA_DEVICE(0x4E71, info), \
+>  	INTEL_VGA_DEVICE(0x4557, info), \
+> -	INTEL_VGA_DEVICE(0x4555, info), \
+> +	INTEL_VGA_DEVICE(0x4555, info)
 > +
-> +	ret =3D nouveau_conn_mode_clock_valid(mode, min_clock, max_clock, &cloc=
-k);
->  	if (out_clock)
->  		*out_clock =3D clock;
-> +
->  	return ret;
->  }
-> -- =
+> +/* JSL */
+> +#define INTEL_JSL_IDS(info) \
+> +	INTEL_VGA_DEVICE(0x4E71, info), \
+>  	INTEL_VGA_DEVICE(0x4E61, info), \
+>  	INTEL_VGA_DEVICE(0x4E57, info), \
+>  	INTEL_VGA_DEVICE(0x4E55, info), \
 
-> 2.26.2
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
