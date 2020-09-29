@@ -1,61 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DC827C4F3
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 13:23:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A88727C4F5
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 13:24:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 211C289E8C;
-	Tue, 29 Sep 2020 11:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 298CC89CB3;
+	Tue, 29 Sep 2020 11:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 428E389E8C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:23:09 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id p15so14421417ejm.7
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 04:23:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=75onsUiYZDPKUoPfk+ULF3bocgPd4SNa0iZmlQ7V8lA=;
- b=AMJTdhKmFLDt56XZODIvLT7sLm2deH/obqVfwflX1ZjAL/1pHST7eliRzFmWlaPro/
- OXud1x5vsl+cEuple26CfuValSuZb7t+zjg+4Nkmm7siniGdIHSUAsF4RaFMhQGUDzOv
- DGu1LlRBxRMszP41x2EzXsVAYsoGEuy94Mx3GNwSrOqM55NwTqJ8i9EJPlcxaKgGSkod
- j8rnwBsq+UQC6VHglyZvVBkz1iAQPDRwiz8vossrXfK3zsA9P/skvA4OGBzrxM7Ne9vr
- LhciJeGv1R30xsNAsuWXsoLRenBJdUWBUzXLij9V3hazJarflh4hV/YyGdO7RwuRjeut
- ql9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=75onsUiYZDPKUoPfk+ULF3bocgPd4SNa0iZmlQ7V8lA=;
- b=V+YNDKbKA+O6t7qN0Xw5BXKMiuzkXEotHm5MOmf42CPRONHnbh5ZboT/b3dxFgWxZ+
- oGbtkRUTGOIEUGbmJzmOB8T1Lyi/uioUHNgv1NYShCg/Xh/IJr5baOCh7WUdwhfCze6i
- hztTg9n4pQLkLImrl90/AadUzEbhqDhxHyB5r+0O9ZbIC7nFnJGTvyflnEPdKI3XW1JJ
- gxj3ZFeXbtUhv4dyZamBiI3X9TXO/+/GOoHb+NyuEeI4LMqQ40drnjccfaCVgRspzSkT
- Sf2blBg/T36gqFDg26ktj63Up0MJ6mkztxK1YmdfGyMD2TiYfrY83YuLjsLw0yRjLy1N
- +wWA==
-X-Gm-Message-State: AOAM533AXknNDFlXAIrXeMHhIoOGAzvLOkPwg4uWejyp4NriqpOic+kO
- gOJ29H/OYRPWqz6p6bRZbc9zaw490+U=
-X-Google-Smtp-Source: ABdhPJxzEYAJjxBg4M1p5gHc6ghqE7oEpIsQSlPioRJkaDdaSA8dydq5Ndtg8p9QCoQ5VIhO8aNSow==
-X-Received: by 2002:a17:906:270f:: with SMTP id
- z15mr3283553ejc.6.1601378587951; 
- Tue, 29 Sep 2020 04:23:07 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:1c3a:33fc:3eec:ae1d])
- by smtp.gmail.com with ESMTPSA id ce14sm5839479edb.25.2020.09.29.04.23.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 04:23:07 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: kraxel@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/qxl: fix usage of ttm_bo_init
-Date: Tue, 29 Sep 2020 13:23:06 +0200
-Message-Id: <20200929112306.80952-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4D3489C8D;
+ Tue, 29 Sep 2020 11:24:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GQB2iGEwezsc8dOrpYNYg9YXPeIVnqqrOuUkU7TuDFkqRcV+HIhgEXHerk0Rqe9BS5CA3alnBskThoCq+GJEnalObRjZikcvKxRqHzfO8prK31NVDQ7lM763ySEk1UDFkx092RbiYxD6Axx4sOhu+/oWFNT6T8ebOI/UsQ51coznsPdJqvsVVoCCd4y1yO6X2zpD7zTr4d0d1yK416BnHt4FrLZVv6Lx22P28aEBSmKLm6VrXc73Xg8E970v9Egz1fOVPEATwZdSV6th3Rq3eC/0VDl9Zoi2JhY6qR+zVVrKmepaBZjVMBV3zXLkewXAZKOY3/soTzIp7Mf8Oa1W6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5mktaV4/jslCqVv/N+3wkpvY0QLkq4vXs1tSWawvfHU=;
+ b=DiuOFAluH5yq2OdtHpU07zlFHdDMfIpOXn8VmZMcSYPZi+lQfJ6lswbGgAzRyN9MGH/eN6GuHZDbbFL3K5grTcpi6Fo8RAxHidem7i9M8PVB/FedbVIh+i4X+2zQii90TYV2vO6JxHABQTsbXcFMVRJj1PFHK9VwdOV3On+wG+fF3wdLXDgP2lSpGRCSJS1bmxdwV5yZajZVBZbO06MzxED/hwOqz3LCF7jOdujR50W8JMPs7AMQcHk5rug4NEDZNC7RwxmbDxEEVlX4+TgYjfhkFIIRoItiDwYZgxFVBOQB4HGLUIVsyTorxCsVq/anNqgGMN8i0qGoQLMOizivGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5mktaV4/jslCqVv/N+3wkpvY0QLkq4vXs1tSWawvfHU=;
+ b=cwkNuRoWQTFQuUjx/FmFsvBFX8TT6jv2S21OIDJuPVZMDyROPPhaWBIQkCXLVv7UJvrSXgQiEvbx2mBoqYCXjZQd87As3gqyRvmj0yNRM+ZrO9wtFhbVEcLP07kzxYFBgTTq9iwdMEFDuHunv7+ol5lGbHK3BilliF1St0hFG60=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4930.namprd12.prod.outlook.com (2603:10b6:208:1c8::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Tue, 29 Sep
+ 2020 11:24:11 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3433.032; Tue, 29 Sep 2020
+ 11:24:11 +0000
+Subject: Re: [PATCH v2 4/4] drm/qxl: use qxl pin function
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Huang Rui <ray.huang@amd.com>, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <spice-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
+References: <20200929095115.24430-1-kraxel@redhat.com>
+ <20200929095115.24430-5-kraxel@redhat.com>
+ <20200929105300.GM438822@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <52df08b0-e78d-3824-7a4f-02837ad0891d@amd.com>
+Date: Tue, 29 Sep 2020 13:24:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20200929105300.GM438822@phenom.ffwll.local>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM4PR0202CA0021.eurprd02.prod.outlook.com
+ (2603:10a6:200:89::31) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM4PR0202CA0021.eurprd02.prod.outlook.com (2603:10a6:200:89::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22 via Frontend
+ Transport; Tue, 29 Sep 2020 11:24:10 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 33411f93-4244-4396-17c3-08d8646a3084
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4930:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB49307D3DF198465FA351BB9083320@BL0PR12MB4930.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ID822Q39pvzfTzesG3nktD9f/Q6wT17R4JF078gzmKSJNdRC7Qm8WbvtC3NIa1JQyjF7eMwgMbUMjiukPhPuUhWZ9NB/EThY/BU3WQ3pzJsr/1a/Euxt89Jy9A3N+JA+oviv01JqfQoTjl44A+hL6upo8YSejt+5nEsbIqMqW4hgvqgevMmijQD2IjPY7Yky9eXaxYGy6wKn0AUAYZl0qxmryA2AsR0w0ccjeLV+yop8xP1t4HJwAm90EEULS6NYACa/F3RJDG95hZXOh+XrbNulw5PmDt1co3KWrQTqZWv2oN2E8FdOO6NJYeCB3/X1Hps7zmvXS7F1HSfBlxcOiYFrhU1Cv2Vn+J8TJTB5vBd2F3bsVEhh2kyJILqkwn3TzDMsAchGCnvkXx5+wcxQz/y2YS6mftGJJRLs4I0t8DbXtGFfd9oOnrOwQfRyNAev
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(376002)(346002)(136003)(39860400002)(6486002)(186003)(52116002)(66476007)(31696002)(316002)(66556008)(110136005)(66946007)(8676002)(8936002)(2906002)(16526019)(2616005)(83380400001)(31686004)(6666004)(86362001)(478600001)(36756003)(5660300002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: lgdVkfWFdx+MB0HVTOavCOWoRM8j8uYVJtV8/9gr+GbaZEhmyJbHV+jmWxWBoe/yyRVLcj0644m6RdmE+blx+YnnVde9HAcsTX7Rx1JAp/8CBE+EpDudGBNxBL3iTRVV05uiksGpYpxsAnEjurUrHgFSR4LnfUGrK3Rt8yP5eDvm5kivEG9arYjM8XjLRVVsPx5bvFhP1Ya7JOaeq98cOLJ410kxKX9g0nO7EIt6TB0psyp5kG+b26Ea/m5Ui15jkLsPCgbz5bQkLIyOrcjcgrxZSi2INukPXFZr0bAAR62/eW+avdXU7tbmX6f0XJ7pNmVzpYNF6DWIK4vuZdrvjmB4LqMNZ5r5qmnaJJo7VWrJf7AKURize1cPVDTmMghW1y/aov3ySG2rNwcvdUvG47G7FMxJq7cHfq1BcVsO5lMOK5WQuzXEGteI0HX5oIyaE0qwMlZzohiUeMTUzMJ9P2ZVf8IZMHRC/qwNnB+xy3HOUPVtq8lwtEDakHt2mqt1oekDfR+JQ+szi8T3kYFcTqzldmJqDz5aEKQkn2jLRgEje9jqX5/CEMsRyGjkyqRkQqRs9JoWTFScvkgC7+VsKJXRqhrf9/cTloWbif/akmspUbOfwIiRzq46/O+yPtRzoe9yOHQduHAQrL2paY3UeshJBj5X9We1LYgTPuDVfXEJrExt6GQAlJJZIDqoGPjFl4d82WrTo7MLz/0NtY0N7w==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33411f93-4244-4396-17c3-08d8646a3084
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2020 11:24:11.7628 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t17YhWHLJoB+VErSVdHGhI3uhwdHvLBoE86KR2EElmEhjrZPrX0w9AQB2BU0187b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4930
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,35 +105,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgbmVlZCB0byB1c2UgdHRtX2JvX2luaXRfcmVzZXJ2ZWQgaGVyZSB0byBtYWtlIHN1cmUKdGhh
-dCB0aGUgQk8gaXMgcGlubmVkIGJlZm9yZSBpdCBiZWNvbWVzIHZpc2libGUgb24gdGhlIExSVS4K
-ClNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
-bT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9vYmplY3QuYyB8IDggKysrKystLS0KIDEg
-ZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfb2JqZWN0LmMgYi9kcml2ZXJzL2dwdS9kcm0vcXhs
-L3F4bF9vYmplY3QuYwppbmRleCBkMzYzNWUzZTMyNjcuLmM4YjY3ZTdhM2YwMiAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfb2JqZWN0LmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3F4bC9xeGxfb2JqZWN0LmMKQEAgLTEwNiw2ICsxMDYsNyBAQCBpbnQgcXhsX2JvX2NyZWF0ZShz
-dHJ1Y3QgcXhsX2RldmljZSAqcWRldiwKIAkJICBzdHJ1Y3QgcXhsX3N1cmZhY2UgKnN1cmYsCiAJ
-CSAgc3RydWN0IHF4bF9ibyAqKmJvX3B0cikKIHsKKwlzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHgg
-Y3R4ID0geyAha2VybmVsLCBmYWxzZSB9OwogCXN0cnVjdCBxeGxfYm8gKmJvOwogCWVudW0gdHRt
-X2JvX3R5cGUgdHlwZTsKIAlpbnQgcjsKQEAgLTEzNCw5ICsxMzUsOSBAQCBpbnQgcXhsX2JvX2Ny
-ZWF0ZShzdHJ1Y3QgcXhsX2RldmljZSAqcWRldiwKIAogCXF4bF90dG1fcGxhY2VtZW50X2Zyb21f
-ZG9tYWluKGJvLCBkb21haW4pOwogCi0JciA9IHR0bV9ib19pbml0KCZxZGV2LT5tbWFuLmJkZXYs
-ICZiby0+dGJvLCBzaXplLCB0eXBlLAotCQkJJmJvLT5wbGFjZW1lbnQsIDAsICFrZXJuZWwsIHNp
-emUsCi0JCQlOVUxMLCBOVUxMLCAmcXhsX3R0bV9ib19kZXN0cm95KTsKKwlyID0gdHRtX2JvX2lu
-aXRfcmVzZXJ2ZWQoJnFkZXYtPm1tYW4uYmRldiwgJmJvLT50Ym8sIHNpemUsIHR5cGUsCisJCQkJ
-ICZiby0+cGxhY2VtZW50LCAwLCAmY3R4LCBzaXplLAorCQkJCSBOVUxMLCBOVUxMLCAmcXhsX3R0
-bV9ib19kZXN0cm95KTsKIAlpZiAodW5saWtlbHkociAhPSAwKSkgewogCQlpZiAociAhPSAtRVJF
-U1RBUlRTWVMpCiAJCQlkZXZfZXJyKHFkZXYtPmRkZXYuZGV2LApAQCAtMTQ2LDYgKzE0Nyw3IEBA
-IGludCBxeGxfYm9fY3JlYXRlKHN0cnVjdCBxeGxfZGV2aWNlICpxZGV2LAogCX0KIAlpZiAocGlu
-bmVkKQogCQl0dG1fYm9fcGluKCZiby0+dGJvKTsKKwl0dG1fYm9fdW5yZXNlcnZlKCZiby0+dGJv
-KTsKIAkqYm9fcHRyID0gYm87CiAJcmV0dXJuIDA7CiB9Ci0tIAoyLjE3LjEKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Am 29.09.20 um 12:53 schrieb Daniel Vetter:
+> On Tue, Sep 29, 2020 at 11:51:15AM +0200, Gerd Hoffmann wrote:
+>> Otherwise ttm throws a WARN because we try to pin without a reservation.
+>>
+>> Fixes: 9d36d4320462 ("drm/qxl: switch over to the new pin interface")
+>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>> ---
+>>   drivers/gpu/drm/qxl/qxl_object.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
+>> index d3635e3e3267..eb45267d51db 100644
+>> --- a/drivers/gpu/drm/qxl/qxl_object.c
+>> +++ b/drivers/gpu/drm/qxl/qxl_object.c
+>> @@ -145,7 +145,7 @@ int qxl_bo_create(struct qxl_device *qdev,
+>>   		return r;
+>>   	}
+>>   	if (pinned)
+>> -		ttm_bo_pin(&bo->tbo);
+>> +		qxl_bo_pin(bo);
+> I think this is now after ttm_bo_init, and at that point the object is
+> visible to lru users and everything. So I do think you need to grab locks
+> here instead of just incrementing the pin count alone.
+>
+> It's also I think a bit racy, since ttm_bo_init drops the lock, so someone
+> might have snuck in and evicted the object already.
+>
+> I think what you need is to call ttm_bo_init_reserved, then ttm_bo_pin,
+> then ttm_bo_unreserve, all explicitly.
+
+Ah, yes Daniel is right. I thought I've fixed that up, but looks like I 
+only did that for VMWGFX.
+
+Sorry for the noise, fix to correctly address this is underway.
+
+Regards,
+Christian.
+
+> -Daniel
+>
+>>   	*bo_ptr = bo;
+>>   	return 0;
+>>   }
+>> -- 
+>> 2.27.0
+>>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
