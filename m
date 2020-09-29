@@ -1,33 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B21F27C041
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 10:59:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B0927C049
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 11:00:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E358899BB;
-	Tue, 29 Sep 2020 08:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50A306E1F1;
+	Tue, 29 Sep 2020 09:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08802899BB
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 08:59:15 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AEE6DACA3;
- Tue, 29 Sep 2020 08:59:13 +0000 (UTC)
-Subject: Re: [PATCH 8/9] drm: Add infrastructure for platform devices
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-9-tzimmermann@suse.de>
- <20200629092741.GR3278063@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e3eb13e0-a1a6-69ef-f615-ebec21f326af@suse.de>
-Date: Tue, 29 Sep 2020 10:59:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB5A6E152
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 09:00:09 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id k18so3942390wmj.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 02:00:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=l8n+Qtmools068Op1SBkscZ3rmiXf/OnO40zpDWJvQs=;
+ b=HSfJ7A4FNQbt4jfghWagnZ0q3COkKg8qz4BPThTLTJ7eDRMt1DvHHeb7XKEZ522gOH
+ eWGtprOnXgZp5uEMLqACAESKMKR8I99jBaCAbi8CJzl/OnYlzX1P6crhIyasKLf4c1bf
+ 2XybbZVEohhAC+dLedQmm8E/GOTp7GyR5iP8M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=l8n+Qtmools068Op1SBkscZ3rmiXf/OnO40zpDWJvQs=;
+ b=dEXTHURvUtt7GD4aqKUqTNeOmcpBK6JrbJf9MmvUTf4kTnQvdJI3nv9lWeZBiWSiJg
+ s/gPDGhdZ+7ajmWb4WoWiWABEH47TviGh6B40Kx7HWxf9/Xaw7pt28cHfx2xgEUJDXrq
+ M7EdV8s+qjGh1qbrM/CyD2SlJyDFRD3IrM6On5/vRlznbD/FJxvN87z9Av3r3NrUemsw
+ PPwFRAQf/W1bX2qEMQ1kqY0Kli4VijXye3jBx+vMgGMA/s6/6J745TvK2sXoHPuHQCv8
+ iZa1hJtB37TevreyV27W08BIpW3n5H8NUmxY4NZqumKF8i2El7j7b6jLc1k+vRuQ+jyf
+ B+cg==
+X-Gm-Message-State: AOAM532G7N/ExvLUj/1ivfPNGX8FHgcx4T5XHsQXKO3SEHHxNIdas+wK
+ uQVQPkg7Af0vNcnYhHzgJvggsg==
+X-Google-Smtp-Source: ABdhPJxYoSwWp1/Rwj6+DAZKjozJGei8dnC1WhCd/eu2wZIqXPLzEpFDxM+EMdAcXI41uJyANz2nYw==
+X-Received: by 2002:a1c:a5c8:: with SMTP id o191mr3465483wme.127.1601370007530; 
+ Tue, 29 Sep 2020 02:00:07 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z191sm1552480wme.40.2020.09.29.02.00.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 02:00:06 -0700 (PDT)
+Date: Tue, 29 Sep 2020 11:00:03 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Michal Hocko <mhocko@suse.com>
+Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+Message-ID: <20200929090003.GG438822@phenom.ffwll.local>
+Mail-Followup-To: Michal Hocko <mhocko@suse.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Ben Segall <bsegall@google.com>, Linux-MM <linux-mm@kvack.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Ingo Molnar <mingo@kernel.org>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Brian Cain <bcain@codeaurora.org>,
+ Richard Weinberger <richard@nod.at>,
+ Russell King <linux@armlinux.org.uk>,
+ Ard Biesheuvel <ardb@kernel.org>, David Airlie <airlied@linux.ie>,
+ Ingo Molnar <mingo@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mel Gorman <mgorman@suse.de>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Matt Turner <mattst88@gmail.com>,
+ Valentin Schneider <valentin.schneider@arm.com>,
+ linux-xtensa@linux-xtensa.org, Shuah Khan <shuah@kernel.org>,
+ Jeff Dike <jdike@addtoit.com>,
+ linux-um <linux-um@lists.infradead.org>,
+ Josh Triplett <josh@joshtriplett.org>,
+ Steven Rostedt <rostedt@goodmis.org>, rcu@vger.kernel.org,
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Richard Henderson <rth@twiddle.net>,
+ Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ alpha <linux-alpha@vger.kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <871rj4owfn.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
+ <87bli75t7v.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
+ <CAKMK7uHAk9-Vy2cof0ws=DrcD52GHiCDiyHbjLd19CgpBU2rKQ@mail.gmail.com>
+ <20200916152956.GV29330@paulmck-ThinkPad-P72>
+ <CAKMK7uGFyfhEyt=jmdk2jDO-hq0_Pf0ck+cKSELHjr2U3rPuYQ@mail.gmail.com>
+ <20200916205840.GD29330@paulmck-ThinkPad-P72>
+ <CAKMK7uHL2dMv80b8uBXr=BqHD2TQeODQQM1MGYhAfCYbX7sLrA@mail.gmail.com>
+ <20200929081938.GC22035@dhcp22.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <20200629092741.GR3278063@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <20200929081938.GC22035@dhcp22.suse.cz>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,409 +118,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1117273854=="
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
+ Linux-MM <linux-mm@kvack.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
+ linux-hexagon@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
+ Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mel Gorman <mgorman@suse.de>, Matt Turner <mattst88@gmail.com>,
+ Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
+ Shuah Khan <shuah@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Jeff Dike <jdike@addtoit.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ alpha <linux-alpha@vger.kernel.org>, linux-um <linux-um@lists.infradead.org>,
+ Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
+ rcu@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Richard Weinberger <richard@nod.at>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1117273854==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="aOzE4EXMqzBiiUP2R2QNZx8nZ1yRg3lrK"
+On Tue, Sep 29, 2020 at 10:19:38AM +0200, Michal Hocko wrote:
+> On Wed 16-09-20 23:43:02, Daniel Vetter wrote:
+> > I can
+> > then figure out whether it's better to risk not spotting issues with
+> > call_rcu vs slapping a memalloc_noio_save/restore around all these
+> > critical section which force-degrades any allocation to GFP_ATOMIC at
+> 
+> did you mean memalloc_noreclaim_* here?
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---aOzE4EXMqzBiiUP2R2QNZx8nZ1yRg3lrK
-Content-Type: multipart/mixed; boundary="OlkiBBYNJND9LZRDbYQ8Cpu6HsGeATDQO";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- kraxel@redhat.com, lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
- sam@ravnborg.org, emil.l.velikov@gmail.com, noralf@tronnes.org,
- geert+renesas@glider.be, hdegoede@redhat.com, dri-devel@lists.freedesktop.org
-Message-ID: <e3eb13e0-a1a6-69ef-f615-ebec21f326af@suse.de>
-Subject: Re: [PATCH 8/9] drm: Add infrastructure for platform devices
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-9-tzimmermann@suse.de>
- <20200629092741.GR3278063@phenom.ffwll.local>
-In-Reply-To: <20200629092741.GR3278063@phenom.ffwll.local>
+Yeah I picked the wrong one of that family of functions.
 
---OlkiBBYNJND9LZRDbYQ8Cpu6HsGeATDQO
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> > most, but has the risk that we run into code that assumes "GFP_KERNEL
+> > never fails for small stuff" and has a decidedly less tested fallback
+> > path than rcu code.
+> 
+> Even if the above then please note that memalloc_noreclaim_* or
+> PF_MEMALLOC should be used with an extreme care. Essentially only for
+> internal memory reclaimers. It grants access to _all_ the available
+> memory so any abuse can be detrimental to the overall system operation.
+> Allocation failure in this mode means that we are out of memory and any
+> code relying on such an allocation has to carefuly consider failure.
+> This is not a random allocation mode.
 
-Hi
+Agreed, that's why I don't like having these kind of automagic critical
+sections. It's a bit a shotgun approach. Paul said that the code would
+handle failures, but the problem is that it applies everywhere.
 
-Am 29.06.20 um 11:27 schrieb Daniel Vetter:
-> On Thu, Jun 25, 2020 at 02:00:10PM +0200, Thomas Zimmermann wrote:
->> Platform devices might operate on firmware framebuffers, such as VESA =
-or
->> EFI. Before a native driver for the graphics hardware can take over th=
-e
->> device, it has to remove any platform driver that operates on the firm=
-ware
->> framebuffer. Platform helpers provide the infrastructure for platform
->> drivers to acquire firmware framebuffers, and for native drivers to re=
-move
->> them lateron.
->>
->> It works similar to the related fbdev mechanism. During initialization=
-, the
->> platform driver acquires the firmware framebuffer's I/O memory and pro=
-vides
->> a callback to be removed. The native driver later uses this inforamtio=
-n to
->> remove any platform driver for it's framebuffer I/O memory.
->>
->> The platform helper's removal code is integrated into the existing cod=
-e for
->> removing conflicting fraembuffers, so native drivers use it automatica=
-lly.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> I have some ideas for how to do this a notch cleaner in the next patch.=
-
-> Maybe best to discuss the actual implmenentation stuff there.
->=20
-> Aside from that usual nits:
-> - kerneldoc for these please, pulled into drm-kms.rst.
-
-Any specific reason for drm-kms?
-
-The aperture helpers are used to manage ownership of memory and most
-drivers begin with drm_fb_helper_remove_conflicting_framebuffers(). It
-seems more approprite to put this into drm-internals as part of the
-driver initialization.
-
-Best regards
-Thomas
-
-> - naming isn't super ocd with drm_platform.c but that prefix not used, =
-but
->   I also don't have better ideas.
-> - I think the functions from drm_fb_helper.h for removing other
->   framebuffers should be moved here, and function name prefix adjusted
->   acoordingly
->=20
-> I'm wondering about the locking and deadlock potential here, is lockdep=
-
-> all happy with this?
->=20
-> Cheers, Daniel
->=20
->> ---
->>  drivers/gpu/drm/Kconfig        |   6 ++
->>  drivers/gpu/drm/Makefile       |   1 +
->>  drivers/gpu/drm/drm_platform.c | 118 ++++++++++++++++++++++++++++++++=
-+
->>  include/drm/drm_fb_helper.h    |  18 ++++-
->>  include/drm/drm_platform.h     |  42 ++++++++++++
->>  5 files changed, 184 insertions(+), 1 deletion(-)
->>  create mode 100644 drivers/gpu/drm/drm_platform.c
->>  create mode 100644 include/drm/drm_platform.h
->>
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index c4fd57d8b717..e9d6892f9d38 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -229,6 +229,12 @@ config DRM_SCHED
->>  	tristate
->>  	depends on DRM
->> =20
->> +config DRM_PLATFORM_HELPER
->> +	bool
->> +	depends on DRM
->> +	help
->> +	  Helpers for DRM platform devices
->> +
->>  source "drivers/gpu/drm/i2c/Kconfig"
->> =20
->>  source "drivers/gpu/drm/arm/Kconfig"
->> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
->> index 2c0e5a7e5953..8ceb21d0770a 100644
->> --- a/drivers/gpu/drm/Makefile
->> +++ b/drivers/gpu/drm/Makefile
->> @@ -32,6 +32,7 @@ drm-$(CONFIG_AGP) +=3D drm_agpsupport.o
->>  drm-$(CONFIG_PCI) +=3D drm_pci.o
->>  drm-$(CONFIG_DEBUG_FS) +=3D drm_debugfs.o drm_debugfs_crc.o
->>  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) +=3D drm_edid_load.o
->> +drm-$(CONFIG_DRM_PLATFORM_HELPER) +=3D drm_platform.o
->> =20
->>  drm_vram_helper-y :=3D drm_gem_vram_helper.o
->>  obj-$(CONFIG_DRM_VRAM_HELPER) +=3D drm_vram_helper.o
->> diff --git a/drivers/gpu/drm/drm_platform.c b/drivers/gpu/drm/drm_plat=
-form.c
->> new file mode 100644
->> index 000000000000..09a2f2a31aa5
->> --- /dev/null
->> +++ b/drivers/gpu/drm/drm_platform.c
->> @@ -0,0 +1,118 @@
->> +// SPDX-License-Identifier: GPL-2.0 OR MIT
->> +
->> +#include <linux/mutex.h>
->> +#include <linux/slab.h>
->> +
->> +#include <drm/drm_drv.h>
->> +#include <drm/drm_managed.h>
->> +#include <drm/drm_platform.h>
->> +
->> +static LIST_HEAD(drm_apertures);
->> +
->> +static DEFINE_MUTEX(drm_apertures_lock);
->> +
->> +static bool overlap(resource_size_t base1, resource_size_t end1,
->> +		    resource_size_t base2, resource_size_t end2)
->> +{
->> +	return (base1 < end2) && (end1 > base2);
->> +}
->> +
->> +static struct drm_aperture *
->> +drm_aperture_acquire(struct drm_device *dev,
->> +		     resource_size_t base, resource_size_t size,
->> +		     const struct drm_aperture_funcs *funcs)
->> +{
->> +	size_t end =3D base + size;
->> +	struct list_head *pos;
->> +	struct drm_aperture *ap;
->> +
->> +	mutex_lock(&drm_apertures_lock);
->> +
->> +	list_for_each(pos, &drm_apertures) {
->> +		ap =3D container_of(pos, struct drm_aperture, lh);
->> +		if (overlap(base, end, ap->base, ap->base + ap->size))
->> +			return ERR_PTR(-EBUSY);
->> +	}
->> +
->> +	ap =3D drmm_kzalloc(dev, sizeof(*ap), GFP_KERNEL);
->> +	if (!ap)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	ap->dev =3D dev;
->> +	ap->base =3D base;
->> +	ap->size =3D size;
->> +	ap->funcs =3D funcs;
->> +	INIT_LIST_HEAD(&ap->lh);
->> +
->> +	list_add(&ap->lh, &drm_apertures);
->> +
->> +	mutex_unlock(&drm_apertures_lock);
->> +
->> +	return ap;
->> +}
->> +
->> +static void drm_aperture_release(struct drm_aperture *ap)
->> +{
->> +	bool kicked_out =3D ap->kicked_out;
->> +
->> +	if (!kicked_out)
->> +		mutex_lock(&drm_apertures_lock);
->> +
->> +	list_del(&ap->lh);
->> +	if (ap->funcs->release)
->> +		ap->funcs->release(ap);
->> +
->> +	if (!kicked_out)
->> +		mutex_unlock(&drm_apertures_lock);
->> +}
->> +
->> +static void drm_aperture_acquire_release(struct drm_device *dev, void=
- *ptr)
->> +{
->> +	struct drm_aperture *ap =3D ptr;
->> +
->> +	drm_aperture_release(ap);
->> +}
->> +
->> +struct drm_aperture *
->> +drmm_aperture_acquire(struct drm_device *dev,
->> +		      resource_size_t base, resource_size_t size,
->> +		      const struct drm_aperture_funcs *funcs)
->> +{
->> +	struct drm_aperture *ap;
->> +	int ret;
->> +
->> +	ap =3D drm_aperture_acquire(dev, base, size, funcs);
->> +	if (IS_ERR(ap))
->> +		return ap;
->> +	ret =3D drmm_add_action_or_reset(dev, drm_aperture_acquire_release, =
-ap);
->> +	if (ret)
->> +		return ERR_PTR(ret);
->> +
->> +	return ap;
->> +}
->> +EXPORT_SYMBOL(drmm_aperture_acquire);
->> +
->> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t s=
-ize)
->> +{
->> +	resource_size_t end =3D base + size;
->> +	struct list_head *pos, *n;
->> +
->> +	mutex_lock(&drm_apertures_lock);
->> +
->> +	list_for_each_safe(pos, n, &drm_apertures) {
->> +		struct drm_aperture *ap =3D
->> +			container_of(pos, struct drm_aperture, lh);
->> +
->> +		if (!overlap(base, end, ap->base, ap->base + ap->size))
->> +			continue;
->> +
->> +		ap->kicked_out =3D true;
->> +		if (ap->funcs->kickout)
->> +			ap->funcs->kickout(ap);
->> +		else
->> +			drm_dev_put(ap->dev);
->> +	}
->> +
->> +	mutex_unlock(&drm_apertures_lock);
->> +}
->> +EXPORT_SYMBOL(drm_kickout_apertures_at);
->> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h=
-
->> index 306aa3a60be9..a919b78b1961 100644
->> --- a/include/drm/drm_fb_helper.h
->> +++ b/include/drm/drm_fb_helper.h
->> @@ -35,7 +35,9 @@ struct drm_fb_helper;
->>  #include <drm/drm_client.h>
->>  #include <drm/drm_crtc.h>
->>  #include <drm/drm_device.h>
->> +#include <drm/drm_platform.h>
->>  #include <linux/kgdb.h>
->> +#include <linux/pci.h>
->>  #include <linux/vgaarb.h>
->> =20
->>  enum mode_set_atomic {
->> @@ -465,6 +467,11 @@ static inline int
->>  drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct=
- *a,
->>  					      const char *name, bool primary)
->>  {
->> +	int i;
->> +
->> +	for (i =3D 0; i < a->count; ++i)
->> +		drm_kickout_apertures_at(a->ranges[i].base, a->ranges[i].size);
->> +
->>  #if IS_REACHABLE(CONFIG_FB)
->>  	return remove_conflicting_framebuffers(a, name, primary);
->>  #else
->> @@ -487,7 +494,16 @@ static inline int
->>  drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pde=
-v,
->>  						  const char *name)
->>  {
->> -	int ret =3D 0;
->> +	resource_size_t base, size;
->> +	int bar, ret =3D 0;
->> +
->> +	for (bar =3D 0; bar < PCI_STD_NUM_BARS; bar++) {
->> +		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
->> +			continue;
->> +		base =3D pci_resource_start(pdev, bar);
->> +		size =3D pci_resource_len(pdev, bar);
->> +		drm_kickout_apertures_at(base, size);
->> +	}
->> =20
->>  	/*
->>  	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
->> diff --git a/include/drm/drm_platform.h b/include/drm/drm_platform.h
->> new file mode 100644
->> index 000000000000..475e88ee1fbd
->> --- /dev/null
->> +++ b/include/drm/drm_platform.h
->> @@ -0,0 +1,42 @@
->> +// SPDX-License-Identifier: GPL-2.0 OR MIT
->> +
->> +#ifndef _DRM_PLATFORM_H_
->> +#define _DRM_PLATFORM_H_
->> +
->> +#include <linux/list.h>
->> +#include <linux/types.h>
->> +
->> +struct drm_aperture;
->> +struct drm_device;
->> +
->> +struct drm_aperture_funcs {
->> +	void (*kickout)(struct drm_aperture *ap);
->> +	void (*release)(struct drm_aperture *ap);
->> +};
->> +
->> +struct drm_aperture {
->> +	struct drm_device *dev;
->> +	resource_size_t base;
->> +	resource_size_t size;
->> +
->> +	const struct drm_aperture_funcs *funcs;
->> +
->> +	struct list_head lh;
->> +	bool kicked_out;
->> +};
->> +
->> +struct drm_aperture *
->> +drmm_aperture_acquire(struct drm_device *dev,
->> +		      resource_size_t base, resource_size_t size,
->> +		      const struct drm_aperture_funcs *funcs);
->> +
->> +#if defined (CONFIG_DRM_PLATFORM_HELPER)
->> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t s=
-ize);
->> +#else
->> +static inline void
->> +drm_kickout_apertures_at(resource_size_t base, resource_size_t size)
->> +{
->> +}
->> +#endif
->> +
->> +#endif
->> --=20
->> 2.27.0
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---OlkiBBYNJND9LZRDbYQ8Cpu6HsGeATDQO--
-
---aOzE4EXMqzBiiUP2R2QNZx8nZ1yRg3lrK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9y914UHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNhPggAiU8VfFL4AuEUTDJiFyPJIDOYRY2G
-INnPtIllSk0HO8iDUjnvwXUAIdribXIWKeD9cl8ws766P8HjfelEWthFbDR5uBJi
-uj549a+/hz929eyIVs1dc8oEc0FtLq6ksCmvZ4M7PRTVyxeQN9w5WNKQ+4bEr2nF
-NCD78sS3S70xQXqqEQO6fr0CcYX+kyiV0/q+V2SzIQNjUXp9PYi3mAVUT8mimJ84
-hEXq01JeX0XjIKanheZcPooGGgDK+evuL8qN+451rWkFo2Fo3V7dcJZso7A5tEzS
-T/sK3MZnD6NlOA1Y3XYTIpkp0HgEZf4M5v38IHGWE/iAitoqp5YDp1ZpPw==
-=vPrc
------END PGP SIGNATURE-----
-
---aOzE4EXMqzBiiUP2R2QNZx8nZ1yRg3lrK--
-
---===============1117273854==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Anyway my understanding is that call_rcu will be reworked and gain a pile
+of tricks so that these problems for the callchains leading to call_rcu
+all disappear.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1117273854==--
