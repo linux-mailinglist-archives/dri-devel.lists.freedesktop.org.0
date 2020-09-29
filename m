@@ -2,38 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C85927BDD8
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37AF527BDEF
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 09:24:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF3DA89BDB;
-	Tue, 29 Sep 2020 07:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA868987A;
+	Tue, 29 Sep 2020 07:24:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A93C489BDB
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 07:18:00 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 08D27804E5;
- Tue, 29 Sep 2020 09:17:55 +0200 (CEST)
-Date: Tue, 29 Sep 2020 09:17:54 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v1 1/2] drm/rockchip: fix build due to undefined
- drm_gem_cma_vm_ops
-Message-ID: <20200929071754.GA736868@ravnborg.org>
-References: <20200925215524.2899527-1-sam@ravnborg.org>
- <20200925215524.2899527-2-sam@ravnborg.org>
- <83650213-3b09-aea0-4485-cd20de1d9548@suse.de>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE646E454
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 07:24:44 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D6C3BACB5;
+ Tue, 29 Sep 2020 07:24:42 +0000 (UTC)
+Subject: Re: [PATCH] drm/hisilicon: Delete the unused macro
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1601340326-14049-1-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <b2e756df-a434-f60c-c5f5-0cbb43f00d5c@suse.de>
+Date: Tue, 29 Sep 2020 09:24:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <83650213-3b09-aea0-4485-cd20de1d9548@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=A5ZCwZeG c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=IkcTkHD0fZMA:10 a=7gkXJVJtAAAA:8 a=nVws210Im4UeU8Tq7v4A:9
- a=QEXdDO2ut3YA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <1601340326-14049-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,32 +41,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, stable@vger.kernel.org,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============1737882763=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBTZXAgMjksIDIwMjAgYXQgMDg6NTM6MDZBTSArMDIwMCwgVGhvbWFzIFppbW1lcm1h
-bm4gd3JvdGU6Cj4gSGkgU2FtCj4gCj4gQW0gMjUuMDkuMjAgdW0gMjM6NTUgc2NocmllYiBTYW0g
-UmF2bmJvcmc6Cj4gPiBDb21taXQgMGQ1OTBhZjMxNDBkICgiZHJtL3JvY2tjaGlwOiBDb252ZXJ0
-IHRvIGRybV9nZW1fb2JqZWN0X2Z1bmNzIikKPiA+IGludHJvZHVjZWQgdGhlIGZvbGxvd2luZyBi
-dWlsZCBlcnJvcjoKPiA+IAo+ID4gcm9ja2NoaXBfZHJtX2dlbS5jOjMwNDoxMzogZXJyb3I6IOKA
-mGRybV9nZW1fY21hX3ZtX29wc+KAmSB1bmRlY2xhcmVkIGhlcmUKPiA+ICAgMzA0IHwgIC52bV9v
-cHMgPSAmZHJtX2dlbV9jbWFfdm1fb3BzLAo+ID4gICAgICAgfCAgICAgICAgICAgICBefn5+fn5+
-fn5+fn5+fn5+fn4KPiA+ICAgICAgIHwgICAgICAgICAgICAgZHJtX2dlbV9tbWFwX29iago+ID4g
-Cj4gPiBGaXhlZCBieSBhZGRpbmcgbWlzc2luZyBpbmNsdWRlIGZpbGUuCj4gPiAKPiA+IFNpZ25l
-ZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPiAKPiBEaWRuJ3QgeW91
-IHJldmlldyBleGFjdGx5IHRoaXMgY2hhbmdlIHllc3RlcmRheT8gQW55d2F5LCB5b3Ugc2hvdWxk
-IGFkZApZZXAuCgo+IAo+IEZpeGVzOiAwZDU5MGFmMzE0MGQgKCJkcm0vcm9ja2NoaXA6IENvbnZl
-cnQgdG8gZHJtX2dlbV9vYmplY3RfZnVuY3MiKQo+IAo+IGFuZAo+IAo+IFJldmlld2VkLWJ5OiBU
-aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiAKPiBJdCBtaWdodCBoYXBw
-ZW4gdGhhdCBJIGxhbmQgbXkgcGF0Y2ggZmlyc3QsIGRlcGVuZGluZyBvbiB0aGUgdXJnZW5jeSBv
-Zgo+IHRoZSBpc3N1ZS4KSSBleHBlY3QgeW91IHRvIGxhbmQgdGhlIHBhdGNoIHlvdSBtYWRlIGFz
-YXAgc28gd2UgY2FuIGhhdmUgdGhlIGJ1aWxkCmZpeGVkIGFnYWluLgoKCglTYW0KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1737882763==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="dpedHX0iEvgB2NKnSHVo3TnOkufMVO1jt"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dpedHX0iEvgB2NKnSHVo3TnOkufMVO1jt
+Content-Type: multipart/mixed; boundary="LbK2c14iWMLkJ23UetoY31dI9sdKOh1f1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Cc: linuxarm@huawei.com
+Message-ID: <b2e756df-a434-f60c-c5f5-0cbb43f00d5c@suse.de>
+Subject: Re: [PATCH] drm/hisilicon: Delete the unused macro
+References: <1601340326-14049-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1601340326-14049-1-git-send-email-tiantao6@hisilicon.com>
+
+--LbK2c14iWMLkJ23UetoY31dI9sdKOh1f1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 29.09.20 um 02:45 schrieb Tian Tao:
+> The macro PADDING is no longer used. Delete it.
+>=20
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/g=
+pu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> index 4d57ec6..b3a81da 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> @@ -52,8 +52,6 @@ static const struct hibmc_dislay_pll_config hibmc_pll=
+_table[] =3D {
+>  	{1920, 1200, CRT_PLL1_HS_193MHZ, CRT_PLL2_HS_193MHZ},
+>  };
+> =20
+> -#define PADDING(align, data) (((data) + (align) - 1) & (~((align) - 1)=
+))
+> -
+>  static int hibmc_plane_atomic_check(struct drm_plane *plane,
+>  				    struct drm_plane_state *state)
+>  {
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--LbK2c14iWMLkJ23UetoY31dI9sdKOh1f1--
+
+--dpedHX0iEvgB2NKnSHVo3TnOkufMVO1jt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9y4TYUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMWVgf/XpTwoOEDoChu4oENFytdYK4RYxv1
+k5T+qu0aR7fEz4K/7FHTAOAZls+ALTF0VGB76j9ogXVyLz36I5eMeSn12z7zn1cz
+cpViwjF91y/zKIZ14O/LkLJvcYyUl/EpoX0ktC9ar767Qk5FYWQtTJMnXtquZ0Dd
+i8qRBRKaqhJxgW7m2hCXsHw7Ze0L3MgHwNhjoH/yup0ybGNG2cYkp1mhzdjH8w/K
+KZkTZkLMnnskk1SEDp1m86Wh3dHVhQyoeXZf18U9Rn5ao0Pr18mMsbLnNlYCU13E
+O0mbDkpH8GgRhTNh6XKJVjdnx2XrooFgeGgdw2CSWXnjVJfuMd14CdsrYQ==
+=exp3
+-----END PGP SIGNATURE-----
+
+--dpedHX0iEvgB2NKnSHVo3TnOkufMVO1jt--
+
+--===============1737882763==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1737882763==--
