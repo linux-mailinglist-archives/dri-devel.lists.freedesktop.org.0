@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3DD27E2F2
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 09:50:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DC227E2ED
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 09:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4014C6E527;
-	Wed, 30 Sep 2020 07:50:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C43616E090;
+	Wed, 30 Sep 2020 07:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9932489D5F
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 14:27:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 907EB89CF3;
+ Tue, 29 Sep 2020 14:54:06 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1601389672;
+ t=1601391245;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cmghqqosv6TC+EEk46m5qn+kgDZqcMz3XHHlxEb5k7E=;
- b=WswOj2YCAeSn4D+OcezhC8ARfAUfxI+Jifu5PcvKgjgcyorjPIkOcdFs5ZYUTpo7B4g4UN
- +aO7xj1VuQ6CUpzcf1RVFOv5PBxkACN2awTasaa+AYhJ+TLwC0onzmCyYg0w+Q61TpHWST
- r87iUgH+gZmdW9Jb/CvRMqSFfjPVxQY=
+ bh=IgDvWNQP8iyuHEvr4G441L71BKSYFJPWhAP8LkzWJfg=;
+ b=eoKKMBN7CEGS/O8wpnxX5YX5p7R/6oj0pmjByAZssa/tlgDzObwBIbhZXkZHaNf3yxFnjs
+ /xxRgUM/x4iZ6RwvlYDvqSTGjNG6UgIhlOVv1JFsk77ppGGHvo3dx1IKn0uI5+hjhXkchS
+ /V0QnFBKAlwY5qjuSlhyF3uziX8+a1k=
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 38ED2B03D;
- Tue, 29 Sep 2020 14:27:52 +0000 (UTC)
-Date: Tue, 29 Sep 2020 16:27:51 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [External] Re: [PATCH 2/2] sched: mark
- PRINTK_DEFERRED_CONTEXT_MASK in __schedule()
-Message-ID: <20200929142750.GT6442@alley>
-References: <20200927161130.33172-1-zhouchengming@bytedance.com>
- <20200927161130.33172-2-zhouchengming@bytedance.com>
- <20200928073202.GA2611@hirez.programming.kicks-ass.net>
- <40ab934e-5b8b-735b-da65-3043efab9fdc@bytedance.com>
- <20200928090143.GA2628@hirez.programming.kicks-ass.net>
- <688eadd7-4ca3-3e32-3520-25977ff059a6@bytedance.com>
- <20200928102559.GF2611@hirez.programming.kicks-ass.net>
+ by mx2.suse.de (Postfix) with ESMTP id CB7CAAD0F;
+ Tue, 29 Sep 2020 14:54:04 +0000 (UTC)
+Date: Tue, 29 Sep 2020 16:54:03 +0200
+From: Michal Hocko <mhocko@suse.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+Message-ID: <20200929145403.GE2277@dhcp22.suse.cz>
+References: <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
+ <87bli75t7v.fsf@nanos.tec.linutronix.de>
+ <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
+ <CAKMK7uHAk9-Vy2cof0ws=DrcD52GHiCDiyHbjLd19CgpBU2rKQ@mail.gmail.com>
+ <20200916152956.GV29330@paulmck-ThinkPad-P72>
+ <CAKMK7uGFyfhEyt=jmdk2jDO-hq0_Pf0ck+cKSELHjr2U3rPuYQ@mail.gmail.com>
+ <20200916205840.GD29330@paulmck-ThinkPad-P72>
+ <CAKMK7uHL2dMv80b8uBXr=BqHD2TQeODQQM1MGYhAfCYbX7sLrA@mail.gmail.com>
+ <20200929081938.GC22035@dhcp22.suse.cz>
+ <20200929090003.GG438822@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200928102559.GF2611@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200929090003.GG438822@phenom.ffwll.local>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Wed, 30 Sep 2020 07:50:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,116 +57,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org, tzimmermann@suse.de,
- john.ogness@linutronix.de, airlied@linux.ie, songmuchun@bytedance.com,
- linux-kernel@vger.kernel.org, bsegall@google.com, sergey.senozhatsky@gmail.com,
- mingo@redhat.com, rostedt@goodmis.org, dri-devel@lists.freedesktop.org,
- mgorman@suse.de, dietmar.eggemann@arm.com,
- Chengming Zhou <zhouchengming@bytedance.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Juri Lelli <juri.lelli@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Segall <bsegall@google.com>,
+ Linux-MM <linux-mm@kvack.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ linux-arch <linux-arch@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Brian Cain <bcain@codeaurora.org>,
+ linux-hexagon@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
+ Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mel Gorman <mgorman@suse.de>, Matt Turner <mattst88@gmail.com>,
+ Valentin Schneider <valentin.schneider@arm.com>, linux-xtensa@linux-xtensa.org,
+ Shuah Khan <shuah@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Jeff Dike <jdike@addtoit.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ alpha <linux-alpha@vger.kernel.org>, linux-um <linux-um@lists.infradead.org>,
+ Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
+ rcu@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Richard Henderson <rth@twiddle.net>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Richard Weinberger <richard@nod.at>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 2020-09-28 12:25:59, Peter Zijlstra wrote:
-> On Mon, Sep 28, 2020 at 06:04:23PM +0800, Chengming Zhou wrote:
-> =
+On Tue 29-09-20 11:00:03, Daniel Vetter wrote:
+> On Tue, Sep 29, 2020 at 10:19:38AM +0200, Michal Hocko wrote:
+> > On Wed 16-09-20 23:43:02, Daniel Vetter wrote:
+> > > I can
+> > > then figure out whether it's better to risk not spotting issues with
+> > > call_rcu vs slapping a memalloc_noio_save/restore around all these
+> > > critical section which force-degrades any allocation to GFP_ATOMIC at
+> > 
+> > did you mean memalloc_noreclaim_* here?
+> 
+> Yeah I picked the wrong one of that family of functions.
+> 
+> > > most, but has the risk that we run into code that assumes "GFP_KERNEL
+> > > never fails for small stuff" and has a decidedly less tested fallback
+> > > path than rcu code.
+> > 
+> > Even if the above then please note that memalloc_noreclaim_* or
+> > PF_MEMALLOC should be used with an extreme care. Essentially only for
+> > internal memory reclaimers. It grants access to _all_ the available
+> > memory so any abuse can be detrimental to the overall system operation.
+> > Allocation failure in this mode means that we are out of memory and any
+> > code relying on such an allocation has to carefuly consider failure.
+> > This is not a random allocation mode.
+> 
+> Agreed, that's why I don't like having these kind of automagic critical
+> sections. It's a bit a shotgun approach. Paul said that the code would
+> handle failures, but the problem is that it applies everywhere.
 
-> > Well, you are lucky. So it's a problem in our printk implementation.
-> =
+Ohh, in the ideal world we wouldn't need anything like that. But then
+the reality fires:
+* PF_MEMALLOC (resp memalloc_noreclaim_* for that matter) is primarily used
+  to make sure that allocations from inside the memory reclaim - yeah that
+  happens - will not recurse.
+* PF_MEMALLOC_NO{FS,IO} (resp memalloc_no{fs,io}*) are used to mark no
+  fs/io reclaim recursion critical sections because controling that for
+  each allocation inside fs transaction (or other sensitive) or IO
+  contexts turned out to be unmaintainable and people simply fallen into
+  using NOFS/NOIO unconditionally which is causing reclaim imbalance
+  problems.
+* PF_MEMALLOC_NOCMA (resp memalloc_nocma*) is used for long term pinning
+  when CMA pages cannot be pinned because that would break the CMA
+  guarantees. Communicating this to all potential allocations during
+  pinning is simply unfeasible.
 
-> Not lucky; I just kicked it in the groin really hard:
-> =
-
->   git://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git debug/ex=
-perimental
-> =
-
-> > The deadlock path is:
-> > =
-
-> > printk
-> > =A0 vprintk_emit
-> > =A0=A0=A0 console_unlock
-> > =A0 =A0 =A0 vt_console_print
-> > =A0 =A0 =A0 =A0 hide_cursor
-> > =A0 =A0 =A0 =A0 =A0 bit_cursor
-> > =A0 =A0 =A0 =A0 =A0 =A0 soft_cursor
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 queue_work_on
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 __queue_work
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 try_to_wake_up
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 _raw_spin_lock
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 native_queued_spin_lock_slo=
-wpath
-> > =
-
-> > Looks like it's introduced by this commit:
-> > =
-
-> > eaa434defaca1781fb2932c685289b610aeb8b4b
-> > =
-
-> > "drm/fb-helper: Add fb_deferred_io support"
-> =
-
-> Oh gawd, yeah, all the !serial consoles are utter batshit.
-> =
-
-> Please look at John's last printk rewrite, IIRC it farms all that off to
-> a kernel thread instead of doing it from the printk() caller's context.
-> =
-
-> I'm not sure where he hides his latests patches, but I'm sure he'll be
-> more than happy to tell you.
-
-AFAIK, John is just working on updating the patchset so that it will
-be based on the lockless ringbuffer that is finally in the queue
-for-5.10.
-
-Upstreaming the console handling will be the next big step. I am sure
-that there will be long discussion about it. But there might be
-few things that would help removing printk_deferred().
-
-1. Messages will be printed on consoles by dedicated kthreads. It will
-   be safe context. No deadlocks.
-
-2. The registration and unregistration of consoles should not longer
-   be handled by console_lock (semaphore). It should be possible to
-   call most consoles without a sleeping lock. It should remove all
-   these deadlocks between printk() and scheduler().
-
-   There might be problems with some consoles. For example, tty would
-   most likely still need a sleeping lock because it is using the console
-   semaphore also internally.
-
-
-3. We will try harder to get the messages out immediately during
-   panic().
-
-
-It would take some time until the above reaches upstream. But it seems
-to be the right way to go.
-
-
-About printk_deferred():
-
-It is a whack a mole game. It is easy to miss printk() that might
-eventually cause the deadlock.
-
-printk deferred context is more safe. But it is still a what a mole
-game. The kthreads will do the same job for sure.
-
-Finally, the deadlock happens "only" when someone is waiting on
-console_lock() in parallel. Otherwise, the waitqueue for the semaphore
-is empty and scheduler is not called.
-
-It means that there is quite a big change to see the WARN(). It might
-be even bigger than with printk_deferred() because WARN() in scheduler
-means that the scheduler is big troubles. Nobody guarantees that
-the deferred messages will get handled later.
-
-Best Regards,
-Petr
+So you are absolutely right that these critical sections with side
+effects on all allocations are far from ideal from the API point of view
+but they are mostly mirroring a demand for functionality which is
+_practically_ impossible to achieve with our current code base. Not that
+we couldn't get back to drawing board and come up with a saner thing and
+rework the world...
+-- 
+Michal Hocko
+SUSE Labs
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
