@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A20B27D6FE
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 21:33:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5462527D77B
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 22:02:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C489C89CF1;
-	Tue, 29 Sep 2020 19:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81D2F897C5;
+	Tue, 29 Sep 2020 20:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1162B89CD7;
- Tue, 29 Sep 2020 19:33:50 +0000 (UTC)
-IronPort-SDR: zb0Do8tqz+WD+17fckNL9mbniliXZc1pJFjEZf9fpYDYofMpPyU9qimR7LCyCQdAMj0V8V10Mb
- /i5ZSI9Kv5vg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="162335361"
-X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; d="scan'208";a="162335361"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA2D897C5;
+ Tue, 29 Sep 2020 20:02:08 +0000 (UTC)
+IronPort-SDR: MSZ2+eLq45TLjCWUrnJ/U18NBcO7kNOjPsTEA9lFoMTB6ZhZHZdRkjh3c2rlicwewp8q+WappG
+ 9CVzIUAwfzpw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="223877762"
+X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; d="scan'208";a="223877762"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2020 12:33:48 -0700
-IronPort-SDR: I+lE2jJthOn/UuW9VmBoDLNs0SSEc/ernhG5GOAh8SDGF9941HQLthR7grAouN76lWjCl8yFZl
- rEKhFEPAcifg==
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2020 13:02:05 -0700
+IronPort-SDR: 9z9X6VaJx8AlDQInaJ3yFeQp/5d6gyC5P8SI91dQoMEIts3viNWijLN8CATsuwU3WPp61Z9xLV
+ Uhwp2am1Y19g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; d="scan'208";a="350389528"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by FMSMGA003.fm.intel.com with ESMTP; 29 Sep 2020 12:33:47 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 29 Sep 2020 12:33:46 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 29 Sep 2020 12:33:46 -0700
-Received: from orsmsx610.amr.corp.intel.com ([10.22.229.23]) by
- ORSMSX610.amr.corp.intel.com ([10.22.229.23]) with mapi id 15.01.1713.004;
- Tue, 29 Sep 2020 12:33:46 -0700
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "Ausmus, James" <james.ausmus@intel.com>, "Pandey, Hariom"
- <hariom.pandey@intel.com>, "Roper, Matthew D" <matthew.d.roper@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Surendrakumar Upadhyay, TejaskumarX"
- <tejaskumarx.surendrakumar.upadhyay@intel.com>, "De Marchi, Lucas"
- <lucas.demarchi@intel.com>
+X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; d="scan'208";a="312336123"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 29 Sep 2020 13:02:02 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 29 Sep 2020 23:02:01 +0300
+Date: Tue, 29 Sep 2020 23:02:01 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Souza, Jose" <jose.souza@intel.com>
 Subject: Re: [PATCH v2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
-Thread-Topic: [PATCH v2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
-Thread-Index: AQHWllrGdTtP8/4hEUmPXk76f06tQqmAeHQA
-Date: Tue, 29 Sep 2020 19:33:45 +0000
-Message-ID: <d235e6f34182e327d8bb46383f6c3ef518b5fc23.camel@intel.com>
+Message-ID: <20200929200201.GH6112@intel.com>
 References: <20200929121127.254086-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
-In-Reply-To: <20200929121127.254086-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.100]
-Content-ID: <F765CB4C125DFB40AAD0C95B43C35868@intel.com>
+ <d235e6f34182e327d8bb46383f6c3ef518b5fc23.camel@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <d235e6f34182e327d8bb46383f6c3ef518b5fc23.camel@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,112 +53,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Pandey, Hariom" <hariom.pandey@intel.com>, "Ausmus,
+ James" <james.ausmus@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Surendrakumar Upadhyay,
+ TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIwLTA5LTI5IGF0IDE3OjQxICswNTMwLCBUZWphcyBVcGFkaHlheSB3cm90ZToN
-Cj4gSlNMIGhhcyB1cGRhdGUgaW4gdnN3aW5nIHRhYmxlIGZvciBlRFANCg0KV291bGQgYmUgbmlj
-ZSB0byBtZW50aW9uIGluIHRoZSBjb21taXQgZGVzY3JpcHRpb24gd2h5IFBDSCBpcyBiZWluZyB1
-c2VkLCB0aGF0IHdvdWxkIGF2b2lkIFZpbGxlJ3MgcXVlc3Rpb24uDQoNCj4gDQo+IEJTcGVjOiAy
-MTI1Nw0KPiANCj4gQ2hhbmdlcyBzaW5jZSBWMSA6IA0KPiAJLSBJU19FTEtIQVJUTEFLRSBhbmQg
-SVNfSkFTUEVSTEFLRSBpcyByZXBsYWNlZCB3aXRoDQo+ICAgICAgICAgICBIQVNfUENIX01DQyhF
-SEwpIGFuZCBIQVNfUENIX0pTUChKU0wpIHJlc3BlY3RpdmVseQ0KPiAJLSBSZXZlcnRlZCBFSEwv
-SlNMIFBDSSBpZHMgc3BsaXQgY2hhbmdlDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBUZWphcyBVcGFk
-aHlheSA8DQo+IHRlamFza3VtYXJ4LnN1cmVuZHJha3VtYXIudXBhZGh5YXlAaW50ZWwuY29tDQo+
-ID4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jIHwg
-NjcgKysrKysrKysrKysrKysrKysrKysrKy0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgNjQgaW5zZXJ0
-aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kZGkuYw0KPiBpbmRleCA0ZDA2MTc4Y2Q3NmMuLmU2ZTkzZDAxZDBjZSAxMDA2NDQN
-Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYw0KPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jDQo+IEBAIC01ODIsNiAr
-NTgyLDM0IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgY25sX2RkaV9idWZfdHJhbnMgZWhsX2NvbWJv
-X3BoeV9kZGlfdHJhbnNsYXRpb25zX2RwW10gPSB7DQo+ICAJeyAweDYsIDB4N0YsIDB4M0YsIDB4
-MDAsIDB4MDAgfSwJLyogOTAwICAgOTAwICAgICAgMC4wICAgKi8NCj4gIH07DQo+ICANCj4gK3N0
-YXRpYyBjb25zdCBzdHJ1Y3QgY25sX2RkaV9idWZfdHJhbnMganNsX2NvbWJvX3BoeV9kZGlfdHJh
-bnNsYXRpb25zX2VkcF9oYnJbXSA9IHsNCj4gKwkJCQkJCS8qIE5UIG1WIFRyYW5zIG1WIGRiICAg
-ICovDQo+ICsJeyAweDgsIDB4N0YsIDB4M0YsIDB4MDAsIDB4MDAgfSwJLyogMjAwICAgMjAwICAg
-ICAgMC4wICAgKi8NCj4gKwl7IDB4OCwgMHg3RiwgMHgzOCwgMHgwMCwgMHgwNyB9LAkvKiAyMDAg
-ICAyNTAgICAgICAxLjkgICAqLw0KPiArCXsgMHgxLCAweDdGLCAweDMzLCAweDAwLCAweDBDIH0s
-CS8qIDIwMCAgIDMwMCAgICAgIDMuNSAgICovDQo+ICsJeyAweEEsIDB4MzUsIDB4MzYsIDB4MDAs
-IDB4MDkgfSwJLyogMjAwICAgMzUwICAgICAgNC45ICAgKi8NCj4gKwl7IDB4OCwgMHg3RiwgMHgz
-RiwgMHgwMCwgMHgwMCB9LAkvKiAyNTAgICAyNTAgICAgICAwLjAgICAqLw0KPiArCXsgMHgxLCAw
-eDdGLCAweDM4LCAweDAwLCAweDA3IH0sCS8qIDI1MCAgIDMwMCAgICAgIDEuNiAgICovDQo+ICsJ
-eyAweEEsIDB4MzUsIDB4MzUsIDB4MDAsIDB4MEEgfSwJLyogMjUwICAgMzUwICAgICAgMi45ICAg
-Ki8NCj4gKwl7IDB4MSwgMHg3RiwgMHgzRiwgMHgwMCwgMHgwMCB9LAkvKiAzMDAgICAzMDAgICAg
-ICAwLjAgICAqLw0KPiArCXsgMHhBLCAweDM1LCAweDM4LCAweDAwLCAweDA3IH0sCS8qIDMwMCAg
-IDM1MCAgICAgIDEuMyAgICovDQo+ICsJeyAweEEsIDB4MzUsIDB4M0YsIDB4MDAsIDB4MDAgfSwJ
-LyogMzUwICAgMzUwICAgICAgMC4wICAgKi8NCj4gK307DQo+ICsNCj4gK3N0YXRpYyBjb25zdCBz
-dHJ1Y3QgY25sX2RkaV9idWZfdHJhbnMganNsX2NvbWJvX3BoeV9kZGlfdHJhbnNsYXRpb25zX2Vk
-cF9oYnIyW10gPSB7DQo+ICsJCQkJCQkvKiBOVCBtViBUcmFucyBtViBkYiAgICAqLw0KPiArCXsg
-MHg4LCAweDdGLCAweDNGLCAweDAwLCAweDAwIH0sCS8qIDIwMCAgIDIwMCAgICAgIDAuMCAgICov
-DQo+ICsJeyAweDgsIDB4N0YsIDB4M0YsIDB4MDAsIDB4MDAgfSwJLyogMjAwICAgMjUwICAgICAg
-MS45ICAgKi8NCj4gKwl7IDB4MSwgMHg3RiwgMHgzRCwgMHgwMCwgMHgwMiB9LAkvKiAyMDAgICAz
-MDAgICAgICAzLjUgICAqLw0KPiArCXsgMHhBLCAweDM1LCAweDM4LCAweDAwLCAweDA3IH0sCS8q
-IDIwMCAgIDM1MCAgICAgIDQuOSAgICovDQo+ICsJeyAweDgsIDB4N0YsIDB4M0YsIDB4MDAsIDB4
-MDAgfSwJLyogMjUwICAgMjUwICAgICAgMC4wICAgKi8NCj4gKwl7IDB4MSwgMHg3RiwgMHgzRiwg
-MHgwMCwgMHgwMCB9LAkvKiAyNTAgICAzMDAgICAgICAxLjYgICAqLw0KPiArCXsgMHhBLCAweDM1
-LCAweDNBLCAweDAwLCAweDA1IH0sCS8qIDI1MCAgIDM1MCAgICAgIDIuOSAgICovDQo+ICsJeyAw
-eDEsIDB4N0YsIDB4M0YsIDB4MDAsIDB4MDAgfSwJLyogMzAwICAgMzAwICAgICAgMC4wICAgKi8N
-Cj4gKwl7IDB4QSwgMHgzNSwgMHgzOCwgMHgwMCwgMHgwNyB9LAkvKiAzMDAgICAzNTAgICAgICAx
-LjMgICAqLw0KPiArCXsgMHhBLCAweDM1LCAweDNGLCAweDAwLCAweDAwIH0sCS8qIDM1MCAgIDM1
-MCAgICAgIDAuMCAgICovDQo+ICt9Ow0KDQpUYWJsZXMgbWF0Y2hlcyBzcGVjaWZpY2F0aW9uLg0K
-DQo+ICsNCj4gIHN0cnVjdCBpY2xfbWdfcGh5X2RkaV9idWZfdHJhbnMgew0KPiAgCXUzMiBjcmlf
-dHhkZWVtcGhfb3ZlcnJpZGVfMTFfNjsNCj4gIAl1MzIgY3JpX3R4ZGVlbXBoX292ZXJyaWRlXzVf
-MDsNCj4gQEAgLTEwNjksNyArMTA5Nyw2IEBAIGljbF9nZXRfbWdfYnVmX3RyYW5zKHN0cnVjdCBp
-bnRlbF9lbmNvZGVyICplbmNvZGVyLCBpbnQgdHlwZSwgaW50IHJhdGUsDQo+ICAJKm5fZW50cmll
-cyA9IEFSUkFZX1NJWkUoaWNsX21nX3BoeV9kZGlfdHJhbnNsYXRpb25zX3Jicl9oYnIpOw0KPiAg
-CXJldHVybiBpY2xfbWdfcGh5X2RkaV90cmFuc2xhdGlvbnNfcmJyX2hicjsNCj4gIH0NCj4gLQ0K
-DQpQcm9iYWJseSBub3QgaW50ZW50aW9uYWwuDQoNClJldmlld2VkLWJ5OiBKb3PDqSBSb2JlcnRv
-IGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVsLmNvbT4NCg0KV2lsbCBwdXNoIHdpdGggdGhpcyBs
-aW5lIGZpeGVkIGFzIHNvb24gYXMgQ0kgZmluaXNoIHRlc3RpbmcuDQoNCg0KPiAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBjbmxfZGRpX2J1Zl90cmFucyAqDQo+ICBlaGxfZ2V0X2NvbWJvX2J1Zl90cmFu
-cyhzdHJ1Y3QgaW50ZWxfZW5jb2RlciAqZW5jb2RlciwgaW50IHR5cGUsIGludCByYXRlLA0KPiAg
-CQkJaW50ICpuX2VudHJpZXMpDQo+IEBAIC0xMDk4LDYgKzExMjUsMzQgQEAgZWhsX2dldF9jb21i
-b19idWZfdHJhbnMoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIsIGludCB0eXBlLCBpbnQg
-cmF0ZSwNCj4gIAl9DQo+ICB9DQo+ICANCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgY25sX2RkaV9i
-dWZfdHJhbnMgKg0KPiAranNsX2dldF9jb21ib19idWZfdHJhbnMoc3RydWN0IGludGVsX2VuY29k
-ZXIgKmVuY29kZXIsIGludCB0eXBlLCBpbnQgcmF0ZSwNCj4gKwkJCWludCAqbl9lbnRyaWVzKQ0K
-PiArew0KPiArCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiA9IHRvX2k5MTUoZW5j
-b2Rlci0+YmFzZS5kZXYpOw0KPiArDQo+ICsJc3dpdGNoICh0eXBlKSB7DQo+ICsJY2FzZSBJTlRF
-TF9PVVRQVVRfSERNSToNCj4gKwkJKm5fZW50cmllcyA9IEFSUkFZX1NJWkUoaWNsX2NvbWJvX3Bo
-eV9kZGlfdHJhbnNsYXRpb25zX2hkbWkpOw0KPiArCQlyZXR1cm4gaWNsX2NvbWJvX3BoeV9kZGlf
-dHJhbnNsYXRpb25zX2hkbWk7DQo+ICsJY2FzZSBJTlRFTF9PVVRQVVRfRURQOg0KPiArCQlpZiAo
-ZGV2X3ByaXYtPnZidC5lZHAubG93X3Zzd2luZykgew0KPiArCQkJaWYgKHJhdGUgPiAyNzAwMDAp
-IHsNCj4gKwkJCQkqbl9lbnRyaWVzID0gQVJSQVlfU0laRShqc2xfY29tYm9fcGh5X2RkaV90cmFu
-c2xhdGlvbnNfZWRwX2hicjIpOw0KPiArCQkJCXJldHVybiBqc2xfY29tYm9fcGh5X2RkaV90cmFu
-c2xhdGlvbnNfZWRwX2hicjI7DQo+ICsJCQl9IGVsc2Ugew0KPiArCQkJCSpuX2VudHJpZXMgPSBB
-UlJBWV9TSVpFKGpzbF9jb21ib19waHlfZGRpX3RyYW5zbGF0aW9uc19lZHBfaGJyKTsNCj4gKwkJ
-CQlyZXR1cm4ganNsX2NvbWJvX3BoeV9kZGlfdHJhbnNsYXRpb25zX2VkcF9oYnI7DQo+ICsJCQl9
-DQo+ICsJCX0NCj4gKwkJLyogZmFsbCB0aHJvdWdoICovDQo+ICsJZGVmYXVsdDoNCj4gKwkJLyog
-QWxsIGNvbWJvIERQIGFuZCBlRFAgcG9ydHMgdGhhdCBkbyBub3Qgc3VwcG9ydCBsb3dfdnN3aW5n
-ICovDQo+ICsJCSpuX2VudHJpZXMgPSBBUlJBWV9TSVpFKGljbF9jb21ib19waHlfZGRpX3RyYW5z
-bGF0aW9uc19kcF9oYnIyKTsNCj4gKwkJcmV0dXJuIGljbF9jb21ib19waHlfZGRpX3RyYW5zbGF0
-aW9uc19kcF9oYnIyOw0KPiArCX0NCj4gK30NCj4gKw0KPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBj
-bmxfZGRpX2J1Zl90cmFucyAqDQo+ICB0Z2xfZ2V0X2NvbWJvX2J1Zl90cmFucyhzdHJ1Y3QgaW50
-ZWxfZW5jb2RlciAqZW5jb2RlciwgaW50IHR5cGUsIGludCByYXRlLA0KPiAgCQkJaW50ICpuX2Vu
-dHJpZXMpDQo+IEBAIC0yMjY1LDcgKzIzMjAsMTAgQEAgc3RhdGljIHU4IGludGVsX2RkaV9kcF92
-b2x0YWdlX21heChzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKQ0KPiAgCQkJdGdsX2dldF9ka2xf
-YnVmX3RyYW5zKGVuY29kZXIsIGVuY29kZXItPnR5cGUsDQo+ICAJCQkJCSAgICAgIGludGVsX2Rw
-LT5saW5rX3JhdGUsICZuX2VudHJpZXMpOw0KPiAgCX0gZWxzZSBpZiAoSU5URUxfR0VOKGRldl9w
-cml2KSA9PSAxMSkgew0KPiAtCQlpZiAoSVNfRUxLSEFSVExBS0UoZGV2X3ByaXYpKQ0KPiArCQlp
-ZiAoSEFTX1BDSF9KU1AoZGV2X3ByaXYpKQ0KPiArCQkJanNsX2dldF9jb21ib19idWZfdHJhbnMo
-ZW5jb2RlciwgZW5jb2Rlci0+dHlwZSwNCj4gKwkJCQkJCWludGVsX2RwLT5saW5rX3JhdGUsICZu
-X2VudHJpZXMpOw0KPiArCQllbHNlIGlmIChIQVNfUENIX01DQyhkZXZfcHJpdikpDQo+ICAJCQll
-aGxfZ2V0X2NvbWJvX2J1Zl90cmFucyhlbmNvZGVyLCBlbmNvZGVyLT50eXBlLA0KPiAgCQkJCQkJ
-aW50ZWxfZHAtPmxpbmtfcmF0ZSwgJm5fZW50cmllcyk7DQo+ICAJCWVsc2UgaWYgKGludGVsX3Bo
-eV9pc19jb21ibyhkZXZfcHJpdiwgcGh5KSkNCj4gQEAgLTI0NTQsNyArMjUxMiwxMCBAQCBzdGF0
-aWMgdm9pZCBpY2xfZGRpX2NvbWJvX3Zzd2luZ19wcm9ncmFtKHN0cnVjdCBpbnRlbF9lbmNvZGVy
-ICplbmNvZGVyLA0KPiAgCWlmIChJTlRFTF9HRU4oZGV2X3ByaXYpID49IDEyKQ0KPiAgCQlkZGlf
-dHJhbnNsYXRpb25zID0gdGdsX2dldF9jb21ib19idWZfdHJhbnMoZW5jb2RlciwgdHlwZSwgcmF0
-ZSwNCj4gIAkJCQkJCQkgICAmbl9lbnRyaWVzKTsNCj4gLQllbHNlIGlmIChJU19FTEtIQVJUTEFL
-RShkZXZfcHJpdikpDQo+ICsJZWxzZSBpZiAoSEFTX1BDSF9KU1AoZGV2X3ByaXYpKQ0KPiArCQlk
-ZGlfdHJhbnNsYXRpb25zID0ganNsX2dldF9jb21ib19idWZfdHJhbnMoZW5jb2RlciwgdHlwZSwg
-cmF0ZSwNCj4gKwkJCQkJCQkgICAmbl9lbnRyaWVzKTsNCj4gKwllbHNlIGlmIChIQVNfUENIX01D
-QyhkZXZfcHJpdikpDQo+ICAJCWRkaV90cmFuc2xhdGlvbnMgPSBlaGxfZ2V0X2NvbWJvX2J1Zl90
-cmFucyhlbmNvZGVyLCB0eXBlLCByYXRlLA0KPiAgCQkJCQkJCSAgICZuX2VudHJpZXMpOw0KPiAg
-CWVsc2UNCj4gDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Sep 29, 2020 at 07:33:45PM +0000, Souza, Jose wrote:
+> On Tue, 2020-09-29 at 17:41 +0530, Tejas Upadhyay wrote:
+> > JSL has update in vswing table for eDP
+> =
+
+> Would be nice to mention in the commit description why PCH is being used,=
+ that would avoid Ville's question.
+
+If the thing has nothing to do PCH then it should not use the PCH type
+for the the check. Instead we should just do the EHL/JSL split.
+
+> =
+
+> > =
+
+> > BSpec: 21257
+> > =
+
+> > Changes since V1 : =
+
+> > 	- IS_ELKHARTLAKE and IS_JASPERLAKE is replaced with
+> >           HAS_PCH_MCC(EHL) and HAS_PCH_JSP(JSL) respectively
+> > 	- Reverted EHL/JSL PCI ids split change
+> > =
+
+> > Signed-off-by: Tejas Upadhyay <
+> > tejaskumarx.surendrakumar.upadhyay@intel.com
+> > >
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_ddi.c | 67 ++++++++++++++++++++++--
+> >  1 file changed, 64 insertions(+), 3 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm=
+/i915/display/intel_ddi.c
+> > index 4d06178cd76c..e6e93d01d0ce 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> > @@ -582,6 +582,34 @@ static const struct cnl_ddi_buf_trans ehl_combo_ph=
+y_ddi_translations_dp[] =3D {
+> >  	{ 0x6, 0x7F, 0x3F, 0x00, 0x00 },	/* 900   900      0.0   */
+> >  };
+> >  =
+
+> > +static const struct cnl_ddi_buf_trans jsl_combo_phy_ddi_translations_e=
+dp_hbr[] =3D {
+> > +						/* NT mV Trans mV db    */
+> > +	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   200      0.0   */
+> > +	{ 0x8, 0x7F, 0x38, 0x00, 0x07 },	/* 200   250      1.9   */
+> > +	{ 0x1, 0x7F, 0x33, 0x00, 0x0C },	/* 200   300      3.5   */
+> > +	{ 0xA, 0x35, 0x36, 0x00, 0x09 },	/* 200   350      4.9   */
+> > +	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   250      0.0   */
+> > +	{ 0x1, 0x7F, 0x38, 0x00, 0x07 },	/* 250   300      1.6   */
+> > +	{ 0xA, 0x35, 0x35, 0x00, 0x0A },	/* 250   350      2.9   */
+> > +	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 300   300      0.0   */
+> > +	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 300   350      1.3   */
+> > +	{ 0xA, 0x35, 0x3F, 0x00, 0x00 },	/* 350   350      0.0   */
+> > +};
+> > +
+> > +static const struct cnl_ddi_buf_trans jsl_combo_phy_ddi_translations_e=
+dp_hbr2[] =3D {
+> > +						/* NT mV Trans mV db    */
+> > +	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   200      0.0   */
+> > +	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   250      1.9   */
+> > +	{ 0x1, 0x7F, 0x3D, 0x00, 0x02 },	/* 200   300      3.5   */
+> > +	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 200   350      4.9   */
+> > +	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   250      0.0   */
+> > +	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   300      1.6   */
+> > +	{ 0xA, 0x35, 0x3A, 0x00, 0x05 },	/* 250   350      2.9   */
+> > +	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 300   300      0.0   */
+> > +	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 300   350      1.3   */
+> > +	{ 0xA, 0x35, 0x3F, 0x00, 0x00 },	/* 350   350      0.0   */
+> > +};
+> =
+
+> Tables matches specification.
+> =
+
+> > +
+> >  struct icl_mg_phy_ddi_buf_trans {
+> >  	u32 cri_txdeemph_override_11_6;
+> >  	u32 cri_txdeemph_override_5_0;
+> > @@ -1069,7 +1097,6 @@ icl_get_mg_buf_trans(struct intel_encoder *encode=
+r, int type, int rate,
+> >  	*n_entries =3D ARRAY_SIZE(icl_mg_phy_ddi_translations_rbr_hbr);
+> >  	return icl_mg_phy_ddi_translations_rbr_hbr;
+> >  }
+> > -
+> =
+
+> Probably not intentional.
+> =
+
+> Reviewed-by: Jos=E9 Roberto de Souza <jose.souza@intel.com>
+> =
+
+> Will push with this line fixed as soon as CI finish testing.
+> =
+
+> =
+
+> >  static const struct cnl_ddi_buf_trans *
+> >  ehl_get_combo_buf_trans(struct intel_encoder *encoder, int type, int r=
+ate,
+> >  			int *n_entries)
+> > @@ -1098,6 +1125,34 @@ ehl_get_combo_buf_trans(struct intel_encoder *en=
+coder, int type, int rate,
+> >  	}
+> >  }
+> >  =
+
+> > +static const struct cnl_ddi_buf_trans *
+> > +jsl_get_combo_buf_trans(struct intel_encoder *encoder, int type, int r=
+ate,
+> > +			int *n_entries)
+> > +{
+> > +	struct drm_i915_private *dev_priv =3D to_i915(encoder->base.dev);
+> > +
+> > +	switch (type) {
+> > +	case INTEL_OUTPUT_HDMI:
+> > +		*n_entries =3D ARRAY_SIZE(icl_combo_phy_ddi_translations_hdmi);
+> > +		return icl_combo_phy_ddi_translations_hdmi;
+> > +	case INTEL_OUTPUT_EDP:
+> > +		if (dev_priv->vbt.edp.low_vswing) {
+> > +			if (rate > 270000) {
+> > +				*n_entries =3D ARRAY_SIZE(jsl_combo_phy_ddi_translations_edp_hbr2);
+> > +				return jsl_combo_phy_ddi_translations_edp_hbr2;
+> > +			} else {
+> > +				*n_entries =3D ARRAY_SIZE(jsl_combo_phy_ddi_translations_edp_hbr);
+> > +				return jsl_combo_phy_ddi_translations_edp_hbr;
+> > +			}
+> > +		}
+> > +		/* fall through */
+> > +	default:
+> > +		/* All combo DP and eDP ports that do not support low_vswing */
+> > +		*n_entries =3D ARRAY_SIZE(icl_combo_phy_ddi_translations_dp_hbr2);
+> > +		return icl_combo_phy_ddi_translations_dp_hbr2;
+> > +	}
+> > +}
+> > +
+> >  static const struct cnl_ddi_buf_trans *
+> >  tgl_get_combo_buf_trans(struct intel_encoder *encoder, int type, int r=
+ate,
+> >  			int *n_entries)
+> > @@ -2265,7 +2320,10 @@ static u8 intel_ddi_dp_voltage_max(struct intel_=
+dp *intel_dp)
+> >  			tgl_get_dkl_buf_trans(encoder, encoder->type,
+> >  					      intel_dp->link_rate, &n_entries);
+> >  	} else if (INTEL_GEN(dev_priv) =3D=3D 11) {
+> > -		if (IS_ELKHARTLAKE(dev_priv))
+> > +		if (HAS_PCH_JSP(dev_priv))
+> > +			jsl_get_combo_buf_trans(encoder, encoder->type,
+> > +						intel_dp->link_rate, &n_entries);
+> > +		else if (HAS_PCH_MCC(dev_priv))
+> >  			ehl_get_combo_buf_trans(encoder, encoder->type,
+> >  						intel_dp->link_rate, &n_entries);
+> >  		else if (intel_phy_is_combo(dev_priv, phy))
+> > @@ -2454,7 +2512,10 @@ static void icl_ddi_combo_vswing_program(struct =
+intel_encoder *encoder,
+> >  	if (INTEL_GEN(dev_priv) >=3D 12)
+> >  		ddi_translations =3D tgl_get_combo_buf_trans(encoder, type, rate,
+> >  							   &n_entries);
+> > -	else if (IS_ELKHARTLAKE(dev_priv))
+> > +	else if (HAS_PCH_JSP(dev_priv))
+> > +		ddi_translations =3D jsl_get_combo_buf_trans(encoder, type, rate,
+> > +							   &n_entries);
+> > +	else if (HAS_PCH_MCC(dev_priv))
+> >  		ddi_translations =3D ehl_get_combo_buf_trans(encoder, type, rate,
+> >  							   &n_entries);
+> >  	else
+> > =
+
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
