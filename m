@@ -1,53 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8683A27C1B0
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 11:51:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC4C27C2D1
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 12:53:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB426E1D3;
-	Tue, 29 Sep 2020 09:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76FB989D9A;
+	Tue, 29 Sep 2020 10:53:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31DB96E193
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 09:51:24 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601373083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q7VcobJF6uyWmgL5vmwuoyYLR7D7rwBPhHFHQDDI+jU=;
- b=WvSTpYhmbBOKXQX9qewutzU9/aj+rMPezrax/1XhwKdE0YPBW8WZa+XwVY+PHdzp5WGLUQ
- 8Sijo9sAnKFFkWgq2VJJ1Oqtj7ihvfLnHLzo0QG0kH6lToC2AzNuBqKnQlDOwt0MvfysHo
- ++QqXROfMmWxdSVEOIzGWHt/QMHLQpA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-vkhqYCmMOjSawZD1UYOkUA-1; Tue, 29 Sep 2020 05:51:21 -0400
-X-MC-Unique: vkhqYCmMOjSawZD1UYOkUA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4DC8801AE3;
- Tue, 29 Sep 2020 09:51:19 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6EDE47880B;
- Tue, 29 Sep 2020 09:51:16 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AC8AA358099; Tue, 29 Sep 2020 11:51:15 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/qxl: use qxl pin function
-Date: Tue, 29 Sep 2020 11:51:15 +0200
-Message-Id: <20200929095115.24430-5-kraxel@redhat.com>
-In-Reply-To: <20200929095115.24430-1-kraxel@redhat.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7CD589D9A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 10:53:04 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id k15so4816399wrn.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 03:53:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=m/8RcwvNRZX4QrC1qgXuNqwd8pHZ5jEfkIMP8FcXGzs=;
+ b=jsz6B1+YEp5B8KlbE/d0+3hD+n5mvwweCSSsHXznFq2L+MbyNhnwBbEVTadiV9A8e8
+ Hj/4Q37N4gMr3WISbfGAUlxUR7jJYV5BX7k2uQWCUyOolHRZurqdtTKtWu98cbslD4kd
+ j3VLPxLK5+IeiS53iuP6Pb2M5x1wuj8Ww0P4c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=m/8RcwvNRZX4QrC1qgXuNqwd8pHZ5jEfkIMP8FcXGzs=;
+ b=NY8BoH+H6iTM3eWDCS6q73alR8nWM12ByrrHFqbPF8vgnOx6gaI9cXFNBUQodRT49u
+ 32raXAN5UhUsTS8R3rK4zPM7KkZX02GO5QdGodqzCRMisk1KCF9Vsku4H2mafTPU3AlV
+ nXyTF+OyDsIL7KBSnWQ+dCsdPU0NFtwDRuksPDu4eBYJ/YBffkfcbKKO0UDBp1pEMiJd
+ n3Sq/ZChbw3BkhazDt7I2ctoh0w5lbvNuiy6pAATA0rz5UUAZ4wOQeLbXQJbqSdLWyJq
+ lgKcsnr79g5g+vemx9QX8s4S5eETYZopKu8/4X9J7bSgbiTppE0P33TCk/ZMa1pozGZY
+ RLAA==
+X-Gm-Message-State: AOAM5328G4ucnxBcb06do3ex3d+IADP4JjMG0HAXlw7s3ZsSvgy+tbnF
+ 2Is0oOEolA60vfFQZdqOG3eb2g==
+X-Google-Smtp-Source: ABdhPJzmw2CD/MpLrTQRlDKQtbpWYZdfZO7lS5wPv+xREi43g7gWZnZuZtDrMycOZuDAjAbXvAqStA==
+X-Received: by 2002:a5d:6552:: with SMTP id z18mr3513370wrv.32.1601376783538; 
+ Tue, 29 Sep 2020 03:53:03 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l5sm5116546wmf.10.2020.09.29.03.53.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 03:53:02 -0700 (PDT)
+Date: Tue, 29 Sep 2020 12:53:00 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 4/4] drm/qxl: use qxl pin function
+Message-ID: <20200929105300.GM438822@phenom.ffwll.local>
+Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, 
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
 References: <20200929095115.24430-1-kraxel@redhat.com>
+ <20200929095115.24430-5-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Disposition: inline
+In-Reply-To: <20200929095115.24430-5-kraxel@redhat.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,41 +75,58 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
  <virtualization@lists.linux-foundation.org>, Huang Rui <ray.huang@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
  "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
  Dave Airlie <airlied@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Otherwise ttm throws a WARN because we try to pin without a reservation.
+On Tue, Sep 29, 2020 at 11:51:15AM +0200, Gerd Hoffmann wrote:
+> Otherwise ttm throws a WARN because we try to pin without a reservation.
+> 
+> Fixes: 9d36d4320462 ("drm/qxl: switch over to the new pin interface")
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  drivers/gpu/drm/qxl/qxl_object.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
+> index d3635e3e3267..eb45267d51db 100644
+> --- a/drivers/gpu/drm/qxl/qxl_object.c
+> +++ b/drivers/gpu/drm/qxl/qxl_object.c
+> @@ -145,7 +145,7 @@ int qxl_bo_create(struct qxl_device *qdev,
+>  		return r;
+>  	}
+>  	if (pinned)
+> -		ttm_bo_pin(&bo->tbo);
+> +		qxl_bo_pin(bo);
 
-Fixes: 9d36d4320462 ("drm/qxl: switch over to the new pin interface")
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/qxl/qxl_object.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think this is now after ttm_bo_init, and at that point the object is
+visible to lru users and everything. So I do think you need to grab locks
+here instead of just incrementing the pin count alone.
 
-diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
-index d3635e3e3267..eb45267d51db 100644
---- a/drivers/gpu/drm/qxl/qxl_object.c
-+++ b/drivers/gpu/drm/qxl/qxl_object.c
-@@ -145,7 +145,7 @@ int qxl_bo_create(struct qxl_device *qdev,
- 		return r;
- 	}
- 	if (pinned)
--		ttm_bo_pin(&bo->tbo);
-+		qxl_bo_pin(bo);
- 	*bo_ptr = bo;
- 	return 0;
- }
+It's also I think a bit racy, since ttm_bo_init drops the lock, so someone
+might have snuck in and evicted the object already.
+
+I think what you need is to call ttm_bo_init_reserved, then ttm_bo_pin,
+then ttm_bo_unreserve, all explicitly.
+-Daniel
+
+>  	*bo_ptr = bo;
+>  	return 0;
+>  }
+> -- 
+> 2.27.0
+> 
+
 -- 
-2.27.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
