@@ -2,54 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0E127B904
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 02:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE17A27B969
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 03:30:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E166E3C6;
-	Tue, 29 Sep 2020 00:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8331389CC9;
+	Tue, 29 Sep 2020 01:30:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 800426E3C6
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 00:46:18 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id lo4so12431464ejb.8
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Sep 2020 17:46:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DCSkx39v+5WgV4TIc07LMkL8Pce10dvaG6mrcOnTXJc=;
- b=UlYdO7jqyNuQecHHvclKhQwQ7pTWovhjW8FbPTYFanjn/UPQL69+rGJ0srFByLhbBS
- lVulFazewiKVcJUlB1yN7NvXLPp5UbxfVJux+iAY5xDaD+LskiXf64vo9eNOMelMvjvg
- sYUCbdrYanCy9fTR3E/pxPKA8S6kTK3ZJqmIhGODN58jEFR64fkij37vxse3vQWVIJ6y
- N2MjVO/XpM/CbS0+biabyuMhVG28DRludZddyBAkm8rkAd8ogWhBKMbQu/SXfgJhhAkO
- POPWppPj06UxryWz0Cn4z5cyf1iNPvQLS4fKzJKedTEld7BYuhZeqmDRSc8PHwL4PbjW
- XHnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DCSkx39v+5WgV4TIc07LMkL8Pce10dvaG6mrcOnTXJc=;
- b=lOl4Zyu+7jAEn01lccmB6ZwjYcBaia/I1xk/K8LhS79Eq2z5gQyG2KKoSukjZBceUK
- GP119cAq9kgnGaQHhHuS2QTNeVbnodG5Eo1WjWASyS0Z+EPGM13rQ0hkZkakspJ3760t
- CemAK1Fvj1E1ubb7Ss2w1FV3zPdKdv9Vo1W9qdwd1JOO3L5JmbR3Pfw3VVp7MsBcfqKI
- 9OMI2XXeTxhhdW5s+L8frye179IQKWd/pPyhaVI/ufX2zw/ukX/4P5KFAF2SPq9PqskK
- XRAEt2CcIYXXrDoQnKS6Crqbzhajs3p4LVy5qhLVc8qDM8hDqKapG7s8ZD5WrQn+oPuk
- qfZw==
-X-Gm-Message-State: AOAM531pt4mJhIMixvrhUiasc2UhrzQJdH/0OWCmHiIFFpdYxOaYKgUv
- yjBFuzvH0NHP7jUOuVQEkcyOF2+IHlgd0Delpmrjg9O6
-X-Google-Smtp-Source: ABdhPJwceB1tV3x6CHt5EPfVZrUGQ0m0bruN037I1JPqL+9NqKMA36Ns3+VawWGu+dJvrTdUNmH7FfoRI/7I5JUbjmw=
-X-Received: by 2002:a17:906:2b83:: with SMTP id
- m3mr1353576ejg.456.1601340377166; 
- Mon, 28 Sep 2020 17:46:17 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 343EB89CC9
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 01:30:38 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 880A321D7D;
+ Tue, 29 Sep 2020 01:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601343037;
+ bh=unoHxtSRdKvnphH9lXj1ePIn2asvOMskiEcRPQoPudE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=SU4PNONJi/SgfWd74Y21rYvMHi5XG6B8hZy+28FeDRQMWphHp53EdUMXzqCn4ftyf
+ eyUjF82Le5BBHLNaXJ6SEfX9ZI5lgm15Eopu/2uYQ3h+9Tmf5LGMLIga0hyMFfKQh5
+ olLr9E2Y9xeqIU8nyRgZRctdZQlnvqHLMur3n1DY=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.8 07/29] drm/sun4i: mixer: Extend regmap max_register
+Date: Mon, 28 Sep 2020 21:30:04 -0400
+Message-Id: <20200929013027.2406344-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200929013027.2406344-1-sashal@kernel.org>
+References: <20200929013027.2406344-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20200914231227.30500-1-chunkuang.hu@kernel.org>
- <CAAOTY__u7AgKuLc6mVoVZrt1sQnu4vYyn8EwhK7B4dh7FoNAug@mail.gmail.com>
-In-Reply-To: <CAAOTY__u7AgKuLc6mVoVZrt1sQnu4vYyn8EwhK7B4dh7FoNAug@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 29 Sep 2020 10:46:05 +1000
-Message-ID: <CAPM=9tyuPyrFTgROQE6ig7NOtMxqeMdqnafQy968i-gtOU74Dg@mail.gmail.com>
-Subject: Re: [GIT PULL] mediatek drm next for 5.10
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,28 +49,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: Sasha Levin <sashal@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Martin Cerveny <m.cerveny@computer.org>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 29 Sep 2020 at 01:55, Chun-Kuang Hu <chunkuang.hu@kernel.org> wrote:
->
-> Hi, Dave & Daniel:
->
-> I does not see these patches in drm-next branch. Does these patches
-> have any problem?
->
+From: Martin Cerveny <m.cerveny@computer.org>
 
-Sorry just got caught in the queue, should be all landed now.
+[ Upstream commit 74ea06164cda81dc80e97790164ca533fd7e3087 ]
 
-Thanks,
-Dave.
+Better guess. Secondary CSC registers are from 0xF0000.
+
+Signed-off-by: Martin Cerveny <m.cerveny@computer.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200906162140.5584-3-m.cerveny@computer.org
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index cc4fb916318f3..c3304028e3dcd 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -307,7 +307,7 @@ static struct regmap_config sun8i_mixer_regmap_config = {
+ 	.reg_bits	= 32,
+ 	.val_bits	= 32,
+ 	.reg_stride	= 4,
+-	.max_register	= 0xbfffc, /* guessed */
++	.max_register	= 0xffffc, /* guessed */
+ };
+ 
+ static int sun8i_mixer_of_get_id(struct device_node *node)
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
