@@ -2,57 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3C227C90D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 14:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0718027CA6F
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 14:19:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7392789F03;
-	Tue, 29 Sep 2020 12:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD0A89C33;
+	Tue, 29 Sep 2020 12:19:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94B4889F03
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 12:07:36 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601381255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RMj7Jd/Bw1Mzv+CaECoMHMBv+5jBq+qBd6D1F2hSvOc=;
- b=NEC3FCPJrOTt6UTI/T5uiS/KPq7T/PSc6brqq+NJNScwpl5GOW4JOYb7R72wyz/aok081h
- rejEsA2eFiIujVQTqC9PXwLqJrxZabP4OL7I9sP71hrHaNFc/LzX6lVyUgv01KecGreBrX
- vDBWSUdhYmsfFZJpivqH+CDnBrQVUts=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-iFUZrCEtNqOH9RjF9Y8azA-1; Tue, 29 Sep 2020 08:07:32 -0400
-X-MC-Unique: iFUZrCEtNqOH9RjF9Y8azA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F0D18030B3;
- Tue, 29 Sep 2020 12:07:31 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37E2D38A;
- Tue, 29 Sep 2020 12:07:30 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1C47C9D77; Tue, 29 Sep 2020 14:07:30 +0200 (CEST)
-Date: Tue, 29 Sep 2020 14:07:30 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] drm/qxl: fix usage of ttm_bo_init
-Message-ID: <20200929120730.b5ocs244eelbdc7n@sirius.home.kraxel.org>
-References: <20200929112306.80952-1-christian.koenig@amd.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D37F89C33;
+ Tue, 29 Sep 2020 12:19:32 +0000 (UTC)
+IronPort-SDR: Rb7Cb3mCfU8fsnQazMJGXZrBXTzX54u26MZPAgipDMsjx4IBHN/UPD2j9VCJ7LRdA/fF8MSlmS
+ dAcWV1uY2Juw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="223765432"
+X-IronPort-AV: E=Sophos;i="5.77,318,1596524400"; d="scan'208";a="223765432"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2020 05:19:26 -0700
+IronPort-SDR: 25MjSkwi7vP4AMvFuMrG766nJoDhGJx/A52jGBDcgBDS6yZl1zeqNe5St/a0qlWPVOGbpH9ph8
+ jocOcmhfKHKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,318,1596524400"; d="scan'208";a="338614524"
+Received: from tejas-system-product-name.iind.intel.com ([10.145.162.130])
+ by fmsmga004.fm.intel.com with ESMTP; 29 Sep 2020 05:19:23 -0700
+From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ james.ausmus@intel.com, matthew.d.roper@intel.com, jose.souza@intel.com,
+ ville.syrjala@linux.intel.com, lucas.demarchi@intel.com,
+ hariom.pandey@intel.com
+Subject: [PATCH v2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
+Date: Tue, 29 Sep 2020 17:41:27 +0530
+Message-Id: <20200929121127.254086-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200929112306.80952-1-christian.koenig@amd.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,21 +49,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 29, 2020 at 01:23:06PM +0200, Christian K=C3=B6nig wrote:
-> We need to use ttm_bo_init_reserved here to make sure
-> that the BO is pinned before it becomes visible on the LRU.
-> =
+JSL has update in vswing table for eDP
 
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+BSpec: 21257
 
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>#
-Tested-by: Gerd Hoffmann <kraxel@redhat.com>#
+Changes since V1 : 
+	- IS_ELKHARTLAKE and IS_JASPERLAKE is replaced with
+          HAS_PCH_MCC(EHL) and HAS_PCH_JSP(JSL) respectively
+	- Reverted EHL/JSL PCI ids split change
+
+Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_ddi.c | 67 ++++++++++++++++++++++--
+ 1 file changed, 64 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 4d06178cd76c..e6e93d01d0ce 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -582,6 +582,34 @@ static const struct cnl_ddi_buf_trans ehl_combo_phy_ddi_translations_dp[] = {
+ 	{ 0x6, 0x7F, 0x3F, 0x00, 0x00 },	/* 900   900      0.0   */
+ };
+ 
++static const struct cnl_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr[] = {
++						/* NT mV Trans mV db    */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   200      0.0   */
++	{ 0x8, 0x7F, 0x38, 0x00, 0x07 },	/* 200   250      1.9   */
++	{ 0x1, 0x7F, 0x33, 0x00, 0x0C },	/* 200   300      3.5   */
++	{ 0xA, 0x35, 0x36, 0x00, 0x09 },	/* 200   350      4.9   */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   250      0.0   */
++	{ 0x1, 0x7F, 0x38, 0x00, 0x07 },	/* 250   300      1.6   */
++	{ 0xA, 0x35, 0x35, 0x00, 0x0A },	/* 250   350      2.9   */
++	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 300   300      0.0   */
++	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 300   350      1.3   */
++	{ 0xA, 0x35, 0x3F, 0x00, 0x00 },	/* 350   350      0.0   */
++};
++
++static const struct cnl_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr2[] = {
++						/* NT mV Trans mV db    */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   200      0.0   */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   250      1.9   */
++	{ 0x1, 0x7F, 0x3D, 0x00, 0x02 },	/* 200   300      3.5   */
++	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 200   350      4.9   */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   250      0.0   */
++	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   300      1.6   */
++	{ 0xA, 0x35, 0x3A, 0x00, 0x05 },	/* 250   350      2.9   */
++	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 300   300      0.0   */
++	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 300   350      1.3   */
++	{ 0xA, 0x35, 0x3F, 0x00, 0x00 },	/* 350   350      0.0   */
++};
++
+ struct icl_mg_phy_ddi_buf_trans {
+ 	u32 cri_txdeemph_override_11_6;
+ 	u32 cri_txdeemph_override_5_0;
+@@ -1069,7 +1097,6 @@ icl_get_mg_buf_trans(struct intel_encoder *encoder, int type, int rate,
+ 	*n_entries = ARRAY_SIZE(icl_mg_phy_ddi_translations_rbr_hbr);
+ 	return icl_mg_phy_ddi_translations_rbr_hbr;
+ }
+-
+ static const struct cnl_ddi_buf_trans *
+ ehl_get_combo_buf_trans(struct intel_encoder *encoder, int type, int rate,
+ 			int *n_entries)
+@@ -1098,6 +1125,34 @@ ehl_get_combo_buf_trans(struct intel_encoder *encoder, int type, int rate,
+ 	}
+ }
+ 
++static const struct cnl_ddi_buf_trans *
++jsl_get_combo_buf_trans(struct intel_encoder *encoder, int type, int rate,
++			int *n_entries)
++{
++	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
++
++	switch (type) {
++	case INTEL_OUTPUT_HDMI:
++		*n_entries = ARRAY_SIZE(icl_combo_phy_ddi_translations_hdmi);
++		return icl_combo_phy_ddi_translations_hdmi;
++	case INTEL_OUTPUT_EDP:
++		if (dev_priv->vbt.edp.low_vswing) {
++			if (rate > 270000) {
++				*n_entries = ARRAY_SIZE(jsl_combo_phy_ddi_translations_edp_hbr2);
++				return jsl_combo_phy_ddi_translations_edp_hbr2;
++			} else {
++				*n_entries = ARRAY_SIZE(jsl_combo_phy_ddi_translations_edp_hbr);
++				return jsl_combo_phy_ddi_translations_edp_hbr;
++			}
++		}
++		/* fall through */
++	default:
++		/* All combo DP and eDP ports that do not support low_vswing */
++		*n_entries = ARRAY_SIZE(icl_combo_phy_ddi_translations_dp_hbr2);
++		return icl_combo_phy_ddi_translations_dp_hbr2;
++	}
++}
++
+ static const struct cnl_ddi_buf_trans *
+ tgl_get_combo_buf_trans(struct intel_encoder *encoder, int type, int rate,
+ 			int *n_entries)
+@@ -2265,7 +2320,10 @@ static u8 intel_ddi_dp_voltage_max(struct intel_dp *intel_dp)
+ 			tgl_get_dkl_buf_trans(encoder, encoder->type,
+ 					      intel_dp->link_rate, &n_entries);
+ 	} else if (INTEL_GEN(dev_priv) == 11) {
+-		if (IS_ELKHARTLAKE(dev_priv))
++		if (HAS_PCH_JSP(dev_priv))
++			jsl_get_combo_buf_trans(encoder, encoder->type,
++						intel_dp->link_rate, &n_entries);
++		else if (HAS_PCH_MCC(dev_priv))
+ 			ehl_get_combo_buf_trans(encoder, encoder->type,
+ 						intel_dp->link_rate, &n_entries);
+ 		else if (intel_phy_is_combo(dev_priv, phy))
+@@ -2454,7 +2512,10 @@ static void icl_ddi_combo_vswing_program(struct intel_encoder *encoder,
+ 	if (INTEL_GEN(dev_priv) >= 12)
+ 		ddi_translations = tgl_get_combo_buf_trans(encoder, type, rate,
+ 							   &n_entries);
+-	else if (IS_ELKHARTLAKE(dev_priv))
++	else if (HAS_PCH_JSP(dev_priv))
++		ddi_translations = jsl_get_combo_buf_trans(encoder, type, rate,
++							   &n_entries);
++	else if (HAS_PCH_MCC(dev_priv))
+ 		ddi_translations = ehl_get_combo_buf_trans(encoder, type, rate,
+ 							   &n_entries);
+ 	else
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
