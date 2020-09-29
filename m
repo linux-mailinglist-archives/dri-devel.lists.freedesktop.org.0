@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E26327D56F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 20:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EB527D579
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 20:09:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C174A89CDB;
-	Tue, 29 Sep 2020 18:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B605898CC;
+	Tue, 29 Sep 2020 18:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8311F89CDB
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 18:08:17 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id 185so6450131oie.11
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:08:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=sU+G8HZjDOP5MRdUHbCt+p6p/tXjsZfEXILLEXLTGKk=;
- b=fbgze4IzF2+dCdsiNRnXAmsWFNV5FDr3qxiVz5CE3ojVI87+bKWejmG4rcZSjUp13G
- aLsqFNyA5SvJiHE4YbdUTgrJ0lUOaV3sYoimIfaPV0mm7dIafU+a3nOzKsf6mT9R2jUn
- 5wZrfuyND3WivprPQfyFCIxLvBY+STbokIIfg4+9mamNYA+JDsQMlsrr1/9U4gZ3Towj
- ecV1mLaFBGv0sGWCPuOLnwvmyMLGzgxwmJYmO+UJg0nHhpnn1zTEU9cSYpMxoXxb9buK
- WohWvuXTvU4oP+a+Na2om4glTwY7InFhVsjmI97Wrf7CYj6zpJdKw2AXzU+LHrBJFwfd
- nZ4A==
-X-Gm-Message-State: AOAM531vmtzj5uWskaGXqlor7DWv6WeeuyXl2CSxBPN3wgDBQu5AAMCT
- PY6kKKYdhYinDNy2c0Zc5g==
-X-Google-Smtp-Source: ABdhPJz56B8S1F50AdUm8skiSUxwaNOgLIFcS5ICv5Jn5u0GiuSyXnNAj4hFIR8xLsNWCl8z8U7x2g==
-X-Received: by 2002:aca:f5cb:: with SMTP id t194mr3210736oih.144.1601402896731; 
- Tue, 29 Sep 2020 11:08:16 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id v20sm1150556oiv.47.2020.09.29.11.08.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 11:08:16 -0700 (PDT)
-Received: (nullmailer pid 882710 invoked by uid 1000);
- Tue, 29 Sep 2020 18:08:15 -0000
-Date: Tue, 29 Sep 2020 13:08:15 -0500
-From: Rob Herring <robh@kernel.org>
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Subject: Re: [PATCH 1/4] dt-bindings: phy: convert phy-mtk-xsphy.txt to YAML
- schema
-Message-ID: <20200929180815.GA865690@bogus>
-References: <5af7c097d1c71a180d8ed1f1a44055859b42f1a0.1600760719.git.chunfeng.yun@mediatek.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 087FC898CC;
+ Tue, 29 Sep 2020 18:09:20 +0000 (UTC)
+IronPort-SDR: /dZ5fI0qgyyU/cxg+qTpsa6o7+9AXwXGO3KJ/dpQMe6/40dXCuiGwq0JU6Frtb9CwM1bdwp0Wx
+ yorRRPVaaKng==
+X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="162317555"
+X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; d="scan'208";a="162317555"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2020 11:09:17 -0700
+IronPort-SDR: oSrUocykxI+vYQHmlxEf0u8Z1n658awzYDGwpTU9TobnVjIMvOoEtyeFNAlMTdDv5VB3Q0oi3R
+ Q7gk/VA+gG6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; d="scan'208";a="312304493"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 29 Sep 2020 11:09:13 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 29 Sep 2020 21:09:12 +0300
+Date: Tue, 29 Sep 2020 21:09:12 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/kms/nv50-: Fix clock checking algorithm in
+ nv50_dp_mode_valid()
+Message-ID: <20200929180912.GG6112@intel.com>
+References: <20200922210510.156220-1-lyude@redhat.com>
+ <20200928130141.GV6112@intel.com>
+ <9e12d6c091d18be6253717f33f4c09013361e532.camel@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <5af7c097d1c71a180d8ed1f1a44055859b42f1a0.1600760719.git.chunfeng.yun@mediatek.com>
+In-Reply-To: <9e12d6c091d18be6253717f33f4c09013361e532.camel@redhat.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,244 +55,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
- Vinod Koul <vkoul@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Stanley Chu <stanley.chu@mediatek.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 22, 2020 at 03:55:05PM +0800, Chunfeng Yun wrote:
-> Convert phy-mtk-xsphy.txt to YAML schema mediatek,xsphy.yaml
-> 
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
->  .../bindings/phy/mediatek,xsphy.yaml          | 203 ++++++++++++++++++
->  .../devicetree/bindings/phy/phy-mtk-xsphy.txt | 109 ----------
->  2 files changed, 203 insertions(+), 109 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
->  delete mode 100644 Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml b/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
-> new file mode 100644
-> index 000000000000..0aaa10640b5a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
-> @@ -0,0 +1,203 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2020 MediaTek
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek XS-PHY Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Chunfeng Yun <chunfeng.yun@mediatek.com>
-> +
-> +description: |
-> +  The XS-PHY controller supports physical layer functionality for USB3.1
-> +  GEN2 controller on MediaTek SoCs.
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^xs-phy@[0-9a-f]+$"
-> +
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt3611-xsphy
-> +          - enum:
-> +              - mediatek,xsphy
-> +      - items:
-> +          - const: mediatek,xsphy
-
-mediatek,xsphy alone should not be valid.
-
-> +
-> +  reg:
-> +    description: |
-> +      Register shared by multiple U3 ports, exclude port's private register,
-> +      if only U2 ports provided, shouldn't use the property.
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +      enum: [1, 2]
-> +
-> +  "#size-cells":
-> +      enum: [1, 2]
-> +
-> +  ranges: true
-> +
-> +  mediatek,src-ref-clk-mhz:
-> +    description:
-> +      Frequency of reference clock for slew rate calibrate
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 26
-> +
-> +  mediatek,src-coef:
-> +    description:
-> +      Coefficient for slew rate calibrate, depends on SoC process
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    default: 17
-> +
-> +# Required child node:
-> +patternProperties:
-> +  "^usb-phy@[0-9a-f]+$":
-> +    type: object
-> +    description: |
-> +      A sub-node is required for each port the controller provides.
-> +      Address range information including the usual 'reg' property
-> +      is used inside these nodes to describe the controller's topology.
-> +
-> +    properties:
-> +      reg:
-> +        maxItems: 1
-> +
-> +      clocks:
-> +        items:
-> +          - description: Reference clock, (HS is 48Mhz, SS/P is 24~27Mhz)
-> +
-> +      clock-names:
-> +        items:
-> +          - const: ref
-> +
-> +      "#phy-cells":
-> +        const: 1
-> +        description: |
-> +          The cells contain the following arguments.
-> +
-> +          - description: The PHY type
-> +              enum:
-> +                - PHY_TYPE_USB2
-> +                - PHY_TYPE_USB3
-> +
-> +      #The following optional vendor properties are only for debug or HQA test
-> +      mediatek,eye-src:
-> +        description:
-> +          The value of slew rate calibrate (U2 phy)
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        minimum: 1
-> +        maximum: 7
-> +
-> +      mediatek,eye-vrt:
-> +        description:
-> +          The selection of VRT reference voltage (U2 phy)
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        minimum: 1
-> +        maximum: 7
-> +
-> +      mediatek,eye-term:
-> +        description:
-> +          The selection of HS_TX TERM reference voltage (U2 phy)
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        minimum: 1
-> +        maximum: 7
-> +
-> +      mediatek,efuse-intr:
-> +        description:
-> +          The selection of Internal Resistor (U2/U3 phy)
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        minimum: 1
-> +        maximum: 63
-> +
-> +      mediatek,efuse-tx-imp:
-> +        description:
-> +          The selection of TX Impedance (U3 phy)
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        minimum: 1
-> +        maximum: 31
-> +
-> +      mediatek,efuse-rx-imp:
-> +        description:
-> +          The selection of RX Impedance (U3 phy)
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        minimum: 1
-> +        maximum: 31
-> +
-> +    required:
-> +      - reg
-> +      - clocks
-> +      - clock-names
-> +      - "#phy-cells"
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - ranges
-> +
-> +additionalProperties: false
-> +
-> +#Banks layout of xsphy
-> +#-------------------------------------------------------------
-
-Move this to top-level 'description'.
-
-> +#port        offset    bank
-> +#u2 port0    0x0000    MISC
-> +#            0x0100    FMREG
-> +#            0x0300    U2PHY_COM
-> +#u2 port1    0x1000    MISC
-> +#            0x1100    FMREG
-> +#            0x1300    U2PHY_COM
-> +#u2 port2    0x2000    MISC
-> +#            ...
-> +#u31 common  0x3000    DIG_GLB
-> +#            0x3100    PHYA_GLB
-> +#u31 port0   0x3400    DIG_LN_TOP
-> +#            0x3500    DIG_LN_TX0
-> +#            0x3600    DIG_LN_RX0
-> +#            0x3700    DIG_LN_DAIF
-> +#            0x3800    PHYA_LN
-> +#u31 port1   0x3a00    DIG_LN_TOP
-> +#            0x3b00    DIG_LN_TX0
-> +#            0x3c00    DIG_LN_RX0
-> +#            0x3d00    DIG_LN_DAIF
-> +#            0x3e00    PHYA_LN
-> +#            ...
-> +#DIG_GLB & PHYA_GLB are shared by U31 ports.
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/phy/phy.h>
-> +
-> +    u3phy: xs-phy@11c40000 {
-> +        compatible = "mediatek,mt3611-xsphy", "mediatek,xsphy";
-> +        reg = <0x11c43000 0x0200>;
-> +        mediatek,src-ref-clk-mhz = <26>;
-> +        mediatek,src-coef = <17>;
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges;
-> +
-> +        u2port0: usb-phy@11c40000 {
-> +            reg = <0x11c40000 0x0400>;
-> +            clocks = <&clk48m>;
-> +            clock-names = "ref";
-> +            mediatek,eye-src = <4>;
-> +            #phy-cells = <1>;
-> +        };
-> +
-> +        u3port0: usb-phy@11c43000 {
-> +            reg = <0x11c43400 0x0500>;
-> +            clocks = <&clk26m>;
-> +            clock-names = "ref";
-> +            mediatek,efuse-intr = <28>;
-> +            #phy-cells = <1>;
-> +        };
-> +    };
-> +
-> +...
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBTZXAgMjksIDIwMjAgYXQgMDE6NTQ6MTNQTSAtMDQwMCwgTHl1ZGUgUGF1bCB3cm90
+ZToKPiBPbiBNb24sIDIwMjAtMDktMjggYXQgMTY6MDEgKzAzMDAsIFZpbGxlIFN5cmrDpGzDpCB3
+cm90ZToKPiA+IE9uIFR1ZSwgU2VwIDIyLCAyMDIwIGF0IDA1OjA1OjEwUE0gLTA0MDAsIEx5dWRl
+IFBhdWwgd3JvdGU6Cj4gPiA+IFdoaWxlIEkgdGhvdWdodCBJIGhhZCB0aGlzIGNvcnJlY3QgKHNp
+bmNlIGl0IGFjdHVhbGx5IGRpZCByZWplY3QgbW9kZXMKPiA+ID4gbGlrZSBJIGV4cGVjdGVkIGR1
+cmluZyB0ZXN0aW5nKSwgVmlsbGUgU3lyamFsYSBmcm9tIEludGVsIHBvaW50ZWQgb3V0Cj4gPiA+
+IHRoYXQgdGhlIGxvZ2ljIGhlcmUgaXNuJ3QgY29ycmVjdC4gbWF4X2Nsb2NrIHJlZmVycyB0byB0
+aGUgbWF4IHN5bWJvbAo+ID4gPiByYXRlIHN1cHBvcnRlZCBieSB0aGUgZW5jb2Rlciwgc28gbGlt
+aXRpbmcgY2xvY2sgdG8gZHNfY2xvY2sgdXNpbmcgbWF4KCkKPiA+ID4gZG9lc24ndCBtYWtlIHNl
+bnNlLiBBZGRpdGlvbmFsbHksIHdlIHdhbnQgdG8gY2hlY2sgYWdhaW5zdCA2YnBjIGZvciB0aGUK
+PiA+ID4gdGltZSBiZWluZyBzaW5jZSB0aGF0J3MgdGhlIG1pbmltdW0gcG9zc2libGUgYnBjIGhl
+cmUsIG5vdCB0aGUgcmVwb3J0ZWQKPiA+ID4gYnBjIGZyb20gdGhlIGNvbm5lY3Rvci4gU2VlOgo+
+ID4gPiAKPiA+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRl
+dmVsLzIwMjAtU2VwdGVtYmVyLzI4MDI3Ni5odG1sCj4gPiA+IAo+ID4gPiBGb3IgbW9yZSBpbmZv
+Lgo+ID4gPiAKPiA+ID4gU28sIGxldCdzIHJld3JpdGUgdGhpcyB1c2luZyBWaWxsZSdzIGFkdmlj
+ZS4KPiA+ID4gCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5j
+b20+Cj4gPiA+IEZpeGVzOiA0MDlkMzgxMzliNDIgKCJkcm0vbm91dmVhdS9rbXMvbnY1MC06IFVz
+ZSBkb3duc3RyZWFtIERQIGNsb2NrCj4gPiA+IGxpbWl0cyBmb3IgbW9kZSB2YWxpZGF0aW9uIikK
+PiA+ID4gQ2M6IFZpbGxlIFN5cmrDg8aSw4LCpGzDg8aSw4LCpCA8dmlsbGUuc3lyamFsYUBsaW51
+eC5pbnRlbC5jb20+Cj4gPiA+IENjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+ID4g
+PiBDYzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRoYXQuY29tPgo+ID4gPiAtLS0KPiA+ID4gIGRy
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHAuYyB8IDIzICsrKysrKysrKysrKystLS0t
+LS0tLS0tCj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRp
+b25zKC0pCj4gPiA+IAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
+bm91dmVhdV9kcC5jCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcC5j
+Cj4gPiA+IGluZGV4IDdiNjQwZTA1YmQ0Y2QuLjI0YzgxZTQyM2QzNDkgMTAwNjQ0Cj4gPiA+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHAuYwo+ID4gPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2RwLmMKPiA+ID4gQEAgLTIzMSwyMyArMjMxLDI2
+IEBAIG52NTBfZHBfbW9kZV92YWxpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+
+ID4gPiAgCQkgICBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSwKPiA+ID4gIAkJ
+ICAgdW5zaWduZWQgKm91dF9jbG9jaykKPiA+ID4gIHsKPiA+ID4gLQljb25zdCB1bnNpZ25lZCBt
+aW5fY2xvY2sgPSAyNTAwMDsKPiA+ID4gLQl1bnNpZ25lZCBtYXhfY2xvY2ssIGRzX2Nsb2NrLCBj
+bG9jazsKPiA+ID4gKwljb25zdCB1bnNpZ25lZCBpbnQgbWluX2Nsb2NrID0gMjUwMDA7Cj4gPiA+
+ICsJdW5zaWduZWQgaW50IG1heF9jbG9jaywgZHNfY2xvY2ssIGNsb2NrOwo+ID4gPiArCWNvbnN0
+IHU4IGJwcCA9IDE4OyAvKiA2IGJwYyAqLwo+ID4gCj4gPiBBRkFJQ1MgbnY1MF9vdXRwX2F0b21p
+Y19jaGVjaygpIGFuZCBudjUwX21zdG9fYXRvbWljX2NoZWNrKCkKPiA+IGp1c3QgYmxpbmRseSB1
+c2UgY29ubmVjdG9yLT5kaXNwbGF5X2luZm8uYnBjIHdpdGhvdXQgYW55IGZhbGxiYWNrCj4gPiBs
+b2dpYyB0byBsb3dlciB0aGUgYnBjLiBTbyBJbGlhJ3MgY29uY2VybnMgc2VlbSB3ZWxsIGZvdW5k
+ZWQuCj4gPiBXaXRob3V0IHRoYXQgbG9naWMgSSBndWVzcyB5b3Ugc2hvdWxkIGp1c3QgdXNlCj4g
+PiBjb25uZWN0b3ItPmRpc3BsYXlfaW5mby5icGMgaGVyZSBhcyB3ZWxsLgo+ID4gCj4gPiA+ICAJ
+ZW51bSBkcm1fbW9kZV9zdGF0dXMgcmV0Owo+ID4gPiAgCj4gPiA+ICAJaWYgKG1vZGUtPmZsYWdz
+ICYgRFJNX01PREVfRkxBR19JTlRFUkxBQ0UgJiYgIW91dHAtPmNhcHMuZHBfaW50ZXJsYWNlKQo+
+ID4gPiAgCQlyZXR1cm4gTU9ERV9OT19JTlRFUkxBQ0U7Cj4gPiA+ICAKPiA+ID4gIAltYXhfY2xv
+Y2sgPSBvdXRwLT5kcC5saW5rX25yICogb3V0cC0+ZHAubGlua19idzsKPiA+ID4gLQlkc19jbG9j
+ayA9IGRybV9kcF9kb3duc3RyZWFtX21heF9kb3RjbG9jayhvdXRwLT5kcC5kcGNkLAo+ID4gPiAt
+CQkJCQkJICBvdXRwLT5kcC5kb3duc3RyZWFtX3BvcnRzKTsKPiA+ID4gLQlpZiAoZHNfY2xvY2sp
+Cj4gPiA+IC0JCW1heF9jbG9jayA9IG1pbihtYXhfY2xvY2ssIGRzX2Nsb2NrKTsKPiA+ID4gLQo+
+ID4gPiAtCWNsb2NrID0gbW9kZS0+Y2xvY2sgKiAoY29ubmVjdG9yLT5kaXNwbGF5X2luZm8uYnBj
+ICogMykgLyAxMDsKPiA+ID4gLQlyZXQgPSBub3V2ZWF1X2Nvbm5fbW9kZV9jbG9ja192YWxpZCht
+b2RlLCBtaW5fY2xvY2ssIG1heF9jbG9jaywKPiA+ID4gLQkJCQkJICAgICZjbG9jayk7Cj4gPiA+
+ICsJY2xvY2sgPSBtb2RlLT5jbG9jayAqIGJwcCAvIDg7Cj4gPiA+ICsJaWYgKGNsb2NrID4gbWF4
+X2Nsb2NrKQo+ID4gPiArCQlyZXR1cm4gTU9ERV9DTE9DS19ISUdIOwo+ID4gCj4gPiBUaGlzIHN0
+dWZmIHZzLiBub3V2ZWF1X2Nvbm5fbW9kZV9jbG9ja192YWxpZCgpIHN0aWxsIHNlZW1zIGEgYml0
+IG1lc3N5Lgo+ID4gVGhlIG1heF9jbG9jayB5b3UgcGFzcyB0byBub3V2ZWF1X2Nvbm5fbW9kZV9j
+bG9ja192YWxpZCgpIGlzIHRoZSBtYXgKPiA+IHN5bWJvbCBjbG9jaywgYnV0IG5vdXZlYXVfY29u
+bl9tb2RlX2Nsb2NrX3ZhbGlkKCkgY2hlY2tzIGl0IGFnYWluc3QgdGhlCj4gPiBkb3RjbG9jay4g
+QWxzbyBvbmx5IG5vdXZlYXVfY29ubl9tb2RlX2Nsb2NrX3ZhbGlkKCkgaGFzIGFueSBraW5kIG9m
+Cj4gPiBzdGVyZW8gM0QgaGFuZGxpbmcsIGJ1dCBBRkFJQ1Mgc3RlcmVvX2FsbG93ZWQgaXMgYWxz
+byBzZXQgZm9yIERQPwo+IAo+IC4uLm5vdCBzdXJlIEknbSBmb2xsb3dpbmcgeW91IGhlcmUsIGl0
+J3Mgc2V0IHRvIHRydWUgZm9yIERQIHNvIGRvbid0IHdlIHdhbnQKPiB0byBjaGVjayBpdCBhbmQg
+YWRqdXN0IHRoZSBwaXhlbCBjbG9jayB3ZSBvdXRwdXQgYWNjb3JkaW5nbHk/CgpZZXMsIGJ1dCB0
+aGVuIHlvdSBuZWVkIHRvIGFsc28gZG91YmxlIHlvdXIgeW91ciBwaXhlbCBjbG9jawpkZXJpdmVk
+IHZhbHVlcyBpbiB0aGlzIGZ1bmN0aW9uLiBJZS4gYWxsIHRoZSBtb2RlLT5jbG9jawpuZWVkcyB0
+byBiZWNvbWUgbW9kZS0+Y2xvY2sqMiB3aGVuIGRlYWxpbmcgd2l0aCBhIDNEIGZyYW1lCnBhY2tp
+bmcgbW9kZS4KCj4gCj4gPiAKPiA+ID4gKwo+ID4gPiArCWRzX2Nsb2NrID0gZHJtX2RwX2Rvd25z
+dHJlYW1fbWF4X2RvdGNsb2NrKG91dHAtPmRwLmRwY2QsIG91dHAtCj4gPiA+ID5kcC5kb3duc3Ry
+ZWFtX3BvcnRzKTsKPiA+ID4gKwlpZiAoZHNfY2xvY2sgJiYgbW9kZS0+Y2xvY2sgPiBkc19jbG9j
+aykKPiA+ID4gKwkJcmV0dXJuIE1PREVfQ0xPQ0tfSElHSDsKPiA+ID4gKwo+ID4gPiArCXJldCA9
+IG5vdXZlYXVfY29ubl9tb2RlX2Nsb2NrX3ZhbGlkKG1vZGUsIG1pbl9jbG9jaywgbWF4X2Nsb2Nr
+LAo+ID4gPiAmY2xvY2spOwo+ID4gPiAgCWlmIChvdXRfY2xvY2spCj4gPiA+ICAJCSpvdXRfY2xv
+Y2sgPSBjbG9jazsKPiA+ID4gKwo+ID4gPiAgCXJldHVybiByZXQ7Cj4gPiA+ICB9Cj4gPiA+IC0t
+IAo+ID4gPiAyLjI2LjIKPiAtLSAKPiBDaGVlcnMsCj4gCUx5dWRlIFBhdWwgKHNoZS9oZXIpCj4g
+CVNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKCi0tIApWaWxsZSBTeXJqw6Rsw6QKSW50ZWwK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
