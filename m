@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556FC27C497
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 13:15:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 572EE27C331
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 13:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 882EC89CE1;
-	Tue, 29 Sep 2020 11:15:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50CFC89C28;
+	Tue, 29 Sep 2020 11:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C85C89CE1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:15:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEF8A89C28
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:05:24 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A368221D43;
- Tue, 29 Sep 2020 11:08:45 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B9AC5221E8;
+ Tue, 29 Sep 2020 11:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601377726;
- bh=jKTBQCaxarY6+3xJ92/SBAR0ppkaD1Igcl8HmuM9NH8=;
+ s=default; t=1601377524;
+ bh=5LskZOh2pD9zg+8IVR0T9t1IBdkFEYbOnCrQ+2yn3kE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UdRQTMfd+xPerw3/bF9s4H/QFsEC0HIUa3cMQyvPelLZt/BsLzN6LyjWt3VCxVXC1
- hfBKNgcWY0eRFSReATapeOq4/mU7Bcx8XwK+5cAaEpJqh88cK4KeBE/z+jxw8ebBZ0
- w8767wvRi8ATayo9hNbAaAx99NKrNwCatUbovXHY=
+ b=hxibLj5+1UeQgJ/9HU+knOUxLMOXCRWBsX3cU3S1GzKosf+Qfu7jU/49C32Vw/9u5
+ TYPsyqPSL93bW1IEXKL19s34EexF/rBRHulo+d0EvnMjKXTLo5ToayH1XZ04ewAS3f
+ r8qJO+5B0b4fJx55QqC/NAY9nyqzHbg5FIxuQthA=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.9 049/121] drm/omap: fix possible object reference leak
-Date: Tue, 29 Sep 2020 12:59:53 +0200
-Message-Id: <20200929105932.623608487@linuxfoundation.org>
+Subject: [PATCH 4.4 36/85] drm/omap: fix possible object reference leak
+Date: Tue, 29 Sep 2020 13:00:03 +0200
+Message-Id: <20200929105930.038056887@linuxfoundation.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200929105930.172747117@linuxfoundation.org>
-References: <20200929105930.172747117@linuxfoundation.org>
+In-Reply-To: <20200929105928.198942536@linuxfoundation.org>
+References: <20200929105928.198942536@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,13 +86,13 @@ Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Link: https://patchwork.freedesktop.org/patch/msgid/1554692313-28882-2-git-send-email-wen.yang99@zte.com.cn
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c | 4 +++-
+ drivers/video/fbdev/omap2/dss/omapdss-boot-init.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-index 136d30484d023..46111e9ee9a25 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+diff --git a/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c b/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c
+index 8b6f6d5fdd68b..43186fa8a13c9 100644
+--- a/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c
++++ b/drivers/video/fbdev/omap2/dss/omapdss-boot-init.c
 @@ -194,7 +194,7 @@ static int __init omapdss_boot_init(void)
  	dss = of_find_matching_node(NULL, omapdss_of_match);
  
@@ -102,7 +102,7 @@ index 136d30484d023..46111e9ee9a25 100644
  
  	omapdss_walk_device(dss, true);
  
-@@ -219,6 +219,8 @@ static int __init omapdss_boot_init(void)
+@@ -221,6 +221,8 @@ static int __init omapdss_boot_init(void)
  		kfree(n);
  	}
  
