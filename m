@@ -1,75 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9144327D529
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 19:54:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E26327D56F
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 20:08:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26A0189B22;
-	Tue, 29 Sep 2020 17:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C174A89CDB;
+	Tue, 29 Sep 2020 18:08:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 376A689BD2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 17:54:21 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601402060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RB1qMPqA5Fuv69vC0OQ8pzSzT2FY50yu2m0896R3wr8=;
- b=fV68GcYU20i0fMnAvksiGmfgbmGRAlkQCxVN4SifP7KG6zqXtBKc8YAOC79VwNbBSXkW12
- 9IDyjPU9ItSdL5VYrT8SP0dubU8UHt2TWuDvmeHcn93SRq6c1fXKX7BzEr+e+TdSwmqNQy
- yOIRLavi5hyxeuGdu0pK5EjS56WHWyk=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-WaH7oQzzNH-Bwm_MWK1qHg-1; Tue, 29 Sep 2020 13:54:16 -0400
-X-MC-Unique: WaH7oQzzNH-Bwm_MWK1qHg-1
-Received: by mail-qt1-f198.google.com with SMTP id r22so3625583qtc.9
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 10:54:16 -0700 (PDT)
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8311F89CDB
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 18:08:17 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id 185so6450131oie.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:08:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=RB1qMPqA5Fuv69vC0OQ8pzSzT2FY50yu2m0896R3wr8=;
- b=VjOL6Qfu1FW9HtZbVcwGytKVGUtQy/OljWX4AibT7cwVnTjYSicYp9aba1ZWIYhkku
- iLgucKPrQXp/xITwTtbleW4WYZi+p3oj7Uy8CjC/DPJJOg47cb+Sw1M8CZ/y4RNNDIeC
- SSzjuFZ6Y58EsG3okm45PmnnQHvkmfvKHJ8y6LPEf10PSCf5PBMxNSHmQfP1QmpK5NYi
- +SQ7kWJP+qVil8VgI05XMtl39Bcl5K/GtJOmmA/J+jkLKfpOuvju9NfUYHqYMri0ZwG+
- 8x1lS6Pr5p93bk0Lzqp53vDq8kBYafb7PDWfOJnVLsJv3WJqp9IclOsvSSU2cdEG9Srb
- hxXg==
-X-Gm-Message-State: AOAM533mG11UHvwCVD57u9MmiZoNePQDQ3vWswJuIzUx3XNCSF24Sprw
- VQfksnn8pkGxW7qBTdDtx8ISsfQBvjnWsbZb/Vmm3NfvqKVjrdJvOquwrKdEAN3wY3tyxcaMj7G
- Sf6ccctkzw3BmnJYoQCnR5QE+FHMw
-X-Received: by 2002:ac8:5159:: with SMTP id h25mr4452895qtn.328.1601402055652; 
- Tue, 29 Sep 2020 10:54:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwV+bFO7MhJ0AMnMicvOFYCYwL3jmCqbhV68goafFCYN30T29d9Br4VQUCjY5MWXadhB42r9g==
-X-Received: by 2002:ac8:5159:: with SMTP id h25mr4452877qtn.328.1601402055427; 
- Tue, 29 Sep 2020 10:54:15 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id f127sm5673443qke.133.2020.09.29.10.54.14
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sU+G8HZjDOP5MRdUHbCt+p6p/tXjsZfEXILLEXLTGKk=;
+ b=fbgze4IzF2+dCdsiNRnXAmsWFNV5FDr3qxiVz5CE3ojVI87+bKWejmG4rcZSjUp13G
+ aLsqFNyA5SvJiHE4YbdUTgrJ0lUOaV3sYoimIfaPV0mm7dIafU+a3nOzKsf6mT9R2jUn
+ 5wZrfuyND3WivprPQfyFCIxLvBY+STbokIIfg4+9mamNYA+JDsQMlsrr1/9U4gZ3Towj
+ ecV1mLaFBGv0sGWCPuOLnwvmyMLGzgxwmJYmO+UJg0nHhpnn1zTEU9cSYpMxoXxb9buK
+ WohWvuXTvU4oP+a+Na2om4glTwY7InFhVsjmI97Wrf7CYj6zpJdKw2AXzU+LHrBJFwfd
+ nZ4A==
+X-Gm-Message-State: AOAM531vmtzj5uWskaGXqlor7DWv6WeeuyXl2CSxBPN3wgDBQu5AAMCT
+ PY6kKKYdhYinDNy2c0Zc5g==
+X-Google-Smtp-Source: ABdhPJz56B8S1F50AdUm8skiSUxwaNOgLIFcS5ICv5Jn5u0GiuSyXnNAj4hFIR8xLsNWCl8z8U7x2g==
+X-Received: by 2002:aca:f5cb:: with SMTP id t194mr3210736oih.144.1601402896731; 
+ Tue, 29 Sep 2020 11:08:16 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id v20sm1150556oiv.47.2020.09.29.11.08.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 10:54:14 -0700 (PDT)
-Message-ID: <9e12d6c091d18be6253717f33f4c09013361e532.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/kms/nv50-: Fix clock checking algorithm in
- nv50_dp_mode_valid()
-From: Lyude Paul <lyude@redhat.com>
-To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Date: Tue, 29 Sep 2020 13:54:13 -0400
-In-Reply-To: <20200928130141.GV6112@intel.com>
-References: <20200922210510.156220-1-lyude@redhat.com>
- <20200928130141.GV6112@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+ Tue, 29 Sep 2020 11:08:16 -0700 (PDT)
+Received: (nullmailer pid 882710 invoked by uid 1000);
+ Tue, 29 Sep 2020 18:08:15 -0000
+Date: Tue, 29 Sep 2020 13:08:15 -0500
+From: Rob Herring <robh@kernel.org>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Subject: Re: [PATCH 1/4] dt-bindings: phy: convert phy-mtk-xsphy.txt to YAML
+ schema
+Message-ID: <20200929180815.GA865690@bogus>
+References: <5af7c097d1c71a180d8ed1f1a44055859b42f1a0.1600760719.git.chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <5af7c097d1c71a180d8ed1f1a44055859b42f1a0.1600760719.git.chunfeng.yun@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,80 +59,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, "open list:DRM
- DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <dri-devel@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
+ Vinod Koul <vkoul@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Stanley Chu <stanley.chu@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIwLTA5LTI4IGF0IDE2OjAxICswMzAwLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6
-Cj4gT24gVHVlLCBTZXAgMjIsIDIwMjAgYXQgMDU6MDU6MTBQTSAtMDQwMCwgTHl1ZGUgUGF1bCB3
-cm90ZToKPiA+IFdoaWxlIEkgdGhvdWdodCBJIGhhZCB0aGlzIGNvcnJlY3QgKHNpbmNlIGl0IGFj
-dHVhbGx5IGRpZCByZWplY3QgbW9kZXMKPiA+IGxpa2UgSSBleHBlY3RlZCBkdXJpbmcgdGVzdGlu
-ZyksIFZpbGxlIFN5cmphbGEgZnJvbSBJbnRlbCBwb2ludGVkIG91dAo+ID4gdGhhdCB0aGUgbG9n
-aWMgaGVyZSBpc24ndCBjb3JyZWN0LiBtYXhfY2xvY2sgcmVmZXJzIHRvIHRoZSBtYXggc3ltYm9s
-Cj4gPiByYXRlIHN1cHBvcnRlZCBieSB0aGUgZW5jb2Rlciwgc28gbGltaXRpbmcgY2xvY2sgdG8g
-ZHNfY2xvY2sgdXNpbmcgbWF4KCkKPiA+IGRvZXNuJ3QgbWFrZSBzZW5zZS4gQWRkaXRpb25hbGx5
-LCB3ZSB3YW50IHRvIGNoZWNrIGFnYWluc3QgNmJwYyBmb3IgdGhlCj4gPiB0aW1lIGJlaW5nIHNp
-bmNlIHRoYXQncyB0aGUgbWluaW11bSBwb3NzaWJsZSBicGMgaGVyZSwgbm90IHRoZSByZXBvcnRl
-ZAo+ID4gYnBjIGZyb20gdGhlIGNvbm5lY3Rvci4gU2VlOgo+ID4gCj4gPiBodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAyMC1TZXB0ZW1iZXIvMjgwMjc2
-Lmh0bWwKPiA+IAo+ID4gRm9yIG1vcmUgaW5mby4KPiA+IAo+ID4gU28sIGxldCdzIHJld3JpdGUg
-dGhpcyB1c2luZyBWaWxsZSdzIGFkdmljZS4KPiA+IAo+ID4gU2lnbmVkLW9mZi1ieTogTHl1ZGUg
-UGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiA+IEZpeGVzOiA0MDlkMzgxMzliNDIgKCJkcm0vbm91
-dmVhdS9rbXMvbnY1MC06IFVzZSBkb3duc3RyZWFtIERQIGNsb2NrCj4gPiBsaW1pdHMgZm9yIG1v
-ZGUgdmFsaWRhdGlvbiIpCj4gPiBDYzogVmlsbGUgU3lyasODxpLDgsKkbMODxpLDgsKkIDx2aWxs
-ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiA+IENjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRo
-YXQuY29tPgo+ID4gQ2M6IEJlbiBTa2VnZ3MgPGJza2VnZ3NAcmVkaGF0LmNvbT4KPiA+IC0tLQo+
-ID4gIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHAuYyB8IDIzICsrKysrKysrKysr
-KystLS0tLS0tLS0tCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDEwIGRl
-bGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
-bm91dmVhdV9kcC5jCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHAuYwo+
-ID4gaW5kZXggN2I2NDBlMDViZDRjZC4uMjRjODFlNDIzZDM0OSAxMDA2NDQKPiA+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHAuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL25vdXZlYXUvbm91dmVhdV9kcC5jCj4gPiBAQCAtMjMxLDIzICsyMzEsMjYgQEAgbnY1MF9k
-cF9tb2RlX3ZhbGlkKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCj4gPiAgCQkgICBj
-b25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSwKPiA+ICAJCSAgIHVuc2lnbmVkICpv
-dXRfY2xvY2spCj4gPiAgewo+ID4gLQljb25zdCB1bnNpZ25lZCBtaW5fY2xvY2sgPSAyNTAwMDsK
-PiA+IC0JdW5zaWduZWQgbWF4X2Nsb2NrLCBkc19jbG9jaywgY2xvY2s7Cj4gPiArCWNvbnN0IHVu
-c2lnbmVkIGludCBtaW5fY2xvY2sgPSAyNTAwMDsKPiA+ICsJdW5zaWduZWQgaW50IG1heF9jbG9j
-aywgZHNfY2xvY2ssIGNsb2NrOwo+ID4gKwljb25zdCB1OCBicHAgPSAxODsgLyogNiBicGMgKi8K
-PiAKPiBBRkFJQ1MgbnY1MF9vdXRwX2F0b21pY19jaGVjaygpIGFuZCBudjUwX21zdG9fYXRvbWlj
-X2NoZWNrKCkKPiBqdXN0IGJsaW5kbHkgdXNlIGNvbm5lY3Rvci0+ZGlzcGxheV9pbmZvLmJwYyB3
-aXRob3V0IGFueSBmYWxsYmFjawo+IGxvZ2ljIHRvIGxvd2VyIHRoZSBicGMuIFNvIElsaWEncyBj
-b25jZXJucyBzZWVtIHdlbGwgZm91bmRlZC4KPiBXaXRob3V0IHRoYXQgbG9naWMgSSBndWVzcyB5
-b3Ugc2hvdWxkIGp1c3QgdXNlCj4gY29ubmVjdG9yLT5kaXNwbGF5X2luZm8uYnBjIGhlcmUgYXMg
-d2VsbC4KPiAKPiA+ICAJZW51bSBkcm1fbW9kZV9zdGF0dXMgcmV0Owo+ID4gIAo+ID4gIAlpZiAo
-bW9kZS0+ZmxhZ3MgJiBEUk1fTU9ERV9GTEFHX0lOVEVSTEFDRSAmJiAhb3V0cC0+Y2Fwcy5kcF9p
-bnRlcmxhY2UpCj4gPiAgCQlyZXR1cm4gTU9ERV9OT19JTlRFUkxBQ0U7Cj4gPiAgCj4gPiAgCW1h
-eF9jbG9jayA9IG91dHAtPmRwLmxpbmtfbnIgKiBvdXRwLT5kcC5saW5rX2J3Owo+ID4gLQlkc19j
-bG9jayA9IGRybV9kcF9kb3duc3RyZWFtX21heF9kb3RjbG9jayhvdXRwLT5kcC5kcGNkLAo+ID4g
-LQkJCQkJCSAgb3V0cC0+ZHAuZG93bnN0cmVhbV9wb3J0cyk7Cj4gPiAtCWlmIChkc19jbG9jaykK
-PiA+IC0JCW1heF9jbG9jayA9IG1pbihtYXhfY2xvY2ssIGRzX2Nsb2NrKTsKPiA+IC0KPiA+IC0J
-Y2xvY2sgPSBtb2RlLT5jbG9jayAqIChjb25uZWN0b3ItPmRpc3BsYXlfaW5mby5icGMgKiAzKSAv
-IDEwOwo+ID4gLQlyZXQgPSBub3V2ZWF1X2Nvbm5fbW9kZV9jbG9ja192YWxpZChtb2RlLCBtaW5f
-Y2xvY2ssIG1heF9jbG9jaywKPiA+IC0JCQkJCSAgICAmY2xvY2spOwo+ID4gKwljbG9jayA9IG1v
-ZGUtPmNsb2NrICogYnBwIC8gODsKPiA+ICsJaWYgKGNsb2NrID4gbWF4X2Nsb2NrKQo+ID4gKwkJ
-cmV0dXJuIE1PREVfQ0xPQ0tfSElHSDsKPiAKPiBUaGlzIHN0dWZmIHZzLiBub3V2ZWF1X2Nvbm5f
-bW9kZV9jbG9ja192YWxpZCgpIHN0aWxsIHNlZW1zIGEgYml0IG1lc3N5Lgo+IFRoZSBtYXhfY2xv
-Y2sgeW91IHBhc3MgdG8gbm91dmVhdV9jb25uX21vZGVfY2xvY2tfdmFsaWQoKSBpcyB0aGUgbWF4
-Cj4gc3ltYm9sIGNsb2NrLCBidXQgbm91dmVhdV9jb25uX21vZGVfY2xvY2tfdmFsaWQoKSBjaGVj
-a3MgaXQgYWdhaW5zdCB0aGUKPiBkb3RjbG9jay4gQWxzbyBvbmx5IG5vdXZlYXVfY29ubl9tb2Rl
-X2Nsb2NrX3ZhbGlkKCkgaGFzIGFueSBraW5kIG9mCj4gc3RlcmVvIDNEIGhhbmRsaW5nLCBidXQg
-QUZBSUNTIHN0ZXJlb19hbGxvd2VkIGlzIGFsc28gc2V0IGZvciBEUD8KCi4uLm5vdCBzdXJlIEkn
-bSBmb2xsb3dpbmcgeW91IGhlcmUsIGl0J3Mgc2V0IHRvIHRydWUgZm9yIERQIHNvIGRvbid0IHdl
-IHdhbnQKdG8gY2hlY2sgaXQgYW5kIGFkanVzdCB0aGUgcGl4ZWwgY2xvY2sgd2Ugb3V0cHV0IGFj
-Y29yZGluZ2x5PwoKPiAKPiA+ICsKPiA+ICsJZHNfY2xvY2sgPSBkcm1fZHBfZG93bnN0cmVhbV9t
-YXhfZG90Y2xvY2sob3V0cC0+ZHAuZHBjZCwgb3V0cC0KPiA+ID5kcC5kb3duc3RyZWFtX3BvcnRz
-KTsKPiA+ICsJaWYgKGRzX2Nsb2NrICYmIG1vZGUtPmNsb2NrID4gZHNfY2xvY2spCj4gPiArCQly
-ZXR1cm4gTU9ERV9DTE9DS19ISUdIOwo+ID4gKwo+ID4gKwlyZXQgPSBub3V2ZWF1X2Nvbm5fbW9k
-ZV9jbG9ja192YWxpZChtb2RlLCBtaW5fY2xvY2ssIG1heF9jbG9jaywKPiA+ICZjbG9jayk7Cj4g
-PiAgCWlmIChvdXRfY2xvY2spCj4gPiAgCQkqb3V0X2Nsb2NrID0gY2xvY2s7Cj4gPiArCj4gPiAg
-CXJldHVybiByZXQ7Cj4gPiAgfQo+ID4gLS0gCj4gPiAyLjI2LjIKLS0gCkNoZWVycywKCUx5dWRl
-IFBhdWwgKHNoZS9oZXIpCglTb2Z0d2FyZSBFbmdpbmVlciBhdCBSZWQgSGF0CgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Sep 22, 2020 at 03:55:05PM +0800, Chunfeng Yun wrote:
+> Convert phy-mtk-xsphy.txt to YAML schema mediatek,xsphy.yaml
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+>  .../bindings/phy/mediatek,xsphy.yaml          | 203 ++++++++++++++++++
+>  .../devicetree/bindings/phy/phy-mtk-xsphy.txt | 109 ----------
+>  2 files changed, 203 insertions(+), 109 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml b/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
+> new file mode 100644
+> index 000000000000..0aaa10640b5a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
+> @@ -0,0 +1,203 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2020 MediaTek
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek XS-PHY Controller Device Tree Bindings
+> +
+> +maintainers:
+> +  - Chunfeng Yun <chunfeng.yun@mediatek.com>
+> +
+> +description: |
+> +  The XS-PHY controller supports physical layer functionality for USB3.1
+> +  GEN2 controller on MediaTek SoCs.
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^xs-phy@[0-9a-f]+$"
+> +
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - mediatek,mt3611-xsphy
+> +          - enum:
+> +              - mediatek,xsphy
+> +      - items:
+> +          - const: mediatek,xsphy
+
+mediatek,xsphy alone should not be valid.
+
+> +
+> +  reg:
+> +    description: |
+> +      Register shared by multiple U3 ports, exclude port's private register,
+> +      if only U2 ports provided, shouldn't use the property.
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +      enum: [1, 2]
+> +
+> +  "#size-cells":
+> +      enum: [1, 2]
+> +
+> +  ranges: true
+> +
+> +  mediatek,src-ref-clk-mhz:
+> +    description:
+> +      Frequency of reference clock for slew rate calibrate
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    default: 26
+> +
+> +  mediatek,src-coef:
+> +    description:
+> +      Coefficient for slew rate calibrate, depends on SoC process
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    default: 17
+> +
+> +# Required child node:
+> +patternProperties:
+> +  "^usb-phy@[0-9a-f]+$":
+> +    type: object
+> +    description: |
+> +      A sub-node is required for each port the controller provides.
+> +      Address range information including the usual 'reg' property
+> +      is used inside these nodes to describe the controller's topology.
+> +
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+> +
+> +      clocks:
+> +        items:
+> +          - description: Reference clock, (HS is 48Mhz, SS/P is 24~27Mhz)
+> +
+> +      clock-names:
+> +        items:
+> +          - const: ref
+> +
+> +      "#phy-cells":
+> +        const: 1
+> +        description: |
+> +          The cells contain the following arguments.
+> +
+> +          - description: The PHY type
+> +              enum:
+> +                - PHY_TYPE_USB2
+> +                - PHY_TYPE_USB3
+> +
+> +      #The following optional vendor properties are only for debug or HQA test
+> +      mediatek,eye-src:
+> +        description:
+> +          The value of slew rate calibrate (U2 phy)
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 1
+> +        maximum: 7
+> +
+> +      mediatek,eye-vrt:
+> +        description:
+> +          The selection of VRT reference voltage (U2 phy)
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 1
+> +        maximum: 7
+> +
+> +      mediatek,eye-term:
+> +        description:
+> +          The selection of HS_TX TERM reference voltage (U2 phy)
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 1
+> +        maximum: 7
+> +
+> +      mediatek,efuse-intr:
+> +        description:
+> +          The selection of Internal Resistor (U2/U3 phy)
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 1
+> +        maximum: 63
+> +
+> +      mediatek,efuse-tx-imp:
+> +        description:
+> +          The selection of TX Impedance (U3 phy)
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 1
+> +        maximum: 31
+> +
+> +      mediatek,efuse-rx-imp:
+> +        description:
+> +          The selection of RX Impedance (U3 phy)
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 1
+> +        maximum: 31
+> +
+> +    required:
+> +      - reg
+> +      - clocks
+> +      - clock-names
+> +      - "#phy-cells"
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ranges
+> +
+> +additionalProperties: false
+> +
+> +#Banks layout of xsphy
+> +#-------------------------------------------------------------
+
+Move this to top-level 'description'.
+
+> +#port        offset    bank
+> +#u2 port0    0x0000    MISC
+> +#            0x0100    FMREG
+> +#            0x0300    U2PHY_COM
+> +#u2 port1    0x1000    MISC
+> +#            0x1100    FMREG
+> +#            0x1300    U2PHY_COM
+> +#u2 port2    0x2000    MISC
+> +#            ...
+> +#u31 common  0x3000    DIG_GLB
+> +#            0x3100    PHYA_GLB
+> +#u31 port0   0x3400    DIG_LN_TOP
+> +#            0x3500    DIG_LN_TX0
+> +#            0x3600    DIG_LN_RX0
+> +#            0x3700    DIG_LN_DAIF
+> +#            0x3800    PHYA_LN
+> +#u31 port1   0x3a00    DIG_LN_TOP
+> +#            0x3b00    DIG_LN_TX0
+> +#            0x3c00    DIG_LN_RX0
+> +#            0x3d00    DIG_LN_DAIF
+> +#            0x3e00    PHYA_LN
+> +#            ...
+> +#DIG_GLB & PHYA_GLB are shared by U31 ports.
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/phy/phy.h>
+> +
+> +    u3phy: xs-phy@11c40000 {
+> +        compatible = "mediatek,mt3611-xsphy", "mediatek,xsphy";
+> +        reg = <0x11c43000 0x0200>;
+> +        mediatek,src-ref-clk-mhz = <26>;
+> +        mediatek,src-coef = <17>;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges;
+> +
+> +        u2port0: usb-phy@11c40000 {
+> +            reg = <0x11c40000 0x0400>;
+> +            clocks = <&clk48m>;
+> +            clock-names = "ref";
+> +            mediatek,eye-src = <4>;
+> +            #phy-cells = <1>;
+> +        };
+> +
+> +        u3port0: usb-phy@11c43000 {
+> +            reg = <0x11c43400 0x0500>;
+> +            clocks = <&clk26m>;
+> +            clock-names = "ref";
+> +            mediatek,efuse-intr = <28>;
+> +            #phy-cells = <1>;
+> +        };
+> +    };
+> +
+> +...
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
