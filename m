@@ -1,67 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC4C27C2D1
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 12:53:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5562227C4F8
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 13:25:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76FB989D9A;
-	Tue, 29 Sep 2020 10:53:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62B6E6E02A;
+	Tue, 29 Sep 2020 11:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7CD589D9A
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 10:53:04 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id k15so4816399wrn.10
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 03:53:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=m/8RcwvNRZX4QrC1qgXuNqwd8pHZ5jEfkIMP8FcXGzs=;
- b=jsz6B1+YEp5B8KlbE/d0+3hD+n5mvwweCSSsHXznFq2L+MbyNhnwBbEVTadiV9A8e8
- Hj/4Q37N4gMr3WISbfGAUlxUR7jJYV5BX7k2uQWCUyOolHRZurqdtTKtWu98cbslD4kd
- j3VLPxLK5+IeiS53iuP6Pb2M5x1wuj8Ww0P4c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=m/8RcwvNRZX4QrC1qgXuNqwd8pHZ5jEfkIMP8FcXGzs=;
- b=NY8BoH+H6iTM3eWDCS6q73alR8nWM12ByrrHFqbPF8vgnOx6gaI9cXFNBUQodRT49u
- 32raXAN5UhUsTS8R3rK4zPM7KkZX02GO5QdGodqzCRMisk1KCF9Vsku4H2mafTPU3AlV
- nXyTF+OyDsIL7KBSnWQ+dCsdPU0NFtwDRuksPDu4eBYJ/YBffkfcbKKO0UDBp1pEMiJd
- n3Sq/ZChbw3BkhazDt7I2ctoh0w5lbvNuiy6pAATA0rz5UUAZ4wOQeLbXQJbqSdLWyJq
- lgKcsnr79g5g+vemx9QX8s4S5eETYZopKu8/4X9J7bSgbiTppE0P33TCk/ZMa1pozGZY
- RLAA==
-X-Gm-Message-State: AOAM5328G4ucnxBcb06do3ex3d+IADP4JjMG0HAXlw7s3ZsSvgy+tbnF
- 2Is0oOEolA60vfFQZdqOG3eb2g==
-X-Google-Smtp-Source: ABdhPJzmw2CD/MpLrTQRlDKQtbpWYZdfZO7lS5wPv+xREi43g7gWZnZuZtDrMycOZuDAjAbXvAqStA==
-X-Received: by 2002:a5d:6552:: with SMTP id z18mr3513370wrv.32.1601376783538; 
- Tue, 29 Sep 2020 03:53:03 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l5sm5116546wmf.10.2020.09.29.03.53.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 03:53:02 -0700 (PDT)
-Date: Tue, 29 Sep 2020 12:53:00 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 4/4] drm/qxl: use qxl pin function
-Message-ID: <20200929105300.GM438822@phenom.ffwll.local>
-Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, 
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20200929095115.24430-1-kraxel@redhat.com>
- <20200929095115.24430-5-kraxel@redhat.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DCA16E02A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:24:59 +0000 (UTC)
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E15F223B08;
+ Tue, 29 Sep 2020 11:24:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601378698;
+ bh=wwxPIW8PGdGdxTKdVdZAuckgVmVs/j536c8TrmjKENM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=pPpUOzU4PagDWEYhMe51zGBRuMy6p/0TwTYBIi3O/9WKWm0Kh7k9iS5G7v/3E6Tp9
+ TkTgAmYXavigxkVTC9xEijtAVCtJ7WiWIT/8qALcIuC4Jyyhk4tDU1QbR+J2jxA5H6
+ ShtC8VO11+9QIueJ6E/EwOPp8ZI4HPO13FyLJtG8=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 4.19 077/245] drm/omap: fix possible object reference leak
+Date: Tue, 29 Sep 2020 12:58:48 +0200
+Message-Id: <20200929105950.748689883@linuxfoundation.org>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200929105946.978650816@linuxfoundation.org>
+References: <20200929105946.978650816@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200929095115.24430-5-kraxel@redhat.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,59 +46,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Huang Rui <ray.huang@amd.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mukesh Ojha <mojha@codeaurora.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>, stable@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Markus Elfring <Markus.Elfring@web.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Wen Yang <wen.yang99@zte.com.cn>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 29, 2020 at 11:51:15AM +0200, Gerd Hoffmann wrote:
-> Otherwise ttm throws a WARN because we try to pin without a reservation.
-> 
-> Fixes: 9d36d4320462 ("drm/qxl: switch over to the new pin interface")
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  drivers/gpu/drm/qxl/qxl_object.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
-> index d3635e3e3267..eb45267d51db 100644
-> --- a/drivers/gpu/drm/qxl/qxl_object.c
-> +++ b/drivers/gpu/drm/qxl/qxl_object.c
-> @@ -145,7 +145,7 @@ int qxl_bo_create(struct qxl_device *qdev,
->  		return r;
->  	}
->  	if (pinned)
-> -		ttm_bo_pin(&bo->tbo);
-> +		qxl_bo_pin(bo);
+From: Wen Yang <wen.yang99@zte.com.cn>
 
-I think this is now after ttm_bo_init, and at that point the object is
-visible to lru users and everything. So I do think you need to grab locks
-here instead of just incrementing the pin count alone.
+[ Upstream commit 47340e46f34a3b1d80e40b43ae3d7a8da34a3541 ]
 
-It's also I think a bit racy, since ttm_bo_init drops the lock, so someone
-might have snuck in and evicted the object already.
+The call to of_find_matching_node returns a node pointer with refcount
+incremented thus it must be explicitly decremented after the last
+usage.
 
-I think what you need is to call ttm_bo_init_reserved, then ttm_bo_pin,
-then ttm_bo_unreserve, all explicitly.
--Daniel
+Detected by coccinelle with the following warnings:
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:212:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
+drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c:237:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 209, but without a corresponding object release within this function.
 
->  	*bo_ptr = bo;
->  	return 0;
->  }
-> -- 
-> 2.27.0
-> 
+Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Markus Elfring <Markus.Elfring@web.de>
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/1554692313-28882-2-git-send-email-wen.yang99@zte.com.cn
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+index 3bfb95d230e0e..d8fb686c1fda9 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+@@ -193,7 +193,7 @@ static int __init omapdss_boot_init(void)
+ 	dss = of_find_matching_node(NULL, omapdss_of_match);
+ 
+ 	if (dss == NULL || !of_device_is_available(dss))
+-		return 0;
++		goto put_node;
+ 
+ 	omapdss_walk_device(dss, true);
+ 
+@@ -218,6 +218,8 @@ static int __init omapdss_boot_init(void)
+ 		kfree(n);
+ 	}
+ 
++put_node:
++	of_node_put(dss);
+ 	return 0;
+ }
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
