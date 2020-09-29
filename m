@@ -1,61 +1,115 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1E927C0EA
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 11:20:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A933727C107
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 11:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 709BB89AC3;
-	Tue, 29 Sep 2020 09:20:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 563F26E197;
+	Tue, 29 Sep 2020 09:25:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 872BF89AC3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 09:20:24 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id e11so6181352wme.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 02:20:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=QRVOF0L5GZzwu3hgirsVltyMEdDiTxCLh3zNH2kUe0M=;
- b=WlY+VE38GCsiX5YjCcBus2VTzg+pPKt3wks0ETfX0WguGFMQ+kKQFbBo2c9h2frL1H
- jPrw6kZCjEnRQqllA5qAk0wb530s/484Qe8fGYFiiMGyPKcOt2PQX0F5tnhi0zxxSNxN
- CDK+pQZqiQVLBE4EzrgIGTO8BWP3U+nYlMPPA=
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE746E197
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 09:25:21 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id s12so4497459wrw.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 02:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=y3xolV07ydwiw9pUIR05O0Dg9ONWaFEj7NSliXEkK4k=;
+ b=09LRUYPf5E3HT1ePfqHdRNpFuhMBuHfzWoqQUrGt72jvG43leqeYwggHXQjbzZE2A0
+ I5lzoUN3tsKq3YrPdhOFdpIisJ0Z9FWuqEyHKn4A7uJDRW8z9eC3wR7coTScxPghduL0
+ J8XqR3zHsafTLvoQR0tjEbzBGstCy8r2am45QBrCuij8PdOqqo13E5bsxEn5Ymzb8hYO
+ oXbWRPuYJSFl7SB3NU5Y6gu2rLq0rP9byYVMqVtaESS39smsCzOmaPYHjdK3L3R3Bl5B
+ Vy+3FFX5t4BEYfzLOW52oZ1u7sH4MIAqN/wBzkxBH4NR3hjL5sw9N11b54X5t9qBsb4y
+ A/oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=QRVOF0L5GZzwu3hgirsVltyMEdDiTxCLh3zNH2kUe0M=;
- b=UorZgRwNDCxShoS0sx08ugtWnt2gAR+SNp3Ls0938mUWs8Hs8tx0iA1kAc/MgOjm2l
- 54V5BPjojvdsMPaYp+jPQqpCYOk4pgg9awTJ3tpORanXal5eOWJtgogZHHgms4qGLOLF
- pdJKtRa8yBWeK2cGza1VfSpfVtRKX+P1Yh3zasmvnv2+bZaOcCWgjbLsMqWSmIROaA10
- S6jLH5JWXDy/TuceDDzCXvgvYe1avZM2p2deJklSlEywf7P5gLB9dMefX8lUMzhsD1Ra
- zQ3PtXbkGstvXl9K40ifpduUlrkvGTZjZM+vzko5C9IEJFZG5blT/TiBZRTIpTGsaCWY
- jSrA==
-X-Gm-Message-State: AOAM530XVaIKcYwniU9iVIb2xsX1XFCQKdBSOPq6G/Z0JX3SDAf8tVBu
- fsLInqmbTw6MJZvJM4Pn5XWR2g==
-X-Google-Smtp-Source: ABdhPJxxsE7fGph/lmVJIQVvUGoM/wS6a14xEPhH2hYhrdbSfj6RowIr726bAILVvUxquoUw2d00cw==
-X-Received: by 2002:a1c:7d55:: with SMTP id y82mr3487650wmc.100.1601371223097; 
- Tue, 29 Sep 2020 02:20:23 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w15sm5351419wro.46.2020.09.29.02.20.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 02:20:22 -0700 (PDT)
-Date: Tue, 29 Sep 2020 11:20:20 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 8/9] drm: Add infrastructure for platform devices
-Message-ID: <20200929092020.GK438822@phenom.ffwll.local>
-References: <20200625120011.16168-1-tzimmermann@suse.de>
- <20200625120011.16168-9-tzimmermann@suse.de>
- <20200629092741.GR3278063@phenom.ffwll.local>
- <e3eb13e0-a1a6-69ef-f615-ebec21f326af@suse.de>
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=y3xolV07ydwiw9pUIR05O0Dg9ONWaFEj7NSliXEkK4k=;
+ b=b/pgV9WgGdnq30vyWAyt8D3XDJzbCZiLVcl/f1C1tKtxfpAGc5In+0mCvoOrWS7DSy
+ gn7PIOWQq9tsNGXH8D8XOLBiZKoRAUD1GK4D6SzVAmBsyaa14XK8+ldU93DJfvYCkjzq
+ 8lcpSv16weUF85bOf0BI9aPVvqz1S9g2UBfbA4wa/sdfwWHIeJSw75dKdtCj+u+FOyzz
+ GXlvHCdmVoj24NdOEgiIS2+nhCPs+A2m+2lRsYzeIlEORglv81k60/HqGjIYAObvUldn
+ gGmGZfoEOUs/QqjN/26mKphQ2alriczpllIXJKLRrIJj3d68LCfyRIrdBWRkHAeB+C+z
+ WEiw==
+X-Gm-Message-State: AOAM531w4kpfshRp3HjskA2DGfSpzjFp2Gd7mBYR8oot4oTBRO8YdqTH
+ vomwnjkHpEwlSGlqXnRlZUde3g==
+X-Google-Smtp-Source: ABdhPJywsO6BQatT62evnpEoaM/A8pOnCNGKmgU7+YSJiK4b0Bfq8OxEhegzFOq1ZHMLDX/5zZSB8A==
+X-Received: by 2002:adf:e802:: with SMTP id o2mr3097872wrm.309.1601371519895; 
+ Tue, 29 Sep 2020 02:25:19 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:d50c:1ee4:fec5:ad12?
+ ([2a01:e35:2ec0:82b0:d50c:1ee4:fec5:ad12])
+ by smtp.gmail.com with ESMTPSA id y68sm4800251wmd.39.2020.09.29.02.25.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Sep 2020 02:25:18 -0700 (PDT)
+Subject: Re: [PATCH v4 0/4] drm: panel: add support for TDO tl070wsh30 panel
+To: thierry.reding@gmail.com, sam@ravnborg.org
+References: <20200915121912.4347-1-narmstrong@baylibre.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <9f720791-2718-205f-d101-0811a679f54e@baylibre.com>
+Date: Tue, 29 Sep 2020 11:25:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e3eb13e0-a1a6-69ef-f615-ebec21f326af@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20200915121912.4347-1-narmstrong@baylibre.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,383 +122,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: geert+renesas@glider.be, airlied@linux.ie, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 29, 2020 at 10:59:10AM +0200, Thomas Zimmermann wrote:
-> Hi
-> =
-
-> Am 29.06.20 um 11:27 schrieb Daniel Vetter:
-> > On Thu, Jun 25, 2020 at 02:00:10PM +0200, Thomas Zimmermann wrote:
-> >> Platform devices might operate on firmware framebuffers, such as VESA =
-or
-> >> EFI. Before a native driver for the graphics hardware can take over the
-> >> device, it has to remove any platform driver that operates on the firm=
-ware
-> >> framebuffer. Platform helpers provide the infrastructure for platform
-> >> drivers to acquire firmware framebuffers, and for native drivers to re=
-move
-> >> them lateron.
-> >>
-> >> It works similar to the related fbdev mechanism. During initialization=
-, the
-> >> platform driver acquires the firmware framebuffer's I/O memory and pro=
-vides
-> >> a callback to be removed. The native driver later uses this inforamtio=
-n to
-> >> remove any platform driver for it's framebuffer I/O memory.
-> >>
-> >> The platform helper's removal code is integrated into the existing cod=
-e for
-> >> removing conflicting fraembuffers, so native drivers use it automatica=
-lly.
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > =
-
-> > I have some ideas for how to do this a notch cleaner in the next patch.
-> > Maybe best to discuss the actual implmenentation stuff there.
-> > =
-
-> > Aside from that usual nits:
-> > - kerneldoc for these please, pulled into drm-kms.rst.
-> =
-
-> Any specific reason for drm-kms?
-> =
-
-> The aperture helpers are used to manage ownership of memory and most
-> drivers begin with drm_fb_helper_remove_conflicting_framebuffers(). It
-> seems more approprite to put this into drm-internals as part of the
-> driver initialization.
-
-Simple because the only reason you might want to use this is for display.
-In no other case do we load a firmware driver to make hw semi-useable.
-Putting it where people might look for it and all that.
--Daniel
-
-> =
-
-> Best regards
-> Thomas
-> =
-
-> > - naming isn't super ocd with drm_platform.c but that prefix not used, =
-but
-> >   I also don't have better ideas.
-> > - I think the functions from drm_fb_helper.h for removing other
-> >   framebuffers should be moved here, and function name prefix adjusted
-> >   acoordingly
-> > =
-
-> > I'm wondering about the locking and deadlock potential here, is lockdep
-> > all happy with this?
-> > =
-
-> > Cheers, Daniel
-> > =
-
-> >> ---
-> >>  drivers/gpu/drm/Kconfig        |   6 ++
-> >>  drivers/gpu/drm/Makefile       |   1 +
-> >>  drivers/gpu/drm/drm_platform.c | 118 +++++++++++++++++++++++++++++++++
-> >>  include/drm/drm_fb_helper.h    |  18 ++++-
-> >>  include/drm/drm_platform.h     |  42 ++++++++++++
-> >>  5 files changed, 184 insertions(+), 1 deletion(-)
-> >>  create mode 100644 drivers/gpu/drm/drm_platform.c
-> >>  create mode 100644 include/drm/drm_platform.h
-> >>
-> >> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> >> index c4fd57d8b717..e9d6892f9d38 100644
-> >> --- a/drivers/gpu/drm/Kconfig
-> >> +++ b/drivers/gpu/drm/Kconfig
-> >> @@ -229,6 +229,12 @@ config DRM_SCHED
-> >>  	tristate
-> >>  	depends on DRM
-> >>  =
-
-> >> +config DRM_PLATFORM_HELPER
-> >> +	bool
-> >> +	depends on DRM
-> >> +	help
-> >> +	  Helpers for DRM platform devices
-> >> +
-> >>  source "drivers/gpu/drm/i2c/Kconfig"
-> >>  =
-
-> >>  source "drivers/gpu/drm/arm/Kconfig"
-> >> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> >> index 2c0e5a7e5953..8ceb21d0770a 100644
-> >> --- a/drivers/gpu/drm/Makefile
-> >> +++ b/drivers/gpu/drm/Makefile
-> >> @@ -32,6 +32,7 @@ drm-$(CONFIG_AGP) +=3D drm_agpsupport.o
-> >>  drm-$(CONFIG_PCI) +=3D drm_pci.o
-> >>  drm-$(CONFIG_DEBUG_FS) +=3D drm_debugfs.o drm_debugfs_crc.o
-> >>  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) +=3D drm_edid_load.o
-> >> +drm-$(CONFIG_DRM_PLATFORM_HELPER) +=3D drm_platform.o
-> >>  =
-
-> >>  drm_vram_helper-y :=3D drm_gem_vram_helper.o
-> >>  obj-$(CONFIG_DRM_VRAM_HELPER) +=3D drm_vram_helper.o
-> >> diff --git a/drivers/gpu/drm/drm_platform.c b/drivers/gpu/drm/drm_plat=
-form.c
-> >> new file mode 100644
-> >> index 000000000000..09a2f2a31aa5
-> >> --- /dev/null
-> >> +++ b/drivers/gpu/drm/drm_platform.c
-> >> @@ -0,0 +1,118 @@
-> >> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> >> +
-> >> +#include <linux/mutex.h>
-> >> +#include <linux/slab.h>
-> >> +
-> >> +#include <drm/drm_drv.h>
-> >> +#include <drm/drm_managed.h>
-> >> +#include <drm/drm_platform.h>
-> >> +
-> >> +static LIST_HEAD(drm_apertures);
-> >> +
-> >> +static DEFINE_MUTEX(drm_apertures_lock);
-> >> +
-> >> +static bool overlap(resource_size_t base1, resource_size_t end1,
-> >> +		    resource_size_t base2, resource_size_t end2)
-> >> +{
-> >> +	return (base1 < end2) && (end1 > base2);
-> >> +}
-> >> +
-> >> +static struct drm_aperture *
-> >> +drm_aperture_acquire(struct drm_device *dev,
-> >> +		     resource_size_t base, resource_size_t size,
-> >> +		     const struct drm_aperture_funcs *funcs)
-> >> +{
-> >> +	size_t end =3D base + size;
-> >> +	struct list_head *pos;
-> >> +	struct drm_aperture *ap;
-> >> +
-> >> +	mutex_lock(&drm_apertures_lock);
-> >> +
-> >> +	list_for_each(pos, &drm_apertures) {
-> >> +		ap =3D container_of(pos, struct drm_aperture, lh);
-> >> +		if (overlap(base, end, ap->base, ap->base + ap->size))
-> >> +			return ERR_PTR(-EBUSY);
-> >> +	}
-> >> +
-> >> +	ap =3D drmm_kzalloc(dev, sizeof(*ap), GFP_KERNEL);
-> >> +	if (!ap)
-> >> +		return ERR_PTR(-ENOMEM);
-> >> +
-> >> +	ap->dev =3D dev;
-> >> +	ap->base =3D base;
-> >> +	ap->size =3D size;
-> >> +	ap->funcs =3D funcs;
-> >> +	INIT_LIST_HEAD(&ap->lh);
-> >> +
-> >> +	list_add(&ap->lh, &drm_apertures);
-> >> +
-> >> +	mutex_unlock(&drm_apertures_lock);
-> >> +
-> >> +	return ap;
-> >> +}
-> >> +
-> >> +static void drm_aperture_release(struct drm_aperture *ap)
-> >> +{
-> >> +	bool kicked_out =3D ap->kicked_out;
-> >> +
-> >> +	if (!kicked_out)
-> >> +		mutex_lock(&drm_apertures_lock);
-> >> +
-> >> +	list_del(&ap->lh);
-> >> +	if (ap->funcs->release)
-> >> +		ap->funcs->release(ap);
-> >> +
-> >> +	if (!kicked_out)
-> >> +		mutex_unlock(&drm_apertures_lock);
-> >> +}
-> >> +
-> >> +static void drm_aperture_acquire_release(struct drm_device *dev, void=
- *ptr)
-> >> +{
-> >> +	struct drm_aperture *ap =3D ptr;
-> >> +
-> >> +	drm_aperture_release(ap);
-> >> +}
-> >> +
-> >> +struct drm_aperture *
-> >> +drmm_aperture_acquire(struct drm_device *dev,
-> >> +		      resource_size_t base, resource_size_t size,
-> >> +		      const struct drm_aperture_funcs *funcs)
-> >> +{
-> >> +	struct drm_aperture *ap;
-> >> +	int ret;
-> >> +
-> >> +	ap =3D drm_aperture_acquire(dev, base, size, funcs);
-> >> +	if (IS_ERR(ap))
-> >> +		return ap;
-> >> +	ret =3D drmm_add_action_or_reset(dev, drm_aperture_acquire_release, =
-ap);
-> >> +	if (ret)
-> >> +		return ERR_PTR(ret);
-> >> +
-> >> +	return ap;
-> >> +}
-> >> +EXPORT_SYMBOL(drmm_aperture_acquire);
-> >> +
-> >> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t s=
-ize)
-> >> +{
-> >> +	resource_size_t end =3D base + size;
-> >> +	struct list_head *pos, *n;
-> >> +
-> >> +	mutex_lock(&drm_apertures_lock);
-> >> +
-> >> +	list_for_each_safe(pos, n, &drm_apertures) {
-> >> +		struct drm_aperture *ap =3D
-> >> +			container_of(pos, struct drm_aperture, lh);
-> >> +
-> >> +		if (!overlap(base, end, ap->base, ap->base + ap->size))
-> >> +			continue;
-> >> +
-> >> +		ap->kicked_out =3D true;
-> >> +		if (ap->funcs->kickout)
-> >> +			ap->funcs->kickout(ap);
-> >> +		else
-> >> +			drm_dev_put(ap->dev);
-> >> +	}
-> >> +
-> >> +	mutex_unlock(&drm_apertures_lock);
-> >> +}
-> >> +EXPORT_SYMBOL(drm_kickout_apertures_at);
-> >> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-> >> index 306aa3a60be9..a919b78b1961 100644
-> >> --- a/include/drm/drm_fb_helper.h
-> >> +++ b/include/drm/drm_fb_helper.h
-> >> @@ -35,7 +35,9 @@ struct drm_fb_helper;
-> >>  #include <drm/drm_client.h>
-> >>  #include <drm/drm_crtc.h>
-> >>  #include <drm/drm_device.h>
-> >> +#include <drm/drm_platform.h>
-> >>  #include <linux/kgdb.h>
-> >> +#include <linux/pci.h>
-> >>  #include <linux/vgaarb.h>
-> >>  =
-
-> >>  enum mode_set_atomic {
-> >> @@ -465,6 +467,11 @@ static inline int
-> >>  drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct=
- *a,
-> >>  					      const char *name, bool primary)
-> >>  {
-> >> +	int i;
-> >> +
-> >> +	for (i =3D 0; i < a->count; ++i)
-> >> +		drm_kickout_apertures_at(a->ranges[i].base, a->ranges[i].size);
-> >> +
-> >>  #if IS_REACHABLE(CONFIG_FB)
-> >>  	return remove_conflicting_framebuffers(a, name, primary);
-> >>  #else
-> >> @@ -487,7 +494,16 @@ static inline int
-> >>  drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pde=
-v,
-> >>  						  const char *name)
-> >>  {
-> >> -	int ret =3D 0;
-> >> +	resource_size_t base, size;
-> >> +	int bar, ret =3D 0;
-> >> +
-> >> +	for (bar =3D 0; bar < PCI_STD_NUM_BARS; bar++) {
-> >> +		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-> >> +			continue;
-> >> +		base =3D pci_resource_start(pdev, bar);
-> >> +		size =3D pci_resource_len(pdev, bar);
-> >> +		drm_kickout_apertures_at(base, size);
-> >> +	}
-> >>  =
-
-> >>  	/*
-> >>  	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
-> >> diff --git a/include/drm/drm_platform.h b/include/drm/drm_platform.h
-> >> new file mode 100644
-> >> index 000000000000..475e88ee1fbd
-> >> --- /dev/null
-> >> +++ b/include/drm/drm_platform.h
-> >> @@ -0,0 +1,42 @@
-> >> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> >> +
-> >> +#ifndef _DRM_PLATFORM_H_
-> >> +#define _DRM_PLATFORM_H_
-> >> +
-> >> +#include <linux/list.h>
-> >> +#include <linux/types.h>
-> >> +
-> >> +struct drm_aperture;
-> >> +struct drm_device;
-> >> +
-> >> +struct drm_aperture_funcs {
-> >> +	void (*kickout)(struct drm_aperture *ap);
-> >> +	void (*release)(struct drm_aperture *ap);
-> >> +};
-> >> +
-> >> +struct drm_aperture {
-> >> +	struct drm_device *dev;
-> >> +	resource_size_t base;
-> >> +	resource_size_t size;
-> >> +
-> >> +	const struct drm_aperture_funcs *funcs;
-> >> +
-> >> +	struct list_head lh;
-> >> +	bool kicked_out;
-> >> +};
-> >> +
-> >> +struct drm_aperture *
-> >> +drmm_aperture_acquire(struct drm_device *dev,
-> >> +		      resource_size_t base, resource_size_t size,
-> >> +		      const struct drm_aperture_funcs *funcs);
-> >> +
-> >> +#if defined (CONFIG_DRM_PLATFORM_HELPER)
-> >> +void drm_kickout_apertures_at(resource_size_t base, resource_size_t s=
-ize);
-> >> +#else
-> >> +static inline void
-> >> +drm_kickout_apertures_at(resource_size_t base, resource_size_t size)
-> >> +{
-> >> +}
-> >> +#endif
-> >> +
-> >> +#endif
-> >> -- =
-
-> >> 2.27.0
-> >>
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgU2FtLAoKSXMgdGhlcmUgYW55dGhpbmcgbW9yZSB0byBjaGFuZ2UgPwoKVGhhbmtzLApOZWls
+CgpPbiAxNS8wOS8yMDIwIDE0OjE5LCBOZWlsIEFybXN0cm9uZyB3cm90ZToKPiBUaGlzIGFkZHMg
+c3VwcG9ydCBiaW5kaW5ncyBhbmQgc3VwcG9ydCBmb3IgdGhlIFRETyBUTDA3MFdTSDMwIFRGVC1M
+Q0QgcGFuZWwKPiBtb2R1bGUgc2hpcHBlZCB3aXRoIHRoZSBBbWxvZ2ljIFM0MDAgRGV2ZWxvcG1l
+bnQgS2l0Lgo+IFRoZSBwYW5lbCBoYXMgYSAxMDI0w5c2MDAgcmVzb2x1dGlvbiBhbmQgdXNlcyAy
+NCBiaXQgUkdCIHBlciBwaXhlbC4KPiBJdCBwcm92aWRlcyBhIE1JUEkgRFNJIGludGVyZmFjZSB0
+byB0aGUgaG9zdCwgYSBidWlsdC1pbiBMRUQgYmFja2xpZ2h0Cj4gYW5kIHRvdWNoIGNvbnRyb2xs
+ZXIuCj4gCj4gQ2hhbmdlcyBzaW5jZSB2MyBhdCBbM106Cj4gLSByZW9yZGVyZWQgdGRvIHZlbmRv
+ciBwcmVmaXgKPiAKPiBDaGFuZ2VzIHNpbmNlIHYyIGF0IFsyXToKPiAtIGFkZGVkIHJlc2V0IGdw
+aW8gdG8gcGFuZWwtc2ltcGxlLWRzaSBiaW5kaW5ncwo+IC0gbW92ZWQgYmluZGluZ3MgdG8gcGFu
+ZWwtc2ltcGxlCj4gLSByZS1vcmRlcmVkIHByZXBhcmUvdW5wcmVwYXJlCj4gLSBhZGRlZCBiYWNr
+IHJlZnJlc2ggcHJpbnQKPiAtIG1vdmVkIHJlZ3VsYXRvci9yZXNldCBoYW5kbGluZyBpbiBwcmVw
+YXJlL3VucHJlcGFyZQo+IC0gYWxpZ25lZCByZW1vdmUvc2h1dGRvd24gd2l0aCBwYW5lbC1zaW1w
+bGUKPiAtIGFkZGVkIHNlbnRpbmVsIGNvbW1lbnQgaW50byBkdCBtYXRjaCB0YWJsZQo+IAo+IENo
+YW5nZXMgc2luY2UgdjEgYXQgWzFdOgo+IC0gYWRkZWQgbWlzc2luZyB2ZW5kb3ItcHJlZml4ZXMg
+cGF0Y2gKPiAtIHJlbW92ZWQgdnJlZnJlc2gKPiAtIGZpeGVkIHdhcm5pbmcgb24gYWRkX3BhbmVs
+IHJldHVybgo+IC0gcmVtb3ZlZCBEUk0gbG9nZ2luZwo+IAo+IFsxXSBodHRwczovL3BhdGNod29y
+ay5mcmVlZGVza3RvcC5vcmcvc2VyaWVzLzgxMzc2LyNyZXYxCj4gWzJdIGh0dHBzOi8vcGF0Y2h3
+b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvODEzNzYvI3JldjIKPiBbM10gaHR0cHM6Ly9wYXRj
+aHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy84MTM3Ni8jcmV2Mwo+IAo+IE5laWwgQXJtc3Ry
+b25nICg0KToKPiAgIGR0LWJpbmRpbmdzOiB2ZW5kb3ItcHJlZml4ZXM6IEFkZCBTaGFuZ2hhaSBU
+b3AgRGlzcGxheQo+ICAgICBPcHRvbGVsZWN0cm9uaWNzIHZlbmRvciBwcmVmaXgKPiAgIGR0LWJp
+bmRpbmdzOiBkaXNwbGF5OiBwYW5lbC1zaW1wbGUtZHNpOiBhZGQgb3B0aW9uYWwgcmVzZXQgZ3Bp
+bwo+ICAgZHQtYmluZGluZ3M6IGRpc3BsYXk6IHBhbmVsLXNpbXBsZS1kc2k6IGFkZCBURE8gVEww
+NzBXU0gzMCBEU0kgcGFuZWwKPiAgICAgYmluZGluZ3MKPiAgIGRybTogcGFuZWw6IGFkZCBURE8g
+dGwwNzB3c2gzMCBwYW5lbCBkcml2ZXIKPiAKPiAgLi4uL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2lt
+cGxlLWRzaS55YW1sICAgICAgIHwgICAzICsKPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvdmVu
+ZG9yLXByZWZpeGVzLnlhbWwgIHwgICAyICsKPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL0tjb25m
+aWcgICAgICAgICAgICAgICAgIHwgIDExICsKPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL01ha2Vm
+aWxlICAgICAgICAgICAgICAgIHwgICAxICsKPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVs
+LXRkby10bDA3MHdzaDMwLmMgIHwgMjUwICsrKysrKysrKysrKysrKysrKwo+ICA1IGZpbGVzIGNo
+YW5nZWQsIDI2NyBpbnNlcnRpb25zKCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
+dS9kcm0vcGFuZWwvcGFuZWwtdGRvLXRsMDcwd3NoMzAuYwo+IAoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
