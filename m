@@ -1,50 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8B527D9C6
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 23:11:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9553F27DB24
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 23:53:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C43E6E1EC;
-	Tue, 29 Sep 2020 21:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3929B6E02C;
+	Tue, 29 Sep 2020 21:53:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A77C26E1EC;
- Tue, 29 Sep 2020 21:11:53 +0000 (UTC)
-IronPort-SDR: vkgce8qWYsediiJesM3dtGqedF0rR+0wdI7w5ktGlH9k8Y+N1EycWlst3EVuwwyaYixBrG13VG
- b7plSznmvKgQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="247021694"
-X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; d="scan'208";a="247021694"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2020 14:11:53 -0700
-IronPort-SDR: jWa+6osF7t7buvmXJEmL1EyMaCgRd+lglNeUdQMrDEQyVZlBI2JyXo5pJvp00X4S0+cE3JLYy6
- j0JSPa+LTMow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,319,1596524400"; d="scan'208";a="345408105"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga002.fm.intel.com with SMTP; 29 Sep 2020 14:11:48 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 30 Sep 2020 00:11:48 +0300
-Date: Wed, 30 Sep 2020 00:11:48 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
-Message-ID: <20200929211148.GJ6112@intel.com>
-References: <20200929121127.254086-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
- <d235e6f34182e327d8bb46383f6c3ef518b5fc23.camel@intel.com>
- <20200929200201.GH6112@intel.com>
- <a4a075597c7d3e65b25598ab696a59eccbd2a069.camel@intel.com>
- <20200929203022.GI6112@intel.com>
- <20200929210144.GA2214475@mdroper-desk1.amr.corp.intel.com>
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5DD6E02C
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 21:53:37 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id v14so3482089pjd.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 14:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aHD+j0Y0rt0NDZv/oo+Hw1Lw3QhA5q1ZuMXf1xNG2m4=;
+ b=AzCD8a2LMXLt44NFy8IvG35bzW4N+fZxm1b+zbq+Opzl2IHNqCO8fonKdudH/4RPUN
+ y+XvOj3mMxNlk0L0mPLBAiT8tZttiqfNwQpageqNUKZug7glXXIWM4/YEYo5QRqD5oQK
+ 3OjUV0HUgqmUUcCVgml1bwwjkS/aDLFHYtXk8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aHD+j0Y0rt0NDZv/oo+Hw1Lw3QhA5q1ZuMXf1xNG2m4=;
+ b=Qy+d+zKZhlhlC2hTOp/p1wgly2TFV+3LEMgP8tUhccTXgPRZGlNAfa1Q5LvX5r3XOF
+ j/XQu2dlx8e0C9bsziG5MNuEAPpWgjVDbVq6ZQa05yM/2Hzd06ZVj01Ld1GzxHNfceaQ
+ iMLLIhn/1sl0IqGf0ghaPDQdoAvqED22YJG8Yrm8noLJMiSkrv7mZisk0u6FSdwfpAwY
+ eagEmWGxZmhEhmZpXOkekaWkJrcmw3J1pui3ISw6TI2XttPxA1BgH5J6OGZA6Pg7Q5Pw
+ WkGLvlfJ65VUOjkj0aY38s8NruHsOBh//YdRJf9d4XNjppggwpmXa8LIt0SRUjxS/Lh/
+ dOlg==
+X-Gm-Message-State: AOAM532FGrZsuawU8IZZRuuRgklQ2YJcqG6JfNwzZGoJ9F63nVLCiyWP
+ 17V3CocjmgVt2NaBjpwK9wF8p8uTDppuiA==
+X-Google-Smtp-Source: ABdhPJyDz2qVZbaO/OHjKyaOIWjFxDBsmW/WfBRaKFAlSOKxUzMpAa+w3Krgcy+Bu80L+9czo3hG5A==
+X-Received: by 2002:a17:90b:3241:: with SMTP id
+ jy1mr5748441pjb.10.1601416417215; 
+ Tue, 29 Sep 2020 14:53:37 -0700 (PDT)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
+ by smtp.gmail.com with ESMTPSA id f18sm7008039pfe.153.2020.09.29.14.53.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 14:53:36 -0700 (PDT)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] virtio-gpu api: fix 64/32 compat issue with blob
+ implementation
+Date: Tue, 29 Sep 2020 14:53:33 -0700
+Message-Id: <20200929215333.1241-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200929210144.GA2214475@mdroper-desk1.amr.corp.intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,77 +64,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pandey, Hariom" <hariom.pandey@intel.com>, "Ausmus,
- James" <james.ausmus@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Souza,
- Jose" <jose.souza@intel.com>, "Surendrakumar Upadhyay,
- TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Alistair Delva <adelva@google.com>, kraxel@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 29, 2020 at 02:01:44PM -0700, Matt Roper wrote:
-> On Tue, Sep 29, 2020 at 11:30:22PM +0300, Ville Syrj=E4l=E4 wrote:
-> > On Tue, Sep 29, 2020 at 08:20:22PM +0000, Souza, Jose wrote:
-> > > On Tue, 2020-09-29 at 23:02 +0300, Ville Syrj=E4l=E4 wrote:
-> > > > On Tue, Sep 29, 2020 at 07:33:45PM +0000, Souza, Jose wrote:
-> > > > > On Tue, 2020-09-29 at 17:41 +0530, Tejas Upadhyay wrote:
-> > > > > > JSL has update in vswing table for eDP
-> > > > > =
+From: Alistair Delva <adelva@google.com>
 
-> > > > > Would be nice to mention in the commit description why PCH is bei=
-ng used, that would avoid Ville's question.
-> > > > =
+We encountered this issue when booting blob with a 32-bit kernel.
+The implementation doesn't match v6 of the virtio-spec change, so fix
+this.
 
-> > > > If the thing has nothing to do PCH then it should not use the PCH t=
-ype
-> > > > for the the check. Instead we should just do the EHL/JSL split.
-> > > =
+Fixes: ff886cbdcc44 ("virtio-gpu api: blob resources")
+Signed-off-by: Alistair Delva <adelva@google.com>
+---
+ include/uapi/linux/virtio_gpu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > > In the first version Matt Roper suggested to use PCH to differentiate=
- between EHL and JSL, Jani also agreed with this solution.This 2 PCHs can o=
-nly be
-> > > associate with EHL and JSL respectively, so no downsides here.
-> > =
+diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
+index fa2ae4a1da5f9..0ec6b610402cb 100644
+--- a/include/uapi/linux/virtio_gpu.h
++++ b/include/uapi/linux/virtio_gpu.h
+@@ -388,9 +388,9 @@ struct virtio_gpu_resource_create_blob {
+ 	/* zero is invalid blob mem */
+ 	__le32 blob_mem;
+ 	__le32 blob_flags;
++	__le32 nr_entries;
+ 	__le64 blob_id;
+ 	__le64 size;
+-	__le32 nr_entries;
+ 	/*
+ 	 * sizeof(nr_entries * virtio_gpu_mem_entry) bytes follow
+ 	 */
+-- 
+2.26.2
 
-> > The downside is that the code makes no sense on the first glance.
-> > It's going to generate a "wtf?" exception in the brain and require
-> > me to take a second look to figure what is going on. Exception
-> > handling is expensive and shouldn't be needed in cases where it's
-> > trivial to make the code 100% obvious.
-> =
-
-> The bspec documents EHL and JSL as being the same platform and identical
-> in all programming since they are literally the same display IP; this
-> vswing table is the one and only place where the two are treated in a
-> distinct manner for reasons that lie outside the display controller.  If
-> you had to stop and take a closer look at the code here, that's a
-> probably a good thing since in general there should generally never be a
-> difference in the behavior between the two.  Adding an additional
-> clarifying comment is probably in order too since this is a very
-> exceptional special case.
-> =
-
-> If we deviate from the bspec's guidance and try to split IS_ELKHARTLAKE
-> and IS_JASPERLAKE across the whole driver, that's going to be a lot more
-> pain to maintain down the road since we'll almost certainly have cases
-> where someone silently leaves one or the other off a condition and gets
-> unexepcted behavior.  I could see arguments for using a SUBPLATFORM here
-> like we do for TGL_U vs TGL_Y, but even that seems like overkill if we
-> already have a clear way to distinguish the two cases (PCH pairing) and
-> can just leave a clarifying comment.
-
-That fixed PCH pairing is totally undocumented AFAICS. And vswing has
-nothing to do with the south display, so the wtf will still happen.
-Comment or no comment.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
