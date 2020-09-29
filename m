@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5562227C4F8
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 13:25:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33E927C495
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 13:15:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62B6E6E02A;
-	Tue, 29 Sep 2020 11:25:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B5689CAC;
+	Tue, 29 Sep 2020 11:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DCA16E02A
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:24:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A22989CAC
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:15:06 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E15F223B08;
- Tue, 29 Sep 2020 11:24:57 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8B46F206A5;
+ Tue, 29 Sep 2020 11:15:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601378698;
- bh=wwxPIW8PGdGdxTKdVdZAuckgVmVs/j536c8TrmjKENM=;
+ s=default; t=1601378106;
+ bh=Bdw4Gf/zbgtoli5Jc54jGiAIGVO/73hzkRJdC83mhYc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pPpUOzU4PagDWEYhMe51zGBRuMy6p/0TwTYBIi3O/9WKWm0Kh7k9iS5G7v/3E6Tp9
- TkTgAmYXavigxkVTC9xEijtAVCtJ7WiWIT/8qALcIuC4Jyyhk4tDU1QbR+J2jxA5H6
- ShtC8VO11+9QIueJ6E/EwOPp8ZI4HPO13FyLJtG8=
+ b=jvyIzJTLGET2hoZfUsKKwMKhRwK9hHYgq6i6KKYEKopzl9lTjts6cc0+qWDjWetTM
+ 7ppuYRGthbnGCCPliMEft4zGO2PuaV+JAJ6Ljmxi6TOP/I0ekeeyWUoUJc4H9oEkuM
+ 4r4RBfddWdC6MHdB6qpNzXl6JNQbkeIusfkDcj3I=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.19 077/245] drm/omap: fix possible object reference leak
-Date: Tue, 29 Sep 2020 12:58:48 +0200
-Message-Id: <20200929105950.748689883@linuxfoundation.org>
+Subject: [PATCH 4.14 064/166] drm/omap: fix possible object reference leak
+Date: Tue, 29 Sep 2020 12:59:36 +0200
+Message-Id: <20200929105938.423829636@linuxfoundation.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200929105946.978650816@linuxfoundation.org>
-References: <20200929105946.978650816@linuxfoundation.org>
+In-Reply-To: <20200929105935.184737111@linuxfoundation.org>
+References: <20200929105935.184737111@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,7 +90,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-index 3bfb95d230e0e..d8fb686c1fda9 100644
+index bf626acae2712..cd8e9b799b9a5 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
 @@ -193,7 +193,7 @@ static int __init omapdss_boot_init(void)
