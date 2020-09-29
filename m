@@ -2,62 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A994B27DB35
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 23:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AFF27DB49
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 00:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9957489D64;
-	Tue, 29 Sep 2020 21:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81F206E1F4;
+	Tue, 29 Sep 2020 22:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01E3389D64
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 21:56:30 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id z19so7381045lfr.4
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 14:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=36473NzORxqdJM7ltefZiYnrOviszimn5rIn0r27hLU=;
- b=jI3Ib8qhHB1Qk9AlCxGly+d9KjCmEzdYG8fCPqzWdw680U6OmAvFJiu9leN0sPtMjQ
- LPbVas8qbav1BT6g8FdEHrGVx9xYp+iYGA1DkEZ+nssi8LCdOXzi3HgwbOQ5xxKqcM25
- xeGV7Ytkr26WhQjUtphOHAk18jegesuT7ARBY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=36473NzORxqdJM7ltefZiYnrOviszimn5rIn0r27hLU=;
- b=r5a/+wORccQfnAVzD4Wom0oAhsbh9l1JUI3Auwr6ptEpR4BEp7RTA4ZHYE4gcpx7C4
- vMi/D7lxXFRTju2yHEcubE7Odz8+XTkAK27EIGUZE5kazQIakPbTzOQZSlCDq5+2r8Nn
- eGbFwdBOJH/AsQWkbZRyyRLsxjNKxNW8zy6pKV1+p+lEWijtwdj295/g2yIKdfbe6zq7
- j00xHmgIoJbuqB/Hf/7je+zbUo2S3+d6xldEuYaC2pKSACJd+H9WNqGp2GxLaeUV4IBH
- c/lcvNAB088rbNJLBuoPGxMSdCBhWkiDvWYkCTb91ahVG6mIBCwqUmNRmn8cJro4qGxO
- /Wvg==
-X-Gm-Message-State: AOAM531A/2MqjF9rlwBBjwKkh4d0CO3VNNwmqUrXVmWQvqLEq53tVIev
- ECzPNB1zjuNHfimOAECJMi+o72IHDbR+Ew==
-X-Google-Smtp-Source: ABdhPJyAS0XvkstdEeC+cqAPbqbq0lgfigLuNyvg1IAXC9TmWgiqa/s0KNfRJBmDtfzxC/+jafLuxQ==
-X-Received: by 2002:a19:ca1e:: with SMTP id a30mr1821353lfg.575.1601416589197; 
- Tue, 29 Sep 2020 14:56:29 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com.
- [209.85.208.170])
- by smtp.gmail.com with ESMTPSA id r28sm477247ljn.76.2020.09.29.14.56.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 14:56:28 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id s205so5296784lja.7
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 14:56:28 -0700 (PDT)
-X-Received: by 2002:a2e:6f0d:: with SMTP id k13mr1684118ljc.250.1601416588146; 
- Tue, 29 Sep 2020 14:56:28 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEDBE89DD2;
+ Tue, 29 Sep 2020 22:00:08 +0000 (UTC)
+IronPort-SDR: PMPXAAlXCNHSvif0zxVWkGF4WPMUT3gGt6w4YnmU0kpNFDp7WJzqrMxCDDas+NmWIjBzfGGvbn
+ LSRZWs49M5AQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="142321948"
+X-IronPort-AV: E=Sophos;i="5.77,320,1596524400"; d="scan'208";a="142321948"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2020 15:00:02 -0700
+IronPort-SDR: BeM+jTnt5CDA7C9DmLMYwq+TeoAFvjXutzw9ZjutrPuigcIBUKKgzUU+sjmG4wZn9sOLgwrEz3
+ 8Z9oSfwOCbIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,320,1596524400"; d="scan'208";a="384927783"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga001.jf.intel.com with SMTP; 29 Sep 2020 14:59:59 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 30 Sep 2020 00:59:58 +0300
+Date: Wed, 30 Sep 2020 00:59:58 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
+Message-ID: <20200929215958.GK6112@intel.com>
+References: <20200929121127.254086-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+ <d235e6f34182e327d8bb46383f6c3ef518b5fc23.camel@intel.com>
+ <20200929200201.GH6112@intel.com>
+ <a4a075597c7d3e65b25598ab696a59eccbd2a069.camel@intel.com>
+ <20200929203022.GI6112@intel.com>
+ <20200929210144.GA2214475@mdroper-desk1.amr.corp.intel.com>
+ <20200929211148.GJ6112@intel.com>
 MIME-Version: 1.0
-References: <20200924003214.662-1-gurchetansingh@chromium.org>
- <20200929093252.kpdrfv77knouaj7p@sirius.home.kraxel.org>
-In-Reply-To: <20200929093252.kpdrfv77knouaj7p@sirius.home.kraxel.org>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Tue, 29 Sep 2020 14:56:15 -0700
-X-Gmail-Original-Message-ID: <CAAfnVB=-x+vr14Vbah-X94pfSwVwzBtfP_F869of0Mi3hjkwwA@mail.gmail.com>
-Message-ID: <CAAfnVB=-x+vr14Vbah-X94pfSwVwzBtfP_F869of0Mi3hjkwwA@mail.gmail.com>
-Subject: Re: [PATCH v4 01/19] drm/virtio: blob prep: refactor getting pages
- and attaching backing
-To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Disposition: inline
+In-Reply-To: <20200929211148.GJ6112@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,69 +58,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0267941009=="
+Cc: "Pandey, Hariom" <hariom.pandey@intel.com>, "Ausmus,
+ James" <james.ausmus@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>, "Souza,
+ Jose" <jose.souza@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Surendrakumar Upadhyay,
+ TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0267941009==
-Content-Type: multipart/alternative; boundary="000000000000e00c4105b07ada32"
+On Wed, Sep 30, 2020 at 12:11:48AM +0300, Ville Syrj=E4l=E4 wrote:
+> On Tue, Sep 29, 2020 at 02:01:44PM -0700, Matt Roper wrote:
+> > On Tue, Sep 29, 2020 at 11:30:22PM +0300, Ville Syrj=E4l=E4 wrote:
+> > > On Tue, Sep 29, 2020 at 08:20:22PM +0000, Souza, Jose wrote:
+> > > > On Tue, 2020-09-29 at 23:02 +0300, Ville Syrj=E4l=E4 wrote:
+> > > > > On Tue, Sep 29, 2020 at 07:33:45PM +0000, Souza, Jose wrote:
+> > > > > > On Tue, 2020-09-29 at 17:41 +0530, Tejas Upadhyay wrote:
+> > > > > > > JSL has update in vswing table for eDP
+> > > > > > =
 
---000000000000e00c4105b07ada32
-Content-Type: text/plain; charset="UTF-8"
+> > > > > > Would be nice to mention in the commit description why PCH is b=
+eing used, that would avoid Ville's question.
+> > > > > =
 
-On Tue, Sep 29, 2020 at 2:33 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > > > If the thing has nothing to do PCH then it should not use the PCH=
+ type
+> > > > > for the the check. Instead we should just do the EHL/JSL split.
+> > > > =
 
-> On Wed, Sep 23, 2020 at 05:31:56PM -0700, Gurchetan Singh wrote:
-> > Useful for upcoming blob resources.
->
-> Pushed to drm-misc-next (whole series).
->
+> > > > In the first version Matt Roper suggested to use PCH to differentia=
+te between EHL and JSL, Jani also agreed with this solution.This 2 PCHs can=
+ only be
+> > > > associate with EHL and JSL respectively, so no downsides here.
+> > > =
 
-Thanks -- sent over a 32-bit/64-bit bug fix and requested a virtio-spec
-vote.
+> > > The downside is that the code makes no sense on the first glance.
+> > > It's going to generate a "wtf?" exception in the brain and require
+> > > me to take a second look to figure what is going on. Exception
+> > > handling is expensive and shouldn't be needed in cases where it's
+> > > trivial to make the code 100% obvious.
+> > =
 
+> > The bspec documents EHL and JSL as being the same platform and identical
+> > in all programming since they are literally the same display IP; this
+> > vswing table is the one and only place where the two are treated in a
+> > distinct manner for reasons that lie outside the display controller.  If
+> > you had to stop and take a closer look at the code here, that's a
+> > probably a good thing since in general there should generally never be a
+> > difference in the behavior between the two.  Adding an additional
+> > clarifying comment is probably in order too since this is a very
+> > exceptional special case.
+> > =
 
->
-> thanks,
->   Gerd
->
->
+> > If we deviate from the bspec's guidance and try to split IS_ELKHARTLAKE
+> > and IS_JASPERLAKE across the whole driver, that's going to be a lot more
+> > pain to maintain down the road since we'll almost certainly have cases
+> > where someone silently leaves one or the other off a condition and gets
+> > unexepcted behavior.  I could see arguments for using a SUBPLATFORM here
+> > like we do for TGL_U vs TGL_Y, but even that seems like overkill if we
+> > already have a clear way to distinguish the two cases (PCH pairing) and
+> > can just leave a clarifying comment.
+> =
 
---000000000000e00c4105b07ada32
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> That fixed PCH pairing is totally undocumented AFAICS. And vswing has
+> nothing to do with the south display, so the wtf will still happen.
+> Comment or no comment.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 29, 2020 at 2:33 AM Gerd =
-Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, =
-Sep 23, 2020 at 05:31:56PM -0700, Gurchetan Singh wrote:<br>
-&gt; Useful for upcoming blob resources.<br>
-<br>
-Pushed to drm-misc-next (whole series).<br></blockquote><div><br></div><div=
->Thanks -- sent over a 32-bit/64-bit bug fix and requested a virtio-spec vo=
-te.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-<br>
-thanks,<br>
-=C2=A0 Gerd<br>
-<br>
-</blockquote></div></div>
+Oh and JSP does not show up in bspec even once. MCC appears exactly once
+where it talks about the differences between MCC and ICL-N PCH (which I
+guess is the same as JSP?).
 
---000000000000e00c4105b07ada32--
+Furthermore the spec never really talks about EHL except in very select
+places. So the IS_ELKHARTLAKE is already totally confusing and IMO more
+likely to cause maintenance problems than the split. Making it
+IS_JSL||IS_EHL at least gives the reader some hint as to where they
+should look in the spec.
 
---===============0267941009==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Another argument why the split is fine is CFL/CML. Those are more
+or less exactly in the same boat as EHL. Ie. only really mentioned
+in the "configurations" section. Beyond that only KBL is ever really
+mentioned. And yet we have separate IS_FOOs for all of them, and
+apparently no one had any objections to that situation.
 
+tldr;we have an established way to handle these things, so IMO lets
+just follow it and stop adding special cases.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0267941009==--
