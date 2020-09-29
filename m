@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33E927C495
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 13:15:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 556FC27C497
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 13:15:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07B5689CAC;
-	Tue, 29 Sep 2020 11:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 882EC89CE1;
+	Tue, 29 Sep 2020 11:15:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A22989CAC
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:15:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C85C89CE1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 11:15:31 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8B46F206A5;
- Tue, 29 Sep 2020 11:15:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A368221D43;
+ Tue, 29 Sep 2020 11:08:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601378106;
- bh=Bdw4Gf/zbgtoli5Jc54jGiAIGVO/73hzkRJdC83mhYc=;
+ s=default; t=1601377726;
+ bh=jKTBQCaxarY6+3xJ92/SBAR0ppkaD1Igcl8HmuM9NH8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jvyIzJTLGET2hoZfUsKKwMKhRwK9hHYgq6i6KKYEKopzl9lTjts6cc0+qWDjWetTM
- 7ppuYRGthbnGCCPliMEft4zGO2PuaV+JAJ6Ljmxi6TOP/I0ekeeyWUoUJc4H9oEkuM
- 4r4RBfddWdC6MHdB6qpNzXl6JNQbkeIusfkDcj3I=
+ b=UdRQTMfd+xPerw3/bF9s4H/QFsEC0HIUa3cMQyvPelLZt/BsLzN6LyjWt3VCxVXC1
+ hfBKNgcWY0eRFSReATapeOq4/mU7Bcx8XwK+5cAaEpJqh88cK4KeBE/z+jxw8ebBZ0
+ w8767wvRi8ATayo9hNbAaAx99NKrNwCatUbovXHY=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.14 064/166] drm/omap: fix possible object reference leak
-Date: Tue, 29 Sep 2020 12:59:36 +0200
-Message-Id: <20200929105938.423829636@linuxfoundation.org>
+Subject: [PATCH 4.9 049/121] drm/omap: fix possible object reference leak
+Date: Tue, 29 Sep 2020 12:59:53 +0200
+Message-Id: <20200929105932.623608487@linuxfoundation.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200929105935.184737111@linuxfoundation.org>
-References: <20200929105935.184737111@linuxfoundation.org>
+In-Reply-To: <20200929105930.172747117@linuxfoundation.org>
+References: <20200929105930.172747117@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,10 +90,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-index bf626acae2712..cd8e9b799b9a5 100644
+index 136d30484d023..46111e9ee9a25 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
-@@ -193,7 +193,7 @@ static int __init omapdss_boot_init(void)
+@@ -194,7 +194,7 @@ static int __init omapdss_boot_init(void)
  	dss = of_find_matching_node(NULL, omapdss_of_match);
  
  	if (dss == NULL || !of_device_is_available(dss))
@@ -102,7 +102,7 @@ index bf626acae2712..cd8e9b799b9a5 100644
  
  	omapdss_walk_device(dss, true);
  
-@@ -218,6 +218,8 @@ static int __init omapdss_boot_init(void)
+@@ -219,6 +219,8 @@ static int __init omapdss_boot_init(void)
  		kfree(n);
  	}
  
