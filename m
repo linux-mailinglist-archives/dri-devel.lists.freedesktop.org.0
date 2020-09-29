@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E8227D26B
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 17:15:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF1A27D253
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Sep 2020 17:14:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 063C46E21C;
-	Tue, 29 Sep 2020 15:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6426E207;
+	Tue, 29 Sep 2020 15:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC9996E201;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F43F6E1FB;
  Tue, 29 Sep 2020 15:14:45 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 98A25B049;
+ by mx2.suse.de (Postfix) with ESMTP id 9C5E9B083;
  Tue, 29 Sep 2020 15:14:43 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
@@ -31,10 +31,10 @@ To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  sumit.semwal@linaro.org, emil.velikov@collabora.com, luben.tuikov@amd.com,
  apaneers@amd.com, linus.walleij@linaro.org, melissa.srw@gmail.com,
  chris@chris-wilson.co.uk, miaoqinglang@huawei.com
-Subject: [PATCH v3 1/7] drm/vram-helper: Remove invariant parameters from
- internal kmap function
-Date: Tue, 29 Sep 2020 17:14:31 +0200
-Message-Id: <20200929151437.19717-2-tzimmermann@suse.de>
+Subject: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for type
+ conversion
+Date: Tue, 29 Sep 2020 17:14:32 +0200
+Message-Id: <20200929151437.19717-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200929151437.19717-1-tzimmermann@suse.de>
 References: <20200929151437.19717-1-tzimmermann@suse.de>
@@ -63,65 +63,96 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The parameters map and is_iomem are always of the same value. Removed them
-to prepares the function for conversion to struct dma_buf_map.
+The new helper ttm_kmap_obj_to_dma_buf() extracts address and location
+from and instance of TTM's kmap_obj and initializes struct dma_buf_map
+with these values. Helpful for TTM-based drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ include/drm/ttm/ttm_bo_api.h | 24 ++++++++++++++++++++++++
+ include/linux/dma-buf-map.h  | 20 ++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 3fe4b326e18e..256b346664f2 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -382,16 +382,16 @@ int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo)
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index c96a25d571c8..62d89f05a801 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -34,6 +34,7 @@
+ #include <drm/drm_gem.h>
+ #include <drm/drm_hashtab.h>
+ #include <drm/drm_vma_manager.h>
++#include <linux/dma-buf-map.h>
+ #include <linux/kref.h>
+ #include <linux/list.h>
+ #include <linux/wait.h>
+@@ -486,6 +487,29 @@ static inline void *ttm_kmap_obj_virtual(struct ttm_bo_kmap_obj *map,
+ 	return map->virtual;
  }
- EXPORT_SYMBOL(drm_gem_vram_unpin);
  
--static void *drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo,
--				      bool map, bool *is_iomem)
-+static void *drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo)
- {
- 	int ret;
- 	struct ttm_bo_kmap_obj *kmap = &gbo->kmap;
++/**
++ * ttm_kmap_obj_to_dma_buf_map
++ *
++ * @kmap: A struct ttm_bo_kmap_obj returned from ttm_bo_kmap.
++ * @map: Returns the mapping as struct dma_buf_map
++ *
++ * Converts struct ttm_bo_kmap_obj to struct dma_buf_map. If the memory
++ * is not mapped, the returned mapping is initialized to NULL.
++ */
++static inline void ttm_kmap_obj_to_dma_buf_map(struct ttm_bo_kmap_obj *kmap,
++					       struct dma_buf_map *map)
++{
 +	bool is_iomem;
- 
- 	if (gbo->kmap_use_count > 0)
- 		goto out;
- 
--	if (kmap->virtual || !map)
-+	if (kmap->virtual)
- 		goto out;
- 
- 	ret = ttm_bo_kmap(&gbo->bo, 0, gbo->bo.num_pages, kmap);
-@@ -399,15 +399,10 @@ static void *drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo,
- 		return ERR_PTR(ret);
- 
- out:
--	if (!kmap->virtual) {
--		if (is_iomem)
--			*is_iomem = false;
-+	if (!kmap->virtual)
- 		return NULL; /* not mapped; don't increment ref */
--	}
- 	++gbo->kmap_use_count;
--	if (is_iomem)
--		return ttm_kmap_obj_virtual(kmap, is_iomem);
--	return kmap->virtual;
-+	return ttm_kmap_obj_virtual(kmap, &is_iomem);
++	void *vaddr = ttm_kmap_obj_virtual(kmap, &is_iomem);
++
++	if (!vaddr)
++		dma_buf_map_clear(map);
++	else if (is_iomem)
++		dma_buf_map_set_vaddr_iomem(map, (void __force __iomem *)vaddr);
++	else
++		dma_buf_map_set_vaddr(map, vaddr);
++}
++
+ /**
+  * ttm_bo_kmap
+  *
+diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
+index fd1aba545fdf..2e8bbecb5091 100644
+--- a/include/linux/dma-buf-map.h
++++ b/include/linux/dma-buf-map.h
+@@ -45,6 +45,12 @@
+  *
+  *	dma_buf_map_set_vaddr(&map. 0xdeadbeaf);
+  *
++ * To set an address in I/O memory, use dma_buf_map_set_vaddr_iomem().
++ *
++ * .. code-block:: c
++ *
++ *	dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
++ *
+  * Test if a mapping is valid with either dma_buf_map_is_set() or
+  * dma_buf_map_is_null().
+  *
+@@ -118,6 +124,20 @@ static inline void dma_buf_map_set_vaddr(struct dma_buf_map *map, void *vaddr)
+ 	map->is_iomem = false;
  }
  
- static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo)
-@@ -452,7 +447,7 @@ void *drm_gem_vram_vmap(struct drm_gem_vram_object *gbo)
- 	ret = drm_gem_vram_pin_locked(gbo, 0);
- 	if (ret)
- 		goto err_ttm_bo_unreserve;
--	base = drm_gem_vram_kmap_locked(gbo, true, NULL);
-+	base = drm_gem_vram_kmap_locked(gbo);
- 	if (IS_ERR(base)) {
- 		ret = PTR_ERR(base);
- 		goto err_drm_gem_vram_unpin_locked;
++/**
++ * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping structure to an address in I/O memory
++ * @map:		The dma-buf mapping structure
++ * @vaddr_iomem:	An I/O-memory address
++ *
++ * Sets the address and the I/O-memory flag.
++ */
++static inline void dma_buf_map_set_vaddr_iomem(struct dma_buf_map *map,
++					       void __iomem *vaddr_iomem)
++{
++	map->vaddr_iomem = vaddr_iomem;
++	map->is_iomem = true;
++}
++
+ /**
+  * dma_buf_map_is_equal - Compares two dma-buf mapping structures for equality
+  * @lhs:	The dma-buf mapping structure
 -- 
 2.28.0
 
