@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4A327E304
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 09:51:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A05927E2FC
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 09:50:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32D606E578;
-	Wed, 30 Sep 2020 07:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3529E6E53E;
+	Wed, 30 Sep 2020 07:50:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33AFA89C83
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 09:45:01 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id z19so3962607pfn.8
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 02:45:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=GjNJiX6u6EA7eCAwaVO4jYqA+BXpH7vsjCBaaqrjlA8=;
- b=rIxjL/9RpTiJTUUFnwxmMMYOivzFHiq515t+RsiYdY6dT+h2GOWFuXkti572v4SAGR
- UmH9cCZG3/qonGEPbAWTzfgRtTLIdzEB+aeL5i3uaGmSrq+IqvmarqckwSBcg3+R2Z6u
- anaZadOfqIswrlR2BCehr3EatM8iB2OMkHB/EtXEEMZhQMQSZmcIzo/1F9pDOf4j1v2L
- qCLxLcw6FNuXoTl7207NrZUIueG93Qc0/UjN8WCgSyXrQWnG8aUH6uNOUM869MI9+imP
- 6qgbzeuLw6r6m1+Fv6Oaowj44IG9uFRMkHkPil0Z9KraN5Jfd1zlXmdL9R15EP8Cy3U/
- 4rng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=GjNJiX6u6EA7eCAwaVO4jYqA+BXpH7vsjCBaaqrjlA8=;
- b=gnDmltxqukn2n8vT2WYXKX0wPao78sr54FfzpIEXvcvEhTyf4NzQLs3An7h3CHuud7
- 7xzfyKgQ7w4giYEs7PZTcil7mfB/udu6lobUH6McW9M1KZjbjoqnmMfSKQvSlx+y3HFZ
- 7cp5X3ztvpvVeE87fBSJkNd/UGlZupcUEvrs1vxtX4erX47EAWTwxnFmMnKX97iFsibM
- yjZndYpbVd1z/ivqPrxTMf5he4ND6zMW2Ynxf/HrmIsLJw8mI9i4oGDJf+4ooNMuuX2Q
- tJ+KWylODN/SGtSUZx/1NaZoYp07Aa6qoTLm/jB1dsjpFnKH3FUB3SksOJUa3uQH0kYF
- JOBg==
-X-Gm-Message-State: AOAM533VPm6OetvHXEukEb0sQzlIxOn8A6PuQ9L42SXD5L7LLx5KxDTo
- UrrvkZ/h/BgxnVKIjwkgRA==
-X-Google-Smtp-Source: ABdhPJwdIxwVS1bO6zBzLCzQiN9q63SxQYJU2R5dXf10DiEk1uWsHbyMV9xL37r9CgP/NLOyo+JvYw==
-X-Received: by 2002:a63:50e:: with SMTP id 14mr2553275pgf.443.1601372700871;
- Tue, 29 Sep 2020 02:45:00 -0700 (PDT)
-Received: from PWN ([161.117.41.183])
- by smtp.gmail.com with ESMTPSA id l79sm4674865pfd.210.2020.09.29.02.44.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 02:45:00 -0700 (PDT)
-Date: Tue, 29 Sep 2020 05:44:52 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
- buffers
-Message-ID: <20200929094452.GA1137889@PWN>
-References: <0000000000006b9e8d059952095e@google.com>
- <cover.1600953813.git.yepeilin.cs@gmail.com>
- <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
- <20200925101300.GA890211@PWN>
- <20200925132551.GF438822@phenom.ffwll.local>
- <20200925153509.GA895804@PWN>
- <20200929090945.GH438822@phenom.ffwll.local>
+Received: from mxout.uchuujin.de (static.85-10-192-230.clients.your-server.de
+ [85.10.192.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A744F89D9A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 10:52:06 +0000 (UTC)
+Received: by neutronstar.dyndns.org (Postfix, from userid 1000)
+ id 95E361430A410; Tue, 29 Sep 2020 12:52:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=uchuujin.de; s=h;
+ t=1601376723; bh=S4qRhmQnANACcgAsVG/DL9GYSVFl4YpEydWlE5Zr2Ds=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kQ5SCbFzDRm4dN6U+6m/9xGYPd9nKBC0cDUYWnO70jRjSK1W6dsLgFyeYAHhRRkK4
+ hGvGy2CfTg+VS/p2BwjSZvM7VU/0YSpcRkDH2kyYOHmIr6gi1q3vz/cWxZiySJHhsj
+ /QdFJQt/aJOQqzNYzWtK5xjTmBCa2JSOFUnjnlpVbzDVH/WYHFlIbUpSPfJJVi/Ofv
+ bPPRXvGYyq2xbfho+O+8CxyeN5ryfqTSejVkrZBp4whlcwSwAsqReID7WjQNgUbk8p
+ lCTmS673EGxk/BpX9j7jzcaISeLJq44r+QtnpNnjeZP/RSw3x9GbctyGQawjVtn5F8
+ vvfWOcjWk3/Hw==
+Date: Tue, 29 Sep 2020 12:52:03 +0200
+From: Martin Hostettler <textshell@uchuujin.de>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Subject: Re: [PATCH] vt_ioctl: make VT_RESIZEX behave like VT_RESIZE
+Message-ID: <20200929105203.GG24673@neutronstar.dyndns.org>
+References: <000000000000226d3f05b02dd607@google.com>
+ <bbcef674-4ac6-c933-b55d-8961ada97f4c@i-love.sakura.ne.jp>
+ <47907f77-b14b-b433-45c6-a315193f0c1a@i-love.sakura.ne.jp>
+ <494395bc-a7dd-fdb1-8196-a236a266ef54@i-love.sakura.ne.jp>
+ <20200927092701.GA1037755@PWN>
+ <4933b81b-9b1a-355b-df0e-9b31e8280ab9@i-love.sakura.ne.jp>
+ <20200928175956.GF24673@neutronstar.dyndns.org>
+ <100dfd3f-3415-80ae-a6cf-30d15f7ca49f@i-love.sakura.ne.jp>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200929090945.GH438822@phenom.ffwll.local>
+In-Reply-To: <100dfd3f-3415-80ae-a6cf-30d15f7ca49f@i-love.sakura.ne.jp>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Wed, 30 Sep 2020 07:50:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,29 +54,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: syzbot <syzbot+b308f5fd049fbbc6e74f@syzkaller.appspotmail.com>,
+ linux-fbdev@vger.kernel.org, George Kennedy <george.kennedy@oracle.com>,
+ b.zolnierkie@samsung.com, gregkh@linuxfoundation.org, deller@gmx.de,
  syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jiri Slaby <jirislaby@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+ dri-devel@lists.freedesktop.org, Martin Hostettler <textshell@uchuujin.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>, daniel.vetter@ffwll.ch,
+ jirislaby@kernel.org, Peilin Ye <yepeilin.cs@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 29, 2020 at 11:09:45AM +0200, Daniel Vetter wrote:
-> If you want to follow along a bit I think would be good to subscribe to
-> the dri-devel mailing list. At least for all the fbcon/fbdev/gpu stuff.
+On Tue, Sep 29, 2020 at 10:12:46AM +0900, Tetsuo Handa wrote:
+> On 2020/09/29 2:59, Martin Hostettler wrote:
+> > On Sun, Sep 27, 2020 at 08:46:30PM +0900, Tetsuo Handa wrote:
+> >> VT_RESIZEX was introduced in Linux 1.3.3, but it is unclear that what
+> >> comes to the "+ more" part, and I couldn't find a user of VT_RESIZEX.
+> >>
+> > 
+> > It seems this is/was used by "svgatextmode" which seems to be at
+> > http://www.ibiblio.org/pub/Linux/utils/console/
+> > 
+> > Not sure if that kind of software still has a chance to work nowadays.
+> > 
 > 
-> I don't think there's a dedicated list for vt/console stuff, aside from
-> Greg's inbox :-)
+> Thanks for the information.
+> 
+> It seems that v.v_vlin = curr_textmode->VDisplay / (MOFLG_ISSET(curr_textmode, ATTR_DOUBLESCAN) ? 2 : 1)
+> and v.v_clin = curr_textmode->FontHeight . Thus, v.v_clin is font's height and seems to be non-zero.
+> But according to https://bugs.gentoo.org/19485 , people are using kernel framebuffer instead.
+> 
 
-Ah, I've been checking lore.kernel.org/dri-devel/ once a while. Sure!
-I'll subscribe right now :)
+Yes, this seems to be from pre framebuffer times.
 
-Peilin Ye
+Back in the days "svga" was the wording you got for "pokes svga card
+hardware registers from userspace drivers". And textmode means font
+rendering is done via (fixed function in those times) hardware scanout
+engine. Of course having only to update 2 bytes per character was a huge
+saving early on. Likely this is also before vesa VBE was reliable.
 
+So i guess the point where this all starts going wrong allowing the X parts
+of the api to be combined with FB based rendering at all? Sounds the only
+user didn't use that combination and so it was never tested?
+
+Then again, this all relates to hardware from 20 years ago...
+
+ - Martin Hostettler
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
