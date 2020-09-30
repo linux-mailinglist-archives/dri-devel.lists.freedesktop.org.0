@@ -2,58 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9078F27FB55
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6728A27FB33
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:15:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C22246E87A;
-	Thu,  1 Oct 2020 08:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1582A6E10E;
+	Thu,  1 Oct 2020 08:15:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 394EB6E584
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 08:25:00 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id c3so576794plz.5
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 01:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=Ih3Pf7dIckvl94DJrioHSJL6mLp1o8KK854dwJlM+Rs=;
- b=Em/QYk4SOtwtQfC93qj80aLMdohAEkXpKPQMNnnimYd6cibrUc0PP6c6gTiXNuwndZ
- F91fPBs2LSDnssoHox5OuIFhJo9o5hf4fVOqt/CfCbUfcgQIlc5rN8nOipdZGlVJGYJp
- aAXZhUHLRrdirwWia/mxcXUmKrjoli8f5LzZY=
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 591FC6E7D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 10:56:03 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id u24so908772pgi.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 03:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=oHjy/cJNfXXtogE/EOScxb15VZyxV8RmFzlm1RVW7+4=;
+ b=ST3Kd8NsgI00gcwe++TnkB9yoG7CcnwaH1PhFE7KHu2q8pACXvMlCKfgfMR4yCUOJu
+ ADghrfvzWjSlgIUCxoJM7ZQjtPtxlo33UaHnhi+3+Y8DpDYs9PHoW5N3sZrZ4AtsxomX
+ mFlkpo3duTlRy6LZnvVCEyrnEIoRNBO7X87egzV14m7epsPyc/6Jab9yI502MgaWlQae
+ 2rIIV140OVnyhadXYHdTmEAXDspwTby8A0pU8fE3wJMaoN+2rkgMMdLhX1vm6wpplv37
+ 0K806v7DDEPK3d+/Gj2NiaXqsYvDUrExl7lmpaOGK+r0m4Qo9ruZgkAAOfZldREf7KOn
+ Bihg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=Ih3Pf7dIckvl94DJrioHSJL6mLp1o8KK854dwJlM+Rs=;
- b=egBp/N80qkUU6L35vIAYUQ78gn513eqEClzc+K2N5J9RqYl/cyMH6C93qzETCKxYor
- lN0zvh0piCyp7XQ2vz2L/cVvmUuGHUJ31sfZEJ4sm0pqwsA5pkbVy49AQy1SfIZs2wpE
- ADxkVkmRA9ZlL+f6/Q5bB5hPwYfECGoeu06m5WklaiFHpiBy1DeUyl6Fm/zZsCWT+njp
- 3+a8ZlbzQgEB5A7tRRP9xxlvQQB1cHcnT2BA6NO5+p7ez6N62bdFZ0d/kQ4JNJECga8z
- sGGlXsbVNk5TJnt/NhP3Jxrtl7fB5JwgzdutCuSWIgBAegxZOGQRH3Gj68PS+S1xeJtb
- 7PzA==
-X-Gm-Message-State: AOAM530FBBdyWS+uljnU6NHNqc8xu/paPuLuXcDc0UNMhH+/dujIafMh
- fXVK0zyFWyZP39spnZqTLOot9A==
-X-Google-Smtp-Source: ABdhPJwIjYUNfZxO9sE2E4scR1kFmz0HCtyEz7PYrdueptBYstuv8MxM5HVdr6ppqtp8M8tTYAFMLg==
-X-Received: by 2002:a17:90b:384c:: with SMTP id
- nl12mr1418467pjb.205.1601454299646; 
- Wed, 30 Sep 2020 01:24:59 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id e207sm1483922pfh.171.2020.09.30.01.24.58
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=oHjy/cJNfXXtogE/EOScxb15VZyxV8RmFzlm1RVW7+4=;
+ b=s+NVzPRHZGeyodS4jLHFE2ztrJWJIBR/n37TBIzTNUzFShd5T74l1nPjCWCqTYguCB
+ qnFH5kuoA7kzRLxEEOX89mOCzuXTo1UN9uLsr/uEfNTLNUUUyq2/5LVjJUtvSOcMBqWn
+ 0450cPHxq92JghHqfI4SvZRP8KW2ltDXf7NpdfK5cX8US7siEtKTomZsr0h2KhIo65st
+ 4m0g12AZ31yq1366d2X6nXdyNAGrwKO1WnkFNFUNZd708OKnQ2AJYV4XJaBlT9cEFqHo
+ OC9cCD8mNcVE5XSypBDPfhjmM6kIiKJpsStPl61qlJQJgEAwn6diGgfg3AygaFRCgW+a
+ IG0A==
+X-Gm-Message-State: AOAM532fa9gt/5exhOFAXEM3obmn3pne0+PrSsHfAUUsmSwCuZaX5ggl
+ rRsbFfUPM3ZuueEJkq5vnw==
+X-Google-Smtp-Source: ABdhPJxwDjg9fu9SIBa0weczPWatPsktZqfGJP54jLXM6mwLCAozwhwqJF1pVlQk2zADetgfH2HP7w==
+X-Received: by 2002:a63:4e0a:: with SMTP id c10mr1671562pgb.369.1601463362849; 
+ Wed, 30 Sep 2020 03:56:02 -0700 (PDT)
+Received: from PWN ([161.117.80.159])
+ by smtp.gmail.com with ESMTPSA id l14sm1837033pfc.170.2020.09.30.03.55.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 01:24:58 -0700 (PDT)
+ Wed, 30 Sep 2020 03:56:02 -0700 (PDT)
+Date: Wed, 30 Sep 2020 06:55:53 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
+ buffers
+Message-ID: <20200930105553.GA1154238@PWN>
+References: <0000000000006b9e8d059952095e@google.com>
+ <cover.1600953813.git.yepeilin.cs@gmail.com>
+ <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
+ <20200925101300.GA890211@PWN>
+ <20200925132551.GF438822@phenom.ffwll.local>
+ <20200929123420.GA1143575@PWN>
+ <CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com>
+ <20200930071151.GA1152145@PWN>
+ <20200930095317.GX438822@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20200929171026.30551-1-khsieh@codeaurora.org>
-References: <20200929171026.30551-1-khsieh@codeaurora.org>
-Subject: Re: [PATCH] drm/msm/dp: add voltage corners voting support base on dp
- link rate
-From: Stephen Boyd <swboyd@chromium.org>
-To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run
-Date: Wed, 30 Sep 2020 01:24:57 -0700
-Message-ID: <160145429763.310579.786737478429183087@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Disposition: inline
+In-Reply-To: <20200930095317.GX438822@phenom.ffwll.local>
 X-Mailman-Approved-At: Thu, 01 Oct 2020 08:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,181 +76,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rnayak@codeaurora.org, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2020-09-29 10:10:26)
-> Set link rate by using OPP set rate api so that CX level will be set
-> accordingly base on the link rate.
-
-s/base/based/
-
+On Wed, Sep 30, 2020 at 11:53:17AM +0200, Daniel Vetter wrote:
+> On Wed, Sep 30, 2020 at 03:11:51AM -0400, Peilin Ye wrote:
+> > On Tue, Sep 29, 2020 at 04:38:49PM +0200, Daniel Vetter wrote:
+> > > On Tue, Sep 29, 2020 at 2:34 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> > > > Ah, and speaking of built-in fonts, see fbcon_startup():
+> > > >
+> > > >         /* Setup default font */
+> > > >                 [...]
+> > > >                 vc->vc_font.charcount = 256; /* FIXME  Need to support more fonts */
+> > > >                             ^^^^^^^^^^^^^^^
+> > > >
+> > > > This is because find_font() and get_default_font() return a `struct
+> > > > font_desc *`, but `struct font_desc` doesn't contain `charcount`. I
+> > > > think we also need to add a `charcount` field to `struct font_desc`.
+> > > 
+> > > Hm yeah ... I guess maybe struct font_desc should be the starting
+> > > point for the kernel internal font structure. It's at least there
+> > > already ...
+> > 
+> > I see, that will also make handling built-in fonts much easier!
 > 
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-> ---
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index 2e3e1917351f..e1595d829e04 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1849,6 +1853,21 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
->                 return ERR_PTR(-ENOMEM);
->         }
->  
-> +       ctrl->opp_table = dev_pm_opp_set_clkname(dev, "ctrl_link");
-> +
-> +       if (IS_ERR(ctrl->opp_table)) {
-> +               dev_err(dev, "invalid DP OPP table in device tree\n");
-> +               ctrl->opp_table = NULL;
-> +       } else {
-> +               /* OPP table is optional */
-> +               ret = dev_pm_opp_of_add_table(dev);
-> +               if (ret && ret != -ENODEV) {
-> +                       dev_err(dev, "add DP OPP table\n");
-
-This is debug noise right?
-
-> +                       dev_pm_opp_put_clkname(ctrl->opp_table);
-> +                       ctrl->opp_table = NULL;
-> +               }
-> +       }
-> +
->         init_completion(&ctrl->idle_comp);
->         init_completion(&ctrl->video_comp);
->  
-> @@ -1864,6 +1883,18 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
->         return &ctrl->dp_ctrl;
->  }
->  
-> -void dp_ctrl_put(struct dp_ctrl *dp_ctrl)
-> +void dp_ctrl_put(struct device *dev, struct dp_ctrl *dp_ctrl)
->  {
-> +       struct dp_ctrl_private *ctrl;
-> +
-> +       if (!dp_ctrl)
-
-Can this happen?
-
-> +               return;
-> +
-> +       ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-> +
-> +       if (ctrl->opp_table != NULL) {
-
-This is usually written as
-
-	if (ctrl->opp_table)
-
-> +               dev_pm_opp_of_remove_table(dev);
-> +               dev_pm_opp_put_clkname(ctrl->opp_table);
-> +               ctrl->opp_table = NULL;
-> +       }
->  }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> index f60ba93c8678..19b412a93e02 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> @@ -31,6 +31,6 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
->                         struct dp_panel *panel, struct drm_dp_aux *aux,
->                         struct dp_power *power, struct dp_catalog *catalog,
->                         struct dp_parser *parser);
-> -void dp_ctrl_put(struct dp_ctrl *dp_ctrl);
-> +void dp_ctrl_put(struct device *dev, struct dp_ctrl *dp_ctrl);
-
-Is 'dev' not inside 'dp_ctrl'?
-
->  
->  #endif /* _DP_CTRL_H_ */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-> index 17c1fc6a2d44..3d75bf09e38f 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_power.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
-> @@ -8,12 +8,14 @@
->  #include <linux/clk.h>
->  #include <linux/clk-provider.h>
->  #include <linux/regulator/consumer.h>
-> +#include <linux/pm_opp.h>
->  #include "dp_power.h"
->  #include "msm_drv.h"
->  
->  struct dp_power_private {
->         struct dp_parser *parser;
->         struct platform_device *pdev;
-> +       struct device *dev;
->         struct clk *link_clk_src;
->         struct clk *pixel_provider;
->         struct clk *link_provider;
-> @@ -148,18 +150,49 @@ static int dp_power_clk_deinit(struct dp_power_private *power)
->         return 0;
->  }
->  
-> +static int dp_power_clk_set_link_rate(struct dp_power_private *power,
-> +                       struct dss_clk *clk_arry, int num_clk, int enable)
-> +{
-> +       u32 rate;
-> +       int i, rc = 0;
-> +
-> +       for (i = 0; i < num_clk; i++) {
-> +               if (clk_arry[i].clk) {
-> +                       if (clk_arry[i].type == DSS_CLK_PCLK) {
-> +                               if (enable)
-> +                                       rate = clk_arry[i].rate;
-> +                               else
-> +                                       rate = 0;
-> +
-> +                               rc = dev_pm_opp_set_rate(power->dev, rate);
-
-Why do we keep going if rc is non-zero?
-
-> +                       }
-> +
-> +               }
-> +       }
-> +       return rc;
-> +}
-> +
->  static int dp_power_clk_set_rate(struct dp_power_private *power,
->                 enum dp_pm_type module, bool enable)
->  {
->         int rc = 0;
->         struct dss_module_power *mp = &power->parser->mp[module];
->  
-> -       if (enable) {
-> -               rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
-> +       if (module == DP_CTRL_PM) {
-> +               rc = dp_power_clk_set_link_rate(power, mp->clk_config, mp->num_clk, enable);
->                 if (rc) {
-> -                       DRM_ERROR("failed to set clks rate.\n");
-> +                       DRM_ERROR("failed to set link clks rate.\n");
->                         return rc;
->                 }
-> +       } else {
-> +
-> +               if (enable) {
-> +                       rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
-> +                       if (rc) {
-> +                               DRM_ERROR("failed to set clks rate.\n");
-
-Not sure we need the period on these error messages.
-
-> +                               return rc;
-> +                       }
-> +               }
->         }
->  
->         rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, enable);
+> I think the only downside with starting with font_desc as the internal
+> font represenation is that there's a few fields we don't need/have for
+> userspace fonts (like the id/name stuff). So any helpers to e.g. print out
+> font information need to make sure they don't trip over that
 > 
-> base-commit: 3c0f462da069af12211901ddf26f7e16e6951d9b
-> prerequisite-patch-id: a109eaf08147f50149ad661a58122b6745a52445
+> But otherwise I don't see a problem with this, I think.
 
-Can you rebase this on Rob's msm-next tree
-(https://gitlab.freedesktop.org/drm/msm.git) and test? It doesn't apply
-for me because I have the dp phy patch from there.
+Yes, and built-in fonts don't use refcount. Or maybe we can let
+find_font() and get_default_font() kmalloc() a copy of built-in font
+data, then keep track of refcount for both user and built-in fonts, but
+that will waste a few K of memory for each built-in font we use...
+
+> > > I think for vc_date->vc_font we might need a multi-step approach:
+> > > - first add a new helper function which sets the font for a vc using
+> > > an uapi console_font struct (and probably hard-coded assumes cnt ==
+> > > 256.
+> > 
+> > But user fonts may have a charcount different to 256... But yes I'll try
+> > to figure out how.
+> 
+> Hm yeah, maybe we need a helper to give us the charcount then, which by
+> default is using the magic negative offset.
+
+Ah, I see! :)
+
+> Then once we've converted everything over to explicitly passing charcount
+> around, we can switch that helper. So something like
+> 
+> int kern_font_charcount(struct kern_font *font);
+> 
+> Feel free to bikeshed the struct name however you see fit :-)
+
+I think both `kern_font` and `font_desc` makes sense, naming is so
+hard...
+
+> > > For first steps I'd start with demidlayering some of the internal
+> > > users of uapi structs, like the console_font_op really shouldn't be
+> > > used anywhere in any function, except in the ioctl handler that
+> > > converts it into the right function call. You'll probably discover a
+> > > few other places like this on the go.
+> > 
+> > Sure, I'll start from this, then cleaning up these dummy functions, then
+> > `vc_data`. Thank you for the insights!
+> 
+> Please don't take this rough plan as fixed, it's just where I'd start from
+> browsing the code and your analysis a bit. We'll probably have to adapt as
+> we go and more nasty things turn up ...
+
+Sure, I'll first give it a try and see. Thank you!
+
+Peilin Ye
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
