@@ -1,68 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6728A27FB33
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:15:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF00927FB4E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:16:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1582A6E10E;
-	Thu,  1 Oct 2020 08:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 473166E86C;
+	Thu,  1 Oct 2020 08:15:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 591FC6E7D0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 10:56:03 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id u24so908772pgi.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 03:56:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oHjy/cJNfXXtogE/EOScxb15VZyxV8RmFzlm1RVW7+4=;
- b=ST3Kd8NsgI00gcwe++TnkB9yoG7CcnwaH1PhFE7KHu2q8pACXvMlCKfgfMR4yCUOJu
- ADghrfvzWjSlgIUCxoJM7ZQjtPtxlo33UaHnhi+3+Y8DpDYs9PHoW5N3sZrZ4AtsxomX
- mFlkpo3duTlRy6LZnvVCEyrnEIoRNBO7X87egzV14m7epsPyc/6Jab9yI502MgaWlQae
- 2rIIV140OVnyhadXYHdTmEAXDspwTby8A0pU8fE3wJMaoN+2rkgMMdLhX1vm6wpplv37
- 0K806v7DDEPK3d+/Gj2NiaXqsYvDUrExl7lmpaOGK+r0m4Qo9ruZgkAAOfZldREf7KOn
- Bihg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oHjy/cJNfXXtogE/EOScxb15VZyxV8RmFzlm1RVW7+4=;
- b=s+NVzPRHZGeyodS4jLHFE2ztrJWJIBR/n37TBIzTNUzFShd5T74l1nPjCWCqTYguCB
- qnFH5kuoA7kzRLxEEOX89mOCzuXTo1UN9uLsr/uEfNTLNUUUyq2/5LVjJUtvSOcMBqWn
- 0450cPHxq92JghHqfI4SvZRP8KW2ltDXf7NpdfK5cX8US7siEtKTomZsr0h2KhIo65st
- 4m0g12AZ31yq1366d2X6nXdyNAGrwKO1WnkFNFUNZd708OKnQ2AJYV4XJaBlT9cEFqHo
- OC9cCD8mNcVE5XSypBDPfhjmM6kIiKJpsStPl61qlJQJgEAwn6diGgfg3AygaFRCgW+a
- IG0A==
-X-Gm-Message-State: AOAM532fa9gt/5exhOFAXEM3obmn3pne0+PrSsHfAUUsmSwCuZaX5ggl
- rRsbFfUPM3ZuueEJkq5vnw==
-X-Google-Smtp-Source: ABdhPJxwDjg9fu9SIBa0weczPWatPsktZqfGJP54jLXM6mwLCAozwhwqJF1pVlQk2zADetgfH2HP7w==
-X-Received: by 2002:a63:4e0a:: with SMTP id c10mr1671562pgb.369.1601463362849; 
- Wed, 30 Sep 2020 03:56:02 -0700 (PDT)
-Received: from PWN ([161.117.80.159])
- by smtp.gmail.com with ESMTPSA id l14sm1837033pfc.170.2020.09.30.03.55.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 03:56:02 -0700 (PDT)
-Date: Wed, 30 Sep 2020 06:55:53 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
- buffers
-Message-ID: <20200930105553.GA1154238@PWN>
-References: <0000000000006b9e8d059952095e@google.com>
- <cover.1600953813.git.yepeilin.cs@gmail.com>
- <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
- <20200925101300.GA890211@PWN>
- <20200925132551.GF438822@phenom.ffwll.local>
- <20200929123420.GA1143575@PWN>
- <CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com>
- <20200930071151.GA1152145@PWN>
- <20200930095317.GX438822@phenom.ffwll.local>
-MIME-Version: 1.0
+Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FE836E7D2;
+ Wed, 30 Sep 2020 11:45:38 +0000 (UTC)
+Received: from HKMAIL104.nvidia.com (Not Verified[10.18.92.77]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f746fdf0000>; Wed, 30 Sep 2020 19:45:35 +0800
+Received: from HKMAIL101.nvidia.com (10.18.16.10) by HKMAIL104.nvidia.com
+ (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 30 Sep
+ 2020 11:45:32 +0000
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
+ by HKMAIL101.nvidia.com (10.18.16.10) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Wed, 30 Sep 2020 11:45:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g5JS6ycCLA+ey6H6PEDfYh0txtdHz1oW146Y0mf0jzryp4nGgcAAzq6i+vm6IOOu9G2TiRIawxsTcsZkXQphwz1PgNABiNPK7FkgIRATEahh48D06/anI4mupMYpbXOB0RG5EkcMLsWuzGuO0QZlU3Sp7DfOxDx5ArO7Z7Q0wuVgdOC7BIyyRZ73BLu8pWR2ddQklAC+NTXHIuAmoHBZ3Kjd342DpPybvl8VSdCxZRqnFZUo/ZJNy71fUZUOoP30ClTYACic6jbffswZumEWl4Hw7Em6EX82bbREtzYec4k54ADalU29dnB51mu2Zk9vACrt9yR7CMRKvhwpCi/rcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oAsU320K5FEsVsUsGTXFF4o1tMt7feAUQkBKN7F74EI=;
+ b=Tf2u7n+4WPnZfJ4WHFScskEDaGF8K2Y5X685UCE/zLGMPYqAjil3nfl+fPXzGLb1u4EioztX5cVOjUo/VZU7/agUbS5ctxYwDUwPR4RBR+D0/cC6jfdxBjPj7z0iWLB65ieFG68hWEZVTA5nZrBa0X55J37MjLZ2WnqgSQCNVpPSv1ELtwPLM/ZLIKE3QmpRnQotx2WzLZ7UWEHlnqTlD8Al8Q07XInHWpNSMFdY6P9xbaoCjouzrhGu/3oZ/mS5iwntNPfU16osOfAnhVXVaEDaSolaeelrcpnZzRvUfZ/mLZfIkhXlBqYfVcKRqIZ5PPI2GsTurLEgkJAduN7Lbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3402.namprd12.prod.outlook.com (2603:10b6:5:3b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Wed, 30 Sep
+ 2020 11:45:29 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3433.032; Wed, 30 Sep 2020
+ 11:45:29 +0000
+Date: Wed, 30 Sep 2020 08:45:27 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Leon Romanovsky <leon@kernel.org>
+Subject: Re: [PATCH rdma-next v4 4/4] RDMA/umem: Move to allocate SG table
+ from pages
+Message-ID: <20200930114527.GE816047@nvidia.com>
+References: <20200927064647.3106737-1-leon@kernel.org>
+ <20200927064647.3106737-5-leon@kernel.org>
+ <20200929195929.GA803555@nvidia.com> <20200930095321.GL3094@unreal>
 Content-Disposition: inline
-In-Reply-To: <20200930095317.GX438822@phenom.ffwll.local>
+In-Reply-To: <20200930095321.GL3094@unreal>
+X-ClientProxiedBy: MN2PR17CA0014.namprd17.prod.outlook.com
+ (2603:10b6:208:15e::27) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by
+ MN2PR17CA0014.namprd17.prod.outlook.com (2603:10b6:208:15e::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32 via Frontend
+ Transport; Wed, 30 Sep 2020 11:45:28 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1kNaY3-003vHg-7m; Wed, 30 Sep 2020 08:45:27 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1601466335; bh=oAsU320K5FEsVsUsGTXFF4o1tMt7feAUQkBKN7F74EI=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=C5kPdi9eRgMFb4rKx1OLDZtww0KV3jP/th3Ur0di8JyINjwi6q9IQ9iNfp4OFzsgy
+ TEXE36ZTXxnZVASfO3dw1c6V7wCGp4W9CBQKjn6uDBLTz1egDFRfrDCZVcgaxumwgD
+ 8+1W5RW0jj6YZ4ysoCcgfjAb50yuKFbwZGGZvH0x9hCodxZJWHjlqwLLj7Io4BFNoE
+ lpwPTwfkPZY7VatebKiU9bWBZeulYcXADWHx6OR5ABSvuD3eYoKvPVIza6lMRVX/AE
+ MsboprGFPIkmoYB7FqeBjsZbS+mK2FkTJTZfAXcqN6DG7E/8k09O8Xdj76LCToJCwp
+ Ud51rEIkwm7aw==
 X-Mailman-Approved-At: Thu, 01 Oct 2020 08:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,91 +88,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jiri Slaby <jirislaby@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 11:53:17AM +0200, Daniel Vetter wrote:
-> On Wed, Sep 30, 2020 at 03:11:51AM -0400, Peilin Ye wrote:
-> > On Tue, Sep 29, 2020 at 04:38:49PM +0200, Daniel Vetter wrote:
-> > > On Tue, Sep 29, 2020 at 2:34 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> > > > Ah, and speaking of built-in fonts, see fbcon_startup():
-> > > >
-> > > >         /* Setup default font */
-> > > >                 [...]
-> > > >                 vc->vc_font.charcount = 256; /* FIXME  Need to support more fonts */
-> > > >                             ^^^^^^^^^^^^^^^
-> > > >
-> > > > This is because find_font() and get_default_font() return a `struct
-> > > > font_desc *`, but `struct font_desc` doesn't contain `charcount`. I
-> > > > think we also need to add a `charcount` field to `struct font_desc`.
-> > > 
-> > > Hm yeah ... I guess maybe struct font_desc should be the starting
-> > > point for the kernel internal font structure. It's at least there
-> > > already ...
-> > 
-> > I see, that will also make handling built-in fonts much easier!
+On Wed, Sep 30, 2020 at 12:53:21PM +0300, Leon Romanovsky wrote:
+> On Tue, Sep 29, 2020 at 04:59:29PM -0300, Jason Gunthorpe wrote:
+> > On Sun, Sep 27, 2020 at 09:46:47AM +0300, Leon Romanovsky wrote:
+> > > @@ -296,11 +223,17 @@ static struct ib_umem *__ib_umem_get(struct ib_device *device,
+> > >  			goto umem_release;
+> > >
+> > >  		cur_base += ret * PAGE_SIZE;
+> > > -		npages   -= ret;
+> > > -
+> > > -		sg = ib_umem_add_sg_table(sg, page_list, ret,
+> > > -			dma_get_max_seg_size(device->dma_device),
+> > > -			&umem->sg_nents);
+> > > +		npages -= ret;
+> > > +		sg = __sg_alloc_table_from_pages(
+> > > +			&umem->sg_head, page_list, ret, 0, ret << PAGE_SHIFT,
+> > > +			dma_get_max_seg_size(device->dma_device), sg, npages,
+> > > +			GFP_KERNEL);
+> > > +		umem->sg_nents = umem->sg_head.nents;
+> > > +		if (IS_ERR(sg)) {
+> > > +			unpin_user_pages_dirty_lock(page_list, ret, 0);
+> > > +			ret = PTR_ERR(sg);
+> > > +			goto umem_release;
+> > > +		}
+> > >  	}
+> > >
+> > >  	sg_mark_end(sg);
+> >
+> > Does it still need the sg_mark_end?
 > 
-> I think the only downside with starting with font_desc as the internal
-> font represenation is that there's a few fields we don't need/have for
-> userspace fonts (like the id/name stuff). So any helpers to e.g. print out
-> font information need to make sure they don't trip over that
-> 
-> But otherwise I don't see a problem with this, I think.
+> It is preserved here for correctness, the release logic doesn't rely on
+> this marker, but it is better to leave it.
 
-Yes, and built-in fonts don't use refcount. Or maybe we can let
-find_font() and get_default_font() kmalloc() a copy of built-in font
-data, then keep track of refcount for both user and built-in fonts, but
-that will waste a few K of memory for each built-in font we use...
+I mean, my read of __sg_alloc_table_from_pages() is that it already
+placed it, the final __alloc_table() does it?
 
-> > > I think for vc_date->vc_font we might need a multi-step approach:
-> > > - first add a new helper function which sets the font for a vc using
-> > > an uapi console_font struct (and probably hard-coded assumes cnt ==
-> > > 256.
-> > 
-> > But user fonts may have a charcount different to 256... But yes I'll try
-> > to figure out how.
-> 
-> Hm yeah, maybe we need a helper to give us the charcount then, which by
-> default is using the magic negative offset.
-
-Ah, I see! :)
-
-> Then once we've converted everything over to explicitly passing charcount
-> around, we can switch that helper. So something like
-> 
-> int kern_font_charcount(struct kern_font *font);
-> 
-> Feel free to bikeshed the struct name however you see fit :-)
-
-I think both `kern_font` and `font_desc` makes sense, naming is so
-hard...
-
-> > > For first steps I'd start with demidlayering some of the internal
-> > > users of uapi structs, like the console_font_op really shouldn't be
-> > > used anywhere in any function, except in the ioctl handler that
-> > > converts it into the right function call. You'll probably discover a
-> > > few other places like this on the go.
-> > 
-> > Sure, I'll start from this, then cleaning up these dummy functions, then
-> > `vc_data`. Thank you for the insights!
-> 
-> Please don't take this rough plan as fixed, it's just where I'd start from
-> browsing the code and your analysis a bit. We'll probably have to adapt as
-> we go and more nasty things turn up ...
-
-Sure, I'll first give it a try and see. Thank you!
-
-Peilin Ye
-
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
