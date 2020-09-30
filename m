@@ -1,36 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DC728160F
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 17:07:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5995B284742
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E05186E0DE;
-	Fri,  2 Oct 2020 15:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB3146E425;
+	Tue,  6 Oct 2020 07:31:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 525736E0DE
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 15:06:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id B58B429A1AF
-Subject: Re: [PATCH v3 2/2] tty/sysrq: Add configurable handler to execute a
- compound action
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20200818112825.6445-1-andrzej.p@collabora.com>
- <20200818112825.6445-3-andrzej.p@collabora.com>
- <20201002125429.GA3350322@kroah.com>
- <db7fe4ed-19a4-3303-a544-eb789badb8a1@collabora.com>
- <20201002140233.GB3475053@kroah.com>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <2031d74a-41df-d556-d5de-37f4b63ee30f@collabora.com>
-Date: Fri, 2 Oct 2020 17:06:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF5F6E090
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:13:41 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2AD2E580350;
+ Mon,  5 Oct 2020 11:13:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 05 Oct 2020 11:13:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:to:cc:subject:message-id:from:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=FtG2Bzuy5PqxUd7fnFYHl5Znz5H
+ mAs+KH2eBPZ//Wzo=; b=NVCuzXlnXtSq15LRXTCVx5qRPNGYjQTymOsYZNvdS6x
+ Aa11UQdQXmoAa2K2cZXjUrPEyEe1JeO3WsKuQUmsDR33Jr1TGS9q7Vo7r6aQF2FI
+ mDqQgIYhbBwapj0Wl++gAT6grbt7bc6JTQknfOnBJEmUmNRwDORF2QYoUTnOeMYl
+ Kk0OBUfmJ2ngAUKZZNEGX6CiZc+uzkchZnx2/pwZ0ZkXKS8e35QQGRNnS5kBzPcU
+ izgIa5Zf8brXKVwY8yxE2itdO4mQV7Ice4xyDSp+iMd0qeJNReoCJ+RkQNp2f4nY
+ k5cEGtoTU/DIrIqG+cSCBsZnUwLdeKLP+74zlsUm0mQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=FtG2Bz
+ uy5PqxUd7fnFYHl5Znz5HmAs+KH2eBPZ//Wzo=; b=chBh/6Sydgee2d8NJ1zO+H
+ IY5XR5iEAcOwKKrQ8aMnQY0bt0hYsvY1u0IY56M9NnBEISFkwAS9dT0ZsXxDTHT4
+ 0wCxVNpGDprCu1G9Cve4NIPEm2LnfJEGxhAVhoRVcsMaV2I1AuY5d/zl3ksI/s9O
+ lGcjxi11CwsyXHFJSn9c7U2ZDAygcHFpnjMIhCAyig4fPVDlIyV7HG0C96WUgvuS
+ 0idtewaBFmsqyuWZuYHud9ulzqeuNC9bfVGG7sO5W0sF5SNFY0qWsMOkL136V1Z5
+ X1zgnBlk/nMORuRpmdglmNbBmTGHrTetjH8n/tB/fyQ+7jeqac7OZF3TdNrcjuTw
+ ==
+X-ME-Sender: <xms:ITh7XzWawbNEZJIGdQ6u6hrdaC2CGyhpDFJBmaThbCq44HxZpTelnQ>
+ <xme:ITh7X7lizOAZmEyAoRpHUP8HdTOwAso0HlYlRdFgwDEZzLo09Z_u40i48kabfSnme
+ EKvTYljw7IgAtmsVuM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgdekjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffvffukffhfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeeikefffefhffeiffehfeeghfevfeekfeejveetfeegjeejvefghfffheeifeeh
+ ffenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:ITh7X_aWpL87qXoNeTUni3Ph9aqbr8BD3tvAlDkqxy_2GbAzqVXkxA>
+ <xmx:ITh7X-W2YDxNVHOJc-0ytNBko9aVVCx8yTMtbQMTI8xMrXDXygOYFg>
+ <xmx:ITh7X9lh3wY9NU7clPp9MRtg8w04s108r_bUsqlqD9HP4UCpwHXz9Q>
+ <xmx:Izh7X_nWnKPB0sUybWIXq66laDgyKJ_h4t0UJfHyhbBFnQsOzM51qA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B94E43280059;
+ Mon,  5 Oct 2020 11:13:36 -0400 (EDT)
+Date: Wed, 30 Sep 2020 15:04:59 +0200
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/2] drm/vc4: hdmi: Disable Wifi Frequencies
+Message-ID: <20200930130459.kfurbu34lc7jeuok@gilmour.lan>
+From: Maxime Ripard <maxime@cerno.tech>
+References: <20200925130744.575725-1-maxime@cerno.tech>
+ <20200929190055.GA962101@bogus>
 MIME-Version: 1.0
-In-Reply-To: <20201002140233.GB3475053@kroah.com>
-Content-Language: en-US
+In-Reply-To: <20200929190055.GA962101@bogus>
+X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,63 +79,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-input@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jiri Slaby <jslaby@suse.com>, kernel@collabora.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1408177853=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpXIGRuaXUgMDIuMTAuMjAyMCBvwqAxNjowMiwgR3JlZyBLcm9haC1IYXJ0bWFuIHBpc3pl
-Ogo+IE9uIEZyaSwgT2N0IDAyLCAyMDIwIGF0IDAzOjQyOjUyUE0gKzAyMDAsIEFuZHJ6ZWogUGll
-dHJhc2lld2ljeiB3cm90ZToKPj4gSGksCj4+Cj4+IFcgZG5pdSAwMi4xMC4yMDIwIG/CoDE0OjU0
-LCBHcmVnIEtyb2FoLUhhcnRtYW4gcGlzemU6Cj4+PiBPbiBUdWUsIEF1ZyAxOCwgMjAyMCBhdCAw
-MToyODoyNVBNICswMjAwLCBBbmRyemVqIFBpZXRyYXNpZXdpY3ogd3JvdGU6Cj4+Pj4gVXNlcmxh
-bmQgbWlnaHQgd2FudCB0byBleGVjdXRlIGUuZy4gJ3cnIChzaG93IGJsb2NrZWQgdGFza3MpLCBm
-b2xsb3dlZAo+Pj4+IGJ5ICdzJyAoc3luYyksIGZvbGxvd2VkIGJ5IDEwMDAgbXMgZGVsYXkgYW5k
-IHRoZW4gZm9sbG93ZWQgYnkgJ2MnIChjcmFzaCkKPj4+PiB1cG9uIGEgc2luZ2xlIG1hZ2ljIFN5
-c1JxLiBPciBvbmUgbWlnaHQgd2FudCB0byBleGVjdXRlIHRoZSBmYW1vdXMgIlJhaXNpbmcKPj4+
-PiBFbGVwaGFudHMgSXMgU28gVXR0ZXJseSBCb3JpbmciIGFjdGlvbi4gVGhpcyBwYXRjaCBhZGRz
-IGEgY29uZmlndXJhYmxlCj4+Pj4gaGFuZGxlciwgdHJpZ2dlcmVkIHdpdGggJ0MnLCBmb3IgdGhp
-cyBleGFjdCBwdXJwb3NlLiBUaGUgdXNlciBzcGVjaWZpZXMgdGhlCj4+Pj4gY29tcG9zaXRpb24g
-b2YgdGhlIGNvbXBvdW5kIGFjdGlvbiB1c2luZyBzeW50YXggc2ltaWxhciB0byBnZXRvcHQsIHdo
-ZXJlCj4+Pj4gZWFjaCBsZXR0ZXIgY29ycmVzcG9uZHMgdG8gYW4gaW5kaXZpZHVhbCBhY3Rpb24g
-YW5kIGEgY29sb24gZm9sbG93ZWQgYnkgYQo+Pj4+IG51bWJlciBjb3JyZXNwb25kcyB0byBhIGRl
-bGF5IG9mIHRoYXQgbWFueSBtaWxsaXNlY29uZHMsIGUuZy46Cj4+Pj4KPj4+PiB3czoxMDAwYwo+
-Pj4+Cj4+Pj4gb3IKPj4+Pgo+Pj4+IHI6MTAwZWlzOjEwMDB1Ygo+Pj4KPj4+IEEgbWFjcm8gbGFu
-Z3VhZ2UgZm9yIHN5c3JxIGNvbW1hbmRzLCB3aG8gd291bGQgaGF2ZSB0aG91Z2h0Li4uCj4+Pgo+
-Pj4gQW55d2F5LCBfd2h5XyB3b3VsZCB1c2VybGFuZCB3YW50IHRvIGRvIHNvbWV0aGluZyBzbyBj
-cmF6eSBhcyB0aGlzPwo+Pj4gV2hhdCBpcyB0aGUgdXNlLWNhc2UgaGVyZT8KPj4+Cj4+Cj4+IEEg
-dXNlLWNhc2UgaXMgQ2hyb21lYm9va3Mgd2hpY2ggZG8gd2FudCB0byBleGVjdXRlICd3JywgJ3Mn
-LAo+PiB3YWl0IDEwMDBtcyBhbmQgdGhlbiAnYycgdW5kZXIgb25lIGtleSBjb21iaW5hdGlvbi4g
-SGF2aW5nIHRoYXQgc3VwcG9ydGVkCj4+IHVwc3RyZWFtIGJyaW5ncyB1cyBvbmUgbGl0dGxlIHN0
-ZXAgY2xvc2VyIHRvIHRob3NlIG1hY2hpbmVzIHJ1bm5pbmcKPj4gdXBzdHJlYW0ga2VybmVsLgo+
-IAo+IFdobyBpcyBjYXVzaW5nIHRoYXQgdG8gImV4ZWN1dGUiPyAgU29tZSBkYWVtb24vcHJvZ3Jh
-bT8KCk5vLCBhcyBmYXIgYXMgSSBrbm93IHRoZXkgcGF0Y2ggdGhlIGtlcm5lbCB0byBjaGFuZ2Ug
-dGhlIGJlaGF2aW9yCm9mIFN5c3JxLXggY29tYmluYXRpb24sIHNvIHRoZSAiZXhlY3V0aW9uIiBp
-cyB0cmlnZ2VyZWQgYnkgdGhlIHVzZXIuCgo+IAo+PiBBbm90aGVyIGFyZ3VtZW50IGZvciBzdWNo
-IGEgIm1hY3JvIGxhbmd1YWdlIiBpcyB3aGVuIGEgbWFjaGluZSdzIHN5c3RlbQo+PiBrZWVwcyBk
-ZWdyYWRpbmcgb3ZlciB0aW1lLCBwb3NzaWJseSBkZWdyYWRpbmcgKHJlbGF0aXZlbHkpIGZhc3Qu
-Cj4+ICJSYWlzaW5nIEVsZXBoYW50cyBJcyBTbyBVdHRlcmx5IEJvcmluZyIgY29uc2lzdHMgb2Yg
-NiBhY3Rpb25zLCBlYWNoCj4+IG9mIHdoaWNoIHJlcXVpcmVzIHByZXNzaW5nIHNldmVyYWwga2V5
-cy4gVGhlIHVzZXIgbWlnaHQgYmUgdW5hYmxlCj4+IHRvIGNvbXBsZXRlIGFsbCB0aGUgNiBzdGVw
-cywgd2hpbGUgYSAibWFjcm8iIHJlcXVpcmVzIHVzZXIncyBpbnZvbHZlbWVudAo+PiBmb3IgY2Fy
-cnlpbmcgb3V0IGp1c3Qgb25lIHN0ZXAuCj4gCj4gU28geW91IHdhbnQgdG8gInByZWxvYWQiIHNv
-bWUgY29tbWFuZHMgYWhlYWQgb2YgdGltZSwgZm9yIHdoZW4geW91IGdldAo+IGluIHRyb3VibGUK
-SXQgY2FuIGJlIHNhaWQgdGhpcyB3YXksIHllcy4KCj4gCj4gVGhlc2Ugc2hvdWxkIGp1c3QgYmUg
-ZGVidWdnaW5nIC8gbGFzdCByZXNvcnQgdHlwZXMgb2YgdGhpbmdzLCBob3cKPiByZWd1bGFyIGFy
-ZSB0aGV5IGJlaW5nIHVzZWQgaW4geW91ciBzeXN0ZW1zPwo+IAoKVGhlICJSRUlTVUIiIGl0c2Vs
-ZiBpcyBhIGtpbmQgb2YgYSBsYXN0IHJlc29ydCB0aGluZy4KCkl0IGlzIHRydWUgdGhhdCBpdCdz
-IG5vdCBhIHZlcnkgZnJlcXVlbnQgc2l0dWF0aW9uLCBidXQgZG9lcyBpdHMgYmVpbmcgcmFyZQpw
-cmVjbHVkZSBoYXZpbmcgc3VjaCBhIGZ1bmN0aW9uIGluIHRoZSBrZXJuZWw/CgpXaGlsZSBwcmVw
-YXJpbmcgdGhpcyBwYXRjaCBJIHdhbnRlZCBpdCB0byBiZSBmbGV4aWJsZSwgYnV0IHBlcmhhcHMg
-aXQgaXMKdG9vIGZsZXhpYmxlIGZvciBzb21lIHJlYXNvbj8gSWYgdGhlIHBlcm1pc3Npb25zIG9m
-IHRoZSBtb2R1bGVfcGFyYW0ncwpzeXNmcyBlbnRyeSB3ZXJlIGNoYW5nZWQgdG8gMDQ0NCB3b3Vs
-ZCBpdCBiZSBiZXR0ZXI/IFRoZW4gdGhlIGNvbXBvdW5kCmFjdGlvbiB3b3VsZCBzdGlsbCBiZSBj
-b25maWd1cmFibGUgYnV0IG9ubHkgYXQgYm9vdCB0aW1lIHJhdGhlciB0aGFuIGF0CmJvb3QgdGlt
-ZSBfYW5kXyBydW50aW1lLgoKUmVnYXJkcywKCkFuZHJ6ZWoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+--===============1408177853==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="u4bs7qtkzx5ibc3n"
+Content-Disposition: inline
+
+
+--u4bs7qtkzx5ibc3n
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Rob,
+
+On Tue, Sep 29, 2020 at 02:00:55PM -0500, Rob Herring wrote:
+> On Fri, Sep 25, 2020 at 03:07:43PM +0200, Maxime Ripard wrote:
+> > There's cross-talk on the RPi4 between the 2.4GHz channels used by the =
+WiFi
+> > chip and some resolutions, most notably 1440p at 60Hz.
+> >=20
+> > In such a case, we can either reject entirely the mode, or lower slight=
+ly
+> > the pixel frequency to remove the overlap. Let's go for the latter.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  .../bindings/display/brcm,bcm2711-hdmi.yaml        |  6 ++++++
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c                     | 14 +++++++++++++-
+> >  drivers/gpu/drm/vc4/vc4_hdmi.h                     |  8 ++++++++
+> >  3 files changed, 27 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdm=
+i.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > index 03a76729d26c..63e7fe999c0a 100644
+> > --- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > @@ -76,6 +76,12 @@ properties:
+> >    resets:
+> >      maxItems: 1
+> > =20
+> > +  raspberrypi,disable-wifi-frequencies:
+> > +    type: boolean
+> > +    description: >
+> > +      Should the pixel frequencies in the WiFi frequencies range be
+> > +      avoided?
+>=20
+> Based on googling the issue, perhaps should be a common property?
+
+This is a fairly generic issue indeed, but went for the most
+non-intrusive way. Do you have a better idea of a generic name, or do
+you just want me to drop the vendor prefix?
+
+Maxime
+
+--u4bs7qtkzx5ibc3n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3SCewAKCRDj7w1vZxhR
+xR6PAP9FsndGYY6v0exCfbGLeQIs4y5yblaoV5yQPygk9VDPOQD9GeC07fLj3UJQ
+Yph2AlUG43iC5/XHQuxmhu+6Qyigowg=
+=DlkQ
+-----END PGP SIGNATURE-----
+
+--u4bs7qtkzx5ibc3n--
+
+--===============1408177853==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1408177853==--
