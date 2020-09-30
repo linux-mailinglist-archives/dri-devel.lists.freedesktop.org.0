@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BB427F137
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 20:21:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7D827F170
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 20:37:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 126B96E057;
-	Wed, 30 Sep 2020 18:20:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 230266E7E6;
+	Wed, 30 Sep 2020 18:37:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7526E057;
- Wed, 30 Sep 2020 18:20:58 +0000 (UTC)
-IronPort-SDR: 0GTwuAEO5zgEGtKKFBo3FQfYm1xgR8DfuUL2x6ebHtTEDlCdJcIA33cugOqwk/bdYefuBUkEP4
- ca/hvTuG+0Aw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9760"; a="159902024"
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="159902024"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2020 11:20:52 -0700
-IronPort-SDR: 9Vb3E6ozvWB73NseKajot+EllQ2++xbyrAiunoR9Ya0+hNXa+vxD09CE21wMEW1aA14RUElCgw
- hLBdRA89Be2A==
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="294112582"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.168])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2020 11:20:51 -0700
-Date: Wed, 30 Sep 2020 11:20:49 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
-Message-ID: <20200930182049.GD2245633@mdroper-desk1.amr.corp.intel.com>
-References: <d235e6f34182e327d8bb46383f6c3ef518b5fc23.camel@intel.com>
- <20200929200201.GH6112@intel.com>
- <a4a075597c7d3e65b25598ab696a59eccbd2a069.camel@intel.com>
- <20200929203022.GI6112@intel.com>
- <20200929210144.GA2214475@mdroper-desk1.amr.corp.intel.com>
- <20200929211148.GJ6112@intel.com> <20200929215958.GK6112@intel.com>
- <20200929233822.GC2214475@mdroper-desk1.amr.corp.intel.com>
- <20200930103812.GL6112@intel.com> <87zh57mnft.fsf@intel.com>
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7919E6E372
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 18:37:36 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id m12so2854392otr.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 11:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GZokKNgMejCKfo0F2vRKE9nImzYNSzp/HUH90Pr6PJU=;
+ b=Iz7k38YFYItPAO2RtiflnlRb5+BDWfPx9FQCvvU2f8SdCl7V1y7fJW6E60irWiBOlQ
+ fH9GEK1n0pwT4bpaxG/cqFn7l9Zse+u3/d1Pt4ggVZd6tM3YSzezV3iBWBtU9IY/SgXQ
+ GGeYqXdFFnSWXcgBytqYXCxu9xUWTpvQgSvlA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GZokKNgMejCKfo0F2vRKE9nImzYNSzp/HUH90Pr6PJU=;
+ b=N3jw2ZgkQ/dltKxn9Yy34L7DueSnOiO3TVNAngRutUyU7iGcdQZoZ5AlZCv8XapClc
+ 3WDQO3XpvPy8PQlvkVp1yhMMDTlwVB7PQAnBZCn76zySFhM74YEgm5eGVwL7h5bhfHhq
+ JpQuxBFpAau1dB/DFbA3RpDaIEg6v8nIoCFAliSnYDJg2A/sf8llWGz/XDABYFXh3JzL
+ pJT/iMrzg4DQGgCQ7lDi2+YiMbiR6Qow7Djse+qEUfa2z51woTHyNAKgWZdlGpWbvUsX
+ jQdg8xZcZV9UeMtDnXGStYOMVrEYbLrm741euaAVI8vI6i71JSPlK2cKXUMt2G1GMquH
+ z/Kg==
+X-Gm-Message-State: AOAM531wmngHNCXnl4iqCAwId8JwucBTzb2cXm+QMJU2tvKYSCBZpaPg
+ kiRl0gsm2NckGliVBmiXINE+i26SVUXDyWIeNCiO0w==
+X-Google-Smtp-Source: ABdhPJzmG8KuipdmIEStVjCt4k/yD8YpcM6mVrZ29T55c3684BNdLJdgOsz6wDtmq5u1TIJFW1qJF02gBOu8zFVEiX4=
+X-Received: by 2002:a05:6830:14d9:: with SMTP id
+ t25mr2508122otq.188.1601491055725; 
+ Wed, 30 Sep 2020 11:37:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87zh57mnft.fsf@intel.com>
+References: <20200924135853.875294-1-hch@lst.de>
+ <20200925194349.d0ee9dbedb2ec48f0bfcd2ec@linux-foundation.org>
+ <20200926062959.GA3427@lst.de>
+ <160128801808.6464.1013594053120198786@jlahtine-mobl.ger.corp.intel.com>
+ <20200928123741.GA4999@lst.de>
+ <160138340987.15771.13645983702040612672@jlahtine-mobl.ger.corp.intel.com>
+ <20200930144839.GA897@lst.de>
+In-Reply-To: <20200930144839.GA897@lst.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 30 Sep 2020 20:37:24 +0200
+Message-ID: <CAKMK7uE98o-ELvPZ0YVWjrVWgESVEEz5OSexA_qU64qemihyRg@mail.gmail.com>
+Subject: Re: remove alloc_vm_area v2
+To: Christoph Hellwig <hch@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,102 +64,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pandey, Hariom" <hariom.pandey@intel.com>, "Ausmus,
- James" <james.ausmus@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "De Marchi, Lucas" <lucas.demarchi@intel.com>, "Souza,
- Jose" <jose.souza@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Surendrakumar Upadhyay,
- TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Linux MM <linux-mm@kvack.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Stefano Stabellini <sstabellini@kernel.org>, X86 ML <x86@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
+ Nitin Gupta <ngupta@vflare.org>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Juergen Gross <jgross@suse.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Minchan Kim <minchan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 03:57:58PM +0300, Jani Nikula wrote:
-> On Wed, 30 Sep 2020, Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com> wr=
-ote:
-> > Now we have an actual difference between EHL and JSL so we
-> > should split. Granted it's a bit annoying to have to do it
-> > just for some vswing tables. Ideally that stuff would be
-> > specified in a sane way by the VBT. But since VBT is generally
-> > useless we need to deal with this on a platform level.
-> =
+On Wed, Sep 30, 2020 at 4:48 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Tue, Sep 29, 2020 at 03:43:30PM +0300, Joonas Lahtinen wrote:
+> > Hmm, those are both committed after our last -next pull request, so they
+> > would normally only target next merge window. drm-next closes the merge
+> > window around -rc5 already.
+> >
+> > But, in this specific case those are both Fixes: patches with Cc: stable,
+> > so they should be pulled into drm-intel-next-fixes PR.
+> >
+> > Rodrigo, can you cherry-pick those patches to -next-fixes that you send
+> > to Dave?
+>
+> They still haven't made it to linux-next.  I think for now I'll just
+> rebase without them again and then you can handle the conflicts for
+> 5.11.
 
-> Just to recap, we have three basic approaches for differentiating
-> platforms based on PCI ID:
-> =
+Yeah after -rc6 drm is frozen for features, so anything that's stuck
+in subordinate trees rolls over to the next merge cycle. To avoid
+upsetting sfr from linux-next we keep those -next branches out of
+linux-next until after -rc1 again. iow, rebasing onto linux-next and
+smashing this into 5.10 sounds like the right approach (since everyone
+else freezes a bunch later afaik).
 
-> - Separate platforms, each with their own device info and enum
->   intel_platform, using IS_<PLATFORM>() for checks.
-> =
-
-> - Same platform, with subplatforms, using IS_SUBPLATFORM() for
->   checks. Generally only used for the ULT/ULX checks, but there's also
->   the CNL/ICL port F case which is perhaps comparable.
-> =
-
-> - Same platform, each with their own device info, and a feature flag.
-> =
-
-> (In this case, checking the PCH is a proxy; there is no actual
-> difference in the PCHs to account for the different values to be
-> used. Mixing PCHs with the platforms would lead to problems.)
-> =
-
-> We've been told JSL and EHL are the same, which would argue for keeping
-> them INTEL_ELKHARTLAKE. We've done this with other platforms that are
-> identical. However, now it looks like they're not the same... why not if
-> they're supposed to be identical? What else is there?
-
-My understanding is that they are identical, but the design guidelines
-for the *motherboards* that they will plug into are different, which
-necessitates different electrical tuning values to guarantee clean
-display signals.  Ville's right that it would be nice if this kind of
-stuff was just available from something like the VBT instead of being
-hardcoded into the driver, but sadly that's just not the case today.
-
-So yes, none of this is related to the South Display which is the only
-place we usually care about the PCH in the graphics driver.  But PCH is
-correlated with board type, which is why I suggested matching on the PCH
-in the first place.
-
-If we really want to split these two platforms then I'd suggest we add a
-new macro like
-
-        #define IS_EHL_JSL(i915) ( \
-                IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE) || \
-                IS_PLATFORM(dev_priv, INTEL_JASPERLAKE))
-
-and use that everywhere else in the driver.  For the vswing code itself
-we'd just do a direct IS_PLATFORM() check with just one platform or the
-other provided; no need to add IS_ELKHARTLAKE/IS_JASPERLAKE macros in
-that case since it would be a bug to differentiate between the two
-anywhere else in the driver.
-
-
-Matt
-
-> =
-
-> BR,
-> Jani.
-> =
-
-> =
-
-> -- =
-
-> Jani Nikula, Intel Open Source Graphics Center
-
--- =
-
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
