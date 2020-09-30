@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B9427F40C
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 23:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121B027F4F8
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 00:18:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1D486E82C;
-	Wed, 30 Sep 2020 21:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D956E831;
+	Wed, 30 Sep 2020 22:18:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB716E82E
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 21:16:19 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id d9so2181059pfd.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 14:16:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2U/fjg//jswj3Yudi2Db1uBr5ff+2io2dnuoLW/qR0A=;
- b=qA0BKeGOCvBF9bL80rgHz360wFyWQUEkiHm4zDy+G1Vi2O18MzTYl4/04CVlt8FHMb
- 7mOK9eG8CD5gzFIeVmFNyVVZGTZpx0EIsMHkCHoJNO782DwRYy1Vm12N7Dy47k9CTnHM
- pTCaeZhi4OF0dOqujGlBpf+cf4xCQnevxhOztZC2hXzlVLX1cN+ZQqdMXFtXlsVKmD2O
- 1IiwohPL5VpKhw6nGriSvKODwJ+g7dCmaHjOWXhCiTx+7w9CWmLoRVk7mHXL4bnQ2LtC
- QM3oKuE3lfL84CDD+Mv+vWcDMce0nLwUsNUQBEC7aE3rVBZhNf0HcmavkdkvKzipiAQY
- LX4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2U/fjg//jswj3Yudi2Db1uBr5ff+2io2dnuoLW/qR0A=;
- b=Rz+3aSEW2gm0pbfPPsN1u3AJN77ZmXfh9h+DFutFBML0Wmu8c9VZub+XzdDN0F861Z
- 2BDewMXQ0KnaXaLx2acz838HKN2/lzeWAIFNVlu4HeyZx2SuPMa161f7slDGZ1OLV9pH
- VmlDsMA0yANj0HnumdF7lmuaW5JH7GnuzZSfp9NU3IJr3drCt7i2YLL/NSd7jax66Avf
- EbSsPunLH0ikKF51zSYmQexv75QaSXp6p0ouqlTO4vGcRXxN9NRPgRYK/LlZ3jCbeHT9
- 3CdjnGbvrAriv9C1i+uzMv5t9myPCuSJWYveYvZppokKcNvm7La/ePA1l6POuL7he5bR
- YJaw==
-X-Gm-Message-State: AOAM533ZrjKE05wFJla3nEJGbuWylGZxW/lVnnUTv7whor8IkDCmPTWI
- gXH2Dnv2KENOjzvw7j8oyjsclFWSZrs=
-X-Google-Smtp-Source: ABdhPJwTRuxYSLgbeUmLAYi4ke/Rev9ysHOLICTOKEacpnjGaRU4LkJop3kZqCMXI2Gd88aZDrdvSw==
-X-Received: by 2002:a17:902:d888:b029:d0:cb2d:f274 with SMTP id
- b8-20020a170902d888b02900d0cb2df274mr3965422plz.13.1601500578174; 
- Wed, 30 Sep 2020 14:16:18 -0700 (PDT)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id n2sm3609064pfe.208.2020.09.30.14.16.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 14:16:17 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm: Expose CRTC's kworker task id
-Date: Wed, 30 Sep 2020 14:17:22 -0700
-Message-Id: <20200930211723.3028059-4-robdclark@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200930211723.3028059-1-robdclark@gmail.com>
-References: <20200930211723.3028059-1-robdclark@gmail.com>
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21256E830;
+ Wed, 30 Sep 2020 22:18:35 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f7503d50000>; Wed, 30 Sep 2020 15:16:53 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 30 Sep
+ 2020 22:18:31 +0000
+Received: from agoins-ThinkPad-P50.nvidia.com (10.124.1.5) by mail.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server id 15.0.1473.3 via
+ Frontend Transport; Wed, 30 Sep 2020 22:18:30 +0000
+From: Alex Goins <agoins@nvidia.com>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH RFC 0/1] drm/ttm: Allocate transparent huge pages without
+ clearing __GFP_COMP
+Date: Wed, 30 Sep 2020 17:18:20 -0500
+Message-ID: <20200930221821.13719-1-agoins@nvidia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-NVConfidentiality: public
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1601504213; bh=tMz3LKthgMWnzr+Vh8IQBgPkRR2AQ1/d22RThpXsnoY=;
+ h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+ X-NVConfidentiality:Content-Transfer-Encoding:Content-Type;
+ b=mwGFiDJ29YNCR0H+y/SRd0On62HFQ+reIG+9/N/VhoHqenLu8TGk9HKHlC56iB4cs
+ MVOm9C3Pq4p1ai3t7MZGhJrMmvA2It9getxhN8IAOJ8K9LVt92G3euxwFv75pi9bh+
+ v0tuhThKhhNBASSNhAdh7DD3I6a4Bzr+/9xYRHZDyhWHAQ2zGdkoxcgoy2FdBSyDDv
+ /c7TOZeoGy8pEhjXDcHYa3aRz+rLgRhp4ksb/LUSIGLGcII9gb6baAXhikiHpbv/oR
+ Vl6V8QQzU/HyIDwCjKUO1nS7CdRh5zTR2qMlG2xdJcHpsCeRna2p09i4yUD7mmuV5u
+ BR9dG8ExpM9BQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,141 +53,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>, timmurray@google.com,
- Tejun Heo <tj@kernel.org>, Qais Yousef <qais.yousef@arm.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, amd-gfx@lists.freedesktop.org, Zi Yan <ziy@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hi Christian,
 
-This will allow userspace to control the scheduling policy and priority.
-In particular if the userspace half of the display pipeline is SCHED_FIFO
-then it will want to use the same scheduling policy and an appropriate
-priority to ensure that it is not preempting commit_work.
+I've been looking into the DMA-BUFs exported from AMDGPU / TTM. Would
+you mind giving some input on this?
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/drm_crtc.c        |  3 +++
- drivers/gpu/drm/drm_mode_config.c | 14 ++++++++++++++
- drivers/gpu/drm/drm_mode_object.c |  4 ++++
- include/drm/drm_mode_config.h     |  9 +++++++++
- include/drm/drm_property.h        |  9 +++++++++
- 5 files changed, 39 insertions(+)
+I noticed that your changes implementing transparent huge page support
+in TTM are allocating them as non-compound. I understand that using
+multiorder non-compound pages is common in device drivers, but I think
+this can cause a problem when these pages are exported to other drivers.
 
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index 4f7c0bfce0a3..1828853542dc 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -334,6 +334,9 @@ int drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
- 			crtc->worker = NULL;
- 			return ret;
- 		}
-+
-+		drm_object_attach_property(&crtc->base,
-+					   config->kwork_tid_property, 0);
- 	}
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index f1affc1bb679..b11a1fc8ed0d 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -215,6 +215,13 @@ static const struct drm_prop_enum_list drm_plane_type_enum_list[] = {
- 	{ DRM_PLANE_TYPE_CURSOR, "Cursor" },
- };
- 
-+static int get_kwork_tid(struct drm_mode_object *obj, uint64_t *val)
-+{
-+	struct drm_crtc *crtc = obj_to_crtc(obj);
-+	*val = task_pid_vnr(crtc->worker->task);
-+	return 0;
-+}
-+
- static int drm_mode_create_standard_properties(struct drm_device *dev)
- {
- 	struct drm_property *prop;
-@@ -371,6 +378,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
- 		return -ENOMEM;
- 	dev->mode_config.modifiers_property = prop;
- 
-+	prop = drm_property_create_range(dev, DRM_MODE_PROP_ATOMIC,
-+			"KWORK_TID", 0, UINT_MAX);
-+	if (!prop)
-+		return -ENOMEM;
-+	prop->get_value = get_kwork_tid;
-+	dev->mode_config.kwork_tid_property = prop;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-index db05f386a709..1a4df65baf0f 100644
---- a/drivers/gpu/drm/drm_mode_object.c
-+++ b/drivers/gpu/drm/drm_mode_object.c
-@@ -285,6 +285,7 @@ int drm_object_property_set_value(struct drm_mode_object *obj,
- 
- 	WARN_ON(drm_drv_uses_atomic_modeset(property->dev) &&
- 		!(property->flags & DRM_MODE_PROP_IMMUTABLE));
-+	WARN_ON(property->get_value);
- 
- 	for (i = 0; i < obj->properties->count; i++) {
- 		if (obj->properties->properties[i] == property) {
-@@ -303,6 +304,9 @@ static int __drm_object_property_get_value(struct drm_mode_object *obj,
- {
- 	int i;
- 
-+	if (property->get_value)
-+		return property->get_value(obj, val);
-+
- 	/* read-only properties bypass atomic mechanism and still store
- 	 * their value in obj->properties->values[].. mostly to avoid
- 	 * having to deal w/ EDID and similar props in atomic paths:
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index c2d3d71d133c..7244df926a6d 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -926,6 +926,15 @@ struct drm_mode_config {
- 	 */
- 	struct drm_property *modifiers_property;
- 
-+	/**
-+	 * @kwork_tid_property: CRTC property to expose the task-id of the per-
-+	 * CRTC kthread-worker, used for non-block atomic commit.  This is exposed
-+	 * to userspace, to allow userspace to control the scheduling policy and
-+	 * priority, as this is a decision that depends on how userspace structures
-+	 * it's rendering pipeline.
-+	 */
-+	struct drm_property *kwork_tid_property;
-+
- 	/* cursor size */
- 	uint32_t cursor_width, cursor_height;
- 
-diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
-index 4a0a80d658c7..6843be6aa3ec 100644
---- a/include/drm/drm_property.h
-+++ b/include/drm/drm_property.h
-@@ -188,6 +188,15 @@ struct drm_property {
- 	 * enum and bitmask values.
- 	 */
- 	struct list_head enum_list;
-+
-+	/**
-+	 * @get_value: accessor to get current value for "virtual" properties
-+	 *
-+	 * For properties with dynamic values, where it is for whatever reason
-+	 * not feasible to keep updated with drm_object_property_set_value(),
-+	 * this callback can be used to retrieve the current value on demand.
-+	 */
-+	int (*get_value)(struct drm_mode_object *obj, uint64_t *val);
- };
- 
- /**
+It's possible for other drivers to access the DMA-BUF's pages via
+gem_prime_import_sg_table(), but without context from TTM, it's
+impossible for the importing driver to make sense of them; they simply
+appear as individual pages, with only the first page having a non-zero
+refcount. Making TTM's THP allocations compound puts them more in line
+with the standard definition of a THP, and allows DMA-BUF-importing
+drivers to make sense of the pages within.
+
+I would like to propose making these allocations compound, but based on
+patch history, it looks like the decision to make them non-compound was
+intentional, as there were difficulties figuring out how to map them
+into CPU page tables. I did some cursory testing with compound THPs, and
+nothing seems obviously broken. I was also able to map compound THP
+DMA-BUFs into userspace without issue, and access their contents. Are
+you aware of any other potential consequences?
+
+Commit 5c42c64f7d54 ("drm/ttm: fix the fix for huge compound pages") should
+probably also be reverted if this is applied.
+
+Thanks,
+Alex
+
+Alex Goins (1):
+  drm-ttm: Allocate compound transparent huge pages
+
+ drivers/gpu/drm/ttm/ttm_page_alloc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
 -- 
-2.26.2
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
