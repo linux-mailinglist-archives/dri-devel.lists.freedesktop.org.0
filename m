@@ -1,52 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01ABA27FA5A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 09:34:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB12427FB41
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B0E6E85F;
-	Thu,  1 Oct 2020 07:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED6A6E84B;
+	Thu,  1 Oct 2020 08:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B40126E85F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 07:34:51 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id a13so1662312otl.13
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 00:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M3t5u/IjN/gL/P8pqhUlq/SfjEUTm2EjDpkRAYR6c4w=;
- b=OgYNuEdlKW5kR4E3Kl27GKjVoAUIqv4sfGNlXKtrnJ10S71KPcWuNCjLQ7Fied+JNf
- cZdZHZdTDQ00beyWvwvbCjpM+sjMVo5quw7mCGqpNrp9rXnYqKX4sUnjILwuqK79R1Ai
- mUSaAkd08MFs5rIuZ+HLZ4PIk1v/qivyRF9HM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M3t5u/IjN/gL/P8pqhUlq/SfjEUTm2EjDpkRAYR6c4w=;
- b=Efca+yGHOvq9uOj2mMlfPPXEKo4Xh6zDDn17IY/aN/thMZ9ZIO4KqkXCS4M1/d0oDx
- isbwJbDNBA52ChsDwHArbPafIousA6xRnrIUJVnIV8TkHqIs1K6WhtQ21oPtwbn7NFsy
- LDywo12/9NepMJcNgR074ARE1NxHdWsEMeKcB/0lkI1dUuNRm+IdmKp+QcI7Widoziq1
- QWMDuyXErX3zoRvIEz8oERV9JsEuJfJ5xsT2JqhFHDhQePAIiVKnp0mjkDPp3SRX0FsB
- eNEflC3stC2KGvoHt3qpjARGGFthjVYevq4fIqI7VVVjhN7wIXWJ4e1rMc2OiAEEFpXW
- g7QQ==
-X-Gm-Message-State: AOAM533M1nE7XS87bAPYMJeB9jAglRy/qC+iE/J0nrpbyDFqpgzUouge
- m/YmAmUWRqtOWMuT/aDt5BneDmgN3dm5hc0C97jhsQ==
-X-Google-Smtp-Source: ABdhPJzNKn7MWzVeCzvOTyEtg5692fYCLDg8orn/WbAG8JFhrvHF5qSLNs3chJx9zv9MdA1mCI0h5fCjmJtLNwIAVjE=
-X-Received: by 2002:a05:6830:1e56:: with SMTP id
- e22mr3855933otj.303.1601537691033; 
- Thu, 01 Oct 2020 00:34:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201001042012.13114-1-airlied@gmail.com>
-In-Reply-To: <20201001042012.13114-1-airlied@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 1 Oct 2020 09:34:40 +0200
-Message-ID: <CAKMK7uGzb7ovFnMnFy72i_TkehWmccBHtuRk1A5mrhmhT4Q1pg@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: fix regression in thp code due to ttm init
- refactor.
-To: Dave Airlie <airlied@gmail.com>
+Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9A4206E584
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 08:25:14 +0000 (UTC)
+Received: from localhost.localdomain (unknown [159.226.5.100])
+ by APP-03 (Coremail) with SMTP id rQCowAC3vlZ1P3Rfy_SiAA--.33255S2;
+ Wed, 30 Sep 2020 16:19:01 +0800 (CST)
+From: Xu Wang <vulab@iscas.ac.cn>
+To: a.hajda@samsung.com, narmstrong@baylibre.com,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@siol.net, daniel@ffwll.ch, airlied@linux.ie
+Subject: [PATCH] drm/bridge: ti-sn65dsi86: remove redundant null check
+Date: Wed, 30 Sep 2020 08:18:59 +0000
+Message-Id: <20200930081859.52431-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: rQCowAC3vlZ1P3Rfy_SiAA--.33255S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JF4UZF47GFy5Wry3ZFy8Grg_yoWfJwc_CF
+ n8trZFgan8Zrnakr47Cw43Zr9Fyw1q9FWkGw10qa93Jr90vry3u34Igry5XrnruF1UJF17
+ Jw1DGF13Ars7ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb7AYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE14v_GFyl42xK82IY
+ c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+ 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
+ 0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0x
+ vE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0eyxtUUUUU==
+X-Originating-IP: [159.226.5.100]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCwYPA1z4jeNkuwAAsU
+X-Mailman-Approved-At: Thu, 01 Oct 2020 08:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,76 +54,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roland Scheidegger <sroland@vmware.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 1, 2020 at 6:20 AM Dave Airlie <airlied@gmail.com> wrote:
->
-> From: Dave Airlie <airlied@redhat.com>
->
-> When I refactored this code with the new init paths, I failed to
-> set the funcs back up properly, this caused a failure to bringup
-> gdm properly.
->
-> Fixes: 252f8d7b9174 ("drm/vmwgfx/ttm: convert vram mm init to new code paths")
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+Because clk_disable_unprepare already checked NULL clock parameter,
+so the additional checks are unnecessary, just remove it
 
-Indeed, I missed that that got lost.
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_thp.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-> index 63fe7da4cbf4..c158e672b762 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-> @@ -26,6 +26,8 @@ static struct vmw_thp_manager *to_thp_manager(struct ttm_resource_manager *man)
->         return container_of(man, struct vmw_thp_manager, manager);
->  }
->
-> +static const struct ttm_resource_manager_func vmw_thp_func;
-> +
->  static int vmw_thp_insert_aligned(struct drm_mm *mm, struct drm_mm_node *node,
->                                   unsigned long align_pages,
->                                   const struct ttm_place *place,
-> @@ -132,6 +134,7 @@ int vmw_thp_init(struct vmw_private *dev_priv)
->         ttm_resource_manager_init(&rman->manager,
->                                   dev_priv->vram_size >> PAGE_SHIFT);
->
-> +       rman->manager.func = &vmw_thp_func;
->         drm_mm_init(&rman->mm, 0, rman->manager.size);
->         spin_lock_init(&rman->lock);
->
-> @@ -171,7 +174,7 @@ static void vmw_thp_debug(struct ttm_resource_manager *man,
->         spin_unlock(&rman->lock);
->  }
->
-> -const struct ttm_resource_manager_func vmw_thp_func = {
-> +static const struct ttm_resource_manager_func vmw_thp_func = {
->         .alloc = vmw_thp_get_node,
->         .free = vmw_thp_put_node,
->         .debug = vmw_thp_debug
-> --
-> 2.20.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
-
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 5b6e19ecbc84..1b01836f1eb1 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -819,8 +819,7 @@ static void ti_sn_bridge_post_disable(struct drm_bridge *bridge)
+ {
+ 	struct ti_sn_bridge *pdata = bridge_to_ti_sn_bridge(bridge);
+ 
+-	if (pdata->refclk)
+-		clk_disable_unprepare(pdata->refclk);
++	clk_disable_unprepare(pdata->refclk);
+ 
+ 	pm_runtime_put_sync(pdata->dev);
+ }
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
