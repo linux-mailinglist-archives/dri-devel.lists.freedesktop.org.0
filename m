@@ -1,38 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60ED27FB44
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:16:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B6D27FB59
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:17:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B36916E872;
-	Thu,  1 Oct 2020 08:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5287F6E888;
+	Thu,  1 Oct 2020 08:17:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED9789CE0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 13:33:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1601472804; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ecNy/ZxFnTbjbqIO9nlUei1JR0PPL4AarFwXzFKz9CI=;
- b=lxYQCYkS2XdyqSqq16yw9/T40tnQonUGTBT6Sv19anGho7VUp97RwFz4qhnHgq1E9+MtLF
- v08Kd9A3oakGolE3MCiGYlzZpXxo5iHj5FyOzgqTweF97cPa8pGejg52DFJ5KEOpNBHrog
- e+Js9L8qS1uQsNBoXvJoJRJUqwxI91Y=
-Date: Wed, 30 Sep 2020 15:33:13 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: linux-next: build failure after merge of the drm tree
-To: Christoph Hellwig <hch@lst.de>
-Message-Id: <DB4HHQ.1KMN8GNWYJLC1@crapouillou.net>
-In-Reply-To: <20200930090252.GA9357@lst.de>
-References: <20200928135405.73404219@canb.auug.org.au>
- <20200928060427.GA15041@lst.de> <KU5DHQ.C9RVOLP69UO81@crapouillou.net>
- <20200928113415.GA555@lst.de> <72ADHQ.T6LL1SHQF0RG3@crapouillou.net>
- <20200928121002.GA3219@lst.de> <GWEDHQ.HNERRUK8XXOM2@crapouillou.net>
- <20200930090252.GA9357@lst.de>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52ECA89DB8
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 13:47:09 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id s13so1777758wmh.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 06:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atcomputing.nl; s=atcomputing-nl;
+ h=message-id:subject:from:to:date:organization:user-agent
+ :mime-version:content-transfer-encoding;
+ bh=DYqXNtnLEfZnCBFKtbviH+9NWjsKFBRmS/kwN3GTpa0=;
+ b=HIYLfPKnGM8o5bdjc50HwUlCMAP3utMxQMs1kopwBfUxU4mwMV3d5yijzGxs5ccaEE
+ Mb2jzlTBU7zoV8gjbps5lidJzdaB/la8hU43FSjJ5BkSOE3M7bzi3TILrnUv26JyDgyn
+ pRPTdYNWmAHIHyIyFHpO8vwRmXbxbQSgRfsmA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:date:organization
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=DYqXNtnLEfZnCBFKtbviH+9NWjsKFBRmS/kwN3GTpa0=;
+ b=h8FyMXVol5JUEXSQbAFTlT9Ibat80YUcI/D2Bwa7EsQggzHJ9sLLY9kdbNfcLmNcBM
+ GBoL0jat5GsP9iC0JYrZ2Cn3yrhrRIKHeslR3ixmQhRRYB8kVIFPbuAy30u+sEfn862Q
+ hMjHKKXXYvFXm5B+OeQ0seA2SvVgtyIh4vqjBs1q0q2pkp9whDrp8w15YFSUj7trOQjx
+ f+tPdUNx7j4lypolt77iu1ljVSZrm6oA4hf9rCdlsfuMkP+a5u4UaVq2/aWt9P1Py/IB
+ YiR6tvEDPDwEVhfWLeIjSYlUJqPWSPq3pAiJ6OdGp33RacYzZCwYdaOVnPPVw6Rc26JJ
+ FV5A==
+X-Gm-Message-State: AOAM5313OUeoUIMNSjOQtAr5aqgrlZjztn5YWJJSEFg6iWfTDb3ySaY/
+ nIcavstLE3aJBdn6ObSt/nx8EQ==
+X-Google-Smtp-Source: ABdhPJzN/PZ6aGuW3RXOEPyUnQQ8HCa2Nbz6+quQg/MxuSdPTN35SEMoxvzwBkcsYYv5VfQ8XG4bUQ==
+X-Received: by 2002:a05:600c:283:: with SMTP id
+ 3mr3273113wmk.110.1601473627953; 
+ Wed, 30 Sep 2020 06:47:07 -0700 (PDT)
+Received: from nyx ([2001:980:74ee:1:1ec4:4a28:e4c9:705c])
+ by smtp.gmail.com with ESMTPSA id v128sm2797486wme.2.2020.09.30.06.47.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Sep 2020 06:47:07 -0700 (PDT)
+Message-ID: <60a804aa6357eb17daa1729f4bce25e762344e9f.camel@atcomputing.nl>
+Subject: [PATCH] Revert "drm/i915: Force state->modeset=true when
+ distrust_bios_wm==true"
+From: Stefan Joosten <stefan@atcomputing.nl>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Date: Wed, 30 Sep 2020 15:47:06 +0200
+Organization: AT Computing
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 01 Oct 2020 08:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,66 +70,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christoph,
+The fix of flagging state->modeset whenever distrust_bios_wm is set
+causes a regression when initializing display(s) attached to a Lenovo
+USB-C docking station. The display remains blank until the dock is
+reattached. Revert to bring the behavior of the functional v5.6 stable.
 
-Le mer. 30 sept. 2020 =E0 11:02, Christoph Hellwig <hch@lst.de> a =E9crit =
+This reverts commit 0f8839f5f323da04a800e6ced1136e4b1e1689a9.
 
-:
-> On Mon, Sep 28, 2020 at 03:31:28PM +0200, Paul Cercueil wrote:
->>  It's allocated with dma_alloc_wc, but then it's only accessed as
->>  non-coherent.
->> =
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1879442
+Signed-off-by: Stefan Joosten <stefan@atcomputing.nl>
+---
+ drivers/gpu/drm/i915/display/intel_display.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
->>  Anyway, for the time being I guess you could revert 37054fc81443. =
-
->> But I
->>  have patches on top of it in drm-misc-next so it's going to be a =
-
->> mess.
->> =
-
->>  If we have time I can come up with a custom dumb_create() fonction, =
-
->> to make
->>  sure that the GEM buffers are allocated with =
-
->> dma_alloc_noncoherent(). Is
->>  there a dma_mmap_noncoherent() too?
-> =
-
-> Please use the lower-level dma_alloc_pages and then just insert the
-> pages directly using remap_pfn_range.  Although it might make sense
-> to eventually create a wrapper around remap_pfn_range for all the
-> vma sizing sanity checks.
-
-One thing missing for remap_pfn_range(), I have no alternative for this:
-
-vma->vm_page_prot =3D dma_pgprot(dev, vma->vm_page_prot, =
-
-DMA_ATTR_NON_CONSISTENT);
-
-So I have to do:
-
-vma->vm_page_prot =3D pgprot_noncached(vma->vm_page_prot);
-pgprot_val(vma->vm_page_prot) &=3D ~_CACHE_MASK;
-pgprot_val(vma->vm_page_prot) |=3D _CACHE_CACHABLE_NONCOHERENT;
-
-And that will only compile on MIPS, because these _CACHE_* macros are =
-
-only defined there.
-
-I would need something like a pgprot_noncoherent(), I think.
-
--Paul
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index b18c5ac2934d..ece1c28278f7 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -14942,20 +14942,6 @@ static int intel_atomic_check(struct drm_device *dev,
+ 	if (ret)
+ 		goto fail;
+ 
+-	/*
+-	 * distrust_bios_wm will force a full dbuf recomputation
+-	 * but the hardware state will only get updated accordingly
+-	 * if state->modeset==true. Hence distrust_bios_wm==true &&
+-	 * state->modeset==false is an invalid combination which
+-	 * would cause the hardware and software dbuf state to get
+-	 * out of sync. We must prevent that.
+-	 *
+-	 * FIXME clean up this mess and introduce better
+-	 * state tracking for dbuf.
+-	 */
+-	if (dev_priv->wm.distrust_bios_wm)
+-		any_ms = true;
+-
+ 	intel_fbc_choose_crtc(dev_priv, state);
+ 	ret = calc_watermark_data(state);
+ 	if (ret)
+-- 
+2.25.4
 
 
 _______________________________________________
