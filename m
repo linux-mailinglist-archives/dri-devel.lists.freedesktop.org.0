@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632F427FB3A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:16:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A22027FB53
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:17:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7BDD6E860;
-	Thu,  1 Oct 2020 08:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 091A46E878;
+	Thu,  1 Oct 2020 08:17:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A744389B20
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 12:59:05 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id s19so983526plp.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 05:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BGONJfBGfiZJ8B5gVDKbSF1BVGKwQjHdLl3ddJo9tVY=;
- b=eJKbz8Q0kBy+c9iBIWhnx+5lDxtWn3fntLUDzpGUW709Er3KPWJPiwrRw6GnRMJeGn
- xodi9WCSndpOjnrfs4XfsryyUrXfJmelVfDFngugKTT/TIFNXxrsEiPfUMqP1E3vrCD3
- Ujq0ESsfFS5bbg1mDhmeYuLR1dazAfdE7Uq5/bVNFR4L68c6+6C+ex5KCWxd9DrWxrL8
- l9Xg8oS6UFCyOsOj81oskbHKdF5QskffRIDpTO3vpxBIuOadWbgZ13hoHaeNF+VI1jCG
- Vaato+9lnzp0K1IkdzExljN8tXbUqiyHcLJodvjhypXRNCpVPsE8Zc3bZbit2DkzcNcL
- wkmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BGONJfBGfiZJ8B5gVDKbSF1BVGKwQjHdLl3ddJo9tVY=;
- b=NY2IDhd+G5M1RNGHI+9QxcYjIImQrZxuuwDcMdUp80ZuMFy/QKrEIOmGmsIWadKi9Q
- ecuiNFDLwM9zoLzEFDsy7Iu9iLpz2YkpOhLDEmJ35MuQybDeO+y9an9qUW1drzrQkIaG
- ocPJwcT9apMsgCzwJMIP9sZocVPrxILtQOqEGq0Fkj2zVwG1zH8DSoI7BHQUd2AMAqeK
- vfT/OJxXgkFY6JwLa/ng4t9RmCU1pw+o4nfoL8gWyB/TWlZYg/O1HkI4Yx/HoNNFbOx6
- F/E4Zx3Nk9FQaPL2bKE1ZuFyQgcYPSnGznZa+wK+6k9OrBJl1IsRYRVgm0Yfqbx4p4vl
- UUWQ==
-X-Gm-Message-State: AOAM530mXsFbYOzllpyIrIDNDPFvPEDLUd02hDTFVR3ObeZHL2Jmbi6l
- HbnWcIZDUkBhIdboA/xr2A==
-X-Google-Smtp-Source: ABdhPJwbSPtClFFI3ea1mNKe4eO1VEd6GSD/SvuAQtvcm7zxPoV0QkXo2AazrpiYHQjW/KT/XysBXQ==
-X-Received: by 2002:a17:90b:30c2:: with SMTP id
- hi2mr921373pjb.89.1601470745283; 
- Wed, 30 Sep 2020 05:59:05 -0700 (PDT)
-Received: from PWN ([161.117.80.159])
- by smtp.gmail.com with ESMTPSA id u15sm2536438pjx.50.2020.09.30.05.59.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 05:59:04 -0700 (PDT)
-Date: Wed, 30 Sep 2020 08:58:55 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
- buffers
-Message-ID: <20200930125855.GA1155358@PWN>
-References: <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
- <20200925101300.GA890211@PWN>
- <20200925132551.GF438822@phenom.ffwll.local>
- <20200929123420.GA1143575@PWN>
- <CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com>
- <20200930071151.GA1152145@PWN>
- <20200930095317.GX438822@phenom.ffwll.local>
- <20200930105553.GA1154238@PWN>
- <CAKMK7uFzWZgs4rvqSXqn_ifr8utG_rNw54+y6CWjdV=Epak-iQ@mail.gmail.com>
- <20200930115211.GC1603625@kroah.com>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F3736E4CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 13:03:51 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id DED485803F9;
+ Wed, 30 Sep 2020 09:03:50 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 30 Sep 2020 09:03:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=ZdwfVB/wko7OBSY39TKujsLQ42L
+ f41XzWXXZDcYCaXY=; b=VO9NeQD23JEE9EXZQEJGUncwXldLBxYSm5SJiIiQwq0
+ wdqXNPeChK9Uq2eZlZXWc5ZZDwWzYK8eSRkFD+HgYFYb7YGGoM8d35OSJRjf0D60
+ EeMCLwz0IzBYwH3/I1vyMafm6LUZXy8oQ+1g+pKFK0tYlkbZG57P5cnX6QqzFHx+
+ DHPPZwEDIYLLas/bkqSjApFUwnrocXAKYh6aCCdAXV8ywyzuzvl2I7ZB4iIe6GSJ
+ oRe2Il3ukk3b4pH5KyjJ8ZwR9jNqFAPwYjoyg1TiTvB+cTshTnVrO1FDWCKwfLNB
+ AL3k/Th0tMyBEI/8n1BSHSc0PGJn76FHsJdREfGgYxg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZdwfVB
+ /wko7OBSY39TKujsLQ42Lf41XzWXXZDcYCaXY=; b=TQfCC1br38S2KEgs4TkIXx
+ TkV4JHmZ7d1/p6sVX+i9nHe3nqs07bkSKmhuhTpVVTtIXAiZ6iLooJk8s+Rkz34U
+ Vm1b9WIKhFe0gGV+FVUIizYZWsQOO7PFBtp2KL6eFZrpT8pG/WlA1kK2dpR7DtR9
+ WAD04gxivT8peO/1YfPB561BvH9acAiBQ5eetB6UEbKXh2uHXkBVPkj/DY1T46fW
+ qdvspx7nvsd1q9/1COJcTJH91W3vTzX/+TtVFrsoG0bSVCbGuTsaT3t38XhBXvqW
+ 0/HZtP/gQiuoVe0hpSeXacILNHFQILpaTqzN3KUcttwRBnEZfaRQkJCd2rKTz3uQ
+ ==
+X-ME-Sender: <xms:NIJ0X73_lPIFH_22b2Lp4p5wdvxCkB8KV7AX5AUuSKgCsfN6eUKk6Q>
+ <xme:NIJ0X6HNZheRy6Fi2OVWDYxfrFbS6TdeyY-vRumbiTrsSKXg2K7byleqaUkpSfHiI
+ R8NHruVsgWQPCA5LTE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedvgdehiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:NIJ0X76LUHn_lqKjL6cw8hiFDxQnFAOnI32jHpV4G8Zzj7AMDrnZpg>
+ <xmx:NIJ0Xw2g4-AdQIY2sKM9U0ua5We66gA2HUpbXDzFpPzEUf14mYb0EA>
+ <xmx:NIJ0X-GX9lD4iKnCAafrYRAEMXkdApcRVO9tnuG5KbmJDrNsPIDfbQ>
+ <xmx:NoJ0X7f_oEUVuYtqqZasJhVHrlR8ZVrP0q3KdcEZSNPli9Cp_CGG-Q>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 073D7328005A;
+ Wed, 30 Sep 2020 09:03:47 -0400 (EDT)
+Date: Wed, 30 Sep 2020 15:03:45 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 1/2] drm/vc4: hdmi: Disable Wifi Frequencies
+Message-ID: <20200930130345.qhtes5wv5sf42kuu@gilmour.lan>
+References: <20200925130744.575725-1-maxime@cerno.tech>
+ <CAKMK7uG8=depCjWACjFxSph6o4rrPu1Ng28F7om_CYaiMj_HQQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200930115211.GC1603625@kroah.com>
+In-Reply-To: <CAKMK7uG8=depCjWACjFxSph6o4rrPu1Ng28F7om_CYaiMj_HQQ@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 01 Oct 2020 08:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,46 +79,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============1432252427=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 01:52:11PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Sep 30, 2020 at 01:25:14PM +0200, Daniel Vetter wrote:
-> > On Wed, Sep 30, 2020 at 12:56 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> > > Yes, and built-in fonts don't use refcount. Or maybe we can let
-> > > find_font() and get_default_font() kmalloc() a copy of built-in font
-> > > data, then keep track of refcount for both user and built-in fonts, but
-> > > that will waste a few K of memory for each built-in font we use...
-> > 
-> > A possible trick for this would be to make sure built-in fonts start
-> > out with a refcount of 1. So never get freed. Plus maybe a check that
-> > if the name is set, then it's a built-in font and if we ever underflow
-> > the refcount we just WARN, but don't free anything.
-> > 
-> > Another trick would be kern_font_get/put wrappers (we'd want those
-> > anyway if the userspace fonts are refcounted) and if kern_font->name
-> > != NULL (i.e. built-in font with name) then we simply don't call
-> > kref_get/put.
-> 
-> Ick, don't do that, the first trick of having them start out with an
-> increased reference count is the best way here.  Makes the code simpler
-> and no special cases for the tear-down path.
 
-I see, I'll just let them start out with 1, and only check `->name !=
-NULL` in kern_font_put(). Thank you!
+--===============1432252427==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5vzqhdw2glpkay7g"
+Content-Disposition: inline
 
-Peilin Ye
+
+--5vzqhdw2glpkay7g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Daniel,
+
+On Mon, Sep 28, 2020 at 11:02:11AM +0200, Daniel Vetter wrote:
+> On Mon, Sep 28, 2020 at 9:06 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > There's cross-talk on the RPi4 between the 2.4GHz channels used by the =
+WiFi
+> > chip and some resolutions, most notably 1440p at 60Hz.
+> >
+> > In such a case, we can either reject entirely the mode, or lower slight=
+ly
+> > the pixel frequency to remove the overlap. Let's go for the latter.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  .../bindings/display/brcm,bcm2711-hdmi.yaml        |  6 ++++++
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c                     | 14 +++++++++++++-
+> >  drivers/gpu/drm/vc4/vc4_hdmi.h                     |  8 ++++++++
+> >  3 files changed, 27 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdm=
+i.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > index 03a76729d26c..63e7fe999c0a 100644
+> > --- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > @@ -76,6 +76,12 @@ properties:
+> >    resets:
+> >      maxItems: 1
+> >
+> > +  raspberrypi,disable-wifi-frequencies:
+> > +    type: boolean
+> > +    description: >
+> > +      Should the pixel frequencies in the WiFi frequencies range be
+> > +      avoided?
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
+dmi.c
+> > index acfb4e235214..74da7c00ecd0 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -877,13 +877,22 @@ static int vc4_hdmi_encoder_atomic_check(struct d=
+rm_encoder *encoder,
+> >         struct vc4_hdmi_connector_state *vc4_state =3D conn_state_to_vc=
+4_hdmi_conn_state(conn_state);
+> >         struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
+> >         struct vc4_hdmi *vc4_hdmi =3D encoder_to_vc4_hdmi(encoder);
+> > -       unsigned long long pixel_rate =3D mode->clock * 1000;
+> > +       unsigned long long pixel_rate;
+> >
+> >         if (vc4_hdmi->variant->broken_odd_h_timings &&
+> >             ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
+> >              (mode->hsync_end % 2) || (mode->htotal % 2)))
+> >                 return -EINVAL;
+> >
+> > +       /*
+> > +        * The 1440p@60 pixel rate is in the same range than the WiFi
+> > +        * channels. Slightly lower the frequency to bring it out of the
+> > +        * WiFi range.
+> > +        */
+> > +       if (vc4_hdmi->disable_wifi_frequencies && mode->clock =3D=3D 24=
+1500)
+> > +               mode->clock =3D 238560;
+>=20
+> Don't you want to map for a (narrow) range of frequencies here? Just
+> for that infamous 60p vs 59.99p thing and similar. And I think that
+> would still be in that band you want to avoid.
+
+Testing for a range seems better indeed, I'll send a new version
+
+Thanks!
+Maxime
+
+--5vzqhdw2glpkay7g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3SCMQAKCRDj7w1vZxhR
+xQ4hAQDcedgF2zlIz4vzP9fEomlvxK0kFn7Ms84BXyT4kqqMpAD+MoaAiUAVnaeg
+tX0rXNjAZz+PapFraeoqXptISd+dpQs=
+=wLNY
+-----END PGP SIGNATURE-----
+
+--5vzqhdw2glpkay7g--
+
+--===============1432252427==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1432252427==--
