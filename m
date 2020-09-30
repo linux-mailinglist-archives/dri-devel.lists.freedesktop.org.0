@@ -2,56 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B1327E2F0
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 09:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3D727E2FB
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 09:50:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D516089948;
-	Wed, 30 Sep 2020 07:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42AD16E53C;
+	Wed, 30 Sep 2020 07:50:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3F776E090
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 04:47:04 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1601441228; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=A3rhz6VOuxhz1gApk6ziXDpUvE+cY9p88hAOu1BpWd4=;
- b=gt2Rp9hWyLzGmqQ+dBEu5zU0YKT09+JbQPUgOrwRSgU/VDjGCh7Usdg1dWLDZyVpBwJZ5Q2W
- lhuWGbrpWwZRUKZ9iG985jF9auwzdbaQXuu1Jso3p6CK2x74LMaA3wc4VnO9iOfCDqxAG0tw
- lOP6tNaHaK+PmXUWLcvPIy3M6fw=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 5f740da159892db41fbfaf7a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 30 Sep 2020 04:46:25
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 39632C43387; Wed, 30 Sep 2020 04:46:24 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: cgoldswo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BAD36C433C8;
- Wed, 30 Sep 2020 04:46:22 +0000 (UTC)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 356FF6E4F1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 07:12:02 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id kk9so386346pjb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 00:12:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4jXdOKLbE1x+kZAp5DP4FarLdgCpFgX5Hdbe/nflesc=;
+ b=m8lln02jBm+hV3hiOfVHn0OhzxZnxJiVy+XfKGaAmK6olcF81l5zWEwKh5+Vy+xMbY
+ qzhdYOOrs/hk7DpPlNUdtxO2zPg520gAEF7V+IlEhGWYN1vlwUOO4l+vXYdhSOiVlfIt
+ 7Z7sk6pYgo0kL1BLXErD4HNx1WFiL3+0MZ+bAGIjkpL+nbfo0zQKJ6gZ8AClDNck9S7E
+ 0T882z0N8Xz4pBefv1N087T/Dy7ldpeqZLlfyfzEmmGjazSHLVhaRYWMeEFtoDuU0lzl
+ 1e3BYRPCjUiAacDBVOqljQSnRNPcjs51HacnZkE8ugwqgPaa4BwHnoLNsumoc5ndAweW
+ 5+yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4jXdOKLbE1x+kZAp5DP4FarLdgCpFgX5Hdbe/nflesc=;
+ b=Av1UtwSg0smVnKwd1CsobJ8f/+qBADfllAsvoOeFrsoe6E1PjwM/Tdqz0NX5Oaschz
+ ZPFScUWycXHN5+YyIgdjQMrDcusM7CRkb9ZVYTu66+tL8rros7IzmBqrlvK1vQ+K2Zo8
+ +rDc5VFquA0eb1vsUya4LlgI0FVT2TJl6KI8RC9PNORjrjWnX5Me4hKOsT8ihxjnIPBM
+ vVW7Kxce1ymRO0oZTXV4uGEG4SuFyQo4G6y98VjJzterGhI87ZR8rLQCHJrqEu34UYIa
+ 5wX3+mOGGPcy+HEVP0+oOFKu53D/FtNWkvhYLgYNH6TFF2KedeVmSuJSofLXTdd/XXJ6
+ v+FA==
+X-Gm-Message-State: AOAM5308YRAjnud7J0uuqHKDbWJCO3ZVxo0GGo8wfb3rJzdEcExLu10U
+ KZ9+FVoblA05eWXG1yRBQw==
+X-Google-Smtp-Source: ABdhPJwgapqg6T1D4U/V7bJwJuApzfqXw468IUmBkW6GPSRCmVQSrvN6T7Cz0lDd7nuxeJzL4L4x9Q==
+X-Received: by 2002:a17:90a:e517:: with SMTP id
+ t23mr1269514pjy.25.1601449921709; 
+ Wed, 30 Sep 2020 00:12:01 -0700 (PDT)
+Received: from PWN ([161.117.41.183])
+ by smtp.gmail.com with ESMTPSA id y4sm1246199pfr.46.2020.09.30.00.11.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Sep 2020 00:12:00 -0700 (PDT)
+Date: Wed, 30 Sep 2020 03:11:51 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
+ buffers
+Message-ID: <20200930071151.GA1152145@PWN>
+References: <0000000000006b9e8d059952095e@google.com>
+ <cover.1600953813.git.yepeilin.cs@gmail.com>
+ <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
+ <20200925101300.GA890211@PWN>
+ <20200925132551.GF438822@phenom.ffwll.local>
+ <20200929123420.GA1143575@PWN>
+ <CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com>
 MIME-Version: 1.0
-Date: Tue, 29 Sep 2020 21:46:22 -0700
-From: Chris Goldsworthy <cgoldswo@codeaurora.org>
-To: John Stultz <john.stultz@linaro.org>
-Subject: Re: [RFC][PATCH 5/6] dma-buf: system_heap: Add pagepool support to
- system heap
-In-Reply-To: <20200926042453.67517-6-john.stultz@linaro.org>
-References: <20200926042453.67517-1-john.stultz@linaro.org>
- <20200926042453.67517-6-john.stultz@linaro.org>
-Message-ID: <1e109a138c86be7b06e20cb30a243fc7@codeaurora.org>
-X-Sender: cgoldswo@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com>
 X-Mailman-Approved-At: Wed, 30 Sep 2020 07:50:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,91 +75,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wOS0yNSAyMToyNCwgSm9obiBTdHVsdHogd3JvdGU6Cj4gUmV1c2UvYWJ1c2UgdGhl
-IHBhZ2Vwb29sIGNvZGUgZnJvbSB0aGUgbmV0d29yayBjb2RlIHRvIHNwZWVkCj4gdXAgYWxsb2Nh
-dGlvbiBwZXJmb3JtYW5jZS4KPiAKPiBUaGlzIGlzIHNpbWlsYXIgdG8gdGhlIElPTiBwYWdlcG9v
-bCB1c2FnZSwgYnV0IHRyaWVzIHRvCj4gdXRpbGl6ZSBnZW5lcmljIGNvZGUgaW5zdGVhZCBvZiBh
-IGN1c3RvbSBpbXBsZW1lbnRhdGlvbi4KPiAKPiBDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13
-YWxAbGluYXJvLm9yZz4KPiBDYzogTGlhbSBNYXJrIDxsbWFya0Bjb2RlYXVyb3JhLm9yZz4KPiBD
-YzogTGF1cmEgQWJib3R0IDxsYWJib3R0QGtlcm5lbC5vcmc+Cj4gQ2M6IEJyaWFuIFN0YXJrZXkg
-PEJyaWFuLlN0YXJrZXlAYXJtLmNvbT4KPiBDYzogSHJpZHlhIFZhbHNhcmFqdSA8aHJpZHlhQGdv
-b2dsZS5jb20+Cj4gQ2M6IFN1cmVuIEJhZ2hkYXNhcnlhbiA8c3VyZW5iQGdvb2dsZS5jb20+Cj4g
-Q2M6IFNhbmRlZXAgUGF0aWwgPHNzcGF0aWxAZ29vZ2xlLmNvbT4KPiBDYzogw5hyamFuIEVpZGUg
-PG9yamFuLmVpZGVAYXJtLmNvbT4KPiBDYzogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJt
-LmNvbT4KPiBDYzogRXplcXVpZWwgR2FyY2lhIDxlemVxdWllbEBjb2xsYWJvcmEuY29tPgo+IENj
-OiBTaW1vbiBTZXIgPGNvbnRhY3RAZW1lcnNpb24uZnI+Cj4gQ2M6IEphbWVzIEpvbmVzIDxqYWpv
-bmVzQG52aWRpYS5jb20+Cj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+IENjOiBk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gU2lnbmVkLW9mZi1ieTogSm9obiBTdHVs
-dHogPGpvaG4uc3R1bHR6QGxpbmFyby5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZG1hLWJ1Zi9oZWFw
-cy9LY29uZmlnICAgICAgIHwgIDEgKwo+ICBkcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hl
-YXAuYyB8IDMyICsrKysrKysrKysrKysrKysrKysrKysrKystLS0tCj4gIDIgZmlsZXMgY2hhbmdl
-ZCwgMjkgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcgCj4gYi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvS2Nv
-bmZpZwo+IGluZGV4IGE1ZWVmMDZjNDIyNi4uZjEzY2RlNDMyMWIxIDEwMDY0NAo+IC0tLSBhL2Ry
-aXZlcnMvZG1hLWJ1Zi9oZWFwcy9LY29uZmlnCj4gKysrIGIvZHJpdmVycy9kbWEtYnVmL2hlYXBz
-L0tjb25maWcKPiBAQCAtMSw2ICsxLDcgQEAKPiAgY29uZmlnIERNQUJVRl9IRUFQU19TWVNURU0K
-PiAgCWJvb2wgIkRNQS1CVUYgU3lzdGVtIEhlYXAiCj4gIAlkZXBlbmRzIG9uIERNQUJVRl9IRUFQ
-Uwo+ICsJc2VsZWN0IFBBR0VfUE9PTAo+ICAJaGVscAo+ICAJICBDaG9vc2UgdGhpcyBvcHRpb24g
-dG8gZW5hYmxlIHRoZSBzeXN0ZW0gZG1hYnVmIGhlYXAuIFRoZSBzeXN0ZW0gCj4gaGVhcAo+ICAJ
-ICBpcyBiYWNrZWQgYnkgcGFnZXMgZnJvbSB0aGUgYnVkZHkgYWxsb2NhdG9yLiBJZiBpbiBkb3Vi
-dCwgc2F5IFkuCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVh
-cC5jCj4gYi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYwo+IGluZGV4IDg4MmE2
-MzJlOWJiNy4uOWY1N2I0YzhhZTY5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFw
-cy9zeXN0ZW1faGVhcC5jCj4gKysrIGIvZHJpdmVycy9kbWEtYnVmL2hlYXBzL3N5c3RlbV9oZWFw
-LmMKPiBAQCAtMjAsNiArMjAsNyBAQAo+ICAjaW5jbHVkZSA8bGludXgvc2NhdHRlcmxpc3QuaD4K
-PiAgI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3ZtYWxsb2MuaD4K
-PiArI2luY2x1ZGUgPG5ldC9wYWdlX3Bvb2wuaD4KPiAKPiAgc3RydWN0IGRtYV9oZWFwICpzeXNf
-aGVhcDsKPiAKPiBAQCAtNDYsNiArNDcsNyBAQCBzdHJ1Y3QgZG1hX2hlYXBfYXR0YWNobWVudCB7
-Cj4gIHN0YXRpYyBnZnBfdCBvcmRlcl9mbGFnc1tdID0ge0hJR0hfT1JERVJfR0ZQLCBMT1dfT1JE
-RVJfR0ZQLCAKPiBMT1dfT1JERVJfR0ZQfTsKPiAgc3RhdGljIGNvbnN0IHVuc2lnbmVkIGludCBv
-cmRlcnNbXSA9IHs4LCA0LCAwfTsKPiAgI2RlZmluZSBOVU1fT1JERVJTIEFSUkFZX1NJWkUob3Jk
-ZXJzKQo+ICtzdHJ1Y3QgcGFnZV9wb29sICpwb29sc1tOVU1fT1JERVJTXTsKPiAKPiAgc3RhdGlj
-IHN0cnVjdCBzZ190YWJsZSAqZHVwX3NnX3RhYmxlKHN0cnVjdCBzZ190YWJsZSAqdGFibGUpCj4g
-IHsKPiBAQCAtMjY0LDEzICsyNjYsMTcgQEAgc3RhdGljIHZvaWQgc3lzdGVtX2hlYXBfZG1hX2J1
-Zl9yZWxlYXNlKHN0cnVjdAo+IGRtYV9idWYgKmRtYWJ1ZikKPiAgCXN0cnVjdCBzeXN0ZW1faGVh
-cF9idWZmZXIgKmJ1ZmZlciA9IGRtYWJ1Zi0+cHJpdjsKPiAgCXN0cnVjdCBzZ190YWJsZSAqdGFi
-bGU7Cj4gIAlzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnOwo+IC0JaW50IGk7Cj4gKwlpbnQgaSwgajsK
-PiAKPiAgCXRhYmxlID0gJmJ1ZmZlci0+c2dfdGFibGU7Cj4gIAlmb3JfZWFjaF9zZyh0YWJsZS0+
-c2dsLCBzZywgdGFibGUtPm5lbnRzLCBpKSB7Cj4gIAkJc3RydWN0IHBhZ2UgKnBhZ2UgPSBzZ19w
-YWdlKHNnKTsKPiAKPiAtCQlfX2ZyZWVfcGFnZXMocGFnZSwgY29tcG91bmRfb3JkZXIocGFnZSkp
-Owo+ICsJCWZvciAoaiA9IDA7IGogPCBOVU1fT1JERVJTOyBqKyspIHsKPiArCQkJaWYgKGNvbXBv
-dW5kX29yZGVyKHBhZ2UpID09IG9yZGVyc1tqXSkKPiArCQkJCWJyZWFrOwo+ICsJCX0KPiArCQlw
-YWdlX3Bvb2xfcHV0X2Z1bGxfcGFnZShwb29sc1tqXSwgcGFnZSwgZmFsc2UpOwo+ICAJfQo+ICAJ
-c2dfZnJlZV90YWJsZSh0YWJsZSk7Cj4gIAlrZnJlZShidWZmZXIpOwo+IEBAIC0zMDAsOCArMzA2
-LDcgQEAgc3RhdGljIHN0cnVjdCBwYWdlCj4gKmFsbG9jX2xhcmdlc3RfYXZhaWxhYmxlKHVuc2ln
-bmVkIGxvbmcgc2l6ZSwKPiAgCQkJY29udGludWU7Cj4gIAkJaWYgKG1heF9vcmRlciA8IG9yZGVy
-c1tpXSkKPiAgCQkJY29udGludWU7Cj4gLQo+IC0JCXBhZ2UgPSBhbGxvY19wYWdlcyhvcmRlcl9m
-bGFnc1tpXSwgb3JkZXJzW2ldKTsKPiArCQlwYWdlID0gcGFnZV9wb29sX2FsbG9jX3BhZ2VzKHBv
-b2xzW2ldLCBvcmRlcl9mbGFnc1tpXSk7Cj4gIAkJaWYgKCFwYWdlKQo+ICAJCQljb250aW51ZTsK
-PiAgCQlyZXR1cm4gcGFnZTsKPiBAQCAtNDA2LDYgKzQxMSwyNSBAQCBzdGF0aWMgY29uc3Qgc3Ry
-dWN0IGRtYV9oZWFwX29wcyBzeXN0ZW1faGVhcF9vcHMgPSAKPiB7Cj4gIHN0YXRpYyBpbnQgc3lz
-dGVtX2hlYXBfY3JlYXRlKHZvaWQpCj4gIHsKPiAgCXN0cnVjdCBkbWFfaGVhcF9leHBvcnRfaW5m
-byBleHBfaW5mbzsKPiArCWludCBpOwo+ICsKPiArCWZvciAoaSA9IDA7IGkgPCBOVU1fT1JERVJT
-OyBpKyspIHsKPiArCQlzdHJ1Y3QgcGFnZV9wb29sX3BhcmFtcyBwcDsKPiArCj4gKwkJbWVtc2V0
-KCZwcCwgMCwgc2l6ZW9mKHBwKSk7Cj4gKwkJcHAub3JkZXIgPSBvcmRlcnNbaV07Cj4gKwkJcHAu
-ZG1hX2RpciA9IERNQV9CSURJUkVDVElPTkFMOwo+ICsJCXBvb2xzW2ldID0gcGFnZV9wb29sX2Ny
-ZWF0ZSgmcHApOwo+ICsKPiArCQlpZiAoSVNfRVJSKHBvb2xzW2ldKSkgewo+ICsJCQlpbnQgajsK
-PiArCj4gKwkJCXByX2VycigiJXM6IHBhZ2UgcG9vbCBjcmVhdGlvbiBmYWlsZWQhXG4iLCBfX2Z1
-bmNfXyk7Cj4gKwkJCWZvciAoaiA9IDA7IGogPCBpOyBqKyspCj4gKwkJCQlwYWdlX3Bvb2xfZGVz
-dHJveShwb29sc1tqXSk7Cj4gKwkJCXJldHVybiBQVFJfRVJSKHBvb2xzW2ldKTsKPiArCQl9Cj4g
-Kwl9Cj4gCj4gIAlleHBfaW5mby5uYW1lID0gInN5c3RlbSI7Cj4gIAlleHBfaW5mby5vcHMgPSAm
-c3lzdGVtX2hlYXBfb3BzOwoKVGhpcyBpcyBjb29sLCBJIGRpZG4ndCBrbm93IGFib3V0IHRoaXMg
-cG9vbGluZyBjb2RlIHVuZGVyIC9uZXQvY29yZS4gIApOaWNlIGFuZCBjb21wYWN0LgoKLS0gClRo
-ZSBRdWFsY29tbSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLgpUaGUgUXVhbGNvbW0gSW5ub3ZhdGlv
-biBDZW50ZXIsIEluYy4gaXMgYSBtZW1iZXIgb2YgdGhlIENvZGUgQXVyb3JhIApGb3J1bSwKYSBM
-aW51eCBGb3VuZGF0aW9uIENvbGxhYm9yYXRpdmUgUHJvamVjdApfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Sep 29, 2020 at 04:38:49PM +0200, Daniel Vetter wrote:
+> On Tue, Sep 29, 2020 at 2:34 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> > It seems that users don't use `console_font` directly, they use
+> > `console_font_op`. Then, in TTY:
+> 
+> Wow, this is a maze :-/
+> 
+> > (drivers/tty/vt/vt.c)
+> > int con_font_op(struct vc_data *vc, struct console_font_op *op)
+> > {
+> >         switch (op->op) {
+> >         case KD_FONT_OP_SET:
+> >                 return con_font_set(vc, op);
+> >         case KD_FONT_OP_GET:
+> >                 return con_font_get(vc, op);
+> >         case KD_FONT_OP_SET_DEFAULT:
+> >                 return con_font_default(vc, op);
+> >         case KD_FONT_OP_COPY:
+> >                 return con_font_copy(vc, op);
+> >         }
+> >         return -ENOSYS;
+> > }
+> 
+> So my gut feeling is that this is just a bit of overenthusiastic
+> common code sharing, and all it results is confuse everyone. I think
+> if we change the conf_font_get/set/default/copy functions to not take
+> the *op struct (which is take pretty arbitrarily from one of the
+> ioctl), but the parameters each needs directly, that would clean up
+> the code a _lot_. Since most callers would then directly call the
+> right operation, instead of this detour through console_font_op.
+> struct console_font_op is an uapi struct, so really shouldn't be used
+> for internal abstractions - we can't change uapi, hence this makes it
+> impossible to refactor anything from the get-go.
+> 
+> I also think that trying to get rid of con_font_op callers as much as
+> possible (everywhere where the op struct is constructed in the kernel
+> and doesn't come from userspace essentially) should be doable as a
+> stand-alone patch series.
+
+I see, I'll do some code searching and try to clean them up.
+
+> > These 4 functions allocate `console_font`. We can replace them with our
+> > `kernel_console_font`. So, ...
+> >
+> > $ vgrep "\.con_font_set"
+> 
+> An aside: git grep is awesome, and really fast.
+
+Ah, yes, by default vgrep uses git-grep. I use vgrep when I need to see
+something colorful :)
+
+> > $ vgrep "\.con_font_get"
+> > Index File                                    Line Content
+> >     0 drivers/usb/misc/sisusbvga/sisusb_con.c 1295 .con_font_get =              sisusbcon_font_get,
+> >     1 drivers/video/console/vgacon.c          1227 .con_font_get = vgacon_font_get,
+> >     2 drivers/video/fbdev/core/fbcon.c        3121 .con_font_get                = fbcon_get_font,
+> > $
+> > $ vgrep "\.con_font_default"
+> > Index File                                    Line Content
+> >     0 drivers/usb/misc/sisusbvga/sisusb_con.c 1379 .con_font_default =  sisusbdummycon_font_default,
+> >     1 drivers/video/console/dummycon.c         163 .con_font_default =  dummycon_font_default,
+> 
+> The above two return 0 but do nothing, which means width/height are
+> now bogus (or well the same as what userspace set). I don't think that
+> works correctly ...
+> 
+> >     2 drivers/video/console/newport_con.c      694 .con_font_default = newport_font_default,
+> 
+> This just seems to release the userspace font. This is already done in
+> other places where it makes a lot more sense to clean up.
+> 
+> >     3 drivers/video/fbdev/core/fbcon.c        3122 .con_font_default    = fbcon_set_def_font,
+> 
+> This actually does something. tbh I would not be surprises if the
+> fb_set utility is the only thing that uses this - with a bit of code
+> search we could perhaps confirm this, and delete all the other
+> implementations.
+> 
+> > $ vgrep "\.con_font_copy"
+> > Index File                                    Line Content
+> >     0 drivers/usb/misc/sisusbvga/sisusb_con.c 1380 .con_font_copy =     sisusbdummycon_font_copy,
+> >     1 drivers/video/console/dummycon.c         164 .con_font_copy =     dummycon_font_copy,
+> 
+> Above two do nothing, but return 0. Again this wont work I think.
+> 
+> >     2 drivers/video/fbdev/core/fbcon.c        3123 .con_font_copy               = fbcon_copy_font,
+> 
+> Smells again like something that's only used by fb_set, and we could
+> probably delete the other dummy implementations. Also I'm not even
+> really clear on what this does ...
+> 
+> Removing these dummy functions means that for a dummy console these
+> ioctls would start failing, but then I don't think anyone boots up
+> into a dummy console and expects font changes to work. So again I
+> think we could split this cleanup as prep work.
+
+Sure, for step two, I'll read, confirm and try to remove these dummy
+functions.
+
+> > ... are these all the callbacks we need to take care of? What about
+> > other console drivers that don't register these callbacks? ...
+> >
+> > ... for example, mdacon.c? What font does mdacon.c use? I know that
+> > /lib/fonts/ exports two functions, find_font() and get_default_font(),
+> > but I don't see them being used in mdacon.c.
+> 
+> I think all other consoles either don't have fonts at all, or only
+> support built-in fonts.
+
+Ah, I see. I'll search for find_font() and get_default_font() when
+dealing with built-in fonts, then. These files are using them, in
+addition to fbcon.c:
+
+drivers/firmware/efi/earlycon.c:        font = get_default_font(xres, yres, -1, -1);
+drivers/video/console/sticore.c:                fbfont = get_default_font(1024,768, ~(u32)0, ~(u32)0);
+
+drivers/media/pci/solo6x10/solo6x10-enc.c:      const struct font_desc *vga = find_font("VGA8x16");
+drivers/media/test-drivers/vimc/vimc-core.c:    const struct font_desc *font = find_font("VGA8x16");
+drivers/media/test-drivers/vivid/vivid-core.c:  const struct font_desc *font = find_font("VGA8x16");
+drivers/usb/misc/sisusbvga/sisusb.c:    myfont = find_font("VGA8x16");
+drivers/video/console/sticore.c:                fbfont = find_font(fbfont_name);
+
+> > Ah, and speaking of built-in fonts, see fbcon_startup():
+> >
+> >         /* Setup default font */
+> >                 [...]
+> >                 vc->vc_font.charcount = 256; /* FIXME  Need to support more fonts */
+> >                             ^^^^^^^^^^^^^^^
+> >
+> > This is because find_font() and get_default_font() return a `struct
+> > font_desc *`, but `struct font_desc` doesn't contain `charcount`. I
+> > think we also need to add a `charcount` field to `struct font_desc`.
+> 
+> Hm yeah ... I guess maybe struct font_desc should be the starting
+> point for the kernel internal font structure. It's at least there
+> already ...
+
+I see, that will also make handling built-in fonts much easier!
+
+> > Currently `struct vc_data` contains a `struct console_font vc_font`, and
+> > I think this is making gradual conversion very hard. As an example, in
+> > fbcon_do_set_font(), we update `vc->vc_font`. We lose all the extra
+> > information we want in `kernel_console_font`, as long as `struct
+> > vc_data` still uses `console_font`...
+> >
+> > However, if we let `struct vc_data` use `kernel_console_font` instead,
+> > we'll have to handle a lot of things in one go:
+> >
+> > $ vgrep --no-less --no-header ".vc_font" | wc -l
+> > 296
+> > $ echo ":("
+> > :(
+> 
+> Yes :-/
+> 
+> This is essentially why the entire vc/fbcon layer is such a mess. It's
+> a chaos, it doesn't really have clear abstraction, and very often the
+> uapi structures (see also conf_font_op) leak deeply into the
+> implementation, which means changing anything is nearly impossible ...
+> 
+> I think for vc_date->vc_font we might need a multi-step approach:
+> - first add a new helper function which sets the font for a vc using
+> an uapi console_font struct (and probably hard-coded assumes cnt ==
+> 256.
+
+But user fonts may have a charcount different to 256... But yes I'll try
+to figure out how.
+
+> - roll that out everwhere
+> - change the type of vc_font to what we want (which should only need a
+> change in the helper function, which will also set charcount hopefully
+> correctly, using the hard-coded assumption
+> - have another functions which sets the vf_font using a
+> kernel_console_font for all the cases where it matters
+> - now you can start using it and assume the charcount is set correctly
+> 
+> It's a journey unfortunately.
+
+But at least it now sounds manageable! :)
+
+Thank you, I'll look into this (especially the user charcount issue
+mentioned above) after cleaning up the uAPi structs and dummy functions.
+
+> > The good news is, I've tried cleaning up all the macros in fbcon.c in my
+> > playground, and things seem to work. For example, currently we have:
+> >
+> >         if (userfont)
+> >                 cnt = FNTCHARCNT(data);
+> >         else
+> >                 cnt = 256;
+> >
+> > After introducing `kernel_console_font` (and adding `charcount` to
+> > `struct font_desc` etc.), this should look like:
+> >
+> > #define to_font(_data) container_of(_data, struct kernel_console_font, data)
+> >         [...]
+> >         cnt = to_font(data)->charcount;
+> 
+> Hm I guess we can't unify font_desc and the kernel_console_font we're
+> talking about into one? I think that was brough up already somewhere
+> else in this thread ...
+
+Sure, let us use `font_desc` from now on.
+
+> > No more `if` and `else`, and the framebuffer layer will be able to
+> > support new bulit-in fonts that have more than 256 characters. This
+> > seems really nice, so I'd like to spend some time working on it.
+> >
+> > However before I start working on real patches, do you have suggestions
+> > about which console driver I should start with, or how should I split up
+> > the work in general? I couldn't think of how do we clean up subsystems
+> > one by one, while keeping a `console_font` in `struct vc_data`.
+> 
+> I think from a "stop security bugs" trying to clean up fbcon is the
+> important part. That's also the most complex (only one that supports
+> the default and copy functions it seems, and also one of the few that
+> supports get). The other ones I think we should just try to not break.
+> vgacon should still be useable (but I think only on systems where you
+> can boot into legacy bios, not into uefi, at least on x86). I have no
+> idea where some of the other consoles are even used.
+> 
+> For first steps I'd start with demidlayering some of the internal
+> users of uapi structs, like the console_font_op really shouldn't be
+> used anywhere in any function, except in the ioctl handler that
+> converts it into the right function call. You'll probably discover a
+> few other places like this on the go.
+
+Sure, I'll start from this, then cleaning up these dummy functions, then
+`vc_data`. Thank you for the insights!
+
+Peilin Ye
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
