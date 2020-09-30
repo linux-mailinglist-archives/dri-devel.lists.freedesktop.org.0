@@ -1,100 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB6827E650
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 12:13:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E750127E6B0
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 12:31:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 284466E5B2;
-	Wed, 30 Sep 2020 10:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EBE06E5C8;
+	Wed, 30 Sep 2020 10:31:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 526846E5B2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 10:13:19 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200930101317euoutp027d85b51466af5857247ecd36abcdb6b2~5iBxB7z9K0561205612euoutp02V
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 10:13:17 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200930101317euoutp027d85b51466af5857247ecd36abcdb6b2~5iBxB7z9K0561205612euoutp02V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1601460797;
- bh=xlcTeN7sHMv0mi2gQWyF7GRcz7cX8CxoUiNws2AIMKI=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=pmQqwuwjrBa3DneE/KrkS4hvd8wwrQUO3LWKw3TwxYxaUrJv3Wvux0X5S9//VFsOZ
- JE7FbBfRuzfT7NxweI3GwXH3ELVm7Yj0a5LO7K9mRg6Z/VIWSEfmpNROV8EpWmZCbw
- lmC40TSrv+JllRZTjvpg2xMGIinTLbBNHfqwPfoA=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200930101317eucas1p108863281bf0081dd94a07c526adbd7af~5iBwu2uXq0745707457eucas1p1A;
- Wed, 30 Sep 2020 10:13:17 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id E4.D6.05997.C3A547F5; Wed, 30
- Sep 2020 11:13:17 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200930101316eucas1p10827c5ef274452417e612c6b418c5721~5iBwT5VbK0067100671eucas1p1D;
- Wed, 30 Sep 2020 10:13:16 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200930101316eusmtrp17a3f677b6d07bee0229e678006889799~5iBwTQXoX0946809468eusmtrp16;
- Wed, 30 Sep 2020 10:13:16 +0000 (GMT)
-X-AuditID: cbfec7f4-65dff7000000176d-bf-5f745a3c03a5
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id E9.25.06017.C3A547F5; Wed, 30
- Sep 2020 11:13:16 +0100 (BST)
-Received: from [106.210.85.205] (unknown [106.210.85.205]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200930101315eusmtip230e4fdf64ef66cf45ad28fed57319abe~5iBvpWz0J0179701797eusmtip2r;
- Wed, 30 Sep 2020 10:13:15 +0000 (GMT)
-Subject: Re: [PATCH] drm/bridge: tc358764: restore connector support
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <1f62b659-4534-c4de-28c1-07043b6468a7@samsung.com>
-Date: Wed, 30 Sep 2020 12:13:15 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0)
- Gecko/20100101 Thunderbird/82.0
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B11526E5C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 10:31:26 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id g96so1287068otb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 03:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=m/cFVU0k3Lc4dRZ8DHvHDPTwflgSIBkQD3tkvH9ZVpI=;
+ b=c/mTOTqmh8Rks2UaquMUtKbjXrSqZcnUdklwdLCrN0JbNt/l0lJUbf5u4oKg0Pf7nK
+ CCEd4cSvZ2Tt9V7vnwnCHTRfq2VjSZo57zKBV5UIWl7KyD9/n01QbspGF7kp+zAwg8xC
+ XeLx29noJtYHxxQYZhwb8z5ZvloC0v+6E+pDc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m/cFVU0k3Lc4dRZ8DHvHDPTwflgSIBkQD3tkvH9ZVpI=;
+ b=rHpsDfmgw1Rl6DfzDXXjcQzklLUzY2tJpkndEdgsFCZeRtUAIALlaNQZxuGkGI/S2M
+ eqIKRtKHdp7wteApVAYleeNrgK12I1vRmcRAkpYObLHYoPIBwsGswoEHwwX+PKNF9wyT
+ Ckuwlf/qQd9/qti3cwnzubVmvSk662euTAd5pF31JVo9apgf2Ms/Nxky5jZSGVQ9GsI5
+ LSHr2Vk3SzEBFXixxAxAYWVAh7KwD8dw7GmGUrOCAMOulwzbE66DDDNAw9/Tzfazsnjd
+ ETYZEoors1Ps68WSLqy0XxJCZwC8hovqgE6DrrP61fXxZTEsV4/F+sLYrXspUm5s3nVG
+ CSJg==
+X-Gm-Message-State: AOAM531PNu3hO2dxXmadvwDp98mrjr3H3jfnQYm8DTHFkNUi3cGa2hi7
+ aD1Vka1DVHWbRlM/Dhw9dlHZE3FQhAe25qBYesr8rQ==
+X-Google-Smtp-Source: ABdhPJwLn+FNDqwfuSKkVOFjxo1S15hkPQEufBsajDpjhfn6f/gVEE3CILSzi+lMBrLaU8K33zQMNTfFSgXwQOnrx/E=
+X-Received: by 2002:a9d:4b99:: with SMTP id k25mr1175790otf.281.1601461885462; 
+ Wed, 30 Sep 2020 03:31:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200924083145.23312-1-m.szyprowski@samsung.com>
-Content-Language: en-GB
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGKsWRmVeSWpSXmKPExsWy7djP87q2USXxBvfamCyufH3PZnH1+0tm
- i5NvrrJYdE5cwm5xedccNosZ5/cxWaw9cpfd4lBftAOHx/sbrewesztmsnqcmHCJyeN+93Em
- j74tqxg9DvROZvH4vEkugD2KyyYlNSezLLVI3y6BK2PPleusBd1WFW/nfmNuYFys38XIySEh
- YCKxYmYLaxcjF4eQwApGiZ6dT9ghnC+MEtNXfWMFqRIS+Mwo8XZLGUzHxcUr2CCKljNK9J7/
- DdXxnlFi2aplLF2MHBzCAi4SnSfZQRpEBEol5v4/BlbDLHCRUeLG+0eMIAk2AU2Jv5tvsoHY
- vAJ2Es9nfgSzWQRUJdpaTjGB2KICCRJ7Hp1jhagRlDg58wkLiM0JVD9/61qwOcwC8hLNW2cz
- Q9jiEk1fVrJCXHqMXWLTUXeQeySA7pm+gwsiLCzx6vgWdghbRuL05B4WCLte4v6KFmaQOyUE
- Ohgltm7YyQyRsJa4c+4XG8gcZqCb1++CBp2jxOuN7cwQ4/kkbrwVhLiAT2LStulQYV6JjjYh
- iGpFiftnt0INFJdYeuEr2wRGpVlI/pqF5JdZSH6ZhbB3ASPLKkbx1NLi3PTUYqO81HK94sTc
- 4tK8dL3k/NxNjMDUdPrf8S87GHf9STrEKMDBqMTDmyBRHC/EmlhWXJl7iFGCg1lJhNfp7Ok4
- Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4rzGi17GCgmkJ5akZqemFqQWwWSZODilGhhZRDk0z23w
- /vvl8aSM7Mx29+q7W3SN9lxv9+fZ2iLutExqQ0gPx6T/Z/Ja/y+bZH/0TL9qj/P+i6kWWlLq
- PD/d3t56/FvqQeTNE2bOraFRz0t9jcXF807lfNs6eeeJaEYfq4XTmlhclKV6dv65tpkn9t0e
- TWmzEPabIfuD6tr+R2X88w0491KJpTgj0VCLuag4EQCNl06XSQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDIsWRmVeSWpSXmKPExsVy+t/xe7o2USXxBo0XlS2ufH3PZnH1+0tm
- i5NvrrJYdE5cwm5xedccNosZ5/cxWaw9cpfd4lBftAOHx/sbrewesztmsnqcmHCJyeN+93Em
- j74tqxg9DvROZvH4vEkugD1Kz6Yov7QkVSEjv7jEVina0MJIz9DSQs/IxFLP0Ng81srIVEnf
- ziYlNSezLLVI3y5BL2PPleusBd1WFW/nfmNuYFys38XIySEhYCJxcfEKti5GLg4hgaWMEmuu
- LWaFSIhL7J7/lhnCFpb4c60Lqugto8T8/ReAijg4hAVcJDpPsoPUiAiUSrzqv88IUsMscJFR
- 4s+pBqiGiYwSEy/cYwKpYhPQlPi7+SYbiM0rYCfxfOZHMJtFQFWireUUWI2oQILEwy+XmSFq
- BCVOznzCAmJzAtXP37qWEcRmFjCT6NraBWXLSzRvnc0MYYtLNH1ZyTqBUWgWkvZZSFpmIWmZ
- haRlASPLKkaR1NLi3PTcYiO94sTc4tK8dL3k/NxNjMCY3Hbs55YdjF3vgg8xCnAwKvHwJkgU
- xwuxJpYVV+YeYpTgYFYS4XU6ezpOiDclsbIqtSg/vqg0J7X4EKMp0HMTmaVEk/OB6SKvJN7Q
- 1NDcwtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFqEUwfEwenVANj4r9dV1al7r6TOI3R4W9D
- xMoVS4ozZs9+GyZ2VcVxQeZ9q+InYtLaxTP89338+tbXmG++vFvVlnUTtFO6UiwnKip0P3fr
- 33NpO1Og0lRZY7OuVXNtZP8u2uRQJK89vzylaqXVqzWvYlRX7FsV+3SKzy2/yervF68ozPip
- +39bf4PfdvPN/9J/KrEUZyQaajEXFScCADq5lJ3fAgAA
-X-CMS-MailID: 20200930101316eucas1p10827c5ef274452417e612c6b418c5721
-X-Msg-Generator: CA
-X-RootMTR: 20200924083156eucas1p14406128445a655393013effe719f2228
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200924083156eucas1p14406128445a655393013effe719f2228
 References: <CGME20200924083156eucas1p14406128445a655393013effe719f2228@eucas1p1.samsung.com>
  <20200924083145.23312-1-m.szyprowski@samsung.com>
+ <1f62b659-4534-c4de-28c1-07043b6468a7@samsung.com>
+In-Reply-To: <1f62b659-4534-c4de-28c1-07043b6468a7@samsung.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 30 Sep 2020 12:31:14 +0200
+Message-ID: <CAKMK7uENE3LroHkiYOX08M1g-dj4gb2JW_DJaDPW12gOPPaz6w@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: tc358764: restore connector support
+To: Andrzej Hajda <a.hajda@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,141 +60,255 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ClcgZG5pdSAyNC4wOS4yMDIwIG/CoDEwOjMxLCBNYXJlayBTenlwcm93c2tpIHBpc3plOgo+IFRo
-aXMgcGF0Y2ggcmVzdG9yZXMgRFJNIGNvbm5lY3RvciByZWdpc3RyYXRpb24gaW4gdGhlIFRDMzU4
-NzY0IGJyaWRnZQo+IGRyaXZlciBhbmQgcmVzdG9yZXMgdXNhZ2Ugb2YgdGhlIG9sZCBkcm1fcGFu
-ZWxfKiBBUEksIHRodXMgYWxsb3dzIGR5bmFtaWMKPiBwYW5lbCByZWdpc3RyYXRpb24uIFRoaXMg
-Zml4ZXMgcGFuZWwgb3BlcmF0aW9uIG9uIEV4eW5vczUyNTAtYmFzZWQKPiBBcm5kYWxlIGJvYXJk
-Lgo+Cj4gVGhpcyBpcyBlcXVpdmFsZW50IHRvIHRoZSByZXZlcnQgb2YgdGhlIGZvbGxvd2luZyBj
-b21taXRzOgo+IDE2NDQxMjdmODNiYyAiZHJtL2JyaWRnZTogdGMzNTg3NjQ6IGFkZCBkcm1fcGFu
-ZWxfYnJpZGdlIHN1cHBvcnQiCj4gMzg1Y2EzOGRhMjljICJkcm0vYnJpZGdlOiB0YzM1ODc2NDog
-ZHJvcCBkcm1fY29ubmVjdG9yXyh1bilyZWdpc3RlciIKPiBhbmQgcmVtb3ZhbCBvZiB0aGUgY2Fs
-bHMgdG8gZHJtX3BhbmVsX2F0dGFjaCgpL2RybV9wYW5lbF9kZXRhY2goKSwgd2hpY2gKPiB3ZXJl
-IG5vLW9wcyBhbmQgaGFzIGJlZW4gcmVtb3ZlZCBpbiBtZWFud2hpbGUuCj4KPiBTaWduZWQtb2Zm
-LWJ5OiBNYXJlayBTenlwcm93c2tpIDxtLnN6eXByb3dza2lAc2Ftc3VuZy5jb20+ClJldmlld2Vk
-LWJ5OiBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcuY29tPgoKUmVnYXJkcwpBbmRyemVq
-Cj4gLS0tCj4gQXMgSSd2ZSByZXBvcnRlZCBhbmQgQW5kcnplaiBIYWpkYSBwb2ludGVkLCB0aGUg
-cmV2ZXJ0ZWQgcGF0Y2hlcyBicmVhawo+IG9wZXJhdGlvbiBvZiB0aGUgcGFuZWwgb24gdGhlIEFy
-bmRhbGUgYm9hcmQuIE5vb25lIHN1Z2dlc3RlZCBob3cgdG8gZml4Cj4gdGhlIHJlZ3Jlc3Npb24s
-IEkndmUgZGVjaWRlZCB0byBzZW5kIGEgcmV2ZXJ0IHVudGlsIGEgbmV3IHNvbHV0aW9uIGlzCj4g
-Zm91bmQuCj4KPiBUaGUgaXNzdWVzIHdpdGggdGMzNTg3NjQgbWlnaHQgYmUgYXV0b21hdGljYWxs
-eSByZXNvbHZlZCBvbmNlIHRoZSBFeHlub3MKPiBEU0kgaXRzZWxmIGlzIGNvbnZlcnRlZCB0byBE
-Uk0gYnJpZGdlOgo+IGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvY292ZXIvMTE3NzA2ODMv
-Cj4gYnV0IHRoYXQgYXBwcm9hY2ggaGFzIGFsc28gaXRzIG93biBpc3N1ZXMgc28gZmFyLgo+Cj4g
-QmVzdCByZWdhcmRzLAo+IE1hcmVrIFN6eXByb3dza2kKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvdGMzNTg3NjQuYyB8IDEwNyArKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0K
-PiAgIDEgZmlsZSBjaGFuZ2VkLCA5MiBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkKPgo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMgYi9kcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMKPiBpbmRleCBkODkzOTRiYzVhYTQuLmMxZTM1YmRm
-OTIzMiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMKPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMKPiBAQCAtMTUzLDkgKzE1Mywx
-MCBAQCBzdGF0aWMgY29uc3QgY2hhciAqIGNvbnN0IHRjMzU4NzY0X3N1cHBsaWVzW10gPSB7Cj4g
-ICBzdHJ1Y3QgdGMzNTg3NjQgewo+ICAgCXN0cnVjdCBkZXZpY2UgKmRldjsKPiAgIAlzdHJ1Y3Qg
-ZHJtX2JyaWRnZSBicmlkZ2U7Cj4gKwlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciBjb25uZWN0b3I7Cj4g
-ICAJc3RydWN0IHJlZ3VsYXRvcl9idWxrX2RhdGEgc3VwcGxpZXNbQVJSQVlfU0laRSh0YzM1ODc2
-NF9zdXBwbGllcyldOwo+ICAgCXN0cnVjdCBncGlvX2Rlc2MgKmdwaW9fcmVzZXQ7Cj4gLQlzdHJ1
-Y3QgZHJtX2JyaWRnZSAqcGFuZWxfYnJpZGdlOwo+ICsJc3RydWN0IGRybV9wYW5lbCAqcGFuZWw7
-Cj4gICAJaW50IGVycm9yOwo+ICAgfTsKPiAgIAo+IEBAIC0yMDksNiArMjEwLDEyIEBAIHN0YXRp
-YyBpbmxpbmUgc3RydWN0IHRjMzU4NzY0ICpicmlkZ2VfdG9fdGMzNTg3NjQoc3RydWN0IGRybV9i
-cmlkZ2UgKmJyaWRnZSkKPiAgIAlyZXR1cm4gY29udGFpbmVyX29mKGJyaWRnZSwgc3RydWN0IHRj
-MzU4NzY0LCBicmlkZ2UpOwo+ICAgfQo+ICAgCj4gK3N0YXRpYyBpbmxpbmUKPiArc3RydWN0IHRj
-MzU4NzY0ICpjb25uZWN0b3JfdG9fdGMzNTg3NjQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5l
-Y3RvcikKPiArewo+ICsJcmV0dXJuIGNvbnRhaW5lcl9vZihjb25uZWN0b3IsIHN0cnVjdCB0YzM1
-ODc2NCwgY29ubmVjdG9yKTsKPiArfQo+ICsKPiAgIHN0YXRpYyBpbnQgdGMzNTg3NjRfaW5pdChz
-dHJ1Y3QgdGMzNTg3NjQgKmN0eCkKPiAgIHsKPiAgIAl1MzIgdiA9IDA7Cj4gQEAgLTI3MSwxMSAr
-Mjc4LDQzIEBAIHN0YXRpYyB2b2lkIHRjMzU4NzY0X3Jlc2V0KHN0cnVjdCB0YzM1ODc2NCAqY3R4
-KQo+ICAgCXVzbGVlcF9yYW5nZSgxMDAwLCAyMDAwKTsKPiAgIH0KPiAgIAo+ICtzdGF0aWMgaW50
-IHRjMzU4NzY0X2dldF9tb2RlcyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQo+ICt7
-Cj4gKwlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9IGNvbm5lY3Rvcl90b190YzM1ODc2NChjb25uZWN0
-b3IpOwo+ICsKPiArCXJldHVybiBkcm1fcGFuZWxfZ2V0X21vZGVzKGN0eC0+cGFuZWwsIGNvbm5l
-Y3Rvcik7Cj4gK30KPiArCj4gK3N0YXRpYyBjb25zdAo+ICtzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9o
-ZWxwZXJfZnVuY3MgdGMzNTg3NjRfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyA9IHsKPiArCS5nZXRf
-bW9kZXMgPSB0YzM1ODc2NF9nZXRfbW9kZXMsCj4gK307Cj4gKwo+ICtzdGF0aWMgY29uc3Qgc3Ry
-dWN0IGRybV9jb25uZWN0b3JfZnVuY3MgdGMzNTg3NjRfY29ubmVjdG9yX2Z1bmNzID0gewo+ICsJ
-LmZpbGxfbW9kZXMgPSBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMsCj4g
-KwkuZGVzdHJveSA9IGRybV9jb25uZWN0b3JfY2xlYW51cCwKPiArCS5yZXNldCA9IGRybV9hdG9t
-aWNfaGVscGVyX2Nvbm5lY3Rvcl9yZXNldCwKPiArCS5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0g
-ZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9yX2R1cGxpY2F0ZV9zdGF0ZSwKPiArCS5hdG9taWNf
-ZGVzdHJveV9zdGF0ZSA9IGRybV9hdG9taWNfaGVscGVyX2Nvbm5lY3Rvcl9kZXN0cm95X3N0YXRl
-LAo+ICt9Owo+ICsKPiArc3RhdGljIHZvaWQgdGMzNTg3NjRfZGlzYWJsZShzdHJ1Y3QgZHJtX2Jy
-aWRnZSAqYnJpZGdlKQo+ICt7Cj4gKwlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9IGJyaWRnZV90b190
-YzM1ODc2NChicmlkZ2UpOwo+ICsJaW50IHJldCA9IGRybV9wYW5lbF9kaXNhYmxlKGJyaWRnZV90
-b190YzM1ODc2NChicmlkZ2UpLT5wYW5lbCk7Cj4gKwo+ICsJaWYgKHJldCA8IDApCj4gKwkJZGV2
-X2VycihjdHgtPmRldiwgImVycm9yIGRpc2FibGluZyBwYW5lbCAoJWQpXG4iLCByZXQpOwo+ICt9
-Cj4gKwo+ICAgc3RhdGljIHZvaWQgdGMzNTg3NjRfcG9zdF9kaXNhYmxlKHN0cnVjdCBkcm1fYnJp
-ZGdlICpicmlkZ2UpCj4gICB7Cj4gICAJc3RydWN0IHRjMzU4NzY0ICpjdHggPSBicmlkZ2VfdG9f
-dGMzNTg3NjQoYnJpZGdlKTsKPiAgIAlpbnQgcmV0Owo+ICAgCj4gKwlyZXQgPSBkcm1fcGFuZWxf
-dW5wcmVwYXJlKGN0eC0+cGFuZWwpOwo+ICsJaWYgKHJldCA8IDApCj4gKwkJZGV2X2VycihjdHgt
-PmRldiwgImVycm9yIHVucHJlcGFyaW5nIHBhbmVsICglZClcbiIsIHJldCk7Cj4gICAJdGMzNTg3
-NjRfcmVzZXQoY3R4KTsKPiAgIAl1c2xlZXBfcmFuZ2UoMTAwMDAsIDE1MDAwKTsKPiAgIAlyZXQg
-PSByZWd1bGF0b3JfYnVsa19kaXNhYmxlKEFSUkFZX1NJWkUoY3R4LT5zdXBwbGllcyksIGN0eC0+
-c3VwcGxpZXMpOwo+IEBAIC0yOTYsMjggKzMzNSw3MSBAQCBzdGF0aWMgdm9pZCB0YzM1ODc2NF9w
-cmVfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UpCj4gICAJcmV0ID0gdGMzNTg3NjRf
-aW5pdChjdHgpOwo+ICAgCWlmIChyZXQgPCAwKQo+ICAgCQlkZXZfZXJyKGN0eC0+ZGV2LCAiZXJy
-b3IgaW5pdGlhbGl6aW5nIGJyaWRnZSAoJWQpXG4iLCByZXQpOwo+ICsJcmV0ID0gZHJtX3BhbmVs
-X3ByZXBhcmUoY3R4LT5wYW5lbCk7Cj4gKwlpZiAocmV0IDwgMCkKPiArCQlkZXZfZXJyKGN0eC0+
-ZGV2LCAiZXJyb3IgcHJlcGFyaW5nIHBhbmVsICglZClcbiIsIHJldCk7Cj4gK30KPiArCj4gK3N0
-YXRpYyB2b2lkIHRjMzU4NzY0X2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ICt7
-Cj4gKwlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9IGJyaWRnZV90b190YzM1ODc2NChicmlkZ2UpOwo+
-ICsJaW50IHJldCA9IGRybV9wYW5lbF9lbmFibGUoY3R4LT5wYW5lbCk7Cj4gKwo+ICsJaWYgKHJl
-dCA8IDApCj4gKwkJZGV2X2VycihjdHgtPmRldiwgImVycm9yIGVuYWJsaW5nIHBhbmVsICglZClc
-biIsIHJldCk7Cj4gICB9Cj4gICAKPiAgIHN0YXRpYyBpbnQgdGMzNTg3NjRfYXR0YWNoKHN0cnVj
-dCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gICAJCQkgICBlbnVtIGRybV9icmlkZ2VfYXR0YWNoX2Zs
-YWdzIGZsYWdzKQo+ICt7Cj4gKwlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9IGJyaWRnZV90b190YzM1
-ODc2NChicmlkZ2UpOwo+ICsJc3RydWN0IGRybV9kZXZpY2UgKmRybSA9IGJyaWRnZS0+ZGV2Owo+
-ICsJaW50IHJldDsKPiArCj4gKwlpZiAoZmxhZ3MgJiBEUk1fQlJJREdFX0FUVEFDSF9OT19DT05O
-RUNUT1IpIHsKPiArCQlEUk1fRVJST1IoIkZpeCBicmlkZ2UgZHJpdmVyIHRvIG1ha2UgY29ubmVj
-dG9yIG9wdGlvbmFsISIpOwo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsJfQo+ICsKPiArCWN0eC0+
-Y29ubmVjdG9yLnBvbGxlZCA9IERSTV9DT05ORUNUT1JfUE9MTF9IUEQ7Cj4gKwlyZXQgPSBkcm1f
-Y29ubmVjdG9yX2luaXQoZHJtLCAmY3R4LT5jb25uZWN0b3IsCj4gKwkJCQkgJnRjMzU4NzY0X2Nv
-bm5lY3Rvcl9mdW5jcywKPiArCQkJCSBEUk1fTU9ERV9DT05ORUNUT1JfTFZEUyk7Cj4gKwlpZiAo
-cmV0KSB7Cj4gKwkJRFJNX0VSUk9SKCJGYWlsZWQgdG8gaW5pdGlhbGl6ZSBjb25uZWN0b3JcbiIp
-Owo+ICsJCXJldHVybiByZXQ7Cj4gKwl9Cj4gKwo+ICsJZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfYWRk
-KCZjdHgtPmNvbm5lY3RvciwKPiArCQkJCSAmdGMzNTg3NjRfY29ubmVjdG9yX2hlbHBlcl9mdW5j
-cyk7Cj4gKwlkcm1fY29ubmVjdG9yX2F0dGFjaF9lbmNvZGVyKCZjdHgtPmNvbm5lY3RvciwgYnJp
-ZGdlLT5lbmNvZGVyKTsKPiArCWN0eC0+Y29ubmVjdG9yLmZ1bmNzLT5yZXNldCgmY3R4LT5jb25u
-ZWN0b3IpOwo+ICsJZHJtX2Nvbm5lY3Rvcl9yZWdpc3RlcigmY3R4LT5jb25uZWN0b3IpOwo+ICsK
-PiArCXJldHVybiAwOwo+ICt9Cj4gKwo+ICtzdGF0aWMgdm9pZCB0YzM1ODc2NF9kZXRhY2goc3Ry
-dWN0IGRybV9icmlkZ2UgKmJyaWRnZSkKPiAgIHsKPiAgIAlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9
-IGJyaWRnZV90b190YzM1ODc2NChicmlkZ2UpOwo+ICAgCj4gLQlyZXR1cm4gZHJtX2JyaWRnZV9h
-dHRhY2goYnJpZGdlLT5lbmNvZGVyLCBjdHgtPnBhbmVsX2JyaWRnZSwKPiAtCQkJCSBicmlkZ2Us
-IGZsYWdzKTsKPiArCWRybV9jb25uZWN0b3JfdW5yZWdpc3RlcigmY3R4LT5jb25uZWN0b3IpOwo+
-ICsJY3R4LT5wYW5lbCA9IE5VTEw7Cj4gKwlkcm1fY29ubmVjdG9yX3B1dCgmY3R4LT5jb25uZWN0
-b3IpOwo+ICAgfQo+ICAgCj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9icmlkZ2VfZnVuY3Mg
-dGMzNTg3NjRfYnJpZGdlX2Z1bmNzID0gewo+ICsJLmRpc2FibGUgPSB0YzM1ODc2NF9kaXNhYmxl
-LAo+ICAgCS5wb3N0X2Rpc2FibGUgPSB0YzM1ODc2NF9wb3N0X2Rpc2FibGUsCj4gKwkuZW5hYmxl
-ID0gdGMzNTg3NjRfZW5hYmxlLAo+ICAgCS5wcmVfZW5hYmxlID0gdGMzNTg3NjRfcHJlX2VuYWJs
-ZSwKPiAgIAkuYXR0YWNoID0gdGMzNTg3NjRfYXR0YWNoLAo+ICsJLmRldGFjaCA9IHRjMzU4NzY0
-X2RldGFjaCwKPiAgIH07Cj4gICAKPiAgIHN0YXRpYyBpbnQgdGMzNTg3NjRfcGFyc2VfZHQoc3Ry
-dWN0IHRjMzU4NzY0ICpjdHgpCj4gICB7Cj4gLQlzdHJ1Y3QgZHJtX2JyaWRnZSAqcGFuZWxfYnJp
-ZGdlOwo+ICAgCXN0cnVjdCBkZXZpY2UgKmRldiA9IGN0eC0+ZGV2Owo+IC0Jc3RydWN0IGRybV9w
-YW5lbCAqcGFuZWw7Cj4gICAJaW50IHJldDsKPiAgIAo+ICAgCWN0eC0+Z3Bpb19yZXNldCA9IGRl
-dm1fZ3Bpb2RfZ2V0KGRldiwgInJlc2V0IiwgR1BJT0RfT1VUX0xPVyk7Cj4gQEAgLTMyNiwxNiAr
-NDA4LDEyIEBAIHN0YXRpYyBpbnQgdGMzNTg3NjRfcGFyc2VfZHQoc3RydWN0IHRjMzU4NzY0ICpj
-dHgpCj4gICAJCXJldHVybiBQVFJfRVJSKGN0eC0+Z3Bpb19yZXNldCk7Cj4gICAJfQo+ICAgCj4g
-LQlyZXQgPSBkcm1fb2ZfZmluZF9wYW5lbF9vcl9icmlkZ2UoZGV2LT5vZl9ub2RlLCAxLCAwLCAm
-cGFuZWwsIE5VTEwpOwo+IC0JaWYgKHJldCkKPiAtCQlyZXR1cm4gcmV0Owo+IC0KPiAtCXBhbmVs
-X2JyaWRnZSA9IGRldm1fZHJtX3BhbmVsX2JyaWRnZV9hZGQoZGV2LCBwYW5lbCk7Cj4gLQlpZiAo
-SVNfRVJSKHBhbmVsX2JyaWRnZSkpCj4gLQkJcmV0dXJuIFBUUl9FUlIocGFuZWxfYnJpZGdlKTsK
-PiArCXJldCA9IGRybV9vZl9maW5kX3BhbmVsX29yX2JyaWRnZShjdHgtPmRldi0+b2Zfbm9kZSwg
-MSwgMCwgJmN0eC0+cGFuZWwsCj4gKwkJCQkJICBOVUxMKTsKPiArCWlmIChyZXQgJiYgcmV0ICE9
-IC1FUFJPQkVfREVGRVIpCj4gKwkJZGV2X2VycihkZXYsICJjYW5ub3QgZmluZCBwYW5lbCAoJWQp
-XG4iLCByZXQpOwo+ICAgCj4gLQljdHgtPnBhbmVsX2JyaWRnZSA9IHBhbmVsX2JyaWRnZTsKPiAt
-CXJldHVybiAwOwo+ICsJcmV0dXJuIHJldDsKPiAgIH0KPiAgIAo+ICAgc3RhdGljIGludCB0YzM1
-ODc2NF9jb25maWd1cmVfcmVndWxhdG9ycyhzdHJ1Y3QgdGMzNTg3NjQgKmN0eCkKPiBAQCAtMzgx
-LDcgKzQ1OSw2IEBAIHN0YXRpYyBpbnQgdGMzNTg3NjRfcHJvYmUoc3RydWN0IG1pcGlfZHNpX2Rl
-dmljZSAqZHNpKQo+ICAgCQlyZXR1cm4gcmV0Owo+ICAgCj4gICAJY3R4LT5icmlkZ2UuZnVuY3Mg
-PSAmdGMzNTg3NjRfYnJpZGdlX2Z1bmNzOwo+IC0JY3R4LT5icmlkZ2UudHlwZSA9IERSTV9NT0RF
-X0NPTk5FQ1RPUl9MVkRTOwo+ICAgCWN0eC0+YnJpZGdlLm9mX25vZGUgPSBkZXYtPm9mX25vZGU7
-Cj4gICAKPiAgIAlkcm1fYnJpZGdlX2FkZCgmY3R4LT5icmlkZ2UpOwpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Sep 30, 2020 at 12:13 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
+>
+>
+> W dniu 24.09.2020 o 10:31, Marek Szyprowski pisze:
+> > This patch restores DRM connector registration in the TC358764 bridge
+> > driver and restores usage of the old drm_panel_* API, thus allows dynamic
+> > panel registration. This fixes panel operation on Exynos5250-based
+> > Arndale board.
+> >
+> > This is equivalent to the revert of the following commits:
+> > 1644127f83bc "drm/bridge: tc358764: add drm_panel_bridge support"
+> > 385ca38da29c "drm/bridge: tc358764: drop drm_connector_(un)register"
+> > and removal of the calls to drm_panel_attach()/drm_panel_detach(), which
+> > were no-ops and has been removed in meanwhile.
+> >
+> > Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+>
+> Regards
+> Andrzej
+> > ---
+> > As I've reported and Andrzej Hajda pointed, the reverted patches break
+> > operation of the panel on the Arndale board. Noone suggested how to fix
+> > the regression, I've decided to send a revert until a new solution is
+> > found.
+> >
+> > The issues with tc358764 might be automatically resolved once the Exynos
+> > DSI itself is converted to DRM bridge:
+> > https://patchwork.kernel.org/cover/11770683/
+> > but that approach has also its own issues so far.
+
+I'm ok with the revert to fix the regression, but I'd kinda like to
+see a bit more than "maybe we fix this in the future". Otherwise this
+nice idea of having a common drm_bridge abstraction is just leading
+towards a complete disaster where every combination of bridge/driver
+works slightly differently. And we're half-way there in that mess
+already I think.
+
+Cheers, Daniel
+
+> >
+> > Best regards,
+> > Marek Szyprowski
+> > ---
+> >   drivers/gpu/drm/bridge/tc358764.c | 107 +++++++++++++++++++++++++-----
+> >   1 file changed, 92 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/tc358764.c b/drivers/gpu/drm/bridge/tc358764.c
+> > index d89394bc5aa4..c1e35bdf9232 100644
+> > --- a/drivers/gpu/drm/bridge/tc358764.c
+> > +++ b/drivers/gpu/drm/bridge/tc358764.c
+> > @@ -153,9 +153,10 @@ static const char * const tc358764_supplies[] = {
+> >   struct tc358764 {
+> >       struct device *dev;
+> >       struct drm_bridge bridge;
+> > +     struct drm_connector connector;
+> >       struct regulator_bulk_data supplies[ARRAY_SIZE(tc358764_supplies)];
+> >       struct gpio_desc *gpio_reset;
+> > -     struct drm_bridge *panel_bridge;
+> > +     struct drm_panel *panel;
+> >       int error;
+> >   };
+> >
+> > @@ -209,6 +210,12 @@ static inline struct tc358764 *bridge_to_tc358764(struct drm_bridge *bridge)
+> >       return container_of(bridge, struct tc358764, bridge);
+> >   }
+> >
+> > +static inline
+> > +struct tc358764 *connector_to_tc358764(struct drm_connector *connector)
+> > +{
+> > +     return container_of(connector, struct tc358764, connector);
+> > +}
+> > +
+> >   static int tc358764_init(struct tc358764 *ctx)
+> >   {
+> >       u32 v = 0;
+> > @@ -271,11 +278,43 @@ static void tc358764_reset(struct tc358764 *ctx)
+> >       usleep_range(1000, 2000);
+> >   }
+> >
+> > +static int tc358764_get_modes(struct drm_connector *connector)
+> > +{
+> > +     struct tc358764 *ctx = connector_to_tc358764(connector);
+> > +
+> > +     return drm_panel_get_modes(ctx->panel, connector);
+> > +}
+> > +
+> > +static const
+> > +struct drm_connector_helper_funcs tc358764_connector_helper_funcs = {
+> > +     .get_modes = tc358764_get_modes,
+> > +};
+> > +
+> > +static const struct drm_connector_funcs tc358764_connector_funcs = {
+> > +     .fill_modes = drm_helper_probe_single_connector_modes,
+> > +     .destroy = drm_connector_cleanup,
+> > +     .reset = drm_atomic_helper_connector_reset,
+> > +     .atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> > +     .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> > +};
+> > +
+> > +static void tc358764_disable(struct drm_bridge *bridge)
+> > +{
+> > +     struct tc358764 *ctx = bridge_to_tc358764(bridge);
+> > +     int ret = drm_panel_disable(bridge_to_tc358764(bridge)->panel);
+> > +
+> > +     if (ret < 0)
+> > +             dev_err(ctx->dev, "error disabling panel (%d)\n", ret);
+> > +}
+> > +
+> >   static void tc358764_post_disable(struct drm_bridge *bridge)
+> >   {
+> >       struct tc358764 *ctx = bridge_to_tc358764(bridge);
+> >       int ret;
+> >
+> > +     ret = drm_panel_unprepare(ctx->panel);
+> > +     if (ret < 0)
+> > +             dev_err(ctx->dev, "error unpreparing panel (%d)\n", ret);
+> >       tc358764_reset(ctx);
+> >       usleep_range(10000, 15000);
+> >       ret = regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+> > @@ -296,28 +335,71 @@ static void tc358764_pre_enable(struct drm_bridge *bridge)
+> >       ret = tc358764_init(ctx);
+> >       if (ret < 0)
+> >               dev_err(ctx->dev, "error initializing bridge (%d)\n", ret);
+> > +     ret = drm_panel_prepare(ctx->panel);
+> > +     if (ret < 0)
+> > +             dev_err(ctx->dev, "error preparing panel (%d)\n", ret);
+> > +}
+> > +
+> > +static void tc358764_enable(struct drm_bridge *bridge)
+> > +{
+> > +     struct tc358764 *ctx = bridge_to_tc358764(bridge);
+> > +     int ret = drm_panel_enable(ctx->panel);
+> > +
+> > +     if (ret < 0)
+> > +             dev_err(ctx->dev, "error enabling panel (%d)\n", ret);
+> >   }
+> >
+> >   static int tc358764_attach(struct drm_bridge *bridge,
+> >                          enum drm_bridge_attach_flags flags)
+> > +{
+> > +     struct tc358764 *ctx = bridge_to_tc358764(bridge);
+> > +     struct drm_device *drm = bridge->dev;
+> > +     int ret;
+> > +
+> > +     if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+> > +             DRM_ERROR("Fix bridge driver to make connector optional!");
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     ctx->connector.polled = DRM_CONNECTOR_POLL_HPD;
+> > +     ret = drm_connector_init(drm, &ctx->connector,
+> > +                              &tc358764_connector_funcs,
+> > +                              DRM_MODE_CONNECTOR_LVDS);
+> > +     if (ret) {
+> > +             DRM_ERROR("Failed to initialize connector\n");
+> > +             return ret;
+> > +     }
+> > +
+> > +     drm_connector_helper_add(&ctx->connector,
+> > +                              &tc358764_connector_helper_funcs);
+> > +     drm_connector_attach_encoder(&ctx->connector, bridge->encoder);
+> > +     ctx->connector.funcs->reset(&ctx->connector);
+> > +     drm_connector_register(&ctx->connector);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void tc358764_detach(struct drm_bridge *bridge)
+> >   {
+> >       struct tc358764 *ctx = bridge_to_tc358764(bridge);
+> >
+> > -     return drm_bridge_attach(bridge->encoder, ctx->panel_bridge,
+> > -                              bridge, flags);
+> > +     drm_connector_unregister(&ctx->connector);
+> > +     ctx->panel = NULL;
+> > +     drm_connector_put(&ctx->connector);
+> >   }
+> >
+> >   static const struct drm_bridge_funcs tc358764_bridge_funcs = {
+> > +     .disable = tc358764_disable,
+> >       .post_disable = tc358764_post_disable,
+> > +     .enable = tc358764_enable,
+> >       .pre_enable = tc358764_pre_enable,
+> >       .attach = tc358764_attach,
+> > +     .detach = tc358764_detach,
+> >   };
+> >
+> >   static int tc358764_parse_dt(struct tc358764 *ctx)
+> >   {
+> > -     struct drm_bridge *panel_bridge;
+> >       struct device *dev = ctx->dev;
+> > -     struct drm_panel *panel;
+> >       int ret;
+> >
+> >       ctx->gpio_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> > @@ -326,16 +408,12 @@ static int tc358764_parse_dt(struct tc358764 *ctx)
+> >               return PTR_ERR(ctx->gpio_reset);
+> >       }
+> >
+> > -     ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
+> > -     if (ret)
+> > -             return ret;
+> > -
+> > -     panel_bridge = devm_drm_panel_bridge_add(dev, panel);
+> > -     if (IS_ERR(panel_bridge))
+> > -             return PTR_ERR(panel_bridge);
+> > +     ret = drm_of_find_panel_or_bridge(ctx->dev->of_node, 1, 0, &ctx->panel,
+> > +                                       NULL);
+> > +     if (ret && ret != -EPROBE_DEFER)
+> > +             dev_err(dev, "cannot find panel (%d)\n", ret);
+> >
+> > -     ctx->panel_bridge = panel_bridge;
+> > -     return 0;
+> > +     return ret;
+> >   }
+> >
+> >   static int tc358764_configure_regulators(struct tc358764 *ctx)
+> > @@ -381,7 +459,6 @@ static int tc358764_probe(struct mipi_dsi_device *dsi)
+> >               return ret;
+> >
+> >       ctx->bridge.funcs = &tc358764_bridge_funcs;
+> > -     ctx->bridge.type = DRM_MODE_CONNECTOR_LVDS;
+> >       ctx->bridge.of_node = dev->of_node;
+> >
+> >       drm_bridge_add(&ctx->bridge);
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
