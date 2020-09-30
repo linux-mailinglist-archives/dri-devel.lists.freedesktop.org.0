@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54F227E048
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 07:27:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E61E527E0A6
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 07:51:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12A3B6E4D4;
-	Wed, 30 Sep 2020 05:26:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7292A6E4D7;
+	Wed, 30 Sep 2020 05:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 982D46E4D4
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 05:26:55 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id nw23so950143ejb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 22:26:55 -0700 (PDT)
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
+ [IPv6:2607:f8b0:4864:20::b41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5453F6E4D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 05:51:26 +0000 (UTC)
+Received: by mail-yb1-xb41.google.com with SMTP id b142so354043ybg.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Sep 2020 22:51:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BhdS2BGo3si8nLZRXzdPnTlXLQOb+VYAf9EEYK8/yf0=;
+ b=On+z7rW+sj3PI9QhHcidbDeUHkbd0NpkBy6ewHSrsEuBJJOExvVJ+NCSolaohnVAfP
+ OLrGlkjQHTbG8kV5YxUmLYLTApQ0b3oE2cycGPG2JuwNmic1CfsUjQ/ZCat0DGshWjgJ
+ HR6QM8ebzjJw1EXVlboGP71r/YrOnia2z0u2MvKyDrKJETpqYVZJRis90QmhMOBw1MGu
+ 3Y5gdyuqg4U0z1iL+SOoSm2AE+wipttmdf9T3Ruct46fNS4U45tgEqfaP3EdPodv3GLC
+ cUhgI8PKsLk+z51MmuWSpbKRq+gu8Tx6URNOaUddT7kixs+8qJ28I3YxsM3VDFOGMACd
+ C3Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Je2DNnA/FKfKTqizjipmzNv3owWScP9mvLVXfLsSsn0=;
- b=dUGvdKbShbQQCjbCdd8jfDO6XwUq4fxYOjado2aRQ4GpLAdco733si9lQCTLJ2p+cy
- LRhUXzDVReUOVIAfwXFSTGbsHasWmnBazhNu6c0xUfngvw6P81kPz7LMsUfe7SwamGhO
- lzdSMl5OV2xsNrR6hN8eOzTA0OgRmZzDlb3lbK2dggpd2Z6VfH00tTfnqb7bfci+uwtB
- 0GtMs1Uo5NaFcv3eU0fZIEx9J9tvVWS2GUo91h4PNdQac7FtL5HD9DJ8ObwtxlYCdoZB
- 2zN1eXbbvrurvSxJdbydLMifN2M/OkhpHdItA6nx5uX/+PmPO0gFLo/yD9BUUDea1flF
- Gx8Q==
-X-Gm-Message-State: AOAM531ngL2GCTGEZy5o5jqjVmaSRqXMB10bCJQ1oC4nKhpZ1CS6f2o4
- W+1DkikskgzDfUFdfp65KRQ=
-X-Google-Smtp-Source: ABdhPJxZWLUkyQs9Cnkhkk/mXboQK+ISYt9QsCL2oAivHTd7YbInKhTXYmmYx659HgrqEpkNaVZF/A==
-X-Received: by 2002:a17:906:8559:: with SMTP id
- h25mr1076818ejy.536.1601443614199; 
- Tue, 29 Sep 2020 22:26:54 -0700 (PDT)
-Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
- by smtp.gmail.com with ESMTPSA id z16sm392636edr.56.2020.09.29.22.26.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 22:26:53 -0700 (PDT)
-Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
- buffers
-To: Peilin Ye <yepeilin.cs@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <0000000000006b9e8d059952095e@google.com>
- <cover.1600953813.git.yepeilin.cs@gmail.com>
- <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
- <20200925101300.GA890211@PWN> <20200925132551.GF438822@phenom.ffwll.local>
- <20200929123420.GA1143575@PWN>
-From: Jiri Slaby <jirislaby@kernel.org>
-Message-ID: <7d341242-9612-d0ee-4b79-e93882fad73f@kernel.org>
-Date: Wed, 30 Sep 2020 07:26:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BhdS2BGo3si8nLZRXzdPnTlXLQOb+VYAf9EEYK8/yf0=;
+ b=JjCRHueThE5u1M2J/2n0Z7g2r8See9M7nL7b4dKhve6I141joyLsAxWU5bQSRkviO2
+ yuTQ7ss3ZbHR/WJsZhh/+BxMSpcV5GakoNlaPJ5HfIY61Oy0bB2srALqCDX6NyrpQQJG
+ 1bRXBj84cqYIdWnBM4qfgn12K4kcfP81aWu/kbCo+nEDJzM8+4TB89jlczFHHig2Grsp
+ 7FPLQK74sVM9AEwU5IliyDRkahfCmtYaiemHMEMl2d1kpAur6c6wF2k/upQauVdlUgsk
+ F3VmF1UItYqklYgOat7TD1RtLgK7hv7I7gb9Ku/H4xj1XI+nn4ocBFFEjTMGyNYFWm1Z
+ zB0w==
+X-Gm-Message-State: AOAM53033JDBzD7b6QCaZ4aru8BMsTVBUPp+tibq2HHXUUOzYlJI6QlG
+ jwWCUjwjLvsd0ARh2wkqTLV+f/3Fy45CWPJWAg4=
+X-Google-Smtp-Source: ABdhPJxSV7w3BgMCuk/QXl/rO/EOPx29jb9LrPFZ+DgYLp4wtnbPUz3L3XEFspgZKQuHW74GuGWGCIkg9WWOqd+vJQA=
+X-Received: by 2002:a25:fc23:: with SMTP id v35mr1073987ybd.200.1601445085558; 
+ Tue, 29 Sep 2020 22:51:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200929123420.GA1143575@PWN>
-Content-Language: en-US
+References: <20200924051845.397177-1-airlied@gmail.com>
+In-Reply-To: <20200924051845.397177-1-airlied@gmail.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Wed, 30 Sep 2020 15:51:14 +1000
+Message-ID: <CACAvsv7tp3E1a6WBMSg3cyaQBVJbuGxeqO4fo5ZtyovLk57h4A@mail.gmail.com>
+Subject: Re: [PATCH 00/45] TTM move refactoring
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,30 +60,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29. 09. 20, 14:34, Peilin Ye wrote:
-> the work in general? I couldn't think of how do we clean up subsystems
-> one by one, while keeping a `console_font` in `struct vc_data`.
+On Thu, 24 Sep 2020 at 15:19, Dave Airlie <airlied@gmail.com> wrote:
+>
+> This refactors how TTM moves get called between core and drivers.
+>
+> 1) puts the driver in charge of all moves, and enforces
+> drivers have a move callback.
+> 2) moves move_notify actions around moves to the driver side
+> 3) moves binding/unbinding completely into move and driver side
+> 4) add a new invalidate callback to replace the last use of move_notify
+> 5) add some helpers to cleanup the resulting move code
+>
+> There's a bit of internal churn to try and make each patch logical, so
+> don't get too caught up in each patches changes unless the end result
+> is a problem.
+I've looked over the nouveau-specific patches, and the ttm ones
+(mostly ignoring the changes to other drivers beyond a quick glance
+over).  For all but 37/45 and the patches that depend on it:
 
-Hi,
+Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 
-feel free to change struct vc_data's content as you need, of course.
-Only the UAPI _definitions_ have to be preserved (like struct console_font).
+I'll add some more specific comments to one of the patches, but it's
+also fine as-is.
 
-thanks,
--- 
-js
-suse labs
+Ben.
+
+>
+> Dave.
+>
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
