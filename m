@@ -1,49 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EDDC27E391
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 10:19:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 562CE27E3B5
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 10:28:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD2F893EC;
-	Wed, 30 Sep 2020 08:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42F2389956;
+	Wed, 30 Sep 2020 08:28:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F50389128;
- Wed, 30 Sep 2020 08:19:12 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 76E42AFDC;
- Wed, 30 Sep 2020 08:19:10 +0000 (UTC)
-Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
- type conversion
-To: christian.koenig@amd.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
- alexander.deucher@amd.com, kraxel@redhat.com, l.stach@pengutronix.de,
- linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
- tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, hjc@rock-chips.com, heiko@sntech.de,
- hdegoede@redhat.com, sean@poorly.run, eric@anholt.net,
- oleksandr_andrushchenko@epam.com, ray.huang@amd.com,
- sumit.semwal@linaro.org, emil.velikov@collabora.com, luben.tuikov@amd.com,
- apaneers@amd.com, linus.walleij@linaro.org, melissa.srw@gmail.com,
- chris@chris-wilson.co.uk, miaoqinglang@huawei.com
-References: <20200929151437.19717-1-tzimmermann@suse.de>
- <20200929151437.19717-3-tzimmermann@suse.de>
- <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
- <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
- <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <07972ada-9135-3743-a86b-487f610c509f@suse.de>
-Date: Wed, 30 Sep 2020 10:19:03 +0200
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2066.outbound.protection.outlook.com [40.107.223.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45F3089956
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 08:28:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C4z4VsL9B1Ub3TyrvHznuNxHeCBNZLuKP/kChNTjRK5ibbNWxpLdbWBzxpW/LjBBgobJOYhqiC0V3MavOwR0Awi+kGSFsj0ncuSnWjqHt9Reguud2HesGG0hRYpMe0f/qiPaVq5wlckvJu+grBrT2K79ri/Qi+FN+f1BkGhksY727DZGgmf/vgkySiSbQS7Av/eDK37gAyJ9C41hRfDJpApzKzMcWHTap+VmrSyk1SDatX+yqhATwtvoHAQyMuDsd9NJVLXch153HdvXVWJ43kamFfkcTdo6gjH7pLhDVVaj8lpm+L3v2kt1nVG8T7wzdye/En/xj93A5mFz+IDabw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jb1ITrqgbaD3XdBlESlM3D3PBkw7fSCsPwPV8mTaRVU=;
+ b=XMJAz+MC33dvL5tc2bgwXic57Ul7OTaT6bdp+z78YwAyMXsVylbTn4ofR88rWS94a8n8pL2vOhceEW6I7ikGhPs73b4MOQOmWbR/cwP4+ljcugRWb2k62B0mReHMCTW0G2ZgH7775IixX7ti7tZBJ2kPM706t3tQ/F7fM0M4SpV/aV4uPzKmVlvhSvxb/oOmUxbR2MfqOenV9YBzH7HtlVZnTHP1/4RdBqU7yoMVIA2aKqDRlPRZ+r10Rv3BXDWum+p346c6WCOtCHSVg9RrhtLqJ7ZztbWqe5zaMq9QgdbirzSi/bF4SPw01S58vzxa9SAtD3DcFz9NHXiA+hz/EA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jb1ITrqgbaD3XdBlESlM3D3PBkw7fSCsPwPV8mTaRVU=;
+ b=YCHiKk0VOoTk15M8K1Y3aZ99jEsOqLmf2TXWWhuumnHmsQoDA42/NzLy+YlOxLdxhBjiOkzuCJc7hDB+s33gt0zkYV/HZ0OiGo2MGHoa2nqTGOF8VffMPbus6Vp9CRf3xqMWGaYuVp87KOsPecKHRyqgXW1eV8r8Ki7zFgOwOiw=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4551.namprd12.prod.outlook.com (2603:10b6:208:263::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.35; Wed, 30 Sep
+ 2020 08:28:07 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3433.032; Wed, 30 Sep 2020
+ 08:28:07 +0000
+Subject: Re: [PATCH] drm/ttm: fix regression in ttm moves
+To: Dave Airlie <airlied@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Huang Rui <ray.huang@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Roland Scheidegger <sroland@vmware.com>
+References: <20200930055459.31310-1-airlied@gmail.com>
+ <CAPM=9txdYB4WPaXZGZ1XO-s_9BHjv===-QGvW+-N405T1_RsDQ@mail.gmail.com>
+ <CAPM=9tzdT8suD5PZJGrWMM-kOSYYcvA3ZP2y=muZoQ6gNyJkRQ@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <7fe46260-95ed-114d-940b-0512f39b857d@amd.com>
+Date: Wed, 30 Sep 2020 10:28:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
+In-Reply-To: <CAPM=9tzdT8suD5PZJGrWMM-kOSYYcvA3ZP2y=muZoQ6gNyJkRQ@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR01CA0082.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::23) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-In-Reply-To: <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR01CA0082.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.35 via Frontend
+ Transport; Wed, 30 Sep 2020 08:28:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 882f4239-5944-4e1d-70b7-08d8651ac1bb
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4551:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4551BE609CF3C32B0200D4DE83330@MN2PR12MB4551.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yWsCy3tDGlMGByAMNb85ZCv4C4G/YK748BUSYHqr/rY67bQu496xP9sMaBu+B3zxNqkq7O119HMQvL9zCE7F6A2/qIHlcad8RvYvZaXGPVh12YqnxRAk9Cr1po4dBgIDxgITuoNHEVMjPiEexu7ufWBP3un5HQm82jKZnbv5PAW5Al0qaLqxJyTwn2ermGBqTHO93mKlWZkqyx5q8gH1PO/DddmVH+y/OKyPHFT+DOXqC5Q1/ySza3Blwid4YBzic6cyCTeOQJh7zAj5BtjDmFd3BLhxmukV3q15QORGwXwO2BXRPzFUkmunAhRR5/TyGSAZ8PyVoKTU9rHPsVbptef9ZW7jYIucwk8IadUq733gdOcFXvOnMywdl5A+0bTtskl2A0msF8G+Czp/SpIgXiEHlN9OGnvDptnsugFQ8s4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(366004)(136003)(346002)(39860400002)(52116002)(31686004)(110136005)(66946007)(83380400001)(8676002)(316002)(6666004)(186003)(16526019)(5660300002)(31696002)(86362001)(6486002)(966005)(4326008)(478600001)(2906002)(36756003)(8936002)(66574015)(66556008)(66476007)(45080400002)(2616005)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: +qLxrD5Bs4hBMuiaS39A9V3zH3Gqb8JS1XSZpZi9wdQ99b4MmTy5J6YrSGckDM4sL5ueRCxQvasgwwwHYKADtPWe6cnIQXhXUJtbyJqYDpIlIig5ttOK3t2lOvS7pAr//p+b5vWSYGLofcbXvEvYWbRsHdgANiCc7t14M7CwIBIyS2KE8Dis9+xi8PjMaFowmFfb2o4rMc6EcHQDJq0Nkm3H+qsdnf7LyXsSmHTAoCXSLtGLI1DDnJyhFyXM/yRbSnecjU3togp7//ckM3UaBodt4hwbZbk7bHzQ5BUo1Bd1NzUjaTW9Lfvv3zqVq8rpXrjF+EmM1X2KDnKccVMDLdyocvY4CX/ufj6s2RugM8ZRwBaqMRvbrQfPEm4rezxHxKj/NXxhMi3G5g0dkIpEOhldAgZ8c3Ut0kD/i2PF9alck8fmfyKF4jhqwwdT/JZEuSv0W3THAK3MhBesl1ojdAa4K6FBoUcOBMvlBfy2Oyi/BCXooGiuoQSxB8uIRTn6ADlFKOBAh1AtPKuQZeniws5tWCCApmfETKvblOkcnVi+3BNHa0/SC3fyt7H9OzJhCgtTmzaTdkw1jmQuHcHhaRPacwFLZkUXNkyZxeflQHhw4mgrLWb07cP+usA+RunL55+qYyFl18xMn+2Li5L7rqau7RBmwuWGk0HmKb23wufymVZJPvs0SJIzkia5E1mr54erKUkNQQXGHDLEwgtsTw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 882f4239-5944-4e1d-70b7-08d8651ac1bb
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2020 08:28:06.9215 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VLO6kBc/XO0nyDZn06VcrpYUD/9Nn5DOJoy6lcjY9vEpodkTXlNhECTtKDONpfXF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4551
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,282 +102,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
- xen-devel@lists.xenproject.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1752351957=="
+Cc: Dave Airlie <airlied@redhat.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1752351957==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="2tnNmM6Gncu4Z9HVjsD6XejU6DShIRxes"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---2tnNmM6Gncu4Z9HVjsD6XejU6DShIRxes
-Content-Type: multipart/mixed; boundary="8reR6qmzfsBdHGMj2V1Scdvi6KHFIuvgk";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: christian.koenig@amd.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
- alexander.deucher@amd.com, kraxel@redhat.com, l.stach@pengutronix.de,
- linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
- yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
- tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, hjc@rock-chips.com, heiko@sntech.de,
- hdegoede@redhat.com, sean@poorly.run, eric@anholt.net,
- oleksandr_andrushchenko@epam.com, ray.huang@amd.com,
- sumit.semwal@linaro.org, emil.velikov@collabora.com, luben.tuikov@amd.com,
- apaneers@amd.com, linus.walleij@linaro.org, melissa.srw@gmail.com,
- chris@chris-wilson.co.uk, miaoqinglang@huawei.com
-Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- spice-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Message-ID: <07972ada-9135-3743-a86b-487f610c509f@suse.de>
-Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
- type conversion
-References: <20200929151437.19717-1-tzimmermann@suse.de>
- <20200929151437.19717-3-tzimmermann@suse.de>
- <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
- <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
- <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
-In-Reply-To: <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
-
---8reR6qmzfsBdHGMj2V1Scdvi6KHFIuvgk
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 30.09.20 um 10:05 schrieb Christian K=C3=B6nig:
-> Am 29.09.20 um 19:49 schrieb Thomas Zimmermann:
->> Hi Christian
->>
->> Am 29.09.20 um 17:35 schrieb Christian K=C3=B6nig:
->>> Am 29.09.20 um 17:14 schrieb Thomas Zimmermann:
->>>> The new helper ttm_kmap_obj_to_dma_buf() extracts address and locati=
-on
->>>> from and instance of TTM's kmap_obj and initializes struct dma_buf_m=
-ap
->>>> with these values. Helpful for TTM-based drivers.
->>> We could completely drop that if we use the same structure inside TTM=
- as
->>> well.
->>>
->>> Additional to that which driver is going to use this?
->> As Daniel mentioned, it's in patch 3. The TTM-based drivers will
->> retrieve the pointer via this function.
->>
->> I do want to see all that being more tightly integrated into TTM, but
->> not in this series. This one is about fixing the bochs-on-sparc64
->> problem for good. Patch 7 adds an update to TTM to the DRM TODO list.
->=20
-> I should have asked which driver you try to fix here :)
->=20
-> In this case just keep the function inside bochs and only fix it there.=
-
->=20
-> All other drivers can be fixed when we generally pump this through TTM.=
-
-
-Did you take a look at patch 3? This function will be used by VRAM
-helpers, nouveau, radeon, amdgpu and qxl. If we don't put it here, we
-have to duplicate the functionality in each if these drivers. Bochs
-itself uses VRAM helpers and doesn't touch the function directly.
-
-Best regards
-Thomas
-
->=20
-> Regards,
-> Christian.
->=20
->> Best regards
->> Thomas
->>
->>> Regards,
->>> Christian.
->>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> ---
->>>> =C2=A0 include/drm/ttm/ttm_bo_api.h | 24 ++++++++++++++++++++++++
->>>> =C2=A0 include/linux/dma-buf-map.h=C2=A0 | 20 ++++++++++++++++++++
->>>> =C2=A0 2 files changed, 44 insertions(+)
->>>>
->>>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_a=
-pi.h
->>>> index c96a25d571c8..62d89f05a801 100644
->>>> --- a/include/drm/ttm/ttm_bo_api.h
->>>> +++ b/include/drm/ttm/ttm_bo_api.h
->>>> @@ -34,6 +34,7 @@
->>>> =C2=A0 #include <drm/drm_gem.h>
->>>> =C2=A0 #include <drm/drm_hashtab.h>
->>>> =C2=A0 #include <drm/drm_vma_manager.h>
->>>> +#include <linux/dma-buf-map.h>
->>>> =C2=A0 #include <linux/kref.h>
->>>> =C2=A0 #include <linux/list.h>
->>>> =C2=A0 #include <linux/wait.h>
->>>> @@ -486,6 +487,29 @@ static inline void *ttm_kmap_obj_virtual(struct=
-
->>>> ttm_bo_kmap_obj *map,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return map->virtual;
->>>> =C2=A0 }
->>>> =C2=A0 +/**
->>>> + * ttm_kmap_obj_to_dma_buf_map
->>>> + *
->>>> + * @kmap: A struct ttm_bo_kmap_obj returned from ttm_bo_kmap.
->>>> + * @map: Returns the mapping as struct dma_buf_map
->>>> + *
->>>> + * Converts struct ttm_bo_kmap_obj to struct dma_buf_map. If the me=
-mory
->>>> + * is not mapped, the returned mapping is initialized to NULL.
->>>> + */
->>>> +static inline void ttm_kmap_obj_to_dma_buf_map(struct ttm_bo_kmap_o=
-bj
->>>> *kmap,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 struct dma_buf_map *map)
->>>> +{
->>>> +=C2=A0=C2=A0=C2=A0 bool is_iomem;
->>>> +=C2=A0=C2=A0=C2=A0 void *vaddr =3D ttm_kmap_obj_virtual(kmap, &is_i=
-omem);
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 if (!vaddr)
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_map_clear(map);
->>>> +=C2=A0=C2=A0=C2=A0 else if (is_iomem)
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_map_set_vaddr_io=
-mem(map, (void __force __iomem *)vaddr);
->>>> +=C2=A0=C2=A0=C2=A0 else
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_map_set_vaddr(ma=
-p, vaddr);
->>>> +}
->>>> +
->>>> =C2=A0 /**
->>>> =C2=A0=C2=A0 * ttm_bo_kmap
->>>> =C2=A0=C2=A0 *
->>>> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map=
-=2Eh
->>>> index fd1aba545fdf..2e8bbecb5091 100644
->>>> --- a/include/linux/dma-buf-map.h
->>>> +++ b/include/linux/dma-buf-map.h
->>>> @@ -45,6 +45,12 @@
->>>> =C2=A0=C2=A0 *
->>>> =C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0 dma_buf_map_set_vaddr(&map. 0xdeadb=
-eaf);
->>>> =C2=A0=C2=A0 *
->>>> + * To set an address in I/O memory, use dma_buf_map_set_vaddr_iomem=
-().
->>>> + *
->>>> + * .. code-block:: c
->>>> + *
->>>> + *=C2=A0=C2=A0=C2=A0 dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);=
-
->>>> + *
->>>> =C2=A0=C2=A0 * Test if a mapping is valid with either dma_buf_map_is=
-_set() or
->>>> =C2=A0=C2=A0 * dma_buf_map_is_null().
->>>> =C2=A0=C2=A0 *
->>>> @@ -118,6 +124,20 @@ static inline void dma_buf_map_set_vaddr(struct=
-
->>>> dma_buf_map *map, void *vaddr)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 map->is_iomem =3D false;
->>>> =C2=A0 }
->>>> =C2=A0 +/**
->>>> + * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping structure t=
-o
->>>> an address in I/O memory
->>>> + * @map:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The dma-buf mapp=
-ing structure
->>>> + * @vaddr_iomem:=C2=A0=C2=A0=C2=A0 An I/O-memory address
->>>> + *
->>>> + * Sets the address and the I/O-memory flag.
->>>> + */
->>>> +static inline void dma_buf_map_set_vaddr_iomem(struct dma_buf_map *=
-map,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 void __iomem *vaddr_iomem)
->>>> +{
->>>> +=C2=A0=C2=A0=C2=A0 map->vaddr_iomem =3D vaddr_iomem;
->>>> +=C2=A0=C2=A0=C2=A0 map->is_iomem =3D true;
->>>> +}
->>>> +
->>>> =C2=A0 /**
->>>> =C2=A0=C2=A0 * dma_buf_map_is_equal - Compares two dma-buf mapping s=
-tructures
->>>> for equality
->>>> =C2=A0=C2=A0 * @lhs:=C2=A0=C2=A0=C2=A0 The dma-buf mapping structure=
-
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
->> _______________________________________________
->> amd-gfx mailing list
->> amd-gfx@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---8reR6qmzfsBdHGMj2V1Scdvi6KHFIuvgk--
-
---2tnNmM6Gncu4Z9HVjsD6XejU6DShIRxes
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl90P3oUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOhVQf/Yv+6gFInXQVuqEi1ESWHgMw3t7Q2
-cnUg/6thxYVeLkIYdhhbnWBJbHFuwrDriJIad46Ptb3IeoigYaKbFF3ugYhvPkyl
-Z9cLTYI023ZIe5VDgdIavfx82kfG2SYDn95MF4he62lWk+Wqf0sTr2ZtSmX5qoec
-0fkWrJu3aTwroDjJoUIfrysvpX0px5Oyee+wVT7pZgcL59ltLz+GTDWVJqLePjS3
-q8gRTYBP118NUnDY7V7GsUTg6VXUJf+IwYIO3GIhcq8tw835SzJx9wzOKQ7zVXxF
-X8+of5BnSn43BGnzP9KkXwoVR647nGNPwin8wqtDISLp1MjHvRP1sc3pWg==
-=0pMc
------END PGP SIGNATURE-----
-
---2tnNmM6Gncu4Z9HVjsD6XejU6DShIRxes--
-
---===============1752351957==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1752351957==--
+VGhhdCBzb3VuZHMgbGlrZSB0aGUgc2FtZSBwcm9ibGVtIEkndmUgZ290IHdoZW4gZHJtLW5leHQg
+d2FzIG1lcmdlZCBpbnRvIApkcm0tbWlzYy1uZXh0LgoKSSd2ZSBmaXhlZCBpdCBpbiB0aGlzIGNv
+bW1pdDoKCmNvbW1pdCAwYjA2Mjg2NTc5YjgxNDQ5YjFlOGYxNGY4OGQzYThkYjA5MWZkNDQzCkF1
+dGhvcjogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpEYXRlOsKg
+wqAgV2VkIEF1ZyAxOSAxNToyNzo0OCAyMDIwICswMjAwCgogwqDCoMKgIGRybS90dG06IGZpeCBi
+cm9rZW4gbWVyZ2UgYmV0d2VlbiBkcm0tbmV4dCBhbmQgZHJtLW1pc2MtbmV4dAoKIMKgwqDCoCBk
+cm0tbmV4dCByZXZlcnRlZCB0aGUgY2hhbmdlcyB0byB0dG1fdHRfY3JlYXRlKCkgdG8gZG8gdGhl
+CiDCoMKgwqAgTlVMTCBjaGVjayBpbnNpZGUgdGhlIGZ1bmN0aW9uLCBidXQgZHJtLW1pc2MtbmV4
+dCBhZGRzIG5ldwogwqDCoMKgIHVzZXJzIG9mIHRoaXMgYXBwcm9hY2guCgogwqDCoMKgIFJlLWFw
+cGx5IHRoZSBOVUxMIGNoZWNrIGNoYW5nZSBpbnNpZGUgdGhlIGZ1bmN0aW9uIHRvIGZpeCB0aGlz
+LgoKIMKgwqDCoCBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29l
+bmlnQGFtZC5jb20+CiDCoMKgwqAgUmV2aWV3ZWQtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJl
+ZGhhdC5jb20+CiDCoMKgwqAgTGluazogaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3Jn
+L3BhdGNoLzM4NjYyOC8KCgpOb3Qgc3VyZSB3aHkgaXQgc2hvdWxkIGNhdXNlIHByb2JsZW1zIHdp
+dGggZHJtLWZpeGVzIGFuZCBkcm0tbmV4dCBhcyB3ZWxsLgoKUmVnYXJkcywKQ2hyaXN0aWFuLgoK
+QW0gMzAuMDkuMjAgdW0gMDk6MDkgc2NocmllYiBEYXZlIEFpcmxpZToKPiBqdXN0IEZZSSBJJ20g
+c2VlaW5nIGEgcmVncmVzc2lvbiBvbiB2bXdnZnggd2l0aCBkcm0tZml4ZXMgYW5kIGRybS1uZXh0
+Cj4gbWVyZ2VkIGludG8gaXQuCj4KPiBJJ20gZ29pbmcgdGFrZSBzb21lIHRpbWUgdG8gZGlnIHRo
+cm91Z2ggYW5kIHdvcmsgb3V0IHdoZXJlLCB0aGUKPiByZWdyZXNzaW9uIGlzIGEgY29tbWFuZCBm
+YWlsdXJlIGFuZCBhIGlvcmVtYXAgZmFpbHVyZS4KPgo+IERhdmUuCj4KPiBPbiBXZWQsIDMwIFNl
+cCAyMDIwIGF0IDE2OjI2LCBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+IHdyb3RlOgo+
+PiBVZ2doIHRoaXMgaXMgcGFydCBvZiB0aGUgbWVzcyB3aXRoIHRoZSByZXZlcnQsIEknbSBub3Qg
+c3VyZSBob3cgYmVzdAo+PiB0byBkaWcgb3V0IG9mIHRoaXMgb25lIHlldC4KPj4KPj4gRGF2ZS4K
+Pj4KPj4gT24gV2VkLCAzMCBTZXAgMjAyMCBhdCAxNTo1NSwgRGF2ZSBBaXJsaWUgPGFpcmxpZWRA
+Z21haWwuY29tPiB3cm90ZToKPj4+IEZyb206IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5j
+b20+Cj4+Pgo+Pj4gVGhpcyBmaXhlcyBhIGJ1ZyBpbnRyb2R1Y2VkIGluIGJlMTIxM2EzNDFhMjg5
+YWZjNTFmODkxODFjMzEwZTM2OGZiYTBiNjYKPj4+IGRybS90dG06IHJlbW92ZSBUVE1fTUVNVFlQ
+RV9GTEFHX0ZJWEVEIHYyCj4+Pgo+Pj4gT24gdm13Z2Z4IHRoaXMgY2F1c2VzIGEgQ29tbWFuZCBi
+dWZmZXIgZXJyb3IgV0FSTiB0byB0cmlnZ2VyLgo+Pj4KPj4+IFRoaXMgaXMgYmVjYXVzZSB0aGUg
+b2xkIGNvZGUgdXNlZCB0byBjaGVjayBpZiBiby0+dHRtIHdhcyB0cnVlLAo+Pj4gYW5kIHRoZSBu
+ZXcgY29kZSBkb2Vzbid0LCBmaXggaXQgY29kZSB0byBhZGQgYmFjayB0aGUgY2hlY2sgcmVzb2x2
+ZXMKPj4+IHRoZSBpc3N1ZS4KPj4+Cj4+PiBGaXhlczogYmUxMjEzYTM0MWEyICgiZHJtL3R0bTog
+cmVtb3ZlIFRUTV9NRU1UWVBFX0ZMQUdfRklYRUQgdjIiKQo+Pj4gU2lnbmVkLW9mZi1ieTogRGF2
+ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPj4+IC0tLQo+Pj4gICBkcml2ZXJzL2dwdS9k
+cm0vdHRtL3R0bV9iby5jIHwgOCArKysrKy0tLQo+Pj4gICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNl
+cnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9iby5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+Pj4gaW5k
+ZXggNzBiM2JlZTI3ODUwLi5lOGFhMmZlOGU5ZDEgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdHRtL3R0bV9iby5jCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
+Cj4+PiBAQCAtMjUxLDkgKzI1MSwxMSBAQCBzdGF0aWMgaW50IHR0bV9ib19oYW5kbGVfbW92ZV9t
+ZW0oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPj4+ICAgICAgICAgICAgICAgICAgLyog
+WmVybyBpbml0IHRoZSBuZXcgVFRNIHN0cnVjdHVyZSBpZiB0aGUgb2xkIGxvY2F0aW9uIHNob3Vs
+ZAo+Pj4gICAgICAgICAgICAgICAgICAgKiBoYXZlIHVzZWQgb25lIGFzIHdlbGwuCj4+PiAgICAg
+ICAgICAgICAgICAgICAqLwo+Pj4gLSAgICAgICAgICAgICAgIHJldCA9IHR0bV90dF9jcmVhdGUo
+Ym8sIG9sZF9tYW4tPnVzZV90dCk7Cj4+PiAtICAgICAgICAgICAgICAgaWYgKHJldCkKPj4+IC0g
+ICAgICAgICAgICAgICAgICAgICAgIGdvdG8gb3V0X2VycjsKPj4+ICsgICAgICAgICAgICAgICBp
+ZiAoIWJvLT50dG0pIHsKPj4+ICsgICAgICAgICAgICAgICAgICAgICAgIHJldCA9IHR0bV90dF9j
+cmVhdGUoYm8sIG9sZF9tYW4tPnVzZV90dCk7Cj4+PiArICAgICAgICAgICAgICAgICAgICAgICBp
+ZiAocmV0KQo+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBnb3RvIG91dF9lcnI7
+Cj4+PiArICAgICAgICAgICAgICAgfQo+Pj4KPj4+ICAgICAgICAgICAgICAgICAgcmV0ID0gdHRt
+X3R0X3NldF9wbGFjZW1lbnRfY2FjaGluZyhiby0+dHRtLCBtZW0tPnBsYWNlbWVudCk7Cj4+PiAg
+ICAgICAgICAgICAgICAgIGlmIChyZXQpCj4+PiAtLQo+Pj4gMi4yMC4xCj4+Pgo+Pj4gX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4+IGRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKPj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4+IGh0dHBz
+Oi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUy
+RiUyRmxpc3RzLmZyZWVkZXNrdG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0aW5mbyUyRmRyaS1kZXZl
+bCZhbXA7ZGF0YT0wMiU3QzAxJTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0NhOGU1MWRj
+ZTFiMTM0NjAxNWMxZTA4ZDg2NTBmZGM1OSU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUx
+ODNkJTdDMCU3QzAlN0M2MzczNzA0NjYwODU1MDcwMTMmYW1wO3NkYXRhPVFydFNnZmttU3BOY05m
+ZEo3MVlOQVRTMFVSeUVjTU5MZU1WbU9lblJwYWslM0QmYW1wO3Jlc2VydmVkPTAKCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
