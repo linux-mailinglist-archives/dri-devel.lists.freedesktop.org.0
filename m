@@ -1,70 +1,100 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FAD527E5BD
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 11:55:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB6827E650
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 12:13:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D57D6E039;
-	Wed, 30 Sep 2020 09:55:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 284466E5B2;
+	Wed, 30 Sep 2020 10:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B5656E039
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 09:55:46 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id j2so1064722wrx.7
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 02:55:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=QnJosaKk+6UlgjPbZmsy+2/c8gwAv95gBGvvrsjNxEg=;
- b=eT9cqWNgDxAhVmLEzVeN5IAAnwRLaybn8Mw9iEkk16/nBoIH2EO+om9rA1o9iTl2A+
- b3pC94nsrkanU9ZVS+jp50g4xt7tyJV8pijzVboQKo0nr+Ph6t1pgySRTqV1BDcss6hH
- ys1OUca6Z1XZq45Hy8JxEIia8LP5mrsHYGJtY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=QnJosaKk+6UlgjPbZmsy+2/c8gwAv95gBGvvrsjNxEg=;
- b=Juwc+tsQSVzCCcAcVfDyotsU4OpBFAuei0XK6zI1dPaebMtA3fh+Rf9TL/F6AqcWkN
- gVL5qKdMzFuS2d1LqTYQ8Zot6tMgl8AtKYHbMKKC3H8lhirzTiUTfMxvUOB6E6Oekzo9
- DEelhLfPj46la7l7MLWVMG4ApPgSPgBfX/G3LolzyesMh+XQs0OEXl2E2l4k75cP0eFO
- 3kdfJqxnsJZ745JG66lPdwzXFr52i3PE84IRqebBUll0ERbh1a7Q5Ge7IRPovH2yPNJT
- YKt8ok4qHeJlNudSvnDrHu5rDRXSG9laA8ymcQ73NC+ffYEeIGGXtilNu8YoFhY46P04
- zqpA==
-X-Gm-Message-State: AOAM531jhvaSxYwqW/JTQRlAfsKVATMGfFNzSwtkehFmsDa3LLEFPwt6
- 45dBygd7srcJfzvcHJ5MH+DsWQ==
-X-Google-Smtp-Source: ABdhPJzwgGtmE4gHk7un+VHQGLY1/OmHMFNtHzY+QeRZgyppjz9cdlSzmPs669vfGphmd66u+lMFrw==
-X-Received: by 2002:adf:edd2:: with SMTP id v18mr2173577wro.242.1601459745199; 
- Wed, 30 Sep 2020 02:55:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x10sm1832792wmi.37.2020.09.30.02.55.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 02:55:44 -0700 (PDT)
-Date: Wed, 30 Sep 2020 11:55:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH 3/3] RFC: dma-buf: Add an API for importing and exporting
- sync files (v5)
-Message-ID: <20200930095542.GY438822@phenom.ffwll.local>
-Mail-Followup-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Chenbo Feng <fengc@google.com>, daniels@collabora.com,
- jajones@nvidia.com, linux-kernel@vger.kernel.org,
- Greg Hackmann <ghackmann@google.com>,
- linaro-mm-sig@lists.linaro.org, hoegsberg@google.com,
- dri-devel@lists.freedesktop.org, jessehall@google.com,
- airlied@redhat.com, christian.koenig@amd.com,
- linux-media@vger.kernel.org
-References: <20200311034351.1275197-3-jason@jlekstrand.net>
- <20200317212115.419358-1-jason@jlekstrand.net>
- <64eed158-22a8-10a7-7686-c972f8542649@daenzer.net>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 526846E5B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 10:13:19 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200930101317euoutp027d85b51466af5857247ecd36abcdb6b2~5iBxB7z9K0561205612euoutp02V
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 10:13:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200930101317euoutp027d85b51466af5857247ecd36abcdb6b2~5iBxB7z9K0561205612euoutp02V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1601460797;
+ bh=xlcTeN7sHMv0mi2gQWyF7GRcz7cX8CxoUiNws2AIMKI=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=pmQqwuwjrBa3DneE/KrkS4hvd8wwrQUO3LWKw3TwxYxaUrJv3Wvux0X5S9//VFsOZ
+ JE7FbBfRuzfT7NxweI3GwXH3ELVm7Yj0a5LO7K9mRg6Z/VIWSEfmpNROV8EpWmZCbw
+ lmC40TSrv+JllRZTjvpg2xMGIinTLbBNHfqwPfoA=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200930101317eucas1p108863281bf0081dd94a07c526adbd7af~5iBwu2uXq0745707457eucas1p1A;
+ Wed, 30 Sep 2020 10:13:17 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id E4.D6.05997.C3A547F5; Wed, 30
+ Sep 2020 11:13:17 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200930101316eucas1p10827c5ef274452417e612c6b418c5721~5iBwT5VbK0067100671eucas1p1D;
+ Wed, 30 Sep 2020 10:13:16 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200930101316eusmtrp17a3f677b6d07bee0229e678006889799~5iBwTQXoX0946809468eusmtrp16;
+ Wed, 30 Sep 2020 10:13:16 +0000 (GMT)
+X-AuditID: cbfec7f4-65dff7000000176d-bf-5f745a3c03a5
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id E9.25.06017.C3A547F5; Wed, 30
+ Sep 2020 11:13:16 +0100 (BST)
+Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200930101315eusmtip230e4fdf64ef66cf45ad28fed57319abe~5iBvpWz0J0179701797eusmtip2r;
+ Wed, 30 Sep 2020 10:13:15 +0000 (GMT)
+Subject: Re: [PATCH] drm/bridge: tc358764: restore connector support
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <1f62b659-4534-c4de-28c1-07043b6468a7@samsung.com>
+Date: Wed, 30 Sep 2020 12:13:15 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0)
+ Gecko/20100101 Thunderbird/82.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <64eed158-22a8-10a7-7686-c972f8542649@daenzer.net>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20200924083145.23312-1-m.szyprowski@samsung.com>
+Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGKsWRmVeSWpSXmKPExsWy7djP87q2USXxBvfamCyufH3PZnH1+0tm
+ i5NvrrJYdE5cwm5xedccNosZ5/cxWaw9cpfd4lBftAOHx/sbrewesztmsnqcmHCJyeN+93Em
+ j74tqxg9DvROZvH4vEkugD2KyyYlNSezLLVI3y6BK2PPleusBd1WFW/nfmNuYFys38XIySEh
+ YCKxYmYLaxcjF4eQwApGiZ6dT9ghnC+MEtNXfWMFqRIS+Mwo8XZLGUzHxcUr2CCKljNK9J7/
+ DdXxnlFi2aplLF2MHBzCAi4SnSfZQRpEBEol5v4/BlbDLHCRUeLG+0eMIAk2AU2Jv5tvsoHY
+ vAJ2Es9nfgSzWQRUJdpaTjGB2KICCRJ7Hp1jhagRlDg58wkLiM0JVD9/61qwOcwC8hLNW2cz
+ Q9jiEk1fVrJCXHqMXWLTUXeQeySA7pm+gwsiLCzx6vgWdghbRuL05B4WCLte4v6KFmaQOyUE
+ Ohgltm7YyQyRsJa4c+4XG8gcZqCb1++CBp2jxOuN7cwQ4/kkbrwVhLiAT2LStulQYV6JjjYh
+ iGpFiftnt0INFJdYeuEr2wRGpVlI/pqF5JdZSH6ZhbB3ASPLKkbx1NLi3PTUYqO81HK94sTc
+ 4tK8dL3k/NxNjMDUdPrf8S87GHf9STrEKMDBqMTDmyBRHC/EmlhWXJl7iFGCg1lJhNfp7Ok4
+ Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4rzGi17GCgmkJ5akZqemFqQWwWSZODilGhhZRDk0z23w
+ /vvl8aSM7Mx29+q7W3SN9lxv9+fZ2iLutExqQ0gPx6T/Z/Ja/y+bZH/0TL9qj/P+i6kWWlLq
+ PD/d3t56/FvqQeTNE2bOraFRz0t9jcXF807lfNs6eeeJaEYfq4XTmlhclKV6dv65tpkn9t0e
+ TWmzEPabIfuD6tr+R2X88w0491KJpTgj0VCLuag4EQCNl06XSQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDIsWRmVeSWpSXmKPExsVy+t/xe7o2USXxBo0XlS2ufH3PZnH1+0tm
+ i5NvrrJYdE5cwm5xedccNosZ5/cxWaw9cpfd4lBftAOHx/sbrewesztmsnqcmHCJyeN+93Em
+ j74tqxg9DvROZvH4vEkugD1Kz6Yov7QkVSEjv7jEVina0MJIz9DSQs/IxFLP0Ng81srIVEnf
+ ziYlNSezLLVI3y5BL2PPleusBd1WFW/nfmNuYFys38XIySEhYCJxcfEKti5GLg4hgaWMEmuu
+ LWaFSIhL7J7/lhnCFpb4c60Lqugto8T8/ReAijg4hAVcJDpPsoPUiAiUSrzqv88IUsMscJFR
+ 4s+pBqiGiYwSEy/cYwKpYhPQlPi7+SYbiM0rYCfxfOZHMJtFQFWireUUWI2oQILEwy+XmSFq
+ BCVOznzCAmJzAtXP37qWEcRmFjCT6NraBWXLSzRvnc0MYYtLNH1ZyTqBUWgWkvZZSFpmIWmZ
+ haRlASPLKkaR1NLi3PTcYiO94sTc4tK8dL3k/NxNjMCY3Hbs55YdjF3vgg8xCnAwKvHwJkgU
+ xwuxJpYVV+YeYpTgYFYS4XU6ezpOiDclsbIqtSg/vqg0J7X4EKMp0HMTmaVEk/OB6SKvJN7Q
+ 1NDcwtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFqEUwfEwenVANj4r9dV1al7r6TOI3R4W9D
+ xMoVS4ozZs9+GyZ2VcVxQeZ9q+InYtLaxTP89338+tbXmG++vFvVlnUTtFO6UiwnKip0P3fr
+ 33NpO1Og0lRZY7OuVXNtZP8u2uRQJK89vzylaqXVqzWvYlRX7FsV+3SKzy2/yervF68ozPip
+ +39bf4PfdvPN/9J/KrEUZyQaajEXFScCADq5lJ3fAgAA
+X-CMS-MailID: 20200930101316eucas1p10827c5ef274452417e612c6b418c5721
+X-Msg-Generator: CA
+X-RootMTR: 20200924083156eucas1p14406128445a655393013effe719f2228
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200924083156eucas1p14406128445a655393013effe719f2228
+References: <CGME20200924083156eucas1p14406128445a655393013effe719f2228@eucas1p1.samsung.com>
+ <20200924083145.23312-1-m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,119 +107,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, daniel.vetter@ffwll.ch, jajones@nvidia.com,
- Chenbo Feng <fengc@google.com>, linux-kernel@vger.kernel.org,
- Greg Hackmann <ghackmann@google.com>, linaro-mm-sig@lists.linaro.org,
- hoegsberg@google.com, dri-devel@lists.freedesktop.org,
- Jason Ekstrand <jason@jlekstrand.net>, airlied@redhat.com,
- jessehall@google.com, christian.koenig@amd.com, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 11:39:06AM +0200, Michel D=E4nzer wrote:
-> On 2020-03-17 10:21 p.m., Jason Ekstrand wrote:
-> > Explicit synchronization is the future.  At least, that seems to be what
-> > most userspace APIs are agreeing on at this point.  However, most of our
-> > Linux APIs (both userspace and kernel UAPI) are currently built around
-> > implicit synchronization with dma-buf.  While work is ongoing to change
-> > many of the userspace APIs and protocols to an explicit synchronization
-> > model, switching over piecemeal is difficult due to the number of
-> > potential components involved.  On the kernel side, many drivers use
-> > dma-buf including GPU (3D/compute), display, v4l, and others.  In
-> > userspace, we have X11, several Wayland compositors, 3D drivers, compute
-> > drivers (OpenCL etc.), media encode/decode, and the list goes on.
-> > =
-
-> > This patch provides a path forward by allowing userspace to manually
-> > manage the fences attached to a dma-buf.  Alternatively, one can think
-> > of this as making dma-buf's implicit synchronization simply a carrier
-> > for an explicit fence.  This is accomplished by adding two IOCTLs to
-> > dma-buf for importing and exporting a sync file to/from the dma-buf.
-> > This way a userspace component which is uses explicit synchronization,
-> > such as a Vulkan driver, can manually set the write fence on a buffer
-> > before handing it off to an implicitly synchronized component such as a
-> > Wayland compositor or video encoder.  In this way, each of the different
-> > components can be upgraded to an explicit synchronization model one at a
-> > time as long as the userspace pieces connecting them are aware of it and
-> > import/export fences at the right times.
-> > =
-
-> > There is a potential race condition with this API if userspace is not
-> > careful.  A typical use case for implicit synchronization is to wait for
-> > the dma-buf to be ready, use it, and then signal it for some other
-> > component.  Because a sync_file cannot be created until it is guaranteed
-> > to complete in finite time, userspace can only signal the dma-buf after
-> > it has already submitted the work which uses it to the kernel and has
-> > received a sync_file back.  There is no way to atomically submit a
-> > wait-use-signal operation.  This is not, however, really a problem with
-> > this API so much as it is a problem with explicit synchronization
-> > itself.  The way this is typically handled is to have very explicit
-> > ownership transfer points in the API or protocol which ensure that only
-> > one component is using it at any given time.  Both X11 (via the PRESENT
-> > extension) and Wayland provide such ownership transfer points via
-> > explicit present and idle messages.
-> > =
-
-> > The decision was intentionally made in this patch to make the import and
-> > export operations IOCTLs on the dma-buf itself rather than as a DRM
-> > IOCTL.  This makes it the import/export operation universal across all
-> > components which use dma-buf including GPU, display, v4l, and others.
-> > It also means that a userspace component can do the import/export
-> > without access to the DRM fd which may be tricky to get in cases where
-> > the client communicates with DRM via a userspace API such as OpenGL or
-> > Vulkan.  At a future date we may choose to add direct import/export APIs
-> > to components such as drm_syncobj to avoid allocating a file descriptor
-> > and going through two ioctls.  However, that seems to be something of a
-> > micro-optimization as import/export operations are likely to happen at a
-> > rate of a few per frame of rendered or decoded video.
-> > =
-
-> > v2 (Jason Ekstrand):
-> >   - Use a wrapper dma_fence_array of all fences including the new one
-> >     when importing an exclusive fence.
-> > =
-
-> > v3 (Jason Ekstrand):
-> >   - Lock around setting shared fences as well as exclusive
-> >   - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
-> >   - Initialize ret to 0 in dma_buf_wait_sync_file
-> > =
-
-> > v4 (Jason Ekstrand):
-> >   - Use the new dma_resv_get_singleton helper
-> > =
-
-> > v5 (Jason Ekstrand):
-> >   - Rename the IOCTLs to import/export rather than wait/signal
-> >   - Drop the WRITE flag and always get/set the exclusive fence
-> > =
-
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> =
-
-> What's the status of this? DMA_BUF_IOCTL_EXPORT_SYNC_FILE would be useful
-> for Wayland compositors to wait for client buffers to become ready without
-> being prone to getting delayed by later HW access to them, so it would be
-> nice to merge that at least (if DMA_BUF_IOCTL_IMPORT_SYNC_FILE is still
-> controversial).
-
-I think the missing bits are just the usual stuff
-- igt testcases
-- userspace using the new ioctls
-- review of the entire pile
-
-I don't think there's any fundamental objections aside from "no one ever
-pushed this over the finish line".
-
-Cheers, Daniel
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ClcgZG5pdSAyNC4wOS4yMDIwIG/CoDEwOjMxLCBNYXJlayBTenlwcm93c2tpIHBpc3plOgo+IFRo
+aXMgcGF0Y2ggcmVzdG9yZXMgRFJNIGNvbm5lY3RvciByZWdpc3RyYXRpb24gaW4gdGhlIFRDMzU4
+NzY0IGJyaWRnZQo+IGRyaXZlciBhbmQgcmVzdG9yZXMgdXNhZ2Ugb2YgdGhlIG9sZCBkcm1fcGFu
+ZWxfKiBBUEksIHRodXMgYWxsb3dzIGR5bmFtaWMKPiBwYW5lbCByZWdpc3RyYXRpb24uIFRoaXMg
+Zml4ZXMgcGFuZWwgb3BlcmF0aW9uIG9uIEV4eW5vczUyNTAtYmFzZWQKPiBBcm5kYWxlIGJvYXJk
+Lgo+Cj4gVGhpcyBpcyBlcXVpdmFsZW50IHRvIHRoZSByZXZlcnQgb2YgdGhlIGZvbGxvd2luZyBj
+b21taXRzOgo+IDE2NDQxMjdmODNiYyAiZHJtL2JyaWRnZTogdGMzNTg3NjQ6IGFkZCBkcm1fcGFu
+ZWxfYnJpZGdlIHN1cHBvcnQiCj4gMzg1Y2EzOGRhMjljICJkcm0vYnJpZGdlOiB0YzM1ODc2NDog
+ZHJvcCBkcm1fY29ubmVjdG9yXyh1bilyZWdpc3RlciIKPiBhbmQgcmVtb3ZhbCBvZiB0aGUgY2Fs
+bHMgdG8gZHJtX3BhbmVsX2F0dGFjaCgpL2RybV9wYW5lbF9kZXRhY2goKSwgd2hpY2gKPiB3ZXJl
+IG5vLW9wcyBhbmQgaGFzIGJlZW4gcmVtb3ZlZCBpbiBtZWFud2hpbGUuCj4KPiBTaWduZWQtb2Zm
+LWJ5OiBNYXJlayBTenlwcm93c2tpIDxtLnN6eXByb3dza2lAc2Ftc3VuZy5jb20+ClJldmlld2Vk
+LWJ5OiBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcuY29tPgoKUmVnYXJkcwpBbmRyemVq
+Cj4gLS0tCj4gQXMgSSd2ZSByZXBvcnRlZCBhbmQgQW5kcnplaiBIYWpkYSBwb2ludGVkLCB0aGUg
+cmV2ZXJ0ZWQgcGF0Y2hlcyBicmVhawo+IG9wZXJhdGlvbiBvZiB0aGUgcGFuZWwgb24gdGhlIEFy
+bmRhbGUgYm9hcmQuIE5vb25lIHN1Z2dlc3RlZCBob3cgdG8gZml4Cj4gdGhlIHJlZ3Jlc3Npb24s
+IEkndmUgZGVjaWRlZCB0byBzZW5kIGEgcmV2ZXJ0IHVudGlsIGEgbmV3IHNvbHV0aW9uIGlzCj4g
+Zm91bmQuCj4KPiBUaGUgaXNzdWVzIHdpdGggdGMzNTg3NjQgbWlnaHQgYmUgYXV0b21hdGljYWxs
+eSByZXNvbHZlZCBvbmNlIHRoZSBFeHlub3MKPiBEU0kgaXRzZWxmIGlzIGNvbnZlcnRlZCB0byBE
+Uk0gYnJpZGdlOgo+IGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvY292ZXIvMTE3NzA2ODMv
+Cj4gYnV0IHRoYXQgYXBwcm9hY2ggaGFzIGFsc28gaXRzIG93biBpc3N1ZXMgc28gZmFyLgo+Cj4g
+QmVzdCByZWdhcmRzLAo+IE1hcmVrIFN6eXByb3dza2kKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS9icmlkZ2UvdGMzNTg3NjQuYyB8IDEwNyArKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0K
+PiAgIDEgZmlsZSBjaGFuZ2VkLCA5MiBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkKPgo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMgYi9kcml2ZXJz
+L2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMKPiBpbmRleCBkODkzOTRiYzVhYTQuLmMxZTM1YmRm
+OTIzMiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMKPiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY0LmMKPiBAQCAtMTUzLDkgKzE1Mywx
+MCBAQCBzdGF0aWMgY29uc3QgY2hhciAqIGNvbnN0IHRjMzU4NzY0X3N1cHBsaWVzW10gPSB7Cj4g
+ICBzdHJ1Y3QgdGMzNTg3NjQgewo+ICAgCXN0cnVjdCBkZXZpY2UgKmRldjsKPiAgIAlzdHJ1Y3Qg
+ZHJtX2JyaWRnZSBicmlkZ2U7Cj4gKwlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciBjb25uZWN0b3I7Cj4g
+ICAJc3RydWN0IHJlZ3VsYXRvcl9idWxrX2RhdGEgc3VwcGxpZXNbQVJSQVlfU0laRSh0YzM1ODc2
+NF9zdXBwbGllcyldOwo+ICAgCXN0cnVjdCBncGlvX2Rlc2MgKmdwaW9fcmVzZXQ7Cj4gLQlzdHJ1
+Y3QgZHJtX2JyaWRnZSAqcGFuZWxfYnJpZGdlOwo+ICsJc3RydWN0IGRybV9wYW5lbCAqcGFuZWw7
+Cj4gICAJaW50IGVycm9yOwo+ICAgfTsKPiAgIAo+IEBAIC0yMDksNiArMjEwLDEyIEBAIHN0YXRp
+YyBpbmxpbmUgc3RydWN0IHRjMzU4NzY0ICpicmlkZ2VfdG9fdGMzNTg3NjQoc3RydWN0IGRybV9i
+cmlkZ2UgKmJyaWRnZSkKPiAgIAlyZXR1cm4gY29udGFpbmVyX29mKGJyaWRnZSwgc3RydWN0IHRj
+MzU4NzY0LCBicmlkZ2UpOwo+ICAgfQo+ICAgCj4gK3N0YXRpYyBpbmxpbmUKPiArc3RydWN0IHRj
+MzU4NzY0ICpjb25uZWN0b3JfdG9fdGMzNTg3NjQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5l
+Y3RvcikKPiArewo+ICsJcmV0dXJuIGNvbnRhaW5lcl9vZihjb25uZWN0b3IsIHN0cnVjdCB0YzM1
+ODc2NCwgY29ubmVjdG9yKTsKPiArfQo+ICsKPiAgIHN0YXRpYyBpbnQgdGMzNTg3NjRfaW5pdChz
+dHJ1Y3QgdGMzNTg3NjQgKmN0eCkKPiAgIHsKPiAgIAl1MzIgdiA9IDA7Cj4gQEAgLTI3MSwxMSAr
+Mjc4LDQzIEBAIHN0YXRpYyB2b2lkIHRjMzU4NzY0X3Jlc2V0KHN0cnVjdCB0YzM1ODc2NCAqY3R4
+KQo+ICAgCXVzbGVlcF9yYW5nZSgxMDAwLCAyMDAwKTsKPiAgIH0KPiAgIAo+ICtzdGF0aWMgaW50
+IHRjMzU4NzY0X2dldF9tb2RlcyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQo+ICt7
+Cj4gKwlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9IGNvbm5lY3Rvcl90b190YzM1ODc2NChjb25uZWN0
+b3IpOwo+ICsKPiArCXJldHVybiBkcm1fcGFuZWxfZ2V0X21vZGVzKGN0eC0+cGFuZWwsIGNvbm5l
+Y3Rvcik7Cj4gK30KPiArCj4gK3N0YXRpYyBjb25zdAo+ICtzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9o
+ZWxwZXJfZnVuY3MgdGMzNTg3NjRfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyA9IHsKPiArCS5nZXRf
+bW9kZXMgPSB0YzM1ODc2NF9nZXRfbW9kZXMsCj4gK307Cj4gKwo+ICtzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGRybV9jb25uZWN0b3JfZnVuY3MgdGMzNTg3NjRfY29ubmVjdG9yX2Z1bmNzID0gewo+ICsJ
+LmZpbGxfbW9kZXMgPSBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMsCj4g
+KwkuZGVzdHJveSA9IGRybV9jb25uZWN0b3JfY2xlYW51cCwKPiArCS5yZXNldCA9IGRybV9hdG9t
+aWNfaGVscGVyX2Nvbm5lY3Rvcl9yZXNldCwKPiArCS5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0g
+ZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9yX2R1cGxpY2F0ZV9zdGF0ZSwKPiArCS5hdG9taWNf
+ZGVzdHJveV9zdGF0ZSA9IGRybV9hdG9taWNfaGVscGVyX2Nvbm5lY3Rvcl9kZXN0cm95X3N0YXRl
+LAo+ICt9Owo+ICsKPiArc3RhdGljIHZvaWQgdGMzNTg3NjRfZGlzYWJsZShzdHJ1Y3QgZHJtX2Jy
+aWRnZSAqYnJpZGdlKQo+ICt7Cj4gKwlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9IGJyaWRnZV90b190
+YzM1ODc2NChicmlkZ2UpOwo+ICsJaW50IHJldCA9IGRybV9wYW5lbF9kaXNhYmxlKGJyaWRnZV90
+b190YzM1ODc2NChicmlkZ2UpLT5wYW5lbCk7Cj4gKwo+ICsJaWYgKHJldCA8IDApCj4gKwkJZGV2
+X2VycihjdHgtPmRldiwgImVycm9yIGRpc2FibGluZyBwYW5lbCAoJWQpXG4iLCByZXQpOwo+ICt9
+Cj4gKwo+ICAgc3RhdGljIHZvaWQgdGMzNTg3NjRfcG9zdF9kaXNhYmxlKHN0cnVjdCBkcm1fYnJp
+ZGdlICpicmlkZ2UpCj4gICB7Cj4gICAJc3RydWN0IHRjMzU4NzY0ICpjdHggPSBicmlkZ2VfdG9f
+dGMzNTg3NjQoYnJpZGdlKTsKPiAgIAlpbnQgcmV0Owo+ICAgCj4gKwlyZXQgPSBkcm1fcGFuZWxf
+dW5wcmVwYXJlKGN0eC0+cGFuZWwpOwo+ICsJaWYgKHJldCA8IDApCj4gKwkJZGV2X2VycihjdHgt
+PmRldiwgImVycm9yIHVucHJlcGFyaW5nIHBhbmVsICglZClcbiIsIHJldCk7Cj4gICAJdGMzNTg3
+NjRfcmVzZXQoY3R4KTsKPiAgIAl1c2xlZXBfcmFuZ2UoMTAwMDAsIDE1MDAwKTsKPiAgIAlyZXQg
+PSByZWd1bGF0b3JfYnVsa19kaXNhYmxlKEFSUkFZX1NJWkUoY3R4LT5zdXBwbGllcyksIGN0eC0+
+c3VwcGxpZXMpOwo+IEBAIC0yOTYsMjggKzMzNSw3MSBAQCBzdGF0aWMgdm9pZCB0YzM1ODc2NF9w
+cmVfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UpCj4gICAJcmV0ID0gdGMzNTg3NjRf
+aW5pdChjdHgpOwo+ICAgCWlmIChyZXQgPCAwKQo+ICAgCQlkZXZfZXJyKGN0eC0+ZGV2LCAiZXJy
+b3IgaW5pdGlhbGl6aW5nIGJyaWRnZSAoJWQpXG4iLCByZXQpOwo+ICsJcmV0ID0gZHJtX3BhbmVs
+X3ByZXBhcmUoY3R4LT5wYW5lbCk7Cj4gKwlpZiAocmV0IDwgMCkKPiArCQlkZXZfZXJyKGN0eC0+
+ZGV2LCAiZXJyb3IgcHJlcGFyaW5nIHBhbmVsICglZClcbiIsIHJldCk7Cj4gK30KPiArCj4gK3N0
+YXRpYyB2b2lkIHRjMzU4NzY0X2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ICt7
+Cj4gKwlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9IGJyaWRnZV90b190YzM1ODc2NChicmlkZ2UpOwo+
+ICsJaW50IHJldCA9IGRybV9wYW5lbF9lbmFibGUoY3R4LT5wYW5lbCk7Cj4gKwo+ICsJaWYgKHJl
+dCA8IDApCj4gKwkJZGV2X2VycihjdHgtPmRldiwgImVycm9yIGVuYWJsaW5nIHBhbmVsICglZClc
+biIsIHJldCk7Cj4gICB9Cj4gICAKPiAgIHN0YXRpYyBpbnQgdGMzNTg3NjRfYXR0YWNoKHN0cnVj
+dCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gICAJCQkgICBlbnVtIGRybV9icmlkZ2VfYXR0YWNoX2Zs
+YWdzIGZsYWdzKQo+ICt7Cj4gKwlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9IGJyaWRnZV90b190YzM1
+ODc2NChicmlkZ2UpOwo+ICsJc3RydWN0IGRybV9kZXZpY2UgKmRybSA9IGJyaWRnZS0+ZGV2Owo+
+ICsJaW50IHJldDsKPiArCj4gKwlpZiAoZmxhZ3MgJiBEUk1fQlJJREdFX0FUVEFDSF9OT19DT05O
+RUNUT1IpIHsKPiArCQlEUk1fRVJST1IoIkZpeCBicmlkZ2UgZHJpdmVyIHRvIG1ha2UgY29ubmVj
+dG9yIG9wdGlvbmFsISIpOwo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsJfQo+ICsKPiArCWN0eC0+
+Y29ubmVjdG9yLnBvbGxlZCA9IERSTV9DT05ORUNUT1JfUE9MTF9IUEQ7Cj4gKwlyZXQgPSBkcm1f
+Y29ubmVjdG9yX2luaXQoZHJtLCAmY3R4LT5jb25uZWN0b3IsCj4gKwkJCQkgJnRjMzU4NzY0X2Nv
+bm5lY3Rvcl9mdW5jcywKPiArCQkJCSBEUk1fTU9ERV9DT05ORUNUT1JfTFZEUyk7Cj4gKwlpZiAo
+cmV0KSB7Cj4gKwkJRFJNX0VSUk9SKCJGYWlsZWQgdG8gaW5pdGlhbGl6ZSBjb25uZWN0b3JcbiIp
+Owo+ICsJCXJldHVybiByZXQ7Cj4gKwl9Cj4gKwo+ICsJZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfYWRk
+KCZjdHgtPmNvbm5lY3RvciwKPiArCQkJCSAmdGMzNTg3NjRfY29ubmVjdG9yX2hlbHBlcl9mdW5j
+cyk7Cj4gKwlkcm1fY29ubmVjdG9yX2F0dGFjaF9lbmNvZGVyKCZjdHgtPmNvbm5lY3RvciwgYnJp
+ZGdlLT5lbmNvZGVyKTsKPiArCWN0eC0+Y29ubmVjdG9yLmZ1bmNzLT5yZXNldCgmY3R4LT5jb25u
+ZWN0b3IpOwo+ICsJZHJtX2Nvbm5lY3Rvcl9yZWdpc3RlcigmY3R4LT5jb25uZWN0b3IpOwo+ICsK
+PiArCXJldHVybiAwOwo+ICt9Cj4gKwo+ICtzdGF0aWMgdm9pZCB0YzM1ODc2NF9kZXRhY2goc3Ry
+dWN0IGRybV9icmlkZ2UgKmJyaWRnZSkKPiAgIHsKPiAgIAlzdHJ1Y3QgdGMzNTg3NjQgKmN0eCA9
+IGJyaWRnZV90b190YzM1ODc2NChicmlkZ2UpOwo+ICAgCj4gLQlyZXR1cm4gZHJtX2JyaWRnZV9h
+dHRhY2goYnJpZGdlLT5lbmNvZGVyLCBjdHgtPnBhbmVsX2JyaWRnZSwKPiAtCQkJCSBicmlkZ2Us
+IGZsYWdzKTsKPiArCWRybV9jb25uZWN0b3JfdW5yZWdpc3RlcigmY3R4LT5jb25uZWN0b3IpOwo+
+ICsJY3R4LT5wYW5lbCA9IE5VTEw7Cj4gKwlkcm1fY29ubmVjdG9yX3B1dCgmY3R4LT5jb25uZWN0
+b3IpOwo+ICAgfQo+ICAgCj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9icmlkZ2VfZnVuY3Mg
+dGMzNTg3NjRfYnJpZGdlX2Z1bmNzID0gewo+ICsJLmRpc2FibGUgPSB0YzM1ODc2NF9kaXNhYmxl
+LAo+ICAgCS5wb3N0X2Rpc2FibGUgPSB0YzM1ODc2NF9wb3N0X2Rpc2FibGUsCj4gKwkuZW5hYmxl
+ID0gdGMzNTg3NjRfZW5hYmxlLAo+ICAgCS5wcmVfZW5hYmxlID0gdGMzNTg3NjRfcHJlX2VuYWJs
+ZSwKPiAgIAkuYXR0YWNoID0gdGMzNTg3NjRfYXR0YWNoLAo+ICsJLmRldGFjaCA9IHRjMzU4NzY0
+X2RldGFjaCwKPiAgIH07Cj4gICAKPiAgIHN0YXRpYyBpbnQgdGMzNTg3NjRfcGFyc2VfZHQoc3Ry
+dWN0IHRjMzU4NzY0ICpjdHgpCj4gICB7Cj4gLQlzdHJ1Y3QgZHJtX2JyaWRnZSAqcGFuZWxfYnJp
+ZGdlOwo+ICAgCXN0cnVjdCBkZXZpY2UgKmRldiA9IGN0eC0+ZGV2Owo+IC0Jc3RydWN0IGRybV9w
+YW5lbCAqcGFuZWw7Cj4gICAJaW50IHJldDsKPiAgIAo+ICAgCWN0eC0+Z3Bpb19yZXNldCA9IGRl
+dm1fZ3Bpb2RfZ2V0KGRldiwgInJlc2V0IiwgR1BJT0RfT1VUX0xPVyk7Cj4gQEAgLTMyNiwxNiAr
+NDA4LDEyIEBAIHN0YXRpYyBpbnQgdGMzNTg3NjRfcGFyc2VfZHQoc3RydWN0IHRjMzU4NzY0ICpj
+dHgpCj4gICAJCXJldHVybiBQVFJfRVJSKGN0eC0+Z3Bpb19yZXNldCk7Cj4gICAJfQo+ICAgCj4g
+LQlyZXQgPSBkcm1fb2ZfZmluZF9wYW5lbF9vcl9icmlkZ2UoZGV2LT5vZl9ub2RlLCAxLCAwLCAm
+cGFuZWwsIE5VTEwpOwo+IC0JaWYgKHJldCkKPiAtCQlyZXR1cm4gcmV0Owo+IC0KPiAtCXBhbmVs
+X2JyaWRnZSA9IGRldm1fZHJtX3BhbmVsX2JyaWRnZV9hZGQoZGV2LCBwYW5lbCk7Cj4gLQlpZiAo
+SVNfRVJSKHBhbmVsX2JyaWRnZSkpCj4gLQkJcmV0dXJuIFBUUl9FUlIocGFuZWxfYnJpZGdlKTsK
+PiArCXJldCA9IGRybV9vZl9maW5kX3BhbmVsX29yX2JyaWRnZShjdHgtPmRldi0+b2Zfbm9kZSwg
+MSwgMCwgJmN0eC0+cGFuZWwsCj4gKwkJCQkJICBOVUxMKTsKPiArCWlmIChyZXQgJiYgcmV0ICE9
+IC1FUFJPQkVfREVGRVIpCj4gKwkJZGV2X2VycihkZXYsICJjYW5ub3QgZmluZCBwYW5lbCAoJWQp
+XG4iLCByZXQpOwo+ICAgCj4gLQljdHgtPnBhbmVsX2JyaWRnZSA9IHBhbmVsX2JyaWRnZTsKPiAt
+CXJldHVybiAwOwo+ICsJcmV0dXJuIHJldDsKPiAgIH0KPiAgIAo+ICAgc3RhdGljIGludCB0YzM1
+ODc2NF9jb25maWd1cmVfcmVndWxhdG9ycyhzdHJ1Y3QgdGMzNTg3NjQgKmN0eCkKPiBAQCAtMzgx
+LDcgKzQ1OSw2IEBAIHN0YXRpYyBpbnQgdGMzNTg3NjRfcHJvYmUoc3RydWN0IG1pcGlfZHNpX2Rl
+dmljZSAqZHNpKQo+ICAgCQlyZXR1cm4gcmV0Owo+ICAgCj4gICAJY3R4LT5icmlkZ2UuZnVuY3Mg
+PSAmdGMzNTg3NjRfYnJpZGdlX2Z1bmNzOwo+IC0JY3R4LT5icmlkZ2UudHlwZSA9IERSTV9NT0RF
+X0NPTk5FQ1RPUl9MVkRTOwo+ICAgCWN0eC0+YnJpZGdlLm9mX25vZGUgPSBkZXYtPm9mX25vZGU7
+Cj4gICAKPiAgIAlkcm1fYnJpZGdlX2FkZCgmY3R4LT5icmlkZ2UpOwpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
