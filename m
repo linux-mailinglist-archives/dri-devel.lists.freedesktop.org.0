@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A0027EB2B
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 16:42:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D86CE27EEAA
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 18:13:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8571489D58;
-	Wed, 30 Sep 2020 14:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2738A895B5;
+	Wed, 30 Sep 2020 16:13:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A97E789D8A
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 14:42:38 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id c18so2095659wrm.9
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 07:42:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=6v1rod49sRpblgnIYaytswYlCAQtFHY9+INnLpwKsRI=;
- b=cQOkFdHu0n/gK2VC6Pw53HVVFr+sMRhn6/aFzrYNCe7zizsTi+kfwlLL93pj2OdVwl
- ZvTEecxM05FWuhS8VL6yi10EmnLuVLatUgQxHjdXdPAyWlrIK+mfFFhOTLpn2J0GsJ5+
- SbO0juaAokzo/rGx78kvVzx0sykPLmcAbvJKk=
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3323895B5;
+ Wed, 30 Sep 2020 16:13:35 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id 16so1961546qkf.4;
+ Wed, 30 Sep 2020 09:13:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lPuDKc9IWffl0QbTVBOGP6nbwyu+JKRq9ThOGVvMPSc=;
+ b=lBBp9W7CszX+TgzYdwi6tqB4+rp2OPk6btY4tVmqMoGU6g85IcKssnYasbE45KrImE
+ wCIFTsYKYY+feAPZxySfBneWCNvRaELJ7YpDdNtbk0jU0rC2Q4R7SLu77h3CL6GgkL1c
+ CnP/Wkc1OVRDFy8esfBLuojqq0pKZafwTU+0eQtZYgRcMinaulkOVTfl0jJ/LkRgBH/h
+ 3hAciYoIuzsZhA8RPeETNVJxCwkzDU+8ahKCBog2feXL0I9FWujL9lciNdQkCjmuZNQP
+ baCRnO2v3oRn4fcgl0hEo1x0xRApuIzmExeL5hsRKTgsPfXN0GLalt42Euaq2RPi8BS0
+ 7n5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=6v1rod49sRpblgnIYaytswYlCAQtFHY9+INnLpwKsRI=;
- b=eZYG0JCzDN+mK+hG0GxqqcoXO9lkGxiteakQT4rKOayetVB9bYpumj/Wsa3T0w6VL7
- q30h8x6UoGyGtIK8klxDNqyoyKUrrGu07FZjuqQmyQEmmxsjP9dwFp+0tj8gqABm9eN7
- o9lnboa6B0rhXL5nnOvHh1XYyKvCD44LE2TFhb4o4NNk2oefIW51y+i/MYEOmASlWKOt
- +Mm9MN4mc0NRmVbJ8SAi3uITLtJ57ujVWZcFvN/XUBAkGTrZNidj3SGm224CseLCmab6
- XhJzdUM0TEdnVr8zVcEeV7BX/+Hxr+DsoWlMez86CwRDZw1S48whPG/IGqv+0HjCTfLi
- lIdQ==
-X-Gm-Message-State: AOAM533ldOMUkA1aO61GLSGLW/wjzKFfX4E3buMKp5o9DzTyfGubOwhd
- kjSERj1S/0jQ0aXY3MRe9MENpg==
-X-Google-Smtp-Source: ABdhPJz2nZa1l1VvlRHa6DFjVS+WIE6DInmcSNTyofAfBcbUicZpM6IVdQGrOIGPOy4g2tCaX7c+2g==
-X-Received: by 2002:adf:dccc:: with SMTP id x12mr3619286wrm.241.1601476957326; 
- Wed, 30 Sep 2020 07:42:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k5sm3369463wmb.19.2020.09.30.07.42.35
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lPuDKc9IWffl0QbTVBOGP6nbwyu+JKRq9ThOGVvMPSc=;
+ b=T2VLvfEBP+9dxG9z3SqbzRjkxDl8MF3MenPXhu9wJ7jf/yAmzCk/DBcDJvSVZvi3D1
+ +bewc6EeGiDBKr4lbhDumZvW76m4gel80sXbfBYMI2+Irl990gQBif4HKueVzUN7URHI
+ A2tITrchHzgBFoj3R71yvLgL3GjKW7y6xwL6+VAqqKxEaTa9YoWl8NmrC9oedcDFll6t
+ jvX+mOBrnbd7ZXEfEoh2GM92ezXleEGmweVK4RyBnPy2SGqiPAPOrR5wZZo/QRhdZtf1
+ ACVDjTGFSUeyb0K7S3LlLMR06urK+3eB3vxJAAeJGHo/Z1+I4on8Jzb7E7S+wICi3KAk
+ yrBw==
+X-Gm-Message-State: AOAM532Tn3zU6O4G7KCnr8VghWdL33m6dCwrewLVz7lzuRYvtLr07tjg
+ fSVwa0gI4To68xoSk9o7xgEi7hUEuFQ=
+X-Google-Smtp-Source: ABdhPJw49591e+FFNnm+D5M72kUhHTLY5trU3O2OZXv+tc+zO4y1kT6xwh4d9VyV3b97B9L0oXorTQ==
+X-Received: by 2002:a37:a785:: with SMTP id q127mr3245090qke.256.1601482414590; 
+ Wed, 30 Sep 2020 09:13:34 -0700 (PDT)
+Received: from localhost.localdomain ([71.219.66.138])
+ by smtp.gmail.com with ESMTPSA id t140sm2608505qke.125.2020.09.30.09.13.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 07:42:36 -0700 (PDT)
-Date: Wed, 30 Sep 2020 16:42:34 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH v4 20/52] drm: drm_dsc.h: fix a kernel-doc markup
-Message-ID: <20200930144234.GB438822@phenom.ffwll.local>
-Mail-Followup-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <cover.1601467849.git.mchehab+huawei@kernel.org>
- <3d467022325e15bba8dcb13da8fb730099303266.1601467849.git.mchehab+huawei@kernel.org>
+ Wed, 30 Sep 2020 09:13:33 -0700 (PDT)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [pull] amdgpu drm-fixes-5.9
+Date: Wed, 30 Sep 2020 12:13:26 -0400
+Message-Id: <20200930161326.4243-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3d467022325e15bba8dcb13da8fb730099303266.1601467849.git.mchehab+huawei@kernel.org>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,55 +66,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 03:24:43PM +0200, Mauro Carvalho Chehab wrote:
-> As warned by Sphinx:
-> 
-> 	./Documentation/gpu/drm-kms-helpers:305: ./include/drm/drm_dsc.h:587: WARNING: Unparseable C cross-reference: 'struct'
-> 	Invalid C declaration: Expected identifier in nested name, got keyword: struct [error at 6]
-> 	  struct
-> 	  ------^
-> 
-> The markup for one struct is wrong, as struct is used twice.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Hi Dave, Daniel,
 
-Applied to drm-misc-fixes, thanks for your patch.
--Daniel
+A bit bigger than usual since I missed last week.  Mostly updates
+for new asics and a few of misc bug fixes.
 
-> ---
->  include/drm/drm_dsc.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/drm_dsc.h b/include/drm/drm_dsc.h
-> index 887954cbfc60..732f32740c86 100644
-> --- a/include/drm/drm_dsc.h
-> +++ b/include/drm/drm_dsc.h
-> @@ -588,7 +588,7 @@ struct drm_dsc_picture_parameter_set {
->   * This structure represents the DSC PPS infoframe required to send the Picture
->   * Parameter Set metadata required before enabling VESA Display Stream
->   * Compression. This is based on the DP Secondary Data Packet structure and
-> - * comprises of SDP Header as defined &struct struct dp_sdp_header in drm_dp_helper.h
-> + * comprises of SDP Header as defined &struct dp_sdp_header in drm_dp_helper.h
->   * and PPS payload defined in &struct drm_dsc_picture_parameter_set.
->   *
->   * @pps_header: Header for PPS as per DP SDP header format of type
-> -- 
-> 2.26.2
-> 
+The following changes since commit 1f08fde70075784d28d1687d0e75871e81cc1173:
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+  Merge tag 'mediatek-drm-fixes-5.9' of https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux into drm-fixes (2020-09-18 08:52:06 +1000)
+
+are available in the Git repository at:
+
+  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.9-2020-09-30
+
+for you to fetch changes up to 95433a1305a000aa91f558b062ce614a3bb8ceb5:
+
+  drm/amdgpu: disable gfxoff temporarily for navy_flounder (2020-09-30 09:47:43 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.9-2020-09-30:
+
+amdgpu:
+- Fix potential double free in userptr handling
+- Sienna Cichlid and Navy Flounder udpates
+- Add Sienna Cichlid PCI IDs
+- Drop experimental flag for navi12
+- Raven fixes
+- Renoir fixes
+- HDCP fix
+- DCN3 fix for clang and older versions of gcc
+- Fix a runtime pm refcount issue
+
+----------------------------------------------------------------
+Alex Deucher (6):
+      drm/amdgpu: add the GC 10.3 VRS registers
+      drm/amdgpu: add VCN 3.0 AV1 registers
+      drm/amdgpu: use the AV1 defines for VCN 3.0
+      drm/amdgpu: remove experimental flag from navi12
+      drm/amdgpu/display: fix CFLAGS setup for DCN30
+      drm/amdgpu/swsmu/smu12: fix force clock handling for mclk
+
+Dirk Gouders (1):
+      drm/amd/display: remove duplicate call to rn_vbios_smu_get_smu_version()
+
+Evan Quan (1):
+      drm/amd/pm: setup APU dpm clock table in SMU HW initialization
+
+Flora Cui (1):
+      drm/amd/display: fix return value check for hdcp_work
+
+Jean Delvare (1):
+      drm/amdgpu: restore proper ref count in amdgpu_display_crtc_set_config
+
+Jiansong Chen (2):
+      drm/amdgpu: remove gpu_info fw support for sienna_cichlid etc.
+      drm/amdgpu: disable gfxoff temporarily for navy_flounder
+
+Likun Gao (1):
+      drm/amdgpu: add device ID for sienna_cichlid (v2)
+
+Philip Yang (1):
+      drm/amdgpu: prevent double kfree ttm->sg
+
+Sudheesh Mavila (1):
+      drm/amd/pm: Removed fixed clock in auto mode DPM
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 10 +----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 12 +++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  1 +
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  3 ++
+ drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c              | 16 +++----
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c |  2 +-
+ .../drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c  |  1 -
+ drivers/gpu/drm/amd/display/dc/dcn30/Makefile      | 18 +++++++-
+ .../amd/include/asic_reg/gc/gc_10_3_0_default.h    |  2 +
+ .../drm/amd/include/asic_reg/gc/gc_10_3_0_offset.h |  4 ++
+ .../amd/include/asic_reg/gc/gc_10_3_0_sh_mask.h    | 50 ++++++++++++++++++++++
+ .../amd/include/asic_reg/vcn/vcn_3_0_0_sh_mask.h   | 34 +++++++++++++++
+ drivers/gpu/drm/amd/powerplay/amdgpu_smu.c         | 22 +++++-----
+ drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c  | 10 +++--
+ drivers/gpu/drm/amd/powerplay/renoir_ppt.c         |  8 ++--
+ 16 files changed, 154 insertions(+), 41 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
