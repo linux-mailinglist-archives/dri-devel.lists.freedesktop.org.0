@@ -1,82 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829D727FB58
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:17:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2802A27FB52
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:17:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09E606E87F;
-	Thu,  1 Oct 2020 08:17:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E22176E873;
+	Thu,  1 Oct 2020 08:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 381F46E0AB;
- Wed, 30 Sep 2020 11:58:43 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f7472e50001>; Wed, 30 Sep 2020 04:58:29 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 30 Sep
- 2020 11:58:41 +0000
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
- by HQMAIL101.nvidia.com (172.20.187.10) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Wed, 30 Sep 2020 11:58:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m2EvexECMXk0gLDS728KRDPpIrs6GBzTyOM0BC8KbJRceHNw2e5Z9G7qbniVjZfR9sue6V9ONpHwaJEKfbx84YpTlrsUqTUIKCJdmom9Cpb6lwEpc0R6q9cSg4i1cNHEFGI2QY2RRShvsxDKP7aSHoVEQq9rwjQP5qDh96YWLKhHjEDgfeUejxNRmgxa1t/WPhOTDals9ysURBvAShgg/ItbsIl311LG9HZGKttzObHdm5QElbfUT5LlQYJzdz/nHxgw/HaqF0LZP+X8DHbOgnEURQ1Ydmk/XxJsR/QMjQ4h5C1l9jgwcsew7MjotFGGiy/rxT3Osi9fFxaQFvg3pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rhl15iQQ2nhZJ+bcGnlINA2ynwLtbeh4dQh9msgBhCE=;
- b=io+gnHtSKQifoUgxJgY3j8rIp5zZ0/LxU3lCez9geWd6CVWe8tJNHFEcMMlmbe0BDHDppNuJBFKfK9fwCJ5ESqa+jA2s6ZH51oaugu9cpak15b+BI2uTK9CaK9bJDtuXACzEJFEBJnA1hWaIyd83/y2ZxtlEo4pTwm7t24fQRn2JNq2KXDsfv2ZxXwroFY6XK5gjcQDL3z/tmgmwYbrO/quYv60v9j07rM/SkrJBYDCWfmJlID3ey5UQM3Ai0aFf9M5H+LcXbc8Pa+lzRUX8nvTvCdr6lhgeqK8kq5rPwiqOeXZUOmAE1U/R3xqMvS6gzrybrJYM1MictAHPSy355A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB1244.namprd12.prod.outlook.com (2603:10b6:3:73::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.34; Wed, 30 Sep
- 2020 11:58:39 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3433.032; Wed, 30 Sep 2020
- 11:58:39 +0000
-Date: Wed, 30 Sep 2020 08:58:37 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Maor Gottlieb <maorg@nvidia.com>
-Subject: Re: [PATCH rdma-next v4 4/4] RDMA/umem: Move to allocate SG table
- from pages
-Message-ID: <20200930115837.GF816047@nvidia.com>
-References: <20200927064647.3106737-1-leon@kernel.org>
- <20200927064647.3106737-5-leon@kernel.org>
- <20200929195929.GA803555@nvidia.com> <20200930095321.GL3094@unreal>
- <20200930114527.GE816047@nvidia.com>
- <80c49ff1-52c7-638f-553f-9de8130b188d@nvidia.com>
-Content-Disposition: inline
-In-Reply-To: <80c49ff1-52c7-638f-553f-9de8130b188d@nvidia.com>
-X-ClientProxiedBy: MN2PR05CA0003.namprd05.prod.outlook.com
- (2603:10b6:208:c0::16) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C52CA6E7D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 12:08:42 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7D2365C0191;
+ Wed, 30 Sep 2020 08:08:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 30 Sep 2020 08:08:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=Y17Usp4zsVcIqllYvXx2vn9IgwX
+ CRfWXZlARyKTxdTo=; b=rouREQCpbTk2BpuVDtvYY5pH0N/uqQFRLSa6Yfy4PmU
+ hCgi7cQNKNzSbD/DNKvH3LgUtUMdthn5mOhoNDbWzzGXzVpOpeioyori8CpEpeZ2
+ LfF03esPzYqi7XFgvxnfQk7D64eR+JhlcWqzGnsSmL8zWmdkvxwKZv7JN4EjSc/y
+ jJcWGONuQ7UWsDfZKQ85Gn00tyG6kKUa1p7+2vmkiTTEQWsR7hWzjqof5h1PkbEc
+ iLnAc6jCovro95ljNkAxyMEYkYxt12wFgnjpu8mpRNpt/H9SRYKcHpXUlOnQEcqa
+ tZrBFDgoku7W7MnBY+Cn5PH9xGg6ObAVP4WQtAL2hww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Y17Usp
+ 4zsVcIqllYvXx2vn9IgwXCRfWXZlARyKTxdTo=; b=vbOQyValQHPlWzy6tqCJJw
+ zyw+FcW/utBzbCe0dIIT8Q5XKqMB90vUSbZLR/EwkhjMb9KOvKWz4UBaYB1W+Y85
+ ePA8xNhcDTEGnuLDipGBrKa+430AfZP48KaAe9Mw+vEZ4+hrmgKyLMBoxMXhXgIY
+ Ul2H54IWqugaSJdeIqn0ldQ0V5af1P+CdxymF5w7p2BeAFOO8ZTzEbZTOaye66WK
+ ANk2Hol9/131v8azYx6BFbIOX6MdPMPS28FEW0sCeiZSRJaMKSFrpOXikYoxYxrU
+ su77UYvCsCFeAxgfzx5eXziOiPQ9te5AzJf63S4B2ySCmHmK1j8shGcX+xMIWAEA
+ ==
+X-ME-Sender: <xms:RnV0X_cAuIcVCm5oorL8PTi5-wm2nyG865N2n1dfAWCRxYhZX9LtGg>
+ <xme:RnV0X1Nv4HfaB0Xe3xXfeNl8aNS0LUjc-iArPlt7vbmo3fWTB_4y2tfW-gj-Fpc92
+ GTZDGKxLpfsYPFzkWk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedvgdeghecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:RnV0X4hQeEAbtqPP5tBsCsqoEXJ0s0Nwz9oDL6H_yKv2YitYekBUlQ>
+ <xmx:RnV0Xw_m1_3MD0M7FBdsPdh2z6HfHGAE1A_W_kpyWb4I4DVJRaPjxw>
+ <xmx:RnV0X7sytmHkXa5JarobDBP_IZu3Bvvz05PqjMY9wXmco-SXpmOfPA>
+ <xmx:R3V0X0904LSjgimmDfFeu0QYmBRX6vTiO-2d_t6YbEUuDNJGCW11sA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 114913280063;
+ Wed, 30 Sep 2020 08:08:37 -0400 (EDT)
+Date: Wed, 30 Sep 2020 14:08:37 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Subject: Re: [PATCH 1/2] drm/vc4: kms: Assign a FIFO to enabled CRTCs instead
+ of active
+Message-ID: <20200930120837.jowt5dijwa7pdb6a@gilmour.lan>
+References: <CGME20200919084635epcas1p3b36b85b4445709cf3595fc62e659c1ae@epcas1p3.samsung.com>
+ <20200918145918.101068-1-maxime@cerno.tech>
+ <226dbb4a-e97a-f6b3-645e-785a20bbdacd@samsung.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by
- MN2PR05CA0003.namprd05.prod.outlook.com (2603:10b6:208:c0::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.13 via Frontend Transport; Wed, 30 Sep 2020 11:58:38 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1kNakn-003vWb-LI; Wed, 30 Sep 2020 08:58:37 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1601467110; bh=Rhl15iQQ2nhZJ+bcGnlINA2ynwLtbeh4dQh9msgBhCE=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
- From:To:CC:Subject:Message-ID:References:Content-Type:
- Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType;
- b=JTVIGhFvjwui4mlIeo2K/XI8Ubo93r87mw3+Tr1+CX5ZQfaDIV2p8uT6AgQrKlylh
- /0krm9Tt9zrEjmMJuio2n6pkwz3bY+Yd0fd+uEmr5nt7yhgaPbqR+WuDPkUyt9z6Db
- I4yta0M/n5djqI0zcLOGBQXTeFW9sqlvEikAkgWBGuDuWlCge5LtZn9p2+lLKEE7Ws
- XZnwVWSsPK+bMjVJwZNj05kG57JCf7AuX4P7qRLjiAK1SBVx3bL2tXl+xH5snA6FqQ
- j7WdmXWn84ol/4EmM+OG7s4yF38yUMJn0Iy3Sg9eTvSTR3plMw/RgBRVD19PmLbAmO
- CbgUkj/TdvW5w==
+In-Reply-To: <226dbb4a-e97a-f6b3-645e-785a20bbdacd@samsung.com>
 X-Mailman-Approved-At: Thu, 01 Oct 2020 08:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,70 +81,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, Tvrtko
- Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org,
+ =?utf-8?B?64KY7ISx6rWt?= <sungguk.na@samsung.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1881503552=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 02:53:58PM +0300, Maor Gottlieb wrote:
-> 
-> On 9/30/2020 2:45 PM, Jason Gunthorpe wrote:
-> > On Wed, Sep 30, 2020 at 12:53:21PM +0300, Leon Romanovsky wrote:
-> > > On Tue, Sep 29, 2020 at 04:59:29PM -0300, Jason Gunthorpe wrote:
-> > > > On Sun, Sep 27, 2020 at 09:46:47AM +0300, Leon Romanovsky wrote:
-> > > > > @@ -296,11 +223,17 @@ static struct ib_umem *__ib_umem_get(struct ib_device *device,
-> > > > >   			goto umem_release;
-> > > > > 
-> > > > >   		cur_base += ret * PAGE_SIZE;
-> > > > > -		npages   -= ret;
-> > > > > -
-> > > > > -		sg = ib_umem_add_sg_table(sg, page_list, ret,
-> > > > > -			dma_get_max_seg_size(device->dma_device),
-> > > > > -			&umem->sg_nents);
-> > > > > +		npages -= ret;
-> > > > > +		sg = __sg_alloc_table_from_pages(
-> > > > > +			&umem->sg_head, page_list, ret, 0, ret << PAGE_SHIFT,
-> > > > > +			dma_get_max_seg_size(device->dma_device), sg, npages,
-> > > > > +			GFP_KERNEL);
-> > > > > +		umem->sg_nents = umem->sg_head.nents;
-> > > > > +		if (IS_ERR(sg)) {
-> > > > > +			unpin_user_pages_dirty_lock(page_list, ret, 0);
-> > > > > +			ret = PTR_ERR(sg);
-> > > > > +			goto umem_release;
-> > > > > +		}
-> > > > >   	}
-> > > > > 
-> > > > >   	sg_mark_end(sg);
-> > > > Does it still need the sg_mark_end?
-> > > It is preserved here for correctness, the release logic doesn't rely on
-> > > this marker, but it is better to leave it.
-> > I mean, my read of __sg_alloc_table_from_pages() is that it already
-> > placed it, the final __alloc_table() does it?
-> 
-> It marks the last allocated sge, but not the last populated sge (with page).
 
-Why are those different?
+--===============1881503552==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ug6ta5tvkq4rvquy"
+Content-Disposition: inline
 
-It looks like the last iteration calls __alloc_table() with an exact
-number of sges
 
-+	if (!prv) {
-+		/* Only the last allocation could be less than the maximum */
-+		table_size = left_pages ? SG_MAX_SINGLE_ALLOC : chunks;
-+		ret = sg_alloc_table(sgt, table_size, gfp_mask);
-+		if (unlikely(ret))
-+			return ERR_PTR(ret);
-+	}
+--ug6ta5tvkq4rvquy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Jason 
+On Thu, Sep 24, 2020 at 05:08:56PM +0900, Hoegeun Kwon wrote:
+> Hi Maxime,
+>=20
+> On 9/18/20 11:59 PM, Maxime Ripard wrote:
+> > The HVS has three FIFOs that can be assigned to a number of PixelValves
+> > through a mux.
+> >
+> > However, changing that FIFO requires that we disable and then enable the
+> > pixelvalve, so we want to assign FIFOs to all the enabled CRTCs, and not
+> > just the active ones.
+>=20
+> Thanks for the patch.
+>=20
+> There is a problem when doing page flip.
+> After connecting 2 HDMIs without hotplug and booting.(Same thing when
+> using hotplug.)
+>=20
+> When executing page flip for each of HDMI 0 and 1 in modetest
+> operation does not work normally. (crtc irq does not occur, so timeout=20
+> occurs.)
+> Sometimes both hdmi 0 or 1 work or not.
+>=20
+> LOGs:
+> root:~> modetest -Mvc4 -s 32:1280x720 -v
+> setting mode 1280x720-60Hz@XR24 on connectors 32, crtc 64
+> failed to set gamma: Invalid argument
+> freq: 60.24Hz
+> freq: 60.00Hz
+>=20
+> root:~> modetest -Mvc4 -s 38:1280x720 -v
+> setting mode 1280x720-60Hz@XR24 on connectors 38, crtc 69
+> failed to set gamma: Invalid argument
+> select timed out or error (ret 0)
+> select timed out or error (ret 0)
+>=20
+> Could you please check it?
+
+I'll look into it, thanks :)
+
+Maxime
+
+--ug6ta5tvkq4rvquy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3R1RQAKCRDj7w1vZxhR
+xfIKAP0ZxKnpINZ5Kg3q04USDs9Vo9efen8Srisy8b8ZoBxv1gEAiL6lw6Jae2g5
+tgTom4FUgrP++/1IjDfYje2WZl5wDQ8=
+=/0Ob
+-----END PGP SIGNATURE-----
+
+--ug6ta5tvkq4rvquy--
+
+--===============1881503552==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1881503552==--
