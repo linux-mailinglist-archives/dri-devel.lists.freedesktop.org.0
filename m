@@ -2,60 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF3127E54A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 11:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC6027E552
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 11:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48AEB6E3F4;
-	Wed, 30 Sep 2020 09:37:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9D58906D;
+	Wed, 30 Sep 2020 09:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 033956E02E
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 09:37:39 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id w2so953907wmi.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 02:37:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=hjfKAUFU8A+iw48WdP6HeZS9N9KQ849MhRGEMeIXAb0=;
- b=aeYYjQxm1+C5Ql5t5PlgsmKLT1QG4ie2sRae8WwMKJkAE/egxTsQHhMUQbGjQukF6q
- u/m8VnbLNG7VL4f8ilJA8vD5yd7YtyTzXZMrqpS1w1JWYXyKEQu739nNYz/k2ZrZ9Fic
- v4oWTzVNWOE9mnZBSShnBYwEU6FRbNIcP22K4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hjfKAUFU8A+iw48WdP6HeZS9N9KQ849MhRGEMeIXAb0=;
- b=hImoTP8bUZQbKF5ZTGt7xgHlSLx1K7UaRTUH/hXxPUv3tfEg9hHDK0B9W9g1x+JKhY
- E63xTmTLS8beDXAve/Gs09o0px0xIOrU593mY8nZg4Bq7X9+uv/vcxfcZhFOfnOHr+hp
- gAQiq+qzWTH8mireUe1AIh6lEUKTwSk0KYpKGQLiFmfh66pQvojU/F/WYEQFgtcqjP1q
- wHZf+sDWFkSdqI/GWmmkECgHLtj0jIE2u79a1EsFmKPfuYJQhkvUjP6i3+8n/bIRLfzF
- kXWO7KBBT20QKTAWLMygP9v7e8k9TB1R0D6quf2CItPEdeMSaZBz0DwrxzGAAbYgFJ6Z
- K7MQ==
-X-Gm-Message-State: AOAM533XLOpb4+y4pvYKJ1x6tjB/pzNrnO5m6tzsZ84vXjHf/s//64Bp
- RzrrHfYVbPPGeqUULYFN/Y2t7A==
-X-Google-Smtp-Source: ABdhPJxwJCEavibzrwnVF4D/zZJshVhO/enisRJRM2wqo+dFhs11Izcu3XWmvvCSF5Mfgm0gHg274w==
-X-Received: by 2002:a1c:c28a:: with SMTP id s132mr422373wmf.13.1601458658638; 
- Wed, 30 Sep 2020 02:37:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f14sm2044917wrv.72.2020.09.30.02.37.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 02:37:37 -0700 (PDT)
-Date: Wed, 30 Sep 2020 11:37:35 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Ben Skeggs <skeggsb@gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau: Drop mutex_lock_nested for atomic
-Message-ID: <20200930093735.GT438822@phenom.ffwll.local>
-References: <20200802181849.1586281-1-daniel.vetter@ffwll.ch>
- <579702ca-4b4e-0b05-1b93-25b99554d464@linux.intel.com>
- <CAKMK7uHbdcLMJONxR5OZXBLtm0WVxT117mBD72RDW5MRQ=ky4g@mail.gmail.com>
- <CAKMK7uE89ZyvVronwpS=+ovJj_njVo3C5+GjjZp2S-Dk_7p2jg@mail.gmail.com>
- <CACAvsv7nmpJPVnfGkRW=UECvNyjNRO0x=0VMPr0VuFBNtpk+2g@mail.gmail.com>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 69A7F89C82
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 09:39:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 4C1A92A6042;
+ Wed, 30 Sep 2020 11:39:08 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id uXVtVzCDHncF; Wed, 30 Sep 2020 11:39:07 +0200 (CEST)
+Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
+ [188.63.174.212])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id 7000B2A6016;
+ Wed, 30 Sep 2020 11:39:07 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94)
+ (envelope-from <michel@daenzer.net>)
+ id 1kNYZq-000pFt-Ja; Wed, 30 Sep 2020 11:39:06 +0200
+To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20200311034351.1275197-3-jason@jlekstrand.net>
+ <20200317212115.419358-1-jason@jlekstrand.net>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH 3/3] RFC: dma-buf: Add an API for importing and exporting
+ sync files (v5)
+Message-ID: <64eed158-22a8-10a7-7686-c972f8542649@daenzer.net>
+Date: Wed, 30 Sep 2020 11:39:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACAvsv7nmpJPVnfGkRW=UECvNyjNRO0x=0VMPr0VuFBNtpk+2g@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20200317212115.419358-1-jason@jlekstrand.net>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,123 +51,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maarten Lankhorst <m.b.lankhorst@gmail.com>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Ben Skeggs <bskeggs@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniels@collabora.com, daniel.vetter@ffwll.ch, jajones@nvidia.com,
+ Chenbo Feng <fengc@google.com>, linux-kernel@vger.kernel.org,
+ Greg Hackmann <ghackmann@google.com>, linaro-mm-sig@lists.linaro.org,
+ hoegsberg@google.com, dri-devel@lists.freedesktop.org, airlied@redhat.com,
+ jessehall@google.com, christian.koenig@amd.com, linux-media@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 10:45:05AM +1000, Ben Skeggs wrote:
-> On Wed, 30 Sep 2020 at 00:52, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > On Thu, Sep 17, 2020 at 3:15 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > >
-> > > Ben, did you have a chance to look at this?
-> >
-> > Ping
-> > -Daniel
-> >
-> > > On Mon, Aug 3, 2020 at 1:22 PM Maarten Lankhorst
-> > > <maarten.lankhorst@linux.intel.com> wrote:
-> > > >
-> > > > Op 02-08-2020 om 20:18 schreef Daniel Vetter:
-> > > > > Purely conjecture, but I think the original locking inversion with the
-> > > > > legacy page flip code between flipping and ttm's bo move function
-> > > > > shoudn't exist anymore with atomic: With atomic the bo pinning and
-> > > > > actual modeset commit is completely separated in the code patsh.
-> > > > >
-> > > > > This annotation was originally added in
-> > > > >
-> > > > > commit 060810d7abaabcab282e062c595871d661561400
-> > > > > Author: Ben Skeggs <bskeggs@redhat.com>
-> > > > > Date:   Mon Jul 8 14:15:51 2013 +1000
-> > > > >
-> > > > >     drm/nouveau: fix locking issues in page flipping paths
-> > > > >
-> > > > > due to
-> > > > >
-> > > > > commit b580c9e2b7ba5030a795aa2fb73b796523d65a78
-> > > > > Author: Maarten Lankhorst <m.b.lankhorst@gmail.com>
-> > > > > Date:   Thu Jun 27 13:48:18 2013 +0200
-> > > > >
-> > > > >     drm/nouveau: make flipping lockdep safe
-> > > > >
-> > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > > Cc: Maarten Lankhorst <m.b.lankhorst@gmail.com>
-> > > > > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > > > > Cc: Dave Airlie <airlied@gmail.com>
-> > > > > Cc: nouveau@lists.freedesktop.org
-> > > > > ---
-> > > > > I might be totally wrong, so this definitely needs testing :-)
-> > > > >
-> > > > > Cheers, Daniel
-> > > > > ---
-> > > > >  drivers/gpu/drm/nouveau/nouveau_bo.c | 6 +++++-
-> > > > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > > > > index 7806278dce57..a7b2a9bb0ffe 100644
-> > > > > --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > > > > +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > > > > @@ -776,7 +776,11 @@ nouveau_bo_move_m2mf(struct ttm_buffer_object *bo, int evict, bool intr,
-> > > > >                       return ret;
-> > > > >       }
-> > > > >
-> > > > > -     mutex_lock_nested(&cli->mutex, SINGLE_DEPTH_NESTING);
-> > > > > +     if (drm_drv_uses_atomic_modeset(drm->dev))
-> > > > > +             mutex_lock(&cli->mutex);
-> > > > > +     else
-> > > > > +             mutex_lock_nested(&cli->mutex, SINGLE_DEPTH_NESTING);
-> > > > > +
-> > > > >       ret = nouveau_fence_sync(nouveau_bo(bo), chan, true, intr);
-> > > > >       if (ret == 0) {
-> > > > >               ret = drm->ttm.move(chan, bo, &bo->mem, new_reg);
-> > > >
-> > > > Well if you're certain it works now. :)
-> > > >
-> > > > Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Acked-by: Ben Skeggs <bskeggs@redhat.com>
-
-Can you pull this in through your tree and maybe give it a spin just to
-make sure? I don't really have nouveau hardware here.
-
-Also it's entirely stand-alone, I was simply reviewing all the
-mutex_lock_nested we have in drm, and this one stuck out as probably not
-necessary anymore, at least with atomic.
-
-I guess I can also just stuff it into drm-misc-next and if it blows up,
-figure out what to do then :-)
--Daniel
-
-> 
-> > > >
-> > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
-> >
-> >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> > _______________________________________________
-> > Nouveau mailing list
-> > Nouveau@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/nouveau
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0wMy0xNyAxMDoyMSBwLm0uLCBKYXNvbiBFa3N0cmFuZCB3cm90ZToKPiBFeHBsaWNp
+dCBzeW5jaHJvbml6YXRpb24gaXMgdGhlIGZ1dHVyZS4gIEF0IGxlYXN0LCB0aGF0IHNlZW1zIHRv
+IGJlIHdoYXQKPiBtb3N0IHVzZXJzcGFjZSBBUElzIGFyZSBhZ3JlZWluZyBvbiBhdCB0aGlzIHBv
+aW50LiAgSG93ZXZlciwgbW9zdCBvZiBvdXIKPiBMaW51eCBBUElzIChib3RoIHVzZXJzcGFjZSBh
+bmQga2VybmVsIFVBUEkpIGFyZSBjdXJyZW50bHkgYnVpbHQgYXJvdW5kCj4gaW1wbGljaXQgc3lu
+Y2hyb25pemF0aW9uIHdpdGggZG1hLWJ1Zi4gIFdoaWxlIHdvcmsgaXMgb25nb2luZyB0byBjaGFu
+Z2UKPiBtYW55IG9mIHRoZSB1c2Vyc3BhY2UgQVBJcyBhbmQgcHJvdG9jb2xzIHRvIGFuIGV4cGxp
+Y2l0IHN5bmNocm9uaXphdGlvbgo+IG1vZGVsLCBzd2l0Y2hpbmcgb3ZlciBwaWVjZW1lYWwgaXMg
+ZGlmZmljdWx0IGR1ZSB0byB0aGUgbnVtYmVyIG9mCj4gcG90ZW50aWFsIGNvbXBvbmVudHMgaW52
+b2x2ZWQuICBPbiB0aGUga2VybmVsIHNpZGUsIG1hbnkgZHJpdmVycyB1c2UKPiBkbWEtYnVmIGlu
+Y2x1ZGluZyBHUFUgKDNEL2NvbXB1dGUpLCBkaXNwbGF5LCB2NGwsIGFuZCBvdGhlcnMuICBJbgo+
+IHVzZXJzcGFjZSwgd2UgaGF2ZSBYMTEsIHNldmVyYWwgV2F5bGFuZCBjb21wb3NpdG9ycywgM0Qg
+ZHJpdmVycywgY29tcHV0ZQo+IGRyaXZlcnMgKE9wZW5DTCBldGMuKSwgbWVkaWEgZW5jb2RlL2Rl
+Y29kZSwgYW5kIHRoZSBsaXN0IGdvZXMgb24uCj4gCj4gVGhpcyBwYXRjaCBwcm92aWRlcyBhIHBh
+dGggZm9yd2FyZCBieSBhbGxvd2luZyB1c2Vyc3BhY2UgdG8gbWFudWFsbHkKPiBtYW5hZ2UgdGhl
+IGZlbmNlcyBhdHRhY2hlZCB0byBhIGRtYS1idWYuICBBbHRlcm5hdGl2ZWx5LCBvbmUgY2FuIHRo
+aW5rCj4gb2YgdGhpcyBhcyBtYWtpbmcgZG1hLWJ1ZidzIGltcGxpY2l0IHN5bmNocm9uaXphdGlv
+biBzaW1wbHkgYSBjYXJyaWVyCj4gZm9yIGFuIGV4cGxpY2l0IGZlbmNlLiAgVGhpcyBpcyBhY2Nv
+bXBsaXNoZWQgYnkgYWRkaW5nIHR3byBJT0NUTHMgdG8KPiBkbWEtYnVmIGZvciBpbXBvcnRpbmcg
+YW5kIGV4cG9ydGluZyBhIHN5bmMgZmlsZSB0by9mcm9tIHRoZSBkbWEtYnVmLgo+IFRoaXMgd2F5
+IGEgdXNlcnNwYWNlIGNvbXBvbmVudCB3aGljaCBpcyB1c2VzIGV4cGxpY2l0IHN5bmNocm9uaXph
+dGlvbiwKPiBzdWNoIGFzIGEgVnVsa2FuIGRyaXZlciwgY2FuIG1hbnVhbGx5IHNldCB0aGUgd3Jp
+dGUgZmVuY2Ugb24gYSBidWZmZXIKPiBiZWZvcmUgaGFuZGluZyBpdCBvZmYgdG8gYW4gaW1wbGlj
+aXRseSBzeW5jaHJvbml6ZWQgY29tcG9uZW50IHN1Y2ggYXMgYQo+IFdheWxhbmQgY29tcG9zaXRv
+ciBvciB2aWRlbyBlbmNvZGVyLiAgSW4gdGhpcyB3YXksIGVhY2ggb2YgdGhlIGRpZmZlcmVudAo+
+IGNvbXBvbmVudHMgY2FuIGJlIHVwZ3JhZGVkIHRvIGFuIGV4cGxpY2l0IHN5bmNocm9uaXphdGlv
+biBtb2RlbCBvbmUgYXQgYQo+IHRpbWUgYXMgbG9uZyBhcyB0aGUgdXNlcnNwYWNlIHBpZWNlcyBj
+b25uZWN0aW5nIHRoZW0gYXJlIGF3YXJlIG9mIGl0IGFuZAo+IGltcG9ydC9leHBvcnQgZmVuY2Vz
+IGF0IHRoZSByaWdodCB0aW1lcy4KPiAKPiBUaGVyZSBpcyBhIHBvdGVudGlhbCByYWNlIGNvbmRp
+dGlvbiB3aXRoIHRoaXMgQVBJIGlmIHVzZXJzcGFjZSBpcyBub3QKPiBjYXJlZnVsLiAgQSB0eXBp
+Y2FsIHVzZSBjYXNlIGZvciBpbXBsaWNpdCBzeW5jaHJvbml6YXRpb24gaXMgdG8gd2FpdCBmb3IK
+PiB0aGUgZG1hLWJ1ZiB0byBiZSByZWFkeSwgdXNlIGl0LCBhbmQgdGhlbiBzaWduYWwgaXQgZm9y
+IHNvbWUgb3RoZXIKPiBjb21wb25lbnQuICBCZWNhdXNlIGEgc3luY19maWxlIGNhbm5vdCBiZSBj
+cmVhdGVkIHVudGlsIGl0IGlzIGd1YXJhbnRlZWQKPiB0byBjb21wbGV0ZSBpbiBmaW5pdGUgdGlt
+ZSwgdXNlcnNwYWNlIGNhbiBvbmx5IHNpZ25hbCB0aGUgZG1hLWJ1ZiBhZnRlcgo+IGl0IGhhcyBh
+bHJlYWR5IHN1Ym1pdHRlZCB0aGUgd29yayB3aGljaCB1c2VzIGl0IHRvIHRoZSBrZXJuZWwgYW5k
+IGhhcwo+IHJlY2VpdmVkIGEgc3luY19maWxlIGJhY2suICBUaGVyZSBpcyBubyB3YXkgdG8gYXRv
+bWljYWxseSBzdWJtaXQgYQo+IHdhaXQtdXNlLXNpZ25hbCBvcGVyYXRpb24uICBUaGlzIGlzIG5v
+dCwgaG93ZXZlciwgcmVhbGx5IGEgcHJvYmxlbSB3aXRoCj4gdGhpcyBBUEkgc28gbXVjaCBhcyBp
+dCBpcyBhIHByb2JsZW0gd2l0aCBleHBsaWNpdCBzeW5jaHJvbml6YXRpb24KPiBpdHNlbGYuICBU
+aGUgd2F5IHRoaXMgaXMgdHlwaWNhbGx5IGhhbmRsZWQgaXMgdG8gaGF2ZSB2ZXJ5IGV4cGxpY2l0
+Cj4gb3duZXJzaGlwIHRyYW5zZmVyIHBvaW50cyBpbiB0aGUgQVBJIG9yIHByb3RvY29sIHdoaWNo
+IGVuc3VyZSB0aGF0IG9ubHkKPiBvbmUgY29tcG9uZW50IGlzIHVzaW5nIGl0IGF0IGFueSBnaXZl
+biB0aW1lLiAgQm90aCBYMTEgKHZpYSB0aGUgUFJFU0VOVAo+IGV4dGVuc2lvbikgYW5kIFdheWxh
+bmQgcHJvdmlkZSBzdWNoIG93bmVyc2hpcCB0cmFuc2ZlciBwb2ludHMgdmlhCj4gZXhwbGljaXQg
+cHJlc2VudCBhbmQgaWRsZSBtZXNzYWdlcy4KPiAKPiBUaGUgZGVjaXNpb24gd2FzIGludGVudGlv
+bmFsbHkgbWFkZSBpbiB0aGlzIHBhdGNoIHRvIG1ha2UgdGhlIGltcG9ydCBhbmQKPiBleHBvcnQg
+b3BlcmF0aW9ucyBJT0NUTHMgb24gdGhlIGRtYS1idWYgaXRzZWxmIHJhdGhlciB0aGFuIGFzIGEg
+RFJNCj4gSU9DVEwuICBUaGlzIG1ha2VzIGl0IHRoZSBpbXBvcnQvZXhwb3J0IG9wZXJhdGlvbiB1
+bml2ZXJzYWwgYWNyb3NzIGFsbAo+IGNvbXBvbmVudHMgd2hpY2ggdXNlIGRtYS1idWYgaW5jbHVk
+aW5nIEdQVSwgZGlzcGxheSwgdjRsLCBhbmQgb3RoZXJzLgo+IEl0IGFsc28gbWVhbnMgdGhhdCBh
+IHVzZXJzcGFjZSBjb21wb25lbnQgY2FuIGRvIHRoZSBpbXBvcnQvZXhwb3J0Cj4gd2l0aG91dCBh
+Y2Nlc3MgdG8gdGhlIERSTSBmZCB3aGljaCBtYXkgYmUgdHJpY2t5IHRvIGdldCBpbiBjYXNlcyB3
+aGVyZQo+IHRoZSBjbGllbnQgY29tbXVuaWNhdGVzIHdpdGggRFJNIHZpYSBhIHVzZXJzcGFjZSBB
+UEkgc3VjaCBhcyBPcGVuR0wgb3IKPiBWdWxrYW4uICBBdCBhIGZ1dHVyZSBkYXRlIHdlIG1heSBj
+aG9vc2UgdG8gYWRkIGRpcmVjdCBpbXBvcnQvZXhwb3J0IEFQSXMKPiB0byBjb21wb25lbnRzIHN1
+Y2ggYXMgZHJtX3N5bmNvYmogdG8gYXZvaWQgYWxsb2NhdGluZyBhIGZpbGUgZGVzY3JpcHRvcgo+
+IGFuZCBnb2luZyB0aHJvdWdoIHR3byBpb2N0bHMuICBIb3dldmVyLCB0aGF0IHNlZW1zIHRvIGJl
+IHNvbWV0aGluZyBvZiBhCj4gbWljcm8tb3B0aW1pemF0aW9uIGFzIGltcG9ydC9leHBvcnQgb3Bl
+cmF0aW9ucyBhcmUgbGlrZWx5IHRvIGhhcHBlbiBhdCBhCj4gcmF0ZSBvZiBhIGZldyBwZXIgZnJh
+bWUgb2YgcmVuZGVyZWQgb3IgZGVjb2RlZCB2aWRlby4KPiAKPiB2MiAoSmFzb24gRWtzdHJhbmQp
+Ogo+ICAgLSBVc2UgYSB3cmFwcGVyIGRtYV9mZW5jZV9hcnJheSBvZiBhbGwgZmVuY2VzIGluY2x1
+ZGluZyB0aGUgbmV3IG9uZQo+ICAgICB3aGVuIGltcG9ydGluZyBhbiBleGNsdXNpdmUgZmVuY2Uu
+Cj4gCj4gdjMgKEphc29uIEVrc3RyYW5kKToKPiAgIC0gTG9jayBhcm91bmQgc2V0dGluZyBzaGFy
+ZWQgZmVuY2VzIGFzIHdlbGwgYXMgZXhjbHVzaXZlCj4gICAtIE1hcmsgU0lHTkFMX1NZTkNfRklM
+RSBhcyBhIHJlYWQtd3JpdGUgaW9jdGwuCj4gICAtIEluaXRpYWxpemUgcmV0IHRvIDAgaW4gZG1h
+X2J1Zl93YWl0X3N5bmNfZmlsZQo+IAo+IHY0IChKYXNvbiBFa3N0cmFuZCk6Cj4gICAtIFVzZSB0
+aGUgbmV3IGRtYV9yZXN2X2dldF9zaW5nbGV0b24gaGVscGVyCj4gCj4gdjUgKEphc29uIEVrc3Ry
+YW5kKToKPiAgIC0gUmVuYW1lIHRoZSBJT0NUTHMgdG8gaW1wb3J0L2V4cG9ydCByYXRoZXIgdGhh
+biB3YWl0L3NpZ25hbAo+ICAgLSBEcm9wIHRoZSBXUklURSBmbGFnIGFuZCBhbHdheXMgZ2V0L3Nl
+dCB0aGUgZXhjbHVzaXZlIGZlbmNlCj4gCj4gU2lnbmVkLW9mZi1ieTogSmFzb24gRWtzdHJhbmQg
+PGphc29uQGpsZWtzdHJhbmQubmV0PgoKV2hhdCdzIHRoZSBzdGF0dXMgb2YgdGhpcz8gRE1BX0JV
+Rl9JT0NUTF9FWFBPUlRfU1lOQ19GSUxFIHdvdWxkIGJlIAp1c2VmdWwgZm9yIFdheWxhbmQgY29t
+cG9zaXRvcnMgdG8gd2FpdCBmb3IgY2xpZW50IGJ1ZmZlcnMgdG8gYmVjb21lIApyZWFkeSB3aXRo
+b3V0IGJlaW5nIHByb25lIHRvIGdldHRpbmcgZGVsYXllZCBieSBsYXRlciBIVyBhY2Nlc3MgdG8g
+dGhlbSwgCnNvIGl0IHdvdWxkIGJlIG5pY2UgdG8gbWVyZ2UgdGhhdCBhdCBsZWFzdCAoaWYgCkRN
+QV9CVUZfSU9DVExfSU1QT1JUX1NZTkNfRklMRSBpcyBzdGlsbCBjb250cm92ZXJzaWFsKS4KCgot
+LSAKRWFydGhsaW5nIE1pY2hlbCBEw6RuemVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAg
+IGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAg
+IHwgICAgICAgICAgICAgTWVzYSBhbmQgWCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
