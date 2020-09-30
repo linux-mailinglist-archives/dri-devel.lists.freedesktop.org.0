@@ -1,72 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E9227FB38
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:16:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D426627FB39
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:16:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3BD6E861;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1ADB6E85D;
 	Thu,  1 Oct 2020 08:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4146989C86
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 14:08:05 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id DE1435803A5;
- Wed, 30 Sep 2020 10:08:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 30 Sep 2020 10:08:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=4CHUtjs8mTgMe07nNzKeBnPZaAj
- ouHv1QvsW52wUJnY=; b=QvysVhAr1anAS+8xcvEpN4LnvWRvzv9xsYLawfZy3j+
- i1a57pdELNNICdEnaOD5MlN2hd1AvZLcKcNsLEDpUFts0P9pG64b35Xz52YHhKeG
- oNPzniULzux5UL78pjAdGYQ8b3cqaDue/CmaZA0OfHmK61Uowj6ZKwYSyDOh1Dpl
- BMmUoIxatxxOauWvuphSwAI6sY4yx9wOqjhHJoi5jxAjXYbaZRCQHJXyb11hTk3F
- HV1k8sgDN4oxWr89a+m6NGqpFabUlhshQGN6Vbfzd8itCkBxKGGEg/Sf2qZPB1x3
- rfp1MBj6cKRK2KdXAjY5JZz97UN/8Jpwbc600WZboQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=4CHUtj
- s8mTgMe07nNzKeBnPZaAjouHv1QvsW52wUJnY=; b=oPTj1pq76Ldo2+cGdIN+ib
- rZXITHKW/cK4VeorcMv99OHlFFmd7JmK2Urf1c42EDrujnm0scKQQm7X2dn9VKkO
- bt7mIG190HIoOKtp5Po2KLuRXhGbBtBU/WqIon0Rj0Po0YjinAPoLVYEvamhiU2x
- Ch667bcmVfdJELn6VW35RXQVMAuvBt4XCjv5VfQwIbP8xTj1gaFjJvcOTWj6mLQZ
- vMth0Peibm4faJYkyzmLOzZPrpK6BN+1vrZBWix/1dYxHvyrcjXMOJThoH1ufjQB
- NcFhzPUe7HRi8O2g0tmzwIoJD2xog/MKcfZ9yIwjTCkczHfcaptz3g5zt65buZdA
- ==
-X-ME-Sender: <xms:QJF0X0LLAvg0NVn075J81KHsVYstEul1Mj8FNzugQauMcZpNwcHiEA>
- <xme:QJF0X0LzmwAo40g9_SgXbANShQorA0CFVANg0oQ5NAAPF5D4jq7MY7Db_ttNMffzo
- y20D_a0bDERqL4HzOw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedvgdeilecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:QJF0X0s3LNPP7OoFaVhMBl7W7Ezld7UXKzWxRd9asmOrTBPfOE8KNw>
- <xmx:QJF0XxZZiOurhk2ei2IJbNrM0yNaajW6pyGpFGupYQiQ6rg0Eh74aA>
- <xmx:QJF0X7Z2ozlN9wg44ynRnvbHMqWy2VqyvXlqNmDNo2EcRErseIQ2kQ>
- <xmx:QZF0X5BSCCBq8SdTYH93oBvlNYAoa2AA4uqUMAm9Q6w-IKpJ6fkj9Q>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5C9A53280059;
- Wed, 30 Sep 2020 10:08:00 -0400 (EDT)
-Date: Wed, 30 Sep 2020 16:07:58 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Nathan Chancellor <natechancellor@gmail.com>
-Subject: Re: [PATCH v5 80/80] ARM: dts: bcm2711: Enable the display pipeline
-Message-ID: <20200930140758.gummt3umouva3wyu@gilmour.lan>
-References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
- <cfce2276d172d3d9c4d34d966b58fd47f77c4e46.1599120059.git-series.maxime@cerno.tech>
- <20200929221526.GA1370981@ubuntu-m3-large-x86>
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19056E212;
+ Wed, 30 Sep 2020 15:05:25 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f749e4f0002>; Wed, 30 Sep 2020 08:03:43 -0700
+Received: from [172.27.13.156] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 30 Sep
+ 2020 15:05:17 +0000
+Subject: Re: [PATCH rdma-next v4 4/4] RDMA/umem: Move to allocate SG table
+ from pages
+To: Jason Gunthorpe <jgg@nvidia.com>
+References: <20200927064647.3106737-1-leon@kernel.org>
+ <20200927064647.3106737-5-leon@kernel.org>
+ <20200929195929.GA803555@nvidia.com> <20200930095321.GL3094@unreal>
+ <20200930114527.GE816047@nvidia.com>
+ <80c49ff1-52c7-638f-553f-9de8130b188d@nvidia.com>
+ <20200930115837.GF816047@nvidia.com>
+From: Maor Gottlieb <maorg@nvidia.com>
+Message-ID: <7e09167f-c57a-cdfe-a842-c920e9421e53@nvidia.com>
+Date: Wed, 30 Sep 2020 18:05:15 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200929221526.GA1370981@ubuntu-m3-large-x86>
+In-Reply-To: <20200930115837.GF816047@nvidia.com>
+Content-Language: en-US
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1601478223; bh=1C8k0Jr4P7T3F40hyRgF1mLm/eFVC81ePiQovbxLYos=;
+ h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ Content-Language:X-Originating-IP:X-ClientProxiedBy;
+ b=FnhAMOP0S4xv7P035nhKcJ09owUIHEJm0fdJzUAsp5xXZeAz9aHTRsdc0guKBSzNY
+ UJSI63M1yJ1IqsIvCZzYRtzx/VOcWpl1A6F5XaK6rYuh7LZ5GQaSsjtNulEfBVXTaZ
+ zFFrmULj7NxzCU5KYKBkNDMxBU1F9gZbvhFkaIA3lHlHRgSt/AC9PyE8ghIZuR364+
+ eHQBBMC53WfQKlWsCjwa1vXprX1ZtHK00GwWRNSfPxemwEk1WncdT0F7HFpGOZzkU1
+ ++u4BuvZEuqxruTWvVoqFEt7fFjGzu1GYqmJQxdWcT8DGgtP5rGslMn0aqktEZTBxo
+ cdV094gt5U8IA==
 X-Mailman-Approved-At: Thu, 01 Oct 2020 08:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,89 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1468379032=="
+Cc: Leon Romanovsky <leon@kernel.org>, Tvrtko
+ Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Christoph Hellwig <hch@lst.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1468379032==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="nmd2zrhuwo3r2vsl"
-Content-Disposition: inline
-
-
---nmd2zrhuwo3r2vsl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Nathan,
-
-On Tue, Sep 29, 2020 at 03:15:26PM -0700, Nathan Chancellor wrote:
-> On Thu, Sep 03, 2020 at 10:01:52AM +0200, Maxime Ripard wrote:
-> > Now that all the drivers have been adjusted for it, let's bring in the
-> > necessary device tree changes.
-> >=20
-> > The VEC and PV3 are left out for now, since it will require a more spec=
-ific
-> > clock setup.
-> >=20
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
-> > Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-> > Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Apologies if this has already been reported or have a solution but this
-> patch (and presumably series) breaks output to the serial console after
-> a certain point during init. On Raspbian, I see systemd startup messages
-> then the output just turns into complete garbage. It looks like this
-> patch is merged first in linux-next, which is why my bisect fell on the
-> DRM merge. I am happy to provide whatever information could be helpful
-> for debugging this. I am on the latest version of the firmware
-> (currently 26620cc9a63c6cb9965374d509479b4ee2c30241).
-
-Unfortunately, the miniUART is in the same clock tree than the core
-clock and will thus have those kind of issues when the core clock is
-changed (which is also something that one should expect when using the
-DRM or other drivers).
-
-The only real workaround there would be to switch to one of the PL011
-UARTs. I guess we can also somehow make the UART react to the core clock
-frequency changes, but that's going to require some effort
-
-Maxime
-
---nmd2zrhuwo3r2vsl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3SRPgAKCRDj7w1vZxhR
-xSt+AP0ayZmAvs/uQrHYd/JCYiYkSNEVkD1lmyO4nYjMymxRSwEA8vrzDPVI/xKN
-0eYP8+ZWTkPuacJT4sSnKcZCYSzHcwE=
-=YIDd
------END PGP SIGNATURE-----
-
---nmd2zrhuwo3r2vsl--
-
---===============1468379032==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1468379032==--
+Ck9uIDkvMzAvMjAyMCAyOjU4IFBNLCBKYXNvbiBHdW50aG9ycGUgd3JvdGU6Cj4gT24gV2VkLCBT
+ZXAgMzAsIDIwMjAgYXQgMDI6NTM6NThQTSArMDMwMCwgTWFvciBHb3R0bGllYiB3cm90ZToKPj4g
+T24gOS8zMC8yMDIwIDI6NDUgUE0sIEphc29uIEd1bnRob3JwZSB3cm90ZToKPj4+IE9uIFdlZCwg
+U2VwIDMwLCAyMDIwIGF0IDEyOjUzOjIxUE0gKzAzMDAsIExlb24gUm9tYW5vdnNreSB3cm90ZToK
+Pj4+PiBPbiBUdWUsIFNlcCAyOSwgMjAyMCBhdCAwNDo1OToyOVBNIC0wMzAwLCBKYXNvbiBHdW50
+aG9ycGUgd3JvdGU6Cj4+Pj4+IE9uIFN1biwgU2VwIDI3LCAyMDIwIGF0IDA5OjQ2OjQ3QU0gKzAz
+MDAsIExlb24gUm9tYW5vdnNreSB3cm90ZToKPj4+Pj4+IEBAIC0yOTYsMTEgKzIyMywxNyBAQCBz
+dGF0aWMgc3RydWN0IGliX3VtZW0gKl9faWJfdW1lbV9nZXQoc3RydWN0IGliX2RldmljZSAqZGV2
+aWNlLAo+Pj4+Pj4gICAgCQkJZ290byB1bWVtX3JlbGVhc2U7Cj4+Pj4+Pgo+Pj4+Pj4gICAgCQlj
+dXJfYmFzZSArPSByZXQgKiBQQUdFX1NJWkU7Cj4+Pj4+PiAtCQlucGFnZXMgICAtPSByZXQ7Cj4+
+Pj4+PiAtCj4+Pj4+PiAtCQlzZyA9IGliX3VtZW1fYWRkX3NnX3RhYmxlKHNnLCBwYWdlX2xpc3Qs
+IHJldCwKPj4+Pj4+IC0JCQlkbWFfZ2V0X21heF9zZWdfc2l6ZShkZXZpY2UtPmRtYV9kZXZpY2Up
+LAo+Pj4+Pj4gLQkJCSZ1bWVtLT5zZ19uZW50cyk7Cj4+Pj4+PiArCQlucGFnZXMgLT0gcmV0Owo+
+Pj4+Pj4gKwkJc2cgPSBfX3NnX2FsbG9jX3RhYmxlX2Zyb21fcGFnZXMoCj4+Pj4+PiArCQkJJnVt
+ZW0tPnNnX2hlYWQsIHBhZ2VfbGlzdCwgcmV0LCAwLCByZXQgPDwgUEFHRV9TSElGVCwKPj4+Pj4+
+ICsJCQlkbWFfZ2V0X21heF9zZWdfc2l6ZShkZXZpY2UtPmRtYV9kZXZpY2UpLCBzZywgbnBhZ2Vz
+LAo+Pj4+Pj4gKwkJCUdGUF9LRVJORUwpOwo+Pj4+Pj4gKwkJdW1lbS0+c2dfbmVudHMgPSB1bWVt
+LT5zZ19oZWFkLm5lbnRzOwo+Pj4+Pj4gKwkJaWYgKElTX0VSUihzZykpIHsKPj4+Pj4+ICsJCQl1
+bnBpbl91c2VyX3BhZ2VzX2RpcnR5X2xvY2socGFnZV9saXN0LCByZXQsIDApOwo+Pj4+Pj4gKwkJ
+CXJldCA9IFBUUl9FUlIoc2cpOwo+Pj4+Pj4gKwkJCWdvdG8gdW1lbV9yZWxlYXNlOwo+Pj4+Pj4g
+KwkJfQo+Pj4+Pj4gICAgCX0KPj4+Pj4+Cj4+Pj4+PiAgICAJc2dfbWFya19lbmQoc2cpOwo+Pj4+
+PiBEb2VzIGl0IHN0aWxsIG5lZWQgdGhlIHNnX21hcmtfZW5kPwo+Pj4+IEl0IGlzIHByZXNlcnZl
+ZCBoZXJlIGZvciBjb3JyZWN0bmVzcywgdGhlIHJlbGVhc2UgbG9naWMgZG9lc24ndCByZWx5IG9u
+Cj4+Pj4gdGhpcyBtYXJrZXIsIGJ1dCBpdCBpcyBiZXR0ZXIgdG8gbGVhdmUgaXQuCj4+PiBJIG1l
+YW4sIG15IHJlYWQgb2YgX19zZ19hbGxvY190YWJsZV9mcm9tX3BhZ2VzKCkgaXMgdGhhdCBpdCBh
+bHJlYWR5Cj4+PiBwbGFjZWQgaXQsIHRoZSBmaW5hbCBfX2FsbG9jX3RhYmxlKCkgZG9lcyBpdD8K
+Pj4gSXQgbWFya3MgdGhlIGxhc3QgYWxsb2NhdGVkIHNnZSwgYnV0IG5vdCB0aGUgbGFzdCBwb3B1
+bGF0ZWQgc2dlICh3aXRoIHBhZ2UpLgo+IFdoeSBhcmUgdGhvc2UgZGlmZmVyZW50Pwo+Cj4gSXQg
+bG9va3MgbGlrZSB0aGUgbGFzdCBpdGVyYXRpb24gY2FsbHMgX19hbGxvY190YWJsZSgpIHdpdGgg
+YW4gZXhhY3QKPiBudW1iZXIgb2Ygc2dlcwo+Cj4gKwlpZiAoIXBydikgewo+ICsJCS8qIE9ubHkg
+dGhlIGxhc3QgYWxsb2NhdGlvbiBjb3VsZCBiZSBsZXNzIHRoYW4gdGhlIG1heGltdW0gKi8KPiAr
+CQl0YWJsZV9zaXplID0gbGVmdF9wYWdlcyA/IFNHX01BWF9TSU5HTEVfQUxMT0MgOiBjaHVua3M7
+Cj4gKwkJcmV0ID0gc2dfYWxsb2NfdGFibGUoc2d0LCB0YWJsZV9zaXplLCBnZnBfbWFzayk7Cj4g
+KwkJaWYgKHVubGlrZWx5KHJldCkpCj4gKwkJCXJldHVybiBFUlJfUFRSKHJldCk7Cj4gKwl9Cj4K
+PiBKYXNvbgoKVGhpcyBpcyByaWdodCBvbmx5IGZvciB0aGUgbGFzdCBpdGVyYXRpb24uIEUuZy4g
+aW4gdGhlIGZpcnN0IGl0ZXJhdGlvbiAKaW4gY2FzZSB0aGF0IHRoZXJlIGFyZSBtb3JlIHBhZ2Vz
+IChsZWZ0X3BhZ2VzKSwgdGhlbiB3ZSBhbGxvY2F0ZSAKU0dfTUFYX1NJTkdMRV9BTExPQy7CoCBX
+ZSBkb24ndCBrbm93IGhvdyBtYW55IHBhZ2VzIGZyb20gdGhlIHNlY29uZCAKaXRlcmF0aW9uIHdp
+bGwgYmUgc3F1YXNoZWQgdG8gdGhlIFNHRSBmcm9tIHRoZSBmaXJzdCBpdGVyYXRpb24uCgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
