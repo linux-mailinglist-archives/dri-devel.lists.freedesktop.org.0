@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E750127E6B0
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 12:31:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BF527E6C9
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 12:38:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EBE06E5C8;
-	Wed, 30 Sep 2020 10:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F3D6E5C3;
+	Wed, 30 Sep 2020 10:38:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B11526E5C6
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 10:31:26 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id g96so1287068otb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 03:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m/cFVU0k3Lc4dRZ8DHvHDPTwflgSIBkQD3tkvH9ZVpI=;
- b=c/mTOTqmh8Rks2UaquMUtKbjXrSqZcnUdklwdLCrN0JbNt/l0lJUbf5u4oKg0Pf7nK
- CCEd4cSvZ2Tt9V7vnwnCHTRfq2VjSZo57zKBV5UIWl7KyD9/n01QbspGF7kp+zAwg8xC
- XeLx29noJtYHxxQYZhwb8z5ZvloC0v+6E+pDc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m/cFVU0k3Lc4dRZ8DHvHDPTwflgSIBkQD3tkvH9ZVpI=;
- b=rHpsDfmgw1Rl6DfzDXXjcQzklLUzY2tJpkndEdgsFCZeRtUAIALlaNQZxuGkGI/S2M
- eqIKRtKHdp7wteApVAYleeNrgK12I1vRmcRAkpYObLHYoPIBwsGswoEHwwX+PKNF9wyT
- Ckuwlf/qQd9/qti3cwnzubVmvSk662euTAd5pF31JVo9apgf2Ms/Nxky5jZSGVQ9GsI5
- LSHr2Vk3SzEBFXixxAxAYWVAh7KwD8dw7GmGUrOCAMOulwzbE66DDDNAw9/Tzfazsnjd
- ETYZEoors1Ps68WSLqy0XxJCZwC8hovqgE6DrrP61fXxZTEsV4/F+sLYrXspUm5s3nVG
- CSJg==
-X-Gm-Message-State: AOAM531PNu3hO2dxXmadvwDp98mrjr3H3jfnQYm8DTHFkNUi3cGa2hi7
- aD1Vka1DVHWbRlM/Dhw9dlHZE3FQhAe25qBYesr8rQ==
-X-Google-Smtp-Source: ABdhPJwLn+FNDqwfuSKkVOFjxo1S15hkPQEufBsajDpjhfn6f/gVEE3CILSzi+lMBrLaU8K33zQMNTfFSgXwQOnrx/E=
-X-Received: by 2002:a9d:4b99:: with SMTP id k25mr1175790otf.281.1601461885462; 
- Wed, 30 Sep 2020 03:31:25 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C188289ED3;
+ Wed, 30 Sep 2020 10:38:16 +0000 (UTC)
+IronPort-SDR: mPQc74XQIiZJyZKmWvCfDgx2ZUPLBFaIW/5K7nOYSn7IOHvFFk5Qluy3LCS5z9zsOg/PD3HGkp
+ 3KcCvAXe7m5A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="159803185"
+X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="159803185"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2020 03:38:16 -0700
+IronPort-SDR: voHijax8CoRg6bsNAVNbul+w2EUKg78wat9kpWN5/CXtCFDOmT6abSuaF4jG+4aEoV/WXeRJiC
+ ZEnpZelBYXZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="350633987"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 30 Sep 2020 03:38:13 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 30 Sep 2020 13:38:12 +0300
+Date: Wed, 30 Sep 2020 13:38:12 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
+Message-ID: <20200930103812.GL6112@intel.com>
+References: <20200929121127.254086-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+ <d235e6f34182e327d8bb46383f6c3ef518b5fc23.camel@intel.com>
+ <20200929200201.GH6112@intel.com>
+ <a4a075597c7d3e65b25598ab696a59eccbd2a069.camel@intel.com>
+ <20200929203022.GI6112@intel.com>
+ <20200929210144.GA2214475@mdroper-desk1.amr.corp.intel.com>
+ <20200929211148.GJ6112@intel.com> <20200929215958.GK6112@intel.com>
+ <20200929233822.GC2214475@mdroper-desk1.amr.corp.intel.com>
 MIME-Version: 1.0
-References: <CGME20200924083156eucas1p14406128445a655393013effe719f2228@eucas1p1.samsung.com>
- <20200924083145.23312-1-m.szyprowski@samsung.com>
- <1f62b659-4534-c4de-28c1-07043b6468a7@samsung.com>
-In-Reply-To: <1f62b659-4534-c4de-28c1-07043b6468a7@samsung.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 30 Sep 2020 12:31:14 +0200
-Message-ID: <CAKMK7uENE3LroHkiYOX08M1g-dj4gb2JW_DJaDPW12gOPPaz6w@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: tc358764: restore connector support
-To: Andrzej Hajda <a.hajda@samsung.com>
+Content-Disposition: inline
+In-Reply-To: <20200929233822.GC2214475@mdroper-desk1.amr.corp.intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,255 +59,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Pandey, Hariom" <hariom.pandey@intel.com>, "Ausmus,
+ James" <james.ausmus@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>, "Souza,
+ Jose" <jose.souza@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Surendrakumar Upadhyay,
+ TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 12:13 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
->
->
-> W dniu 24.09.2020 o 10:31, Marek Szyprowski pisze:
-> > This patch restores DRM connector registration in the TC358764 bridge
-> > driver and restores usage of the old drm_panel_* API, thus allows dynamic
-> > panel registration. This fixes panel operation on Exynos5250-based
-> > Arndale board.
-> >
-> > This is equivalent to the revert of the following commits:
-> > 1644127f83bc "drm/bridge: tc358764: add drm_panel_bridge support"
-> > 385ca38da29c "drm/bridge: tc358764: drop drm_connector_(un)register"
-> > and removal of the calls to drm_panel_attach()/drm_panel_detach(), which
-> > were no-ops and has been removed in meanwhile.
-> >
-> > Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
->
-> Regards
-> Andrzej
-> > ---
-> > As I've reported and Andrzej Hajda pointed, the reverted patches break
-> > operation of the panel on the Arndale board. Noone suggested how to fix
-> > the regression, I've decided to send a revert until a new solution is
-> > found.
-> >
-> > The issues with tc358764 might be automatically resolved once the Exynos
-> > DSI itself is converted to DRM bridge:
-> > https://patchwork.kernel.org/cover/11770683/
-> > but that approach has also its own issues so far.
+On Tue, Sep 29, 2020 at 04:38:22PM -0700, Matt Roper wrote:
+> On Wed, Sep 30, 2020 at 12:59:58AM +0300, Ville Syrj=E4l=E4 wrote:
+> > On Wed, Sep 30, 2020 at 12:11:48AM +0300, Ville Syrj=E4l=E4 wrote:
+> > > On Tue, Sep 29, 2020 at 02:01:44PM -0700, Matt Roper wrote:
+> > > > On Tue, Sep 29, 2020 at 11:30:22PM +0300, Ville Syrj=E4l=E4 wrote:
+> > > > > On Tue, Sep 29, 2020 at 08:20:22PM +0000, Souza, Jose wrote:
+> > > > > > On Tue, 2020-09-29 at 23:02 +0300, Ville Syrj=E4l=E4 wrote:
+> > > > > > > On Tue, Sep 29, 2020 at 07:33:45PM +0000, Souza, Jose wrote:
+> > > > > > > > On Tue, 2020-09-29 at 17:41 +0530, Tejas Upadhyay wrote:
+> > > > > > > > > JSL has update in vswing table for eDP
+> > > > > > > > =
 
-I'm ok with the revert to fix the regression, but I'd kinda like to
-see a bit more than "maybe we fix this in the future". Otherwise this
-nice idea of having a common drm_bridge abstraction is just leading
-towards a complete disaster where every combination of bridge/driver
-works slightly differently. And we're half-way there in that mess
-already I think.
+> > > > > > > > Would be nice to mention in the commit description why PCH =
+is being used, that would avoid Ville's question.
+> > > > > > > =
 
-Cheers, Daniel
+> > > > > > > If the thing has nothing to do PCH then it should not use the=
+ PCH type
+> > > > > > > for the the check. Instead we should just do the EHL/JSL spli=
+t.
+> > > > > > =
 
-> >
-> > Best regards,
-> > Marek Szyprowski
-> > ---
-> >   drivers/gpu/drm/bridge/tc358764.c | 107 +++++++++++++++++++++++++-----
-> >   1 file changed, 92 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/tc358764.c b/drivers/gpu/drm/bridge/tc358764.c
-> > index d89394bc5aa4..c1e35bdf9232 100644
-> > --- a/drivers/gpu/drm/bridge/tc358764.c
-> > +++ b/drivers/gpu/drm/bridge/tc358764.c
-> > @@ -153,9 +153,10 @@ static const char * const tc358764_supplies[] = {
-> >   struct tc358764 {
-> >       struct device *dev;
-> >       struct drm_bridge bridge;
-> > +     struct drm_connector connector;
-> >       struct regulator_bulk_data supplies[ARRAY_SIZE(tc358764_supplies)];
-> >       struct gpio_desc *gpio_reset;
-> > -     struct drm_bridge *panel_bridge;
-> > +     struct drm_panel *panel;
-> >       int error;
-> >   };
-> >
-> > @@ -209,6 +210,12 @@ static inline struct tc358764 *bridge_to_tc358764(struct drm_bridge *bridge)
-> >       return container_of(bridge, struct tc358764, bridge);
-> >   }
-> >
-> > +static inline
-> > +struct tc358764 *connector_to_tc358764(struct drm_connector *connector)
-> > +{
-> > +     return container_of(connector, struct tc358764, connector);
-> > +}
-> > +
-> >   static int tc358764_init(struct tc358764 *ctx)
-> >   {
-> >       u32 v = 0;
-> > @@ -271,11 +278,43 @@ static void tc358764_reset(struct tc358764 *ctx)
-> >       usleep_range(1000, 2000);
-> >   }
-> >
-> > +static int tc358764_get_modes(struct drm_connector *connector)
-> > +{
-> > +     struct tc358764 *ctx = connector_to_tc358764(connector);
-> > +
-> > +     return drm_panel_get_modes(ctx->panel, connector);
-> > +}
-> > +
-> > +static const
-> > +struct drm_connector_helper_funcs tc358764_connector_helper_funcs = {
-> > +     .get_modes = tc358764_get_modes,
-> > +};
-> > +
-> > +static const struct drm_connector_funcs tc358764_connector_funcs = {
-> > +     .fill_modes = drm_helper_probe_single_connector_modes,
-> > +     .destroy = drm_connector_cleanup,
-> > +     .reset = drm_atomic_helper_connector_reset,
-> > +     .atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> > +     .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> > +};
-> > +
-> > +static void tc358764_disable(struct drm_bridge *bridge)
-> > +{
-> > +     struct tc358764 *ctx = bridge_to_tc358764(bridge);
-> > +     int ret = drm_panel_disable(bridge_to_tc358764(bridge)->panel);
-> > +
-> > +     if (ret < 0)
-> > +             dev_err(ctx->dev, "error disabling panel (%d)\n", ret);
-> > +}
-> > +
-> >   static void tc358764_post_disable(struct drm_bridge *bridge)
-> >   {
-> >       struct tc358764 *ctx = bridge_to_tc358764(bridge);
-> >       int ret;
-> >
-> > +     ret = drm_panel_unprepare(ctx->panel);
-> > +     if (ret < 0)
-> > +             dev_err(ctx->dev, "error unpreparing panel (%d)\n", ret);
-> >       tc358764_reset(ctx);
-> >       usleep_range(10000, 15000);
-> >       ret = regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> > @@ -296,28 +335,71 @@ static void tc358764_pre_enable(struct drm_bridge *bridge)
-> >       ret = tc358764_init(ctx);
-> >       if (ret < 0)
-> >               dev_err(ctx->dev, "error initializing bridge (%d)\n", ret);
-> > +     ret = drm_panel_prepare(ctx->panel);
-> > +     if (ret < 0)
-> > +             dev_err(ctx->dev, "error preparing panel (%d)\n", ret);
-> > +}
-> > +
-> > +static void tc358764_enable(struct drm_bridge *bridge)
-> > +{
-> > +     struct tc358764 *ctx = bridge_to_tc358764(bridge);
-> > +     int ret = drm_panel_enable(ctx->panel);
-> > +
-> > +     if (ret < 0)
-> > +             dev_err(ctx->dev, "error enabling panel (%d)\n", ret);
-> >   }
-> >
-> >   static int tc358764_attach(struct drm_bridge *bridge,
-> >                          enum drm_bridge_attach_flags flags)
-> > +{
-> > +     struct tc358764 *ctx = bridge_to_tc358764(bridge);
-> > +     struct drm_device *drm = bridge->dev;
-> > +     int ret;
-> > +
-> > +     if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> > +             DRM_ERROR("Fix bridge driver to make connector optional!");
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     ctx->connector.polled = DRM_CONNECTOR_POLL_HPD;
-> > +     ret = drm_connector_init(drm, &ctx->connector,
-> > +                              &tc358764_connector_funcs,
-> > +                              DRM_MODE_CONNECTOR_LVDS);
-> > +     if (ret) {
-> > +             DRM_ERROR("Failed to initialize connector\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     drm_connector_helper_add(&ctx->connector,
-> > +                              &tc358764_connector_helper_funcs);
-> > +     drm_connector_attach_encoder(&ctx->connector, bridge->encoder);
-> > +     ctx->connector.funcs->reset(&ctx->connector);
-> > +     drm_connector_register(&ctx->connector);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void tc358764_detach(struct drm_bridge *bridge)
-> >   {
-> >       struct tc358764 *ctx = bridge_to_tc358764(bridge);
-> >
-> > -     return drm_bridge_attach(bridge->encoder, ctx->panel_bridge,
-> > -                              bridge, flags);
-> > +     drm_connector_unregister(&ctx->connector);
-> > +     ctx->panel = NULL;
-> > +     drm_connector_put(&ctx->connector);
-> >   }
-> >
-> >   static const struct drm_bridge_funcs tc358764_bridge_funcs = {
-> > +     .disable = tc358764_disable,
-> >       .post_disable = tc358764_post_disable,
-> > +     .enable = tc358764_enable,
-> >       .pre_enable = tc358764_pre_enable,
-> >       .attach = tc358764_attach,
-> > +     .detach = tc358764_detach,
-> >   };
-> >
-> >   static int tc358764_parse_dt(struct tc358764 *ctx)
-> >   {
-> > -     struct drm_bridge *panel_bridge;
-> >       struct device *dev = ctx->dev;
-> > -     struct drm_panel *panel;
-> >       int ret;
-> >
-> >       ctx->gpio_reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> > @@ -326,16 +408,12 @@ static int tc358764_parse_dt(struct tc358764 *ctx)
-> >               return PTR_ERR(ctx->gpio_reset);
-> >       }
-> >
-> > -     ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
-> > -     if (ret)
-> > -             return ret;
-> > -
-> > -     panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> > -     if (IS_ERR(panel_bridge))
-> > -             return PTR_ERR(panel_bridge);
-> > +     ret = drm_of_find_panel_or_bridge(ctx->dev->of_node, 1, 0, &ctx->panel,
-> > +                                       NULL);
-> > +     if (ret && ret != -EPROBE_DEFER)
-> > +             dev_err(dev, "cannot find panel (%d)\n", ret);
-> >
-> > -     ctx->panel_bridge = panel_bridge;
-> > -     return 0;
-> > +     return ret;
-> >   }
-> >
-> >   static int tc358764_configure_regulators(struct tc358764 *ctx)
-> > @@ -381,7 +459,6 @@ static int tc358764_probe(struct mipi_dsi_device *dsi)
-> >               return ret;
-> >
-> >       ctx->bridge.funcs = &tc358764_bridge_funcs;
-> > -     ctx->bridge.type = DRM_MODE_CONNECTOR_LVDS;
-> >       ctx->bridge.of_node = dev->of_node;
-> >
-> >       drm_bridge_add(&ctx->bridge);
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > > > > > In the first version Matt Roper suggested to use PCH to differe=
+ntiate between EHL and JSL, Jani also agreed with this solution.This 2 PCHs=
+ can only be
+> > > > > > associate with EHL and JSL respectively, so no downsides here.
+> > > > > =
 
+> > > > > The downside is that the code makes no sense on the first glance.
+> > > > > It's going to generate a "wtf?" exception in the brain and require
+> > > > > me to take a second look to figure what is going on. Exception
+> > > > > handling is expensive and shouldn't be needed in cases where it's
+> > > > > trivial to make the code 100% obvious.
+> > > > =
 
+> > > > The bspec documents EHL and JSL as being the same platform and iden=
+tical
+> > > > in all programming since they are literally the same display IP; th=
+is
+> > > > vswing table is the one and only place where the two are treated in=
+ a
+> > > > distinct manner for reasons that lie outside the display controller=
+.  If
+> > > > you had to stop and take a closer look at the code here, that's a
+> > > > probably a good thing since in general there should generally never=
+ be a
+> > > > difference in the behavior between the two.  Adding an additional
+> > > > clarifying comment is probably in order too since this is a very
+> > > > exceptional special case.
+> > > > =
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > > > If we deviate from the bspec's guidance and try to split IS_ELKHART=
+LAKE
+> > > > and IS_JASPERLAKE across the whole driver, that's going to be a lot=
+ more
+> > > > pain to maintain down the road since we'll almost certainly have ca=
+ses
+> > > > where someone silently leaves one or the other off a condition and =
+gets
+> > > > unexepcted behavior.  I could see arguments for using a SUBPLATFORM=
+ here
+> > > > like we do for TGL_U vs TGL_Y, but even that seems like overkill if=
+ we
+> > > > already have a clear way to distinguish the two cases (PCH pairing)=
+ and
+> > > > can just leave a clarifying comment.
+> > > =
+
+> > > That fixed PCH pairing is totally undocumented AFAICS. And vswing has
+> > > nothing to do with the south display, so the wtf will still happen.
+> > > Comment or no comment.
+> > =
+
+> > Oh and JSP does not show up in bspec even once. MCC appears exactly once
+> > where it talks about the differences between MCC and ICL-N PCH (which I
+> > guess is the same as JSP?).
+> =
+
+> No, ICL-N PCH is something different.  :-(  There were some early test
+> chips created that paired the EHL/JSL graphics/media/display IP with an
+> ICL PCH just for early debug/test purposes, but that pairing isn't
+> something that actually exists as a real platform.
+> =
+
+> I think the confusion here arises because most driver developers only
+> look at (or have access to) the bspec, which does not aim to document
+> end-user platforms, but rather IP families that the
+> graphics/media/display hardware IP teams design.  The bspec is not an
+> authoritative document for anything that lies outside the GMD IP itself.
+> The GMD architects do sometimes try to pull in additional information
+> from external teams/sources (such as PCH pairing or the electrical
+> details like the vswing programming here) to make life easier for the
+> software teams like us that only really deal with the bspec, but that
+> information comes from external sources, so it's a bit inconsistent in
+> terms of how much detail there is (or even whether it's described at
+> all).  We could probably file bspec defects to get them to include the
+> PCH pairing details for EHL/JSL in the bspec, but ultimately EHL=3D"EHL
+> G/M/D + MCC PCH" and JSL=3D"EHL G/M/D + JSP PCH;" this has already been
+> confirmed in an offline email thread with the hardware teams.
+> =
+
+> Elkhart Lake and Jasper Lake are two separate end-user platforms, that
+> both incorporated the same G/M/D IP design.  The name "Jasper Lake"
+> existed as a codename first, so that's the name that shows up in the
+> bspec; this wound up being a bit confusing when Elkhart Lake was
+> actually the first of the two to be released and thus wound up being the
+> name we have in our code.  But the situation seems similar to CHT vs BSW
+> which are both referred to as "CHV" in the bspec and in our code
+> (although obviously there was no PCH pairing for those SoCs).
+> Steppings, workarounds, etc. are unified for EHL/JSL because they're
+> literally the same IP, rather than one being a derivative of the other. =
+
+> =
+
+> If you want full details about the PCHs of a platform (most of which is
+> unimportant to graphics drivers) or the electrical characteristics that
+> feed into the vswing programming then there are other authoritative
+> documents that cover that (like the Electrical Design Specification and
+> such).  I'm not sure if those documents are posted anywhere publicly;
+> fortunately we only need a small amount of information in those areas
+> and the GMD architects are often nice enough to try to copy the relevant
+> info into the bspec as a courtesy.
+> =
+
+> > =
+
+> > Furthermore the spec never really talks about EHL except in very select
+> > places. So the IS_ELKHARTLAKE is already totally confusing and IMO more
+>  * > likely to cause maintenance problems than the split. Making it
+> > IS_JSL||IS_EHL at least gives the reader some hint as to where they
+> > should look in the spec.
+> > =
+
+> > Another argument why the split is fine is CFL/CML. Those are more
+> > or less exactly in the same boat as EHL. Ie. only really mentioned
+> > in the "configurations" section. Beyond that only KBL is ever really
+> > mentioned. And yet we have separate IS_FOOs for all of them, and
+> > apparently no one had any objections to that situation.
+> > =
+
+> > tldr;we have an established way to handle these things, so IMO lets
+> > just follow it and stop adding special cases.
+> =
+
+> Isn't CML graphics a derivative of CFL (rather than being exactly the
+> same IP)?
+
+No idea, and I don't really see why it would matter anyway
+from a driver developer's POV.
+
+> The fact that we have differences in the GMD IP itself that
+> need different workarounds implies that it's not quite the same
+> situation we're talking about here (otherwise we'd have been able to
+> just check the stepping revision ID).  IS_CML only got split out from
+> IS_CFL a couple months ago, so it's probably too soon to see how many
+> bugs eventually creep in when developers accidentally leave it off a CFL
+> condition or vice versa.
+> =
+
+> And we do still unify WHL, AML, etc., in i915 as far as I can see even
+> though the IP teams track those platforms separately, so the precedent
+> appears to be keeping them combined as far as I can see?
+
+We split when there is any functional difference. Eg. CML was
+considered the same as CFL until an actual difference came up,
+at which point it was split up.
+
+Now we have an actual difference between EHL and JSL so we
+should split. Granted it's a bit annoying to have to do it
+just for some vswing tables. Ideally that stuff would be
+specified in a sane way by the VBT. But since VBT is generally
+useless we need to deal with this on a platform level.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
