@@ -1,73 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2802A27FB52
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:17:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 632F427FB3A
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22176E873;
-	Thu,  1 Oct 2020 08:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7BDD6E860;
+	Thu,  1 Oct 2020 08:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C52CA6E7D0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 12:08:42 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 7D2365C0191;
- Wed, 30 Sep 2020 08:08:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 30 Sep 2020 08:08:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=Y17Usp4zsVcIqllYvXx2vn9IgwX
- CRfWXZlARyKTxdTo=; b=rouREQCpbTk2BpuVDtvYY5pH0N/uqQFRLSa6Yfy4PmU
- hCgi7cQNKNzSbD/DNKvH3LgUtUMdthn5mOhoNDbWzzGXzVpOpeioyori8CpEpeZ2
- LfF03esPzYqi7XFgvxnfQk7D64eR+JhlcWqzGnsSmL8zWmdkvxwKZv7JN4EjSc/y
- jJcWGONuQ7UWsDfZKQ85Gn00tyG6kKUa1p7+2vmkiTTEQWsR7hWzjqof5h1PkbEc
- iLnAc6jCovro95ljNkAxyMEYkYxt12wFgnjpu8mpRNpt/H9SRYKcHpXUlOnQEcqa
- tZrBFDgoku7W7MnBY+Cn5PH9xGg6ObAVP4WQtAL2hww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Y17Usp
- 4zsVcIqllYvXx2vn9IgwXCRfWXZlARyKTxdTo=; b=vbOQyValQHPlWzy6tqCJJw
- zyw+FcW/utBzbCe0dIIT8Q5XKqMB90vUSbZLR/EwkhjMb9KOvKWz4UBaYB1W+Y85
- ePA8xNhcDTEGnuLDipGBrKa+430AfZP48KaAe9Mw+vEZ4+hrmgKyLMBoxMXhXgIY
- Ul2H54IWqugaSJdeIqn0ldQ0V5af1P+CdxymF5w7p2BeAFOO8ZTzEbZTOaye66WK
- ANk2Hol9/131v8azYx6BFbIOX6MdPMPS28FEW0sCeiZSRJaMKSFrpOXikYoxYxrU
- su77UYvCsCFeAxgfzx5eXziOiPQ9te5AzJf63S4B2ySCmHmK1j8shGcX+xMIWAEA
- ==
-X-ME-Sender: <xms:RnV0X_cAuIcVCm5oorL8PTi5-wm2nyG865N2n1dfAWCRxYhZX9LtGg>
- <xme:RnV0X1Nv4HfaB0Xe3xXfeNl8aNS0LUjc-iArPlt7vbmo3fWTB_4y2tfW-gj-Fpc92
- GTZDGKxLpfsYPFzkWk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedvgdeghecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:RnV0X4hQeEAbtqPP5tBsCsqoEXJ0s0Nwz9oDL6H_yKv2YitYekBUlQ>
- <xmx:RnV0Xw_m1_3MD0M7FBdsPdh2z6HfHGAE1A_W_kpyWb4I4DVJRaPjxw>
- <xmx:RnV0X7sytmHkXa5JarobDBP_IZu3Bvvz05PqjMY9wXmco-SXpmOfPA>
- <xmx:R3V0X0904LSjgimmDfFeu0QYmBRX6vTiO-2d_t6YbEUuDNJGCW11sA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 114913280063;
- Wed, 30 Sep 2020 08:08:37 -0400 (EDT)
-Date: Wed, 30 Sep 2020 14:08:37 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-Subject: Re: [PATCH 1/2] drm/vc4: kms: Assign a FIFO to enabled CRTCs instead
- of active
-Message-ID: <20200930120837.jowt5dijwa7pdb6a@gilmour.lan>
-References: <CGME20200919084635epcas1p3b36b85b4445709cf3595fc62e659c1ae@epcas1p3.samsung.com>
- <20200918145918.101068-1-maxime@cerno.tech>
- <226dbb4a-e97a-f6b3-645e-785a20bbdacd@samsung.com>
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A744389B20
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 12:59:05 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id s19so983526plp.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 05:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=BGONJfBGfiZJ8B5gVDKbSF1BVGKwQjHdLl3ddJo9tVY=;
+ b=eJKbz8Q0kBy+c9iBIWhnx+5lDxtWn3fntLUDzpGUW709Er3KPWJPiwrRw6GnRMJeGn
+ xodi9WCSndpOjnrfs4XfsryyUrXfJmelVfDFngugKTT/TIFNXxrsEiPfUMqP1E3vrCD3
+ Ujq0ESsfFS5bbg1mDhmeYuLR1dazAfdE7Uq5/bVNFR4L68c6+6C+ex5KCWxd9DrWxrL8
+ l9Xg8oS6UFCyOsOj81oskbHKdF5QskffRIDpTO3vpxBIuOadWbgZ13hoHaeNF+VI1jCG
+ Vaato+9lnzp0K1IkdzExljN8tXbUqiyHcLJodvjhypXRNCpVPsE8Zc3bZbit2DkzcNcL
+ wkmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BGONJfBGfiZJ8B5gVDKbSF1BVGKwQjHdLl3ddJo9tVY=;
+ b=NY2IDhd+G5M1RNGHI+9QxcYjIImQrZxuuwDcMdUp80ZuMFy/QKrEIOmGmsIWadKi9Q
+ ecuiNFDLwM9zoLzEFDsy7Iu9iLpz2YkpOhLDEmJ35MuQybDeO+y9an9qUW1drzrQkIaG
+ ocPJwcT9apMsgCzwJMIP9sZocVPrxILtQOqEGq0Fkj2zVwG1zH8DSoI7BHQUd2AMAqeK
+ vfT/OJxXgkFY6JwLa/ng4t9RmCU1pw+o4nfoL8gWyB/TWlZYg/O1HkI4Yx/HoNNFbOx6
+ F/E4Zx3Nk9FQaPL2bKE1ZuFyQgcYPSnGznZa+wK+6k9OrBJl1IsRYRVgm0Yfqbx4p4vl
+ UUWQ==
+X-Gm-Message-State: AOAM530mXsFbYOzllpyIrIDNDPFvPEDLUd02hDTFVR3ObeZHL2Jmbi6l
+ HbnWcIZDUkBhIdboA/xr2A==
+X-Google-Smtp-Source: ABdhPJwbSPtClFFI3ea1mNKe4eO1VEd6GSD/SvuAQtvcm7zxPoV0QkXo2AazrpiYHQjW/KT/XysBXQ==
+X-Received: by 2002:a17:90b:30c2:: with SMTP id
+ hi2mr921373pjb.89.1601470745283; 
+ Wed, 30 Sep 2020 05:59:05 -0700 (PDT)
+Received: from PWN ([161.117.80.159])
+ by smtp.gmail.com with ESMTPSA id u15sm2536438pjx.50.2020.09.30.05.59.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Sep 2020 05:59:04 -0700 (PDT)
+Date: Wed, 30 Sep 2020 08:58:55 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
+ buffers
+Message-ID: <20200930125855.GA1155358@PWN>
+References: <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
+ <20200925101300.GA890211@PWN>
+ <20200925132551.GF438822@phenom.ffwll.local>
+ <20200929123420.GA1143575@PWN>
+ <CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com>
+ <20200930071151.GA1152145@PWN>
+ <20200930095317.GX438822@phenom.ffwll.local>
+ <20200930105553.GA1154238@PWN>
+ <CAKMK7uFzWZgs4rvqSXqn_ifr8utG_rNw54+y6CWjdV=Epak-iQ@mail.gmail.com>
+ <20200930115211.GC1603625@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <226dbb4a-e97a-f6b3-645e-785a20bbdacd@samsung.com>
+Content-Disposition: inline
+In-Reply-To: <20200930115211.GC1603625@kroah.com>
 X-Mailman-Approved-At: Thu, 01 Oct 2020 08:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,91 +79,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org,
- =?utf-8?B?64KY7ISx6rWt?= <sungguk.na@samsung.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1881503552=="
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Sep 30, 2020 at 01:52:11PM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Sep 30, 2020 at 01:25:14PM +0200, Daniel Vetter wrote:
+> > On Wed, Sep 30, 2020 at 12:56 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> > > Yes, and built-in fonts don't use refcount. Or maybe we can let
+> > > find_font() and get_default_font() kmalloc() a copy of built-in font
+> > > data, then keep track of refcount for both user and built-in fonts, but
+> > > that will waste a few K of memory for each built-in font we use...
+> > 
+> > A possible trick for this would be to make sure built-in fonts start
+> > out with a refcount of 1. So never get freed. Plus maybe a check that
+> > if the name is set, then it's a built-in font and if we ever underflow
+> > the refcount we just WARN, but don't free anything.
+> > 
+> > Another trick would be kern_font_get/put wrappers (we'd want those
+> > anyway if the userspace fonts are refcounted) and if kern_font->name
+> > != NULL (i.e. built-in font with name) then we simply don't call
+> > kref_get/put.
+> 
+> Ick, don't do that, the first trick of having them start out with an
+> increased reference count is the best way here.  Makes the code simpler
+> and no special cases for the tear-down path.
 
---===============1881503552==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ug6ta5tvkq4rvquy"
-Content-Disposition: inline
+I see, I'll just let them start out with 1, and only check `->name !=
+NULL` in kern_font_put(). Thank you!
 
-
---ug6ta5tvkq4rvquy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 24, 2020 at 05:08:56PM +0900, Hoegeun Kwon wrote:
-> Hi Maxime,
->=20
-> On 9/18/20 11:59 PM, Maxime Ripard wrote:
-> > The HVS has three FIFOs that can be assigned to a number of PixelValves
-> > through a mux.
-> >
-> > However, changing that FIFO requires that we disable and then enable the
-> > pixelvalve, so we want to assign FIFOs to all the enabled CRTCs, and not
-> > just the active ones.
->=20
-> Thanks for the patch.
->=20
-> There is a problem when doing page flip.
-> After connecting 2 HDMIs without hotplug and booting.(Same thing when
-> using hotplug.)
->=20
-> When executing page flip for each of HDMI 0 and 1 in modetest
-> operation does not work normally. (crtc irq does not occur, so timeout=20
-> occurs.)
-> Sometimes both hdmi 0 or 1 work or not.
->=20
-> LOGs:
-> root:~> modetest -Mvc4 -s 32:1280x720 -v
-> setting mode 1280x720-60Hz@XR24 on connectors 32, crtc 64
-> failed to set gamma: Invalid argument
-> freq: 60.24Hz
-> freq: 60.00Hz
->=20
-> root:~> modetest -Mvc4 -s 38:1280x720 -v
-> setting mode 1280x720-60Hz@XR24 on connectors 38, crtc 69
-> failed to set gamma: Invalid argument
-> select timed out or error (ret 0)
-> select timed out or error (ret 0)
->=20
-> Could you please check it?
-
-I'll look into it, thanks :)
-
-Maxime
-
---ug6ta5tvkq4rvquy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3R1RQAKCRDj7w1vZxhR
-xfIKAP0ZxKnpINZ5Kg3q04USDs9Vo9efen8Srisy8b8ZoBxv1gEAiL6lw6Jae2g5
-tgTom4FUgrP++/1IjDfYje2WZl5wDQ8=
-=/0Ob
------END PGP SIGNATURE-----
-
---ug6ta5tvkq4rvquy--
-
---===============1881503552==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Peilin Ye
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1881503552==--
