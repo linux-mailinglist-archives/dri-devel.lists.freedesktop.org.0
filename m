@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C29327E7E5
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 13:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A9827E899
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 14:31:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33A4889A34;
-	Wed, 30 Sep 2020 11:52:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B537899DE;
+	Wed, 30 Sep 2020 12:31:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8CD89A34
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 11:52:08 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6A6792076B;
- Wed, 30 Sep 2020 11:52:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601466728;
- bh=b+UUVp7yg/Xy88+VOq3PGwKPj4epsjdj1Z7Ta82NEkI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vF4SjmHOBXqabfycdXzWm4C5m3BiGd2oGtgLyc76At7qPSFh6lYLXhUwN1xgce5T0
- 5+4s2yzN27qBOozldoEUetZB7qM1KvhQNEe6b/rt3rT7BSPum33G70uCA/itg2PGvP
- e5j61fytT/nHLPoqDjwMte8LL9iRjJUILyBvWbfM=
-Date: Wed, 30 Sep 2020 13:52:11 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 0/3] Prevent out-of-bounds access for built-in font data
- buffers
-Message-ID: <20200930115211.GC1603625@kroah.com>
-References: <cover.1600953813.git.yepeilin.cs@gmail.com>
- <3f754d60-1d35-899c-4418-147d922e29af@kernel.org>
- <20200925101300.GA890211@PWN>
- <20200925132551.GF438822@phenom.ffwll.local>
- <20200929123420.GA1143575@PWN>
- <CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com>
- <20200930071151.GA1152145@PWN>
- <20200930095317.GX438822@phenom.ffwll.local>
- <20200930105553.GA1154238@PWN>
- <CAKMK7uFzWZgs4rvqSXqn_ifr8utG_rNw54+y6CWjdV=Epak-iQ@mail.gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE0689711;
+ Wed, 30 Sep 2020 12:31:53 +0000 (UTC)
+IronPort-SDR: qdwHt/tHrretYkd3h64o3fpgQUDdHbNeS0rhC/3HUSuSzmXaQQtPum3utZQCKLsjPgvgtoIUzG
+ uFG8k+ZAz0LQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="159820546"
+X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="159820546"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2020 05:31:43 -0700
+IronPort-SDR: DJ8lgOkaBzmFxSDQwjhap1z05tTZuHqm522Gjw8OwucWrBjcTPeYUzncUvAvKIEgkO65weRZ16
+ JfVDiFT+C3Ww==
+X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="497339803"
+Received: from dkuts-mobl3.ccr.corp.intel.com (HELO localhost)
+ ([10.249.36.150])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2020 05:31:39 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Souza\, Jose" <jose.souza@intel.com>,
+ "ville.syrjala\@linux.intel.com" <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
+In-Reply-To: <a4a075597c7d3e65b25598ab696a59eccbd2a069.camel@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200929121127.254086-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+ <d235e6f34182e327d8bb46383f6c3ef518b5fc23.camel@intel.com>
+ <20200929200201.GH6112@intel.com>
+ <a4a075597c7d3e65b25598ab696a59eccbd2a069.camel@intel.com>
+Date: Wed, 30 Sep 2020 15:31:57 +0300
+Message-ID: <87362zo37m.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFzWZgs4rvqSXqn_ifr8utG_rNw54+y6CWjdV=Epak-iQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,73 +53,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Peilin Ye <yepeilin.cs@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Pandey, Hariom" <hariom.pandey@intel.com>, "Ausmus,
+ James" <james.ausmus@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Surendrakumar Upadhyay, 
+ TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 01:25:14PM +0200, Daniel Vetter wrote:
-> On Wed, Sep 30, 2020 at 12:56 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> >
-> > On Wed, Sep 30, 2020 at 11:53:17AM +0200, Daniel Vetter wrote:
-> > > On Wed, Sep 30, 2020 at 03:11:51AM -0400, Peilin Ye wrote:
-> > > > On Tue, Sep 29, 2020 at 04:38:49PM +0200, Daniel Vetter wrote:
-> > > > > On Tue, Sep 29, 2020 at 2:34 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> > > > > > Ah, and speaking of built-in fonts, see fbcon_startup():
-> > > > > >
-> > > > > >         /* Setup default font */
-> > > > > >                 [...]
-> > > > > >                 vc->vc_font.charcount = 256; /* FIXME  Need to support more fonts */
-> > > > > >                             ^^^^^^^^^^^^^^^
-> > > > > >
-> > > > > > This is because find_font() and get_default_font() return a `struct
-> > > > > > font_desc *`, but `struct font_desc` doesn't contain `charcount`. I
-> > > > > > think we also need to add a `charcount` field to `struct font_desc`.
-> > > > >
-> > > > > Hm yeah ... I guess maybe struct font_desc should be the starting
-> > > > > point for the kernel internal font structure. It's at least there
-> > > > > already ...
-> > > >
-> > > > I see, that will also make handling built-in fonts much easier!
-> > >
-> > > I think the only downside with starting with font_desc as the internal
-> > > font represenation is that there's a few fields we don't need/have for
-> > > userspace fonts (like the id/name stuff). So any helpers to e.g. print out
-> > > font information need to make sure they don't trip over that
-> > >
-> > > But otherwise I don't see a problem with this, I think.
-> >
-> > Yes, and built-in fonts don't use refcount. Or maybe we can let
-> > find_font() and get_default_font() kmalloc() a copy of built-in font
-> > data, then keep track of refcount for both user and built-in fonts, but
-> > that will waste a few K of memory for each built-in font we use...
-> 
-> A possible trick for this would be to make sure built-in fonts start
-> out with a refcount of 1. So never get freed. Plus maybe a check that
-> if the name is set, then it's a built-in font and if we ever underflow
-> the refcount we just WARN, but don't free anything.
-> 
-> Another trick would be kern_font_get/put wrappers (we'd want those
-> anyway if the userspace fonts are refcounted) and if kern_font->name
-> != NULL (i.e. built-in font with name) then we simply don't call
-> kref_get/put.
-
-Ick, don't do that, the first trick of having them start out with an
-increased reference count is the best way here.  Makes the code simpler
-and no special cases for the tear-down path.
-
-thanks,
-
-greg k-h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAyOSBTZXAgMjAyMCwgIlNvdXphLCBKb3NlIiA8am9zZS5zb3V6YUBpbnRlbC5jb20+
+IHdyb3RlOgo+IE9uIFR1ZSwgMjAyMC0wOS0yOSBhdCAyMzowMiArMDMwMCwgVmlsbGUgU3lyasOk
+bMOkIHdyb3RlOgo+PiBJZiB0aGUgdGhpbmcgaGFzIG5vdGhpbmcgdG8gZG8gUENIIHRoZW4gaXQg
+c2hvdWxkIG5vdCB1c2UgdGhlIFBDSCB0eXBlCj4+IGZvciB0aGUgdGhlIGNoZWNrLiBJbnN0ZWFk
+IHdlIHNob3VsZCBqdXN0IGRvIHRoZSBFSEwvSlNMIHNwbGl0Lgo+Cj4gSW4gdGhlIGZpcnN0IHZl
+cnNpb24gTWF0dCBSb3BlciBzdWdnZXN0ZWQgdG8gdXNlIFBDSCB0byBkaWZmZXJlbnRpYXRlCj4g
+YmV0d2VlbiBFSEwgYW5kIEpTTCwgSmFuaSBhbHNvIGFncmVlZCB3aXRoIHRoaXMgc29sdXRpb24u
+VGhpcyAyIFBDSHMKPiBjYW4gb25seSBiZSBhc3NvY2lhdGUgd2l0aCBFSEwgYW5kIEpTTCByZXNw
+ZWN0aXZlbHksIHNvIG5vIGRvd25zaWRlcwo+IGhlcmUuCgpGV0lXIEkgc2FpZCwgIklmIHRoZSBk
+aWZmZXJlbmNlIGlzIGluIHRoZSBQQ0giLCB3aXRob3V0IHBvbmRlcmluZwpmdXJ0aGVyLgoKQlIs
+CkphbmkuCgoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50
+ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
