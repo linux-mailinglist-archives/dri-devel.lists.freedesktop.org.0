@@ -1,34 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B64D27FB48
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:16:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA0427FB35
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 10:15:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74D096E876;
-	Thu,  1 Oct 2020 08:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0CA6E846;
+	Thu,  1 Oct 2020 08:15:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA8D26E5BD
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 17:17:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1601486221; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MXd9FesjqBdfbqp1WDnMgZQG0KSCw8ALHirqsj8ZIvU=;
- b=Q1M8TCreSMw4TEd/wVmYXUwXkzJWC/396oJNC4iYtdLXeXIX61dDCkObyoa5q4mgf1/JFq
- tyix7UkRyRWzxk5pe34OdvxuB2Axya0XEnpgBhz8Oa8Bj0lZEwFc6LZ5n3yqpss4kAAzwE
- rhzoJB7K3N5mZJenx1iM9S34L9Wg4tY=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 3/3] drm/ingenic: Alloc cached GEM buffers with
- dma_alloc_noncoherent
-Date: Wed, 30 Sep 2020 19:16:44 +0200
-Message-Id: <20200930171644.299363-3-paul@crapouillou.net>
-In-Reply-To: <20200930165212.GA8833@lst.de>
-References: <20200930165212.GA8833@lst.de>
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD0F96E82E
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 22:40:15 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id x14so3499290oic.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 15:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1Q03gpzYZKFx4WbmDyv5/MoHJyzVeXQE9aurdxl6jkE=;
+ b=S8gdE9fvVQaxNMP5Tk07sOhi1O9IPbRElmRLsx6QZ4qwMH5OwpbW7cPFTFaQkbOq4Q
+ BVKhFHBXh7ogQPPqOp16wDNufm1pdR73IKAHuSdTjxlJ7/z251VQR3+dcP8HvY6Xn2cO
+ HYGQc2oQDtnTShDnCi4xJ8BP2jpCvEHstXq++V+bWH1EjYzS/dTMbql4zbpRGzG6TDFs
+ VJuH0A2oHnZVTWEKDQqImr/HJ05iz3yp54KJLRxKoTMeJa1wBDGcZii5g/xGH8RBKFnq
+ r9ydfl+B3mMgWs23jHmBHGtJFk2d118/fxUgH19PjPaam1rE4DmlKePcRMN/5tVrcOiz
+ aRsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1Q03gpzYZKFx4WbmDyv5/MoHJyzVeXQE9aurdxl6jkE=;
+ b=UJvy3S8phMsIQpZK6uYf2ttxBToYSlFSZIuNMN21hSy2F/Sa8EK4N4YGUDE/9gi8SW
+ BGFhjYzXmt0BPzUj94mWMCzGxGHIq2q5BYcaH6HS+jdVc1G9TZ1sOAZz3vY+hvwPHIwb
+ fotHef2LV9but5Wx3mw8UOChiZuamjtU1zylEK0AwZo5Jq45Xg09EE1jqSQWmE6els+h
+ 10BpjWaPr1G2fQGjctd/jhW0wuMHdHKxwc7M2y4eOXk32EkVu3qnKgMiIiIaXDCXgR1X
+ UyN0wFVbnpieWS/ovBzo5UG0sc6XFmCINmeeZmDe/r1DqCzsXOl3yj6tIiuYOmO3WngL
+ ZJCQ==
+X-Gm-Message-State: AOAM532bN5ZIApRU1zNKDNnJO8j1Gr02KAU1OHuw5k6E2qoivgwSPlwr
+ W9baQUKtfADtDV7/icDxzplWiQ==
+X-Google-Smtp-Source: ABdhPJyfioIRVXxFrO8udLEGAlCapQ6/ekLaouaVOiQBLkxLGmHem4ShXrogGhVvqMPo8mzsPd3mcg==
+X-Received: by 2002:aca:d693:: with SMTP id n141mr2683787oig.26.1601505614911; 
+ Wed, 30 Sep 2020 15:40:14 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id p8sm781364oot.29.2020.09.30.15.40.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Sep 2020 15:40:14 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH 0/2] drm/bridge: ti-sn65dsi86: Support backlight controls
+Date: Wed, 30 Sep 2020 17:35:30 -0500
+Message-Id: <20200930223532.77755-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 01 Oct 2020 08:15:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,93 +71,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Paul Cercueil <paul@crapouillou.net>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It turns out that if you want to mmap GEM buffers fully cached, then
-they should be allocated as such as well. Who would have known?
+The TI SN65DSI86 support driving a backlight driver using a signal
+exposed on GPIO4, implement this as a backlight device.
 
-Introduce a custom .dumb_create callback, that will behave just like
-drm_gem_cma_dumb_create(), except that it will allocate the GEM buffer
-using dma_alloc_noncoherent() if non-coherent memory is what we want.
+Bjorn Andersson (2):
+  dt-bindings: drm/bridge: ti-sn65dsi86: Replace #pwm-cells
+  drm/bridge: ti-sn65dsi86: Expose backlight controls
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 48 ++++++++++++++++++++++-
- 1 file changed, 47 insertions(+), 1 deletion(-)
+ .../bindings/display/bridge/ti,sn65dsi86.yaml |   9 +-
+ drivers/gpu/drm/bridge/Kconfig                |   1 +
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         | 143 +++++++++++++++++-
+ 3 files changed, 146 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 07a1da7266e4..8ece269c040f 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -794,6 +794,52 @@ static int ingenic_drm_gem_cma_mmap(struct file *filp,
- 	return ingenic_drm_gem_mmap(vma->vm_private_data, vma);
- }
- 
-+static int ingenic_drm_gem_cma_dumb_create(struct drm_file *file_priv,
-+					   struct drm_device *drm,
-+					   struct drm_mode_create_dumb *args)
-+{
-+	/*
-+	 * This is basically a copy of drm_gem_cma_dumb_create, which supports
-+	 * creating fully cached GEM buffers.
-+	 */
-+	struct drm_gem_cma_object *cma_obj;
-+	struct drm_gem_object *gem_obj;
-+	size_t size;
-+	int ret;
-+
-+	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-+	args->size = args->pitch * args->height;
-+
-+	size = PAGE_ALIGN(args->size);
-+
-+	cma_obj = drm_gem_cma_create_noalloc(drm, size);
-+	if (IS_ERR(cma_obj))
-+		return PTR_ERR(cma_obj);
-+
-+	if (ingenic_drm_cached_gem_buf) {
-+		cma_obj->vaddr = dma_alloc_noncoherent(drm->dev, size,
-+						       &cma_obj->paddr,
-+						       DMA_TO_DEVICE,
-+						       GFP_KERNEL | __GFP_NOWARN);
-+	} else {
-+		cma_obj->vaddr = dma_alloc_wc(drm->dev, size, &cma_obj->paddr,
-+					      GFP_KERNEL | __GFP_NOWARN);
-+	}
-+	if (!cma_obj->vaddr) {
-+		dev_err(drm->dev, "Failed to allocate buffer with size %zu\n", size);
-+		ret = -ENOMEM;
-+		goto out_gem_object_put;
-+	}
-+
-+	gem_obj = &cma_obj->base;
-+
-+	ret = drm_gem_handle_create(file_priv, gem_obj, &args->handle);
-+
-+out_gem_object_put:
-+	drm_gem_object_put(gem_obj);
-+	return ret;
-+}
-+
- static const struct file_operations ingenic_drm_fops = {
- 	.owner		= THIS_MODULE,
- 	.open		= drm_open,
-@@ -816,7 +862,7 @@ static struct drm_driver ingenic_drm_driver_data = {
- 	.patchlevel		= 0,
- 
- 	.fops			= &ingenic_drm_fops,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(ingenic_drm_gem_cma_dumb_create),
- 
- 	.irq_handler		= ingenic_drm_irq_handler,
- };
 -- 
 2.28.0
 
