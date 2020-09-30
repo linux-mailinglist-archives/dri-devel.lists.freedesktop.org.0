@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33BE27EF41
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 18:31:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D5A27EFA7
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 18:51:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CAB66E4CD;
-	Wed, 30 Sep 2020 16:31:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E75A789DD2;
+	Wed, 30 Sep 2020 16:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 982966E7D0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 16:31:51 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Wed, 30 Sep 2020 16:31:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rmuncrief@humanavance.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-204241-2300-uOQxsQr556@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
-References: <bug-204241-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2700989DD2;
+ Wed, 30 Sep 2020 16:51:47 +0000 (UTC)
+Received: from localhost (unknown [213.57.247.131])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1FD65206C9;
+ Wed, 30 Sep 2020 16:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601484706;
+ bh=MwdJW4mqrWOrBCkHeReFHIvPIJHWwvzq0/1WZ3thz34=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=0QiwqGrru7E0hnFByyf199zgzY5HfiHmMto2K2DP2GQaRpF+SQylW3LD64x0jYywQ
+ GcH0r71FBZ2SrN2dwCGbIV3fjNBJqBLpm/gW0SCLI6mvVwTGAH152XfnjfVFnYbu9N
+ wSMSXIznFZBAd5pNwXWXfAuppEMtLhJPcm6C38Ms=
+Date: Wed, 30 Sep 2020 19:51:42 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH rdma-next v4 4/4] RDMA/umem: Move to allocate SG table
+ from pages
+Message-ID: <20200930165142.GS3094@unreal>
+References: <20200927064647.3106737-1-leon@kernel.org>
+ <20200927064647.3106737-5-leon@kernel.org>
+ <20200929195929.GA803555@nvidia.com> <20200930095321.GL3094@unreal>
+ <20200930114527.GE816047@nvidia.com>
+ <80c49ff1-52c7-638f-553f-9de8130b188d@nvidia.com>
+ <20200930115837.GF816047@nvidia.com>
+ <7e09167f-c57a-cdfe-a842-c920e9421e53@nvidia.com>
+ <20200930151406.GM816047@nvidia.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200930151406.GM816047@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,37 +53,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, Doug Ledford <dledford@redhat.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=204241
+On Wed, Sep 30, 2020 at 12:14:06PM -0300, Jason Gunthorpe wrote:
+> On Wed, Sep 30, 2020 at 06:05:15PM +0300, Maor Gottlieb wrote:
+> > This is right only for the last iteration. E.g. in the first iteration =
+in
+> > case that there are more pages (left_pages), then we allocate
+> > SG_MAX_SINGLE_ALLOC.=A0 We don't know how many pages from the second it=
+eration
+> > will be squashed to the SGE from the first iteration.
+>
+> Well, it is 0 or 1 SGE's. Check if the first page is mergable and
+> subtract one from the required length?
+>
+> I dislike this sg_mark_end() it is something that should be internal,
+> IMHO.
 
---- Comment #68 from Robert M. Muncrief (rmuncrief@humanavance.com) ---
-Created attachment 292729
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292729&action=edit
-Resume fail with RX 580 GPU
+I don't think so, but Maor provided possible solution.
+Can you take the patches?
 
-I've been having random resume problems form around kernel 5.5, and it persists
-even up to 5.9-rc6. When this occurs I can still login to SSH and give a reboot
-command, but though SSH disconnects my computer doesn't reboot and I have to
-press the reset button.  
+Thanks
 
-I have an ASUS Gaming TUF X570 motherboard, R7 3700X CPU, RX 580 GPU, and 16GB
-of RAM.  
-
-The primary error recorded in dmesg is:  
-
-[xxxxx.xxxxxx] amdgpu:  
-                last message was failed ret is 65535  
-
-I've included the part of dmesg beginning with suspend event through the resume
-failure.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+>
+> Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
