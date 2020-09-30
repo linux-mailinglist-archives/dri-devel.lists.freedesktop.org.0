@@ -1,44 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC6027E552
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 11:39:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF8C27E562
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Sep 2020 11:40:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA9D58906D;
-	Wed, 30 Sep 2020 09:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68EBB89C82;
+	Wed, 30 Sep 2020 09:40:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 69A7F89C82
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 09:39:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 4C1A92A6042;
- Wed, 30 Sep 2020 11:39:08 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id uXVtVzCDHncF; Wed, 30 Sep 2020 11:39:07 +0200 (CEST)
-Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.174.212])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 7000B2A6016;
- Wed, 30 Sep 2020 11:39:07 +0200 (CEST)
-Received: from [::1] by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1kNYZq-000pFt-Ja; Wed, 30 Sep 2020 11:39:06 +0200
-To: Jason Ekstrand <jason@jlekstrand.net>
-References: <20200311034351.1275197-3-jason@jlekstrand.net>
- <20200317212115.419358-1-jason@jlekstrand.net>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH 3/3] RFC: dma-buf: Add an API for importing and exporting
- sync files (v5)
-Message-ID: <64eed158-22a8-10a7-7686-c972f8542649@daenzer.net>
-Date: Wed, 30 Sep 2020 11:39:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4C0989C82
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 09:40:43 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id v12so987397wmh.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Sep 2020 02:40:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=YB7AakyQd7CL2zmCeAUBvGEPuC69+hG9+Pe2SkWFFNM=;
+ b=fG7q4eP2Tl4eo04zP6qjfsjx5voOrFQeegCnPhv/Yji9l+so9t4XoTMLHz7iA7WfIN
+ MeCuen9wnPRbU8MsR/u8NS5Ij8uHIDTSJE1h2HA/lfnNt8lGBJU26N+SqSrfRsG9fFQ7
+ ldqBC0olVDT3kLwIZgack9xQ9XbstFNq36Gn8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YB7AakyQd7CL2zmCeAUBvGEPuC69+hG9+Pe2SkWFFNM=;
+ b=cKU9e+fXRDThK6hjHV6HCzvejqNGYyBM7ASsnEECtYwy4l7pUkeLB0gIwHi7Z66VAH
+ cIS/RRZffgRJAQU8GNCC1308oeQyrYTEQ7TVXBkg1p0Jm8n6/k1a+0NBSBg7x0rYaDGt
+ N+FWQuPOZcb69gREn+YldHe9HWEftJygK7VQo9OkPfFtiUtthiFVraaqQ6DhksJTfr2S
+ UVzQOQaIHTR7OM6gcRWme4/b10Qh0Cof3liXjqxBqSIBJ1XyT759FyY9VUkZVR0fAqBT
+ qS4WSMSoqbt2juemhMawOE1TQ5Xw1O2iyPSXpUG3Yh6p5VICPYvydDz4Pz5k/7JmDeck
+ 3gOQ==
+X-Gm-Message-State: AOAM5326+wYXojSsETLTxYs8gDMy3QCTxNzZAwv36becckYVNrmsoerL
+ 7zpSMI6lK/GQw6/4BHD5Okz6YA==
+X-Google-Smtp-Source: ABdhPJzK2umvAHdCdHgriUhGB3rMUgsGmxl++CvBC69+cgoRXAU/LmXQyrtnigPQ34g5q0S1VU+YJQ==
+X-Received: by 2002:a7b:c753:: with SMTP id w19mr1955747wmk.157.1601458842462; 
+ Wed, 30 Sep 2020 02:40:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k15sm2004760wrv.90.2020.09.30.02.40.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Sep 2020 02:40:41 -0700 (PDT)
+Date: Wed, 30 Sep 2020 11:40:39 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH] Revert "video: fbdev: amba-clcd: Retire elder CLCD driver"
+Message-ID: <20200930094039.GU438822@phenom.ffwll.local>
+References: <20200928200856.1897023-1-pcc@google.com>
+ <0dc9f36b-417d-bfad-9eb7-858c3041ff0c@baylibre.com>
+ <20200929093201.GL438822@phenom.ffwll.local>
+ <CAMn1gO7w1wUo3e9vUmGeF7fp0K9mq2ydSskX2xD3H=Kndzhc+A@mail.gmail.com>
+ <20200929164828.GP438822@phenom.ffwll.local>
+ <20200929165206.GQ438822@phenom.ffwll.local>
+ <CAMn1gO4csAWAnk5rwfzfW5SVTddj7E84kKG2T-qjGiOmObSXnA@mail.gmail.com>
+ <CAKMK7uG5KP15tKVZpwmTnU0rM2VwRpESYk_=B0MuOWt5j3Gp1A@mail.gmail.com>
+ <CACRpkdYoOVeEkF6RiJSUykJfmJUthXNHMdTUmu+02OXRCgOd0A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200317212115.419358-1-jason@jlekstrand.net>
-Content-Language: en-CA
+Content-Disposition: inline
+In-Reply-To: <CACRpkdYoOVeEkF6RiJSUykJfmJUthXNHMdTUmu+02OXRCgOd0A@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,96 +72,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, daniel.vetter@ffwll.ch, jajones@nvidia.com,
- Chenbo Feng <fengc@google.com>, linux-kernel@vger.kernel.org,
- Greg Hackmann <ghackmann@google.com>, linaro-mm-sig@lists.linaro.org,
- hoegsberg@google.com, dri-devel@lists.freedesktop.org, airlied@redhat.com,
- jessehall@google.com, christian.koenig@amd.com, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Neil Armstrong <narmstrong@baylibre.com>, Sean Paul <sean@poorly.run>,
+ Kevin Brodsky <Kevin.Brodsky@arm.com>, Russell King <linux@armlinux.org.uk>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Peter Collingbourne <pcc@google.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wMy0xNyAxMDoyMSBwLm0uLCBKYXNvbiBFa3N0cmFuZCB3cm90ZToKPiBFeHBsaWNp
-dCBzeW5jaHJvbml6YXRpb24gaXMgdGhlIGZ1dHVyZS4gIEF0IGxlYXN0LCB0aGF0IHNlZW1zIHRv
-IGJlIHdoYXQKPiBtb3N0IHVzZXJzcGFjZSBBUElzIGFyZSBhZ3JlZWluZyBvbiBhdCB0aGlzIHBv
-aW50LiAgSG93ZXZlciwgbW9zdCBvZiBvdXIKPiBMaW51eCBBUElzIChib3RoIHVzZXJzcGFjZSBh
-bmQga2VybmVsIFVBUEkpIGFyZSBjdXJyZW50bHkgYnVpbHQgYXJvdW5kCj4gaW1wbGljaXQgc3lu
-Y2hyb25pemF0aW9uIHdpdGggZG1hLWJ1Zi4gIFdoaWxlIHdvcmsgaXMgb25nb2luZyB0byBjaGFu
-Z2UKPiBtYW55IG9mIHRoZSB1c2Vyc3BhY2UgQVBJcyBhbmQgcHJvdG9jb2xzIHRvIGFuIGV4cGxp
-Y2l0IHN5bmNocm9uaXphdGlvbgo+IG1vZGVsLCBzd2l0Y2hpbmcgb3ZlciBwaWVjZW1lYWwgaXMg
-ZGlmZmljdWx0IGR1ZSB0byB0aGUgbnVtYmVyIG9mCj4gcG90ZW50aWFsIGNvbXBvbmVudHMgaW52
-b2x2ZWQuICBPbiB0aGUga2VybmVsIHNpZGUsIG1hbnkgZHJpdmVycyB1c2UKPiBkbWEtYnVmIGlu
-Y2x1ZGluZyBHUFUgKDNEL2NvbXB1dGUpLCBkaXNwbGF5LCB2NGwsIGFuZCBvdGhlcnMuICBJbgo+
-IHVzZXJzcGFjZSwgd2UgaGF2ZSBYMTEsIHNldmVyYWwgV2F5bGFuZCBjb21wb3NpdG9ycywgM0Qg
-ZHJpdmVycywgY29tcHV0ZQo+IGRyaXZlcnMgKE9wZW5DTCBldGMuKSwgbWVkaWEgZW5jb2RlL2Rl
-Y29kZSwgYW5kIHRoZSBsaXN0IGdvZXMgb24uCj4gCj4gVGhpcyBwYXRjaCBwcm92aWRlcyBhIHBh
-dGggZm9yd2FyZCBieSBhbGxvd2luZyB1c2Vyc3BhY2UgdG8gbWFudWFsbHkKPiBtYW5hZ2UgdGhl
-IGZlbmNlcyBhdHRhY2hlZCB0byBhIGRtYS1idWYuICBBbHRlcm5hdGl2ZWx5LCBvbmUgY2FuIHRo
-aW5rCj4gb2YgdGhpcyBhcyBtYWtpbmcgZG1hLWJ1ZidzIGltcGxpY2l0IHN5bmNocm9uaXphdGlv
-biBzaW1wbHkgYSBjYXJyaWVyCj4gZm9yIGFuIGV4cGxpY2l0IGZlbmNlLiAgVGhpcyBpcyBhY2Nv
-bXBsaXNoZWQgYnkgYWRkaW5nIHR3byBJT0NUTHMgdG8KPiBkbWEtYnVmIGZvciBpbXBvcnRpbmcg
-YW5kIGV4cG9ydGluZyBhIHN5bmMgZmlsZSB0by9mcm9tIHRoZSBkbWEtYnVmLgo+IFRoaXMgd2F5
-IGEgdXNlcnNwYWNlIGNvbXBvbmVudCB3aGljaCBpcyB1c2VzIGV4cGxpY2l0IHN5bmNocm9uaXph
-dGlvbiwKPiBzdWNoIGFzIGEgVnVsa2FuIGRyaXZlciwgY2FuIG1hbnVhbGx5IHNldCB0aGUgd3Jp
-dGUgZmVuY2Ugb24gYSBidWZmZXIKPiBiZWZvcmUgaGFuZGluZyBpdCBvZmYgdG8gYW4gaW1wbGlj
-aXRseSBzeW5jaHJvbml6ZWQgY29tcG9uZW50IHN1Y2ggYXMgYQo+IFdheWxhbmQgY29tcG9zaXRv
-ciBvciB2aWRlbyBlbmNvZGVyLiAgSW4gdGhpcyB3YXksIGVhY2ggb2YgdGhlIGRpZmZlcmVudAo+
-IGNvbXBvbmVudHMgY2FuIGJlIHVwZ3JhZGVkIHRvIGFuIGV4cGxpY2l0IHN5bmNocm9uaXphdGlv
-biBtb2RlbCBvbmUgYXQgYQo+IHRpbWUgYXMgbG9uZyBhcyB0aGUgdXNlcnNwYWNlIHBpZWNlcyBj
-b25uZWN0aW5nIHRoZW0gYXJlIGF3YXJlIG9mIGl0IGFuZAo+IGltcG9ydC9leHBvcnQgZmVuY2Vz
-IGF0IHRoZSByaWdodCB0aW1lcy4KPiAKPiBUaGVyZSBpcyBhIHBvdGVudGlhbCByYWNlIGNvbmRp
-dGlvbiB3aXRoIHRoaXMgQVBJIGlmIHVzZXJzcGFjZSBpcyBub3QKPiBjYXJlZnVsLiAgQSB0eXBp
-Y2FsIHVzZSBjYXNlIGZvciBpbXBsaWNpdCBzeW5jaHJvbml6YXRpb24gaXMgdG8gd2FpdCBmb3IK
-PiB0aGUgZG1hLWJ1ZiB0byBiZSByZWFkeSwgdXNlIGl0LCBhbmQgdGhlbiBzaWduYWwgaXQgZm9y
-IHNvbWUgb3RoZXIKPiBjb21wb25lbnQuICBCZWNhdXNlIGEgc3luY19maWxlIGNhbm5vdCBiZSBj
-cmVhdGVkIHVudGlsIGl0IGlzIGd1YXJhbnRlZWQKPiB0byBjb21wbGV0ZSBpbiBmaW5pdGUgdGlt
-ZSwgdXNlcnNwYWNlIGNhbiBvbmx5IHNpZ25hbCB0aGUgZG1hLWJ1ZiBhZnRlcgo+IGl0IGhhcyBh
-bHJlYWR5IHN1Ym1pdHRlZCB0aGUgd29yayB3aGljaCB1c2VzIGl0IHRvIHRoZSBrZXJuZWwgYW5k
-IGhhcwo+IHJlY2VpdmVkIGEgc3luY19maWxlIGJhY2suICBUaGVyZSBpcyBubyB3YXkgdG8gYXRv
-bWljYWxseSBzdWJtaXQgYQo+IHdhaXQtdXNlLXNpZ25hbCBvcGVyYXRpb24uICBUaGlzIGlzIG5v
-dCwgaG93ZXZlciwgcmVhbGx5IGEgcHJvYmxlbSB3aXRoCj4gdGhpcyBBUEkgc28gbXVjaCBhcyBp
-dCBpcyBhIHByb2JsZW0gd2l0aCBleHBsaWNpdCBzeW5jaHJvbml6YXRpb24KPiBpdHNlbGYuICBU
-aGUgd2F5IHRoaXMgaXMgdHlwaWNhbGx5IGhhbmRsZWQgaXMgdG8gaGF2ZSB2ZXJ5IGV4cGxpY2l0
-Cj4gb3duZXJzaGlwIHRyYW5zZmVyIHBvaW50cyBpbiB0aGUgQVBJIG9yIHByb3RvY29sIHdoaWNo
-IGVuc3VyZSB0aGF0IG9ubHkKPiBvbmUgY29tcG9uZW50IGlzIHVzaW5nIGl0IGF0IGFueSBnaXZl
-biB0aW1lLiAgQm90aCBYMTEgKHZpYSB0aGUgUFJFU0VOVAo+IGV4dGVuc2lvbikgYW5kIFdheWxh
-bmQgcHJvdmlkZSBzdWNoIG93bmVyc2hpcCB0cmFuc2ZlciBwb2ludHMgdmlhCj4gZXhwbGljaXQg
-cHJlc2VudCBhbmQgaWRsZSBtZXNzYWdlcy4KPiAKPiBUaGUgZGVjaXNpb24gd2FzIGludGVudGlv
-bmFsbHkgbWFkZSBpbiB0aGlzIHBhdGNoIHRvIG1ha2UgdGhlIGltcG9ydCBhbmQKPiBleHBvcnQg
-b3BlcmF0aW9ucyBJT0NUTHMgb24gdGhlIGRtYS1idWYgaXRzZWxmIHJhdGhlciB0aGFuIGFzIGEg
-RFJNCj4gSU9DVEwuICBUaGlzIG1ha2VzIGl0IHRoZSBpbXBvcnQvZXhwb3J0IG9wZXJhdGlvbiB1
-bml2ZXJzYWwgYWNyb3NzIGFsbAo+IGNvbXBvbmVudHMgd2hpY2ggdXNlIGRtYS1idWYgaW5jbHVk
-aW5nIEdQVSwgZGlzcGxheSwgdjRsLCBhbmQgb3RoZXJzLgo+IEl0IGFsc28gbWVhbnMgdGhhdCBh
-IHVzZXJzcGFjZSBjb21wb25lbnQgY2FuIGRvIHRoZSBpbXBvcnQvZXhwb3J0Cj4gd2l0aG91dCBh
-Y2Nlc3MgdG8gdGhlIERSTSBmZCB3aGljaCBtYXkgYmUgdHJpY2t5IHRvIGdldCBpbiBjYXNlcyB3
-aGVyZQo+IHRoZSBjbGllbnQgY29tbXVuaWNhdGVzIHdpdGggRFJNIHZpYSBhIHVzZXJzcGFjZSBB
-UEkgc3VjaCBhcyBPcGVuR0wgb3IKPiBWdWxrYW4uICBBdCBhIGZ1dHVyZSBkYXRlIHdlIG1heSBj
-aG9vc2UgdG8gYWRkIGRpcmVjdCBpbXBvcnQvZXhwb3J0IEFQSXMKPiB0byBjb21wb25lbnRzIHN1
-Y2ggYXMgZHJtX3N5bmNvYmogdG8gYXZvaWQgYWxsb2NhdGluZyBhIGZpbGUgZGVzY3JpcHRvcgo+
-IGFuZCBnb2luZyB0aHJvdWdoIHR3byBpb2N0bHMuICBIb3dldmVyLCB0aGF0IHNlZW1zIHRvIGJl
-IHNvbWV0aGluZyBvZiBhCj4gbWljcm8tb3B0aW1pemF0aW9uIGFzIGltcG9ydC9leHBvcnQgb3Bl
-cmF0aW9ucyBhcmUgbGlrZWx5IHRvIGhhcHBlbiBhdCBhCj4gcmF0ZSBvZiBhIGZldyBwZXIgZnJh
-bWUgb2YgcmVuZGVyZWQgb3IgZGVjb2RlZCB2aWRlby4KPiAKPiB2MiAoSmFzb24gRWtzdHJhbmQp
-Ogo+ICAgLSBVc2UgYSB3cmFwcGVyIGRtYV9mZW5jZV9hcnJheSBvZiBhbGwgZmVuY2VzIGluY2x1
-ZGluZyB0aGUgbmV3IG9uZQo+ICAgICB3aGVuIGltcG9ydGluZyBhbiBleGNsdXNpdmUgZmVuY2Uu
-Cj4gCj4gdjMgKEphc29uIEVrc3RyYW5kKToKPiAgIC0gTG9jayBhcm91bmQgc2V0dGluZyBzaGFy
-ZWQgZmVuY2VzIGFzIHdlbGwgYXMgZXhjbHVzaXZlCj4gICAtIE1hcmsgU0lHTkFMX1NZTkNfRklM
-RSBhcyBhIHJlYWQtd3JpdGUgaW9jdGwuCj4gICAtIEluaXRpYWxpemUgcmV0IHRvIDAgaW4gZG1h
-X2J1Zl93YWl0X3N5bmNfZmlsZQo+IAo+IHY0IChKYXNvbiBFa3N0cmFuZCk6Cj4gICAtIFVzZSB0
-aGUgbmV3IGRtYV9yZXN2X2dldF9zaW5nbGV0b24gaGVscGVyCj4gCj4gdjUgKEphc29uIEVrc3Ry
-YW5kKToKPiAgIC0gUmVuYW1lIHRoZSBJT0NUTHMgdG8gaW1wb3J0L2V4cG9ydCByYXRoZXIgdGhh
-biB3YWl0L3NpZ25hbAo+ICAgLSBEcm9wIHRoZSBXUklURSBmbGFnIGFuZCBhbHdheXMgZ2V0L3Nl
-dCB0aGUgZXhjbHVzaXZlIGZlbmNlCj4gCj4gU2lnbmVkLW9mZi1ieTogSmFzb24gRWtzdHJhbmQg
-PGphc29uQGpsZWtzdHJhbmQubmV0PgoKV2hhdCdzIHRoZSBzdGF0dXMgb2YgdGhpcz8gRE1BX0JV
-Rl9JT0NUTF9FWFBPUlRfU1lOQ19GSUxFIHdvdWxkIGJlIAp1c2VmdWwgZm9yIFdheWxhbmQgY29t
-cG9zaXRvcnMgdG8gd2FpdCBmb3IgY2xpZW50IGJ1ZmZlcnMgdG8gYmVjb21lIApyZWFkeSB3aXRo
-b3V0IGJlaW5nIHByb25lIHRvIGdldHRpbmcgZGVsYXllZCBieSBsYXRlciBIVyBhY2Nlc3MgdG8g
-dGhlbSwgCnNvIGl0IHdvdWxkIGJlIG5pY2UgdG8gbWVyZ2UgdGhhdCBhdCBsZWFzdCAoaWYgCkRN
-QV9CVUZfSU9DVExfSU1QT1JUX1NZTkNfRklMRSBpcyBzdGlsbCBjb250cm92ZXJzaWFsKS4KCgot
-LSAKRWFydGhsaW5nIE1pY2hlbCBEw6RuemVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAg
-IGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAg
-IHwgICAgICAgICAgICAgTWVzYSBhbmQgWCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, Sep 29, 2020 at 10:29:22PM +0200, Linus Walleij wrote:
+> On Tue, Sep 29, 2020 at 8:44 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Tue, Sep 29, 2020 at 7:49 PM Peter Collingbourne <pcc@google.com> wrote:
+> 
+> > But aside from all this, why is this blocking the migration from fbdev
+> > to drm? With fbdev you don't have buffer allocations, nor dma-buf
+> > support, and somehow android can boot.
+> 
+> I do not know how Android does things these days but back in the
+> days it would request a virtual framebuffer twice the height of the
+> physical framebuffer and then pan that up/down between composing
+> frames, thus achieving a type of double-buffering from userspace.
+> 
+> Given the type of bugs Peter is seeing this seems to still be the
+> case, Peter can you confirm?
+
+We have the overallocate option for the fbdev emulation to support this
+use case of flipping buffers. So this part should work I think, but maybe
+some other parts of our check_var/set_par implementation don't work in a
+way to make surface flinger happy.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
