@@ -1,61 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5764F280DD0
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 09:03:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F33280DCA
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 09:03:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2482C6E914;
-	Fri,  2 Oct 2020 07:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D25A6E03F;
+	Fri,  2 Oct 2020 07:02:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFDDE6E16F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 10:15:58 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id q8so5872271lfb.6
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 03:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sbHB4UppKAenF5cuB/vMr8n45MQRc8w9Jto0vU1UBGI=;
- b=beAv55UsVyfGF0QS4DSb8YtWr0/kLHdy8m7Y/p3vuAvNYpKj8Er+VNcAzrvV5a2nlI
- P5CCC9NT2Dh7rpn0ytCR0SxxE/nYyM6ucU+QWymp1zSTe6mTGqB5eV7x7+C+eCFEOnE9
- 3ZBduzCDBKM3GdWJTemquWib0vXuxiJ7ShPVqqMhQKcwJ2k6mIvHB2tU7jtn0D03ThEu
- 2QXjy7xpu9fmyJ2oujUuQVzqAr3wReGopQc27sm263SGrZfj2VBYSxrhde1YMimP/ZxN
- IPLAxgUNwbuO4WrNPX5W5PaD6ohanEcXYl0PxyVM/bEukSoOEYvS7sviOJqjQ5GYVZYo
- aa6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sbHB4UppKAenF5cuB/vMr8n45MQRc8w9Jto0vU1UBGI=;
- b=ORP7Bin3OzW8o7e1P3axg/Wngm8lfsYTIJ9IKZNEX/5BDSBwWBxfFRreklB8bK4ME5
- uIHkcAX6/+8s0hXLDwSaPFRQji4r2z6aFRswISZt16iH7seBdneLbo+6v56DDV48+WR2
- Q9l/1IpwI5VhKPeSamZTFq6Xe8fRJ7+CJ7ACwcrp1f7q4zVvF/SflbKQMSWql92F7AVn
- t4KGhNVq5fOOWltjmY6aQLfgUGDorCvt+wymcR07gGUG8/tRisw/WiyRtQb3nmO0b+mL
- ce/2Q8ebWzwfuRgIw7kj4pRUwfSt2K4aC5x1FfyYxN1sBCHaNMIWqa4t+bQEYgQNe0dF
- TPxQ==
-X-Gm-Message-State: AOAM530NiqxyowZ79ZEJuk9UpCl9CRs3LBeTs32GH6Id2RcWr9e0WNbY
- 1Zm6pTvK2lYdB3MKT70GlwS78u/y97L0LySLMPIAuA==
-X-Google-Smtp-Source: ABdhPJz+dSG1WLw5ugB6n7HEwN0s6TlyMWv5/7+mvXT01Jl0M1MTND1yxApBDlypSSLWkuxoRZKti8z/Eofzfl+gmbc=
-X-Received: by 2002:a19:8044:: with SMTP id b65mr2152189lfd.366.1601547357111; 
- Thu, 01 Oct 2020 03:15:57 -0700 (PDT)
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCFBC6E158
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 13:30:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1601559032;
+ bh=JCuC+YxYl97qqlkG4kZ/uganLKGm8eQOvYq7b53mvWU=;
+ h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
+ b=KHJfwD3L3y68bztEHBovGOmSnBluKR2L+GLyxn0s5iiQVAtl5QiBUEQuRAWS2A3CJ
+ mb6FjPEKv5XF7iVj9a9sqN8oVhG6FjGRBVeDCx5DVhuOkDU0ZzaRr7gvW5Lz4GozsG
+ ZD9Jhpqla5leqNqqNTnrYXxSXt5q0iUmcVY3o9I8=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.133.75.172]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MXHcb-1jrkuo2gSL-00WBNy; Thu, 01
+ Oct 2020 15:30:31 +0200
+To: Dirk Gouders <dirk@gouders.net>, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/amdgpu: Avoid null pointer dereference in
+ soc15_reg_base_init()
+From: Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <6078dfa1-4b54-e58e-7fed-60d751c584e0@web.de>
+Date: Thu, 1 Oct 2020 15:30:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
- <cfce2276d172d3d9c4d34d966b58fd47f77c4e46.1599120059.git-series.maxime@cerno.tech>
- <20200929221526.GA1370981@ubuntu-m3-large-x86>
- <20200930140758.gummt3umouva3wyu@gilmour.lan>
- <20200930163823.GA237050@ubuntu-m3-large-x86>
- <cacbaef2-4221-50d8-3c5d-efab9f1a9c04@i2se.com>
- <20201001064843.dlewcu3b7dvqanyy@gilmour.lan>
- <20201001085402.t6mzzwzplviunhoc@gilmour.lan>
-In-Reply-To: <20201001085402.t6mzzwzplviunhoc@gilmour.lan>
-From: Tim Gover <tim.gover@raspberrypi.com>
-Date: Thu, 1 Oct 2020 11:15:46 +0100
-Message-ID: <CAAvKZ65WqQqH-9JVdb5M6HcKbR3yQdvZha8n9UXXCfciYRq4aA@mail.gmail.com>
-Subject: Re: [PATCH v5 80/80] ARM: dts: bcm2711: Enable the display pipeline
-To: Maxime Ripard <maxime@cerno.tech>
+Content-Language: en-GB
+X-Provags-ID: V03:K1:gsmzjVwR+wSlSkWqVU6tovQmQBtZz+8La50DV+1PijsbAloyyIo
+ 95j6kfsNt55Sup9murAM6GOddYl5MUsKcyJ51jSVCb1OIEJImf5HtSk/JPqZPXgOoPvOVii
+ MMRATszaWYi5B4WbmJan9UbpVyj6lvXCvaNnyeVYBLwOm8QQyQFFc5GRWlOHfc2AlJUUsgC
+ j8WGiLbjY1voDxLSPHpxQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fGkF/CgZasw=:nRvOatZ77fuU+WdDfERl1x
+ 86D1RrFM+t0lRJVKDc075CQ44sLSnhRlFsXXVyBtmzwn1Eh9/HTrhkxeUdQhTo0SnjBvE755R
+ We8LBdFN1l8c1fxr/kCa32uDZR28yYj4gyFEIofjtFjNovUa63OiHczMGKC8NgiDds1/UnpGI
+ kMmRdYRfWmTuy6y+lA5F2977JwYQAQetRfLxGlBaOvWk35pH07jDEu5VWQdpXBsflmr8wSaLd
+ m7jfghJZMgVAxiA07AzEeg6AYMmTI1RJez7YVXW2FNlX/WkC46f7q/lc50H4Vbec/iqkEOByN
+ OW/jP8hY9yRwbUNP8oIErCx4gFdpBqMdaMrjTRK0WsXA9ZvOSO1tBNFOhUuTJpWTHn8gYdhQG
+ Hiljl5a6vnSEkieXwjQVjIqGpRBxsWzNYJd4Ht3qmCCccQqQ29Z61YWOF+uMagvJWOrTg5XCQ
+ EVFYqO6oAIy6PQVjjKxduVZxib/tgLl7qxdvq5VGCfYMdP68FnpOeP/b3he0CZiPMukeKU1jL
+ anuBV1SBQy8h56r398l61UFreXYNkLhRQETToNnYc881Ktc/0Li8UcFBYt/uW/R8WvjRuFSLF
+ uWwzKRLEmF+CMMs/B2wIuTa+p+VypsMHf6F6EPI04Bci91e4wm495b6lmWEdey8foQPGU7cMf
+ zzUCW541GnQ8L9eynktGFHWC+XmIl9eFcLHCqkkqcMe4SvEqoV/mCZ0iwTNQYOsr2A6nETGts
+ Pmj2l2L3sPhmN7lkX9MCVbEKfzZ64C9oZ9Bk1SZ8j5UNx+MhbWHRa0kK5mdVmcgdulRsvH+4P
+ Kc8231tz81SdlMGYWnvy/bOsez178MClKmHSxP60VKDkxfVU/3TnJT3ELAT2ysFiKfm1Lko3T
+ hWy4KBPX0wQGfLlu+zeZJGnTyhxntZzY7PJQKjHJNleeR6w44UuvUCTj+ddrYuOpnI7g6fAPF
+ 7pDUxKLLB3ZdzjYJyxT/q8HBt2an+Oz+ii1+k0ziVwfmEgiIcrHB+/du4ofv0aFqzgMXZPk5Q
+ a4T4YmojYRIcwxuBxCMO7UMG1bxAlZFsgQHjPNqxUoCdtWoDgL/dSLIGo+t9P/8nRhAWB44VI
+ 20NJxHaI83ZIWaGYXvdSVsAaKuCwkbFBq0Bd8iL3/v0/Dr5p2eec0jf2H5gxVTuaxurbTYIAs
+ D1Y+Corf9tDm8EhXB/b4rKCsC6jfFkRrivO0MpyLcyuSjCta1Aw2QrrdicRWpvDxQpMzRWUqw
+ w7Nz/t1PqYyL/PTVpRpa4If5FGKnY8gCznB1jPA==
 X-Mailman-Approved-At: Fri, 02 Oct 2020 07:02:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,121 +113,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Nathan Chancellor <natechancellor@gmail.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Wenhui Sheng <Wenhui.Sheng@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-hdmi_enable_4k60=1 causes the firmware to select 3.3 GHz for the PLLC
-VCO to support a core-frequency of 550 MHz which is the minimum
-frequency required by the HVS at 4Kp60. The side effect is that if the
-display clock requirements are lower than 4Kp60 then you will see
-different core frequencies selected by DVFS.
-
-If enable_uart=1 and the mini-uart is selected (default unless
-bluetooth is disabled) then the firmware will pin the core-frequency
-to either core_freq max (500 or 550). Although, I think there is a way
-of pinning it to a lower fixed frequency.
-
-The table in overclocking.md defines options for setting the maximum
-core frequency but unless core_freq_min is specified DVFS will
-automatically pick the lowest idle frequency required by the display
-resolution.
-
-
-
-On Thu, 1 Oct 2020 at 09:54, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Thu, Oct 01, 2020 at 08:48:43AM +0200, Maxime Ripard wrote:
-> > Hi Stefan,
-> >
-> > On Wed, Sep 30, 2020 at 06:52:13PM +0200, Stefan Wahren wrote:
-> > > Am 30.09.20 um 18:38 schrieb Nathan Chancellor:
-> > > > On Wed, Sep 30, 2020 at 04:07:58PM +0200, Maxime Ripard wrote:
-> > > >> Hi Nathan,
-> > > >>
-> > > >> On Tue, Sep 29, 2020 at 03:15:26PM -0700, Nathan Chancellor wrote:
-> > > >>> On Thu, Sep 03, 2020 at 10:01:52AM +0200, Maxime Ripard wrote:
-> > > >>>> Now that all the drivers have been adjusted for it, let's bring in the
-> > > >>>> necessary device tree changes.
-> > > >>>>
-> > > >>>> The VEC and PV3 are left out for now, since it will require a more specific
-> > > >>>> clock setup.
-> > > >>>>
-> > > >>>> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > >>>> Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
-> > > >>>> Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-> > > >>>> Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-> > > >>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > >>> Apologies if this has already been reported or have a solution but this
-> > > >>> patch (and presumably series) breaks output to the serial console after
-> > > >>> a certain point during init. On Raspbian, I see systemd startup messages
-> > > >>> then the output just turns into complete garbage. It looks like this
-> > > >>> patch is merged first in linux-next, which is why my bisect fell on the
-> > > >>> DRM merge. I am happy to provide whatever information could be helpful
-> > > >>> for debugging this. I am on the latest version of the firmware
-> > > >>> (currently 26620cc9a63c6cb9965374d509479b4ee2c30241).
-> > > >> Unfortunately, the miniUART is in the same clock tree than the core
-> > > >> clock and will thus have those kind of issues when the core clock is
-> > > >> changed (which is also something that one should expect when using the
-> > > >> DRM or other drivers).
-> > > >>
-> > > >> The only real workaround there would be to switch to one of the PL011
-> > > >> UARTs. I guess we can also somehow make the UART react to the core clock
-> > > >> frequency changes, but that's going to require some effort
-> > > >>
-> > > >> Maxime
-> > > > Ack, thank you for the reply! There does not really seem to be a whole
-> > > > ton of documentation around using one of the other PL011 UARTs so for
-> > > > now, I will just revert this commit locally.
-> > >
-> > > there was a patch series & discussion about this topic, but we finally
-> > > didn't find a rock solid solution.
-> > >
-> > > You can have a look at "[RFC 5/5] serial: 8250: bcm2835aux: add notifier
-> > > to follow clock changes" from 3.4.2019 on linux-rpi-kernel.
-> >
-> > I couldn't find that discussion on the archive, but based on the title I
-> > guess there's some patches that have been merged this cycle for the 8250
-> > driver to do just that (868f3ee6e452 ("serial: 8250: Add 8250 port clock
-> > update method") and cc816969d7b5 ("serial: 8250_dw: Fix common clocks
-> > usage race condition")).
-> >
-> > However, I'm not entirely sure the clock notifier works in our case with
-> > the firmware / MMIO clocks duality
->
-> I was a bit intrigued by this, so I looked into it, and it seems that
-> it's worth that it used to be. The core clock is supposed to be running
-> at 500 Mhz in most cases, and that's what we're setting so it shouldn't
-> cause any pratical issue.
->
-> However, it looks like on my board now the firmware reports that the
-> core clock is running at either 311MHz or 233MHz with hdmi_enable_4k60
-> (which seems odd?) and that contradicts the documentation here:
-> https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md
->
-> Linux then comes in, changes the frequency to 500MHz and breaks the
-> UART. So either the doc is wrong, or the clock driver is.
->
-> vcgencmd measure_clock core reports that it's indeed 233Mhz and I'm
-> running a year-old firmware (built on the 2019-11-29), so I'd be
-> inclined to think that the doc is wrong here or we're misinterpreting
-> something.
->
-> Dave, Tim, any idea?
->
-> Thanks!
-> Maxime
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiB0aGF0IGNoYW5nZSwgdGhlIE5VTEwgcG9pbnRlciBkZXJlZmVyZW5jZSBkb2VzIG5vdCBvY2N1
+cjoKCiogUGxlYXNlIHByb3ZpZGUgYSBwcm9wZXIgdGFnIOKAnFNpZ25lZC1vZmYtYnnigJ0uCgoq
+IEhvdyBkbyB5b3UgdGhpbmsgYWJvdXQgdG8gYWRkIHRoZSB0YWcg4oCcRml4ZXPigJ0gdG8gdGhl
+IGNvbW1pdCBtZXNzYWdlPwoKKiBXb3VsZCBhbm90aGVyIGltcGVyYXRpdmUgd29yZGluZyBiZWNv
+bWUgaGVscGZ1bCBmb3IgdGhlIGNoYW5nZSBkZXNjcmlwdGlvbj8KCiogV291bGQgeW91IGxpa2Ug
+dG8gY2hvb3NlIGFuIG90aGVyIHBhdGNoIHN1YmplY3Q/CgoK4oCmCj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvc29jMTUuYwo+IEBAIC02OTksNyArNjk5LDggQEAgIHN0YXRpYyB2
+b2lkIHNvYzE1X3JlZ19iYXNlX2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4gICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiZmFsbGJhY2sgdG8gbGVnYWN5
+IGluaXQgbWV0aG9kXG4iKTsKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZlZ2Ex
+MF9yZWdfYmFzZV9pbml0KGFkZXYpOwo+ICAgICAgICAgICAgICAgICAgICAgICAgIH0KPiAtICAg
+ICAgICAgICAgICAgfQo+ICsgICAgICAgICAgICAgICB9IGVsc2UKPiArICAgICAgICAgICAgICAg
+ICAgICAgICB2ZWdhMTBfcmVnX2Jhc2VfaW5pdChhZGV2KTsKPiAgICAgICAgICAgICAgICAgYnJl
+YWs7CuKApgoKV2lsbCBjdXJseSBicmFja2V0cyBiZSByZWxldmFudCBhbHNvIGZvciB0aGlzIGVs
+c2UgYnJhbmNoPwoKUmVnYXJkcywKTWFya3VzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
