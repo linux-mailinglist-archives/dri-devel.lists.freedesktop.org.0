@@ -2,36 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D742805F1
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 19:53:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 815272805FF
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 19:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E06326E21D;
-	Thu,  1 Oct 2020 17:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A6A66E220;
+	Thu,  1 Oct 2020 17:55:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 647436E213;
- Thu,  1 Oct 2020 17:53:03 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id C7D622004F;
- Thu,  1 Oct 2020 19:52:58 +0200 (CEST)
-Date: Thu, 1 Oct 2020 19:52:57 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: Nouveau wiki migration
-Message-ID: <20201001175257.GA188932@ravnborg.org>
-References: <CACO55ts6hfd_v8V8_yJ45wm8MAN7TENL9pZZmijFaB3h-FrR=A@mail.gmail.com>
- <CACO55tviMespp4FNko+2ipmx0DNx4de2WKSrmEW05EufW7P_ZA@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF5C66E220
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 17:55:41 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 204241] amdgpu fails to resume from suspend
+Date: Thu, 01 Oct 2020 17:55:40 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rmuncrief@humanavance.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204241-2300-mWAngCqekN@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
+References: <bug-204241-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACO55tviMespp4FNko+2ipmx0DNx4de2WKSrmEW05EufW7P_ZA@mail.gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=20KFwNOVAAAA:8 a=e5mUnYsNAAAA:8
- a=cYPG-T6kBObybilq3DsA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,58 +51,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jeremy Cline <jcline@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Karol.
+https://bugzilla.kernel.org/show_bug.cgi?id=204241
 
-On Thu, Oct 01, 2020 at 01:36:52PM +0200, Karol Herbst wrote:
-> On Fri, Sep 25, 2020 at 11:27 PM Karol Herbst <kherbst@redhat.com> wrote:
-> >
-> > Hi everybody,
-> >
-> > I think it's time to finally move our wiki from the old infrastructure
-> > over to gitlab pages.
-> >
-> > This comes with several benefits:
-> > * full control through git over the ikiwiki pipeline (setup files,
-> > plugins, system packages, ...)
-> > * random users are able to create MRs against the wiki as long as they
-> > are willing to create a gitlab account.
-> > * possible to migrate over to a different wiki generator or mix and
-> > match or whatever.
-> > * no CGI stuff on the wiki as we don't use ikiwiki for the git
-> > operations anymore
-> >
-> > To view the migrate wiki visit this URL:
-> > https://nouveau.pages.freedesktop.org/wiki/
-
-I poked around a little - almost all of it looked good.
-
-The FAQ points back to some pages on https://nouveau.freedesktop.org -
-like https://nouveau.freedesktop.org/wiki/XvMC/
-I guess this is a bug.
-
-But in general looks good.
-
-> I did some further changes, like ensuring backwards compatibility to
-> existing links and already started to clean up some bits, like
-> removing the google translate stuff.
+--- Comment #74 from Robert M. Muncrief (rmuncrief@humanavance.com) ---
+(In reply to Lahfa Samy from comment #73)
+> (In reply to Robert M. Muncrief from comment #72)
+> > (In reply to Alex Deucher from comment #71)
+> > > The original issue reported in this bug was fixed long ago.  If you are
+> > > having issues, please file a new report.
+> > 
+> > I just filed a new bug for the resume issue at your request. It's 209457.
 > 
-> Now I'd like to get the subdomain changed of the current wiki over to
-> the gitlab stuff and wanted to ask for acks/nacks on this
+> My issue seems unrelated to your bug report, my suspend/resume freeze issue
+> is related to my Intel Wireless AC9260 not to my AMD Ryzen 7 3700U with
+> integrated graphics Vega RX10. 
+> 
+> Disabling the wireless card in the BIOS fixes the suspend/resume problem for
+> my specific configuration (Thinkpad T495 20NK model).
+> 
+> Although your issue seems to be with the AMDGPU driver and related to your
+> graphics card I suppose.
 
-No ack/nack here - as I really do not know what to ack/nack.
-But maybe the above counts like an ack???
+Yes, I filed a new bug for my issue at
+https://bugzilla.kernel.org/show_bug.cgi?id=209457.  
 
-But looks good and I hope that others find it simple to help
-with the pages from the gitlab repo.
+Hopefully this bug will be closed to avoid further confusion for users, and
+relieve the hard working developers from our confusion as well :)
 
-	Sam
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
