@@ -1,52 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FCB27FE4F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 13:25:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5AE27FE54
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 13:28:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF3AC6E1CD;
-	Thu,  1 Oct 2020 11:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD906E1DE;
+	Thu,  1 Oct 2020 11:28:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6186E1CD
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 11:25:16 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id a2so4949973otr.11
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 04:25:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=up+YfAa4hUEz2jauGbOGQupzqkFEIqP5miPRNKb6g88=;
- b=AVTt1tHvqiwpCn8ORfJ3ByfuaERKEB+VTJJVMRxSler0/mRZ/81hC2shW3JAG3KsP8
- E8u9Nzr6mVudbSqiKqFVv7BGJL7rKVBkWkNYVynnJMbzVpx0UczuVqS8yRzajY0HbTwA
- CAxQvocmUjBq8KWPNbJzrGa+aEnqrb+128m6M=
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15F2E6E1DE
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 11:28:20 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id lo4so7485453ejb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 04:28:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mSblCRhZmRMFN5R/2GdB5z9M9WDHrv8PkAcMVpxBjvE=;
+ b=Xr1+OPqfqRCCiDXjF9LxojzSA22IfoQ8EamdNvni9fjgUC1aVf1KLQMH47IXuYlvTd
+ ZjiKuASifiSS30uZBB7VskQ+IIJadrm5vl61DBXyly7FDldA7LW96jYurhdkNNdYw6eJ
+ qxhD3O8t0nAUhXz0cmDLk7Clf43O7JDCV523xxMgQMxR29+FDgEKVt6OhWbC+SodByDW
+ SRsNBVysPgEuUrtVz5r2quj0oRr5cZyhdexrsHoEd9QlTyKsgfgpRMQdpcpp9q9Ea3Be
+ 6RLrXpn+3763nGANKs6INKLD1fFqUikc3XAMM0uPMKHnHYjmP8gc/RTg9aAXiSBQBYK+
+ P8xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=up+YfAa4hUEz2jauGbOGQupzqkFEIqP5miPRNKb6g88=;
- b=q3uepB2YONhv8biFV9cWF6fUGRo1bn78kqpvnGLJ5F51hUzcj3071dkJd3Z8hrxWnm
- Rdoasb4JtXM6tefgHxhjcOL8TW/kPp3rKMmtxPtkIoxnWOmFpQXyXkSgBcQ68AirKQaL
- b2h43uHLCiwKBjHKKP0BleTEM/T985hZksYyMsuwUfP7ss4EYmN7GBhqFsPIVOR8GNXx
- lA1yUFngyutXcMJmsNlP1gSr0VMLNe9jWMu6tHknYqxDNlinVGTPiWe6d1eYmvh3JJWL
- 9DpK4sgfm6RtuzdOCuHjUbufBV/Q67qZQvuj2jpaD5bZdtQVN+QcRGRhiQtCfkAuyXNr
- XYwg==
-X-Gm-Message-State: AOAM5326wFrQjekjX+KgmXDFaJXENlvcTS3/bE+c53LTNzWUAv99jidM
- Vr+PALpGSiC9P4SZzAwrOia7gOtO228vN+O3WVzLLQ==
-X-Google-Smtp-Source: ABdhPJxPbL7LHeQL+k6gIy5NueiQXRMgOWTDIjglH6aXw9lY8zq0IMYSGJyw2kRbFhVw5K0r/VLucvhZmUE5VMcAKsM=
-X-Received: by 2002:a9d:4b99:: with SMTP id k25mr4758628otf.281.1601551515453; 
- Thu, 01 Oct 2020 04:25:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mSblCRhZmRMFN5R/2GdB5z9M9WDHrv8PkAcMVpxBjvE=;
+ b=YEoP344Gu8dVNIkLa2Fw2L3eNCUOsa6ihM5vN7b3mbvxJnnjf1Ki9/lOQo+GDuZjLY
+ B8PcWSnFYL2r9qxFAGkj6nn49/CC7dsHHCJACuP66YiPgQWybbmsAEKcZf14XyHyy3q6
+ oi354gIjSJzNCnzilW9HsvwPF1vR/jjW9mDjoReOVn2P3jFfOFZREQ2pAm9AxK/UR3hJ
+ dlKsefrzfJ9m1I90osFzxRwkWLGW7DHVJEDO59pDer/B7rZz12xiqmaeCq14Fjnh4MP4
+ nV8kvDs0qlamyA21rjVBGdJ3EqEdVzeBWcQCmoAtrRwnb2m7yeCer8wJIarASeQg+Wzj
+ lp/g==
+X-Gm-Message-State: AOAM530m/E/lGp/V0Q5r5l4H1pFCNAVBcqeZc75g0KwuwpoT6EX/kH2M
+ ao3bwACoDUzSKlH10nRjAqHHr7dXLx0=
+X-Google-Smtp-Source: ABdhPJzDT9h1LK/KjMRVY2swUfgW7CYKqt53cs4o9uXcxNKi9pvTxkBi7cRXOATmYo6ihRoh5IxhDg==
+X-Received: by 2002:a17:906:874f:: with SMTP id
+ hj15mr7968220ejb.539.1601551698561; 
+ Thu, 01 Oct 2020 04:28:18 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:36be:5a08:8c1d:6b2b])
+ by smtp.gmail.com with ESMTPSA id p3sm3834892edp.28.2020.10.01.04.28.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 04:28:17 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org, ray.huang@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Subject: [PATCH 1/8] drm/ttm: remove TTM_PAGE_FLAG_WRITE
+Date: Thu,  1 Oct 2020 13:28:10 +0200
+Message-Id: <20201001112817.20967-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200921131021.91604-1-miaoqinglang@huawei.com>
- <8ae8a758-23ee-a413-5b25-b7beb8f4e254@arm.com>
-In-Reply-To: <8ae8a758-23ee-a413-5b25-b7beb8f4e254@arm.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 1 Oct 2020 13:25:03 +0200
-Message-ID: <CAKMK7uHQe3PBnNinaGn37s+Cgko1taKcCT3=Yy1uw63pRurOhw@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/panfrost: simplify the return expression of
- panfrost_devfreq_target()
-To: Steven Price <steven.price@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,68 +68,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Qinglang Miao <miaoqinglang@huawei.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 1, 2020 at 12:58 PM Steven Price <steven.price@arm.com> wrote:
->
-> On 21/09/2020 14:10, Qinglang Miao wrote:
-> > Simplify the return expression.
-> >
-> > Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
->
-> Reviewed-by: Steven Price <steven.price@arm.com>
-
-As committer/maintainer for this please indicate whether you'll merge
-this or not, with just an r-b patches are in an awkward limbo state.
-Since Qinglang isn't committer you probably want to merge their
-patches, for otherwise they get lost.
--Daniel
->
-> > ---
-> >   drivers/gpu/drm/panfrost/panfrost_devfreq.c | 7 +------
-> >   1 file changed, 1 insertion(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > index 8ab025d00..913eaa6d0 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > @@ -29,18 +29,13 @@ static int panfrost_devfreq_target(struct device *dev, unsigned long *freq,
-> >                                  u32 flags)
-> >   {
-> >       struct dev_pm_opp *opp;
-> > -     int err;
-> >
-> >       opp = devfreq_recommended_opp(dev, freq, flags);
-> >       if (IS_ERR(opp))
-> >               return PTR_ERR(opp);
-> >       dev_pm_opp_put(opp);
-> >
-> > -     err = dev_pm_opp_set_rate(dev, *freq);
-> > -     if (err)
-> > -             return err;
-> > -
-> > -     return 0;
-> > +     return dev_pm_opp_set_rate(dev, *freq);
-> >   }
-> >
-> >   static void panfrost_devfreq_reset(struct panfrost_devfreq *pfdevfreq)
-> >
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Tm90IHVzZWQgYW55IG1vcmUuCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
+c3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogaW5jbHVkZS9kcm0vdHRtL3R0bV90dC5oIHwgMSAt
+CiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJt
+L3R0bS90dG1fdHQuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fdHQuaAppbmRleCA5MTY5MTI0MGE1
+MDkuLjVkMTgzNWQ0NDA4NCAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vdHRtL3R0bV90dC5oCisr
+KyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fdHQuaApAQCAtMzQsNyArMzQsNiBAQCBzdHJ1Y3QgdHRt
+X3Jlc291cmNlOwogc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0Owogc3RydWN0IHR0bV9vcGVyYXRp
+b25fY3R4OwogCi0jZGVmaW5lIFRUTV9QQUdFX0ZMQUdfV1JJVEUgICAgICAgICAgICgxIDw8IDMp
+CiAjZGVmaW5lIFRUTV9QQUdFX0ZMQUdfU1dBUFBFRCAgICAgICAgICgxIDw8IDQpCiAjZGVmaW5l
+IFRUTV9QQUdFX0ZMQUdfWkVST19BTExPQyAgICAgICgxIDw8IDYpCiAjZGVmaW5lIFRUTV9QQUdF
+X0ZMQUdfRE1BMzIgICAgICAgICAgICgxIDw8IDcpCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
