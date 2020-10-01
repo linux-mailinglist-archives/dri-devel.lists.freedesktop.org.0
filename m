@@ -1,32 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DAD280DB4
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 08:55:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECED280DD1
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 09:03:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 277356E917;
-	Fri,  2 Oct 2020 06:55:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36C676E91C;
+	Fri,  2 Oct 2020 07:02:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BC9D6E917
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 06:55:35 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0AB7C295FFD;
- Fri,  2 Oct 2020 07:55:34 +0100 (BST)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/sched: Avoid infinite waits in the
- drm_sched_entity_destroy() path
-Date: Fri,  2 Oct 2020 08:55:18 +0200
-Message-Id: <20201002065518.1186013-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.26.2
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE8E26E866;
+ Thu,  1 Oct 2020 08:25:13 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1601540707;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+xvOXvLyBhcZh28iSmIhtImffHIXHFigmRBOmHiNvSc=;
+ b=JxdiFBScbyhL+2rSWc2dJraE+cBQoTZcjFfu7waNc5nZ+RIQE3pc5Px7zpPN48BQUVjpsy
+ GK0di6MUV50qV1ANlXnhsr8qGaDXwxTgnPRGXmIGwLjdKk4LNAOsSTuaeU59iRkr53BMAr
+ 2RpdYmkHGqIvtXZSxR9FM/G12Jzkt6sSDxhEoZLF7/+YW4BatuIppVi1Df1pJZF4mf43GZ
+ AqJtyNM8OdciXaxRg6XLyrKhfT8BTAYANYwcjizxLEsXuvKStNa4uYSUh8yy9X+hZ8555M
+ PEzo7NNILM+vr/seispwSvj3Vn6mFwzKXlnFSd9tb3itoeCgdqVtKmVVpJhiiw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1601540707;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+xvOXvLyBhcZh28iSmIhtImffHIXHFigmRBOmHiNvSc=;
+ b=mSaLvQC/HM+x5VEk0mzZYQb5fN5pd6UpdUVUe3141TsuNSllOAU41IVB7/QNyWBL54IH/L
+ wQwUT1rqC7H7+dBA==
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, paulmck@kernel.org,
+ rcu@vger.kernel.org
+Subject: Re: [PATCH tip/core/rcu 11/15] drm/i915: Cleanup PREEMPT_COUNT
+ leftovers
+In-Reply-To: <160153665673.4398.6268028176406103680@jlahtine-mobl.ger.corp.intel.com>
+References: <20200928233041.GA23230@paulmck-ThinkPad-P72>
+ <20200928233102.24265-11-paulmck@kernel.org>
+ <160153665673.4398.6268028176406103680@jlahtine-mobl.ger.corp.intel.com>
+Date: Thu, 01 Oct 2020 10:25:06 +0200
+Message-ID: <871riigxp9.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
+X-Mailman-Approved-At: Fri, 02 Oct 2020 07:02:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,54 +56,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>, Robin Murphy <robin.murphy@arm.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: peterz@infradead.org, fweisbec@gmail.com, jiangshanlai@gmail.com,
+ dri-devel@lists.freedesktop.org, oleg@redhat.com, dhowells@redhat.com,
+ edumazet@google.com, joel@joelfernandes.org, mingo@kernel.org,
+ David Airlie <airlied@linux.ie>, kernel-team@fb.com,
+ "Paul E . McKenney" <paulmck@kernel.org>, intel-gfx@lists.freedesktop.org,
+ josh@joshtriplett.org, rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, mhocko@kernel.org,
+ mgorman@techsingularity.net, linux-kernel@vger.kernel.org,
+ akpm@linux-foundation.org, torvalds@linux-foundation.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we don't initialize the entity to idle and the entity is never
-scheduled before being destroyed we end up with an infinite wait in the
-destroy path.
+On Thu, Oct 01 2020 at 10:17, Joonas Lahtinen wrote:
+> Quoting paulmck@kernel.org (2020-09-29 02:30:58)
+>> CONFIG_PREEMPT_COUNT is now unconditionally enabled and will be
+>> removed. Cleanup the leftovers before doing so.
+>
+> Change looks fine:
+>
+> Reviewed-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>
+> Are you looking for us to merge or merge through another tree?
+>
+> If us, did the base patch always enabling PREEMPT_COUNT go into 5.9 or is
+> it heading to 5.10? We can queue this earliest for 5.11 as drm-next closed
+> for 5.10 at week of -rc5.
 
-v2:
-- Add Steven's R-b
+If at all it goes through rcu/tip because it depends on the earlier patches.
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
----
-This is something I noticed while debugging another issue on panfrost
-causing the scheduler to be in a weird state where new entities were no
-longer scheduled. This was causing all userspace threads trying to close
-their DRM fd to be blocked in kernel space waiting for this "entity is
-idle" event. I don't know if that fix is legitimate (now that we fixed
-the other bug we don't seem to end up in that state anymore), but I
-thought I'd share it anyway.
----
- drivers/gpu/drm/scheduler/sched_entity.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks,
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 146380118962..f8ec277a6aa8 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -73,6 +73,9 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
- 
- 	init_completion(&entity->entity_idle);
- 
-+	/* We start in an idle state. */
-+	complete(&entity->entity_idle);
-+
- 	spin_lock_init(&entity->rq_lock);
- 	spsc_queue_init(&entity->job_queue);
- 
--- 
-2.26.2
-
+        tglx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
