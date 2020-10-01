@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D247280886
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 22:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6382808C0
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 22:49:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BDCD6E10F;
-	Thu,  1 Oct 2020 20:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81C706E06D;
+	Thu,  1 Oct 2020 20:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72B666E10F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 20:36:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B1DF6E06D
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 20:49:45 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209417] kernel-5.8*, amdgpu - Blank screen shortly after boot,
  "fixed" with suspend and wake up
-Date: Thu, 01 Oct 2020 20:36:18 +0000
+Date: Thu, 01 Oct 2020 20:49:44 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: juantxorena@gmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc attachments.created
-Message-ID: <bug-209417-2300-JOqVhnB6Ht@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209417-2300-bFwOsu7llm@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209417-2300@https.bugzilla.kernel.org/>
 References: <bug-209417-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,20 +59,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209417
 
-Juan (juantxorena@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |juantxorena@gmail.com
-
---- Comment #5 from Juan (juantxorena@gmail.com) ---
-Created attachment 292745
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292745&action=edit
-bad-commit
-
-I finally get to do the bisect. I attach the result of the guilty commit. I
-wrongly assumed that it was a problem of amdgpu, but apparently is related to
-the intel i915 drivers. I guess I should move this bug to the proper place.
+--- Comment #6 from Alex Deucher (alexdeucher@gmail.com) ---
+Please change the component to Video(DRI - Intel)
 
 -- 
 You are receiving this mail because:
