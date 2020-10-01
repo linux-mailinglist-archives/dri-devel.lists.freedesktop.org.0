@@ -1,51 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE72228010D
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 16:13:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 980952801A4
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 16:49:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 520826E8A3;
-	Thu,  1 Oct 2020 14:13:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA3066E15E;
+	Thu,  1 Oct 2020 14:49:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com
- [IPv6:2607:f8b0:4864:20::c41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C51F36E8A2
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 14:13:53 +0000 (UTC)
-Received: by mail-oo1-xc41.google.com with SMTP id m25so1512208oou.0
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 07:13:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=us8thQANzunB8liJvtH1u9KjYvMWBCN/6ee+Pda/bWA=;
- b=HOsJWxDxB4xVjDfa1aZ5JJBMlRAfvVPFyyu2Rh+RQ2NPZaSZofBx1uadVQmfF+1xHE
- 01o0lELbi++17LNc25VmGKUpiJmoJKu0Q67QKXYMG3vp5iZ34cn9XKsV4Vpfa3wk0h8a
- XkCxyWk1iGK/n7KrvdNWIv3phDHesCb4MRubs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=us8thQANzunB8liJvtH1u9KjYvMWBCN/6ee+Pda/bWA=;
- b=fAU8GP9k1PuY9dHk0CNZECRQZAp18PJRHwstzlZrpvc+W8+RDwJIU2txM7jArLXHdN
- kqIZv505S8WAaRTssjUjRG945UXeVuDNQQiNlB8CfdMLkONj2jWcrFPQCKUHBUiVzESx
- Z1eW//PTUGkgOeSwuEz4WnvwJCX1lgeW5tP/6cKrkhCLe5D2kOxPaCcFVDHEZjmdW3bP
- WdWY3t7X7Dy8LziT0XmCsUtT4BJyoMOpPH/s1yh8yvQtKkIU6g/N4WbAT8n7DzxnDM05
- KtZ6ptw8oaqFAb9dQDxtmq3dXzXafOAa5Np8w2nAv9Dq5odfyaj0/PDS2//CiETM5Pim
- Uy+Q==
-X-Gm-Message-State: AOAM530EgMq960+AfwQ5BwAn2fQRcmWg7Vj9LWV/uxMtNhfasIzk+r9v
- h3LKnkysdkD9p/ytdt4gXXW36hECnrqqpPW8AD8cmQ==
-X-Google-Smtp-Source: ABdhPJy+Qa1QnyOeGpgz2tEALV5zV/r+Mw/i+fe/ScEgQVuLKXLkdkccDTrTDmW6x67TiI0MqOdlBgeDXl3v04GVz3k=
-X-Received: by 2002:a4a:344b:: with SMTP id n11mr5774966oof.89.1601561633049; 
- Thu, 01 Oct 2020 07:13:53 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6ABCF6E15E
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 14:49:44 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 473DAD6E;
+ Thu,  1 Oct 2020 07:49:42 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 39F233F70D;
+ Thu,  1 Oct 2020 07:49:41 -0700 (PDT)
+Subject: Re: [PATCH] panfrost: Fix job timeout handling
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
+References: <20201001140143.1058669-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <b51d154f-978d-3439-fbb3-e960378b53c0@arm.com>
+Date: Thu, 1 Oct 2020 15:49:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201001203917.43d46a3d@canb.auug.org.au>
- <20201001135350.GA14869@lst.de>
-In-Reply-To: <20201001135350.GA14869@lst.de>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 1 Oct 2020 16:13:42 +0200
-Message-ID: <CAKMK7uFfBLsZ=wetii4bc+BTiKObD5DJ7B-kDO4am6AhBY+AhQ@mail.gmail.com>
-Subject: Re: linux-next: manual merge of the akpm tree with the drm-intel tree
-To: Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20201001140143.1058669-1-boris.brezillon@collabora.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,54 +44,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 1, 2020 at 3:53 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Thu, Oct 01, 2020 at 08:39:17PM +1000, Stephen Rothwell wrote:
-> > Hi all,
-> >
-> > Today's linux-next merge of the akpm tree got a conflict in:
-> >
-> >   drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> >
-> > between commit:
-> >
-> >   4caf017ee937 ("drm/i915/gem: Avoid implicit vmap for highmem on x86-32")
-> >   ba2ebf605d5f ("drm/i915/gem: Prevent using pgprot_writecombine() if PAT is not supported")
+On 01/10/2020 15:01, Boris Brezillon wrote:
+> If more than two or more jobs end up timeout-ing concurrently, only one
+> of them (the one attached to the scheduler acquiring the lock) is fully
+> handled. The other one remains in a dangling state where it's no longer
+> part of the scheduling queue, but still blocks something in scheduler
+> thus leading to repetitive timeouts when new jobs are queued.
+> 
+> Let's make sure all bad jobs are properly handled by the thread acquiring
+> the lock.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
+> Cc: <stable@vger.kernel.org>
+> ---
+>   drivers/gpu/drm/panfrost/panfrost_job.c | 18 ++++++++++++++----
+>   1 file changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 30e7b7196dab..e87edca51d84 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -25,7 +25,7 @@
+>   
+>   struct panfrost_queue_state {
+>   	struct drm_gpu_scheduler sched;
+> -
+> +	struct drm_sched_job *bad;
+>   	u64 fence_context;
+>   	u64 emit_seqno;
+>   };
+> @@ -392,19 +392,29 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+>   		job_read(pfdev, JS_TAIL_LO(js)),
+>   		sched_job);
+>   
+> +	/*
+> +	 * Collect the bad job here so it can be processed by the thread
+> +	 * acquiring the reset lock.
+> +	 */
+> +	pfdev->js->queue[js].bad = sched_job;
+> +
+>   	if (!mutex_trylock(&pfdev->reset_lock))
+>   		return;
+>   
+>   	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+>   		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
+>   
+> -		drm_sched_stop(sched, sched_job);
+>   		if (js != i)
+>   			/* Ensure any timeouts on other slots have finished */
+>   			cancel_delayed_work_sync(&sched->work_tdr);
+> -	}
+>   
+> -	drm_sched_increase_karma(sched_job);
+> +		drm_sched_stop(sched, pfdev->js->queue[i].bad);
 
-Uh these patches shouldn't be in linux-next because they're for 5.11,
-not the 5.10 merge window that will open soon. Joonas?
+So I can see that the call to drm_sched_stop() needs to move below the 
+cancel_delayed_work_sync() to ensure that the update to queue->bad is 
+synchronised. What I'm not so sure about is whether it's possible for 
+the scheduler to make progress between the 'cancel' and the 'stop' - 
+there is a reason I wrote it the other way round...
 
-> > from the drm-intel tree and patch:
-> >
-> >   "drm/i915: use vmap in i915_gem_object_map"
-> >
-> > from the akpm tree.
-> >
-> > I fixed it up (I just dropped the changes in the former commits) and
->
-> Sigh.  The solution is a bit more complicated, but I just redid my
-> patches to not depend on the above ones.  I can revert back to the old
-> version, though.  Andrew, let me know what works for you.
+The hole for things to go round is clearly much smaller with this 
+change, but I'm not sure it's completely plugged. Am I missing something?
 
-Imo ignore, rebasing onto linux-next without those intel patches was
-the right thing for the 5.10 merge window.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> +
+> +		if (pfdev->js->queue[i].bad)
+> +			drm_sched_increase_karma(pfdev->js->queue[i].bad);
+> +
+> +		pfdev->js->queue[i].bad = NULL;
+> +	}
+>   
+>   	spin_lock_irqsave(&pfdev->js->job_lock, flags);
+>   	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> 
+
+While we're on potential holes... some more context:
+
+> 		if (pfdev->jobs[i]) {
+> 			pm_runtime_put_noidle(pfdev->dev);
+> 			panfrost_devfreq_record_idle(pfdev);
+> 			pfdev->jobs[i] = NULL;
+> 		}
+> 	}
+> 	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
+> 
+> 	panfrost_device_reset(pfdev);
+> 
+> 	for (i = 0; i < NUM_JOB_SLOTS; i++)
+> 		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
+> 
+> 	/* restart scheduler after GPU is usable again */
+> 	for (i = 0; i < NUM_JOB_SLOTS; i++)
+> 		drm_sched_start(&pfdev->js->queue[i].sched, true);
+> 
+> 	mutex_unlock(&pfdev->reset_lock);
+
+I'm wondering whether the mutex_unlock() should actually happen before 
+the drm_sched_start() - in the (admittedly very unlikely) case where a 
+timeout occurs before all the drm_sched_start() calls have completed 
+it's possible for the timeout to be completely missed because the mutex 
+is still held.
+
+Thanks,
+
+Steve
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
