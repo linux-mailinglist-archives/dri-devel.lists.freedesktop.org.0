@@ -2,35 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FCC280227
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 17:07:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE8328022B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 17:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4B276E21B;
-	Thu,  1 Oct 2020 15:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 571616E218;
+	Thu,  1 Oct 2020 15:08:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0C9216E218
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 15:07:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09EFCD6E;
- Thu,  1 Oct 2020 08:07:20 -0700 (PDT)
-Received: from [192.168.1.79] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B6DD53F70D;
- Thu,  1 Oct 2020 08:07:18 -0700 (PDT)
-Subject: Re: [PATCH] drm/sched: Avoid infinite waits in the
- drm_sched_entity_destroy() path
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20201001141253.1066836-1-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <f45dcc43-1e6d-6e42-95e8-075fa5447357@arm.com>
-Date: Thu, 1 Oct 2020 16:07:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C4A6E218;
+ Thu,  1 Oct 2020 15:08:45 +0000 (UTC)
+IronPort-SDR: OeTaIzw5fdhQ4LpsHRJxqkjlicHTEob3UsIWyRn0aWgnnrbYO6W11tz/rSa/LQjj/40UhB81Cy
+ qktfH1Wl5vlg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9760"; a="150385958"
+X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; d="scan'208";a="150385958"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2020 08:08:22 -0700
+IronPort-SDR: O74dZO2eJgRDJLthE9jBgpEVhqwkllD59i4GnCHCxutJccngda6LcTYLp6JKVj8dIEg/+jV4fu
+ l6hOT1x/4JaQ==
+X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; d="scan'208";a="504034506"
+Received: from lraichel-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.36.225])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2020 08:08:17 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Christoph Hellwig <hch@lst.de>
+Subject: Re: linux-next: manual merge of the akpm tree with the drm-intel tree
+In-Reply-To: <CAKMK7uFfBLsZ=wetii4bc+BTiKObD5DJ7B-kDO4am6AhBY+AhQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20201001203917.43d46a3d@canb.auug.org.au>
+ <20201001135350.GA14869@lst.de>
+ <CAKMK7uFfBLsZ=wetii4bc+BTiKObD5DJ7B-kDO4am6AhBY+AhQ@mail.gmail.com>
+Date: Thu, 01 Oct 2020 18:08:36 +0300
+Message-ID: <87h7rem1aj.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201001141253.1066836-1-boris.brezillon@collabora.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,56 +51,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Chris Wilson <chris@chris-wilson.co.uk>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/10/2020 15:12, Boris Brezillon wrote:
-> If we don't initialize the entity to idle and the entity is never
-> scheduled before being destroyed we end up with an infinite wait in the
-> destroy path.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Thu, 01 Oct 2020, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> On Thu, Oct 1, 2020 at 3:53 PM Christoph Hellwig <hch@lst.de> wrote:
+>>
+>> On Thu, Oct 01, 2020 at 08:39:17PM +1000, Stephen Rothwell wrote:
+>> > Hi all,
+>> >
+>> > Today's linux-next merge of the akpm tree got a conflict in:
+>> >
+>> >   drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>> >
+>> > between commit:
+>> >
+>> >   4caf017ee937 ("drm/i915/gem: Avoid implicit vmap for highmem on x86-32")
+>> >   ba2ebf605d5f ("drm/i915/gem: Prevent using pgprot_writecombine() if PAT is not supported")
+>
+> Uh these patches shouldn't be in linux-next because they're for 5.11,
+> not the 5.10 merge window that will open soon. Joonas?
 
-This seems reasonable to me - it looks like in theory if you very 
-quickly open, submit a job and close you could trigger this (i.e. if 
-drm_sched_main() never actually enters the while loop).
+I don't know anything else, but both are tagged Cc: stable.
 
-You should CC some other folk as this doesn't just affect Panfrost.
+BR,
+Jani.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+>
+>> > from the drm-intel tree and patch:
+>> >
+>> >   "drm/i915: use vmap in i915_gem_object_map"
+>> >
+>> > from the akpm tree.
+>> >
+>> > I fixed it up (I just dropped the changes in the former commits) and
+>>
+>> Sigh.  The solution is a bit more complicated, but I just redid my
+>> patches to not depend on the above ones.  I can revert back to the old
+>> version, though.  Andrew, let me know what works for you.
+>
+> Imo ignore, rebasing onto linux-next without those intel patches was
+> the right thing for the 5.10 merge window.
+> -Daniel
 
-> ---
-> This is something I noticed while debugging another issue on panfrost
-> causing the scheduler to be in a weird state where new entities were no
-> longer scheduled. This was causing all userspace threads trying to close
-> their DRM fd to be blocked in kernel space waiting for this "entity is
-> idle" event. I don't know if that fix is legitimate (now that we fixed
-> the other bug we don't seem to end up in that state anymore), but I
-> thought I'd share it anyway.
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 146380118962..f8ec277a6aa8 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -73,6 +73,9 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->   
->   	init_completion(&entity->entity_idle);
->   
-> +	/* We start in an idle state. */
-> +	complete(&entity->entity_idle);
-> +
->   	spin_lock_init(&entity->rq_lock);
->   	spsc_queue_init(&entity->job_queue);
->   
-> 
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
