@@ -2,35 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB89228038A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 18:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A392803D7
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 18:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8B156E8BF;
-	Thu,  1 Oct 2020 16:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5959B6E8C5;
+	Thu,  1 Oct 2020 16:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A619D6E8BF
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 16:06:30 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E9AA030E;
- Thu,  1 Oct 2020 09:06:29 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC94A3F70D;
- Thu,  1 Oct 2020 09:06:28 -0700 (PDT)
-Subject: Re: [PATCH] panfrost: Fix job timeout handling
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20201001140143.1058669-1-boris.brezillon@collabora.com>
- <b51d154f-978d-3439-fbb3-e960378b53c0@arm.com>
- <20201001174931.0ab0746b@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <327ca23d-ba25-caaf-f70e-8ad6b244180c@arm.com>
-Date: Thu, 1 Oct 2020 17:05:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AED16E038;
+ Thu,  1 Oct 2020 16:24:14 +0000 (UTC)
+IronPort-SDR: GUcv8fQ7Tc8EX/rJ8MX2PKqotB1/pYwr7oJgJboRvKCYFK6NlfKNYpB4DB7gNjJBeHvZmIbIaw
+ ZdAc39VYjmAg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="142173683"
+X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; d="scan'208";a="142173683"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2020 09:24:10 -0700
+IronPort-SDR: H+s1QR7RUd4qMX6wRCE6+yHY6AABK+U4nh24a0o63fyId6CoSGpXuHCzGK9QyOUq44ZQYc7910
+ WUAZb7ROtsVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; d="scan'208";a="351193383"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 01 Oct 2020 09:24:04 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 01 Oct 2020 19:24:03 +0300
+Date: Thu, 1 Oct 2020 19:24:03 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: Re: [PATCH v6] drm/i915: Init lspcon after HPD in intel_dp_detect()
+Message-ID: <20201001162403.GT6112@intel.com>
+References: <20200610075542.12882-1-kai.heng.feng@canonical.com>
 MIME-Version: 1.0
-In-Reply-To: <20201001174931.0ab0746b@collabora.com>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <20200610075542.12882-1-kai.heng.feng@canonical.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,154 +52,313 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/10/2020 16:49, Boris Brezillon wrote:
-> On Thu, 1 Oct 2020 15:49:39 +0100
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> On 01/10/2020 15:01, Boris Brezillon wrote:
->>> If more than two or more jobs end up timeout-ing concurrently, only one
->>> of them (the one attached to the scheduler acquiring the lock) is fully
->>> handled. The other one remains in a dangling state where it's no longer
->>> part of the scheduling queue, but still blocks something in scheduler
->>> thus leading to repetitive timeouts when new jobs are queued.
->>>
->>> Let's make sure all bad jobs are properly handled by the thread acquiring
->>> the lock.
->>>
->>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
->>> Cc: <stable@vger.kernel.org>
->>> ---
->>>    drivers/gpu/drm/panfrost/panfrost_job.c | 18 ++++++++++++++----
->>>    1 file changed, 14 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> index 30e7b7196dab..e87edca51d84 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> @@ -25,7 +25,7 @@
->>>    
->>>    struct panfrost_queue_state {
->>>    	struct drm_gpu_scheduler sched;
->>> -
->>> +	struct drm_sched_job *bad;
->>>    	u64 fence_context;
->>>    	u64 emit_seqno;
->>>    };
->>> @@ -392,19 +392,29 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
->>>    		job_read(pfdev, JS_TAIL_LO(js)),
->>>    		sched_job);
->>>    
->>> +	/*
->>> +	 * Collect the bad job here so it can be processed by the thread
->>> +	 * acquiring the reset lock.
->>> +	 */
->>> +	pfdev->js->queue[js].bad = sched_job;
->>> +
->>>    	if (!mutex_trylock(&pfdev->reset_lock))
->>>    		return;
->>>    
->>>    	for (i = 0; i < NUM_JOB_SLOTS; i++) {
->>>    		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
->>>    
->>> -		drm_sched_stop(sched, sched_job);
->>>    		if (js != i)
->>>    			/* Ensure any timeouts on other slots have finished */
->>>    			cancel_delayed_work_sync(&sched->work_tdr);
->>> -	}
->>>    
->>> -	drm_sched_increase_karma(sched_job);
->>> +		drm_sched_stop(sched, pfdev->js->queue[i].bad);
->>
->> So I can see that the call to drm_sched_stop() needs to move below the
->> cancel_delayed_work_sync() to ensure that the update to queue->bad is
->> synchronised. What I'm not so sure about is whether it's possible for
->> the scheduler to make progress between the 'cancel' and the 'stop' -
->> there is a reason I wrote it the other way round...
-> 
-> Ok, I think see what you mean now. So, there's indeed a race between
-> the cancel_delayed_work_sync() and drm_sched_stop() calls, and a
-> timeout might go undetected because of that. This being said, the only
-> problem I see is that we would not increase karma on that job. In any
-> case the job will be re-queued, and unless we keep having timeouts on
-> the other queues it should be detected at some point. I can also try to
-> retrieve the deadline before canceling the delayed work and check it
-> before stopping the scheduler, but I'm not sure it's worth it.
+On Wed, Jun 10, 2020 at 03:55:10PM +0800, Kai-Heng Feng wrote:
+> On HP 800 G4 DM, if HDMI cable isn't plugged before boot, the HDMI port
+> becomes useless and never responds to cable hotplugging:
+> [    3.031904] [drm:lspcon_init [i915]] *ERROR* Failed to probe lspcon
+> [    3.031945] [drm:intel_ddi_init [i915]] *ERROR* LSPCON init failed on =
+port D
+> =
 
-Yes - well explained, I was trying to write an explanation but you beat 
-me to it ;)
+> Seems like the lspcon chip on the system only gets powered after the
+> cable is plugged.
+> =
 
-However I think it's worse than just the karma - the second timeout of a 
-job could take a while to execute and actually execute *after* the first 
-timeout has completed. I'm wondering whether we just need something like:
+> Consilidate lspcon_init() into lspcon_resume() to dynamically init
+> lspcon chip, and make HDMI port work.
+> =
 
-  cancel_delayed_work_sync()
-  drm_sched_stop()
-  cancel_delayed_work_sync()
+> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> ---
+> v6:
+>  - Rebase on latest for-linux-next.
+> =
 
-that way we ensure that any other timeouts will definitely have 
-completed before performing the reset.
+> v5:
+>  - Consolidate lspcon_resume() with lspcon_init().
+>  - Move more logic into lspcon code.
+> =
 
-There's still a minor race regarding the karma - but that shouldn't 
-matter as you mention.
+> v4:
+>  - Trust VBT in intel_infoframe_init().
+>  - Init lspcon in intel_dp_detect().
+> =
 
-Steve
+> v3:
+>  - Make sure it's handled under long HPD case.
+> =
 
->>
->> The hole for things to go round is clearly much smaller with this
->> change, but I'm not sure it's completely plugged. Am I missing something?
->>
->>> +
->>> +		if (pfdev->js->queue[i].bad)
->>> +			drm_sched_increase_karma(pfdev->js->queue[i].bad);
->>> +
->>> +		pfdev->js->queue[i].bad = NULL;
->>> +	}
->>>    
->>>    	spin_lock_irqsave(&pfdev->js->job_lock, flags);
->>>    	for (i = 0; i < NUM_JOB_SLOTS; i++) {
->>>    
->>
->> While we're on potential holes... some more context:
->>
->>> 		if (pfdev->jobs[i]) {
->>> 			pm_runtime_put_noidle(pfdev->dev);
->>> 			panfrost_devfreq_record_idle(pfdev);
->>> 			pfdev->jobs[i] = NULL;
->>> 		}
->>> 	}
->>> 	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
->>>
->>> 	panfrost_device_reset(pfdev);
->>>
->>> 	for (i = 0; i < NUM_JOB_SLOTS; i++)
->>> 		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
->>>
->>> 	/* restart scheduler after GPU is usable again */
->>> 	for (i = 0; i < NUM_JOB_SLOTS; i++)
->>> 		drm_sched_start(&pfdev->js->queue[i].sched, true);
->>>
->>> 	mutex_unlock(&pfdev->reset_lock);
->>
->> I'm wondering whether the mutex_unlock() should actually happen before
->> the drm_sched_start() - in the (admittedly very unlikely) case where a
->> timeout occurs before all the drm_sched_start() calls have completed
->> it's possible for the timeout to be completely missed because the mutex
->> is still held.
->>
->> Thanks,
->>
->> Steve
-> 
+> v2: =
 
+>  - Move lspcon_init() inside of intel_dp_hpd_pulse().
+
+Hoisted the changelog above --- where it belongs in drm land,
+amended with
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/203
+and pushed the patch to dinq.
+
+Thanks, and sorry for the horrendous latency.
+
+PS. This will cause some headache for Uma's lspcon HDR stuff, but
+so be it.
+
+> =
+
+>  drivers/gpu/drm/i915/display/intel_ddi.c    | 19 +------
+>  drivers/gpu/drm/i915/display/intel_dp.c     | 10 ++--
+>  drivers/gpu/drm/i915/display/intel_hdmi.c   |  3 +-
+>  drivers/gpu/drm/i915/display/intel_lspcon.c | 63 ++++++++++++---------
+>  drivers/gpu/drm/i915/display/intel_lspcon.h |  3 +-
+>  5 files changed, 43 insertions(+), 55 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i=
+915/display/intel_ddi.c
+> index aa22465bb56e..af755b1aa24b 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -4805,7 +4805,7 @@ void intel_ddi_init(struct drm_i915_private *dev_pr=
+iv, enum port port)
+>  {
+>  	struct intel_digital_port *intel_dig_port;
+>  	struct intel_encoder *encoder;
+> -	bool init_hdmi, init_dp, init_lspcon =3D false;
+> +	bool init_hdmi, init_dp;
+>  	enum phy phy =3D intel_port_to_phy(dev_priv, port);
+>  =
+
+>  	init_hdmi =3D intel_bios_port_supports_dvi(dev_priv, port) ||
+> @@ -4819,7 +4819,6 @@ void intel_ddi_init(struct drm_i915_private *dev_pr=
+iv, enum port port)
+>  		 * is initialized before lspcon.
+>  		 */
+>  		init_dp =3D true;
+> -		init_lspcon =3D true;
+>  		init_hdmi =3D false;
+>  		drm_dbg_kms(&dev_priv->drm, "VBT says port %c has lspcon\n",
+>  			    port_name(port));
+> @@ -4904,22 +4903,6 @@ void intel_ddi_init(struct drm_i915_private *dev_p=
+riv, enum port port)
+>  			goto err;
+>  	}
+>  =
+
+> -	if (init_lspcon) {
+> -		if (lspcon_init(intel_dig_port))
+> -			/* TODO: handle hdmi info frame part */
+> -			drm_dbg_kms(&dev_priv->drm,
+> -				    "LSPCON init success on port %c\n",
+> -				    port_name(port));
+> -		else
+> -			/*
+> -			 * LSPCON init faied, but DP init was success, so
+> -			 * lets try to drive as DP++ port.
+> -			 */
+> -			drm_err(&dev_priv->drm,
+> -				"LSPCON init failed on port %c\n",
+> -				port_name(port));
+> -	}
+> -
+>  	if (INTEL_GEN(dev_priv) >=3D 11) {
+>  		if (intel_phy_is_tc(dev_priv, phy))
+>  			intel_dig_port->connected =3D intel_tc_port_connected;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index ed9e53c373a7..398a104158a8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -5962,15 +5962,14 @@ static enum drm_connector_status
+>  intel_dp_detect_dpcd(struct intel_dp *intel_dp)
+>  {
+>  	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
+> -	struct intel_lspcon *lspcon =3D dp_to_lspcon(intel_dp);
+> +	struct intel_digital_port *dig_port =3D dp_to_dig_port(intel_dp);
+>  	u8 *dpcd =3D intel_dp->dpcd;
+>  	u8 type;
+>  =
+
+>  	if (WARN_ON(intel_dp_is_edp(intel_dp)))
+>  		return connector_status_connected;
+>  =
+
+> -	if (lspcon->active)
+> -		lspcon_resume(lspcon);
+> +	lspcon_resume(dig_port);
+>  =
+
+>  	if (!intel_dp_get_dpcd(intel_dp))
+>  		return connector_status_disconnected;
+> @@ -7056,14 +7055,13 @@ void intel_dp_encoder_reset(struct drm_encoder *e=
+ncoder)
+>  {
+>  	struct drm_i915_private *dev_priv =3D to_i915(encoder->dev);
+>  	struct intel_dp *intel_dp =3D enc_to_intel_dp(to_intel_encoder(encoder)=
+);
+> -	struct intel_lspcon *lspcon =3D dp_to_lspcon(intel_dp);
+> +	struct intel_digital_port *dig_port =3D dp_to_dig_port(intel_dp);
+>  	intel_wakeref_t wakeref;
+>  =
+
+>  	if (!HAS_DDI(dev_priv))
+>  		intel_dp->DP =3D intel_de_read(dev_priv, intel_dp->output_reg);
+>  =
+
+> -	if (lspcon->active)
+> -		lspcon_resume(lspcon);
+> +	lspcon_resume(dig_port);
+>  =
+
+>  	intel_dp->reset_link_params =3D true;
+>  =
+
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/=
+i915/display/intel_hdmi.c
+> index 010f37240710..643ad2127931 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -3155,7 +3155,8 @@ void intel_infoframe_init(struct intel_digital_port=
+ *intel_dig_port)
+>  		intel_dig_port->set_infoframes =3D g4x_set_infoframes;
+>  		intel_dig_port->infoframes_enabled =3D g4x_infoframes_enabled;
+>  	} else if (HAS_DDI(dev_priv)) {
+> -		if (intel_dig_port->lspcon.active) {
+> +		if (intel_bios_is_lspcon_present(dev_priv,
+> +						 intel_dig_port->base.port)) {
+>  			intel_dig_port->write_infoframe =3D lspcon_write_infoframe;
+>  			intel_dig_port->read_infoframe =3D lspcon_read_infoframe;
+>  			intel_dig_port->set_infoframes =3D lspcon_set_infoframes;
+> diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/dr=
+m/i915/display/intel_lspcon.c
+> index 6ff7b226f0a1..e3dde4c25604 100644
+> --- a/drivers/gpu/drm/i915/display/intel_lspcon.c
+> +++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
+> @@ -525,44 +525,17 @@ u32 lspcon_infoframes_enabled(struct intel_encoder =
+*encoder,
+>  	return 0;
+>  }
+>  =
+
+> -void lspcon_resume(struct intel_lspcon *lspcon)
+> -{
+> -	enum drm_lspcon_mode expected_mode;
+> -
+> -	if (lspcon_wake_native_aux_ch(lspcon)) {
+> -		expected_mode =3D DRM_LSPCON_MODE_PCON;
+> -		lspcon_resume_in_pcon_wa(lspcon);
+> -	} else {
+> -		expected_mode =3D DRM_LSPCON_MODE_LS;
+> -	}
+> -
+> -	if (lspcon_wait_mode(lspcon, expected_mode) =3D=3D DRM_LSPCON_MODE_PCON)
+> -		return;
+> -
+> -	if (lspcon_change_mode(lspcon, DRM_LSPCON_MODE_PCON))
+> -		DRM_ERROR("LSPCON resume failed\n");
+> -	else
+> -		DRM_DEBUG_KMS("LSPCON resume success\n");
+> -}
+> -
+>  void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon)
+>  {
+>  	lspcon_wait_mode(lspcon, DRM_LSPCON_MODE_PCON);
+>  }
+>  =
+
+> -bool lspcon_init(struct intel_digital_port *intel_dig_port)
+> +static bool lspcon_init(struct intel_digital_port *intel_dig_port)
+>  {
+>  	struct intel_dp *dp =3D &intel_dig_port->dp;
+>  	struct intel_lspcon *lspcon =3D &intel_dig_port->lspcon;
+> -	struct drm_device *dev =3D intel_dig_port->base.base.dev;
+> -	struct drm_i915_private *dev_priv =3D to_i915(dev);
+>  	struct drm_connector *connector =3D &dp->attached_connector->base;
+>  =
+
+> -	if (!HAS_LSPCON(dev_priv)) {
+> -		DRM_ERROR("LSPCON is not supported on this platform\n");
+> -		return false;
+> -	}
+> -
+>  	lspcon->active =3D false;
+>  	lspcon->mode =3D DRM_LSPCON_MODE_INVALID;
+>  =
+
+> @@ -586,3 +559,37 @@ bool lspcon_init(struct intel_digital_port *intel_di=
+g_port)
+>  	DRM_DEBUG_KMS("Success: LSPCON init\n");
+>  	return true;
+>  }
+> +
+> +void lspcon_resume(struct intel_digital_port *intel_dig_port)
+> +{
+> +	struct intel_lspcon *lspcon =3D &intel_dig_port->lspcon;
+> +	struct drm_device *dev =3D intel_dig_port->base.base.dev;
+> +	struct drm_i915_private *dev_priv =3D to_i915(dev);
+> +	enum drm_lspcon_mode expected_mode;
+> +
+> +	if (!intel_bios_is_lspcon_present(dev_priv, intel_dig_port->base.port))
+> +		return;
+> +
+> +	if (!lspcon->active) {
+> +		if (!lspcon_init(intel_dig_port)) {
+> +			DRM_ERROR("LSPCON init failed on port %c\n",
+> +				  port_name(intel_dig_port->base.port));
+> +			return;
+> +		}
+> +	}
+> +
+> +	if (lspcon_wake_native_aux_ch(lspcon)) {
+> +		expected_mode =3D DRM_LSPCON_MODE_PCON;
+> +		lspcon_resume_in_pcon_wa(lspcon);
+> +	} else {
+> +		expected_mode =3D DRM_LSPCON_MODE_LS;
+> +	}
+> +
+> +	if (lspcon_wait_mode(lspcon, expected_mode) =3D=3D DRM_LSPCON_MODE_PCON)
+> +		return;
+> +
+> +	if (lspcon_change_mode(lspcon, DRM_LSPCON_MODE_PCON))
+> +		DRM_ERROR("LSPCON resume failed\n");
+> +	else
+> +		DRM_DEBUG_KMS("LSPCON resume success\n");
+> +}
+> diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.h b/drivers/gpu/dr=
+m/i915/display/intel_lspcon.h
+> index 37cfddf8a9c5..169db35db13e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_lspcon.h
+> +++ b/drivers/gpu/drm/i915/display/intel_lspcon.h
+> @@ -15,8 +15,7 @@ struct intel_digital_port;
+>  struct intel_encoder;
+>  struct intel_lspcon;
+>  =
+
+> -bool lspcon_init(struct intel_digital_port *intel_dig_port);
+> -void lspcon_resume(struct intel_lspcon *lspcon);
+> +void lspcon_resume(struct intel_digital_port *intel_dig_port);
+>  void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon);
+>  void lspcon_write_infoframe(struct intel_encoder *encoder,
+>  			    const struct intel_crtc_state *crtc_state,
+> -- =
+
+> 2.17.1
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
