@@ -2,43 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75F5280522
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 19:27:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46EDF280532
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 19:30:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 882956E116;
-	Thu,  1 Oct 2020 17:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730D76E0F6;
+	Thu,  1 Oct 2020 17:30:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4CC6E116
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 17:27:45 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Thu, 01 Oct 2020 17:27:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: samy@lahfa.xyz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204241-2300-Krs0rH82JT@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
-References: <bug-204241-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2FA36E0F6
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 17:30:17 +0000 (UTC)
+Subject: Re: [git pull] drm amdgpu + vmwgfx fixes for 5.9-rc8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601573417;
+ bh=bESyP7iI8I8oWmwo0p/daUKYw1SW96HYUdogfnRhIq8=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=Aw7xPD+gz5I+F/cSVtYC5F9GFV6eOMS3Dg7x2PuWTHt3ZubPAOnfHlIfCB+Rih5nc
+ sgOjxBHaRFeoMviWySkoNbAICDee6DB4l6SLuiiPm7JLFSVQYm6CatpLy4ycIUeMxg
+ eTjcz+8p579QSqxBdcylwWVoS0XKVGaVY4/8AuMc=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9txPMxjzQTiZiWeMCs_LDoYGid_d3F6W5HdBr8UB=tjvug@mail.gmail.com>
+References: <CAPM=9txPMxjzQTiZiWeMCs_LDoYGid_d3F6W5HdBr8UB=tjvug@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9txPMxjzQTiZiWeMCs_LDoYGid_d3F6W5HdBr8UB=tjvug@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2020-10-01-1
+X-PR-Tracked-Commit-Id: 132d7c8abeaa6b10ed5f47330b0f06c6dd220a43
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: fcadab740480e0e0e9fa9bd272acd409884d431a
+Message-Id: <160157341766.4684.6393544746214094272.pr-tracker-bot@kernel.org>
+Date: Thu, 01 Oct 2020 17:30:17 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,34 +46,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=204241
+The pull request you sent on Thu, 1 Oct 2020 16:10:22 +1000:
 
---- Comment #73 from Lahfa Samy (samy@lahfa.xyz) ---
-(In reply to Robert M. Muncrief from comment #72)
-> (In reply to Alex Deucher from comment #71)
-> > The original issue reported in this bug was fixed long ago.  If you are
-> > having issues, please file a new report.
-> 
-> I just filed a new bug for the resume issue at your request. It's 209457.
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-10-01-1
 
-My issue seems unrelated to your bug report, my suspend/resume freeze issue is
-related to my Intel Wireless AC9260 not to my AMD Ryzen 7 3700U with integrated
-graphics Vega RX10. 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/fcadab740480e0e0e9fa9bd272acd409884d431a
 
-Disabling the wireless card in the BIOS fixes the suspend/resume problem for my
-specific configuration (Thinkpad T495 20NK model).
-
-Although your issue seems to be with the AMDGPU driver and related to your
-graphics card I suppose.
+Thank you!
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
