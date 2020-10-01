@@ -2,70 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62036280DC7
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 09:03:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0D2280DCD
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 09:03:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11CDC6E0ED;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68A16E22F;
 	Fri,  2 Oct 2020 07:02:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 775F16E8C4
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 17:28:08 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id t17so3989076wmi.4
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 10:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=1M4RAfm7Ka56hTVARaFbgr0VJN7Hux9S4garFliWQrQ=;
- b=of5jzw3PMgufI53qBrC2IN+3pkDwsZMmS8MapDtIqs/jRJVAtRNIK5NaDLJTzFRu6O
- EYphTukdKvGCSmMzQwdDNTvjyg55U1+uhs4sZ7UDsqRMrfW+bdIRVAeso5kctUQ3PPmO
- fTtG7v30wu0HPu+/UspUI3agEHuhSkt+y6qOQYSr+8OqjcVQUHBPsPKO3GDsih2xLp+r
- VXbby1N/7G0XvD+/BVHbNUwjJVhsoHD5W33pcDGbhV709XEYe5Bn4+eqeuSsh6lRVOlm
- ntz4ZoUrHhH02HsIwi2Gu/8kiNiJqlqJvyX8lRrJG5U4Ab2lfTUwML+OwasgOQzqTn3E
- f6jg==
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 599B98864B
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 18:09:11 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id y14so4621030pgf.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 11:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=PtuekNoU7BQ4fWy1XFBKnyR+pN5uqF4DdrBhyKg+UhM=;
+ b=Xabcep2JhqLck7//1CRquAZmQYOXu3EpJ669MtMcS89PDB7ToYcTSsFmV42ajY+V7Z
+ 9ZX6B+Vzqv9lyFNTmHhPWviy17UBWN6BR3agnBurKZ5lfykjBp+iqmHpvPCbZgN1CBf8
+ yHdjifmzyluVwk24JlHZd4nyiPRN8CbjTjo/rPZkECLadK8z6mX0LQQifbBu+S+qFoeo
+ FjiMKXSC+LFzy476AWpAahvpoqyWvDV11iMF2PaKmibl26QHVCTy86AeREGd8jn7YcW4
+ 9OmsREnu7mhjy4sGMbHZmZxa33gmoWUDb7zPd6GcfkCH07wzoyqjPi0+15r1pExIRclb
+ F9hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=1M4RAfm7Ka56hTVARaFbgr0VJN7Hux9S4garFliWQrQ=;
- b=krQMAV0HcokbcA/jjYX9hsIU2k0ZXzze4uVFrRPDpdCYyUK5/ejsQoxnJKocZv2wOq
- JC30/XhWfUqkGLR6BnGAavW6BxAbV3apJjC1ZhA8MjK7qidzyLiJ3w2Ywyv4l/9NmoO+
- g22jJUysFlpHO0SfHuWLkTmHi6D5yFpqDC2lglRjKhfh6sYXrlCWzafEMBU8DUP63PTW
- RWDX/cH6AtKpNMbrX5vSTd1Yu8uiOPl2YwO5vLiIB8brmW85GA9K55/5BZe/yLI3X2KP
- 6tnL6CFyna6q0z4ENome8LWvfMOlKKFcloGaxXBcS3LBcDU2y27pwCJt96E0fuPjbDtm
- LKrA==
-X-Gm-Message-State: AOAM531y+gIrNN6dHFOJ0vgoYa6iiKkbGsa1W9Mz6jkqoeGGkQdiKBr+
- R/AR6po0tgbVgUGFLyt3X9hgOQ==
-X-Google-Smtp-Source: ABdhPJwyVDVxYje8TjchORDThAw8Nf2lyrEVVWCNGUtzSKY/wsPFwtKzJsKQK/RU/wWZQIwlAkVZlA==
-X-Received: by 2002:a7b:ce89:: with SMTP id q9mr1060628wmj.65.1601573286992;
- Thu, 01 Oct 2020 10:28:06 -0700 (PDT)
-Received: from ?IPv6:2001:861:3a81:3690:b885:8dcf:f8c6:7841?
- ([2001:861:3a81:3690:b885:8dcf:f8c6:7841])
- by smtp.gmail.com with ESMTPSA id k6sm827843wmf.30.2020.10.01.10.28.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 10:28:06 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/4] Add a RPMsg driver to support AI Processing Unit
- (APU)
-To: linux-remoteproc@vger.kernel.org, ohad@wizery.com, gpain@baylibre.com,
- stephane.leprovost@mediatek.com, jstephan@baylibre.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, mturquette@baylibre.com,
- bjorn.andersson@linaro.org, christian.koenig@amd.com,
- linux-media@vger.kernel.org
-References: <20200930115350.5272-1-abailon@baylibre.com>
- <20201001084856.GC438822@phenom.ffwll.local>
-From: Alexandre Bailon <abailon@baylibre.com>
-Message-ID: <8e4bb739-c3b3-d790-e8e3-dd5df2d6f869@baylibre.com>
-Date: Thu, 1 Oct 2020 19:28:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PtuekNoU7BQ4fWy1XFBKnyR+pN5uqF4DdrBhyKg+UhM=;
+ b=Exsek9H7+NKvwN6NqkAIcVS2ygFRscgIKRXeL4wZWB0saL5J/9EZtHgpAzyLag4tdL
+ rZADLKZ0CcyLizpa1Mqa7ZkBwlbgdCmWT02fGZ+njXzZg+CPjTX46U4Apy8EqkRhw/2n
+ qdyPm797k7ZjLqqay6/3sIhsXqJZkyI+gGxafiqDu6ZV0p2dfOrx9qLZvBBYksNO79s+
+ oTq+OUiYvkq5D4vYQvAfxxuPj7YAPDechWuGVvQyTtFFfj/EHEqxuBmMs89cZpJl8so9
+ qWDU3pA5wJKrm/1u3/RUQ1uWDoRvZotUD9j/6LBxF8Mlz+PkXUzOrm0C9JqBEu0GQJ8D
+ 5E0A==
+X-Gm-Message-State: AOAM532zw2oJGE1qXEw+4Oyebvs3p98t7t/YcAw0CLFI8ZQobbSSSisC
+ UekcbxHdp0uM69DSoCaHnow=
+X-Google-Smtp-Source: ABdhPJzHJmF1lu+SRWpH0rtjLB2oVFYm3H6n4cv/c3dkIIDnjTeHT5RLa+NY7PYfMTE3TLudRL7udQ==
+X-Received: by 2002:a17:902:848a:b029:d2:4276:1b00 with SMTP id
+ c10-20020a170902848ab02900d242761b00mr3880436plo.36.1601575750784; 
+ Thu, 01 Oct 2020 11:09:10 -0700 (PDT)
+Received: from ubuntu-m3-large-x86 ([2604:1380:45e1:2200::1])
+ by smtp.gmail.com with ESMTPSA id e2sm6072137pgc.29.2020.10.01.11.09.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 11:09:10 -0700 (PDT)
+Date: Thu, 1 Oct 2020 11:09:08 -0700
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: Re: [PATCH v5 80/80] ARM: dts: bcm2711: Enable the display pipeline
+Message-ID: <20201001180908.GA3159642@ubuntu-m3-large-x86>
+References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
+ <cfce2276d172d3d9c4d34d966b58fd47f77c4e46.1599120059.git-series.maxime@cerno.tech>
+ <20200929221526.GA1370981@ubuntu-m3-large-x86>
+ <20200930140758.gummt3umouva3wyu@gilmour.lan>
+ <20200930163823.GA237050@ubuntu-m3-large-x86>
+ <eb0c0edaf22404fd69440a85bb78397a14d49ddc.camel@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20201001084856.GC438822@phenom.ffwll.local>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <eb0c0edaf22404fd69440a85bb78397a14d49ddc.camel@suse.de>
 X-Mailman-Approved-At: Fri, 02 Oct 2020 07:02:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,63 +73,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
+ bcm-kernel-feedback-list@broadcom.com, Maxime Ripard <maxime@cerno.tech>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Thu, Oct 01, 2020 at 11:22:03AM +0200, Nicolas Saenz Julienne wrote:
+> On Wed, 2020-09-30 at 09:38 -0700, Nathan Chancellor wrote:
+> > On Wed, Sep 30, 2020 at 04:07:58PM +0200, Maxime Ripard wrote:
+> > > Hi Nathan,
+> > > 
+> > > On Tue, Sep 29, 2020 at 03:15:26PM -0700, Nathan Chancellor wrote:
+> > > > On Thu, Sep 03, 2020 at 10:01:52AM +0200, Maxime Ripard wrote:
+> > > > > Now that all the drivers have been adjusted for it, let's bring in the
+> > > > > necessary device tree changes.
+> > > > > 
+> > > > > The VEC and PV3 are left out for now, since it will require a more specific
+> > > > > clock setup.
+> > > > > 
+> > > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > > Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
+> > > > > Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> > > > > Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
+> > > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > > 
+> > > > Apologies if this has already been reported or have a solution but this
+> > > > patch (and presumably series) breaks output to the serial console after
+> > > > a certain point during init. On Raspbian, I see systemd startup messages
+> > > > then the output just turns into complete garbage. It looks like this
+> > > > patch is merged first in linux-next, which is why my bisect fell on the
+> > > > DRM merge. I am happy to provide whatever information could be helpful
+> > > > for debugging this. I am on the latest version of the firmware
+> > > > (currently 26620cc9a63c6cb9965374d509479b4ee2c30241).
+> > > 
+> > > Unfortunately, the miniUART is in the same clock tree than the core
+> > > clock and will thus have those kind of issues when the core clock is
+> > > changed (which is also something that one should expect when using the
+> > > DRM or other drivers).
+> > > 
+> > > The only real workaround there would be to switch to one of the PL011
+> > > UARTs. I guess we can also somehow make the UART react to the core clock
+> > > frequency changes, but that's going to require some effort
+> > > 
+> > > Maxime
+> > 
+> > Ack, thank you for the reply! There does not really seem to be a whole
+> > ton of documentation around using one of the other PL011 UARTs so for
+> > now, I will just revert this commit locally.
+> 
+> Nathan, a less intrusive solution would be to add 'core_freq_min=500' into your
+> config.txt.
+> 
+> Funnily enough core_freq=500 doesn't seem to work in that regard. It might be
+> related with what Maxime is commenting.
+> 
+> Regards,
+> Nicolas
+> 
 
-On 10/1/20 10:48 AM, Daniel Vetter wrote:
-> On Wed, Sep 30, 2020 at 01:53:46PM +0200, Alexandre Bailon wrote:
->> This adds a RPMsg driver that implements communication between the CPU and an
->> APU.
->> This uses VirtIO buffer to exchange messages but for sharing data, this uses
->> a dmabuf, mapped to be shared between CPU (userspace) and APU.
->> The driver is relatively generic, and should work with any SoC implementing
->> hardware accelerator for AI if they use support remoteproc and VirtIO.
->>
->> For the people interested by the firmware or userspace library,
->> the sources are available here:
->> https://github.com/BayLibre/open-amp/tree/v2020.01-mtk/apps/examples/apu
-> Since this has open userspace (from a very cursory look), and smells very
-> much like an acceleration driver, and seems to use dma-buf for memory
-> management: Why is this not just a drm driver?
+Excellent, thank you for the tip, that worked well!
 
-I have never though to DRM since for me it was only a RPMsg driver.
-I don't know well DRM. Could you tell me how you would do it so I could 
-have a look ?
-
-Thanks,
-Alexandre
-
-> -Daniel
->
->> Alexandre Bailon (3):
->>    Add a RPMSG driver for the APU in the mt8183
->>    rpmsg: apu_rpmsg: update the way to store IOMMU mapping
->>    rpmsg: apu_rpmsg: Add an IOCTL to request IOMMU mapping
->>
->> Julien STEPHAN (1):
->>    rpmsg: apu_rpmsg: Add support for async apu request
->>
->>   drivers/rpmsg/Kconfig          |   9 +
->>   drivers/rpmsg/Makefile         |   1 +
->>   drivers/rpmsg/apu_rpmsg.c      | 752 +++++++++++++++++++++++++++++++++
->>   drivers/rpmsg/apu_rpmsg.h      |  52 +++
->>   include/uapi/linux/apu_rpmsg.h |  47 +++
->>   5 files changed, 861 insertions(+)
->>   create mode 100644 drivers/rpmsg/apu_rpmsg.c
->>   create mode 100644 drivers/rpmsg/apu_rpmsg.h
->>   create mode 100644 include/uapi/linux/apu_rpmsg.h
->>
->> -- 
->> 2.26.2
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Cheers,
+Nathan
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
