@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5DC27FA34
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 09:25:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01ABA27FA5A
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 09:34:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4A4E6E852;
-	Thu,  1 Oct 2020 07:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B0E6E85F;
+	Thu,  1 Oct 2020 07:34:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B11D6E852
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 07:25:40 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id a13so1641749otl.13
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 00:25:40 -0700 (PDT)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B40126E85F
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 07:34:51 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id a13so1662312otl.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 00:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zfGZF4MV9LWG1+NodJbiuxHC3TceIWUFb6Ap4wdqNIA=;
- b=TeI3sAnlerg81mosNDi1OU1FCraSaz39/P0KX8M369xRjqBBQkO+GqE2gaeovGyU5N
- SbXwsl1688O6wtDdN6VHp62NfTmHkeBC1jiNQ35ZVLOsXBUby+JsGUj4lx3gCLV/odyn
- gV7DGZGClSGws3CNeOiHg/3Ob+oMbLzNx+/Jw=
+ :cc; bh=M3t5u/IjN/gL/P8pqhUlq/SfjEUTm2EjDpkRAYR6c4w=;
+ b=OgYNuEdlKW5kR4E3Kl27GKjVoAUIqv4sfGNlXKtrnJ10S71KPcWuNCjLQ7Fied+JNf
+ cZdZHZdTDQ00beyWvwvbCjpM+sjMVo5quw7mCGqpNrp9rXnYqKX4sUnjILwuqK79R1Ai
+ mUSaAkd08MFs5rIuZ+HLZ4PIk1v/qivyRF9HM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zfGZF4MV9LWG1+NodJbiuxHC3TceIWUFb6Ap4wdqNIA=;
- b=WOZjYd+6zERkRtBycDzdhm5HkxYS5aeQHyIqGgs8cprS4z2M3ey6NAdpTPG75bWo8v
- 4DHoUh5VQct41wnFAnbhQwNYPUZcEbTbFeSX/HOMdosdIv/KT1mInXuv4j1Zg+oy/i1+
- Qo4RkvohVNMfhY7k3q+dTRBDNeuXdydC6PslZs1+sJavGfxmA/qp4Tvgixl/p7czS6KT
- BOCQVl/fv1GaL37TvdkJQrrFtLRUTRn+29VB4p4GhLmyug8F3sTE97JWeswYJiqPFIxa
- ukaXW3XxZcRTO7K1AoVIyfbmQokwXBH3avSVVzqwTuUdNKXWbF3YNkEPYe5UvJxOTd4b
- Npvw==
-X-Gm-Message-State: AOAM532ER/6yLoFMnhFzQsOIHBEUrg+xoYDVBo8I7stgoNhvVkSghuJv
- xlydq28R3ajWaqwd3+4namwiWPy6K6gK2eBs4+V6mg==
-X-Google-Smtp-Source: ABdhPJxYphOpZt0pFo5YwUFzXc9UFWkrH6ESb9yDDzrn4yIDZ604inDZBF2z+vgTw/HQBxJ8xJ7E9csTDfXJDlrJHIE=
-X-Received: by 2002:a05:6830:14d9:: with SMTP id
- t25mr4211927otq.188.1601537139212; 
- Thu, 01 Oct 2020 00:25:39 -0700 (PDT)
+ bh=M3t5u/IjN/gL/P8pqhUlq/SfjEUTm2EjDpkRAYR6c4w=;
+ b=Efca+yGHOvq9uOj2mMlfPPXEKo4Xh6zDDn17IY/aN/thMZ9ZIO4KqkXCS4M1/d0oDx
+ isbwJbDNBA52ChsDwHArbPafIousA6xRnrIUJVnIV8TkHqIs1K6WhtQ21oPtwbn7NFsy
+ LDywo12/9NepMJcNgR074ARE1NxHdWsEMeKcB/0lkI1dUuNRm+IdmKp+QcI7Widoziq1
+ QWMDuyXErX3zoRvIEz8oERV9JsEuJfJ5xsT2JqhFHDhQePAIiVKnp0mjkDPp3SRX0FsB
+ eNEflC3stC2KGvoHt3qpjARGGFthjVYevq4fIqI7VVVjhN7wIXWJ4e1rMc2OiAEEFpXW
+ g7QQ==
+X-Gm-Message-State: AOAM533M1nE7XS87bAPYMJeB9jAglRy/qC+iE/J0nrpbyDFqpgzUouge
+ m/YmAmUWRqtOWMuT/aDt5BneDmgN3dm5hc0C97jhsQ==
+X-Google-Smtp-Source: ABdhPJzNKn7MWzVeCzvOTyEtg5692fYCLDg8orn/WbAG8JFhrvHF5qSLNs3chJx9zv9MdA1mCI0h5fCjmJtLNwIAVjE=
+X-Received: by 2002:a05:6830:1e56:: with SMTP id
+ e22mr3855933otj.303.1601537691033; 
+ Thu, 01 Oct 2020 00:34:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200930211723.3028059-1-robdclark@gmail.com>
-In-Reply-To: <20200930211723.3028059-1-robdclark@gmail.com>
+References: <20201001042012.13114-1-airlied@gmail.com>
+In-Reply-To: <20201001042012.13114-1-airlied@gmail.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 1 Oct 2020 09:25:28 +0200
-Message-ID: <CAKMK7uHHPWE3h7ssG-dpb3czwbP5VtZYztMA=CpvQ4HV4LQTXA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
-To: Rob Clark <robdclark@gmail.com>
+Date: Thu, 1 Oct 2020 09:34:40 +0200
+Message-ID: <CAKMK7uGzb7ovFnMnFy72i_TkehWmccBHtuRk1A5mrhmhT4Q1pg@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: fix regression in thp code due to ttm init
+ refactor.
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,84 +59,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>,
- Qais Yousef <qais.yousef@arm.com>
+Cc: Roland Scheidegger <sroland@vmware.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 30, 2020 at 11:16 PM Rob Clark <robdclark@gmail.com> wrote:
+On Thu, Oct 1, 2020 at 6:20 AM Dave Airlie <airlied@gmail.com> wrote:
 >
-> From: Rob Clark <robdclark@chromium.org>
+> From: Dave Airlie <airlied@redhat.com>
 >
-> The android userspace treats the display pipeline as a realtime problem.
-> And arguably, if your goal is to not miss frame deadlines (ie. vblank),
-> it is.  (See https://lwn.net/Articles/809545/ for the best explaination
-> that I found.)
+> When I refactored this code with the new init paths, I failed to
+> set the funcs back up properly, this caused a failure to bringup
+> gdm properly.
 >
-> But this presents a problem with using workqueues for non-blocking
-> atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
-> preempt the worker.  Which is not really the outcome you want.. once
-> the required fences are scheduled, you want to push the atomic commit
-> down to hw ASAP.
->
-> But the decision of whether commit_work should be RT or not really
-> depends on what userspace is doing.  For a pure CFS userspace display
-> pipeline, commit_work() should remain SCHED_NORMAL.
->
-> To handle this, convert non-blocking commit_work() to use per-CRTC
-> kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
-> used to avoid serializing commits when userspace is using a per-CRTC
-> update loop.  And the last patch exposes the task id to userspace as
-> a CRTC property, so that userspace can adjust the priority and sched
-> policy to fit it's needs.
->
->
-> v2: Drop client cap and in-kernel setting of priority/policy in
->     favor of exposing the kworker tid to userspace so that user-
->     space can set priority/policy.
+> Fixes: 252f8d7b9174 ("drm/vmwgfx/ttm: convert vram mm init to new code paths")
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 
-Yeah I think this looks more reasonable. Still a bit irky interface,
-so I'd like to get some kworker/rt ack on this. Other opens:
-- needs userspace, the usual drill
-- we need this also for vblank workers, otherwise this wont work for
-drivers needing those because of another priority inversion.
-- we probably want some indication of whether this actually does
-something useful, not all drivers use atomic commit helpers. Not sure
-how to do that.
-- not sure whether the vfunc is an awesome idea, I'd frankly just
-open-code this inline. We have similar special cases already for e.g.
-dpms (and in multiple places), this isn't the worst.
-- still feeling we could at least change the default to highpriority niceness.
-- there's still the problem that commit works can overlap, and a
-single worker can't do that anymore. So rolling that out for everyone
-as-is feels a bit risky.
+Indeed, I missed that that got lost.
 
-Cheers, Daniel
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+> ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_thp.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> Rob Clark (3):
->   drm/crtc: Introduce per-crtc kworker
->   drm/atomic: Use kthread worker for nonblocking commits
->   drm: Expose CRTC's kworker task id
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+> index 63fe7da4cbf4..c158e672b762 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
+> @@ -26,6 +26,8 @@ static struct vmw_thp_manager *to_thp_manager(struct ttm_resource_manager *man)
+>         return container_of(man, struct vmw_thp_manager, manager);
+>  }
 >
->  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++++----
->  drivers/gpu/drm/drm_crtc.c          | 14 +++++++++++++
->  drivers/gpu/drm/drm_mode_config.c   | 14 +++++++++++++
->  drivers/gpu/drm/drm_mode_object.c   |  4 ++++
->  include/drm/drm_atomic.h            | 31 +++++++++++++++++++++++++++++
->  include/drm/drm_crtc.h              |  8 ++++++++
->  include/drm/drm_mode_config.h       |  9 +++++++++
->  include/drm/drm_property.h          |  9 +++++++++
->  8 files changed, 98 insertions(+), 4 deletions(-)
+> +static const struct ttm_resource_manager_func vmw_thp_func;
+> +
+>  static int vmw_thp_insert_aligned(struct drm_mm *mm, struct drm_mm_node *node,
+>                                   unsigned long align_pages,
+>                                   const struct ttm_place *place,
+> @@ -132,6 +134,7 @@ int vmw_thp_init(struct vmw_private *dev_priv)
+>         ttm_resource_manager_init(&rman->manager,
+>                                   dev_priv->vram_size >> PAGE_SHIFT);
 >
+> +       rman->manager.func = &vmw_thp_func;
+>         drm_mm_init(&rman->mm, 0, rman->manager.size);
+>         spin_lock_init(&rman->lock);
+>
+> @@ -171,7 +174,7 @@ static void vmw_thp_debug(struct ttm_resource_manager *man,
+>         spin_unlock(&rman->lock);
+>  }
+>
+> -const struct ttm_resource_manager_func vmw_thp_func = {
+> +static const struct ttm_resource_manager_func vmw_thp_func = {
+>         .alloc = vmw_thp_get_node,
+>         .free = vmw_thp_put_node,
+>         .debug = vmw_thp_debug
 > --
-> 2.26.2
+> 2.20.1
 >
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
 
 
 -- 
