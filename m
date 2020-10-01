@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD659280971
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 23:32:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D8D280974
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 23:32:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CEF76E22C;
-	Thu,  1 Oct 2020 21:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46B416E8D6;
+	Thu,  1 Oct 2020 21:32:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E116F6E226;
- Thu,  1 Oct 2020 21:32:34 +0000 (UTC)
-IronPort-SDR: wRS4YrlJPb/LDxKPXf7DVcZAaSA+lIDDk2iVkfZnWmbxhqdAjrfz3OyUy2N6GaU3yJIP+lmZfn
- 40Ac5HC7WZrw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="226968583"
-X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; d="scan'208";a="226968583"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 115646E8CD;
+ Thu,  1 Oct 2020 21:32:38 +0000 (UTC)
+IronPort-SDR: 2BFTAHdE3REgI/Tpwy3cbGhvs/hr9fvr6btc8SybePv1b+eFtknGE3ys3qh0rDfmJkVB0uaCQj
+ m7Ktx4htMPLQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="226968601"
+X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; d="scan'208";a="226968601"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2020 14:32:34 -0700
-IronPort-SDR: 8cZ5qoL/4rCt6HUhNV4J/shVIzZCE8/u3JHNogH8wytTROMo+fcbnpoh5Fjp2zExojmId0RzQI
- 6BxyV8qMYyug==
+ 01 Oct 2020 14:32:37 -0700
+IronPort-SDR: mWAtIeLMppa8xfnxJXVk7jwM8/fn2+WU1XDiYjuCFuNvPYyrOHlPfo/RJLvLSIfvc782b1muFQ
+ DRcQs/ACRLgQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; d="scan'208";a="339714759"
+X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; d="scan'208";a="339714776"
 Received: from tejas-system-product-name.iind.intel.com ([10.145.162.130])
- by fmsmga004.fm.intel.com with ESMTP; 01 Oct 2020 14:32:31 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 01 Oct 2020 14:32:34 -0700
 From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  james.ausmus@intel.com, matthew.d.roper@intel.com, jose.souza@intel.com,
  ville.syrjala@linux.intel.com, lucas.demarchi@intel.com,
  hariom.pandey@intel.com
-Subject: [PATCH v3 1/2] drm/i915/jsl: Split EHL/JSL platform info and PCI ids
-Date: Fri,  2 Oct 2020 02:54:34 +0530
-Message-Id: <20201001212435.269840-2-tejaskumarx.surendrakumar.upadhyay@intel.com>
+Subject: [PATCH v3 2/2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
+Date: Fri,  2 Oct 2020 02:54:35 +0530
+Message-Id: <20201001212435.269840-3-tejaskumarx.surendrakumar.upadhyay@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201001212435.269840-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
 References: <20201001212435.269840-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
@@ -56,396 +56,182 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split the basic platform definition, macros, and PCI IDs to
-differentiate between EHL and JSL platforms.
+JSL has update in vswing table for eDP.
+
+BSpec: 21257
 
 Changes since V2 :
 	- Added IS_EHL_JSL to replace IS_ELKHARTLAKE
 	- EHL/JSL PCI ids split added
+	- Changes rebased as per new drm top commit
+
 Changes since V1 :
-	- IS_ELKHARTLAKE and IS_JASPERLAKE is replaced with
-          HAS_PCH_MCC(EHL) and HAS_PCH_JSP(JSL) respectively
-	- Reverted EHL/JSL PCI ids split change
+            - IS_ELKHARTLAKE and IS_JASPERLAKE is replaced with
+              HAS_PCH_MCC(EHL) and HAS_PCH_JSP(JSL) respectively
+            - Reverted EHL/JSL PCI ids split change
 
 Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
 ---
- drivers/gpu/drm/i915/display/icl_dsi.c         |  4 ++--
- drivers/gpu/drm/i915/display/intel_cdclk.c     |  4 ++--
- drivers/gpu/drm/i915/display/intel_combo_phy.c |  6 +++---
- drivers/gpu/drm/i915/display/intel_display.c   |  8 ++++----
- drivers/gpu/drm/i915/display/intel_dp.c        |  2 +-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c  | 16 ++++++++--------
- drivers/gpu/drm/i915/gt/intel_sseu.c           |  2 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c    |  2 +-
- drivers/gpu/drm/i915/i915_drv.h                |  5 +++--
- drivers/gpu/drm/i915/i915_pci.c                |  9 +++++++++
- drivers/gpu/drm/i915/intel_device_info.c       |  1 +
- drivers/gpu/drm/i915/intel_device_info.h       |  1 +
- drivers/gpu/drm/i915/intel_pch.c               |  6 +++---
- include/drm/i915_pciids.h                      |  9 ++++++---
- 14 files changed, 45 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/i915/display/intel_ddi.c | 95 ++++++++++++++++++++++--
+ 1 file changed, 89 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
-index fe946a2e2082..fee23ac14edd 100644
---- a/drivers/gpu/drm/i915/display/icl_dsi.c
-+++ b/drivers/gpu/drm/i915/display/icl_dsi.c
-@@ -455,7 +455,7 @@ static void gen11_dsi_config_phy_lanes_sequence(struct intel_encoder *encoder)
- 		intel_de_write(dev_priv, ICL_PORT_TX_DW2_GRP(phy), tmp);
- 
- 		/* For EHL, TGL, set latency optimization for PCS_DW1 lanes */
--		if (IS_ELKHARTLAKE(dev_priv) || (INTEL_GEN(dev_priv) >= 12)) {
-+		if (IS_EHL_JSL(dev_priv) || (INTEL_GEN(dev_priv) >= 12)) {
- 			tmp = intel_de_read(dev_priv,
- 					    ICL_PORT_PCS_DW1_AUX(phy));
- 			tmp &= ~LATENCY_OPTIM_MASK;
-@@ -612,7 +612,7 @@ gen11_dsi_setup_dphy_timings(struct intel_encoder *encoder,
- 		}
- 	}
- 
--	if (IS_ELKHARTLAKE(dev_priv)) {
-+	if (IS_EHL_JSL(dev_priv)) {
- 		for_each_dsi_phy(phy, intel_dsi->phys) {
- 			tmp = intel_de_read(dev_priv, ICL_DPHY_CHKN(phy));
- 			tmp |= ICL_DPHY_CHKN_AFE_OVER_PPI_STRAP;
-diff --git a/drivers/gpu/drm/i915/display/intel_cdclk.c b/drivers/gpu/drm/i915/display/intel_cdclk.c
-index cb93f6cf6d37..2f39a4dc72f9 100644
---- a/drivers/gpu/drm/i915/display/intel_cdclk.c
-+++ b/drivers/gpu/drm/i915/display/intel_cdclk.c
-@@ -2588,7 +2588,7 @@ static int intel_compute_max_dotclk(struct drm_i915_private *dev_priv)
-  */
- void intel_update_max_cdclk(struct drm_i915_private *dev_priv)
- {
--	if (IS_ELKHARTLAKE(dev_priv)) {
-+	if (IS_EHL_JSL(dev_priv)) {
- 		if (dev_priv->cdclk.hw.ref == 24000)
- 			dev_priv->max_cdclk_freq = 552000;
- 		else
-@@ -2815,7 +2815,7 @@ void intel_init_cdclk_hooks(struct drm_i915_private *dev_priv)
- 		dev_priv->display.modeset_calc_cdclk = bxt_modeset_calc_cdclk;
- 		dev_priv->display.calc_voltage_level = tgl_calc_voltage_level;
- 		dev_priv->cdclk.table = icl_cdclk_table;
--	} else if (IS_ELKHARTLAKE(dev_priv)) {
-+	} else if (IS_EHL_JSL(dev_priv)) {
- 		dev_priv->display.set_cdclk = bxt_set_cdclk;
- 		dev_priv->display.bw_calc_min_cdclk = skl_bw_calc_min_cdclk;
- 		dev_priv->display.modeset_calc_cdclk = bxt_modeset_calc_cdclk;
-diff --git a/drivers/gpu/drm/i915/display/intel_combo_phy.c b/drivers/gpu/drm/i915/display/intel_combo_phy.c
-index 157d8c8c605a..acc7b0098026 100644
---- a/drivers/gpu/drm/i915/display/intel_combo_phy.c
-+++ b/drivers/gpu/drm/i915/display/intel_combo_phy.c
-@@ -188,7 +188,7 @@ static bool has_phy_misc(struct drm_i915_private *i915, enum phy phy)
- 	 * PHY-B and may not even have instances of the register for the
- 	 * other combo PHY's.
- 	 */
--	if (IS_ELKHARTLAKE(i915) ||
-+	if (IS_EHL_JSL(i915) ||
- 	    IS_ROCKETLAKE(i915))
- 		return phy < PHY_C;
- 
-@@ -282,7 +282,7 @@ static bool icl_combo_phy_verify_state(struct drm_i915_private *dev_priv,
- 		ret &= check_phy_reg(dev_priv, phy, ICL_PORT_COMP_DW8(phy),
- 				     IREFGEN, IREFGEN);
- 
--		if (IS_ELKHARTLAKE(dev_priv)) {
-+		if (IS_EHL_JSL(dev_priv)) {
- 			if (ehl_vbt_ddi_d_present(dev_priv))
- 				expected_val = ICL_PHY_MISC_MUX_DDID;
- 
-@@ -376,7 +376,7 @@ static void icl_combo_phys_init(struct drm_i915_private *dev_priv)
- 		 * "internal" child devices.
- 		 */
- 		val = intel_de_read(dev_priv, ICL_PHY_MISC(phy));
--		if (IS_ELKHARTLAKE(dev_priv) && phy == PHY_A) {
-+		if (IS_EHL_JSL(dev_priv) && phy == PHY_A) {
- 			val &= ~ICL_PHY_MISC_MUX_DDID;
- 
- 			if (ehl_vbt_ddi_d_present(dev_priv))
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 753f202ef6a0..6135dd84abb8 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -7334,7 +7334,7 @@ bool intel_phy_is_combo(struct drm_i915_private *dev_priv, enum phy phy)
- 		return false;
- 	else if (IS_ROCKETLAKE(dev_priv))
- 		return phy <= PHY_D;
--	else if (IS_ELKHARTLAKE(dev_priv))
-+	else if (IS_EHL_JSL(dev_priv))
- 		return phy <= PHY_C;
- 	else if (INTEL_GEN(dev_priv) >= 11)
- 		return phy <= PHY_B;
-@@ -7348,7 +7348,7 @@ bool intel_phy_is_tc(struct drm_i915_private *dev_priv, enum phy phy)
- 		return false;
- 	else if (INTEL_GEN(dev_priv) >= 12)
- 		return phy >= PHY_D && phy <= PHY_I;
--	else if (INTEL_GEN(dev_priv) >= 11 && !IS_ELKHARTLAKE(dev_priv))
-+	else if (INTEL_GEN(dev_priv) >= 11 && !IS_EHL_JSL(dev_priv))
- 		return phy >= PHY_C && phy <= PHY_F;
- 	else
- 		return false;
-@@ -7358,7 +7358,7 @@ enum phy intel_port_to_phy(struct drm_i915_private *i915, enum port port)
- {
- 	if (IS_ROCKETLAKE(i915) && port >= PORT_D)
- 		return (enum phy)port - 1;
--	else if (IS_ELKHARTLAKE(i915) && port == PORT_D)
-+	else if (IS_EHL_JSL(i915) && port == PORT_D)
- 		return PHY_A;
- 
- 	return (enum phy)port;
-@@ -17116,7 +17116,7 @@ static void intel_setup_outputs(struct drm_i915_private *dev_priv)
- 		intel_ddi_init(dev_priv, PORT_H);
- 		intel_ddi_init(dev_priv, PORT_I);
- 		icl_dsi_init(dev_priv);
--	} else if (IS_ELKHARTLAKE(dev_priv)) {
-+	} else if (IS_EHL_JSL(dev_priv)) {
- 		intel_ddi_init(dev_priv, PORT_A);
- 		intel_ddi_init(dev_priv, PORT_B);
- 		intel_ddi_init(dev_priv, PORT_C);
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 7429597b57be..7c6938f24172 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -277,7 +277,7 @@ static int icl_max_source_rate(struct intel_dp *intel_dp)
- 	enum phy phy = intel_port_to_phy(dev_priv, dig_port->base.port);
- 
- 	if (intel_phy_is_combo(dev_priv, phy) &&
--	    !IS_ELKHARTLAKE(dev_priv) &&
-+	    !IS_EHL_JSL(dev_priv) &&
- 	    !intel_dp_is_edp(intel_dp))
- 		return 540000;
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-index e08684e34078..32d6df997118 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-@@ -152,7 +152,7 @@ intel_combo_pll_enable_reg(struct drm_i915_private *i915,
- 			   struct intel_shared_dpll *pll)
- {
- 
--	if (IS_ELKHARTLAKE(i915) && (pll->info->id == DPLL_ID_EHL_DPLL4))
-+	if (IS_EHL_JSL(i915) && (pll->info->id == DPLL_ID_EHL_DPLL4))
- 		return MG_PLL_ENABLE(0);
- 
- 	return CNL_DPLL_ENABLE(pll->info->id);
-@@ -3529,7 +3529,7 @@ static bool icl_get_combo_phy_dpll(struct intel_atomic_state *state,
- 			BIT(DPLL_ID_EHL_DPLL4) |
- 			BIT(DPLL_ID_ICL_DPLL1) |
- 			BIT(DPLL_ID_ICL_DPLL0);
--	} else if (IS_ELKHARTLAKE(dev_priv) && port != PORT_A) {
-+	} else if (IS_EHL_JSL(dev_priv) && port != PORT_A) {
- 		dpll_mask =
- 			BIT(DPLL_ID_EHL_DPLL4) |
- 			BIT(DPLL_ID_ICL_DPLL1) |
-@@ -3831,7 +3831,7 @@ static bool icl_pll_get_hw_state(struct drm_i915_private *dev_priv,
- 		hw_state->cfgcr1 = intel_de_read(dev_priv,
- 						 TGL_DPLL_CFGCR1(id));
- 	} else {
--		if (IS_ELKHARTLAKE(dev_priv) && id == DPLL_ID_EHL_DPLL4) {
-+		if (IS_EHL_JSL(dev_priv) && id == DPLL_ID_EHL_DPLL4) {
- 			hw_state->cfgcr0 = intel_de_read(dev_priv,
- 							 ICL_DPLL_CFGCR0(4));
- 			hw_state->cfgcr1 = intel_de_read(dev_priv,
-@@ -3880,7 +3880,7 @@ static void icl_dpll_write(struct drm_i915_private *dev_priv,
- 		cfgcr0_reg = TGL_DPLL_CFGCR0(id);
- 		cfgcr1_reg = TGL_DPLL_CFGCR1(id);
- 	} else {
--		if (IS_ELKHARTLAKE(dev_priv) && id == DPLL_ID_EHL_DPLL4) {
-+		if (IS_EHL_JSL(dev_priv) && id == DPLL_ID_EHL_DPLL4) {
- 			cfgcr0_reg = ICL_DPLL_CFGCR0(4);
- 			cfgcr1_reg = ICL_DPLL_CFGCR1(4);
- 		} else {
-@@ -4054,7 +4054,7 @@ static void combo_pll_enable(struct drm_i915_private *dev_priv,
- {
- 	i915_reg_t enable_reg = intel_combo_pll_enable_reg(dev_priv, pll);
- 
--	if (IS_ELKHARTLAKE(dev_priv) &&
-+	if (IS_EHL_JSL(dev_priv) &&
- 	    pll->info->id == DPLL_ID_EHL_DPLL4) {
- 
- 		/*
-@@ -4167,7 +4167,7 @@ static void combo_pll_disable(struct drm_i915_private *dev_priv,
- 
- 	icl_pll_disable(dev_priv, pll, enable_reg);
- 
--	if (IS_ELKHARTLAKE(dev_priv) &&
-+	if (IS_EHL_JSL(dev_priv) &&
- 	    pll->info->id == DPLL_ID_EHL_DPLL4)
- 		intel_display_power_put(dev_priv, POWER_DOMAIN_DPLL_DC_OFF,
- 					pll->wakeref);
-@@ -4334,7 +4334,7 @@ void intel_shared_dpll_init(struct drm_device *dev)
- 		dpll_mgr = &rkl_pll_mgr;
- 	else if (INTEL_GEN(dev_priv) >= 12)
- 		dpll_mgr = &tgl_pll_mgr;
--	else if (IS_ELKHARTLAKE(dev_priv))
-+	else if (IS_EHL_JSL(dev_priv))
- 		dpll_mgr = &ehl_pll_mgr;
- 	else if (INTEL_GEN(dev_priv) >= 11)
- 		dpll_mgr = &icl_pll_mgr;
-@@ -4476,7 +4476,7 @@ static void readout_dpll_hw_state(struct drm_i915_private *i915,
- 	pll->on = pll->info->funcs->get_hw_state(i915, pll,
- 						 &pll->state.hw_state);
- 
--	if (IS_ELKHARTLAKE(i915) && pll->on &&
-+	if (IS_EHL_JSL(i915) && pll->on &&
- 	    pll->info->id == DPLL_ID_EHL_DPLL4) {
- 		pll->wakeref = intel_display_power_get(i915,
- 						       POWER_DOMAIN_DPLL_DC_OFF);
-diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
-index f1c039e1b5ad..997d39721f0c 100644
---- a/drivers/gpu/drm/i915/gt/intel_sseu.c
-+++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
-@@ -169,7 +169,7 @@ static void gen11_sseu_info_init(struct intel_gt *gt)
- 	u8 eu_en;
- 	u8 s_en;
- 
--	if (IS_ELKHARTLAKE(gt->i915))
-+	if (IS_EHL_JSL(gt->i915))
- 		intel_sseu_set_info(sseu, 1, 4, 8);
- 	else
- 		intel_sseu_set_info(sseu, 1, 8, 8);
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 6c580d0d9ea8..5d81a55993e5 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -1839,7 +1839,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 			    GEN12_FF_TESSELATION_DOP_GATE_DISABLE);
- 
- 		/* Wa_22010271021:ehl */
--		if (IS_ELKHARTLAKE(i915))
-+		if (IS_EHL_JSL(i915))
- 			wa_masked_en(wal,
- 				     GEN9_CS_DEBUG_MODE1,
- 				     FF_DOP_CLOCK_GATE_DISABLE);
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index eef9a821c49c..2c75bcb76932 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1417,7 +1417,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- #define IS_COMETLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_COMETLAKE)
- #define IS_CANNONLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_CANNONLAKE)
- #define IS_ICELAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ICELAKE)
--#define IS_ELKHARTLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE)
-+#define IS_EHL_JSL(dev_priv)	(IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE) || \
-+				IS_PLATFORM(dev_priv, INTEL_JASPERLAKE))
- #define IS_TIGERLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_TIGERLAKE)
- #define IS_ROCKETLAKE(dev_priv)	IS_PLATFORM(dev_priv, INTEL_ROCKETLAKE)
- #define IS_DG1(dev_priv)        IS_PLATFORM(dev_priv, INTEL_DG1)
-@@ -1559,7 +1560,7 @@ extern const struct i915_rev_steppings kbl_revids[];
- #define EHL_REVID_A0            0x0
- 
- #define IS_EHL_REVID(p, since, until) \
--	(IS_ELKHARTLAKE(p) && IS_REVID(p, since, until))
-+	(IS_EHL_JSL(p) && IS_REVID(p, since, until))
- 
- enum {
- 	TGL_REVID_A0,
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 366ddfc8df6b..8690b69fcf33 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -846,6 +846,14 @@ static const struct intel_device_info ehl_info = {
- 	.ppgtt_size = 36,
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index b4c520348b3b..6c67232247ec 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -582,6 +582,34 @@ static const struct cnl_ddi_buf_trans ehl_combo_phy_ddi_translations_dp[] = {
+ 	{ 0x6, 0x7F, 0x3F, 0x00, 0x00 },	/* 900   900      0.0   */
  };
  
-+static const struct intel_device_info jsl_info = {
-+	GEN11_FEATURES,
-+	PLATFORM(INTEL_JASPERLAKE),
-+	.require_force_probe = 1,
-+	.platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(VCS0) | BIT(VECS0),
-+	.ppgtt_size = 36,
++static const struct cnl_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr[] = {
++						/* NT mV Trans mV db    */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   200      0.0   */
++	{ 0x8, 0x7F, 0x38, 0x00, 0x07 },	/* 200   250      1.9   */
++	{ 0x1, 0x7F, 0x33, 0x00, 0x0C },	/* 200   300      3.5   */
++	{ 0xA, 0x35, 0x36, 0x00, 0x09 },	/* 200   350      4.9   */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   250      0.0   */
++	{ 0x1, 0x7F, 0x38, 0x00, 0x07 },	/* 250   300      1.6   */
++	{ 0xA, 0x35, 0x35, 0x00, 0x0A },	/* 250   350      2.9   */
++	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 300   300      0.0   */
++	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 300   350      1.3   */
++	{ 0xA, 0x35, 0x3F, 0x00, 0x00 },	/* 350   350      0.0   */
 +};
 +
- #define GEN12_FEATURES \
- 	GEN11_FEATURES, \
- 	GEN(12), \
-@@ -985,6 +993,7 @@ static const struct pci_device_id pciidlist[] = {
- 	INTEL_CNL_IDS(&cnl_info),
- 	INTEL_ICL_11_IDS(&icl_info),
- 	INTEL_EHL_IDS(&ehl_info),
-+	INTEL_JSL_IDS(&jsl_info),
- 	INTEL_TGL_12_IDS(&tgl_info),
- 	INTEL_RKL_IDS(&rkl_info),
- 	{0, 0, 0}
-diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-index adc836f15fde..e67cec8fa2aa 100644
---- a/drivers/gpu/drm/i915/intel_device_info.c
-+++ b/drivers/gpu/drm/i915/intel_device_info.c
-@@ -62,6 +62,7 @@ static const char * const platform_names[] = {
- 	PLATFORM_NAME(CANNONLAKE),
- 	PLATFORM_NAME(ICELAKE),
- 	PLATFORM_NAME(ELKHARTLAKE),
-+	PLATFORM_NAME(JASPERLAKE),
- 	PLATFORM_NAME(TIGERLAKE),
- 	PLATFORM_NAME(ROCKETLAKE),
- 	PLATFORM_NAME(DG1),
-diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-index 6a3d607218aa..d92fa041c700 100644
---- a/drivers/gpu/drm/i915/intel_device_info.h
-+++ b/drivers/gpu/drm/i915/intel_device_info.h
-@@ -79,6 +79,7 @@ enum intel_platform {
- 	/* gen11 */
- 	INTEL_ICELAKE,
- 	INTEL_ELKHARTLAKE,
-+	INTEL_JASPERLAKE,
- 	/* gen12 */
- 	INTEL_TIGERLAKE,
- 	INTEL_ROCKETLAKE,
-diff --git a/drivers/gpu/drm/i915/intel_pch.c b/drivers/gpu/drm/i915/intel_pch.c
-index 6c97192e9ca8..72ffb6d4d5fc 100644
---- a/drivers/gpu/drm/i915/intel_pch.c
-+++ b/drivers/gpu/drm/i915/intel_pch.c
-@@ -115,7 +115,7 @@ intel_pch_type(const struct drm_i915_private *dev_priv, unsigned short id)
- 		return PCH_ICP;
- 	case INTEL_PCH_MCC_DEVICE_ID_TYPE:
- 		drm_dbg_kms(&dev_priv->drm, "Found Mule Creek Canyon PCH\n");
--		drm_WARN_ON(&dev_priv->drm, !IS_ELKHARTLAKE(dev_priv));
-+		drm_WARN_ON(&dev_priv->drm, !IS_EHL_JSL(dev_priv));
- 		return PCH_MCC;
- 	case INTEL_PCH_TGP_DEVICE_ID_TYPE:
- 	case INTEL_PCH_TGP2_DEVICE_ID_TYPE:
-@@ -126,7 +126,7 @@ intel_pch_type(const struct drm_i915_private *dev_priv, unsigned short id)
- 	case INTEL_PCH_JSP_DEVICE_ID_TYPE:
- 	case INTEL_PCH_JSP2_DEVICE_ID_TYPE:
- 		drm_dbg_kms(&dev_priv->drm, "Found Jasper Lake PCH\n");
--		drm_WARN_ON(&dev_priv->drm, !IS_ELKHARTLAKE(dev_priv));
-+		drm_WARN_ON(&dev_priv->drm, !IS_EHL_JSL(dev_priv));
- 		return PCH_JSP;
- 	default:
- 		return PCH_NONE;
-@@ -157,7 +157,7 @@ intel_virt_detect_pch(const struct drm_i915_private *dev_priv)
++static const struct cnl_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr2[] = {
++						/* NT mV Trans mV db    */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   200      0.0   */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   250      1.9   */
++	{ 0x1, 0x7F, 0x3D, 0x00, 0x02 },	/* 200   300      3.5   */
++	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 200   350      4.9   */
++	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   250      0.0   */
++	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   300      1.6   */
++	{ 0xA, 0x35, 0x3A, 0x00, 0x05 },	/* 250   350      2.9   */
++	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 300   300      0.0   */
++	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 300   350      1.3   */
++	{ 0xA, 0x35, 0x3F, 0x00, 0x00 },	/* 350   350      0.0   */
++};
++
+ struct icl_mg_phy_ddi_buf_trans {
+ 	u32 cri_txdeemph_override_11_6;
+ 	u32 cri_txdeemph_override_5_0;
+@@ -1167,6 +1195,57 @@ ehl_get_combo_buf_trans(struct intel_encoder *encoder,
+ 		return ehl_get_combo_buf_trans_dp(encoder, crtc_state, n_entries);
+ }
  
- 	if (IS_TIGERLAKE(dev_priv) || IS_ROCKETLAKE(dev_priv))
- 		id = INTEL_PCH_TGP_DEVICE_ID_TYPE;
++static const struct cnl_ddi_buf_trans *
++jsl_get_combo_buf_trans_hdmi(struct intel_encoder *encoder,
++			     const struct intel_crtc_state *crtc_state,
++			     int *n_entries)
++{
++	*n_entries = ARRAY_SIZE(icl_combo_phy_ddi_translations_hdmi);
++	return icl_combo_phy_ddi_translations_hdmi;
++}
++
++static const struct cnl_ddi_buf_trans *
++jsl_get_combo_buf_trans_dp(struct intel_encoder *encoder,
++			   const struct intel_crtc_state *crtc_state,
++			   int *n_entries)
++{
++	*n_entries = ARRAY_SIZE(icl_combo_phy_ddi_translations_dp_hbr2);
++	return icl_combo_phy_ddi_translations_dp_hbr2;
++}
++
++static const struct cnl_ddi_buf_trans *
++jsl_get_combo_buf_trans_edp(struct intel_encoder *encoder,
++			    const struct intel_crtc_state *crtc_state,
++			    int *n_entries)
++{
++	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
++
++	if (dev_priv->vbt.edp.low_vswing) {
++		if (crtc_state->port_clock > 270000) {
++			*n_entries = ARRAY_SIZE(jsl_combo_phy_ddi_translations_edp_hbr2);
++			return jsl_combo_phy_ddi_translations_edp_hbr2;
++		} else {
++			*n_entries = ARRAY_SIZE(jsl_combo_phy_ddi_translations_edp_hbr);
++			return jsl_combo_phy_ddi_translations_edp_hbr;
++		}
++	}
++
++	return jsl_get_combo_buf_trans_dp(encoder, crtc_state, n_entries);
++}
++
++static const struct cnl_ddi_buf_trans *
++jsl_get_combo_buf_trans(struct intel_encoder *encoder,
++			const struct intel_crtc_state *crtc_state,
++			int *n_entries)
++{
++	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI))
++		return jsl_get_combo_buf_trans_hdmi(encoder, crtc_state, n_entries);
++	else if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_EDP))
++		return jsl_get_combo_buf_trans_edp(encoder, crtc_state, n_entries);
++	else
++		return jsl_get_combo_buf_trans_dp(encoder, crtc_state, n_entries);
++}
++
+ static const struct cnl_ddi_buf_trans *
+ tgl_get_combo_buf_trans_hdmi(struct intel_encoder *encoder,
+ 			     const struct intel_crtc_state *crtc_state,
+@@ -2368,8 +2447,10 @@ static u8 intel_ddi_dp_voltage_max(struct intel_dp *intel_dp,
+ 		else
+ 			tgl_get_dkl_buf_trans(encoder, crtc_state, &n_entries);
+ 	} else if (INTEL_GEN(dev_priv) == 11) {
+-		if (IS_ELKHARTLAKE(dev_priv))
++		if (IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE))
+ 			ehl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
++		else if (IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE))
++			jsl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
+ 		else if (intel_phy_is_combo(dev_priv, phy))
+ 			icl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
+ 		else
+@@ -2549,8 +2630,10 @@ static void icl_ddi_combo_vswing_program(struct intel_encoder *encoder,
+ 
+ 	if (INTEL_GEN(dev_priv) >= 12)
+ 		ddi_translations = tgl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
+-	else if (IS_ELKHARTLAKE(dev_priv))
++	else if (IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE))
+ 		ddi_translations = ehl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
++	else if (IS_PLATFORM(dev_priv, INTEL_JASPERLAKE))
++		ddi_translations = jsl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
+ 	else
+ 		ddi_translations = icl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
+ 	if (!ddi_translations)
+@@ -3140,7 +3223,7 @@ static void intel_ddi_clk_select(struct intel_encoder *encoder,
+ 		if (!intel_phy_is_combo(dev_priv, phy))
+ 			intel_de_write(dev_priv, DDI_CLK_SEL(port),
+ 				       icl_pll_to_ddi_clk_sel(encoder, crtc_state));
+-		else if (IS_ELKHARTLAKE(dev_priv) && port >= PORT_C)
++		else if (IS_EHL_JSL(dev_priv) && port >= PORT_C)
+ 			/*
+ 			 * MG does not exist but the programming is required
+ 			 * to ungate DDIC and DDID
+@@ -3189,7 +3272,7 @@ static void intel_ddi_clk_disable(struct intel_encoder *encoder)
+ 
+ 	if (INTEL_GEN(dev_priv) >= 11) {
+ 		if (!intel_phy_is_combo(dev_priv, phy) ||
+-		    (IS_ELKHARTLAKE(dev_priv) && port >= PORT_C))
++		    (IS_EHL_JSL(dev_priv) && port >= PORT_C))
+ 			intel_de_write(dev_priv, DDI_CLK_SEL(port),
+ 				       DDI_CLK_SEL_NONE);
+ 	} else if (IS_CANNONLAKE(dev_priv)) {
+@@ -4334,7 +4417,7 @@ void intel_ddi_compute_min_voltage_level(struct drm_i915_private *dev_priv,
+ {
+ 	if (INTEL_GEN(dev_priv) >= 12 && crtc_state->port_clock > 594000)
+ 		crtc_state->min_voltage_level = 2;
+-	else if (IS_ELKHARTLAKE(dev_priv) && crtc_state->port_clock > 594000)
++	else if (IS_EHL_JSL(dev_priv) && crtc_state->port_clock > 594000)
+ 		crtc_state->min_voltage_level = 3;
+ 	else if (INTEL_GEN(dev_priv) >= 11 && crtc_state->port_clock > 594000)
+ 		crtc_state->min_voltage_level = 1;
+@@ -5186,7 +5269,7 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+ 		encoder->hpd_pin = rkl_hpd_pin(dev_priv, port);
+ 	else if (INTEL_GEN(dev_priv) >= 12)
+ 		encoder->hpd_pin = tgl_hpd_pin(dev_priv, port);
 -	else if (IS_ELKHARTLAKE(dev_priv))
 +	else if (IS_EHL_JSL(dev_priv))
- 		id = INTEL_PCH_MCC_DEVICE_ID_TYPE;
- 	else if (IS_ICELAKE(dev_priv))
- 		id = INTEL_PCH_ICP_DEVICE_ID_TYPE;
-diff --git a/include/drm/i915_pciids.h b/include/drm/i915_pciids.h
-index 7eeecb07c9a1..1b5e09cfa11e 100644
---- a/include/drm/i915_pciids.h
-+++ b/include/drm/i915_pciids.h
-@@ -579,15 +579,18 @@
- 	INTEL_VGA_DEVICE(0x8A51, info), \
- 	INTEL_VGA_DEVICE(0x8A5D, info)
- 
--/* EHL/JSL */
-+/* EHL */
- #define INTEL_EHL_IDS(info) \
- 	INTEL_VGA_DEVICE(0x4500, info),	\
- 	INTEL_VGA_DEVICE(0x4571, info), \
- 	INTEL_VGA_DEVICE(0x4551, info), \
- 	INTEL_VGA_DEVICE(0x4541, info), \
--	INTEL_VGA_DEVICE(0x4E71, info), \
- 	INTEL_VGA_DEVICE(0x4557, info), \
--	INTEL_VGA_DEVICE(0x4555, info), \
-+	INTEL_VGA_DEVICE(0x4555, info)
-+
-+/* JSL */
-+#define INTEL_JSL_IDS(info) \
-+	INTEL_VGA_DEVICE(0x4E71, info), \
- 	INTEL_VGA_DEVICE(0x4E61, info), \
- 	INTEL_VGA_DEVICE(0x4E57, info), \
- 	INTEL_VGA_DEVICE(0x4E55, info), \
+ 		encoder->hpd_pin = ehl_hpd_pin(dev_priv, port);
+ 	else if (IS_GEN(dev_priv, 11))
+ 		encoder->hpd_pin = icl_hpd_pin(dev_priv, port);
 -- 
 2.28.0
 
