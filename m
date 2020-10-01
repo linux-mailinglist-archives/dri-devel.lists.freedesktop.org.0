@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D8D280974
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 23:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CEDB2809E0
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 00:07:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B416E8D6;
-	Thu,  1 Oct 2020 21:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7EB6E8DD;
+	Thu,  1 Oct 2020 22:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 115646E8CD;
- Thu,  1 Oct 2020 21:32:38 +0000 (UTC)
-IronPort-SDR: 2BFTAHdE3REgI/Tpwy3cbGhvs/hr9fvr6btc8SybePv1b+eFtknGE3ys3qh0rDfmJkVB0uaCQj
- m7Ktx4htMPLQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="226968601"
-X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; d="scan'208";a="226968601"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2020 14:32:37 -0700
-IronPort-SDR: mWAtIeLMppa8xfnxJXVk7jwM8/fn2+WU1XDiYjuCFuNvPYyrOHlPfo/RJLvLSIfvc782b1muFQ
- DRcQs/ACRLgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,325,1596524400"; d="scan'208";a="339714776"
-Received: from tejas-system-product-name.iind.intel.com ([10.145.162.130])
- by fmsmga004.fm.intel.com with ESMTP; 01 Oct 2020 14:32:34 -0700
-From: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- james.ausmus@intel.com, matthew.d.roper@intel.com, jose.souza@intel.com,
- ville.syrjala@linux.intel.com, lucas.demarchi@intel.com,
- hariom.pandey@intel.com
-Subject: [PATCH v3 2/2] drm/i915/edp/jsl: Update vswing table for HBR and HBR2
-Date: Fri,  2 Oct 2020 02:54:35 +0530
-Message-Id: <20201001212435.269840-3-tejaskumarx.surendrakumar.upadhyay@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201001212435.269840-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
-References: <20201001212435.269840-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D453A6E8DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 22:07:54 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id n2so48004oij.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 15:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DTsNkTRKBFGiT3RnxqZet+e/40+acfLy05o3xQ2l+Jk=;
+ b=aIR4I+0sBlNa3HSvx1eZnX3VRUlq2nZJCCPjELSWgEO/0HvnarH6GN/9/l4L8lCTVY
+ Nu8RN/zvEY8WYHB7mMSiRF5p56z7dklm5ZfpjGbjrRdte7TTPgaD62XFFUmjgkgP8rVZ
+ dVyFISlOu2Q22Kot4krNb4RRdEyX3QqoJBane5oI0QT5JT9MSp5kqfjKo3e5tnmESdby
+ DtDDccIGRn76SbXAKheT0SFV1hn7BfQ9MqKX7JoEN1b8UrJlCqET+UkVsLrVSkO+6x81
+ vErLl4xayHwrPjhYKw/1dA2rAb2lq4sNE5h/4OMvayGCqtS+/b8XRUBcTxOJjcbtshfv
+ BfQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DTsNkTRKBFGiT3RnxqZet+e/40+acfLy05o3xQ2l+Jk=;
+ b=dDIfqoAr7AmLrc1vHa/7btmtsV3WaCcMfjwleflkLPEfRinPYaT2T+k61GRuWGdimw
+ /zPPQY0ZYpdkrePST0A+8SQhudUnFYo4Ywkrzyz4biqTg+2PFWMi/Gz3g9/pwyEaxUAj
+ rtPshmXQu3U0o6iv+GVBrfMQSqN/9sfAv3+oF01ouZFu8qba6MBuuB16lPIu88zvXBxb
+ H/DObnCgq7ArVnvfbUDFocG1QkptWiR9NcLtvsp3Hz33OpSKIE5S9V08RuYofrjs0yU4
+ 7ZNOrU8bGppp866nX+BKE2XmQshF+qRE5bdkIJ+E3rF50vurSsc6fwPzmE1sl2nyrRNu
+ q2aw==
+X-Gm-Message-State: AOAM532/DF1E73meFkV+Q+OivmbXy0QL/bCAwxlyy6D+0ASruH3dkYx4
+ Vfc5+tz4KWr+2FgPQUvIecOG9s0ZHtXCafFLj0MGpg==
+X-Google-Smtp-Source: ABdhPJytLfO0smIK/xEv6VzJQe4myTsLm8ipjd0O6CWHheM/Dyq/BY10cueJ7Vwo1iCD6z7vzAM7/RY4nBV8/6B0afg=
+X-Received: by 2002:a54:4d88:: with SMTP id y8mr1380233oix.97.1601590074016;
+ Thu, 01 Oct 2020 15:07:54 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200926042453.67517-1-john.stultz@linaro.org>
+ <20200926042453.67517-6-john.stultz@linaro.org>
+ <1e109a138c86be7b06e20cb30a243fc7@codeaurora.org>
+In-Reply-To: <1e109a138c86be7b06e20cb30a243fc7@codeaurora.org>
+From: John Stultz <john.stultz@linaro.org>
+Date: Thu, 1 Oct 2020 15:07:42 -0700
+Message-ID: <CALAqxLWv+Uz_mPUtx8TzfEvKHk7kp0XS5XLX6qyW6tqacGZU5g@mail.gmail.com>
+Subject: Re: [RFC][PATCH 5/6] dma-buf: system_heap: Add pagepool support to
+ system heap
+To: Chris Goldsworthy <cgoldswo@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,191 +64,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sandeep Patil <sspatil@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-JSL has update in vswing table for eDP.
-
-BSpec: 21257
-
-Changes since V2 :
-	- Added IS_EHL_JSL to replace IS_ELKHARTLAKE
-	- EHL/JSL PCI ids split added
-	- Changes rebased as per new drm top commit
-
-Changes since V1 :
-            - IS_ELKHARTLAKE and IS_JASPERLAKE is replaced with
-              HAS_PCH_MCC(EHL) and HAS_PCH_JSP(JSL) respectively
-            - Reverted EHL/JSL PCI ids split change
-
-Signed-off-by: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
----
- drivers/gpu/drm/i915/display/intel_ddi.c | 95 ++++++++++++++++++++++--
- 1 file changed, 89 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index b4c520348b3b..6c67232247ec 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -582,6 +582,34 @@ static const struct cnl_ddi_buf_trans ehl_combo_phy_ddi_translations_dp[] = {
- 	{ 0x6, 0x7F, 0x3F, 0x00, 0x00 },	/* 900   900      0.0   */
- };
- 
-+static const struct cnl_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr[] = {
-+						/* NT mV Trans mV db    */
-+	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   200      0.0   */
-+	{ 0x8, 0x7F, 0x38, 0x00, 0x07 },	/* 200   250      1.9   */
-+	{ 0x1, 0x7F, 0x33, 0x00, 0x0C },	/* 200   300      3.5   */
-+	{ 0xA, 0x35, 0x36, 0x00, 0x09 },	/* 200   350      4.9   */
-+	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   250      0.0   */
-+	{ 0x1, 0x7F, 0x38, 0x00, 0x07 },	/* 250   300      1.6   */
-+	{ 0xA, 0x35, 0x35, 0x00, 0x0A },	/* 250   350      2.9   */
-+	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 300   300      0.0   */
-+	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 300   350      1.3   */
-+	{ 0xA, 0x35, 0x3F, 0x00, 0x00 },	/* 350   350      0.0   */
-+};
-+
-+static const struct cnl_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr2[] = {
-+						/* NT mV Trans mV db    */
-+	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   200      0.0   */
-+	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 200   250      1.9   */
-+	{ 0x1, 0x7F, 0x3D, 0x00, 0x02 },	/* 200   300      3.5   */
-+	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 200   350      4.9   */
-+	{ 0x8, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   250      0.0   */
-+	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 250   300      1.6   */
-+	{ 0xA, 0x35, 0x3A, 0x00, 0x05 },	/* 250   350      2.9   */
-+	{ 0x1, 0x7F, 0x3F, 0x00, 0x00 },	/* 300   300      0.0   */
-+	{ 0xA, 0x35, 0x38, 0x00, 0x07 },	/* 300   350      1.3   */
-+	{ 0xA, 0x35, 0x3F, 0x00, 0x00 },	/* 350   350      0.0   */
-+};
-+
- struct icl_mg_phy_ddi_buf_trans {
- 	u32 cri_txdeemph_override_11_6;
- 	u32 cri_txdeemph_override_5_0;
-@@ -1167,6 +1195,57 @@ ehl_get_combo_buf_trans(struct intel_encoder *encoder,
- 		return ehl_get_combo_buf_trans_dp(encoder, crtc_state, n_entries);
- }
- 
-+static const struct cnl_ddi_buf_trans *
-+jsl_get_combo_buf_trans_hdmi(struct intel_encoder *encoder,
-+			     const struct intel_crtc_state *crtc_state,
-+			     int *n_entries)
-+{
-+	*n_entries = ARRAY_SIZE(icl_combo_phy_ddi_translations_hdmi);
-+	return icl_combo_phy_ddi_translations_hdmi;
-+}
-+
-+static const struct cnl_ddi_buf_trans *
-+jsl_get_combo_buf_trans_dp(struct intel_encoder *encoder,
-+			   const struct intel_crtc_state *crtc_state,
-+			   int *n_entries)
-+{
-+	*n_entries = ARRAY_SIZE(icl_combo_phy_ddi_translations_dp_hbr2);
-+	return icl_combo_phy_ddi_translations_dp_hbr2;
-+}
-+
-+static const struct cnl_ddi_buf_trans *
-+jsl_get_combo_buf_trans_edp(struct intel_encoder *encoder,
-+			    const struct intel_crtc_state *crtc_state,
-+			    int *n_entries)
-+{
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+
-+	if (dev_priv->vbt.edp.low_vswing) {
-+		if (crtc_state->port_clock > 270000) {
-+			*n_entries = ARRAY_SIZE(jsl_combo_phy_ddi_translations_edp_hbr2);
-+			return jsl_combo_phy_ddi_translations_edp_hbr2;
-+		} else {
-+			*n_entries = ARRAY_SIZE(jsl_combo_phy_ddi_translations_edp_hbr);
-+			return jsl_combo_phy_ddi_translations_edp_hbr;
-+		}
-+	}
-+
-+	return jsl_get_combo_buf_trans_dp(encoder, crtc_state, n_entries);
-+}
-+
-+static const struct cnl_ddi_buf_trans *
-+jsl_get_combo_buf_trans(struct intel_encoder *encoder,
-+			const struct intel_crtc_state *crtc_state,
-+			int *n_entries)
-+{
-+	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI))
-+		return jsl_get_combo_buf_trans_hdmi(encoder, crtc_state, n_entries);
-+	else if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_EDP))
-+		return jsl_get_combo_buf_trans_edp(encoder, crtc_state, n_entries);
-+	else
-+		return jsl_get_combo_buf_trans_dp(encoder, crtc_state, n_entries);
-+}
-+
- static const struct cnl_ddi_buf_trans *
- tgl_get_combo_buf_trans_hdmi(struct intel_encoder *encoder,
- 			     const struct intel_crtc_state *crtc_state,
-@@ -2368,8 +2447,10 @@ static u8 intel_ddi_dp_voltage_max(struct intel_dp *intel_dp,
- 		else
- 			tgl_get_dkl_buf_trans(encoder, crtc_state, &n_entries);
- 	} else if (INTEL_GEN(dev_priv) == 11) {
--		if (IS_ELKHARTLAKE(dev_priv))
-+		if (IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE))
- 			ehl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
-+		else if (IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE))
-+			jsl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
- 		else if (intel_phy_is_combo(dev_priv, phy))
- 			icl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
- 		else
-@@ -2549,8 +2630,10 @@ static void icl_ddi_combo_vswing_program(struct intel_encoder *encoder,
- 
- 	if (INTEL_GEN(dev_priv) >= 12)
- 		ddi_translations = tgl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
--	else if (IS_ELKHARTLAKE(dev_priv))
-+	else if (IS_PLATFORM(dev_priv, INTEL_ELKHARTLAKE))
- 		ddi_translations = ehl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
-+	else if (IS_PLATFORM(dev_priv, INTEL_JASPERLAKE))
-+		ddi_translations = jsl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
- 	else
- 		ddi_translations = icl_get_combo_buf_trans(encoder, crtc_state, &n_entries);
- 	if (!ddi_translations)
-@@ -3140,7 +3223,7 @@ static void intel_ddi_clk_select(struct intel_encoder *encoder,
- 		if (!intel_phy_is_combo(dev_priv, phy))
- 			intel_de_write(dev_priv, DDI_CLK_SEL(port),
- 				       icl_pll_to_ddi_clk_sel(encoder, crtc_state));
--		else if (IS_ELKHARTLAKE(dev_priv) && port >= PORT_C)
-+		else if (IS_EHL_JSL(dev_priv) && port >= PORT_C)
- 			/*
- 			 * MG does not exist but the programming is required
- 			 * to ungate DDIC and DDID
-@@ -3189,7 +3272,7 @@ static void intel_ddi_clk_disable(struct intel_encoder *encoder)
- 
- 	if (INTEL_GEN(dev_priv) >= 11) {
- 		if (!intel_phy_is_combo(dev_priv, phy) ||
--		    (IS_ELKHARTLAKE(dev_priv) && port >= PORT_C))
-+		    (IS_EHL_JSL(dev_priv) && port >= PORT_C))
- 			intel_de_write(dev_priv, DDI_CLK_SEL(port),
- 				       DDI_CLK_SEL_NONE);
- 	} else if (IS_CANNONLAKE(dev_priv)) {
-@@ -4334,7 +4417,7 @@ void intel_ddi_compute_min_voltage_level(struct drm_i915_private *dev_priv,
- {
- 	if (INTEL_GEN(dev_priv) >= 12 && crtc_state->port_clock > 594000)
- 		crtc_state->min_voltage_level = 2;
--	else if (IS_ELKHARTLAKE(dev_priv) && crtc_state->port_clock > 594000)
-+	else if (IS_EHL_JSL(dev_priv) && crtc_state->port_clock > 594000)
- 		crtc_state->min_voltage_level = 3;
- 	else if (INTEL_GEN(dev_priv) >= 11 && crtc_state->port_clock > 594000)
- 		crtc_state->min_voltage_level = 1;
-@@ -5186,7 +5269,7 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
- 		encoder->hpd_pin = rkl_hpd_pin(dev_priv, port);
- 	else if (INTEL_GEN(dev_priv) >= 12)
- 		encoder->hpd_pin = tgl_hpd_pin(dev_priv, port);
--	else if (IS_ELKHARTLAKE(dev_priv))
-+	else if (IS_EHL_JSL(dev_priv))
- 		encoder->hpd_pin = ehl_hpd_pin(dev_priv, port);
- 	else if (IS_GEN(dev_priv, 11))
- 		encoder->hpd_pin = icl_hpd_pin(dev_priv, port);
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBTZXAgMjksIDIwMjAgYXQgOTo0NiBQTSBDaHJpcyBHb2xkc3dvcnRoeQo8Y2dvbGRz
+d29AY29kZWF1cm9yYS5vcmc+IHdyb3RlOgo+Cj4gT24gMjAyMC0wOS0yNSAyMToyNCwgSm9obiBT
+dHVsdHogd3JvdGU6Cj4gPiBSZXVzZS9hYnVzZSB0aGUgcGFnZXBvb2wgY29kZSBmcm9tIHRoZSBu
+ZXR3b3JrIGNvZGUgdG8gc3BlZWQKPiA+IHVwIGFsbG9jYXRpb24gcGVyZm9ybWFuY2UuCj4gPgo+
+ID4gVGhpcyBpcyBzaW1pbGFyIHRvIHRoZSBJT04gcGFnZXBvb2wgdXNhZ2UsIGJ1dCB0cmllcyB0
+bwo+ID4gdXRpbGl6ZSBnZW5lcmljIGNvZGUgaW5zdGVhZCBvZiBhIGN1c3RvbSBpbXBsZW1lbnRh
+dGlvbi4KPiA+Cj4gPiBDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4K
+PiA+IENjOiBMaWFtIE1hcmsgPGxtYXJrQGNvZGVhdXJvcmEub3JnPgo+ID4gQ2M6IExhdXJhIEFi
+Ym90dCA8bGFiYm90dEBrZXJuZWwub3JnPgo+ID4gQ2M6IEJyaWFuIFN0YXJrZXkgPEJyaWFuLlN0
+YXJrZXlAYXJtLmNvbT4KPiA+IENjOiBIcmlkeWEgVmFsc2FyYWp1IDxocmlkeWFAZ29vZ2xlLmNv
+bT4KPiA+IENjOiBTdXJlbiBCYWdoZGFzYXJ5YW4gPHN1cmVuYkBnb29nbGUuY29tPgo+ID4gQ2M6
+IFNhbmRlZXAgUGF0aWwgPHNzcGF0aWxAZ29vZ2xlLmNvbT4KPiA+IENjOiDDmHJqYW4gRWlkZSA8
+b3JqYW4uZWlkZUBhcm0uY29tPgo+ID4gQ2M6IFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5QGFy
+bS5jb20+Cj4gPiBDYzogRXplcXVpZWwgR2FyY2lhIDxlemVxdWllbEBjb2xsYWJvcmEuY29tPgo+
+ID4gQ2M6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4KPiA+IENjOiBKYW1lcyBKb25l
+cyA8amFqb25lc0BudmlkaWEuY29tPgo+ID4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
+Zwo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IFNpZ25lZC1vZmYt
+Ynk6IEpvaG4gU3R1bHR6IDxqb2huLnN0dWx0ekBsaW5hcm8ub3JnPgo+ID4gLS0tCj4gPiAgZHJp
+dmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcgICAgICAgfCAgMSArCj4gPiAgZHJpdmVycy9kbWEt
+YnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMgfCAzMiArKysrKysrKysrKysrKysrKysrKysrKysrLS0t
+LQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
+PiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcKPiA+IGIv
+ZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcKPiA+IGluZGV4IGE1ZWVmMDZjNDIyNi4uZjEz
+Y2RlNDMyMWIxIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL0tjb25maWcK
+PiA+ICsrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9LY29uZmlnCj4gPiBAQCAtMSw2ICsxLDcg
+QEAKPiA+ICBjb25maWcgRE1BQlVGX0hFQVBTX1NZU1RFTQo+ID4gICAgICAgYm9vbCAiRE1BLUJV
+RiBTeXN0ZW0gSGVhcCIKPiA+ICAgICAgIGRlcGVuZHMgb24gRE1BQlVGX0hFQVBTCj4gPiArICAg
+ICBzZWxlY3QgUEFHRV9QT09MCj4gPiAgICAgICBoZWxwCj4gPiAgICAgICAgIENob29zZSB0aGlz
+IG9wdGlvbiB0byBlbmFibGUgdGhlIHN5c3RlbSBkbWFidWYgaGVhcC4gVGhlIHN5c3RlbQo+ID4g
+aGVhcAo+ID4gICAgICAgICBpcyBiYWNrZWQgYnkgcGFnZXMgZnJvbSB0aGUgYnVkZHkgYWxsb2Nh
+dG9yLiBJZiBpbiBkb3VidCwgc2F5IFkuCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVm
+L2hlYXBzL3N5c3RlbV9oZWFwLmMKPiA+IGIvZHJpdmVycy9kbWEtYnVmL2hlYXBzL3N5c3RlbV9o
+ZWFwLmMKPiA+IGluZGV4IDg4MmE2MzJlOWJiNy4uOWY1N2I0YzhhZTY5IDEwMDY0NAo+ID4gLS0t
+IGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMKPiA+ICsrKyBiL2RyaXZlcnMv
+ZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jCj4gPiBAQCAtMjAsNiArMjAsNyBAQAo+ID4gICNp
+bmNsdWRlIDxsaW51eC9zY2F0dGVybGlzdC5oPgo+ID4gICNpbmNsdWRlIDxsaW51eC9zbGFiLmg+
+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L3ZtYWxsb2MuaD4KPiA+ICsjaW5jbHVkZSA8bmV0L3BhZ2Vf
+cG9vbC5oPgo+ID4KPiA+ICBzdHJ1Y3QgZG1hX2hlYXAgKnN5c19oZWFwOwo+ID4KPiA+IEBAIC00
+Niw2ICs0Nyw3IEBAIHN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50IHsKPiA+ICBzdGF0aWMgZ2Zw
+X3Qgb3JkZXJfZmxhZ3NbXSA9IHtISUdIX09SREVSX0dGUCwgTE9XX09SREVSX0dGUCwKPiA+IExP
+V19PUkRFUl9HRlB9Owo+ID4gIHN0YXRpYyBjb25zdCB1bnNpZ25lZCBpbnQgb3JkZXJzW10gPSB7
+OCwgNCwgMH07Cj4gPiAgI2RlZmluZSBOVU1fT1JERVJTIEFSUkFZX1NJWkUob3JkZXJzKQo+ID4g
+K3N0cnVjdCBwYWdlX3Bvb2wgKnBvb2xzW05VTV9PUkRFUlNdOwo+ID4KPiA+ICBzdGF0aWMgc3Ry
+dWN0IHNnX3RhYmxlICpkdXBfc2dfdGFibGUoc3RydWN0IHNnX3RhYmxlICp0YWJsZSkKPiA+ICB7
+Cj4gPiBAQCAtMjY0LDEzICsyNjYsMTcgQEAgc3RhdGljIHZvaWQgc3lzdGVtX2hlYXBfZG1hX2J1
+Zl9yZWxlYXNlKHN0cnVjdAo+ID4gZG1hX2J1ZiAqZG1hYnVmKQo+ID4gICAgICAgc3RydWN0IHN5
+c3RlbV9oZWFwX2J1ZmZlciAqYnVmZmVyID0gZG1hYnVmLT5wcml2Owo+ID4gICAgICAgc3RydWN0
+IHNnX3RhYmxlICp0YWJsZTsKPiA+ICAgICAgIHN0cnVjdCBzY2F0dGVybGlzdCAqc2c7Cj4gPiAt
+ICAgICBpbnQgaTsKPiA+ICsgICAgIGludCBpLCBqOwo+ID4KPiA+ICAgICAgIHRhYmxlID0gJmJ1
+ZmZlci0+c2dfdGFibGU7Cj4gPiAgICAgICBmb3JfZWFjaF9zZyh0YWJsZS0+c2dsLCBzZywgdGFi
+bGUtPm5lbnRzLCBpKSB7Cj4gPiAgICAgICAgICAgICAgIHN0cnVjdCBwYWdlICpwYWdlID0gc2df
+cGFnZShzZyk7Cj4gPgo+ID4gLSAgICAgICAgICAgICBfX2ZyZWVfcGFnZXMocGFnZSwgY29tcG91
+bmRfb3JkZXIocGFnZSkpOwo+ID4gKyAgICAgICAgICAgICBmb3IgKGogPSAwOyBqIDwgTlVNX09S
+REVSUzsgaisrKSB7Cj4gPiArICAgICAgICAgICAgICAgICAgICAgaWYgKGNvbXBvdW5kX29yZGVy
+KHBhZ2UpID09IG9yZGVyc1tqXSkKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJy
+ZWFrOwo+ID4gKyAgICAgICAgICAgICB9Cj4gPiArICAgICAgICAgICAgIHBhZ2VfcG9vbF9wdXRf
+ZnVsbF9wYWdlKHBvb2xzW2pdLCBwYWdlLCBmYWxzZSk7Cj4gPiAgICAgICB9Cj4gPiAgICAgICBz
+Z19mcmVlX3RhYmxlKHRhYmxlKTsKPiA+ICAgICAgIGtmcmVlKGJ1ZmZlcik7Cj4gPiBAQCAtMzAw
+LDggKzMwNiw3IEBAIHN0YXRpYyBzdHJ1Y3QgcGFnZQo+ID4gKmFsbG9jX2xhcmdlc3RfYXZhaWxh
+YmxlKHVuc2lnbmVkIGxvbmcgc2l6ZSwKPiA+ICAgICAgICAgICAgICAgICAgICAgICBjb250aW51
+ZTsKPiA+ICAgICAgICAgICAgICAgaWYgKG1heF9vcmRlciA8IG9yZGVyc1tpXSkKPiA+ICAgICAg
+ICAgICAgICAgICAgICAgICBjb250aW51ZTsKPiA+IC0KPiA+IC0gICAgICAgICAgICAgcGFnZSA9
+IGFsbG9jX3BhZ2VzKG9yZGVyX2ZsYWdzW2ldLCBvcmRlcnNbaV0pOwo+ID4gKyAgICAgICAgICAg
+ICBwYWdlID0gcGFnZV9wb29sX2FsbG9jX3BhZ2VzKHBvb2xzW2ldLCBvcmRlcl9mbGFnc1tpXSk7
+Cj4gPiAgICAgICAgICAgICAgIGlmICghcGFnZSkKPiA+ICAgICAgICAgICAgICAgICAgICAgICBj
+b250aW51ZTsKPiA+ICAgICAgICAgICAgICAgcmV0dXJuIHBhZ2U7Cj4gPiBAQCAtNDA2LDYgKzQx
+MSwyNSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRtYV9oZWFwX29wcyBzeXN0ZW1faGVhcF9vcHMg
+PQo+ID4gewo+ID4gIHN0YXRpYyBpbnQgc3lzdGVtX2hlYXBfY3JlYXRlKHZvaWQpCj4gPiAgewo+
+ID4gICAgICAgc3RydWN0IGRtYV9oZWFwX2V4cG9ydF9pbmZvIGV4cF9pbmZvOwo+ID4gKyAgICAg
+aW50IGk7Cj4gPiArCj4gPiArICAgICBmb3IgKGkgPSAwOyBpIDwgTlVNX09SREVSUzsgaSsrKSB7
+Cj4gPiArICAgICAgICAgICAgIHN0cnVjdCBwYWdlX3Bvb2xfcGFyYW1zIHBwOwo+ID4gKwo+ID4g
+KyAgICAgICAgICAgICBtZW1zZXQoJnBwLCAwLCBzaXplb2YocHApKTsKPiA+ICsgICAgICAgICAg
+ICAgcHAub3JkZXIgPSBvcmRlcnNbaV07Cj4gPiArICAgICAgICAgICAgIHBwLmRtYV9kaXIgPSBE
+TUFfQklESVJFQ1RJT05BTDsKPiA+ICsgICAgICAgICAgICAgcG9vbHNbaV0gPSBwYWdlX3Bvb2xf
+Y3JlYXRlKCZwcCk7Cj4gPiArCj4gPiArICAgICAgICAgICAgIGlmIChJU19FUlIocG9vbHNbaV0p
+KSB7Cj4gPiArICAgICAgICAgICAgICAgICAgICAgaW50IGo7Cj4gPiArCj4gPiArICAgICAgICAg
+ICAgICAgICAgICAgcHJfZXJyKCIlczogcGFnZSBwb29sIGNyZWF0aW9uIGZhaWxlZCFcbiIsIF9f
+ZnVuY19fKTsKPiA+ICsgICAgICAgICAgICAgICAgICAgICBmb3IgKGogPSAwOyBqIDwgaTsgaisr
+KQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGFnZV9wb29sX2Rlc3Ryb3kocG9v
+bHNbal0pOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKHBvb2xzW2ld
+KTsKPiA+ICsgICAgICAgICAgICAgfQo+ID4gKyAgICAgfQo+ID4KPiA+ICAgICAgIGV4cF9pbmZv
+Lm5hbWUgPSAic3lzdGVtIjsKPiA+ICAgICAgIGV4cF9pbmZvLm9wcyA9ICZzeXN0ZW1faGVhcF9v
+cHM7Cj4KPiBUaGlzIGlzIGNvb2wsIEkgZGlkbid0IGtub3cgYWJvdXQgdGhpcyBwb29saW5nIGNv
+ZGUgdW5kZXIgL25ldC9jb3JlLgo+IE5pY2UgYW5kIGNvbXBhY3QuCgpPaCwgYnVtbWVyLiBJIGp1
+c3QgcmVhbGl6ZWQgd2hlbiBhbGxvY2F0aW5nIHcvIF9fR0ZQX1pFUk8gZnJvbSB0aGUKcGFnZS1w
+b29sLCB0aGUgbG9naWMgZG9lc24ndCBhY3R1YWxseSBjbGVhciBwYWdlcyB3aGVuIHB1bGxpbmcg
+ZnJvbQp0aGUgY2FjaGUuClNvIHVuZm9ydHVuYXRlbHkgdGhpcyBpcyB3aGF0IGFjY291bnRzIGZv
+ciBtdWNoIG9mIHRoZSBwZXJmb3JtYW5jZQpiZW5lZml0IEkgd2FzIHNlZWluZyB3aXRoIHRoaXMg
+YXBwcm9hY2gsIHNvIEknbGwgaGF2ZSB0byByZXRyYWN0IG15CmNsYWltIG9uIHRoZSBwZXJmb3Jt
+YW5jZSBnYWluIHdpdGggdGhpcy4gOigKCkkndmUgZ290IGEgZmlyc3QgcGFzcyBhdCB6ZXJvaW5n
+IHRoZSBwYWdlcyB3ZSBwdXQgaW50byB0aGUgcG9vbCwgYnV0CnRoZSBudW1iZXJzIGFyZSBub3Qg
+c28gZ3JlYXQganVzdCB5ZXQgc28gSSd2ZSBnb3Qgc29tZSBmdXJ0aGVyIHdvcmsgdG8KZG8uCgp0
+aGFua3MKLWpvaG4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
