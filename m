@@ -2,40 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7A527FCA4
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 11:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8772327FCB7
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 11:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9274A6E140;
-	Thu,  1 Oct 2020 09:47:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 945CF6E183;
+	Thu,  1 Oct 2020 09:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38DF26E140
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 09:47:38 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4C27Zt24QNz9sTs;
- Thu,  1 Oct 2020 19:47:33 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1601545656;
- bh=V0tr4aRqa3cn2uZubzKdVVlKtKcpfmeVwqwH476qMXI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=J2PZSNgiHj2B4SSBKhQCpk/BPTj0eYi9e1NRgw8sRBzebnJLV0MrWOnsYObYrgd8I
- XVSnuJysj5p/koC9y/GbXhV9k9dbvPAmdnQQBrdtnVu/Dfa7c2NB63pdnVaDB/tfHG
- 0bR5QabUg9X8s9YeskcGJbhq2ZYNsO+XOGrZeYJLUNaqZjahOwHj7CrT+/NS69qaGC
- qXNcryB3/OMs6rfFu40uPfN/CdFPj+1TmQ+RXAg8+7NJpup6IX8mTgK4isxY6sgA81
- f6oRjEncMdCJUTOxsZR0/QIZHQNuIhg1NCc1c4GgOr8rCrzhwo7l3z/YBgEtUGKjBJ
- rPn0x+QMD44fg==
-Date: Thu, 1 Oct 2020 19:47:33 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build warning after merge of the drm tree
-Message-ID: <20201001194733.24a50013@canb.auug.org.au>
-In-Reply-To: <20200923133601.293b4fe6@canb.auug.org.au>
-References: <20200923133601.293b4fe6@canb.auug.org.au>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2FA6E16F
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 09:58:01 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0919vnaN046565;
+ Thu, 1 Oct 2020 04:57:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1601546269;
+ bh=ocLes7Q6GrLIKYLM3Cr5mOXbo2kYCJeDXbZdaIMVWRc=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=D5SBE5pX8Pi9gpbfl/oB8WH52xgpevDTqHZvPQUn4i46eRiUAkBZYAlTAwZ9AvxLS
+ O13xAxbdC7azjog11Cx+2uTNTQVLpAF2EwHBJ1dPovK4PRnkRjbikrh9un1sqARFTN
+ WjubkDA/oGRw8/70Xc68hGLNq2fbNr9jH3NbSS74=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0919vmTK099182
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 1 Oct 2020 04:57:48 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 1 Oct
+ 2020 04:57:48 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 1 Oct 2020 04:57:48 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0919vk4u034844;
+ Thu, 1 Oct 2020 04:57:47 -0500
+Subject: Re: [PATCH v2] drm: bridge: cdns-mhdp8546: fix compile warning
+To: Dave Airlie <airlied@linux.ie>
+References: <20200929091918.24813-1-tomi.valkeinen@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <5e683867-b148-a9fb-f8ea-f763d567030b@ti.com>
+Date: Thu, 1 Oct 2020 12:57:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200929091918.24813-1-tomi.valkeinen@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,88 +61,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yuti Amonkar <yamonkar@cadence.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jyri Sarha <jsarha@ti.com>, Quentin Schulz <quentin.schulz@free-electrons.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Yuti Amonkar <yamonkar@cadence.com>, dri-devel@lists.freedesktop.org,
  Swapnil Jakhade <sjakhade@cadence.com>
-Content-Type: multipart/mixed; boundary="===============0749287720=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0749287720==
-Content-Type: multipart/signed; boundary="Sig_/e/DH.PyW1L/Y=Dkh5cEnq82";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Hi Dave,
 
---Sig_/e/DH.PyW1L/Y=Dkh5cEnq82
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Can you pick this up to drm-next? Fixes the x64 build warnings for the recent cdns-mhdp-5.10 pull.
 
-Hi all,
+ Tomi
 
-On Wed, 23 Sep 2020 13:36:01 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
-> produced this warning:
->=20
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c: In function 'cdns_mh=
-dp_fw_activate':
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:751:10: warning: conv=
-ersion from 'long unsigned int' to 'unsigned int' changes value from '18446=
-744073709551613' to '4294967293' [-Woverflow]
->   751 |   writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c: In function 'cdns_mh=
-dp_attach':
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:1692:10: warning: con=
-version from 'long unsigned int' to 'unsigned int' changes value from '1844=
-6744073709551613' to '4294967293' [-Woverflow]
->  1692 |   writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c: In function 'cdns_mh=
-dp_bridge_hpd_enable':
-> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2125:10: warning: con=
-version from 'long unsigned int' to 'unsigned int' changes value from '1844=
-6744073709551613' to '4294967293' [-Woverflow]
->  2125 |   writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
->=20
-> Introduced by commit
->=20
->   fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546 DPI/DP bri=
-dge")
+On 29/09/2020 12:19, Tomi Valkeinen wrote:
+> On x64 we get:
+> 
+> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:751:10: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '18446744073709551613' to '4294967293' [-Woverflow]
+> 
+> The registers are 32 bit, so fix by casting to u32.
+> 
+> Fixes: fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546 DPI/DP bridge")
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Reviewed-by: Swapnil Jakhade <sjakhade@cadence.com>
+> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> 
+> v2:
+> 
+> No changes to code, added tags.
+> 
+> 
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index 621ebdbff8a3..d0c65610ebb5 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -748,7 +748,7 @@ static int cdns_mhdp_fw_activate(const struct firmware *fw,
+>  	 * bridge should already be detached.
+>  	 */
+>  	if (mhdp->bridge_attached)
+> -		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
+> +		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+>  		       mhdp->regs + CDNS_APB_INT_MASK);
+>  
+>  	spin_unlock(&mhdp->start_lock);
+> @@ -1689,7 +1689,7 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
+>  
+>  	/* Enable SW event interrupts */
+>  	if (hw_ready)
+> -		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
+> +		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+>  		       mhdp->regs + CDNS_APB_INT_MASK);
+>  
+>  	return 0;
+> @@ -2122,7 +2122,7 @@ static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
+>  
+>  	/* Enable SW event interrupts */
+>  	if (mhdp->bridge_attached)
+> -		writel(~CDNS_APB_INT_MASK_SW_EVENT_INT,
+> +		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+>  		       mhdp->regs + CDNS_APB_INT_MASK);
+>  }
+>  
+> 
 
-I am still getting these warnings ...
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/e/DH.PyW1L/Y=Dkh5cEnq82
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl91pbUACgkQAVBC80lX
-0Gzt3Af9FyxeIldY73Se7kwc2Jy8AGCv0nzWifbR5VaCpAa8KhW3+Ds5uGaqAX0C
-mRemqKIrS+QWHMeR3Jl/Z2bM0n6r5Jvmy76szIjxWih2C3IC+lzAAOm1ry0Og+7y
-XYtnzqgKRzv7BolE1s+UTWNQu9ggXCBMUIvXHlSdkQ1QWbaO9eqMTB4VA7aj8TXw
-2HM2bX9JuilM4olLitzwSIBXuT57VafoKd8KCwidjKyi7XtfJ74Jz8rpf2znpEkt
-dM+x/my7HWOY8xSL2PxOM/ohGaTlplMwevdLYoelLneSBEmYuaQdgzRok7qAPsLr
-kXh0k3rBtre44P587LW8WFBtA137pg==
-=9RKw
------END PGP SIGNATURE-----
-
---Sig_/e/DH.PyW1L/Y=Dkh5cEnq82--
-
---===============0749287720==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0749287720==--
