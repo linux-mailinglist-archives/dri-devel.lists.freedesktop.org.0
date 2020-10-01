@@ -2,33 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF971280280
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 17:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD022802A7
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Oct 2020 17:24:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3DAE6E8AC;
-	Thu,  1 Oct 2020 15:22:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2EFB6E8B9;
+	Thu,  1 Oct 2020 15:24:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF2C6E8AC
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 15:22:38 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D15F329CD9A;
- Thu,  1 Oct 2020 16:22:36 +0100 (BST)
-Date: Thu, 1 Oct 2020 17:22:31 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] panfrost: Fix job timeout handling
-Message-ID: <20201001172231.51d45558@collabora.com>
-In-Reply-To: <b51d154f-978d-3439-fbb3-e960378b53c0@arm.com>
-References: <20201001140143.1058669-1-boris.brezillon@collabora.com>
- <b51d154f-978d-3439-fbb3-e960378b53c0@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A6A6E8B6;
+ Thu,  1 Oct 2020 15:23:58 +0000 (UTC)
+IronPort-SDR: ElrEQb7tIw4AuL6gyHk8ruE2bOdY11KmVKk4jbwLslbyBKUlwjFrKlVTEnswpayyCG9aFCmf4y
+ mZ/3XjwBudSA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="163609403"
+X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; d="scan'208";a="163609403"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2020 08:23:50 -0700
+IronPort-SDR: 2LSkLNxDmCaJokfBHHpYAA+Oftl3Eqw7W8OAHLZXSQhkY4vRLUm+E3C/+tTZMJHMamfgML0LEp
+ toHry8oB/K+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,323,1596524400"; d="scan'208";a="325443848"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga002.jf.intel.com with SMTP; 01 Oct 2020 08:23:47 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 01 Oct 2020 18:23:46 +0300
+Date: Thu, 1 Oct 2020 18:23:46 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Stefan Joosten <stefan@atcomputing.nl>
+Subject: Re: [Intel-gfx] [PATCH] Revert "drm/i915: Force state->modeset=true
+ when distrust_bios_wm==true"
+Message-ID: <20201001152346.GR6112@intel.com>
+References: <60a804aa6357eb17daa1729f4bce25e762344e9f.camel@atcomputing.nl>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <60a804aa6357eb17daa1729f4bce25e762344e9f.camel@atcomputing.nl>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,133 +53,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 1 Oct 2020 15:49:39 +0100
-Steven Price <steven.price@arm.com> wrote:
+On Wed, Sep 30, 2020 at 03:47:06PM +0200, Stefan Joosten wrote:
+> The fix of flagging state->modeset whenever distrust_bios_wm is set
+> causes a regression when initializing display(s) attached to a Lenovo
+> USB-C docking station. The display remains blank until the dock is
+> reattached. Revert to bring the behavior of the functional v5.6 stable.
+> =
 
-> On 01/10/2020 15:01, Boris Brezillon wrote:
-> > If more than two or more jobs end up timeout-ing concurrently, only one
-> > of them (the one attached to the scheduler acquiring the lock) is fully
-> > handled. The other one remains in a dangling state where it's no longer
-> > part of the scheduling queue, but still blocks something in scheduler
-> > thus leading to repetitive timeouts when new jobs are queued.
-> > 
-> > Let's make sure all bad jobs are properly handled by the thread acquiring
-> > the lock.
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
-> > Cc: <stable@vger.kernel.org>
-> > ---
-> >   drivers/gpu/drm/panfrost/panfrost_job.c | 18 ++++++++++++++----
-> >   1 file changed, 14 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> > index 30e7b7196dab..e87edca51d84 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> > @@ -25,7 +25,7 @@
-> >   
-> >   struct panfrost_queue_state {
-> >   	struct drm_gpu_scheduler sched;
-> > -
-> > +	struct drm_sched_job *bad;
-> >   	u64 fence_context;
-> >   	u64 emit_seqno;
-> >   };
-> > @@ -392,19 +392,29 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
-> >   		job_read(pfdev, JS_TAIL_LO(js)),
-> >   		sched_job);
-> >   
-> > +	/*
-> > +	 * Collect the bad job here so it can be processed by the thread
-> > +	 * acquiring the reset lock.
-> > +	 */
-> > +	pfdev->js->queue[js].bad = sched_job;
-> > +
-> >   	if (!mutex_trylock(&pfdev->reset_lock))
-> >   		return;
-> >   
-> >   	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-> >   		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
-> >   
-> > -		drm_sched_stop(sched, sched_job);
-> >   		if (js != i)
-> >   			/* Ensure any timeouts on other slots have finished */
-> >   			cancel_delayed_work_sync(&sched->work_tdr);
-> > -	}
-> >   
-> > -	drm_sched_increase_karma(sched_job);
-> > +		drm_sched_stop(sched, pfdev->js->queue[i].bad);  
-> 
-> So I can see that the call to drm_sched_stop() needs to move below the 
-> cancel_delayed_work_sync() to ensure that the update to queue->bad is 
-> synchronised.
+> This reverts commit 0f8839f5f323da04a800e6ced1136e4b1e1689a9.
+> =
 
-Exactly, and it probably deserves a comment :-).
+> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1879442
+> Signed-off-by: Stefan Joosten <stefan@atcomputing.nl>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c | 14 --------------
+>  1 file changed, 14 deletions(-)
+> =
 
-> What I'm not so sure about is whether it's possible for 
-> the scheduler to make progress between the 'cancel' and the 'stop' - 
-> there is a reason I wrote it the other way round...
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
+rm/i915/display/intel_display.c
+> index b18c5ac2934d..ece1c28278f7 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -14942,20 +14942,6 @@ static int intel_atomic_check(struct drm_device =
+*dev,
+>  	if (ret)
+>  		goto fail;
+>  =
 
-Hm, we should probably stop the queue on which the timeout happened
-before acquiring the lock, this way we guarantee that nothing executes
-on queues that reported a timeout until the reset actually happens.
+> -	/*
+> -	 * distrust_bios_wm will force a full dbuf recomputation
+> -	 * but the hardware state will only get updated accordingly
+> -	 * if state->modeset=3D=3Dtrue. Hence distrust_bios_wm=3D=3Dtrue &&
+> -	 * state->modeset=3D=3Dfalse is an invalid combination which
+> -	 * would cause the hardware and software dbuf state to get
+> -	 * out of sync. We must prevent that.
+> -	 *
+> -	 * FIXME clean up this mess and introduce better
+> -	 * state tracking for dbuf.
+> -	 */
+> -	if (dev_priv->wm.distrust_bios_wm)
+> -		any_ms =3D true;
+> -
 
-That leaves queues on which no timeout was reported, and I wonder why
-it'd be bad to let those continue executing jobs. Do you see any case
-where that'd be a problem?
+Argh. If only I had managed to land the full dbuf rework and nuke this
+mess before it came back to bite us...
 
-> 
-> The hole for things to go round is clearly much smaller with this 
-> change, but I'm not sure it's completely plugged. Am I missing something?
-> 
-> > +
-> > +		if (pfdev->js->queue[i].bad)
-> > +			drm_sched_increase_karma(pfdev->js->queue[i].bad);
-> > +
-> > +		pfdev->js->queue[i].bad = NULL;
-> > +	}
-> >   
-> >   	spin_lock_irqsave(&pfdev->js->job_lock, flags);
-> >   	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-> >   
-> 
-> While we're on potential holes... some more context:
-> 
-> > 		if (pfdev->jobs[i]) {
-> > 			pm_runtime_put_noidle(pfdev->dev);
-> > 			panfrost_devfreq_record_idle(pfdev);
-> > 			pfdev->jobs[i] = NULL;
-> > 		}
-> > 	}
-> > 	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
-> > 
-> > 	panfrost_device_reset(pfdev);
-> > 
-> > 	for (i = 0; i < NUM_JOB_SLOTS; i++)
-> > 		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
-> > 
-> > 	/* restart scheduler after GPU is usable again */
-> > 	for (i = 0; i < NUM_JOB_SLOTS; i++)
-> > 		drm_sched_start(&pfdev->js->queue[i].sched, true);
-> > 
-> > 	mutex_unlock(&pfdev->reset_lock);  
-> 
-> I'm wondering whether the mutex_unlock() should actually happen before 
-> the drm_sched_start() - in the (admittedly very unlikely) case where a 
-> timeout occurs before all the drm_sched_start() calls have completed 
-> it's possible for the timeout to be completely missed because the mutex 
-> is still held.
+This is definitely going to break something else, so not great.
 
-Oh, good catch.
+Can you file an upstream bug at
+https://gitlab.freedesktop.org/drm/intel/issues/new
+and attach dmesgs from booting both good and bad kernels with
+drm.debug=3D0x1e passed to the kernel cmdline? Bump log_buf_len=3D
+if necessary to capture the full log.
+
+
+>  	intel_fbc_choose_crtc(dev_priv, state);
+>  	ret =3D calc_watermark_data(state);
+>  	if (ret)
+> -- =
+
+> 2.25.4
+> =
+
+> =
+
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
