@@ -2,74 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94305280DC6
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 09:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5764F280DD0
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 09:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC7046E046;
-	Fri,  2 Oct 2020 07:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2482C6E914;
+	Fri,  2 Oct 2020 07:02:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5F5989CA0
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 09:33:17 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3587E58023D;
- Thu,  1 Oct 2020 05:33:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 01 Oct 2020 05:33:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=X/hpZ4Y0ZMB/Qo1FM7dGX0+GqSj
- 9NQP7x2y+aZc2fP4=; b=YhzrqexPITb9eIHNrD4+gScUkQE9DitYdPele8TYbn/
- aAEWxee68iNJfcXwf9lNRQSY8RoQAyTn7/r7Uc8AtgLd6Pix9os033nWhSLUZgSR
- hdZw+Hjp+KKXdDeeAfKXK6B4Qth+OzQWVoelivsZgkSWjnSatYxRsWAvI0j4XgyB
- TU45E9jc02aUSycslDFnu24K3+j44oni+YL0sDCyoPaI4eBUbi5m9MRBy+dcGRyv
- mbnwScdG1ShDDjv//5IbsN6lDDvQMPoo27xCgdQaHVn18o7jToZUKW4abBKVmIla
- yrre8y2tAE/tD4y3nDL7xY9dMyc0p4SChRrDKYHBRDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=X/hpZ4
- Y0ZMB/Qo1FM7dGX0+GqSj9NQP7x2y+aZc2fP4=; b=XMMnA9n6/Q1D1lx/9DuaNH
- gT8QDwdHnccc4+I9Pkc6SN6HnGAG1M2zPEwxGaYtUrud7fnaQLXn/xfzyCC2lcd0
- dvF0ckIdH30WsGn08f1wd3Osug2xXk9bzH12usPsIq3j+5yhqPrbUNSMkBOzDezy
- llTf9gDt5ko4UCd0oU4YdoCdz0skrbRg1OurSFFXw3O5MKaN6DHc/sWP8pCHhW8D
- 3Dy46DrrdesxYxFdNHvDduQWYvlCvd20HPIVpIwUpoUaVPiH84P6LcL5sB44hs/x
- 0Gm4iMFoSj3Trzz81PLPpVr04/AOC/tK/vDmF+ixbDLKVn71bmBH1XnL88mPhfVQ
- ==
-X-ME-Sender: <xms:W6J1X5xgspymeynKSWFNkJt0la7rRLxavWxLaHN5PPdszCJEwfjFPQ>
- <xme:W6J1X5RmhZoxK5w-jflDomXGhjV0DVjF3ykDJRJ841Fg_MWiPTHdcCdNp8lEDR2FX
- _tIDYIf_tamWZCOOLA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggddukecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:W6J1XzX9xYSzmVlJYcS5KAhqLdXSW1MbT87XxVcLbXJK87ZZt2s4Fg>
- <xmx:W6J1X7jZiRFibQhHDNXUxc4kcKFjVPwLKejm18BbWL3KinnCXVBW9w>
- <xmx:W6J1X7DHMNN6Pyy-GCiRrEAI46asTN6baF7HD_F38O7nItl5X7-sFw>
- <xmx:XaJ1X4LpRjezgGo5YhLqO_3i6ieTHU-tf-SxyF1S9lNHXuVJEIczgg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id A2B92328005D;
- Thu,  1 Oct 2020 05:33:15 -0400 (EDT)
-Date: Thu, 1 Oct 2020 11:33:14 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH v5 80/80] ARM: dts: bcm2711: Enable the display pipeline
-Message-ID: <20201001093314.lhph4ykvtjs4bo3i@gilmour.lan>
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFDDE6E16F
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Oct 2020 10:15:58 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id q8so5872271lfb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Oct 2020 03:15:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sbHB4UppKAenF5cuB/vMr8n45MQRc8w9Jto0vU1UBGI=;
+ b=beAv55UsVyfGF0QS4DSb8YtWr0/kLHdy8m7Y/p3vuAvNYpKj8Er+VNcAzrvV5a2nlI
+ P5CCC9NT2Dh7rpn0ytCR0SxxE/nYyM6ucU+QWymp1zSTe6mTGqB5eV7x7+C+eCFEOnE9
+ 3ZBduzCDBKM3GdWJTemquWib0vXuxiJ7ShPVqqMhQKcwJ2k6mIvHB2tU7jtn0D03ThEu
+ 2QXjy7xpu9fmyJ2oujUuQVzqAr3wReGopQc27sm263SGrZfj2VBYSxrhde1YMimP/ZxN
+ IPLAxgUNwbuO4WrNPX5W5PaD6ohanEcXYl0PxyVM/bEukSoOEYvS7sviOJqjQ5GYVZYo
+ aa6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sbHB4UppKAenF5cuB/vMr8n45MQRc8w9Jto0vU1UBGI=;
+ b=ORP7Bin3OzW8o7e1P3axg/Wngm8lfsYTIJ9IKZNEX/5BDSBwWBxfFRreklB8bK4ME5
+ uIHkcAX6/+8s0hXLDwSaPFRQji4r2z6aFRswISZt16iH7seBdneLbo+6v56DDV48+WR2
+ Q9l/1IpwI5VhKPeSamZTFq6Xe8fRJ7+CJ7ACwcrp1f7q4zVvF/SflbKQMSWql92F7AVn
+ t4KGhNVq5fOOWltjmY6aQLfgUGDorCvt+wymcR07gGUG8/tRisw/WiyRtQb3nmO0b+mL
+ ce/2Q8ebWzwfuRgIw7kj4pRUwfSt2K4aC5x1FfyYxN1sBCHaNMIWqa4t+bQEYgQNe0dF
+ TPxQ==
+X-Gm-Message-State: AOAM530NiqxyowZ79ZEJuk9UpCl9CRs3LBeTs32GH6Id2RcWr9e0WNbY
+ 1Zm6pTvK2lYdB3MKT70GlwS78u/y97L0LySLMPIAuA==
+X-Google-Smtp-Source: ABdhPJz+dSG1WLw5ugB6n7HEwN0s6TlyMWv5/7+mvXT01Jl0M1MTND1yxApBDlypSSLWkuxoRZKti8z/Eofzfl+gmbc=
+X-Received: by 2002:a19:8044:: with SMTP id b65mr2152189lfd.366.1601547357111; 
+ Thu, 01 Oct 2020 03:15:57 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
  <cfce2276d172d3d9c4d34d966b58fd47f77c4e46.1599120059.git-series.maxime@cerno.tech>
  <20200929221526.GA1370981@ubuntu-m3-large-x86>
  <20200930140758.gummt3umouva3wyu@gilmour.lan>
  <20200930163823.GA237050@ubuntu-m3-large-x86>
- <eb0c0edaf22404fd69440a85bb78397a14d49ddc.camel@suse.de>
-MIME-Version: 1.0
-In-Reply-To: <eb0c0edaf22404fd69440a85bb78397a14d49ddc.camel@suse.de>
+ <cacbaef2-4221-50d8-3c5d-efab9f1a9c04@i2se.com>
+ <20201001064843.dlewcu3b7dvqanyy@gilmour.lan>
+ <20201001085402.t6mzzwzplviunhoc@gilmour.lan>
+In-Reply-To: <20201001085402.t6mzzwzplviunhoc@gilmour.lan>
+From: Tim Gover <tim.gover@raspberrypi.com>
+Date: Thu, 1 Oct 2020 11:15:46 +0100
+Message-ID: <CAAvKZ65WqQqH-9JVdb5M6HcKbR3yQdvZha8n9UXXCfciYRq4aA@mail.gmail.com>
+Subject: Re: [PATCH v5 80/80] ARM: dts: bcm2711: Enable the display pipeline
+To: Maxime Ripard <maxime@cerno.tech>
 X-Mailman-Approved-At: Fri, 02 Oct 2020 07:02:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,113 +70,120 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
  bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
  Nathan Chancellor <natechancellor@gmail.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1998691330=="
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+hdmi_enable_4k60=1 causes the firmware to select 3.3 GHz for the PLLC
+VCO to support a core-frequency of 550 MHz which is the minimum
+frequency required by the HVS at 4Kp60. The side effect is that if the
+display clock requirements are lower than 4Kp60 then you will see
+different core frequencies selected by DVFS.
 
---===============1998691330==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="w2hnz5ekr63d3x66"
-Content-Disposition: inline
+If enable_uart=1 and the mini-uart is selected (default unless
+bluetooth is disabled) then the firmware will pin the core-frequency
+to either core_freq max (500 or 550). Although, I think there is a way
+of pinning it to a lower fixed frequency.
+
+The table in overclocking.md defines options for setting the maximum
+core frequency but unless core_freq_min is specified DVFS will
+automatically pick the lowest idle frequency required by the display
+resolution.
 
 
---w2hnz5ekr63d3x66
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 01, 2020 at 11:22:03AM +0200, Nicolas Saenz Julienne wrote:
-> On Wed, 2020-09-30 at 09:38 -0700, Nathan Chancellor wrote:
-> > On Wed, Sep 30, 2020 at 04:07:58PM +0200, Maxime Ripard wrote:
-> > > Hi Nathan,
-> > >=20
-> > > On Tue, Sep 29, 2020 at 03:15:26PM -0700, Nathan Chancellor wrote:
-> > > > On Thu, Sep 03, 2020 at 10:01:52AM +0200, Maxime Ripard wrote:
-> > > > > Now that all the drivers have been adjusted for it, let's bring i=
-n the
-> > > > > necessary device tree changes.
-> > > > >=20
-> > > > > The VEC and PV3 are left out for now, since it will require a mor=
-e specific
-> > > > > clock setup.
-> > > > >=20
-> > > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > > Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
-> > > > > Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-> > > > > Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-> > > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > >=20
-> > > > Apologies if this has already been reported or have a solution but =
-this
-> > > > patch (and presumably series) breaks output to the serial console a=
-fter
-> > > > a certain point during init. On Raspbian, I see systemd startup mes=
-sages
-> > > > then the output just turns into complete garbage. It looks like this
-> > > > patch is merged first in linux-next, which is why my bisect fell on=
- the
-> > > > DRM merge. I am happy to provide whatever information could be help=
-ful
-> > > > for debugging this. I am on the latest version of the firmware
-> > > > (currently 26620cc9a63c6cb9965374d509479b4ee2c30241).
-> > >=20
-> > > Unfortunately, the miniUART is in the same clock tree than the core
-> > > clock and will thus have those kind of issues when the core clock is
-> > > changed (which is also something that one should expect when using the
-> > > DRM or other drivers).
-> > >=20
-> > > The only real workaround there would be to switch to one of the PL011
-> > > UARTs. I guess we can also somehow make the UART react to the core cl=
-ock
-> > > frequency changes, but that's going to require some effort
-> > >=20
-> > > Maxime
-> >=20
-> > Ack, thank you for the reply! There does not really seem to be a whole
-> > ton of documentation around using one of the other PL011 UARTs so for
-> > now, I will just revert this commit locally.
->=20
-> Nathan, a less intrusive solution would be to add 'core_freq_min=3D500' i=
-nto your
-> config.txt.
->=20
-> Funnily enough core_freq=3D500 doesn't seem to work in that regard. It mi=
-ght be
-> related with what Maxime is commenting.
-
-Yeah, it fixes it here too
-
-Maxime
-
---w2hnz5ekr63d3x66
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3WiWgAKCRDj7w1vZxhR
-xWyxAQCtT5n06PgaXjEzDsoo3iXgImo6rhnYHyBeb1jzJfG1XwEAimejVcajmPWZ
-7Drs6MnyiOSSnqXdn9aEsubATlxJags=
-=6Z6g
------END PGP SIGNATURE-----
-
---w2hnz5ekr63d3x66--
-
---===============1998691330==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+On Thu, 1 Oct 2020 at 09:54, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Thu, Oct 01, 2020 at 08:48:43AM +0200, Maxime Ripard wrote:
+> > Hi Stefan,
+> >
+> > On Wed, Sep 30, 2020 at 06:52:13PM +0200, Stefan Wahren wrote:
+> > > Am 30.09.20 um 18:38 schrieb Nathan Chancellor:
+> > > > On Wed, Sep 30, 2020 at 04:07:58PM +0200, Maxime Ripard wrote:
+> > > >> Hi Nathan,
+> > > >>
+> > > >> On Tue, Sep 29, 2020 at 03:15:26PM -0700, Nathan Chancellor wrote:
+> > > >>> On Thu, Sep 03, 2020 at 10:01:52AM +0200, Maxime Ripard wrote:
+> > > >>>> Now that all the drivers have been adjusted for it, let's bring in the
+> > > >>>> necessary device tree changes.
+> > > >>>>
+> > > >>>> The VEC and PV3 are left out for now, since it will require a more specific
+> > > >>>> clock setup.
+> > > >>>>
+> > > >>>> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > >>>> Tested-by: Chanwoo Choi <cw00.choi@samsung.com>
+> > > >>>> Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> > > >>>> Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
+> > > >>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > >>> Apologies if this has already been reported or have a solution but this
+> > > >>> patch (and presumably series) breaks output to the serial console after
+> > > >>> a certain point during init. On Raspbian, I see systemd startup messages
+> > > >>> then the output just turns into complete garbage. It looks like this
+> > > >>> patch is merged first in linux-next, which is why my bisect fell on the
+> > > >>> DRM merge. I am happy to provide whatever information could be helpful
+> > > >>> for debugging this. I am on the latest version of the firmware
+> > > >>> (currently 26620cc9a63c6cb9965374d509479b4ee2c30241).
+> > > >> Unfortunately, the miniUART is in the same clock tree than the core
+> > > >> clock and will thus have those kind of issues when the core clock is
+> > > >> changed (which is also something that one should expect when using the
+> > > >> DRM or other drivers).
+> > > >>
+> > > >> The only real workaround there would be to switch to one of the PL011
+> > > >> UARTs. I guess we can also somehow make the UART react to the core clock
+> > > >> frequency changes, but that's going to require some effort
+> > > >>
+> > > >> Maxime
+> > > > Ack, thank you for the reply! There does not really seem to be a whole
+> > > > ton of documentation around using one of the other PL011 UARTs so for
+> > > > now, I will just revert this commit locally.
+> > >
+> > > there was a patch series & discussion about this topic, but we finally
+> > > didn't find a rock solid solution.
+> > >
+> > > You can have a look at "[RFC 5/5] serial: 8250: bcm2835aux: add notifier
+> > > to follow clock changes" from 3.4.2019 on linux-rpi-kernel.
+> >
+> > I couldn't find that discussion on the archive, but based on the title I
+> > guess there's some patches that have been merged this cycle for the 8250
+> > driver to do just that (868f3ee6e452 ("serial: 8250: Add 8250 port clock
+> > update method") and cc816969d7b5 ("serial: 8250_dw: Fix common clocks
+> > usage race condition")).
+> >
+> > However, I'm not entirely sure the clock notifier works in our case with
+> > the firmware / MMIO clocks duality
+>
+> I was a bit intrigued by this, so I looked into it, and it seems that
+> it's worth that it used to be. The core clock is supposed to be running
+> at 500 Mhz in most cases, and that's what we're setting so it shouldn't
+> cause any pratical issue.
+>
+> However, it looks like on my board now the firmware reports that the
+> core clock is running at either 311MHz or 233MHz with hdmi_enable_4k60
+> (which seems odd?) and that contradicts the documentation here:
+> https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md
+>
+> Linux then comes in, changes the frequency to 500MHz and breaks the
+> UART. So either the doc is wrong, or the clock driver is.
+>
+> vcgencmd measure_clock core reports that it's indeed 233Mhz and I'm
+> running a year-old firmware (built on the 2019-11-29), so I'd be
+> inclined to think that the doc is wrong here or we're misinterpreting
+> something.
+>
+> Dave, Tim, any idea?
+>
+> Thanks!
+> Maxime
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1998691330==--
