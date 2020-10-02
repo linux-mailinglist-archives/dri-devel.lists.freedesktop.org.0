@@ -2,33 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156B6282305
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 11:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121D628230F
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 11:24:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDCC58969E;
-	Sat,  3 Oct 2020 09:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 060D06E2ED;
+	Sat,  3 Oct 2020 09:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 659296E92F
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 11:01:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A73451063;
- Fri,  2 Oct 2020 04:01:09 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com
- [10.1.195.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D8C93F73B;
- Fri,  2 Oct 2020 04:01:08 -0700 (PDT)
-Date: Fri, 2 Oct 2020 12:01:06 +0100
-From: Qais Yousef <qais.yousef@arm.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
-Message-ID: <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
-References: <20200930211723.3028059-1-robdclark@gmail.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD456E12D
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 12:31:18 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id B5B905C009C;
+ Fri,  2 Oct 2020 08:31:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 02 Oct 2020 08:31:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=qoi6tzHHHO2R42uzXoGJBQd1C+u
+ f6Ev9WlyzrVqIiNM=; b=iMnmhbYcfG+JtodMWPy2iRK3ph93mT9SzblVunn2RXK
+ qt+F2xcqbX5IageN0UPaLx1hsVvPRZkFYwWDglfWK0hZ2FPxP/QjGa7Qiu+nOcUh
+ FASRQfy5h2QlyDO+JK/2kL0hrlrhycilRyXoomjEob43APm9euysfHljeMMEBjz/
+ cOFEH4Jh26Fm3OCKanc7WH1ytE8SgkwWDp4g5aHHz1R7nQuP6+n6NiA+yITb2Ykh
+ +T1c+44dswTEkk9Pcic8cq5QqrABGsR2yrqD2Ncvn0XXNIY7swyTqDE/OfiytqVQ
+ yXUMTWONe6rH0S+ZJXWF509IkRfRSKdgGTEYOo5Gj/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qoi6tz
+ HHHO2R42uzXoGJBQd1C+uf6Ev9WlyzrVqIiNM=; b=VqObktL38L2LPw9uk6nq3s
+ LzWh5DlwL0fgYUapF6653f+LlFMEW1j6XSLOPszHrHkcvs0Ta2iXyOQhfaPZox2C
+ MS105Btmqb92avuWfIs4paNT5iZUXjLgBmclrVjQSWJQDSt0IoH/GQoRhaMsFKW/
+ 2D3Dt9DLpwP82dM9Hsg8NARq4aNeTjxhTbnhXuD9SzVDgL/Rsd7idKcWOXprHzcQ
+ xkSIFWE8rjgMASsFuaBUWQqhpStijliupx6Vsh6IrSx94F+ijSL6wv5GS5De0Fd3
+ v1VYGLgbDwfy/qVD+nUg8BI1QF6OTIDaXAPv/JwvabGShfNO7M1S+zmvUzQDsy6g
+ ==
+X-ME-Sender: <xms:kh13X5VhyW4L7C8Su_wG7B9gIxY3M4_okl4zggEZ8AGheuvBB0cX_g>
+ <xme:kh13X5mGvIyB2TElvQNBv8IBzTacF2K6CKw1Tujb__xqygcmWjZxodld6ZMrsa7Jc
+ UuBb6snsyeyplaHyfc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeeigdehudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:kh13X1YdnweKedbDe0sHFTfxAgjzwxScIkLhcVQOzET4QNZOawSNQg>
+ <xmx:kh13X8UtRhd7gToQ1arCWBiLZIzedsZH8M4Z5l9tnAW3ZuyJYEHjfg>
+ <xmx:kh13Xzk_4DkcHqPT_yUOp3nTZkm1zWjCoByB8kr3MvfTB0kZnht7vw>
+ <xmx:kx13X8DsHNDrm_pzrTLNUItMFB7EtL3VSzwbsLa53OCaR9390n2Dyw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 40E94328005E;
+ Fri,  2 Oct 2020 08:31:14 -0400 (EDT)
+Date: Fri, 2 Oct 2020 14:31:12 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm/atomic: Make the kerneldoc a bit clearer
+Message-ID: <20201002123112.uupaal7jed7xkmrf@gilmour.lan>
+References: <20201002075620.4157591-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200930211723.3028059-1-robdclark@gmail.com>
-User-Agent: NeoMutt/20171215
+In-Reply-To: <20201002075620.4157591-1-daniel.vetter@ffwll.ch>
 X-Mailman-Approved-At: Sat, 03 Oct 2020 09:23:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,99 +78,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- open list <linux-kernel@vger.kernel.org>, timmurray@google.com,
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============0468989821=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/30/20 14:17, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> The android userspace treats the display pipeline as a realtime problem.
-> And arguably, if your goal is to not miss frame deadlines (ie. vblank),
-> it is.  (See https://lwn.net/Articles/809545/ for the best explaination
-> that I found.)
-> 
-> But this presents a problem with using workqueues for non-blocking
-> atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
-> preempt the worker.  Which is not really the outcome you want.. once
-> the required fences are scheduled, you want to push the atomic commit
-> down to hw ASAP.
 
-For me thees 2 properties
+--===============0468989821==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="csp3gmyjutc5nh5w"
+Content-Disposition: inline
 
-	1. Run ASAP
-	2. Finish the work un-interrupted
 
-Scream the workers need to be SCHED_FIFO by default. CFS can't give you these
-guarantees.
+--csp3gmyjutc5nh5w
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-IMO using sched_set_fifo() for these workers is the right thing.
+Hi,
 
-> 
-> But the decision of whether commit_work should be RT or not really
-> depends on what userspace is doing.  For a pure CFS userspace display
-> pipeline, commit_work() should remain SCHED_NORMAL.
+On Fri, Oct 02, 2020 at 09:56:20AM +0200, Daniel Vetter wrote:
+> Crank up the warning a notch and point at the right set of locking
+> functions for atomic drivers.
+>=20
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>  drivers/gpu/drm/drm_atomic.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index aac9122f1da2..b2d20eb6c807 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -1642,11 +1642,11 @@ static void __drm_state_dump(struct drm_device *d=
+ev, struct drm_printer *p,
+>   * to dmesg in case of error irq's.  (Hint, you probably want to
+>   * ratelimit this!)
+>   *
+> - * The caller must drm_modeset_lock_all(), or if this is called
+> - * from error irq handler, it should not be enabled by default.
+> - * (Ie. if you are debugging errors you might not care that this
+> - * is racey.  But calling this without all modeset locks held is
+> - * not inherently safe.)
+> + * The caller must wrap this drm_modeset_lock_all_ctx() and
+> + * drm_modeset_drop_locks(). If this is called from error irq handler, i=
+t should
+> + * not be enabled by default - if you are debugging errors you might
+> + * not care that this is racey, but calling this without all modeset loc=
+ks held
+> + * is inherently unsafe.
+>   */
+>  void drm_state_dump(struct drm_device *dev, struct drm_printer *p)
+>  {
 
-I'm not sure I agree with this. I think it's better to characterize tasks based
-on their properties/requirements rather than what the rest of the userspace is
-using.
+For the comment itself:
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-I do appreciate that maybe some of these tasks have varying requirements during
-their life time. e.g: they have RT property during specific critical section
-but otherwise are CFS tasks. I think the UI thread in Android behaves like
-that.
+But maybe we should add some lockdep assertion to make sure we can catch
+someone actually doing this?
 
-It's worth IMO trying that approach I pointed out earlier to see if making RT
-try to pick an idle CPU rather than preempt CFS helps. Not sure if it'd be
-accepted but IMHO it's a better direction to consider and discuss.
+--csp3gmyjutc5nh5w
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Or maybe you can wrap userspace pipeline critical section lock such that any
-task holding it will automatically be promoted to SCHED_FIFO and then demoted
-to CFS once it releases it.
+-----BEGIN PGP SIGNATURE-----
 
-Haven't worked with display pipelines before, so hopefully this makes sense :-)
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3cdkAAKCRDj7w1vZxhR
+xVL4AP4ooYUTUd5ZOzvAXG8hmIazpxIIBjIFS9tmU0Y19D+xcgD+L9uWno5wjxc5
+Lh0wfZV/8QJBvcZz+KxC8wl9QBNl5Qk=
+=8N3O
+-----END PGP SIGNATURE-----
 
-Thanks
+--csp3gmyjutc5nh5w--
 
---
-Qais Yousef
+--===============0468989821==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-> 
-> To handle this, convert non-blocking commit_work() to use per-CRTC
-> kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
-> used to avoid serializing commits when userspace is using a per-CRTC
-> update loop.  And the last patch exposes the task id to userspace as
-> a CRTC property, so that userspace can adjust the priority and sched
-> policy to fit it's needs.
-> 
-> 
-> v2: Drop client cap and in-kernel setting of priority/policy in
->     favor of exposing the kworker tid to userspace so that user-
->     space can set priority/policy.
-> 
-> Rob Clark (3):
->   drm/crtc: Introduce per-crtc kworker
->   drm/atomic: Use kthread worker for nonblocking commits
->   drm: Expose CRTC's kworker task id
-> 
->  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++++----
->  drivers/gpu/drm/drm_crtc.c          | 14 +++++++++++++
->  drivers/gpu/drm/drm_mode_config.c   | 14 +++++++++++++
->  drivers/gpu/drm/drm_mode_object.c   |  4 ++++
->  include/drm/drm_atomic.h            | 31 +++++++++++++++++++++++++++++
->  include/drm/drm_crtc.h              |  8 ++++++++
->  include/drm/drm_mode_config.h       |  9 +++++++++
->  include/drm/drm_property.h          |  9 +++++++++
->  8 files changed, 98 insertions(+), 4 deletions(-)
-> 
-> -- 
-> 2.26.2
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0468989821==--
