@@ -2,71 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5995B284742
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156B6282305
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 11:23:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB3146E425;
-	Tue,  6 Oct 2020 07:31:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDCC58969E;
+	Sat,  3 Oct 2020 09:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF5F6E090
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:13:41 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2AD2E580350;
- Mon,  5 Oct 2020 11:13:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 05 Oct 2020 11:13:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:to:cc:subject:message-id:from:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=FtG2Bzuy5PqxUd7fnFYHl5Znz5H
- mAs+KH2eBPZ//Wzo=; b=NVCuzXlnXtSq15LRXTCVx5qRPNGYjQTymOsYZNvdS6x
- Aa11UQdQXmoAa2K2cZXjUrPEyEe1JeO3WsKuQUmsDR33Jr1TGS9q7Vo7r6aQF2FI
- mDqQgIYhbBwapj0Wl++gAT6grbt7bc6JTQknfOnBJEmUmNRwDORF2QYoUTnOeMYl
- Kk0OBUfmJ2ngAUKZZNEGX6CiZc+uzkchZnx2/pwZ0ZkXKS8e35QQGRNnS5kBzPcU
- izgIa5Zf8brXKVwY8yxE2itdO4mQV7Ice4xyDSp+iMd0qeJNReoCJ+RkQNp2f4nY
- k5cEGtoTU/DIrIqG+cSCBsZnUwLdeKLP+74zlsUm0mQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=FtG2Bz
- uy5PqxUd7fnFYHl5Znz5HmAs+KH2eBPZ//Wzo=; b=chBh/6Sydgee2d8NJ1zO+H
- IY5XR5iEAcOwKKrQ8aMnQY0bt0hYsvY1u0IY56M9NnBEISFkwAS9dT0ZsXxDTHT4
- 0wCxVNpGDprCu1G9Cve4NIPEm2LnfJEGxhAVhoRVcsMaV2I1AuY5d/zl3ksI/s9O
- lGcjxi11CwsyXHFJSn9c7U2ZDAygcHFpnjMIhCAyig4fPVDlIyV7HG0C96WUgvuS
- 0idtewaBFmsqyuWZuYHud9ulzqeuNC9bfVGG7sO5W0sF5SNFY0qWsMOkL136V1Z5
- X1zgnBlk/nMORuRpmdglmNbBmTGHrTetjH8n/tB/fyQ+7jeqac7OZF3TdNrcjuTw
- ==
-X-ME-Sender: <xms:ITh7XzWawbNEZJIGdQ6u6hrdaC2CGyhpDFJBmaThbCq44HxZpTelnQ>
- <xme:ITh7X7lizOAZmEyAoRpHUP8HdTOwAso0HlYlRdFgwDEZzLo09Z_u40i48kabfSnme
- EKvTYljw7IgAtmsVuM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgdekjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffvffukffhfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeikefffefhffeiffehfeeghfevfeekfeejveetfeegjeejvefghfffheeifeeh
- ffenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ITh7X_aWpL87qXoNeTUni3Ph9aqbr8BD3tvAlDkqxy_2GbAzqVXkxA>
- <xmx:ITh7X-W2YDxNVHOJc-0ytNBko9aVVCx8yTMtbQMTI8xMrXDXygOYFg>
- <xmx:ITh7X9lh3wY9NU7clPp9MRtg8w04s108r_bUsqlqD9HP4UCpwHXz9Q>
- <xmx:Izh7X_nWnKPB0sUybWIXq66laDgyKJ_h4t0UJfHyhbBFnQsOzM51qA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id B94E43280059;
- Mon,  5 Oct 2020 11:13:36 -0400 (EDT)
-Date: Wed, 30 Sep 2020 15:04:59 +0200
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/2] drm/vc4: hdmi: Disable Wifi Frequencies
-Message-ID: <20200930130459.kfurbu34lc7jeuok@gilmour.lan>
-From: Maxime Ripard <maxime@cerno.tech>
-References: <20200925130744.575725-1-maxime@cerno.tech>
- <20200929190055.GA962101@bogus>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 659296E92F
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 11:01:10 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A73451063;
+ Fri,  2 Oct 2020 04:01:09 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com
+ [10.1.195.21])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D8C93F73B;
+ Fri,  2 Oct 2020 04:01:08 -0700 (PDT)
+Date: Fri, 2 Oct 2020 12:01:06 +0100
+From: Qais Yousef <qais.yousef@arm.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
+Message-ID: <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
+References: <20200930211723.3028059-1-robdclark@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200929190055.GA962101@bogus>
-X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
+Content-Disposition: inline
+In-Reply-To: <20200930211723.3028059-1-robdclark@gmail.com>
+User-Agent: NeoMutt/20171215
+X-Mailman-Approved-At: Sat, 03 Oct 2020 09:23:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,94 +42,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1408177853=="
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>, timmurray@google.com,
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 09/30/20 14:17, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> The android userspace treats the display pipeline as a realtime problem.
+> And arguably, if your goal is to not miss frame deadlines (ie. vblank),
+> it is.  (See https://lwn.net/Articles/809545/ for the best explaination
+> that I found.)
+> 
+> But this presents a problem with using workqueues for non-blocking
+> atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
+> preempt the worker.  Which is not really the outcome you want.. once
+> the required fences are scheduled, you want to push the atomic commit
+> down to hw ASAP.
 
---===============1408177853==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="u4bs7qtkzx5ibc3n"
-Content-Disposition: inline
+For me thees 2 properties
 
+	1. Run ASAP
+	2. Finish the work un-interrupted
 
---u4bs7qtkzx5ibc3n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Scream the workers need to be SCHED_FIFO by default. CFS can't give you these
+guarantees.
 
-Hi Rob,
+IMO using sched_set_fifo() for these workers is the right thing.
 
-On Tue, Sep 29, 2020 at 02:00:55PM -0500, Rob Herring wrote:
-> On Fri, Sep 25, 2020 at 03:07:43PM +0200, Maxime Ripard wrote:
-> > There's cross-talk on the RPi4 between the 2.4GHz channels used by the =
-WiFi
-> > chip and some resolutions, most notably 1440p at 60Hz.
-> >=20
-> > In such a case, we can either reject entirely the mode, or lower slight=
-ly
-> > the pixel frequency to remove the overlap. Let's go for the latter.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  .../bindings/display/brcm,bcm2711-hdmi.yaml        |  6 ++++++
-> >  drivers/gpu/drm/vc4/vc4_hdmi.c                     | 14 +++++++++++++-
-> >  drivers/gpu/drm/vc4/vc4_hdmi.h                     |  8 ++++++++
-> >  3 files changed, 27 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdm=
-i.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > index 03a76729d26c..63e7fe999c0a 100644
-> > --- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > @@ -76,6 +76,12 @@ properties:
-> >    resets:
-> >      maxItems: 1
-> > =20
-> > +  raspberrypi,disable-wifi-frequencies:
-> > +    type: boolean
-> > +    description: >
-> > +      Should the pixel frequencies in the WiFi frequencies range be
-> > +      avoided?
->=20
-> Based on googling the issue, perhaps should be a common property?
+> 
+> But the decision of whether commit_work should be RT or not really
+> depends on what userspace is doing.  For a pure CFS userspace display
+> pipeline, commit_work() should remain SCHED_NORMAL.
 
-This is a fairly generic issue indeed, but went for the most
-non-intrusive way. Do you have a better idea of a generic name, or do
-you just want me to drop the vendor prefix?
+I'm not sure I agree with this. I think it's better to characterize tasks based
+on their properties/requirements rather than what the rest of the userspace is
+using.
 
-Maxime
+I do appreciate that maybe some of these tasks have varying requirements during
+their life time. e.g: they have RT property during specific critical section
+but otherwise are CFS tasks. I think the UI thread in Android behaves like
+that.
 
---u4bs7qtkzx5ibc3n
-Content-Type: application/pgp-signature; name="signature.asc"
+It's worth IMO trying that approach I pointed out earlier to see if making RT
+try to pick an idle CPU rather than preempt CFS helps. Not sure if it'd be
+accepted but IMHO it's a better direction to consider and discuss.
 
------BEGIN PGP SIGNATURE-----
+Or maybe you can wrap userspace pipeline critical section lock such that any
+task holding it will automatically be promoted to SCHED_FIFO and then demoted
+to CFS once it releases it.
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3SCewAKCRDj7w1vZxhR
-xR6PAP9FsndGYY6v0exCfbGLeQIs4y5yblaoV5yQPygk9VDPOQD9GeC07fLj3UJQ
-Yph2AlUG43iC5/XHQuxmhu+6Qyigowg=
-=DlkQ
------END PGP SIGNATURE-----
+Haven't worked with display pipelines before, so hopefully this makes sense :-)
 
---u4bs7qtkzx5ibc3n--
+Thanks
 
---===============1408177853==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+--
+Qais Yousef
 
+> 
+> To handle this, convert non-blocking commit_work() to use per-CRTC
+> kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
+> used to avoid serializing commits when userspace is using a per-CRTC
+> update loop.  And the last patch exposes the task id to userspace as
+> a CRTC property, so that userspace can adjust the priority and sched
+> policy to fit it's needs.
+> 
+> 
+> v2: Drop client cap and in-kernel setting of priority/policy in
+>     favor of exposing the kworker tid to userspace so that user-
+>     space can set priority/policy.
+> 
+> Rob Clark (3):
+>   drm/crtc: Introduce per-crtc kworker
+>   drm/atomic: Use kthread worker for nonblocking commits
+>   drm: Expose CRTC's kworker task id
+> 
+>  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++++----
+>  drivers/gpu/drm/drm_crtc.c          | 14 +++++++++++++
+>  drivers/gpu/drm/drm_mode_config.c   | 14 +++++++++++++
+>  drivers/gpu/drm/drm_mode_object.c   |  4 ++++
+>  include/drm/drm_atomic.h            | 31 +++++++++++++++++++++++++++++
+>  include/drm/drm_crtc.h              |  8 ++++++++
+>  include/drm/drm_mode_config.h       |  9 +++++++++
+>  include/drm/drm_property.h          |  9 +++++++++
+>  8 files changed, 98 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.26.2
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1408177853==--
