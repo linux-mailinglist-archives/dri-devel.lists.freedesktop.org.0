@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691A1281A90
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 20:08:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91354281AB8
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 20:17:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08EA76E9B1;
-	Fri,  2 Oct 2020 18:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F296E9BB;
+	Fri,  2 Oct 2020 18:17:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E69EA6E9B1
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 18:07:58 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id x23so2517963wmi.3
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 11:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3EFC6E9BB
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 18:16:59 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id s66so2262260otb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 11:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hSw4ifTPDKB9srZ+U67ZO/LueWH5csX6p0YvSIY7bw4=;
- b=EP9fHx1d+5jerIa7x/a+X14ezvJYWlpIVbSv8tiDS9m2JdPrZ+hy7IzHYkddOwIMXC
- w86tDBeDM3S0cR7MGYiG0nX+053dzrbZ6riSNPgLNvtEF81xUWUHgu/503rkiriMLn8H
- 9Nl/5cZlwOSmApOWI3l5mmv4wSu6xZ8S1l5FY/t5dMqcGHHPCFIer+WM3X6gdIrp2sb7
- MkZhklFHTVv2ccuASamoNTsl8b4lRqz3n5HHitdQjxJOzjWlDdG/euiAibspUUALMTX1
- kDTCxG0DxXU8EAS3NZtgO+n8YWP2enHjrkSI68iI1Vk3QFT5LCigCyqhm0kv7ObH6lv3
- Uvkg==
+ :cc:content-transfer-encoding;
+ bh=3HxwxxjOyUFsHnvZd90so4n7HtMcvrp+2NDYk+teChw=;
+ b=UroveKdEgKPvYhDgIRFBP6hGaOMHl0KhWjPmr7h+me9Xj+hsNqVEe+KzxfQ5R752mW
+ Q39uBXtohsZOj34gGmK/hanyDQGQMTFvEwg1txwSCZatYOYvpHfVCUEfTc1tX+5qw+e4
+ lhr2S+yleRha4sKjZin5W1q02Y1XO7J4/uNO0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hSw4ifTPDKB9srZ+U67ZO/LueWH5csX6p0YvSIY7bw4=;
- b=BjxuWwQ5HbwtdHoW59UvZOMn9Tq1Wfi9q7Uo2qyb5fjJpXXgziEJU0KuEHoQMFkSDI
- P3urfsIm6KQiCgZVBYPhrcXQioReIIhntrCmOD2al8c2OvETkZoG+eqNX7eM+olUN+Eb
- vpMdJKpI7nN7IvZbWGscn2INsktbFnn2pTyekrlxvfd2DbHVxZpTNnjn29o/DVF2nwIw
- BBEfSS7ZG31ZHp6T2rAnhdsoaTu7KQgkzl/mMt+Z8paDthlRWK1zqGDBchn81IY/efr8
- FeyobgiCv1XgiiMB4bhxXdvVXFDnNAv8qK8rHLu95FtAwvGGBZSZxbAyZHGFVRp7XJKn
- /leg==
-X-Gm-Message-State: AOAM531m67uC8tDBreBXabRU5En8XnGqf7DJH8X7/wtOvs7alAqkkrXL
- SGWCQnngkqElxL8gl+ignrPPgVrJYwmLHGlI8qUsnAQZxl7sFA==
-X-Google-Smtp-Source: ABdhPJyP1LQpe+YH7ZxDToEmMVacKwIGtROp49R6KVi2qQDPZ/YJnQTRwD8tLQ4BFmYVf1qKb1A4rDYlAl+eLBGLPfU=
-X-Received: by 2002:a7b:c345:: with SMTP id l5mr4122885wmj.123.1601662077497; 
- Fri, 02 Oct 2020 11:07:57 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3HxwxxjOyUFsHnvZd90so4n7HtMcvrp+2NDYk+teChw=;
+ b=sw+jsZqnbacsEDIri4HbtQgvMkRlX2hsnOjOj2QsrZnlY12qVyulwuNd08dyYIoe4J
+ eigGfZwAmMKRZ75p3tSVuJG4vkxc1zSpntaw4cK4PF+j3Oibc3ZzWmxi77TGDrdO7HV3
+ nvaYzFEP+/j5KLZ03WN44xJpVXr23wm2hBF2FdL87IjPbT71i49ktAxs2GBvMsfdQImh
+ N5KKoZTU7NVQciKXWd0KpZRaKBMMXRc+iyQ/sX23TU2Pk/xlMqa5iEJ9r6QN+wb+u0a+
+ +HcCBmpyk75g39oQcxJCNkOV3TSahCKF4uh/7dpvmetcFom50Q1qKYFFXDuoKnJEZvbr
+ 6E4w==
+X-Gm-Message-State: AOAM532BTPAzROZyNBLOd1EhBL5LKZeEi+dVzDX70sHzS8QqnipTL5+u
+ Pnvr1vCOWd8j56CJ8bLNw+xD3v5+r31eIBBSsModjw==
+X-Google-Smtp-Source: ABdhPJz/iLpxd0MKJvGez6uG++167T4Nd3ZEU24lIiueGBImWGdkODsxyKl+FpR0pn01MP2E0GHPOCfnbU7WfP4NbAY=
+X-Received: by 2002:a9d:4b99:: with SMTP id k25mr2747483otf.281.1601662619231; 
+ Fri, 02 Oct 2020 11:16:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200930211723.3028059-1-robdclark@gmail.com>
- <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
-In-Reply-To: <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 2 Oct 2020 11:07:45 -0700
-Message-ID: <CAF6AEGvWMvZuy7CcGhzUSbwGtEkrNkzWHu_BN1cbdBJdZtvevA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
-To: Qais Yousef <qais.yousef@arm.com>
+References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
+ <20201002175303.390363-2-daniel.vetter@ffwll.ch>
+ <20201002180603.GL9916@ziepe.ca>
+In-Reply-To: <20201002180603.GL9916@ziepe.ca>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 2 Oct 2020 20:16:48 +0200
+Message-ID: <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,134 +60,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Jan Kara <jack@suse.cz>, John Hubbard <jhubbard@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 2, 2020 at 4:01 AM Qais Yousef <qais.yousef@arm.com> wrote:
->
-> On 09/30/20 14:17, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > The android userspace treats the display pipeline as a realtime problem.
-> > And arguably, if your goal is to not miss frame deadlines (ie. vblank),
-> > it is.  (See https://lwn.net/Articles/809545/ for the best explaination
-> > that I found.)
-> >
-> > But this presents a problem with using workqueues for non-blocking
-> > atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
-> > preempt the worker.  Which is not really the outcome you want.. once
-> > the required fences are scheduled, you want to push the atomic commit
-> > down to hw ASAP.
->
-> For me thees 2 properties
->
->         1. Run ASAP
->         2. Finish the work un-interrupted
->
-> Scream the workers need to be SCHED_FIFO by default. CFS can't give you these
-> guarantees.
-
-fwiw, commit_work does sleep/block for some time until fences are
-signalled, but then once that happens we want it to run ASAP,
-preempting lower priority SCHED_FIFO.
-
->
-> IMO using sched_set_fifo() for these workers is the right thing.
->
-
-Possibly, but we still have limited prioritization options (ie. not
-enough) to set these from the kernel.  Giving userspace the control,
-so it can pick sensible priorities for commit_work and vblank_work,
-which fits in with the priorities of the other userspace threads seems
-like the sensible thing.
-
-> >
-> > But the decision of whether commit_work should be RT or not really
-> > depends on what userspace is doing.  For a pure CFS userspace display
-> > pipeline, commit_work() should remain SCHED_NORMAL.
->
-> I'm not sure I agree with this. I think it's better to characterize tasks based
-> on their properties/requirements rather than what the rest of the userspace is
-> using.
-
-I mean, the issue is that userspace is already using a few different
-rt priority levels for different SF threads.  We want commit_work to
-run ASAP once fences are signalled, and vblank_work to run at a
-slightly higher priority still.  But the correct choice for priorities
-here depends on what userspace is using, it all needs to fit together
-properly.
-
->
-> I do appreciate that maybe some of these tasks have varying requirements during
-> their life time. e.g: they have RT property during specific critical section
-> but otherwise are CFS tasks. I think the UI thread in Android behaves like
-> that.
->
-> It's worth IMO trying that approach I pointed out earlier to see if making RT
-> try to pick an idle CPU rather than preempt CFS helps. Not sure if it'd be
-> accepted but IMHO it's a better direction to consider and discuss.
-
-The problem I was seeing was actually the opposite..  commit_work
-becomes runnable (fences signalled) but doesn't get a chance to run
-because a SCHED_FIFO SF thread is running.  (Maybe I misunderstood and
-you're approach would help this case too?)
-
-> Or maybe you can wrap userspace pipeline critical section lock such that any
-> task holding it will automatically be promoted to SCHED_FIFO and then demoted
-> to CFS once it releases it.
-
-The SCHED_DEADLINE + token passing approach that the lwn article
-mentioned sounds interesting, if that eventually becomes possible.
-But doesn't really help today..
-
-BR,
--R
-
-> Haven't worked with display pipelines before, so hopefully this makes sense :-)
->
-> Thanks
->
-> --
-> Qais Yousef
->
-> >
-> > To handle this, convert non-blocking commit_work() to use per-CRTC
-> > kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
-> > used to avoid serializing commits when userspace is using a per-CRTC
-> > update loop.  And the last patch exposes the task id to userspace as
-> > a CRTC property, so that userspace can adjust the priority and sched
-> > policy to fit it's needs.
-> >
-> >
-> > v2: Drop client cap and in-kernel setting of priority/policy in
-> >     favor of exposing the kworker tid to userspace so that user-
-> >     space can set priority/policy.
-> >
-> > Rob Clark (3):
-> >   drm/crtc: Introduce per-crtc kworker
-> >   drm/atomic: Use kthread worker for nonblocking commits
-> >   drm: Expose CRTC's kworker task id
-> >
-> >  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++++----
-> >  drivers/gpu/drm/drm_crtc.c          | 14 +++++++++++++
-> >  drivers/gpu/drm/drm_mode_config.c   | 14 +++++++++++++
-> >  drivers/gpu/drm/drm_mode_object.c   |  4 ++++
-> >  include/drm/drm_atomic.h            | 31 +++++++++++++++++++++++++++++
-> >  include/drm/drm_crtc.h              |  8 ++++++++
-> >  include/drm/drm_mode_config.h       |  9 +++++++++
-> >  include/drm/drm_property.h          |  9 +++++++++
-> >  8 files changed, 98 insertions(+), 4 deletions(-)
-> >
-> > --
-> > 2.26.2
-> >
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBPY3QgMiwgMjAyMCBhdCA4OjA2IFBNIEphc29uIEd1bnRob3JwZSA8amdnQHppZXBl
+LmNhPiB3cm90ZToKPiBPbiBGcmksIE9jdCAwMiwgMjAyMCBhdCAwNzo1MzowM1BNICswMjAwLCBE
+YW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4gRm9yICRyZWFzb25zIEkndmUgc3R1bWJsZWQgb3ZlciB0
+aGlzIGNvZGUgYW5kIEknbSBub3Qgc3VyZSB0aGUgY2hhbmdlCj4gPiB0byB0aGUgbmV3IGd1cCBm
+dW5jdGlvbnMgaW4gNTVhNjUwYzM1ZmVhICgibW0vZ3VwOiBmcmFtZV92ZWN0b3I6Cj4gPiBjb252
+ZXJ0IGdldF91c2VyX3BhZ2VzKCkgLS0+IHBpbl91c2VyX3BhZ2VzKCkiKSB3YXMgZW50aXJlbHkg
+Y29ycmVjdC4KPiA+Cj4gPiBUaGlzIGhlcmUgaXMgdXNlZCBmb3IgbG9uZyB0ZXJtIGJ1ZmZlcnMg
+KG5vdCBqdXN0IHF1aWNrIEkvTykgbGlrZQo+ID4gUkRNQSwgYW5kIEpvaG4gbm90ZXMgdGhpcyBp
+biBoaXMgcGF0Y2guIEJ1dCBJIHRob3VnaHQgdGhlIHJ1bGUgZm9yCj4gPiB0aGVzZSBpcyB0aGF0
+IHRoZXkgbmVlZCB0byBhZGQgRk9MTF9MT05HVEVSTSwgd2hpY2ggSm9obidzIHBhdGNoCj4gPiBk
+aWRuJ3QgZG8uCj4gPgo+ID4gVGhlcmUgaXMgYWxyZWFkeSBhIGRheCBzcGVjaWZpYyBjaGVjayAo
+YWRkZWQgaW4gYjdmMDU1NGE1NmYyICgibW06Cj4gPiBmYWlsIGdldF92YWRkcl9mcmFtZXMoKSBm
+b3IgZmlsZXN5c3RlbS1kYXggbWFwcGluZ3MiKSksIHNvIHRoaXMgc2VlbXMKPiA+IGxpa2UgdGhl
+IHBydWRlbnQgdGhpbmcgdG8gZG8uCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRl
+ciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBs
+aW51eC1mb3VuZGF0aW9uLm9yZz4KPiA+IENjOiBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52aWRp
+YS5jb20+Cj4gPiBDYzogSsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3NlQHJlZGhhdC5jb20+Cj4gPiBD
+YzogSmFuIEthcmEgPGphY2tAc3VzZS5jej4KPiA+IENjOiBEYW4gV2lsbGlhbXMgPGRhbi5qLndp
+bGxpYW1zQGludGVsLmNvbT4KPiA+IENjOiBsaW51eC1tbUBrdmFjay5vcmcKPiA+IENjOiBsaW51
+eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiA+IENjOiBsaW51eC1zYW1zdW5nLXNv
+Y0B2Z2VyLmtlcm5lbC5vcmcKPiA+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiA+
+IEhpIGFsbCwKPiA+Cj4gPiBJIHN0dW1ibGVkIG92ZXIgdGhpcyBhbmQgZmlndXJlZCB0eXBpbmcg
+dGhpcyBwYXRjaCBjYW4ndCBodXJ0LiBSZWFsbHkKPiA+IGp1c3QgdG8gbWF5YmUgbGVhcm4gYSBm
+ZXcgdGhpbmdzIGFib3V0IGhvdyBndXAvcHVwIGlzIHN1cHBvc2VkIHRvIGJlCj4gPiB1c2VkICh3
+ZSBoYXZlIGEgYml0IG9mIHRoYXQgaW4gZHJpdmVycy9ncHUpLCB0aGlzIGhlcmUgaXNuJ3QgcmVh
+bGx5Cj4gPiByYWxhdGVkIHRvIGFueXRoaW5nIEknbSBkb2luZy4KPgo+IEZPTExfRk9SQ0UgaXMg
+YSBwcmV0dHkgYmlnIGNsdWUgaXQgc2hvdWxkIGJlIEZPTExfTE9OR1RFUk0sIElNSE8KClNpbmNl
+IHlvdSdyZSBoZXJlIC4uLiBJJ3ZlIG5vdGljZWQgdGhhdCBpYiBzZXRzIEZPTExfRk9SQ0Ugd2hl
+biB0aGUgaWIKdmVyYiBhY2Nlc3MgbW9kZSBpbmRpY2F0ZXMgcG9zc2libGUgd3JpdGVzLiBJJ20g
+bm90IHJlYWxseSBjbGVhciBvbgp3aHkgRk9MTF9XUklURSBpc24ndCBlbm91Z2ggYW55IHdoeSB5
+b3UgbmVlZCB0byBiZSBhYmxlIHRvIHdyaXRlCnRocm91Z2ggYSB2bWEgdGhhdCdzIHdyaXRlIHBy
+b3RlY3RlZCBjdXJyZW50bHkuCgo+ID4gSSdtIGFsc28gd29uZGVyaW5nIHdoZXRoZXIgdGhlIGV4
+cGxpY2l0IGRheCBjaGVjayBzaG91bGQgYmUgcmVtb3ZlZCwKPiA+IHNpbmNlIEZPTExfTE9OR1RF
+Uk0gc2hvdWxkIHRha2UgY2FyZSBvZiB0aGF0IGFscmVhZHkuCj4KPiBZZXAhIENvbmZpcm1zIHRo
+ZSBhYm92ZSEKPgo+IFRoaXMgZ2V0X3ZhZGRyX2ZyYW1lcygpIHRoaW5nIGxvb2tzIGltcG9zc2li
+bGUgdG8gdXNlIHByb3Blcmx5LiBIb3cgb24KPiBlYXJ0aCBkb2VzIGEgZHJpdmVyIGd1YXJlbnRl
+ZQo+Cj4gICJJZiBAc3RhcnQgYmVsb25ncyB0byBWTV9JTyB8IFZNX1BGTk1BUCB2bWEsIHdlIGRv
+bid0IHRvdWNoIHBhZ2UKPiAgc3RydWN0dXJlcyBhbmQgdGhlIGNhbGxlciBtdXN0IG1ha2Ugc3Vy
+ZSBwZm5zIGFyZW4ndCByZXVzZWQgZm9yCj4gIGFueXRoaW5nIGVsc2Ugd2hpbGUgaGUgaXMgdXNp
+bmcgdGhlbS4iCj4KPiBUaGUgb25seSBwb3NzaWJsZSB3YXkgdG8gZG8gdGhhdCBpcyBpZiB0aGUg
+ZHJpdmVyIHJlc3RyaWN0cyB0aGUgVk1Bcwo+IHRvIG9uZXMgaXQgb3ducyBhbmQgaW50ZXJhY3Rz
+IHdpdGggdGhlIHZtX3ByaXZhdGUgZGF0YSB0byByZWZjb3VudAo+IHNvbWV0aGluZy4KPgo+IFNp
+bmNlIGV2ZXJ5IGRyaXZlciBkb2VzIHRoaXMgd3JvbmcgYW55dGhpbmcgdGhhdCB1c2VzIHRoaXMg
+aXMgY3JlYXRpbmcKPiB0ZXJyaWZ5aW5nIHNlY3VyaXR5IGlzc3Vlcy4KPgo+IElNSE8gdGhpcyB3
+aG9sZSBBUEkgc2hvdWxkIGJlIGRlbGV0ZWQgOigKClllYWggdGhhdCBwYXJ0IEkganVzdCB0cmll
+ZCB0byBjb252ZW5pZW50bHkgaWdub3JlLiBJIGd1ZXNzIHRoaXMgZGF0ZXMKYmFjayB0byBhIHRp
+bWUgd2hlbiBpb3JlbWFwcyB3aGVyZSBhdCBiZXN0IGZpeGVkLCBhbmQgdGhlcmUgd2Fzbid0CmFu
+eXRoaW5nIGxpa2UgYSBncHUgZHJpdmVyIGR5bmFtaWNhbGx5IG1hbmFnaW5nIHZyYW0gYXJvdW5k
+LCByZXN1bHRpbmcKaW4gcmFuZG9tIGVudGlyZWx5IHVucmVsYXRlZCB0aGluZ3MgcG9zc2libHkg
+YmVpbmcgbWFwcGVkIHRvIHRoYXQgc2V0Cm9mIHBmbnMuCgpUaGUgdW5kZXJseWluZyBmb2xsb3df
+cGZuIGlzIGFsc28gdXNlZCBpbiBvdGhlciBwbGFjZXMgd2l0aGluCmRyaXZlcnMvbWVkaWEsIHNv
+IHRoaXMgZG9lc24ndCBzZWVtIHRvIGJlIGFuIGFjY2lkZW50LCBidXQgYWN0dWFsbHkKaW50ZW50
+aW9uYWwuCgpJIGd1ZXNzIG1pbmltYWxseSB3ZSdkIG5lZWQgYSBWTV9QRk5NQVAgZmxhZyBmb3Ig
+ZHluYW1pY2FsbHkgbWFuZ2VkCmRyaXZlcnMgbGlrZSBtb2Rlcm4gZHJtIGdwdSBkcml2ZXJzLCB0
+byBtYWtlIHN1cmUgZm9sbG93X3BmbiBkb2Vzbid0CmZvbGxvdyB0aGVzZT8KLURhbmllbAotLSAK
+RGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDov
+L2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
