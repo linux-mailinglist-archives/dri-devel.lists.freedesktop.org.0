@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463C2281A31
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 19:53:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76958281A32
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 19:53:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3F3E6E10D;
-	Fri,  2 Oct 2020 17:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F99E6E0A5;
+	Fri,  2 Oct 2020 17:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72B826E0A5
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 17:53:43 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id j136so2606924wmj.2
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 10:53:43 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99F726E0A5
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 17:53:44 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id x14so2703404wrl.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 10:53:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4Ic9kLI7iEmx4fzg6K/MGmVs8Kbr/xz3cK5mQ8gVn9M=;
- b=GdOd/VH/FT5eF5Gfj5Q1p9o3Vy+IUnorHd0BlnwOL9uxqZXuqaW6hM5SPvXVoCliFo
- bYTAnUT5U/MmyPZiyzSRP+mItblvHt3dnKeVQamNmGl1Wkstvlwhpe9QI+eMQwsUSnFG
- vCIrvzCfJM5d8ZpALwF1YBf+lWT2Rg+eoosfY=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=mCTncko5YOfdd1hOhILVAexx/vlJaiXxqeCzAQ94in0=;
+ b=FeyUVdPtM4srxB1+dn7I4h3H7Wfi8/fg99I+ABCtisEx3wHtPquZTvZ16RuGWwmZzE
+ vz2bLh2sThVwHVg4NCZu/QZBQT8Z+HfU/9rp+qgb6Lzuk41uNLg5YV0/kZAopqb77csM
+ ge7J8s4JsvsrgpI2ThI5QqsYkQlmjW4Kii0Bw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4Ic9kLI7iEmx4fzg6K/MGmVs8Kbr/xz3cK5mQ8gVn9M=;
- b=LkaeGPAbPVmHQSM+xVhTQf1lz+92zAgoh5R35ZGVAFLJmyGVwAo/EPzTGLri7KIxBC
- qnUwT4Df2l34i2SAfph+r8hsbztWaLpqDb0MiGICQMHR7YX6lj0EYPdtc0t9AZ4fDTMU
- ktmIWeNHAquPn6fndrJJCY6XdcKiY9IfrhMv1deoS1mokHRqH8Swpgm3sNpjm7cMp/Wx
- o6sGpx62Rrfa6G3fkqmqqew+ULTQ2kTfgFxD/k6KlMNq72Gi+mEamUbyRMmSyRlMgiud
- myTQ3jlI9ibB850Za789nZscHR+iOBpctxzNxUuttNV52WYPrfsI9+2JMtsAGeu4WO4t
- F4pg==
-X-Gm-Message-State: AOAM533OGViBWjHbh5QepXmFCc2BPRFqzLUJhKiOIcLYuEAwYAm06owQ
- 7FuVDfRfHzSXBDatBopZdm9Nwq+/qG9gjR8l
-X-Google-Smtp-Source: ABdhPJx4N0mByTSrMhoszno9AheTX2LZ7oZ+iqT+Q3TvlZQuWl0+xgzy8x8+JKsZ5hS5NTaTlr3Xeg==
-X-Received: by 2002:a7b:cf1a:: with SMTP id l26mr4030327wmg.164.1601661221643; 
- Fri, 02 Oct 2020 10:53:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=mCTncko5YOfdd1hOhILVAexx/vlJaiXxqeCzAQ94in0=;
+ b=UFMEGEh43TgRN+BqFDjEKVZAl6njshjMgBLikb34QoHJaMzNbx88e4cjqmJVxc4FcB
+ /sZdg9yoXTBzjem+LZDZT8eQJ9DRvM6r6GCSFRQSKn1CysI0MMVl3pCoD3x5sw2f0huX
+ rbJxdJXdb/ZuOh/YVUjSYYe15+QQ2X992cZqXSWRqHbD71yET92o8XtQR1Wtv6v9DjHX
+ D/hPVw6iTIuYeCRPrgZtJnY/95zE1vV17MP1a5S5E/s8JP0tvJSH84mPcZdok99D8GVd
+ YYOGYgE8Ji8ABXkSh1bGAW7rXmC/KRnYwe7lYqzyz4hv9dz7uiVrwlPSAbibKAGNOewM
+ liVA==
+X-Gm-Message-State: AOAM530AfJ+UsyujG/CENX8kJ6pYwQ8yupmevLhmAdSGOA/2fLUnZZOR
+ W/qC9oOJsdv9E8+dX03K7wstoAM1shy6ogDC
+X-Google-Smtp-Source: ABdhPJxqlu8ijgg5+4avDVYjjircN8ixFnEQp9RW1tMzahfcEDBuGAuy7tAthp9rZCHLP+C5s3jDnQ==
+X-Received: by 2002:a5d:4603:: with SMTP id t3mr4212688wrq.424.1601661223009; 
+ Fri, 02 Oct 2020 10:53:43 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m10sm2585429wmc.9.2020.10.02.10.53.39
+ by smtp.gmail.com with ESMTPSA id m10sm2585429wmc.9.2020.10.02.10.53.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 10:53:40 -0700 (PDT)
+ Fri, 02 Oct 2020 10:53:42 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/2] mm/frame-vec: Drop gup_flags from get_vaddr_frames()
-Date: Fri,  2 Oct 2020 19:53:02 +0200
-Message-Id: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
+Date: Fri,  2 Oct 2020 19:53:03 +0200
+Message-Id: <20201002175303.390363-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
+References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,148 +63,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-mm@kvack.org,
- Daniel Vetter <daniel.vetter@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Omer Shpigelman <oshpigelman@habana.ai>,
- Kukjin Kim <kgene@kernel.org>, Tomer Tayar <ttayar@habana.ai>,
- linux-media@vger.kernel.org, Pawel Osciak <pawel@osciak.com>,
- linux-arm-kernel@lists.infradead.org, Pawel Piskorski <ppiskorski@habana.ai>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, LKML <linux-kernel@vger.kernel.org>,
- Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-samsung-soc@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+ John Hubbard <jhubbard@nvidia.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-FOLL_WRITE | FOLL_FORCE is really the only reasonable thing to do for
-simple dma device that can't guarantee write protection. Which is also
-what all the callers are using.
-
-So just simplify this.
-
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: Kukjin Kim <kgene@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Pawel Osciak <pawel@osciak.com>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Tomasz Figa <tfiga@chromium.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Oded Gabbay <oded.gabbay@gmail.com>
-Cc: Omer Shpigelman <oshpigelman@habana.ai>
-Cc: Tomer Tayar <ttayar@habana.ai>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Pawel Piskorski <ppiskorski@habana.ai>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-mm@kvack.org
----
- drivers/gpu/drm/exynos/exynos_drm_g2d.c           | 3 +--
- drivers/media/common/videobuf2/videobuf2-memops.c | 3 +--
- drivers/misc/habanalabs/common/memory.c           | 3 +--
- include/linux/mm.h                                | 2 +-
- mm/frame_vector.c                                 | 4 ++--
- 5 files changed, 6 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-index 967a5cdc120e..ac452842bab3 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-@@ -480,8 +480,7 @@ static dma_addr_t *g2d_userptr_get_dma_addr(struct g2d_data *g2d,
- 		goto err_free;
- 	}
- 
--	ret = get_vaddr_frames(start, npages, FOLL_FORCE | FOLL_WRITE,
--		g2d_userptr->vec);
-+	ret = get_vaddr_frames(start, npages, g2d_userptr->vec);
- 	if (ret != npages) {
- 		DRM_DEV_ERROR(g2d->dev,
- 			      "failed to get user pages from userptr.\n");
-diff --git a/drivers/media/common/videobuf2/videobuf2-memops.c b/drivers/media/common/videobuf2/videobuf2-memops.c
-index 6e9e05153f4e..9dd6c27162f4 100644
---- a/drivers/media/common/videobuf2/videobuf2-memops.c
-+++ b/drivers/media/common/videobuf2/videobuf2-memops.c
-@@ -40,7 +40,6 @@ struct frame_vector *vb2_create_framevec(unsigned long start,
- 	unsigned long first, last;
- 	unsigned long nr;
- 	struct frame_vector *vec;
--	unsigned int flags = FOLL_FORCE | FOLL_WRITE;
- 
- 	first = start >> PAGE_SHIFT;
- 	last = (start + length - 1) >> PAGE_SHIFT;
-@@ -48,7 +47,7 @@ struct frame_vector *vb2_create_framevec(unsigned long start,
- 	vec = frame_vector_create(nr);
- 	if (!vec)
- 		return ERR_PTR(-ENOMEM);
--	ret = get_vaddr_frames(start & PAGE_MASK, nr, flags, vec);
-+	ret = get_vaddr_frames(start & PAGE_MASK, nr, vec);
- 	if (ret < 0)
- 		goto out_destroy;
- 	/* We accept only complete set of PFNs */
-diff --git a/drivers/misc/habanalabs/common/memory.c b/drivers/misc/habanalabs/common/memory.c
-index 5ff4688683fd..43b10aee8150 100644
---- a/drivers/misc/habanalabs/common/memory.c
-+++ b/drivers/misc/habanalabs/common/memory.c
-@@ -1287,8 +1287,7 @@ static int get_user_memory(struct hl_device *hdev, u64 addr, u64 size,
- 		return -ENOMEM;
- 	}
- 
--	rc = get_vaddr_frames(start, npages, FOLL_FORCE | FOLL_WRITE,
--				userptr->vec);
-+	rc = get_vaddr_frames(start, npages, userptr->vec);
- 
- 	if (rc != npages) {
- 		dev_err(hdev->dev,
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 16b799a0522c..7d14aa2780d2 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1757,7 +1757,7 @@ struct frame_vector {
- struct frame_vector *frame_vector_create(unsigned int nr_frames);
- void frame_vector_destroy(struct frame_vector *vec);
- int get_vaddr_frames(unsigned long start, unsigned int nr_pfns,
--		     unsigned int gup_flags, struct frame_vector *vec);
-+		     struct frame_vector *vec);
- void put_vaddr_frames(struct frame_vector *vec);
- int frame_vector_to_pages(struct frame_vector *vec);
- void frame_vector_to_pfns(struct frame_vector *vec);
-diff --git a/mm/frame_vector.c b/mm/frame_vector.c
-index 10f82d5643b6..5d34c9047e9c 100644
---- a/mm/frame_vector.c
-+++ b/mm/frame_vector.c
-@@ -12,7 +12,6 @@
-  * get_vaddr_frames() - map virtual addresses to pfns
-  * @start:	starting user address
-  * @nr_frames:	number of pages / pfns from start to map
-- * @gup_flags:	flags modifying lookup behaviour
-  * @vec:	structure which receives pages / pfns of the addresses mapped.
-  *		It should have space for at least nr_frames entries.
-  *
-@@ -32,10 +31,11 @@
-  * This function takes care of grabbing mmap_lock as necessary.
-  */
- int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
--		     unsigned int gup_flags, struct frame_vector *vec)
-+		     struct frame_vector *vec)
- {
- 	struct mm_struct *mm = current->mm;
- 	struct vm_area_struct *vma;
-+	unsigned int gup_flags = FOLL_WRITE | FOLL_FORCE;
- 	int ret = 0;
- 	int err;
- 	int locked;
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rm9yICRyZWFzb25zIEkndmUgc3R1bWJsZWQgb3ZlciB0aGlzIGNvZGUgYW5kIEknbSBub3Qgc3Vy
+ZSB0aGUgY2hhbmdlCnRvIHRoZSBuZXcgZ3VwIGZ1bmN0aW9ucyBpbiA1NWE2NTBjMzVmZWEgKCJt
+bS9ndXA6IGZyYW1lX3ZlY3RvcjoKY29udmVydCBnZXRfdXNlcl9wYWdlcygpIC0tPiBwaW5fdXNl
+cl9wYWdlcygpIikgd2FzIGVudGlyZWx5IGNvcnJlY3QuCgpUaGlzIGhlcmUgaXMgdXNlZCBmb3Ig
+bG9uZyB0ZXJtIGJ1ZmZlcnMgKG5vdCBqdXN0IHF1aWNrIEkvTykgbGlrZQpSRE1BLCBhbmQgSm9o
+biBub3RlcyB0aGlzIGluIGhpcyBwYXRjaC4gQnV0IEkgdGhvdWdodCB0aGUgcnVsZSBmb3IKdGhl
+c2UgaXMgdGhhdCB0aGV5IG5lZWQgdG8gYWRkIEZPTExfTE9OR1RFUk0sIHdoaWNoIEpvaG4ncyBw
+YXRjaApkaWRuJ3QgZG8uCgpUaGVyZSBpcyBhbHJlYWR5IGEgZGF4IHNwZWNpZmljIGNoZWNrIChh
+ZGRlZCBpbiBiN2YwNTU0YTU2ZjIgKCJtbToKZmFpbCBnZXRfdmFkZHJfZnJhbWVzKCkgZm9yIGZp
+bGVzeXN0ZW0tZGF4IG1hcHBpbmdzIikpLCBzbyB0aGlzIHNlZW1zCmxpa2UgdGhlIHBydWRlbnQg
+dGhpbmcgdG8gZG8uCgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVy
+QGludGVsLmNvbT4KQ2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+
+CkNjOiBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52aWRpYS5jb20+CkNjOiBKw6lyw7RtZSBHbGlz
+c2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KQ2M6IEphbiBLYXJhIDxqYWNrQHN1c2UuY3o+CkNjOiBE
+YW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KQ2M6IGxpbnV4LW1tQGt2YWNr
+Lm9yZwpDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCkNjOiBsaW51eC1z
+YW1zdW5nLXNvY0B2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
+ZwotLS0KSGkgYWxsLAoKSSBzdHVtYmxlZCBvdmVyIHRoaXMgYW5kIGZpZ3VyZWQgdHlwaW5nIHRo
+aXMgcGF0Y2ggY2FuJ3QgaHVydC4gUmVhbGx5Cmp1c3QgdG8gbWF5YmUgbGVhcm4gYSBmZXcgdGhp
+bmdzIGFib3V0IGhvdyBndXAvcHVwIGlzIHN1cHBvc2VkIHRvIGJlCnVzZWQgKHdlIGhhdmUgYSBi
+aXQgb2YgdGhhdCBpbiBkcml2ZXJzL2dwdSksIHRoaXMgaGVyZSBpc24ndCByZWFsbHkKcmFsYXRl
+ZCB0byBhbnl0aGluZyBJJ20gZG9pbmcuCgpJJ20gYWxzbyB3b25kZXJpbmcgd2hldGhlciB0aGUg
+ZXhwbGljaXQgZGF4IGNoZWNrIHNob3VsZCBiZSByZW1vdmVkLApzaW5jZSBGT0xMX0xPTkdURVJN
+IHNob3VsZCB0YWtlIGNhcmUgb2YgdGhhdCBhbHJlYWR5LgotRGFuaWVsCi0tLQogbW0vZnJhbWVf
+dmVjdG9yLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
+b24oLSkKCmRpZmYgLS1naXQgYS9tbS9mcmFtZV92ZWN0b3IuYyBiL21tL2ZyYW1lX3ZlY3Rvci5j
+CmluZGV4IDVkMzRjOTA0N2U5Yy4uMzUwN2UwOWNiM2ZmIDEwMDY0NAotLS0gYS9tbS9mcmFtZV92
+ZWN0b3IuYworKysgYi9tbS9mcmFtZV92ZWN0b3IuYwpAQCAtMzUsNyArMzUsNyBAQCBpbnQgZ2V0
+X3ZhZGRyX2ZyYW1lcyh1bnNpZ25lZCBsb25nIHN0YXJ0LCB1bnNpZ25lZCBpbnQgbnJfZnJhbWVz
+LAogewogCXN0cnVjdCBtbV9zdHJ1Y3QgKm1tID0gY3VycmVudC0+bW07CiAJc3RydWN0IHZtX2Fy
+ZWFfc3RydWN0ICp2bWE7Ci0JdW5zaWduZWQgaW50IGd1cF9mbGFncyA9IEZPTExfV1JJVEUgfCBG
+T0xMX0ZPUkNFOworCXVuc2lnbmVkIGludCBndXBfZmxhZ3MgPSBGT0xMX1dSSVRFIHwgRk9MTF9G
+T1JDRSB8IEZPTExfTE9OR1RFUk07CiAJaW50IHJldCA9IDA7CiAJaW50IGVycjsKIAlpbnQgbG9j
+a2VkOwotLSAKMi4yOC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
