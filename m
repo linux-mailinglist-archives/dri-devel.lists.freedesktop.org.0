@@ -1,33 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBC528145D
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 15:43:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9D128149C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 16:02:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7796E9AE;
-	Fri,  2 Oct 2020 13:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FBE86E0AF;
+	Fri,  2 Oct 2020 14:02:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B12086E0AF
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 13:42:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: andrzej.p) with ESMTPSA id 7E7E629DCF4
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8E46E0AF
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 14:02:35 +0000 (UTC)
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6335D206CD;
+ Fri,  2 Oct 2020 14:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601647355;
+ bh=7mcTQgDWOtJnBVSbqdjsF917iDbLlax02nmVJNarDGc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sW++Yg9WhnPHK3hiOfg6ugibvA5KBRUa4bTSQqM/2jFPntVet/W4HmT4y3Ob/6xTN
+ BPoDcS9HdCedWycnvZhDXoM+x6pzRUB29m6x5jmE8hbpBqAZVcK5Ff/jh+VZd2ZOT9
+ 29rLfivzZPY7q67012thrjkfNoL8Me/mSMdoruFA=
+Date: Fri, 2 Oct 2020 16:02:33 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 Subject: Re: [PATCH v3 2/2] tty/sysrq: Add configurable handler to execute a
  compound action
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-ID: <20201002140233.GB3475053@kroah.com>
 References: <20200818112825.6445-1-andrzej.p@collabora.com>
  <20200818112825.6445-3-andrzej.p@collabora.com>
  <20201002125429.GA3350322@kroah.com>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <db7fe4ed-19a4-3303-a544-eb789badb8a1@collabora.com>
-Date: Fri, 2 Oct 2020 15:42:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <db7fe4ed-19a4-3303-a544-eb789badb8a1@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20201002125429.GA3350322@kroah.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <db7fe4ed-19a4-3303-a544-eb789badb8a1@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,39 +53,74 @@ Cc: linux-input@vger.kernel.org, David Airlie <airlied@linux.ie>,
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Jiri Slaby <jslaby@suse.com>, kernel@collabora.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpXIGRuaXUgMDIuMTAuMjAyMCBvwqAxNDo1NCwgR3JlZyBLcm9haC1IYXJ0bWFuIHBpc3pl
-Ogo+IE9uIFR1ZSwgQXVnIDE4LCAyMDIwIGF0IDAxOjI4OjI1UE0gKzAyMDAsIEFuZHJ6ZWogUGll
-dHJhc2lld2ljeiB3cm90ZToKPj4gVXNlcmxhbmQgbWlnaHQgd2FudCB0byBleGVjdXRlIGUuZy4g
-J3cnIChzaG93IGJsb2NrZWQgdGFza3MpLCBmb2xsb3dlZAo+PiBieSAncycgKHN5bmMpLCBmb2xs
-b3dlZCBieSAxMDAwIG1zIGRlbGF5IGFuZCB0aGVuIGZvbGxvd2VkIGJ5ICdjJyAoY3Jhc2gpCj4+
-IHVwb24gYSBzaW5nbGUgbWFnaWMgU3lzUnEuIE9yIG9uZSBtaWdodCB3YW50IHRvIGV4ZWN1dGUg
-dGhlIGZhbW91cyAiUmFpc2luZwo+PiBFbGVwaGFudHMgSXMgU28gVXR0ZXJseSBCb3JpbmciIGFj
-dGlvbi4gVGhpcyBwYXRjaCBhZGRzIGEgY29uZmlndXJhYmxlCj4+IGhhbmRsZXIsIHRyaWdnZXJl
-ZCB3aXRoICdDJywgZm9yIHRoaXMgZXhhY3QgcHVycG9zZS4gVGhlIHVzZXIgc3BlY2lmaWVzIHRo
-ZQo+PiBjb21wb3NpdGlvbiBvZiB0aGUgY29tcG91bmQgYWN0aW9uIHVzaW5nIHN5bnRheCBzaW1p
-bGFyIHRvIGdldG9wdCwgd2hlcmUKPj4gZWFjaCBsZXR0ZXIgY29ycmVzcG9uZHMgdG8gYW4gaW5k
-aXZpZHVhbCBhY3Rpb24gYW5kIGEgY29sb24gZm9sbG93ZWQgYnkgYQo+PiBudW1iZXIgY29ycmVz
-cG9uZHMgdG8gYSBkZWxheSBvZiB0aGF0IG1hbnkgbWlsbGlzZWNvbmRzLCBlLmcuOgo+Pgo+PiB3
-czoxMDAwYwo+Pgo+PiBvcgo+Pgo+PiByOjEwMGVpczoxMDAwdWIKPiAKPiBBIG1hY3JvIGxhbmd1
-YWdlIGZvciBzeXNycSBjb21tYW5kcywgd2hvIHdvdWxkIGhhdmUgdGhvdWdodC4uLgo+IAo+IEFu
-eXdheSwgX3doeV8gd291bGQgdXNlcmxhbmQgd2FudCB0byBkbyBzb21ldGhpbmcgc28gY3Jhenkg
-YXMgdGhpcz8KPiBXaGF0IGlzIHRoZSB1c2UtY2FzZSBoZXJlPwo+IAoKQSB1c2UtY2FzZSBpcyBD
-aHJvbWVib29rcyB3aGljaCBkbyB3YW50IHRvIGV4ZWN1dGUgJ3cnLCAncycsCndhaXQgMTAwMG1z
-IGFuZCB0aGVuICdjJyB1bmRlciBvbmUga2V5IGNvbWJpbmF0aW9uLiBIYXZpbmcgdGhhdCBzdXBw
-b3J0ZWQKdXBzdHJlYW0gYnJpbmdzIHVzIG9uZSBsaXR0bGUgc3RlcCBjbG9zZXIgdG8gdGhvc2Ug
-bWFjaGluZXMgcnVubmluZwp1cHN0cmVhbSBrZXJuZWwuCgpBbm90aGVyIGFyZ3VtZW50IGZvciBz
-dWNoIGEgIm1hY3JvIGxhbmd1YWdlIiBpcyB3aGVuIGEgbWFjaGluZSdzIHN5c3RlbQprZWVwcyBk
-ZWdyYWRpbmcgb3ZlciB0aW1lLCBwb3NzaWJseSBkZWdyYWRpbmcgKHJlbGF0aXZlbHkpIGZhc3Qu
-CiJSYWlzaW5nIEVsZXBoYW50cyBJcyBTbyBVdHRlcmx5IEJvcmluZyIgY29uc2lzdHMgb2YgNiBh
-Y3Rpb25zLCBlYWNoCm9mIHdoaWNoIHJlcXVpcmVzIHByZXNzaW5nIHNldmVyYWwga2V5cy4gVGhl
-IHVzZXIgbWlnaHQgYmUgdW5hYmxlCnRvIGNvbXBsZXRlIGFsbCB0aGUgNiBzdGVwcywgd2hpbGUg
-YSAibWFjcm8iIHJlcXVpcmVzIHVzZXIncyBpbnZvbHZlbWVudApmb3IgY2Fycnlpbmcgb3V0IGp1
-c3Qgb25lIHN0ZXAuCgpSZWdhcmRzLAoKQW5kcnplagpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Oct 02, 2020 at 03:42:52PM +0200, Andrzej Pietrasiewicz wrote:
+> Hi,
+> =
+
+> W dniu 02.10.2020 o=A014:54, Greg Kroah-Hartman pisze:
+> > On Tue, Aug 18, 2020 at 01:28:25PM +0200, Andrzej Pietrasiewicz wrote:
+> > > Userland might want to execute e.g. 'w' (show blocked tasks), followed
+> > > by 's' (sync), followed by 1000 ms delay and then followed by 'c' (cr=
+ash)
+> > > upon a single magic SysRq. Or one might want to execute the famous "R=
+aising
+> > > Elephants Is So Utterly Boring" action. This patch adds a configurable
+> > > handler, triggered with 'C', for this exact purpose. The user specifi=
+es the
+> > > composition of the compound action using syntax similar to getopt, wh=
+ere
+> > > each letter corresponds to an individual action and a colon followed =
+by a
+> > > number corresponds to a delay of that many milliseconds, e.g.:
+> > > =
+
+> > > ws:1000c
+> > > =
+
+> > > or
+> > > =
+
+> > > r:100eis:1000ub
+> > =
+
+> > A macro language for sysrq commands, who would have thought...
+> > =
+
+> > Anyway, _why_ would userland want to do something so crazy as this?
+> > What is the use-case here?
+> > =
+
+> =
+
+> A use-case is Chromebooks which do want to execute 'w', 's',
+> wait 1000ms and then 'c' under one key combination. Having that supported
+> upstream brings us one little step closer to those machines running
+> upstream kernel.
+
+Who is causing that to "execute"?  Some daemon/program?
+
+> Another argument for such a "macro language" is when a machine's system
+> keeps degrading over time, possibly degrading (relatively) fast.
+> "Raising Elephants Is So Utterly Boring" consists of 6 actions, each
+> of which requires pressing several keys. The user might be unable
+> to complete all the 6 steps, while a "macro" requires user's involvement
+> for carrying out just one step.
+
+So you want to "preload" some commands ahead of time, for when you get
+in trouble?
+
+These should just be debugging / last resort types of things, how
+regular are they being used in your systems?
+
+thanks,
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
