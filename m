@@ -1,45 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B97028230B
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 11:24:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 624A128230C
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 11:24:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE046E321;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37E516E301;
 	Sat,  3 Oct 2020 09:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 375 seconds by postgrey-1.36 at gabe;
- Fri, 02 Oct 2020 23:13:53 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C732F6E9E2
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 23:13:53 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4C35Jd5L2Cz1qrMW;
- Sat,  3 Oct 2020 01:08:33 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4C35Jd3nZJz1qyY8;
- Sat,  3 Oct 2020 01:08:33 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id xYdZJjPJxFdE; Sat,  3 Oct 2020 01:08:31 +0200 (CEST)
-X-Auth-Info: 3JrPO3hNpWD7WNOi91otY26T6ijb7VKN1TsODYrsQ4o=
-Received: from desktop.lan (ip-89-176-112-137.net.upcbroadband.cz
- [89.176.112.137])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Sat,  3 Oct 2020 01:08:31 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC][PATCH] drm/bridge: lvds-codec: Add support for pixel data
- sampling edge select
-Date: Sat,  3 Oct 2020 01:08:23 +0200
-Message-Id: <20201002230823.242147-1-marex@denx.de>
-X-Mailer: git-send-email 2.28.0
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE87E6E9F2
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 23:31:20 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id 19so3892197qtp.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 16:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=4xcf1grYkzZ40GImhx9ArjPi8z+FDDNH4w+3GYnxAtI=;
+ b=oxHLH0aecKU6ZSFsu+X6/4TNPdu3StE5pXI9qUV9DxRCuE184dpQ0MXwZ2wsQgyi3A
+ BeHgomu0MRxtT5tovamRjwv1gaXqsOWdiwq6Dr2SNj7+SnXMMFYW59kRSG36fAnlptpk
+ O1kfWov3RjPY+68hJ8aXdbVaGLlcaS5XsFm5ZfF28+QrLZeec1Fw6RuQckr7wHViAeEX
+ v0TDZuYP0EStRRFiUDRssnUNiOyS+C3zOJ5pOM1FpDYuQaVip0Yr8WBhbFusi6cTAy9T
+ cMp8FvYTN8uds+SM3jPEA3efMzFvwUaz0cYsP1idFX0xfhGK5JJw8mPvicmyBimhGr/a
+ PEAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=4xcf1grYkzZ40GImhx9ArjPi8z+FDDNH4w+3GYnxAtI=;
+ b=J65f4jMaeQELvdVxi9WowlF6ZGPrwpc5V1rQm1/EOi1v7Cv5iSjL3uhNP/Ktf7Ztk6
+ yg9S6dW1YLe9RLeJ81E1LdKAiuNorM1k9WGAJI0tGTa0Y1r0ehZWWDCIucdUWDGn5RIm
+ Cxy3TxbG7iUQpb6iwttAYXI+yIG5Q1WDWV88KOY4o3vJYto+NUkahE19UrH2D6YovUeT
+ S6NfwAW97DwoLymCL+qMCxPg7M/aimlx0Ro3LjueMdat7uLzJY7zQca1gmoiL4RYDkrv
+ Xbwz1YGFPx75Xc9qGbb0r/TFDvK/jxgBXMb7RogAgZMmecHqpxB+AXzZ+tbuYI32/q1j
+ 8QFQ==
+X-Gm-Message-State: AOAM533IznrJdfRykhdX8hxhQ0artNaI2teD59YaezFgdjaWOfNqSAMJ
+ Yn9mZQrK/UXnQpDp2874Q8e1GA==
+X-Google-Smtp-Source: ABdhPJwkYFALi12g4/iJsGmcUFAforjHcaKkRzvToN1BiZXvElpblbnhTQ5Y1FCPdg5berfLazc8AQ==
+X-Received: by 2002:aed:2794:: with SMTP id a20mr4738490qtd.387.1601681479925; 
+ Fri, 02 Oct 2020 16:31:19 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id d12sm2127103qka.34.2020.10.02.16.31.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Oct 2020 16:31:19 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kOUWE-006Mau-Ig; Fri, 02 Oct 2020 20:31:18 -0300
+Date: Fri, 2 Oct 2020 20:31:18 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
+Message-ID: <20201002233118.GM9916@ziepe.ca>
+References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
+ <20201002175303.390363-2-daniel.vetter@ffwll.ch>
+ <20201002180603.GL9916@ziepe.ca>
+ <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
 X-Mailman-Approved-At: Sat, 03 Oct 2020 09:23:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,89 +75,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Benjamin Gaignard <benjamin.gaignard@st.com>,
- Antonio Borneo <antonio.borneo@st.com>, Vincent Abriou <vincent.abriou@st.com>,
- Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- Alexandre Torgue <alexandre.torgue@st.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Jan Kara <jack@suse.cz>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Pawel Osciak <pawel@osciak.com>, John Hubbard <jhubbard@nvidia.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Linux MM <linux-mm@kvack.org>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The OnSemi FIN3385 Parallel-to-LVDS encoder has a dedicated input line to
-select input pixel data sampling edge. Add DT property "pixelclk-active",
-same as the one used by display timings, and configure bus flags based on
-this DT property.
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alexandre Torgue <alexandre.torgue@st.com>
-Cc: Andrzej Hajda <a.hajda@samsung.com>
-Cc: Antonio Borneo <antonio.borneo@st.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Philippe Cornu <philippe.cornu@st.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Vincent Abriou <vincent.abriou@st.com>
-Cc: Yannick Fertre <yannick.fertre@st.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
-To: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/bridge/lvds-codec.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-index f52ccffc1bd1..bc941d4fb5b9 100644
---- a/drivers/gpu/drm/bridge/lvds-codec.c
-+++ b/drivers/gpu/drm/bridge/lvds-codec.c
-@@ -19,6 +19,7 @@ struct lvds_codec {
- 	struct device *dev;
- 	struct drm_bridge bridge;
- 	struct drm_bridge *panel_bridge;
-+	struct drm_bridge_timings timings;
- 	struct regulator *vcc;
- 	struct gpio_desc *powerdown_gpio;
- 	u32 connector_type;
-@@ -80,6 +81,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 	struct device_node *panel_node;
- 	struct drm_panel *panel;
- 	struct lvds_codec *lvds_codec;
-+	u32 val;
- 	int ret;
- 
- 	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
-@@ -124,6 +126,12 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 	if (IS_ERR(lvds_codec->panel_bridge))
- 		return PTR_ERR(lvds_codec->panel_bridge);
- 
-+	if (!of_property_read_u32(dev->of_node, "pixelclk-active", &val)) {
-+		lvds_codec->timings.input_bus_flags = val ?
-+			DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE :
-+			DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE;
-+	}
-+
- 	/*
- 	 * The panel_bridge bridge is attached to the panel's of_node,
- 	 * but we need a bridge attached to our of_node for our user
-@@ -131,6 +139,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 	 */
- 	lvds_codec->bridge.of_node = dev->of_node;
- 	lvds_codec->bridge.funcs = &funcs;
-+	lvds_codec->bridge.timings = &lvds_codec->timings;
- 	drm_bridge_add(&lvds_codec->bridge);
- 
- 	platform_set_drvdata(pdev, lvds_codec);
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBPY3QgMDIsIDIwMjAgYXQgMDg6MTY6NDhQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
+cm90ZToKPiBPbiBGcmksIE9jdCAyLCAyMDIwIGF0IDg6MDYgUE0gSmFzb24gR3VudGhvcnBlIDxq
+Z2dAemllcGUuY2E+IHdyb3RlOgo+ID4gT24gRnJpLCBPY3QgMDIsIDIwMjAgYXQgMDc6NTM6MDNQ
+TSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+ID4gRm9yICRyZWFzb25zIEkndmUgc3R1
+bWJsZWQgb3ZlciB0aGlzIGNvZGUgYW5kIEknbSBub3Qgc3VyZSB0aGUgY2hhbmdlCj4gPiA+IHRv
+IHRoZSBuZXcgZ3VwIGZ1bmN0aW9ucyBpbiA1NWE2NTBjMzVmZWEgKCJtbS9ndXA6IGZyYW1lX3Zl
+Y3RvcjoKPiA+ID4gY29udmVydCBnZXRfdXNlcl9wYWdlcygpIC0tPiBwaW5fdXNlcl9wYWdlcygp
+Iikgd2FzIGVudGlyZWx5IGNvcnJlY3QuCj4gPiA+Cj4gPiA+IFRoaXMgaGVyZSBpcyB1c2VkIGZv
+ciBsb25nIHRlcm0gYnVmZmVycyAobm90IGp1c3QgcXVpY2sgSS9PKSBsaWtlCj4gPiA+IFJETUEs
+IGFuZCBKb2huIG5vdGVzIHRoaXMgaW4gaGlzIHBhdGNoLiBCdXQgSSB0aG91Z2h0IHRoZSBydWxl
+IGZvcgo+ID4gPiB0aGVzZSBpcyB0aGF0IHRoZXkgbmVlZCB0byBhZGQgRk9MTF9MT05HVEVSTSwg
+d2hpY2ggSm9obidzIHBhdGNoCj4gPiA+IGRpZG4ndCBkby4KPiA+ID4KPiA+ID4gVGhlcmUgaXMg
+YWxyZWFkeSBhIGRheCBzcGVjaWZpYyBjaGVjayAoYWRkZWQgaW4gYjdmMDU1NGE1NmYyICgibW06
+Cj4gPiA+IGZhaWwgZ2V0X3ZhZGRyX2ZyYW1lcygpIGZvciBmaWxlc3lzdGVtLWRheCBtYXBwaW5n
+cyIpKSwgc28gdGhpcyBzZWVtcwo+ID4gPiBsaWtlIHRoZSBwcnVkZW50IHRoaW5nIHRvIGRvLgo+
+ID4gPgo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGlu
+dGVsLmNvbT4KPiA+ID4gQ2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5v
+cmc+Cj4gPiA+IENjOiBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52aWRpYS5jb20+Cj4gPiA+IENj
+OiBKw6lyw7RtZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KPiA+ID4gQ2M6IEphbiBLYXJh
+IDxqYWNrQHN1c2UuY3o+Cj4gPiA+IENjOiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGlu
+dGVsLmNvbT4KPiA+ID4gQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwo+ID4gPiBDYzogbGludXgtYXJt
+LWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gPiA+IENjOiBsaW51eC1zYW1zdW5nLXNvY0B2
+Z2VyLmtlcm5lbC5vcmcKPiA+ID4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+ID4g
+PiBIaSBhbGwsCj4gPiA+Cj4gPiA+IEkgc3R1bWJsZWQgb3ZlciB0aGlzIGFuZCBmaWd1cmVkIHR5
+cGluZyB0aGlzIHBhdGNoIGNhbid0IGh1cnQuIFJlYWxseQo+ID4gPiBqdXN0IHRvIG1heWJlIGxl
+YXJuIGEgZmV3IHRoaW5ncyBhYm91dCBob3cgZ3VwL3B1cCBpcyBzdXBwb3NlZCB0byBiZQo+ID4g
+PiB1c2VkICh3ZSBoYXZlIGEgYml0IG9mIHRoYXQgaW4gZHJpdmVycy9ncHUpLCB0aGlzIGhlcmUg
+aXNuJ3QgcmVhbGx5Cj4gPiA+IHJhbGF0ZWQgdG8gYW55dGhpbmcgSSdtIGRvaW5nLgo+ID4KPiA+
+IEZPTExfRk9SQ0UgaXMgYSBwcmV0dHkgYmlnIGNsdWUgaXQgc2hvdWxkIGJlIEZPTExfTE9OR1RF
+Uk0sIElNSE8KPiAKPiBTaW5jZSB5b3UncmUgaGVyZSAuLi4gSSd2ZSBub3RpY2VkIHRoYXQgaWIg
+c2V0cyBGT0xMX0ZPUkNFIHdoZW4gdGhlIGliCj4gdmVyYiBhY2Nlc3MgbW9kZSBpbmRpY2F0ZXMg
+cG9zc2libGUgd3JpdGVzLiBJJ20gbm90IHJlYWxseSBjbGVhciBvbgo+IHdoeSBGT0xMX1dSSVRF
+IGlzbid0IGVub3VnaCBhbnkgd2h5IHlvdSBuZWVkIHRvIGJlIGFibGUgdG8gd3JpdGUKPiB0aHJv
+dWdoIGEgdm1hIHRoYXQncyB3cml0ZSBwcm90ZWN0ZWQgY3VycmVudGx5LgoKQWgsIEZPTExfRk9S
+Q0UgfCBGT0xMX1dSSVRFIG1lYW5zICpyZWFkKiBjb25mdXNpbmdseSBlbm91Z2gsIGFuZCB0aGUK
+b25seSByZWFzb24geW91J2Qgd2FudCB0aGlzIHZlcnNpb24gZm9yIHJlYWQgaXMgaWYgeW91IGFy
+ZSBkb2luZwpsb25ndGVybSBzdHVmZi4gSSB3cm90ZSBhYm91dCB0aGlzIHJlY2VudGx5OgoKaHR0
+cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbW0vMjAyMDA5MjgyMzU3MzkuR1U5OTE2QHppZXBl
+LmNhLwoKPiA+IFNpbmNlIGV2ZXJ5IGRyaXZlciBkb2VzIHRoaXMgd3JvbmcgYW55dGhpbmcgdGhh
+dCB1c2VzIHRoaXMgaXMgY3JlYXRpbmcKPiA+IHRlcnJpZnlpbmcgc2VjdXJpdHkgaXNzdWVzLgo+
+ID4KPiA+IElNSE8gdGhpcyB3aG9sZSBBUEkgc2hvdWxkIGJlIGRlbGV0ZWQgOigKPiAKPiBZZWFo
+IHRoYXQgcGFydCBJIGp1c3QgdHJpZWQgdG8gY29udmVuaWVudGx5IGlnbm9yZS4gSSBndWVzcyB0
+aGlzIGRhdGVzCj4gYmFjayB0byBhIHRpbWUgd2hlbiBpb3JlbWFwcyB3aGVyZSBhdCBiZXN0IGZp
+eGVkLCBhbmQgdGhlcmUgd2Fzbid0Cj4gYW55dGhpbmcgbGlrZSBhIGdwdSBkcml2ZXIgZHluYW1p
+Y2FsbHkgbWFuYWdpbmcgdnJhbSBhcm91bmQsIHJlc3VsdGluZwo+IGluIHJhbmRvbSBlbnRpcmVs
+eSB1bnJlbGF0ZWQgdGhpbmdzIHBvc3NpYmx5IGJlaW5nIG1hcHBlZCB0byB0aGF0IHNldAo+IG9m
+IHBmbnMuCgpObywgaXQgd2FzIGFsd2F5cyB3cm9uZy4gUHJpb3IgdG8gR1BVIGxpa2UgY2FzZXMg
+dGhlIGxpZmV0aW1lIG9mIHRoZQpQVEUgd2FzIHRpZWQgdG8gdGhlIHZtYSBhbmQgd2hlbiB0aGUg
+dm1hIGJlY29tZXMgZnJlZSB0aGUgZHJpdmVyIGNhbgptb3ZlIHRoZSB0aGluZ3MgaW4gdGhlIFBU
+RXMgdG8gJ2ZyZWUnLiBFYXN5IHRvIHRyaWdnZXIgdXNlLWFmdGVyLWZyZWUKaXNzdWVzIGFuZCBk
+ZXZpY2VzIGxpa2UgUkRNQSBoYXZlIHNlY3VyaXR5IGNvbnRleHRzIGF0dGFjaGVkIHRvIHRoZXNl
+ClBURXMgc28gaXQgYmVjb21lcyBhIHNlcmlvdXMgc2VjdXJpdHkgYnVnIHRvIGRvIHNvbWV0aGlu
+ZyBsaWtlIHRoaXMuCgo+IFRoZSB1bmRlcmx5aW5nIGZvbGxvd19wZm4gaXMgYWxzbyB1c2VkIGlu
+IG90aGVyIHBsYWNlcyB3aXRoaW4KPiBkcml2ZXJzL21lZGlhLCBzbyB0aGlzIGRvZXNuJ3Qgc2Vl
+bSB0byBiZSBhbiBhY2NpZGVudCwgYnV0IGFjdHVhbGx5Cj4gaW50ZW50aW9uYWwuCgpMb29raW5n
+IGNsb3NlbHksIHRoZXJlIGFyZSB2ZXJ5IGZldyB1c2VycywgbW9zdCAqc2VlbSogcG9pbnRsZXNz
+LCBidXQKbWF5YmUgdGhlcmUgaXMgYSBjcmF6eSByZWFzb24/CgpUaGUgc2VxdWVuY2UgCiAgZ2V0
+X3ZhZGRyX2ZyYW1lcygpOyAKICBmcmFtZV92ZWN0b3JfdG9fcGFnZXMoKTsKICBzZ19hbGxvY190
+YWJsZV9mcm9tX3BhZ2VzKCk7IAoKU2hvdWxkIGJlIHdyaXR0ZW4KICBwaW5fdXNlcl9wYWdlc19m
+YXN0KEZPTExfTE9OR1RFUk0pOyAKICBzZ19hbGxvY190YWJsZV9mcm9tX3BhZ2VzKCkKClRoZXJl
+IGlzIHNvbWUgJ3NwZWNpYWwnIGNvZGUgaW4gZnJhbWVfdmVjdG9yX3RvX3BhZ2VzKCkgdGhhdCB0
+cmllcyB0bwpnZXQgYSBzdHJ1Y3QgcGFnZSBmb3IgdGhpbmdzIGZyb20gYSBWTV9JTyBvciBWTV9Q
+Rk5NQVAuLi4KCk9oIHNuYXAsIHRoYXQgaXMgKmNvbXBsZXRlbHkqIGJyb2tlbiEgSWYgdGhlIGZp
+cnN0IFZNQSBpcyBJT3xQRk5NQVAKdGhlbiBnZXRfdmFkZHJfZnJhbWVzKCkgaXRlcmF0ZXMgb3Zl
+ciBhbGwgVk1BcyBpbiB0aGUgcmFuZ2UsIG9mIGFueQpraW5kIGFuZCBleHRyYWN0cyB0aGUgUFRF
+cyB0aGVuIGJsaW5kbHkgcmVmZXJlbmNlcyB0aGVtISBUaGlzIG1lYW5zIGl0CmNhbiBiZSB1c2Vk
+IHRvIHVzZSBhZnRlciBmcmVlIG5vcm1hbCBSQU0gc3RydWN0IHBhZ2VzISEgR2FoIQoKV293LiBP
+a2F5LiBUaGF0IGhhcyB0byBnby4KClNvLCBJICp0aGluayogd2UgY2FuIGFzc3VtZSB0aGVyZSBp
+cyBubyBzYW5lIGNhc2VzIHdoZXJlCmZyYW1lX3ZlY3Rvcl90b19wYWdlcygpIHN1Y2NlZWRzIGJ1
+dCBwaW5fdXNlcl9wYWdlcygpIHdhc24ndCBjYWxsZWQuCgpUaGF0IG1lYW5zIHRoZSB1c2VycyBo
+ZXJlOgogLSBoYWJhbmFsYWJzOiAgSGV5IE9kZWQgY2FuIHlvdSBmaXggdGhpcyB1cD8KCiAtIGdw
+dS9leHlub3M6IERhbmllbCBjYW4geW91IGdldCBzb21lb25lIHRoZXJlIHRvIHN0b3AgdXNpbmcg
+aXQ/CgogLSBtZWRpYS92aWRlb2J1ZiB2aWEgdmIyX2RtYV9zZ19nZXRfdXNlcnB0cigpCgpTaG91
+bGQgYWxsIGJlIHN3aXRjaGVkIHRvIHRoZSBzdGFuZGFyZCBwaW5fdXNlcl9wYWdlcyBzZXF1ZW5j
+ZQphYm92ZS4KClRoYXQgbGVhdmVzIHRoZSBvbmx5IGludGVyZXN0aW5nIHBsYWNlcyBhcyB2YjJf
+ZGNfZ2V0X3VzZXJwdHIoKSBhbmQKdmIyX3ZtYWxsb2NfZ2V0X3VzZXJwdHIoKSB3aGljaCBib3Ro
+IGNvbXBsZXRlbHkgZmFpbCB0byBmb2xsb3cgdGhlClJFUVVJUkVEIGJlaGF2aW9yIGluIHRoZSBm
+dW5jdGlvbidzIGNvbW1lbnQgYWJvdXQgY2hlY2tpbmcgUFRFcy4gSXQKanVzdCBETUEgbWFwcyB0
+aGVtLiBCYWRseSBicm9rZW4uCgpHdWVzc2luZyB0aGlzIGhhY2tlcnkgaXMgZm9yIHNvbWUgZW1i
+ZWRkZWQgUDJQIERNQSB0cmFuc2Zlcj8KCkFmdGVyIGhlIHRocmVlIHBsYWNlcyBhYm92ZSBzaG91
+bGQgdXNlIHBpbl91c2VyX3BhZ2VzX2Zhc3QoKSwgdGhlbgp0aGlzIHdob2xlIGJyb2tlbiBBUEkg
+c2hvdWxkIGJlIG1vdmVkIGludG8gdmlkZW9idWYyLW1lbW9wcy5jIGFuZCBhCmJpZyBmYXQgIlRI
+SVMgRE9FU04nVCBXT1JLIiBzdHVjayBvbiBpdC4KCnZpZGVvYnVmMiBzaG91bGQgcHJvYmFibHkg
+dXNlIFAyUCBETUEgYnVmIGZvciB0aGlzIGluc3RlYWQuCgpKYXNvbgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
