@@ -1,42 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9D128149C
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 16:02:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DC728160F
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 17:07:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FBE86E0AF;
-	Fri,  2 Oct 2020 14:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E05186E0DE;
+	Fri,  2 Oct 2020 15:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8E46E0AF
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 14:02:35 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6335D206CD;
- Fri,  2 Oct 2020 14:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601647355;
- bh=7mcTQgDWOtJnBVSbqdjsF917iDbLlax02nmVJNarDGc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sW++Yg9WhnPHK3hiOfg6ugibvA5KBRUa4bTSQqM/2jFPntVet/W4HmT4y3Ob/6xTN
- BPoDcS9HdCedWycnvZhDXoM+x6pzRUB29m6x5jmE8hbpBqAZVcK5Ff/jh+VZd2ZOT9
- 29rLfivzZPY7q67012thrjkfNoL8Me/mSMdoruFA=
-Date: Fri, 2 Oct 2020 16:02:33 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 525736E0DE
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 15:06:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: andrzej.p) with ESMTPSA id B58B429A1AF
 Subject: Re: [PATCH v3 2/2] tty/sysrq: Add configurable handler to execute a
  compound action
-Message-ID: <20201002140233.GB3475053@kroah.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 References: <20200818112825.6445-1-andrzej.p@collabora.com>
  <20200818112825.6445-3-andrzej.p@collabora.com>
  <20201002125429.GA3350322@kroah.com>
  <db7fe4ed-19a4-3303-a544-eb789badb8a1@collabora.com>
+ <20201002140233.GB3475053@kroah.com>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <2031d74a-41df-d556-d5de-37f4b63ee30f@collabora.com>
+Date: Fri, 2 Oct 2020 17:06:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <db7fe4ed-19a4-3303-a544-eb789badb8a1@collabora.com>
+In-Reply-To: <20201002140233.GB3475053@kroah.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,74 +47,59 @@ Cc: linux-input@vger.kernel.org, David Airlie <airlied@linux.ie>,
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Jiri Slaby <jslaby@suse.com>, kernel@collabora.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 02, 2020 at 03:42:52PM +0200, Andrzej Pietrasiewicz wrote:
-> Hi,
-> =
-
-> W dniu 02.10.2020 o=A014:54, Greg Kroah-Hartman pisze:
-> > On Tue, Aug 18, 2020 at 01:28:25PM +0200, Andrzej Pietrasiewicz wrote:
-> > > Userland might want to execute e.g. 'w' (show blocked tasks), followed
-> > > by 's' (sync), followed by 1000 ms delay and then followed by 'c' (cr=
-ash)
-> > > upon a single magic SysRq. Or one might want to execute the famous "R=
-aising
-> > > Elephants Is So Utterly Boring" action. This patch adds a configurable
-> > > handler, triggered with 'C', for this exact purpose. The user specifi=
-es the
-> > > composition of the compound action using syntax similar to getopt, wh=
-ere
-> > > each letter corresponds to an individual action and a colon followed =
-by a
-> > > number corresponds to a delay of that many milliseconds, e.g.:
-> > > =
-
-> > > ws:1000c
-> > > =
-
-> > > or
-> > > =
-
-> > > r:100eis:1000ub
-> > =
-
-> > A macro language for sysrq commands, who would have thought...
-> > =
-
-> > Anyway, _why_ would userland want to do something so crazy as this?
-> > What is the use-case here?
-> > =
-
-> =
-
-> A use-case is Chromebooks which do want to execute 'w', 's',
-> wait 1000ms and then 'c' under one key combination. Having that supported
-> upstream brings us one little step closer to those machines running
-> upstream kernel.
-
-Who is causing that to "execute"?  Some daemon/program?
-
-> Another argument for such a "macro language" is when a machine's system
-> keeps degrading over time, possibly degrading (relatively) fast.
-> "Raising Elephants Is So Utterly Boring" consists of 6 actions, each
-> of which requires pressing several keys. The user might be unable
-> to complete all the 6 steps, while a "macro" requires user's involvement
-> for carrying out just one step.
-
-So you want to "preload" some commands ahead of time, for when you get
-in trouble?
-
-These should just be debugging / last resort types of things, how
-regular are they being used in your systems?
-
-thanks,
-
-greg k-h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpXIGRuaXUgMDIuMTAuMjAyMCBvwqAxNjowMiwgR3JlZyBLcm9haC1IYXJ0bWFuIHBpc3pl
+Ogo+IE9uIEZyaSwgT2N0IDAyLCAyMDIwIGF0IDAzOjQyOjUyUE0gKzAyMDAsIEFuZHJ6ZWogUGll
+dHJhc2lld2ljeiB3cm90ZToKPj4gSGksCj4+Cj4+IFcgZG5pdSAwMi4xMC4yMDIwIG/CoDE0OjU0
+LCBHcmVnIEtyb2FoLUhhcnRtYW4gcGlzemU6Cj4+PiBPbiBUdWUsIEF1ZyAxOCwgMjAyMCBhdCAw
+MToyODoyNVBNICswMjAwLCBBbmRyemVqIFBpZXRyYXNpZXdpY3ogd3JvdGU6Cj4+Pj4gVXNlcmxh
+bmQgbWlnaHQgd2FudCB0byBleGVjdXRlIGUuZy4gJ3cnIChzaG93IGJsb2NrZWQgdGFza3MpLCBm
+b2xsb3dlZAo+Pj4+IGJ5ICdzJyAoc3luYyksIGZvbGxvd2VkIGJ5IDEwMDAgbXMgZGVsYXkgYW5k
+IHRoZW4gZm9sbG93ZWQgYnkgJ2MnIChjcmFzaCkKPj4+PiB1cG9uIGEgc2luZ2xlIG1hZ2ljIFN5
+c1JxLiBPciBvbmUgbWlnaHQgd2FudCB0byBleGVjdXRlIHRoZSBmYW1vdXMgIlJhaXNpbmcKPj4+
+PiBFbGVwaGFudHMgSXMgU28gVXR0ZXJseSBCb3JpbmciIGFjdGlvbi4gVGhpcyBwYXRjaCBhZGRz
+IGEgY29uZmlndXJhYmxlCj4+Pj4gaGFuZGxlciwgdHJpZ2dlcmVkIHdpdGggJ0MnLCBmb3IgdGhp
+cyBleGFjdCBwdXJwb3NlLiBUaGUgdXNlciBzcGVjaWZpZXMgdGhlCj4+Pj4gY29tcG9zaXRpb24g
+b2YgdGhlIGNvbXBvdW5kIGFjdGlvbiB1c2luZyBzeW50YXggc2ltaWxhciB0byBnZXRvcHQsIHdo
+ZXJlCj4+Pj4gZWFjaCBsZXR0ZXIgY29ycmVzcG9uZHMgdG8gYW4gaW5kaXZpZHVhbCBhY3Rpb24g
+YW5kIGEgY29sb24gZm9sbG93ZWQgYnkgYQo+Pj4+IG51bWJlciBjb3JyZXNwb25kcyB0byBhIGRl
+bGF5IG9mIHRoYXQgbWFueSBtaWxsaXNlY29uZHMsIGUuZy46Cj4+Pj4KPj4+PiB3czoxMDAwYwo+
+Pj4+Cj4+Pj4gb3IKPj4+Pgo+Pj4+IHI6MTAwZWlzOjEwMDB1Ygo+Pj4KPj4+IEEgbWFjcm8gbGFu
+Z3VhZ2UgZm9yIHN5c3JxIGNvbW1hbmRzLCB3aG8gd291bGQgaGF2ZSB0aG91Z2h0Li4uCj4+Pgo+
+Pj4gQW55d2F5LCBfd2h5XyB3b3VsZCB1c2VybGFuZCB3YW50IHRvIGRvIHNvbWV0aGluZyBzbyBj
+cmF6eSBhcyB0aGlzPwo+Pj4gV2hhdCBpcyB0aGUgdXNlLWNhc2UgaGVyZT8KPj4+Cj4+Cj4+IEEg
+dXNlLWNhc2UgaXMgQ2hyb21lYm9va3Mgd2hpY2ggZG8gd2FudCB0byBleGVjdXRlICd3JywgJ3Mn
+LAo+PiB3YWl0IDEwMDBtcyBhbmQgdGhlbiAnYycgdW5kZXIgb25lIGtleSBjb21iaW5hdGlvbi4g
+SGF2aW5nIHRoYXQgc3VwcG9ydGVkCj4+IHVwc3RyZWFtIGJyaW5ncyB1cyBvbmUgbGl0dGxlIHN0
+ZXAgY2xvc2VyIHRvIHRob3NlIG1hY2hpbmVzIHJ1bm5pbmcKPj4gdXBzdHJlYW0ga2VybmVsLgo+
+IAo+IFdobyBpcyBjYXVzaW5nIHRoYXQgdG8gImV4ZWN1dGUiPyAgU29tZSBkYWVtb24vcHJvZ3Jh
+bT8KCk5vLCBhcyBmYXIgYXMgSSBrbm93IHRoZXkgcGF0Y2ggdGhlIGtlcm5lbCB0byBjaGFuZ2Ug
+dGhlIGJlaGF2aW9yCm9mIFN5c3JxLXggY29tYmluYXRpb24sIHNvIHRoZSAiZXhlY3V0aW9uIiBp
+cyB0cmlnZ2VyZWQgYnkgdGhlIHVzZXIuCgo+IAo+PiBBbm90aGVyIGFyZ3VtZW50IGZvciBzdWNo
+IGEgIm1hY3JvIGxhbmd1YWdlIiBpcyB3aGVuIGEgbWFjaGluZSdzIHN5c3RlbQo+PiBrZWVwcyBk
+ZWdyYWRpbmcgb3ZlciB0aW1lLCBwb3NzaWJseSBkZWdyYWRpbmcgKHJlbGF0aXZlbHkpIGZhc3Qu
+Cj4+ICJSYWlzaW5nIEVsZXBoYW50cyBJcyBTbyBVdHRlcmx5IEJvcmluZyIgY29uc2lzdHMgb2Yg
+NiBhY3Rpb25zLCBlYWNoCj4+IG9mIHdoaWNoIHJlcXVpcmVzIHByZXNzaW5nIHNldmVyYWwga2V5
+cy4gVGhlIHVzZXIgbWlnaHQgYmUgdW5hYmxlCj4+IHRvIGNvbXBsZXRlIGFsbCB0aGUgNiBzdGVw
+cywgd2hpbGUgYSAibWFjcm8iIHJlcXVpcmVzIHVzZXIncyBpbnZvbHZlbWVudAo+PiBmb3IgY2Fy
+cnlpbmcgb3V0IGp1c3Qgb25lIHN0ZXAuCj4gCj4gU28geW91IHdhbnQgdG8gInByZWxvYWQiIHNv
+bWUgY29tbWFuZHMgYWhlYWQgb2YgdGltZSwgZm9yIHdoZW4geW91IGdldAo+IGluIHRyb3VibGUK
+SXQgY2FuIGJlIHNhaWQgdGhpcyB3YXksIHllcy4KCj4gCj4gVGhlc2Ugc2hvdWxkIGp1c3QgYmUg
+ZGVidWdnaW5nIC8gbGFzdCByZXNvcnQgdHlwZXMgb2YgdGhpbmdzLCBob3cKPiByZWd1bGFyIGFy
+ZSB0aGV5IGJlaW5nIHVzZWQgaW4geW91ciBzeXN0ZW1zPwo+IAoKVGhlICJSRUlTVUIiIGl0c2Vs
+ZiBpcyBhIGtpbmQgb2YgYSBsYXN0IHJlc29ydCB0aGluZy4KCkl0IGlzIHRydWUgdGhhdCBpdCdz
+IG5vdCBhIHZlcnkgZnJlcXVlbnQgc2l0dWF0aW9uLCBidXQgZG9lcyBpdHMgYmVpbmcgcmFyZQpw
+cmVjbHVkZSBoYXZpbmcgc3VjaCBhIGZ1bmN0aW9uIGluIHRoZSBrZXJuZWw/CgpXaGlsZSBwcmVw
+YXJpbmcgdGhpcyBwYXRjaCBJIHdhbnRlZCBpdCB0byBiZSBmbGV4aWJsZSwgYnV0IHBlcmhhcHMg
+aXQgaXMKdG9vIGZsZXhpYmxlIGZvciBzb21lIHJlYXNvbj8gSWYgdGhlIHBlcm1pc3Npb25zIG9m
+IHRoZSBtb2R1bGVfcGFyYW0ncwpzeXNmcyBlbnRyeSB3ZXJlIGNoYW5nZWQgdG8gMDQ0NCB3b3Vs
+ZCBpdCBiZSBiZXR0ZXI/IFRoZW4gdGhlIGNvbXBvdW5kCmFjdGlvbiB3b3VsZCBzdGlsbCBiZSBj
+b25maWd1cmFibGUgYnV0IG9ubHkgYXQgYm9vdCB0aW1lIHJhdGhlciB0aGFuIGF0CmJvb3QgdGlt
+ZSBfYW5kXyBydW50aW1lLgoKUmVnYXJkcywKCkFuZHJ6ZWoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
