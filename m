@@ -2,32 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB96280DE8
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 09:10:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313A4280E0A
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 09:31:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1187A6E03A;
-	Fri,  2 Oct 2020 07:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A5EE6E235;
+	Fri,  2 Oct 2020 07:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 512AA6E03A
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 07:10:37 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EB6C929D0E2;
- Fri,  2 Oct 2020 08:10:35 +0100 (BST)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v2] drm/panfrost: Fix job timeout handling
-Date: Fri,  2 Oct 2020 09:10:32 +0200
-Message-Id: <20201002071032.1225267-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 525836E235
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 07:31:20 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id c13so401640oiy.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 00:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FV2kqyJj2HCS5dITMAB2uIW5WIzwJCxSsKqyYxhrIb8=;
+ b=lC6n1jSw4vGEbBk+NzuHmRhWwgQz1I5GTOa2zuJv940Zx1wxEh97+0AE0wc3SK5OYg
+ GRkx1QpyhQzUs7T9uEenrAEt1CqXAY7filBYvuEA4UVnDQfsCIepB9TlDFUZtJJt6th5
+ z+i698ITBVY0/dTSn4fqVlNnKIt8fSywkSnTE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FV2kqyJj2HCS5dITMAB2uIW5WIzwJCxSsKqyYxhrIb8=;
+ b=neb5+XbJBtPmhP1pilePT9MTQJjDi2qFK5uu1zCcWE0v0wCQZG+x90gaUoPP7yYvSi
+ adPbM+t/f2nzIOKdtE8ymV7y2RTRpEI8PLROaRey5w/MOae8O1BUAaRjFCxVu0/599zK
+ 1MVfxJ1ba+9RJwpHJlrxbrA4jH9zEFXKkN3YSiIOqw2cK03gtYqMy6by1XQI6xWu6and
+ R86KTmn6HNYzCPVpLfyn+BSkGumQg6WKS/ClLlcgqBDIDMtdUMzaaayyHf2TmE733bqn
+ VHtWxqJ6WXyMnNTv3uqtAFETBnW7V6wQclQtwemfSF/em6Vx/docOs1nJBwa7yRTotdj
+ d5fw==
+X-Gm-Message-State: AOAM531nc7nEQHvmk8L5r5tB4VhX3w5UkozWOevKCX9wVOvp30rkqSbm
+ CPz7FlnmTrV9iGi9906IhXBP5UKVFJwXBLhFeR5psA==
+X-Google-Smtp-Source: ABdhPJxSuPhsIR7ozBvleiZGtWRZp5/0o4EsEQMkcZj85SgObTBwKlJDPsHuSNersHwNZqgCIw8aPofYz6agkQnCgd8=
+X-Received: by 2002:aca:eb49:: with SMTP id j70mr477352oih.101.1601623879554; 
+ Fri, 02 Oct 2020 00:31:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200930221821.13719-1-agoins@nvidia.com>
+ <4566cf03-1c9e-1626-6c92-7b5fa29d6b75@amd.com>
+ <alpine.DEB.2.20.2010011344360.18933@agoins-DiGiTS>
+ <c50d91e4-3116-00fd-1b90-4091e2eb2db3@amd.com>
+In-Reply-To: <c50d91e4-3116-00fd-1b90-4091e2eb2db3@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 2 Oct 2020 09:31:08 +0200
+Message-ID: <CAKMK7uEmm8R=Eqm+cCxU19PZ1uC5kMk1wmJ+32gQ8jM7Ng5-zA@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/1] drm/ttm: Allocate transparent huge pages without
+ clearing __GFP_COMP
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,165 +62,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: John Hubbard <jhubbard@nvidia.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Linux MM <linux-mm@kvack.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Zi Yan <ziy@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If more than two jobs end up timeout-ing concurrently, only one of them
-(the one attached to the scheduler acquiring the lock) is fully handled.
-The other one remains in a dangling state where it's no longer part of
-the scheduling queue, but still blocks something in scheduler, leading
-to repetitive timeouts when new jobs are queued.
-
-Let's make sure all bad jobs are properly handled by the thread
-acquiring the lock.
-
-v2:
-- Fix the subject prefix
-- Stop the scheduler before returning from panfrost_job_timedout()
-- Call cancel_delayed_work_sync() after drm_sched_stop() to make sure
-  no timeout handlers are in flight when we reset the GPU (Steven Price)
-- Make sure we release the reset lock before restarting the
-  schedulers (Steven Price)
-
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
-Cc: <stable@vger.kernel.org>
----
- drivers/gpu/drm/panfrost/panfrost_job.c | 64 +++++++++++++++++++++----
- 1 file changed, 55 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 30e7b7196dab..6e4bfb938fab 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -25,7 +25,8 @@
- 
- struct panfrost_queue_state {
- 	struct drm_gpu_scheduler sched;
--
-+	bool stopped;
-+	struct mutex lock;
- 	u64 fence_context;
- 	u64 emit_seqno;
- };
-@@ -369,6 +370,24 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
- 	job_write(pfdev, JOB_INT_MASK, irq_mask);
- }
- 
-+static bool panfrost_scheduler_stop(struct panfrost_queue_state *queue,
-+				    struct drm_sched_job *bad)
-+{
-+	bool stopped = false;
-+
-+	mutex_lock(&queue->lock);
-+	if (!queue->stopped) {
-+		drm_sched_stop(&queue->sched, bad);
-+		if (bad)
-+			drm_sched_increase_karma(bad);
-+		queue->stopped = true;
-+		stopped = true;
-+	}
-+	mutex_unlock(&queue->lock);
-+
-+	return stopped;
-+}
-+
- static void panfrost_job_timedout(struct drm_sched_job *sched_job)
- {
- 	struct panfrost_job *job = to_panfrost_job(sched_job);
-@@ -392,19 +411,41 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
- 		job_read(pfdev, JS_TAIL_LO(js)),
- 		sched_job);
- 
-+	/* Scheduler is already stopped, nothing to do. */
-+	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
-+		return;
-+
- 	if (!mutex_trylock(&pfdev->reset_lock))
- 		return;
- 
-+	mutex_lock(&pfdev->sched_lock);
- 	for (i = 0; i < NUM_JOB_SLOTS; i++) {
- 		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
- 
--		drm_sched_stop(sched, sched_job);
--		if (js != i)
--			/* Ensure any timeouts on other slots have finished */
-+		/*
-+		 * If the queue is still active, make sure we wait for any
-+		 * pending timeouts.
-+		 */
-+		if (!pfdev->js->queue[i].stopped)
- 			cancel_delayed_work_sync(&sched->work_tdr);
--	}
- 
--	drm_sched_increase_karma(sched_job);
-+		/*
-+		 * If the scheduler was not already stopped, there's a tiny
-+		 * chance a timeout has expired just before we stopped it, and
-+		 * drm_sched_stop() does not flush pending works. Let's flush
-+		 * them now so the timeout handler doesn't get called in the
-+		 * middle of a reset.
-+		 */
-+		if (panfrost_scheduler_stop(&pfdev->js->queue[i], NULL))
-+			cancel_delayed_work_sync(&sched->work_tdr);
-+
-+		/*
-+		 * Now that we cancelled the pending timeouts, we can safely
-+		 * reset the stopped state.
-+		 */
-+		pfdev->js->queue[i].stopped = false;
-+	}
-+	mutex_unlock(&pfdev->sched_lock);
- 
- 	spin_lock_irqsave(&pfdev->js->job_lock, flags);
- 	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-@@ -421,11 +462,11 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
- 	for (i = 0; i < NUM_JOB_SLOTS; i++)
- 		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
- 
-+	mutex_unlock(&pfdev->reset_lock);
-+
- 	/* restart scheduler after GPU is usable again */
- 	for (i = 0; i < NUM_JOB_SLOTS; i++)
- 		drm_sched_start(&pfdev->js->queue[i].sched, true);
--
--	mutex_unlock(&pfdev->reset_lock);
- }
- 
- static const struct drm_sched_backend_ops panfrost_sched_ops = {
-@@ -558,6 +599,7 @@ int panfrost_job_open(struct panfrost_file_priv *panfrost_priv)
- 	int ret, i;
- 
- 	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-+		mutex_init(&js->queue[i].lock);
- 		sched = &js->queue[i].sched;
- 		ret = drm_sched_entity_init(&panfrost_priv->sched_entity[i],
- 					    DRM_SCHED_PRIORITY_NORMAL, &sched,
-@@ -570,10 +612,14 @@ int panfrost_job_open(struct panfrost_file_priv *panfrost_priv)
- 
- void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
- {
-+	struct panfrost_device *pfdev = panfrost_priv->pfdev;
-+	struct panfrost_job_slot *js = pfdev->js;
- 	int i;
- 
--	for (i = 0; i < NUM_JOB_SLOTS; i++)
-+	for (i = 0; i < NUM_JOB_SLOTS; i++) {
- 		drm_sched_entity_destroy(&panfrost_priv->sched_entity[i]);
-+		mutex_destroy(&js->queue[i].lock);
-+	}
- }
- 
- int panfrost_job_is_idle(struct panfrost_device *pfdev)
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBPY3QgMiwgMjAyMCBhdCA4OjQxIEFNIENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
+bi5rb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4KPiBIaSBBbGV4LAo+Cj4gYWRkaW5nIERhbmllbCBh
+cyB3ZWxsLgo+Cj4gQW0gMDEuMTAuMjAgdW0gMjA6NDUgc2NocmllYiBBbGV4IEdvaW5zOgo+ID4g
+SGkgQ2hyaXN0aWFuLAo+ID4KPiA+IE9uIFRodSwgMSBPY3QgMjAyMCwgQ2hyaXN0aWFuIEvDtm5p
+ZyB3cm90ZToKPiA+Cj4gPj4gSGkgQWxleCwKPiA+Pgo+ID4+IGZpcnN0IG9mIGFsbCBhY2Nlc3Np
+bmcgdGhlIHVuZGVybHlpbmcgcGFnZSBvZiBhbiBleHBvcnRlZCBETUEtYnVmIGlzCj4gPj4gaWxs
+ZWdhbCEgU28gSSdtIG5vdCAxMDAlIHN1cmUgd2hhdCB5b3UncmUgaW50ZW50aW9ucyBhcmUgaGVy
+ZSwgcGxlYXNlCj4gPj4gZXhwbGFpbiBmdXJ0aGVyLgo+ID4gV2UgaGF2ZSBzb21lIG1hcHBpbmcg
+cmVxdWlyZW1lbnRzIHRoYXQgSSB3YXMgaG9waW5nIEkgY291bGQgYWRkcmVzcyBieSBtYXBwaW5n
+Cj4gPiB0aGVzZSBwYWdlcyBtYW51YWxseS4KPiA+Cj4gPiBBcmUgeW91IHN1cmUgdGhhdCBpdCdz
+IGlsbGVnYWwgdG8gYWNjZXNzIHRoZSB1bmRlcmx5aW5nIHBhZ2VzIG9mIGFuIGV4cG9ydGVkCj4g
+PiBETUEtQlVGPwo+Cj4geWVzLCBJJ20gMTAwJSBzdXJlIG9mIHRoYXQuIFRoaXMgd2FzIGRpc2N1
+c3NlZCBtdWx0aXBsZSB0aW1lcyBub3cgb24gdGhlCj4gbWFpbGluZyBsaXN0Lgo+Cj4gPiBUaGVy
+ZSBhcHBlYXJzIHRvIGJlIHF1aXRlIGEgZmV3IHVzYWdlcyBvZiB0aGlzIGFscmVhZHkuIFNlZSB0
+aGUgdXNhZ2UKPiA+IG9mIGRybV9wcmltZV9zZ190b19wYWdlX2FkZHJfYXJyYXlzKCkgaW4gdmdl
+bSwgdmttcywgbXNtLCB4ZW4sIGFuZCBldG5hdml2Lgo+ID4gZHJtX2dlbV9wcmltZV9pbXBvcnRf
+ZGV2KCkgdXNlcyBkcml2ZXItPmdlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUoKSB3aGVuCj4gPiBp
+bXBvcnRpbmcgYSBETUEtQlVGIGZyb20gYW5vdGhlciBkcml2ZXIsIGFuZCB0aGUgbGlzdGVkIGRy
+aXZlcnMgdGhlbiBleHRyYWN0IHRoZQo+ID4gcGFnZXMgZnJvbSB0aGUgZ2l2ZW4gU0dUIHVzaW5n
+IGRybV9wcmltZV9zZ190b19wYWdlX2FkZHJfYXJyYXlzKCkuIFRoZXNlIHBhZ2VzCj4gPiBjYW4g
+dGhlbiBiZSBtYXBwZWQgYW5kIGZhdWx0ZWQgaW4uCj4KPiBObywgZXhhY3RseSB0aGF0IGRvZXNu
+J3Qgd29yayBjb3JyZWN0bHkuCj4KPiBZb3UgYXJlIGNvcnJ1cHRpbmcgaW50ZXJuYWwgc3RhdGUg
+aW4gc3RydWN0IHBhZ2Ugd2hpbGUgZG9pbmcgc28gYW5kIHJpc2sKPiB0aGF0IHVzZXJzcGFjZSBp
+cyBhY2Nlc3NpbmcgZnJlZWQgdXAgbWVtb3J5Lgo+Cj4gV2UgcmVhbGx5IG5lZWQgdG8gZmluZCBh
+IHdheSB0byBmaXggdGhlIGZldyBkcml2ZXJzIGFscmVhZHkgZG9pbmcgdGhpcy4KClllYWggdGhl
+IGRyaXZlcnMgZG9pbmcgdGhpcyB3ZXJlIG1lcmdlZCB3aXRoIGV2ZXJ5b25lIGF3YXJlIHRoYXQg
+aXQncwphIGJhZCB0cmljaywgYnV0IDEwIHllYXJzIGFnbyB3ZSBoYWQgbm90aGluZywgbm90IGV2
+ZW4gdXNlcnNwYWNlIGZvcgptdWx0aS1ncHUsIHNvIHRoZXJlIG5lZWRlZCB0byBiZSBzb21ldGhp
+bmcgdG8gZ2V0IHRoZSB0aGluZyBvZmYgdGhlCmdyb3VuZC4gQnV0IGl0IHdhcyBhIGJhZCBpZGVh
+IGJhY2sgdGhlbiwgYW5kIGl0J3Mgc3RpbGwgYSBiYWQgaWRlYSBub3cKKGFuZCBub3cgd2UgZG8g
+aGF2ZSB0aGUgZWNvc3lzdGVtIG9mZiB0aGUgZ3JvdW5kLCBzbyB0aGVyZSdzIHJlYWxseQpub3Qg
+ZXhjdXNlIGZvciBzaG9ydGN1dHMpLgotRGFuaWVsCgo+ID4gU2VlIGNvbW1pdCBhZjMzYTkxOTBk
+MDIgKCdkcm0vdmdlbTogRW5hYmxlIGRtYWJ1ZiBpbXBvcnQgaW50ZXJmYWNlcycpLiBBZnRlcgo+
+ID4gaW1wb3J0aW5nIHRoZSBwYWdlcyBmcm9tIHRoZSBTR1QsIHZnZW0gY2FuIGZhdWx0IHRoZW0g
+aW4sIHRha2luZyBhIHJlZmNvdW50IHdpdGgKPiA+IGdldF9wYWdlKCkgZmlyc3QuIGdldF9wYWdl
+KCkgdGhyb3dzIGEgQlVHIGlmIHRoZSByZWZjb3VudCBpcyB6ZXJvLCB3aGljaCBpdCB3aWxsCj4g
+PiBoaXQgb24gZWFjaCBvZiB0aGUgJ3RhaWwnIHBhZ2VzIGZyb20gVFRNIFRIUCBhbGxvY2F0aW9u
+cy4KPiA+Cj4gPiBBbGwgb2YgdGhpcyBjdXJyZW50bHkgd29ya3MgZmluZSB3aXRoIFRUTSBETUEt
+QlVGcyB3aGVuIHRoZSBrZXJuZWwgaXMgYnVpbHQgd2l0aAo+ID4gIUNPTkZJR19UUkFOU1BBUkVO
+VF9IVUdFUEFHRS4gSG93ZXZlciwgJ2VjaG8gbmV2ZXIgPgo+ID4gL3N5cy9rZXJuZWwvbW0vdHJh
+bnNwYXJlbnRfaHVnZXBhZ2UvZW5hYmxlZCcgZG9lc24ndCBjaGFuZ2UgaG93IFRUTSBhbGxvY2F0
+ZXMKPiA+IHBhZ2VzLgo+Cj4gWW91IG5lZWQgdG8gcmVkaXJlY3QgdGhlIG1hcHBpbmcgdG8gZG1h
+X2J1Zl9tbWFwKCkgaW5zdGVhZC4KPgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+Cj4gPgo+ID4+
+IFRoZW4gdGhlIHJlYXNvbiBmb3IgVFRNIG5vdCB1c2luZyBjb21wb3VuZCBwYWdlcyBpcyB0aGF0
+IHdlIGNhbid0Cj4gPj4gZ3VhcmFudGVlIHRoYXQgdGhleSBhcmUgbWFwcGVkIGFzIGEgd2hvbGUg
+dG8gdXNlcnNwYWNlLgo+ID4+Cj4gPj4gVGhlIHJlc3VsdCBpcyB0aGF0IHRoZSBrZXJuZWwgc29t
+ZXRpbWVzIHRyaWVkIHRvIGRlLWNvbXBvdW5kIHRoZW0gd2hpY2gKPiA+PiBjcmVhdGVkIGEgYnVu
+Y2ggb2YgcHJvYmxlbXMuCj4gPj4KPiA+PiBTbyB5ZXMgdGhpcyBpcyBjb21wbGV0ZWx5IGludGVu
+dGlvbmFsLgo+ID4gVW5kZXJzdG9vZCwgSSBmaWd1cmVkIHNvbWV0aGluZyBsaWtlIHRoYXQgd2Fz
+IHRoZSBjYXNlLCBzbyBJIHdhbnRlZCB0byBnZXQgeW91cgo+ID4gaW5wdXQgZmlyc3QuIERvIHlv
+dSBrbm93IHdoYXQgdGhlIHByb2JsZW1zIHdlcmUsIGV4YWN0bHk/IFByYWN0aWNhbCBpc3N1ZXMK
+PiA+IGFzaWRlLCBpdCBzZWVtcyBzdHJhbmdlIHRvIGNhbGwgc29tZXRoaW5nIGEgdHJhbnNwYXJl
+bnQgaHVnZSBwYWdlIGlmIGl0J3MKPiA+IG5vbi1jb21wb3VuZC4KPiA+Cj4gPiBCZXNpZGVzIG1h
+a2luZyB0aGVzZSBwYWdlcyBjb21wb3VuZCwgd291bGQgaXQgYmUgcmVhc29uYWJsZSB0byBzcGxp
+dCB0aGVtIGJlZm9yZQo+ID4gc2hhcmluZyB0aGVtLCBpbiBlLmcuIGFtZGdwdV9kbWFfYnVmX21h
+cCAoYW5kIGluIG90aGVyIGRyaXZlcnMgdGhhdCB1c2UgVFRNKT8KPiA+IFRoYXQncyB3aGVyZSBp
+dCdzIHN1cHBvc2VkIHRvIG1ha2Ugc3VyZSB0aGF0IHRoZSBzaGFyZWQgRE1BLUJVRiBpcyBhY2Nl
+c3NpYmxlIGJ5Cj4gPiB0aGUgdGFyZ2V0IGRldmljZS4KPiA+Cj4gPiBUaGFua3MsCj4gPiBBbGV4
+Cj4gPgo+ID4+IFJlZ2FyZHMsCj4gPj4gQ2hyaXN0aWFuLgo+ID4+Cj4gPj4gQW0gMDEuMTAuMjAg
+dW0gMDA6MTggc2NocmllYiBBbGV4IEdvaW5zOgo+ID4+PiBIaSBDaHJpc3RpYW4sCj4gPj4+Cj4g
+Pj4+IEkndmUgYmVlbiBsb29raW5nIGludG8gdGhlIERNQS1CVUZzIGV4cG9ydGVkIGZyb20gQU1E
+R1BVIC8gVFRNLiBXb3VsZAo+ID4+PiB5b3UgbWluZCBnaXZpbmcgc29tZSBpbnB1dCBvbiB0aGlz
+Pwo+ID4+Pgo+ID4+PiBJIG5vdGljZWQgdGhhdCB5b3VyIGNoYW5nZXMgaW1wbGVtZW50aW5nIHRy
+YW5zcGFyZW50IGh1Z2UgcGFnZSBzdXBwb3J0Cj4gPj4+IGluIFRUTSBhcmUgYWxsb2NhdGluZyB0
+aGVtIGFzIG5vbi1jb21wb3VuZC4gSSB1bmRlcnN0YW5kIHRoYXQgdXNpbmcKPiA+Pj4gbXVsdGlv
+cmRlciBub24tY29tcG91bmQgcGFnZXMgaXMgY29tbW9uIGluIGRldmljZSBkcml2ZXJzLCBidXQg
+SSB0aGluawo+ID4+PiB0aGlzIGNhbiBjYXVzZSBhIHByb2JsZW0gd2hlbiB0aGVzZSBwYWdlcyBh
+cmUgZXhwb3J0ZWQgdG8gb3RoZXIgZHJpdmVycy4KPiA+Pj4KPiA+Pj4gSXQncyBwb3NzaWJsZSBm
+b3Igb3RoZXIgZHJpdmVycyB0byBhY2Nlc3MgdGhlIERNQS1CVUYncyBwYWdlcyB2aWEKPiA+Pj4g
+Z2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZSgpLCBidXQgd2l0aG91dCBjb250ZXh0IGZyb20gVFRN
+LCBpdCdzCj4gPj4+IGltcG9zc2libGUgZm9yIHRoZSBpbXBvcnRpbmcgZHJpdmVyIHRvIG1ha2Ug
+c2Vuc2Ugb2YgdGhlbTsgdGhleSBzaW1wbHkKPiA+Pj4gYXBwZWFyIGFzIGluZGl2aWR1YWwgcGFn
+ZXMsIHdpdGggb25seSB0aGUgZmlyc3QgcGFnZSBoYXZpbmcgYSBub24temVybwo+ID4+PiByZWZj
+b3VudC4gTWFraW5nIFRUTSdzIFRIUCBhbGxvY2F0aW9ucyBjb21wb3VuZCBwdXRzIHRoZW0gbW9y
+ZSBpbiBsaW5lCj4gPj4+IHdpdGggdGhlIHN0YW5kYXJkIGRlZmluaXRpb24gb2YgYSBUSFAsIGFu
+ZCBhbGxvd3MgRE1BLUJVRi1pbXBvcnRpbmcKPiA+Pj4gZHJpdmVycyB0byBtYWtlIHNlbnNlIG9m
+IHRoZSBwYWdlcyB3aXRoaW4uCj4gPj4+Cj4gPj4+IEkgd291bGQgbGlrZSB0byBwcm9wb3NlIG1h
+a2luZyB0aGVzZSBhbGxvY2F0aW9ucyBjb21wb3VuZCwgYnV0IGJhc2VkIG9uCj4gPj4+IHBhdGNo
+IGhpc3RvcnksIGl0IGxvb2tzIGxpa2UgdGhlIGRlY2lzaW9uIHRvIG1ha2UgdGhlbSBub24tY29t
+cG91bmQgd2FzCj4gPj4+IGludGVudGlvbmFsLCBhcyB0aGVyZSB3ZXJlIGRpZmZpY3VsdGllcyBm
+aWd1cmluZyBvdXQgaG93IHRvIG1hcCB0aGVtCj4gPj4+IGludG8gQ1BVIHBhZ2UgdGFibGVzLiBJ
+IGRpZCBzb21lIGN1cnNvcnkgdGVzdGluZyB3aXRoIGNvbXBvdW5kIFRIUHMsIGFuZAo+ID4+PiBu
+b3RoaW5nIHNlZW1zIG9idmlvdXNseSBicm9rZW4uIEkgd2FzIGFsc28gYWJsZSB0byBtYXAgY29t
+cG91bmQgVEhQCj4gPj4+IERNQS1CVUZzIGludG8gdXNlcnNwYWNlIHdpdGhvdXQgaXNzdWUsIGFu
+ZCBhY2Nlc3MgdGhlaXIgY29udGVudHMuIEFyZQo+ID4+PiB5b3UgYXdhcmUgb2YgYW55IG90aGVy
+IHBvdGVudGlhbCBjb25zZXF1ZW5jZXM/Cj4gPj4+Cj4gPj4+IENvbW1pdCA1YzQyYzY0ZjdkNTQg
+KCJkcm0vdHRtOiBmaXggdGhlIGZpeCBmb3IgaHVnZSBjb21wb3VuZCBwYWdlcyIpIHNob3VsZAo+
+ID4+PiBwcm9iYWJseSBhbHNvIGJlIHJldmVydGVkIGlmIHRoaXMgaXMgYXBwbGllZC4KPiA+Pj4K
+PiA+Pj4gVGhhbmtzLAo+ID4+PiBBbGV4Cj4gPj4+Cj4gPj4+IEFsZXggR29pbnMgKDEpOgo+ID4+
+PiAgICAgZHJtLXR0bTogQWxsb2NhdGUgY29tcG91bmQgdHJhbnNwYXJlbnQgaHVnZSBwYWdlcwo+
+ID4+Pgo+ID4+PiAgICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wYWdlX2FsbG9jLmMgfCA1ICsr
+LS0tCj4gPj4+ICAgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25z
+KC0pCj4gPj4+Cj4KCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwg
+Q29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
