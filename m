@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B75E280BEF
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 03:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D68280BF0
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 03:26:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B88B26E908;
-	Fri,  2 Oct 2020 01:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3AF06E909;
+	Fri,  2 Oct 2020 01:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E43A6E908
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 01:25:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C98F06E909
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 01:26:12 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
-Date: Fri, 02 Oct 2020 01:25:09 +0000
+Date: Fri, 02 Oct 2020 01:26:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-209457-2300-79NURo2Ef4@https.bugzilla.kernel.org/>
+Message-ID: <bug-209457-2300-qUQdHQqlbu@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
 References: <bug-209457-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,14 +58,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209457
 
---- Comment #5 from Robert M. Muncrief (rmuncrief@humanavance.com) ---
-Created attachment 292753
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292753&action=edit
-Full dmesg resume fail output for kernel 5.8.12
+--- Comment #6 from Robert M. Muncrief (rmuncrief@humanavance.com) ---
+Created attachment 292755
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292755&action=edit
+Full Xorg resume fail output for kernel 5.8.12
 
-I suspended my computer during dinner and when I tried to resume it failed.
-I've attached the full dmesg output to this message. The full Xorg log will
-follow.
+Here is the Xorg.0.log log output for the resume fail.
 
 -- 
 You are receiving this mail because:
