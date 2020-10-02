@@ -1,66 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8658282313
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 11:24:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 691A1281A90
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 20:08:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFCB26E342;
-	Sat,  3 Oct 2020 09:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08EA76E9B1;
+	Fri,  2 Oct 2020 18:08:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD60F6E9B1
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 18:06:05 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id g72so2341601qke.8
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 11:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=+LaXP0gz54Jegk2Sj4FZgrVo6ri43ZoIhALcEdceV7s=;
- b=J7kgY6cwrb58DOoexGugRCEp3mOA3N2SuE3K7Vkq5DNITA7cVKmdZqs7c/H8mPlIXn
- o8UTppelOaWj/A+mIwckLvjSUAU505SsEF3y1UzB63e8RdNoL/7u/+lTbA+W+QbJg49u
- gjsGdY/ede4W2O1vArxPiL2+QKZNSLtPznD4UnaDnr+9U1NqECZIyPugGKiO/byu4Wsr
- ZiE32MDkyDjSRgUA3y85ay+ogHthqSIXcOgCRKKR9TEo8YPT5+VwXEqNByR4xXZxn6eZ
- DL3Xo9PmsQDfglZGmXIoeYvA5RBCHAUhpl0ys8t6dV8rIql31yOwXhGQ93xvBlsHWoj8
- tkUQ==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E69EA6E9B1
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 18:07:58 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id x23so2517963wmi.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 11:07:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hSw4ifTPDKB9srZ+U67ZO/LueWH5csX6p0YvSIY7bw4=;
+ b=EP9fHx1d+5jerIa7x/a+X14ezvJYWlpIVbSv8tiDS9m2JdPrZ+hy7IzHYkddOwIMXC
+ w86tDBeDM3S0cR7MGYiG0nX+053dzrbZ6riSNPgLNvtEF81xUWUHgu/503rkiriMLn8H
+ 9Nl/5cZlwOSmApOWI3l5mmv4wSu6xZ8S1l5FY/t5dMqcGHHPCFIer+WM3X6gdIrp2sb7
+ MkZhklFHTVv2ccuASamoNTsl8b4lRqz3n5HHitdQjxJOzjWlDdG/euiAibspUUALMTX1
+ kDTCxG0DxXU8EAS3NZtgO+n8YWP2enHjrkSI68iI1Vk3QFT5LCigCyqhm0kv7ObH6lv3
+ Uvkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=+LaXP0gz54Jegk2Sj4FZgrVo6ri43ZoIhALcEdceV7s=;
- b=H14URRyxbRcjUd6gU9VD38COfgsybZxLgfi/ST1fSU0hKChzpHbCK07IQ2w2wCmR5d
- 0+G1z7relE79m+ziHTRUGT9MemdUl1AEr0cFt59v/TWAxfbyC9tGwTYMX3xaAP1J2lWh
- s/cbIn33BfuzURi4Qki+0tF9A04s0AfST2AoDbdAOIL9RyoG4uzAA81C3LHDBO86KeuE
- yYDiuj0xZZ6MUVrBvjQX+BMhrUxVeMH7vzufNHCBp37/cepzfloIlJygFfFzmSgDoFj0
- PxgLJPTZ+dtyjtTWy9BqTmRgffyzF4YxvN5/0UuDG6m4CwqRh+Xy+hcxSSIzAjI8ifZp
- moMA==
-X-Gm-Message-State: AOAM532GsN8Ew1ck66eIq000rDI92d6fB3Wd2xcRzKYBpscjqgqKIrQX
- JrzVVY1y69iCFQH/7q87S2QQUw==
-X-Google-Smtp-Source: ABdhPJxx4jEaLX4t/GDgPp9QrFZRDhny976xDexrly3ltPkHkc73Gz3CvOBBFQXoSMUgBgbH3LKfmw==
-X-Received: by 2002:ae9:f70d:: with SMTP id s13mr3396635qkg.215.1601661964700; 
- Fri, 02 Oct 2020 11:06:04 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id i62sm1604038qkf.36.2020.10.02.11.06.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 11:06:04 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kOPRT-006GH8-H7; Fri, 02 Oct 2020 15:06:03 -0300
-Date: Fri, 2 Oct 2020 15:06:03 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-Message-ID: <20201002180603.GL9916@ziepe.ca>
-References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
- <20201002175303.390363-2-daniel.vetter@ffwll.ch>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hSw4ifTPDKB9srZ+U67ZO/LueWH5csX6p0YvSIY7bw4=;
+ b=BjxuWwQ5HbwtdHoW59UvZOMn9Tq1Wfi9q7Uo2qyb5fjJpXXgziEJU0KuEHoQMFkSDI
+ P3urfsIm6KQiCgZVBYPhrcXQioReIIhntrCmOD2al8c2OvETkZoG+eqNX7eM+olUN+Eb
+ vpMdJKpI7nN7IvZbWGscn2INsktbFnn2pTyekrlxvfd2DbHVxZpTNnjn29o/DVF2nwIw
+ BBEfSS7ZG31ZHp6T2rAnhdsoaTu7KQgkzl/mMt+Z8paDthlRWK1zqGDBchn81IY/efr8
+ FeyobgiCv1XgiiMB4bhxXdvVXFDnNAv8qK8rHLu95FtAwvGGBZSZxbAyZHGFVRp7XJKn
+ /leg==
+X-Gm-Message-State: AOAM531m67uC8tDBreBXabRU5En8XnGqf7DJH8X7/wtOvs7alAqkkrXL
+ SGWCQnngkqElxL8gl+ignrPPgVrJYwmLHGlI8qUsnAQZxl7sFA==
+X-Google-Smtp-Source: ABdhPJyP1LQpe+YH7ZxDToEmMVacKwIGtROp49R6KVi2qQDPZ/YJnQTRwD8tLQ4BFmYVf1qKb1A4rDYlAl+eLBGLPfU=
+X-Received: by 2002:a7b:c345:: with SMTP id l5mr4122885wmj.123.1601662077497; 
+ Fri, 02 Oct 2020 11:07:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201002175303.390363-2-daniel.vetter@ffwll.ch>
-X-Mailman-Approved-At: Sat, 03 Oct 2020 09:23:39 +0000
+References: <20200930211723.3028059-1-robdclark@gmail.com>
+ <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
+In-Reply-To: <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 2 Oct 2020 11:07:45 -0700
+Message-ID: <CAF6AEGvWMvZuy7CcGhzUSbwGtEkrNkzWHu_BN1cbdBJdZtvevA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
+To: Qais Yousef <qais.yousef@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,57 +61,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Jan Kara <jack@suse.cz>,
- John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgMDIsIDIwMjAgYXQgMDc6NTM6MDNQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBGb3IgJHJlYXNvbnMgSSd2ZSBzdHVtYmxlZCBvdmVyIHRoaXMgY29kZSBhbmQgSSdt
-IG5vdCBzdXJlIHRoZSBjaGFuZ2UKPiB0byB0aGUgbmV3IGd1cCBmdW5jdGlvbnMgaW4gNTVhNjUw
-YzM1ZmVhICgibW0vZ3VwOiBmcmFtZV92ZWN0b3I6Cj4gY29udmVydCBnZXRfdXNlcl9wYWdlcygp
-IC0tPiBwaW5fdXNlcl9wYWdlcygpIikgd2FzIGVudGlyZWx5IGNvcnJlY3QuCj4gCj4gVGhpcyBo
-ZXJlIGlzIHVzZWQgZm9yIGxvbmcgdGVybSBidWZmZXJzIChub3QganVzdCBxdWljayBJL08pIGxp
-a2UKPiBSRE1BLCBhbmQgSm9obiBub3RlcyB0aGlzIGluIGhpcyBwYXRjaC4gQnV0IEkgdGhvdWdo
-dCB0aGUgcnVsZSBmb3IKPiB0aGVzZSBpcyB0aGF0IHRoZXkgbmVlZCB0byBhZGQgRk9MTF9MT05H
-VEVSTSwgd2hpY2ggSm9obidzIHBhdGNoCj4gZGlkbid0IGRvLgo+IAo+IFRoZXJlIGlzIGFscmVh
-ZHkgYSBkYXggc3BlY2lmaWMgY2hlY2sgKGFkZGVkIGluIGI3ZjA1NTRhNTZmMiAoIm1tOgo+IGZh
-aWwgZ2V0X3ZhZGRyX2ZyYW1lcygpIGZvciBmaWxlc3lzdGVtLWRheCBtYXBwaW5ncyIpKSwgc28g
-dGhpcyBzZWVtcwo+IGxpa2UgdGhlIHBydWRlbnQgdGhpbmcgdG8gZG8uCj4gCj4gU2lnbmVkLW9m
-Zi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IEFuZHJl
-dyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+Cj4gQ2M6IEpvaG4gSHViYmFyZCA8
-amh1YmJhcmRAbnZpZGlhLmNvbT4KPiBDYzogSsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3NlQHJlZGhh
-dC5jb20+Cj4gQ2M6IEphbiBLYXJhIDxqYWNrQHN1c2UuY3o+Cj4gQ2M6IERhbiBXaWxsaWFtcyA8
-ZGFuLmoud2lsbGlhbXNAaW50ZWwuY29tPgo+IENjOiBsaW51eC1tbUBrdmFjay5vcmcKPiBDYzog
-bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gQ2M6IGxpbnV4LXNhbXN1bmct
-c29jQHZnZXIua2VybmVsLm9yZwo+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiBI
-aSBhbGwsCj4gCj4gSSBzdHVtYmxlZCBvdmVyIHRoaXMgYW5kIGZpZ3VyZWQgdHlwaW5nIHRoaXMg
-cGF0Y2ggY2FuJ3QgaHVydC4gUmVhbGx5Cj4ganVzdCB0byBtYXliZSBsZWFybiBhIGZldyB0aGlu
-Z3MgYWJvdXQgaG93IGd1cC9wdXAgaXMgc3VwcG9zZWQgdG8gYmUKPiB1c2VkICh3ZSBoYXZlIGEg
-Yml0IG9mIHRoYXQgaW4gZHJpdmVycy9ncHUpLCB0aGlzIGhlcmUgaXNuJ3QgcmVhbGx5Cj4gcmFs
-YXRlZCB0byBhbnl0aGluZyBJJ20gZG9pbmcuCgpGT0xMX0ZPUkNFIGlzIGEgcHJldHR5IGJpZyBj
-bHVlIGl0IHNob3VsZCBiZSBGT0xMX0xPTkdURVJNLCBJTUhPCgo+IEknbSBhbHNvIHdvbmRlcmlu
-ZyB3aGV0aGVyIHRoZSBleHBsaWNpdCBkYXggY2hlY2sgc2hvdWxkIGJlIHJlbW92ZWQsCj4gc2lu
-Y2UgRk9MTF9MT05HVEVSTSBzaG91bGQgdGFrZSBjYXJlIG9mIHRoYXQgYWxyZWFkeS4KClllcCEg
-Q29uZmlybXMgdGhlIGFib3ZlIQoKVGhpcyBnZXRfdmFkZHJfZnJhbWVzKCkgdGhpbmcgbG9va3Mg
-aW1wb3NzaWJsZSB0byB1c2UgcHJvcGVybHkuIEhvdyBvbgplYXJ0aCBkb2VzIGEgZHJpdmVyIGd1
-YXJlbnRlZQoKICJJZiBAc3RhcnQgYmVsb25ncyB0byBWTV9JTyB8IFZNX1BGTk1BUCB2bWEsIHdl
-IGRvbid0IHRvdWNoIHBhZ2UKIHN0cnVjdHVyZXMgYW5kIHRoZSBjYWxsZXIgbXVzdCBtYWtlIHN1
-cmUgcGZucyBhcmVuJ3QgcmV1c2VkIGZvcgogYW55dGhpbmcgZWxzZSB3aGlsZSBoZSBpcyB1c2lu
-ZyB0aGVtLiIKClRoZSBvbmx5IHBvc3NpYmxlIHdheSB0byBkbyB0aGF0IGlzIGlmIHRoZSBkcml2
-ZXIgcmVzdHJpY3RzIHRoZSBWTUFzCnRvIG9uZXMgaXQgb3ducyBhbmQgaW50ZXJhY3RzIHdpdGgg
-dGhlIHZtX3ByaXZhdGUgZGF0YSB0byByZWZjb3VudApzb21ldGhpbmcuCgpTaW5jZSBldmVyeSBk
-cml2ZXIgZG9lcyB0aGlzIHdyb25nIGFueXRoaW5nIHRoYXQgdXNlcyB0aGlzIGlzIGNyZWF0aW5n
-CnRlcnJpZnlpbmcgc2VjdXJpdHkgaXNzdWVzLgoKSU1ITyB0aGlzIHdob2xlIEFQSSBzaG91bGQg
-YmUgZGVsZXRlZCA6KAoKSmFzb24KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+On Fri, Oct 2, 2020 at 4:01 AM Qais Yousef <qais.yousef@arm.com> wrote:
+>
+> On 09/30/20 14:17, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > The android userspace treats the display pipeline as a realtime problem.
+> > And arguably, if your goal is to not miss frame deadlines (ie. vblank),
+> > it is.  (See https://lwn.net/Articles/809545/ for the best explaination
+> > that I found.)
+> >
+> > But this presents a problem with using workqueues for non-blocking
+> > atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
+> > preempt the worker.  Which is not really the outcome you want.. once
+> > the required fences are scheduled, you want to push the atomic commit
+> > down to hw ASAP.
+>
+> For me thees 2 properties
+>
+>         1. Run ASAP
+>         2. Finish the work un-interrupted
+>
+> Scream the workers need to be SCHED_FIFO by default. CFS can't give you these
+> guarantees.
+
+fwiw, commit_work does sleep/block for some time until fences are
+signalled, but then once that happens we want it to run ASAP,
+preempting lower priority SCHED_FIFO.
+
+>
+> IMO using sched_set_fifo() for these workers is the right thing.
+>
+
+Possibly, but we still have limited prioritization options (ie. not
+enough) to set these from the kernel.  Giving userspace the control,
+so it can pick sensible priorities for commit_work and vblank_work,
+which fits in with the priorities of the other userspace threads seems
+like the sensible thing.
+
+> >
+> > But the decision of whether commit_work should be RT or not really
+> > depends on what userspace is doing.  For a pure CFS userspace display
+> > pipeline, commit_work() should remain SCHED_NORMAL.
+>
+> I'm not sure I agree with this. I think it's better to characterize tasks based
+> on their properties/requirements rather than what the rest of the userspace is
+> using.
+
+I mean, the issue is that userspace is already using a few different
+rt priority levels for different SF threads.  We want commit_work to
+run ASAP once fences are signalled, and vblank_work to run at a
+slightly higher priority still.  But the correct choice for priorities
+here depends on what userspace is using, it all needs to fit together
+properly.
+
+>
+> I do appreciate that maybe some of these tasks have varying requirements during
+> their life time. e.g: they have RT property during specific critical section
+> but otherwise are CFS tasks. I think the UI thread in Android behaves like
+> that.
+>
+> It's worth IMO trying that approach I pointed out earlier to see if making RT
+> try to pick an idle CPU rather than preempt CFS helps. Not sure if it'd be
+> accepted but IMHO it's a better direction to consider and discuss.
+
+The problem I was seeing was actually the opposite..  commit_work
+becomes runnable (fences signalled) but doesn't get a chance to run
+because a SCHED_FIFO SF thread is running.  (Maybe I misunderstood and
+you're approach would help this case too?)
+
+> Or maybe you can wrap userspace pipeline critical section lock such that any
+> task holding it will automatically be promoted to SCHED_FIFO and then demoted
+> to CFS once it releases it.
+
+The SCHED_DEADLINE + token passing approach that the lwn article
+mentioned sounds interesting, if that eventually becomes possible.
+But doesn't really help today..
+
+BR,
+-R
+
+> Haven't worked with display pipelines before, so hopefully this makes sense :-)
+>
+> Thanks
+>
+> --
+> Qais Yousef
+>
+> >
+> > To handle this, convert non-blocking commit_work() to use per-CRTC
+> > kthread workers, instead of system_unbound_wq.  Per-CRTC workers are
+> > used to avoid serializing commits when userspace is using a per-CRTC
+> > update loop.  And the last patch exposes the task id to userspace as
+> > a CRTC property, so that userspace can adjust the priority and sched
+> > policy to fit it's needs.
+> >
+> >
+> > v2: Drop client cap and in-kernel setting of priority/policy in
+> >     favor of exposing the kworker tid to userspace so that user-
+> >     space can set priority/policy.
+> >
+> > Rob Clark (3):
+> >   drm/crtc: Introduce per-crtc kworker
+> >   drm/atomic: Use kthread worker for nonblocking commits
+> >   drm: Expose CRTC's kworker task id
+> >
+> >  drivers/gpu/drm/drm_atomic_helper.c | 13 ++++++++----
+> >  drivers/gpu/drm/drm_crtc.c          | 14 +++++++++++++
+> >  drivers/gpu/drm/drm_mode_config.c   | 14 +++++++++++++
+> >  drivers/gpu/drm/drm_mode_object.c   |  4 ++++
+> >  include/drm/drm_atomic.h            | 31 +++++++++++++++++++++++++++++
+> >  include/drm/drm_crtc.h              |  8 ++++++++
+> >  include/drm/drm_mode_config.h       |  9 +++++++++
+> >  include/drm/drm_property.h          |  9 +++++++++
+> >  8 files changed, 98 insertions(+), 4 deletions(-)
+> >
+> > --
+> > 2.26.2
+> >
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
