@@ -2,62 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE691281741
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Oct 2020 17:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DAA7282307
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 11:23:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF1BC6E0D8;
-	Fri,  2 Oct 2020 15:57:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AAA86E2D5;
+	Sat,  3 Oct 2020 09:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 194116E0D8
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Oct 2020 15:57:25 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id z1so2376048wrt.3
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 08:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RKAvB3+WMKNN79UahsqcncMsVNqOcgEb3CYVYKIldnE=;
- b=avZDU7go3+yv2IeEagTPM8GH/4BJn08wqf5PQiplnVADu+OAvfUcqmRM1af3wCvl+u
- RFO+xnZ8SUVbzCHkhjKXkZRtfQTiSQU9AtLUK4ZL3ePXVt8v7zC2Yl3mmc07FaJ2vViy
- GzroUTM1aHOB6qAlZpGSgBAwsdUHsPVAq43hfKmoNvDrtcDMnwviGJkWEPim3xt0mlO6
- POEMXBQD10jxyvHgVOQ50LlCv9hSQhnGMGVAfHQ7l5zQZ9Zqw44YKhjZ2rXog0hiBNKi
- WJKEljWSN3mkOzpn3P9G8oCaAeEQ10F8YeNaegkg930nU8gpVYGuEJsfSc+0YAjzvFNi
- dezg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RKAvB3+WMKNN79UahsqcncMsVNqOcgEb3CYVYKIldnE=;
- b=mMt5QUEvR91DNHzev4DfE5BKW0S6cO9Pne3vsgl6VhtS+TBbhELb+AgOBwS9HsamUT
- tNqiLZq8gMtKdgG+QL5suKCFj5CAlqUh546rwZaaJkEpFoAqDs8C1mY/sw/myLxEh+So
- sNQv/aDdAdWihe27BctBMr92/r56BB55ui3DwGlPReN1LGlAxVwVJBqb1W02/4J1QUhb
- ot4NpBGPqTPXPpzimJ4R51LZZ140pRFe4QFtmrU5e8mxvhyfPRLLGT1x/s4rPt5Sk/mL
- O6s+uxrhnN1pSjg1P0UDpXUjoTeip+FrQuR3OcSDPEwPpJZqafoU5eMum2v4Dpm4Dgfj
- x25w==
-X-Gm-Message-State: AOAM530RVQsRfcm4KhvvGq9RjRuFB/vmab1mpIQ+9bGpMsyz5VuzMV2C
- jsr8wu3PA6Jo6VzqqArLoJJFAqXFzMiXh30niS1EMA==
-X-Google-Smtp-Source: ABdhPJxwrWnm+dIu+CTA7AHImJjo0wrCfg7Coce7eyfVsTucN19FAy0Kl9BsdVtITTMsbzxPFLnGj/dMkoXGrlM33Yg=
-X-Received: by 2002:adf:fa02:: with SMTP id m2mr3765016wrr.273.1601654243794; 
- Fri, 02 Oct 2020 08:57:23 -0700 (PDT)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3D26E0E9;
+ Fri,  2 Oct 2020 16:11:55 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f77513e0001>; Fri, 02 Oct 2020 09:11:42 -0700
+Received: from [172.27.0.47] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 2 Oct
+ 2020 16:11:36 +0000
+Subject: Re: [PATCH rdma-next v4 1/4] lib/scatterlist: Add support in dynamic
+ allocation of SG table from pages
+To: Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leon@kernel.org>
+References: <20200927064647.3106737-1-leon@kernel.org>
+ <20200927064647.3106737-2-leon@kernel.org>
+ <20201002150227.GA1350139@nvidia.com>
+From: Maor Gottlieb <maorg@nvidia.com>
+Message-ID: <ba152cb1-db38-0d70-08a8-ba3c052b5b4e@nvidia.com>
+Date: Fri, 2 Oct 2020 19:11:33 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
- <cfce2276d172d3d9c4d34d966b58fd47f77c4e46.1599120059.git-series.maxime@cerno.tech>
- <20200929221526.GA1370981@ubuntu-m3-large-x86>
- <20200930140758.gummt3umouva3wyu@gilmour.lan>
- <20200930163823.GA237050@ubuntu-m3-large-x86>
- <cacbaef2-4221-50d8-3c5d-efab9f1a9c04@i2se.com>
- <20201001064843.dlewcu3b7dvqanyy@gilmour.lan>
- <20201001085402.t6mzzwzplviunhoc@gilmour.lan>
- <CAAvKZ65WqQqH-9JVdb5M6HcKbR3yQdvZha8n9UXXCfciYRq4aA@mail.gmail.com>
- <20201002151954.wazqc5riesdomlpx@gilmour.lan>
-In-Reply-To: <20201002151954.wazqc5riesdomlpx@gilmour.lan>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 2 Oct 2020 16:57:05 +0100
-Message-ID: <CAPY8ntCkY9F0e=hOyg=rs5G2a=iEbukWgmr0adXrwJQPm=uY6A@mail.gmail.com>
-Subject: Re: [PATCH v5 80/80] ARM: dts: bcm2711: Enable the display pipeline
-To: Maxime Ripard <maxime@cerno.tech>
+In-Reply-To: <20201002150227.GA1350139@nvidia.com>
+Content-Language: en-US
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1601655102; bh=EynyS8/xmNH/jvPIX2n0LxQ51EmsDlmuClzFEzoFwtY=;
+ h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ Content-Language:X-Originating-IP:X-ClientProxiedBy;
+ b=Ew/scpFv/p/DET27LPs1qCoK9j94h5PT7f3jVd6smC1vBRQjUbszjKiqgX+qBupVv
+ C6Ap0r8CN73haCwUeNcoo6Qvqo3hdNNInzqCL4n7E/HsfEsqKVgqFv3O0KMzSwupuw
+ RzZ06fdxXjrxpBA/XFdREHNdHHZPXltw4NaXEKbPvWDITA43waFAQwniY0dQO4EmCC
+ FSvpqv++iX7ScnqVLK+t99lV0afYVEm0kREQriRvipkBUe+wsDI1l/t8HiMxZ5Yd+L
+ pObyZTgYDV2byyHXLMJjj6ttCUIsz3Y9DqLaFc50bRq/5Q9UJSg2Xv8rRMAqZ74RhA
+ OBJmWwKCnxY0Q==
+X-Mailman-Approved-At: Sat, 03 Oct 2020 09:23:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,62 +60,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Tim Gover <tim.gover@raspberrypi.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Phil Elwell <phil@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org,
- Nathan Chancellor <natechancellor@gmail.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>, linux-rdma@vger.kernel.org,
+ Doug Ledford <dledford@redhat.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Maor Gottlieb <maorg@mellanox.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
 
-On Fri, 2 Oct 2020 at 16:19, Maxime Ripard <maxime@cerno.tech> wrote:
+On 10/2/2020 6:02 PM, Jason Gunthorpe wrote:
+> On Sun, Sep 27, 2020 at 09:46:44AM +0300, Leon Romanovsky wrote:
+>> +struct scatterlist *__sg_alloc_table_from_pages(struct sg_table *sgt,
+>> +		struct page **pages, unsigned int n_pages, unsigned int offset,
+>> +		unsigned long size, unsigned int max_segment,
+>> +		struct scatterlist *prv, unsigned int left_pages,
+>> +		gfp_t gfp_mask)
+>>   {
+>> -	unsigned int chunks, cur_page, seg_len, i;
+>> +	unsigned int chunks, cur_page, seg_len, i, prv_len = 0;
+>> +	struct scatterlist *s = prv;
+>> +	unsigned int table_size;
+>> +	unsigned int tmp_nents;
+>>   	int ret;
+>> -	struct scatterlist *s;
+>>
+>>   	if (WARN_ON(!max_segment || offset_in_page(max_segment)))
+>> -		return -EINVAL;
+>> +		return ERR_PTR(-EINVAL);
+>> +	if (IS_ENABLED(CONFIG_ARCH_NO_SG_CHAIN) && prv)
+>> +		return ERR_PTR(-EOPNOTSUPP);
+>> +
+>> +	tmp_nents = prv ? sgt->nents : 0;
+>> +
+>> +	if (prv &&
+>> +	    page_to_pfn(sg_page(prv)) + (prv->length >> PAGE_SHIFT) ==
+> This calculation of the end doesn't consider sg->offset
+
+Right, should be fixed.
 >
-> Hi Tim,
+>> +	    page_to_pfn(pages[0]))
+>> +		prv_len = prv->length;
+>>
+>>   	/* compute number of contiguous chunks */
+>>   	chunks = 1;
+>> @@ -410,13 +461,17 @@ int __sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
+>>   		}
+>>   	}
+>>
+>> -	ret = sg_alloc_table(sgt, chunks, gfp_mask);
+>> -	if (unlikely(ret))
+>> -		return ret;
+>> +	if (!prv) {
+>> +		/* Only the last allocation could be less than the maximum */
+>> +		table_size = left_pages ? SG_MAX_SINGLE_ALLOC : chunks;
+>> +		ret = sg_alloc_table(sgt, table_size, gfp_mask);
+>> +		if (unlikely(ret))
+>> +			return ERR_PTR(ret);
+>> +	}
+> This is basically redundant right? Now that get_next_sg() can allocate
+> SGs it can just build them one by one, no need to preallocate.
 >
-> On Thu, Oct 01, 2020 at 11:15:46AM +0100, Tim Gover wrote:
-> > hdmi_enable_4k60=1 causes the firmware to select 3.3 GHz for the PLLC
-> > VCO to support a core-frequency of 550 MHz which is the minimum
-> > frequency required by the HVS at 4Kp60. The side effect is that if the
-> > display clock requirements are lower than 4Kp60 then you will see
-> > different core frequencies selected by DVFS.
-> >
-> > If enable_uart=1 and the mini-uart is selected (default unless
-> > bluetooth is disabled) then the firmware will pin the core-frequency
-> > to either core_freq max (500 or 550). Although, I think there is a way
-> > of pinning it to a lower fixed frequency.
-> >
-> > The table in overclocking.md defines options for setting the maximum
-> > core frequency but unless core_freq_min is specified DVFS will
-> > automatically pick the lowest idle frequency required by the display
-> > resolution.
+> Actually all the changes the the allocation seem like overkill, just
+> allocate a single new array directly in get_next_sg() whenever it
+> needs.
+
+No, only the last allocation could be less than maximum. (as written in 
+the comment).
+I am preferring to stick with the current implementation and fix the offset.
 >
-> I'm wondering if there's some way to detect this from Linux? I guess it
-> would be nice to be able to at least detect a broken config to warn /
-> prevent an user that their situation is not going to be reliable / work
-> really well (like if they have a 4k display without hdmi_enable_4kp60
-> set, or the issue we're discussing here)
-
-The main filter in the firmware is the parameter
-hdmi_pixel_freq_limit. That can either be set manually from
-config.txt, or defaults appropriately based on hdmi_enable_4kp60.
-Under firmware_kms [1] I read back those values to use as a filter
-within crtc_mode_valid[2].
-I can't think of a nice way of exposing that without the vc4 driver
-gaining a DT link to the firmware, and that starts to get ugly.
-
-  Dave
-
-[1] https://github.com/raspberrypi/linux/blob/rpi-5.9.y/drivers/gpu/drm/vc4/vc4_firmware_kms.c#L1859
-[2] https://github.com/raspberrypi/linux/blob/rpi-5.9.y/drivers/gpu/drm/vc4/vc4_firmware_kms.c#L1077
+> Something like this:
+>
+> @@ -365,6 +372,37 @@ int sg_alloc_table(struct sg_table *table, unsigned int nents, gfp_t gfp_mask)
+>   }
+>   EXPORT_SYMBOL(sg_alloc_table);
+>   
+> +static struct scatterlist *get_next_sg(struct sg_table *table,
+> +		struct scatterlist *cur, unsigned long needed_sges,
+> +		gfp_t gfp_mask)
+> +{
+> +	struct scatterlist *new_sg;
+> +	unsigned int alloc_size;
+> +
+> +	if (cur) {
+> +		struct scatterlist *next_sg = sg_next(cur);
+> +
+> +		/* Check if last entry should be keeped for chainning */
+> +		if (!sg_is_last(next_sg) || needed_sges == 1)
+> +			return next_sg;
+> +	}
+> +
+> +	alloc_size = min_t(unsigned long, needed_sges, SG_MAX_SINGLE_ALLOC);
+> +	new_sg = sg_kmalloc(alloc_size, gfp_mask);
+> +	if (!new_sg)
+> +		return ERR_PTR(-ENOMEM);
+> +	sg_init_table(new_sg, alloc_size);
+> +	if (cur) {
+> +		__sg_chain(cur, new_sg);
+> +		table->orig_nents += alloc_size - 1;
+> +	} else {
+> +		table->sgl = new_sg;
+> +		table->orig_nents = alloc_size;
+> +		table->nents = 0;
+> +	}
+> +	return new_sg;
+> +}
+> +
+>   /**
+>    * __sg_alloc_table_from_pages - Allocate and initialize an sg table from
+>    *			         an array of pages
+> @@ -374,29 +412,64 @@ EXPORT_SYMBOL(sg_alloc_table);
+>    * @offset:      Offset from start of the first page to the start of a buffer
+>    * @size:        Number of valid bytes in the buffer (after offset)
+>    * @max_segment: Maximum size of a scatterlist node in bytes (page aligned)
+> + * @prv:	 Last populated sge in sgt
+> + * @left_pages:  Left pages caller have to set after this call
+>    * @gfp_mask:	 GFP allocation mask
+>    *
+> - *  Description:
+> - *    Allocate and initialize an sg table from a list of pages. Contiguous
+> - *    ranges of the pages are squashed into a single scatterlist node up to the
+> - *    maximum size specified in @max_segment. An user may provide an offset at a
+> - *    start and a size of valid data in a buffer specified by the page array.
+> - *    The returned sg table is released by sg_free_table.
+> + * Description:
+> + *    If @prv is NULL, allocate and initialize an sg table from a list of pages,
+> + *    else reuse the scatterlist passed in at @prv.
+> + *    Contiguous ranges of the pages are squashed into a single scatterlist
+> + *    entry up to the maximum size specified in @max_segment.  A user may
+> + *    provide an offset at a start and a size of valid data in a buffer
+> + *    specified by the page array.
+>    *
+>    * Returns:
+> - *   0 on success, negative error on failure
+> + *   Last SGE in sgt on success, PTR_ERR on otherwise.
+> + *   The allocation in @sgt must be released by sg_free_table.
+> + *
+> + * Notes:
+> + *   If this function returns non-0 (eg failure), the caller must call
+> + *   sg_free_table() to cleanup any leftover allocations.
+>    */
+> -int __sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
+> -				unsigned int n_pages, unsigned int offset,
+> -				unsigned long size, unsigned int max_segment,
+> -				gfp_t gfp_mask)
+> +struct scatterlist *__sg_alloc_table_from_pages(struct sg_table *sgt,
+> +		struct page **pages, unsigned int n_pages, unsigned int offset,
+> +		unsigned long size, unsigned int max_segment,
+> +		struct scatterlist *prv, unsigned int left_pages,
+> +		gfp_t gfp_mask)
+>   {
+> -	unsigned int chunks, cur_page, seg_len, i;
+> -	int ret;
+> -	struct scatterlist *s;
+> +	unsigned int chunks, cur_page, seg_len, i, prv_len = 0;
+> +	unsigned int added_nents = 0;
+> +	struct scatterlist *s = prv;
+>   
+>   	if (WARN_ON(!max_segment || offset_in_page(max_segment)))
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
+> +	if (IS_ENABLED(CONFIG_ARCH_NO_SG_CHAIN) && prv)
+> +		return ERR_PTR(-EOPNOTSUPP);
+> +
+> +	if (prv) {
+> +		unsigned long paddr = (page_to_pfn(sg_page(prv)) * PAGE_SIZE +
+> +				       prv->offset + prv->length) /
+> +				      PAGE_SIZE;
+> +
+> +		if (WARN_ON(offset))
+> +			return ERR_PTR(-EINVAL);
+> +
+> +		/* Merge contiguous pages into the last SG */
+> +		prv_len = prv->length;
+> +		while (n_pages && page_to_pfn(pages[0]) == paddr) {
+> +			if (prv->length + PAGE_SIZE > max_segment)
+> +				break;
+> +			prv->length += PAGE_SIZE;
+> +			paddr++;
+> +			pages++;
+> +			n_pages--;
+> +		}
+> +		if (!n_pages) {
+> +			sg_mark_end(sg_next(prv));
+> +			return prv;
+> +		}
+> +	}
+>   
+>   	/* compute number of contiguous chunks */
+>   	chunks = 1;
+> @@ -410,13 +483,9 @@ int __sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
+>   		}
+>   	}
+>   
+> -	ret = sg_alloc_table(sgt, chunks, gfp_mask);
+> -	if (unlikely(ret))
+> -		return ret;
+> -
+>   	/* merging chunks and putting them into the scatterlist */
+>   	cur_page = 0;
+> -	for_each_sg(sgt->sgl, s, sgt->orig_nents, i) {
+> +	for (i = 0; i < chunks; i++) {
+>   		unsigned int j, chunk_size;
+>   
+>   		/* look for the end of the current chunk */
+> @@ -429,15 +498,28 @@ int __sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
+>   				break;
+>   		}
+>   
+> +		/* Pass how many chunks might be left */
+> +		s = get_next_sg(sgt, s, chunks - i + left_pages, gfp_mask);
+> +		if (IS_ERR(s)) {
+> +			/*
+> +			 * Adjust entry length to be as before function was
+> +			 * called.
+> +			 */
+> +			if (prv)
+> +				prv->length = prv_len;
+> +			return s;
+> +		}
+>   		chunk_size = ((j - cur_page) << PAGE_SHIFT) - offset;
+>   		sg_set_page(s, pages[cur_page],
+>   			    min_t(unsigned long, size, chunk_size), offset);
+> +		added_nents++;
+>   		size -= chunk_size;
+>   		offset = 0;
+>   		cur_page = j;
+>   	}
+> -
+> -	return 0;
+> +	sgt->nents += added_nents;
+> +	sg_mark_end(s);
+> +	return s;
+>   }
+>   EXPORT_SYMBOL(__sg_alloc_table_from_pages);
+>   
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
