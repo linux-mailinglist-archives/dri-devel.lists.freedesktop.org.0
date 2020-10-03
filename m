@@ -2,59 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B432C282312
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 11:24:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DE3282074
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 04:17:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD176E32F;
-	Sat,  3 Oct 2020 09:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF1F56E0A0;
+	Sat,  3 Oct 2020 02:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9666E0A0
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Oct 2020 02:12:25 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id g9so1532630pgh.8
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 19:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=wqgtfEXlK69O3zYlvUS0N2rx5d3DFBbOXqk2l3qB7HU=;
- b=XIxg1evKrFevIrvQhr+5Aqj7er8uo1//KQ7s3HsIxDzY8M2HtkvgKRTT7V/bJD3T7Y
- OpjJ3LR7c7x7oerT4nRF5mexVr4cc8QCxJIkTO5EiM2eUHz1IYALwHEibgaiRi33p/KV
- mYoAlKK5EzWQ9qAOsVNOp0fq4qgKPsl6l+Fw0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=wqgtfEXlK69O3zYlvUS0N2rx5d3DFBbOXqk2l3qB7HU=;
- b=H3CyiJ5o3T4Rhj6dlTuyaTllqTiPlIhGbGdrUkVzfkH5N5/2IiG8ANDj710AwfTvQ8
- K3aWacSeFsw1Pf7em4iIgXnAS6E3TKrYAnBtHnroO8mUsw/YgTPJFYLu2qlIGT9ZDxzI
- BUxlQeNNPrkoVbyXaY5o0PXRuliuC9uXMmhMeXK5mof9UO4dOw9F78gDuTyaVtsERQgD
- BvLrykhK2P6xtaG411qkg/d+71LAzFzI/DV9AOyaHKYEmcCGZSCGAAp85w3CHfslVHfS
- RxqeEjjwk1GTtCB+54ut1dEPAvNFvluL3xBMNnnrXVC3Ed1sHHkuvYPzByWeYQSBTe3u
- xwvA==
-X-Gm-Message-State: AOAM531InZ0IzX4kzlMOMt+fswl9pAJ37JBDuAx54httViBCEED0Z5oO
- j1O64/xyyLY97xjVqk88+pAbxg==
-X-Google-Smtp-Source: ABdhPJzCGcXh/PpWofxiaZQnfeuTAnE6g8MPt67Opg9r0Sh3wV/qZ1llb4OZVm/VMVoIKcFZLG0gGg==
-X-Received: by 2002:a62:1e07:0:b029:14e:d96c:9e04 with SMTP id
- e7-20020a621e070000b029014ed96c9e04mr5500869pfe.58.1601691145311; 
- Fri, 02 Oct 2020 19:12:25 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id j12sm2950932pjd.36.2020.10.02.19.12.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 19:12:24 -0700 (PDT)
-MIME-Version: 1.0
-In-Reply-To: <20201002220919.17245-1-khsieh@codeaurora.org>
-References: <20201002220919.17245-1-khsieh@codeaurora.org>
-Subject: Re: [PATCH] drm/msm/dp: fixes wrong connection state caused by
- failure of link train
-From: Stephen Boyd <swboyd@chromium.org>
-To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run
-Date: Fri, 02 Oct 2020 19:12:23 -0700
-Message-ID: <160169114309.310579.5033839844955785761@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
-X-Mailman-Approved-At: Sat, 03 Oct 2020 09:23:39 +0000
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C9CC6E0A0
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Oct 2020 02:17:20 +0000 (UTC)
+IronPort-SDR: nlvaxGwwMrfwQCQvIdvIIAJTzTAAj96XbVW8aGawYCtnCjYywej7fHSi17TmyATllzpP99X3x1
+ zf5Z18eU0ZnQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="160527174"
+X-IronPort-AV: E=Sophos;i="5.77,330,1596524400"; d="scan'208";a="160527174"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2020 19:17:15 -0700
+IronPort-SDR: 0zRa8BKD8REhIBpPEv73HLA++J4+MJoh6XkDpOtEP+UmfB2TJnjXfSyERz5Bjf9DGazjh04C/j
+ 2PR4xhEb75Ww==
+X-IronPort-AV: E=Sophos;i="5.77,330,1596524400"; d="scan'208";a="340197113"
+Received: from cshinn-mobl1.amr.corp.intel.com (HELO
+ achrisan-DESK2.amr.corp.intel.com) ([10.255.91.49])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 02 Oct 2020 19:17:15 -0700
+From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
+ bob.j.paauwe@intel.com, edmund.j.dea@intel.com
+Subject: [PATCH v8 0/4] Add support for KeemBay DRM driver
+Date: Fri,  2 Oct 2020 19:16:58 -0700
+Message-Id: <1601691422-12851-1-git-send-email-anitha.chrisanthus@intel.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,139 +47,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: daniel.vetter@intel.com, sam@ravnborg.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2020-10-02 15:09:19)
-> Connection state is set incorrectly happen at either failure of link train
-> or cable plugged in while suspended. This patch fixes these problems.
-> This patch also replace ST_SUSPEND_PENDING with ST_DISPLAY_OFF.
-> 
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+This is a new DRM driver for Intel's KeemBay SOC.
+The SoC couples an ARM Cortex A53 CPU with an Intel
+Movidius VPU.
 
-Any Fixes: tag?
+This driver is tested with the KMB EVM board which is the refernce baord
+for Keem Bay SOC. The SOC's display pipeline is as follows
 
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 52 ++++++++++++++---------------
->  drivers/gpu/drm/msm/dp/dp_panel.c   |  5 +++
->  2 files changed, 31 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 431dff9de797..898c6cc1643a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -340,8 +340,6 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
->         }
->  
->         dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
-> -
-> -
->  end:
->         return rc;
->  }
++--------------+    +---------+    +-----------------------+
+|LCD controller| -> |Mipi DSI | -> |Mipi to HDMI Converter |
++--------------+    +---------+    +-----------------------+
 
-Not sure we need this hunk
+LCD controller and Mipi DSI transmitter are part of the SOC and
+mipi to HDMI converter is ADV7535 for KMB EVM board.
 
-> @@ -1186,19 +1180,19 @@ static int dp_pm_resume(struct device *dev)
->  
->         dp = container_of(dp_display, struct dp_display_private, dp_display);
->  
-> +       /* start from dis connection state */
+The DRM driver is a basic KMS atomic modesetting display driver and
+has no 2D or 3D graphics.It calls into the ADV bridge driver at
+the connector level.
 
-disconnection? Or disconnected state?
+Only 1080p resolution and single plane is supported at this time.
+The usecase is for debugging video and camera outputs.
 
-> +       atomic_set(&dp->hpd_state, ST_DISCONNECTED);
-> +
->         dp_display_host_init(dp);
->  
->         dp_catalog_ctrl_hpd_config(dp->catalog);
->  
->         status = dp_catalog_hpd_get_state_status(dp->catalog);
->  
-> -       if (status) {
-> +       if (status)
->                 dp->dp_display.is_connected = true;
-> -       } else {
-> +       else
->                 dp->dp_display.is_connected = false;
-> -               /* make sure next resume host_init be called */
-> -               dp->core_initialized = false;
-> -       }
->  
->         return 0;
->  }
-> @@ -1214,6 +1208,9 @@ static int dp_pm_suspend(struct device *dev)
->         if (dp_display->power_on == true)
->                 dp_display_disable(dp, 0);
->  
-> +       /* host_init will be called at pm_resume */
-> +       dp->core_initialized = false;
-> +
->         atomic_set(&dp->hpd_state, ST_SUSPENDED);
->  
->         return 0;
-> @@ -1343,6 +1340,9 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
->  
->         mutex_lock(&dp_display->event_mutex);
->  
-> +       /* delete sentinel checking */
+Device tree patches are under review here
+https://lore.kernel.org/linux-arm-kernel/20200708175020.194436-1-daniele.alessandrelli@linux.intel.com/T/
 
-Stop sentinel checking?
+Changes since v1:
+- Removed redundant license text, updated license
+- Rearranged include blocks
+- renamed global vars and removed extern in c
+- Used upclassing for dev_private
+- Used drm_dev_init in drm device create
+- minor cleanups
 
-> +       dp_del_event(dp_display, EV_CONNECT_PENDING_TIMEOUT);
-> +
->         rc = dp_display_set_mode(dp, &dp_display->dp_mode);
->         if (rc) {
->                 DRM_ERROR("Failed to perform a mode set, rc=%d\n", rc);
-> @@ -1368,9 +1368,8 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
->                 dp_display_unprepare(dp);
->         }
->  
-> -       dp_del_event(dp_display, EV_CONNECT_PENDING_TIMEOUT);
-> -
-> -       if (state == ST_SUSPEND_PENDING)
-> +       /* manual kick off plug event to train link */
-> +       if (state == ST_DISPLAY_OFF)
->                 dp_add_event(dp_display, EV_IRQ_HPD_INT, 0, 0);
->  
->         /* completed connection */
-> @@ -1402,20 +1401,21 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
->  
->         mutex_lock(&dp_display->event_mutex);
->  
-> +       /* delete sentinel checking */
+Changes since v2:
+- squashed all commits to a single commit
+- logging changed to drm_info, drm_dbg etc.
+- used devm_drm_dev_alloc()
+- removed commented out sections and general cleanup
 
-Stop sentinel checking?
+Changes since v3:
+- renamed dev_p to kmb
+- moved clocks under kmb_clock, consolidated clk initializations
+- use drmm functions
+- use DRM_GEM_CMA_DRIVER_OPS_VMAP
+- more cleanups
 
-> +       dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
-> +
->         dp_display_disable(dp_display, 0);
->  
->         rc = dp_display_unprepare(dp);
->         if (rc)
->                 DRM_ERROR("DP display unprepare failed, rc=%d\n", rc);
->  
-> -       dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
-> -
->         state =  atomic_read(&dp_display->hpd_state);
->         if (state == ST_DISCONNECT_PENDING) {
+Changes since v4:
+- corrected spellings
 
-I don't understand the atomic nature of this hpd_state variable. Why is
-it an atomic variable? Is taking a spinlock bad? What is to prevent the
-atomic read here to not be interrupted and then this if condition check
-be invalid because the variable has been updated somewhere else?
+Changes since v5:
+- corrected checkpatch warnings/checks
+   -Please ignore checkpatch checks on Camelcase - this is how it is
+   named in the databook
+   - Please ignore checkpatch warnings on misspelled for hsa, dout,
+   widthn etc. - they are spelled as in the databook
+   - Please ignore checkpatch checks on macro arguments reuse -
+   its confirmed ok
 
->                 /* completed disconnection */
->                 atomic_set(&dp_display->hpd_state, ST_DISCONNECTED);
->         } else {
-> -               atomic_set(&dp_display->hpd_state, ST_SUSPEND_PENDING);
-> +               atomic_set(&dp_display->hpd_state, ST_DISPLAY_OFF);
+Changes since v6:
+- review changes Sam Ravnborg and Thomas Zimmerman
+	split patch into 4 parts, part1 register definitions, part2 display
+	driver files, part3 mipi dsi, part4 build files (Sam)
+	removed kmb_crtc.h kmb_crtc_cleanup (Thomas)
+	renamed mode_set, kmb_load, inlined unload (Thomas)
+	moved remaining logging to drm_*(Thomas)
+	re-orged driver initialization (Thomas)
+	moved plane_status to drm_private (Sam)
+	removed unnecessary logs and defines and ifdef codes (Sam)
+	split dphy_init_sequence smaller (Sam)
+	removed redundant checks in kmb_dsi (Sam)
+	changed kmb_dsi_init to drm_bridge_connector_init and
+	drm_connector_attach_encoder to bridge's connector (Sam)
+	call helper_check in plane_atomic_check (Sam)
+	renamed set to get for bpp and format functions(Sam)
+	use drm helper functions for reset, duplicate/destroy state instead
+	of kmb functions (Sam)
+	removed kmb_priv from kmb_plane and removed kmb_plane_state (Sam)
+
+Changes since v7:
+- tested with 5.9 kernel and made the following changes
+        get clk_pll0 from display node in dt  
+        call drm_bridge_attach with DRM_BRIDGE_ATTACH_NO_CONNECTOR
+        Also added Maintainer entry	
+
+Anitha Chrisanthus (4):
+  drm/kmb: Keem Bay driver register definition
+  drm/kmb: Add support for KeemBay Display
+  drm/kmb: Mipi DSI part of the display driver
+  drm/kmb: Build files for KeemBay Display driver
+
+ MAINTAINERS                     |    6 +
+ drivers/gpu/drm/Kconfig         |    2 +
+ drivers/gpu/drm/Makefile        |    1 +
+ drivers/gpu/drm/kmb/Kconfig     |   13 +
+ drivers/gpu/drm/kmb/Makefile    |    2 +
+ drivers/gpu/drm/kmb/kmb_crtc.c  |  224 ++++++
+ drivers/gpu/drm/kmb/kmb_drv.c   |  675 +++++++++++++++++
+ drivers/gpu/drm/kmb/kmb_drv.h   |  170 +++++
+ drivers/gpu/drm/kmb/kmb_dsi.c   | 1524 +++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/kmb/kmb_dsi.h   |  350 +++++++++
+ drivers/gpu/drm/kmb/kmb_plane.c |  480 ++++++++++++
+ drivers/gpu/drm/kmb/kmb_plane.h |  110 +++
+ drivers/gpu/drm/kmb/kmb_regs.h  |  748 +++++++++++++++++++
+ 13 files changed, 4305 insertions(+)
+ create mode 100644 drivers/gpu/drm/kmb/Kconfig
+ create mode 100644 drivers/gpu/drm/kmb/Makefile
+ create mode 100644 drivers/gpu/drm/kmb/kmb_crtc.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_regs.h
+
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
