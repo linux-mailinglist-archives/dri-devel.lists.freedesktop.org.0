@@ -1,59 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8876C2830C9
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 09:22:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 908EF28265D
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 21:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 064756E094;
-	Mon,  5 Oct 2020 07:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE636E13C;
+	Sat,  3 Oct 2020 19:39:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A89C36E13C
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Oct 2020 18:22:15 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1601749339; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=z7E62nRv/bMHkkyglVWth0jbZsLTybTXAcHLb86fpFc=;
- b=OwvhOxU8mBIfaWCpoBu0jK8Ar5UXx91ijL9ehCPr3rTS+aWE24ItkVybCD++t+ZuSpnybS37
- nTcmIqVnl8VxEWQkcOOCp0tF3XlFg63cClkASla0zBIFpgoTnpkFfr4+myaNhGccnjP/TXyR
- R0XA32mSaUeLtTQT8ZS9yshHcOQ=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 5f78c14857b88ccb56f6f814 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 03 Oct 2020 18:22:00
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 94D58C433F1; Sat,  3 Oct 2020 18:22:00 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 4CD9DC433C8;
- Sat,  3 Oct 2020 18:21:59 +0000 (UTC)
-MIME-Version: 1.0
-Date: Sat, 03 Oct 2020 11:21:59 -0700
-From: khsieh@codeaurora.org
-To: Rajendra Nayak <rnayak@codeaurora.org>
-Subject: Re: [PATCH] drm/msm/dp: add voltage corners voting support base on dp
- link rate
-In-Reply-To: <01467014-1190-6e1b-8120-472719861a5e@codeaurora.org>
-References: <20200929171026.30551-1-khsieh@codeaurora.org>
- <160145429763.310579.786737478429183087@swboyd.mtv.corp.google.com>
- <01467014-1190-6e1b-8120-472719861a5e@codeaurora.org>
-Message-ID: <f2b0ff7ce6e87be7fd0e5671dade011f@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-X-Mailman-Approved-At: Mon, 05 Oct 2020 07:22:30 +0000
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D67406E13C
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Oct 2020 19:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601753979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=1IoI0EkrFuvdFZWNYyFFEEON1f+8fthEHRT5ClyKvFc=;
+ b=NFgoSWpOhQ0MxRtx4he7IZSKUBvuN0WKOt8ChIwMM4YzySZCZyvLVCKvc4K8c0VUmC5/+q
+ mYjeKoZU33pPTXesauUXJ5t8mnJpmxSVsylUqqYa9sCKQ8kmXrykuzNk/oRr5IK0fgbZgf
+ HdoB6zMpBXUWtYwxrj9x/dOi2wdTdcg=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-29yNtt_qP22k4YRmUsuFGw-1; Sat, 03 Oct 2020 15:39:35 -0400
+X-MC-Unique: 29yNtt_qP22k4YRmUsuFGw-1
+Received: by mail-qk1-f198.google.com with SMTP id u2so972209qka.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 03 Oct 2020 12:39:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=1IoI0EkrFuvdFZWNYyFFEEON1f+8fthEHRT5ClyKvFc=;
+ b=C9YfW774BkI5e9IDeuttnzt5nW3SmVliyCpr6R1t7OkcDg7zhAHMl7fGPS1V80E4/T
+ gYi4plLtx1C1hIUTRJRrnkiKm9zceDmwm4XzWXsUxck3NQyh0+9jED2UncXRKKMaxxK6
+ xn0eHZlc4Xj/mFvUPS534Am6w45XeywgpVOc6DkzDruPVYy0Mo/VKu8/6DV3QYUcuY+S
+ SyPxpf3PwDruVkZgjUh0blsjwARwieZRM61Aspw4Wd+jDnnSotPC60O42lNXWlp4YGU8
+ g9HPdb/r+pyWXFc3hKwJEJEoFiwGWSdRF/kyTRJIQNlZa0Y8DigNufdL3VlfP5TiwHXM
+ thgA==
+X-Gm-Message-State: AOAM533T/w85epL2rbH20zqUHQ5SBx41uT5lgPUz9j2qBPQ3P+IbOT3I
+ LAA7ldWNHB/nOPKQ16OvQ/MtW3kx1JiyvjNM5bCKxFxFUqUhqyW4yDNYdG1wU3F8IgeV7Z04lo5
+ stu5qPHkFNWB8jqe7YVhISVSfGYg5
+X-Received: by 2002:a0c:a203:: with SMTP id f3mr2723800qva.33.1601753974821;
+ Sat, 03 Oct 2020 12:39:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx4M/pjCxAlSDw6JNZ0/Bzg4FRDd44Ah4W5DbfR+Md9/Z2wSoRt68Ug7QOcM+nGmpJrw5BOBg==
+X-Received: by 2002:a0c:a203:: with SMTP id f3mr2723789qva.33.1601753974628;
+ Sat, 03 Oct 2020 12:39:34 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
+ [75.142.250.213])
+ by smtp.gmail.com with ESMTPSA id r187sm3730335qkc.63.2020.10.03.12.39.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 03 Oct 2020 12:39:34 -0700 (PDT)
+From: trix@redhat.com
+To: patrik.r.jakobsson@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ natechancellor@gmail.com, ndesaulniers@google.com, alan@linux.intel.com,
+ airlied@redhat.com, yakui.zhao@intel.com
+Subject: [PATCH] drm/gma500: fix double free of gma_connector
+Date: Sat,  3 Oct 2020 12:39:28 -0700
+Message-Id: <20201003193928.18869-1-trix@redhat.com>
+X-Mailer: git-send-email 2.18.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,212 +74,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- Stephen Boyd <swboyd@chromium.org>, tanmay@codeaurora.org,
- aravindh@codeaurora.org, sean@poorly.run
+Cc: clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-09-30 09:24, Rajendra Nayak wrote:
-> On 9/30/2020 1:54 PM, Stephen Boyd wrote:
->> Quoting Kuogee Hsieh (2020-09-29 10:10:26)
->>> Set link rate by using OPP set rate api so that CX level will be set
->>> accordingly base on the link rate.
->> 
->> s/base/based/
->> 
->>> 
->>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->>> ---
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->>> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->>> index 2e3e1917351f..e1595d829e04 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->>> @@ -1849,6 +1853,21 @@ struct dp_ctrl *dp_ctrl_get(struct device 
->>> *dev, struct dp_link *link,
->>>                  return ERR_PTR(-ENOMEM);
->>>          }
->>>   +       ctrl->opp_table = dev_pm_opp_set_clkname(dev, "ctrl_link");
-> 
-> I see that downstream has multiple DP clocks which end up voting on
-> CX, we don't have a
-> way of associating multiple OPP tables with a device upstream, so
-> whats usually done is
-> (assuming all the clocks get scaled in lock step, which I assume is
-> the case here) we pick
-> the clock with the 'highest' CX requirement and associate that with
-> the OPP table.
-> I haven't looked but I am hoping thats how we have decided to
-> associate "ctrl_link" clock
-> here?
-> 
-yes, only ctrl_link use dev_pm_opp_set_rate() to set rate.
+From: Tom Rix <trix@redhat.com>
 
->>> +
->>> +       if (IS_ERR(ctrl->opp_table)) {
->>> +               dev_err(dev, "invalid DP OPP table in device 
->>> tree\n");
->>> +               ctrl->opp_table = NULL;
->>> +       } else {
->>> +               /* OPP table is optional */
->>> +               ret = dev_pm_opp_of_add_table(dev);
->>> +               if (ret && ret != -ENODEV) {
->>> +                       dev_err(dev, "add DP OPP table\n");
->> 
->> This is debug noise right?
->> 
->>> +                       dev_pm_opp_put_clkname(ctrl->opp_table);
->>> +                       ctrl->opp_table = NULL;
->>> +               }
->>> +       }
->>> +
->>>          init_completion(&ctrl->idle_comp);
->>>          init_completion(&ctrl->video_comp);
->>>   @@ -1864,6 +1883,18 @@ struct dp_ctrl *dp_ctrl_get(struct device 
->>> *dev, struct dp_link *link,
->>>          return &ctrl->dp_ctrl;
->>>   }
->>>   -void dp_ctrl_put(struct dp_ctrl *dp_ctrl)
->>> +void dp_ctrl_put(struct device *dev, struct dp_ctrl *dp_ctrl)
->>>   {
->>> +       struct dp_ctrl_private *ctrl;
->>> +
->>> +       if (!dp_ctrl)
->> 
->> Can this happen?
->> 
->>> +               return;
->>> +
->>> +       ctrl = container_of(dp_ctrl, struct dp_ctrl_private, 
->>> dp_ctrl);
->>> +
->>> +       if (ctrl->opp_table != NULL) {
->> 
->> This is usually written as
->> 
->> 	if (ctrl->opp_table)
->> 
->>> +               dev_pm_opp_of_remove_table(dev);
->>> +               dev_pm_opp_put_clkname(ctrl->opp_table);
->>> +               ctrl->opp_table = NULL;
->>> +       }
->>>   }
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h 
->>> b/drivers/gpu/drm/msm/dp/dp_ctrl.h
->>> index f60ba93c8678..19b412a93e02 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
->>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
->>> @@ -31,6 +31,6 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, 
->>> struct dp_link *link,
->>>                          struct dp_panel *panel, struct drm_dp_aux 
->>> *aux,
->>>                          struct dp_power *power, struct dp_catalog 
->>> *catalog,
->>>                          struct dp_parser *parser);
->>> -void dp_ctrl_put(struct dp_ctrl *dp_ctrl);
->>> +void dp_ctrl_put(struct device *dev, struct dp_ctrl *dp_ctrl);
->> 
->> Is 'dev' not inside 'dp_ctrl'?
->> 
->>>     #endif /* _DP_CTRL_H_ */
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c 
->>> b/drivers/gpu/drm/msm/dp/dp_power.c
->>> index 17c1fc6a2d44..3d75bf09e38f 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_power.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
->>> @@ -8,12 +8,14 @@
->>>   #include <linux/clk.h>
->>>   #include <linux/clk-provider.h>
->>>   #include <linux/regulator/consumer.h>
->>> +#include <linux/pm_opp.h>
->>>   #include "dp_power.h"
->>>   #include "msm_drv.h"
->>>     struct dp_power_private {
->>>          struct dp_parser *parser;
->>>          struct platform_device *pdev;
->>> +       struct device *dev;
->>>          struct clk *link_clk_src;
->>>          struct clk *pixel_provider;
->>>          struct clk *link_provider;
->>> @@ -148,18 +150,49 @@ static int dp_power_clk_deinit(struct 
->>> dp_power_private *power)
->>>          return 0;
->>>   }
->>>   +static int dp_power_clk_set_link_rate(struct dp_power_private 
->>> *power,
->>> +                       struct dss_clk *clk_arry, int num_clk, int 
->>> enable)
->>> +{
->>> +       u32 rate;
->>> +       int i, rc = 0;
->>> +
->>> +       for (i = 0; i < num_clk; i++) {
->>> +               if (clk_arry[i].clk) {
->>> +                       if (clk_arry[i].type == DSS_CLK_PCLK) {
->>> +                               if (enable)
->>> +                                       rate = clk_arry[i].rate;
->>> +                               else
->>> +                                       rate = 0;
->>> +
->>> +                               rc = dev_pm_opp_set_rate(power->dev, 
->>> rate);
->> 
->> Why do we keep going if rc is non-zero?
->> 
->>> +                       }
->>> +
->>> +               }
->>> +       }
->>> +       return rc;
->>> +}
->>> +
->>>   static int dp_power_clk_set_rate(struct dp_power_private *power,
->>>                  enum dp_pm_type module, bool enable)
->>>   {
->>>          int rc = 0;
->>>          struct dss_module_power *mp = &power->parser->mp[module];
->>>   -       if (enable) {
->>> -               rc = msm_dss_clk_set_rate(mp->clk_config, 
->>> mp->num_clk);
->>> +       if (module == DP_CTRL_PM) {
->>> +               rc = dp_power_clk_set_link_rate(power, 
->>> mp->clk_config, mp->num_clk, enable);
->>>                  if (rc) {
->>> -                       DRM_ERROR("failed to set clks rate.\n");
->>> +                       DRM_ERROR("failed to set link clks rate.\n");
->>>                          return rc;
->>>                  }
->>> +       } else {
->>> +
->>> +               if (enable) {
->>> +                       rc = msm_dss_clk_set_rate(mp->clk_config, 
->>> mp->num_clk);
->>> +                       if (rc) {
->>> +                               DRM_ERROR("failed to set clks 
->>> rate.\n");
->> 
->> Not sure we need the period on these error messages.
->> 
->>> +                               return rc;
->>> +                       }
->>> +               }
->>>          }
->>>            rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, 
->>> enable);
->>> 
->>> base-commit: 3c0f462da069af12211901ddf26f7e16e6951d9b
->>> prerequisite-patch-id: a109eaf08147f50149ad661a58122b6745a52445
->> 
->> Can you rebase this on Rob's msm-next tree
->> (https://gitlab.freedesktop.org/drm/msm.git) and test? It doesn't 
->> apply
->> for me because I have the dp phy patch from there.
->> 
+clang static analysis reports this problem:
+
+cdv_intel_dp.c:2101:2: warning: Attempt to free released memory
+        kfree(gma_connector);
+        ^~~~~~~~~~~~~~~~~~~~
+
+In cdv_intel_dp_init() when the call to cdv_intel_edp_panel_vdd_off()
+fails, the handler calls cdv_intel_dp_destroy(connector) which does
+the first free of gma_connector. So adjust the goto label and skip
+the second free.
+
+Fixes: d112a8163f83 ("gma500/cdv: Add eDP support")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/gma500/cdv_intel_dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+index 720a767118c9..deb4fd13591d 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+@@ -2083,7 +2083,7 @@ cdv_intel_dp_init(struct drm_device *dev, struct psb_intel_mode_device *mode_dev
+ 			DRM_INFO("failed to retrieve link info, disabling eDP\n");
+ 			drm_encoder_cleanup(encoder);
+ 			cdv_intel_dp_destroy(connector);
+-			goto err_priv;
++			goto err_connector;
+ 		} else {
+         		DRM_DEBUG_KMS("DPCD: Rev=%x LN_Rate=%x LN_CNT=%x LN_DOWNSP=%x\n",
+ 				intel_dp->dpcd[0], intel_dp->dpcd[1], 
+-- 
+2.18.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
