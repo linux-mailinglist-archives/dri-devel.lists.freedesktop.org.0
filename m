@@ -2,41 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185C2282076
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 04:17:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B3828230D
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 11:24:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61D9F6EA12;
-	Sat,  3 Oct 2020 02:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFA1B6E2E3;
+	Sat,  3 Oct 2020 09:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9F456EA09
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Oct 2020 02:17:33 +0000 (UTC)
-IronPort-SDR: LVJE0r+VrgPTOwa3Jl1kAJvc4oe7/188cRpyJA94HbDoMdxQ9VXSr9mX6jRDpEKYonsY30komS
- GxgvpMMabVug==
-X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="247871951"
-X-IronPort-AV: E=Sophos;i="5.77,330,1596524400"; d="scan'208";a="247871951"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2020 19:17:32 -0700
-IronPort-SDR: wo9yGm0J5wIheeS2uG35Ft5VnbH51IyEiFOBrH7aQP7g7M9pAzwPSpFdGzQHWSjr/S0nb9jHYJ
- NmJDNYGH+hFA==
-X-IronPort-AV: E=Sophos;i="5.77,330,1596524400"; d="scan'208";a="340197150"
-Received: from cshinn-mobl1.amr.corp.intel.com (HELO
- achrisan-DESK2.amr.corp.intel.com) ([10.255.91.49])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 02 Oct 2020 19:17:32 -0700
-From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
- bob.j.paauwe@intel.com, edmund.j.dea@intel.com
-Subject: [PATCH v8 4/4] drm/kmb: Build files for KeemBay Display driver
-Date: Fri,  2 Oct 2020 19:17:02 -0700
-Message-Id: <1601691422-12851-5-git-send-email-anitha.chrisanthus@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1601691422-12851-1-git-send-email-anitha.chrisanthus@intel.com>
-References: <1601691422-12851-1-git-send-email-anitha.chrisanthus@intel.com>
+Received: from mail-io1-f79.google.com (mail-io1-f79.google.com
+ [209.85.166.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAE16EA1C
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Oct 2020 02:33:06 +0000 (UTC)
+Received: by mail-io1-f79.google.com with SMTP id w5so1872907iod.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 19:33:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+ :from:to;
+ bh=huAQ2XNxNk0+JP0caungu+yrhrmWz2OAWIUz9RtSlI4=;
+ b=i7ngkWmkHaQ5X18vox+dele7hmv3956AxINTcUas1/eZKDu5zFbHn83E2pAsPSuGn7
+ OUqg70IhbsKn2d6HNi5aVAgtki7q7fyJ+TV8++ufPMoAiWXinnCnJl/A+plr9sa8SqZu
+ fJ5SDKbBoki4+3gOX7zI0V/YFqag0gZsYpqS5PvsLpb1Qd1KjNGGrjBRISElI3S9Xnkv
+ NqEuSwKAkMjBFIFeAmta9NLiuYExtHBQZ9TynRPNRIaLpgvefG4fVleOKBcaT4g6mKpZ
+ gKCWqVOojSdPpTt2+bBjTyKyDgsF/F3mxOK8wQIhkOtz+MKnMp2/QmteMtXx2wAmuBhH
+ pHxA==
+X-Gm-Message-State: AOAM533IQCy1PcMN3jSfiJ4RbfuTHfXM5fiXMIiAO0Ql9/1E6LOIdNQm
+ KGxWUMX8mVo6A2+nYw3d3nNYlFgIHaue/7L02GOwstRdbK4I
+X-Google-Smtp-Source: ABdhPJzrlAP5imDWEPKyVGiLnhg0plpe3Pjdz0K8YSADKul87MvIbS1OPbnv7c/HZQJfp1argFlx9wEiLJU/BiWVN/BRncyNJ03n
+MIME-Version: 1.0
+X-Received: by 2002:a02:5d85:: with SMTP id w127mr4693509jaa.76.1601692385603; 
+ Fri, 02 Oct 2020 19:33:05 -0700 (PDT)
+Date: Fri, 02 Oct 2020 19:33:05 -0700
+In-Reply-To: <000000000000ed022605b0b1efaa@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000aef3fc05b0bb11ce@google.com>
+Subject: Re: WARNING in ieee80211_bss_info_change_notify
+From: syzbot <syzbot+09d1cd2f71e6dd3bfd2c@syzkaller.appspotmail.com>
+To: airlied@linux.ie, alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ christian.koenig@amd.com, davem@davemloft.net, dieter@nuetzel-hh.de, 
+ dri-devel@lists.freedesktop.org, johannes@sipsolutions.net, kuba@kernel.org, 
+ linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
+ netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
+X-Mailman-Approved-At: Sat, 03 Oct 2020 09:23:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,100 +57,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com, sam@ravnborg.org
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v2: Added Maintainer entry
+syzbot has bisected this issue to:
 
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
----
- MAINTAINERS                  |  6 ++++++
- drivers/gpu/drm/Kconfig      |  2 ++
- drivers/gpu/drm/Makefile     |  1 +
- drivers/gpu/drm/kmb/Kconfig  | 13 +++++++++++++
- drivers/gpu/drm/kmb/Makefile |  2 ++
- 5 files changed, 24 insertions(+)
- create mode 100644 drivers/gpu/drm/kmb/Kconfig
- create mode 100644 drivers/gpu/drm/kmb/Makefile
+commit 135f971181d779c96ff3725c1a350a721785cc66
+Author: Alex Deucher <alexander.deucher@amd.com>
+Date:   Mon Nov 20 22:49:53 2017 +0000
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c0f494c..8574f2b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8899,6 +8899,12 @@ M:	Deepak Saxena <dsaxena@plexity.net>
- S:	Maintained
- F:	drivers/char/hw_random/ixp4xx-rng.c
- 
-+INTEL KEEMBAY DRM DRIVER
-+M:	Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/intel,kmb_display.yaml
-+F:	drivers/gpu/drm/kmb/
-+
- INTEL MANAGEMENT ENGINE (mei)
- M:	Tomas Winkler <tomas.winkler@intel.com>
- L:	linux-kernel@vger.kernel.org
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 147d61b..97a1631b 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -275,6 +275,8 @@ source "drivers/gpu/drm/nouveau/Kconfig"
- 
- source "drivers/gpu/drm/i915/Kconfig"
- 
-+source "drivers/gpu/drm/kmb/Kconfig"
-+
- config DRM_VGEM
- 	tristate "Virtual GEM provider"
- 	depends on DRM
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 8156900..fefaff4 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -71,6 +71,7 @@ obj-$(CONFIG_DRM_AMDGPU)+= amd/amdgpu/
- obj-$(CONFIG_DRM_MGA)	+= mga/
- obj-$(CONFIG_DRM_I810)	+= i810/
- obj-$(CONFIG_DRM_I915)	+= i915/
-+obj-$(CONFIG_DRM_KMB_DISPLAY)  += kmb/
- obj-$(CONFIG_DRM_MGAG200) += mgag200/
- obj-$(CONFIG_DRM_V3D)  += v3d/
- obj-$(CONFIG_DRM_VC4)  += vc4/
-diff --git a/drivers/gpu/drm/kmb/Kconfig b/drivers/gpu/drm/kmb/Kconfig
-new file mode 100644
-index 0000000..e18b74c
---- /dev/null
-+++ b/drivers/gpu/drm/kmb/Kconfig
-@@ -0,0 +1,13 @@
-+config DRM_KMB_DISPLAY
-+	tristate "INTEL KEEMBAY DISPLAY"
-+	depends on DRM && OF && (ARM || ARM64)
-+	depends on COMMON_CLK
-+	select DRM_KMS_HELPER
-+	select DRM_KMS_CMA_HELPER
-+	select DRM_GEM_CMA_HELPER
-+	select VIDEOMODE_HELPERS
-+	help
-+	Choose this option if you have Intel's KeemBay SOC which integrates
-+	an ARM Cortex A53 CPU with an Intel Movidius VPU.
-+
-+	If M is selected the module will be called kmb-drm.
-diff --git a/drivers/gpu/drm/kmb/Makefile b/drivers/gpu/drm/kmb/Makefile
-new file mode 100644
-index 0000000..527d737
---- /dev/null
-+++ b/drivers/gpu/drm/kmb/Makefile
-@@ -0,0 +1,2 @@
-+kmb-drm-y := kmb_crtc.o kmb_drv.o kmb_plane.o kmb_dsi.o
-+obj-$(CONFIG_DRM_KMB_DISPLAY)	+= kmb-drm.o
--- 
-2.7.4
+    drm/amdgpu: don't skip attributes when powerplay is enabled
 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=120f55bd900000
+start commit:   fcadab74 Merge tag 'drm-fixes-2020-10-01-1' of git://anong..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=110f55bd900000
+console output: https://syzkaller.appspot.com/x/log.txt?x=160f55bd900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4e672827d2ffab1f
+dashboard link: https://syzkaller.appspot.com/bug?extid=09d1cd2f71e6dd3bfd2c
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=161112eb900000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=124fc533900000
+
+Reported-by: syzbot+09d1cd2f71e6dd3bfd2c@syzkaller.appspotmail.com
+Fixes: 135f971181d7 ("drm/amdgpu: don't skip attributes when powerplay is enabled")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
