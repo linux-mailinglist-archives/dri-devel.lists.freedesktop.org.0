@@ -1,61 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCB32820EE
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 06:03:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37FBC282179
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Oct 2020 06:59:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39AED6EA3A;
-	Sat,  3 Oct 2020 04:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E72796EA3C;
+	Sat,  3 Oct 2020 04:59:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A2E46EA3A
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Oct 2020 04:03:18 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id x2so2146124pjk.0
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Oct 2020 21:03:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tpTaD+pd4ck4bVP3jdYyxJbjW42E08ISZPU7AHa+XuI=;
- b=iCtAp16i2PFqCuAtAc95pctbZClTzNcfeELmUCYBbz+JDgZFdJjc0ge+UW+FHMbNfh
- UrI0haS/vXZV+aUY9NLhpLM8R1G9G10iO44wZ5pKo1Ojd2xDJqr+TaMTIu2j1nU3hN3+
- L6cXOWui/1+aw3xCcYDN4c9ohitsWYOwJkOUXSWRf0mjoGhfuqIAg/i94L09LkwUxsP5
- I7gYH7jrY6i3VFNxRuwHqfW97kkF3mF3eGO550s63rK3LzEGo1fu/DIAVXsLAHd997bd
- WH30VF3FZrXEq4+mV31Yt9rgnaJ3ivCqg1/j3J6vmLZO2pIqYUP7v1SnRqJ975C38mN4
- cvwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tpTaD+pd4ck4bVP3jdYyxJbjW42E08ISZPU7AHa+XuI=;
- b=JdZFZ3OHxN7NVUJj98bLXQkrJEHXT9zQkLoOcW8OsyFixtBVYK6VSjLaMG2pJ1ztYP
- EHft+5gPs8FrczB3YsPVDVKmThpprmT16cA96FjN0TMh1S35WUKgHr+jSh5Pvx8BeL7t
- pLrEI4jnLwkss3Hxkeuipw4PkXhW00pt2BBn5iy2inpjQk9j4Id/C15AzUkYfmLQ/Mwm
- Yqe9e3JHXGBSFO8shqA+HErJTxGTYF/PqSPIUPTbuzV1EAcvfrheW0h+bxqAeg3KtO/j
- hfqESYonXG07dtxR2Z1llA7EaPpyfYkC1nvPg+3udvVE+kFe5kH2zTWWxn48y6oQYmGp
- l8CQ==
-X-Gm-Message-State: AOAM532kxBN/TKs5fkrB5vgAmJoXQexY9dzWUXIh4s0N5k9Ecaoy6li3
- OByESJaGjJoyu4lkfBrn/cHiYQ==
-X-Google-Smtp-Source: ABdhPJxtWqhtvVCWUchRdru+/v7VgHdom2HPrTSSjkwt5rvTB7sDHJfAy64XBhzTdVSAJlo5uf1IMA==
-X-Received: by 2002:a17:90a:da06:: with SMTP id e6mr5906398pjv.8.1601697797650; 
- Fri, 02 Oct 2020 21:03:17 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- 190sm3909290pfy.22.2020.10.02.21.03.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 21:03:16 -0700 (PDT)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 7/7] dma-buf: system_heap: Add a system-uncached heap
- re-using the system heap
-Date: Sat,  3 Oct 2020 04:02:57 +0000
-Message-Id: <20201003040257.62768-8-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201003040257.62768-1-john.stultz@linaro.org>
-References: <20201003040257.62768-1-john.stultz@linaro.org>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 376C66EA2B
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Oct 2020 04:59:01 +0000 (UTC)
+IronPort-SDR: nWBmtF4RQt4/ptjHYmj2DNU4gSJTBA1y/HMgw3/a742uyzLCuxPzcZ0UP3RiDGvswisAICBqgq
+ YpylRwa0yevA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="162390394"
+X-IronPort-AV: E=Sophos;i="5.77,330,1596524400"; d="scan'208";a="162390394"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2020 21:58:58 -0700
+IronPort-SDR: 9P2ww3xS687ADJtEtL7gJdM+jwq7mPLxPLxUU8gL/o9L6vCNC4Au6LgdtBUGLC7C3zPfPswCgP
+ guDlntCfiKSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,330,1596524400"; d="scan'208";a="351802362"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by FMSMGA003.fm.intel.com with ESMTP; 02 Oct 2020 21:58:57 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 2 Oct 2020 21:58:57 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 2 Oct 2020 21:58:56 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Fri, 2 Oct 2020 21:58:56 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Fri, 2 Oct 2020 21:58:54 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dsd4E9GeHPN7/MxfqJzhrM8LX53IZBSrlRGhRWKr/iBGubBDg0JKY/GA8gWA7YNa+e7yqwx6cXJEfatrpcrskmKFLU8sFdxR97Gp1QpeJuJL9kXF8ZsMsg1pXmjttPzAWigbcG5OBXEHSF5AHLZLh1URXZNQZU6vnmB7ZuI/BWisUlACNsfmpoZIAmrQADhnnV20b4LdJpId59KQ8v7dfzr3E/yqV4P6omk04LGN4ZCMNUDyIaebjZc6Vw9xueRKfzq/M+++qUgPDPQuBlG32s6BI8EeuapqpSmB+ZU9xE2zXGAA8A1ktiEVTIMs6lDWkmcWFeU1qPmFMoGb43gtnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FSzBM9lxXYulqKbALsn6wJ7ksyDIQLIJavVokTs6+Ao=;
+ b=UPA2XcgsMysvYryZnzd/bBMWgBPhL9mwHepPIJ57zp090BMa8p5RzMgFBf0l/6CPDN4ayww93EX03g94naMpIprlOimhA0CHyBdJmGwDRjH+dxCTyoFGlZcHncnF6upZK1+CXkHv2lMXJpgZrf1N8/U7AvVzQok3JH7JWwvaIISYrntKPqsZUTW33Lx2sTwgEbVI+IG5JI9dSewUKwYawVpdXXcwmwng/BurP8nEBtF7uzKBvi7nxc6iVCAC73288iOedjW0Hhvzn48rmf7uHV3kYK0ebtId/86jKpChz6fcop36+Xm53LcOipQVQpJaWhFDLp8HIA9kaI+1Cttjig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FSzBM9lxXYulqKbALsn6wJ7ksyDIQLIJavVokTs6+Ao=;
+ b=MJ03OObHWvtgLXMNDqOnGpdUe7eQVhb0Xl86/l+J+YwscJQBlR6jx5vuxdSUiVhs+lkoiBLAqQzBqrVgRbq7CrgP3C+VcRhBN37vOitpH8Hj2yJyjzwoKcBc6ZXosTEEebA0eShYCUMVIFf0FJ9eMyn50odyDAgCJAkoVZonjb0=
+Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
+ by BYAPR11MB2838.namprd11.prod.outlook.com (2603:10b6:a02:cc::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32; Sat, 3 Oct
+ 2020 04:58:51 +0000
+Received: from BY5PR11MB4182.namprd11.prod.outlook.com
+ ([fe80::1d4e:2269:63d7:f2d6]) by BY5PR11MB4182.namprd11.prod.outlook.com
+ ([fe80::1d4e:2269:63d7:f2d6%6]) with mapi id 15.20.3433.039; Sat, 3 Oct 2020
+ 04:58:51 +0000
+From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: RE: [PATCH v7 2/4] drm/kmb: Add support for KeemBay Display
+Thread-Topic: [PATCH v7 2/4] drm/kmb: Add support for KeemBay Display
+Thread-Index: AQHWf9HFmAm5AcKirkeVCqcGep3UralhmbMAgCGUtgCAAQwrAIABSD3w
+Date: Sat, 3 Oct 2020 04:58:51 +0000
+Message-ID: <BY5PR11MB418286B4B35E16146E89B2D38C0E0@BY5PR11MB4182.namprd11.prod.outlook.com>
+References: <1598904172-30865-1-git-send-email-anitha.chrisanthus@intel.com>
+ <1598904172-30865-3-git-send-email-anitha.chrisanthus@intel.com>
+ <20200910083042.GH438822@phenom.ffwll.local>
+ <BY5PR11MB41825BA878A60FBCFF8655E78C300@BY5PR11MB4182.namprd11.prod.outlook.com>
+ <CAKMK7uFXFxbfD-knNMZtphFN+VGi7qucq+y03DnH7BRneb4ixw@mail.gmail.com>
+In-Reply-To: <CAKMK7uFXFxbfD-knNMZtphFN+VGi7qucq+y03DnH7BRneb4ixw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [73.151.242.136]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5e3c3a7c-9a6e-414c-81a7-08d867590555
+x-ms-traffictypediagnostic: BYAPR11MB2838:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR11MB2838DD6957BAF21A323535B98C0E0@BYAPR11MB2838.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3826;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: hSoYwaUeSaq7VpoSQTmNsnz8DofwgNS5gyXh/OWNZSQrj71U5xcwaGY3xmPu4KKPjt8iVytbv2Csa5OJEdywLU1qugrcjlc0soZQ/T1XhB3GN1hSKaZVioyKwBcP6ED0vOtSZdvZh0V87TxRMUZA0CVsoGvm+TllDXwop3POcdlcw8+ldC89HLfqBEiaXTUfCSUn+rycel30/Nm6Ev/DOuFGpUYeHXPzXCiYtCHBTOnCZtN3vx9rSGc3M/5IiVwpy3ghHuqimPe29+PRowWdWJCeF2GhXOig8Qx6jnuEqjHEDWqzAU81KSGYUfT346YsgK5lmEul2GuRIJNNBHyDWQJhWX1oR2NKyXilnx1U648rxV9dxw5YnJWbJs6NdYm06wUHVwAMVs3kM8pCcLlZJQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB4182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(376002)(346002)(396003)(366004)(52536014)(186003)(966005)(2906002)(316002)(54906003)(6506007)(53546011)(7696005)(64756008)(5660300002)(478600001)(66476007)(66556008)(30864003)(66446008)(66946007)(26005)(8676002)(83380400001)(71200400001)(6916009)(86362001)(8936002)(76116006)(33656002)(4326008)(55016002)(107886003)(9686003)(83080400001)(579004)(559001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: 3Ea9/MCjA2+Gen2XOPdT2/MXjLAYT71xzzUbfPIVsUk3+GGd+Tw5henG9LkLo37uc0xFabXRMUnc1UMcrTQ48ZqY1EhC4jYq0RnjnNNMGur1pYAalKWxVZr4KnPkXsPeYpdSIk3ynwWR0IU42U9l3DLC4fqTyuEDj4KK4tEEnp66e7zAC8lblvjzuRCRX+5TuHdwykPh3T04kTFyGDtNsOisuS4PsQEkrwHaWbxC1ShlfTbfY3WV/1CafmH1NNLE39H5y3wO0zm5hYAHEBQESpJ6YhDYxpKJY9viwoRlurJ+mRRtkiwOzrhw4wEVYzfdL6QPMy840hetPb1LVM0lA914dP0NST7uYO7xNp+ll5q/57ivOdAa6ZPZ4Ze1wC4sCS90z2UsaIoOxIsZ5pPVHj2XA485rmaVvBAoCyG/PhcaU6B53WC+XX2WE13gWU7Yursq9xrWdOryZ16Emil91IZITBu+yvMMXd9QfNgTXnFsXawhw/nk+VzDPE6q94iKQTEMpNYNz8OLDwhHgr0qNtW7I2ebT3sJlKfIJQ1mfLFiiFhzjGi7K8/KM9/qOyuY8aD3k6VKiYV2bkWYP7kFK6l60l6PaeCIqHuTPboSfU6040/K/b89lB72MDEZbAKHqV9R7emkU4piGi7duI8AZQ==
 MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e3c3a7c-9a6e-414c-81a7-08d867590555
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2020 04:58:51.0616 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BIHnS6WzN2fCsca/Rxvbv1tasCfeuIICcE4h8ceb3xtQ93GZ2PGSQ47lUEKG/hKnrSE4LaYagXyvkqp2uOx13Z+HShaHM8jj3Z3Czm4oZP8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2838
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,178 +128,2026 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Vetter, Daniel" <daniel.vetter@intel.com>, "Dea,
+ Edmund J" <edmund.j.dea@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBhZGRzIGEgaGVhcCB0aGF0IGFsbG9jYXRlcyBub24tY29udGlndW91cyBidWZmZXJzIHRo
-YXQgYXJlCm1hcmtlZCBhcyB3cml0ZWNvbWJpbmVkLCBzbyB0aGV5IGFyZSBub3QgY2FjaGVkIGJ5
-IHRoZSBDUFUuCgpUaGlzIGlzIHVzZWZ1bCwgYXMgbW9zdCBncmFwaGljcyBidWZmZXJzIGFyZSB1
-c3VhbGx5IG5vdCB0b3VjaGVkCmJ5IHRoZSBDUFUgb3Igb25seSB3cml0dGVuIGludG8gb25jZSBi
-eSB0aGUgQ1BVLiBTbyB3aGVuIG1hcHBpbmcKdGhlIGJ1ZmZlciBvdmVyIGFuZCBvdmVyIGJldHdl
-ZW4gZGV2aWNlcywgd2UgY2FuIHNraXAgdGhlIENQVQpzeW5jaW5nLCB3aGljaCBzYXZlcyBhIGxv
-dCBvZiBjYWNoZSBtYW5hZ2VtZW50IG92ZXJoZWFkLCBncmVhdGx5CmltcHJvdmluZyBwZXJmb3Jt
-YW5jZS4KCkZvciBmb2xrIHVzaW5nIElPTiwgdGhlcmUgd2FzIGEgSU9OX0ZMQUdfQ0FDSEVEIGZs
-YWcsIHdoaWNoCnNpZ25hbGVkIGlmIHRoZSByZXR1cm5lZCBidWZmZXIgc2hvdWxkIGJlIENQVSBj
-YWNoZWFibGUgb3Igbm90LgpXaXRoIERNQS1CVUYgaGVhcHMsIHdlIGRvIG5vdCB5ZXQgaGF2ZSBz
-dWNoIGEgZmxhZywgYW5kIGJ5IGRlZmF1bHQKdGhlIGN1cnJlbnQgaGVhcHMgKHN5c3RlbSBhbmQg
-Y21hKSBwcm9kdWNlIENQVSBjYWNoYWJsZSBidWZmZXJzLgpTbyBmb3IgZm9sa3MgdHJhbnNpdGlv
-bmluZyBmcm9tIElPTiB0byBETUEtQlVGIEhlYXBzLCB0aGlzIGZpbGxzCmluIHNvbWUgb2YgdGhh
-dCBtaXNzaW5nIGZ1bmN0aW9uYWxpdHkuCgpUaGVyZSBoYXMgYmVlbiBhIHN1Z2dlc3Rpb24gdG8g
-bWFrZSB0aGlzIGZ1bmN0aW9uYWxpdHkgYSBmbGFnCihETUFIRUFQX0ZMQUdfVU5DQUNIRUQ/KSBv
-biB0aGUgc3lzdGVtIGhlYXAsIHNpbWlsYXIgdG8gaG93CklPTiB1c2VkIHRoZSBJT05fRkxBR19D
-QUNIRUQuIEJ1dCBJIHdhbnQgdG8gbWFrZSBzdXJlIGFuCl9VTkNBQ0hFRCBmbGFnIHdvdWxkIHRy
-dWVseSBiZSBhIGdlbmVyaWMgYXR0cmlidXRlIGFjcm9zcyBhbGwKaGVhcHMuIFNvIGZhciB0aGF0
-IGhhcyBiZWVuIHVuY2xlYXIsIHNvIGhhdmluZyBpdCBhcyBhIHNlcGFyYXRlCmhlYXAgc2VlbWVz
-IGJldHRlciBmb3Igbm93LiAoQnV0IEknbSBvcGVuIHRvIGRpc2N1c3Npb24gb24gdGhpcwpwb2lu
-dCEpCgpUaGlzIGlzIGEgcmV3b3JrIG9mIGVhcmxpZXIgZWZmb3J0cyB0byBhZGQgYSB1bmNhY2hl
-ZCBzeXN0ZW0gaGVhcCwKZG9uZSB1dGlsaXppbmcgdGhlIGV4aXNpdG5nIHN5c3RlbSBoZWFwLCBh
-ZGRpbmcganVzdCBhIGJpdCBvZgpsb2dpYyB0byBoYW5kbGUgdGhlIHVuY2FjaGVkIGNhc2UuCgpG
-ZWVkYmFjayB3b3VsZCBiZSB2ZXJ5IHdlbGNvbWUhCgpNYW55IHRoYW5rcyB0byBMaWFtIE1hcmsg
-Zm9yIGhpcyBoZWxwIHRvIGdldCB0aGlzIHdvcmtpbmcuCgpQZW5kaW5nIG9wZW5zb3VyY2UgdXNl
-cnMgb2YgdGhpcyBjb2RlIGluY2x1ZGU6CiogQU9TUCBIaUtleTk2MCBncmFsbG9jOgogIC0gaHR0
-cHM6Ly9hbmRyb2lkLXJldmlldy5nb29nbGVzb3VyY2UuY29tL2MvZGV2aWNlL2xpbmFyby9oaWtl
-eS8rLzEzOTk1MTkKICAtIFZpc2libHkgaW1wcm92ZXMgcGVyZm9ybWFuY2Ugb3ZlciB0aGUgc3lz
-dGVtIGhlYXAKKiBBT1NQIENvZGVjMiAocG9zc2libHksIG5lZWRzIG1vcmUgcmV2aWV3KToKICAt
-IGh0dHBzOi8vYW5kcm9pZC1yZXZpZXcuZ29vZ2xlc291cmNlLmNvbS9jL3BsYXRmb3JtL2ZyYW1l
-d29ya3MvYXYvKy8xMzYwNjQwLzE3L21lZGlhL2NvZGVjMi92bmRrL0MyRG1hQnVmQWxsb2NhdG9y
-LmNwcCMzMjUKCkNjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgpDYzog
-TGlhbSBNYXJrIDxsbWFya0Bjb2RlYXVyb3JhLm9yZz4KQ2M6IExhdXJhIEFiYm90dCA8bGFiYm90
-dEBrZXJuZWwub3JnPgpDYzogQnJpYW4gU3RhcmtleSA8QnJpYW4uU3RhcmtleUBhcm0uY29tPgpD
-YzogSHJpZHlhIFZhbHNhcmFqdSA8aHJpZHlhQGdvb2dsZS5jb20+CkNjOiBTdXJlbiBCYWdoZGFz
-YXJ5YW4gPHN1cmVuYkBnb29nbGUuY29tPgpDYzogU2FuZGVlcCBQYXRpbCA8c3NwYXRpbEBnb29n
-bGUuY29tPgpDYzogRGFuaWVsIE1lbnR6IDxkYW5pZWxtZW50ekBnb29nbGUuY29tPgpDYzogQ2hy
-aXMgR29sZHN3b3J0aHkgPGNnb2xkc3dvQGNvZGVhdXJvcmEub3JnPgpDYzogw5hyamFuIEVpZGUg
-PG9yamFuLmVpZGVAYXJtLmNvbT4KQ2M6IFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5j
-b20+CkNjOiBFemVxdWllbCBHYXJjaWEgPGV6ZXF1aWVsQGNvbGxhYm9yYS5jb20+CkNjOiBTaW1v
-biBTZXIgPGNvbnRhY3RAZW1lcnNpb24uZnI+CkNjOiBKYW1lcyBKb25lcyA8amFqb25lc0Budmlk
-aWEuY29tPgpDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCkNjOiBkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnClNpZ25lZC1vZmYtYnk6IEpvaG4gU3R1bHR6IDxqb2huLnN0dWx0
-ekBsaW5hcm8ub3JnPgotLS0KIGRyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jIHwg
-ODcgKysrKysrKysrKysrKysrKysrKysrKysrKystLS0KIDEgZmlsZSBjaGFuZ2VkLCA3OSBpbnNl
-cnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9o
-ZWFwcy9zeXN0ZW1faGVhcC5jIGIvZHJpdmVycy9kbWEtYnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMK
-aW5kZXggMmI4ZDRiNmFiYWNiLi45NTJmMWZkOWRhY2YgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZG1h
-LWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0
-ZW1faGVhcC5jCkBAIC0yMiw2ICsyMiw3IEBACiAjaW5jbHVkZSA8bGludXgvdm1hbGxvYy5oPgog
-CiBzdHJ1Y3QgZG1hX2hlYXAgKnN5c19oZWFwOworc3RydWN0IGRtYV9oZWFwICpzeXNfdW5jYWNo
-ZWRfaGVhcDsKIAogc3RydWN0IHN5c3RlbV9oZWFwX2J1ZmZlciB7CiAJc3RydWN0IGRtYV9oZWFw
-ICpoZWFwOwpAQCAtMzEsNiArMzIsOCBAQCBzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVmZmVyIHsKIAlz
-dHJ1Y3Qgc2dfdGFibGUgc2dfdGFibGU7CiAJaW50IHZtYXBfY250OwogCXZvaWQgKnZhZGRyOwor
-CisJYm9vbCB1bmNhY2hlZDsKIH07CiAKIHN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50IHsKQEAg
-LTM4LDYgKzQxLDggQEAgc3RydWN0IGRtYV9oZWFwX2F0dGFjaG1lbnQgewogCXN0cnVjdCBzZ190
-YWJsZSAqdGFibGU7CiAJc3RydWN0IGxpc3RfaGVhZCBsaXN0OwogCWJvb2wgbWFwcGVkOworCisJ
-Ym9vbCB1bmNhY2hlZDsKIH07CiAKICNkZWZpbmUgSElHSF9PUkRFUl9HRlAgICgoKEdGUF9ISUdI
-VVNFUiB8IF9fR0ZQX1pFUk8gfCBfX0dGUF9OT1dBUk4gXApAQCAtOTQsNyArOTksNyBAQCBzdGF0
-aWMgaW50IHN5c3RlbV9oZWFwX2F0dGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLAogCWEtPmRl
-diA9IGF0dGFjaG1lbnQtPmRldjsKIAlJTklUX0xJU1RfSEVBRCgmYS0+bGlzdCk7CiAJYS0+bWFw
-cGVkID0gZmFsc2U7Ci0KKwlhLT51bmNhY2hlZCA9IGJ1ZmZlci0+dW5jYWNoZWQ7CiAJYXR0YWNo
-bWVudC0+cHJpdiA9IGE7CiAKIAltdXRleF9sb2NrKCZidWZmZXItPmxvY2spOwpAQCAtMTI0LDkg
-KzEyOSwxMyBAQCBzdGF0aWMgc3RydWN0IHNnX3RhYmxlICpzeXN0ZW1faGVhcF9tYXBfZG1hX2J1
-ZihzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhYwogewogCXN0cnVjdCBkbWFfaGVhcF9h
-dHRhY2htZW50ICphID0gYXR0YWNobWVudC0+cHJpdjsKIAlzdHJ1Y3Qgc2dfdGFibGUgKnRhYmxl
-ID0gYS0+dGFibGU7CisJaW50IGF0dHIgPSAwOwogCWludCByZXQ7CiAKLQlyZXQgPSBkbWFfbWFw
-X3NndGFibGUoYXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCAwKTsKKwlpZiAoYS0+
-dW5jYWNoZWQpCisJCWF0dHIgPSBETUFfQVRUUl9TS0lQX0NQVV9TWU5DOworCisJcmV0ID0gZG1h
-X21hcF9zZ3RhYmxlKGF0dGFjaG1lbnQtPmRldiwgdGFibGUsIGRpcmVjdGlvbiwgYXR0cik7CiAJ
-aWYgKHJldCkKIAkJcmV0dXJuIEVSUl9QVFIocmV0KTsKIApAQCAtMTM5LDkgKzE0OCwxMiBAQCBz
-dGF0aWMgdm9pZCBzeXN0ZW1faGVhcF91bm1hcF9kbWFfYnVmKHN0cnVjdCBkbWFfYnVmX2F0dGFj
-aG1lbnQgKmF0dGFjaG1lbnQsCiAJCQkJICAgICAgZW51bSBkbWFfZGF0YV9kaXJlY3Rpb24gZGly
-ZWN0aW9uKQogewogCXN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50ICphID0gYXR0YWNobWVudC0+
-cHJpdjsKKwlpbnQgYXR0ciA9IDA7CiAKKwlpZiAoYS0+dW5jYWNoZWQpCisJCWF0dHIgPSBETUFf
-QVRUUl9TS0lQX0NQVV9TWU5DOwogCWEtPm1hcHBlZCA9IGZhbHNlOwotCWRtYV91bm1hcF9zZ3Rh
-YmxlKGF0dGFjaG1lbnQtPmRldiwgdGFibGUsIGRpcmVjdGlvbiwgMCk7CisJZG1hX3VubWFwX3Nn
-dGFibGUoYXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCBhdHRyKTsKIH0KIAogc3Rh
-dGljIGludCBzeXN0ZW1faGVhcF9kbWFfYnVmX2JlZ2luX2NwdV9hY2Nlc3Moc3RydWN0IGRtYV9i
-dWYgKmRtYWJ1ZiwKQEAgLTE1MCw2ICsxNjIsOSBAQCBzdGF0aWMgaW50IHN5c3RlbV9oZWFwX2Rt
-YV9idWZfYmVnaW5fY3B1X2FjY2VzcyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLAogCXN0cnVjdCBz
-eXN0ZW1faGVhcF9idWZmZXIgKmJ1ZmZlciA9IGRtYWJ1Zi0+cHJpdjsKIAlzdHJ1Y3QgZG1hX2hl
-YXBfYXR0YWNobWVudCAqYTsKIAorCWlmIChidWZmZXItPnVuY2FjaGVkKQorCQlyZXR1cm4gMDsK
-KwogCW11dGV4X2xvY2soJmJ1ZmZlci0+bG9jayk7CiAKIAlpZiAoYnVmZmVyLT52bWFwX2NudCkK
-QEAgLTE3MSw2ICsxODYsOSBAQCBzdGF0aWMgaW50IHN5c3RlbV9oZWFwX2RtYV9idWZfZW5kX2Nw
-dV9hY2Nlc3Moc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwKIAlzdHJ1Y3Qgc3lzdGVtX2hlYXBfYnVm
-ZmVyICpidWZmZXIgPSBkbWFidWYtPnByaXY7CiAJc3RydWN0IGRtYV9oZWFwX2F0dGFjaG1lbnQg
-KmE7CiAKKwlpZiAoYnVmZmVyLT51bmNhY2hlZCkKKwkJcmV0dXJuIDA7CisKIAltdXRleF9sb2Nr
-KCZidWZmZXItPmxvY2spOwogCiAJaWYgKGJ1ZmZlci0+dm1hcF9jbnQpCkBAIC0xOTQsNiArMjEy
-LDkgQEAgc3RhdGljIGludCBzeXN0ZW1faGVhcF9tbWFwKHN0cnVjdCBkbWFfYnVmICpkbWFidWYs
-IHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKQogCXN0cnVjdCBzZ19wYWdlX2l0ZXIgcGl0ZXI7
-CiAJaW50IHJldDsKIAorCWlmIChidWZmZXItPnVuY2FjaGVkKQorCQl2bWEtPnZtX3BhZ2VfcHJv
-dCA9IHBncHJvdF93cml0ZWNvbWJpbmUodm1hLT52bV9wYWdlX3Byb3QpOworCiAJZm9yX2VhY2hf
-c2d0YWJsZV9wYWdlKHRhYmxlLCAmcGl0ZXIsIHZtYS0+dm1fcGdvZmYpIHsKIAkJc3RydWN0IHBh
-Z2UgKnBhZ2UgPSBzZ19wYWdlX2l0ZXJfcGFnZSgmcGl0ZXIpOwogCkBAIC0yMTUsOCArMjM2LDEy
-IEBAIHN0YXRpYyB2b2lkICpzeXN0ZW1faGVhcF9kb192bWFwKHN0cnVjdCBzeXN0ZW1faGVhcF9i
-dWZmZXIgKmJ1ZmZlcikKIAlzdHJ1Y3QgcGFnZSAqKnBhZ2VzID0gdm1hbGxvYyhzaXplb2Yoc3Ry
-dWN0IHBhZ2UgKikgKiBucGFnZXMpOwogCXN0cnVjdCBwYWdlICoqdG1wID0gcGFnZXM7CiAJc3Ry
-dWN0IHNnX3BhZ2VfaXRlciBwaXRlcjsKKwlwZ3Byb3RfdCBwZ3Byb3QgPSBQQUdFX0tFUk5FTDsK
-IAl2b2lkICp2YWRkcjsKIAorCWlmIChidWZmZXItPnVuY2FjaGVkKQorCQlwZ3Byb3QgPSBwZ3By
-b3Rfd3JpdGVjb21iaW5lKFBBR0VfS0VSTkVMKTsKKwogCWlmICghcGFnZXMpCiAJCXJldHVybiBF
-UlJfUFRSKC1FTk9NRU0pOwogCkBAIC0yMjUsNyArMjUwLDcgQEAgc3RhdGljIHZvaWQgKnN5c3Rl
-bV9oZWFwX2RvX3ZtYXAoc3RydWN0IHN5c3RlbV9oZWFwX2J1ZmZlciAqYnVmZmVyKQogCQkqdG1w
-KysgPSBzZ19wYWdlX2l0ZXJfcGFnZSgmcGl0ZXIpOwogCX0KIAotCXZhZGRyID0gdm1hcChwYWdl
-cywgbnBhZ2VzLCBWTV9NQVAsIFBBR0VfS0VSTkVMKTsKKwl2YWRkciA9IHZtYXAocGFnZXMsIG5w
-YWdlcywgVk1fTUFQLCBwZ3Byb3QpOwogCXZmcmVlKHBhZ2VzKTsKIAogCWlmICghdmFkZHIpCkBA
-IC0yNzgsNiArMzAzLDEwIEBAIHN0YXRpYyB2b2lkIHN5c3RlbV9oZWFwX2RtYV9idWZfcmVsZWFz
-ZShzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQogCWludCBpOwogCiAJdGFibGUgPSAmYnVmZmVyLT5z
-Z190YWJsZTsKKwkvKiBVbm1hcCB0aGUgdW5jYWNoZWQgYnVmZmVycyBmcm9tIHRoZSBoZWFwIGRl
-dmljZSAocGFpcnMgd2l0aCB0aGUgbWFwIG9uIGFsbG9jYXRlKSAqLworCWlmIChidWZmZXItPnVu
-Y2FjaGVkKQorCQlkbWFfdW5tYXBfc2d0YWJsZShkbWFfaGVhcF9nZXRfZGV2KGJ1ZmZlci0+aGVh
-cCksIHRhYmxlLCBETUFfQklESVJFQ1RJT05BTCwgMCk7CisKIAlmb3JfZWFjaF9zZyh0YWJsZS0+
-c2dsLCBzZywgdGFibGUtPm5lbnRzLCBpKSB7CiAJCXN0cnVjdCBwYWdlICpwYWdlID0gc2dfcGFn
-ZShzZyk7CiAKQEAgLTMyMCwxMCArMzQ5LDExIEBAIHN0YXRpYyBzdHJ1Y3QgcGFnZSAqYWxsb2Nf
-bGFyZ2VzdF9hdmFpbGFibGUodW5zaWduZWQgbG9uZyBzaXplLAogCXJldHVybiBOVUxMOwogfQog
-Ci1zdGF0aWMgaW50IHN5c3RlbV9oZWFwX2FsbG9jYXRlKHN0cnVjdCBkbWFfaGVhcCAqaGVhcCwK
-LQkJCQl1bnNpZ25lZCBsb25nIGxlbiwKLQkJCQl1bnNpZ25lZCBsb25nIGZkX2ZsYWdzLAotCQkJ
-CXVuc2lnbmVkIGxvbmcgaGVhcF9mbGFncykKK3N0YXRpYyBpbnQgc3lzdGVtX2hlYXBfZG9fYWxs
-b2NhdGUoc3RydWN0IGRtYV9oZWFwICpoZWFwLAorCQkJCSAgIHVuc2lnbmVkIGxvbmcgbGVuLAor
-CQkJCSAgIHVuc2lnbmVkIGxvbmcgZmRfZmxhZ3MsCisJCQkJICAgdW5zaWduZWQgbG9uZyBoZWFw
-X2ZsYWdzLAorCQkJCSAgIGJvb2wgdW5jYWNoZWQpCiB7CiAJc3RydWN0IHN5c3RlbV9oZWFwX2J1
-ZmZlciAqYnVmZmVyOwogCURFRklORV9ETUFfQlVGX0VYUE9SVF9JTkZPKGV4cF9pbmZvKTsKQEAg
-LTM0NCw2ICszNzQsNyBAQCBzdGF0aWMgaW50IHN5c3RlbV9oZWFwX2FsbG9jYXRlKHN0cnVjdCBk
-bWFfaGVhcCAqaGVhcCwKIAltdXRleF9pbml0KCZidWZmZXItPmxvY2spOwogCWJ1ZmZlci0+aGVh
-cCA9IGhlYXA7CiAJYnVmZmVyLT5sZW4gPSBsZW47CisJYnVmZmVyLT51bmNhY2hlZCA9IHVuY2Fj
-aGVkOwogCiAJSU5JVF9MSVNUX0hFQUQoJnBhZ2VzKTsKIAlpID0gMDsKQEAgLTM5Myw2ICs0MjQs
-MTYgQEAgc3RhdGljIGludCBzeXN0ZW1faGVhcF9hbGxvY2F0ZShzdHJ1Y3QgZG1hX2hlYXAgKmhl
-YXAsCiAJCS8qIGp1c3QgcmV0dXJuLCBhcyBwdXQgd2lsbCBjYWxsIHJlbGVhc2UgYW5kIHRoYXQg
-d2lsbCBmcmVlICovCiAJCXJldHVybiByZXQ7CiAJfQorCisJLyoKKwkgKiBGb3IgdW5jYWNoZWQg
-YnVmZmVycywgd2UgbmVlZCB0byBpbml0aWFsbHkgZmx1c2ggY3B1IGNhY2hlLCBzaW5jZQorCSAq
-IHRoZSBfX0dGUF9aRVJPIG9uIHRoZSBhbGxvY2F0aW9uIG1lYW5zIHRoZSB6ZXJvaW5nIHdhcyBk
-b25lIGJ5IHRoZQorCSAqIGNwdSBhbmQgdGh1cyBpdCBpcyBsaWtlbHkgY2FjaGVkLiBNYXAgKGFu
-ZCBpbXBsaWNpdGx5IGZsdXNoKSBpdCBvdXQKKwkgKiBub3cgc28gd2UgZG9uJ3QgZ2V0IGNvcnJ1
-cHRpb24gbGF0ZXIgb24uCisJICovCisJaWYgKGJ1ZmZlci0+dW5jYWNoZWQpCisJCWRtYV9tYXBf
-c2d0YWJsZShkbWFfaGVhcF9nZXRfZGV2KGhlYXApLCB0YWJsZSwgRE1BX0JJRElSRUNUSU9OQUws
-IDApOworCiAJcmV0dXJuIHJldDsKIAogZnJlZV9wYWdlczoKQEAgLTQxMCwxMCArNDUxLDMwIEBA
-IHN0YXRpYyBpbnQgc3lzdGVtX2hlYXBfYWxsb2NhdGUoc3RydWN0IGRtYV9oZWFwICpoZWFwLAog
-CXJldHVybiByZXQ7CiB9CiAKK3N0YXRpYyBpbnQgc3lzdGVtX2hlYXBfYWxsb2NhdGUoc3RydWN0
-IGRtYV9oZWFwICpoZWFwLAorCQkJCXVuc2lnbmVkIGxvbmcgbGVuLAorCQkJCXVuc2lnbmVkIGxv
-bmcgZmRfZmxhZ3MsCisJCQkJdW5zaWduZWQgbG9uZyBoZWFwX2ZsYWdzKQoreworCXJldHVybiBz
-eXN0ZW1faGVhcF9kb19hbGxvY2F0ZShoZWFwLCBsZW4sIGZkX2ZsYWdzLCBoZWFwX2ZsYWdzLCBm
-YWxzZSk7Cit9CisKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZG1hX2hlYXBfb3BzIHN5c3RlbV9oZWFw
-X29wcyA9IHsKIAkuYWxsb2NhdGUgPSBzeXN0ZW1faGVhcF9hbGxvY2F0ZSwKIH07CiAKK3N0YXRp
-YyBpbnQgc3lzdGVtX3VuY2FjaGVkX2hlYXBfYWxsb2NhdGUoc3RydWN0IGRtYV9oZWFwICpoZWFw
-LAorCQkJCQkgdW5zaWduZWQgbG9uZyBsZW4sCisJCQkJCSB1bnNpZ25lZCBsb25nIGZkX2ZsYWdz
-LAorCQkJCQkgdW5zaWduZWQgbG9uZyBoZWFwX2ZsYWdzKQoreworCXJldHVybiBzeXN0ZW1faGVh
-cF9kb19hbGxvY2F0ZShoZWFwLCBsZW4sIGZkX2ZsYWdzLCBoZWFwX2ZsYWdzLCB0cnVlKTsKK30K
-Kworc3RhdGljIGNvbnN0IHN0cnVjdCBkbWFfaGVhcF9vcHMgc3lzdGVtX3VuY2FjaGVkX2hlYXBf
-b3BzID0geworCS5hbGxvY2F0ZSA9IHN5c3RlbV91bmNhY2hlZF9oZWFwX2FsbG9jYXRlLAorfTsK
-Kwogc3RhdGljIGludCBzeXN0ZW1faGVhcF9jcmVhdGUodm9pZCkKIHsKIAlzdHJ1Y3QgZG1hX2hl
-YXBfZXhwb3J0X2luZm8gZXhwX2luZm87CkBAIC00MjYsNiArNDg3LDE2IEBAIHN0YXRpYyBpbnQg
-c3lzdGVtX2hlYXBfY3JlYXRlKHZvaWQpCiAJaWYgKElTX0VSUihzeXNfaGVhcCkpCiAJCXJldHVy
-biBQVFJfRVJSKHN5c19oZWFwKTsKIAorCWV4cF9pbmZvLm5hbWUgPSAic3lzdGVtLXVuY2FjaGVk
-IjsKKwlleHBfaW5mby5vcHMgPSAmc3lzdGVtX3VuY2FjaGVkX2hlYXBfb3BzOworCWV4cF9pbmZv
-LnByaXYgPSBOVUxMOworCisJc3lzX3VuY2FjaGVkX2hlYXAgPSBkbWFfaGVhcF9hZGQoJmV4cF9p
-bmZvKTsKKwlpZiAoSVNfRVJSKHN5c191bmNhY2hlZF9oZWFwKSkKKwkJcmV0dXJuIFBUUl9FUlIo
-c3lzX2hlYXApOworCisJZG1hX2NvZXJjZV9tYXNrX2FuZF9jb2hlcmVudChkbWFfaGVhcF9nZXRf
-ZGV2KHN5c191bmNhY2hlZF9oZWFwKSwgRE1BX0JJVF9NQVNLKDY0KSk7CisKIAlyZXR1cm4gMDsK
-IH0KIG1vZHVsZV9pbml0KHN5c3RlbV9oZWFwX2NyZWF0ZSk7Ci0tIAoyLjE3LjEKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+
+> -----Original Message-----
+> From: Daniel Vetter <daniel@ffwll.ch>
+> Sent: Friday, October 2, 2020 2:19 AM
+> To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>
+> Cc: dri-devel@lists.freedesktop.org; Paauwe, Bob J
+> <bob.j.paauwe@intel.com>; Dea, Edmund J <edmund.j.dea@intel.com>;
+> Vetter, Daniel <daniel.vetter@intel.com>
+> Subject: Re: [PATCH v7 2/4] drm/kmb: Add support for KeemBay Display
+> 
+> On Thu, Oct 1, 2020 at 8:02 PM Chrisanthus, Anitha
+> <anitha.chrisanthus@intel.com> wrote:
+> >
+> > Hi Daniel,
+> > I was finally able to test the driver with 5.9 kernel with minor changes in
+> the driver.
+> > Ran the igt_vblank test and it passed/skipped all the subtests except the
+> pipe-A-accuracy-idle test.
+> > Results are attached. Investigated the failing test and it seems like
+> drm_handle_vblank() is taking too long sometimes. I can work on this after
+> we merge.
+> 
+> kms_flip is the one that should check whether vblank events and page
+> flip events agree. Which I think isn't the case with your current
+> code.
+Thanks. I will run that test and work on the failures. I did send v8 with 5.9 testing changes today and also sent the YAML file v1 today to devicetree@vger.kernel.org, not sure if I should cc dri-devel,, should I?
+
+Anitha
+> -Daniel
+> 
+> >
+> > Will send out V8 with the minor changes and device tree YAML binding
+> file ASAP. Will work on the rest of the review comments after.
+> >
+> > Thanks,
+> > Anitha
+> >
+> > > From: Daniel Vetter <daniel@ffwll.ch>
+> > > Sent: Thursday, September 10, 2020 1:31 AM
+> > > To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>
+> > > Cc: dri-devel@lists.freedesktop.org; Paauwe, Bob J
+> > > <bob.j.paauwe@intel.com>; Dea, Edmund J <edmund.j.dea@intel.com>;
+> > > Vetter, Daniel <daniel.vetter@intel.com>
+> > > Subject: Re: [PATCH v7 2/4] drm/kmb: Add support for KeemBay
+> Display
+> > >
+> > > On Mon, Aug 31, 2020 at 01:02:50PM -0700, Anitha Chrisanthus
+> wrote:
+> > > > This is a basic KMS atomic modesetting display driver for KeemBay
+> family
+> > > of
+> > > > SOCs. Driver has no 2D or 3D graphics.It calls into the ADV bridge
+> > > > driver at the connector level.
+> > > >
+> > > > Single CRTC with LCD controller->mipi DSI-> ADV bridge
+> > > >
+> > > > Only 1080p resolution and single plane is supported at this time.
+> > > >
+> > > > v2: moved extern to .h, removed license text
+> > > >     use drm_dev_init, upclassed dev_private, removed
+> HAVE_IRQ.(Sam)
+> > > >
+> > > > v3: Squashed all 59 commits to one
+> > > >
+> > > > v4: review changes from Sam Ravnborg
+> > > >     renamed dev_p to kmb
+> > > >     moved clocks under kmb_clock, consolidated clk initializations
+> > > >     use drmm functions
+> > > >     use DRM_GEM_CMA_DRIVER_OPS_VMAP
+> > > >
+> > > > v5: corrected spellings
+> > > > v6: corrected checkpatch warnings
+> > > > v7: review changes Sam Ravnborg and Thomas Zimmerman
+> > > >     removed kmb_crtc.h kmb_crtc_cleanup (Thomas)
+> > > >     renamed mode_set, kmb_load, inlined unload (Thomas)
+> > > >     moved remaining logging to drm_*(Thomas)
+> > > >     re-orged driver initialization (Thomas)
+> > > >     moved plane_status to drm_private (Sam)
+> > > >     removed unnecessary logs and defines and ifdef codes (Sam)
+> > > >     call helper_check in plane_atomic_check (Sam)
+> > > >     renamed set to get for bpp and format functions(Sam)
+> > > >     use drm helper functions for reset, duplicate/destroy state instead
+> > > >     of kmb functions (Sam)
+> > > >     removed kmb_priv from kmb_plane and removed
+> kmb_plane_state
+> > > (Sam)
+> > > >
+> > > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > > Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > > > Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
+> > >
+> > > Sam asked me to take a look at this too, looks reasonable overall. I've
+> > > spotted a few small things plus a potential functional issue around
+> > > vblank/event handling. I strongly recommend running the igt test suite
+> > > over the driver to see whether it all works reasonably ok. See below for
+> > > details.
+> > >
+> > > > ---
+> > > >  drivers/gpu/drm/kmb/kmb_crtc.c  | 224 +++++++++++++
+> > > >  drivers/gpu/drm/kmb/kmb_drv.c   | 676
+> > > ++++++++++++++++++++++++++++++++++++++++
+> > > >  drivers/gpu/drm/kmb/kmb_drv.h   | 170 ++++++++++
+> > > >  drivers/gpu/drm/kmb/kmb_plane.c | 480
+> > > ++++++++++++++++++++++++++++
+> > > >  drivers/gpu/drm/kmb/kmb_plane.h | 110 +++++++
+> > > >  5 files changed, 1660 insertions(+)
+> > > >  create mode 100644 drivers/gpu/drm/kmb/kmb_crtc.c
+> > > >  create mode 100644 drivers/gpu/drm/kmb/kmb_drv.c
+> > > >  create mode 100644 drivers/gpu/drm/kmb/kmb_drv.h
+> > > >  create mode 100644 drivers/gpu/drm/kmb/kmb_plane.c
+> > > >  create mode 100644 drivers/gpu/drm/kmb/kmb_plane.h
+> > > >
+> > > > diff --git a/drivers/gpu/drm/kmb/kmb_crtc.c
+> > > b/drivers/gpu/drm/kmb/kmb_crtc.c
+> > > > new file mode 100644
+> > > > index 0000000..a684331
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/kmb/kmb_crtc.c
+> > > > @@ -0,0 +1,224 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > > +/*
+> > > > + * Copyright (c) 2018-2020 Intel Corporation
+> > > > + */
+> > > > +
+> > > > +#include <linux/clk.h>
+> > > > +#include <linux/of_graph.h>
+> > > > +#include <linux/platform_data/simplefb.h>
+> > > > +
+> > > > +#include <video/videomode.h>
+> > > > +
+> > > > +#include <drm/drm_atomic.h>
+> > > > +#include <drm/drm_atomic_helper.h>
+> > > > +#include <drm/drm_crtc.h>
+> > > > +#include <drm/drm_crtc_helper.h>
+> > > > +#include <drm/drm_debugfs.h>
+> > > > +#include <drm/drm_device.h>
+> > > > +#include <drm/drm_drv.h>
+> > > > +#include <drm/drm_fb_cma_helper.h>
+> > > > +#include <drm/drm_fb_helper.h>
+> > > > +#include <drm/drm_gem_cma_helper.h>
+> > > > +#include <drm/drm_of.h>
+> > > > +#include <drm/drm_plane_helper.h>
+> > > > +#include <drm/drm_vblank.h>
+> > > > +
+> > > > +#include "kmb_drv.h"
+> > > > +#include "kmb_dsi.h"
+> > > > +#include "kmb_plane.h"
+> > > > +#include "kmb_regs.h"
+> > > > +
+> > > > +struct kmb_crtc_timing {
+> > > > +   u32 vfront_porch;
+> > > > +   u32 vback_porch;
+> > > > +   u32 vsync_len;
+> > > > +   u32 hfront_porch;
+> > > > +   u32 hback_porch;
+> > > > +   u32 hsync_len;
+> > > > +};
+> > > > +
+> > > > +static int kmb_crtc_enable_vblank(struct drm_crtc *crtc)
+> > > > +{
+> > > > +   struct drm_device *dev = crtc->dev;
+> > > > +   struct kmb_drm_private *kmb = to_kmb(dev);
+> > > > +
+> > > > +   /* Clear interrupt */
+> > > > +   kmb_write_lcd(kmb, LCD_INT_CLEAR, LCD_INT_VERT_COMP);
+> > > > +   /* Set which interval to generate vertical interrupt */
+> > > > +   kmb_write_lcd(kmb, LCD_VSTATUS_COMPARE,
+> > > > +                 LCD_VSTATUS_COMPARE_VSYNC);
+> > > > +   /* Enable vertical interrupt */
+> > > > +   kmb_set_bitmask_lcd(kmb, LCD_INT_ENABLE,
+> > > > +                       LCD_INT_VERT_COMP);
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > > +static void kmb_crtc_disable_vblank(struct drm_crtc *crtc)
+> > > > +{
+> > > > +   struct drm_device *dev = crtc->dev;
+> > > > +   struct kmb_drm_private *kmb = to_kmb(dev);
+> > > > +
+> > > > +   /* Clear interrupt */
+> > > > +   kmb_write_lcd(kmb, LCD_INT_CLEAR, LCD_INT_VERT_COMP);
+> > > > +   /* Disable vertical interrupt */
+> > > > +   kmb_clr_bitmask_lcd(kmb, LCD_INT_ENABLE,
+> > > > +                       LCD_INT_VERT_COMP);
+> > > > +}
+> > > > +
+> > > > +static const struct drm_crtc_funcs kmb_crtc_funcs = {
+> > > > +   .destroy = drm_crtc_cleanup,
+> > > > +   .set_config = drm_atomic_helper_set_config,
+> > > > +   .page_flip = drm_atomic_helper_page_flip,
+> > > > +   .reset = drm_atomic_helper_crtc_reset,
+> > > > +   .atomic_duplicate_state =
+> > > drm_atomic_helper_crtc_duplicate_state,
+> > > > +   .atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+> > > > +   .enable_vblank = kmb_crtc_enable_vblank,
+> > > > +   .disable_vblank = kmb_crtc_disable_vblank,
+> > > > +};
+> > > > +
+> > > > +static void kmb_crtc_set_mode(struct drm_crtc *crtc)
+> > > > +{
+> > > > +   struct drm_device *dev = crtc->dev;
+> > > > +   struct drm_display_mode *m = &crtc->state->adjusted_mode;
+> > > > +   struct kmb_crtc_timing vm;
+> > > > +   int vsync_start_offset;
+> > > > +   int vsync_end_offset;
+> > > > +   struct kmb_drm_private *kmb = to_kmb(dev);
+> > > > +   unsigned int val = 0;
+> > > > +
+> > > > +   /* Initialize mipi */
+> > > > +   kmb_dsi_hw_init(dev, m);
+> > > > +   drm_info(dev,
+> > > > +            "vfp= %d vbp= %d vsyc_len=%d hfp=%d hbp=%d
+> > > hsync_len=%d\n",
+> > > > +            m->crtc_vsync_start - m->crtc_vdisplay,
+> > > > +            m->crtc_vtotal - m->crtc_vsync_end,
+> > > > +            m->crtc_vsync_end - m->crtc_vsync_start,
+> > > > +            m->crtc_hsync_start - m->crtc_hdisplay,
+> > > > +            m->crtc_htotal - m->crtc_hsync_end,
+> > > > +            m->crtc_hsync_end - m->crtc_hsync_start);
+> > > > +   val = kmb_read_lcd(kmb, LCD_INT_ENABLE);
+> > > > +   kmb_clr_bitmask_lcd(kmb, LCD_INT_ENABLE, val);
+> > > > +   kmb_set_bitmask_lcd(kmb, LCD_INT_CLEAR, ~0x0);
+> > > > +   vm.vfront_porch = 2;
+> > > > +   vm.vback_porch = 2;
+> > > > +   vm.vsync_len = 8;
+> > > > +   vm.hfront_porch = 0;
+> > > > +   vm.hback_porch = 0;
+> > > > +   vm.hsync_len = 28;
+> > > > +
+> > > > +   vsync_start_offset =  m->crtc_vsync_start -  m->crtc_hsync_start;
+> > > > +   vsync_end_offset =  m->crtc_vsync_end - m->crtc_hsync_end;
+> > > > +
+> > > > +   drm_dbg(dev, "%s : %dactive height= %d vbp=%d vfp=%d vsync-
+> > > w=%d h-active=%d h-bp=%d h-fp=%d hysnc-l=%d",
+> > > > +           __func__, __LINE__,
+> > > > +                   m->crtc_vdisplay, vm.vback_porch,
+> > > vm.vfront_porch,
+> > > > +                   vm.vsync_len, m->crtc_hdisplay, vm.hback_porch,
+> > > > +                   vm.hfront_porch, vm.hsync_len);
+> > > > +   kmb_write_lcd(kmb, LCD_V_ACTIVEHEIGHT,
+> > > > +                 m->crtc_vdisplay - 1);
+> > > > +   kmb_write_lcd(kmb, LCD_V_BACKPORCH, vm.vback_porch);
+> > > > +   kmb_write_lcd(kmb, LCD_V_FRONTPORCH, vm.vfront_porch);
+> > > > +   kmb_write_lcd(kmb, LCD_VSYNC_WIDTH, vm.vsync_len - 1);
+> > > > +   kmb_write_lcd(kmb, LCD_H_ACTIVEWIDTH,
+> > > > +                 m->crtc_hdisplay - 1);
+> > > > +   kmb_write_lcd(kmb, LCD_H_BACKPORCH, vm.hback_porch);
+> > > > +   kmb_write_lcd(kmb, LCD_H_FRONTPORCH, vm.hfront_porch);
+> > > > +   kmb_write_lcd(kmb, LCD_HSYNC_WIDTH, vm.hsync_len - 1);
+> > > > +   /* This is hardcoded as 0 in the Myriadx code */
+> > > > +   kmb_write_lcd(kmb, LCD_VSYNC_START, 0);
+> > > > +   kmb_write_lcd(kmb, LCD_VSYNC_END, 0);
+> > > > +   /* Back ground color */
+> > > > +   kmb_write_lcd(kmb, LCD_BG_COLOUR_LS, 0x4);
+> > > > +   if (m->flags == DRM_MODE_FLAG_INTERLACE) {
+> > > > +           kmb_write_lcd(kmb,
+> > > > +                         LCD_VSYNC_WIDTH_EVEN, vm.vsync_len - 1);
+> > > > +           kmb_write_lcd(kmb,
+> > > > +                         LCD_V_BACKPORCH_EVEN, vm.vback_porch);
+> > > > +           kmb_write_lcd(kmb,
+> > > > +                         LCD_V_FRONTPORCH_EVEN, vm.vfront_porch);
+> > > > +           kmb_write_lcd(kmb, LCD_V_ACTIVEHEIGHT_EVEN,
+> > > > +                         m->crtc_vdisplay - 1);
+> > > > +           /* This is hardcoded as 10 in the Myriadx code */
+> > > > +           kmb_write_lcd(kmb, LCD_VSYNC_START_EVEN, 10);
+> > > > +           kmb_write_lcd(kmb, LCD_VSYNC_END_EVEN, 10);
+> > > > +   }
+> > > > +   kmb_write_lcd(kmb, LCD_TIMING_GEN_TRIG, ENABLE);
+> > > > +   kmb_set_bitmask_lcd(kmb, LCD_CONTROL, LCD_CTRL_ENABLE);
+> > > > +   kmb_set_bitmask_lcd(kmb, LCD_INT_ENABLE, val);
+> > > > +}
+> > > > +
+> > > > +static void kmb_crtc_atomic_enable(struct drm_crtc *crtc,
+> > > > +                              struct drm_crtc_state *old_state)
+> > > > +{
+> > > > +   struct kmb_drm_private *lcd = crtc_to_kmb_priv(crtc);
+> > > > +
+> > > > +   clk_prepare_enable(lcd->clk);
+> > > > +   kmb_crtc_set_mode(crtc);
+> > > > +   drm_crtc_vblank_on(crtc);
+> > > > +}
+> > > > +
+> > > > +static void kmb_crtc_atomic_disable(struct drm_crtc *crtc,
+> > > > +                               struct drm_crtc_state *old_state)
+> > > > +{
+> > > > +   struct kmb_drm_private *lcd = crtc_to_kmb_priv(crtc);
+> > > > +
+> > > > +   /* due to hw limitations, planes need to be off when crtc is off */
+> > > > +   drm_atomic_helper_disable_planes_on_crtc(old_state, false);
+> > > > +
+> > > > +   drm_crtc_vblank_off(crtc);
+> > > > +   clk_disable_unprepare(lcd->clk);
+> > > > +}
+> > > > +
+> > > > +static void kmb_crtc_atomic_begin(struct drm_crtc *crtc,
+> > > > +                             struct drm_crtc_state *state)
+> > > > +{
+> > > > +   struct drm_device *dev = crtc->dev;
+> > > > +   struct kmb_drm_private *kmb = to_kmb(dev);
+> > > > +
+> > > > +   kmb_clr_bitmask_lcd(kmb, LCD_INT_ENABLE,
+> > > > +                       LCD_INT_VERT_COMP);
+> > > > +}
+> > > > +
+> > > > +static void kmb_crtc_atomic_flush(struct drm_crtc *crtc,
+> > > > +                             struct drm_crtc_state *state)
+> > > > +{
+> > > > +   struct drm_device *dev = crtc->dev;
+> > > > +   struct kmb_drm_private *kmb = to_kmb(dev);
+> > > > +
+> > > > +   kmb_set_bitmask_lcd(kmb, LCD_INT_ENABLE,
+> > > > +                       LCD_INT_VERT_COMP);
+> > > > +
+> > > > +   spin_lock_irq(&crtc->dev->event_lock);
+> > > > +   if (crtc->state->event)
+> > > > +           drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> > >
+> > > Uh, you have vblank event support, but you immediately send out the
+> > > vblank
+> > > event. That breaks userspace assumptions. You probably want to use
+> > > drm_crtc_arm_vblank_event here. Also there's tons of races that can
+> > > possibly happen, so please read the kerneldoc comment for that
+> function
+> > > carefully - you probably need to validate that the vblank event arming,
+> > > vblank process and re-enabling of LCD_INT_ENABLE cannot race against
+> > > each
+> > > another in bad ways.
+> > >
+> > > Also we have igt testcases for this, so please run them:
+> >
+> >
+> > > https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#validating-
+> > > changes-with-igt
+> > >
+> > > > +   crtc->state->event = NULL;
+> > > > +   spin_unlock_irq(&crtc->dev->event_lock);
+> > > > +}
+> > > > +
+> > > > +static const struct drm_crtc_helper_funcs kmb_crtc_helper_funcs =
+> {
+> > > > +   .atomic_begin = kmb_crtc_atomic_begin,
+> > > > +   .atomic_enable = kmb_crtc_atomic_enable,
+> > > > +   .atomic_disable = kmb_crtc_atomic_disable,
+> > > > +   .atomic_flush = kmb_crtc_atomic_flush,
+> > > > +};
+> > > > +
+> > > > +int kmb_setup_crtc(struct drm_device *drm)
+> > > > +{
+> > > > +   struct kmb_drm_private *kmb = to_kmb(drm);
+> > > > +   struct kmb_plane *primary;
+> > > > +   int ret;
+> > > > +
+> > > > +   primary = kmb_plane_init(drm);
+> > > > +   if (IS_ERR(primary))
+> > > > +           return PTR_ERR(primary);
+> > > > +
+> > > > +   ret = drm_crtc_init_with_planes(drm, &kmb->crtc, &primary-
+> > > >base_plane,
+> > > > +                                   NULL, &kmb_crtc_funcs, NULL);
+> > > > +   if (ret) {
+> > > > +           kmb_plane_destroy(&primary->base_plane);
+> > > > +           return ret;
+> > > > +   }
+> > > > +
+> > > > +   drm_crtc_helper_add(&kmb->crtc, &kmb_crtc_helper_funcs);
+> > > > +   return 0;
+> > > > +}
+> > > > diff --git a/drivers/gpu/drm/kmb/kmb_drv.c
+> > > b/drivers/gpu/drm/kmb/kmb_drv.c
+> > > > new file mode 100644
+> > > > index 0000000..e413099
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/kmb/kmb_drv.c
+> > > > @@ -0,0 +1,676 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > > +/*
+> > > > + * Copyright (c) 2018-2020 Intel Corporation
+> > > > + */
+> > > > +
+> > > > +#include <linux/clk.h>
+> > > > +#include <linux/console.h>
+> > > > +#include <linux/list.h>
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/of_graph.h>
+> > > > +#include <linux/of_reserved_mem.h>
+> > > > +#include <linux/platform_device.h>
+> > > > +#include <linux/pm_runtime.h>
+> > > > +#include <linux/spinlock.h>
+> > > > +
+> > > > +#include <drm/drm.h>
+> > > > +#include <drm/drm_atomic.h>
+> > > > +#include <drm/drm_atomic_helper.h>
+> > > > +#include <drm/drm_crtc.h>
+> > > > +#include <drm/drm_device.h>
+> > > > +#include <drm/drm_drv.h>
+> > > > +#include <drm/drm_fb_cma_helper.h>
+> > > > +#include <drm/drm_fb_helper.h>
+> > > > +#include <drm/drm_gem_cma_helper.h>
+> > > > +#include <drm/drm_gem_framebuffer_helper.h>
+> > > > +#include <drm/drm_ioctl.h>
+> > > > +#include <drm/drm_irq.h>
+> > > > +#include <drm/drm_of.h>
+> > > > +#include <drm/drm_probe_helper.h>
+> > > > +#include <drm/drm_vblank.h>
+> > > > +
+> > > > +#include "kmb_drv.h"
+> > > > +#include "kmb_dsi.h"
+> > > > +#include "kmb_regs.h"
+> > > > +
+> > > > +int kmb_under_flow = 0, kmb_flush_done = 0, layer_no = 0;
+> > > > +static struct kmb_clock kmb_clk;
+> > > > +
+> > > > +static struct drm_bridge *adv_bridge;
+> > > > +
+> > > > +int kmb_display_clk_enable(struct kmb_drm_private *kmb)
+> > > > +{
+> > > > +   int ret = 0;
+> > > > +
+> > > > +   ret = clk_prepare_enable(kmb_clk.clk_lcd);
+> > > > +   if (ret) {
+> > > > +           drm_err(&kmb->drm, "Failed to enable LCD clock: %d\n",
+> > > ret);
+> > > > +           return ret;
+> > > > +   }
+> > > > +
+> > > > +   ret = clk_prepare_enable(kmb_clk.clk_mipi);
+> > > > +   if (ret) {
+> > > > +           drm_err(&kmb->drm, "Failed to enable MIPI clock: %d\n",
+> > > ret);
+> > > > +           return ret;
+> > > > +   }
+> > > > +
+> > > > +   ret = clk_prepare_enable(kmb_clk.clk_mipi_ecfg);
+> > > > +   if (ret) {
+> > > > +           drm_err(&kmb->drm,
+> > > > +                   "Failed to enable MIPI_ECFG clock: %d\n", ret);
+> > > > +           return ret;
+> > > > +   }
+> > > > +
+> > > > +   ret = clk_prepare_enable(kmb_clk.clk_mipi_cfg);
+> > > > +   if (ret) {
+> > > > +           drm_err(&kmb->drm,
+> > > > +                   "Failed to enable MIPI_CFG clock: %d\n", ret);
+> > > > +           return ret;
+> > > > +   }
+> > > > +   DRM_INFO("SUCCESS : enabled LCD MIPI clocks\n");
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > > +int kmb_initialize_clocks(struct kmb_drm_private *kmb, struct
+> device
+> > > *dev)
+> > > > +{
+> > > > +   struct device_node *vpu_dev;
+> > > > +   unsigned long clk;
+> > > > +   int ret = 0;
+> > > > +
+> > > > +   kmb_clk.clk_lcd = clk_get(dev, "clk_lcd");
+> > > > +   if (IS_ERR(kmb_clk.clk_lcd)) {
+> > > > +           drm_err(&kmb->drm, "clk_get() failed clk_lcd\n");
+> > > > +           return PTR_ERR(kmb_clk.clk_lcd);
+> > > > +   }
+> > > > +
+> > > > +   kmb_clk.clk_mipi = clk_get(dev, "clk_mipi");
+> > > > +   if (IS_ERR(kmb_clk.clk_mipi)) {
+> > > > +           drm_err(&kmb->drm, "clk_get() failed clk_mipi\n");
+> > > > +           return PTR_ERR(kmb_clk.clk_mipi);
+> > > > +   }
+> > > > +
+> > > > +   kmb_clk.clk_mipi_ecfg = clk_get(dev, "clk_mipi_ecfg");
+> > > > +   if (IS_ERR(kmb_clk.clk_mipi_ecfg)) {
+> > > > +           drm_err(&kmb->drm, "clk_get() failed clk_mipi_ecfg\n");
+> > > > +           return PTR_ERR(kmb_clk.clk_mipi_ecfg);
+> > > > +   }
+> > > > +
+> > > > +   kmb_clk.clk_mipi_cfg = clk_get(dev, "clk_mipi_cfg");
+> > > > +   if (IS_ERR(kmb_clk.clk_mipi_cfg)) {
+> > > > +           drm_err(&kmb->drm, "clk_get() failed clk_mipi_cfg\n");
+> > > > +           return PTR_ERR(kmb_clk.clk_mipi_cfg);
+> > > > +   }
+> > > > +   vpu_dev = of_find_node_by_path("/soc/vpu-ipc");
+> > > > +   kmb_clk.clk_pll0 = of_clk_get_by_name(vpu_dev, "pll_0_out_0");
+> > > > +   if (IS_ERR(kmb_clk.clk_pll0)) {
+> > > > +           drm_err(&kmb->drm, "clk_get() failed clk_pll0 ");
+> > > > +           return PTR_ERR(kmb_clk.clk_pll0);
+> > > > +   }
+> > > > +   kmb->sys_clk_mhz = clk_get_rate(kmb_clk.clk_pll0) / 1000000;
+> > > > +   drm_info(&kmb->drm, "system clk = %d Mhz", kmb-
+> > > >sys_clk_mhz);
+> > > > +
+> > > > +   /* Set LCD clock to 200 Mhz */
+> > > > +   clk_set_rate(kmb_clk.clk_lcd, KMB_LCD_DEFAULT_CLK);
+> > > > +   if (clk_get_rate(kmb_clk.clk_lcd) != KMB_LCD_DEFAULT_CLK) {
+> > > > +           drm_err(&kmb->drm, "failed to set to clk_lcd to %d\n",
+> > > > +                   KMB_LCD_DEFAULT_CLK);
+> > > > +           return -1;
+> > > > +   }
+> > > > +   drm_dbg(&kmb->drm, "clk_lcd = %ld\n",
+> > > clk_get_rate(kmb_clk.clk_lcd));
+> > > > +
+> > > > +   /* Set MIPI clock to 24 Mhz */
+> > > > +   clk_set_rate(kmb_clk.clk_mipi, KMB_MIPI_DEFAULT_CLK);
+> > > > +   if (clk_get_rate(kmb_clk.clk_mipi) != KMB_MIPI_DEFAULT_CLK) {
+> > > > +           drm_err(&kmb->drm, "failed to set to clk_mipi to %d\n",
+> > > > +                   KMB_MIPI_DEFAULT_CLK);
+> > > > +           return -1;
+> > > > +   }
+> > > > +   drm_dbg(&kmb->drm, "clk_mipi = %ld\n",
+> > > clk_get_rate(kmb_clk.clk_mipi));
+> > > > +
+> > > > +   clk = clk_get_rate(kmb_clk.clk_mipi_ecfg);
+> > > > +   if (clk != KMB_MIPI_DEFAULT_CFG_CLK) {
+> > > > +           /* Set MIPI_ECFG clock to 24 Mhz */
+> > > > +           clk_set_rate(kmb_clk.clk_mipi_ecfg,
+> > > KMB_MIPI_DEFAULT_CFG_CLK);
+> > > > +           clk = clk_get_rate(kmb_clk.clk_mipi_ecfg);
+> > > > +           if (clk != KMB_MIPI_DEFAULT_CFG_CLK) {
+> > > > +                   drm_err(&kmb->drm,
+> > > > +                           "failed to set to clk_mipi_ecfg to %d\n",
+> > > > +                            KMB_MIPI_DEFAULT_CFG_CLK);
+> > > > +                   return -1;
+> > > > +           }
+> > > > +   }
+> > > > +
+> > > > +   clk = clk_get_rate(kmb_clk.clk_mipi_cfg);
+> > > > +   if (clk != KMB_MIPI_DEFAULT_CFG_CLK) {
+> > > > +           /* Set MIPI_CFG clock to 24 Mhz */
+> > > > +           clk_set_rate(kmb_clk.clk_mipi_cfg, 24000000);
+> > > > +           clk = clk_get_rate(kmb_clk.clk_mipi_cfg);
+> > > > +           if (clk != KMB_MIPI_DEFAULT_CFG_CLK) {
+> > > > +                   drm_err(&kmb->drm,
+> > > > +                           "failed to set clk_mipi_cfg to %d\n",
+> > > > +                             KMB_MIPI_DEFAULT_CFG_CLK);
+> > > > +                   return -1;
+> > > > +           }
+> > > > +   }
+> > > > +
+> > > > +   ret = kmb_display_clk_enable(kmb);
+> > > > +   if (ret)
+> > > > +           return ret;
+> > > > +
+> > > > +   /* Enable MSS_CAM_CLK_CTRL for MIPI TX and LCD */
+> > > > +   kmb_set_bitmask_msscam(kmb, MSS_CAM_CLK_CTRL, 0x1fff);
+> > > > +   kmb_set_bitmask_msscam(kmb, MSS_CAM_RSTN_CTRL,
+> 0xffffffff);
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > > +static int kmb_display_clk_disable(void)
+> > > > +{
+> > > > +   if (kmb_clk.clk_lcd)
+> > > > +           clk_disable_unprepare(kmb_clk.clk_lcd);
+> > > > +   if (kmb_clk.clk_mipi)
+> > > > +           clk_disable_unprepare(kmb_clk.clk_mipi);
+> > > > +   if (kmb_clk.clk_mipi_ecfg)
+> > > > +           clk_disable_unprepare(kmb_clk.clk_mipi_ecfg);
+> > > > +   if (kmb_clk.clk_mipi_cfg)
+> > > > +           clk_disable_unprepare(kmb_clk.clk_mipi_cfg);
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > > +static void __iomem *kmb_map_mmio(struct drm_device *drm,
+> char
+> > > *name)
+> > > > +{
+> > > > +   struct resource *res;
+> > > > +   struct platform_device *pdev = to_platform_device(drm->dev);
+> > > > +   void __iomem *mem;
+> > > > +
+> > > > +   res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+> > > name);
+> > > > +   if (!res) {
+> > > > +           drm_err(drm, "failed to get resource for %s", name);
+> > > > +           return ERR_PTR(-ENOMEM);
+> > > > +   }
+> > > > +   mem = devm_ioremap_resource(drm->dev, res);
+> > > > +   if (IS_ERR(mem))
+> > > > +           drm_err(drm, "failed to ioremap %s registers", name);
+> > > > +   return mem;
+> > > > +}
+> > > > +
+> > > > +static int kmb_hw_init(struct drm_device *drm, unsigned long flags)
+> > > > +{
+> > > > +   struct kmb_drm_private *kmb = to_kmb(drm);
+> > > > +   struct platform_device *pdev = to_platform_device(drm->dev);
+> > > > +   int irq_lcd;
+> > > > +   int ret = 0;
+> > > > +
+> > > > +   /* Map LCD MMIO registers */
+> > > > +   kmb->lcd_mmio = kmb_map_mmio(drm, "lcd_regs");
+> > > > +   if (IS_ERR(kmb->lcd_mmio)) {
+> > > > +           drm_err(&kmb->drm, "failed to map LCD registers\n");
+> > > > +           return -ENOMEM;
+> > > > +   }
+> > > > +
+> > > > +   /* Map MIPI MMIO registers */
+> > > > +   kmb->mipi_mmio = kmb_map_mmio(drm, "mipi_regs");
+> > > > +   if (IS_ERR(kmb->mipi_mmio)) {
+> > > > +           drm_err(&kmb->drm, "failed to map MIPI registers\n");
+> > > > +           iounmap(kmb->lcd_mmio);
+> > > > +           return -ENOMEM;
+> > > > +   }
+> > > > +
+> > > > +   /* This is only for MIPI_TX_MSS_LCD_MIPI_CFG and
+> > > > +    * MSS_CAM_CLK_CTRL register
+> > > > +    */
+> > > > +   kmb->msscam_mmio = kmb_map_mmio(drm, "msscam_regs");
+> > > > +   if (IS_ERR(kmb->msscam_mmio)) {
+> > > > +           drm_err(&kmb->drm, "failed to map MSSCAM
+> > > registers\n");
+> > > > +           iounmap(kmb->lcd_mmio);
+> > > > +           iounmap(kmb->mipi_mmio);
+> > > > +           return -ENOMEM;
+> > > > +   }
+> > > > +
+> > > > +   if (IS_ERR(kmb->msscam_mmio)) {
+> > > > +           drm_err(&kmb->drm, "failed to map MSSCAM
+> > > registers\n");
+> > > > +           iounmap(kmb->lcd_mmio);
+> > > > +           iounmap(kmb->mipi_mmio);
+> > > > +           return -ENOMEM;
+> > > > +   }
+> > > > +   /* Enable display clocks */
+> > > > +   kmb_initialize_clocks(kmb, &pdev->dev);
+> > > > +
+> > > > +   /* Register irqs here - section 17.3 in databook
+> > > > +    * lists LCD at 79 and 82 for MIPI under MSS CPU -
+> > > > +    * firmware has redirected 79 to A53 IRQ 33
+> > > > +    */
+> > > > +
+> > > > +   /* Allocate LCD interrupt resources */
+> > > > +   irq_lcd = platform_get_irq_byname(pdev, "irq_lcd");
+> > > > +   if (irq_lcd < 0) {
+> > > > +           drm_err(&kmb->drm, "irq_lcd not found");
+> > > > +           goto setup_fail;
+> > > > +   }
+> > > > +
+> > > > +   /* Get the optional framebuffer memory resource */
+> > > > +   ret = of_reserved_mem_device_init(drm->dev);
+> > > > +   if (ret && ret != -ENODEV)
+> > > > +           return ret;
+> > > > +
+> > > > +   spin_lock_init(&kmb->irq_lock);
+> > > > +
+> > > > +   kmb->irq_lcd = irq_lcd;
+> > > > +
+> > > > +   return 0;
+> > > > +
+> > > > + setup_fail:
+> > > > +   of_reserved_mem_device_release(drm->dev);
+> > > > +
+> > > > +   return ret;
+> > > > +}
+> > > > +
+> > > > +static const struct drm_mode_config_funcs
+> kmb_mode_config_funcs = {
+> > > > +   .fb_create = drm_gem_fb_create,
+> > > > +   .atomic_check = drm_atomic_helper_check,
+> > > > +   .atomic_commit = drm_atomic_helper_commit,
+> > > > +};
+> > > > +
+> > > > +static int kmb_setup_mode_config(struct drm_device *drm)
+> > > > +{
+> > > > +   int ret;
+> > > > +   struct kmb_drm_private *kmb = to_kmb(drm);
+> > > > +
+> > > > +   ret = drmm_mode_config_init(drm);
+> > > > +   if (ret)
+> > > > +           return ret;
+> > > > +   drm->mode_config.min_width = KMB_MIN_WIDTH;
+> > > > +   drm->mode_config.min_height = KMB_MIN_HEIGHT;
+> > > > +   drm->mode_config.max_width = KMB_MAX_WIDTH;
+> > > > +   drm->mode_config.max_height = KMB_MAX_HEIGHT;
+> > > > +   drm->mode_config.funcs = &kmb_mode_config_funcs;
+> > > > +
+> > > > +   ret = kmb_setup_crtc(drm);
+> > > > +   if (ret < 0) {
+> > > > +           drm_err(drm, "failed to create crtc\n");
+> > > > +           return ret;
+> > > > +   }
+> > > > +
+> > > > +   /* Initialize MIPI DSI */
+> > > > +   ret = kmb_dsi_init(drm, adv_bridge);
+> > >
+> > > Split up isn't correct here, this won't compile since the dsi code isn't
+> > > in this patch yet. So you need to have this ordered the other way round.
+> > >
+> > > > +   if (ret) {
+> > > > +           drm_err(drm, "failed to initialize DSI\n");
+> > > > +           return ret;
+> > > > +   }
+> > > > +
+> > > > +   /* Set the CRTC's port so that the encoder component can find it
+> */
+> > > > +   kmb->crtc.port = of_graph_get_port_by_id(drm->dev->of_node,
+> 0);
+> > > > +   ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+> > > > +   if (ret < 0) {
+> > > > +           drm_err(drm, "failed to initialize vblank\n");
+> > > > +           pm_runtime_disable(drm->dev);
+> > > > +           return ret;
+> > > > +   }
+> > > > +
+> > > > +   drm_mode_config_reset(drm);
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > > +static irqreturn_t handle_lcd_irq(struct drm_device *dev)
+> > > > +{
+> > > > +   unsigned long status, val, val1;
+> > > > +   int plane_id, dma0_state, dma1_state;
+> > > > +   struct kmb_drm_private *kmb = to_kmb(dev);
+> > > > +
+> > > > +   status = kmb_read_lcd(kmb, LCD_INT_STATUS);
+> > > > +
+> > > > +   if (status & LCD_INT_EOF) {
+> > > > +           kmb_write_lcd(kmb, LCD_INT_CLEAR, LCD_INT_EOF);
+> > > > +
+> > > > +           /* When disabling/enabling LCD layers, the change takes
+> > > effect
+> > > > +            * immediately and does not wait for EOF (end of frame).
+> > > > +            * When kmb_plane_atomic_disable is called, mark the
+> > > plane as
+> > > > +            * disabled but actually disable the plane when EOF irq is
+> > > > +            * being handled.
+> > > > +            */
+> > > > +           for (plane_id = LAYER_0;
+> > > > +                           plane_id < KMB_MAX_PLANES; plane_id++)
+> > > {
+> > > > +                   if (kmb->plane_status[plane_id].disable) {
+> > > > +                           kmb_clr_bitmask_lcd(kmb,
+> > > > +                                               LCD_LAYERn_DMA_CFG
+> > > > +                                               (plane_id),
+> > > > +
+> > > LCD_DMA_LAYER_ENABLE);
+> > > > +
+> > > > +                           kmb_clr_bitmask_lcd(kmb, LCD_CONTROL,
+> > > > +                                               kmb-
+> > > >plane_status[plane_id].ctrl);
+> > > > +
+> > > > +                           kmb->plane_status[plane_id].disable = false;
+> > > > +                   }
+> > > > +           }
+> > > > +           if (kmb_under_flow) {
+> > > > +                   /* DMA Recovery after underflow */
+> > > > +                   dma0_state = (layer_no == 0) ?
+> > > > +                       LCD_VIDEO0_DMA0_STATE :
+> > > LCD_VIDEO1_DMA0_STATE;
+> > > > +                   dma1_state = (layer_no == 0) ?
+> > > > +                       LCD_VIDEO0_DMA1_STATE :
+> > > LCD_VIDEO1_DMA1_STATE;
+> > > > +
+> > > > +                   do {
+> > > > +                           kmb_write_lcd(kmb, LCD_FIFO_FLUSH, 1);
+> > > > +                           val = kmb_read_lcd(kmb, dma0_state)
+> > > > +                               & LCD_DMA_STATE_ACTIVE;
+> > > > +                           val1 = kmb_read_lcd(kmb, dma1_state)
+> > > > +                               & LCD_DMA_STATE_ACTIVE;
+> > > > +                   } while ((val || val1));
+> > > > +                   /* disable dma */
+> > > > +                   kmb_clr_bitmask_lcd(kmb,
+> > > LCD_LAYERn_DMA_CFG(layer_no),
+> > > > +                                       LCD_DMA_LAYER_ENABLE);
+> > > > +                   kmb_write_lcd(kmb, LCD_FIFO_FLUSH, 1);
+> > > > +                   kmb_flush_done = 1;
+> > > > +                   kmb_under_flow = 0;
+> > > > +           }
+> > > > +   }
+> > > > +
+> > > > +   if (status & LCD_INT_LINE_CMP) {
+> > > > +           /* clear line compare interrupt */
+> > > > +           kmb_write_lcd(kmb, LCD_INT_CLEAR, LCD_INT_LINE_CMP);
+> > > > +   }
+> > > > +
+> > > > +   if (status & LCD_INT_VERT_COMP) {
+> > > > +           /* Read VSTATUS */
+> > > > +           val = kmb_read_lcd(kmb, LCD_VSTATUS);
+> > > > +           val = (val & LCD_VSTATUS_VERTICAL_STATUS_MASK);
+> > > > +           switch (val) {
+> > > > +           case LCD_VSTATUS_COMPARE_VSYNC:
+> > > > +                   /* Clear vertical compare interrupt */
+> > > > +                   kmb_write_lcd(kmb, LCD_INT_CLEAR,
+> > > LCD_INT_VERT_COMP);
+> > > > +                   if (kmb_flush_done) {
+> > > > +                           kmb_set_bitmask_lcd(kmb,
+> > > > +                                               LCD_LAYERn_DMA_CFG
+> > > > +                                               (layer_no),
+> > > > +
+> > > LCD_DMA_LAYER_ENABLE);
+> > > > +                           kmb_flush_done = 0;
+> > > > +                   }
+> > > > +                   drm_handle_vblank(dev, 0);
+> > >
+> > > Would be nice to use the new-style drm_crtc_handle_vblank here.
+> > >
+> > > > +                   break;
+> > > > +           case LCD_VSTATUS_COMPARE_BACKPORCH:
+> > > > +           case LCD_VSTATUS_COMPARE_ACTIVE:
+> > > > +           case LCD_VSTATUS_COMPARE_FRONT_PORCH:
+> > > > +                   kmb_write_lcd(kmb, LCD_INT_CLEAR,
+> > > LCD_INT_VERT_COMP);
+> > > > +                   break;
+> > > > +           }
+> > > > +   }
+> > > > +   if (status & LCD_INT_DMA_ERR) {
+> > > > +           val =
+> > > > +               (status & LCD_INT_DMA_ERR &
+> > > > +                kmb_read_lcd(kmb, LCD_INT_ENABLE));
+> > > > +           /* LAYER0 - VL0 */
+> > > > +           if (val & (LAYER0_DMA_FIFO_UNDERFLOW |
+> > > > +                      LAYER0_DMA_CB_FIFO_UNDERFLOW |
+> > > > +                      LAYER0_DMA_CR_FIFO_UNDERFLOW)) {
+> > > > +                   kmb_under_flow++;
+> > > > +                   drm_info(&kmb->drm,
+> > > > +                            "!LAYER0:VL0 DMA UNDERFLOW val =
+> > > 0x%lx,under_flow=%d",
+> > > > +                        val, kmb_under_flow);
+> > > > +                   /* disable underflow interrupt */
+> > > > +                   kmb_clr_bitmask_lcd(kmb, LCD_INT_ENABLE,
+> > > > +                                       LAYER0_DMA_FIFO_UNDERFLOW
+> > > |
+> > > > +
+> > > LAYER0_DMA_CB_FIFO_UNDERFLOW |
+> > > > +
+> > > LAYER0_DMA_CR_FIFO_UNDERFLOW);
+> > > > +                   kmb_set_bitmask_lcd(kmb, LCD_INT_CLEAR,
+> > > > +
+> > > LAYER0_DMA_CB_FIFO_UNDERFLOW |
+> > > > +                                       LAYER0_DMA_FIFO_UNDERFLOW
+> > > |
+> > > > +
+> > > LAYER0_DMA_CR_FIFO_UNDERFLOW);
+> > > > +                   /* disable auto restart mode */
+> > > > +                   kmb_clr_bitmask_lcd(kmb,
+> > > LCD_LAYERn_DMA_CFG(0),
+> > > > +
+> > > LCD_DMA_LAYER_CONT_PING_PONG_UPDATE);
+> > > > +                   layer_no = 0;
+> > > > +           }
+> > > > +
+> > > > +           if (val & LAYER0_DMA_FIFO_OVERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER0:VL0 DMA OVERFLOW val = 0x%lx",
+> > > val);
+> > > > +           if (val & LAYER0_DMA_CB_FIFO_OVERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER0:VL0 DMA CB OVERFLOW val =
+> > > 0x%lx", val);
+> > > > +           if (val & LAYER0_DMA_CR_FIFO_OVERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER0:VL0 DMA CR OVERFLOW val =
+> > > 0x%lx", val);
+> > > > +
+> > > > +           /* LAYER1 - VL1 */
+> > > > +           if (val & (LAYER1_DMA_FIFO_UNDERFLOW |
+> > > > +                      LAYER1_DMA_CB_FIFO_UNDERFLOW |
+> > > > +                      LAYER1_DMA_CR_FIFO_UNDERFLOW)) {
+> > > > +                   kmb_under_flow++;
+> > > > +                   drm_info(&kmb->drm,
+> > > > +                            "!LAYER1:VL1 DMA UNDERFLOW val =
+> > > 0x%lx, under_flow=%d",
+> > > > +                        val, kmb_under_flow);
+> > > > +                   /* disable underflow interrupt */
+> > > > +                   kmb_clr_bitmask_lcd(kmb, LCD_INT_ENABLE,
+> > > > +                                       LAYER1_DMA_FIFO_UNDERFLOW
+> > > |
+> > > > +
+> > > LAYER1_DMA_CB_FIFO_UNDERFLOW |
+> > > > +
+> > > LAYER1_DMA_CR_FIFO_UNDERFLOW);
+> > > > +                   kmb_set_bitmask_lcd(kmb, LCD_INT_CLEAR,
+> > > > +
+> > > LAYER1_DMA_CB_FIFO_UNDERFLOW |
+> > > > +                                       LAYER1_DMA_FIFO_UNDERFLOW
+> > > |
+> > > > +
+> > > LAYER1_DMA_CR_FIFO_UNDERFLOW);
+> > > > +                   /* disable auto restart mode */
+> > > > +                   kmb_clr_bitmask_lcd(kmb,
+> > > LCD_LAYERn_DMA_CFG(1),
+> > > > +
+> > > LCD_DMA_LAYER_CONT_PING_PONG_UPDATE);
+> > > > +                   layer_no = 1;
+> > > > +           }
+> > > > +
+> > > > +           /* LAYER1 - VL1 */
+> > > > +           if (val & LAYER1_DMA_FIFO_OVERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER1:VL1 DMA OVERFLOW val = 0x%lx",
+> > > val);
+> > > > +           if (val & LAYER1_DMA_CB_FIFO_OVERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER1:VL1 DMA CB OVERFLOW val =
+> > > 0x%lx", val);
+> > > > +           if (val & LAYER1_DMA_CR_FIFO_OVERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER1:VL1 DMA CR OVERFLOW val =
+> > > 0x%lx", val);
+> > > > +
+> > > > +           /* LAYER2 - GL0 */
+> > > > +           if (val & LAYER2_DMA_FIFO_UNDERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER2:GL0 DMA UNDERFLOW val =
+> > > 0x%lx", val);
+> > > > +           if (val & LAYER2_DMA_FIFO_OVERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER2:GL0 DMA OVERFLOW val = 0x%lx",
+> > > val);
+> > > > +
+> > > > +           /* LAYER3 - GL1 */
+> > > > +           if (val & LAYER3_DMA_FIFO_UNDERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER3:GL1 DMA UNDERFLOW val =
+> > > 0x%lx", val);
+> > > > +           if (val & LAYER3_DMA_FIFO_UNDERFLOW)
+> > > > +                   drm_dbg(&kmb->drm,
+> > > > +                           "LAYER3:GL1 DMA OVERFLOW val = 0x%lx",
+> > > val);
+> > > > +   }
+> > > > +
+> > > > +   if (status & LCD_INT_LAYER) {
+> > > > +           /* Clear layer interrupts */
+> > > > +           kmb_write_lcd(kmb, LCD_INT_CLEAR, LCD_INT_LAYER);
+> > > > +   }
+> > > > +
+> > > > +   /* Clear all interrupts */
+> > > > +   kmb_set_bitmask_lcd(kmb, LCD_INT_CLEAR, 1);
+> > > > +   return IRQ_HANDLED;
+> > > > +}
+> > > > +
+> > > > +/* IRQ handler */
+> > > > +static irqreturn_t kmb_isr(int irq, void *arg)
+> > > > +{
+> > > > +   struct drm_device *dev = (struct drm_device *)arg;
+> > > > +
+> > > > +   handle_lcd_irq(dev);
+> > > > +   return IRQ_HANDLED;
+> > > > +}
+> > > > +
+> > > > +static void kmb_irq_reset(struct drm_device *drm)
+> > > > +{
+> > > > +   kmb_write_lcd(to_kmb(drm), LCD_INT_CLEAR, 0xFFFF);
+> > > > +   kmb_write_lcd(to_kmb(drm), LCD_INT_ENABLE, 0);
+> > > > +}
+> > > > +
+> > > > +DEFINE_DRM_GEM_CMA_FOPS(fops);
+> > > > +
+> > > > +static struct drm_driver kmb_driver = {
+> > > > +   .driver_features = DRIVER_GEM |
+> > > > +       DRIVER_MODESET | DRIVER_ATOMIC,
+> > > > +   .irq_handler = kmb_isr,
+> > > > +   .irq_preinstall = kmb_irq_reset,
+> > > > +   .irq_uninstall = kmb_irq_reset,
+> > > > +   /* GEM Operations */
+> > > > +   .fops = &fops,
+> > > > +   DRM_GEM_CMA_DRIVER_OPS_VMAP,
+> > > > +   .name = "kmb-drm",
+> > > > +   .desc = "KEEMBAY DISPLAY DRIVER ",
+> > > > +   .date = "20190122",
+> > > > +   .major = 1,
+> > > > +   .minor = 0,
+> > > > +};
+> > > > +
+> > > > +static int kmb_remove(struct platform_device *pdev)
+> > > > +{
+> > > > +   struct device *dev = &pdev->dev;
+> > > > +   struct drm_device *drm = dev_get_drvdata(dev);
+> > > > +   struct kmb_drm_private *kmb = to_kmb(drm);
+> > > > +
+> > > > +   drm_dev_unregister(drm);
+> > > > +   drm_kms_helper_poll_fini(drm);
+> > > > +   of_node_put(kmb->crtc.port);
+> > > > +   kmb->crtc.port = NULL;
+> > > > +   pm_runtime_get_sync(drm->dev);
+> > > > +   drm_irq_uninstall(drm);
+> > > > +   pm_runtime_put_sync(drm->dev);
+> > > > +   pm_runtime_disable(drm->dev);
+> > > > +
+> > > > +   of_reserved_mem_device_release(drm->dev);
+> > > > +
+> > > > +   /* Release clks */
+> > > > +   kmb_display_clk_disable();
+> > > > +   clk_put(kmb_clk.clk_lcd);
+> > > > +   clk_put(kmb_clk.clk_mipi);
+> > > > +
+> > > > +   dev_set_drvdata(dev, NULL);
+> > > > +
+> > > > +   /* Unregister DSI host */
+> > > > +   kmb_dsi_host_unregister();
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > > +static int kmb_probe(struct platform_device *pdev)
+> > > > +{
+> > > > +   struct device *dev = get_device(&pdev->dev);
+> > > > +   struct kmb_drm_private *kmb;
+> > > > +   int ret = 0;
+> > > > +
+> > > > +   /* The bridge (ADV 7535) will return -EPROBE_DEFER until it
+> > > > +    * has a mipi_dsi_host to register its device to. So, we
+> > > > +    * first register the DSI host during probe time, and then return
+> > > > +    * -EPROBE_DEFER until the bridge is loaded. Probe will be called
+> > > again
+> > > > +    *  and then the rest of the driver initialization can proceed
+> > > > +    *  afterwards and the bridge can be successfully attached.
+> > > > +    */
+> > > > +   adv_bridge = kmb_dsi_host_bridge_init(dev);
+> > > > +
+> > > > +   if (adv_bridge == ERR_PTR(-EPROBE_DEFER)) {
+> > > > +           return -EPROBE_DEFER;
+> > > > +   } else if (IS_ERR(adv_bridge)) {
+> > > > +           DRM_ERROR("probe failed to initialize DSI host bridge\n");
+> > > > +           return PTR_ERR(adv_bridge);
+> > > > +   }
+> > > > +
+> > > > +   /* Create DRM device */
+> > > > +   kmb = devm_drm_dev_alloc(dev, &kmb_driver,
+> > > > +                            struct kmb_drm_private, drm);
+> > > > +   if (IS_ERR(kmb))
+> > > > +           return PTR_ERR(kmb);
+> > > > +
+> > > > +   dev_set_drvdata(dev, &kmb->drm);
+> > > > +
+> > > > +   ret = kmb_hw_init(&kmb->drm, 0);
+> > > > +   if (ret)
+> > > > +           goto err_free1;
+> > > > +
+> > > > +   ret = kmb_setup_mode_config(&kmb->drm);
+> > > > +   if (ret)
+> > > > +           goto err_free;
+> > > > +
+> > > > +   ret = drm_irq_install(&kmb->drm, kmb->irq_lcd);
+> > > > +   if (ret < 0) {
+> > > > +           drm_err(&kmb->drm, "failed to install IRQ handler\n");
+> > > > +           goto err_irq;
+> > > > +   }
+> > > > +
+> > > > +   drm_kms_helper_poll_init(&kmb->drm);
+> > > > +
+> > > > +   /* Register graphics device with the kernel */
+> > > > +   ret = drm_dev_register(&kmb->drm, 0);
+> > > > +   if (ret)
+> > > > +           goto err_register;
+> > > > +
+> > > > +   return 0;
+> > > > +
+> > > > + err_register:
+> > > > +   drm_kms_helper_poll_fini(&kmb->drm);
+> > > > + err_irq:
+> > > > +   pm_runtime_disable(kmb->drm.dev);
+> > > > + err_free:
+> > > > +   drm_crtc_cleanup(&kmb->crtc);
+> > > > +   drm_mode_config_cleanup(&kmb->drm);
+> > > > + err_free1:
+> > > > +   dev_set_drvdata(dev, NULL);
+> > > > +   kmb_dsi_host_unregister();
+> > > > +
+> > > > +   return ret;
+> > > > +}
+> > > > +
+> > > > +static const struct of_device_id kmb_of_match[] = {
+> > > > +   {.compatible = "intel,kmb_display"},
+> > > > +   {},
+> > > > +};
+> > > > +
+> > > > +MODULE_DEVICE_TABLE(of, kmb_of_match);
+> > > > +
+> > > > +static int __maybe_unused kmb_pm_suspend(struct device *dev)
+> > > > +{
+> > > > +   struct drm_device *drm = dev_get_drvdata(dev);
+> > > > +   struct kmb_drm_private *kmb = drm ? to_kmb(drm) : NULL;
+> > > > +
+> > > > +   drm_kms_helper_poll_disable(drm);
+> > > > +
+> > > > +   kmb->state = drm_atomic_helper_suspend(drm);
+> > > > +   if (IS_ERR(kmb->state)) {
+> > > > +           drm_kms_helper_poll_enable(drm);
+> > > > +           return PTR_ERR(kmb->state);
+> > > > +   }
+> > > > +
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > > +static int __maybe_unused kmb_pm_resume(struct device *dev)
+> > > > +{
+> > > > +   struct drm_device *drm = dev_get_drvdata(dev);
+> > > > +   struct kmb_drm_private *kmb = drm ? to_kmb(drm) : NULL;
+> > > > +
+> > > > +   if (!kmb)
+> > > > +           return 0;
+> > > > +
+> > > > +   drm_atomic_helper_resume(drm, kmb->state);
+> > > > +   drm_kms_helper_poll_enable(drm);
+> > > > +
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > > +static SIMPLE_DEV_PM_OPS(kmb_pm_ops, kmb_pm_suspend,
+> > > kmb_pm_resume);
+> > > > +
+> > > > +static struct platform_driver kmb_platform_driver = {
+> > > > +   .probe = kmb_probe,
+> > > > +   .remove = kmb_remove,
+> > > > +   .driver = {
+> > > > +           .name = "kmb-drm",
+> > > > +           .pm = &kmb_pm_ops,
+> > > > +           .of_match_table = kmb_of_match,
+> > > > +   },
+> > > > +};
+> > > > +
+> > > > +module_platform_driver(kmb_platform_driver);
+> > > > +
+> > > > +MODULE_AUTHOR("Intel Corporation");
+> > > > +MODULE_DESCRIPTION("Keembay Display driver");
+> > > > +MODULE_LICENSE("GPL v2");
+> > > > diff --git a/drivers/gpu/drm/kmb/kmb_drv.h
+> > > b/drivers/gpu/drm/kmb/kmb_drv.h
+> > > > new file mode 100644
+> > > > index 0000000..352f2d2
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/kmb/kmb_drv.h
+> > > > @@ -0,0 +1,170 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0-only
+> > > > + *
+> > > > + * Copyright (c) 2018-2020 Intel Corporation
+> > > > + */
+> > > > +
+> > > > +#ifndef __KMB_DRV_H__
+> > > > +#define __KMB_DRV_H__
+> > > > +
+> > > > +#include "kmb_plane.h"
+> > > > +#include "kmb_regs.h"
+> > > > +
+> > > > +#define KMB_MAX_WIDTH                      1920 /*max width in pixels
+> > > */
+> > > > +#define KMB_MAX_HEIGHT                     1080 /*max height in
+> > > pixels */
+> > > > +#define KMB_MIN_WIDTH                   1920 /*max width in pixels */
+> > > > +#define KMB_MIN_HEIGHT                  1080 /*max height in pixels */
+> > > > +#define KMB_LCD_DEFAULT_CLK                200000000
+> > > > +#define KMB_MIPI_DEFAULT_CLK               24000000
+> > > > +#define KMB_MIPI_DEFAULT_CFG_CLK   24000000
+> > > > +#define KMB_SYS_CLK_MHZ                    500
+> > > > +
+> > > > +#define ICAM_MMIO          0x3b100000
+> > > > +#define ICAM_LCD_OFFSET            0x1080
+> > > > +#define ICAM_MMIO_SIZE             0x2000
+> > > > +
+> > > > +struct kmb_drm_private {
+> > > > +   struct drm_device               drm;
+> > > > +   void __iomem                    *lcd_mmio;
+> > > > +   void __iomem                    *mipi_mmio;
+> > > > +   void __iomem                    *msscam_mmio;
+> > > > +   struct clk                      *clk;
+> > > > +   struct drm_crtc                 crtc;
+> > > > +   struct kmb_plane                *plane;
+> > > > +   struct drm_atomic_state         *state;
+> > > > +   spinlock_t                      irq_lock;
+> > > > +   int                             irq_lcd;
+> > > > +   int                             irq_mipi;
+> > > > +   int                             sys_clk_mhz;
+> > > > +   dma_addr_t                      fb_addr;
+> > > > +   struct layer_status             plane_status[KMB_MAX_PLANES];
+> > > > +};
+> > > > +
+> > > > +struct kmb_clock {
+> > > > +   struct clk *clk_lcd;
+> > > > +   struct clk *clk_mipi;
+> > > > +   struct clk *clk_mipi_ecfg;
+> > > > +   struct clk *clk_mipi_cfg;
+> > > > +   struct clk *clk_pll0;
+> > > > +};
+> > > > +
+> > > > +static inline struct kmb_drm_private *to_kmb(const struct
+> drm_device
+> > > *dev)
+> > > > +{
+> > > > +   return container_of(dev, struct kmb_drm_private, drm);
+> > > > +}
+> > > > +
+> > > > +static inline struct kmb_drm_private *crtc_to_kmb_priv(const
+> struct
+> > > drm_crtc *x)
+> > > > +{
+> > > > +   return container_of(x, struct kmb_drm_private, crtc);
+> > > > +}
+> > > > +
+> > > > +struct blt_layer_config {
+> > > > +   unsigned char layer_format;
+> > > > +};
+> > > > +
+> > > > +static inline void kmb_write_lcd(struct kmb_drm_private *dev_p,
+> > > > +                            unsigned int reg, u32 value)
+> > > > +{
+> > > > +   writel(value, (dev_p->lcd_mmio + reg));
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_write_mipi(struct kmb_drm_private *dev_p,
+> > > > +                             unsigned int reg, u32 value)
+> > > > +{
+> > > > +   writel(value, (dev_p->mipi_mmio + reg));
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_write_msscam(struct kmb_drm_private
+> *dev_p,
+> > > > +                               unsigned int reg, u32 value)
+> > > > +{
+> > > > +   writel(value, (dev_p->msscam_mmio + reg));
+> > > > +}
+> > > > +
+> > > > +static inline u32 kmb_read_msscam(struct kmb_drm_private
+> *dev_p,
+> > > > +                             unsigned int reg)
+> > > > +{
+> > > > +   return readl(dev_p->msscam_mmio + reg);
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_set_bitmask_msscam(struct
+> kmb_drm_private
+> > > *dev_p,
+> > > > +                                     unsigned int reg, u32 mask)
+> > > > +{
+> > > > +   u32 reg_val = kmb_read_msscam(dev_p, reg);
+> > > > +
+> > > > +   kmb_write_msscam(dev_p, reg, (reg_val | mask));
+> > > > +}
+> > > > +
+> > > > +static inline u32 kmb_read_lcd(struct kmb_drm_private *dev_p,
+> > > unsigned int reg)
+> > > > +{
+> > > > +   return readl(dev_p->lcd_mmio + reg);
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_set_bitmask_lcd(struct kmb_drm_private
+> > > *dev_p,
+> > > > +                                  unsigned int reg, u32 mask)
+> > > > +{
+> > > > +   u32 reg_val = kmb_read_lcd(dev_p, reg);
+> > > > +
+> > > > +   kmb_write_lcd(dev_p, reg, (reg_val | mask));
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_clr_bitmask_lcd(struct kmb_drm_private
+> *dev_p,
+> > > > +                                  unsigned int reg, u32 mask)
+> > > > +{
+> > > > +   u32 reg_val = kmb_read_lcd(dev_p, reg);
+> > > > +
+> > > > +   kmb_write_lcd(dev_p, reg, (reg_val & (~mask)));
+> > > > +}
+> > > > +
+> > > > +static inline u32 kmb_read_mipi(struct kmb_drm_private *dev_p,
+> > > unsigned int reg)
+> > > > +{
+> > > > +   return readl(dev_p->mipi_mmio + reg);
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_write_bits_mipi(struct kmb_drm_private
+> *dev_p,
+> > > > +                                  unsigned int reg, u32 offset,
+> > > > +                                  u32 num_bits, u32 value)
+> > > > +{
+> > > > +   u32 reg_val = kmb_read_mipi(dev_p, reg);
+> > > > +   u32 mask = (1 << num_bits) - 1;
+> > > > +
+> > > > +   value &= mask;
+> > > > +   mask <<= offset;
+> > > > +   reg_val &= (~mask);
+> > > > +   reg_val |= (value << offset);
+> > > > +   kmb_write_mipi(dev_p, reg, reg_val);
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_set_bit_mipi(struct kmb_drm_private
+> *dev_p,
+> > > > +                               unsigned int reg, u32 offset)
+> > > > +{
+> > > > +   u32 reg_val = kmb_read_mipi(dev_p, reg);
+> > > > +
+> > > > +   kmb_write_mipi(dev_p, reg, reg_val | (1 << offset));
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_clr_bit_mipi(struct kmb_drm_private *dev_p,
+> > > > +                               unsigned int reg, u32 offset)
+> > > > +{
+> > > > +   u32 reg_val = kmb_read_mipi(dev_p, reg);
+> > > > +
+> > > > +   kmb_write_mipi(dev_p, reg, reg_val & (~(1 << offset)));
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_set_bitmask_mipi(struct kmb_drm_private
+> > > *dev_p,
+> > > > +                                   unsigned int reg, u32 mask)
+> > > > +{
+> > > > +   u32 reg_val = kmb_read_mipi(dev_p, reg);
+> > > > +
+> > > > +   kmb_write_mipi(dev_p, reg, (reg_val | mask));
+> > > > +}
+> > > > +
+> > > > +static inline void kmb_clr_bitmask_mipi(struct kmb_drm_private
+> > > *dev_p,
+> > > > +                                   unsigned int reg, u32 mask)
+> > > > +{
+> > > > +   u32 reg_val = kmb_read_mipi(dev_p, reg);
+> > > > +
+> > > > +   kmb_write_mipi(dev_p, reg, (reg_val & (~mask)));
+> > > > +}
+> > > > +
+> > > > +int kmb_setup_crtc(struct drm_device *dev);
+> > > > +void kmb_set_scanout(struct kmb_drm_private *lcd);
+> > > > +#endif /* __KMB_DRV_H__ */
+> > > > diff --git a/drivers/gpu/drm/kmb/kmb_plane.c
+> > > b/drivers/gpu/drm/kmb/kmb_plane.c
+> > > > new file mode 100644
+> > > > index 0000000..d1e7786
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/kmb/kmb_plane.c
+> > > > @@ -0,0 +1,480 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > > +/*
+> > > > + * Copyright (c) 2018-2020 Intel Corporation
+> > > > + */
+> > > > +
+> > > > +#include <drm/drm_atomic.h>
+> > > > +#include <drm/drm_atomic_helper.h>
+> > > > +#include <drm/drm_crtc.h>
+> > > > +#include <drm/drm_crtc_helper.h>
+> > > > +#include <drm/drm_fb_cma_helper.h>
+> > > > +#include <drm/drm_fb_helper.h>
+> > > > +#include <drm/drm_fourcc.h>
+> > > > +#include <drm/drm_gem_cma_helper.h>
+> > > > +#include <drm/drm_managed.h>
+> > > > +#include <drm/drm_plane_helper.h>
+> > > > +
+> > > > +#include "kmb_drv.h"
+> > > > +#include "kmb_plane.h"
+> > > > +#include "kmb_regs.h"
+> > > > +
+> > > > +const u32 layer_irqs[] = {
+> > > > +   LCD_INT_VL0,
+> > > > +   LCD_INT_VL1,
+> > > > +   LCD_INT_GL0,
+> > > > +   LCD_INT_GL1
+> > > > +};
+> > > > +
+> > > > +static unsigned int check_pixel_format(struct drm_plane *plane, u32
+> > > format)
+> > > > +{
+> > > > +   int i;
+> > > > +
+> > > > +   for (i = 0; i < plane->format_count; i++) {
+> > > > +           if (plane->format_types[i] == format)
+> > > > +                   return 0;
+> > > > +   }
+> > > > +   return -EINVAL;
+> > > > +}
+> > > > +
+> > > > +static int kmb_plane_atomic_check(struct drm_plane *plane,
+> > > > +                             struct drm_plane_state *state)
+> > > > +{
+> > > > +   struct drm_framebuffer *fb;
+> > > > +   int ret;
+> > > > +   struct drm_crtc_state *crtc_state;
+> > > > +   bool can_position;
+> > > > +
+> > > > +   fb = state->fb;
+> > > > +   if (!fb || !state->crtc)
+> > > > +           return 0;
+> > > > +
+> > > > +   ret = check_pixel_format(plane, fb->format->format);
+> > > > +   if (ret)
+> > > > +           return ret;
+> > > > +
+> > > > +   if (state->crtc_w > KMB_MAX_WIDTH || state->crtc_h >
+> > > KMB_MAX_HEIGHT)
+> > > > +           return -EINVAL;
+> > > > +   if (state->crtc_w < KMB_MIN_WIDTH || state->crtc_h <
+> > > KMB_MIN_HEIGHT)
+> > > > +           return -EINVAL;
+> > > > +   can_position = (plane->type == DRM_PLANE_TYPE_OVERLAY);
+> > > > +   crtc_state =
+> > > > +           drm_atomic_get_existing_crtc_state(state->state, state-
+> > > >crtc);
+> > > > +   return drm_atomic_helper_check_plane_state(state, crtc_state,
+> > > > +
+> > > DRM_PLANE_HELPER_NO_SCALING,
+> > > > +
+> > > DRM_PLANE_HELPER_NO_SCALING,
+> > > > +                                            can_position, true);
+> > > > +}
+> > > > +
+> > > > +static void kmb_plane_atomic_disable(struct drm_plane *plane,
+> > > > +                                struct drm_plane_state *state)
+> > > > +{
+> > > > +   struct kmb_plane *kmb_plane = to_kmb_plane(plane);
+> > > > +   int plane_id = kmb_plane->id;
+> > > > +   struct kmb_drm_private *kmb;
+> > > > +
+> > > > +   kmb = to_kmb(plane->dev);
+> > > > +
+> > > > +   switch (plane_id) {
+> > > > +   case LAYER_0:
+> > > > +           kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL1_ENABLE;
+> > > > +           break;
+> > > > +   case LAYER_1:
+> > > > +           kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL2_ENABLE;
+> > > > +           break;
+> > > > +   case LAYER_2:
+> > > > +           kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL1_ENABLE;
+> > > > +           break;
+> > > > +   case LAYER_3:
+> > > > +           kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL2_ENABLE;
+> > > > +           break;
+> > > > +   }
+> > > > +
+> > > > +   kmb->plane_status[plane_id].disable = true;
+> > > > +}
+> > > > +
+> > > > +unsigned int get_pixel_format(u32 format)
+> > > > +{
+> > > > +   unsigned int val = 0;
+> > > > +
+> > > > +   switch (format) {
+> > > > +           /* planar formats */
+> > > > +   case DRM_FORMAT_YUV444:
+> > > > +           val = LCD_LAYER_FORMAT_YCBCR444PLAN |
+> > > LCD_LAYER_PLANAR_STORAGE;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_YVU444:
+> > > > +           val = LCD_LAYER_FORMAT_YCBCR444PLAN |
+> > > LCD_LAYER_PLANAR_STORAGE
+> > > > +               | LCD_LAYER_CRCB_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_YUV422:
+> > > > +           val = LCD_LAYER_FORMAT_YCBCR422PLAN |
+> > > LCD_LAYER_PLANAR_STORAGE;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_YVU422:
+> > > > +           val = LCD_LAYER_FORMAT_YCBCR422PLAN |
+> > > LCD_LAYER_PLANAR_STORAGE
+> > > > +               | LCD_LAYER_CRCB_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_YUV420:
+> > > > +           val = LCD_LAYER_FORMAT_YCBCR420PLAN |
+> > > LCD_LAYER_PLANAR_STORAGE;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_YVU420:
+> > > > +           val = LCD_LAYER_FORMAT_YCBCR420PLAN |
+> > > LCD_LAYER_PLANAR_STORAGE
+> > > > +               | LCD_LAYER_CRCB_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_NV12:
+> > > > +           val = LCD_LAYER_FORMAT_NV12 |
+> > > LCD_LAYER_PLANAR_STORAGE;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_NV21:
+> > > > +           val = LCD_LAYER_FORMAT_NV12 |
+> > > LCD_LAYER_PLANAR_STORAGE
+> > > > +               | LCD_LAYER_CRCB_ORDER;
+> > > > +           break;
+> > > > +           /* packed formats */
+> > > > +           /* looks hw requires B & G to be swapped when RGB */
+> > > > +   case DRM_FORMAT_RGB332:
+> > > > +           val = LCD_LAYER_FORMAT_RGB332 |
+> > > LCD_LAYER_BGR_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_XBGR4444:
+> > > > +           val = LCD_LAYER_FORMAT_RGBX4444;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_ARGB4444:
+> > > > +           val = LCD_LAYER_FORMAT_RGBA4444 |
+> > > LCD_LAYER_BGR_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_ABGR4444:
+> > > > +           val = LCD_LAYER_FORMAT_RGBA4444;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_XRGB1555:
+> > > > +           val = LCD_LAYER_FORMAT_XRGB1555 |
+> > > LCD_LAYER_BGR_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_XBGR1555:
+> > > > +           val = LCD_LAYER_FORMAT_XRGB1555;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_ARGB1555:
+> > > > +           val = LCD_LAYER_FORMAT_RGBA1555 |
+> > > LCD_LAYER_BGR_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_ABGR1555:
+> > > > +           val = LCD_LAYER_FORMAT_RGBA1555;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_RGB565:
+> > > > +           val = LCD_LAYER_FORMAT_RGB565 |
+> > > LCD_LAYER_BGR_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_BGR565:
+> > > > +           val = LCD_LAYER_FORMAT_RGB565;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_RGB888:
+> > > > +           val = LCD_LAYER_FORMAT_RGB888 |
+> > > LCD_LAYER_BGR_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_BGR888:
+> > > > +           val = LCD_LAYER_FORMAT_RGB888;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_XRGB8888:
+> > > > +           val = LCD_LAYER_FORMAT_RGBX8888 |
+> > > LCD_LAYER_BGR_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_XBGR8888:
+> > > > +           val = LCD_LAYER_FORMAT_RGBX8888;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_ARGB8888:
+> > > > +           val = LCD_LAYER_FORMAT_RGBA8888 |
+> > > LCD_LAYER_BGR_ORDER;
+> > > > +           break;
+> > > > +   case DRM_FORMAT_ABGR8888:
+> > > > +           val = LCD_LAYER_FORMAT_RGBA8888;
+> > > > +           break;
+> > > > +   }
+> > > > +   DRM_INFO_ONCE("%s : %d format=0x%x val=0x%x\n",
+> > > > +                 __func__, __LINE__, format, val);
+> > > > +   return val;
+> > > > +}
+> > > > +
+> > > > +unsigned int get_bits_per_pixel(const struct drm_format_info
+> *format)
+> > > > +{
+> > > > +   u32 bpp = 0;
+> > > > +   unsigned int val = 0;
+> > > > +
+> > > > +   if (format->num_planes > 1) {
+> > > > +           val = LCD_LAYER_8BPP;
+> > > > +           return val;
+> > > > +   }
+> > > > +
+> > > > +   bpp += 8 * format->cpp[0];
+> > > > +
+> > > > +   switch (bpp) {
+> > > > +   case 8:
+> > > > +           val = LCD_LAYER_8BPP;
+> > > > +           break;
+> > > > +   case 16:
+> > > > +           val = LCD_LAYER_16BPP;
+> > > > +           break;
+> > > > +   case 24:
+> > > > +           val = LCD_LAYER_24BPP;
+> > > > +           break;
+> > > > +   case 32:
+> > > > +           val = LCD_LAYER_32BPP;
+> > > > +           break;
+> > > > +   }
+> > > > +
+> > > > +   DRM_DEBUG("bpp=%d val=0x%x\n", bpp, val);
+> > > > +   return val;
+> > > > +}
+> > > > +
+> > > > +static void config_csc(struct kmb_drm_private *kmb, int plane_id)
+> > > > +{
+> > > > +   /* YUV to RGB conversion using the fixed matrix csc_coef_lcd */
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_COEFF11(plane_id),
+> > > csc_coef_lcd[0]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_COEFF12(plane_id),
+> > > csc_coef_lcd[1]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_COEFF13(plane_id),
+> > > csc_coef_lcd[2]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_COEFF21(plane_id),
+> > > csc_coef_lcd[3]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_COEFF22(plane_id),
+> > > csc_coef_lcd[4]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_COEFF23(plane_id),
+> > > csc_coef_lcd[5]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_COEFF31(plane_id),
+> > > csc_coef_lcd[6]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_COEFF32(plane_id),
+> > > csc_coef_lcd[7]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_COEFF33(plane_id),
+> > > csc_coef_lcd[8]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_OFF1(plane_id),
+> > > csc_coef_lcd[9]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_OFF2(plane_id),
+> > > csc_coef_lcd[10]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CSC_OFF3(plane_id),
+> > > csc_coef_lcd[11]);
+> > > > +}
+> > > > +
+> > > > +static void kmb_plane_atomic_update(struct drm_plane *plane,
+> > > > +                               struct drm_plane_state *state)
+> > > > +{
+> > > > +   struct drm_framebuffer *fb;
+> > > > +   struct kmb_drm_private *kmb;
+> > > > +   unsigned int width;
+> > > > +   unsigned int height;
+> > > > +   unsigned int dma_len;
+> > > > +   struct kmb_plane *kmb_plane;
+> > > > +   unsigned int dma_cfg;
+> > > > +   unsigned int ctrl = 0, val = 0, out_format = 0;
+> > > > +   unsigned int src_w, src_h, crtc_x, crtc_y;
+> > > > +   unsigned char plane_id;
+> > > > +   int num_planes;
+> > > > +   static dma_addr_t addr[MAX_SUB_PLANES];
+> > > > +
+> > > > +   if (!plane || !plane->state || !state)
+> > > > +           return;
+> > > > +
+> > > > +   fb = plane->state->fb;
+> > > > +   if (!fb)
+> > > > +           return;
+> > > > +   num_planes = fb->format->num_planes;
+> > > > +   kmb_plane = to_kmb_plane(plane);
+> > > > +   plane_id = kmb_plane->id;
+> > > > +
+> > > > +   kmb = to_kmb(plane->dev);
+> > > > +
+> > > > +   if (kmb_under_flow || kmb_flush_done) {
+> > > > +           drm_dbg(&kmb->drm, "plane_update:underflow!!!!
+> > > returning");
+> > > > +           return;
+> > > > +   }
+> > > > +
+> > > > +   src_w = (plane->state->src_w >> 16);
+> > > > +   src_h = plane->state->src_h >> 16;
+> > > > +   crtc_x = plane->state->crtc_x;
+> > > > +   crtc_y = plane->state->crtc_y;
+> > > > +
+> > > > +   drm_dbg(&kmb->drm,
+> > > > +           "src_w=%d src_h=%d, fb->format->format=0x%x fb-
+> > > >flags=0x%x\n",
+> > > > +             src_w, src_h, fb->format->format, fb->flags);
+> > > > +
+> > > > +   width = fb->width;
+> > > > +   height = fb->height;
+> > > > +   dma_len = (width * height * fb->format->cpp[0]);
+> > > > +   drm_dbg(&kmb->drm, "dma_len=%d ", dma_len);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_DMA_LEN(plane_id), dma_len);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_DMA_LEN_SHADOW(plane_id),
+> > > dma_len);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_DMA_LINE_VSTRIDE(plane_id),
+> > > > +                 fb->pitches[0]);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_DMA_LINE_WIDTH(plane_id),
+> > > > +                 (width * fb->format->cpp[0]));
+> > > > +
+> > > > +   addr[Y_PLANE] = drm_fb_cma_get_gem_addr(fb, plane->state, 0);
+> > > > +   kmb->fb_addr = addr[Y_PLANE];
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_DMA_START_ADDR(plane_id),
+> > > > +                 addr[Y_PLANE] + fb->offsets[0]);
+> > > > +   val = get_pixel_format(fb->format->format);
+> > > > +   val |= get_bits_per_pixel(fb->format);
+> > > > +   /* Program Cb/Cr for planar formats */
+> > > > +   if (num_planes > 1) {
+> > > > +           kmb_write_lcd(kmb,
+> > > LCD_LAYERn_DMA_CB_LINE_VSTRIDE(plane_id),
+> > > > +                         width * fb->format->cpp[0]);
+> > > > +           kmb_write_lcd(kmb,
+> > > LCD_LAYERn_DMA_CB_LINE_WIDTH(plane_id),
+> > > > +                         (width * fb->format->cpp[0]));
+> > > > +
+> > > > +           addr[U_PLANE] = drm_fb_cma_get_gem_addr(fb, plane-
+> > > >state,
+> > > > +                                                   U_PLANE);
+> > > > +           /* check if Cb/Cr is swapped*/
+> > > > +           if (num_planes == 3 && (val & LCD_LAYER_CRCB_ORDER))
+> > > > +                   kmb_write_lcd(kmb,
+> > > > +
+> > > LCD_LAYERn_DMA_START_CR_ADR(plane_id),
+> > > > +                                   addr[U_PLANE]);
+> > > > +           else
+> > > > +                   kmb_write_lcd(kmb,
+> > > > +
+> > > LCD_LAYERn_DMA_START_CB_ADR(plane_id),
+> > > > +                                   addr[U_PLANE]);
+> > > > +
+> > > > +           if (num_planes == 3) {
+> > > > +                   kmb_write_lcd(kmb,
+> > > > +
+> > > LCD_LAYERn_DMA_CR_LINE_VSTRIDE(plane_id),
+> > > > +                                 ((width) * fb->format->cpp[0]));
+> > > > +
+> > > > +                   kmb_write_lcd(kmb,
+> > > > +
+> > > LCD_LAYERn_DMA_CR_LINE_WIDTH(plane_id),
+> > > > +                                 ((width) * fb->format->cpp[0]));
+> > > > +
+> > > > +                   addr[V_PLANE] = drm_fb_cma_get_gem_addr(fb,
+> > > > +                                                           plane->state,
+> > > > +                                                           V_PLANE);
+> > > > +
+> > > > +                   /* check if Cb/Cr is swapped*/
+> > > > +                   if (val & LCD_LAYER_CRCB_ORDER)
+> > > > +                           kmb_write_lcd(kmb,
+> > > > +
+> > > LCD_LAYERn_DMA_START_CB_ADR(plane_id),
+> > > > +                                         addr[V_PLANE]);
+> > > > +                   else
+> > > > +                           kmb_write_lcd(kmb,
+> > > > +
+> > > LCD_LAYERn_DMA_START_CR_ADR(plane_id),
+> > > > +                                         addr[V_PLANE]);
+> > > > +           }
+> > > > +   }
+> > > > +
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_WIDTH(plane_id), src_w - 1);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_HEIGHT(plane_id), src_h - 1);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_COL_START(plane_id), crtc_x);
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_ROW_START(plane_id), crtc_y);
+> > > > +
+> > > > +   val |= LCD_LAYER_FIFO_100;
+> > > > +
+> > > > +   if (val & LCD_LAYER_PLANAR_STORAGE) {
+> > > > +           val |= LCD_LAYER_CSC_EN;
+> > > > +
+> > > > +           /* Enable CSC if input is planar and output is RGB */
+> > > > +           config_csc(kmb, plane_id);
+> > > > +   }
+> > > > +
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_CFG(plane_id), val);
+> > > > +
+> > > > +   switch (plane_id) {
+> > > > +   case LAYER_0:
+> > > > +           ctrl = LCD_CTRL_VL1_ENABLE;
+> > > > +           break;
+> > > > +   case LAYER_1:
+> > > > +           ctrl = LCD_CTRL_VL2_ENABLE;
+> > > > +           break;
+> > > > +   case LAYER_2:
+> > > > +           ctrl = LCD_CTRL_GL1_ENABLE;
+> > > > +           break;
+> > > > +   case LAYER_3:
+> > > > +           ctrl = LCD_CTRL_GL2_ENABLE;
+> > > > +           break;
+> > > > +   }
+> > > > +
+> > > > +   ctrl |= LCD_CTRL_PROGRESSIVE | LCD_CTRL_TIM_GEN_ENABLE
+> > > > +       | LCD_CTRL_CONTINUOUS | LCD_CTRL_OUTPUT_ENABLED;
+> > > > +
+> > > > +   /* LCD is connected to MIPI on kmb
+> > > > +    * Therefore this bit is required for DSI Tx
+> > > > +    */
+> > > > +   ctrl |= LCD_CTRL_VHSYNC_IDLE_LVL;
+> > > > +
+> > > > +   kmb_set_bitmask_lcd(kmb, LCD_CONTROL, ctrl);
+> > > > +
+> > > > +   /* FIXME no doc on how to set output format,these values are
+> > > > +    * taken from the Myriadx tests
+> > > > +    */
+> > > > +   out_format |= LCD_OUTF_FORMAT_RGB888;
+> > > > +
+> > > > +   /* Leave RGB order,conversion mode and clip mode to default */
+> > > > +   /* do not interleave RGB channels for mipi Tx compatibility */
+> > > > +   out_format |= LCD_OUTF_MIPI_RGB_MODE;
+> > > > +   kmb_write_lcd(kmb, LCD_OUT_FORMAT_CFG, out_format);
+> > > > +
+> > > > +   dma_cfg = LCD_DMA_LAYER_ENABLE |
+> > > LCD_DMA_LAYER_VSTRIDE_EN |
+> > > > +       LCD_DMA_LAYER_CONT_UPDATE |
+> > > LCD_DMA_LAYER_AXI_BURST_16;
+> > > > +
+> > > > +   /* Enable DMA */
+> > > > +   kmb_write_lcd(kmb, LCD_LAYERn_DMA_CFG(plane_id), dma_cfg);
+> > > > +   drm_dbg(&kmb->drm, "dma_cfg=0x%x LCD_DMA_CFG=0x%x\n",
+> > > dma_cfg,
+> > > > +           kmb_read_lcd(kmb, LCD_LAYERn_DMA_CFG(plane_id)));
+> > > > +
+> > > > +   kmb_set_bitmask_lcd(kmb, LCD_INT_CLEAR, LCD_INT_EOF |
+> > > > +                   LCD_INT_DMA_ERR);
+> > > > +   kmb_set_bitmask_lcd(kmb, LCD_INT_ENABLE, LCD_INT_EOF |
+> > > > +                   LCD_INT_DMA_ERR);
+> > > > +}
+> > > > +
+> > > > +static const struct drm_plane_helper_funcs
+> kmb_plane_helper_funcs = {
+> > > > +   .atomic_check = kmb_plane_atomic_check,
+> > > > +   .atomic_update = kmb_plane_atomic_update,
+> > > > +   .atomic_disable = kmb_plane_atomic_disable
+> > > > +};
+> > > > +
+> > > > +void kmb_plane_destroy(struct drm_plane *plane)
+> > > > +{
+> > > > +   struct kmb_plane *kmb_plane = to_kmb_plane(plane);
+> > > > +
+> > > > +   drm_plane_cleanup(plane);
+> > > > +   kfree(kmb_plane);
+> > > > +}
+> > > > +
+> > > > +static const struct drm_plane_funcs kmb_plane_funcs = {
+> > > > +   .update_plane = drm_atomic_helper_update_plane,
+> > > > +   .disable_plane = drm_atomic_helper_disable_plane,
+> > > > +   .destroy = kmb_plane_destroy,
+> > > > +   .reset = drm_atomic_helper_plane_reset,
+> > > > +   .atomic_duplicate_state =
+> > > drm_atomic_helper_plane_duplicate_state,
+> > > > +   .atomic_destroy_state =
+> drm_atomic_helper_plane_destroy_state,
+> > > > +};
+> > > > +
+> > > > +struct kmb_plane *kmb_plane_init(struct drm_device *drm)
+> > > > +{
+> > > > +   struct kmb_drm_private *kmb = to_kmb(drm);
+> > > > +   struct kmb_plane *plane = NULL;
+> > > > +   struct kmb_plane *primary = NULL;
+> > > > +   int i = 0;
+> > > > +   int ret = 0;
+> > > > +   enum drm_plane_type plane_type;
+> > > > +   const u32 *plane_formats;
+> > > > +   int num_plane_formats;
+> > > > +
+> > > > +   for (i = 0; i < KMB_MAX_PLANES; i++) {
+> > > > +           plane = drmm_kzalloc(drm, sizeof(*plane), GFP_KERNEL);
+> > > > +
+> > > > +           if (!plane) {
+> > > > +                   drm_err(drm, "Failed to allocate plane\n");
+> > > > +                   return ERR_PTR(-ENOMEM);
+> > > > +           }
+> > > > +
+> > > > +           plane_type = (i == 0) ? DRM_PLANE_TYPE_PRIMARY :
+> > > > +               DRM_PLANE_TYPE_OVERLAY;
+> > > > +           if (i < 2) {
+> > > > +                   plane_formats = kmb_formats_v;
+> > > > +                   num_plane_formats =
+> > > ARRAY_SIZE(kmb_formats_v);
+> > > > +           } else {
+> > > > +                   plane_formats = kmb_formats_g;
+> > > > +                   num_plane_formats =
+> > > ARRAY_SIZE(kmb_formats_g);
+> > > > +           }
+> > > > +
+> > > > +           ret = drm_universal_plane_init(drm, &plane->base_plane,
+> > > > +                                          POSSIBLE_CRTCS,
+> > > &kmb_plane_funcs,
+> > > > +                                          plane_formats,
+> > > num_plane_formats,
+> > > > +                                          NULL, plane_type, "plane %d", i);
+> > > > +           if (ret < 0) {
+> > > > +                   drm_err(drm, "drm_universal_plane_init failed
+> > > (ret=%d)",
+> > > > +                           ret);
+> > > > +                   goto cleanup;
+> > > > +           }
+> > > > +           drm_dbg(drm, "%s : %d i=%d type=%d",
+> > > > +                   __func__, __LINE__,
+> > > > +                     i, plane_type);
+> > > > +           drm_plane_helper_add(&plane->base_plane,
+> > > > +                                &kmb_plane_helper_funcs);
+> > > > +           if (plane_type == DRM_PLANE_TYPE_PRIMARY) {
+> > > > +                   primary = plane;
+> > > > +                   kmb->plane = plane;
+> > > > +           }
+> > > > +           drm_dbg(drm, "%s : %d primary=%p\n", __func__,
+> > > __LINE__,
+> > > > +                   &primary->base_plane);
+> > > > +           plane->id = i;
+> > > > +   }
+> > > > +
+> > > > +   return primary;
+> > > > +cleanup:
+> > > > +   drmm_kfree(drm, plane);
+> > > > +   return ERR_PTR(ret);
+> > > > +}
+> > > > diff --git a/drivers/gpu/drm/kmb/kmb_plane.h
+> > > b/drivers/gpu/drm/kmb/kmb_plane.h
+> > > > new file mode 100644
+> > > > index 0000000..141cdaa
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/kmb/kmb_plane.h
+> > > > @@ -0,0 +1,110 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0-only
+> > > > + *
+> > > > + * Copyright (c) 2018-2020 Intel Corporation
+> > > > + */
+> > > > +
+> > > > +#ifndef __KMB_PLANE_H__
+> > > > +#define __KMB_PLANE_H__
+> > > > +
+> > > > +extern int kmb_under_flow;
+> > > > +extern int kmb_flush_done;
+> > > > +
+> > > > +#define LCD_INT_VL0_ERR ((LAYER0_DMA_FIFO_UNDERFLOW) | \
+> > > > +                   (LAYER0_DMA_FIFO_OVERFLOW) | \
+> > > > +                   (LAYER0_DMA_CB_FIFO_OVERFLOW) | \
+> > > > +                   (LAYER0_DMA_CB_FIFO_UNDERFLOW) | \
+> > > > +                   (LAYER0_DMA_CR_FIFO_OVERFLOW) | \
+> > > > +                   (LAYER0_DMA_CR_FIFO_UNDERFLOW))
+> > > > +
+> > > > +#define LCD_INT_VL1_ERR ((LAYER1_DMA_FIFO_UNDERFLOW) | \
+> > > > +                   (LAYER1_DMA_FIFO_OVERFLOW) | \
+> > > > +                   (LAYER1_DMA_CB_FIFO_OVERFLOW) | \
+> > > > +                   (LAYER1_DMA_CB_FIFO_UNDERFLOW) | \
+> > > > +                   (LAYER1_DMA_CR_FIFO_OVERFLOW) | \
+> > > > +                   (LAYER1_DMA_CR_FIFO_UNDERFLOW))
+> > > > +
+> > > > +#define LCD_INT_GL0_ERR (LAYER2_DMA_FIFO_OVERFLOW |
+> > > LAYER2_DMA_FIFO_UNDERFLOW)
+> > > > +#define LCD_INT_GL1_ERR (LAYER3_DMA_FIFO_OVERFLOW |
+> > > LAYER3_DMA_FIFO_UNDERFLOW)
+> > > > +#define LCD_INT_VL0 (LAYER0_DMA_DONE | LAYER0_DMA_IDLE |
+> > > LCD_INT_VL0_ERR)
+> > > > +#define LCD_INT_VL1 (LAYER1_DMA_DONE | LAYER1_DMA_IDLE |
+> > > LCD_INT_VL1_ERR)
+> > > > +#define LCD_INT_GL0 (LAYER2_DMA_DONE | LAYER2_DMA_IDLE |
+> > > LCD_INT_GL0_ERR)
+> > > > +#define LCD_INT_GL1 (LAYER3_DMA_DONE | LAYER3_DMA_IDLE |
+> > > LCD_INT_GL1_ERR)
+> > > > +#define LCD_INT_DMA_ERR (LCD_INT_VL0_ERR | LCD_INT_VL1_ERR
+> \
+> > > > +           | LCD_INT_GL0_ERR | LCD_INT_GL1_ERR)
+> > > > +
+> > > > +#define POSSIBLE_CRTCS 1
+> > > > +#define to_kmb_plane(x) container_of(x, struct kmb_plane,
+> base_plane)
+> > > > +
+> > > > +enum layer_id {
+> > > > +   LAYER_0,
+> > > > +   LAYER_1,
+> > > > +   LAYER_2,
+> > > > +   LAYER_3,
+> > > > +   /* KMB_MAX_PLANES */
+> > > > +};
+> > > > +
+> > > > +#define KMB_MAX_PLANES 1
+> > > > +
+> > > > +enum sub_plane_id {
+> > > > +   Y_PLANE,
+> > > > +   U_PLANE,
+> > > > +   V_PLANE,
+> > > > +   MAX_SUB_PLANES,
+> > > > +};
+> > > > +
+> > > > +struct kmb_plane {
+> > > > +   struct drm_plane base_plane;
+> > > > +   unsigned char id;
+> > > > +};
+> > > > +
+> > > > +/* Graphics layer (layers 2 & 3) formats, only packed formats  are
+> > > supported */
+> > > > +static const u32 kmb_formats_g[] = {
+> > > > +   DRM_FORMAT_RGB332,
+> > > > +   DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
+> > > > +   DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
+> > > > +   DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
+> > > > +   DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
+> > > > +   DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
+> > > > +   DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
+> > > > +   DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
+> > > > +   DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
+> > > > +};
+> > > > +
+> > > > +#define MAX_FORMAT_G       (ARRAY_SIZE(kmb_formats_g))
+> > > > +#define MAX_FORMAT_V       (ARRAY_SIZE(kmb_formats_v))
+> > > > +
+> > > > +/* Video layer ( 0 & 1) formats, packed and planar formats are
+> > > supported */
+> > > > +static const u32 kmb_formats_v[] = {
+> > > > +   /* packed formats */
+> > > > +   DRM_FORMAT_RGB332,
+> > > > +   DRM_FORMAT_XRGB4444, DRM_FORMAT_XBGR4444,
+> > > > +   DRM_FORMAT_ARGB4444, DRM_FORMAT_ABGR4444,
+> > > > +   DRM_FORMAT_XRGB1555, DRM_FORMAT_XBGR1555,
+> > > > +   DRM_FORMAT_ARGB1555, DRM_FORMAT_ABGR1555,
+> > > > +   DRM_FORMAT_RGB565, DRM_FORMAT_BGR565,
+> > > > +   DRM_FORMAT_RGB888, DRM_FORMAT_BGR888,
+> > > > +   DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
+> > > > +   DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
+> > > > +   /*planar formats */
+> > > > +   DRM_FORMAT_YUV420, DRM_FORMAT_YVU420,
+> > > > +   DRM_FORMAT_YUV422, DRM_FORMAT_YVU422,
+> > > > +   DRM_FORMAT_YUV444, DRM_FORMAT_YVU444,
+> > > > +   DRM_FORMAT_NV12, DRM_FORMAT_NV21,
+> > > > +};
+> > > > +
+> > > > +/* Conversion (yuv->rgb) matrix from myriadx */
+> > > > +static const u32 csc_coef_lcd[] = {
+> > > > +   1024, 0, 1436,
+> > > > +   1024, -352, -731,
+> > > > +   1024, 1814, 0,
+> > > > +   -179, 125, -226
+> > > > +};
+> > >
+> > > The static const arrays above look a bit strange in a header file (and
+> > > could result in duplication in the driver .ko), please move to .c files.
+> > > Headers should only contain definitions, not declarations of actual
+> > > storage.
+> > >
+> > > Cheers, Daniel
+> > >
+> > > > +
+> > > > +struct layer_status {
+> > > > +   bool disable;
+> > > > +   u32 ctrl;
+> > > > +};
+> > > > +
+> > > > +struct kmb_plane *kmb_plane_init(struct drm_device *drm);
+> > > > +void kmb_plane_destroy(struct drm_plane *plane);
+> > > > +#endif /* __KMB_PLANE_H__ */
+> > > > --
+> > > > 2.7.4
+> > > >
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> 
+> 
+> 
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
