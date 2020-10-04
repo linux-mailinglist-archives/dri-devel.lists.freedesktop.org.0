@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFEB4282D12
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Oct 2020 21:21:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6BC282D14
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Oct 2020 21:21:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0386D89F55;
-	Sun,  4 Oct 2020 19:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5F189F49;
+	Sun,  4 Oct 2020 19:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4558789F47;
- Sun,  4 Oct 2020 19:21:29 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id y14so1832755pfp.13;
- Sun, 04 Oct 2020 12:21:29 -0700 (PDT)
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 548F189F71;
+ Sun,  4 Oct 2020 19:21:31 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id 34so4317349pgo.13;
+ Sun, 04 Oct 2020 12:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VQDv9qIxfo9dLvFA8eAM/RvSpOEqDt7DqCgJQnSkF2g=;
- b=cwzFQmZfAdfXp0bNqEXXYtFrzbDUEWHIcvy2jgZDLsdLVzHxLNY0pi0IRZ9cnwwS5A
- SZ7h3np2ofACQq1T28kFs6VRsonTnhAoPtW+/BY2X2qfZ2gkLvdRfZuDe77h1qSUkwPm
- jMm7Lk/tbqF59ZFnWHPsMUAEVdpWV7WjujveCj9odqxixbhkvjcRg+Pft5q0CfHKyo/x
- mkAqDeP0KKLLjwszFhXfhbUeqaIl12cUq2A51Zxs6AUytjWts1KAYtAG5Widp45CBnir
- FOB2G0rHii338QzygGN28F4iFavxqBRY13F5ZAnevNQs9GTTVwOvN2HlI677T17RUMEx
- 1i0w==
+ bh=xYPy68YgElKqp/ZhwxT4I2bIBmneh2iMyGRUpgP2Kzg=;
+ b=nAEMC704Ssavz0xGEbyrm9K3jWYyc1bgQ8dkA/ZspvJj4to7+Qa/6sZC/5TF/Opmem
+ a9nqKcM2G9xVuXLm8cbAQG8SzHpUnGGjNwB+ghB64XjnG1eTbQCMxqStvSZZJO5eeZUk
+ LydYUfqZEQVU+7FyjFh6dMVBLk/nY2VDGRCxfzab2hTnkBZWzh5zyq/aNdHVAd66dnZz
+ fGRG/HstoIwx+oeBbasuKNtclyI8BMIKy1MpRe/vSqJvMBGH2YVDRXKmyebjf26dv3Q4
+ zvYdMozFYF1+7VnS2O4Lz+nu29Ux+JnkNAYgoOtf87f0lNPohyynlHzkoXl3s8Xb32w/
+ rE4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VQDv9qIxfo9dLvFA8eAM/RvSpOEqDt7DqCgJQnSkF2g=;
- b=JEE0MOPpxuDJW9CiLj0re+p3+b6BkkMXzaZwsuCCyl1+uyL3G6BfTzYhrWEiGSDthx
- S7AMR29xi2qde+d7eAo02tDbL5/dLNkogLVe9eblMuVgARy/XpkqlPIYi3iEjmDyc1rz
- UdYoNbG6E3moNEhaWeMNxeD9rM0vbbttwaY5RA318unJPfCIvmswToxBn63T4cai6qUw
- ttziCD//iUDTwkkrAUpnbwfW7Bu8u9xqBm/jYoMJxZ0pYLXbHfBkYwPFcPwFewvCT5Zc
- 3jB3Je0ORjnpHGrpDLpdMxBq6kPuPYhCa/VbBFtCKA44Ts2bQJ3MWzyp8jCbmoFXmRNw
- 0sNQ==
-X-Gm-Message-State: AOAM533hSmhq5Wx0TJZv0NvXMCZGEqg6XTsvwDhAnSDPUa++NNnPon3f
- 4m2lX+ZOcUs0G9jBRkGPhXFXkxdMxx5LDAF+
-X-Google-Smtp-Source: ABdhPJw3vlcyj1RE09j9A4+U3ke0Uu7ufkZiGJqKrFh6RUJK5jwfMyQdxSzvx3K3DZdmxPpEpzKjKQ==
-X-Received: by 2002:a63:140e:: with SMTP id u14mr10479449pgl.91.1601839288416; 
- Sun, 04 Oct 2020 12:21:28 -0700 (PDT)
+ bh=xYPy68YgElKqp/ZhwxT4I2bIBmneh2iMyGRUpgP2Kzg=;
+ b=gb++EGzDxUbhl11//ovKGgBIQGNsbQiZFYGfS4vROHyBXk1pl3ViODlB8AzckG1tlh
+ 6l11FwP4DIQ2vqnFEjFStA1vhsKDoIk+0ahOK0LGkKVa1HQ+d+cVYOWbkWfY2e0w0zYs
+ FYfUo18twpJw/USz80LEPBldp8KFMUsZz9guTzRJT1ElSNC5L3RMEQUSCaX50yV34GOm
+ shpyGxsyTtTegr+GGp+MGVsdtfBBMyMGNVVfr9axGzM6Fh5sghyZqMWn7inmfrWXSIGW
+ hqj0u9bMSbge0pM3iCWpqEgurip6/YyDxV4+NJ9JZ73jAtDaA8AZzZePInVu5Ot5sEiN
+ 27Fw==
+X-Gm-Message-State: AOAM530zlZiqUAz1J6OS5k3eVM6bVoIploo2jmH2vgoHIJpGO+ScqiT0
+ qLh3rtnsoCAznPRE7xfKG5hWM3zXD0OgrwyI
+X-Google-Smtp-Source: ABdhPJz9b6MrGzYddugbdJh3IUMYkbMj+m/4vj4/TIpTfnWuCI/9BDLXB513Fc0erhJoaG/QFDw4ng==
+X-Received: by 2002:a63:2022:: with SMTP id g34mr10627104pgg.378.1601839290364; 
+ Sun, 04 Oct 2020 12:21:30 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- ie13sm8103315pjb.5.2020.10.04.12.21.27
+ z63sm9337766pfz.187.2020.10.04.12.21.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 12:21:27 -0700 (PDT)
+ Sun, 04 Oct 2020 12:21:29 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 09/14] drm/msm: Drop struct_mutex from the retire path
-Date: Sun,  4 Oct 2020 12:21:41 -0700
-Message-Id: <20201004192152.3298573-10-robdclark@gmail.com>
+Subject: [PATCH 10/14] drm/msm: Drop struct_mutex in free_object() path
+Date: Sun,  4 Oct 2020 12:21:42 -0700
+Message-Id: <20201004192152.3298573-11-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201004192152.3298573-1-robdclark@gmail.com>
 References: <20201004192152.3298573-1-robdclark@gmail.com>
@@ -79,55 +79,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Now that we are not relying on dev->struct_mutex to protect the
-ring->submits lists, drop the struct_mutex lock.
+Now that active_list/inactive_list is protected by mm_lock, we no longer
+need dev->struct_mutex in the free_object() path.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gpu.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index c9ff19a75169..5e351d1c00e9 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -707,7 +707,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 
- 		msm_gem_active_put(&msm_obj->base);
- 		msm_gem_unpin_iova(&msm_obj->base, submit->aspace);
--		drm_gem_object_put_locked(&msm_obj->base);
-+		drm_gem_object_put(&msm_obj->base);
- 	}
- 
- 	pm_runtime_mark_last_busy(&gpu->pdev->dev);
-@@ -722,11 +722,8 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 
- static void retire_submits(struct msm_gpu *gpu)
- {
--	struct drm_device *dev = gpu->dev;
- 	int i;
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index c52a3969e60b..126d92fd21cd 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -927,8 +927,6 @@ static void free_object(struct msm_gem_object *msm_obj)
+ 	struct drm_device *dev = obj->dev;
+ 	struct msm_drm_private *priv = dev->dev_private;
  
 -	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
 -
- 	/* Retire the commits starting with highest priority */
- 	for (i = 0; i < gpu->nr_rings; i++) {
- 		struct msm_ringbuffer *ring = gpu->rb[i];
-@@ -756,15 +753,12 @@ static void retire_submits(struct msm_gpu *gpu)
- static void retire_worker(struct work_struct *work)
+ 	/* object should not be on active list: */
+ 	WARN_ON(is_active(msm_obj));
+ 
+@@ -965,20 +963,14 @@ void msm_gem_free_work(struct work_struct *work)
  {
- 	struct msm_gpu *gpu = container_of(work, struct msm_gpu, retire_work);
--	struct drm_device *dev = gpu->dev;
- 	int i;
+ 	struct msm_drm_private *priv =
+ 		container_of(work, struct msm_drm_private, free_work);
+-	struct drm_device *dev = priv->dev;
+ 	struct llist_node *freed;
+ 	struct msm_gem_object *msm_obj, *next;
  
- 	for (i = 0; i < gpu->nr_rings; i++)
- 		update_fences(gpu, gpu->rb[i], gpu->rb[i]->memptrs->fence);
+ 	while ((freed = llist_del_all(&priv->free_list))) {
+-
+-		mutex_lock(&dev->struct_mutex);
+-
+ 		llist_for_each_entry_safe(msm_obj, next,
+ 					  freed, freed)
+ 			free_object(msm_obj);
  
--	mutex_lock(&dev->struct_mutex);
- 	retire_submits(gpu);
--	mutex_unlock(&dev->struct_mutex);
- }
- 
- /* call from irq handler to schedule work to retire bo's */
+-		mutex_unlock(&dev->struct_mutex);
+-
+ 		if (need_resched())
+ 			break;
+ 	}
 -- 
 2.26.2
 
