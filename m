@@ -2,60 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F65282D21
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Oct 2020 21:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5EE282D76
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Oct 2020 21:59:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7520E89FA0;
-	Sun,  4 Oct 2020 19:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B571E89DFE;
+	Sun,  4 Oct 2020 19:59:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2262089FAC;
- Sun,  4 Oct 2020 19:21:40 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id i3so3950221pjz.4;
- Sun, 04 Oct 2020 12:21:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Jz4QzEAhEdO6lBCU1QoQ4yhqxZSfud3TeRKgBoZBDXA=;
- b=h0DfyK2y1SjSYpaHFHMtPvB92RnRZePuaoTdB5xxz0thjvfqQP7Siztchi+qNfr4kh
- XMePXwcGcvYZ+5xcurEpjvcLycdlS3PkbdwN3GgdoTeg5o2zHEqBoKFBjwaam79OQGXg
- 3YoqTN7w5QcQlTdvJyKGPEx2vewYpRKJpHdYKgYk5qXv2dLNGdQN5Ug8dVe1Vf09jaWa
- NctNaw/rVfTU56JuSIPI8q6JSzSqM17jP4t3Fpdxje/RKaFKiBrXrXzEuykq0DVxP2l3
- GMla73CBHlbIm/VNXUwZuVh1Zx19xRbr6TLqFSD9lxsm9VBldSRUEQJziY11Qj8hC0OK
- /iLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Jz4QzEAhEdO6lBCU1QoQ4yhqxZSfud3TeRKgBoZBDXA=;
- b=Xp3oo0x3gAidTqXXrKzR4j5+7J7n4bKnr8U7nyCt4TpkH3K02m6Mnw3tZ0FWBsCtCt
- La1EEvorGlINwvB1x3fg44OWpLe6hxYD0Lsd8xbELuWeEUAwiqW3oqKjV2g6QKGnhCwi
- zThVuiOPVuxHTciLM8rMWr4xZpgWQ3czoqSQGTIeB68wVtWydjV3yeHVZ2vQ/I0rUOLx
- JRf0FkM/prCDYxy3REyqg3zYFYsI5/IV1d0BKJQPIWoxaC2Rx7HKb9ReMNb7Uj3ev+O3
- 3DmBFYqQy3PbrARYaX4D2vOEKxVG1SP42C+4BHTJUG8FZuu3FHZHTcU/77RJtCkeIOqT
- V/HQ==
-X-Gm-Message-State: AOAM532HJcntg3ACM9U4WVjZOwkPgblxbvn0FaTtD3j/9sy0Z5K5mpLy
- Bq6IK4CSgG4d1fxkMYM6uwHU9enJorn7rc7Q
-X-Google-Smtp-Source: ABdhPJzwbgfNqafM3y1Sgaak5gfe9bX33DwTRFupIpYNwim2i/Q2fWIh4YBVZQi0LAKdXb4VGj5dHw==
-X-Received: by 2002:a17:90a:c501:: with SMTP id
- k1mr13719865pjt.170.1601839299184; 
- Sun, 04 Oct 2020 12:21:39 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- z28sm9952148pfq.81.2020.10.04.12.21.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 12:21:38 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/14] drm/msm: Don't implicit-sync if only a single ring
-Date: Sun,  4 Oct 2020 12:21:46 -0700
-Message-Id: <20201004192152.3298573-15-robdclark@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201004192152.3298573-1-robdclark@gmail.com>
-References: <20201004192152.3298573-1-robdclark@gmail.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9C9D89DFE
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Oct 2020 19:59:27 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 0B2F9804D0;
+ Sun,  4 Oct 2020 21:59:22 +0200 (CEST)
+Date: Sun, 4 Oct 2020 21:59:21 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH] Revert "gpu/drm: ingenic: Add option to mmap GEM buffers
+ cached"
+Message-ID: <20201004195921.GA556605@ravnborg.org>
+References: <20200930165212.GA8833@lst.de>
+ <20201004141758.1013317-1-paul@crapouillou.net>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201004141758.1013317-1-paul@crapouillou.net>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8 a=7gkXJVJtAAAA:8
+ a=hHz-11tamBC_RTbrKwYA:9 a=NK4jn7RG8jkPqzVQ:21 a=7SsSijUGAxRx6cEd:21
+ a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,67 +46,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, od@zcrc.me,
+ Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hi Paul.
 
-Any cross-device sync use-cases *must* use explicit sync.  And if there
-is only a single ring (no-preemption), everything is FIFO order and
-there is no need to implicit-sync.
+On Sun, Oct 04, 2020 at 04:17:58PM +0200, Paul Cercueil wrote:
+> This reverts commit 37054fc81443cc6a8c3a38395f384412b8373d82.
 
-Mesa should probably just always use MSM_SUBMIT_NO_IMPLICIT, as behavior
-is undefined when fences are not used to synchronize buffer usage across
-contexts (which is the only case where multiple different priority rings
-could come into play).
+In the changelog please refer to commits like this:
+37054fc81443 ("gpu/drm: ingenic: Add option to mmap GEM buffers cached")
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Use "dim cite 37054fc81443cc6a8c3a38395f384412b8373d82" to get the right format.
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 7d653bdc92dc..b9b68153b7b2 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -219,7 +219,7 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
- 	return ret;
- }
- 
--static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
-+static int submit_fence_sync(struct msm_gem_submit *submit, bool implicit_sync)
- {
- 	int i, ret = 0;
- 
-@@ -239,7 +239,7 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
- 				return ret;
- 		}
- 
--		if (no_implicit)
-+		if (!implicit_sync)
- 			continue;
- 
- 		ret = msm_gem_sync_object(&msm_obj->base, submit->ring->fctx,
-@@ -704,7 +704,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto out;
- 
--	ret = submit_fence_sync(submit, !!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
-+	ret = submit_fence_sync(submit, (gpu->nr_rings > 1) &&
-+			!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
- 	if (ret)
- 		goto out;
- 
--- 
-2.26.2
+> 
+> At the very moment this commit was created, the DMA API it relied on was
+> modified in the DMA tree, which caused the driver to break in
+> linux-next.
+> 
+> Revert it for now, and it will be resubmitted later to work with the new
+> DMA API.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 
+With the changelog updated:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 114 +---------------------
+>  drivers/gpu/drm/ingenic/ingenic-drm.h     |   4 -
+>  drivers/gpu/drm/ingenic/ingenic-ipu.c     |  12 +--
+>  3 files changed, 4 insertions(+), 126 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 0225dc1f5eb8..7d8b0ad52979 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -9,8 +9,6 @@
+>  #include <linux/component.h>
+>  #include <linux/clk.h>
+>  #include <linux/dma-mapping.h>
+> -#include <linux/dma-noncoherent.h>
+> -#include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/of_device.h>
+> @@ -24,7 +22,6 @@
+>  #include <drm/drm_color_mgmt.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_crtc_helper.h>
+> -#include <drm/drm_damage_helper.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_gem_cma_helper.h>
+>  #include <drm/drm_fb_cma_helper.h>
+> @@ -100,11 +97,6 @@ struct ingenic_drm {
+>  	struct notifier_block clock_nb;
+>  };
+>  
+> -static bool ingenic_drm_cached_gem_buf;
+> -module_param_named(cached_gem_buffers, ingenic_drm_cached_gem_buf, bool, 0400);
+> -MODULE_PARM_DESC(cached_gem_buffers,
+> -		 "Enable fully cached GEM buffers [default=false]");
+> -
+>  static bool ingenic_drm_writeable_reg(struct device *dev, unsigned int reg)
+>  {
+>  	switch (reg) {
+> @@ -402,8 +394,6 @@ static int ingenic_drm_plane_atomic_check(struct drm_plane *plane,
+>  	     plane->state->fb->format->format != state->fb->format->format))
+>  		crtc_state->mode_changed = true;
+>  
+> -	drm_atomic_helper_check_plane_damage(state->state, state);
+> -
+>  	return 0;
+>  }
+>  
+> @@ -521,38 +511,6 @@ void ingenic_drm_plane_config(struct device *dev,
+>  	}
+>  }
+>  
+> -void ingenic_drm_sync_data(struct device *dev,
+> -			   struct drm_plane_state *old_state,
+> -			   struct drm_plane_state *state)
+> -{
+> -	const struct drm_format_info *finfo = state->fb->format;
+> -	struct ingenic_drm *priv = dev_get_drvdata(dev);
+> -	struct drm_atomic_helper_damage_iter iter;
+> -	unsigned int offset, i;
+> -	struct drm_rect clip;
+> -	dma_addr_t paddr;
+> -	void *addr;
+> -
+> -	if (!ingenic_drm_cached_gem_buf)
+> -		return;
+> -
+> -	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
+> -
+> -	drm_atomic_for_each_plane_damage(&iter, &clip) {
+> -		for (i = 0; i < finfo->num_planes; i++) {
+> -			paddr = drm_fb_cma_get_gem_addr(state->fb, state, i);
+> -			addr = phys_to_virt(paddr);
+> -
+> -			/* Ignore x1/x2 values, invalidate complete lines */
+> -			offset = clip.y1 * state->fb->pitches[i];
+> -
+> -			dma_cache_sync(priv->dev, addr + offset,
+> -				       (clip.y2 - clip.y1) * state->fb->pitches[i],
+> -				       DMA_TO_DEVICE);
+> -		}
+> -	}
+> -}
+> -
+>  static void ingenic_drm_update_palette(struct ingenic_drm *priv,
+>  				       const struct drm_color_lut *lut)
+>  {
+> @@ -581,8 +539,6 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>  	if (state && state->fb) {
+>  		crtc_state = state->crtc->state;
+>  
+> -		ingenic_drm_sync_data(priv->dev, oldstate, state);
+> -
+>  		addr = drm_fb_cma_get_gem_addr(state->fb, state, 0);
+>  		width = state->src_w >> 16;
+>  		height = state->src_h >> 16;
+> @@ -752,69 +708,7 @@ static void ingenic_drm_disable_vblank(struct drm_crtc *crtc)
+>  	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL, JZ_LCD_CTRL_EOF_IRQ, 0);
+>  }
+>  
+> -static struct drm_framebuffer *
+> -ingenic_drm_gem_fb_create(struct drm_device *dev, struct drm_file *file,
+> -			  const struct drm_mode_fb_cmd2 *mode_cmd)
+> -{
+> -	if (ingenic_drm_cached_gem_buf)
+> -		return drm_gem_fb_create_with_dirty(dev, file, mode_cmd);
+> -
+> -	return drm_gem_fb_create(dev, file, mode_cmd);
+> -}
+> -
+> -static int ingenic_drm_gem_mmap(struct drm_gem_object *obj,
+> -				struct vm_area_struct *vma)
+> -{
+> -	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
+> -	struct device *dev = cma_obj->base.dev->dev;
+> -	unsigned long attrs;
+> -	int ret;
+> -
+> -	if (ingenic_drm_cached_gem_buf)
+> -		attrs = DMA_ATTR_NON_CONSISTENT;
+> -	else
+> -		attrs = DMA_ATTR_WRITE_COMBINE;
+> -
+> -	/*
+> -	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
+> -	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
+> -	 * the whole buffer.
+> -	 */
+> -	vma->vm_flags &= ~VM_PFNMAP;
+> -	vma->vm_pgoff = 0;
+> -	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+> -
+> -	ret = dma_mmap_attrs(dev, vma, cma_obj->vaddr, cma_obj->paddr,
+> -			     vma->vm_end - vma->vm_start, attrs);
+> -	if (ret)
+> -		drm_gem_vm_close(vma);
+> -
+> -	return ret;
+> -}
+> -
+> -static int ingenic_drm_gem_cma_mmap(struct file *filp,
+> -				    struct vm_area_struct *vma)
+> -{
+> -	int ret;
+> -
+> -	ret = drm_gem_mmap(filp, vma);
+> -	if (ret)
+> -		return ret;
+> -
+> -	return ingenic_drm_gem_mmap(vma->vm_private_data, vma);
+> -}
+> -
+> -static const struct file_operations ingenic_drm_fops = {
+> -	.owner		= THIS_MODULE,
+> -	.open		= drm_open,
+> -	.release	= drm_release,
+> -	.unlocked_ioctl	= drm_ioctl,
+> -	.compat_ioctl	= drm_compat_ioctl,
+> -	.poll		= drm_poll,
+> -	.read		= drm_read,
+> -	.llseek		= noop_llseek,
+> -	.mmap		= ingenic_drm_gem_cma_mmap,
+> -};
+> +DEFINE_DRM_GEM_CMA_FOPS(ingenic_drm_fops);
+>  
+>  static struct drm_driver ingenic_drm_driver_data = {
+>  	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+> @@ -878,7 +772,7 @@ static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs =
+>  };
+>  
+>  static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
+> -	.fb_create		= ingenic_drm_gem_fb_create,
+> +	.fb_create		= drm_gem_fb_create,
+>  	.output_poll_changed	= drm_fb_helper_output_poll_changed,
+>  	.atomic_check		= drm_atomic_helper_check,
+>  	.atomic_commit		= drm_atomic_helper_commit,
+> @@ -1032,8 +926,6 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+>  		return ret;
+>  	}
+>  
+> -	drm_plane_enable_fb_damage_clips(&priv->f1);
+> -
+>  	drm_crtc_helper_add(&priv->crtc, &ingenic_drm_crtc_helper_funcs);
+>  
+>  	ret = drm_crtc_init_with_planes(drm, &priv->crtc, &priv->f1,
+> @@ -1062,8 +954,6 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+>  			return ret;
+>  		}
+>  
+> -		drm_plane_enable_fb_damage_clips(&priv->f0);
+> -
+>  		if (IS_ENABLED(CONFIG_DRM_INGENIC_IPU) && has_components) {
+>  			ret = component_bind_all(dev, drm);
+>  			if (ret) {
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.h b/drivers/gpu/drm/ingenic/ingenic-drm.h
+> index ee3a892c0383..9b48ce02803d 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm.h
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.h
+> @@ -171,10 +171,6 @@ void ingenic_drm_plane_config(struct device *dev,
+>  			      struct drm_plane *plane, u32 fourcc);
+>  void ingenic_drm_plane_disable(struct device *dev, struct drm_plane *plane);
+>  
+> -void ingenic_drm_sync_data(struct device *dev,
+> -			   struct drm_plane_state *old_state,
+> -			   struct drm_plane_state *state);
+> -
+>  extern struct platform_driver *ingenic_ipu_driver_ptr;
+>  
+>  #endif /* DRIVERS_GPU_DRM_INGENIC_INGENIC_DRM_H */
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> index 38c83e8cc6a5..fc8c6e970ee3 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> @@ -20,7 +20,6 @@
+>  
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> -#include <drm/drm_damage_helper.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_fb_cma_helper.h>
+>  #include <drm/drm_fourcc.h>
+> @@ -317,8 +316,6 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
+>  				JZ_IPU_CTRL_CHIP_EN | JZ_IPU_CTRL_LCDC_SEL);
+>  	}
+>  
+> -	ingenic_drm_sync_data(ipu->master, oldstate, state);
+> -
+>  	/* New addresses will be committed in vblank handler... */
+>  	ipu->addr_y = drm_fb_cma_get_gem_addr(state->fb, state, 0);
+>  	if (finfo->num_planes > 1)
+> @@ -537,7 +534,7 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+>  
+>  	if (!state->crtc ||
+>  	    !crtc_state->mode.hdisplay || !crtc_state->mode.vdisplay)
+> -		goto out_check_damage;
+> +		return 0;
+>  
+>  	/* Plane must be fully visible */
+>  	if (state->crtc_x < 0 || state->crtc_y < 0 ||
+> @@ -554,7 +551,7 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+>  		return -EINVAL;
+>  
+>  	if (!osd_changed(state, plane->state))
+> -		goto out_check_damage;
+> +		return 0;
+>  
+>  	crtc_state->mode_changed = true;
+>  
+> @@ -581,9 +578,6 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+>  	ipu->denom_w = denom_w;
+>  	ipu->denom_h = denom_h;
+>  
+> -out_check_damage:
+> -	drm_atomic_helper_check_plane_damage(state->state, state);
+> -
+>  	return 0;
+>  }
+>  
+> @@ -765,8 +759,6 @@ static int ingenic_ipu_bind(struct device *dev, struct device *master, void *d)
+>  		return err;
+>  	}
+>  
+> -	drm_plane_enable_fb_damage_clips(plane);
+> -
+>  	/*
+>  	 * Sharpness settings range is [0,32]
+>  	 * 0       : nearest-neighbor
+> -- 
+> 2.28.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
