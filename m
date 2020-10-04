@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4FF282D10
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Oct 2020 21:21:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFEB4282D12
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Oct 2020 21:21:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 903E889F47;
-	Sun,  4 Oct 2020 19:21:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0386D89F55;
+	Sun,  4 Oct 2020 19:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D83F89F3B;
- Sun,  4 Oct 2020 19:21:27 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id n14so5086123pff.6;
- Sun, 04 Oct 2020 12:21:27 -0700 (PDT)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4558789F47;
+ Sun,  4 Oct 2020 19:21:29 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id y14so1832755pfp.13;
+ Sun, 04 Oct 2020 12:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vEBEzHX4FK8oW5uL67k1FNFvzQH83mQw0CZJtsDsaKw=;
- b=Hzjye1b980xxUdFLsacO7q0N6hoEnDM3nQWNzKYMilrw33DARbC/5FepZSqAxq7Ki3
- i/UmpWsE8CXF9AY7kWKEoCCO4QCkygaK5mhPGW+Aqe8br15sDIbcTv1+iW3fr8gfHPeV
- oP9ASgE5PqY7PLNOVJf+GGDVy+IugIVkJG7wEb3jFMoxbgdnZk9uX4Nh+3CdsYHoh/dh
- u/PgrmuHq1QbLebRAb5UV76b8RRALp74tIeM7cAUDgwo06Nwd1mwT8wZyk4XvoD1b9q/
- 19ZpBMJPMOY+Y/n5MyDn6nIdpK1vP69bMDY2yE+zUgM82IiGYMuPyRPSfM7JWfJggrS/
- TvCQ==
+ bh=VQDv9qIxfo9dLvFA8eAM/RvSpOEqDt7DqCgJQnSkF2g=;
+ b=cwzFQmZfAdfXp0bNqEXXYtFrzbDUEWHIcvy2jgZDLsdLVzHxLNY0pi0IRZ9cnwwS5A
+ SZ7h3np2ofACQq1T28kFs6VRsonTnhAoPtW+/BY2X2qfZ2gkLvdRfZuDe77h1qSUkwPm
+ jMm7Lk/tbqF59ZFnWHPsMUAEVdpWV7WjujveCj9odqxixbhkvjcRg+Pft5q0CfHKyo/x
+ mkAqDeP0KKLLjwszFhXfhbUeqaIl12cUq2A51Zxs6AUytjWts1KAYtAG5Widp45CBnir
+ FOB2G0rHii338QzygGN28F4iFavxqBRY13F5ZAnevNQs9GTTVwOvN2HlI677T17RUMEx
+ 1i0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vEBEzHX4FK8oW5uL67k1FNFvzQH83mQw0CZJtsDsaKw=;
- b=Cq6H71+6kqM0OFDMkY1NdAmaKx5SfjIXJBA4Gc/T+BmMlkDch/9WwYoI1wFlDAljop
- bWU+XbF2pUNTfcm8gW0zffrwaQ6V91A0Xjv5/rZvsO09t+7p4wVWb1om+G+Tepub1vnA
- h/9gTxFIThTwTHLMwE7NZeiUJ4yvShyflPjVF5GaSD9TFCnpZVhoWMp5FeElIrBQBStX
- F9P5xqDCvaebFbwbFilCQU2IMZPTNkXl9Xs4TFucVbZ2yeyxX5KVh3kvSTdYgQu/20sv
- 1k7kT/2GPrSGcv6fukUapHoYFW0rI7rMifdKRsxAR7OkU6VCoR+pEhMEyX4JRSA6lSFT
- eiHQ==
-X-Gm-Message-State: AOAM531pgDokKUcbRI62wSuYjEKIgyuUIQml+hemNmU/EntU0w9cxPga
- KfyAlO4GShKuv35rcNPmmL//3EmVs4g+q2SL
-X-Google-Smtp-Source: ABdhPJxEXUizQpJydRPL5ncBxX0cny9DJU36ltWrqRo5u/wcFIoY6p7FzGE8l3EOH6JuFvZ6fqAecw==
-X-Received: by 2002:a62:dd02:0:b029:142:2501:398c with SMTP id
- w2-20020a62dd020000b02901422501398cmr12607535pff.81.1601839286605; 
- Sun, 04 Oct 2020 12:21:26 -0700 (PDT)
+ bh=VQDv9qIxfo9dLvFA8eAM/RvSpOEqDt7DqCgJQnSkF2g=;
+ b=JEE0MOPpxuDJW9CiLj0re+p3+b6BkkMXzaZwsuCCyl1+uyL3G6BfTzYhrWEiGSDthx
+ S7AMR29xi2qde+d7eAo02tDbL5/dLNkogLVe9eblMuVgARy/XpkqlPIYi3iEjmDyc1rz
+ UdYoNbG6E3moNEhaWeMNxeD9rM0vbbttwaY5RA318unJPfCIvmswToxBn63T4cai6qUw
+ ttziCD//iUDTwkkrAUpnbwfW7Bu8u9xqBm/jYoMJxZ0pYLXbHfBkYwPFcPwFewvCT5Zc
+ 3jB3Je0ORjnpHGrpDLpdMxBq6kPuPYhCa/VbBFtCKA44Ts2bQJ3MWzyp8jCbmoFXmRNw
+ 0sNQ==
+X-Gm-Message-State: AOAM533hSmhq5Wx0TJZv0NvXMCZGEqg6XTsvwDhAnSDPUa++NNnPon3f
+ 4m2lX+ZOcUs0G9jBRkGPhXFXkxdMxx5LDAF+
+X-Google-Smtp-Source: ABdhPJw3vlcyj1RE09j9A4+U3ke0Uu7ufkZiGJqKrFh6RUJK5jwfMyQdxSzvx3K3DZdmxPpEpzKjKQ==
+X-Received: by 2002:a63:140e:: with SMTP id u14mr10479449pgl.91.1601839288416; 
+ Sun, 04 Oct 2020 12:21:28 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- q66sm5106416pfc.109.2020.10.04.12.21.25
+ ie13sm8103315pjb.5.2020.10.04.12.21.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 12:21:25 -0700 (PDT)
+ Sun, 04 Oct 2020 12:21:27 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 08/14] drm/msm: Remove obj->gpu
-Date: Sun,  4 Oct 2020 12:21:40 -0700
-Message-Id: <20201004192152.3298573-9-robdclark@gmail.com>
+Subject: [PATCH 09/14] drm/msm: Drop struct_mutex from the retire path
+Date: Sun,  4 Oct 2020 12:21:41 -0700
+Message-Id: <20201004192152.3298573-10-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201004192152.3298573-1-robdclark@gmail.com>
 References: <20201004192152.3298573-1-robdclark@gmail.com>
@@ -80,66 +79,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-It cannot be atomically updated with obj->active_count, and the only
-purpose is a useless WARN_ON() (which becomes a buggy WARN_ON() once
-retire_submits() is not serialized with incoming submits via
-struct_mutex)
+Now that we are not relying on dev->struct_mutex to protect the
+ring->submits lists, drop the struct_mutex lock.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem.c | 2 --
- drivers/gpu/drm/msm/msm_gem.h | 1 -
- drivers/gpu/drm/msm/msm_gpu.c | 5 -----
- 3 files changed, 8 deletions(-)
+ drivers/gpu/drm/msm/msm_gpu.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index b04ed8b52f9d..c52a3969e60b 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -753,7 +753,6 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
- 
- 	if (!atomic_fetch_inc(&msm_obj->active_count)) {
- 		mutex_lock(&priv->mm_lock);
--		msm_obj->gpu = gpu;
- 		list_del_init(&msm_obj->mm_list);
- 		list_add_tail(&msm_obj->mm_list, &gpu->active_list);
- 		mutex_unlock(&priv->mm_lock);
-@@ -769,7 +768,6 @@ void msm_gem_active_put(struct drm_gem_object *obj)
- 
- 	if (!atomic_dec_return(&msm_obj->active_count)) {
- 		mutex_lock(&priv->mm_lock);
--		msm_obj->gpu = NULL;
- 		list_del_init(&msm_obj->mm_list);
- 		list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
- 		mutex_unlock(&priv->mm_lock);
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index e05b1530aca6..61147bd96b06 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -64,7 +64,6 @@ struct msm_gem_object {
- 	 *
- 	 */
- 	struct list_head mm_list;
--	struct msm_gpu *gpu;     /* non-null if active */
- 
- 	/* Transiently in the process of submit ioctl, objects associated
- 	 * with the submit are on submit->bo_list.. this only lasts for
 diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index fd3fc6f36ab1..c9ff19a75169 100644
+index c9ff19a75169..5e351d1c00e9 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.c
 +++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -800,11 +800,6 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 		struct drm_gem_object *drm_obj = &msm_obj->base;
- 		uint64_t iova;
+@@ -707,7 +707,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
  
--		/* can't happen yet.. but when we add 2d support we'll have
--		 * to deal w/ cross-ring synchronization:
--		 */
--		WARN_ON(is_active(msm_obj) && (msm_obj->gpu != gpu));
+ 		msm_gem_active_put(&msm_obj->base);
+ 		msm_gem_unpin_iova(&msm_obj->base, submit->aspace);
+-		drm_gem_object_put_locked(&msm_obj->base);
++		drm_gem_object_put(&msm_obj->base);
+ 	}
+ 
+ 	pm_runtime_mark_last_busy(&gpu->pdev->dev);
+@@ -722,11 +722,8 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+ 
+ static void retire_submits(struct msm_gpu *gpu)
+ {
+-	struct drm_device *dev = gpu->dev;
+ 	int i;
+ 
+-	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
 -
- 		/* submit takes a reference to the bo and iova until retired: */
- 		drm_gem_object_get(&msm_obj->base);
- 		msm_gem_get_and_pin_iova(&msm_obj->base, submit->aspace, &iova);
+ 	/* Retire the commits starting with highest priority */
+ 	for (i = 0; i < gpu->nr_rings; i++) {
+ 		struct msm_ringbuffer *ring = gpu->rb[i];
+@@ -756,15 +753,12 @@ static void retire_submits(struct msm_gpu *gpu)
+ static void retire_worker(struct work_struct *work)
+ {
+ 	struct msm_gpu *gpu = container_of(work, struct msm_gpu, retire_work);
+-	struct drm_device *dev = gpu->dev;
+ 	int i;
+ 
+ 	for (i = 0; i < gpu->nr_rings; i++)
+ 		update_fences(gpu, gpu->rb[i], gpu->rb[i]->memptrs->fence);
+ 
+-	mutex_lock(&dev->struct_mutex);
+ 	retire_submits(gpu);
+-	mutex_unlock(&dev->struct_mutex);
+ }
+ 
+ /* call from irq handler to schedule work to retire bo's */
 -- 
 2.26.2
 
