@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE9B282CF5
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Oct 2020 21:21:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8C6282CF7
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Oct 2020 21:21:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE47189E65;
-	Sun,  4 Oct 2020 19:21:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA94289E9B;
+	Sun,  4 Oct 2020 19:21:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E13E89E65;
- Sun,  4 Oct 2020 19:21:07 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id t7so4189158pjd.3;
- Sun, 04 Oct 2020 12:21:07 -0700 (PDT)
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59BA289E9B;
+ Sun,  4 Oct 2020 19:21:09 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id j8so2267486pjy.5;
+ Sun, 04 Oct 2020 12:21:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NaCk20iXyuPTfKj7M2JUxIMfw5amxERCJiUzQ3nZIzw=;
- b=qLZ7yrwgSd/akc7eV6/QqOdy2cpN4vxD1+cGMw+6nQlnrAM2UZycdrJBDVwy2ZkQRb
- xC4WpSFYCCyY0OUWODWft0c/35uhpBNx8dH4AFJ/IyfTmm7Vn7Pl2zSZFVn+RSln8rpa
- CFPtjh+xNXqodhAnEfHy97iDZ3EiCslpM/nfHjXqsetR2TG+y9yTQqkZYgOg7Y4Rs4Ae
- VRLsNKzNkpUbNebvSNydUkerVDETuPn0O6nx6PcpMn2nDpzQ0FRiuwzW7BFimvVdFzFq
- 3iKLJqkXQOoctnge+U5GN8rfPo1F92zdzWxDRlIk+1Mkias13Y3zxntZVoW6y7bcV82M
- EUAQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=FnpkgYe/O9d4AYRxVVe1vBP2PhvVSTJl2AUFDqH2Sr0=;
+ b=uPzD5q/NxoE6HKNg2DFVLhsSXAZj0DE+mtFzQRf6G2zWukz4iQSzK9wUbdC0TJm3Ef
+ ZcdAgaySLaTGI+egOnLuIYt7zGMMNcIC08NYLySh2d9xXf0DHKLDT6M0xBg5bFAuEBAl
+ 4EgLfm7iGvcXpyUd+aP+J2eBy0IdF43H+l73+OmYDi+I2Pbgm84sTA0eqKkBmT0GwsWf
+ r9lQ5qzPWFi9f682LcpKC1hmcZUcNOdqWR52nBobQOcxi9iP+YKQ1wqMHr/CKUDQ5m3F
+ XTIZ6qvKzy5DQmYVjLmoHRHv23fYZHLYwP5xEW1u71TMjQta/UHiIY03dL54s1qt5z0T
+ q7bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NaCk20iXyuPTfKj7M2JUxIMfw5amxERCJiUzQ3nZIzw=;
- b=C8z9zczc5sWe3hw08C+jTZAT1qD4NFG5bHuHKv/nIEqZ2IBuIM2UcZYGxLMYQgJyP+
- VhSQt3EAHo1sTk0MsCGcYnOjEZhn1aUazOJEa2nLZ/nB0jwbKVy6hu2fSulQaVyFgyss
- KaQ0Ntg6DPmoc2uOnPuJpqhKucybH9nunK5pc0Q8vt3Y29i4W+82ZVzaOTGXtaFU0baK
- JmmKqPYr9hslGdlXnm3z0BnngZbelUkJ6EQ92jh8ey9hTSIhMfraInyn5QhYw3+acwim
- FcLhlQwP23ZJR0XVqutjxSxlyL8cpmJcGTnJEMQA81Vm1JHlQgFdxpaaCWBzYw/L2g/f
- IbXg==
-X-Gm-Message-State: AOAM531Z/tycbSOTlWtCUvUQzhT7cC5yO7+ewJ+D8xLU6Lq6z5AgqE/3
- a+3+GLrTZ6CdEbZrL1tYq8CrmPGbf0HKtqI8
-X-Google-Smtp-Source: ABdhPJw6EeahDTBukuHlSW+cuZeQsk0WyBpaFt45uII85OHJoQALlKnmpO8sL4EXjaYoZMnUsCbVdg==
-X-Received: by 2002:a17:90a:71c7:: with SMTP id
- m7mr13818070pjs.190.1601839266264; 
- Sun, 04 Oct 2020 12:21:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FnpkgYe/O9d4AYRxVVe1vBP2PhvVSTJl2AUFDqH2Sr0=;
+ b=eDVPNiDYQgiE4ftlenEzWJZZzpWYaVO21e3pTvUNKF1Y7Gkh7KS2uXiJkgeN88VmWm
+ neTlthl4xeDaAJ8KOHalHnltmfs4XRbu1ic4+G3K/2p3rWJ2w/1QYPpzgwI6RCPh9NTB
+ 33q7tynY23pxJr+PWhudi7ye5NcH7A7r3Dqzd4EyNnkmMHILUrZLzJdYhYIeNdga+iTn
+ +RI9AxJzH1VIZsfvBhAB9TJG0StRclbUqoNmLIGrPNZxMk6dx+DDL34Cd5Ew0uQa9CLh
+ ngr1NufF/vA8oAaaOzUKn/SWz8I+KAV6nHsGFOcp1WAdU0HKZJr/4G5v/kG/x8hSZ6ns
+ Of9Q==
+X-Gm-Message-State: AOAM531Nmhuk9adZWuJuPusGnHSUbAojHspuO/FlCL0PdapDzYgx/tiJ
+ KwVDk/Tw92dFV8RJF7RsSUzQDeWpkuoKfxHb
+X-Google-Smtp-Source: ABdhPJyvMoILH6fXhmvKYFY3fZRjizG0TlgbGLt5UeUM7ybLbxyQePkCzvg/Qnastn4ThulWDj2NDQ==
+X-Received: by 2002:a17:90b:3103:: with SMTP id
+ gc3mr11011474pjb.158.1601839268350; 
+ Sun, 04 Oct 2020 12:21:08 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- m188sm9772226pfd.56.2020.10.04.12.21.04
+ m13sm9436279pfd.65.2020.10.04.12.21.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 12:21:04 -0700 (PDT)
+ Sun, 04 Oct 2020 12:21:07 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 00/14] drm/msm: de-struct_mutex-ification
-Date: Sun,  4 Oct 2020 12:21:32 -0700
-Message-Id: <20201004192152.3298573-1-robdclark@gmail.com>
+Subject: [PATCH 01/14] drm/msm: Use correct drm_gem_object_put() in fail case
+Date: Sun,  4 Oct 2020 12:21:33 -0700
+Message-Id: <20201004192152.3298573-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201004192152.3298573-1-robdclark@gmail.com>
+References: <20201004192152.3298573-1-robdclark@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,16 +69,10 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Jonathan Marek <jonathan@marek.ca>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Ben Dooks <ben.dooks@codethink.co.uk>, Sam Ravnborg <sam@ravnborg.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- Emil Velikov <emil.velikov@collabora.com>
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -84,46 +80,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-This doesn't remove *all* the struct_mutex, but it covers the worst
-of it, ie. shrinker/madvise/free/retire.  The submit path still uses
-struct_mutex, but it still needs *something* serialize a portion of
-the submit path, and lock_stat mostly just shows the lock contention
-there being with other submits.  And there are a few other bits of
-struct_mutex usage in less critical paths (debugfs, etc).  But this
-seems like a reasonable step in the right direction.
+We only want to use the _unlocked() variant in the unlocked case.
 
-Rob Clark (14):
-  drm/msm: Use correct drm_gem_object_put() in fail case
-  drm/msm: Drop chatty trace
-  drm/msm: Move update_fences()
-  drm/msm: Add priv->mm_lock to protect active/inactive lists
-  drm/msm: Document and rename preempt_lock
-  drm/msm: Protect ring->submits with it's own lock
-  drm/msm: Refcount submits
-  drm/msm: Remove obj->gpu
-  drm/msm: Drop struct_mutex from the retire path
-  drm/msm: Drop struct_mutex in free_object() path
-  drm/msm: remove msm_gem_free_work
-  drm/msm: drop struct_mutex in madvise path
-  drm/msm: Drop struct_mutex in shrinker path
-  drm/msm: Don't implicit-sync if only a single ring
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  4 +-
- drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 12 +--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |  4 +-
- drivers/gpu/drm/msm/msm_debugfs.c         |  7 ++
- drivers/gpu/drm/msm/msm_drv.c             | 15 +---
- drivers/gpu/drm/msm/msm_drv.h             | 19 +++--
- drivers/gpu/drm/msm/msm_gem.c             | 76 ++++++------------
- drivers/gpu/drm/msm/msm_gem.h             | 53 +++++++++----
- drivers/gpu/drm/msm/msm_gem_shrinker.c    | 58 ++------------
- drivers/gpu/drm/msm/msm_gem_submit.c      | 17 ++--
- drivers/gpu/drm/msm/msm_gpu.c             | 96 ++++++++++++++---------
- drivers/gpu/drm/msm/msm_gpu.h             |  5 +-
- drivers/gpu/drm/msm/msm_ringbuffer.c      |  3 +-
- drivers/gpu/drm/msm/msm_ringbuffer.h      | 13 ++-
- 14 files changed, 188 insertions(+), 194 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 14e14caf90f9..a870b3ad129d 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -1115,7 +1115,11 @@ static struct drm_gem_object *_msm_gem_new(struct drm_device *dev,
+ 	return obj;
+ 
+ fail:
+-	drm_gem_object_put(obj);
++	if (struct_mutex_locked) {
++		drm_gem_object_put_locked(obj);
++	} else {
++		drm_gem_object_put(obj);
++	}
+ 	return ERR_PTR(ret);
+ }
+ 
 -- 
 2.26.2
 
