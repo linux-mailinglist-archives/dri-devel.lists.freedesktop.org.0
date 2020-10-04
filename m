@@ -2,39 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4FF282B89
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Oct 2020 17:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D2C2830CD
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 09:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE8C289F61;
-	Sun,  4 Oct 2020 15:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 966E06E11E;
+	Mon,  5 Oct 2020 07:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6169D89F5B;
- Sun,  4 Oct 2020 15:44:01 +0000 (UTC)
-Received: from localhost (unknown [213.57.247.131])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 88C7F20759;
- Sun,  4 Oct 2020 15:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601826241;
- bh=O7HZcQRzxRmAmnS3hiVfDbaeM/A2kfet6dFl98RAZCk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=X//tSZm6sevkjEKhDCnbeghNb7kZQJg6fxH61KLJC8YdLD9vUcDgC4p0C9hU5yL3m
- ZWSgNOwL/hM/aZT1U76QjuYUS5CgSA3DaUKuoCUu5SYzhqLOZZzOk24IWuunait3zc
- kkYnHpAnt8kYgYU3KLJprm9srd/PgZEB629dLBRs=
-From: Leon Romanovsky <leon@kernel.org>
-To: Doug Ledford <dledford@redhat.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH rdma-next v5 4/4] RDMA/umem: Move to allocate SG table from
- pages
-Date: Sun,  4 Oct 2020 18:43:40 +0300
-Message-Id: <20201004154340.1080481-5-leon@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201004154340.1080481-1-leon@kernel.org>
-References: <20201004154340.1080481-1-leon@kernel.org>
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A94289E52
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Oct 2020 15:45:32 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id s66so6246197otb.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Oct 2020 08:45:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=xGAaZlULxRnETqUVWzjLk8Mz1WjD46DK8i9GWsNTs18=;
+ b=dV1gX4zqZmbJQOPTdUVdivyx029QwLokW0xCfS7wBE3/G7FyPDPNKL1vqvIVEUcX8t
+ lCk/u+BiBujGCpb9gEQ/3fTh1RYfcqi4Gnaswrg7qLAXlDJuoJKiyZERhtIx6I6xKUgA
+ FGlFvjGRDrgupoBKJwMuyKg6cia7A5Bln0NA9MlJmWap80a517wDdFSpJjOtMHSsSMUX
+ pwXo9+vrjQxypZ4U/T6RtpuQDLeyQ76u6Ume/i9a/PRI2qQx+QT3g8V3TervWV2jkIsO
+ F0V2HZ3l1U3su3ZuNhC40yaNqXw4GmW25NqJmSCl1az+/mUukNEEVoewaz9NMFV/YITT
+ +Sow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=xGAaZlULxRnETqUVWzjLk8Mz1WjD46DK8i9GWsNTs18=;
+ b=noCBEK6ILV7KSiCyT4SSHD4RJRqDS4w8/l/C1wLyizZvC3mbC3IJzn6Graoh8N4Of9
+ hJTdGLw2FFZSZhsJb700q0MIQKzIZ77vs0LAXPzUM8Q9uYnZ29Dhw91qEsjbVUkjBTne
+ rtcmcmBLpXgQoEC3SQImRfYaHTKm0Ww6RMQdSCe31jlVk91hBuRM+vHpAB2wla5mpRYt
+ igc3vcuWVyUViLbhnpcZU6DxMFjFNonaNuX9PuPxHbGjbP9MKiH1L1RsJxfv1raId3CD
+ DBV/y3orcdIrTRTY+s9+G0K8vQHA7AOM5HDb+T3V9dLbnFKOEe/61KcyIgLr9a12oHXS
+ u1cg==
+X-Gm-Message-State: AOAM530rMCo8qkLzQkTqDpkEZ5tj6I8HsAdZCF4PiUGzn+p2NntzSQ28
+ ACnLN4uJDYN51o71oDPcdoxIUg==
+X-Google-Smtp-Source: ABdhPJzAkK7Ed/NxS+dDPERTzbQ+ASLKgaHlFbiIZmKavzA4g8BCHoJiOSZ5JsmCvp/tNE3z7OPMuw==
+X-Received: by 2002:a9d:5e8a:: with SMTP id f10mr8217883otl.242.1601826332190; 
+ Sun, 04 Oct 2020 08:45:32 -0700 (PDT)
+Received: from Steevs-MBP.hackershack.net (cpe-173-175-113-3.satx.res.rr.com.
+ [173.175.113.3])
+ by smtp.gmail.com with ESMTPSA id k73sm2209402otk.63.2020.10.04.08.45.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 04 Oct 2020 08:45:31 -0700 (PDT)
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Add retries for link training
+To: Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>
+References: <20201002135920.1.I2adbc90b2db127763e2444bd5a4e5bf30e1db8e5@changeid>
+From: Steev Klimaszewski <steev@kali.org>
+Message-ID: <29cace9d-39e2-a5f5-dd2b-ab3eb7ad1622@kali.org>
+Date: Sun, 4 Oct 2020 10:45:29 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20201002135920.1.I2adbc90b2db127763e2444bd5a4e5bf30e1db8e5@changeid>
+Content-Language: en-US
+X-Mailman-Approved-At: Mon, 05 Oct 2020 07:22:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,185 +73,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rdma@vger.kernel.org,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Maor Gottlieb <maorg@nvidia.com>,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maor Gottlieb <maorg@nvidia.com>
-
-Remove the implementation of ib_umem_add_sg_table and instead
-call to __sg_alloc_table_from_pages which already has the logic to
-merge contiguous pages.
-
-Besides that it removes duplicated functionality, it reduces the
-memory consumption of the SG table significantly. Prior to this
-patch, the SG table was allocated in advance regardless consideration
-of contiguous pages.
-
-In huge pages system of 2MB page size, without this change, the SG table
-would contain x512 SG entries.
-E.g. for 100GB memory registration:
-
-	 Number of entries	Size
-Before 	      26214400          600.0MB
-After            51200		  1.2MB
-
-Signed-off-by: Maor Gottlieb <maorg@nvidia.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/infiniband/core/umem.c | 94 +++++-----------------------------
- 1 file changed, 12 insertions(+), 82 deletions(-)
-
-diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
-index c1ab6a4f2bc3..e9fecbdf391b 100644
---- a/drivers/infiniband/core/umem.c
-+++ b/drivers/infiniband/core/umem.c
-@@ -61,73 +61,6 @@ static void __ib_umem_release(struct ib_device *dev, struct ib_umem *umem, int d
- 	sg_free_table(&umem->sg_head);
- }
-
--/* ib_umem_add_sg_table - Add N contiguous pages to scatter table
-- *
-- * sg: current scatterlist entry
-- * page_list: array of npage struct page pointers
-- * npages: number of pages in page_list
-- * max_seg_sz: maximum segment size in bytes
-- * nents: [out] number of entries in the scatterlist
-- *
-- * Return new end of scatterlist
-- */
--static struct scatterlist *ib_umem_add_sg_table(struct scatterlist *sg,
--						struct page **page_list,
--						unsigned long npages,
--						unsigned int max_seg_sz,
--						int *nents)
--{
--	unsigned long first_pfn;
--	unsigned long i = 0;
--	bool update_cur_sg = false;
--	bool first = !sg_page(sg);
--
--	/* Check if new page_list is contiguous with end of previous page_list.
--	 * sg->length here is a multiple of PAGE_SIZE and sg->offset is 0.
--	 */
--	if (!first && (page_to_pfn(sg_page(sg)) + (sg->length >> PAGE_SHIFT) ==
--		       page_to_pfn(page_list[0])))
--		update_cur_sg = true;
--
--	while (i != npages) {
--		unsigned long len;
--		struct page *first_page = page_list[i];
--
--		first_pfn = page_to_pfn(first_page);
--
--		/* Compute the number of contiguous pages we have starting
--		 * at i
--		 */
--		for (len = 0; i != npages &&
--			      first_pfn + len == page_to_pfn(page_list[i]) &&
--			      len < (max_seg_sz >> PAGE_SHIFT);
--		     len++)
--			i++;
--
--		/* Squash N contiguous pages from page_list into current sge */
--		if (update_cur_sg) {
--			if ((max_seg_sz - sg->length) >= (len << PAGE_SHIFT)) {
--				sg_set_page(sg, sg_page(sg),
--					    sg->length + (len << PAGE_SHIFT),
--					    0);
--				update_cur_sg = false;
--				continue;
--			}
--			update_cur_sg = false;
--		}
--
--		/* Squash N contiguous pages into next sge or first sge */
--		if (!first)
--			sg = sg_next(sg);
--
--		(*nents)++;
--		sg_set_page(sg, first_page, len << PAGE_SHIFT, 0);
--		first = false;
--	}
--
--	return sg;
--}
--
- /**
-  * ib_umem_find_best_pgsz - Find best HW page size to use for this MR
-  *
-@@ -217,7 +150,7 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
- 	struct mm_struct *mm;
- 	unsigned long npages;
- 	int ret;
--	struct scatterlist *sg;
-+	struct scatterlist *sg = NULL;
- 	unsigned int gup_flags = FOLL_WRITE;
-
- 	/*
-@@ -272,15 +205,9 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
-
- 	cur_base = addr & PAGE_MASK;
-
--	ret = sg_alloc_table(&umem->sg_head, npages, GFP_KERNEL);
--	if (ret)
--		goto vma;
--
- 	if (!umem->writable)
- 		gup_flags |= FOLL_FORCE;
-
--	sg = umem->sg_head.sgl;
--
- 	while (npages) {
- 		cond_resched();
- 		ret = pin_user_pages_fast(cur_base,
-@@ -292,15 +219,19 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
- 			goto umem_release;
-
- 		cur_base += ret * PAGE_SIZE;
--		npages   -= ret;
--
--		sg = ib_umem_add_sg_table(sg, page_list, ret,
--			dma_get_max_seg_size(device->dma_device),
--			&umem->sg_nents);
-+		npages -= ret;
-+		sg = __sg_alloc_table_from_pages(
-+			&umem->sg_head, page_list, ret, 0, ret << PAGE_SHIFT,
-+			dma_get_max_seg_size(device->dma_device), sg, npages,
-+			GFP_KERNEL);
-+		umem->sg_nents = umem->sg_head.nents;
-+		if (IS_ERR(sg)) {
-+			unpin_user_pages_dirty_lock(page_list, ret, 0);
-+			ret = PTR_ERR(sg);
-+			goto umem_release;
-+		}
- 	}
-
--	sg_mark_end(sg);
--
- 	if (access & IB_ACCESS_RELAXED_ORDERING)
- 		dma_attr |= DMA_ATTR_WEAK_ORDERING;
-
-@@ -318,7 +249,6 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
-
- umem_release:
- 	__ib_umem_release(device, umem, 0);
--vma:
- 	atomic64_sub(ib_umem_num_pages(umem), &mm->pinned_vm);
- out:
- 	free_page((unsigned long) page_list);
---
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDEwLzIvMjAgNDowMyBQTSwgRG91Z2xhcyBBbmRlcnNvbiB3cm90ZToKPiBPbiBzb21lIHBh
+bmVscyBob29rZWQgdXAgdG8gdGhlIHRpLXNuNjVkc2k4NiBicmlkZ2UgY2hpcCB3ZSBmb3VuZCB0
+aGF0Cj4gbGluayB0cmFpbmluZyB3YXMgZmFpbGluZy4gIFNwZWNpZmljYWxseSwgd2UnZCBzZWU6
+Cj4KPiAgIHRpX3NuNjVkc2k4NiAyLTAwMmQ6IFtkcm06dGlfc25fYnJpZGdlX2VuYWJsZV0gKkVS
+Uk9SKiBMaW5rIHRyYWluaW5nIGZhaWxlZCwgbGluayBpcyBvZmYgKC01KQo+Cj4gVGhlIHBhbmVs
+IHdhcyBob29rZWQgdXAgdG8gYSBsb2dpYyBhbmFseXplciBhbmQgaXQgd2FzIGZvdW5kIHRoYXQs
+IGFzCj4gcGFydCBvZiBsaW5rIHRyYWluaW5nLCB0aGUgYnJpZGdlIGNoaXAgd2FzIHdyaXRpbmcg
+YSAweDEgdG8gRFBDRAo+IGFkZHJlc3MgMDA2MDBoIGFuZCB0aGUgcGFuZWwgcmVzcG9uZGVkIE5B
+Q0suICBBcyBjYW4gYmUgc2VlbiBpbiBoZWFkZXIKPiBmaWxlcywgdGhlIHdyaXRlIG9mIDB4MSB0
+byBEUENEIGFkZHJlc3MgMHg2MDBoIG1lYW5zIHdlIHdlcmUgdHJ5aW5nIHRvCj4gd3JpdGUgdGhl
+IHZhbHVlIERQX1NFVF9QT1dFUl9EMCB0byB0aGUgcmVnaXN0ZXIgRFBfU0VUX1BPV0VSLiAgVGhl
+Cj4gcGFuZWwgdmVuZG9yIHNheXMgdGhhdCBhIE5BQ0sgaW4gdGhpcyBjYXNlIGlzIG5vdCB1bmV4
+cGVjdGVkIGFuZCBtZWFucwo+ICJub3QgcmVhZHksIHRyeSBhZ2FpbiIuCj4KPiBJbiB0ZXN0aW5n
+LCB3ZSBmb3VuZCB0aGF0IHRoaXMgcGFuZWwgd291bGQgcmVzcG9uZCB3aXRoIGEgTkFDSyBpbgo+
+IGFib3V0IDEvMjUgdGltZXMuICBBZGRpbmcgdGhlIHJldHJ5IGxvZ2ljIHdvcmtlZCBmaW5lIGFu
+ZCB0aGUgbW9zdAo+IG51bWJlciBvZiB0cmllcyBuZWVkZWQgd2FzIDMuICBKdXN0IHRvIGJlIHNh
+ZmUsIHdlJ2xsIGFkZCAxMCB0cmllcwo+IGhlcmUgYW5kIHdlJ2xsIGFkZCBhIGxpdHRsZSBibHVy
+YiB0byB0aGUgbG9ncyBpZiB3ZSBldmVyIG5lZWQgbW9yZQo+IHRoYW4gNS4KPgo+IFNpZ25lZC1v
+ZmYtYnk6IERvdWdsYXMgQW5kZXJzb24gPGRpYW5kZXJzQGNocm9taXVtLm9yZz4KPiAtLS0KPgo+
+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVkc2k4Ni5jIHwgNDAgKysrKysrKysrKysr
+KysrKysrKy0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspLCAxMSBk
+ZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNu
+NjVkc2k4Ni5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS1zbjY1ZHNpODYuYwo+IGluZGV4
+IGVjZGY5YjAxMzQwZi4uNmUxMmNkYTY5YjU0IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9icmlkZ2UvdGktc242NWRzaTg2LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3Rp
+LXNuNjVkc2k4Ni5jCj4gQEAgLTEwNiw2ICsxMDYsOCBAQAo+ICAjZGVmaW5lIFNOX05VTV9HUElP
+UwkJCTQKPiAgI2RlZmluZSBTTl9HUElPX1BIWVNJQ0FMX09GRlNFVAkJMQo+ICAKPiArI2RlZmlu
+ZSBTTl9MSU5LX1RSQUlOSU5HX1RSSUVTCQkxMAo+ICsKPiAgLyoqCj4gICAqIHN0cnVjdCB0aV9z
+bl9icmlkZ2UgLSBQbGF0Zm9ybSBkYXRhIGZvciB0aS1zbjY1ZHNpODYgZHJpdmVyLgo+ICAgKiBA
+ZGV2OiAgICAgICAgICBQb2ludGVyIHRvIG91ciBkZXZpY2UuCj4gQEAgLTY3Myw2ICs2NzUsNyBA
+QCBzdGF0aWMgaW50IHRpX3NuX2xpbmtfdHJhaW5pbmcoc3RydWN0IHRpX3NuX2JyaWRnZSAqcGRh
+dGEsIGludCBkcF9yYXRlX2lkeCwKPiAgewo+ICAJdW5zaWduZWQgaW50IHZhbDsKPiAgCWludCBy
+ZXQ7Cj4gKwlpbnQgaTsKPiAgCj4gIAkvKiBzZXQgZHAgY2xrIGZyZXF1ZW5jeSB2YWx1ZSAqLwo+
+ICAJcmVnbWFwX3VwZGF0ZV9iaXRzKHBkYXRhLT5yZWdtYXAsIFNOX0RBVEFSQVRFX0NPTkZJR19S
+RUcsCj4gQEAgLTY4OSwxOSArNjkyLDM0IEBAIHN0YXRpYyBpbnQgdGlfc25fbGlua190cmFpbmlu
+ZyhzdHJ1Y3QgdGlfc25fYnJpZGdlICpwZGF0YSwgaW50IGRwX3JhdGVfaWR4LAo+ICAJCWdvdG8g
+ZXhpdDsKPiAgCX0KPiAgCj4gLQkvKiBTZW1pIGF1dG8gbGluayB0cmFpbmluZyBtb2RlICovCj4g
+LQlyZWdtYXBfd3JpdGUocGRhdGEtPnJlZ21hcCwgU05fTUxfVFhfTU9ERV9SRUcsIDB4MEEpOwo+
+IC0JcmV0ID0gcmVnbWFwX3JlYWRfcG9sbF90aW1lb3V0KHBkYXRhLT5yZWdtYXAsIFNOX01MX1RY
+X01PREVfUkVHLCB2YWwsCj4gLQkJCQkgICAgICAgdmFsID09IE1MX1RYX01BSU5fTElOS19PRkYg
+fHwKPiAtCQkJCSAgICAgICB2YWwgPT0gTUxfVFhfTk9STUFMX01PREUsIDEwMDAsCj4gLQkJCQkg
+ICAgICAgNTAwICogMTAwMCk7Cj4gLQlpZiAocmV0KSB7Cj4gLQkJKmxhc3RfZXJyX3N0ciA9ICJU
+cmFpbmluZyBjb21wbGV0ZSBwb2xsaW5nIGZhaWxlZCI7Cj4gLQl9IGVsc2UgaWYgKHZhbCA9PSBN
+TF9UWF9NQUlOX0xJTktfT0ZGKSB7Cj4gLQkJKmxhc3RfZXJyX3N0ciA9ICJMaW5rIHRyYWluaW5n
+IGZhaWxlZCwgbGluayBpcyBvZmYiOwo+IC0JCXJldCA9IC1FSU87Cj4gKwkvKgo+ICsJICogV2Un
+bGwgdHJ5IHRvIGxpbmsgdHJhaW4gc2V2ZXJhbCB0aW1lcy4gIEFzIHBhcnQgb2YgbGluayB0cmFp
+bmluZwo+ICsJICogdGhlIGJyaWRnZSBjaGlwIHdpbGwgd3JpdGUgRFBfU0VUX1BPV0VSX0QwIHRv
+IERQX1NFVF9QT1dFUi4gIElmCj4gKwkgKiB0aGUgcGFuZWwgaXNuJ3QgcmVhZHkgcXVpdGUgaXQg
+bWlnaHQgcmVzcG9uZCBOQUsgaGVyZSB3aGljaCBtZWFucwo+ICsJICogd2UgbmVlZCB0byB0cnkg
+YWdhaW4uCj4gKwkgKi8KPiArCWZvciAoaSA9IDA7IGkgPCBTTl9MSU5LX1RSQUlOSU5HX1RSSUVT
+OyBpKyspIHsKPiArCQkvKiBTZW1pIGF1dG8gbGluayB0cmFpbmluZyBtb2RlICovCj4gKwkJcmVn
+bWFwX3dyaXRlKHBkYXRhLT5yZWdtYXAsIFNOX01MX1RYX01PREVfUkVHLCAweDBBKTsKPiArCQly
+ZXQgPSByZWdtYXBfcmVhZF9wb2xsX3RpbWVvdXQocGRhdGEtPnJlZ21hcCwgU05fTUxfVFhfTU9E
+RV9SRUcsIHZhbCwKPiArCQkJCQl2YWwgPT0gTUxfVFhfTUFJTl9MSU5LX09GRiB8fAo+ICsJCQkJ
+CXZhbCA9PSBNTF9UWF9OT1JNQUxfTU9ERSwgMTAwMCwKPiArCQkJCQk1MDAgKiAxMDAwKTsKPiAr
+CQlpZiAocmV0KSB7Cj4gKwkJCSpsYXN0X2Vycl9zdHIgPSAiVHJhaW5pbmcgY29tcGxldGUgcG9s
+bGluZyBmYWlsZWQiOwo+ICsJCX0gZWxzZSBpZiAodmFsID09IE1MX1RYX01BSU5fTElOS19PRkYp
+IHsKPiArCQkJKmxhc3RfZXJyX3N0ciA9ICJMaW5rIHRyYWluaW5nIGZhaWxlZCwgbGluayBpcyBv
+ZmYiOwo+ICsJCQlyZXQgPSAtRUlPOwo+ICsJCQljb250aW51ZTsKPiArCQl9Cj4gKwo+ICsJCWJy
+ZWFrOwo+ICAJfQo+ICAKPiArCS8qIElmIHdlIHNhdyBxdWl0ZSBhIGZldyByZXRyaWVzLCBhZGQg
+YSBub3RlIGFib3V0IGl0ICovCj4gKwlpZiAoIXJldCAmJiBpID4gU05fTElOS19UUkFJTklOR19U
+UklFUyAvIDIpCj4gKwkJRFJNX0RFVl9JTkZPKHBkYXRhLT5kZXYsICJMaW5rIHRyYWluaW5nIG5l
+ZWRlZCAlZCByZXRyaWVzXG4iLCBpKTsKPiArCj4gIGV4aXQ6Cj4gIAkvKiBEaXNhYmxlIHRoZSBQ
+TEwgaWYgd2UgZmFpbGVkICovCj4gIAlpZiAocmV0KQoKCkFwb2xvZ2llcyBmb3IgdGhlIHByZXZp
+b3VzIEhUTUwgZW1haWwsIEkgd2FzIHRyeWluZyBhIG5ldyBtYWlsIGNsaWVudAphbmQuLi4gd2ls
+bCBub3QgYmUgc3dpdGNoaW5nIHRvIGl0LgoKQW55d2F5Li4gYWdhaW4sIHRoaXMgdGltZSBpbiB0
+ZXh0Li4KCgpUZXN0ZWQgb24gdGhlIExlbm92byBDNjMwLCBhbmQgaGF2ZW7igJl0IHNlZW4gdGhl
+IG1lc3NhZ2UsIGFsdGhvdWdoIEkKaGFkbuKAmXQgc2VlbiB0aGUgZGVzY3JpYmVkIGlzc3VlIGJl
+Zm9yZSBlaXRoZXIuCgpUZXN0ZWQtQnk6IFN0ZWV2IEtsaW1hc3pld3NraSA8c3RlZXZAa2FsaS5v
+cmc+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
