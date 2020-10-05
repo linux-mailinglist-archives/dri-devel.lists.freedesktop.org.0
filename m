@@ -2,73 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DCB28473B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCD128395E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 17:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D04C6E405;
-	Tue,  6 Oct 2020 07:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C935589D4A;
+	Mon,  5 Oct 2020 15:16:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 064AD6E095
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:15:56 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 73127580176;
- Mon,  5 Oct 2020 11:15:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 05 Oct 2020 11:15:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=Ut3ZT+W4+yvZB
- ml4M9YqRFh4J0n6Jv0UFC/16UuzKdY=; b=KrRTk/XHVwtlapk9qJTQG8Jw2VJuv
- wNTSQ+GKLKmdhuY463e62mvV5g/4WoY6xN0iNEk/GJThjl1M0GLhzgWxvGefbGcr
- 4kE5DFA2YT0e8RFgBX2ZLT6X0jyYK+rBVUkNS0laqlYI03+8ZslkEYDl0FxCqmj2
- HaXgxAvTOmKbBNA/2qIpP9IBmjYAX6Ejn6aRcbyXQbg2U815kqV7BIRTlcdeR/7/
- qTolsS45EYWa30ZU+JKb6aBuKUUDMs80WNZuwisy7StB77hAf/Lr2kkMc2Jbs+HJ
- e5QA8ESMb20n44z9AllNwd5WYWbI28XgS+uwQ/AiWve+1aMBJ6T2IIi1w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=Ut3ZT+W4+yvZBml4M9YqRFh4J0n6Jv0UFC/16UuzKdY=; b=IFhHuvE3
- KxDWmY35DYhw26Kv2jEblDP9dS3mvO7nksq3MHhSEJiI0WkGaIpTw5c8skEWA1Di
- ATYjRZPOx8YNMIi8ys1BBgRa4M5TptGtU1LeaM4A36tFevkzv3+pzQxaq65IRkR+
- AnvdiG5kNnkItrq79HyaVYpE4TzzPFKo4YpikhOlmWVupRJ2AoaN7Z3gx4hdCf5m
- AzB9R+NT4v4hilDwa2ltYTn0bnZeiGecjWBnprJS3CWSPwPy0xLckftwCLy/QH+b
- riFh7TG+Oir4m9qfOXJ2yxcMsGXLw4hwppOTNq+qGgsxfIojYKR/roe34Xx0XkQ4
- GL+9WoUyMaOy/Q==
-X-ME-Sender: <xms:qzh7XzAvGxydSQJv0HBBiQKhXpZiF_k0Xy0hv7MpvMYs9468cGN_EA>
- <xme:qzh7X5hTLsyU-ClIfqmY3c0gXygFk0KIpDx5_bWMaO7TC3XsV-ez0qu-j5S0Spjnp
- 6Aek6N6-iHAAywgSI8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgdekjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:qzh7X-l_VGbn_xk80qRx1rdhhFta3YpJVe_g24maDRZyelT0T5N_Jw>
- <xmx:qzh7X1w4lbqUq76VmNqXGHF5JxqBXiv8EZA40gguXAgAvHXz8tG95Q>
- <xmx:qzh7X4RrP3tKu5on4tHpm8URm3O1dZ5ERsfxa-lEyiDNr7jra7LBlA>
- <xmx:qzh7X9LmJ5Ik0OcGd2v8vIETNYGCL0cS4f09YCjnw4fwRF7w66eP3Q>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D7847328005E;
- Mon,  5 Oct 2020 11:15:54 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH RESEND v3 6/6] [DO NOT MERGE] ARM: dts: sun7i: Enable LVDS
- Dual-Link on the Cubieboard
-Date: Mon,  5 Oct 2020 17:15:44 +0200
-Message-Id: <c47e17763c45cffb34a580fc8ad1e8e85b0f8469.1601910923.git-series.maxime@cerno.tech>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
-References: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 43D4289D4A
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:16:36 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 644E5113E;
+ Mon,  5 Oct 2020 08:16:35 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE1EA3F70D;
+ Mon,  5 Oct 2020 08:16:33 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] iommu/io-pgtable-arm: Support coherency for Mali
+ LPAE
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
+References: <cover.1600780574.git.robin.murphy@arm.com>
+ <8df778355378127ea7eccc9521d6427e3e48d4f2.1600780574.git.robin.murphy@arm.com>
+ <20201005165008.1f3b4e89@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <07c4b74f-c87b-092c-3fc7-c005c8c65206@arm.com>
+Date: Mon, 5 Oct 2020 16:16:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
+In-Reply-To: <20201005165008.1f3b4e89@collabora.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,114 +45,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: tomeu.vizoso@collabora.com, narmstrong@baylibre.com, khilman@baylibre.com,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ alyssa.rosenzweig@collabora.com, linux-amlogic@lists.infradead.org,
+ will@kernel.org, linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the sake of the example, let's enable an LVDS Dual-Link display on a
-Cubieboard.
+On 05/10/2020 15:50, Boris Brezillon wrote:
+> On Tue, 22 Sep 2020 15:16:48 +0100
+> Robin Murphy <robin.murphy@arm.com> wrote:
+> 
+>> Midgard GPUs have ACE-Lite master interfaces which allows systems to
+>> integrate them in an I/O-coherent manner. It seems that from the GPU's
+>> viewpoint, the rest of the system is its outer shareable domain, and so
+>> even when snoop signals are wired up, they are only emitted for outer
+>> shareable accesses. As such, setting the TTBR_SHARE_OUTER bit does
+>> indeed get coherent pagetable walks working nicely for the coherent
+>> T620 in the Arm Juno SoC.
+>>
+>> Reviewed-by: Steven Price <steven.price@arm.com>
+>> Tested-by: Neil Armstrong <narmstrong@baylibre.com>
+>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+>> ---
+>>   drivers/iommu/io-pgtable-arm.c | 11 ++++++++++-
+>>   1 file changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+>> index dc7bcf858b6d..b4072a18e45d 100644
+>> --- a/drivers/iommu/io-pgtable-arm.c
+>> +++ b/drivers/iommu/io-pgtable-arm.c
+>> @@ -440,7 +440,13 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
+>>   				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+>>   	}
+>>   
+>> -	if (prot & IOMMU_CACHE)
+>> +	/*
+>> +	 * Also Mali has its own notions of shareability wherein its Inner
+>> +	 * domain covers the cores within the GPU, and its Outer domain is
+>> +	 * "outside the GPU" (i.e. either the Inner or System domain in CPU
+>> +	 * terms, depending on coherency).
+>> +	 */
+>> +	if (prot & IOMMU_CACHE && data->iop.fmt != ARM_MALI_LPAE)
+>>   		pte |= ARM_LPAE_PTE_SH_IS;
+>>   	else
+>>   		pte |= ARM_LPAE_PTE_SH_OS;
+> 
+> Actually, it still doesn't work on s922x :-/. For it to work I
+> correctly, I need to drop the outer shareable flag here.
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- arch/arm/boot/dts/sun7i-a20-cubieboard2.dts | 69 ++++++++++++++++++++++-
- 1 file changed, 69 insertions(+)
+The logic here does seem a bit odd. Originally it was:
 
-diff --git a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
-index b8203e4ef21c..20278a27ec16 100644
---- a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
-+++ b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
-@@ -85,6 +85,49 @@
- 			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>;
- 		};
- 	};
-+
-+	panel: panel {
-+		compatible = "panel-lvds";
-+		width-mm = <153>;
-+		height-mm = <90>;
-+		data-mapping = "vesa-24";
-+
-+		panel-timing {
-+			clock-frequency = <148500000>;
-+			hfront-porch = <88>;
-+			hactive = <1920>;
-+			hback-porch = <148>;
-+			hsync-len = <44>;
-+
-+			vfront-porch = <4>;
-+			vactive = <1080>;
-+			vback-porch = <36>;
-+			vsync-len = <5>;
-+		};
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				dual-lvds-even-pixels;
-+
-+				panel_input_0: endpoint {
-+					remote-endpoint = <&tcon0_out_panel>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				dual-lvds-odd-pixels;
-+
-+				panel_input_1: endpoint {
-+					remote-endpoint = <&tcon1_out_panel>;
-+				};
-+			};
-+		};
-+	};
- };
- 
- &ahci {
-@@ -218,6 +261,32 @@
- 	status = "okay";
- };
- 
-+&tcon0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&lcd_lvds0_pins>;
-+	allwinner,lvds-companion = <&tcon1>;
-+	status = "okay";
-+};
-+
-+&tcon0_out {
-+	tcon0_out_panel: endpoint@0 {
-+		remote-endpoint = <&panel_input_0>;
-+	};
-+};
-+
-+&tcon1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&lcd_lvds1_pins>;
-+	allwinner,lvds-companion = <&tcon0>;
-+	status = "okay";
-+};
-+
-+&tcon1_out {
-+	tcon1_out_panel: endpoint@0 {
-+		remote-endpoint = <&panel_input_1>;
-+	};
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pb_pins>;
--- 
-git-series 0.9.1
+IOMMU_CACHE -> Inner shared (value 3)
+!IOMMU_CACHE -> Outer shared (value 2)
+
+For Mali we're forcing everything to the second option. But Mali being 
+Mali doesn't do things the same as LPAE, so for Mali we have:
+
+0 - not shared
+1 - reserved
+2 - inner(*) and outer shareable
+3 - inner shareable only
+
+(*) where "inner" means internal to the GPU, and "outer" means shared 
+with the CPU "inner". Very confusing!
+
+So originally we had:
+IOMMU_CACHE -> not shared with CPU (only internally in the GPU)
+!IOMMU_CACHE -> shared with CPU
+
+The change above gets us to "always shared", dropping the SH_OS bit 
+would get us to not even shareable between cores (which doesn't sound 
+like what we want).
+
+It's not at all clear to me why the change helps, but I suspect we want 
+at least "inner" shareable.
+
+Steve
+
+>> @@ -1049,6 +1055,9 @@ arm_mali_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
+>>   	cfg->arm_mali_lpae_cfg.transtab = virt_to_phys(data->pgd) |
+>>   					  ARM_MALI_LPAE_TTBR_READ_INNER |
+>>   					  ARM_MALI_LPAE_TTBR_ADRMODE_TABLE;
+>> +	if (cfg->coherent_walk)
+>> +		cfg->arm_mali_lpae_cfg.transtab |= ARM_MALI_LPAE_TTBR_SHARE_OUTER;
+>> +
+>>   	return &data->iop;
+>>   
+>>   out_free_data:
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
