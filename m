@@ -2,65 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A75F28474D
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:32:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFDD283684
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 15:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F03D6E422;
-	Tue,  6 Oct 2020 07:31:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834B389D1D;
+	Mon,  5 Oct 2020 13:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EAC289CF2
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 13:13:05 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id v123so11737798qkd.9
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 06:13:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=g/nm80+Ud0wRxvGfW3dlVEjR1+0DLL+VUhoF4LmgS+Q=;
- b=HHMoe12/eAzH/fwzfESo4EPwuolZOIMbQjNC5GQRJrIb3mESWoCqFb/+X48/ok5xAY
- 1Ib5j6cJag2rt7rEGRcYQvbjvT6rY99IutD+lWrQU8ZQAc2QLQ8yiHaxqA+hTUm9R0AG
- 5niHdR+a9omhIWYTsRo+b8q6GcK3Zs8XSzXSBOQxcbygY0/2oiGqrcWOgqeLm3zPijhF
- mb40XErkCkx8a657/zpPt7xIE+/WVgRfNKkWYIzrCp2tFDP+3BInjM7+gEMEf76WZHqQ
- mWS1lNBj11tGTpzFwmXWxgQhpUHsgSF55YjnC64n3+0PHEFGUfjNmCIcTTGmKI9MGu2d
- kCSQ==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF0D89D1D
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 13:29:05 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id u16so574063wml.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 06:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=J4lJSUw2mnolBVSLSi1T1yMpxQeJ1k5VmJ1lslOfVkM=;
+ b=L7uo6Ef0yMAaXVYn9zH2w53pTfb1Vp8E/wLU7dUONTGj7KP2h1PWgioL2H3mwE0Xbl
+ oKzHsiaWidHrKQ8XlKVYSjnNHL870lwGWJTr8Z9Qs1JvM7Gcw9HicqgemTcAvuAv51bK
+ QInU0c7EKOUOXvsg3m21c0fNLzBQ66hq+0w54vZG/MmYIDC6z0JdQCt/aeo9pkMgT3Ap
+ +Xcn72WT6oVSS0cOUvsUJLupTzfNSltRZptr8A/TdRp8sXbWkzNPXEggYkjFwcknj4Jf
+ 4fVZXBQHuhk6HvMNr/PYzNeAvIw2KXeLsBpStuUl0rgDwwbCRg6X07C655yblVxWqBFl
+ VoKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=g/nm80+Ud0wRxvGfW3dlVEjR1+0DLL+VUhoF4LmgS+Q=;
- b=MXMkDHZ4D6q5S4UyWLGCOsOJJ2zx3jLGiDVxVQpYBkhJlHnaICg2KUcPznuDFuQ4Cf
- 4uvotRo4OTzk0p66S/xA+Pp4IvRzccWfhD7b8ipah/u1kV5A/s1jddFbH/S9AGDyjuQ7
- 3m7gQQjL83E6u3dNiYvtM4lF+LPUA5dz5ZQBS3FDS2vrgrHruarv5t52MfmCavgoxfDu
- FdVcqy60Em62qqGXXeI5b1QQOx3659Rh/1vMslczgpenaaEo82sm87SF7Ec0DS6b5kgZ
- 6JMiklhGTSj+3Y2bdUFs+akWjGljoIae0mbr7EpRI/1/77xqfGgU76iaFAAekZaCTvjo
- HN+Q==
-X-Gm-Message-State: AOAM530oborZuWkRpADUWqiR2linTA5DuVEoCkTbM9VJGufJpg10Dllg
- /V2qgj3hUetAUq6JWX+zxfqNwQ==
-X-Google-Smtp-Source: ABdhPJyrho8zIByNj5JL9HWW/xbMfB4xrHk9GWGi+3WSdBd2xnU203QhJSgXIPPx+itKthHZDwz+Yg==
-X-Received: by 2002:a37:bec2:: with SMTP id o185mr13957738qkf.37.1601903584565; 
- Mon, 05 Oct 2020 06:13:04 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id p29sm7381872qtu.68.2020.10.05.06.13.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 06:13:03 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kPQIY-007crb-Gz; Mon, 05 Oct 2020 10:13:02 -0300
-Date: Mon, 5 Oct 2020 10:13:02 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jianxin Xiong <jianxin.xiong@intel.com>
-Subject: Re: [RFC PATCH v3 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-Message-ID: <20201005131302.GQ9916@ziepe.ca>
-References: <1601838751-148544-1-git-send-email-jianxin.xiong@intel.com>
- <1601838751-148544-2-git-send-email-jianxin.xiong@intel.com>
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=J4lJSUw2mnolBVSLSi1T1yMpxQeJ1k5VmJ1lslOfVkM=;
+ b=ghwleCl9NLOBm9t1W67Xu7OB2A0JsQmzsQl05+nFIn/rBivObyF7Myw3/ZaDUHvus1
+ 57I2GtgqL0BsUo6PS3R9zLlD88osoGvbE3pTCVemnow0xPmwD09QhSE9aLNUz9TAR/t5
+ U0/EifcwEFjxxIRjrtcSRAp90L06X0li8FFfAlz8XvOW8MDk46t0TSEES4il/ZVJQi4+
+ jPQU9dNfXiyV0NqLOyDe9yzk8FLReBpo42vCCp8BCJRcJCcIML+NMPec7T8agSD4CB0C
+ DF5PXAqGFUqwvlhLDP38LS7Hf0cM97CFi0lsc4UPx+6PSixbPKEuU8+ozdqy2HG01b54
+ K/Hw==
+X-Gm-Message-State: AOAM530tEi0DUojJY859pkY3lALnzP17vFNyEoLX9WR5HrhhVWdhEHKd
+ /TRqdkr8XWQkeh1Gg98Q4Fk=
+X-Google-Smtp-Source: ABdhPJwkrzXue/XKOUf9c5ltaHqiVrX7isUjZ4VWpAkHE7cz49pxicK7YpEK0m5FT2H9gsJW+e0R3Q==
+X-Received: by 2002:a1c:4306:: with SMTP id q6mr6077422wma.189.1601904543887; 
+ Mon, 05 Oct 2020 06:29:03 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id u188sm8831060wmu.0.2020.10.05.06.29.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Oct 2020 06:29:03 -0700 (PDT)
+Subject: Re: [PATCH 1/8] drm/ttm: remove TTM_PAGE_FLAG_WRITE
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: dri-devel@lists.freedesktop.org, ray.huang@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <20201001112817.20967-1-christian.koenig@amd.com>
+Message-ID: <1e18a1de-de6d-c728-7eb4-801faa4db28f@gmail.com>
+Date: Mon, 5 Oct 2020 15:29:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1601838751-148544-2-git-send-email-jianxin.xiong@intel.com>
-X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
+In-Reply-To: <20201001112817.20967-1-christian.koenig@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,87 +71,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 04, 2020 at 12:12:28PM -0700, Jianxin Xiong wrote:
-> Dma-buf is a standard cross-driver buffer sharing mechanism that can be
-> used to support peer-to-peer access from RDMA devices.
-> 
-> Device memory exported via dma-buf is associated with a file descriptor.
-> This is passed to the user space as a property associated with the
-> buffer allocation. When the buffer is registered as a memory region,
-> the file descriptor is passed to the RDMA driver along with other
-> parameters.
-> 
-> Implement the common code for importing dma-buf object and mapping
-> dma-buf pages.
-> 
-> Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
-> Reviewed-by: Sean Hefty <sean.hefty@intel.com>
-> Acked-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> ---
->  drivers/infiniband/core/Makefile      |   2 +-
->  drivers/infiniband/core/umem.c        |   4 +
->  drivers/infiniband/core/umem_dmabuf.c | 291 ++++++++++++++++++++++++++++++++++
->  drivers/infiniband/core/umem_dmabuf.h |  14 ++
->  drivers/infiniband/core/umem_odp.c    |  12 ++
->  include/rdma/ib_umem.h                |  19 ++-
->  6 files changed, 340 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/infiniband/core/umem_dmabuf.c
->  create mode 100644 drivers/infiniband/core/umem_dmabuf.h
-
-I think this is using ODP too literally, dmabuf isn't going to need
-fine grained page faults, and I'm not sure this locking scheme is OK -
-ODP is horrifically complicated.
-
-If this is the approach then I think we should make dmabuf its own
-stand alone API, reg_user_mr_dmabuf()
-
-The implementation in mlx5 will be much more understandable, it would
-just do dma_buf_dynamic_attach() and program the XLT exactly the same
-as a normal umem.
-
-The move_notify() simply zap's the XLT and triggers a work to reload
-it after the move. Locking is provided by the dma_resv_lock. Only a
-small disruption to the page fault handler is needed.
-
-> +	dma_resv_lock(umem_dmabuf->attach->dmabuf->resv, NULL);
-> +	sgt = dma_buf_map_attachment(umem_dmabuf->attach,
-> +				     DMA_BIDIRECTIONAL);
-> +	dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
-
-This doesn't look right, this lock has to be held up until the HW is
-prorgammed
-
-The use of atomic looks probably wrong as well.
-
-> +	k = 0;
-> +	total_pages = ib_umem_odp_num_pages(umem_odp);
-> +	for_each_sg(umem->sg_head.sgl, sg, umem->sg_head.nents, j) {
-> +		addr = sg_dma_address(sg);
-> +		pages = sg_dma_len(sg) >> page_shift;
-> +		while (pages > 0 && k < total_pages) {
-> +			umem_odp->dma_list[k++] = addr | access_mask;
-> +			umem_odp->npages++;
-> +			addr += page_size;
-> +			pages--;
-
-This isn't fragmenting the sg into a page list properly, won't work
-for unaligned things
-
-And really we don't need the dma_list for this case, with a fixed
-whole mapping DMA SGL a normal umem sgl is OK and the normal umem XLT
-programming in mlx5 is fine.
-
-Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+UGluZz8gQnVuY2ggb2YgdHJpdmlhbCBjbGVhbnVwcyBhbmQgcmVtb3ZhbCBvZiB0aGUgY2FjaGlu
+ZyBwbGFjZW1lbnQgZmxhZ3MuCgpBbnkgY29tbWVudHMgb24gdGhpcz8KClRoYW5rcywKQ2hyaXN0
+aWFuLgoKQW0gMDEuMTAuMjAgdW0gMTM6Mjggc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+IE5v
+dCB1c2VkIGFueSBtb3JlLgo+Cj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hy
+aXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IC0tLQo+ICAgaW5jbHVkZS9kcm0vdHRtL3R0bV90dC5o
+IHwgMSAtCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvZHJtL3R0bS90dG1fdHQuaCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fdHQuaAo+IGlu
+ZGV4IDkxNjkxMjQwYTUwOS4uNWQxODM1ZDQ0MDg0IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJt
+L3R0bS90dG1fdHQuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fdHQuaAo+IEBAIC0zNCw3
+ICszNCw2IEBAIHN0cnVjdCB0dG1fcmVzb3VyY2U7Cj4gICBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
+Y3Q7Cj4gICBzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHg7Cj4gICAKPiAtI2RlZmluZSBUVE1fUEFH
+RV9GTEFHX1dSSVRFICAgICAgICAgICAoMSA8PCAzKQo+ICAgI2RlZmluZSBUVE1fUEFHRV9GTEFH
+X1NXQVBQRUQgICAgICAgICAoMSA8PCA0KQo+ICAgI2RlZmluZSBUVE1fUEFHRV9GTEFHX1pFUk9f
+QUxMT0MgICAgICAoMSA8PCA2KQo+ICAgI2RlZmluZSBUVE1fUEFHRV9GTEFHX0RNQTMyICAgICAg
+ICAgICAoMSA8PCA3KQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
