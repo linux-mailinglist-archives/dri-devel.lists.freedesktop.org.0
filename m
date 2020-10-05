@@ -1,79 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9DB284750
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:32:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 662C3283DC0
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 19:53:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 337FE6E437;
-	Tue,  6 Oct 2020 07:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4690389B7D;
+	Mon,  5 Oct 2020 17:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE4089CAD
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 17:54:01 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f7b5d4d0009>; Mon, 05 Oct 2020 10:52:13 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 5 Oct
- 2020 17:47:50 +0000
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
- by HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Mon, 5 Oct 2020 17:47:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oJpFXszOys/TVw/UMAcM7yoS0Q7CFw5+v/49bPw2z3X/8ltx54AI2SM0FEJPRatBpGCV1tYqyzDv6yZ3XcT2mVMCBcov9mrTPg1jnFm8j5H2A0gV7pDHL1nLEggOOhPHOQJp5dmzzByQfaM7JQIQ5rRRL3ElFBYWg2bo2Cqgc4EvemrQLM0cFriBZxVePZ/ZgZDcOoJpEWze2gIBSAF2/hTfczIjnE9LQHUCqZA5gTcOua3XZpCtttuTHRbYYZvhjD2P8mcs3i97P050u9WPf49HBeoQjwTmv7dPcz0TqJUVYvcwa5e7S+qo/IkriEQ1vI24GaCb95bPTIDVOE4Q1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=86Ck8VzDFVaztcONv7uTtduf2bY6DLkDLQqCb1Hyprw=;
- b=U/oRdpsJX+BHF97GsyUlcB1WUyWgYszEv1xwKhubRdgpOIopj7jX9MOivcJJNjinfA9iM7KvZQrAKjgzmbHyeA72vqKsREbOx1/2N+68Q8ERtlXluSOkl5l0W0o8ms9QR0cISw4X4D2xLxYtrhV6UwmV29/XnOtYnNi5lKrIB8HYhPkRDeXwNu1+Zzb2UzGYEqQKgyP1CXo+b+x1gUokzCpXv3DTI9xM9cy5fPvsOAXMjP2C0xBu29L08c2MDvQ4ejiegYsRNR+YmsG28eO0oINrXnVxwHTTaKVhpFYP3hOxSe9yBdcmbfPT7lwMNYse+E4yGsSTZ4YEtmgLWTjUEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB4498.namprd12.prod.outlook.com (2603:10b6:5:2a2::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32; Mon, 5 Oct
- 2020 17:47:49 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3433.044; Mon, 5 Oct 2020
- 17:47:49 +0000
-Date: Mon, 5 Oct 2020 14:47:47 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: andrew Morton <akpm@linux-foundation.org>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, <linux-mm@kvack.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAB389B7D
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 17:53:10 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 1EAA9ADDF;
+ Mon,  5 Oct 2020 17:53:09 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+ id 4D3281E12F3; Mon,  5 Oct 2020 19:53:08 +0200 (CEST)
+Date: Mon, 5 Oct 2020 19:53:08 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-Message-ID: <20201005174747.GA15803@nvidia.com>
+Message-ID: <20201005175308.GI4225@quack2.suse.cz>
 References: <0-v1-447bb60c11dd+174-frame_vec_fix_jgg@nvidia.com>
+MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <0-v1-447bb60c11dd+174-frame_vec_fix_jgg@nvidia.com>
-X-ClientProxiedBy: MN2PR15CA0040.namprd15.prod.outlook.com
- (2603:10b6:208:237::9) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by
- MN2PR15CA0040.namprd15.prod.outlook.com (2603:10b6:208:237::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.36 via Frontend Transport; Mon, 5 Oct 2020 17:47:49 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1kPUaR-000488-U4; Mon, 05 Oct 2020 14:47:47 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1601920333; bh=86Ck8VzDFVaztcONv7uTtduf2bY6DLkDLQqCb1Hyprw=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
- From:To:CC:Subject:Message-ID:References:Content-Type:
- Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType;
- b=UnqcthBkLbyZZZDBXc+rhPItfScmGERDo6RTNKFTTXTDcZFMYFEzvyVt6d5ZNIcW1
- I5CR6SPwFfMK/8l0OzB5Qjh8KFvSB9FdFHvSockc1m2L1KRFWhLxcRTGjC57SHRe3e
- 8RW1oRR1TnXDPVSAbnSPVN3wCLAwXscsP7RtfVrpC1Ky8D+DY5Ymlb9//3YuQobD5w
- QbsWC9vtdf48hJlNi4kWeAHHqI4qbfshPihDzy5H6uG+NcNRiNjsuur7yPA+8lry6j
- O8XNDIIUhrMyfNCmh2c1kUegTBlKXP0L3whOFKgFL/IFiAeffWw9TjvqUnNGq0sdvv
- PysZjVa5HRnHg==
-X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,11 +42,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
  linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Mauro
- Carvalho Chehab <mchehab@osg.samsung.com>, John Hubbard <jhubbard@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
- Hans Verkuil <hans.verkuil@cisco.com>, Mel Gorman <mgorman@suse.de>,
+ linux-mm@kvack.org, Hans Verkuil <hans.verkuil@cisco.com>,
+ Mel Gorman <mgorman@suse.de>, John Hubbard <jhubbard@nvidia.com>,
+ andrew Morton <akpm@linux-foundation.org>,
  Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
  linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
@@ -100,7 +56,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 05, 2020 at 02:38:54PM -0300, Jason Gunthorpe wrote:
+On Mon 05-10-20 14:38:54, Jason Gunthorpe wrote:
 > When get_vaddr_frames() does its hacky follow_pfn() loop it should never
 > be allowed to extract a struct page from a normal VMA. This could allow a
 > serious use-after-free problem on any kernel memory.
@@ -115,16 +71,37 @@ On Mon, Oct 05, 2020 at 02:38:54PM -0300, Jason Gunthorpe wrote:
 > ---
 >  mm/frame_vector.c | 4 ++++
 >  1 file changed, 4 insertions(+)
+> 
+> diff --git a/mm/frame_vector.c b/mm/frame_vector.c
+> index 10f82d5643b6de..26cb20544b6c37 100644
+> --- a/mm/frame_vector.c
+> +++ b/mm/frame_vector.c
+> @@ -99,6 +99,10 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>  		if (ret >= nr_frames || start < vma->vm_end)
+>  			break;
+>  		vma = find_vma_intersection(mm, start, start + 1);
+> +		if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+>  	} while (vma && vma->vm_flags & (VM_IO | VM_PFNMAP));
 
-woops, this subject got badly corrupted when I was editing the CC
-list, it was supposed to be:
+Hum, I fail to see how this helps. If vma has no VM_IO or VM_PFNMAP flag,
+we'd exit the loop (to out: label) anyway due to the loop termination
+condition and why not return the frames we already have? Furthermore
+find_vma_intersection() can return NULL which would oops in your check
+then. What am I missing?
 
-[PATCH] mm/gpu: frame_vector: require all VMAs to be VM_PFNMAP
+								Honza
 
-Andrew please let me know if you need a resend
-
-Sorry,
-Jason
+>  out:
+>  	if (locked)
+> -- 
+> 2.28.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
