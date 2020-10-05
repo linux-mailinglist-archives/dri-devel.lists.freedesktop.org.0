@@ -1,63 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9BA283734
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 16:02:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 884D628374E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 16:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4696289CA2;
-	Mon,  5 Oct 2020 14:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02AF389CCE;
+	Mon,  5 Oct 2020 14:05:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38BBC89CC4
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 14:02:08 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id d4so8743587wmd.5
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 07:02:08 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCE6089CCE
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 14:05:38 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id n18so1915217wrs.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 07:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=Kw0jH99mH65cgbBf0cAKvt7u45o+bI69PtoRz7plT9I=;
- b=LKbavLR8ZdTnQm7tlmWwgndIQwhen8v8O8x1psZ+HIE2wmAD24D+bXj5NwsJAvyS/R
- MQkiaMJ/+ob1zWMVtrd+sEWT6BKvZocdCnxbzPsmOqi3r39+dbuF1VEaGtZJZGoHTneV
- 0F4uvulqQGo0uTF43vmMZxaBExbJ8UbT6Sb9k=
+ bh=rYgwu/tsb6hqZBI1Z2tL8xDFx5slTZgCuj1UmwV+264=;
+ b=CTB3t9HGVokgEOA3jolJ7ACDLs2ngsZCF7EaI13IHHQzva/DwYCi/n9j6GSDldLMKA
+ WdyH9vanMUZ96PtuSw2eGBuXWYDlRiN8d2rBC2cxzVO2sUIub0tdKaMY8SXiVum0DR6b
+ 7JYvH8fRACBp77gNIGx9YiphHbDGcHPRYoYR0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=Kw0jH99mH65cgbBf0cAKvt7u45o+bI69PtoRz7plT9I=;
- b=Nohp0u3prHMG3tTWNmDKsnNLX8MpXwlOg5kEMRHkpb2Vh0V9sFp3lvkx4iuNe9Xhx2
- XEQ0DZaHb0jWOu3KhPy9lUyl0bXYTwXwWr7mR8jM5SwfJBHbfNW1u3Kt+01nmrRADeJ9
- ZVFjbGg7vlP2LMXOSOqXPT6syYkjkzKCZe003XekeSQrsv09P2eOmwHi9cNnsNiEp5nj
- ptc0qvfvTpiKrgDGcy6b8Dlhx/I7mR1LKEBgDGCgJVFjVRyKXq9XUBwy8GmNLrWqa2tf
- ka+o9EZ/lDg8SV8BjlGH3wOxXiKAaR+rhrsGjiYT6ZjNkSh504lWevt1/GawHkctGMne
- x3iw==
-X-Gm-Message-State: AOAM533dR+up6QhOCFZMW8zWmgrcD52eR8kdWmL3rh+bff7t87TiVFoH
- TCj99wOW5KI0f8KLPS4EnzKgZg==
-X-Google-Smtp-Source: ABdhPJxaKvPpL0rwdLNrB+ck47hYngpJ9D4J1RqIbGrDU+BZnsh9AH/S/PSgGf1teantMnWe2hZn8w==
-X-Received: by 2002:a1c:2905:: with SMTP id p5mr17734071wmp.187.1601906526822; 
- Mon, 05 Oct 2020 07:02:06 -0700 (PDT)
+ bh=rYgwu/tsb6hqZBI1Z2tL8xDFx5slTZgCuj1UmwV+264=;
+ b=rR+A/vwXnZ+C4zhwH4wXLyhl6V6dWwy566XHf7XWbf8/QeReMAtc9UL3Zibv8gSfqo
+ FcK5tO4V18P7t8wkmv0dawdw06NHfpy4/jvvj1OtuzlePTOPaCCvD3VfcI3R/tjFSH4O
+ n6BX2Nn7y/sut03NIuq630fyfwHX6xoXc0V1ju5EVfVAqneha5Y7r0kjq9oL+tNnw+x/
+ qssgmTDhTZcASCUgboXX19sKp3PABOnH2TDdpNEwnFpoXwLiVTy/VMyS8/cmoqT0vzj1
+ Cm18cyfneoQyVEjFL7KqQEGrD4rG4PHK3mIb5e2zg3Crfokmeq1rngkz95pxlSS0iUgQ
+ ZSSQ==
+X-Gm-Message-State: AOAM531Csk6fpuQkLoAig9cuQzglTn+uzk1l6SE26MG/ncX/C5F4NkHT
+ kj/ZTqLdQpL7krAsmanSAiJp195brKjBrNYe
+X-Google-Smtp-Source: ABdhPJxMi1nfPkfOLmjDQdRZMHgZdbkFC/+JLPXFZ9DTO+fLouH+y58TOZSpuAE0JIFp8TB0TQHTug==
+X-Received: by 2002:adf:c3c2:: with SMTP id d2mr3520496wrg.191.1601906737472; 
+ Mon, 05 Oct 2020 07:05:37 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t15sm78967wrp.20.2020.10.05.07.02.04
+ by smtp.gmail.com with ESMTPSA id z19sm12730698wmi.3.2020.10.05.07.05.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 07:02:05 -0700 (PDT)
-Date: Mon, 5 Oct 2020 16:02:03 +0200
+ Mon, 05 Oct 2020 07:05:36 -0700 (PDT)
+Date: Mon, 5 Oct 2020 16:05:34 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Hillf Danton <hdanton@sina.com>
-Subject: Re: [PATCH 13/14] drm/msm: Drop struct_mutex in shrinker path
-Message-ID: <20201005140203.GS438822@phenom.ffwll.local>
-Mail-Followup-To: Hillf Danton <hdanton@sina.com>,
- Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20201004192152.3298573-1-robdclark@gmail.com>
- <20201005092419.15608-1-hdanton@sina.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] Revert "gpu/drm: ingenic: Add option to mmap GEM buffers
+ cached"
+Message-ID: <20201005140534.GT438822@phenom.ffwll.local>
+Mail-Followup-To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
+ Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Christoph Hellwig <hch@lst.de>
+References: <20200930165212.GA8833@lst.de>
+ <20201004141758.1013317-1-paul@crapouillou.net>
+ <20201004195921.GA556605@ravnborg.org>
+ <ZE1PHQ.WGCBAFO9R38I3@crapouillou.net>
+ <20201005230150.5637fa42@canb.auug.org.au>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201005092419.15608-1-hdanton@sina.com>
+In-Reply-To: <20201005230150.5637fa42@canb.auug.org.au>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,63 +77,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
+Cc: od@zcrc.me, Dave Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Paul Cercueil <paul@crapouillou.net>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 05, 2020 at 05:24:19PM +0800, Hillf Danton wrote:
+On Mon, Oct 05, 2020 at 11:01:50PM +1100, Stephen Rothwell wrote:
+> Hi Paul,
 > 
-> On Sun,  4 Oct 2020 12:21:45
-> > From: Rob Clark <robdclark@chromium.org>
+> On Sun, 04 Oct 2020 22:11:23 +0200 Paul Cercueil <paul@crapouillou.net> wrote:
+> >
+> > Pushed to drm-misc-next with the changelog fix, thanks.
 > > 
-> > Now that the inactive_list is protected by mm_lock, and everything
-> > else on per-obj basis is protected by obj->lock, we no longer depend
-> > on struct_mutex.
-> > 
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/gpu/drm/msm/msm_gem.c          |  1 -
-> >  drivers/gpu/drm/msm/msm_gem_shrinker.c | 54 --------------------------
-> >  2 files changed, 55 deletions(-)
-> > 
-> [...]
+> > Stephen:
+> > Now it should build fine again. Could you remove the BROKEN flag?
 > 
-> > @@ -71,13 +33,8 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
-> >  {
-> >  	struct msm_drm_private *priv =
-> >  		container_of(shrinker, struct msm_drm_private, shrinker);
-> > -	struct drm_device *dev = priv->dev;
-> >  	struct msm_gem_object *msm_obj;
-> >  	unsigned long freed = 0;
-> > -	bool unlock;
-> > -
-> > -	if (!msm_gem_shrinker_lock(dev, &unlock))
-> > -		return SHRINK_STOP;
-> >  
-> >  	mutex_lock(&priv->mm_lock);
+> Thanks for letting me know, but the fix has not appeared in any drm
+> tree included in linux-next yet ...
 > 
-> Better if the change in behavior is documented that SHRINK_STOP will
-> no longer be needed.
+> If it doesn't show up by the time I will merge the drm tree tomorrow, I
+> will apply this revert patch myself (instead of the patch marking the
+> driver BROKEN).
 
-btw I read through this and noticed you have your own obj lock, plus
-mutex_lock_nested. I strongly recommend to just cut over to dma_resv_lock
-for all object lock needs (soc drivers have been terrible with this
-unfortuntaly), and in the shrinker just use dma_resv_trylock instead of
-trying to play clever games outsmarting lockdep.
+Yeah it should have been pushed to drm-misc-next-fixes per
 
-I recently wrote an entire blog length rant on why I think
-mutex_lock_nested is too dangerous to be useful:
+https://drm.pages.freedesktop.org/maintainer-tools/committer-drm-misc.html#where-do-i-apply-my-patch
 
-https://blog.ffwll.ch/2020/08/lockdep-false-positives.html
+Paul, can you pls git cherry-pick -x this over to drm-misc-next-fixes?
 
-Not anything about this here, just general comment. The problem extends to
-shmem helpers and all that also having their own locks for everything.
--Daniel
+Thanks, Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
