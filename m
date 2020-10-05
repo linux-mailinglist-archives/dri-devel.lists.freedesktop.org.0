@@ -2,56 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12D2283D94
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 19:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7802928472D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82B8A89C9B;
-	Mon,  5 Oct 2020 17:38:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9521A6E3F0;
+	Tue,  6 Oct 2020 07:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6EF089C13
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 17:38:32 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id x62so5065170oix.11
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 10:38:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=K3fmY8B65FY8SIpToaxxUh/kyVCliYtzTy5qo1pqLfg=;
- b=JTTQVtC7DwMcbYUCGVCTcRciwOigUIvJI0cMNYyAFbt3RXhx8PLLjc8r/lYfIFXq/X
- rsMRB8k4Z14n7n8jGnhuqAg5L1Hn8tgb/IkzupoLZsnGF6l4ocfoun0gBDaU8+sN9WT1
- /nZXEsjtyNvejF3Dl6fft5EgPa1xIhheOt9Rs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=K3fmY8B65FY8SIpToaxxUh/kyVCliYtzTy5qo1pqLfg=;
- b=d3+4ZVtoa27wRLL9LUAE/Vhrf5fbUnPKSvx+uxPxqw05m9OErGtkSUqh0/SfrK1upB
- mPAxg+Q2m0OTmN96tewOdYMY+k9ZuHHXpiVPfHP+SW6g11/RCOZH0xBAOapK6u/ZkZy4
- /Q9blZStYV15jcAlBvrIatswNEBXKDLPltCdjRxtv6twFltbFeqTrwZShnQOzIgkOQ4t
- plzce3TS4y5qDqNXps7i7nzpHBoeRRLK9ETNRR98fCEY5BkhqCcvL7hBDS0z20nEzFJa
- 7HPFaJLY6rY4gtwKE2joLwZ7FWE/VL/mvNTTYWwrTUx7od1FlI7lshz9lzp1B/Ur87Bs
- ZWgQ==
-X-Gm-Message-State: AOAM530dpD6HVShQ0Y26QGilVeHgFXSsliDWp5pTFDEuTzHUX5H4E7mY
- 5JSc3tzgN++0rmbf80y1b2N+mh1YNKO/HF3hHU1rKQ==
-X-Google-Smtp-Source: ABdhPJy1B5YA31ileropbZ/3QrFV3MxDor1CNYNEnSDq8FAOpeT9++wtKAh9+aWPxk78OTbq1tdOzW7C/9azhF+kzvw=
-X-Received: by 2002:aca:c6cc:: with SMTP id w195mr253449oif.101.1601919512035; 
- Mon, 05 Oct 2020 10:38:32 -0700 (PDT)
+Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9E889C13
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 17:39:14 +0000 (UTC)
+Received: from HKMAIL102.nvidia.com (Not Verified[10.18.92.9]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f7b5a3e0000>; Tue, 06 Oct 2020 01:39:10 +0800
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL102.nvidia.com
+ (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 5 Oct
+ 2020 17:38:58 +0000
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
+ by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Mon, 5 Oct 2020 17:38:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jW8m/vx134I9COQ6t6Kr7JRTQESbBCkEuzc1wgrwxR0gB0y7/1zeWxRrW9L+vrtMdYcqke/tKQaa3RzjvoqUprvU+FP5mzd2r10+48m0xZitmuVNHNAfPLGfVf22aeL9byyGjeM321TodvP29OGOhQWVgQCMtTLOEMfD/ZB1af3P0oZEREKxB+9eDCkmzp3rHDk0GDYstiyLkXuznTVTBxQZu9Et+BsKQm0YPprBPLm1hyO31Nc8MZIobIxFRC9IccGQoqs7E/IYMqUfcxaQHjAHpsrECCPKbPGU8r6Cb44u0m7oohtzn4QN9J/W09NhyXKSYOmWeRQgMB1Xb+hpAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fSYl5KD7934AouZDNUKobCCSeGROG8RmBta0PxNC5ew=;
+ b=AyfWItsk0TOyFTxKRfB6+wbl7GR3LkEC4l2QTjkMZ7XFKyWLXpCVFGIvuFggiGmEBW3VDEwiyG4cIsVAWpZ9t5Tt7/fMLIyGiurEYy5XBwe3OlFB3FUlKcpBps+YXJT57Dcysz2hpv5ck1BsErmSExXMCx+JwpfguCRXYkYGNq5ovnBmUo9EAXbb8UU6CcpK2GAi5J/ouGyvDy8kjHjKWprq6Imq2TmhPwLHIoFHACQb65r3pfsmu9jNEgbJHUkQ2LQW/O8m76NQjH3FKtJwhN/HJuk7jueo4zBLFdb46JDVhpbEVnsBZ9iQWW36MsxCLeycZ9+23uhCuzz4d2zv5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3833.namprd12.prod.outlook.com (2603:10b6:5:1cf::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32; Mon, 5 Oct
+ 2020 17:38:56 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3433.044; Mon, 5 Oct 2020
+ 17:38:56 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: andrew Morton <akpm@linux-foundation.org>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>, <linux-mm@kvack.org>
+Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
+Date: Mon, 5 Oct 2020 14:38:54 -0300
+Message-ID: <0-v1-447bb60c11dd+174-frame_vec_fix_jgg@nvidia.com>
+X-ClientProxiedBy: MN2PR15CA0058.namprd15.prod.outlook.com
+ (2603:10b6:208:237::27) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-References: <20200930165212.GA8833@lst.de>
- <20201004141758.1013317-1-paul@crapouillou.net>
- <20201004195921.GA556605@ravnborg.org> <ZE1PHQ.WGCBAFO9R38I3@crapouillou.net>
- <20201005230150.5637fa42@canb.auug.org.au>
- <20201005140534.GT438822@phenom.ffwll.local>
- <B3HQHQ.7DOFKW9A9TEX1@crapouillou.net>
-In-Reply-To: <B3HQHQ.7DOFKW9A9TEX1@crapouillou.net>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 5 Oct 2020 19:38:21 +0200
-Message-ID: <CAKMK7uG4BQZ3YijZUfztiF_E=jq9ZGoNy6FFsyb2J6ZWUbFM8Q@mail.gmail.com>
-Subject: Re: [PATCH] Revert "gpu/drm: ingenic: Add option to mmap GEM buffers
- cached"
-To: Paul Cercueil <paul@crapouillou.net>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by
+ MN2PR15CA0058.namprd15.prod.outlook.com (2603:10b6:208:237::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.34 via Frontend
+ Transport; Mon, 5 Oct 2020 17:38:55 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1kPURq-0003yS-3O; Mon, 05 Oct 2020 14:38:54 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1601919550; bh=EBBzMnzHdglFg4fc6Q+vYu+a20ACUXFYGuuOSwtJCqE=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:From:To:
+ CC:Subject:Date:Message-ID:Content-Transfer-Encoding:Content-Type:
+ X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=C65HOUx2sQwA0Z9I/HyXi7Zoe3KWz2BvP970C8OBm0crjJnTlAQ9SwKEK9gCZ2JuJ
+ xsMHNVefxVm4z0kcNHciCuL3fCUmbzQfF0nmTHZMz3tur14QYYvpOLexv6QGM/VZYv
+ KoSBZo72nEDtXB7fLlMqU2qXAr98pxbePnvJ9c/QsofRl1hs/Kc0hj4At+mY/00pGF
+ 5iJ15jO/Yg+195FUsBtZ9nyQbHi745UfgTQ3xdsFePRU9fE511l5uxZTQRVFMAIATu
+ K2smzSXW5xmuHxphoHyhxOye2XS0aTl6UiSK+ucwxNoILLw7aNa/Q4IdswsUHnMgL1
+ 9gj6ae060YOrQ==
+X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,49 +83,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, od@zcrc.me,
- Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Mauro
+ Carvalho Chehab <mchehab@osg.samsung.com>, John Hubbard <jhubbard@nvidia.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ Hans Verkuil <hans.verkuil@cisco.com>, Mel Gorman <mgorman@suse.de>,
+ Dan Williams <dan.j.williams@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBPY3QgNSwgMjAyMCBhdCA0OjQ3IFBNIFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91
-aWxsb3UubmV0PiB3cm90ZToKPgo+IEhpLAo+Cj4gTGUgbHVuLiA1IG9jdC4gMjAyMCDDoCAxNjow
-NSwgRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiBhIMOpY3JpdCA6Cj4gPiBPbiBNb24s
-IE9jdCAwNSwgMjAyMCBhdCAxMTowMTo1MFBNICsxMTAwLCBTdGVwaGVuIFJvdGh3ZWxsIHdyb3Rl
-Ogo+ID4+ICBIaSBQYXVsLAo+ID4+Cj4gPj4gIE9uIFN1biwgMDQgT2N0IDIwMjAgMjI6MTE6MjMg
-KzAyMDAgUGF1bCBDZXJjdWVpbAo+ID4+IDxwYXVsQGNyYXBvdWlsbG91Lm5ldD4gd3JvdGU6Cj4g
-Pj4gID4KPiA+PiAgPiBQdXNoZWQgdG8gZHJtLW1pc2MtbmV4dCB3aXRoIHRoZSBjaGFuZ2Vsb2cg
-Zml4LCB0aGFua3MuCj4gPj4gID4KPiA+PiAgPiBTdGVwaGVuOgo+ID4+ICA+IE5vdyBpdCBzaG91
-bGQgYnVpbGQgZmluZSBhZ2Fpbi4gQ291bGQgeW91IHJlbW92ZSB0aGUgQlJPS0VOIGZsYWc/Cj4g
-Pj4KPiA+PiAgVGhhbmtzIGZvciBsZXR0aW5nIG1lIGtub3csIGJ1dCB0aGUgZml4IGhhcyBub3Qg
-YXBwZWFyZWQgaW4gYW55IGRybQo+ID4+ICB0cmVlIGluY2x1ZGVkIGluIGxpbnV4LW5leHQgeWV0
-IC4uLgo+ID4+Cj4gPj4gIElmIGl0IGRvZXNuJ3Qgc2hvdyB1cCBieSB0aGUgdGltZSBJIHdpbGwg
-bWVyZ2UgdGhlIGRybSB0cmVlCj4gPj4gdG9tb3Jyb3csIEkKPiA+PiAgd2lsbCBhcHBseSB0aGlz
-IHJldmVydCBwYXRjaCBteXNlbGYgKGluc3RlYWQgb2YgdGhlIHBhdGNoIG1hcmtpbmcKPiA+PiB0
-aGUKPiA+PiAgZHJpdmVyIEJST0tFTikuCj4gPgo+ID4gWWVhaCBpdCBzaG91bGQgaGF2ZSBiZWVu
-IHB1c2hlZCB0byBkcm0tbWlzYy1uZXh0LWZpeGVzIHBlcgo+ID4KPiA+IGh0dHBzOi8vZHJtLnBh
-Z2VzLmZyZWVkZXNrdG9wLm9yZy9tYWludGFpbmVyLXRvb2xzL2NvbW1pdHRlci1kcm0tbWlzYy5o
-dG1sI3doZXJlLWRvLWktYXBwbHktbXktcGF0Y2gKPiA+Cj4gPiBQYXVsLCBjYW4geW91IHBscyBn
-aXQgY2hlcnJ5LXBpY2sgLXggdGhpcyBvdmVyIHRvIGRybS1taXNjLW5leHQtZml4ZXM/Cj4KPiBJ
-IGhhZCBhIGZldyBjb21taXRzIG9uIHRvcCBvZiBpdCBpbiBkcm0tbWlzYy1uZXh0LCBzbyB0aGUg
-cmV2ZXJ0Cj4gZG9lc24ndCBhcHBseSBjbGVhbmx5IGluIGRybS1taXNjLW5leHQtZml4ZXMuLi4g
-SSBjYW4gcmV2ZXJ0IGl0IHRoZXJlLAo+IGJ1dCB0aGVuIHdlJ2QgaGF2ZSBhIGRpZmZlcmVudCBy
-ZXZlcnQgY29tbWl0IGluIGRybS1taXNjLW5leHQgYW5kCj4gZHJtLW1pc2MtbmV4dC1uZXh0Lgo+
-Cj4gU29ycnkgZm9yIHRoZSBtZXNzLiBXaGF0IHNob3VsZCBJIGRvPwoKV2UgbmVlZCB0aGUgcmV2
-ZXJ0IGluIGRybS1taXNjLW5leHQtZml4ZXMgb3IgdGhlIGRybS1uZXh0IHB1bGwgcmVxdWVzdApk
-b2Vzbid0IHdvcmsgb3V0LiBTbyBjaGVycnktcGljayBvdmVyLCBmaXggdXAgY29uZmxpY3RzLCBw
-dXNoIHRoZQp0cmVlLCBhbmQgZG9uJ3QgZm9yZ2V0IHRvIGZpeCB1cCB0aGUgY29uZmxpY3RzIHdo
-ZW4gZGltIHJlYnVpbGRzCmRybS10aXAuIEFsc28gdGVsbCBkcm0tbWlzYyBtYWludGFpbmVycyB3
-aGF0IHlvdSd2ZSBkb25lLCB0aGV5CnByb2JhYmx5IHdhbnQgdG8gZG8gYSBiYWNrbWVyZ2UgdG8g
-Y2xlYW4gdGhpcyB1cCBhIGJpdCBvbmNlIHRoZQpkcm0tbmV4dCBwdWxsIHJlcXVlc3QgaGFzIGxh
-bmRlZC4KLURhbmllbAotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwg
-Q29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+When get_vaddr_frames() does its hacky follow_pfn() loop it should never
+be allowed to extract a struct page from a normal VMA. This could allow a
+serious use-after-free problem on any kernel memory.
+
+Restrict this to only work on VMA's with one of VM_IO | VM_PFNMAP
+set. This limits the use-after-free problem to only IO memory, which while
+still serious, is an improvement.
+
+Cc: stable@vger.kernel.org
+Fixes: 8025e5ddf9c1 ("[media] mm: Provide new get_vaddr_frames() helper")
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ mm/frame_vector.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/mm/frame_vector.c b/mm/frame_vector.c
+index 10f82d5643b6de..26cb20544b6c37 100644
+--- a/mm/frame_vector.c
++++ b/mm/frame_vector.c
+@@ -99,6 +99,10 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+ 		if (ret >= nr_frames || start < vma->vm_end)
+ 			break;
+ 		vma = find_vma_intersection(mm, start, start + 1);
++		if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
++			ret = -EINVAL;
++			goto out;
++		}
+ 	} while (vma && vma->vm_flags & (VM_IO | VM_PFNMAP));
+ out:
+ 	if (locked)
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
