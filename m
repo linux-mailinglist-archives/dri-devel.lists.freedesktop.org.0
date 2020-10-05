@@ -2,51 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58291283E2C
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 20:20:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4672028473C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97B29899E9;
-	Mon,  5 Oct 2020 18:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C503E6E416;
+	Tue,  6 Oct 2020 07:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F215899A5
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 18:20:34 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id w141so9644768oia.2
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 11:20:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kZPEXkmRFhKPxE4UsJ1anlhQ3+0vTVsGBvgPlUPbE7w=;
- b=digCacwGUHn+oARFLUlEEiRTDoPXLO1xnxIuBum/VKhKQK7BCTulEUnSODFeCvDgqR
- ONx+Ygs1zeRud/eBv0KktRHkZij8UcSubxt6fRsWSbSb5URyynq9bUJ9Z1mPNuVzys6O
- B7+ktxEVlNZMJZvzGUecbDLxWpbn9fJMLuzr8=
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB2789AB6
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 18:37:07 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id y198so6752683qka.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 11:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=u3J6AKxubCllq2Ls7jrnfIH9wJzGGs2W2keKyCoQZ+g=;
+ b=eN0A5e22fGI+9D7L6SnBKQWwDKTGT6A2sP8lBv5ySLpbcmf3PfBbHF2iMutUZFpPlh
+ w3htf6sVN26BUBiEQwMJl/9SKhV9wenSbaw0Ngblhz/K+BWlCmn4PDdP71seEGgKDhJn
+ EI05euYmWOHnzyl0KxDqo544jd74Rcgi6WhiyS+2C4ZGYV3/oydMjKLmzfnF7Key+1Xw
+ Ma93hb6+RGildfaRFvy5Y2VJL2Rc7rtFtIO56w2vrpHgDx7Atids/vghgSE0VBGyimgQ
+ uvvUuJzw4EU0nPQywaCcIxKzFxDpSAFENlo/i0BFbsFA+61tMShgDjlQrWvTN2JFip4Q
+ P6dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kZPEXkmRFhKPxE4UsJ1anlhQ3+0vTVsGBvgPlUPbE7w=;
- b=XcS1aIEYKgnAzo5rtYDTAKnbBAz6xpHOUcqY369vneR3DEsfGGhd9Q1WO+3sapARHu
- igQZC4/k5ghVDXT+hr3ksxWaB0OXqbqz2nOei/DL2RmQgBAOVTZ2JmvdrDtiOdhzJFlx
- KkIacEIor692haJtuZ5J9ifPEAAbLsePJhKPqCP+R006e7QH8qaE2OuHv6+UUs+dNfCC
- 0Bg+uQat64Caha/xmAjIinehQdOmggPgr3qwGKdGmp+fTajdeyBm38eUWTBvsl7gwqMq
- QKd2MpVT/7rBNUdlshgm4OjxI5RgndTdv6PIn1jXujJpoN0NLO2SPyIfmQP2vx/300zz
- t16w==
-X-Gm-Message-State: AOAM531/MDBjRwuNHiyt1hDwQhN4tiRuFVO4BfAThklaQCW2Qtv0CQin
- Ee3/Lq/Y5HxweLkZl3rWM8HySC/lHa8ReOMgRkbrRQ==
-X-Google-Smtp-Source: ABdhPJyJa7U8SQQEss3scNAd++32yQJ9inG+jtPNdgXpwnwGtNsOIHLVfEr4vMOsbMx/1Epql3rutItK4vq4Q/a+KbE=
-X-Received: by 2002:aca:6083:: with SMTP id u125mr418733oib.14.1601922033920; 
- Mon, 05 Oct 2020 11:20:33 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=u3J6AKxubCllq2Ls7jrnfIH9wJzGGs2W2keKyCoQZ+g=;
+ b=iDbkRgVNmFZuB+R3Qid2RgYyTO011i6wO0PfQpoFwnfXCCTl5+abQHsZewc+daaZ4S
+ Dyo3EvR9/caaaMY5ltMNzMKwf0tmJU42TnIx8N82QouolvOQ3wgcBlKw+2ovfHOh93du
+ jWcAV2EV/llDxYl5Rr4nvbFKRZlYKlYoQiskYrMJNdbe7zI3X9PrEvgE6OWAlf2PhNrv
+ Xls5F2EqWeXRLy5w4FdwN8p4MRdwoMuykbBGAgBDRlM4iIyu7IX95vKrhsIXNoakgQ1u
+ SMIdQkDUMNv5LkHnrYfshtAUUu7c4gugG0M7gwNyJPClFzcX2Di9itn0hPlzmZ0fxODJ
+ CcNg==
+X-Gm-Message-State: AOAM532dHQNgK/i7/cb2qH9I2zNBASUZjmXcF2eB4nOFsM7W8BUfk6gu
+ T2e19Fp+7NY3iwbtKUyq3oRc1A==
+X-Google-Smtp-Source: ABdhPJyiYyJ6QGbYxkNE1y766DNr8LNQurJWOP4L2+ndFQuLZsD7R3NQL8Vs0Mi8tA3m1+v8usWh/w==
+X-Received: by 2002:a05:620a:1266:: with SMTP id
+ b6mr1396650qkl.371.1601923026236; 
+ Mon, 05 Oct 2020 11:37:06 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id d21sm387410qtp.97.2020.10.05.11.37.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 11:37:05 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kPVM8-0008jm-C7; Mon, 05 Oct 2020 15:37:04 -0300
+Date: Mon, 5 Oct 2020 15:37:04 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
+Message-ID: <20201005183704.GC5177@ziepe.ca>
+References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
+ <20201002175303.390363-2-daniel.vetter@ffwll.ch>
+ <20201002180603.GL9916@ziepe.ca>
+ <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
+ <20201002233118.GM9916@ziepe.ca>
+ <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
+ <20201004125059.GP9916@ziepe.ca>
+ <CAKMK7uF0AfuYGsHzKXhF=k-mAW=Wx_APf9fY9M9ormnwypoxZA@mail.gmail.com>
+ <20201005172854.GA5177@ziepe.ca>
+ <CAKMK7uFzxWF7V=7vkeNC-8shsPZRgdz9fYTsn0ayENv2BpnFEg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201004192152.3298573-1-robdclark@gmail.com>
- <CAOeoa-d4-KyuVjwPCBcau6yp6sxeeHN4K0cQzZ=H+OQVgHsLFw@mail.gmail.com>
-In-Reply-To: <CAOeoa-d4-KyuVjwPCBcau6yp6sxeeHN4K0cQzZ=H+OQVgHsLFw@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 5 Oct 2020 20:20:22 +0200
-Message-ID: <CAKMK7uHeZptOKWKTanBB_c2ek2emNjs9fFCbTwgafS19rL1sww@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 00/14] drm/msm: de-struct_mutex-ification
-To: =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uFzxWF7V=7vkeNC-8shsPZRgdz9fYTsn0ayENv2BpnFEg@mail.gmail.com>
+X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,80 +81,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
+Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Jan Kara <jack@suse.cz>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Pawel Osciak <pawel@osciak.com>, John Hubbard <jhubbard@nvidia.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Linux MM <linux-mm@kvack.org>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
  "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Jonathan Marek <jonathan@marek.ca>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Ben Dooks <ben.dooks@codethink.co.uk>, Sam Ravnborg <sam@ravnborg.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Dan Williams <dan.j.williams@intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBPY3QgNSwgMjAyMCBhdCA2OjI0IFBNIEtyaXN0aWFuIEjDuGdzYmVyZyA8aG9lZ3Ni
-ZXJnQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBTdW4sIE9jdCA0LCAyMDIwIGF0IDk6MjEgUE0g
-Um9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwuY29tPiB3cm90ZToKPiA+Cj4gPiBGcm9tOiBSb2Ig
-Q2xhcmsgPHJvYmRjbGFya0BjaHJvbWl1bS5vcmc+Cj4gPgo+ID4gVGhpcyBkb2Vzbid0IHJlbW92
-ZSAqYWxsKiB0aGUgc3RydWN0X211dGV4LCBidXQgaXQgY292ZXJzIHRoZSB3b3JzdAo+ID4gb2Yg
-aXQsIGllLiBzaHJpbmtlci9tYWR2aXNlL2ZyZWUvcmV0aXJlLiAgVGhlIHN1Ym1pdCBwYXRoIHN0
-aWxsIHVzZXMKPiA+IHN0cnVjdF9tdXRleCwgYnV0IGl0IHN0aWxsIG5lZWRzICpzb21ldGhpbmcq
-IHNlcmlhbGl6ZSBhIHBvcnRpb24gb2YKPiA+IHRoZSBzdWJtaXQgcGF0aCwgYW5kIGxvY2tfc3Rh
-dCBtb3N0bHkganVzdCBzaG93cyB0aGUgbG9jayBjb250ZW50aW9uCj4gPiB0aGVyZSBiZWluZyB3
-aXRoIG90aGVyIHN1Ym1pdHMuICBBbmQgdGhlcmUgYXJlIGEgZmV3IG90aGVyIGJpdHMgb2YKPiA+
-IHN0cnVjdF9tdXRleCB1c2FnZSBpbiBsZXNzIGNyaXRpY2FsIHBhdGhzIChkZWJ1Z2ZzLCBldGMp
-LiAgQnV0IHRoaXMKPiA+IHNlZW1zIGxpa2UgYSByZWFzb25hYmxlIHN0ZXAgaW4gdGhlIHJpZ2h0
-IGRpcmVjdGlvbi4KPgo+IFdoYXQgYSBncmVhdCBwYXRjaCBzZXQuIERhbmllbCBoYXMgc29tZSBn
-b29kIHBvaW50cyBhbmQgbm90aGluZyB0aGF0Cj4gcmVxdWlyZXMgYmlnIGNoYW5nZXMsIGJ1dCBv
-biB0aGUgb3RoZXIgaGFuZCwgSSdtIG5vdCBzdXJlIGl0J3MKPiBzb21ldGhpbmcgdGhhdCBuZWVk
-cyB0byBibG9jayB0aGlzIHNldCBlaXRoZXIuCgpQZXJzb25hbGx5IEknZCB0aHJvdyB0aGUgbG9j
-a2RlcCBwcmltaW5nIG9uIHRvcCB0byBtYWtlIHN1cmUgdGhpcwpzdGF5cyBjb3JyZWN0IChpdCdz
-IDMgbGluZXMpLCBidXQgeWVzIGltbyB0aGlzIGlzIGFsbCBnb29kIHRvIGdvLiBKdXN0CmZpZ3Vy
-ZWQgSSdsbCBzcHJpbmtsZSB0aGUgbGF0ZXN0IGluIHRlcm1zIG9mIGdlbSBsb2NraW5nIG92ZXIg
-dGhlCnNlcmllcyB3aGlsZSBpdCdzIGhlcmUgOi0pCi1EYW5pZWwKCj4gRWl0aGVyIHdheSwgZm9y
-IHRoZSBzZXJpZXMKPgo+IFJldmlld2VkLWJ5OiBLcmlzdGlhbiBILiBLcmlzdGVuc2VuIDxob2Vn
-c2JlcmdAZ29vZ2xlLmNvbT4KPgo+ID4gUm9iIENsYXJrICgxNCk6Cj4gPiAgIGRybS9tc206IFVz
-ZSBjb3JyZWN0IGRybV9nZW1fb2JqZWN0X3B1dCgpIGluIGZhaWwgY2FzZQo+ID4gICBkcm0vbXNt
-OiBEcm9wIGNoYXR0eSB0cmFjZQo+ID4gICBkcm0vbXNtOiBNb3ZlIHVwZGF0ZV9mZW5jZXMoKQo+
-ID4gICBkcm0vbXNtOiBBZGQgcHJpdi0+bW1fbG9jayB0byBwcm90ZWN0IGFjdGl2ZS9pbmFjdGl2
-ZSBsaXN0cwo+ID4gICBkcm0vbXNtOiBEb2N1bWVudCBhbmQgcmVuYW1lIHByZWVtcHRfbG9jawo+
-ID4gICBkcm0vbXNtOiBQcm90ZWN0IHJpbmctPnN1Ym1pdHMgd2l0aCBpdCdzIG93biBsb2NrCj4g
-PiAgIGRybS9tc206IFJlZmNvdW50IHN1Ym1pdHMKPiA+ICAgZHJtL21zbTogUmVtb3ZlIG9iai0+
-Z3B1Cj4gPiAgIGRybS9tc206IERyb3Agc3RydWN0X211dGV4IGZyb20gdGhlIHJldGlyZSBwYXRo
-Cj4gPiAgIGRybS9tc206IERyb3Agc3RydWN0X211dGV4IGluIGZyZWVfb2JqZWN0KCkgcGF0aAo+
-ID4gICBkcm0vbXNtOiByZW1vdmUgbXNtX2dlbV9mcmVlX3dvcmsKPiA+ICAgZHJtL21zbTogZHJv
-cCBzdHJ1Y3RfbXV0ZXggaW4gbWFkdmlzZSBwYXRoCj4gPiAgIGRybS9tc206IERyb3Agc3RydWN0
-X211dGV4IGluIHNocmlua2VyIHBhdGgKPiA+ICAgZHJtL21zbTogRG9uJ3QgaW1wbGljaXQtc3lu
-YyBpZiBvbmx5IGEgc2luZ2xlIHJpbmcKPiA+Cj4gPiAgZHJpdmVycy9ncHUvZHJtL21zbS9hZHJl
-bm8vYTV4eF9ncHUuYyAgICAgfCAgNCArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5v
-L2E1eHhfcHJlZW1wdC5jIHwgMTIgKy0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8v
-YTZ4eF9ncHUuYyAgICAgfCAgNCArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2RlYnVn
-ZnMuYyAgICAgICAgIHwgIDcgKysKPiA+ICBkcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9kcnYuYyAg
-ICAgICAgICAgICB8IDE1ICstLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9kcnYuaCAg
-ICAgICAgICAgICB8IDE5ICsrKy0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtLmMg
-ICAgICAgICAgICAgfCA3NiArKysrKystLS0tLS0tLS0tLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0v
-bXNtL21zbV9nZW0uaCAgICAgICAgICAgICB8IDUzICsrKysrKysrKy0tLS0KPiA+ICBkcml2ZXJz
-L2dwdS9kcm0vbXNtL21zbV9nZW1fc2hyaW5rZXIuYyAgICB8IDU4ICsrLS0tLS0tLS0tLS0tCj4g
-PiAgZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtX3N1Ym1pdC5jICAgICAgfCAxNyArKy0tCj4g
-PiAgZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ3B1LmMgICAgICAgICAgICAgfCA5NiArKysrKysr
-KysrKysrKy0tLS0tLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2dwdS5oICAgICAg
-ICAgICAgIHwgIDUgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9yaW5nYnVmZmVyLmMg
-ICAgICB8ICAzICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL21zbS9tc21fcmluZ2J1ZmZlci5oICAg
-ICAgfCAxMyArKy0KPiA+ICAxNCBmaWxlcyBjaGFuZ2VkLCAxODggaW5zZXJ0aW9ucygrKSwgMTk0
-IGRlbGV0aW9ucygtKQo+ID4KPiA+IC0tCj4gPiAyLjI2LjIKPiA+Cj4gPiBfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gRnJlZWRyZW5vIG1haWxpbmcg
-bGlzdAo+ID4gRnJlZWRyZW5vQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9mcmVlZHJlbm8KPiBfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKCgoKLS0gCkRhbmllbCBW
-ZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZm
-d2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Oct 05, 2020 at 08:16:33PM +0200, Daniel Vetter wrote:
+
+> > kvm is some similar hack added for P2P DMA, see commit
+> > add6a0cd1c5ba51b201e1361b05a5df817083618. It might be protected by notifiers..
+> 
+> Yeah my thinking is that kvm (and I think also vfio, also seems to
+> have mmu notifier nearby) are ok because of the mmu notiifer. Assuming
+> that one works correctly.
+
+vfio doesn't have a notifier, Alex was looking to add a vfio private
+scheme in the vma->private_data:
+
+https://lore.kernel.org/kvm/159017449210.18853.15037950701494323009.stgit@gimli.home/
+
+Guess it never happened.
+
+> > So, the answer really is that s390 and media need fixing, and this API
+> > should go away (or become kvm specific)
+> 
+> I'm still not clear how you want fo fix this, since your vma->dma_buf
+> idea is kinda a decade long plan and so just not going to happen:
+
+Well, it doesn't mean we have to change every part of dma_buf to
+participate in this. Just the bits media cares about. Or maybe it is
+some higher level varient on top of dma_buf.
+
+Or don't use dma_buf for this, add a new object that just provides
+refcounts and P2P DMA connection for IO pfn ranges..
+
+Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
