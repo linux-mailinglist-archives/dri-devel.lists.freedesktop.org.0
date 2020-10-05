@@ -1,35 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F48283882
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 16:50:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B3528388F
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 16:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A771089B78;
-	Mon,  5 Oct 2020 14:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68D789FA5;
+	Mon,  5 Oct 2020 14:55:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 111EF89B78
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 14:50:15 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EF75E28DB0E;
- Mon,  5 Oct 2020 15:50:12 +0100 (BST)
-Date: Mon, 5 Oct 2020 16:50:08 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 1/3] iommu/io-pgtable-arm: Support coherency for Mali
- LPAE
-Message-ID: <20201005165008.1f3b4e89@collabora.com>
-In-Reply-To: <8df778355378127ea7eccc9521d6427e3e48d4f2.1600780574.git.robin.murphy@arm.com>
-References: <cover.1600780574.git.robin.murphy@arm.com>
- <8df778355378127ea7eccc9521d6427e3e48d4f2.1600780574.git.robin.murphy@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABCF89FA5
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 14:55:49 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id m11so3255941otk.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 07:55:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4D4EuuaYOpO3w4KmRainoRv9im81Exz6KHuE0gtP7fg=;
+ b=LzAWRO2FI1HxjBIo7H0VV4pVvy1OjRjC6UmIme1ohoCErYHbOuu+ZmkWc5+kEj9/5G
+ 0PeEaOSWi+tzkUTiMR1K1MtyFZfb55nuJB1axbpmTSCJwHazyI840sjoErWaOcNPSJKL
+ Ox3hiDufkB4z9Vm6xBaGGeNjf9ys43xS7xFcI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4D4EuuaYOpO3w4KmRainoRv9im81Exz6KHuE0gtP7fg=;
+ b=PJY4MmBIzWJ9Dq7LVgJgDs+wBB3w+mR8TI2D+SQggw+ubjUGmsJHjMpRq1CiCm3M73
+ byXLb6gUPxiQ0GTsFRf316iXEBqxFXbvJiy9l9IO/Wr4O9H8xUhs+gvzQcDcQoDViurs
+ f1rQxT+dr3otjYOMixz5DB/+1F4sN+Y5JZ5Swg3jZ/274mgK6vhP6KtEjNhrU/XsH8yD
+ axVKRxPDJnRihKSuu6i7tFw0f4G0ECPgOPV2u5H2ansocKnqhWSpyaBDk2wyxZUWMNJW
+ cTuLz+ZQLXgQnpIgFJ5PSqs1Miq1cuP2Bt5R6bRA7aqQGUmedgqfaxG1P8BxM/Al41sp
+ jTVQ==
+X-Gm-Message-State: AOAM5309U1VhOICg2tWy80aJgU8AY3uAto0LfhsLz8/MlmDEzvF7995t
+ w1qWh+ITZEogodmXV9ulm3bKuf+LKfmBW7mbLqHzPQ==
+X-Google-Smtp-Source: ABdhPJyNCFo5oPe+jd1EiEfuqwQrwGwzPEvqK+3zbAq3TeT9vFzU5vRcwcVd3WvscW18WIIgDiTdyITVO3fSUqzVvrQ=
+X-Received: by 2002:a05:6830:1c3c:: with SMTP id
+ f28mr4496438ote.188.1601909748540; 
+ Mon, 05 Oct 2020 07:55:48 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201002113121.47823-1-christian.koenig@amd.com>
+ <20201002113121.47823-2-christian.koenig@amd.com>
+ <CAKMK7uH9RLWqnsU5KKEC3414xfNZgEB7hXVf-f5f3LXsuaNY9w@mail.gmail.com>
+ <7eafb431-c6ab-6441-3766-499530ce4c1f@gmail.com>
+In-Reply-To: <7eafb431-c6ab-6441-3766-499530ce4c1f@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 5 Oct 2020 16:55:37 +0200
+Message-ID: <CAKMK7uGKQJByQZJ6VuBXNfAui79KEOuMYMusRAU--=44dH4hgA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/ttm: remove no_retry flag
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,69 +62,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, narmstrong@baylibre.com, khilman@baylibre.com,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
- iommu@lists.linux-foundation.org, alyssa.rosenzweig@collabora.com,
- linux-amlogic@lists.infradead.org, will@kernel.org,
- linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Huang Rui <ray.huang@amd.com>, dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 22 Sep 2020 15:16:48 +0100
-Robin Murphy <robin.murphy@arm.com> wrote:
-
-> Midgard GPUs have ACE-Lite master interfaces which allows systems to
-> integrate them in an I/O-coherent manner. It seems that from the GPU's
-> viewpoint, the rest of the system is its outer shareable domain, and so
-> even when snoop signals are wired up, they are only emitted for outer
-> shareable accesses. As such, setting the TTBR_SHARE_OUTER bit does
-> indeed get coherent pagetable walks working nicely for the coherent
-> T620 in the Arm Juno SoC.
-> 
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Tested-by: Neil Armstrong <narmstrong@baylibre.com>
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> ---
->  drivers/iommu/io-pgtable-arm.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index dc7bcf858b6d..b4072a18e45d 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -440,7 +440,13 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
->  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
->  	}
->  
-> -	if (prot & IOMMU_CACHE)
-> +	/*
-> +	 * Also Mali has its own notions of shareability wherein its Inner
-> +	 * domain covers the cores within the GPU, and its Outer domain is
-> +	 * "outside the GPU" (i.e. either the Inner or System domain in CPU
-> +	 * terms, depending on coherency).
-> +	 */
-> +	if (prot & IOMMU_CACHE && data->iop.fmt != ARM_MALI_LPAE)
->  		pte |= ARM_LPAE_PTE_SH_IS;
->  	else
->  		pte |= ARM_LPAE_PTE_SH_OS;
-
-Actually, it still doesn't work on s922x :-/. For it to work I
-correctly, I need to drop the outer shareable flag here.
-
-> @@ -1049,6 +1055,9 @@ arm_mali_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
->  	cfg->arm_mali_lpae_cfg.transtab = virt_to_phys(data->pgd) |
->  					  ARM_MALI_LPAE_TTBR_READ_INNER |
->  					  ARM_MALI_LPAE_TTBR_ADRMODE_TABLE;
-> +	if (cfg->coherent_walk)
-> +		cfg->arm_mali_lpae_cfg.transtab |= ARM_MALI_LPAE_TTBR_SHARE_OUTER;
-> +
->  	return &data->iop;
->  
->  out_free_data:
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBPY3QgNSwgMjAyMCBhdCA0OjM3IFBNIENocmlzdGlhbiBLw7ZuaWcKPGNrb2VuaWcu
+bGVpY2h0enVtZXJrZW5AZ21haWwuY29tPiB3cm90ZToKPgo+IEFtIDAyLjEwLjIwIHVtIDE0OjMx
+IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IE9uIEZyaSwgT2N0IDIsIDIwMjAgYXQgMTozMSBQ
+TSBDaHJpc3RpYW4gS8O2bmlnCj4gPiA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+
+IHdyb3RlOgo+ID4+IEFtZGdwdSB3YXMgdGhlIG9ubHkgdXNlciBvZiB0aGlzLgo+ID4+Cj4gPj4g
+U2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
+Pgo+ID4gVWggdGhpcyBzbWVsbHMgbGlrZSBhIGZpc2h5IGJhbmQtYWlkLiBBbmQgdGhlIG9yaWdp
+bmFsIGNvbW1pdAo+ID4gaW50cm9kdWNpbmcgdGhpcyBhbHNvIGRvZXNuJ3Qgc2NoZWQgYW55IGxp
+Z2h0IG9uIHdoeSB0aGlzIHNob3VsZAo+ID4gaGFwcGVuLCBhbmQgd2h5IGl0J3Mgc3BlY2lmaWMg
+dG8gdGhlIGFtZGdwdSBkcml2ZXIuIERvIHlvdSBoYXZlIHNvbWUKPiA+IG1vcmUgbWVtb3JpZXMg
+aGVyZT8KPgo+IE5vcGUsIEkgYnJpZWZseSByZW1lbWJlciB0aGF0IHdlIGhhZCBhIGN1c3RvbWVy
+IHdoaWNoIHJhbiBpbnRvIHRoZSBPT00KPiBraWxsZXIgYW5kIGluc3RlYWQgd2FudGVkIHRvIGdl
+dCAtRU5PTUVNLgo+Cj4gQnV0IEkgaG9uZXN0bHkgZG9uJ3QgcmVtZW1iZXIgd2h5IHdlIGhhdmUg
+aXQgYXBwcm9hY2hlZCBsaWtlIHRoYXQuCgpXZWxsIG9vbSBraWxsZXIgYmVpbmcgc3VwcmVtZWx5
+IHVucG9wdWxhciBpcyBraW5kYSBub3QgbmV3cy4gSSB0aGluawp3aGF0IHlvdSB3YW50IGlzIHRo
+YXQgaW4gdGhlIGJ1ZmZlciBjcmVhdGUgaW9jdGwgeW91IGRvbid0IHJldHJ5LCBidXQKaW5zdGVh
+ZCBmYWxsIG92ZXIgaWYgdGhlcmUncyBubyBtZW1vcnkuIFNvIHRoYXQgdXNlcnNwYWNlIGtub3dz
+IGl0CmNhbid0IGFsbG9jYXRlIG1vcmUgZ3B1IG1lbW9yeS4KCkJ1dCBpbiBleGVjYnVmIG5vdCB0
+cnlpbmcgdG8gZmluZCB0aGUgbWVtb3J5IHdlIHByb21pc2VkIGlzIHRvdGFsbHkKdGhlcmUgaXMg
+a2luZGEgcnVkZS4gU28gSSB0aGluayB0aGlzIHNob3VsZCBiZSBhIHJ1bnRpbWUgZmxhZywgcGVy
+aGFwcwppbiB0aGUgdHRtX29wZXJhdGlvbl9jdHg/CgpUaGUgb3RoZXIgdGhpbmcgd2hpY2ggaXMg
+cmVhbGx5IG5hc3R5IGlzIGlmIHdlIGFkZCBhIHNocmlua2VyIGZvcgpTWVNURU0gb2JqZWN0cyAo
+dXNpbmcgdHJ5bG9ja3MgYW5kIGFsbCB0aGF0KSwgYW5kIG1heWJlIHRocm93IG91dCB0aGUKc3dh
+cHBlZCBzaHJpbmtlciBjb21wbGV0ZWx5IGFuZCBvbmx5IHJlbHkgb24gdGhhdCBmaXJzdCBvbmUu
+IFNpbmNlCndoZW4gdGhhdCBoYXBwZW5zIHlvdSBkbyB3YW50IHRvIHNocmluayBleGNlc3NpdmUg
+ZHJhZywgYnV0IG5vdCB0b28KbXVjaCAoYnV0IEkgdGhpbmsgdGhhdCBzaG91bGQgc3RpbGwgYmUg
+Y292ZXJlZCBieSB0aGUgTk9fUkVUUlkgZmxhZywKaWlyYyB0aGF0IG1lYW5zICJzaHJpbmsgYSBi
+aXQsIGJ1dCBkb250IGdldCBkZXNwZXJhdGUiKS4gQnV0IHRoYXQncwpraW5kYSBhIGJpZ2dlciBk
+aXNjdXNzaW9uLgotRGFuaWVsCgo+Cj4gQ2hyaXN0aWFuLgo+Cj4gPgo+ID4gSSBndWVzcyBubyBy
+ZXRyeSBtYWtlcyBzZW5zZSBmb3IgYSAiZG8geW91IHN0aWxsIGhhdmUgbWVtb3J5PyIgcXVlcnks
+Cj4gPiBidXQgb25jZSB3ZSd2ZSBjb21taXQgdG8gaGF2aW5nIHRoYXQgbWVtb3J5LCBJJ20gbm90
+IHNlZWluZyB3aHkgd2UKPiA+IHNob3VsZCBub3QgdHJ5IHRvIGZpbmQgaXQ/IE1pZ2h0IGFsc28g
+dGllIGludG8gdGhlIGxhY2sgb2YgYWN0aXZlCj4gPiBzaHJpbmtpbmcgZm9yIHR0bSBvYmplY3Rz
+IGluIHRoZSBzeXN0ZW0gZG9tYWluLgo+ID4gLURhbmllbAo+ID4KPiA+PiAtLS0KPiA+PiAgIGRy
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyB8IDYgKysrLS0tCj4gPj4gICBk
+cml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jICAgICAgICAgICAgfCAzIC0tLQo+ID4+ICAgaW5j
+bHVkZS9kcm0vdHRtL3R0bV9kZXZpY2UuaCAgICAgICAgICAgIHwgMiAtLQo+ID4+ICAgMyBmaWxl
+cyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCj4gPj4KPiA+PiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gPj4gaW5kZXggYzVmMmI0OTcxZWY3
+Li4wYTQyMzM5ODU4NzAgMTAwNjQ0Cj4gPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvYW1kZ3B1X3R0bS5jCj4gPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X3R0bS5jCj4gPj4gQEAgLTEyOTgsNiArMTI5OCw5IEBAIHN0YXRpYyBzdHJ1Y3QgdHRtX3R0
+ICphbWRncHVfdHRtX3R0X2NyZWF0ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ID4+
+ICAgICAgICAgIH0KPiA+PiAgICAgICAgICBndHQtPmdvYmogPSAmYm8tPmJhc2U7Cj4gPj4KPiA+
+PiArICAgICAgIC8qIFdlIG9wdCB0byBhdm9pZCBPT00gb24gc3lzdGVtIHBhZ2VzIGFsbG9jYXRp
+b25zICovCj4gPj4gKyAgICAgICBwYWdlX2ZsYWdzIHw9IFRUTV9QQUdFX0ZMQUdfTk9fUkVUUlk7
+Cj4gPj4gKwo+ID4+ICAgICAgICAgIGlmIChkbWFfYWRkcmVzc2luZ19saW1pdGVkKGFkZXYtPmRl
+dikpCj4gPj4gICAgICAgICAgICAgICAgICBwYWdlX2ZsYWdzIHw9IFRUTV9QQUdFX0ZMQUdfRE1B
+MzI7Cj4gPj4KPiA+PiBAQCAtMTg5NSw5ICsxODk4LDYgQEAgaW50IGFtZGdwdV90dG1faW5pdChz
+dHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKPiA+PiAgICAgICAgICB9Cj4gPj4gICAgICAgICAg
+YWRldi0+bW1hbi5pbml0aWFsaXplZCA9IHRydWU7Cj4gPj4KPiA+PiAtICAgICAgIC8qIFdlIG9w
+dCB0byBhdm9pZCBPT00gb24gc3lzdGVtIHBhZ2VzIGFsbG9jYXRpb25zICovCj4gPj4gLSAgICAg
+ICBhZGV2LT5tbWFuLmJkZXYubm9fcmV0cnkgPSB0cnVlOwo+ID4+IC0KPiA+PiAgICAgICAgICAv
+KiBJbml0aWFsaXplIFZSQU0gcG9vbCB3aXRoIGFsbCBvZiBWUkFNIGRpdmlkZWQgaW50byBwYWdl
+cyAqLwo+ID4+ICAgICAgICAgIHIgPSBhbWRncHVfdnJhbV9tZ3JfaW5pdChhZGV2KTsKPiA+PiAg
+ICAgICAgICBpZiAocikgewo+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0
+bV90dC5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQuYwo+ID4+IGluZGV4IGUyYjFlNmM1
+M2EwNC4uOTg1MTRhYmFhOTM5IDEwMDY0NAo+ID4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX3R0LmMKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCj4gPj4gQEAg
+LTUyLDkgKzUyLDYgQEAgaW50IHR0bV90dF9jcmVhdGUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0
+ICpibywgYm9vbCB6ZXJvX2FsbG9jKQo+ID4+ICAgICAgICAgIGlmIChiby0+dHRtKQo+ID4+ICAg
+ICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPj4KPiA+PiAtICAgICAgIGlmIChiZGV2LT5ub19y
+ZXRyeSkKPiA+PiAtICAgICAgICAgICAgICAgcGFnZV9mbGFncyB8PSBUVE1fUEFHRV9GTEFHX05P
+X1JFVFJZOwo+ID4+IC0KPiA+PiAgICAgICAgICBzd2l0Y2ggKGJvLT50eXBlKSB7Cj4gPj4gICAg
+ICAgICAgY2FzZSB0dG1fYm9fdHlwZV9kZXZpY2U6Cj4gPj4gICAgICAgICAgICAgICAgICBpZiAo
+emVyb19hbGxvYykKPiA+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9kZXZpY2Uu
+aCBiL2luY2x1ZGUvZHJtL3R0bS90dG1fZGV2aWNlLmgKPiA+PiBpbmRleCBiZmM2ZGQ4N2YyZDMu
+LmUwZWJhMzZjMTMwOSAxMDA2NDQKPiA+PiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2Rldmlj
+ZS5oCj4gPj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9kZXZpY2UuaAo+ID4+IEBAIC0zMjYs
+OCArMzI2LDYgQEAgc3RydWN0IHR0bV9kZXZpY2Ugewo+ID4+ICAgICAgICAgICAqLwo+ID4+Cj4g
+Pj4gICAgICAgICAgc3RydWN0IGRlbGF5ZWRfd29yayB3cTsKPiA+PiAtCj4gPj4gLSAgICAgICBi
+b29sIG5vX3JldHJ5Owo+ID4+ICAgfTsKPiA+Pgo+ID4+ICAgc3RhdGljIGlubGluZSBzdHJ1Y3Qg
+dHRtX3Jlc291cmNlX21hbmFnZXIgKgo+ID4+IC0tCj4gPj4gMi4xNy4xCj4gPj4KPiA+Cj4KCgot
+LSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0
+cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
