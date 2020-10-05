@@ -1,37 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EEC284737
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F32283908
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 17:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 846F46E408;
-	Tue,  6 Oct 2020 07:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 876C089D67;
+	Mon,  5 Oct 2020 15:08:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 730DE6E02E
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:00:29 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AFE17113E;
- Mon,  5 Oct 2020 08:00:28 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com
- [10.1.195.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5771D3F70D;
- Mon,  5 Oct 2020 08:00:27 -0700 (PDT)
-Date: Mon, 5 Oct 2020 16:00:25 +0100
-From: Qais Yousef <qais.yousef@arm.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
-Message-ID: <20201005150024.mchfdtd62rlkuh4s@e107158-lin.cambridge.arm.com>
-References: <20200930211723.3028059-1-robdclark@gmail.com>
- <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
- <CAF6AEGvWMvZuy7CcGhzUSbwGtEkrNkzWHu_BN1cbdBJdZtvevA@mail.gmail.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E55F89D67
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:08:17 +0000 (UTC)
+IronPort-SDR: GuYMIXi2GSXIt/fpvSRIPhfIIVcfIOZ+Q77ro4Z/a34FVphQz3VCc+Q7dv3tjus+0s43Ljg4Il
+ siM0VqGHE25g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9764"; a="163760808"
+X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; d="scan'208";a="163760808"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP; 05 Oct 2020 08:01:30 -0700
+IronPort-SDR: BlsRAXJmi0zTae52KFksi+r90gsTXR064GMf9s+nBWwnFgM2NNlNnaHzpmXz+hiXOQP1OyFVwg
+ XcTec9BUAJag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; d="scan'208";a="342858284"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga008.jf.intel.com with ESMTP; 05 Oct 2020 08:01:12 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 5 Oct 2020 08:01:11 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 5 Oct 2020 08:01:10 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.1713.004;
+ Mon, 5 Oct 2020 08:01:10 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ray.huang@amd.com" <ray.huang@amd.com>, "airlied@gmail.com"
+ <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
+Subject: RE: [PATCH 2/8] drm/ttm: move ttm_set_memory.h out of include
+Thread-Topic: [PATCH 2/8] drm/ttm: move ttm_set_memory.h out of include
+Thread-Index: AQHWl+X9S1sboxMX5EusD6vmOwKPeamJIHHw
+Date: Mon, 5 Oct 2020 15:01:10 +0000
+Message-ID: <43090043dbd54c13ab48abd81baea49e@intel.com>
+References: <20201001112817.20967-1-christian.koenig@amd.com>
+ <20201001112817.20967-2-christian.koenig@amd.com>
+In-Reply-To: <20201001112817.20967-2-christian.koenig@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.1.200.100]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGvWMvZuy7CcGhzUSbwGtEkrNkzWHu_BN1cbdBJdZtvevA@mail.gmail.com>
-User-Agent: NeoMutt/20171215
-X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,160 +71,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+CC Steve and Peter - they might be interested.
-
-On 10/02/20 11:07, Rob Clark wrote:
-> On Fri, Oct 2, 2020 at 4:01 AM Qais Yousef <qais.yousef@arm.com> wrote:
-> >
-> > On 09/30/20 14:17, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > The android userspace treats the display pipeline as a realtime problem.
-> > > And arguably, if your goal is to not miss frame deadlines (ie. vblank),
-> > > it is.  (See https://lwn.net/Articles/809545/ for the best explaination
-> > > that I found.)
-> > >
-> > > But this presents a problem with using workqueues for non-blocking
-> > > atomic commit_work(), because the SCHED_FIFO userspace thread(s) can
-> > > preempt the worker.  Which is not really the outcome you want.. once
-> > > the required fences are scheduled, you want to push the atomic commit
-> > > down to hw ASAP.
-> >
-> > For me thees 2 properties
-> >
-> >         1. Run ASAP
-> >         2. Finish the work un-interrupted
-> >
-> > Scream the workers need to be SCHED_FIFO by default. CFS can't give you these
-> > guarantees.
-> 
-> fwiw, commit_work does sleep/block for some time until fences are
-> signalled, but then once that happens we want it to run ASAP,
-> preempting lower priority SCHED_FIFO.
-> 
-> >
-> > IMO using sched_set_fifo() for these workers is the right thing.
-> >
-> 
-> Possibly, but we still have limited prioritization options (ie. not
-> enough) to set these from the kernel.  Giving userspace the control,
-> so it can pick sensible priorities for commit_work and vblank_work,
-> which fits in with the priorities of the other userspace threads seems
-> like the sensible thing.
-
-The problem is that the kernel can run on all types of systems. It's impossible
-to pick one value that fits all. Userspace must manage these priorities, and
-you can still export the TID to help with that.
-
-But why do you need several priorities in your pipeline? I would have thought
-it should execute each stage sequentially and all tasks running at the same RT
-priority is fine.
-
-On SMP priorities matter once you've overcomitted the systems. You need to have
-more RT tasks running than CPUs for priorities to matter. It seems you have
-a high count of RT tasks in your system?
-
-I did some profiles on Android and found that being overcomitted is hard. But
-that was a while ago.
-
-> 
-> > >
-> > > But the decision of whether commit_work should be RT or not really
-> > > depends on what userspace is doing.  For a pure CFS userspace display
-> > > pipeline, commit_work() should remain SCHED_NORMAL.
-> >
-> > I'm not sure I agree with this. I think it's better to characterize tasks based
-> > on their properties/requirements rather than what the rest of the userspace is
-> > using.
-> 
-> I mean, the issue is that userspace is already using a few different
-> rt priority levels for different SF threads.  We want commit_work to
-
-Why are they at different priorities? Different priority levels means that some
-of them have more urgent deadlines to meet and it's okay to steal execution
-time from lower priority tasks. Is this the case?
-
-RT planning and partitioning is not easy task for sure. You might want to
-consider using affinities too to get stronger guarantees for some tasks and
-prevent cross-talking.
-
-> run ASAP once fences are signalled, and vblank_work to run at a
-> slightly higher priority still.  But the correct choice for priorities
-> here depends on what userspace is using, it all needs to fit together
-> properly.
-
-By userspace here I think you mean none display pipeline related RT tasks that
-you need to coexit with and could still disrupt your pipeline?
-
-Using RT on Gerneral Purpose System is hard for sure. One of the major
-challenge is that there's no admin that has full view of the system to do
-proper RT planning.
-
-We need proper RT balancer daemon that helps partitioning the system for
-multiple RT apps on these systems..
-
-> 
-> >
-> > I do appreciate that maybe some of these tasks have varying requirements during
-> > their life time. e.g: they have RT property during specific critical section
-> > but otherwise are CFS tasks. I think the UI thread in Android behaves like
-> > that.
-> >
-> > It's worth IMO trying that approach I pointed out earlier to see if making RT
-> > try to pick an idle CPU rather than preempt CFS helps. Not sure if it'd be
-> > accepted but IMHO it's a better direction to consider and discuss.
-> 
-> The problem I was seeing was actually the opposite..  commit_work
-> becomes runnable (fences signalled) but doesn't get a chance to run
-> because a SCHED_FIFO SF thread is running.  (Maybe I misunderstood and
-> you're approach would help this case too?)
-
-Ah okay. Sorry I got it the wrong way around for some reason. I thought this
-task is preempting other CFS-based pipelined tasks.
-
-So your system seems to be overcomitted. Is SF short for SufraceFlinger? Under
-what scenarios do you have many SurfaceFlinger tasks? On Android I remember
-seeing they have priority of 1 or 2.
-
-sched_set_fifo() will use priority 50. If you set all your pipeline tasks
-to this priority, what happens?
-
-> 
-> > Or maybe you can wrap userspace pipeline critical section lock such that any
-> > task holding it will automatically be promoted to SCHED_FIFO and then demoted
-> > to CFS once it releases it.
-> 
-> The SCHED_DEADLINE + token passing approach that the lwn article
-> mentioned sounds interesting, if that eventually becomes possible.
-> But doesn't really help today..
-
-We were present in the room with Alessio when he gave that talk :-)
-
-You might have seen Valentin's talk in LPC where he's trying to get
-proxy-execution into shape. Which is a pre-requisite to enable using of
-SCHED_DEADLINE for these scenarios. IIRC it should allow all dependent tasks to
-run from the context of the deadline task during the display pipeline critical
-section.
-
-By the way, do you have issues with SoftIrqs delaying your RT tasks execution
-time?
-
-Thanks
-
---
-Qais Yousef
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogZHJpLWRldmVsIDxkcmktZGV2ZWwt
+Ym91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZg0KPkNocmlzdGlhbiBL
+w7ZuaWcNCj5TZW50OiBUaHVyc2RheSwgT2N0b2JlciAxLCAyMDIwIDc6MjggQU0NCj5UbzogZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgcmF5Lmh1YW5nQGFtZC5jb207DQo+YWlybGll
+ZEBnbWFpbC5jb207IGRhbmllbEBmZndsbC5jaA0KPlN1YmplY3Q6IFtQQVRDSCAyLzhdIGRybS90
+dG06IG1vdmUgdHRtX3NldF9tZW1vcnkuaCBvdXQgb2YgaW5jbHVkZQ0KPg0KPlRoaXMgaXMgbm90
+IHNvbWV0aGluZyBkcml2ZXJzIHNob3VsZCB1c2UuDQoNCkl0J3Mgbm90Pw0KDQpJIGFtIG5vdCBy
+ZWFsbHkgc3VyZSB3aGF0IHlvdSBhcmUgZG9pbmcgaGVyZS4NCg0KTQ0KDQoNCj5TaWduZWQtb2Zm
+LWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+LS0tDQo+
+IGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3BhZ2VfYWxsb2MuYyAgICAgICAgICAgICAgfCAzICsr
+LQ0KPiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wYWdlX2FsbG9jX2RtYS5jICAgICAgICAgIHwg
+MyArKy0NCj4ge2luY2x1ZGUgPT4gZHJpdmVycy9ncHV9L2RybS90dG0vdHRtX3NldF9tZW1vcnku
+aCB8IDANCj4gMyBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
+DQo+IHJlbmFtZSB7aW5jbHVkZSA9PiBkcml2ZXJzL2dwdX0vZHJtL3R0bS90dG1fc2V0X21lbW9y
+eS5oICgxMDAlKQ0KPg0KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wYWdl
+X2FsbG9jLmMNCj5iL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3BhZ2VfYWxsb2MuYw0KPmluZGV4
+IDE0NjYwZjcyM2Y3MS4uOTEyYzMwZGNjOWRiIDEwMDY0NA0KPi0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS90dG0vdHRtX3BhZ2VfYWxsb2MuYw0KPisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bh
+Z2VfYWxsb2MuYw0KPkBAIC00Nyw3ICs0Nyw4IEBADQo+DQo+ICNpbmNsdWRlIDxkcm0vdHRtL3R0
+bV9ib19kcml2ZXIuaD4NCj4gI2luY2x1ZGUgPGRybS90dG0vdHRtX3BhZ2VfYWxsb2MuaD4NCj4t
+I2luY2x1ZGUgPGRybS90dG0vdHRtX3NldF9tZW1vcnkuaD4NCj4rDQo+KyNpbmNsdWRlICJ0dG1f
+c2V0X21lbW9yeS5oIg0KPg0KPiAjZGVmaW5lIE5VTV9QQUdFU19UT19BTExPQwkJKFBBR0VfU0la
+RS9zaXplb2Yoc3RydWN0IHBhZ2UNCj4qKSkNCj4gI2RlZmluZSBTTUFMTF9BTExPQ0FUSU9OCQkx
+Ng0KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wYWdlX2FsbG9jX2RtYS5j
+DQo+Yi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wYWdlX2FsbG9jX2RtYS5jDQo+aW5kZXggNWUy
+ZGYxMTY4NWU3Li4xMDQ1YTVjMjZlZTMgMTAwNjQ0DQo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fcGFnZV9hbGxvY19kbWEuYw0KPisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bh
+Z2VfYWxsb2NfZG1hLmMNCj5AQCAtNDksNyArNDksOCBAQA0KPiAjaW5jbHVkZSA8bGludXgva3Ro
+cmVhZC5oPg0KPiAjaW5jbHVkZSA8ZHJtL3R0bS90dG1fYm9fZHJpdmVyLmg+DQo+ICNpbmNsdWRl
+IDxkcm0vdHRtL3R0bV9wYWdlX2FsbG9jLmg+DQo+LSNpbmNsdWRlIDxkcm0vdHRtL3R0bV9zZXRf
+bWVtb3J5Lmg+DQo+Kw0KPisjaW5jbHVkZSAidHRtX3NldF9tZW1vcnkuaCINCj4NCj4gI2RlZmlu
+ZSBOVU1fUEFHRVNfVE9fQUxMT0MJCShQQUdFX1NJWkUvc2l6ZW9mKHN0cnVjdCBwYWdlDQo+Kikp
+DQo+ICNkZWZpbmUgU01BTExfQUxMT0NBVElPTgkJNA0KPmRpZmYgLS1naXQgYS9pbmNsdWRlL2Ry
+bS90dG0vdHRtX3NldF9tZW1vcnkuaA0KPmIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fc2V0X21l
+bW9yeS5oDQo+c2ltaWxhcml0eSBpbmRleCAxMDAlDQo+cmVuYW1lIGZyb20gaW5jbHVkZS9kcm0v
+dHRtL3R0bV9zZXRfbWVtb3J5LmgNCj5yZW5hbWUgdG8gZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
+c2V0X21lbW9yeS5oDQo+LS0NCj4yLjE3LjENCj4NCj5fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXw0KPmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QNCj5kcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
