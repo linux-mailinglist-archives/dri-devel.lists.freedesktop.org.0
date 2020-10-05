@@ -2,64 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BAE2830D3
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 09:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D10528306D
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 08:44:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4157F6E152;
-	Mon,  5 Oct 2020 07:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09C4689AA2;
+	Mon,  5 Oct 2020 06:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89FBA6E0C1
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 06:26:36 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id i3so4908806pjz.4
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Oct 2020 23:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=SKaQ5+8uUmRtIWBKZSxd+2jDGXEKN5QdEKsAPMYJkgg=;
- b=hVUBIPjnHGOWjGUi1oUG2maCLkvuCE7pMNCmJn6gkaIVPZ8LdYKidM635ZHKQeHwr+
- l2knVD95lg4NSfyju+W6598JCldz5UwtjNiq5Jw8H8LWwbCeS4VjYFXgNY9WYCMElFUg
- 2atFKK1Z5tvYk+DhYbjVwhkBzLDgUhCcKGzBzX8j4fumt3o5pOmUeq9QqIeXEm7BnOnZ
- a+C2Am6JbEg4Ha9fo3qOa+KC6LPN927a6o67oRVjFKDbmc9/uYW0fgX+Cks4uxcGs2HW
- NWZrgF1TEebG01jSrJh4i4AjHHuHT+bSBFJDRKzAlvEWgDfpYYZ6UGBMMucpf0+sffjM
- zsXw==
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+ [209.85.221.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D406C89C25
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 06:44:14 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id o5so8147488wrn.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Oct 2020 23:44:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=SKaQ5+8uUmRtIWBKZSxd+2jDGXEKN5QdEKsAPMYJkgg=;
- b=WT42vqO5ORV6l/ixbKa5d9P1YArIq9DLj38A2YbAGDkhiRTXXvEnc4rErY31pZE4gj
- rrFPnlm3QTdK7fGo64PCPt7+qSdQJftnd3WEyTHZPSv59iGi5I71xuWZXP0x/ACpjLyv
- Ks/PFwP7pWB6ySaJ5yAKTyrtiuv6ZUoRhEUka2iwT3FT06r9r0oUza9w1XW+bAYl2hq4
- ozUSHcGrul+uHq3xSo5+/R8bzPGZ0gyojoPlX7t6wCnFeMevB3Fdk52P1H2SEUziYPXH
- IUiRvYxTfxpBRhxcoWTxjGsOWRsXIt2g4YMKhJBUVm+5B2wPk/0zTdCS5BX2xEw2ljhI
- bgRg==
-X-Gm-Message-State: AOAM53392cQEZovo2VvMVIt2Mkti3RTP7gTv7CC1KzqGHWA1iePw1NqL
- W6/3scYe6W4XocjSXPPHA0jvyg==
-X-Google-Smtp-Source: ABdhPJzMX/4YpxutBiiXM2fWXSSduuaC0HQCvEVYpnrcJsYem70ESjGjA5g+ApA82zM/o6oW1zh/YQ==
-X-Received: by 2002:a17:90a:e282:: with SMTP id
- d2mr104042pjz.159.1601879196092; 
- Sun, 04 Oct 2020 23:26:36 -0700 (PDT)
-Received: from localhost ([122.181.54.133])
- by smtp.gmail.com with ESMTPSA id j6sm10860110pfi.129.2020.10.04.23.26.34
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 04 Oct 2020 23:26:35 -0700 (PDT)
-Date: Mon, 5 Oct 2020 11:56:33 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: rnayak@codeaurora.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH V2 3/8] drm/msm: Unconditionally call
- dev_pm_opp_of_remove_table()
-Message-ID: <20201005062633.ejpehkpeuwksrx3e@vireshk-i7>
-References: <cover.1598594714.git.viresh.kumar@linaro.org>
- <6e4110032f8711e8bb0acbeccfe66dec3b09d5c1.1598594714.git.viresh.kumar@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OzN1JPXKv6Spexj0EdyUYa+k+0ic40CtwBqEYlJv0uk=;
+ b=K80mYXkydLOgDeuGd2WdrPXA+RMrX5tV+XPfZ2lA0PXfqWNKLkf+quBbJkZcH/POmM
+ qgGx6+HeSWCa515mA1hGILJ2IACkf/UFm/kWiHYN3beQpCSzzXxNN2oYxVdzojwi0crQ
+ yL2sOSiXwPhqRWr4stdCOrQfuj2ER0J/hul8bkWw055vDENA2l+qYVp8d3ktVwMojgCp
+ swoBV8gTEZl8EPRpAGHz53+ntWMnpzj5sZC1WiP9Vy26D9K3qaYe0x/E8aGDNs0ryXGT
+ HMdltQJ1lGIkpOkADdm9zLfwWyZsvjP/A1Jjgcx+FUabTQ853tlXt5Ewd0fXQOsRbSD/
+ mg9w==
+X-Gm-Message-State: AOAM530NLK3j0n8WwXPGYZM43AP373TSaOibagfahs5SW88lmhmEXoAO
+ 2Ay8OwwjF+Bs2mJrRiPRug7C9xjYxgYq7mXoTT8=
+X-Google-Smtp-Source: ABdhPJzJraKz/rfOgCeb7Og+IIW+gvj3yn/RrgEdiZeXLCFiS1Menw7IFtSrPZBBB90TxwYwsWX0dVxlg/op711mQkk=
+X-Received: by 2002:a05:6000:104c:: with SMTP id
+ c12mr15240286wrx.133.1601880253409; 
+ Sun, 04 Oct 2020 23:44:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6e4110032f8711e8bb0acbeccfe66dec3b09d5c1.1598594714.git.viresh.kumar@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
-X-Mailman-Approved-At: Mon, 05 Oct 2020 07:22:30 +0000
+References: <20200611085900.49740-1-tomeu.vizoso@collabora.com>
+ <20200611085900.49740-2-tomeu.vizoso@collabora.com>
+ <1b72d5ad-365f-e7fb-624e-b88420ff264b@arm.com>
+In-Reply-To: <1b72d5ad-365f-e7fb-624e-b88420ff264b@arm.com>
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Date: Mon, 5 Oct 2020 08:44:02 +0200
+Message-ID: <CAAObsKBHe1a4cSe0LS64ikEVzU55FBK4yQbLpMxvOJsP9s=1Nw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] panfrost: Add compatible string for bifrost
+To: Steven Price <steven.price@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,31 +54,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, Naresh Kamboju <naresh.kamboju@linaro.org>,
- Rafael Wysocki <rjw@rjwysocki.net>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28-08-20, 11:37, Viresh Kumar wrote:
-> dev_pm_opp_of_remove_table() doesn't report any errors when it fails to
-> find the OPP table with error -ENODEV (i.e. OPP table not present for
-> the device). And we can call dev_pm_opp_of_remove_table()
-> unconditionally here.
-> 
-> While at it, also create a label to put clkname.
-> 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+On Fri, 19 Jun 2020 at 11:00, Steven Price <steven.price@arm.com> wrote:
+>
+> On 11/06/2020 09:58, Tomeu Vizoso wrote:
+> > Mesa now supports some Bifrost devices, so enable it.
+> >
+> > Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+>
+> I've also dug out my Hikey960 (from the box it's been in since lock down
+> started), so I'll see if I can get things running on there, at the
+> moment I'm seeing some DATA_INVALID_FAULT regressions running my hacked
+> DDK :(
 
-Can someone please apply this and the other drm patch (2/8) ?
+Hi!
 
--- 
-viresh
+Has this one fallen through the cracks?
+
+Thanks,
+
+Tomeu
+
+>
+> Steve
+>
+> > ---
+> >   drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > index 882fecc33fdb..8ff8e140f91e 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > @@ -677,6 +677,7 @@ static const struct of_device_id dt_match[] = {
+> >       { .compatible = "arm,mali-t830", .data = &default_data, },
+> >       { .compatible = "arm,mali-t860", .data = &default_data, },
+> >       { .compatible = "arm,mali-t880", .data = &default_data, },
+> > +     { .compatible = "arm,mali-bifrost", .data = &default_data, },
+> >       {}
+> >   };
+> >   MODULE_DEVICE_TABLE(of, dt_match);
+> >
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
