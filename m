@@ -1,50 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287E5283598
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 14:16:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A75F28474D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:32:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB0789D4B;
-	Mon,  5 Oct 2020 12:15:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F03D6E422;
+	Tue,  6 Oct 2020 07:31:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2D0089D4B
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 12:15:56 +0000 (UTC)
-IronPort-SDR: GJlEOdkoWcgOY2mV+8Clw4WHx1+HI439L0VvjqUrTBWQULF83/L4KAn1174sajSbtRMjDgJCaX
- bmaN9C7CqRIw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9764"; a="248145642"
-X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; d="scan'208";a="248145642"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2020 05:15:29 -0700
-IronPort-SDR: wsBWwSr0FVKe1J6GMO9fuGVhlhCkBjZALlmfwFxxmZIyc0tu3eQVednjIO54kMtSYkYExZ7mPi
- pae6ZKzmmdhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; d="scan'208";a="296094490"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga008.fm.intel.com with SMTP; 05 Oct 2020 05:15:24 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 05 Oct 2020 15:15:24 +0300
-Date: Mon, 5 Oct 2020 15:15:24 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
-Message-ID: <20201005121524.GI6112@intel.com>
-References: <20200930211723.3028059-1-robdclark@gmail.com>
- <CAKMK7uHHPWE3h7ssG-dpb3czwbP5VtZYztMA=CpvQ4HV4LQTXA@mail.gmail.com>
- <CAF6AEGszF60dWn37m63wujjtuObqkz2ZqEN3LHaPhCkKa1cdmA@mail.gmail.com>
- <CAKMK7uEd853irzdBMCcaNEMAeOZKVFcFpgNtcYrgQkmHxdT3-w@mail.gmail.com>
- <20201002105256.GA6112@intel.com> <20201002110544.GB6112@intel.com>
- <CAF6AEGv+UnZJoBj_ELRVr4sQeMs52vAgyw2g+wtabLPBrYDKvw@mail.gmail.com>
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EAC289CF2
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 13:13:05 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id v123so11737798qkd.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 06:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=g/nm80+Ud0wRxvGfW3dlVEjR1+0DLL+VUhoF4LmgS+Q=;
+ b=HHMoe12/eAzH/fwzfESo4EPwuolZOIMbQjNC5GQRJrIb3mESWoCqFb/+X48/ok5xAY
+ 1Ib5j6cJag2rt7rEGRcYQvbjvT6rY99IutD+lWrQU8ZQAc2QLQ8yiHaxqA+hTUm9R0AG
+ 5niHdR+a9omhIWYTsRo+b8q6GcK3Zs8XSzXSBOQxcbygY0/2oiGqrcWOgqeLm3zPijhF
+ mb40XErkCkx8a657/zpPt7xIE+/WVgRfNKkWYIzrCp2tFDP+3BInjM7+gEMEf76WZHqQ
+ mWS1lNBj11tGTpzFwmXWxgQhpUHsgSF55YjnC64n3+0PHEFGUfjNmCIcTTGmKI9MGu2d
+ kCSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=g/nm80+Ud0wRxvGfW3dlVEjR1+0DLL+VUhoF4LmgS+Q=;
+ b=MXMkDHZ4D6q5S4UyWLGCOsOJJ2zx3jLGiDVxVQpYBkhJlHnaICg2KUcPznuDFuQ4Cf
+ 4uvotRo4OTzk0p66S/xA+Pp4IvRzccWfhD7b8ipah/u1kV5A/s1jddFbH/S9AGDyjuQ7
+ 3m7gQQjL83E6u3dNiYvtM4lF+LPUA5dz5ZQBS3FDS2vrgrHruarv5t52MfmCavgoxfDu
+ FdVcqy60Em62qqGXXeI5b1QQOx3659Rh/1vMslczgpenaaEo82sm87SF7Ec0DS6b5kgZ
+ 6JMiklhGTSj+3Y2bdUFs+akWjGljoIae0mbr7EpRI/1/77xqfGgU76iaFAAekZaCTvjo
+ HN+Q==
+X-Gm-Message-State: AOAM530oborZuWkRpADUWqiR2linTA5DuVEoCkTbM9VJGufJpg10Dllg
+ /V2qgj3hUetAUq6JWX+zxfqNwQ==
+X-Google-Smtp-Source: ABdhPJyrho8zIByNj5JL9HWW/xbMfB4xrHk9GWGi+3WSdBd2xnU203QhJSgXIPPx+itKthHZDwz+Yg==
+X-Received: by 2002:a37:bec2:: with SMTP id o185mr13957738qkf.37.1601903584565; 
+ Mon, 05 Oct 2020 06:13:04 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id p29sm7381872qtu.68.2020.10.05.06.13.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 06:13:03 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kPQIY-007crb-Gz; Mon, 05 Oct 2020 10:13:02 -0300
+Date: Mon, 5 Oct 2020 10:13:02 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jianxin Xiong <jianxin.xiong@intel.com>
+Subject: Re: [RFC PATCH v3 1/4] RDMA/umem: Support importing dma-buf as user
+ memory region
+Message-ID: <20201005131302.GQ9916@ziepe.ca>
+References: <1601838751-148544-1-git-send-email-jianxin.xiong@intel.com>
+ <1601838751-148544-2-git-send-email-jianxin.xiong@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGv+UnZJoBj_ELRVr4sQeMs52vAgyw2g+wtabLPBrYDKvw@mail.gmail.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1601838751-148544-2-git-send-email-jianxin.xiong@intel.com>
+X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,164 +73,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>,
- Qais Yousef <qais.yousef@arm.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 02, 2020 at 10:55:52AM -0700, Rob Clark wrote:
-> On Fri, Oct 2, 2020 at 4:05 AM Ville Syrj=E4l=E4
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Fri, Oct 02, 2020 at 01:52:56PM +0300, Ville Syrj=E4l=E4 wrote:
-> > > On Thu, Oct 01, 2020 at 05:25:55PM +0200, Daniel Vetter wrote:
-> > > > On Thu, Oct 1, 2020 at 5:15 PM Rob Clark <robdclark@gmail.com> wrot=
-e:
-> > > > >
-> > > > > On Thu, Oct 1, 2020 at 12:25 AM Daniel Vetter <daniel@ffwll.ch> w=
-rote:
-> > > > > >
-> > > > > > On Wed, Sep 30, 2020 at 11:16 PM Rob Clark <robdclark@gmail.com=
-> wrote:
-> > > > > > >
-> > > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > > >
-> > > > > > > The android userspace treats the display pipeline as a realti=
-me problem.
-> > > > > > > And arguably, if your goal is to not miss frame deadlines (ie=
-. vblank),
-> > > > > > > it is.  (See https://lwn.net/Articles/809545/ for the best ex=
-plaination
-> > > > > > > that I found.)
-> > > > > > >
-> > > > > > > But this presents a problem with using workqueues for non-blo=
-cking
-> > > > > > > atomic commit_work(), because the SCHED_FIFO userspace thread=
-(s) can
-> > > > > > > preempt the worker.  Which is not really the outcome you want=
-.. once
-> > > > > > > the required fences are scheduled, you want to push the atomi=
-c commit
-> > > > > > > down to hw ASAP.
-> > > > > > >
-> > > > > > > But the decision of whether commit_work should be RT or not r=
-eally
-> > > > > > > depends on what userspace is doing.  For a pure CFS userspace=
- display
-> > > > > > > pipeline, commit_work() should remain SCHED_NORMAL.
-> > > > > > >
-> > > > > > > To handle this, convert non-blocking commit_work() to use per=
--CRTC
-> > > > > > > kthread workers, instead of system_unbound_wq.  Per-CRTC work=
-ers are
-> > > > > > > used to avoid serializing commits when userspace is using a p=
-er-CRTC
-> > > > > > > update loop.  And the last patch exposes the task id to users=
-pace as
-> > > > > > > a CRTC property, so that userspace can adjust the priority an=
-d sched
-> > > > > > > policy to fit it's needs.
-> > > > > > >
-> > > > > > >
-> > > > > > > v2: Drop client cap and in-kernel setting of priority/policy =
-in
-> > > > > > >     favor of exposing the kworker tid to userspace so that us=
-er-
-> > > > > > >     space can set priority/policy.
-> > > > > >
-> > > > > > Yeah I think this looks more reasonable. Still a bit irky inter=
-face,
-> > > > > > so I'd like to get some kworker/rt ack on this. Other opens:
-> > > > > > - needs userspace, the usual drill
-> > > > >
-> > > > > fwiw, right now the userspace is "modetest + chrt".. *probably* t=
-he
-> > > > > userspace will become a standalone helper or daemon, mostly becau=
-se
-> > > > > the chrome gpu-process sandbox does not allow setting SCHED_FIFO.=
-  I'm
-> > > > > still entertaining the possibility of switching between rt and cfs
-> > > > > depending on what is in the foreground (ie. only do rt for android
-> > > > > apps).
-> > > > >
-> > > > > > - we need this also for vblank workers, otherwise this wont wor=
-k for
-> > > > > > drivers needing those because of another priority inversion.
-> > > > >
-> > > > > I have a thought on that, see below..
-> > > >
-> > > > Hm, not seeing anything about vblank worker below?
-> > > >
-> > > > > > - we probably want some indication of whether this actually does
-> > > > > > something useful, not all drivers use atomic commit helpers. No=
-t sure
-> > > > > > how to do that.
-> > > > >
-> > > > > I'm leaning towards converting the other drivers over to use the
-> > > > > per-crtc kwork, and then dropping the 'commit_work` from atomic s=
-tate.
-> > > > > I can add a patch to that, but figured I could postpone that churn
-> > > > > until there is some by-in on this whole idea.
-> > > >
-> > > > i915 has its own commit code, it's not even using the current commit
-> > > > helpers (nor the commit_work). Not sure how much other fun there is.
-> > >
-> > > I don't think we want per-crtc threads for this in i915. Seems
-> > > to me easier to guarantee atomicity across multiple crtcs if
-> > > we just commit them from the same thread.
-> >
-> > Oh, and we may have to commit things in a very specific order
-> > to guarantee the hw doesn't fall over, so yeah definitely per-crtc
-> > thread is a no go.
-> =
+On Sun, Oct 04, 2020 at 12:12:28PM -0700, Jianxin Xiong wrote:
+> Dma-buf is a standard cross-driver buffer sharing mechanism that can be
+> used to support peer-to-peer access from RDMA devices.
+> 
+> Device memory exported via dma-buf is associated with a file descriptor.
+> This is passed to the user space as a property associated with the
+> buffer allocation. When the buffer is registered as a memory region,
+> the file descriptor is passed to the RDMA driver along with other
+> parameters.
+> 
+> Implement the common code for importing dma-buf object and mapping
+> dma-buf pages.
+> 
+> Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
+> Reviewed-by: Sean Hefty <sean.hefty@intel.com>
+> Acked-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+> ---
+>  drivers/infiniband/core/Makefile      |   2 +-
+>  drivers/infiniband/core/umem.c        |   4 +
+>  drivers/infiniband/core/umem_dmabuf.c | 291 ++++++++++++++++++++++++++++++++++
+>  drivers/infiniband/core/umem_dmabuf.h |  14 ++
+>  drivers/infiniband/core/umem_odp.c    |  12 ++
+>  include/rdma/ib_umem.h                |  19 ++-
+>  6 files changed, 340 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/infiniband/core/umem_dmabuf.c
+>  create mode 100644 drivers/infiniband/core/umem_dmabuf.h
 
-> If I'm understanding the i915 code, this is only the case for modeset
-> commits?  I suppose we could achieve the same result by just deciding
-> to pick the kthread of the first CRTC for modeset commits.  I'm not
-> really so much concerned about parallelism for modeset.
+I think this is using ODP too literally, dmabuf isn't going to need
+fine grained page faults, and I'm not sure this locking scheme is OK -
+ODP is horrifically complicated.
 
-I'm not entirely happy about the random differences between modesets
-and other commits. Ideally we wouldn't need any.
+If this is the approach then I think we should make dmabuf its own
+stand alone API, reg_user_mr_dmabuf()
 
-Anyways, even if we ignore modesets we still have the issue with
-atomicity guarantees across multiple crtcs. So I think we still
-don't want per-crtc threads, rather it should be thread for each =
+The implementation in mlx5 will be much more understandable, it would
+just do dma_buf_dynamic_attach() and program the XLT exactly the same
+as a normal umem.
 
-commit.
+The move_notify() simply zap's the XLT and triggers a work to reload
+it after the move. Locking is provided by the dma_resv_lock. Only a
+small disruption to the page fault handler is needed.
 
-Well, if the crtcs aren't running in lockstep then maybe we could
-shove them off to separate threads, but that'll just complicate things
-needlessly I think since we'd need yet another way to iterate
-the crtcs in each thread. With the thread-per-commit apporach we
-can just use the normal atomic iterators.
+> +	dma_resv_lock(umem_dmabuf->attach->dmabuf->resv, NULL);
+> +	sgt = dma_buf_map_attachment(umem_dmabuf->attach,
+> +				     DMA_BIDIRECTIONAL);
+> +	dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
 
-> =
+This doesn't look right, this lock has to be held up until the HW is
+prorgammed
 
-> > I don't even understand the serialization argument. If the commits
-> > are truly independent then why isn't the unbound wq enough to avoid
-> > the serialization? It should just spin up a new thread for each commit
-> > no?
-> =
+The use of atomic looks probably wrong as well.
 
-> The problem with wq is prioritization and SCHED_FIFO userspace
-> components stomping on the feet of commit_work. That is the entire
-> motivation of this series in the first place, so no we cannot use
-> unbound wq.
+> +	k = 0;
+> +	total_pages = ib_umem_odp_num_pages(umem_odp);
+> +	for_each_sg(umem->sg_head.sgl, sg, umem->sg_head.nents, j) {
+> +		addr = sg_dma_address(sg);
+> +		pages = sg_dma_len(sg) >> page_shift;
+> +		while (pages > 0 && k < total_pages) {
+> +			umem_odp->dma_list[k++] = addr | access_mask;
+> +			umem_odp->npages++;
+> +			addr += page_size;
+> +			pages--;
 
-This is a bit dejavu of the vblank worker discussion, where I actually
-did want a per-crtc RT kthread but people weren't convinced they
-actually help. The difference is that for vblank workers we actually
-tried to get some numbers, here I've not seen any.
+This isn't fragmenting the sg into a page list properly, won't work
+for unaligned things
 
--- =
+And really we don't need the dma_list for this case, with a fixed
+whole mapping DMA SGL a normal umem sgl is OK and the normal umem XLT
+programming in mlx5 is fine.
 
-Ville Syrj=E4l=E4
-Intel
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
