@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE16728400A
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 22:03:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B685E28400B
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 22:03:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619FB6E165;
-	Mon,  5 Oct 2020 20:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F12DB6E169;
+	Mon,  5 Oct 2020 20:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B08C6E165
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 20:03:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B10DE6E169
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 20:03:35 +0000 (UTC)
 Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4F4C920848;
- Mon,  5 Oct 2020 20:03:01 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DBAA12100A;
+ Mon,  5 Oct 2020 20:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601928181;
- bh=LDBMzSKRgXu0amszn1omwesfIy1frb2RvkSUHKCGJBk=;
+ s=default; t=1601928215;
+ bh=kAJPl5wTGCwkw+XuTKU5bbU4qKcWvd/W2QpX6dnKGVA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DbgBQYYNY8Z0bctQfKlo46vuzwcO7cAJTUA6WI13L1pEYpu6vA8L99qk3PZzFWPH2
- fgJHuHFAkVTZdQ53sCs+i/L1PeWZsSHlt6UaHeg3IMRhnUNJ4vPDlRp6puBpdniGsC
- UK6eoAqXgECVDuSR5AsDUKOCMwvFsyrqkopv5GUw=
-Date: Mon, 5 Oct 2020 21:01:58 +0100
+ b=DZPhYhMW6eTtoKQB9RgWc2d2lES+UJhbkT7IA5z3WDU8NbIsrMjY7inei/w1HQtXV
+ ETrKpXZfdoc2j8f7iCRMCTk1xUpVenlivyiDIWBo2QXnl6+RynOUk0tqlJFgtkSNZR
+ Ki32ki/tWedE2ZYPKvawsqMQevQkwXPmMbu/rqNk=
+Date: Mon, 5 Oct 2020 21:02:32 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
-Message-ID: <20201005200158.GG5139@sirena.org.uk>
+Subject: Re: [PATCH 2/4] dt-bindings: Use 'additionalProperties' instead of
+ 'unevaluatedProperties'
+Message-ID: <20201005200232.GH5139@sirena.org.uk>
 References: <20201005183830.486085-1-robh@kernel.org>
- <20201005183830.486085-2-robh@kernel.org>
+ <20201005183830.486085-3-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-3-robh@kernel.org>
 X-Cookie: Most of your faults are not your fault.
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,46 +88,46 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
  Richard Weinberger <richard@nod.at>, dmaengine@vger.kernel.org,
  linux-mtd@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
  Jonathan Cameron <jic23@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>
-Content-Type: multipart/mixed; boundary="===============0683552607=="
+Content-Type: multipart/mixed; boundary="===============1585903258=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0683552607==
+--===============1585903258==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="E69HUUNAyIJqGpVn"
+	protocol="application/pgp-signature"; boundary="G44BJl3Aq1QbV/QL"
 Content-Disposition: inline
 
 
---E69HUUNAyIJqGpVn
+--G44BJl3Aq1QbV/QL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, Oct 05, 2020 at 01:38:27PM -0500, Rob Herring wrote:
-> This doesn't yet do anything in the tools, but make it explicit so we can
-> check either 'unevaluatedProperties' or 'additionalProperties' is present
-> in schemas.
+On Mon, Oct 05, 2020 at 01:38:28PM -0500, Rob Herring wrote:
+> In cases where we don't reference another schema, 'additionalProperties'
+> can be used instead. This is preferred for now as 'unevaluatedProperties'
+> support isn't implemented yet.
 
 Acked-by: Mark Brown <broonie@kernel.org>
 
---E69HUUNAyIJqGpVn
+--G44BJl3Aq1QbV/QL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl97e7UACgkQJNaLcl1U
-h9Cm0Af/WUxMT7VSA2xsxQr5K/rX2H6z1aD4Hr9f+lQLJCFBiUYhNvb9mQnNDvLq
-GQeaW1Z1gDtmjIiEOvan3CP1ZUF3VENvyt8orPUmES76eFXx7xEyryHHut1YFimr
-3LEvyKzDAcn3KGj/wv37knBc5sifrmqjF+Y1eYYZD6yKKVPbgpA7kKZ0EAqOLxiv
-/FbGoxWGWbB7Vfyaboo2dDw/SyuwkZ9+0pr+IhFWbCjIjgkeUq0v857luuRCJMxH
-GyPjPkM7+KaeIBbXlY1hRHLTKKbBL7G+dXQ16uS4Ny/DYIf8LXyitPDAfosxQisG
-FhLawubQBH3MNzD5RRYvcLznUaJJJA==
-=+I0x
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl97e9cACgkQJNaLcl1U
+h9CXkAf/fcrNGrdLapSqJwMLMbtJCS0D24DLJGYOMaq20DJF7wJFnGt99z6jdOhf
+r333/DPm2cGni5/89bsEzGA828aVzQineYY/7MBxsmCMR+qegRX1DfC3dWz4jeSJ
+TH7MaAw8Xfp5rRMBgBgb+rKGDNqVkzrHuLKEqqjXYKu/Utrgtz6pdj/FGAg0FRvv
+JPdkDP3WHgdNj3cmoLzF6FP8C4hjT/PLkR7t1gEOeL5p7P0ieXOzwZbLn58MNQfp
+5aJQdQ4UPjeqdwMySifyHNgRORfIVDHnEhgpnEadsg1EOaDOg4L1jOr/teo7vd56
+D2PNzf0BgKBODXIIiuEu0SMMMxO7UA==
+=ctKD
 -----END PGP SIGNATURE-----
 
---E69HUUNAyIJqGpVn--
+--G44BJl3Aq1QbV/QL--
 
---===============0683552607==
+--===============1585903258==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -137,4 +138,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0683552607==--
+--===============1585903258==--
