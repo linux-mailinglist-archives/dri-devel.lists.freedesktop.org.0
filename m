@@ -1,37 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5A928323E
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 10:39:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D65D9284743
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A88A8992E;
-	Mon,  5 Oct 2020 08:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D3626E424;
+	Tue,  6 Oct 2020 07:31:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E26C4892B0
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 08:39:44 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5CBA3299EB2;
- Mon,  5 Oct 2020 09:39:42 +0100 (BST)
-Date: Mon, 5 Oct 2020 10:39:39 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH 3/3] arm64: dts: meson: Describe G12b GPU as coherent
-Message-ID: <20201005103939.667b3f42@collabora.com>
-In-Reply-To: <21de320b-0c32-b15b-a97b-d9799cd5ca44@arm.com>
-References: <cover.1600213517.git.robin.murphy@arm.com>
- <ba61c76654349d3dfcd14c1e24c5aed39ebe3cf7.1600213517.git.robin.murphy@arm.com>
- <e218b95e-39bc-e773-00fb-bcb5f1f835ea@baylibre.com>
- <20201005101517.020c411a@collabora.com>
- <21de320b-0c32-b15b-a97b-d9799cd5ca44@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8507089A59
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 08:40:20 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2058358028D;
+ Mon,  5 Oct 2020 04:40:17 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 05 Oct 2020 04:40:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=TP+YDmeLPT4LYJGRAaDqcHNdlZQ
+ KtqTvNfpsMAMS4CQ=; b=Z+rHeB220VuirrOyCQDgK/LoVlcZ6b95vwcwoYsdp/2
+ grsDkChi+u+3WZqTppRq3GQLgtOgo/7xPOiiUCWK+HJb9RlnG2mTjmew1ARLnUuU
+ HwcMhDeZJO3bgbIij5rX2sIMZ+pbE87CfQTj/QxhLZtCj3vRld+n6VpMTlIPJbOK
+ 7o2EWq4v0eFMC8elqU2JYuqTmhuxWb0Z67Zg5tv+4Op647ZYsDxJx6PgeDoyvl2q
+ /yS3L+5mR2GooasnddVzG/D3QgoGWeFZ3yxDMkojXfh2lEmU83MnWJ1hIciU2tQV
+ x1KqI73W3dEdEQ/a27W9tAq0WSB42POklTR27jkN1Fw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TP+YDm
+ eLPT4LYJGRAaDqcHNdlZQKtqTvNfpsMAMS4CQ=; b=M82nzWEoEQvxdYfOdMqZlu
+ xN4lvZ70N1UcF6yoUwvXwG1wG0x5Km0axhYV/mwCI7mGaH03no4TysgIh+U03P+1
+ +tDM38gu4uRHk0vLo83e9GRYruY6P/havXGZkCsrY37DeLq//oJoFtp5bVpwFlrO
+ ZUAgwf2yWRprng0sz76wF28QuWtf4egD+tbYjIiilWGFpgzQyW1/b5osJT1Pv2zz
+ kXk4WXgCmo9+IUfCQVbQ6ox8ae2h4A6dQN8YqAG0dn37uSbE2fz9CnjDO1T+OyW/
+ hScpsXpACmQEnn6XjJ4oUBMZ+l/+exeeVCZGlYuYelaOdfa4/WZ8RxflwQW+DWgw
+ ==
+X-ME-Sender: <xms:79t6X1SxatzoAeg6XUQsD3w1TUkBPphOEZfPWD2YJqglK55nKlVhEw>
+ <xme:79t6X-wUJU6yCtdwA5tas6Gnjwk96COOpIg2NYAJ0-3hUE4qW3-UZls_ZrHbx8ao7
+ 51wRiWi2-wSTTT75Bg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgddtkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:79t6X61Ihn82ejYMDMF1UMoaYXDSuOc-joH5PVN1NPastwT9JegY5g>
+ <xmx:79t6X9DL1ztmD654-sNP8SMt-HOvECPQK0_TSPDyfvzKiJHd5qSbNQ>
+ <xmx:79t6X-hrAtyRRvymEaTkS23wZ-4iv9s3cVQrD0rDCTqwWUu45eIkpg>
+ <xmx:8dt6X-74fpOHJB-sg4Wcl5A56NWIAR4QD7s0bmWZ9SCDRUn100cd9g>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7472F3280063;
+ Mon,  5 Oct 2020 04:40:15 -0400 (EDT)
+Date: Mon, 5 Oct 2020 10:40:13 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: display: Add dsi-controller.yaml in DSI
+ controller schemas
+Message-ID: <20201005084013.loixl65nnvf4jl6f@gilmour.lan>
+References: <20201002225924.3513700-1-robh@kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20201002225924.3513700-1-robh@kernel.org>
+X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,149 +79,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, Neil Armstrong <narmstrong@baylibre.com>,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- iommu@lists.linux-foundation.org, alyssa.rosenzweig@collabora.com,
- linux-amlogic@lists.infradead.org, will@kernel.org,
- linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Guido =?utf-8?Q?G=C3=BAnther?= <agx@sigxcpu.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Philippe Cornu <philippe.cornu@st.com>,
+ Yannick Fertre <yannick.fertre@st.com>, Chen-Yu Tsai <wens@csie.org>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Robert Chiras <robert.chiras@nxp.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: multipart/mixed; boundary="===============1478876077=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 5 Oct 2020 09:34:06 +0100
-Steven Price <steven.price@arm.com> wrote:
 
-> On 05/10/2020 09:15, Boris Brezillon wrote:
-> > Hi Robin, Neil,
-> > 
-> > On Wed, 16 Sep 2020 10:26:43 +0200
-> > Neil Armstrong <narmstrong@baylibre.com> wrote:
-> >   
-> >> Hi Robin,
-> >>
-> >> On 16/09/2020 01:51, Robin Murphy wrote:  
-> >>> According to a downstream commit I found in the Khadas vendor kernel,
-> >>> the GPU on G12b is wired up for ACE-lite, so (now that Panfrost knows
-> >>> how to handle this properly) we should describe it as such. Otherwise
-> >>> the mismatch leads to all manner of fun with mismatched attributes and
-> >>> inadvertently snooping stale data from caches, which would account for
-> >>> at least some of the brokenness observed on this platform.
-> >>>
-> >>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> >>> ---
-> >>>   arch/arm64/boot/dts/amlogic/meson-g12b.dtsi | 4 ++++
-> >>>   1 file changed, 4 insertions(+)
-> >>>
-> >>> diff --git a/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi
-> >>> index 9b8548e5f6e5..ee8fcae9f9f0 100644
-> >>> --- a/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi
-> >>> +++ b/arch/arm64/boot/dts/amlogic/meson-g12b.dtsi
-> >>> @@ -135,3 +135,7 @@ map1 {
-> >>>   		};
-> >>>   	};
-> >>>   };
-> >>> +
-> >>> +&mali {
-> >>> +	dma-coherent;
-> >>> +};
-> >>>      
-> >>
-> >> Thanks a lot for digging, I'll run a test to confirm it fixes the issue !  
-> > 
-> > Sorry for the late reply. I triggered a dEQP run with this patch applied
-> > and I see a bunch of "panfrost ffe40000.gpu: matching BO is not heap type"
-> > errors (see below for a full backtrace). That doesn't seem to happen when
-> > we drop this dma-coherent property.
-> > 
-> > [  690.945731] ------------[ cut here ]------------
-> > [  690.950003] panfrost ffe40000.gpu: matching BO is not heap type (GPU VA = 319a000)
-> > [  690.950051] WARNING: CPU: 0 PID: 120 at drivers/gpu/drm/panfrost/panfrost_mmu.c:465 panfrost_mmu_irq_handler_thread+0x47c/0x650
-> > [  690.968854] Modules linked in:
-> > [  690.971878] CPU: 0 PID: 120 Comm: irq/27-panfrost Tainted: G        W         5.9.0-rc5-02434-g7d8109ec5a42 #784
-> > [  690.981964] Hardware name: Khadas VIM3 (DT)
-> > [  690.986107] pstate: 60000005 (nZCv daif -PAN -UAO BTYPE=--)
-> > [  690.991627] pc : panfrost_mmu_irq_handler_thread+0x47c/0x650
-> > [  690.997232] lr : panfrost_mmu_irq_handler_thread+0x47c/0x650
-> > [  691.002836] sp : ffff800011bcbcd0
-> > [  691.006114] x29: ffff800011bcbcf0 x28: ffff0000f3fe3800
-> > [  691.011375] x27: ffff0000ceaf5350 x26: ffff0000ca5fc500
-> > [  691.016636] x25: ffff0000f32409c0 x24: 0000000000000001
-> > [  691.021897] x23: ffff0000f3240880 x22: ffff0000f3e3a800
-> > [  691.027159] x21: 0000000000000000 x20: 0000000000000000
-> > [  691.032420] x19: 0000000000010001 x18: 0000000000000020
-> > [  691.037681] x17: 0000000000000000 x16: 0000000000000000
-> > [  691.042942] x15: ffff0000f3fe3c70 x14: ffffffffffffffff
-> > [  691.048204] x13: ffff8000116c2428 x12: ffff8000116c2086
-> > [  691.053466] x11: ffff800011bcbcd0 x10: ffff800011bcbcd0
-> > [  691.058727] x9 : 00000000fffffffe x8 : 0000000000000000
-> > [  691.063988] x7 : 7420706165682074 x6 : ffff8000116c1816
-> > [  691.069249] x5 : 0000000000000000 x4 : 0000000000000000
-> > [  691.074510] x3 : 00000000ffffffff x2 : ffff8000e348c000
-> > [  691.079771] x1 : f1b91ff9af2df000 x0 : 0000000000000000
-> > [  691.085033] Call trace:
-> > [  691.087452]  panfrost_mmu_irq_handler_thread+0x47c/0x650
-> > [  691.092712]  irq_thread_fn+0x2c/0xa0
-> > [  691.096246]  irq_thread+0x184/0x208
-> > [  691.099699]  kthread+0x140/0x160
-> > [  691.102890]  ret_from_fork+0x10/0x34
-> > [  691.106424] ---[ end trace b5dd8c2dfada8236 ]---
-> >   
-> 
-> It's quite possible this is caused by the GPU seeing a stale page table 
-> entry, so perhaps coherency isn't working as well as it should...
-> 
-> Do you get an "Unhandled Page fault" message after this?
+--===============1478876077==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="i7kn4kgfo2uw7qjo"
+Content-Disposition: inline
 
-Yep (see below).
 
---->8---
+--i7kn4kgfo2uw7qjo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[  689.640491] ------------[ cut here ]------------
-[  689.644754] panfrost ffe40000.gpu: matching BO is not heap type (GPU VA = 3146000)
-[  689.644802] WARNING: CPU: 0 PID: 120 at drivers/gpu/drm/panfrost/panfrost_mmu.c:465 panfrost_mmu_irq_handler_thread+0x47c/0x650
-[  689.663607] Modules linked in:
-[  689.666631] CPU: 0 PID: 120 Comm: irq/27-panfrost Tainted: G        W         5.9.0-rc5-02434-g7d8109ec5a42 #784
-[  689.676717] Hardware name: Khadas VIM3 (DT)
-[  689.680860] pstate: 60000005 (nZCv daif -PAN -UAO BTYPE=--)
-[  689.686380] pc : panfrost_mmu_irq_handler_thread+0x47c/0x650
-[  689.691987] lr : panfrost_mmu_irq_handler_thread+0x47c/0x650
-[  689.697590] sp : ffff800011bcbcd0
-[  689.700867] x29: ffff800011bcbcf0 x28: ffff0000f3fe3800 
-[  689.706128] x27: ffff0000d89cf750 x26: ffff0000da34a800 
-[  689.711389] x25: ffff0000f32409c0 x24: 0000000000000001 
-[  689.716650] x23: ffff0000f3240880 x22: ffff0000d456e000 
-[  689.721911] x21: 0000000000000000 x20: 0000000000000000 
-[  689.727173] x19: 0000000000010001 x18: 0000000000000020 
-[  689.732434] x17: 0000000000000000 x16: 0000000000000000 
-[  689.737695] x15: ffff0000f3fe3c70 x14: ffffffffffffffff 
-[  689.742957] x13: ffff8000116c2428 x12: ffff8000116c2086 
-[  689.748218] x11: ffff800011bcbcd0 x10: ffff800011bcbcd0 
-[  689.753479] x9 : 00000000fffffffe x8 : 0000000000000000 
-[  689.758740] x7 : 7420706165682074 x6 : ffff8000116c1816 
-[  689.764001] x5 : 0000000000000000 x4 : 0000000000000000 
-[  689.769263] x3 : 00000000ffffffff x2 : ffff8000e348c000 
-[  689.774524] x1 : f1b91ff9af2df000 x0 : 0000000000000000 
-[  689.779786] Call trace:
-[  689.782204]  panfrost_mmu_irq_handler_thread+0x47c/0x650
-[  689.787465]  irq_thread_fn+0x2c/0xa0
-[  689.790999]  irq_thread+0x184/0x208
-[  689.794451]  kthread+0x140/0x160
-[  689.797642]  ret_from_fork+0x10/0x34
-[  689.801177] ---[ end trace b5dd8c2dfada8235 ]---
-[  689.805864] panfrost ffe40000.gpu: Unhandled Page fault in AS0 at VA 0x0000000003146080
-[  689.805864] Reason: TODO
-[  689.805864] raw fault status: 0x10003C3
-[  689.805864] decoded fault status: SLAVE FAULT
-[  689.805864] exception type 0xC3: TRANSLATION_FAULT_LEVEL3
-[  689.805864] access type 0x3: WRITE
-[  689.805864] source id 0x100
-[  690.170419] panfrost ffe40000.gpu: gpu sched timeout, js=1, config=0x7300, status=0x8, head=0x3101100, tail=0x3101100, sched_job=000000004b442768
-[  690.770373] panfrost ffe40000.gpu: error powering up gpu shader
-[  690.945123] panfrost ffe40000.gpu: error powering up gpu shader
-[  690.945731] ------------[ cut here ]------------
+On Fri, Oct 02, 2020 at 05:59:24PM -0500, Rob Herring wrote:
+> Some DSI controllers are missing a reference to the recently added
+> dsi-controller.yaml schema. Add it and we can drop the duplicate parts.
+>=20
+> Cc: Maxime Ripard <mripard@kernel.org>
+
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Thanks!
+Maxime
+
+--i7kn4kgfo2uw7qjo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX3rb7QAKCRDj7w1vZxhR
+xTXCAP4vKIeUVcYrqfw55zeSps3KKtkhsNvW+sK9F9gjf7jBxQD/UMFRpPlAiasU
+MZTKaNAUJFV3UdU3iJE6ZjtiyfEQxgQ=
+=+3oG
+-----END PGP SIGNATURE-----
+
+--i7kn4kgfo2uw7qjo--
+
+--===============1478876077==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1478876077==--
