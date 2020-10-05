@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDB52840D7
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 22:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF1828410D
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 22:35:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 145DE898B7;
-	Mon,  5 Oct 2020 20:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEEC26E176;
+	Mon,  5 Oct 2020 20:35:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
- [209.85.221.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4D3898B7
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 20:34:20 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id g12so5611727wrp.10
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 13:34:20 -0700 (PDT)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+ [209.85.128.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 077AD6E176
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 20:35:52 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id q5so121055wmq.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 13:35:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=M4VHJO7NZXzhdbY1PrU7kRksiXBWJAga7ZRKvTmHhdY=;
- b=cdWFN6van2banaK164mxAycndjn1IDCfmD6z3B0dwZ/32B1tnCRg659vdboMHE0cyf
- M9iFw08UhRvyXW6MqOLv9IgRu9htV31886axjKVkp6d8XvyjPvbEw4J8FVzfHtlFKvxS
- V70u3n4z49TGtvIlLN9EOxtRHVu1WS8ULccQGC6DRSIfr8LbGWykKdhz34KGNweWtA53
- LTMy0PEO0T8TcwlwvyYU1oESWRYC9OhhHjkN6ajgiYUPaMlyDXo4VRFyblW98gThnDGL
- dgP0GHCC8xnwEXxNYhtglD0k9dQumaMOKDjBBhjUEF/W13DkY1Lpiv6pT6wZCILX4p4+
- 9WUw==
-X-Gm-Message-State: AOAM533xwsgb+O50kgWVmo6P0rrFus4DaHZn00PwXb6f0nLv7N0+2Ovb
- 5bikEPe10Y+UhZ5Qh/x2uH4=
-X-Google-Smtp-Source: ABdhPJxCxtgn6aaeKulLwuz8wKsCo89p4EM2tZybvC7kIZ+95SJyA3hC3jBlEekC53H0JnM4JTmd2Q==
-X-Received: by 2002:a5d:480a:: with SMTP id l10mr1120451wrq.238.1601930058858; 
- Mon, 05 Oct 2020 13:34:18 -0700 (PDT)
+ bh=Q5iceblLTPLNAqCbEFyOg5x/SMGcxOoUyYeFBZajQxA=;
+ b=TTXMapYt4RTZC8I+mR+Zrk4gHBy2qDYXxpIzHLDlAprBjE+45Z0ZGE9vLzo9IudgHV
+ Naxeirjhyd2Vs0XNMz0i1qBH95yIO9TyAliLyxM8SVh33aS0fqlMFJwPJLtTdZkWrSXC
+ fn2eH/fORe8AF5bf7DM6G6mJoxLSpCYlXh7/aIim7QyFCdRAZLRZpnURYCt8q+c3mSf5
+ K/dJg+fsGuMNxlf/8OZoqGmV61JDvIB6WRGUU8JWzdFrKWzU65lFHpWnUdGOlCfXoTz9
+ za8acVHCWOHBparlr6CTBFID1Mx1B/H3kPjBO9BoyfqB/FHK+XtFSampxeta38pbbSrY
+ zrFQ==
+X-Gm-Message-State: AOAM530kOK47Nn1pIAxEUWdLUX0ADP4P26Y4GDW6wAQTSbS9xkFfnj3o
+ w6UX2Xu2UMKqPXVph5qL+o8=
+X-Google-Smtp-Source: ABdhPJybS6GmuQGaGKAgw2oZTDndQ8lnfNHzVvN45dT21OuWH7lzG5fHAPseKBE0Hl5nmJW71d+taQ==
+X-Received: by 2002:a1c:2d94:: with SMTP id t142mr1128839wmt.74.1601930150569; 
+ Mon, 05 Oct 2020 13:35:50 -0700 (PDT)
 Received: from kozik-lap ([194.230.155.194])
- by smtp.googlemail.com with ESMTPSA id a127sm907143wmh.13.2020.10.05.13.34.14
+ by smtp.googlemail.com with ESMTPSA id j134sm985707wmj.7.2020.10.05.13.35.46
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 05 Oct 2020 13:34:17 -0700 (PDT)
-Date: Mon, 5 Oct 2020 22:34:12 +0200
+ Mon, 05 Oct 2020 13:35:49 -0700 (PDT)
+Date: Mon, 5 Oct 2020 22:35:44 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 3/4] dt-bindings: Explicitly allow additional properties
- in board/SoC schemas
-Message-ID: <20201005203412.GC23742@kozik-lap>
+Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
+ in common schemas
+Message-ID: <20201005203544.GD23742@kozik-lap>
 References: <20201005183830.486085-1-robh@kernel.org>
- <20201005183830.486085-4-robh@kernel.org>
+ <20201005183830.486085-5-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201005183830.486085-4-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,11 +103,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 05, 2020 at 01:38:29PM -0500, Rob Herring wrote:
+On Mon, Oct 05, 2020 at 01:38:30PM -0500, Rob Herring wrote:
 > In order to add meta-schema checks for additional/unevaluatedProperties
-> being present, all schema need to make this explicit. As the top-level
-> board/SoC schemas always have additional properties, add
-> 'additionalProperties: true'.
+> being present, all schema need to make this explicit. As common/shared
+> schema are included by other schemas, they should always allow for
+> additionalProperties.
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
