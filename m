@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B860C283837
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 16:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C9C283839
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 16:45:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAF9289F07;
-	Mon,  5 Oct 2020 14:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8816F89F1B;
+	Mon,  5 Oct 2020 14:45:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C982589F03;
- Mon,  5 Oct 2020 14:45:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD4AB89F19;
+ Mon,  5 Oct 2020 14:45:30 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B6F48208B6;
- Mon,  5 Oct 2020 14:45:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 994EC20FC3;
+ Mon,  5 Oct 2020 14:45:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601909126;
- bh=SWvCop2WZqgWmdAfIzaIY2uElDz0F4ea8HQLKznVC1c=;
+ s=default; t=1601909130;
+ bh=r8DWUr5vtaIWRZFDmh+jkP2C0tU7Kp5rr1T8j+PXNYU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ey6ybJ+hgApEs/dxfCMFg14o5PM+HSgtctqz7WfW4ZtZEhpnmYP47WsBxwg+thQEm
- /eTUImB9PkuiS2WF4il45e666gvEau9c/aws0ltsAorgoDjO0u7TyBw3UYiJ0oIMNx
- zT6Cw1cm7jNe4yokvb9uV0tn9BBbDvgg4Tn4vy6Y=
+ b=14wD1rn/ouHXqBO/jGldpwcSINDKDwtPgKoXeRAB1Pdk/ChKDbZjqZPn1dxxOrE11
+ 2xSM4xiyvteO5mUmYPzVlmllo8gVv1sFGATT6eZq3YMVXjRK4HUkyeAiaZVkyw2DEy
+ JMmwDLWc7g1tDwEm//4dyZiT8YRnXcJMxrX0VEYU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 2/2] drm/amdgpu: prevent double kfree ttm->sg
-Date: Mon,  5 Oct 2020 10:45:23 -0400
-Message-Id: <20201005144523.2527710-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 2/2] drm/amdgpu: prevent double kfree ttm->sg
+Date: Mon,  5 Oct 2020 10:45:27 -0400
+Message-Id: <20201005144527.2527777-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201005144523.2527710-1-sashal@kernel.org>
-References: <20201005144523.2527710-1-sashal@kernel.org>
+In-Reply-To: <20201005144527.2527777-1-sashal@kernel.org>
+References: <20201005144527.2527777-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -102,9 +102,9 @@ aWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVy
 cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwg
 MSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
 bWRncHVfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKaW5k
-ZXggZmNmNDIxMjYzZmQ5Ni4uYWJhZDc0NjAwODRmMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
+ZXggYmM3NDYxMzE5ODdmZi4uYWU3MDBlNDQ1ZmJjOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
 ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV90dG0uYwpAQCAtOTU0LDYgKzk1NCw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X3R0
+Z3B1L2FtZGdwdV90dG0uYwpAQCAtNzI3LDYgKzcyNyw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X3R0
 bV90dF9waW5fdXNlcnB0cihzdHJ1Y3QgdHRtX3R0ICp0dG0pCiAKIHJlbGVhc2Vfc2c6CiAJa2Zy
 ZWUodHRtLT5zZyk7CisJdHRtLT5zZyA9IE5VTEw7CiAJcmV0dXJuIHI7CiB9CiAKLS0gCjIuMjUu
 MQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
