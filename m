@@ -1,67 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32A828473D
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D208F28474C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D5F6E415;
-	Tue,  6 Oct 2020 07:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48C106E428;
+	Tue,  6 Oct 2020 07:31:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF27D89D67
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:05:38 +0000 (UTC)
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A49189D7B
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:15:51 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3F15D580397;
- Mon,  5 Oct 2020 11:05:38 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9FA80580168;
+ Mon,  5 Oct 2020 11:15:50 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 05 Oct 2020 11:05:38 -0400
+ by compute6.internal (MEProxy); Mon, 05 Oct 2020 11:15:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding; s=fm1; bh=jhIHshhXU/XQiBzYzWAWXfs8v6
- DPWe98K8qTnZwq800=; b=Ganl+Mn7cr+SDvE6dtRo5E30teRyKpogZSo+xY825/
- pqzlwVm/BluM0yHkrtv88JHlPc97PerQ4mO1dDib1/94kmsCxvv0Sfk21QYbMb5m
- 1Ix2jrwowpmrbm6KBA/6f1RiekC1kv/DB23USXhtG2IwAFe17FggzKbXtOZG7jd7
- 50IFR/fwxEqjvTVYxfcUCgNJyW1SvNGHkxW5x7K/NO1l4aHGW+tmm+ewKAR1eaDj
- UMiDiwoCkWyO1UDp1/BX5fp9WK13bFbyS3BBfccFjb14rfw9qLEzEyG3DK24GNIm
- c5hMevtI5LFna26GA5IyvGFTDNZjoT+GU/oSd9c0ZWyA==
+ DPWe98K8qTnZwq800=; b=mXXEOjdNv/NNJX0Dh+25N5anEVlKR2GbZJv6P372Eb
+ jkyt9HwlL3gOtBiakOeoBZ7aeeZaagYcMbirTB5ZI1LyUYgtS6QP/m3bwA6yHGyW
+ UjDQN4OkhR1nUAQq4N7aUn70TyZJUA3z1fXKbR6aCfrWW8OFz2lNoIRzxS5M7hAr
+ 1wCeevvtRFIh9qF/0MgO81+TcyC9sKtO4EvKqJEnMAJUdXHC0LqoI+sn7XjiIx6A
+ 6GnVtAuUV0b7lEjPPGeOHrcwwHmfDfhUvBysZspwMin/Y39AjiOeZKAosXTVYreG
+ mLmFfpEYuhAGrmFE8G9p9yaUwTEDDlA1vjUOtwbfmfCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
  :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jhIHshhXU/XQiBzYz
- WAWXfs8v6DPWe98K8qTnZwq800=; b=inkivsASwcGpB5avk0O6LA7/wGwz6nsXt
- EZT2mn8RnCrFc2gIvwsXjAr2Y9ioH16EA/IKB2wMgEUjDhX1XofQ1DeM8hlTGRIw
- T96nJGr3EJK/4dK/d9X9/UB5QBvt14qXhRgvo26CDzKfar1qaxwWCSQCW6YWDXlF
- XbELm4A38MAx45YfkOKriS8qoKrk2he1eMCav76Njd6prbACPxmlHSCZrWW+0v+k
- bLpxOBrNto/LVK43FysrBgg+iCLrvA2QuxunGg1oLtsmMycokz8WDpsSfyOt1x1I
- Bpi5oAKptAMRznciwOcJ9FXopIK2uZBxXt5is12A+7a9lF+0pLLCg==
-X-ME-Sender: <xms:QDZ7X3BRnRfuEuoLi1Ju2C8p_z87-kmrQ2_l2Niy49wih9yeYyOaMw>
- <xme:QDZ7X9hoXOCZbVSeCAffdsfvm43RnXoEDLUSpu5VMTOK4kGWn5RQeUZCNXVkkLLO_
- Es0Oow_TxEMGbvN0MY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgdekiecutefuodetggdotefrodftvf
+ WAWXfs8v6DPWe98K8qTnZwq800=; b=ogNLBFwD/t25Lhjn/m1/CoxY/rwfFYOst
+ H2UKPtPxbfd6VJjy6g8MUmKb1Le3pwKrFA+9dWKaw6W/WT/oTXKNxcJ3UMjXLKme
+ HH0sZh9KzNh+lWfDDer9saVgrotmvGntvgPe9SsM27hU1SBKa2gPJhMuOGsn7nAK
+ Ac5BCXcRIVmhNQjA9xvaajeS3bXswR9HExw+kcaa/HeiOUbE+TDwsBsn9utQpfJ/
+ aVYAaN7fvuXjPD0Pkq6Vg6zb/cZrJwwqib8R57gB6EuDoagO/bk+uPcfr11jRzUs
+ YsY1xtYJhAO9n31cP3gjZhnDdiS0qIpdT1nDCGlK8IHMs2dbN3dEQ==
+X-ME-Sender: <xms:ozh7XwbBiFtpWSQsuQbj5s48qr2ug6QyWtgsXXUaPNFdetTwiq6a9A>
+ <xme:ozh7X7avI0T6noCRrn1eu_SRy87LGny3aMJmnVPg2ptXSAYOr3jLCjxqNuOzWIaIo
+ bicvJJ1gqtypxyCHuA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgdekjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
  ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
  hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
- ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvnecurfgrrh
+ ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
  grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:QDZ7XykMC3yR9TzGijcudL7QctCE7VFRD86MF5-1nZVcihUBXzRA3Q>
- <xmx:QDZ7X5xvUMZaErO5jFUQrVH3O4xNGiI5NBWHguGc7GaEvClsQm_jjw>
- <xmx:QDZ7X8RxmRwIWFxQumV9kfR_MlPticsQyBSHUI7yhlFlFL832ac0Fw>
- <xmx:QjZ7XxL9DxNvm8IGvIforTIgfz-oBhFEPZQpx4mI29HgZZQEDOJOGw>
+X-ME-Proxy: <xmx:ozh7X6-sN9qunkiiwkz7uvRvyK6KEE-0akFqYVWFFHTC6ATcNdb1aw>
+ <xmx:ozh7X6osESftVJ2a1rnc1qP5b33dhaXMCG6vOOUBW4UDSynKeAEpbg>
+ <xmx:ozh7X7qEbOUCUX3OyqJZe9cFvyhU4R_2ccOUy2cfWV3nFAo3lvJvzg>
+ <xmx:pjh7X4i5RY511NLU7WNUMupTRM-nXxDhwvR60v0J_yhDgu1RW2rdhQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4E153328005E;
- Mon,  5 Oct 2020 11:05:36 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id BDD813280064;
+ Mon,  5 Oct 2020 11:15:46 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 0/6] drm/sun4i: Add support for dual-link LVDS on the A20
-Date: Mon,  5 Oct 2020 17:05:28 +0200
-Message-Id: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910147.git-series.maxime@cerno.tech>
+Subject: [PATCH RESEND v3 0/6] drm/sun4i: Add support for dual-link LVDS on
+ the A20
+Date: Mon,  5 Oct 2020 17:15:38 +0200
+Message-Id: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
