@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FC2284745
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF3E284738
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85EF6E417;
-	Tue,  6 Oct 2020 07:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 391346E3FC;
+	Tue,  6 Oct 2020 07:31:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 513396E092
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4490E89D4A
  for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:15:51 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id A649258016C;
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9D630580167;
  Mon,  5 Oct 2020 11:15:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
+Received: from mailfrontend1 ([10.202.2.162])
  by compute6.internal (MEProxy); Mon, 05 Oct 2020 11:15:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=yXaf9pFoVUMQ8
- bcQGOAMyZ0KPuYIKx3O2IEnwrXrkos=; b=gYtJGyimoV5J5pq+wbfy5DIItqKW8
- VpObiKt0ZjYTQOyfUIqiv6MSCyRI+LhPOL6YA0UeLpGskF2cc7ml/4OE9X3cxVxe
- 1DKu3JvgOmaBKanGJCkzB0gtVdHopLUgt1fxDcEAimPl8JPjusSf5noaKeNtDZTD
- M1EF9aZYcNWC9UY2wB6BAurLYlV0mD3KZFDLG8IbBbUmzJISDk4DvYZGRhEeNoV/
- rTF8LgcwJyhEYIE/uv+p62cNCDFMmR2shyNFzJakL01gRSpeSssS8V677YBwGJzB
- CnrUnyB2JTiwXCs0kL83bntOH3F6P0oOuciAy/Dv/q0ec5b6529mM08Cw==
+ :mime-version:content-transfer-encoding; s=fm1; bh=YUl8YEHShXmJC
+ 0LRyXCCThIZxlDv2ekCGyxR4T4zF5U=; b=fS7fXeksMZUSYGUc+DLqYK2ewyZMG
+ OD1EtuIqTVN59+QNFgdUs5wUaTxlt71vylTsdIOsYsPRHakNy+ckxyltQhDw7qNi
+ gkhWbctFDr7WlkFhysW5KOlmQffQ4EllVPn+32vBOTAjtO4gTjD4VZs500kKUzBr
+ Xt5akSK70RQJ8DpaXPmrba4A+i9jE3PCgjbgGTDWDdL7GQyYciiEAs5+0IXJUIp4
+ rwzUPsBNW7gOY2cwXAmRLUdW0A13dvQPm1SXA3bGKMjv1HQyacm97P19UpnH5e02
+ TwUyrfqL+UQ5QFM5CXWPnzMPRkOucD8MD72qn/OnMb17qGFDRNRkjitpA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=yXaf9pFoVUMQ8bcQGOAMyZ0KPuYIKx3O2IEnwrXrkos=; b=BJe2RJxO
- pjqbX1iEzT8XA0DpzRqhYJAmJKP+N6qaqIPnfab6C7vH/7+rW0yKW3MkQQhumigp
- DdImXBqDMEJ1sulTDCpTzFN9GXwYLeLBjiV+WGqWeonZACGetQpg+zfK/aIWaHlu
- krj7GFUGbjcHKPpdZHJeIEGoyKQfVHParYI7Cz4c/h63QyhyglujrjeDZSCGxwB+
- B8pdmTbQBbOzpHKHffn3ujyQVgHmWVbIQoamqVeJanntBO5kixMcmABk4uNaxFlK
- lMH7ku1Qi8TUOmiBH9f6piRMcCSOEMiTBP1KMfenLWaBGepmzsK8PjPVIkcpIphP
- RNLAGg6CgbOGxQ==
-X-ME-Sender: <xms:pDh7X6-s_1Z0_XNjgPaeCk3wUixZFitK_DEENrtIeRCGTSWvLP3xiw>
- <xme:pDh7X6vcS_uY1RuG3I_IySOWwPDrAXCDAiFETvsxowt1fDvZ_jXnf6tb8hEdg1gai
- cxx1621ZdvL8OvG-n4>
+ fm1; bh=YUl8YEHShXmJC0LRyXCCThIZxlDv2ekCGyxR4T4zF5U=; b=EjzRAUkT
+ 62BzMXpQbU+LmKoqd0cC8pxrpwFZxVQm7MmGzmZ/TKsS6oxQfe2JiR2QihxreuDg
+ QcrnT+rs1NV7+1V/LmEg3mDPu0DkPY9wpLyhXuV9PlZlJx2/ceNg8B82y6RCXNk+
+ eDU/62tkJEiTtMO8KTPYq3pk1tJJlvV4CPsU6+NEs1wUYVT+ylt+A+YC4C/pY+Dd
+ /R6TJw+IIOSsa6QpvhdQYs4p4cjPrE6C7DIG1sabJ8r6bZOHn/YUyG70RECfnR5N
+ Rv5EKPxjW8Z2oYeLA0II6wD7R6KXHZJJc4C9C2uN2G4SHQ0McyZNQYESAhXPEUMR
+ fK3Bu9ywPW7Yiw==
+X-ME-Sender: <xms:pTh7X24BSNYaaD421xtWgVcmIbiAKhOh7Zo-iBaSWP79w8cXNVuNoA>
+ <xme:pTh7X_6LT-vuejWsuiI0TuAmsIIS52uDk1DLy6Ys66UgiQ3-pjNEMfTTKOi0mgl4D
+ nGnJyuFV9VLKgROaV8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgdekjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -49,21 +49,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgdekjecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:pDh7XwDvktZRr8BBrHk6egf9YkXCH-gviJKxc5Q673IwWIP57fDVyg>
- <xmx:pDh7XycvLfgZLQyh-dV05EDUyU9IswXfRi6TB4mcTUBDTbSGg7b8mQ>
- <xmx:pDh7X_Ph0cnrVQNa1sz7p7nOiVyltyXO-Cg4hGa1tEbzRUqoXoZOog>
- <xmx:pjh7XwHXkPS2DlB5ZaT1NWOiIkuuTmxUt45_FzEE8nz5HTR-MjSSUg>
+X-ME-Proxy: <xmx:pTh7X1cnLfLrJVrTR5myM_r-1q--3X0VERiRUkkjXkIyZNkLqT5ymw>
+ <xmx:pTh7XzJWqalr3Y0fwhf8Xum0p5ECwUdNcjvia7NKOQH-Itx-UnKMNw>
+ <xmx:pTh7X6Jj5m5yAOnCCnt0S0g6ZAS7YbOhMhQwU6SWF6UeaBEKhi0GQQ>
+ <xmx:pjh7X3AiFWsBgEHX5L9KiByCUILRDb6FMwqC0fiFHqY-1O7EfWX4Sw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 263A53064680;
- Mon,  5 Oct 2020 11:15:48 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 756BC328005D;
+ Mon,  5 Oct 2020 11:15:49 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH RESEND v3 1/6] drm/of: Change the prototype of
- drm_of_lvds_get_dual_link_pixel_order
-Date: Mon,  5 Oct 2020 17:15:39 +0200
-Message-Id: <6169dd15782627c8415583881fa94ba39c4f5221.1601910923.git-series.maxime@cerno.tech>
+Subject: [PATCH RESEND v3 2/6] dt-bindings: display: sun4i: Add LVDS Dual-Link
+ property
+Date: Mon,  5 Oct 2020 17:15:40 +0200
+Message-Id: <2bc93c7c1d3121730239a01dda9c30dcf4e353b0.1601910923.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
 References: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
@@ -92,218 +92,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_of_lvds_get_dual_link_pixel_order() function took so far the
-device_node of the two ports used together to make up a dual-link LVDS
-output.
-
-This assumes that a binding would use an entire port for the LVDS output.
-However, some bindings have used endpoints instead and thus we need to
-operate at the endpoint level. Change slightly the arguments to allow that.
+The Allwinner SoCs with two TCONs and LVDS output can use both to drive an
+LVDS dual-link. Add a new property to express that link between these two
+TCONs.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_of.c            | 98 +++++++++++++++---------------
- drivers/gpu/drm/rcar-du/rcar_lvds.c |  8 +--
- include/drm/drm_of.h                | 16 +++--
- 3 files changed, 63 insertions(+), 59 deletions(-)
+ Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index b50b44e76279..2dcb49b0401b 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -291,50 +291,34 @@ static int drm_of_lvds_get_port_pixels_type(struct device_node *port_node)
- 	       (odd_pixels ? DRM_OF_LVDS_ODD : 0);
- }
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+index e5344c4ae226..ce407f5466a5 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+@@ -115,6 +115,12 @@ properties:
+         - const: edp
+         - const: lvds
  
--static int drm_of_lvds_get_remote_pixels_type(
--			const struct device_node *port_node)
-+static int drm_of_lvds_get_remote_pixels_type(const struct device_node *endpoint)
- {
--	struct device_node *endpoint = NULL;
--	int pixels_type = -EPIPE;
-+	struct device_node *remote_port;
-+	int pixels_type;
- 
--	for_each_child_of_node(port_node, endpoint) {
--		struct device_node *remote_port;
--		int current_pt;
--
--		if (!of_node_name_eq(endpoint, "endpoint"))
--			continue;
--
--		remote_port = of_graph_get_remote_port(endpoint);
--		if (!remote_port) {
--			of_node_put(remote_port);
--			return -EPIPE;
--		}
--
--		current_pt = drm_of_lvds_get_port_pixels_type(remote_port);
-+	remote_port = of_graph_get_remote_port(endpoint);
-+	if (!remote_port) {
- 		of_node_put(remote_port);
--		if (pixels_type < 0)
--			pixels_type = current_pt;
--
--		/*
--		 * Sanity check, ensure that all remote endpoints have the same
--		 * pixel type. We may lift this restriction later if we need to
--		 * support multiple sinks with different dual-link
--		 * configurations by passing the endpoints explicitly to
--		 * drm_of_lvds_get_dual_link_pixel_order().
--		 */
--		if (!current_pt || pixels_type != current_pt) {
--			of_node_put(remote_port);
--			return -EINVAL;
--		}
-+		return -EPIPE;
- 	}
- 
-+	pixels_type = drm_of_lvds_get_port_pixels_type(remote_port);
-+	of_node_put(remote_port);
++  allwinner,lvds-companion:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: >
++      Phandle to the other TCON in the system used to drive a dual-link LVDS
++      output.
 +
-+	if (pixels_type < 0)
-+		pixels_type = -EPIPE;
-+
- 	return pixels_type;
- }
- 
- /**
-  * drm_of_lvds_get_dual_link_pixel_order - Get LVDS dual-link pixel order
-- * @port1: First DT port node of the Dual-link LVDS source
-- * @port2: Second DT port node of the Dual-link LVDS source
-+ * @dev1: First DT device node of the Dual-Link LVDS source
-+ * @port1_id: ID of the first DT port node of the Dual-Link LVDS source
-+ * @endpoint1_id: ID of the first DT port node of the Dual-Link LVDS source
-+ * @dev2: First DT device node of the Dual-Link LVDS source
-+ * @port2_id: ID of the first DT port node of the Dual-Link LVDS source
-+ * @endpoint2_id: ID of the first DT port node of the Dual-Link LVDS source
-  *
-  * An LVDS dual-link connection is made of two links, with even pixels
-  * transitting on one link, and odd pixels on the other link. This function
-@@ -348,32 +332,48 @@ static int drm_of_lvds_get_remote_pixels_type(
-  *
-  * If either port is not connected, this function returns -EPIPE.
-  *
-- * @port1 and @port2 are typically DT sibling nodes, but may have different
-- * parents when, for instance, two separate LVDS encoders carry the even and odd
-- * pixels.
-+ * @port1_id and @port2_id are typically DT sibling nodes, but may have
-+ * different parents when, for instance, two separate LVDS encoders carry the
-+ * even and odd pixels.
-+ *
-+ * If @port1_id, @port2_id, @endpoint1_id or @endpoint2_id are set to -1, their
-+ * value is going to be ignored.
-  *
-  * Return:
-- * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @port1 carries even pixels and @port2
-- *   carries odd pixels
-- * * DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS - @port1 carries odd pixels and @port2
-- *   carries even pixels
-- * * -EINVAL - @port1 and @port2 are not connected to a dual-link LVDS sink, or
-- *   the sink configuration is invalid
-- * * -EPIPE - when @port1 or @port2 are not connected
-+ * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @endpoint1_id carries even pixels and
-+ *   @endpoint2_id carries odd pixels
-+ * * DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS - @endpoint1_id carries odd pixels and
-+ *   @endpoint2_id carries even pixels
-+ * * -EINVAL - @endpoint1_id and @endpoint2_id are not connected to a dual-link
-+ *   LVDS sink, or the sink configuration is invalid
-+ * * -EPIPE - when @endpoint1_id or @endpoint2_id are not connected
-  */
--int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
--					  const struct device_node *port2)
-+int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *dev1,
-+					  int port1_id,
-+					  int endpoint1_id,
-+					  const struct device_node *dev2,
-+					  int port2_id,
-+					  int endpoint2_id)
- {
-+	struct device_node *endpoint1, *endpoint2;
- 	int remote_p1_pt, remote_p2_pt;
- 
--	if (!port1 || !port2)
-+	if (!dev1 || !dev2)
-+		return -EINVAL;
-+
-+	endpoint1 = of_graph_get_endpoint_by_regs(dev1, port1_id, endpoint1_id);
-+	if (!endpoint1)
-+		return -EINVAL;
-+
-+	endpoint2 = of_graph_get_endpoint_by_regs(dev2, port2_id, endpoint2_id);
-+	if (!endpoint2)
- 		return -EINVAL;
- 
--	remote_p1_pt = drm_of_lvds_get_remote_pixels_type(port1);
-+	remote_p1_pt = drm_of_lvds_get_remote_pixels_type(endpoint1);
- 	if (remote_p1_pt < 0)
- 		return remote_p1_pt;
- 
--	remote_p2_pt = drm_of_lvds_get_remote_pixels_type(port2);
-+	remote_p2_pt = drm_of_lvds_get_remote_pixels_type(endpoint2);
- 	if (remote_p2_pt < 0)
- 		return remote_p2_pt;
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index ab0d49618cf9..02d8c4ce820e 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -715,7 +715,6 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
- {
- 	const struct of_device_id *match;
- 	struct device_node *companion;
--	struct device_node *port0, *port1;
- 	struct rcar_lvds *companion_lvds;
- 	struct device *dev = lvds->dev;
- 	int dual_link;
-@@ -743,11 +742,8 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
- 	 * connected to, if they are marked as expecting even pixels and
- 	 * odd pixels than we need to enable vertical stripe output.
- 	 */
--	port0 = of_graph_get_port_by_id(dev->of_node, 1);
--	port1 = of_graph_get_port_by_id(companion, 1);
--	dual_link = drm_of_lvds_get_dual_link_pixel_order(port0, port1);
--	of_node_put(port0);
--	of_node_put(port1);
-+	dual_link = drm_of_lvds_get_dual_link_pixel_order(dev->of_node, 1, -1,
-+							  companion, 1, -1);
- 
- 	switch (dual_link) {
- 	case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
-diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
-index b9b093add92e..7bb1f6603beb 100644
---- a/include/drm/drm_of.h
-+++ b/include/drm/drm_of.h
-@@ -47,8 +47,12 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 				int port, int endpoint,
- 				struct drm_panel **panel,
- 				struct drm_bridge **bridge);
--int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
--					  const struct device_node *port2);
-+int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *dev1,
-+					  int port1_id,
-+					  int endpoint1_id,
-+					  const struct device_node *dev2,
-+					  int port2_id,
-+					  int endpoint2_id);
- #else
- static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
- 					  struct device_node *port)
-@@ -93,8 +97,12 @@ static inline int drm_of_find_panel_or_bridge(const struct device_node *np,
- }
- 
- static inline int
--drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
--				      const struct device_node *port2)
-+drm_of_lvds_get_dual_link_pixel_order(const struct device_node *dev1,
-+				      int port1_id,
-+				      int endpoint1_id,
-+				      const struct device_node *dev2,
-+				      int port2_id,
-+				      int endpoint2_id)
- {
- 	return -EINVAL;
- }
+   ports:
+     type: object
+     description: |
 -- 
 git-series 0.9.1
 _______________________________________________
