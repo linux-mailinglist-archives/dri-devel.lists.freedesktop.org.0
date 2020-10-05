@@ -1,50 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5652840B7
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 22:31:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2956A2840D3
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 22:33:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F93B6E0CB;
-	Mon,  5 Oct 2020 20:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 576B26E0D1;
+	Mon,  5 Oct 2020 20:33:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE6786E0CB
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 20:31:55 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id l15so769807wmh.1
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 13:31:55 -0700 (PDT)
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D878C6E0D1
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 20:33:07 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id g12so5608719wrp.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 13:33:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=B4PwgTffJiJmPt6zUisqAw6fhFqqUXNEIJ77LrR5pRQ=;
- b=BdrrN2+fp+/5p/yTQN0csh2xiFWcdWfgluzQ65mmYhjqV4eX92OBKHjr+JQWeARBfG
- p3B/WTJCxon4INZZQh/Vadhrt3WPnf3WZ5szLfPj4+2FV92cWO4A4kuTwd2VLsBgvFv4
- Pd8I4Kpmz0YvqRQlfRwuMQeqLwOh4Rw1Z8uD8/seQrOMAlNwFiv8uwHoldAcFzdWXY21
- 71iO+LZMPwLuDl58P+Lt1ietoNXDEnProuA5F9omz6oMpp+R3yM3NlRs27t5DGLhXwE6
- 9qlz4L7PMjqE8WTCwjNYBZtroEo+qJMShV7JKbLylqwhPojbLtZYPLFCA7AWbMFwfnfh
- bVgQ==
-X-Gm-Message-State: AOAM532ReHl2mlgab6xUW2jjSYaaHeCCyfCJFMxgCs5MDjvd650xhCDp
- EPlItziQCTgJLpJ3mySRVCs=
-X-Google-Smtp-Source: ABdhPJzy/knAUMS+nLZ2ZykupLkPHOuEPodU8SYLBLWYdXtI/NOcJ+WVMZPLLZLhgC0dauFczWhBnQ==
-X-Received: by 2002:a1c:35c5:: with SMTP id c188mr1144613wma.11.1601929914355; 
- Mon, 05 Oct 2020 13:31:54 -0700 (PDT)
+ bh=ARrZ6TB7yXMqpP/+XXhswWetXRSqYRU5CXxzWSIwqA0=;
+ b=axDIyNsh5W0GmtkcYzvEgyQS1mBfrhDVu2HVpmojbfOnob0M1mYoSxc+xSyQxvONdF
+ oYC9wwLNxJD4MfgNB//Qr7BBQQX8IxfSKuyuKhycHuKDa0qmBocsWkUEvbDwL4ENJQ7Y
+ nH1I3+VNK7pwjgbl3BlC3rLVmzgoJ7NxML8BrrlgpX8O2+JptWP1nA7BD8ZpSADY3Mzm
+ fcKpjWyjlod97pUTXoDuBwf7v2NLIHsMvveCjxUU2Qdg5DQ3DEXMHHVir/vxi6Od9T0U
+ WV6yoq7SmyA62XVzr04LNKqqrW+uYFVdgoK3xPDbud6W1Ed+wZjL8NYkVsLFVmiiaEZg
+ 8zbg==
+X-Gm-Message-State: AOAM531ETOIjdMhQtUWCXbw87Idruknb/RzaWjNKr/0U9txX7mJf4hY3
+ i23d9y/bqjLvIAHp85V7eZY=
+X-Google-Smtp-Source: ABdhPJweyRYGmXLqO/tcc/k2HRzuAg/v1oLgLOtbvTUusAAWSCQYB/uOgoLBn7Xz9zdrfu5geKiRqw==
+X-Received: by 2002:a5d:4682:: with SMTP id u2mr1245871wrq.254.1601929986334; 
+ Mon, 05 Oct 2020 13:33:06 -0700 (PDT)
 Received: from kozik-lap ([194.230.155.194])
- by smtp.googlemail.com with ESMTPSA id z11sm1294344wru.88.2020.10.05.13.31.50
+ by smtp.googlemail.com with ESMTPSA id c14sm1265048wrm.64.2020.10.05.13.33.02
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 05 Oct 2020 13:31:53 -0700 (PDT)
-Date: Mon, 5 Oct 2020 22:31:48 +0200
+ Mon, 05 Oct 2020 13:33:05 -0700 (PDT)
+Date: Mon, 5 Oct 2020 22:33:00 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
-Message-ID: <20201005203148.GA23742@kozik-lap>
+Subject: Re: [PATCH 2/4] dt-bindings: Use 'additionalProperties' instead of
+ 'unevaluatedProperties'
+Message-ID: <20201005203300.GB23742@kozik-lap>
 References: <20201005183830.486085-1-robh@kernel.org>
- <20201005183830.486085-2-robh@kernel.org>
+ <20201005183830.486085-3-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-3-robh@kernel.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,18 +103,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 05, 2020 at 01:38:27PM -0500, Rob Herring wrote:
-> This doesn't yet do anything in the tools, but make it explicit so we can
-> check either 'unevaluatedProperties' or 'additionalProperties' is present
-> in schemas.
+On Mon, Oct 05, 2020 at 01:38:28PM -0500, Rob Herring wrote:
+> In cases where we don't reference another schema, 'additionalProperties'
+> can be used instead. This is preferred for now as 'unevaluatedProperties'
+> support isn't implemented yet.
 > 
-> 'unevaluatedProperties' is appropriate when including another schema (via
-> '$ref') and all possible properties and/or child nodes are not
-> explicitly listed in the schema with the '$ref'.
-> 
-> This is in preparation to add a meta-schema to check for missing
-> 'unevaluatedProperties' or 'additionalProperties'. This has been a
-> constant source of review issues.
+> In a few cases, this means adding some missing property definitions of
+> which most are for SPI bus properties. 'unevaluatedProperties' is not going
+> to work for the SPI bus properties anyways as they are evaluated from the
+> parent node, not the SPI child node.
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
