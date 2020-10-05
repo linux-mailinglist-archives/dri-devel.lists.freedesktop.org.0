@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4863284732
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DCB28473B
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAA936E3F2;
-	Tue,  6 Oct 2020 07:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D04C6E405;
+	Tue,  6 Oct 2020 07:31:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA22D89D7B
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:15:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 064AD6E095
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 15:15:56 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 209A7580174;
- Mon,  5 Oct 2020 11:15:54 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 05 Oct 2020 11:15:54 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 73127580176;
+ Mon,  5 Oct 2020 11:15:55 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 05 Oct 2020 11:15:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=jhK5+2SOe5Kab
- dyat0E47F3XPAk4PAI4kYae73kK6VI=; b=boztlMkT/U5iO+iUdLwfh0AFsWdhM
- L8oLKhWlivYf9je8BDfSCd08ar1oIh5omQahpyCkowoOuf7d/Jb9293vOCs9nuV8
- OFYwsZouQxnoZYtE70WnfcnQEnANR8Ar6E5wZ3UlbaPGlxUGCVWAx3XGA+4Rzg/c
- ax7Md7i2EE54PNY9i+1XM+fimq6VmdSJO39plB0LwOkYpu//oNC9uH0zTOJsQVYh
- jwlw4kK8hDslKN7O4Joy77Za7dZYvvSX7WVKGHEnk2iCXNRNppXmMHTvL2Bb6ciW
- liZ39S0HP7VYHUDfXwinR3eYBta6cXU2ycLvOwXuC1JL9z7MS7S1AF7dQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=Ut3ZT+W4+yvZB
+ ml4M9YqRFh4J0n6Jv0UFC/16UuzKdY=; b=KrRTk/XHVwtlapk9qJTQG8Jw2VJuv
+ wNTSQ+GKLKmdhuY463e62mvV5g/4WoY6xN0iNEk/GJThjl1M0GLhzgWxvGefbGcr
+ 4kE5DFA2YT0e8RFgBX2ZLT6X0jyYK+rBVUkNS0laqlYI03+8ZslkEYDl0FxCqmj2
+ HaXgxAvTOmKbBNA/2qIpP9IBmjYAX6Ejn6aRcbyXQbg2U815kqV7BIRTlcdeR/7/
+ qTolsS45EYWa30ZU+JKb6aBuKUUDMs80WNZuwisy7StB77hAf/Lr2kkMc2Jbs+HJ
+ e5QA8ESMb20n44z9AllNwd5WYWbI28XgS+uwQ/AiWve+1aMBJ6T2IIi1w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=jhK5+2SOe5Kabdyat0E47F3XPAk4PAI4kYae73kK6VI=; b=EW4uf5O9
- j6WfAxcc4754CHCZCkfywCe+wCmALfyEKxp+Ja+mMjr/Vc7OmiWVkve6CwkKRjev
- hFbcG1D++YDLO48ytI3xmqa9J60LBPa/lqpdCQ6p4x+5llbFwfpU3RRXcgnPx2HO
- iL5X3vTSBzlDJ2+y6Eh8OI1AEcnTMGGdAdUXfpNcz0I64D7Bpso8lruucxLyhIv2
- hOj6aMcsBRn/hxhzsbsiLDP6AddMA4YUYT1Zl0/cqch9SLZn3T7fE416NKCThvtn
- 6zXbpmA0AJdrzgNG1v/am8p1dE7x7OeT6qNLtydCslXSmhhj9vg2uUkRhEd/DDQy
- 0gWjKZzCyVw83g==
-X-ME-Sender: <xms:qTh7X4zlxyCd-_ewjF-oFag4YAnj0lMITvhzlT63vbxL2qbTnWYxww>
- <xme:qTh7X8SgXtotmpcEJLMuJFpHybzIAFcf8asqdsgSx9fdUWD96Vd7CFM3bNfNtRWcV
- q3V5uf9ptgOJ_b0cAM>
+ fm1; bh=Ut3ZT+W4+yvZBml4M9YqRFh4J0n6Jv0UFC/16UuzKdY=; b=IFhHuvE3
+ KxDWmY35DYhw26Kv2jEblDP9dS3mvO7nksq3MHhSEJiI0WkGaIpTw5c8skEWA1Di
+ ATYjRZPOx8YNMIi8ys1BBgRa4M5TptGtU1LeaM4A36tFevkzv3+pzQxaq65IRkR+
+ AnvdiG5kNnkItrq79HyaVYpE4TzzPFKo4YpikhOlmWVupRJ2AoaN7Z3gx4hdCf5m
+ AzB9R+NT4v4hilDwa2ltYTn0bnZeiGecjWBnprJS3CWSPwPy0xLckftwCLy/QH+b
+ riFh7TG+Oir4m9qfOXJ2yxcMsGXLw4hwppOTNq+qGgsxfIojYKR/roe34Xx0XkQ4
+ GL+9WoUyMaOy/Q==
+X-ME-Sender: <xms:qzh7XzAvGxydSQJv0HBBiQKhXpZiF_k0Xy0hv7MpvMYs9468cGN_EA>
+ <xme:qzh7X5hTLsyU-ClIfqmY3c0gXygFk0KIpDx5_bWMaO7TC3XsV-ez0qu-j5S0Spjnp
+ 6Aek6N6-iHAAywgSI8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgdekjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -49,20 +49,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgedvgdekjecutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvnecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:qTh7X6XjyiLzWMnFDYoWtdkBMLjQtDqXpf-MoWvTC1yMcgqWOHqM3g>
- <xmx:qTh7X2iX6E8_FwUO1lQh8xoufezwedDlLQEz7ZbRELlVxaq1mHu0pQ>
- <xmx:qTh7X6CrM_5IwnkheQ5Zj1Ir7fnuWtAbpKCiwD_3WAGf11WJ1Z-Gog>
- <xmx:qjh7X-5lXEdpg4WmEKilPUEWEfrHSQVRwBbJUSjvYxnxDGRVliKsHA>
+X-ME-Proxy: <xmx:qzh7X-l_VGbn_xk80qRx1rdhhFta3YpJVe_g24maDRZyelT0T5N_Jw>
+ <xmx:qzh7X1w4lbqUq76VmNqXGHF5JxqBXiv8EZA40gguXAgAvHXz8tG95Q>
+ <xmx:qzh7X4RrP3tKu5on4tHpm8URm3O1dZ5ERsfxa-lEyiDNr7jra7LBlA>
+ <xmx:qzh7X9LmJ5Ik0OcGd2v8vIETNYGCL0cS4f09YCjnw4fwRF7w66eP3Q>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 892CA306467D;
- Mon,  5 Oct 2020 11:15:53 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id D7847328005E;
+ Mon,  5 Oct 2020 11:15:54 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH RESEND v3 5/6] drm/sun4i: tcon: Enable the A20 dual-link output
-Date: Mon,  5 Oct 2020 17:15:43 +0200
-Message-Id: <39d2bb3f089f39f57f306679e882816182300e03.1601910923.git-series.maxime@cerno.tech>
+Subject: [PATCH RESEND v3 6/6] [DO NOT MERGE] ARM: dts: sun7i: Enable LVDS
+ Dual-Link on the Cubieboard
+Date: Mon,  5 Oct 2020 17:15:44 +0200
+Message-Id: <c47e17763c45cffb34a580fc8ad1e8e85b0f8469.1601910923.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
 References: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
@@ -91,26 +92,101 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The A20 second TCON (TCON1) can be used as a secondary output to drive a
-dual-link LVDS output. Let's add it to our capabilities.
+For the sake of the example, let's enable an LVDS Dual-Link display on a
+Cubieboard.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/sun7i-a20-cubieboard2.dts | 69 ++++++++++++++++++++++-
+ 1 file changed, 69 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index f497d866e835..de3d1b17a499 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -1523,6 +1523,7 @@ static const struct sun4i_tcon_quirks sun7i_a20_tcon0_quirks = {
+diff --git a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+index b8203e4ef21c..20278a27ec16 100644
+--- a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
++++ b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+@@ -85,6 +85,49 @@
+ 			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>;
+ 		};
+ 	};
++
++	panel: panel {
++		compatible = "panel-lvds";
++		width-mm = <153>;
++		height-mm = <90>;
++		data-mapping = "vesa-24";
++
++		panel-timing {
++			clock-frequency = <148500000>;
++			hfront-porch = <88>;
++			hactive = <1920>;
++			hback-porch = <148>;
++			hsync-len = <44>;
++
++			vfront-porch = <4>;
++			vactive = <1080>;
++			vback-porch = <36>;
++			vsync-len = <5>;
++		};
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				dual-lvds-even-pixels;
++
++				panel_input_0: endpoint {
++					remote-endpoint = <&tcon0_out_panel>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++				dual-lvds-odd-pixels;
++
++				panel_input_1: endpoint {
++					remote-endpoint = <&tcon1_out_panel>;
++				};
++			};
++		};
++	};
  };
  
- static const struct sun4i_tcon_quirks sun7i_a20_quirks = {
-+	.supports_lvds		= true,
- 	.has_channel_0		= true,
- 	.has_channel_1		= true,
- 	.dclk_min_div		= 4,
+ &ahci {
+@@ -218,6 +261,32 @@
+ 	status = "okay";
+ };
+ 
++&tcon0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&lcd_lvds0_pins>;
++	allwinner,lvds-companion = <&tcon1>;
++	status = "okay";
++};
++
++&tcon0_out {
++	tcon0_out_panel: endpoint@0 {
++		remote-endpoint = <&panel_input_0>;
++	};
++};
++
++&tcon1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&lcd_lvds1_pins>;
++	allwinner,lvds-companion = <&tcon0>;
++	status = "okay";
++};
++
++&tcon1_out {
++	tcon1_out_panel: endpoint@0 {
++		remote-endpoint = <&panel_input_1>;
++	};
++};
++
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pb_pins>;
 -- 
 git-series 0.9.1
 _______________________________________________
