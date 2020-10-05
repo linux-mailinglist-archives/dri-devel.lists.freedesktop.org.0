@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A6728381E
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 16:45:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F74283823
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 16:45:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42AF489A9A;
-	Mon,  5 Oct 2020 14:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE83E89D9B;
+	Mon,  5 Oct 2020 14:45:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2E0189A9A;
- Mon,  5 Oct 2020 14:45:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892F789B62;
+ Mon,  5 Oct 2020 14:45:11 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 82B18208A9;
- Mon,  5 Oct 2020 14:45:05 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7E318207F7;
+ Mon,  5 Oct 2020 14:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601909106;
- bh=bSyBxzwAqqnWvwHF+Fn0Kuo6xxDaf9D9Sscz5X00zAw=;
+ s=default; t=1601909111;
+ bh=B8xqfhZ/PIlTzUggovIe+j94Ce85wxzAlqwfT6+Sfdw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=q/6qLHmX4XIs1Fdz6Dq5vtuVW9AKhas26Li7codZryROfKQqTK3/PlTy5Sjq2VPXL
- s071onzVMZCDQ4oAhPb7ZfYsTBJo5ZXpmr8A1ag7rnOxAlVQ0iQsSvXc3vPyJxhKs0
- VhpuDcjbhgpvWQYIAnu6DuV7JJedPNuWARZKWq8s=
+ b=FuWkiJDnBP8ay8MfWzg8YScGKleaPa3HK144ZXSDDzp3idK+3g6kP7vAsgVe2X2aD
+ R5gEC8/jIyr+nrCYkaLIS+qRM0Y9aOKXeob5GnWdvMWx8UhUYCNGX4w4b1UjRWhDJG
+ TqOHAJ2iX6VmZFbdehkV9v36aWQSODIFb/l27VBw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 04/12] drm/amdgpu: prevent double kfree ttm->sg
-Date: Mon,  5 Oct 2020 10:44:52 -0400
-Message-Id: <20201005144501.2527477-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 08/12] drm/amd/pm: Removed fixed clock in auto
+ mode DPM
+Date: Mon,  5 Oct 2020 10:44:56 -0400
+Message-Id: <20201005144501.2527477-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201005144501.2527477-1-sashal@kernel.org>
 References: <20201005144501.2527477-1-sashal@kernel.org>
@@ -49,64 +50,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Evan Quan <evan.quan@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sudheesh Mavila <sudheesh.mavila@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogUGhpbGlwIFlhbmcgPFBoaWxpcC5ZYW5nQGFtZC5jb20+CgpbIFVwc3RyZWFtIGNvbW1p
-dCAxZDBlMTZhYzFhOWU4MDA1OThkY2ZhNWI2YmM1M2I3MDRhMTAzMzkwIF0KClNldCB0dG0tPnNn
-IHRvIE5VTEwgYWZ0ZXIga2ZyZWUsIHRvIGF2b2lkIG1lbW9yeSBjb3JydXB0aW9uIGJhY2t0cmFj
-ZToKClsgIDQyMC45MzI4MTJdIGtlcm5lbCBCVUcgYXQKL2J1aWxkL2xpbnV4LWRvOWVMRi9saW51
-eC00LjE1LjAvbW0vc2x1Yi5jOjI5NSEKWyAgNDIwLjkzNDE4Ml0gaW52YWxpZCBvcGNvZGU6IDAw
-MDAgWyMxXSBTTVAgTk9QVEkKWyAgNDIwLjkzNTQ0NV0gTW9kdWxlcyBsaW5rZWQgaW46IHh0X2Nv
-bm50cmFjayBpcHRfTUFTUVVFUkFERQpbICA0MjAuOTUxMzMyXSBIYXJkd2FyZSBuYW1lOiBEZWxs
-IEluYy4gUG93ZXJFZGdlIFI3NTI1LzBQWVZUMSwgQklPUwoxLjUuNCAwNy8wOS8yMDIwClsgIDQy
-MC45NTI4ODddIFJJUDogMDAxMDpfX3NsYWJfZnJlZSsweDE4MC8weDJkMApbICA0MjAuOTU0NDE5
-XSBSU1A6IDAwMTg6ZmZmZmJlNDI2MjkxZmE2MCBFRkxBR1M6IDAwMDEwMjQ2ClsgIDQyMC45NTU5
-NjNdIFJBWDogZmZmZjllMjkyNjNlOWMzMCBSQlg6IGZmZmY5ZTI5MjYzZTljMzAgUkNYOgowMDAw
-MDAwMTgxMDAwMDRiClsgIDQyMC45NTc1MTJdIFJEWDogZmZmZjllMjkyNjNlOWMzMCBSU0k6IGZm
-ZmZmM2QzM2U5OGZhNDAgUkRJOgpmZmZmOWUyOTdlNDA3YTgwClsgIDQyMC45NTkwNTVdIFJCUDog
-ZmZmZmJlNDI2MjkxZmIwMCBSMDg6IDAwMDAwMDAwMDAwMDAwMDEgUjA5OgpmZmZmZmZmZmMwZDM5
-YWRlClsgIDQyMC45NjA1ODddIFIxMDogZmZmZmJlNDI2MjkxZmIyMCBSMTE6IGZmZmY5ZTQ5ZmZk
-ZDQwMDAgUjEyOgpmZmZmOWUyOTdlNDA3YTgwClsgIDQyMC45NjIxMDVdIFIxMzogZmZmZmYzZDMz
-ZTk4ZmE0MCBSMTQ6IGZmZmY5ZTI5MjYzZTljMzAgUjE1OgpmZmZmOWUyOTU0NDY0ZmQ4ClsgIDQy
-MC45NjM2MTFdIEZTOiAgMDAwMDdmYTJlYTA5Nzc4MCgwMDAwKSBHUzpmZmZmOWUyOTdlODQwMDAw
-KDAwMDApCmtubEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAgNDIwLjk2NTE0NF0gQ1M6ICAwMDEwIERT
-OiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpbICA0MjAuOTY2NjYzXSBDUjI6
-IDAwMDA3ZjE2YmZmZmVmYjggQ1IzOiAwMDAwMDAxZmYwYzYyMDAwIENSNDoKMDAwMDAwMDAwMDM0
-MGVlMApbICA0MjAuOTY4MTkzXSBDYWxsIFRyYWNlOgpbICA0MjAuOTY5NzAzXSAgPyBfX3BhZ2Vf
-Y2FjaGVfcmVsZWFzZSsweDNjLzB4MjIwClsgIDQyMC45NzEyOTRdICA/IGFtZGdwdV90dG1fdHRf
-dW5wb3B1bGF0ZSsweDVlLzB4ODAgW2FtZGdwdV0KWyAgNDIwLjk3Mjc4OV0gIGtmcmVlKzB4MTY4
-LzB4MTgwClsgIDQyMC45NzQzNTNdICA/IGFtZGdwdV90dG1fdHRfc2V0X3VzZXJfcGFnZXMrMHg2
-NC8weGMwIFthbWRncHVdClsgIDQyMC45NzU4NTBdICA/IGtmcmVlKzB4MTY4LzB4MTgwClsgIDQy
-MC45Nzc0MDNdICBhbWRncHVfdHRtX3R0X3VucG9wdWxhdGUrMHg1ZS8weDgwIFthbWRncHVdClsg
-IDQyMC45Nzg4ODhdICB0dG1fdHRfdW5wb3B1bGF0ZS5wYXJ0LjEwKzB4NTMvMHg2MCBbYW1kdHRt
-XQpbICA0MjAuOTgwMzU3XSAgdHRtX3R0X2Rlc3Ryb3kucGFydC4xMSsweDRmLzB4NjAgW2FtZHR0
-bV0KWyAgNDIwLjk4MTgxNF0gIHR0bV90dF9kZXN0cm95KzB4MTMvMHgyMCBbYW1kdHRtXQpbICA0
-MjAuOTgzMjczXSAgdHRtX2JvX2NsZWFudXBfbWVtdHlwZV91c2UrMHgzNi8weDgwIFthbWR0dG1d
-ClsgIDQyMC45ODQ3MjVdICB0dG1fYm9fcmVsZWFzZSsweDFjOS8weDM2MCBbYW1kdHRtXQpbICA0
-MjAuOTg2MTY3XSAgYW1kdHRtX2JvX3B1dCsweDI0LzB4MzAgW2FtZHR0bV0KWyAgNDIwLjk4NzY2
-M10gIGFtZGdwdV9ib191bnJlZisweDFlLzB4MzAgW2FtZGdwdV0KWyAgNDIwLjk4OTE2NV0gIGFt
-ZGdwdV9hbWRrZmRfZ3B1dm1fYWxsb2NfbWVtb3J5X29mX2dwdSsweDljYS8weGIxMApbYW1kZ3B1
-XQpbICA0MjAuOTkwNjY2XSAga2ZkX2lvY3RsX2FsbG9jX21lbW9yeV9vZl9ncHUrMHhlZi8weDJj
-MCBbYW1kZ3B1XQoKU2lnbmVkLW9mZi1ieTogUGhpbGlwIFlhbmcgPFBoaWxpcC5ZYW5nQGFtZC5j
-b20+ClJldmlld2VkLWJ5OiBGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1kLmNvbT4K
-UmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4K
-U2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpT
-aWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
-bWRncHVfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKaW5k
-ZXggZTU5YzAxYTgzZGFjZS4uOWEzMjY3ZjA2Mzc2ZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV90dG0uYwpAQCAtMTA1Miw2ICsxMDUyLDcgQEAgc3RhdGljIGludCBhbWRncHVf
-dHRtX3R0X3Bpbl91c2VycHRyKHN0cnVjdCB0dG1fdHQgKnR0bSkKIAogcmVsZWFzZV9zZzoKIAlr
-ZnJlZSh0dG0tPnNnKTsKKwl0dG0tPnNnID0gTlVMTDsKIAlyZXR1cm4gcjsKIH0KIAotLSAKMi4y
-NS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Sudheesh Mavila <sudheesh.mavila@amd.com>
+
+[ Upstream commit 97cf32996c46d9935cc133d910a75fb687dd6144 ]
+
+SMU10_UMD_PSTATE_PEAK_FCLK value should not be used to set the DPM.
+
+Suggested-by: Evan Quan <evan.quan@amd.com>
+Reviewed-by: Evan Quan <evan.quan@amd.com>
+Signed-off-by: Sudheesh Mavila <sudheesh.mavila@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c b/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c
+index 9ee8cf8267c88..43f7adff6cb74 100644
+--- a/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c
++++ b/drivers/gpu/drm/amd/powerplay/hwmgr/smu10_hwmgr.c
+@@ -563,6 +563,8 @@ static int smu10_dpm_force_dpm_level(struct pp_hwmgr *hwmgr,
+ 	struct smu10_hwmgr *data = hwmgr->backend;
+ 	uint32_t min_sclk = hwmgr->display_config->min_core_set_clock;
+ 	uint32_t min_mclk = hwmgr->display_config->min_mem_set_clock/100;
++	uint32_t index_fclk = data->clock_vol_info.vdd_dep_on_fclk->count - 1;
++	uint32_t index_socclk = data->clock_vol_info.vdd_dep_on_socclk->count - 1;
+ 
+ 	if (hwmgr->smu_version < 0x1E3700) {
+ 		pr_info("smu firmware version too old, can not set dpm level\n");
+@@ -676,13 +678,13 @@ static int smu10_dpm_force_dpm_level(struct pp_hwmgr *hwmgr,
+ 		smum_send_msg_to_smc_with_parameter(hwmgr,
+ 						PPSMC_MSG_SetHardMinFclkByFreq,
+ 						hwmgr->display_config->num_display > 3 ?
+-						SMU10_UMD_PSTATE_PEAK_FCLK :
++						data->clock_vol_info.vdd_dep_on_fclk->entries[0].clk :
+ 						min_mclk,
+ 						NULL);
+ 
+ 		smum_send_msg_to_smc_with_parameter(hwmgr,
+ 						PPSMC_MSG_SetHardMinSocclkByFreq,
+-						SMU10_UMD_PSTATE_MIN_SOCCLK,
++						data->clock_vol_info.vdd_dep_on_socclk->entries[0].clk,
+ 						NULL);
+ 		smum_send_msg_to_smc_with_parameter(hwmgr,
+ 						PPSMC_MSG_SetHardMinVcn,
+@@ -695,11 +697,11 @@ static int smu10_dpm_force_dpm_level(struct pp_hwmgr *hwmgr,
+ 						NULL);
+ 		smum_send_msg_to_smc_with_parameter(hwmgr,
+ 						PPSMC_MSG_SetSoftMaxFclkByFreq,
+-						SMU10_UMD_PSTATE_PEAK_FCLK,
++						data->clock_vol_info.vdd_dep_on_fclk->entries[index_fclk].clk,
+ 						NULL);
+ 		smum_send_msg_to_smc_with_parameter(hwmgr,
+ 						PPSMC_MSG_SetSoftMaxSocclkByFreq,
+-						SMU10_UMD_PSTATE_PEAK_SOCCLK,
++						data->clock_vol_info.vdd_dep_on_socclk->entries[index_socclk].clk,
+ 						NULL);
+ 		smum_send_msg_to_smc_with_parameter(hwmgr,
+ 						PPSMC_MSG_SetSoftMaxVcn,
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
