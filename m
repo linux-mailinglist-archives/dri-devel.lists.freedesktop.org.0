@@ -1,45 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BCD283547
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 14:02:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 287E5283598
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 14:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1568089C69;
-	Mon,  5 Oct 2020 12:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB0789D4B;
+	Mon,  5 Oct 2020 12:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A1089C69
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 12:01:58 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4C4fMz4Grdz9sTR;
- Mon,  5 Oct 2020 23:01:51 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1601899316;
- bh=0/QqfW/I5HwC8d2l8QEaUmn3isJntKVaSYVlMFnppfY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=WKp/QtVFCsNhxsS6rY1YCsrnKZgHc/c6vrp7M7Vzsjv7XTqe7x6W02IpBOH7I2jVX
- fzeqQLdhrdgYT2IRYZVZqX6/U3cd4qrCGbgQNYLpHtz9Cl1YXg2whl8/FGKcjEmt2F
- dFB+ZmF/KgUoukP7iYCvHFn5SOj2PH6qZUIMwHh5b4lGcKSCowVWi5eLShkUyTjWDq
- cE2LtGaah6KTtoqoqJpjOCfApube2ieDuMJGjjEnSAa95CFYZlTGvkUT2qr9Hsz7mP
- F7uzfLCOB5RwPqWpS+fecYN7TdwOTCrZeb2mjy0IrBuca0D1oZOZfVKke0JCgzN9dl
- jtpax30L0p22A==
-Date: Mon, 5 Oct 2020 23:01:50 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] Revert "gpu/drm: ingenic: Add option to mmap GEM
- buffers   cached"
-Message-ID: <20201005230150.5637fa42@canb.auug.org.au>
-In-Reply-To: <ZE1PHQ.WGCBAFO9R38I3@crapouillou.net>
-References: <20200930165212.GA8833@lst.de>
- <20201004141758.1013317-1-paul@crapouillou.net>
- <20201004195921.GA556605@ravnborg.org>
- <ZE1PHQ.WGCBAFO9R38I3@crapouillou.net>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2D0089D4B
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 12:15:56 +0000 (UTC)
+IronPort-SDR: GJlEOdkoWcgOY2mV+8Clw4WHx1+HI439L0VvjqUrTBWQULF83/L4KAn1174sajSbtRMjDgJCaX
+ bmaN9C7CqRIw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9764"; a="248145642"
+X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; d="scan'208";a="248145642"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2020 05:15:29 -0700
+IronPort-SDR: wsBWwSr0FVKe1J6GMO9fuGVhlhCkBjZALlmfwFxxmZIyc0tu3eQVednjIO54kMtSYkYExZ7mPi
+ pae6ZKzmmdhA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; d="scan'208";a="296094490"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga008.fm.intel.com with SMTP; 05 Oct 2020 05:15:24 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 05 Oct 2020 15:15:24 +0300
+Date: Mon, 5 Oct 2020 15:15:24 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
+Message-ID: <20201005121524.GI6112@intel.com>
+References: <20200930211723.3028059-1-robdclark@gmail.com>
+ <CAKMK7uHHPWE3h7ssG-dpb3czwbP5VtZYztMA=CpvQ4HV4LQTXA@mail.gmail.com>
+ <CAF6AEGszF60dWn37m63wujjtuObqkz2ZqEN3LHaPhCkKa1cdmA@mail.gmail.com>
+ <CAKMK7uEd853irzdBMCcaNEMAeOZKVFcFpgNtcYrgQkmHxdT3-w@mail.gmail.com>
+ <20201002105256.GA6112@intel.com> <20201002110544.GB6112@intel.com>
+ <CAF6AEGv+UnZJoBj_ELRVr4sQeMs52vAgyw2g+wtabLPBrYDKvw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGv+UnZJoBj_ELRVr4sQeMs52vAgyw2g+wtabLPBrYDKvw@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,70 +57,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: od@zcrc.me, Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Christoph Hellwig <hch@lst.de>
-Content-Type: multipart/mixed; boundary="===============0161096199=="
+Cc: Rob Clark <robdclark@chromium.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>,
+ Qais Yousef <qais.yousef@arm.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0161096199==
-Content-Type: multipart/signed; boundary="Sig_/c5crkA+N8hdQw9yru=.DOR2";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+On Fri, Oct 02, 2020 at 10:55:52AM -0700, Rob Clark wrote:
+> On Fri, Oct 2, 2020 at 4:05 AM Ville Syrj=E4l=E4
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > On Fri, Oct 02, 2020 at 01:52:56PM +0300, Ville Syrj=E4l=E4 wrote:
+> > > On Thu, Oct 01, 2020 at 05:25:55PM +0200, Daniel Vetter wrote:
+> > > > On Thu, Oct 1, 2020 at 5:15 PM Rob Clark <robdclark@gmail.com> wrot=
+e:
+> > > > >
+> > > > > On Thu, Oct 1, 2020 at 12:25 AM Daniel Vetter <daniel@ffwll.ch> w=
+rote:
+> > > > > >
+> > > > > > On Wed, Sep 30, 2020 at 11:16 PM Rob Clark <robdclark@gmail.com=
+> wrote:
+> > > > > > >
+> > > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > > >
+> > > > > > > The android userspace treats the display pipeline as a realti=
+me problem.
+> > > > > > > And arguably, if your goal is to not miss frame deadlines (ie=
+. vblank),
+> > > > > > > it is.  (See https://lwn.net/Articles/809545/ for the best ex=
+plaination
+> > > > > > > that I found.)
+> > > > > > >
+> > > > > > > But this presents a problem with using workqueues for non-blo=
+cking
+> > > > > > > atomic commit_work(), because the SCHED_FIFO userspace thread=
+(s) can
+> > > > > > > preempt the worker.  Which is not really the outcome you want=
+.. once
+> > > > > > > the required fences are scheduled, you want to push the atomi=
+c commit
+> > > > > > > down to hw ASAP.
+> > > > > > >
+> > > > > > > But the decision of whether commit_work should be RT or not r=
+eally
+> > > > > > > depends on what userspace is doing.  For a pure CFS userspace=
+ display
+> > > > > > > pipeline, commit_work() should remain SCHED_NORMAL.
+> > > > > > >
+> > > > > > > To handle this, convert non-blocking commit_work() to use per=
+-CRTC
+> > > > > > > kthread workers, instead of system_unbound_wq.  Per-CRTC work=
+ers are
+> > > > > > > used to avoid serializing commits when userspace is using a p=
+er-CRTC
+> > > > > > > update loop.  And the last patch exposes the task id to users=
+pace as
+> > > > > > > a CRTC property, so that userspace can adjust the priority an=
+d sched
+> > > > > > > policy to fit it's needs.
+> > > > > > >
+> > > > > > >
+> > > > > > > v2: Drop client cap and in-kernel setting of priority/policy =
+in
+> > > > > > >     favor of exposing the kworker tid to userspace so that us=
+er-
+> > > > > > >     space can set priority/policy.
+> > > > > >
+> > > > > > Yeah I think this looks more reasonable. Still a bit irky inter=
+face,
+> > > > > > so I'd like to get some kworker/rt ack on this. Other opens:
+> > > > > > - needs userspace, the usual drill
+> > > > >
+> > > > > fwiw, right now the userspace is "modetest + chrt".. *probably* t=
+he
+> > > > > userspace will become a standalone helper or daemon, mostly becau=
+se
+> > > > > the chrome gpu-process sandbox does not allow setting SCHED_FIFO.=
+  I'm
+> > > > > still entertaining the possibility of switching between rt and cfs
+> > > > > depending on what is in the foreground (ie. only do rt for android
+> > > > > apps).
+> > > > >
+> > > > > > - we need this also for vblank workers, otherwise this wont wor=
+k for
+> > > > > > drivers needing those because of another priority inversion.
+> > > > >
+> > > > > I have a thought on that, see below..
+> > > >
+> > > > Hm, not seeing anything about vblank worker below?
+> > > >
+> > > > > > - we probably want some indication of whether this actually does
+> > > > > > something useful, not all drivers use atomic commit helpers. No=
+t sure
+> > > > > > how to do that.
+> > > > >
+> > > > > I'm leaning towards converting the other drivers over to use the
+> > > > > per-crtc kwork, and then dropping the 'commit_work` from atomic s=
+tate.
+> > > > > I can add a patch to that, but figured I could postpone that churn
+> > > > > until there is some by-in on this whole idea.
+> > > >
+> > > > i915 has its own commit code, it's not even using the current commit
+> > > > helpers (nor the commit_work). Not sure how much other fun there is.
+> > >
+> > > I don't think we want per-crtc threads for this in i915. Seems
+> > > to me easier to guarantee atomicity across multiple crtcs if
+> > > we just commit them from the same thread.
+> >
+> > Oh, and we may have to commit things in a very specific order
+> > to guarantee the hw doesn't fall over, so yeah definitely per-crtc
+> > thread is a no go.
+> =
 
---Sig_/c5crkA+N8hdQw9yru=.DOR2
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+> If I'm understanding the i915 code, this is only the case for modeset
+> commits?  I suppose we could achieve the same result by just deciding
+> to pick the kthread of the first CRTC for modeset commits.  I'm not
+> really so much concerned about parallelism for modeset.
 
-Hi Paul,
+I'm not entirely happy about the random differences between modesets
+and other commits. Ideally we wouldn't need any.
 
-On Sun, 04 Oct 2020 22:11:23 +0200 Paul Cercueil <paul@crapouillou.net> wro=
-te:
->
-> Pushed to drm-misc-next with the changelog fix, thanks.
->=20
-> Stephen:
-> Now it should build fine again. Could you remove the BROKEN flag?
+Anyways, even if we ignore modesets we still have the issue with
+atomicity guarantees across multiple crtcs. So I think we still
+don't want per-crtc threads, rather it should be thread for each =
 
-Thanks for letting me know, but the fix has not appeared in any drm
-tree included in linux-next yet ...
+commit.
 
-If it doesn't show up by the time I will merge the drm tree tomorrow, I
-will apply this revert patch myself (instead of the patch marking the
-driver BROKEN).
---=20
-Cheers,
-Stephen Rothwell
+Well, if the crtcs aren't running in lockstep then maybe we could
+shove them off to separate threads, but that'll just complicate things
+needlessly I think since we'd need yet another way to iterate
+the crtcs in each thread. With the thread-per-commit apporach we
+can just use the normal atomic iterators.
 
---Sig_/c5crkA+N8hdQw9yru=.DOR2
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+> =
 
------BEGIN PGP SIGNATURE-----
+> > I don't even understand the serialization argument. If the commits
+> > are truly independent then why isn't the unbound wq enough to avoid
+> > the serialization? It should just spin up a new thread for each commit
+> > no?
+> =
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl97Cy4ACgkQAVBC80lX
-0GybcQgAgDBfOlAi4H0LQgp43UG2Jbdt9jpEvffFQlYlJ9MsH+uBFHvo3aQk6X0V
-UuhH5HXZaEyeLkkqTBvKbG7malvbM7qXtrgTnHMe5dSbnYDMOn7E9rp3Oq16CspJ
-JWI11dxkem9tBxdcXnR+/1r3sR0W0JBgArF2N5ccHRtHCFBs41WbnTgFqGFloi1I
-F0ARK/4w8tzk3KCE9tkh7pX1qN8m8OHsFT00VL+CEkW+r3zH7QhxVJ9wcllFGzbG
-OKfQKNh+3Oue/ECfKcYYkIafz10T5XZU7zzRplAhun9urihwV7jKf7GW4FRgbCsr
-jlfHoHzyXPv164D13Wir3EhLeXQ4Pw==
-=Xi7i
------END PGP SIGNATURE-----
+> The problem with wq is prioritization and SCHED_FIFO userspace
+> components stomping on the feet of commit_work. That is the entire
+> motivation of this series in the first place, so no we cannot use
+> unbound wq.
 
---Sig_/c5crkA+N8hdQw9yru=.DOR2--
+This is a bit dejavu of the vblank worker discussion, where I actually
+did want a per-crtc RT kthread but people weren't convinced they
+actually help. The difference is that for vblank workers we actually
+tried to get some numbers, here I've not seen any.
 
---===============0161096199==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- =
 
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0161096199==--
