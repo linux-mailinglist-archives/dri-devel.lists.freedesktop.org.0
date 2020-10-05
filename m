@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B685E28400B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 22:03:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B28628406B
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Oct 2020 22:11:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F12DB6E169;
-	Mon,  5 Oct 2020 20:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B60C16E171;
+	Mon,  5 Oct 2020 20:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B10DE6E169
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 20:03:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD796E171
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Oct 2020 20:11:23 +0000 (UTC)
 Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DBAA12100A;
- Mon,  5 Oct 2020 20:03:34 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9829A2100A;
+ Mon,  5 Oct 2020 20:05:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601928215;
- bh=kAJPl5wTGCwkw+XuTKU5bbU4qKcWvd/W2QpX6dnKGVA=;
+ s=default; t=1601928339;
+ bh=s+rmToXuZeBQt1ZHeq5xiuVm9SotCIz3Xgvl28Fw5Sk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DZPhYhMW6eTtoKQB9RgWc2d2lES+UJhbkT7IA5z3WDU8NbIsrMjY7inei/w1HQtXV
- ETrKpXZfdoc2j8f7iCRMCTk1xUpVenlivyiDIWBo2QXnl6+RynOUk0tqlJFgtkSNZR
- Ki32ki/tWedE2ZYPKvawsqMQevQkwXPmMbu/rqNk=
-Date: Mon, 5 Oct 2020 21:02:32 +0100
+ b=DqVP1YOqAYnjot5TUTkRAhiW2RtwXuZ5e5qz8LvSojfsw/z32Rk8JnWfVD5BXymWO
+ 4EC8eVcvmcazYR6gF5tPzQsFFesNCU4EysDpYM4X3KWybj3QeQ+4owhDRliTEy4tgT
+ h8Rdu73GXKv3vnIEWQo8yVgIc1dlj/a6GR3mBv04=
+Date: Mon, 5 Oct 2020 21:04:35 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 2/4] dt-bindings: Use 'additionalProperties' instead of
- 'unevaluatedProperties'
-Message-ID: <20201005200232.GH5139@sirena.org.uk>
+Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
+ in common schemas
+Message-ID: <20201005200435.GI5139@sirena.org.uk>
 References: <20201005183830.486085-1-robh@kernel.org>
- <20201005183830.486085-3-robh@kernel.org>
+ <20201005183830.486085-5-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201005183830.486085-3-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
 X-Cookie: Most of your faults are not your fault.
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,46 +88,47 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
  Richard Weinberger <richard@nod.at>, dmaengine@vger.kernel.org,
  linux-mtd@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
  Jonathan Cameron <jic23@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1585903258=="
+Content-Type: multipart/mixed; boundary="===============1498927466=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1585903258==
+--===============1498927466==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="G44BJl3Aq1QbV/QL"
+	protocol="application/pgp-signature"; boundary="xQR6quUbZ63TTuTU"
 Content-Disposition: inline
 
 
---G44BJl3Aq1QbV/QL
+--xQR6quUbZ63TTuTU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, Oct 05, 2020 at 01:38:28PM -0500, Rob Herring wrote:
-> In cases where we don't reference another schema, 'additionalProperties'
-> can be used instead. This is preferred for now as 'unevaluatedProperties'
-> support isn't implemented yet.
+On Mon, Oct 05, 2020 at 01:38:30PM -0500, Rob Herring wrote:
+> In order to add meta-schema checks for additional/unevaluatedProperties
+> being present, all schema need to make this explicit. As common/shared
+> schema are included by other schemas, they should always allow for
+> additionalProperties.
 
 Acked-by: Mark Brown <broonie@kernel.org>
 
---G44BJl3Aq1QbV/QL
+--xQR6quUbZ63TTuTU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl97e9cACgkQJNaLcl1U
-h9CXkAf/fcrNGrdLapSqJwMLMbtJCS0D24DLJGYOMaq20DJF7wJFnGt99z6jdOhf
-r333/DPm2cGni5/89bsEzGA828aVzQineYY/7MBxsmCMR+qegRX1DfC3dWz4jeSJ
-TH7MaAw8Xfp5rRMBgBgb+rKGDNqVkzrHuLKEqqjXYKu/Utrgtz6pdj/FGAg0FRvv
-JPdkDP3WHgdNj3cmoLzF6FP8C4hjT/PLkR7t1gEOeL5p7P0ieXOzwZbLn58MNQfp
-5aJQdQ4UPjeqdwMySifyHNgRORfIVDHnEhgpnEadsg1EOaDOg4L1jOr/teo7vd56
-D2PNzf0BgKBODXIIiuEu0SMMMxO7UA==
-=ctKD
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl97fFMACgkQJNaLcl1U
+h9DCqAf/a9EeZYWOXZv/LQBnsV0pTr5pJVTXHTFORoU7ocgeq0B1wRP1R0CB2gX5
+02KvSUXUKRSz1wILRE0Hwj5RwgbxAlyEDBdIYlDR5SqjkTGNCarpOBZreDmcob1C
+GnjvAYmqiPk7ePzKZAw85NhrzueXJ1GJGyMzyr1yCvjL5z+Z6i5KH2vPzmmAS+Tz
+dTL1z6aXNmdpEtczrZ2E8EuFY2L+idqCGlsBOArLCXDredG6tUQCVWzUVIP0et8s
+AUMwi5jdpHe35QKhkvvRnOPt0m0Fby/3hJST/7hSDOzSt4FSn+mr25qkLWUjlBIq
+ilJizVLCpovAeESSKfeELYHuBDpe6w==
+=rSQi
 -----END PGP SIGNATURE-----
 
---G44BJl3Aq1QbV/QL--
+--xQR6quUbZ63TTuTU--
 
---===============1585903258==
+--===============1498927466==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -138,4 +139,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1585903258==--
+--===============1498927466==--
