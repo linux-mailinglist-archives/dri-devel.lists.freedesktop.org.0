@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1A4284739
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02AE284520
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 06:55:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96D606E3AC;
-	Tue,  6 Oct 2020 07:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88C1D6E0E4;
+	Tue,  6 Oct 2020 04:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9406E0E4;
- Tue,  6 Oct 2020 04:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Date:Message-ID:Subject:Cc:From:To:Sender:Reply-To:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=Dt6GxUiiNucMJVb8insT90iPuGdOD6EG4FZ0RccNAMI=; b=m1TmLnvP1zb+gBR5X8PaSFHKAQ
- LgPis6cwWOZTnfJm2d22Cz6eTicstsnc9GrWWPi8Nap0uFabAaCeqneFSMqS7LDWNzUC4nUqAkJbl
- wnKF4vP5M+cJpKYAqlSrMxeCZBkeYXeaJAG1UpNXfsr+Mn7eSY8GM2lV93MrsoiDmfZpC+Kk5aDs/
- v3TdzyPj7KsTU0d7yyaUeF+sS8IaG3OkTBTagEe3wpAH1A+ZIHNBOZYZDZE9uDHSyoKQWClXh24FG
- FcJciAgxOSqEuHahBeSS2JyqHAFegQpGCwPUOq7OloHiP8IOxkWj5zN/8LfZjHAlGiWkthTmhYKls
- iEYLfUNA==;
-Received: from [2601:1c0:6280:3f0::2c9a]
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPevb-0008JQ-K8; Tue, 06 Oct 2020 04:50:19 +0000
-To: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: [RFC PATCH] DRM: amd: powerplay: don't undef pr_warn() {causes ARC
- build errors}
-Message-ID: <9c86375d-34a9-6584-0069-452b193076d6@infradead.org>
-Date: Mon, 5 Oct 2020 21:50:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from smtprelay.hostedemail.com (smtprelay0199.hostedemail.com
+ [216.40.44.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 782A16E0E4
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 04:55:08 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay05.hostedemail.com (Postfix) with ESMTP id E8DE618025614;
+ Tue,  6 Oct 2020 04:55:05 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3868:3870:3874:4250:4321:5007:6120:7576:7903:10004:10400:10450:10455:10848:11026:11232:11657:11658:11914:12043:12296:12297:12740:12760:12895:13069:13149:13161:13229:13230:13255:13311:13357:13439:14181:14254:14659:14721:19904:19999:21080:21451:21627:30001:30002:30003:30004:30005:30006:30007:30008:30009:30010:30011:30012:30013:30014:30015:30016:30017:30018:30019:30020:30021:30022:30023:30024:30025:30026:30027:30028:30029:30030:30031:30032:30033:30034:30035:30036:30037:30038:30039:30040:30041:30042:30043:30044:30045:30046:30047:30048:30049:30050:30051:30052:30053:30054:30055:30057:30058:30059:30060:30061:30062:30063:30064:30065:30066:30067:30068:30069:30070:30071:30072:30073:30074:30075:30076:30077:30078:30079:30080:300
+X-HE-Tag: smell79_1c14f78271c4
+X-Filterd-Recvd-Size: 2318
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf08.hostedemail.com (Postfix) with ESMTPA;
+ Tue,  6 Oct 2020 04:55:04 +0000 (UTC)
+Message-ID: <92c4f9bd1d43b80a424a52131fcbc6a1a416de64.camel@perches.com>
+Subject: Re: [RFC PATCH] DRM: amd: powerplay: don't undef pr_warn() {causes
+ ARC build errors}
+From: Joe Perches <joe@perches.com>
+To: Randy Dunlap <rdunlap@infradead.org>, LKML
+ <linux-kernel@vger.kernel.org>,  dri-devel <dri-devel@lists.freedesktop.org>
+Date: Mon, 05 Oct 2020 21:55:03 -0700
+In-Reply-To: <9c86375d-34a9-6584-0069-452b193076d6@infradead.org>
+References: <9c86375d-34a9-6584-0069-452b193076d6@infradead.org>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Language: en-US
-X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,63 +59,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Mon, 2020-10-05 at 21:50 -0700, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap@infradead.org>
+> 
+> arch/arc/ implements BUG_ON() with BUG(). ARC has its own BUG()
+> function and that function uses pr_warn() as part of its implementation.
+> 
+> Several (8) files in amd/powerplay/ #undef various pr_xyz() functions so
+> that they won't be used by these drivers, since dev_() functions are
+> preferred here and the #undefs make the pr_() functions unavailable.
+[]
+> --- lnx-59-rc7.orig/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
+> +++ lnx-59-rc7/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
+> @@ -52,7 +52,7 @@
+>   * They are more MGPU friendly.
+>   */
+>  #undef pr_err
+> -#undef pr_warn
+> +//#undef pr_warn
+>  #undef pr_info
+>  #undef pr_debug
+>  
+> --- lnx-59-rc7.orig/drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c
+> +++ lnx-59-rc7/drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c
+> @@ -54,7 +54,7 @@
+>   * They are more MGPU friendly.
+>   */
+>  #undef pr_err
+> -#undef pr_warn
+> +//#undef pr_warn
+>  #undef pr_info
+>  #undef pr_debug 
 
-arch/arc/ implements BUG_ON() with BUG(). ARC has its own BUG()
-function and that function uses pr_warn() as part of its implementation.
+These are bad ideas as all of these pr_<level> entries
+may become functions in a near-term future.
 
-Several (8) files in amd/powerplay/ #undef various pr_xyz() functions so
-that they won't be used by these drivers, since dev_() functions are
-preferred here and the #undefs make the pr_() functions unavailable.
-
-Hence the following build errors are reported in ARC builds:
-
-../drivers/gpu/drm/amd/amdgpu/../powerplay/navi10_ppt.c: In function 'navi10_fill_i2c_req':
-../arch/arc/include/asm/bug.h:24:2: error: implicit declaration of function 'pr_warn'; did you mean 'drm_warn'? [-Werror=implicit-function-declaration]
-
-../drivers/gpu/drm/amd/amdgpu/../powerplay/sienna_cichlid_ppt.c: In function 'sienna_cichlid_fill_i2c_req':
-../arch/arc/include/asm/bug.h:24:2: error: implicit declaration of function 'pr_warn'; did you mean 'drm_warn'? [-Werror=implicit-function-declaration]
-
-Fixes: 55084d7f4022 ("drm/amd/powerplay: forbid to use pr_err/warn/info/debug")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Evan Quan <evan.quan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Vineet Gupta <vgupta@synopsys.com>
-Cc: linux-snps-arc@lists.infradead.org
----
-Another alternative is for amd/powerplay/ drivers not to use BUG()
-or BUG_ON().
-A third alternative is to ask the ARC developers to implement BUG()
-without using any pr_() functions.
-
- drivers/gpu/drm/amd/powerplay/navi10_ppt.c         |    2 +-
- drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
---- lnx-59-rc7.orig/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
-+++ lnx-59-rc7/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
-@@ -52,7 +52,7 @@
-  * They are more MGPU friendly.
-  */
- #undef pr_err
--#undef pr_warn
-+//#undef pr_warn
- #undef pr_info
- #undef pr_debug
- 
---- lnx-59-rc7.orig/drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c
-+++ lnx-59-rc7/drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c
-@@ -54,7 +54,7 @@
-  * They are more MGPU friendly.
-  */
- #undef pr_err
--#undef pr_warn
-+//#undef pr_warn
- #undef pr_info
- #undef pr_debug
- 
 
 _______________________________________________
 dri-devel mailing list
