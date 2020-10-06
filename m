@@ -2,33 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2B2284775
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC98028479E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 665E76E3F9;
-	Tue,  6 Oct 2020 07:38:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5A90892C9;
+	Tue,  6 Oct 2020 07:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54E8C6E3F9
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 07:38:18 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D21F82941E2;
- Tue,  6 Oct 2020 08:38:08 +0100 (BST)
-Date: Tue, 6 Oct 2020 09:38:04 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: drm: Supporting new connector model in tidss
-Message-ID: <20201006093804.41128512@collabora.com>
-In-Reply-To: <e4b95dfd-93e1-4839-08c3-32b28e32dbc0@ti.com>
-References: <20201005213123.o4qtfazrnexgjq7p@NiksLab>
- <e4b95dfd-93e1-4839-08c3-32b28e32dbc0@ti.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9742892C9
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 07:42:14 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id a2so11385760otr.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 00:42:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X92StBJO7Jl08+emNfT4SOvEfEh2SDH9sc44xoCG2JQ=;
+ b=uZEP3mejr1ahIHgjqVC6XHONAhdtaJQNHVd11lSXjQ5VbBJLKRNV3JBO4fnP1wdiLt
+ 8DWH4jBE1OjI9Qgns+bqXEr+ZMK66LGvCRtpwD80gUN4KrV39w1K8ggLiPB3U8Rps1wW
+ crJIgPpyTGz/fpVadNi4fcnAOCqD/JvjCS5/3yJC3H0GSm7rFjIPIFDt1x7D4zebrP7X
+ Noo24Gu2ZvGa62Whu4vyyi3UN8XgGKmDpRM5blGHixZgpg+SKhJsLf3eJ919TQSmwG/7
+ 9T2m9oaMtvr2jyQ7491QBNlhhUflZCU5v6AFsxpl+PBt2TTdVmhadSe0fUjqRLMvSg7F
+ GDnQ==
+X-Gm-Message-State: AOAM533OxoY/H8Oo1oHrPp0HEzZNdI3COsi9F0GYwpZngoI2gyC+tAiN
+ JpCIvNYyMLrCu0ZeDIqPh4s7sO6W2jmaXeVlvPM=
+X-Google-Smtp-Source: ABdhPJzRlbEpWRGt0J1cMm9H92xwWTt7DmJhhKL4iaOIkYDjOIUTuv76uRmvAtK3KDjga7sfjkeNBHq0tHs9kJqt0m0=
+X-Received: by 2002:a05:6830:1008:: with SMTP id
+ a8mr1972113otp.107.1601970134083; 
+ Tue, 06 Oct 2020 00:42:14 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201005183830.486085-1-robh@kernel.org>
+ <20201005183830.486085-4-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-4-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 6 Oct 2020 09:42:03 +0200
+Message-ID: <CAMuHMdXhtt=BMU4hrQLrNb9W6ZodaVFRd7tAfdrzzxEXpCgDPg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] dt-bindings: Explicitly allow additional properties
+ in board/SoC schemas
+To: Rob Herring <robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,98 +54,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikhil Devshatwar <nikhil.nd@ti.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ USB list <linux-usb@vger.kernel.org>,
+ Peter Meerwald-Stadler <pmeerw@pmeerw.net>, Sam Ravnborg <sam@ravnborg.org>,
+ Linux PWM List <linux-pwm@vger.kernel.org>, linux-iio@vger.kernel.org,
+ Viresh Kumar <vireshk@kernel.org>, linux-pci <linux-pci@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-ide@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pavel Machek <pavel@ucw.cz>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-riscv <linux-riscv@lists.infradead.org>, linux-hwmon@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-rtc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jason Cooper <jason@lakedaemon.net>, Linux PM list <linux-pm@vger.kernel.org>,
+ linux-can@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, Jens Axboe <axboe@kernel.dk>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Linux MMC List <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-spi <linux-spi@vger.kernel.org>, Linux I2C <linux-i2c@vger.kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Richard Weinberger <richard@nod.at>,
+ dmaengine <dmaengine@vger.kernel.org>,
+ MTD Maling List <linux-mtd@lists.infradead.org>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 6 Oct 2020 10:07:39 +0300
-Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
+On Mon, Oct 5, 2020 at 8:39 PM Rob Herring <robh@kernel.org> wrote:
+> In order to add meta-schema checks for additional/unevaluatedProperties
+> being present, all schema need to make this explicit. As the top-level
+> board/SoC schemas always have additional properties, add
+> 'additionalProperties: true'.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-> Adding Boris who added bus format negotiation.
-> 
-> On 06/10/2020 00:31, Nikhil Devshatwar wrote:
-> > Hi all,
-> > 
-> > I am trying to convert the upstream tidss drm driver to new
-> > connector model.
-> > The connector is getting created by the tidss driver and bridges are
-> > attached with flag DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> > Here are some questions, regarding this:  
-> 
-> I was looking at this a bit, and below is my understanding. And I'm mostly talking about how things
-> should be with new code, not legacy code. Things are probably a bit more complex if you mix bridges
-> which implement different styles on how to deal with bus formats.
-> 
-> > 1) Most of the info regarding bus_format and bus flags is coming from
-> > the bridges. Is it okay to not populate connector->display_info with
-> > bus_format and flags?  
-> 
-> drm_display_info describes the connected display and what goes on the wire to the display.
-> 
-> For monitors that's quite clear, and the data in display_info would reflect what the last bridge
-> needs to output. Most of the data comes from EDID, but I think bus format and flags do not. So a
-> bridge would need to fill them in, which doesn't make sense when we have a chain of bridges (which
-> would be the bridge to fill the data?). So for monitors, I think bus flags and formats in
-> display_info are unused.
-> 
-> For panels, I'm not sure. We have the bridge/panel.c which wraps the actual panel driver, so afaics
-> the panel is essentially the last bridge in the chain, and the connector is kind of a dummy
-> connector. But the panel driver fills in the display_info, and that's where the bridge/panel.c gets
-> the bus formats & flags for the negotiation.
-> 
-> Probably the above could be changed so that the panels take part of the negotiation process, and
-> then the bus formats and flags fields in the display_info could be removed.
+>  Documentation/devicetree/bindings/arm/renesas.yaml             | 2 ++
 
-Yep, that'd be better to have the bus format/flags info provided by the
-panel itself rather than passed through display info.
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> 
-> > 2) The "drm_atomic_bridge_chain_select_bus_fmts" does the format
-> > negotiation. So is it okay for the encoder to simply pick the bus_format
-> > from the first bridge's state?  
-> 
-> Yes, I think that is the idea. The first bridge's input is what the display controller's encoder
-> should output, and the negotiation should take care to provide something in the first bridge's state
-> for the input.
+Gr{oetje,eeting}s,
 
-Exactly.
+                        Geert
 
-> 
-> > 3) What is the meaning of MEDIA_BUS_FMT_FIXED? Does it mean that the
-> > bridge does not change the format from input to output?  
-> 
-> I think it just means "undefined" here, and it's up to the drivers to decide what to do. I presume
-> this is mostly for drivers that don't support the new stuff, as each bridge should be able to tell
-> what formats & flags it supports.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Correct.
-
-> 
-> > 4) The bus_flags are available in bridge->timings->input_bus_flags and
-> > also in bridge_state->input_bus_cfg.flags. Which one should be used?  
-> 
-> I think bridge_state->input_bus_cfg. Although bridge->timings->input_bus_flags has some data that's
-> not in input_bus_cfg. If the drivers support the negotiation, I don't think
-> bridge->timings->input_bus_flags has any use.
-
-Oh, I didn't realize there was an input_bus_flags in the timings
-struct. We should probably propagate those in
-drm_atomic_bridge_propagate_bus_flags().
-
-> 
-> Probably bridge->timings->input_bus_flags should be used as a fallback. So if a bridge is asked to
-> use MEDIA_BUS_FMT_FIXED as output (i.e. the next bridge doesn't support negotiation), then the
-> bridge might use a default format and also see if the next bridge has bridge->timings->input_bus_flags.
-
-I think this could be automated in
-drm_atomic_bridge_propagate_bus_flags(). Right now we simply propagate
-the output bus flags to the input end [1], but it probably makes more
-sense to use the value in bridge->timings->input_bus_flags if present.
-
-[1]https://elixir.bootlin.com/linux/v5.9-rc8/source/drivers/gpu/drm/drm_bridge.c#L971
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
