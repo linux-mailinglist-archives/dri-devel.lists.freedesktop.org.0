@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148E92844DB
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 06:31:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1A4284739
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:31:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B35D76E30C;
-	Tue,  6 Oct 2020 04:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96D606E3AC;
+	Tue,  6 Oct 2020 07:31:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B72E06E30C
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 04:31:04 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4C54KH0vNDz9sS8;
- Tue,  6 Oct 2020 15:30:58 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1601958661;
- bh=n5g/8VmjM6MX7tsHQua98aEInXP4LOcxwGMFE4CgV6c=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=eTJXuTfVcg6haKx7VjmfiW0OlAB5OlXPvB6lmst090D8iGoV+2TUCntxMVW7Rb2Kz
- s4NsQHQwHbYO0K7cs0YNk5A27WoZa7BKKzq42FX93XtgW7crDLe8JbptXv+mV83kvr
- uiwpZbvqDFxOfPPWEgletecAj8jIanhPVYbQQXBtiCGTJ3wci1hXm8YnPn2kz7lr3Q
- 526nzB4/NnecA7IFu7SHKK/b0DFdFMFohI7aAr8F/ip52sp5IiG1vJS0E0XJQGxufL
- 3ajD58RlkWlv5AaDDugh1lal47YFGfUGRlz96OjOR/yr716j1/c9LLcFsAEViiIMP+
- o7z2bvx+AuBLw==
-Date: Tue, 6 Oct 2020 15:30:57 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] Revert "gpu/drm: ingenic: Add option to mmap GEM
- buffers   cached"
-Message-ID: <20201006153057.39baeedb@canb.auug.org.au>
-In-Reply-To: <20201005230150.5637fa42@canb.auug.org.au>
-References: <20200930165212.GA8833@lst.de>
- <20201004141758.1013317-1-paul@crapouillou.net>
- <20201004195921.GA556605@ravnborg.org>
- <ZE1PHQ.WGCBAFO9R38I3@crapouillou.net>
- <20201005230150.5637fa42@canb.auug.org.au>
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9406E0E4;
+ Tue,  6 Oct 2020 04:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Date:Message-ID:Subject:Cc:From:To:Sender:Reply-To:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=Dt6GxUiiNucMJVb8insT90iPuGdOD6EG4FZ0RccNAMI=; b=m1TmLnvP1zb+gBR5X8PaSFHKAQ
+ LgPis6cwWOZTnfJm2d22Cz6eTicstsnc9GrWWPi8Nap0uFabAaCeqneFSMqS7LDWNzUC4nUqAkJbl
+ wnKF4vP5M+cJpKYAqlSrMxeCZBkeYXeaJAG1UpNXfsr+Mn7eSY8GM2lV93MrsoiDmfZpC+Kk5aDs/
+ v3TdzyPj7KsTU0d7yyaUeF+sS8IaG3OkTBTagEe3wpAH1A+ZIHNBOZYZDZE9uDHSyoKQWClXh24FG
+ FcJciAgxOSqEuHahBeSS2JyqHAFegQpGCwPUOq7OloHiP8IOxkWj5zN/8LfZjHAlGiWkthTmhYKls
+ iEYLfUNA==;
+Received: from [2601:1c0:6280:3f0::2c9a]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kPevb-0008JQ-K8; Tue, 06 Oct 2020 04:50:19 +0000
+To: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: [RFC PATCH] DRM: amd: powerplay: don't undef pr_warn() {causes ARC
+ build errors}
+Message-ID: <9c86375d-34a9-6584-0069-452b193076d6@infradead.org>
+Date: Mon, 5 Oct 2020 21:50:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+Content-Language: en-US
+X-Mailman-Approved-At: Tue, 06 Oct 2020 07:31:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,76 +50,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: od@zcrc.me, Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Christoph Hellwig <hch@lst.de>
-Content-Type: multipart/mixed; boundary="===============1774107969=="
+Cc: Evan Quan <evan.quan@amd.com>, kernel test robot <lkp@intel.com>,
+ Vineet Gupta <vgupta@synopsys.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1774107969==
-Content-Type: multipart/signed; boundary="Sig_/o0ob=B9XXO9RERmdPqVSMfF";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+From: Randy Dunlap <rdunlap@infradead.org>
 
---Sig_/o0ob=B9XXO9RERmdPqVSMfF
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+arch/arc/ implements BUG_ON() with BUG(). ARC has its own BUG()
+function and that function uses pr_warn() as part of its implementation.
 
-Hi all,
+Several (8) files in amd/powerplay/ #undef various pr_xyz() functions so
+that they won't be used by these drivers, since dev_() functions are
+preferred here and the #undefs make the pr_() functions unavailable.
 
-On Mon, 5 Oct 2020 23:01:50 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->
-> On Sun, 04 Oct 2020 22:11:23 +0200 Paul Cercueil <paul@crapouillou.net> w=
-rote:
-> >
-> > Pushed to drm-misc-next with the changelog fix, thanks.
-> >=20
-> > Stephen:
-> > Now it should build fine again. Could you remove the BROKEN flag? =20
->=20
-> Thanks for letting me know, but the fix has not appeared in any drm
-> tree included in linux-next yet ...
->=20
-> If it doesn't show up by the time I will merge the drm tree tomorrow, I
-> will apply this revert patch myself (instead of the patch marking the
-> driver BROKEN).
+Hence the following build errors are reported in ARC builds:
 
-Unfortunately, the revert patch does not apply to the drm tree merge,
-so I have just marked the driver BROKEN again today.
---=20
-Cheers,
-Stephen Rothwell
+../drivers/gpu/drm/amd/amdgpu/../powerplay/navi10_ppt.c: In function 'navi10_fill_i2c_req':
+../arch/arc/include/asm/bug.h:24:2: error: implicit declaration of function 'pr_warn'; did you mean 'drm_warn'? [-Werror=implicit-function-declaration]
 
---Sig_/o0ob=B9XXO9RERmdPqVSMfF
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+../drivers/gpu/drm/amd/amdgpu/../powerplay/sienna_cichlid_ppt.c: In function 'sienna_cichlid_fill_i2c_req':
+../arch/arc/include/asm/bug.h:24:2: error: implicit declaration of function 'pr_warn'; did you mean 'drm_warn'? [-Werror=implicit-function-declaration]
 
------BEGIN PGP SIGNATURE-----
+Fixes: 55084d7f4022 ("drm/amd/powerplay: forbid to use pr_err/warn/info/debug")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Evan Quan <evan.quan@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Vineet Gupta <vgupta@synopsys.com>
+Cc: linux-snps-arc@lists.infradead.org
+---
+Another alternative is for amd/powerplay/ drivers not to use BUG()
+or BUG_ON().
+A third alternative is to ask the ARC developers to implement BUG()
+without using any pr_() functions.
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl978wEACgkQAVBC80lX
-0Gy3kgf8CLWGQCMOPLy2gQCli86MZWSpicvk4sSiGQTGkHYZcfUK6fQGhZkkhIqA
-1B1V33q0Pp7/u9tp7XD2Wt62UeiWNA/GTk8crZMHbAp8Bf2qEcRo+2g7/liHq1WU
-goX7M3iois0cb3+fir54o89QSwEIqi7tVZ1HwQUbR2HeJ9csbHaymx3TXdLy7zxU
-hsriysf5Zk6YfjBzap1xMZSUjioBq1jUXhN/r/grXi/NpmgfT/0ysQAwu+7jUuG3
-+AzzhTGciRHxavQur/+14dPgI09KjvHL4t2wxldnGC3TLyH2SZLfhPJNsWxVrclx
-raN7plyI723XwVZXhAmWIyOEg/he6A==
-=JUJe
------END PGP SIGNATURE-----
+ drivers/gpu/drm/amd/powerplay/navi10_ppt.c         |    2 +-
+ drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
---Sig_/o0ob=B9XXO9RERmdPqVSMfF--
-
---===============1774107969==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+--- lnx-59-rc7.orig/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
++++ lnx-59-rc7/drivers/gpu/drm/amd/powerplay/navi10_ppt.c
+@@ -52,7 +52,7 @@
+  * They are more MGPU friendly.
+  */
+ #undef pr_err
+-#undef pr_warn
++//#undef pr_warn
+ #undef pr_info
+ #undef pr_debug
+ 
+--- lnx-59-rc7.orig/drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c
++++ lnx-59-rc7/drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c
+@@ -54,7 +54,7 @@
+  * They are more MGPU friendly.
+  */
+ #undef pr_err
+-#undef pr_warn
++//#undef pr_warn
+ #undef pr_info
+ #undef pr_debug
+ 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1774107969==--
