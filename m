@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4674B28454E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 07:29:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EEC284567
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 07:30:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE3489C13;
-	Tue,  6 Oct 2020 05:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 059B089DB8;
+	Tue,  6 Oct 2020 05:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCA4789BF1
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 05:29:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B598E89DB8
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 05:30:24 +0000 (UTC)
 Received: from localhost (unknown [122.167.144.92])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1C34120870;
- Tue,  6 Oct 2020 05:29:44 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2836120870;
+ Tue,  6 Oct 2020 05:30:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601962185;
- bh=IqVDArZkdO/B6tbx3G9IqtpqMW94z4IPv/01HlGFHyY=;
+ s=default; t=1601962224;
+ bh=/MHJmlDNIk0zmKN48coH15OT8JF/0mkBH1HqI0doB1I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XJYtCNTyvx3ozaL1aRMYZGV+bTbvDa3P+1vHmIpIZkmMpy/W3RdFSo1VlEtqd2ZwS
- VXm0e3hsDFIgJyUblJEaSpP3cJaPtrtrYpgunMrPuk68lEyTmKEkfZetm3/aycx6/+
- f5jbT6MC2Pw1++qOdAXkqzyJva8aLdhWHo97xSwA=
-Date: Tue, 6 Oct 2020 10:59:40 +0530
+ b=YGPJhsayA3KJ0CGNVBMigIHzGRd5zPVP8je1HulLIWPKBHlXBlGAcwusUKcd0u2vw
+ gsDVYBCG7OsZvqnfd25XCapc7xM0rV1jhiQ4hcBEyR5ORDJR3ih/+Nx7/tqqJExanH
+ kpAfe+tjO47MqB+lPncSnphsT7dwWJ8xAVZEVt4c=
+Date: Tue, 6 Oct 2020 11:00:19 +0530
 From: Vinod Koul <vkoul@kernel.org>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
-Message-ID: <20201006052940.GO2968@vkoul-mobl>
+Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
+ in common schemas
+Message-ID: <20201006053019.GP2968@vkoul-mobl>
 References: <20201005183830.486085-1-robh@kernel.org>
- <20201005183830.486085-2-robh@kernel.org>
+ <20201005183830.486085-5-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,17 +93,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 05-10-20, 13:38, Rob Herring wrote:
-> This doesn't yet do anything in the tools, but make it explicit so we can
-> check either 'unevaluatedProperties' or 'additionalProperties' is present
-> in schemas.
-> 
-> 'unevaluatedProperties' is appropriate when including another schema (via
-> '$ref') and all possible properties and/or child nodes are not
-> explicitly listed in the schema with the '$ref'.
-> 
-> This is in preparation to add a meta-schema to check for missing
-> 'unevaluatedProperties' or 'additionalProperties'. This has been a
-> constant source of review issues.
+> In order to add meta-schema checks for additional/unevaluatedProperties
+> being present, all schema need to make this explicit. As common/shared
+> schema are included by other schemas, they should always allow for
+> additionalProperties.
 
 Acked-By: Vinod Koul <vkoul@kernel.org>
 
