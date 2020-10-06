@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B84D28469E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:00:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C98E02846C9
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:07:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3E0D6E115;
-	Tue,  6 Oct 2020 07:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA5786E2C7;
+	Tue,  6 Oct 2020 07:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34B436E115
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 07:00:23 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id z1so12136481wrt.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 00:00:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Oe7zU6gzISKBUmakEze1jPjt4AoCrxJWUb32hirWtf4=;
- b=duVae73qGXrIWn0dA9Y2ba0eTvLVJldQbfNGMJhbCGq9paoehFS47xcK9OLpCkH4WF
- NqBrFaENJwbrU/th8XmIkh1VS1vd2oH1s1pXzDf2b99Cb/bAZ5mIsHV6ptmyF1OBtQBy
- GT9rg4w2n4Isj8jXnTNnLi+Aw/L7SFWFx72v0bNTNomBvhPxjgr+pR8su7g3MDB9LEtn
- /vLB/qwXlI19SAUsjJySvCczuoNdnCBTeLhRqUeV/ScZadUIhYWFwLaiDoYkjoSe+gXj
- C3HqfoAXjTKslZ5dKtYyztKJYZ9eX7NM47nSfo4FbYcgGC7bh2R2dMJAzlKCSNaNoWRF
- iUUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Oe7zU6gzISKBUmakEze1jPjt4AoCrxJWUb32hirWtf4=;
- b=TTUwCg4WJlpl3A7YFivcm7krABQNen9/uxfv+GXCgIeG5WMoQesfJz8Llwd348C3NY
- wNeNTHEhmXnRuhC0Q74ycLQZiEWIoR/1T/z2tylHvw7ZS8OConXxKUiMNDFk0AY77TlC
- DXtyFZSc0Yv0JIgHWph7Z+YLxeOGdssYpW/a2B/iqUe9LlBVI4qQmd3S2Ew24Isu2Yl7
- dCr6TaqApgR6mFOsPoRUyxCsEAdosR7EbSWdF3ZfYt2YUWemBbcZGinwLk5Cs6jBgifg
- Scq3qId57ZgvdKO9Nzr045OEYF0+6oAB/lM8lLjBMDUwN/pyKCukrKED6r+9AUIZFfCd
- CAFg==
-X-Gm-Message-State: AOAM530D2jwsOFlAMuA69wWoTYq8m85C1oVCjtaICEzQBwddDuRSH/n4
- iEQZIkOWfK64qjKN0kP6Vn1X1Q==
-X-Google-Smtp-Source: ABdhPJzRpE6n88xNVq3Fk+xQSff8QQNC8n1c0b7ajSoy19OwpevLFHK5HQwgX5M07UqJkIIa/Io0cQ==
-X-Received: by 2002:adf:bb43:: with SMTP id x3mr3174885wrg.250.1601967621811; 
- Tue, 06 Oct 2020 00:00:21 -0700 (PDT)
-Received: from dell ([91.110.221.236])
- by smtp.gmail.com with ESMTPSA id o186sm2537036wmb.12.2020.10.06.00.00.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:00:21 -0700 (PDT)
-Date: Tue, 6 Oct 2020 08:00:13 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Another round of adding missing
- 'additionalProperties'
-Message-ID: <20201006070013.GA6148@dell>
-References: <20201002234143.3570746-1-robh@kernel.org>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C48EB89AA7
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 07:07:46 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09677f3L069917;
+ Tue, 6 Oct 2020 02:07:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1601968061;
+ bh=qd0dVptd1Sq5LSOiSpfUaQmYdjf3ZCJ1JgjNblrfL9E=;
+ h=Subject:To:References:From:Date:In-Reply-To;
+ b=tg0bq6B7dCWvJy1oQpM6mH3CB0ehGilK7f/SlDlsdK3gFP2leWeb685hdoQt/u66Q
+ XS94BiCWsfoWdjC0SiMyZzuyGoYns97D3xpntcybI1srFUJHbSOcT0bpcsJ2mMnJ2T
+ dmH/0kpMYCwSlnNH6yhQvt9wOrkFvEDtXnH67I9M=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09677fvS046605
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 6 Oct 2020 02:07:41 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 6 Oct
+ 2020 02:07:41 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 6 Oct 2020 02:07:41 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09677eB6027415;
+ Tue, 6 Oct 2020 02:07:40 -0500
+Subject: Re: drm: Supporting new connector model in tidss
+To: Nikhil Devshatwar <nikhil.nd@ti.com>, <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>
+References: <20201005213123.o4qtfazrnexgjq7p@NiksLab>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <e4b95dfd-93e1-4839-08c3-32b28e32dbc0@ti.com>
+Date: Tue, 6 Oct 2020 10:07:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201002234143.3570746-1-robh@kernel.org>
+In-Reply-To: <20201005213123.o4qtfazrnexgjq7p@NiksLab>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,40 +63,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-iio@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-rockchip@lists.infradead.org,
- linux-serial@vger.kernel.org, linux-mips@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- openipmi-developer@lists.sourceforge.net,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-hwmon@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
- linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- netdev@vger.kernel.org, Baolin Wang <baolin.wang7@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Jonathan Cameron <jic23@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAwMiBPY3QgMjAyMCwgUm9iIEhlcnJpbmcgd3JvdGU6Cgo+IEFub3RoZXIgcm91bmQg
-b2Ygd2Fjay1hLW1vbGUuIFRoZSBqc29uLXNjaGVtYSBkZWZhdWx0IGlzIGFkZGl0aW9uYWwKPiB1
-bmtub3duIHByb3BlcnRpZXMgYXJlIGFsbG93ZWQsIGJ1dCBmb3IgRFQgYWxsIHByb3BlcnRpZXMg
-c2hvdWxkIGJlCj4gZGVmaW5lZC4KCkFja2VkLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPgoKLS0gCkxlZSBKb25lcyBb5p2O55C85pavXQpTZW5pb3IgVGVjaG5pY2FsIExlYWQg
-LSBEZXZlbG9wZXIgU2VydmljZXMKTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUg
-Zm9yIEFybSBTb0NzCkZvbGxvdyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Adding Boris who added bus format negotiation.
+
+On 06/10/2020 00:31, Nikhil Devshatwar wrote:
+> Hi all,
+> 
+> I am trying to convert the upstream tidss drm driver to new
+> connector model.
+> The connector is getting created by the tidss driver and bridges are
+> attached with flag DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> Here are some questions, regarding this:
+
+I was looking at this a bit, and below is my understanding. And I'm mostly talking about how things
+should be with new code, not legacy code. Things are probably a bit more complex if you mix bridges
+which implement different styles on how to deal with bus formats.
+
+> 1) Most of the info regarding bus_format and bus flags is coming from
+> the bridges. Is it okay to not populate connector->display_info with
+> bus_format and flags?
+
+drm_display_info describes the connected display and what goes on the wire to the display.
+
+For monitors that's quite clear, and the data in display_info would reflect what the last bridge
+needs to output. Most of the data comes from EDID, but I think bus format and flags do not. So a
+bridge would need to fill them in, which doesn't make sense when we have a chain of bridges (which
+would be the bridge to fill the data?). So for monitors, I think bus flags and formats in
+display_info are unused.
+
+For panels, I'm not sure. We have the bridge/panel.c which wraps the actual panel driver, so afaics
+the panel is essentially the last bridge in the chain, and the connector is kind of a dummy
+connector. But the panel driver fills in the display_info, and that's where the bridge/panel.c gets
+the bus formats & flags for the negotiation.
+
+Probably the above could be changed so that the panels take part of the negotiation process, and
+then the bus formats and flags fields in the display_info could be removed.
+
+> 2) The "drm_atomic_bridge_chain_select_bus_fmts" does the format
+> negotiation. So is it okay for the encoder to simply pick the bus_format
+> from the first bridge's state?
+
+Yes, I think that is the idea. The first bridge's input is what the display controller's encoder
+should output, and the negotiation should take care to provide something in the first bridge's state
+for the input.
+
+> 3) What is the meaning of MEDIA_BUS_FMT_FIXED? Does it mean that the
+> bridge does not change the format from input to output?
+
+I think it just means "undefined" here, and it's up to the drivers to decide what to do. I presume
+this is mostly for drivers that don't support the new stuff, as each bridge should be able to tell
+what formats & flags it supports.
+
+> 4) The bus_flags are available in bridge->timings->input_bus_flags and
+> also in bridge_state->input_bus_cfg.flags. Which one should be used?
+
+I think bridge_state->input_bus_cfg. Although bridge->timings->input_bus_flags has some data that's
+not in input_bus_cfg. If the drivers support the negotiation, I don't think
+bridge->timings->input_bus_flags has any use.
+
+Probably bridge->timings->input_bus_flags should be used as a fallback. So if a bridge is asked to
+use MEDIA_BUS_FMT_FIXED as output (i.e. the next bridge doesn't support negotiation), then the
+bridge might use a default format and also see if the next bridge has bridge->timings->input_bus_flags.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
