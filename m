@@ -2,37 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6F1285963
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8690285958
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B29956E8A0;
-	Wed,  7 Oct 2020 07:22:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D04BB6E0F1;
+	Wed,  7 Oct 2020 07:22:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4694C899BE
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 10:59:26 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 74ECC1435;
- Tue,  6 Oct 2020 03:59:25 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com
- [10.1.195.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21C013F66B;
- Tue,  6 Oct 2020 03:59:24 -0700 (PDT)
-Date: Tue, 6 Oct 2020 11:59:21 +0100
-From: Qais Yousef <qais.yousef@arm.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
-Message-ID: <20201006105918.v3xspb6xasjyy5ky@e107158-lin.cambridge.arm.com>
-References: <20200930211723.3028059-1-robdclark@gmail.com>
- <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
- <CAF6AEGvWMvZuy7CcGhzUSbwGtEkrNkzWHu_BN1cbdBJdZtvevA@mail.gmail.com>
- <20201005150024.mchfdtd62rlkuh4s@e107158-lin.cambridge.arm.com>
- <CAF6AEGs7NmCPyLdg+gg5jTTe-wgi2myRQ80tum6odv6tLLQ0DQ@mail.gmail.com>
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88BF06E138
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 11:46:30 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id v123so16229950qkd.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 04:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=khls/uJRiiihhpviNhiZwsjCwrKDMmXzS3nICWnkoE0=;
+ b=agizYAIKwE8nBdCa5FoqruUUgBMZurpzsRC/wNwcTfsnDpXFpX+QcbtpQZNad/gVxa
+ Ejl6u02QYnFEvkiLjpKZ89TQcWssfDx6i1puGgdAIuUB6ND5BzNSJb8mCyvibixY/EdF
+ pgB/nl85OHsSwiBYpCSL7eI4xgkqvC8eyTW5baeGzGZtamDu1VrTEVHS2Fh2e5EwIdCa
+ l+bmTT2IpUpEbcBgO/Vn+7GdNx0SxYlBrsPTJWV6ElQQYg1Sr5wjBNab9QjBywAk8rRQ
+ P2SnLftBpoJJDcabtclfyifyvMC+FfaH8IiaW3kaxddjvGyMpMoG34dBGPgpiVQuLKfY
+ N8wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=khls/uJRiiihhpviNhiZwsjCwrKDMmXzS3nICWnkoE0=;
+ b=bWDffE2I1Hi7V95omejx24Oo/17Yvc7FRW0TwudWjON2ySRD14wINVCM3EbdDf4mmx
+ v57D/emKUfjarXkcce+w7tVrx4uGoqJrrINGt09GQ5Mh68d6JfFpbfYkCYVQ6w0oG2j/
+ EsXy1FdTuXTnzJ57X+9Lh2LA+KHBRKh8zzWb4aFXs7Pp5NwH36THe4kh4vuLBDbhpqCa
+ BS3PvHlrXvLyVusd5+3BjXXZKYRd8fb9LcJrxcr5t2TN2z9q+IZEsa/Dz1ONXLTwZ/6m
+ Of+Li7r5v3+m9XCLVbsfYpwGPgOmLySOIx46v2H4tkPNi/kugvV0QePqvaADCmMggVQ7
+ 9ytg==
+X-Gm-Message-State: AOAM531Zl3zuepkyUPXKrnlTuq2wctRfNtHUX+1FQPjktI2Aje8WkY/7
+ QlL8qTrm61vl71EoAFFMttKFrw==
+X-Google-Smtp-Source: ABdhPJxGjy8GMWaeQn4E93BfLwEPNtp1gYfctvZFDUSCXr33xy4Gvvi+lX1EpAqLKazySn71iDwf0Q==
+X-Received: by 2002:a37:4e45:: with SMTP id c66mr4918962qkb.36.1601984789486; 
+ Tue, 06 Oct 2020 04:46:29 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id j88sm1989818qte.96.2020.10.06.04.46.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Oct 2020 04:46:28 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kPlQJ-000VYo-SU; Tue, 06 Oct 2020 08:46:27 -0300
+Date: Tue, 6 Oct 2020 08:46:27 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>, Doug Ledford <dledford@redhat.com>,
+ Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Maor Gottlieb <maorg@nvidia.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Roland Scheidegger <sroland@vmware.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>
+Subject: Re: [PATCH rdma-next v5 0/4] Dynamicaly allocate SG table from the
+ pages
+Message-ID: <20201006114627.GE5177@ziepe.ca>
+References: <20201004154340.1080481-1-leon@kernel.org>
+ <20201005235650.GA89159@nvidia.com>
+ <20201006104122.GA438822@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGs7NmCPyLdg+gg5jTTe-wgi2myRQ80tum6odv6tLLQ0DQ@mail.gmail.com>
-User-Agent: NeoMutt/20171215
+In-Reply-To: <20201006104122.GA438822@phenom.ffwll.local>
 X-Mailman-Approved-At: Wed, 07 Oct 2020 07:22:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,157 +83,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/05/20 16:24, Rob Clark wrote:
-
-[...]
-
-> > RT planning and partitioning is not easy task for sure. You might want to
-> > consider using affinities too to get stronger guarantees for some tasks and
-> > prevent cross-talking.
+On Tue, Oct 06, 2020 at 12:41:22PM +0200, Daniel Vetter wrote:
+> On Mon, Oct 05, 2020 at 08:56:50PM -0300, Jason Gunthorpe wrote:
+> > On Sun, Oct 04, 2020 at 06:43:36PM +0300, Leon Romanovsky wrote:
+> > > This series extends __sg_alloc_table_from_pages to allow chaining of
+> > > new pages to already initialized SG table.
+> > > 
+> > > This allows for the drivers to utilize the optimization of merging contiguous
+> > > pages without a need to pre allocate all the pages and hold them in
+> > > a very large temporary buffer prior to the call to SG table initialization.
+> > > 
+> > > The second patch changes the Infiniband driver to use the new API. It
+> > > removes duplicate functionality from the code and benefits the
+> > > optimization of allocating dynamic SG table from pages.
+> > > 
+> > > In huge pages system of 2MB page size, without this change, the SG table
+> > > would contain x512 SG entries.
+> > > E.g. for 100GB memory registration:
+> > > 
+> > >              Number of entries      Size
+> > >     Before        26214400          600.0MB
+> > >     After            51200            1.2MB
+> > > 
+> > > Thanks
+> > > 
+> > > Maor Gottlieb (2):
+> > >   lib/scatterlist: Add support in dynamic allocation of SG table from
+> > >     pages
+> > >   RDMA/umem: Move to allocate SG table from pages
+> > > 
+> > > Tvrtko Ursulin (2):
+> > >   tools/testing/scatterlist: Rejuvenate bit-rotten test
+> > >   tools/testing/scatterlist: Show errors in human readable form
+> > 
+> > This looks OK, I'm going to send it into linux-next on the hmm tree
+> > for awhile to see if anything gets broken. If there is more
+> > remarks/tags/etc please continue
 > 
-> There is some cgroup stuff that is pinning SF and some other stuff to
-> the small cores, fwiw.. I think the reasoning is that they shouldn't
-> be doing anything heavy enough to need the big cores.
-
-Ah, so you're on big.LITTLE type of system. I have done some work which enables
-biasing RT tasks towards big cores and control the default boost value if you
-have util_clamp and schedutil enabled. You can use util_clamp in general to
-help with DVFS related response time delays.
-
-I haven't done any work to try our best to pick a small core first but fallback
-to big if there's no other alternative.
-
-It'd be interesting to know how often you end up on a big core if you remove
-the affinity. The RT scheduler picks the first cpu in the lowest priority mask.
-So it should have this bias towards picking smaller cores first if they're
-in the lower priority mask (ie: not running higher priority RT tasks).
-
-So unless you absolutely don't want any RT tasks on a big cores, it'd be worth
-removing this affinity and check the percentage of time you spend on little
-cores. This should help with your worst case scenario as you make more cpus
-available.
-
-> > > run ASAP once fences are signalled, and vblank_work to run at a
-> > > slightly higher priority still.  But the correct choice for priorities
-> > > here depends on what userspace is using, it all needs to fit together
-> > > properly.
-> >
-> > By userspace here I think you mean none display pipeline related RT tasks that
-> > you need to coexit with and could still disrupt your pipeline?
+> An idea that just crossed my mind: A pin_user_pages_sgt might be useful
+> for both rdma and drm, since this would avoid the possible huge interim
+> struct pages array for thp pages. Or anything else that could be coalesced
+> down into a single sg entry.
 > 
-> I mean, commit_work should be higher priority than the other (display
-> related) RT tasks.  But the kernel doesn't know what those priorities
-> are.
+> Not sure it's worth it, but would at least give a slightly neater
+> interface I think.
 
-So if you set commit_work to sched_set_fifo(), it'd be at a reasonably high
-priority (50) by default. Which means you just need to manage your SF
-priorities without having to change commit_work priority itself?
+We've talked about it. Christoph wants to see this area move to a biovec
+interface instead of sgl, but it might still be worthwhile to have an
+interm step at least as an API consolidation.
 
-> 
-> > Using RT on Gerneral Purpose System is hard for sure. One of the major
-> > challenge is that there's no admin that has full view of the system to do
-> > proper RT planning.
-> >
-> > We need proper RT balancer daemon that helps partitioning the system for
-> > multiple RT apps on these systems..
-> >
-> > >
-> > > >
-> > > > I do appreciate that maybe some of these tasks have varying requirements during
-> > > > their life time. e.g: they have RT property during specific critical section
-> > > > but otherwise are CFS tasks. I think the UI thread in Android behaves like
-> > > > that.
-> > > >
-> > > > It's worth IMO trying that approach I pointed out earlier to see if making RT
-> > > > try to pick an idle CPU rather than preempt CFS helps. Not sure if it'd be
-> > > > accepted but IMHO it's a better direction to consider and discuss.
-> > >
-> > > The problem I was seeing was actually the opposite..  commit_work
-> > > becomes runnable (fences signalled) but doesn't get a chance to run
-> > > because a SCHED_FIFO SF thread is running.  (Maybe I misunderstood and
-> > > you're approach would help this case too?)
-> >
-> > Ah okay. Sorry I got it the wrong way around for some reason. I thought this
-> > task is preempting other CFS-based pipelined tasks.
-> >
-> > So your system seems to be overcomitted. Is SF short for SufraceFlinger? Under
-> > what scenarios do you have many SurfaceFlinger tasks? On Android I remember
-> > seeing they have priority of 1 or 2.
-> 
-> yeah, SF==SurfaceFlinger, and yeah, 1 and 2..
-> 
-> > sched_set_fifo() will use priority 50. If you set all your pipeline tasks
-> > to this priority, what happens?
-> 
-> I think this would work.. drm/msm doesn't use vblank work, so I
-> wouldn't really have problems with commit_work preempting vblank_work.
-> But I think the best option (and to handle the case if android changes
-> the RT priorties around in the future) is to let userspace set the
-> priorities.
+Avoiding the page list would be complicated as we'd somehow have to
+code share the page table iterator scheme.
 
-I don't really mind. But it seems better for me if we know that two kernel
-threads need to have a specific relative priorities to each others then to
-handle this in the kernel properly. Userspace will only need then to worry
-about managing its *own* priorities relative to that.
-
-Just seen Peter suggesting in another email to use SCHED_DEADLINE for vblank
-work. Which I think achieves the above if commit_work uses sched_set_fifo().
-
-> 
-> > >
-> > > > Or maybe you can wrap userspace pipeline critical section lock such that any
-> > > > task holding it will automatically be promoted to SCHED_FIFO and then demoted
-> > > > to CFS once it releases it.
-> > >
-> > > The SCHED_DEADLINE + token passing approach that the lwn article
-> > > mentioned sounds interesting, if that eventually becomes possible.
-> > > But doesn't really help today..
-> >
-> > We were present in the room with Alessio when he gave that talk :-)
-> >
-> > You might have seen Valentin's talk in LPC where he's trying to get
-> > proxy-execution into shape. Which is a pre-requisite to enable using of
-> > SCHED_DEADLINE for these scenarios. IIRC it should allow all dependent tasks to
-> > run from the context of the deadline task during the display pipeline critical
-> > section.
-> >
-> > By the way, do you have issues with SoftIrqs delaying your RT tasks execution
-> > time?
-> 
-> I don't *think* so, but I'm not 100% sure if they are showing up in
-
-If you ever get a chance to run a high network throughput test, it might help
-to see if softirqs are affecting you. I know Android has issues with this under
-some circumstances.
-
-> traces.  So far it seems like SF stomping on commit_work.  (There is
-> the added complication that there are some chrome gpu-process tasks in
-> between SF and the display, including CrGpuMain (which really doesn't
-> want to be SCHED_FIFO when executing gl commands on behalf of
-> something unrelated to the compositor.. the deadline approach, IIUC,
-> might be the better option eventually for this?)
-
-If you meant sched_deadline + token approach, then yeah I think it'd be better.
-But as you said, we can't do this yet :/
-
-But as Peter pointed out, this doesn't mean you can't use SCHED_DEADLINE at all
-if it does make sense.
-
-Thanks
-
---
-Qais Yousef
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
