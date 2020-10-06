@@ -2,42 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A2428595F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C39A284FEC
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 18:34:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8A96E899;
-	Wed,  7 Oct 2020 07:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCBA889A32;
+	Tue,  6 Oct 2020 16:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68F1C6E21B;
- Tue,  6 Oct 2020 16:30:08 +0000 (UTC)
-IronPort-SDR: X2S7Xni4Czr8+Vnj2LGhBiRFbbE9pXIshv1On9yfcnrdb+ia0fGGNcvCwAPf/LMp8McS9ucics
- ImAIErkBH0xA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9765"; a="151491155"
-X-IronPort-AV: E=Sophos;i="5.77,343,1596524400"; d="scan'208";a="151491155"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2020 09:19:45 -0700
-IronPort-SDR: rykPb+F00eOIYzeQ87BYpQocUltM8yEEajjSDyj1Nm5O8tCPOAI6GlKp2JR9zlnMJJlExydZMi
- LOsAllcW2TdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,343,1596524400"; d="scan'208";a="327619123"
-Received: from eliteleevi.tm.intel.com ([10.237.54.20])
- by orsmga002.jf.intel.com with ESMTP; 06 Oct 2020 09:19:40 -0700
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-To: tiwai@suse.de, alsa-devel@alsa-project.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, jani.nikula@intel.com
-Subject: [PATCH] ALSA: hda/i915 - fix list corruption with concurrent probes
-Date: Tue,  6 Oct 2020 19:17:22 +0300
-Message-Id: <20201006161722.500256-1-kai.vehmanen@linux.intel.com>
-X-Mailer: git-send-email 2.28.0
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2011F89A32
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 16:34:25 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id n18so6404151wrs.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 09:34:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=IQwIiSBu/shWVWC8XNTOg4imG3CzBYBvVpGZ06fvFrE=;
+ b=h+NTcOH7LE548gMVTKxDrCvbnM0gjCsoOxsQq8EnBOPN2FjBjvvPnp82HvizwAMI4M
+ HJXDXzqDcKAcuIOSzCvRkRHz1hhbZ9Og4jhEqTMKT3MxMZcjLjQpfCXLShF4zrho90H8
+ otyo8ifaNvpe/ZXsWLwBv+bWzcXtnNtuzBHHw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=IQwIiSBu/shWVWC8XNTOg4imG3CzBYBvVpGZ06fvFrE=;
+ b=b399wRNdVqH5aFr83A3qisXsAbktFHF8n1/vpA1ghS8i8s93HxrkshTh6QQgCBElFL
+ YQr2/LzKSb4EFaziIBTc79svgUj33frEYsFwe6AOAwFxx1QUDmX2Zp51gBEbndnfqp+f
+ 1GZVUSMhpK4a1ziDsACancGfzy1g+mDXghY7fD/9T3cbb2hMcY1pFRhgXb7rp8MGuA7n
+ Qd42hBWU2lOCjnBspxr7GbLEggFdJxCTLlCyRejCV2nqD5xYSJyawRRo3IDnVr+pghF8
+ m8e9UgLoxKEyfu8hQwevPEtVslGbOEey0vVCLX3AjI4rtzvPmawEywzfQ8kaWT713c+o
+ jQnw==
+X-Gm-Message-State: AOAM5301feUgQqB9lsJWFRYZTrFRsxib53B7tXGM8QXJHhsdSw+/931U
+ 6lECVrrxU2gGaIWeDfIg0MJFYQ==
+X-Google-Smtp-Source: ABdhPJwAEbTRD/Tl8B9cQZ5yWXIli073oDxajpejyexueSRaOy4JEy50WWRW8eAr9Alox57L3Vibig==
+X-Received: by 2002:adf:cd0e:: with SMTP id w14mr6494980wrm.0.1602002063675;
+ Tue, 06 Oct 2020 09:34:23 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id r3sm3586777wrm.51.2020.10.06.09.34.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Oct 2020 09:34:22 -0700 (PDT)
+Date: Tue, 6 Oct 2020 18:34:20 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [RFC PATCH v3 1/4] RDMA/umem: Support importing dma-buf as user
+ memory region
+Message-ID: <20201006163420.GB438822@phenom.ffwll.local>
+References: <1601838751-148544-1-git-send-email-jianxin.xiong@intel.com>
+ <1601838751-148544-2-git-send-email-jianxin.xiong@intel.com>
+ <20201005131302.GQ9916@ziepe.ca>
+ <MW3PR11MB455572267489B3F6B1C5F8C5E50C0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <20201006092214.GX438822@phenom.ffwll.local>
+ <20201006154956.GI5177@ziepe.ca>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 07 Oct 2020 07:22:33 +0000
+Content-Disposition: inline
+In-Reply-To: <20201006154956.GI5177@ziepe.ca>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,133 +70,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>, "Xiong,
+ Jianxin" <jianxin.xiong@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Takashi Iwai <tiwai@suse.de>
+On Tue, Oct 06, 2020 at 12:49:56PM -0300, Jason Gunthorpe wrote:
+> On Tue, Oct 06, 2020 at 11:22:14AM +0200, Daniel Vetter wrote:
+> > 
+> > For reinstanting the pages you need:
+> > 
+> > - dma_resv_lock, this prevents anyone else from issuing new moves or
+> >   anything like that
+> > - dma_resv_get_excl + dma_fence_wait to wait for any pending moves to
+> >   finish. gpus generally don't wait on the cpu, but block the dependent
+> >   dma operations from being scheduled until that fence fired. But for rdma
+> >   odp I think you need the cpu wait in your worker here.
+> 
+> Reinstating is not really any different that the first insertion, so
+> then all this should be needed in every case?
 
-Current hdac_i915 uses a static completion instance to wait
-for i915 driver to complete the component bind.
-
-This design is not safe if multiple HDA controllers are active and
-communicating with different i915 instances, and can lead to list
-corruption and failed audio driver probe.
-
-Fix the design by moving completion mechanism to common acomp
-code and remove the related code from hdac_i915.
-
-Co-developed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- include/drm/drm_audio_component.h |  4 ++++
- sound/hda/hdac_component.c        |  3 +++
- sound/hda/hdac_i915.c             | 23 +++--------------------
- 3 files changed, 10 insertions(+), 20 deletions(-)
-
-diff --git a/include/drm/drm_audio_component.h b/include/drm/drm_audio_component.h
-index a45f93487039..0d36bfd1a4cd 100644
---- a/include/drm/drm_audio_component.h
-+++ b/include/drm/drm_audio_component.h
-@@ -117,6 +117,10 @@ struct drm_audio_component {
- 	 * @audio_ops: Ops implemented by hda driver, called by DRM driver
- 	 */
- 	const struct drm_audio_component_audio_ops *audio_ops;
-+	/**
-+	 * @master_bind_complete: completion held during component master binding
-+	 */
-+	struct completion master_bind_complete;
- };
- 
- #endif /* _DRM_AUDIO_COMPONENT_H_ */
-diff --git a/sound/hda/hdac_component.c b/sound/hda/hdac_component.c
-index 89126c6fd216..bb37e7e0bd79 100644
---- a/sound/hda/hdac_component.c
-+++ b/sound/hda/hdac_component.c
-@@ -210,12 +210,14 @@ static int hdac_component_master_bind(struct device *dev)
- 			goto module_put;
- 	}
- 
-+	complete_all(&acomp->master_bind_complete);
- 	return 0;
- 
-  module_put:
- 	module_put(acomp->ops->owner);
- out_unbind:
- 	component_unbind_all(dev, acomp);
-+	complete_all(&acomp->master_bind_complete);
- 
- 	return ret;
- }
-@@ -296,6 +298,7 @@ int snd_hdac_acomp_init(struct hdac_bus *bus,
- 	if (!acomp)
- 		return -ENOMEM;
- 	acomp->audio_ops = aops;
-+	init_completion(&acomp->master_bind_complete);
- 	bus->audio_component = acomp;
- 	devres_add(dev, acomp);
- 
-diff --git a/sound/hda/hdac_i915.c b/sound/hda/hdac_i915.c
-index 5f0a1aa6ad84..454474ac5716 100644
---- a/sound/hda/hdac_i915.c
-+++ b/sound/hda/hdac_i915.c
-@@ -11,8 +11,6 @@
- #include <sound/hda_i915.h>
- #include <sound/hda_register.h>
- 
--static struct completion bind_complete;
--
- #define IS_HSW_CONTROLLER(pci) (((pci)->device == 0x0a0c) || \
- 				((pci)->device == 0x0c0c) || \
- 				((pci)->device == 0x0d0c) || \
-@@ -130,19 +128,6 @@ static bool i915_gfx_present(void)
- 	return pci_dev_present(ids);
- }
- 
--static int i915_master_bind(struct device *dev,
--			    struct drm_audio_component *acomp)
--{
--	complete_all(&bind_complete);
--	/* clear audio_ops here as it was needed only for completion call */
--	acomp->audio_ops = NULL;
--	return 0;
--}
--
--static const struct drm_audio_component_audio_ops i915_init_ops = {
--	.master_bind = i915_master_bind
--};
--
- /**
-  * snd_hdac_i915_init - Initialize i915 audio component
-  * @bus: HDA core bus
-@@ -163,9 +148,7 @@ int snd_hdac_i915_init(struct hdac_bus *bus)
- 	if (!i915_gfx_present())
- 		return -ENODEV;
- 
--	init_completion(&bind_complete);
--
--	err = snd_hdac_acomp_init(bus, &i915_init_ops,
-+	err = snd_hdac_acomp_init(bus, NULL,
- 				  i915_component_master_match,
- 				  sizeof(struct i915_audio_component) - sizeof(*acomp));
- 	if (err < 0)
-@@ -177,8 +160,8 @@ int snd_hdac_i915_init(struct hdac_bus *bus)
- 		if (!IS_ENABLED(CONFIG_MODULES) ||
- 		    !request_module("i915")) {
- 			/* 60s timeout */
--			wait_for_completion_timeout(&bind_complete,
--						   msecs_to_jiffies(60 * 1000));
-+			wait_for_completion_timeout(&acomp->master_bind_complete,
-+						    msecs_to_jiffies(60 * 1000));
- 		}
- 	}
- 	if (!acomp->ops) {
+Yes. Without move_notify we pin the dma-buf into system memory, so it
+can't move, and hence you also don't have to chase it. But with
+move_notify this all becomes possible.
+-Daniel
 -- 
-2.28.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
