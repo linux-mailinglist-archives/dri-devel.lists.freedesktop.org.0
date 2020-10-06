@@ -2,50 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F1A284628
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 08:37:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3977B28466F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 08:58:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E17A6E329;
-	Tue,  6 Oct 2020 06:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 589A189D00;
+	Tue,  6 Oct 2020 06:58:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2AA6E329
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 06:37:35 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id l16so5125133eds.3
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 23:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=xLEheXVkRVPoO0mnE3ySwFlQ18AemugwN4oAiuDRkUQ=;
- b=cDBoN8mXSVFFwLwgCm1zVThWPFWrVJzCo2bUQQjSTOnDnRKUTLseAxqtyasrLqM/QK
- ogvSl4dPw0ASBMf4lIF1ZmYtrLSDEvFpwyph/PCRghnob89wpeq2T/BGkHwn2VdOghmS
- AqOzMMaizgSghkuNdjtEkx/MPfiE0FOPQEO+T5BsXYr/vY1vBUTnE+31IVirNrsuaHOC
- zKjDyzqi6qwltBUdCALVZghawzcLsSt+1lCIMRi3xNDSU3gY6nfkNkjgIsJ0TUlHxZGY
- XDvo6SEIzPNMcfd9f6tm+rTPSwIjgsJb5V/22CVVsfqW5E/w0lGeawFOi1z6q68BeVlj
- LXYQ==
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCB689D00
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 06:58:28 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id d81so1754185wmc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 23:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=hye8oZPllXv0LLz+UWG2B82nJ6IN2QnHfKrsEX8XCOU=;
+ b=jn2dIC4KneJcMCE5DY3o93rmWgdTmK7NJWwKNWGocC7HbxwqveIdxS9nVru8ryq+P9
+ s4//ef94qJ6Y8ujWnpglPZlIlD6sJ33blfTKKcaCdwJolql9IFEUfzJMHCTe1JnaG8Iw
+ b+YeHxV9DI6DSD3tgOAF3IaWem5VxRfAN0ODuGo/qw2A8ReI6qDWtdlFFibEvRuFiEoQ
+ dhilbFbgvuG8V67ydtdAffL1xmKMRbv76Ctys34uqkoMVb3gFX2RETn3H/bHFtSxghuV
+ ji7JhUukKOJOEajfS3LrzYX2Rf2L6FpU2JZ9jHfMZk5oQaZMZKMZfy/k1RR5/u729NJu
+ K0HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=xLEheXVkRVPoO0mnE3ySwFlQ18AemugwN4oAiuDRkUQ=;
- b=MEJYGr/HB2QSjg4GyGTWMAcORWvQG/eRUHTaY0RSrk8HzaE2yS9dldXDTiynzYgYVq
- OavCDlcQPFA2aZkG+wd8eHSrVwPnnxE4lqI+FFzpmK/T1PxqjUHKzN1Lp9XNXtAA7XoL
- GZ54oDk8HC0P0KCamMxA0bWpHwoptPQm+plAqDVBi5JrtGn2Odxm1bbDsFnUZ5L3glyC
- rO2M7PbLs+WE9xqRcs1kZrRfKjyeJIr9hPDp/HgNBCXT68wwAIr28CUGfWODEfT+25oA
- IdVRWSbOpK7BWF6/a8ra5AQ4ZYK0u/b0Fx81ZolcBmDi0SDGuB7otSPnCzLvI02/U9QZ
- wh0g==
-X-Gm-Message-State: AOAM533CJWFCRdm5z7in+EdfDCtbcyyRPv+uf+BQkboXEax0bs8B7Rl3
- Gfe5LPW6bfMjmfQ3FxIUvD6Y5MeCTX6fCn7U3Ow=
-X-Google-Smtp-Source: ABdhPJzkM8KQLRMBKxYYLPl7+n3d0Jd5psKGrV0bEXrAEY3sdZMqiysyZeBQvd1ZGy99V9pxmu/HIUDLdJ2xqgBg7HI=
-X-Received: by 2002:aa7:d959:: with SMTP id l25mr3623626eds.383.1601966253585; 
- Mon, 05 Oct 2020 23:37:33 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=hye8oZPllXv0LLz+UWG2B82nJ6IN2QnHfKrsEX8XCOU=;
+ b=XyNhT1oTVJFOKhdC1DmvFFNtbMqLiBGbvzrnoh434ElB19qgVp895M5TojWFwjmX9Z
+ x0vkCnc7i4LRaM46R9DgkpjrQMwFovdGE0YsC9aW5YMc7r0XQ1L/bMtLzgYwovtiL9lD
+ rosXL6Nu09f9GnsDvlnjdvg73selqFhJqlewDluwmTyaSgXtHmtjOiwCeeh67Xt4vB2R
+ USmRjDSPRR21CK17iWcLXkocuWWm3hBSal4acSma5d2mCg8bjyJ/7l++zH/Jnnk3HAUM
+ bGPRrkWwtQSbqJZhWg5K77QSyoKYtueJZOmsmndbfaABnzJiadLdIkfXpi+Z2sQHrCZP
+ l1cQ==
+X-Gm-Message-State: AOAM530o2HYW0X57H5W2lNseAlQdwu4A+yd9jQ0TWGZJlg3hry12VTVP
+ pnd537PZymB6gKW7G4RL27WRwg==
+X-Google-Smtp-Source: ABdhPJxsvKtzCqkv4fxGZg3y/AIgf4rU1S8D4EatsKLRXGnqjE4r6Ftdz8iBdl2gfcmAi+GG7YDezw==
+X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr3211564wms.77.1601967506851; 
+ Mon, 05 Oct 2020 23:58:26 -0700 (PDT)
+Received: from dell ([91.110.221.236])
+ by smtp.gmail.com with ESMTPSA id u12sm3158245wrt.81.2020.10.05.23.58.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 23:58:26 -0700 (PDT)
+Date: Tue, 6 Oct 2020 07:58:20 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
+ in common schemas
+Message-ID: <20201006065820.GY6148@dell>
+References: <20201005183830.486085-1-robh@kernel.org>
+ <20201005183830.486085-5-robh@kernel.org>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 6 Oct 2020 16:37:22 +1000
-Message-ID: <CAPM=9tyLDWM8c6L0fTG6SeouqXRixTTS2MHX8FKeEGekGinp8w@mail.gmail.com>
-Subject: [git pull] drm fbdev fixes for 5.9 final
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,102 +69,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-usb@vger.kernel.org, Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+ linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
+ Viresh Kumar <vireshk@kernel.org>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ linux-ide@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pavel Machek <pavel@ucw.cz>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-riscv@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, linux-clk@vger.kernel.org,
+ linux-leds@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-rtc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, linux-mips@vger.kernel.org,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Jason Cooper <jason@lakedaemon.net>, linux-pm@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-watchdog@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-i2c@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Richard Weinberger <richard@nod.at>, dmaengine@vger.kernel.org,
+ linux-mtd@lists.infradead.org, "David S. Miller" <davem@davemloft.net>,
+ Jonathan Cameron <jic23@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-
-Daniel queued these up last week and I took a long weekend so didn't
-get them out, but fixing the OOB access on get font seems like
-something we should land and it's cc'ed stable as well. The other big
-change is a partial revert for a regression on android on the clcd
-fbdev driver, and one other docs fix.
-
-Dave.
-
-drm-fixes-2020-10-06-1:
-drm fixes for 5.9 final
-
-fbdev:
-- Re-add FB_ARMCLCD for android.
-- Fix global-out-of-bounds read in fbcon_get_font().
-
-core:
-- Small doc fix.
-The following changes since commit 549738f15da0e5a00275977623be199fbbf7df50:
-
-  Linux 5.9-rc8 (2020-10-04 16:04:34 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-10-06-1
-
-for you to fetch changes up to 86fdf61e71046618f6f499542cee12f2348c523c:
-
-  Merge tag 'drm-misc-fixes-2020-10-01' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-10-06
-12:38:28 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.9 final
-
-fbdev:
-- Re-add FB_ARMCLCD for android.
-- Fix global-out-of-bounds read in fbcon_get_font().
-
-core:
-- Small doc fix.
-
-----------------------------------------------------------------
-Dave Airlie (1):
-      Merge tag 'drm-misc-fixes-2020-10-01' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Mauro Carvalho Chehab (1):
-      drm: drm_dsc.h: fix a kernel-doc markup
-
-Peilin Ye (3):
-      fbdev, newport_con: Move FONT_EXTRA_WORDS macros into linux/font.h
-      Fonts: Support FONT_EXTRA_WORDS macros for built-in fonts
-      fbcon: Fix global-out-of-bounds read in fbcon_get_font()
-
-Peter Collingbourne (1):
-      Partially revert "video: fbdev: amba-clcd: Retire elder CLCD driver"
-
- MAINTAINERS                             |   5 +
- drivers/video/console/newport_con.c     |   7 +-
- drivers/video/fbdev/Kconfig             |  20 +
- drivers/video/fbdev/Makefile            |   1 +
- drivers/video/fbdev/amba-clcd.c         | 986 ++++++++++++++++++++++++++++++++
- drivers/video/fbdev/core/fbcon.c        |  12 +
- drivers/video/fbdev/core/fbcon.h        |   7 -
- drivers/video/fbdev/core/fbcon_rotate.c |   1 +
- drivers/video/fbdev/core/tileblit.c     |   1 +
- include/drm/drm_dsc.h                   |   2 +-
- include/linux/amba/clcd-regs.h          |  87 +++
- include/linux/amba/clcd.h               | 290 ++++++++++
- include/linux/font.h                    |  13 +
- lib/fonts/font_10x18.c                  |   9 +-
- lib/fonts/font_6x10.c                   |   9 +-
- lib/fonts/font_6x11.c                   |   9 +-
- lib/fonts/font_7x14.c                   |   9 +-
- lib/fonts/font_8x16.c                   |   9 +-
- lib/fonts/font_8x8.c                    |   9 +-
- lib/fonts/font_acorn_8x8.c              |   9 +-
- lib/fonts/font_mini_4x6.c               |   8 +-
- lib/fonts/font_pearl_8x8.c              |   9 +-
- lib/fonts/font_sun12x22.c               |   9 +-
- lib/fonts/font_sun8x16.c                |   7 +-
- lib/fonts/font_ter16x32.c               |   9 +-
- 25 files changed, 1469 insertions(+), 68 deletions(-)
- create mode 100644 drivers/video/fbdev/amba-clcd.c
- create mode 100644 include/linux/amba/clcd-regs.h
- create mode 100644 include/linux/amba/clcd.h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCAwNSBPY3QgMjAyMCwgUm9iIEhlcnJpbmcgd3JvdGU6Cgo+IEluIG9yZGVyIHRvIGFk
+ZCBtZXRhLXNjaGVtYSBjaGVja3MgZm9yIGFkZGl0aW9uYWwvdW5ldmFsdWF0ZWRQcm9wZXJ0aWVz
+Cj4gYmVpbmcgcHJlc2VudCwgYWxsIHNjaGVtYSBuZWVkIHRvIG1ha2UgdGhpcyBleHBsaWNpdC4g
+QXMgY29tbW9uL3NoYXJlZAo+IHNjaGVtYSBhcmUgaW5jbHVkZWQgYnkgb3RoZXIgc2NoZW1hcywg
+dGhleSBzaG91bGQgYWx3YXlzIGFsbG93IGZvcgo+IGFkZGl0aW9uYWxQcm9wZXJ0aWVzLgoKQWNr
+ZWQtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+CgotLSAKTGVlIEpvbmVzIFvm
+nY7nkLzmlq9dClNlbmlvciBUZWNobmljYWwgTGVhZCAtIERldmVsb3BlciBTZXJ2aWNlcwpMaW5h
+cm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQXJtIFNvQ3MKRm9sbG93IExpbmFy
+bzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
