@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47102849C8
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 11:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2328E28596E
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:23:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2206E44D;
-	Tue,  6 Oct 2020 09:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F36546E8B2;
+	Wed,  7 Oct 2020 07:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A1F6E455;
- Tue,  6 Oct 2020 09:54:50 +0000 (UTC)
-IronPort-SDR: w6/udreWQgA2aV3f/Dv6pwl6xIeeVb5Ddw+80pAs8aL2M83o0nXb+3RRa+xtPyiilFUcBLAI1s
- pnpNu1Zvhzig==
-X-IronPort-AV: E=McAfee;i="6000,8403,9765"; a="151361764"
-X-IronPort-AV: E=Sophos;i="5.77,342,1596524400"; d="scan'208";a="151361764"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2020 02:54:50 -0700
-IronPort-SDR: uvBJBp5WRlLzX+kFyxZdBmkqbNpbGVoQTKFR2fy5P2ihQe7fINX7027Tvo2TApruu6JG9Td24e
- 2nTtlaR+nHJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,342,1596524400"; d="scan'208";a="342171959"
-Received: from unknown (HELO linux-akn.iind.intel.com) ([10.223.34.148])
- by fmsmga004.fm.intel.com with ESMTP; 06 Oct 2020 02:54:48 -0700
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [RFC 8/8] drm/i915: Add support for enabling link status and recovery
-Date: Tue,  6 Oct 2020 15:17:19 +0530
-Message-Id: <20201006094719.24119-9-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201006094719.24119-1-ankit.k.nautiyal@intel.com>
-References: <20201006094719.24119-1-ankit.k.nautiyal@intel.com>
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE5956E452
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 10:00:16 +0000 (UTC)
+Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.106])
+ by Forcepoint Email with ESMTP id 4248B9F26FE3FA31B20E;
+ Tue,  6 Oct 2020 11:00:12 +0100 (IST)
+Received: from localhost (10.52.123.13) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 6 Oct 2020
+ 11:00:10 +0100
+Date: Tue, 6 Oct 2020 10:58:22 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 2/4] dt-bindings: Use 'additionalProperties' instead of
+ 'unevaluatedProperties'
+Message-ID: <20201006095822.00005f32@Huawei.com>
+In-Reply-To: <20201005183830.486085-3-robh@kernel.org>
+References: <20201005183830.486085-1-robh@kernel.org>
+ <20201005183830.486085-3-robh@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
+X-Originating-IP: [10.52.123.13]
+X-ClientProxiedBy: lhreml716-chm.china.huawei.com (10.201.108.67) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Wed, 07 Oct 2020 07:22:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,73 +48,610 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com,
- dri-devel@lists.freedesktop.org, swati2.sharma@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-usb@vger.kernel.org, Peter
+ Meerwald-Stadler <pmeerw@pmeerw.net>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
+ Viresh Kumar <vireshk@kernel.org>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ linux-ide@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pavel Machek <pavel@ucw.cz>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-riscv@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, linux-clk@vger.kernel.org,
+ linux-leds@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-rtc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, linux-mips@vger.kernel.org,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Jason Cooper <jason@lakedaemon.net>, linux-pm@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-watchdog@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-i2c@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Richard Weinberger <richard@nod.at>, dmaengine@vger.kernel.org,
+ linux-mtd@lists.infradead.org, "David
+ S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU3dhdGkgU2hhcm1hIDxzd2F0aTIuc2hhcm1hQGludGVsLmNvbT4KCkluIHRoaXMgcGF0
-Y2ggZW5hYmxlZCBzdXBwb3J0IGZvciBsaW5rIHN0YXR1cyBhbmQgcmVjb3ZlcnkgaW4gaTkxNQpk
-cml2ZXIuIEhETUkgbGluayBsb3NzIGluZGljYXRpb24gdG8gdXBzdHJlYW0gRFAgc291cmNlIGlz
-IGluZGljYXRlZAp2aWEgSVJRX0hQRC4gVGhpcyBpcyBmb2xsb3dlZCBieSByZWFkaW5nIG9mIEhE
-TUkgbGluayBjb25maWd1cmF0aW9uCnN0YXR1cyAoSERNSV9UWF9MSU5LX0FDVElWRV9TVEFUVVMp
-LiBJZiB0aGUgUENPTiDihpIgSERNSSAyLjEgbGluayBzdGF0dXMKaXMgb2ZmOyByZWluaXRpYXRl
-IGZybCBsaW5rIHRyYWluaW5nIHRvIHJlY292ZXIuCkFsc28sIEhETUkgRlJMIGxpbmsgZXJyb3Ig
-Y291bnQgcmFuZ2UgZm9yIGVhY2ggaW5kaXZpZHVhbCBGUkwKYWN0aXZlIGxhbmUgaXMgaW5kaWNh
-dGVkIGJ5IERPV05TVFJFQU1fSERNSV9FUlJPUl9TVEFUVVNfTE4gcmVnaXN0ZXJzLgoKU2lnbmVk
-LW9mZi1ieTogU3dhdGkgU2hhcm1hIDxzd2F0aTIuc2hhcm1hQGludGVsLmNvbT4KU2lnbmVkLW9m
-Zi1ieTogQW5raXQgTmF1dGl5YWwgPGFua2l0LmsubmF1dGl5YWxAaW50ZWwuY29tPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyB8IDQ3ICsrKysrKysrKysrKysr
-KysrKysrKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCA0NCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
-cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwppbmRleCBkM2I2N2M3
-MTIzZDguLmM4Y2JlZjhkOWM5OCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9kcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
-ZHAuYwpAQCAtNTkyOCw2ICs1OTI4LDI5IEBAIGludGVsX2RwX2NoZWNrX21zdF9zdGF0dXMoc3Ry
-dWN0IGludGVsX2RwICppbnRlbF9kcCkKIAlyZXR1cm4gbGlua19vazsKIH0KIAorc3RhdGljIHZv
-aWQKK2ludGVsX2RwX2hhbmRsZV9oZG1pX2xpbmtfc3RhdHVzX2NoYW5nZShzdHJ1Y3QgaW50ZWxf
-ZHAgKmludGVsX2RwKQoreworCWJvb2wgaXNfYWN0aXZlOworCXU4IGJ1ZiA9IDA7CisKKwlpc19h
-Y3RpdmUgPSBkcm1fZHBfcGNvbl9oZG1pX2xpbmtfYWN0aXZlKCZpbnRlbF9kcC0+YXV4KTsKKwlp
-ZiAoaW50ZWxfZHAtPmZybC5pc190cmFpbmVkICYmICFpc19hY3RpdmUpIHsKKwkJaWYgKGRybV9k
-cF9kcGNkX3JlYWRiKCZpbnRlbF9kcC0+YXV4LCBEUF9QQ09OX0hETUlfTElOS19DT05GSUdfMSwg
-JmJ1ZikgPCAwKQorCQkJcmV0dXJuOworCisJCWJ1ZiAmPSAgfkRQX1BDT05fRU5BQkxFX0hETUlf
-TElOSzsKKwkJaWYgKGRybV9kcF9kcGNkX3dyaXRlYigmaW50ZWxfZHAtPmF1eCwgRFBfUENPTl9I
-RE1JX0xJTktfQ09ORklHXzEsIGJ1ZikgPCAwKQorCQkJcmV0dXJuOworCisJCWludGVsX2RwLT5m
-cmwuaXNfdHJhaW5lZCA9IGZhbHNlOworCQlpbnRlbF9kcC0+ZnJsLnRyYWluZWRfcmF0ZV9nYnBz
-ID0gMDsKKworCQlpbnRlbF9kcF9jaGVja19mcmxfdHJhaW5pbmcoaW50ZWxfZHApOworCQlkcm1f
-ZHBfcGNvbl9oZG1pX2ZybF9saW5rX2Vycm9yX2NvdW50KCZpbnRlbF9kcC0+YXV4LCAmaW50ZWxf
-ZHAtPmF0dGFjaGVkX2Nvbm5lY3Rvci0+YmFzZSk7CisJfQorfQorCiBzdGF0aWMgYm9vbAogaW50
-ZWxfZHBfbmVlZHNfbGlua19yZXRyYWluKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiB7CkBA
-IC02MjkyLDcgKzYzMTUsNyBAQCBpbnRlbF9kcF9ob3RwbHVnKHN0cnVjdCBpbnRlbF9lbmNvZGVy
-ICplbmNvZGVyLAogCXJldHVybiBzdGF0ZTsKIH0KIAotc3RhdGljIHZvaWQgaW50ZWxfZHBfY2hl
-Y2tfc2VydmljZV9pcnEoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkKK3N0YXRpYyB2b2lkIGlu
-dGVsX2RwX2NoZWNrX2RldmljZV9zZXJ2aWNlX2lycShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2Rw
-KQogewogCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1ID0gZHBfdG9faTkxNShpbnRlbF9k
-cCk7CiAJdTggdmFsOwpAQCAtNjMxNiw2ICs2MzM5LDIzIEBAIHN0YXRpYyB2b2lkIGludGVsX2Rw
-X2NoZWNrX3NlcnZpY2VfaXJxKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiAJCWRybV9kYmdf
-a21zKCZpOTE1LT5kcm0sICJTaW5rIHNwZWNpZmljIGlycSB1bmhhbmRsZWRcbiIpOwogfQogCitz
-dGF0aWMgdm9pZCBpbnRlbF9kcF9jaGVja19saW5rX3NlcnZpY2VfaXJxKHN0cnVjdCBpbnRlbF9k
-cCAqaW50ZWxfZHApCit7CisJdTggdmFsOworCisJaWYgKGludGVsX2RwLT5kcGNkW0RQX0RQQ0Rf
-UkVWXSA8IDB4MTEpCisJCXJldHVybjsKKworCWlmIChkcm1fZHBfZHBjZF9yZWFkYigmaW50ZWxf
-ZHAtPmF1eCwKKwkJCSAgICAgIERQX0xJTktfU0VSVklDRV9JUlFfVkVDVE9SX0VTSTAsICZ2YWwp
-ICE9IDEgfHwgIXZhbCkKKwkJcmV0dXJuOworCisJZHJtX2RwX2RwY2Rfd3JpdGViKCZpbnRlbF9k
-cC0+YXV4LCBEUF9MSU5LX1NFUlZJQ0VfSVJRX1ZFQ1RPUl9FU0kwLCB2YWwpOworCisJaWYgKHZh
-bCAmIEhETUlfTElOS19TVEFUVVNfQ0hBTkdFRCkKKwkJaW50ZWxfZHBfaGFuZGxlX2hkbWlfbGlu
-a19zdGF0dXNfY2hhbmdlKGludGVsX2RwKTsKK30KKwogLyoKICAqIEFjY29yZGluZyB0byBEUCBz
-cGVjCiAgKiA1LjEuMjoKQEAgLTYzNTUsNyArNjM5NSw4IEBAIGludGVsX2RwX3Nob3J0X3B1bHNl
-KHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiAJCXJldHVybiBmYWxzZTsKIAl9CiAKLQlpbnRl
-bF9kcF9jaGVja19zZXJ2aWNlX2lycShpbnRlbF9kcCk7CisJaW50ZWxfZHBfY2hlY2tfZGV2aWNl
-X3NlcnZpY2VfaXJxKGludGVsX2RwKTsKKwlpbnRlbF9kcF9jaGVja19saW5rX3NlcnZpY2VfaXJx
-KGludGVsX2RwKTsKIAogCS8qIEhhbmRsZSBDRUMgaW50ZXJydXB0cywgaWYgYW55ICovCiAJZHJt
-X2RwX2NlY19pcnEoJmludGVsX2RwLT5hdXgpOwpAQCAtNjc4Nyw3ICs2ODI4LDcgQEAgaW50ZWxf
-ZHBfZGV0ZWN0KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCiAJICAgIHRvX2ludGVs
-X2Nvbm5lY3Rvcihjb25uZWN0b3IpLT5kZXRlY3RfZWRpZCkKIAkJc3RhdHVzID0gY29ubmVjdG9y
-X3N0YXR1c19jb25uZWN0ZWQ7CiAKLQlpbnRlbF9kcF9jaGVja19zZXJ2aWNlX2lycShpbnRlbF9k
-cCk7CisJaW50ZWxfZHBfY2hlY2tfZGV2aWNlX3NlcnZpY2VfaXJxKGludGVsX2RwKTsKIAogb3V0
-OgogCWlmIChzdGF0dXMgIT0gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQgJiYgIWludGVsX2Rw
-LT5pc19tc3QpCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+On Mon, 5 Oct 2020 13:38:28 -0500
+Rob Herring <robh@kernel.org> wrote:
+
+> In cases where we don't reference another schema, 'additionalProperties'
+> can be used instead. This is preferred for now as 'unevaluatedProperties'
+> support isn't implemented yet.
+> 
+> In a few cases, this means adding some missing property definitions of
+> which most are for SPI bus properties. 'unevaluatedProperties' is not going
+> to work for the SPI bus properties anyways as they are evaluated from the
+> parent node, not the SPI child node.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> ---
+>  .../devicetree/bindings/clock/baikal,bt1-ccu-div.yaml  |  6 +++++-
+>  .../devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml  |  2 +-
+>  .../devicetree/bindings/clock/imx8m-clock.yaml         |  2 +-
+>  .../devicetree/bindings/hwmon/baikal,bt1-pvt.yaml      |  4 ++--
+>  .../devicetree/bindings/iio/accel/adi,adis16240.yaml   |  4 +++-
+>  .../devicetree/bindings/iio/accel/adi,adxl345.yaml     |  4 +++-
+>  .../devicetree/bindings/iio/accel/adi,adxl372.yaml     |  4 +++-
+>  .../devicetree/bindings/iio/adc/adi,ad7124.yaml        |  4 +++-
+>  .../devicetree/bindings/iio/adc/adi,ad7192.yaml        |  4 +++-
+>  .../devicetree/bindings/iio/adc/adi,ad7292.yaml        |  4 +++-
+>  .../devicetree/bindings/iio/adc/adi,ad7606.yaml        |  6 +++++-
+>  .../devicetree/bindings/iio/adc/adi,ad7923.yaml        |  4 +++-
+>  .../devicetree/bindings/iio/adc/maxim,max1241.yaml     |  4 +++-
+>  .../devicetree/bindings/iio/dac/adi,ad5770r.yaml       | 10 +++++++++-
+>  .../devicetree/bindings/iio/frequency/adf4371.yaml     |  4 +++-
+>  .../devicetree/bindings/iio/imu/adi,adis16460.yaml     |  4 +++-
+>  .../devicetree/bindings/iio/imu/adi,adis16475.yaml     |  2 +-
+>  .../devicetree/bindings/iio/imu/bosch,bmi160.yaml      |  4 +++-
+>  .../devicetree/bindings/iio/imu/nxp,fxos8700.yaml      |  4 +++-
+>  .../bindings/interrupt-controller/mti,gic.yaml         |  2 +-
+>  .../devicetree/bindings/mfd/cirrus,lochnagar.yaml      | 10 +++++++++-
+>  .../bindings/mfd/ti,j721e-system-controller.yaml       |  5 ++++-
+>  .../devicetree/bindings/misc/olpc,xo1.75-ec.yaml       |  4 +++-
+>  .../opp/allwinner,sun50i-h6-operating-points.yaml      |  4 +++-
+>  .../bindings/regulator/qcom-labibb-regulator.yaml      |  2 +-
+>  .../devicetree/bindings/timer/snps,dw-apb-timer.yaml   |  2 +-
+>  26 files changed, 82 insertions(+), 27 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-div.yaml b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-div.yaml
+> index 2821425ee445..bd4cefbb1244 100644
+> --- a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-div.yaml
+> +++ b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-div.yaml
+> @@ -134,7 +134,11 @@ properties:
+>    "#reset-cells":
+>      const: 1
+>  
+> -unevaluatedProperties: false
+> +  clocks: true
+> +
+> +  clock-names: true
+> +
+> +additionalProperties: false
+>  
+>  required:
+>    - compatible
+> diff --git a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
+> index 97131bfa6f87..624984d51c10 100644
+> --- a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
+> +++ b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
+> @@ -101,7 +101,7 @@ properties:
+>    clock-names:
+>      const: ref_clk
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  required:
+>    - compatible
+> diff --git a/Documentation/devicetree/bindings/clock/imx8m-clock.yaml b/Documentation/devicetree/bindings/clock/imx8m-clock.yaml
+> index 31e7cc9693c3..625f573a7b90 100644
+> --- a/Documentation/devicetree/bindings/clock/imx8m-clock.yaml
+> +++ b/Documentation/devicetree/bindings/clock/imx8m-clock.yaml
+> @@ -96,7 +96,7 @@ allOf:
+>              - const: clk_ext3
+>              - const: clk_ext4
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    # Clock Control Module node:
+> diff --git a/Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml b/Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml
+> index 84ae4cdd08ed..00a6511354e6 100644
+> --- a/Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml
+> +++ b/Documentation/devicetree/bindings/hwmon/baikal,bt1-pvt.yaml
+> @@ -79,7 +79,7 @@ properties:
+>        minimum: 0
+>        maximum: 7130
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  required:
+>    - compatible
+> @@ -99,7 +99,7 @@ examples:
+>  
+>        interrupts = <GIC_SHARED 31 IRQ_TYPE_LEVEL_HIGH>;
+>  
+> -      baikal,pvt-temp-trim-millicelsius = <1000>;
+> +      baikal,pvt-temp-offset-millicelsius = <1000>;
+>  
+>        clocks = <&ccu_sys>, <&ccu_sys>;
+>        clock-names = "ref", "pclk";
+> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adis16240.yaml b/Documentation/devicetree/bindings/iio/accel/adi,adis16240.yaml
+> index 8589b722028d..4fcbfd93e218 100644
+> --- a/Documentation/devicetree/bindings/iio/accel/adi,adis16240.yaml
+> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adis16240.yaml
+> @@ -25,12 +25,14 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>  
+> +  spi-max-frequency: true
+> +
+>  required:
+>    - compatible
+>    - reg
+>    - interrupts
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml b/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
+> index 591ca32181b0..11d32a288535 100644
+> --- a/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
+> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
+> @@ -32,6 +32,8 @@ properties:
+>  
+>    spi-cpol: true
+>  
+> +  spi-max-frequency: true
+> +
+>    interrupts:
+>      maxItems: 1
+>  
+> @@ -40,7 +42,7 @@ required:
+>    - reg
+>    - interrupts
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adxl372.yaml b/Documentation/devicetree/bindings/iio/accel/adi,adxl372.yaml
+> index 64f275c8e2d9..38b59b6454ce 100644
+> --- a/Documentation/devicetree/bindings/iio/accel/adi,adxl372.yaml
+> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adxl372.yaml
+> @@ -25,12 +25,14 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>  
+> +  spi-max-frequency: true
+> +
+>  required:
+>    - compatible
+>    - reg
+>    - interrupts
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
+> index d0d2880626c2..f1c574c896cb 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
+> @@ -52,6 +52,8 @@ properties:
+>    avdd-supply:
+>      description: avdd supply can be used as reference for conversion.
+>  
+> +  spi-max-frequency: true
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -108,7 +110,7 @@ patternProperties:
+>        - reg
+>        - diff-channels
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
+> index ed363a796e50..e0cc3b2e8957 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
+> @@ -30,6 +30,8 @@ properties:
+>  
+>    spi-cpha: true
+>  
+> +  spi-max-frequency: true
+> +
+>    clocks:
+>      maxItems: 1
+>      description: phandle to the master clock (mclk)
+> @@ -92,7 +94,7 @@ required:
+>    - spi-cpol
+>    - spi-cpha
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
+> index 55e973c6449c..108d202b288f 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7292.yaml
+> @@ -30,6 +30,8 @@ properties:
+>  
+>    spi-cpha: true
+>  
+> +  spi-max-frequency: true
+> +
+>    '#address-cells':
+>      const: 1
+>  
+> @@ -63,7 +65,7 @@ patternProperties:
+>      required:
+>        - reg
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> index 014b020ed0c2..73775174cf57 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+> @@ -31,6 +31,10 @@ properties:
+>  
+>    spi-cpha: true
+>  
+> +  spi-cpol: true
+> +
+> +  spi-max-frequency: true
+> +
+>    avcc-supply: true
+>  
+>    interrupts:
+> @@ -102,7 +106,7 @@ required:
+>    - interrupts
+>    - adi,conversion-start-gpios
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7923.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7923.yaml
+> index 2a17641faed5..e82194974eea 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7923.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7923.yaml
+> @@ -43,11 +43,13 @@ properties:
+>    '#size-cells':
+>      const: 0
+>  
+> +  spi-max-frequency: true
+> +
+>  required:
+>    - compatible
+>    - reg
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/adc/maxim,max1241.yaml b/Documentation/devicetree/bindings/iio/adc/maxim,max1241.yaml
+> index 181213b862db..4c7e0d94bff1 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/maxim,max1241.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/maxim,max1241.yaml
+> @@ -39,13 +39,15 @@ properties:
+>        thus enabling power-down mode.
+>      maxItems: 1
+>  
+> +  spi-max-frequency: true
+> +
+>  required:
+>    - compatible
+>    - reg
+>    - vdd-supply
+>    - vref-supply
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/dac/adi,ad5770r.yaml b/Documentation/devicetree/bindings/iio/dac/adi,ad5770r.yaml
+> index faef288b7148..fb2c48fc7ce4 100644
+> --- a/Documentation/devicetree/bindings/iio/dac/adi,ad5770r.yaml
+> +++ b/Documentation/devicetree/bindings/iio/dac/adi,ad5770r.yaml
+> @@ -49,6 +49,14 @@ properties:
+>        asserted during driver probe.
+>      maxItems: 1
+>  
+> +  spi-max-frequency: true
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+>    channel@0:
+>      description: Represents an external channel which are
+>        connected to the DAC. Channel 0 can act both as a current
+> @@ -130,7 +138,7 @@ required:
+>    - channel@4
+>    - channel@5
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/frequency/adf4371.yaml b/Documentation/devicetree/bindings/iio/frequency/adf4371.yaml
+> index 11d445f7010e..6b3a611e1cf1 100644
+> --- a/Documentation/devicetree/bindings/iio/frequency/adf4371.yaml
+> +++ b/Documentation/devicetree/bindings/iio/frequency/adf4371.yaml
+> @@ -40,13 +40,15 @@ properties:
+>        output stage will shut down until the ADF4371/ADF4372 achieves lock as
+>        measured by the digital lock detect circuitry.
+>  
+> +  spi-max-frequency: true
+> +
+>  required:
+>    - compatible
+>    - reg
+>    - clocks
+>    - clock-names
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16460.yaml b/Documentation/devicetree/bindings/iio/imu/adi,adis16460.yaml
+> index 07c8ed4ee0f1..340be256f283 100644
+> --- a/Documentation/devicetree/bindings/iio/imu/adi,adis16460.yaml
+> +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16460.yaml
+> @@ -25,6 +25,8 @@ properties:
+>  
+>    spi-cpol: true
+>  
+> +  spi-max-frequency: true
+> +
+>    interrupts:
+>      maxItems: 1
+>  
+> @@ -33,7 +35,7 @@ required:
+>    - reg
+>    - interrupts
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml b/Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
+> index c29385697bbf..79fba1508e89 100644
+> --- a/Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
+> +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
+> @@ -116,7 +116,7 @@ allOf:
+>        dependencies:
+>          adi,sync-mode: [ clocks ]
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/imu/bosch,bmi160.yaml b/Documentation/devicetree/bindings/iio/imu/bosch,bmi160.yaml
+> index 4f215399c8df..6e73cd889b5c 100644
+> --- a/Documentation/devicetree/bindings/iio/imu/bosch,bmi160.yaml
+> +++ b/Documentation/devicetree/bindings/iio/imu/bosch,bmi160.yaml
+> @@ -46,11 +46,13 @@ properties:
+>    mount-matrix:
+>      description: an optional 3x3 mounting rotation matrix
+>  
+> +  spi-max-frequency: true
+> +
+>  required:
+>    - compatible
+>    - reg
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/iio/imu/nxp,fxos8700.yaml b/Documentation/devicetree/bindings/iio/imu/nxp,fxos8700.yaml
+> index 716731c2b794..479e7065d4eb 100644
+> --- a/Documentation/devicetree/bindings/iio/imu/nxp,fxos8700.yaml
+> +++ b/Documentation/devicetree/bindings/iio/imu/nxp,fxos8700.yaml
+> @@ -36,11 +36,13 @@ properties:
+>    drive-open-drain:
+>      type: boolean
+>  
+> +  spi-max-frequency: true
+> +
+>  required:
+>    - compatible
+>    - reg
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/mti,gic.yaml b/Documentation/devicetree/bindings/interrupt-controller/mti,gic.yaml
+> index ce6aaff15214..039e08af98bb 100644
+> --- a/Documentation/devicetree/bindings/interrupt-controller/mti,gic.yaml
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/mti,gic.yaml
+> @@ -95,7 +95,7 @@ properties:
+>  
+>      additionalProperties: false
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  required:
+>    - compatible
+> diff --git a/Documentation/devicetree/bindings/mfd/cirrus,lochnagar.yaml b/Documentation/devicetree/bindings/mfd/cirrus,lochnagar.yaml
+> index 7a616577ac63..c00ad3e21c21 100644
+> --- a/Documentation/devicetree/bindings/mfd/cirrus,lochnagar.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/cirrus,lochnagar.yaml
+> @@ -130,6 +130,14 @@ properties:
+>      type: object
+>      $ref: /schemas/pinctrl/cirrus,lochnagar.yaml#
+>  
+> +  lochnagar-hwmon:
+> +    type: object
+> +    $ref: /schemas/hwmon/cirrus,lochnagar.yaml#
+> +
+> +  lochnagar-sc:
+> +    type: object
+> +    $ref: /schemas/sound/cirrus,lochnagar.yaml#
+> +
+>    VDDCORE:
+>      description:
+>        Initialisation data for the VDDCORE regulator, which supplies the
+> @@ -249,7 +257,7 @@ required:
+>    - lochnagar-clk
+>    - lochnagar-pinctrl
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/mfd/ti,j721e-system-controller.yaml b/Documentation/devicetree/bindings/mfd/ti,j721e-system-controller.yaml
+> index da3d9ab758b9..19fcf59fd2fe 100644
+> --- a/Documentation/devicetree/bindings/mfd/ti,j721e-system-controller.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/ti,j721e-system-controller.yaml
+> @@ -30,6 +30,9 @@ properties:
+>        - const: syscon
+>        - const: simple-mfd
+>  
+> +  reg:
+> +    maxItems: 1
+> +
+>    "#address-cells":
+>      const: 1
+>  
+> @@ -54,7 +57,7 @@ required:
+>    - "#size-cells"
+>    - ranges
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml b/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
+> index e75d77beec6a..ade733cd60f7 100644
+> --- a/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
+> +++ b/Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
+> @@ -28,11 +28,13 @@ properties:
+>      description: GPIO uspecifier of the CMD pin
+>      maxItems: 1
+>  
+> +  spi-cpha: true
+> +
+>  required:
+>    - compatible
+>    - cmd-gpios
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+> index aef87a33a7c9..aeff2bd774dd 100644
+> --- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+> +++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+> @@ -31,6 +31,8 @@ properties:
+>        Documentation/devicetree/bindings/nvmem/nvmem.txt and also
+>        examples below.
+>  
+> +  opp-shared: true
+> +
+>  required:
+>    - compatible
+>    - nvmem-cells
+> @@ -53,7 +55,7 @@ patternProperties:
+>  
+>      unevaluatedProperties: false
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+> index fb111e2d5b99..53853ec20fe2 100644
+> --- a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+> +++ b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+> @@ -47,7 +47,7 @@ properties:
+>  required:
+>    - compatible
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  examples:
+>    - |
+> diff --git a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
+> index 7b39e3204fb3..2fc617377e2c 100644
+> --- a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
+> +++ b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
+> @@ -45,7 +45,7 @@ properties:
+>        frequency in HZ, but is defined only for the backwards compatibility
+>        with the picoxcell platform.
+>  
+> -unevaluatedProperties: false
+> +additionalProperties: false
+>  
+>  required:
+>    - compatible
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
