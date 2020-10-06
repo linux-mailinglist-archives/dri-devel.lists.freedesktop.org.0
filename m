@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B287E285448
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 00:05:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FC8285447
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 00:05:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB2E6E5B9;
-	Tue,  6 Oct 2020 22:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9F4F6E5B2;
+	Tue,  6 Oct 2020 22:05:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B2F36E5AB
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 22:05:36 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC6EC6E5AB
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 22:05:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602021935;
+ s=mimecast20190719; t=1602021934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=D0yKHCyJxum/tEvo7iuV0O9loM8q594QajFgJPXI2c4=;
- b=RnLiLXcSkGwOhQihUUKQgl2F8PwePFKudZ+hV5wDzf+R/h1o88mXMCWo+dX8R3rCGS2Hc5
- dFwIvU3bXcliKAPvk2jVQaE23Ew2y0MrwiXtNJ/SqdGy953fvJSnWDKYtwTW3uXccas3W4
- mpZhKlkEEMmJVW9QG2HRjHsAot84MWY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-BN6F8ME6PJyKnYGmBma3OQ-1; Tue, 06 Oct 2020 18:05:31 -0400
-X-MC-Unique: BN6F8ME6PJyKnYGmBma3OQ-1
-Received: by mail-wm1-f70.google.com with SMTP id c204so14789wmd.5
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 15:05:31 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XhXf3XDfdJnOL9cVAo1fl4KlATUUXBoOYIcScfg24/M=;
+ b=EoGRGL14dMzyQNyvkuUw7dKQ2q16pM3cs89YOk5C8oni/UTy+LHZrH5dTeA936ljjf+b1F
+ xUc1yD9nahh3p7JA4QolX+U9VujlPYhjQoGWdG1OYRFPWVVrIh5XeSoRkwMU9XHfUCSAcP
+ BIr+/g5pRKUDd8I4IWpv/ylCxZSmPmc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-iEZRazrdPdeIy2jBQjonVg-1; Tue, 06 Oct 2020 18:05:32 -0400
+X-MC-Unique: iEZRazrdPdeIy2jBQjonVg-1
+Received: by mail-wr1-f69.google.com with SMTP id v5so124869wrr.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 15:05:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=D0yKHCyJxum/tEvo7iuV0O9loM8q594QajFgJPXI2c4=;
- b=maSR7ATUZM5X2Zwx/qsoi/hmSPSdIG6fTciri0tnO35d4iiRqlA11LvAvquXswc8DZ
- pN1UlxAnKTwtSSafCqYR+c4nDlOZT7Tf0pF3rgks/7HvQ8ecdLDJk98iDDSb3eSCkXyV
- O9c3WqqZ8HW+v0kWbuxsLsG6JsT0YT9nHaOLXJOre55i/XzM+FvwSiDbjlg24Siy1C8R
- JrS2a8MdRKEQYSwYpT95XXysbpG/7L7SHaySOZvGQHnG5Be2p8V3dmAAfq4WbTLUwS4o
- hvWZ32aGo9dBoDocs3yTGbnq+R9h9OjwjahPFEaeOVJSbbxnz/3eJZud4r989tM217Et
- 8JYQ==
-X-Gm-Message-State: AOAM5318q0JTJA+rjaTBhyIvynwEF7VOAu9MBAH7+4oKnuYwXkq2OxiN
- kWOqEqLfWgNWzkhaRtju6NBeVp+5tuIIl8GCXkqjNn4Sycd2idMbjXXrmL4PZUPiUhQRKXbCNzz
- sPx2gteguEonUoxrnytfdRRcvpyqf
-X-Received: by 2002:adf:fd49:: with SMTP id h9mr33867wrs.115.1602021930625;
- Tue, 06 Oct 2020 15:05:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbg7nuJicaHR4v9MJENcMoSYOrRrx86lmMYFazGdMK/ndKQQAW9w7ksDntXUfpn4zS04aZEA==
-X-Received: by 2002:adf:fd49:: with SMTP id h9mr33854wrs.115.1602021930461;
- Tue, 06 Oct 2020 15:05:30 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=XhXf3XDfdJnOL9cVAo1fl4KlATUUXBoOYIcScfg24/M=;
+ b=Jg2tmdRobTGc66uG3XJ7dHnqoBmfJ1PUANd9UU9VnS6+qpRX7cJM95ziqrgX9+cc5M
+ +XSgmXLUKOg5ZfhlG/VwYem5YvlfM0A+d6X7aPqzwFAyiRyTdAtWV1kbe7oCsF4RcBiX
+ zW2arGEI5vhhQWdPd/mf8LzR2Ut+3gjtpK+pn7mgckiTxURRIhVL9jN4ugD9oEIdgH1h
+ rXR13EBAUhvw40DFZzGXrOU/C9SsGLzIde/hwP4eGEO8J2/54y7oWR6+YJ1DdQl0+3ea
+ s/4jN0E9GTxE6XDLIE4w9EbOsU+04nmHz/IJm6vXYuRGowJKlLcSmPrlkTZSbHpeOp7i
+ 7DfA==
+X-Gm-Message-State: AOAM5312X+Cr+pLhGQMatpFw+5h/KSU8LLA6Te0QCSx0V2e3EouXcL8k
+ ypcACVNiRRQycu5c8YI/SRmg3721nQwVKuXfKsx7HEHqIo1z76g2sxTXVheBOLMjmvul0Q65hkJ
+ jF74+j/WQ3qsvs575tFk4lgrhkeH+
+X-Received: by 2002:adf:93e5:: with SMTP id 92mr35596wrp.31.1602021931665;
+ Tue, 06 Oct 2020 15:05:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEDs2BBYdKwmxA/2uH5QpdSlE9hOLmRZqTj6q8cVAbhd3jWvF8FNSMdXXg6cDO1RfYiVl+mw==
+X-Received: by 2002:adf:93e5:: with SMTP id 92mr35588wrp.31.1602021931513;
+ Tue, 06 Oct 2020 15:05:31 -0700 (PDT)
 Received: from kherbst.pingu.com ([2a02:8308:b088:c000:2bdf:b7aa:eede:d65f])
- by smtp.gmail.com with ESMTPSA id j17sm157785wrw.68.2020.10.06.15.05.29
+ by smtp.gmail.com with ESMTPSA id j17sm157785wrw.68.2020.10.06.15.05.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 15:05:29 -0700 (PDT)
+ Tue, 06 Oct 2020 15:05:30 -0700 (PDT)
 From: Karol Herbst <kherbst@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] drm/nouveau/device: return error for unknown chipsets
-Date: Wed,  7 Oct 2020 00:05:27 +0200
-Message-Id: <20201006220528.13925-1-kherbst@redhat.com>
+Subject: [PATCH 2/2] drm/nouveau/mem: guard against NULL pointer access in
+ mem_del
+Date: Wed,  7 Oct 2020 00:05:28 +0200
+Message-Id: <20201006220528.13925-2-kherbst@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201006220528.13925-1-kherbst@redhat.com>
+References: <20201006220528.13925-1-kherbst@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
@@ -74,43 +78,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- dann frazier <dann.frazier@canonical.com>, stable@vger.kernel.org,
- Jeremy Cline <jcline@redhat.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
+Cc: Dave Airlie <airlied@redhat.com>, stable@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, Karol Herbst <kherbst@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously the code relied on device->pri to be NULL and to fail probing
-later. We really should just return an error inside nvkm_device_ctor for
-unsupported GPUs.
-
-Fixes: 24d5ff40a732 ("drm/nouveau/device: rework mmio mapping code to get rid of second map")
+other drivers seems to do something similar
 
 Signed-off-by: Karol Herbst <kherbst@redhat.com>
-Cc: dann frazier <dann.frazier@canonical.com>
 Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Cc: Dave Airlie <airlied@redhat.com>
 Cc: stable@vger.kernel.org
-Reviewed-by: Jeremy Cline <jcline@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/nouveau/nouveau_mem.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-index 9f4ac2672cf2e..dcb70677d0acc 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-@@ -3149,6 +3149,7 @@ nvkm_device_ctor(const struct nvkm_device_func *func,
- 		case 0x168: device->chip = &nv168_chipset; break;
- 		default:
- 			nvdev_error(device, "unknown chipset (%08x)\n", boot0);
-+			ret = -ENODEV;
- 			goto done;
- 		}
- 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_mem.c b/drivers/gpu/drm/nouveau/nouveau_mem.c
+index b1bb542d31158..e5fae57fffbd1 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_mem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_mem.c
+@@ -176,6 +176,8 @@ void
+ nouveau_mem_del(struct ttm_mem_reg *reg)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
++	if (!mem)
++		return;
+ 	nouveau_mem_fini(mem);
+ 	kfree(reg->mm_node);
+ 	reg->mm_node = NULL;
 -- 
 2.26.2
 
