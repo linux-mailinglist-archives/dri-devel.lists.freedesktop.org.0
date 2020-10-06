@@ -1,56 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98E02846C9
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:07:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 960A0284751
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:32:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA5786E2C7;
-	Tue,  6 Oct 2020 07:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5FB86E433;
+	Tue,  6 Oct 2020 07:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C48EB89AA7
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 07:07:46 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09677f3L069917;
- Tue, 6 Oct 2020 02:07:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1601968061;
- bh=qd0dVptd1Sq5LSOiSpfUaQmYdjf3ZCJ1JgjNblrfL9E=;
- h=Subject:To:References:From:Date:In-Reply-To;
- b=tg0bq6B7dCWvJy1oQpM6mH3CB0ehGilK7f/SlDlsdK3gFP2leWeb685hdoQt/u66Q
- XS94BiCWsfoWdjC0SiMyZzuyGoYns97D3xpntcybI1srFUJHbSOcT0bpcsJ2mMnJ2T
- dmH/0kpMYCwSlnNH6yhQvt9wOrkFvEDtXnH67I9M=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09677fvS046605
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 6 Oct 2020 02:07:41 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 6 Oct
- 2020 02:07:41 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 6 Oct 2020 02:07:41 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09677eB6027415;
- Tue, 6 Oct 2020 02:07:40 -0500
-Subject: Re: drm: Supporting new connector model in tidss
-To: Nikhil Devshatwar <nikhil.nd@ti.com>, <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Boris Brezillon
- <boris.brezillon@collabora.com>
-References: <20201005213123.o4qtfazrnexgjq7p@NiksLab>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <e4b95dfd-93e1-4839-08c3-32b28e32dbc0@ti.com>
-Date: Tue, 6 Oct 2020 10:07:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B013C6E3EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 07:31:50 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1601969510; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=N+bINCl+jyO8AKUrPm7YEyCmsDsV2qLc0AEXeGwPE7M=;
+ b=mDJSW8LQxfImCChyesz3wBRqoiiMlNWR2Stq79HhDHIOkhseXJVy7Va7eYYMRIYIzb2fal05
+ amCtiWd+M0MMDPqbMK0kAQUEfDk8SYDiEKUNkOMT0pTe/d8/7C67TV9FrLbbzuFQ9P+4Nkmx
+ T26LWoB8BygAQvVM1+sUYlnXlh8=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 5f7c1d65aad2c3cd1cd6cc6f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 06 Oct 2020 07:31:49
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id F38F3C43385; Tue,  6 Oct 2020 07:31:48 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from [192.168.0.118] (unknown [49.207.193.139])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: rnayak)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1237EC433F1;
+ Tue,  6 Oct 2020 07:31:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1237EC433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=rnayak@codeaurora.org
+Subject: Re: [PATCH v2] drm/msm/dp: add opp_table corner voting support base
+ on dp_ink_clk rate
+To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com,
+ sean@poorly.run, swboyd@chromium.org
+References: <20201003222652.32671-1-khsieh@codeaurora.org>
+From: Rajendra Nayak <rnayak@codeaurora.org>
+Message-ID: <717f90f2-4148-9fc0-c772-13f101f916a8@codeaurora.org>
+Date: Tue, 6 Oct 2020 13:01:41 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201005213123.o4qtfazrnexgjq7p@NiksLab>
+In-Reply-To: <20201003222652.32671-1-khsieh@codeaurora.org>
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,77 +71,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, tanmay@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding Boris who added bus format negotiation.
 
-On 06/10/2020 00:31, Nikhil Devshatwar wrote:
-> Hi all,
+On 10/4/2020 3:56 AM, Kuogee Hsieh wrote:
+> Set link rate by using OPP set rate api so that CX level will be set
+> accordingly based on the link rate.
 > 
-> I am trying to convert the upstream tidss drm driver to new
-> connector model.
-> The connector is getting created by the tidss driver and bridges are
-> attached with flag DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> Here are some questions, regarding this:
+> Changes in v2:
+> -- remove dev from dp_ctrl_put() parameters
+> -- address review comments
 
-I was looking at this a bit, and below is my understanding. And I'm mostly talking about how things
-should be with new code, not legacy code. Things are probably a bit more complex if you mix bridges
-which implement different styles on how to deal with bus formats.
+This needs to go below '---' and should not be part of the
+change log.
 
-> 1) Most of the info regarding bus_format and bus flags is coming from
-> the bridges. Is it okay to not populate connector->display_info with
-> bus_format and flags?
+> 
+> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> ---
+>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 26 +++++++++++++++++
+>   drivers/gpu/drm/msm/dp/dp_display.c |  2 +-
+>   drivers/gpu/drm/msm/dp/dp_power.c   | 44 ++++++++++++++++++++++++++---
+>   drivers/gpu/drm/msm/dp/dp_power.h   |  2 +-
+>   4 files changed, 68 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index 2e3e1917351f..6eb9cdad1421 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -10,6 +10,7 @@
+>   #include <linux/delay.h>
+>   #include <linux/phy/phy.h>
+>   #include <linux/phy/phy-dp.h>
+> +#include <linux/pm_opp.h>
+>   #include <drm/drm_fixed.h>
+>   #include <drm/drm_dp_helper.h>
+>   #include <drm/drm_print.h>
+> @@ -76,6 +77,8 @@ struct dp_ctrl_private {
+>   	struct dp_parser *parser;
+>   	struct dp_catalog *catalog;
+>   
+> +	struct opp_table *opp_table;
+> +
+>   	struct completion idle_comp;
+>   	struct completion video_comp;
+>   };
+> @@ -1836,6 +1839,7 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+>   			struct dp_parser *parser)
+>   {
+>   	struct dp_ctrl_private *ctrl;
+> +	int ret;
+>   
+>   	if (!dev || !panel || !aux ||
+>   	    !link || !catalog) {
+> @@ -1849,6 +1853,19 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+>   		return ERR_PTR(-ENOMEM);
+>   	}
+>   
+> +	ctrl->opp_table = dev_pm_opp_set_clkname(dev, "ctrl_link");
+> +	if (IS_ERR(ctrl->opp_table)) {
+> +		dev_err(dev, "invalid DP OPP table in device tree\n");
 
-drm_display_info describes the connected display and what goes on the wire to the display.
+You do this regardless of an OPP table in DT, so for starters the error
+message is wrong. Secondly this can return you a -EPROBE_DEFER if the
+clock driver isn't ready yet.
+So the ideal thing to do here, is return a PTR_ERR(ctrl->opp_table)
 
-For monitors that's quite clear, and the data in display_info would reflect what the last bridge
-needs to output. Most of the data comes from EDID, but I think bus format and flags do not. So a
-bridge would need to fill them in, which doesn't make sense when we have a chain of bridges (which
-would be the bridge to fill the data?). So for monitors, I think bus flags and formats in
-display_info are unused.
+> +		ctrl->opp_table = NULL;
+> +	} else {
+> +		/* OPP table is optional */
+> +		ret = dev_pm_opp_of_add_table(dev);
+> +		if (ret && ret != -ENODEV) {
+> +			dev_pm_opp_put_clkname(ctrl->opp_table);
+> +			ctrl->opp_table = NULL;
+> +		}
+> +	}
+> +
+>   	init_completion(&ctrl->idle_comp);
+>   	init_completion(&ctrl->video_comp);
+>   
+> @@ -1866,4 +1883,13 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+>   
+>   void dp_ctrl_put(struct dp_ctrl *dp_ctrl)
+>   {
+> +	struct dp_ctrl_private *ctrl;
+> +
+> +	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+> +
+> +	if (ctrl->opp_table) {
+> +		dev_pm_opp_of_remove_table(ctrl->dev);
+> +		dev_pm_opp_put_clkname(ctrl->opp_table);
+> +		ctrl->opp_table = NULL;
+> +	}
+>   }
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index e175aa3fd3a9..269f83550b46 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -698,7 +698,7 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
+>   		goto error;
+>   	}
+>   
+> -	dp->power = dp_power_get(dp->parser);
+> +	dp->power = dp_power_get(dev, dp->parser);
+>   	if (IS_ERR(dp->power)) {
+>   		rc = PTR_ERR(dp->power);
+>   		DRM_ERROR("failed to initialize power, rc = %d\n", rc);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
+> index 17c1fc6a2d44..9c4ea00a5f2a 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_power.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
+> @@ -8,12 +8,14 @@
+>   #include <linux/clk.h>
+>   #include <linux/clk-provider.h>
+>   #include <linux/regulator/consumer.h>
+> +#include <linux/pm_opp.h>
+>   #include "dp_power.h"
+>   #include "msm_drv.h"
+>   
+>   struct dp_power_private {
+>   	struct dp_parser *parser;
+>   	struct platform_device *pdev;
+> +	struct device *dev;
+>   	struct clk *link_clk_src;
+>   	struct clk *pixel_provider;
+>   	struct clk *link_provider;
+> @@ -148,18 +150,51 @@ static int dp_power_clk_deinit(struct dp_power_private *power)
+>   	return 0;
+>   }
+>   
+> +static int dp_power_clk_set_link_rate(struct dp_power_private *power,
+> +			struct dss_clk *clk_arry, int num_clk, int enable)
+> +{
+> +	u32 rate;
+> +	int i, rc = 0;
+> +
+> +	for (i = 0; i < num_clk; i++) {
+> +		if (clk_arry[i].clk) {
+> +			if (clk_arry[i].type == DSS_CLK_PCLK) {
+> +				if (enable)
+> +					rate = clk_arry[i].rate;
+> +				else
+> +					rate = 0;
+> +
+> +				rc = dev_pm_opp_set_rate(power->dev, rate);
 
-For panels, I'm not sure. We have the bridge/panel.c which wraps the actual panel driver, so afaics
-the panel is essentially the last bridge in the chain, and the connector is kind of a dummy
-connector. But the panel driver fills in the display_info, and that's where the bridge/panel.c gets
-the bus formats & flags for the negotiation.
+I am not sure how this is expected to work when you have multiple link clocks,
+since you can only associate one of them with the OPP table which ends up
+getting scaled when you do a dev_pm_opp_set_rate()
+Do you really have platforms which will have multiple link clocks?
 
-Probably the above could be changed so that the panels take part of the negotiation process, and
-then the bus formats and flags fields in the display_info could be removed.
+> +				if (rc)
+> +					break;
+> +			}
+> +
+> +		}
+> +	}
+> +	return rc;
+> +}
+> +
+>   static int dp_power_clk_set_rate(struct dp_power_private *power,
+>   		enum dp_pm_type module, bool enable)
+>   {
+>   	int rc = 0;
+>   	struct dss_module_power *mp = &power->parser->mp[module];
+>   
+> -	if (enable) {
+> -		rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
+> +	if (module == DP_CTRL_PM) {
+> +		rc = dp_power_clk_set_link_rate(power, mp->clk_config, mp->num_clk, enable);
+>   		if (rc) {
+> -			DRM_ERROR("failed to set clks rate.\n");
+> +			DRM_ERROR("failed to set link clks rate\n");
+>   			return rc;
+>   		}
+> +	} else {
+> +
 
-> 2) The "drm_atomic_bridge_chain_select_bus_fmts" does the format
-> negotiation. So is it okay for the encoder to simply pick the bus_format
-> from the first bridge's state?
+extra blank line
 
-Yes, I think that is the idea. The first bridge's input is what the display controller's encoder
-should output, and the negotiation should take care to provide something in the first bridge's state
-for the input.
+> +		if (enable) {
+> +			rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
+> +			if (rc) {
+> +				DRM_ERROR("failed to set clks rate\n");
+> +				return rc;
+> +			}
+> +		}
+>   	}
+>   
+>   	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, enable);
+> @@ -349,7 +384,7 @@ int dp_power_deinit(struct dp_power *dp_power)
+>   	return 0;
+>   }
+>   
+> -struct dp_power *dp_power_get(struct dp_parser *parser)
+> +struct dp_power *dp_power_get(struct device *dev, struct dp_parser *parser)
+>   {
+>   	struct dp_power_private *power;
+>   	struct dp_power *dp_power;
+> @@ -365,6 +400,7 @@ struct dp_power *dp_power_get(struct dp_parser *parser)
+>   
+>   	power->parser = parser;
+>   	power->pdev = parser->pdev;
+> +	power->dev = dev;
+>   
+>   	dp_power = &power->dp_power;
+>   
+> diff --git a/drivers/gpu/drm/msm/dp/dp_power.h b/drivers/gpu/drm/msm/dp/dp_power.h
+> index 76743d755833..7d0327bbc0d5 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_power.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_power.h
+> @@ -102,6 +102,6 @@ void dp_power_client_deinit(struct dp_power *power);
+>    * methods to be called by the client to configure the power related
+>    * modueles.
+>    */
+> -struct dp_power *dp_power_get(struct dp_parser *parser);
+> +struct dp_power *dp_power_get(struct device *dev, struct dp_parser *parser);
+>   
+>   #endif /* _DP_POWER_H_ */
+> 
+> base-commit: d1ea914925856d397b0b3241428f20b945e31434
 
-> 3) What is the meaning of MEDIA_BUS_FMT_FIXED? Does it mean that the
-> bridge does not change the format from input to output?
-
-I think it just means "undefined" here, and it's up to the drivers to decide what to do. I presume
-this is mostly for drivers that don't support the new stuff, as each bridge should be able to tell
-what formats & flags it supports.
-
-> 4) The bus_flags are available in bridge->timings->input_bus_flags and
-> also in bridge_state->input_bus_cfg.flags. Which one should be used?
-
-I think bridge_state->input_bus_cfg. Although bridge->timings->input_bus_flags has some data that's
-not in input_bus_cfg. If the drivers support the negotiation, I don't think
-bridge->timings->input_bus_flags has any use.
-
-Probably bridge->timings->input_bus_flags should be used as a fallback. So if a bridge is asked to
-use MEDIA_BUS_FMT_FIXED as output (i.e. the next bridge doesn't support negotiation), then the
-bridge might use a default format and also see if the next bridge has bridge->timings->input_bus_flags.
-
- Tomi
+??
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
