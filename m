@@ -1,72 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55340284970
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 11:36:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6C82849B5
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 11:54:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCEE6E14C;
-	Tue,  6 Oct 2020 09:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4109789A5E;
+	Tue,  6 Oct 2020 09:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EF266E435
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 09:36:02 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id p15so2195743wmi.4
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 02:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=jfHRjgUc3yWmaMNP8V6npRHveQSEaYznJy9xDxqdq5Y=;
- b=V4AlHabOmn6H1w4iRNEGS0B70b8dv2DIEZuurCYdgOgzzKGxgOH6LDi0oU30jzagKc
- nRxT2MEZyLjf9RvcqMiFjcPOZKT5cchMQIVnFpIyJjAAlzwzNA+seFw9c0nwVP6J/wG+
- dE4STfKprpfEiAUbFdH0mQqVPGuDeexiySSD4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=jfHRjgUc3yWmaMNP8V6npRHveQSEaYznJy9xDxqdq5Y=;
- b=geDt27S2GWhSPp0aZffQlLhhgsXy4lFKOL7zZSQZas0ABKFIMacIkjkG3gMyCGebzQ
- D01HMEaBK1cGV2TcnTz6Mv5wqfPgvX0S8L1ZDtllYtDpDlAPpPa4tqI6HTHJRye6Zxau
- T+10iLGgjbMSM85L2X6ZS968NRDJNEsh4N42Had2bnwa1x4zmTWevrmcg6FrfkGDXnJ4
- zi18Rf2u7rNNWEqblO4/5z33f5lQPmStWbCbe+XR+JfvjWxkcK+JeCa3zwe54+P+4qMw
- 4o30608CJE3CwT3AJulqh4H3MO10wgJlycbrNomzlQUnxeforMwjsV8SNqyzbPPDnSUQ
- WE0Q==
-X-Gm-Message-State: AOAM531vXHFkBvf3hrLlBEknI17N/YjpEmOYrTLUd9S2Cjd5mJdWErJN
- /eISGVcTBR8ur7mzObJTbtsI0g==
-X-Google-Smtp-Source: ABdhPJzEaJYL1QdJ5uR4JBld7BCAOyXdwCbFSfIsfUiUeAGtF+t3pE5ORpDjMh0kMl0i7jqARrQBkA==
-X-Received: by 2002:a7b:c95a:: with SMTP id i26mr4006324wml.25.1601976960896; 
- Tue, 06 Oct 2020 02:36:00 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k15sm3880199wrv.90.2020.10.06.02.35.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 02:36:00 -0700 (PDT)
-Date: Tue, 6 Oct 2020 11:35:58 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 13/14] drm/msm: Drop struct_mutex in shrinker path
-Message-ID: <20201006093558.GZ438822@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- Hillf Danton <hdanton@sina.com>, Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>,
- arm-msm <linux-arm-msm@vger.kernel.org>,
- "Kristian H . Kristensen" <hoegsberg@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>
-References: <20201004192152.3298573-1-robdclark@gmail.com>
- <20201005092419.15608-1-hdanton@sina.com>
- <20201005140203.GS438822@phenom.ffwll.local>
- <CAOeoa-cqyb8NZJnJdY+A2H680+C4H0WzXhp-uYj8Fg093BqAnw@mail.gmail.com>
- <20201006004416.15040-1-hdanton@sina.com>
- <CAF6AEGvyEYFa-RLrxqgXjxhiLgc-rB+dbscboROPHGPxoC-RMw@mail.gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA59C89A59;
+ Tue,  6 Oct 2020 09:54:30 +0000 (UTC)
+IronPort-SDR: fqOop4notg6+Q0OYkUuOKA1QhVRe7QmvTfeV9XyI6acxH0uwiGhmTZiBTs/1lqoWmvq92bdABL
+ jLC+hAydBvig==
+X-IronPort-AV: E=McAfee;i="6000,8403,9765"; a="151361674"
+X-IronPort-AV: E=Sophos;i="5.77,342,1596524400"; d="scan'208";a="151361674"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2020 02:54:29 -0700
+IronPort-SDR: tDu8CNxhpyhE8x6p5M7KRgNXKdHw88wGXfgb9/CB+QngpOYLMlGC00lmDRz3T2q71C1rNq3IaX
+ /uJhbBkokdyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,342,1596524400"; d="scan'208";a="342171678"
+Received: from unknown (HELO linux-akn.iind.intel.com) ([10.223.34.148])
+ by fmsmga004.fm.intel.com with ESMTP; 06 Oct 2020 02:54:27 -0700
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [RFC 0/8] Add support for DP-HDMI2.1 PCON
+Date: Tue,  6 Oct 2020 15:17:11 +0530
+Message-Id: <20201006094719.24119-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGvyEYFa-RLrxqgXjxhiLgc-rB+dbscboROPHGPxoC-RMw@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,139 +46,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Hillf Danton <hdanton@sina.com>,
- David Airlie <airlied@linux.ie>, arm-msm <linux-arm-msm@vger.kernel.org>,
- "Kristian H . Kristensen" <hoegsberg@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com,
+ dri-devel@lists.freedesktop.org, swati2.sharma@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 05, 2020 at 08:40:12PM -0700, Rob Clark wrote:
-> On Mon, Oct 5, 2020 at 5:44 PM Hillf Danton <hdanton@sina.com> wrote:
-> >
-> >
-> > On Mon, 5 Oct 2020 18:17:01 Kristian H. Kristensen wrote:
-> > > On Mon, Oct 5, 2020 at 4:02 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Mon, Oct 05, 2020 at 05:24:19PM +0800, Hillf Danton wrote:
-> > > > >
-> > > > > On Sun,  4 Oct 2020 12:21:45
-> > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > >
-> > > > > > Now that the inactive_list is protected by mm_lock, and everything
-> > > > > > else on per-obj basis is protected by obj->lock, we no longer depend
-> > > > > > on struct_mutex.
-> > > > > >
-> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/msm/msm_gem.c          |  1 -
-> > > > > >  drivers/gpu/drm/msm/msm_gem_shrinker.c | 54 --------------------------
-> > > > > >  2 files changed, 55 deletions(-)
-> > > > > >
-> > > > > [...]
-> > > > >
-> > > > > > @@ -71,13 +33,8 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
-> > > > > >  {
-> > > > > >     struct msm_drm_private *priv =
-> > > > > >             container_of(shrinker, struct msm_drm_private, shrinker);
-> > > > > > -   struct drm_device *dev = priv->dev;
-> > > > > >     struct msm_gem_object *msm_obj;
-> > > > > >     unsigned long freed = 0;
-> > > > > > -   bool unlock;
-> > > > > > -
-> > > > > > -   if (!msm_gem_shrinker_lock(dev, &unlock))
-> > > > > > -           return SHRINK_STOP;
-> > > > > >
-> > > > > >     mutex_lock(&priv->mm_lock);
-> > > > >
-> > > > > Better if the change in behavior is documented that SHRINK_STOP will
-> > > > > no longer be needed.
-> > > >
-> > > > btw I read through this and noticed you have your own obj lock, plus
-> > > > mutex_lock_nested. I strongly recommend to just cut over to dma_resv_lock
-> > > > for all object lock needs (soc drivers have been terrible with this
-> > > > unfortuntaly), and in the shrinker just use dma_resv_trylock instead of
-> > > > trying to play clever games outsmarting lockdep.
-> >
-> > The trylock makes page reclaimers turn to their next target e.g. inode
-> > cache instead of waiting for the mutex to be released. It makes sense
-> > for instance in scenarios of mild memory pressure.
-> 
-> is there some behind-the-scenes signalling for this, or is this just
-> down to what the shrinker callbacks return?  Generally when we get
-> into shrinking, there are a big set of purgable bo's to consider, so
-> the shrinker callback return wouldn't be considering just one
-> potentially lock contended bo (buffer object).  Ie failing one
-> trylock, we just move on to the next.
-> 
-> fwiw, what I've seen on the userspace bo cache vs shrinker (anything
-> that is shrinker potential is in userspace bo cache and
-> MADV(WONTNEED)) is that in steady state I see a very strong recycling
-> of bo's (which avoids allocating and mmap'ing or mapping to gpu a new
-> buffer object), so it is definitely a win in mmap/realloc bandwidth..
-> in steady state there is a lot of free and realloc of same-sized
-> buffers from frame to frame.
-> 
-> But in transient situations like moving to new game level when there
-> is a heavy memory pressure and lots of freeing old
-> buffers/textures/etc and then allocating new ones, I see shrinker
-> kicking in hard (in android situations, not so much so with
-> traditional linux userspace)
+This patch series attempts to add support for a DP-HDMI2.1 Protocol
+Convertor. The VESA spec for the HDMI2.1 PCON are proposed in Errata
+E5 to DisplayPort_v2.0:
+https://vesa.org/join-vesamemberships/member-downloads/?action=stamp&fileid=42299
+The details are mentioned in DP to HDMI2.1 PCON Enum/Config
+improvement slide decks:
+https://groups.vesa.org/wg/DP/document/folder/1316
 
-Yeah per-buffer trylock is fine. Trylock on the mm_lock (or anything else
-device-global, like struct_mutex and msm_gem_shrinker_lock) I think isn't
-fine, since if you're unlucky you're hogging a ton of memory and that's
-the only freeable resource in the system. Going to other shrinkers won't
-help when it's the gpu shrinker that has all the freeable memory.
+This RFC series starts with adding support for FRL (Fixed Rate Link)
+Training between the PCON and HDMI2.1 sink.
+As per HDMI2.1 specification, a new data-channel or lane is added in
+FRL mode, by repurposing the TMDS clock Channel. Through FRL, higher
+bit-rate can be supported, ie. up to 12 Gbps/lane (48 Gbps over 4
+lanes).
 
-Also other shrinkers (inode and all these) also do lots of per-object
-trylocking. I think there's a canonical threshold of shrinker rounds where
-you're supposed to try harder (if possible), but that doesn't apply to
-dma_resv_lock.
--Daniel
+With these patches, the HDMI2.1 PCON can be configured to achieve FRL
+training based on the maximum FRL rate supported by the panel, source
+and the PCON.
+The approach is to add the support for FRL training between PCON and
+HDMI2.1 sink and gradually add other blocks for supporting higher
+resolutions and other HDMI2.1 features, that can be supported by pcon
+for the sources that do not natively support HDMI2.1.
 
-> 
-> BR,
-> -R
-> 
-> >
-> > > >
-> > > > I recently wrote an entire blog length rant on why I think
-> > > > mutex_lock_nested is too dangerous to be useful:
-> > > >
-> > > > https://blog.ffwll.ch/2020/08/lockdep-false-positives.html
-> > > >
-> > > > Not anything about this here, just general comment. The problem extends to
-> > > > shmem helpers and all that also having their own locks for everything.
-> > >
-> > > This is definitely a tangible improvement though - very happy to see
-> > > msm_gem_shrinker_lock() go.
-> > >
-> > > Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
-> > >
-> > > > -Daniel
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+This is done before the DP Link training between the source and PCON
+is started. In case of FRL training is not achieved, the PCON will
+work in the regular TMDS mode, without HDMI2.1 feature support.
+Any interruption in FRL training between the PCON and HDMI2.1 sink is
+notified through IRQ_HPD. On receiving the IRQ_HPD the concerned DPCD
+registers are read and FRL training is re-attempted.
+
+Currently, we have tested the FRL training and are able to enable 4K
+display with TGL Platform + Realtek PCON RTD2173 with HDMI2.1 supporting
+panel.
+
+v2: Added patch to capture the PCON FRL caps in downstream facing port
+cap structure.
+
+Ankit Nautiyal (4):
+  drm/dp_helper: Add FRL training support for a DP-HDMI2.1 PCON
+  drm/i915: Capture max frl rate for PCON in dfp cap structure
+  drm/i915: Add support for starting FRL training for HDMI2.1 via PCON
+  drm/i915: Check for FRL training before DP Link training
+
+Swati Sharma (4):
+  drm/edid: Add additional HFVSDB fields for HDMI2.1
+  drm/edid: Parse MAX_FRL field from HFVSDB block
+  drm/dp_helper: Add support for link status and link recovery
+  drm/i915: Add support for enabling link status and recovery
+
+ drivers/gpu/drm/drm_dp_helper.c               | 338 ++++++++++++++++++
+ drivers/gpu/drm/drm_edid.c                    |  50 +++
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   2 +
+ .../drm/i915/display/intel_display_types.h    |   7 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 282 ++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_dp.h       |   2 +
+ include/drm/drm_connector.h                   |   6 +
+ include/drm/drm_dp_helper.h                   |  96 +++++
+ include/drm/drm_edid.h                        |  30 ++
+ 9 files changed, 808 insertions(+), 5 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
