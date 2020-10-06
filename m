@@ -2,70 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7DA284A88
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 12:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6F1285963
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A37D889856;
-	Tue,  6 Oct 2020 10:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B29956E8A0;
+	Wed,  7 Oct 2020 07:22:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDE5189856
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 10:58:31 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id AD33B5802D4;
- Tue,  6 Oct 2020 06:58:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 06 Oct 2020 06:58:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=QO5Cktwa7U/2cxe1mWgOsTKgbpB
- WHkoWuoes5Mt0ow0=; b=0Bw0rz4AolMe9dxUfPAZmAXRCF1U0BIgsk1K+z3ltsS
- 6rOdjVSp44Zf4vvU0GFxgAklxRUtbxtNA9ArOvwGFSlHXLpn7RygijNcXgrEddTB
- 6Ey/tpiqCyBo3W/dU8RYt0zyeaeGBc2VkzPWVYJTP+yNqBGvNHtXYVBmgRgBjzlK
- BNSFBG3boCq9tHRAWkpKTHG8odDSWBqLvGPzGx9oWmxb8sQExzChym6uTiSiSCXK
- 5u9XYxeOM7pDm/2V/F24mZWCKalMRQHkzPYREAn4mJL/6TKx3euz0BF7V8FVgOoQ
- 8iYU+W5HN6skzOZ8PSCgNQeLYoweI4rMwiH0sHaYSmQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=QO5Ckt
- wa7U/2cxe1mWgOsTKgbpBWHkoWuoes5Mt0ow0=; b=iYb1qjidja2wtWYK0sBz3z
- P5S2UxfMwN3IRYowpD06ZdjweByQxJZ/QbOuFlQQNOYFDft8iOFKok41FygSFs+9
- DrSUOYZPLyvezbSMT3aisO09uYLdrlkhMWkhpULGT/EAJaY6dknZU71cOg9P3HSb
- rzUo9C7fWxbiukivy5Gng+Od1+7dwXv7tXBm4ZZusBzG3LWaiFU+D8BrbHSUnyuC
- EgAJF9YEKYBQBrD02krSxOEJZp+npFWnp8IcrIBQzhXLKnhIx4I03MrvD5jVQpTQ
- dTSbtL6ccocjAcCmff+Z3JmpO/vkHiFnkIcp4G/cu/9gnsOTdvL5GBi2+ySIkLWA
- ==
-X-ME-Sender: <xms:0k18XyjNdvMTjj40yuqjitCHVuKehteNJi70tidnLmUcwRSatW1u1w>
- <xme:0k18XzBmvX5bEHmfOSXOd67HCjQ5rMOIgVAN7mSWRlguhYzHAPrQBaAtI7Nkhhfw_
- 4p6ys_z-MjStA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgeeggdefgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
- jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
- ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
- keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
- hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:0k18X6H6E-xDFr_jMkz6-oR0PMjkgyViNUOjmBC_-EEev2Tbrmyvww>
- <xmx:0k18X7TI_Wbq3lQpu_EA0YvXCNlm8Jjb907pDs3VrBHCA2bYbPBYdQ>
- <xmx:0k18X_zwkzYQoMRpMT8-WwwSwBP3H5wlX-F15L5xZrR03EUVN_T1QQ>
- <xmx:1E18X3d-prAVsuMhZ83XJ3VEnSKFOMOeiRuHrTGMLdWMRxoHrK03mw>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- by mail.messagingengine.com (Postfix) with ESMTPA id 24F0C306467D;
- Tue,  6 Oct 2020 06:58:26 -0400 (EDT)
-Date: Tue, 6 Oct 2020 12:58:24 +0200
-From: Greg KH <greg@kroah.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: linux-next: manual merge of the extcon tree with the drm-misc tree
-Message-ID: <20201006105824.GA26735@kroah.com>
-References: <20200910141854.1d4b1b10@canb.auug.org.au>
- <20201006200003.1be00223@canb.auug.org.au>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4694C899BE
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 10:59:26 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 74ECC1435;
+ Tue,  6 Oct 2020 03:59:25 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com
+ [10.1.195.21])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21C013F66B;
+ Tue,  6 Oct 2020 03:59:24 -0700 (PDT)
+Date: Tue, 6 Oct 2020 11:59:21 +0100
+From: Qais Yousef <qais.yousef@arm.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
+Message-ID: <20201006105918.v3xspb6xasjyy5ky@e107158-lin.cambridge.arm.com>
+References: <20200930211723.3028059-1-robdclark@gmail.com>
+ <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
+ <CAF6AEGvWMvZuy7CcGhzUSbwGtEkrNkzWHu_BN1cbdBJdZtvevA@mail.gmail.com>
+ <20201005150024.mchfdtd62rlkuh4s@e107158-lin.cambridge.arm.com>
+ <CAF6AEGs7NmCPyLdg+gg5jTTe-wgi2myRQ80tum6odv6tLLQ0DQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201006200003.1be00223@canb.auug.org.au>
+In-Reply-To: <CAF6AEGs7NmCPyLdg+gg5jTTe-wgi2myRQ80tum6odv6tLLQ0DQ@mail.gmail.com>
+User-Agent: NeoMutt/20171215
+X-Mailman-Approved-At: Wed, 07 Oct 2020 07:22:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,83 +46,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 06, 2020 at 08:00:03PM +1100, Stephen Rothwell wrote:
-> Hi all,
+On 10/05/20 16:24, Rob Clark wrote:
+
+[...]
+
+> > RT planning and partitioning is not easy task for sure. You might want to
+> > consider using affinities too to get stronger guarantees for some tasks and
+> > prevent cross-talking.
 > 
-> On Thu, 10 Sep 2020 14:18:54 +1000 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> There is some cgroup stuff that is pinning SF and some other stuff to
+> the small cores, fwiw.. I think the reasoning is that they shouldn't
+> be doing anything heavy enough to need the big cores.
+
+Ah, so you're on big.LITTLE type of system. I have done some work which enables
+biasing RT tasks towards big cores and control the default boost value if you
+have util_clamp and schedutil enabled. You can use util_clamp in general to
+help with DVFS related response time delays.
+
+I haven't done any work to try our best to pick a small core first but fallback
+to big if there's no other alternative.
+
+It'd be interesting to know how often you end up on a big core if you remove
+the affinity. The RT scheduler picks the first cpu in the lowest priority mask.
+So it should have this bias towards picking smaller cores first if they're
+in the lower priority mask (ie: not running higher priority RT tasks).
+
+So unless you absolutely don't want any RT tasks on a big cores, it'd be worth
+removing this affinity and check the percentage of time you spend on little
+cores. This should help with your worst case scenario as you make more cpus
+available.
+
+> > > run ASAP once fences are signalled, and vblank_work to run at a
+> > > slightly higher priority still.  But the correct choice for priorities
+> > > here depends on what userspace is using, it all needs to fit together
+> > > properly.
 > >
-> > Today's linux-next merge of the extcon tree got a conflict in:
-> > 
-> >   MAINTAINERS
-> > 
-> > between commit:
-> > 
-> >   f61249dddecc ("MAINTAINERS: Add entry for i.MX 8MQ DCSS driver")
-> > 
-> > from the drm-misc tree and commit:
-> > 
-> >   d0e3c25150dd ("MAINTAINERS: Add entry for NXP PTN5150A CC driver")
-> > 
-> > from the extcon tree.
-> > 
-> > I fixed it up (see below) and can carry the fix as necessary. This
-> > is now fixed as far as linux-next is concerned, but any non trivial
-> > conflicts should be mentioned to your upstream maintainer when your tree
-> > is submitted for merging.  You may also want to consider cooperating
-> > with the maintainer of the conflicting tree to minimise any particularly
-> > complex conflicts.
-> > 
-> > -- 
-> > Cheers,
-> > Stephen Rothwell
-> > 
-> > diff --cc MAINTAINERS
-> > index 623c53ab5bd5,da94c9b12f1b..000000000000
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@@ -12496,14 -12430,13 +12496,21 @@@ F:	drivers/iio/gyro/fxas21002c_core.
-> >   F:	drivers/iio/gyro/fxas21002c_i2c.c
-> >   F:	drivers/iio/gyro/fxas21002c_spi.c
-> >   
-> >  +NXP i.MX 8MQ DCSS DRIVER
-> >  +M:	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> >  +R:	Lucas Stach <l.stach@pengutronix.de>
-> >  +L:	dri-devel@lists.freedesktop.org
-> >  +S:	Maintained
-> >  +F:	Documentation/devicetree/bindings/display/imx/nxp,imx8mq-dcss.yaml
-> >  +F:	drivers/gpu/drm/imx/dcss/
-> >  +
-> > + NXP PTN5150A CC LOGIC AND EXTCON DRIVER
-> > + M:	Krzysztof Kozlowski <krzk@kernel.org>
-> > + L:	linux-kernel@vger.kernel.org
-> > + S:	Maintained
-> > + F:	Documentation/devicetree/bindings/extcon/extcon-ptn5150.yaml
-> > + F:	drivers/extcon/extcon-ptn5150.c
-> > + 
-> >   NXP SGTL5000 DRIVER
-> >   M:	Fabio Estevam <festevam@gmail.com>
-> >   L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+> > By userspace here I think you mean none display pipeline related RT tasks that
+> > you need to coexit with and could still disrupt your pipeline?
 > 
-> This is now a conflict between the char-misc tree and the drm tree.
+> I mean, commit_work should be higher priority than the other (display
+> related) RT tasks.  But the kernel doesn't know what those priorities
+> are.
 
-Looks fine, this should be easy for Linus to resolve :)
+So if you set commit_work to sched_set_fifo(), it'd be at a reasonably high
+priority (50) by default. Which means you just need to manage your SF
+priorities without having to change commit_work priority itself?
 
-thanks,
+> 
+> > Using RT on Gerneral Purpose System is hard for sure. One of the major
+> > challenge is that there's no admin that has full view of the system to do
+> > proper RT planning.
+> >
+> > We need proper RT balancer daemon that helps partitioning the system for
+> > multiple RT apps on these systems..
+> >
+> > >
+> > > >
+> > > > I do appreciate that maybe some of these tasks have varying requirements during
+> > > > their life time. e.g: they have RT property during specific critical section
+> > > > but otherwise are CFS tasks. I think the UI thread in Android behaves like
+> > > > that.
+> > > >
+> > > > It's worth IMO trying that approach I pointed out earlier to see if making RT
+> > > > try to pick an idle CPU rather than preempt CFS helps. Not sure if it'd be
+> > > > accepted but IMHO it's a better direction to consider and discuss.
+> > >
+> > > The problem I was seeing was actually the opposite..  commit_work
+> > > becomes runnable (fences signalled) but doesn't get a chance to run
+> > > because a SCHED_FIFO SF thread is running.  (Maybe I misunderstood and
+> > > you're approach would help this case too?)
+> >
+> > Ah okay. Sorry I got it the wrong way around for some reason. I thought this
+> > task is preempting other CFS-based pipelined tasks.
+> >
+> > So your system seems to be overcomitted. Is SF short for SufraceFlinger? Under
+> > what scenarios do you have many SurfaceFlinger tasks? On Android I remember
+> > seeing they have priority of 1 or 2.
+> 
+> yeah, SF==SurfaceFlinger, and yeah, 1 and 2..
+> 
+> > sched_set_fifo() will use priority 50. If you set all your pipeline tasks
+> > to this priority, what happens?
+> 
+> I think this would work.. drm/msm doesn't use vblank work, so I
+> wouldn't really have problems with commit_work preempting vblank_work.
+> But I think the best option (and to handle the case if android changes
+> the RT priorties around in the future) is to let userspace set the
+> priorities.
 
-greg k-h
+I don't really mind. But it seems better for me if we know that two kernel
+threads need to have a specific relative priorities to each others then to
+handle this in the kernel properly. Userspace will only need then to worry
+about managing its *own* priorities relative to that.
+
+Just seen Peter suggesting in another email to use SCHED_DEADLINE for vblank
+work. Which I think achieves the above if commit_work uses sched_set_fifo().
+
+> 
+> > >
+> > > > Or maybe you can wrap userspace pipeline critical section lock such that any
+> > > > task holding it will automatically be promoted to SCHED_FIFO and then demoted
+> > > > to CFS once it releases it.
+> > >
+> > > The SCHED_DEADLINE + token passing approach that the lwn article
+> > > mentioned sounds interesting, if that eventually becomes possible.
+> > > But doesn't really help today..
+> >
+> > We were present in the room with Alessio when he gave that talk :-)
+> >
+> > You might have seen Valentin's talk in LPC where he's trying to get
+> > proxy-execution into shape. Which is a pre-requisite to enable using of
+> > SCHED_DEADLINE for these scenarios. IIRC it should allow all dependent tasks to
+> > run from the context of the deadline task during the display pipeline critical
+> > section.
+> >
+> > By the way, do you have issues with SoftIrqs delaying your RT tasks execution
+> > time?
+> 
+> I don't *think* so, but I'm not 100% sure if they are showing up in
+
+If you ever get a chance to run a high network throughput test, it might help
+to see if softirqs are affecting you. I know Android has issues with this under
+some circumstances.
+
+> traces.  So far it seems like SF stomping on commit_work.  (There is
+> the added complication that there are some chrome gpu-process tasks in
+> between SF and the display, including CrGpuMain (which really doesn't
+> want to be SCHED_FIFO when executing gl commands on behalf of
+> something unrelated to the compositor.. the deadline approach, IIUC,
+> might be the better option eventually for this?)
+
+If you meant sched_deadline + token approach, then yeah I think it'd be better.
+But as you said, we can't do this yet :/
+
+But as Peter pointed out, this doesn't mean you can't use SCHED_DEADLINE at all
+if it does make sense.
+
+Thanks
+
+--
+Qais Yousef
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
