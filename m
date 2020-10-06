@@ -1,37 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9F6285951
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:22:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4334428487D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 10:25:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1A686E037;
-	Wed,  7 Oct 2020 07:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 123A489D49;
+	Tue,  6 Oct 2020 08:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from r3-22.sinamail.sina.com.cn (r3-22.sinamail.sina.com.cn
- [202.108.3.22])
- by gabe.freedesktop.org (Postfix) with SMTP id 8139F89D49
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 08:24:37 +0000 (UTC)
-Received: from unknown (HELO localhost.localdomain)([123.123.27.212])
- by sina.com with ESMTP
- id 5F7C29BC000087BB; Tue, 6 Oct 2020 16:24:33 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-X-SMAIL-MID: 189489628917
-From: Hillf Danton <hdanton@sina.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 13/14] drm/msm: Drop struct_mutex in shrinker path
-Date: Tue,  6 Oct 2020 16:24:19 +0800
-Message-Id: <20201006082419.2412-1-hdanton@sina.com>
-In-Reply-To: <CAF6AEGvyEYFa-RLrxqgXjxhiLgc-rB+dbscboROPHGPxoC-RMw@mail.gmail.com>
-References: <20201004192152.3298573-1-robdclark@gmail.com>
- <20201005092419.15608-1-hdanton@sina.com>
- <20201005140203.GS438822@phenom.ffwll.local>
- <CAOeoa-cqyb8NZJnJdY+A2H680+C4H0WzXhp-uYj8Fg093BqAnw@mail.gmail.com>
- <20201006004416.15040-1-hdanton@sina.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F33A89D49
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 08:25:11 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id e17so3704620wru.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 01:25:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YdhpNKlTW8M5AEVFobND3IcWnRcYsnTU1ylxUOoxLOQ=;
+ b=qHporHfANLglN4o1QtjGAQRWNnN7asjRL3cjazvXjsHh09RfWeLWPhNLVvwSLhWTRD
+ dq9W25RBebcUYOBXWtFq8Xg4Jpr5iwt1eXNmqsekvon7Xl48K0UpprSPFSz88KD7f3X5
+ mVcgrKZ1Q+07rFYOZ6TaIw9SiDE9zLlxqZ10OzeIv3M1P2sRohlLAogcHVmvgwhtbxWh
+ aDv0+4vxSuOdMGAP1BZwP0BlcnNmUE37U3q6XBhiOW2IywzQSNU0oPIf35dwBbDiZGem
+ YyfEcoZuw1vq+eSTNb3BPCippk6TyfUXDjeg7Imo0qPxxzlaz4AKfZHvUV+rJldsOuzH
+ 6yMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YdhpNKlTW8M5AEVFobND3IcWnRcYsnTU1ylxUOoxLOQ=;
+ b=VyNDngf8mjVeqH11Z2e6Dm9qyQs2TTM+VPS/8NP6BrbvLnmosQtXSbwjl6JvwqduXa
+ cJQliXsseN6X2rehCim93+5SOUwTbDeQTiY+oH1GeRJVifjTB5cij+21+cETyt7tjFwu
+ qEjpppjcWkNLbm6bU099qADeTt6EL68HyC1zQSEBPVoMVSDFy/GtGSsCSoKnZw6qiIQ3
+ +qJP3g8gf066uIHplVT2esSXy/2TkRTKlnipd7M3FO+gVNK3+m/bZzG5+m2y8T0Z58LU
+ JqfgdFSW3oOxRzR7d/Zh9nQFwlHXjjmHi8FQIVR3M/rNc052BctrYwF4ZYMLnCUEtoKw
+ fMfw==
+X-Gm-Message-State: AOAM530vIdWwqjy4CWDITJjwOwxnY/OIZTH6pNNoFin8nhCwkI711UNf
+ pD9rHUXtqIcSzamj/QSs5XqATQ==
+X-Google-Smtp-Source: ABdhPJxsjuEumsaEtaU67N9vbg2cBftfsc/wZW21wnFzsv2BjeMFHC1JmQFLaFRJtrvHxARri2Z8Zg==
+X-Received: by 2002:a5d:6409:: with SMTP id z9mr120080wru.391.1601972710164;
+ Tue, 06 Oct 2020 01:25:10 -0700 (PDT)
+Received: from [192.168.86.34]
+ (cpc86377-aztw32-2-0-cust226.18-1.cable.virginm.net. [92.233.226.227])
+ by smtp.googlemail.com with ESMTPSA id y11sm3353486wrs.16.2020.10.06.01.25.07
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 06 Oct 2020 01:25:09 -0700 (PDT)
+Subject: Re: [PATCH 0/4] dt-bindings: additional/unevaluatedProperties
+ clean-ups
+To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20201005183830.486085-1-robh@kernel.org>
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <d04c47dd-6e37-a7ac-f3c4-d6e6c308dbcd@linaro.org>
+Date: Tue, 6 Oct 2020 09:25:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 07 Oct 2020 07:22:33 +0000
+In-Reply-To: <20201005183830.486085-1-robh@kernel.org>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,121 +72,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>, Hillf Danton <hdanton@sina.com>,
- David Airlie <airlied@linux.ie>, arm-msm <linux-arm-msm@vger.kernel.org>,
- "Kristian H. Kristensen" <hoegsberg@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Dave Chinner <dchinner@redhat.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-usb@vger.kernel.org, Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-pwm@vger.kernel.org,
+ linux-iio@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sre@kernel.org>, linux-ide@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pavel Machek <pavel@ucw.cz>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-riscv@lists.infradead.org, Lee Jones <lee.jones@linaro.org>,
+ linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
+ Vignesh Raghavendra <vigneshr@ti.com>, linux-rtc@vger.kernel.org,
+ Marc Zyngier <maz@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, linux-mips@vger.kernel.org,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Jason Cooper <jason@lakedaemon.net>, linux-pm@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-watchdog@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-spi@vger.kernel.org,
+ linux-i2c@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Richard Weinberger <richard@nod.at>, dmaengine@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 5 Oct 2020 20:40:12 Rob Clark <robdclark@gmail.com> wrote:
-> On Mon, Oct 5, 2020 at 5:44 PM Hillf Danton <hdanton@sina.com> wrote:
-> > On Mon, 5 Oct 2020 18:17:01 Kristian H. Kristensen wrote:
-> > > On Mon, Oct 5, 2020 at 4:02 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Mon, Oct 05, 2020 at 05:24:19PM +0800, Hillf Danton wrote:
-> > > > >
-> > > > > On Sun,  4 Oct 2020 12:21:45
-> > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > >
-> > > > > > Now that the inactive_list is protected by mm_lock, and everything
-> > > > > > else on per-obj basis is protected by obj->lock, we no longer depend
-> > > > > > on struct_mutex.
-> > > > > >
-> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/msm/msm_gem.c          |  1 -
-> > > > > >  drivers/gpu/drm/msm/msm_gem_shrinker.c | 54 --------------------------
-> > > > > >  2 files changed, 55 deletions(-)
-> > > > > >
-> > > > > [...]
-> > > > >
-> > > > > > @@ -71,13 +33,8 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
-> > > > > >  {
-> > > > > >     struct msm_drm_private *priv =
-> > > > > >             container_of(shrinker, struct msm_drm_private, shrinker);
-> > > > > > -   struct drm_device *dev = priv->dev;
-> > > > > >     struct msm_gem_object *msm_obj;
-> > > > > >     unsigned long freed = 0;
-> > > > > > -   bool unlock;
-> > > > > > -
-> > > > > > -   if (!msm_gem_shrinker_lock(dev, &unlock))
-> > > > > > -           return SHRINK_STOP;
-> > > > > >
-> > > > > >     mutex_lock(&priv->mm_lock);
-> > > > >
-> > > > > Better if the change in behavior is documented that SHRINK_STOP will
-> > > > > no longer be needed.
-> > > >
-> > > > btw I read through this and noticed you have your own obj lock, plus
-> > > > mutex_lock_nested. I strongly recommend to just cut over to dma_resv_lock
-> > > > for all object lock needs (soc drivers have been terrible with this
-> > > > unfortuntaly), and in the shrinker just use dma_resv_trylock instead of
-> > > > trying to play clever games outsmarting lockdep.
-> >
-> > The trylock makes page reclaimers turn to their next target e.g. inode
-> > cache instead of waiting for the mutex to be released. It makes sense
-> > for instance in scenarios of mild memory pressure.
-> 
-> is there some behind-the-scenes signalling for this, or is this just
-> down to what the shrinker callbacks return?
 
-Lets see what Dave may have in his mind about your questions.
+On 05/10/2020 19:38, Rob Herring wrote:
+> The default behavior for json-schema is any unknown property is allowed.
+> T
+> 
+> hat is generally not the behavior we want for DT. In order to disallow
+> extra properties, schemas need to define 'additionalProperties: false'
+> typically. Ideally, we'd just add that automatically with the tools, but
+> there are some exceptions so only making things explicit everywhere
+> really works. Missing 'additionalProperties' or 'unevaluatedProperties'
+> has been a constant source of review comments, so a meta-schema check is
+> really needed here.
+> 
+>   Documentation/devicetree/bindings/nvmem/nvmem.yaml     |  2 ++
+>   .../devicetree/bindings/nvmem/qcom,qfprom.yaml         |  2 ++
 
-> Generally when we get
-> into shrinking, there are a big set of purgable bo's to consider, so
-> the shrinker callback return wouldn't be considering just one
-> potentially lock contended bo (buffer object).  Ie failing one
-> trylock, we just move on to the next.
-> 
-> fwiw, what I've seen on the userspace bo cache vs shrinker (anything
-> that is shrinker potential is in userspace bo cache and
-> MADV(WONTNEED)) is that in steady state I see a very strong recycling
-> of bo's (which avoids allocating and mmap'ing or mapping to gpu a new
-> buffer object), so it is definitely a win in mmap/realloc bandwidth..
-> in steady state there is a lot of free and realloc of same-sized
-> buffers from frame to frame.
-> 
-> But in transient situations like moving to new game level when there
-> is a heavy memory pressure and lots of freeing old
-> buffers/textures/etc and then allocating new ones, I see shrinker
-> kicking in hard (in android situations, not so much so with
-> traditional linux userspace)
-> 
-> BR,
-> -R
-> 
-> >
-> > > >
-> > > > I recently wrote an entire blog length rant on why I think
-> > > > mutex_lock_nested is too dangerous to be useful:
-> > > >
-> > > > https://blog.ffwll.ch/2020/08/lockdep-false-positives.html
-> > > >
-> > > > Not anything about this here, just general comment. The problem extends to
-> > > > shmem helpers and all that also having their own locks for everything.
-> > >
-> > > This is definitely a tangible improvement though - very happy to see
-> > > msm_gem_shrinker_lock() go.
-> > >
-> > > Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
-> > >
-> > > > -Daniel
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> > > > _______________________________________________
-> > > > dri-devel mailing list
-> > > > dri-devel@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+for nvmem parts,
 
+Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
+
+thanks,
+--srini
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
