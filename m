@@ -1,64 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960A0284751
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:32:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA84284774
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 09:38:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5FB86E433;
-	Tue,  6 Oct 2020 07:31:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D59B56E3F4;
+	Tue,  6 Oct 2020 07:37:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B013C6E3EF
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 07:31:50 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1601969510; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=N+bINCl+jyO8AKUrPm7YEyCmsDsV2qLc0AEXeGwPE7M=;
- b=mDJSW8LQxfImCChyesz3wBRqoiiMlNWR2Stq79HhDHIOkhseXJVy7Va7eYYMRIYIzb2fal05
- amCtiWd+M0MMDPqbMK0kAQUEfDk8SYDiEKUNkOMT0pTe/d8/7C67TV9FrLbbzuFQ9P+4Nkmx
- T26LWoB8BygAQvVM1+sUYlnXlh8=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5f7c1d65aad2c3cd1cd6cc6f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 06 Oct 2020 07:31:49
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id F38F3C43385; Tue,  6 Oct 2020 07:31:48 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from [192.168.0.118] (unknown [49.207.193.139])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: rnayak)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 1237EC433F1;
- Tue,  6 Oct 2020 07:31:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1237EC433F1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=rnayak@codeaurora.org
-Subject: Re: [PATCH v2] drm/msm/dp: add opp_table corner voting support base
- on dp_ink_clk rate
-To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com,
- sean@poorly.run, swboyd@chromium.org
-References: <20201003222652.32671-1-khsieh@codeaurora.org>
-From: Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <717f90f2-4148-9fc0-c772-13f101f916a8@codeaurora.org>
-Date: Tue, 6 Oct 2020 13:01:41 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC0E26E3F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 07:37:55 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id i12so5581481ota.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 00:37:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8+YGZEZXCDlVSYcoSNcJ9v6pHT8JdkLtCN5s+E2ToaQ=;
+ b=nciorO2Bb3dZVMoomEdg1TSxuWODO+rom8lrKhrdF3yCTSnOYvSjQTZ6a7wnGCToDL
+ Za0ikysFRVqV4ubCRpRNehXXJKsvYho0qPfV1fXaSQhiJ2uriLIIe/Ml9lBVyWiJEDur
+ xVAjBufu/Sl+8fn1eYSVCnZbg1vJ8h0lnGRZ9CTTZIxQq/wrrX3xpTMWcfNk61Gh4BLL
+ vEQkH7GveuzTrjAyvDJT/7ISQryHxnNqFP2CXv12tiBEMRlf0Cs+1GkTnUG5EWao/Osp
+ a53pI7tEoMaIyfkmVpCZrfH5Ti3lXFJWsNLnzP03gkX2qBEi440AtyalCUsqHp+ZPa0J
+ xAsQ==
+X-Gm-Message-State: AOAM533ZXdlKs4XGwecMvHL9dSwP53/rUGbPUekE4kR4bYRP7DGujbbS
+ A6gVqUEHr3/Gcy2FLIrmERBVhkRI66YqROeGYMM=
+X-Google-Smtp-Source: ABdhPJz2bCZlgB6we6A9AWlaXsOI2O+CwxUcnmKhPrIVPza5tGmo+mK6C98Ugzjy2W9HQnh3L0gpSmpM+xs5ujOFQMY=
+X-Received: by 2002:a05:6830:210a:: with SMTP id
+ i10mr2082078otc.145.1601969875043; 
+ Tue, 06 Oct 2020 00:37:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201003222652.32671-1-khsieh@codeaurora.org>
-Content-Language: en-US
+References: <20201005183830.486085-1-robh@kernel.org>
+ <20201005183830.486085-2-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 6 Oct 2020 09:37:43 +0200
+Message-ID: <CAMuHMdXjBSzbs4yAPJ-XUTBRZWKN61hO8vQ1-nGN5nAo7JnV-w@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
+To: Rob Herring <robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,238 +53,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, tanmay@codeaurora.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Peter Meerwald-Stadler <pmeerw@pmeerw.net>, Sam Ravnborg <sam@ravnborg.org>,
+ Linux PWM List <linux-pwm@vger.kernel.org>, linux-iio@vger.kernel.org,
+ linux-pci <linux-pci@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Sebastian Reichel <sre@kernel.org>, linux-ide@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pavel Machek <pavel@ucw.cz>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ Lee Jones <lee.jones@linaro.org>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-rtc@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ linux-input@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jason Cooper <jason@lakedaemon.net>, Linux PM list <linux-pm@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-can@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Richard Weinberger <richard@nod.at>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ USB list <linux-usb@vger.kernel.org>,
+ Linux MMC List <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-spi <linux-spi@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Marc Zyngier <maz@kernel.org>, dmaengine <dmaengine@vger.kernel.org>,
+ MTD Maling List <linux-mtd@lists.infradead.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>,
+ Linux I2C <linux-i2c@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Rob,
 
-On 10/4/2020 3:56 AM, Kuogee Hsieh wrote:
-> Set link rate by using OPP set rate api so that CX level will be set
-> accordingly based on the link rate.
-> 
-> Changes in v2:
-> -- remove dev from dp_ctrl_put() parameters
-> -- address review comments
+On Mon, Oct 5, 2020 at 8:39 PM Rob Herring <robh@kernel.org> wrote:
+> This doesn't yet do anything in the tools, but make it explicit so we can
+> check either 'unevaluatedProperties' or 'additionalProperties' is present
+> in schemas.
+>
+> 'unevaluatedProperties' is appropriate when including another schema (via
+> '$ref') and all possible properties and/or child nodes are not
+> explicitly listed in the schema with the '$ref'.
+>
+> This is in preparation to add a meta-schema to check for missing
+> 'unevaluatedProperties' or 'additionalProperties'. This has been a
+> constant source of review issues.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-This needs to go below '---' and should not be part of the
-change log.
+Thanks for your patch!
 
-> 
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-> ---
->   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 26 +++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_display.c |  2 +-
->   drivers/gpu/drm/msm/dp/dp_power.c   | 44 ++++++++++++++++++++++++++---
->   drivers/gpu/drm/msm/dp/dp_power.h   |  2 +-
->   4 files changed, 68 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index 2e3e1917351f..6eb9cdad1421 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -10,6 +10,7 @@
->   #include <linux/delay.h>
->   #include <linux/phy/phy.h>
->   #include <linux/phy/phy-dp.h>
-> +#include <linux/pm_opp.h>
->   #include <drm/drm_fixed.h>
->   #include <drm/drm_dp_helper.h>
->   #include <drm/drm_print.h>
-> @@ -76,6 +77,8 @@ struct dp_ctrl_private {
->   	struct dp_parser *parser;
->   	struct dp_catalog *catalog;
->   
-> +	struct opp_table *opp_table;
+>  Documentation/devicetree/bindings/bus/renesas,bsc.yaml       | 2 ++
+>  .../bindings/memory-controllers/renesas,rpc-if.yaml          | 2 ++
+>  Documentation/devicetree/bindings/net/renesas,ether.yaml     | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,hscif.yaml  | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,sci.yaml    | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,scif.yaml   | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,scifa.yaml  | 2 ++
+>  Documentation/devicetree/bindings/serial/renesas,scifb.yaml  | 2 ++
+>  Documentation/devicetree/bindings/spi/renesas,hspi.yaml      | 2 ++
+>  Documentation/devicetree/bindings/spi/renesas,rspi.yaml      | 2 ++
+>  Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml  | 2 ++
+
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
+> +++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+> @@ -85,6 +85,8 @@ required:
+>    - clocks
+>    - pinctrl-0
+>
+> +unevaluatedProperties: false
+
+This one has received an "additionalProperties: false" in commit
+41506bff84f1563e ("dt-bindings: net: renesas, ether: Improve schema validation")
+in net-next, which you probably want to remove.
+
 > +
->   	struct completion idle_comp;
->   	struct completion video_comp;
->   };
-> @@ -1836,6 +1839,7 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
->   			struct dp_parser *parser)
->   {
->   	struct dp_ctrl_private *ctrl;
-> +	int ret;
->   
->   	if (!dev || !panel || !aux ||
->   	    !link || !catalog) {
-> @@ -1849,6 +1853,19 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
->   		return ERR_PTR(-ENOMEM);
->   	}
->   
-> +	ctrl->opp_table = dev_pm_opp_set_clkname(dev, "ctrl_link");
-> +	if (IS_ERR(ctrl->opp_table)) {
-> +		dev_err(dev, "invalid DP OPP table in device tree\n");
+>  examples:
+>    # Lager board
+>    - |
 
-You do this regardless of an OPP table in DT, so for starters the error
-message is wrong. Secondly this can return you a -EPROBE_DEFER if the
-clock driver isn't ready yet.
-So the ideal thing to do here, is return a PTR_ERR(ctrl->opp_table)
+Gr{oetje,eeting}s,
 
-> +		ctrl->opp_table = NULL;
-> +	} else {
-> +		/* OPP table is optional */
-> +		ret = dev_pm_opp_of_add_table(dev);
-> +		if (ret && ret != -ENODEV) {
-> +			dev_pm_opp_put_clkname(ctrl->opp_table);
-> +			ctrl->opp_table = NULL;
-> +		}
-> +	}
-> +
->   	init_completion(&ctrl->idle_comp);
->   	init_completion(&ctrl->video_comp);
->   
-> @@ -1866,4 +1883,13 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
->   
->   void dp_ctrl_put(struct dp_ctrl *dp_ctrl)
->   {
-> +	struct dp_ctrl_private *ctrl;
-> +
-> +	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-> +
-> +	if (ctrl->opp_table) {
-> +		dev_pm_opp_of_remove_table(ctrl->dev);
-> +		dev_pm_opp_put_clkname(ctrl->opp_table);
-> +		ctrl->opp_table = NULL;
-> +	}
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index e175aa3fd3a9..269f83550b46 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -698,7 +698,7 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
->   		goto error;
->   	}
->   
-> -	dp->power = dp_power_get(dp->parser);
-> +	dp->power = dp_power_get(dev, dp->parser);
->   	if (IS_ERR(dp->power)) {
->   		rc = PTR_ERR(dp->power);
->   		DRM_ERROR("failed to initialize power, rc = %d\n", rc);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-> index 17c1fc6a2d44..9c4ea00a5f2a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_power.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
-> @@ -8,12 +8,14 @@
->   #include <linux/clk.h>
->   #include <linux/clk-provider.h>
->   #include <linux/regulator/consumer.h>
-> +#include <linux/pm_opp.h>
->   #include "dp_power.h"
->   #include "msm_drv.h"
->   
->   struct dp_power_private {
->   	struct dp_parser *parser;
->   	struct platform_device *pdev;
-> +	struct device *dev;
->   	struct clk *link_clk_src;
->   	struct clk *pixel_provider;
->   	struct clk *link_provider;
-> @@ -148,18 +150,51 @@ static int dp_power_clk_deinit(struct dp_power_private *power)
->   	return 0;
->   }
->   
-> +static int dp_power_clk_set_link_rate(struct dp_power_private *power,
-> +			struct dss_clk *clk_arry, int num_clk, int enable)
-> +{
-> +	u32 rate;
-> +	int i, rc = 0;
-> +
-> +	for (i = 0; i < num_clk; i++) {
-> +		if (clk_arry[i].clk) {
-> +			if (clk_arry[i].type == DSS_CLK_PCLK) {
-> +				if (enable)
-> +					rate = clk_arry[i].rate;
-> +				else
-> +					rate = 0;
-> +
-> +				rc = dev_pm_opp_set_rate(power->dev, rate);
-
-I am not sure how this is expected to work when you have multiple link clocks,
-since you can only associate one of them with the OPP table which ends up
-getting scaled when you do a dev_pm_opp_set_rate()
-Do you really have platforms which will have multiple link clocks?
-
-> +				if (rc)
-> +					break;
-> +			}
-> +
-> +		}
-> +	}
-> +	return rc;
-> +}
-> +
->   static int dp_power_clk_set_rate(struct dp_power_private *power,
->   		enum dp_pm_type module, bool enable)
->   {
->   	int rc = 0;
->   	struct dss_module_power *mp = &power->parser->mp[module];
->   
-> -	if (enable) {
-> -		rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
-> +	if (module == DP_CTRL_PM) {
-> +		rc = dp_power_clk_set_link_rate(power, mp->clk_config, mp->num_clk, enable);
->   		if (rc) {
-> -			DRM_ERROR("failed to set clks rate.\n");
-> +			DRM_ERROR("failed to set link clks rate\n");
->   			return rc;
->   		}
-> +	} else {
-> +
-
-extra blank line
-
-> +		if (enable) {
-> +			rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
-> +			if (rc) {
-> +				DRM_ERROR("failed to set clks rate\n");
-> +				return rc;
-> +			}
-> +		}
->   	}
->   
->   	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, enable);
-> @@ -349,7 +384,7 @@ int dp_power_deinit(struct dp_power *dp_power)
->   	return 0;
->   }
->   
-> -struct dp_power *dp_power_get(struct dp_parser *parser)
-> +struct dp_power *dp_power_get(struct device *dev, struct dp_parser *parser)
->   {
->   	struct dp_power_private *power;
->   	struct dp_power *dp_power;
-> @@ -365,6 +400,7 @@ struct dp_power *dp_power_get(struct dp_parser *parser)
->   
->   	power->parser = parser;
->   	power->pdev = parser->pdev;
-> +	power->dev = dev;
->   
->   	dp_power = &power->dp_power;
->   
-> diff --git a/drivers/gpu/drm/msm/dp/dp_power.h b/drivers/gpu/drm/msm/dp/dp_power.h
-> index 76743d755833..7d0327bbc0d5 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_power.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_power.h
-> @@ -102,6 +102,6 @@ void dp_power_client_deinit(struct dp_power *power);
->    * methods to be called by the client to configure the power related
->    * modueles.
->    */
-> -struct dp_power *dp_power_get(struct dp_parser *parser);
-> +struct dp_power *dp_power_get(struct device *dev, struct dp_parser *parser);
->   
->   #endif /* _DP_POWER_H_ */
-> 
-> base-commit: d1ea914925856d397b0b3241428f20b945e31434
-
-??
+                        Geert
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
