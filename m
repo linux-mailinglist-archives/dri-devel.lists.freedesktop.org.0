@@ -2,39 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6ACD285241
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 21:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE6A28596C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:23:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65AAD6E4FB;
-	Tue,  6 Oct 2020 19:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40BDA6E8A6;
+	Wed,  7 Oct 2020 07:22:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917B46E4FB
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 19:18:32 +0000 (UTC)
-Subject: Re: [git pull] drm fbdev fixes for 5.9 final
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602011912;
- bh=ZIzEc9VE4fhrfyPrrqZAaIOMdajyG2L9BHNzJHZDfSQ=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=vBu3z5Ex+kvcPzJ3X/nhG6pqIqvmTtC3ffgmvI52ijRJAoRjJH5uUVWkKzcCQObrj
- Dz04dnNcS8S2EG6BbQtYe0g7wQTrtd6jTSFMQa/0OBtRRG4E+rwWa1ExytPzUWcEd7
- QLEFNVBgH+G3hblcPm5RCjoL1rgddZQRomRmOlfE=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tyLDWM8c6L0fTG6SeouqXRixTTS2MHX8FKeEGekGinp8w@mail.gmail.com>
-References: <CAPM=9tyLDWM8c6L0fTG6SeouqXRixTTS2MHX8FKeEGekGinp8w@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tyLDWM8c6L0fTG6SeouqXRixTTS2MHX8FKeEGekGinp8w@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2020-10-06-1
-X-PR-Tracked-Commit-Id: 86fdf61e71046618f6f499542cee12f2348c523c
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: f1e141e9db6b89d124ec09ca162f378a29119481
-Message-Id: <160201191206.29733.6854172821291251615.pr-tracker-bot@kernel.org>
-Date: Tue, 06 Oct 2020 19:18:32 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A94D86E511
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 19:33:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 6FABC28A7A9
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] soc: mediatek: Prepare MMSYS for DDP routing using tables
+Date: Tue,  6 Oct 2020 21:33:16 +0200
+Message-Id: <20201006193320.405529-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+X-Mailman-Approved-At: Wed, 07 Oct 2020 07:22:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,28 +34,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
+Cc: chunkuang.hu@kernel.org, drinkcat@chromium.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, yongqiang.niu@mediatek.com,
+ hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Tue, 6 Oct 2020 16:37:22 +1000:
+Dear all,
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-10-06-1
+The following series are intended to prepare the mtk-mmsys driver to
+allow different DDP (Data Display Path) routing tables per SoC. Note
+that the series has been tested only on MT8173 platform and could break
+the display on MT2701 and MT2712 based devices. I kindly ask for someone
+having these devices to provide a tested routing table (unfortunately I
+didn't have enough documentation to figure out this myself).
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/f1e141e9db6b89d124ec09ca162f378a29119481
+For the other devices (MT8183, MT6779 and MT6797) DRM support is not in
+mainline yet so nothing will break.
 
-Thank you!
+Thanks,
+  Enric
+
+
+CK Hu (2):
+  soc: mediatek: mmsys: Create struct mtk_mmsys to store context data
+  soc: mediatek: mmsys: Use an array for setting the routing registers
+
+Enric Balletbo i Serra (1):
+  soc: mediatek: mmsys: Use devm_platform_ioremap_resource()
+
+Yongqiang Niu (1):
+  soc / drm: mediatek: Move DDP component defines into mtk-mmsys.h
+
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  34 +-
+ drivers/soc/mediatek/mtk-mmsys.c            | 429 +++++++++++---------
+ include/linux/soc/mediatek/mtk-mmsys.h      |  33 ++
+ 3 files changed, 263 insertions(+), 233 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
