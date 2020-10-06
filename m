@@ -1,61 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCCF2845F8
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 08:23:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F1A284628
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 08:37:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91C2A6E122;
-	Tue,  6 Oct 2020 06:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E17A6E329;
+	Tue,  6 Oct 2020 06:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 953846E122
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 06:23:35 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id u126so11436349oif.13
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 23:23:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VlNmxwIhwcXv4qHaxqexSUmm4G1xHiiGF3qHpNL5GMg=;
- b=CT82R/qJcvEDDvUxaCuGu0crYHNtAwxAMVNAs/kuENoPD7ejHIrOjRRYZ5Z8oCc426
- 9TSBbW807u/3VmVRvKsdS89xhG0WR+iBlXlWazslsVcZWyIlBUEZBJcv6Cup8NE4NVEO
- ylxmZFFhoOkflOBJvGoBFOXFntWaDWJ4rVAUI=
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2AA6E329
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 06:37:35 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id l16so5125133eds.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Oct 2020 23:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=xLEheXVkRVPoO0mnE3ySwFlQ18AemugwN4oAiuDRkUQ=;
+ b=cDBoN8mXSVFFwLwgCm1zVThWPFWrVJzCo2bUQQjSTOnDnRKUTLseAxqtyasrLqM/QK
+ ogvSl4dPw0ASBMf4lIF1ZmYtrLSDEvFpwyph/PCRghnob89wpeq2T/BGkHwn2VdOghmS
+ AqOzMMaizgSghkuNdjtEkx/MPfiE0FOPQEO+T5BsXYr/vY1vBUTnE+31IVirNrsuaHOC
+ zKjDyzqi6qwltBUdCALVZghawzcLsSt+1lCIMRi3xNDSU3gY6nfkNkjgIsJ0TUlHxZGY
+ XDvo6SEIzPNMcfd9f6tm+rTPSwIjgsJb5V/22CVVsfqW5E/w0lGeawFOi1z6q68BeVlj
+ LXYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VlNmxwIhwcXv4qHaxqexSUmm4G1xHiiGF3qHpNL5GMg=;
- b=En2cUZ8BQAfiwQQMjd7blbXEl+MSakOlTJad778GOJqRagupjUqxHSb2++aHwzGh5f
- uHXIlNhGQr4E9jeUFUDMLTRWjQnyzGOTOWH7QpJ9bNdNYKOR3rFfsSrX6feVDpDD+vpv
- d3xFZDEPMLxebhniud4hhPbfEJW/UDZ+cwTGELKuRv6dPDtpFU9LTP9p0eV7ZRCRwTPp
- WQh3+3+EloyaEoMpeIw8WGE+GeaSQQEq+nN+L3RBndLJFQoVYXNnzZFuLOpWmhbrwYzT
- iPVJtRKYHKLh1c5QFh16AF49FY43sWhHSsUsJm16eq4HiEU4BjGzMS8rpuwfd+mKaHcu
- TkyQ==
-X-Gm-Message-State: AOAM530XE2cRj0ndI72swipaVVLuSZPOVuEhPQbhMrHieOcs0pRUgX2N
- iJ11taZTUAiuAiF7Yed/byN26a+gDx3kuQQvSUiarQ==
-X-Google-Smtp-Source: ABdhPJwng0gDkXMKOpdZZMK3MDpDIZD7O95qBIJyXqDkv8t4rKoM6Kv3eRzC/BlAMFJrRN/Z/vlIq1gJtQeg5R2bqC0=
-X-Received: by 2002:a05:6808:206:: with SMTP id
- l6mr1854734oie.128.1601965414834; 
- Mon, 05 Oct 2020 23:23:34 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=xLEheXVkRVPoO0mnE3ySwFlQ18AemugwN4oAiuDRkUQ=;
+ b=MEJYGr/HB2QSjg4GyGTWMAcORWvQG/eRUHTaY0RSrk8HzaE2yS9dldXDTiynzYgYVq
+ OavCDlcQPFA2aZkG+wd8eHSrVwPnnxE4lqI+FFzpmK/T1PxqjUHKzN1Lp9XNXtAA7XoL
+ GZ54oDk8HC0P0KCamMxA0bWpHwoptPQm+plAqDVBi5JrtGn2Odxm1bbDsFnUZ5L3glyC
+ rO2M7PbLs+WE9xqRcs1kZrRfKjyeJIr9hPDp/HgNBCXT68wwAIr28CUGfWODEfT+25oA
+ IdVRWSbOpK7BWF6/a8ra5AQ4ZYK0u/b0Fx81ZolcBmDi0SDGuB7otSPnCzLvI02/U9QZ
+ wh0g==
+X-Gm-Message-State: AOAM533CJWFCRdm5z7in+EdfDCtbcyyRPv+uf+BQkboXEax0bs8B7Rl3
+ Gfe5LPW6bfMjmfQ3FxIUvD6Y5MeCTX6fCn7U3Ow=
+X-Google-Smtp-Source: ABdhPJzkM8KQLRMBKxYYLPl7+n3d0Jd5psKGrV0bEXrAEY3sdZMqiysyZeBQvd1ZGy99V9pxmu/HIUDLdJ2xqgBg7HI=
+X-Received: by 2002:aa7:d959:: with SMTP id l25mr3623626eds.383.1601966253585; 
+ Mon, 05 Oct 2020 23:37:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
- <20201002233118.GM9916@ziepe.ca>
- <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
- <20201004125059.GP9916@ziepe.ca>
- <CAKMK7uF0AfuYGsHzKXhF=k-mAW=Wx_APf9fY9M9ormnwypoxZA@mail.gmail.com>
- <20201005172854.GA5177@ziepe.ca>
- <CAKMK7uFzxWF7V=7vkeNC-8shsPZRgdz9fYTsn0ayENv2BpnFEg@mail.gmail.com>
- <20201005183704.GC5177@ziepe.ca>
- <CAKMK7uH97Yb2JFviG_ynGC1hbQ69h9hcyFVFd2PFYHCDzfBN6g@mail.gmail.com>
- <CAKMK7uHRxK3yNrvX=+n-XpSv7PDCz8w+mwof3pkUUJq3TpmiuQ@mail.gmail.com>
- <20201005234104.GD5177@ziepe.ca>
-In-Reply-To: <20201005234104.GD5177@ziepe.ca>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 6 Oct 2020 08:23:23 +0200
-Message-ID: <CAKMK7uHt=kD=njZvMULy-k-bY4emn=u8__t7etQDq3_WUL7VAw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-To: Jason Gunthorpe <jgg@ziepe.ca>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 6 Oct 2020 16:37:22 +1000
+Message-ID: <CAPM=9tyLDWM8c6L0fTG6SeouqXRixTTS2MHX8FKeEGekGinp8w@mail.gmail.com>
+Subject: [git pull] drm fbdev fixes for 5.9 final
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,69 +58,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Jan Kara <jack@suse.cz>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Pawel Osciak <pawel@osciak.com>, John Hubbard <jhubbard@nvidia.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 6, 2020 at 1:41 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Tue, Oct 06, 2020 at 12:43:31AM +0200, Daniel Vetter wrote:
->
-> > > iow I think I can outright delete the frame vector stuff.
-> >
-> > Ok this doesn't work, because dma_mmap always uses a remap_pfn_range,
-> > which is a VM_IO | VM_PFNMAP vma and so even if it's cma backed and
-> > not a carveout, we can't get the pages.
->
-> If CMA memory has struct pages it probably should be mmap'd with
-> different flags, and the lifecycle of the CMA memory needs to respect
-> the struct page refcount?
+Hi Linus,
 
-I guess yes and no. The problem is if there's pagecache in the cma
-region, pup(FOLL_LONGTERM) needs to first migrate those pages out of
-the cma range. Because all normal page allocation in cma regions must
-be migratable at all times. But when you use cma as the contig
-allocator (mostly with dma_alloc_coherent) and then remap that for
-userspace (e.g. dma_mmap_wc), then anyone doing pup or gup should not
-try to migrate anything. Also in the past these contig ranges where
-generally carveouts without any struct page, changing that would break
-too much I guess.
+Daniel queued these up last week and I took a long weekend so didn't
+get them out, but fixing the OOB access on get font seems like
+something we should land and it's cc'ed stable as well. The other big
+change is a partial revert for a regression on android on the clcd
+fbdev driver, and one other docs fix.
 
-> > Plus trying to move the cma pages out of cma for FOLL_LONGTERM would
-> > be kinda bad when they've been allocated as a contig block by
-> > dma_alloc_coherent :-)
->
-> Isn't holding a long term reference to a CMA page one of those really
-> scary use-after-free security issues I've been talking about?
->
-> I know nothing about CMA, so can't say too much, sorry
+Dave.
 
-Uh ... yes :-/
+drm-fixes-2020-10-06-1:
+drm fixes for 5.9 final
 
-This is actually worse than the gpu case I had in mind, where at most
-you can sneak access other gpu buffers. With cma you should be able to
-get at arbitrary pagecache (well anything that's GFP_MOVEABLE really).
-Nice :-(
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+fbdev:
+- Re-add FB_ARMCLCD for android.
+- Fix global-out-of-bounds read in fbcon_get_font().
+
+core:
+- Small doc fix.
+The following changes since commit 549738f15da0e5a00275977623be199fbbf7df50:
+
+  Linux 5.9-rc8 (2020-10-04 16:04:34 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-10-06-1
+
+for you to fetch changes up to 86fdf61e71046618f6f499542cee12f2348c523c:
+
+  Merge tag 'drm-misc-fixes-2020-10-01' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-10-06
+12:38:28 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.9 final
+
+fbdev:
+- Re-add FB_ARMCLCD for android.
+- Fix global-out-of-bounds read in fbcon_get_font().
+
+core:
+- Small doc fix.
+
+----------------------------------------------------------------
+Dave Airlie (1):
+      Merge tag 'drm-misc-fixes-2020-10-01' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+
+Mauro Carvalho Chehab (1):
+      drm: drm_dsc.h: fix a kernel-doc markup
+
+Peilin Ye (3):
+      fbdev, newport_con: Move FONT_EXTRA_WORDS macros into linux/font.h
+      Fonts: Support FONT_EXTRA_WORDS macros for built-in fonts
+      fbcon: Fix global-out-of-bounds read in fbcon_get_font()
+
+Peter Collingbourne (1):
+      Partially revert "video: fbdev: amba-clcd: Retire elder CLCD driver"
+
+ MAINTAINERS                             |   5 +
+ drivers/video/console/newport_con.c     |   7 +-
+ drivers/video/fbdev/Kconfig             |  20 +
+ drivers/video/fbdev/Makefile            |   1 +
+ drivers/video/fbdev/amba-clcd.c         | 986 ++++++++++++++++++++++++++++++++
+ drivers/video/fbdev/core/fbcon.c        |  12 +
+ drivers/video/fbdev/core/fbcon.h        |   7 -
+ drivers/video/fbdev/core/fbcon_rotate.c |   1 +
+ drivers/video/fbdev/core/tileblit.c     |   1 +
+ include/drm/drm_dsc.h                   |   2 +-
+ include/linux/amba/clcd-regs.h          |  87 +++
+ include/linux/amba/clcd.h               | 290 ++++++++++
+ include/linux/font.h                    |  13 +
+ lib/fonts/font_10x18.c                  |   9 +-
+ lib/fonts/font_6x10.c                   |   9 +-
+ lib/fonts/font_6x11.c                   |   9 +-
+ lib/fonts/font_7x14.c                   |   9 +-
+ lib/fonts/font_8x16.c                   |   9 +-
+ lib/fonts/font_8x8.c                    |   9 +-
+ lib/fonts/font_acorn_8x8.c              |   9 +-
+ lib/fonts/font_mini_4x6.c               |   8 +-
+ lib/fonts/font_pearl_8x8.c              |   9 +-
+ lib/fonts/font_sun12x22.c               |   9 +-
+ lib/fonts/font_sun8x16.c                |   7 +-
+ lib/fonts/font_ter16x32.c               |   9 +-
+ 25 files changed, 1469 insertions(+), 68 deletions(-)
+ create mode 100644 drivers/video/fbdev/amba-clcd.c
+ create mode 100644 include/linux/amba/clcd-regs.h
+ create mode 100644 include/linux/amba/clcd.h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
