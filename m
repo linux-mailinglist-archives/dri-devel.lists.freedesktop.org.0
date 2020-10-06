@@ -1,57 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A932850BA
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 19:24:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F9D285124
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 19:47:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3DC16E4E3;
-	Tue,  6 Oct 2020 17:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 192DE6E135;
+	Tue,  6 Oct 2020 17:46:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A62A66E4E3
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 17:24:42 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id m7so13413716oie.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 10:24:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RKKopYNcjNeFpv6TLCvBYUo3phBxS/bzVk3ny8U3SZ4=;
- b=Ywzegx7iJlmxeVjVZylTidxr8VgvtygwAsLLUcnt9O5nTCCs6I2rKesGxA6F19rGvi
- UravkjBt8BIXUX4j75kb74n5qmm7iOVZZwiuoAEcuxHJbniAoU8uPchZp6IHOGjcoBlX
- 1QK4XEVHCT1DG5yR53rfHgCYShrIyLE8nZYAA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RKKopYNcjNeFpv6TLCvBYUo3phBxS/bzVk3ny8U3SZ4=;
- b=R0Xmpfz8M/VIvT6HbleyF1DXdaPvyYSt3vHsiHvfJQ+Ehe98jlqRCiIBy1N9rBVwUH
- 7HVKKS4f4KQJTSlWBeDSmx3DgNSV05z56oMky81utF3saf93nKhykOExIsFoZZUQFbA7
- dEQoBcdO1uFj989tN+upfMujU2WD1oJRSQLI7yoYGcdrDzQhcQy/lBWiJ/4stzcjY/VT
- qVXppW+8lOxrefwyqod/4Tf0S1SWlj7uql6B0Vm9iukcZMcfNdsqALlp/sSyNVYE28At
- CRgEe2T4w2z7eRHmOuUA5JaHSZRs12sZTOwmvRd3dkw184NI4LiOxUwQVMBK1oNDAdZF
- PENA==
-X-Gm-Message-State: AOAM533EIEqeA+9fYHYsxj5+FmXFzmoRRTaVOT4Cjq96jPGO0F5pyY8k
- PhHtxpTLf0+HItMlbuwqI6e4+q7NQw0M16JF4llceA==
-X-Google-Smtp-Source: ABdhPJwMRUDWMR5gv6uevejjE1dEUzVSRSA7mRuyKG9aJA0erHylD0SSdUS6tuHF6wQyEztNveufIUanB12QJiWFzXA=
-X-Received: by 2002:aca:6083:: with SMTP id u125mr3479076oib.14.1602005081922; 
- Tue, 06 Oct 2020 10:24:41 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DE26E135;
+ Tue,  6 Oct 2020 17:46:54 +0000 (UTC)
+IronPort-SDR: 8wE7IEVrsxuZ1vhqjRfl6M29UjJJcIBI0ycOEtoYkTbDQwxgMCzv5RvllAB8i7V/u9VskwmXFK
+ MOHSXufBgSJA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9765"; a="226197937"
+X-IronPort-AV: E=Sophos;i="5.77,343,1596524400"; d="scan'208";a="226197937"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2020 10:46:46 -0700
+IronPort-SDR: PekJ/I/CYi2utSxnD70JWdu0aVCNSQFM7b3R22v+oAfo8KijM8P0NjkgcKzg5ScUffjf+iZyjL
+ 0VlA9d9NGUIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,343,1596524400"; d="scan'208";a="342406022"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga004.fm.intel.com with ESMTP; 06 Oct 2020 10:46:46 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 6 Oct 2020 10:46:45 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 6 Oct 2020 10:46:45 -0700
+Received: from orsmsx610.amr.corp.intel.com ([10.22.229.23]) by
+ ORSMSX610.amr.corp.intel.com ([10.22.229.23]) with mapi id 15.01.1713.004;
+ Tue, 6 Oct 2020 10:46:45 -0700
+From: "Souza, Jose" <jose.souza@intel.com>
+To: "Ausmus, James" <james.ausmus@intel.com>, "Nikula, Jani"
+ <jani.nikula@intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Roper,
+ Matthew D" <matthew.d.roper@intel.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "Pandey, Hariom"
+ <hariom.pandey@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "K, SrinivasX" <srinivasx.k@intel.com>,
+ "Surendrakumar Upadhyay, TejaskumarX"
+ <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe
+ protection
+Thread-Topic: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe
+ protection
+Thread-Index: AQHWm/Fk90H9Qy56XkSH4h+5RqsAv6mLT7oA
+Date: Tue, 6 Oct 2020 17:46:45 +0000
+Message-ID: <2f7809798dd0b59246d67c5044dafb1e518fc4c5.camel@intel.com>
+References: <20201006145632.117291-1-srinivasx.k@intel.com>
+In-Reply-To: <20201006145632.117291-1-srinivasx.k@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.100]
+Content-ID: <DF42D4F738564F45A500C43017F5FEFE@intel.com>
 MIME-Version: 1.0
-References: <1601838751-148544-1-git-send-email-jianxin.xiong@intel.com>
- <1601838751-148544-2-git-send-email-jianxin.xiong@intel.com>
- <20201005131302.GQ9916@ziepe.ca>
- <MW3PR11MB455572267489B3F6B1C5F8C5E50C0@MW3PR11MB4555.namprd11.prod.outlook.com>
- <20201006092214.GX438822@phenom.ffwll.local> <20201006154956.GI5177@ziepe.ca>
- <20201006163420.GB438822@phenom.ffwll.local>
-In-Reply-To: <20201006163420.GB438822@phenom.ffwll.local>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 6 Oct 2020 19:24:30 +0200
-Message-ID: <CAKMK7uG1RpDQ9ZO=VxkNuGjGPqkAzMQDgi89eSjDoMerMQ4+9A@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-To: Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,53 +75,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
- "Xiong, Jianxin" <jianxin.xiong@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 6, 2020 at 6:34 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Tue, Oct 06, 2020 at 12:49:56PM -0300, Jason Gunthorpe wrote:
-> > On Tue, Oct 06, 2020 at 11:22:14AM +0200, Daniel Vetter wrote:
-> > >
-> > > For reinstanting the pages you need:
-> > >
-> > > - dma_resv_lock, this prevents anyone else from issuing new moves or
-> > >   anything like that
-> > > - dma_resv_get_excl + dma_fence_wait to wait for any pending moves to
-> > >   finish. gpus generally don't wait on the cpu, but block the dependent
-> > >   dma operations from being scheduled until that fence fired. But for rdma
-> > >   odp I think you need the cpu wait in your worker here.
-> >
-> > Reinstating is not really any different that the first insertion, so
-> > then all this should be needed in every case?
->
-> Yes. Without move_notify we pin the dma-buf into system memory, so it
-> can't move, and hence you also don't have to chase it. But with
-> move_notify this all becomes possible.
-
-I just realized I got it wrong compared to gpus. I needs to be:
-1. dma_resv_lock
-2. dma_buf_map_attachment, which might have to move the buffer around
-again if you're unlucky
-3. wait for the exclusive fence
-4. put sgt into your rdma ptes
-5 dma_resv_unlock
-
-Maybe also something we should document somewhere for dynamic buffers.
-Assuming I got it right this time around ... Christian?
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+K1JvZHJpZ28gYW5kIEphbmkNCg0KT24gVHVlLCAyMDIwLTEwLTA2IGF0IDE0OjU2ICswMDAwLCBL
+YW1hdGkgU3Jpbml2YXMgd3JvdGU6DQo+IFJlbW92aW5nIGZvcmNlIHByb2JlIHByb3RlY3Rpb24g
+ZnJvbSBFSEwgcGxhdGZvcm0uIERpZA0KPiBub3Qgb2JzZXJ2ZSB3YXJuaW5ncywgZXJyb3JzLCBm
+bGlja2VyaW5nIG9yIGFueSB2aXN1YWwNCj4gZGVmZWN0cyB3aGlsZSBkb2luZyBvcmRpbmFyeSB0
+YXNrcyBsaWtlIGJyb3dzaW5nIGFuZA0KPiBlZGl0aW5nIGRvY3VtZW50cyBpbiBhIHR3byBtb25p
+dG9yIHNldHVwLg0KDQpPbmUgb2YgdGhlIHJlcXVpcmVtZW50cyB3YXMgYWxzbyB0byBoYXZlIENJ
+IEJBVCBhbGwgZ3JlZW4gYW5kIHNoYXJkcyBhcyBncmVlbiBpcyBwb3NzaWJsZSBidXQgRUhMIGRv
+bid0IHNob3cgdXAgaW4gQ0kgcmVzdWx0cywgd2UgYWN0dWFsbHkgaGF2ZSBvbmUNCnNpbmdsZSBF
+SEwgbWFjaGluZSBpbiBDSSBidXQgSSBndWVzcyBpdCBpcyBub3QgYWJsZSB0byBydW4gYWxsIHRl
+c3RzIHRoYXQgc2hhcmRzIGRvOg0KaHR0cHM6Ly9pbnRlbC1nZngtY2kuMDEub3JnL3RyZWUvZHJt
+LXRpcC9DSV9EUk1fOTA5Ny9maWxlbGlzdC5odG1sDQoNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEth
+bWF0aSBTcmluaXZhcyA8c3Jpbml2YXN4LmtAaW50ZWwuY29tPg0KPiAtLS0NCj4gwqBkcml2ZXJz
+L2dwdS9kcm0vaTkxNS9pOTE1X3BjaS5jIHwgMSAtDQo+IMKgMSBmaWxlIGNoYW5nZWQsIDEgZGVs
+ZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3Bj
+aS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9wY2kuYw0KPiBpbmRleCAzNjZkZGZjOGRm
+NmIuLmFhOWMxN2E2ODUxYyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkx
+NV9wY2kuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3BjaS5jDQo+IEBAIC04
+NDEsNyArODQxLDYgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBpbnRlbF9kZXZpY2VfaW5mbyBpY2xf
+aW5mbyA9IHsNCj4gwqBzdGF0aWMgY29uc3Qgc3RydWN0IGludGVsX2RldmljZV9pbmZvIGVobF9p
+bmZvID0gew0KPiDCoAlHRU4xMV9GRUFUVVJFUywNCj4gwqAJUExBVEZPUk0oSU5URUxfRUxLSEFS
+VExBS0UpLA0KPiAtCS5yZXF1aXJlX2ZvcmNlX3Byb2JlID0gMSwNCj4gwqAJLnBsYXRmb3JtX2Vu
+Z2luZV9tYXNrID0gQklUKFJDUzApIHwgQklUKEJDUzApIHwgQklUKFZDUzApIHwgQklUKFZFQ1Mw
+KSwNCj4gwqAJLnBwZ3R0X3NpemUgPSAzNiwNCj4gwqB9Ow0KDQpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
