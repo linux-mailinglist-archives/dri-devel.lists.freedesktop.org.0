@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D43285009
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 18:40:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F18B28500A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Oct 2020 18:40:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B29126E4CB;
-	Tue,  6 Oct 2020 16:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 854156E4D4;
+	Tue,  6 Oct 2020 16:40:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62E936E4C5
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 16:40:05 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id m6so14261104wrn.0
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 09:40:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ZsPNJIjvNk27l9e6IRSgWxSSWsE0wBm8OBEV4hcMxXc=;
- b=Iqfbi6CKnuvSQxjB03HZ4vRrlfqEbYqmT00izVAFcfJLRsJehnZqhJARX5zeQN363R
- uTdPAGuZhaiwWS19ruS2UwlQuPIb47ITjlPjaoMk637c+jEN2NQjGUsuScTX19GsvJd2
- 6oGK0MLiWGBS9Ug4zfK4TPR2Sv6bQ39U0lJpY=
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3881A6E4CA
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Oct 2020 16:40:10 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id e18so8329090wrw.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 09:40:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=da8h3YXhYzSHsmNVO3V4Jbn1dErOgATqgY3Xat+BpQs=;
+ b=WLFCV22+Ygba+KbZRc766v+hBr92a5Hhkx3whiNgJo2QCUzKB6Me+t0Bs7nKGMHH8K
+ W7fSbMKV+f/qByg6Qymc+tPvRqnRVjInVCqCgwIl+8nn2oMmY+awUPlrTqdFMwV1GEy0
+ nUEQzKqycwXZlHmUf/vvWI6KnjK06xMWqB9neU60mnsDCOJHWNiqiLSMM4rgCQT7SXYv
+ meDbulAQkp9xEljO+GHGVzhsNZhFx1gfTLE8X7za4wqgaTGEsQg8gsdvOPiC31kwFNwA
+ 6+abAoGSIy/XfomPnRaMgw9qRt6ruqBZfutJyz3DUJtqGxDaQGiKZEQz5E5CH/RzDZE1
+ w7xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZsPNJIjvNk27l9e6IRSgWxSSWsE0wBm8OBEV4hcMxXc=;
- b=QXf9p7QI5/L9EvAeYlWS/ttvOMpRm3QIxg5owLRYrDC8HUs+ky9eazQ7mQxjPYZKOO
- EX80sI928+i7qbGyxy0zfLD+EIH88eP6uAYpsfmiS5EqEyoEZk9zaFXnrTwK9b9CYNSC
- 7zndDWGYkkkmxukMwMNdZU4TZT5yFdJnfhN1iR+UmMHZr4HalI26evl2x8Eh6VGy8dSc
- 9mwB7FTKLK7M+ymiI/y2CVN0LRGzxmkzzxPRBScqAQYpt+ADizV9wLhcr0fAR/pZ5FC8
- LllEytQVit/qRVzov+BLiS3dUX6ZSXz2EZydGF+SFNJ9Mg5Lr2j6tsVMGatZIQbM9eeT
- W32Q==
-X-Gm-Message-State: AOAM5320bTSmX4DVdDsWbNQxVMA+Dms5X3hZvzgHfwqsWNpHHQE0KHE2
- R+G/BVcYjMFOtBQg1G81SFSskQ==
-X-Google-Smtp-Source: ABdhPJz2vI6bXNWd6Sg6wvngP1zncgquhSVWOeY4NtQDV4K8yPv9FirIlCqiemWN3xzycuoqi2pp+Q==
-X-Received: by 2002:adf:f903:: with SMTP id b3mr6180717wrr.142.1602002404051; 
- Tue, 06 Oct 2020 09:40:04 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v18sm5068485wrs.95.2020.10.06.09.40.02
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=da8h3YXhYzSHsmNVO3V4Jbn1dErOgATqgY3Xat+BpQs=;
+ b=ZyVll3Mwh66is0hTNineHFMUrTT2Z6VM5Dv1GB6YaW2/kFBJgCMgB4fOPEAIVY3USf
+ PFErzux0mWVOtJGUZgc9ozS7VQe9SA0Vgn5qgn12Eg2u1opiPCu3wayJYtCYmbPhGDUJ
+ 9wbMgpMmtYCGGUgqcxodrPcM1gVouRhJQaT0nhnyIbGOwTKQ/10ksDe8D/uuvrF1Jd6g
+ 8sOxqV2S0XHOqXEATjdqOq+RFS30184zf4NLe2DXS4HUI21t2BdW1sPZdnyIA7fKnsHd
+ RxmIgnLeZc0ze3gErDoZeUQrsZ/4gJXh9F3ZGvgv/g1Tef0hgmw3kKKwfEgrUe7SqSAx
+ kgtw==
+X-Gm-Message-State: AOAM532eoq+fj4AioyZvc+yHTSeHJoGMmMKpKFFSNLtTx+qMh0HjtS2p
+ Y294pfBfaDZsUdF8MrUPA1Y=
+X-Google-Smtp-Source: ABdhPJzIg4zd/lBrsJMiL4bxKbuI7X36OHuT1nVeGH0PHXiRVDTSZVnRXabV2/51ATrnFHt024JT9Q==
+X-Received: by 2002:adf:db92:: with SMTP id u18mr5957380wri.412.1602002408879; 
+ Tue, 06 Oct 2020 09:40:08 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id b200sm5205866wme.44.2020.10.06.09.40.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 09:40:03 -0700 (PDT)
-Date: Tue, 6 Oct 2020 18:40:01 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-Subject: Re: [RFC PATCH v3 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-Message-ID: <20201006164001.GC438822@phenom.ffwll.local>
-References: <1601838751-148544-1-git-send-email-jianxin.xiong@intel.com>
- <1601838751-148544-2-git-send-email-jianxin.xiong@intel.com>
- <20201005131302.GQ9916@ziepe.ca>
- <MW3PR11MB455572267489B3F6B1C5F8C5E50C0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ Tue, 06 Oct 2020 09:40:08 -0700 (PDT)
+Date: Tue, 6 Oct 2020 13:40:01 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: [PATCH] drm/vkms: update todo
+Message-ID: <20201006164001.wmjjla2ht55krvxf@smtp.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <MW3PR11MB455572267489B3F6B1C5F8C5E50C0@MW3PR11MB4555.namprd11.prod.outlook.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,137 +66,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>, "Vetter,
- Daniel" <daniel.vetter@intel.com>, Christian Koenig <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 05, 2020 at 04:18:11PM +0000, Xiong, Jianxin wrote:
-> > -----Original Message-----
-> > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > Sent: Monday, October 05, 2020 6:13 AM
-> > To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> > Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Leon Romanovsky
-> > <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel
-> > <daniel.vetter@intel.com>
-> > Subject: Re: [RFC PATCH v3 1/4] RDMA/umem: Support importing dma-buf as user memory region
-> > 
-> > On Sun, Oct 04, 2020 at 12:12:28PM -0700, Jianxin Xiong wrote:
-> > > Dma-buf is a standard cross-driver buffer sharing mechanism that can
-> > > be used to support peer-to-peer access from RDMA devices.
-> > >
-> > > Device memory exported via dma-buf is associated with a file descriptor.
-> > > This is passed to the user space as a property associated with the
-> > > buffer allocation. When the buffer is registered as a memory region,
-> > > the file descriptor is passed to the RDMA driver along with other
-> > > parameters.
-> > >
-> > > Implement the common code for importing dma-buf object and mapping
-> > > dma-buf pages.
-> > >
-> > > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
-> > > Reviewed-by: Sean Hefty <sean.hefty@intel.com>
-> > > Acked-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> > > ---
-> > >  drivers/infiniband/core/Makefile      |   2 +-
-> > >  drivers/infiniband/core/umem.c        |   4 +
-> > >  drivers/infiniband/core/umem_dmabuf.c | 291
-> > > ++++++++++++++++++++++++++++++++++
-> > >  drivers/infiniband/core/umem_dmabuf.h |  14 ++
-> > >  drivers/infiniband/core/umem_odp.c    |  12 ++
-> > >  include/rdma/ib_umem.h                |  19 ++-
-> > >  6 files changed, 340 insertions(+), 2 deletions(-)  create mode
-> > > 100644 drivers/infiniband/core/umem_dmabuf.c
-> > >  create mode 100644 drivers/infiniband/core/umem_dmabuf.h
-> > 
-> > I think this is using ODP too literally, dmabuf isn't going to need fine grained page faults, and I'm not sure this locking scheme is OK - ODP is
-> > horrifically complicated.
-> > 
-> 
-> > If this is the approach then I think we should make dmabuf its own stand alone API, reg_user_mr_dmabuf()
-> 
-> That's the original approach in the first version. We can go back there.
-> 
-> > 
-> > The implementation in mlx5 will be much more understandable, it would just do dma_buf_dynamic_attach() and program the XLT exactly
-> > the same as a normal umem.
-> > 
-> > The move_notify() simply zap's the XLT and triggers a work to reload it after the move. Locking is provided by the dma_resv_lock. Only a
-> > small disruption to the page fault handler is needed.
-> > 
-> 
-> We considered such scheme but didn't go that way due to the lack of notification when the move is done and thus the work wouldn't know when it can reload.
-> 
-> Now I think it again, we could probably signal the reload in the page fault handler. 
-> 
-> > > +	dma_resv_lock(umem_dmabuf->attach->dmabuf->resv, NULL);
-> > > +	sgt = dma_buf_map_attachment(umem_dmabuf->attach,
-> > > +				     DMA_BIDIRECTIONAL);
-> > > +	dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
-> > 
-> > This doesn't look right, this lock has to be held up until the HW is programmed
-> 
-> The mapping remains valid until being invalidated again. There is a sequence number checking before programming the HW. 
-> 
-> > 
-> > The use of atomic looks probably wrong as well.
-> 
-> Do you mean umem_dmabuf->notifier_seq? Could you elaborate the concern?
-> 
-> > 
-> > > +	k = 0;
-> > > +	total_pages = ib_umem_odp_num_pages(umem_odp);
-> > > +	for_each_sg(umem->sg_head.sgl, sg, umem->sg_head.nents, j) {
-> > > +		addr = sg_dma_address(sg);
-> > > +		pages = sg_dma_len(sg) >> page_shift;
-> > > +		while (pages > 0 && k < total_pages) {
-> > > +			umem_odp->dma_list[k++] = addr | access_mask;
-> > > +			umem_odp->npages++;
-> > > +			addr += page_size;
-> > > +			pages--;
-> > 
-> > This isn't fragmenting the sg into a page list properly, won't work for unaligned things
-> 
-> I thought the addresses are aligned, but will add explicit alignment here.
+Drop issues already resolved in vkms:
 
-Everyone's working under the assumption that dma_buf sg lists are fully
-PAGE aligned. Lots of stuff can break otherwise all over the place. You
-might get more than that, especially for p2p since many gpus work on 64kb
-pages for the vram, but system pages are 4k aligned.
+- CRC API Improvements to [1] add igt test to check extreme alpha values
+  and [2] alpha blending;
+- [3] prime buffer sharing;
+- [4] writeback support;
 
-I think we need a patch to clarify this in the kerneldoc, bot for
-dma_buf_map_attachment for importers and the dma_buf_ops callback for
-exporters.
+On the other hand, we also found or thought about other improvements since
+the last update of this document:
 
-Also I think it'd be good to verify that when dma api debugging is
-enabled, i.e. when dma_buf_map_attachment succeeds, walk the entire sg
-list and validate that all dma_addr_t segments are page aligned. And if
-not, WARN loudly and fail.
--Daniel
+- better support for IGT tests
+- improvements to writeback support
+- syzbot report
 
+Finally, we reorder items by the assumed complexity.
+
+[1] https://patchwork.freedesktop.org/series/55944/
+[2] https://patchwork.freedesktop.org/series/80823/
+[3] https://patchwork.freedesktop.org/series/63212/
+[4] https://patchwork.freedesktop.org/series/81177/
+
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+
+Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
+---
+ Documentation/gpu/vkms.rst | 99 ++++++++++++++++++++------------------
+ 1 file changed, 53 insertions(+), 46 deletions(-)
+
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index 61586fc861bb..82a01bb4104c 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -10,36 +10,24 @@
+ TODO
+ ====
  
-> > 
-> > And really we don't need the dma_list for this case, with a fixed whole mapping DMA SGL a normal umem sgl is OK and the normal umem
-> > XLT programming in mlx5 is fine.
-> 
-> The dma_list is used by both "polulate_mtt()" and "mlx5_ib_invalidate_range", which are used for XLT programming and invalidating (zapping), respectively.
-> 
-> > 
-> > Jason
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
+-CRC API Improvements
+---------------------
+-
+-- Optimize CRC computation ``compute_crc()`` and plane blending ``blend()``
+-
+-- Use the alpha value to blend vaddr_src with vaddr_dst instead of
+-  overwriting it in ``blend()``.
+-
+-- Add igt test to check cleared alpha value for XRGB plane format.
+-
+-- Add igt test to check extreme alpha values i.e. fully opaque and fully
+-  transparent (intermediate values are affected by hw-specific rounding modes).
+-
+-Runtime Configuration
+----------------------
+-
+-We want to be able to reconfigure vkms instance without having to reload the
+-module. Use/Test-cases:
+-
+-- Hotplug/hotremove connectors on the fly (to be able to test DP MST handling of
+-  compositors).
++If you want to do any of the items listed below, please share your interest
++with one of the VKMS maintainers.
+ 
+-- Configure planes/crtcs/connectors (we'd need some code to have more than 1 of
+-  them first).
++IGT better support
++------------------
+ 
+-- Change output configuration: Plug/unplug screens, change EDID, allow changing
+-  the refresh rate.
++- Investigate: (1) test cases on kms_plane that are failing due to timeout on
++  capturing CRC; (2) when running kms_flip test cases in sequence, some
++  successful individual test cases are failing randomly.
+ 
+-The currently proposed solution is to expose vkms configuration through
+-configfs.  All existing module options should be supported through configfs too.
++- VKMS already has support for vblanks simulated via hrtimers, which can be
++  tested with kms_flip test; in some way, we can say that VKMS already mimics
++  the real hardware vblank. However, we also have virtual hardware that does
++  not support vblank interrupt and completes page_flip events right away; in
++  this case, compositor developers may end up creating a busy loop on virtual
++  hardware. It would be useful to support Virtual Hardware behavior in VKMS
++  because this can help compositor developers to test their features in
++  multiple scenarios.
+ 
+ Add Plane Features
+ ------------------
+@@ -55,34 +43,50 @@ There's lots of plane features we could add support for:
+ - Additional buffer formats, especially YUV formats for video like NV12.
+   Low/high bpp RGB formats would also be interesting.
+ 
+-- Async updates (currently only possible on cursor plane using the legacy cursor
+-  api).
++- Async updates (currently only possible on cursor plane using the legacy
++  cursor api).
++
++For all of these, we also want to review the igt test coverage and make sure
++all relevant igt testcases work on vkms.
++
++Prime Buffer Sharing
++--------------------
+ 
+-For all of these, we also want to review the igt test coverage and make sure all
+-relevant igt testcases work on vkms.
++- Syzbot report:
++  WARNING in vkms_gem_free_object: https://lkml.org/lkml/2019/10/13/220
++
++Runtime Configuration
++---------------------
++
++We want to be able to reconfigure vkms instance without having to reload the
++module. Use/Test-cases:
++
++- Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
++  of compositors).
++
++- Configure planes/crtcs/connectors (we'd need some code to have more than 1 of
++  them first).
++
++- Change output configuration: Plug/unplug screens, change EDID, allow changing
++  the refresh rate.
++
++The currently proposed solution is to expose vkms configuration through
++configfs.  All existing module options should be supported through configfs
++too.
+ 
+ Writeback support
+ -----------------
+ 
+-Currently vkms only computes a CRC for each frame. Once we have additional plane
+-features, we could write back the entire composited frame, and expose it as:
++- The writeback and CRC capture operations share the use of composer_enabled
++  boolean to ensure vblanks. Probably, when these operations work together,
++  composer_enabled needs to refcounting the composer state to proper work.
+ 
+-- Writeback connector. This is useful for testing compositors if you don't have
+-  hardware with writeback support.
++- Add support for cloned writeback outputs and related test cases using a
++  cloned output in the IGT kms_writeback.
+ 
+ - As a v4l device. This is useful for debugging compositors on special vkms
+   configurations, so that developers see what's really going on.
+ 
+-Prime Buffer Sharing
+---------------------
+-
+-We already have vgem, which is a gem driver for testing rendering, similar to
+-how vkms is for testing the modeset side. Adding buffer sharing support to vkms
+-allows us to test them together, to test synchronization and lots of other
+-features. Also, this allows compositors to test whether they work correctly on
+-SoC chips, where the display and rendering is very often split between 2
+-drivers.
+-
+ Output Features
+ ---------------
+ 
+@@ -93,7 +97,10 @@ Output Features
+ - Add support for link status, so that compositors can validate their runtime
+   fallbacks when e.g. a Display Port link goes bad.
+ 
+-- All the hotplug handling describe under "Runtime Configuration".
++CRC API Improvements
++--------------------
++
++- Optimize CRC computation ``compute_crc()`` and plane blending ``blend()``
+ 
+ Atomic Check using eBPF
+ -----------------------
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
