@@ -1,119 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0F62861CF
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:08:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 964E5286256
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:40:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB9056E8FA;
-	Wed,  7 Oct 2020 15:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF68A6E92F;
+	Wed,  7 Oct 2020 15:39:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C37ED6E8FA
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 15:08:16 +0000 (UTC)
-IronPort-SDR: 5fFjoBBYZQ0YfimkaSadR0NXUvHoPQkir7EbMS7USJdQsgZ/Xx8IGV/5lqI55bOOJYCYCguMpd
- GK/OhwF7FHQA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9767"; a="182449611"
-X-IronPort-AV: E=Sophos;i="5.77,347,1596524400"; d="scan'208";a="182449611"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2020 08:08:16 -0700
-IronPort-SDR: y71o1ezEBiOTt0t5C0d9vzYHhD21ipA2P6hCbJygqol70mQu4uaM7PR8TR1f/SDcqqIcYC1Riz
- aTm3c5ZJWJsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,347,1596524400"; d="scan'208";a="354932754"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by orsmga007.jf.intel.com with ESMTP; 07 Oct 2020 08:08:15 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 7 Oct 2020 08:08:15 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 7 Oct 2020 08:08:15 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 7 Oct 2020 08:08:15 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Wed, 7 Oct 2020 08:08:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SgOIOblKDrmiUR2C16/lyUyao7/YP45l22JJTq5szXBeBhdUu3OQSpqsdBLp9GDTZTMoVCO7S/NpEdysY+lE/SHflFZbT4Qv/34GoqTVEUW2hB+KfQr0kqMlSQGGIVbwWczSImfucoXlVgOj6SyOhnf/JeTyXyPO5z0DI15MUl6V1dNzg0IN+XjHO7DzrAeoTaNI/xuYgpkh8NU2mRcRtWH2OK6WpCDUr4Tn4aNitlIjNUX9hN9chfElfnk8fO713gmXGUlzSo0HpbYnifPGydG42a0z7hsE3Qjq59gik9AWTXXR1yNWls2jV2AQn4Xq9efl2+GFztCjl79TG7L0GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eLYp4Fu8oNwR/bmKkXHKOhdOletzl47W2DaO6aPIK8U=;
- b=LLS24GGGd/UT9z0pu8CKrt/Td3NO4FfsBFH8MV8yjOkjOwIExPttiBnJVBd8Tatfq2r4yaMkcVoPcNF1NLuNSHSyrsqxqZ6//gvWOQWSmT7sRf4PaMy73lbru5yCT5U+Y7Yayv2uoYKrflFO+Pq5E/Es5yN7nUWWK0ohhoTk6PF8y+yrZ0RTmctooUu3xDrL3z/AgkNRGLjc5QtnV1xB64QdAQJVAhlmTY1qkaSnAhmJMOzxmaRIXZuMCgAATJpCgkYEJbGhuHK+op2x1V7hTNVlDWgKw8el6zqqFbh0oOMqfg/gLZTCxOpCs12ph1dZ3S51tcLBky99fRAY4zIiXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eLYp4Fu8oNwR/bmKkXHKOhdOletzl47W2DaO6aPIK8U=;
- b=rQ5SwGMAGi3F8JiUOouSp1W09F3FZdFa4/tzytzEbBwQFn6kIlic07FQHPOthWhWpOj4JJXO0js2JpUq8h7kL432d7bOKfVfDyO1fELHUZLxTiyQDYXFkEwNXFtoU+Z/7sAvf9ZjAyZLgpM7kypUUNtSNwYAMydnkTYHVnyuudY=
-Received: from BN6PR11MB4180.namprd11.prod.outlook.com (2603:10b6:405:7c::13)
- by BN7PR11MB2643.namprd11.prod.outlook.com (2603:10b6:406:b2::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Wed, 7 Oct
- 2020 15:08:04 +0000
-Received: from BN6PR11MB4180.namprd11.prod.outlook.com
- ([fe80::94b4:34ac:278c:79de]) by BN6PR11MB4180.namprd11.prod.outlook.com
- ([fe80::94b4:34ac:278c:79de%6]) with mapi id 15.20.3455.023; Wed, 7 Oct 2020
- 15:08:04 +0000
-From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-To: Rob Herring <robh@kernel.org>
-Subject: RE: [PATCH v8 1/4] drm/kmb: Keem Bay driver register definition
-Thread-Topic: [PATCH v8 1/4] drm/kmb: Keem Bay driver register definition
-Thread-Index: AQHWmStdX6pCasYRwkq10QwzhGbhnKmMLd6AgAAWt8A=
-Date: Wed, 7 Oct 2020 15:08:04 +0000
-Message-ID: <BN6PR11MB41800DF50D59F9749396C4D28C0A0@BN6PR11MB4180.namprd11.prod.outlook.com>
-References: <1601691422-12851-1-git-send-email-anitha.chrisanthus@intel.com>
- <1601691422-12851-2-git-send-email-anitha.chrisanthus@intel.com>
- <CAL_JsqL9Wf4H8NQeu2Qe-zeCVk2A=XVY6kC2nUTdQ0M6qRphMA@mail.gmail.com>
-In-Reply-To: <CAL_JsqL9Wf4H8NQeu2Qe-zeCVk2A=XVY6kC2nUTdQ0M6qRphMA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.151.242.136]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 94311e64-9bc8-4902-290e-08d86ad2ca84
-x-ms-traffictypediagnostic: BN7PR11MB2643:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BN7PR11MB2643B08975C1EDA767DE00888C0A0@BN7PR11MB2643.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:849;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Cy2MOcSDb1pHOkrtPv3JFoxAuUOsjYLmyRZ2EeLHjTlDZj2qEceQnZCVnYF6nTmHee+ZnUBDYQhz8IG/uiWcu2rJ0aV1DSoTeql6HpQZDE01yUPS57JEl6/rU8vAxXirPd85qSN69dXP+yS2uMLZ5/uDzSNqRNV5r3fseIv4Ezdi3ufQHeR53uI3R7hZe80ft9kXG13gLohRKGPVhZtDDVrOB9BU1KPMMN+/bi5yS2sr4YY32anUdMAq0NeYq0BZq+XK3LEG43t2yKQmYI89ABgEw4T7T8co/H8d5Ho4/MXwiIn84RNgXLFQXK3Ct5S/
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR11MB4180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(366004)(39860400002)(396003)(86362001)(5660300002)(2906002)(8676002)(6916009)(53546011)(6506007)(33656002)(83380400001)(8936002)(55016002)(186003)(7696005)(26005)(71200400001)(9686003)(54906003)(478600001)(52536014)(66446008)(66556008)(64756008)(316002)(66476007)(76116006)(66946007)(4326008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: hNgI8NgMuzMZYrY8tLWKWvauYvWVtXRCr5KkGXmKYpt/SZDbLwk+sOHjHbJrBK81IN6v18jaTOqLlSWtpnk1+parfoeF2uieOkSruGQRS+tB40OIG5mLbQYM5Y+qIgvNT7weUAxlwSL0Q0D+boLso/m/UjgPlCfxj8gRMqiWO02sLysS84Aucn8/qC/iP71Y/CuZzf3cgr0X8fr36vf6aV88PnWJ1TowTw/5RpwjKGoqJfwahgKKoTI2aV6nfrkV+fpiy+2S888/kTxBxbDL3njRasHQH5HDjkoQEVcmNttWN9D/sSVUwMqu/9K2K9QkOX5K/O6Yr3veSE+sJNJuAf1JP8FSTbki0tAmgkkD3yRhCyKq9vkkTmG7wMP+DV99uBkkfKMJGNHmzoNwguvgVP1ps9pgvRpAcFxwhz1plUNWBvQYVz4rDI6ju4fmAvRAYiXcoTL0a6kHlpPHm5IisDeDGafOFYwzrcB4P6I2T8yqBz6dGd7ePvQ30FCJ5xdixImsC6vet8Wc5ABS9YR6Ls2uUMFtwNln5PbOnI3m9MaUGgQY4GsNvU1yBNzzOWOuQf5pD0TwSbJ3UK7hhP+IO6kNXdz2aecIknrmA11qsP8wP8N8LdGcxAjBhwzrAZCLMqsnzyzMutLNcZKMmljJjQ==
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 05A896E8FF
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 15:12:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4919A106F;
+ Wed,  7 Oct 2020 08:12:27 -0700 (PDT)
+Received: from localhost (unknown [10.1.199.49])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE4AD3F66B;
+ Wed,  7 Oct 2020 08:12:26 -0700 (PDT)
+Date: Wed, 7 Oct 2020 16:12:25 +0100
+From: Ionela Voinescu <ionela.voinescu@arm.com>
+To: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH 4/5] thermal: devfreq_cooling: remove old power model and
+ use EM
+Message-ID: <20201007151225.GB15063@arm.com>
+References: <20200921122007.29610-1-lukasz.luba@arm.com>
+ <20200921122007.29610-5-lukasz.luba@arm.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB4180.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94311e64-9bc8-4902-290e-08d86ad2ca84
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2020 15:08:04.5830 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 71X8xP8JijIwaWCiTmb7K8TfxHCwg3+q3jbd8Y6qZFowUw9O0o0KIDCj7/6z/mb0ECQz2UuJrWdMDpO8RKAlabbL19VHa46eCX3AZ21Y1TY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2643
-X-OriginatorOrg: intel.com
+Content-Disposition: inline
+In-Reply-To: <20200921122007.29610-5-lukasz.luba@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Wed, 07 Oct 2020 15:39:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,57 +43,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, "Vetter,
- Daniel" <daniel.vetter@intel.com>, "Dea, Edmund J" <edmund.j.dea@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
+ daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, orjan.eide@arm.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUm9iIEhlcnJpbmcgPHJv
-YmhAa2VybmVsLm9yZz4NCj4gU2VudDogV2VkbmVzZGF5LCBPY3RvYmVyIDcsIDIwMjAgNjo0NSBB
-TQ0KPiBUbzogQ2hyaXNhbnRodXMsIEFuaXRoYSA8YW5pdGhhLmNocmlzYW50aHVzQGludGVsLmNv
-bT4NCj4gQ2M6IGRyaS1kZXZlbCA8ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz47IFBh
-YXV3ZSwgQm9iIEoNCj4gPGJvYi5qLnBhYXV3ZUBpbnRlbC5jb20+OyBEZWEsIEVkbXVuZCBKIDxl
-ZG11bmQuai5kZWFAaW50ZWwuY29tPjsNCj4gVmV0dGVyLCBEYW5pZWwgPGRhbmllbC52ZXR0ZXJA
-aW50ZWwuY29tPjsgU2FtIFJhdm5ib3JnDQo+IDxzYW1AcmF2bmJvcmcub3JnPg0KPiBTdWJqZWN0
-OiBSZTogW1BBVENIIHY4IDEvNF0gZHJtL2ttYjogS2VlbSBCYXkgZHJpdmVyIHJlZ2lzdGVyIGRl
-ZmluaXRpb24NCj4gDQo+IE9uIEZyaSwgT2N0IDIsIDIwMjAgYXQgOToxNyBQTSBBbml0aGEgQ2hy
-aXNhbnRodXMNCj4gPGFuaXRoYS5jaHJpc2FudGh1c0BpbnRlbC5jb20+IHdyb3RlOg0KPiA+DQo+
-ID4gUmVnaXN0ZXIgZGVmaW5pdGlvbnMgZm9yIEtlZW0gQmF5IGRpc3BsYXkgZHJpdmVyDQo+ID4N
-Cj4gPiB2MjogcmVtb3ZlZCBsaWNlbnNlIHRleHQgKFNhbSkNCj4gPiB2MzogU3F1YXNoZWQgYWxs
-IDU5IGNvbW1pdHMgdG8gb25lDQo+ID4gdjQ6IHJldmlldyBjaGFuZ2VzIGZyb20gU2FtIFJhdm5i
-b3JnDQo+ID4gICAgICAgICByZW5hbWVkIGRldl9wIHRvIGttYg0KPiA+IHY1OiBjb3JyZWN0ZWQg
-c3BlbGxpbmdzDQo+ID4gdjY6IGNvcnJlY3RlZCBjaGVja3BhdGNoIHdhcm5pbmdzDQo+ID4NCj4g
-PiBDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPg0KPiA+IFNpZ25lZC1vZmYtYnk6
-IEFuaXRoYSBDaHJpc2FudGh1cyA8YW5pdGhhLmNocmlzYW50aHVzQGludGVsLmNvbT4NCj4gPiBS
-ZXZpZXdlZC1ieTogQm9iIFBhYXV3ZSA8Ym9iLmoucGFhdXdlQGludGVsLmNvbT4NCj4gPiAtLS0N
-Cj4gPiAgZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcmVncy5oIHwgNzQ4DQo+ICsrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA3NDgg
-aW5zZXJ0aW9ucygrKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2tt
-Yi9rbWJfcmVncy5oDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2ttYi9r
-bWJfcmVncy5oDQo+IGIvZHJpdmVycy9ncHUvZHJtL2ttYi9rbWJfcmVncy5oDQo+ID4gbmV3IGZp
-bGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwLi5mNzk0YWMzDQo+ID4gLS0tIC9kZXYv
-bnVsbA0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9rbWIva21iX3JlZ3MuaA0KPiA+IEBAIC0w
-LDAgKzEsNzQ4IEBADQo+ID4gKy8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9u
-bHkNCj4gPiArICoNCj4gPiArICogQ29weXJpZ2h0IMKpIDIwMTgtMjAyMCBJbnRlbCBDb3Jwb3Jh
-dGlvbg0KPiA+ICsgKi8NCj4gPiArDQo+ID4gKyNpZm5kZWYgX19LTUJfUkVHU19IX18NCj4gPiAr
-I2RlZmluZSBfX0tNQl9SRUdTX0hfXw0KPiA+ICsNCj4gPiArI2RlZmluZSBFTkFCTEUgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgMQ0KPiA+ICsjZGVmaW5lIERJU0FCTEUgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDANCj4gPiArLypmcm9tIERhdGEgQm9v
-ayBzZWN0aW9uIDEyLjUuOC4xIHBhZ2UgNDMyMiAqLw0KPiA+ICsjZGVmaW5lIENQUl9CQVNFX0FE
-RFIgICAgICAgICAgICAgICAgICAgICAgICAgICAoMHgyMDgxMDAwMCkNCj4gPiArI2RlZmluZSBN
-SVBJX0JBU0VfQUREUiAgICAgICAgICAgICAgICAgICAgICAgICAgKDB4MjA5MDAwMDApDQo+ID4g
-Ky8qZnJvbSBEYXRhIEJvb2sgc2VjdGlvbiAxMi4xMS42LjEgcGFnZSA0OTcyICovDQo+ID4gKyNk
-ZWZpbmUgTENEX0JBU0VfQUREUiAgICAgICAgICAgICAgICAgICAgICAgICAgICgweDIwOTMwMDAw
-KQ0KPiA+ICsjZGVmaW5lIE1TU19DQU1fQkFTRV9BRERSICAgICAgICAgICAgICAgICAgICAgIChN
-SVBJX0JBU0VfQUREUiArDQo+IDB4MTAwMDApDQo+ID4gKyNkZWZpbmUgTENEX01NSU9fU0laRSAg
-ICAgICAgICAgICAgICAgICAgICAgICAgKDB4MzAwMCkNCj4gPiArI2RlZmluZSBNSVBJX01NSU9f
-U0laRSAgICAgICAgICAgICAgICAgICAgICAgICAoMHg0MDAwKQ0KPiA+ICsjZGVmaW5lIE1TU19D
-QU1fTU1JT19TSVpFICAgICAgICAgICAgICAgICAgICAgICgweDMwKQ0KPiANCj4gV2h5IGFyZSB0
-aGVzZSBkZWZpbmVzIGhlcmU/IFRoZXkgYWxsIGNvbWUgZnJvbSBEVC4NCldpbGwgcmVtb3ZlLCB3
-aWxsIHNlbmQgdjkgc29vbi4NCj4gDQo+IFJvYg0KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Lukasz,
+
+On Monday 21 Sep 2020 at 13:20:06 (+0100), Lukasz Luba wrote:
+[..]
+>  /**
+> - * freq_get_state() - get the cooling state corresponding to a frequency
+> + * freq_get_state() - get the performance index corresponding to a frequency
+
+If we change the meaning of the return value, I think the function needs
+a name change as well.
+
+Also, we do treat this as a cooling state when we do validation and
+compare it to THERMAL_CSTATE_INVALID,  but it's not actually a cooling
+state (it's max_state - state). It does create confusion if we name
+"state" both a performance index and a cooling state.
+
+Given that the only user is devfreq_cooling_get_requested_power(),
+might be good to collapse freq_get_state() in that function and rename
+the "state" variable in there to "em_perf_idx".
+
+>   * @dfc:	Pointer to devfreq cooling device
+> - * @freq:	frequency in Hz
+> + * @freq:	frequency in kHz
+>   *
+> - * Return: the cooling state associated with the @freq, or
+> + * Return: the performance index associated with the @freq, or
+>   * THERMAL_CSTATE_INVALID if it wasn't found.
+>   */
+>  static unsigned long
+> @@ -128,8 +130,8 @@ freq_get_state(struct devfreq_cooling_device *dfc, unsigned long freq)
+>  {
+>  	int i;
+>  
+> -	for (i = 0; i < dfc->freq_table_size; i++) {
+> -		if (dfc->freq_table[i] == freq)
+> +	for (i = 0; i <= dfc->max_state; i++) {
+> +		if (dfc->em->table[i].frequency == freq)
+>  			return i;
+>  	}
+>  
+> @@ -164,71 +166,15 @@ static unsigned long get_voltage(struct devfreq *df, unsigned long freq)
+>  	return voltage;
+>  }
+>  
+> -/**
+> - * get_static_power() - calculate the static power
+> - * @dfc:	Pointer to devfreq cooling device
+> - * @freq:	Frequency in Hz
+> - *
+> - * Calculate the static power in milliwatts using the supplied
+> - * get_static_power().  The current voltage is calculated using the
+> - * OPP library.  If no get_static_power() was supplied, assume the
+> - * static power is negligible.
+> - */
+> -static unsigned long
+> -get_static_power(struct devfreq_cooling_device *dfc, unsigned long freq)
+> +static void dfc_em_get_requested_power(struct em_perf_domain *em,
+> +				       struct devfreq_dev_status *status,
+> +				       u32 *power, int em_perf_idx)
+
+Is there a reason for not directly returning the power value in this
+function? Also, this only does a few arithmetic operations and it's only
+called in one place. Is it worth to have this in a separate function?
+
+[..]
+> @@ -345,11 +279,8 @@ static int devfreq_cooling_power2state(struct thermal_cooling_device *cdev,
+>  	struct devfreq_cooling_device *dfc = cdev->devdata;
+>  	struct devfreq *df = dfc->devfreq;
+>  	struct devfreq_dev_status status;
+> -	unsigned long busy_time;
+> +	u32 est_power = power;
+
+Nit: You could use power directly and remove est_power as well.
+
+>  	unsigned long freq;
+> -	s32 dyn_power;
+> -	u32 static_power;
+> -	s32 est_power;
+>  	int i;
+>  
+>  	mutex_lock(&df->lock);
+> @@ -358,31 +289,26 @@ static int devfreq_cooling_power2state(struct thermal_cooling_device *cdev,
+>  
+>  	freq = status.current_frequency;
+>  
+> -	if (dfc->power_ops->get_real_power) {
+> +	if (dfc->power_ops && dfc->power_ops->get_real_power) {
+>  		/* Scale for resource utilization */
+>  		est_power = power * dfc->res_util;
+>  		est_power /= SCALE_ERROR_MITIGATION;
+>  	} else {
+> -		static_power = get_static_power(dfc, freq);
+> -
+> -		dyn_power = power - static_power;
+> -		dyn_power = dyn_power > 0 ? dyn_power : 0;
+> -
+> -		/* Scale dynamic power for utilization */
+> -		busy_time = status.busy_time ?: 1;
+> -		est_power = (dyn_power * status.total_time) / busy_time;
+> +		_normalize_load(&status);
+> +		est_power *= status.total_time;
+> +		est_power /= status.busy_time;
+>  	}
+>  
+>  	/*
+>  	 * Find the first cooling state that is within the power
+> -	 * budget for dynamic power.
+> +	 * budget. The EM power table is sorted ascending.
+>  	 */
+> -	for (i = 0; i < dfc->freq_table_size - 1; i++)
+> -		if (est_power >= dfc->power_table[i])
+> +	for (i = dfc->max_state; i > 0; i--)
+> +		if (est_power >= dfc->em->table[i].power)
+>  			break;
+>  
+> -	*state = i;
+> -	dfc->capped_state = i;
+> +	*state = dfc->max_state - i;
+> +	dfc->capped_state = *state;
+>  	trace_thermal_power_devfreq_limit(cdev, freq, *state, power);
+>  	return 0;
+>  }
+[..]
+>  /**
+> @@ -503,7 +381,7 @@ of_devfreq_cooling_register_power(struct device_node *np, struct devfreq *df,
+>  	struct thermal_cooling_device *cdev;
+>  	struct devfreq_cooling_device *dfc;
+>  	char dev_name[THERMAL_NAME_LENGTH];
+> -	int err;
+> +	int err, num_opps;
+>  
+>  	dfc = kzalloc(sizeof(*dfc), GFP_KERNEL);
+>  	if (!dfc)
+> @@ -511,28 +389,45 @@ of_devfreq_cooling_register_power(struct device_node *np, struct devfreq *df,
+>  
+>  	dfc->devfreq = df;
+>  
+> -	if (dfc_power) {
+> -		dfc->power_ops = dfc_power;
+> -
+> +	dfc->em = em_pd_get(df->dev.parent);
+> +	if (dfc->em) {
+>  		devfreq_cooling_ops.get_requested_power =
+>  			devfreq_cooling_get_requested_power;
+>  		devfreq_cooling_ops.state2power = devfreq_cooling_state2power;
+>  		devfreq_cooling_ops.power2state = devfreq_cooling_power2state;
+> +
+> +		dfc->power_ops = dfc_power;
+> +
+> +		num_opps = em_pd_nr_perf_states(dfc->em);
+> +	} else {
+> +		/* Backward compatibility for drivers which do not use IPA */
+> +		dev_dbg(df->dev.parent, "missing EM for cooling device\n");
+> +
+> +		num_opps = dev_pm_opp_get_opp_count(df->dev.parent);
+> +
+> +		err = devfreq_cooling_gen_tables(dfc, num_opps);
+> +		if (err)
+> +			goto free_dfc;
+>  	}
+>  
+> -	err = devfreq_cooling_gen_tables(dfc);
+> -	if (err)
+> +	if (num_opps <= 0) {
+> +		err = -EINVAL;
+>  		goto free_dfc;
+> +	}
+> +
+> +	/* max_state is an index, not a counter */
+
+Nit: Might be more clear to replace "index" with cooling state. Then
+knowledge about cooling states would make this more clear.
+
+Regards,
+Ionela.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
