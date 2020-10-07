@@ -1,37 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44F928564E
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 03:25:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FA0285971
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:23:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F5D36E84D;
-	Wed,  7 Oct 2020 01:25:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9159F6E8B0;
+	Wed,  7 Oct 2020 07:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15B3B6E84D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 01:25:31 +0000 (UTC)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44E0642C1;
- Wed,  7 Oct 2020 03:25:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1602033929;
- bh=MHfduSLX31zuVOOXzvh2ussiuPmUCawVbuRbsDCAyTg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AJHzLw0jJP0BrwnbDCnWP9OL5GTR/hRjL7VaaVA4TdD8TjXbECG0K05odvq4YaWnL
- 0EQT5dQ1kWXvoYySakhOk0MKin/5+e7c4W9IqW+cEptHmRQ514L+9d2lMfJ09mT5k6
- lhLnILJWVRekdw+YWK+5W8rSK6/P8+QiK6O56miI=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 7/7] drm: mxsfb: Add support for the bus-width DT property
-Date: Wed,  7 Oct 2020 04:24:38 +0300
-Message-Id: <20201007012438.27970-8-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
-References: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
-MIME-Version: 1.0
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3BFF6E895;
+ Wed,  7 Oct 2020 06:59:33 +0000 (UTC)
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37]
+ helo=localhost) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <kai.heng.feng@canonical.com>)
+ id 1kQ3Q5-00076b-Je; Wed, 07 Oct 2020 06:59:26 +0000
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/2] drm/i915/dpcd_bl: Skip testing control capability with
+ force DPCD quirk
+Date: Wed,  7 Oct 2020 14:58:20 +0800
+Message-Id: <20201007065915.13883-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Wed, 07 Oct 2020 07:22:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,106 +47,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Rob Herring <robh+dt@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A new bus-width DT property has been introduced in the bindings to allow
-overriding the bus width. Support it.
+HP DreamColor panel needs to be controlled via AUX interface. However,
+it has both DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP and
+DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP set, so it fails to pass
+intel_dp_aux_display_control_capable() test.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Skip the test if the panel has force DPCD quirk.
+
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/mxsfb/mxsfb_drv.h |  2 ++
- drivers/gpu/drm/mxsfb/mxsfb_kms.c |  8 ++++++--
- 3 files changed, 34 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 35122aef037b..d52cf8a506a5 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -114,10 +114,36 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
- {
- 	struct drm_device *drm = mxsfb->drm;
- 	struct drm_connector_list_iter iter;
-+	struct device_node *ep;
- 	struct drm_panel *panel;
- 	struct drm_bridge *bridge;
-+	u32 bus_width = 0;
- 	int ret;
- 
-+	ep = of_graph_get_endpoint_by_regs(drm->dev->of_node, 0, 0);
-+	if (!ep)
-+		return -ENODEV;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+index acbd7eb66cbe..acf2e1c65290 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+@@ -347,9 +347,13 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
+ 	struct intel_panel *panel = &intel_connector->panel;
+ 	struct intel_dp *intel_dp = enc_to_intel_dp(intel_connector->encoder);
+ 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
++	bool force_dpcd;
 +
-+	of_property_read_u32(ep, "bus-width", &bus_width);
-+	of_node_put(ep);
-+
-+	switch (bus_width) {
-+	case 16:
-+		mxsfb->bus_format = MEDIA_BUS_FMT_RGB565_1X16;
-+		break;
-+	case 18:
-+		mxsfb->bus_format = MEDIA_BUS_FMT_RGB666_1X18;
-+		break;
-+	case 24:
-+		mxsfb->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+		break;
-+	case 0:
-+		break;
-+	default:
-+		DRM_DEV_ERROR(drm->dev, "Invalid bus-width %u", bus_width);
-+		return -ENODEV;
-+	}
-+
- 	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
- 					  &bridge);
- 	if (ret)
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-index 399d23e91ed1..c4f7a8a0c891 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-@@ -32,6 +32,8 @@ struct mxsfb_drm_private {
- 	struct clk			*clk_axi;
- 	struct clk			*clk_disp_axi;
++	force_dpcd = drm_dp_has_quirk(&intel_dp->desc, intel_dp->edid_quirks,
++				      DP_QUIRK_FORCE_DPCD_BACKLIGHT);
  
-+	u32				bus_format;
-+
- 	struct drm_device		*drm;
- 	struct {
- 		struct drm_plane	primary;
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index b721b8b262ce..6d512f346918 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -50,11 +50,15 @@ static void mxsfb_set_formats(struct mxsfb_drm_private *mxsfb)
- {
- 	struct drm_device *drm = mxsfb->drm;
- 	const u32 format = mxsfb->crtc.primary->state->fb->format->format;
--	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+	u32 bus_format;
- 	u32 ctrl, ctrl1;
+ 	if (i915->params.enable_dpcd_backlight == 0 ||
+-	    !intel_dp_aux_display_control_capable(intel_connector))
++	    (!force_dpcd && !intel_dp_aux_display_control_capable(intel_connector)))
+ 		return -ENODEV;
  
--	if (mxsfb->connector->display_info.num_bus_formats)
-+	if (mxsfb->bus_format)
-+		bus_format = mxsfb->bus_format;
-+	else if (mxsfb->connector->display_info.num_bus_formats)
- 		bus_format = mxsfb->connector->display_info.bus_formats[0];
-+	else
-+		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 
- 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Using bus_format: 0x%08X\n",
- 			     bus_format);
+ 	/*
+@@ -358,9 +362,7 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
+ 	 */
+ 	if (i915->vbt.backlight.type !=
+ 	    INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE &&
+-	    i915->params.enable_dpcd_backlight != 1 &&
+-	    !drm_dp_has_quirk(&intel_dp->desc, intel_dp->edid_quirks,
+-			      DP_QUIRK_FORCE_DPCD_BACKLIGHT)) {
++	    i915->params.enable_dpcd_backlight != 1 && !force_dpcd) {
+ 		drm_info(&i915->drm,
+ 			 "Panel advertises DPCD backlight support, but "
+ 			 "VBT disagrees. If your backlight controls "
 -- 
-Regards,
-
-Laurent Pinchart
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
