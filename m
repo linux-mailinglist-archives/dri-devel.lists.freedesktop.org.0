@@ -1,53 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EC6286254
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:40:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C696E285B67
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 10:58:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD3A6E92E;
-	Wed,  7 Oct 2020 15:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB016E24D;
+	Wed,  7 Oct 2020 08:58:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net
- [IPv6:2001:a60:0:28:0:1:25:1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE806E0B7
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 08:55:28 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4C5p7y4fTgz1sKws;
- Wed,  7 Oct 2020 10:55:26 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4C5p7y3S4Wz1qrg1;
- Wed,  7 Oct 2020 10:55:26 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id pVdtjYUFZmes; Wed,  7 Oct 2020 10:55:25 +0200 (CEST)
-X-Auth-Info: eiw9MaL2QKiNMyfl0i4guceaEjt7cfh6XMdWAsJFelo=
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Wed,  7 Oct 2020 10:55:24 +0200 (CEST)
-Subject: Re: [PATCH v2 1/7] dt-bindings: display: mxsfb: Convert binding to
- YAML
-To: Lucas Stach <l.stach@pengutronix.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
- <20201007012438.27970-2-laurent.pinchart@ideasonboard.com>
- <daabffc8-24e9-4963-58a9-6c62724e7a11@denx.de>
- <bef04042ebd7dc1c744b51ab2b1c614a2f04084f.camel@pengutronix.de>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <a8db345a-24b3-db8c-8dce-f97e021a1bf1@denx.de>
-Date: Wed, 7 Oct 2020 10:55:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87F9E6E24D
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 08:58:26 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id l17so1310016edq.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 01:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=1Q/c93gwRC8NWIcrpGbHmBEju9vpCDDgwD1JgJaJq08=;
+ b=ylBQHpMP2pFOFG12L/UhwucDzzYkPeIKpSso1EgYfgIxpaXHY3e49jfOGGUbweDdL0
+ inCT10noh2vAiB4SahKIf2sudLsIeX7wERHu9zIvNcfnfTNy/0j3NofQU8kA2QY8d1Gj
+ RYKdjCL0bs8Ld0r/9XqdRqGyuppIPqvml2e1kq+1JANoLP4dRbfs+cllDXcxFf8RIa3C
+ 3eSFDQY78tgAmWzzm1bTvtETvtD886xiidxC4NX0yvrnI7hOfaQdlLnZy4gASILx+VoO
+ 7wBjUXxEnEuumkm4LhQUE/2A7TyXwJ6Wk0Kdx0AT+uuDez9YhkAS43cHUeLt0V3ti6+J
+ GNHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=1Q/c93gwRC8NWIcrpGbHmBEju9vpCDDgwD1JgJaJq08=;
+ b=Rwbji7hHx7jcLnwpXWp17sScjTmZ2d4Eu9ZBBqGSgyprpBix20IIUG7AJSbyrC9bid
+ KHdilFAFWTHMr9lS0Xvfu5iJjKwq5mTITgzsvtAcqdUwqbmp+z2wJGG/zL3vzW3ECvDB
+ AhOhVmU+PQSKdoZzb4iNiJLW0wCguDwaqg2B8w3vsjD/LiOnm4Eo+E/I6eoSpuUG8q0v
+ 0nb/Ui5F6Ruk+Wd6mQGbb+1teT/e4hIbaWG2cZappdbrlPTx3Amjk4EUzgf8dN3IXaOX
+ pRat+VlsDJVLMddouJneL+U9ZZJSbjjIDz3Lhu1oEgohok+toNfBSBdoD3Q32v3Kpg5c
+ 0hwQ==
+X-Gm-Message-State: AOAM533FHJ10GsnmZnIUvQ6b9QFQDaD3vt1cNWji1bsPOv72xvMJKZDc
+ ydle0JHzkM0jUEKhvjAWmYNXAt8l82Nq7g==
+X-Google-Smtp-Source: ABdhPJzpPO0FbAvD8oDecrw4S9xG7JzjwEkNzJ+IX8jHscm6aIs5wisxsl4RCkoojx5JXPquYNsZYQ==
+X-Received: by 2002:a05:6402:2292:: with SMTP id
+ cw18mr2542821edb.112.1602061104827; 
+ Wed, 07 Oct 2020 01:58:24 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com.
+ [209.85.221.42])
+ by smtp.gmail.com with ESMTPSA id f10sm983949edu.68.2020.10.07.01.58.24
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Oct 2020 01:58:24 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id t10so1238053wrv.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 01:58:24 -0700 (PDT)
+X-Received: by 2002:adf:f5c1:: with SMTP id k1mr2460780wrp.271.1602061103725; 
+ Wed, 07 Oct 2020 01:58:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <bef04042ebd7dc1c744b51ab2b1c614a2f04084f.camel@pengutronix.de>
-Content-Language: en-US
-X-Mailman-Approved-At: Wed, 07 Oct 2020 15:39:39 +0000
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Wed, 7 Oct 2020 10:58:12 +0200
+X-Gmail-Original-Message-ID: <CAAObsKCP+ve2ZdXQk62aTo70G9i9Vo17dh6k-fcY23NC=EYZxg@mail.gmail.com>
+Message-ID: <CAAObsKCP+ve2ZdXQk62aTo70G9i9Vo17dh6k-fcY23NC=EYZxg@mail.gmail.com>
+Subject: devfreq and panfrost on Allwinner H6
+To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,46 +72,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
- Rob Herring <robh+dt@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-sunxi <linux-sunxi@googlegroups.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/7/20 10:43 AM, Lucas Stach wrote:
-> On Mi, 2020-10-07 at 10:32 +0200, Marek Vasut wrote:
->> On 10/7/20 3:24 AM, Laurent Pinchart wrote:
->> [...]
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - fsl,imx23-lcdif
->>> +      - fsl,imx28-lcdif
->>> +      - fsl,imx6sx-lcdif
->>> +      - fsl,imx8mq-lcdif
->>
->> There is no fsl,imx8mq-lcdif in drivers/gpu/drm/mxsfb/mxsfb_drv.c,
->> so the DT must specify compatible = "fsl,imx8mq-lcdif",
->> "fsl,imx28-lcdif" (since imx28 is the oldest SoC with LCDIF V4).
->>
->> Should the compatible be added to drivers/gpu/drm/mxsfb/mxsfb_drv.c or
->> dropped from the YAML file or neither ?
-> 
-> Neither. As far as we know the block is compatible, so the DT should
-> claim that it's compatible to "fsl,imx28-lcdif". However we don't know
-> if there are any surprises, so we add the SoC specific compatible to be
-> able to change the driver matching later without changing the DT if the
-> need arises. For the DT validation to pass the SoC specific compatible 
-> needs to be documented, even if it currently unused by the driver.
-
-What in that binding says you should specify compatible =
-"fsl,imx8mq-lcdif", "fsl,imx28-lcdif"; and not e.g. "fsl,imx8mq-lcdif",
-"fsl,imx23-lcdif" or simply "fsl,imx8mq-lcdif" ?
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQ2zDqW1lbnQsCgpIYXZlIGp1c3Qgbm90aWNlZCB0aGF0IG15IFBpbmUgSDY0IGJvYXJkIGhh
+bmdzIHdoZW4gSSB0cnkgdG8gc2V0IHRoZQpwZXJmb3JtYW5jZSBnb3Zlcm5vciBmb3IgdGhlIEdQ
+VSBkZXZmcmVxLgoKSXMgdGhpcyBhIGtub3duIGJ1Zz8KClRoYW5rcywKClRvbWV1Cl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
