@@ -1,66 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AD6286F30
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 09:21:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88077286F28
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 09:21:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC1026EA33;
-	Thu,  8 Oct 2020 07:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E8066EA28;
+	Thu,  8 Oct 2020 07:20:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68D186E029
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 17:39:13 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id d20so3804364qka.5
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 10:39:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=muCEajJ6hDOPl6eL85j4HlmJ9WtV9zWU+bfCV/Cq9BI=;
- b=Dz0OOWtV09rElfhUKte1coDG1XmH70sU+t7XSvzch8QKv+JqccAMRzt3CfP44+/AfQ
- BSOmkO0/4DojdkfFvQXoQgyy0jQhFfYLuGtSpIEzw2ZgOz60sA9Vk6P6Joyx8mLM7oVI
- GulM3GKMb4JRE2TKQ53Eo7+b0LYA9pmvGiN/xhtwvUGDgP8zpeZiK3xp1njllpvHZ6s7
- +zEZsvi99NmVaNYy4acbivpnVkuHyfeEWt1WrvUqBOOC668uWgAj9EFU3nanuKQfFrvC
- NI/B5LDgDV7l6mq+xucfE4i5Vmh8E5S9NLZXdlnDCI7i7X4L/RR/AAH2/qqGFU9zUkKq
- IF+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=muCEajJ6hDOPl6eL85j4HlmJ9WtV9zWU+bfCV/Cq9BI=;
- b=F2UXga+jJ49o0EQfc1llIuUFTEDv7Uag2U5D6Y2NSopEY6kGG3BWU3XDH/FbjuPnh5
- SUrA+sEhTbfWc3baWPTcx+WiqvGlplglScrgrUTNQ+P37PAkVuubpAOeQcOZXFvZRNu/
- vn8n8oEsN4q/f1GSqR/Y7UUa7NZoB7jD8VyKCyXERb+cqBZD++5oaHl51cZYQYy24zZO
- AY5VftUXevlo22A5X6D+kcUCxycbrOh85A2df7aXh25LGmuhqeEOssu5pf251cm3oZpW
- J/rafltmVrTQMjW6oxLDv8Y7tEJHIQ7S8R9KcTGXXBiBrAuBSLuvhoBregFErgwj6NiD
- fncQ==
-X-Gm-Message-State: AOAM533hRXHkDfK8iNd72yR2aC7N5U2yW+51AE8FPjhJqmaD3GaYNaKh
- eowQdq2CjcUILm0sM+/tqv3MzA==
-X-Google-Smtp-Source: ABdhPJwRH/CX2FYRARUgG1+mzIa/QuVNWzg4jQoHZB7NOT97+fmtc0eat9IRh9q/mSpxChFc0Hp56Q==
-X-Received: by 2002:a05:620a:54f:: with SMTP id
- o15mr3905794qko.91.1602092352650; 
- Wed, 07 Oct 2020 10:39:12 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id d14sm2013598qtr.62.2020.10.07.10.39.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 10:39:11 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kQDPD-00112O-7o; Wed, 07 Oct 2020 14:39:11 -0300
-Date: Wed, 7 Oct 2020 14:39:11 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 13/13] vfio/type1: Mark follow_pfn as unsafe
-Message-ID: <20201007173911.GX5177@ziepe.ca>
-References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-14-daniel.vetter@ffwll.ch>
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA7156E954
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 17:49:13 +0000 (UTC)
+Date: Wed, 07 Oct 2020 17:49:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+ s=protonmail; t=1602092951;
+ bh=lr01I54W83dQfyPAXxNgr/K8XWBKrwkLjst7BnhvlRw=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=m4IwO25YmBvfEuEDwWD9+/JIVWz3wLdO4TFRyPG1WcCwENR5IyUuhFHcZQWwmdnX8
+ S/Ty7oK4JDv+R/AXBtsKyrB/RPQXzC/T0lebh5X2Rdh1if76+jGkzy/VGdXXVF0KaI
+ FQDURiePjNj+dim/L1r9YwEFP+e5bcudISZ5kwlM=
+To: linux-arm-msm@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+From: Caleb Connolly <caleb@connolly.tech>
+Subject: [PATCH 1/5] drm/panel/oneplus6: Add panel-oneplus6
+Message-ID: <20201007174736.292968-2-caleb@connolly.tech>
+In-Reply-To: <20201007174736.292968-1-caleb@connolly.tech>
+References: <20201007174736.292968-1-caleb@connolly.tech>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201007164426.1812530-14-daniel.vetter@ffwll.ch>
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-Mailman-Approved-At: Thu, 08 Oct 2020 07:20:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,62 +47,497 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
- Cornelia Huck <cohuck@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Caleb Connolly <caleb@connolly.tech>
+Cc: Caleb Connolly <caleb@connolly.tech>, ~postmarketos/upstreaming@lists.sr.ht,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMDcsIDIwMjAgYXQgMDY6NDQ6MjZQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBUaGUgY29kZSBzZWVtcyB0byBzdHVmZiB0aGVzZSBwZm5zIGludG8gaW9tbXUgcHRz
-IChvciBzb21ldGhpbmcgbGlrZQo+IHRoYXQsIEkgZGlkbid0IGZvbGxvdyksIGJ1dCB0aGVyZSdz
-IG5vIG1tdV9ub3RpZmllciB0byBlbnN1cmUgdGhhdAo+IGFjY2VzcyBpcyBzeW5jaHJvbml6ZWQg
-d2l0aCBwdGUgdXBkYXRlcy4KPiAKPiBIZW5jZSBtYXJrIHRoZXNlIGFzIHVuc2FmZS4gVGhpcyBt
-ZWFucyB0aGF0IHdpdGgKPiBDT05GSUdfU1RSSUNUX0ZPTExPV19QRk4sIHRoZXNlIHdpbGwgYmUg
-cmVqZWN0ZWQuCj4gCj4gUmVhbCBmaXggaXMgdG8gd2lyZSB1cCBhbiBtbXVfbm90aWZpZXIgLi4u
-IHNvbWVob3cuIFByb2JhYmx5IG1lYW5zIGFueQo+IGludmFsaWRhdGUgaXMgYSBmYXRhbCBmYXVs
-dCBmb3IgdGhpcyB2ZmlvIGRldmljZSwgYnV0IHRoZW4gdGhpcwo+IHNob3VsZG4ndCBldmVyIGhh
-cHBlbiBpZiB1c2Vyc3BhY2UgaXMgcmVhc29uYWJsZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBEYW5p
-ZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiBDYzogSmFzb24gR3VudGhvcnBl
-IDxqZ2dAemllcGUuY2E+Cj4gQ2M6IEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3JnPgo+
-IENjOiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiBDYzogQW5kcmV3
-IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz4KPiBDYzogSm9obiBIdWJiYXJkIDxq
-aHViYmFyZEBudmlkaWEuY29tPgo+IENjOiBKw6lyw7RtZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0
-LmNvbT4KPiBDYzogSmFuIEthcmEgPGphY2tAc3VzZS5jej4KPiBDYzogRGFuIFdpbGxpYW1zIDxk
-YW4uai53aWxsaWFtc0BpbnRlbC5jb20+Cj4gQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwo+IENjOiBs
-aW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBDYzogbGludXgtc2Ftc3VuZy1z
-b2NAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+IENj
-OiBBbGV4IFdpbGxpYW1zb24gPGFsZXgud2lsbGlhbXNvbkByZWRoYXQuY29tPgo+IENjOiBDb3Ju
-ZWxpYSBIdWNrIDxjb2h1Y2tAcmVkaGF0LmNvbT4KPiBDYzoga3ZtQHZnZXIua2VybmVsLm9yZwo+
-IC0tLQo+ICBkcml2ZXJzL3ZmaW8vdmZpb19pb21tdV90eXBlMS5jIHwgNCArKy0tCj4gIDEgZmls
-ZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvdmZpby92ZmlvX2lvbW11X3R5cGUxLmMgYi9kcml2ZXJzL3ZmaW8vdmZpb19p
-b21tdV90eXBlMS5jCj4gaW5kZXggNWZiZjBjMWY3NDMzLi5hNGQ1M2YzZDBhMzUgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy92ZmlvL3ZmaW9faW9tbXVfdHlwZTEuYwo+ICsrKyBiL2RyaXZlcnMvdmZp
-by92ZmlvX2lvbW11X3R5cGUxLmMKPiBAQCAtNDIxLDcgKzQyMSw3IEBAIHN0YXRpYyBpbnQgZm9s
-bG93X2ZhdWx0X3BmbihzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwgc3RydWN0IG1tX3N0cnVj
-dCAqbW0sCj4gIHsKPiAgCWludCByZXQ7Cj4gIAo+IC0JcmV0ID0gZm9sbG93X3Bmbih2bWEsIHZh
-ZGRyLCBwZm4pOwo+ICsJcmV0ID0gdW5zYWZlX2ZvbGxvd19wZm4odm1hLCB2YWRkciwgcGZuKTsK
-PiAgCWlmIChyZXQpIHsKPiAgCQlib29sIHVubG9ja2VkID0gZmFsc2U7Cj4gIAo+IEBAIC00MzUs
-NyArNDM1LDcgQEAgc3RhdGljIGludCBmb2xsb3dfZmF1bHRfcGZuKHN0cnVjdCB2bV9hcmVhX3N0
-cnVjdCAqdm1hLCBzdHJ1Y3QgbW1fc3RydWN0ICptbSwKPiAgCQlpZiAocmV0KQo+ICAJCQlyZXR1
-cm4gcmV0Owo+ICAKPiAtCQlyZXQgPSBmb2xsb3dfcGZuKHZtYSwgdmFkZHIsIHBmbik7Cj4gKwkJ
-cmV0ID0gdW5zYWZlX2ZvbGxvd19wZm4odm1hLCB2YWRkciwgcGZuKTsKPiAgCX0KClRoaXMgaXMg
-YWN0dWFsbHkgYmVpbmcgY29tbW9ubHkgdXNlZCwgc28gaXQgbmVlZHMgZml4aW5nLgoKV2hlbiBJ
-IHRhbGtlZCB0byBBbGV4IGFib3V0IHRoaXMgbGFzdCB3ZSBoYWQgd29ya2VkIG91dCBhIHBhdGNo
-IHNlcmllcwp0aGF0IGFkZHMgYSB0ZXN0IG9uIHZtX29wcyB0aGF0IHRoZSB2bWEgY2FtZSBmcm9t
-IHZmaW8gaW4gdGhlIGZpcnN0CnBsYWNlLiBUaGUgVk1BJ3MgY3JlYXRlZCBieSBWRklPIGFyZSAn
-c2FmZScgYXMgdGhlIFBURXMgYXJlIG5ldmVyIGNoYW5nZWQuCgpKYXNvbgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This commit adds support for the display panels used in the OnePlus 6 /
+T devices.
+
+The OnePlus 6/T devices use different panels however they are
+functionally identical with much of the commands being shared. The
+panels don't appear to be used by any other devices some combine them as
+one driver that is specific to the devices.
+
+The panels are: samsung,sofef00
+and             samsung,s6e3fc2x01
+
+Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+---
+ drivers/gpu/drm/panel/Kconfig          |  12 +
+ drivers/gpu/drm/panel/Makefile         |   1 +
+ drivers/gpu/drm/panel/panel-oneplus6.c | 418 +++++++++++++++++++++++++
+ 3 files changed, 431 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-oneplus6.c
+
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index de2f2a452be5..d72862265400 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -229,6 +229,18 @@ config DRM_PANEL_OLIMEX_LCD_OLINUXINO
+ 	  Say Y here if you want to enable support for Olimex Ltd.
+ 	  LCD-OLinuXino panel.
+ 
++config DRM_PANEL_ONEPLUS6
++	tristate "OnePlus 6/6T Samsung AMOLED DSI command mode panels"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	select VIDEOMODE_HELPERS
++	help
++	  Say Y or M here if you want to enable support for the Samsung AMOLED
++	  command mode panels found in the OnePlus 6/6T smartphones.
++
++	  The panels are 2280x1080@60Hz and 2340x1080@60Hz respectively
++
+ config DRM_PANEL_ORISETECH_OTM8009A
+ 	tristate "Orise Technology otm8009a 480x800 dsi 2dl panel"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index e45ceac6286f..017539056f53 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -21,6 +21,7 @@ obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35510) += panel-novatek-nt35510.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT39016) += panel-novatek-nt39016.o
+ obj-$(CONFIG_DRM_PANEL_OLIMEX_LCD_OLINUXINO) += panel-olimex-lcd-olinuxino.o
++obj-$(CONFIG_DRM_PANEL_ONEPLUS6) += panel-oneplus6.o
+ obj-$(CONFIG_DRM_PANEL_ORISETECH_OTM8009A) += panel-orisetech-otm8009a.o
+ obj-$(CONFIG_DRM_PANEL_OSD_OSD101T2587_53TS) += panel-osd-osd101t2587-53ts.o
+ obj-$(CONFIG_DRM_PANEL_PANASONIC_VVX10F034N00) += panel-panasonic-vvx10f034n00.o
+diff --git a/drivers/gpu/drm/panel/panel-oneplus6.c b/drivers/gpu/drm/panel/panel-oneplus6.c
+new file mode 100644
+index 000000000000..5e212774b1e0
+--- /dev/null
++++ b/drivers/gpu/drm/panel/panel-oneplus6.c
+@@ -0,0 +1,418 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Copyright (c) 2020 Caleb Connolly <caleb@connolly.tech>
++ * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
++ *   Copyright (c) 2020, The Linux Foundation. All rights reserved.
++ *
++ * Caleb Connolly <caleb@connolly.tech>
++ */
++
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/regulator/consumer.h>
++
++#include <video/mipi_display.h>
++
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++#include <linux/backlight.h>
++
++struct oneplus6_panel {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++	struct backlight_device *backlight;
++	struct regulator *supply;
++	struct gpio_desc *reset_gpio;
++	struct gpio_desc *enable_gpio;
++	const struct drm_display_mode *mode;
++	bool prepared;
++	bool enabled;
++};
++
++static inline
++struct oneplus6_panel *to_oneplus6_panel(struct drm_panel *panel)
++{
++	return container_of(panel, struct oneplus6_panel, panel);
++}
++
++#define dsi_dcs_write_seq(dsi, seq...) do {				\
++		static const u8 d[] = { seq };				\
++		int ret;						\
++		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
++		if (ret < 0)						\
++			return ret;					\
++	} while (0)
++
++static void oneplus6_panel_reset(struct oneplus6_panel *ctx)
++{
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	usleep_range(5000, 6000);
++}
++
++static int oneplus6_panel_on(struct oneplus6_panel *ctx)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
++
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
++		return ret;
++	}
++	usleep_range(10000, 11000);
++
++	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
++
++	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set tear on: %d\n", ret);
++		return ret;
++	}
++
++	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
++	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
++	dsi_dcs_write_seq(dsi, 0xb0, 0x07);
++	dsi_dcs_write_seq(dsi, 0xb6, 0x12);
++	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
++	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
++	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
++
++	ret = mipi_dsi_dcs_set_display_on(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display on: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int oneplus6_panel_off(struct oneplus6_panel *ctx)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
++
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_set_display_off(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display off: %d\n", ret);
++		return ret;
++	}
++	msleep(40);
++
++	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
++		return ret;
++	}
++	msleep(160);
++
++	return 0;
++}
++
++static int oneplus6_panel_prepare(struct drm_panel *panel)
++{
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
++
++	if (ctx->prepared)
++		return 0;
++
++	oneplus6_panel_reset(ctx);
++
++	ret = oneplus6_panel_on(ctx);
++	if (ret < 0) {
++		dev_err(dev, "Failed to initialize panel: %d\n", ret);
++		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++		return ret;
++	}
++
++	ctx->prepared = true;
++	return 0;
++}
++
++static int oneplus6_panel_unprepare(struct drm_panel *panel)
++{
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
++
++	if (!ctx->prepared)
++		return 0;
++
++	ret = regulator_enable(ctx->supply);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enable regulator: %d\n", ret);
++		return ret;
++	}
++
++	ret = oneplus6_panel_off(ctx);
++	if (ret < 0)
++		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
++
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	regulator_disable(ctx->supply);
++
++	ctx->prepared = false;
++	return 0;
++}
++
++
++static int oneplus6_panel_enable(struct drm_panel *panel)
++{
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++	int ret;
++
++	if (ctx->enabled)
++		return 0;
++
++	ret = backlight_enable(ctx->backlight);
++	if (ret < 0) {
++		dev_err(&ctx->dsi->dev, "Failed to enable backlight: %d\n", ret);
++		return ret;
++	}
++
++	ctx->enabled = true;
++	return 0;
++}
++
++static int oneplus6_panel_disable(struct drm_panel *panel)
++{
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++	int ret;
++
++	if (!ctx->enabled)
++		return 0;
++
++	ret = backlight_disable(ctx->backlight);
++	if (ret < 0) {
++		dev_err(&ctx->dsi->dev, "Failed to disable backlight: %d\n", ret);
++		return ret;
++	}
++
++	ctx->enabled = false;
++	return 0;
++}
++
++
++static const struct drm_display_mode enchilada_panel_mode = {
++	.clock = (1080 + 112 + 16 + 36) * (2280 + 36 + 8 + 12) * 60 / 1000,
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 112,
++	.hsync_end = 1080 + 112 + 16,
++	.htotal = 1080 + 112 + 16 + 36,
++	.vdisplay = 2280,
++	.vsync_start = 2280 + 36,
++	.vsync_end = 2280 + 36 + 8,
++	.vtotal = 2280 + 36 + 8 + 12,
++	.width_mm = 68,
++	.height_mm = 145,
++};
++
++static const struct drm_display_mode fajita_panel_mode = {
++	.clock = (1080 + 72 + 16 + 36) * (2340 + 32 + 4 + 18) * 60 / 1000,
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 72,
++	.hsync_end = 1080 + 72 + 16,
++	.htotal = 1080 + 72 + 16 + 36,
++	.vdisplay = 2340,
++	.vsync_start = 2340 + 32,
++	.vsync_end = 2340 + 32 + 4,
++	.vtotal = 2340 + 32 + 4 + 18,
++	.width_mm = 68,
++	.height_mm = 145,
++};
++
++static int oneplus6_panel_get_modes(struct drm_panel *panel,
++						struct drm_connector *connector)
++{
++	struct drm_display_mode *mode;
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++
++	mode = drm_mode_duplicate(connector->dev, ctx->mode);
++	if (!mode)
++		return -ENOMEM;
++
++	drm_mode_set_name(mode);
++
++	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
++	connector->display_info.width_mm = mode->width_mm;
++	connector->display_info.height_mm = mode->height_mm;
++	drm_mode_probed_add(connector, mode);
++
++	return 1;
++}
++
++static const struct drm_panel_funcs oneplus6_panel_panel_funcs = {
++	.disable = oneplus6_panel_disable,
++	.enable = oneplus6_panel_enable,
++	.prepare = oneplus6_panel_prepare,
++	.unprepare = oneplus6_panel_unprepare,
++	.get_modes = oneplus6_panel_get_modes,
++};
++
++static int oneplus6_panel_bl_get_brightness(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	int err;
++	u16 brightness = bl->props.brightness;
++
++	err = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
++	if (err < 0) {
++		return err;
++	}
++
++	return brightness & 0xff;
++}
++
++static int oneplus6_panel_bl_update_status(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	int err;
++	unsigned short brightness;
++
++	// This panel needs the high and low bytes swapped for the brightness value
++	brightness = ((bl->props.brightness<<8)&0xff00)|((bl->props.brightness>>8)&0x00ff);
++
++	err = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
++	if (err < 0) {
++		return err;
++	}
++
++	return 0;
++}
++
++static const struct backlight_ops oneplus6_panel_bl_ops = {
++	.update_status = oneplus6_panel_bl_update_status,
++	.get_brightness = oneplus6_panel_bl_get_brightness,
++};
++
++static struct backlight_device *
++oneplus6_panel_create_backlight(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct backlight_properties props = {
++		.type = BACKLIGHT_PLATFORM,
++		.scale = BACKLIGHT_SCALE_LINEAR,
++		.brightness = 255,
++		.max_brightness = 512,
++	};
++
++	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
++						  &oneplus6_panel_bl_ops, &props);
++}
++
++
++static int oneplus6_panel_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct oneplus6_panel *ctx;
++	int ret;
++
++	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++
++	ctx->mode = of_device_get_match_data(dev);
++
++	if (!ctx->mode) {
++		dev_err(dev, "Missing device mode\n");
++		return -ENODEV;
++	}
++
++	ctx->supply = devm_regulator_get(dev, "vddio");
++	if (IS_ERR(ctx->supply)) {
++		ret = PTR_ERR(ctx->supply);
++		dev_err(dev, "Failed to get vddio regulator: %d\n", ret);
++		return ret;
++	}
++
++	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(ctx->reset_gpio)) {
++		ret = PTR_ERR(ctx->reset_gpio);
++		dev_warn(dev, "Failed to get reset-gpios: %d\n", ret);
++		return ret;
++	}
++
++	ctx->backlight = oneplus6_panel_create_backlight(dsi);
++	if (IS_ERR(ctx->backlight)) {
++		ret = PTR_ERR(ctx->backlight);
++		dev_err(dev, "Failed to create backlight: %d\n", ret);
++		return ret;
++	}
++
++	ctx->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, ctx);
++
++	dsi->lanes = 4;
++	dsi->format = MIPI_DSI_FMT_RGB888;
++
++	drm_panel_init(&ctx->panel, dev, &oneplus6_panel_panel_funcs,
++			   DRM_MODE_CONNECTOR_DSI);
++
++	ret = drm_panel_add(&ctx->panel);
++	if (ret < 0) {
++		dev_err(dev, "Failed to add panel: %d\n", ret);
++		return ret;
++	}
++
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
++		return ret;
++	}
++
++	dev_info(dev, "Successfully added oneplus6 panel");
++
++	return 0;
++}
++
++static int oneplus6_panel_remove(struct mipi_dsi_device *dsi)
++{
++	struct oneplus6_panel *ctx = mipi_dsi_get_drvdata(dsi);
++	int ret;
++
++	ret = mipi_dsi_detach(dsi);
++	if (ret < 0)
++		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
++
++	drm_panel_remove(&ctx->panel);
++
++	return 0;
++}
++
++static const struct of_device_id oneplus6_panel_of_match[] = {
++	{
++		.compatible = "samsung,sofef00",
++		.data = &enchilada_panel_mode,
++	},
++	{
++		.compatible = "samsung,s6e3fc2x01",
++		.data = &fajita_panel_mode,
++	},
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, oneplus6_panel_of_match);
++
++static struct mipi_dsi_driver oneplus6_panel_driver = {
++	.probe = oneplus6_panel_probe,
++	.remove = oneplus6_panel_remove,
++	.driver = {
++		.name = "panel-oneplus6",
++		.of_match_table = oneplus6_panel_of_match,
++	},
++};
++
++module_mipi_dsi_driver(oneplus6_panel_driver);
++
++MODULE_AUTHOR("Caleb Connolly <caleb@connolly.tech>");
++MODULE_DESCRIPTION("DRM driver for Samsung AMOLED DSI panels found in OnePlus 6/6T phones");
++MODULE_LICENSE("GPL v2");
+-- 
+2.28.0
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
