@@ -1,54 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46874286313
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 18:03:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 371812862CE
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8031B6E951;
-	Wed,  7 Oct 2020 16:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3CA6E93F;
+	Wed,  7 Oct 2020 15:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F12576E951
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 16:03:40 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id e20so2246290otj.11
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 09:03:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+uNSeizGcMO7Ee5Wm/T6nY+XKp+ooy1QRpr9WDpeJbY=;
- b=VW6ckoRG8sHDDnSv/vBbkAFhiif31+uhYZG/MJ1/LhB0DH1pqNvl1n9uSn2qi6Q/Pi
- zKMAY3Zi8X3BiW7Hj5YaNwUajgn22FnRziM+GIMdoTcHWJ17zsb3MS6MOYj5m0JGo/SO
- X0ncmqbqKq34ykb1kONuY9daS50pPlWS9TvYcuAMkWPumS2Dwjwohj7jrVLpyUvancbT
- 16DzrAAvsf4G5dNspPtnIAGLKXi/cKEjQMLtukMx3FVBPVNVj8oyLYVjziwADJvzt6ua
- r0Ww+S5uaEq3BKUBJ4tRzme/x+oob1Tmst9+7Wo5yBfyYQKg8y2EZZIV4Nq5A81+9NwI
- IiRw==
-X-Gm-Message-State: AOAM531E2Akx12+IpNDUIRJZL2GWw30e+0LZCHw20kvSkPw0+lSz2/DE
- IT/tzaJ3Zrrv4AMrSumZ+Q==
-X-Google-Smtp-Source: ABdhPJw/5GryXG7VqIPVylRV4dslWYWz/IEnv2+DafmBdeBYRU9P1WROTz2hQvp6x9hZgpcHFYjAgA==
-X-Received: by 2002:a05:6830:14d7:: with SMTP id
- t23mr2336553otq.204.1602086620287; 
- Wed, 07 Oct 2020 09:03:40 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id z25sm2631510ood.21.2020.10.07.09.03.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 09:03:39 -0700 (PDT)
-Received: (nullmailer pid 302110 invoked by uid 1000);
- Wed, 07 Oct 2020 16:03:38 -0000
-Date: Wed, 7 Oct 2020 11:03:38 -0500
-From: Rob Herring <robh@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 3/7] dt-bindings: display: mxsfb: Add a bus-width
- endpoint property
-Message-ID: <20201007160338.GA302057@bogus>
-References: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
- <20201007012438.27970-4-laurent.pinchart@ideasonboard.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC5686E936;
+ Wed,  7 Oct 2020 15:58:12 +0000 (UTC)
+Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8373120789;
+ Wed,  7 Oct 2020 15:58:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1602086292;
+ bh=HBwtJxagqbtQwZ67Dx8naXj+wlYZpPAKjHhzii40SSg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sBminQ92WVBJEwwafMT2XaIQUmSq/7wGDo+qB95LHJy0g79ZrIWTtmvjjuIlyhn4Z
+ 9yEtPd43j5BDsGcUzvcwnhQ277O6G/ZPA6BpyL779Q0fsxFTeoCOh2tIXEM+KEnG2t
+ ZL8UqyTHDh3i/CmVF7LUqo+0XVsmt1okRgFdFtqA=
+Date: Wed, 7 Oct 2020 11:04:12 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 03/14] drm/amd/pm: Replace one-element array with
+ flexible-array in struct phm_clock_array
+Message-ID: <661ad1c0e07f4eda264c08b219c8c702d67a9531.1602020074.git.gustavoars@kernel.org>
+References: <cover.1602020074.git.gustavoars@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201007012438.27970-4-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <cover.1602020074.git.gustavoars@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +47,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, amd-gfx@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 07 Oct 2020 04:24:34 +0300, Laurent Pinchart wrote:
-> When the PCB routes the display data signals in an unconventional way,
-> the output bus width may differ from the bus width of the connected
-> panel or encoder. For instance, when a 18-bit RGB panel has its R[5:0],
-> G[5:0] and B[5:0] signals connected to LCD_DATA[7:2], LCD_DATA[15:10]
-> and LCD_DATA[23:18], the output bus width is 24 instead of 18 when the
-> signals are routed to LCD_DATA[5:0], LCD_DATA[11:6] and LCD_DATA[17:12].
-> 
-> Add a bus-width property to describe this data routing.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes since v1:
-> 
-> - Fix property name in binding
-> ---
->  .../devicetree/bindings/display/fsl,lcdif.yaml       | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-
-Reviewed-by: Rob Herring <robh@kernel.org>
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlcmUgaXMgYSByZWd1bGFyIG5lZWQgaW4gdGhlIGtlcm5lbCB0byBwcm92aWRlIGEgd2F5IHRv
+IGRlY2xhcmUgaGF2aW5nCmEgZHluYW1pY2FsbHkgc2l6ZWQgc2V0IG9mIHRyYWlsaW5nIGVsZW1l
+bnRzIGluIGEgc3RydWN0dXJlLiBLZXJuZWwgY29kZQpzaG91bGQgYWx3YXlzIHVzZSDigJxmbGV4
+aWJsZSBhcnJheSBtZW1iZXJz4oCdWzFdIGZvciB0aGVzZSBjYXNlcy4gVGhlIG9sZGVyCnN0eWxl
+IG9mIG9uZS1lbGVtZW50IG9yIHplcm8tbGVuZ3RoIGFycmF5cyBzaG91bGQgbm8gbG9uZ2VyIGJl
+IHVzZWRbMl0uCgpSZWZhY3RvciB0aGUgY29kZSBhY2NvcmRpbmcgdG8gdGhlIHVzZSBvZiBhIGZs
+ZXhpYmxlLWFycmF5IG1lbWJlciBpbgpzdHJ1Y3QgcGhtX2Nsb2NrX2FycmF5LCBpbnN0ZWFkIG9m
+IGEgb25lLWVsZW1lbnQgYXJyYXksIGFuZCB1c2UgdGhlCnN0cnVjdF9zaXplKCkgaGVscGVyIHRv
+IGNhbGN1bGF0ZSB0aGUgc2l6ZSBmb3IgdGhlIGFsbG9jYXRpb24uCgpbMV0gaHR0cHM6Ly9lbi53
+aWtpcGVkaWEub3JnL3dpa2kvRmxleGlibGVfYXJyYXlfbWVtYmVyClsyXSBodHRwczovL3d3dy5r
+ZXJuZWwub3JnL2RvYy9odG1sL3Y1LjktcmMxL3Byb2Nlc3MvZGVwcmVjYXRlZC5odG1sI3plcm8t
+bGVuZ3RoLWFuZC1vbmUtZWxlbWVudC1hcnJheXMKCkJ1aWxkLXRlc3RlZC1ieToga2VybmVsIHRl
+c3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Ckxpbms6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xr
+bWwvNWY3YzQzM2YuWnlNRCtZVUlWQXdpSEdWZSUyNWxrcEBpbnRlbC5jb20vClNpZ25lZC1vZmYt
+Ynk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9hcnNAa2VybmVsLm9yZz4KLS0tCiBkcml2
+ZXJzL2dwdS9kcm0vYW1kL3BtL2luYy9od21nci5oICAgICAgICAgICAgICAgICAgICB8ICAyICst
+CiAuLi4vYW1kL3BtL3Bvd2VycGxheS9od21nci9wcm9jZXNzX3BwdGFibGVzX3YxXzAuYyAgICB8
+IDExICsrKystLS0tLS0tCiAuLi4vZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3Byb2Nl
+c3NwcHRhYmxlcy5jICB8ICA3ICsrKy0tLS0KIC4uLi9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3Zl
+Z2ExMF9wcm9jZXNzcHB0YWJsZXMuYyAgIHwgIDkgKysrLS0tLS0tCiA0IGZpbGVzIGNoYW5nZWQs
+IDExIGluc2VydGlvbnMoKyksIDE4IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvcG0vaW5jL2h3bWdyLmggYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL2luYy9o
+d21nci5oCmluZGV4IGQ2OGI1NDc3NDNlNi4uZTg0Y2ZmMDlhZjJkIDEwMDY0NAotLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vYW1kL3BtL2luYy9od21nci5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+cG0vaW5jL2h3bWdyLmgKQEAgLTkxLDcgKzkxLDcgQEAgc3RydWN0IHBobV9zZXRfcG93ZXJfc3Rh
+dGVfaW5wdXQgewogCiBzdHJ1Y3QgcGhtX2Nsb2NrX2FycmF5IHsKIAl1aW50MzJfdCBjb3VudDsK
+LQl1aW50MzJfdCB2YWx1ZXNbMV07CisJdWludDMyX3QgdmFsdWVzW107CiB9OwogCiBzdHJ1Y3Qg
+cGhtX2Nsb2NrX3ZvbHRhZ2VfZGVwZW5kZW5jeV9yZWNvcmQgewpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvcHJvY2Vzc19wcHRhYmxlc192MV8wLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9od21nci9wcm9jZXNzX3BwdGFibGVz
+X3YxXzAuYwppbmRleCBiNzYwZjk1ZTdmYTcuLjUyMTg4ZjZjZDE1MCAxMDA2NDQKLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvcHJvY2Vzc19wcHRhYmxlc192MV8w
+LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvcHJvY2Vzc19w
+cHRhYmxlc192MV8wLmMKQEAgLTMxOCwxOSArMzE4LDE2IEBAIHN0YXRpYyBpbnQgZ2V0X3ZhbGlk
+X2NsaygKIAkJcGhtX3BwdF92MV9jbG9ja192b2x0YWdlX2RlcGVuZGVuY3lfdGFibGUgY29uc3Qg
+KmNsa192b2x0X3BwX3RhYmxlCiAJCSkKIHsKLQl1aW50MzJfdCB0YWJsZV9zaXplLCBpOworCXVp
+bnQzMl90IGk7CiAJc3RydWN0IHBobV9jbG9ja19hcnJheSAqdGFibGU7CiAJcGhtX3BwdF92MV9j
+bG9ja192b2x0YWdlX2RlcGVuZGVuY3lfcmVjb3JkICpkZXBfcmVjb3JkOwogCiAJUFBfQVNTRVJU
+X1dJVEhfQ09ERSgoMCAhPSBjbGtfdm9sdF9wcF90YWJsZS0+Y291bnQpLAogCQkiSW52YWxpZCBQ
+b3dlclBsYXkgVGFibGUhIiwgcmV0dXJuIC0xKTsKIAotCXRhYmxlX3NpemUgPSBzaXplb2YodWlu
+dDMyX3QpICsKLQkJc2l6ZW9mKHVpbnQzMl90KSAqIGNsa192b2x0X3BwX3RhYmxlLT5jb3VudDsK
+LQotCXRhYmxlID0ga3phbGxvYyh0YWJsZV9zaXplLCBHRlBfS0VSTkVMKTsKLQotCWlmIChOVUxM
+ID09IHRhYmxlKQorCXRhYmxlID0ga3phbGxvYyhzdHJ1Y3Rfc2l6ZSh0YWJsZSwgdmFsdWVzLCBj
+bGtfdm9sdF9wcF90YWJsZS0+Y291bnQpLAorCQkJR0ZQX0tFUk5FTCk7CisJaWYgKCF0YWJsZSkK
+IAkJcmV0dXJuIC1FTk9NRU07CiAKIAl0YWJsZS0+Y291bnQgPSAodWludDMyX3QpY2xrX3ZvbHRf
+cHBfdGFibGUtPmNvdW50OwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dl
+cnBsYXkvaHdtZ3IvcHJvY2Vzc3BwdGFibGVzLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bv
+d2VycGxheS9od21nci9wcm9jZXNzcHB0YWJsZXMuYwppbmRleCBkOTRhN2Q4ZTA1ODcuLmQ5YmVk
+NGRmNmY2NSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdt
+Z3IvcHJvY2Vzc3BwdGFibGVzLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBs
+YXkvaHdtZ3IvcHJvY2Vzc3BwdGFibGVzLmMKQEAgLTQwNCwxMiArNDA0LDExIEBAIHN0YXRpYyBp
+bnQgZ2V0X3ZhbGlkX2NsayhzdHJ1Y3QgcHBfaHdtZ3IgKmh3bWdyLAogCQkJc3RydWN0IHBobV9j
+bG9ja19hcnJheSAqKnB0YWJsZSwKIAkJCWNvbnN0IHN0cnVjdCBwaG1fY2xvY2tfdm9sdGFnZV9k
+ZXBlbmRlbmN5X3RhYmxlICp0YWJsZSkKIHsKLQl1bnNpZ25lZCBsb25nIHRhYmxlX3NpemUsIGk7
+CisJdW5zaWduZWQgbG9uZyBpOwogCXN0cnVjdCBwaG1fY2xvY2tfYXJyYXkgKmNsb2NrX3RhYmxl
+OwogCi0JdGFibGVfc2l6ZSA9IHNpemVvZih1bnNpZ25lZCBsb25nKSArIHNpemVvZih1bnNpZ25l
+ZCBsb25nKSAqIHRhYmxlLT5jb3VudDsKLQljbG9ja190YWJsZSA9IGt6YWxsb2ModGFibGVfc2l6
+ZSwgR0ZQX0tFUk5FTCk7Ci0JaWYgKE5VTEwgPT0gY2xvY2tfdGFibGUpCisJY2xvY2tfdGFibGUg
+PSBremFsbG9jKHN0cnVjdF9zaXplKGNsb2NrX3RhYmxlLCB2YWx1ZXMsIHRhYmxlLT5jb3VudCks
+IEdGUF9LRVJORUwpOworCWlmICghY2xvY2tfdGFibGUpCiAJCXJldHVybiAtRU5PTUVNOwogCiAJ
+Y2xvY2tfdGFibGUtPmNvdW50ID0gKHVuc2lnbmVkIGxvbmcpdGFibGUtPmNvdW50OwpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEwX3Byb2Nl
+c3NwcHRhYmxlcy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvdmVn
+YTEwX3Byb2Nlc3NwcHRhYmxlcy5jCmluZGV4IGYyOWFmNWNhMGFhMC4uZTY1NWMwNGNjZGZiIDEw
+MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9od21nci92ZWdhMTBf
+cHJvY2Vzc3BwdGFibGVzLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkv
+aHdtZ3IvdmVnYTEwX3Byb2Nlc3NwcHRhYmxlcy5jCkBAIC04NzUsMTcgKzg3NSwxNCBAQCBzdGF0
+aWMgaW50IGdldF92YWxpZF9jbGsoCiAJCXN0cnVjdCBwaG1fY2xvY2tfYXJyYXkgKipjbGtfdGFi
+bGUsCiAJCWNvbnN0IHBobV9wcHRfdjFfY2xvY2tfdm9sdGFnZV9kZXBlbmRlbmN5X3RhYmxlICpj
+bGtfdm9sdF9wcF90YWJsZSkKIHsKLQl1aW50MzJfdCB0YWJsZV9zaXplLCBpOworCXVpbnQzMl90
+IGk7CiAJc3RydWN0IHBobV9jbG9ja19hcnJheSAqdGFibGU7CiAKIAlQUF9BU1NFUlRfV0lUSF9D
+T0RFKGNsa192b2x0X3BwX3RhYmxlLT5jb3VudCwKIAkJCSJJbnZhbGlkIFBvd2VyUGxheSBUYWJs
+ZSEiLCByZXR1cm4gLTEpOwogCi0JdGFibGVfc2l6ZSA9IHNpemVvZih1aW50MzJfdCkgKwotCQkJ
+c2l6ZW9mKHVpbnQzMl90KSAqIGNsa192b2x0X3BwX3RhYmxlLT5jb3VudDsKLQotCXRhYmxlID0g
+a3phbGxvYyh0YWJsZV9zaXplLCBHRlBfS0VSTkVMKTsKLQorCXRhYmxlID0ga3phbGxvYyhzdHJ1
+Y3Rfc2l6ZSh0YWJsZSwgdmFsdWVzLCBjbGtfdm9sdF9wcF90YWJsZS0+Y291bnQpLAorCQkJR0ZQ
+X0tFUk5FTCk7CiAJaWYgKCF0YWJsZSkKIAkJcmV0dXJuIC1FTk9NRU07CiAKLS0gCjIuMjcuMAoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
