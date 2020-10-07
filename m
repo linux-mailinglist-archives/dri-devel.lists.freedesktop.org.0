@@ -2,57 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A836285E9F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 14:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6059328624D
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:39:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AF5B6E8C8;
-	Wed,  7 Oct 2020 12:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EB6A6E925;
+	Wed,  7 Oct 2020 15:39:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE136E8C8
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 12:01:56 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id m13so1883703otl.9
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 05:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BPNKg367DCdKIY1liYpuVsKddqsM3ARJiczmrER9Tlk=;
- b=PyaZ/nvZm2QUtaJTzV68PXra5E6nusMzfq2GtX+T4KHdWVm++EJydv/8XaGh5nYPu2
- kpLCfkP523at8+kzTLYGiJF/U5HARJ4ZwyhXlTfgO1W6ZvOLzle/fawTahYRmxpmawyG
- M2mKVfCZhp95638KHshmfZX9XnDxeTLsbzpOk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BPNKg367DCdKIY1liYpuVsKddqsM3ARJiczmrER9Tlk=;
- b=nAXz6ebwK4ytQi2riaxk2TIPgpdPKfUH5O53Mc8R101EleXBFsD/Weh+vHviM7Ke7P
- vXEqJ4hoznAONW77i8qPv8P4/qQg6I2EIF5LsoVDWCHjJPspSR84HA2kG3m99GGgNl9D
- xjLIdVV3aQ8PeyxsV90an5Ax31hJHL5gDhTqqZA4aeQpZHn2Zj0tsq7xd1yk/Xt1SWTK
- OSLrYTCyz8J91nyCtdO0g/DdVwPj8IW157WO2hn8i5FfoZcsF/1N++LIPiQQ4qjSTT5O
- mhChUY9PjCtQEeYIr7lMLRDW8YrnXqal5wXfCMm/19zTR6NbEy5WfzgR77RKIzwlUmm/
- tWPQ==
-X-Gm-Message-State: AOAM5322t5ADiKcez+ZwXLUmFtmZWc/OqfkjvP/mg+a7Wzy/YfuM+B/p
- 0K/fJW76750TdMoLmx39ZiKZJ4VrTNr/WF4JUTcvXg==
-X-Google-Smtp-Source: ABdhPJwz1+Mjs5/TsMc3YtWSj3uN1hN+EFq4HjqQKny0ZO2DNmwXaAg21800jfJ4gXIzTu9U81dtoIfG8VEkup1Khs8=
-X-Received: by 2002:a05:6830:1c3c:: with SMTP id
- f28mr1747283ote.188.1602072115550; 
- Wed, 07 Oct 2020 05:01:55 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5FF6B6E8CA
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 12:07:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A18BE31B;
+ Wed,  7 Oct 2020 05:07:48 -0700 (PDT)
+Received: from localhost (unknown [10.1.199.49])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4267D3F71F;
+ Wed,  7 Oct 2020 05:07:48 -0700 (PDT)
+Date: Wed, 7 Oct 2020 13:07:46 +0100
+From: Ionela Voinescu <ionela.voinescu@arm.com>
+To: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH 3/5] thermal: devfreq_cooling: add new registration
+ functions with Energy Model
+Message-ID: <20201007120746.GA15063@arm.com>
+References: <20200921122007.29610-1-lukasz.luba@arm.com>
+ <20200921122007.29610-4-lukasz.luba@arm.com>
 MIME-Version: 1.0
-References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
- <20201002175303.390363-2-daniel.vetter@ffwll.ch>
- <20201002180603.GL9916@ziepe.ca>
- <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
- <20201002233118.GM9916@ziepe.ca>
- <CGME20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651@eucas1p1.samsung.com>
- <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
- <d2f8e8a7-614d-18c8-9e2a-c604e5e54ce6@samsung.com>
-In-Reply-To: <d2f8e8a7-614d-18c8-9e2a-c604e5e54ce6@samsung.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 7 Oct 2020 14:01:44 +0200
-Message-ID: <CAKMK7uF+a1PSn+e-6F+YhkSXn9vC7etS-z0AFBMCU+Vzb2PwqA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Disposition: inline
+In-Reply-To: <20200921122007.29610-4-lukasz.luba@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Wed, 07 Oct 2020 15:39:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,70 +43,263 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Jan Kara <jack@suse.cz>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Pawel Osciak <pawel@osciak.com>, Linux MM <linux-mm@kvack.org>,
- John Hubbard <jhubbard@nvidia.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
+ daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, orjan.eide@arm.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 7, 2020 at 12:47 PM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> Hi Daniel,
->
-> On 03.10.2020 11:40, Daniel Vetter wrote:
-> >> After he three places above should use pin_user_pages_fast(), then
-> >> this whole broken API should be moved into videobuf2-memops.c and a
-> >> big fat "THIS DOESN'T WORK" stuck on it.
-> >>
-> >> videobuf2 should probably use P2P DMA buf for this instead.
-> > Yup this should be done with dma_buf instead, and v4l has that.
->
-> Yes, V4L2 has dma_buf support NOW. That days, using so called V4L2
-> USERPTR method was the only way to achieve zero copy buffer sharing
-> between devices, so this is just a historical baggage. I've been
-> actively involved in implementing that. I've tried to make it secure as
-> much as possible assuming the limitation of that approach. With a few
-> assumptions it works fine. Buffers are refcounted both by the
-> vm_ops->open or by incrementing the refcount of the vm->file. This
-> basically works with any sane driver, which doesn't free the mmaped
-> buffer until the file is released. This is true for V4L2 and FBdev devices.
+Hi Lukasz,
 
-I'm not seeing any of that vm->file refcounting going on, so not
-seeing anything that prevents the mmap area from being removed. Can
-you pls give me some pointers about which code you're thinking of?
--Daniel
+On Monday 21 Sep 2020 at 13:20:05 (+0100), Lukasz Luba wrote:
+> The Energy Model (EM) framework supports devices such as Devfreq. Create
+> new registration functions which automatically register EM for the thermal
+> devfreq_cooling devices. This patch prepares the code for coming changes
+> which are going to replace old power model with the new EM.
+> 
+> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+> ---
+>  drivers/thermal/devfreq_cooling.c | 99 ++++++++++++++++++++++++++++++-
+>  include/linux/devfreq_cooling.h   | 22 +++++++
+>  2 files changed, 120 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/thermal/devfreq_cooling.c b/drivers/thermal/devfreq_cooling.c
+> index cf045bd4d16b..7e091e795284 100644
+> --- a/drivers/thermal/devfreq_cooling.c
+> +++ b/drivers/thermal/devfreq_cooling.c
+> @@ -50,6 +50,8 @@ static DEFINE_IDA(devfreq_ida);
+>   * @capped_state:	index to cooling state with in dynamic power budget
+>   * @req_max_freq:	PM QoS request for limiting the maximum frequency
+>   *			of the devfreq device.
+> + * @em:		Energy Model which represents the associated Devfreq device
+                                     ^^^^^^^^^^^^^^^^
+				     for
+> + * @em_registered:	Devfreq cooling registered the EM and should free it.
+>   */
+>  struct devfreq_cooling_device {
+>  	int id;
+> @@ -63,6 +65,8 @@ struct devfreq_cooling_device {
+>  	u32 res_util;
+>  	int capped_state;
+>  	struct dev_pm_qos_request req_max_freq;
+> +	struct em_perf_domain *em;
+> +	bool em_registered;
+>  };
+>  
+>  static int devfreq_cooling_get_max_state(struct thermal_cooling_device *cdev,
+> @@ -586,22 +590,115 @@ struct thermal_cooling_device *devfreq_cooling_register(struct devfreq *df)
+>  }
+>  EXPORT_SYMBOL_GPL(devfreq_cooling_register);
+>  
+> +/**
+> + * devfreq_cooling_em_register_power() - Register devfreq cooling device with
+> + *		power information and attempt to register Energy Model (EM)
 
-> This API is considered as deprecated in V4L2 world, so I think
-> supporting this hack can be removed one day as nowadays userspace should
-> use dma buf.
->
->  > ...
->
-> Best regards
-> --
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
->
+It took me a while to understand the differences between devfreq
+register functions and it left me with a nagging feeling that we don't
+need all of them. Also, looking over the cpufreq cooling devices, they
+keep their registering interfaces quite simple.
 
+With the functions added by this patch, the devfreq cooling devices will have:
+ - old:
+       of_devfreq_cooling_register_power
+       of_devfreq_cooling_register
+       devfreq_cooling_register
+       devfreq_cooling_unregister
+ - new:
+       devfreq_cooling_em_register_power
+       devfreq_cooling_em_register
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+My question is whether we actually need the two new
+devfreq_cooling_em_register_power() and devfreq_cooling_em_register()?
+
+The power_ops and the em are dependent on one another, so could we
+extend the of_devfreq_cooling_register_power() to do the additional em
+registration. We only need a way to pass the em_cb and I think that
+could fit nicely in devfreq_cooling_power.
+
+To be noted that I've reviewed these interfaces in the context of the
+final state of devfreq_cooling.c, after the changes in 4/5.
+
+> + * @df:		Pointer to devfreq device.
+> + * @dfc_power:	Pointer to devfreq_cooling_power.
+> + * @em_cb:	Callback functions providing the data of the EM
+> + *
+> + * Register a devfreq cooling device and attempt to register Energy Model. The
+> + * available OPPs must be registered for the device.
+> + *
+> + * If @dfc_power is provided, the cooling device is registered with the
+> + * power extensions. If @em_cb is provided it will be called for each OPP to
+> + * calculate power value and cost. If @em_cb is not provided then simple Energy
+> + * Model is going to be used, which requires "dynamic-power-coefficient" a
+> + * devicetree property.
+> + */
+> +struct thermal_cooling_device *
+> +devfreq_cooling_em_register_power(struct devfreq *df,
+> +				  struct devfreq_cooling_power *dfc_power,
+> +				  struct em_data_callback *em_cb)
+> +{
+> +	struct thermal_cooling_device *cdev;
+> +	struct devfreq_cooling_device *dfc;
+> +	struct device_node *np = NULL;
+> +	struct device *dev;
+> +	int nr_opp, ret;
+> +
+> +	if (IS_ERR_OR_NULL(df))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	dev = df->dev.parent;
+> +
+> +	if (em_cb) {
+> +		nr_opp = dev_pm_opp_get_opp_count(dev);
+> +		if (nr_opp <= 0) {
+> +			dev_err(dev, "No valid OPPs found\n");
+> +			return ERR_PTR(-EINVAL);
+> +		}
+> +
+> +		ret = em_dev_register_perf_domain(dev, nr_opp, em_cb, NULL);
+> +	} else {
+> +		ret = dev_pm_opp_of_register_em(dev, NULL);
+> +	}
+> +
+> +	if (ret)
+> +		dev_warn(dev, "Unable to register EM for devfreq cooling device (%d)\n",
+> +			 ret);
+> +
+> +	if (dev->of_node)
+> +		np = of_node_get(dev->of_node);
+> +
+> +	cdev = of_devfreq_cooling_register_power(np, df, dfc_power);
+> +
+> +	if (np)
+> +		of_node_put(np);
+> +
+> +	if (IS_ERR_OR_NULL(cdev)) {
+> +		if (!ret)
+> +			em_dev_unregister_perf_domain(dev);
+> +	} else {
+> +		dfc = cdev->devdata;
+> +		dfc->em_registered = !ret;
+> +	}
+> +
+> +	return cdev;
+> +}
+> +EXPORT_SYMBOL_GPL(devfreq_cooling_em_register_power);
+> +
+> +/**
+> + * devfreq_cooling_em_register() - Register devfreq cooling device together
+> + *				with Energy Model.
+> + * @df:		Pointer to devfreq device.
+> + * @em_cb:	Callback functions providing the data of the Energy Model
+> + *
+> + * This function attempts to register Energy Model for devfreq device and then
+> + * register the devfreq cooling device.
+> + */
+> +struct thermal_cooling_device *
+> +devfreq_cooling_em_register(struct devfreq *df, struct em_data_callback *em_cb)
+> +{
+> +	return devfreq_cooling_em_register_power(df, NULL, em_cb);
+> +}
+> +EXPORT_SYMBOL_GPL(devfreq_cooling_em_register);
+> +
+>  /**
+>   * devfreq_cooling_unregister() - Unregister devfreq cooling device.
+>   * @cdev: Pointer to devfreq cooling device to unregister.
+> + *
+> + * Unregisters devfreq cooling device and related Energy Model if it was
+> + * present.
+>   */
+>  void devfreq_cooling_unregister(struct thermal_cooling_device *cdev)
+>  {
+>  	struct devfreq_cooling_device *dfc;
+> +	struct device *dev;
+>  
+> -	if (!cdev)
+> +	if (IS_ERR_OR_NULL(cdev))
+>  		return;
+>  
+>  	dfc = cdev->devdata;
+> +	dev = dfc->devfreq->dev.parent;
+>  
+>  	thermal_cooling_device_unregister(dfc->cdev);
+>  	ida_simple_remove(&devfreq_ida, dfc->id);
+>  	dev_pm_qos_remove_request(&dfc->req_max_freq);
+> +
+> +	if (dfc->em_registered)
+> +		em_dev_unregister_perf_domain(dev);
+
+Nit: Isn't it enough to check if dev->em_pd != NULL to be able to
+unregister the perf_domain? That would remove the need for
+dfc->em_registered.
+
+I suppose one could say that's using implementation details on how the
+EM is built and stored and we should not rely on it, so it's up to you
+if you want to change it.
+
+Kind regards,
+Ionela.
+
+> +
+>  	kfree(dfc->power_table);
+>  	kfree(dfc->freq_table);
+>  
+> diff --git a/include/linux/devfreq_cooling.h b/include/linux/devfreq_cooling.h
+> index 9df2dfca68dd..19868fb922f1 100644
+> --- a/include/linux/devfreq_cooling.h
+> +++ b/include/linux/devfreq_cooling.h
+> @@ -11,6 +11,7 @@
+>  #define __DEVFREQ_COOLING_H__
+>  
+>  #include <linux/devfreq.h>
+> +#include <linux/energy_model.h>
+>  #include <linux/thermal.h>
+>  
+>  
+> @@ -65,6 +66,13 @@ struct thermal_cooling_device *
+>  of_devfreq_cooling_register(struct device_node *np, struct devfreq *df);
+>  struct thermal_cooling_device *devfreq_cooling_register(struct devfreq *df);
+>  void devfreq_cooling_unregister(struct thermal_cooling_device *dfc);
+> +struct thermal_cooling_device *
+> +devfreq_cooling_em_register_power(struct devfreq *df,
+> +				  struct devfreq_cooling_power *dfc_power,
+> +				  struct em_data_callback *em_cb);
+> +struct thermal_cooling_device *
+> +devfreq_cooling_em_register(struct devfreq *df,
+> +			    struct em_data_callback *em_cb);
+>  
+>  #else /* !CONFIG_DEVFREQ_THERMAL */
+>  
+> @@ -87,6 +95,20 @@ devfreq_cooling_register(struct devfreq *df)
+>  	return ERR_PTR(-EINVAL);
+>  }
+>  
+> +static inline struct thermal_cooling_device *
+> +devfreq_cooling_em_register_power(struct devfreq *df,
+> +				  struct devfreq_cooling_power *dfc_power,
+> +				  struct em_data_callback *em_cb)
+> +{
+> +	return ERR_PTR(-EINVAL);
+> +}
+> +
+> +static inline struct thermal_cooling_device *
+> +devfreq_cooling_em_register(struct devfreq *df,	struct em_data_callback *em_cb)
+> +{
+> +	return ERR_PTR(-EINVAL);
+> +}
+> +
+>  static inline void
+>  devfreq_cooling_unregister(struct thermal_cooling_device *dfc)
+>  {
+> -- 
+> 2.17.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
