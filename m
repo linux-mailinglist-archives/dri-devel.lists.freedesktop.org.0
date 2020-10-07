@@ -2,39 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003E12862BC
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFD6286303
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 18:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0FCE6E937;
-	Wed,  7 Oct 2020 15:56:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87AFA6E94D;
+	Wed,  7 Oct 2020 16:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 758556E936;
- Wed,  7 Oct 2020 15:56:26 +0000 (UTC)
-Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0E10E20789;
- Wed,  7 Oct 2020 15:56:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602086186;
- bh=9KvHvObxnkiLqVCFdBl2Uwtt1o9NsUDBlzUyaonBWUU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wTDNJ8LOZg5Gzgjz9n5LENJFUS+a+8BKaSnuAlx8ZvfRybtPHn9w71c16ecM7RTZu
- xO06P/7ck+CC1vp6TP1lj+rnA3dAPc/2Kuma1p5U/vLKGdONeedFqARTYyeXKuLoOx
- f8NzZ2oQZwpBSZySALyYme9Lw5XmVXm8qVvvb86c=
-Date: Wed, 7 Oct 2020 11:02:26 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 01/14] drm/amd/pm: Replace one-element array with
- flexible-array member
-Message-ID: <069289d62f5cf464f607d33582c9e5826393b0f1.1602020074.git.gustavoars@kernel.org>
-References: <cover.1602020074.git.gustavoars@kernel.org>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5C856E94D
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 16:02:34 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id m7so3018103oie.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 09:02:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QN6qh59qG42Kq9JjP8pNGfSZAvFCNq3X7CnGqx+yDSo=;
+ b=FeoHsNJkWmPMs6uYF/YHmshT3Sj2hV2myIPMsHg5ThLV227+EfQ2D4oNqwH24c8o8+
+ jtGNRJ8C8ZHm4doelW9H3DCjHSaTSom1I7S3/P1tYAOpxBfNwj9d6AbJOxKSo316d1Gg
+ M/RdsznY/YMW1+zbN0gapiM29rILYGOsSY/8C1XJaVSp+Yzav4qqTngkZM/+GboO5gi5
+ DfossiXXaKX09INsF1YL24+ofS5+3ucxUEa3OJpDSCnfx58fi2siXjNQNDJVhefR6xjB
+ dqYNeWxC8tqwCdY445LTTWxcYsv3TBR1WVX7sVIc7cKbtoN0snoplG6jVVTxmKAIgccX
+ o1aQ==
+X-Gm-Message-State: AOAM531eP49ua+epTwCILhIE2k2QdSmvtua8UWYaAxr95nDGygAIyKZd
+ 9Nyvqrv3SqPU2PlhVHimbA==
+X-Google-Smtp-Source: ABdhPJyuaLUxVZizfTnOZE9GdpOW00ZyuvMQGMKExsoAA2XA1kskDCIpbbBsiz1JxNDAk8IZtr1zqg==
+X-Received: by 2002:aca:40f:: with SMTP id 15mr2265809oie.44.1602086554103;
+ Wed, 07 Oct 2020 09:02:34 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id f26sm1868971otq.50.2020.10.07.09.02.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 09:02:33 -0700 (PDT)
+Received: (nullmailer pid 300604 invoked by uid 1000);
+ Wed, 07 Oct 2020 16:02:32 -0000
+Date: Wed, 7 Oct 2020 11:02:32 -0500
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 1/7] dt-bindings: display: mxsfb: Convert binding to
+ YAML
+Message-ID: <20201007160232.GA299241@bogus>
+References: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
+ <20201007012438.27970-2-laurent.pinchart@ideasonboard.com>
+ <20201007160020.GA292355@bogus>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <cover.1602020074.git.gustavoars@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20201007160020.GA292355@bogus>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,92 +61,290 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, amd-gfx@lists.freedesktop.org,
- linux-hardening@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlcmUgaXMgYSByZWd1bGFyIG5lZWQgaW4gdGhlIGtlcm5lbCB0byBwcm92aWRlIGEgd2F5IHRv
-IGRlY2xhcmUgaGF2aW5nCmEgZHluYW1pY2FsbHkgc2l6ZWQgc2V0IG9mIHRyYWlsaW5nIGVsZW1l
-bnRzIGluIGEgc3RydWN0dXJlLiBLZXJuZWwgY29kZQpzaG91bGQgYWx3YXlzIHVzZSDigJxmbGV4
-aWJsZSBhcnJheSBtZW1iZXJz4oCdWzFdIGZvciB0aGVzZSBjYXNlcy4gVGhlIG9sZGVyCnN0eWxl
-IG9mIG9uZS1lbGVtZW50IG9yIHplcm8tbGVuZ3RoIGFycmF5cyBzaG91bGQgbm8gbG9uZ2VyIGJl
-IHVzZWRbMl0uCgpSZWZhY3RvciB0aGUgY29kZSBhY2NvcmRpbmcgdG8gdGhlIHVzZSBvZiBhIGZs
-ZXhpYmxlLWFycmF5IG1lbWJlciBpbgpzdHJ1Y3QgcGhtX2Nsb2NrX3ZvbHRhZ2VfZGVwZW5kZW5j
-eV90YWJsZSwgaW5zdGVhZCBvZiBhIG9uZS1lbGVtZW50CmFycmF5LCBhbmQgdXNlIHRoZSBzdHJ1
-Y3Rfc2l6ZSgpIGhlbHBlciB0byBjYWxjdWxhdGUgdGhlIHNpemUgZm9yIHRoZQphbGxvY2F0aW9u
-LgoKWzFdIGh0dHBzOi8vZW4ud2lraXBlZGlhLm9yZy93aWtpL0ZsZXhpYmxlX2FycmF5X21lbWJl
-cgpbMl0gaHR0cHM6Ly93d3cua2VybmVsLm9yZy9kb2MvaHRtbC92NS45LXJjMS9wcm9jZXNzL2Rl
-cHJlY2F0ZWQuaHRtbCN6ZXJvLWxlbmd0aC1hbmQtb25lLWVsZW1lbnQtYXJyYXlzCgpCdWlsZC10
-ZXN0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgpMaW5rOiBodHRwczov
-L2xvcmUua2VybmVsLm9yZy9sa21sLzVmN2MyOTVjLjhpcXAxSWZjNm9pVkRxJTJGJTJGJTI1bGtw
-QGludGVsLmNvbS8KU2lnbmVkLW9mZi1ieTogR3VzdGF2byBBLiBSLiBTaWx2YSA8Z3VzdGF2b2Fy
-c0BrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL2h3bWdyLmggICAg
-ICAgICAgICAgICAgICAgICAgIHwgNCArKy0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2Vy
-cGxheS9od21nci9wcm9jZXNzcHB0YWJsZXMuYyB8IDkgKysrLS0tLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vYW1kL3BtL3Bvd2VycGxheS9od21nci9zbXU4X2h3bWdyLmMgICAgICB8IDIgKy0KIGRyaXZl
-cnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3NtdV9oZWxwZXIuYyAgICAgIHwgNSAr
-Ky0tLQogNCBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL2h3bWdyLmggYi9kcml2ZXJz
-L2dwdS9kcm0vYW1kL3BtL2luYy9od21nci5oCmluZGV4IDM4OThhOTVlYzI4Yi4uYTFkYmZkNTYz
-NmU2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL2luYy9od21nci5oCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL2h3bWdyLmgKQEAgLTEyMiw4ICsxMjIsOCBAQCBz
-dHJ1Y3QgcGhtX2FjcGNsb2NrX3ZvbHRhZ2VfZGVwZW5kZW5jeV9yZWNvcmQgewogfTsKIAogc3Ry
-dWN0IHBobV9jbG9ja192b2x0YWdlX2RlcGVuZGVuY3lfdGFibGUgewotCXVpbnQzMl90IGNvdW50
-OwkJCQkJCQkJCQkvKiBOdW1iZXIgb2YgZW50cmllcy4gKi8KLQlzdHJ1Y3QgcGhtX2Nsb2NrX3Zv
-bHRhZ2VfZGVwZW5kZW5jeV9yZWNvcmQgZW50cmllc1sxXTsJCS8qIER5bmFtaWNhbGx5IGFsbG9j
-YXRlIGNvdW50IGVudHJpZXMuICovCisJdWludDMyX3QgY291bnQ7CQkJCQkJCS8qIE51bWJlciBv
-ZiBlbnRyaWVzLiAqLworCXN0cnVjdCBwaG1fY2xvY2tfdm9sdGFnZV9kZXBlbmRlbmN5X3JlY29y
-ZCBlbnRyaWVzW107CQkvKiBEeW5hbWljYWxseSBhbGxvY2F0ZSBjb3VudCBlbnRyaWVzLiAqLwog
-fTsKIAogc3RydWN0IHBobV9waGFzZV9zaGVkZGluZ19saW1pdHNfcmVjb3JkIHsKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3Byb2Nlc3NwcHRhYmxl
-cy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvcHJvY2Vzc3BwdGFi
-bGVzLmMKaW5kZXggNzE5NTk3YzVkMjdkLi5kOTRhN2Q4ZTA1ODcgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3Byb2Nlc3NwcHRhYmxlcy5jCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3Byb2Nlc3NwcHRhYmxlcy5j
-CkBAIC0zNzcsMTQgKzM3NywxMSBAQCBzdGF0aWMgaW50IGdldF9jbG9ja192b2x0YWdlX2RlcGVu
-ZGVuY3lfdGFibGUoc3RydWN0IHBwX2h3bWdyICpod21nciwKIAkJY29uc3QgQVRPTV9QUExJQl9D
-bG9ja19Wb2x0YWdlX0RlcGVuZGVuY3lfVGFibGUgKnRhYmxlKQogewogCi0JdW5zaWduZWQgbG9u
-ZyB0YWJsZV9zaXplLCBpOworCXVuc2lnbmVkIGxvbmcgaTsKIAlzdHJ1Y3QgcGhtX2Nsb2NrX3Zv
-bHRhZ2VfZGVwZW5kZW5jeV90YWJsZSAqZGVwX3RhYmxlOwogCi0JdGFibGVfc2l6ZSA9IHNpemVv
-Zih1bnNpZ25lZCBsb25nKSArCi0JCXNpemVvZihzdHJ1Y3QgcGhtX2Nsb2NrX3ZvbHRhZ2VfZGVw
-ZW5kZW5jeV90YWJsZSkKLQkJKiB0YWJsZS0+dWNOdW1FbnRyaWVzOwotCi0JZGVwX3RhYmxlID0g
-a3phbGxvYyh0YWJsZV9zaXplLCBHRlBfS0VSTkVMKTsKKwlkZXBfdGFibGUgPSBremFsbG9jKHN0
-cnVjdF9zaXplKGRlcF90YWJsZSwgZW50cmllcywgdGFibGUtPnVjTnVtRW50cmllcyksCisJCQkg
-ICAgR0ZQX0tFUk5FTCk7CiAJaWYgKE5VTEwgPT0gZGVwX3RhYmxlKQogCQlyZXR1cm4gLUVOT01F
-TTsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3Iv
-c211OF9od21nci5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3Ivc211
-OF9od21nci5jCmluZGV4IDM1ZWQ0N2ViYWYwOS4uZWQ5Yjg5OTgwMTg0IDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9od21nci9zbXU4X2h3bWdyLmMKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3Ivc211OF9od21nci5jCkBAIC0y
-NzYsNyArMjc2LDcgQEAgc3RhdGljIGludCBzbXU4X2luaXRfZHluYW1pY19zdGF0ZV9hZGp1c3Rt
-ZW50X3J1bGVfc2V0dGluZ3MoCiB7CiAJc3RydWN0IHBobV9jbG9ja192b2x0YWdlX2RlcGVuZGVu
-Y3lfdGFibGUgKnRhYmxlX2Nsa192bHQ7CiAKLQl0YWJsZV9jbGtfdmx0ID0ga3phbGxvYyhzdHJ1
-Y3Rfc2l6ZSh0YWJsZV9jbGtfdmx0LCBlbnRyaWVzLCA3KSwKKwl0YWJsZV9jbGtfdmx0ID0ga3ph
-bGxvYyhzdHJ1Y3Rfc2l6ZSh0YWJsZV9jbGtfdmx0LCBlbnRyaWVzLCA4KSwKIAkJCQlHRlBfS0VS
-TkVMKTsKIAogCWlmIChOVUxMID09IHRhYmxlX2Nsa192bHQpIHsKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3NtdV9oZWxwZXIuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3NtdV9oZWxwZXIuYwppbmRleCA2MGI1Y2E5
-NzQzNTYuLmI0ODVmOGIxZDZmMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9w
-b3dlcnBsYXkvaHdtZ3Ivc211X2hlbHBlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0v
-cG93ZXJwbGF5L2h3bWdyL3NtdV9oZWxwZXIuYwpAQCAtNDkyLDEzICs0OTIsMTIgQEAgaW50IHBo
-bV9nZXRfc2Nsa19mb3Jfdm9sdGFnZV9ldnYoc3RydWN0IHBwX2h3bWdyICpod21nciwKICAqLwog
-aW50IHBobV9pbml0aWFsaXphX2R5bmFtaWNfc3RhdGVfYWRqdXN0bWVudF9ydWxlX3NldHRpbmdz
-KHN0cnVjdCBwcF9od21nciAqaHdtZ3IpCiB7Ci0JdWludDMyX3QgdGFibGVfc2l6ZTsKIAlzdHJ1
-Y3QgcGhtX2Nsb2NrX3ZvbHRhZ2VfZGVwZW5kZW5jeV90YWJsZSAqdGFibGVfY2xrX3ZsdDsKIAlz
-dHJ1Y3QgcGhtX3BwdF92MV9pbmZvcm1hdGlvbiAqcHB0YWJsZV9pbmZvID0gKHN0cnVjdCBwaG1f
-cHB0X3YxX2luZm9ybWF0aW9uICopKGh3bWdyLT5wcHRhYmxlKTsKIAogCS8qIGluaXRpYWxpemUg
-dmRkY19kZXBfb25fZGFsX3B3cmwgdGFibGUgKi8KLQl0YWJsZV9zaXplID0gc2l6ZW9mKHVpbnQz
-Ml90KSArIDQgKiBzaXplb2Yoc3RydWN0IHBobV9jbG9ja192b2x0YWdlX2RlcGVuZGVuY3lfcmVj
-b3JkKTsKLQl0YWJsZV9jbGtfdmx0ID0ga3phbGxvYyh0YWJsZV9zaXplLCBHRlBfS0VSTkVMKTsK
-Kwl0YWJsZV9jbGtfdmx0ID0ga3phbGxvYyhzdHJ1Y3Rfc2l6ZSh0YWJsZV9jbGtfdmx0LCBlbnRy
-aWVzLCA0KSwKKwkJCQlHRlBfS0VSTkVMKTsKIAogCWlmIChOVUxMID09IHRhYmxlX2Nsa192bHQp
-IHsKIAkJcHJfZXJyKCJDYW4gbm90IGFsbG9jYXRlIHNwYWNlIGZvciB2ZGRjX2RlcF9vbl9kYWxf
-cHdybCEgXG4iKTsKLS0gCjIuMjcuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+On Wed, Oct 07, 2020 at 11:00:20AM -0500, Rob Herring wrote:
+> On Wed, Oct 07, 2020 at 04:24:32AM +0300, Laurent Pinchart wrote:
+> > Convert the mxsfb binding to YAML. The deprecated binding is dropped, as
+> > neither the DT sources nor the driver support it anymore. The converted
+> > binding is named fsl,lcdif.yaml to match the usual bindings naming
+> > scheme.
+> > 
+> > The compatible strings are messy, and DT sources use different kinds of
+> > combination of documented and undocumented values. Keep it simple for
+> > now, and update the example to make it valid. Aligning the binding with
+> > the existing DT sources will be performed separately.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> > --
+> > Changes since v1:
+> > 
+> > - Drop unneeded quotes in string
+> > - Replace minItems with maxItems in conditional check
+> > - Add blank line before ...
+> > - Squash the rename in this commit
+> > ---
+> >  .../bindings/display/fsl,lcdif.yaml           | 116 ++++++++++++++++++
+> >  .../devicetree/bindings/display/mxsfb.txt     |  87 -------------
+> >  MAINTAINERS                                   |   2 +-
+> >  3 files changed, 117 insertions(+), 88 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/display/mxsfb.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> > new file mode 100644
+> > index 000000000000..063bb8c58114
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> > @@ -0,0 +1,116 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/fsl,lcdif.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Freescale/NXP i.MX LCD Interface (LCDIF)
+> > +
+> > +maintainers:
+> > +  - Marek Vasut <marex@denx.de>
+> > +  - Stefan Agner <stefan@agner.ch>
+> > +
+> > +description: |
+> > +  (e)LCDIF display controller found in the Freescale/NXP i.MX SoCs.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - fsl,imx23-lcdif
+> > +      - fsl,imx28-lcdif
+> > +      - fsl,imx6sx-lcdif
+> > +      - fsl,imx8mq-lcdif
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Pixel clock
+> > +      - description: Bus clock
+> > +      - description: Display AXI clock
+> > +    minItems: 1
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: pix
+> > +      - const: axi
+> > +      - const: disp_axi
+> > +    minItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  port:
+> > +    description: The LCDIF output port
+> > +    type: object
+> > +
+> > +    properties:
+> > +      endpoint:
+> 
+> What happened on the graph binding schema work? I started a meta-schema 
+> for it BTW.
+> 
+> You can drop all the endpoint parts. With that,
+
+NM, I see in patch 3 you need it.
+
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> > +        type: object
+> > +
+> > +        properties:
+> > +          remote-endpoint:
+> > +            $ref: /schemas/types.yaml#/definitions/phandle
+> > +
+> > +        required:
+> > +          - remote-endpoint
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - interrupts
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: fsl,imx6sx-lcdif
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +          maxItems: 3
+> > +        clock-names:
+> > +          minItems: 2
+> > +          maxItems: 3
+> > +      required:
+> > +        - clock-names
+> > +    else:
+> > +      properties:
+> > +        clocks:
+> > +          maxItems: 1
+> > +        clock-names:
+> > +          maxItems: 1
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/imx6sx-clock.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    display-controller@2220000 {
+> > +        compatible = "fsl,imx6sx-lcdif";
+> > +        reg = <0x02220000 0x4000>;
+> > +        interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks = <&clks IMX6SX_CLK_LCDIF1_PIX>,
+> > +                 <&clks IMX6SX_CLK_LCDIF_APB>,
+> > +                 <&clks IMX6SX_CLK_DISPLAY_AXI>;
+> > +        clock-names = "pix", "axi", "disp_axi";
+> > +
+> > +        port {
+> > +            endpoint {
+> > +                remote-endpoint = <&panel_in>;
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> > diff --git a/Documentation/devicetree/bindings/display/mxsfb.txt b/Documentation/devicetree/bindings/display/mxsfb.txt
+> > deleted file mode 100644
+> > index c985871c46b3..000000000000
+> > --- a/Documentation/devicetree/bindings/display/mxsfb.txt
+> > +++ /dev/null
+> > @@ -1,87 +0,0 @@
+> > -* Freescale MXS LCD Interface (LCDIF)
+> > -
+> > -New bindings:
+> > -=============
+> > -Required properties:
+> > -- compatible:	Should be "fsl,imx23-lcdif" for i.MX23.
+> > -		Should be "fsl,imx28-lcdif" for i.MX28.
+> > -		Should be "fsl,imx6sx-lcdif" for i.MX6SX.
+> > -		Should be "fsl,imx8mq-lcdif" for i.MX8MQ.
+> > -- reg:		Address and length of the register set for LCDIF
+> > -- interrupts:	Should contain LCDIF interrupt
+> > -- clocks:	A list of phandle + clock-specifier pairs, one for each
+> > -		entry in 'clock-names'.
+> > -- clock-names:	A list of clock names. For MXSFB it should contain:
+> > -    - "pix" for the LCDIF block clock
+> > -    - (MX6SX-only) "axi", "disp_axi" for the bus interface clock
+> > -
+> > -Required sub-nodes:
+> > -  - port: The connection to an encoder chip.
+> > -
+> > -Example:
+> > -
+> > -	lcdif1: display-controller@2220000 {
+> > -		compatible = "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
+> > -		reg = <0x02220000 0x4000>;
+> > -		interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+> > -		clocks = <&clks IMX6SX_CLK_LCDIF1_PIX>,
+> > -			 <&clks IMX6SX_CLK_LCDIF_APB>,
+> > -			 <&clks IMX6SX_CLK_DISPLAY_AXI>;
+> > -		clock-names = "pix", "axi", "disp_axi";
+> > -
+> > -		port {
+> > -			parallel_out: endpoint {
+> > -				remote-endpoint = <&panel_in_parallel>;
+> > -			};
+> > -		};
+> > -	};
+> > -
+> > -Deprecated bindings:
+> > -====================
+> > -Required properties:
+> > -- compatible:	Should be "fsl,imx23-lcdif" for i.MX23.
+> > -		Should be "fsl,imx28-lcdif" for i.MX28.
+> > -- reg:		Address and length of the register set for LCDIF
+> > -- interrupts:	Should contain LCDIF interrupts
+> > -- display:	phandle to display node (see below for details)
+> > -
+> > -* display node
+> > -
+> > -Required properties:
+> > -- bits-per-pixel:	<16> for RGB565, <32> for RGB888/666.
+> > -- bus-width:		number of data lines.  Could be <8>, <16>, <18> or <24>.
+> > -
+> > -Required sub-node:
+> > -- display-timings:	Refer to binding doc display-timing.txt for details.
+> > -
+> > -Examples:
+> > -
+> > -lcdif@80030000 {
+> > -	compatible = "fsl,imx28-lcdif";
+> > -	reg = <0x80030000 2000>;
+> > -	interrupts = <38 86>;
+> > -
+> > -	display: display {
+> > -		bits-per-pixel = <32>;
+> > -		bus-width = <24>;
+> > -
+> > -		display-timings {
+> > -			native-mode = <&timing0>;
+> > -			timing0: timing0 {
+> > -				clock-frequency = <33500000>;
+> > -				hactive = <800>;
+> > -				vactive = <480>;
+> > -				hfront-porch = <164>;
+> > -				hback-porch = <89>;
+> > -				hsync-len = <10>;
+> > -				vback-porch = <23>;
+> > -				vfront-porch = <10>;
+> > -				vsync-len = <10>;
+> > -				hsync-active = <0>;
+> > -				vsync-active = <0>;
+> > -				de-active = <1>;
+> > -				pixelclk-active = <0>;
+> > -			};
+> > -		};
+> > -	};
+> > -};
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index f0dd1f01703a..87e20680c104 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11910,7 +11910,7 @@ M:	Stefan Agner <stefan@agner.ch>
+> >  L:	dri-devel@lists.freedesktop.org
+> >  S:	Supported
+> >  T:	git git://anongit.freedesktop.org/drm/drm-misc
+> > -F:	Documentation/devicetree/bindings/display/mxsfb.txt
+> > +F:	Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> >  F:	drivers/gpu/drm/mxsfb/
+> >  
+> >  MYLEX DAC960 PCI RAID Controller
+> > -- 
+> > Regards,
+> > 
+> > Laurent Pinchart
+> > 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
