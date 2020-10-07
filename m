@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F8F285972
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D88DD28595B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23C926E8B3;
-	Wed,  7 Oct 2020 07:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 781D56E0CE;
+	Wed,  7 Oct 2020 07:22:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B4B6E84B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 01:03:15 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id h2so136655pll.11
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 18:03:15 -0700 (PDT)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 033DC6E84B
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 01:04:56 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id e10so377255pfj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Oct 2020 18:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=FbVt6UIsanorUvecNc8pgO4I7nA5/YzrR4KBsZs3/tw=;
- b=rJLKmtpwxzsaHKtX12nq3eP9neu2dOXEPi6LomqB2knE6KHEDjpS2vUrKJtGSZmd01
- 7ezWLLISEJuqEQ8aBgOjVvVwuIROWJaVvqWMDhdkIrMnEJj3xWoT+mLh9Gs8gEuP17Q2
- UgfknJPVfYtwgcFCoBnLf1OmUFSxA0fdjd+qay5y6bkYLt8ainoMJawHK24rtd7lPeI2
- jVsq0CkG7qufIYkkx+FdQj1K8q292mstggL5gEg1P6qasdKVPWKLR/DK34HZkI0mADY7
- HUlcFEZ59O0+agAIIrpY+D6Sh+41M2ydy4oYO2vKHgH/8RKm2d5YK6721Lon3s9UNXTV
- sAgw==
+ bh=0/bWrGoCkUT1XKG15S3LcPCeuj/9H6SulVmeatRXh2o=;
+ b=o3Pwy5wYAD2KjHFxqx8zJn29Vs5mbvXSBjNxI6P7OabTpsU/U0SGpYd4FsvkK/Ndjy
+ o6haFaQLhrlga1BZAonVWdmnYb32RwDlKDv1iNZSfD0mkYhL6AlLSFycnS+oYFh7ZUp1
+ TkX5mqfIN4mnxWvwmM0DfqKMDy+og8IZ+jNqBte63Si7LyqSrYcSS5VQLfQgB80bmtjl
+ SLVjNURG8b+QRtDeh3cy+5wKhP+/ucXDk7OVxpSlq1MvLPkb9wEBt0slTTHRiZnkT43r
+ 0Da6jEuUUaW5qy0DOhRMGh0Fme25JQoAZtM8rFDZY+jZY5w1aTzbtncjcS61sVCE0zAC
+ N0gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=FbVt6UIsanorUvecNc8pgO4I7nA5/YzrR4KBsZs3/tw=;
- b=AbPKeVIFHHBk5mj3NGpqmmsPdxLqdEN002XN1IaCNkjpdNGryC29tGMpKzpO9ajkcd
- 1iSg3++i9FQaxatl8pUPx1W91QFuCki+47Khcc1kn9fzyS13WEMHQuAzukNijZPlgFx/
- /WrWAnlFBfuC9XOxdvskARCTiSKYtBk3wVZTAOO8bOgbLuCSSF/F4IHNlKBO6BuCs5df
- 67ITibIFpb5CNclkwetKabHGndHayuIqbF4wGdIj/VLOL79a1zGm+Ug1xx9PoOE79Ju0
- p319ysvTGhQv+SzY7FLZyACIFw2tFHw8gk8mJXoLJFBkx53gIq8oiiIK0ccouPQW55LZ
- JeMw==
-X-Gm-Message-State: AOAM531IYD65hYMq87PfJfoEyCNWNwHYvFwfnda31Lfxuj7plffSbPY8
- LmmbNUbUDjDnQE2ggDVrD04=
-X-Google-Smtp-Source: ABdhPJzVLf6DlrNk5/q9fRno4e12My/InOM1G44QmO8+GKR2G8WgtPD5wnjL1TK4h+y4iW9ZX7bL0Q==
-X-Received: by 2002:a17:90b:692:: with SMTP id
- m18mr667588pjz.182.1602032595239; 
- Tue, 06 Oct 2020 18:03:15 -0700 (PDT)
+ bh=0/bWrGoCkUT1XKG15S3LcPCeuj/9H6SulVmeatRXh2o=;
+ b=m2LXt9afwiDnpuLbQNITY71ebDfO3F37dZwIHEtW09kz7axb46T3Rv56NVT0TEOALS
+ aPtUVWImboYPArbwupK5HGxEPsBunpLvDCqHfbh4SW4+dXcDyCuMZdLNGbRjZcRefk8T
+ MkwrwE5M2cOUmRSuSe7PiUFIskbAej94zPIz21wp1FGgJJfDeVVPlv6BA6tCbfRyshua
+ mi6XfoQntU4kdnQ1MyeEuOagP0Bq/QjhagNQlvlCnEvAcaG+nLY9aq3xs9DoSN89z1AM
+ FC5PzVhzc7OqZOAUsHfJUKehHxw2uVdPuw81hOJlmDapEVjcHDIHNRPPKUnv3kFvCref
+ ypoQ==
+X-Gm-Message-State: AOAM5323Uw/hoNHzvnrU9HPqpvjzintbSl8QaIkAbgfGzbj7JY5e9W6P
+ W74AJK5kkdNuWyCLUY7EVOE=
+X-Google-Smtp-Source: ABdhPJwHBE/6svDofq3JI1Nvl9AaFlg1oX0F7Zhinc7Yx4XbSqxrhmfr8wUc0v2ZFV5xqE5jZ9MdIA==
+X-Received: by 2002:aa7:9e4a:0:b029:152:54d1:bffa with SMTP id
+ z10-20020aa79e4a0000b029015254d1bffamr663621pfq.6.1602032696538; 
+ Tue, 06 Oct 2020 18:04:56 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
- by smtp.gmail.com with ESMTPSA id fa2sm213768pjb.51.2020.10.06.18.03.10
+ by smtp.gmail.com with ESMTPSA id o62sm458923pfb.172.2020.10.06.18.04.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 18:03:14 -0700 (PDT)
-Date: Tue, 6 Oct 2020 18:03:08 -0700
+ Tue, 06 Oct 2020 18:04:55 -0700 (PDT)
+Date: Tue, 6 Oct 2020 18:04:49 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
-Message-ID: <20201007010308.GP1009802@dtor-ws>
+Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
+ in common schemas
+Message-ID: <20201007010449.GQ1009802@dtor-ws>
 References: <20201005183830.486085-1-robh@kernel.org>
- <20201005183830.486085-2-robh@kernel.org>
+ <20201005183830.486085-5-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
+In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
 X-Mailman-Approved-At: Wed, 07 Oct 2020 07:22:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -113,18 +114,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 05, 2020 at 01:38:27PM -0500, Rob Herring wrote:
-> This doesn't yet do anything in the tools, but make it explicit so we can
-> check either 'unevaluatedProperties' or 'additionalProperties' is present
-> in schemas.
-> 
-> 'unevaluatedProperties' is appropriate when including another schema (via
-> '$ref') and all possible properties and/or child nodes are not
-> explicitly listed in the schema with the '$ref'.
-> 
-> This is in preparation to add a meta-schema to check for missing
-> 'unevaluatedProperties' or 'additionalProperties'. This has been a
-> constant source of review issues.
+On Mon, Oct 05, 2020 at 01:38:30PM -0500, Rob Herring wrote:
+> In order to add meta-schema checks for additional/unevaluatedProperties
+> being present, all schema need to make this explicit. As common/shared
+> schema are included by other schemas, they should always allow for
+> additionalProperties.
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
