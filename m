@@ -1,47 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A602865AA
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 19:17:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81409286F2E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 09:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1049E6E97A;
-	Wed,  7 Oct 2020 17:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F347F6EA37;
+	Thu,  8 Oct 2020 07:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38C136E927
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 17:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=YQ0EIhPEW36Bi6dN6vdj/+iK0R8rqmvsnZ8gGpUrfJo=; b=tQvAMglZTl2MY6aKKvU7KUIbIH
- y2OS51pmM2cF7d1zrxlmkMUv9MakeiGHw4dCSIto7TsBVLDcKGJ8ozrLFtqdcA2TbkIn554Y3cs+E
- JM/SKTFiw0HUvz+eW1SnBANzROICXP5d60Ox52+afWYCVYdzJVfPjxi/1URRwKtPJZwBT4pFFWMWK
- LsXqBc9oqL3al7jKtmm9O9aYmgWZff1GmO4QGBEaYh5vSQk/w5l/hDKEDlgF3QCF81y4Z5UOVxLQt
- Vg4wtRouUYmxzPFoLZ9llRxMFyiDTTCrwlnPOk0g+awVpXXWXXshWXxPGvfB3wzX1yIpdHAa+11HQ
- V/PHb8Cg==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=toshino.localdomain)
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1kQD41-0006P9-FJ; Wed, 07 Oct 2020 20:17:17 +0300
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v3 20/20] drm/tegra: Add job firewall
-Date: Wed,  7 Oct 2020 20:12:38 +0300
-Message-Id: <20201007171238.1795964-21-mperttunen@nvidia.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201007171238.1795964-1-mperttunen@nvidia.com>
-References: <20201007171238.1795964-1-mperttunen@nvidia.com>
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CADAE6E118
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 17:19:49 +0000 (UTC)
+Date: Wed, 07 Oct 2020 17:19:41 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+ s=protonmail; t=1602091187;
+ bh=lr01I54W83dQfyPAXxNgr/K8XWBKrwkLjst7BnhvlRw=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=P77AwqaHfzSUfSdSPycIEWqs+dG/IhTlMsCjJTQMpsFg8wJP9H2wIQjxPG4ySI3te
+ ctoDDJKzco1Sju7n++a1l6YeVilr4yXq2S/hGNa3IAHQxO/67K/VlxnGBTL1t7WeQF
+ Wg84/nTVppFrWeP+V/OOADXwYJ744lRreG4OLfUw=
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+From: Caleb Connolly <caleb@connolly.tech>
+Subject: [PATCH 1/5] drm/panel/oneplus6: Add panel-oneplus6
+Message-ID: <20201007171807.285298-2-caleb@connolly.tech>
+In-Reply-To: <20201007171807.285298-1-caleb@connolly.tech>
+References: <20201007171807.285298-1-caleb@connolly.tech>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: mperttunen@nvidia.com
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
+X-Mailman-Approved-At: Thu, 08 Oct 2020 07:20:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,281 +47,495 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
+Reply-To: Caleb Connolly <caleb@connolly.tech>
+Cc: Caleb Connolly <caleb@connolly.tech>, ~postmarketos/upstreaming@lists.sr.ht,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a firewall that validates jobs before submission to ensure
-they don't do anything they aren't allowed to do, like accessing
-memory they should not access.
+This commit adds support for the display panels used in the OnePlus 6 /
+T devices.
 
-The firewall is functionality-wise a copy of the firewall already
-implemented in gpu/host1x. It is copied here as it makes more
-sense for it to live on the DRM side, as it is only needed for
-userspace job submissions, and generally the data it needs to
-do its job is easier to access here.
+The OnePlus 6/T devices use different panels however they are
+functionally identical with much of the commands being shared. The
+panels don't appear to be used by any other devices some combine them as
+one driver that is specific to the devices.
 
-In the future, the other implementation will be removed.
+The panels are: samsung,sofef00
+and             samsung,s6e3fc2x01
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+Signed-off-by: Caleb Connolly <caleb@connolly.tech>
 ---
-v3:
-* New patch
----
- drivers/gpu/drm/tegra/Makefile        |   1 +
- drivers/gpu/drm/tegra/uapi/firewall.c | 197 ++++++++++++++++++++++++++
- drivers/gpu/drm/tegra/uapi/submit.c   |   4 +
- drivers/gpu/drm/tegra/uapi/submit.h   |   3 +
- 4 files changed, 205 insertions(+)
- create mode 100644 drivers/gpu/drm/tegra/uapi/firewall.c
+ drivers/gpu/drm/panel/Kconfig          |  12 +
+ drivers/gpu/drm/panel/Makefile         |   1 +
+ drivers/gpu/drm/panel/panel-oneplus6.c | 418 +++++++++++++++++++++++++
+ 3 files changed, 431 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-oneplus6.c
 
-diff --git a/drivers/gpu/drm/tegra/Makefile b/drivers/gpu/drm/tegra/Makefile
-index 059322e88943..4e3295f436f1 100644
---- a/drivers/gpu/drm/tegra/Makefile
-+++ b/drivers/gpu/drm/tegra/Makefile
-@@ -5,6 +5,7 @@ tegra-drm-y := \
- 	drm.o \
- 	uapi/uapi.o \
- 	uapi/submit.o \
-+	uapi/firewall.o \
- 	uapi/gather_bo.o \
- 	gem.o \
- 	fb.o \
-diff --git a/drivers/gpu/drm/tegra/uapi/firewall.c b/drivers/gpu/drm/tegra/uapi/firewall.c
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index de2f2a452be5..d72862265400 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -229,6 +229,18 @@ config DRM_PANEL_OLIMEX_LCD_OLINUXINO
+ 	  Say Y here if you want to enable support for Olimex Ltd.
+ 	  LCD-OLinuXino panel.
+ 
++config DRM_PANEL_ONEPLUS6
++	tristate "OnePlus 6/6T Samsung AMOLED DSI command mode panels"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	select VIDEOMODE_HELPERS
++	help
++	  Say Y or M here if you want to enable support for the Samsung AMOLED
++	  command mode panels found in the OnePlus 6/6T smartphones.
++
++	  The panels are 2280x1080@60Hz and 2340x1080@60Hz respectively
++
+ config DRM_PANEL_ORISETECH_OTM8009A
+ 	tristate "Orise Technology otm8009a 480x800 dsi 2dl panel"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index e45ceac6286f..017539056f53 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -21,6 +21,7 @@ obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35510) += panel-novatek-nt35510.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT39016) += panel-novatek-nt39016.o
+ obj-$(CONFIG_DRM_PANEL_OLIMEX_LCD_OLINUXINO) += panel-olimex-lcd-olinuxino.o
++obj-$(CONFIG_DRM_PANEL_ONEPLUS6) += panel-oneplus6.o
+ obj-$(CONFIG_DRM_PANEL_ORISETECH_OTM8009A) += panel-orisetech-otm8009a.o
+ obj-$(CONFIG_DRM_PANEL_OSD_OSD101T2587_53TS) += panel-osd-osd101t2587-53ts.o
+ obj-$(CONFIG_DRM_PANEL_PANASONIC_VVX10F034N00) += panel-panasonic-vvx10f034n00.o
+diff --git a/drivers/gpu/drm/panel/panel-oneplus6.c b/drivers/gpu/drm/panel/panel-oneplus6.c
 new file mode 100644
-index 000000000000..a9c5b71bc235
+index 000000000000..5e212774b1e0
 --- /dev/null
-+++ b/drivers/gpu/drm/tegra/uapi/firewall.c
-@@ -0,0 +1,197 @@
++++ b/drivers/gpu/drm/panel/panel-oneplus6.c
+@@ -0,0 +1,418 @@
 +// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright (c) 2010-2020 NVIDIA Corporation */
++/* Copyright (c) 2020 Caleb Connolly <caleb@connolly.tech>
++ * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
++ *   Copyright (c) 2020, The Linux Foundation. All rights reserved.
++ *
++ * Caleb Connolly <caleb@connolly.tech>
++ */
 +
-+#include "../drm.h"
-+#include "../uapi.h"
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/regulator/consumer.h>
 +
-+#include "submit.h"
++#include <video/mipi_display.h>
 +
-+struct tegra_drm_firewall {
-+	struct tegra_drm_submit_data *submit;
-+	struct tegra_drm_client *client;
-+	u32 *data;
-+	u32 pos;
-+	u32 end;
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++#include <linux/backlight.h>
++
++struct oneplus6_panel {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++	struct backlight_device *backlight;
++	struct regulator *supply;
++	struct gpio_desc *reset_gpio;
++	struct gpio_desc *enable_gpio;
++	const struct drm_display_mode *mode;
++	bool prepared;
++	bool enabled;
 +};
 +
-+static int fw_next(struct tegra_drm_firewall *fw, u32 *word)
++static inline
++struct oneplus6_panel *to_oneplus6_panel(struct drm_panel *panel)
 +{
-+	if (fw->pos == fw->end)
-+		return -EINVAL;
++	return container_of(panel, struct oneplus6_panel, panel);
++}
 +
-+	*word = fw->data[fw->pos++];
++#define dsi_dcs_write_seq(dsi, seq...) do {				\
++		static const u8 d[] = { seq };				\
++		int ret;						\
++		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
++		if (ret < 0)						\
++			return ret;					\
++	} while (0)
++
++static void oneplus6_panel_reset(struct oneplus6_panel *ctx)
++{
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	usleep_range(5000, 6000);
++}
++
++static int oneplus6_panel_on(struct oneplus6_panel *ctx)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
++
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
++		return ret;
++	}
++	usleep_range(10000, 11000);
++
++	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
++
++	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set tear on: %d\n", ret);
++		return ret;
++	}
++
++	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
++	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
++	dsi_dcs_write_seq(dsi, 0xb0, 0x07);
++	dsi_dcs_write_seq(dsi, 0xb6, 0x12);
++	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
++	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
++	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
++
++	ret = mipi_dsi_dcs_set_display_on(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display on: %d\n", ret);
++		return ret;
++	}
 +
 +	return 0;
 +}
 +
-+static bool fw_check_addr_valid(struct tegra_drm_firewall *fw, u32 offset)
++static int oneplus6_panel_off(struct oneplus6_panel *ctx)
 +{
-+	u32 i;
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
 +
-+	for (i = 0; i < fw->submit->num_used_mappings; i++) {
-+		struct tegra_drm_mapping *m = fw->submit->used_mappings[i].mapping;
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
 +
-+		if (offset >= m->iova && offset <= m->iova_end)
-+			return true;
++	ret = mipi_dsi_dcs_set_display_off(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display off: %d\n", ret);
++		return ret;
 +	}
++	msleep(40);
 +
-+	return false;
++	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
++		return ret;
++	}
++	msleep(160);
++
++	return 0;
 +}
 +
-+static int fw_check_reg(struct tegra_drm_firewall *fw, u32 offset)
++static int oneplus6_panel_prepare(struct drm_panel *panel)
 +{
-+	bool is_addr;
-+	u32 word;
-+	int err;
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
 +
-+	err = fw_next(fw, &word);
-+	if (err)
++	if (ctx->prepared)
++		return 0;
++
++	oneplus6_panel_reset(ctx);
++
++	ret = oneplus6_panel_on(ctx);
++	if (ret < 0) {
++		dev_err(dev, "Failed to initialize panel: %d\n", ret);
++		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++		return ret;
++	}
++
++	ctx->prepared = true;
++	return 0;
++}
++
++static int oneplus6_panel_unprepare(struct drm_panel *panel)
++{
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
++
++	if (!ctx->prepared)
++		return 0;
++
++	ret = regulator_enable(ctx->supply);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enable regulator: %d\n", ret);
++		return ret;
++	}
++
++	ret = oneplus6_panel_off(ctx);
++	if (ret < 0)
++		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
++
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	regulator_disable(ctx->supply);
++
++	ctx->prepared = false;
++	return 0;
++}
++
++
++static int oneplus6_panel_enable(struct drm_panel *panel)
++{
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++	int ret;
++
++	if (ctx->enabled)
++		return 0;
++
++	ret = backlight_enable(ctx->backlight);
++	if (ret < 0) {
++		dev_err(&ctx->dsi->dev, "Failed to enable backlight: %d\n", ret);
++		return ret;
++	}
++
++	ctx->enabled = true;
++	return 0;
++}
++
++static int oneplus6_panel_disable(struct drm_panel *panel)
++{
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++	int ret;
++
++	if (!ctx->enabled)
++		return 0;
++
++	ret = backlight_disable(ctx->backlight);
++	if (ret < 0) {
++		dev_err(&ctx->dsi->dev, "Failed to disable backlight: %d\n", ret);
++		return ret;
++	}
++
++	ctx->enabled = false;
++	return 0;
++}
++
++
++static const struct drm_display_mode enchilada_panel_mode = {
++	.clock = (1080 + 112 + 16 + 36) * (2280 + 36 + 8 + 12) * 60 / 1000,
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 112,
++	.hsync_end = 1080 + 112 + 16,
++	.htotal = 1080 + 112 + 16 + 36,
++	.vdisplay = 2280,
++	.vsync_start = 2280 + 36,
++	.vsync_end = 2280 + 36 + 8,
++	.vtotal = 2280 + 36 + 8 + 12,
++	.width_mm = 68,
++	.height_mm = 145,
++};
++
++static const struct drm_display_mode fajita_panel_mode = {
++	.clock = (1080 + 72 + 16 + 36) * (2340 + 32 + 4 + 18) * 60 / 1000,
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 72,
++	.hsync_end = 1080 + 72 + 16,
++	.htotal = 1080 + 72 + 16 + 36,
++	.vdisplay = 2340,
++	.vsync_start = 2340 + 32,
++	.vsync_end = 2340 + 32 + 4,
++	.vtotal = 2340 + 32 + 4 + 18,
++	.width_mm = 68,
++	.height_mm = 145,
++};
++
++static int oneplus6_panel_get_modes(struct drm_panel *panel,
++						struct drm_connector *connector)
++{
++	struct drm_display_mode *mode;
++	struct oneplus6_panel *ctx = to_oneplus6_panel(panel);
++
++	mode = drm_mode_duplicate(connector->dev, ctx->mode);
++	if (!mode)
++		return -ENOMEM;
++
++	drm_mode_set_name(mode);
++
++	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
++	connector->display_info.width_mm = mode->width_mm;
++	connector->display_info.height_mm = mode->height_mm;
++	drm_mode_probed_add(connector, mode);
++
++	return 1;
++}
++
++static const struct drm_panel_funcs oneplus6_panel_panel_funcs = {
++	.disable = oneplus6_panel_disable,
++	.enable = oneplus6_panel_enable,
++	.prepare = oneplus6_panel_prepare,
++	.unprepare = oneplus6_panel_unprepare,
++	.get_modes = oneplus6_panel_get_modes,
++};
++
++static int oneplus6_panel_bl_get_brightness(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	int err;
++	u16 brightness = bl->props.brightness;
++
++	err = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
++	if (err < 0) {
 +		return err;
++	}
 +
-+	if (!fw->client->ops->is_addr_reg)
-+		return 0;
-+
-+	is_addr = fw->client->ops->is_addr_reg(
-+		fw->client->base.dev, fw->client->base.class, offset);
-+
-+	if (!is_addr)
-+		return 0;
-+
-+	if (!fw_check_addr_valid(fw, word))
-+		return -EINVAL;
-+
-+	return 0;
++	return brightness & 0xff;
 +}
 +
-+static int fw_check_regs_seq(struct tegra_drm_firewall *fw, u32 offset,
-+			     u32 count, bool incr)
++static int oneplus6_panel_bl_update_status(struct backlight_device *bl)
 +{
-+	u32 i;
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	int err;
++	unsigned short brightness;
 +
-+	for (i = 0; i < count; i++) {
-+		if (fw_check_reg(fw, offset))
-+			return -EINVAL;
++	// This panel needs the high and low bytes swapped for the brightness value
++	brightness = ((bl->props.brightness<<8)&0xff00)|((bl->props.brightness>>8)&0x00ff);
 +
-+		if (incr)
-+			offset++;
++	err = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
++	if (err < 0) {
++		return err;
 +	}
 +
 +	return 0;
 +}
 +
-+static int fw_check_regs_mask(struct tegra_drm_firewall *fw, u32 offset,
-+			      u16 mask)
-+{
-+	unsigned long bmask = mask;
-+	unsigned int bit;
-+
-+	for_each_set_bit(bit, &bmask, 16) {
-+		if (fw_check_reg(fw, offset+bit))
-+			return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int fw_check_regs_imm(struct tegra_drm_firewall *fw, u32 offset)
-+{
-+	bool is_addr;
-+
-+	is_addr = fw->client->ops->is_addr_reg(fw->client->base.dev,
-+					       fw->client->base.class, offset);
-+	if (is_addr)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+enum {
-+        HOST1X_OPCODE_SETCLASS  = 0x00,
-+        HOST1X_OPCODE_INCR      = 0x01,
-+        HOST1X_OPCODE_NONINCR   = 0x02,
-+        HOST1X_OPCODE_MASK      = 0x03,
-+        HOST1X_OPCODE_IMM       = 0x04,
-+        HOST1X_OPCODE_RESTART   = 0x05,
-+        HOST1X_OPCODE_GATHER    = 0x06,
-+        HOST1X_OPCODE_SETSTRMID = 0x07,
-+        HOST1X_OPCODE_SETAPPID  = 0x08,
-+        HOST1X_OPCODE_SETPYLD   = 0x09,
-+        HOST1X_OPCODE_INCR_W    = 0x0a,
-+        HOST1X_OPCODE_NONINCR_W = 0x0b,
-+        HOST1X_OPCODE_GATHER_W  = 0x0c,
-+        HOST1X_OPCODE_RESTART_W = 0x0d,
-+        HOST1X_OPCODE_EXTEND    = 0x0e,
++static const struct backlight_ops oneplus6_panel_bl_ops = {
++	.update_status = oneplus6_panel_bl_update_status,
++	.get_brightness = oneplus6_panel_bl_get_brightness,
 +};
 +
-+int tegra_drm_fw_validate(struct tegra_drm_client *client, u32 *data, u32 start,
-+			  u32 words, struct tegra_drm_submit_data *submit)
++static struct backlight_device *
++oneplus6_panel_create_backlight(struct mipi_dsi_device *dsi)
 +{
-+	struct tegra_drm_firewall fw = {
-+		.submit = submit,
-+		.client = client,
-+		.data = data,
-+		.pos = start,
-+		.end = start+words,
++	struct device *dev = &dsi->dev;
++	struct backlight_properties props = {
++		.type = BACKLIGHT_PLATFORM,
++		.scale = BACKLIGHT_SCALE_LINEAR,
++		.brightness = 255,
++		.max_brightness = 512,
 +	};
-+	bool payload_valid = false;
-+	u32 payload;
-+	int err;
 +
-+	while (fw.pos != fw.end) {
-+		u32 word, opcode, offset, count, mask;
++	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
++						  &oneplus6_panel_bl_ops, &props);
++}
 +
-+		err = fw_next(&fw, &word);
-+		if (err)
-+			return err;
 +
-+		opcode = (word & 0xf0000000) >> 28;
++static int oneplus6_panel_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct oneplus6_panel *ctx;
++	int ret;
 +
-+		switch (opcode) {
-+		case HOST1X_OPCODE_INCR:
-+			offset = (word >> 16) & 0xfff;
-+			count = word & 0xffff;
-+			err = fw_check_regs_seq(&fw, offset, count, true);
-+			break;
-+		case HOST1X_OPCODE_NONINCR:
-+			offset = (word >> 16) & 0xfff;
-+			count = word & 0xffff;
-+			err = fw_check_regs_seq(&fw, offset, count, false);
-+			break;
-+		case HOST1X_OPCODE_MASK:
-+			offset = (word >> 16) & 0xfff;
-+			mask = word & 0xffff;
-+			err = fw_check_regs_mask(&fw, offset, mask);
-+			break;
-+		case HOST1X_OPCODE_IMM:
-+			/* IMM cannot reasonably be used to write a pointer */
-+			offset = (word >> 16) & 0xfff;
-+			err = fw_check_regs_imm(&fw, offset);
-+			break;
-+		case HOST1X_OPCODE_SETPYLD:
-+			payload = word & 0xffff;
-+			payload_valid = true;
-+			break;
-+		case HOST1X_OPCODE_INCR_W:
-+			if (!payload_valid)
-+				return -EINVAL;
++	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
 +
-+			offset = word & 0x3fffff;
-+			err = fw_check_regs_seq(&fw, offset, payload, true);
-+			break;
-+		case HOST1X_OPCODE_NONINCR_W:
-+			if (!payload_valid)
-+				return -EINVAL;
++	ctx->mode = of_device_get_match_data(dev);
 +
-+			offset = word & 0x3fffff;
-+			err = fw_check_regs_seq(&fw, offset, payload, false);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		if (err)
-+			return err;
++	if (!ctx->mode) {
++		dev_err(dev, "Missing device mode\n");
++		return -ENODEV;
 +	}
++
++	ctx->supply = devm_regulator_get(dev, "vddio");
++	if (IS_ERR(ctx->supply)) {
++		ret = PTR_ERR(ctx->supply);
++		dev_err(dev, "Failed to get vddio regulator: %d\n", ret);
++		return ret;
++	}
++
++	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(ctx->reset_gpio)) {
++		ret = PTR_ERR(ctx->reset_gpio);
++		dev_warn(dev, "Failed to get reset-gpios: %d\n", ret);
++		return ret;
++	}
++
++	ctx->backlight = oneplus6_panel_create_backlight(dsi);
++	if (IS_ERR(ctx->backlight)) {
++		ret = PTR_ERR(ctx->backlight);
++		dev_err(dev, "Failed to create backlight: %d\n", ret);
++		return ret;
++	}
++
++	ctx->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, ctx);
++
++	dsi->lanes = 4;
++	dsi->format = MIPI_DSI_FMT_RGB888;
++
++	drm_panel_init(&ctx->panel, dev, &oneplus6_panel_panel_funcs,
++			   DRM_MODE_CONNECTOR_DSI);
++
++	ret = drm_panel_add(&ctx->panel);
++	if (ret < 0) {
++		dev_err(dev, "Failed to add panel: %d\n", ret);
++		return ret;
++	}
++
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
++		return ret;
++	}
++
++	dev_info(dev, "Successfully added oneplus6 panel");
 +
 +	return 0;
 +}
-diff --git a/drivers/gpu/drm/tegra/uapi/submit.c b/drivers/gpu/drm/tegra/uapi/submit.c
-index 95141f1516e5..d2720f616c22 100644
---- a/drivers/gpu/drm/tegra/uapi/submit.c
-+++ b/drivers/gpu/drm/tegra/uapi/submit.c
-@@ -360,6 +360,10 @@ static int submit_job_add_gather(struct host1x_job *job,
- 	if (next_offset > bo->gather_data_words)
- 		return -EINVAL;
- 
-+	if (tegra_drm_fw_validate(ctx->client, bo->gather_data, *offset,
-+				  cmd->words, job_data))
-+		return -EINVAL;
 +
- 	host1x_job_add_gather(job, &bo->base, cmd->words, *offset * 4);
- 
- 	*offset = next_offset;
-diff --git a/drivers/gpu/drm/tegra/uapi/submit.h b/drivers/gpu/drm/tegra/uapi/submit.h
-index 0a165e9e4bda..0e51627e73f8 100644
---- a/drivers/gpu/drm/tegra/uapi/submit.h
-+++ b/drivers/gpu/drm/tegra/uapi/submit.h
-@@ -14,4 +14,7 @@ struct tegra_drm_submit_data {
- 	u32 num_used_mappings;
- };
- 
-+int tegra_drm_fw_validate(struct tegra_drm_client *client, u32 *data, u32 start,
-+			  u32 words, struct tegra_drm_submit_data *submit);
++static int oneplus6_panel_remove(struct mipi_dsi_device *dsi)
++{
++	struct oneplus6_panel *ctx = mipi_dsi_get_drvdata(dsi);
++	int ret;
 +
- #endif
++	ret = mipi_dsi_detach(dsi);
++	if (ret < 0)
++		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
++
++	drm_panel_remove(&ctx->panel);
++
++	return 0;
++}
++
++static const struct of_device_id oneplus6_panel_of_match[] = {
++	{
++		.compatible = "samsung,sofef00",
++		.data = &enchilada_panel_mode,
++	},
++	{
++		.compatible = "samsung,s6e3fc2x01",
++		.data = &fajita_panel_mode,
++	},
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, oneplus6_panel_of_match);
++
++static struct mipi_dsi_driver oneplus6_panel_driver = {
++	.probe = oneplus6_panel_probe,
++	.remove = oneplus6_panel_remove,
++	.driver = {
++		.name = "panel-oneplus6",
++		.of_match_table = oneplus6_panel_of_match,
++	},
++};
++
++module_mipi_dsi_driver(oneplus6_panel_driver);
++
++MODULE_AUTHOR("Caleb Connolly <caleb@connolly.tech>");
++MODULE_DESCRIPTION("DRM driver for Samsung AMOLED DSI panels found in OnePlus 6/6T phones");
++MODULE_LICENSE("GPL v2");
 -- 
 2.28.0
+
 
 _______________________________________________
 dri-devel mailing list
