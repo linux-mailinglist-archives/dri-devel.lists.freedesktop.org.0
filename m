@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338C3286924
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 22:33:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C9B286935
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 22:38:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26CF46E9AA;
-	Wed,  7 Oct 2020 20:33:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C27F6E2BC;
+	Wed,  7 Oct 2020 20:38:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06EEC6E9AA
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 20:33:06 +0000 (UTC)
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 656F76E2BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 20:38:12 +0000 (UTC)
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f7e25ca0000>; Wed, 07 Oct 2020 13:32:10 -0700
-Received: from [10.2.85.86] (172.20.13.39) by HQMAIL107.nvidia.com
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f7e26c60000>; Wed, 07 Oct 2020 13:36:22 -0700
+Received: from [10.2.85.86] (10.124.1.5) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 7 Oct
- 2020 20:32:56 +0000
-Subject: Re: [PATCH 01/13] drm/exynos: Stop using frame_vector helpers
+ 2020 20:38:07 +0000
+Subject: Re: [PATCH 03/13] misc/habana: Stop using frame_vector helpers
 To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
  <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>
 References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-2-daniel.vetter@ffwll.ch>
+ <20201007164426.1812530-4-daniel.vetter@ffwll.ch>
 From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <80718789-b3de-c30a-03c5-7c8cbf41f7d9@nvidia.com>
-Date: Wed, 7 Oct 2020 13:32:55 -0700
+Message-ID: <3ad0e02d-4ab1-6fe1-6f4d-e381e4f37afe@nvidia.com>
+Date: Wed, 7 Oct 2020 13:38:06 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201007164426.1812530-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201007164426.1812530-4-daniel.vetter@ffwll.ch>
 Content-Language: en-US
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  HQMAIL107.nvidia.com (172.20.187.13)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1602102730; bh=l9BqHF8KWQmaN4RXmMMQ0YcJNLZG1Nf+tEGI/Rd7B58=;
+ t=1602102982; bh=yuAqwELlY3ofogWejN6SHZgdy41opvCmSytBHCnrmlM=;
  h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
  MIME-Version:In-Reply-To:Content-Type:Content-Language:
  Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
- b=bGis6r8CEYmrZyavIIA1+AVI5ZOhpqwwr99ccXacmU9iQ3VFTDuM97FlAOqT78Igm
- rCn6vdto1m5+BSCNb/A8nxrfefBagyIX9EjaXmATUsXTn9akCKaOpm6guzuSkTwIzf
- IpnyPYT00yPR0jTRCgi6gumSrIvalRt72z/Kx816tUwt9BZjxVThNnp6kaGyo0nU3j
- 3PUi0rvlZKXu+7CrW0/PBtJDkTJjVt3tkFU+HWV1HnGZfccwM07dwDqshD0XGAGCor
- R7Fs108WnSzw2GTZDHNFHdIx8S9N3rVALIhly96SHgPVr7dfKcd4j8QZRD4wOkO8oz
- RPfm1ouAMFSew==
+ b=gkOESIFvST6yyyeEgFKkiQRXYOtpgRUWeYyLwOa1FV2fmm34StbJHEvT6/hefXbTF
+ xQ5nn+kqRWOwunENSo9IP5Lo5y5nN9tPB4tTxUUuOz36HzzB8u4YUokcoSih1paZp1
+ iqDA4flNnMiDdmuvv8CAmblsoAkRum7AwT19P0coSQH2qKBBXTUhdPsklGBWwXSHQX
+ 7efraicZvRAnr9vc/8TadqcYL//GjjpaAZ1oQSTjhKsV1h5QKMX5Hs9Pn90pDZZX7J
+ IoWfb1Cuv66sCbIsRxg7Q4JDNsMnO9gIotzTS7WBwb4gZZBJmE6cjlekHA3M2H2VFv
+ vsHWewdIAlmrA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,114 +59,53 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Joonyoung Shim <jy0922.shim@samsung.com>,
- kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>, Seung-Woo
- Kim <sw0312.kim@samsung.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-mm@kvack.org,
- Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Andrew
- Morton <akpm@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>,
+ Jan Kara <jack@suse.cz>, kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Pawel Piskorski <ppiskorski@habana.ai>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Ofir Bitton <obitton@habana.ai>,
+ linux-mm@kvack.org, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Tomer Tayar <ttayar@habana.ai>, Omer
+ Shpigelman <oshpigelman@habana.ai>, Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Moti Haimovski <mhaimovski@habana.ai>, Dan Williams <dan.j.williams@intel.com>,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTAvNy8yMCA5OjQ0IEFNLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IEFsbCB3ZSBuZWVkIGFy
-ZSBhIHBhZ2VzIGFycmF5LCBwaW5fdXNlcl9wYWdlc19mYXN0IGNhbiBnaXZlIHVzIHRoYXQKPiBk
-aXJlY3RseS4gUGx1cyB0aGlzIGF2b2lkcyB0aGUgZW50aXJlIHJhdyBwZm4gc2lkZSBvZiBnZXRf
-dmFkZHJfZnJhbWVzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52
-ZXR0ZXJAaW50ZWwuY29tPgo+IENjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5jYT4KPiBD
-YzogSW5raSBEYWUgPGlua2kuZGFlQHNhbXN1bmcuY29tPgo+IENjOiBKb29ueW91bmcgU2hpbSA8
-ankwOTIyLnNoaW1Ac2Ftc3VuZy5jb20+Cj4gQ2M6IFNldW5nLVdvbyBLaW0gPHN3MDMxMi5raW1A
-c2Ftc3VuZy5jb20+Cj4gQ2M6IEt5dW5nbWluIFBhcmsgPGt5dW5nbWluLnBhcmtAc2Ftc3VuZy5j
-b20+Cj4gQ2M6IEt1a2ppbiBLaW0gPGtnZW5lQGtlcm5lbC5vcmc+Cj4gQ2M6IEtyenlzenRvZiBL
-b3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4KPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51
-eC1mb3VuZGF0aW9uLm9yZz4KPiBDYzogSm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlkaWEuY29t
-Pgo+IENjOiBKw6lyw7RtZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KPiBDYzogSmFuIEth
-cmEgPGphY2tAc3VzZS5jej4KPiBDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRl
-bC5jb20+Cj4gQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwo+IENjOiBsaW51eC1hcm0ta2VybmVsQGxp
-c3RzLmluZnJhZGVhZC5vcmcKPiBDYzogbGludXgtc2Ftc3VuZy1zb2NAdmdlci5rZXJuZWwub3Jn
-Cj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+IC0tLQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL2V4eW5vcy9LY29uZmlnICAgICAgICAgIHwgIDEgLQo+ICAgZHJpdmVycy9ncHUvZHJtL2V4
-eW5vcy9leHlub3NfZHJtX2cyZC5jIHwgNDggKysrKysrKysrKysrLS0tLS0tLS0tLS0tLQo+ICAg
-MiBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCAyNyBkZWxldGlvbnMoLSkKPiAKPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9LY29uZmlnIGIvZHJpdmVycy9ncHUv
-ZHJtL2V4eW5vcy9LY29uZmlnCj4gaW5kZXggNjQxN2YzNzRiOTIzLi40MzI1N2VmM2MwOWQgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9LY29uZmlnCj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2V4eW5vcy9LY29uZmlnCj4gQEAgLTg4LDcgKzg4LDYgQEAgY29tbWVudCAiU3Vi
-LWRyaXZlcnMiCj4gICBjb25maWcgRFJNX0VYWU5PU19HMkQKPiAgIAlib29sICJHMkQiCj4gICAJ
-ZGVwZW5kcyBvbiBWSURFT19TQU1TVU5HX1M1UF9HMkQ9biB8fCBDT01QSUxFX1RFU1QKPiAtCXNl
-bGVjdCBGUkFNRV9WRUNUT1IKPiAgIAloZWxwCj4gICAJICBDaG9vc2UgdGhpcyBvcHRpb24gaWYg
-eW91IHdhbnQgdG8gdXNlIEV4eW5vcyBHMkQgZm9yIERSTS4KPiAgIAo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZzJkLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-ZXh5bm9zL2V4eW5vc19kcm1fZzJkLmMKPiBpbmRleCA5NjdhNWNkYzEyMGUuLmM4M2Y2ZmFhYzlk
-ZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZzJkLmMK
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZzJkLmMKPiBAQCAtMjA1
-LDcgKzIwNSw4IEBAIHN0cnVjdCBnMmRfY21kbGlzdF91c2VycHRyIHsKPiAgIAlkbWFfYWRkcl90
-CQlkbWFfYWRkcjsKPiAgIAl1bnNpZ25lZCBsb25nCQl1c2VycHRyOwo+ICAgCXVuc2lnbmVkIGxv
-bmcJCXNpemU7Cj4gLQlzdHJ1Y3QgZnJhbWVfdmVjdG9yCSp2ZWM7Cj4gKwlzdHJ1Y3QgcGFnZQkJ
-KipwYWdlczsKPiArCXVuc2lnbmVkIGludAkJbnBhZ2VzOwo+ICAgCXN0cnVjdCBzZ190YWJsZQkJ
-KnNndDsKPiAgIAlhdG9taWNfdAkJcmVmY291bnQ7Cj4gICAJYm9vbAkJCWluX3Bvb2w7Cj4gQEAg
-LTM3OCw3ICszNzksNyBAQCBzdGF0aWMgdm9pZCBnMmRfdXNlcnB0cl9wdXRfZG1hX2FkZHIoc3Ry
-dWN0IGcyZF9kYXRhICpnMmQsCj4gICAJCQkJCWJvb2wgZm9yY2UpCj4gICB7Cj4gICAJc3RydWN0
-IGcyZF9jbWRsaXN0X3VzZXJwdHIgKmcyZF91c2VycHRyID0gb2JqOwo+IC0Jc3RydWN0IHBhZ2Ug
-KipwYWdlczsKPiArCWludCBpOwoKVGhlIGFib3ZlIGxpbmUgY2FuIGFsc28gYmUgZGVsZXRlZCwg
-c2VlIGJlbG93LgoKPiAgIAo+ICAgCWlmICghb2JqKQo+ICAgCQlyZXR1cm47Cj4gQEAgLTM5OCwx
-NSArMzk5LDExIEBAIHN0YXRpYyB2b2lkIGcyZF91c2VycHRyX3B1dF9kbWFfYWRkcihzdHJ1Y3Qg
-ZzJkX2RhdGEgKmcyZCwKPiAgIAlkbWFfdW5tYXBfc2d0YWJsZSh0b19kbWFfZGV2KGcyZC0+ZHJt
-X2RldiksIGcyZF91c2VycHRyLT5zZ3QsCj4gICAJCQkgIERNQV9CSURJUkVDVElPTkFMLCAwKTsK
-PiAgIAo+IC0JcGFnZXMgPSBmcmFtZV92ZWN0b3JfcGFnZXMoZzJkX3VzZXJwdHItPnZlYyk7Cj4g
-LQlpZiAoIUlTX0VSUihwYWdlcykpIHsKPiAtCQlpbnQgaTsKPiArCWZvciAoaSA9IDA7IGkgPCBn
-MmRfdXNlcnB0ci0+bnBhZ2VzOyBpKyspCj4gKwkJc2V0X3BhZ2VfZGlydHlfbG9jayhnMmRfdXNl
-cnB0ci0+cGFnZXNbaV0pOwo+ICAgCj4gLQkJZm9yIChpID0gMDsgaSA8IGZyYW1lX3ZlY3Rvcl9j
-b3VudChnMmRfdXNlcnB0ci0+dmVjKTsgaSsrKQo+IC0JCQlzZXRfcGFnZV9kaXJ0eV9sb2NrKHBh
-Z2VzW2ldKTsKPiAtCX0KPiAtCXB1dF92YWRkcl9mcmFtZXMoZzJkX3VzZXJwdHItPnZlYyk7Cj4g
-LQlmcmFtZV92ZWN0b3JfZGVzdHJveShnMmRfdXNlcnB0ci0+dmVjKTsKPiArCXVucGluX3VzZXJf
-cGFnZXMoZzJkX3VzZXJwdHItPnBhZ2VzLCBnMmRfdXNlcnB0ci0+bnBhZ2VzKTsKPiArCWt2ZnJl
-ZShnMmRfdXNlcnB0ci0+cGFnZXMpOwoKWW91IGNhbiBhdm9pZCB3cml0aW5nIHlvdXIgb3duIGxv
-b3AsIGFuZCBqdXN0IHNpbXBsaWZ5IHRoZSB3aG9sZSB0aGluZyBkb3duIHRvCnR3byBsaW5lczoK
-Cgl1bnBpbl91c2VyX3BhZ2VzX2RpcnR5X2xvY2soZzJkX3VzZXJwdHItPnBhZ2VzLCBnMmRfdXNl
-cnB0ci0+bnBhZ2VzLAoJCQkJICAgIHRydWUpOwoJa3ZmcmVlKGcyZF91c2VycHRyLT5wYWdlcyk7
-CgoKPiAgIAo+ICAgCWlmICghZzJkX3VzZXJwdHItPm91dF9vZl9saXN0KQo+ICAgCQlsaXN0X2Rl
-bF9pbml0KCZnMmRfdXNlcnB0ci0+bGlzdCk7Cj4gQEAgLTQ3NCwzNSArNDcxLDM0IEBAIHN0YXRp
-YyBkbWFfYWRkcl90ICpnMmRfdXNlcnB0cl9nZXRfZG1hX2FkZHIoc3RydWN0IGcyZF9kYXRhICpn
-MmQsCj4gICAJb2Zmc2V0ID0gdXNlcnB0ciAmIH5QQUdFX01BU0s7Cj4gICAJZW5kID0gUEFHRV9B
-TElHTih1c2VycHRyICsgc2l6ZSk7Cj4gICAJbnBhZ2VzID0gKGVuZCAtIHN0YXJ0KSA+PiBQQUdF
-X1NISUZUOwo+IC0JZzJkX3VzZXJwdHItPnZlYyA9IGZyYW1lX3ZlY3Rvcl9jcmVhdGUobnBhZ2Vz
-KTsKPiAtCWlmICghZzJkX3VzZXJwdHItPnZlYykgewo+ICsJZzJkX3VzZXJwdHItPnBhZ2VzID0g
-a3ZtYWxsb2NfYXJyYXkobnBhZ2VzLCBzaXplb2YoKmcyZF91c2VycHRyLT5wYWdlcyksCj4gKwkJ
-CQkJICAgIEdGUF9LRVJORUwpOwo+ICsJaWYgKCFnMmRfdXNlcnB0ci0+cGFnZXMpIHsKPiAgIAkJ
-cmV0ID0gLUVOT01FTTsKPiAgIAkJZ290byBlcnJfZnJlZTsKPiAgIAl9Cj4gICAKPiAtCXJldCA9
-IGdldF92YWRkcl9mcmFtZXMoc3RhcnQsIG5wYWdlcywgRk9MTF9GT1JDRSB8IEZPTExfV1JJVEUs
-Cj4gLQkJZzJkX3VzZXJwdHItPnZlYyk7Cj4gKwlyZXQgPSBwaW5fdXNlcl9wYWdlc19mYXN0KHN0
-YXJ0LCBucGFnZXMsIEZPTExfRk9SQ0UgfCBGT0xMX1dSSVRFLAo+ICsJCQkJICBnMmRfdXNlcnB0
-ci0+cGFnZXMpOwo+ICAgCWlmIChyZXQgIT0gbnBhZ2VzKSB7Cj4gICAJCURSTV9ERVZfRVJST1Io
-ZzJkLT5kZXYsCj4gICAJCQkgICAgICAiZmFpbGVkIHRvIGdldCB1c2VyIHBhZ2VzIGZyb20gdXNl
-cnB0ci5cbiIpOwo+ICAgCQlpZiAocmV0IDwgMCkKPiAtCQkJZ290byBlcnJfZGVzdHJveV9mcmFt
-ZXZlYzsKPiAtCQlyZXQgPSAtRUZBVUxUOwo+IC0JCWdvdG8gZXJyX3B1dF9mcmFtZXZlYzsKPiAt
-CX0KPiAtCWlmIChmcmFtZV92ZWN0b3JfdG9fcGFnZXMoZzJkX3VzZXJwdHItPnZlYykgPCAwKSB7
-Cj4gKwkJCWdvdG8gZXJyX2Rlc3Ryb3lfcGFnZXM7Cj4gKwkJbnBhZ2VzID0gcmV0Owo+ICAgCQly
-ZXQgPSAtRUZBVUxUOwo+IC0JCWdvdG8gZXJyX3B1dF9mcmFtZXZlYzsKPiArCQlnb3RvIGVycl91
-bnBpbl9wYWdlczsKPiAgIAl9Cj4gKwlnMmRfdXNlcnB0ci0+bnBhZ2VzID0gbnBhZ2VzOwo+ICAg
-Cj4gICAJc2d0ID0ga3phbGxvYyhzaXplb2YoKnNndCksIEdGUF9LRVJORUwpOwo+ICAgCWlmICgh
-c2d0KSB7Cj4gICAJCXJldCA9IC1FTk9NRU07Cj4gLQkJZ290byBlcnJfcHV0X2ZyYW1ldmVjOwo+
-ICsJCWdvdG8gZXJyX3VucGluX3BhZ2VzOwo+ICAgCX0KPiAgIAo+ICAgCXJldCA9IHNnX2FsbG9j
-X3RhYmxlX2Zyb21fcGFnZXMoc2d0LAo+IC0JCQkJCWZyYW1lX3ZlY3Rvcl9wYWdlcyhnMmRfdXNl
-cnB0ci0+dmVjKSwKPiArCQkJCQlnMmRfdXNlcnB0ci0+cGFnZXMsCj4gICAJCQkJCW5wYWdlcywg
-b2Zmc2V0LCBzaXplLCBHRlBfS0VSTkVMKTsKPiAgIAlpZiAocmV0IDwgMCkgewo+ICAgCQlEUk1f
-REVWX0VSUk9SKGcyZC0+ZGV2LCAiZmFpbGVkIHRvIGdldCBzZ3QgZnJvbSBwYWdlcy5cbiIpOwo+
-IEBAIC01MzgsMTEgKzUzNCwxMSBAQCBzdGF0aWMgZG1hX2FkZHJfdCAqZzJkX3VzZXJwdHJfZ2V0
-X2RtYV9hZGRyKHN0cnVjdCBnMmRfZGF0YSAqZzJkLAo+ICAgZXJyX2ZyZWVfc2d0Ogo+ICAgCWtm
-cmVlKHNndCk7Cj4gICAKPiAtZXJyX3B1dF9mcmFtZXZlYzoKPiAtCXB1dF92YWRkcl9mcmFtZXMo
-ZzJkX3VzZXJwdHItPnZlYyk7Cj4gK2Vycl91bnBpbl9wYWdlczoKPiArCXVucGluX3VzZXJfcGFn
-ZXMoZzJkX3VzZXJwdHItPnBhZ2VzLCBucGFnZXMpOwo+ICAgCj4gLWVycl9kZXN0cm95X2ZyYW1l
-dmVjOgo+IC0JZnJhbWVfdmVjdG9yX2Rlc3Ryb3koZzJkX3VzZXJwdHItPnZlYyk7Cj4gK2Vycl9k
-ZXN0cm95X3BhZ2VzOgo+ICsJa3ZmcmVlKGcyZF91c2VycHRyLT5wYWdlcyk7Cj4gICAKPiAgIGVy
-cl9mcmVlOgo+ICAgCWtmcmVlKGcyZF91c2VycHRyKTsKPiAKClRoZSByZXN0IGFsbCBsb29rcyBn
-b29kLCB5b3UndmUgYXZvaWRlZCB0aGUgdXN1YWwgQVBJIHBpdGZhbGxzLiA6KQoKdGhhbmtzLAot
-LSAKSm9obiBIdWJiYXJkCk5WSURJQQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+On 10/7/20 9:44 AM, Daniel Vetter wrote:
+...
+> @@ -1414,15 +1410,10 @@ void hl_unpin_host_memory(struct hl_device *hdev, struct hl_userptr *userptr)
+>   							userptr->sgt->nents,
+>   							userptr->dir);
+>   
+> -	pages = frame_vector_pages(userptr->vec);
+> -	if (!IS_ERR(pages)) {
+> -		int i;
+> -
+> -		for (i = 0; i < frame_vector_count(userptr->vec); i++)
+> -			set_page_dirty_lock(pages[i]);
+> -	}
+> -	put_vaddr_frames(userptr->vec);
+> -	frame_vector_destroy(userptr->vec);
+> +	for (i = 0; i < userptr->npages; i++)
+> +		set_page_dirty_lock(userptr->pages[i]);
+> +	unpin_user_pages(userptr->pages, userptr->npages);
+> +	kvfree(userptr->pages);
+
+Same thing here as in patch 1: you can further simplify by using
+unpin_user_pages_dirty_lock().
+
+>   
+>   	list_del(&userptr->job_node);
+>   
+> 
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
