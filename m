@@ -2,107 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F67285D1F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 12:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829EF285DC2
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 13:04:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F72D6E8BB;
-	Wed,  7 Oct 2020 10:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC3E26E0AD;
+	Wed,  7 Oct 2020 11:04:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A3F6E8BB
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 10:47:14 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20201007104712euoutp02b7f1a31ba69151604e15c8d3c814ab25~7sAYjHCHJ2443824438euoutp02H
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 10:47:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20201007104712euoutp02b7f1a31ba69151604e15c8d3c814ab25~7sAYjHCHJ2443824438euoutp02H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1602067632;
- bh=E5XERvvgz2kHeHngJGLKNS1MxI488JkYoBjaEOnm4F0=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=QJhnd4W0iuSmYplSDfsdUsI1zbZQIqQKqYLdEDILkjXPjbTgyOJGqN33OrggZl2lt
- 8+H+WT9MataicZBMK6LfIHUbHXZEoTtO/GAY3dClQsV0KAO9YlZSOybiQs6d2srn70
- Zg3jdiy20Fm1DYEzghh1/EBNToxgyGD7SW/k8K+4=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20201007104712eucas1p15a76d78779d57144160e51c36d83d24e~7sAYLFOLh3224932249eucas1p1I;
- Wed,  7 Oct 2020 10:47:12 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id ED.76.06456.0BC9D7F5; Wed,  7
- Oct 2020 11:47:12 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20201007104711eucas1p1a1b0945d6b12e3260b210dfcb5756ab9~7sAXtthzZ0030400304eucas1p11;
- Wed,  7 Oct 2020 10:47:11 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20201007104711eusmtrp1487b9ffe41a58ec6aaec5d6c86578d4d~7sAXs58Da2859428594eusmtrp1b;
- Wed,  7 Oct 2020 10:47:11 +0000 (GMT)
-X-AuditID: cbfec7f2-7efff70000001938-2a-5f7d9cb05c38
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 66.4B.06314.FAC9D7F5; Wed,  7
- Oct 2020 11:47:11 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20201007104710eusmtip191849209bf06805c0437d3901896f954~7sAWmUm-z2861128611eusmtip1e;
- Wed,  7 Oct 2020 10:47:10 +0000 (GMT)
-Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <d2f8e8a7-614d-18c8-9e2a-c604e5e54ce6@samsung.com>
-Date: Wed, 7 Oct 2020 12:47:10 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
- Gecko/20100101 Thunderbird/78.3.1
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr50087.outbound.protection.outlook.com [40.107.5.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 929D76E0AD
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 11:04:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MELNLZZJ8IXmGzHYbYFSUqW4qc5stMv+7KaaE0D0DDM=;
+ b=jQ1ZDMCS3VRXzhESQcMdEd38a5DjuByk2HFcvLSR0bFYJvaV8ZUM1WD2ACweZjb5yweycw29nSm9FLq9L96OyS4xJs6vlF1VLUG1rx36npsiZvNSuKZmBDXT3wJbZ2A7oaX25phMaVKEtgTmjCnAh2kFoC840qvO/mLhaObl+6k=
+Received: from AM6P193CA0098.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:88::39)
+ by VI1PR0801MB1981.eurprd08.prod.outlook.com (2603:10a6:800:89::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32; Wed, 7 Oct
+ 2020 11:04:16 +0000
+Received: from AM5EUR03FT022.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:209:88:cafe::fc) by AM6P193CA0098.outlook.office365.com
+ (2603:10a6:209:88::39) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend
+ Transport; Wed, 7 Oct 2020 11:04:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org; dmarc=pass
+ action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT022.mail.protection.outlook.com (10.152.16.79) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3455.23 via Frontend Transport; Wed, 7 Oct 2020 11:04:15 +0000
+Received: ("Tessian outbound 7161e0c2a082:v64");
+ Wed, 07 Oct 2020 11:04:15 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: eeaa1abc63b199a8
+X-CR-MTA-TID: 64aa7808
+Received: from 41d17d6fd3f2.2
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 44DBCC0B-9590-4805-B137-D3A8DA400FBB.1; 
+ Wed, 07 Oct 2020 11:03:52 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 41d17d6fd3f2.2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Wed, 07 Oct 2020 11:03:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k38VuYxDQEbyBHbWjAJHUARPMoVaAMUsb4uyBFUJpeJqjrLRuAsPD1uyzzsfIhHDJlbwwB2z6sl/i+p5oi41MDCuyyblBXPdQ9ZA0G+71UOPgv/yg827Ce+6TzESCBn6lPxPGM07ZgV4iRZTW16Splw4tLD8lKQXMqy5ZuCl0cHFUxPy1gFa5ZYfNXMdHPrN+5T7sG68pM/M48Q5K4KdKX43sfxIhkukWHsXJHWL2VF87d7wVcKtSy8PYSpOU8L1l7xdEDtDzOHauoaOtN7HqyHx+v5bOAHFzZlo6dFYqljdP9ZTSu8LcENVCWIgjWddyBqHcx0n8KQ4zBJF4GEXLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MELNLZZJ8IXmGzHYbYFSUqW4qc5stMv+7KaaE0D0DDM=;
+ b=fOz49iOc8duIp/w9XOrHbSzOf6spTYOs5aOrGyHxFw/BdbyHhnGUW3RIaajTr+rcjpGrJ+YOPN76Q3Xr5asLFANzmNXFwWvL/HBiv2Z3cpQ4mHmsaSutBSdEvIgvob0t1qqvXXd0QrLbTq0DeO+cDltqzPU8j4rgvvTv50OjQahwDNNFhmeMBL8+CBtRuEzpW941/Yhn+h5KQjID4Xo2mDxcK0HRrLFdBuWtJbNtBs1WqeiwRiY9pTGGiIQTbFTrLQhDfCtDREg9N4hUBTKb0QFwg8tw/KkOg+NLv4qpZDlLmSk1pcv+Tv3ahNiIo873UJiEzz273hOvmoj/k6d+1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MELNLZZJ8IXmGzHYbYFSUqW4qc5stMv+7KaaE0D0DDM=;
+ b=jQ1ZDMCS3VRXzhESQcMdEd38a5DjuByk2HFcvLSR0bFYJvaV8ZUM1WD2ACweZjb5yweycw29nSm9FLq9L96OyS4xJs6vlF1VLUG1rx36npsiZvNSuKZmBDXT3wJbZ2A7oaX25phMaVKEtgTmjCnAh2kFoC840qvO/mLhaObl+6k=
+Authentication-Results-Original: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=arm.com;
+Received: from AM6PR08MB3653.eurprd08.prod.outlook.com (2603:10a6:20b:4c::22)
+ by AS8PR08MB6136.eurprd08.prod.outlook.com (2603:10a6:20b:292::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Wed, 7 Oct
+ 2020 11:03:50 +0000
+Received: from AM6PR08MB3653.eurprd08.prod.outlook.com
+ ([fe80::d0be:76bf:3d2f:8c56]) by AM6PR08MB3653.eurprd08.prod.outlook.com
+ ([fe80::d0be:76bf:3d2f:8c56%6]) with mapi id 15.20.3433.044; Wed, 7 Oct 2020
+ 11:03:50 +0000
+Date: Wed, 7 Oct 2020 12:03:48 +0100
+From: Matteo Franchin <matteo.franchin@arm.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/fourcc: Add AXBXGXRX106106106106 format
+Message-ID: <20201007110348.GA13749@lagrange>
+References: <20201007092725.13300-1-matteo.franchin@arm.com>
+ <CAKMK7uHZs7uKMbbQhn43-u7Y3_KANA6tU25jnOZkzj3h_7dmgg@mail.gmail.com>
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uHZs7uKMbbQhn43-u7Y3_KANA6tU25jnOZkzj3h_7dmgg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [217.140.106.50]
+X-ClientProxiedBy: LO2P123CA0074.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:138::7) To AM6PR08MB3653.eurprd08.prod.outlook.com
+ (2603:10a6:20b:4c::22)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUwTURSF8zrTmQEtPiqGqxKXxrglinXLSzSKxujERKO/XBLBKiOgbLaA
- 4EpoIIDgAhpqqYJ1QQgIomBFWUQUTZFVCSg7GIuxIosaIUEZxoV/3z333LxzksdRSjMzg/ML
- DBG0gRp/FeNIF774WbMkz3TKa1lk6XRiys1mSMrlWkSud7ZSJKPqLkXefOtjSFL7BZqkpuhl
- 5IrhJRojm4zc+2Bmia2tjiavoz6zJL+7UU4aikwMScgrkJO27F9yYqgpkZFa23s5uWT/yRJD
- ci9DBqNHGY9pfGpkHc0Xf0+n+UfGVpa/8aRXxucPJLH8S8MIzbefrZTx92+e4RP1Xxi+e7iX
- 4ftK3jL8uQdZiK9Kr2D5wfxZfMHge3rHlL2Oa70Ff78wQeu+br+j7+OWbCbY5hB+se08FYls
- bDxy4ACvhAR92Tgr8R0EjRkh8chxjIcQxNSflUnDIILE6tx/Fz3vfsilRQaCFx+LaWnoQ/BQ
- 3ywXXVMxgetpMTKRXfBWiK2IQaKJwo8YKLRYkLhgsBri7fGMyAq8DtqtDWM6x9F4HtRYtovy
- NHwArLVRrGRxhldXemiRHfBOiEpLGWcKz4aHdhMlsSu860kbjw24g4O8iq+MFHsTFNuj//BU
- +FT54E8dN7AmJ9DSgR5BZ3UOKw0JCBqiDEhyrYGW6mFGTEfhRZBb5C7JG+BW3Be5KAN2gia7
- sxTCCZIKUyhJVkBsjFJyzwdj5d1/zz6tracuIJVxQjXjhDrGCXWM/99NR3QWchVCdQE+gk4d
- KBxbqtME6EIDfZYeDArIR2M/1zpaOWBB3+oPlCPMIdVkxe6jJ72Uck2YLiKgHAFHqVwUG19b
- PZUKb03EcUEb5KUN9Rd05WgmR6tcFSvMvfuU2EcTIhwRhGBB+3cr4xxmRKLV3W1Tou1pTudP
- +F6zHfQwx3kbB0jpzT0FJnbmClwRFPR8zq9VpV1Xk3e5Z4282eaxwHvhJxfr6by49YdGh04l
- VrcOdI34hlS5po9oLNrwV2a1Z//KnOW7Gz22qDuDyyZ9z/g8fLipcXP/nLlF/V0dzW63N1vK
- rHa/iMy6Dz53nmXWq2idr0a9mNLqNL8BDaTifLUDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHec9tZ9HwOBXfLMpGFATNjtfXsBHSh0NUdPmQZbVO86Cic7kz
- 7ULR0jKZt7SLOpfaxSKTypndtCjTVNR0XioyJ6XFDE1ILO1iba7Abz+e5/97Hh54aFx+l/Sj
- 45MMgj6JT1RQ84i2meaBVbctx9Sr+yqCkeV2FYUKz3cBdOn9AI6ut9/CUe/kOIUKBs8QqKQw
- HUPFRS3ASQ4MVX+8LEEOu41AHWmjEmQdekWinkcWCmXfqSWRveoPiYo6n2Coy9FPonNj0xJU
- dHaEQhOnZqh1PlyJ0UZwj7+VE9xD84CEu1I/gnHWrwUSrqXoJ8ENZjVjXM3V41xO+heKG/ox
- QnHjT/ooLvduJeDayxsl3IR1MVc70U9s8diljNDrUgyCf5xONKxVRLMoUMmGI2VgcLiSDQrb
- syYwRBGgiogREuNTBX2Aap8yru5dFXXAIT2Ub8/DjcAhMQEpDZlgOPz2O+liOVMB4NNyhbu+
- CLZeMJJu9oK/XpkoE5jnzIwB6Lj4YbbhxSB4qSwDc7E3swFmNmYAVwhn6ig4bc0j3UYhDjOs
- pbPrKIaFpjHXKCktY1RwsK3HadA0wSyDnQ82u8o+zH6Y1X0Oc0c8YWvxMOFiKbMVppUVzjLO
- hMLSmve4m5fA+2OWf+wL3w6XYWeA3DxHN89RzHMU8xylHBCVwFtIEbWxWpFVirxWTEmKVWp0
- Witwfsy9F9M1D0B39fYGwNBAMV8WlXxULSf5VPGwtgFAGld4yyI72vbKZTH84SOCXqfWpyQK
- YgMIcd6Wj/v5aHTO/0syqNkQNgyFs2FBYUGhSOEry2Se7ZYzsbxBSBCEA4L+v4fRUj8jKMOW
- V7/ceXr0yuqhqZtRibaVGt1v+/aKutSa+uiWiNxk1vuNZ8ynnX6PgNC7bbDFH2V0LjU2Fay3
- TUleF7ffODFu8+nY9PxzzlXNpKGY68/NTI5G+fwCu/9JS1ZIQnZTdT3/zmOjSbbwmCovUkoc
- VHVPi1Ats15P6F2huWbfoSDEOJ5dietF/i8Y0zPsRwMAAA==
-X-CMS-MailID: 20201007104711eucas1p1a1b0945d6b12e3260b210dfcb5756ab9
-X-Msg-Generator: CA
-X-RootMTR: 20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651
-References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
- <20201002175303.390363-2-daniel.vetter@ffwll.ch>
- <20201002180603.GL9916@ziepe.ca>
- <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
- <20201002233118.GM9916@ziepe.ca>
- <CGME20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651@eucas1p1.samsung.com>
- <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (217.140.106.50) by
+ LO2P123CA0074.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:138::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3433.44 via Frontend Transport; Wed, 7 Oct 2020 11:03:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 2ef72d6d-ba56-4d18-00c9-08d86ab0bb30
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6136:|VI1PR0801MB1981:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR0801MB1981CD76C82157223B5299E3F40A0@VI1PR0801MB1981.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;OLM:2958;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: nd9b1VO7SKDPkiW1w1tpMWCS0WiKZZLjzzM1exUz1fq9vrcE64ci8eOuVBtXGhHUICv7bOk91fMRQKZuPATnSgAmnlVVC2ncbGlbIJmh7XqHft4BF2hwMJ96+RxXPreM4faSGtU2g2Nm2+CGKqTEJaZKhxf3gNbVGrrzl+ZHizr8srwsxUkaUPOWymEBlC/y5QWNlcQUMTZmsr1+Gp9hK+x+I/bBJMhzLJnYm++pQgMKlXOM40kjk6O8UHbbPf0gtcuiIvAF/f5siIeW0aw4ULNxZM98KoVwjwMDZxs1l8YCO4fMma1O4/+v8YYY7i/Q7/zaOvhCdbQe6sY6rT//daUh2dlOG6O4qf3XoV0oM+Vm6D8n/yaIx3wNUzR/KHkth+ywnCFLIfY9i9+/2Ysi9g==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM6PR08MB3653.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(7916004)(4636009)(396003)(376002)(346002)(136003)(366004)(39860400002)(5660300002)(6486002)(478600001)(33656002)(66946007)(66556008)(4326008)(6916009)(83080400001)(66476007)(44832011)(2906002)(52116002)(16526019)(26005)(6496006)(186003)(53546011)(54906003)(316002)(956004)(86362001)(9686003)(8676002)(1076003)(8936002)(33716001)(966005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: QL1J1mng2vWh3wFAlzG5PaIa3pLF63sGIa5YuH+KIrevn97aNNswsRw0cbRBcSZAEAkF1Dxfsdsjq2IOOon2qaRwDJH5/TpV0f2GA9yXxogM3VpOfaf9zbAJKQ/yQ2Gs711xRTm2moR8YrYu3nrCdhx4RogO6UZRW4SkPLp3wPKnjkj4M7Tq3zAmxaG9PsXi600mJ4FoRMMOH1AwKCI9y8KUIXTjFGRKWMLcl6pgiGSk7/Xdo2bXkSHDgpwNpdNMjeR6xB73d550VVPdyrQKuuIweol7EzLna1LZ3Gmal8msJ5LVeacwXGk8xUMQrojshN2tHFTYhCo8hEmMHpvcbL/lxRbxc5BehHE3d6r1OfeDKU459mUVifdSGYGRz1U56ULObPhn6IHk4fgR6pbruypv1Vg5LwnwLWVVLIKXqDHmuKiBxGeUyp9D2bhpoeqPRj0Umzn2T1F3vzztqBfNKoupNYoO1kzr85rSJqPJxJoKZjfFQdOelGFsSVL2lCytqu81Mz/6yenujTtRKFl8w6fH5SCM9WzMOu8izKKOf196oQFifE/6C4yvJB7viW7KhfJr2rxpvMxLer15ij+Ol8LzUiCTnaw/eEjfUlHdZ0OCrmI4Sayalh+V1yX9XgpH9y5gQrVkMssrSezmRgQ7Yg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6136
+Original-Authentication-Results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT022.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 8b07c61a-230f-4cf4-4797-08d86ab0abf4
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jmMTCuKMWc8LKF/ZtMQwXqC1gjZ2H/+Xt9shXKgY2bH/YFDfSf9BiPC123JUq545Arax+F8scDB6EhBO9bSzzPtvk8vuH6z5PsVKhCi8l2O4dGF1IunPHY3rk+EZ+88Vyo42qMdrE0lD0BLnm4rAkBRFjuZwIqIexH4z6BLhcmugUU+91H63L6nreVhqz4VBppSpcgMN+Vmc3R5fTdOKDcSNyV6tMnAMwd6JOqdpjl4yTAzbWuceJR2KcovtkX3k8E4i04tQ+nxvmyobeXuihpLipWyq078T4qSE6Peq4ltnjdSVYMaB12MtMmHqnyAyi0/vZgyro+G6jUf3Dnmkwf39Num3oqhHOVvVsMesWb2nV+ItSe5A0GM+ot+r4hCTHuaBZ2JZBX/xN7Klu15ydbb2YwDWMRkA+4rZheidPJG8QJdsquh19e86W03KcghVg2orbVR3+fvTMprvhusAiOurFwDGS5sYRJyl/4tR8tE=
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(7916004)(4636009)(346002)(376002)(396003)(136003)(39850400004)(46966005)(1076003)(26005)(82740400003)(47076004)(316002)(36906005)(54906003)(83080400001)(81166007)(186003)(356005)(6496006)(966005)(336012)(86362001)(16526019)(5660300002)(70586007)(956004)(70206006)(9686003)(44832011)(53546011)(2906002)(478600001)(6486002)(33716001)(4326008)(82310400003)(8676002)(6862004)(8936002)(33656002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2020 11:04:15.9599 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ef72d6d-ba56-4d18-00c9-08d86ab0bb30
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM5EUR03FT022.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0801MB1981
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,19 +152,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Jan Kara <jack@suse.cz>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Pawel Osciak <pawel@osciak.com>, John Hubbard <jhubbard@nvidia.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Dave Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, nd <nd@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -135,35 +163,81 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Daniel,
 
-On 03.10.2020 11:40, Daniel Vetter wrote:
->> After he three places above should use pin_user_pages_fast(), then
->> this whole broken API should be moved into videobuf2-memops.c and a
->> big fat "THIS DOESN'T WORK" stuck on it.
->>
->> videobuf2 should probably use P2P DMA buf for this instead.
-> Yup this should be done with dma_buf instead, and v4l has that.
+On Wed, Oct 07, 2020 at 12:06:34PM +0200, Daniel Vetter wrote:
+> On Wed, Oct 7, 2020 at 11:29 AM Matteo Franchin <matteo.franchin@arm.com> wrote:
+> >
+> > Add ABGR format with 10-bit components packed in 64-bit per pixel.
+> > This format can be used to handle
+> > VK_FORMAT_R10X6G10X6B10X6A10X6_UNORM_4PACK16 on little-endian
+> > architectures.
+> >
+> > Signed-off-by: Matteo Franchin <matteo.franchin@arm.com>
+> 
+> So is this essentially 16 bit, with the lowest 6 bits in each channel
+> ignored? What exactly is this used for where the full 16bit format
+> doesn't work?
 
-Yes, V4L2 has dma_buf support NOW. That days, using so called V4L2 
-USERPTR method was the only way to achieve zero copy buffer sharing 
-between devices, so this is just a historical baggage. I've been 
-actively involved in implementing that. I've tried to make it secure as 
-much as possible assuming the limitation of that approach. With a few 
-assumptions it works fine. Buffers are refcounted both by the 
-vm_ops->open or by incrementing the refcount of the vm->file. This 
-basically works with any sane driver, which doesn't free the mmaped 
-buffer until the file is released. This is true for V4L2 and FBdev devices.
+If you are asking why we don't add a 16-bit format, instead (e.g.
+DRM_FORMAT_ABGR16161616) the answer is that this is really a 10-bit
+format: only the 10 MSBs are preserved. 
 
-This API is considered as deprecated in V4L2 world, so I think 
-supporting this hack can be removed one day as nowadays userspace should 
-use dma buf.
+We'd be uncomfortable to add support for a 16-bit format and just
+ignore the lowest 6 bits.
 
- > ...
+Thanks,
+Matteo
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
 
+> -Daniel
+> 
+> > ---
+> >  drivers/gpu/drm/drm_fourcc.c  | 1 +
+> >  include/uapi/drm/drm_fourcc.h | 7 +++++++
+> >  2 files changed, 8 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> > index 722c7ebe4e88..bba03fcb016d 100644
+> > --- a/drivers/gpu/drm/drm_fourcc.c
+> > +++ b/drivers/gpu/drm/drm_fourcc.c
+> > @@ -202,6 +202,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
+> >                 { .format = DRM_FORMAT_XBGR16161616F,   .depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1 },
+> >                 { .format = DRM_FORMAT_ARGB16161616F,   .depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> >                 { .format = DRM_FORMAT_ABGR16161616F,   .depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> > +               { .format = DRM_FORMAT_AXBXGXRX106106106106,    .depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> >                 { .format = DRM_FORMAT_RGB888_A8,       .depth = 32, .num_planes = 2, .cpp = { 3, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> >                 { .format = DRM_FORMAT_BGR888_A8,       .depth = 32, .num_planes = 2, .cpp = { 3, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> >                 { .format = DRM_FORMAT_XRGB8888_A8,     .depth = 32, .num_planes = 2, .cpp = { 4, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > index 82f327801267..76eedba52b77 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -155,6 +155,13 @@ extern "C" {
+> >  #define DRM_FORMAT_ARGB16161616F fourcc_code('A', 'R', '4', 'H') /* [63:0] A:R:G:B 16:16:16:16 little endian */
+> >  #define DRM_FORMAT_ABGR16161616F fourcc_code('A', 'B', '4', 'H') /* [63:0] A:B:G:R 16:16:16:16 little endian */
+> >
+> > +/*
+> > + * RGBA format with 10-bit components packed in 64-bit per pixel, with 6 bits
+> > + * of unused padding per component:
+> > + * [63:0] A:x:B:x:G:x:R:x 10:6:10:6:10:6:10:6 little endian
+> > + */
+> > +#define DRM_FORMAT_AXBXGXRX106106106106 fourcc_code('A', 'B', '1', '0')
+> > +
+> >  /* packed YCbCr */
+> >  #define DRM_FORMAT_YUYV                fourcc_code('Y', 'U', 'Y', 'V') /* [31:0] Cr0:Y1:Cb0:Y0 8:8:8:8 little endian */
+> >  #define DRM_FORMAT_YVYU                fourcc_code('Y', 'V', 'Y', 'U') /* [31:0] Cb0:Y1:Cr0:Y0 8:8:8:8 little endian */
+> > --
+> > 2.17.1
+> >
+> 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
