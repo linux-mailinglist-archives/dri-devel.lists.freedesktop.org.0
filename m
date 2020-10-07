@@ -1,36 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964E5286256
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:40:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAA5286293
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:50:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF68A6E92F;
-	Wed,  7 Oct 2020 15:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 003CE6E0DC;
+	Wed,  7 Oct 2020 15:50:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 05A896E8FF
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 15:12:28 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4919A106F;
- Wed,  7 Oct 2020 08:12:27 -0700 (PDT)
-Received: from localhost (unknown [10.1.199.49])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE4AD3F66B;
- Wed,  7 Oct 2020 08:12:26 -0700 (PDT)
-Date: Wed, 7 Oct 2020 16:12:25 +0100
-From: Ionela Voinescu <ionela.voinescu@arm.com>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH 4/5] thermal: devfreq_cooling: remove old power model and
- use EM
-Message-ID: <20201007151225.GB15063@arm.com>
-References: <20200921122007.29610-1-lukasz.luba@arm.com>
- <20200921122007.29610-5-lukasz.luba@arm.com>
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+ [209.85.167.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCF36E0DC
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 15:50:18 +0000 (UTC)
+Received: by mail-oi1-f193.google.com with SMTP id 26so2931909ois.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 08:50:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=D5KWBh7Ei3kmnrVZuM450juFCzki8BlotX/BN8/qul0=;
+ b=Prd4Zz7SdPG5vyq4BxKUaS8ja8YMik06yON+FELPlNs/oZW+2Nh2LXHpoJ2dIJATwY
+ wWHRNc02Ee183qIhTdx06UC7KY1ekpW7+TNbXQ37iThmu+oAjTrsnTDTJnGsruAeWuWk
+ hwbHe1pqMomOMTA7zHVQyjQ32BTJq4+GsTTthWFvdZBrzZxKtP/Be/2N+vMECa8fmyaT
+ 0pjEUbBLHI20GK0qrvCwqeZBZm7LgsNBOGB7Leq8sGMRIcysmAZLlmTdgttUV0dCUeXS
+ zitTnsA/ccfTNbFFKAnLP5UfiYwlrMxuwTis0OIgZmYw+qq+wLq639IBVU2wf0YIiBUW
+ Vmlw==
+X-Gm-Message-State: AOAM5316JP0E4skfKSMs/xCrEFLCZsB3zYdYdDvxGhYDK79KKia6A7/M
+ ucsZMO4MmhPB6ZDtBuHMiQ==
+X-Google-Smtp-Source: ABdhPJyl7BipVAGLelkc9Q7hU5yKjIoyNaSSYdipMgfJ93hqu78A/Bx52m6isWRUHb4rHFet/6YLQg==
+X-Received: by 2002:aca:30d4:: with SMTP id w203mr2197032oiw.64.1602085817319; 
+ Wed, 07 Oct 2020 08:50:17 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id j75sm2175630oih.10.2020.10.07.08.50.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 08:50:16 -0700 (PDT)
+Received: (nullmailer pid 283939 invoked by uid 1000);
+ Wed, 07 Oct 2020 15:50:15 -0000
+Date: Wed, 7 Oct 2020 10:50:15 -0500
+From: Rob Herring <robh@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH RESEND v3 2/6] dt-bindings: display: sun4i: Add LVDS
+ Dual-Link property
+Message-ID: <20201007155015.GA281983@bogus>
+References: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
+ <2bc93c7c1d3121730239a01dda9c30dcf4e353b0.1601910923.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200921122007.29610-5-lukasz.luba@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Wed, 07 Oct 2020 15:39:39 +0000
+In-Reply-To: <2bc93c7c1d3121730239a01dda9c30dcf4e353b0.1601910923.git-series.maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,190 +60,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
- daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, orjan.eide@arm.com
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lukasz,
+On Mon, Oct 05, 2020 at 05:15:40PM +0200, Maxime Ripard wrote:
+> The Allwinner SoCs with two TCONs and LVDS output can use both to drive an
+> LVDS dual-link. Add a new property to express that link between these two
+> TCONs.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> index e5344c4ae226..ce407f5466a5 100644
+> --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+> @@ -115,6 +115,12 @@ properties:
+>          - const: edp
+>          - const: lvds
+>  
+> +  allwinner,lvds-companion:
 
-On Monday 21 Sep 2020 at 13:20:06 (+0100), Lukasz Luba wrote:
-[..]
->  /**
-> - * freq_get_state() - get the cooling state corresponding to a frequency
-> + * freq_get_state() - get the performance index corresponding to a frequency
+We already have 1 vendor property for this. How about 'link-companion' 
+for something common.
 
-If we change the meaning of the return value, I think the function needs
-a name change as well.
-
-Also, we do treat this as a cooling state when we do validation and
-compare it to THERMAL_CSTATE_INVALID,  but it's not actually a cooling
-state (it's max_state - state). It does create confusion if we name
-"state" both a performance index and a cooling state.
-
-Given that the only user is devfreq_cooling_get_requested_power(),
-might be good to collapse freq_get_state() in that function and rename
-the "state" variable in there to "em_perf_idx".
-
->   * @dfc:	Pointer to devfreq cooling device
-> - * @freq:	frequency in Hz
-> + * @freq:	frequency in kHz
->   *
-> - * Return: the cooling state associated with the @freq, or
-> + * Return: the performance index associated with the @freq, or
->   * THERMAL_CSTATE_INVALID if it wasn't found.
->   */
->  static unsigned long
-> @@ -128,8 +130,8 @@ freq_get_state(struct devfreq_cooling_device *dfc, unsigned long freq)
->  {
->  	int i;
->  
-> -	for (i = 0; i < dfc->freq_table_size; i++) {
-> -		if (dfc->freq_table[i] == freq)
-> +	for (i = 0; i <= dfc->max_state; i++) {
-> +		if (dfc->em->table[i].frequency == freq)
->  			return i;
->  	}
->  
-> @@ -164,71 +166,15 @@ static unsigned long get_voltage(struct devfreq *df, unsigned long freq)
->  	return voltage;
->  }
->  
-> -/**
-> - * get_static_power() - calculate the static power
-> - * @dfc:	Pointer to devfreq cooling device
-> - * @freq:	Frequency in Hz
-> - *
-> - * Calculate the static power in milliwatts using the supplied
-> - * get_static_power().  The current voltage is calculated using the
-> - * OPP library.  If no get_static_power() was supplied, assume the
-> - * static power is negligible.
-> - */
-> -static unsigned long
-> -get_static_power(struct devfreq_cooling_device *dfc, unsigned long freq)
-> +static void dfc_em_get_requested_power(struct em_perf_domain *em,
-> +				       struct devfreq_dev_status *status,
-> +				       u32 *power, int em_perf_idx)
-
-Is there a reason for not directly returning the power value in this
-function? Also, this only does a few arithmetic operations and it's only
-called in one place. Is it worth to have this in a separate function?
-
-[..]
-> @@ -345,11 +279,8 @@ static int devfreq_cooling_power2state(struct thermal_cooling_device *cdev,
->  	struct devfreq_cooling_device *dfc = cdev->devdata;
->  	struct devfreq *df = dfc->devfreq;
->  	struct devfreq_dev_status status;
-> -	unsigned long busy_time;
-> +	u32 est_power = power;
-
-Nit: You could use power directly and remove est_power as well.
-
->  	unsigned long freq;
-> -	s32 dyn_power;
-> -	u32 static_power;
-> -	s32 est_power;
->  	int i;
->  
->  	mutex_lock(&df->lock);
-> @@ -358,31 +289,26 @@ static int devfreq_cooling_power2state(struct thermal_cooling_device *cdev,
->  
->  	freq = status.current_frequency;
->  
-> -	if (dfc->power_ops->get_real_power) {
-> +	if (dfc->power_ops && dfc->power_ops->get_real_power) {
->  		/* Scale for resource utilization */
->  		est_power = power * dfc->res_util;
->  		est_power /= SCALE_ERROR_MITIGATION;
->  	} else {
-> -		static_power = get_static_power(dfc, freq);
-> -
-> -		dyn_power = power - static_power;
-> -		dyn_power = dyn_power > 0 ? dyn_power : 0;
-> -
-> -		/* Scale dynamic power for utilization */
-> -		busy_time = status.busy_time ?: 1;
-> -		est_power = (dyn_power * status.total_time) / busy_time;
-> +		_normalize_load(&status);
-> +		est_power *= status.total_time;
-> +		est_power /= status.busy_time;
->  	}
->  
->  	/*
->  	 * Find the first cooling state that is within the power
-> -	 * budget for dynamic power.
-> +	 * budget. The EM power table is sorted ascending.
->  	 */
-> -	for (i = 0; i < dfc->freq_table_size - 1; i++)
-> -		if (est_power >= dfc->power_table[i])
-> +	for (i = dfc->max_state; i > 0; i--)
-> +		if (est_power >= dfc->em->table[i].power)
->  			break;
->  
-> -	*state = i;
-> -	dfc->capped_state = i;
-> +	*state = dfc->max_state - i;
-> +	dfc->capped_state = *state;
->  	trace_thermal_power_devfreq_limit(cdev, freq, *state, power);
->  	return 0;
->  }
-[..]
->  /**
-> @@ -503,7 +381,7 @@ of_devfreq_cooling_register_power(struct device_node *np, struct devfreq *df,
->  	struct thermal_cooling_device *cdev;
->  	struct devfreq_cooling_device *dfc;
->  	char dev_name[THERMAL_NAME_LENGTH];
-> -	int err;
-> +	int err, num_opps;
->  
->  	dfc = kzalloc(sizeof(*dfc), GFP_KERNEL);
->  	if (!dfc)
-> @@ -511,28 +389,45 @@ of_devfreq_cooling_register_power(struct device_node *np, struct devfreq *df,
->  
->  	dfc->devfreq = df;
->  
-> -	if (dfc_power) {
-> -		dfc->power_ops = dfc_power;
-> -
-> +	dfc->em = em_pd_get(df->dev.parent);
-> +	if (dfc->em) {
->  		devfreq_cooling_ops.get_requested_power =
->  			devfreq_cooling_get_requested_power;
->  		devfreq_cooling_ops.state2power = devfreq_cooling_state2power;
->  		devfreq_cooling_ops.power2state = devfreq_cooling_power2state;
-> +
-> +		dfc->power_ops = dfc_power;
-> +
-> +		num_opps = em_pd_nr_perf_states(dfc->em);
-> +	} else {
-> +		/* Backward compatibility for drivers which do not use IPA */
-> +		dev_dbg(df->dev.parent, "missing EM for cooling device\n");
-> +
-> +		num_opps = dev_pm_opp_get_opp_count(df->dev.parent);
-> +
-> +		err = devfreq_cooling_gen_tables(dfc, num_opps);
-> +		if (err)
-> +			goto free_dfc;
->  	}
->  
-> -	err = devfreq_cooling_gen_tables(dfc);
-> -	if (err)
-> +	if (num_opps <= 0) {
-> +		err = -EINVAL;
->  		goto free_dfc;
-> +	}
-> +
-> +	/* max_state is an index, not a counter */
-
-Nit: Might be more clear to replace "index" with cooling state. Then
-knowledge about cooling states would make this more clear.
-
-Regards,
-Ionela.
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
