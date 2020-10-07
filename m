@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3D028564B
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 03:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5592528564D
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 03:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9090E6E849;
-	Wed,  7 Oct 2020 01:25:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30C9E6E851;
+	Wed,  7 Oct 2020 01:25:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E29C6E84B
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 01:25:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC7D6E849
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 01:25:29 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 685E21AFA;
- Wed,  7 Oct 2020 03:25:26 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 238C142B4;
+ Wed,  7 Oct 2020 03:25:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1602033926;
- bh=Njh5LksoKUFw4ygPdGey3pAhnS9z0Ij/2vU8KweF3OY=;
+ s=mail; t=1602033927;
+ bh=gTAk8aujAnyMuNR06OQU0RAHFc9wwIj4Jv9anULiR5M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=S4OfbtcOpSzSH4WqQDLtg5zOqA5noc5CewG+ECp0oeDBpw9lwnVcG/oEcUcWSz9OP
- sau27RnnUdhiI8MDtIGrK7OztNtdvE2sFtbOknx6jcDND7KbPilEGYAw4uHRNpElkV
- p2YAGOKLByU1Zm2rSnbw1kIXhx+vLvf0CbMIbJnI=
+ b=G4lW0hLXSHatWyzLo0lqpYTK9O98ABC3+KQ/v6ZXelKZN21EQ+WmQNnfnV+Qsi70o
+ seBZE2b7ox5DAPDOqDL4PnvjOKn6X/nJFImzicbteW1oUKnJPGQM1VtOhmY7fBWTq/
+ 67Zja9eBTtaYyxV51s1Qnw2L0YsFTBHVKznQV+/0=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/7] dt-bindings: display: mxsfb: Add a bus-width endpoint
- property
-Date: Wed,  7 Oct 2020 04:24:34 +0300
-Message-Id: <20201007012438.27970-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 4/7] ARM: dts: imx: Fix LCDIF compatible strings
+Date: Wed,  7 Oct 2020 04:24:35 +0300
+Message-Id: <20201007012438.27970-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
 References: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
@@ -55,47 +54,80 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the PCB routes the display data signals in an unconventional way,
-the output bus width may differ from the bus width of the connected
-panel or encoder. For instance, when a 18-bit RGB panel has its R[5:0],
-G[5:0] and B[5:0] signals connected to LCD_DATA[7:2], LCD_DATA[15:10]
-and LCD_DATA[23:18], the output bus width is 24 instead of 18 when the
-signals are routed to LCD_DATA[5:0], LCD_DATA[11:6] and LCD_DATA[17:12].
-
-Add a bus-width property to describe this data routing.
+The LCDIF in the i.MX6 SoCs has additional features compared to the
+i.MX28. Replace the fsl,imx28-lcdif fallback compatible string with
+fsl,imx6sx-lcdif to reflect that.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
-Changes since v1:
+ arch/arm/boot/dts/imx6sl.dtsi  | 2 +-
+ arch/arm/boot/dts/imx6sll.dtsi | 2 +-
+ arch/arm/boot/dts/imx6sx.dtsi  | 4 ++--
+ arch/arm/boot/dts/imx6ul.dtsi  | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-- Fix property name in binding
----
- .../devicetree/bindings/display/fsl,lcdif.yaml       | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-index 404bd516b7f5..14b6103a9bd1 100644
---- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-+++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-@@ -58,6 +58,18 @@ properties:
-         type: object
+diff --git a/arch/arm/boot/dts/imx6sl.dtsi b/arch/arm/boot/dts/imx6sl.dtsi
+index 1c7180f28539..1e506ffbcecc 100644
+--- a/arch/arm/boot/dts/imx6sl.dtsi
++++ b/arch/arm/boot/dts/imx6sl.dtsi
+@@ -769,7 +769,7 @@ epdc: epdc@20f4000 {
+ 			};
  
-         properties:
-+          bus-width:
-+            enum: [16, 18, 24]
-+            description: |
-+              The output bus width. This value overrides the configuration
-+              derived from the connected device (encoder or panel). It should
-+              only be specified when PCB routing of the data signals require a
-+              different bus width on the LCDIF and the connected device. For
-+              instance, when a 18-bit RGB panel has its R[5:0], G[5:0] and
-+              B[5:0] signals connected to LCD_DATA[7:2], LCD_DATA[15:10] and
-+              LCD_DATA[23:18] instead of LCD_DATA[5:0], LCD_DATA[11:6] and
-+              LCD_DATA[17:12], bus-width should be set to 24.
-+
-           remote-endpoint:
-             $ref: /schemas/types.yaml#/definitions/phandle
+ 			lcdif: lcdif@20f8000 {
+-				compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";
++				compatible = "fsl,imx6sl-lcdif", "fsl,imx6sx-lcdif";
+ 				reg = <0x020f8000 0x4000>;
+ 				interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
+ 				clocks = <&clks IMX6SL_CLK_LCDIF_PIX>,
+diff --git a/arch/arm/boot/dts/imx6sll.dtsi b/arch/arm/boot/dts/imx6sll.dtsi
+index fb5d3bc50c6b..81137ba427a1 100644
+--- a/arch/arm/boot/dts/imx6sll.dtsi
++++ b/arch/arm/boot/dts/imx6sll.dtsi
+@@ -644,7 +644,7 @@ pxp: pxp@20f0000 {
+ 			};
  
+ 			lcdif: lcd-controller@20f8000 {
+-				compatible = "fsl,imx6sll-lcdif", "fsl,imx28-lcdif";
++				compatible = "fsl,imx6sll-lcdif", "fsl,imx6sx-lcdif";
+ 				reg = <0x020f8000 0x4000>;
+ 				interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
+ 				clocks = <&clks IMX6SLL_CLK_LCDIF_PIX>,
+diff --git a/arch/arm/boot/dts/imx6sx.dtsi b/arch/arm/boot/dts/imx6sx.dtsi
+index b480dfa9e251..1f2b1c56757b 100644
+--- a/arch/arm/boot/dts/imx6sx.dtsi
++++ b/arch/arm/boot/dts/imx6sx.dtsi
+@@ -1261,7 +1261,7 @@ csi2: csi@221c000 {
+ 				};
+ 
+ 				lcdif1: lcdif@2220000 {
+-					compatible = "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
++					compatible = "fsl,imx6sx-lcdif";
+ 					reg = <0x02220000 0x4000>;
+ 					interrupts = <GIC_SPI 5 IRQ_TYPE_EDGE_RISING>;
+ 					clocks = <&clks IMX6SX_CLK_LCDIF1_PIX>,
+@@ -1273,7 +1273,7 @@ lcdif1: lcdif@2220000 {
+ 				};
+ 
+ 				lcdif2: lcdif@2224000 {
+-					compatible = "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
++					compatible = "fsl,imx6sx-lcdif";
+ 					reg = <0x02224000 0x4000>;
+ 					interrupts = <GIC_SPI 6 IRQ_TYPE_EDGE_RISING>;
+ 					clocks = <&clks IMX6SX_CLK_LCDIF2_PIX>,
+diff --git a/arch/arm/boot/dts/imx6ul.dtsi b/arch/arm/boot/dts/imx6ul.dtsi
+index 2b088f210331..776493923474 100644
+--- a/arch/arm/boot/dts/imx6ul.dtsi
++++ b/arch/arm/boot/dts/imx6ul.dtsi
+@@ -1003,7 +1003,7 @@ csi: csi@21c4000 {
+ 			};
+ 
+ 			lcdif: lcdif@21c8000 {
+-				compatible = "fsl,imx6ul-lcdif", "fsl,imx28-lcdif";
++				compatible = "fsl,imx6ul-lcdif", "fsl,imx6sx-lcdif";
+ 				reg = <0x021c8000 0x4000>;
+ 				interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+ 				clocks = <&clks IMX6UL_CLK_LCDIF_PIX>,
 -- 
 Regards,
 
