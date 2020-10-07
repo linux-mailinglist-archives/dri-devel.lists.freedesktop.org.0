@@ -2,37 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672462862B2
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126D32862F9
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 18:01:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C696E933;
-	Wed,  7 Oct 2020 15:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ECC56E0DD;
+	Wed,  7 Oct 2020 16:01:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697D36E91A;
- Wed,  7 Oct 2020 15:55:28 +0000 (UTC)
-Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 00F4320789;
- Wed,  7 Oct 2020 15:55:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602086128;
- bh=DnGfCBaWseLBM8TVFoELwrQRAC5MuHq6bqVMisC2Yvo=;
- h=Date:From:To:Cc:Subject:From;
- b=mDVqpVfuFWeeaFRs/tBZmwj1GKg0uFJM+VvcUSBodBR9xt4w6UTErIkNxSF73hD2L
- jkR+jcqRKww35nmLeV8JBRPgoXP5GLKAYXEzm9XzC/CuQxGZN8pG0tqTw0srpYbIEl
- 6QVElnqaRXGMkNHQQyo6DmmbPXe6sqOPgRilXY60=
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E558F6E0DD
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 16:01:30 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id w141so2997115oia.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 09:01:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Axwk9GoxRz4cVaj0ajd90BMmeePspqdRR76uedy1D64=;
+ b=EfSd/arsLLFPHxsQd1ZTDOxbZ6LSJNZyKPMYHZUgcS4NQsyjX964oHwfd05xNeEmY9
+ ANaxM9AbdeZ01P/bBg9aHiFz3zUPhUA5uF1AkAaNMuB0g3OkNliOtjvAmdtv8UqdT20W
+ yYnYqtxej3nClDHQrfGRz53brynrBCdvjaiQttUV1f4i41RMgiKsfGfDaQGAuig+ZA6b
+ +CyixvMBw08WbSjAD6X+j2wkx2uWn4qq6Hn4E9e+lHLXGYfMIzA3YgF7UzBRh53p0vf6
+ Y4+mjCjvKn+nLd8IMJF53xu+Q0sFX8B3m1bWNItoKG/UmS3yvlTL8P8MWsifvl4SZ4Gm
+ r6LA==
+X-Gm-Message-State: AOAM531jHwB1UZcB/buOsWpyoS+qSfH/uxMpH3mjBAgdS43fouz3/3y/
+ 60nklUHoYxuukloCQ5HGMg==
+X-Google-Smtp-Source: ABdhPJzIaAxOFImu6KIcREPogpBm7IpydCMinXp9HgSwRPyqWBrai4uXEJMCCsYNy9azaDeTVrarVg==
+X-Received: by 2002:aca:35c6:: with SMTP id c189mr2183759oia.171.1602086490266; 
+ Wed, 07 Oct 2020 09:01:30 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id t5sm1809907otl.22.2020.10.07.09.01.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 09:01:29 -0700 (PDT)
+Received: (nullmailer pid 299118 invoked by uid 1000);
+ Wed, 07 Oct 2020 16:01:28 -0000
 Date: Wed, 7 Oct 2020 11:01:28 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 00/14] drm/amd/pm: Replace one-element arrays with
- flexible-array members
-Message-ID: <cover.1602020074.git.gustavoars@kernel.org>
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 2/7] dt-bindings: display: mxsfb: Add and fix
+ compatible strings
+Message-ID: <20201007160128.GA299084@bogus>
+References: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
+ <20201007012438.27970-3-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20201007012438.27970-3-laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,74 +60,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, amd-gfx@lists.freedesktop.org,
- linux-hardening@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgYWxsLAoKVGhpcyBzZXJpZXMgYWltcyB0byByZXBsYWNlIG9uZS1lbGVtZW50IGFycmF5cyB3
-aXRoIGZsZXhpYmxlLWFycmF5Cm1lbWJlcnMuCgpUaGVyZSBpcyBhIHJlZ3VsYXIgbmVlZCBpbiB0
-aGUga2VybmVsIHRvIHByb3ZpZGUgYSB3YXkgdG8gZGVjbGFyZSBoYXZpbmcKYSBkeW5hbWljYWxs
-eSBzaXplZCBzZXQgb2YgdHJhaWxpbmcgZWxlbWVudHMgaW4gYSBzdHJ1Y3R1cmUuIEtlcm5lbCBj
-b2RlCnNob3VsZCBhbHdheXMgdXNlIOKAnGZsZXhpYmxlIGFycmF5IG1lbWJlcnPigJ1bMV0gZm9y
-IHRoZXNlIGNhc2VzLiBUaGUgb2xkZXIKc3R5bGUgb2Ygb25lLWVsZW1lbnQgb3IgemVyby1sZW5n
-dGggYXJyYXlzIHNob3VsZCBubyBsb25nZXIgYmUgdXNlZFsyXS4KClJlZmFjdG9yIHRoZSBjb2Rl
-IGFjY29yZGluZyB0byB0aGUgdXNlIG9mIGZsZXhpYmxlLWFycmF5IG1lbWJlcnMsIGluc3RlYWQK
-b2Ygb25lLWVsZW1lbnQgYXJyYXlzLCBhbmQgdXNlIHRoZSBzdHJ1Y3Rfc2l6ZSgpIGhlbHBlciB0
-byBjYWxjdWxhdGUgdGhlCnNpemUgZm9yIHRoZSBkeW5hbWljIG1lbW9yeSBhbGxvY2F0aW9uLgoK
-QWxzbywgc2F2ZSBzb21lIGhlYXAgc3BhY2UgaW4gdGhlIHByb2Nlc3MuIE1vcmUgb24gdGhpcyBv
-biBlYWNoIGluZGl2aWR1YWwKcGF0Y2guCgpUaGlzIHNlcmllcyBhbHNvIGFkZHJlc3NlcyBtdWx0
-aXBsZSBvZiB0aGUgZm9sbG93aW5nIHNvcnRzIG9mIHdhcm5pbmdzOgoKZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvLi4vcG0vcG93ZXJwbGF5L2h3bWdyL3NtdThfaHdtZ3IuYzoxNTE1OjM3Ogp3
-YXJuaW5nOiBhcnJheSBzdWJzY3JpcHQgMSBpcyBhYm92ZSBhcnJheSBib3VuZHMgb2Yg4oCYY29u
-c3Qgc3RydWN0CnBobV9jbG9ja192b2x0YWdlX2RlcGVuZGVuY3lfcmVjb3JkWzFd4oCZIFstV2Fy
-cmF5LWJvdW5kc10KCndoaWNoLCBpbiB0aGlzIGNhc2UsIHRoZXkgYXJlIGZhbHNlIHBvc2l0aXZl
-cywgYnV0IG5lcnZlcnRoZWxlc3Mgc2hvdWxkIGJlCmZpeGVkIGluIG9yZGVyIHRvIGVuYWJsZSAt
-V2FycmF5LWJvdW5kc1szXVs0XS4KClsxXSBodHRwczovL2VuLndpa2lwZWRpYS5vcmcvd2lraS9G
-bGV4aWJsZV9hcnJheV9tZW1iZXIKWzJdIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwv
-djUuOS1yYzEvcHJvY2Vzcy9kZXByZWNhdGVkLmh0bWwjemVyby1sZW5ndGgtYW5kLW9uZS1lbGVt
-ZW50LWFycmF5cwpbM10gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9saW51cy80NDcyMDk5NmUyZDc5
-ZTQ3ZDUwOGIwYWJlOTliOTMxYTcyNmEzMTk3Cls0XSBodHRwczovL2dpdGh1Yi5jb20vS1NQUC9s
-aW51eC9pc3N1ZXMvMTA5CgpHdXN0YXZvIEEuIFIuIFNpbHZhICgxNCk6CiAgZHJtL2FtZC9wbTog
-UmVwbGFjZSBvbmUtZWxlbWVudCBhcnJheSB3aXRoIGZsZXhpYmxlLWFycmF5IG1lbWJlcgogIGRy
-bS9hbWQvcG06IFJlcGxhY2Ugb25lLWVsZW1lbnQgYXJyYXkgd2l0aCBmbGV4aWJsZS1hcnJheSBt
-ZW1iZXIgaW4KICAgIHN0cnVjdCB2aV9kcG1fdGFibGUKICBkcm0vYW1kL3BtOiBSZXBsYWNlIG9u
-ZS1lbGVtZW50IGFycmF5IHdpdGggZmxleGlibGUtYXJyYXkgaW4gc3RydWN0CiAgICBwaG1fY2xv
-Y2tfYXJyYXkKICBkcm0vYW1kL3BtOiBSZXBsYWNlIG9uZS1lbGVtZW50IGFycmF5IHdpdGggZmxl
-eGlibGUtYXJyYXkgaW4gc3RydWN0CiAgICBwaG1fdXZkX2Nsb2NrX3ZvbHRhZ2VfZGVwZW5kZW5j
-eV90YWJsZQogIGRybS9hbWQvcG06IFJlcGxhY2Ugb25lLWVsZW1lbnQgYXJyYXkgd2l0aCBmbGV4
-aWJsZS1hcnJheSBpbiBzdHJ1Y3QKICAgIHBobV9hY3BfY2xvY2tfdm9sdGFnZV9kZXBlbmRlbmN5
-X3RhYmxlCiAgZHJtL2FtZC9wbTogUmVwbGFjZSBvbmUtZWxlbWVudCBhcnJheSB3aXRoIGZsZXhp
-YmxlLWFycmF5IGluIHN0cnVjdAogICAgcGhtX3BoYXNlX3NoZWRkaW5nX2xpbWl0c190YWJsZQog
-IGRybS9hbWQvcG06IFJlcGxhY2Ugb25lLWVsZW1lbnQgYXJyYXkgd2l0aCBmbGV4aWJsZS1hcnJh
-eSBpbiBzdHJ1Y3QKICAgIHBobV92Y2VfY2xvY2tfdm9sdGFnZV9kZXBlbmRlbmN5X3RhYmxlCiAg
-ZHJtL2FtZC9wbTogUmVwbGFjZSBvbmUtZWxlbWVudCBhcnJheSB3aXRoIGZsZXhpYmxlLWFycmF5
-IGluIHN0cnVjdAogICAgcGhtX2NhY19sZWFrYWdlX3RhYmxlCiAgZHJtL2FtZC9wbTogUmVwbGFj
-ZSBvbmUtZWxlbWVudCBhcnJheSB3aXRoIGZsZXhpYmxlLWFycmF5IGluIHN0cnVjdAogICAgcGht
-X3NhbXVfY2xvY2tfdm9sdGFnZV9kZXBlbmRlbmN5X3RhYmxlCiAgZHJtL2FtZC9wbTogUmVwbGFj
-ZSBvbmUtZWxlbWVudCBhcnJheSB3aXRoIGZsZXhpYmxlLWFycmF5IGluIHN0cnVjdAogICAgcGht
-X3BwdF92MV9jbG9ja192b2x0YWdlX2RlcGVuZGVuY3lfdGFibGUKICBkcm0vYW1kL3BtOiBSZXBs
-YWNlIG9uZS1lbGVtZW50IGFycmF5IHdpdGggZmxleGlibGUtYXJyYXkgaW4gc3RydWN0CiAgICBw
-aG1fcHB0X3YxX21tX2Nsb2NrX3ZvbHRhZ2VfZGVwZW5kZW5jeV90YWJsZQogIGRybS9hbWQvcG06
-IFJlcGxhY2Ugb25lLWVsZW1lbnQgYXJyYXkgd2l0aCBmbGV4aWJsZS1hcnJheSBpbiBzdHJ1Y3QK
-ICAgIHBobV9wcHRfdjFfdm9sdGFnZV9sb29rdXBfdGFibGUKICBkcm0vYW1kL3BtOiBSZXBsYWNl
-IG9uZS1lbGVtZW50IGFycmF5IHdpdGggZmxleGlibGUtYXJyYXkgaW4gc3RydWN0CiAgICBwaG1f
-cHB0X3YxX3BjaWVfdGFibGUKICBkcm0vYW1kL3BtOiBSZXBsYWNlIG9uZS1lbGVtZW50IGFycmF5
-IHdpdGggZmxleGlibGUtYXJyYXkgaW4gc3RydWN0CiAgICBBVE9NX1ZlZ2ExMF9HRlhDTEtfRGVw
-ZW5kZW5jeV9UYWJsZQoKIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vaW5jL2h3bWdyLmggICAgICAg
-ICAgICB8IDIwICsrLS0tCiAuLi4vZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvaHdtZ3JfcHB0
-LmggICAgfCAgOCArLQogLi4uL3Bvd2VycGxheS9od21nci9wcm9jZXNzX3BwdGFibGVzX3YxXzAu
-YyAgIHwgODUgKysrKysrKy0tLS0tLS0tLS0tCiAuLi4vYW1kL3BtL3Bvd2VycGxheS9od21nci9w
-cm9jZXNzcHB0YWJsZXMuYyAgfCA4NSArKysrKysrLS0tLS0tLS0tLS0KIC4uLi9kcm0vYW1kL3Bt
-L3Bvd2VycGxheS9od21nci9zbXU4X2h3bWdyLmMgICB8ICAyICstCiAuLi4vZHJtL2FtZC9wbS9w
-b3dlcnBsYXkvaHdtZ3Ivc211X2hlbHBlci5jICAgfCAgNSArLQogLi4uL2FtZC9wbS9wb3dlcnBs
-YXkvaHdtZ3IvdmVnYTEwX3BwdGFibGUuaCAgIHwgIDIgKy0KIC4uLi9wb3dlcnBsYXkvaHdtZ3Iv
-dmVnYTEwX3Byb2Nlc3NwcHRhYmxlcy5jICB8IDg4ICsrKysrKy0tLS0tLS0tLS0tLS0KIDggZmls
-ZXMgY2hhbmdlZCwgMTA3IGluc2VydGlvbnMoKyksIDE4OCBkZWxldGlvbnMoLSkKCi0tIAoyLjI3
-LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, 07 Oct 2020 04:24:33 +0300, Laurent Pinchart wrote:
+> Additional compatible strings have been added in DT source for the
+> i.MX6SL, i.MX6SLL, i.MX6UL and i.MX7D without updating the bindings.
+> Most of the upstream DT sources use the fsl,imx28-lcdif compatible
+> string, which mostly predates the realization that the LCDIF in the
+> i.MX6 and newer SoCs have extra features compared to the i.MX28.
+> 
+> Update the bindings to add the missing compatible strings, with the
+> correct fallback values. This fails to validate some of the upstream DT
+> sources. Instead of adding the incorrect compatible fallback to the
+> binding, the sources should be updated separately.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+> Changes since v1:
+> 
+> - Fix indentation under enum
+> ---
+>  .../devicetree/bindings/display/fsl,lcdif.yaml | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
+> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
