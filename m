@@ -2,40 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1AB028624F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 17:39:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F67285D1F
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 12:47:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D9706E929;
-	Wed,  7 Oct 2020 15:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F72D6E8BB;
+	Wed,  7 Oct 2020 10:47:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 22C326E8BB
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 10:36:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D14D11B3;
- Wed,  7 Oct 2020 03:36:57 -0700 (PDT)
-Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com
- [10.1.195.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1AEF33F71F;
- Wed,  7 Oct 2020 03:36:56 -0700 (PDT)
-Date: Wed, 7 Oct 2020 11:36:53 +0100
-From: Qais Yousef <qais.yousef@arm.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
-Message-ID: <20201007103653.qjohhta7douhlb22@e107158-lin.cambridge.arm.com>
-References: <20200930211723.3028059-1-robdclark@gmail.com>
- <20201002110105.e56qrvzoqfioi4hs@e107158-lin.cambridge.arm.com>
- <CAF6AEGvWMvZuy7CcGhzUSbwGtEkrNkzWHu_BN1cbdBJdZtvevA@mail.gmail.com>
- <20201005150024.mchfdtd62rlkuh4s@e107158-lin.cambridge.arm.com>
- <CAF6AEGs7NmCPyLdg+gg5jTTe-wgi2myRQ80tum6odv6tLLQ0DQ@mail.gmail.com>
- <20201006105918.v3xspb6xasjyy5ky@e107158-lin.cambridge.arm.com>
- <CAF6AEGu_V_EGcPQ+F_Z73cMCAcFPoM-GuiGWUPr+=6GD4Om=zg@mail.gmail.com>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1A3F6E8BB
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 10:47:14 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20201007104712euoutp02b7f1a31ba69151604e15c8d3c814ab25~7sAYjHCHJ2443824438euoutp02H
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 10:47:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20201007104712euoutp02b7f1a31ba69151604e15c8d3c814ab25~7sAYjHCHJ2443824438euoutp02H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1602067632;
+ bh=E5XERvvgz2kHeHngJGLKNS1MxI488JkYoBjaEOnm4F0=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=QJhnd4W0iuSmYplSDfsdUsI1zbZQIqQKqYLdEDILkjXPjbTgyOJGqN33OrggZl2lt
+ 8+H+WT9MataicZBMK6LfIHUbHXZEoTtO/GAY3dClQsV0KAO9YlZSOybiQs6d2srn70
+ Zg3jdiy20Fm1DYEzghh1/EBNToxgyGD7SW/k8K+4=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20201007104712eucas1p15a76d78779d57144160e51c36d83d24e~7sAYLFOLh3224932249eucas1p1I;
+ Wed,  7 Oct 2020 10:47:12 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id ED.76.06456.0BC9D7F5; Wed,  7
+ Oct 2020 11:47:12 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201007104711eucas1p1a1b0945d6b12e3260b210dfcb5756ab9~7sAXtthzZ0030400304eucas1p11;
+ Wed,  7 Oct 2020 10:47:11 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20201007104711eusmtrp1487b9ffe41a58ec6aaec5d6c86578d4d~7sAXs58Da2859428594eusmtrp1b;
+ Wed,  7 Oct 2020 10:47:11 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-2a-5f7d9cb05c38
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 66.4B.06314.FAC9D7F5; Wed,  7
+ Oct 2020 11:47:11 +0100 (BST)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201007104710eusmtip191849209bf06805c0437d3901896f954~7sAWmUm-z2861128611eusmtip1e;
+ Wed,  7 Oct 2020 10:47:10 +0000 (GMT)
+Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <d2f8e8a7-614d-18c8-9e2a-c604e5e54ce6@samsung.com>
+Date: Wed, 7 Oct 2020 12:47:10 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+ Gecko/20100101 Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGu_V_EGcPQ+F_Z73cMCAcFPoM-GuiGWUPr+=6GD4Om=zg@mail.gmail.com>
-User-Agent: NeoMutt/20171215
-X-Mailman-Approved-At: Wed, 07 Oct 2020 15:39:39 +0000
+In-Reply-To: <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUwTURSF8zrTmQEtPiqGqxKXxrglinXLSzSKxujERKO/XBLBKiOgbLaA
+ 4EpoIIDgAhpqqYJ1QQgIomBFWUQUTZFVCSg7GIuxIosaIUEZxoV/3z333LxzksdRSjMzg/ML
+ DBG0gRp/FeNIF774WbMkz3TKa1lk6XRiys1mSMrlWkSud7ZSJKPqLkXefOtjSFL7BZqkpuhl
+ 5IrhJRojm4zc+2Bmia2tjiavoz6zJL+7UU4aikwMScgrkJO27F9yYqgpkZFa23s5uWT/yRJD
+ ci9DBqNHGY9pfGpkHc0Xf0+n+UfGVpa/8aRXxucPJLH8S8MIzbefrZTx92+e4RP1Xxi+e7iX
+ 4ftK3jL8uQdZiK9Kr2D5wfxZfMHge3rHlL2Oa70Ff78wQeu+br+j7+OWbCbY5hB+se08FYls
+ bDxy4ACvhAR92Tgr8R0EjRkh8chxjIcQxNSflUnDIILE6tx/Fz3vfsilRQaCFx+LaWnoQ/BQ
+ 3ywXXVMxgetpMTKRXfBWiK2IQaKJwo8YKLRYkLhgsBri7fGMyAq8DtqtDWM6x9F4HtRYtovy
+ NHwArLVRrGRxhldXemiRHfBOiEpLGWcKz4aHdhMlsSu860kbjw24g4O8iq+MFHsTFNuj//BU
+ +FT54E8dN7AmJ9DSgR5BZ3UOKw0JCBqiDEhyrYGW6mFGTEfhRZBb5C7JG+BW3Be5KAN2gia7
+ sxTCCZIKUyhJVkBsjFJyzwdj5d1/zz6tracuIJVxQjXjhDrGCXWM/99NR3QWchVCdQE+gk4d
+ KBxbqtME6EIDfZYeDArIR2M/1zpaOWBB3+oPlCPMIdVkxe6jJ72Uck2YLiKgHAFHqVwUG19b
+ PZUKb03EcUEb5KUN9Rd05WgmR6tcFSvMvfuU2EcTIhwRhGBB+3cr4xxmRKLV3W1Tou1pTudP
+ +F6zHfQwx3kbB0jpzT0FJnbmClwRFPR8zq9VpV1Xk3e5Z4282eaxwHvhJxfr6by49YdGh04l
+ VrcOdI34hlS5po9oLNrwV2a1Z//KnOW7Gz22qDuDyyZ9z/g8fLipcXP/nLlF/V0dzW63N1vK
+ rHa/iMy6Dz53nmXWq2idr0a9mNLqNL8BDaTifLUDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHec9tZ9HwOBXfLMpGFATNjtfXsBHSh0NUdPmQZbVO86Cic7kz
+ 7ULR0jKZt7SLOpfaxSKTypndtCjTVNR0XioyJ6XFDE1ILO1iba7Abz+e5/97Hh54aFx+l/Sj
+ 45MMgj6JT1RQ84i2meaBVbctx9Sr+yqCkeV2FYUKz3cBdOn9AI6ut9/CUe/kOIUKBs8QqKQw
+ HUPFRS3ASQ4MVX+8LEEOu41AHWmjEmQdekWinkcWCmXfqSWRveoPiYo6n2Coy9FPonNj0xJU
+ dHaEQhOnZqh1PlyJ0UZwj7+VE9xD84CEu1I/gnHWrwUSrqXoJ8ENZjVjXM3V41xO+heKG/ox
+ QnHjT/ooLvduJeDayxsl3IR1MVc70U9s8diljNDrUgyCf5xONKxVRLMoUMmGI2VgcLiSDQrb
+ syYwRBGgiogREuNTBX2Aap8yru5dFXXAIT2Ub8/DjcAhMQEpDZlgOPz2O+liOVMB4NNyhbu+
+ CLZeMJJu9oK/XpkoE5jnzIwB6Lj4YbbhxSB4qSwDc7E3swFmNmYAVwhn6ig4bc0j3UYhDjOs
+ pbPrKIaFpjHXKCktY1RwsK3HadA0wSyDnQ82u8o+zH6Y1X0Oc0c8YWvxMOFiKbMVppUVzjLO
+ hMLSmve4m5fA+2OWf+wL3w6XYWeA3DxHN89RzHMU8xylHBCVwFtIEbWxWpFVirxWTEmKVWp0
+ Witwfsy9F9M1D0B39fYGwNBAMV8WlXxULSf5VPGwtgFAGld4yyI72vbKZTH84SOCXqfWpyQK
+ YgMIcd6Wj/v5aHTO/0syqNkQNgyFs2FBYUGhSOEry2Se7ZYzsbxBSBCEA4L+v4fRUj8jKMOW
+ V7/ceXr0yuqhqZtRibaVGt1v+/aKutSa+uiWiNxk1vuNZ8ynnX6PgNC7bbDFH2V0LjU2Fay3
+ TUleF7ffODFu8+nY9PxzzlXNpKGY68/NTI5G+fwCu/9JS1ZIQnZTdT3/zmOjSbbwmCovUkoc
+ VHVPi1Ats15P6F2huWbfoSDEOJ5dietF/i8Y0zPsRwMAAA==
+X-CMS-MailID: 20201007104711eucas1p1a1b0945d6b12e3260b210dfcb5756ab9
+X-Msg-Generator: CA
+X-RootMTR: 20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651
+References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
+ <20201002175303.390363-2-daniel.vetter@ffwll.ch>
+ <20201002180603.GL9916@ziepe.ca>
+ <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
+ <20201002233118.GM9916@ziepe.ca>
+ <CGME20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651@eucas1p1.samsung.com>
+ <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,77 +115,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>
+Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Jan Kara <jack@suse.cz>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Pawel Osciak <pawel@osciak.com>, John Hubbard <jhubbard@nvidia.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomasz Figa <tfiga@chromium.org>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/06/20 13:04, Rob Clark wrote:
-> On Tue, Oct 6, 2020 at 3:59 AM Qais Yousef <qais.yousef@arm.com> wrote:
-> >
-> > On 10/05/20 16:24, Rob Clark wrote:
-> >
-> > [...]
-> >
-> > > > RT planning and partitioning is not easy task for sure. You might want to
-> > > > consider using affinities too to get stronger guarantees for some tasks and
-> > > > prevent cross-talking.
-> > >
-> > > There is some cgroup stuff that is pinning SF and some other stuff to
-> > > the small cores, fwiw.. I think the reasoning is that they shouldn't
-> > > be doing anything heavy enough to need the big cores.
-> >
-> > Ah, so you're on big.LITTLE type of system. I have done some work which enables
-> > biasing RT tasks towards big cores and control the default boost value if you
-> > have util_clamp and schedutil enabled. You can use util_clamp in general to
-> > help with DVFS related response time delays.
-> >
-> > I haven't done any work to try our best to pick a small core first but fallback
-> > to big if there's no other alternative.
-> >
-> > It'd be interesting to know how often you end up on a big core if you remove
-> > the affinity. The RT scheduler picks the first cpu in the lowest priority mask.
-> > So it should have this bias towards picking smaller cores first if they're
-> > in the lower priority mask (ie: not running higher priority RT tasks).
-> 
-> fwiw, the issue I'm looking at is actually at the opposite end of the
-> spectrum, less demanding apps that let cpus throttle down to low
-> OPPs.. which stretches out the time taken at each step in the path
-> towards screen (which seems to improve the odds that we hit priority
-> inversion scenarios with SCHED_FIFO things stomping on important CFS
-> things)
+Hi Daniel,
 
-So you do have the problem of RT task preempting an important CFS task.
+On 03.10.2020 11:40, Daniel Vetter wrote:
+>> After he three places above should use pin_user_pages_fast(), then
+>> this whole broken API should be moved into videobuf2-memops.c and a
+>> big fat "THIS DOESN'T WORK" stuck on it.
+>>
+>> videobuf2 should probably use P2P DMA buf for this instead.
+> Yup this should be done with dma_buf instead, and v4l has that.
 
-> 
-> There is a *big* difference in # of cpu cycles per frame between
-> highest and lowest OPP..
+Yes, V4L2 has dma_buf support NOW. That days, using so called V4L2 
+USERPTR method was the only way to achieve zero copy buffer sharing 
+between devices, so this is just a historical baggage. I've been 
+actively involved in implementing that. I've tried to make it secure as 
+much as possible assuming the limitation of that approach. With a few 
+assumptions it works fine. Buffers are refcounted both by the 
+vm_ops->open or by incrementing the refcount of the vm->file. This 
+basically works with any sane driver, which doesn't free the mmaped 
+buffer until the file is released. This is true for V4L2 and FBdev devices.
 
-To combat DVFS related delays, you can use util clamp.
+This API is considered as deprecated in V4L2 world, so I think 
+supporting this hack can be removed one day as nowadays userspace should 
+use dma buf.
 
-Hopefully this article helps explain it if you didn't come across it before
+ > ...
 
-	https://lwn.net/Articles/762043/
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-You can use sched_setattr() to set SCHED_FLAG_UTIL_CLAMP_MIN for a task. This
-will guarantee everytime this task is running it'll appear it has at least
-this utilization value, so schedutil governor (which must be used for this to
-work) will pick up the right performance point (OPP).
-
-The scheduler will try its best to make sure that the task will run on a core
-that meets the minimum requested performance point (hinted by setting
-uclamp_min).
-
-Thanks
-
---
-Qais Yousef
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
