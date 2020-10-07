@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023642864C7
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 18:44:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E45A2864C9
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 18:44:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 221BD6E965;
-	Wed,  7 Oct 2020 16:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D1A6E0EB;
+	Wed,  7 Oct 2020 16:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C82B26E917
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 16:44:22 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id t10so3005792wrv.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 09:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1mE5Gwn7xDIbM4htDyTfJFvStSh1Kg9XYcxXUrf4KUg=;
- b=qIM+Yh3y1tTEMLEhGgZdsvlJJLqbxVhsnJEIVoxm1EkKMcNXPsUH55jARR3ezgWKDx
- 9DBnk7oaNMu1GJOG7a7oTNnS9Hu4/W0MpHuo8a5rgSgM5MeIEPUrmXEpy4hy3Vu4aT4j
- QkWouP/erWGYyvTE5hHKbdxlGcsla3Ne/q2GCp5u7MQ8DQWFn4PxZDxffFXIWaFc+ECE
- dy8nO2lF/XFRfNJoDknZW5CKKKGvBwwf8bsgVftP/ALcXwfGWj3CG6hS8RMrcpbDkMIJ
- dcj/vTtBzXmFC+52hmFHX4tS76Zum9doFKeHuICoAifeljMVT5FNF7iEnFHU5UJS+dI1
- aIxg==
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 613E26E0EB
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 16:44:34 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id t10so3006430wrv.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 09:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ioe0Byeg/DIJ2PK+KoHAeY/RgUBhGUsvQd2LPXMyjpk=;
+ b=LKBDOiNhqwNLkwa9WP1zzXHrjwlM9UxdR+2aww5WQtbHhuceIwa/VXYYnC9UZ6hdtp
+ mvYMFJ7UpZJyZnXE8eOz53fPGIesR/n7+X+8Z0F7CtzFKuDxeUJ2E389J/P0gE5voMHe
+ oEJ9yMHSIcqvjSDbm4eT0/N3ZkXflXq1Fg4A8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1mE5Gwn7xDIbM4htDyTfJFvStSh1Kg9XYcxXUrf4KUg=;
- b=UyCBU8sbNFaPAEuzLZLTeYr8WnJk/LWhndi1P4hRGX0mLY+QGIpgu/ytcFaDfcMxYs
- MyPMw6NayIUkEn7wVwFAcDXIU6uo7WZMGfWofuK3MewIMM+8ZvlLKRQ+1/UT90jaCiHX
- DRkc40mgHNl8hz0prBp4kRCbv53QWoyN5RCPTXfrTCdDgN+RJcT1DlgUWRz8RkWyiYTp
- 92MAkEUoj0yn6VOYedTvr2vB0UKw2SdPAiqVf8aTvdPYxwWwdKAzHaxsSKYi0Bvj7F9x
- ODQDAtjDHFYRtV6lrXQJCUnXqglaYxPjPse0SLdL9iSCixFv1nnuZrFWko4qVVyCPSsc
- VAYQ==
-X-Gm-Message-State: AOAM530oPN2j6XBR4uvf6istSc9KoUQnjWRwcTMDRpWf6dPMzZ8Sleu3
- DnMzDIR2dC/F92W1OdiZAuQkXKxL9VHVQituGbA=
-X-Google-Smtp-Source: ABdhPJz5HXnIE07xhxeYYE0PvUFLfABD/NJndXH7Tzk3cKxWEGnk9LZL0h8rgo1bVNUoAUGvaOwZEIX4OPrvF4gLutw=
-X-Received: by 2002:adf:bc0f:: with SMTP id s15mr4568520wrg.83.1602089061296; 
- Wed, 07 Oct 2020 09:44:21 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ioe0Byeg/DIJ2PK+KoHAeY/RgUBhGUsvQd2LPXMyjpk=;
+ b=jkUc0/ugtUHyGHeBV8376cuUHVg4egbdrvPuyOFlicLEVBKJL1wyAnn+2rXItMRVhm
+ /b14dy1oNOBO4Fb9a4OZyU7Jw74WJ7+H8+NzIhNHsxl6+m5YzbucXCZKHJIBQ0rIwZc4
+ lqRpPIjrSHuXrE+RDCHJfn6rMP8MS6bmy6uxos00vXzag46mNaTPHAnBOh8UkBuuPjI7
+ n1zAB9BijZsCimUR1kR9WbJNHdcdpT6TQRaZi0RzbHHZqLj6+QIsyDCpSoIk8KZh5iLR
+ IBT0FMhHYtWYDZypKBI+qK5rgj4F0XKPP7uEZu+npOJxFnME3EZrsAsycDBbKj04kKY/
+ UixQ==
+X-Gm-Message-State: AOAM5314xm2dmppITMk1zgFcWsoQF9mmyKCLjYO6krDdG/Jexr5Uy7FF
+ L79BH4spW5sqP9qvfjskN9BtsimOvV6M+C/A
+X-Google-Smtp-Source: ABdhPJzRELPHTJISw4N/fSU+gR/P4h8ZIocAzvLavw2ceiWiegfiQvvhsxcd+sZUYD7qwXN8jRsOdg==
+X-Received: by 2002:adf:e74d:: with SMTP id c13mr4372958wrn.45.1602089072696; 
+ Wed, 07 Oct 2020 09:44:32 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z191sm3332280wme.40.2020.10.07.09.44.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 09:44:32 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH 00/13] follow_pfn and other iomap races
+Date: Wed,  7 Oct 2020 18:44:13 +0200
+Message-Id: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200930211723.3028059-1-robdclark@gmail.com>
- <CAKMK7uHHPWE3h7ssG-dpb3czwbP5VtZYztMA=CpvQ4HV4LQTXA@mail.gmail.com>
- <CAF6AEGszF60dWn37m63wujjtuObqkz2ZqEN3LHaPhCkKa1cdmA@mail.gmail.com>
- <CAKMK7uEd853irzdBMCcaNEMAeOZKVFcFpgNtcYrgQkmHxdT3-w@mail.gmail.com>
- <20201002105256.GA6112@intel.com> <20201002110544.GB6112@intel.com>
- <CAF6AEGv+UnZJoBj_ELRVr4sQeMs52vAgyw2g+wtabLPBrYDKvw@mail.gmail.com>
- <20201005121524.GI6112@intel.com>
-In-Reply-To: <20201005121524.GI6112@intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 7 Oct 2020 09:44:09 -0700
-Message-ID: <CAF6AEGtgTb-1YQpL4CV2A=CQxkSxjn-FxDybrzSitTDSmCY_GA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] drm: commit_work scheduling
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,65 +62,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Tim Murray <timmurray@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tejun Heo <tj@kernel.org>,
- Qais Yousef <qais.yousef@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ kvm@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBPY3QgNSwgMjAyMCBhdCA1OjE1IEFNIFZpbGxlIFN5cmrDpGzDpAo8dmlsbGUuc3ly
-amFsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+Cj4gT24gRnJpLCBPY3QgMDIsIDIwMjAgYXQg
-MTA6NTU6NTJBTSAtMDcwMCwgUm9iIENsYXJrIHdyb3RlOgo+ID4gT24gRnJpLCBPY3QgMiwgMjAy
-MCBhdCA0OjA1IEFNIFZpbGxlIFN5cmrDpGzDpAo+ID4gPHZpbGxlLnN5cmphbGFAbGludXguaW50
-ZWwuY29tPiB3cm90ZToKPiA+ID4KPiA+ID4gT24gRnJpLCBPY3QgMDIsIDIwMjAgYXQgMDE6NTI6
-NTZQTSArMDMwMCwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+ID4gPiA+IE9uIFRodSwgT2N0IDAx
-LCAyMDIwIGF0IDA1OjI1OjU1UE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiA+ID4g
-PiBPbiBUaHUsIE9jdCAxLCAyMDIwIGF0IDU6MTUgUE0gUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21h
-aWwuY29tPiB3cm90ZToKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gSSdtIGxlYW5pbmcgdG93YXJk
-cyBjb252ZXJ0aW5nIHRoZSBvdGhlciBkcml2ZXJzIG92ZXIgdG8gdXNlIHRoZQo+ID4gPiA+ID4g
-PiBwZXItY3J0YyBrd29yaywgYW5kIHRoZW4gZHJvcHBpbmcgdGhlICdjb21taXRfd29ya2AgZnJv
-bSBhdG9taWMgc3RhdGUuCj4gPiA+ID4gPiA+IEkgY2FuIGFkZCBhIHBhdGNoIHRvIHRoYXQsIGJ1
-dCBmaWd1cmVkIEkgY291bGQgcG9zdHBvbmUgdGhhdCBjaHVybgo+ID4gPiA+ID4gPiB1bnRpbCB0
-aGVyZSBpcyBzb21lIGJ5LWluIG9uIHRoaXMgd2hvbGUgaWRlYS4KPiA+ID4gPiA+Cj4gPiA+ID4g
-PiBpOTE1IGhhcyBpdHMgb3duIGNvbW1pdCBjb2RlLCBpdCdzIG5vdCBldmVuIHVzaW5nIHRoZSBj
-dXJyZW50IGNvbW1pdAo+ID4gPiA+ID4gaGVscGVycyAobm9yIHRoZSBjb21taXRfd29yaykuIE5v
-dCBzdXJlIGhvdyBtdWNoIG90aGVyIGZ1biB0aGVyZSBpcy4KPiA+ID4gPgo+ID4gPiA+IEkgZG9u
-J3QgdGhpbmsgd2Ugd2FudCBwZXItY3J0YyB0aHJlYWRzIGZvciB0aGlzIGluIGk5MTUuIFNlZW1z
-Cj4gPiA+ID4gdG8gbWUgZWFzaWVyIHRvIGd1YXJhbnRlZSBhdG9taWNpdHkgYWNyb3NzIG11bHRp
-cGxlIGNydGNzIGlmCj4gPiA+ID4gd2UganVzdCBjb21taXQgdGhlbSBmcm9tIHRoZSBzYW1lIHRo
-cmVhZC4KPiA+ID4KPiA+ID4gT2gsIGFuZCB3ZSBtYXkgaGF2ZSB0byBjb21taXQgdGhpbmdzIGlu
-IGEgdmVyeSBzcGVjaWZpYyBvcmRlcgo+ID4gPiB0byBndWFyYW50ZWUgdGhlIGh3IGRvZXNuJ3Qg
-ZmFsbCBvdmVyLCBzbyB5ZWFoIGRlZmluaXRlbHkgcGVyLWNydGMKPiA+ID4gdGhyZWFkIGlzIGEg
-bm8gZ28uCj4gPgo+ID4gSWYgSSdtIHVuZGVyc3RhbmRpbmcgdGhlIGk5MTUgY29kZSwgdGhpcyBp
-cyBvbmx5IHRoZSBjYXNlIGZvciBtb2Rlc2V0Cj4gPiBjb21taXRzPyAgSSBzdXBwb3NlIHdlIGNv
-dWxkIGFjaGlldmUgdGhlIHNhbWUgcmVzdWx0IGJ5IGp1c3QgZGVjaWRpbmcKPiA+IHRvIHBpY2sg
-dGhlIGt0aHJlYWQgb2YgdGhlIGZpcnN0IENSVEMgZm9yIG1vZGVzZXQgY29tbWl0cy4gIEknbSBu
-b3QKPiA+IHJlYWxseSBzbyBtdWNoIGNvbmNlcm5lZCBhYm91dCBwYXJhbGxlbGlzbSBmb3IgbW9k
-ZXNldC4KPgo+IEknbSBub3QgZW50aXJlbHkgaGFwcHkgYWJvdXQgdGhlIHJhbmRvbSBkaWZmZXJl
-bmNlcyBiZXR3ZWVuIG1vZGVzZXRzCj4gYW5kIG90aGVyIGNvbW1pdHMuIElkZWFsbHkgd2Ugd291
-bGRuJ3QgbmVlZCBhbnkuCj4KPiBBbnl3YXlzLCBldmVuIGlmIHdlIGlnbm9yZSBtb2Rlc2V0cyB3
-ZSBzdGlsbCBoYXZlIHRoZSBpc3N1ZSB3aXRoCj4gYXRvbWljaXR5IGd1YXJhbnRlZXMgYWNyb3Nz
-IG11bHRpcGxlIGNydGNzLiBTbyBJIHRoaW5rIHdlIHN0aWxsCj4gZG9uJ3Qgd2FudCBwZXItY3J0
-YyB0aHJlYWRzLCByYXRoZXIgaXQgc2hvdWxkIGJlIHRocmVhZCBmb3IgZWFjaAo+IGNvbW1pdC4K
-CkkgZG9uJ3QgcmVhbGx5IHNlZSBhbnkgb3RoZXIgd2F5IHRvIHNvbHZlIHRoZSBwcmlvcml0eSBp
-bnZlcnNpb24gb3RoZXIKdGhhbiBwZXItQ1JUQyBrdGhyZWFkcy4gIEkndmUgYmVlbiB0aGlua2lu
-ZyBhYm91dCBpdCBhIGJpdCBtb3JlLCBhbmQKbXkgY29uY2x1c2lvbiBpczoKCigxKSBUaGVyZSBp
-c24ndCByZWFsbHkgYW55IHVzZSBmb3IgdGhlIE4rMSd0aCBjb21taXQgdG8gc3RhcnQgcnVubmlu
-ZwpiZWZvcmUgdGhlIGt0aHJlYWRfd29yayBmb3IgdGhlIE4ndGggY29tbWl0IGNvbXBsZXRlcywg
-c28gSSBkb24ndCBtaW5kCmxvc2luZyB0aGUgdW5ib3VuZCBhc3BlY3Qgb2YgdGhlIHdvcmtxdWV1
-ZSBhcHByb2FjaAooMikgRm9yIGNhc2VzIHdoZXJlIHRoZXJlIGRvZXMgbmVlZCB0byBiZSBzZXJp
-YWxpemF0aW9uIGJldHdlZW4KY29tbWl0cyBvbiBkaWZmZXJlbnQgQ1JUQ3MsIHNpbmNlIHRoZXJl
-IGlzIGEgcGVyLUNSVEMga3RocmVhZCwgeW91CmNvdWxkIGFjaGlldmUgdGhpcyB3aXRoIGxvY2tp
-bmcKClNpbmNlIGk5MTUgaXNuJ3QgdXNpbmcgdGhlIGF0b21pYyBoZWxwZXJzIGhlcmUsIEkgc3Vw
-cG9zZSBpdCBpcyBhbgpvcHRpb24gZm9yIGk5MTUgdG8ganVzdCBjb250aW51ZSBkb2luZyB3aGF0
-IGl0IGlzIGRvaW5nLgoKQW5kIEkgY291bGQgb2ZjIGp1c3Qgc3RvcCB1c2luZyB0aGUgYXRvbWlj
-IGNvbW1pdCBoZWxwZXIgYW5kIGRvIHRoZQprdGhyZWFkcyB0aGluZyBpbiBtc20uIEJ1dCBteSBm
-aXJzdCBwcmVmZXJlbmNlIHdvdWxkIGJlIHRoYXQgdGhlCmNvbW1pdCBoZWxwZXIgZG9lcyBnZW5l
-cmFsbHkgdGhlIHJpZ2h0IHRoaW5nLgoKQlIsCi1SCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi all,
+
+This developed from a discussion with Jason, starting with some patches
+touching get_vaddr_frame that I typed up.
+
+The problem is that way back VM_IO | VM_PFNMAP mappings were pretty
+static, and so just following the ptes to derive a pfn and then use that
+somewhere else was ok.
+
+But we're no longer in such a world, there's tons of little races and some
+fundamental problems.
+
+This series here is an attempt to at least scope the problem, it's all the
+issues I've found with quite some code reading all over the tree:
+- first part tries to move mm/frame-vector.c away, it's fundamentally an
+  unsafe thing
+- two patches to close follow_pfn races by holding pt locks
+- two pci patches where I spotted inconsinstencies between the 3 different
+  ways userspace can map pci bars
+- and finally some patches to mark up the remaining issue
+
+No testing beyond "it compiles", this is very much an rfc to figure out
+whether this makes sense, whether it's a real thing, and how to fix this
+up properly.
+
+Cheers, Daniel
+
+Daniel Vetter (13):
+  drm/exynos: Stop using frame_vector helpers
+  drm/exynos: Use FOLL_LONGTERM for g2d cmdlists
+  misc/habana: Stop using frame_vector helpers
+  misc/habana: Use FOLL_LONGTERM for userptr
+  mm/frame-vector: Use FOLL_LONGTERM
+  media: videobuf2: Move frame_vector into media subsystem
+  mm: close race in generic_access_phys
+  s390/pci: Remove races against pte updates
+  PCI: obey iomem restrictions for procfs mmap
+  PCI: revoke mappings like devmem
+  mm: add unsafe_follow_pfn
+  media/videbuf1|2: Mark follow_pfn usage as unsafe
+  vfio/type1: Mark follow_pfn as unsafe
+
+ arch/s390/pci/pci_mmio.c                      | 98 +++++++++++--------
+ drivers/char/mem.c                            | 16 ++-
+ drivers/gpu/drm/exynos/Kconfig                |  1 -
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       | 49 +++++-----
+ drivers/media/common/videobuf2/Kconfig        |  1 -
+ drivers/media/common/videobuf2/Makefile       |  1 +
+ .../media/common/videobuf2}/frame_vector.c    | 40 +++-----
+ drivers/media/platform/omap/Kconfig           |  1 -
+ drivers/media/v4l2-core/videobuf-dma-contig.c |  2 +-
+ drivers/misc/habanalabs/Kconfig               |  1 -
+ drivers/misc/habanalabs/common/habanalabs.h   |  3 +-
+ drivers/misc/habanalabs/common/memory.c       | 52 +++++-----
+ drivers/pci/mmap.c                            |  3 +
+ drivers/pci/proc.c                            |  5 +
+ drivers/vfio/vfio_iommu_type1.c               |  4 +-
+ include/linux/ioport.h                        |  2 +
+ include/linux/mm.h                            | 47 +--------
+ include/media/videobuf2-core.h                | 42 ++++++++
+ mm/Kconfig                                    |  3 -
+ mm/Makefile                                   |  1 -
+ mm/memory.c                                   | 76 +++++++++++++-
+ mm/nommu.c                                    | 17 ++++
+ security/Kconfig                              | 13 +++
+ 23 files changed, 296 insertions(+), 182 deletions(-)
+ rename {mm => drivers/media/common/videobuf2}/frame_vector.c (90%)
+
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
