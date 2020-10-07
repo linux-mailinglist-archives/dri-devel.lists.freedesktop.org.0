@@ -2,38 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49FA0285971
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:23:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3547285956
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 09:22:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9159F6E8B0;
-	Wed,  7 Oct 2020 07:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC2C06E0ED;
+	Wed,  7 Oct 2020 07:22:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from youngberry.canonical.com (youngberry.canonical.com
  [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3BFF6E895;
- Wed,  7 Oct 2020 06:59:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 697306E0D6
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 06:59:34 +0000 (UTC)
 Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37]
  helo=localhost) by youngberry.canonical.com with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
  (envelope-from <kai.heng.feng@canonical.com>)
- id 1kQ3Q5-00076b-Je; Wed, 07 Oct 2020 06:59:26 +0000
+ id 1kQ3Q9-00076g-HE; Wed, 07 Oct 2020 06:59:30 +0000
 From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- intel-gfx@lists.freedesktop.org,
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/2] drm/i915/dpcd_bl: Skip testing control capability with
- force DPCD quirk
-Date: Wed,  7 Oct 2020 14:58:20 +0800
-Message-Id: <20201007065915.13883-1-kai.heng.feng@canonical.com>
+Subject: [PATCH 2/2] drm/dp: HP DreamColor panel brigntness fix
+Date: Wed,  7 Oct 2020 14:58:21 +0800
+Message-Id: <20201007065915.13883-2-kai.heng.feng@canonical.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201007065915.13883-1-kai.heng.feng@canonical.com>
+References: <20201007065915.13883-1-kai.heng.feng@canonical.com>
 X-Mailman-Approved-At: Wed, 07 Oct 2020 07:22:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,7 +44,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: open list <linux-kernel@vger.kernel.org>,
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ open list <linux-kernel@vger.kernel.org>,
  "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -55,48 +53,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HP DreamColor panel needs to be controlled via AUX interface. However,
-it has both DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP and
-DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP set, so it fails to pass
-intel_dp_aux_display_control_capable() test.
-
-Skip the test if the panel has force DPCD quirk.
+HP DreamColor panel, which is used by new HP ZBook Studio, needs to use
+DPCD to control brightness.
 
 Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_dp_helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index acbd7eb66cbe..acf2e1c65290 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -347,9 +347,13 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
- 	struct intel_panel *panel = &intel_connector->panel;
- 	struct intel_dp *intel_dp = enc_to_intel_dp(intel_connector->encoder);
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-+	bool force_dpcd;
-+
-+	force_dpcd = drm_dp_has_quirk(&intel_dp->desc, intel_dp->edid_quirks,
-+				      DP_QUIRK_FORCE_DPCD_BACKLIGHT);
- 
- 	if (i915->params.enable_dpcd_backlight == 0 ||
--	    !intel_dp_aux_display_control_capable(intel_connector))
-+	    (!force_dpcd && !intel_dp_aux_display_control_capable(intel_connector)))
- 		return -ENODEV;
- 
- 	/*
-@@ -358,9 +362,7 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 092c8c985911..b3d0ea1b082b 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -1321,6 +1321,7 @@ static const struct edid_quirk edid_quirk_list[] = {
  	 */
- 	if (i915->vbt.backlight.type !=
- 	    INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE &&
--	    i915->params.enable_dpcd_backlight != 1 &&
--	    !drm_dp_has_quirk(&intel_dp->desc, intel_dp->edid_quirks,
--			      DP_QUIRK_FORCE_DPCD_BACKLIGHT)) {
-+	    i915->params.enable_dpcd_backlight != 1 && !force_dpcd) {
- 		drm_info(&i915->drm,
- 			 "Panel advertises DPCD backlight support, but "
- 			 "VBT disagrees. If your backlight controls "
+ 	{ MFG(0x06, 0xaf), PROD_ID(0x9b, 0x32), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+ 	{ MFG(0x06, 0xaf), PROD_ID(0xeb, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
++	{ MFG(0x30, 0xe4), PROD_ID(0x61, 0x06), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+ 	{ MFG(0x4d, 0x10), PROD_ID(0xc7, 0x14), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+ 	{ MFG(0x4d, 0x10), PROD_ID(0xe6, 0x14), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+ 	{ MFG(0x4c, 0x83), PROD_ID(0x47, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
 -- 
 2.17.1
 
