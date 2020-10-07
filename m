@@ -1,40 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3380F286324
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 18:04:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3202286531
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 18:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3433E6E0F8;
-	Wed,  7 Oct 2020 16:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 928F26E959;
+	Wed,  7 Oct 2020 16:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BFF56E0E6;
- Wed,  7 Oct 2020 16:04:44 +0000 (UTC)
-Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 94FC1216C4;
- Wed,  7 Oct 2020 16:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602086683;
- bh=Afpoi0axZ63mSzi9LUVJhYqlciQbhzVpxbkFCpclXHI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YbEwHOL6kLktQ/Z9t+jJPTlmu8CJwv+nelU6Z5CYjF82+UW5enSegQzU8yTye9H9h
- 0mJzWw0fPpELJrlwbVjBuqMfGZx7v2T6lewPGPzmoV4V2GdsCjoAeMHzgEPMZoUGJy
- GF8Ay1rkhrwvdw0MvcRgPGhvWA5pXo+vQKMFlY1o=
-Date: Wed, 7 Oct 2020 11:10:44 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 13/14] drm/amd/pm: Replace one-element array with
- flexible-array in struct phm_ppt_v1_pcie_table
-Message-ID: <1f91ef3bc6aeb8adb7362166f09076ddbe13182f.1602020074.git.gustavoars@kernel.org>
-References: <cover.1602020074.git.gustavoars@kernel.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0A77689243
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 16:11:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4FED31FB;
+ Wed,  7 Oct 2020 09:11:22 -0700 (PDT)
+Received: from localhost (unknown [10.1.199.49])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E52073F66B;
+ Wed,  7 Oct 2020 09:11:21 -0700 (PDT)
+Date: Wed, 7 Oct 2020 17:11:20 +0100
+From: Ionela Voinescu <ionela.voinescu@arm.com>
+To: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH 2/5] thermal: devfreq_cooling: get a copy of device status
+Message-ID: <20201007161120.GC15063@arm.com>
+References: <20200921122007.29610-1-lukasz.luba@arm.com>
+ <20200921122007.29610-3-lukasz.luba@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <cover.1602020074.git.gustavoars@kernel.org>
+In-Reply-To: <20200921122007.29610-3-lukasz.luba@arm.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Wed, 07 Oct 2020 16:49:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,97 +42,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, amd-gfx@lists.freedesktop.org,
- linux-hardening@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
+ daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, orjan.eide@arm.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlcmUgaXMgYSByZWd1bGFyIG5lZWQgaW4gdGhlIGtlcm5lbCB0byBwcm92aWRlIGEgd2F5IHRv
-IGRlY2xhcmUgaGF2aW5nCmEgZHluYW1pY2FsbHkgc2l6ZWQgc2V0IG9mIHRyYWlsaW5nIGVsZW1l
-bnRzIGluIGEgc3RydWN0dXJlLiBLZXJuZWwgY29kZQpzaG91bGQgYWx3YXlzIHVzZSDigJxmbGV4
-aWJsZSBhcnJheSBtZW1iZXJz4oCdWzFdIGZvciB0aGVzZSBjYXNlcy4gVGhlIG9sZGVyCnN0eWxl
-IG9mIG9uZS1lbGVtZW50IG9yIHplcm8tbGVuZ3RoIGFycmF5cyBzaG91bGQgbm8gbG9uZ2VyIGJl
-IHVzZWRbMl0uCgpSZWZhY3RvciB0aGUgY29kZSBhY2NvcmRpbmcgdG8gdGhlIHVzZSBvZiBhIGZs
-ZXhpYmxlLWFycmF5IG1lbWJlciBpbgpzdHJ1Y3QgcGhtX3BwdF92MV9wY2llX3RhYmxlLCBpbnN0
-ZWFkIG9mIGEgb25lLWVsZW1lbnQgYXJyYXksIGFuZCB1c2UKdGhlIHN0cnVjdF9zaXplKCkgaGVs
-cGVyIHRvIGNhbGN1bGF0ZSB0aGUgc2l6ZSBmb3IgdGhlIGFsbG9jYXRpb24uCgpbMV0gaHR0cHM6
-Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvRmxleGlibGVfYXJyYXlfbWVtYmVyClsyXSBodHRwczov
-L3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL3Y1LjktcmMxL3Byb2Nlc3MvZGVwcmVjYXRlZC5odG1s
-I3plcm8tbGVuZ3RoLWFuZC1vbmUtZWxlbWVudC1hcnJheXMKCkJ1aWxkLXRlc3RlZC1ieToga2Vy
-bmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Ckxpbms6IGh0dHBzOi8vbG9yZS5rZXJuZWwu
-b3JnL2xrbWwvNWY3ZGIwYmMuN1hpdm40SzgzZjdYVzB1ZyUyNWxrcEBpbnRlbC5jb20vClNpZ25l
-ZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9hcnNAa2VybmVsLm9yZz4KLS0t
-CiAuLi4vZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvaHdtZ3JfcHB0LmggICAgfCAgMiArLQog
-Li4uL3Bvd2VycGxheS9od21nci9wcm9jZXNzX3BwdGFibGVzX3YxXzAuYyAgIHwgMjIgKysrKysr
-KystLS0tLS0tLS0tLQogLi4uL3Bvd2VycGxheS9od21nci92ZWdhMTBfcHJvY2Vzc3BwdGFibGVz
-LmMgIHwgMTAgKysrLS0tLS0tCiAzIGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDIx
-IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJw
-bGF5L2h3bWdyL2h3bWdyX3BwdC5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkv
-aHdtZ3IvaHdtZ3JfcHB0LmgKaW5kZXggZTExMjk4Y2RlYjMwLi43Mjk2MTVhZmYxMjYgMTAwNjQ0
-Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL2h3bWdyX3BwdC5o
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL2h3bWdyX3BwdC5o
-CkBAIC0xMDMsNyArMTAzLDcgQEAgdHlwZWRlZiBzdHJ1Y3QgcGhtX3BwdF92MV9wY2llX3JlY29y
-ZCBwaG1fcHB0X3YxX3BjaWVfcmVjb3JkOwogCiBzdHJ1Y3QgcGhtX3BwdF92MV9wY2llX3RhYmxl
-IHsKIAl1aW50MzJfdCBjb3VudDsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIC8qIE51bWJlciBvZiBlbnRyaWVzLiAqLwotCXBobV9wcHRfdjFfcGNpZV9yZWNvcmQg
-ZW50cmllc1sxXTsgICAgICAgICAgICAgICAgICAgICAgICAgLyogRHluYW1pY2FsbHkgYWxsb2Nh
-dGUgY291bnQgZW50cmllcy4gKi8KKwlwaG1fcHB0X3YxX3BjaWVfcmVjb3JkIGVudHJpZXNbXTsJ
-CQkgICAvKiBEeW5hbWljYWxseSBhbGxvY2F0ZSBjb3VudCBlbnRyaWVzLiAqLwogfTsKIHR5cGVk
-ZWYgc3RydWN0IHBobV9wcHRfdjFfcGNpZV90YWJsZSBwaG1fcHB0X3YxX3BjaWVfdGFibGU7CiAK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3Byb2Nl
-c3NfcHB0YWJsZXNfdjFfMC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdt
-Z3IvcHJvY2Vzc19wcHRhYmxlc192MV8wLmMKaW5kZXggNDI2NjU1YjljNjc4Li40ZmE1ODYxNGUy
-NmEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3By
-b2Nlc3NfcHB0YWJsZXNfdjFfMC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJw
-bGF5L2h3bWdyL3Byb2Nlc3NfcHB0YWJsZXNfdjFfMC5jCkBAIC00NzgsNyArNDc4LDcgQEAgc3Rh
-dGljIGludCBnZXRfcGNpZV90YWJsZSgKIAkJUFBUYWJsZV9HZW5lcmljX1N1YlRhYmxlX0hlYWRl
-ciBjb25zdCAqcHRhYmxlCiAJCSkKIHsKLQl1aW50MzJfdCB0YWJsZV9zaXplLCBpLCBwY2llX2Nv
-dW50OworCXVpbnQzMl90IGksIHBjaWVfY291bnQ7CiAJcGhtX3BwdF92MV9wY2llX3RhYmxlICpw
-Y2llX3RhYmxlOwogCXN0cnVjdCBwaG1fcHB0X3YxX2luZm9ybWF0aW9uICpwcF90YWJsZV9pbmZv
-cm1hdGlvbiA9CiAJCShzdHJ1Y3QgcGhtX3BwdF92MV9pbmZvcm1hdGlvbiAqKShod21nci0+cHB0
-YWJsZSk7CkBAIC00OTEsMTIgKzQ5MSwxMCBAQCBzdGF0aWMgaW50IGdldF9wY2llX3RhYmxlKAog
-CQlQUF9BU1NFUlRfV0lUSF9DT0RFKChhdG9tX3BjaWVfdGFibGUtPnVjTnVtRW50cmllcyAhPSAw
-KSwKIAkJCSJJbnZhbGlkIFBvd2VyUGxheSBUYWJsZSEiLCByZXR1cm4gLTEpOwogCi0JCXRhYmxl
-X3NpemUgPSBzaXplb2YodWludDMyX3QpICsKLQkJCXNpemVvZihwaG1fcHB0X3YxX3BjaWVfcmVj
-b3JkKSAqIGF0b21fcGNpZV90YWJsZS0+dWNOdW1FbnRyaWVzOwotCi0JCXBjaWVfdGFibGUgPSBr
-emFsbG9jKHRhYmxlX3NpemUsIEdGUF9LRVJORUwpOwotCi0JCWlmIChwY2llX3RhYmxlID09IE5V
-TEwpCisJCXBjaWVfdGFibGUgPSBremFsbG9jKHN0cnVjdF9zaXplKHBjaWVfdGFibGUsIGVudHJp
-ZXMsCisJCQkJCQkgYXRvbV9wY2llX3RhYmxlLT51Y051bUVudHJpZXMpLAorCQkJCSAgICAgR0ZQ
-X0tFUk5FTCk7CisJCWlmICghcGNpZV90YWJsZSkKIAkJCXJldHVybiAtRU5PTUVNOwogCiAJCS8q
-CkBAIC01MzAsMTIgKzUyOCwxMCBAQCBzdGF0aWMgaW50IGdldF9wY2llX3RhYmxlKAogCQlQUF9B
-U1NFUlRfV0lUSF9DT0RFKChhdG9tX3BjaWVfdGFibGUtPnVjTnVtRW50cmllcyAhPSAwKSwKIAkJ
-CSJJbnZhbGlkIFBvd2VyUGxheSBUYWJsZSEiLCByZXR1cm4gLTEpOwogCi0JCXRhYmxlX3NpemUg
-PSBzaXplb2YodWludDMyX3QpICsKLQkJCXNpemVvZihwaG1fcHB0X3YxX3BjaWVfcmVjb3JkKSAq
-IGF0b21fcGNpZV90YWJsZS0+dWNOdW1FbnRyaWVzOwotCi0JCXBjaWVfdGFibGUgPSBremFsbG9j
-KHRhYmxlX3NpemUsIEdGUF9LRVJORUwpOwotCi0JCWlmIChwY2llX3RhYmxlID09IE5VTEwpCisJ
-CXBjaWVfdGFibGUgPSBremFsbG9jKHN0cnVjdF9zaXplKHBjaWVfdGFibGUsIGVudHJpZXMsCisJ
-CQkJCQkgYXRvbV9wY2llX3RhYmxlLT51Y051bUVudHJpZXMpLAorCQkJCSAgICAgR0ZQX0tFUk5F
-TCk7CisJCWlmICghcGNpZV90YWJsZSkKIAkJCXJldHVybiAtRU5PTUVNOwogCiAJCS8qCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9od21nci92ZWdhMTBfcHJv
-Y2Vzc3BwdGFibGVzLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9od21nci92
-ZWdhMTBfcHJvY2Vzc3BwdGFibGVzLmMKaW5kZXggM2Q3ZjkxNTM4MWM4Li41MzU0MDRkZTc4YTIg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3ZlZ2Ex
-MF9wcm9jZXNzcHB0YWJsZXMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxh
-eS9od21nci92ZWdhMTBfcHJvY2Vzc3BwdGFibGVzLmMKQEAgLTc4NCw3ICs3ODQsNyBAQCBzdGF0
-aWMgaW50IGdldF9wY2llX3RhYmxlKHN0cnVjdCBwcF9od21nciAqaHdtZ3IsCiAJCXN0cnVjdCBw
-aG1fcHB0X3YxX3BjaWVfdGFibGUgKip2ZWdhMTBfcGNpZV90YWJsZSwKIAkJY29uc3QgVmVnYTEw
-X1BQVGFibGVfR2VuZXJpY19TdWJUYWJsZV9IZWFkZXIgKnRhYmxlKQogewotCXVpbnQzMl90IHRh
-YmxlX3NpemUsIGksIHBjaWVfY291bnQ7CisJdWludDMyX3QgaSwgcGNpZV9jb3VudDsKIAlzdHJ1
-Y3QgcGhtX3BwdF92MV9wY2llX3RhYmxlICpwY2llX3RhYmxlOwogCXN0cnVjdCBwaG1fcHB0X3Yy
-X2luZm9ybWF0aW9uICp0YWJsZV9pbmZvID0KIAkJCShzdHJ1Y3QgcGhtX3BwdF92Ml9pbmZvcm1h
-dGlvbiAqKShod21nci0+cHB0YWJsZSk7CkBAIC03OTUsMTIgKzc5NSw4IEBAIHN0YXRpYyBpbnQg
-Z2V0X3BjaWVfdGFibGUoc3RydWN0IHBwX2h3bWdyICpod21nciwKIAkJCSJJbnZhbGlkIFBvd2Vy
-UGxheSBUYWJsZSEiLAogCQkJcmV0dXJuIDApOwogCi0JdGFibGVfc2l6ZSA9IHNpemVvZih1aW50
-MzJfdCkgKwotCQkJc2l6ZW9mKHN0cnVjdCBwaG1fcHB0X3YxX3BjaWVfcmVjb3JkKSAqCi0JCQlh
-dG9tX3BjaWVfdGFibGUtPnVjTnVtRW50cmllczsKLQotCXBjaWVfdGFibGUgPSBremFsbG9jKHRh
-YmxlX3NpemUsIEdGUF9LRVJORUwpOwotCisJcGNpZV90YWJsZSA9IGt6YWxsb2Moc3RydWN0X3Np
-emUocGNpZV90YWJsZSwgZW50cmllcywgYXRvbV9wY2llX3RhYmxlLT51Y051bUVudHJpZXMpLAor
-CQkJICAgICBHRlBfS0VSTkVMKTsKIAlpZiAoIXBjaWVfdGFibGUpCiAJCXJldHVybiAtRU5PTUVN
-OwogCi0tIAoyLjI3LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+On Monday 21 Sep 2020 at 13:20:04 (+0100), Lukasz Luba wrote:
+> Devfreq cooling needs to now the correct status of the device in order
+> to operate. Do not rely on Devfreq last_status which might be a stale data
+> and get more up-to-date values of the load.
+> 
+> Devfreq framework can change the device status in the background. To
+> mitigate this situation make a copy of the status structure and use it
+> for internal calculations.
+> 
+> In addition this patch adds normalization function, which also makes sure
+> that whatever data comes from the device, it is in a sane range.
+> 
+> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+> ---
+>  drivers/thermal/devfreq_cooling.c | 52 +++++++++++++++++++++++++------
+>  1 file changed, 43 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/thermal/devfreq_cooling.c b/drivers/thermal/devfreq_cooling.c
+> index 7063ccb7b86d..cf045bd4d16b 100644
+> --- a/drivers/thermal/devfreq_cooling.c
+> +++ b/drivers/thermal/devfreq_cooling.c
+> @@ -227,6 +227,24 @@ static inline unsigned long get_total_power(struct devfreq_cooling_device *dfc,
+>  							       voltage);
+>  }
+>  
+> +static void _normalize_load(struct devfreq_dev_status *status)
+
+Is there a reason for the leading "_" ?
+AFAIK, "__name()" is meant to suggest a "worker" function for another
+"name()" function, but that would not apply here.
+
+> +{
+> +	/* Make some space if needed */
+> +	if (status->busy_time > 0xffff) {
+> +		status->busy_time >>= 10;
+> +		status->total_time >>= 10;
+> +	}
+
+How about removing the above code and adding here:
+
+status->busy_time = status->busy_time ? : 1;
+
+> +
+> +	if (status->busy_time > status->total_time)
+
+This check would then cover the possibility that total_time is 0.
+
+> +		status->busy_time = status->total_time;
+
+But a reversal is needed here:
+		status->total_time = status->busy_time;
+
+> +
+> +	status->busy_time *= 100;
+> +	status->busy_time /= status->total_time ? : 1;
+> +
+> +	/* Avoid division by 0 */
+> +	status->busy_time = status->busy_time ? : 1;
+> +	status->total_time = 100;
+
+Then all of this code can be replaced by:
+
+status->busy_time = (unsigned long)div64_u64((u64)status->busy_time << 10,
+					     status->total_time);
+status->total_time = 1 << 10;
+
+This way you gain some resolution to busy_time and the divisions in the
+callers would just become shifts by 10.
+
+Hope it helps,
+Ionela.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
