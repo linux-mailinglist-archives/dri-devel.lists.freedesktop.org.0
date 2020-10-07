@@ -2,57 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7227285FEC
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 15:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66898285FF3
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Oct 2020 15:20:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A24206E8E3;
-	Wed,  7 Oct 2020 13:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20EC16E8E5;
+	Wed,  7 Oct 2020 13:20:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED52E6E8E3
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Oct 2020 13:20:08 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id s7so2549052qkh.11
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 06:20:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/np4hspTF4uRrPQFAp5epbpeDDbfr6nr1Fjnfh+crRw=;
- b=a5XExxZ062ug/+2TVBcAfi9Z1EL6dg+oXzNQASiwaNwzVcXPPXEbLiKVpHYapkFqNF
- q6avf2VqMJ8Qq7mdnQcLoQbR6pU4gtjwfQlLX9e9XKH8s1+5Os6HHMfKDWVYptc2XZXA
- 2rjKbUcU+4MgyZBb1O4IxL12Si8QIx6w4YxiXxwt3rMlJ7ALLj0baHGJf58iu8Q5E3GF
- v9CU072OfT7KdOEtZ9VmN5zyxs04XlTQuO9SO/1eltJcuL7/WToYk+Fv+W4hHAYDpxJt
- /tYXeng9jAQ//Ks3VzzznczK1om42PeWyLJ3ghbq+yqQpa4NFnXnEzYhBFBraYAM9/Wj
- pImA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/np4hspTF4uRrPQFAp5epbpeDDbfr6nr1Fjnfh+crRw=;
- b=VGntE6Lrjf31x0uGt8Tu0bRT30OJYhDVy8b8RZPO3omuitZA8MGiV2FED0aeSgghlR
- aTBli7BfqWGXIfi5JvLtJYTGsHfNcpoH6CbbZd0BN7uWj4RJ4XawO17Csiw6a55VsLGD
- piQyCXy0RRwf44HlktkDxRtaGdnlzqSYFQCpL5Rj4PpwZ5UbE4aZFt7OFbGgthk4+BW4
- uw6VxQYIEuyhoiEFLwpe9lUsZEi3dB/p1tjtH7G8GA/lM59fz1Zd0t/mOAZCGar2ZvFV
- KDmdv4eqk/QqV4d9BQd9/Ayq6quh4AJH84lFmD7xDAGHxP9zbILaPIkc/2lACbohCedz
- yjUQ==
-X-Gm-Message-State: AOAM530dyW8hO6EgyxINRFgsLyTsjBzqz74zgPUiRUuvUS2JHY9SnVeu
- NcUyElnMfUYkDsHi0FOvZzQ=
-X-Google-Smtp-Source: ABdhPJyIHtBlrQnNoPkuDTkprmfOkDF/GSRsvy5ka4Es1GG8Uu0XdLysCIqI2bfWhz/5yBQfdqhAzQ==
-X-Received: by 2002:a37:9142:: with SMTP id t63mr2781275qkd.50.1602076807922; 
- Wed, 07 Oct 2020 06:20:07 -0700 (PDT)
-Received: from smtp.gmail.com ([2607:fea8:56e0:6d60:fa59:ed82:d489:7fd1])
- by smtp.gmail.com with ESMTPSA id m10sm1508762qti.46.2020.10.07.06.20.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 06:20:06 -0700 (PDT)
-Date: Wed, 7 Oct 2020 09:19:57 -0400
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Melissa Wen <melissa.srw@gmail.com>
-Subject: Re: [PATCH v2] drm/vkms: update todo
-Message-ID: <20201007131957.coywsclf5njbnmin@smtp.gmail.com>
-References: <20201006223006.gu55pjtuaigkh6il@smtp.gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801536E8E5;
+ Wed,  7 Oct 2020 13:20:33 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 12A15AC6D;
+ Wed,  7 Oct 2020 13:20:32 +0000 (UTC)
+Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
+ type conversion
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200929151437.19717-1-tzimmermann@suse.de>
+ <20200929151437.19717-3-tzimmermann@suse.de>
+ <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
+ <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
+ <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
+ <07972ada-9135-3743-a86b-487f610c509f@suse.de>
+ <b569b7e3-68f0-edcc-c8f4-170e9042d348@gmail.com>
+ <20200930094712.GW438822@phenom.ffwll.local>
+ <8479d0aa-3826-4f37-0109-55daca515793@amd.com>
+ <CAKMK7uH0U36NG8w98i0x6HVGeogiwnYDRiKquLW-8znLa7-0yg@mail.gmail.com>
+ <20201002095830.GH438822@phenom.ffwll.local>
+ <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
+ <CAKMK7uEu0vwiG9Uz0_Ysyus0ZAF-1HNxvPZjcG3xZS=gkKgJLw@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <26ac0446-9e16-1ca1-7407-3d0cd7125e0e@suse.de>
+Date: Wed, 7 Oct 2020 15:20:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201006223006.gu55pjtuaigkh6il@smtp.gmail.com>
+In-Reply-To: <CAKMK7uEu0vwiG9Uz0_Ysyus0ZAF-1HNxvPZjcG3xZS=gkKgJLw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,273 +51,506 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1134088524=="
+Cc: Dave Airlie <airlied@linux.ie>, Nouveau Dev <nouveau@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Wilson,
+ Chris" <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
+ Huang Rui <ray.huang@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Qiang Yu <yuq825@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>, lima@lists.freedesktop.org,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Steven Price <steven.price@arm.com>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
+ "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
+ Sean Paul <sean@poorly.run>, apaneers@amd.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Kukjin Kim <kgene@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============0960133919=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0960133919==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="0t1cYEjuOo3ZVuYcbyfHXuvT4PSflGI9R"
 
---===============1134088524==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cojknnsds6ridqyr"
-Content-Disposition: inline
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--0t1cYEjuOo3ZVuYcbyfHXuvT4PSflGI9R
+Content-Type: multipart/mixed; boundary="savrqrLWkICrB7uZmjWpjSJFgaQuM1qd4";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Luben Tuikov <luben.tuikov@amd.com>, Dave Airlie <airlied@linux.ie>,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Wilson, Chris" <chris@chris-wilson.co.uk>,
+ Melissa Wen <melissa.srw@gmail.com>, Huang Rui <ray.huang@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>, lima@lists.freedesktop.org,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Steven Price <steven.price@arm.com>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Kukjin Kim <kgene@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <spice-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
+ "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
+ Sean Paul <sean@poorly.run>, apaneers@amd.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Qiang Yu <yuq825@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <26ac0446-9e16-1ca1-7407-3d0cd7125e0e@suse.de>
+Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
+ type conversion
+References: <20200929151437.19717-1-tzimmermann@suse.de>
+ <20200929151437.19717-3-tzimmermann@suse.de>
+ <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
+ <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
+ <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
+ <07972ada-9135-3743-a86b-487f610c509f@suse.de>
+ <b569b7e3-68f0-edcc-c8f4-170e9042d348@gmail.com>
+ <20200930094712.GW438822@phenom.ffwll.local>
+ <8479d0aa-3826-4f37-0109-55daca515793@amd.com>
+ <CAKMK7uH0U36NG8w98i0x6HVGeogiwnYDRiKquLW-8znLa7-0yg@mail.gmail.com>
+ <20201002095830.GH438822@phenom.ffwll.local>
+ <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
+ <CAKMK7uEu0vwiG9Uz0_Ysyus0ZAF-1HNxvPZjcG3xZS=gkKgJLw@mail.gmail.com>
+In-Reply-To: <CAKMK7uEu0vwiG9Uz0_Ysyus0ZAF-1HNxvPZjcG3xZS=gkKgJLw@mail.gmail.com>
 
-
---cojknnsds6ridqyr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--savrqrLWkICrB7uZmjWpjSJFgaQuM1qd4
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 10/06, Melissa Wen wrote:
-> Drop issues already resolved in vkms:
->=20
-> - CRC API Improvements to [1] add igt test to check extreme alpha values
->   and [2] alpha blending;
-> - [3] prime buffer sharing;
-> - [4] writeback support;
->=20
-> On the other hand, we also found or thought about other improvements since
-> the last update of this document:
->=20
-> - better support for IGT tests
-> - improvements to writeback support
-> - syzbot report
->=20
-> Finally, we reorder items by the assumed complexity.
->=20
-> [1] https://patchwork.freedesktop.org/series/55944/
-> [2] https://patchwork.freedesktop.org/series/80823/
-> [3] https://patchwork.freedesktop.org/series/63212/
-> [4] https://patchwork.freedesktop.org/series/81177/
->=20
-> v2:
-> - Link to syzbot dashboard
->=20
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
->=20
-> Signed-off-by: Melissa Wen <melissa.srw@gmail.com>
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->  Documentation/gpu/vkms.rst | 99 ++++++++++++++++++++------------------
->  1 file changed, 53 insertions(+), 46 deletions(-)
->=20
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index 61586fc861bb..50b30dea0ba8 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -10,36 +10,24 @@
->  TODO
->  =3D=3D=3D=3D
-> =20
-> -CRC API Improvements
-> ---------------------
-> -
-> -- Optimize CRC computation ``compute_crc()`` and plane blending ``blend(=
-)``
-> -
-> -- Use the alpha value to blend vaddr_src with vaddr_dst instead of
-> -  overwriting it in ``blend()``.
-> -
-> -- Add igt test to check cleared alpha value for XRGB plane format.
-> -
-> -- Add igt test to check extreme alpha values i.e. fully opaque and fully
-> -  transparent (intermediate values are affected by hw-specific rounding =
-modes).
-> -
-> -Runtime Configuration
-> ----------------------
-> -
-> -We want to be able to reconfigure vkms instance without having to reload=
- the
-> -module. Use/Test-cases:
-> -
-> -- Hotplug/hotremove connectors on the fly (to be able to test DP MST han=
-dling of
-> -  compositors).
-> +If you want to do any of the items listed below, please share your inter=
-est
-> +with one of the VKMS maintainers.
+Hi
 
-Hi Melissa,
+Am 07.10.20 um 15:10 schrieb Daniel Vetter:
+> On Wed, Oct 7, 2020 at 2:57 PM Thomas Zimmermann <tzimmermann@suse.de> =
+wrote:
+>>
+>> Hi
+>>
+>> Am 02.10.20 um 11:58 schrieb Daniel Vetter:
+>>> On Wed, Sep 30, 2020 at 02:51:46PM +0200, Daniel Vetter wrote:
+>>>> On Wed, Sep 30, 2020 at 2:34 PM Christian K=C3=B6nig
+>>>> <christian.koenig@amd.com> wrote:
+>>>>>
+>>>>> Am 30.09.20 um 11:47 schrieb Daniel Vetter:
+>>>>>> On Wed, Sep 30, 2020 at 10:34:31AM +0200, Christian K=C3=B6nig wro=
+te:
+>>>>>>> Am 30.09.20 um 10:19 schrieb Thomas Zimmermann:
+>>>>>>>> Hi
+>>>>>>>>
+>>>>>>>> Am 30.09.20 um 10:05 schrieb Christian K=C3=B6nig:
+>>>>>>>>> Am 29.09.20 um 19:49 schrieb Thomas Zimmermann:
+>>>>>>>>>> Hi Christian
+>>>>>>>>>>
+>>>>>>>>>> Am 29.09.20 um 17:35 schrieb Christian K=C3=B6nig:
+>>>>>>>>>>> Am 29.09.20 um 17:14 schrieb Thomas Zimmermann:
+>>>>>>>>>>>> The new helper ttm_kmap_obj_to_dma_buf() extracts address an=
+d location
+>>>>>>>>>>>> from and instance of TTM's kmap_obj and initializes struct d=
+ma_buf_map
+>>>>>>>>>>>> with these values. Helpful for TTM-based drivers.
+>>>>>>>>>>> We could completely drop that if we use the same structure in=
+side TTM as
+>>>>>>>>>>> well.
+>>>>>>>>>>>
+>>>>>>>>>>> Additional to that which driver is going to use this?
+>>>>>>>>>> As Daniel mentioned, it's in patch 3. The TTM-based drivers wi=
+ll
+>>>>>>>>>> retrieve the pointer via this function.
+>>>>>>>>>>
+>>>>>>>>>> I do want to see all that being more tightly integrated into T=
+TM, but
+>>>>>>>>>> not in this series. This one is about fixing the bochs-on-spar=
+c64
+>>>>>>>>>> problem for good. Patch 7 adds an update to TTM to the DRM TOD=
+O list.
+>>>>>>>>> I should have asked which driver you try to fix here :)
+>>>>>>>>>
+>>>>>>>>> In this case just keep the function inside bochs and only fix i=
+t there.
+>>>>>>>>>
+>>>>>>>>> All other drivers can be fixed when we generally pump this thro=
+ugh TTM.
+>>>>>>>> Did you take a look at patch 3? This function will be used by VR=
+AM
+>>>>>>>> helpers, nouveau, radeon, amdgpu and qxl. If we don't put it her=
+e, we
+>>>>>>>> have to duplicate the functionality in each if these drivers. Bo=
+chs
+>>>>>>>> itself uses VRAM helpers and doesn't touch the function directly=
+=2E
+>>>>>>> Ah, ok can we have that then only in the VRAM helpers?
+>>>>>>>
+>>>>>>> Alternative you could go ahead and use dma_buf_map in ttm_bo_kmap=
+_obj
+>>>>>>> directly and drop the hack with the TTM_BO_MAP_IOMEM_MASK.
+>>>>>>>
+>>>>>>> What I want to avoid is to have another conversion function in TT=
+M because
+>>>>>>> what happens here is that we already convert from ttm_bus_placeme=
+nt to
+>>>>>>> ttm_bo_kmap_obj and then to dma_buf_map.
+>>>>>> Hm I'm not really seeing how that helps with a gradual conversion =
+of
+>>>>>> everything over to dma_buf_map and assorted helpers for access? Th=
+ere's
+>>>>>> too many places in ttm drivers where is_iomem and related stuff is=
+ used to
+>>>>>> be able to convert it all in one go. An intermediate state with a =
+bunch of
+>>>>>> conversions seems fairly unavoidable to me.
+>>>>>
+>>>>> Fair enough. I would just have started bottom up and not top down.
+>>>>>
+>>>>> Anyway feel free to go ahead with this approach as long as we can r=
+emove
+>>>>> the new function again when we clean that stuff up for good.
+>>>>
+>>>> Yeah I guess bottom up would make more sense as a refactoring. But t=
+he
+>>>> main motivation to land this here is to fix the __mmio vs normal
+>>>> memory confusion in the fbdev emulation helpers for sparc (and
+>>>> anything else that needs this). Hence the top down approach for
+>>>> rolling this out.
+>>>
+>>> Ok I started reviewing this a bit more in-depth, and I think this is =
+a bit
+>>> too much of a de-tour.
+>>>
+>>> Looking through all the callers of ttm_bo_kmap almost everyone maps t=
+he
+>>> entire object. Only vmwgfx uses to map less than that. Also, everyone=
+ just
+>>> immediately follows up with converting that full object map into a
+>>> pointer.
+>>>
+>>> So I think what we really want here is:
+>>> - new function
+>>>
+>>> int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map=
+);
+>>>
+>>>   _vmap name since that's consistent with both dma_buf functions and
+>>>   what's usually used to implement this. Outside of the ttm world kma=
+p
+>>>   usually just means single-page mappings using kmap() or it's iomem
+>>>   sibling io_mapping_map* so rather confusing name for a function whi=
+ch
+>>>   usually is just used to set up a vmap of the entire buffer.
+>>>
+>>> - a helper which can be used for the drm_gem_object_funcs vmap/vunmap=
 
-How about change "one of the VKMS maintainers" to "with VKMS
-maintainers".
+>>>   functions for all ttm drivers. We should be able to make this fully=
 
-With the above change, everything else LGTM.
+>>>   generic because a) we now have dma_buf_map and b) drm_gem_object is=
 
-Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
- =20
-> -- Configure planes/crtcs/connectors (we'd need some code to have more th=
-an 1 of
-> -  them first).
-> +IGT better support
-> +------------------
-> =20
-> -- Change output configuration: Plug/unplug screens, change EDID, allow c=
-hanging
-> -  the refresh rate.
-> +- Investigate: (1) test cases on kms_plane that are failing due to timeo=
-ut on
-> +  capturing CRC; (2) when running kms_flip test cases in sequence, some
-> +  successful individual test cases are failing randomly.
-> =20
-> -The currently proposed solution is to expose vkms configuration through
-> -configfs.  All existing module options should be supported through confi=
-gfs too.
-> +- VKMS already has support for vblanks simulated via hrtimers, which can=
- be
-> +  tested with kms_flip test; in some way, we can say that VKMS already m=
-imics
-> +  the real hardware vblank. However, we also have virtual hardware that =
-does
-> +  not support vblank interrupt and completes page_flip events right away=
-; in
-> +  this case, compositor developers may end up creating a busy loop on vi=
-rtual
-> +  hardware. It would be useful to support Virtual Hardware behavior in V=
-KMS
-> +  because this can help compositor developers to test their features in
-> +  multiple scenarios.
-> =20
->  Add Plane Features
->  ------------------
-> @@ -55,34 +43,50 @@ There's lots of plane features we could add support f=
-or:
->  - Additional buffer formats, especially YUV formats for video like NV12.
->    Low/high bpp RGB formats would also be interesting.
-> =20
-> -- Async updates (currently only possible on cursor plane using the legac=
-y cursor
-> -  api).
-> +- Async updates (currently only possible on cursor plane using the legacy
-> +  cursor api).
-> +
-> +For all of these, we also want to review the igt test coverage and make =
-sure
-> +all relevant igt testcases work on vkms.
-> +
-> +Prime Buffer Sharing
-> +--------------------
-> =20
-> -For all of these, we also want to review the igt test coverage and make =
-sure all
-> -relevant igt testcases work on vkms.
-> +- Syzbot report - WARNING in vkms_gem_free_object:
-> +  https://syzkaller.appspot.com/bug?extid=3De7ad70d406e74d8fc9d0
-> +
-> +Runtime Configuration
-> +---------------------
-> +
-> +We want to be able to reconfigure vkms instance without having to reload=
- the
-> +module. Use/Test-cases:
-> +
-> +- Hotplug/hotremove connectors on the fly (to be able to test DP MST han=
-dling
-> +  of compositors).
-> +
-> +- Configure planes/crtcs/connectors (we'd need some code to have more th=
-an 1 of
-> +  them first).
-> +
-> +- Change output configuration: Plug/unplug screens, change EDID, allow c=
-hanging
-> +  the refresh rate.
-> +
-> +The currently proposed solution is to expose vkms configuration through
-> +configfs.  All existing module options should be supported through confi=
-gfs
-> +too.
-> =20
->  Writeback support
->  -----------------
-> =20
-> -Currently vkms only computes a CRC for each frame. Once we have addition=
-al plane
-> -features, we could write back the entire composited frame, and expose it=
- as:
-> +- The writeback and CRC capture operations share the use of composer_ena=
-bled
-> +  boolean to ensure vblanks. Probably, when these operations work togeth=
-er,
-> +  composer_enabled needs to refcounting the composer state to proper wor=
-k.
-> =20
-> -- Writeback connector. This is useful for testing compositors if you don=
-'t have
-> -  hardware with writeback support.
-> +- Add support for cloned writeback outputs and related test cases using a
-> +  cloned output in the IGT kms_writeback.
-> =20
->  - As a v4l device. This is useful for debugging compositors on special v=
-kms
->    configurations, so that developers see what's really going on.
-> =20
-> -Prime Buffer Sharing
-> ---------------------
-> -
-> -We already have vgem, which is a gem driver for testing rendering, simil=
-ar to
-> -how vkms is for testing the modeset side. Adding buffer sharing support =
-to vkms
-> -allows us to test them together, to test synchronization and lots of oth=
-er
-> -features. Also, this allows compositors to test whether they work correc=
-tly on
-> -SoC chips, where the display and rendering is very often split between 2
-> -drivers.
-> -
->  Output Features
->  ---------------
-> =20
-> @@ -93,7 +97,10 @@ Output Features
->  - Add support for link status, so that compositors can validate their ru=
-ntime
->    fallbacks when e.g. a Display Port link goes bad.
-> =20
-> -- All the hotplug handling describe under "Runtime Configuration".
-> +CRC API Improvements
-> +--------------------
-> +
-> +- Optimize CRC computation ``compute_crc()`` and plane blending ``blend(=
-)``
-> =20
->  Atomic Check using eBPF
->  -----------------------
-> --=20
-> 2.28.0
+>>>   embedded in the ttm_bo, so we can upcast for everyone who's both a =
+ttm
+>>>   and gem driver.
+>>>
+>>>   This is maybe a good follow-up, since it should allow us to ditch q=
+uite
+>>>   a bit of the vram helper code for this more generic stuff. I also m=
+ight
+>>>   have missed some special-cases here, but from a quick look everythi=
+ng
+>>>   just pins the buffer to the current location and that's it.
+>>>
+>>>   Also this obviously requires Christian's generic ttm_bo_pin rework
+>>>   first.
+>>>
+>>> - roll the above out to drivers.
+>>>
+>>> Christian/Thomas, thoughts on this?
+>>
+>> I agree on the goals, but what is the immediate objective here?
+>>
+>> Adding ttm_bo_vmap() does not work out easily, as struct ttm_bo_kmap_o=
+bj
+>> is a central part of the internals of TTM. struct ttm_bo_kmap_obj has
+>> more internal state that struct dma_buf_map, so they are not easily
+>> convertible either. What you propose seems to require a reimplementati=
+on
+>> of the existing ttm_bo_kmap() code. That is it's own patch series.
+>>
+>> I'd rather go with some variant of the existing patch and add
+>> ttm_bo_vmap() in a follow-up.
+>=20
+> ttm_bo_vmap would simply wrap what you currently open-code as
+> ttm_bo_kmap + ttm_kmap_obj_to_dma_buf_map. Removing ttm_kmap_obj would
+> be a much later step. Why do you think adding ttm_bo_vmap is not
+> possible?
+
+The calls to ttm_bo_kmap/_kunmap() require an instance of struct
+ttm_bo_kmap_obj that is stored in each driver's private bo structure
+(e.g., struct drm_gem_vram_object, struct radeon_bo, etc). When I made
+patch 3, I flirted with the idea of unifying the driver's _vmap code in
+a shared helper, but I couldn't find a simple way of doing it. That's
+why it's open-coded in the first place.
+
+Best regards
+Thomas
+
+> -Daniel
+>=20
+>=20
+>> Best regards
+>> Thomas
+>>
+>>>
+>>> I think for the immediate need of rolling this out for vram helpers a=
+nd
+>>> fbdev code we should be able to do this, but just postpone the driver=
+ wide
+>>> roll-out for now.
+>>>
+>>> Cheers, Daniel
+>>>
+>>>> -Daniel
+>>>>
+>>>>>
+>>>>> Christian.
+>>>>>
+>>>>>> -Daniel
+>>>>>>
+>>>>>>> Thanks,
+>>>>>>> Christian.
+>>>>>>>
+>>>>>>>> Best regards
+>>>>>>>> Thomas
+>>>>>>>>
+>>>>>>>>> Regards,
+>>>>>>>>> Christian.
+>>>>>>>>>
+>>>>>>>>>> Best regards
+>>>>>>>>>> Thomas
+>>>>>>>>>>
+>>>>>>>>>>> Regards,
+>>>>>>>>>>> Christian.
+>>>>>>>>>>>
+>>>>>>>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>>>>>>>>> ---
+>>>>>>>>>>>>     include/drm/ttm/ttm_bo_api.h | 24 ++++++++++++++++++++++=
+++
+>>>>>>>>>>>>     include/linux/dma-buf-map.h  | 20 ++++++++++++++++++++
+>>>>>>>>>>>>     2 files changed, 44 insertions(+)
+>>>>>>>>>>>>
+>>>>>>>>>>>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/=
+ttm_bo_api.h
+>>>>>>>>>>>> index c96a25d571c8..62d89f05a801 100644
+>>>>>>>>>>>> --- a/include/drm/ttm/ttm_bo_api.h
+>>>>>>>>>>>> +++ b/include/drm/ttm/ttm_bo_api.h
+>>>>>>>>>>>> @@ -34,6 +34,7 @@
+>>>>>>>>>>>>     #include <drm/drm_gem.h>
+>>>>>>>>>>>>     #include <drm/drm_hashtab.h>
+>>>>>>>>>>>>     #include <drm/drm_vma_manager.h>
+>>>>>>>>>>>> +#include <linux/dma-buf-map.h>
+>>>>>>>>>>>>     #include <linux/kref.h>
+>>>>>>>>>>>>     #include <linux/list.h>
+>>>>>>>>>>>>     #include <linux/wait.h>
+>>>>>>>>>>>> @@ -486,6 +487,29 @@ static inline void *ttm_kmap_obj_virtua=
+l(struct
+>>>>>>>>>>>> ttm_bo_kmap_obj *map,
+>>>>>>>>>>>>         return map->virtual;
+>>>>>>>>>>>>     }
+>>>>>>>>>>>>     +/**
+>>>>>>>>>>>> + * ttm_kmap_obj_to_dma_buf_map
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * @kmap: A struct ttm_bo_kmap_obj returned from ttm_bo_kma=
+p.
+>>>>>>>>>>>> + * @map: Returns the mapping as struct dma_buf_map
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * Converts struct ttm_bo_kmap_obj to struct dma_buf_map. I=
+f the memory
+>>>>>>>>>>>> + * is not mapped, the returned mapping is initialized to NU=
+LL.
+>>>>>>>>>>>> + */
+>>>>>>>>>>>> +static inline void ttm_kmap_obj_to_dma_buf_map(struct ttm_b=
+o_kmap_obj
+>>>>>>>>>>>> *kmap,
+>>>>>>>>>>>> +                           struct dma_buf_map *map)
+>>>>>>>>>>>> +{
+>>>>>>>>>>>> +    bool is_iomem;
+>>>>>>>>>>>> +    void *vaddr =3D ttm_kmap_obj_virtual(kmap, &is_iomem);
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +    if (!vaddr)
+>>>>>>>>>>>> +        dma_buf_map_clear(map);
+>>>>>>>>>>>> +    else if (is_iomem)
+>>>>>>>>>>>> +        dma_buf_map_set_vaddr_iomem(map, (void __force __io=
+mem *)vaddr);
+>>>>>>>>>>>> +    else
+>>>>>>>>>>>> +        dma_buf_map_set_vaddr(map, vaddr);
+>>>>>>>>>>>> +}
+>>>>>>>>>>>> +
+>>>>>>>>>>>>     /**
+>>>>>>>>>>>>      * ttm_bo_kmap
+>>>>>>>>>>>>      *
+>>>>>>>>>>>> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma=
+-buf-map.h
+>>>>>>>>>>>> index fd1aba545fdf..2e8bbecb5091 100644
+>>>>>>>>>>>> --- a/include/linux/dma-buf-map.h
+>>>>>>>>>>>> +++ b/include/linux/dma-buf-map.h
+>>>>>>>>>>>> @@ -45,6 +45,12 @@
+>>>>>>>>>>>>      *
+>>>>>>>>>>>>      *    dma_buf_map_set_vaddr(&map. 0xdeadbeaf);
+>>>>>>>>>>>>      *
+>>>>>>>>>>>> + * To set an address in I/O memory, use dma_buf_map_set_vad=
+dr_iomem().
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * .. code-block:: c
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + *    dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
+>>>>>>>>>>>> + *
+>>>>>>>>>>>>      * Test if a mapping is valid with either dma_buf_map_is=
+_set() or
+>>>>>>>>>>>>      * dma_buf_map_is_null().
+>>>>>>>>>>>>      *
+>>>>>>>>>>>> @@ -118,6 +124,20 @@ static inline void dma_buf_map_set_vadd=
+r(struct
+>>>>>>>>>>>> dma_buf_map *map, void *vaddr)
+>>>>>>>>>>>>         map->is_iomem =3D false;
+>>>>>>>>>>>>     }
+>>>>>>>>>>>>     +/**
+>>>>>>>>>>>> + * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping str=
+ucture to
+>>>>>>>>>>>> an address in I/O memory
+>>>>>>>>>>>> + * @map:        The dma-buf mapping structure
+>>>>>>>>>>>> + * @vaddr_iomem:    An I/O-memory address
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * Sets the address and the I/O-memory flag.
+>>>>>>>>>>>> + */
+>>>>>>>>>>>> +static inline void dma_buf_map_set_vaddr_iomem(struct dma_b=
+uf_map *map,
+>>>>>>>>>>>> +                           void __iomem *vaddr_iomem)
+>>>>>>>>>>>> +{
+>>>>>>>>>>>> +    map->vaddr_iomem =3D vaddr_iomem;
+>>>>>>>>>>>> +    map->is_iomem =3D true;
+>>>>>>>>>>>> +}
+>>>>>>>>>>>> +
+>>>>>>>>>>>>     /**
+>>>>>>>>>>>>      * dma_buf_map_is_equal - Compares two dma-buf mapping s=
+tructures
+>>>>>>>>>>>> for equality
+>>>>>>>>>>>>      * @lhs:    The dma-buf mapping structure
+>>>>>>>>>>> _______________________________________________
+>>>>>>>>>>> dri-devel mailing list
+>>>>>>>>>>> dri-devel@lists.freedesktop.org
+>>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3=
+A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D=
+02%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7=
+C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3D=
+HdHOA%2F1VcIX%2F7YtfYTiAqYEvw7Ag%2FS%2BxS5VwJKOv5y0%3D&amp;reserved=3D0
+>>>>>>>>>> _______________________________________________
+>>>>>>>>>> amd-gfx mailing list
+>>>>>>>>>> amd-gfx@lists.freedesktop.org
+>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A=
+%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D02%=
+7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7C3d=
+d8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3DH=
+%2B5HKCsTrksRV2EyEiFGSTyS79jsWCmJimSMoJYusx8%3D&amp;reserved=3D0
+>>>>>>>>> _______________________________________________
+>>>>>>>>> dri-devel mailing list
+>>>>>>>>> dri-devel@lists.freedesktop.org
+>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%=
+2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D02=
+%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7C3=
+dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3D=
+HdHOA%2F1VcIX%2F7YtfYTiAqYEvw7Ag%2FS%2BxS5VwJKOv5y0%3D&amp;reserved=3D0
+>>>>>>>>>
+>>>>>>>> _______________________________________________
+>>>>>>>> amd-gfx mailing list
+>>>>>>>> amd-gfx@lists.freedesktop.org
+>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
+F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D02%7C=
+01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7C3dd8=
+961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3DH%2=
+B5HKCsTrksRV2EyEiFGSTyS79jsWCmJimSMoJYusx8%3D&amp;reserved=3D0
+>>>>>
+>>>>
+>>>>
+>>>> --
+>>>> Daniel Vetter
+>>>> Software Engineer, Intel Corporation
+>>>> http://blog.ffwll.ch
+>>>
+>>
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>
+>=20
 >=20
 
 --=20
-Rodrigo Siqueira
-https://siqueira.tech
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---cojknnsds6ridqyr
+
+--savrqrLWkICrB7uZmjWpjSJFgaQuM1qd4--
+
+--0t1cYEjuOo3ZVuYcbyfHXuvT4PSflGI9R
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl99wHkACgkQWJzP/com
-vP/WhQ/+MxiTkJVWxhc5pWPG2ajYAE0lr06dvYt+9/bPPbln9sCwMT1CxGhCLzg9
-Sy/+C7A8vbZIYSvW6Jt97WpzC2DBZoYWsAnNMpYD2+r4tf7cuOp6Bw6vRhHVStTO
-2skp93T/Q503wF04XFAmUIDeQdsyeZTr3afExuc74snNKDNQDnJu9gOaym79hFVE
-uWj8/cZY0m/X/aSPdpkNIEuxWwcsIftxe5qyX++xomLGTpWTZGCb88WvozAcsui9
-RhCydpEEgihyOdaeUBeokUJie6AbFPnm/3ArazONHW7VXCqzI5/SZQYd8O2Y8ujL
-SFnn1z6T/iCjSldAaDj71KjPxUJ6WaTy8EgXQZdGD4cJUCEUGuuWAqcUNID0ynfI
-EmgabtXjwEeQhcLUVclY0LU/PtCxS/F1Nb6pXq3whCKJSBbKPFgI5ZPhVmvwjLh/
-80APxsUaIeCzDQmaDFo8fCuIMoANs2nHdzwmGtyzRpAqyMQeJ8IAR7yWhWCgvCcf
-UhQzWMc3nkrKbKXAqJ6aGNC2FQo8oBEB7lgm8H2E3lztVf946wuTR23AgeoQnR5M
-NHBYUwrwcVNu3hACpy8gXGUb8YeAcVX7Vtvm67KkuFXMu72SxCIPUHKVdm6ajDUt
-xMab8ADiqbCiQqnyJXcdE3JmEhw+nSu+WaqRriE9Hrtc+jPvT7Y=
-=1dEv
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl99wJsUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiP16gf+MAiAf+Uq4sRUXeFXHiI+JaHLKESL
+G19zoVsU0zvLfJzfn2OBUKogUiHNPcV/nSwAC2PVWC0F1TcMt5Do32z3eR+weU+A
+qWqK+roLoPOUK3HQaEvCqJ+6wy/We6m6ZEEhSMpEkmWd88by218Api5shkZJdfDW
++59khIgd+QAkgWmyb2HBFnlppmF9jOmGFhPLxzC6UPXdpnB+sytnBFfjIGujR1oK
+BarNzdsdqJQQf4AWdVraC4GzVIpOS+2mbKyWiFJ9qE9OHtzgbmbNJbE2F3ymff+u
+WTZx5dwK7/Ed06WYgCyI5m0lVlAy3HVLkKrXJKvG/snJ8KK/b3IgQlqtKg==
+=UOQ/
 -----END PGP SIGNATURE-----
 
---cojknnsds6ridqyr--
+--0t1cYEjuOo3ZVuYcbyfHXuvT4PSflGI9R--
 
---===============1134088524==
+--===============0960133919==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -342,4 +561,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1134088524==--
+--===============0960133919==--
