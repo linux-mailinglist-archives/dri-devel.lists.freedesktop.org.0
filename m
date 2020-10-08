@@ -1,43 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295F3287A4B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 18:47:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F5B287A4D
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 18:48:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 390726EA97;
-	Thu,  8 Oct 2020 16:47:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 535556EA9A;
+	Thu,  8 Oct 2020 16:48:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCCD66EA96;
- Thu,  8 Oct 2020 16:47:03 +0000 (UTC)
-IronPort-SDR: hU6HBXCVP7AdArE6NlkZzJaNEIXpptVZplDwZH4IpqWWE/1vvUirbI29a9Y52C2Xdd37cYlt2n
- Fpunp1FBEfKg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="162731496"
-X-IronPort-AV: E=Sophos;i="5.77,351,1596524400"; d="scan'208";a="162731496"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2020 09:47:03 -0700
-IronPort-SDR: 0wI2v+88qHdNy32VIGkwhQayjCHL5yK+MRjVJ4JpelJv3pxCzF/rap7mhsrlief2J8xb1uXLwV
- AKquxp0HL2/A==
-X-IronPort-AV: E=Sophos;i="5.77,351,1596524400"; d="scan'208";a="528562258"
-Received: from ideak-desk.fi.intel.com ([10.237.68.141])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2020 09:47:01 -0700
-Date: Thu, 8 Oct 2020 19:46:58 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Alex Deucher <alexander.deucher@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B59D6EA9C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 16:48:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602175687;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=80hroRBqOS6n5KR8CkuxqHqy66DACjc2LuJt3jMjVcs=;
+ b=LsDgg/GW1bowpJ6I1LYhYOPSZ1fX4RLSfrBhxyWNi8SuhUnzZt6PruFq16UE3mKDX+PgDd
+ wLCPlyp2PfM0c1lcjeqWbuk2WCz8KtBmzLgBwhCWHIZHHx/sTxedIE4TZbWB42F/MmszoD
+ kQXIAoJHc2yPselyLaGISTprTfqCaNY=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-L2xpyeLlMwq3y05oq7vY7Q-1; Thu, 08 Oct 2020 12:48:02 -0400
+X-MC-Unique: L2xpyeLlMwq3y05oq7vY7Q-1
+Received: by mail-qt1-f198.google.com with SMTP id h31so4212305qtd.14
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 09:48:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=80hroRBqOS6n5KR8CkuxqHqy66DACjc2LuJt3jMjVcs=;
+ b=bvvTZt66C1wqBaz21oEvQuX77IVj5Z+RgC92M+g/oCE241D3PiCvOgeeSfIOEfMTuy
+ Fed3J11BDCvo8TuFVTFxn5yhZesh4LudmBiRE+EkXifAuRsSHCwKGPaBmb2Q4T2B1763
+ 6WLASCr45s11Q2JMrEFDlaHzwL+6dJfK/NYLX/ElvZDVmEC+T/Kxhrfg0Y8gOEZXJYsP
+ eKF3bRFSqT2L9Jgc8+FXY3QXuKGO6MBkhhcMzZAGsVe6t8n8//OugzBjmelzBdSzyPeW
+ GE/ydPESB5B9D7hlfS3fxTmSWfwXRlZ8toEB3evTJF7EILvQvIdW/O+Hu5EPWFq6e9Ae
+ 0j2Q==
+X-Gm-Message-State: AOAM532fbFl40te7gUB+ugoKhoMymH03Xfr2KTtW6LvaqJPSu0tjYpC0
+ SniF99oDVj05x+Ak2jtI+aFL7Heh7hZraAB2gwSjNBv5DrWjlx0/STt5db/BIHuNTcQ4QcbGAR0
+ c83UAf0pXxeSZNslGuysXQeimkKsi
+X-Received: by 2002:ae9:e210:: with SMTP id c16mr6441267qkc.314.1602175681814; 
+ Thu, 08 Oct 2020 09:48:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxThZpZwkugbeNEc5mTNO65auU7NExTFuw20EMCoaL3eawnoYikxoMn/zJDhiZk9lyv9b71HQ==
+X-Received: by 2002:ae9:e210:: with SMTP id c16mr6441232qkc.314.1602175681377; 
+ Thu, 08 Oct 2020 09:48:01 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id x75sm2526923qka.59.2020.10.08.09.48.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Oct 2020 09:48:00 -0700 (PDT)
+Message-ID: <23ffabdf5417e6b21cd983945251e7a3fac8613c.camel@redhat.com>
 Subject: Re: [Intel-gfx] [PATCH v3 4/6] drm/dp: Add LTTPR helpers
-Message-ID: <20201008164658.GD1784305@ideak-desk.fi.intel.com>
+From: Lyude Paul <lyude@redhat.com>
+To: imre.deak@intel.com, intel-gfx@lists.freedesktop.org, Dave Airlie
+ <airlied@redhat.com>, Alex Deucher <alexander.deucher@amd.com>
+Date: Thu, 08 Oct 2020 12:47:59 -0400
+In-Reply-To: <20201008164658.GD1784305@ideak-desk.fi.intel.com>
 References: <20201007170917.1764556-1-imre.deak@intel.com>
  <20201007170917.1764556-5-imre.deak@intel.com>
+ <20201008164658.GD1784305@ideak-desk.fi.intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201007170917.1764556-5-imre.deak@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,473 +84,290 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
+Reply-To: lyude@redhat.com
 Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave et all,
-
-On Wed, Oct 07, 2020 at 08:09:15PM +0300, Imre Deak wrote:
-> Add the helpers and register definitions needed to read out the common
-> and per-PHY LTTPR capabilities and perform link training in the LTTPR
-> non-transparent mode.
-> =
-
-> v2:
-> - Add drm_dp_dpcd_read_phy_link_status() and DP_PHY_LTTPR() here instead
->   of adding these to i915. (Ville)
-> v3:
-> - Use memmove() to convert LTTPR to DPRX link status format. (Ville)
-> =
-
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-
-Is it ok to merge this patch via drm-intel-next-queued? If so could
-someone Ack it?
-
-Thanks,
-Imre
-
-> ---
->  drivers/gpu/drm/drm_dp_helper.c | 232 +++++++++++++++++++++++++++++++-
->  include/drm/drm_dp_helper.h     |  62 +++++++++
->  2 files changed, 290 insertions(+), 4 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_hel=
-per.c
-> index 478dd51f738d..79732402336d 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -150,11 +150,8 @@ void drm_dp_link_train_clock_recovery_delay(const u8=
- dpcd[DP_RECEIVER_CAP_SIZE])
->  }
->  EXPORT_SYMBOL(drm_dp_link_train_clock_recovery_delay);
->  =
-
-> -void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SI=
-ZE])
-> +static void __drm_dp_link_train_channel_eq_delay(unsigned long rd_interv=
-al)
->  {
-> -	unsigned long rd_interval =3D dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
-> -					 DP_TRAINING_AUX_RD_MASK;
-> -
->  	if (rd_interval > 4)
->  		DRM_DEBUG_KMS("AUX interval %lu, out of range (max 4)\n",
->  			      rd_interval);
-> @@ -166,8 +163,35 @@ void drm_dp_link_train_channel_eq_delay(const u8 dpc=
-d[DP_RECEIVER_CAP_SIZE])
->  =
-
->  	usleep_range(rd_interval, rd_interval * 2);
->  }
-> +
-> +void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SI=
-ZE])
-> +{
-> +	__drm_dp_link_train_channel_eq_delay(dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
-> +					     DP_TRAINING_AUX_RD_MASK);
-> +}
->  EXPORT_SYMBOL(drm_dp_link_train_channel_eq_delay);
->  =
-
-> +void drm_dp_lttpr_link_train_clock_recovery_delay(void)
-> +{
-> +	usleep_range(100, 200);
-> +}
-> +EXPORT_SYMBOL(drm_dp_lttpr_link_train_clock_recovery_delay);
-> +
-> +static u8 dp_lttpr_phy_cap(const u8 phy_cap[DP_LTTPR_PHY_CAP_SIZE], int =
-r)
-> +{
-> +	return phy_cap[r - DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1];
-> +}
-> +
-> +void drm_dp_lttpr_link_train_channel_eq_delay(const u8 phy_cap[DP_LTTPR_=
-PHY_CAP_SIZE])
-> +{
-> +	u8 interval =3D dp_lttpr_phy_cap(phy_cap,
-> +				       DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1) &
-> +		      DP_TRAINING_AUX_RD_MASK;
-> +
-> +	__drm_dp_link_train_channel_eq_delay(interval);
-> +}
-> +EXPORT_SYMBOL(drm_dp_lttpr_link_train_channel_eq_delay);
-> +
->  u8 drm_dp_link_rate_to_bw_code(int link_rate)
->  {
->  	/* Spec says link_bw =3D link_rate / 0.27Gbps */
-> @@ -363,6 +387,59 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *=
-aux,
->  }
->  EXPORT_SYMBOL(drm_dp_dpcd_read_link_status);
->  =
-
-> +/**
-> + * drm_dp_dpcd_read_phy_link_status - get the link status information fo=
-r a DP PHY
-> + * @aux: DisplayPort AUX channel
-> + * @dp_phy: the DP PHY to get the link status for
-> + * @link_status: buffer to return the status in
-> + *
-> + * Fetch the AUX DPCD registers for the DPRX or an LTTPR PHY link status=
-. The
-> + * layout of the returned @link_status matches the DPCD register layout =
-of the
-> + * DPRX PHY link status.
-> + *
-> + * Returns 0 if the information was read successfully or a negative erro=
-r code
-> + * on failure.
-> + */
-> +int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
-> +				     enum drm_dp_phy dp_phy,
-> +				     u8 link_status[DP_LINK_STATUS_SIZE])
-> +{
-> +	int ret;
-> +
-> +	if (dp_phy =3D=3D DP_PHY_DPRX) {
-> +		ret =3D drm_dp_dpcd_read(aux,
-> +				       DP_LANE0_1_STATUS,
-> +				       link_status,
-> +				       DP_LINK_STATUS_SIZE);
-> +
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		WARN_ON(ret !=3D DP_LINK_STATUS_SIZE);
-> +
-> +		return 0;
-> +	}
-> +
-> +	ret =3D drm_dp_dpcd_read(aux,
-> +			       DP_LANE0_1_STATUS_PHY_REPEATER(dp_phy),
-> +			       link_status,
-> +			       DP_LINK_STATUS_SIZE - 1);
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	WARN_ON(ret !=3D DP_LINK_STATUS_SIZE - 1);
-> +
-> +	/* Convert the LTTPR to the sink PHY link status layout */
-> +	memmove(&link_status[DP_SINK_STATUS - DP_LANE0_1_STATUS + 1],
-> +		&link_status[DP_SINK_STATUS - DP_LANE0_1_STATUS],
-> +		DP_LINK_STATUS_SIZE - (DP_SINK_STATUS - DP_LANE0_1_STATUS) - 1);
-> +	link_status[DP_SINK_STATUS - DP_LANE0_1_STATUS] =3D 0;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_dpcd_read_phy_link_status);
-> +
->  static bool is_edid_digital_input_dp(const struct edid *edid)
->  {
->  	return edid && edid->revision >=3D 4 &&
-> @@ -2098,6 +2175,153 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8=
- dsc_dpcd[DP_DSC_RECEIVER_CAP_S
->  }
->  EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
->  =
-
-> +/**
-> + * drm_dp_read_lttpr_common_caps - read the LTTPR common capabilities
-> + * @aux: DisplayPort AUX channel
-> + * @caps: buffer to return the capability info in
-> + *
-> + * Read capabilities common to all LTTPRs.
-> + *
-> + * Returns 0 on success or a negative error code on failure.
-> + */
-> +int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
-> +				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
-> +{
-> +	int ret;
-> +
-> +	ret =3D drm_dp_dpcd_read(aux,
-> +			       DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV,
-> +			       caps, DP_LTTPR_COMMON_CAP_SIZE);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	WARN_ON(ret !=3D DP_LTTPR_COMMON_CAP_SIZE);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_read_lttpr_common_caps);
-> +
-> +/**
-> + * drm_dp_read_lttpr_phy_caps - read the capabilities for a given LTTPR =
-PHY
-> + * @aux: DisplayPort AUX channel
-> + * @dp_phy: LTTPR PHY to read the capabilities for
-> + * @caps: buffer to return the capability info in
-> + *
-> + * Read the capabilities for the given LTTPR PHY.
-> + *
-> + * Returns 0 on success or a negative error code on failure.
-> + */
-> +int drm_dp_read_lttpr_phy_caps(struct drm_dp_aux *aux,
-> +			       enum drm_dp_phy dp_phy,
-> +			       u8 caps[DP_LTTPR_PHY_CAP_SIZE])
-> +{
-> +	int ret;
-> +
-> +	ret =3D drm_dp_dpcd_read(aux,
-> +			       DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER(dp_phy),
-> +			       caps, DP_LTTPR_PHY_CAP_SIZE);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	WARN_ON(ret !=3D DP_LTTPR_PHY_CAP_SIZE);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_read_lttpr_phy_caps);
-> +
-> +static u8 dp_lttpr_common_cap(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE], i=
-nt r)
-> +{
-> +	return caps[r - DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV];
-> +}
-> +
-> +/**
-> + * drm_dp_lttpr_count - get the number of detected LTTPRs
-> + * @caps: LTTPR common capabilities
-> + *
-> + * Get the number of detected LTTPRs from the LTTPR common capabilities =
-info.
-> + *
-> + * Returns:
-> + *   -ERANGE if more than supported number (8) of LTTPRs are detected
-> + *   -EINVAL if the DP_PHY_REPEATER_CNT register contains an invalid val=
-ue
-> + *   otherwise the number of detected LTTPRs
-> + */
-> +int drm_dp_lttpr_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
-> +{
-> +	u8 count =3D dp_lttpr_common_cap(caps, DP_PHY_REPEATER_CNT);
-> +
-> +	switch (hweight8(count)) {
-> +	case 0:
-> +		return 0;
-> +	case 1:
-> +		return 8 - ilog2(count);
-> +	case 8:
-> +		return -ERANGE;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_dp_lttpr_count);
-> +
-> +/**
-> + * drm_dp_lttpr_max_link_rate - get the maximum link rate supported by a=
-ll LTTPRs
-> + * @caps: LTTPR common capabilities
-> + *
-> + * Returns the maximum link rate supported by all detected LTTPRs.
-> + */
-> +int drm_dp_lttpr_max_link_rate(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
-> +{
-> +	u8 rate =3D dp_lttpr_common_cap(caps, DP_MAX_LINK_RATE_PHY_REPEATER);
-> +
-> +	return drm_dp_bw_code_to_link_rate(rate);
-> +}
-> +EXPORT_SYMBOL(drm_dp_lttpr_max_link_rate);
-> +
-> +/**
-> + * drm_dp_lttpr_max_lane_count - get the maximum lane count supported by=
- all LTTPRs
-> + * @caps: LTTPR common capabilities
-> + *
-> + * Returns the maximum lane count supported by all detected LTTPRs.
-> + */
-> +int drm_dp_lttpr_max_lane_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
-> +{
-> +	u8 max_lanes =3D dp_lttpr_common_cap(caps, DP_MAX_LANE_COUNT_PHY_REPEAT=
-ER);
-> +
-> +	return max_lanes & DP_MAX_LANE_COUNT_MASK;
-> +}
-> +EXPORT_SYMBOL(drm_dp_lttpr_max_lane_count);
-> +
-> +/**
-> + * drm_dp_lttpr_voltage_swing_level_3_supported - check for LTTPR vswing=
-3 support
-> + * @caps: LTTPR PHY capabilities
-> + *
-> + * Returns true if the @caps for an LTTPR TX PHY indicate support for
-> + * voltage swing level 3.
-> + */
-> +bool
-> +drm_dp_lttpr_voltage_swing_level_3_supported(const u8 caps[DP_LTTPR_PHY_=
-CAP_SIZE])
-> +{
-> +	u8 txcap =3D dp_lttpr_phy_cap(caps, DP_TRANSMITTER_CAPABILITY_PHY_REPEA=
-TER1);
-> +
-> +	return txcap & DP_VOLTAGE_SWING_LEVEL_3_SUPPORTED;
-> +}
-> +EXPORT_SYMBOL(drm_dp_lttpr_voltage_swing_level_3_supported);
-> +
-> +/**
-> + * drm_dp_lttpr_pre_emphasis_level_3_supported - check for LTTPR preemph=
-3 support
-> + * @caps: LTTPR PHY capabilities
-> + *
-> + * Returns true if the @caps for an LTTPR TX PHY indicate support for
-> + * pre-emphasis level 3.
-> + */
-> +bool
-> +drm_dp_lttpr_pre_emphasis_level_3_supported(const u8 caps[DP_LTTPR_PHY_C=
-AP_SIZE])
-> +{
-> +	u8 txcap =3D dp_lttpr_phy_cap(caps, DP_TRANSMITTER_CAPABILITY_PHY_REPEA=
-TER1);
-> +
-> +	return txcap & DP_PRE_EMPHASIS_LEVEL_3_SUPPORTED;
-> +}
-> +EXPORT_SYMBOL(drm_dp_lttpr_pre_emphasis_level_3_supported);
-> +
->  /**
->   * drm_dp_get_phy_test_pattern() - get the requested pattern from the si=
-nk.
->   * @aux: DisplayPort AUX channel
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 159191c1ae75..f55a9d1320ca 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1118,15 +1118,58 @@ struct drm_device;
->  #define DP_MAX_LANE_COUNT_PHY_REPEATER			    0xf0004 /* 1.4a */
->  #define DP_Repeater_FEC_CAPABILITY			    0xf0004 /* 1.4 */
->  #define DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT		    0xf0005 /* 1.4a */
-> +
-> +enum drm_dp_phy {
-> +	DP_PHY_DPRX,
-> +
-> +	DP_PHY_LTTPR1,
-> +	DP_PHY_LTTPR2,
-> +	DP_PHY_LTTPR3,
-> +	DP_PHY_LTTPR4,
-> +	DP_PHY_LTTPR5,
-> +	DP_PHY_LTTPR6,
-> +	DP_PHY_LTTPR7,
-> +	DP_PHY_LTTPR8,
-> +
-> +	DP_MAX_LTTPR_COUNT =3D DP_PHY_LTTPR8,
-> +};
-> +
-> +#define DP_PHY_LTTPR(i)					    (DP_PHY_LTTPR1 + (i))
-> +
-> +#define __DP_LTTPR1_BASE				    0xf0010 /* 1.3 */
-> +#define __DP_LTTPR2_BASE				    0xf0060 /* 1.3 */
-> +#define DP_LTTPR_BASE(dp_phy) \
-> +	(__DP_LTTPR1_BASE + (__DP_LTTPR2_BASE - __DP_LTTPR1_BASE) * \
-> +		((dp_phy) - DP_PHY_LTTPR1))
-> +
-> +#define DP_LTTPR_REG(dp_phy, lttpr1_reg) \
-> +	(DP_LTTPR_BASE(dp_phy) - DP_LTTPR_BASE(DP_PHY_LTTPR1) + (lttpr1_reg))
-> +
->  #define DP_TRAINING_PATTERN_SET_PHY_REPEATER1		    0xf0010 /* 1.3 */
-> +#define DP_TRAINING_PATTERN_SET_PHY_REPEATER(dp_phy) \
-> +	DP_LTTPR_REG(dp_phy, DP_TRAINING_PATTERN_SET_PHY_REPEATER1)
-> +
->  #define DP_TRAINING_LANE0_SET_PHY_REPEATER1		    0xf0011 /* 1.3 */
-> +#define DP_TRAINING_LANE0_SET_PHY_REPEATER(dp_phy) \
-> +	DP_LTTPR_REG(dp_phy, DP_TRAINING_LANE0_SET_PHY_REPEATER1)
-> +
->  #define DP_TRAINING_LANE1_SET_PHY_REPEATER1		    0xf0012 /* 1.3 */
->  #define DP_TRAINING_LANE2_SET_PHY_REPEATER1		    0xf0013 /* 1.3 */
->  #define DP_TRAINING_LANE3_SET_PHY_REPEATER1		    0xf0014 /* 1.3 */
->  #define DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1	    0xf0020 /* 1.4a */
-> +#define DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER(dp_phy)	\
-> +	DP_LTTPR_REG(dp_phy, DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1)
-> +
->  #define DP_TRANSMITTER_CAPABILITY_PHY_REPEATER1		    0xf0021 /* 1.4a */
-> +# define DP_VOLTAGE_SWING_LEVEL_3_SUPPORTED		    BIT(0)
-> +# define DP_PRE_EMPHASIS_LEVEL_3_SUPPORTED		    BIT(1)
-> +
->  #define DP_LANE0_1_STATUS_PHY_REPEATER1			    0xf0030 /* 1.3 */
-> +#define DP_LANE0_1_STATUS_PHY_REPEATER(dp_phy) \
-> +	DP_LTTPR_REG(dp_phy, DP_LANE0_1_STATUS_PHY_REPEATER1)
-> +
->  #define DP_LANE2_3_STATUS_PHY_REPEATER1			    0xf0031 /* 1.3 */
-> +
->  #define DP_LANE_ALIGN_STATUS_UPDATED_PHY_REPEATER1	    0xf0032 /* 1.3 */
->  #define DP_ADJUST_REQUEST_LANE0_1_PHY_REPEATER1		    0xf0033 /* 1.3 */
->  #define DP_ADJUST_REQUEST_LANE2_3_PHY_REPEATER1		    0xf0034 /* 1.3 */
-> @@ -1237,9 +1280,13 @@ u8 drm_dp_get_adjust_request_post_cursor(const u8 =
-link_status[DP_LINK_STATUS_SIZ
->  #define DP_DSC_RECEIVER_CAP_SIZE        0xf
->  #define EDP_PSR_RECEIVER_CAP_SIZE	2
->  #define EDP_DISPLAY_CTL_CAP_SIZE	3
-> +#define DP_LTTPR_COMMON_CAP_SIZE	8
-> +#define DP_LTTPR_PHY_CAP_SIZE		3
->  =
-
->  void drm_dp_link_train_clock_recovery_delay(const u8 dpcd[DP_RECEIVER_CA=
-P_SIZE]);
-> +void drm_dp_lttpr_link_train_clock_recovery_delay(void);
->  void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SI=
-ZE]);
-> +void drm_dp_lttpr_link_train_channel_eq_delay(const u8 caps[DP_LTTPR_PHY=
-_CAP_SIZE]);
->  =
-
->  u8 drm_dp_link_rate_to_bw_code(int link_rate);
->  int drm_dp_bw_code_to_link_rate(u8 link_bw);
-> @@ -1698,6 +1745,10 @@ int drm_dp_read_dpcd_caps(struct drm_dp_aux *aux,
->  int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
->  				 u8 status[DP_LINK_STATUS_SIZE]);
->  =
-
-> +int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
-> +				     enum drm_dp_phy dp_phy,
-> +				     u8 link_status[DP_LINK_STATUS_SIZE]);
-> +
->  bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
->  				    u8 real_edid_checksum);
->  =
-
-> @@ -1747,6 +1798,17 @@ bool drm_dp_read_sink_count_cap(struct drm_connect=
-or *connector,
->  				const struct drm_dp_desc *desc);
->  int drm_dp_read_sink_count(struct drm_dp_aux *aux);
->  =
-
-> +int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
-> +				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
-> +int drm_dp_read_lttpr_phy_caps(struct drm_dp_aux *aux,
-> +			       enum drm_dp_phy dp_phy,
-> +			       u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
-> +int drm_dp_lttpr_count(const u8 cap[DP_LTTPR_COMMON_CAP_SIZE]);
-> +int drm_dp_lttpr_max_link_rate(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
-> +int drm_dp_lttpr_max_lane_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
-> +bool drm_dp_lttpr_voltage_swing_level_3_supported(const u8 caps[DP_LTTPR=
-_PHY_CAP_SIZE]);
-> +bool drm_dp_lttpr_pre_emphasis_level_3_supported(const u8 caps[DP_LTTPR_=
-PHY_CAP_SIZE]);
-> +
->  void drm_dp_remote_aux_init(struct drm_dp_aux *aux);
->  void drm_dp_aux_init(struct drm_dp_aux *aux);
->  int drm_dp_aux_register(struct drm_dp_aux *aux);
-> -- =
-
-> 2.25.1
-> =
-
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QWNrZWQtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CgoKT24gVGh1LCAyMDIwLTEw
+LTA4IGF0IDE5OjQ2ICswMzAwLCBJbXJlIERlYWsgd3JvdGU6Cj4gSGkgRGF2ZSBldCBhbGwsCj4g
+Cj4gT24gV2VkLCBPY3QgMDcsIDIwMjAgYXQgMDg6MDk6MTVQTSArMDMwMCwgSW1yZSBEZWFrIHdy
+b3RlOgo+ID4gQWRkIHRoZSBoZWxwZXJzIGFuZCByZWdpc3RlciBkZWZpbml0aW9ucyBuZWVkZWQg
+dG8gcmVhZCBvdXQgdGhlIGNvbW1vbgo+ID4gYW5kIHBlci1QSFkgTFRUUFIgY2FwYWJpbGl0aWVz
+IGFuZCBwZXJmb3JtIGxpbmsgdHJhaW5pbmcgaW4gdGhlIExUVFBSCj4gPiBub24tdHJhbnNwYXJl
+bnQgbW9kZS4KPiA+IAo+ID4gdjI6Cj4gPiAtIEFkZCBkcm1fZHBfZHBjZF9yZWFkX3BoeV9saW5r
+X3N0YXR1cygpIGFuZCBEUF9QSFlfTFRUUFIoKSBoZXJlIGluc3RlYWQKPiA+ICAgb2YgYWRkaW5n
+IHRoZXNlIHRvIGk5MTUuIChWaWxsZSkKPiA+IHYzOgo+ID4gLSBVc2UgbWVtbW92ZSgpIHRvIGNv
+bnZlcnQgTFRUUFIgdG8gRFBSWCBsaW5rIHN0YXR1cyBmb3JtYXQuIChWaWxsZSkKPiA+IAo+ID4g
+Q2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IENjOiBWaWxsZSBTeXJqw4PG
+ksOCwqRsw4PGksOCwqQgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4gUmV2aWV3
+ZWQtYnk6IFZpbGxlIFN5cmrDg8aSw4LCpGzDg8aSw4LCpCA8dmlsbGUuc3lyamFsYUBsaW51eC5p
+bnRlbC5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBJbXJlIERlYWsgPGltcmUuZGVha0BpbnRlbC5j
+b20+Cj4gCj4gSXMgaXQgb2sgdG8gbWVyZ2UgdGhpcyBwYXRjaCB2aWEgZHJtLWludGVsLW5leHQt
+cXVldWVkPyBJZiBzbyBjb3VsZAo+IHNvbWVvbmUgQWNrIGl0Pwo+IAo+IFRoYW5rcywKPiBJbXJl
+Cj4gCj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jIHwgMjMyICsr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKystCj4gPiAgaW5jbHVkZS9kcm0vZHJtX2RwX2hl
+bHBlci5oICAgICB8ICA2MiArKysrKysrKysKPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDI5MCBpbnNl
+cnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2RybV9kcF9oZWxwZXIuYwo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBl
+ci5jCj4gPiBpbmRleCA0NzhkZDUxZjczOGQuLjc5NzMyNDAyMzM2ZCAxMDA2NDQKPiA+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fZHBfaGVscGVyLmMKPiA+IEBAIC0xNTAsMTEgKzE1MCw4IEBAIHZvaWQgZHJtX2RwX2xp
+bmtfdHJhaW5fY2xvY2tfcmVjb3ZlcnlfZGVsYXkoY29uc3QgdTgKPiA+IGRwY2RbRFBfUkVDRUlW
+RVJfQ0FQX1NJWkVdKQo+ID4gIH0KPiA+ICBFWFBPUlRfU1lNQk9MKGRybV9kcF9saW5rX3RyYWlu
+X2Nsb2NrX3JlY292ZXJ5X2RlbGF5KTsKPiA+ICAKPiA+IC12b2lkIGRybV9kcF9saW5rX3RyYWlu
+X2NoYW5uZWxfZXFfZGVsYXkoY29uc3QgdTgKPiA+IGRwY2RbRFBfUkVDRUlWRVJfQ0FQX1NJWkVd
+KQo+ID4gK3N0YXRpYyB2b2lkIF9fZHJtX2RwX2xpbmtfdHJhaW5fY2hhbm5lbF9lcV9kZWxheSh1
+bnNpZ25lZCBsb25nIHJkX2ludGVydmFsKQo+ID4gIHsKPiA+IC0JdW5zaWduZWQgbG9uZyByZF9p
+bnRlcnZhbCA9IGRwY2RbRFBfVFJBSU5JTkdfQVVYX1JEX0lOVEVSVkFMXSAmCj4gPiAtCQkJCQkg
+RFBfVFJBSU5JTkdfQVVYX1JEX01BU0s7Cj4gPiAtCj4gPiAgCWlmIChyZF9pbnRlcnZhbCA+IDQp
+Cj4gPiAgCQlEUk1fREVCVUdfS01TKCJBVVggaW50ZXJ2YWwgJWx1LCBvdXQgb2YgcmFuZ2UgKG1h
+eCA0KVxuIiwKPiA+ICAJCQkgICAgICByZF9pbnRlcnZhbCk7Cj4gPiBAQCAtMTY2LDggKzE2Mywz
+NSBAQCB2b2lkIGRybV9kcF9saW5rX3RyYWluX2NoYW5uZWxfZXFfZGVsYXkoY29uc3QgdTgKPiA+
+IGRwY2RbRFBfUkVDRUlWRVJfQ0FQX1NJWkVdKQo+ID4gIAo+ID4gIAl1c2xlZXBfcmFuZ2UocmRf
+aW50ZXJ2YWwsIHJkX2ludGVydmFsICogMik7Cj4gPiAgfQo+ID4gKwo+ID4gK3ZvaWQgZHJtX2Rw
+X2xpbmtfdHJhaW5fY2hhbm5lbF9lcV9kZWxheShjb25zdCB1OAo+ID4gZHBjZFtEUF9SRUNFSVZF
+Ul9DQVBfU0laRV0pCj4gPiArewo+ID4gKwlfX2RybV9kcF9saW5rX3RyYWluX2NoYW5uZWxfZXFf
+ZGVsYXkoZHBjZFtEUF9UUkFJTklOR19BVVhfUkRfSU5URVJWQUxdICYKPiA+ICsJCQkJCSAgICAg
+RFBfVFJBSU5JTkdfQVVYX1JEX01BU0spOwo+ID4gK30KPiA+ICBFWFBPUlRfU1lNQk9MKGRybV9k
+cF9saW5rX3RyYWluX2NoYW5uZWxfZXFfZGVsYXkpOwo+ID4gIAo+ID4gK3ZvaWQgZHJtX2RwX2x0
+dHByX2xpbmtfdHJhaW5fY2xvY2tfcmVjb3ZlcnlfZGVsYXkodm9pZCkKPiA+ICt7Cj4gPiArCXVz
+bGVlcF9yYW5nZSgxMDAsIDIwMCk7Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1CT0woZHJtX2RwX2x0
+dHByX2xpbmtfdHJhaW5fY2xvY2tfcmVjb3ZlcnlfZGVsYXkpOwo+ID4gKwo+ID4gK3N0YXRpYyB1
+OCBkcF9sdHRwcl9waHlfY2FwKGNvbnN0IHU4IHBoeV9jYXBbRFBfTFRUUFJfUEhZX0NBUF9TSVpF
+XSwgaW50IHIpCj4gPiArewo+ID4gKwlyZXR1cm4gcGh5X2NhcFtyIC0gRFBfVFJBSU5JTkdfQVVY
+X1JEX0lOVEVSVkFMX1BIWV9SRVBFQVRFUjFdOwo+ID4gK30KPiA+ICsKPiA+ICt2b2lkIGRybV9k
+cF9sdHRwcl9saW5rX3RyYWluX2NoYW5uZWxfZXFfZGVsYXkoY29uc3QgdTgKPiA+IHBoeV9jYXBb
+RFBfTFRUUFJfUEhZX0NBUF9TSVpFXSkKPiA+ICt7Cj4gPiArCXU4IGludGVydmFsID0gZHBfbHR0
+cHJfcGh5X2NhcChwaHlfY2FwLAo+ID4gKwkJCQkgICAgICAgRFBfVFJBSU5JTkdfQVVYX1JEX0lO
+VEVSVkFMX1BIWV9SRVBFQVRFUjEKPiA+ICkgJgo+ID4gKwkJICAgICAgRFBfVFJBSU5JTkdfQVVY
+X1JEX01BU0s7Cj4gPiArCj4gPiArCV9fZHJtX2RwX2xpbmtfdHJhaW5fY2hhbm5lbF9lcV9kZWxh
+eShpbnRlcnZhbCk7Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1CT0woZHJtX2RwX2x0dHByX2xpbmtf
+dHJhaW5fY2hhbm5lbF9lcV9kZWxheSk7Cj4gPiArCj4gPiAgdTggZHJtX2RwX2xpbmtfcmF0ZV90
+b19id19jb2RlKGludCBsaW5rX3JhdGUpCj4gPiAgewo+ID4gIAkvKiBTcGVjIHNheXMgbGlua19i
+dyA9IGxpbmtfcmF0ZSAvIDAuMjdHYnBzICovCj4gPiBAQCAtMzYzLDYgKzM4Nyw1OSBAQCBpbnQg
+ZHJtX2RwX2RwY2RfcmVhZF9saW5rX3N0YXR1cyhzdHJ1Y3QgZHJtX2RwX2F1eAo+ID4gKmF1eCwK
+PiA+ICB9Cj4gPiAgRVhQT1JUX1NZTUJPTChkcm1fZHBfZHBjZF9yZWFkX2xpbmtfc3RhdHVzKTsK
+PiA+ICAKPiA+ICsvKioKPiA+ICsgKiBkcm1fZHBfZHBjZF9yZWFkX3BoeV9saW5rX3N0YXR1cyAt
+IGdldCB0aGUgbGluayBzdGF0dXMgaW5mb3JtYXRpb24gZm9yIGEKPiA+IERQIFBIWQo+ID4gKyAq
+IEBhdXg6IERpc3BsYXlQb3J0IEFVWCBjaGFubmVsCj4gPiArICogQGRwX3BoeTogdGhlIERQIFBI
+WSB0byBnZXQgdGhlIGxpbmsgc3RhdHVzIGZvcgo+ID4gKyAqIEBsaW5rX3N0YXR1czogYnVmZmVy
+IHRvIHJldHVybiB0aGUgc3RhdHVzIGluCj4gPiArICoKPiA+ICsgKiBGZXRjaCB0aGUgQVVYIERQ
+Q0QgcmVnaXN0ZXJzIGZvciB0aGUgRFBSWCBvciBhbiBMVFRQUiBQSFkgbGluayBzdGF0dXMuCj4g
+PiBUaGUKPiA+ICsgKiBsYXlvdXQgb2YgdGhlIHJldHVybmVkIEBsaW5rX3N0YXR1cyBtYXRjaGVz
+IHRoZSBEUENEIHJlZ2lzdGVyIGxheW91dCBvZgo+ID4gdGhlCj4gPiArICogRFBSWCBQSFkgbGlu
+ayBzdGF0dXMuCj4gPiArICoKPiA+ICsgKiBSZXR1cm5zIDAgaWYgdGhlIGluZm9ybWF0aW9uIHdh
+cyByZWFkIHN1Y2Nlc3NmdWxseSBvciBhIG5lZ2F0aXZlIGVycm9yCj4gPiBjb2RlCj4gPiArICog
+b24gZmFpbHVyZS4KPiA+ICsgKi8KPiA+ICtpbnQgZHJtX2RwX2RwY2RfcmVhZF9waHlfbGlua19z
+dGF0dXMoc3RydWN0IGRybV9kcF9hdXggKmF1eCwKPiA+ICsJCQkJICAgICBlbnVtIGRybV9kcF9w
+aHkgZHBfcGh5LAo+ID4gKwkJCQkgICAgIHU4IGxpbmtfc3RhdHVzW0RQX0xJTktfU1RBVFVTX1NJ
+WkVdKQo+ID4gK3sKPiA+ICsJaW50IHJldDsKPiA+ICsKPiA+ICsJaWYgKGRwX3BoeSA9PSBEUF9Q
+SFlfRFBSWCkgewo+ID4gKwkJcmV0ID0gZHJtX2RwX2RwY2RfcmVhZChhdXgsCj4gPiArCQkJCSAg
+ICAgICBEUF9MQU5FMF8xX1NUQVRVUywKPiA+ICsJCQkJICAgICAgIGxpbmtfc3RhdHVzLAo+ID4g
+KwkJCQkgICAgICAgRFBfTElOS19TVEFUVVNfU0laRSk7Cj4gPiArCj4gPiArCQlpZiAocmV0IDwg
+MCkKPiA+ICsJCQlyZXR1cm4gcmV0Owo+ID4gKwo+ID4gKwkJV0FSTl9PTihyZXQgIT0gRFBfTElO
+S19TVEFUVVNfU0laRSk7Cj4gPiArCj4gPiArCQlyZXR1cm4gMDsKPiA+ICsJfQo+ID4gKwo+ID4g
+KwlyZXQgPSBkcm1fZHBfZHBjZF9yZWFkKGF1eCwKPiA+ICsJCQkgICAgICAgRFBfTEFORTBfMV9T
+VEFUVVNfUEhZX1JFUEVBVEVSKGRwX3BoeSksCj4gPiArCQkJICAgICAgIGxpbmtfc3RhdHVzLAo+
+ID4gKwkJCSAgICAgICBEUF9MSU5LX1NUQVRVU19TSVpFIC0gMSk7Cj4gPiArCj4gPiArCWlmIChy
+ZXQgPCAwKQo+ID4gKwkJcmV0dXJuIHJldDsKPiA+ICsKPiA+ICsJV0FSTl9PTihyZXQgIT0gRFBf
+TElOS19TVEFUVVNfU0laRSAtIDEpOwo+ID4gKwo+ID4gKwkvKiBDb252ZXJ0IHRoZSBMVFRQUiB0
+byB0aGUgc2luayBQSFkgbGluayBzdGF0dXMgbGF5b3V0ICovCj4gPiArCW1lbW1vdmUoJmxpbmtf
+c3RhdHVzW0RQX1NJTktfU1RBVFVTIC0gRFBfTEFORTBfMV9TVEFUVVMgKyAxXSwKPiA+ICsJCSZs
+aW5rX3N0YXR1c1tEUF9TSU5LX1NUQVRVUyAtIERQX0xBTkUwXzFfU1RBVFVTXSwKPiA+ICsJCURQ
+X0xJTktfU1RBVFVTX1NJWkUgLSAoRFBfU0lOS19TVEFUVVMgLSBEUF9MQU5FMF8xX1NUQVRVUykg
+LSAxKTsKPiA+ICsJbGlua19zdGF0dXNbRFBfU0lOS19TVEFUVVMgLSBEUF9MQU5FMF8xX1NUQVRV
+U10gPSAwOwo+ID4gKwo+ID4gKwlyZXR1cm4gMDsKPiA+ICt9Cj4gPiArRVhQT1JUX1NZTUJPTChk
+cm1fZHBfZHBjZF9yZWFkX3BoeV9saW5rX3N0YXR1cyk7Cj4gPiArCj4gPiAgc3RhdGljIGJvb2wg
+aXNfZWRpZF9kaWdpdGFsX2lucHV0X2RwKGNvbnN0IHN0cnVjdCBlZGlkICplZGlkKQo+ID4gIHsK
+PiA+ICAJcmV0dXJuIGVkaWQgJiYgZWRpZC0+cmV2aXNpb24gPj0gNCAmJgo+ID4gQEAgLTIwOTgs
+NiArMjE3NSwxNTMgQEAgaW50IGRybV9kcF9kc2Nfc2lua19zdXBwb3J0ZWRfaW5wdXRfYnBjcyhj
+b25zdCB1OAo+ID4gZHNjX2RwY2RbRFBfRFNDX1JFQ0VJVkVSX0NBUF9TCj4gPiAgfQo+ID4gIEVY
+UE9SVF9TWU1CT0woZHJtX2RwX2RzY19zaW5rX3N1cHBvcnRlZF9pbnB1dF9icGNzKTsKPiA+ICAK
+PiA+ICsvKioKPiA+ICsgKiBkcm1fZHBfcmVhZF9sdHRwcl9jb21tb25fY2FwcyAtIHJlYWQgdGhl
+IExUVFBSIGNvbW1vbiBjYXBhYmlsaXRpZXMKPiA+ICsgKiBAYXV4OiBEaXNwbGF5UG9ydCBBVVgg
+Y2hhbm5lbAo+ID4gKyAqIEBjYXBzOiBidWZmZXIgdG8gcmV0dXJuIHRoZSBjYXBhYmlsaXR5IGlu
+Zm8gaW4KPiA+ICsgKgo+ID4gKyAqIFJlYWQgY2FwYWJpbGl0aWVzIGNvbW1vbiB0byBhbGwgTFRU
+UFJzLgo+ID4gKyAqCj4gPiArICogUmV0dXJucyAwIG9uIHN1Y2Nlc3Mgb3IgYSBuZWdhdGl2ZSBl
+cnJvciBjb2RlIG9uIGZhaWx1cmUuCj4gPiArICovCj4gPiAraW50IGRybV9kcF9yZWFkX2x0dHBy
+X2NvbW1vbl9jYXBzKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsCj4gPiArCQkJCSAgdTggY2Fwc1tE
+UF9MVFRQUl9DT01NT05fQ0FQX1NJWkVdKQo+ID4gK3sKPiA+ICsJaW50IHJldDsKPiA+ICsKPiA+
+ICsJcmV0ID0gZHJtX2RwX2RwY2RfcmVhZChhdXgsCj4gPiArCQkJICAgICAgIERQX0xUX1RVTkFC
+TEVfUEhZX1JFUEVBVEVSX0ZJRUxEX0RBVEFfU1RSVUNUVVJFX1IKPiA+IEVWLAo+ID4gKwkJCSAg
+ICAgICBjYXBzLCBEUF9MVFRQUl9DT01NT05fQ0FQX1NJWkUpOwo+ID4gKwlpZiAocmV0IDwgMCkK
+PiA+ICsJCXJldHVybiByZXQ7Cj4gPiArCj4gPiArCVdBUk5fT04ocmV0ICE9IERQX0xUVFBSX0NP
+TU1PTl9DQVBfU0laRSk7Cj4gPiArCj4gPiArCXJldHVybiAwOwo+ID4gK30KPiA+ICtFWFBPUlRf
+U1lNQk9MKGRybV9kcF9yZWFkX2x0dHByX2NvbW1vbl9jYXBzKTsKPiA+ICsKPiA+ICsvKioKPiA+
+ICsgKiBkcm1fZHBfcmVhZF9sdHRwcl9waHlfY2FwcyAtIHJlYWQgdGhlIGNhcGFiaWxpdGllcyBm
+b3IgYSBnaXZlbiBMVFRQUiBQSFkKPiA+ICsgKiBAYXV4OiBEaXNwbGF5UG9ydCBBVVggY2hhbm5l
+bAo+ID4gKyAqIEBkcF9waHk6IExUVFBSIFBIWSB0byByZWFkIHRoZSBjYXBhYmlsaXRpZXMgZm9y
+Cj4gPiArICogQGNhcHM6IGJ1ZmZlciB0byByZXR1cm4gdGhlIGNhcGFiaWxpdHkgaW5mbyBpbgo+
+ID4gKyAqCj4gPiArICogUmVhZCB0aGUgY2FwYWJpbGl0aWVzIGZvciB0aGUgZ2l2ZW4gTFRUUFIg
+UEhZLgo+ID4gKyAqCj4gPiArICogUmV0dXJucyAwIG9uIHN1Y2Nlc3Mgb3IgYSBuZWdhdGl2ZSBl
+cnJvciBjb2RlIG9uIGZhaWx1cmUuCj4gPiArICovCj4gPiAraW50IGRybV9kcF9yZWFkX2x0dHBy
+X3BoeV9jYXBzKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsCj4gPiArCQkJICAgICAgIGVudW0gZHJt
+X2RwX3BoeSBkcF9waHksCj4gPiArCQkJICAgICAgIHU4IGNhcHNbRFBfTFRUUFJfUEhZX0NBUF9T
+SVpFXSkKPiA+ICt7Cj4gPiArCWludCByZXQ7Cj4gPiArCj4gPiArCXJldCA9IGRybV9kcF9kcGNk
+X3JlYWQoYXV4LAo+ID4gKwkJCSAgICAgICBEUF9UUkFJTklOR19BVVhfUkRfSU5URVJWQUxfUEhZ
+X1JFUEVBVEVSKGRwX3BoeSksCj4gPiArCQkJICAgICAgIGNhcHMsIERQX0xUVFBSX1BIWV9DQVBf
+U0laRSk7Cj4gPiArCWlmIChyZXQgPCAwKQo+ID4gKwkJcmV0dXJuIHJldDsKPiA+ICsKPiA+ICsJ
+V0FSTl9PTihyZXQgIT0gRFBfTFRUUFJfUEhZX0NBUF9TSVpFKTsKPiA+ICsKPiA+ICsJcmV0dXJu
+IDA7Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1CT0woZHJtX2RwX3JlYWRfbHR0cHJfcGh5X2NhcHMp
+Owo+ID4gKwo+ID4gK3N0YXRpYyB1OCBkcF9sdHRwcl9jb21tb25fY2FwKGNvbnN0IHU4IGNhcHNb
+RFBfTFRUUFJfQ09NTU9OX0NBUF9TSVpFXSwgaW50Cj4gPiByKQo+ID4gK3sKPiA+ICsJcmV0dXJu
+IGNhcHNbciAtIERQX0xUX1RVTkFCTEVfUEhZX1JFUEVBVEVSX0ZJRUxEX0RBVEFfU1RSVUNUVVJF
+X1JFVl07Cj4gPiArfQo+ID4gKwo+ID4gKy8qKgo+ID4gKyAqIGRybV9kcF9sdHRwcl9jb3VudCAt
+IGdldCB0aGUgbnVtYmVyIG9mIGRldGVjdGVkIExUVFBScwo+ID4gKyAqIEBjYXBzOiBMVFRQUiBj
+b21tb24gY2FwYWJpbGl0aWVzCj4gPiArICoKPiA+ICsgKiBHZXQgdGhlIG51bWJlciBvZiBkZXRl
+Y3RlZCBMVFRQUnMgZnJvbSB0aGUgTFRUUFIgY29tbW9uIGNhcGFiaWxpdGllcwo+ID4gaW5mby4K
+PiA+ICsgKgo+ID4gKyAqIFJldHVybnM6Cj4gPiArICogICAtRVJBTkdFIGlmIG1vcmUgdGhhbiBz
+dXBwb3J0ZWQgbnVtYmVyICg4KSBvZiBMVFRQUnMgYXJlIGRldGVjdGVkCj4gPiArICogICAtRUlO
+VkFMIGlmIHRoZSBEUF9QSFlfUkVQRUFURVJfQ05UIHJlZ2lzdGVyIGNvbnRhaW5zIGFuIGludmFs
+aWQgdmFsdWUKPiA+ICsgKiAgIG90aGVyd2lzZSB0aGUgbnVtYmVyIG9mIGRldGVjdGVkIExUVFBS
+cwo+ID4gKyAqLwo+ID4gK2ludCBkcm1fZHBfbHR0cHJfY291bnQoY29uc3QgdTggY2Fwc1tEUF9M
+VFRQUl9DT01NT05fQ0FQX1NJWkVdKQo+ID4gK3sKPiA+ICsJdTggY291bnQgPSBkcF9sdHRwcl9j
+b21tb25fY2FwKGNhcHMsIERQX1BIWV9SRVBFQVRFUl9DTlQpOwo+ID4gKwo+ID4gKwlzd2l0Y2gg
+KGh3ZWlnaHQ4KGNvdW50KSkgewo+ID4gKwljYXNlIDA6Cj4gPiArCQlyZXR1cm4gMDsKPiA+ICsJ
+Y2FzZSAxOgo+ID4gKwkJcmV0dXJuIDggLSBpbG9nMihjb3VudCk7Cj4gPiArCWNhc2UgODoKPiA+
+ICsJCXJldHVybiAtRVJBTkdFOwo+ID4gKwlkZWZhdWx0Ogo+ID4gKwkJcmV0dXJuIC1FSU5WQUw7
+Cj4gPiArCX0KPiA+ICt9Cj4gPiArRVhQT1JUX1NZTUJPTChkcm1fZHBfbHR0cHJfY291bnQpOwo+
+ID4gKwo+ID4gKy8qKgo+ID4gKyAqIGRybV9kcF9sdHRwcl9tYXhfbGlua19yYXRlIC0gZ2V0IHRo
+ZSBtYXhpbXVtIGxpbmsgcmF0ZSBzdXBwb3J0ZWQgYnkgYWxsCj4gPiBMVFRQUnMKPiA+ICsgKiBA
+Y2FwczogTFRUUFIgY29tbW9uIGNhcGFiaWxpdGllcwo+ID4gKyAqCj4gPiArICogUmV0dXJucyB0
+aGUgbWF4aW11bSBsaW5rIHJhdGUgc3VwcG9ydGVkIGJ5IGFsbCBkZXRlY3RlZCBMVFRQUnMuCj4g
+PiArICovCj4gPiAraW50IGRybV9kcF9sdHRwcl9tYXhfbGlua19yYXRlKGNvbnN0IHU4IGNhcHNb
+RFBfTFRUUFJfQ09NTU9OX0NBUF9TSVpFXSkKPiA+ICt7Cj4gPiArCXU4IHJhdGUgPSBkcF9sdHRw
+cl9jb21tb25fY2FwKGNhcHMsIERQX01BWF9MSU5LX1JBVEVfUEhZX1JFUEVBVEVSKTsKPiA+ICsK
+PiA+ICsJcmV0dXJuIGRybV9kcF9id19jb2RlX3RvX2xpbmtfcmF0ZShyYXRlKTsKPiA+ICt9Cj4g
+PiArRVhQT1JUX1NZTUJPTChkcm1fZHBfbHR0cHJfbWF4X2xpbmtfcmF0ZSk7Cj4gPiArCj4gPiAr
+LyoqCj4gPiArICogZHJtX2RwX2x0dHByX21heF9sYW5lX2NvdW50IC0gZ2V0IHRoZSBtYXhpbXVt
+IGxhbmUgY291bnQgc3VwcG9ydGVkIGJ5Cj4gPiBhbGwgTFRUUFJzCj4gPiArICogQGNhcHM6IExU
+VFBSIGNvbW1vbiBjYXBhYmlsaXRpZXMKPiA+ICsgKgo+ID4gKyAqIFJldHVybnMgdGhlIG1heGlt
+dW0gbGFuZSBjb3VudCBzdXBwb3J0ZWQgYnkgYWxsIGRldGVjdGVkIExUVFBScy4KPiA+ICsgKi8K
+PiA+ICtpbnQgZHJtX2RwX2x0dHByX21heF9sYW5lX2NvdW50KGNvbnN0IHU4IGNhcHNbRFBfTFRU
+UFJfQ09NTU9OX0NBUF9TSVpFXSkKPiA+ICt7Cj4gPiArCXU4IG1heF9sYW5lcyA9IGRwX2x0dHBy
+X2NvbW1vbl9jYXAoY2FwcywKPiA+IERQX01BWF9MQU5FX0NPVU5UX1BIWV9SRVBFQVRFUik7Cj4g
+PiArCj4gPiArCXJldHVybiBtYXhfbGFuZXMgJiBEUF9NQVhfTEFORV9DT1VOVF9NQVNLOwo+ID4g
+K30KPiA+ICtFWFBPUlRfU1lNQk9MKGRybV9kcF9sdHRwcl9tYXhfbGFuZV9jb3VudCk7Cj4gPiAr
+Cj4gPiArLyoqCj4gPiArICogZHJtX2RwX2x0dHByX3ZvbHRhZ2Vfc3dpbmdfbGV2ZWxfM19zdXBw
+b3J0ZWQgLSBjaGVjayBmb3IgTFRUUFIgdnN3aW5nMwo+ID4gc3VwcG9ydAo+ID4gKyAqIEBjYXBz
+OiBMVFRQUiBQSFkgY2FwYWJpbGl0aWVzCj4gPiArICoKPiA+ICsgKiBSZXR1cm5zIHRydWUgaWYg
+dGhlIEBjYXBzIGZvciBhbiBMVFRQUiBUWCBQSFkgaW5kaWNhdGUgc3VwcG9ydCBmb3IKPiA+ICsg
+KiB2b2x0YWdlIHN3aW5nIGxldmVsIDMuCj4gPiArICovCj4gPiArYm9vbAo+ID4gK2RybV9kcF9s
+dHRwcl92b2x0YWdlX3N3aW5nX2xldmVsXzNfc3VwcG9ydGVkKGNvbnN0IHU4Cj4gPiBjYXBzW0RQ
+X0xUVFBSX1BIWV9DQVBfU0laRV0pCj4gPiArewo+ID4gKwl1OCB0eGNhcCA9IGRwX2x0dHByX3Bo
+eV9jYXAoY2FwcywKPiA+IERQX1RSQU5TTUlUVEVSX0NBUEFCSUxJVFlfUEhZX1JFUEVBVEVSMSk7
+Cj4gPiArCj4gPiArCXJldHVybiB0eGNhcCAmIERQX1ZPTFRBR0VfU1dJTkdfTEVWRUxfM19TVVBQ
+T1JURUQ7Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1CT0woZHJtX2RwX2x0dHByX3ZvbHRhZ2Vfc3dp
+bmdfbGV2ZWxfM19zdXBwb3J0ZWQpOwo+ID4gKwo+ID4gKy8qKgo+ID4gKyAqIGRybV9kcF9sdHRw
+cl9wcmVfZW1waGFzaXNfbGV2ZWxfM19zdXBwb3J0ZWQgLSBjaGVjayBmb3IgTFRUUFIgcHJlZW1w
+aDMKPiA+IHN1cHBvcnQKPiA+ICsgKiBAY2FwczogTFRUUFIgUEhZIGNhcGFiaWxpdGllcwo+ID4g
+KyAqCj4gPiArICogUmV0dXJucyB0cnVlIGlmIHRoZSBAY2FwcyBmb3IgYW4gTFRUUFIgVFggUEhZ
+IGluZGljYXRlIHN1cHBvcnQgZm9yCj4gPiArICogcHJlLWVtcGhhc2lzIGxldmVsIDMuCj4gPiAr
+ICovCj4gPiArYm9vbAo+ID4gK2RybV9kcF9sdHRwcl9wcmVfZW1waGFzaXNfbGV2ZWxfM19zdXBw
+b3J0ZWQoY29uc3QgdTgKPiA+IGNhcHNbRFBfTFRUUFJfUEhZX0NBUF9TSVpFXSkKPiA+ICt7Cj4g
+PiArCXU4IHR4Y2FwID0gZHBfbHR0cHJfcGh5X2NhcChjYXBzLAo+ID4gRFBfVFJBTlNNSVRURVJf
+Q0FQQUJJTElUWV9QSFlfUkVQRUFURVIxKTsKPiA+ICsKPiA+ICsJcmV0dXJuIHR4Y2FwICYgRFBf
+UFJFX0VNUEhBU0lTX0xFVkVMXzNfU1VQUE9SVEVEOwo+ID4gK30KPiA+ICtFWFBPUlRfU1lNQk9M
+KGRybV9kcF9sdHRwcl9wcmVfZW1waGFzaXNfbGV2ZWxfM19zdXBwb3J0ZWQpOwo+ID4gKwo+ID4g
+IC8qKgo+ID4gICAqIGRybV9kcF9nZXRfcGh5X3Rlc3RfcGF0dGVybigpIC0gZ2V0IHRoZSByZXF1
+ZXN0ZWQgcGF0dGVybiBmcm9tIHRoZSBzaW5rLgo+ID4gICAqIEBhdXg6IERpc3BsYXlQb3J0IEFV
+WCBjaGFubmVsCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oIGIv
+aW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oCj4gPiBpbmRleCAxNTkxOTFjMWFlNzUuLmY1NWE5
+ZDEzMjBjYSAxMDA2NDQKPiA+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+ID4g
+KysrIGIvaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oCj4gPiBAQCAtMTExOCwxNSArMTExOCw1
+OCBAQCBzdHJ1Y3QgZHJtX2RldmljZTsKPiA+ICAjZGVmaW5lIERQX01BWF9MQU5FX0NPVU5UX1BI
+WV9SRVBFQVRFUgkJCSAgICAweGYwMDA0IC8qCj4gPiAxLjRhICovCj4gPiAgI2RlZmluZSBEUF9S
+ZXBlYXRlcl9GRUNfQ0FQQUJJTElUWQkJCSAgICAweGYwMDA0IC8qIDEuNCAqLwo+ID4gICNkZWZp
+bmUgRFBfUEhZX1JFUEVBVEVSX0VYVEVOREVEX1dBSVRfVElNRU9VVAkJICAgIDB4ZjAwMDUgLyoK
+PiA+IDEuNGEgKi8KPiA+ICsKPiA+ICtlbnVtIGRybV9kcF9waHkgewo+ID4gKwlEUF9QSFlfRFBS
+WCwKPiA+ICsKPiA+ICsJRFBfUEhZX0xUVFBSMSwKPiA+ICsJRFBfUEhZX0xUVFBSMiwKPiA+ICsJ
+RFBfUEhZX0xUVFBSMywKPiA+ICsJRFBfUEhZX0xUVFBSNCwKPiA+ICsJRFBfUEhZX0xUVFBSNSwK
+PiA+ICsJRFBfUEhZX0xUVFBSNiwKPiA+ICsJRFBfUEhZX0xUVFBSNywKPiA+ICsJRFBfUEhZX0xU
+VFBSOCwKPiA+ICsKPiA+ICsJRFBfTUFYX0xUVFBSX0NPVU5UID0gRFBfUEhZX0xUVFBSOCwKPiA+
+ICt9Owo+ID4gKwo+ID4gKyNkZWZpbmUgRFBfUEhZX0xUVFBSKGkpCQkJCQkgICAgKERQX1BIWV9M
+VFRQCj4gPiBSMSArIChpKSkKPiA+ICsKPiA+ICsjZGVmaW5lIF9fRFBfTFRUUFIxX0JBU0UJCQkJ
+ICAgIDB4ZjAwMTAgLyogMS4zICovCj4gPiArI2RlZmluZSBfX0RQX0xUVFBSMl9CQVNFCQkJCSAg
+ICAweGYwMDYwIC8qIDEuMyAqLwo+ID4gKyNkZWZpbmUgRFBfTFRUUFJfQkFTRShkcF9waHkpIFwK
+PiA+ICsJKF9fRFBfTFRUUFIxX0JBU0UgKyAoX19EUF9MVFRQUjJfQkFTRSAtIF9fRFBfTFRUUFIx
+X0JBU0UpICogXAo+ID4gKwkJKChkcF9waHkpIC0gRFBfUEhZX0xUVFBSMSkpCj4gPiArCj4gPiAr
+I2RlZmluZSBEUF9MVFRQUl9SRUcoZHBfcGh5LCBsdHRwcjFfcmVnKSBcCj4gPiArCShEUF9MVFRQ
+Ul9CQVNFKGRwX3BoeSkgLSBEUF9MVFRQUl9CQVNFKERQX1BIWV9MVFRQUjEpICsgKGx0dHByMV9y
+ZWcpKQo+ID4gKwo+ID4gICNkZWZpbmUgRFBfVFJBSU5JTkdfUEFUVEVSTl9TRVRfUEhZX1JFUEVB
+VEVSMQkJICAgIDB4ZjAwMTAgLyoKPiA+IDEuMyAqLwo+ID4gKyNkZWZpbmUgRFBfVFJBSU5JTkdf
+UEFUVEVSTl9TRVRfUEhZX1JFUEVBVEVSKGRwX3BoeSkgXAo+ID4gKwlEUF9MVFRQUl9SRUcoZHBf
+cGh5LCBEUF9UUkFJTklOR19QQVRURVJOX1NFVF9QSFlfUkVQRUFURVIxKQo+ID4gKwo+ID4gICNk
+ZWZpbmUgRFBfVFJBSU5JTkdfTEFORTBfU0VUX1BIWV9SRVBFQVRFUjEJCSAgICAweGYwMDExIC8q
+Cj4gPiAxLjMgKi8KPiA+ICsjZGVmaW5lIERQX1RSQUlOSU5HX0xBTkUwX1NFVF9QSFlfUkVQRUFU
+RVIoZHBfcGh5KSBcCj4gPiArCURQX0xUVFBSX1JFRyhkcF9waHksIERQX1RSQUlOSU5HX0xBTkUw
+X1NFVF9QSFlfUkVQRUFURVIxKQo+ID4gKwo+ID4gICNkZWZpbmUgRFBfVFJBSU5JTkdfTEFORTFf
+U0VUX1BIWV9SRVBFQVRFUjEJCSAgICAweGYwMDEyIC8qCj4gPiAxLjMgKi8KPiA+ICAjZGVmaW5l
+IERQX1RSQUlOSU5HX0xBTkUyX1NFVF9QSFlfUkVQRUFURVIxCQkgICAgMHhmMDAxMyAvKgo+ID4g
+MS4zICovCj4gPiAgI2RlZmluZSBEUF9UUkFJTklOR19MQU5FM19TRVRfUEhZX1JFUEVBVEVSMQkJ
+ICAgIDB4ZjAwMTQgLyoKPiA+IDEuMyAqLwo+ID4gICNkZWZpbmUgRFBfVFJBSU5JTkdfQVVYX1JE
+X0lOVEVSVkFMX1BIWV9SRVBFQVRFUjEJICAgIDB4ZjAwMjAgLyogMS40YSAqLwo+ID4gKyNkZWZp
+bmUgRFBfVFJBSU5JTkdfQVVYX1JEX0lOVEVSVkFMX1BIWV9SRVBFQVRFUihkcF9waHkpCVwKPiA+
+ICsJRFBfTFRUUFJfUkVHKGRwX3BoeSwgRFBfVFJBSU5JTkdfQVVYX1JEX0lOVEVSVkFMX1BIWV9S
+RVBFQVRFUjEpCj4gPiArCj4gPiAgI2RlZmluZSBEUF9UUkFOU01JVFRFUl9DQVBBQklMSVRZX1BI
+WV9SRVBFQVRFUjEJCSAgICAweGYwMDIxIC8qCj4gPiAxLjRhICovCj4gPiArIyBkZWZpbmUgRFBf
+Vk9MVEFHRV9TV0lOR19MRVZFTF8zX1NVUFBPUlRFRAkJICAgIEJJVCgwKQo+ID4gKyMgZGVmaW5l
+IERQX1BSRV9FTVBIQVNJU19MRVZFTF8zX1NVUFBPUlRFRAkJICAgIEJJVCgxKQo+ID4gKwo+ID4g
+ICNkZWZpbmUgRFBfTEFORTBfMV9TVEFUVVNfUEhZX1JFUEVBVEVSMQkJCSAgICAweGYwMDMwIC8q
+Cj4gPiAxLjMgKi8KPiA+ICsjZGVmaW5lIERQX0xBTkUwXzFfU1RBVFVTX1BIWV9SRVBFQVRFUihk
+cF9waHkpIFwKPiA+ICsJRFBfTFRUUFJfUkVHKGRwX3BoeSwgRFBfTEFORTBfMV9TVEFUVVNfUEhZ
+X1JFUEVBVEVSMSkKPiA+ICsKPiA+ICAjZGVmaW5lIERQX0xBTkUyXzNfU1RBVFVTX1BIWV9SRVBF
+QVRFUjEJCQkgICAgMHhmMDAzMSAvKgo+ID4gMS4zICovCj4gPiArCj4gPiAgI2RlZmluZSBEUF9M
+QU5FX0FMSUdOX1NUQVRVU19VUERBVEVEX1BIWV9SRVBFQVRFUjEJICAgIDB4ZjAwMzIgLyogMS4z
+ICovCj4gPiAgI2RlZmluZSBEUF9BREpVU1RfUkVRVUVTVF9MQU5FMF8xX1BIWV9SRVBFQVRFUjEJ
+CSAgICAweGYwMDMzIC8qCj4gPiAxLjMgKi8KPiA+ICAjZGVmaW5lIERQX0FESlVTVF9SRVFVRVNU
+X0xBTkUyXzNfUEhZX1JFUEVBVEVSMQkJICAgIDB4ZjAwMzQgLyoKPiA+IDEuMyAqLwo+ID4gQEAg
+LTEyMzcsOSArMTI4MCwxMyBAQCB1OCBkcm1fZHBfZ2V0X2FkanVzdF9yZXF1ZXN0X3Bvc3RfY3Vy
+c29yKGNvbnN0IHU4Cj4gPiBsaW5rX3N0YXR1c1tEUF9MSU5LX1NUQVRVU19TSVoKPiA+ICAjZGVm
+aW5lIERQX0RTQ19SRUNFSVZFUl9DQVBfU0laRSAgICAgICAgMHhmCj4gPiAgI2RlZmluZSBFRFBf
+UFNSX1JFQ0VJVkVSX0NBUF9TSVpFCTIKPiA+ICAjZGVmaW5lIEVEUF9ESVNQTEFZX0NUTF9DQVBf
+U0laRQkzCj4gPiArI2RlZmluZSBEUF9MVFRQUl9DT01NT05fQ0FQX1NJWkUJOAo+ID4gKyNkZWZp
+bmUgRFBfTFRUUFJfUEhZX0NBUF9TSVpFCQkzCj4gPiAgCj4gPiAgdm9pZCBkcm1fZHBfbGlua190
+cmFpbl9jbG9ja19yZWNvdmVyeV9kZWxheShjb25zdCB1OAo+ID4gZHBjZFtEUF9SRUNFSVZFUl9D
+QVBfU0laRV0pOwo+ID4gK3ZvaWQgZHJtX2RwX2x0dHByX2xpbmtfdHJhaW5fY2xvY2tfcmVjb3Zl
+cnlfZGVsYXkodm9pZCk7Cj4gPiAgdm9pZCBkcm1fZHBfbGlua190cmFpbl9jaGFubmVsX2VxX2Rl
+bGF5KGNvbnN0IHU4Cj4gPiBkcGNkW0RQX1JFQ0VJVkVSX0NBUF9TSVpFXSk7Cj4gPiArdm9pZCBk
+cm1fZHBfbHR0cHJfbGlua190cmFpbl9jaGFubmVsX2VxX2RlbGF5KGNvbnN0IHU4Cj4gPiBjYXBz
+W0RQX0xUVFBSX1BIWV9DQVBfU0laRV0pOwo+ID4gIAo+ID4gIHU4IGRybV9kcF9saW5rX3JhdGVf
+dG9fYndfY29kZShpbnQgbGlua19yYXRlKTsKPiA+ICBpbnQgZHJtX2RwX2J3X2NvZGVfdG9fbGlu
+a19yYXRlKHU4IGxpbmtfYncpOwo+ID4gQEAgLTE2OTgsNiArMTc0NSwxMCBAQCBpbnQgZHJtX2Rw
+X3JlYWRfZHBjZF9jYXBzKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsCj4gPiAgaW50IGRybV9kcF9k
+cGNkX3JlYWRfbGlua19zdGF0dXMoc3RydWN0IGRybV9kcF9hdXggKmF1eCwKPiA+ICAJCQkJIHU4
+IHN0YXR1c1tEUF9MSU5LX1NUQVRVU19TSVpFXSk7Cj4gPiAgCj4gPiAraW50IGRybV9kcF9kcGNk
+X3JlYWRfcGh5X2xpbmtfc3RhdHVzKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgsCj4gPiArCQkJCSAg
+ICAgZW51bSBkcm1fZHBfcGh5IGRwX3BoeSwKPiA+ICsJCQkJICAgICB1OCBsaW5rX3N0YXR1c1tE
+UF9MSU5LX1NUQVRVU19TSVpFXSk7Cj4gPiArCj4gPiAgYm9vbCBkcm1fZHBfc2VuZF9yZWFsX2Vk
+aWRfY2hlY2tzdW0oc3RydWN0IGRybV9kcF9hdXggKmF1eCwKPiA+ICAJCQkJICAgIHU4IHJlYWxf
+ZWRpZF9jaGVja3N1bSk7Cj4gPiAgCj4gPiBAQCAtMTc0Nyw2ICsxNzk4LDE3IEBAIGJvb2wgZHJt
+X2RwX3JlYWRfc2lua19jb3VudF9jYXAoc3RydWN0IGRybV9jb25uZWN0b3IKPiA+ICpjb25uZWN0
+b3IsCj4gPiAgCQkJCWNvbnN0IHN0cnVjdCBkcm1fZHBfZGVzYyAqZGVzYyk7Cj4gPiAgaW50IGRy
+bV9kcF9yZWFkX3NpbmtfY291bnQoc3RydWN0IGRybV9kcF9hdXggKmF1eCk7Cj4gPiAgCj4gPiAr
+aW50IGRybV9kcF9yZWFkX2x0dHByX2NvbW1vbl9jYXBzKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgs
+Cj4gPiArCQkJCSAgdTggY2Fwc1tEUF9MVFRQUl9DT01NT05fQ0FQX1NJWkVdKTsKPiA+ICtpbnQg
+ZHJtX2RwX3JlYWRfbHR0cHJfcGh5X2NhcHMoc3RydWN0IGRybV9kcF9hdXggKmF1eCwKPiA+ICsJ
+CQkgICAgICAgZW51bSBkcm1fZHBfcGh5IGRwX3BoeSwKPiA+ICsJCQkgICAgICAgdTggY2Fwc1tE
+UF9MVFRQUl9QSFlfQ0FQX1NJWkVdKTsKPiA+ICtpbnQgZHJtX2RwX2x0dHByX2NvdW50KGNvbnN0
+IHU4IGNhcFtEUF9MVFRQUl9DT01NT05fQ0FQX1NJWkVdKTsKPiA+ICtpbnQgZHJtX2RwX2x0dHBy
+X21heF9saW5rX3JhdGUoY29uc3QgdTggY2Fwc1tEUF9MVFRQUl9DT01NT05fQ0FQX1NJWkVdKTsK
+PiA+ICtpbnQgZHJtX2RwX2x0dHByX21heF9sYW5lX2NvdW50KGNvbnN0IHU4IGNhcHNbRFBfTFRU
+UFJfQ09NTU9OX0NBUF9TSVpFXSk7Cj4gPiArYm9vbCBkcm1fZHBfbHR0cHJfdm9sdGFnZV9zd2lu
+Z19sZXZlbF8zX3N1cHBvcnRlZChjb25zdCB1OAo+ID4gY2Fwc1tEUF9MVFRQUl9QSFlfQ0FQX1NJ
+WkVdKTsKPiA+ICtib29sIGRybV9kcF9sdHRwcl9wcmVfZW1waGFzaXNfbGV2ZWxfM19zdXBwb3J0
+ZWQoY29uc3QgdTgKPiA+IGNhcHNbRFBfTFRUUFJfUEhZX0NBUF9TSVpFXSk7Cj4gPiArCj4gPiAg
+dm9pZCBkcm1fZHBfcmVtb3RlX2F1eF9pbml0KHN0cnVjdCBkcm1fZHBfYXV4ICphdXgpOwo+ID4g
+IHZvaWQgZHJtX2RwX2F1eF9pbml0KHN0cnVjdCBkcm1fZHBfYXV4ICphdXgpOwo+ID4gIGludCBk
+cm1fZHBfYXV4X3JlZ2lzdGVyKHN0cnVjdCBkcm1fZHBfYXV4ICphdXgpOwo+ID4gLS0gCj4gPiAy
+LjI1LjEKPiA+IAo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KPiA+IEludGVsLWdmeCBtYWlsaW5nIGxpc3QKPiA+IEludGVsLWdmeEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKPiA+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vaW50ZWwtZ2Z4Ci0tIApTaW5jZXJlbHksCiAgICAgIEx5dWRlIFBhdWwgKHNoZS9oZXIp
+CiAgICAgIFNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
