@@ -2,76 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B094287A93
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 19:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3231B287AA4
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 19:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBB16EAA4;
-	Thu,  8 Oct 2020 17:07:05 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90DF86E0BE
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 17:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602176822;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rK1iYGxAQ5ciDSQAszI1wUVPzFtoiJoG8sac/Clna0o=;
- b=X2ZO5ffjOAmq12BLTKkp+xuJWVJrZzC30+AosoSwEqwbYr7VXLpH8xxO/LjPENoG8vV2/6
- 2Yp1O3Oe6AVz9PnKTG452e0vymr06kjGpJ21gfRDBKhCxPUix7cSworgxY4hn47IX26Dop
- 2vAGlHaSyRK/2kKWw4NpHXaIc4Cjt4o=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-ZAUVm_BZOtSgoyBWO_CfZQ-1; Thu, 08 Oct 2020 13:06:59 -0400
-X-MC-Unique: ZAUVm_BZOtSgoyBWO_CfZQ-1
-Received: by mail-qk1-f200.google.com with SMTP id g184so4438792qke.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 10:06:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=rK1iYGxAQ5ciDSQAszI1wUVPzFtoiJoG8sac/Clna0o=;
- b=sBapim6+4tx3pycouc4Aep59Qdi4QlZJ4ZI18xdtXgJu4XCv8F4JeBpjwqOpAUdZej
- eY64ZrS+KgD3OHqeh0HE5tVwd3FHrgzUz5HAYiGtF/C6HIuCx2URBJrVNCzVFL+040KK
- 1/YztrXdkB9yWzUO4sGbfHEevY+AwAGFa/xqVnW/SYjcBQ6yXT32kA3KVy0sVubFX/8w
- LaC9S9t1oVthyTG+ZU1SlAThBw55IxW/ZC6/CJThWUxeCxZtaIAdtzm9SLMebS/fczC2
- 053WHWMYI492y417eh0+EPndfDwODpwoDYt3ZFmRPRUOUPfYXIoqfEy28MaMfHdp8I+C
- iOEg==
-X-Gm-Message-State: AOAM531Zu8uwECDePpTZiIR/FHZnmegy6j4amydUOe4jL8DrY7tevt5b
- IB44nyK/p6XPf9z/NrLtRuPZm2TmaQUzdFAG56lSB60bMk4KYakDFDAo8LfLMVbe2Zl6xXmM/gD
- 6+GBEbTlnmenP6DUbldk+Q+ywxJId
-X-Received: by 2002:ac8:73d0:: with SMTP id v16mr9207122qtp.384.1602176819471; 
- Thu, 08 Oct 2020 10:06:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWocfkdhUGtEO7kiKzKyk6jBtDfxMhS6Bm8W9msZo38JHs1faT+EE/7YE2XbW0+jmyeTPl3A==
-X-Received: by 2002:ac8:73d0:: with SMTP id v16mr9207108qtp.384.1602176819239; 
- Thu, 08 Oct 2020 10:06:59 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id j24sm4342925qkg.107.2020.10.08.10.06.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 10:06:58 -0700 (PDT)
-Message-ID: <27402476cddeef59e9ee05e1cdda430a9e34d29c.camel@redhat.com>
-Subject: Re: [PATCH 1/2] drm/i915/dpcd_bl: Skip testing control capability
- with force DPCD quirk
-From: Lyude Paul <lyude@redhat.com>
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Date: Thu, 08 Oct 2020 13:06:57 -0400
-In-Reply-To: <D18BA369-25A0-4D5E-A171-9EACF7DC950B@canonical.com>
-References: <20201007065915.13883-1-kai.heng.feng@canonical.com>
- <268f495fbb7e3042eb613398a8513a83d28d3fd9.camel@redhat.com>
- <D18BA369-25A0-4D5E-A171-9EACF7DC950B@canonical.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+	by gabe.freedesktop.org (Postfix) with ESMTP id 781326EA9C;
+	Thu,  8 Oct 2020 17:09:49 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18DF989332
+ for <dri-devel@freedesktop.org>; Thu,  8 Oct 2020 17:09:43 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1602176988; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=SUzsXiN/Zq3h2vTCY35MCXNwVadO6pN8K/R70OT/2Ko=;
+ b=GUo3i9RMm/lJmQEAxrIWPX3Pgpj7fWz4TB/PVWpaz7l+FgPf1VznxFdn/ZS6woQJ7IH0vCfO
+ TuukaCdRHS5oyZKxPyBMH+EOyPwOq6rmD/aH9s+KrOilJIRT8E4aXdD57k0ryKcCmZo5gX+h
+ FbL8vgjDteFpEbxNfUqYp6Ey/9E=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5f7f47be588858a30433f832 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Oct 2020 17:09:18
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 9FD57C433F1; Thu,  8 Oct 2020 17:09:17 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from akhilpo-linux.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 8968FC433CB;
+ Thu,  8 Oct 2020 17:09:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 8968FC433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno@lists.freedesktop.org,
+	robh@kernel.org,
+	robdclark@gmail.com
+Subject: [PATCH 1/2] arm64: dts: qcom: sc7180: Add gpu cooling support
+Date: Thu,  8 Oct 2020 22:39:06 +0530
+Message-Id: <1602176947-17385-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,101 +65,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Satadru Pramanik <satadru@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, mka@chromium.org, dri-devel@freedesktop.org,
+ linux-kernel@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-oh hold on, I misspoke. Here's the patch I was thinking of:
+Add cooling-cells property and the cooling maps for the gpu tzones
+to support GPU cooling.
 
-https://patchwork.freedesktop.org/series/82041/
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
-On Thu, 2020-10-08 at 10:32 +0800, Kai-Heng Feng wrote:
-> Hi Lyude,
-> 
-> > On Oct 8, 2020, at 05:53, Lyude Paul <lyude@redhat.com> wrote:
-> > 
-> > Hi! I thought this patch rang a bell, we actually already had some
-> > discussion
-> > about this since there's a couple of other systems this was causing issues
-> > for.
-> > Unfortunately it never seems like that patch got sent out. Satadru?
-> > 
-> > (if I don't hear back from them soon, I'll just send out a patch for this
-> > myself)
-> > 
-> > JFYI - the proper fix here is to just drop the
-> > DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP check from the code entirely. As
-> > long as
-> > the backlight supports AUX_SET_CAP, that should be enough for us to control
-> > it.
-> 
-> Does the proper fix include dropping DP_QUIRK_FORCE_DPCD_BACKLIGHT entirely?
-> 
-> Kai-Heng
-> 
-> > 
-> > On Wed, 2020-10-07 at 14:58 +0800, Kai-Heng Feng wrote:
-> > > HP DreamColor panel needs to be controlled via AUX interface. However,
-> > > it has both DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP and
-> > > DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP set, so it fails to pass
-> > > intel_dp_aux_display_control_capable() test.
-> > > 
-> > > Skip the test if the panel has force DPCD quirk.
-> > > 
-> > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > > ---
-> > > drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 10 ++++++----
-> > > 1 file changed, 6 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > > b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > > index acbd7eb66cbe..acf2e1c65290 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > > @@ -347,9 +347,13 @@ int intel_dp_aux_init_backlight_funcs(struct
-> > > intel_connector *intel_connector)
-> > > 	struct intel_panel *panel = &intel_connector->panel;
-> > > 	struct intel_dp *intel_dp = enc_to_intel_dp(intel_connector->encoder);
-> > > 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > > +	bool force_dpcd;
-> > > +
-> > > +	force_dpcd = drm_dp_has_quirk(&intel_dp->desc, intel_dp->edid_quirks,
-> > > +				      DP_QUIRK_FORCE_DPCD_BACKLIGHT);
-> > > 
-> > > 	if (i915->params.enable_dpcd_backlight == 0 ||
-> > > -	    !intel_dp_aux_display_control_capable(intel_connector))
-> > > +	    (!force_dpcd &&
-> > > !intel_dp_aux_display_control_capable(intel_connector)))
-> > > 		return -ENODEV;
-> > > 
-> > > 	/*
-> > > @@ -358,9 +362,7 @@ int intel_dp_aux_init_backlight_funcs(struct
-> > > intel_connector *intel_connector)
-> > > 	 */
-> > > 	if (i915->vbt.backlight.type !=
-> > > 	    INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE &&
-> > > -	    i915->params.enable_dpcd_backlight != 1 &&
-> > > -	    !drm_dp_has_quirk(&intel_dp->desc, intel_dp->edid_quirks,
-> > > -			      DP_QUIRK_FORCE_DPCD_BACKLIGHT)) {
-> > > +	    i915->params.enable_dpcd_backlight != 1 && !force_dpcd) {
-> > > 		drm_info(&i915->drm,
-> > > 			 "Panel advertises DPCD backlight support, but "
-> > > 			 "VBT disagrees. If your backlight controls "
-> > -- 
-> > Sincerely,
-> >      Lyude Paul (she/her)
-> >      Software Engineer at Red Hat
+diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+index d46b383..40d6a28 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+@@ -2,7 +2,7 @@
+ /*
+  * SC7180 SoC device tree source
+  *
+- * Copyright (c) 2019, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2019-20, The Linux Foundation. All rights reserved.
+  */
+ 
+ #include <dt-bindings/clock/qcom,dispcc-sc7180.h>
+@@ -1885,6 +1885,7 @@
+ 			iommus = <&adreno_smmu 0>;
+ 			operating-points-v2 = <&gpu_opp_table>;
+ 			qcom,gmu = <&gmu>;
++			#cooling-cells = <2>;
+ 
+ 			interconnects = <&gem_noc MASTER_GFX3D &mc_virt SLAVE_EBI1>;
+ 			interconnect-names = "gfx-mem";
+@@ -3825,16 +3826,16 @@
+ 		};
+ 
+ 		gpuss0-thermal {
+-			polling-delay-passive = <0>;
++			polling-delay-passive = <100>;
+ 			polling-delay = <0>;
+ 
+ 			thermal-sensors = <&tsens0 13>;
+ 
+ 			trips {
+ 				gpuss0_alert0: trip-point0 {
+-					temperature = <90000>;
++					temperature = <95000>;
+ 					hysteresis = <2000>;
+-					type = "hot";
++					type = "passive";
+ 				};
+ 
+ 				gpuss0_crit: gpuss0_crit {
+@@ -3843,19 +3844,26 @@
+ 					type = "critical";
+ 				};
+ 			};
++
++			cooling-maps {
++				map0 {
++					trip = <&gpuss0_alert0>;
++					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++				};
++			};
+ 		};
+ 
+ 		gpuss1-thermal {
+-			polling-delay-passive = <0>;
++			polling-delay-passive = <100>;
+ 			polling-delay = <0>;
+ 
+ 			thermal-sensors = <&tsens0 14>;
+ 
+ 			trips {
+ 				gpuss1_alert0: trip-point0 {
+-					temperature = <90000>;
++					temperature = <95000>;
+ 					hysteresis = <2000>;
+-					type = "hot";
++					type = "passive";
+ 				};
+ 
+ 				gpuss1_crit: gpuss1_crit {
+@@ -3864,6 +3872,13 @@
+ 					type = "critical";
+ 				};
+ 			};
++
++			cooling-maps {
++				map0 {
++					trip = <&gpuss0_alert0>;
++					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++				};
++			};
+ 		};
+ 
+ 		aoss1-thermal {
 -- 
-Sincerely,
-      Lyude Paul (she/her)
-      Software Engineer at Red Hat
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
