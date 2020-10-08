@@ -1,51 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD506286D3E
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 05:43:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 894FE286D39
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 05:39:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E598F6EA21;
-	Thu,  8 Oct 2020 03:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A942F6EA1A;
+	Thu,  8 Oct 2020 03:39:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF876EA21
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 03:43:21 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id u8so4871533lff.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Oct 2020 20:43:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=0yEADBg3rUn/eSIy/c23DF5FgmPZN4bfUDLh04iLxdM=;
- b=EkzFglKMNTKjx5JDT1/eoLA3aOqZA3G1hibiTVij9zD3CQpd25URGQrelwL4WebAqn
- SXgzst5OuQTY4EruPp/n0+v250tMvqg0AOf1k24D9Vl+Pif7o7ovBbkwutbEVyfqhYbv
- bOswqbdZKRAvnxN9N4KE8RV2/IipUdTcRYqbj02VgxVBAFi9NgBvlDQOWWvPdhamoke0
- 13icqt46iNmBFXq8jeQjE+qlUTZUbRFc6fPu0y5C4FDz+F6x3wX0usN4QmLTVCKoPcjT
- xle0VNBzXwQtlw3dey2840URtHuxzkZ+/y5iuj/S6oy1RRjbKSbg25+mHuqNqAH7z7cP
- XX7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=0yEADBg3rUn/eSIy/c23DF5FgmPZN4bfUDLh04iLxdM=;
- b=dR+E2fQocw5hPWWXCB6euyy/X0eTwLRtzP3bSoWM5uWRD2JQS4jSc1mKI8EzSdI3Ko
- k6b7HfU2AwYr37pP6u7zmGQqbcGxLW9lcOcvnQvmCm7MWgzug2yHMgEgPFYWaElpU8qu
- y9KL9qGGht3PSMhKseYe8dAdnJvGIg2F+bk11R7v2/bflNsjR7s5GDrUKTFq33WS+Wrn
- J6PYBRV1orsBz7jk9sWtAv6++b212rjS9w5z8OAEn7WN7l3uri3s9nOaZOLTyChoxASc
- MXdL3LolWoYeJBAWDBeJdOHj+QxA0MwywABiAXLzJGOm1RSeCZgGcptDacwcZJeo+RmL
- o8MA==
-X-Gm-Message-State: AOAM533kc4BYQBnd6tGoW0XGnYrTR6MF8WtNNF2n16GzjB9k9R7y3osK
- Yy6xvuvWuXLDjDwVWQRDlb/hSjGVJXO1AeZojGw6R4s4ccM=
-X-Google-Smtp-Source: ABdhPJxJlnS5Wp1TkSuQRym3eDGM0qPjoOJ/FYkdp1jniSFznXS6XR8WfyAUx+FNmlQCPmbgn33Jr9NGks2ptr0F2T8=
-X-Received: by 2002:a50:e08a:: with SMTP id f10mr6999834edl.220.1602128170440; 
- Wed, 07 Oct 2020 20:36:10 -0700 (PDT)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2045.outbound.protection.outlook.com [40.107.237.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4374B6EA1A
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 03:39:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lzMkEHquCAgwEqZudIN9Y5l4AqTTjOlIU0Sn18ncqEzRaagO8p/KIdsEm3tTHw5/GjR8Zgj4lIgGBpwHyWxB3ZQQ5Zf354HDJoE0GIDfAO9SdW2ZKlGQusTddbDVHaH0CUxgweffOgsiOrSDM8F6/l4lSmm53Qqi295xjoN/UqAb1AMuy6MdE53Wdi3J9y4nMAtCzt2A7uC/7JotiPJa2noga9DB6V7c8GWNwZqTzyMqQEbSsBaMBB1DCwUxHPE0MqykO3da0BOVi6dQ26L5AF19WPVwlqVYzZqHe8PnU26arxmm41dcaT5G7rYfa6mD19lqd4RzvG/V+lTeKEd/jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BbMHunQMjjpnwds65i4cWIkV1tWHSqQIOmtGOgGEtjo=;
+ b=lpa88ILayguSLF1ql+hGUlIAhLPGqoyESYHf5tPGXzwUWxNEZi1oVrU9RrqdYwk3BItrTytAWEnwmv/Y7nQFn8bIOcVSORp4e4nGqAg5bY5YmwVTwz+LbGNZSVKt+fY7e51NvOH0q7Z1hS6btY5ltYPRaIw6PNPGWgeW2vwdPr1UtsIROtUbFokzlZtCy0ycHajB8jMNdlklbaX4DyeOzSPtZkv5N/g4SYOTG6zwjoseUuNiu1V7ibVITItzpVhxF8R2328SrGe6mB6KIXndchTKr1Wob9zCEeN882M/cueYiEw4q2P7VPzXPmwdk/3E/XhSpwbthAcRvGJ6dkvlBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BbMHunQMjjpnwds65i4cWIkV1tWHSqQIOmtGOgGEtjo=;
+ b=RkaSk3Q8CE492m0bAgq+wNvFwfBG3HI+Ba66kVpxSbMR/gCH0+x3lIHzi8SFjHfU8MNH682M2WOTvoelodF8gQZxFePnxq2ouBUh/RVeb9m88enmgec1l3m1M001wkSOz6OEaHa99RyqjnGLESOXtDynDi2Wn1qje1YLKUH4doo=
+Received: from BL0PR05MB5186.namprd05.prod.outlook.com (2603:10b6:208:8f::18)
+ by MN2PR05MB6765.namprd05.prod.outlook.com (2603:10b6:208:182::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.11; Thu, 8 Oct
+ 2020 03:39:33 +0000
+Received: from BL0PR05MB5186.namprd05.prod.outlook.com
+ ([fe80::6499:fc85:5382:1f06]) by BL0PR05MB5186.namprd05.prod.outlook.com
+ ([fe80::6499:fc85:5382:1f06%3]) with mapi id 15.20.3477.011; Thu, 8 Oct 2020
+ 03:39:33 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH 2/5] drm/vmwgfx: move null mem checks outside move notifies
+Thread-Topic: [PATCH 2/5] drm/vmwgfx: move null mem checks outside move
+ notifies
+Thread-Index: AQHWm3SjRWutc+lksUyowU3oR/jlGqmNElsA
+Date: Thu, 8 Oct 2020 03:39:33 +0000
+Message-ID: <893ABDF1-45F8-42B8-AD1F-0064625F2046@vmware.com>
+References: <20201006000644.1005758-1-airlied@gmail.com>
+ <20201006000644.1005758-3-airlied@gmail.com>
+In-Reply-To: <20201006000644.1005758-3-airlied@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3608.120.23.2.1)
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=vmware.com;
+x-originating-ip: [71.175.59.246]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 777dbf1a-7738-4ef4-0f34-08d86b3bc560
+x-ms-traffictypediagnostic: MN2PR05MB6765:
+x-microsoft-antispam-prvs: <MN2PR05MB6765344F8DBC121BFEB6D220CE0B0@MN2PR05MB6765.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1091;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TJAaNArqoZo5GDcjCd8vC7Mj27Mlg5TJl6mHcc89W+aG3JQ5jcjXznNzEGwSnqY52BfpLz3PokS6uYBkLLLCgsWL6aKl21JvIZ2ALD5emyuscPP7izv8gcSc/M7Vpcs5DoUy2sz99s0pq05wd/+az7bMpiRzrj4CdvImR7CoyEdONjZVwfBpV1EH576ImmmayPZivcM4tP+SAlrX/DCWs+HmfQu/LiU3LJnExgg29xCs2f+X/UKydawccznpB3v8aFI8BTOmFVtze4VPmBW7a2wEHhOrs0TmzB7HEoTbz0nZq1OP0RuwV1TIhFLJpKRYJ9q7shirYtHW7pExfZFZtw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR05MB5186.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39860400002)(396003)(376002)(136003)(366004)(8676002)(6512007)(478600001)(26005)(5660300002)(6916009)(186003)(86362001)(71200400001)(6506007)(6486002)(54906003)(53546011)(558084003)(8936002)(2906002)(64756008)(76116006)(2616005)(91956017)(4326008)(316002)(66556008)(66946007)(66476007)(66446008)(33656002)(36756003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: VtPo1gcVjc17fb9S7yxV/yGwlXKrNl37B7YA/gdccTzwU2KiJOFd7fnsjHOJm+QnbW631Eqdtf7YDPIael3WG0NgaGvtXyc5PgDJfyXsub49Rnf5q6Iz7XUqcZsKf+/arv2TIzgWNwAnlCVJ0DfCnbyHM4MOk52o0PdMD0JCBbjhdj0fbjP3JgkQubSNNEq3H6lQOXuTkyq6K+ippbX4WbYp+uQzPpAy+QY8JtTr064og4JQTXSYA1aL4zx+ERBnRmJeXVCcOxB0t+2QJzI/wXCumXxvVbCSNZVAkpyBiYHDu+PT/kqSJmzDljpZsaw4C7yE2MHIGQHYVIBbURJMU37oRMfSx5XkaSrgaVZQTxcTUmVraQKlj3JI9LeICj7XIZQr0icSFmMNH71lSku5WXCu0r79h173C9p878kMmET1eQk4IjiDc2cv0VgF8eKuTY2piGgaD+sclzcZ/72hIzq0cV8Q92wbxQ4W9WMrKcIKvuRWTFtR8nawpxyHe73vObKvUWwU9AytqDVgU9kHKLzBFJW2zBZMYt3JnG5Xn9KiZsYURVBg1Ca90W5UcujIx5ddrK/qafST5enIPCxwO6Wwgg8CNShZGfmrBP/yYXdIUTGkRsJUH9cTjDI98sJDhYzn0lgUGbNgj4cZKmitnQ==
+x-ms-exchange-transport-forked: True
+Content-ID: <29BCC5B3B5E8674CA0F5802471382E95@namprd05.prod.outlook.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 8 Oct 2020 13:35:59 +1000
-Message-ID: <CAPM=9twbVGe96YNPCMMRrXPJhCoLLbhqtN0DjdTJcqo52OoLCA@mail.gmail.com>
-Subject: [git pull] drm nouveau fixes for 5.9 final
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR05MB5186.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 777dbf1a-7738-4ef4-0f34-08d86b3bc560
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2020 03:39:33.0555 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /CqedB6qZLoelkIuSVs2EtvzXAzW8euqhlxtK4XhyXAuJGt/HvwzbaKwTQu0Q4qIaRtkKRmdppJsUsFlAYJNZg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB6765
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,59 +94,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "rscheidegger.oss@gmail.com" <rscheidegger.oss@gmail.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-
-Karol found two last minute nouveau fixes, they both fix crashes, the
-TTM one follows what other drivers do already, and the other is for
-bailing on load on unrecognised chipsets.
-
-Thanks,
-Dave.
-
-drm-fixes-2020-10-08:
-drm nouveau fixes for 5.9 final
-
-nouveau:
-- fix crash in TTM alloc fail path
-- return error earlier for unknown chipsets
-The following changes since commit 86fdf61e71046618f6f499542cee12f2348c523c:
-
-  Merge tag 'drm-misc-fixes-2020-10-01' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-10-06
-12:38:28 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-10-08
-
-for you to fetch changes up to d10285a25e29f13353bbf7760be8980048c1ef2f:
-
-  drm/nouveau/mem: guard against NULL pointer access in mem_del
-(2020-10-07 15:33:09 +1000)
-
-----------------------------------------------------------------
-drm nouveau fixes for 5.9 final
-
-nouveau:
-- fix crash in TTM alloc fail path
-- return error earlier for unknown chipsets
-
-----------------------------------------------------------------
-Karol Herbst (2):
-      drm/nouveau/device: return error for unknown chipsets
-      drm/nouveau/mem: guard against NULL pointer access in mem_del
-
- drivers/gpu/drm/nouveau/nouveau_mem.c             | 2 ++
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c | 1 +
- 2 files changed, 3 insertions(+)
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+DQo+IE9uIE9jdCA1LCAyMDIwLCBhdCAyMDowNiwgRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwu
+Y29tPiB3cm90ZToNCj4gDQo+IEZyb206IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+
+DQo+IA0KPiBCb3RoIGZucyBjaGVja2VkIG1lbSA9PSBOVUxMLCBqdXN0IG1vdmUgdGhlIGNoZWNr
+IG91dHNpZGUuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRo
+YXQuY29tPg0KDQpUaGF04oCZcyBhIG5pY2UgY2xlYW51cC4NCg0KUmV2aWV3ZWQtYnk6IFphY2sg
+UnVzaW4gPHphY2tyQHZtd2FyZS5jb20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
