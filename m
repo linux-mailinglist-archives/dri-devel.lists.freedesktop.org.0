@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C62E28838E
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:30:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C395628839B
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:30:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91BE66EC5B;
-	Fri,  9 Oct 2020 07:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC3F6EC64;
+	Fri,  9 Oct 2020 07:30:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC4D76EA47
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 12:44:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8846E3D8
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 12:44:35 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 074CAA91;
- Thu,  8 Oct 2020 08:44:32 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 08 Oct 2020 08:44:33 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 670C8B64;
+ Thu,  8 Oct 2020 08:44:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 08 Oct 2020 08:44:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=f2F0ThPE302gl
- CHasuSrENmEAtMo9aqWnrYX3qQaWFI=; b=rDV4HC7SuyPqVO8FFlrHQ+V0PXzpF
- UfXbjV4Yhi+HUyRjX6nTtHerJPAA55aBX1u0cvKP5IAXH0GnvXcbYU6vFofIqBtY
- zzH+J1vjdL3kEY5KiFtrcNOSPtEbBY2EZdIkLQRc4IY1zmiupyciJikRlYA0jDPN
- sNj4V93ZIfobYbk4XT3c4aucx9YLoPLTLlkvjU+FyI8NIEU+SGNWXO4J6N0Xrjci
- ASRAeyLUiBNiEhIoIsjp0VvZriwLgzZ5KJc4w8pHjCqRqmTtLU40ZaTxCNQ5V9zC
- JH0QH/YZVkp3Mi/n3Eiv5yPXL9TKSNyUJjst9HWwWBJAibq9JTsmrBSAg==
+ :mime-version:content-transfer-encoding; s=fm1; bh=ALl/fjJQpZNsd
+ RdIR4o5ayqbTl5GP2VDA3xHKuBSJ1w=; b=SM2wWkxng9aGZpg2e8jB93VEN+Miq
+ ckoEj/VV5K1opW20Pv/GwBE9R2tW96JCylM9VLfuxMdk/wdBeu5ca3II5Y9uJfOC
+ ai7wQsbeeqbr9AaIwA9LDN447LxGpG4J8dLqMepg4YVhhsqsi1MceEZVenQwVOuy
+ AD1qIyr3wU48Q2J49PlACmsr/pt677JT6F3MTxIlPGBpTx6poow2fBqwNdkXZ5GB
+ 2iDb79U8zMgGJzNYHFj78ekHjmlKl9Dg1mTrtpBr1lByk5AoKomAs1KlNejQf9K8
+ 7tZZOV/T65Havos1SN5SBcbAg6zzddKZx9ShwokeMLMBYGeHmr5y2zjcw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=f2F0ThPE302glCHasuSrENmEAtMo9aqWnrYX3qQaWFI=; b=DUosasef
- DjQIw3d0Dy3ObpOx6FS2xXDyR20KKH5S0qHb9B/zHFvrxxCl7fQmZqH6d7fyew2D
- YlBcyCfVm1CG8U/WYXR6zlljXd+ypt7xlq4b8J3El5bE1OV8RntR9DmMEPF0XuE3
- pskdHugZesdMstTul1xMd8FLn9WUPz2UF9RfOlfRNr5H+ikhRHE4VL+j0fjbAp+7
- AOCYcNiDyfvgXsJDX0bXroFh3zA3/qpAIfd35vg9nEXzfTXpFX2UkaRNtipOl3EK
- V+7ZaBSmf4UKoGivYcM9p8Q5f0kXaIKbNvbhZVx9L+sgf50NmBob1hRAFweNhXc0
- H/Hn35317LQMHw==
-X-ME-Sender: <xms:sAl_X4OAuvvhlPYkmEfBFLYqwhYrkwzXFWu-bMxNwMkvi3dxIhgnHg>
- <xme:sAl_X--FmBjh0gQzHAB7aWq8Q9_MAK4j69Yrg5Z2m34uo4lXsam9zWUHGpLPuNxXe
- bATHY46HE-JH2p39f0>
+ fm1; bh=ALl/fjJQpZNsdRdIR4o5ayqbTl5GP2VDA3xHKuBSJ1w=; b=dLljkaMf
+ lr3Jz+hAcDgdnefhmdBUr+VZ/W7n16oe8ndkjYZMAhcbWiy5KMeDT9u4B7GrzoWm
+ 7JM/4n5LDMGZbyUVA8WGPgHWqc6XPiVwpUZy/l5pvz8i0m0qq0NdR65l2x/qLaUx
+ GMsGa2j1r1KbG7hjnKvV2NwAQbVNjwWGqJullvyXQeRPLAf2BFEq2fM2T0BL7g3j
+ AlVtxmoyuc+90yUC3g/JreJlgiT261bHcn6+Z2A/dyutAlsewlfXf4REMDWSClOd
+ eA1kvDSTWZxSuymI/nuhwODnBhceMcnxMjsAExkWa0u1I9wKowM7KzNw8RvLUGu5
+ MtaC0+MaGmnEYA==
+X-ME-Sender: <xms:sQl_X4XyTBTXPvFoY8EtoTHzpjPy2xxlmPeCh49GqgdkBPghl11oYA>
+ <xme:sQl_X8ncOPfXemnPCGDJ8Sg7wSDrj09zRMImh8x9PgqwHCKJyVkwqZNnQZMq-8xe4
+ E6YiQbX0nZRPgYrxJM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgeelgddvlecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvnecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:sAl_X_QY-jKIBNeN5t9cxmIwp6-7OzxmjxoSrx-YTZaW8rbtLbo7rw>
- <xmx:sAl_XwtEu0QUnoiJ6NJ8rAp7xlr0wbUC_XV-Wr_TM-RXOgfXvaVqZA>
- <xmx:sAl_XwefRQOZTHEn8LGTxAzcfZHEhomqlk5IyE7DwoW06gG8ZulvNA>
- <xmx:sAl_XxUBfp89XQ4lxRXf8z61k2XnlTtoRQtw_BLouOcN3JEAgsibqOaee4k>
+X-ME-Proxy: <xmx:sQl_X8bvPijeC9012i9Hfk78b7dgomnNXhAuWWjXpKqmM1fOUDA_3A>
+ <xmx:sQl_X3Vno7GAd96FWd0VoYi7VDwTGlMWa-ELhngVEtBheh34QyWO_w>
+ <xmx:sQl_XynvpYPPfs025H71RiaYb25HgExPbsRV_WUBrRRXkjwDVqcVmA>
+ <xmx:sQl_X7ed-gcPrVHZacFI62FkO-SRLGTwlHGGmsRyMRsOAYyYCJZ7iy2SA3w>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 149863280063;
- Thu,  8 Oct 2020 08:44:31 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 706E23064674;
+ Thu,  8 Oct 2020 08:44:33 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 2/6] drm/vc4: hvs: Align the HVS atomic hooks to the new API
-Date: Thu,  8 Oct 2020 14:44:09 +0200
-Message-Id: <3f91540ff3dcae2fb261d20eb7b8fd9a40d196a0.1602161031.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 3/6] drm/vc4: Pass the atomic state to encoder hooks
+Date: Thu,  8 Oct 2020 14:44:10 +0200
+Message-Id: <0dff5ec6d8f91a7e8cf16ed314f44102ac762c60.1602161031.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.647a5105d069cdcf8545555d1c381c233675a289.1602161031.git-series.maxime@cerno.tech>
 References: <cover.647a5105d069cdcf8545555d1c381c233675a289.1602161031.git-series.maxime@cerno.tech>
@@ -92,116 +92,167 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the CRTC setup in vc4 is split between the PixelValves/TXP and the
-HVS, only the PV/TXP atomic hooks were updated in the previous commits, but
-it makes sense to update the HVS ones too.
+We'll need to access the connector state in our encoder setup, so let's
+just pass the whole DRM state to our private encoder hooks.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 4 +---
- drivers/gpu/drm/vc4/vc4_drv.h  | 4 ++--
- drivers/gpu/drm/vc4/vc4_hvs.c  | 8 +++++---
- drivers/gpu/drm/vc4/vc4_txp.c  | 8 ++------
- 4 files changed, 10 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 18 ++++++++++--------
+ drivers/gpu/drm/vc4/vc4_drv.h  | 10 +++++-----
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 15 ++++++++++-----
+ 3 files changed, 25 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 97b1f1f7aa18..b5deacfe16cd 100644
+index b5deacfe16cd..4204c5e37ffe 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -503,8 +503,6 @@ static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
- static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
- 				   struct drm_atomic_state *state)
+@@ -403,7 +403,9 @@ static void require_hvs_enabled(struct drm_device *dev)
+ 		     SCALER_DISPCTRL_ENABLE);
+ }
+ 
+-static int vc4_crtc_disable(struct drm_crtc *crtc, unsigned int channel)
++static int vc4_crtc_disable(struct drm_crtc *crtc,
++			    struct drm_atomic_state *state,
++			    unsigned int channel)
  {
--	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state,
--								         crtc);
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
  	struct drm_encoder *encoder = vc4_get_crtc_encoder(crtc);
-@@ -517,7 +515,7 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
- 	 */
- 	drm_crtc_vblank_on(crtc);
+ 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
+@@ -435,13 +437,13 @@ static int vc4_crtc_disable(struct drm_crtc *crtc, unsigned int channel)
+ 	mdelay(20);
  
--	vc4_hvs_atomic_enable(crtc, old_state);
-+	vc4_hvs_atomic_enable(crtc, state);
+ 	if (vc4_encoder && vc4_encoder->post_crtc_disable)
+-		vc4_encoder->post_crtc_disable(encoder);
++		vc4_encoder->post_crtc_disable(encoder, state);
  
- 	if (vc4_encoder->pre_crtc_configure)
- 		vc4_encoder->pre_crtc_configure(encoder);
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index a22478a35199..92996c99600d 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -912,8 +912,8 @@ extern struct platform_driver vc4_hvs_driver;
- void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int output);
- int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output);
- int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_crtc_state *state);
--void vc4_hvs_atomic_enable(struct drm_crtc *crtc, struct drm_crtc_state *old_state);
--void vc4_hvs_atomic_disable(struct drm_crtc *crtc, struct drm_crtc_state *old_state);
-+void vc4_hvs_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state);
-+void vc4_hvs_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state);
- void vc4_hvs_atomic_flush(struct drm_crtc *crtc, struct drm_crtc_state *state);
- void vc4_hvs_dump_state(struct drm_device *dev);
- void vc4_hvs_unmask_underrun(struct drm_device *dev, int channel);
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 4d0a833366ce..22403ab2a430 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -391,11 +391,12 @@ static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
+ 	vc4_crtc_pixelvalve_reset(crtc);
+ 	vc4_hvs_stop_channel(dev, channel);
+ 
+ 	if (vc4_encoder && vc4_encoder->post_crtc_powerdown)
+-		vc4_encoder->post_crtc_powerdown(encoder);
++		vc4_encoder->post_crtc_powerdown(encoder, state);
+ 
+ 	return 0;
+ }
+@@ -468,7 +470,7 @@ int vc4_crtc_disable_at_boot(struct drm_crtc *crtc)
+ 	if (channel < 0)
+ 		return 0;
+ 
+-	return vc4_crtc_disable(crtc, channel);
++	return vc4_crtc_disable(crtc, NULL, channel);
  }
  
- void vc4_hvs_atomic_enable(struct drm_crtc *crtc,
--			   struct drm_crtc_state *old_state)
-+			   struct drm_atomic_state *state)
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
--	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
-+	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(new_crtc_state);
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
- 	bool oneshot = vc4_state->feed_txp;
- 
-@@ -404,9 +405,10 @@ void vc4_hvs_atomic_enable(struct drm_crtc *crtc,
- }
- 
- void vc4_hvs_atomic_disable(struct drm_crtc *crtc,
--			    struct drm_crtc_state *old_state)
-+			    struct drm_atomic_state *state)
- {
- 	struct drm_device *dev = crtc->dev;
-+	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state, crtc);
- 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(old_state);
- 	unsigned int chan = vc4_state->assigned_channel;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index e0e0b72ea65c..9fc8328f505c 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -404,23 +404,19 @@ static int vc4_txp_atomic_check(struct drm_crtc *crtc,
- static void vc4_txp_atomic_enable(struct drm_crtc *crtc,
- 				  struct drm_atomic_state *state)
- {
--	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state,
--									 crtc);
- 	drm_crtc_vblank_on(crtc);
--	vc4_hvs_atomic_enable(crtc, old_state);
-+	vc4_hvs_atomic_enable(crtc, state);
- }
- 
- static void vc4_txp_atomic_disable(struct drm_crtc *crtc,
- 				   struct drm_atomic_state *state)
- {
--	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state,
--									 crtc);
- 	struct drm_device *dev = crtc->dev;
- 
+ static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
+@@ -484,7 +486,7 @@ static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
  	/* Disable vblank irq handling before crtc is disabled. */
  	drm_crtc_vblank_off(crtc);
  
--	vc4_hvs_atomic_disable(crtc, old_state);
-+	vc4_hvs_atomic_disable(crtc, state);
+-	vc4_crtc_disable(crtc, old_vc4_state->assigned_channel);
++	vc4_crtc_disable(crtc, state, old_vc4_state->assigned_channel);
  
  	/*
  	 * Make sure we issue a vblank event after disabling the CRTC if
+@@ -518,14 +520,14 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	vc4_hvs_atomic_enable(crtc, state);
+ 
+ 	if (vc4_encoder->pre_crtc_configure)
+-		vc4_encoder->pre_crtc_configure(encoder);
++		vc4_encoder->pre_crtc_configure(encoder, state);
+ 
+ 	vc4_crtc_config_pv(crtc);
+ 
+ 	CRTC_WRITE(PV_CONTROL, CRTC_READ(PV_CONTROL) | PV_CONTROL_EN);
+ 
+ 	if (vc4_encoder->pre_crtc_enable)
+-		vc4_encoder->pre_crtc_enable(encoder);
++		vc4_encoder->pre_crtc_enable(encoder, state);
+ 
+ 	/* When feeding the transposer block the pixelvalve is unneeded and
+ 	 * should not be enabled.
+@@ -534,7 +536,7 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
+ 		   CRTC_READ(PV_V_CONTROL) | PV_VCONTROL_VIDEN);
+ 
+ 	if (vc4_encoder->post_crtc_enable)
+-		vc4_encoder->post_crtc_enable(encoder);
++		vc4_encoder->post_crtc_enable(encoder, state);
+ }
+ 
+ static enum drm_mode_status vc4_crtc_mode_valid(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 92996c99600d..30dfe113dfd0 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -442,12 +442,12 @@ struct vc4_encoder {
+ 	enum vc4_encoder_type type;
+ 	u32 clock_select;
+ 
+-	void (*pre_crtc_configure)(struct drm_encoder *encoder);
+-	void (*pre_crtc_enable)(struct drm_encoder *encoder);
+-	void (*post_crtc_enable)(struct drm_encoder *encoder);
++	void (*pre_crtc_configure)(struct drm_encoder *encoder, struct drm_atomic_state *state);
++	void (*pre_crtc_enable)(struct drm_encoder *encoder, struct drm_atomic_state *state);
++	void (*post_crtc_enable)(struct drm_encoder *encoder, struct drm_atomic_state *state);
+ 
+-	void (*post_crtc_disable)(struct drm_encoder *encoder);
+-	void (*post_crtc_powerdown)(struct drm_encoder *encoder);
++	void (*post_crtc_disable)(struct drm_encoder *encoder, struct drm_atomic_state *state);
++	void (*post_crtc_powerdown)(struct drm_encoder *encoder, struct drm_atomic_state *state);
+ };
+ 
+ static inline struct vc4_encoder *
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 03825596a308..7d2593398094 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -357,7 +357,8 @@ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
+ 		vc4_hdmi_set_audio_infoframe(encoder);
+ }
+ 
+-static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder)
++static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder,
++					       struct drm_atomic_state *state)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+ 
+@@ -370,7 +371,8 @@ static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder)
+ 		   HDMI_READ(HDMI_VID_CTL) | VC4_HD_VID_CTL_BLANKPIX);
+ }
+ 
+-static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder)
++static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder,
++						 struct drm_atomic_state *state)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+ 	int ret;
+@@ -584,7 +586,8 @@ static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
+ 		  "VC4_HDMI_FIFO_CTL_RECENTER_DONE");
+ }
+ 
+-static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder)
++static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
++						struct drm_atomic_state *state)
+ {
+ 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+@@ -676,7 +679,8 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder)
+ 		vc4_hdmi->variant->set_timings(vc4_hdmi, mode);
+ }
+ 
+-static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder)
++static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
++					     struct drm_atomic_state *state)
+ {
+ 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+ 	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
+@@ -698,7 +702,8 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder)
+ 	HDMI_WRITE(HDMI_FIFO_CTL, VC4_HDMI_FIFO_CTL_MASTER_SLAVE_N);
+ }
+ 
+-static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder)
++static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
++					      struct drm_atomic_state *state)
+ {
+ 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
 -- 
 git-series 0.9.1
 _______________________________________________
