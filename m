@@ -1,72 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2632875CE
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 16:14:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E602875DC
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 16:17:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67B8B6EA47;
-	Thu,  8 Oct 2020 14:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7442D6EA64;
+	Thu,  8 Oct 2020 14:17:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7E716EA47
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 14:14:23 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id l15so6871520wmh.1
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 07:14:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=SKpxYdUurmpOS5BkncePHyl2hsG1ycnDl5RK5GsXoXc=;
- b=fUX+sAvAlhLn8s9pMBv+CAJuKweXXzPXeQaXLLKXLzS93kfhlCTgAvIlGdaRzQ60Ej
- 9iQX+6UZwIrYj21RORZgWLqnIxjjHHTZso4kF+xYv3yiS3nKviqo+RBzttefQD3uGI0n
- ypnYadZqRu/XN5JvDkbxL51lo817XHh2ps7SE=
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5528C6EA67
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 14:17:45 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id f21so6632697wml.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 07:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=zJluAbiLYKXPtNojcpa58wSPE+smR+xHU3IRj+ib1Us=;
+ b=UrL9DY8cY2lFuaXOufBSi5ViWUeBe5S6uSGJAnAp2WdUeOoKaPy2qaS+rANexdnV9K
+ lYZ/Px77JgA5SG+qvaIim88I+J9flXuyZdXrqZFEC5Cd7kkFqMD+P9MUYejn2sBjqr+j
+ JK2yyQTsTM1xSHH2ha8OWEbcXsuHHPJ9rFBT75vwDQw+gkcsaPUn82cIAZFYDFLKE1Ye
+ xJM8Slmp1x2rJQtlsdcGzPPxMD5Nkjyk5EEFFKyi3AdypLEYV7ZqKlyMeP5yTUg3H7Af
+ ESXMsRjSpPoCBjKieiaJd+2r4tQy+AB7gT6bdKxJZzewPRSrM98TRz3af4UGw/yMAyMK
+ vsgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=SKpxYdUurmpOS5BkncePHyl2hsG1ycnDl5RK5GsXoXc=;
- b=OQG6JsPG3C2a4Sisd9zg+pq/wC8+pOKerGj+hjrb0KO6FcyoIuSubGakcXxFILUtqc
- Jth1zS0SSAQZaXyCdgaLWvFVsA2DdeVd1faRW+95XTUickBaV+0ns9Lxi2cvZEnSYrWK
- OT42Lg+S3e4VP8TJbA+eX++QTI1b0vrrAUxLxB679+mIuIessteVkaySOt3vDuRJzAoq
- ojncHapfV8Dl25+2QRPIZ49UYhEwfslcrLESFB5pS723ephoz2FhpYHVwZonHHh+sk4Z
- LgApUEKIGIIF2632Kt72zbSLUaC/8TKM722Gorx7+ChgP6EiFemY25HT7GZy18BQcqIy
- UxFQ==
-X-Gm-Message-State: AOAM530mYdyA3sAnOe1zIcqJz0Pt3KCXRsizltuXTI/L51r3qq61XUJN
- sIFxdrOeQdtML4nIwHmYXmIL78RIWs6jjjo/
-X-Google-Smtp-Source: ABdhPJyZe4Z21U8phi7d2Xe/UNgxW53htdWoW10px59ECyLFlG/URS67GHq0loHUzd4W89hC8MwYlg==
-X-Received: by 2002:a1c:bd43:: with SMTP id n64mr8613712wmf.113.1602166462550; 
- Thu, 08 Oct 2020 07:14:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x81sm7251502wmb.11.2020.10.08.07.14.20
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=zJluAbiLYKXPtNojcpa58wSPE+smR+xHU3IRj+ib1Us=;
+ b=mqZWvx+8SlJ4qkB6xXJibp0Ew/bHICOxd4Oob2DWiWFKqg6EAKErwlbWLGdoaJW7Ci
+ pz46/ljEq4yc530HCESU4IXH+sacpw//31VdhyEtHjzwT3mWiW4jvx0hAs5mc5vZWOSS
+ QoRo60FLQE+iQvioDvtaiB+41knyvo9DapkkG33XNbQ/jmjVWAMv4+Vd/20Kco4BeXN2
+ Cnl3+KpsWl8MKHSzi3XOaChEl6frdjuggLB5wX1FpB6miSGnSvVULXuM88lPaln0OuWD
+ AbYJevgxrSISAVnsC0P0b10hErGqsGJ8M8jSLIXqTlJ76rrvs4NVT6kTsd4qKf4YmocY
+ z7CA==
+X-Gm-Message-State: AOAM530LljIwXSr/mWiHMM62KF2qSbZyfO+bNS+inOFcz9oEvxng2TY7
+ JqdjDLZ5F05XE3/sC1ia0AU=
+X-Google-Smtp-Source: ABdhPJxGaBAS7vhNVhl+YJzxwfGh3//smoQmnJlWI+XeaKkDm79BSomvewfKz4GXArhthgaSSFLcIQ==
+X-Received: by 2002:a7b:cb47:: with SMTP id v7mr9215680wmj.150.1602166663999; 
+ Thu, 08 Oct 2020 07:17:43 -0700 (PDT)
+Received: from localhost.localdomain ([87.200.95.144])
+ by smtp.gmail.com with ESMTPSA id 4sm7985982wrn.48.2020.10.08.07.17.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 07:14:21 -0700 (PDT)
-Date: Thu, 8 Oct 2020 16:14:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, chris@chris-wilson.co.uk,
- airlied@redhat.com, akpm@linux-foundation.org, sumit.semwal@linaro.org
-Subject: Re: [PATCH 2/4] drm/prime: document that use the page array is
- deprecated
-Message-ID: <20201008141419.GH438822@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, chris@chris-wilson.co.uk,
- airlied@redhat.com, akpm@linux-foundation.org,
- sumit.semwal@linaro.org
-References: <20201008112342.9394-1-christian.koenig@amd.com>
- <20201008112342.9394-2-christian.koenig@amd.com>
- <20201008140914.GF438822@phenom.ffwll.local>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201008140914.GF438822@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+ Thu, 08 Oct 2020 07:17:42 -0700 (PDT)
+From: Christian Hewitt <christianshewitt@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panfrost: increase readl_relaxed_poll_timeout values
+Date: Thu,  8 Oct 2020 14:17:38 +0000
+Message-Id: <20201008141738.13560-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,95 +66,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Christian Hewitt <christianshewitt@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 08, 2020 at 04:09:14PM +0200, Daniel Vetter wrote:
-> On Thu, Oct 08, 2020 at 01:23:40PM +0200, Christian K=F6nig wrote:
-> > We have reoccurring requests on this so better document that
-> > this approach doesn't work and dma_buf_mmap() needs to be used instead.
-> > =
+Amlogic SoC devices report the following errors frequently causing excessive
+dmesg log spam and early log rotataion, although the errors appear to be
+harmless as everything works fine:
 
-> > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-> > ---
-> >  drivers/gpu/drm/drm_prime.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> > =
+[    7.202702] panfrost ffe40000.gpu: error powering up gpu L2
+[    7.203760] panfrost ffe40000.gpu: error powering up gpu shader
 
-> > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> > index 4910c446db83..16fa2bfc271e 100644
-> > --- a/drivers/gpu/drm/drm_prime.c
-> > +++ b/drivers/gpu/drm/drm_prime.c
-> > @@ -956,7 +956,7 @@ EXPORT_SYMBOL(drm_gem_prime_import);
-> >  /**
-> >   * drm_prime_sg_to_page_addr_arrays - convert an sg table into a page =
-array
-> >   * @sgt: scatter-gather table to convert
-> > - * @pages: optional array of page pointers to store the page array in
-> > + * @pages: deprecated array of page pointers to store the page array in
-> >   * @addrs: optional array to store the dma bus address of each page
-> >   * @max_entries: size of both the passed-in arrays
-> >   *
-> > @@ -965,6 +965,11 @@ EXPORT_SYMBOL(drm_gem_prime_import);
-> >   *
-> >   * Drivers can use this in their &drm_driver.gem_prime_import_sg_table
-> >   * implementation.
-> > + *
-> > + * Specifying the pages array is deprecated and strongly discouraged f=
-or new
-> > + * drivers. The pages array is only useful for page faults and those c=
-an
-> > + * corrupt fields in the struct page if they are not handled by the ex=
-porting
-> > + * driver.
-> >   */
-> =
+ARM staff have advised increasing the timeout values to eliminate the errors
+in most normal scenarios, and testing with several different G31/G52 devices
+shows 20000 to be a reliable value.
 
-> I'd make this a _lot_ stronger: Aside from amdgpu and radeon all drivers
-> using this only need it for the pages array. Imo just open-code the sg
-> table walking loop in amdgpu/radeon (it's really not much code), and then
-> drop the dma_addr_t parameter from this function here (it's set to NULL by
-> everyone else).
-> =
+Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
+Suggested-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_gpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> And then deprecate this entire function here with a big warning that a)
-> dma_buf_map_attachment is allowed to leave the struct page pointers NULL
-> and b) this breaks mmap, users must call dma_buf_mmap instead.
-> =
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index e1b2a3376624..2aae636f1cf5 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -325,13 +325,13 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+ 	/* Just turn on everything for now */
+ 	gpu_write(pfdev, L2_PWRON_LO, pfdev->features.l2_present);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + L2_READY_LO,
+-		val, val == pfdev->features.l2_present, 100, 1000);
++		val, val == pfdev->features.l2_present, 100, 20000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "error powering up gpu L2");
+ 
+ 	gpu_write(pfdev, SHADER_PWRON_LO, pfdev->features.shader_present);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_READY_LO,
+-		val, val == pfdev->features.shader_present, 100, 1000);
++		val, val == pfdev->features.shader_present, 100, 20000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "error powering up gpu shader");
+ 
+-- 
+2.17.1
 
-> Also maybe make it an uppercase DEPRECATED or something like that :-)
-
-OK I just realized I missed nouveau. That would be 3 places where we need
-to stuff the dma_addr_t list into something ttm can take. Still feels
-better than this half-deprecated function kludge ...
--Daniel
-
-> -Daniel
-> =
-
-> >  int drm_prime_sg_to_page_addr_arrays(struct sg_table *sgt, struct page=
- **pages,
-> >  				     dma_addr_t *addrs, int max_entries)
-> > -- =
-
-> > 2.17.1
-> > =
-
-> =
-
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
