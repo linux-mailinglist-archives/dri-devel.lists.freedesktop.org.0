@@ -1,27 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0DC288399
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:30:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E5228839D
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:30:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D27A26EC69;
-	Fri,  9 Oct 2020 07:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23D166EC65;
+	Fri,  9 Oct 2020 07:30:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 609 seconds by postgrey-1.36 at gabe;
- Thu, 08 Oct 2020 08:57:33 UTC
 Received: from mail.lineo.co.jp (ns.lineo.co.jp [203.141.200.203])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A61896E0F0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AED446E112;
  Thu,  8 Oct 2020 08:57:33 +0000 (UTC)
 Received: from [172.31.78.0] (unknown [203.141.200.204])
- by mail.lineo.co.jp (Postfix) with ESMTPSA id 9872580214FF9;
- Thu,  8 Oct 2020 17:47:21 +0900 (JST)
+ by mail.lineo.co.jp (Postfix) with ESMTPSA id D24C480535E2A;
+ Thu,  8 Oct 2020 17:47:46 +0900 (JST)
 From: Naoki Hayama <naoki.hayama@lineo.co.jp>
-Subject: [PATCH 0/6] spelling: Fix typo related to "arbitrary"
-To: linux-kernel@vger.kernel.org
-Message-ID: <4dea2b7e-31b9-a231-7fa2-9ee7ffd37686@lineo.co.jp>
-Date: Thu, 8 Oct 2020 17:47:21 +0900
+Subject: [PATCH 5/6] drm/etnaviv: Fix typo arbitary
+To: Lucas Stach <l.stach@pengutronix.de>
+Message-ID: <db33738b-9b6d-c11e-c603-99a0f8ae3c3f@lineo.co.jp>
+Date: Thu, 8 Oct 2020 17:47:46 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -39,51 +37,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Samuel Chessman <chessman@tux.org>, Naoki Hayama <naoki.hayama@lineo.co.jp>,
- Andy Gross <agross@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- etnaviv@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Andy Whitcroft <apw@canonical.com>,
- Jaroslav Kysela <perex@perex.cz>, netdev@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, Joe Perches <joe@perches.com>,
- Colin Ian King <colin.king@canonical.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Naoki Hayama <naoki.hayama@lineo.co.jp>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I found some typos related to "arbitrary".
-
-s/abitrary/arbitrary/
+Fix comment typo.
 s/arbitary/arbitrary/
 
-This series fixes them.
+Signed-off-by: Naoki Hayama <naoki.hayama@lineo.co.jp>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-These typos have been reported in the past in other codes, but
-correction 'abitrary||arbitrary' wasn't added to scripts/spelling.txt.
-Therefore, PATCH #6 adds it to spelling.txt.
-
-
-Naoki Hayama (6):
-  net: tlan: Fix typo abitrary
-  dt-bindings: pinctrl: qcom: Fix typo abitrary
-  dt-bindings: pinctrl: sirf: Fix typo abitrary
-  ALSA: hdspm: Fix typo arbitary
-  drm/etnaviv: Fix typo arbitary
-  scripts/spelling.txt: Add arbitrary correction
-
- Documentation/devicetree/bindings/pinctrl/pinctrl-atlas7.txt    | 2 +-
- .../devicetree/bindings/pinctrl/qcom,ipq4019-pinctrl.txt        | 2 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c                           | 2 +-
- drivers/net/ethernet/ti/tlan.c                                  | 2 +-
- scripts/spelling.txt                                            | 1 +
- sound/pci/rme9652/hdspm.c                                       | 2 +-
- 6 files changed, 6 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index c6404b8d067f..5077004f7fbf 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1811,7 +1811,7 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+ 
+ 	/*
+ 	 * We treat the device as initially suspended.  The runtime PM
+-	 * autosuspend delay is rather arbitary: no measurements have
++	 * autosuspend delay is rather arbitrary: no measurements have
+ 	 * yet been performed to determine an appropriate value.
+ 	 */
+ 	pm_runtime_use_autosuspend(gpu->dev);
 -- 
 2.17.1
 _______________________________________________
