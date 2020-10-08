@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2DA28838D
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90043288385
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:29:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 081576EC56;
-	Fri,  9 Oct 2020 07:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0C656EC35;
+	Fri,  9 Oct 2020 07:29:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC9E6E342
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD606E3C4
  for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 11:25:28 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id AB0F258030A;
- Thu,  8 Oct 2020 07:25:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 08 Oct 2020 07:25:25 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id AF696580314;
+ Thu,  8 Oct 2020 07:25:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 08 Oct 2020 07:25:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=1uE/y6qWYjWBu
- HT8bbCHWGrd+L+3jtTQYJt5dXItMeM=; b=E5VGXmLLMIIWIj3z8FOiBgBz2uWci
- s8qPbngvzJlpcUu/6Crr8Dg4bBUC0OsE4pUznOuiSP5Ah8fgxBuLbe57WIlU3Lpv
- RRbupP15RB4fbg9dgasiggnAIWVXt8nwVWTms+XgOlPS/zLEd0OtoR9NIpnI50Eb
- 9asrR5fsKdlhDORcmNnGPvF8lYIFj/T23DrOzpxWU4tC7kuUAkI0apDSsEl1gabb
- Xmbuq/hi11iv2SjQbqfNuzNSL6WFyfT1HXP3CoM1XoOjeCQPCdD/6LcXwLHb5rXB
- Pt7M1ZSSukhGuz97dHwrciQ4znIni3i287cZ8ktBW3XDcDWkcJC07ViWw==
+ :mime-version:content-transfer-encoding; s=fm1; bh=Zb15ltGpiJZp1
+ 2wFhpBRBUlaJhC/18C0bN04Lnu613k=; b=ATQJfsOYvHV1lk6/+4PkMGvJQa5St
+ idM5qGm6WJnTvHABr9T1jmcJQrnGeAzsaTsePKymRcACZcfQmWG8gR/AHnmqMwfM
+ uL7w6sbUSGRt1ZMDZuNSAodznqgz88JbY2iGF2/hYdlUa+K2vVBNb0TeMY3v5kPp
+ cIIESt3fUDXiDPSCxKQyLFAbGW7jEZZsc/dO/t9gBu2VIK2BJuD55MWZD9rmtRHv
+ zBj76ExSgCMJOLMISK2JXomUujE693adDEBRuCtvCrB3oxBf95Ue700QLEUMHlmR
+ ZcyzcDrYh8Lf9D5E8clqyUNEHHwjWXTjA9Ed/OnCDkaQyBC+BsQL5sGFQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=1uE/y6qWYjWBuHT8bbCHWGrd+L+3jtTQYJt5dXItMeM=; b=BmPweSVA
- pl4woEMEkOVHThSqs2v9nR3dgNYGuWBasX9dTYFNdo9qjm8YzPrzJH9KSpwUBRoO
- TBKqWoqxii4IEF/zX0qg1ttGh6JVeY8F2NDgSW9PDUCl58QP6/6+pynj4O8KVf+N
- kkwgnp9c//w5R97Da914F5SfCAr+eTEAU4R2Lfvbk32K6vwG6OUmv8VBXH9mH/Fm
- h8Dc9Gc5L3q8MZk5Y5yomc3lShu7J9pEH6b2O/L2XhL+el/SrvEwslJQ4qyJpuHq
- 9ju5otXiGWKpm3vwVSVe/+sfnQqEpaJQLb61S/NIEX8hnfVHxMg6SOpr8YRByyCr
- YhPmdm0XNT8G/A==
-X-ME-Sender: <xms:Jfd-X1DRxj-v6gODzD1xQF8HDV8h3mmUYeHVrekiebJCqGAN-LeLDQ>
- <xme:Jfd-Xzgba2WNFL0rqA9OGxwxuPPd9D3OF2zOqi15I6FZZcpNgjHa8zE8mJjibIhkj
- 9NCS7ypC91reIeMofU>
+ fm1; bh=Zb15ltGpiJZp12wFhpBRBUlaJhC/18C0bN04Lnu613k=; b=ZL3LJjja
+ smZVoihJBxrZaSQHv9F+eHK4HEH7uHHbdHJCRWbrfH0NkNy/se+O5I8oONRbfge6
+ Q9+WzY6VxZvitEMdM0idTc72Wx6MvQ3ePO5q7+dpds/ufIRrZQKd/2IZ1q9aMKq0
+ cygFBRzWNIGgpCpRs7uajx8KySqZ2iVuU6wjtV9Mkn8TZuBv6Cfq8S83w0cTiIpG
+ VZCQOxYuk401BdbLWThdTySHoVDDD3ACgmlYBJEn2hoDqOU3bdStjAwzCzovcXBZ
+ zw02NHr9o/hkP1awSb3eOA6d097lcCVPPJhjEa2uT+GGYbNqWvfiF+tAoZCxTLxi
+ azY26NEp08omPw==
+X-ME-Sender: <xms:Jvd-X5HHdxjWDl6WiQQWs2Uiercxk3nbrDztaBPm3fAyQ--TGjwE3Q>
+ <xme:Jvd-X-Va7gewb5uF-2Ohv0-gzR3YDbf1uC04Cy1_16GkDaM6w8cuJlzRD1Gd9QMeV
+ Q3T3CyAJDjaQ5qO6qo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgeelgddufecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvnecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Jfd-Xwk_DwjjgBM6lTSCZlJ6OKLWyZjaJZObphdZ_EOn5b4EfjUuZg>
- <xmx:Jfd-X_xYT1AAOwIBbV_-94hD3ViWCJAaeD5cjT5_tkMIjnr6XT7_tA>
- <xmx:Jfd-X6QPT0h2GgG0ONcf5a5XB9kIb7NynPrdgdxGSKraviZKUmX78Q>
- <xmx:Jfd-X_hpVZRuVgedkFdJSt9yrv45v0Sin-vb5J-gVJ7VQrrXdbVMcA>
+X-ME-Proxy: <xmx:Jvd-X7LJot4uj9htT6x5ElQ0wqqQZ1Nqmdh-KiiXEGoyKPJVWprUew>
+ <xmx:Jvd-X_E4gZ0FQGdRjMR4PbtmFKbiJy5Kvq_mpf3ogEjV5q5-_9TZYw>
+ <xmx:Jvd-X_WIneFYRm30ztOAvoSCCdCaFSACwS8_990Uit3FC3LiqQ1nrg>
+ <xmx:Jvd-X4W_LGVL1U4nrqx0s-A8oprw1oyRVHC7b3RD_he8Gqobp5yS9w>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id C03373280059;
- Thu,  8 Oct 2020 07:25:24 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 27DC53064683;
+ Thu,  8 Oct 2020 07:25:26 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>,
@@ -64,9 +64,9 @@ To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH 3/4] drm/vc4: kms: Don't disable the muxing of an active CRTC
-Date: Thu,  8 Oct 2020 13:25:18 +0200
-Message-Id: <20201008112519.43691-3-maxime@cerno.tech>
+Subject: [PATCH 4/4] drm/vc4: kms: Fix VBLANK reporting on a disabled CRTC
+Date: Thu,  8 Oct 2020 13:25:19 +0200
+Message-Id: <20201008112519.43691-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201008112519.43691-1-maxime@cerno.tech>
 References: <20201008112519.43691-1-maxime@cerno.tech>
@@ -94,70 +94,82 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current HVS muxing code will consider the CRTCs in a given state to
-setup their muxing in the HVS, and disable the other CRTCs muxes.
+If a CRTC is enabled but not active, and that we're then doing a page flip
+on another CRTC, drm_atomic_get_crtc_state will bring the first CRTC state
+into the global state, and will make us wait for its vblank as well, even
+though that might never occur.
 
-However, it's valid to only update a single CRTC with a state, and in this
-situation we would mux out a CRTC that was enabled but left untouched by
-the new state.
-
-Fix this by considering all the CRTCs in the state and the ones with a
-state and active.
+Fix this by considering all the enabled CRTCs by either using their new
+state in the global state, or using their current state if they aren't part
+of the new state being checked, to remove their assigned channel from the
+pool before started to assign channels to CRTCs enabled by the state.
 
 Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_kms.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_kms.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 3b5e62842901..c9dfd5535a7e 100644
+index c9dfd5535a7e..0751ce5c6467 100644
 --- a/drivers/gpu/drm/vc4/vc4_kms.c
 +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -185,6 +185,23 @@ static void vc4_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- 	}
- }
- 
-+static struct drm_crtc_state *
-+drm_atomic_get_new_or_current_crtc_state(struct drm_atomic_state *state,
-+					 struct drm_crtc *crtc)
-+{
-+	struct drm_crtc_state *crtc_state;
-+
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	if (crtc_state)
-+		return crtc_state;
-+
-+	return crtc->state;
-+}
-+
-+#define for_each_new_or_current_crtc_state(__state, crtc, crtc_state)	\
-+	list_for_each_entry(crtc, &__state->dev->mode_config.crtc_list, head) \
-+		for_each_if(crtc_state = drm_atomic_get_new_or_current_crtc_state(__state, crtc))
-+
- static void vc5_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- 				     struct drm_atomic_state *state)
+@@ -645,6 +645,14 @@ static const struct drm_private_state_funcs vc4_load_tracker_state_funcs = {
+  *   need to consider all the running CRTCs in the DRM device to assign
+  *   a FIFO, not just the one in the state.
+  *
++ * - To fix the above, we can't use drm_atomic_get_crtc_state on all
++ *   enabled CRTCs to pull their CRTC state into the global state, since
++ *   a page flip would start considering their vblank to complete. Since
++ *   we don't have a guarantee that they are actually active, that
++ *   vblank might never happen, and shouldn't even be considered if we
++ *   want to do a page flip on a single CRTC. That can be tested by
++ *   doing a modetest -v first on HDMI1 and then on HDMI0.
++ *
+  * - Since we need the pixelvalve to be disabled and enabled back when
+  *   the FIFO is changed, we should keep the FIFO assigned for as long
+  *   as the CRTC is enabled, only considering it free again once that
+@@ -656,6 +664,7 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
  {
-@@ -194,16 +211,16 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- 	unsigned char dsp3_mux = 3;
- 	unsigned char dsp4_mux = 3;
- 	unsigned char dsp5_mux = 3;
--	unsigned int i;
- 	u32 reg;
+ 	unsigned long unassigned_channels = GENMASK(NUM_CHANNELS - 1, 0);
+ 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
++	struct drm_crtc_state *crtc_state;
+ 	struct drm_crtc *crtc;
+ 	unsigned int i;
  
--	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
--		struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc_state);
+@@ -667,15 +676,14 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 	 * the same CRTCs, instead of evaluating only the CRTC being
+ 	 * modified.
+ 	 */
+-	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+-		struct drm_crtc_state *crtc_state;
 +	for_each_new_or_current_crtc_state(state, crtc, crtc_state) {
- 		struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
-+		struct vc4_crtc_state *vc4_state;
++		struct vc4_crtc_state *vc4_crtc_state;
  
- 		if (!crtc_state->active)
+-		if (!crtc->state->enable)
++		if (!crtc_state->enable)
  			continue;
  
-+		vc4_state = to_vc4_crtc_state(crtc_state);
- 		switch (vc4_crtc->data->hvs_output) {
- 		case 2:
- 			dsp2_mux = (vc4_state->assigned_channel == 2) ? 0 : 1;
+-		crtc_state = drm_atomic_get_crtc_state(state, crtc);
+-		if (IS_ERR(crtc_state))
+-			return PTR_ERR(crtc_state);
++		vc4_crtc_state = to_vc4_crtc_state(crtc_state);
++		unassigned_channels &= ~BIT(vc4_crtc_state->assigned_channel);
+ 	}
+ 
+ 	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
+@@ -690,10 +698,8 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 		if (!new_crtc_state->enable)
+ 			continue;
+ 
+-		if (new_vc4_crtc_state->assigned_channel != VC4_HVS_CHANNEL_DISABLED) {
+-			unassigned_channels &= ~BIT(new_vc4_crtc_state->assigned_channel);
++		if (new_vc4_crtc_state->assigned_channel != VC4_HVS_CHANNEL_DISABLED)
+ 			continue;
+-		}
+ 
+ 		/*
+ 		 * The problem we have to solve here is that we have
 -- 
 2.26.2
 
