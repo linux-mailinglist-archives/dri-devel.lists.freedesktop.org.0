@@ -2,86 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055C928839C
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:30:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295F3287A4B
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 18:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3954F6EC5F;
-	Fri,  9 Oct 2020 07:30:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 390726EA97;
+	Thu,  8 Oct 2020 16:47:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA53B6EA96
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 16:44:56 +0000 (UTC)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 098GWc25119610; Thu, 8 Oct 2020 12:44:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=DOjfJtmqn0RgphxiIiG0Kv2UKoYLCpYcT9ErIqcce6E=;
- b=Wg15T8U9KQDXgs4QwB8A79tlx7vkXl3sj9pFh/1cOPLlDjrtMPxkA1D6agqTMMOzRLf7
- NUnasH/5LgKXjRmsfdo8cPf3xCzwhbuxs2Z8DTZRnSWg8WMLVLxLDsVASnHBlnfZGWD5
- nrHVw4Mrev3JAPk1tZjw4hdG2ZoVozDpaXbDoW6prAYwvRRF53bIbj4IQ+PJoDUQZgJ/
- f6GjUgeB+MO2nhKeRhvObJsiHly0uBtE1AQCa31NxixXKdyjB9iU/pTGQ4Mz3rer6W96
- eRSBZOyfkkXDhLNgYJTHugguwBIeLDnByF/lWwzsCaKdh5SLKVgxMPNkdzNTGJCVQ2v3 1g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34263q8xd7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Oct 2020 12:44:48 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 098GgIad150220;
- Thu, 8 Oct 2020 12:44:47 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34263q8xbq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Oct 2020 12:44:47 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 098Gclfr009991;
- Thu, 8 Oct 2020 16:44:45 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 33xgx7tw34-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Oct 2020 16:44:45 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 098GigqX33817070
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 8 Oct 2020 16:44:42 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C9995A405F;
- Thu,  8 Oct 2020 16:44:42 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 23192A4065;
- Thu,  8 Oct 2020 16:44:42 +0000 (GMT)
-Received: from thinkpad (unknown [9.171.64.67])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu,  8 Oct 2020 16:44:42 +0000 (GMT)
-Date: Thu, 8 Oct 2020 18:44:40 +0200
-From: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 08/13] s390/pci: Remove races against pte updates
-Message-ID: <20201008184440.4c3bebed@thinkpad>
-In-Reply-To: <20201007164426.1812530-9-daniel.vetter@ffwll.ch>
-References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-9-daniel.vetter@ffwll.ch>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCCD66EA96;
+ Thu,  8 Oct 2020 16:47:03 +0000 (UTC)
+IronPort-SDR: hU6HBXCVP7AdArE6NlkZzJaNEIXpptVZplDwZH4IpqWWE/1vvUirbI29a9Y52C2Xdd37cYlt2n
+ Fpunp1FBEfKg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="162731496"
+X-IronPort-AV: E=Sophos;i="5.77,351,1596524400"; d="scan'208";a="162731496"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2020 09:47:03 -0700
+IronPort-SDR: 0wI2v+88qHdNy32VIGkwhQayjCHL5yK+MRjVJ4JpelJv3pxCzF/rap7mhsrlief2J8xb1uXLwV
+ AKquxp0HL2/A==
+X-IronPort-AV: E=Sophos;i="5.77,351,1596524400"; d="scan'208";a="528562258"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2020 09:47:01 -0700
+Date: Thu, 8 Oct 2020 19:46:58 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Alex Deucher <alexander.deucher@amd.com>
+Subject: Re: [Intel-gfx] [PATCH v3 4/6] drm/dp: Add LTTPR helpers
+Message-ID: <20201008164658.GD1784305@ideak-desk.fi.intel.com>
+References: <20201007170917.1764556-1-imre.deak@intel.com>
+ <20201007170917.1764556-5-imre.deak@intel.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-10-08_11:2020-10-08,
- 2020-10-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- spamscore=0 priorityscore=1501 suspectscore=2 mlxscore=0 impostorscore=0
- clxscore=1011 phishscore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010080120
-X-Mailman-Approved-At: Fri, 09 Oct 2020 07:29:53 +0000
+Content-Disposition: inline
+In-Reply-To: <20201007170917.1764556-5-imre.deak@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,113 +50,473 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, Niklas Schnelle <schnelle@linux.ibm.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: imre.deak@intel.com
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAgNyBPY3QgMjAyMCAxODo0NDoyMSArMDIwMApEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGZmd2xsLmNoPiB3cm90ZToKCj4gV2F5IGJhY2sgaXQgd2FzIGEgcmVhc29uYWJsZSBh
-c3N1bXB0aW9ucyB0aGF0IGlvbWVtIG1hcHBpbmdzIG5ldmVyCj4gY2hhbmdlIHRoZSBwZm4gcmFu
-Z2UgdGhleSBwb2ludCBhdC4gQnV0IHRoaXMgaGFzIGNoYW5nZWQ6Cj4gCj4gLSBncHUgZHJpdmVy
-cyBkeW5hbWljYWxseSBtYW5hZ2UgdGhlaXIgbWVtb3J5IG5vd2FkYXlzLCBpbnZhbGlkYXRpbmcK
-PiBwdGVzIHdpdGggdW5tYXBfbWFwcGluZ19yYW5nZSB3aGVuIGJ1ZmZlcnMgZ2V0IG1vdmVkCj4g
-Cj4gLSBjb250aWd1b3VzIGRtYSBhbGxvY2F0aW9ucyBoYXZlIG1vdmVkIGZyb20gZGVkaWNhdGVk
-IGNhcnZldG91dHMgdG8KPiBjbWEgcmVnaW9ucy4gVGhpcyBtZWFucyBpZiB3ZSBtaXNzIHRoZSB1
-bm1hcCB0aGUgcGZuIG1pZ2h0IGNvbnRhaW4KPiBwYWdlY2FjaGUgb3IgYW5vbiBtZW1vcnkgKHdl
-bGwgYW55dGhpbmcgYWxsb2NhdGVkIHdpdGggR0ZQX01PVkVBQkxFKQo+IAo+IC0gZXZlbiAvZGV2
-L21lbSBub3cgaW52YWxpZGF0ZXMgbWFwcGluZ3Mgd2hlbiB0aGUga2VybmVsIHJlcXVlc3RzIHRo
-YXQKPiBpb21lbSByZWdpb24gd2hlbiBDT05GSUdfSU9fU1RSSUNUX0RFVk1FTSBpcyBzZXQsIHNl
-ZSAzMjM0YWM2NjRhODcKPiAoIi9kZXYvbWVtOiBSZXZva2UgbWFwcGluZ3Mgd2hlbiBhIGRyaXZl
-ciBjbGFpbXMgdGhlIHJlZ2lvbiIpCj4gCj4gQWNjZXNzaW5nIHBmbnMgb2J0YWluZWQgZnJvbSBw
-dGVzIHdpdGhvdXQgaG9sZGluZyBhbGwgdGhlIGxvY2tzIGlzCj4gdGhlcmVmb3JlIG5vIGxvbmdl
-ciBhIGdvb2QgaWRlYS4gRml4IHRoaXMuCj4gCj4gU2luY2UgenBjaV9tZW1jcHlfZnJvbXx0b2lv
-IHNlZW1zIHRvIG5vdCBkbyBhbnl0aGluZyBuZWZhcmlvdXMgd2l0aAo+IGxvY2tzIHdlIGp1c3Qg
-bmVlZCB0byBvcGVuIGNvZGUgZ2V0X3BmbiBhbmQgZm9sbG93X3BmbiBhbmQgbWFrZSBzdXJlCj4g
-d2UgZHJvcCB0aGUgbG9ja3Mgb25seSBhZnRlciB3ZSd2ZSBkb25lLiBUaGUgd3JpdGUgZnVuY3Rp
-b24gYWxzbyBuZWVkcwo+IHRoZSBjb3B5X2Zyb21fdXNlciBtb3ZlLCBzaW5jZSB3ZSBjYW4ndCB0
-YWtlIHVzZXJzcGFjZSBmYXVsdHMgd2hpbGUKPiBob2xkaW5nIHRoZSBtbWFwIHNlbS4KPiAKPiBT
-aWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiBD
-YzogSmFzb24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+Cj4gQ2M6IERhbiBXaWxsaWFtcyA8ZGFu
-Lmoud2lsbGlhbXNAaW50ZWwuY29tPgo+IENjOiBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVt
-Lm9yZz4KPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz4KPiBD
-YzogSm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlkaWEuY29tPgo+IENjOiBKw6lyw7RtZSBHbGlz
-c2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KPiBDYzogSmFuIEthcmEgPGphY2tAc3VzZS5jej4KPiBD
-YzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+Cj4gQ2M6IGxpbnV4LW1t
-QGt2YWNrLm9yZwo+IENjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBD
-YzogbGludXgtc2Ftc3VuZy1zb2NAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxpbnV4LW1lZGlhQHZn
-ZXIua2VybmVsLm9yZwo+IENjOiBOaWtsYXMgU2NobmVsbGUgPHNjaG5lbGxlQGxpbnV4LmlibS5j
-b20+Cj4gQ2M6IEdlcmFsZCBTY2hhZWZlciA8Z2VyYWxkLnNjaGFlZmVyQGxpbnV4LmlibS5jb20+
-Cj4gQ2M6IGxpbnV4LXMzOTBAdmdlci5rZXJuZWwub3JnCj4gLS0tCj4gIGFyY2gvczM5MC9wY2kv
-cGNpX21taW8uYyB8IDk4ICsrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0K
-PiAgMSBmaWxlIGNoYW5nZWQsIDU3IGluc2VydGlvbnMoKyksIDQxIGRlbGV0aW9ucygtKQoKTG9v
-a3MgZ29vZCwgdGhhbmtzLiBBbHNvIHN1cnZpdmVkIHNvbWUgYmFzaWMgZnVuY3Rpb24gdGVzdC4g
-T25seSBzb21lCm1pbm9yIG5pdHBpY2ssIHNlZSBiZWxvdy4KClJldmlld2VkLWJ5OiBHZXJhbGQg
-U2NoYWVmZXIgPGdlcmFsZC5zY2hhZWZlckBsaW51eC5pYm0uY29tPgoKPiAKPiBkaWZmIC0tZ2l0
-IGEvYXJjaC9zMzkwL3BjaS9wY2lfbW1pby5jIGIvYXJjaC9zMzkwL3BjaS9wY2lfbW1pby5jCj4g
-aW5kZXggNDAxY2Y2NzBhMjQzLi40ZDE5NGNiMDkzNzIgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9zMzkw
-L3BjaS9wY2lfbW1pby5jCj4gKysrIGIvYXJjaC9zMzkwL3BjaS9wY2lfbW1pby5jCj4gQEAgLTEx
-OSwzMyArMTE5LDE1IEBAIHN0YXRpYyBpbmxpbmUgaW50IF9fbWVtY3B5X3RvaW9faW51c2VyKHZv
-aWQgX19pb21lbSAqZHN0LAo+ICAJcmV0dXJuIHJjOwo+ICB9Cj4gIAo+IC1zdGF0aWMgbG9uZyBn
-ZXRfcGZuKHVuc2lnbmVkIGxvbmcgdXNlcl9hZGRyLCB1bnNpZ25lZCBsb25nIGFjY2VzcywKPiAt
-CQkgICAgdW5zaWduZWQgbG9uZyAqcGZuKQo+IC17Cj4gLQlzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3Qg
-KnZtYTsKPiAtCWxvbmcgcmV0Owo+IC0KPiAtCW1tYXBfcmVhZF9sb2NrKGN1cnJlbnQtPm1tKTsK
-PiAtCXJldCA9IC1FSU5WQUw7Cj4gLQl2bWEgPSBmaW5kX3ZtYShjdXJyZW50LT5tbSwgdXNlcl9h
-ZGRyKTsKPiAtCWlmICghdm1hKQo+IC0JCWdvdG8gb3V0Owo+IC0JcmV0ID0gLUVBQ0NFUzsKPiAt
-CWlmICghKHZtYS0+dm1fZmxhZ3MgJiBhY2Nlc3MpKQo+IC0JCWdvdG8gb3V0Owo+IC0JcmV0ID0g
-Zm9sbG93X3Bmbih2bWEsIHVzZXJfYWRkciwgcGZuKTsKPiAtb3V0Ogo+IC0JbW1hcF9yZWFkX3Vu
-bG9jayhjdXJyZW50LT5tbSk7Cj4gLQlyZXR1cm4gcmV0Owo+IC19Cj4gLQo+ICBTWVNDQUxMX0RF
-RklORTMoczM5MF9wY2lfbW1pb193cml0ZSwgdW5zaWduZWQgbG9uZywgbW1pb19hZGRyLAo+ICAJ
-CWNvbnN0IHZvaWQgX191c2VyICosIHVzZXJfYnVmZmVyLCBzaXplX3QsIGxlbmd0aCkKPiAgewo+
-ICAJdTggbG9jYWxfYnVmWzY0XTsKPiAgCXZvaWQgX19pb21lbSAqaW9fYWRkcjsKPiAgCXZvaWQg
-KmJ1ZjsKPiAtCXVuc2lnbmVkIGxvbmcgcGZuOwo+ICsJc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2
-bWE7Cj4gKwlwdGVfdCAqcHRlcDsKPiArCXNwaW5sb2NrX3QgKnB0bDsKPiAgCWxvbmcgcmV0Owo+
-ICAKPiAgCWlmICghenBjaV9pc19lbmFibGVkKCkpCj4gQEAgLTE1OCw3ICsxNDAsNyBAQCBTWVND
-QUxMX0RFRklORTMoczM5MF9wY2lfbW1pb193cml0ZSwgdW5zaWduZWQgbG9uZywgbW1pb19hZGRy
-LAo+ICAJICogV2Ugb25seSBzdXBwb3J0IHdyaXRlIGFjY2VzcyB0byBNSU8gY2FwYWJsZSBkZXZp
-Y2VzIGlmIHdlIGFyZSBvbgo+ICAJICogYSBNSU8gZW5hYmxlZCBzeXN0ZW0uIE90aGVyd2lzZSB3
-ZSB3b3VsZCBoYXZlIHRvIGNoZWNrIGZvciBldmVyeQo+ICAJICogYWRkcmVzcyBpZiBpdCBpcyBh
-IHNwZWNpYWwgWlBDSV9BRERSIGFuZCB3b3VsZCBoYXZlIHRvIGRvCj4gLQkgKiBhIGdldF9wZm4o
-KSB3aGljaCB3ZSBkb24ndCBuZWVkIGZvciBNSU8gY2FwYWJsZSBkZXZpY2VzLiAgQ3VycmVudGx5
-Cj4gKwkgKiBhIHBmbiBsb29rdXAgd2hpY2ggd2UgZG9uJ3QgbmVlZCBmb3IgTUlPIGNhcGFibGUg
-ZGV2aWNlcy4gIEN1cnJlbnRseQo+ICAJICogSVNNIGRldmljZXMgYXJlIHRoZSBvbmx5IGRldmlj
-ZXMgd2l0aG91dCBNSU8gc3VwcG9ydCBhbmQgdGhlcmUgaXMgbm8KPiAgCSAqIGtub3duIG5lZWQg
-Zm9yIGFjY2Vzc2luZyB0aGVzZSBmcm9tIHVzZXJzcGFjZS4KPiAgCSAqLwo+IEBAIC0xNzYsMjEg
-KzE1OCwzNyBAQCBTWVNDQUxMX0RFRklORTMoczM5MF9wY2lfbW1pb193cml0ZSwgdW5zaWduZWQg
-bG9uZywgbW1pb19hZGRyLAo+ICAJfSBlbHNlCj4gIAkJYnVmID0gbG9jYWxfYnVmOwo+ICAKPiAt
-CXJldCA9IGdldF9wZm4obW1pb19hZGRyLCBWTV9XUklURSwgJnBmbik7Cj4gKwlyZXQgPSAtRUZB
-VUxUOwo+ICsJaWYgKGNvcHlfZnJvbV91c2VyKGJ1ZiwgdXNlcl9idWZmZXIsIGxlbmd0aCkpCj4g
-KwkJZ290byBvdXRfZnJlZTsKPiArCj4gKwltbWFwX3JlYWRfbG9jayhjdXJyZW50LT5tbSk7Cj4g
-KwlyZXQgPSAtRUlOVkFMOwo+ICsJdm1hID0gZmluZF92bWEoY3VycmVudC0+bW0sIG1taW9fYWRk
-cik7Cj4gKwlpZiAoIXZtYSkKPiArCQlnb3RvIG91dF91bmxvY2tfbW1hcDsKPiArCXJldCA9IC1F
-QUNDRVM7Cj4gKwlpZiAoISh2bWEtPnZtX2ZsYWdzICYgVk1fV1JJVEUpKQo+ICsJCWdvdG8gb3V0
-X3VubG9ja19tbWFwOwo+ICsJaWYgKCEodm1hLT52bV9mbGFncyAmIChWTV9JTyB8IFZNX1BGTk1B
-UCkpKQo+ICsJCWdvdG8gb3V0X3VubG9ja19tbWFwOwoKVGhhdCBjaGVjayBmb3IgVk1fSU8gfCBW
-TV9QRk5NQVAgd2FzIHByZXZpb3VzbHkgaGlkZGVuIGluc2lkZSBmb2xsb3dfcGZuKCksCmFuZCB0
-aGF0IHdvdWxkIGhhdmUgcmV0dXJuZWQgLUVJTlZBTCBpbiB0aGlzIGNhc2UuIFdpdGggeW91ciBj
-aGFuZ2UsIHdlCm5vdyByZXR1cm4gLUVBQ0NFUy4gTm90IHN1cmUgaG93IGltcG9ydGFudCB0aGF0
-IGlzLCBidXQgaXQgZmVlbHMgd3JvbmcuCk1heWJlIG1vdmUgdGhlIFZNX0lPIHwgVk1fUEZOTUFQ
-IGNoZWNrIHVwLCBiZWZvcmUgdGhlIHJldCA9IC1FQUNDRVM/CgpbLi4uXQo+IEBAIC0zMDYsMjIg
-KzMwNiwzOCBAQCBTWVNDQUxMX0RFRklORTMoczM5MF9wY2lfbW1pb19yZWFkLCB1bnNpZ25lZCBs
-b25nLCBtbWlvX2FkZHIsCj4gIAkJYnVmID0gbG9jYWxfYnVmOwo+ICAJfQo+ICAKPiAtCXJldCA9
-IGdldF9wZm4obW1pb19hZGRyLCBWTV9SRUFELCAmcGZuKTsKPiArCW1tYXBfcmVhZF9sb2NrKGN1
-cnJlbnQtPm1tKTsKPiArCXJldCA9IC1FSU5WQUw7Cj4gKwl2bWEgPSBmaW5kX3ZtYShjdXJyZW50
-LT5tbSwgbW1pb19hZGRyKTsKPiArCWlmICghdm1hKQo+ICsJCWdvdG8gb3V0X3VubG9ja19tbWFw
-Owo+ICsJcmV0ID0gLUVBQ0NFUzsKPiArCWlmICghKHZtYS0+dm1fZmxhZ3MgJiBWTV9XUklURSkp
-Cj4gKwkJZ290byBvdXRfdW5sb2NrX21tYXA7Cj4gKwlpZiAoISh2bWEtPnZtX2ZsYWdzICYgKFZN
-X0lPIHwgVk1fUEZOTUFQKSkpCj4gKwkJZ290byBvdXRfdW5sb2NrX21tYXA7CgpTYW1lIGhlcmUg
-d2l0aCBWTV9JTyB8IFZNX1BGTk1BUCBhbmQgLUVJTlZBTC4KX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Dave et all,
+
+On Wed, Oct 07, 2020 at 08:09:15PM +0300, Imre Deak wrote:
+> Add the helpers and register definitions needed to read out the common
+> and per-PHY LTTPR capabilities and perform link training in the LTTPR
+> non-transparent mode.
+> =
+
+> v2:
+> - Add drm_dp_dpcd_read_phy_link_status() and DP_PHY_LTTPR() here instead
+>   of adding these to i915. (Ville)
+> v3:
+> - Use memmove() to convert LTTPR to DPRX link status format. (Ville)
+> =
+
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+
+Is it ok to merge this patch via drm-intel-next-queued? If so could
+someone Ack it?
+
+Thanks,
+Imre
+
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 232 +++++++++++++++++++++++++++++++-
+>  include/drm/drm_dp_helper.h     |  62 +++++++++
+>  2 files changed, 290 insertions(+), 4 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_hel=
+per.c
+> index 478dd51f738d..79732402336d 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -150,11 +150,8 @@ void drm_dp_link_train_clock_recovery_delay(const u8=
+ dpcd[DP_RECEIVER_CAP_SIZE])
+>  }
+>  EXPORT_SYMBOL(drm_dp_link_train_clock_recovery_delay);
+>  =
+
+> -void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SI=
+ZE])
+> +static void __drm_dp_link_train_channel_eq_delay(unsigned long rd_interv=
+al)
+>  {
+> -	unsigned long rd_interval =3D dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
+> -					 DP_TRAINING_AUX_RD_MASK;
+> -
+>  	if (rd_interval > 4)
+>  		DRM_DEBUG_KMS("AUX interval %lu, out of range (max 4)\n",
+>  			      rd_interval);
+> @@ -166,8 +163,35 @@ void drm_dp_link_train_channel_eq_delay(const u8 dpc=
+d[DP_RECEIVER_CAP_SIZE])
+>  =
+
+>  	usleep_range(rd_interval, rd_interval * 2);
+>  }
+> +
+> +void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SI=
+ZE])
+> +{
+> +	__drm_dp_link_train_channel_eq_delay(dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
+> +					     DP_TRAINING_AUX_RD_MASK);
+> +}
+>  EXPORT_SYMBOL(drm_dp_link_train_channel_eq_delay);
+>  =
+
+> +void drm_dp_lttpr_link_train_clock_recovery_delay(void)
+> +{
+> +	usleep_range(100, 200);
+> +}
+> +EXPORT_SYMBOL(drm_dp_lttpr_link_train_clock_recovery_delay);
+> +
+> +static u8 dp_lttpr_phy_cap(const u8 phy_cap[DP_LTTPR_PHY_CAP_SIZE], int =
+r)
+> +{
+> +	return phy_cap[r - DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1];
+> +}
+> +
+> +void drm_dp_lttpr_link_train_channel_eq_delay(const u8 phy_cap[DP_LTTPR_=
+PHY_CAP_SIZE])
+> +{
+> +	u8 interval =3D dp_lttpr_phy_cap(phy_cap,
+> +				       DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1) &
+> +		      DP_TRAINING_AUX_RD_MASK;
+> +
+> +	__drm_dp_link_train_channel_eq_delay(interval);
+> +}
+> +EXPORT_SYMBOL(drm_dp_lttpr_link_train_channel_eq_delay);
+> +
+>  u8 drm_dp_link_rate_to_bw_code(int link_rate)
+>  {
+>  	/* Spec says link_bw =3D link_rate / 0.27Gbps */
+> @@ -363,6 +387,59 @@ int drm_dp_dpcd_read_link_status(struct drm_dp_aux *=
+aux,
+>  }
+>  EXPORT_SYMBOL(drm_dp_dpcd_read_link_status);
+>  =
+
+> +/**
+> + * drm_dp_dpcd_read_phy_link_status - get the link status information fo=
+r a DP PHY
+> + * @aux: DisplayPort AUX channel
+> + * @dp_phy: the DP PHY to get the link status for
+> + * @link_status: buffer to return the status in
+> + *
+> + * Fetch the AUX DPCD registers for the DPRX or an LTTPR PHY link status=
+. The
+> + * layout of the returned @link_status matches the DPCD register layout =
+of the
+> + * DPRX PHY link status.
+> + *
+> + * Returns 0 if the information was read successfully or a negative erro=
+r code
+> + * on failure.
+> + */
+> +int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+> +				     enum drm_dp_phy dp_phy,
+> +				     u8 link_status[DP_LINK_STATUS_SIZE])
+> +{
+> +	int ret;
+> +
+> +	if (dp_phy =3D=3D DP_PHY_DPRX) {
+> +		ret =3D drm_dp_dpcd_read(aux,
+> +				       DP_LANE0_1_STATUS,
+> +				       link_status,
+> +				       DP_LINK_STATUS_SIZE);
+> +
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		WARN_ON(ret !=3D DP_LINK_STATUS_SIZE);
+> +
+> +		return 0;
+> +	}
+> +
+> +	ret =3D drm_dp_dpcd_read(aux,
+> +			       DP_LANE0_1_STATUS_PHY_REPEATER(dp_phy),
+> +			       link_status,
+> +			       DP_LINK_STATUS_SIZE - 1);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	WARN_ON(ret !=3D DP_LINK_STATUS_SIZE - 1);
+> +
+> +	/* Convert the LTTPR to the sink PHY link status layout */
+> +	memmove(&link_status[DP_SINK_STATUS - DP_LANE0_1_STATUS + 1],
+> +		&link_status[DP_SINK_STATUS - DP_LANE0_1_STATUS],
+> +		DP_LINK_STATUS_SIZE - (DP_SINK_STATUS - DP_LANE0_1_STATUS) - 1);
+> +	link_status[DP_SINK_STATUS - DP_LANE0_1_STATUS] =3D 0;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_dpcd_read_phy_link_status);
+> +
+>  static bool is_edid_digital_input_dp(const struct edid *edid)
+>  {
+>  	return edid && edid->revision >=3D 4 &&
+> @@ -2098,6 +2175,153 @@ int drm_dp_dsc_sink_supported_input_bpcs(const u8=
+ dsc_dpcd[DP_DSC_RECEIVER_CAP_S
+>  }
+>  EXPORT_SYMBOL(drm_dp_dsc_sink_supported_input_bpcs);
+>  =
+
+> +/**
+> + * drm_dp_read_lttpr_common_caps - read the LTTPR common capabilities
+> + * @aux: DisplayPort AUX channel
+> + * @caps: buffer to return the capability info in
+> + *
+> + * Read capabilities common to all LTTPRs.
+> + *
+> + * Returns 0 on success or a negative error code on failure.
+> + */
+> +int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
+> +				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
+> +{
+> +	int ret;
+> +
+> +	ret =3D drm_dp_dpcd_read(aux,
+> +			       DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV,
+> +			       caps, DP_LTTPR_COMMON_CAP_SIZE);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	WARN_ON(ret !=3D DP_LTTPR_COMMON_CAP_SIZE);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_read_lttpr_common_caps);
+> +
+> +/**
+> + * drm_dp_read_lttpr_phy_caps - read the capabilities for a given LTTPR =
+PHY
+> + * @aux: DisplayPort AUX channel
+> + * @dp_phy: LTTPR PHY to read the capabilities for
+> + * @caps: buffer to return the capability info in
+> + *
+> + * Read the capabilities for the given LTTPR PHY.
+> + *
+> + * Returns 0 on success or a negative error code on failure.
+> + */
+> +int drm_dp_read_lttpr_phy_caps(struct drm_dp_aux *aux,
+> +			       enum drm_dp_phy dp_phy,
+> +			       u8 caps[DP_LTTPR_PHY_CAP_SIZE])
+> +{
+> +	int ret;
+> +
+> +	ret =3D drm_dp_dpcd_read(aux,
+> +			       DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER(dp_phy),
+> +			       caps, DP_LTTPR_PHY_CAP_SIZE);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	WARN_ON(ret !=3D DP_LTTPR_PHY_CAP_SIZE);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_read_lttpr_phy_caps);
+> +
+> +static u8 dp_lttpr_common_cap(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE], i=
+nt r)
+> +{
+> +	return caps[r - DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV];
+> +}
+> +
+> +/**
+> + * drm_dp_lttpr_count - get the number of detected LTTPRs
+> + * @caps: LTTPR common capabilities
+> + *
+> + * Get the number of detected LTTPRs from the LTTPR common capabilities =
+info.
+> + *
+> + * Returns:
+> + *   -ERANGE if more than supported number (8) of LTTPRs are detected
+> + *   -EINVAL if the DP_PHY_REPEATER_CNT register contains an invalid val=
+ue
+> + *   otherwise the number of detected LTTPRs
+> + */
+> +int drm_dp_lttpr_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
+> +{
+> +	u8 count =3D dp_lttpr_common_cap(caps, DP_PHY_REPEATER_CNT);
+> +
+> +	switch (hweight8(count)) {
+> +	case 0:
+> +		return 0;
+> +	case 1:
+> +		return 8 - ilog2(count);
+> +	case 8:
+> +		return -ERANGE;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_dp_lttpr_count);
+> +
+> +/**
+> + * drm_dp_lttpr_max_link_rate - get the maximum link rate supported by a=
+ll LTTPRs
+> + * @caps: LTTPR common capabilities
+> + *
+> + * Returns the maximum link rate supported by all detected LTTPRs.
+> + */
+> +int drm_dp_lttpr_max_link_rate(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
+> +{
+> +	u8 rate =3D dp_lttpr_common_cap(caps, DP_MAX_LINK_RATE_PHY_REPEATER);
+> +
+> +	return drm_dp_bw_code_to_link_rate(rate);
+> +}
+> +EXPORT_SYMBOL(drm_dp_lttpr_max_link_rate);
+> +
+> +/**
+> + * drm_dp_lttpr_max_lane_count - get the maximum lane count supported by=
+ all LTTPRs
+> + * @caps: LTTPR common capabilities
+> + *
+> + * Returns the maximum lane count supported by all detected LTTPRs.
+> + */
+> +int drm_dp_lttpr_max_lane_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
+> +{
+> +	u8 max_lanes =3D dp_lttpr_common_cap(caps, DP_MAX_LANE_COUNT_PHY_REPEAT=
+ER);
+> +
+> +	return max_lanes & DP_MAX_LANE_COUNT_MASK;
+> +}
+> +EXPORT_SYMBOL(drm_dp_lttpr_max_lane_count);
+> +
+> +/**
+> + * drm_dp_lttpr_voltage_swing_level_3_supported - check for LTTPR vswing=
+3 support
+> + * @caps: LTTPR PHY capabilities
+> + *
+> + * Returns true if the @caps for an LTTPR TX PHY indicate support for
+> + * voltage swing level 3.
+> + */
+> +bool
+> +drm_dp_lttpr_voltage_swing_level_3_supported(const u8 caps[DP_LTTPR_PHY_=
+CAP_SIZE])
+> +{
+> +	u8 txcap =3D dp_lttpr_phy_cap(caps, DP_TRANSMITTER_CAPABILITY_PHY_REPEA=
+TER1);
+> +
+> +	return txcap & DP_VOLTAGE_SWING_LEVEL_3_SUPPORTED;
+> +}
+> +EXPORT_SYMBOL(drm_dp_lttpr_voltage_swing_level_3_supported);
+> +
+> +/**
+> + * drm_dp_lttpr_pre_emphasis_level_3_supported - check for LTTPR preemph=
+3 support
+> + * @caps: LTTPR PHY capabilities
+> + *
+> + * Returns true if the @caps for an LTTPR TX PHY indicate support for
+> + * pre-emphasis level 3.
+> + */
+> +bool
+> +drm_dp_lttpr_pre_emphasis_level_3_supported(const u8 caps[DP_LTTPR_PHY_C=
+AP_SIZE])
+> +{
+> +	u8 txcap =3D dp_lttpr_phy_cap(caps, DP_TRANSMITTER_CAPABILITY_PHY_REPEA=
+TER1);
+> +
+> +	return txcap & DP_PRE_EMPHASIS_LEVEL_3_SUPPORTED;
+> +}
+> +EXPORT_SYMBOL(drm_dp_lttpr_pre_emphasis_level_3_supported);
+> +
+>  /**
+>   * drm_dp_get_phy_test_pattern() - get the requested pattern from the si=
+nk.
+>   * @aux: DisplayPort AUX channel
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+> index 159191c1ae75..f55a9d1320ca 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -1118,15 +1118,58 @@ struct drm_device;
+>  #define DP_MAX_LANE_COUNT_PHY_REPEATER			    0xf0004 /* 1.4a */
+>  #define DP_Repeater_FEC_CAPABILITY			    0xf0004 /* 1.4 */
+>  #define DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT		    0xf0005 /* 1.4a */
+> +
+> +enum drm_dp_phy {
+> +	DP_PHY_DPRX,
+> +
+> +	DP_PHY_LTTPR1,
+> +	DP_PHY_LTTPR2,
+> +	DP_PHY_LTTPR3,
+> +	DP_PHY_LTTPR4,
+> +	DP_PHY_LTTPR5,
+> +	DP_PHY_LTTPR6,
+> +	DP_PHY_LTTPR7,
+> +	DP_PHY_LTTPR8,
+> +
+> +	DP_MAX_LTTPR_COUNT =3D DP_PHY_LTTPR8,
+> +};
+> +
+> +#define DP_PHY_LTTPR(i)					    (DP_PHY_LTTPR1 + (i))
+> +
+> +#define __DP_LTTPR1_BASE				    0xf0010 /* 1.3 */
+> +#define __DP_LTTPR2_BASE				    0xf0060 /* 1.3 */
+> +#define DP_LTTPR_BASE(dp_phy) \
+> +	(__DP_LTTPR1_BASE + (__DP_LTTPR2_BASE - __DP_LTTPR1_BASE) * \
+> +		((dp_phy) - DP_PHY_LTTPR1))
+> +
+> +#define DP_LTTPR_REG(dp_phy, lttpr1_reg) \
+> +	(DP_LTTPR_BASE(dp_phy) - DP_LTTPR_BASE(DP_PHY_LTTPR1) + (lttpr1_reg))
+> +
+>  #define DP_TRAINING_PATTERN_SET_PHY_REPEATER1		    0xf0010 /* 1.3 */
+> +#define DP_TRAINING_PATTERN_SET_PHY_REPEATER(dp_phy) \
+> +	DP_LTTPR_REG(dp_phy, DP_TRAINING_PATTERN_SET_PHY_REPEATER1)
+> +
+>  #define DP_TRAINING_LANE0_SET_PHY_REPEATER1		    0xf0011 /* 1.3 */
+> +#define DP_TRAINING_LANE0_SET_PHY_REPEATER(dp_phy) \
+> +	DP_LTTPR_REG(dp_phy, DP_TRAINING_LANE0_SET_PHY_REPEATER1)
+> +
+>  #define DP_TRAINING_LANE1_SET_PHY_REPEATER1		    0xf0012 /* 1.3 */
+>  #define DP_TRAINING_LANE2_SET_PHY_REPEATER1		    0xf0013 /* 1.3 */
+>  #define DP_TRAINING_LANE3_SET_PHY_REPEATER1		    0xf0014 /* 1.3 */
+>  #define DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1	    0xf0020 /* 1.4a */
+> +#define DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER(dp_phy)	\
+> +	DP_LTTPR_REG(dp_phy, DP_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1)
+> +
+>  #define DP_TRANSMITTER_CAPABILITY_PHY_REPEATER1		    0xf0021 /* 1.4a */
+> +# define DP_VOLTAGE_SWING_LEVEL_3_SUPPORTED		    BIT(0)
+> +# define DP_PRE_EMPHASIS_LEVEL_3_SUPPORTED		    BIT(1)
+> +
+>  #define DP_LANE0_1_STATUS_PHY_REPEATER1			    0xf0030 /* 1.3 */
+> +#define DP_LANE0_1_STATUS_PHY_REPEATER(dp_phy) \
+> +	DP_LTTPR_REG(dp_phy, DP_LANE0_1_STATUS_PHY_REPEATER1)
+> +
+>  #define DP_LANE2_3_STATUS_PHY_REPEATER1			    0xf0031 /* 1.3 */
+> +
+>  #define DP_LANE_ALIGN_STATUS_UPDATED_PHY_REPEATER1	    0xf0032 /* 1.3 */
+>  #define DP_ADJUST_REQUEST_LANE0_1_PHY_REPEATER1		    0xf0033 /* 1.3 */
+>  #define DP_ADJUST_REQUEST_LANE2_3_PHY_REPEATER1		    0xf0034 /* 1.3 */
+> @@ -1237,9 +1280,13 @@ u8 drm_dp_get_adjust_request_post_cursor(const u8 =
+link_status[DP_LINK_STATUS_SIZ
+>  #define DP_DSC_RECEIVER_CAP_SIZE        0xf
+>  #define EDP_PSR_RECEIVER_CAP_SIZE	2
+>  #define EDP_DISPLAY_CTL_CAP_SIZE	3
+> +#define DP_LTTPR_COMMON_CAP_SIZE	8
+> +#define DP_LTTPR_PHY_CAP_SIZE		3
+>  =
+
+>  void drm_dp_link_train_clock_recovery_delay(const u8 dpcd[DP_RECEIVER_CA=
+P_SIZE]);
+> +void drm_dp_lttpr_link_train_clock_recovery_delay(void);
+>  void drm_dp_link_train_channel_eq_delay(const u8 dpcd[DP_RECEIVER_CAP_SI=
+ZE]);
+> +void drm_dp_lttpr_link_train_channel_eq_delay(const u8 caps[DP_LTTPR_PHY=
+_CAP_SIZE]);
+>  =
+
+>  u8 drm_dp_link_rate_to_bw_code(int link_rate);
+>  int drm_dp_bw_code_to_link_rate(u8 link_bw);
+> @@ -1698,6 +1745,10 @@ int drm_dp_read_dpcd_caps(struct drm_dp_aux *aux,
+>  int drm_dp_dpcd_read_link_status(struct drm_dp_aux *aux,
+>  				 u8 status[DP_LINK_STATUS_SIZE]);
+>  =
+
+> +int drm_dp_dpcd_read_phy_link_status(struct drm_dp_aux *aux,
+> +				     enum drm_dp_phy dp_phy,
+> +				     u8 link_status[DP_LINK_STATUS_SIZE]);
+> +
+>  bool drm_dp_send_real_edid_checksum(struct drm_dp_aux *aux,
+>  				    u8 real_edid_checksum);
+>  =
+
+> @@ -1747,6 +1798,17 @@ bool drm_dp_read_sink_count_cap(struct drm_connect=
+or *connector,
+>  				const struct drm_dp_desc *desc);
+>  int drm_dp_read_sink_count(struct drm_dp_aux *aux);
+>  =
+
+> +int drm_dp_read_lttpr_common_caps(struct drm_dp_aux *aux,
+> +				  u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
+> +int drm_dp_read_lttpr_phy_caps(struct drm_dp_aux *aux,
+> +			       enum drm_dp_phy dp_phy,
+> +			       u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
+> +int drm_dp_lttpr_count(const u8 cap[DP_LTTPR_COMMON_CAP_SIZE]);
+> +int drm_dp_lttpr_max_link_rate(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
+> +int drm_dp_lttpr_max_lane_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
+> +bool drm_dp_lttpr_voltage_swing_level_3_supported(const u8 caps[DP_LTTPR=
+_PHY_CAP_SIZE]);
+> +bool drm_dp_lttpr_pre_emphasis_level_3_supported(const u8 caps[DP_LTTPR_=
+PHY_CAP_SIZE]);
+> +
+>  void drm_dp_remote_aux_init(struct drm_dp_aux *aux);
+>  void drm_dp_aux_init(struct drm_dp_aux *aux);
+>  int drm_dp_aux_register(struct drm_dp_aux *aux);
+> -- =
+
+> 2.25.1
+> =
+
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
