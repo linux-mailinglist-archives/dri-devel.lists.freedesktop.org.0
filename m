@@ -1,145 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9F2287103
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 10:57:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E2328711E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 11:00:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C1B96E2DF;
-	Thu,  8 Oct 2020 08:57:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 017EF6E0F0;
+	Thu,  8 Oct 2020 09:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2084.outbound.protection.outlook.com [40.107.20.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CEE96E112
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 08:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EyRm+nMopV5LS4J99nXaJzYuuXIVVwK7i0V5I+rxOJ8=;
- b=HU6qRxfbYFFseu74TOV85v6mwyzMK4JS8VJ5qqfPSvtEV/rm3zWJGJuBnu0y2fG879mLf05AkimRZnix1hfL4q+hAOc4F+GRemkYC4i/stC6zzTTtFMs8wK6gwkcU8SNXZI4A0mv4K9v+mC6TPWPoDXbhLV9+0oHLzOvec+YjeM=
-Received: from DB6PR0601CA0044.eurprd06.prod.outlook.com (2603:10a6:4:17::30)
- by VI1PR0802MB2302.eurprd08.prod.outlook.com (2603:10a6:800:9e::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.35; Thu, 8 Oct
- 2020 08:57:32 +0000
-Received: from DB5EUR03FT054.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:4:17:cafe::47) by DB6PR0601CA0044.outlook.office365.com
- (2603:10a6:4:17::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend
- Transport; Thu, 8 Oct 2020 08:57:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org; dmarc=pass
- action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT054.mail.protection.outlook.com (10.152.20.248) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3455.23 via Frontend Transport; Thu, 8 Oct 2020 08:57:32 +0000
-Received: ("Tessian outbound a0bffebca527:v64");
- Thu, 08 Oct 2020 08:57:32 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: f94c11bd43ce5c0d
-X-CR-MTA-TID: 64aa7808
-Received: from 0692db9ec377.2
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- DD7E942C-A56A-4335-9ECF-9D26E01429A2.1; 
- Thu, 08 Oct 2020 08:57:27 +0000
-Received: from EUR02-HE1-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0692db9ec377.2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Thu, 08 Oct 2020 08:57:27 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AVW0q9GNap8eGTH/2/RAQ7fUSPEToROP8Udqex7OBcKlIKIFT/fPBNUlYb/u2ukdVKG9PTzFEokd++z0shgDMi/3rA7g0NiW4DIb5Xq/LLgQ3hhxBGqrF5pGCT2J+syzAolIYKWDuPwRQFauBT0sS9CBr7mJIijwTWIU2Xc4sjLkf5enmS3sgKO2FZ1kNNCfYh1g6BMnhpCOa+t2IjBnlm5P+FoUnGZgdhNdHBJTxvVsNKsSKtkJ24bQFx70hcMoY7T3+zrmCeu8KcQ093jIGtpfwmeP1K1m9RAL1Aln30D8rhNXpqyCwzB/tMNrRW4O905mIamqO5B7So/gcIr3HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EyRm+nMopV5LS4J99nXaJzYuuXIVVwK7i0V5I+rxOJ8=;
- b=jzr1yyu7fV4oCIqVWsRuMovpBrhH5LzGGXOIcfTF5r5T0N8jItCWK8Xza3sA0QgjRleVFfeUNCzZGZxy8gF55XJzJHQcqjnZwzmdF+akG3oIDpcEG5mXyV0aKUZX7XGgMYA3pkq0blL+1lYc9nd2gUMVKIpYRr8W378Bn86EdOpmsMmpIugKaOu3/6N6kqWaqcTbwwLf06+w8IF+UhNCK/s5UFu4tQCsqKb5O48Gyi/DEi65vF+7Puj1794CBMgtOFPSZ9lAB9iovbDuhqRx38Piq/0VVDC5l/uaO2YlWPiy7z+dShFzXnzW8x7OIQ5O6KwwWWBRYTxQzV5LeewMGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EyRm+nMopV5LS4J99nXaJzYuuXIVVwK7i0V5I+rxOJ8=;
- b=HU6qRxfbYFFseu74TOV85v6mwyzMK4JS8VJ5qqfPSvtEV/rm3zWJGJuBnu0y2fG879mLf05AkimRZnix1hfL4q+hAOc4F+GRemkYC4i/stC6zzTTtFMs8wK6gwkcU8SNXZI4A0mv4K9v+mC6TPWPoDXbhLV9+0oHLzOvec+YjeM=
-Authentication-Results-Original: perches.com; dkim=none (message not signed)
- header.d=none;perches.com; dmarc=none action=none header.from=arm.com;
-Received: from AM6PR08MB3653.eurprd08.prod.outlook.com (2603:10a6:20b:4c::22)
- by AM6PR08MB5175.eurprd08.prod.outlook.com (2603:10a6:20b:ef::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.38; Thu, 8 Oct
- 2020 08:57:23 +0000
-Received: from AM6PR08MB3653.eurprd08.prod.outlook.com
- ([fe80::d0be:76bf:3d2f:8c56]) by AM6PR08MB3653.eurprd08.prod.outlook.com
- ([fe80::d0be:76bf:3d2f:8c56%6]) with mapi id 15.20.3455.024; Thu, 8 Oct 2020
- 08:57:23 +0000
-Date: Thu, 8 Oct 2020 09:57:22 +0100
-From: Matteo Franchin <matteo.franchin@arm.com>
-To: Joe Perches <joe@perches.com>
-Subject: Re: [PATCH] drm/fourcc: Add AXBXGXRX106106106106 format
-Message-ID: <20201008085722.GA30778@lagrange>
-References: <20201007092725.13300-1-matteo.franchin@arm.com>
- <dee9c91dd38f05eda86eb126cc54679408518562.camel@perches.com>
-Content-Disposition: inline
-In-Reply-To: <dee9c91dd38f05eda86eb126cc54679408518562.camel@perches.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [217.140.106.53]
-X-ClientProxiedBy: LO2P265CA0155.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:9::23) To AM6PR08MB3653.eurprd08.prod.outlook.com
- (2603:10a6:20b:4c::22)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72E286E0F0;
+ Thu,  8 Oct 2020 09:00:27 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id DE3E3AF4D;
+ Thu,  8 Oct 2020 09:00:25 +0000 (UTC)
+Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
+ type conversion
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20200929151437.19717-1-tzimmermann@suse.de>
+ <20200929151437.19717-3-tzimmermann@suse.de>
+ <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
+ <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
+ <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
+ <07972ada-9135-3743-a86b-487f610c509f@suse.de>
+ <b569b7e3-68f0-edcc-c8f4-170e9042d348@gmail.com>
+ <20200930094712.GW438822@phenom.ffwll.local>
+ <8479d0aa-3826-4f37-0109-55daca515793@amd.com>
+ <CAKMK7uH0U36NG8w98i0x6HVGeogiwnYDRiKquLW-8znLa7-0yg@mail.gmail.com>
+ <20201002095830.GH438822@phenom.ffwll.local>
+ <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
+ <CAKMK7uEu0vwiG9Uz0_Ysyus0ZAF-1HNxvPZjcG3xZS=gkKgJLw@mail.gmail.com>
+ <26ac0446-9e16-1ca1-7407-3d0cd7125e0e@suse.de>
+ <09d634d0-f20a-e9a9-d8d2-b50e8aaf156f@amd.com>
+ <CAKMK7uEPn=q1J50koveE+b49r=SE0eh5nTrxWOVRN2grdyNPTA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <5c0dc0bf-b4ca-db84-708e-74a5b033018f@suse.de>
+Date: Thu, 8 Oct 2020 11:00:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (217.140.106.53) by
- LO2P265CA0155.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:9::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3455.21 via Frontend Transport; Thu, 8 Oct 2020 08:57:23 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 1e9d49f1-a3c9-4043-cf28-08d86b6831a5
-X-MS-TrafficTypeDiagnostic: AM6PR08MB5175:|VI1PR0802MB2302:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0802MB230287025A89E264CA44CA33F40B0@VI1PR0802MB2302.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: OivuEaWswi9yJltwbX6N5itnvnTJ1Q24gBosp0ZztqxM8L3zd7ZPOPCpw2yFREMzf1Cpth2oSV41kHfV51yRJT0G0gD7zkO+ERqzeqYSZSCBKBk9FHvjfUQaR7MgRdAHGd8/zgn/Fr+xEm84FHkurDJkHn+8hpGP8mlDS4CRdRr+sp8cCFL7Jmi3H5uOZpAHb/GyZFYNlCjSC2spV5DNd1fH+SAOvHAAkoMwfk+N8MH9+tVGq8ZOTlCs6cQPBw4EjTY9UnRysN6Jy3hfaghTgaUheLbcpcMPGqVs0iILPJoOK+nyw9KzEaMcCUIIy+q/TIKqrfwXpwlK14cGhLAdEk6mIYJIFyRMu9xYqNd54U8=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM6PR08MB3653.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE;
- SFS:(4636009)(7916004)(136003)(376002)(396003)(39860400002)(366004)(346002)(9686003)(6486002)(956004)(478600001)(4326008)(186003)(66476007)(33656002)(66556008)(316002)(966005)(2906002)(54906003)(66946007)(16526019)(52116002)(8676002)(8936002)(6496006)(5660300002)(44832011)(6916009)(1076003)(86362001)(33716001)(26005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: +fTBmCFAGha052oPueWy3PJ67Iqt7qZtNnLx4zXl0D/vCwCYOTesJrlBjJXpO/rIrupUh6f7M/Zlpf1UfwDgS6s64XiVPYJcSc1CcVcVr96CuMhAtjVLqfauWBi30c4qvvGCbfDzlpYyt+H44U/usVWv0lrSYGMMzCuJKFki/5vq2+MJQYMuqBzg1lpzf7jm6ETzSYQYfcua2TYcdKykjgeX6pYNhycFMYhYIiLyfIJRk9P25XyZQAQVl+Wmvlo+X7lu9LPh9YCCEQ+YhtMrmwg0lu6/EHZ98mJ6MTUeXvpJGgOOGYjrqqe59TRpuCIU3zfh5cX/c4AV0NwkG6OmUeRm0M9BjSfZejEWb2+LuuKS9418r9sGphtrOy3XL1KmqV47Bipag4Zke19HuByPfr5KQWNm7qH775oSsVsEssF2UDlShI1y/vavJp7a1xfQsD1Ebeg1bhgFSuDzjbCi8qUFv5TrV4m/Mc/7phD1AmAeiYEnGHxXXskJGrDMWTyIqI7pYmB5w/KVZ7f6oT/oZQEbArWM7REn6ZHGzGmNLdEqj+FoxNfBlmavwFKg9F/QpGIWn1r4Jg4SEy5byBNDh7TyQ5suZOeLcvYNqDxKf6UQKCkFpazvi86Qh2I4IO5DbWINhQoytsSwS22uD2YQDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5175
-Original-Authentication-Results: perches.com; dkim=none (message not signed)
- header.d=none;perches.com; dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT054.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 2c67efc9-bf09-44df-860f-08d86b682bee
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yYVARb9gDYuEOErQlBOu1spPj/8aJFApXQILVxCeSe4x+u4NDpgrHcJbEqB8oEi8661wZgdblthB8jAU+ugYTMjvt4ZXXXYwtYzeUnHTweRkGZuU8HWzXmD7cjvG1mz2TgMfbe+7+eFxEmznoGR5eCyTFtYpv8Nc5aVLuGGNuTSrCIc3Te/NxJ2RicBySbiqxxnLxqW/3ijb8vwg/Rak2gfgcfy5QapciKpXSrpQQwPBGrLUZr2vxC5WL4xWmeXaEPRmPzctyARvBWJtyayTJa6G+5WJ9LmVDWN/mFMwR6KD2zNT8rc+KTbmpOkFKvDSRszmOYLO7e4cpNSm1hGGsJ0HZDJwaco3VjLal8VxG/7eA7mRTbIm1ASTvyDndA/npOmeQDu6eThFZd3elP8xnNymnXO3yKI02WF7Qk6/FB/c6Q2X3eUsGPy+G5Vw9PHr
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
- SFS:(7916004)(4636009)(376002)(39860400002)(346002)(136003)(396003)(46966005)(2906002)(70586007)(70206006)(9686003)(4326008)(6486002)(33716001)(6862004)(44832011)(33656002)(26005)(1076003)(8936002)(8676002)(5660300002)(956004)(16526019)(47076004)(86362001)(186003)(81166007)(966005)(316002)(54906003)(356005)(82310400003)(478600001)(82740400003)(6496006)(336012);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2020 08:57:32.6576 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e9d49f1-a3c9-4043-cf28-08d86b6831a5
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB5EUR03FT054.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2302
+In-Reply-To: <CAKMK7uEPn=q1J50koveE+b49r=SE0eh5nTrxWOVRN2grdyNPTA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,52 +55,546 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>, Liviu Dudau <Liviu.Dudau@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, nd <nd@arm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, Nouveau Dev <nouveau@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Wilson,
+ Chris" <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
+ Huang Rui <ray.huang@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>, lima@lists.freedesktop.org,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Steven Price <steven.price@arm.com>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
+ "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
+ Sean Paul <sean@poorly.run>, apaneers@amd.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Qiang Yu <yuq825@gmail.com>,
+ Kukjin Kim <kgene@kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0782968542=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joe,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0782968542==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="1RRRYtJ6APQmd6LeI1KMPbGtdio7fZVjb"
 
-Thanks for looking at this.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--1RRRYtJ6APQmd6LeI1KMPbGtdio7fZVjb
+Content-Type: multipart/mixed; boundary="jDFbYBZf8kdKgUAVGHXxfA7MPXZztPeOO";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Dave Airlie <airlied@linux.ie>,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Wilson, Chris" <chris@chris-wilson.co.uk>,
+ Melissa Wen <melissa.srw@gmail.com>, Huang Rui <ray.huang@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Qiang Yu <yuq825@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>, lima@lists.freedesktop.org,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Steven Price <steven.price@arm.com>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <spice-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, Hans de Goede <hdegoede@redhat.com>,
+ "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
+ "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
+ Sean Paul <sean@poorly.run>, apaneers@amd.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Kukjin Kim <kgene@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Message-ID: <5c0dc0bf-b4ca-db84-708e-74a5b033018f@suse.de>
+Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
+ type conversion
+References: <20200929151437.19717-1-tzimmermann@suse.de>
+ <20200929151437.19717-3-tzimmermann@suse.de>
+ <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
+ <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
+ <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
+ <07972ada-9135-3743-a86b-487f610c509f@suse.de>
+ <b569b7e3-68f0-edcc-c8f4-170e9042d348@gmail.com>
+ <20200930094712.GW438822@phenom.ffwll.local>
+ <8479d0aa-3826-4f37-0109-55daca515793@amd.com>
+ <CAKMK7uH0U36NG8w98i0x6HVGeogiwnYDRiKquLW-8znLa7-0yg@mail.gmail.com>
+ <20201002095830.GH438822@phenom.ffwll.local>
+ <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
+ <CAKMK7uEu0vwiG9Uz0_Ysyus0ZAF-1HNxvPZjcG3xZS=gkKgJLw@mail.gmail.com>
+ <26ac0446-9e16-1ca1-7407-3d0cd7125e0e@suse.de>
+ <09d634d0-f20a-e9a9-d8d2-b50e8aaf156f@amd.com>
+ <CAKMK7uEPn=q1J50koveE+b49r=SE0eh5nTrxWOVRN2grdyNPTA@mail.gmail.com>
+In-Reply-To: <CAKMK7uEPn=q1J50koveE+b49r=SE0eh5nTrxWOVRN2grdyNPTA@mail.gmail.com>
 
-On Wed, Oct 07, 2020 at 11:47:57PM +0100, Joe Perches wrote:
-> On Wed, 2020-10-07 at 10:27 +0100, Matteo Franchin wrote:
-> > Add ABGR format with 10-bit components packed in 64-bit per pixel.
-> > This format can be used to handle
-> > VK_FORMAT_R10X6G10X6B10X6A10X6_UNORM_4PACK16 on little-endian
-> > architectures.
-> 
-> trivial note:
-> 
-> > diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> []
-> > @@ -202,6 +202,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
-> >  		{ .format = DRM_FORMAT_XBGR16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1 },
-> >  		{ .format = DRM_FORMAT_ARGB16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
-> >  		{ .format = DRM_FORMAT_ABGR16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
-> > +		{ .format = DRM_FORMAT_AXBXGXRX106106106106,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
-> 
-> My is to separate this into 2 lines so every
-> column including .depth on still visually aligns.
-> 
-> +		{ .format = DRM_FORMAT_AXBXGXRX106106106106,
-> +							.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+--jDFbYBZf8kdKgUAVGHXxfA7MPXZztPeOO
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-I think this would make grepping less useful though?
-Do others care about that?
+Hi
 
-> 
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Am 07.10.20 um 16:30 schrieb Daniel Vetter:
+> On Wed, Oct 7, 2020 at 3:25 PM Christian K=C3=B6nig <christian.koenig@a=
+md.com> wrote:
+>>
+>> Am 07.10.20 um 15:20 schrieb Thomas Zimmermann:
+>>> Hi
+>>>
+>>> Am 07.10.20 um 15:10 schrieb Daniel Vetter:
+>>>> On Wed, Oct 7, 2020 at 2:57 PM Thomas Zimmermann <tzimmermann@suse.d=
+e> wrote:
+>>>>> Hi
+>>>>>
+>>>>> Am 02.10.20 um 11:58 schrieb Daniel Vetter:
+>>>>>> On Wed, Sep 30, 2020 at 02:51:46PM +0200, Daniel Vetter wrote:
+>>>>>>> On Wed, Sep 30, 2020 at 2:34 PM Christian K=C3=B6nig
+>>>>>>> <christian.koenig@amd.com> wrote:
+>>>>>>>> Am 30.09.20 um 11:47 schrieb Daniel Vetter:
+>>>>>>>>> On Wed, Sep 30, 2020 at 10:34:31AM +0200, Christian K=C3=B6nig =
+wrote:
+>>>>>>>>>> Am 30.09.20 um 10:19 schrieb Thomas Zimmermann:
+>>>>>>>>>>> Hi
+>>>>>>>>>>>
+>>>>>>>>>>> Am 30.09.20 um 10:05 schrieb Christian K=C3=B6nig:
+>>>>>>>>>>>> Am 29.09.20 um 19:49 schrieb Thomas Zimmermann:
+>>>>>>>>>>>>> Hi Christian
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Am 29.09.20 um 17:35 schrieb Christian K=C3=B6nig:
+>>>>>>>>>>>>>> Am 29.09.20 um 17:14 schrieb Thomas Zimmermann:
+>>>>>>>>>>>>>>> The new helper ttm_kmap_obj_to_dma_buf() extracts address=
+ and location
+>>>>>>>>>>>>>>> from and instance of TTM's kmap_obj and initializes struc=
+t dma_buf_map
+>>>>>>>>>>>>>>> with these values. Helpful for TTM-based drivers.
+>>>>>>>>>>>>>> We could completely drop that if we use the same structure=
+ inside TTM as
+>>>>>>>>>>>>>> well.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Additional to that which driver is going to use this?
+>>>>>>>>>>>>> As Daniel mentioned, it's in patch 3. The TTM-based drivers=
+ will
+>>>>>>>>>>>>> retrieve the pointer via this function.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> I do want to see all that being more tightly integrated int=
+o TTM, but
+>>>>>>>>>>>>> not in this series. This one is about fixing the bochs-on-s=
+parc64
+>>>>>>>>>>>>> problem for good. Patch 7 adds an update to TTM to the DRM =
+TODO list.
+>>>>>>>>>>>> I should have asked which driver you try to fix here :)
+>>>>>>>>>>>>
+>>>>>>>>>>>> In this case just keep the function inside bochs and only fi=
+x it there.
+>>>>>>>>>>>>
+>>>>>>>>>>>> All other drivers can be fixed when we generally pump this t=
+hrough TTM.
+>>>>>>>>>>> Did you take a look at patch 3? This function will be used by=
+ VRAM
+>>>>>>>>>>> helpers, nouveau, radeon, amdgpu and qxl. If we don't put it =
+here, we
+>>>>>>>>>>> have to duplicate the functionality in each if these drivers.=
+ Bochs
+>>>>>>>>>>> itself uses VRAM helpers and doesn't touch the function direc=
+tly.
+>>>>>>>>>> Ah, ok can we have that then only in the VRAM helpers?
+>>>>>>>>>>
+>>>>>>>>>> Alternative you could go ahead and use dma_buf_map in ttm_bo_k=
+map_obj
+>>>>>>>>>> directly and drop the hack with the TTM_BO_MAP_IOMEM_MASK.
+>>>>>>>>>>
+>>>>>>>>>> What I want to avoid is to have another conversion function in=
+ TTM because
+>>>>>>>>>> what happens here is that we already convert from ttm_bus_plac=
+ement to
+>>>>>>>>>> ttm_bo_kmap_obj and then to dma_buf_map.
+>>>>>>>>> Hm I'm not really seeing how that helps with a gradual conversi=
+on of
+>>>>>>>>> everything over to dma_buf_map and assorted helpers for access?=
+ There's
+>>>>>>>>> too many places in ttm drivers where is_iomem and related stuff=
+ is used to
+>>>>>>>>> be able to convert it all in one go. An intermediate state with=
+ a bunch of
+>>>>>>>>> conversions seems fairly unavoidable to me.
+>>>>>>>> Fair enough. I would just have started bottom up and not top dow=
+n.
+>>>>>>>>
+>>>>>>>> Anyway feel free to go ahead with this approach as long as we ca=
+n remove
+>>>>>>>> the new function again when we clean that stuff up for good.
+>>>>>>> Yeah I guess bottom up would make more sense as a refactoring. Bu=
+t the
+>>>>>>> main motivation to land this here is to fix the __mmio vs normal
+>>>>>>> memory confusion in the fbdev emulation helpers for sparc (and
+>>>>>>> anything else that needs this). Hence the top down approach for
+>>>>>>> rolling this out.
+>>>>>> Ok I started reviewing this a bit more in-depth, and I think this =
+is a bit
+>>>>>> too much of a de-tour.
+>>>>>>
+>>>>>> Looking through all the callers of ttm_bo_kmap almost everyone map=
+s the
+>>>>>> entire object. Only vmwgfx uses to map less than that. Also, every=
+one just
+>>>>>> immediately follows up with converting that full object map into a=
+
+>>>>>> pointer.
+>>>>>>
+>>>>>> So I think what we really want here is:
+>>>>>> - new function
+>>>>>>
+>>>>>> int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *=
+map);
+>>>>>>
+>>>>>>    _vmap name since that's consistent with both dma_buf functions =
+and
+>>>>>>    what's usually used to implement this. Outside of the ttm world=
+ kmap
+>>>>>>    usually just means single-page mappings using kmap() or it's io=
+mem
+>>>>>>    sibling io_mapping_map* so rather confusing name for a function=
+ which
+>>>>>>    usually is just used to set up a vmap of the entire buffer.
+>>>>>>
+>>>>>> - a helper which can be used for the drm_gem_object_funcs vmap/vun=
+map
+>>>>>>    functions for all ttm drivers. We should be able to make this f=
+ully
+>>>>>>    generic because a) we now have dma_buf_map and b) drm_gem_objec=
+t is
+>>>>>>    embedded in the ttm_bo, so we can upcast for everyone who's bot=
+h a ttm
+>>>>>>    and gem driver.
+>>>>>>
+>>>>>>    This is maybe a good follow-up, since it should allow us to dit=
+ch quite
+>>>>>>    a bit of the vram helper code for this more generic stuff. I al=
+so might
+>>>>>>    have missed some special-cases here, but from a quick look ever=
+ything
+>>>>>>    just pins the buffer to the current location and that's it.
+>>>>>>
+>>>>>>    Also this obviously requires Christian's generic ttm_bo_pin rew=
+ork
+>>>>>>    first.
+>>>>>>
+>>>>>> - roll the above out to drivers.
+>>>>>>
+>>>>>> Christian/Thomas, thoughts on this?
+>>>>> I agree on the goals, but what is the immediate objective here?
+>>>>>
+>>>>> Adding ttm_bo_vmap() does not work out easily, as struct ttm_bo_kma=
+p_obj
+>>>>> is a central part of the internals of TTM. struct ttm_bo_kmap_obj h=
+as
+>>>>> more internal state that struct dma_buf_map, so they are not easily=
+
+>>>>> convertible either. What you propose seems to require a reimplement=
+ation
+>>>>> of the existing ttm_bo_kmap() code. That is it's own patch series.
+>>>>>
+>>>>> I'd rather go with some variant of the existing patch and add
+>>>>> ttm_bo_vmap() in a follow-up.
+>>>> ttm_bo_vmap would simply wrap what you currently open-code as
+>>>> ttm_bo_kmap + ttm_kmap_obj_to_dma_buf_map. Removing ttm_kmap_obj wou=
+ld
+>>>> be a much later step. Why do you think adding ttm_bo_vmap is not
+>>>> possible?
+>>> The calls to ttm_bo_kmap/_kunmap() require an instance of struct
+>>> ttm_bo_kmap_obj that is stored in each driver's private bo structure
+>>> (e.g., struct drm_gem_vram_object, struct radeon_bo, etc). When I mad=
+e
+>>> patch 3, I flirted with the idea of unifying the driver's _vmap code =
+in
+>>> a shared helper, but I couldn't find a simple way of doing it. That's=
+
+>>> why it's open-coded in the first place.
+>=20
+> Yeah we'd need a ttm_bo_vunmap I guess to make this work. Which
+> shouldn't be more than a few lines, but maybe too much to do in this
+> series.
+>=20
+>> Well that makes kind of sense. Keep in mind that ttm_bo_kmap is
+>> currently way to complicated.
+>=20
+> Yeah, simplifying this into a ttm_bo_vmap on one side, and a simple
+> 1-page kmap helper on the other should help a lot.
+
+I'm not too happy about the plan, but I'll send out something like this
+in the next iteration.
+
+Best regards
+Thomas
+
+> -Daniel
+>=20
+>>
+>> Christian.
+>>
+>>>
+>>> Best regards
+>>> Thomas
+>>>
+>>>> -Daniel
+>>>>
+>>>>
+>>>>> Best regards
+>>>>> Thomas
+>>>>>
+>>>>>> I think for the immediate need of rolling this out for vram helper=
+s and
+>>>>>> fbdev code we should be able to do this, but just postpone the dri=
+ver wide
+>>>>>> roll-out for now.
+>>>>>>
+>>>>>> Cheers, Daniel
+>>>>>>
+>>>>>>> -Daniel
+>>>>>>>
+>>>>>>>> Christian.
+>>>>>>>>
+>>>>>>>>> -Daniel
+>>>>>>>>>
+>>>>>>>>>> Thanks,
+>>>>>>>>>> Christian.
+>>>>>>>>>>
+>>>>>>>>>>> Best regards
+>>>>>>>>>>> Thomas
+>>>>>>>>>>>
+>>>>>>>>>>>> Regards,
+>>>>>>>>>>>> Christian.
+>>>>>>>>>>>>
+>>>>>>>>>>>>> Best regards
+>>>>>>>>>>>>> Thomas
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Regards,
+>>>>>>>>>>>>>> Christian.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>>>      include/drm/ttm/ttm_bo_api.h | 24 ++++++++++++++++++=
+++++++
+>>>>>>>>>>>>>>>      include/linux/dma-buf-map.h  | 20 ++++++++++++++++++=
+++
+>>>>>>>>>>>>>>>      2 files changed, 44 insertions(+)
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/t=
+tm/ttm_bo_api.h
+>>>>>>>>>>>>>>> index c96a25d571c8..62d89f05a801 100644
+>>>>>>>>>>>>>>> --- a/include/drm/ttm/ttm_bo_api.h
+>>>>>>>>>>>>>>> +++ b/include/drm/ttm/ttm_bo_api.h
+>>>>>>>>>>>>>>> @@ -34,6 +34,7 @@
+>>>>>>>>>>>>>>>      #include <drm/drm_gem.h>
+>>>>>>>>>>>>>>>      #include <drm/drm_hashtab.h>
+>>>>>>>>>>>>>>>      #include <drm/drm_vma_manager.h>
+>>>>>>>>>>>>>>> +#include <linux/dma-buf-map.h>
+>>>>>>>>>>>>>>>      #include <linux/kref.h>
+>>>>>>>>>>>>>>>      #include <linux/list.h>
+>>>>>>>>>>>>>>>      #include <linux/wait.h>
+>>>>>>>>>>>>>>> @@ -486,6 +487,29 @@ static inline void *ttm_kmap_obj_vir=
+tual(struct
+>>>>>>>>>>>>>>> ttm_bo_kmap_obj *map,
+>>>>>>>>>>>>>>>          return map->virtual;
+>>>>>>>>>>>>>>>      }
+>>>>>>>>>>>>>>>      +/**
+>>>>>>>>>>>>>>> + * ttm_kmap_obj_to_dma_buf_map
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * @kmap: A struct ttm_bo_kmap_obj returned from ttm_bo_=
+kmap.
+>>>>>>>>>>>>>>> + * @map: Returns the mapping as struct dma_buf_map
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * Converts struct ttm_bo_kmap_obj to struct dma_buf_map=
+=2E If the memory
+>>>>>>>>>>>>>>> + * is not mapped, the returned mapping is initialized to=
+ NULL.
+>>>>>>>>>>>>>>> + */
+>>>>>>>>>>>>>>> +static inline void ttm_kmap_obj_to_dma_buf_map(struct tt=
+m_bo_kmap_obj
+>>>>>>>>>>>>>>> *kmap,
+>>>>>>>>>>>>>>> +                           struct dma_buf_map *map)
+>>>>>>>>>>>>>>> +{
+>>>>>>>>>>>>>>> +    bool is_iomem;
+>>>>>>>>>>>>>>> +    void *vaddr =3D ttm_kmap_obj_virtual(kmap, &is_iomem=
+);
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +    if (!vaddr)
+>>>>>>>>>>>>>>> +        dma_buf_map_clear(map);
+>>>>>>>>>>>>>>> +    else if (is_iomem)
+>>>>>>>>>>>>>>> +        dma_buf_map_set_vaddr_iomem(map, (void __force _=
+_iomem *)vaddr);
+>>>>>>>>>>>>>>> +    else
+>>>>>>>>>>>>>>> +        dma_buf_map_set_vaddr(map, vaddr);
+>>>>>>>>>>>>>>> +}
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>>      /**
+>>>>>>>>>>>>>>>       * ttm_bo_kmap
+>>>>>>>>>>>>>>>       *
+>>>>>>>>>>>>>>> diff --git a/include/linux/dma-buf-map.h b/include/linux/=
+dma-buf-map.h
+>>>>>>>>>>>>>>> index fd1aba545fdf..2e8bbecb5091 100644
+>>>>>>>>>>>>>>> --- a/include/linux/dma-buf-map.h
+>>>>>>>>>>>>>>> +++ b/include/linux/dma-buf-map.h
+>>>>>>>>>>>>>>> @@ -45,6 +45,12 @@
+>>>>>>>>>>>>>>>       *
+>>>>>>>>>>>>>>>       *    dma_buf_map_set_vaddr(&map. 0xdeadbeaf);
+>>>>>>>>>>>>>>>       *
+>>>>>>>>>>>>>>> + * To set an address in I/O memory, use dma_buf_map_set_=
+vaddr_iomem().
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * .. code-block:: c
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + *    dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>>       * Test if a mapping is valid with either dma_buf_ma=
+p_is_set() or
+>>>>>>>>>>>>>>>       * dma_buf_map_is_null().
+>>>>>>>>>>>>>>>       *
+>>>>>>>>>>>>>>> @@ -118,6 +124,20 @@ static inline void dma_buf_map_set_v=
+addr(struct
+>>>>>>>>>>>>>>> dma_buf_map *map, void *vaddr)
+>>>>>>>>>>>>>>>          map->is_iomem =3D false;
+>>>>>>>>>>>>>>>      }
+>>>>>>>>>>>>>>>      +/**
+>>>>>>>>>>>>>>> + * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping =
+structure to
+>>>>>>>>>>>>>>> an address in I/O memory
+>>>>>>>>>>>>>>> + * @map:        The dma-buf mapping structure
+>>>>>>>>>>>>>>> + * @vaddr_iomem:    An I/O-memory address
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * Sets the address and the I/O-memory flag.
+>>>>>>>>>>>>>>> + */
+>>>>>>>>>>>>>>> +static inline void dma_buf_map_set_vaddr_iomem(struct dm=
+a_buf_map *map,
+>>>>>>>>>>>>>>> +                           void __iomem *vaddr_iomem)
+>>>>>>>>>>>>>>> +{
+>>>>>>>>>>>>>>> +    map->vaddr_iomem =3D vaddr_iomem;
+>>>>>>>>>>>>>>> +    map->is_iomem =3D true;
+>>>>>>>>>>>>>>> +}
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>>      /**
+>>>>>>>>>>>>>>>       * dma_buf_map_is_equal - Compares two dma-buf mappi=
+ng structures
+>>>>>>>>>>>>>>> for equality
+>>>>>>>>>>>>>>>       * @lhs:    The dma-buf mapping structure
+>>>>>>>>>>>>>> _______________________________________________
+>>>>>>>>>>>>>> dri-devel mailing list
+>>>>>>>>>>>>>> dri-devel@lists.freedesktop.org
+>>>>>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttp=
+s%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=
+=3D02%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b=
+8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sda=
+ta=3DHdHOA%2F1VcIX%2F7YtfYTiAqYEvw7Ag%2FS%2BxS5VwJKOv5y0%3D&amp;reserved=3D=
+0
+>>>>>>>>>>>>> _______________________________________________
+>>>>>>>>>>>>> amd-gfx mailing list
+>>>>>>>>>>>>> amd-gfx@lists.freedesktop.org
+>>>>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps=
+%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D=
+02%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7=
+C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3D=
+H%2B5HKCsTrksRV2EyEiFGSTyS79jsWCmJimSMoJYusx8%3D&amp;reserved=3D0
+>>>>>>>>>>>> _______________________________________________
+>>>>>>>>>>>> dri-devel mailing list
+>>>>>>>>>>>> dri-devel@lists.freedesktop.org
+>>>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%=
+3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D=
+02%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7=
+C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3D=
+HdHOA%2F1VcIX%2F7YtfYTiAqYEvw7Ag%2FS%2BxS5VwJKOv5y0%3D&amp;reserved=3D0
+>>>>>>>>>>>>
+>>>>>>>>>>> _______________________________________________
+>>>>>>>>>>> amd-gfx mailing list
+>>>>>>>>>>> amd-gfx@lists.freedesktop.org
+>>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3=
+A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D02=
+%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7C3=
+dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3D=
+H%2B5HKCsTrksRV2EyEiFGSTyS79jsWCmJimSMoJYusx8%3D&amp;reserved=3D0
+>>>>>>>
+>>>>>>> --
+>>>>>>> Daniel Vetter
+>>>>>>> Software Engineer, Intel Corporation
+>>>>>>> http://blog.ffwll.ch
+>>>>> --
+>>>>> Thomas Zimmermann
+>>>>> Graphics Driver Developer
+>>>>> SUSE Software Solutions Germany GmbH
+>>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>>>>> (HRB 36809, AG N=C3=BCrnberg)
+>>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>>>
+>>>>
+>>
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--jDFbYBZf8kdKgUAVGHXxfA7MPXZztPeOO--
+
+--1RRRYtJ6APQmd6LeI1KMPbGtdio7fZVjb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9+1SUUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNwWAf/Z6wurJbb9OHAKU2vC2UR7c+Pe4lu
+/ZDIyVbUQzqpuG6kUt56Ei9bxPOuvbzMeimdkcpxCZHJn+R/yC2/0V4kzm8vHdV3
+CPCdGSSWYEw52VeWQQLuibonRRB0BrCrCBm3pjfxh6S1cYhmDIHP7+wpTuNGLgE9
+7MFOn5/KrTbDEeZdbrbgOBRbGPvUWdVAIeqLxWKBxveDEVjlvonQ3HxmFa8Gfjiv
+bRSIkCJBGC1Idnddu8kE1hJKiftVE7aT/mOQeU4uGe+8laj9QvS9O3kZrWY2sfGX
+KyENY1fBryoXsnEQQIcl3vy5ZELHlD0XHZnUf0kYnbjnXSY8mXdI2BSuMg==
+=s7Qc
+-----END PGP SIGNATURE-----
+
+--1RRRYtJ6APQmd6LeI1KMPbGtdio7fZVjb--
+
+--===============0782968542==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0782968542==--
