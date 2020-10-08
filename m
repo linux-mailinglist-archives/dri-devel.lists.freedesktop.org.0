@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6628B28839A
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:30:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7888D287E50
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 23:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAC66EC5E;
-	Fri,  9 Oct 2020 07:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4489B6EB17;
+	Thu,  8 Oct 2020 21:49:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADCC86EAA8;
- Thu,  8 Oct 2020 21:32:51 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id l85so7909865oih.10;
- Thu, 08 Oct 2020 14:32:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cevBbZkl6jHkOu62C8Mabmldy49O6VfxjaThJkT7fqo=;
- b=Jh38EcWPcovRgGZovjptNmTC3XFLtdgDObcxU9J+Ngdo+JXkKMre2cFv1NNnc3Cksz
- Gw1qrxaSLznsP44k1kDXrGURJtVDpg1gMW5y6NJWW6QJFYp0CLt1vqtuojXyFkSvn7/t
- b666ABSDS178wKDyFFqh62mHgrcTal81GSuk9H4yQgCPhyBgz8h1fYNazcKi9tmUEesw
- QFj/aEbAF/sDrj5NYtY25wL63a2jcP2s6fXckEKyJFY6VnM3AF+1q1Feri6T0/wPUaLl
- jhKfGgOdYFJ9Nsyrc7zMJrY9aDBghZGQkYsosoQ0BzSJ8LOrRWAdYgxRTGBWHMwOSeuX
- EBNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cevBbZkl6jHkOu62C8Mabmldy49O6VfxjaThJkT7fqo=;
- b=idn8bEleAo+26+7mHDS1lKGGQ+L8VPmCR0HJb+JBs49V4GX/z7euSu+OKumLKlSe6x
- raEaOQ4bPd3mqAWvDWHZgUBi8oaIY4SrUd6CADPvouxkcp+9pdq0cQC2I47sr0Lg4Bja
- J3VS+TQYMSTvWmIZCp2qOXox5TUNEY+1/u1yMQepT/sdwxcWUcDJ32pzPIkjJqNvcEdU
- JBR8f2MbuabTNA5N3MJxMIa86XiDCehw6yflAd5HJpqacvbDGwszCxyu+/4LYdVi9XO+
- hvsY2GVbJXcnOrOoutN46diZsR7E1sBn75j+ibbdbMTqbY8SM5+wzNaryYBypug8c4lR
- EVJw==
-X-Gm-Message-State: AOAM533EEE16EtMcIucn0U2JN7VaDurxIKCQrq1WOV6FeQwl0pRxGxP4
- usSx/WUg8uA8khJDYqJvnk454HH6BnsN2pkM58c=
-X-Google-Smtp-Source: ABdhPJzzahJ9fNxMH7IRwnNuERPwbx/+Sm0GiltQD1QVQgQHMkVEjAJGOq4UBnib/mfX+ntmq1mJfDiRNt2fXEspr4I=
-X-Received: by 2002:aca:b9c4:: with SMTP id j187mr502838oif.48.1602192770806; 
- Thu, 08 Oct 2020 14:32:50 -0700 (PDT)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A78686EB17
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 21:49:04 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f7f89430001>; Thu, 08 Oct 2020 14:48:51 -0700
+Received: from [10.2.48.215] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 8 Oct
+ 2020 21:49:03 +0000
+Subject: Re: [PATCH 1/4] mm: introduce vma_set_file function v2
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <chris@chris-wilson.co.uk>,
+ <airlied@redhat.com>, <akpm@linux-foundation.org>, <daniel@ffwll.ch>,
+ <sumit.semwal@linaro.org>
+References: <20201008112342.9394-1-christian.koenig@amd.com>
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <b6b77e60-f93d-efe4-e267-983a2bdbbe71@nvidia.com>
+Date: Thu, 8 Oct 2020 14:49:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201007065915.13883-1-kai.heng.feng@canonical.com>
- <268f495fbb7e3042eb613398a8513a83d28d3fd9.camel@redhat.com>
- <D18BA369-25A0-4D5E-A171-9EACF7DC950B@canonical.com>
- <27402476cddeef59e9ee05e1cdda430a9e34d29c.camel@redhat.com>
-In-Reply-To: <27402476cddeef59e9ee05e1cdda430a9e34d29c.camel@redhat.com>
-From: Satadru Pramanik <satadru@gmail.com>
-Date: Thu, 8 Oct 2020 17:32:39 -0400
-Message-ID: <CAFrh3J9epixh4tTbZ83+W3bEd+Y6OzEAd+WX8t6hmmjHMnw_PQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/i915/dpcd_bl: Skip testing control capability
- with force DPCD quirk
-To: Lyude Paul <lyude@redhat.com>, Kevin Chowski <chowski@chromium.org>
-X-Mailman-Approved-At: Fri, 09 Oct 2020 07:29:53 +0000
+In-Reply-To: <20201008112342.9394-1-christian.koenig@amd.com>
+Content-Language: en-US
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1602193731; bh=7i3jZC1P+1sGlWP35B+/rJtJPgw2xaej/RUlAUDj20A=;
+ h=Subject:To:References:From:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=lT3noPjN6nsazaxazrkTAZJXXDq9MU9e9CfYXSbXg8tSCVoorFGM7M/YNUCd42FT1
+ dKH9AByZMwx2YXJQZ83lwCkaqFQWC0YvYb72NUHoCzveaWNranS7KsOFaeMzZWy/6E
+ 5FA2ekF8rcO0uhRvVWrbzMmRyHVliNxHzH1Fb166Kd05XkEfBR7t0cddAjnymHDbXa
+ as1wSoVJUoD2zt85swdV8Nl4uYzpW/NZFRmJUKfoaSVqZndhrNIn8JS0NbNJMifnxt
+ X8UwMogZrGtl7zMXYwFpjv6td0b4hP7ukBua0ValYvHsujD4xfCzvmvEgmO/MImwBb
+ 8l3Yz+o5Z5zjg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,281 +61,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: multipart/mixed; boundary="===============1590714799=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1590714799==
-Content-Type: multipart/alternative; boundary="000000000000f7378b05b12f92e7"
-
---000000000000f7378b05b12f92e7
-Content-Type: text/plain; charset="UTF-8"
-
-Kevin Chowski said he would be geting to working on upstreaming a version
-of that which was in the ChromeOS tree here:
-
-https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2344844
-when I last spoke to hi
-
-(This was two weeks ago.)
-
-Kevin - do you have any input on this?
-
-Satadru
-
-On Thu, Oct 8, 2020 at 1:07 PM Lyude Paul <lyude@redhat.com> wrote:
-
-> oh hold on, I misspoke. Here's the patch I was thinking of:
->
-> https://patchwork.freedesktop.org/series/82041/
->
-> On Thu, 2020-10-08 at 10:32 +0800, Kai-Heng Feng wrote:
-> > Hi Lyude,
-> >
-> > > On Oct 8, 2020, at 05:53, Lyude Paul <lyude@redhat.com> wrote:
-> > >
-> > > Hi! I thought this patch rang a bell, we actually already had some
-> > > discussion
-> > > about this since there's a couple of other systems this was causing
-> issues
-> > > for.
-> > > Unfortunately it never seems like that patch got sent out. Satadru?
-> > >
-> > > (if I don't hear back from them soon, I'll just send out a patch for
-> this
-> > > myself)
-> > >
-> > > JFYI - the proper fix here is to just drop the
-> > > DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP check from the code entirely.
-> As
-> > > long as
-> > > the backlight supports AUX_SET_CAP, that should be enough for us to
-> control
-> > > it.
-> >
-> > Does the proper fix include dropping DP_QUIRK_FORCE_DPCD_BACKLIGHT
-> entirely?
-> >
-> > Kai-Heng
-> >
-> > >
-> > > On Wed, 2020-10-07 at 14:58 +0800, Kai-Heng Feng wrote:
-> > > > HP DreamColor panel needs to be controlled via AUX interface.
-> However,
-> > > > it has both DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP and
-> > > > DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP set, so it fails to pass
-> > > > intel_dp_aux_display_control_capable() test.
-> > > >
-> > > > Skip the test if the panel has force DPCD quirk.
-> > > >
-> > > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > > > ---
-> > > > drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 10 ++++++----
-> > > > 1 file changed, 6 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > > > b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > > > index acbd7eb66cbe..acf2e1c65290 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > > > @@ -347,9 +347,13 @@ int intel_dp_aux_init_backlight_funcs(struct
-> > > > intel_connector *intel_connector)
-> > > >   struct intel_panel *panel = &intel_connector->panel;
-> > > >   struct intel_dp *intel_dp =
-> enc_to_intel_dp(intel_connector->encoder);
-> > > >   struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> > > > + bool force_dpcd;
-> > > > +
-> > > > + force_dpcd = drm_dp_has_quirk(&intel_dp->desc,
-> intel_dp->edid_quirks,
-> > > > +                               DP_QUIRK_FORCE_DPCD_BACKLIGHT);
-> > > >
-> > > >   if (i915->params.enable_dpcd_backlight == 0 ||
-> > > > -     !intel_dp_aux_display_control_capable(intel_connector))
-> > > > +     (!force_dpcd &&
-> > > > !intel_dp_aux_display_control_capable(intel_connector)))
-> > > >           return -ENODEV;
-> > > >
-> > > >   /*
-> > > > @@ -358,9 +362,7 @@ int intel_dp_aux_init_backlight_funcs(struct
-> > > > intel_connector *intel_connector)
-> > > >    */
-> > > >   if (i915->vbt.backlight.type !=
-> > > >       INTEL_BACKLIGHT_VESA_EDP_AUX_INTERFACE &&
-> > > > -     i915->params.enable_dpcd_backlight != 1 &&
-> > > > -     !drm_dp_has_quirk(&intel_dp->desc, intel_dp->edid_quirks,
-> > > > -                       DP_QUIRK_FORCE_DPCD_BACKLIGHT)) {
-> > > > +     i915->params.enable_dpcd_backlight != 1 && !force_dpcd) {
-> > > >           drm_info(&i915->drm,
-> > > >                    "Panel advertises DPCD backlight support, but "
-> > > >                    "VBT disagrees. If your backlight controls "
-> > > --
-> > > Sincerely,
-> > >      Lyude Paul (she/her)
-> > >      Software Engineer at Red Hat
-> --
-> Sincerely,
->       Lyude Paul (she/her)
->       Software Engineer at Red Hat
->
->
-
---000000000000f7378b05b12f92e7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Kevin Chowski said he would be geting to working on upstre=
-aming a version of that which was in the ChromeOS tree here:=C2=A0<div><br>=
-</div><div><a href=3D"https://chromium-review.googlesource.com/c/chromiumos=
-/third_party/kernel/+/2344844">https://chromium-review.googlesource.com/c/c=
-hromiumos/third_party/kernel/+/2344844</a> when I last spoke to hi<div><br>=
-</div><div>(This was two weeks ago.)</div></div><div><br></div><div>Kevin -=
- do you have any input on this?</div><div><br></div><div>Satadru</div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Th=
-u, Oct 8, 2020 at 1:07 PM Lyude Paul &lt;<a href=3D"mailto:lyude@redhat.com=
-" target=3D"_blank">lyude@redhat.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">oh hold on, I misspoke. Here&#39;s the =
-patch I was thinking of:<br>
-<br>
-<a href=3D"https://patchwork.freedesktop.org/series/82041/" rel=3D"noreferr=
-er" target=3D"_blank">https://patchwork.freedesktop.org/series/82041/</a><b=
-r>
-<br>
-On Thu, 2020-10-08 at 10:32 +0800, Kai-Heng Feng wrote:<br>
-&gt; Hi Lyude,<br>
-&gt; <br>
-&gt; &gt; On Oct 8, 2020, at 05:53, Lyude Paul &lt;<a href=3D"mailto:lyude@=
-redhat.com" target=3D"_blank">lyude@redhat.com</a>&gt; wrote:<br>
-&gt; &gt; <br>
-&gt; &gt; Hi! I thought this patch rang a bell, we actually already had som=
-e<br>
-&gt; &gt; discussion<br>
-&gt; &gt; about this since there&#39;s a couple of other systems this was c=
-ausing issues<br>
-&gt; &gt; for.<br>
-&gt; &gt; Unfortunately it never seems like that patch got sent out. Satadr=
-u?<br>
-&gt; &gt; <br>
-&gt; &gt; (if I don&#39;t hear back from them soon, I&#39;ll just send out =
-a patch for this<br>
-&gt; &gt; myself)<br>
-&gt; &gt; <br>
-&gt; &gt; JFYI - the proper fix here is to just drop the<br>
-&gt; &gt; DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP check from the code entir=
-ely. As<br>
-&gt; &gt; long as<br>
-&gt; &gt; the backlight supports AUX_SET_CAP, that should be enough for us =
-to control<br>
-&gt; &gt; it.<br>
-&gt; <br>
-&gt; Does the proper fix include dropping DP_QUIRK_FORCE_DPCD_BACKLIGHT ent=
-irely?<br>
-&gt; <br>
-&gt; Kai-Heng<br>
-&gt; <br>
-&gt; &gt; <br>
-&gt; &gt; On Wed, 2020-10-07 at 14:58 +0800, Kai-Heng Feng wrote:<br>
-&gt; &gt; &gt; HP DreamColor panel needs to be controlled via AUX interface=
-. However,<br>
-&gt; &gt; &gt; it has both DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP and<br>
-&gt; &gt; &gt; DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP set, so it fails to =
-pass<br>
-&gt; &gt; &gt; intel_dp_aux_display_control_capable() test.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Skip the test if the panel has force DPCD quirk.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Signed-off-by: Kai-Heng Feng &lt;<a href=3D"mailto:kai.heng.=
-feng@canonical.com" target=3D"_blank">kai.heng.feng@canonical.com</a>&gt;<b=
-r>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 10 +=
-+++++----<br>
-&gt; &gt; &gt; 1 file changed, 6 insertions(+), 4 deletions(-)<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backl=
-ight.c<br>
-&gt; &gt; &gt; b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c<br>
-&gt; &gt; &gt; index acbd7eb66cbe..acf2e1c65290 100644<br>
-&gt; &gt; &gt; --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c<=
-br>
-&gt; &gt; &gt; +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c<=
-br>
-&gt; &gt; &gt; @@ -347,9 +347,13 @@ int intel_dp_aux_init_backlight_funcs(s=
-truct<br>
-&gt; &gt; &gt; intel_connector *intel_connector)<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0struct intel_panel *panel =3D &amp;intel_connect=
-or-&gt;panel;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0struct intel_dp *intel_dp =3D enc_to_intel_dp(in=
-tel_connector-&gt;encoder);<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0struct drm_i915_private *i915 =3D dp_to_i915(int=
-el_dp);<br>
-&gt; &gt; &gt; + bool force_dpcd;<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; + force_dpcd =3D drm_dp_has_quirk(&amp;intel_dp-&gt;desc, in=
-tel_dp-&gt;edid_quirks,<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DP_QUIRK_FORCE_DPCD_BAC=
-KLIGHT);<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt;=C2=A0 =C2=A0if (i915-&gt;params.enable_dpcd_backlight =3D=3D=
- 0 ||<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0!intel_dp_aux_display_control_capable(i=
-ntel_connector))<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0(!force_dpcd &amp;&amp;<br>
-&gt; &gt; &gt; !intel_dp_aux_display_control_capable(intel_connector)))<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENODEV;<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt;=C2=A0 =C2=A0/*<br>
-&gt; &gt; &gt; @@ -358,9 +362,7 @@ int intel_dp_aux_init_backlight_funcs(st=
-ruct<br>
-&gt; &gt; &gt; intel_connector *intel_connector)<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 */<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0if (i915-&gt;vbt.backlight.type !=3D<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0INTEL_BACKLIGHT_VESA_EDP_AUX_INTER=
-FACE &amp;&amp;<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0i915-&gt;params.enable_dpcd_backlight !=
-=3D 1 &amp;&amp;<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0!drm_dp_has_quirk(&amp;intel_dp-&gt;des=
-c, intel_dp-&gt;edid_quirks,<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0DP_QUIRK_FORCE_DPCD_BACKLIGHT)) {<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0i915-&gt;params.enable_dpcd_backlight !=
-=3D 1 &amp;&amp; !force_dpcd) {<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_info(&amp;i915-&=
-gt;drm,<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &quot;Panel advertises DPCD backlight support, but &quot;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &quot;VBT disagrees. If your backlight controls &quot;<br>
-&gt; &gt; -- <br>
-&gt; &gt; Sincerely,<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 Lyude Paul (she/her)<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 Software Engineer at Red Hat<br>
--- <br>
-Sincerely,<br>
-=C2=A0 =C2=A0 =C2=A0 Lyude Paul (she/her)<br>
-=C2=A0 =C2=A0 =C2=A0 Software Engineer at Red Hat<br>
-<br>
-</blockquote></div>
-
---000000000000f7378b05b12f92e7--
-
---===============1590714799==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1590714799==--
+T24gMTAvOC8yMCA0OjIzIEFNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+IEFkZCB0aGUgbmV3
+IHZtYV9zZXRfZmlsZSgpIGZ1bmN0aW9uIHRvIGFsbG93IGNoYW5naW5nCj4gdm1hLT52bV9maWxl
+IHdpdGggdGhlIG5lY2Vzc2FyeSByZWZjb3VudCBkYW5jZS4KPiAKPiB2MjogYWRkIG1vcmUgdXNl
+cnMgb2YgdGhpcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jICAg
+ICAgICAgICAgICAgICAgfCAxNiArKysrKy0tLS0tLS0tLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0v
+ZXRuYXZpdi9ldG5hdml2X2dlbS5jICAgICAgfCAgNCArLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9nZW0vaTkxNV9nZW1fZG1hYnVmLmMgfCAgMyArLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9p
+OTE1L2dlbS9pOTE1X2dlbV9tbWFuLmMgICB8ICA0ICsrLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9t
+c20vbXNtX2dlbS5jICAgICAgICAgICAgICB8ICA0ICstLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9v
+bWFwZHJtL29tYXBfZ2VtLmMgICAgICAgICB8ICAzICstLQo+ICAgZHJpdmVycy9ncHUvZHJtL3Zn
+ZW0vdmdlbV9kcnYuYyAgICAgICAgICAgIHwgIDMgKy0tCj4gICBkcml2ZXJzL3N0YWdpbmcvYW5k
+cm9pZC9hc2htZW0uYyAgICAgICAgICAgfCAgNSArKy0tLQo+ICAgaW5jbHVkZS9saW51eC9tbS5o
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKysKPiAgIG1tL21tYXAuYyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB8IDE2ICsrKysrKysrKysrKysrKysKPiAgIDEwIGZpbGVz
+IGNoYW5nZWQsIDMyIGluc2VydGlvbnMoKyksIDI4IGRlbGV0aW9ucygtKQoKTG9va3MgbGlrZSBh
+IG5pY2UgY2xlYW51cC4gVHdvIGNvbW1lbnRzIGJlbG93LgoKLi4uCgo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fbW1hbi5jIGIvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvZ2VtL2k5MTVfZ2VtX21tYW4uYwo+IGluZGV4IDNkNjllNTFmM2U0ZC4uYzlkNWYxYTM4
+YWYzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9tbWFu
+LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fbW1hbi5jCj4gQEAg
+LTg5Myw4ICs4OTMsOCBAQCBpbnQgaTkxNV9nZW1fbW1hcChzdHJ1Y3QgZmlsZSAqZmlscCwgc3Ry
+dWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpCj4gICAJICogcmVxdWlyZXMgYXZvaWRpbmcgZXh0cmFu
+ZW91cyByZWZlcmVuY2VzIHRvIHRoZWlyIGZpbHAsIGhlbmNlIHdoeQo+ICAgCSAqIHdlIHByZWZl
+ciB0byB1c2UgYW4gYW5vbnltb3VzIGZpbGUgZm9yIHRoZWlyIG1tYXBzLgo+ICAgCSAqLwo+IC0J
+ZnB1dCh2bWEtPnZtX2ZpbGUpOwo+IC0Jdm1hLT52bV9maWxlID0gYW5vbjsKPiArCXZtYV9zZXRf
+ZmlsZSh2bWEsIGFub24pOwo+ICsJZnB1dChhbm9uKTsKClRoYXQncyBvbmUgZnB1dCgpIHRvbyBt
+YW55LCBpc24ndCBpdD8KCi4uLgoKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL2FuZHJv
+aWQvYXNobWVtLmMgYi9kcml2ZXJzL3N0YWdpbmcvYW5kcm9pZC9hc2htZW0uYwo+IGluZGV4IDEw
+YjRiZTFmM2U3OC4uYTUxZGMwODk4OTZlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy9h
+bmRyb2lkL2FzaG1lbS5jCj4gKysrIGIvZHJpdmVycy9zdGFnaW5nL2FuZHJvaWQvYXNobWVtLmMK
+PiBAQCAtNDUwLDkgKzQ1MCw4IEBAIHN0YXRpYyBpbnQgYXNobWVtX21tYXAoc3RydWN0IGZpbGUg
+KmZpbGUsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKQo+ICAgCQl2bWFfc2V0X2Fub255bW91
+cyh2bWEpOwo+ICAgCX0KPiAgIAo+IC0JaWYgKHZtYS0+dm1fZmlsZSkKPiAtCQlmcHV0KHZtYS0+
+dm1fZmlsZSk7Cj4gLQl2bWEtPnZtX2ZpbGUgPSBhc21hLT5maWxlOwo+ICsJdm1hX3NldF9maWxl
+KHZtYSwgYXNtYS0+ZmlsZSk7Cj4gKwlmcHV0KGFzbWEtPmZpbGUpOwoKU2FtZSBoZXJlOiB0aGF0
+IGZwdXQoKSBzZWVtcyB3cm9uZywgYXMgaXQgd2FzIGFscmVhZHkgZG9uZSB3aXRoaW4gdm1hX3Nl
+dF9maWxlKCkuCgoKdGhhbmtzLAotLSAKSm9obiBIdWJiYXJkCk5WSURJQQpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
