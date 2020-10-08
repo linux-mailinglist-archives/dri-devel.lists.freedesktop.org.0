@@ -2,75 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6C1288398
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 166A128736D
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 13:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 693476EC61;
-	Fri,  9 Oct 2020 07:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE7EB6E3C4;
+	Thu,  8 Oct 2020 11:36:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 851316E342
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 11:27:48 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id D7DA558032E;
- Thu,  8 Oct 2020 07:27:47 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 08 Oct 2020 07:27:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=KTPwdqBKAJjRWkkEeQTJTtrMtpG
- t/EY8qnr4KEuhkqo=; b=lvD7ycev3K8NQWfZ5iKZf3fo84QLHSLZucAG0ZdGXRk
- 4SLAj22MBuPPxpm+Vk9vo0BLDL2xhCxJiX8PN7SbqEQl/+aFb/oaA7jV5TR1yytM
- b+ageLjU1Jc03eJqZ26dcgSggIHrUij+7LMwgKvFIPEWo6HhqzzXiXkmLsKJ0BJ4
- qh6v8aXD3DL+pRFKsdmMx51xPYkzmePeo1xLTObC3v64pL2IBjXVwCJF5Zlug2oC
- Z6dy5loT96Oj1LI+ETmHe+u2Xq3oeAeWMfs6VwO7iiyemWvdmgw6ZBbpk57MoKpo
- PVjMWNLYdPIbC82hJxVZilNh5shmV90+emdoVd/Q2uw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=KTPwdq
- BKAJjRWkkEeQTJTtrMtpGt/EY8qnr4KEuhkqo=; b=iYr0ajqyKZvq/1vmZEAiBc
- Z+iGMK+5BvFeVFzS15HGbaJEl+hNnQ91a+srTVAk2m2oXH8BFem6KyV8GViR7fqx
- 63Cy/W3bUBx2xOidvBvgdrv6QmQkrbmaisvVzI6TWb0gCgBIVs1LyAGnlG/3/yxj
- Fq8tcFCpPYoN0HZmgo0VTdYsZySMv8bdG3Zxnek8zfX5iJrEcDJD1NyTkhXDWBYt
- A7nfLxZLAe1qO+EteuELUUE0Ue9xb3selORgLshZaomUetA7JdyMybtJEbRHo+mc
- IIYvAJkKe5C+SJG3cu3fgpscuUDtgip27lqTR1wXPiINEN7Z1O5pgEbRV5/bDwAw
- ==
-X-ME-Sender: <xms:svd-X2Bj9zAHGaj9fIaqiW4oq4W0eWqyzksvJIImJ_1ZJKafwT8efQ>
- <xme:svd-XwisE0HjP6AgDZRQ474RCZYgpthiUE08hsQHjLpEKfGV35_btA_2H6bbvmpc7
- bLqSSvKJ3KttUpWOFk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrgeelgddufecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
- veenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:svd-X5nHr-CuTKdp2JjWfC_Pl-681fSOz70nSWOySYcufNhzOBrrbw>
- <xmx:svd-X0zeGoxzkyGat3RWFoivP8DurFNbK0IlGjpUtLCnW7qRasD1WQ>
- <xmx:svd-X7SyfN23T3Y76mEh3zpN7Xke9x0KD0Swke4n01QbwrTQ8n2hGQ>
- <xmx:s_d-X5ARXK-BfMV4MGAIuwJxY3PJshCKWiJA_TRNqh-N-EQnKcTK7Q>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9F3173280066;
- Thu,  8 Oct 2020 07:27:46 -0400 (EDT)
-Date: Thu, 8 Oct 2020 13:27:45 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-Subject: Re: [PATCH v5 00/80] drm/vc4: Support BCM2711 Display Pipeline
-Message-ID: <20201008112745.hezf7kerapqgrp6m@gilmour.lan>
-References: <CGME20200904071259epcas1p3de4209531c0bc5ed6ea9ef19827b6ed5@epcas1p3.samsung.com>
- <cover.dddc064d8bb83e46744336af67dcb13139e5747d.1599120059.git-series.maxime@cerno.tech>
- <cca5234f-e1e8-b642-048b-b710f402409d@samsung.com>
- <20200908120019.3rmhzoijoijrbb7d@gilmour.lan>
- <3e113525-aa89-b1e2-56b7-ca55bd41d057@samsung.com>
- <20200916165705.7pfgesma47vgkfxt@gilmour.lan>
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2058.outbound.protection.outlook.com [40.107.21.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE6C6E3C4
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 11:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m3HFokAane9spHajfbmBU2sGRfTrARrbB0mpL16vUbY=;
+ b=AhbNqciz+CKd8/+PCO7wGjHMOvbz9zWX5s2KPPW1mubN7eKpgzw0PJ6Vlz2gfIiyKgdODuD02GwYMYTVcvvLq0b2e+KnqY8eD4+nMls3asG8nmONtU7rad1+DINvfBvgZlkUSBg8NSi0bPoAMtPsR8s19l7oa43u8rLIkAcvUqI=
+Received: from DB6P192CA0024.EURP192.PROD.OUTLOOK.COM (2603:10a6:4:b8::34) by
+ AM5PR0801MB1666.eurprd08.prod.outlook.com (2603:10a6:203:3a::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.35; Thu, 8 Oct
+ 2020 11:36:13 +0000
+Received: from DB5EUR03FT061.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:4:b8:cafe::9) by DB6P192CA0024.outlook.office365.com
+ (2603:10a6:4:b8::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21 via Frontend
+ Transport; Thu, 8 Oct 2020 11:36:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org; dmarc=pass
+ action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5EUR03FT061.mail.protection.outlook.com (10.152.21.234) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3455.23 via Frontend Transport; Thu, 8 Oct 2020 11:36:13 +0000
+Received: ("Tessian outbound 7a6fb63c1e64:v64");
+ Thu, 08 Oct 2020 11:36:13 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: d8294648a514f3ec
+X-CR-MTA-TID: 64aa7808
+Received: from 0d91f7f3bb11.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ BF589622-750B-473C-B014-260B690B4138.1; 
+ Thu, 08 Oct 2020 11:36:08 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0d91f7f3bb11.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Thu, 08 Oct 2020 11:36:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f05PR0R/4vMfvSi3l/V19liAl0VLHdLxP3I0GwrrvmOszCqmYm1QambQTp8nnT/0W6C/Y7yLKony1rdqu7RCh12EH7fwgGRpQV6/41/VvmR4EyU3WV3n+Sw0lTAhD4F3u8hDoWDPiOUymzSUdd8fGj/EVo3thSqwpug5eLJqgYBaGPY9zgpVu3pMbMz1z7Pfp/Mzys5Mp987n6OPbbiytE+TOrLffhAtlRLywfNDfH8qwH91wsDTmDUcIUeDmc2KtNyvpsKFYLFhKcxfNMFcfOGF2Gk6ntv/2B2t8ucViiRI8PaUuDIw7llZ/cRhKBWcO65AoOnRhBiESgIE2WlQEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m3HFokAane9spHajfbmBU2sGRfTrARrbB0mpL16vUbY=;
+ b=HHzfx4nTf86WQOqKngvfO1RHm27A32qvstVpiveyWzqP50AhHPlbaWRn8pHun4SrSKu+9ZSCy6+FE1MaAOp65lc7CMUapDvhCJ6rO3Z0nsNe13OS3lLUMkaM1j+4E/XiemV3pLvMdlW+iVkbYwJxq4hA1xAtqz9dJ+Z4W6mzlb/5OLqoYfwgvy1BZTkOoYuIEpqlwNM2LL5KXHok0m606ws0d9v6IY4I9x8sHySKKMja7CGNAMsxHWJoECsb3iaWAto98Ohk6YtVVFG7rMBqguI4MkjM6FGjsxGSoyzDGP05dInWCWiIqtWuQXyiS04pueUymeQuIlXZ2ClEgoNnIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m3HFokAane9spHajfbmBU2sGRfTrARrbB0mpL16vUbY=;
+ b=AhbNqciz+CKd8/+PCO7wGjHMOvbz9zWX5s2KPPW1mubN7eKpgzw0PJ6Vlz2gfIiyKgdODuD02GwYMYTVcvvLq0b2e+KnqY8eD4+nMls3asG8nmONtU7rad1+DINvfBvgZlkUSBg8NSi0bPoAMtPsR8s19l7oa43u8rLIkAcvUqI=
+Authentication-Results-Original: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=arm.com;
+Received: from HE1PR08MB2890.eurprd08.prod.outlook.com (2603:10a6:7:36::11) by
+ HE1PR0801MB1626.eurprd08.prod.outlook.com (2603:10a6:3:86::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3455.23; Thu, 8 Oct 2020 11:36:05 +0000
+Received: from HE1PR08MB2890.eurprd08.prod.outlook.com
+ ([fe80::5034:ca82:7e1:7e6f]) by HE1PR08MB2890.eurprd08.prod.outlook.com
+ ([fe80::5034:ca82:7e1:7e6f%7]) with mapi id 15.20.3433.044; Thu, 8 Oct 2020
+ 11:36:05 +0000
+Date: Thu, 8 Oct 2020 12:36:02 +0100
+From: Brian Starkey <brian.starkey@arm.com>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH v3 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+Message-ID: <20201008113602.n7ju2hu3j6qsaxve@DESKTOP-E1NTVVP.localdomain>
+References: <20201003040257.62768-1-john.stultz@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <20201003040257.62768-1-john.stultz@linaro.org>
+User-Agent: NeoMutt/20180716-849-147d51-dirty
+X-Originating-IP: [217.140.99.251]
+X-ClientProxiedBy: LO3P123CA0014.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:ba::19) To HE1PR08MB2890.eurprd08.prod.outlook.com
+ (2603:10a6:7:36::11)
 MIME-Version: 1.0
-In-Reply-To: <20200916165705.7pfgesma47vgkfxt@gilmour.lan>
-X-Mailman-Approved-At: Fri, 09 Oct 2020 07:29:53 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from DESKTOP-E1NTVVP.localdomain (217.140.99.251) by
+ LO3P123CA0014.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:ba::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3433.37 via Frontend Transport; Thu, 8 Oct 2020 11:36:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ec4601a5-efea-47ff-0c27-08d86b7e5c84
+X-MS-TrafficTypeDiagnostic: HE1PR0801MB1626:|AM5PR0801MB1666:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1666516153C763781E778C6CF00B0@AM5PR0801MB1666.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: lqBjNQMR/xffzOUBJ4tyNNmsmSVDSqOEZxTtJuAh76Y56aTi6EshOvxXL9gFm+RG06HS+sGhI7spi6bnc43BY7Ig0FhTb6u/TYj/aGoxIzPcLoeEtQ8xFTHuy8VakEA4O/GbiHVxr4AWHFbnccS/ItMJuXMxBZcIc07zaMeC/1nSd6erYJAQY7kgC20TJqKWxUasFLnG951A7cov5ijqsCY04RIPFJxIzE32s/JMyTtWOM4HEtpwmFHoyOeaMrgPotRgzlC4qk2CWRCngSNvvd/91fx6+X0NoO+ioTi/hYGADcov+7mUynFc/oC690STOHqzGQTCRcaLXdjsy43RGA==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:HE1PR08MB2890.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(366004)(136003)(396003)(39860400002)(7416002)(1076003)(83380400001)(478600001)(6916009)(7696005)(9686003)(52116002)(2906002)(8936002)(26005)(66946007)(66556008)(66476007)(316002)(186003)(54906003)(16526019)(86362001)(4326008)(5660300002)(55016002)(8676002)(956004)(6506007)(44832011);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: PdBSeHF47osDgyneh8DMgVSkiL7JH4CmM8nj/gYFODTcZQDosk8KjKUPJTRZNh8UVRQWpI1vTveFWaXm+HTFryPGd8W1MQQ2xLDpTR+800YAc1/u+Z3wzsuVTmvxA8nP9qgBLQSmiPycFrxdGyBPUGIYUdsVT7QaJJFjQXT3AZ2hAObSXMzmlBZ5oO7eZzXRKF8J7ISGi8uNiYiIbn/d+cnOXc/xQgJCVKhmtF1COgh4bCjuNdh9AN8JSYJLh9B6KM3IjvZpHpxQXs77mLBarmghpvCVqgeIxjfpb3FVrG7Yn7CCnWgzFFj9/Rp9XqCfmqZHcpeI/8aefc9kRfwpN/xJHJzaQSdFHolutPPZsTEOnmL4RBpLoPx3H2b/EAmTQcEyB0WbwGMQRda9Vt9q/zO4B1OA/oWomlVdKY1jC6jknn1fkhkh4Ncqom4izEfk3YXp1L4IYd3zMv3fHzuLCBwR7tEgI7/03OBP739WTfCGptSr+4w78FiAS441Oh/CV1zIdTj43Eb1f/kgQx7ZFPTfqYQuASr+36I0tHTsWBLbTF0MIg13rInHKZLKvudPgjp0arlx6EJmF7wVM1STA1FQVaZKmFuW9yJ/uUr0RaRhfiIL0bWitmnjBKIbBjqjFJKeL2SHz2d0pfVavQrzUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0801MB1626
+Original-Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT061.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 4ec49302-6cae-49f9-f3b1-08d86b7e5753
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 391yQbzxY10BBVdTu1r1nJZSeRFomKEyNLxfhG3kSdSBzIfnyBCOcBZ4FzxslYkN4PN+IOoaPwe/+vNlD217iUfiVqnROEiYVRUu8oY0jRH9gOmraaS7cgJ/3q0CA4a1UWW2d8TCdbLcAOQOUM5FessqdDXeoXCXv4ufZ28nm8NfmrFWarOHPuezLWdUUHYmSqHBHzY+1bZ6Qst3zBxPJ8puZ25r2rHehl/lY3lX9/HxuJCO+AItJ2I1PCXF0mLSZByuafv4BnCx8qpf6pteSHsWQ3+l8o/jG7U49TMIX3/rXHm0tgHYr4Tc/ae7KOUl3NpVo1upknLXI18Z0uvwj4LVXvSs5mA+p+rPPxk4Q356CplyEmBNQKEqfbWUZuusUXRFK4jXe60y5x40H/XMYg==
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(346002)(39860400002)(396003)(46966005)(2906002)(186003)(16526019)(6506007)(44832011)(7696005)(26005)(47076004)(82740400003)(54906003)(478600001)(316002)(70586007)(70206006)(1076003)(336012)(86362001)(83380400001)(956004)(55016002)(6862004)(9686003)(8676002)(81166007)(356005)(82310400003)(8936002)(4326008)(5660300002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2020 11:36:13.4984 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec4601a5-efea-47ff-0c27-08d86b7e5c84
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: DB5EUR03FT061.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1666
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,200 +152,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Stephen Boyd <sboyd@kernel.org>, Kamal Dasu <kdasu.kdev@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org,
- =?utf-8?B?64KY7ISx6rWt?= <sungguk.na@samsung.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: multipart/mixed; boundary="===============1468173567=="
+Cc: nd@arm.com, Sandeep Patil <sspatil@google.com>,
+ dri-devel@lists.freedesktop.org, Ezequiel Garcia <ezequiel@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>, James Jones <jajones@nvidia.com>,
+ lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
+ Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?utf-8?B?w5hyamFu?= Eide <orjan.eide@arm.com>, linux-media@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi John,
 
---===============1468173567==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="vx4lspazv3mcpaic"
-Content-Disposition: inline
+On Sat, Oct 03, 2020 at 04:02:50AM +0000, John Stultz wrote:
+> Hey All,
 
+...
 
---vx4lspazv3mcpaic
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> 
+> I did add to this series a reworked version of my uncached
+> system heap implementation I was submitting a few weeks back.
+> Since it duplicated a lot of the now reworked system heap code,
+> I realized it would be much simpler to add the functionality to
+> the system_heap implementaiton itself.
 
-On Wed, Sep 16, 2020 at 06:57:05PM +0200, Maxime Ripard wrote:
-> On Mon, Sep 14, 2020 at 07:14:11PM +0900, Hoegeun Kwon wrote:
-> > Hi Maxime,
-> >=20
-> > On 9/8/20 9:00 PM, Maxime Ripard wrote:
-> > > Hi Hoegeun,
-> > >
-> > > On Mon, Sep 07, 2020 at 08:49:12PM +0900, Hoegeun Kwon wrote:
-> > >> On 9/3/20 5:00 PM, Maxime Ripard wrote:
-> > >>> Hi everyone,
-> > >>>
-> > >>> Here's a (pretty long) series to introduce support in the VC4 DRM d=
-river
-> > >>> for the display pipeline found in the BCM2711 (and thus the Raspber=
-ryPi 4).
-> > >>>
-> > >>> The main differences are that there's two HDMI controllers and that=
- there's
-> > >>> more pixelvalve now. Those pixelvalve come with a mux in the HVS th=
-at still
-> > >>> have only 3 FIFOs. Both of those differences are breaking a bunch of
-> > >>> expectations in the driver, so we first need a good bunch of cleanu=
-p and
-> > >>> reworks to introduce support for the new controllers.
-> > >>>
-> > >>> Similarly, the HDMI controller has all its registers shuffled and s=
-plit in
-> > >>> multiple controllers now, so we need a bunch of changes to support =
-this as
-> > >>> well.
-> > >>>
-> > >>> Only the HDMI support is enabled for now (even though the DPI and D=
-SI
-> > >>> outputs have been tested too).
-> > >>>
-> > >>> Let me know if you have any comments
-> > >>> Maxime
-> > >>>
-> > >>> Cc: bcm-kernel-feedback-list@broadcom.com
-> > >>> Cc: devicetree@vger.kernel.org
-> > >>> Cc: Kamal Dasu <kdasu.kdev@gmail.com>
-> > >>> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > >>> Cc: Rob Herring <robh+dt@kernel.org>
-> > >>> Cc: Stephen Boyd <sboyd@kernel.org>
-> > >>>
-> > >>> Changes from v4:
-> > >>>     - Rebased on top of next-20200828
-> > >>>     - Collected the various tags
-> > >>>     - Fixed some issues with 4k support and dual output (thanks Hoe=
-geun!)
-> > >> Thanks for your v5 patchset.
-> > >>
-> > >> I tested all patches based on the next-20200812.
-> > > Thanks again for testing all the patches
-> > >
-> > >> Everything else is fine, but the dual hdmi modetest doesn't work wel=
-l in my
-> > >> environment...
-> > >>
-> > >> In my environment, dsi is not connected, I have seen your answer[1].
-> > > Can you share a bit more your setup? What monitors are being connected
-> > > to each HDMI port? Do you hotplug any?
-> > Yes, Monitors are being connected to each HDMI ports. (did not use hotp=
-lug)
-> >=20
-> > When booting, both HDMI-0 and 1 are recognized and the kernel log is ou=
-tput.
-> > But after run modetest on HDMI-0(works) and modetest on HDMI-1(works),
-> > crtc timed out occurs on HDMI-0 and does not work.
-> >=20
-> > When HDMI-0 is not working we do a modetest on HDMI-0, it will work agin
-> > after about 40 sec.
-> >=20
-> > Below is the log for modetest.
-> >=20
-> >=20
-> > root:~> modetest -Mvc4 -s 32:1280x720 =A0=A0=A0 =A0=A0=A0 - HDMI-0 works
-> > setting mode 1280x720-60Hz@XR24 on connectors 32, crtc 64
-> > failed to set gamma: Invalid argument
-> >=20
-> > root:~> modetest -Mvc4 -s 32:1280x720 =A0=A0=A0 =A0=A0=A0 - HDMI-0 works
-> > setting mode 1280x720-60Hz@XR24 on connectors 32, crtc 64
-> > failed to set gamma: Invalid argument
-> >=20
-> > root:~> modetest -Mvc4 -s 38:1280x720 =A0=A0=A0 =A0=A0=A0 - HDMI-1 works
-> > setting mode 1280x720-60Hz@XR24 on connectors 38, crtc 69
-> > failed to set gamma: Invalid argument
-> >=20
-> >  =A0=A0=A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=A0=A0 =A0=
-=A0=A0 =A0=A0=A0 - Crtc timed out occurs on HDMI-0 and=20
-> > does not work.
-> >=20
-> > [=A0=A0 71.134283] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR*=
-=20
-> > [CRTC:64:crtc-3] flip_done timed out
-> > [=A0=A0 81.374296] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR=
-*=20
-> > [CRTC:64:crtc-3] flip_done timed out
-> > [=A0=A0 91.618380] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR=
-*=20
-> > [CONNECTOR:32:HDMI-A-1] flip_done timed out
-> > [=A0 101.854274] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR*=
-=20
-> > [PLANE:60:plane-3] flip_done timed out
-> >=20
-> > [=A0 112.094271] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR*=20
-> > [CRTC:64:crtc-3] flip_done timed out
-> > [=A0 122.590311] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR*=
-=20
-> > [CRTC:64:crtc-3] flip_done timed out
-> >=20
-> > root:~> modetest -Mvc4 -s 32:1280x720
-> > [=A0 132.830309] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR*=
-=20
-> > [CONNECTOR:32:HDMI-A-1] flip_done timed out
-> > [=A0 143.070307] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR*=
-=20
-> > [PLANE:60:plane-3] flip_done timed out
-> > [=A0 153.310303] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR*=20
-> > [CRTC:64:crtc-3] flip_done timed out
-> > setting mode 1280x720-60Hz@XR24 on connectors 32, crtc 64
-> > [=A0 163.550340] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR*=
-=20
-> > [CRTC:64:crtc-3] flip_done timed out
-> > [=A0 173.790277] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR*=
-=20
-> > [CONNECTOR:32:HDMI-A-1] flip_done timed out
-> > [=A0 184.030286] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR*=
-=20
-> > [PLANE:60:plane-3] flip_done timed out
-> > failed to set gamma: Invalid argument =A0=A0=A0 =A0=A0=A0 - HDMI-0 works
->=20
-> Thanks :)
->=20
-> I was able to reproduce it just by also letting X boot. I'm on a good
-> path to fix it and found a workaround. I'll send you the patch in the
-> upcoming days :)
+That looks like a neat approach to me. Referencing your previous
+thread, I like the separate heap (as you have done), rather than a
+generic "cached"/"noncached" flag on all heaps.
 
-It took a bit longer than expected but the last 4 patches I just sent
-should fix that issue
+> 
+> While not improving the core allocation performance, the
+> uncached heap allocations do result in *much* improved
+> performance on HiKey960 as it avoids a lot of flushing and
+> invalidating buffers that the cpu doesn't touch often.
+> 
+> Feedback on these would be great!
 
-Thanks for reporting it!
+Minor nit: s/detatch/detach/ on both heaps, but other than that
+you can add my r-b to patches 1-5.
 
-Maxime
+As you've said, it does feel like there's some room for
+de-duplication, but that will be easier to work out once the
+implementations settle.
 
+I've a couple of comments for the uncached heap, but I'm not confident
+I understand the implications of having the non-cached alias enough to
+say if it looks OK or not.
 
---vx4lspazv3mcpaic
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX373sQAKCRDj7w1vZxhR
-xaijAQCiVFUZM394JaI2etMYfTg7j/vcScUh7E138WM8+Bf0mgEAmj19xR8DPlxb
-DK5k8BjAT7QqySqs5YVWfcmK8Qc4OQI=
-=k2dm
------END PGP SIGNATURE-----
-
---vx4lspazv3mcpaic--
-
---===============1468173567==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Cheers!
+-Brian
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1468173567==--
