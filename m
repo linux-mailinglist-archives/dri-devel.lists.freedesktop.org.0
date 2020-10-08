@@ -1,65 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409AE2873CF
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 14:06:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A24B228838B
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:30:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C430F6E113;
-	Thu,  8 Oct 2020 12:06:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0469E6EC55;
+	Fri,  9 Oct 2020 07:29:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33DDB6E113
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 12:06:38 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id u21so7759351eja.2
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 05:06:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=gXjtIH7dAAJciFaXwreITvtgTALD51vwZB1L5IfZhnE=;
- b=Wq2WSf3zZJQ4BBWUyL5VGwtoZDmet7UNRDliIwTtTITSFkUFE2pgG2EMtfEmspaGl6
- +m2CoVlv02bMP1hxzUoyUNhgZjl8NrvIIqXcia7ZmK4CA9GryMFrLSG2lUWywThFUIq6
- tNfjA3+nOv3TtLpTW9TZPEmf15u89ALe5wbq4diXDRilHBVlSh+r/21c6hsb0CgqExO4
- xtaT3keqIu6jGCcMXo3qUHpkmv4Hr+ZL2htSqgViDoz+PCYz0iQLvBdzxfon/1ze4E30
- pvZP7kv3HFJ0vTwpgzc8DWMf7WcD5KxYm7hBIC2JML8nVpte6otZd4CW11o/EpcGz0ub
- iqvA==
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A84E96E145
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 12:41:51 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id y14so3871997pfp.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 05:41:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=urluBRAZhemlAGNYR9JHz7//XtKVwD7KOsOnuK3XEvE=;
+ b=i93YgqfP2Qs8dlAx7dyQ+W0IRG7pAxhJwW9+eRHcvMVYP3djMki+CGM6zO0EVJGk6K
+ IbQzLSWJO3N1l0EX9JrKSfHEa7utNqIB47jME7UstUYw4VjXJ3eqfisu2Lv5k6vC2Rji
+ RXYD2ZA+lWznWQWoRqSMqejEaxBGkz94802iEmzJd0MCBP2cDlv790XzP6x1cW1hFd/9
+ VynwcCRsd9uDLYGf7l4gaVrI2jMIq7IhzjCPA4DTCHUEEBJWY9srCgIimdgBAYkzeSSZ
+ OrD77ImZWUgTRcr1HoKIi9uUAfbiDRf/QR54E/fTvbFXgKqiTQNN+jJNb/teyHBDz9PA
+ L6Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=gXjtIH7dAAJciFaXwreITvtgTALD51vwZB1L5IfZhnE=;
- b=P2yirGDq2AaoxaIYkD491EVj1zSksi63w/+Xanli2SPwrx+zBQYL8xCX92eJtngw1W
- 9aQ/GEaMOPyUGvyzOk69TKcT5/KaO4mU0xE5L5Zg1WS6AKsJtyrCj/4ZZ3T1aix3Dgn+
- 9DzKR8Y84BqZlWjkb2IMo+7nwUn9XCZykBG93F/AAGo+557h6fiBOeEi8EPg+vtwagJr
- OWt55nRQt1aCs7EJdyTFu7IZmdry8AILSeXI76039s//PRL8aH3zx6ITNSCjUFMk69/1
- C3OdQHdV++zK3p/DLfO5yYvHWotuBnpfUeVDreXZcfImtKB3sSEr+p/VJb9Hp76yJlK4
- nIBA==
-X-Gm-Message-State: AOAM533FPOkV5ewgPNYgJkanir8r71aRXLF9iKmUqE1fV4oqvLcI9Ceg
- v6PQDNmGCn06x+5tAN80kw0=
-X-Google-Smtp-Source: ABdhPJx6xc2xxF8cIvrcp9+s773JObUPxs9e5wJpF3CyCr5TW/ZXQKvGUYmaCfo2bUuLtvDCAuZ3ig==
-X-Received: by 2002:a17:906:b004:: with SMTP id
- v4mr8779129ejy.156.1602158796801; 
- Thu, 08 Oct 2020 05:06:36 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id bu23sm3843061edb.69.2020.10.08.05.06.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Oct 2020 05:06:36 -0700 (PDT)
-Subject: Re: [PATCH 1/4] mm: introduce vma_set_file function v2
-To: Matthew Wilcox <willy@infradead.org>
-References: <20201008112342.9394-1-christian.koenig@amd.com>
- <20201008113937.GB20115@casper.infradead.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <41323971-7869-ed09-6181-99a567dc6d7b@gmail.com>
-Date: Thu, 8 Oct 2020 14:06:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=urluBRAZhemlAGNYR9JHz7//XtKVwD7KOsOnuK3XEvE=;
+ b=Z+6OZBW++W58cPJxFQfbJtG62GipXt6lZQkz3hj591/tIBcu2Bdadpytwecr2So+iT
+ /YqtTFCF58bAVbJRg2/cfoCGjLRBVfcQ8Dcw4NTuqxwpnOSirqiHAUzeeVd03lHmYLcc
+ vPLv/r4IxMvTnuR0BawDsvmx7EzrXN8pbE3pSOVWd6vPOhb29RgEfGB0pYcCcXH6s4qg
+ y0KUS+LYkN3mTheO7XmUa4iyiTkAYaFzWdCnuawTb524AaoeyilAntNUOcHkhXNftf2o
+ tIlCunSUcgiWYVafoEBwiXuPoptJ9wQRT7X2MA/Jhl+vL+5m/g24HwRBJR6/9lw7fxFV
+ LQPw==
+X-Gm-Message-State: AOAM530Iqo2tuONtdvbZoMwCNZ1+TLfAQ7CcadaYqxrAypEffAR0v9j3
+ 5huFjtH64EF9kGDpQhIXRDURqQ==
+X-Google-Smtp-Source: ABdhPJxnQ64uysYsu/F9BjeJkE2gf+57wvTrXl8yFyGGP/X1izZlhvOyXG/ViriTgaaOJPI9vrc0XQ==
+X-Received: by 2002:a17:90a:6787:: with SMTP id
+ o7mr8072496pjj.125.1602160910911; 
+ Thu, 08 Oct 2020 05:41:50 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+ by smtp.gmail.com with ESMTPSA id k11sm7411830pjs.18.2020.10.08.05.41.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Oct 2020 05:41:49 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kQVEx-001U2l-UT; Thu, 08 Oct 2020 09:41:47 -0300
+Date: Thu, 8 Oct 2020 09:41:47 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
+Message-ID: <20201008124147.GD5177@ziepe.ca>
+References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
+ <20201007164426.1812530-11-daniel.vetter@ffwll.ch>
+ <CAPcyv4hBL68A7CZa+YnooufDH2tevoxrx32DTJMQ6OHRnec7QQ@mail.gmail.com>
+ <20201007232448.GC5177@ziepe.ca>
+ <CAPcyv4jA9fe40r_2SfrCtOaeE85V88TA3NNQZOmQMNj=MdsPyw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201008113937.GB20115@casper.infradead.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CAPcyv4jA9fe40r_2SfrCtOaeE85V88TA3NNQZOmQMNj=MdsPyw@mail.gmail.com>
+X-Mailman-Approved-At: Fri, 09 Oct 2020 07:29:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,38 +74,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- airlied@redhat.com, akpm@linux-foundation.org, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Linux PCI <linux-pci@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDguMTAuMjAgdW0gMTM6Mzkgc2NocmllYiBNYXR0aGV3IFdpbGNveDoKPiBPbiBUaHUsIE9j
-dCAwOCwgMjAyMCBhdCAwMToyMzozOVBNICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+
-PiAgIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgICAgICAgICAgICAgICAgICB8IDE2ICsrKysr
-LS0tLS0tLS0tLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jICAg
-ICAgfCAgNCArLS0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2RtYWJ1
-Zi5jIHwgIDMgKy0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX21tYW4u
-YyAgIHwgIDQgKystLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2dlbS5jICAgICAgICAg
-ICAgICB8ICA0ICstLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2dlbS5jICAg
-ICAgICAgfCAgMyArLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vdmdlbS92Z2VtX2Rydi5jICAgICAg
-ICAgICAgfCAgMyArLS0KPj4gICBkcml2ZXJzL3N0YWdpbmcvYW5kcm9pZC9hc2htZW0uYyAgICAg
-ICAgICAgfCAgNSArKy0tLQo+IC4uLgo+PiArKysgYi9tbS9tbWFwLmMKPj4gQEAgLTEzNiw2ICsx
-MzYsMjIgQEAgdm9pZCB2bWFfc2V0X3BhZ2VfcHJvdChzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZt
-YSkKPj4gICAJV1JJVEVfT05DRSh2bWEtPnZtX3BhZ2VfcHJvdCwgdm1fcGFnZV9wcm90KTsKPj4g
-ICB9Cj4+ICAgCj4+ICsvKgo+PiArICogQ2hhbmdlIGJhY2tpbmcgZmlsZSwgb25seSB2YWxpZCB0
-byB1c2UgZHVyaW5nIGluaXRpYWwgVk1BIHNldHVwLgo+PiArICovCj4+ICtzdHJ1Y3QgZmlsZSAq
-dm1hX3NldF9maWxlKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCBzdHJ1Y3QgZmlsZSAqZmls
-ZSkKPj4gK3sKPj4gKwlpZiAoZmlsZSkKPj4gKwkgICAgICAgIGdldF9maWxlKGZpbGUpOwo+PiAr
-Cj4+ICsJc3dhcCh2bWEtPnZtX2ZpbGUsIGZpbGUpOwo+PiArCj4+ICsJaWYgKGZpbGUpCj4+ICsJ
-CWZwdXQoZmlsZSk7Cj4+ICsKPj4gKwlyZXR1cm4gZmlsZTsKPj4gK30KPj4gKwo+IFRoZXNlIHVz
-ZXJzIGFyZSBhbGwgcG90ZW50aWFsbHkgbW9kdWxlcy4gIFlvdSBuZWVkIGFuIEVYUE9SVF9TWU1C
-T0woKT8KCk9oLCBnb29kIHBvaW50LiBZZWFoIEkgdG90YWxseSBtaXNzZWQgdGhhdC4gVGhlIGlu
-aXRpYWwgRE1BLWJ1ZiB1c2UgY2FzZSAKd2FzIG5vdCBpbnNpZGUgYSBtb2R1bGUuCgpUaGFua3Ms
-CkNocmlzdGlhbi4KCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+On Thu, Oct 08, 2020 at 12:49:54AM -0700, Dan Williams wrote:
+
+> > This is what got me thinking maybe this needs to be a bit bigger
+> > generic infrastructure - eg enter this scheme from fops mmap and
+> > everything else is in mm/user_iomem.c
+> 
+> It still requires every file that can map physical memory to have its
+> ->open fop do
+
+Common infrastructure would have to create a dummy struct file at mmap
+time with the global inode and attach that to the VMA.
+
+Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
