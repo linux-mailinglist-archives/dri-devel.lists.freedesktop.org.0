@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDBE28778E
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 17:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF9E2877C6
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 17:46:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB92B6E3DF;
-	Thu,  8 Oct 2020 15:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5A26EA83;
+	Thu,  8 Oct 2020 15:46:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45CEF6E3DF
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 15:35:59 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id h7so7132425wre.4
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 08:35:59 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 581856EA7B;
+ Thu,  8 Oct 2020 15:46:33 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id m6so7163505wrn.0;
+ Thu, 08 Oct 2020 08:46:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9sM8OV2emicSSgKUYTtCQMaEpJ4acgy1c6O/56Zq6Oo=;
- b=dGDSSLAihGRqMk4uF3NVxQAfBB8JtG0nhT+TtI+6X82vDcDzVzQJ5rQI0AjYcXav6W
- /pBJa9zMZbIHT1B+LuM/QnEDSRfeclIyPLqPHH0oSrJIVo3ARvlX364kS/Vz4K40IKqQ
- 5El1aMMn7ZBwEnRlFrRKx4ELy2cr94LmWLsKLtc5n8/uucnB8FLGlk2vUMJObVCu+rWl
- pgfGjHVEYLvwz2dn8AqdgqqE8cNzF3tfcJTs+JpYlVGhVfvYLyBOhk1AMOlaNV76OB8K
- yzCv15Oqzr868GyoPSybw9Y2OQrUGAbcrJGzbR/Izxe7PrbvYKFxYsu3nDx7kXh3JkZ2
- 4F6w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZQaMEajHyUF05ChIcIT2Hr92neMZMi5cbrWN6sbkg5k=;
+ b=XZldCsicbz+aKtGedOYbJPbFRVcikpIYetMkNutU64Xq5LzOm751pgZMj541VHyHMV
+ dni2ARbVTgsf9+GhThAYmEQNtjk752QWWN3WrpVdXC8djlbx2SAxcnZ7Bnvik/f9zoiT
+ 7nuT7zdSWNm4lbd52lBX6vf4jya0EpP4a+O3Os0n4KiEIxFXm6NBGd6Pyu50MIF/dmcm
+ loJUl3sCVyS/JglA7KRDbjy6WlkM9cUtnBdzLXmn1nowlbDAgB/1yow7O59ykO8Ruqbn
+ ImGTgS05xUxIuVXaoVPyy9e5hr9NtPO/KplM91IbOWi5rfJVuwTm1k+JjqKpgYBQ20wD
+ tt/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9sM8OV2emicSSgKUYTtCQMaEpJ4acgy1c6O/56Zq6Oo=;
- b=JLl6MYpZZe78fjd66ADQF3CGITCpYlxSQflGw9gZJzDge+UqMgzmcs9Oai+lykliPM
- xF/e5jOvDqQ9uFjayznSkCvWf98Rsm/cbSqTYD6lKyVTn1yZwsYKvv3cWBFuimgMQ8Z9
- XIYRqjo7CCDcl2FhciAJYo6C2FSQEmloj6Ctfxky9d9eidneo90I+tUt/17MXrCl5jlh
- JdfNICzulTgjSnZw2FdlMcDYg80eQDT5JCsF2t3Y/x0rDOkG0W2kDQFwJjB+PImLa/sq
- q5EQCRWDnUFBJ+8YzZZ7ppFLin2zCbTey/3HPDb481YgS9vr6Iy/6Yg00I5uHOZl12Jg
- HZEg==
-X-Gm-Message-State: AOAM531m/aISj6DAOS8tFE+XryS4dxN72gWFu/wuluGi1Kvs8BSLXGL7
- rwpaIcHD1x1+MO13Ysqgxl8=
-X-Google-Smtp-Source: ABdhPJzur3cynY/5Bbw77VfAZaC4C6hT9eyZOSItC+slMlrkZYtvBoIewob3T44rU/3WFalnMKetOw==
-X-Received: by 2002:adf:eb41:: with SMTP id u1mr2850331wrn.94.1602171357995;
- Thu, 08 Oct 2020 08:35:57 -0700 (PDT)
-Received: from [192.168.1.125] (46-126-183-173.dynamic.hispeed.ch.
- [46.126.183.173])
- by smtp.gmail.com with ESMTPSA id o186sm7679110wmb.12.2020.10.08.08.35.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Oct 2020 08:35:57 -0700 (PDT)
-Subject: Re: [PATCH 3/5] drm/vmwgfx: add a move callback.
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20201006000644.1005758-1-airlied@gmail.com>
- <20201006000644.1005758-4-airlied@gmail.com>
-From: Roland Scheidegger <rscheidegger.oss@gmail.com>
-Message-ID: <e141ec18-439d-494e-1803-b7f549ce859b@gmail.com>
-Date: Thu, 8 Oct 2020 17:35:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZQaMEajHyUF05ChIcIT2Hr92neMZMi5cbrWN6sbkg5k=;
+ b=sAG3AYCY2ob0cWlTT/m5uNsEALb8E/h/C2+1eScExYH6n99nhcS1NtpWY9BPWgwJav
+ PdyKopCaNEuipxnoJTLgT8xEmCblzvrQUjCfudYBdLGWwMogKgG1F7XB1ww/lI6MaEVT
+ 8khEAbvb4uRq6dxYJy0Ae+CsQX+APOFSIzcFnjIEBhZsoTIXL2dPWNxOU7iqpUeZohzu
+ uumQ56FwqebCOimlyi9Ji/knCjlVozoy1JUbvbSinnvgmj0HmhrH4nSuneB0G3m5582W
+ Gck3A7gnx6DIdciQvPPygZ/OPH9BBeCLyfvVqIMJ15D0XFA22YPX8expRMDyxQE8bnKH
+ pi2w==
+X-Gm-Message-State: AOAM531xKZ2c9Sf3wgpOl2msC3H2tNcBEmzNEIlklKkawMU4BowAfyF8
+ DMFWK8UHIJFilEov1leQ+xivfPFyis4gg5BsCfk=
+X-Google-Smtp-Source: ABdhPJwJVR465d2vJNtPiG0LfE9lDMbFj9J45MtW1i6G8uw6lJF3FYOoDFS9nwvtHCVOBdJjEFcVL8DU1vinUmS4kuc=
+X-Received: by 2002:adf:aa0a:: with SMTP id p10mr9863785wrd.362.1602171992051; 
+ Thu, 08 Oct 2020 08:46:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201006000644.1005758-4-airlied@gmail.com>
-Content-Language: de-DE
+References: <cover.1602020074.git.gustavoars@kernel.org>
+ <00a464a7e2141dc3117720784d76048e7e3dbed6.1602020074.git.gustavoars@kernel.org>
+In-Reply-To: <00a464a7e2141dc3117720784d76048e7e3dbed6.1602020074.git.gustavoars@kernel.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 8 Oct 2020 11:46:20 -0400
+Message-ID: <CADnq5_PX2LokA0VgC-NLZfCa=k8vc9PWYX5WWVH5RCsEzZc+BQ@mail.gmail.com>
+Subject: Re: [PATCH 14/14] drm/amd/pm: Replace one-element array with
+ flexible-array in struct ATOM_Vega10_GFXCLK_Dependency_Table
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,66 +63,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both vmwgxf patches look good to me too.
-Reviewed-by: Roland Scheidegger <sroland@vmware.com>
-
-Am 06.10.20 um 02:06 schrieb Dave Airlie:
-> From: Dave Airlie <airlied@redhat.com>
-> 
-> This just copies the fallback to vmwgfx, I'm going to iterate on this
-> a bit until it's not the same as the fallback path.
-> 
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> index 2f88d2d79f9a..6e36fc932aeb 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -725,6 +725,23 @@ static void vmw_swap_notify(struct ttm_buffer_object *bo)
->  	(void) ttm_bo_wait(bo, false, false);
->  }
->  
-> +static int vmw_move(struct ttm_buffer_object *bo,
-> +		     bool evict,
-> +		     struct ttm_operation_ctx *ctx,
-> +		     struct ttm_resource *new_mem)
-> +{
-> +	struct ttm_resource_manager *old_man = ttm_manager_type(bo->bdev, bo->mem.mem_type);
-> +	struct ttm_resource_manager *new_man = ttm_manager_type(bo->bdev, new_mem->mem_type);
-> +
-> +	if (old_man->use_tt && new_man->use_tt) {
-> +		if (bo->mem.mem_type == TTM_PL_SYSTEM) {
-> +			ttm_bo_assign_mem(bo, new_mem);
-> +			return 0;
-> +		}
-> +		return ttm_bo_move_ttm(bo, ctx, new_mem);
-> +	} else
-> +		return ttm_bo_move_memcpy(bo, ctx, new_mem);
-> +}
->  
->  struct ttm_bo_driver vmw_bo_driver = {
->  	.ttm_tt_create = &vmw_ttm_tt_create,
-> @@ -735,7 +752,7 @@ struct ttm_bo_driver vmw_bo_driver = {
->  	.ttm_tt_destroy = &vmw_ttm_destroy,
->  	.eviction_valuable = ttm_bo_eviction_valuable,
->  	.evict_flags = vmw_evict_flags,
-> -	.move = NULL,
-> +	.move = vmw_move,
->  	.verify_access = vmw_verify_access,
->  	.move_notify = vmw_move_notify,
->  	.swap_notify = vmw_swap_notify,
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBPY3QgNywgMjAyMCBhdCAxMjowNSBQTSBHdXN0YXZvIEEuIFIuIFNpbHZhCjxndXN0
+YXZvYXJzQGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gVGhlcmUgaXMgYSByZWd1bGFyIG5lZWQgaW4g
+dGhlIGtlcm5lbCB0byBwcm92aWRlIGEgd2F5IHRvIGRlY2xhcmUgaGF2aW5nCj4gYSBkeW5hbWlj
+YWxseSBzaXplZCBzZXQgb2YgdHJhaWxpbmcgZWxlbWVudHMgaW4gYSBzdHJ1Y3R1cmUuIEtlcm5l
+bCBjb2RlCj4gc2hvdWxkIGFsd2F5cyB1c2Ug4oCcZmxleGlibGUgYXJyYXkgbWVtYmVyc+KAnVsx
+XSBmb3IgdGhlc2UgY2FzZXMuIFRoZSBvbGRlcgo+IHN0eWxlIG9mIG9uZS1lbGVtZW50IG9yIHpl
+cm8tbGVuZ3RoIGFycmF5cyBzaG91bGQgbm8gbG9uZ2VyIGJlIHVzZWRbMl0uCj4KPiBVc2UgYSBm
+bGV4aWJsZS1hcnJheSBtZW1iZXIgaW4gc3RydWN0IEFUT01fVmVnYTEwX0dGWENMS19EZXBlbmRl
+bmN5X1RhYmxlCj4gaW5zdGVhZCBvZiBhIG9uZS1lbGVtZW50IGFycmF5Lgo+Cj4gWzFdIGh0dHBz
+Oi8vZW4ud2lraXBlZGlhLm9yZy93aWtpL0ZsZXhpYmxlX2FycmF5X21lbWJlcgo+IFsyXSBodHRw
+czovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL3Y1LjktcmMxL3Byb2Nlc3MvZGVwcmVjYXRlZC5o
+dG1sI3plcm8tbGVuZ3RoLWFuZC1vbmUtZWxlbWVudC1hcnJheXMKPgo+IEJ1aWxkLXRlc3RlZC1i
+eToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4gTGluazogaHR0cHM6Ly9sb3Jl
+Lmtlcm5lbC5vcmcvbGttbC81ZjdkNjFkZC5POGp4eEk1QzZQOUZPYiUyRmQlMjVsa3BAaW50ZWwu
+Y29tLwo+IFNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9hcnNAa2Vy
+bmVsLm9yZz4KClRoaXMgaGVhZGVyIGlzIHNoYXJlZCB3aXRoIGZpcm13YXJlLCBzbyBJJ20gbGVh
+dmluZyBpdCBhcyBpcyBmb3IgY29uc2lzdGVuY3kuCgpBbGV4CgoKPiAtLS0KPiAgZHJpdmVycy9n
+cHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEwX3BwdGFibGUuaCB8IDIgKy0KPiAg
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4KPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEwX3BwdGFi
+bGUuaCBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2h3bWdyL3ZlZ2ExMF9wcHRh
+YmxlLmgKPiBpbmRleCBjOTM0ZTk2MTJjMWIuLmE2OTY4MDA5YWNjNCAxMDA2NDQKPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2VycGxheS9od21nci92ZWdhMTBfcHB0YWJsZS5oCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvdmVnYTEwX3BwdGFi
+bGUuaAo+IEBAIC0xNjMsNyArMTYzLDcgQEAgdHlwZWRlZiBzdHJ1Y3QgX0FUT01fVmVnYTEwX01D
+TEtfRGVwZW5kZW5jeV9SZWNvcmQgewo+ICB0eXBlZGVmIHN0cnVjdCBfQVRPTV9WZWdhMTBfR0ZY
+Q0xLX0RlcGVuZGVuY3lfVGFibGUgewo+ICAgICAgVUNIQVIgdWNSZXZJZDsKPiAgICAgIFVDSEFS
+IHVjTnVtRW50cmllczsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC8q
+IE51bWJlciBvZiBlbnRyaWVzLiAqLwo+IC0gICAgQVRPTV9WZWdhMTBfR0ZYQ0xLX0RlcGVuZGVu
+Y3lfUmVjb3JkIGVudHJpZXNbMV07ICAgICAgICAgICAgLyogRHluYW1pY2FsbHkgYWxsb2NhdGUg
+ZW50cmllcy4gKi8KPiArICAgIEFUT01fVmVnYTEwX0dGWENMS19EZXBlbmRlbmN5X1JlY29yZCBl
+bnRyaWVzW107ICAgICAgICAgICAgIC8qIER5bmFtaWNhbGx5IGFsbG9jYXRlIGVudHJpZXMuICov
+Cj4gIH0gQVRPTV9WZWdhMTBfR0ZYQ0xLX0RlcGVuZGVuY3lfVGFibGU7Cj4KPiAgdHlwZWRlZiBz
+dHJ1Y3QgX0FUT01fVmVnYTEwX01DTEtfRGVwZW5kZW5jeV9UYWJsZSB7Cj4gLS0KPiAyLjI3LjAK
+Pgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gYW1k
+LWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdmeApfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
