@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84115286F4A
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 09:23:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F313286F79
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Oct 2020 09:31:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72EDC6EA43;
-	Thu,  8 Oct 2020 07:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED6D26EA45;
+	Thu,  8 Oct 2020 07:31:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com
- [IPv6:2607:f8b0:4864:20::c43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0C186EA43
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 07:23:26 +0000 (UTC)
-Received: by mail-oo1-xc43.google.com with SMTP id f2so530808ooj.2
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 00:23:26 -0700 (PDT)
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC0E6EA3C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Oct 2020 07:31:50 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id 16so5327430oix.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 00:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ui8WkZ8ZsqWNVKFISnxizxdl1xBQtE0ojtcqIbBf85o=;
- b=OLHQfD6clKQWUqpmaAK9RMlR/tsEUgzWlL24nlPViG1Rk9p8LHmyCmM7/5WLHXKEvu
- lI/irRP+aq5gBsvKA49uJgztAy930tPikm27PGApe4JTRXsGR0g3qvfoDhdKCEoe0v+J
- hUX2iSsNsi3+8JirFm0OBhWG4fOImFFw/17nk=
+ :cc; bh=ogkw1NmOSWleETzvxYwVZZIizSINMS0qQkiw0aowwRQ=;
+ b=dAa4UrodoeKqvvGBic2n/ikfUtGXIrA84JDvhHoeTG0wQyvzwM6zRb58ASAp90bOAP
+ Z0Gq9W2/rAIbo9tt/Rdw3PX+Bn1vOefBbbpajIIFIeMsYr0JsELM1frkf/Q6RzY+4q6w
+ KwDjwJvmHbSV+DyPoGD+FRH2axWgRzr70NSco=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Ui8WkZ8ZsqWNVKFISnxizxdl1xBQtE0ojtcqIbBf85o=;
- b=sUQOQmLp5iD7Knack7m4YLRfwJbo4qeFVaOpwMZiPJhEigslL6rymP4D13HK/Wr7Gg
- 9rSQwNtrql2yrRtpTY74g4d8KpP/iFnU2mbvkcSKjWGo1/BQdQl2reTfg2W0mWWHNIl5
- qL77bzcB5Zj8NjRB/n0/jWzAorLusUOnonukTkX1epF5jEEXPWBdTQQ3xuwPDDnFlNd4
- 67MPBEQNoCmMwtCFdUNDx1btQ9akKQDvENW1FXL8UaQAdXppjSXK/oHD2gKE/OuiDU6H
- cAjspdb6kt5UXSi+VNTX2uXs/GmyNLkPaWtmx/wK8QJMDHL/sVTSnMQVx6nmQ25s4t1W
- 12Uw==
-X-Gm-Message-State: AOAM530QKHPgtsV8eVpeRcDLG40+3H/7/6buH65B7MQ866CDUBEiD1YL
- DyorCyOtmkNk4XTOeryKjMoxCysbshiwW0fiCU2Zig==
-X-Google-Smtp-Source: ABdhPJy3F0IZWGCXcT7DTnuCU2t5bEV1GI8WhdMxAAqDMxgLl6e5j0szfklCmFBV9PnPK7/VfntIN7R+bRVO1DC8GEg=
-X-Received: by 2002:a4a:c011:: with SMTP id v17mr4481557oop.89.1602141806038; 
- Thu, 08 Oct 2020 00:23:26 -0700 (PDT)
+ bh=ogkw1NmOSWleETzvxYwVZZIizSINMS0qQkiw0aowwRQ=;
+ b=VIPCmIaBsW31a5xmyYDFkL6q8QSKMLNSqlBG9mdR4LYGF4jD3cdv49LGBpxIPSPxvq
+ 1VZq8xF7I6gr+b/ZtQWbw8rEWjRQ7eCaJXPe/cNnMc9ql0XI4QCNBhG91X5/ifYeE/Tc
+ 4LObYT/EDsNmASSJEYVleXN8buWA9tI4j7ROwrGmiK6uL7jPFS0dW85AaYA7UjNEWKRo
+ zdeLGn8capXHGAejxT4oQFN5XAh3JGFBMMguSaWopjmsW//Ys4HLfYmmWH92t3L75IAb
+ 0ejqXAOTP7nDCZdLsHzyuyTDbCpe8I1CvmrAILjukb2R9MO3zeJn19zItRka3mri43W9
+ ZX0g==
+X-Gm-Message-State: AOAM530zC2ehyfHmfVoBME1jcvNMbgLKY8aNOWnPK52rJj0Wqkn2H+Ih
+ t3Cbe1QiuhEOoTeikH4+Jz5h19jQPk6bvJvo4hoLGg==
+X-Google-Smtp-Source: ABdhPJx491RwkFJI9puzs4morldhkHhy8TQN885mw0wtSqvJNbvAlJbcViFwT+IWX3hheU/oD67HmER0Hab3kMQkGCo=
+X-Received: by 2002:aca:6083:: with SMTP id u125mr4379406oib.14.1602142309051; 
+ Thu, 08 Oct 2020 00:31:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-8-daniel.vetter@ffwll.ch>
- <852a74ec-339b-4c7f-9e29-b9736111849a@nvidia.com>
-In-Reply-To: <852a74ec-339b-4c7f-9e29-b9736111849a@nvidia.com>
+ <20201007164426.1812530-11-daniel.vetter@ffwll.ch>
+ <CAPcyv4hBL68A7CZa+YnooufDH2tevoxrx32DTJMQ6OHRnec7QQ@mail.gmail.com>
+ <20201007232448.GC5177@ziepe.ca>
+In-Reply-To: <20201007232448.GC5177@ziepe.ca>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 8 Oct 2020 09:23:14 +0200
-Message-ID: <CAKMK7uEa1+f+34qeLo9F3-SvYpOKtGmQ+8sDtbEBmFeXkCx9mw@mail.gmail.com>
-Subject: Re: [PATCH 07/13] mm: close race in generic_access_phys
-To: John Hubbard <jhubbard@nvidia.com>
+Date: Thu, 8 Oct 2020 09:31:37 +0200
+Message-ID: <CAKMK7uF6pdQScwcihBq+9BZ7bSrNXimi-ddN8w7zg2ANhSduWw@mail.gmail.com>
+Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,111 +60,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, Rik van Riel <riel@redhat.com>,
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
  linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, kvm@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Dave Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Linux MM <linux-mm@kvack.org>,
  =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Hugh Dickins <hugh@veritas.com>,
+ Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
  Dan Williams <dan.j.williams@intel.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+ "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 8, 2020 at 2:44 AM John Hubbard <jhubbard@nvidia.com> wrote:
+On Thu, Oct 8, 2020 at 1:24 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
-> On 10/7/20 9:44 AM, Daniel Vetter wrote:
-> > Way back it was a reasonable assumptions that iomem mappings never
-> > change the pfn range they point at. But this has changed:
+> On Wed, Oct 07, 2020 at 12:33:06PM -0700, Dan Williams wrote:
+> > On Wed, Oct 7, 2020 at 11:11 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > >
+> > > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
+> > > the region") /dev/kmem zaps ptes when the kernel requests exclusive
+> > > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
+> > > the default for all driver uses.
+> > >
+> > > Except there's two more ways to access pci bars: sysfs and proc mmap
+> > > support. Let's plug that hole.
 > >
-> > - gpu drivers dynamically manage their memory nowadays, invalidating
-> >    ptes with unmap_mapping_range when buffers get moved
+> > Ooh, yes, lets.
 > >
-> > - contiguous dma allocations have moved from dedicated carvetouts to
+> > >
+> > > For revoke_devmem() to work we need to link our vma into the same
+> > > address_space, with consistent vma->vm_pgoff. ->pgoff is already
+> > > adjusted, because that's how (io_)remap_pfn_range works, but for the
+> > > mapping we need to adjust vma->vm_file->f_mapping. Usually that's done
+> > > at ->open time, but that's a bit tricky here with all the entry points
+> > > and arch code. So instead create a fake file and adjust vma->vm_file.
+> >
+> > I don't think you want to share the devmem inode for this, this should
+> > be based off the sysfs inode which I believe there is already only one
+> > instance per resource. In contrast /dev/mem can have multiple inodes
+> > because anyone can just mknod a new character device file, the same
+> > problem does not exist for sysfs.
 >
-> s/carvetouts/carveouts/
+> The inode does not come from the filesystem char/mem.c creates a
+> singular anon inode in devmem_init_inode()
 >
-> >    cma regions. This means if we miss the unmap the pfn might contain
-> >    pagecache or anon memory (well anything allocated with GFP_MOVEABLE)
-> >
-> > - even /dev/mem now invalidates mappings when the kernel requests that
-> >    iomem region when CONFIG_IO_STRICT_DEVMEM is set, see 3234ac664a87
-> >    ("/dev/mem: Revoke mappings when a driver claims the region")
+> Seems OK to use this more widely, but it feels a bit weird to live in
+> char/memory.c.
 >
-> Thanks for putting these references into the log, it's very helpful.
-> ...
-> > diff --git a/mm/memory.c b/mm/memory.c
-> > index fcfc4ca36eba..8d467e23b44e 100644
-> > --- a/mm/memory.c
-> > +++ b/mm/memory.c
-> > @@ -4873,28 +4873,68 @@ int follow_phys(struct vm_area_struct *vma,
-> >       return ret;
-> >   }
-> >
-> > +/**
-> > + * generic_access_phys - generic implementation for iomem mmap access
-> > + * @vma: the vma to access
-> > + * @addr: userspace addres, not relative offset within @vma
-> > + * @buf: buffer to read/write
-> > + * @len: length of transfer
-> > + * @write: set to FOLL_WRITE when writing, otherwise reading
-> > + *
-> > + * This is a generic implementation for &vm_operations_struct.access for an
-> > + * iomem mapping. This callback is used by access_process_vm() when the @vma is
-> > + * not page based.
-> > + */
-> >   int generic_access_phys(struct vm_area_struct *vma, unsigned long addr,
-> >                       void *buf, int len, int write)
-> >   {
-> >       resource_size_t phys_addr;
-> >       unsigned long prot = 0;
-> >       void __iomem *maddr;
-> > +     pte_t *ptep, pte;
-> > +     spinlock_t *ptl;
-> >       int offset = addr & (PAGE_SIZE-1);
-> > +     int ret = -EINVAL;
-> > +
-> > +     if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
-> > +             return -EINVAL;
-> > +
-> > +retry:
-> > +     if (follow_pte(vma->vm_mm, addr, &ptep, &ptl))
-> > +             return -EINVAL;
-> > +     pte = *ptep;
-> > +     pte_unmap_unlock(ptep, ptl);
-> >
-> > -     if (follow_phys(vma, addr, write, &prot, &phys_addr))
-> > +     prot = pgprot_val(pte_pgprot(pte));
-> > +     phys_addr = (resource_size_t)pte_pfn(pte) << PAGE_SHIFT;
-> > +
-> > +     if ((write & FOLL_WRITE) && !pte_write(pte))
-> >               return -EINVAL;
-> >
-> >       maddr = ioremap_prot(phys_addr, PAGE_ALIGN(len + offset), prot);
-> >       if (!maddr)
-> >               return -ENOMEM;
-> >
-> > +     if (follow_pte(vma->vm_mm, addr, &ptep, &ptl))
-> > +             goto out_unmap;
-> > +
-> > +     if (pte_same(pte, *ptep)) {
->
->
-> The ioremap area is something I'm sorta new to, so a newbie question:
-> is it possible for the same pte to already be there, ever? If so, we
-> be stuck in an infinite loop here.  I'm sure that's not the case, but
-> it's not yet obvious to me why it's impossible. Resource reservations
-> maybe?
+> This is what got me thinking maybe this needs to be a bit bigger
+> generic infrastructure - eg enter this scheme from fops mmap and
+> everything else is in mm/user_iomem.c
 
-It's just buggy, it should be !pte_same. And I need to figure out how
-to test this I guess.
+Yeah moving it to iomem and renaming it to have an iomem_prefix
+instead of devmem sounds like a good idea.
 -Daniel
 -- 
 Daniel Vetter
