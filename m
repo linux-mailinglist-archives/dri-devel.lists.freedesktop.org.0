@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E49F287FC4
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 03:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16C5288074
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 04:49:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89E2C6EB9E;
-	Fri,  9 Oct 2020 01:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5F346EC0D;
+	Fri,  9 Oct 2020 02:49:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDB88899D4
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 01:04:20 +0000 (UTC)
-IronPort-SDR: HPrXGdJJX3/HpC1k2d2JUDHjW5lAc7ak3nkw6MeI/j0XkEHVa8KYLlsen5/HYdX8yyr+sKbBMv
- K/OHmsoA0Iag==
-X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="162789788"
-X-IronPort-AV: E=Sophos;i="5.77,353,1596524400"; d="scan'208";a="162789788"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2020 18:04:20 -0700
-IronPort-SDR: 5d0EwFXvYjAz0cTFq7BiqLSfJewK0E79P1AQIbBR/9WXz/LjtotWWOrFWBUoMoSOotr6oA7a1F
- I7BJGEmqGv9w==
-X-IronPort-AV: E=Sophos;i="5.77,353,1596524400"; d="scan'208";a="343626295"
-Received: from mgleaso-mobl.amr.corp.intel.com (HELO
- achrisan-DESK2.amr.corp.intel.com) ([10.251.146.83])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 08 Oct 2020 18:04:20 -0700
-From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-To: dri-devel@lists.freedesktop.org, anitha.chrisanthus@intel.com,
- devicetree@vger.kernel.org
-Subject: [PATCH v9 5/5] drm/kmb: Build files for KeemBay Display driver
-Date: Thu,  8 Oct 2020 18:04:03 -0700
-Message-Id: <1602205443-9036-6-git-send-email-anitha.chrisanthus@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1602205443-9036-1-git-send-email-anitha.chrisanthus@intel.com>
-References: <1602205443-9036-1-git-send-email-anitha.chrisanthus@intel.com>
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEFD6EC0C;
+ Fri,  9 Oct 2020 02:49:50 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id c23so6933962qtp.0;
+ Thu, 08 Oct 2020 19:49:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=94CvYf8VNy2+UuSZRfNQshZy7BICopf1bewYnuNADqw=;
+ b=ixiiTz6T6S9XDLaanVhgJV0E48pr7fTHGLV5Ed9HJfL+xivHgZqZz0kovCcP48JvHy
+ i26meKYxYVuC7KcUODP4mM6/ewx3je0KkC+s85b9BgnPuyDylnt6mhYrd/YgCmvNQClQ
+ 0pjHPN1BzxvHre05c7HTwN9fXgPVvyZl3yA2vWJkXoS30KsexUl9yGn74CEMEN+enIJc
+ gugFxIIsRhTO2KSSF5kC6w7mJMnBCnHyjemcbnwu8iAKe8ujfk8qvs8QijU7E+z4PCAi
+ Oca8+zc1bUDfbVuzpWc3N457wEADNPclgQz0n7a8Fs+QCrRcbfnwFxibPqgHXMWkcsIc
+ yQiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=94CvYf8VNy2+UuSZRfNQshZy7BICopf1bewYnuNADqw=;
+ b=rKRDWkdrfuuOWONkjPknD6VBVlvRHptuVMy7kLMYIhpkxviJSbhSOiwAAVtAbrLx2K
+ cwUDYV385GsnG+i+obrXvYsD0MELZqOs/PWTThFGK8qdswmxNqxz04nBxRDRY/kGmNaJ
+ tM49ALCrYjDMKmhbNktRD0Kt3/s/wWr7lYRpcnDTQwHN/U9wmqpDY1ZsRvwsj6JrDvXk
+ cdb5V8f1oo3DcVfyHcusFP+AFibwEPQ/8v/zQWgyu+bYF2W8A+vVeH55vxEbN96pnvub
+ uu7R7BRVAoHNlSyiXiQe03Z3OepFfkryCG945oLT1Y5R9jJRLkeymU9QH2S+M1S3t1aV
+ a6Jw==
+X-Gm-Message-State: AOAM530P0N/oVIjAqqKI2/i8pDUTJtG1OIQ4qnZFfneFC5U+CwQU4/ju
+ r3aUZaM0yAQs5lNTX4ee9zHwpRJBx1w=
+X-Google-Smtp-Source: ABdhPJy9erLnYMjt0ViZd7LMGVc/NO5NADMdRxnMqSqrLqnKq4MzZO+GNZ3j0E7U79cocZXwyDFvmg==
+X-Received: by 2002:ac8:22a1:: with SMTP id f30mr11911737qta.33.1602211789439; 
+ Thu, 08 Oct 2020 19:49:49 -0700 (PDT)
+Received: from localhost.localdomain ([71.219.66.138])
+ by smtp.gmail.com with ESMTPSA id 185sm5313551qke.16.2020.10.08.19.49.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Oct 2020 19:49:48 -0700 (PDT)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [pull] amdgpu drm-fixes-5.9
+Date: Thu,  8 Oct 2020 22:49:17 -0400
+Message-Id: <20201009024917.3984-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.25.4
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,102 +66,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com, edmund.j.dea@intel.com, sam@ravnborg.org
-MIME-Version: 1.0
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v2: Added Maintainer entry
-v3: Added one more Maintainer entry
+Hi Dave, Daniel,
 
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Reviewed-by: Bob Paauwe <bob.j.paauwe@intel.com>
----
- MAINTAINERS                  |  7 +++++++
- drivers/gpu/drm/Kconfig      |  2 ++
- drivers/gpu/drm/Makefile     |  1 +
- drivers/gpu/drm/kmb/Kconfig  | 13 +++++++++++++
- drivers/gpu/drm/kmb/Makefile |  2 ++
- 5 files changed, 25 insertions(+)
- create mode 100644 drivers/gpu/drm/kmb/Kconfig
- create mode 100644 drivers/gpu/drm/kmb/Makefile
+Some important last minute fixes for 5.9.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c0f494c..a27de1f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8899,6 +8899,13 @@ M:	Deepak Saxena <dsaxena@plexity.net>
- S:	Maintained
- F:	drivers/char/hw_random/ixp4xx-rng.c
- 
-+INTEL KEEMBAY DRM DRIVER
-+M:	Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-+M:	Edmund Dea <edmund.j.dea@intel.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/intel,kmb_display.yaml
-+F:	drivers/gpu/drm/kmb/
-+
- INTEL MANAGEMENT ENGINE (mei)
- M:	Tomas Winkler <tomas.winkler@intel.com>
- L:	linux-kernel@vger.kernel.org
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 147d61b..97a1631b 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -275,6 +275,8 @@ source "drivers/gpu/drm/nouveau/Kconfig"
- 
- source "drivers/gpu/drm/i915/Kconfig"
- 
-+source "drivers/gpu/drm/kmb/Kconfig"
-+
- config DRM_VGEM
- 	tristate "Virtual GEM provider"
- 	depends on DRM
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 8156900..fefaff4 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -71,6 +71,7 @@ obj-$(CONFIG_DRM_AMDGPU)+= amd/amdgpu/
- obj-$(CONFIG_DRM_MGA)	+= mga/
- obj-$(CONFIG_DRM_I810)	+= i810/
- obj-$(CONFIG_DRM_I915)	+= i915/
-+obj-$(CONFIG_DRM_KMB_DISPLAY)  += kmb/
- obj-$(CONFIG_DRM_MGAG200) += mgag200/
- obj-$(CONFIG_DRM_V3D)  += v3d/
- obj-$(CONFIG_DRM_VC4)  += vc4/
-diff --git a/drivers/gpu/drm/kmb/Kconfig b/drivers/gpu/drm/kmb/Kconfig
-new file mode 100644
-index 0000000..e18b74c
---- /dev/null
-+++ b/drivers/gpu/drm/kmb/Kconfig
-@@ -0,0 +1,13 @@
-+config DRM_KMB_DISPLAY
-+	tristate "INTEL KEEMBAY DISPLAY"
-+	depends on DRM && OF && (ARM || ARM64)
-+	depends on COMMON_CLK
-+	select DRM_KMS_HELPER
-+	select DRM_KMS_CMA_HELPER
-+	select DRM_GEM_CMA_HELPER
-+	select VIDEOMODE_HELPERS
-+	help
-+	Choose this option if you have Intel's KeemBay SOC which integrates
-+	an ARM Cortex A53 CPU with an Intel Movidius VPU.
-+
-+	If M is selected the module will be called kmb-drm.
-diff --git a/drivers/gpu/drm/kmb/Makefile b/drivers/gpu/drm/kmb/Makefile
-new file mode 100644
-index 0000000..527d737
---- /dev/null
-+++ b/drivers/gpu/drm/kmb/Makefile
-@@ -0,0 +1,2 @@
-+kmb-drm-y := kmb_crtc.o kmb_drv.o kmb_plane.o kmb_dsi.o
-+obj-$(CONFIG_DRM_KMB_DISPLAY)	+= kmb-drm.o
--- 
-2.7.4
+The following changes since commit d10285a25e29f13353bbf7760be8980048c1ef2f:
 
+  drm/nouveau/mem: guard against NULL pointer access in mem_del (2020-10-07 15:33:09 +1000)
+
+are available in the Git repository at:
+
+  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.9-2020-10-08
+
+for you to fetch changes up to 33c8256b3bcc0425caec2bb7511e34176f464348:
+
+  drm/amd/display: Change ABM config init interface (2020-10-08 17:15:52 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.9-2020-10-08:
+
+amdgpu:
+- Fix a crash on renoir if you override the IP discovery parameter
+- Fix the build on ARC platforms
+- Display fix for Sienna Cichlid
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu/swsmu: fix ARC build errors
+
+Dirk Gouders (1):
+      drm/amdgpu: fix NULL pointer dereference for Renoir
+
+Yongqiang Sun (1):
+      drm/amd/display: Change ABM config init interface
+
+ drivers/gpu/drm/amd/amdgpu/soc15.c                    | 10 +++++-----
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c     |  2 +-
+ .../gpu/drm/amd/display/modules/power/power_helpers.c | 19 +++++++++++++++----
+ .../gpu/drm/amd/display/modules/power/power_helpers.h |  4 +++-
+ drivers/gpu/drm/amd/powerplay/navi10_ppt.c            | 14 ++++++++++++--
+ drivers/gpu/drm/amd/powerplay/sienna_cichlid_ppt.c    | 14 ++++++++++++--
+ 6 files changed, 48 insertions(+), 15 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
