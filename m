@@ -2,39 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37605288705
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 12:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BF728871E
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 12:42:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 413EB6ECB8;
-	Fri,  9 Oct 2020 10:34:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1610D6ECB2;
+	Fri,  9 Oct 2020 10:42:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 605FD6ECB2
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 10:34:29 +0000 (UTC)
-Received: from coco.lan (ip5f5ad5d0.dynamic.kabel-deutschland.de
- [95.90.213.208])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0DEF9221FC;
- Fri,  9 Oct 2020 10:34:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602239669;
- bh=pRI4Tm1lG+Jblk58G1pSvqxmgDEZi2xS8IJzqwbJFvw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Z0ZZm8k90LDIkkwepgM63s827tTWfKOZRcqR7o+KzIwoiE1/gtsqyykPEtefC1BOJ
- aqhxaJ85cRFHWn7mghZunfQqK4WizlHdY1AlS3galp81cAdVsdFebaWYB06Z1YG2jP
- N7/7ovKPoZG++Py9RD5QO4Y+qb3C0vzKbhvXTkLw=
-Date: Fri, 9 Oct 2020 12:34:21 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDBFD6ECB2
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 10:42:01 +0000 (UTC)
+IronPort-SDR: oGSwBpxAtSSU8ohxtN2ikp3ZdZ6ClTFEhLu6kxaJKsKyNwPleuGaUNAb1//M5ULHExDD0rXBzR
+ WE3hqa5s3G9w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="144789955"
+X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; d="scan'208";a="144789955"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2020 03:42:01 -0700
+IronPort-SDR: D5eqKzTjS4VWkdDx7L10EJhvpJmbWpaNFT2AjYNswUUzxVgophba1dI0Vl4ciDLSRhrLHR2HwJ
+ Z2f9ybtMlUDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; d="scan'208";a="316996829"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 09 Oct 2020 03:41:55 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 09 Oct 2020 13:41:54 +0300
+Date: Fri, 9 Oct 2020 13:41:54 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
-Message-ID: <20201009123421.67a80d72@coco.lan>
-In-Reply-To: <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 17/17] drm/i915: Properly request PCI BARs
+Message-ID: <20201009104154.GR6112@intel.com>
 References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <20201009075934.3509076-18-daniel.vetter@ffwll.ch>
+ <20201009094750.GQ6112@intel.com>
+ <CAKMK7uH3o3hnRkTDqr93PR=wuRejpty+AbyMacoEFDDb6OgJeQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uH3o3hnRkTDqr93PR=wuRejpty+AbyMacoEFDDb6OgJeQ@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,144 +55,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Linux MM <linux-mm@kvack.org>, Linux PCI <linux-pci@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Dan Williams <dan.j.williams@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
  Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpFbSBGcmksICA5IE9jdCAyMDIwIDA5OjU5OjI2ICswMjAwCkRhbmllbCBWZXR0ZXIgPGRh
-bmllbC52ZXR0ZXJAZmZ3bGwuY2g+IGVzY3JldmV1OgoKPiBXYXkgYmFjayBpdCB3YXMgYSByZWFz
-b25hYmxlIGFzc3VtcHRpb25zIHRoYXQgaW9tZW0gbWFwcGluZ3MgbmV2ZXIKPiBjaGFuZ2UgdGhl
-IHBmbiByYW5nZSB0aGV5IHBvaW50IGF0LiBCdXQgdGhpcyBoYXMgY2hhbmdlZDoKPiAKPiAtIGdw
-dSBkcml2ZXJzIGR5bmFtaWNhbGx5IG1hbmFnZSB0aGVpciBtZW1vcnkgbm93YWRheXMsIGludmFs
-aWRhdGluZwo+IHB0ZXMgd2l0aCB1bm1hcF9tYXBwaW5nX3JhbmdlIHdoZW4gYnVmZmVycyBnZXQg
-bW92ZWQKPiAKPiAtIGNvbnRpZ3VvdXMgZG1hIGFsbG9jYXRpb25zIGhhdmUgbW92ZWQgZnJvbSBk
-ZWRpY2F0ZWQgY2FydmV0b3V0cyB0bwo+IGNtYSByZWdpb25zLiBUaGlzIG1lYW5zIGlmIHdlIG1p
-c3MgdGhlIHVubWFwIHRoZSBwZm4gbWlnaHQgY29udGFpbgo+IHBhZ2VjYWNoZSBvciBhbm9uIG1l
-bW9yeSAod2VsbCBhbnl0aGluZyBhbGxvY2F0ZWQgd2l0aCBHRlBfTU9WRUFCTEUpCj4gCj4gLSBl
-dmVuIC9kZXYvbWVtIG5vdyBpbnZhbGlkYXRlcyBtYXBwaW5ncyB3aGVuIHRoZSBrZXJuZWwgcmVx
-dWVzdHMgdGhhdAo+IGlvbWVtIHJlZ2lvbiB3aGVuIENPTkZJR19JT19TVFJJQ1RfREVWTUVNIGlz
-IHNldCwgc2VlIDMyMzRhYzY2NGE4Nwo+ICgiL2Rldi9tZW06IFJldm9rZSBtYXBwaW5ncyB3aGVu
-IGEgZHJpdmVyIGNsYWltcyB0aGUgcmVnaW9uIikKPiAKPiBBY2Nlc3NpbmcgcGZucyBvYnRhaW5l
-ZCBmcm9tIHB0ZXMgd2l0aG91dCBob2xkaW5nIGFsbCB0aGUgbG9ja3MgaXMKPiB0aGVyZWZvcmUg
-bm8gbG9uZ2VyIGEgZ29vZCBpZGVhLgo+IAo+IFVuZm9ydHVuYXRlbHkgdGhlcmUncyBzb21lIHVz
-ZXJzIHdoZXJlIHRoaXMgaXMgbm90IGZpeGFibGUgKGxpa2UgdjRsCj4gdXNlcnB0ciBvZiBpb21l
-bSBtYXBwaW5ncykgb3IgaW52b2x2ZXMgYSBwaWxlIG9mIHdvcmsgKHZmaW8gdHlwZTEKPiBpb21t
-dSkuIEZvciBub3cgYW5ub3RhdGUgdGhlc2UgYXMgdW5zYWZlIGFuZCBzcGxhdCBhcHByb3ByaWF0
-ZWx5Lgo+IAo+IFRoaXMgcGF0Y2ggYWRkcyBhbiB1bnNhZmVfZm9sbG93X3Bmbiwgd2hpY2ggbGF0
-ZXIgcGF0Y2hlcyB3aWxsIHRoZW4KPiByb2xsIG91dCB0byBhbGwgYXBwcm9wcmlhdGUgcGxhY2Vz
-LgoKTkFDSywgYXMgdGhpcyBicmVha3MgYW4gZXhpc3RpbmcgdXNlcnNwYWNlIEFQSSBvbiBtZWRp
-YS4KCldoaWxlIEkgYWdyZWUgdGhhdCB1c2luZyB0aGUgdXNlcnB0ciBvbiBtZWRpYSBpcyBzb21l
-dGhpbmcgdGhhdApuZXcgZHJpdmVycyBtYXkgbm90IHN1cHBvcnQsIGFzIERNQUJVRiBpcyBhIGJl
-dHRlciB3YXkgb2YKaGFuZGxpbmcgaXQsIGNoYW5naW5nIHRoaXMgZm9yIGV4aXN0aW5nIG9uZXMg
-aXMgYSBiaWcgbm8sIAphcyBpdCBtYXkgYnJlYWsgdXNlcnNhcGFjZS4KClRoZSByaWdodCBhcHBy
-b2FjaCBoZXJlIHdvdWxkIGJlIHRvIGJlIGFibGUgdG8gZmluZS10dW5lCnN1cHBvcnQgZm9yIGl0
-IG9uIGEgcGVyLWRyaXZlciBiYXNpcywgZS4gZy4gZGlzYWJsaW5nIHN1Y2gKZmVhdHVyZSBvbmx5
-IGZvciBkcml2ZXJzIHRoYXQgd291bGQgdXNlIGEgbW92YWJsZSBwYWdlLgoKVGhlIG1lZGlhIHN1
-YnN5c3RlbSBoYXMgYWxyZWFkeSBhIHdheSB0byBkaXNhYmxlIFVTRVJQVFIKc3VwcG9ydCBmcm9t
-IFZCMi4gdGhlIHJpZ2h0IGFwcHJvYWNoIHdvdWxkIGJlIHRvIGVuc3VyZQp0aGF0IG5ld2VyIGRy
-aXZlcnMgd2lsbCBvbmx5IHNldCB0aGlzIGlmIHRoZXkgd29uJ3QgdXNlCm1vdmFibGUgcGFnZXMu
-CgpSZWdhcmRzLApNYXVybwoKPiAKPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5p
-ZWwudmV0dGVyQGludGVsLmNvbT4KPiBDYzogSmFzb24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+
-Cj4gQ2M6IEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3JnPgo+IENjOiBEYW4gV2lsbGlh
-bXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBs
-aW51eC1mb3VuZGF0aW9uLm9yZz4KPiBDYzogSm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlkaWEu
-Y29tPgo+IENjOiBKw6lyw7RtZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KPiBDYzogSmFu
-IEthcmEgPGphY2tAc3VzZS5jej4KPiBDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0Bp
-bnRlbC5jb20+Cj4gQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwo+IENjOiBsaW51eC1hcm0ta2VybmVs
-QGxpc3RzLmluZnJhZGVhZC5vcmcKPiBDYzogbGludXgtc2Ftc3VuZy1zb2NAdmdlci5rZXJuZWwu
-b3JnCj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+IENjOiBrdm1Admdlci5rZXJu
-ZWwub3JnCj4gLS0tCj4gIGluY2x1ZGUvbGludXgvbW0uaCB8ICAyICsrCj4gIG1tL21lbW9yeS5j
-ICAgICAgICB8IDMyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystCj4gIG1tL25vbW11
-LmMgICAgICAgICB8IDE3ICsrKysrKysrKysrKysrKysrCj4gIHNlY3VyaXR5L0tjb25maWcgICB8
-IDEzICsrKysrKysrKysrKysKPiAgNCBmaWxlcyBjaGFuZ2VkLCA2MyBpbnNlcnRpb25zKCspLCAx
-IGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbW0uaCBiL2luY2x1
-ZGUvbGludXgvbW0uaAo+IGluZGV4IDJhMTY2MzFjMWZkYS4uZWM4YzkwOTI4ZmM5IDEwMDY0NAo+
-IC0tLSBhL2luY2x1ZGUvbGludXgvbW0uaAo+ICsrKyBiL2luY2x1ZGUvbGludXgvbW0uaAo+IEBA
-IC0xNjUzLDYgKzE2NTMsOCBAQCBpbnQgZm9sbG93X3B0ZV9wbWQoc3RydWN0IG1tX3N0cnVjdCAq
-bW0sIHVuc2lnbmVkIGxvbmcgYWRkcmVzcywKPiAgCQkgICBwdGVfdCAqKnB0ZXBwLCBwbWRfdCAq
-KnBtZHBwLCBzcGlubG9ja190ICoqcHRscCk7Cj4gIGludCBmb2xsb3dfcGZuKHN0cnVjdCB2bV9h
-cmVhX3N0cnVjdCAqdm1hLCB1bnNpZ25lZCBsb25nIGFkZHJlc3MsCj4gIAl1bnNpZ25lZCBsb25n
-ICpwZm4pOwo+ICtpbnQgdW5zYWZlX2ZvbGxvd19wZm4oc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2
-bWEsIHVuc2lnbmVkIGxvbmcgYWRkcmVzcywKPiArCQkgICAgICB1bnNpZ25lZCBsb25nICpwZm4p
-Owo+ICBpbnQgZm9sbG93X3BoeXMoc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsIHVuc2lnbmVk
-IGxvbmcgYWRkcmVzcywKPiAgCQl1bnNpZ25lZCBpbnQgZmxhZ3MsIHVuc2lnbmVkIGxvbmcgKnBy
-b3QsIHJlc291cmNlX3NpemVfdCAqcGh5cyk7Cj4gIGludCBnZW5lcmljX2FjY2Vzc19waHlzKHN0
-cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCB1bnNpZ25lZCBsb25nIGFkZHIsCj4gZGlmZiAtLWdp
-dCBhL21tL21lbW9yeS5jIGIvbW0vbWVtb3J5LmMKPiBpbmRleCBmN2NiYzRkZGUwZWYuLjdjN2Iy
-MzRmZmIyNCAxMDA2NDQKPiAtLS0gYS9tbS9tZW1vcnkuYwo+ICsrKyBiL21tL21lbW9yeS5jCj4g
-QEAgLTQ4MjEsNyArNDgyMSwxMiBAQCBFWFBPUlRfU1lNQk9MKGZvbGxvd19wdGVfcG1kKTsKPiAg
-ICogQGFkZHJlc3M6IHVzZXIgdmlydHVhbCBhZGRyZXNzCj4gICAqIEBwZm46IGxvY2F0aW9uIHRv
-IHN0b3JlIGZvdW5kIFBGTgo+ICAgKgo+IC0gKiBPbmx5IElPIG1hcHBpbmdzIGFuZCByYXcgUEZO
-IG1hcHBpbmdzIGFyZSBhbGxvd2VkLgo+ICsgKiBPbmx5IElPIG1hcHBpbmdzIGFuZCByYXcgUEZO
-IG1hcHBpbmdzIGFyZSBhbGxvd2VkLiBOb3RlIHRoYXQgY2FsbGVycyBtdXN0Cj4gKyAqIGVuc3Vy
-ZSBjb2hlcmVuY3kgd2l0aCBwdGUgdXBkYXRlcyBieSB1c2luZyBhICZtbXVfbm90aWZpZXIgdG8g
-Zm9sbG93IHVwZGF0ZXMuCj4gKyAqIElmIHRoaXMgaXMgbm90IGZlYXNpYmxlLCBvciB0aGUgYWNj
-ZXNzIHRvIHRoZSBAcGZuIGlzIG9ubHkgdmVyeSBzaG9ydCB0ZXJtLAo+ICsgKiB1c2UgZm9sbG93
-X3B0ZV9wbWQoKSBpbnN0ZWFkIGFuZCBob2xkIHRoZSBwYWdldGFibGUgbG9jayBmb3IgdGhlIGR1
-cmF0aW9uIG9mCj4gKyAqIHRoZSBhY2Nlc3MgaW5zdGVhZC4gQW55IGNhbGxlciBub3QgZm9sbG93
-aW5nIHRoZXNlIHJlcXVpcmVtZW50cyBtdXN0IHVzZQo+ICsgKiB1bnNhZmVfZm9sbG93X3Bmbigp
-IGluc3RlYWQuCj4gICAqCj4gICAqIFJldHVybjogemVybyBhbmQgdGhlIHBmbiBhdCBAcGZuIG9u
-IHN1Y2Nlc3MsIC12ZSBvdGhlcndpc2UuCj4gICAqLwo+IEBAIC00ODQ0LDYgKzQ4NDksMzEgQEAg
-aW50IGZvbGxvd19wZm4oc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsIHVuc2lnbmVkIGxvbmcg
-YWRkcmVzcywKPiAgfQo+ICBFWFBPUlRfU1lNQk9MKGZvbGxvd19wZm4pOwo+ICAKPiArLyoqCj4g
-KyAqIHVuc2FmZV9mb2xsb3dfcGZuIC0gbG9vayB1cCBQRk4gYXQgYSB1c2VyIHZpcnR1YWwgYWRk
-cmVzcwo+ICsgKiBAdm1hOiBtZW1vcnkgbWFwcGluZwo+ICsgKiBAYWRkcmVzczogdXNlciB2aXJ0
-dWFsIGFkZHJlc3MKPiArICogQHBmbjogbG9jYXRpb24gdG8gc3RvcmUgZm91bmQgUEZOCj4gKyAq
-Cj4gKyAqIE9ubHkgSU8gbWFwcGluZ3MgYW5kIHJhdyBQRk4gbWFwcGluZ3MgYXJlIGFsbG93ZWQu
-Cj4gKyAqCj4gKyAqIFJldHVybnMgemVybyBhbmQgdGhlIHBmbiBhdCBAcGZuIG9uIHN1Y2Nlc3Ms
-IC12ZSBvdGhlcndpc2UuCj4gKyAqLwo+ICtpbnQgdW5zYWZlX2ZvbGxvd19wZm4oc3RydWN0IHZt
-X2FyZWFfc3RydWN0ICp2bWEsIHVuc2lnbmVkIGxvbmcgYWRkcmVzcywKPiArCXVuc2lnbmVkIGxv
-bmcgKnBmbikKPiArewo+ICsjaWZkZWYgQ09ORklHX1NUUklDVF9GT0xMT1dfUEZOCj4gKwlwcl9p
-bmZvKCJ1bnNhZmUgZm9sbG93X3BmbiB1c2FnZSByZWplY3RlZCwgc2VlIENPTkZJR19TVFJJQ1Rf
-Rk9MTE9XX1BGTlxuIik7Cj4gKwlyZXR1cm4gLUVJTlZBTDsKPiArI2Vsc2UKPiArCVdBUk5fT05D
-RSgxLCAidW5zYWZlIGZvbGxvd19wZm4gdXNhZ2VcbiIpOwo+ICsJYWRkX3RhaW50KFRBSU5UX1VT
-RVIsIExPQ0tERVBfU1RJTExfT0spOwo+ICsKPiArCXJldHVybiBmb2xsb3dfcGZuKHZtYSwgYWRk
-cmVzcywgcGZuKTsKPiArI2VuZGlmCj4gK30KPiArRVhQT1JUX1NZTUJPTCh1bnNhZmVfZm9sbG93
-X3Bmbik7Cj4gKwo+ICAjaWZkZWYgQ09ORklHX0hBVkVfSU9SRU1BUF9QUk9UCj4gIGludCBmb2xs
-b3dfcGh5cyhzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwKPiAgCQl1bnNpZ25lZCBsb25nIGFk
-ZHJlc3MsIHVuc2lnbmVkIGludCBmbGFncywKPiBkaWZmIC0tZ2l0IGEvbW0vbm9tbXUuYyBiL21t
-L25vbW11LmMKPiBpbmRleCA3NWEzMjcxNDlhZjEuLjNkYjI5MTBmMGQ2NCAxMDA2NDQKPiAtLS0g
-YS9tbS9ub21tdS5jCj4gKysrIGIvbW0vbm9tbXUuYwo+IEBAIC0xMzIsNiArMTMyLDIzIEBAIGlu
-dCBmb2xsb3dfcGZuKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCB1bnNpZ25lZCBsb25nIGFk
-ZHJlc3MsCj4gIH0KPiAgRVhQT1JUX1NZTUJPTChmb2xsb3dfcGZuKTsKPiAgCj4gKy8qKgo+ICsg
-KiB1bnNhZmVfZm9sbG93X3BmbiAtIGxvb2sgdXAgUEZOIGF0IGEgdXNlciB2aXJ0dWFsIGFkZHJl
-c3MKPiArICogQHZtYTogbWVtb3J5IG1hcHBpbmcKPiArICogQGFkZHJlc3M6IHVzZXIgdmlydHVh
-bCBhZGRyZXNzCj4gKyAqIEBwZm46IGxvY2F0aW9uIHRvIHN0b3JlIGZvdW5kIFBGTgo+ICsgKgo+
-ICsgKiBPbmx5IElPIG1hcHBpbmdzIGFuZCByYXcgUEZOIG1hcHBpbmdzIGFyZSBhbGxvd2VkLgo+
-ICsgKgo+ICsgKiBSZXR1cm5zIHplcm8gYW5kIHRoZSBwZm4gYXQgQHBmbiBvbiBzdWNjZXNzLCAt
-dmUgb3RoZXJ3aXNlLgo+ICsgKi8KPiAraW50IHVuc2FmZV9mb2xsb3dfcGZuKHN0cnVjdCB2bV9h
-cmVhX3N0cnVjdCAqdm1hLCB1bnNpZ25lZCBsb25nIGFkZHJlc3MsCj4gKwl1bnNpZ25lZCBsb25n
-ICpwZm4pCj4gK3sKPiArCXJldHVybiBmb2xsb3dfcGZuKHZtYSwgYWRkcmVzcywgcGZuKTsKPiAr
-fQo+ICtFWFBPUlRfU1lNQk9MKHVuc2FmZV9mb2xsb3dfcGZuKTsKPiArCj4gIExJU1RfSEVBRCh2
-bWFwX2FyZWFfbGlzdCk7Cj4gIAo+ICB2b2lkIHZmcmVlKGNvbnN0IHZvaWQgKmFkZHIpCj4gZGlm
-ZiAtLWdpdCBhL3NlY3VyaXR5L0tjb25maWcgYi9zZWN1cml0eS9LY29uZmlnCj4gaW5kZXggNzU2
-MWY2Zjk5ZjFkLi40ODk0NTQwMmUxMDMgMTAwNjQ0Cj4gLS0tIGEvc2VjdXJpdHkvS2NvbmZpZwo+
-ICsrKyBiL3NlY3VyaXR5L0tjb25maWcKPiBAQCAtMjMwLDYgKzIzMCwxOSBAQCBjb25maWcgU1RB
-VElDX1VTRVJNT0RFSEVMUEVSX1BBVEgKPiAgCSAgSWYgeW91IHdpc2ggZm9yIGFsbCB1c2VybW9k
-ZSBoZWxwZXIgcHJvZ3JhbXMgdG8gYmUgZGlzYWJsZWQsCj4gIAkgIHNwZWNpZnkgYW4gZW1wdHkg
-c3RyaW5nIGhlcmUgKGkuZS4gIiIpLgo+ICAKPiArY29uZmlnIFNUUklDVF9GT0xMT1dfUEZOCj4g
-Kwlib29sICJEaXNhYmxlIHVuc2FmZSB1c2Ugb2YgZm9sbG93X3BmbiIKPiArCWRlcGVuZHMgb24g
-TU1VCj4gKwloZWxwCj4gKwkgIFNvbWUgZnVuY3Rpb25hbGl0eSBpbiB0aGUga2VybmVsIGZvbGxv
-d3MgdXNlcnNwYWNlIG1hcHBpbmdzIHRvIGlvbWVtCj4gKwkgIHJhbmdlcyBpbiBhbiB1bnNhZmUg
-bWF0dGVyLiBFeGFtcGxlcyBpbmNsdWRlIHY0bCB1c2VycHRyIGZvciB6ZXJvLWNvcHkKPiArCSAg
-YnVmZmVycyBzaGFyaW5nLgo+ICsKPiArCSAgSWYgdGhpcyBvcHRpb24gaXMgc3dpdGNoZWQgb24s
-IHN1Y2ggYWNjZXNzIGlzIHJlamVjdGVkLiBPbmx5IGVuYWJsZQo+ICsJICB0aGlzIG9wdGlvbiB3
-aGVuIHlvdSBtdXN0IHJ1biB1c2Vyc3BhY2Ugd2hpY2ggcmVxdWlyZXMgdGhpcy4KPiArCj4gKwkg
-IElmIGluIGRvdWJ0LCBzYXkgWS4KPiArCj4gIHNvdXJjZSAic2VjdXJpdHkvc2VsaW51eC9LY29u
-ZmlnIgo+ICBzb3VyY2UgInNlY3VyaXR5L3NtYWNrL0tjb25maWciCj4gIHNvdXJjZSAic2VjdXJp
-dHkvdG9tb3lvL0tjb25maWciCgoKClRoYW5rcywKTWF1cm8KX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, Oct 09, 2020 at 12:01:39PM +0200, Daniel Vetter wrote:
+> On Fri, Oct 9, 2020 at 11:47 AM Ville Syrj=E4l=E4
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > On Fri, Oct 09, 2020 at 09:59:34AM +0200, Daniel Vetter wrote:
+> > > When trying to test my CONFIG_IO_STRICT_DEVMEM changes I realized they
+> > > do nothing for i915. Because i915 doesn't request any regions, like
+> > > pretty much all drm pci drivers. I guess this is some very old
+> > > remnants from the userspace modesetting days, when we wanted to
+> > > co-exist with the fbdev driver. Which usually requested these
+> > > resources.
+> > >
+> > > But makes me wonder why the pci subsystem doesn't just request
+> > > resource automatically when we map a bar and a pci driver is bound?
+> > >
+> > > Knowledge about which pci bars we need kludged together from
+> > > intel_uncore.c and intel_gtt.c from i915 and intel-gtt.c over in the
+> > > fake agp driver.
+> > >
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > > Cc: Kees Cook <keescook@chromium.org>
+> > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > Cc: John Hubbard <jhubbard@nvidia.com>
+> > > Cc: J=E9r=F4me Glisse <jglisse@redhat.com>
+> > > Cc: Jan Kara <jack@suse.cz>
+> > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > Cc: linux-mm@kvack.org
+> > > Cc: linux-arm-kernel@lists.infradead.org
+> > > Cc: linux-samsung-soc@vger.kernel.org
+> > > Cc: linux-media@vger.kernel.org
+> > > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > > Cc: linux-pci@vger.kernel.org
+> > > ---
+> > >  drivers/gpu/drm/i915/intel_uncore.c | 25 +++++++++++++++++++++++--
+> > >  1 file changed, 23 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i9=
+15/intel_uncore.c
+> > > index 54e201fdeba4..ce39049d8919 100644
+> > > --- a/drivers/gpu/drm/i915/intel_uncore.c
+> > > +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> > > @@ -1692,10 +1692,13 @@ static int uncore_mmio_setup(struct intel_unc=
+ore *uncore)
+> > >       struct pci_dev *pdev =3D i915->drm.pdev;
+> > >       int mmio_bar;
+> > >       int mmio_size;
+> > > +     int bar_selection;
+> >
+> > Signed bitmasks always make me uneasy. But looks like
+> > that's what it is in the pci api. So meh.
+> =
+
+> Yeah it's surprising.
+> =
+
+> > > +     int ret;
+> > >
+> > >       mmio_bar =3D IS_GEN(i915, 2) ? 1 : 0;
+> > > +     bar_selection =3D BIT (2) | BIT(mmio_bar);
+> >                            ^
+> > spurious space
+> >
+> > That's also not correct for gen2 I think.
+> >
+> > gen2:
+> > 0 =3D GMADR
+> > 1 =3D MMADR
+> > 2 =3D IOBAR
+> >
+> > gen3:
+> > 0 =3D MMADR
+> > 1 =3D IOBAR
+> > 2 =3D GMADR
+> > 3 =3D GTTADR
+> >
+> > gen4+:
+> > 0+1 =3D GTTMMADR
+> > 2+3 =3D GMADR
+> > 4 =3D IOBAR
+> >
+> > Maybe we should just have an explicit list of bars like that in a
+> > comment?
+> >
+> > I'd also suggest sucking this bitmask calculation into a small helper
+> > so you can reuse it for the release.
+> =
+
+> tbh I just hacked this up for testing. Given how almost no other drm
+> driver does this, I'm wondering whether we should or not.
+> =
+
+> Also the only reason why I didn't just use the pci_request_regions
+> helper is to avoid the vga ioport range, since that's managed by
+> vgaarbiter.
+
+VGA io range isn't part of any bar. Or do you mean just the io decode
+enable bit in the pci command register? That should be just a matter
+or pci_enable_device() vs. pci_enable_device_mem() I think. So nothing
+to do with which bars we've requested IIRC.
+
+> =
+
+> So I think if we go for this for real we should:
+> - register the vga ioport range in the vgaarbiter
+> - have a pci_request_iomem_regions helper that grabs all mem bars
+> - roll that out to all drm pci drivers
+> =
+
+> Or something like that. The other complication is when we resize the
+> iobar. So not really sure what to do here.
+
+We resize it?
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
