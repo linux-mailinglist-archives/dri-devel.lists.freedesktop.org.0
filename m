@@ -1,47 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41695288A9D
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 16:20:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82130288AC6
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 16:25:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6614C6ECE9;
-	Fri,  9 Oct 2020 14:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58ECA6ECEB;
+	Fri,  9 Oct 2020 14:24:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8519E6ECE9
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 14:20:22 +0000 (UTC)
-IronPort-SDR: TsgcVzeJnEnS6QIDVwkUUgRf7HTNPhGVp93dqFAT1O5hYL2YpFvsSLY3NvvXJluKBbk5S/B2G4
- jom6iED5m9sQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="165603775"
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="165603775"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2020 07:20:21 -0700
-IronPort-SDR: KcKux4DIG6yCmiffyqjJ8vpqt/4Kx+nxtOGLpu3i+cAcZcX5qHFxeh+kGOeKtxw0GxlHjXw7ON
- rMy8oqFuCTaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="389154097"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga001.jf.intel.com with SMTP; 09 Oct 2020 07:20:19 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 09 Oct 2020 17:20:18 +0300
-Date: Fri, 9 Oct 2020 17:20:18 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH] drm: document that user-space should avoid parsing EDIDs
-Message-ID: <20201009142018.GT6112@intel.com>
-References: <izOAkOJk67APzk9XP_DhUGr5Nvo_KwmIXlGQhiL101xxttvMO3K1DUdEQryIFXe2EjG16XGuc_YPMlTimZjqePYR3dB0m4Xs4J8Isa3mBAI=@emersion.fr>
- <CAPj87rM3H+kNzMgw1B00iDzH94gZPoLfr17KrAAiCXuUB2VHKA@mail.gmail.com>
- <20201009131025.GS6112@intel.com> <20201009165651.31199071@eldfell>
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD6016ECEB
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 14:24:57 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id w141so10399388oia.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 07:24:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4j8VU4wpGDl6YV4vbFDWVWHEZCZz4TBGhbt0uuUGdBg=;
+ b=YLM0g/4oQLD0hu/Oa87scm3scHf+vbiPkLbDqUAnyXk3ER+QRam40zaijXvFBD6PRA
+ nzSbXcW7hn805lQbe6AX68hG76VYbA+coTzGsCT/QWJIzeeROcYpI8QHsxV9QNKX8ew0
+ Dn833fe+dPzpkngPWmhP7pgAZbKyHIAe+x52Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4j8VU4wpGDl6YV4vbFDWVWHEZCZz4TBGhbt0uuUGdBg=;
+ b=WHEqsErgtaU8ACLkY1g3mRRuQUQDxHADNtKOa2ZzKeTqccVApawEIX8/XHxPkUmQ49
+ kHspsDuM6JFDRRDbIJYnkRcBRw0so2hlzL2rA/dcW8QPv2N1q+xwompeptiY/DXwPpeD
+ mIXc3ekRmPMPoQxQOd7BluOT54VoEgL0F4RZSeQ3ukdiCgxNpkHbKLDCl8BH6/WmLEyg
+ 2SQBm5wIBVwtAVhjEQrsNfR2BJ8vXjxhOfFKJG0j9AjqnSGKNR2GAgNUx6cyK7NmmN1L
+ h0r1m+/kfJoyt4f87n8h5boGb8k2pmW02OxQn2rTIZNM+1rMzzdBKnGgmsY2eOWgAXxj
+ Oe7g==
+X-Gm-Message-State: AOAM53059afVLhELTXQj+TQ2ahGLnNFxka4dxGOJ6iRWUlggjy0hN4WP
+ YjIMYBx7Ld7cxUz+ZxwlOq/ocL8ppffh1akua8rE9Q==
+X-Google-Smtp-Source: ABdhPJyHxT/6NZr88G54H2j+X8AAqjyafUNpDVmVkQQPYeZ/EXQjiOmXOOdqJRKMWvSSWVU71sVuY9YK0QkcwCetmpo=
+X-Received: by 2002:aca:6083:: with SMTP id u125mr2688783oib.14.1602253497033; 
+ Fri, 09 Oct 2020 07:24:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201009165651.31199071@eldfell>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-15-daniel.vetter@ffwll.ch>
+ <20201009123109.GO5177@ziepe.ca>
+In-Reply-To: <20201009123109.GO5177@ziepe.ca>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 9 Oct 2020 16:24:45 +0200
+Message-ID: <CAKMK7uFpPP-Q0jC0vM7vYPEcg0m4NzTw+Ld=swdTF3BgMX5Qug@mail.gmail.com>
+Subject: Re: [PATCH v2 14/17] resource: Move devmem revoke code to resource
+ framework
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,90 +60,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ David Hildenbrand <david@redhat.com>, John Hubbard <jhubbard@nvidia.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 09, 2020 at 04:56:51PM +0300, Pekka Paalanen wrote:
-> On Fri, 9 Oct 2020 16:10:25 +0300
-> Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com> wrote:
-> =
+On Fri, Oct 9, 2020 at 2:31 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Fri, Oct 09, 2020 at 09:59:31AM +0200, Daniel Vetter wrote:
+>
+> > +struct address_space *iomem_get_mapping(void)
+> > +{
+> > +     return iomem_inode->i_mapping;
+>
+> This should pair an acquire with the release below
+>
+> > +     /*
+> > +      * Publish /dev/mem initialized.
+> > +      * Pairs with smp_load_acquire() in revoke_iomem().
+> > +      */
+> > +     smp_store_release(&iomem_inode, inode);
+>
+> However, this seems abnormal, initcalls rarely do this kind of stuff
+> with global data..
+>
+> The kernel crashes if this fs_initcall is raced with
+> iomem_get_mapping() due to the unconditional dereference, so I think
+> it can be safely switched to a simple assignment.
 
-> > On Fri, Oct 09, 2020 at 01:07:20PM +0100, Daniel Stone wrote:
-> > > Hi,
-> > > =
+Ah yes I checked this all, but forgot to correctly annotate the
+iomem_get_mapping access. For reference, see b34e7e298d7a ("/dev/mem:
+Add missing memory barriers for devmem_inode").
 
-> > > On Fri, 9 Oct 2020 at 10:24, Simon Ser <contact@emersion.fr> wrote:  =
+The reasons for the annotations is that iomem requests can happen
+fairly early, way before fs_initcalls happen. That means revoke_iomem
+needs to check for that and bail out if we race - nothing bad can
+happen since userspace isn't running at this point anyway. And
+apparently it needs to be a full acquire fence since we don't just
+write a value, but need a barrier for the struct stuff.
 
-> > > > User-space should avoid parsing EDIDs for metadata already exposed =
-via
-> > > > other KMS interfaces and properties. For instance, user-space shoul=
-d not
-> > > > try to extract a list of modes from the EDID: the kernel might muta=
-te
-> > > > the mode list (because of link capabilities or quirks for instance).
-> > > >
-> > > > Other metadata not exposed by KMS can be parsed by user-space. This
-> > > > includes for instance monitor identification (make/model/serial) and
-> > > > supported color-spaces.  =
+Now iomem_get_mapping otoh can only be called after userspace is up &
+running, so way after all the fs_initcalls are guaranteed to have
+fininshed. Hence we don't really need anything there. But I expect the
+kernel race checker thing to complain, plus that then gives me a good
+spot to explain why we can't race and don't have to check for a NULL
+iomem_inode.
 
-> > > =
-
-> > > So I take it the only way to get modes is through the connector's list
-> > > of modes. That sounds reasonable enough to me, but I think to properly
-> > > handle colour (e.g. CEA modes have different behaviour for
-> > > limited/full range depending on which VIC they correspond to IIRC)  =
-
-> > =
-
-> > If the mode has a VIC and that VIC is not 1, then it's limited range,
-> > otherwise full range. There are fortunately no cases where you would
-> > have the same exact timings corresponding to different quantization
-> > range depending on the VIC.
-> > =
-
-> > And the only reason the same timings could correspond to multiple VICs
-> > is aspect ratio. Which is already exposed via the mode flags, assuming
-> > the appropriate client cap is enabled.
-> > =
-
-> > So I think the only reason to expose the VIC would be if userspace is
-> > non-lazy and wants to manage its colors presicely, but is otherwise lazy
-> > and doesn't want to figure out what the VIC of the mode is on its own.
-> =
-
-> What would "figure out what the VIC of the mode is" require in userspace?
-> =
-
-> A database of all VIC modes and then compare if the detailed timings matc=
-h?
-> =
-
-> Is that also how the kernel recognises that userspace wants to set a
-> certain VIC mode instead of some arbitrary mode?
-
-Yes and yes.
-
-Note that atm we also don't have a way for userspace to say that it
-wants to signal limited range to the sink but wants the kernel
-to not do the full->limited range conversion. Ie. no way for userspace
-to pass in pixels that are already in limited range. There was a patch
-for that posted quite long ago, but it didn't go in.
-
-> =
-
-> Can CVT or GVT produce those exact timings? Can that accidentally
-> result in limited range?
-
-Not sure.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+I'll add that in v3.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
