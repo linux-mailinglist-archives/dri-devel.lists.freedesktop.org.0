@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9B1288A94
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 16:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41695288A9D
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 16:20:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBBD6ECFA;
-	Fri,  9 Oct 2020 14:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6614C6ECE9;
+	Fri,  9 Oct 2020 14:20:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B69136ECFA
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 14:19:05 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id d28so9160150ote.1
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 07:19:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=MM70QuqTQsUBVq7gYXvXBZty2HeYwYo1AwlGqBndKzc=;
- b=TXHPzxH9Da/xVr/PCQoDGy8c0zPWy+ggD3CN9+uIIarhuboqtJeD+WQppuYxHsd6Lw
- Y7BHU63LYKcn8Q19C0ojPAIbHvLgUU7idHjBxl/cqvgWdtq9sYwq7aJadM3ewUTikvYS
- Or+ZtapYPyo5QGIWg5F96VAf0fQY9D81hLV+0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MM70QuqTQsUBVq7gYXvXBZty2HeYwYo1AwlGqBndKzc=;
- b=VSSsx6gZuX2B+D4t6ds7974I1tZH9WRqLBD18AFu5jRJA89sKAOgcvoV2ufEJOfHpO
- 4LV3/4S2mxPlO1D3mdS1hn7+4+m1nRAR7VORZp9/LaamqlDXHj/vHgVerZNkCfOsHeSa
- DbxRw+9qsxXaMgL0Uz9rUOeMlMxKJH+GDXAvHV6v1qZh37yU6aHlRP1yY3duD72Am9n9
- Zig4BcnBqLqHHwIsnbI1LHum0YiUAkSSRxkF9E7oTm7DWQMq2ADfNVdHf6KR4Agu6zI8
- 2CP1OtMJWX8nQEAw3VJzuvQfiOgoihhlxAbUzcfUGajFivLW41NNIwiH6Dr3Pqr8dyhE
- UzXw==
-X-Gm-Message-State: AOAM532VEJyOb7Mgs44xGIUDumXOoHb60Cki+gmx1orVloWuiaqudEbb
- RAB/Lg3bkSh7R4Q3l5F2/shJBzwoVC4IxtiCa0B/2A==
-X-Google-Smtp-Source: ABdhPJzNidxPOYe2uXf9i2kyX3nO4EFb7XRxsxlaQUOxC+n0ejMSsQdbIKmUu2me6/FBsUnaPi9FuwTaAIvXBztd7mE=
-X-Received: by 2002:a05:6830:1c3c:: with SMTP id
- f28mr9534834ote.188.1602253144991; 
- Fri, 09 Oct 2020 07:19:04 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8519E6ECE9
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 14:20:22 +0000 (UTC)
+IronPort-SDR: TsgcVzeJnEnS6QIDVwkUUgRf7HTNPhGVp93dqFAT1O5hYL2YpFvsSLY3NvvXJluKBbk5S/B2G4
+ jom6iED5m9sQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="165603775"
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="165603775"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2020 07:20:21 -0700
+IronPort-SDR: KcKux4DIG6yCmiffyqjJ8vpqt/4Kx+nxtOGLpu3i+cAcZcX5qHFxeh+kGOeKtxw0GxlHjXw7ON
+ rMy8oqFuCTaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="389154097"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga001.jf.intel.com with SMTP; 09 Oct 2020 07:20:19 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 09 Oct 2020 17:20:18 +0300
+Date: Fri, 9 Oct 2020 17:20:18 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH] drm: document that user-space should avoid parsing EDIDs
+Message-ID: <20201009142018.GT6112@intel.com>
+References: <izOAkOJk67APzk9XP_DhUGr5Nvo_KwmIXlGQhiL101xxttvMO3K1DUdEQryIFXe2EjG16XGuc_YPMlTimZjqePYR3dB0m4Xs4J8Isa3mBAI=@emersion.fr>
+ <CAPj87rM3H+kNzMgw1B00iDzH94gZPoLfr17KrAAiCXuUB2VHKA@mail.gmail.com>
+ <20201009131025.GS6112@intel.com> <20201009165651.31199071@eldfell>
 MIME-Version: 1.0
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-18-daniel.vetter@ffwll.ch>
- <20201009094750.GQ6112@intel.com>
- <CAKMK7uH3o3hnRkTDqr93PR=wuRejpty+AbyMacoEFDDb6OgJeQ@mail.gmail.com>
- <20201009104154.GR6112@intel.com>
-In-Reply-To: <20201009104154.GR6112@intel.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 9 Oct 2020 16:18:53 +0200
-Message-ID: <CAKMK7uEp71+B3EVTezog8U3VY=DUYAbe1QeqZH9NEG8T37M_Cw@mail.gmail.com>
-Subject: Re: [PATCH v2 17/17] drm/i915: Properly request PCI BARs
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Disposition: inline
+In-Reply-To: <20201009165651.31199071@eldfell>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,105 +54,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390 <linux-s390@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
- Linux MM <linux-mm@kvack.org>, Linux PCI <linux-pci@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgOSwgMjAyMCBhdCAxMjo0MiBQTSBWaWxsZSBTeXJqw6Rsw6QKPHZpbGxlLnN5
-cmphbGFAbGludXguaW50ZWwuY29tPiB3cm90ZToKPgo+IE9uIEZyaSwgT2N0IDA5LCAyMDIwIGF0
-IDEyOjAxOjM5UE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiBPbiBGcmksIE9jdCA5
-LCAyMDIwIGF0IDExOjQ3IEFNIFZpbGxlIFN5cmrDpGzDpAo+ID4gPHZpbGxlLnN5cmphbGFAbGlu
-dXguaW50ZWwuY29tPiB3cm90ZToKPiA+ID4KPiA+ID4gT24gRnJpLCBPY3QgMDksIDIwMjAgYXQg
-MDk6NTk6MzRBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+ID4gPiBXaGVuIHRyeWlu
-ZyB0byB0ZXN0IG15IENPTkZJR19JT19TVFJJQ1RfREVWTUVNIGNoYW5nZXMgSSByZWFsaXplZCB0
-aGV5Cj4gPiA+ID4gZG8gbm90aGluZyBmb3IgaTkxNS4gQmVjYXVzZSBpOTE1IGRvZXNuJ3QgcmVx
-dWVzdCBhbnkgcmVnaW9ucywgbGlrZQo+ID4gPiA+IHByZXR0eSBtdWNoIGFsbCBkcm0gcGNpIGRy
-aXZlcnMuIEkgZ3Vlc3MgdGhpcyBpcyBzb21lIHZlcnkgb2xkCj4gPiA+ID4gcmVtbmFudHMgZnJv
-bSB0aGUgdXNlcnNwYWNlIG1vZGVzZXR0aW5nIGRheXMsIHdoZW4gd2Ugd2FudGVkIHRvCj4gPiA+
-ID4gY28tZXhpc3Qgd2l0aCB0aGUgZmJkZXYgZHJpdmVyLiBXaGljaCB1c3VhbGx5IHJlcXVlc3Rl
-ZCB0aGVzZQo+ID4gPiA+IHJlc291cmNlcy4KPiA+ID4gPgo+ID4gPiA+IEJ1dCBtYWtlcyBtZSB3
-b25kZXIgd2h5IHRoZSBwY2kgc3Vic3lzdGVtIGRvZXNuJ3QganVzdCByZXF1ZXN0Cj4gPiA+ID4g
-cmVzb3VyY2UgYXV0b21hdGljYWxseSB3aGVuIHdlIG1hcCBhIGJhciBhbmQgYSBwY2kgZHJpdmVy
-IGlzIGJvdW5kPwo+ID4gPiA+Cj4gPiA+ID4gS25vd2xlZGdlIGFib3V0IHdoaWNoIHBjaSBiYXJz
-IHdlIG5lZWQga2x1ZGdlZCB0b2dldGhlciBmcm9tCj4gPiA+ID4gaW50ZWxfdW5jb3JlLmMgYW5k
-IGludGVsX2d0dC5jIGZyb20gaTkxNSBhbmQgaW50ZWwtZ3R0LmMgb3ZlciBpbiB0aGUKPiA+ID4g
-PiBmYWtlIGFncCBkcml2ZXIuCj4gPiA+ID4KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwg
-VmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiA+ID4gPiBDYzogSmFzb24gR3VudGhv
-cnBlIDxqZ2dAemllcGUuY2E+Cj4gPiA+ID4gQ2M6IEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21p
-dW0ub3JnPgo+ID4gPiA+IENjOiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNv
-bT4KPiA+ID4gPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz4K
-PiA+ID4gPiBDYzogSm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlkaWEuY29tPgo+ID4gPiA+IENj
-OiBKw6lyw7RtZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KPiA+ID4gPiBDYzogSmFuIEth
-cmEgPGphY2tAc3VzZS5jej4KPiA+ID4gPiBDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFt
-c0BpbnRlbC5jb20+Cj4gPiA+ID4gQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwo+ID4gPiA+IENjOiBs
-aW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiA+ID4gPiBDYzogbGludXgtc2Ft
-c3VuZy1zb2NAdmdlci5rZXJuZWwub3JnCj4gPiA+ID4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2Vy
-bmVsLm9yZwo+ID4gPiA+IENjOiBCam9ybiBIZWxnYWFzIDxiaGVsZ2Fhc0Bnb29nbGUuY29tPgo+
-ID4gPiA+IENjOiBsaW51eC1wY2lAdmdlci5rZXJuZWwub3JnCj4gPiA+ID4gLS0tCj4gPiA+ID4g
-IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3VuY29yZS5jIHwgMjUgKysrKysrKysrKysrKysr
-KysrKysrKystLQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMiBk
-ZWxldGlvbnMoLSkKPiA+ID4gPgo+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9pbnRlbF91bmNvcmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3VuY29yZS5j
-Cj4gPiA+ID4gaW5kZXggNTRlMjAxZmRlYmE0Li5jZTM5MDQ5ZDg5MTkgMTAwNjQ0Cj4gPiA+ID4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfdW5jb3JlLmMKPiA+ID4gPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF91bmNvcmUuYwo+ID4gPiA+IEBAIC0xNjkyLDEwICsx
-NjkyLDEzIEBAIHN0YXRpYyBpbnQgdW5jb3JlX21taW9fc2V0dXAoc3RydWN0IGludGVsX3VuY29y
-ZSAqdW5jb3JlKQo+ID4gPiA+ICAgICAgIHN0cnVjdCBwY2lfZGV2ICpwZGV2ID0gaTkxNS0+ZHJt
-LnBkZXY7Cj4gPiA+ID4gICAgICAgaW50IG1taW9fYmFyOwo+ID4gPiA+ICAgICAgIGludCBtbWlv
-X3NpemU7Cj4gPiA+ID4gKyAgICAgaW50IGJhcl9zZWxlY3Rpb247Cj4gPiA+Cj4gPiA+IFNpZ25l
-ZCBiaXRtYXNrcyBhbHdheXMgbWFrZSBtZSB1bmVhc3kuIEJ1dCBsb29rcyBsaWtlCj4gPiA+IHRo
-YXQncyB3aGF0IGl0IGlzIGluIHRoZSBwY2kgYXBpLiBTbyBtZWguCj4gPgo+ID4gWWVhaCBpdCdz
-IHN1cnByaXNpbmcuCj4gPgo+ID4gPiA+ICsgICAgIGludCByZXQ7Cj4gPiA+ID4KPiA+ID4gPiAg
-ICAgICBtbWlvX2JhciA9IElTX0dFTihpOTE1LCAyKSA/IDEgOiAwOwo+ID4gPiA+ICsgICAgIGJh
-cl9zZWxlY3Rpb24gPSBCSVQgKDIpIHwgQklUKG1taW9fYmFyKTsKPiA+ID4gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgXgo+ID4gPiBzcHVyaW91cyBzcGFjZQo+ID4gPgo+ID4gPiBUaGF0J3Mg
-YWxzbyBub3QgY29ycmVjdCBmb3IgZ2VuMiBJIHRoaW5rLgo+ID4gPgo+ID4gPiBnZW4yOgo+ID4g
-PiAwID0gR01BRFIKPiA+ID4gMSA9IE1NQURSCj4gPiA+IDIgPSBJT0JBUgo+ID4gPgo+ID4gPiBn
-ZW4zOgo+ID4gPiAwID0gTU1BRFIKPiA+ID4gMSA9IElPQkFSCj4gPiA+IDIgPSBHTUFEUgo+ID4g
-PiAzID0gR1RUQURSCj4gPiA+Cj4gPiA+IGdlbjQrOgo+ID4gPiAwKzEgPSBHVFRNTUFEUgo+ID4g
-PiAyKzMgPSBHTUFEUgo+ID4gPiA0ID0gSU9CQVIKPiA+ID4KPiA+ID4gTWF5YmUgd2Ugc2hvdWxk
-IGp1c3QgaGF2ZSBhbiBleHBsaWNpdCBsaXN0IG9mIGJhcnMgbGlrZSB0aGF0IGluIGEKPiA+ID4g
-Y29tbWVudD8KPiA+ID4KPiA+ID4gSSdkIGFsc28gc3VnZ2VzdCBzdWNraW5nIHRoaXMgYml0bWFz
-ayBjYWxjdWxhdGlvbiBpbnRvIGEgc21hbGwgaGVscGVyCj4gPiA+IHNvIHlvdSBjYW4gcmV1c2Ug
-aXQgZm9yIHRoZSByZWxlYXNlLgo+ID4KPiA+IHRiaCBJIGp1c3QgaGFja2VkIHRoaXMgdXAgZm9y
-IHRlc3RpbmcuIEdpdmVuIGhvdyBhbG1vc3Qgbm8gb3RoZXIgZHJtCj4gPiBkcml2ZXIgZG9lcyB0
-aGlzLCBJJ20gd29uZGVyaW5nIHdoZXRoZXIgd2Ugc2hvdWxkIG9yIG5vdC4KPiA+Cj4gPiBBbHNv
-IHRoZSBvbmx5IHJlYXNvbiB3aHkgSSBkaWRuJ3QganVzdCB1c2UgdGhlIHBjaV9yZXF1ZXN0X3Jl
-Z2lvbnMKPiA+IGhlbHBlciBpcyB0byBhdm9pZCB0aGUgdmdhIGlvcG9ydCByYW5nZSwgc2luY2Ug
-dGhhdCdzIG1hbmFnZWQgYnkKPiA+IHZnYWFyYml0ZXIuCj4KPiBWR0EgaW8gcmFuZ2UgaXNuJ3Qg
-cGFydCBvZiBhbnkgYmFyLiBPciBkbyB5b3UgbWVhbiBqdXN0IHRoZSBpbyBkZWNvZGUKPiBlbmFi
-bGUgYml0IGluIHRoZSBwY2kgY29tbWFuZCByZWdpc3Rlcj8gVGhhdCBzaG91bGQgYmUganVzdCBh
-IG1hdHRlcgo+IG9yIHBjaV9lbmFibGVfZGV2aWNlKCkgdnMuIHBjaV9lbmFibGVfZGV2aWNlX21l
-bSgpIEkgdGhpbmsuIFNvIG5vdGhpbmcKPiB0byBkbyB3aXRoIHdoaWNoIGJhcnMgd2UndmUgcmVx
-dWVzdGVkIElJUkMuCj4KPiA+Cj4gPiBTbyBJIHRoaW5rIGlmIHdlIGdvIGZvciB0aGlzIGZvciBy
-ZWFsIHdlIHNob3VsZDoKPiA+IC0gcmVnaXN0ZXIgdGhlIHZnYSBpb3BvcnQgcmFuZ2UgaW4gdGhl
-IHZnYWFyYml0ZXIKPiA+IC0gaGF2ZSBhIHBjaV9yZXF1ZXN0X2lvbWVtX3JlZ2lvbnMgaGVscGVy
-IHRoYXQgZ3JhYnMgYWxsIG1lbSBiYXJzCj4gPiAtIHJvbGwgdGhhdCBvdXQgdG8gYWxsIGRybSBw
-Y2kgZHJpdmVycwo+ID4KPiA+IE9yIHNvbWV0aGluZyBsaWtlIHRoYXQuIFRoZSBvdGhlciBjb21w
-bGljYXRpb24gaXMgd2hlbiB3ZSByZXNpemUgdGhlCj4gPiBpb2Jhci4gU28gbm90IHJlYWxseSBz
-dXJlIHdoYXQgdG8gZG8gaGVyZS4KPgo+IFdlIHJlc2l6ZSBpdD8KCkJ5IGRlZmF1bHQgSSB0aG91
-Z2h0IGZpcm13YXJlIHB1dHMgZXZlcnl0aGluZyAod2VsbCwgc3F1ZWV6ZXMpIGludG8KdGhlIGxv
-d2VyIDMyYml0LiBNYXliZSB0aGV5IHN0b3BwZWQgZG9pbmcgdGhhdC4gU28gd2hlbiB3ZSB3YW50
-IHRoZQpmdWxsIGJhciAoZm9yIGRpc2NyZXRlIGF0IGxlYXN0KSB3ZSBuZWVkIHRvIHJlc2l6ZSBp
-dCBhbmQgcHV0IGl0CnNvbWV3aGVyZSBpbiB0aGUgNjRiaXQgcmFuZ2UgYWJvdmUgZW5kIG9mIHN5
-c3RlbSBtZW1vcnkuCgpTbyBJIGd1ZXNzIGNvcnJlY3QgcGhyYXNpbmcgaXMgIndlIHdpbGwgcmVz
-aXplIGl0IiA6LSkKLURhbmllbAotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwg
-SW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, Oct 09, 2020 at 04:56:51PM +0300, Pekka Paalanen wrote:
+> On Fri, 9 Oct 2020 16:10:25 +0300
+> Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com> wrote:
+> =
+
+> > On Fri, Oct 09, 2020 at 01:07:20PM +0100, Daniel Stone wrote:
+> > > Hi,
+> > > =
+
+> > > On Fri, 9 Oct 2020 at 10:24, Simon Ser <contact@emersion.fr> wrote:  =
+
+> > > > User-space should avoid parsing EDIDs for metadata already exposed =
+via
+> > > > other KMS interfaces and properties. For instance, user-space shoul=
+d not
+> > > > try to extract a list of modes from the EDID: the kernel might muta=
+te
+> > > > the mode list (because of link capabilities or quirks for instance).
+> > > >
+> > > > Other metadata not exposed by KMS can be parsed by user-space. This
+> > > > includes for instance monitor identification (make/model/serial) and
+> > > > supported color-spaces.  =
+
+> > > =
+
+> > > So I take it the only way to get modes is through the connector's list
+> > > of modes. That sounds reasonable enough to me, but I think to properly
+> > > handle colour (e.g. CEA modes have different behaviour for
+> > > limited/full range depending on which VIC they correspond to IIRC)  =
+
+> > =
+
+> > If the mode has a VIC and that VIC is not 1, then it's limited range,
+> > otherwise full range. There are fortunately no cases where you would
+> > have the same exact timings corresponding to different quantization
+> > range depending on the VIC.
+> > =
+
+> > And the only reason the same timings could correspond to multiple VICs
+> > is aspect ratio. Which is already exposed via the mode flags, assuming
+> > the appropriate client cap is enabled.
+> > =
+
+> > So I think the only reason to expose the VIC would be if userspace is
+> > non-lazy and wants to manage its colors presicely, but is otherwise lazy
+> > and doesn't want to figure out what the VIC of the mode is on its own.
+> =
+
+> What would "figure out what the VIC of the mode is" require in userspace?
+> =
+
+> A database of all VIC modes and then compare if the detailed timings matc=
+h?
+> =
+
+> Is that also how the kernel recognises that userspace wants to set a
+> certain VIC mode instead of some arbitrary mode?
+
+Yes and yes.
+
+Note that atm we also don't have a way for userspace to say that it
+wants to signal limited range to the sink but wants the kernel
+to not do the full->limited range conversion. Ie. no way for userspace
+to pass in pixels that are already in limited range. There was a patch
+for that posted quite long ago, but it didn't go in.
+
+> =
+
+> Can CVT or GVT produce those exact timings? Can that accidentally
+> result in limited range?
+
+Not sure.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
