@@ -1,82 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A351D288FF2
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 19:26:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B118289049
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 19:52:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D7216ED67;
-	Fri,  9 Oct 2020 17:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F26596ED75;
+	Fri,  9 Oct 2020 17:52:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED676ED67
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 17:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602264396;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y6ikGGK6aHMQWPhD82bP38Tw8B11lHIqI5A5jkizye8=;
- b=WbKhokfAWKxXkxe/qHPxYKjx96AmNppOtVG5Cgd6Gk889+R0xY1V+vrDpQFKnn84s7jG+A
- VwRfDzM1qffD0uiNxJhlqcUeCdaJDozS1Bfm7rmomaGXkFOn7Qw1eKZHeF4SAv30LyL6yI
- YYoe+H/5I9R0LD6CIytEwb8vBGJnwis=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-6klCyx1QOiang-gIjDDO3Q-1; Fri, 09 Oct 2020 13:26:33 -0400
-X-MC-Unique: 6klCyx1QOiang-gIjDDO3Q-1
-Received: by mail-qk1-f198.google.com with SMTP id u2so7332995qka.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 10:26:33 -0700 (PDT)
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 608CB6ED75
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 17:52:17 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id t15so9811099otk.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 10:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Chc8637Rd8yI9tLS7AREeItMweAw4M0AE06Zuj7bhU0=;
+ b=L4kTmlRVcZoe/avVgvgJLaWOs03iPF87kjF+Wg5Dr1BO68grQeWij+sKeGLbjkKVnS
+ uWxXV8aahQlRlzimSn7k7/L57rwPuRVe9l/HoPbmKuzL42kNzmiAubvKP93NNRPozIcb
+ M7wzXGB/zvSu+un9zoWu7yVJIqeg+g4rBMVIc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=Y6ikGGK6aHMQWPhD82bP38Tw8B11lHIqI5A5jkizye8=;
- b=UmEPAY56wIe3Q6wnRtxkcXFQsqq10nfV4inQkrLfNNCmFrNtdkUDXvDyjBc+izcRsq
- mwyPnRSoSsfPN2pT7wvPitPm0XqQg//MIITohTJaJMUZusbXpL7lRO9f7OS0omrdkyqq
- RqEVqvk6UYtmXZi7tMncvDCHsAd4u0f1xEwfrJC6Q3mugQKQVFANAoHxYTYpaIqjPB2+
- qdwPGlneOzhFP5kzD55mbwtc5ZdaEzfNaBn0NR0+LqbGK+HtXCmJi1Av6JEAW+6F4elL
- glDSAwpMwUlvjaekFaAXpDmNMFGBK8BEhRBI6iWZ7782IdyXNCZVYuJ4kJxaM/9MI+rY
- zG8A==
-X-Gm-Message-State: AOAM530m8fIUXTnjCi1sn4xKqYg/ajYOD+FRG1nIPMqjEuPwb8qpU9GX
- jS497oMs5mqiFpTUbeaXlPTJ9XLLqs8a9v4dv4rBfbwwX6zTaLsU4OliKs9sVzGM0eqdn7uDXY/
- E1bNpuJnal0i5dWbgnJ0a5lvNaZVY
-X-Received: by 2002:a05:620a:1185:: with SMTP id
- b5mr14323726qkk.386.1602264393212; 
- Fri, 09 Oct 2020 10:26:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzp/SIm+I2tHWObGoz+HG1lGQmMTfmJLrFa/PeGFE7GwdStIYKbBNERYwy5v5frpjQ2xEoNwQ==
-X-Received: by 2002:a05:620a:1185:: with SMTP id
- b5mr14323708qkk.386.1602264392973; 
- Fri, 09 Oct 2020 10:26:32 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id m18sm6767237qkg.77.2020.10.09.10.26.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 10:26:32 -0700 (PDT)
-Message-ID: <983f12944c0f14a7eee7d77bac98203a5c18981c.camel@redhat.com>
-Subject: (Cc: drm-misc/intel maintainers) Re: [PATCH 1/2] drm/i915/dpcd_bl:
- uncheck PWM_PIN_CAP when detect eDP backlight capabilities
-From: Lyude Paul <lyude@redhat.com>
-To: Aaron Ma <aaron.ma@canonical.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- mapengyu@gmail.com, daniel@ffwll.ch, airlied@linux.ie, tzimmermann@suse.de,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- rodrigo.vivi@intel.com,  joonas.lahtinen@linux.intel.com,
- jani.nikula@linux.intel.com,  ville.syrjala@linux.intel.com
-Date: Fri, 09 Oct 2020 13:26:31 -0400
-In-Reply-To: <20201009085750.88490-1-aaron.ma@canonical.com>
-References: <20201009085750.88490-1-aaron.ma@canonical.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Chc8637Rd8yI9tLS7AREeItMweAw4M0AE06Zuj7bhU0=;
+ b=AQVBGNmR/RCxFxT/dfYoRH8DjHuOD2RcqUgrVjmW60ogTXdOXp5ZR6g/4NAe9Sx7F8
+ PraHkagbllIaz+sAi7AsSpU0fqidcipnaJAEanzIxJaTxZIZ6XkOQ8Gksvh5mdmNn28B
+ 1XCOFU19MMhIU5OedkBUyo06G00M4w2TuEY2XpwORFaloBdAAv56w2M6ketqRgb2x030
+ DTczb1RSma3uSGEYgL1o9DMq5+8k4x6yu1DUXX8nqb9HUr5VYlqabSXmXsSdrdWOP5TN
+ hdRhPbqsKww1RORdGKCoKGOZv+FX4CiXhrae71fnuRCdZuuWYm9BaofKHJC9TndAa262
+ JCmA==
+X-Gm-Message-State: AOAM532Xwd7qkA/WNnRUEc8LqHi1bjIyVZ8QH3tGl6Vw07Yd48KrK0F3
+ ov+MCQfzNEpYo15yafKIsZ3ztEbuORXXFcQDbTiVCw==
+X-Google-Smtp-Source: ABdhPJxFnmBLRj+lrjXy7n2SbqbKqfPXOoR4PVOcPvoZoMGu71c5Uydzax6ZExKmO8/pv5qIPQDGfl3spZzjZBbiaDw=
+X-Received: by 2002:a05:6830:1647:: with SMTP id
+ h7mr10168614otr.281.1602265936612; 
+ Fri, 09 Oct 2020 10:52:16 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
+ <20201009123421.67a80d72@coco.lan>
+ <20201009122111.GN5177@ziepe.ca> <20201009143723.45609bfb@coco.lan>
+ <20201009124850.GP5177@ziepe.ca>
+In-Reply-To: <20201009124850.GP5177@ziepe.ca>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 9 Oct 2020 19:52:05 +0200
+Message-ID: <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,57 +62,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the whole series:
+On Fri, Oct 9, 2020 at 2:48 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Fri, Oct 09, 2020 at 02:37:23PM +0200, Mauro Carvalho Chehab wrote:
+>
+> > I'm not a mm/ expert, but, from what I understood from Daniel's patch
+> > description is that this is unsafe *only if*  __GFP_MOVABLE is used.
+>
+> No, it is unconditionally unsafe. The CMA movable mappings are
+> specific VMAs that will have bad issues here, but there are other
+> types too.
+>
+> The only way to do something at a VMA level is to have a list of OK
+> VMAs, eg because they were creatd via a special mmap helper from the
+> media subsystem.
+>
+> > Well, no drivers inside the media subsystem uses such flag, although
+> > they may rely on some infrastructure that could be using it behind
+> > the bars.
+>
+> It doesn't matter, nothing prevents the user from calling media APIs
+> on mmaps it gets from other subsystems.
 
-For the whole series:
+I think a good first step would be to disable userptr of non struct
+page backed storage going forward for any new hw support. Even on
+existing drivers. dma-buf sharing has been around for long enough now
+that this shouldn't be a problem. Unfortunately right now this doesn't
+seem to exist, so the entire problem keeps getting perpetuated.
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+> > If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE
+> > flag that it would be denying the core mm code to set __GFP_MOVABLE.
+>
+> We can't tell from the VMA these kinds of details..
+>
+> It has to go the other direction, evey mmap that might be used as a
+> userptr here has to be found and the VMA specially created to allow
+> its use. At least that is a kernel only change, but will need people
+> with the HW to do this work.
 
-I'm going to add a Cc for stable so that it can be backported, and I'll push it
-to drm-intel-next-queued once I get the OK from drm-misc/i915 folks
+I think the only reasonable way to keep this working is:
+- add a struct dma_buf *vma_tryget_dma_buf(struct vm_area_struct *vma);
+- add dma-buf export support to fbdev and v4l
+- roll this out everywhere we still need it.
 
-On Fri, 2020-10-09 at 16:57 +0800, Aaron Ma wrote:
-> BOE panel with ID 2270 claims both PWM_PIN_CAP and AUX_SET_CAP backlight
-> control bits, but default chip backlight failed to control brightness.
-> 
-> Check AUX_SET_CAP and proceed to check quirks or VBT backlight type.
-> DPCD can control the brightness of this pannel.
-> 
-> Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index acbd7eb66cbe..308b14159b7c 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -334,8 +334,7 @@ intel_dp_aux_display_control_capable(struct
-> intel_connector *connector)
->  	 * the panel can support backlight control over the aux channel
->  	 */
->  	if (intel_dp->edp_dpcd[1] & DP_EDP_TCON_BACKLIGHT_ADJUSTMENT_CAP &&
-> -	    (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP) &&
-> -	    !(intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP))
-> {
-> +	    (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP)) {
->  		drm_dbg_kms(&i915->drm, "AUX Backlight Control Supported!\n");
->  		return true;
->  	}
+Realistically this just isn't going to happen. And anything else just
+reimplements half of dma-buf, which is kinda pointless (you need
+minimally refcounting and some way to get at a promise of a permanent
+sg list for dma. Plus probably the vmap for kernel cpu access.
+
+> > Please let address the issue on this way, instead of broken an
+> > userspace API that it is there since 1991.
+>
+> It has happened before :( It took 4 years for RDMA to undo the uAPI
+> breakage caused by a security fix for something that was a 15 years
+> old bug.
+
+Yeah we have a bunch of these on the drm side too. Some of them are
+really just "you have to upgrade userspace", and there's no real fix
+for the security nightmare without that.
+-Daniel
 -- 
-Sincerely,
-      Lyude Paul (she/her)
-      Software Engineer at Red Hat
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
