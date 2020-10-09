@@ -1,55 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B118289049
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 19:52:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8241E289FCA
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 12:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F26596ED75;
-	Fri,  9 Oct 2020 17:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 313B36EEA4;
+	Sat, 10 Oct 2020 10:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 608CB6ED75
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 17:52:17 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id t15so9811099otk.0
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 10:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Chc8637Rd8yI9tLS7AREeItMweAw4M0AE06Zuj7bhU0=;
- b=L4kTmlRVcZoe/avVgvgJLaWOs03iPF87kjF+Wg5Dr1BO68grQeWij+sKeGLbjkKVnS
- uWxXV8aahQlRlzimSn7k7/L57rwPuRVe9l/HoPbmKuzL42kNzmiAubvKP93NNRPozIcb
- M7wzXGB/zvSu+un9zoWu7yVJIqeg+g4rBMVIc=
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
+ [IPv6:2607:f8b0:4864:20::f44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FED46ED76
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 18:01:48 +0000 (UTC)
+Received: by mail-qv1-xf44.google.com with SMTP id 13so5157222qvc.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 11:01:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=JtTniNbWimQFTlPWxNfhtRJTUnIfWE2pIrRn0nLquTU=;
+ b=f/szaRC+vLdnDgqFvq8AOddrp6VSsc5+VOKHgdN1Blfz+Kdocq0LgJzoYOwFNRhbsb
+ R58LfaQQ3n9+kujlpK+dXsyPtLR7PpkdHaoMjpLP5dFUu9uKpYtIgwUv2SzANG3wJ4HI
+ uZ2jIrHb3l+wKyafHdJPZ5UpeQcq4bXudJq3VH1qWYsmCJKZjK3dkCknvRMRvHtmwEaJ
+ +C7ytvDBDqqX8xISydsOLSJIZQl1e2A9hJato/1mUA5uyCKy3VQWCdd1nWlOILZ9XItf
+ xtRqWEAdtlSCbEhxBM5pVhNugecQkdco1xNKTq95myZ76QxSJibw5Xyqk8ww4uW9rkwK
+ T0kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Chc8637Rd8yI9tLS7AREeItMweAw4M0AE06Zuj7bhU0=;
- b=AQVBGNmR/RCxFxT/dfYoRH8DjHuOD2RcqUgrVjmW60ogTXdOXp5ZR6g/4NAe9Sx7F8
- PraHkagbllIaz+sAi7AsSpU0fqidcipnaJAEanzIxJaTxZIZ6XkOQ8Gksvh5mdmNn28B
- 1XCOFU19MMhIU5OedkBUyo06G00M4w2TuEY2XpwORFaloBdAAv56w2M6ketqRgb2x030
- DTczb1RSma3uSGEYgL1o9DMq5+8k4x6yu1DUXX8nqb9HUr5VYlqabSXmXsSdrdWOP5TN
- hdRhPbqsKww1RORdGKCoKGOZv+FX4CiXhrae71fnuRCdZuuWYm9BaofKHJC9TndAa262
- JCmA==
-X-Gm-Message-State: AOAM532Xwd7qkA/WNnRUEc8LqHi1bjIyVZ8QH3tGl6Vw07Yd48KrK0F3
- ov+MCQfzNEpYo15yafKIsZ3ztEbuORXXFcQDbTiVCw==
-X-Google-Smtp-Source: ABdhPJxFnmBLRj+lrjXy7n2SbqbKqfPXOoR4PVOcPvoZoMGu71c5Uydzax6ZExKmO8/pv5qIPQDGfl3spZzjZBbiaDw=
-X-Received: by 2002:a05:6830:1647:: with SMTP id
- h7mr10168614otr.281.1602265936612; 
- Fri, 09 Oct 2020 10:52:16 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JtTniNbWimQFTlPWxNfhtRJTUnIfWE2pIrRn0nLquTU=;
+ b=T8PZSzM/7YpelikDDHK+EjDN/Lyqe1V2E25cCrlZyipb3n15WOalb3nhhrmFOZHo0m
+ 6/kAzsDAqq6bx0y1jqozYlEOAzw7JI3siu+L8+7+GA6uN+DYBhVHJVGMlHFi1EUddmef
+ ov23xs2BUnTnGP5Rh3D7MLTMjU82VIxsivcmljeVICDdt1BU+GGSBewCZP28CTq05sIt
+ Mdb7mmYmMba9kJDvDksP1aJO/MccqnpzeYfNx6rOjRAkZWj9VAGQpwmxduiNZ2a6o9Xe
+ yYNwuzqIurfGmBsHLrnG4ESKc7u4Rwz+7acwxiSOzLmU4X2eSn9HgqxYbY6vMfX9/kgx
+ 5h7g==
+X-Gm-Message-State: AOAM5312rYmFaA9fWNqJx1+goxf7UPcAQvgHuFZvA/mmynIFVHxe64jR
+ I1V/C1IL0F/GpR/8u6BAHJVY5A==
+X-Google-Smtp-Source: ABdhPJwGH8DcAarR0OMfhGw63SRnoeGEeh/DF4k79ebCsxHoTPcqFkl2Atp6g4SjeQTYysb9k3E+GQ==
+X-Received: by 2002:ad4:52c6:: with SMTP id p6mr12553168qvs.38.1602266507532; 
+ Fri, 09 Oct 2020 11:01:47 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id 68sm6690974qkg.108.2020.10.09.11.01.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Oct 2020 11:01:46 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kQwi9-002b28-P5; Fri, 09 Oct 2020 15:01:45 -0300
+Date: Fri, 9 Oct 2020 15:01:45 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
+Message-ID: <20201009180145.GB5177@ziepe.ca>
 References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
  <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
- <20201009123421.67a80d72@coco.lan>
- <20201009122111.GN5177@ziepe.ca> <20201009143723.45609bfb@coco.lan>
- <20201009124850.GP5177@ziepe.ca>
-In-Reply-To: <20201009124850.GP5177@ziepe.ca>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 9 Oct 2020 19:52:05 +0200
-Message-ID: <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
-Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
-To: Jason Gunthorpe <jgg@ziepe.ca>
+ <20201009123421.67a80d72@coco.lan> <20201009122111.GN5177@ziepe.ca>
+ <20201009143723.45609bfb@coco.lan> <20201009124850.GP5177@ziepe.ca>
+ <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+X-Mailman-Approved-At: Sat, 10 Oct 2020 10:02:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,7 +82,7 @@ Cc: linux-s390 <linux-s390@vger.kernel.org>,
  John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Dan Williams <dan.j.williams@intel.com>,
  Linus Torvalds <torvalds@linux-foundation.org>,
@@ -81,69 +94,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 9, 2020 at 2:48 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Fri, Oct 09, 2020 at 02:37:23PM +0200, Mauro Carvalho Chehab wrote:
->
-> > I'm not a mm/ expert, but, from what I understood from Daniel's patch
-> > description is that this is unsafe *only if*  __GFP_MOVABLE is used.
->
-> No, it is unconditionally unsafe. The CMA movable mappings are
-> specific VMAs that will have bad issues here, but there are other
-> types too.
->
-> The only way to do something at a VMA level is to have a list of OK
-> VMAs, eg because they were creatd via a special mmap helper from the
-> media subsystem.
->
-> > Well, no drivers inside the media subsystem uses such flag, although
-> > they may rely on some infrastructure that could be using it behind
-> > the bars.
->
-> It doesn't matter, nothing prevents the user from calling media APIs
-> on mmaps it gets from other subsystems.
+On Fri, Oct 09, 2020 at 07:52:05PM +0200, Daniel Vetter wrote:
 
-I think a good first step would be to disable userptr of non struct
-page backed storage going forward for any new hw support. Even on
-existing drivers. dma-buf sharing has been around for long enough now
-that this shouldn't be a problem. Unfortunately right now this doesn't
-seem to exist, so the entire problem keeps getting perpetuated.
+> > > If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE
+> > > flag that it would be denying the core mm code to set __GFP_MOVABLE.
+> >
+> > We can't tell from the VMA these kinds of details..
+> >
+> > It has to go the other direction, evey mmap that might be used as a
+> > userptr here has to be found and the VMA specially created to allow
+> > its use. At least that is a kernel only change, but will need people
+> > with the HW to do this work.
+> 
+> I think the only reasonable way to keep this working is:
+> - add a struct dma_buf *vma_tryget_dma_buf(struct vm_area_struct *vma);
+> - add dma-buf export support to fbdev and v4l
+> - roll this out everywhere we still need it.
 
-> > If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE
-> > flag that it would be denying the core mm code to set __GFP_MOVABLE.
->
-> We can't tell from the VMA these kinds of details..
->
-> It has to go the other direction, evey mmap that might be used as a
-> userptr here has to be found and the VMA specially created to allow
-> its use. At least that is a kernel only change, but will need people
-> with the HW to do this work.
+It seems to me there is a technical way forward to restore user
+compat, so it is really no different than RDMA/DRM pain we both
+suffered before.
 
-I think the only reasonable way to keep this working is:
-- add a struct dma_buf *vma_tryget_dma_buf(struct vm_area_struct *vma);
-- add dma-buf export support to fbdev and v4l
-- roll this out everywhere we still need it.
+Thus no justification to NAK it. If media wants things to keep working
+they have to do the technical path like you outline above.
 
-Realistically this just isn't going to happen. And anything else just
-reimplements half of dma-buf, which is kinda pointless (you need
-minimally refcounting and some way to get at a promise of a permanent
-sg list for dma. Plus probably the vmap for kernel cpu access.
+> Realistically this just isn't going to happen. 
 
-> > Please let address the issue on this way, instead of broken an
-> > userspace API that it is there since 1991.
->
-> It has happened before :( It took 4 years for RDMA to undo the uAPI
-> breakage caused by a security fix for something that was a 15 years
-> old bug.
+If your series goes ahead it will get solved. Someone will take on the
+huge project to either add DMA buf to the drivers people still care
+about, or do the work above to transparently handle in kernel.
 
-Yeah we have a bunch of these on the drm side too. Some of them are
-really just "you have to upgrade userspace", and there's no real fix
-for the security nightmare without that.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+If we allow things to keep working without consequence then nobody
+will do it.
+
+The only reason we did the 4 years of work in RDMA was because Linus
+went in and broke the uABI for a security fix. It was hundreds of
+patches to fix it, so I don't have much sympathy for "it is too hard"
+here.
+
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
