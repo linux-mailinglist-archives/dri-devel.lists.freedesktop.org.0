@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D915728936E
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 21:52:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F85289342
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 21:52:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D0F6EDDC;
-	Fri,  9 Oct 2020 19:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0366EDDB;
+	Fri,  9 Oct 2020 19:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1FA6EDE0;
- Fri,  9 Oct 2020 19:52:47 +0000 (UTC)
-IronPort-SDR: dSYybiCHhAM9uvbTdvCe45vYW71naA0Th5Q0qVAbzBv0eO7QxqPIisIuD810hA6SWBM/CWKQSX
- MHi7RkzxSIAg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="165643132"
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="165643132"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95F006EDD8;
+ Fri,  9 Oct 2020 19:52:38 +0000 (UTC)
+IronPort-SDR: D6YyndzVZnVWl991yAMVF4Fu2rqJpBal055+j7JWwf4zWQvqdqyPfYcvEPEYXA0d2hdAX7wdzQ
+ mdJyGddYyyZA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="162068016"
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="162068016"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2020 12:52:33 -0700
-IronPort-SDR: XHP7HCDttdXyLYHE1MyL2Bm/StJaryejpRmS+iQtfLlXLzP04sJOdLalPQz60Qvt6cf6bIW1lg
- L4ex5grUzrzg==
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="298419726"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2020 12:52:38 -0700
+IronPort-SDR: y48WLHg756NhaQ3a3jufh8VKJ1E37wUwe8fJ/HzDHZ6hDk/W8p1+XzOieTDyZGUDdKxAAVZp75
+ YdcYJzI+gesw==
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="349957490"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2020 12:52:32 -0700
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2020 12:52:36 -0700
 From: ira.weiny@intel.com
 To: Andrew Morton <akpm@linux-foundation.org>,
  Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
  Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
  Peter Zijlstra <peterz@infradead.org>
-Subject: [PATCH RFC PKS/PMEM 29/58] fs/ntfs: Utilize new kmap_thread()
-Date: Fri,  9 Oct 2020 12:50:04 -0700
-Message-Id: <20201009195033.3208459-30-ira.weiny@intel.com>
+Subject: [PATCH RFC PKS/PMEM 30/58] fs/romfs: Utilize new kmap_thread()
+Date: Fri,  9 Oct 2020 12:50:05 -0700
+Message-Id: <20201009195033.3208459-31-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.28.0.rc0.12.gb6a658bd00c9
 In-Reply-To: <20201009195033.3208459-1-ira.weiny@intel.com>
 References: <20201009195033.3208459-1-ira.weiny@intel.com>
@@ -69,12 +69,12 @@ Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
  ecryptfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
  reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
  linux-bcache@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- io-uring@vger.kernel.org, Anton Altaparmakov <anton@tuxera.com>,
- linux-nfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
- netdev@vger.kernel.org, kexec@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
+ io-uring@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-ntfs-dev@lists.sourceforge.net, netdev@vger.kernel.org,
+ kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+ bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-btrfs@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -85,34 +85,33 @@ From: Ira Weiny <ira.weiny@intel.com>
 The kmap() calls in this FS are localized to a single thread.  To avoid
 the over head of global PKRS updates use the new kmap_thread() call.
 
-Cc: Anton Altaparmakov <anton@tuxera.com>
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 ---
- fs/ntfs/aops.c | 4 ++--
+ fs/romfs/super.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs/aops.c b/fs/ntfs/aops.c
-index bb0a43860ad2..11633d732809 100644
---- a/fs/ntfs/aops.c
-+++ b/fs/ntfs/aops.c
-@@ -1099,7 +1099,7 @@ static int ntfs_write_mst_block(struct page *page,
- 	if (!nr_bhs)
- 		goto done;
- 	/* Map the page so we can access its contents. */
--	kaddr = kmap(page);
-+	kaddr = kmap_thread(page);
- 	/* Clear the page uptodate flag whilst the mst fixups are applied. */
- 	BUG_ON(!PageUptodate(page));
- 	ClearPageUptodate(page);
-@@ -1276,7 +1276,7 @@ static int ntfs_write_mst_block(struct page *page,
- 		iput(VFS_I(base_tni));
- 	}
- 	SetPageUptodate(page);
+diff --git a/fs/romfs/super.c b/fs/romfs/super.c
+index e582d001f792..9050074c6755 100644
+--- a/fs/romfs/super.c
++++ b/fs/romfs/super.c
+@@ -107,7 +107,7 @@ static int romfs_readpage(struct file *file, struct page *page)
+ 	void *buf;
+ 	int ret;
+ 
+-	buf = kmap(page);
++	buf = kmap_thread(page);
+ 	if (!buf)
+ 		return -ENOMEM;
+ 
+@@ -136,7 +136,7 @@ static int romfs_readpage(struct file *file, struct page *page)
+ 		SetPageUptodate(page);
+ 
+ 	flush_dcache_page(page);
 -	kunmap(page);
 +	kunmap_thread(page);
- done:
- 	if (unlikely(err && err != -ENOMEM)) {
- 		/*
+ 	unlock_page(page);
+ 	return ret;
+ }
 -- 
 2.28.0.rc0.12.gb6a658bd00c9
 
