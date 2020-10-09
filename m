@@ -2,45 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC3E288651
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 11:48:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAAC3288658
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 11:48:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A94D6EC99;
-	Fri,  9 Oct 2020 09:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1746EC45;
+	Fri,  9 Oct 2020 09:48:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D51306EC45
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 09:47:59 +0000 (UTC)
-IronPort-SDR: /aGUbohTAHHNs5HGJBCwErqmNZikWiPQXoA97dhkQlkaZ5k2s/QHaIHvHq+6nBwsBSCa3N8iOL
- uVOeR4HoULuA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="165526437"
-X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; d="scan'208";a="165526437"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2020 02:47:58 -0700
-IronPort-SDR: pPywwhoQ8IZ0oqnSyAy7Si9u7fhcqFsuiRTRfdjMWfQODPzT5+PsDTX8QsBMudIyk2KOf3VcKr
- TS88VD5e6ZZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; d="scan'208";a="298385120"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga008.fm.intel.com with SMTP; 09 Oct 2020 02:47:51 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 09 Oct 2020 12:47:50 +0300
-Date: Fri, 9 Oct 2020 12:47:50 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 17/17] drm/i915: Properly request PCI BARs
-Message-ID: <20201009094750.GQ6112@intel.com>
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-18-daniel.vetter@ffwll.ch>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 417306EC45
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 09:48:52 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id DDE0FABBE;
+ Fri,  9 Oct 2020 09:48:50 +0000 (UTC)
+Subject: Re: [PATCH] drm: document that user-space should avoid parsing EDIDs
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+References: <izOAkOJk67APzk9XP_DhUGr5Nvo_KwmIXlGQhiL101xxttvMO3K1DUdEQryIFXe2EjG16XGuc_YPMlTimZjqePYR3dB0m4Xs4J8Isa3mBAI=@emersion.fr>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <eeaa5946-b77f-786e-1857-25ce708ba2e7@suse.de>
+Date: Fri, 9 Oct 2020 11:48:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201009075934.3509076-18-daniel.vetter@ffwll.ch>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <izOAkOJk67APzk9XP_DhUGr5Nvo_KwmIXlGQhiL101xxttvMO3K1DUdEQryIFXe2EjG16XGuc_YPMlTimZjqePYR3dB0m4Xs4J8Isa3mBAI=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,182 +38,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Content-Type: multipart/mixed; boundary="===============1950427392=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 09, 2020 at 09:59:34AM +0200, Daniel Vetter wrote:
-> When trying to test my CONFIG_IO_STRICT_DEVMEM changes I realized they
-> do nothing for i915. Because i915 doesn't request any regions, like
-> pretty much all drm pci drivers. I guess this is some very old
-> remnants from the userspace modesetting days, when we wanted to
-> co-exist with the fbdev driver. Which usually requested these
-> resources.
-> =
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1950427392==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="nqom9X9FE0PfAyEjP9NcUZkk2jVLmmLH4"
 
-> But makes me wonder why the pci subsystem doesn't just request
-> resource automatically when we map a bar and a pci driver is bound?
-> =
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--nqom9X9FE0PfAyEjP9NcUZkk2jVLmmLH4
+Content-Type: multipart/mixed; boundary="4NN9xkc24MpfyjBvtLP2kmawsMoAGbtau";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Message-ID: <eeaa5946-b77f-786e-1857-25ce708ba2e7@suse.de>
+Subject: Re: [PATCH] drm: document that user-space should avoid parsing EDIDs
+References: <izOAkOJk67APzk9XP_DhUGr5Nvo_KwmIXlGQhiL101xxttvMO3K1DUdEQryIFXe2EjG16XGuc_YPMlTimZjqePYR3dB0m4Xs4J8Isa3mBAI=@emersion.fr>
+In-Reply-To: <izOAkOJk67APzk9XP_DhUGr5Nvo_KwmIXlGQhiL101xxttvMO3K1DUdEQryIFXe2EjG16XGuc_YPMlTimZjqePYR3dB0m4Xs4J8Isa3mBAI=@emersion.fr>
 
-> Knowledge about which pci bars we need kludged together from
-> intel_uncore.c and intel_gtt.c from i915 and intel-gtt.c over in the
-> fake agp driver.
-> =
+--4NN9xkc24MpfyjBvtLP2kmawsMoAGbtau
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: J=E9r=F4me Glisse <jglisse@redhat.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: linux-mm@kvack.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: linux-pci@vger.kernel.org
+Hi
+
+Am 09.10.20 um 11:24 schrieb Simon Ser:
+> User-space should avoid parsing EDIDs for metadata already exposed via
+> other KMS interfaces and properties. For instance, user-space should no=
+t
+> try to extract a list of modes from the EDID: the kernel might mutate
+> the mode list (because of link capabilities or quirks for instance).
+>=20
+> Other metadata not exposed by KMS can be parsed by user-space. This
+> includes for instance monitor identification (make/model/serial) and
+> supported color-spaces.
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Suggested-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 > ---
->  drivers/gpu/drm/i915/intel_uncore.c | 25 +++++++++++++++++++++++--
->  1 file changed, 23 insertions(+), 2 deletions(-)
-> =
+>  drivers/gpu/drm/drm_connector.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> index 717c4e7271b0..00e58fd2d292 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -960,6 +960,10 @@ static const struct drm_prop_enum_list dp_colorspa=
+ces[] =3D {
+>   * 	drm_connector_update_edid_property(), usually after having parsed
+>   * 	the EDID using drm_add_edid_modes(). Userspace cannot change this
+>   * 	property.
+> + *
+> + * 	User-space should not parse the EDID to obtain information exposed=
+ via
+> + * 	other KMS properties. For instance, user-space should not try to p=
+arse
+> + * 	mode lists from the EDID.
 
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/i=
-ntel_uncore.c
-> index 54e201fdeba4..ce39049d8919 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -1692,10 +1692,13 @@ static int uncore_mmio_setup(struct intel_uncore =
-*uncore)
->  	struct pci_dev *pdev =3D i915->drm.pdev;
->  	int mmio_bar;
->  	int mmio_size;
-> +	int bar_selection;
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Signed bitmasks always make me uneasy. But looks like
-that's what it is in the pci api. So meh.
+But this makes me wonder why the kernel exposes raw EDID in the first
+place. Wouldn't it be better to expose meaningful fields (display model,
+vendor, etc) instead?
 
-> +	int ret;
->  =
+Best regards
+Thomas
 
->  	mmio_bar =3D IS_GEN(i915, 2) ? 1 : 0;
-> +	bar_selection =3D BIT (2) | BIT(mmio_bar);
-                           ^
-spurious space			   =
+>   * DPMS:
+>   * 	Legacy property for setting the power state of the connector. For =
+atomic
+>   * 	drivers this is only provided for backwards compatibility with exi=
+sting
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-That's also not correct for gen2 I think.
+--4NN9xkc24MpfyjBvtLP2kmawsMoAGbtau--
 
-gen2:
-0 =3D GMADR
-1 =3D MMADR
-2 =3D IOBAR
+--nqom9X9FE0PfAyEjP9NcUZkk2jVLmmLH4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-gen3:
-0 =3D MMADR
-1 =3D IOBAR
-2 =3D GMADR
-3 =3D GTTADR
+-----BEGIN PGP SIGNATURE-----
 
-gen4+:
-0+1 =3D GTTMMADR
-2+3 =3D GMADR
-4 =3D IOBAR
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+AMfwUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMclgf/SF/ju0Q1uSVddAGueKpVMNvatlXe
+Z7AQRkSvB7egJNJr7Sqhf/5XxbPbSbfL15KiR3u4vfo+ZVrwdLix3jI78mcgklo8
+f6QZlnEdSwlUD/t27bYHXaSii3COMInB/f2hUJnKj5MpB4KkDFcyePxTiSffTvWg
+qQmSZxxt2h7YrQcJDzar463n/XVEHNPmob4OKfRC8DqHpArZCZjH54l6AKOJ3rJJ
+NQKDPdo6a8fY3K0BDb74J8adc8gmunQXLCPQfO7VLLHDHSxKTirJSCJ2HsU55AsV
+K3WL1QtBRLq5VXYbmn1C+82c7LoWI9a3zjnR8h04eekGybp+OO++BdDSjw==
+=AcUL
+-----END PGP SIGNATURE-----
 
-Maybe we should just have an explicit list of bars like that in a
-comment?
+--nqom9X9FE0PfAyEjP9NcUZkk2jVLmmLH4--
 
-I'd also suggest sucking this bitmask calculation into a small helper
-so you can reuse it for the release.
+--===============1950427392==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
->  	/*
-> -	 * Before gen4, the registers and the GTT are behind different BARs.
-> +	 * On gen3 the registers and the GTT are behind different BARs.
->  	 * However, from gen4 onwards, the registers and the GTT are shared
->  	 * in the same BAR, so we want to restrict this ioremap from
->  	 * clobbering the GTT which we want ioremap_wc instead. Fortunately,
-> @@ -1703,6 +1706,8 @@ static int uncore_mmio_setup(struct intel_uncore *u=
-ncore)
->  	 * generations up to Ironlake.
->  	 * For dgfx chips register range is expanded to 4MB.
->  	 */
-> +	if (INTEL_GEN(i915) =3D=3D 3)
-> +		bar_selection |=3D BIT(3);
->  	if (INTEL_GEN(i915) < 5)
->  		mmio_size =3D 512 * 1024;
->  	else if (IS_DGFX(i915))
-> @@ -1710,8 +1715,15 @@ static int uncore_mmio_setup(struct intel_uncore *=
-uncore)
->  	else
->  		mmio_size =3D 2 * 1024 * 1024;
->  =
-
-> +	ret =3D pci_request_selected_regions(pdev, bar_selection, "i915");
-> +	if (ret < 0) {
-> +		drm_err(&i915->drm, "failed to request pci bars\n");
-> +		return ret;
-> +	}
-> +
->  	uncore->regs =3D pci_iomap(pdev, mmio_bar, mmio_size);
->  	if (uncore->regs =3D=3D NULL) {
-> +		pci_release_selected_regions(pdev, bar_selection);
->  		drm_err(&i915->drm, "failed to map registers\n");
->  		return -EIO;
->  	}
-> @@ -1721,9 +1733,18 @@ static int uncore_mmio_setup(struct intel_uncore *=
-uncore)
->  =
-
->  static void uncore_mmio_cleanup(struct intel_uncore *uncore)
->  {
-> -	struct pci_dev *pdev =3D uncore->i915->drm.pdev;
-> +	struct drm_i915_private *i915 =3D uncore->i915;
-> +	struct pci_dev *pdev =3D i915->drm.pdev;
-> +	int mmio_bar;
-> +	int bar_selection;
-> +
-> +	mmio_bar =3D IS_GEN(i915, 2) ? 1 : 0;
-> +	bar_selection =3D BIT (2) | BIT(mmio_bar);
-> +	if (INTEL_GEN(i915) =3D=3D 3)
-> +		bar_selection |=3D BIT(3);
->  =
-
->  	pci_iounmap(pdev, uncore->regs);
-> +	pci_release_selected_regions(pdev, bar_selection);
->  }
->  =
-
->  void intel_uncore_init_early(struct intel_uncore *uncore,
-> -- =
-
-> 2.28.0
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1950427392==--
