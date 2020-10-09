@@ -2,65 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D002889E8
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 15:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835012889FF
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 15:49:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF6F56ECDF;
-	Fri,  9 Oct 2020 13:38:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91DEC6ECF3;
+	Fri,  9 Oct 2020 13:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17E1C6ECDF;
- Fri,  9 Oct 2020 13:38:40 +0000 (UTC)
-IronPort-SDR: pl+rfkT+f+iILjVYugFTjEXRpg4XxFVmnkda2FS+TMwwZOnVXIue7L0zGnxJw4u4+rUTzN9kRx
- xL3rskoWW/pg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="152403299"
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="152403299"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2020 06:38:39 -0700
-IronPort-SDR: Yzv4f/J8igKasFfYfpPw8bP1SPceoX1nMemoD7bVZHUVdBbghwUzYBEezvyYugrknx7NOt93G3
- ZnvNEwDqoxbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="298438741"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by fmsmga008.fm.intel.com with ESMTP; 09 Oct 2020 06:38:39 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 9 Oct 2020 06:38:38 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 9 Oct 2020 06:38:38 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.1713.004;
- Fri, 9 Oct 2020 06:38:38 -0700
-From: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
-To: "K, SrinivasX" <srinivasx.k@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe
- protection
-Thread-Topic: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe
- protection
-Thread-Index: AQHWm/FceboB2e8wtEe68XkD/d20damLTsaAgAAAfICAAAIFgIAAAfkAgAQXZwCAAFXKgA==
-Date: Fri, 9 Oct 2020 13:38:38 +0000
-Message-ID: <B6C174E8-161A-43BD-AFDA-21C94F6D56E3@intel.com>
-References: <20201006145632.117291-1-srinivasx.k@intel.com>
- <2f7809798dd0b59246d67c5044dafb1e518fc4c5.camel@intel.com>
- <160200650945.2919.11750150118902885340@build.alporthouse.com>
- <3CDB63EE-D1CD-43E4-A977-4E966CD19313@intel.com>
- <c88bc0fbc4956395324674ca202b395326208888.camel@intel.com>
- <BYAPR11MB3014087624B8206C05362830F9080@BYAPR11MB3014.namprd11.prod.outlook.com>
-In-Reply-To: <BYAPR11MB3014087624B8206C05362830F9080@BYAPR11MB3014.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.100]
-Content-ID: <96718CA05EE11741980FA25AFEC1527C@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FA46ECE4;
+ Fri,  9 Oct 2020 13:49:06 +0000 (UTC)
+Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0304B222B9;
+ Fri,  9 Oct 2020 13:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1602251345;
+ bh=wl1fuI8lefh+3YsVxao7a3dyyLNUQhlLz4oNgzuFbLc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lVGWz6bscyAd1Q327E060Iz1w2Nr7nAKiIC7kTgVLRveWqIs/oKeRRovqVDW0jBJV
+ tTVFadyniJetltJn8E2xB4ij52UJMud3O6wIH21iOKxycc7XLZg+kvK9HzImLrXdU3
+ 3WC9lAOb/e2eKvKZWOThK0VmDWL/eqUi7NhYl1wI=
+Date: Fri, 9 Oct 2020 08:54:30 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH][next] amd/amdgpu_ctx: Use struct_size() helper and
+ kmalloc()
+Message-ID: <20201009135430.GA31347@embeddedor>
+References: <20201008143450.GA23077@embeddedor>
+ <4fe00048-2612-39f3-29bb-c9424000f836@amd.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <4fe00048-2612-39f3-29bb-c9424000f836@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,76 +48,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pandey, Hariom" <hariom.pandey@intel.com>, "Ausmus,
- James" <james.ausmus@intel.com>, "Nikula, Jani" <jani.nikula@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Souza,
- Jose" <jose.souza@intel.com>,
- "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Surendrakumar Upadhyay,
- TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Oct 09, 2020 at 09:08:51AM +0200, Christian K=F6nig wrote:
+> Am 08.10.20 um 16:34 schrieb Gustavo A. R. Silva:
+> > Make use of the new struct_size() helper instead of the offsetof() idio=
+m.
+> > Also, use kmalloc() instead of kcalloc().
+> > =
 
+> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > =
 
-> On Oct 9, 2020, at 1:31 AM, K, SrinivasX <srinivasx.k@intel.com> wrote:
-> 
-> Hi Rodrigo,
-> 
-> How do we get W/A and rc6 changes in, do you have any details?
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_ctx.c
+> > index c80d8339f58c..5be125f3b92a 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> > @@ -100,7 +100,7 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx=
+ *ctx, u32 hw_ip,
+> >   	enum drm_sched_priority priority;
+> >   	int r;
+> > -	entity =3D kcalloc(1, offsetof(typeof(*entity), fences[amdgpu_sched_j=
+obs]),
+> > +	entity =3D kmalloc(struct_size(entity, fences, amdgpu_sched_jobs),
+> =
 
-I told based on what I was seeing on https://intel-gfx-ci.01.org/tree/drm-tip/drmtip-alt.html?
-focusing on the issues that are exclusively for ehl and not happening on other platforms.
+> NAK. You could use kzalloc() here, but kmalloc won't zero initialize the
+> memory which could result in unforeseen consequences.
 
-It looks like workarounds are fine there now. so I'm not sure if it was sporadic thing that day.
+Oh I see.. I certainly didn't take that into account.
 
-for the rc6 there are a few testcases failing around it:
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_675/fi-ehl-1/igt@i915_pm_rc6_residency@rc6-fence.html
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_675/fi-ehl-1/igt@i915_pm_rc6_residency@rc6-idle.html
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_675/fi-ehl-1/igt@i915_selftest@live@gt_pm.html#dmesg-warnings415
+I'll fix that up and respin.
 
-> 
-> Thanks,
-> Srinivas
-> 
-> -----Original Message-----
-> From: Souza, Jose <jose.souza@intel.com>
-> Sent: 06 October 2020 23:33
-> To: Vivi, Rodrigo <rodrigo.vivi@intel.com>; chris@chris-wilson.co.uk
-> Cc: Ausmus, James <james.ausmus@intel.com>; Nikula, Jani <jani.nikula@intel.com>; Pandey, Hariom <hariom.pandey@intel.com>; Roper, Matthew D <matthew.d.roper@intel.com>; intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; K, SrinivasX <srinivasx.k@intel.com>; Surendrakumar Upadhyay, TejaskumarX <tejaskumarx.surendrakumar.upadhyay@intel.com>
-> Subject: Re: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe protection
-> 
-> On Tue, 2020-10-06 at 10:55 -0700, Vivi, Rodrigo wrote:
->> 
->>> On Oct 6, 2020, at 10:48 AM, Chris Wilson <chris@chris-wilson.co.uk> wrote:
->>> 
->>> Quoting Souza, Jose (2020-10-06 18:46:45)
->>>> +Rodrigo and Jani
->>>> 
->>>> On Tue, 2020-10-06 at 14:56 +0000, Kamati Srinivas wrote:
->>>>> Removing force probe protection from EHL platform. Did not
->>>>> observe warnings, errors, flickering or any visual defects while
->>>>> doing ordinary tasks like browsing and editing documents in a
->>>>> two monitor setup.
->>>> 
->>>> One of the requirements was also to have CI BAT all green and
->>>> shards as green is possible but EHL don't show up in CI results, we actually have one single EHL machine in CI but I guess it is not able to run all tests that shards do:
->>>> https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_9097/filelist.html
->>> 
->>> https://intel-gfx-ci.01.org/tree/drm-tip/drmtip-alt.html
->> 
->> we are really close to that point. We just need to fix some w/a and
->> rc6 issues before applying this change.
->> 
->>> -Chris
->> 
-> 
-> Huum okay we have drm-tip results for EHL but if someone sends a patch that breaks EHL it will not be caught in pre-merge testing.
-> 
-
+Thanks
+--
+Gustavo
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
