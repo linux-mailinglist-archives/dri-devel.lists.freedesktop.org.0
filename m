@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2872893F7
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 21:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E26289405
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 21:53:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAB9B6EDF9;
-	Fri,  9 Oct 2020 19:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 685756EDFB;
+	Fri,  9 Oct 2020 19:53:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 339166EDF7;
- Fri,  9 Oct 2020 19:53:27 +0000 (UTC)
-IronPort-SDR: ru3/NhdcAajLHUQh3eyimaLue+KdT8Ke3rmLsOB98R09c7p6cPjwW2/JoMCWReQzqFY8UFFVd1
- Nmj8NjcSXzjQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="145397603"
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="145397603"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16D886EDFD;
+ Fri,  9 Oct 2020 19:53:29 +0000 (UTC)
+IronPort-SDR: HHQyfJ7BFKEzVyen42b/CkBPVSZKlKhb7JrcatMCOXYc9zDz6eHtCnvotyg/i55EILPcnGI4nB
+ mlVkuPoDPNfQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="145397606"
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="145397606"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2020 12:53:26 -0700
-IronPort-SDR: 2ROrwlCi2HA6jb/vbADUiWNpPA9fz//CxLO3iPg6ChQCY2CkDUKdp2BuOf7Z0K54YjJfUTECcl
- a5kJtnEVjTKQ==
-X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="329006788"
+ 09 Oct 2020 12:53:28 -0700
+IronPort-SDR: BOVOU8SHaQbMr+qBBSrCzuqbJHuQd4ndzwss05aaSC7o5I30ANXdekITPCnqmJ5xtHPcWbAp0e
+ 1H/r6jgeLwtA==
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="298419945"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2020 12:53:25 -0700
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2020 12:53:28 -0700
 From: ira.weiny@intel.com
 To: Andrew Morton <akpm@linux-foundation.org>,
  Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
  Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
  Peter Zijlstra <peterz@infradead.org>
-Subject: [PATCH RFC PKS/PMEM 44/58] drivers/xen: Utilize new kmap_thread()
-Date: Fri,  9 Oct 2020 12:50:19 -0700
-Message-Id: <20201009195033.3208459-45-ira.weiny@intel.com>
+Subject: [PATCH RFC PKS/PMEM 45/58] drivers/firmware: Utilize new kmap_thread()
+Date: Fri,  9 Oct 2020 12:50:20 -0700
+Message-Id: <20201009195033.3208459-46-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.28.0.rc0.12.gb6a658bd00c9
 In-Reply-To: <20201009195033.3208459-1-ira.weiny@intel.com>
 References: <20201009195033.3208459-1-ira.weiny@intel.com>
@@ -57,18 +57,18 @@ Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
  linux-mm@kvack.org, target-devel@vger.kernel.org,
  linux-mtd@lists.infradead.org, linux-kselftest@vger.kernel.org,
  samba-technical@lists.samba.org, Ira Weiny <ira.weiny@intel.com>,
- ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+ Ard Biesheuvel <ardb@kernel.org>, drbd-dev@lists.linbit.com,
  devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
- Stefano Stabellini <sstabellini@kernel.org>, linux-scsi@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
  linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org, x86@kernel.org,
- amd-gfx@lists.freedesktop.org, linux-afs@lists.infradead.org,
- cluster-devel@redhat.com, linux-cachefs@redhat.com,
- intel-wired-lan@lists.osuosl.org, xen-devel@lists.xenproject.org,
- linux-ext4@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
- linux-um@lists.infradead.org, intel-gfx@lists.freedesktop.org,
- ecryptfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-bcache@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-afs@lists.infradead.org, cluster-devel@redhat.com,
+ linux-cachefs@redhat.com, intel-wired-lan@lists.osuosl.org,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+ Fenghua Yu <fenghua.yu@intel.com>, linux-um@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, ecryptfs@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
  Dan Williams <dan.j.williams@intel.com>, io-uring@vger.kernel.org,
  linux-nfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
  netdev@vger.kernel.org, kexec@lists.infradead.org,
@@ -85,28 +85,66 @@ From: Ira Weiny <ira.weiny@intel.com>
 These kmap() calls are localized to a single thread.  To avoid the over
 head of global PKRS updates use the new kmap_thread() call.
 
-Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 ---
- drivers/xen/gntalloc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/firmware/efi/capsule-loader.c | 6 +++---
+ drivers/firmware/efi/capsule.c        | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/xen/gntalloc.c b/drivers/xen/gntalloc.c
-index 3fa40c723e8e..3b78e055feff 100644
---- a/drivers/xen/gntalloc.c
-+++ b/drivers/xen/gntalloc.c
-@@ -184,9 +184,9 @@ static int add_grefs(struct ioctl_gntalloc_alloc_gref *op,
- static void __del_gref(struct gntalloc_gref *gref)
- {
- 	if (gref->notify.flags & UNMAP_NOTIFY_CLEAR_BYTE) {
--		uint8_t *tmp = kmap(gref->page);
-+		uint8_t *tmp = kmap_thread(gref->page);
- 		tmp[gref->notify.pgoff] = 0;
--		kunmap(gref->page);
-+		kunmap_thread(gref->page);
+diff --git a/drivers/firmware/efi/capsule-loader.c b/drivers/firmware/efi/capsule-loader.c
+index 4dde8edd53b6..aa2e0b5940fd 100644
+--- a/drivers/firmware/efi/capsule-loader.c
++++ b/drivers/firmware/efi/capsule-loader.c
+@@ -197,7 +197,7 @@ static ssize_t efi_capsule_write(struct file *file, const char __user *buff,
+ 		page = cap_info->pages[cap_info->index - 1];
  	}
- 	if (gref->notify.flags & UNMAP_NOTIFY_SEND_EVENT) {
- 		notify_remote_via_evtchn(gref->notify.event);
+ 
+-	kbuff = kmap(page);
++	kbuff = kmap_thread(page);
+ 	kbuff += PAGE_SIZE - cap_info->page_bytes_remain;
+ 
+ 	/* Copy capsule binary data from user space to kernel space buffer */
+@@ -217,7 +217,7 @@ static ssize_t efi_capsule_write(struct file *file, const char __user *buff,
+ 	}
+ 
+ 	cap_info->count += write_byte;
+-	kunmap(page);
++	kunmap_thread(page);
+ 
+ 	/* Submit the full binary to efi_capsule_update() API */
+ 	if (cap_info->header.headersize > 0 &&
+@@ -236,7 +236,7 @@ static ssize_t efi_capsule_write(struct file *file, const char __user *buff,
+ 	return write_byte;
+ 
+ fail_unmap:
+-	kunmap(page);
++	kunmap_thread(page);
+ failed:
+ 	efi_free_all_buff_pages(cap_info);
+ 	return ret;
+diff --git a/drivers/firmware/efi/capsule.c b/drivers/firmware/efi/capsule.c
+index 598b7800d14e..edb7797b0e4f 100644
+--- a/drivers/firmware/efi/capsule.c
++++ b/drivers/firmware/efi/capsule.c
+@@ -244,7 +244,7 @@ int efi_capsule_update(efi_capsule_header_t *capsule, phys_addr_t *pages)
+ 	for (i = 0; i < sg_count; i++) {
+ 		efi_capsule_block_desc_t *sglist;
+ 
+-		sglist = kmap(sg_pages[i]);
++		sglist = kmap_thread(sg_pages[i]);
+ 
+ 		for (j = 0; j < SGLIST_PER_PAGE && count > 0; j++) {
+ 			u64 sz = min_t(u64, imagesize,
+@@ -265,7 +265,7 @@ int efi_capsule_update(efi_capsule_header_t *capsule, phys_addr_t *pages)
+ 		else
+ 			sglist[j].data = page_to_phys(sg_pages[i + 1]);
+ 
+-		kunmap(sg_pages[i]);
++		kunmap_thread(sg_pages[i]);
+ 	}
+ 
+ 	mutex_lock(&capsule_mutex);
 -- 
 2.28.0.rc0.12.gb6a658bd00c9
 
