@@ -1,94 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E07288ADD
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 16:30:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E87E289FD1
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 12:03:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513BF6ECFC;
-	Fri,  9 Oct 2020 14:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCA9B6EEA6;
+	Sat, 10 Oct 2020 10:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com
- (mail-eopbgr690061.outbound.protection.outlook.com [40.107.69.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9642B6ECF9;
- Fri,  9 Oct 2020 14:30:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PV84I/lm/EdmwwsdT6QwaaQHeuf9Fmk8OAWlxSyoXG0r1CiF+3yH/f1FuhEORAadc7/1Z3I4zbLBXp2Gf/jT+FgtiNr7mvjZpwUVeq4QzCszaO8SeHAZz8kA4ckTckVcThhoU3vnxkWEV8EYSPp8CCbT3etOM5K3a/o/DwV+BCwRyoAAwR8E+cIVgMu4JRtOvqoIeUV3yK3giN4DynzRCyG39vXYQNhDGDOSEjdyKmO42zVkwJaR+JoNHPZhfBFhRaWTav+8bG+6cnrFANkC1asbKUu8oNDhBGzZ1a6TsGO7/+wtVQEpT4CLM697Wq1hpQ2UATnvg1OeijEQF2ppsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h8HRRhEx3lleKRTEQD7f8UhAoDHN+IiT4sBWXQMPlGM=;
- b=MCgijlAsEYUa6A5hIAfok6CL6AZJLEg//vKuZXG4xQIMUxvaJF/CJLEhQfa5Gxq5BU3j9ZzmwQa3rEJMMoQ8seZ+Iy3lTA3jZb1tCSECBkvv2ByGTm+nMnQ3uqgrC75Hi+2hVxCXWE0PxP802jwDj0deD04i+fUHwx+cQnA3Rex41/RHgXetxsc1rkMtEhd7YfK8wodyjhaJeqENzXfWUPOm26LC2jeWk//KOJlfEF7vhu20VlSOsM2ftNuVxqRgs1UQpQI/IY7U2jgfzxHuUvF/s4iolOOXKRicnc7W5mqu9oT0azMGWU9BjPcmV/eobtHPfrh4FBHOKpfr9Xsi7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h8HRRhEx3lleKRTEQD7f8UhAoDHN+IiT4sBWXQMPlGM=;
- b=euOFN+Ypx5mKk3D2en6DeHvOLB3aZt3uJCO/bdCXOY3qsFIpsrYCDTkmEZhi+pxLULrObtlEXnk7tYkUpy+KcFlJCmQ5yOywbJWwbyV6C6p4umDZAy8gxYNtyylL48mBeg36c2DWqTWJiTv80O4/PZyz/fbuBKy9JTqv0aLxGXM=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4302.namprd12.prod.outlook.com (2603:10b6:208:1de::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.26; Fri, 9 Oct
- 2020 14:30:00 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3455.027; Fri, 9 Oct 2020
- 14:30:00 +0000
-Subject: Re: [PATCH][next] amd/amdgpu_ctx: Use struct_size() helper and
- kmalloc()
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-References: <20201008143450.GA23077@embeddedor>
- <4fe00048-2612-39f3-29bb-c9424000f836@amd.com>
- <20201009135430.GA31347@embeddedor>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <de2282e7-7eb9-db79-1082-36d6508b05dd@amd.com>
-Date: Fri, 9 Oct 2020 16:29:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201009135430.GA31347@embeddedor>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR02CA0107.eurprd02.prod.outlook.com
- (2603:10a6:208:154::48) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3EF6ECF9
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 14:32:11 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id d20so10748133qka.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 07:32:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=73DpVirPZ06c1n2mkJSkENlUc+TenafPYOh6N9YsRj8=;
+ b=j3fuCopb7iniyL2y53HSklILSjdWqx7XXY5J7anSdWIzVAS51yHUg1bH+xWsQqV3an
+ hVaIqQtPYG5XhAZxJubl7tnA+2dzIyrb1eABP/rsrrjt9Ddzi0d1WmSuwF0UQqwD1tgr
+ 69SltM6wnxkhZu8y4olirPc3PCASUILXSC5ua6+ynVuzP7VwBBECaBlnoZLOtcJNGGyr
+ NOkdDPv6Ux3fvUs6FlZoAKLjSdk3YJbxq2oDe3QQYv1fkcF15D+45H8TBvKAbi8SeVAg
+ F1hEOalHcniDpc4tE9aqUhgdNW4MqmHYSXYkxAhz5TsGfdhszvZtn/5ZEIEGhUQjLvR4
+ psaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=73DpVirPZ06c1n2mkJSkENlUc+TenafPYOh6N9YsRj8=;
+ b=FtDOZfJ4SxjN4XOgOqgKTzU4+P2czm44UZPnLd3te85v3HbSeXGf8pNkczn8NDLTYN
+ 6rzI2QvHW+wRnN9iyQOGBrXqfFSN/1a8tT5PMlnaMl6bLqo9TmQyDmTCTyWTm7+cYLyF
+ JOk+9vFNqg1ArIA4f2kxdPDuPyVzSSkXZgl1D6HQL1/ef3YBOuh+ao3eqQ0+3D+LyVrM
+ ja/1RU4ggs+nCq4/AxibjI+h4me7dZDEXw+fLkQJCG4VvFlcTEQa2H7/S6FPhwi8UAQw
+ 6oKS5NbTir0xLH+jce00+PG5DOf+Yai7rVfXJdSb04NZgy1HgP1PMcCJqLT7JHEQxJLe
+ q6OA==
+X-Gm-Message-State: AOAM53168DA5lPvcVFiFJNUxtBg8YC60rqJh2rRNW7CV0y/QSopKYqKd
+ YZapsxA4tB/17Z+KTEJQda1SUw==
+X-Google-Smtp-Source: ABdhPJzpwYy/97Cu1hz1/nj4gs64VmTlSZ35zli/9trR97tocuoZHHYGhTwRETY7JpaxNsFSCH9jrQ==
+X-Received: by 2002:a37:4d95:: with SMTP id
+ a143mr13781409qkb.248.1602253930622; 
+ Fri, 09 Oct 2020 07:32:10 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id r64sm6400897qkf.119.2020.10.09.07.32.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Oct 2020 07:32:10 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kQtRJ-001zsY-G1; Fri, 09 Oct 2020 11:32:09 -0300
+Date: Fri, 9 Oct 2020 11:32:09 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 14/17] resource: Move devmem revoke code to resource
+ framework
+Message-ID: <20201009143209.GS5177@ziepe.ca>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-15-daniel.vetter@ffwll.ch>
+ <20201009123109.GO5177@ziepe.ca>
+ <CAKMK7uFpPP-Q0jC0vM7vYPEcg0m4NzTw+Ld=swdTF3BgMX5Qug@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR02CA0107.eurprd02.prod.outlook.com (2603:10a6:208:154::48) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend
- Transport; Fri, 9 Oct 2020 14:29:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: a1a5b6da-c9da-42d2-e554-08d86c5fcd69
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4302:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4302FC63E3E9A37971E2480383080@MN2PR12MB4302.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2CfiYDTmO1yMEFkGBPScVI18ylx6DHUNgRu5CsUBQkJ4wD83UydSAt5gdK98xP0aHliLzoFe+4ULjKY0cBqSPkOb4wC9GmEjz8H4cwBiUzdUgsgpbf1iJ5qHFe501XDgD5c8tmv1a7kcoMSyzttiejNa2Vvjxlf4gCd05aRYQE+8iASctXTsCn28kuKgNRTD8aAwI5j1t7yg/k4YW4xeu07tYb9fr7Ewf+ZhjjddUBilVZhM7u9FBAuV2MXpEswZlnYtbomU0B3CLUf0Xui17KYW3BpsnkzEm6w6DLoNA+Khw20xw5IYQYCALZljXbCb6gpjyXAVUn5jpNZUMw2AN5jY13Gmsy4X6drIuVXdG/1pMiLp8iA5KtSyiFX5Lwnu
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(136003)(366004)(396003)(39860400002)(31686004)(8936002)(2906002)(6666004)(83380400001)(6486002)(31696002)(54906003)(4326008)(66574015)(52116002)(2616005)(316002)(6916009)(5660300002)(8676002)(86362001)(186003)(16526019)(478600001)(66946007)(36756003)(66556008)(66476007)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: qyYR4unOw0SaE857F0W1DB2JBCPb1a992B5g2KJ6eOghue3lO6USOeDT7wU6CAot2pukB/OE3cL0Qxjw/sSpGRv4tIs2i0gziIQKNirbxj0zLD8+725oJygRb27SRdOg3u13sSJeH8PMy73QW9J9J7RTPz1HVrCZUftdOg6iSim/lPqdCu1yj+6qZllngQSQ7wo8jOgFolDi7D+1yqtJgf64p6h1kk+i1YYKS6rLKGOqkjmDxu0LzUxuJweKgFqb1ng1ZIUyGlf6/TA3A24/xnzLhLsCggjWxDEQsKLwwUwXjpqRwEbm2nXgzdA7s7/E5EtllS4PvxjRLAFw5/NfuqKCpltghIgnvCPOK7uTN89Xi/IXOLwDd4SIRQAOSnZBwu4XAJYfbjcq8Du4iVyKjnIJx4wT79uEwNgzZSV7Hmb+D69VxPD2Vds5huLAtW41ki8WR4CtxqL8EXhVLf2+IvZ0XtbRYa40miZGNUvEAvdyjt6Hqxi7mcgJY9KuXDWTvI5zr/Sv8fHZcrIKc80+9lMwyYMDBQKiWivNpsRdqN7F234ZAWywfFgy8arn1fJ216JTs2IRFx1Fm3oWzBPLR+Q+XcFihNhPh8m6gXzRUGNmvLw0I94f7lOwbxEbKFcgkcKI+IlhUpqv+CIZZbFz6gX/KgM6hlQTYisfU1KSRM1Azgs+/paiVeFOEii54rbD2OMloWPcLy1j4UIpZ15BwQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1a5b6da-c9da-42d2-e554-08d86c5fcd69
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2020 14:29:59.9026 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 91tCQdavCY71BwONN0CY21PzO4dTT8+jp85NtsEEPhz82EQUELmAYo1rCWxmsaKC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4302
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uFpPP-Q0jC0vM7vYPEcg0m4NzTw+Ld=swdTF3BgMX5Qug@mail.gmail.com>
+X-Mailman-Approved-At: Sat, 10 Oct 2020 10:02:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,40 +76,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, linux-hardening@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ David Hildenbrand <david@redhat.com>, John Hubbard <jhubbard@nvidia.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDkuMTAuMjAgdW0gMTU6NTQgc2NocmllYiBHdXN0YXZvIEEuIFIuIFNpbHZhOgo+IE9uIEZy
-aSwgT2N0IDA5LCAyMDIwIGF0IDA5OjA4OjUxQU0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3Jv
-dGU6Cj4+IEFtIDA4LjEwLjIwIHVtIDE2OjM0IHNjaHJpZWIgR3VzdGF2byBBLiBSLiBTaWx2YToK
-Pj4+IE1ha2UgdXNlIG9mIHRoZSBuZXcgc3RydWN0X3NpemUoKSBoZWxwZXIgaW5zdGVhZCBvZiB0
-aGUgb2Zmc2V0b2YoKSBpZGlvbS4KPj4+IEFsc28sIHVzZSBrbWFsbG9jKCkgaW5zdGVhZCBvZiBr
-Y2FsbG9jKCkuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogR3VzdGF2byBBLiBSLiBTaWx2YSA8Z3Vz
-dGF2b2Fyc0BrZXJuZWwub3JnPgo+Pj4gLS0tCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfY3R4LmMgfCAyICstCj4+PiAgICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X2N0eC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X2N0eC5jCj4+PiBpbmRleCBjODBkODMzOWY1OGMuLjViZTEyNWYzYjkyYSAxMDA2NDQKPj4+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jdHguYwo+Pj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2N0eC5jCj4+PiBAQCAtMTAwLDcgKzEw
-MCw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2N0eF9pbml0X2VudGl0eShzdHJ1Y3QgYW1kZ3B1X2N0
-eCAqY3R4LCB1MzIgaHdfaXAsCj4+PiAgICAJZW51bSBkcm1fc2NoZWRfcHJpb3JpdHkgcHJpb3Jp
-dHk7Cj4+PiAgICAJaW50IHI7Cj4+PiAtCWVudGl0eSA9IGtjYWxsb2MoMSwgb2Zmc2V0b2YodHlw
-ZW9mKCplbnRpdHkpLCBmZW5jZXNbYW1kZ3B1X3NjaGVkX2pvYnNdKSwKPj4+ICsJZW50aXR5ID0g
-a21hbGxvYyhzdHJ1Y3Rfc2l6ZShlbnRpdHksIGZlbmNlcywgYW1kZ3B1X3NjaGVkX2pvYnMpLAo+
-PiBOQUsuIFlvdSBjb3VsZCB1c2Uga3phbGxvYygpIGhlcmUsIGJ1dCBrbWFsbG9jIHdvbid0IHpl
-cm8gaW5pdGlhbGl6ZSB0aGUKPj4gbWVtb3J5IHdoaWNoIGNvdWxkIHJlc3VsdCBpbiB1bmZvcmVz
-ZWVuIGNvbnNlcXVlbmNlcy4KPiBPaCBJIHNlZS4uIEkgY2VydGFpbmx5IGRpZG4ndCB0YWtlIHRo
-YXQgaW50byBhY2NvdW50Lgo+Cj4gSSdsbCBmaXggdGhhdCB1cCBhbmQgcmVzcGluLgoKU2hpdCBo
-YXBwZW5zLCB3ZSBhbHJlYWR5IGhhdmUgYSBmaXggZm9yIHRoaXMuIEFsZXggbWVyZ2VkIGl0IGFu
-ZCBpdCAKaW1tZWRpYXRlbHkgYnJva2Ugb3VyIHRlc3Rpbmcgc3lzdGVtcy4KClNvIG9uZSBvZiBv
-dXIgZW5naW5lZXJzIGNhbWUgdXAgd2l0aCBhIGZpeCB3aGljaCBzaG91bGQgYWxyZWFkeSBoYXZl
-IApiZWVuIGFwcGxpZWQuCgpDaHJpc3RpYW4uCgo+Cj4gVGhhbmtzCj4gLS0KPiBHdXN0YXZvCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, Oct 09, 2020 at 04:24:45PM +0200, Daniel Vetter wrote:
+> On Fri, Oct 9, 2020 at 2:31 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Fri, Oct 09, 2020 at 09:59:31AM +0200, Daniel Vetter wrote:
+> >
+> > > +struct address_space *iomem_get_mapping(void)
+> > > +{
+> > > +     return iomem_inode->i_mapping;
+> >
+> > This should pair an acquire with the release below
+> >
+> > > +     /*
+> > > +      * Publish /dev/mem initialized.
+> > > +      * Pairs with smp_load_acquire() in revoke_iomem().
+> > > +      */
+> > > +     smp_store_release(&iomem_inode, inode);
+> >
+> > However, this seems abnormal, initcalls rarely do this kind of stuff
+> > with global data..
+> >
+> > The kernel crashes if this fs_initcall is raced with
+> > iomem_get_mapping() due to the unconditional dereference, so I think
+> > it can be safely switched to a simple assignment.
+> 
+> Ah yes I checked this all, but forgot to correctly annotate the
+> iomem_get_mapping access. For reference, see b34e7e298d7a ("/dev/mem:
+> Add missing memory barriers for devmem_inode").
+
+Oh yikes, so revoke_iomem can run concurrently during early boot,
+tricky.
+
+> The reasons for the annotations is that iomem requests can happen
+> fairly early, way before fs_initcalls happen. That means revoke_iomem
+> needs to check for that and bail out if we race - nothing bad can
+> happen since userspace isn't running at this point anyway. And
+> apparently it needs to be a full acquire fence since we don't just
+> write a value, but need a barrier for the struct stuff.
+
+Yes, if that is what is happening it release/acquire is needed.
+
+Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
