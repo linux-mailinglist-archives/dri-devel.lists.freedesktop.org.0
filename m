@@ -1,57 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FB628845D
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 10:00:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84808288460
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 10:01:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE5E06EC7C;
-	Fri,  9 Oct 2020 08:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D6E6EC72;
+	Fri,  9 Oct 2020 08:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D8636EC7A
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 08:00:18 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id g12so9221530wrp.10
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 01:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VnPfmIw9ZEJAdxqVy4AIvj5gzcDwS/bnZ7Vl10D80aI=;
- b=AmZWcTmTMY3aRt6Gxo6D+cFSlAKtbo7rzcAhKQblXce5J0bM+0jidwIuX1SJM78PW3
- a4CzgO4OyPIunTZ40M8qjiQpRIe+CXuCN2QeQz0Nq3eitwpnmxf1tCSrmdU7BFARQUrJ
- TsYEd08BMm8jvttMOB5N0WbB01Om3gekKiY/Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VnPfmIw9ZEJAdxqVy4AIvj5gzcDwS/bnZ7Vl10D80aI=;
- b=f9ezqigvpn+qXUzrLn527ABAOBApu7FxyO/U82M6CpIwXKrb+EdGGZMJkOeXrdyg+b
- Ejq1Q7rID7W1shvopzHInSQ7zJnH9OMa5dv+TIB7JeEHSbRX8l2+sx9VjfDP3zQPHEam
- 51bQ1Loqezin3boRkHcrLykkWcmb4ch/x/lApTC1qNUaa+5xNXw4NM5CQnfrOqJyNMMK
- +cDfResyQXhVYnYS1mf7GjlIIagc/sF0SRm37RwIk5w/KN5vThlnyLI83QJKMCbtb5sI
- 8/gvyNGA/IzD7Xz99TdBRdC51L4tD+GMS2PMyD5vIcgRPo6qY7NTuB1OPqUV8mz1q7LD
- J17w==
-X-Gm-Message-State: AOAM533j0joSoZI1rrYU18PJQ1AvK9OcESO8W7t3qAoMT8AwFFQSwj9b
- 4pPjlUVw+/fusdLMqTHHkbpx/+q5qx42hD1e
-X-Google-Smtp-Source: ABdhPJyIgZ0DKgvAk38zXma7Xw6CtJtdY0QGkVhgcnr9L1zZ08hj8no1NH+SgdXtl2+3a6urGujNzQ==
-X-Received: by 2002:adf:fa02:: with SMTP id m2mr13160452wrr.273.1602230416967; 
- Fri, 09 Oct 2020 01:00:16 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u17sm11634118wri.45.2020.10.09.01.00.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 01:00:16 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 17/17] drm/i915: Properly request PCI BARs
-Date: Fri,  9 Oct 2020 09:59:34 +0200
-Message-Id: <20201009075934.3509076-18-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11EFD6EC72
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 08:01:11 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 94CB6AC7D;
+ Fri,  9 Oct 2020 08:01:09 +0000 (UTC)
+Subject: Re: [PATCH 04/21] drm/aspeed: Set driver CMA functions with
+ DRM_GEM_CMA_DRIVER_OPS
+To: Joel Stanley <joel@jms.id.au>
+References: <20200522135246.10134-1-tzimmermann@suse.de>
+ <20200522135246.10134-5-tzimmermann@suse.de>
+ <CACPK8XcGOAjocCMp9ubgQpfiBaqSj61i_frSU7ZdiKO_uSt-hQ@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <3df12a74-d8f3-d607-78ff-5a0f21e86cb9@suse.de>
+Date: Fri, 9 Oct 2020 10:01:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <CACPK8XcGOAjocCMp9ubgQpfiBaqSj61i_frSU7ZdiKO_uSt-hQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,84 +41,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-pci@vger.kernel.org,
- linux-mm@kvack.org, =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, narmstrong@baylibre.com,
+ David Airlie <airlied@linux.ie>, liviu.dudau@arm.com, philippe.cornu@st.com,
+ paul@crapouillou.net, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ mihail.atanassov@arm.com, Sam Ravnborg <sam@ravnborg.org>,
+ alexandre.torgue@st.com, Marek Vasut <marex@denx.de>, abrodkin@synopsys.com,
+ Ludovic Desroches <ludovic.desroches@microchip.com>, xinliang.liu@linaro.org,
+ kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com, james.qian.wang@arm.com,
+ NXP Linux Team <linux-imx@nxp.com>, puck.chen@hisilicon.com,
+ Sascha Hauer <s.hauer@pengutronix.de>, alison.wang@nxp.com, jsarha@ti.com,
+ Chen-Yu Tsai <wens@csie.org>, vincent.abriou@st.com,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, Andrew Jeffery <andrew@aj.id.au>,
+ dri-devel@lists.freedesktop.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ yannick.fertre@st.com, kieran.bingham+renesas@ideasonboard.com,
+ Kevin Hilman <khilman@baylibre.com>, zourongrong@gmail.com,
+ Shawn Guo <shawnguo@kernel.org>
+Content-Type: multipart/mixed; boundary="===============1438274093=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hlbiB0cnlpbmcgdG8gdGVzdCBteSBDT05GSUdfSU9fU1RSSUNUX0RFVk1FTSBjaGFuZ2VzIEkg
-cmVhbGl6ZWQgdGhleQpkbyBub3RoaW5nIGZvciBpOTE1LiBCZWNhdXNlIGk5MTUgZG9lc24ndCBy
-ZXF1ZXN0IGFueSByZWdpb25zLCBsaWtlCnByZXR0eSBtdWNoIGFsbCBkcm0gcGNpIGRyaXZlcnMu
-IEkgZ3Vlc3MgdGhpcyBpcyBzb21lIHZlcnkgb2xkCnJlbW5hbnRzIGZyb20gdGhlIHVzZXJzcGFj
-ZSBtb2Rlc2V0dGluZyBkYXlzLCB3aGVuIHdlIHdhbnRlZCB0bwpjby1leGlzdCB3aXRoIHRoZSBm
-YmRldiBkcml2ZXIuIFdoaWNoIHVzdWFsbHkgcmVxdWVzdGVkIHRoZXNlCnJlc291cmNlcy4KCkJ1
-dCBtYWtlcyBtZSB3b25kZXIgd2h5IHRoZSBwY2kgc3Vic3lzdGVtIGRvZXNuJ3QganVzdCByZXF1
-ZXN0CnJlc291cmNlIGF1dG9tYXRpY2FsbHkgd2hlbiB3ZSBtYXAgYSBiYXIgYW5kIGEgcGNpIGRy
-aXZlciBpcyBib3VuZD8KCktub3dsZWRnZSBhYm91dCB3aGljaCBwY2kgYmFycyB3ZSBuZWVkIGts
-dWRnZWQgdG9nZXRoZXIgZnJvbQppbnRlbF91bmNvcmUuYyBhbmQgaW50ZWxfZ3R0LmMgZnJvbSBp
-OTE1IGFuZCBpbnRlbC1ndHQuYyBvdmVyIGluIHRoZQpmYWtlIGFncCBkcml2ZXIuCgpTaWduZWQt
-b2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6IEphc29u
-IEd1bnRob3JwZSA8amdnQHppZXBlLmNhPgpDYzogS2VlcyBDb29rIDxrZWVzY29va0BjaHJvbWl1
-bS5vcmc+CkNjOiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KQ2M6IEFu
-ZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+CkNjOiBKb2huIEh1YmJhcmQg
-PGpodWJiYXJkQG52aWRpYS5jb20+CkNjOiBKw6lyw7RtZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0
-LmNvbT4KQ2M6IEphbiBLYXJhIDxqYWNrQHN1c2UuY3o+CkNjOiBEYW4gV2lsbGlhbXMgPGRhbi5q
-LndpbGxpYW1zQGludGVsLmNvbT4KQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwpDYzogbGludXgtYXJt
-LWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCkNjOiBsaW51eC1zYW1zdW5nLXNvY0B2Z2VyLmtl
-cm5lbC5vcmcKQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpDYzogQmpvcm4gSGVsZ2Fh
-cyA8YmhlbGdhYXNAZ29vZ2xlLmNvbT4KQ2M6IGxpbnV4LXBjaUB2Z2VyLmtlcm5lbC5vcmcKLS0t
-CiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF91bmNvcmUuYyB8IDI1ICsrKysrKysrKysrKysr
-KysrKysrKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
-cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3VuY29yZS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfdW5jb3JlLmMKaW5kZXggNTRlMjAxZmRlYmE0Li5j
-ZTM5MDQ5ZDg5MTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3VuY29y
-ZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3VuY29yZS5jCkBAIC0xNjkyLDEw
-ICsxNjkyLDEzIEBAIHN0YXRpYyBpbnQgdW5jb3JlX21taW9fc2V0dXAoc3RydWN0IGludGVsX3Vu
-Y29yZSAqdW5jb3JlKQogCXN0cnVjdCBwY2lfZGV2ICpwZGV2ID0gaTkxNS0+ZHJtLnBkZXY7CiAJ
-aW50IG1taW9fYmFyOwogCWludCBtbWlvX3NpemU7CisJaW50IGJhcl9zZWxlY3Rpb247CisJaW50
-IHJldDsKIAogCW1taW9fYmFyID0gSVNfR0VOKGk5MTUsIDIpID8gMSA6IDA7CisJYmFyX3NlbGVj
-dGlvbiA9IEJJVCAoMikgfCBCSVQobW1pb19iYXIpOwogCS8qCi0JICogQmVmb3JlIGdlbjQsIHRo
-ZSByZWdpc3RlcnMgYW5kIHRoZSBHVFQgYXJlIGJlaGluZCBkaWZmZXJlbnQgQkFScy4KKwkgKiBP
-biBnZW4zIHRoZSByZWdpc3RlcnMgYW5kIHRoZSBHVFQgYXJlIGJlaGluZCBkaWZmZXJlbnQgQkFS
-cy4KIAkgKiBIb3dldmVyLCBmcm9tIGdlbjQgb253YXJkcywgdGhlIHJlZ2lzdGVycyBhbmQgdGhl
-IEdUVCBhcmUgc2hhcmVkCiAJICogaW4gdGhlIHNhbWUgQkFSLCBzbyB3ZSB3YW50IHRvIHJlc3Ry
-aWN0IHRoaXMgaW9yZW1hcCBmcm9tCiAJICogY2xvYmJlcmluZyB0aGUgR1RUIHdoaWNoIHdlIHdh
-bnQgaW9yZW1hcF93YyBpbnN0ZWFkLiBGb3J0dW5hdGVseSwKQEAgLTE3MDMsNiArMTcwNiw4IEBA
-IHN0YXRpYyBpbnQgdW5jb3JlX21taW9fc2V0dXAoc3RydWN0IGludGVsX3VuY29yZSAqdW5jb3Jl
-KQogCSAqIGdlbmVyYXRpb25zIHVwIHRvIElyb25sYWtlLgogCSAqIEZvciBkZ2Z4IGNoaXBzIHJl
-Z2lzdGVyIHJhbmdlIGlzIGV4cGFuZGVkIHRvIDRNQi4KIAkgKi8KKwlpZiAoSU5URUxfR0VOKGk5
-MTUpID09IDMpCisJCWJhcl9zZWxlY3Rpb24gfD0gQklUKDMpOwogCWlmIChJTlRFTF9HRU4oaTkx
-NSkgPCA1KQogCQltbWlvX3NpemUgPSA1MTIgKiAxMDI0OwogCWVsc2UgaWYgKElTX0RHRlgoaTkx
-NSkpCkBAIC0xNzEwLDggKzE3MTUsMTUgQEAgc3RhdGljIGludCB1bmNvcmVfbW1pb19zZXR1cChz
-dHJ1Y3QgaW50ZWxfdW5jb3JlICp1bmNvcmUpCiAJZWxzZQogCQltbWlvX3NpemUgPSAyICogMTAy
-NCAqIDEwMjQ7CiAKKwlyZXQgPSBwY2lfcmVxdWVzdF9zZWxlY3RlZF9yZWdpb25zKHBkZXYsIGJh
-cl9zZWxlY3Rpb24sICJpOTE1Iik7CisJaWYgKHJldCA8IDApIHsKKwkJZHJtX2VycigmaTkxNS0+
-ZHJtLCAiZmFpbGVkIHRvIHJlcXVlc3QgcGNpIGJhcnNcbiIpOworCQlyZXR1cm4gcmV0OworCX0K
-KwogCXVuY29yZS0+cmVncyA9IHBjaV9pb21hcChwZGV2LCBtbWlvX2JhciwgbW1pb19zaXplKTsK
-IAlpZiAodW5jb3JlLT5yZWdzID09IE5VTEwpIHsKKwkJcGNpX3JlbGVhc2Vfc2VsZWN0ZWRfcmVn
-aW9ucyhwZGV2LCBiYXJfc2VsZWN0aW9uKTsKIAkJZHJtX2VycigmaTkxNS0+ZHJtLCAiZmFpbGVk
-IHRvIG1hcCByZWdpc3RlcnNcbiIpOwogCQlyZXR1cm4gLUVJTzsKIAl9CkBAIC0xNzIxLDkgKzE3
-MzMsMTggQEAgc3RhdGljIGludCB1bmNvcmVfbW1pb19zZXR1cChzdHJ1Y3QgaW50ZWxfdW5jb3Jl
-ICp1bmNvcmUpCiAKIHN0YXRpYyB2b2lkIHVuY29yZV9tbWlvX2NsZWFudXAoc3RydWN0IGludGVs
-X3VuY29yZSAqdW5jb3JlKQogewotCXN0cnVjdCBwY2lfZGV2ICpwZGV2ID0gdW5jb3JlLT5pOTE1
-LT5kcm0ucGRldjsKKwlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IHVuY29yZS0+aTkx
-NTsKKwlzdHJ1Y3QgcGNpX2RldiAqcGRldiA9IGk5MTUtPmRybS5wZGV2OworCWludCBtbWlvX2Jh
-cjsKKwlpbnQgYmFyX3NlbGVjdGlvbjsKKworCW1taW9fYmFyID0gSVNfR0VOKGk5MTUsIDIpID8g
-MSA6IDA7CisJYmFyX3NlbGVjdGlvbiA9IEJJVCAoMikgfCBCSVQobW1pb19iYXIpOworCWlmIChJ
-TlRFTF9HRU4oaTkxNSkgPT0gMykKKwkJYmFyX3NlbGVjdGlvbiB8PSBCSVQoMyk7CiAKIAlwY2lf
-aW91bm1hcChwZGV2LCB1bmNvcmUtPnJlZ3MpOworCXBjaV9yZWxlYXNlX3NlbGVjdGVkX3JlZ2lv
-bnMocGRldiwgYmFyX3NlbGVjdGlvbik7CiB9CiAKIHZvaWQgaW50ZWxfdW5jb3JlX2luaXRfZWFy
-bHkoc3RydWN0IGludGVsX3VuY29yZSAqdW5jb3JlLAotLSAKMi4yOC4wCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1438274093==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="kEU4Rxxajn4ZvbdCL0rTaKlQlc7wSHFrL"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--kEU4Rxxajn4ZvbdCL0rTaKlQlc7wSHFrL
+Content-Type: multipart/mixed; boundary="CDUXDnhrvNpujlj9uJXMumh8LxM8mJo5z";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Joel Stanley <joel@jms.id.au>
+Cc: abrodkin@synopsys.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, james.qian.wang@arm.com,
+ liviu.dudau@arm.com, mihail.atanassov@arm.com, brian.starkey@arm.com,
+ Andrew Jeffery <andrew@aj.id.au>, Sam Ravnborg <sam@ravnborg.org>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, mripard@kernel.org,
+ stefan@agner.ch, alison.wang@nxp.com, xinliang.liu@linaro.org,
+ zourongrong@gmail.com, john.stultz@linaro.org,
+ kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
+ Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ paul@crapouillou.net, Linus Walleij <linus.walleij@linaro.org>,
+ narmstrong@baylibre.com, Kevin Hilman <khilman@baylibre.com>,
+ Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ kieran.bingham+renesas@ideasonboard.com, benjamin.gaignard@linaro.org,
+ vincent.abriou@st.com, yannick.fertre@st.com, philippe.cornu@st.com,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, alexandre.torgue@st.com,
+ Chen-Yu Tsai <wens@csie.org>, jsarha@ti.com, tomi.valkeinen@ti.com,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ dri-devel@lists.freedesktop.org, linux-aspeed
+ <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Message-ID: <3df12a74-d8f3-d607-78ff-5a0f21e86cb9@suse.de>
+Subject: Re: [PATCH 04/21] drm/aspeed: Set driver CMA functions with
+ DRM_GEM_CMA_DRIVER_OPS
+References: <20200522135246.10134-1-tzimmermann@suse.de>
+ <20200522135246.10134-5-tzimmermann@suse.de>
+ <CACPK8XcGOAjocCMp9ubgQpfiBaqSj61i_frSU7ZdiKO_uSt-hQ@mail.gmail.com>
+In-Reply-To: <CACPK8XcGOAjocCMp9ubgQpfiBaqSj61i_frSU7ZdiKO_uSt-hQ@mail.gmail.com>
+
+--CDUXDnhrvNpujlj9uJXMumh8LxM8mJo5z
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 09.10.20 um 09:54 schrieb Joel Stanley:
+> On Fri, 22 May 2020 at 13:52, Thomas Zimmermann <tzimmermann@suse.de> w=
+rote:
+>>
+>> DRM_GEM_CMA_DRIVER_OPS sets the functions in struct drm_driver
+>> to their defaults. No functional changes are made.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> I just found this in my inbox. I assume it has not been applied as you
+> were after a review.
+
+The patchset as a whole got an A-b and was merged a while ago.
+
+>=20
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+Nevertheless thanks for taking a look at the patch.
+
+Best regards
+Thomas
+
+>=20
+> I will apply it to drm-misc-next.
+>=20
+> Cheers,
+>=20
+> Joel
+>=20
+>> ---
+>>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 7 +------
+>>  1 file changed, 1 insertion(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm=
+/aspeed/aspeed_gfx_drv.c
+>> index 6b27242b9ee3c..1167ff78e24a3 100644
+>> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+>> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+>> @@ -188,12 +188,7 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
+>>
+>>  static struct drm_driver aspeed_gfx_driver =3D {
+>>         .driver_features        =3D DRIVER_GEM | DRIVER_MODESET | DRIV=
+ER_ATOMIC,
+>> -       .gem_create_object      =3D drm_cma_gem_create_object_default_=
+funcs,
+>> -       .dumb_create            =3D drm_gem_cma_dumb_create,
+>> -       .prime_handle_to_fd     =3D drm_gem_prime_handle_to_fd,
+>> -       .prime_fd_to_handle     =3D drm_gem_prime_fd_to_handle,
+>> -       .gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_tab=
+le,
+>> -       .gem_prime_mmap         =3D drm_gem_prime_mmap,
+>> +       DRM_GEM_CMA_DRIVER_OPS,
+>>         .fops =3D &fops,
+>>         .name =3D "aspeed-gfx-drm",
+>>         .desc =3D "ASPEED GFX DRM",
+>> --
+>> 2.26.2
+>>
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--CDUXDnhrvNpujlj9uJXMumh8LxM8mJo5z--
+
+--kEU4Rxxajn4ZvbdCL0rTaKlQlc7wSHFrL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+AGMAUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPV+gf9FkOWZ4AJ4Ex25mOfleuQ49aLGMOY
+bj6WHni0jINbT0azrK1LFXLA47JBitwcvYGleGaHIb09+Kk4PsiKBeMsCbaD+GRy
+jP9AU6oKYsrw2BTC9z70XowgVQnZaiV5QD7cD5n+luZwlYPA/n6hp3FPXRb7uxER
+Tiht1E7F/YV6TI0xA7OZwStI7ukX5/EJ1DNNFZx9j1aEYsvNtMBM41YiHUbONZqi
+HKOToBxBlG8l3VaRwYX4QvXBzI7hdPxE1Z9OpkYIDChJCslOm/gh5EIaoLzN0iTh
+0Q8rT/VLxbnbUTDGrYVdDfzav2fjWo/Cm7vE5PLbCPOYrHtMunMH53HzAA==
+=TVfp
+-----END PGP SIGNATURE-----
+
+--kEU4Rxxajn4ZvbdCL0rTaKlQlc7wSHFrL--
+
+--===============1438274093==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1438274093==--
