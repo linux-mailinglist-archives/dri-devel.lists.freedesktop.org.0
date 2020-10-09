@@ -1,31 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E5B2882F1
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 08:47:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9475928830D
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 08:55:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 348AF6EC31;
-	Fri,  9 Oct 2020 06:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 546776EC36;
+	Fri,  9 Oct 2020 06:55:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 823CB6EC30
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 06:47:15 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 54170AF0C;
- Fri,  9 Oct 2020 06:47:13 +0000 (UTC)
-Subject: Re:
-To: sandy.8925@gmail.com, alexander.deucher@amd.com
-References: <20201008181606.460499-1-sandy.8925@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <c11f3758-9b41-412a-85b1-258d47c776c6@suse.de>
-Date: Fri, 9 Oct 2020 08:47:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E52686EC34
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 06:55:44 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id j2so9059652wrx.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Oct 2020 23:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=0DIIkikDzDpqw7QIcfNPLZr1NLPJnYzyVy6xbInQ09c=;
+ b=khw75Y3YtoatbpZVz+cYlQNIYPP8MqfVV7IpxED67l9Qfc8LAS2oHH0Jd2SNMQgiZ3
+ EJoTkuwiYjvE3HPmjOcoklrOfVHPec5S3UElMoIIHZqso/7vHn1peubwJd9OHIHRPA54
+ FKjsiVisTn5lcQLzrxi2NYsyCDZ5HYItNXEKc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=0DIIkikDzDpqw7QIcfNPLZr1NLPJnYzyVy6xbInQ09c=;
+ b=mDbgr2A2XCWk026SsBgEK9PhvNIJ+sGdGG8L+HLe3dg+t2ZLxbsJ6BhB0wRQuTsnh+
+ bKQHcm5/nlztSuO7nOUn7vcOv8brXPWu7dfO8EfJtc+/UTzo5P3XBnasJNf27Ahc6h95
+ EAeO3t6e5MZYM457gyZNfc+m7fAjOoBZmawc/D4yfH5CCP3OoQSAABn+D2RGIjtn6EMO
+ mq23v8Y1vsQGwKL40OPHZ+8OwytR88X09EM+okAgY44tRFynkb8u8mTKeWNWHKh0bKtI
+ iavIaTBR6e1Hv4thTSkVQ4Hq+VCOO69UQeNiJr+nf3Mq48ayKm0dBQqoB5yltE9dbdnS
+ pk3Q==
+X-Gm-Message-State: AOAM530iADDWaKy/rOVYxvdtwDKeXwJz2Zdc7dGwfBFULU57vwErfprf
+ iQJvfBGiXuwPMHKEUbFloow+pQ==
+X-Google-Smtp-Source: ABdhPJwINWBtAcBqqUULl8SGGW4lyULdu1/AzvHe7YnRNfs22ucQoPSdKC0g+OrLnW4upZaZaYCbMw==
+X-Received: by 2002:adf:ed09:: with SMTP id a9mr12994550wro.407.1602226543511; 
+ Thu, 08 Oct 2020 23:55:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k190sm10332534wme.33.2020.10.08.23.55.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Oct 2020 23:55:42 -0700 (PDT)
+Date: Fri, 9 Oct 2020 08:55:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Update entry for st7703 driver after the
+ rename
+Message-ID: <20201009065540.GJ438822@phenom.ffwll.local>
+Mail-Followup-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Ondrej Jirman <megous@megous.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>
+References: <20200701184640.1674969-1-megous@megous.com>
+ <alpine.DEB.2.21.2010090623060.15995@felia>
 MIME-Version: 1.0
-In-Reply-To: <20201008181606.460499-1-sandy.8925@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.2010090623060.15995@felia>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,85 +77,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1835951670=="
+Cc: Ondrej Jirman <megous@megous.com>, Purism Kernel Team <kernel@puri.sm>,
+ David Airlie <airlied@linux.ie>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1835951670==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="drUsvsQJVSAZNUqEH2HMaulrFQye9CoNK"
+On Fri, Oct 09, 2020 at 06:27:46AM +0200, Lukas Bulwahn wrote:
+> =
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---drUsvsQJVSAZNUqEH2HMaulrFQye9CoNK
-Content-Type: multipart/mixed; boundary="EgQD2t2mU1adfRALpfOMG0NRhmPTl4loL";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: sandy.8925@gmail.com, alexander.deucher@amd.com
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <c11f3758-9b41-412a-85b1-258d47c776c6@suse.de>
-Subject: Re:
-References: <20201008181606.460499-1-sandy.8925@gmail.com>
-In-Reply-To: <20201008181606.460499-1-sandy.8925@gmail.com>
+> =
 
---EgQD2t2mU1adfRALpfOMG0NRhmPTl4loL
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> On Wed, 1 Jul 2020, Ondrej Jirman wrote:
+> =
 
-NACK for the entire lack of any form of commit description.
+> > The driver was renamed, change the path in the MAINTAINERS file.
+> > =
 
-Am 08.10.20 um 20:16 schrieb sandy.8925@gmail.com:
-> Signed-off-by: Sandeep Raghuraman <sandy.8925@gmail.com>
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
+> > Signed-off-by: Ondrej Jirman <megous@megous.com>
+> =
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> This minor non-urgent cleanup patch has not been picked up yet by anyone.
+> =
+
+> Hence, ./scripts/get_maintainers.pl --self-test=3Dpatterns continues to =
+
+> complain:
+> =
+
+>   warning: no file matches  F:	Documentation/devicetree/bindings/display/=
+panel/rocktech,jh057n00900.txt
+>   warning: no file matches  F:	drivers/gpu/drm/panel/panel-rocktech-jh057=
+n00900.c
+> =
+
+> This patch cleanly applies on next-20201008 and resolves the issue above.
+
+Generally after 2-3 weeks a patch is lost and unfortunately needs to be
+resend. Please do that next time around instead of waiting.
+
+Patch queued up now for 5.10, thanks.
+-Daniel
+
+> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> =
+
+> =
+
+> Lukas
+> =
+
+> > ---
+> >  MAINTAINERS | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > =
+
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 5f186a661a9b..f5183eae08df 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -5487,12 +5487,13 @@ S:	Maintained
+> >  F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+> >  F:	drivers/gpu/drm/panel/panel-raydium-rm67191.c
+> >  =
+
+> > -DRM DRIVER FOR ROCKTECH JH057N00900 PANELS
+> > +DRM DRIVER FOR SITRONIX ST7703 PANELS
+> >  M:	Guido G=FCnther <agx@sigxcpu.org>
+> >  R:	Purism Kernel Team <kernel@puri.sm>
+> > +R:	Ondrej Jirman <megous@megous.com>
+> >  S:	Maintained
+> > -F:	Documentation/devicetree/bindings/display/panel/rocktech,jh057n0090=
+0.txt
+> > -F:	drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
+> > +F:	Documentation/devicetree/bindings/display/panel/rocktech,jh057n0090=
+0.yaml
+> > +F:	drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> >  =
+
+> >  DRM DRIVER FOR SAVAGE VIDEO CARDS
+> >  S:	Orphan / Obsolete
+> > -- =
+
+> > 2.27.0
+> > =
+
+> > =
 
 
---EgQD2t2mU1adfRALpfOMG0NRhmPTl4loL--
 
---drUsvsQJVSAZNUqEH2HMaulrFQye9CoNK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+-- =
 
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+AB3AUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMNiwf8Dw4Cw6/QQUx5HooY9a0mpQROKFwU
-5cmoMNcbGo9N9MfvSPxNnldz7dbL9JcbtqG8p8O1/ijOHVZwQWw661Bni6rSmpeI
-4hr/It88YfSxd3Qn9BOaPa9WFKdpj5dYeJVOg6YEzikyaEK2H2uVs2HQ961u5Y+7
-prFdiZ9BLg1DkbczXhSpomTbE4eZq2wYVXHBDYdqH13xEWF1WxF9yP9gnHTg7Of3
-kl6fN3e87kwfOorlGOgpEjmbcWlQqps11WVXoe6CM871G9VUTkUFWcLJJHhM8VbK
-LCWWWKi/a4F5t5RvM1e9FD8nf2i2p3tdGM2IzAPOL+0dyM6+R/xdtpGXSw==
-=JixO
------END PGP SIGNATURE-----
-
---drUsvsQJVSAZNUqEH2HMaulrFQye9CoNK--
-
---===============1835951670==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1835951670==--
