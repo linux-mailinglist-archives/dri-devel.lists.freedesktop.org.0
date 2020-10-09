@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8826D289BC1
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 00:28:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91142289BE1
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 00:43:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 242B16EE2F;
-	Fri,  9 Oct 2020 22:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18D556EE30;
+	Fri,  9 Oct 2020 22:43:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 459106EE2F;
- Fri,  9 Oct 2020 22:28:40 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id b69so12252030qkg.8;
- Fri, 09 Oct 2020 15:28:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+lt5Jd7YC7DH6niYBHptmYTDZ+Xfw81ve5JyVXKnAgM=;
- b=FpLJx0OnLOZfd85S5tft5nlCm3Q6mGYdYb74yMtcKTShc2ZSGXmR15q+ruQT2BECzL
- wFAPw/ghEn7UkvSl4KF1hhzRQV2+L8b0EyNR8+EsQR4l65LGCgQ9hkwjS/A5z+v/BT0a
- YShP10WBFpvDjpnG0XL4XHAPiaSTSDPF2bMSHN1y1pwOtwa/W58K/FVfFW84cqInV2uJ
- tXiIL7l0XEVYWsK0w2MNhWpZ51j2APmpVhvvNzJoMuwngrCWfASrkcKYXVEGsfHjtT81
- RlKUWHSq6Gy5ajNeaTleK/P8HjJSR6+l/wxxlh3J2Ni5nSLH2NewpBm+g0LhEJTBZ4DA
- 4FcQ==
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5224C6EE31
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 22:43:28 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id i1so5715593wro.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 15:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=/PDPk6PqKHaUtVjJXicp0BSRcoB7kaRvHJ7vcwjebgc=;
+ b=jCV17kV4xsSbccVkT2Bcq04zFJSmoVyjagYYwbPTJd/UGKjTYHGSBrrAVO6fGXy3wS
+ 6m+4b1G3RU9T48XDxaePt1nzvwblZYDj4JdqC5SSFtEOmUOf20/2S5iRvw17ba2LzdNn
+ BJVZfRvhcAXZCkWZFcM9kDXvLiaQ0r8ertWvY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+lt5Jd7YC7DH6niYBHptmYTDZ+Xfw81ve5JyVXKnAgM=;
- b=jqKyXo2W/FBT87Ijn2O5fQHyovulChrtTz1veO4VTOkBeWZ9SyQU58XZNK44C9AmiH
- X7R0K7NoG9iJK6Pb5RvXnVdv+p+oDvi4aFdBlmewaj03+Jx+ktWuNqoQ5nphd/y4RL61
- djeNTS2Dyfp98uezDVZu5nn+OyhOpLEqb3L2dXxdo8/l5WWPkNDFhfvh2SWnnh8fIbGb
- uSRukGpIWHQfAW5ckIUCccXdf07EivytSJ4hBdC1Vzf3FgJpSFMnhNZ3DcVBVygJkHjE
- AtilNi/AqkRjBG80YmzDdNj5V1VzVNPPILfR/bFcxSSMsn/FJkrg5QeSxi9gaHaDPJyV
- 8rug==
-X-Gm-Message-State: AOAM530lgDjU2RtcPDOW7emA97PxrlIgTMUdJ+lJYVhU4YxoqfLqRycH
- wCfjECn8d1B+If5yvBwuMXQVr6A99hQ=
-X-Google-Smtp-Source: ABdhPJzSsAK5K+uzJPPMBd5wUXWQEuZ0DzdduiCxtBHrseOPA60b0it7m3EtFwZltKGkXWonb4IjnA==
-X-Received: by 2002:a05:620a:6d8:: with SMTP id
- 24mr189590qky.294.1602282518965; 
- Fri, 09 Oct 2020 15:28:38 -0700 (PDT)
-Received: from localhost.localdomain ([71.219.66.138])
- by smtp.gmail.com with ESMTPSA id d7sm7139003qkg.29.2020.10.09.15.28.38
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/PDPk6PqKHaUtVjJXicp0BSRcoB7kaRvHJ7vcwjebgc=;
+ b=dYRAFsxkygj1LWocQ+T6KGRAQvD0SQRIfKpURPPzysWTWpeAYFttIpRLWYp1CHGVwY
+ XDqu2prb196NPNbAxH0tDDgt6xKjjEHVMunMChbRpJhXzOQINIXeKbUUrKPM88QLS0PQ
+ 1KMTUTVbmhVIGSbX7ZYWKYn+tXRoVM3GywTe80EQIR/kQXUUHCUMdkcEwa4j0rg5HBa6
+ FdUb373+cQoTFedYbdEJbjUspt90GIM2DVTlnj20XeR7Wu5mlyfwy3zaHp0M/uFIJ98u
+ POAgltIzqk+JSyWdJx7iA6Iop1rTv/GxbY0ExsNx1U3FxTHbEbSAe0C+eU5gZrtuUZ6k
+ nXUA==
+X-Gm-Message-State: AOAM533n++jV3CyZaX+HrSgQ+9phqPMy1aIe7i1sgeFTvevgjGgXqH1R
+ QRERf6QU25MGbJm2oa6xEjpX9A==
+X-Google-Smtp-Source: ABdhPJxwy7q23o4hI9o+mHhMpHQqfB7leCieNktkIyPkNxFEl+l10j1jaa4N2ps/lqqoxVMjcP3/Ag==
+X-Received: by 2002:adf:fdc7:: with SMTP id i7mr18524914wrs.198.1602283406559; 
+ Fri, 09 Oct 2020 15:43:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l3sm12963821wmh.27.2020.10.09.15.43.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 15:28:38 -0700 (PDT)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu drm-fixes-5.10
-Date: Fri,  9 Oct 2020 18:28:10 -0400
-Message-Id: <20201009222810.4030-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.25.4
+ Fri, 09 Oct 2020 15:43:25 -0700 (PDT)
+Date: Sat, 10 Oct 2020 00:43:23 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [Intel-gfx] [PATCH] drm/vgem: Replace vgem_object_funcs with the
+ common drm shmem helper
+Message-ID: <20201009224323.GS438822@phenom.ffwll.local>
+References: <20201009102132.22770-1-chris@chris-wilson.co.uk>
+ <CAKMK7uG51_t9988vTen2rK+gbwwjN0tLphpVhMd2nbsFTNi+GQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uG51_t9988vTen2rK+gbwwjN0tLphpVhMd2nbsFTNi+GQ@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,111 +66,440 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Fri, Oct 09, 2020 at 06:16:06PM +0200, Daniel Vetter wrote:
+> On Fri, Oct 9, 2020 at 12:21 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> >
+> > vgem is a minimalistic driver that provides shmemfs objects to
+> > userspace that may then be used as an in-memory surface and transported
+> > across dma-buf to other drivers. Since it's introduction,
+> > drm_gem_shmem_helper now provides the same shmemfs facilities and so we
+> > can trim vgem to wrap the helper.
+> >
+> > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > ---
+> >  drivers/gpu/drm/Kconfig         |   1 +
+> >  drivers/gpu/drm/vgem/vgem_drv.c | 281 ++------------------------------
+> >  drivers/gpu/drm/vgem/vgem_drv.h |  11 --
+> >  3 files changed, 13 insertions(+), 280 deletions(-)
+> 
+> Nice diffstat :-)
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Fixes for 5.10.
+Just noticed, but I think with
 
-The following changes since commit f2fa07b39fafb2a5f49c71a504862c5efa57d03e:
+	.dumb_create		= drm_gem_shmem_dumb_create,
 
-  drm/amd/amdkfd: Surface files in Sysfs to allow users to get number of compute units that are in use. (2020-09-30 15:26:27 -0400)
+you can delete a bunhc more :-)
+-Daniel
 
-are available in the Git repository at:
+> 
+> >
+> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > index 147d61b9674e..db2ff76638cd 100644
+> > --- a/drivers/gpu/drm/Kconfig
+> > +++ b/drivers/gpu/drm/Kconfig
+> > @@ -278,6 +278,7 @@ source "drivers/gpu/drm/i915/Kconfig"
+> >  config DRM_VGEM
+> >         tristate "Virtual GEM provider"
+> >         depends on DRM
+> > +       select DRM_GEM_SHMEM_HELPER
+> >         help
+> >           Choose this option to get a virtual graphics memory manager,
+> >           as used by Mesa's software renderer for enhanced performance.
+> > diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+> > index fa54a6d1403d..73cb17c4f7a8 100644
+> > --- a/drivers/gpu/drm/vgem/vgem_drv.c
+> > +++ b/drivers/gpu/drm/vgem/vgem_drv.c
+> > @@ -38,6 +38,7 @@
+> >
+> >  #include <drm/drm_drv.h>
+> >  #include <drm/drm_file.h>
+> > +#include <drm/drm_gem_shmem_helper.h>
+> >  #include <drm/drm_ioctl.h>
+> >  #include <drm/drm_managed.h>
+> >  #include <drm/drm_prime.h>
+> > @@ -50,87 +51,11 @@
+> >  #define DRIVER_MAJOR   1
+> >  #define DRIVER_MINOR   0
+> >
+> > -static const struct drm_gem_object_funcs vgem_gem_object_funcs;
+> > -
+> >  static struct vgem_device {
+> >         struct drm_device drm;
+> >         struct platform_device *platform;
+> >  } *vgem_device;
+> >
+> > -static void vgem_gem_free_object(struct drm_gem_object *obj)
+> > -{
+> > -       struct drm_vgem_gem_object *vgem_obj = to_vgem_bo(obj);
+> > -
+> > -       kvfree(vgem_obj->pages);
+> > -       mutex_destroy(&vgem_obj->pages_lock);
+> > -
+> > -       if (obj->import_attach)
+> > -               drm_prime_gem_destroy(obj, vgem_obj->table);
+> > -
+> > -       drm_gem_object_release(obj);
+> > -       kfree(vgem_obj);
+> > -}
+> > -
+> > -static vm_fault_t vgem_gem_fault(struct vm_fault *vmf)
+> > -{
+> > -       struct vm_area_struct *vma = vmf->vma;
+> > -       struct drm_vgem_gem_object *obj = vma->vm_private_data;
+> > -       /* We don't use vmf->pgoff since that has the fake offset */
+> > -       unsigned long vaddr = vmf->address;
+> > -       vm_fault_t ret = VM_FAULT_SIGBUS;
+> > -       loff_t num_pages;
+> > -       pgoff_t page_offset;
+> > -       page_offset = (vaddr - vma->vm_start) >> PAGE_SHIFT;
+> > -
+> > -       num_pages = DIV_ROUND_UP(obj->base.size, PAGE_SIZE);
+> > -
+> > -       if (page_offset >= num_pages)
+> > -               return VM_FAULT_SIGBUS;
+> > -
+> > -       mutex_lock(&obj->pages_lock);
+> > -       if (obj->pages) {
+> > -               get_page(obj->pages[page_offset]);
+> > -               vmf->page = obj->pages[page_offset];
+> > -               ret = 0;
+> > -       }
+> > -       mutex_unlock(&obj->pages_lock);
+> > -       if (ret) {
+> > -               struct page *page;
+> > -
+> > -               page = shmem_read_mapping_page(
+> > -                                       file_inode(obj->base.filp)->i_mapping,
+> > -                                       page_offset);
+> > -               if (!IS_ERR(page)) {
+> > -                       vmf->page = page;
+> > -                       ret = 0;
+> > -               } else switch (PTR_ERR(page)) {
+> > -                       case -ENOSPC:
+> > -                       case -ENOMEM:
+> > -                               ret = VM_FAULT_OOM;
+> > -                               break;
+> > -                       case -EBUSY:
+> > -                               ret = VM_FAULT_RETRY;
+> > -                               break;
+> > -                       case -EFAULT:
+> > -                       case -EINVAL:
+> > -                               ret = VM_FAULT_SIGBUS;
+> > -                               break;
+> > -                       default:
+> > -                               WARN_ON(PTR_ERR(page));
+> > -                               ret = VM_FAULT_SIGBUS;
+> > -                               break;
+> > -               }
+> > -
+> > -       }
+> > -       return ret;
+> > -}
+> > -
+> > -static const struct vm_operations_struct vgem_gem_vm_ops = {
+> > -       .fault = vgem_gem_fault,
+> > -       .open = drm_gem_vm_open,
+> > -       .close = drm_gem_vm_close,
+> > -};
+> > -
+> >  static int vgem_open(struct drm_device *dev, struct drm_file *file)
+> >  {
+> >         struct vgem_file *vfile;
+> > @@ -159,41 +84,25 @@ static void vgem_postclose(struct drm_device *dev, struct drm_file *file)
+> >         kfree(vfile);
+> >  }
+> >
+> > -static struct drm_vgem_gem_object *__vgem_gem_create(struct drm_device *dev,
+> > +static struct drm_gem_shmem_object *__vgem_gem_create(struct drm_device *dev,
+> >                                                 unsigned long size)
+> >  {
+> > -       struct drm_vgem_gem_object *obj;
+> > -       int ret;
+> > -
+> > -       obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+> > -       if (!obj)
+> > -               return ERR_PTR(-ENOMEM);
+> > +       struct drm_gem_shmem_object *obj;
+> >
+> > -       obj->base.funcs = &vgem_gem_object_funcs;
+> > -
+> > -       ret = drm_gem_object_init(dev, &obj->base, roundup(size, PAGE_SIZE));
+> > -       if (ret) {
+> > -               kfree(obj);
+> > -               return ERR_PTR(ret);
+> > -       }
+> > -
+> > -       mutex_init(&obj->pages_lock);
+> > +       obj = drm_gem_shmem_create(dev, round_up(size, PAGE_SIZE));
+> > +       if (IS_ERR(obj))
+> > +               return obj;
+> >
+> > +       obj->map_cached = true;
+> >         return obj;
+> >  }
+> >
+> > -static void __vgem_gem_destroy(struct drm_vgem_gem_object *obj)
+> > -{
+> > -       drm_gem_object_release(&obj->base);
+> > -       kfree(obj);
+> > -}
+> > -
+> >  static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
+> >                                               struct drm_file *file,
+> >                                               unsigned int *handle,
+> >                                               unsigned long size)
+> >  {
+> > -       struct drm_vgem_gem_object *obj;
+> > +       struct drm_gem_shmem_object *obj;
+> >         int ret;
+> >
+> >         obj = __vgem_gem_create(dev, size);
+> > @@ -239,96 +148,9 @@ static struct drm_ioctl_desc vgem_ioctls[] = {
+> >         DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl, DRM_RENDER_ALLOW),
+> >  };
+> >
+> > -static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
+> > -{
+> > -       unsigned long flags = vma->vm_flags;
+> > -       int ret;
+> > -
+> > -       ret = drm_gem_mmap(filp, vma);
+> > -       if (ret)
+> > -               return ret;
+> > -
+> > -       /* Keep the WC mmaping set by drm_gem_mmap() but our pages
+> > -        * are ordinary and not special.
+> > -        */
+> > -       vma->vm_flags = flags | VM_DONTEXPAND | VM_DONTDUMP;
+> > -       return 0;
+> > -}
+> > -
+> > -static const struct file_operations vgem_driver_fops = {
+> > -       .owner          = THIS_MODULE,
+> > -       .open           = drm_open,
+> > -       .mmap           = vgem_mmap,
+> > -       .poll           = drm_poll,
+> > -       .read           = drm_read,
+> > -       .unlocked_ioctl = drm_ioctl,
+> > -       .compat_ioctl   = drm_compat_ioctl,
+> > -       .release        = drm_release,
+> > -};
+> > -
+> > -static struct page **vgem_pin_pages(struct drm_vgem_gem_object *bo)
+> > -{
+> > -       mutex_lock(&bo->pages_lock);
+> > -       if (bo->pages_pin_count++ == 0) {
+> > -               struct page **pages;
+> > -
+> > -               pages = drm_gem_get_pages(&bo->base);
+> > -               if (IS_ERR(pages)) {
+> > -                       bo->pages_pin_count--;
+> > -                       mutex_unlock(&bo->pages_lock);
+> > -                       return pages;
+> > -               }
+> > -
+> > -               bo->pages = pages;
+> > -       }
+> > -       mutex_unlock(&bo->pages_lock);
+> > -
+> > -       return bo->pages;
+> > -}
+> > -
+> > -static void vgem_unpin_pages(struct drm_vgem_gem_object *bo)
+> > -{
+> > -       mutex_lock(&bo->pages_lock);
+> > -       if (--bo->pages_pin_count == 0) {
+> > -               drm_gem_put_pages(&bo->base, bo->pages, true, true);
+> > -               bo->pages = NULL;
+> > -       }
+> > -       mutex_unlock(&bo->pages_lock);
+> > -}
+> > -
+> > -static int vgem_prime_pin(struct drm_gem_object *obj)
+> > -{
+> > -       struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
+> > -       long n_pages = obj->size >> PAGE_SHIFT;
+> > -       struct page **pages;
+> > +DEFINE_DRM_GEM_FOPS(vgem_driver_fops);
+> >
+> > -       pages = vgem_pin_pages(bo);
+> > -       if (IS_ERR(pages))
+> > -               return PTR_ERR(pages);
+> > -
+> > -       /* Flush the object from the CPU cache so that importers can rely
+> > -        * on coherent indirect access via the exported dma-address.
+> > -        */
+> > -       drm_clflush_pages(pages, n_pages);
+> > -
+> > -       return 0;
+> > -}
+> > -
+> > -static void vgem_prime_unpin(struct drm_gem_object *obj)
+> > -{
+> > -       struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
+> > -
+> > -       vgem_unpin_pages(bo);
+> > -}
+> > -
+> > -static struct sg_table *vgem_prime_get_sg_table(struct drm_gem_object *obj)
+> > -{
+> > -       struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
+> > -
+> > -       return drm_prime_pages_to_sg(obj->dev, bo->pages, bo->base.size >> PAGE_SHIFT);
+> > -}
+> > -
+> > -static struct drm_gem_object* vgem_prime_import(struct drm_device *dev,
+> > +static struct drm_gem_object *vgem_prime_import(struct drm_device *dev,
+> >                                                 struct dma_buf *dma_buf)
+> >  {
+> >         struct vgem_device *vgem = container_of(dev, typeof(*vgem), drm);
+> > @@ -336,85 +158,6 @@ static struct drm_gem_object* vgem_prime_import(struct drm_device *dev,
+> >         return drm_gem_prime_import_dev(dev, dma_buf, &vgem->platform->dev);
+> >  }
+> >
+> > -static struct drm_gem_object *vgem_prime_import_sg_table(struct drm_device *dev,
+> > -                       struct dma_buf_attachment *attach, struct sg_table *sg)
+> > -{
+> > -       struct drm_vgem_gem_object *obj;
+> > -       int npages;
+> > -
+> > -       obj = __vgem_gem_create(dev, attach->dmabuf->size);
+> > -       if (IS_ERR(obj))
+> > -               return ERR_CAST(obj);
+> > -
+> > -       npages = PAGE_ALIGN(attach->dmabuf->size) / PAGE_SIZE;
+> > -
+> > -       obj->table = sg;
+> > -       obj->pages = kvmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
+> > -       if (!obj->pages) {
+> > -               __vgem_gem_destroy(obj);
+> > -               return ERR_PTR(-ENOMEM);
+> > -       }
+> > -
+> > -       obj->pages_pin_count++; /* perma-pinned */
+> > -       drm_prime_sg_to_page_addr_arrays(obj->table, obj->pages, NULL,
+> > -                                       npages);
+> > -       return &obj->base;
+> > -}
+> > -
+> > -static void *vgem_prime_vmap(struct drm_gem_object *obj)
+> > -{
+> > -       struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
+> > -       long n_pages = obj->size >> PAGE_SHIFT;
+> > -       struct page **pages;
+> > -
+> > -       pages = vgem_pin_pages(bo);
+> > -       if (IS_ERR(pages))
+> > -               return NULL;
+> > -
+> > -       return vmap(pages, n_pages, 0, pgprot_writecombine(PAGE_KERNEL));
+> > -}
+> > -
+> > -static void vgem_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
+> > -{
+> > -       struct drm_vgem_gem_object *bo = to_vgem_bo(obj);
+> > -
+> > -       vunmap(vaddr);
+> > -       vgem_unpin_pages(bo);
+> > -}
+> > -
+> > -static int vgem_prime_mmap(struct drm_gem_object *obj,
+> > -                          struct vm_area_struct *vma)
+> > -{
+> > -       int ret;
+> > -
+> > -       if (obj->size < vma->vm_end - vma->vm_start)
+> > -               return -EINVAL;
+> > -
+> > -       if (!obj->filp)
+> > -               return -ENODEV;
+> > -
+> > -       ret = call_mmap(obj->filp, vma);
+> > -       if (ret)
+> > -               return ret;
+> > -
+> > -       fput(vma->vm_file);
+> > -       vma->vm_file = get_file(obj->filp);
+> > -       vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
+> > -       vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+> > -
+> > -       return 0;
+> > -}
+> > -
+> > -static const struct drm_gem_object_funcs vgem_gem_object_funcs = {
+> > -       .free = vgem_gem_free_object,
+> > -       .pin = vgem_prime_pin,
+> > -       .unpin = vgem_prime_unpin,
+> > -       .get_sg_table = vgem_prime_get_sg_table,
+> > -       .vmap = vgem_prime_vmap,
+> > -       .vunmap = vgem_prime_vunmap,
+> > -       .vm_ops = &vgem_gem_vm_ops,
+> > -};
+> > -
+> >  static struct drm_driver vgem_driver = {
+> >         .driver_features                = DRIVER_GEM | DRIVER_RENDER,
+> >         .open                           = vgem_open,
+> > @@ -428,8 +171,8 @@ static struct drm_driver vgem_driver = {
+> >         .prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+> >         .prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+> >         .gem_prime_import = vgem_prime_import,
+> > -       .gem_prime_import_sg_table = vgem_prime_import_sg_table,
+> > -       .gem_prime_mmap = vgem_prime_mmap,
+> > +       .gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> > +       .gem_prime_mmap = drm_gem_prime_mmap,
+> >
+> >         .name   = DRIVER_NAME,
+> >         .desc   = DRIVER_DESC,
+> > diff --git a/drivers/gpu/drm/vgem/vgem_drv.h b/drivers/gpu/drm/vgem/vgem_drv.h
+> > index 0ed300317f87..34cf63e6fb3d 100644
+> > --- a/drivers/gpu/drm/vgem/vgem_drv.h
+> > +++ b/drivers/gpu/drm/vgem/vgem_drv.h
+> > @@ -39,17 +39,6 @@ struct vgem_file {
+> >         struct mutex fence_mutex;
+> >  };
+> >
+> > -#define to_vgem_bo(x) container_of(x, struct drm_vgem_gem_object, base)
+> > -struct drm_vgem_gem_object {
+> > -       struct drm_gem_object base;
+> > -
+> > -       struct page **pages;
+> > -       unsigned int pages_pin_count;
+> > -       struct mutex pages_lock;
+> > -
+> > -       struct sg_table *table;
+> > -};
+> > -
+> >  int vgem_fence_open(struct vgem_file *file);
+> >  int vgem_fence_attach_ioctl(struct drm_device *dev,
+> >                             void *data,
+> > --
+> > 2.20.1
+> >
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> 
+> 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.10-2020-10-09
-
-for you to fetch changes up to 9c27bc97aff8bbe62b5b29ebf528291dd85d9c86:
-
-  drm/amdgpu: Fix invalid number of character '{' in amdgpu_acpi_init (2020-10-09 15:16:10 -0400)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.10-2020-10-09:
-
-amdgpu:
-- Clean up indirect register access
-- Navy Flounder fixes
-- SMU11 AC/DC interrupt fixes
-- GPUVM alignment fix
-- Display fixes
-- Misc other fixes
-
-----------------------------------------------------------------
-Alex Deucher (4):
-      drm/amdgpu/swsmu: add interrupt work function
-      drm/amdgpu/swsmu: add interrupt work handler for smu11 parts
-      drm/amdgpu/swsmu: fix ARC build errors
-      drm/amdgpu: prevent spurious warning
-
-Alex Sierra (1):
-      drm/amdgpu: align frag_end to covered address space
-
-Alvin Lee (1):
-      drm/amd/display: Don't allow pstate if no support in blank
-
-Chris Park (1):
-      drm/amd/display: Change to correct unit on audio rate
-
-Dirk Gouders (1):
-      drm/amdgpu: fix NULL pointer dereference for Renoir
-
-Dmytro Laktyushkin (1):
-      drm/amd/display: Fix OPTC_DATA_FORMAT programming
-
-Emily.Deng (1):
-      drm/amdgpu: Remove warning for virtual_display
-
-Evan Quan (1):
-      drm/amd/pm: setup APU dpm clock table in SMU HW initialization
-
-Fangzhi Zuo (1):
-      drm/amd/display: HDMI remote sink need mode validation for Linux
-
-Hawking Zhang (4):
-      drm/amdgpu: add helper function for indirect reg access (v3)
-      drm/amdgpu: switch to indirect reg access helper
-      drm/amdgpu: support indirect access reg outside of mmio bar (v2)
-      drm/amdgpu: enable GDDR6 save-restore support for navy_flounder
-
-Rodrigo Siqueira (1):
-      drm/amd/display: Avoid set zero in the requested clk
-
-Ye Bin (1):
-      drm/amdgpu: Fix invalid number of character '{' in amdgpu_acpi_init
-
-kernel test robot (1):
-      drm/amdgpu: kfd_initialized can be static
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  36 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c   |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 228 +++++++++++++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h          |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   2 +
- drivers/gpu/drm/amd/amdgpu/dce_virtual.c           |   4 +-
- drivers/gpu/drm/amd/amdgpu/nv.c                    |  51 +----
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |  61 ++----
- .../amd/display/dc/clk_mgr/dce112/dce112_clk_mgr.c |   3 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link.c      |   2 +-
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.c  |  11 +
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_optc.c  |   8 -
- .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |   5 +-
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c  |   8 -
- .../amd/display/dc/dml/dcn30/display_mode_vba_30.c |   2 +-
- drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h            |   2 +
- drivers/gpu/drm/amd/pm/inc/smu_v11_0.h             |   2 +
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  37 +++-
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |   1 +
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  15 +-
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  15 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c     |  10 +-
- 25 files changed, 308 insertions(+), 206 deletions(-)
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
