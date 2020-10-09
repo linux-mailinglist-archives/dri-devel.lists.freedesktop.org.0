@@ -2,64 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5CF2883C1
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FCB2883BD
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 09:38:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9FF16EC6B;
-	Fri,  9 Oct 2020 07:38:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56EE76EC4F;
+	Fri,  9 Oct 2020 07:37:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 760B96EC6A
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 07:38:43 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id b26so6148682pff.3
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 00:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vfN7S83tf1CPH9vIQuREBvcpiIqcuqeLdaONElX5HII=;
- b=p9MGQ1o0NTrtTVnD7fs6sEh33IvnPvr1DW5qln2UHc1ENM81Bo4qUoX7QUDKrpJO56
- 31j9I6APhLnrYNPebZSXqk+o6ZbUrLSlcPQwO3wd9MSeu2zYwGw12slzGG9VrhBPZ87o
- fWCA6RgUmXpH0pAgJhaf3X8FH5WuP6/owDZZAytmdMRQKi1eGtbn4WMzvFaBQGxmlKVC
- O/u3qpHwRMOIU0vVrVKaThJqOY5D5+S+HEbvKNrF5A/72dRGGcPyW7x9+GVwKy0Y4lOt
- /E6fsBHNw7kq/uJATJKm9T9PCoZC32+uoZ3odI+7AzukBrMg52SMZymJoamTVffuWzCR
- eZ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vfN7S83tf1CPH9vIQuREBvcpiIqcuqeLdaONElX5HII=;
- b=RjEDFRMNX2zSuseflwKURS2cIXe4r6JDwfQPZXYkYAvvEyJCrKoSQ9SUPbPA2xyzN/
- 1Kv8CwqckY8QHPjNFqQ0EObe/ahRjCiaUeeAgnwx+ji4HaD+iZcXxNcB+wyzyuWuPtiP
- +EYwoZox8hwccL4a0f3KUJqyzszNOZVcyOn1FdfwzdLvSCk6amPx/d5ycZ/NUvDzZM23
- jLEIelC/0Dm5iGFQYQ2cvpugDUFE+a8d03qLki642C/BCj4rdEp1g+CKVEqP6KM5GPpv
- UKZYMf/6dcJXl2761ATdop1DNmKD4wLr9PAHPNroT90xp47yV9nKRL4sPMWz/AASoV0S
- 6mlQ==
-X-Gm-Message-State: AOAM533I5STHfNuP6qXxc9f3+bbo43ZMHn5qUGcCL59vsceEooqiZroo
- 2wO/RZBnC7Kw5WIt1XPGnycZVRRAKg8l8Q==
-X-Google-Smtp-Source: ABdhPJzZ2fFUldW7MQrHVwcNv1nKtMqh1n7Ccd/gtcCTePinlb/7QzY4UyvF/pX2MpOTHXRfncDCig==
-X-Received: by 2002:a17:90a:4309:: with SMTP id
- q9mr3276395pjg.226.1602229122494; 
- Fri, 09 Oct 2020 00:38:42 -0700 (PDT)
-Received: from [192.168.86.30] ([49.207.136.194])
- by smtp.gmail.com with ESMTPSA id f17sm9468183pfq.141.2020.10.09.00.38.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Oct 2020 00:38:41 -0700 (PDT)
-Subject: Re:
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com
-References: <20201008181606.460499-1-sandy.8925@gmail.com>
- <c11f3758-9b41-412a-85b1-258d47c776c6@suse.de>
- <7227878e-28f7-a008-4bd5-fa7f64d371da@suse.de>
-From: Sandeep Raghuraman <sandy.8925@gmail.com>
-Message-ID: <24ac81e5-d163-0fb6-2d94-1da7c1a87974@gmail.com>
-Date: Fri, 9 Oct 2020 13:08:42 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEEEE6EC4F
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 07:37:57 +0000 (UTC)
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 20A8622277;
+ Fri,  9 Oct 2020 07:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1602229077;
+ bh=qP3I2q+YzWY6lzZ/UEwHw23kEav9smCCkUI3FI18nYQ=;
+ h=Subject:To:Cc:From:Date:From;
+ b=YY8zs7lTrywFGT+HJjJGP6QlGa1SeZB7+eqmCcUdgVMkKpG9sPRYlbqXLd10xDW9q
+ iYCxEDV6lmMBAcIGaXDmNLd08R5mNS3FL1v7vKK7SAzK+6tSO44zzzBw+g36LhhTKU
+ kSygmb85bEXBWP8g/HXcUHGP4Z/V0UdzbiRKaLRw=
+Subject: Patch "drm/nouveau/mem: guard against NULL pointer access in mem_del"
+ has been added to the 5.4-stable tree
+To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, kherbst@redhat.com
+From: <gregkh@linuxfoundation.org>
+Date: Fri, 09 Oct 2020 09:38:44 +0200
+Message-ID: <160222912419320@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <7227878e-28f7-a008-4bd5-fa7f64d371da@suse.de>
-Content-Language: en-US
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,30 +46,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: stable-commits@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+This is a note to let you know that I've just added the patch titled
 
-On 10/9/20 12:44 PM, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 09.10.20 um 08:47 schrieb Thomas Zimmermann:
->> NACK for the entire lack of any form of commit description.
-> 
-> Please see the documentation at [1] on how to describe the changes and
-> getting your patches merged.
+    drm/nouveau/mem: guard against NULL pointer access in mem_del
 
-Yes, I tried to use git send-email to send patches this time, and it resulted in this disaster. I'll stick to sending them through Thunderbird.
+to the 5.4-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-> 
-> Best regards
-> Thomas
-> 
-> [1]
+The filename of the patch is:
+     drm-nouveau-mem-guard-against-null-pointer-access-in-mem_del.patch
+and it can be found in the queue-5.4 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From d10285a25e29f13353bbf7760be8980048c1ef2f Mon Sep 17 00:00:00 2001
+From: Karol Herbst <kherbst@redhat.com>
+Date: Wed, 7 Oct 2020 00:05:28 +0200
+Subject: drm/nouveau/mem: guard against NULL pointer access in mem_del
+
+From: Karol Herbst <kherbst@redhat.com>
+
+commit d10285a25e29f13353bbf7760be8980048c1ef2f upstream.
+
+other drivers seems to do something similar
+
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20201006220528.13925-2-kherbst@redhat.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+---
+ drivers/gpu/drm/nouveau/nouveau_mem.c |    2 ++
+ 1 file changed, 2 insertions(+)
+
+--- a/drivers/gpu/drm/nouveau/nouveau_mem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_mem.c
+@@ -176,6 +176,8 @@ void
+ nouveau_mem_del(struct ttm_mem_reg *reg)
+ {
+ 	struct nouveau_mem *mem = nouveau_mem(reg);
++	if (!mem)
++		return;
+ 	nouveau_mem_fini(mem);
+ 	kfree(reg->mm_node);
+ 	reg->mm_node = NULL;
+
+
+Patches currently in stable-queue which might be from kherbst@redhat.com are
+
+queue-5.4/drm-nouveau-mem-guard-against-null-pointer-access-in-mem_del.patch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
