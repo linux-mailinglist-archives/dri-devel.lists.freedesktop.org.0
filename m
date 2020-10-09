@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D34288777
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 12:58:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F09289099
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Oct 2020 20:12:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE466ECBA;
-	Fri,  9 Oct 2020 10:58:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43C556ED79;
+	Fri,  9 Oct 2020 18:12:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE446ECBA
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 10:58:20 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 470C820709;
- Fri,  9 Oct 2020 10:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602241099;
- bh=CMrGYTrcD+5IJHtI0bpuU46GnNpct5AbTTzXkmjepxA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p/je5FkxMfgA01Da0Dm48bbhGhmQ/tk5Ko0y4QC81AKGWRm6/6PVltQIK3ChH/raX
- vnNwpldAsv82zFBd7msHOjMz8e8LQfA2z+acOHddUxCfHeUYdNAiQhmqx2/qu92bLK
- /Kd1J1KcDZHKqheFRLHCZ6ZB51Ssvbuv+icZxCz8=
-Date: Fri, 9 Oct 2020 12:59:05 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 14/17] resource: Move devmem revoke code to resource
- framework
-Message-ID: <20201009105905.GB505688@kroah.com>
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-15-daniel.vetter@ffwll.ch>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201009075934.3509076-15-daniel.vetter@ffwll.ch>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC3686ED78
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Oct 2020 18:12:00 +0000 (UTC)
+IronPort-SDR: xsl31W6cEvzq5+QfkHVQjsowXkOjrF4sqDPrY0WuwW9LbTW8vtddBNYI7SZ+h7Z5GxijwKvvXC
+ NyciuFCFbO4g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="165633802"
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="165633802"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2020 11:11:59 -0700
+IronPort-SDR: KPVSx7Vf5q5hRKIM2RTDcsc+T0rK/lNLwwF35KQc/qk9B1CbliBK89h31nX34AkWaoduqTPJMR
+ AQ4kTP2+6e6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; d="scan'208";a="518774943"
+Received: from kkang6-desktop.kssm.intel.com ([172.21.194.67])
+ by fmsmga006.fm.intel.com with ESMTP; 09 Oct 2020 11:11:58 -0700
+From: kuhanh.murugasen.krishnan@intel.com
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v1 0/4] Add support for Keem Bay VPU DRM driver
+Date: Fri,  9 Oct 2020 19:57:51 +0800
+Message-Id: <1602244675-8785-1-git-send-email-kuhanh.murugasen.krishnan@intel.com>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,54 +45,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, David Hildenbrand <david@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-mm@kvack.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 09, 2020 at 09:59:31AM +0200, Daniel Vetter wrote:
-> We want all iomem mmaps to consistently revoke ptes when the kernel
-> takes over and CONFIG_IO_STRICT_DEVMEM is enabled. This includes the
-> pci bar mmaps available through procfs and sysfs, which currently do
-> not revoke mappings.
-> =
+From: "Murugasen Krishnan, Kuhanh" <kuhanh.murugasen.krishnan@intel.com>
 
-> To prepare for this, move the code from the /dev/kmem driver to
-> kernel/resource.c.
-> =
+This is a new DRM media codec driver for Intel's Keem Bay SOC which
+integrates the Verisilicon's Hantro Video Processor Unit (VPU) IP.
+The SoC couples an ARM Cortex A53 CPU with an Intel Movidius VPU.
 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: J=E9r=F4me Glisse <jglisse@redhat.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: linux-mm@kvack.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Hantro VPU IP is a series of video decoder and encoder semiconductor IP cores,
+which can be flexibly configured for video surveillance, multimedia consumer
+products, Internet of Things, cloud service products, data centers, aerial
+photography and recorders, thereby providing video transcoding and multi-channel
+HD video encoding and decoding.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Hantro VPU IP consists of Hantro VC8000D for decoder and Hantro VC8000E for encoder.
+
+Hantro VC8000D allows 4K decoding with a minimal silicon single-core solution that
+supports HEVC and H.264 video formats, key features:
+* HEVC Main10 and Main Profiles up to Level 5.2
+* HEVC Main Still Profile
+* H.264 Main and High Profiles up to Level 5.2
+* HEVC, H.264 and JPEG decoding up to 4K@60fps
+* 8 channels 1080p@30fps decoding
+
+Hantro VC8000E allows 4K encoding with a minimal silicon single-core solution that
+supports HEVC and H.264 video formats, key features:
+* HEVC Main10, Main and Main Still Profile, level 5.1
+* H.264 Baseline, Main and High, High10 level 5.2
+* JPEG encoder 16Kx16K max resolution
+* HEVC/H264 Support up to 4K@60fps performance single-core
+* 8 channels 1080p@30fps encoding
+* B-frame support for higher compression rates
+* Reference Frame Compression
+
+This driver is tested with the Keem Bay EVM board which is the reference baord
+for Keem Bay SOC.
+
+Device tree patches are under review here:
+https://lore.kernel.org/linux-arm-kernel/20200708175020.194436-1-daniele.alessandrelli@linux.intel.com/T/
+
+Murugasen Krishnan, Kuhanh (4):
+  drm: Add Keem Bay VPU codec DRM
+  drm: hantro: Keem Bay VPU DRM encoder
+  drm: hantro: Keem Bay VPU DRM decoder
+  drm: hantro: Keem Bay VPU DRM build files
+
+ drivers/gpu/drm/Kconfig                  |    2 +
+ drivers/gpu/drm/Makefile                 |    1 +
+ drivers/gpu/drm/hantro/Kconfig           |   21 +
+ drivers/gpu/drm/hantro/Makefile          |    6 +
+ drivers/gpu/drm/hantro/hantro_dec.c      | 1441 +++++++++++++++++++++++++
+ drivers/gpu/drm/hantro/hantro_dec.h      |   59 ++
+ drivers/gpu/drm/hantro/hantro_drm.c      | 1673 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/hantro/hantro_drm.h      |  208 ++++
+ drivers/gpu/drm/hantro/hantro_dwl_defs.h |  101 ++
+ drivers/gpu/drm/hantro/hantro_enc.c      |  738 +++++++++++++
+ drivers/gpu/drm/hantro/hantro_enc.h      |   66 ++
+ drivers/gpu/drm/hantro/hantro_fence.c    |  284 +++++
+ drivers/gpu/drm/hantro/hantro_priv.h     |  106 ++
+ 13 files changed, 4706 insertions(+)
+ create mode 100644 drivers/gpu/drm/hantro/Kconfig
+ create mode 100644 drivers/gpu/drm/hantro/Makefile
+ create mode 100644 drivers/gpu/drm/hantro/hantro_dec.c
+ create mode 100644 drivers/gpu/drm/hantro/hantro_dec.h
+ create mode 100644 drivers/gpu/drm/hantro/hantro_drm.c
+ create mode 100644 drivers/gpu/drm/hantro/hantro_drm.h
+ create mode 100644 drivers/gpu/drm/hantro/hantro_dwl_defs.h
+ create mode 100644 drivers/gpu/drm/hantro/hantro_enc.c
+ create mode 100644 drivers/gpu/drm/hantro/hantro_enc.h
+ create mode 100644 drivers/gpu/drm/hantro/hantro_fence.c
+ create mode 100644 drivers/gpu/drm/hantro/hantro_priv.h
+
+-- 
+1.9.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
