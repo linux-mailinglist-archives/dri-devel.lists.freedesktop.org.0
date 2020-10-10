@@ -2,55 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFEBF28A145
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 22:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B1A28A16F
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 23:12:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 840FA6E055;
-	Sat, 10 Oct 2020 20:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D656E02D;
+	Sat, 10 Oct 2020 21:11:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D72046E055
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 20:27:18 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id l85so14142067oih.10
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 13:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=oGo8IGgCZpTOoR3ZKZaP8e3qvIeXNb3yMrzl+Uani14=;
- b=QdqGF5qe16vB4wlkB20OoDG5GsZXhkiu+V7PIg7gevT+li9s2YZrjhJjrGKFlhR8f2
- S2dMeFOHFe2Vy3+ViSPQkUcTH6WgZSgyFemNPe3jkRa1BRJLmCIpjdAjfS+Z+fMYuuFc
- J/zHg1WUv6YS6qXHyCbAbu2sfcz6kuW6fXvudSVSb/G2m0zjetF8vQarbaEqA1w5uj5C
- 1ytU+yCJQIoUFZyqLvf50g0rJYU5X+PHHN8XIpBwZ7Wgshsn/e8A5zDxqiYS9ZaCOgq0
- +eTVZzOuHYBHFBmUTwz8gE0YQaPT+/D15xczuawlfzpKen+UVAP0g0nAO1GFs3+KLRMi
- 43mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oGo8IGgCZpTOoR3ZKZaP8e3qvIeXNb3yMrzl+Uani14=;
- b=o81coqFV+VSWTZ9T60wLqnI0f0wWx4MNZc17Uw9rvm6rYjHokzrD/SjM8nQgg34Qj8
- pJgIiJh/fx4vvuFHyOoUkhMRcxh4Q/jlmagyxw3hnEWpJ/lRp3/AmprrDTrMNO/3fyva
- U6WexfL3v+HnUumsedWYeSzfEcQuXjlWJKkEqFbsEgohnNkzZLcAJkgSeDawYdgMM/n/
- Z4gv1UEglmt1aXerBBOnr7b8TSKvLsz4UNubMYGHAcuiLEsNKeY0Xkrt6HhUIGYTsnYT
- RfAiXwdZ5f2bQ1b5eB7f2no2Fs2ZHgW5CShsWPpbQ16XVzO1uPw85sxfbEcs9W2sqciv
- JKXQ==
-X-Gm-Message-State: AOAM531qs2SAtgBXTIYxea0qCrXxwDUjSO5XJuPRTTAZbLuPuNsCzYbG
- 14UP/HaZ3uYJPhtSw/j+Sv9L7YwV2r4haW1B6Gs=
-X-Google-Smtp-Source: ABdhPJwowo80GWbqkm6ZkqR7gSgknWZHhpMAZMgkL8s88FI9XTRLJCjdHnJ8k2W5KFXN71VQforAtfzOFMwHNRWQMIg=
-X-Received: by 2002:a05:6808:3bb:: with SMTP id
- n27mr6204755oie.130.1602361637761; 
- Sat, 10 Oct 2020 13:27:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-4-daniel.vetter@ffwll.ch>
-In-Reply-To: <20201009075934.3509076-4-daniel.vetter@ffwll.ch>
-From: Oded Gabbay <oded.gabbay@gmail.com>
-Date: Sat, 10 Oct 2020 23:26:52 +0300
-Message-ID: <CAFCwf1194Ce98y8tWxKzXT1rsdHDkzEcnERiaU=3-=t7hygmXg@mail.gmail.com>
-Subject: Re: [PATCH v2 03/17] misc/habana: Stop using frame_vector helpers
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC686E02D
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 21:11:58 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2859528;
+ Sat, 10 Oct 2020 23:11:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1602364316;
+ bh=fpHhn5rM48GkcDX4bL4eRbG5dZr4i+sFRkbewEJH1Dg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rHwYSWi2XUI2y1Ti8u+N8R/KTpRgkW0TVn4LDZpKlDrbVLcAqDJGAnhyonxoldFRN
+ psEGjrkDGp3K4p9i8ooaZhsYuS95RR6PuHIrw4PwyU90aSj/y97JR/y7rgRiYg/Ar0
+ 8MefjhVZFKvV0sPG+/srQf9fVVfiV4dR3+khqARU=
+Date: Sun, 11 Oct 2020 00:11:11 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
+Message-ID: <20201010211111.GA3939@pendragon.ideasonboard.com>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
+ <20201009123421.67a80d72@coco.lan> <20201009122111.GN5177@ziepe.ca>
+ <20201009143723.45609bfb@coco.lan> <20201009124850.GP5177@ziepe.ca>
+ <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,143 +49,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org,
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
  linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Pawel Piskorski <ppiskorski@habana.ai>, John Hubbard <jhubbard@nvidia.com>,
- LKML <linux-kernel@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Linux MM <linux-mm@kvack.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Ofir Bitton <obitton@habana.ai>, linux-mm <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Tomer Tayar <ttayar@habana.ai>, Omer Shpigelman <oshpigelman@habana.ai>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
  Andrew Morton <akpm@linux-foundation.org>,
- Moti Haimovski <mhaimovski@habana.ai>, Dan Williams <dan.j.williams@intel.com>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgOSwgMjAyMCBhdCAxMDo1OSBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
-dGVyQGZmd2xsLmNoPiB3cm90ZToKPgo+IEFsbCB3ZSBuZWVkIGFyZSBhIHBhZ2VzIGFycmF5LCBw
-aW5fdXNlcl9wYWdlc19mYXN0IGNhbiBnaXZlIHVzIHRoYXQKPiBkaXJlY3RseS4gUGx1cyB0aGlz
-IGF2b2lkcyB0aGUgZW50aXJlIHJhdyBwZm4gc2lkZSBvZiBnZXRfdmFkZHJfZnJhbWVzLgo+ClRo
-YW5rcyBmb3IgdGhlIHBhdGNoIERhbmllbC4KCj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRl
-ciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IEphc29uIEd1bnRob3JwZSA8amdnQHpp
-ZXBlLmNhPgo+IENjOiBBbmRyZXcgTW9ydG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPgo+
-IENjOiBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52aWRpYS5jb20+Cj4gQ2M6IErDqXLDtG1lIEds
-aXNzZSA8amdsaXNzZUByZWRoYXQuY29tPgo+IENjOiBKYW4gS2FyYSA8amFja0BzdXNlLmN6Pgo+
-IENjOiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiBDYzogbGludXgt
-bW1Aa3ZhY2sub3JnCj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+
-IENjOiBsaW51eC1zYW1zdW5nLXNvY0B2Z2VyLmtlcm5lbC5vcmcKPiBDYzogbGludXgtbWVkaWFA
-dmdlci5rZXJuZWwub3JnCj4gQ2M6IE9kZWQgR2FiYmF5IDxvZGVkLmdhYmJheUBnbWFpbC5jb20+
-Cj4gQ2M6IE9tZXIgU2hwaWdlbG1hbiA8b3NocGlnZWxtYW5AaGFiYW5hLmFpPgo+IENjOiBPZmly
-IEJpdHRvbiA8b2JpdHRvbkBoYWJhbmEuYWk+Cj4gQ2M6IFRvbWVyIFRheWFyIDx0dGF5YXJAaGFi
-YW5hLmFpPgo+IENjOiBNb3RpIEhhaW1vdnNraSA8bWhhaW1vdnNraUBoYWJhbmEuYWk+Cj4gQ2M6
-IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gQ2M6IEdyZWcgS3JvYWgt
-SGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Cj4gQ2M6IFBhd2VsIFBpc2tvcnNr
-aSA8cHBpc2tvcnNraUBoYWJhbmEuYWk+Cj4gLS0KPiB2MjogVXNlIHVucGluX3VzZXJfcGFnZXNf
-ZGlydHlfbG9jayAoSm9obikKPiAtLS0KPiAgZHJpdmVycy9taXNjL2hhYmFuYWxhYnMvS2NvbmZp
-ZyAgICAgICAgICAgICB8ICAxIC0KPiAgZHJpdmVycy9taXNjL2hhYmFuYWxhYnMvY29tbW9uL2hh
-YmFuYWxhYnMuaCB8ICAzICstCj4gIGRyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9tZW1v
-cnkuYyAgICAgfCA0OSArKysrKysrKy0tLS0tLS0tLS0tLS0KPiAgMyBmaWxlcyBjaGFuZ2VkLCAy
-MCBpbnNlcnRpb25zKCspLCAzMyBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L21pc2MvaGFiYW5hbGFicy9LY29uZmlnIGIvZHJpdmVycy9taXNjL2hhYmFuYWxhYnMvS2NvbmZp
-Zwo+IGluZGV4IDhlYjVkMzhjNjE4ZS4uMmYwNDE4N2Y3MTY3IDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvbWlzYy9oYWJhbmFsYWJzL0tjb25maWcKPiArKysgYi9kcml2ZXJzL21pc2MvaGFiYW5hbGFi
-cy9LY29uZmlnCj4gQEAgLTYsNyArNiw2IEBACj4gIGNvbmZpZyBIQUJBTkFfQUkKPiAgICAgICAg
-IHRyaXN0YXRlICJIYWJhbmFBSSBhY2NlbGVyYXRvcnMgKGhhYmFuYWxhYnMpIgo+ICAgICAgICAg
-ZGVwZW5kcyBvbiBQQ0kgJiYgSEFTX0lPTUVNCj4gLSAgICAgICBzZWxlY3QgRlJBTUVfVkVDVE9S
-Cj4gICAgICAgICBzZWxlY3QgRE1BX1NIQVJFRF9CVUZGRVIKPiAgICAgICAgIHNlbGVjdCBHRU5F
-UklDX0FMTE9DQVRPUgo+ICAgICAgICAgc2VsZWN0IEhXTU9OCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9oYWJhbmFsYWJzLmggYi9kcml2ZXJzL21pc2MvaGFi
-YW5hbGFicy9jb21tb24vaGFiYW5hbGFicy5oCj4gaW5kZXggZWRiZDYyN2IyOWQyLi5jMWIzYWQ2
-MTNiMTUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9taXNjL2hhYmFuYWxhYnMvY29tbW9uL2hhYmFu
-YWxhYnMuaAo+ICsrKyBiL2RyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9oYWJhbmFsYWJz
-LmgKPiBAQCAtODgxLDcgKzg4MSw4IEBAIHN0cnVjdCBobF9jdHhfbWdyIHsKPiAgc3RydWN0IGhs
-X3VzZXJwdHIgewo+ICAgICAgICAgZW51bSB2bV90eXBlX3QgICAgICAgICAgdm1fdHlwZTsgLyog
-bXVzdCBiZSBmaXJzdCAqLwo+ICAgICAgICAgc3RydWN0IGxpc3RfaGVhZCAgICAgICAgam9iX25v
-ZGU7Cj4gLSAgICAgICBzdHJ1Y3QgZnJhbWVfdmVjdG9yICAgICAqdmVjOwo+ICsgICAgICAgc3Ry
-dWN0IHBhZ2UgICAgICAgICAgICAgKipwYWdlczsKPiArICAgICAgIHVuc2lnbmVkIGludCAgICAg
-ICAgICAgIG5wYWdlczsKQ2FuIHlvdSBwbGVhc2UgdXBkYXRlIHRoZSBrZXJuZWxkb2MgY29tbWVu
-dCBzZWN0aW9uIG9mIHRoaXMgc3RydWN0dXJlCmFjY29yZGluZyB0byB5b3VyIGNoYW5nZXMgPwoK
-PiAgICAgICAgIHN0cnVjdCBzZ190YWJsZSAgICAgICAgICpzZ3Q7Cj4gICAgICAgICBlbnVtIGRt
-YV9kYXRhX2RpcmVjdGlvbiBkaXI7Cj4gICAgICAgICBzdHJ1Y3QgbGlzdF9oZWFkICAgICAgICBk
-ZWJ1Z2ZzX2xpc3Q7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1v
-bi9tZW1vcnkuYyBiL2RyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9tZW1vcnkuYwo+IGlu
-ZGV4IDVmZjQ2ODg2ODNmZC4uMzI3YjY0NDc5Zjk3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWlz
-Yy9oYWJhbmFsYWJzL2NvbW1vbi9tZW1vcnkuYwo+ICsrKyBiL2RyaXZlcnMvbWlzYy9oYWJhbmFs
-YWJzL2NvbW1vbi9tZW1vcnkuYwo+IEBAIC0xMjgxLDQ1ICsxMjgxLDQxIEBAIHN0YXRpYyBpbnQg
-Z2V0X3VzZXJfbWVtb3J5KHN0cnVjdCBobF9kZXZpY2UgKmhkZXYsIHU2NCBhZGRyLCB1NjQgc2l6
-ZSwKPiAgICAgICAgICAgICAgICAgcmV0dXJuIC1FRkFVTFQ7Cj4gICAgICAgICB9Cj4KPiAtICAg
-ICAgIHVzZXJwdHItPnZlYyA9IGZyYW1lX3ZlY3Rvcl9jcmVhdGUobnBhZ2VzKTsKPiAtICAgICAg
-IGlmICghdXNlcnB0ci0+dmVjKSB7Cj4gKyAgICAgICB1c2VycHRyLT5wYWdlcyA9IGt2bWFsbG9j
-X2FycmF5KG5wYWdlcywgc2l6ZW9mKCp1c2VycHRyLT5wYWdlcyksCj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIEdGUF9LRVJORUwpOwo+ICsgICAgICAgaWYgKCF1c2Vy
-cHRyLT5wYWdlcykgewo+ICAgICAgICAgICAgICAgICBkZXZfZXJyKGhkZXYtPmRldiwgIkZhaWxl
-ZCB0byBjcmVhdGUgZnJhbWUgdmVjdG9yXG4iKTsKPiAgICAgICAgICAgICAgICAgcmV0dXJuIC1F
-Tk9NRU07Cj4gICAgICAgICB9Cj4KPiAtICAgICAgIHJjID0gZ2V0X3ZhZGRyX2ZyYW1lcyhzdGFy
-dCwgbnBhZ2VzLCBGT0xMX0ZPUkNFIHwgRk9MTF9XUklURSwKPiAtICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHVzZXJwdHItPnZlYyk7Cj4gKyAgICAgICByYyA9IHBpbl91c2VyX3BhZ2Vz
-X2Zhc3Qoc3RhcnQsIG5wYWdlcywgRk9MTF9GT1JDRSB8IEZPTExfV1JJVEUsCj4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgdXNlcnB0ci0+cGFnZXMpOwo+Cj4gICAgICAgICBpZiAo
-cmMgIT0gbnBhZ2VzKSB7Cj4gICAgICAgICAgICAgICAgIGRldl9lcnIoaGRldi0+ZGV2LAo+ICAg
-ICAgICAgICAgICAgICAgICAgICAgICJGYWlsZWQgdG8gbWFwIGhvc3QgbWVtb3J5LCB1c2VyIHB0
-ciBwcm9iYWJseSB3cm9uZ1xuIik7Cj4gICAgICAgICAgICAgICAgIGlmIChyYyA8IDApCj4gLSAg
-ICAgICAgICAgICAgICAgICAgICAgZ290byBkZXN0cm95X2ZyYW1ldmVjOwo+ICsgICAgICAgICAg
-ICAgICAgICAgICAgIGdvdG8gZGVzdHJveV9wYWdlczsKPiArICAgICAgICAgICAgICAgbnBhZ2Vz
-ID0gcmM7Cj4gICAgICAgICAgICAgICAgIHJjID0gLUVGQVVMVDsKPiAtICAgICAgICAgICAgICAg
-Z290byBwdXRfZnJhbWV2ZWM7Cj4gLSAgICAgICB9Cj4gLQo+IC0gICAgICAgaWYgKGZyYW1lX3Zl
-Y3Rvcl90b19wYWdlcyh1c2VycHRyLT52ZWMpIDwgMCkgewo+IC0gICAgICAgICAgICAgICBkZXZf
-ZXJyKGhkZXYtPmRldiwKPiAtICAgICAgICAgICAgICAgICAgICAgICAiRmFpbGVkIHRvIHRyYW5z
-bGF0ZSBmcmFtZSB2ZWN0b3IgdG8gcGFnZXNcbiIpOwo+IC0gICAgICAgICAgICAgICByYyA9IC1F
-RkFVTFQ7Cj4gLSAgICAgICAgICAgICAgIGdvdG8gcHV0X2ZyYW1ldmVjOwo+ICsgICAgICAgICAg
-ICAgICBnb3RvIHB1dF9wYWdlczsKPiAgICAgICAgIH0KPiArICAgICAgIHVzZXJwdHItPm5wYWdl
-cyA9IG5wYWdlczsKPgo+ICAgICAgICAgcmMgPSBzZ19hbGxvY190YWJsZV9mcm9tX3BhZ2VzKHVz
-ZXJwdHItPnNndCwKPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZnJh
-bWVfdmVjdG9yX3BhZ2VzKHVzZXJwdHItPnZlYyksCj4gLSAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIG5wYWdlcywgb2Zmc2V0LCBzaXplLCBHRlBfQVRPTUlDKTsKPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1c2VycHRyLT5wYWdlcywKPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBucGFnZXMsIG9mZnNldCwgc2l6ZSwg
-R0ZQX0FUT01JQyk7CkkgdGhpbmsgdGhhdCBiZWNhdXNlIHRoZSBjYWxsIHRvIGt2bWFsbG9jX2Fy
-cmF5KCkgaXMgZG9uZSB3aXRoCkdGUF9LRVJORUwsIHRoZXJlIGlzIG5vIHBvaW50IGluIHVzaW5n
-IEdGUF9BVE9NSUMgaGVyZS4KQW5kIGFjdHVhbGx5LCB0aGlzIHBhdGggb25seSBuZWVkcyB0byBh
-dm9pZCB5aWVsZGluZyB3aGVuIHVzaW5nIGEKc3BlY2lhbCBkZWJ1ZyBtb2RlLgpTbyBJIHN1Z2dl
-c3QgcHV0dGluZyBoZXJlIEdGUF9LRVJORUwuCgpJbiB0aGUgbWVhbndoaWxlLCBJJ2xsIHJ1biB0
-aGlzIHBhdGNoIChjb3VwbGVkIHdpdGggdGhlIG5leHQgcGF0Y2gpIGluCm91ciBDL0kgdG8gbWFr
-ZSBzdXJlIHRoZXJlIGFyZSBubyByZWdyZXNzaW9ucy4KVGhhbmtzLApPZGVkCgo+ICAgICAgICAg
-aWYgKHJjIDwgMCkgewo+ICAgICAgICAgICAgICAgICBkZXZfZXJyKGhkZXYtPmRldiwgImZhaWxl
-ZCB0byBjcmVhdGUgU0cgdGFibGUgZnJvbSBwYWdlc1xuIik7Cj4gLSAgICAgICAgICAgICAgIGdv
-dG8gcHV0X2ZyYW1ldmVjOwo+ICsgICAgICAgICAgICAgICBnb3RvIHB1dF9wYWdlczsKPiAgICAg
-ICAgIH0KPgo+ICAgICAgICAgcmV0dXJuIDA7Cj4KPiAtcHV0X2ZyYW1ldmVjOgo+IC0gICAgICAg
-cHV0X3ZhZGRyX2ZyYW1lcyh1c2VycHRyLT52ZWMpOwo+IC1kZXN0cm95X2ZyYW1ldmVjOgo+IC0g
-ICAgICAgZnJhbWVfdmVjdG9yX2Rlc3Ryb3kodXNlcnB0ci0+dmVjKTsKPiArcHV0X3BhZ2VzOgo+
-ICsgICAgICAgdW5waW5fdXNlcl9wYWdlcyh1c2VycHRyLT5wYWdlcywgbnBhZ2VzKTsKPiArZGVz
-dHJveV9wYWdlczoKPiArICAgICAgIGt2ZnJlZSh1c2VycHRyLT5wYWdlcyk7Cj4gICAgICAgICBy
-ZXR1cm4gcmM7Cj4gIH0KPgo+IEBAIC0xNDA1LDggKzE0MDEsNiBAQCBpbnQgaGxfcGluX2hvc3Rf
-bWVtb3J5KHN0cnVjdCBobF9kZXZpY2UgKmhkZXYsIHU2NCBhZGRyLCB1NjQgc2l6ZSwKPiAgICov
-Cj4gIHZvaWQgaGxfdW5waW5faG9zdF9tZW1vcnkoc3RydWN0IGhsX2RldmljZSAqaGRldiwgc3Ry
-dWN0IGhsX3VzZXJwdHIgKnVzZXJwdHIpCj4gIHsKPiAtICAgICAgIHN0cnVjdCBwYWdlICoqcGFn
-ZXM7Cj4gLQo+ICAgICAgICAgaGxfZGVidWdmc19yZW1vdmVfdXNlcnB0cihoZGV2LCB1c2VycHRy
-KTsKPgo+ICAgICAgICAgaWYgKHVzZXJwdHItPmRtYV9tYXBwZWQpCj4gQEAgLTE0MTQsMTUgKzE0
-MDgsOCBAQCB2b2lkIGhsX3VucGluX2hvc3RfbWVtb3J5KHN0cnVjdCBobF9kZXZpY2UgKmhkZXYs
-IHN0cnVjdCBobF91c2VycHRyICp1c2VycHRyKQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdXNlcnB0ci0+c2d0LT5uZW50cywKPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVzZXJw
-dHItPmRpcik7Cj4KPiAtICAgICAgIHBhZ2VzID0gZnJhbWVfdmVjdG9yX3BhZ2VzKHVzZXJwdHIt
-PnZlYyk7Cj4gLSAgICAgICBpZiAoIUlTX0VSUihwYWdlcykpIHsKPiAtICAgICAgICAgICAgICAg
-aW50IGk7Cj4gLQo+IC0gICAgICAgICAgICAgICBmb3IgKGkgPSAwOyBpIDwgZnJhbWVfdmVjdG9y
-X2NvdW50KHVzZXJwdHItPnZlYyk7IGkrKykKPiAtICAgICAgICAgICAgICAgICAgICAgICBzZXRf
-cGFnZV9kaXJ0eV9sb2NrKHBhZ2VzW2ldKTsKPiAtICAgICAgIH0KPiAtICAgICAgIHB1dF92YWRk
-cl9mcmFtZXModXNlcnB0ci0+dmVjKTsKPiAtICAgICAgIGZyYW1lX3ZlY3Rvcl9kZXN0cm95KHVz
-ZXJwdHItPnZlYyk7Cj4gKyAgICAgICB1bnBpbl91c2VyX3BhZ2VzX2RpcnR5X2xvY2sodXNlcnB0
-ci0+cGFnZXMsIHVzZXJwdHItPm5wYWdlcywgdHJ1ZSk7Cj4gKyAgICAgICBrdmZyZWUodXNlcnB0
-ci0+cGFnZXMpOwo+Cj4gICAgICAgICBsaXN0X2RlbCgmdXNlcnB0ci0+am9iX25vZGUpOwo+Cj4g
-LS0KPiAyLjI4LjAKPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+Hi Daniel,
+
+On Fri, Oct 09, 2020 at 07:52:05PM +0200, Daniel Vetter wrote:
+> On Fri, Oct 9, 2020 at 2:48 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > On Fri, Oct 09, 2020 at 02:37:23PM +0200, Mauro Carvalho Chehab wrote:
+> >
+> > > I'm not a mm/ expert, but, from what I understood from Daniel's patch
+> > > description is that this is unsafe *only if*  __GFP_MOVABLE is used.
+> >
+> > No, it is unconditionally unsafe. The CMA movable mappings are
+> > specific VMAs that will have bad issues here, but there are other
+> > types too.
+> >
+> > The only way to do something at a VMA level is to have a list of OK
+> > VMAs, eg because they were creatd via a special mmap helper from the
+> > media subsystem.
+> >
+> > > Well, no drivers inside the media subsystem uses such flag, although
+> > > they may rely on some infrastructure that could be using it behind
+> > > the bars.
+> >
+> > It doesn't matter, nothing prevents the user from calling media APIs
+> > on mmaps it gets from other subsystems.
+> 
+> I think a good first step would be to disable userptr of non struct
+> page backed storage going forward for any new hw support. Even on
+> existing drivers. dma-buf sharing has been around for long enough now
+> that this shouldn't be a problem. Unfortunately right now this doesn't
+> seem to exist, so the entire problem keeps getting perpetuated.
+
+On the V4L2 side, I think we should disable USERPTR for any new driver,
+period. That's what I've been recommended when reviewing patches for
+several years already. It's a deprecated API, it should be phased out,
+which starts by not allowing any new use case.
+
+> > > If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE
+> > > flag that it would be denying the core mm code to set __GFP_MOVABLE.
+> >
+> > We can't tell from the VMA these kinds of details..
+> >
+> > It has to go the other direction, evey mmap that might be used as a
+> > userptr here has to be found and the VMA specially created to allow
+> > its use. At least that is a kernel only change, but will need people
+> > with the HW to do this work.
+> 
+> I think the only reasonable way to keep this working is:
+> - add a struct dma_buf *vma_tryget_dma_buf(struct vm_area_struct *vma);
+> - add dma-buf export support to fbdev and v4l
+> - roll this out everywhere we still need it.
+> 
+> Realistically this just isn't going to happen. And anything else just
+> reimplements half of dma-buf, which is kinda pointless (you need
+> minimally refcounting and some way to get at a promise of a permanent
+> sg list for dma. Plus probably the vmap for kernel cpu access.
+> 
+> > > Please let address the issue on this way, instead of broken an
+> > > userspace API that it is there since 1991.
+> >
+> > It has happened before :( It took 4 years for RDMA to undo the uAPI
+> > breakage caused by a security fix for something that was a 15 years
+> > old bug.
+> 
+> Yeah we have a bunch of these on the drm side too. Some of them are
+> really just "you have to upgrade userspace", and there's no real fix
+> for the security nightmare without that.
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
