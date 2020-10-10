@@ -1,37 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A94289C8F
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 02:02:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9E6289C90
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 02:03:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA876EE55;
-	Sat, 10 Oct 2020 00:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91ECB6EE58;
+	Sat, 10 Oct 2020 00:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61D496EE55
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 00:02:37 +0000 (UTC)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DB83528;
- Sat, 10 Oct 2020 02:02:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1602288155;
- bh=jbQWtvDSUpFHDQnz0/lpoyFtSiGx0Qfd8mbPXeszMVk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EEuv1ukhOt5ain0VyELBznpwmhpjmzCYZQdzHJQ/7ZmYFbcFQYmqmsx78POWJqr7X
- yDhCLwcHl3V5jdqExRz/t4+IiA3MhrSYt4/r7eEtgEHNQNcoA7/fOF4akokD8og4GN
- LRju7j6ikTfu4jyRSOXF/rOkYXAdHwCF9MTsgPmQ=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 8/7] dt-bindings: display: mxsfb: Add compatible for i.MX8MM
-Date: Sat, 10 Oct 2020 03:01:46 +0300
-Message-Id: <20201010000146.19744-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
-References: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 984AC6EE58
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 00:02:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602288176;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LAHdT0YUcS3hlFVvV/a7Yb9xHClGFU2uZDMKfAvGGD8=;
+ b=YGO+8l967roSxPzUWascfbDV/wJa11gLqAJh1a9rUiBa2c0JqCVv5UmBNgAF6Ix85tq9zT
+ XqZSTWj2SMEdc+/0eljtZadSiwpgzryx/Dpkpxt+LIK4NDjK0HnUGWffM6SUgxci+mcZMG
+ 5yts3jkEC63LfpVHYvtVMWsyWw1TDfA=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-Wk81i243Npyr3CkTDaAMzA-1; Fri, 09 Oct 2020 20:02:53 -0400
+X-MC-Unique: Wk81i243Npyr3CkTDaAMzA-1
+Received: by mail-qk1-f199.google.com with SMTP id v190so5920546qki.21
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 17:02:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LAHdT0YUcS3hlFVvV/a7Yb9xHClGFU2uZDMKfAvGGD8=;
+ b=PeHE+sc9BlmfyHwcXBjZSOIBPLqVBiimNOdWM0hv78ZLxuvcMN2n9/4iTJNmbaeUPO
+ I8BgE3e4bWDlf+/TvlPB2BKQTgaTXS+D4pu+s8KcivsFpYAqn7P4Q90Q8tEfwzuY/JDO
+ zMpPiwGO2DuURJl5D6QOFIbJjkPhu2hl5P6Ku6wmsoWiO3GfsoHCm0upKU10AegfTGHK
+ umlKV5Irkc2hqQ1oHLSs5NdSsx2pK8SuWxabJzRcwF81k6ZS3K8/wyvtLO62Crs5/5CC
+ L4lbiV6gi8wLxiWllvhyveU1dMBDC9ikZ5i9p6+Lkv05dHp5THM+Tv8q5pvpRADinWWP
+ Xezw==
+X-Gm-Message-State: AOAM5327eY0CgQN5KzJ4kegFGhCnElRNOwnLze+LUYAfh58stgTVbciN
+ 6dYKUcYraPaQ0+NGCqMwdOah+ODicH6l+eHeUpjpjMz5yC8ZPkXoUVGU/Bmlw//1uXB2JYgaNnC
+ qZqEea3F0VJM4vj+LTo0uIyJaHjuKz1qVtxef4W9TQOiu
+X-Received: by 2002:ac8:544f:: with SMTP id d15mr550610qtq.378.1602288173369; 
+ Fri, 09 Oct 2020 17:02:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTAsjduoXcqRRrUIMh+vSvUOH3iyoH4osH0nD+5G7WvhBO6AKdfe+6mxpDH02m/3KuNfgu9lpqZxcgAWuY2Ao=
+X-Received: by 2002:ac8:544f:: with SMTP id d15mr550593qtq.378.1602288173091; 
+ Fri, 09 Oct 2020 17:02:53 -0700 (PDT)
 MIME-Version: 1.0
+References: <202010092326.20482.linux@zary.sk>
+ <CACO55tuj_=PUYuBnJLZgCEize_8Po0VnuDVPtkHLEZxL3RgF7Q@mail.gmail.com>
+ <CAKb7UvggVn2c=jUNSfjf6r529n89xfNgVBpn3jnXznVh8Gs4+w@mail.gmail.com>
+In-Reply-To: <CAKb7UvggVn2c=jUNSfjf6r529n89xfNgVBpn3jnXznVh8Gs4+w@mail.gmail.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Sat, 10 Oct 2020 02:02:42 +0200
+Message-ID: <CACO55tuAxbcXbC9zrT5rs34s=5uBugkbcikORU5868ka9bHdkw@mail.gmail.com>
+Subject: Re: [Nouveau] nouveau broken on Riva TNT2 in 5.9.0-rc8: GPU not
+ supported on big-endian
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,45 +74,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>
+Cc: nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ondrej Zary <linux@zary.sk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Vasut <marex@denx.de>
+On Sat, Oct 10, 2020 at 12:23 AM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
+>
+> On Fri, Oct 9, 2020 at 5:54 PM Karol Herbst <kherbst@redhat.com> wrote:
+> >
+> > On Fri, Oct 9, 2020 at 11:35 PM Ondrej Zary <linux@zary.sk> wrote:
+> > >
+> > > Hello,
+> > > I'm testing 5.9.0-rc8 and found that Riva TNT2 stopped working:
+> > > [    0.000000] Linux version 5.9.0-rc8+ (zary@gsql) (gcc (Debian 8.3.0-6) 8.3.0, GNU ld (GNU Binutils for Debian) 2.31.1) #326 SMP Fri Oct 9 22:31:40 CEST 2020
+> > > ...
+> > > [   14.771464] nouveau 0000:01:00.0: GPU not supported on big-endian
+> > > [   14.771782] nouveau: probe of 0000:01:00.0 failed with error -38
+> > >
+> > > big-endian? WTF? The machine is x86.
+> > >
+> >
+> > mhh, we reworked the endianess checks a bit and apparently that broke
+> > something... I will give it some thoughts, but could you be so kind
+> > and create an mmiotrace under 5.9 with nouveau? You won't need to
+> > start X or anything while doing it. Just enable the trace and modprobe
+> > nouveau and collect the trace.
+>
+> Looks like nvkm_device_endianness unconditionally reads out 0x4. I
+> don't think that reg is there pre-NV11. At least NV4, NV5, NV10 and
+> maybe NV15 (which is logically pre-NV11) don't support big-endian
+> mode. Not sure about NV1A, which was the IGP of the series and IIRC
+> logically pre-NV11 as well (but clearly could only be used with x86
+> chips, since it was part of the motherboard).
+>
+> Aha, it's documented in rnndb:
+>
+> https://github.com/envytools/envytools/blob/master/rnndb/bus/pmc.xml
+> <reg32 offset="0x004" name="ENDIAN" variants="NV1A-"/>
+>
 
-NXP's i.MX8MM has an LCDIF as well.
+ohh, I should have checked there.. yeah, will write a fix for it then.
+Before my patch we just always tried to switch it, but never threw an
+error.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Changes since v1:
-
-- Rebased on top of the YAML conversion
----
- Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-index 404bd516b7f5..c44441690ae7 100644
---- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-+++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-@@ -26,6 +26,7 @@ properties:
-             - fsl,imx6sll-lcdif
-             - fsl,imx6ul-lcdif
-             - fsl,imx7d-lcdif
-+            - fsl,imx8mm-lcdif
-             - fsl,imx8mq-lcdif
-         - const: fsl,imx6sx-lcdif
- 
--- 
-Regards,
-
-Laurent Pinchart
+>   -ilia
+>
 
 _______________________________________________
 dri-devel mailing list
