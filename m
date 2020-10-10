@@ -1,38 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9938B289FD5
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 12:03:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B701289F83
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 11:21:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AB2B6EEA9;
-	Sat, 10 Oct 2020 10:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE5706E0E3;
+	Sat, 10 Oct 2020 09:21:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hosting.gsystem.sk (hosting.gsystem.sk [212.5.213.30])
- by gabe.freedesktop.org (Postfix) with ESMTP id B06976E14B;
- Sat, 10 Oct 2020 08:49:42 +0000 (UTC)
-Received: from [192.168.0.2] (188-167-68-178.dynamic.chello.sk
- [188.167.68.178])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E094B6E0E3
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 09:21:30 +0000 (UTC)
+Received: from coco.lan (ip5f5ad5ce.dynamic.kabel-deutschland.de
+ [95.90.213.206])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by hosting.gsystem.sk (Postfix) with ESMTPSA id DB18A7A02C5;
- Sat, 10 Oct 2020 10:49:39 +0200 (CEST)
-From: Ondrej Zary <linux@zary.sk>
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-Subject: Re: [Nouveau] nouveau broken on Riva TNT2 in 5.9.0-rc8: GPU not
- supported on big-endian
-Date: Sat, 10 Oct 2020 10:49:37 +0200
-User-Agent: KMail/1.9.10
-References: <202010092326.20482.linux@zary.sk>
- <CACO55tuj_=PUYuBnJLZgCEize_8Po0VnuDVPtkHLEZxL3RgF7Q@mail.gmail.com>
- <CAKb7UvggVn2c=jUNSfjf6r529n89xfNgVBpn3jnXznVh8Gs4+w@mail.gmail.com>
-In-Reply-To: <CAKb7UvggVn2c=jUNSfjf6r529n89xfNgVBpn3jnXznVh8Gs4+w@mail.gmail.com>
-X-KMail-QuotePrefix: > 
+ by mail.kernel.org (Postfix) with ESMTPSA id E7E03207C4;
+ Sat, 10 Oct 2020 09:21:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1602321690;
+ bh=d3mTSqxjmIVv8pvjDnUxuO/wR4Ywg3sH+xwYDg3gKUY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=GvHeRr3ZUEwZJUKG634fF9Md5DIz1b6g+GzjmK/SnMBCaTfKY/Nv+1CfBU6hrZYex
+ JiYJ3TI4ntgmxVwSgIfd0LVLdi9AM0cRnqK4eOJqIWNfAQ2EIpbNiM2Z3niSGk9MmJ
+ mFn0WP4KLtQX9HyBi/TdwG6kikR3GKtxtj5/JmG8=
+Date: Sat, 10 Oct 2020 11:21:22 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
+Message-ID: <20201010112122.587f9945@coco.lan>
+In-Reply-To: <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
+ <20201009123421.67a80d72@coco.lan> <20201009122111.GN5177@ziepe.ca>
+ <20201009143723.45609bfb@coco.lan> <20201009124850.GP5177@ziepe.ca>
+ <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-Message-Id: <202010101049.37663.linux@zary.sk>
-X-Mailman-Approved-At: Sat, 10 Oct 2020 10:02:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,89 +50,312 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, LKML <linux-kernel@vger.kernel.org>
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Saturday 10 October 2020 00:23:38 Ilia Mirkin wrote:
-> On Fri, Oct 9, 2020 at 5:54 PM Karol Herbst <kherbst@redhat.com> wrote:
+Em Fri, 9 Oct 2020 19:52:05 +0200
+Daniel Vetter <daniel.vetter@ffwll.ch> escreveu:
+
+> On Fri, Oct 9, 2020 at 2:48 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 > >
-> > On Fri, Oct 9, 2020 at 11:35 PM Ondrej Zary <linux@zary.sk> wrote:
-> > >
-> > > Hello,
-> > > I'm testing 5.9.0-rc8 and found that Riva TNT2 stopped working:
-> > > [    0.000000] Linux version 5.9.0-rc8+ (zary@gsql) (gcc (Debian 8.3.0-6) 8.3.0, GNU ld (GNU Binutils for Debian) 2.31.1) #326 SMP Fri Oct 9 22:31:40 CEST 2020
-> > > ...
-> > > [   14.771464] nouveau 0000:01:00.0: GPU not supported on big-endian
-> > > [   14.771782] nouveau: probe of 0000:01:00.0 failed with error -38
-> > >
-> > > big-endian? WTF? The machine is x86.
-> > >
+> > On Fri, Oct 09, 2020 at 02:37:23PM +0200, Mauro Carvalho Chehab wrote:
+> >  
+> > > I'm not a mm/ expert, but, from what I understood from Daniel's patch
+> > > description is that this is unsafe *only if*  __GFP_MOVABLE is used.  
 > >
-> > mhh, we reworked the endianess checks a bit and apparently that broke
-> > something... I will give it some thoughts, but could you be so kind
-> > and create an mmiotrace under 5.9 with nouveau? You won't need to
-> > start X or anything while doing it. Just enable the trace and modprobe
-> > nouveau and collect the trace.
+> > No, it is unconditionally unsafe. The CMA movable mappings are
+> > specific VMAs that will have bad issues here, but there are other
+> > types too.
+
+I didn't check the mm dirty details, but I strongly suspect that the mm
+code has a way to prevent moving a mmapped page while it is still in usage.
+
+If not, then the entire movable pages concept sounds broken to me, and
+has to be fixed at mm subsystem.
+
+> >
+> > The only way to do something at a VMA level is to have a list of OK
+> > VMAs, eg because they were creatd via a special mmap helper from the
+> > media subsystem.
+
+I'm not sure if I'm following you on that. The media API can work with
+different ways of sending buffers to userspace:
+
+	- read();
+
+	- using the overlay mode. This interface is deprecated in
+	  practice, being replaced by DMABUF. Only a few older hardware
+	  supports it, and it depends on an special X11 helper driver
+	  for it to work.
+
+	- via DMABUF:
+		https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dmabuf.html
+
+	- via mmap, using a mmap helper:
+		https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/mmap.html
+
+	- via mmap, using userspace-provided pointers:
+		https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/userp.html
+
+The existing open-source programs usually chose one or more of the above
+modes. if the Kernel driver returns -EINVAL when an mmapped streaming I/O
+mode is not supported, userspace has to select a different method.
+
+Most userspace open source programs have fallback support: if one
+mmap I/O method fails, it selects another one, although this is not
+a mandatory requirement. I found (and fixed) a few ones that were
+relying exclusively on userptr support, but I didn't make a 
+comprehensive check.
+
+Also there are a number of relevant closed-source apps that we have no 
+idea about what methods they use, like Skype, and other similar
+videoconferencing programs. Breaking support for those, specially at
+a time where people are relying on it in order to participate on
+conferences and doing internal meetings is a **very bad** idea.
+
+So, whatever solution is taken, it should not be dumping warning
+messages at the system and tainting the Kernel, but, instead, checking
+if the userspace request is valid or not. If it is invalid, return the
+proper error code via the right V4L2 ioctl, in order to let userspace
+choose a different method. I the request is valid, refcount the pages 
+for them to not be moved while they're still in usage.
+
+-
+
+Let me provide some background about how things work at the media
+subsytem. If you want to know more, the userspace-provided memory 
+mapped pointers work is described here:
+
+	https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/userp.html#userp
+
+Basically, userspace calls either one of those ioctls:
+
+	VIDIOC_CREATE_BUFS:
+		https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/vidioc-create-bufs.html
+
+Which is translated into a videobuf2 call to: vb2_ioctl_create_bufs()
+
+	VIDIOC_REQBUFS
+		https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/vidioc-reqbufs.html#vidioc-reqbufs
+
+Which is translated into a videobuf2 call to: vb2_ioctl_reqbufs()
+
+Both internally calls vb2_verify_memory_type(), which is responsible
+for checking if the provided pointers are OK for the usage and/or do
+all necessary page allocations, and taking care of any special 
+requirements. This could easily have some additional checks to
+verify if the requested VMA address has pages that are movable or
+not, ensuring that ensure that the VMA is OK, and locking them in
+order to prevent the mm code to move such pages while they are in
+usage by the media subsystem.
+
+Now, as I said before, I don't know the dirty details about how
+to lock those pages at the mm subsystem in order to avoid it
+to move the used pages. Yet, when vb2_create_framevec()
+is called, the check if VMA is OK should already be happened
+at vb2_verify_memory_type().
+
+-
+
+It should be noticed that the dirty hack added by patch 09/17
+and 10/17 affects *all* types of memory allocations at V4L2, 
+as this kAPI is called by the 3 different memory models
+supported at the media subsystem:
+
+	drivers/media/common/videobuf2/videobuf2-vmalloc.c
+	drivers/media/common/videobuf2/videobuf2-dma-contig.c
+	drivers/media/common/videobuf2/videobuf2-dma-sg.c
+
+In other words, with this code:
+
+	int unsafe_follow_pfn(struct vm_area_struct *vma, unsigned long address,
+		unsigned long *pfn)
+	{
+	#ifdef CONFIG_STRICT_FOLLOW_PFN
+		pr_info("unsafe follow_pfn usage rejected, see CONFIG_STRICT_FOLLOW_PFN\n");
+		return -EINVAL;
+	#else
+		WARN_ONCE(1, "unsafe follow_pfn usage\n");
+		add_taint(TAINT_USER, LOCKDEP_STILL_OK);
+
+		return follow_pfn(vma, address, pfn);
+	#endif
+
+you're unconditionally breaking the media userspace API support not
+only for embedded systems that could be using userptr instead of
+DMA_BUF, but also for *all* video devices, including USB cameras.
+
+This is **NOT** an acceptable solution. 
+
+So, I stand my NACK to this approach.
+
+> > > Well, no drivers inside the media subsystem uses such flag, although
+> > > they may rely on some infrastructure that could be using it behind
+> > > the bars.  
+> >
+> > It doesn't matter, nothing prevents the user from calling media APIs
+> > on mmaps it gets from other subsystems.  
 > 
-> Looks like nvkm_device_endianness unconditionally reads out 0x4. I
-> don't think that reg is there pre-NV11. At least NV4, NV5, NV10 and
-> maybe NV15 (which is logically pre-NV11) don't support big-endian
-> mode. Not sure about NV1A, which was the IGP of the series and IIRC
-> logically pre-NV11 as well (but clearly could only be used with x86
-> chips, since it was part of the motherboard).
+> I think a good first step would be to disable userptr of non struct
+> page backed storage going forward for any new hw support. Even on
+> existing drivers. dma-buf sharing has been around for long enough now
+> that this shouldn't be a problem. Unfortunately right now this doesn't
+> seem to exist, so the entire problem keeps getting perpetuated.
 
-Yes, you're right. Forcing nvkm_device_endianness to return true allows
-5.9.0-rc8 to work:
-[    0.000000] Linux version 5.9.0-rc8+ (zary@gsql) (gcc (Debian 8.3.0-6) 8.3.0, GNU ld (GNU Binutils for Debian) 2.31.1) #326 SMP Fri Oct 9 22:31:40 CEST 2020
-...
-[   12.311258] nouveau 0000:01:00.0: bios: DCB table not found
-[   12.311583] nouveau 0000:01:00.0: bios: DCB table not found
-[   12.311834] nouveau 0000:01:00.0: bios: DCB table not found
-[   12.311847] nouveau 0000:01:00.0: bios: DCB table not found
-[   12.311989] agpgart-intel 0000:00:00.0: AGP 3.0 bridge
-[   12.312017] agpgart-intel 0000:00:00.0: bridge is in legacy mode, falling back to 2.x
-[   12.312031] agpgart-intel 0000:00:00.0: putting AGP V2 device into 4x mode
-[   12.312066] nouveau 0000:01:00.0: putting AGP V2 device into 4x mode
-[   12.312162] agpgart-intel 0000:00:00.0: AGP 3.0 bridge
-[   12.312182] agpgart-intel 0000:00:00.0: bridge is in legacy mode, falling back to 2.x
-[   12.312195] agpgart-intel 0000:00:00.0: putting AGP V2 device into 4x mode
-[   12.312230] nouveau 0000:01:00.0: putting AGP V2 device into 4x mode
-[   12.312247] nouveau 0000:01:00.0: tmr: unknown input clock freq
-[   12.318341] nouveau 0000:01:00.0: fb: 32 MiB SDRAM
-[   12.333376] [TTM] Zone  kernel: Available graphics memory: 385048 KiB
-[   12.333392] [TTM] Initializing pool allocator
-[   12.333434] nouveau 0000:01:00.0: DRM: VRAM: 31 MiB
-[   12.333443] nouveau 0000:01:00.0: DRM: GART: 128 MiB
-[   12.333453] nouveau 0000:01:00.0: DRM: BMP version 5.6
-[   12.333460] nouveau 0000:01:00.0: DRM: No DCB data found in VBIOS
-[   12.335355] nouveau 0000:01:00.0: DRM: MM: using M2MF for buffer copies
-[   12.335443] nouveau 0000:01:00.0: bios: DCB table not found
-[   12.336033] nouveau 0000:01:00.0: DRM: Saving VGA fonts
-[   12.376420] nouveau 0000:01:00.0: DRM: No DCB data found in VBIOS
-[   12.410397] nouveau 0000:01:00.0: DRM: allocated 1280x1024 fb: 0x4000, bo b68d2ac4
-[   12.441217] fbcon: nouveaudrmfb (fb0) is primary device
-[   12.591964] Console: switching to colour frame buffer device 160x64
-[   12.593876] nouveau 0000:01:00.0: [drm] fb0: nouveaudrmfb frame buffer device
-[   12.594944] [drm] Initialized nouveau 1.3.1 20120801 for 0000:01:00.0 on minor 0
+Well, the media uAPI does support DMABUF (both import and export):
 
-BTW. 5.8 kernel (that appeared today in Debian packports) is broken the same way.
+	https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dmabuf.html
+	https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/vidioc-expbuf.html#vidioc-expbuf
 
-> Aha, it's documented in rnndb:
+And I fully agree that newer programs should use DMABUF when sharing
+buffers with DRM subsystem, but that's not my main concern.
+
+What I do want is to not break userspace support nor to taint the Kernel
+due to a valid uAPI call.
+
+A valid uAPI call should check if the parameters passed though it are
+valid. If they are, it should handle. Otherwise, it should return
+-EINVAL, without tainting the Kernel or printing warning messages.
+
+The approach took by patches 09/17 and 10/17 doesn't do that.
+Instead, they just unconditionally breaks the media uAPI.
+
+What should be done, instead, is to drop patch 10/17, and work on
+a way for the code inside vb2_create_framevec() to ensure that, if
+USERPTR is used, the memory pages will be properly locked while the
+driver is using, returning -EINVAL only if there's no way to proceed,
+without tainting the Kernel.
+
 > 
-> https://github.com/envytools/envytools/blob/master/rnndb/bus/pmc.xml
-> <reg32 offset="0x004" name="ENDIAN" variants="NV1A-"/>
+> > > If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE
+> > > flag that it would be denying the core mm code to set __GFP_MOVABLE.  
+> >
+> > We can't tell from the VMA these kinds of details..
+> >
+> > It has to go the other direction, evey mmap that might be used as a
+> > userptr here has to be found and the VMA specially created to allow
+> > its use. At least that is a kernel only change, but will need people
+> > with the HW to do this work.  
 > 
->   -ilia
-> 
+> I think the only reasonable way to keep this working is:
+> - add a struct dma_buf *vma_tryget_dma_buf(struct vm_area_struct *vma);
 
+Not sure how an userspace buffer could be mapped to be using it,
+specially since the buffer may not even be imported/exported
+from the DRM subsystem, but it could simply be allocated
+via glibc calloc()/malloc().
 
--- 
-Ondrej Zary
+> - add dma-buf export support to fbdev and v4l
+
+V4L has support for it already.
+
+> - roll this out everywhere we still need it.
+
+That's where things are hard. This is not like DRM, where the APIs
+are called via some open source libraries that are also managed
+by DRM upstream developers.
+
+In the case of the media subsystem, while we added a libv4l sometime
+ago, not all userspace apps use it, as a large part of them used
+to exist before the addition of the libraries. Also, we're currently 
+trying to deprecate libv4l, at least for embedded systems, in favor
+of libcamera.
+
+On media, there are lots of closed source apps that uses the media API
+directly. Even talking about open source ones, there are lots of
+different apps, including not only media-specific apps, but also
+generic ones, like web browsers, which don't use the libraries we
+wrote.
+
+An userspace API breakage would take *huge* efforts and will take
+lots of time to have it merged everywhere. It will cause lots of
+troubles everywhere.
+
+> Realistically this just isn't going to happen. 
+
+Why not? Any app developer could already use DMA-BUF if required,
+as the upstream support was added several years ago.
+
+> And anything else just
+> reimplements half of dma-buf, 
+
+It is just the opposite: those uAPIs came years before dma-buf.
+In other words, it was dma-buf that re-implemented it ;-)
+
+Now, I agree with you that dma-buf is a way cooler than the past
+alternatives.
+
+-
+
+It sounds to me that you're considering on only one use case of 
+USERPTR: to pass a buffer created from DRM. As far as I'm aware,
+only embedded userspace applications actually do that.
+
+Yet, there are a number of other applications that do something like
+the userptr_capture() function on this code:
+
+	https://git.linuxtv.org/v4l-utils.git/tree/contrib/test/v4l2grab.c
+
+E. g. using glibc alloc functions like calloc() to allocate memory, 
+passing the user-allocated data to the Kernel via something like this:
+
+	struct v4l2_requestbuffers req;
+	struct v4l2_buffer buf;
+	int n_buffers = 2;
+
+	req.count  = 2;
+	req.type   = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+	req.memory = V4L2_MEMORY_USERPTR;
+	if (ioctl(fd, VIDIOC_REQBUFS, &req))
+		return errno;
+
+	for (i = 0; i < req.count; ++i) {
+		buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+		buf.memory = V4L2_MEMORY_USERPTR;
+		buf.index = i;
+		buf.m.userptr = (unsigned long)buffers[i].start;
+		buf.length = buffers[i].length;
+		if (ioctl(fd, VIDIOC_QBUF, &buf))
+			return errno;
+	}
+	if (ioctl(fd, VIDIOC_STREAMON, &req.type))
+		return errno;
+
+	/* some capture loop */
+
+	ioctl(fd, VIDIOC_STREAMOFF, &req.type);
+
+I can't possibly see *any* security issues with the above code.
+
+As I said before, VIDIOC_REQBUFS should be checking if the userspace
+buffers are OK and ensure that their refcounts will be incremented,
+in order to avoid mm to move the pages used there, freeing the 
+refconts when VIDIOC_STREAMOFF - or close(fd) - is called.
+
+> which is kinda pointless (you need
+> minimally refcounting and some way to get at a promise of a permanent
+> sg list for dma. Plus probably the vmap for kernel cpu access.
+
+Yeah, refcounting needs to happen. 
+
+Thanks,
+Mauro
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
