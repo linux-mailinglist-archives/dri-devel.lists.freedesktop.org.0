@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C31528A0F1
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 19:01:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D55BB28A0F2
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 19:01:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4CF6F388;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A09236F389;
 	Sat, 10 Oct 2020 17:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE096E090
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 17:01:05 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09AH12Qr129423;
- Sat, 10 Oct 2020 12:01:02 -0500
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4396F389
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 17:01:06 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09AH14bT048888;
+ Sat, 10 Oct 2020 12:01:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1602349262;
- bh=JqhLKPovan6Z21UCULrhU15ObT7LtlMOvXEYuKEVwdw=;
+ s=ti-com-17Q1; t=1602349264;
+ bh=19wrczLmXhP7YDQO1FpnleaJSisEBX1ORbAbd62PuLc=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=VRgJqslmjzUHADgUJ4CTsA5e1a76IcdzZvmOOX/DMQhj4ZXh4uPM66bwt4+jpqyNR
- RdCTOSm135LIuo5kVL5Rb/aF4V1rMxy8FBmbKQCHWyZS2rXgfBf2g4Zf9h+TAASp68
- 9ucDLRbQ5CcNdfDn3Kv0iFYQaxFhnuNTZ2VOGY8Q=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09AH12ds053889
+ b=S96c3Y0r5AvqRaCcNInCMPgb4s9p2V1kxcp3t0yX9CMnFJVRHWxRD3B9o2Vcv/Sw4
+ wBdd0aG3zylvuT8ukd4BDdmKPAuLnQJsse3ri0I082zCLQygJn3uXs7RUxGjci/Tfv
+ Bbqp0kNDJWmSi0apNK94T6q23f6dO56odcfmURrc=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09AH14Qx089766
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 10 Oct 2020 12:01:02 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ Sat, 10 Oct 2020 12:01:04 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Sat, 10
- Oct 2020 12:01:02 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ Oct 2020 12:01:03 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Sat, 10 Oct 2020 12:01:02 -0500
+ Frontend Transport; Sat, 10 Oct 2020 12:01:03 -0500
 Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09AH0xKK012138;
- Sat, 10 Oct 2020 12:01:01 -0500
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09AH0xKL012138;
+ Sat, 10 Oct 2020 12:01:02 -0500
 From: Jyri Sarha <jsarha@ti.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 1/2] drm/tilcdc: Do not keep vblank interrupts enabled all
- the time
-Date: Sat, 10 Oct 2020 20:00:58 +0300
-Message-ID: <fb87adebaffe8c7cb4fe7e909a45d47af08d7c6e.1602349100.git.jsarha@ti.com>
+Subject: [PATCH v3 2/2] drm/tilcdc: Remove tilcdc_crtc_max_width(),
+ use private data
+Date: Sat, 10 Oct 2020 20:00:59 +0300
+Message-ID: <73683d2ce151cffb811a756595b02892eeac3d84.1602349100.git.jsarha@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1602349100.git.jsarha@ti.com>
 References: <cover.1602349100.git.jsarha@ti.com>
@@ -66,78 +66,144 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-END_OF_FRAME interrupts have been enabled all the time since the
-beginning of this driver. It is about time to add this feature.
+We already have a private data member for maximum display width so
+let's use it and get rid of the redundant tilcdc_crtc_max_width().
+
+The LCDC version probing is moved to before reading the device tree
+properties so that the version information is available when private
+data maximum width is initialized, if "max-width" property is not
+found.
 
 Signed-off-by: Jyri Sarha <jsarha@ti.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 36 +++++++++++++++++++++++++---
- 1 file changed, 33 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 16 +-----------
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 38 +++++++++++++++-------------
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  7 ++---
+ 3 files changed, 26 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index cf4ead0dc2e3..0fd3dafe6404 100644
+index 0fd3dafe6404..da2ab2aa3577 100644
 --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
 +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -147,12 +147,9 @@ static void tilcdc_crtc_enable_irqs(struct drm_device *dev)
- 		tilcdc_set(dev, LCDC_RASTER_CTRL_REG,
- 			LCDC_V1_SYNC_LOST_INT_ENA | LCDC_V1_FRAME_DONE_INT_ENA |
- 			LCDC_V1_UNDERFLOW_INT_ENA);
--		tilcdc_set(dev, LCDC_DMA_CTRL_REG,
--			LCDC_V1_END_OF_FRAME_INT_ENA);
- 	} else {
- 		tilcdc_write(dev, LCDC_INT_ENABLE_SET_REG,
- 			LCDC_V2_UNDERFLOW_INT_ENA |
--			LCDC_V2_END_OF_FRAME0_INT_ENA |
- 			LCDC_FRAME_DONE | LCDC_SYNC_LOST);
+@@ -754,20 +754,6 @@ static const struct drm_crtc_funcs tilcdc_crtc_funcs = {
+ 	.disable_vblank	= tilcdc_crtc_disable_vblank,
+ };
+ 
+-int tilcdc_crtc_max_width(struct drm_crtc *crtc)
+-{
+-	struct drm_device *dev = crtc->dev;
+-	struct tilcdc_drm_private *priv = dev->dev_private;
+-	int max_width = 0;
+-
+-	if (priv->rev == 1)
+-		max_width = 1024;
+-	else if (priv->rev == 2)
+-		max_width = 2048;
+-
+-	return max_width;
+-}
+-
+ static enum drm_mode_status
+ tilcdc_crtc_mode_valid(struct drm_crtc *crtc,
+ 		       const struct drm_display_mode *mode)
+@@ -780,7 +766,7 @@ tilcdc_crtc_mode_valid(struct drm_crtc *crtc,
+ 	 * check to see if the width is within the range that
+ 	 * the LCD Controller physically supports
+ 	 */
+-	if (mode->hdisplay > tilcdc_crtc_max_width(crtc))
++	if (mode->hdisplay > priv->max_width)
+ 		return MODE_VIRTUAL_X;
+ 
+ 	/* width must be multiple of 16 */
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index 4f5fc3e87383..c5f82e693f1a 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -105,7 +105,7 @@ static void modeset_init(struct drm_device *dev)
+ 
+ 	dev->mode_config.min_width = 0;
+ 	dev->mode_config.min_height = 0;
+-	dev->mode_config.max_width = tilcdc_crtc_max_width(priv->crtc);
++	dev->mode_config.max_width = priv->max_width;
+ 	dev->mode_config.max_height = 2048;
+ 	dev->mode_config.funcs = &mode_config_funcs;
+ }
+@@ -218,22 +218,6 @@ static int tilcdc_init(struct drm_driver *ddrv, struct device *dev)
+ 		goto init_failed;
  	}
- }
-@@ -678,11 +675,44 @@ static int tilcdc_crtc_atomic_check(struct drm_crtc *crtc,
  
- static int tilcdc_crtc_enable_vblank(struct drm_crtc *crtc)
- {
-+	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
-+	struct drm_device *dev = crtc->dev;
-+	struct tilcdc_drm_private *priv = dev->dev_private;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&tilcdc_crtc->irq_lock, flags);
-+
-+	tilcdc_clear_irqstatus(dev, LCDC_END_OF_FRAME0);
-+
-+	if (priv->rev == 1)
-+		tilcdc_set(dev, LCDC_DMA_CTRL_REG,
-+			   LCDC_V1_END_OF_FRAME_INT_ENA);
-+	else
-+		tilcdc_set(dev, LCDC_INT_ENABLE_SET_REG,
-+			   LCDC_V2_END_OF_FRAME0_INT_ENA);
-+
-+	spin_unlock_irqrestore(&tilcdc_crtc->irq_lock, flags);
-+
- 	return 0;
- }
+-	if (of_property_read_u32(node, "max-bandwidth", &priv->max_bandwidth))
+-		priv->max_bandwidth = TILCDC_DEFAULT_MAX_BANDWIDTH;
+-
+-	DBG("Maximum Bandwidth Value %d", priv->max_bandwidth);
+-
+-	if (of_property_read_u32(node, "max-width", &priv->max_width))
+-		priv->max_width = TILCDC_DEFAULT_MAX_WIDTH;
+-
+-	DBG("Maximum Horizontal Pixel Width Value %dpixels", priv->max_width);
+-
+-	if (of_property_read_u32(node, "max-pixelclock",
+-					&priv->max_pixelclock))
+-		priv->max_pixelclock = TILCDC_DEFAULT_MAX_PIXELCLOCK;
+-
+-	DBG("Maximum Pixel Clock Value %dKHz", priv->max_pixelclock);
+-
+ 	pm_runtime_enable(dev);
  
- static void tilcdc_crtc_disable_vblank(struct drm_crtc *crtc)
- {
-+	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
-+	struct drm_device *dev = crtc->dev;
-+	struct tilcdc_drm_private *priv = dev->dev_private;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&tilcdc_crtc->irq_lock, flags);
-+
-+	if (priv->rev == 1)
-+		tilcdc_clear(dev, LCDC_DMA_CTRL_REG,
-+			     LCDC_V1_END_OF_FRAME_INT_ENA);
-+	else
-+		tilcdc_clear(dev, LCDC_INT_ENABLE_SET_REG,
-+			     LCDC_V2_END_OF_FRAME0_INT_ENA);
-+
-+	spin_unlock_irqrestore(&tilcdc_crtc->irq_lock, flags);
- }
+ 	/* Determine LCD IP Version */
+@@ -287,6 +271,26 @@ static int tilcdc_init(struct drm_driver *ddrv, struct device *dev)
+ 		}
+ 	}
  
- static void tilcdc_crtc_reset(struct drm_crtc *crtc)
++	if (of_property_read_u32(node, "max-bandwidth", &priv->max_bandwidth))
++		priv->max_bandwidth = TILCDC_DEFAULT_MAX_BANDWIDTH;
++
++	DBG("Maximum Bandwidth Value %d", priv->max_bandwidth);
++
++	if (of_property_read_u32(node, "max-width", &priv->max_width)) {
++		if (priv->rev == 1)
++			priv->max_width = TILCDC_DEFAULT_MAX_WIDTH_V1;
++		else
++			priv->max_width = TILCDC_DEFAULT_MAX_WIDTH_V2;
++	}
++
++	DBG("Maximum Horizontal Pixel Width Value %dpixels", priv->max_width);
++
++	if (of_property_read_u32(node, "max-pixelclock",
++				 &priv->max_pixelclock))
++		priv->max_pixelclock = TILCDC_DEFAULT_MAX_PIXELCLOCK;
++
++	DBG("Maximum Pixel Clock Value %dKHz", priv->max_pixelclock);
++
+ 	ret = tilcdc_crtc_create(ddev);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to create crtc\n");
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+index 18815e75ca4f..d29806ca8817 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+@@ -28,8 +28,10 @@ struct drm_plane;
+ 
+ /* Defaulting to pixel clock defined on AM335x */
+ #define TILCDC_DEFAULT_MAX_PIXELCLOCK  126000
+-/* Defaulting to max width as defined on AM335x */
+-#define TILCDC_DEFAULT_MAX_WIDTH  2048
++/* Maximum display width for LCDC V1 */
++#define TILCDC_DEFAULT_MAX_WIDTH_V1  1024
++/* ... and for LCDC V2 found on AM335x: */
++#define TILCDC_DEFAULT_MAX_WIDTH_V2  2048
+ /*
+  * This may need some tweaking, but want to allow at least 1280x1024@60
+  * with optimized DDR & EMIF settings tweaked 1920x1080@24 appears to
+@@ -158,7 +160,6 @@ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
+ 		const struct tilcdc_panel_info *info);
+ void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
+ 					bool simulate_vesa_sync);
+-int tilcdc_crtc_max_width(struct drm_crtc *crtc);
+ void tilcdc_crtc_shutdown(struct drm_crtc *crtc);
+ int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
+ 		struct drm_framebuffer *fb,
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
