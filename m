@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2C128B0FD
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 10:59:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A95C28A17E
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 23:32:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F37996E425;
-	Mon, 12 Oct 2020 08:59:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9CF6E060;
+	Sat, 10 Oct 2020 21:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 357216E096
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 21:32:56 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1602365579; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=++PfaktQtqZUoZFwJpMwbqOFzMy3ofIWwLzgFnK9zpo=;
- b=DuSqQ16SNGTbZgMCAtHBZsAWm2E317BvlQNHzrCCmDVltbFZdYK9GTd10o5IFTiiIgoMTRd3
- idkaow3zacl40zP/yjNDsbCSBdmGuLjC8gJWn9sXXeW9QfZvNIRp7csgBmfDl3URofzFbg0Y
- d65kzxcjPs1XoEbZTjll3C+xv88=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5f822834e9e942744c5a2720 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 10 Oct 2020 21:31:32
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id E1384C433F1; Sat, 10 Oct 2020 21:31:31 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id AE4C8C433CB;
- Sat, 10 Oct 2020 21:31:30 +0000 (UTC)
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 351666E060
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 21:32:15 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id h10so1619626oie.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 14:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eOErpfOgEHvqoynno+X7K2KGQQjqKpNf/4DLHM6VCxI=;
+ b=bkgteCVxwM6kN0aEzNJYsf26mAIxhPv2McdrAdqiyH+C70JfkVfDt7/M5rR+rAdLhG
+ cuhWtQlVsFvREMMLlMZEjS9TQsBb7WZQ8UggkyE4P+OvWApOlJjAa2toOrzS1mKuBYLH
+ D1CUxJYWqX5UONNm+6mBvlB1DGdxP0Yv9uoBY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eOErpfOgEHvqoynno+X7K2KGQQjqKpNf/4DLHM6VCxI=;
+ b=tvXLqPjTg5TReMN9ldTHx5/OHsvOur7vr49QMo+lq8h7nJG5A6xTrxeRA6/PL5D1b2
+ PGFtkoM5VIreJU6Z77Yadtn3ylIq2ZU3VsxlAsW+Sv7R/Km2qFUpSDbzOc+n7mK9I6fD
+ PrYlTwyQPkKYQyQ4QBJltvxXFjhK0yht4e1G4Y84kRy7/LPI43B48sDrGqGfNxckC2uA
+ corF+AVqF751WJUhfPYdh216Ih4FLvaSutlGBwrMKkotoZZL2+kYqQik8bmQMqKJppng
+ U5CzCZBSOpNyRcW8g1elJnav1NUfjuUAkwD3xj8g9lY7wOum/eXXmaB4AFsoxuPp6ox1
+ rU7A==
+X-Gm-Message-State: AOAM530uzUlKUf2ZTzGTDZnwt1rLmKCB0kjmItbKQp5Ppyt5TqF6HgnX
+ Y61wy2itNjXLYtxhrQC468EkvPTrjkGDi4yNGMv01A==
+X-Google-Smtp-Source: ABdhPJwlD9CwC0x8+4UqvunFmEbVtlxEXubTPmLCcFCqoFw+1d9HsFP/HM5IpzpxeQb5drq3ZcEO6Uh7XOBwl3Gjidk=
+X-Received: by 2002:aca:52c4:: with SMTP id g187mr6142563oib.101.1602365534555; 
+ Sat, 10 Oct 2020 14:32:14 -0700 (PDT)
 MIME-Version: 1.0
-Date: Sat, 10 Oct 2020 14:31:30 -0700
-From: khsieh@codeaurora.org
-To: Rajendra Nayak <rnayak@codeaurora.org>
-Subject: Re: [PATCH v2] drm/msm/dp: add opp_table corner voting support base
- on dp_ink_clk rate
-In-Reply-To: <717f90f2-4148-9fc0-c772-13f101f916a8@codeaurora.org>
-References: <20201003222652.32671-1-khsieh@codeaurora.org>
- <717f90f2-4148-9fc0-c772-13f101f916a8@codeaurora.org>
-Message-ID: <9978d4f12e7943b8223e2618f5fbb998@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-X-Mailman-Approved-At: Mon, 12 Oct 2020 08:59:04 +0000
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-4-daniel.vetter@ffwll.ch>
+ <CAFCwf1194Ce98y8tWxKzXT1rsdHDkzEcnERiaU=3-=t7hygmXg@mail.gmail.com>
+In-Reply-To: <CAFCwf1194Ce98y8tWxKzXT1rsdHDkzEcnERiaU=3-=t7hygmXg@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Sat, 10 Oct 2020 23:32:03 +0200
+Message-ID: <CAKMK7uG_kBpmuQDRgKdyh8SycFDhE7kuB2MEOsx+D5wRmerWKA@mail.gmail.com>
+Subject: Re: [PATCH v2 03/17] misc/habana: Stop using frame_vector helpers
+To: Oded Gabbay <oded.gabbay@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,243 +60,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, swboyd@chromium.org,
- tanmay@codeaurora.org, aravindh@codeaurora.org, sean@poorly.run
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Pawel Piskorski <ppiskorski@habana.ai>, John Hubbard <jhubbard@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Ofir Bitton <obitton@habana.ai>, linux-mm <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Tomer Tayar <ttayar@habana.ai>, Omer Shpigelman <oshpigelman@habana.ai>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Moti Haimovski <mhaimovski@habana.ai>, Dan Williams <dan.j.williams@intel.com>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-06 00:31, Rajendra Nayak wrote:
-> On 10/4/2020 3:56 AM, Kuogee Hsieh wrote:
->> Set link rate by using OPP set rate api so that CX level will be set
->> accordingly based on the link rate.
->> 
->> Changes in v2:
->> -- remove dev from dp_ctrl_put() parameters
->> -- address review comments
-> 
-> This needs to go below '---' and should not be part of the
-> change log.
-> 
->> 
->> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->> ---
->>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 26 +++++++++++++++++
->>   drivers/gpu/drm/msm/dp/dp_display.c |  2 +-
->>   drivers/gpu/drm/msm/dp/dp_power.c   | 44 
->> ++++++++++++++++++++++++++---
->>   drivers/gpu/drm/msm/dp/dp_power.h   |  2 +-
->>   4 files changed, 68 insertions(+), 6 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index 2e3e1917351f..6eb9cdad1421 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -10,6 +10,7 @@
->>   #include <linux/delay.h>
->>   #include <linux/phy/phy.h>
->>   #include <linux/phy/phy-dp.h>
->> +#include <linux/pm_opp.h>
->>   #include <drm/drm_fixed.h>
->>   #include <drm/drm_dp_helper.h>
->>   #include <drm/drm_print.h>
->> @@ -76,6 +77,8 @@ struct dp_ctrl_private {
->>   	struct dp_parser *parser;
->>   	struct dp_catalog *catalog;
->>   +	struct opp_table *opp_table;
->> +
->>   	struct completion idle_comp;
->>   	struct completion video_comp;
->>   };
->> @@ -1836,6 +1839,7 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, 
->> struct dp_link *link,
->>   			struct dp_parser *parser)
->>   {
->>   	struct dp_ctrl_private *ctrl;
->> +	int ret;
->>     	if (!dev || !panel || !aux ||
->>   	    !link || !catalog) {
->> @@ -1849,6 +1853,19 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, 
->> struct dp_link *link,
->>   		return ERR_PTR(-ENOMEM);
->>   	}
->>   +	ctrl->opp_table = dev_pm_opp_set_clkname(dev, "ctrl_link");
->> +	if (IS_ERR(ctrl->opp_table)) {
->> +		dev_err(dev, "invalid DP OPP table in device tree\n");
-> 
-> You do this regardless of an OPP table in DT, so for starters the error
-> message is wrong. Secondly this can return you a -EPROBE_DEFER if the
-> clock driver isn't ready yet.
-> So the ideal thing to do here, is return a PTR_ERR(ctrl->opp_table)
-> 
->> +		ctrl->opp_table = NULL;
->> +	} else {
->> +		/* OPP table is optional */
->> +		ret = dev_pm_opp_of_add_table(dev);
->> +		if (ret && ret != -ENODEV) {
->> +			dev_pm_opp_put_clkname(ctrl->opp_table);
->> +			ctrl->opp_table = NULL;
->> +		}
->> +	}
->> +
->>   	init_completion(&ctrl->idle_comp);
->>   	init_completion(&ctrl->video_comp);
->>   @@ -1866,4 +1883,13 @@ struct dp_ctrl *dp_ctrl_get(struct device 
->> *dev, struct dp_link *link,
->>     void dp_ctrl_put(struct dp_ctrl *dp_ctrl)
->>   {
->> +	struct dp_ctrl_private *ctrl;
->> +
->> +	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
->> +
->> +	if (ctrl->opp_table) {
->> +		dev_pm_opp_of_remove_table(ctrl->dev);
->> +		dev_pm_opp_put_clkname(ctrl->opp_table);
->> +		ctrl->opp_table = NULL;
->> +	}
->>   }
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->> b/drivers/gpu/drm/msm/dp/dp_display.c
->> index e175aa3fd3a9..269f83550b46 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -698,7 +698,7 @@ static int dp_init_sub_modules(struct 
->> dp_display_private *dp)
->>   		goto error;
->>   	}
->>   -	dp->power = dp_power_get(dp->parser);
->> +	dp->power = dp_power_get(dev, dp->parser);
->>   	if (IS_ERR(dp->power)) {
->>   		rc = PTR_ERR(dp->power);
->>   		DRM_ERROR("failed to initialize power, rc = %d\n", rc);
->> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c 
->> b/drivers/gpu/drm/msm/dp/dp_power.c
->> index 17c1fc6a2d44..9c4ea00a5f2a 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_power.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
->> @@ -8,12 +8,14 @@
->>   #include <linux/clk.h>
->>   #include <linux/clk-provider.h>
->>   #include <linux/regulator/consumer.h>
->> +#include <linux/pm_opp.h>
->>   #include "dp_power.h"
->>   #include "msm_drv.h"
->>     struct dp_power_private {
->>   	struct dp_parser *parser;
->>   	struct platform_device *pdev;
->> +	struct device *dev;
->>   	struct clk *link_clk_src;
->>   	struct clk *pixel_provider;
->>   	struct clk *link_provider;
->> @@ -148,18 +150,51 @@ static int dp_power_clk_deinit(struct 
->> dp_power_private *power)
->>   	return 0;
->>   }
->>   +static int dp_power_clk_set_link_rate(struct dp_power_private 
->> *power,
->> +			struct dss_clk *clk_arry, int num_clk, int enable)
->> +{
->> +	u32 rate;
->> +	int i, rc = 0;
->> +
->> +	for (i = 0; i < num_clk; i++) {
->> +		if (clk_arry[i].clk) {
->> +			if (clk_arry[i].type == DSS_CLK_PCLK) {
->> +				if (enable)
->> +					rate = clk_arry[i].rate;
->> +				else
->> +					rate = 0;
->> +
->> +				rc = dev_pm_opp_set_rate(power->dev, rate);
-> 
-> I am not sure how this is expected to work when you have multiple link 
-> clocks,
-> since you can only associate one of them with the OPP table which ends 
-> up
-> getting scaled when you do a dev_pm_opp_set_rate()
-> Do you really have platforms which will have multiple link clocks?
-this clk_arry[] contains two entries, dp_link_clk and dp_link_intf_clk.
-only dp_link_clk with DSS_CLK_PCLK type, hence only dp_link_clk use 
-dev_pm_opp_set_rate()
-to set link rate.
-
-> 
->> +				if (rc)
->> +					break;
->> +			}
->> +
->> +		}
->> +	}
->> +	return rc;
->> +}
->> +
->>   static int dp_power_clk_set_rate(struct dp_power_private *power,
->>   		enum dp_pm_type module, bool enable)
->>   {
->>   	int rc = 0;
->>   	struct dss_module_power *mp = &power->parser->mp[module];
->>   -	if (enable) {
->> -		rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
->> +	if (module == DP_CTRL_PM) {
->> +		rc = dp_power_clk_set_link_rate(power, mp->clk_config, mp->num_clk, 
->> enable);
->>   		if (rc) {
->> -			DRM_ERROR("failed to set clks rate.\n");
->> +			DRM_ERROR("failed to set link clks rate\n");
->>   			return rc;
->>   		}
->> +	} else {
->> +
-> 
-> extra blank line
-> 
->> +		if (enable) {
->> +			rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
->> +			if (rc) {
->> +				DRM_ERROR("failed to set clks rate\n");
->> +				return rc;
->> +			}
->> +		}
->>   	}
->>     	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, enable);
->> @@ -349,7 +384,7 @@ int dp_power_deinit(struct dp_power *dp_power)
->>   	return 0;
->>   }
->>   -struct dp_power *dp_power_get(struct dp_parser *parser)
->> +struct dp_power *dp_power_get(struct device *dev, struct dp_parser 
->> *parser)
->>   {
->>   	struct dp_power_private *power;
->>   	struct dp_power *dp_power;
->> @@ -365,6 +400,7 @@ struct dp_power *dp_power_get(struct dp_parser 
->> *parser)
->>     	power->parser = parser;
->>   	power->pdev = parser->pdev;
->> +	power->dev = dev;
->>     	dp_power = &power->dp_power;
->>   diff --git a/drivers/gpu/drm/msm/dp/dp_power.h 
->> b/drivers/gpu/drm/msm/dp/dp_power.h
->> index 76743d755833..7d0327bbc0d5 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_power.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_power.h
->> @@ -102,6 +102,6 @@ void dp_power_client_deinit(struct dp_power 
->> *power);
->>    * methods to be called by the client to configure the power related
->>    * modueles.
->>    */
->> -struct dp_power *dp_power_get(struct dp_parser *parser);
->> +struct dp_power *dp_power_get(struct device *dev, struct dp_parser 
->> *parser);
->>     #endif /* _DP_POWER_H_ */
->> 
->> base-commit: d1ea914925856d397b0b3241428f20b945e31434
-> 
-> ??
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCBPY3QgMTAsIDIwMjAgYXQgMTA6MjcgUE0gT2RlZCBHYWJiYXkgPG9kZWQuZ2FiYmF5
+QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBGcmksIE9jdCA5LCAyMDIwIGF0IDEwOjU5IEFNIERh
+bmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IHdyb3RlOgo+ID4KPiA+IEFsbCB3
+ZSBuZWVkIGFyZSBhIHBhZ2VzIGFycmF5LCBwaW5fdXNlcl9wYWdlc19mYXN0IGNhbiBnaXZlIHVz
+IHRoYXQKPiA+IGRpcmVjdGx5LiBQbHVzIHRoaXMgYXZvaWRzIHRoZSBlbnRpcmUgcmF3IHBmbiBz
+aWRlIG9mIGdldF92YWRkcl9mcmFtZXMuCj4gPgo+IFRoYW5rcyBmb3IgdGhlIHBhdGNoIERhbmll
+bC4KPgo+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRl
+bC5jb20+Cj4gPiBDYzogSmFzb24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+Cj4gPiBDYzogQW5k
+cmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz4KPiA+IENjOiBKb2huIEh1YmJh
+cmQgPGpodWJiYXJkQG52aWRpYS5jb20+Cj4gPiBDYzogSsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3Nl
+QHJlZGhhdC5jb20+Cj4gPiBDYzogSmFuIEthcmEgPGphY2tAc3VzZS5jej4KPiA+IENjOiBEYW4g
+V2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiA+IENjOiBsaW51eC1tbUBrdmFj
+ay5vcmcKPiA+IENjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiA+IENj
+OiBsaW51eC1zYW1zdW5nLXNvY0B2Z2VyLmtlcm5lbC5vcmcKPiA+IENjOiBsaW51eC1tZWRpYUB2
+Z2VyLmtlcm5lbC5vcmcKPiA+IENjOiBPZGVkIEdhYmJheSA8b2RlZC5nYWJiYXlAZ21haWwuY29t
+Pgo+ID4gQ2M6IE9tZXIgU2hwaWdlbG1hbiA8b3NocGlnZWxtYW5AaGFiYW5hLmFpPgo+ID4gQ2M6
+IE9maXIgQml0dG9uIDxvYml0dG9uQGhhYmFuYS5haT4KPiA+IENjOiBUb21lciBUYXlhciA8dHRh
+eWFyQGhhYmFuYS5haT4KPiA+IENjOiBNb3RpIEhhaW1vdnNraSA8bWhhaW1vdnNraUBoYWJhbmEu
+YWk+Cj4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiA+IENj
+OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgo+ID4gQ2M6
+IFBhd2VsIFBpc2tvcnNraSA8cHBpc2tvcnNraUBoYWJhbmEuYWk+Cj4gPiAtLQo+ID4gdjI6IFVz
+ZSB1bnBpbl91c2VyX3BhZ2VzX2RpcnR5X2xvY2sgKEpvaG4pCj4gPiAtLS0KPiA+ICBkcml2ZXJz
+L21pc2MvaGFiYW5hbGFicy9LY29uZmlnICAgICAgICAgICAgIHwgIDEgLQo+ID4gIGRyaXZlcnMv
+bWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9oYWJhbmFsYWJzLmggfCAgMyArLQo+ID4gIGRyaXZlcnMv
+bWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9tZW1vcnkuYyAgICAgfCA0OSArKysrKysrKy0tLS0tLS0t
+LS0tLS0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDMzIGRlbGV0aW9u
+cygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9LY29uZmln
+IGIvZHJpdmVycy9taXNjL2hhYmFuYWxhYnMvS2NvbmZpZwo+ID4gaW5kZXggOGViNWQzOGM2MThl
+Li4yZjA0MTg3ZjcxNjcgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9L
+Y29uZmlnCj4gPiArKysgYi9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9LY29uZmlnCj4gPiBAQCAt
+Niw3ICs2LDYgQEAKPiA+ICBjb25maWcgSEFCQU5BX0FJCj4gPiAgICAgICAgIHRyaXN0YXRlICJI
+YWJhbmFBSSBhY2NlbGVyYXRvcnMgKGhhYmFuYWxhYnMpIgo+ID4gICAgICAgICBkZXBlbmRzIG9u
+IFBDSSAmJiBIQVNfSU9NRU0KPiA+IC0gICAgICAgc2VsZWN0IEZSQU1FX1ZFQ1RPUgo+ID4gICAg
+ICAgICBzZWxlY3QgRE1BX1NIQVJFRF9CVUZGRVIKPiA+ICAgICAgICAgc2VsZWN0IEdFTkVSSUNf
+QUxMT0NBVE9SCj4gPiAgICAgICAgIHNlbGVjdCBIV01PTgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9oYWJhbmFsYWJzLmggYi9kcml2ZXJzL21pc2MvaGFi
+YW5hbGFicy9jb21tb24vaGFiYW5hbGFicy5oCj4gPiBpbmRleCBlZGJkNjI3YjI5ZDIuLmMxYjNh
+ZDYxM2IxNSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9o
+YWJhbmFsYWJzLmgKPiA+ICsrKyBiL2RyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9oYWJh
+bmFsYWJzLmgKPiA+IEBAIC04ODEsNyArODgxLDggQEAgc3RydWN0IGhsX2N0eF9tZ3Igewo+ID4g
+IHN0cnVjdCBobF91c2VycHRyIHsKPiA+ICAgICAgICAgZW51bSB2bV90eXBlX3QgICAgICAgICAg
+dm1fdHlwZTsgLyogbXVzdCBiZSBmaXJzdCAqLwo+ID4gICAgICAgICBzdHJ1Y3QgbGlzdF9oZWFk
+ICAgICAgICBqb2Jfbm9kZTsKPiA+IC0gICAgICAgc3RydWN0IGZyYW1lX3ZlY3RvciAgICAgKnZl
+YzsKPiA+ICsgICAgICAgc3RydWN0IHBhZ2UgICAgICAgICAgICAgKipwYWdlczsKPiA+ICsgICAg
+ICAgdW5zaWduZWQgaW50ICAgICAgICAgICAgbnBhZ2VzOwo+IENhbiB5b3UgcGxlYXNlIHVwZGF0
+ZSB0aGUga2VybmVsZG9jIGNvbW1lbnQgc2VjdGlvbiBvZiB0aGlzIHN0cnVjdHVyZQo+IGFjY29y
+ZGluZyB0byB5b3VyIGNoYW5nZXMgPwoKQXBvbG9naWVzIEkgbWlzc2VkIHRoZSBuaWNlIGtlcm5l
+bGRvYy4gSSdsbCBmaXggdGhhdCBpbiB0aGUgbmV4dCByb3VuZC4KCgo+ID4gICAgICAgICBzdHJ1
+Y3Qgc2dfdGFibGUgICAgICAgICAqc2d0Owo+ID4gICAgICAgICBlbnVtIGRtYV9kYXRhX2RpcmVj
+dGlvbiBkaXI7Cj4gPiAgICAgICAgIHN0cnVjdCBsaXN0X2hlYWQgICAgICAgIGRlYnVnZnNfbGlz
+dDsKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9jb21tb24vbWVtb3J5
+LmMgYi9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9jb21tb24vbWVtb3J5LmMKPiA+IGluZGV4IDVm
+ZjQ2ODg2ODNmZC4uMzI3YjY0NDc5Zjk3IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9taXNjL2hh
+YmFuYWxhYnMvY29tbW9uL21lbW9yeS5jCj4gPiArKysgYi9kcml2ZXJzL21pc2MvaGFiYW5hbGFi
+cy9jb21tb24vbWVtb3J5LmMKPiA+IEBAIC0xMjgxLDQ1ICsxMjgxLDQxIEBAIHN0YXRpYyBpbnQg
+Z2V0X3VzZXJfbWVtb3J5KHN0cnVjdCBobF9kZXZpY2UgKmhkZXYsIHU2NCBhZGRyLCB1NjQgc2l6
+ZSwKPiA+ICAgICAgICAgICAgICAgICByZXR1cm4gLUVGQVVMVDsKPiA+ICAgICAgICAgfQo+ID4K
+PiA+IC0gICAgICAgdXNlcnB0ci0+dmVjID0gZnJhbWVfdmVjdG9yX2NyZWF0ZShucGFnZXMpOwo+
+ID4gLSAgICAgICBpZiAoIXVzZXJwdHItPnZlYykgewo+ID4gKyAgICAgICB1c2VycHRyLT5wYWdl
+cyA9IGt2bWFsbG9jX2FycmF5KG5wYWdlcywgc2l6ZW9mKCp1c2VycHRyLT5wYWdlcyksCj4gPiAr
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgR0ZQX0tFUk5FTCk7Cj4gPiAr
+ICAgICAgIGlmICghdXNlcnB0ci0+cGFnZXMpIHsKPiA+ICAgICAgICAgICAgICAgICBkZXZfZXJy
+KGhkZXYtPmRldiwgIkZhaWxlZCB0byBjcmVhdGUgZnJhbWUgdmVjdG9yXG4iKTsKPiA+ICAgICAg
+ICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiA+ICAgICAgICAgfQo+ID4KPiA+IC0gICAgICAg
+cmMgPSBnZXRfdmFkZHJfZnJhbWVzKHN0YXJ0LCBucGFnZXMsIEZPTExfRk9SQ0UgfCBGT0xMX1dS
+SVRFLAo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1c2VycHRyLT52ZWMpOwo+
+ID4gKyAgICAgICByYyA9IHBpbl91c2VyX3BhZ2VzX2Zhc3Qoc3RhcnQsIG5wYWdlcywgRk9MTF9G
+T1JDRSB8IEZPTExfV1JJVEUsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1
+c2VycHRyLT5wYWdlcyk7Cj4gPgo+ID4gICAgICAgICBpZiAocmMgIT0gbnBhZ2VzKSB7Cj4gPiAg
+ICAgICAgICAgICAgICAgZGV2X2VycihoZGV2LT5kZXYsCj4gPiAgICAgICAgICAgICAgICAgICAg
+ICAgICAiRmFpbGVkIHRvIG1hcCBob3N0IG1lbW9yeSwgdXNlciBwdHIgcHJvYmFibHkgd3Jvbmdc
+biIpOwo+ID4gICAgICAgICAgICAgICAgIGlmIChyYyA8IDApCj4gPiAtICAgICAgICAgICAgICAg
+ICAgICAgICBnb3RvIGRlc3Ryb3lfZnJhbWV2ZWM7Cj4gPiArICAgICAgICAgICAgICAgICAgICAg
+ICBnb3RvIGRlc3Ryb3lfcGFnZXM7Cj4gPiArICAgICAgICAgICAgICAgbnBhZ2VzID0gcmM7Cj4g
+PiAgICAgICAgICAgICAgICAgcmMgPSAtRUZBVUxUOwo+ID4gLSAgICAgICAgICAgICAgIGdvdG8g
+cHV0X2ZyYW1ldmVjOwo+ID4gLSAgICAgICB9Cj4gPiAtCj4gPiAtICAgICAgIGlmIChmcmFtZV92
+ZWN0b3JfdG9fcGFnZXModXNlcnB0ci0+dmVjKSA8IDApIHsKPiA+IC0gICAgICAgICAgICAgICBk
+ZXZfZXJyKGhkZXYtPmRldiwKPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICJGYWlsZWQgdG8g
+dHJhbnNsYXRlIGZyYW1lIHZlY3RvciB0byBwYWdlc1xuIik7Cj4gPiAtICAgICAgICAgICAgICAg
+cmMgPSAtRUZBVUxUOwo+ID4gLSAgICAgICAgICAgICAgIGdvdG8gcHV0X2ZyYW1ldmVjOwo+ID4g
+KyAgICAgICAgICAgICAgIGdvdG8gcHV0X3BhZ2VzOwo+ID4gICAgICAgICB9Cj4gPiArICAgICAg
+IHVzZXJwdHItPm5wYWdlcyA9IG5wYWdlczsKPiA+Cj4gPiAgICAgICAgIHJjID0gc2dfYWxsb2Nf
+dGFibGVfZnJvbV9wYWdlcyh1c2VycHRyLT5zZ3QsCj4gPiAtICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgZnJhbWVfdmVjdG9yX3BhZ2VzKHVzZXJwdHItPnZlYyksCj4gPiAt
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbnBhZ2VzLCBvZmZzZXQsIHNp
+emUsIEdGUF9BVE9NSUMpOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgdXNlcnB0ci0+cGFnZXMsCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBucGFnZXMsIG9mZnNldCwgc2l6ZSwgR0ZQX0FUT01JQyk7Cj4gSSB0aGluayB0aGF0IGJl
+Y2F1c2UgdGhlIGNhbGwgdG8ga3ZtYWxsb2NfYXJyYXkoKSBpcyBkb25lIHdpdGgKPiBHRlBfS0VS
+TkVMLCB0aGVyZSBpcyBubyBwb2ludCBpbiB1c2luZyBHRlBfQVRPTUlDIGhlcmUuCj4gQW5kIGFj
+dHVhbGx5LCB0aGlzIHBhdGggb25seSBuZWVkcyB0byBhdm9pZCB5aWVsZGluZyB3aGVuIHVzaW5n
+IGEKPiBzcGVjaWFsIGRlYnVnIG1vZGUuCj4gU28gSSBzdWdnZXN0IHB1dHRpbmcgaGVyZSBHRlBf
+S0VSTkVMLgoKSHVoLCBJIGRpZG4ndCBldmVuIG5vdGljZSB0aGUgR0ZQX0FUT01JQyBoZXJlLiBU
+aGlzIGxvb2tzIGluZGVlZApzdHJhbmdlIGFuZCBHRlBfS0VSTkVMIHNob3VsZCBiZSBwZXJmZWN0
+bHkgZmluZSBpbiBhIGZ1bmN0aW9uIHRoYXQKYWxzbyBjYWxscyBwaW5fdXNlcl9wYWdlcyAoc2lu
+Y2UgdGhhdCBvbmUgY2FuIGFsbG9jYXRlIGFuZCBkbyB3b3JzZQpzdHVmZiBsaWtlIHVzZXJzcGFj
+ZSBwYWdlZmF1bHRzKS4KCkJ1dCBzaW5jZSB0aGF0IEdGUF9BVE9NSUMgaXMgdGhlcmUgYWxyZWFk
+eSBJJ2xsIGRvIHRoYXQgaW4gYSBzZXBhcmF0ZSBwYXRjaC4KCj4gSW4gdGhlIG1lYW53aGlsZSwg
+SSdsbCBydW4gdGhpcyBwYXRjaCAoY291cGxlZCB3aXRoIHRoZSBuZXh0IHBhdGNoKSBpbgo+IG91
+ciBDL0kgdG8gbWFrZSBzdXJlIHRoZXJlIGFyZSBubyByZWdyZXNzaW9ucy4KCkV4Y2VsbGVudC4g
+SSdsbCB3YWl0IHdpdGggdjMgdW50aWwgdGhhdCdzIGRvbmUsIGp1c3QgaW4gY2FzZSB5b3UgaGl0
+IGEKc25hZyBJIG5lZWQgdG8gZml4LgoKQ2hlZXJzLCBEYW5pZWwKCj4gVGhhbmtzLAo+IE9kZWQK
+Pgo+ID4gICAgICAgICBpZiAocmMgPCAwKSB7Cj4gPiAgICAgICAgICAgICAgICAgZGV2X2Vyciho
+ZGV2LT5kZXYsICJmYWlsZWQgdG8gY3JlYXRlIFNHIHRhYmxlIGZyb20gcGFnZXNcbiIpOwo+ID4g
+LSAgICAgICAgICAgICAgIGdvdG8gcHV0X2ZyYW1ldmVjOwo+ID4gKyAgICAgICAgICAgICAgIGdv
+dG8gcHV0X3BhZ2VzOwo+ID4gICAgICAgICB9Cj4gPgo+ID4gICAgICAgICByZXR1cm4gMDsKPiA+
+Cj4gPiAtcHV0X2ZyYW1ldmVjOgo+ID4gLSAgICAgICBwdXRfdmFkZHJfZnJhbWVzKHVzZXJwdHIt
+PnZlYyk7Cj4gPiAtZGVzdHJveV9mcmFtZXZlYzoKPiA+IC0gICAgICAgZnJhbWVfdmVjdG9yX2Rl
+c3Ryb3kodXNlcnB0ci0+dmVjKTsKPiA+ICtwdXRfcGFnZXM6Cj4gPiArICAgICAgIHVucGluX3Vz
+ZXJfcGFnZXModXNlcnB0ci0+cGFnZXMsIG5wYWdlcyk7Cj4gPiArZGVzdHJveV9wYWdlczoKPiA+
+ICsgICAgICAga3ZmcmVlKHVzZXJwdHItPnBhZ2VzKTsKPiA+ICAgICAgICAgcmV0dXJuIHJjOwo+
+ID4gIH0KPiA+Cj4gPiBAQCAtMTQwNSw4ICsxNDAxLDYgQEAgaW50IGhsX3Bpbl9ob3N0X21lbW9y
+eShzdHJ1Y3QgaGxfZGV2aWNlICpoZGV2LCB1NjQgYWRkciwgdTY0IHNpemUsCj4gPiAgICovCj4g
+PiAgdm9pZCBobF91bnBpbl9ob3N0X21lbW9yeShzdHJ1Y3QgaGxfZGV2aWNlICpoZGV2LCBzdHJ1
+Y3QgaGxfdXNlcnB0ciAqdXNlcnB0cikKPiA+ICB7Cj4gPiAtICAgICAgIHN0cnVjdCBwYWdlICoq
+cGFnZXM7Cj4gPiAtCj4gPiAgICAgICAgIGhsX2RlYnVnZnNfcmVtb3ZlX3VzZXJwdHIoaGRldiwg
+dXNlcnB0cik7Cj4gPgo+ID4gICAgICAgICBpZiAodXNlcnB0ci0+ZG1hX21hcHBlZCkKPiA+IEBA
+IC0xNDE0LDE1ICsxNDA4LDggQEAgdm9pZCBobF91bnBpbl9ob3N0X21lbW9yeShzdHJ1Y3QgaGxf
+ZGV2aWNlICpoZGV2LCBzdHJ1Y3QgaGxfdXNlcnB0ciAqdXNlcnB0cikKPiA+ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdXNlcnB0ci0+c2d0
+LT5uZW50cywKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgdXNlcnB0ci0+ZGlyKTsKPiA+Cj4gPiAtICAgICAgIHBhZ2VzID0gZnJhbWVf
+dmVjdG9yX3BhZ2VzKHVzZXJwdHItPnZlYyk7Cj4gPiAtICAgICAgIGlmICghSVNfRVJSKHBhZ2Vz
+KSkgewo+ID4gLSAgICAgICAgICAgICAgIGludCBpOwo+ID4gLQo+ID4gLSAgICAgICAgICAgICAg
+IGZvciAoaSA9IDA7IGkgPCBmcmFtZV92ZWN0b3JfY291bnQodXNlcnB0ci0+dmVjKTsgaSsrKQo+
+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgc2V0X3BhZ2VfZGlydHlfbG9jayhwYWdlc1tpXSk7
+Cj4gPiAtICAgICAgIH0KPiA+IC0gICAgICAgcHV0X3ZhZGRyX2ZyYW1lcyh1c2VycHRyLT52ZWMp
+Owo+ID4gLSAgICAgICBmcmFtZV92ZWN0b3JfZGVzdHJveSh1c2VycHRyLT52ZWMpOwo+ID4gKyAg
+ICAgICB1bnBpbl91c2VyX3BhZ2VzX2RpcnR5X2xvY2sodXNlcnB0ci0+cGFnZXMsIHVzZXJwdHIt
+Pm5wYWdlcywgdHJ1ZSk7Cj4gPiArICAgICAgIGt2ZnJlZSh1c2VycHRyLT5wYWdlcyk7Cj4gPgo+
+ID4gICAgICAgICBsaXN0X2RlbCgmdXNlcnB0ci0+am9iX25vZGUpOwo+ID4KPiA+IC0tCj4gPiAy
+LjI4LjAKPiA+CgoKCi0tCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
+cnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
