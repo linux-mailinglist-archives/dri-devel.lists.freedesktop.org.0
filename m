@@ -2,49 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA92289FD0
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 12:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE71289FC7
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 12:03:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35E706EE9D;
-	Sat, 10 Oct 2020 10:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35E7E6EE97;
+	Sat, 10 Oct 2020 10:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
- [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68D406EE84
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 02:00:20 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.124])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 33017482787;
- Sat, 10 Oct 2020 10:00:15 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Anthony Koo <Anthony.Koo@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Yongqiang Sun <yongqiang.sun@amd.com>, Jun Lei <jun.lei@amd.com>,
- Martin Leung <martin.leung@amd.com>, Samson Tam <Samson.Tam@amd.com>,
- Aric Cyr <aric.cyr@amd.com>, Krunoslav Kovac <Krunoslav.Kovac@amd.com>,
- Reza Amini <Reza.Amini@amd.com>, Robin Singh <robin.singh@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Charlene Liu <charlene.liu@amd.com>, Wyatt Wood <wyatt.wood@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd/display: remove no need return value
-Date: Fri,  9 Oct 2020 18:59:55 -0700
-Message-Id: <20201010020006.3942-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.28.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 835286EE86;
+ Sat, 10 Oct 2020 02:20:55 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B0EF9AC65;
+ Sat, 10 Oct 2020 02:20:53 +0000 (UTC)
+Subject: Re: [PATCH RFC PKS/PMEM 48/58] drivers/md: Utilize new kmap_thread()
+To: ira.weiny@intel.com
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-49-ira.weiny@intel.com>
+From: Coly Li <colyli@suse.de>
+Autocrypt: addr=colyli@suse.de; keydata=
+ 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
+Message-ID: <c802fbf4-f67a-b205-536d-9c71b440f9c8@suse.de>
+Date: Sat, 10 Oct 2020 10:20:34 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.1
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZT0NOQxhLGBhNSUtJVkpNS0lJQk5JSk5NQ05VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS09ISFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NRA6Exw6ST8pGkMYGDoXFyEJ
- LDVPFAtVSlVKTUtJSUJOSUpNSk9LVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU9ZV1kIAVlBTUpJTjcG
-X-HM-Tid: 0a75103cb60493bakuws33017482787
+In-Reply-To: <20201009195033.3208459-49-ira.weiny@intel.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 10 Oct 2020 10:02:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,129 +84,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
+ Thomas Gleixner <tglx@linutronix.de>, drbd-dev@lists.linbit.com,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org, x86@kernel.org,
+ ceph-devel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ io-uring@vger.kernel.org, cluster-devel@redhat.com,
+ Ingo Molnar <mingo@redhat.com>, intel-wired-lan@lists.osuosl.org,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+ Kent Overstreet <kent.overstreet@gmail.com>, Fenghua Yu <fenghua.yu@intel.com>,
+ linux-afs@lists.infradead.org, linux-um@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, ecryptfs@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-cachefs@redhat.com,
+ linux-nfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+ netdev@vger.kernel.org, kexec@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Functions (disable_all_writeback_pipes_for_stream &
-dc_enable_stereo & dc_post_update_surfaces_to_stream)
-always return true, there is no need to keep the return value.
-This change is to make the code a bit more readable.
+On 2020/10/10 03:50, ira.weiny@intel.com wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
+> 
+> These kmap() calls are localized to a single thread.  To avoid the over
+> head of global PKRS updates use the new kmap_thread() call.
+> 
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc.c   | 17 +++++------------
- drivers/gpu/drm/amd/display/dc/dc.h        |  2 +-
- drivers/gpu/drm/amd/display/dc/dc_stream.h |  2 +-
- 3 files changed, 7 insertions(+), 14 deletions(-)
+Hi Ira,
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 92eb1ca1634f..8dc598a632b5 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -761,7 +761,7 @@ static bool dc_construct(struct dc *dc,
- 	return false;
- }
- 
--static bool disable_all_writeback_pipes_for_stream(
-+static void disable_all_writeback_pipes_for_stream(
- 		const struct dc *dc,
- 		struct dc_stream_state *stream,
- 		struct dc_state *context)
-@@ -770,8 +770,6 @@ static bool disable_all_writeback_pipes_for_stream(
- 
- 	for (i = 0; i < stream->num_wb_info; i++)
- 		stream->writeback_info[i].wb_enabled = false;
--
--	return true;
- }
- 
- void apply_ctx_interdependent_lock(struct dc *dc, struct dc_state *context, struct dc_stream_state *stream, bool lock)
-@@ -1213,13 +1211,12 @@ bool dc_validate_seamless_boot_timing(const struct dc *dc,
- 	return true;
- }
- 
--bool dc_enable_stereo(
-+void dc_enable_stereo(
- 	struct dc *dc,
- 	struct dc_state *context,
- 	struct dc_stream_state *streams[],
- 	uint8_t stream_count)
- {
--	bool ret = true;
- 	int i, j;
- 	struct pipe_ctx *pipe;
- 
-@@ -1234,8 +1231,6 @@ bool dc_enable_stereo(
- 				dc->hwss.setup_stereo(pipe, dc);
- 		}
- 	}
--
--	return ret;
- }
- 
- /*
-@@ -1448,18 +1443,18 @@ static bool is_flip_pending_in_pipes(struct dc *dc, struct dc_state *context)
- 	return false;
- }
- 
--bool dc_post_update_surfaces_to_stream(struct dc *dc)
-+void dc_post_update_surfaces_to_stream(struct dc *dc)
- {
- 	int i;
- 	struct dc_state *context = dc->current_state;
- 
- 	if ((!dc->optimized_required) || dc->optimize_seamless_boot_streams > 0)
--		return true;
-+		return;
- 
- 	post_surface_trace(dc);
- 
- 	if (is_flip_pending_in_pipes(dc, context))
--		return true;
-+		return;
- 
- 	for (i = 0; i < dc->res_pool->pipe_count; i++)
- 		if (context->res_ctx.pipe_ctx[i].stream == NULL ||
-@@ -1472,8 +1467,6 @@ bool dc_post_update_surfaces_to_stream(struct dc *dc)
- 
- 	dc->optimized_required = false;
- 	dc->wm_optimized_required = false;
--
--	return true;
- }
- 
- struct dc_state *dc_create_state(struct dc *dc)
-diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
-index f50ef4255020..f79a3c318757 100644
---- a/drivers/gpu/drm/amd/display/dc/dc.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc.h
-@@ -962,7 +962,7 @@ struct dc_flip_addrs {
- 	bool triplebuffer_flips;
- };
- 
--bool dc_post_update_surfaces_to_stream(
-+void dc_post_update_surfaces_to_stream(
- 		struct dc *dc);
- 
- #include "dc_stream.h"
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_stream.h b/drivers/gpu/drm/amd/display/dc/dc_stream.h
-index d9888f316da6..0047ab33f88e 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_stream.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc_stream.h
-@@ -391,7 +391,7 @@ enum dc_status dc_validate_stream(struct dc *dc, struct dc_stream_state *stream)
-  * Enable stereo when commit_streams is not required,
-  * for example, frame alternate.
-  */
--bool dc_enable_stereo(
-+void dc_enable_stereo(
- 	struct dc *dc,
- 	struct dc_state *context,
- 	struct dc_stream_state *streams[],
--- 
-2.28.0
+There were a number of options considered.
+
+1) Attempt to change all the thread local kmap() calls to kmap_atomic()
+2) Introduce a flags parameter to kmap() to indicate if the mapping
+should be global or not
+3) Change ~20-30 call sites to 'kmap_global()' to indicate that they
+require a global mapping of the pages
+4) Change ~209 call sites to 'kmap_thread()' to indicate that the
+mapping is to be used within that thread of execution only
+
+
+I copied the above information from patch 00/58 to this message. The
+idea behind kmap_thread() is fine to me, but as you said the new api is
+very easy to be missed in new code (even for me). I would like to be
+supportive to option 2) introduce a flag to kmap(), then we won't forget
+the new thread-localized kmap method, and people won't ask why a
+_thread() function is called but no kthread created.
+
+Thanks.
+
+
+Coly Li
+
+
+
+> Cc: Coly Li <colyli@suse.de> (maintainer:BCACHE (BLOCK LAYER CACHE))
+> Cc: Kent Overstreet <kent.overstreet@gmail.com> (maintainer:BCACHE (BLOCK LAYER CACHE))
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> ---
+>  drivers/md/bcache/request.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/md/bcache/request.c b/drivers/md/bcache/request.c
+> index c7cadaafa947..a4571f6d09dd 100644
+> --- a/drivers/md/bcache/request.c
+> +++ b/drivers/md/bcache/request.c
+> @@ -44,10 +44,10 @@ static void bio_csum(struct bio *bio, struct bkey *k)
+>  	uint64_t csum = 0;
+>  
+>  	bio_for_each_segment(bv, bio, iter) {
+> -		void *d = kmap(bv.bv_page) + bv.bv_offset;
+> +		void *d = kmap_thread(bv.bv_page) + bv.bv_offset;
+>  
+>  		csum = bch_crc64_update(csum, d, bv.bv_len);
+> -		kunmap(bv.bv_page);
+> +		kunmap_thread(bv.bv_page);
+>  	}
+>  
+>  	k->ptr[KEY_PTRS(k)] = csum & (~0ULL >> 1);
+> 
 
 _______________________________________________
 dri-devel mailing list
