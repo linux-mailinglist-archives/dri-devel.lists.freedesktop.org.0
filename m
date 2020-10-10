@@ -1,42 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B1A28A16F
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 23:12:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD9E28B0FA
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 10:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D656E02D;
-	Sat, 10 Oct 2020 21:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4847E6E428;
+	Mon, 12 Oct 2020 08:59:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC686E02D
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 21:11:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2859528;
- Sat, 10 Oct 2020 23:11:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1602364316;
- bh=fpHhn5rM48GkcDX4bL4eRbG5dZr4i+sFRkbewEJH1Dg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rHwYSWi2XUI2y1Ti8u+N8R/KTpRgkW0TVn4LDZpKlDrbVLcAqDJGAnhyonxoldFRN
- psEGjrkDGp3K4p9i8ooaZhsYuS95RR6PuHIrw4PwyU90aSj/y97JR/y7rgRiYg/Ar0
- 8MefjhVZFKvV0sPG+/srQf9fVVfiV4dR3+khqARU=
-Date: Sun, 11 Oct 2020 00:11:11 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
-Message-ID: <20201010211111.GA3939@pendragon.ideasonboard.com>
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
- <20201009123421.67a80d72@coco.lan> <20201009122111.GN5177@ziepe.ca>
- <20201009143723.45609bfb@coco.lan> <20201009124850.GP5177@ziepe.ca>
- <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73C4E6E060
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 21:26:43 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1602365203; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=ycDynBydmpfiDsr+0Jdqw54db+rfkmlUsjtmoPCNA80=;
+ b=QkJsv1pUlZgrHfoAfGvKZs5kPyzVOD1zV1qHNanicesWLnCneAhD5EnRsLmeNwour7zJ77Q1
+ sMqYiG5L+RRGEiSfNCgyjRcGKCyaJsh+su3TRtJAv6ePNeRYExR0oaLA9rNNofmEPYxnhbV3
+ 9HiEIGbJ0EGGf4HjH3g3g8m0Lcs=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 5f82271257b88ccb56357bb1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 10 Oct 2020 21:26:42
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 929F2C43385; Sat, 10 Oct 2020 21:26:42 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id B5052C433F1;
+ Sat, 10 Oct 2020 21:26:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B5052C433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com,
+	sean@poorly.run,
+	swboyd@chromium.org
+Subject: [PATCH v3] drm/msm/dp: return correct connection status after suspend
+Date: Sat, 10 Oct 2020 14:26:30 -0700
+Message-Id: <20201010212630.4705-1-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+X-Mailman-Approved-At: Mon, 12 Oct 2020 08:59:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,96 +69,366 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390 <linux-s390@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
- Linux MM <linux-mm@kvack.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+During suspend, dp host controller and hpd block are disabled due to
+both ahb and aux clock are disabled. Therefore hpd plug/unplug interrupts
+will not be generated. At dp_pm_resume(), reinitialize both dp host
+controller and hpd block so that hpd plug/unplug interrupts will be
+generated and handled by driver so that hpd connection state is updated
+correctly. This patch will fix link training flaky issues.
 
-On Fri, Oct 09, 2020 at 07:52:05PM +0200, Daniel Vetter wrote:
-> On Fri, Oct 9, 2020 at 2:48 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > On Fri, Oct 09, 2020 at 02:37:23PM +0200, Mauro Carvalho Chehab wrote:
-> >
-> > > I'm not a mm/ expert, but, from what I understood from Daniel's patch
-> > > description is that this is unsafe *only if*  __GFP_MOVABLE is used.
-> >
-> > No, it is unconditionally unsafe. The CMA movable mappings are
-> > specific VMAs that will have bad issues here, but there are other
-> > types too.
-> >
-> > The only way to do something at a VMA level is to have a list of OK
-> > VMAs, eg because they were creatd via a special mmap helper from the
-> > media subsystem.
-> >
-> > > Well, no drivers inside the media subsystem uses such flag, although
-> > > they may rely on some infrastructure that could be using it behind
-> > > the bars.
-> >
-> > It doesn't matter, nothing prevents the user from calling media APIs
-> > on mmaps it gets from other subsystems.
-> 
-> I think a good first step would be to disable userptr of non struct
-> page backed storage going forward for any new hw support. Even on
-> existing drivers. dma-buf sharing has been around for long enough now
-> that this shouldn't be a problem. Unfortunately right now this doesn't
-> seem to exist, so the entire problem keeps getting perpetuated.
+Changes in v2:
+-- use container_of to cast correct dp_display_private pointer
+   at both dp_pm_suspend() and dp_pm_resume().
 
-On the V4L2 side, I think we should disable USERPTR for any new driver,
-period. That's what I've been recommended when reviewing patches for
-several years already. It's a deprecated API, it should be phased out,
-which starts by not allowing any new use case.
+Changes in v3:
+-- replace hpd_state atomic_t  with u32
+-- Add more information to commit message.
 
-> > > If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE
-> > > flag that it would be denying the core mm code to set __GFP_MOVABLE.
-> >
-> > We can't tell from the VMA these kinds of details..
-> >
-> > It has to go the other direction, evey mmap that might be used as a
-> > userptr here has to be found and the VMA specially created to allow
-> > its use. At least that is a kernel only change, but will need people
-> > with the HW to do this work.
-> 
-> I think the only reasonable way to keep this working is:
-> - add a struct dma_buf *vma_tryget_dma_buf(struct vm_area_struct *vma);
-> - add dma-buf export support to fbdev and v4l
-> - roll this out everywhere we still need it.
-> 
-> Realistically this just isn't going to happen. And anything else just
-> reimplements half of dma-buf, which is kinda pointless (you need
-> minimally refcounting and some way to get at a promise of a permanent
-> sg list for dma. Plus probably the vmap for kernel cpu access.
-> 
-> > > Please let address the issue on this way, instead of broken an
-> > > userspace API that it is there since 1991.
-> >
-> > It has happened before :( It took 4 years for RDMA to undo the uAPI
-> > breakage caused by a security fix for something that was a 15 years
-> > old bug.
-> 
-> Yeah we have a bunch of these on the drm side too. Some of them are
-> really just "you have to upgrade userspace", and there's no real fix
-> for the security nightmare without that.
+Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_catalog.c |  13 ++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h |   1 +
+ drivers/gpu/drm/msm/dp/dp_display.c | 117 +++++++++++++---------------
+ drivers/gpu/drm/msm/dp/dp_reg.h     |   2 +
+ 4 files changed, 72 insertions(+), 61 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index b15b4ce4ba35..4963bfe6a472 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -572,6 +572,19 @@ void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
+ 	dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
+ }
+ 
++u32 dp_catalog_hpd_get_state_status(struct dp_catalog *dp_catalog)
++{
++	struct dp_catalog_private *catalog = container_of(dp_catalog,
++				struct dp_catalog_private, dp_catalog);
++	u32 status;
++
++	status = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
++	status >>= DP_DP_HPD_STATE_STATUS_BITS_SHIFT;
++	status &= DP_DP_HPD_STATE_STATUS_BITS_MASK;
++
++	return status;
++}
++
+ u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog)
+ {
+ 	struct dp_catalog_private *catalog = container_of(dp_catalog,
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+index 4b7666f1fe6f..6d257dbebf29 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.h
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+@@ -97,6 +97,7 @@ void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
+ void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
+ 			u32 intr_mask, bool en);
+ void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog);
++u32 dp_catalog_hpd_get_state_status(struct dp_catalog *dp_catalog);
+ u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog);
+ void dp_catalog_ctrl_phy_reset(struct dp_catalog *dp_catalog);
+ int dp_catalog_ctrl_update_vx_px(struct dp_catalog *dp_catalog, u8 v_level,
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index e175aa3fd3a9..fd16e12ab2f8 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -108,14 +108,12 @@ struct dp_display_private {
+ 	/* event related only access by event thread */
+ 	struct mutex event_mutex;
+ 	wait_queue_head_t event_q;
+-	atomic_t hpd_state;
++	u32 hpd_state;
+ 	u32 event_pndx;
+ 	u32 event_gndx;
+ 	struct dp_event event_list[DP_EVENT_Q_MAX];
+ 	spinlock_t event_lock;
+ 
+-	struct completion resume_comp;
+-
+ 	struct dp_audio *audio;
+ };
+ 
+@@ -490,7 +488,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+ 
+ 	mutex_lock(&dp->event_mutex);
+ 
+-	state =  atomic_read(&dp->hpd_state);
++	state =  dp->hpd_state;
+ 	if (state == ST_SUSPEND_PENDING) {
+ 		mutex_unlock(&dp->event_mutex);
+ 		return 0;
+@@ -508,17 +506,14 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+ 		return 0;
+ 	}
+ 
+-	if (state == ST_SUSPENDED)
+-		tout = DP_TIMEOUT_NONE;
+-
+-	atomic_set(&dp->hpd_state, ST_CONNECT_PENDING);
++	dp->hpd_state = ST_CONNECT_PENDING;
+ 
+ 	hpd->hpd_high = 1;
+ 
+ 	ret = dp_display_usbpd_configure_cb(&dp->pdev->dev);
+ 	if (ret) {	/* failed */
+ 		hpd->hpd_high = 0;
+-		atomic_set(&dp->hpd_state, ST_DISCONNECTED);
++		dp->hpd_state = ST_DISCONNECTED;
+ 	}
+ 
+ 	/* start sanity checking */
+@@ -539,10 +534,10 @@ static int dp_connect_pending_timeout(struct dp_display_private *dp, u32 data)
+ 
+ 	mutex_lock(&dp->event_mutex);
+ 
+-	state =  atomic_read(&dp->hpd_state);
++	state = dp->hpd_state;
+ 	if (state == ST_CONNECT_PENDING) {
+ 		dp_display_enable(dp, 0);
+-		atomic_set(&dp->hpd_state, ST_CONNECTED);
++		dp->hpd_state = ST_CONNECTED;
+ 	}
+ 
+ 	mutex_unlock(&dp->event_mutex);
+@@ -567,7 +562,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 
+ 	mutex_lock(&dp->event_mutex);
+ 
+-	state = atomic_read(&dp->hpd_state);
++	state = dp->hpd_state;
+ 	if (state == ST_SUSPEND_PENDING) {
+ 		mutex_unlock(&dp->event_mutex);
+ 		return 0;
+@@ -585,7 +580,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 		return 0;
+ 	}
+ 
+-	atomic_set(&dp->hpd_state, ST_DISCONNECT_PENDING);
++	dp->hpd_state = ST_DISCONNECT_PENDING;
+ 
+ 	/* disable HPD plug interrupt until disconnect is done */
+ 	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK
+@@ -620,10 +615,10 @@ static int dp_disconnect_pending_timeout(struct dp_display_private *dp, u32 data
+ 
+ 	mutex_lock(&dp->event_mutex);
+ 
+-	state =  atomic_read(&dp->hpd_state);
++	state =  dp->hpd_state;
+ 	if (state == ST_DISCONNECT_PENDING) {
+ 		dp_display_disable(dp, 0);
+-		atomic_set(&dp->hpd_state, ST_DISCONNECTED);
++		dp->hpd_state = ST_DISCONNECTED;
+ 	}
+ 
+ 	mutex_unlock(&dp->event_mutex);
+@@ -638,7 +633,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+ 	mutex_lock(&dp->event_mutex);
+ 
+ 	/* irq_hpd can happen at either connected or disconnected state */
+-	state =  atomic_read(&dp->hpd_state);
++	state =  dp->hpd_state;
+ 	if (state == ST_SUSPEND_PENDING) {
+ 		mutex_unlock(&dp->event_mutex);
+ 		return 0;
+@@ -798,8 +793,6 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
+ 	if (!rc)
+ 		dp_display->power_on = true;
+ 
+-	/* complete resume_comp regardless it is armed or not */
+-	complete(&dp->resume_comp);
+ 	return rc;
+ }
+ 
+@@ -1151,9 +1144,6 @@ static int dp_display_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	mutex_init(&dp->event_mutex);
+-
+-	init_completion(&dp->resume_comp);
+-
+ 	g_dp_display = &dp->dp_display;
+ 
+ 	/* Store DP audio handle inside DP display */
+@@ -1189,20 +1179,50 @@ static int dp_display_remove(struct platform_device *pdev)
+ 
+ static int dp_pm_resume(struct device *dev)
+ {
++	struct platform_device *pdev = to_platform_device(dev);
++	struct msm_dp *dp_display = platform_get_drvdata(pdev);
++	struct dp_display_private *dp;
++	u32 status;
++
++	dp = container_of(dp_display, struct dp_display_private, dp_display);
++
++	mutex_lock(&dp->event_mutex);
++
++	dp_display_host_init(dp);
++
++	dp_catalog_ctrl_hpd_config(dp->catalog);
++
++	status = dp_catalog_hpd_get_state_status(dp->catalog);
++
++	if (status) {
++		dp->dp_display.is_connected = true;
++	} else {
++		dp->dp_display.is_connected = false;
++		/* make sure next resume host_init be called */
++		dp->core_initialized = false;
++	}
++
++	mutex_unlock(&dp->event_mutex);
++
+ 	return 0;
+ }
+ 
+ static int dp_pm_suspend(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+-	struct dp_display_private *dp = platform_get_drvdata(pdev);
++	struct msm_dp *dp_display = platform_get_drvdata(pdev);
++	struct dp_display_private *dp;
+ 
+-	if (!dp) {
+-		DRM_ERROR("DP driver bind failed. Invalid driver data\n");
+-		return -EINVAL;
+-	}
++	dp = container_of(dp_display, struct dp_display_private, dp_display);
+ 
+-	atomic_set(&dp->hpd_state, ST_SUSPENDED);
++	mutex_lock(&dp->event_mutex);
++
++	if (dp_display->power_on == true)
++		dp_display_disable(dp, 0);
++
++	dp->hpd_state = ST_SUSPENDED;
++
++	mutex_unlock(&dp->event_mutex);
+ 
+ 	return 0;
+ }
+@@ -1317,19 +1337,6 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+ 	return 0;
+ }
+ 
+-static int dp_display_wait4resume_done(struct dp_display_private *dp)
+-{
+-	int ret = 0;
+-
+-	reinit_completion(&dp->resume_comp);
+-	if (!wait_for_completion_timeout(&dp->resume_comp,
+-				WAIT_FOR_RESUME_TIMEOUT_JIFFIES)) {
+-		DRM_ERROR("wait4resume_done timedout\n");
+-		ret = -ETIMEDOUT;
+-	}
+-	return ret;
+-}
+-
+ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
+ {
+ 	int rc = 0;
+@@ -1344,6 +1351,8 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
+ 
+ 	mutex_lock(&dp_display->event_mutex);
+ 
++	dp_del_event(dp_display, EV_CONNECT_PENDING_TIMEOUT);
++
+ 	rc = dp_display_set_mode(dp, &dp_display->dp_mode);
+ 	if (rc) {
+ 		DRM_ERROR("Failed to perform a mode set, rc=%d\n", rc);
+@@ -1358,15 +1367,7 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
+ 		return rc;
+ 	}
+ 
+-	state =  atomic_read(&dp_display->hpd_state);
+-	if (state == ST_SUSPENDED) {
+-		/* start link training */
+-		dp_add_event(dp_display, EV_HPD_PLUG_INT, 0, 0);
+-		mutex_unlock(&dp_display->event_mutex);
+-
+-		/* wait until dp interface is up */
+-		goto resume_done;
+-	}
++	state =  dp_display->hpd_state;
+ 
+ 	dp_display_enable(dp_display, 0);
+ 
+@@ -1377,21 +1378,15 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
+ 		dp_display_unprepare(dp);
+ 	}
+ 
+-	dp_del_event(dp_display, EV_CONNECT_PENDING_TIMEOUT);
+-
+ 	if (state == ST_SUSPEND_PENDING)
+ 		dp_add_event(dp_display, EV_IRQ_HPD_INT, 0, 0);
+ 
+ 	/* completed connection */
+-	atomic_set(&dp_display->hpd_state, ST_CONNECTED);
++	dp_display->hpd_state = ST_CONNECTED;
+ 
+ 	mutex_unlock(&dp_display->event_mutex);
+ 
+ 	return rc;
+-
+-resume_done:
+-	dp_display_wait4resume_done(dp_display);
+-	return rc;
+ }
+ 
+ int msm_dp_display_pre_disable(struct msm_dp *dp, struct drm_encoder *encoder)
+@@ -1415,20 +1410,20 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
+ 
+ 	mutex_lock(&dp_display->event_mutex);
+ 
++	dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
++
+ 	dp_display_disable(dp_display, 0);
+ 
+ 	rc = dp_display_unprepare(dp);
+ 	if (rc)
+ 		DRM_ERROR("DP display unprepare failed, rc=%d\n", rc);
+ 
+-	dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
+-
+-	state =  atomic_read(&dp_display->hpd_state);
++	state =  dp_display->hpd_state;
+ 	if (state == ST_DISCONNECT_PENDING) {
+ 		/* completed disconnection */
+-		atomic_set(&dp_display->hpd_state, ST_DISCONNECTED);
++		dp_display->hpd_state = ST_DISCONNECTED;
+ 	} else {
+-		atomic_set(&dp_display->hpd_state, ST_SUSPEND_PENDING);
++		dp_display->hpd_state = ST_SUSPEND_PENDING;
+ 	}
+ 
+ 	mutex_unlock(&dp_display->event_mutex);
+diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
+index 43042ff90a19..268602803d9a 100644
+--- a/drivers/gpu/drm/msm/dp/dp_reg.h
++++ b/drivers/gpu/drm/msm/dp/dp_reg.h
+@@ -32,6 +32,8 @@
+ #define DP_DP_IRQ_HPD_INT_ACK			(0x00000002)
+ #define DP_DP_HPD_REPLUG_INT_ACK		(0x00000004)
+ #define DP_DP_HPD_UNPLUG_INT_ACK		(0x00000008)
++#define DP_DP_HPD_STATE_STATUS_BITS_MASK	(0x0000000F)
++#define DP_DP_HPD_STATE_STATUS_BITS_SHIFT	(0x1C)
+ 
+ #define REG_DP_DP_HPD_INT_MASK			(0x0000000C)
+ #define DP_DP_HPD_PLUG_INT_MASK			(0x00000001)
+
+base-commit: d1ea914925856d397b0b3241428f20b945e31434
 -- 
-Regards,
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
