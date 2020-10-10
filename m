@@ -1,49 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8588289ED8
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 09:10:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2DC289F47
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 10:20:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E29486EE8D;
-	Sat, 10 Oct 2020 07:10:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10AE86E11E;
+	Sat, 10 Oct 2020 08:20:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 14D5D6EE8D
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 07:09:59 +0000 (UTC)
-X-UUID: be51c0eb26c74c33b6c538643c42a687-20201010
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=3c+peDytuMhcMrnaVbpiJTnq5XNIuqy9R+l3Dgk+J4U=; 
- b=Gm4zgfXxFhNizyNC4vVp6jwO8gG3A5K1yJGNZR74vDNZvfs8zJeBQRJNfQe+75TQfQXaM3G0r+gT4T5bsYjPEHkfZHedxuP3V4tcsYWLCCUEWDJBkT6UFuWcnD0ANFDyBnQD+4CH1KMfJH68y0NsaUu2ZfxNmLr9DLD/p4sYtMw=;
-X-UUID: be51c0eb26c74c33b6c538643c42a687-20201010
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1838404442; Sat, 10 Oct 2020 15:09:53 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33DR.mediatek.inc
- (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sat, 10 Oct 2020 15:09:44 +0800
-Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
- MTKCAS32.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Sat, 10 Oct 2020 15:09:43 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 2/2] drm/mediatek: dsi: fix scrolling of panel with small
- hfp or hbp
-Date: Sat, 10 Oct 2020 15:09:10 +0800
-Message-ID: <20201010070910.11294-3-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.12.5
-In-Reply-To: <20201010070910.11294-1-jitao.shi@mediatek.com>
-References: <20201010070910.11294-1-jitao.shi@mediatek.com>
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1DC66E11E
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 08:20:51 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id t21so11789525eds.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 01:20:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eLmaaj3iKZVEqsQAFIpav43sO2/Ep3xsAfBHMAnXMEg=;
+ b=J3mvLbuw9M6Ei3FzSEvMNI6uCQSjYoFGv3bXb3QNX/1PUyTROZdwO9cwH3IWaRz3vG
+ fNqdySg7c8UpmiEQ/o00/YOnt55AxUkwAsYYPxsWcZwaCzpuXlt2xWSatrv6sHLHxAdl
+ w7C2xCnDXNu/x33SJgAunie+lcuakXtrSsJdd2ON2cYniuRBmVQ0eumoJ3pdRcU+bQzc
+ BQav4599GyCKpIOFF8c0c4Aggnl1lepxArWachdxIE/hWseNANA4wX0VM0BhCrhbK1SO
+ KPDZb0NtO6gkGP5SCKCaflqQr/pcr+jf7PdSsjFAfMeIE7k6QsaacKK/n7SAz1H+q2qn
+ 09AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eLmaaj3iKZVEqsQAFIpav43sO2/Ep3xsAfBHMAnXMEg=;
+ b=piYO/6W9y2K4HP2ex2UBvD5rFnulhsUR0CIDnOQ8GsQr17QMqUWtNulcjZKYxx75qi
+ OgT4CIlc5rJCIZBpNEMWWV9XIGr+vR2ZL2YqcFnTJ3EHvNDtPHoSqESMFcJcUnjOcblO
+ ko9VQD95DSoOghEGz+kdSP8SEfoFFBOIoUYH2LZ7dX0dyZLT/m+dEO2xJNqX/KBTd9Sy
+ yTbaSMK7Y4+xq5gWe0pr2GGcEBwHkjfzXc0dEXr8d40o8oRMqiVAA80U5wXL0xmFJnVq
+ OP9CUDozLbQ2o1nKrB0JKJUP1JZsMK9yOm1AUyxiYs2l0Pit8Cj8slwGhaR2nacxhYUc
+ RTvQ==
+X-Gm-Message-State: AOAM531HfV8WzUV+RtxMlhNrEwHLG7QkLP8rAjCNwON8rEC9b3z/cNdB
+ SqFmj0leJGrRbvMxAjM6oG14EwFf4R8ROUDKb+msjw==
+X-Google-Smtp-Source: ABdhPJz8WPgoUtyDToLR4Ug+AK9eDkG5mFeVAAytYzM7URqMvaypVfT/M644VVOT0/iTsiUgUFERE3wkJeWjDT6gm0o=
+X-Received: by 2002:a50:fd83:: with SMTP id o3mr3433840edt.17.1602318049859;
+ Sat, 10 Oct 2020 01:20:49 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: DC60833837F2BB69EF66A753E4BD999F68F802725005CBDCA72B1B764C29BB0F2000:8
-X-MTK: N
+References: <1602244675-8785-1-git-send-email-kuhanh.murugasen.krishnan@intel.com>
+ <1602244675-8785-2-git-send-email-kuhanh.murugasen.krishnan@intel.com>
+ <20201009221516.GR438822@phenom.ffwll.local>
+In-Reply-To: <20201009221516.GR438822@phenom.ffwll.local>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Sat, 10 Oct 2020 05:20:38 -0300
+Message-ID: <CAAEAJfAv5P52aXf9DAm5_7zZhT=J4MmFrda6VQnhwKdbEtPmtg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/4] drm: Add Keem Bay VPU codec DRM
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,102 +63,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
- cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: mgross@linux.intel.com, Jonas Karlman <jonas@kwiboo.se>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Adrian Ratiu <adrian.ratiu@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Tomasz Figa <tfiga@chromium.org>,
+ kuhanh.murugasen.krishnan@intel.com,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace horizontal_backporch_byte with vm->hback_porch * bpp to aovid
-flowing judgement negative number.
+Hello everyone,
 
-if ((vm->hfront_porch * dsi_tmp_buf_bpp + horizontal_backporch_byte) >
-	data_phy_cycles * dsi->lanes + delta)
+(Adding some Hantro developers)
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 54 ++++++++++++++------------------------
- 1 file changed, 19 insertions(+), 35 deletions(-)
+On Fri, 9 Oct 2020 at 19:15, Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Fri, Oct 09, 2020 at 07:57:52PM +0800, kuhanh.murugasen.krishnan@intel.com wrote:
+> > From: "Murugasen Krishnan, Kuhanh" <kuhanh.murugasen.krishnan@intel.com>
+> >
+> > This is a new DRM media codec driver for Intel's Keem Bay SOC which
+> > integrates the Verisilicon's Hantro Video Processor Unit (VPU) IP.
+> > The SoC couples an ARM Cortex A53 CPU with an Intel Movidius VPU.
+> >
+> > Hantro VPU IP is a series of video decoder and encoder semiconductor IP cores,
+> > which can be flexibly configured for video surveillance, multimedia consumer
+> > products, Internet of Things, cloud service products, data centers, aerial
+> > photography and recorders, thereby providing video transcoding and multi-channel
+> > HD video encoding and decoding.
+> >
+> > Hantro VPU IP consists of Hantro VC8000D for decoder and Hantro VC8000E for encoder.
+> >
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 16fd99dcdacf..ddddf69ebeaf 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -445,6 +445,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
- 	u32 horizontal_backporch_byte;
- 	u32 horizontal_frontporch_byte;
- 	u32 dsi_tmp_buf_bpp, data_phy_cycles;
-+	u32 delta;
- 	struct mtk_phy_timing *timing = &dsi->phy_timing;
- 
- 	struct videomode *vm = &dsi->vm;
-@@ -475,42 +476,25 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
- 	data_phy_cycles = timing->lpx + timing->da_hs_prepare +
- 			  timing->da_hs_zero + timing->da_hs_exit + 3;
- 
--	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
--		if ((vm->hfront_porch + vm->hback_porch) * dsi_tmp_buf_bpp >
--		    data_phy_cycles * dsi->lanes + 18) {
--			horizontal_frontporch_byte =
--				vm->hfront_porch * dsi_tmp_buf_bpp -
--				(data_phy_cycles * dsi->lanes + 18) *
--				vm->hfront_porch /
--				(vm->hfront_porch + vm->hback_porch);
--
--			horizontal_backporch_byte =
--				horizontal_backporch_byte -
--				(data_phy_cycles * dsi->lanes + 18) *
--				vm->hback_porch /
--				(vm->hfront_porch + vm->hback_porch);
--		} else {
--			DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
--			horizontal_frontporch_byte = vm->hfront_porch *
--						     dsi_tmp_buf_bpp;
--		}
-+	delta = (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) ? 18 : 12;
-+
-+	if ((vm->hfront_porch * dsi_tmp_buf_bpp + horizontal_backporch_byte) >
-+	    data_phy_cycles * dsi->lanes + delta) {
-+		horizontal_frontporch_byte =
-+			vm->hfront_porch * dsi_tmp_buf_bpp -
-+			(data_phy_cycles * dsi->lanes + delta) *
-+			vm->hfront_porch /
-+			(vm->hfront_porch + vm->hback_porch);
-+
-+		horizontal_backporch_byte =
-+			horizontal_backporch_byte -
-+			(data_phy_cycles * dsi->lanes + delta) *
-+			vm->hback_porch /
-+			(vm->hfront_porch + vm->hback_porch);
- 	} else {
--		if ((vm->hfront_porch + vm->hback_porch) * dsi_tmp_buf_bpp >
--		    data_phy_cycles * dsi->lanes + 12) {
--			horizontal_frontporch_byte =
--				vm->hfront_porch * dsi_tmp_buf_bpp -
--				(data_phy_cycles * dsi->lanes + 12) *
--				vm->hfront_porch /
--				(vm->hfront_porch + vm->hback_porch);
--			horizontal_backporch_byte = horizontal_backporch_byte -
--				(data_phy_cycles * dsi->lanes + 12) *
--				vm->hback_porch /
--				(vm->hfront_porch + vm->hback_porch);
--		} else {
--			DRM_WARN("HFP less than d-phy, FPS will under 60Hz\n");
--			horizontal_frontporch_byte = vm->hfront_porch *
--						     dsi_tmp_buf_bpp;
--		}
-+		DRM_WARN("HFP + HBP less than d-phy, FPS will under 60Hz\n");
-+		horizontal_frontporch_byte = vm->hfront_porch *
-+					     dsi_tmp_buf_bpp;
- 	}
- 
- 	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
--- 
-2.12.5
+Before you guys even start reviewing or discussing this: good news everyone!
+Verisilicon Hantro VPU support is in mainline since a few releases now.
+
+How about you run a quick "git grep hantro -- drivers/" and see for
+yourself :-) ?
+
+Spoiler alert: we currently support G1 core, supporting MPEG-2, H.264, VP8
+and some post-processor features.
+
+We are working on G2 for HEVC and VP9, and we have patches ready
+for VC8000D for H264.
+
+Given the VPU is stateless, it requires quite a bit of work on the
+application side.
+There are implementations in GStreamer (see v4l2codecs plugin), Chromium,
+and Ffmpeg.
+
+Given all the stateless codec drivers depend on the stateless controls APIs,
+and given this API is still marked as experimental/unstable, the drivers
+are in staging. Other than this, these drivers are just as good as any,
+and have been shipped for quite some time now.
+
+I expect to move them out of staging soon, just as soon as we clean and
+stabilize this control API.
+
+I will be happy to review patches adding Keem Bay support,
+to be honest, unsure what that implies, but we'll see.
+
+Thanks,
+Ezequiel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
