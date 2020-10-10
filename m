@@ -2,52 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55BB28A0F2
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 19:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74EBA28A0FC
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 19:23:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A09236F389;
-	Sat, 10 Oct 2020 17:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6046F393;
+	Sat, 10 Oct 2020 17:23:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4396F389
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 17:01:06 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09AH14bT048888;
- Sat, 10 Oct 2020 12:01:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1602349264;
- bh=19wrczLmXhP7YDQO1FpnleaJSisEBX1ORbAbd62PuLc=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=S96c3Y0r5AvqRaCcNInCMPgb4s9p2V1kxcp3t0yX9CMnFJVRHWxRD3B9o2Vcv/Sw4
- wBdd0aG3zylvuT8ukd4BDdmKPAuLnQJsse3ri0I082zCLQygJn3uXs7RUxGjci/Tfv
- Bbqp0kNDJWmSi0apNK94T6q23f6dO56odcfmURrc=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09AH14Qx089766
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sat, 10 Oct 2020 12:01:04 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Sat, 10
- Oct 2020 12:01:03 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Sat, 10 Oct 2020 12:01:03 -0500
-Received: from jadmar.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09AH0xKL012138;
- Sat, 10 Oct 2020 12:01:02 -0500
-From: Jyri Sarha <jsarha@ti.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 2/2] drm/tilcdc: Remove tilcdc_crtc_max_width(),
- use private data
-Date: Sat, 10 Oct 2020 20:00:59 +0300
-Message-ID: <73683d2ce151cffb811a756595b02892eeac3d84.1602349100.git.jsarha@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1602349100.git.jsarha@ti.com>
-References: <cover.1602349100.git.jsarha@ti.com>
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E59336F393
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 17:23:03 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id l16so12677511eds.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 10:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AkcMDQ9MzR0MXrPdl4Z5WIlaKuGLuztzGgHABJ/UwRo=;
+ b=Tn1BNmOZPmbfirFetQOYO/ocDzjrlXPQ3LhwSZNpGIDc+8auCeevOxYV9x2mwnL+LJ
+ B1X87tTja6iFvGiJMYchruyGKGyDa2qJyDYXpQ4MO9cDFl66eVBMa7wPbnL2v+lbkE61
+ A3oosZUv6WC10KVVTloFe7vbgZMt3GHhIV9Zs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AkcMDQ9MzR0MXrPdl4Z5WIlaKuGLuztzGgHABJ/UwRo=;
+ b=CiCBIij1p6gDPVsq7S1xHtE+ua0xnRPR/FvHxJmmi6E5xkj7qoq4+qNFKX5PfFtR/G
+ P3TZN/SRLTBm8Xj89WYSFc1iESV1m1GYhmKK56M2Iy8gj6KDLYxEyjWoIsNB6oQNUM5V
+ hE0k3Y6Dj1f2ihwR3bIkd0R/aHLawhELQUTFudJUasO4xvJqxBAR8M972eUowoVKf5SA
+ CpLjdZrQo1vM3K32XcrE1nmvGdedZ9B55GxOFP3lbjJ4AQ7ACnBtDlT1xeehH511ZyWa
+ AUCiHqvjr3zM6kHaSXEo9O1lGITYhkgX8rbJtnLsYjztfnTmJ3Jel++k5s0w2Sivcw+T
+ ffug==
+X-Gm-Message-State: AOAM533N+vpM/sRLlQx7F0Wc5+HJskg21RGhoYKGkiJPIT9i06wcGV3j
+ 7hti3n9jvLEWhXsaMOJW3B/3rF6SpB3Deg==
+X-Google-Smtp-Source: ABdhPJx9+4xnHaxtLbNmLjAadq/3nTgcio5vmW56/WUn2R4jwMYIPoiKXf5iMPheV6y9QeSceJV4Ew==
+X-Received: by 2002:a50:fb16:: with SMTP id d22mr5258844edq.255.1602350582082; 
+ Sat, 10 Oct 2020 10:23:02 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
+ [209.85.128.41])
+ by smtp.gmail.com with ESMTPSA id a22sm8147316ejs.25.2020.10.10.10.22.59
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 10 Oct 2020 10:23:00 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id d3so12837851wma.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 10:22:59 -0700 (PDT)
+X-Received: by 2002:a1c:2d85:: with SMTP id t127mr3480262wmt.22.1602350579384; 
+ Sat, 10 Oct 2020 10:22:59 -0700 (PDT)
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
+ <20201009123421.67a80d72@coco.lan>
+ <20201009122111.GN5177@ziepe.ca> <20201009143723.45609bfb@coco.lan>
+ <20201009124850.GP5177@ziepe.ca>
+ <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+In-Reply-To: <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Sat, 10 Oct 2020 19:22:48 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5CTT0re4ssj9NNTxhejFX_v_rCjy6=mX7C+dc=Lw9GOHw@mail.gmail.com>
+Message-ID: <CAAFQd5CTT0re4ssj9NNTxhejFX_v_rCjy6=mX7C+dc=Lw9GOHw@mail.gmail.com>
+Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,153 +73,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomi.valkeinen@ti.com, laurent.pinchart@ideasonboard.com
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Linux MM <linux-mm@kvack.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We already have a private data member for maximum display width so
-let's use it and get rid of the redundant tilcdc_crtc_max_width().
+Hi Daniel,
 
-The LCDC version probing is moved to before reading the device tree
-properties so that the version information is available when private
-data maximum width is initialized, if "max-width" property is not
-found.
+On Fri, Oct 9, 2020 at 7:52 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> On Fri, Oct 9, 2020 at 2:48 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Fri, Oct 09, 2020 at 02:37:23PM +0200, Mauro Carvalho Chehab wrote:
+> >
+> > > I'm not a mm/ expert, but, from what I understood from Daniel's patch
+> > > description is that this is unsafe *only if*  __GFP_MOVABLE is used.
+> >
+> > No, it is unconditionally unsafe. The CMA movable mappings are
+> > specific VMAs that will have bad issues here, but there are other
+> > types too.
+> >
+> > The only way to do something at a VMA level is to have a list of OK
+> > VMAs, eg because they were creatd via a special mmap helper from the
+> > media subsystem.
+> >
+> > > Well, no drivers inside the media subsystem uses such flag, although
+> > > they may rely on some infrastructure that could be using it behind
+> > > the bars.
+> >
+> > It doesn't matter, nothing prevents the user from calling media APIs
+> > on mmaps it gets from other subsystems.
+>
+> I think a good first step would be to disable userptr of non struct
+> page backed storage going forward for any new hw support. Even on
+> existing drivers. dma-buf sharing has been around for long enough now
+> that this shouldn't be a problem. Unfortunately right now this doesn't
+> seem to exist, so the entire problem keeps getting perpetuated.
+>
+> > > If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE
+> > > flag that it would be denying the core mm code to set __GFP_MOVABLE.
+> >
+> > We can't tell from the VMA these kinds of details..
+> >
+> > It has to go the other direction, evey mmap that might be used as a
+> > userptr here has to be found and the VMA specially created to allow
+> > its use. At least that is a kernel only change, but will need people
+> > with the HW to do this work.
+>
+> I think the only reasonable way to keep this working is:
+> - add a struct dma_buf *vma_tryget_dma_buf(struct vm_area_struct *vma);
+> - add dma-buf export support to fbdev and v4l
 
-Signed-off-by: Jyri Sarha <jsarha@ti.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
----
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 16 +-----------
- drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 38 +++++++++++++++-------------
- drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  7 ++---
- 3 files changed, 26 insertions(+), 35 deletions(-)
+I assume you mean V4L2 and not the obsolete V4L that is emulated in
+the userspace by libv4l. If so, every video device that uses videobuf2
+gets DMA-buf export for free and there is nothing needed to enable it.
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index 0fd3dafe6404..da2ab2aa3577 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -754,20 +754,6 @@ static const struct drm_crtc_funcs tilcdc_crtc_funcs = {
- 	.disable_vblank	= tilcdc_crtc_disable_vblank,
- };
- 
--int tilcdc_crtc_max_width(struct drm_crtc *crtc)
--{
--	struct drm_device *dev = crtc->dev;
--	struct tilcdc_drm_private *priv = dev->dev_private;
--	int max_width = 0;
--
--	if (priv->rev == 1)
--		max_width = 1024;
--	else if (priv->rev == 2)
--		max_width = 2048;
--
--	return max_width;
--}
--
- static enum drm_mode_status
- tilcdc_crtc_mode_valid(struct drm_crtc *crtc,
- 		       const struct drm_display_mode *mode)
-@@ -780,7 +766,7 @@ tilcdc_crtc_mode_valid(struct drm_crtc *crtc,
- 	 * check to see if the width is within the range that
- 	 * the LCD Controller physically supports
- 	 */
--	if (mode->hdisplay > tilcdc_crtc_max_width(crtc))
-+	if (mode->hdisplay > priv->max_width)
- 		return MODE_VIRTUAL_X;
- 
- 	/* width must be multiple of 16 */
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index 4f5fc3e87383..c5f82e693f1a 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -105,7 +105,7 @@ static void modeset_init(struct drm_device *dev)
- 
- 	dev->mode_config.min_width = 0;
- 	dev->mode_config.min_height = 0;
--	dev->mode_config.max_width = tilcdc_crtc_max_width(priv->crtc);
-+	dev->mode_config.max_width = priv->max_width;
- 	dev->mode_config.max_height = 2048;
- 	dev->mode_config.funcs = &mode_config_funcs;
- }
-@@ -218,22 +218,6 @@ static int tilcdc_init(struct drm_driver *ddrv, struct device *dev)
- 		goto init_failed;
- 	}
- 
--	if (of_property_read_u32(node, "max-bandwidth", &priv->max_bandwidth))
--		priv->max_bandwidth = TILCDC_DEFAULT_MAX_BANDWIDTH;
--
--	DBG("Maximum Bandwidth Value %d", priv->max_bandwidth);
--
--	if (of_property_read_u32(node, "max-width", &priv->max_width))
--		priv->max_width = TILCDC_DEFAULT_MAX_WIDTH;
--
--	DBG("Maximum Horizontal Pixel Width Value %dpixels", priv->max_width);
--
--	if (of_property_read_u32(node, "max-pixelclock",
--					&priv->max_pixelclock))
--		priv->max_pixelclock = TILCDC_DEFAULT_MAX_PIXELCLOCK;
--
--	DBG("Maximum Pixel Clock Value %dKHz", priv->max_pixelclock);
--
- 	pm_runtime_enable(dev);
- 
- 	/* Determine LCD IP Version */
-@@ -287,6 +271,26 @@ static int tilcdc_init(struct drm_driver *ddrv, struct device *dev)
- 		}
- 	}
- 
-+	if (of_property_read_u32(node, "max-bandwidth", &priv->max_bandwidth))
-+		priv->max_bandwidth = TILCDC_DEFAULT_MAX_BANDWIDTH;
-+
-+	DBG("Maximum Bandwidth Value %d", priv->max_bandwidth);
-+
-+	if (of_property_read_u32(node, "max-width", &priv->max_width)) {
-+		if (priv->rev == 1)
-+			priv->max_width = TILCDC_DEFAULT_MAX_WIDTH_V1;
-+		else
-+			priv->max_width = TILCDC_DEFAULT_MAX_WIDTH_V2;
-+	}
-+
-+	DBG("Maximum Horizontal Pixel Width Value %dpixels", priv->max_width);
-+
-+	if (of_property_read_u32(node, "max-pixelclock",
-+				 &priv->max_pixelclock))
-+		priv->max_pixelclock = TILCDC_DEFAULT_MAX_PIXELCLOCK;
-+
-+	DBG("Maximum Pixel Clock Value %dKHz", priv->max_pixelclock);
-+
- 	ret = tilcdc_crtc_create(ddev);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to create crtc\n");
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-index 18815e75ca4f..d29806ca8817 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-@@ -28,8 +28,10 @@ struct drm_plane;
- 
- /* Defaulting to pixel clock defined on AM335x */
- #define TILCDC_DEFAULT_MAX_PIXELCLOCK  126000
--/* Defaulting to max width as defined on AM335x */
--#define TILCDC_DEFAULT_MAX_WIDTH  2048
-+/* Maximum display width for LCDC V1 */
-+#define TILCDC_DEFAULT_MAX_WIDTH_V1  1024
-+/* ... and for LCDC V2 found on AM335x: */
-+#define TILCDC_DEFAULT_MAX_WIDTH_V2  2048
- /*
-  * This may need some tweaking, but want to allow at least 1280x1024@60
-  * with optimized DDR & EMIF settings tweaked 1920x1080@24 appears to
-@@ -158,7 +160,6 @@ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
- 		const struct tilcdc_panel_info *info);
- void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
- 					bool simulate_vesa_sync);
--int tilcdc_crtc_max_width(struct drm_crtc *crtc);
- void tilcdc_crtc_shutdown(struct drm_crtc *crtc);
- int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
- 		struct drm_framebuffer *fb,
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+We probably still have a few legacy drivers using videobuf (non-2),
+but IMHO those should be safe to put behind some disabled-by-default
+Kconfig symbol or even completely drop, as the legacy framework has
+been deprecated for many years already.
 
+> - roll this out everywhere we still need it.
+>
+> Realistically this just isn't going to happen. And anything else just
+> reimplements half of dma-buf, which is kinda pointless (you need
+> minimally refcounting and some way to get at a promise of a permanent
+> sg list for dma. Plus probably the vmap for kernel cpu access.
+>
+> > > Please let address the issue on this way, instead of broken an
+> > > userspace API that it is there since 1991.
+> >
+> > It has happened before :( It took 4 years for RDMA to undo the uAPI
+> > breakage caused by a security fix for something that was a 15 years
+> > old bug.
+>
+> Yeah we have a bunch of these on the drm side too. Some of them are
+> really just "you have to upgrade userspace", and there's no real fix
+> for the security nightmare without that.
+
+I think we need to phase out such userspace indeed. The Kconfig symbol
+allows enabling the unsafe functionality for anyone who still needs
+it, so I think it's not entirely a breakage.
+
+Best regards,
+Tomasz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
