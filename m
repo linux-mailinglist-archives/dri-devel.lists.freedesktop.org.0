@@ -2,66 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9E6289C90
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 02:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE19289FBD
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Oct 2020 12:03:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91ECB6EE58;
-	Sat, 10 Oct 2020 00:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD526EE96;
+	Sat, 10 Oct 2020 10:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 984AC6EE58
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Oct 2020 00:02:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602288176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LAHdT0YUcS3hlFVvV/a7Yb9xHClGFU2uZDMKfAvGGD8=;
- b=YGO+8l967roSxPzUWascfbDV/wJa11gLqAJh1a9rUiBa2c0JqCVv5UmBNgAF6Ix85tq9zT
- XqZSTWj2SMEdc+/0eljtZadSiwpgzryx/Dpkpxt+LIK4NDjK0HnUGWffM6SUgxci+mcZMG
- 5yts3jkEC63LfpVHYvtVMWsyWw1TDfA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-Wk81i243Npyr3CkTDaAMzA-1; Fri, 09 Oct 2020 20:02:53 -0400
-X-MC-Unique: Wk81i243Npyr3CkTDaAMzA-1
-Received: by mail-qk1-f199.google.com with SMTP id v190so5920546qki.21
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Oct 2020 17:02:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LAHdT0YUcS3hlFVvV/a7Yb9xHClGFU2uZDMKfAvGGD8=;
- b=PeHE+sc9BlmfyHwcXBjZSOIBPLqVBiimNOdWM0hv78ZLxuvcMN2n9/4iTJNmbaeUPO
- I8BgE3e4bWDlf+/TvlPB2BKQTgaTXS+D4pu+s8KcivsFpYAqn7P4Q90Q8tEfwzuY/JDO
- zMpPiwGO2DuURJl5D6QOFIbJjkPhu2hl5P6Ku6wmsoWiO3GfsoHCm0upKU10AegfTGHK
- umlKV5Irkc2hqQ1oHLSs5NdSsx2pK8SuWxabJzRcwF81k6ZS3K8/wyvtLO62Crs5/5CC
- L4lbiV6gi8wLxiWllvhyveU1dMBDC9ikZ5i9p6+Lkv05dHp5THM+Tv8q5pvpRADinWWP
- Xezw==
-X-Gm-Message-State: AOAM5327eY0CgQN5KzJ4kegFGhCnElRNOwnLze+LUYAfh58stgTVbciN
- 6dYKUcYraPaQ0+NGCqMwdOah+ODicH6l+eHeUpjpjMz5yC8ZPkXoUVGU/Bmlw//1uXB2JYgaNnC
- qZqEea3F0VJM4vj+LTo0uIyJaHjuKz1qVtxef4W9TQOiu
-X-Received: by 2002:ac8:544f:: with SMTP id d15mr550610qtq.378.1602288173369; 
- Fri, 09 Oct 2020 17:02:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTAsjduoXcqRRrUIMh+vSvUOH3iyoH4osH0nD+5G7WvhBO6AKdfe+6mxpDH02m/3KuNfgu9lpqZxcgAWuY2Ao=
-X-Received: by 2002:ac8:544f:: with SMTP id d15mr550593qtq.378.1602288173091; 
- Fri, 09 Oct 2020 17:02:53 -0700 (PDT)
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E760E6EE68;
+ Sat, 10 Oct 2020 00:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=wylOEgAZGPAkxCdlobMzyIfu/ZrVv1Os6TQldUFLziM=; b=F41ki3gR7FBgwnVausn+Ym7HP1
+ XlPOrKIoC49hpvUE9/aWBoH68sW9nzN+roolJxog6JtW0hinw+GJGJQweM2tJ1u8x4huOElOun4HX
+ OLG5RHoBoAf3CSIzFNHpVgsRU+TgTIZh4srysDUduyMdIIxPlPK5JA/amN/knuZnCqa9Zv6UObB0o
+ hZnMFz1K/YCtH1pW7cz6Th6CIA0I8ero69lmDRA42tDkhymN2BfqXsEeqYlbw/xTqpsZhH92AuKGR
+ +ciamleDZuZCDFfE/FcJg9XsXU418hEml49KDOM/rl5J3rO0lFNTAWXDAV5Z24k3Ay+VgEnmqYlhx
+ rI3nBVLQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red
+ Hat Linux)) id 1kR2vS-0004My-FJ; Sat, 10 Oct 2020 00:39:54 +0000
+Date: Sat, 10 Oct 2020 01:39:54 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Subject: Re: [PATCH RFC PKS/PMEM 22/58] fs/f2fs: Utilize new kmap_thread()
+Message-ID: <20201010003954.GW20115@casper.infradead.org>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-23-ira.weiny@intel.com>
+ <20201009213434.GA839@sol.localdomain>
 MIME-Version: 1.0
-References: <202010092326.20482.linux@zary.sk>
- <CACO55tuj_=PUYuBnJLZgCEize_8Po0VnuDVPtkHLEZxL3RgF7Q@mail.gmail.com>
- <CAKb7UvggVn2c=jUNSfjf6r529n89xfNgVBpn3jnXznVh8Gs4+w@mail.gmail.com>
-In-Reply-To: <CAKb7UvggVn2c=jUNSfjf6r529n89xfNgVBpn3jnXznVh8Gs4+w@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Sat, 10 Oct 2020 02:02:42 +0200
-Message-ID: <CACO55tuAxbcXbC9zrT5rs34s=5uBugkbcikORU5868ka9bHdkw@mail.gmail.com>
-Subject: Re: [Nouveau] nouveau broken on Riva TNT2 in 5.9.0-rc8: GPU not
- supported on big-endian
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20201009213434.GA839@sol.localdomain>
+X-Mailman-Approved-At: Sat, 10 Oct 2020 10:02:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,56 +49,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ondrej Zary <linux@zary.sk>
+Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-kselftest@vger.kernel.org, ira.weiny@intel.com,
+ Thomas Gleixner <tglx@linutronix.de>, drbd-dev@lists.linbit.com,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org, x86@kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-afs@lists.infradead.org,
+ cluster-devel@redhat.com, Ingo Molnar <mingo@redhat.com>,
+ intel-wired-lan@lists.osuosl.org, kexec@lists.infradead.org,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+ bpf@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
+ Fenghua Yu <fenghua.yu@intel.com>, intel-gfx@lists.freedesktop.org,
+ ecryptfs@vger.kernel.org, linux-um@lists.infradead.org,
+ reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-bcache@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ ceph-devel@vger.kernel.org, io-uring@vger.kernel.org, linux-cachefs@redhat.com,
+ linux-nfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+ netdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ samba-technical@lists.samba.org, linux-kernel@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linux-erofs@lists.ozlabs.org,
+ linux-btrfs@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 10, 2020 at 12:23 AM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
->
-> On Fri, Oct 9, 2020 at 5:54 PM Karol Herbst <kherbst@redhat.com> wrote:
+On Fri, Oct 09, 2020 at 02:34:34PM -0700, Eric Biggers wrote:
+> On Fri, Oct 09, 2020 at 12:49:57PM -0700, ira.weiny@intel.com wrote:
+> > The kmap() calls in this FS are localized to a single thread.  To avoid
+> > the over head of global PKRS updates use the new kmap_thread() call.
 > >
-> > On Fri, Oct 9, 2020 at 11:35 PM Ondrej Zary <linux@zary.sk> wrote:
-> > >
-> > > Hello,
-> > > I'm testing 5.9.0-rc8 and found that Riva TNT2 stopped working:
-> > > [    0.000000] Linux version 5.9.0-rc8+ (zary@gsql) (gcc (Debian 8.3.0-6) 8.3.0, GNU ld (GNU Binutils for Debian) 2.31.1) #326 SMP Fri Oct 9 22:31:40 CEST 2020
-> > > ...
-> > > [   14.771464] nouveau 0000:01:00.0: GPU not supported on big-endian
-> > > [   14.771782] nouveau: probe of 0000:01:00.0 failed with error -38
-> > >
-> > > big-endian? WTF? The machine is x86.
-> > >
-> >
-> > mhh, we reworked the endianess checks a bit and apparently that broke
-> > something... I will give it some thoughts, but could you be so kind
-> > and create an mmiotrace under 5.9 with nouveau? You won't need to
-> > start X or anything while doing it. Just enable the trace and modprobe
-> > nouveau and collect the trace.
->
-> Looks like nvkm_device_endianness unconditionally reads out 0x4. I
-> don't think that reg is there pre-NV11. At least NV4, NV5, NV10 and
-> maybe NV15 (which is logically pre-NV11) don't support big-endian
-> mode. Not sure about NV1A, which was the IGP of the series and IIRC
-> logically pre-NV11 as well (but clearly could only be used with x86
-> chips, since it was part of the motherboard).
->
-> Aha, it's documented in rnndb:
->
-> https://github.com/envytools/envytools/blob/master/rnndb/bus/pmc.xml
-> <reg32 offset="0x004" name="ENDIAN" variants="NV1A-"/>
->
+> > @@ -2410,12 +2410,12 @@ static inline struct page *f2fs_pagecache_get_page(
+> >  
+> >  static inline void f2fs_copy_page(struct page *src, struct page *dst)
+> >  {
+> > -	char *src_kaddr = kmap(src);
+> > -	char *dst_kaddr = kmap(dst);
+> > +	char *src_kaddr = kmap_thread(src);
+> > +	char *dst_kaddr = kmap_thread(dst);
+> >  
+> >  	memcpy(dst_kaddr, src_kaddr, PAGE_SIZE);
+> > -	kunmap(dst);
+> > -	kunmap(src);
+> > +	kunmap_thread(dst);
+> > +	kunmap_thread(src);
+> >  }
+> 
+> Wouldn't it make more sense to switch cases like this to kmap_atomic()?
+> The pages are only mapped to do a memcpy(), then they're immediately unmapped.
 
-ohh, I should have checked there.. yeah, will write a fix for it then.
-Before my patch we just always tried to switch it, but never threw an
-error.
+Maybe you missed the earlier thread from Thomas trying to do something
+similar for rather different reasons ...
 
->   -ilia
->
-
+https://lore.kernel.org/lkml/20200919091751.011116649@linutronix.de/
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
