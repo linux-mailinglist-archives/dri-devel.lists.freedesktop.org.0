@@ -2,46 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C9928A603
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Oct 2020 08:36:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E358828AB0B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 01:01:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 598086E071;
-	Sun, 11 Oct 2020 06:36:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 614066E063;
+	Sun, 11 Oct 2020 23:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68EC86E071
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Oct 2020 06:36:50 +0000 (UTC)
-Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de
- [95.90.213.163])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 85DE0207F7;
- Sun, 11 Oct 2020 06:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602398210;
- bh=MR/RMyKCclUPPVflq9R7vQAnP0HHAB+V0k+M/bUhRS4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=jvBUfU4lcFH5iYVZHi3aofMRqu0bNvwHTxzGNNkxsyXYWj1btiksG20/jfbPQvvqv
- dVJGVqnV9hei4ZzzcKLtrrL3N/xYb6tuVCokS0XC+GSZbVjKBxNL+vnz8aAokYiVaa
- RWkpl0Kn6+L8/zgpVMrCrzOooLkal8LZO9av0isI=
-Date: Sun, 11 Oct 2020 08:36:42 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
-Message-ID: <20201011083642.06ea8062@coco.lan>
-In-Reply-To: <20201011082741.6bed4d71@coco.lan>
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
- <20201009123421.67a80d72@coco.lan> <20201009122111.GN5177@ziepe.ca>
- <20201009143723.45609bfb@coco.lan> <20201009124850.GP5177@ziepe.ca>
- <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
- <CAAFQd5CTT0re4ssj9NNTxhejFX_v_rCjy6=mX7C+dc=Lw9GOHw@mail.gmail.com>
- <20201010213554.GD3939@pendragon.ideasonboard.com>
- <CAKMK7uGhq+BiaJ5jD+bkO4VOaCPuUZ_empA3Ojr1AsvwNef6QQ@mail.gmail.com>
- <20201011082741.6bed4d71@coco.lan>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D67A6E063
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Oct 2020 23:01:18 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A4A9308;
+ Mon, 12 Oct 2020 01:01:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1602457275;
+ bh=uhwaH5dk8caXUXCfjGq8FIzwI8jsBl7UFxbmORYemP4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Jk4XuflM7wT92ttPSgspLWilsQwimZAMmefxagq796kzRwpgOT7Z8E1qWE649FYev
+ gn3eMWmV7BcwfPKp54KMQ8KtYSp7sjhLQ98wiMefKoZR8U6cUBN3b9g1GhpCc1LozR
+ 5UAPd2L7DuODEYj5zNh5GoCjOQXu0tFs4sfqOaLY=
+Date: Mon, 12 Oct 2020 02:00:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH RESEND v3 1/6] drm/of: Change the prototype of
+ drm_of_lvds_get_dual_link_pixel_order
+Message-ID: <20201011230030.GD3944@pendragon.ideasonboard.com>
+References: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
+ <6169dd15782627c8415583881fa94ba39c4f5221.1601910923.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <6169dd15782627c8415583881fa94ba39c4f5221.1601910923.git-series.maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,118 +47,261 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390 <linux-s390@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Tomasz Figa <tfiga@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "Lad,
- Prabhakar" <prabhakar.csengg@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Sun, 11 Oct 2020 08:27:41 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Hi Maxime,
 
-> Em Sat, 10 Oct 2020 23:50:27 +0200
-> Daniel Vetter <daniel.vetter@ffwll.ch> escreveu:
-> 
-> > On Sat, Oct 10, 2020 at 11:36 PM Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> 
-> > > > We probably still have a few legacy drivers using videobuf (non-2),
-> > > > but IMHO those should be safe to put behind some disabled-by-default
-> > > > Kconfig symbol or even completely drop, as the legacy framework has
-> > > > been deprecated for many years already.  
-> > >
-> > > There's 8 drivers left, and they support a very large number of devices.
-> > > I expect unhappy users distros stop shipping them. On the other hand,
-> > > videobuf has been deprecated for a loooooooong time, so there has been
-> > > plenty of time to convert the remaining drivers to videobuf2. If nobody
-> > > can do it, then we'll have to drop support for these devices given the
-> > > security issues.  
-> > 
-> > Again, the issue here is _only_ with follow_pfn. For videobuf1 this
-> > means videbuf-dma-contig.c userptr support is broken. Unlike videobuf2
-> > it means it's broken for all usage (not just zero-copy userptr),
-> > because videbuf-dma-contig.c lacks the pin_user_pages path.
-> 
-> Well, follow_pfn() is used only by videbuf-dma-contig.c. If this is 
-> the only part of VB1 that will have userptr broken, then there's
-> just one driver that might be affected: davinci.
-> 
-> Yet, taking a deeper look:
-> 
-> 	$ git grep include drivers/media/platform/davinci/|grep -i videobuf
-> 	drivers/media/platform/davinci/vpif_capture.h:#include <media/videobuf2-dma-contig.h>
-> 	drivers/media/platform/davinci/vpif_display.h:#include <media/videobuf2-dma-contig.h>
-> 
-> It sounds to me that it was already converted to VB2, but some VB1
-> symbols were not converted at its Kconfig.
-> 
-> It sounds to me that there are other drivers with some VB1 left overs
-> at Kconfig, as those are the only ones using VB1 those days:
-> 
-> 	$ for i in $(git grep media/videobuf drivers |grep -v videobuf2 |grep -v v4l2-core|cut -d: -f1); do dirname $i; done|sort|uniq
-> 	drivers/media/pci/bt8xx
-> 	drivers/media/pci/cx18
-> 	drivers/media/platform
-> 	drivers/media/usb/tm6000
-> 	drivers/media/usb/zr364xx
-> 	drivers/staging/media/atomisp/pci
+Thank you for the patch.
 
-This is incomplete. There are two drivers that include videobuf
-indirectly:
-
-	include/media/davinci/vpfe_capture.h
-	include/media/drv-intf/saa7146_vv.h
-
-I double-checked that DaVinci still uses VB1. There are 
-actually two clients for videbuf-dma-contig.c: davinci and fsl-viu.
-
-Those two will be affected, if we don't add pin_user_pages_fast()
-support to VB1 or convert them to VB2.
-
+On Mon, Oct 05, 2020 at 05:15:39PM +0200, Maxime Ripard wrote:
+> The drm_of_lvds_get_dual_link_pixel_order() function took so far the
+> device_node of the two ports used together to make up a dual-link LVDS
+> output.
 > 
-> > But that
-> > would be easy to add if this poses a  problem I think - we just need
-> > to carry over the pin_user_pages_fast logic from videbuf2, no driver
-> > changes required. But of course I don't think we should do that before
-> > someone reports the regression, since videobuf1 userptr is doubly
-> > deprecated :-)
+> This assumes that a binding would use an entire port for the LVDS output.
+> However, some bindings have used endpoints instead and thus we need to
+> operate at the endpoint level. Change slightly the arguments to allow that.
 > 
-> I think otherwise. Keeping a broken component at the Kernel is 
-> a bad idea. 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/drm_of.c            | 98 +++++++++++++++---------------
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c |  8 +--
+>  include/drm/drm_of.h                | 16 +++--
+>  3 files changed, 63 insertions(+), 59 deletions(-)
 > 
-> Yet, from my quick search above, it sounds to me that it is time for 
-> us to retire the VB1 DMA contig support as a hole, as there's no client 
-> for it anymore.
-> 
-> I'll work on some patches cleaning up the VB1 left overs at
-> Kconfig and removing videbuf-dma-contig.c for good, if there's
-> no hidden dependency on it.
-> 
-> 
-> Thanks,
-> Mauro
+> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> index b50b44e76279..2dcb49b0401b 100644
+> --- a/drivers/gpu/drm/drm_of.c
+> +++ b/drivers/gpu/drm/drm_of.c
+> @@ -291,50 +291,34 @@ static int drm_of_lvds_get_port_pixels_type(struct device_node *port_node)
+>  	       (odd_pixels ? DRM_OF_LVDS_ODD : 0);
+>  }
+>  
+> -static int drm_of_lvds_get_remote_pixels_type(
+> -			const struct device_node *port_node)
+> +static int drm_of_lvds_get_remote_pixels_type(const struct device_node *endpoint)
+>  {
+> -	struct device_node *endpoint = NULL;
+> -	int pixels_type = -EPIPE;
+> +	struct device_node *remote_port;
+> +	int pixels_type;
+>  
+> -	for_each_child_of_node(port_node, endpoint) {
+> -		struct device_node *remote_port;
+> -		int current_pt;
+> -
+> -		if (!of_node_name_eq(endpoint, "endpoint"))
+> -			continue;
+> -
+> -		remote_port = of_graph_get_remote_port(endpoint);
+> -		if (!remote_port) {
+> -			of_node_put(remote_port);
+> -			return -EPIPE;
+> -		}
+> -
+> -		current_pt = drm_of_lvds_get_port_pixels_type(remote_port);
+> +	remote_port = of_graph_get_remote_port(endpoint);
+> +	if (!remote_port) {
+>  		of_node_put(remote_port);
 
+You can drop this line.
 
+> -		if (pixels_type < 0)
+> -			pixels_type = current_pt;
+> -
+> -		/*
+> -		 * Sanity check, ensure that all remote endpoints have the same
+> -		 * pixel type. We may lift this restriction later if we need to
+> -		 * support multiple sinks with different dual-link
+> -		 * configurations by passing the endpoints explicitly to
+> -		 * drm_of_lvds_get_dual_link_pixel_order().
+> -		 */
 
-Thanks,
-Mauro
+Shouldn't we keep this check when endpoint_id is -1 in
+drm_of_lvds_get_dual_link_pixel_order() ?
+
+> -		if (!current_pt || pixels_type != current_pt) {
+> -			of_node_put(remote_port);
+> -			return -EINVAL;
+> -		}
+> +		return -EPIPE;
+>  	}
+>  
+> +	pixels_type = drm_of_lvds_get_port_pixels_type(remote_port);
+> +	of_node_put(remote_port);
+> +
+> +	if (pixels_type < 0)
+> +		pixels_type = -EPIPE;
+> +
+>  	return pixels_type;
+>  }
+>  
+>  /**
+>   * drm_of_lvds_get_dual_link_pixel_order - Get LVDS dual-link pixel order
+> - * @port1: First DT port node of the Dual-link LVDS source
+> - * @port2: Second DT port node of the Dual-link LVDS source
+> + * @dev1: First DT device node of the Dual-Link LVDS source
+> + * @port1_id: ID of the first DT port node of the Dual-Link LVDS source
+> + * @endpoint1_id: ID of the first DT port node of the Dual-Link LVDS source
+
+The port1_id and endpoint1_id parameters have the exact same
+documentation. Same for port2.
+
+I would shorten port1_id to port1 and endpoint1_id to endpoint1, but
+that's up to you.
+
+> + * @dev2: First DT device node of the Dual-Link LVDS source
+> + * @port2_id: ID of the first DT port node of the Dual-Link LVDS source
+> + * @endpoint2_id: ID of the first DT port node of the Dual-Link LVDS source
+>   *
+>   * An LVDS dual-link connection is made of two links, with even pixels
+>   * transitting on one link, and odd pixels on the other link. This function
+> @@ -348,32 +332,48 @@ static int drm_of_lvds_get_remote_pixels_type(
+>   *
+>   * If either port is not connected, this function returns -EPIPE.
+>   *
+> - * @port1 and @port2 are typically DT sibling nodes, but may have different
+> - * parents when, for instance, two separate LVDS encoders carry the even and odd
+> - * pixels.
+> + * @port1_id and @port2_id are typically DT sibling nodes, but may have
+> + * different parents when, for instance, two separate LVDS encoders carry the
+> + * even and odd pixels.
+> + *
+> + * If @port1_id, @port2_id, @endpoint1_id or @endpoint2_id are set to -1, their
+> + * value is going to be ignored.
+
+And what happens when they're ignored ? :-) You should document that
+the first endpoint / port is then used.
+
+>   *
+>   * Return:
+> - * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @port1 carries even pixels and @port2
+> - *   carries odd pixels
+> - * * DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS - @port1 carries odd pixels and @port2
+> - *   carries even pixels
+> - * * -EINVAL - @port1 and @port2 are not connected to a dual-link LVDS sink, or
+> - *   the sink configuration is invalid
+> - * * -EPIPE - when @port1 or @port2 are not connected
+> + * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @endpoint1_id carries even pixels and
+> + *   @endpoint2_id carries odd pixels
+> + * * DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS - @endpoint1_id carries odd pixels and
+> + *   @endpoint2_id carries even pixels
+> + * * -EINVAL - @endpoint1_id and @endpoint2_id are not connected to a dual-link
+> + *   LVDS sink, or the sink configuration is invalid
+> + * * -EPIPE - when @endpoint1_id or @endpoint2_id are not connected
+>   */
+> -int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
+> -					  const struct device_node *port2)
+> +int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *dev1,
+> +					  int port1_id,
+> +					  int endpoint1_id,
+> +					  const struct device_node *dev2,
+> +					  int port2_id,
+> +					  int endpoint2_id)
+>  {
+> +	struct device_node *endpoint1, *endpoint2;
+>  	int remote_p1_pt, remote_p2_pt;
+>  
+> -	if (!port1 || !port2)
+> +	if (!dev1 || !dev2)
+> +		return -EINVAL;
+> +
+> +	endpoint1 = of_graph_get_endpoint_by_regs(dev1, port1_id, endpoint1_id);
+> +	if (!endpoint1)
+> +		return -EINVAL;
+> +
+> +	endpoint2 = of_graph_get_endpoint_by_regs(dev2, port2_id, endpoint2_id);
+> +	if (!endpoint2)
+>  		return -EINVAL;
+
+YOu're leaking a reference to endpoint1 here, and to both endpoint1 and
+endpoint2 in all the error paths (and the success path actually) below.
+
+>  
+> -	remote_p1_pt = drm_of_lvds_get_remote_pixels_type(port1);
+> +	remote_p1_pt = drm_of_lvds_get_remote_pixels_type(endpoint1);
+>  	if (remote_p1_pt < 0)
+>  		return remote_p1_pt;
+>  
+> -	remote_p2_pt = drm_of_lvds_get_remote_pixels_type(port2);
+> +	remote_p2_pt = drm_of_lvds_get_remote_pixels_type(endpoint2);
+>  	if (remote_p2_pt < 0)
+>  		return remote_p2_pt;
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index ab0d49618cf9..02d8c4ce820e 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -715,7 +715,6 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  {
+>  	const struct of_device_id *match;
+>  	struct device_node *companion;
+> -	struct device_node *port0, *port1;
+>  	struct rcar_lvds *companion_lvds;
+>  	struct device *dev = lvds->dev;
+>  	int dual_link;
+> @@ -743,11 +742,8 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  	 * connected to, if they are marked as expecting even pixels and
+>  	 * odd pixels than we need to enable vertical stripe output.
+>  	 */
+> -	port0 = of_graph_get_port_by_id(dev->of_node, 1);
+> -	port1 = of_graph_get_port_by_id(companion, 1);
+> -	dual_link = drm_of_lvds_get_dual_link_pixel_order(port0, port1);
+> -	of_node_put(port0);
+> -	of_node_put(port1);
+> +	dual_link = drm_of_lvds_get_dual_link_pixel_order(dev->of_node, 1, -1,
+> +							  companion, 1, -1);
+>  
+>  	switch (dual_link) {
+>  	case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
+> diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
+> index b9b093add92e..7bb1f6603beb 100644
+> --- a/include/drm/drm_of.h
+> +++ b/include/drm/drm_of.h
+> @@ -47,8 +47,12 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
+>  				int port, int endpoint,
+>  				struct drm_panel **panel,
+>  				struct drm_bridge **bridge);
+> -int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
+> -					  const struct device_node *port2);
+> +int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *dev1,
+> +					  int port1_id,
+> +					  int endpoint1_id,
+> +					  const struct device_node *dev2,
+> +					  int port2_id,
+> +					  int endpoint2_id);
+>  #else
+>  static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
+>  					  struct device_node *port)
+> @@ -93,8 +97,12 @@ static inline int drm_of_find_panel_or_bridge(const struct device_node *np,
+>  }
+>  
+>  static inline int
+> -drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
+> -				      const struct device_node *port2)
+> +drm_of_lvds_get_dual_link_pixel_order(const struct device_node *dev1,
+> +				      int port1_id,
+> +				      int endpoint1_id,
+> +				      const struct device_node *dev2,
+> +				      int port2_id,
+> +				      int endpoint2_id)
+>  {
+>  	return -EINVAL;
+>  }
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
