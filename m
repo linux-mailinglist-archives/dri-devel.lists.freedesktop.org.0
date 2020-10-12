@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32ED28ABA7
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:08:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0149B28ABA9
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:09:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B41456E1F7;
-	Mon, 12 Oct 2020 02:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 952EB6E20A;
+	Mon, 12 Oct 2020 02:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49C66E1F7;
- Mon, 12 Oct 2020 02:08:55 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id d23so7761883pll.7;
- Sun, 11 Oct 2020 19:08:55 -0700 (PDT)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C20E6E20A;
+ Mon, 12 Oct 2020 02:08:58 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id l18so3728837pgg.0;
+ Sun, 11 Oct 2020 19:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kS25d5qKVGDZxWvcUI8CruK0rHlMGZPnc/KSyG6rgIQ=;
- b=Vn1vzJFVJFmP0O9FSHMj/0BY5nyOCoW//lFof2um+CcmUcqgekVvZaUYEjr/OleuSI
- wk57WLpqvzk3V315/2nEsIhh2+fD+OD0xpsx759PvRaWk2phS4Hg0xYHrlsZ7RKRWR5b
- oBtDrE49YGIBCEiuEAiLgmra30QcGqPswn8ODBRhWL3bWc8sxuUjSvIMVFAuLwPljMmR
- ToByKGFSPcj5clkw8Ow9fHbJ8LGD7uHjCEhGOLl2CWmUQcHU7cSDNZAvqibNynqIe2R9
- Mv8BcWEAJiunU4DcWZw767KmlULTzmXSAYi0HUbq5lWadz5RfwkGtu8hmMdsKXDRijey
- /i8w==
+ bh=5Oh42LDxapEVsr08xso+zIkteFrHOEURl7Ox6/NemvA=;
+ b=elG/l8t0KoDrN6fA3BMNkVOrL1bj7/pqOd7/fdpGUlQ9ItbHJZuFMP4hhW3LajCayv
+ Bnu3WOBPa4CwOIPWHwpmeugI87x/TUSU9jwY7eAIKEApYlmuRJme7AWxDC/+kzhvIc7/
+ NgYLTCgdbnACkDr5anJmvz/CxGx/nzXkZP21sebXW+yFcN9IkgUBNc5CtsJGaTGc1vGt
+ bSzB+n4z9fcbDPAaParwv+7KImAqencoISr4tRQ7MVEluGk4TCxCA9yjrKUL8fIjutZt
+ OTebK4zAGuIGfGHBgCH30gK2bRgKiYKqEgzou7+oL3emr1k8oJLdKMzJuBG0SsjEdl7W
+ fmKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kS25d5qKVGDZxWvcUI8CruK0rHlMGZPnc/KSyG6rgIQ=;
- b=c8OMMIoihgK0bHLzaZkfszomegfWe4+/3bkSrx3QeqWELUreCI4Rg904R6SJGa+XZ8
- VrqZEeBUlE2sZGjf/jZa0TvS8h10FFaePL1YT4qfi/wsZW90+kcJumHVmq2MYktZhHnS
- HyC7f5ozYuGTeQXUmFAYyOCF4jBhw+lrHnzHinlhoA5EGSacB4n5hRb74GUd4NN+UTpz
- sieV/IgR8yvxYkB5yNpXhhJLQKlB1AVh4nTOav0FkTeay960C6MZFg9r8TRiBVi2pEFc
- udfLw2wafCmfj3//fMnICuKQjnSGyzyJlIbemupzK2d0L22BV1vcvMXWbD0mZYcsI/gZ
- a9HQ==
-X-Gm-Message-State: AOAM533ERa/LlxCSFUjaYz/FkyBPPFLpWD5QZV3dBg2TN1g76W6OSxjP
- +0PoXaFYXtTR1dpn9SncBHwnwuETYru3T/YC
-X-Google-Smtp-Source: ABdhPJwxSla3igtA9DqgAD5GKP2q0CYqbs7fJho7xFNHP7UMTXM1LmB7nqEkXjoNuhlMAOui6nh3vA==
-X-Received: by 2002:a17:902:d68d:b029:d3:dcce:d7f1 with SMTP id
- v13-20020a170902d68db02900d3dcced7f1mr21330798ply.84.1602468534924; 
- Sun, 11 Oct 2020 19:08:54 -0700 (PDT)
+ bh=5Oh42LDxapEVsr08xso+zIkteFrHOEURl7Ox6/NemvA=;
+ b=Oq4ThY3uMbqAfC06k9+x26sJ8WcAKfmpuPKJpFjYmiV6GYQTjd8ULZIveMusG7DZyf
+ K/KmwZ+KzxWjk4pC0QB1xQR9VWp4sKjW6HPiZoxCzEaicRBfAZbYeAPvo5LGWAyzK1Ra
+ rFqEsMwvo4jqRQZ3XxbLcK7rhSP0h5HRr6GDqus3dy3RyIFHQB8Aq2Cl+4VpHrGIEVHu
+ WWvvf5FGlof63NBhQ15YzBJwB/7gtHsmDYeqlGkfAEPcMmuNzcDviCjWqcnrYBbgVKGI
+ o30aoxdIm5QxVbFytgQgPl85PBd1cFXL9BfAU0smhxaTdOcg1UXvLWPWTf5DCj00mLJm
+ +NqA==
+X-Gm-Message-State: AOAM530LweYmg0GgqTb/Y+Q+3gFWyMzQyU+AplF1UEvoYcJWlgaj7OyR
+ IRRD9TFk/+pE/xPebWlFnNXImcVjqmHCMSx2
+X-Google-Smtp-Source: ABdhPJzKiDq5PhzQF6iqJJoDdoW9g+G5RlA2BsKHieaUWHFe0I69EkRcWmT8hTB/F34ipSXL3QKg7g==
+X-Received: by 2002:a65:67d0:: with SMTP id b16mr2213165pgs.335.1602468537570; 
+ Sun, 11 Oct 2020 19:08:57 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- q5sm17078811pgh.16.2020.10.11.19.08.53
+ p19sm17527645pfn.204.2020.10.11.19.08.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Oct 2020 19:08:53 -0700 (PDT)
+ Sun, 11 Oct 2020 19:08:56 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 04/22] drm/msm/gem: Add some _locked() helpers
-Date: Sun, 11 Oct 2020 19:09:31 -0700
-Message-Id: <20201012020958.229288-5-robdclark@gmail.com>
+Subject: [PATCH v2 05/22] drm/msm/gem: Move locking in shrinker path
+Date: Sun, 11 Oct 2020 19:09:32 -0700
+Message-Id: <20201012020958.229288-6-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201012020958.229288-1-robdclark@gmail.com>
 References: <20201012020958.229288-1-robdclark@gmail.com>
@@ -80,129 +79,208 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-When we cut-over to using dma_resv_lock/etc instead of msm_obj->lock,
-we'll need these for the submit path (where resv->lock is already held).
+Move grabbing the bo lock into shrinker, with a msm_gem_trylock() to
+skip over bo's that are already locked.  This gets rid of the nested
+lock classes.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem.c | 50 +++++++++++++++++++++++++++--------
- drivers/gpu/drm/msm/msm_gem.h |  4 +++
- 2 files changed, 43 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c          | 24 +++++----------------
+ drivers/gpu/drm/msm/msm_gem.h          | 29 ++++++++++----------------
+ drivers/gpu/drm/msm/msm_gem_shrinker.c | 27 +++++++++++++++++-------
+ 3 files changed, 35 insertions(+), 45 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index dec89fe79025..7bca2e815933 100644
+index 7bca2e815933..ff8ca257bdc6 100644
 --- a/drivers/gpu/drm/msm/msm_gem.c
 +++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -435,18 +435,14 @@ static int msm_gem_pin_iova(struct drm_gem_object *obj,
- 			msm_obj->sgt, obj->size >> PAGE_SHIFT);
- }
+@@ -17,8 +17,6 @@
+ #include "msm_gpu.h"
+ #include "msm_mmu.h"
  
--/*
-- * get iova and pin it. Should have a matching put
-- * limits iova to specified range (in pages)
-- */
--int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
-+static int get_and_pin_iova_range_locked(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace, uint64_t *iova,
- 		u64 range_start, u64 range_end)
+-static void msm_gem_vunmap_locked(struct drm_gem_object *obj);
+-
+ 
+ static dma_addr_t physaddr(struct drm_gem_object *obj)
  {
- 	u64 local;
- 	int ret;
- 
--	msm_gem_lock(obj);
-+	WARN_ON(!msm_gem_is_locked(obj));
- 
- 	ret = get_iova_locked(obj, aspace, &local,
- 		range_start, range_end);
-@@ -457,10 +453,32 @@ int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
- 	if (!ret)
- 		*iova = local;
- 
-+	return ret;
-+}
-+
-+/*
-+ * get iova and pin it. Should have a matching put
-+ * limits iova to specified range (in pages)
-+ */
-+int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
-+		struct msm_gem_address_space *aspace, uint64_t *iova,
-+		u64 range_start, u64 range_end)
-+{
-+	int ret;
-+
-+	msm_gem_lock(obj);
-+	ret = get_and_pin_iova_range_locked(obj, aspace, iova, range_start, range_end);
- 	msm_gem_unlock(obj);
-+
- 	return ret;
+@@ -672,20 +670,19 @@ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv)
+ 	return (madv != __MSM_MADV_PURGED);
  }
  
-+int msm_gem_get_and_pin_iova_locked(struct drm_gem_object *obj,
-+		struct msm_gem_address_space *aspace, uint64_t *iova)
-+{
-+	return get_and_pin_iova_range_locked(obj, aspace, iova, 0, U64_MAX);
-+}
-+
- /* get iova and pin it. Should have a matching put */
- int msm_gem_get_and_pin_iova(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace, uint64_t *iova)
-@@ -501,21 +519,31 @@ uint64_t msm_gem_iova(struct drm_gem_object *obj,
- }
- 
- /*
-- * Unpin a iova by updating the reference counts. The memory isn't actually
-- * purged until something else (shrinker, mm_notifier, destroy, etc) decides
-- * to get rid of it
-+ * Locked variant of msm_gem_unpin_iova()
-  */
--void msm_gem_unpin_iova(struct drm_gem_object *obj,
-+void msm_gem_unpin_iova_locked(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace)
+-void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass)
++void msm_gem_purge(struct drm_gem_object *obj)
  {
- 	struct msm_gem_vma *vma;
+ 	struct drm_device *dev = obj->dev;
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
  
--	msm_gem_lock(obj);
+ 	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
 +	WARN_ON(!msm_gem_is_locked(obj));
-+
- 	vma = lookup_vma(obj, aspace);
+ 	WARN_ON(!is_purgeable(msm_obj));
+ 	WARN_ON(obj->import_attach);
  
- 	if (!WARN_ON(!vma))
- 		msm_gem_unmap_vma(aspace, vma);
-+}
+-	mutex_lock_nested(&msm_obj->lock, subclass);
+-
+ 	put_iova(obj);
  
-+/*
-+ * Unpin a iova by updating the reference counts. The memory isn't actually
-+ * purged until something else (shrinker, mm_notifier, destroy, etc) decides
-+ * to get rid of it
-+ */
-+void msm_gem_unpin_iova(struct drm_gem_object *obj,
-+		struct msm_gem_address_space *aspace)
-+{
-+	msm_gem_lock(obj);
-+	msm_gem_unpin_iova_locked(obj, aspace);
- 	msm_gem_unlock(obj);
+-	msm_gem_vunmap_locked(obj);
++	msm_gem_vunmap(obj);
+ 
+ 	put_pages(obj);
+ 
+@@ -703,11 +700,9 @@ void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass)
+ 
+ 	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping,
+ 			0, (loff_t)-1);
+-
+-	msm_gem_unlock(obj);
  }
+ 
+-static void msm_gem_vunmap_locked(struct drm_gem_object *obj)
++void msm_gem_vunmap(struct drm_gem_object *obj)
+ {
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 
+@@ -720,15 +715,6 @@ static void msm_gem_vunmap_locked(struct drm_gem_object *obj)
+ 	msm_obj->vaddr = NULL;
+ }
+ 
+-void msm_gem_vunmap(struct drm_gem_object *obj, enum msm_gem_lock subclass)
+-{
+-	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+-
+-	mutex_lock_nested(&msm_obj->lock, subclass);
+-	msm_gem_vunmap_locked(obj);
+-	msm_gem_unlock(obj);
+-}
+-
+ /* must be called before _move_to_active().. */
+ int msm_gem_sync_object(struct drm_gem_object *obj,
+ 		struct msm_fence_context *fctx, bool exclusive)
+@@ -965,7 +951,7 @@ static void free_object(struct msm_gem_object *msm_obj)
+ 
+ 		drm_prime_gem_destroy(obj, msm_obj->sgt);
+ 	} else {
+-		msm_gem_vunmap_locked(obj);
++		msm_gem_vunmap(obj);
+ 		put_pages(obj);
+ 	}
  
 diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index fbad08badf43..016f616dd118 100644
+index 016f616dd118..947eeaca661d 100644
 --- a/drivers/gpu/drm/msm/msm_gem.h
 +++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -103,10 +103,14 @@ int msm_gem_get_iova(struct drm_gem_object *obj,
- int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace, uint64_t *iova,
- 		u64 range_start, u64 range_end);
-+int msm_gem_get_and_pin_iova_locked(struct drm_gem_object *obj,
-+		struct msm_gem_address_space *aspace, uint64_t *iova);
- int msm_gem_get_and_pin_iova(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace, uint64_t *iova);
- uint64_t msm_gem_iova(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace);
-+void msm_gem_unpin_iova_locked(struct drm_gem_object *obj,
-+		struct msm_gem_address_space *aspace);
- void msm_gem_unpin_iova(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace);
- struct page **msm_gem_get_pages(struct drm_gem_object *obj);
+@@ -160,6 +160,13 @@ msm_gem_lock(struct drm_gem_object *obj)
+ 	mutex_lock(&msm_obj->lock);
+ }
+ 
++static inline bool __must_check
++msm_gem_trylock(struct drm_gem_object *obj)
++{
++	struct msm_gem_object *msm_obj = to_msm_bo(obj);
++	return mutex_trylock_recursive(&msm_obj->lock) == MUTEX_TRYLOCK_SUCCESS;
++}
++
+ static inline int
+ msm_gem_lock_interruptible(struct drm_gem_object *obj)
+ {
+@@ -188,6 +195,7 @@ static inline bool is_active(struct msm_gem_object *msm_obj)
+ 
+ static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+ {
++	WARN_ON(!msm_gem_is_locked(&msm_obj->base));
+ 	WARN_ON(!mutex_is_locked(&msm_obj->base.dev->struct_mutex));
+ 	return (msm_obj->madv == MSM_MADV_DONTNEED) && msm_obj->sgt &&
+ 			!msm_obj->base.dma_buf && !msm_obj->base.import_attach;
+@@ -195,27 +203,12 @@ static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+ 
+ static inline bool is_vunmapable(struct msm_gem_object *msm_obj)
+ {
++	WARN_ON(!msm_gem_is_locked(&msm_obj->base));
+ 	return (msm_obj->vmap_count == 0) && msm_obj->vaddr;
+ }
+ 
+-/* The shrinker can be triggered while we hold objA->lock, and need
+- * to grab objB->lock to purge it.  Lockdep just sees these as a single
+- * class of lock, so we use subclasses to teach it the difference.
+- *
+- * OBJ_LOCK_NORMAL is implicit (ie. normal mutex_lock() call), and
+- * OBJ_LOCK_SHRINKER is used by shrinker.
+- *
+- * It is *essential* that we never go down paths that could trigger the
+- * shrinker for a purgable object.  This is ensured by checking that
+- * msm_obj->madv == MSM_MADV_WILLNEED.
+- */
+-enum msm_gem_lock {
+-	OBJ_LOCK_NORMAL,
+-	OBJ_LOCK_SHRINKER,
+-};
+-
+-void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass);
+-void msm_gem_vunmap(struct drm_gem_object *obj, enum msm_gem_lock subclass);
++void msm_gem_purge(struct drm_gem_object *obj);
++void msm_gem_vunmap(struct drm_gem_object *obj);
+ void msm_gem_free_work(struct work_struct *work);
+ 
+ /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
+diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+index 482576d7a39a..2dc0ffa925b4 100644
+--- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
++++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+@@ -52,8 +52,11 @@ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
+ 		return 0;
+ 
+ 	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
++		if (!msm_gem_trylock(&msm_obj->base))
++			continue;
+ 		if (is_purgeable(msm_obj))
+ 			count += msm_obj->base.size >> PAGE_SHIFT;
++		msm_gem_unlock(&msm_obj->base);
+ 	}
+ 
+ 	if (unlock)
+@@ -78,10 +81,13 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ 	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
+ 		if (freed >= sc->nr_to_scan)
+ 			break;
++		if (!msm_gem_trylock(&msm_obj->base))
++			continue;
+ 		if (is_purgeable(msm_obj)) {
+-			msm_gem_purge(&msm_obj->base, OBJ_LOCK_SHRINKER);
++			msm_gem_purge(&msm_obj->base);
+ 			freed += msm_obj->base.size >> PAGE_SHIFT;
+ 		}
++		msm_gem_unlock(&msm_obj->base);
+ 	}
+ 
+ 	if (unlock)
+@@ -107,15 +113,20 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
+ 		return NOTIFY_DONE;
+ 
+ 	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
++		if (!msm_gem_trylock(&msm_obj->base))
++			continue;
+ 		if (is_vunmapable(msm_obj)) {
+-			msm_gem_vunmap(&msm_obj->base, OBJ_LOCK_SHRINKER);
+-			/* since we don't know any better, lets bail after a few
+-			 * and if necessary the shrinker will be invoked again.
+-			 * Seems better than unmapping *everything*
+-			 */
+-			if (++unmapped >= 15)
+-				break;
++			msm_gem_vunmap(&msm_obj->base);
++			unmapped++;
+ 		}
++		msm_gem_unlock(&msm_obj->base);
++
++		/* since we don't know any better, lets bail after a few
++		 * and if necessary the shrinker will be invoked again.
++		 * Seems better than unmapping *everything*
++		 */
++		if (++unmapped >= 15)
++			break;
+ 	}
+ 
+ 	if (unlock)
 -- 
 2.26.2
 
