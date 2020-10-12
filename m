@@ -2,60 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4FB28ABCC
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CD428B0F6
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 10:59:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 777486E226;
-	Mon, 12 Oct 2020 02:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02AE6E0ED;
+	Mon, 12 Oct 2020 08:59:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8029C6E226;
- Mon, 12 Oct 2020 02:09:42 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id e10so12145052pfj.1;
- Sun, 11 Oct 2020 19:09:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fCvUZrMqyJzQQ14uf8jQABI7a2ChVtRsN/nTnfqUZZE=;
- b=WmJqGmK6lYy+ITsDu6cyf835lQJCk+kswy9EShZfZTjxTyPKJZhY/Nq2SnAR8mrYgn
- voh2SgimOlbEHSM1sgAXI6MZ4iiR+oMtHhvjjMSJyOoX8oBLsJd491F6BTdkDXY7mJQY
- sCyh4HdSgNCZxsDX3zlIfjqJ3s7llujnW5q30K9IOJGjeX+7f40WVNZYYOcN+T6OuxP2
- DGBhCy+FJBU19f7cVdussY0FQmhf4UoDc5xg+Ix6ifbWz/nwb6s/2fZePVULezLdQ1Qe
- GnF4QluzByU8B40DC+oMh5ynodygrx2lXvWCTq5Uo6wmei8o4u0UcHL6FXW7+PJvxuir
- dYLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fCvUZrMqyJzQQ14uf8jQABI7a2ChVtRsN/nTnfqUZZE=;
- b=BiaxGeGrszBm9EDV75Oj2eYiXLDX/orSef6c4rR8S7Hup2effNowllbc74PmqT/FKs
- 8xJkOZZYReQfoJASnm2aRzu6xR7NoyyyIVSSw2xd2FsSQ02iYXhU5g+oQEtjvG69P0Pj
- erMyo8Ap7uJigLuSzf68LvQ+7ZnqxFT7BFJ8WUwtIrCMqw3VX/fu4PkaaFSlw//Gj169
- Dywc6xTvfwaObdcQpRt5UcDqj6fG7h7B3JNgyils6ZV7p/K6TAavteygh5/xga5g8dl7
- gaUzLiYDQYaC96YWqRNCW4dVADMC747vTBLxHj9iDg4+ecDdeipC8yJMe2lf0hAYWMAG
- KIVQ==
-X-Gm-Message-State: AOAM531LxLo+aheggAuPpZmVklYSLDl6jNkf6q2YCE74mslcF+YpE2hi
- ++2M587qEVAcy5g8GDIr6KacQO0JNDTbSH5s
-X-Google-Smtp-Source: ABdhPJyvg9NYY3SSw3ECtdf96uoOyKdmHmuRhh+WcKRTDhDtAQOFmYqKak+UQH6tgAOrhK77M8YCMQ==
-X-Received: by 2002:a17:90a:7d16:: with SMTP id
- g22mr17496646pjl.135.1602468581497; 
- Sun, 11 Oct 2020 19:09:41 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- q81sm18970519pfc.36.2020.10.11.19.09.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Oct 2020 19:09:40 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 22/22] drm/msm: Don't implicit-sync if only a single ring
-Date: Sun, 11 Oct 2020 19:09:49 -0700
-Message-Id: <20201012020958.229288-23-robdclark@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201012020958.229288-1-robdclark@gmail.com>
-References: <20201012020958.229288-1-robdclark@gmail.com>
+X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
+ Mon, 12 Oct 2020 02:37:31 UTC
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B14896E405;
+ Mon, 12 Oct 2020 02:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1602470252; x=1634006252;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=B2H/dL/4Tk6ifO229+CDbwJhsi61Ae0kMhbusFZSfYA=;
+ b=Wo2jgwJaMZecgVRicoyZ7AtxSIf2OU+jF2isdF5G79jpUOygmnK+UZgw
+ GcSgxJDBHjHByAZ2e5upwkuzzhb3X3skZX56O8n/VK1Wn48XRHwFc8W2f
+ c7bcCnehUwnpEJ6OWUwhId0t5dUxS551KLvGWhOlte4M+aNxdj/AJbFFg
+ /RyXlPpqmbmLquZEjMFVpEYy4Ug0wJ3P5z3qQo9PErVA2lMIBl3A5u4ZP
+ brtVw94AhKqNeyC0+49SEEoMjf/U+XOqhb2mmGxFrHyaC6/nPlINrpmwy
+ 9HNQeS7vgZzMmjxPrbtgdVKYV324OQmhOaW5PRB4JZCFgBQUeuOO2xxoz Q==;
+IronPort-SDR: otNXfCl468GV2kaRfPMurNEzzb+5DTvHbKamj2s+8BDLocQWr4zuQ3M3i+IKAljLE0jNxd9VpM
+ cO+rQZXBC3hCB4USGfnGA9ogfGdhVarakItuizW2Gy++p8Z+M6RlhT6/ZGAyh4Bb4soyndVApS
+ t1CbgZ/xItk8xcO9aKd2ojIIDU+T0Z2LVw84K7kBp34/4Smmy1km93xm3x16vuxVWJ3+pskOv3
+ siKun/r5wc2+puveLQmD3LIou+hiTE8AMRzhJ76wz/XN32b0xaH0DxtBNrPj7bQ2z+DqpFhCU+
+ uec=
+X-IronPort-AV: E=Sophos;i="5.77,365,1596470400"; d="scan'208";a="150813290"
+Received: from mail-bn8nam12lp2169.outbound.protection.outlook.com (HELO
+ NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.169])
+ by ob1.hgst.iphmx.com with ESMTP; 12 Oct 2020 10:30:21 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gx/LTHF9rvHW8Oe8ILITCqr1oekN0sSJJn9RkpcHF8rIin2//JVyW6AgAlQAeO/v1EowEo57pZXHLTZIAy/oh4sgxpcSGZDKN5oz0Qe5qPK5ALqfSLuBJmsV9AjLyCrQw4LfNvVHA5X/BDt9kKApbyWTlvE/mChWEAeK2jwUV+avUBnk6VOQeR5wnt5ri1PntjTXlIuGOC1C+wB/9l2juXZbCJp4Pz4p8f7Fz7xkvRrQ4+eJwlbmv6boTHlg5Kw8lXE/1AjnM4ZgS0AFsifxbxuSIjOVAxEndjwMb+y3JcGsuVp5FkLwRs65TutRE74FFvIf22sxhDPzR40XvIfT3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nSbIdboq5PT4g9q0YvKJz3kaJMX2RtABGp66gEoNwmc=;
+ b=Kok+1aaGCiSZfqW1wmfB+kHe79JMm2f0m4TbxYf9iF9O5G/ZXp38pxI6FEhdVvJczC1oxUEx0BiWJ/jH1cJTKJ7qsq1BJbVSGcJTsAorroGNrYmYM+t+8l7Wbh5IWvJ0VGXdwladeVfJOpcoqinFt4xiAnbhaH0uGewPXN4kRMuNmUGT0t/etLda3IPoUpK7rFgAL7ObgaolOSF9YiV1tKcRYfXVoLRA9X+eXZQtAEs4qBuZHPYEZf91PR0dFaLSXlnkDhV3/6JNvTP1YcC6arSVI+ByCj2IBl8Uhj9qBZ+KZZJ487Embj0mtjbFITcETuHh+wrsFcIy0nDYldJobg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nSbIdboq5PT4g9q0YvKJz3kaJMX2RtABGp66gEoNwmc=;
+ b=bu3NZ6nEIRGWvcX7BdK5F82a2Su5/ALOZX5mADuG3ixHeWl8vkyQlIEiI35HkhS1z2iLz2dIGt5v/ks6P0iyAim2GKOXOJDRdbUJuqpyR6LOJWHd5LzT+oOasYNyetl+MyoT9N0v8T1iC7HL9CruXmyPts3iLmme8nvBuhJdvlI=
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com (2603:10b6:208:1ca::23)
+ by MN2PR04MB6928.namprd04.prod.outlook.com (2603:10b6:208:1e3::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.24; Mon, 12 Oct
+ 2020 02:30:19 +0000
+Received: from BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::4c3e:2b29:1dc5:1a85]) by BL0PR04MB6514.namprd04.prod.outlook.com
+ ([fe80::4c3e:2b29:1dc5:1a85%6]) with mapi id 15.20.3455.029; Mon, 12 Oct 2020
+ 02:30:19 +0000
+From: Damien Le Moal <Damien.LeMoal@wdc.com>
+To: "ira.weiny@intel.com" <ira.weiny@intel.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo
+ Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Andy Lutomirski
+ <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH RFC PKS/PMEM 26/58] fs/zonefs: Utilize new kmap_thread()
+Thread-Topic: [PATCH RFC PKS/PMEM 26/58] fs/zonefs: Utilize new kmap_thread()
+Thread-Index: AQHWnnW5LYLzak05pEGSI1gzotA84w==
+Date: Mon, 12 Oct 2020 02:30:18 +0000
+Message-ID: <BL0PR04MB65146627753E6A8125C30044E7070@BL0PR04MB6514.namprd04.prod.outlook.com>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-27-ira.weiny@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [2400:2411:43c0:6000:dbd:ddb3:86a4:b7da]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 2d8e38c9-c661-47b4-955c-08d86e56c300
+x-ms-traffictypediagnostic: MN2PR04MB6928:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR04MB69281462D64954D72F6383A1E7070@MN2PR04MB6928.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:2089;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nb7ZZkrOcnI45uzu82g63ZPDCw/m4UEa+T14BlRir04UDAmgqTKjBKFQ/1tq3q95aFreC/myPH7bQVuOZygHUtANTgMCUzT/Pyur4q2rkZgxQjgu2tK2/9wVp2h2SQ2PIehISfjlFkUmEohfWX26Cg+7Fw+ncYVUGCA3GBq/iNQrWxbeF5GIkE4ciKI2Ta+JMFg530FWmVV/3MNOdO5PIr93+nS5dgdzR8tDl4fNZNcda6K0U+RBmBhAF6G4PiHCwu4dLKAqHtEtpN1w+lsxrk7joY78vLDxPGvR8dOWqU93TlxExhLGaLZNWnYKeI3pA3QpzCWmAeR04Ul6/pWdYg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR04MB6514.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(346002)(136003)(376002)(366004)(8936002)(71200400001)(86362001)(186003)(91956017)(4326008)(66446008)(64756008)(66556008)(76116006)(7366002)(52536014)(8676002)(4744005)(5660300002)(33656002)(6506007)(7406005)(7416002)(478600001)(66946007)(66476007)(9686003)(53546011)(55016002)(7696005)(316002)(110136005)(54906003)(2906002)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: jjLBIa8rzP8PSUzUPRNNjZPO+F9m4B6rNx2BP5Hxn4hovZp8mG8VwNQRMnSFbWOz3vIBGGbrlwmZ2h/rrQ3LAnV478QA8TsJeEWgnROLCLR26e3M2EbbogZuJfrd8ZHepR6teHHrbin/rSSMJcyuivIccqO+Io91CjJtVLKGT+IxxyJeBxmaC3EM+JLu8Rm3Kx8m967TzWpRyeGTzqzgeKyG0yThTif6ugu1X+cS2L5ObX1F/fl2leT5khZ92kjaRHmV42QjfDSDQBRJ5T2sWkjLqL6qZdGMf2A7TG8LiEhWaSnE+PmptdxY4alKupBmftgWegPnh18eZ3klScKVzKqPJWtLa3seT93Q56fQAqIthA5+kX5qt7UatZBhg0gKm0KkBt+EXNCPEi6hfwJXTcKfMhrLXdmO4xo5z+sSfQStIvDc5rcmkS1pZ7oYknbDJlJtS3SQSqbBQQUJPafcSH0MKoCCaLHQYYEZElvKn9S/oXh/zKwEQ9/zN4tqic4ypaC6xgod9dW89WUn6IRtPbzsXwH70beu1D6sABibklUQzTXk4zAezxU4pLpXOEpjFmzQIZ8wo7n5pOvKphLu99Aqpkh/XR9us5YFAynE0SXyaG0lSyNOUkHX4czg41/a9jardublYq7n+2PgYlLtR3YEH/hKmOGAbSLFeveqJxrdOEFzmYAfv7w/UdGZFRYD9O0jto4jXaOrMeEBD/8QJw==
 MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR04MB6514.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d8e38c9-c661-47b4-955c-08d86e56c300
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2020 02:30:18.8981 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FtNVgLbLUqLnCuOwFgwFyh+Wo2k/+4LOuBCyiRJEYABushz8+FxnNx4RRBUxLG0y9/lhxKLevLpPI63mq8apww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6928
+X-Mailman-Approved-At: Mon, 12 Oct 2020 08:59:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,67 +118,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Cc: "linux-aio@kvack.org" <linux-aio@kvack.org>,
+ "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+ "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
+ "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+ Naohiro Aota <Naohiro.Aota@wdc.com>,
+ "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
+ "linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvdimm@lists.01.org" <linux-nvdimm@lists.01.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "x86@kernel.org" <x86@kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>,
+ "cluster-devel@redhat.com" <cluster-devel@redhat.com>,
+ "linux-cachefs@redhat.com" <linux-cachefs@redhat.com>,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ Fenghua Yu <fenghua.yu@intel.com>,
+ "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
+ "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "ecryptfs@vger.kernel.org" <ecryptfs@vger.kernel.org>,
+ "linux-erofs@lists.ozlabs.org" <linux-erofs@lists.ozlabs.org>,
+ "reiserfs-devel@vger.kernel.org" <reiserfs-devel@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-bcache@vger.kernel.org" <linux-bcache@vger.kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
+ "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+ "linux-ntfs-dev@lists.sourceforge.net" <linux-ntfs-dev@lists.sourceforge.net>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-f2fs-devel@lists.sourceforge.net"
+ <linux-f2fs-devel@lists.sourceforge.net>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 2020/10/10 4:52, ira.weiny@intel.com wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
+> 
+> The kmap() calls in this FS are localized to a single thread.  To avoid
+> the over head of global PKRS updates use the new kmap_thread() call.
+> 
+> Cc: Damien Le Moal <damien.lemoal@wdc.com>
+> Cc: Naohiro Aota <naohiro.aota@wdc.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> ---
+>  fs/zonefs/super.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
+> index 8ec7c8f109d7..2fd6c86beee1 100644
+> --- a/fs/zonefs/super.c
+> +++ b/fs/zonefs/super.c
+> @@ -1297,7 +1297,7 @@ static int zonefs_read_super(struct super_block *sb)
+>  	if (ret)
+>  		goto free_page;
+>  
+> -	super = kmap(page);
+> +	super = kmap_thread(page);
+>  
+>  	ret = -EINVAL;
+>  	if (le32_to_cpu(super->s_magic) != ZONEFS_MAGIC)
+> @@ -1349,7 +1349,7 @@ static int zonefs_read_super(struct super_block *sb)
+>  	ret = 0;
+>  
+>  unmap:
+> -	kunmap(page);
+> +	kunmap_thread(page);
+>  free_page:
+>  	__free_page(page);
+>  
+> 
 
-Any cross-device sync use-cases *must* use explicit sync.  And if there
-is only a single ring (no-preemption), everything is FIFO order and
-there is no need to implicit-sync.
+acked-by: Damien Le Moal <damien.lemoal@wdc.com>
 
-Mesa should probably just always use MSM_SUBMIT_NO_IMPLICIT, as behavior
-is undefined when fences are not used to synchronize buffer usage across
-contexts (which is the only case where multiple different priority rings
-could come into play).
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 3151a0ca8904..c69803ea53c8 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -277,7 +277,7 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
- 	return ret;
- }
- 
--static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
-+static int submit_fence_sync(struct msm_gem_submit *submit, bool implicit_sync)
- {
- 	int i, ret = 0;
- 
-@@ -297,7 +297,7 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
- 				return ret;
- 		}
- 
--		if (no_implicit)
-+		if (!implicit_sync)
- 			continue;
- 
- 		ret = msm_gem_sync_object(&msm_obj->base, submit->ring->fctx,
-@@ -768,7 +768,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto out;
- 
--	ret = submit_fence_sync(submit, !!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
-+	ret = submit_fence_sync(submit, (gpu->nr_rings > 1) &&
-+			!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
- 	if (ret)
- 		goto out;
- 
 -- 
-2.26.2
-
+Damien Le Moal
+Western Digital Research
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
