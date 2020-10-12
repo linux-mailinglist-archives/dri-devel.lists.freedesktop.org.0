@@ -1,118 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19ED28B4C2
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 14:41:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B9928B4C6
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 14:41:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA70A6E05F;
-	Mon, 12 Oct 2020 12:41:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 024256E44C;
+	Mon, 12 Oct 2020 12:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3FA06E05F
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 12:41:01 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id h7so19043188wre.4
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 05:41:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7qsjzm1PdrVyQaK0HRDkkd9q7lA4iohvL00P5MRKnSg=;
- b=uw6GGdA7EbUxqQtWmpmHkmdo77bsX4OqN6QUSs2//li3EjU/9ZsxaGKitxccKEsP4T
- VMYSHBh+BjSQf3sXB8nk1jgres5ZASOJ5DbG3WXKzTbtWeRVtT3LmTqvAZ/ni+hESWgu
- 2VDZWodGOG3BKCUy0q0kmXKV0bHr493duCZORp7pjS9AgU/STo8h5n6YhbbeyPGqi0EB
- B5ApajJgKhlVr+CIiXOsTrRXlBhtn5E4j4r0GzWHe43heVI3suFC4iMucd1QEy+I0sCy
- rNDCrR4XS/IWTeIRVB1TWtJFcbKkaSqJgFFFRwCaw1tFTevcJUmVqjhuEZQ+GNt7NxBA
- wJCA==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D73166E44B
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 12:41:26 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id z22so13702810wmi.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 05:41:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ga5rhEoh8Ey8QLCv5aMwkj3emWm4TQR+wAdGvyB/eFo=;
+ b=hVeYwY54Hp9ibMmxRDom3JCJp8zVz1snRXaX83I0tlIJGjO2Q+NLc8xmnyticmd5Th
+ Cats8Ej15z2HzwEhRt9dF+o6rqm7tfYEPZxPbUXaNd+/l4JFKTFYvAtM0sQP3/g4m6n5
+ cBlLiT5NTuIb1JOztgF5HbCgIoVBDZKr5bMHDLqGkFAI0LKGvAJn2v5+J++YKj2B2+8z
+ z/RoDXURWukj7N3Ynjiz/b48dSTkWmC3xJiP8csaEAZ2vSHpZEA+OJDeoawnMOFCc3sj
+ KqXCGPjE4bTaD25KzmnqYTx6HxBiaEDd7vkf5O/G8h2HH6BCQOGZ84cEbh8rR2gFg/IM
+ wuvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=7qsjzm1PdrVyQaK0HRDkkd9q7lA4iohvL00P5MRKnSg=;
- b=mmBPdfWxkyeT0wlMJZqb5+Fqt6rwbe1R9a4mVVqFdHO4IHCBL0Kt5KjnywDAwUjLlw
- 65ShfyrzXa0aHQbXL8Z1Bvhu9rCNoNV+DIckJCXDGQKsl1esbgTEj9y6XFNrGCtkq/CU
- p/ZNHIBM92Hj3hQoCKiJWipILuKTaLHYNnc8ZrEj99nCvbKzm/XyWOKd9sp8MSkPQ0c1
- XaavTZs3AHgmz06/5rAuyaewfR8TCQjnNdOeb0rptCPa8zK8fXHj4hIhJREodLDvsnd4
- xuMD//DnBrhuuvwQD1VB4ZL8LRZhcnqLQBlHapT0hPfDpHqx+OzcpzXQbsQGT+JpUUAy
- y0Tg==
-X-Gm-Message-State: AOAM533In+O0ejgXw5FHDLa05cSZ6jI4FGb9KBxz6ChCLvjhLsvPhzoG
- A+OD82RpBt+hpEWy/D+3QpK+bg==
-X-Google-Smtp-Source: ABdhPJw8zznPI1POKalReA7H9TEOdIiPdBz/JlPw5d2G4s7qpRna4FmrbgfQQzN1tK1GfnfN8sbARQ==
-X-Received: by 2002:a5d:554b:: with SMTP id g11mr29948016wrw.370.1602506460417; 
- Mon, 12 Oct 2020 05:41:00 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:35de:80a8:f551:6aa3?
- ([2a01:e35:2ec0:82b0:35de:80a8:f551:6aa3])
- by smtp.gmail.com with ESMTPSA id a81sm25763847wmf.32.2020.10.12.05.40.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Oct 2020 05:40:59 -0700 (PDT)
-Subject: Re: [PATCH 3/3] drm/vkms: fbdev emulation support
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ga5rhEoh8Ey8QLCv5aMwkj3emWm4TQR+wAdGvyB/eFo=;
+ b=d2ZXXikKTHeGhkb37SB5xacuVPXW3BTiEKQlKHnNdufUcYU18lNIl9gLX24LEHDYmG
+ cUFv9J/IREH5BzbTdBt06+wBSNEfQ8Mx34LjXQhPaixU+huudTviwrWPtcrIbTXQ64D+
+ BeADMrTV84Z/HOdhi7CvdFlROCf1Ci5iDkfQ8eMMNTRz3az2A2NHTWYTAS4Lfi1ujs9f
+ XeuylVUVqyDPe7RW8/VQW0qWoCEv+18sZ1GOY24f6hGsRN4mwKM8VD1Ni3O9DITXzR82
+ JM8I3GFNXGZykPI9kEzHltjMJHwKWf41JUe4/eEco7x9jrCBji8n0blSwGcewRqvW1HB
+ m1Hw==
+X-Gm-Message-State: AOAM5314UySEhpDbcq3p3zEwQowqW+Rs9NGj+4cKnjqURLbYBBsL1LzZ
+ dR4B+9d8J7zPKJSvwyv3PYU=
+X-Google-Smtp-Source: ABdhPJwqrrmgQ6VNWzoIPGysehZdlUdxSp4IlZfnZppabzaS4cw4dEHNeJ1R7VYmFsn+9xL1NR6BFw==
+X-Received: by 2002:a7b:cb17:: with SMTP id u23mr10413876wmj.166.1602506485454; 
+ Mon, 12 Oct 2020 05:41:25 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id t6sm27967009wre.30.2020.10.12.05.41.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 05:41:24 -0700 (PDT)
+Date: Mon, 12 Oct 2020 09:41:18 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/3] drm/vkms: Switch to shmem helpers
+Message-ID: <20201012123827.xaym5rhrqyefu7zg@smtp.gmail.com>
 References: <20201009232156.3916879-1-daniel.vetter@ffwll.ch>
- <20201009232156.3916879-3-daniel.vetter@ffwll.ch>
- <20201012132452.1241297a@linux-uq9g>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <9ad2c6dd-9f3e-8b88-e013-dcb0e1fd8005@baylibre.com>
-Date: Mon, 12 Oct 2020 14:40:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20201009232156.3916879-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <20201012132452.1241297a@linux-uq9g>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201009232156.3916879-2-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,73 +67,598 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Chris Wilson <chris@chris-wilson.co.uk>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Daniel,
 
-On 12/10/2020 13:24, Thomas Zimmermann wrote:
-> Hi
-> 
-> On Sat, 10 Oct 2020 01:21:56 +0200 Daniel Vetter <daniel.vetter@ffwll.ch>
-> wrote:
-> 
->> Hooray for generic fbdev support, making this a oneliner. We just
->> needed to fix preferred_depth fixed and the vmap support added first.
->>
->> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
->> Cc: Melissa Wen <melissa.srw@gmail.com>
->> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> ---
->>  drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
->> index 6221e5040264..cc09e2df5cb1 100644
->> --- a/drivers/gpu/drm/vkms/vkms_drv.c
->> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
->> @@ -169,6 +169,8 @@ static int __init vkms_init(void)
->>  	if (ret)
->>  		goto out_devres;
->>  
->> +	drm_fbdev_generic_setup(&vkms_device->drm, 0);
->> +
-> 
-> It feels strange to have console support in a driver for non-interactive
-> systems. But OK, why not. I guess it helps with testing?
+Thanks for this patch.
 
-It's weird because it the kernel is misconfigured and no console is specified on the cmdline
-this console could become the main console...
+It took me a while to understand the update.
+I run some tests and it looks good to me.
 
-It's a great feature, but couldn't this be a module parameter ?
+On 10/10, Daniel Vetter wrote:
+> Inspired by a patch by Chris Wilson for vgem. Plus this gives us vmap
+> at the gem bo level, which we need for generic fbdev emulation.
+> 
+> Luckily shmem also tracks ->vaddr, so we just need to adjust the code
+> all over a bit to make this fit.
+> 
+> Also wire up handle_to_fd, dunno why that was missing.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> Cc: Melissa Wen <melissa.srw@gmail.com>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> ---
+>  drivers/gpu/drm/Kconfig               |   1 +
+>  drivers/gpu/drm/vkms/Makefile         |   1 -
+>  drivers/gpu/drm/vkms/vkms_composer.c  |  17 +-
+>  drivers/gpu/drm/vkms/vkms_drv.c       |  19 +-
+>  drivers/gpu/drm/vkms/vkms_drv.h       |  26 ---
+>  drivers/gpu/drm/vkms/vkms_gem.c       | 261 --------------------------
+>  drivers/gpu/drm/vkms/vkms_plane.c     |  13 +-
+>  drivers/gpu/drm/vkms/vkms_writeback.c |  17 +-
+>  8 files changed, 32 insertions(+), 323 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/vkms/vkms_gem.c
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 9efb82caaa87..b796c118fc3b 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -287,6 +287,7 @@ config DRM_VKMS
+>  	tristate "Virtual KMS (EXPERIMENTAL)"
+>  	depends on DRM
+>  	select DRM_KMS_HELPER
+> +	select DRM_GEM_SHMEM_HELPER
+>  	select CRC32
+>  	default n
+>  	help
+> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+> index 333d3cead0e3..72f779cbfedd 100644
+> --- a/drivers/gpu/drm/vkms/Makefile
+> +++ b/drivers/gpu/drm/vkms/Makefile
+> @@ -4,7 +4,6 @@ vkms-y := \
+>  	vkms_plane.o \
+>  	vkms_output.o \
+>  	vkms_crtc.o \
+> -	vkms_gem.o \
+>  	vkms_composer.o \
+>  	vkms_writeback.o
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 33c031f27c2c..66c6842d70db 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -5,6 +5,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+>  #include <drm/drm_vblank.h>
+>  
+>  #include "vkms_drv.h"
+> @@ -129,15 +130,15 @@ static void compose_cursor(struct vkms_composer *cursor_composer,
+>  			   void *vaddr_out)
+>  {
+>  	struct drm_gem_object *cursor_obj;
+> -	struct vkms_gem_object *cursor_vkms_obj;
+> +	struct drm_gem_shmem_object *cursor_shmem_obj;
+>  
+>  	cursor_obj = drm_gem_fb_get_obj(&cursor_composer->fb, 0);
+> -	cursor_vkms_obj = drm_gem_to_vkms_gem(cursor_obj);
+> +	cursor_shmem_obj = to_drm_gem_shmem_obj(cursor_obj);
+>  
+> -	if (WARN_ON(!cursor_vkms_obj->vaddr))
+> +	if (WARN_ON(!cursor_shmem_obj->vaddr))
+>  		return;
+>  
+> -	blend(vaddr_out, cursor_vkms_obj->vaddr,
+> +	blend(vaddr_out, cursor_shmem_obj->vaddr,
+>  	      primary_composer, cursor_composer);
+>  }
+>  
+> @@ -147,20 +148,20 @@ static int compose_planes(void **vaddr_out,
+>  {
+>  	struct drm_framebuffer *fb = &primary_composer->fb;
+>  	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
+> -	struct vkms_gem_object *vkms_obj = drm_gem_to_vkms_gem(gem_obj);
+> +	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(gem_obj);
+>  
+>  	if (!*vaddr_out) {
+> -		*vaddr_out = kzalloc(vkms_obj->gem.size, GFP_KERNEL);
+> +		*vaddr_out = kzalloc(shmem_obj->base.size, GFP_KERNEL);
+>  		if (!*vaddr_out) {
+>  			DRM_ERROR("Cannot allocate memory for output frame.");
+>  			return -ENOMEM;
+>  		}
+>  	}
+>  
+> -	if (WARN_ON(!vkms_obj->vaddr))
+> +	if (WARN_ON(!shmem_obj->vaddr))
+>  		return -EINVAL;
+>  
+> -	memcpy(*vaddr_out, vkms_obj->vaddr, vkms_obj->gem.size);
+> +	memcpy(*vaddr_out, shmem_obj->vaddr, shmem_obj->base.size);
+>  
+>  	if (cursor_composer)
+>  		compose_cursor(cursor_composer, primary_composer, *vaddr_out);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index eb4007443706..6221e5040264 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -23,6 +23,7 @@
+>  #include <drm/drm_ioctl.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_probe_helper.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+>  #include <drm/drm_vblank.h>
+>  
+>  #include "vkms_drv.h"
+> @@ -39,17 +40,7 @@ bool enable_cursor = true;
+>  module_param_named(enable_cursor, enable_cursor, bool, 0444);
+>  MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+>  
+> -static const struct file_operations vkms_driver_fops = {
+> -	.owner		= THIS_MODULE,
+> -	.open		= drm_open,
+> -	.mmap		= drm_gem_mmap,
+> -	.unlocked_ioctl	= drm_ioctl,
+> -	.compat_ioctl	= drm_compat_ioctl,
+> -	.poll		= drm_poll,
+> -	.read		= drm_read,
+> -	.llseek		= no_llseek,
+> -	.release	= drm_release,
+> -};
+> +DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+>  
+>  static void vkms_release(struct drm_device *dev)
+>  {
+> @@ -91,9 +82,11 @@ static struct drm_driver vkms_driver = {
+>  	.driver_features	= DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
+>  	.release		= vkms_release,
+>  	.fops			= &vkms_driver_fops,
+> -	.dumb_create		= vkms_dumb_create,
+> +	.dumb_create		= drm_gem_shmem_dumb_create,
+>  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+> -	.gem_prime_import_sg_table = vkms_prime_import_sg_table,
+> +	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+> +	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> +	.gem_prime_mmap		= drm_gem_prime_mmap,
+>  
+>  	.name			= DRIVER_NAME,
+>  	.desc			= DRIVER_DESC,
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 380a8f27e156..ef6482e3adea 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -88,14 +88,6 @@ struct vkms_device {
+>  	struct vkms_output output;
+>  };
+>  
+> -struct vkms_gem_object {
+> -	struct drm_gem_object gem;
+> -	struct mutex pages_lock; /* Page lock used in page fault handler */
+> -	struct page **pages;
+> -	unsigned int vmap_count;
+> -	void *vaddr;
+> -};
+> -
 
-Neil
+Around here, there is a "#define drm_gem_to_vkms_gem" that I think we
+can also get rid of it.
 
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> Best regards
-> Thomas
-> 
->>  	return 0;
->>  
->>  out_devres:
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-
+>  #define drm_crtc_to_vkms_output(target) \
+>  	container_of(target, struct vkms_output, crtc)
+>  
+> @@ -120,24 +112,6 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index);
+>  struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>  				  enum drm_plane_type type, int index);
+>  
+> -/* Gem stuff */
+> -vm_fault_t vkms_gem_fault(struct vm_fault *vmf);
+> -
+> -int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
+> -		     struct drm_mode_create_dumb *args);
+> -
+> -void vkms_gem_free_object(struct drm_gem_object *obj);
+> -
+> -int vkms_gem_vmap(struct drm_gem_object *obj);
+> -
+> -void vkms_gem_vunmap(struct drm_gem_object *obj);
+> -
+> -/* Prime */
+> -struct drm_gem_object *
+> -vkms_prime_import_sg_table(struct drm_device *dev,
+> -			   struct dma_buf_attachment *attach,
+> -			   struct sg_table *sg);
+> -
+>  /* CRC Support */
+>  const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
+>  					size_t *count);
+> diff --git a/drivers/gpu/drm/vkms/vkms_gem.c b/drivers/gpu/drm/vkms/vkms_gem.c
+> deleted file mode 100644
+> index 19a0e260a4df..000000000000
+> --- a/drivers/gpu/drm/vkms/vkms_gem.c
+> +++ /dev/null
+> @@ -1,261 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0+
+> -
+> -#include <linux/dma-buf.h>
+> -#include <linux/shmem_fs.h>
+> -#include <linux/vmalloc.h>
+> -#include <drm/drm_prime.h>
+> -
+> -#include "vkms_drv.h"
+> -
+> -static const struct vm_operations_struct vkms_gem_vm_ops = {
+> -	.fault = vkms_gem_fault,
+> -	.open = drm_gem_vm_open,
+> -	.close = drm_gem_vm_close,
+> -};
+> -
+> -static const struct drm_gem_object_funcs vkms_gem_object_funcs = {
+> -	.free = vkms_gem_free_object,
+> -	.vm_ops = &vkms_gem_vm_ops,
+> -};
+> -
+> -static struct vkms_gem_object *__vkms_gem_create(struct drm_device *dev,
+> -						 u64 size)
+> -{
+> -	struct vkms_gem_object *obj;
+> -	int ret;
+> -
+> -	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+> -	if (!obj)
+> -		return ERR_PTR(-ENOMEM);
+> -
+> -	obj->gem.funcs = &vkms_gem_object_funcs;
+> -
+> -	size = roundup(size, PAGE_SIZE);
+> -	ret = drm_gem_object_init(dev, &obj->gem, size);
+> -	if (ret) {
+> -		kfree(obj);
+> -		return ERR_PTR(ret);
+> -	}
+> -
+> -	mutex_init(&obj->pages_lock);
+> -
+> -	return obj;
+> -}
+> -
+> -void vkms_gem_free_object(struct drm_gem_object *obj)
+> -{
+> -	struct vkms_gem_object *gem = container_of(obj, struct vkms_gem_object,
+> -						   gem);
+> -
+> -	WARN_ON(gem->pages);
+> -	WARN_ON(gem->vaddr);
+> -
+> -	mutex_destroy(&gem->pages_lock);
+> -	drm_gem_object_release(obj);
+> -	kfree(gem);
+> -}
+> -
+> -vm_fault_t vkms_gem_fault(struct vm_fault *vmf)
+> -{
+> -	struct vm_area_struct *vma = vmf->vma;
+> -	struct vkms_gem_object *obj = vma->vm_private_data;
+> -	unsigned long vaddr = vmf->address;
+> -	pgoff_t page_offset;
+> -	loff_t num_pages;
+> -	vm_fault_t ret = VM_FAULT_SIGBUS;
+> -
+> -	page_offset = (vaddr - vma->vm_start) >> PAGE_SHIFT;
+> -	num_pages = DIV_ROUND_UP(obj->gem.size, PAGE_SIZE);
+> -
+> -	if (page_offset > num_pages)
+> -		return VM_FAULT_SIGBUS;
+> -
+> -	mutex_lock(&obj->pages_lock);
+> -	if (obj->pages) {
+> -		get_page(obj->pages[page_offset]);
+> -		vmf->page = obj->pages[page_offset];
+> -		ret = 0;
+> -	}
+> -	mutex_unlock(&obj->pages_lock);
+> -	if (ret) {
+> -		struct page *page;
+> -		struct address_space *mapping;
+> -
+> -		mapping = file_inode(obj->gem.filp)->i_mapping;
+> -		page = shmem_read_mapping_page(mapping, page_offset);
+> -
+> -		if (!IS_ERR(page)) {
+> -			vmf->page = page;
+> -			ret = 0;
+> -		} else {
+> -			switch (PTR_ERR(page)) {
+> -			case -ENOSPC:
+> -			case -ENOMEM:
+> -				ret = VM_FAULT_OOM;
+> -				break;
+> -			case -EBUSY:
+> -				ret = VM_FAULT_RETRY;
+> -				break;
+> -			case -EFAULT:
+> -			case -EINVAL:
+> -				ret = VM_FAULT_SIGBUS;
+> -				break;
+> -			default:
+> -				WARN_ON(PTR_ERR(page));
+> -				ret = VM_FAULT_SIGBUS;
+> -				break;
+> -			}
+> -		}
+> -	}
+> -	return ret;
+> -}
+> -
+> -static struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
+> -					      struct drm_file *file,
+> -					      u32 *handle,
+> -					      u64 size)
+> -{
+> -	struct vkms_gem_object *obj;
+> -	int ret;
+> -
+> -	if (!file || !dev || !handle)
+> -		return ERR_PTR(-EINVAL);
+> -
+> -	obj = __vkms_gem_create(dev, size);
+> -	if (IS_ERR(obj))
+> -		return ERR_CAST(obj);
+> -
+> -	ret = drm_gem_handle_create(file, &obj->gem, handle);
+> -	if (ret)
+> -		return ERR_PTR(ret);
+> -
+> -	return &obj->gem;
+> -}
+> -
+> -int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
+> -		     struct drm_mode_create_dumb *args)
+> -{
+> -	struct drm_gem_object *gem_obj;
+> -	u64 pitch, size;
+> -
+> -	if (!args || !dev || !file)
+> -		return -EINVAL;
+> -
+> -	pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
+> -	size = pitch * args->height;
+> -
+> -	if (!size)
+> -		return -EINVAL;
+> -
+> -	gem_obj = vkms_gem_create(dev, file, &args->handle, size);
+> -	if (IS_ERR(gem_obj))
+> -		return PTR_ERR(gem_obj);
+> -
+> -	args->size = gem_obj->size;
+> -	args->pitch = pitch;
+> -
+> -	drm_gem_object_put(gem_obj);
+> -
+> -	DRM_DEBUG_DRIVER("Created object of size %lld\n", size);
+> -
+> -	return 0;
+> -}
+> -
+> -static struct page **_get_pages(struct vkms_gem_object *vkms_obj)
+> -{
+> -	struct drm_gem_object *gem_obj = &vkms_obj->gem;
+> -
+> -	if (!vkms_obj->pages) {
+> -		struct page **pages = drm_gem_get_pages(gem_obj);
+> -
+> -		if (IS_ERR(pages))
+> -			return pages;
+> -
+> -		if (cmpxchg(&vkms_obj->pages, NULL, pages))
+> -			drm_gem_put_pages(gem_obj, pages, false, true);
+> -	}
+> -
+> -	return vkms_obj->pages;
+> -}
+> -
+> -void vkms_gem_vunmap(struct drm_gem_object *obj)
+> -{
+> -	struct vkms_gem_object *vkms_obj = drm_gem_to_vkms_gem(obj);
+> -
+> -	mutex_lock(&vkms_obj->pages_lock);
+> -	if (vkms_obj->vmap_count < 1) {
+> -		WARN_ON(vkms_obj->vaddr);
+> -		WARN_ON(vkms_obj->pages);
+> -		mutex_unlock(&vkms_obj->pages_lock);
+> -		return;
+> -	}
+> -
+> -	vkms_obj->vmap_count--;
+> -
+> -	if (vkms_obj->vmap_count == 0) {
+> -		vunmap(vkms_obj->vaddr);
+> -		vkms_obj->vaddr = NULL;
+> -		drm_gem_put_pages(obj, vkms_obj->pages, false, true);
+> -		vkms_obj->pages = NULL;
+> -	}
+> -
+> -	mutex_unlock(&vkms_obj->pages_lock);
+> -}
+> -
+> -int vkms_gem_vmap(struct drm_gem_object *obj)
+> -{
+> -	struct vkms_gem_object *vkms_obj = drm_gem_to_vkms_gem(obj);
+> -	int ret = 0;
+> -
+> -	mutex_lock(&vkms_obj->pages_lock);
+> -
+> -	if (!vkms_obj->vaddr) {
+> -		unsigned int n_pages = obj->size >> PAGE_SHIFT;
+> -		struct page **pages = _get_pages(vkms_obj);
+> -
+> -		if (IS_ERR(pages)) {
+> -			ret = PTR_ERR(pages);
+> -			goto out;
+> -		}
+> -
+> -		vkms_obj->vaddr = vmap(pages, n_pages, VM_MAP, PAGE_KERNEL);
+> -		if (!vkms_obj->vaddr)
+> -			goto err_vmap;
+> -	}
+> -
+> -	vkms_obj->vmap_count++;
+> -	goto out;
+> -
+> -err_vmap:
+> -	ret = -ENOMEM;
+> -	drm_gem_put_pages(obj, vkms_obj->pages, false, true);
+> -	vkms_obj->pages = NULL;
+> -out:
+> -	mutex_unlock(&vkms_obj->pages_lock);
+> -	return ret;
+> -}
+> -
+> -struct drm_gem_object *
+> -vkms_prime_import_sg_table(struct drm_device *dev,
+> -			   struct dma_buf_attachment *attach,
+> -			   struct sg_table *sg)
+> -{
+> -	struct vkms_gem_object *obj;
+> -	int npages;
+> -
+> -	obj = __vkms_gem_create(dev, attach->dmabuf->size);
+> -	if (IS_ERR(obj))
+> -		return ERR_CAST(obj);
+> -
+> -	npages = PAGE_ALIGN(attach->dmabuf->size) / PAGE_SIZE;
+> -	DRM_DEBUG_PRIME("Importing %d pages\n", npages);
+> -
+> -	obj->pages = kvmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
+> -	if (!obj->pages) {
+> -		vkms_gem_free_object(&obj->gem);
+> -		return ERR_PTR(-ENOMEM);
+> -	}
+> -
+> -	drm_prime_sg_to_page_addr_arrays(sg, obj->pages, NULL, npages);
+> -	return &obj->gem;
+> -}
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index 6d31265a2ab7..9890137bcb8d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -5,6 +5,7 @@
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+>  #include <drm/drm_plane_helper.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+>  
+>  #include "vkms_drv.h"
+>  
+> @@ -145,15 +146,15 @@ static int vkms_prepare_fb(struct drm_plane *plane,
+>  			   struct drm_plane_state *state)
+>  {
+>  	struct drm_gem_object *gem_obj;
+> -	int ret;
+> +	void *vaddr;
+>  
+>  	if (!state->fb)
+>  		return 0;
+>  
+>  	gem_obj = drm_gem_fb_get_obj(state->fb, 0);
+> -	ret = vkms_gem_vmap(gem_obj);
+> -	if (ret)
+> -		DRM_ERROR("vmap failed: %d\n", ret);
+> +	vaddr = drm_gem_shmem_vmap(gem_obj);
+> +	if (IS_ERR(vaddr))
+> +		DRM_ERROR("vmap failed: %li\n", PTR_ERR(vaddr));
+>  
+>  	return drm_gem_fb_prepare_fb(plane, state);
+>  }
+> @@ -162,12 +163,14 @@ static void vkms_cleanup_fb(struct drm_plane *plane,
+>  			    struct drm_plane_state *old_state)
+>  {
+>  	struct drm_gem_object *gem_obj;
+> +	struct drm_gem_shmem_object *shmem_obj;
+>  
+>  	if (!old_state->fb)
+>  		return;
+>  
+>  	gem_obj = drm_gem_fb_get_obj(old_state->fb, 0);
+> -	vkms_gem_vunmap(gem_obj);
+> +	shmem_obj = to_drm_gem_shmem_obj(drm_gem_fb_get_obj(old_state->fb, 0));
+> +	drm_gem_shmem_vunmap(gem_obj, shmem_obj->vaddr);
+>  }
+>  
+>  static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index 094fa4aa061d..26b903926872 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -6,6 +6,7 @@
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+>  
+>  static const u32 vkms_wb_formats[] = {
+>  	DRM_FORMAT_XRGB8888,
+> @@ -63,22 +64,20 @@ static int vkms_wb_connector_get_modes(struct drm_connector *connector)
+>  static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
+>  			       struct drm_writeback_job *job)
+>  {
+> -	struct vkms_gem_object *vkms_obj;
+>  	struct drm_gem_object *gem_obj;
+> -	int ret;
+> +	void *vaddr;
+>  
+>  	if (!job->fb)
+>  		return 0;
+>  
+>  	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
+> -	ret = vkms_gem_vmap(gem_obj);
+> -	if (ret) {
+> -		DRM_ERROR("vmap failed: %d\n", ret);
+> -		return ret;
+> +	vaddr = drm_gem_shmem_vmap(gem_obj);
+> +	if (IS_ERR(vaddr)) {
+> +		DRM_ERROR("vmap failed: %li\n", PTR_ERR(vaddr));
+> +		return PTR_ERR(vaddr);
+>  	}
+>  
+> -	vkms_obj = drm_gem_to_vkms_gem(gem_obj);
+> -	job->priv = vkms_obj->vaddr;
+> +	job->priv = vaddr;
+>  
+>  	return 0;
+>  }
+> @@ -93,7 +92,7 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+>  		return;
+>  
+>  	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
+> -	vkms_gem_vunmap(gem_obj);
+> +	drm_gem_shmem_vunmap(gem_obj, job->priv);
+>  
+>  	vkmsdev = drm_device_to_vkms_device(gem_obj->dev);
+>  	vkms_set_composer(&vkmsdev->output, false);
+> -- 
+> 2.28.0
+>
+Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
