@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA02528ABBA
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:09:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BE328ABBC
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E6589CAD;
-	Mon, 12 Oct 2020 02:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73C0889D8A;
+	Mon, 12 Oct 2020 02:09:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E54899E9;
- Mon, 12 Oct 2020 02:09:20 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id q21so1598666pgi.13;
- Sun, 11 Oct 2020 19:09:20 -0700 (PDT)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 131CF89CF8;
+ Mon, 12 Oct 2020 02:09:23 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id 144so12129555pfb.4;
+ Sun, 11 Oct 2020 19:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ndjT/5bxuvqBvTi00Id+BLmDSJw4qRZ7/j5AVgTmjhg=;
- b=RazKJWqE7grplBA/jh3dthZ3fOyd4oW+YFlRUQ1FeUMeyHgxA3OQ5NaOS8rlFqP/rJ
- EDe/lq+yZuj1Qty2VUVQ9zW8narHyfW/Hy2whbsdHvygNzoNG35LtuOczZO8anuWBF8d
- rfud3qI2nFO+p7YtFaJo1/sbcTtsYtXrYgtNGXr0AY9ZOU4NoFV3QX9M/Neyr0vbC3j3
- sQjPr/SFDlRvgO5uVTAe4l6Z6LgjlPfysN4nRxC1+R3mgU2oFP75j27Cibm6HbECGIO+
- a2xbEakmIm5MFlL6aEI/zmW+lVX/+qOpF0cCaVwiBJRYJnxuDVw3WiYT3OuSQDHlPljV
- ZgKg==
+ bh=ZyL5oO8OrN2wimj2udT1EhCNNwPm13wKBqPVtQcCgb8=;
+ b=e46AKw7Ja86lF+PzViNHSEmngqxbLCrq7srlRybORCfJElIQ2kLMnDSAcpnXQWVLWA
+ 39JlDDqryd6+vnF2vvZixwyBsdxevuSUwxU+ZZWH93rvpIZZOuhE59u0VwA/fUYMcABZ
+ IvIZLoMXqJkd0zadNWxxPYJ0MQOSb5cxDIZzjg8PR/rSX8/Uwy8+VNbRETTmW4v8/qjG
+ +YDTbMxap3bltcYUcdHDePFb+bJstz9r6YSoxr5h22kmUS4vfc3GwOUg7hdNdeSdRg4m
+ /yR3qfEhSD5TKj8bea+FV6rJ0qlAsZKJ2Xa4lorrzXRJFVrkyHLNzQoxLVSlb3nAqqBI
+ LP9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ndjT/5bxuvqBvTi00Id+BLmDSJw4qRZ7/j5AVgTmjhg=;
- b=F1t5cKw93a5VRb505eFZ7x8R0VrKJylDYs1mJYAcnJWHuh2tmKreUQ1gZkEZRq2gO8
- om+iGqnrF5/EAGkqZ+06Qfr63AoOMt1sXbJ+JXYR9P556EYeqjQkiKyNhLwgB2vle+vG
- cakaJZBKnY8ydh6c1mHcvIz+kTmyj4GiYsL+EP7gh+B88QmssZ0hKt63AVO7jTQhj7Qt
- kCrvTbSZJMzMP5KNHwbSsLHZeqP2kNNA4NrUVZ47EWvZDYhBXXAfnZGP3C9fJFQKaoK+
- tkLz96CgdYQqyNvgN3gkUUBpr9rPdmiLLs1wEd4JcVWHJw9S84RlHOAMUL5TLBadcdiw
- gtew==
-X-Gm-Message-State: AOAM5316omuZ1/uklrXtILFuCVkFeE9+PB5P/HaAxv7vyrRlunECSBzw
- tPeI39MDaog8tCTjdvCUWYN+bdxhX1AxrPvf
-X-Google-Smtp-Source: ABdhPJxzgd1jr4nHh6sHHjJ0l/yUeChZPcVDF0wpW7VXyTjFzyXu4JEY9I2OFQ5KrDe/3isXOxlRfA==
-X-Received: by 2002:a17:90a:e697:: with SMTP id
- s23mr16865949pjy.16.1602468559365; 
- Sun, 11 Oct 2020 19:09:19 -0700 (PDT)
+ bh=ZyL5oO8OrN2wimj2udT1EhCNNwPm13wKBqPVtQcCgb8=;
+ b=bdZjen+NSq3ItIB7vtsCJ+6mR3pruf/Sf7HDWR2ysXGWnZUGo146IXpvP/sQGlXFBA
+ l9nlwAXI3jwRjqJfhL+wzNrR5RuO03zUCZO79ts076AoouqAGg87NcjbB+fxWySPlKAO
+ tEpQaX2VjqZF5Y7f5Ry7+SO4GDQbMrJGhdt9yD3ucfIjgRO9I/90jFGplDmQK5xhKSAg
+ n4MH7Dw7suQiR53svTOnD5eCEtqJ29qKBZt+VECx5lUTGFGg4eHObUyWstOIeDdWr1d3
+ IivB7zaMz9/mBpkuy4w6ErTVeOa1PqS9ovpaP4nFfZch7EklDjT304rHhBdL67UKpYwW
+ u1jA==
+X-Gm-Message-State: AOAM531p6uLNuItKHe+rbLLx+K/b1dAAT9N/oIbVj+qP4M5d7TX5QohF
+ Sm3rJTycTQraQn0/ITOWP9yfAsuDd00oN38s
+X-Google-Smtp-Source: ABdhPJxHXz9/ZXrNkq8BOQH2/sjUdcP8edWZlDkMalRmfx6hLdR2t36zB1O0lUNSY0tSJSgoIe9VEw==
+X-Received: by 2002:a17:90a:109:: with SMTP id
+ b9mr17897165pjb.35.1602468562114; 
+ Sun, 11 Oct 2020 19:09:22 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- q16sm18644029pfj.117.2020.10.11.19.09.18
+ c12sm17267726pgd.57.2020.10.11.19.09.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Oct 2020 19:09:18 -0700 (PDT)
+ Sun, 11 Oct 2020 19:09:20 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 13/22] drm/msm: Document and rename preempt_lock
-Date: Sun, 11 Oct 2020 19:09:40 -0700
-Message-Id: <20201012020958.229288-14-robdclark@gmail.com>
+Subject: [PATCH v2 14/22] drm/msm: Protect ring->submits with it's own lock
+Date: Sun, 11 Oct 2020 19:09:41 -0700
+Message-Id: <20201012020958.229288-15-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201012020958.229288-1-robdclark@gmail.com>
 References: <20201012020958.229288-1-robdclark@gmail.com>
@@ -70,13 +70,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>,
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>, Sean Paul <sean@poorly.run>,
- Emil Velikov <emil.velikov@collabora.com>
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -84,133 +80,156 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Before adding another lock, give ring->lock a more descriptive name.
+One less place to rely on dev->struct_mutex.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  4 ++--
- drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 12 ++++++------
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |  4 ++--
- drivers/gpu/drm/msm/msm_ringbuffer.c      |  2 +-
- drivers/gpu/drm/msm/msm_ringbuffer.h      |  7 ++++++-
- 5 files changed, 17 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/msm/msm_gem_submit.c |  2 ++
+ drivers/gpu/drm/msm/msm_gpu.c        | 37 ++++++++++++++++++++++------
+ drivers/gpu/drm/msm/msm_ringbuffer.c |  1 +
+ drivers/gpu/drm/msm/msm_ringbuffer.h |  6 +++++
+ 4 files changed, 39 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index c941c8138f25..543437a2186e 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -36,7 +36,7 @@ void a5xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 		OUT_RING(ring, upper_32_bits(shadowptr(a5xx_gpu, ring)));
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 35b7d9d06850..a91c1b99db97 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -65,7 +65,9 @@ void msm_gem_submit_free(struct msm_gem_submit *submit)
+ 	unsigned i;
+ 
+ 	dma_fence_put(submit->fence);
++	spin_lock(&submit->ring->submit_lock);
+ 	list_del(&submit->node);
++	spin_unlock(&submit->ring->submit_lock);
+ 	put_pid(submit->pid);
+ 	msm_submitqueue_put(submit->queue);
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index e5b7c8a77c99..bb904e467b24 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -270,6 +270,7 @@ static void update_fences(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+ {
+ 	struct msm_gem_submit *submit;
+ 
++	spin_lock(&ring->submit_lock);
+ 	list_for_each_entry(submit, &ring->submits, node) {
+ 		if (submit->seqno > fence)
+ 			break;
+@@ -277,6 +278,7 @@ static void update_fences(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+ 		msm_update_fence(submit->ring->fctx,
+ 			submit->fence->seqno);
+ 	}
++	spin_unlock(&ring->submit_lock);
+ }
+ 
+ #ifdef CONFIG_DEV_COREDUMP
+@@ -430,11 +432,14 @@ find_submit(struct msm_ringbuffer *ring, uint32_t fence)
+ {
+ 	struct msm_gem_submit *submit;
+ 
+-	WARN_ON(!mutex_is_locked(&ring->gpu->dev->struct_mutex));
+-
+-	list_for_each_entry(submit, &ring->submits, node)
+-		if (submit->seqno == fence)
++	spin_lock(&ring->submit_lock);
++	list_for_each_entry(submit, &ring->submits, node) {
++		if (submit->seqno == fence) {
++			spin_unlock(&ring->submit_lock);
+ 			return submit;
++		}
++	}
++	spin_unlock(&ring->submit_lock);
+ 
+ 	return NULL;
+ }
+@@ -523,8 +528,10 @@ static void recover_worker(struct work_struct *work)
+ 		for (i = 0; i < gpu->nr_rings; i++) {
+ 			struct msm_ringbuffer *ring = gpu->rb[i];
+ 
++			spin_lock(&ring->submit_lock);
+ 			list_for_each_entry(submit, &ring->submits, node)
+ 				gpu->funcs->submit(gpu, submit);
++			spin_unlock(&ring->submit_lock);
+ 		}
  	}
  
--	spin_lock_irqsave(&ring->lock, flags);
-+	spin_lock_irqsave(&ring->preempt_lock, flags);
+@@ -711,7 +718,6 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+ static void retire_submits(struct msm_gpu *gpu)
+ {
+ 	struct drm_device *dev = gpu->dev;
+-	struct msm_gem_submit *submit, *tmp;
+ 	int i;
  
- 	/* Copy the shadow to the actual register */
- 	ring->cur = ring->next;
-@@ -44,7 +44,7 @@ void a5xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 	/* Make sure to wrap wptr if we need to */
- 	wptr = get_wptr(ring);
- 
--	spin_unlock_irqrestore(&ring->lock, flags);
-+	spin_unlock_irqrestore(&ring->preempt_lock, flags);
- 
- 	/* Make sure everything is posted before making a decision */
- 	mb();
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-index 7e04509c4e1f..183de1139eeb 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-@@ -45,9 +45,9 @@ static inline void update_wptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- 	if (!ring)
- 		return;
- 
--	spin_lock_irqsave(&ring->lock, flags);
-+	spin_lock_irqsave(&ring->preempt_lock, flags);
- 	wptr = get_wptr(ring);
--	spin_unlock_irqrestore(&ring->lock, flags);
-+	spin_unlock_irqrestore(&ring->preempt_lock, flags);
- 
- 	gpu_write(gpu, REG_A5XX_CP_RB_WPTR, wptr);
- }
-@@ -62,9 +62,9 @@ static struct msm_ringbuffer *get_next_ring(struct msm_gpu *gpu)
- 		bool empty;
+ 	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
+@@ -720,9 +726,24 @@ static void retire_submits(struct msm_gpu *gpu)
+ 	for (i = 0; i < gpu->nr_rings; i++) {
  		struct msm_ringbuffer *ring = gpu->rb[i];
  
--		spin_lock_irqsave(&ring->lock, flags);
-+		spin_lock_irqsave(&ring->preempt_lock, flags);
- 		empty = (get_wptr(ring) == ring->memptrs->rptr);
--		spin_unlock_irqrestore(&ring->lock, flags);
-+		spin_unlock_irqrestore(&ring->preempt_lock, flags);
- 
- 		if (!empty)
- 			return ring;
-@@ -132,9 +132,9 @@ void a5xx_preempt_trigger(struct msm_gpu *gpu)
+-		list_for_each_entry_safe(submit, tmp, &ring->submits, node) {
+-			if (dma_fence_is_signaled(submit->fence))
++		while (true) {
++			struct msm_gem_submit *submit = NULL;
++
++			spin_lock(&ring->submit_lock);
++			submit = list_first_entry_or_null(&ring->submits,
++					struct msm_gem_submit, node);
++			spin_unlock(&ring->submit_lock);
++
++			/*
++			 * If no submit, we are done.  If submit->fence hasn't
++			 * been signalled, then later submits are not signalled
++			 * either, so we are also done.
++			 */
++			if (submit && dma_fence_is_signaled(submit->fence)) {
+ 				retire_submit(gpu, ring, submit);
++			} else {
++				break;
++			}
+ 		}
  	}
+ }
+@@ -765,7 +786,9 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
  
- 	/* Make sure the wptr doesn't update while we're in motion */
--	spin_lock_irqsave(&ring->lock, flags);
-+	spin_lock_irqsave(&ring->preempt_lock, flags);
- 	a5xx_gpu->preempt[ring->id]->wptr = get_wptr(ring);
--	spin_unlock_irqrestore(&ring->lock, flags);
-+	spin_unlock_irqrestore(&ring->preempt_lock, flags);
+ 	submit->seqno = ++ring->seqno;
  
- 	/* Set the address of the incoming preemption record */
- 	gpu_write64(gpu, REG_A5XX_CP_CONTEXT_SWITCH_RESTORE_ADDR_LO,
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 8915882e4444..fc85f008d69d 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -65,7 +65,7 @@ static void a6xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- 		OUT_RING(ring, upper_32_bits(shadowptr(a6xx_gpu, ring)));
- 	}
++	spin_lock(&ring->submit_lock);
+ 	list_add_tail(&submit->node, &ring->submits);
++	spin_unlock(&ring->submit_lock);
  
--	spin_lock_irqsave(&ring->lock, flags);
-+	spin_lock_irqsave(&ring->preempt_lock, flags);
+ 	msm_rd_dump_submit(priv->rd, submit, NULL);
  
- 	/* Copy the shadow to the actual register */
- 	ring->cur = ring->next;
-@@ -73,7 +73,7 @@ static void a6xx_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- 	/* Make sure to wrap wptr if we need to */
- 	wptr = get_wptr(ring);
- 
--	spin_unlock_irqrestore(&ring->lock, flags);
-+	spin_unlock_irqrestore(&ring->preempt_lock, flags);
- 
- 	/* Make sure everything is posted before making a decision */
- 	mb();
 diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 935bf9b1d941..1b6958e908dc 100644
+index 1b6958e908dc..4d2a2a4abef8 100644
 --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
 +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -46,7 +46,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
+@@ -46,6 +46,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
  	ring->memptrs_iova = memptrs_iova;
  
  	INIT_LIST_HEAD(&ring->submits);
--	spin_lock_init(&ring->lock);
-+	spin_lock_init(&ring->preempt_lock);
++	spin_lock_init(&ring->submit_lock);
+ 	spin_lock_init(&ring->preempt_lock);
  
  	snprintf(name, sizeof(name), "gpu-ring-%d", ring->id);
- 
 diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-index 0987d6bf848c..4956d1bc5d0e 100644
+index 4956d1bc5d0e..fe55d4a1aa16 100644
 --- a/drivers/gpu/drm/msm/msm_ringbuffer.h
 +++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-@@ -46,7 +46,12 @@ struct msm_ringbuffer {
- 	struct msm_rbmemptrs *memptrs;
- 	uint64_t memptrs_iova;
- 	struct msm_fence_context *fctx;
--	spinlock_t lock;
+@@ -39,7 +39,13 @@ struct msm_ringbuffer {
+ 	int id;
+ 	struct drm_gem_object *bo;
+ 	uint32_t *start, *end, *cur, *next;
 +
 +	/*
-+	 * preempt_lock protects preemption and serializes wptr updates against
-+	 * preemption.  Can be aquired from irq context.
++	 * List of in-flight submits on this ring.  Protected by submit_lock.
 +	 */
-+	spinlock_t preempt_lock;
- };
- 
- struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
+ 	struct list_head submits;
++	spinlock_t submit_lock;
++
+ 	uint64_t iova;
+ 	uint32_t seqno;
+ 	uint32_t hangcheck_fence;
 -- 
 2.26.2
 
