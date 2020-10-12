@@ -1,45 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF1528ADE7
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 07:52:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BED28AE17
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 08:12:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30D9F6E424;
-	Mon, 12 Oct 2020 05:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3E189CF1;
+	Mon, 12 Oct 2020 06:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FFAB6E07D;
- Mon, 12 Oct 2020 05:52:20 +0000 (UTC)
-IronPort-SDR: 7x5w9jo86hNJeC96F9wsPzsruNxQUjxDA1iS9+D0x891vY9RFOvqOrisu7zqg3e3vK75mT6GYT
- fBvC1Zy0U4GQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9771"; a="250387667"
-X-IronPort-AV: E=Sophos;i="5.77,365,1596524400"; d="scan'208";a="250387667"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2020 22:52:20 -0700
-IronPort-SDR: Ya9EDAn3SOMd08SCKVKBtueoni+yyq9EF8H8N9tr+YE/IrdFHweYy6SREcwPgxnde0DbbLRvxa
- rOKYCbITG9ew==
-X-IronPort-AV: E=Sophos;i="5.77,365,1596524400"; d="scan'208";a="520573207"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2020 22:52:19 -0700
-Date: Sun, 11 Oct 2020 22:52:19 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH RFC PKS/PMEM 57/58] nvdimm/pmem: Stray access protection
- for pmem->virt_addr
-Message-ID: <20201012055218.GA2046448@iweiny-DESK2.sc.intel.com>
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
- <20201009195033.3208459-58-ira.weiny@intel.com>
- <bd3f5ece-0e7b-4c15-abbc-1b3b943334dc@nvidia.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96C7F89CF1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 06:12:43 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id B816B2001F;
+ Mon, 12 Oct 2020 08:12:39 +0200 (CEST)
+Date: Mon, 12 Oct 2020 08:12:38 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH v9 1/5] dt-bindings: display: Add support for Intel
+ KeemBay Display
+Message-ID: <20201012061238.GB512501@ravnborg.org>
+References: <1602205443-9036-1-git-send-email-anitha.chrisanthus@intel.com>
+ <1602205443-9036-2-git-send-email-anitha.chrisanthus@intel.com>
+ <dc12f5ea-60bc-8a09-9b93-a4472183adc4@baylibre.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <bd3f5ece-0e7b-4c15-abbc-1b3b943334dc@nvidia.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <dc12f5ea-60bc-8a09-9b93-a4472183adc4@baylibre.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=gEfo2CItAAAA:8
+ a=fcpFeO9JvroVZpy7AW0A:9 a=CjuIK1q_8ugA:10 a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,83 +46,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
- Thomas Gleixner <tglx@linutronix.de>, drbd-dev@lists.linbit.com,
- devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
- linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org, x86@kernel.org,
- ceph-devel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- io-uring@vger.kernel.org, cluster-devel@redhat.com,
- Ingo Molnar <mingo@redhat.com>, intel-wired-lan@lists.osuosl.org,
- xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
- Fenghua Yu <fenghua.yu@intel.com>, linux-afs@lists.infradead.org,
- linux-um@lists.infradead.org, intel-gfx@lists.freedesktop.org,
- ecryptfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-bcache@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-cachefs@redhat.com,
- linux-nfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
- netdev@vger.kernel.org, kexec@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
+Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ devicetree@vger.kernel.org, edmund.j.dea@intel.com,
+ dri-devel@lists.freedesktop.org, daniel.vetter@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 09, 2020 at 07:53:07PM -0700, John Hubbard wrote:
-> On 10/9/20 12:50 PM, ira.weiny@intel.com wrote:
-> > From: Ira Weiny <ira.weiny@intel.com>
+Hi Neil/Anitha.
+
+On Fri, Oct 09, 2020 at 11:09:45AM +0200, Neil Armstrong wrote:
+> Hi,
+> 
+> On 09/10/2020 03:03, Anitha Chrisanthus wrote:
+> > This patch adds bindings for Intel KeemBay Display
 > > 
-> > The pmem driver uses a cached virtual address to access its memory
-> > directly.  Because the nvdimm driver is well aware of the special
-> > protections it has mapped memory with, we call dev_access_[en|dis]able()
-> > around the direct pmem->virt_addr (pmem_addr) usage instead of the
-> > unnecessary overhead of trying to get a page to kmap.
+> > v2: review changes from Rob Herring
 > > 
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 > > ---
-> >   drivers/nvdimm/pmem.c | 4 ++++
-> >   1 file changed, 4 insertions(+)
+> >  .../bindings/display/intel,keembay-display.yaml    | 99 ++++++++++++++++++++++
+> >  1 file changed, 99 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/intel,keembay-display.yaml
 > > 
-> > diff --git a/drivers/nvdimm/pmem.c b/drivers/nvdimm/pmem.c
-> > index fab29b514372..e4dc1ae990fc 100644
-> > --- a/drivers/nvdimm/pmem.c
-> > +++ b/drivers/nvdimm/pmem.c
-> > @@ -148,7 +148,9 @@ static blk_status_t pmem_do_read(struct pmem_device *pmem,
-> >   	if (unlikely(is_bad_pmem(&pmem->bb, sector, len)))
-> >   		return BLK_STS_IOERR;
-> > +	dev_access_enable(false);
-> >   	rc = read_pmem(page, page_off, pmem_addr, len);
-> > +	dev_access_disable(false);
+> > diff --git a/Documentation/devicetree/bindings/display/intel,keembay-display.yaml b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
+> > new file mode 100644
+> > index 0000000..a38493d
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
+> > @@ -0,0 +1,99 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+(GPL-2.0-only OR BSD-2-Clause) for new bindings please.
+
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/intel,keembay-display.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Devicetree bindings for Intel Keem Bay display controller
+> > +
+> > +maintainers:
+> > +  - Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > +  - Edmond J Dea <edmund.j.dea@intel.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: intel,kmb_display
+> > +
+> > +  reg:
+> > +    items:
+> > +      - description: Lcd registers range
+> > +      - description: Mipi registers range
 > 
-> Hi Ira!
+> Looking at the registers, the MIPI transceiver seems to be a separate IP,
+> same for D-PHY which should have a proper PHY driver instead of beeing handled
+> here.
+
+Looking at the register definitiosn and the code the split in a display
+block and a bridge block looks reasonable.
+The bridge block would include the MIPI<->DSI part which includes the
+PHY and the Msscam parts too. The PHY is an integrated part of the
+MIPI<->DSI IP so really not eligeble for a dedicated node in the DT.
+Likewise the Msscam, whatevet that is, is integrated with the
+MIPI<->DSI.
+
+So all in all:
+- One display DT Schema
+- One bridge DT Schema
+  The bridge DT Schema will then have an input port and an output port.
+
+
 > 
-> The APIs should be tweaked to use a symbol (GLOBAL, PER_THREAD), instead of
-> true/false. Try reading the above and you'll see that it sounds like it's
-> doing the opposite of what it is ("enable_this(false)" sounds like a clumsy
-> API design to *disable*, right?). And there is no hint about the scope.
-
-Sounds reasonable.
+> > +      - description: Msscam registers range
+> 
+> MSScam here seems to be a clock and reset controller for the LCD and MIPI IPs,
+> thus should be handler out of DRM.
+Reading the register definitions and the code it looks very integrated
+so as I wrote above, no dedicated DT Schema should be needed here.
 
 > 
-> And it *could* be so much more readable like this:
+> > +
+> > +  reg-names:
+> > +    items:
+> > +      - const: lcd
+> > +      - const: mipi
+> > +      - const: msscam
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: LCD controller clock
+> > +      - description: Mipi DSI clock
+> > +      - description: Mipi DSI econfig clock
+> > +      - description: Mipi DSI config clock
+> > +      - description: System clock or pll0 clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: clk_lcd
+> > +      - const: clk_mipi
+> > +      - const: clk_mipi_ecfg
+> > +      - const: clk_mipi_cfg
+> > +      - const: clk_pll0
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  encoder-slave:
+> > +    description: bridge node entry for mipi to hdmi converter
+This node should go, as we shall find the bridge using the ports.
+
+> > +
+> > +  port:
+> > +    type: object
+> > +    description: >
+> > +          Port node with one endpoint connected to mipi to hdmi converter node.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - reg-names
+> > +  - clocks
+> > +  - clock-names
+> > +  - interrupts
+> > +  - encoder-slave
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #define MOVISOC_KMB_MSS_AUX_LCD
+> > +    #define MOVISOC_KMB_MSS_AUX_MIPI_TX0
+> > +    #define MOVISOC_KMB_MSS_AUX_MIPI_ECFG
+> > +    #define MOVISOC_KMB_MSS_AUX_MIPI_CFG
+> > +    #define MOVISOC_KMB_A53_PLL_0_OUT_0
+> > +    display@20900000 {
+> > +      compatible = "intel,keembay-display";
+> > +      reg = <0x20930000 0x3000>,
+> > +            <0x20900000 0x4000>,
+> > +            <0x20910000 0x30>;
+> > +      reg-names = "lcd", "mipi", "msscam";
+> > +      interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+> > +      clocks = <&scmi_clk MOVISOC_KMB_MSS_AUX_LCD>,
+> > +               <&scmi_clk MOVISOC_KMB_MSS_AUX_MIPI_TX0>,
+> > +               <&scmi_clk MOVISOC_KMB_MSS_AUX_MIPI_ECFG>,
+> > +               <&scmi_clk MOVISOC_KMB_MSS_AUX_MIPI_CFG>,
+> > +               <&scmi_clk MOVISOC_KMB_A53_PLL_0_OUT_0>;
+> > +      clock-names = "clk_lcd", "clk_mipi", "clk_mipi_ecfg",
+> > +                    "clk_mipi_cfg", "clk_pll0";
+> > +
+> > +      encoder-slave = <&adv7535>;
+> > +
+> > +      port {
+> > +            dsi_output: endpoint {
+> > +                remote-endpoint = <&adv7535_input>;
+> > +            };
+> > +      };
+> > +    };
+> > 
 > 
->     dev_access_enable(DEV_ACCESS_THIS_THREAD);
+> Anitha, Daniel, this keembay driver should be architectured like other ARM-like display
+> controllers, with separate drivers for MIPI DSI bridge and msscam clock & reset controller.
+OK, lets decide on the binding first, and then discuss the driver
+afterwards.
 
-I'll think about the flag name.  I'm not liking 'this thread'.
-
-Maybe DEV_ACCESS_[GLOBAL|THREAD]
-
-Ira
-
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
