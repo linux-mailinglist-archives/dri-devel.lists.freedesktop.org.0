@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BE328ABBC
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC4328ABBE
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:09:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C0889D8A;
-	Mon, 12 Oct 2020 02:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2694E89FD1;
+	Mon, 12 Oct 2020 02:09:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 131CF89CF8;
- Mon, 12 Oct 2020 02:09:23 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id 144so12129555pfb.4;
- Sun, 11 Oct 2020 19:09:23 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8CF289D7D;
+ Mon, 12 Oct 2020 02:09:25 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id q21so1598837pgi.13;
+ Sun, 11 Oct 2020 19:09:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZyL5oO8OrN2wimj2udT1EhCNNwPm13wKBqPVtQcCgb8=;
- b=e46AKw7Ja86lF+PzViNHSEmngqxbLCrq7srlRybORCfJElIQ2kLMnDSAcpnXQWVLWA
- 39JlDDqryd6+vnF2vvZixwyBsdxevuSUwxU+ZZWH93rvpIZZOuhE59u0VwA/fUYMcABZ
- IvIZLoMXqJkd0zadNWxxPYJ0MQOSb5cxDIZzjg8PR/rSX8/Uwy8+VNbRETTmW4v8/qjG
- +YDTbMxap3bltcYUcdHDePFb+bJstz9r6YSoxr5h22kmUS4vfc3GwOUg7hdNdeSdRg4m
- /yR3qfEhSD5TKj8bea+FV6rJ0qlAsZKJ2Xa4lorrzXRJFVrkyHLNzQoxLVSlb3nAqqBI
- LP9Q==
+ bh=0Y1ZXL5tzeULxGQEQ98upbCTjOEGFjR0SJeNEjRygY4=;
+ b=KgxKD7H/reOXnjxIspELqz3EGjOjlW01OL0qkzO8E8u33VbhpjUJjBGOiHgz8pF6fU
+ iTyzaFLJGKjMd9MVlq0mmB1TZAu/ikMcN4P4SqAPpJmJL3YrB/p/hk5WPlvHa26OxXFs
+ 9pcxJVqwc12BI2o0Z5GWP6KuBPSdv6Fm/yrfGu/sGLzyTsMwUtRrYO71fkVpm5PY8dUN
+ 3/FdcnVea7ScXPEtqr+JUlN6ntlnD5tcCKKLr5m44pljDchWW5VA1pTZF/QSlGA3Sdqy
+ DjWgM5x9TAZB27g6rdiYIPB8Wxgxdhv25viYt7hMh2sVRkIxo3Ae1ZRn41h+C0DattF6
+ 7hDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZyL5oO8OrN2wimj2udT1EhCNNwPm13wKBqPVtQcCgb8=;
- b=bdZjen+NSq3ItIB7vtsCJ+6mR3pruf/Sf7HDWR2ysXGWnZUGo146IXpvP/sQGlXFBA
- l9nlwAXI3jwRjqJfhL+wzNrR5RuO03zUCZO79ts076AoouqAGg87NcjbB+fxWySPlKAO
- tEpQaX2VjqZF5Y7f5Ry7+SO4GDQbMrJGhdt9yD3ucfIjgRO9I/90jFGplDmQK5xhKSAg
- n4MH7Dw7suQiR53svTOnD5eCEtqJ29qKBZt+VECx5lUTGFGg4eHObUyWstOIeDdWr1d3
- IivB7zaMz9/mBpkuy4w6ErTVeOa1PqS9ovpaP4nFfZch7EklDjT304rHhBdL67UKpYwW
- u1jA==
-X-Gm-Message-State: AOAM531p6uLNuItKHe+rbLLx+K/b1dAAT9N/oIbVj+qP4M5d7TX5QohF
- Sm3rJTycTQraQn0/ITOWP9yfAsuDd00oN38s
-X-Google-Smtp-Source: ABdhPJxHXz9/ZXrNkq8BOQH2/sjUdcP8edWZlDkMalRmfx6hLdR2t36zB1O0lUNSY0tSJSgoIe9VEw==
-X-Received: by 2002:a17:90a:109:: with SMTP id
- b9mr17897165pjb.35.1602468562114; 
- Sun, 11 Oct 2020 19:09:22 -0700 (PDT)
+ bh=0Y1ZXL5tzeULxGQEQ98upbCTjOEGFjR0SJeNEjRygY4=;
+ b=gJtOS9KvnNKsoNcml0DVL1w0dqB23ScVllC+DdNSyrZGvtMcF1hP/vf7BeuuK4g7uq
+ b5swEuVUuv3jIcY+6efUDIiDN2yIH1wI7b8N9fpdp+0FUz4/z/ti80B0QfA7npfz/hww
+ qP/8GgmcrDBZqYd0zro7Mgn1ic0ptdB3yr38Eg/QwF3wGKCDWKREsCpR+NqBNbxJUfZG
+ E1jGCY16AMLPMcVCcAcPCX84HNPCK/7c887Z6fR4I3imDqOFYihQBsYkqDBrfdEmCuA+
+ 2byzNfVoXakPx5JbZkukRgGurDn0pl1vNSPKKJZ2ALr2sTNvCKNB7EzjzzXYQwyGTHcd
+ KAjg==
+X-Gm-Message-State: AOAM530lQiOnrgRm+YhG3247af1/zedlYYNWKfGcmsN7ib5whh66yvtj
+ wLfm+Rf0PJleNGX5k86AwXxfLC9K9/zmf9CC
+X-Google-Smtp-Source: ABdhPJwkHmYG3JLUCbaKXxgn2zEXUFi4lRRA+7075Pf3yqklwMpFZlrqr3qhkwPNZ3pPnR6GgPupew==
+X-Received: by 2002:a17:90b:e15:: with SMTP id
+ ge21mr16365454pjb.188.1602468564802; 
+ Sun, 11 Oct 2020 19:09:24 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- c12sm17267726pgd.57.2020.10.11.19.09.20
+ kv19sm21560902pjb.22.2020.10.11.19.09.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Oct 2020 19:09:20 -0700 (PDT)
+ Sun, 11 Oct 2020 19:09:23 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 14/22] drm/msm: Protect ring->submits with it's own lock
-Date: Sun, 11 Oct 2020 19:09:41 -0700
-Message-Id: <20201012020958.229288-15-robdclark@gmail.com>
+Subject: [PATCH v2 15/22] drm/msm: Refcount submits
+Date: Sun, 11 Oct 2020 19:09:42 -0700
+Message-Id: <20201012020958.229288-16-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201012020958.229288-1-robdclark@gmail.com>
 References: <20201012020958.229288-1-robdclark@gmail.com>
@@ -80,156 +80,155 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-One less place to rely on dev->struct_mutex.
+Before we remove dev->struct_mutex from the retire path, we have to deal
+with the situation of a submit retiring before the submit ioctl returns.
+
+To deal with this, ring->submits will hold a reference to the submit,
+which is dropped when the submit is retired.  And the submit ioctl path
+holds it's own ref, which it drops when it is done with the submit.
+
+Also, add to submit list *after* getting/pinning bo's, to prevent badness
+in case the completed fence is corrupted, and retire_worker mistakenly
+believes the submit is done too early.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
- drivers/gpu/drm/msm/msm_gem_submit.c |  2 ++
- drivers/gpu/drm/msm/msm_gpu.c        | 37 ++++++++++++++++++++++------
- drivers/gpu/drm/msm/msm_ringbuffer.c |  1 +
- drivers/gpu/drm/msm/msm_ringbuffer.h |  6 +++++
- 4 files changed, 39 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.h        |  1 -
+ drivers/gpu/drm/msm/msm_gem.h        | 13 +++++++++++++
+ drivers/gpu/drm/msm/msm_gem_submit.c | 11 +++++------
+ drivers/gpu/drm/msm/msm_gpu.c        | 21 ++++++++++++++++-----
+ 4 files changed, 34 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index a17dadd38685..2ef5cff19883 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -277,7 +277,6 @@ void msm_unregister_mmu(struct drm_device *dev, struct msm_mmu *mmu);
+ 
+ bool msm_use_mmu(struct drm_device *dev);
+ 
+-void msm_gem_submit_free(struct msm_gem_submit *submit);
+ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		struct drm_file *file);
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index ec01f35ce57b..93ee73c620ed 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -211,6 +211,7 @@ void msm_gem_free_work(struct work_struct *work);
+  * lasts for the duration of the submit-ioctl.
+  */
+ struct msm_gem_submit {
++	struct kref ref;
+ 	struct drm_device *dev;
+ 	struct msm_gpu *gpu;
+ 	struct msm_gem_address_space *aspace;
+@@ -247,6 +248,18 @@ struct msm_gem_submit {
+ 	} bos[];
+ };
+ 
++void __msm_gem_submit_destroy(struct kref *kref);
++
++static inline void msm_gem_submit_get(struct msm_gem_submit *submit)
++{
++	kref_get(&submit->ref);
++}
++
++static inline void msm_gem_submit_put(struct msm_gem_submit *submit)
++{
++	kref_put(&submit->ref, __msm_gem_submit_destroy);
++}
++
+ /* helper to determine of a buffer in submit should be dumped, used for both
+  * devcoredump and debugfs cmdstream dumping:
+  */
 diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 35b7d9d06850..a91c1b99db97 100644
+index a91c1b99db97..3151a0ca8904 100644
 --- a/drivers/gpu/drm/msm/msm_gem_submit.c
 +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -65,7 +65,9 @@ void msm_gem_submit_free(struct msm_gem_submit *submit)
+@@ -42,6 +42,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 	if (!submit)
+ 		return NULL;
+ 
++	kref_init(&submit->ref);
+ 	submit->dev = dev;
+ 	submit->aspace = queue->ctx->aspace;
+ 	submit->gpu = gpu;
+@@ -60,14 +61,13 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 	return submit;
+ }
+ 
+-void msm_gem_submit_free(struct msm_gem_submit *submit)
++void __msm_gem_submit_destroy(struct kref *kref)
+ {
++	struct msm_gem_submit *submit =
++			container_of(kref, struct msm_gem_submit, ref);
  	unsigned i;
  
  	dma_fence_put(submit->fence);
-+	spin_lock(&submit->ring->submit_lock);
- 	list_del(&submit->node);
-+	spin_unlock(&submit->ring->submit_lock);
+-	spin_lock(&submit->ring->submit_lock);
+-	list_del(&submit->node);
+-	spin_unlock(&submit->ring->submit_lock);
  	put_pid(submit->pid);
  	msm_submitqueue_put(submit->queue);
  
+@@ -841,8 +841,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	submit_cleanup(submit);
+ 	if (has_ww_ticket)
+ 		ww_acquire_fini(&submit->ticket);
+-	if (ret)
+-		msm_gem_submit_free(submit);
++	msm_gem_submit_put(submit);
+ out_unlock:
+ 	if (ret && (out_fence_fd >= 0))
+ 		put_unused_fd(out_fence_fd);
 diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index e5b7c8a77c99..bb904e467b24 100644
+index bb904e467b24..18a7948ac437 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.c
 +++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -270,6 +270,7 @@ static void update_fences(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- {
- 	struct msm_gem_submit *submit;
+@@ -712,7 +712,12 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
  
+ 	pm_runtime_mark_last_busy(&gpu->pdev->dev);
+ 	pm_runtime_put_autosuspend(&gpu->pdev->dev);
+-	msm_gem_submit_free(submit);
++
 +	spin_lock(&ring->submit_lock);
- 	list_for_each_entry(submit, &ring->submits, node) {
- 		if (submit->seqno > fence)
- 			break;
-@@ -277,6 +278,7 @@ static void update_fences(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 		msm_update_fence(submit->ring->fctx,
- 			submit->fence->seqno);
- 	}
++	list_del(&submit->node);
 +	spin_unlock(&ring->submit_lock);
++
++	msm_gem_submit_put(submit);
  }
  
- #ifdef CONFIG_DEV_COREDUMP
-@@ -430,11 +432,14 @@ find_submit(struct msm_ringbuffer *ring, uint32_t fence)
- {
- 	struct msm_gem_submit *submit;
- 
--	WARN_ON(!mutex_is_locked(&ring->gpu->dev->struct_mutex));
--
--	list_for_each_entry(submit, &ring->submits, node)
--		if (submit->seqno == fence)
-+	spin_lock(&ring->submit_lock);
-+	list_for_each_entry(submit, &ring->submits, node) {
-+		if (submit->seqno == fence) {
-+			spin_unlock(&ring->submit_lock);
- 			return submit;
-+		}
-+	}
-+	spin_unlock(&ring->submit_lock);
- 
- 	return NULL;
- }
-@@ -523,8 +528,10 @@ static void recover_worker(struct work_struct *work)
- 		for (i = 0; i < gpu->nr_rings; i++) {
- 			struct msm_ringbuffer *ring = gpu->rb[i];
- 
-+			spin_lock(&ring->submit_lock);
- 			list_for_each_entry(submit, &ring->submits, node)
- 				gpu->funcs->submit(gpu, submit);
-+			spin_unlock(&ring->submit_lock);
- 		}
- 	}
- 
-@@ -711,7 +718,6 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
  static void retire_submits(struct msm_gpu *gpu)
- {
- 	struct drm_device *dev = gpu->dev;
--	struct msm_gem_submit *submit, *tmp;
- 	int i;
- 
- 	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
-@@ -720,9 +726,24 @@ static void retire_submits(struct msm_gpu *gpu)
- 	for (i = 0; i < gpu->nr_rings; i++) {
- 		struct msm_ringbuffer *ring = gpu->rb[i];
- 
--		list_for_each_entry_safe(submit, tmp, &ring->submits, node) {
--			if (dma_fence_is_signaled(submit->fence))
-+		while (true) {
-+			struct msm_gem_submit *submit = NULL;
-+
-+			spin_lock(&ring->submit_lock);
-+			submit = list_first_entry_or_null(&ring->submits,
-+					struct msm_gem_submit, node);
-+			spin_unlock(&ring->submit_lock);
-+
-+			/*
-+			 * If no submit, we are done.  If submit->fence hasn't
-+			 * been signalled, then later submits are not signalled
-+			 * either, so we are also done.
-+			 */
-+			if (submit && dma_fence_is_signaled(submit->fence)) {
- 				retire_submit(gpu, ring, submit);
-+			} else {
-+				break;
-+			}
- 		}
- 	}
- }
-@@ -765,7 +786,9 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+@@ -786,10 +791,6 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
  
  	submit->seqno = ++ring->seqno;
  
-+	spin_lock(&ring->submit_lock);
- 	list_add_tail(&submit->node, &ring->submits);
-+	spin_unlock(&ring->submit_lock);
- 
+-	spin_lock(&ring->submit_lock);
+-	list_add_tail(&submit->node, &ring->submits);
+-	spin_unlock(&ring->submit_lock);
+-
  	msm_rd_dump_submit(priv->rd, submit, NULL);
  
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 1b6958e908dc..4d2a2a4abef8 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -46,6 +46,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
- 	ring->memptrs_iova = memptrs_iova;
+ 	update_sw_cntrs(gpu);
+@@ -816,6 +817,16 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 		msm_gem_active_get(drm_obj, gpu);
+ 	}
  
- 	INIT_LIST_HEAD(&ring->submits);
-+	spin_lock_init(&ring->submit_lock);
- 	spin_lock_init(&ring->preempt_lock);
- 
- 	snprintf(name, sizeof(name), "gpu-ring-%d", ring->id);
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-index 4956d1bc5d0e..fe55d4a1aa16 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-@@ -39,7 +39,13 @@ struct msm_ringbuffer {
- 	int id;
- 	struct drm_gem_object *bo;
- 	uint32_t *start, *end, *cur, *next;
-+
 +	/*
-+	 * List of in-flight submits on this ring.  Protected by submit_lock.
++	 * ring->submits holds a ref to the submit, to deal with the case
++	 * that a submit completes before msm_ioctl_gem_submit() returns.
 +	 */
- 	struct list_head submits;
-+	spinlock_t submit_lock;
++	msm_gem_submit_get(submit);
 +
- 	uint64_t iova;
- 	uint32_t seqno;
- 	uint32_t hangcheck_fence;
++	spin_lock(&ring->submit_lock);
++	list_add_tail(&submit->node, &ring->submits);
++	spin_unlock(&ring->submit_lock);
++
+ 	gpu->funcs->submit(gpu, submit);
+ 	priv->lastctx = submit->queue->ctx;
+ 
 -- 
 2.26.2
 
