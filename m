@@ -1,40 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A52F28AB0F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 01:07:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8856F28AB9A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:08:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFEAD6E069;
-	Sun, 11 Oct 2020 23:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE326E128;
+	Mon, 12 Oct 2020 02:08:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A986B6E069
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Oct 2020 23:07:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22676308;
- Mon, 12 Oct 2020 01:07:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1602457642;
- bh=vc23I04YFhoytZA9nFmmFQ27j1lVeKhDOwefL2UwlKk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dBY2Ck9mSopPhG+SrfS1kXXctXIHVIU2JEhDjn50hD0DDa3Y78YXtLsQr8HTt/42I
- F40I4sHBob8Jnbvrh1t7kuoj6z1P4TKqKM/jIDYjlzIq/oQwIt8iOBD4nQ2bAmtgYK
- NoT0d4pKJa7V0SXXh8lt0zdVEmcOlDxYHFrBBcO8=
-Date: Mon, 12 Oct 2020 02:06:37 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jyri Sarha <jsarha@ti.com>
-Subject: Re: [PATCH v3 2/2] drm/tilcdc: Remove tilcdc_crtc_max_width(), use
- private data
-Message-ID: <20201011230637.GE3944@pendragon.ideasonboard.com>
-References: <cover.1602349100.git.jsarha@ti.com>
- <73683d2ce151cffb811a756595b02892eeac3d84.1602349100.git.jsarha@ti.com>
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B4046E128;
+ Mon, 12 Oct 2020 02:08:43 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id q21so1597428pgi.13;
+ Sun, 11 Oct 2020 19:08:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dmwggOCqdZ43g+jJ6N3bGQO88ZFGrgGWMzcJMG6MFZc=;
+ b=l4SG2ZYTxZKCmiVskGZCGOvLHGQhqQ81uSH7q3UFNYNrqFYs2Ua/E3wsNbMri8B1R7
+ Zl8BTMpx6Zsu+Pn1TESqkoH/Vazk9PT+hclBaUQRoqcRltpEFS/siq4l0EhFk3EaN1Ln
+ 24FcJOuZMBJQyKo1Lu5cGft+ZIjYBa0qaIilIPzY+YKQ0pEGuSW4smOnmTG2pbpC+8JE
+ bN2BnQ7dYFcwAOhUhPcFBJgsr5td4mxzFZcbUO/Tku+3NjsJTTJ7/5/DJOVxyJkq5bLW
+ G9+so+U1+1/lJ8ZWgXft+NcKCjm8dGmgeo+tKleZ5jxmlXe2a0pVVdKRmtE5NlGPWyW+
+ usxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dmwggOCqdZ43g+jJ6N3bGQO88ZFGrgGWMzcJMG6MFZc=;
+ b=CCER9ErMue6UI6UQA73nj/Hg4d6rKlfXfBKFJuEug+EMJbohA+TY20D3NtnBc+YvDJ
+ EciggfARLJkLtcxk3Xx3MlAlYC9hKb9b8kXn08d4vWXnB0jhHQzRPhefl0CD9KJGvMW4
+ evcPTMtDISihf7ggVrG2gXDXWdsY7mROd9tALn00ReoysJzRS/SIUKtur0iVQ0lx3VSr
+ tzcivwPkI1nVUkJ5Oj9RO/OUXxW2BfpAf3BhfNCXe/4kGxCF3R/3g/GvTi9N9c5nR/9O
+ NJJs2rKzaWgqU9kkEhJJJ3vJUbTnQyXWUKssVtj9g7iLXW8orArSb2Dy+aCkmsuJ7ciU
+ L8pg==
+X-Gm-Message-State: AOAM532B3nDRNNr4PyDgv7uVOlHBqO+fDtLQ9ZknooJRT7IVW+e2LpuT
+ c0vhPecHb8GiYzZVifbldWKua1BAdHDpXFJj
+X-Google-Smtp-Source: ABdhPJzc6Fu9J+JxBCHpefhcMz1MLh+TQl5nN/I2XuTSAE9C39n+EnAcOs0namKHz9x7wpMt1N6nmw==
+X-Received: by 2002:a17:90b:1111:: with SMTP id
+ gi17mr17663259pjb.109.1602468522254; 
+ Sun, 11 Oct 2020 19:08:42 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ p16sm19702873pfq.63.2020.10.11.19.08.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 11 Oct 2020 19:08:40 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/14] drm/msm: de-struct_mutex-ification
+Date: Sun, 11 Oct 2020 19:09:27 -0700
+Message-Id: <20201012020958.229288-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <73683d2ce151cffb811a756595b02892eeac3d84.1602349100.git.jsarha@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,163 +66,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomi.valkeinen@ti.com, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
+ Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Rajendra Nayak <rnayak@codeaurora.org>,
+ Harigovindan P <harigovi@codeaurora.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Brian Masney <masneyb@onstation.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jyri,
+From: Rob Clark <robdclark@chromium.org>
 
-Thank you for the patch.
+This doesn't remove *all* the struct_mutex, but it covers the worst
+of it, ie. shrinker/madvise/free/retire.  The submit path still uses
+struct_mutex, but it still needs *something* serialize a portion of
+the submit path, and lock_stat mostly just shows the lock contention
+there being with other submits.  And there are a few other bits of
+struct_mutex usage in less critical paths (debugfs, etc).  But this
+seems like a reasonable step in the right direction.
 
-On Sat, Oct 10, 2020 at 08:00:59PM +0300, Jyri Sarha wrote:
-> We already have a private data member for maximum display width so
-> let's use it and get rid of the redundant tilcdc_crtc_max_width().
-> 
-> The LCDC version probing is moved to before reading the device tree
-> properties so that the version information is available when private
-> data maximum width is initialized, if "max-width" property is not
-> found.
-> 
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+v2: teach lockdep about shrinker locking patters (danvet) and
+    convert to obj->resv locking (danvet)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Rob Clark (22):
+  drm/msm/gem: Add obj->lock wrappers
+  drm/msm/gem: Rename internal get_iova_locked helper
+  drm/msm/gem: Move prototypes to msm_gem.h
+  drm/msm/gem: Add some _locked() helpers
+  drm/msm/gem: Move locking in shrinker path
+  drm/msm/submit: Move copy_from_user ahead of locking bos
+  drm/msm: Do rpm get sooner in the submit path
+  drm/msm/gem: Switch over to obj->resv for locking
+  drm/msm: Use correct drm_gem_object_put() in fail case
+  drm/msm: Drop chatty trace
+  drm/msm: Move update_fences()
+  drm/msm: Add priv->mm_lock to protect active/inactive lists
+  drm/msm: Document and rename preempt_lock
+  drm/msm: Protect ring->submits with it's own lock
+  drm/msm: Refcount submits
+  drm/msm: Remove obj->gpu
+  drm/msm: Drop struct_mutex from the retire path
+  drm/msm: Drop struct_mutex in free_object() path
+  drm/msm: remove msm_gem_free_work
+  drm/msm: drop struct_mutex in madvise path
+  drm/msm: Drop struct_mutex in shrinker path
+  drm/msm: Don't implicit-sync if only a single ring
 
-> ---
->  drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 16 +-----------
->  drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 38 +++++++++++++++-------------
->  drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  7 ++---
->  3 files changed, 26 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-> index 0fd3dafe6404..da2ab2aa3577 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-> @@ -754,20 +754,6 @@ static const struct drm_crtc_funcs tilcdc_crtc_funcs = {
->  	.disable_vblank	= tilcdc_crtc_disable_vblank,
->  };
->  
-> -int tilcdc_crtc_max_width(struct drm_crtc *crtc)
-> -{
-> -	struct drm_device *dev = crtc->dev;
-> -	struct tilcdc_drm_private *priv = dev->dev_private;
-> -	int max_width = 0;
-> -
-> -	if (priv->rev == 1)
-> -		max_width = 1024;
-> -	else if (priv->rev == 2)
-> -		max_width = 2048;
-> -
-> -	return max_width;
-> -}
-> -
->  static enum drm_mode_status
->  tilcdc_crtc_mode_valid(struct drm_crtc *crtc,
->  		       const struct drm_display_mode *mode)
-> @@ -780,7 +766,7 @@ tilcdc_crtc_mode_valid(struct drm_crtc *crtc,
->  	 * check to see if the width is within the range that
->  	 * the LCD Controller physically supports
->  	 */
-> -	if (mode->hdisplay > tilcdc_crtc_max_width(crtc))
-> +	if (mode->hdisplay > priv->max_width)
->  		return MODE_VIRTUAL_X;
->  
->  	/* width must be multiple of 16 */
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> index 4f5fc3e87383..c5f82e693f1a 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -105,7 +105,7 @@ static void modeset_init(struct drm_device *dev)
->  
->  	dev->mode_config.min_width = 0;
->  	dev->mode_config.min_height = 0;
-> -	dev->mode_config.max_width = tilcdc_crtc_max_width(priv->crtc);
-> +	dev->mode_config.max_width = priv->max_width;
->  	dev->mode_config.max_height = 2048;
->  	dev->mode_config.funcs = &mode_config_funcs;
->  }
-> @@ -218,22 +218,6 @@ static int tilcdc_init(struct drm_driver *ddrv, struct device *dev)
->  		goto init_failed;
->  	}
->  
-> -	if (of_property_read_u32(node, "max-bandwidth", &priv->max_bandwidth))
-> -		priv->max_bandwidth = TILCDC_DEFAULT_MAX_BANDWIDTH;
-> -
-> -	DBG("Maximum Bandwidth Value %d", priv->max_bandwidth);
-> -
-> -	if (of_property_read_u32(node, "max-width", &priv->max_width))
-> -		priv->max_width = TILCDC_DEFAULT_MAX_WIDTH;
-> -
-> -	DBG("Maximum Horizontal Pixel Width Value %dpixels", priv->max_width);
-> -
-> -	if (of_property_read_u32(node, "max-pixelclock",
-> -					&priv->max_pixelclock))
-> -		priv->max_pixelclock = TILCDC_DEFAULT_MAX_PIXELCLOCK;
-> -
-> -	DBG("Maximum Pixel Clock Value %dKHz", priv->max_pixelclock);
-> -
->  	pm_runtime_enable(dev);
->  
->  	/* Determine LCD IP Version */
-> @@ -287,6 +271,26 @@ static int tilcdc_init(struct drm_driver *ddrv, struct device *dev)
->  		}
->  	}
->  
-> +	if (of_property_read_u32(node, "max-bandwidth", &priv->max_bandwidth))
-> +		priv->max_bandwidth = TILCDC_DEFAULT_MAX_BANDWIDTH;
-> +
-> +	DBG("Maximum Bandwidth Value %d", priv->max_bandwidth);
-> +
-> +	if (of_property_read_u32(node, "max-width", &priv->max_width)) {
-> +		if (priv->rev == 1)
-> +			priv->max_width = TILCDC_DEFAULT_MAX_WIDTH_V1;
-> +		else
-> +			priv->max_width = TILCDC_DEFAULT_MAX_WIDTH_V2;
-> +	}
-> +
-> +	DBG("Maximum Horizontal Pixel Width Value %dpixels", priv->max_width);
-> +
-> +	if (of_property_read_u32(node, "max-pixelclock",
-> +				 &priv->max_pixelclock))
-> +		priv->max_pixelclock = TILCDC_DEFAULT_MAX_PIXELCLOCK;
-> +
-> +	DBG("Maximum Pixel Clock Value %dKHz", priv->max_pixelclock);
-> +
->  	ret = tilcdc_crtc_create(ddev);
->  	if (ret < 0) {
->  		dev_err(dev, "failed to create crtc\n");
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-> index 18815e75ca4f..d29806ca8817 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-> @@ -28,8 +28,10 @@ struct drm_plane;
->  
->  /* Defaulting to pixel clock defined on AM335x */
->  #define TILCDC_DEFAULT_MAX_PIXELCLOCK  126000
-> -/* Defaulting to max width as defined on AM335x */
-> -#define TILCDC_DEFAULT_MAX_WIDTH  2048
-> +/* Maximum display width for LCDC V1 */
-> +#define TILCDC_DEFAULT_MAX_WIDTH_V1  1024
-> +/* ... and for LCDC V2 found on AM335x: */
-> +#define TILCDC_DEFAULT_MAX_WIDTH_V2  2048
->  /*
->   * This may need some tweaking, but want to allow at least 1280x1024@60
->   * with optimized DDR & EMIF settings tweaked 1920x1080@24 appears to
-> @@ -158,7 +160,6 @@ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
->  		const struct tilcdc_panel_info *info);
->  void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
->  					bool simulate_vesa_sync);
-> -int tilcdc_crtc_max_width(struct drm_crtc *crtc);
->  void tilcdc_crtc_shutdown(struct drm_crtc *crtc);
->  int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
->  		struct drm_framebuffer *fb,
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |   4 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c |  12 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |   4 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c |   1 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c        |   1 +
+ drivers/gpu/drm/msm/msm_debugfs.c         |   7 +
+ drivers/gpu/drm/msm/msm_drv.c             |  21 +-
+ drivers/gpu/drm/msm/msm_drv.h             |  73 ++-----
+ drivers/gpu/drm/msm/msm_fbdev.c           |   1 +
+ drivers/gpu/drm/msm/msm_gem.c             | 245 ++++++++++------------
+ drivers/gpu/drm/msm/msm_gem.h             | 131 ++++++++++--
+ drivers/gpu/drm/msm/msm_gem_shrinker.c    |  81 +++----
+ drivers/gpu/drm/msm/msm_gem_submit.c      | 154 +++++++++-----
+ drivers/gpu/drm/msm/msm_gpu.c             |  98 +++++----
+ drivers/gpu/drm/msm/msm_gpu.h             |   5 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c      |   3 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.h      |  13 +-
+ 18 files changed, 459 insertions(+), 396 deletions(-)
 
 -- 
-Regards,
+2.26.2
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
