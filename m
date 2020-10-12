@@ -1,61 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE1E28AED1
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 09:11:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9B728B0FC
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 10:59:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB716E0BF;
-	Mon, 12 Oct 2020 07:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D176E426;
+	Mon, 12 Oct 2020 08:59:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0936E0BF
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 07:11:14 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id v6so1601219lfa.13
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 00:11:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=qnIDWVzs4N24jsPe/bGQ+UEySKFgXhzxHHD1jNeTmO0=;
- b=ZuA8eTfwb8UtWYtjOb5MCuccKR4ox/sdPVMzGc7o2B2DPjf/51tDutpD2929NdzJ1a
- 4sCWxd6qtG2LllEE6YkHcm6SOnHO7JQSyT3Gm58NlbBjTXT6CLKpSgRka+taTTYOMlWr
- uMDXttrtEpYTqRl9z21VWCgEVeo4mSnYAQwKCQcJy5QXhYuZpsHGz1jOIrc+o9IsqEBx
- NIorzpYoX5p/4sQvkkkef+7s9TJPHPq7s+IAmRuEV16YJjSSgKyHXldKnKKwi3rVbrtT
- /FrY4W+WLoyDYmD4aa15duw4GrBIHpbF5NboseTYpBIrLDINVVLT7oLu+2P/bNUer98x
- BNaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=qnIDWVzs4N24jsPe/bGQ+UEySKFgXhzxHHD1jNeTmO0=;
- b=DbhXBtGHDnU4ltvs7XikstmJamjef4uohQXdiI2EWEwEzW/4OsJIRqU2F/btNQZJXd
- cc4zTP2o5BHxOXCY8ue4rwGFbvZf6v5rr40nFBYZ/ss73JoBZOR7cDQlyCnoZvstQcnq
- M7gbzRiKCYP6Wz1KccjKnGB3mmCnW6cFXGIqkqAIbulERrJhPLDd719YFfPPYzvRXpbd
- 8quJgYCt+pTHsnMgPybia9lJCFFtnLS0knrtpN6bYH4RTj9JzFL+vyH5JkFrQZW/F2Td
- RVcMvLno44noljCYdkK8hYpXdvQnXaKhp2svxlVQackdB5shD0jTlEvOUNQ8FoLhXHAl
- klPw==
-X-Gm-Message-State: AOAM531E4Sp2jAsA88r20HXtNGv/CHCQVoPpJwXZCg4kiikjvNWf6qso
- OqkdesGFKNny1iddqaCmYh0=
-X-Google-Smtp-Source: ABdhPJzUvxrPl8hXgGTpnuRh7cP1tPrtrxRha8njomefDEKYQKz1trqZHMt2HiAtnsLb7o3tbRRmqQ==
-X-Received: by 2002:a19:8296:: with SMTP id e144mr8091884lfd.463.1602486672906; 
- Mon, 12 Oct 2020 00:11:12 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id i10sm512157lfl.243.2020.10.12.00.11.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 00:11:12 -0700 (PDT)
-Date: Mon, 12 Oct 2020 10:11:01 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm: document that user-space should avoid parsing EDIDs
-Message-ID: <20201012101101.12c6bbb8@eldfell>
-In-Reply-To: <20201009142018.GT6112@intel.com>
-References: <izOAkOJk67APzk9XP_DhUGr5Nvo_KwmIXlGQhiL101xxttvMO3K1DUdEQryIFXe2EjG16XGuc_YPMlTimZjqePYR3dB0m4Xs4J8Isa3mBAI=@emersion.fr>
- <CAPj87rM3H+kNzMgw1B00iDzH94gZPoLfr17KrAAiCXuUB2VHKA@mail.gmail.com>
- <20201009131025.GS6112@intel.com> <20201009165651.31199071@eldfell>
- <20201009142018.GT6112@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB66789E0C;
+ Mon, 12 Oct 2020 07:40:53 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3DEE1AC1D;
+ Mon, 12 Oct 2020 07:40:52 +0000 (UTC)
+Subject: Re: [PATCH RFC PKS/PMEM 48/58] drivers/md: Utilize new kmap_thread()
+To: Ira Weiny <ira.weiny@intel.com>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-49-ira.weiny@intel.com>
+ <c802fbf4-f67a-b205-536d-9c71b440f9c8@suse.de>
+ <20201012052817.GZ2046448@iweiny-DESK2.sc.intel.com>
+From: Coly Li <colyli@suse.de>
+Autocrypt: addr=colyli@suse.de; keydata=
+ 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
+Message-ID: <026a7658-6c43-6510-a8b5-32f29de7b281@suse.de>
+Date: Mon, 12 Oct 2020 15:40:27 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.1
 MIME-Version: 1.0
+In-Reply-To: <20201012052817.GZ2046448@iweiny-DESK2.sc.intel.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Mon, 12 Oct 2020 08:59:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,133 +86,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============2017554473=="
+Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
+ Thomas Gleixner <tglx@linutronix.de>, drbd-dev@lists.linbit.com,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org, x86@kernel.org,
+ ceph-devel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ io-uring@vger.kernel.org, cluster-devel@redhat.com,
+ Ingo Molnar <mingo@redhat.com>, intel-wired-lan@lists.osuosl.org,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+ Kent Overstreet <kent.overstreet@gmail.com>, Fenghua Yu <fenghua.yu@intel.com>,
+ linux-afs@lists.infradead.org, linux-um@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, ecryptfs@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-cachefs@redhat.com,
+ linux-nfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+ netdev@vger.kernel.org, kexec@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2017554473==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/XTolmFF6Lv0RUuVT=prfkS/"; protocol="application/pgp-signature"
+On 2020/10/12 13:28, Ira Weiny wrote:
+> On Sat, Oct 10, 2020 at 10:20:34AM +0800, Coly Li wrote:
+>> On 2020/10/10 03:50, ira.weiny@intel.com wrote:
+>>> From: Ira Weiny <ira.weiny@intel.com>
+>>>
+>>> These kmap() calls are localized to a single thread.  To avoid the over
+>>> head of global PKRS updates use the new kmap_thread() call.
+>>>
+>>
+>> Hi Ira,
+>>
+>> There were a number of options considered.
+>>
+>> 1) Attempt to change all the thread local kmap() calls to kmap_atomic()
+>> 2) Introduce a flags parameter to kmap() to indicate if the mapping
+>> should be global or not
+>> 3) Change ~20-30 call sites to 'kmap_global()' to indicate that they
+>> require a global mapping of the pages
+>> 4) Change ~209 call sites to 'kmap_thread()' to indicate that the
+>> mapping is to be used within that thread of execution only
+>>
+>>
+>> I copied the above information from patch 00/58 to this message. The
+>> idea behind kmap_thread() is fine to me, but as you said the new api is
+>> very easy to be missed in new code (even for me). I would like to be
+>> supportive to option 2) introduce a flag to kmap(), then we won't forget
+>> the new thread-localized kmap method, and people won't ask why a
+>> _thread() function is called but no kthread created.
+> 
+> Thanks for the feedback.
+> 
+> I'm going to hold off making any changes until others weigh in.  FWIW, I kind
+> of like option 2 as well.  But there is already kmap_atomic() so it seemed like
+> kmap_XXXX() was more in line with the current API.
 
---Sig_/XTolmFF6Lv0RUuVT=prfkS/
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I understand it now, the idea is fine to me.
 
-On Fri, 9 Oct 2020 17:20:18 +0300
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+Acked-by: Coly Li <colyli@suse.de>
 
-> On Fri, Oct 09, 2020 at 04:56:51PM +0300, Pekka Paalanen wrote:
-> > On Fri, 9 Oct 2020 16:10:25 +0300
-> > Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
-> >  =20
-> > > On Fri, Oct 09, 2020 at 01:07:20PM +0100, Daniel Stone wrote: =20
-> > > > Hi,
-> > > >=20
-> > > > On Fri, 9 Oct 2020 at 10:24, Simon Ser <contact@emersion.fr> wrote:=
-   =20
-> > > > > User-space should avoid parsing EDIDs for metadata already expose=
-d via
-> > > > > other KMS interfaces and properties. For instance, user-space sho=
-uld not
-> > > > > try to extract a list of modes from the EDID: the kernel might mu=
-tate
-> > > > > the mode list (because of link capabilities or quirks for instanc=
-e).
-> > > > >
-> > > > > Other metadata not exposed by KMS can be parsed by user-space. Th=
-is
-> > > > > includes for instance monitor identification (make/model/serial) =
-and
-> > > > > supported color-spaces.   =20
-> > > >=20
-> > > > So I take it the only way to get modes is through the connector's l=
-ist
-> > > > of modes. That sounds reasonable enough to me, but I think to prope=
-rly
-> > > > handle colour (e.g. CEA modes have different behaviour for
-> > > > limited/full range depending on which VIC they correspond to IIRC) =
-  =20
-> > >=20
-> > > If the mode has a VIC and that VIC is not 1, then it's limited range,
-> > > otherwise full range. There are fortunately no cases where you would
-> > > have the same exact timings corresponding to different quantization
-> > > range depending on the VIC.
-> > >=20
-> > > And the only reason the same timings could correspond to multiple VICs
-> > > is aspect ratio. Which is already exposed via the mode flags, assuming
-> > > the appropriate client cap is enabled.
-> > >=20
-> > > So I think the only reason to expose the VIC would be if userspace is
-> > > non-lazy and wants to manage its colors presicely, but is otherwise l=
-azy
-> > > and doesn't want to figure out what the VIC of the mode is on its own=
-. =20
-> >=20
-> > What would "figure out what the VIC of the mode is" require in userspac=
-e?
-> >=20
-> > A database of all VIC modes and then compare if the detailed timings ma=
-tch?
-> >=20
-> > Is that also how the kernel recognises that userspace wants to set a
-> > certain VIC mode instead of some arbitrary mode? =20
->=20
-> Yes and yes.
->=20
-> Note that atm we also don't have a way for userspace to say that it
-> wants to signal limited range to the sink but wants the kernel
-> to not do the full->limited range conversion. Ie. no way for userspace
-> to pass in pixels that are already in limited range. There was a patch
-> for that posted quite long ago, but it didn't go in.
+Thanks.
 
-Thanks for the heads-up.
-
-If userspace uses all available KMS color management properties
-(CTM, LUTs, etc.) *and* the video mode implies limited range on the
-cable, at what point in the pixel pipeline does that conversion from
-full to limited range occur?
-
-That is something I expect to need codify into Weston at some point so
-that the complete pixel pipeline works as intended.
-
-
-Thanks,
-pq
-
---Sig_/XTolmFF6Lv0RUuVT=prfkS/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl+EAYUACgkQI1/ltBGq
-qqfWpg//dm67NMKij+t7oIBx4LSEEtehHUarJwsDiZW5P0BLO9b2dtT7cPwD8hqE
-f2aTq7xpDbWwi5tRVFDL78pJbQicY9yaHEB7WF4zWu3ZfWx9wzF5LLxf8bj66po1
-vmQI0y8CP4pC0UufKGSpXbTZpnhnCHAQCgKQydbI5Ns84TIYeo0XNS5Cs6tMw1dj
-3phVxi9py2XO1VMaxHIHyel5LIi4hbgyUwkOf8QNTQRVv9iGNaN53pCW/48mLHJ3
-dXwl2e4gWtXc3EZ9ETrldQE7ss8Lc3TLOuL2FeGljXKsWa82Ku+xTPKtpni+yKTa
-WmKKRFotxC5BndWjUKIShTMJ79+K8ldoFF4TqX6rygLbdK8z+2rEMuii+eEAg4vW
-k4nM3aE5CcmcH9LE5e7pM/oYpqLxIS+DOcldRzCxEvA5jOJJ22zRi95PFjoU7yt9
-VUR9ZkjrTLwm5QAKjIwwe1ET2+pelr18/xDTtBbNRypetrKiTn6Gy0YUhtyl9h6N
-qjMZ/D+aPjrxhv/eC+j6XjIBsbxOCVtNpcjQj+3KJ35jLZuLs0y/5kpb9ZfpkjG1
-Wb26k+jCYBEdGUI+Y7oWON4ppz1eA3uTtJ/BirCTVRonELEaoox0/NMF4XxI2Os0
-eZk9rAhCbN4pWen8z77+7AL4pCVkixPJaqyW7NCzRj9YrFPzaAg=
-=R9jH
------END PGP SIGNATURE-----
-
---Sig_/XTolmFF6Lv0RUuVT=prfkS/--
-
---===============2017554473==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Coly Li
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2017554473==--
