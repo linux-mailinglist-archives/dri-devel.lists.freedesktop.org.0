@@ -2,43 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C8628ACFA
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 06:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A1B28AD21
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 06:39:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A473A6E40F;
-	Mon, 12 Oct 2020 04:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7D36E413;
+	Mon, 12 Oct 2020 04:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FFBB6E40F;
- Mon, 12 Oct 2020 04:26:21 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4C8lx65jg2z9sTf;
- Mon, 12 Oct 2020 15:26:18 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1602476779;
- bh=JaoueffLPiqe0vVFbNDyshuQW42Vb35P3hSNJmElmMw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=etiFfRjPep5aCsL5z9RKGh4Bey53GqVtc0RutV4WEoB8f6ghuNvGVDq0rj3o6CP/G
- atWk4UOwfFeXUlKtrMbtyHKwOoqmbRgtKX0b4xfmlPjhG1omOMC0G5DKTCj4ak/3Ou
- n9SIkAo1C1VCIa9nHp4UxtcTKG2xG/iMxkoZ2T2ULT3t3QS9yk4j0c8QHtyll/XdZf
- YvjcaQASdt7Dr17ZI2DsJLuXRobfMm8mf2mXMHCJW9wVjbQtm7XLzys9PX/3u5x/Lw
- bmexy1Cxo76Axl5Fm0N8F6wypRqV4oQLP1vpy5xDsEHtYdxUwu+nfAgp4xLy1iFFRR
- v2NGN7HCbQipw==
-Date: Mon, 12 Oct 2020 15:26:18 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20201012152618.5e3116ca@canb.auug.org.au>
-In-Reply-To: <20201012152452.432c4867@canb.auug.org.au>
-References: <20201008140903.12a411b8@canb.auug.org.au>
- <20201008154202.175fbec7@canb.auug.org.au>
- <20201012152452.432c4867@canb.auug.org.au>
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF5C6E413
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 04:39:09 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id i22so396495qkn.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Oct 2020 21:39:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tpWfSYwTmxBzkXDi9ht7uL8LFxGO5JzEbAJnVgaiE+c=;
+ b=nU7uQ0hR6wJjdWA+ED+sikls3Urhi/cl8eNleJbNfjGbqwKo7zCEkywRHTc7K3jBkz
+ Hyf3gr+6FCDB2hatcKdnG8zwLPgj2qv/GT72VXlOzM35Lbr2YkQQYN3K0NBCOyAkn2CU
+ vAGPm7dFAe5q1Nykt7UDg+llyzoNG3DVtOVFg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tpWfSYwTmxBzkXDi9ht7uL8LFxGO5JzEbAJnVgaiE+c=;
+ b=bPEedTK7fcwdw3M8T4OM7POJF0yRTtUk5c2Vmd9h7Ps8Pbh+1vSjrW6jslmU2gzCJv
+ xHux93BrOe6FNmmwQNQavCaAVyRs3gaj+uQX5Fxex0aE1uclRL0c9/S7CUIbeD8Uu1GI
+ vRqPnsT71qxqnDlVflH1DWS0dxzr+oMPL/rCtkCdozM1kPOCg1NXYRcOCMNQHQTdWUxU
+ zcpf/KYpQPp9NOw5ezgIhNrjSAf1EsOlV/69+Iz14WHI8AORqjaN4a4wTf/wF1/0wBRD
+ HULuIAoinJrvqjqlFrmOp/2K/BpDjnrSDgX8nEeihOwnDlQLVRj619KVuABkPhHD8j4Y
+ a2qw==
+X-Gm-Message-State: AOAM530zEMMaXmeZdY3JUY9Xt94ZE5CFvxude68Km5N62Ul2SgyUeK0l
+ zvgtwtO61F4dnHaqftduIAASc6OhUyzgNbAhuic=
+X-Google-Smtp-Source: ABdhPJxMnMaMZnf67NjzBaX5vchMC+7Xo+nOk0fNRJ58YDhTE2vwQffIxSTvvFe2bSZywyWdiFwrGtVmwtV88lyxzsE=
+X-Received: by 2002:a37:4a4d:: with SMTP id x74mr8376653qka.55.1602477548637; 
+ Sun, 11 Oct 2020 21:39:08 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201011230131.4922-1-rdunlap@infradead.org>
+In-Reply-To: <20201011230131.4922-1-rdunlap@infradead.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 12 Oct 2020 04:38:56 +0000
+Message-ID: <CACPK8Xej8SoJxrJBL2NB2PnGwjFQ8=oWsfALv2g2r7HxxP9xZQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND] drm/aspeed: fix Kconfig warning & subsequent build
+ errors
+To: Randy Dunlap <rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,199 +58,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, Dave Airlie <airlied@linux.ie>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1589138908=="
+Cc: Michal Simek <monstr@monstr.eu>, kernel test robot <lkp@intel.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Mike Rapoport <rppt@linux.ibm.com>, linux-mm@kvack.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1589138908==
-Content-Type: multipart/signed; boundary="Sig_/PsBqT+2U+eGmb+1a29SSGu/";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/PsBqT+2U+eGmb+1a29SSGu/
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-[Just adding Dave to cc's]
-
-On Mon, 12 Oct 2020 15:24:52 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
+On Sun, 11 Oct 2020 at 23:01, Randy Dunlap <rdunlap@infradead.org> wrote:
 >
-> Hi all,
->=20
-> On Thu, 8 Oct 2020 15:42:02 +1100 Stephen Rothwell <sfr@canb.auug.org.au>=
- wrote:
-> >
-> > On Thu, 8 Oct 2020 14:09:03 +1100 Stephen Rothwell <sfr@canb.auug.org.a=
-u> wrote: =20
-> > >
-> > > After merging the drm-misc tree, today's linux-next build (x86_64
-> > > allmodconfig) failed like this:   =20
-> >=20
-> > In file included from include/linux/clk.h:13,
-> >                  from drivers/gpu/drm/ingenic/ingenic-drm-drv.c:10:
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c: In function 'ingenic_drm_upd=
-ate_palette':
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:35: error: 'struct ingeni=
-c_drm' has no member named 'dma_hwdescs'; did you mean 'dma_hwdesc_f0'?
-> >   448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++)=
- {
-> >       |                                   ^~~~~~~~~~~
-> > include/linux/kernel.h:47:33: note: in definition of macro 'ARRAY_SIZE'
-> >    47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __mus=
-t_be_array(arr))
-> >       |                                 ^~~
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:35: error: 'struct ingeni=
-c_drm' has no member named 'dma_hwdescs'; did you mean 'dma_hwdesc_f0'?
-> >   448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++)=
- {
-> >       |                                   ^~~~~~~~~~~
-> > include/linux/kernel.h:47:48: note: in definition of macro 'ARRAY_SIZE'
-> >    47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __mus=
-t_be_array(arr))
-> >       |                                                ^~~
-> > In file included from include/linux/bits.h:22,
-> >                  from include/linux/bitops.h:5,
-> >                  from drivers/gpu/drm/ingenic/ingenic-drm.h:10,
-> >                  from drivers/gpu/drm/ingenic/ingenic-drm-drv.c:7:
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:35: error: 'struct ingeni=
-c_drm' has no member named 'dma_hwdescs'; did you mean 'dma_hwdesc_f0'?
-> >   448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++)=
- {
-> >       |                                   ^~~~~~~~~~~
-> > include/linux/build_bug.h:16:62: note: in definition of macro 'BUILD_BU=
-G_ON_ZERO'
-> >    16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)=
-); })))
-> >       |                                                              ^
-> > include/linux/compiler.h:224:46: note: in expansion of macro '__same_ty=
-pe'
-> >   224 | #define __must_be_array(a) BUILD_BUG_ON_ZERO(__same_type((a), &=
-(a)[0]))
-> >       |                                              ^~~~~~~~~~~
-> > include/linux/kernel.h:47:59: note: in expansion of macro '__must_be_ar=
-ray'
-> >    47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __mus=
-t_be_array(arr))
-> >       |                                                           ^~~~~=
-~~~~~~~~~~
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:18: note: in expansion of=
- macro 'ARRAY_SIZE'
-> >   448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++)=
- {
-> >       |                  ^~~~~~~~~~
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:35: error: 'struct ingeni=
-c_drm' has no member named 'dma_hwdescs'; did you mean 'dma_hwdesc_f0'?
-> >   448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++)=
- {
-> >       |                                   ^~~~~~~~~~~
-> > include/linux/build_bug.h:16:62: note: in definition of macro 'BUILD_BU=
-G_ON_ZERO'
-> >    16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)=
-); })))
-> >       |                                                              ^
-> > include/linux/compiler.h:224:46: note: in expansion of macro '__same_ty=
-pe'
-> >   224 | #define __must_be_array(a) BUILD_BUG_ON_ZERO(__same_type((a), &=
-(a)[0]))
-> >       |                                              ^~~~~~~~~~~
-> > include/linux/kernel.h:47:59: note: in expansion of macro '__must_be_ar=
-ray'
-> >    47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __mus=
-t_be_array(arr))
-> >       |                                                           ^~~~~=
-~~~~~~~~~~
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:18: note: in expansion of=
- macro 'ARRAY_SIZE'
-> >   448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++)=
- {
-> >       |                  ^~~~~~~~~~
-> > include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width n=
-ot an integer constant
-> >    16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)=
-); })))
-> >       |                                                   ^
-> > include/linux/compiler.h:224:28: note: in expansion of macro 'BUILD_BUG=
-_ON_ZERO'
-> >   224 | #define __must_be_array(a) BUILD_BUG_ON_ZERO(__same_type((a), &=
-(a)[0]))
-> >       |                            ^~~~~~~~~~~~~~~~~
-> > include/linux/kernel.h:47:59: note: in expansion of macro '__must_be_ar=
-ray'
-> >    47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __mus=
-t_be_array(arr))
-> >       |                                                           ^~~~~=
-~~~~~~~~~~
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:18: note: in expansion of=
- macro 'ARRAY_SIZE'
-> >   448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++)=
- {
-> >       |                  ^~~~~~~~~~
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:453:9: error: 'struct ingenic=
-_drm' has no member named 'dma_hwdescs'; did you mean 'dma_hwdesc_f0'?
-> >   453 |   priv->dma_hwdescs->palette[i] =3D color;
-> >       |         ^~~~~~~~~~~
-> >       |         dma_hwdesc_f0
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c: In function 'ingenic_drm_pla=
-ne_atomic_update':
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:467:3: error: 'crtc_state' un=
-declared (first use in this function); did you mean 'ctx_state'?
-> >   467 |   crtc_state =3D state->crtc->state;
-> >       |   ^~~~~~~~~~
-> >       |   ctx_state
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:467:3: note: each undeclared =
-identifier is reported only once for each function it appears in
-> > At top level:
-> > drivers/gpu/drm/ingenic/ingenic-drm-drv.c:443:13: warning: 'ingenic_drm=
-_update_palette' defined but not used [-Wunused-function]
-> >   443 | static void ingenic_drm_update_palette(struct ingenic_drm *priv,
-> >       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> >  =20
-> > > I noticed that the ingenic driver revert I had been waiting for appea=
-red
-> > > in hte drm-misc tree, so I removed the BROKEN dependency for it, but =
-it
-> > > produced the above errors, so I have marked it BROKEN again.   =20
->=20
-> Any progress on this?  I am still marking CONFIG_DRM_INGENIC as BROKEN
-> in the drm and drm-misc trees.
+> kernel test robot reported build errors (undefined references)
+> that didn't make much sense. After reproducing them, there is also
+> a Kconfig warning that is the root cause of the build errors, so
+> fix that Kconfig problem.
+>
+> Fixes this Kconfig warning:
+> WARNING: unmet direct dependencies detected for CMA
+>   Depends on [n]: MMU [=n]
+>   Selected by [m]:
+>   - DRM_ASPEED_GFX [=m] && HAS_IOMEM [=y] && DRM [=m] && OF [=y] && (COMPILE_TEST [=y] || ARCH_ASPEED) && HAVE_DMA_CONTIGUOUS [=y]
+>
+> and these dependent build errors:
+> (.text+0x10c8c): undefined reference to `start_isolate_page_range'
+> microblaze-linux-ld: (.text+0x10f14): undefined reference to `test_pages_isolated'
+> microblaze-linux-ld: (.text+0x10fd0): undefined reference to `undo_isolate_page_range'
+>
+> Fixes: 76356a966e33 ("drm: aspeed: Clean up Kconfig options")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Michal Simek <monstr@monstr.eu>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Mike Rapoport <rppt@linux.ibm.com>
+> Cc: linux-mm@kvack.org
+> Cc: linux-aspeed@lists.ozlabs.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+> First sent on 2020-09-07.
+> Feel free to fix the Kconfig warning some other way...
 
---=20
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+Thanks Randy. Sorry for missing it the first time around. I'll merge
+this into drm-misc-next.
+
 Cheers,
-Stephen Rothwell
 
---Sig_/PsBqT+2U+eGmb+1a29SSGu/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Joel
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+D2uoACgkQAVBC80lX
-0Gwnowf9G2Odj/qp8Y+TBepUYlByT5rgvdUQpll2T8YtC8laneNWjNSd6w2d+rtR
-wqP0fL4IMOePhZ1Zq09hkfe57IFja+2U2/D2Ra/4nWJvVkpkTDgNoBj9nnfvuX6I
-YIG+J5AERsCer5RPUB6XO5SOag4oyDa+jxt9LCQkKSzUfbrY7Z1a7mBwtXBBv824
-ba5hdJz4QKnGvXP+yYGNLXEVP10LHZFpLhhf1XG+tzwv+aslBY/i38+CwZn39XX4
-dgH0iykSfgFqkX9DpBeyfWRwR0wuclFXG1nwmSzihasWklMZDRlaNYb6gliuz9B0
-3HCguHgn29KaYpLj39ZDymKuWyQO5w==
-=pQfj
------END PGP SIGNATURE-----
 
---Sig_/PsBqT+2U+eGmb+1a29SSGu/--
-
---===============1589138908==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>
+>  drivers/gpu/drm/aspeed/Kconfig |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> --- linux-next-20201009.orig/drivers/gpu/drm/aspeed/Kconfig
+> +++ linux-next-20201009/drivers/gpu/drm/aspeed/Kconfig
+> @@ -3,6 +3,7 @@ config DRM_ASPEED_GFX
+>         tristate "ASPEED BMC Display Controller"
+>         depends on DRM && OF
+>         depends on (COMPILE_TEST || ARCH_ASPEED)
+> +       depends on MMU
+>         select DRM_KMS_HELPER
+>         select DRM_KMS_CMA_HELPER
+>         select DMA_CMA if HAVE_DMA_CONTIGUOUS
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1589138908==--
