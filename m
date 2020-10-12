@@ -1,93 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46EE28BDCC
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 18:29:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E7B28BE30
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 18:42:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 320046E53E;
-	Mon, 12 Oct 2020 16:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 615AA892A8;
+	Mon, 12 Oct 2020 16:42:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFB236E53C;
- Mon, 12 Oct 2020 16:29:10 +0000 (UTC)
-IronPort-SDR: cAYlpM0Lb90gW6f2RL4+eS+Xm6Brgoy1eN3BJFEG3gN5T9r89F8ZRsDD1KY/6rc5dM6LMNzhzQ
- iNEoBh2oeGOA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="162299332"
-X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; d="scan'208";a="162299332"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2020 09:28:33 -0700
-IronPort-SDR: lpVqfUJ9kdOGINFzSz3Rb/+voVruUqKl5QXBieW8JLewmkz3mmd/w7cERQhz4kzL6b3gTh7T5C
- 5oHwexl8ugkg==
-X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; d="scan'208";a="355847059"
-Received: from soumyaka-mobl.amr.corp.intel.com (HELO [10.212.101.39])
- ([10.212.101.39])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2020 09:28:30 -0700
-Subject: Re: [PATCH RFC PKS/PMEM 22/58] fs/f2fs: Utilize new kmap_thread()
-To: Eric Biggers <ebiggers@kernel.org>, Ira Weiny <ira.weiny@intel.com>
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
- <20201009195033.3208459-23-ira.weiny@intel.com>
- <20201009213434.GA839@sol.localdomain>
- <20201010003954.GW20115@casper.infradead.org>
- <20201010013036.GD1122@sol.localdomain>
- <20201012065635.GB2046448@iweiny-DESK2.sc.intel.com>
- <20201012161946.GA858@sol.localdomain>
-From: Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <5d621db9-23d4-e140-45eb-d7fca2093d2b@intel.com>
-Date: Mon, 12 Oct 2020 09:28:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (mail-am6eur05on2086.outbound.protection.outlook.com [40.107.22.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2068892A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 16:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zI/R7FszYqDYGFpHo4EV1quZdDfYX6DtzMoBbasU9k4=;
+ b=qIie8d9yoyGZZvivEqNWLHumP5VnhsC4zkf7Dygf5I6IFcjB6oT8PZiGm2tqzj5fWrg1yAM0bLm9ba9p3ZydqYauS9gnVwQZl5Pf8L5Lhwc2qL4atWrP2YpPBJbJfplZ9LRo2oXh+X5aZHPx/AkLeH5dQPbIcw25QdaFfLVo5YQ=
+Received: from MR2P264CA0183.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501::22) by
+ DB7PR08MB3515.eurprd08.prod.outlook.com (2603:10a6:10:50::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3455.26; Mon, 12 Oct 2020 16:42:08 +0000
+Received: from VE1EUR03FT030.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:501:0:cafe::fd) by MR2P264CA0183.outlook.office365.com
+ (2603:10a6:501::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21 via Frontend
+ Transport; Mon, 12 Oct 2020 16:42:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org; dmarc=pass
+ action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT030.mail.protection.outlook.com (10.152.18.66) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3455.23 via Frontend Transport; Mon, 12 Oct 2020 16:42:06 +0000
+Received: ("Tessian outbound 7161e0c2a082:v64");
+ Mon, 12 Oct 2020 16:42:06 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: ea9e987ab417e9db
+X-CR-MTA-TID: 64aa7808
+Received: from 1d70988bec98.2
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 8AAEF01F-36C6-417C-A8BB-F90F2387EE67.1; 
+ Mon, 12 Oct 2020 16:41:59 +0000
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 1d70988bec98.2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Mon, 12 Oct 2020 16:41:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hB4ZAlxGa6ZRyqqMnb50i+o9ogXnWjmAtZRqZBGkLw4uEMM/3SbaQAZQTavEigkjFIHQ7P2rbKRuHNNtvaAeWGUAHQdHCJ9lOpe4yw89BJnjWF1Yxrtky8ITqPy9kv6l+keUHP4vnaLXvs3PWzuRTOjKWFKOMM1bHXMZQOBKw9sNNrxemE+b9Mlqqqk3bbjXrxA+ZzDsTwPgr4cozVCLAvtfII85tFxecRR51UmVzCKdSCOlpCN2PJ9AkB/h3ukvlBAPnQoKOw3ecSlPiJ2dbfY0/eb4sjTlMnT0Dbz5udELkS5ERKNJGaNSxH3bK9yJDgA0iF8/mfP+9ZMn3KuL/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zI/R7FszYqDYGFpHo4EV1quZdDfYX6DtzMoBbasU9k4=;
+ b=Nuh5n4Km9CZh1YTtpUOjwV4IYi4iv2WwgkaoUJsn1CicmCTmFnco9LVNUPq/f2pN6I/qxi7fSfTNGwBmizyOumsGuZjnuO5hGgDzhW7/EsP2E8wSy5agmjuxybRyrXM/oJfw9vgKTTZA5hN3dSs3yp7CH+g0sxPvIeCXy3yYcJ44CXVP5kigWSes656zbVe9cj+s4sxqbgZeGtWQwGDUxiVZZZvGjWyeX9zFrjDo3VXXANY7Jdbx8kSZv4ze7jfATmw0MWIEVkoG5OajxqLSu1hqz/8x1jSMcWIDqCjPArjSVab1En/zlHD40dHEScqSwLJRASOXOc4yMlg6YWv0pA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zI/R7FszYqDYGFpHo4EV1quZdDfYX6DtzMoBbasU9k4=;
+ b=qIie8d9yoyGZZvivEqNWLHumP5VnhsC4zkf7Dygf5I6IFcjB6oT8PZiGm2tqzj5fWrg1yAM0bLm9ba9p3ZydqYauS9gnVwQZl5Pf8L5Lhwc2qL4atWrP2YpPBJbJfplZ9LRo2oXh+X5aZHPx/AkLeH5dQPbIcw25QdaFfLVo5YQ=
+Authentication-Results-Original: lists.freedesktop.org; dkim=none (message not
+ signed) header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=arm.com;
+Received: from AM6PR08MB3653.eurprd08.prod.outlook.com (2603:10a6:20b:4c::22)
+ by AM6PR08MB4705.eurprd08.prod.outlook.com (2603:10a6:20b:cf::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Mon, 12 Oct
+ 2020 16:41:57 +0000
+Received: from AM6PR08MB3653.eurprd08.prod.outlook.com
+ ([fe80::d0be:76bf:3d2f:8c56]) by AM6PR08MB3653.eurprd08.prod.outlook.com
+ ([fe80::d0be:76bf:3d2f:8c56%6]) with mapi id 15.20.3455.029; Mon, 12 Oct 2020
+ 16:41:57 +0000
+From: Matteo Franchin <matteo.franchin@arm.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm/fourcc: Add AXBXGXRX106106106106 format
+Date: Mon, 12 Oct 2020 17:40:43 +0100
+Message-Id: <20201012164043.23630-1-matteo.franchin@arm.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [217.140.106.51]
+X-ClientProxiedBy: DM5PR21CA0021.namprd21.prod.outlook.com
+ (2603:10b6:3:ac::31) To AM6PR08MB3653.eurprd08.prod.outlook.com
+ (2603:10a6:20b:4c::22)
 MIME-Version: 1.0
-In-Reply-To: <20201012161946.GA858@sol.localdomain>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from lagrange.cambridge.arm.com (217.140.106.51) by
+ DM5PR21CA0021.namprd21.prod.outlook.com (2603:10b6:3:ac::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.3 via Frontend Transport; Mon, 12 Oct 2020 16:41:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: f4656db2-efa5-4ee2-dc49-08d86ecdc157
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4705:|DB7PR08MB3515:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DB7PR08MB35157A6B39DDDE54F6441F62F4070@DB7PR08MB3515.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:222;OLM:222;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: LmFHmkSK7HZZ3Rs/MRCdtflKTC3K60Kn51xbyPygHUo0f/wkOECTm+huF45S76VLGy3ErvmeXP0qsmdZcjwV/qXJSXOXmdUJnyV/guwB1mi3f8CVAJvfH6OxEblKxTSVp7dnb/L+yKqFwuczZDbU8rbQ+tEqp+xaIKnSnqA9wwc7a+pTfuAK0h++v0bhkZf8aTfFDsnnJj0ii7kYJOZk+Iy8sd+pKqiqYk687hfRTzEsJAfRdsprvsmy3N2MV4EgtVtVzeYpzB2JSBYol22XHeVKi0A4CmIPz/JJTQ9ccEAAVXDXpXShXii79TOuQ8QLStc5BQ4fbTjT7osbDHSU+w==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM6PR08MB3653.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(6916009)(316002)(66556008)(52116002)(44832011)(7696005)(26005)(2906002)(66476007)(36756003)(6666004)(186003)(16526019)(8936002)(1076003)(5660300002)(2616005)(956004)(6486002)(4326008)(66946007)(8676002)(86362001)(478600001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: YtVlETn5xaTfW7+ih/VoN+cYaimDELl6a3HdfyCQapIjkg6J4gzBtda1p9ym3/v0OewsHRUYOl5Bxlw6ttfL7QBNTzUrWB+hz2utUXMpZcocypG990dofe7gjDN8W02IShofqmV+LIWoTjvE9n4B3kgL+fTJY3eiYaA7TBXwOCIO2IN5nk1p6ezJtKjnRAmp6rYvaIrrXPE0tuMejhwOOpdToflxtsB7arMy9L5FrmeQO7/Jd6LMEsLWeXLXhTpPmIao7nbFzaRvgAplnDGvO9RI4yLw2pfJempnHedQTNMzkiTTMr9cvazd/XloQWpQvBwXK65rC4wCTU0J8fW2u+DQg+12o5YiJHuTpAwJrNYN0MmS6h+Y+utoRZkZe5tjZC4P2k6fHOBSoCE+UDrOoU3qTXQZHAYCFZUdchTLI40X28IH0yR4XXcOsXTPWGlf3SJEhNLXLC9FCQIqFTMJv3VUvYgBKx40hF/sp1mILGX/aGTHk+X2WZGVbxfCvCBP/FGQZmiGibpgpsH50XpnZXoNQAMfOoLwyubcUbhNfJUKxRnU4YBhhhbYNiVE6/y2VzvrX0PLhxloy8JVluB7s57b8ine0JNju/FdjZx2nwBW1w+d4e1DdIWXYnlVK4F37p7tqW7aI0hWl3RUbsReqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4705
+Original-Authentication-Results: lists.freedesktop.org;
+ dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=none action=none
+ header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT030.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: ecfdcee7-0732-4d9f-103e-08d86ecdbbe4
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZTUWzxAXtdxUrdK77L+WzTXU83lQWCqjIXqlR4q4XUEFFJ4wh7Qb2az0AEhVI1x8Z7vMAGsjvlhaRN5J4KlpdVORtobJF5ZTCsw0jL1OgBP2KpjMPs8M6tOXhsOfOllMYtcr9eQDuxOXIPDlfbs69vrgCFSYYzsg8tl2yyeqL2pLjo/msn4nEwWqhQF6QQ0TSBhU4HoPtxKHssLJNGK2qfZxxPnF5xhKvskJuJVNy9KzQ7DQFKZysV9ZCrWt87LVIDeYR3aTOol2Vbm24hqbTmU92cpJG6uVu/jibYac9fiF1GE0fLnO7GlYwShKe4KvvOX0xmUUceeeHVbjzTSCx4osrtnyYmLp/+L1zNMagYfRILp2DZwGRVZp3ch146jdUhPcpUp1joHK9ssKizoGkw==
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(346002)(396003)(376002)(46966005)(2616005)(5660300002)(186003)(6486002)(316002)(82310400003)(86362001)(82740400003)(47076004)(44832011)(956004)(6666004)(8676002)(70206006)(6916009)(336012)(81166007)(4326008)(478600001)(7696005)(26005)(16526019)(356005)(2906002)(1076003)(70586007)(36756003)(8936002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2020 16:42:06.2957 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4656db2-efa5-4ee2-dc49-08d86ecdc157
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT030.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3515
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,60 +150,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, drbd-dev@lists.linbit.com,
- devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
- linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org, x86@kernel.org,
- Matthew Wilcox <willy@infradead.org>, linux-afs@lists.infradead.org,
- cluster-devel@redhat.com, Ingo Molnar <mingo@redhat.com>,
- intel-wired-lan@lists.osuosl.org, kexec@lists.infradead.org,
- xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
- bpf@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- Fenghua Yu <fenghua.yu@intel.com>, intel-gfx@lists.freedesktop.org,
- ecryptfs@vger.kernel.org, linux-um@lists.infradead.org,
- reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-bcache@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
- ceph-devel@vger.kernel.org, io-uring@vger.kernel.org, linux-cachefs@redhat.com,
- linux-nfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
- netdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- samba-technical@lists.samba.org, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linux-erofs@lists.ozlabs.org,
- linux-btrfs@vger.kernel.org
+Cc: tzimmermann@suse.de, airlied@linux.ie, liviu.dudau@arm.com,
+ linux-kernel@vger.kernel.org, Matteo Franchin <matteo.franchin@arm.com>,
+ joe@perches.com, nd@arm.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/12/20 9:19 AM, Eric Biggers wrote:
-> On Sun, Oct 11, 2020 at 11:56:35PM -0700, Ira Weiny wrote:
->>> And I still don't really understand.  After this patchset, there is still code
->>> nearly identical to the above (doing a temporary mapping just for a memcpy) that
->>> would still be using kmap_atomic().
->> I don't understand.  You mean there would be other call sites calling:
->>
->> kmap_atomic()
->> memcpy()
->> kunmap_atomic()
-> Yes, there are tons of places that do this.  Try 'git grep -A6 kmap_atomic'
-> and look for memcpy().
-> 
-> Hence why I'm asking what will be the "recommended" way to do this...
-> kunmap_thread() or kmap_atomic()?
+Add ABGR format with 10-bit components packed in 64-bit per pixel.
+This format can be used to handle
+VK_FORMAT_R10X6G10X6B10X6A10X6_UNORM_4PACK16 on little-endian
+architectures.
 
-kmap_atomic() is always preferred over kmap()/kmap_thread().
-kmap_atomic() is _much_ more lightweight since its TLB invalidation is
-always CPU-local and never broadcast.
+Signed-off-by: Matteo Franchin <matteo.franchin@arm.com>
+Reviewed-by: Brian Starkey <brian.starkey@arm.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/drm_fourcc.c  | 1 +
+ include/uapi/drm/drm_fourcc.h | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-So, basically, unless you *must* sleep while the mapping is in place,
-kmap_atomic() is preferred.
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 722c7ebe4e88..03262472059c 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -202,6 +202,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		{ .format = DRM_FORMAT_XBGR16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1 },
+ 		{ .format = DRM_FORMAT_ARGB16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_ABGR16161616F,	.depth = 0,  .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
++		{ .format = DRM_FORMAT_AXBXGXRX106106106106, .depth = 0, .num_planes = 1, .cpp = { 8, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_RGB888_A8,	.depth = 32, .num_planes = 2, .cpp = { 3, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_BGR888_A8,	.depth = 32, .num_planes = 2, .cpp = { 3, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+ 		{ .format = DRM_FORMAT_XRGB8888_A8,	.depth = 32, .num_planes = 2, .cpp = { 4, 1, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true },
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 6f0628eb13a6..d720f1e8ae5e 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -179,6 +179,12 @@ extern "C" {
+ #define DRM_FORMAT_ARGB16161616F fourcc_code('A', 'R', '4', 'H') /* [63:0] A:R:G:B 16:16:16:16 little endian */
+ #define DRM_FORMAT_ABGR16161616F fourcc_code('A', 'B', '4', 'H') /* [63:0] A:B:G:R 16:16:16:16 little endian */
+ 
++/*
++ * RGBA format with 10-bit components packed in 64-bit per pixel, with 6 bits
++ * of unused padding per component:
++ */
++#define DRM_FORMAT_AXBXGXRX106106106106 fourcc_code('A', 'B', '1', '0') /* [63:0] A:x:B:x:G:x:R:x 10:6:10:6:10:6:10:6 little endian */
++
+ /* packed YCbCr */
+ #define DRM_FORMAT_YUYV		fourcc_code('Y', 'U', 'Y', 'V') /* [31:0] Cr0:Y1:Cb0:Y0 8:8:8:8 little endian */
+ #define DRM_FORMAT_YVYU		fourcc_code('Y', 'V', 'Y', 'U') /* [31:0] Cb0:Y1:Cr0:Y0 8:8:8:8 little endian */
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
