@@ -1,47 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2AE28BBBA
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 17:22:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADFE28BBEC
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 17:31:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7DD06E51A;
-	Mon, 12 Oct 2020 15:22:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8B4C6E4EA;
+	Mon, 12 Oct 2020 15:31:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C908A6E51A
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 15:22:35 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 913F0208D5
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 15:22:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602516154;
- bh=5C/jmTpz0PKuGny4/s3SbSc4Irgi9NI62ZqH3ELIX7s=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=aLX8Vr/+ckwRva0GmI4m4s/4wxSqmx0xqfMUrdDEM+fCprnL6NTcrZ+naQvF0e4eY
- zWkWUxdyTPmg/GLZ1qz0vTlhsD42q25Wl9SQ1DQi3GpB3+NEg6BXYn4jkrbiLaDa5g
- wOpkbxvdAoMzjsEH/3QEXKZ8zv++QgW2Lt0sPrOg=
-Received: by mail-ed1-f49.google.com with SMTP id g4so17424072edk.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 08:22:34 -0700 (PDT)
-X-Gm-Message-State: AOAM5314N8XlqadOfLgt3HYAJWHdOdQcnl6xBBezNwm4/gttI89aRZy8
- Y5u2iFOvmUXWDvrnJbwazt8980WArtuoHHcoGw==
-X-Google-Smtp-Source: ABdhPJwu3cOwmieaIPSGaFSoyA4Wc/3ksuAi+VNzjSghjBXRfe60ms0JWtONwlY6z7lgezHab9z1uAotOlywDThS1cE=
-X-Received: by 2002:a05:6402:1cbb:: with SMTP id
- cz27mr14412016edb.38.1602516153075; 
- Mon, 12 Oct 2020 08:22:33 -0700 (PDT)
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 246886E4EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 15:31:36 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09CFRx2K009325; Mon, 12 Oct 2020 17:31:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type : content-id :
+ content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=N542qLINbv1anFY9bS8CNSsvQ1Mj8Jp+GnbcDJCIDbI=;
+ b=yU7Fk4vHgMdVOCof3aFBut/LtAMM901J/RvZxy32Ku5Dnx4qUhdyzsMPhomEYZ7YMPed
+ X71IHo7vNGDlixUPzwIPQnGxJkj99McRmV4JIuo9KpqWU2oVGuKstpEfWIdOTJjn7vs8
+ EXyDk02BZAmxDo8OOVBdDQo0mUvNPKuknC3hqvya1H1jGlNxwbADhXhBOMjBUUc5/4Cw
+ cBn+bphbd811atmWfb57HfZcbfsyPg3fAmMPnw/1nBzib1WY77jiiREYoRD2QeFV2emR
+ lUAJZhckT5eoBa1Ij6D34V3UVduYNkGyGFhdAVGenEGQdaSfv8Ki5V4x6MNB6FXW0FWC Cw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 34353w1wd5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Oct 2020 17:31:34 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B97FB10002A;
+ Mon, 12 Oct 2020 17:31:32 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag1node1.st.com [10.75.127.1])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 97FFE2A9F57;
+ Mon, 12 Oct 2020 17:31:32 +0200 (CEST)
+Received: from SFHDAG2NODE3.st.com (10.75.127.6) by SFHDAG1NODE1.st.com
+ (10.75.127.1) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 12 Oct
+ 2020 17:31:32 +0200
+Received: from SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c]) by
+ SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c%20]) with mapi id
+ 15.00.1473.003; Mon, 12 Oct 2020 17:31:32 +0200
+From: Philippe CORNU <philippe.cornu@st.com>
+To: Yannick FERTRE <yannick.fertre@st.com>, Antonio BORNEO
+ <antonio.borneo@st.com>, Thierry Reding <thierry.reding@gmail.com>, "Sam
+ Ravnborg" <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/panel: rm68200: fix mode to 50fps
+Thread-Topic: [PATCH] drm/panel: rm68200: fix mode to 50fps
+Thread-Index: AQHWk0ZzzcM7a4UXCEW70da9oB7h6KmUEW0A
+Date: Mon, 12 Oct 2020 15:31:32 +0000
+Message-ID: <b8b082c2-4543-4080-cf6e-d14fed712669@st.com>
+References: <20200925141618.12097-1-yannick.fertre@st.com>
+In-Reply-To: <20200925141618.12097-1-yannick.fertre@st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.50]
+Content-ID: <68D722A0FC36A64FB7104D71B442DF99@st.com>
 MIME-Version: 1.0
-References: <20201010070910.11294-1-jitao.shi@mediatek.com>
-In-Reply-To: <20201010070910.11294-1-jitao.shi@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 12 Oct 2020 23:22:21 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-qZni-o11HJeymH74PAFSJw-0Awdz0wdjiQ0u7Ga1MGA@mail.gmail.com>
-Message-ID: <CAAOTY_-qZni-o11HJeymH74PAFSJw-0Awdz0wdjiQ0u7Ga1MGA@mail.gmail.com>
-Subject: Re: [v4 PATCH 0/2] fix scrolling of panel with small hfp or hbp
-To: Jitao Shi <jitao.shi@mediatek.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-10-12_12:2020-10-12,
+ 2020-10-12 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,38 +82,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- srv_heupstream <srv_heupstream@mediatek.com>, David Airlie <airlied@linux.ie>,
- huijuan.xie@mediatek.com, stonea168@163.com,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, cawa.cheng@mediatek.com,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
- eddie.huang@mediatek.com, Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEppdGFvOgoKSml0YW8gU2hpIDxqaXRhby5zaGlAbWVkaWF0ZWsuY29tPiDmlrwgMjAyMOW5
-tDEw5pyIMTDml6Ug6YCx5YWtIOS4i+WNiDM6MDnlr6vpgZPvvJoKPgo+IENoYW5nZXMgc2luY2Ug
-djM6Cj4gIC0gUmV2ZXJ0IHYyLCBmb3IgdjIgd2lsbCBjYXVzZSBzb21lIGJyaWRnZSBpYyBubyBv
-dXRwdXQuIHRoZSBjYXVzZQo+ICAgIHRoZSB2aWRlbyBsaW5ldGltZSBkb2Vzbid0IG1hdGNoIGRp
-c3BsYXkgbW9kZSBmcm9tIGdldCBtb2RlLgo+ICAtIE1ha2Ugc3VyZSB0aGUgaG9yaXpvbnRhbF9m
-cm9udHBvcmNoX2J5dGUgYW5kIGhvcml6b250YWxfYmFja3BvcmNoX2J5dGUKPiAgICBhcmUgPiAw
-LgoKQmVjYXVzZSB2MiBpcyBtZXJnZWQgaW50byBtYWlubGluZSwgSSB0aGluayB5b3Ugc2hvdWxk
-IG1lcmdlIDEvMiBhbmQKMi8yIHRvIG9uZSBwYXRjaCB3aGljaCBmaXggdGhlIHByb2JsZW0gY2F1
-c2VkIGJ5IHYyLgoKUmVnYXJkcywKQ2h1bi1LdWFuZy4KCj4KPiBKaXRhbyBTaGkgKDIpOgo+ICAg
-UmV2ZXJ0ICJkcm0vbWVkaWF0ZWs6IGRzaTogRml4IHNjcm9sbGluZyBvZiBwYW5lbCB3aXRoIHNt
-YWxsIGhmcCBvcgo+ICAgICBoYnAiCj4gICBkcm0vbWVkaWF0ZWs6IGRzaTogZml4IHNjcm9sbGlu
-ZyBvZiBwYW5lbCB3aXRoIHNtYWxsIGhmcCBvciBoYnAKPgo+ICBkcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2RzaS5jIHwgNjUgKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KPiAgMSBmaWxlIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDQwIGRlbGV0aW9ucygtKQo+
-Cj4gLS0KPiAyLjEyLjUKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+
+
+On 9/25/20 4:16 PM, Yannick Fertre wrote:
+> Compute new timings to get a framerate of 50fps with a pixel clock
+> @54Mhz.
+> 
+> Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
+> ---
+>   drivers/gpu/drm/panel/panel-raydium-rm68200.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-raydium-rm68200.c b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
+> index 2b9e48b0a491..412c0dbcb2b6 100644
+> --- a/drivers/gpu/drm/panel/panel-raydium-rm68200.c
+> +++ b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
+> @@ -82,15 +82,15 @@ struct rm68200 {
+>   };
+>   
+>   static const struct drm_display_mode default_mode = {
+> -	.clock = 52582,
+> +	.clock = 54000,
+>   	.hdisplay = 720,
+> -	.hsync_start = 720 + 38,
+> -	.hsync_end = 720 + 38 + 8,
+> -	.htotal = 720 + 38 + 8 + 38,
+> +	.hsync_start = 720 + 48,
+> +	.hsync_end = 720 + 48 + 9,
+> +	.htotal = 720 + 48 + 9 + 48,
+>   	.vdisplay = 1280,
+>   	.vsync_start = 1280 + 12,
+> -	.vsync_end = 1280 + 12 + 4,
+> -	.vtotal = 1280 + 12 + 4 + 12,
+> +	.vsync_end = 1280 + 12 + 5,
+> +	.vtotal = 1280 + 12 + 5 + 12,
+>   	.flags = 0,
+>   	.width_mm = 68,
+>   	.height_mm = 122,
+> 
+
+Hi Yannick,
+Tested-by: Philippe Cornu <philippe.cornu@st.com>
+Thank you,
+Philippe
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
