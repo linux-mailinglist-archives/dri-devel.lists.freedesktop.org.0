@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0149B28ABA9
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:09:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA9128ABAB
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 04:09:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 952EB6E20A;
-	Mon, 12 Oct 2020 02:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 628316E213;
+	Mon, 12 Oct 2020 02:09:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C20E6E20A;
- Mon, 12 Oct 2020 02:08:58 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id l18so3728837pgg.0;
- Sun, 11 Oct 2020 19:08:58 -0700 (PDT)
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECCE56E212;
+ Mon, 12 Oct 2020 02:09:00 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id w21so12125143pfc.7;
+ Sun, 11 Oct 2020 19:09:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5Oh42LDxapEVsr08xso+zIkteFrHOEURl7Ox6/NemvA=;
- b=elG/l8t0KoDrN6fA3BMNkVOrL1bj7/pqOd7/fdpGUlQ9ItbHJZuFMP4hhW3LajCayv
- Bnu3WOBPa4CwOIPWHwpmeugI87x/TUSU9jwY7eAIKEApYlmuRJme7AWxDC/+kzhvIc7/
- NgYLTCgdbnACkDr5anJmvz/CxGx/nzXkZP21sebXW+yFcN9IkgUBNc5CtsJGaTGc1vGt
- bSzB+n4z9fcbDPAaParwv+7KImAqencoISr4tRQ7MVEluGk4TCxCA9yjrKUL8fIjutZt
- OTebK4zAGuIGfGHBgCH30gK2bRgKiYKqEgzou7+oL3emr1k8oJLdKMzJuBG0SsjEdl7W
- fmKQ==
+ bh=+0Usxb0puoG06FcnRH1q78kIYCgqSaNY6zI0DBCZlYA=;
+ b=UlsauAHQIt5BqQ1Lsq8LIVoQ1zxVO6RSFFbZPeS7jiiyB5nBIUzHPNPAjgSQaw5gLQ
+ 6pbiQAgjhKlywEdwq3hJS27LmzZvJGRJE79RIG+0OlymHfepsXgVMX8ywJGROb1H9qtM
+ F/Zs09fMnlS7UJwmrdGBHPU6b2qDt0CHCn4HOhLyTHk8Z/C15xhkFu2dWw3vqGq6Zewl
+ Iw+1IXbdPC5XhX+6lKxY6/a+VmS0D7f2fkJgGbxTVCskMY+exjGR1VIElpYBXmUPQGdw
+ +2bkA5mSbIbZN9Ubha8Bbx6z8TCWDm6w2++0JGYswK7Q9/PPl8cyHWUpf4xf7kJKQfnh
+ i67A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5Oh42LDxapEVsr08xso+zIkteFrHOEURl7Ox6/NemvA=;
- b=Oq4ThY3uMbqAfC06k9+x26sJ8WcAKfmpuPKJpFjYmiV6GYQTjd8ULZIveMusG7DZyf
- K/KmwZ+KzxWjk4pC0QB1xQR9VWp4sKjW6HPiZoxCzEaicRBfAZbYeAPvo5LGWAyzK1Ra
- rFqEsMwvo4jqRQZ3XxbLcK7rhSP0h5HRr6GDqus3dy3RyIFHQB8Aq2Cl+4VpHrGIEVHu
- WWvvf5FGlof63NBhQ15YzBJwB/7gtHsmDYeqlGkfAEPcMmuNzcDviCjWqcnrYBbgVKGI
- o30aoxdIm5QxVbFytgQgPl85PBd1cFXL9BfAU0smhxaTdOcg1UXvLWPWTf5DCj00mLJm
- +NqA==
-X-Gm-Message-State: AOAM530LweYmg0GgqTb/Y+Q+3gFWyMzQyU+AplF1UEvoYcJWlgaj7OyR
- IRRD9TFk/+pE/xPebWlFnNXImcVjqmHCMSx2
-X-Google-Smtp-Source: ABdhPJzKiDq5PhzQF6iqJJoDdoW9g+G5RlA2BsKHieaUWHFe0I69EkRcWmT8hTB/F34ipSXL3QKg7g==
-X-Received: by 2002:a65:67d0:: with SMTP id b16mr2213165pgs.335.1602468537570; 
- Sun, 11 Oct 2020 19:08:57 -0700 (PDT)
+ bh=+0Usxb0puoG06FcnRH1q78kIYCgqSaNY6zI0DBCZlYA=;
+ b=AswzE7ETmutHPxzPnzkAPoqEX+twXQWjS9Gqre2JQ7Ml/pOSmMnmqPX+chBDQ1g3rD
+ dnHZWT5AbPZH8KbwLPLwWXE11tr5UgyV1QbLSFxOZ55dp/EBoC9P8v1TFnK4ovqwB24K
+ yu9v7suXth/znu5W+/RS4AmMYb0sghRNq0TcY3/rR0b7UmYGIcHZWgUxQ8ll4TXviP2O
+ oGallraVwCCXLN3sjYH+/Zu5GeSAjRwZ2FEh29mZC1hoQOTeIIJ7ltm6X0enNRGp6xWn
+ aN+v2ntEQHSqzLfsLsgqIuU/SgumQULtAHhWxfCOfYlm2t+9mnNMkLh8MTjnbRXRz/Ai
+ adZQ==
+X-Gm-Message-State: AOAM531tDaaDUJJ6IBqUL/MaLqHpriLBgj8IAdabjWOeRuXg9CYnc2Sq
+ ygjFNOMFoTsTjevaAbkrnjbUvOW7+xhFAAzp
+X-Google-Smtp-Source: ABdhPJw5vwHQ1vQzPXfCm4wrWjisKLswLu62DqfKRUaxCjJlYoGme5NhhF5MKFR7rzvTIPTKcT70vw==
+X-Received: by 2002:a17:90b:1114:: with SMTP id
+ gi20mr16851866pjb.12.1602468539940; 
+ Sun, 11 Oct 2020 19:08:59 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- p19sm17527645pfn.204.2020.10.11.19.08.56
+ j25sm17648055pfn.212.2020.10.11.19.08.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Oct 2020 19:08:56 -0700 (PDT)
+ Sun, 11 Oct 2020 19:08:59 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 05/22] drm/msm/gem: Move locking in shrinker path
-Date: Sun, 11 Oct 2020 19:09:32 -0700
-Message-Id: <20201012020958.229288-6-robdclark@gmail.com>
+Subject: [PATCH v2 06/22] drm/msm/submit: Move copy_from_user ahead of locking
+ bos
+Date: Sun, 11 Oct 2020 19:09:33 -0700
+Message-Id: <20201012020958.229288-7-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201012020958.229288-1-robdclark@gmail.com>
 References: <20201012020958.229288-1-robdclark@gmail.com>
@@ -79,208 +81,223 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Move grabbing the bo lock into shrinker, with a msm_gem_trylock() to
-skip over bo's that are already locked.  This gets rid of the nested
-lock classes.
+We cannot switch to using obj->resv for locking without first moving all
+the copy_from_user() ahead of submit_lock_objects().  Otherwise in the
+mm fault path we aquire mm->mmap_sem before obj lock, but in the submit
+path the order is reversed.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem.c          | 24 +++++----------------
- drivers/gpu/drm/msm/msm_gem.h          | 29 ++++++++++----------------
- drivers/gpu/drm/msm/msm_gem_shrinker.c | 27 +++++++++++++++++-------
- 3 files changed, 35 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.h        |   3 +
+ drivers/gpu/drm/msm/msm_gem_submit.c | 121 ++++++++++++++++-----------
+ 2 files changed, 76 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 7bca2e815933..ff8ca257bdc6 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -17,8 +17,6 @@
- #include "msm_gpu.h"
- #include "msm_mmu.h"
- 
--static void msm_gem_vunmap_locked(struct drm_gem_object *obj);
--
- 
- static dma_addr_t physaddr(struct drm_gem_object *obj)
- {
-@@ -672,20 +670,19 @@ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv)
- 	return (madv != __MSM_MADV_PURGED);
- }
- 
--void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass)
-+void msm_gem_purge(struct drm_gem_object *obj)
- {
- 	struct drm_device *dev = obj->dev;
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 
- 	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
-+	WARN_ON(!msm_gem_is_locked(obj));
- 	WARN_ON(!is_purgeable(msm_obj));
- 	WARN_ON(obj->import_attach);
- 
--	mutex_lock_nested(&msm_obj->lock, subclass);
--
- 	put_iova(obj);
- 
--	msm_gem_vunmap_locked(obj);
-+	msm_gem_vunmap(obj);
- 
- 	put_pages(obj);
- 
-@@ -703,11 +700,9 @@ void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass)
- 
- 	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping,
- 			0, (loff_t)-1);
--
--	msm_gem_unlock(obj);
- }
- 
--static void msm_gem_vunmap_locked(struct drm_gem_object *obj)
-+void msm_gem_vunmap(struct drm_gem_object *obj)
- {
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 
-@@ -720,15 +715,6 @@ static void msm_gem_vunmap_locked(struct drm_gem_object *obj)
- 	msm_obj->vaddr = NULL;
- }
- 
--void msm_gem_vunmap(struct drm_gem_object *obj, enum msm_gem_lock subclass)
--{
--	struct msm_gem_object *msm_obj = to_msm_bo(obj);
--
--	mutex_lock_nested(&msm_obj->lock, subclass);
--	msm_gem_vunmap_locked(obj);
--	msm_gem_unlock(obj);
--}
--
- /* must be called before _move_to_active().. */
- int msm_gem_sync_object(struct drm_gem_object *obj,
- 		struct msm_fence_context *fctx, bool exclusive)
-@@ -965,7 +951,7 @@ static void free_object(struct msm_gem_object *msm_obj)
- 
- 		drm_prime_gem_destroy(obj, msm_obj->sgt);
- 	} else {
--		msm_gem_vunmap_locked(obj);
-+		msm_gem_vunmap(obj);
- 		put_pages(obj);
- 	}
- 
 diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 016f616dd118..947eeaca661d 100644
+index 947eeaca661d..744889436a98 100644
 --- a/drivers/gpu/drm/msm/msm_gem.h
 +++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -160,6 +160,13 @@ msm_gem_lock(struct drm_gem_object *obj)
- 	mutex_lock(&msm_obj->lock);
+@@ -238,7 +238,10 @@ struct msm_gem_submit {
+ 		uint32_t type;
+ 		uint32_t size;  /* in dwords */
+ 		uint64_t iova;
++		uint32_t offset;/* in dwords */
+ 		uint32_t idx;   /* cmdstream buffer idx in bos[] */
++		uint32_t nr_relocs;
++		struct drm_msm_gem_submit_reloc *relocs;
+ 	} *cmd;  /* array of size nr_cmds */
+ 	struct {
+ 		uint32_t flags;
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index aa5c60a7132d..002130d826aa 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -62,11 +62,16 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 
+ void msm_gem_submit_free(struct msm_gem_submit *submit)
+ {
++	unsigned i;
++
+ 	dma_fence_put(submit->fence);
+ 	list_del(&submit->node);
+ 	put_pid(submit->pid);
+ 	msm_submitqueue_put(submit->queue);
+ 
++	for (i = 0; i < submit->nr_cmds; i++)
++		kfree(submit->cmd[i].relocs);
++
+ 	kfree(submit);
  }
  
-+static inline bool __must_check
-+msm_gem_trylock(struct drm_gem_object *obj)
+@@ -150,6 +155,60 @@ static int submit_lookup_objects(struct msm_gem_submit *submit,
+ 	return ret;
+ }
+ 
++static int submit_lookup_cmds(struct msm_gem_submit *submit,
++		struct drm_msm_gem_submit *args, struct drm_file *file)
 +{
-+	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-+	return mutex_trylock_recursive(&msm_obj->lock) == MUTEX_TRYLOCK_SUCCESS;
++	unsigned i, sz;
++	int ret = 0;
++
++	for (i = 0; i < args->nr_cmds; i++) {
++		struct drm_msm_gem_submit_cmd submit_cmd;
++		void __user *userptr =
++			u64_to_user_ptr(args->cmds + (i * sizeof(submit_cmd)));
++
++		ret = copy_from_user(&submit_cmd, userptr, sizeof(submit_cmd));
++		if (ret) {
++			ret = -EFAULT;
++			goto out;
++		}
++
++		/* validate input from userspace: */
++		switch (submit_cmd.type) {
++		case MSM_SUBMIT_CMD_BUF:
++		case MSM_SUBMIT_CMD_IB_TARGET_BUF:
++		case MSM_SUBMIT_CMD_CTX_RESTORE_BUF:
++			break;
++		default:
++			DRM_ERROR("invalid type: %08x\n", submit_cmd.type);
++			return -EINVAL;
++		}
++
++		if (submit_cmd.size % 4) {
++			DRM_ERROR("non-aligned cmdstream buffer size: %u\n",
++					submit_cmd.size);
++			ret = -EINVAL;
++			goto out;
++		}
++
++		submit->cmd[i].type = submit_cmd.type;
++		submit->cmd[i].size = submit_cmd.size / 4;
++		submit->cmd[i].offset = submit_cmd.submit_offset / 4;
++		submit->cmd[i].idx  = submit_cmd.submit_idx;
++		submit->cmd[i].nr_relocs = submit_cmd.nr_relocs;
++
++		sz = sizeof(struct drm_msm_gem_submit_reloc) * submit_cmd.nr_relocs;
++		submit->cmd[i].relocs = kmalloc(sz, GFP_KERNEL);
++		ret = copy_from_user(submit->cmd[i].relocs, userptr, sz);
++		if (ret) {
++			ret = -EFAULT;
++			goto out;
++		}
++	}
++
++out:
++	return ret;
 +}
 +
- static inline int
- msm_gem_lock_interruptible(struct drm_gem_object *obj)
+ static void submit_unlock_unpin_bo(struct msm_gem_submit *submit,
+ 		int i, bool backoff)
  {
-@@ -188,6 +195,7 @@ static inline bool is_active(struct msm_gem_object *msm_obj)
+@@ -301,7 +360,7 @@ static int submit_bo(struct msm_gem_submit *submit, uint32_t idx,
  
- static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+ /* process the reloc's and patch up the cmdstream as needed: */
+ static int submit_reloc(struct msm_gem_submit *submit, struct msm_gem_object *obj,
+-		uint32_t offset, uint32_t nr_relocs, uint64_t relocs)
++		uint32_t offset, uint32_t nr_relocs, struct drm_msm_gem_submit_reloc *relocs)
  {
-+	WARN_ON(!msm_gem_is_locked(&msm_obj->base));
- 	WARN_ON(!mutex_is_locked(&msm_obj->base.dev->struct_mutex));
- 	return (msm_obj->madv == MSM_MADV_DONTNEED) && msm_obj->sgt &&
- 			!msm_obj->base.dma_buf && !msm_obj->base.import_attach;
-@@ -195,27 +203,12 @@ static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+ 	uint32_t i, last_offset = 0;
+ 	uint32_t *ptr;
+@@ -327,18 +386,11 @@ static int submit_reloc(struct msm_gem_submit *submit, struct msm_gem_object *ob
+ 	}
  
- static inline bool is_vunmapable(struct msm_gem_object *msm_obj)
- {
-+	WARN_ON(!msm_gem_is_locked(&msm_obj->base));
- 	return (msm_obj->vmap_count == 0) && msm_obj->vaddr;
- }
+ 	for (i = 0; i < nr_relocs; i++) {
+-		struct drm_msm_gem_submit_reloc submit_reloc;
+-		void __user *userptr =
+-			u64_to_user_ptr(relocs + (i * sizeof(submit_reloc)));
++		struct drm_msm_gem_submit_reloc submit_reloc = relocs[i];
+ 		uint32_t off;
+ 		uint64_t iova;
+ 		bool valid;
  
--/* The shrinker can be triggered while we hold objA->lock, and need
-- * to grab objB->lock to purge it.  Lockdep just sees these as a single
-- * class of lock, so we use subclasses to teach it the difference.
-- *
-- * OBJ_LOCK_NORMAL is implicit (ie. normal mutex_lock() call), and
-- * OBJ_LOCK_SHRINKER is used by shrinker.
-- *
-- * It is *essential* that we never go down paths that could trigger the
-- * shrinker for a purgable object.  This is ensured by checking that
-- * msm_obj->madv == MSM_MADV_WILLNEED.
-- */
--enum msm_gem_lock {
--	OBJ_LOCK_NORMAL,
--	OBJ_LOCK_SHRINKER,
--};
+-		if (copy_from_user(&submit_reloc, userptr, sizeof(submit_reloc))) {
+-			ret = -EFAULT;
+-			goto out;
+-		}
 -
--void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass);
--void msm_gem_vunmap(struct drm_gem_object *obj, enum msm_gem_lock subclass);
-+void msm_gem_purge(struct drm_gem_object *obj);
-+void msm_gem_vunmap(struct drm_gem_object *obj);
- void msm_gem_free_work(struct work_struct *work);
+ 		if (submit_reloc.submit_offset % 4) {
+ 			DRM_ERROR("non-aligned reloc offset: %u\n",
+ 					submit_reloc.submit_offset);
+@@ -694,6 +746,10 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto out;
  
- /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
-diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-index 482576d7a39a..2dc0ffa925b4 100644
---- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-+++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-@@ -52,8 +52,11 @@ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
- 		return 0;
- 
- 	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
-+		if (!msm_gem_trylock(&msm_obj->base))
-+			continue;
- 		if (is_purgeable(msm_obj))
- 			count += msm_obj->base.size >> PAGE_SHIFT;
-+		msm_gem_unlock(&msm_obj->base);
- 	}
- 
- 	if (unlock)
-@@ -78,10 +81,13 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
- 	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
- 		if (freed >= sc->nr_to_scan)
- 			break;
-+		if (!msm_gem_trylock(&msm_obj->base))
-+			continue;
- 		if (is_purgeable(msm_obj)) {
--			msm_gem_purge(&msm_obj->base, OBJ_LOCK_SHRINKER);
-+			msm_gem_purge(&msm_obj->base);
- 			freed += msm_obj->base.size >> PAGE_SHIFT;
- 		}
-+		msm_gem_unlock(&msm_obj->base);
- 	}
- 
- 	if (unlock)
-@@ -107,15 +113,20 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
- 		return NOTIFY_DONE;
- 
- 	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
-+		if (!msm_gem_trylock(&msm_obj->base))
-+			continue;
- 		if (is_vunmapable(msm_obj)) {
--			msm_gem_vunmap(&msm_obj->base, OBJ_LOCK_SHRINKER);
--			/* since we don't know any better, lets bail after a few
--			 * and if necessary the shrinker will be invoked again.
--			 * Seems better than unmapping *everything*
--			 */
--			if (++unmapped >= 15)
--				break;
-+			msm_gem_vunmap(&msm_obj->base);
-+			unmapped++;
- 		}
-+		msm_gem_unlock(&msm_obj->base);
++	ret = submit_lookup_cmds(submit, args, file);
++	if (ret)
++		goto out;
 +
-+		/* since we don't know any better, lets bail after a few
-+		 * and if necessary the shrinker will be invoked again.
-+		 * Seems better than unmapping *everything*
-+		 */
-+		if (++unmapped >= 15)
-+			break;
- 	}
+ 	/* copy_*_user while holding a ww ticket upsets lockdep */
+ 	ww_acquire_init(&submit->ticket, &reservation_ww_class);
+ 	has_ww_ticket = true;
+@@ -710,60 +766,29 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		goto out;
  
- 	if (unlock)
+ 	for (i = 0; i < args->nr_cmds; i++) {
+-		struct drm_msm_gem_submit_cmd submit_cmd;
+-		void __user *userptr =
+-			u64_to_user_ptr(args->cmds + (i * sizeof(submit_cmd)));
+ 		struct msm_gem_object *msm_obj;
+ 		uint64_t iova;
+ 
+-		ret = copy_from_user(&submit_cmd, userptr, sizeof(submit_cmd));
+-		if (ret) {
+-			ret = -EFAULT;
+-			goto out;
+-		}
+-
+-		/* validate input from userspace: */
+-		switch (submit_cmd.type) {
+-		case MSM_SUBMIT_CMD_BUF:
+-		case MSM_SUBMIT_CMD_IB_TARGET_BUF:
+-		case MSM_SUBMIT_CMD_CTX_RESTORE_BUF:
+-			break;
+-		default:
+-			DRM_ERROR("invalid type: %08x\n", submit_cmd.type);
+-			ret = -EINVAL;
+-			goto out;
+-		}
+-
+-		ret = submit_bo(submit, submit_cmd.submit_idx,
++		ret = submit_bo(submit, submit->cmd[i].idx,
+ 				&msm_obj, &iova, NULL);
+ 		if (ret)
+ 			goto out;
+ 
+-		if (submit_cmd.size % 4) {
+-			DRM_ERROR("non-aligned cmdstream buffer size: %u\n",
+-					submit_cmd.size);
++		if (!submit->cmd[i].size ||
++			((submit->cmd[i].size + submit->cmd[i].offset) >
++				msm_obj->base.size / 4)) {
++			DRM_ERROR("invalid cmdstream size: %u\n", submit->cmd[i].size * 4);
+ 			ret = -EINVAL;
+ 			goto out;
+ 		}
+ 
+-		if (!submit_cmd.size ||
+-			((submit_cmd.size + submit_cmd.submit_offset) >
+-				msm_obj->base.size)) {
+-			DRM_ERROR("invalid cmdstream size: %u\n", submit_cmd.size);
+-			ret = -EINVAL;
+-			goto out;
+-		}
+-
+-		submit->cmd[i].type = submit_cmd.type;
+-		submit->cmd[i].size = submit_cmd.size / 4;
+-		submit->cmd[i].iova = iova + submit_cmd.submit_offset;
+-		submit->cmd[i].idx  = submit_cmd.submit_idx;
++		submit->cmd[i].iova = iova + (submit->cmd[i].offset * 4);
+ 
+ 		if (submit->valid)
+ 			continue;
+ 
+-		ret = submit_reloc(submit, msm_obj, submit_cmd.submit_offset,
+-				submit_cmd.nr_relocs, submit_cmd.relocs);
++		ret = submit_reloc(submit, msm_obj, submit->cmd[i].offset * 4,
++				submit->cmd[i].nr_relocs, submit->cmd[i].relocs);
+ 		if (ret)
+ 			goto out;
+ 	}
 -- 
 2.26.2
 
