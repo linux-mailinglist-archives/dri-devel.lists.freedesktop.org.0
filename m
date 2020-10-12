@@ -2,115 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E13D28B494
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 14:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19ED28B4C2
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 14:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5361D6E436;
-	Mon, 12 Oct 2020 12:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA70A6E05F;
+	Mon, 12 Oct 2020 12:41:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC9ED6E436
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 12:25:44 +0000 (UTC)
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20201012122542epoutp0416d6c871680641b223054af08426c9ed~9Pkzps-KT1309513095epoutp04Z
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 12:25:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20201012122542epoutp0416d6c871680641b223054af08426c9ed~9Pkzps-KT1309513095epoutp04Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1602505542;
- bh=L11dY+TbnuLdkp3zTMtz5IJV/+Tv+vt9CaJFX1fcQjU=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=XJOW/NlQABo4OdFKtbTh4mZw1eBO5igr+UVLIhcumr6wgg7Bm0SyIBYH05YBeOHfq
- km0tWpkBjQqDIMarF4H6+Vq6SnDEBITyzzbjahRlH0FYr0r3YiT0pilMNQsXVg4Q+O
- oSUWMXZYy/xUIs0ZtfhqsID9IAr0M4zLLENwaSAk=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20201012122541epcas1p244786d3f61f54863c46f267656cb9f79~9PkyyyF-d0803808038epcas1p2N;
- Mon, 12 Oct 2020 12:25:41 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.40.152]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4C8yZB43gZzMqYlr; Mon, 12 Oct
- 2020 12:25:38 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
- epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
- 1E.7B.09577.24B448F5; Mon, 12 Oct 2020 21:25:38 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20201012122538epcas1p3d2174aaaa388d78a53b20a614dd3f932~9PkvgCAcu2812428124epcas1p34;
- Mon, 12 Oct 2020 12:25:38 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20201012122537epsmtrp277cb61a4137809143b9bffe9d9a23ecd~9Pkve9ifD0659706597epsmtrp2Y;
- Mon, 12 Oct 2020 12:25:37 +0000 (GMT)
-X-AuditID: b6c32a39-bfdff70000002569-60-5f844b424871
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 66.24.08745.14B448F5; Mon, 12 Oct 2020 21:25:37 +0900 (KST)
-Received: from [10.113.111.64] (unknown [10.113.111.64]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20201012122537epsmtip27c7f754c524cad4824b1c18c5ecfadc5~9Pku-OY8a1078310783epsmtip2h;
- Mon, 12 Oct 2020 12:25:37 +0000 (GMT)
-Subject: Re: [PATCH 1/4] drm/vc4: kms: Split the HVS muxing check in a
- separate function
-To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Eric Anholt <eric@anholt.net>
-From: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-Message-ID: <7dd0013d-b78b-7338-968f-0c42264bb940@samsung.com>
-Date: Mon, 12 Oct 2020 21:25:05 +0900
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3FA06E05F
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 12:41:01 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id h7so19043188wre.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 05:41:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:autocrypt:organization:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7qsjzm1PdrVyQaK0HRDkkd9q7lA4iohvL00P5MRKnSg=;
+ b=uw6GGdA7EbUxqQtWmpmHkmdo77bsX4OqN6QUSs2//li3EjU/9ZsxaGKitxccKEsP4T
+ VMYSHBh+BjSQf3sXB8nk1jgres5ZASOJ5DbG3WXKzTbtWeRVtT3LmTqvAZ/ni+hESWgu
+ 2VDZWodGOG3BKCUy0q0kmXKV0bHr493duCZORp7pjS9AgU/STo8h5n6YhbbeyPGqi0EB
+ B5ApajJgKhlVr+CIiXOsTrRXlBhtn5E4j4r0GzWHe43heVI3suFC4iMucd1QEy+I0sCy
+ rNDCrR4XS/IWTeIRVB1TWtJFcbKkaSqJgFFFRwCaw1tFTevcJUmVqjhuEZQ+GNt7NxBA
+ wJCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=7qsjzm1PdrVyQaK0HRDkkd9q7lA4iohvL00P5MRKnSg=;
+ b=mmBPdfWxkyeT0wlMJZqb5+Fqt6rwbe1R9a4mVVqFdHO4IHCBL0Kt5KjnywDAwUjLlw
+ 65ShfyrzXa0aHQbXL8Z1Bvhu9rCNoNV+DIckJCXDGQKsl1esbgTEj9y6XFNrGCtkq/CU
+ p/ZNHIBM92Hj3hQoCKiJWipILuKTaLHYNnc8ZrEj99nCvbKzm/XyWOKd9sp8MSkPQ0c1
+ XaavTZs3AHgmz06/5rAuyaewfR8TCQjnNdOeb0rptCPa8zK8fXHj4hIhJREodLDvsnd4
+ xuMD//DnBrhuuvwQD1VB4ZL8LRZhcnqLQBlHapT0hPfDpHqx+OzcpzXQbsQGT+JpUUAy
+ y0Tg==
+X-Gm-Message-State: AOAM533In+O0ejgXw5FHDLa05cSZ6jI4FGb9KBxz6ChCLvjhLsvPhzoG
+ A+OD82RpBt+hpEWy/D+3QpK+bg==
+X-Google-Smtp-Source: ABdhPJw8zznPI1POKalReA7H9TEOdIiPdBz/JlPw5d2G4s7qpRna4FmrbgfQQzN1tK1GfnfN8sbARQ==
+X-Received: by 2002:a5d:554b:: with SMTP id g11mr29948016wrw.370.1602506460417; 
+ Mon, 12 Oct 2020 05:41:00 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:35de:80a8:f551:6aa3?
+ ([2a01:e35:2ec0:82b0:35de:80a8:f551:6aa3])
+ by smtp.gmail.com with ESMTPSA id a81sm25763847wmf.32.2020.10.12.05.40.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Oct 2020 05:40:59 -0700 (PDT)
+Subject: Re: [PATCH 3/3] drm/vkms: fbdev emulation support
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20201009232156.3916879-1-daniel.vetter@ffwll.ch>
+ <20201009232156.3916879-3-daniel.vetter@ffwll.ch>
+ <20201012132452.1241297a@linux-uq9g>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <9ad2c6dd-9f3e-8b88-e013-dcb0e1fd8005@baylibre.com>
+Date: Mon, 12 Oct 2020 14:40:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201008112519.43691-1-maxime@cerno.tech>
+In-Reply-To: <20201012132452.1241297a@linux-uq9g>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0xTVxTHc997fS0g+ATRO+IEamaHWqBi5aGWGcHtTZzhR5ZlRNd19A1I
- f66vRcRkQwTi+DFXBRlFwCEEIaAMOigEJr/kx2AwhoFQYWzIpggIE1G3RV3Lw4z/Pvec77nf
- c+7N4aGuqVwPXrxaT+vUMiUfd8TqO3x8hYfCUqX+XW2QzB7oRcjq7FsYWd5/HSXnC69iZHHn
- AIe8vbyAk61nhgGZP/cSJxfKM3Cy9u4IhzTeqeGS3/71PUaWjQ4h5DfPXgDyunUWJ9NaOrmk
- pagNkFO5k4A0zxk5B92olIUunKoqqgKUafInnBofGMSpRtMEl7raPINQtZVf4lTDk984VFFv
- BDWZ2Y1QdaVfUGm3/sGor8yVgKrrO00t1W4NXx+tOBBHy+S0zotWx2jk8epYCT8sShoiFe/1
- FwlFQWQg30stU9ESfujRcOHb8UrbxHyvBJnSYAuFyxiG7xd8QKcx6GmvOA2jl/BprVypDdL6
- MjIVY1DH+sZoVPtE/v67xTbhx4q4npoJRDvikjhXcZGTDEacMoADDxJ74KXWa4idXQkLgGXn
- w1l+BOCVPCwDONp4CcCumkzwqiA9vwSwiSYA7+cacfYwD2BL+ROuXeVGRMPxH6xce2IjMY3A
- 0rtLKyUokYPC2kIzblfhhBAuZ42umDsTwXDG2oTaGSPegD3LcyvsTnwIG/+Y4bKaDbA3fxqz
- swMRCGebi1Z6QglP2DB/GWV5M7ROFyN2M0jccIDNWc9WGw+Fj1+0cVl2gw+6zavsAZcetuAs
- M/B2/gOMLU4G8LyxYFUUAG+WXbTdyrM5+MAbTX5s2Bs2/lu42oQLfLicxbFLIOEMz6W7spLt
- 8M/kVg7LW+CP2eUIyxQ0P03DvwbepjWjmdaMY1ozjul/4ysAqwSbaC2jiqUZkVa89rtrwco6
- 7AiygLz5Rd92gPBAO4A8lL/ReUCQInV1lstOJdE6jVRnUNJMOxDbHtuIerjHaGz7pNZLReLd
- AQEB5B7RXrFIxN/s/LvVS+pKxMr0tIKmtbTuVR3Cc/BIRgSWnupzY3GbptS5Pto7CS7yqLZd
- gpP3JZeKp9rqjg5H5n20bSTSPJj0psd+Q+onJ3WNgUENAkMotf1C1AaZjydHP77wqwp5P4d0
- HC4YjJB4d9SXnI6cm3Wq4CQMb/U3lq0zHh5S5D1v6fulfiSnQ77F7b3Ea4d585yCSPOZQIvf
- YknMVEWfKXC/MiVEVfpdIyds58+LaHpVtujp2KP17gUR0hPrhniTFknWZcH0zaToHoXVqZ/6
- 9O88S/zje+9g+7qOfVCGnlW+K/CsfmusWcI9fsg4dWI8cWZil/Dz6OM67DPhtul+6+sXYg8y
- r40SUc/r7rl1v0RPHQnZmXm289iRhGA+xsTJRDtQHSP7D/utTB2XBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf0yMcRzH932e5557unY87tC3sqzDbDdO+VFfRmTM48dGxlBWbjzKXLnd
- I6SNnPw6HSLWPepSIg6N67hwot9dOEOu6YdLZa1VTiyzZsVTbP33+uz9fn0+/3woXNZBBFB7
- kvazuiS1RkFKiEeViqmzI9emx4XYhkKR0eXE0D1jNYGKXhXjqC/3OoHyqlwi1DDgJdGLY+8B
- MvUOk8hbZCCRtcMtQpnN98Uov/8hgW40vsVQ9q8hgIqbekh04lmVGJWaywFqv+wByNabKVom
- Z/TeGpK5a74LGN7zmmRaXG9I5jHfKmauO7oxxmo5QzL2n20ixuyMYjxnazGmpPAoc6J6kGDO
- 2SyAKXmZyvywBm0YHy1ZvIvV7DnA6uZE7JAk1N1vxbTucYd6b18SpQG3rwH4UJCeD0+aCoAB
- SCgZXQpgtlkYhGAKtJy3iQyA+styWFnJjXZ6ABz6OiwWOnI6GraUNYmFYCLdiUHe1UkKA05f
- wWF1eT02qhgAfN1RPLKWpGfDgYxGTGApHQG7m57gAhP0DFg30IsL5ybR2+Dj0oWjlQnQaeok
- BPahw2GPwzyyBqfDoLnkMz7KU6G9L+cf+8GmzjzsApDxY3R+jMKPUfgxyjVAWIA/q+US4xO5
- UO3cJPagilMncslJ8aqd+xKtYOQPlMpS4LB8U1UAjAIVAFK4YqLUNVMfJ5PuUqccZnX74nTJ
- GparAIEUofCTDvD5sTI6Xr2f3cuyWlb3P8Uon4A0bNpFTar8ifGTf1b/7uzp0i3fjefk9geZ
- ypDQ9Er5zWDXcOa6Z9YXUUfTfmZczfCzEKvL2g4HTX4aXvTUE+3d+qarIWt3grGkq53u1233
- bg4+f21ru/+gN9JwhC9AWN5KG+ncGPXF6Fj/NpzYdKrlVDuK8ZsX7L9wsNAeo9emfYlZ0pPT
- HPk1ROX8aFmyyL5GebYt993QSverPrDK5Ci/E6beHtFflmKbr7mz7cKl8GXOY3Pmbby4NHDV
- XNGD5m9VqctVM+pD4naGKSS3Yo/HYM8X5wY2nHan61ccMdW2evSOqgW/Y6X1dRtyxtXXiGZy
- H7DCWT8k0yZpfJNPh3X0BeXSCoJLUIcqcR2n/gNUPFHldgMAAA==
-X-CMS-MailID: 20201012122538epcas1p3d2174aaaa388d78a53b20a614dd3f932
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20201008112530epcas1p30d837c7b03283651c988a2177558e376
-References: <CGME20201008112530epcas1p30d837c7b03283651c988a2177558e376@epcas1p3.samsung.com>
- <20201008112519.43691-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,79 +125,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- =?UTF-8?B?64KY7ISx6rWt?= <sungguk.na@samsung.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Cc: Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi,
 
-On 10/8/20 8:25 PM, Maxime Ripard wrote:
-> The code that assigns HVS channels during atomic_check is starting to grow
-> a bit big, let's move it into a separate function.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On 12/10/2020 13:24, Thomas Zimmermann wrote:
+> Hi
+> 
+> On Sat, 10 Oct 2020 01:21:56 +0200 Daniel Vetter <daniel.vetter@ffwll.ch>
+> wrote:
+> 
+>> Hooray for generic fbdev support, making this a oneliner. We just
+>> needed to fix preferred_depth fixed and the vmap support added first.
+>>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+>> Cc: Melissa Wen <melissa.srw@gmail.com>
+>> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> ---
+>>  drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+>> index 6221e5040264..cc09e2df5cb1 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+>> @@ -169,6 +169,8 @@ static int __init vkms_init(void)
+>>  	if (ret)
+>>  		goto out_devres;
+>>  
+>> +	drm_fbdev_generic_setup(&vkms_device->drm, 0);
+>> +
+> 
+> It feels strange to have console support in a driver for non-interactive
+> systems. But OK, why not. I guess it helps with testing?
 
-Thanks for this patch set, I checked all patches well works.
+It's weird because it the kernel is misconfigured and no console is specified on the cmdline
+this console could become the main console...
 
-All patches:
+It's a great feature, but couldn't this be a module parameter ?
 
-Reviewed-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Neil
 
-Best regards,
-Hoegeun
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> Best regards
+> Thomas
+> 
+>>  	return 0;
+>>  
+>>  out_devres:
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 
-> ---
->   drivers/gpu/drm/vc4/vc4_kms.c | 18 +++++++++++++++---
->   1 file changed, 15 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> index 149825ff5df8..846fe8b3cb7a 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -612,13 +612,13 @@ static const struct drm_private_state_funcs vc4_load_tracker_state_funcs = {
->   #define NUM_OUTPUTS  6
->   #define NUM_CHANNELS 3
->   
-> -static int
-> -vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
-> +static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
-> +				      struct drm_atomic_state *state)
->   {
->   	unsigned long unassigned_channels = GENMASK(NUM_CHANNELS - 1, 0);
->   	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
->   	struct drm_crtc *crtc;
-> -	int i, ret;
-> +	unsigned int i;
->   
->   	/*
->   	 * Since the HVS FIFOs are shared across all the pixelvalves and
-> @@ -691,6 +691,18 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
->   		}
->   	}
->   
-> +	return 0;
-> +}
-> +
-> +static int
-> +vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
-> +{
-> +	int ret;
-> +
-> +	ret = vc4_pv_muxing_atomic_check(dev, state);
-> +	if (ret)
-> +		return ret;
-> +
->   	ret = vc4_ctm_atomic_check(dev, state);
->   	if (ret < 0)
->   		return ret;
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
