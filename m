@@ -1,45 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409B228C91D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 09:17:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A1528BF22
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 19:40:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE5E6E8A3;
-	Tue, 13 Oct 2020 07:17:05 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A726E563
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 17:18:32 +0000 (UTC)
-IronPort-SDR: iJbVGHn69kOgpnYLHFsGZb8IPGXzTOD+bE7lfL4CsuIr1L7LQdw0ICBOt/jB8nIitsJtvBQinO
- +//2yClBpapw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="183239350"
-X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; d="scan'208";a="183239350"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2020 10:18:30 -0700
-IronPort-SDR: lsFj37p4SAL7n7qYiHHHh0pA/ZSrgBZK1bE7Yc6P7IrI/T6H3qG/TMDBZ9kaIEzfZ+GDUR+QAH
- pzsXbRRHTj/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; d="scan'208";a="355862760"
-Received: from black.fi.intel.com ([10.237.72.28])
- by FMSMGA003.fm.intel.com with ESMTP; 12 Oct 2020 10:18:28 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 3E494163; Mon, 12 Oct 2020 20:18:26 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: David Stevens <stevensd@chromium.org>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, "Michael S . Tsirkin" <mst@redhat.com>,
- virtualization@lists.linux-foundation.org
-Subject: [PATCH v1] drm/virtio: Use UUID API for importing the UUID
-Date: Mon, 12 Oct 2020 20:18:26 +0300
-Message-Id: <20201012171826.76509-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.28.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id B14CD6E0D8;
+	Mon, 12 Oct 2020 17:40:39 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A67CB6E0E7
+ for <dri-devel@freedesktop.org>; Mon, 12 Oct 2020 17:40:38 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id l18so5921407pgg.0
+ for <dri-devel@freedesktop.org>; Mon, 12 Oct 2020 10:40:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=KPCBQGJFn0SxOT5QAxB8SIDlgbbUMf897x10D8eAgl4=;
+ b=FvsoGzfEMAk7KCFRI3bHDorDFAvOk6IoDRmR44X64G369voHZ2IeqDSdfjZildjfP0
+ RZZWKR2sJelEXoAwAsaPQaX6yTj4panBgXDHYIZbKV3H/3GIY/RypYvGctGRov0L0ehN
+ BNuf+At3a39634/FaSGSTwgyMcM0EF42V5ZMc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=KPCBQGJFn0SxOT5QAxB8SIDlgbbUMf897x10D8eAgl4=;
+ b=PV9lIRoPgzOpqrXJV7SH2GcCektvA1RAoRjNbZEVDyVYAwl4Ivo6XWLEC0gvE38M0G
+ 7IAADd6G/HMNCtjUoj3KMwSqxMojlsA76/yOYEW+U8UoTDgneE7extO+hiQ/viu+3lZN
+ Ejy0mb07zqUeEwxHTJvKtw1GIOaEr1hXex1FfUgc6Ww0y4dl0QnyDp5O+Fw5a50zAMR9
+ oHBllWAyQ6uUIAwKsuMPwsGyVd+z/UZDGMnkbroZGARpmF1y8vBWS6NbCdYl/wzdbpBM
+ 62k6y1RS4AimC51cnbVYJGS1AXg4+9P20dPbpOLEb+Er+AX9nODToJSfIqyiNLH2Bz7x
+ GQNw==
+X-Gm-Message-State: AOAM531XkOwoPVN38gKJIjqUfJKk7bRYIE4URXZ3rOUKFGwuFl6hgbKy
+ kHBjceV3NQyNpWYiAbqPopdUQA==
+X-Google-Smtp-Source: ABdhPJx4n2kFy/ocJYOXijLTETMFaYerFoXQf6WoDsch6QEnFEuDBxSgbzWWb9ZwlRnPsbgGotlw/A==
+X-Received: by 2002:a17:90a:5881:: with SMTP id
+ j1mr11925578pji.56.1602524438208; 
+ Mon, 12 Oct 2020 10:40:38 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
+ by smtp.gmail.com with ESMTPSA id w74sm6240640pff.200.2020.10.12.10.40.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Oct 2020 10:40:37 -0700 (PDT)
+Date: Mon, 12 Oct 2020 10:40:35 -0700
+From: mka@chromium.org
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [2/2] drm/msm: Add support for GPU cooling
+Message-ID: <20201012174035.GA44627@google.com>
+References: <1602176947-17385-2-git-send-email-akhilpo@codeaurora.org>
+ <20201009183640.GB1292413@google.com>
+ <cab2105e-7a8c-988f-dcc1-056692a94e8b@codeaurora.org>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 13 Oct 2020 07:16:53 +0000
+Content-Disposition: inline
+In-Reply-To: <cab2105e-7a8c-988f-dcc1-056692a94e8b@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,38 +66,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@freedesktop.org, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is import_uuid() function which imports u8 array to the uuid_t.
-Use it instead of open coding variant.
+On Mon, Oct 12, 2020 at 07:03:51PM +0530, Akhil P Oommen wrote:
+> On 10/10/2020 12:06 AM, mka@chromium.org wrote:
+> > Hi Akhil,
+> > 
+> > On Thu, Oct 08, 2020 at 10:39:07PM +0530, Akhil P Oommen wrote:
+> > > Register GPU as a devfreq cooling device so that it can be passively
+> > > cooled by the thermal framework.
+> > > 
+> > > Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> > > ---
+> > >   drivers/gpu/drm/msm/msm_gpu.c | 13 ++++++++++++-
+> > >   drivers/gpu/drm/msm/msm_gpu.h |  2 ++
+> > >   2 files changed, 14 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> > > index 55d1648..93ffd66 100644
+> > > --- a/drivers/gpu/drm/msm/msm_gpu.c
+> > > +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> > > @@ -14,6 +14,7 @@
+> > >   #include <generated/utsrelease.h>
+> > >   #include <linux/string_helpers.h>
+> > >   #include <linux/devfreq.h>
+> > > +#include <linux/devfreq_cooling.h>
+> > >   #include <linux/devcoredump.h>
+> > >   #include <linux/sched/task.h>
+> > > @@ -107,9 +108,18 @@ static void msm_devfreq_init(struct msm_gpu *gpu)
+> > >   	if (IS_ERR(gpu->devfreq.devfreq)) {
+> > >   		DRM_DEV_ERROR(&gpu->pdev->dev, "Couldn't initialize GPU devfreq\n");
+> > >   		gpu->devfreq.devfreq = NULL;
+> > > +		return;
+> > >   	}
+> > >   	devfreq_suspend_device(gpu->devfreq.devfreq);
+> > > +
+> > > +	gpu->cooling = of_devfreq_cooling_register(gpu->pdev->dev.of_node,
+> > > +			gpu->devfreq.devfreq);
+> > > +	if (IS_ERR(gpu->cooling)) {
+> > > +		DRM_DEV_ERROR(&gpu->pdev->dev,
+> > > +				"Couldn't register GPU cooling device\n");
+> > > +		gpu->cooling = NULL;
+> > > +	}
+> > >   }
+> > >   static int enable_pwrrail(struct msm_gpu *gpu)
+> > > @@ -926,7 +936,6 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+> > >   	msm_devfreq_init(gpu);
+> > > -
+> > >   	gpu->aspace = gpu->funcs->create_address_space(gpu, pdev);
+> > >   	if (gpu->aspace == NULL)
+> > > @@ -1005,4 +1014,6 @@ void msm_gpu_cleanup(struct msm_gpu *gpu)
+> > >   		gpu->aspace->mmu->funcs->detach(gpu->aspace->mmu);
+> > >   		msm_gem_address_space_put(gpu->aspace);
+> > >   	}
+> > > +
+> > > +	devfreq_cooling_unregister(gpu->cooling);
+> > 
+> > Resources should be released in reverse order, otherwise the cooling device
+> > could use resources that have already been freed.
+> > Why do you think this is not the correct order? If you are thinking
+> about devfreq struct, it is managed device resource.
 
-This allows to hide the uuid_t internals.
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/gpu/drm/virtio/virtgpu_vq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 07945ca238e2..8944cc0bf8eb 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -1129,7 +1129,7 @@ static void virtio_gpu_cmd_resource_uuid_cb(struct virtio_gpu_device *vgdev,
- 
- 	if (resp_type == VIRTIO_GPU_RESP_OK_RESOURCE_UUID &&
- 	    obj->uuid_state == UUID_INITIALIZING) {
--		memcpy(&obj->uuid.b, resp->uuid, sizeof(obj->uuid.b));
-+		import_uuid(&obj->uuid, resp->uuid);
- 		obj->uuid_state = UUID_INITIALIZED;
- 	} else {
- 		obj->uuid_state = UUID_INITIALIZATION_FAILED;
--- 
-2.28.0
-
+I did not check specifically if changing the frequency really uses any of the
+resources that are released previously, In any case it's not a good idea to
+allow other parts of the kernel to use a half initialized/torn down device.
+Even if it isn't a problem today someone could change the driver to use any
+of these resources (or add a new one) in a frequency change, without even
+thinking about the cooling device, just (rightfully) asuming that things are
+set up and torn down in a sane order.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
