@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DF428B818
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 15:49:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5412A28B8C1
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 15:55:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09D26E45E;
-	Mon, 12 Oct 2020 13:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24CEB6E102;
+	Mon, 12 Oct 2020 13:55:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1770D6E45E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 13:49:19 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id t15so15927416otk.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 06:49:19 -0700 (PDT)
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com
+ [IPv6:2607:f8b0:4864:20::c44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BEE46E102
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 13:55:18 +0000 (UTC)
+Received: by mail-oo1-xc44.google.com with SMTP id o184so473682ooo.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 06:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8X09Z4RduZw54E7UULyfcMVsq59sUX38yzJavXEvAuQ=;
- b=OxcKeNhvQoR0L8nxbCn1cXzOLqpqQBDfywbnUKwin8fP1jeNNo8TXGjdlV3i/RFefc
- kiDn5u8kWGFx2VxB985ageHcqSHKlzq4zLw3IXCA9ks8vIzNebZc3IQZx/DZrDgmJSXd
- NsUKEksWwYQT7XMaHoiEwCdO/DkttVP0ejuaI=
+ :cc; bh=m4XvQFKNEkt211Ddxr8h8Ob2c6lT1Af7mIzouIsn+tc=;
+ b=BjbgXQCqdibxCfuJG/fI5cLmEeuYSW4cX3/7pruaGDdoLksnm6hZ3NvQ11nzRoJoSK
+ WcquupXTXrJD8xiFOfYsaHqBQP0iwfLSrJqEEXsqQqa1WAexjOYPn/L8GEanf+jXjF4T
+ a92ZliDJbbHuu0NAn4xrAUDrSSqVuSgN7zFo0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8X09Z4RduZw54E7UULyfcMVsq59sUX38yzJavXEvAuQ=;
- b=PozUWM3XJgptMJUWtSYlrXnbPxAX546saFqPNUoj8XO0Mc8CfRKR6d/4JDTjFY3ANb
- HmT/0/wtibE+uxTrQwGUrV4wAt7lsFaladKpsBX0YCggOLx36JtkM6YrZs0zIz8WRu3J
- efS0+gonGdX3qep9D0zstYbeqBFsvguodf5jDep+qiM7FGV/ADF46qmYaah6eCBhGyIq
- MRORl6nSZtZdkhW1bjSO24dMP7GqjijTVNe1vVbaOG4acqU9iNtmWLVGg9XqISgQOL+z
- HwNbHe40ZsL987UIA/C2s881KClfIISt4B82rX1Zw/orjJCyoaKoKY3UdZz/M6C/R/MA
- UUqQ==
-X-Gm-Message-State: AOAM531ygJokVfcqZA0ptuMos36xb9aMewNOFVxV0ZprNeHEhb6gIJGM
- gxRcsP2b05SPB31RePL5zYSCFF0xYrdcmO/1iAAhEA==
-X-Google-Smtp-Source: ABdhPJx2SbzoAtarumY1qTqnmUTVH9IgcM13EmZUSL9fGwCe3viWjRc3PXrzmY6z+PXG92wLIZXLR8i7oO5kJrgMePc=
-X-Received: by 2002:a05:6830:8b:: with SMTP id
- a11mr7008058oto.303.1602510558346; 
- Mon, 12 Oct 2020 06:49:18 -0700 (PDT)
+ bh=m4XvQFKNEkt211Ddxr8h8Ob2c6lT1Af7mIzouIsn+tc=;
+ b=KpBtqND8Y4Y2kdxtbBGp6xbvYjVLhrC+e6gf0Jqe1wCm+/5t8vGldSgh9+B0pvwN/S
+ 2XYtimgy4IZpYNr8oB09FGwNPIWi4QSYbaO9m8R2MWOhWXj2ifhbVK75XaPlEBGA7It+
+ DT5GJ+YY7y71ktmMy/7tdnX8yjbTCUrBYFRAm085x9SFpKfVSv1nPkfFt2V4KRhMe9fy
+ F0RanAASzLxNsI52czfXrxjAfdo9t2GxkrR4bUB5jtxOEXK+k4tvzmrTVXb7uxks3hbp
+ DGIFz8Ikb0YgMvwpkVx6s/dEuqCZOT/HklqhG/GRspRcoZ1lQPQJdBUilRE9UvGkdRHt
+ piYg==
+X-Gm-Message-State: AOAM532/2u1oaOFA+1rUD8Ez3sH+KDjHKlsExBOQdm3lOhsIYesYU/n5
+ 8RS+TfTBrjBzgGfeWAqhSmYmFM/+bZW40LLj6gc7gEL/VoXu6g==
+X-Google-Smtp-Source: ABdhPJzInRvPcsIcigexkBlG16TdFhi6B6+mJolGDf9v28qaXFyXkcxzdHhPl0n81LXhpZRiJAWCDNgEbJXup/MAjWU=
+X-Received: by 2002:a4a:c011:: with SMTP id v17mr18463716oop.89.1602510917966; 
+ Mon, 12 Oct 2020 06:55:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
- <20201009123421.67a80d72@coco.lan>
- <20201009122111.GN5177@ziepe.ca> <20201009143723.45609bfb@coco.lan>
- <CGME20201009124900eucas1p26c93caa29c9925f1eef9be9ff7c6c65c@eucas1p2.samsung.com>
- <20201009124850.GP5177@ziepe.ca>
- <ed68968b-27bc-d776-8da8-ef21d6b3c378@samsung.com>
-In-Reply-To: <ed68968b-27bc-d776-8da8-ef21d6b3c378@samsung.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 12 Oct 2020 15:49:07 +0200
-Message-ID: <CAKMK7uGLOubJrr9A=usxkoVx+nXDW3bxhykfeU-TYXTUZyBoeQ@mail.gmail.com>
-Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+References: <20201009102132.22770-1-chris@chris-wilson.co.uk>
+ <CAKMK7uG51_t9988vTen2rK+gbwwjN0tLphpVhMd2nbsFTNi+GQ@mail.gmail.com>
+ <160249974352.30484.764236348954464063@build.alporthouse.com>
+In-Reply-To: <160249974352.30484.764236348954464063@build.alporthouse.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 12 Oct 2020 15:55:07 +0200
+Message-ID: <CAKMK7uForN39MQ-1EsD5-TNfHG4=jXSMPR70T6QY0BhMQGVrRw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/vgem: Replace vgem_object_funcs with the
+ common drm shmem helper
+To: Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,52 +60,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390 <linux-s390@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
- Linux MM <linux-mm@kvack.org>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 12, 2020 at 12:47 PM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> Hi Jason,
->
-> On 09.10.2020 14:48, Jason Gunthorpe wrote:
-> > On Fri, Oct 09, 2020 at 02:37:23PM +0200, Mauro Carvalho Chehab wrote:
+On Mon, Oct 12, 2020 at 12:49 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> Quoting Daniel Vetter (2020-10-09 17:16:06)
+> > On Fri, Oct 9, 2020 at 12:21 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> > >
+> > > vgem is a minimalistic driver that provides shmemfs objects to
+> > > userspace that may then be used as an in-memory surface and transported
+> > > across dma-buf to other drivers. Since it's introduction,
+> > > drm_gem_shmem_helper now provides the same shmemfs facilities and so we
+> > > can trim vgem to wrap the helper.
+> > >
+> > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > ---
+> > >  drivers/gpu/drm/Kconfig         |   1 +
+> > >  drivers/gpu/drm/vgem/vgem_drv.c | 281 ++------------------------------
+> > >  drivers/gpu/drm/vgem/vgem_drv.h |  11 --
+> > >  3 files changed, 13 insertions(+), 280 deletions(-)
 > >
-> >> I'm not a mm/ expert, but, from what I understood from Daniel's patch
-> >> description is that this is unsafe *only if*  __GFP_MOVABLE is used.
-> > No, it is unconditionally unsafe. The CMA movable mappings are
-> > specific VMAs that will have bad issues here, but there are other
-> > types too.
+> > Nice diffstat :-)
+> >
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 >
-> I'm trying to follow this thread, but I really wonder what do you mean
-> by CMA movable mappings? If a buffer has been allocated from CMA and
-> used for DMA, it won't be moved in the memory. It will stay at the same
-> physical memory address all the time until freed by the owner. It just a
-> matter of proper usage count tracking to delay freeing if it is still
-> used somewhere.
+> Unfortunately I had to drop the drm_gem_prime_mmap() since the existing
+> expectation is that we hand the faulthandler off to shmemfs so we can
+> release the module while the memory is exported.
 
- Yup. The problem is that this usage count tracking doesn't exist. And
-drivers could at least in theory treat CMA like vram and swap buffers
-in&out of it, so just refcounting the userspace vma isn't enough. In
-practice, right now, it might be enough for CMA drivers though (but
-there's more that's possible here).
+That sounds like a broken igt. Once we have refcounting for
+outstanding dma_fence/buf or anything else we'll block unloading of
+the module (not unbinding of the driver). Which one is that?
+
+> The other issue happens
+> to be for arch/x86 where just setting PAT=WC on the PTE does not flush
+> the cache for that page, and the CPU will preferentially use the cache.
+> That has caught us out more than once.
+
+Ah, the old disappointment around wc and dma-api on x86 I guess :-/
 -Daniel
 -- 
 Daniel Vetter
