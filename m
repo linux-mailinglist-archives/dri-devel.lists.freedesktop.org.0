@@ -1,51 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A1B28AD21
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 06:39:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C75328AD40
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 06:48:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7D36E413;
-	Mon, 12 Oct 2020 04:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1B3C6E41B;
+	Mon, 12 Oct 2020 04:48:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF5C6E413
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 04:39:09 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id i22so396495qkn.9
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Oct 2020 21:39:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tpWfSYwTmxBzkXDi9ht7uL8LFxGO5JzEbAJnVgaiE+c=;
- b=nU7uQ0hR6wJjdWA+ED+sikls3Urhi/cl8eNleJbNfjGbqwKo7zCEkywRHTc7K3jBkz
- Hyf3gr+6FCDB2hatcKdnG8zwLPgj2qv/GT72VXlOzM35Lbr2YkQQYN3K0NBCOyAkn2CU
- vAGPm7dFAe5q1Nykt7UDg+llyzoNG3DVtOVFg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tpWfSYwTmxBzkXDi9ht7uL8LFxGO5JzEbAJnVgaiE+c=;
- b=bPEedTK7fcwdw3M8T4OM7POJF0yRTtUk5c2Vmd9h7Ps8Pbh+1vSjrW6jslmU2gzCJv
- xHux93BrOe6FNmmwQNQavCaAVyRs3gaj+uQX5Fxex0aE1uclRL0c9/S7CUIbeD8Uu1GI
- vRqPnsT71qxqnDlVflH1DWS0dxzr+oMPL/rCtkCdozM1kPOCg1NXYRcOCMNQHQTdWUxU
- zcpf/KYpQPp9NOw5ezgIhNrjSAf1EsOlV/69+Iz14WHI8AORqjaN4a4wTf/wF1/0wBRD
- HULuIAoinJrvqjqlFrmOp/2K/BpDjnrSDgX8nEeihOwnDlQLVRj619KVuABkPhHD8j4Y
- a2qw==
-X-Gm-Message-State: AOAM530zEMMaXmeZdY3JUY9Xt94ZE5CFvxude68Km5N62Ul2SgyUeK0l
- zvgtwtO61F4dnHaqftduIAASc6OhUyzgNbAhuic=
-X-Google-Smtp-Source: ABdhPJxMnMaMZnf67NjzBaX5vchMC+7Xo+nOk0fNRJ58YDhTE2vwQffIxSTvvFe2bSZywyWdiFwrGtVmwtV88lyxzsE=
-X-Received: by 2002:a37:4a4d:: with SMTP id x74mr8376653qka.55.1602477548637; 
- Sun, 11 Oct 2020 21:39:08 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B0796E419;
+ Mon, 12 Oct 2020 04:48:01 +0000 (UTC)
+IronPort-SDR: MOnDdi13Xb++0S5pgoLvg2iWm5IEkQQHppTCUNJBtjP8vINbwpST0w56+lQPJkC0tePYcfl0T1
+ sCXW6cl3wqdw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9771"; a="162223401"
+X-IronPort-AV: E=Sophos;i="5.77,365,1596524400"; d="scan'208";a="162223401"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2020 21:47:58 -0700
+IronPort-SDR: OeJlrvjJIthwDW5ZiLkp+F246Fw9BWID0JMdXYyjjISLX5UipnPYleFarWgQdoLnt1ZOhIB0kv
+ QrFucSf/AAcw==
+X-IronPort-AV: E=Sophos;i="5.77,365,1596524400"; d="scan'208";a="529805779"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2020 21:47:57 -0700
+Date: Sun, 11 Oct 2020 21:47:56 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Bernard Metzler <BMT@zurich.ibm.com>
+Subject: Re: [PATCH RFC PKS/PMEM 10/58] drivers/rdma: Utilize new kmap_thread()
+Message-ID: <20201012044756.GY2046448@iweiny-DESK2.sc.intel.com>
+References: <20201009195033.3208459-11-ira.weiny@intel.com>
+ <20201009195033.3208459-1-ira.weiny@intel.com>
+ <OF849D92D8.F4735ECA-ON002585FD.003F5F27-002585FD.003FCBD6@notes.na.collabserv.com>
 MIME-Version: 1.0
-References: <20201011230131.4922-1-rdunlap@infradead.org>
-In-Reply-To: <20201011230131.4922-1-rdunlap@infradead.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 12 Oct 2020 04:38:56 +0000
-Message-ID: <CACPK8Xej8SoJxrJBL2NB2PnGwjFQ8=oWsfALv2g2r7HxxP9xZQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm/aspeed: fix Kconfig warning & subsequent build
- errors
-To: Randy Dunlap <rdunlap@infradead.org>
+Content-Disposition: inline
+In-Reply-To: <OF849D92D8.F4735ECA-ON002585FD.003F5F27-002585FD.003FCBD6@notes.na.collabserv.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,80 +51,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Simek <monstr@monstr.eu>, kernel test robot <lkp@intel.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Andrew Jeffery <andrew@aj.id.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Mike Rapoport <rppt@linux.ibm.com>, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
+ Thomas Gleixner <tglx@linutronix.de>, devel@driverdev.osuosl.org,
+ linux-cifs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-nvdimm@lists.01.org,
+ linux-rdma@vger.kernel.org, x86@kernel.org, ceph-devel@vger.kernel.org,
+ io-uring@vger.kernel.org, cluster-devel@redhat.com,
+ Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
+ Ingo Molnar <mingo@redhat.com>, intel-wired-lan@lists.osuosl.org,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+ Fenghua Yu <fenghua.yu@intel.com>, linux-afs@lists.infradead.org,
+ Faisal Latif <faisal.latif@intel.com>, linux-um@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, ecryptfs@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, linux-nfs@vger.kernel.org,
+ reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-bcache@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, drbd-dev@tron.linbit.com,
+ amd-gfx@lists.freed.esktop.org, Dan Williams <dan.j.williams@intel.com>,
+ Shiraz Saleem <shiraz.saleem@intel.com>, bpf@vger.kernel.org,
+ linux-cachefs@redhat.com, Mike Marciniszyn <mike.marciniszyn@intel.com>,
+ linux-ntfs-dev@lists.sourceforge.net, netdev@vger.kernel.org,
+ Dennis Dalessandro <dennis.dalessandro@intel.com>, kexec@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 11 Oct 2020 at 23:01, Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> kernel test robot reported build errors (undefined references)
-> that didn't make much sense. After reproducing them, there is also
-> a Kconfig warning that is the root cause of the build errors, so
-> fix that Kconfig problem.
->
-> Fixes this Kconfig warning:
-> WARNING: unmet direct dependencies detected for CMA
->   Depends on [n]: MMU [=n]
->   Selected by [m]:
->   - DRM_ASPEED_GFX [=m] && HAS_IOMEM [=y] && DRM [=m] && OF [=y] && (COMPILE_TEST [=y] || ARCH_ASPEED) && HAVE_DMA_CONTIGUOUS [=y]
->
-> and these dependent build errors:
-> (.text+0x10c8c): undefined reference to `start_isolate_page_range'
-> microblaze-linux-ld: (.text+0x10f14): undefined reference to `test_pages_isolated'
-> microblaze-linux-ld: (.text+0x10fd0): undefined reference to `undo_isolate_page_range'
->
-> Fixes: 76356a966e33 ("drm: aspeed: Clean up Kconfig options")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Michal Simek <monstr@monstr.eu>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Mike Rapoport <rppt@linux.ibm.com>
-> Cc: linux-mm@kvack.org
-> Cc: linux-aspeed@lists.ozlabs.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
-> First sent on 2020-09-07.
-> Feel free to fix the Kconfig warning some other way...
+On Sat, Oct 10, 2020 at 11:36:49AM +0000, Bernard Metzler wrote:
+> -----ira.weiny@intel.com wrote: -----
+> 
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+[snip]
 
-Thanks Randy. Sorry for missing it the first time around. I'll merge
-this into drm-misc-next.
+> >@@ -505,7 +505,7 @@ static int siw_tx_hdt(struct siw_iwarp_tx *c_tx,
+> >struct socket *s)
+> > 				page_array[seg] = p;
+> > 
+> > 				if (!c_tx->use_sendpage) {
+> >-					iov[seg].iov_base = kmap(p) + fp_off;
+> >+					iov[seg].iov_base = kmap_thread(p) + fp_off;
+> 
+> This misses a corresponding kunmap_thread() in siw_unmap_pages()
+> (pls change line 403 in siw_qp_tx.c as well)
 
-Cheers,
+Thanks I missed that.
 
-Joel
+Done.
 
+Ira
 
-
->
->  drivers/gpu/drm/aspeed/Kconfig |    1 +
->  1 file changed, 1 insertion(+)
->
-> --- linux-next-20201009.orig/drivers/gpu/drm/aspeed/Kconfig
-> +++ linux-next-20201009/drivers/gpu/drm/aspeed/Kconfig
-> @@ -3,6 +3,7 @@ config DRM_ASPEED_GFX
->         tristate "ASPEED BMC Display Controller"
->         depends on DRM && OF
->         depends on (COMPILE_TEST || ARCH_ASPEED)
-> +       depends on MMU
->         select DRM_KMS_HELPER
->         select DRM_KMS_CMA_HELPER
->         select DMA_CMA if HAVE_DMA_CONTIGUOUS
+> 
+> Thanks,
+> Bernard.
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
