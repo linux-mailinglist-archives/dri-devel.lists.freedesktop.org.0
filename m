@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4670328B716
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 15:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415B028B6DD
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 15:39:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C8B96E456;
-	Mon, 12 Oct 2020 13:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2CA89FA9;
+	Mon, 12 Oct 2020 13:39:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A73F6E456
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 13:40:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63EBE89FA9
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 13:39:26 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EFDAE22261;
- Mon, 12 Oct 2020 13:40:45 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7EE14221FE;
+ Mon, 12 Oct 2020 13:39:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602510046;
+ s=default; t=1602509965;
  bh=xfPx18DR1Yo1IeyBOmicVze493qZfk5VFd3DR5Muv9U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nBP6u5mUG+dFqmUXi6bRwuHEF0+EJNWNlQI0HJjmBfgjU1Xzgg+IoJPaiy8IOrWs2
- PWmTEhZS3+zyeQB8GnFnh8Jw6dXNOFHFIkQzO1hFR9pYeoiYKtFLb868NupxJI3VEN
- ZXEALU0k+of/jBOHsYXZ/C0Ut23Yv3bafEtPg1zg=
+ b=JCTsfky4SZ7rjzPz8734OX9/65ovFiFsYvb9M37kARVnpG3oZ+UtYqDVLq5soQdwU
+ jSxzCLHYUzbbfWaM3TLahlZag/1c+AR6KS07WBS/kWmF1zmdYCcfeEVgTA4NHn8Ewj
+ pmuppFYybANZVNW1CjWxqMdlnAY7CLreq57nQLT4=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.4 10/85] drm/nouveau/mem: guard against NULL pointer access
+Subject: [PATCH 4.19 06/49] drm/nouveau/mem: guard against NULL pointer access
  in mem_del
-Date: Mon, 12 Oct 2020 15:26:33 +0200
-Message-Id: <20201012132633.354399123@linuxfoundation.org>
+Date: Mon, 12 Oct 2020 15:26:52 +0200
+Message-Id: <20201012132629.739034353@linuxfoundation.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201012132632.846779148@linuxfoundation.org>
-References: <20201012132632.846779148@linuxfoundation.org>
+In-Reply-To: <20201012132629.469542486@linuxfoundation.org>
+References: <20201012132629.469542486@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
