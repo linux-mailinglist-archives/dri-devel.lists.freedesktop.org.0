@@ -1,28 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C58D328C921
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 09:17:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 930BA28C1B1
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 21:54:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D24B6E8A6;
-	Tue, 13 Oct 2020 07:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEFC36E5AE;
+	Mon, 12 Oct 2020 19:53:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1F16E591;
- Mon, 12 Oct 2020 19:14:06 +0000 (UTC)
-Date: Mon, 12 Oct 2020 21:13:53 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] drm/ingenic: Fix bad revert
-To: Daniel Vetter <daniel@ffwll.ch>
-Message-Id: <53S3IQ.YMG1AT14NTR93@crapouillou.net>
-In-Reply-To: <20201012141041.GU438822@phenom.ffwll.local>
-References: <20201012152452.432c4867@canb.auug.org.au>
- <20201012102509.10690-1-paul@crapouillou.net>
- <20201012141041.GU438822@phenom.ffwll.local>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E9B6E5A4;
+ Mon, 12 Oct 2020 19:53:57 +0000 (UTC)
+IronPort-SDR: Z08Z665rO5PXmGF8O9qZun9jaiChMKPlORx0oMpDPzMtgzruua8epwfF6EUWUlLMA5q1BCHcuX
+ eCECJhl1pgqQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="183261281"
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; d="scan'208";a="183261281"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2020 12:53:56 -0700
+IronPort-SDR: fkO3cV1AstS50IlWJFeIR7IMIWTUvxOVu0RxBH9tBAb2aFjzmjvlioAsa4gAQcEu3X0zxNtHVX
+ KqidbmrXoAPg==
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; d="scan'208";a="530096227"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2020 12:53:54 -0700
+Date: Mon, 12 Oct 2020 12:53:54 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH RFC PKS/PMEM 22/58] fs/f2fs: Utilize new kmap_thread()
+Message-ID: <20201012195354.GC2046448@iweiny-DESK2.sc.intel.com>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-23-ira.weiny@intel.com>
+ <20201009213434.GA839@sol.localdomain>
+ <20201010003954.GW20115@casper.infradead.org>
+ <20201010013036.GD1122@sol.localdomain>
+ <20201012065635.GB2046448@iweiny-DESK2.sc.intel.com>
+ <20201012161946.GA858@sol.localdomain>
+ <5d621db9-23d4-e140-45eb-d7fca2093d2b@intel.com>
+ <20201012164438.GA20115@casper.infradead.org>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 13 Oct 2020 07:16:53 +0000
+Content-Disposition: inline
+In-Reply-To: <20201012164438.GA20115@casper.infradead.org>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,132 +57,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, linux-next@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Dave Hansen <dave.hansen@intel.com>,
+ target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-kselftest@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ Thomas Gleixner <tglx@linutronix.de>, drbd-dev@lists.linbit.com,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org, x86@kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-afs@lists.infradead.org,
+ Eric Biggers <ebiggers@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ intel-wired-lan@lists.osuosl.org, kexec@lists.infradead.org,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+ bpf@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
+ Fenghua Yu <fenghua.yu@intel.com>, intel-gfx@lists.freedesktop.org,
+ ecryptfs@vger.kernel.org, linux-um@lists.infradead.org,
+ reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-bcache@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ ceph-devel@vger.kernel.org, io-uring@vger.kernel.org, linux-cachefs@redhat.com,
+ linux-nfs@vger.kernel.org, linux-mm@kvack.org,
+ linux-ntfs-dev@lists.sourceforge.net, netdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, samba-technical@lists.samba.org,
+ linux-kernel@vger.kernel.org, cluster-devel@redhat.com,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Oct 12, 2020 at 05:44:38PM +0100, Matthew Wilcox wrote:
+> On Mon, Oct 12, 2020 at 09:28:29AM -0700, Dave Hansen wrote:
+> > kmap_atomic() is always preferred over kmap()/kmap_thread().
+> > kmap_atomic() is _much_ more lightweight since its TLB invalidation is
+> > always CPU-local and never broadcast.
+> > 
+> > So, basically, unless you *must* sleep while the mapping is in place,
+> > kmap_atomic() is preferred.
+> 
+> But kmap_atomic() disables preemption, so the _ideal_ interface would map
+> it only locally, then on preemption make it global.  I don't even know
+> if that _can_ be done.  But this email makes it seem like kmap_atomic()
+> has no downsides.
 
+And that is IIUC what Thomas was trying to solve.
 
-Le lun. 12 oct. 2020 =E0 16:10, Daniel Vetter <daniel@ffwll.ch> a =E9crit =
+Also, Linus brought up that kmap_atomic() has quirks in nesting.[1]
 
-:
-> On Mon, Oct 12, 2020 at 12:25:09PM +0200, Paul Cercueil wrote:
->>  Fix a badly reverted commit. The revert commit was cherry-picked =
+From what I can see all of these discussions support the need to have something
+between kmap() and kmap_atomic().
 
->> from
->>  drm-misc-next to drm-misc-next-fixes, and in the process some =
+However, the reason behind converting call sites to kmap_thread() are different
+between Thomas' patch set and mine.  Both require more kmap granularity.
+However, they do so with different reasons and underlying implementations but
+with the _same_ resulting semantics; a thread local mapping which is
+preemptable.[2]  Therefore they each focus on changing different call sites.
 
->> unrelated
->>  code was added.
->> =
+While this patch set is huge I think it serves a valuable purpose to identify a
+large number of call sites which are candidates for this new semantic.
 
->>  Fixes: a3fb64c00d44 "Revert "gpu/drm: ingenic: Add option to mmap =
+Ira
 
->> GEM buffers cached""
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> =
-
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-I applied the patch to drm-misc-next-fixes.
-
-Thanks,
--Paul
-
-> And yes if you use git cherry-pick it'll do a 3 way merge, and
-> occasionally it's very tricky to resolve that properly. Especially =
-
-> when
-> you're not used to it.
-> =
-
-> What I tend to do to double check cerry-picks is git show both =
-
-> commits,
-> and compare the entire diff line-by-line to make sure I didn't =
-
-> misplace
-> anything.
-> =
-
-> Another trick is to use the raw patch instead of cherry-pick, since =
-
-> that
-> won't do a 3 way merge where you might get confused with other =
-
-> context and
-> fun stuff like that.
-> =
-
-> Cheers, Daniel
->>  ---
->>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 16 ----------------
->>   1 file changed, 16 deletions(-)
->> =
-
->>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c =
-
->> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  index 1be1235bd546..a3d1617d7c67 100644
->>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
->>  @@ -440,20 +440,6 @@ void ingenic_drm_plane_config(struct device =
-
->> *dev,
->>   	}
->>   }
->> =
-
->>  -static void ingenic_drm_update_palette(struct ingenic_drm *priv,
->>  -				       const struct drm_color_lut *lut)
->>  -{
->>  -	unsigned int i;
->>  -
->>  -	for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); i++) {
->>  -		u16 color =3D drm_color_lut_extract(lut[i].red, 5) << 11
->>  -			| drm_color_lut_extract(lut[i].green, 6) << 5
->>  -			| drm_color_lut_extract(lut[i].blue, 5);
->>  -
->>  -		priv->dma_hwdescs->palette[i] =3D color;
->>  -	}
->>  -}
->>  -
->>   static void ingenic_drm_plane_atomic_update(struct drm_plane =
-
->> *plane,
->>   					    struct drm_plane_state *oldstate)
->>   {
->>  @@ -464,8 +450,6 @@ static void =
-
->> ingenic_drm_plane_atomic_update(struct drm_plane *plane,
->>   	dma_addr_t addr;
->> =
-
->>   	if (state && state->fb) {
->>  -		crtc_state =3D state->crtc->state;
->>  -
->>   		addr =3D drm_fb_cma_get_gem_addr(state->fb, state, 0);
->>   		width =3D state->src_w >> 16;
->>   		height =3D state->src_h >> 16;
->>  --
->>  2.28.0
->> =
-
-> =
-
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
-
+[1] https://lore.kernel.org/lkml/CAHk-=wgbmwsTOKs23Z=71EBTrULoeaH2U3TNqT2atHEWvkBKdw@mail.gmail.com/
+[2] It is important to note these implementations are not incompatible with
+each other.  So I don't see yet another 'kmap_something()' being required.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
