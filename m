@@ -2,66 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8852828BF38
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 19:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9A628C02A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Oct 2020 21:00:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 568D16E56D;
-	Mon, 12 Oct 2020 17:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 230EB6E532;
+	Mon, 12 Oct 2020 19:00:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB3B6E461
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 17:51:31 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id s4so18438796qkf.7
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 10:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JmE5S2Va/kwGbcNS6Y01h+K7t+6BpeRjcueIKoECGJU=;
- b=Hyam4IGe8Qrsh/SitsiwHAfltwbTl2SMUVIFpC7+xAYU1TVo5g/ohoyOwPxkfW9rn1
- bB15f949N4/fmg/wCPKcoBjTqFk5uWc1+URuu0mzG7Q5FulLz106vhJwy2ht31eouTUO
- 2b0+9n4/wiLTTOpXR385gikXyVqSzNys8Baag=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JmE5S2Va/kwGbcNS6Y01h+K7t+6BpeRjcueIKoECGJU=;
- b=P460bN6zW1EfPww1OsOMbsnlJBmtAMrBA+zUhG+gyj5WobBeK0/oFbyKW7fzuL4YHU
- FXBmHOlJCBJthZvMTj79DNMK12Ku965gtKXOLQYKwwOsYB2VWl0UJV9Ecsp75IfckdEc
- QM1H1ejZoyLH0NpQGRKXCtFMAkuwoQAVUxup5Gj7H/fuSqZqmPEKBkFdjHhcOQFGzl7s
- b3FZO3oYAjoAhCN8K+kkaNlZawRJQTNyu0pFEeyaLQ/v4lNHhDdhJIJXU476dRnhi9e5
- nsWUoPCJS+VjMtc7a+Q2Li4FJ62SUWPlpveHlDTHlkf0CsU+70np0J28ytTWe52E0HPn
- Ff5g==
-X-Gm-Message-State: AOAM530EroRYydmDS8+TJkus47MUD3P0/ZFjtnK9D/rmQIB77FrD85Qf
- S80EqrEllYDQdIpdwKUAuAw75m3wP2+lQw==
-X-Google-Smtp-Source: ABdhPJwOZNId6dRWzrsQDdMfCEpNdMa3ImGpGpYuSoZMekDazyXABoE+Nn6l/vfXVy4r1ZgAyBgzmg==
-X-Received: by 2002:a37:a81:: with SMTP id 123mr10880502qkk.487.1602525089752; 
- Mon, 12 Oct 2020 10:51:29 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180])
- by smtp.gmail.com with ESMTPSA id 19sm12850995qki.33.2020.10.12.10.51.25
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Oct 2020 10:51:25 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id a4so4683479ybq.13
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 10:51:25 -0700 (PDT)
-X-Received: by 2002:a25:2054:: with SMTP id g81mr35245658ybg.490.1602525084720; 
- Mon, 12 Oct 2020 10:51:24 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BC1F6E532;
+ Mon, 12 Oct 2020 19:00:23 +0000 (UTC)
+IronPort-SDR: kMRDNui3Dr18IgUOyxe9KWikASjMl5ruJgkxQi8ilyfRq1sKvrsqPnRbFTU2iYR5EQtTItl3EB
+ 1Y+jTtfR5niQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="145108045"
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; d="scan'208";a="145108045"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2020 12:00:22 -0700
+IronPort-SDR: fXMGQyVYN7pi32JToO8x6qMPPR4tSLJOT5/mGmgJZ271iDTm2JoAE7+FBcNtWY5Uq90PGYh7lL
+ Ut8nCKHmmY0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; d="scan'208";a="344989579"
+Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
+ by fmsmga004.fm.intel.com with ESMTP; 12 Oct 2020 12:00:19 -0700
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com, daniels@collabora.com,
+ sameer.lattannavar@intel.com
+Subject: [PATCH v6 0/5] Introduce drm scaling filter property
+Date: Tue, 13 Oct 2020 00:11:25 +0530
+Message-Id: <20201012184130.937-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20200918002845.32766-1-sean@poorly.run>
- <470a3a448a80ae6f8e6e6f6a82f5ffc01c1d6033.camel@redhat.com>
- <CAOw6vb+chhRTvF0kHy55uXb9BKqbPAhwJCuJ=_1uOPEHbRXMcA@mail.gmail.com>
- <efd573770a0d78a19e8805760a9a8d9f6f5fe61b.camel@redhat.com>
-In-Reply-To: <efd573770a0d78a19e8805760a9a8d9f6f5fe61b.camel@redhat.com>
-From: Sean Paul <seanpaul@chromium.org>
-Date: Mon, 12 Oct 2020 13:50:46 -0400
-X-Gmail-Original-Message-ID: <CAOw6vbLxn41pwwFe+za9zuv1mbUrYmfAmP3p4iSCY7PwaRxh4g@mail.gmail.com>
-Message-ID: <CAOw6vbLxn41pwwFe+za9zuv1mbUrYmfAmP3p4iSCY7PwaRxh4g@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915/dp: Tweak initial dpcd backlight.enabled value
-To: Jani Nikula <jani.nikula@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,124 +49,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Chowski <chowski@chromium.org>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: themagnificentmrg@gmail.com, pankaj.laxminarayan.bharadiya@intel.com,
+ lorusak@gmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBTZXAgMjIsIDIwMjAgYXQgMTE6MzYgQU0gTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0
-LmNvbT4gd3JvdGU6Cj4KPiBPbiBUdWUsIDIwMjAtMDktMjIgYXQgMDk6MzkgLTA0MDAsIFNlYW4g
-UGF1bCB3cm90ZToKPiA+IE9uIE1vbiwgU2VwIDIxLCAyMDIwIGF0IDY6MzUgUE0gTHl1ZGUgUGF1
-bCA8bHl1ZGVAcmVkaGF0LmNvbT4gd3JvdGU6Cj4gPiA+IFNvIGlmIEkgdW5kZXJzdGFuZCB0aGlz
-IGNvcnJlY3RseSwgaXQgc291bmRzIGxpa2UgdGhhdCBzb21lIFBpeGVsYm9va3MKPiA+ID4gYm9v
-dCB1cAo+ID4gPiB3aXRoIERQX0VEUF9CQUNLTElHSFRfQlJJR0hUTkVTU19NU0Igc2V0IHRvIGEg
-bm9uLXplcm8gdmFsdWUsIHdpdGhvdXQgdGhlCj4gPiA+IHBhbmVsIGFjdHVhbGx5IGhhdmluZyBE
-UENEIGJhY2tsaWdodCBjb250cm9scyBlbmFibGVkPwo+ID4KPiA+IEl0IGJvb3RzIHdpdGggRFBf
-RURQX0JBQ0tMSUdIVF9CUklHSFRORVNTX01TQiA9PSAwLCB3aGljaCB1c2VkIHRvIHNldAo+ID4g
-YmFja2xpZ2h0LmVuYWJsZWQgPSBmYWxzZS4gQnkgY2hhbmdpbmcgYmFja2xpZ2h0LmxldmVsID0g
-bWF4LAo+ID4gYmFja2xpZ2h0LmVuYWJsZWQgaXMgbm93IHNldCB0byB0cnVlLiBUaGlzIHJlc3Vs
-dHMgaW4gbG9zaW5nIGJhY2tsaWdodAo+ID4gY29udHJvbCBvbiBib290IChzaW5jZSB0aGUgZW5h
-YmxlIHJvdXRpbmUgaXMgbm8gbG9uZ2VyIGludm9rZWQpLgo+ID4KPiBBaGhoIG9rLCBJJ20gZmlu
-ZSB3aXRoIHRoYXQgLSByZXZpZXcgc3RpbGwgc3RhbmRzIDopCgpQaW5naW5nIGludGVsIG1haW50
-YWluZXJzLCBjb3VsZCBzb21lb25lIHBsZWFzZSBhcHBseSB0aGlzPwoKClNlYW4KCj4KPiA+IFNl
-YW4KPiA+Cj4gPiA+IElmIEknbSB1bmRlcnN0YW5kaW5nIHRoYXQgY29ycmVjdGx5LCB0aGVuIHRo
-aXMgcGF0Y2ggbG9va3MgZ29vZCB0byBtZToKPiA+ID4KPiA+ID4gUmV2aWV3ZWQtYnk6IEx5dWRl
-IFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Cj4gPiA+Cj4gPiA+IE9uIFRodSwgMjAyMC0wOS0xNyBh
-dCAyMDoyOCAtMDQwMCwgU2VhbiBQYXVsIHdyb3RlOgo+ID4gPiA+IEZyb206IFNlYW4gUGF1bCA8
-c2VhbnBhdWxAY2hyb21pdW0ub3JnPgo+ID4gPiA+Cj4gPiA+ID4gSW4gY29tbWl0IDc5OTQ2NzIz
-MDkyYiAoImRybS9pOTE1OiBBc3N1bWUgMTAwJSBicmlnaHRuZXNzIHdoZW4gbm90IGluCj4gPiA+
-ID4gRFBDRCBjb250cm9sIG1vZGUiKSwgd2UgZml4ZWQgdGhlIGJyaWdodG5lc3MgbGV2ZWwgd2hl
-biBEUENEIGNvbnRyb2wgd2FzCj4gPiA+ID4gbm90IGFjdGl2ZSB0byBtYXggYnJpZ2h0bmVzcy4g
-VGhpcyBpcyBhcyBnb29kIGFzIHdlIGNhbiBndWVzcyBzaW5jZSBtb3N0Cj4gPiA+ID4gYmFja2xp
-Z2h0cyBnbyBvbiBmdWxsIHdoZW4gdW5jb250cm9sbGVkLgo+ID4gPiA+Cj4gPiA+ID4gSG93ZXZl
-ciBpbiBkb2luZyBzbyB3ZSBjaGFuZ2VkIHRoZSBzZW1hbnRpY3Mgb2YgdGhlIGluaXRpYWwKPiA+
-ID4gPiAnYmFja2xpZ2h0LmVuYWJsZWQnIHZhbHVlLiBBdCBsZWFzdCBvbiBQaXhlbGJvb2tzLCB0
-aGV5ICB3ZXJlIHJlbHlpbmcKPiA+ID4gPiBvbiB0aGUgYnJpZ2h0bmVzcyBsZXZlbCBpbiBEUF9F
-RFBfQkFDS0xJR0hUX0JSSUdIVE5FU1NfTVNCIHRvIGJlIDAgb24KPiA+ID4gPiBib290IHN1Y2gg
-dGhhdCBlbmFibGVkIHdvdWxkIGJlIGZhbHNlLiBUaGlzIGNhdXNlcyB0aGUgZGV2aWNlIHRvIGJl
-Cj4gPiA+ID4gZW5hYmxlZCB3aGVuIHRoZSBicmlnaHRuZXNzIGlzIHNldC4gV2l0aG91dCB0aGlz
-LCBicmlnaHRuZXNzIGNvbnRyb2wKPiA+ID4gPiBkb2Vzbid0IHdvcmsuIFNvIGJ5IGNoYW5naW5n
-IGJyaWdodG5lc3MgdG8gbWF4LCB3ZSBhbHNvIGZsaXBwZWQgZW5hYmxlZAo+ID4gPiA+IHRvIGJl
-IHRydWUgb24gYm9vdC4KPiA+ID4gPgo+ID4gPiA+IFRvIGZpeCB0aGlzLCBtYWtlIGVuYWJsZWQg
-YSBmdW5jdGlvbiBvZiBicmlnaHRuZXNzIGFuZCBiYWNrbGlnaHQgY29udHJvbAo+ID4gPiA+IG1l
-Y2hhbmlzbS4KPiA+ID4gPgo+ID4gPiA+IEZpeGVzOiA3OTk0NjcyMzA5MmIgKCJkcm0vaTkxNTog
-QXNzdW1lIDEwMCUgYnJpZ2h0bmVzcyB3aGVuIG5vdCBpbiBEUENECj4gPiA+ID4gY29udHJvbCBt
-b2RlIikKPiA+ID4gPiBDYzogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiA+ID4gPiBD
-YzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGludGVsLmNvbT4KPiA+ID4gPiBDYzogSnVoYS1Q
-ZWtrYSBIZWlra2lsYSA8anVoYXBla2thLmhlaWtraWxhQGdtYWlsLmNvbT4KPiA+ID4gPiBDYzog
-IlZpbGxlIFN5cmrDpGzDpCIgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+ID4gPiA+
-IENjOiBSb2RyaWdvIFZpdmkgPHJvZHJpZ28udml2aUBpbnRlbC5jb20+Cj4gPiA+ID4gQ2M6IEtl
-dmluIENob3dza2kgPGNob3dza2lAY2hyb21pdW0ub3JnPj4KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5
-OiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9taXVtLm9yZz4KPiA+ID4gPiAtLS0KPiA+ID4gPiAg
-Li4uL2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfYXV4X2JhY2tsaWdodC5jIHwgMzEgKysrKysr
-KysrKysrLS0tLS0tLQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwg
-MTEgZGVsZXRpb25zKC0pCj4gPiA+ID4KPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9hdXhfYmFja2xpZ2h0LmMKPiA+ID4gPiBiL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfYXV4X2JhY2tsaWdodC5jCj4gPiA+ID4g
-aW5kZXggYWNiZDdlYjY2Y2JlLi4wMzZmNTA0YWM3ZGIgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9hdXhfYmFja2xpZ2h0LmMKPiA+ID4g
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX2F1eF9iYWNrbGln
-aHQuYwo+ID4gPiA+IEBAIC01MiwxNyArNTIsMTEgQEAgc3RhdGljIHZvaWQgc2V0X2F1eF9iYWNr
-bGlnaHRfZW5hYmxlKHN0cnVjdCBpbnRlbF9kcAo+ID4gPiA+ICppbnRlbF9kcCwgYm9vbCBlbmFi
-bGUpCj4gPiA+ID4gICAgICAgfQo+ID4gPiA+ICB9Cj4gPiA+ID4KPiA+ID4gPiAtLyoKPiA+ID4g
-PiAtICogUmVhZCB0aGUgY3VycmVudCBiYWNrbGlnaHQgdmFsdWUgZnJvbSBEUENEIHJlZ2lzdGVy
-KHMpIGJhc2VkCj4gPiA+ID4gLSAqIG9uIGlmIDgtYml0KE1TQikgb3IgMTYtYml0KE1TQiBhbmQg
-TFNCKSB2YWx1ZXMgYXJlIHN1cHBvcnRlZAo+ID4gPiA+IC0gKi8KPiA+ID4gPiAtc3RhdGljIHUz
-MiBpbnRlbF9kcF9hdXhfZ2V0X2JhY2tsaWdodChzdHJ1Y3QgaW50ZWxfY29ubmVjdG9yCj4gPiA+
-ID4gKmNvbm5lY3RvcikKPiA+ID4gPiArc3RhdGljIGJvb2wgaW50ZWxfZHBfYXV4X2JhY2tsaWdo
-dF9kcGNkX21vZGUoc3RydWN0IGludGVsX2Nvbm5lY3Rvcgo+ID4gPiA+ICpjb25uZWN0b3IpCj4g
-PiA+ID4gIHsKPiA+ID4gPiAgICAgICBzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwID0gaW50ZWxf
-YXR0YWNoZWRfZHAoY29ubmVjdG9yKTsKPiA+ID4gPiAgICAgICBzdHJ1Y3QgZHJtX2k5MTVfcHJp
-dmF0ZSAqaTkxNSA9IGRwX3RvX2k5MTUoaW50ZWxfZHApOwo+ID4gPiA+IC0gICAgIHU4IHJlYWRf
-dmFsWzJdID0geyAweDAgfTsKPiA+ID4gPiAgICAgICB1OCBtb2RlX3JlZzsKPiA+ID4gPiAtICAg
-ICB1MTYgbGV2ZWwgPSAwOwo+ID4gPiA+Cj4gPiA+ID4gICAgICAgaWYgKGRybV9kcF9kcGNkX3Jl
-YWRiKCZpbnRlbF9kcC0+YXV4LAo+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBE
-UF9FRFBfQkFDS0xJR0hUX01PREVfU0VUX1JFR0lTVEVSLAo+ID4gPiA+IEBAIC03MCwxNSArNjQs
-MjkgQEAgc3RhdGljIHUzMiBpbnRlbF9kcF9hdXhfZ2V0X2JhY2tsaWdodChzdHJ1Y3QKPiA+ID4g
-PiBpbnRlbF9jb25uZWN0b3IgKmNvbm5lY3RvcikKPiA+ID4gPiAgICAgICAgICAgICAgIGRybV9k
-Ymdfa21zKCZpOTE1LT5kcm0sCj4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAiRmFp
-bGVkIHRvIHJlYWQgdGhlIERQQ0QgcmVnaXN0ZXIgMHgleFxuIiwKPiA+ID4gPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIERQX0VEUF9CQUNLTElHSFRfTU9ERV9TRVRfUkVHSVNURVIpOwo+ID4g
-PiA+IC0gICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPiA+ID4gKyAgICAgICAgICAgICByZXR1cm4g
-ZmFsc2U7Cj4gPiA+ID4gICAgICAgfQo+ID4gPiA+Cj4gPiA+ID4gKyAgICAgcmV0dXJuIChtb2Rl
-X3JlZyAmIERQX0VEUF9CQUNLTElHSFRfQ09OVFJPTF9NT0RFX01BU0spID09Cj4gPiA+ID4gKyAg
-ICAgICAgICAgIERQX0VEUF9CQUNLTElHSFRfQ09OVFJPTF9NT0RFX0RQQ0Q7Cj4gPiA+ID4gK30K
-PiA+ID4gPiArCj4gPiA+ID4gKy8qCj4gPiA+ID4gKyAqIFJlYWQgdGhlIGN1cnJlbnQgYmFja2xp
-Z2h0IHZhbHVlIGZyb20gRFBDRCByZWdpc3RlcihzKSBiYXNlZAo+ID4gPiA+ICsgKiBvbiBpZiA4
-LWJpdChNU0IpIG9yIDE2LWJpdChNU0IgYW5kIExTQikgdmFsdWVzIGFyZSBzdXBwb3J0ZWQKPiA+
-ID4gPiArICovCj4gPiA+ID4gK3N0YXRpYyB1MzIgaW50ZWxfZHBfYXV4X2dldF9iYWNrbGlnaHQo
-c3RydWN0IGludGVsX2Nvbm5lY3Rvcgo+ID4gPiA+ICpjb25uZWN0b3IpCj4gPiA+ID4gK3sKPiA+
-ID4gPiArICAgICBzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwID0gaW50ZWxfYXR0YWNoZWRfZHAo
-Y29ubmVjdG9yKTsKPiA+ID4gPiArICAgICBzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9
-IGRwX3RvX2k5MTUoaW50ZWxfZHApOwo+ID4gPiA+ICsgICAgIHU4IHJlYWRfdmFsWzJdID0geyAw
-eDAgfTsKPiA+ID4gPiArICAgICB1MTYgbGV2ZWwgPSAwOwo+ID4gPiA+ICsKPiA+ID4gPiAgICAg
-ICAvKgo+ID4gPiA+ICAgICAgICAqIElmIHdlJ3JlIG5vdCBpbiBEUENEIGNvbnRyb2wgbW9kZSB5
-ZXQsIHRoZSBwcm9ncmFtbWVkCj4gPiA+ID4gYnJpZ2h0bmVzcwo+ID4gPiA+ICAgICAgICAqIHZh
-bHVlIGlzIG1lYW5pbmdsZXNzIGFuZCB3ZSBzaG91bGQgYXNzdW1lIG1heCBicmlnaHRuZXNzCj4g
-PiA+ID4gICAgICAgICovCj4gPiA+ID4gLSAgICAgaWYgKChtb2RlX3JlZyAmIERQX0VEUF9CQUNL
-TElHSFRfQ09OVFJPTF9NT0RFX01BU0spICE9Cj4gPiA+ID4gLSAgICAgICAgIERQX0VEUF9CQUNL
-TElHSFRfQ09OVFJPTF9NT0RFX0RQQ0QpCj4gPiA+ID4gKyAgICAgaWYgKCFpbnRlbF9kcF9hdXhf
-YmFja2xpZ2h0X2RwY2RfbW9kZShjb25uZWN0b3IpKQo+ID4gPiA+ICAgICAgICAgICAgICAgcmV0
-dXJuIGNvbm5lY3Rvci0+cGFuZWwuYmFja2xpZ2h0Lm1heDsKPiA+ID4gPgo+ID4gPiA+ICAgICAg
-IGlmIChkcm1fZHBfZHBjZF9yZWFkKCZpbnRlbF9kcC0+YXV4LAo+ID4gPiA+IERQX0VEUF9CQUNL
-TElHSFRfQlJJR0hUTkVTU19NU0IsCj4gPiA+ID4gQEAgLTMxOSw3ICszMjcsOCBAQCBzdGF0aWMg
-aW50IGludGVsX2RwX2F1eF9zZXR1cF9iYWNrbGlnaHQoc3RydWN0Cj4gPiA+ID4gaW50ZWxfY29u
-bmVjdG9yICpjb25uZWN0b3IsCj4gPiA+ID4KPiA+ID4gPiAgICAgICBwYW5lbC0+YmFja2xpZ2h0
-Lm1pbiA9IDA7Cj4gPiA+ID4gICAgICAgcGFuZWwtPmJhY2tsaWdodC5sZXZlbCA9IGludGVsX2Rw
-X2F1eF9nZXRfYmFja2xpZ2h0KGNvbm5lY3Rvcik7Cj4gPiA+ID4gLSAgICAgcGFuZWwtPmJhY2ts
-aWdodC5lbmFibGVkID0gcGFuZWwtPmJhY2tsaWdodC5sZXZlbCAhPSAwOwo+ID4gPiA+ICsgICAg
-IHBhbmVsLT5iYWNrbGlnaHQuZW5hYmxlZCA9Cj4gPiA+ID4gaW50ZWxfZHBfYXV4X2JhY2tsaWdo
-dF9kcGNkX21vZGUoY29ubmVjdG9yKQo+ID4gPiA+ICYmCj4gPiA+ID4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgcGFuZWwtPmJhY2tsaWdodC5sZXZlbCAhPSAwOwo+ID4gPiA+Cj4g
-PiA+ID4gICAgICAgcmV0dXJuIDA7Cj4gPiA+ID4gIH0KPiA+ID4gLS0KPiA+ID4gQ2hlZXJzLAo+
-ID4gPiAgICAgICAgIEx5dWRlIFBhdWwgKHNoZS9oZXIpCj4gPiA+ICAgICAgICAgU29mdHdhcmUg
-RW5naW5lZXIgYXQgUmVkIEhhdAo+ID4gPgo+IC0tCj4gQ2hlZXJzLAo+ICAgICAgICAgTHl1ZGUg
-UGF1bCAoc2hlL2hlcikKPiAgICAgICAgIFNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKPgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Earlier, I kept this series on hold since we wanted to have a
+reference userspace implementation in place.
+
+Now, Sameer has implemented Integer scaling in Kodi Retro gaming
+framework which demonstrate how Integer scaling gives distinctive
+look to pixel art games when played on higher resolution monitors.
+
+Kodi patches are reviewed and accepted for merge now.
+
+Here is the userspace patch series link:
+https://github.com/xbmc/xbmc/pull/18194
+
+Background on Integer scaling:
+
+Integer scaling (IS) is a nearest-neighbor upscaling technique that
+simply scales up the existing pixels by an integer (i.e., whole
+number) multiplier. Nearest-neighbor (NN) interpolation works by
+filling in the missing color values in the upscaled image with that of
+the coordinate-mapped nearest source pixel value.
+
+Both IS and NN preserve the clarity of the original image. In
+contrast, traditional upscaling algorithms, such as bilinear or
+bicubic interpolation, result in blurry upscaled images because they
+employ interpolation techniques that smooth out the transition from
+one pixel to another.  Therefore, integer scaling is particularly
+useful for pixel art games that rely on sharp, blocky images to
+deliver their distinctive look.
+
+Many gaming communities have been asking for integer-mode scaling
+support, some links and background:
+
+https://software.intel.com/en-us/articles/integer-scaling-support-on-intel-graphics
+http://tanalin.com/en/articles/lossless-scaling/
+https://community.amd.com/thread/209107
+https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/1002/feature-request-nonblurry-upscaling-at-integer-rat/
+
+* Changes in v6:
+ - Rebase to latest drm-tip
+ - Address review comments from Uma
+
+Pankaj Bharadiya (5):
+  drm: Introduce plane and CRTC scaling filter properties
+  drm/drm-kms.rst: Add plane and CRTC scaling filter property
+    documentation
+  drm/i915: Introduce scaling filter related registers and bit fields
+  drm/i915/display: Add Nearest-neighbor based integer scaling support
+  drm/i915: Enable scaling filter for plane and CRTC
+
+ Documentation/gpu/drm-kms.rst                 |  12 ++
+ drivers/gpu/drm/drm_atomic_uapi.c             |   8 ++
+ drivers/gpu/drm/drm_crtc.c                    |  48 +++++++
+ drivers/gpu/drm/drm_crtc_internal.h           |   3 +
+ drivers/gpu/drm/drm_plane.c                   |  90 ++++++++++++++
+ .../gpu/drm/i915/display/intel_atomic_plane.c |   1 +
+ drivers/gpu/drm/i915/display/intel_display.c  | 117 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_display.h  |   4 +
+ .../drm/i915/display/intel_display_types.h    |   2 +
+ drivers/gpu/drm/i915/display/intel_sprite.c   |  15 ++-
+ drivers/gpu/drm/i915/i915_reg.h               |  22 ++++
+ include/drm/drm_crtc.h                        |  16 +++
+ include/drm/drm_plane.h                       |  21 ++++
+ 13 files changed, 355 insertions(+), 4 deletions(-)
+
+-- 
+2.23.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
