@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D41028DA40
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:05:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B9B28DA2E
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:04:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 194C66EA18;
-	Wed, 14 Oct 2020 07:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA31A6E9FE;
+	Wed, 14 Oct 2020 07:04:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0C706E928
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 18:19:38 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id s9so435745wro.8
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 11:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DtmadPtoPcokiIT8ReATg1pXkhzL2SuRBo5LddIMSVk=;
- b=XaJ/M1ab0sb3wmangM5YA2nqcNI4cEEK4J6J89RdjZa7KK4sbY6rvX6VV/uDqCY7eO
- BprKBVKFXAG30XVHwS7YwvDUaWfw0dXOKYgetZjYxpT/n+Ia5D7O55KZihuxApT5Pyki
- sbzNbcI3uvDJ1ZBR/KYTICZUnQS/SlRcHS2ZEM/N2HSx665DzSjuHKS7vc8cWnrAYct8
- SbiI2gfLvKdP5sLgqQkcgjoxbuFtBm2XSjhdOeuz/kSJa1/HQIiF84fRT+s+N35dz+dn
- Bl/jOSnjWmGuofs/y0yw1TpV3mHyL/6vgt+zExdqElnlh3fGLf8nFLMl9Vf6SuTYbn3h
- SIqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DtmadPtoPcokiIT8ReATg1pXkhzL2SuRBo5LddIMSVk=;
- b=ERIg+9YyfgSM+LXhvOkmh7anm4oJUAx+nffMaA9f7dSbstVn1pEV93exg0FbfTP5ui
- 4HRukqpBG0LHeCGWc13Kwz4SzaLipmwxaZRkMsFxlnIam2dIo+TpAXaqeS1b9idJEAXc
- d1swv59LGkGdsrBo3gSRxNZbaxOU2wMDTv+mF+04oElO+MeBu5IzL/P1OqJ3zyKE6WYy
- LgHMbANjj/o8bF2ubmW7FpfN7EQ8TGwLXW5sxM6PIPOTm5JDQUERvRIwW8uoOppgDxHC
- njhzc+p79jmqrt/UuV5wW30pkKa9UgtpaXOE/FY7wBBlQmINze0J/uyoHIvfaeYQ6+b3
- ocbA==
-X-Gm-Message-State: AOAM533h5YCQR2uphpNQSZbRObfwKmW5xf5zvazi+JPosqeSVfQi3vbr
- mPkemmE8f4C2benR83kjwdDc5A==
-X-Google-Smtp-Source: ABdhPJyYKFgxPBtvreY/bLMuxhTn3K88Do7E39RQO4MJweOu72cwzI7cuyOtwYsoYixEPS6WFk3dGg==
-X-Received: by 2002:adf:8541:: with SMTP id 59mr1042100wrh.61.1602613177428;
- Tue, 13 Oct 2020 11:19:37 -0700 (PDT)
-Received: from localhost.localdomain (26.165.185.81.rev.sfr.net.
- [81.185.165.26])
- by smtp.gmail.com with ESMTPSA id w11sm490261wrs.26.2020.10.13.11.19.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 11:19:36 -0700 (PDT)
-From: Fabien Parent <fparent@baylibre.com>
-To: linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/mediatek: mtk_hdmi: add MT8167 support for HDMI
-Date: Tue, 13 Oct 2020 20:19:24 +0200
-Message-Id: <20201013181924.4143303-2-fparent@baylibre.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201013181924.4143303-1-fparent@baylibre.com>
-References: <20201013181924.4143303-1-fparent@baylibre.com>
+X-Greylist: delayed 343 seconds by postgrey-1.36 at gabe;
+ Tue, 13 Oct 2020 18:42:45 UTC
+Received: from pb-sasl-trial2.pobox.com (pb-sasl-trial2.pobox.com
+ [64.147.108.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A48D6E3EE;
+ Tue, 13 Oct 2020 18:42:45 +0000 (UTC)
+Received: from pb-sasl-trial2.pobox.com (localhost.local [127.0.0.1])
+ by pb-sasl-trial2.pobox.com (Postfix) with ESMTP id B35092F08C;
+ Tue, 13 Oct 2020 14:36:58 -0400 (EDT)
+ (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+ :cc:subject:in-reply-to:message-id:references:mime-version
+ :content-type; s=sasl; bh=1qdRcPgrMg9PaaTRWeHMHkWBgn4=; b=Epy+q5
+ ans9ahJwXxlQvxdjICPrBYTo3ECIn9AzWxzmuo835zX7Go5RA+la+QVdJswbYHqY
+ OA9uOWP+RHqwo1f/1Hjwskkbh9itwsmr5IKrZUme2Q4YRp5bQABuumhmd/Yh0NKM
+ sMhZUgbkZQs79wJJn2wtIPZ7EN0v5uRSG8bTQ=
+Received: from pb-smtp1.nyi.icgroup.com (pb-smtp1.pobox.com [10.90.30.53])
+ by pb-sasl-trial2.pobox.com (Postfix) with ESMTP id 7910C2F08B;
+ Tue, 13 Oct 2020 14:36:58 -0400 (EDT)
+ (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type;
+ s=2016-12.pbsmtp; bh=/xoWviDLFg5PKRQ9rObRWDXVC++pmZtYhfbDb0DFq7E=;
+ b=v5OoWtflZD131TYsBl2A9g0L/PCRe2nu6sy2IJY2ys8stI3sGPGydjk9hbVpZeTUKIjemrnRhLwKFlAM+dXEIGXz5t0LfwSiRA8m7hrB4WLH79+9F2ww8ICEhYu0fLjFgoDc1lKWqG4ZKNRDYjtbn/p6CJBipu1Te7ZvLuk/HMw=
+Received: from yoda.home (unknown [24.203.50.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by pb-smtp1.pobox.com (Postfix) with ESMTPSA id CD98F955F4;
+ Tue, 13 Oct 2020 14:36:57 -0400 (EDT)
+ (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+ by yoda.home (Postfix) with ESMTPSA id CF7492DA0BC7;
+ Tue, 13 Oct 2020 14:36:56 -0400 (EDT)
+Date: Tue, 13 Oct 2020 14:36:56 -0400 (EDT)
+From: Nicolas Pitre <nico@fluxnic.net>
+To: Ira Weiny <ira.weiny@intel.com>
+Subject: Re: [PATCH RFC PKS/PMEM 33/58] fs/cramfs: Utilize new
+ kmap_thread()
+In-Reply-To: <20201009195033.3208459-34-ira.weiny@intel.com>
+Message-ID: <nycvar.YSQ.7.78.906.2010131436200.2184@knanqh.ubzr>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-34-ira.weiny@intel.com>
 MIME-Version: 1.0
+X-Pobox-Relay-ID: 13301A02-0D83-11EB-84D0-D152C8D8090B-78420484!pb-smtp1.pobox.com
 X-Mailman-Approved-At: Wed, 14 Oct 2020 07:03:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,70 +66,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, airlied@linux.ie,
- Fabien Parent <fparent@baylibre.com>, matthias.bgg@gmail.com
+Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
+ Thomas Gleixner <tglx@linutronix.de>, drbd-dev@lists.linbit.com,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org, x86@kernel.org,
+ ceph-devel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ io-uring@vger.kernel.org, cluster-devel@redhat.com,
+ Ingo Molnar <mingo@redhat.com>, intel-wired-lan@lists.osuosl.org,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+ Fenghua Yu <fenghua.yu@intel.com>, linux-afs@lists.infradead.org,
+ linux-um@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ ecryptfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-bcache@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-cachefs@redhat.com,
+ linux-nfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+ netdev@vger.kernel.org, kexec@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for HDMI on MT8167. HDMI on MT8167 is similar to
-MT8173/MT2701 execpt for the two registers: SYS_CFG1C and SYS_CFG20
+On Fri, 9 Oct 2020, ira.weiny@intel.com wrote:
 
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
----
+> From: Ira Weiny <ira.weiny@intel.com>
+> 
+> The kmap() calls in this FS are localized to a single thread.  To avoid
+> the over head of global PKRS updates use the new kmap_thread() call.
+> 
+> Cc: Nicolas Pitre <nico@fluxnic.net>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-Changelog:
-v2: fix name of pdata structure
+Acked-by: Nicolas Pitre <nico@fluxnic.net>
 
- drivers/gpu/drm/mediatek/mtk_hdmi.c      | 7 +++++++
- drivers/gpu/drm/mediatek/mtk_hdmi_regs.h | 2 ++
- 2 files changed, 9 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 57370c036497..484ea9cd654a 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1835,9 +1835,16 @@ static struct mtk_hdmi_data mt8173_hdmi_driver_data = {
- 	.sys_cfg20 = HDMI_SYS_CFG20,
- };
- 
-+static struct mtk_hdmi_data mt8167_hdmi_driver_data = {
-+	.sys_cfg1c = MT8167_HDMI_SYS_CFG1C,
-+	.sys_cfg20 = MT8167_HDMI_SYS_CFG20,
-+};
-+
- static const struct of_device_id mtk_drm_hdmi_of_ids[] = {
- 	{ .compatible = "mediatek,mt8173-hdmi",
- 	  .data = &mt8173_hdmi_driver_data },
-+	{ .compatible = "mediatek,mt8167-hdmi",
-+	  .data = &mt8167_hdmi_driver_data },
- 	{}
- };
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_regs.h b/drivers/gpu/drm/mediatek/mtk_hdmi_regs.h
-index 2050ba45b23a..a0f9c367d7aa 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_regs.h
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_regs.h
-@@ -195,6 +195,7 @@
- #define GEN_RGB				(0 << 7)
- 
- #define HDMI_SYS_CFG1C		0x000
-+#define MT8167_HDMI_SYS_CFG1C	0x800
- #define HDMI_ON				BIT(0)
- #define HDMI_RST			BIT(1)
- #define ANLG_ON				BIT(2)
-@@ -211,6 +212,7 @@
- #define HTPLG_PIN_SEL_OFF		BIT(30)
- #define AES_EFUSE_ENABLE		BIT(31)
- #define HDMI_SYS_CFG20		0x004
-+#define MT8167_HDMI_SYS_CFG20	0x804
- #define DEEP_COLOR_MODE_MASK		(3 << 1)
- #define COLOR_8BIT_MODE			(0 << 1)
- #define COLOR_10BIT_MODE		(1 << 1)
--- 
-2.28.0
-
+>  fs/cramfs/inode.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/cramfs/inode.c b/fs/cramfs/inode.c
+> index 912308600d39..003c014a42ed 100644
+> --- a/fs/cramfs/inode.c
+> +++ b/fs/cramfs/inode.c
+> @@ -247,8 +247,8 @@ static void *cramfs_blkdev_read(struct super_block *sb, unsigned int offset,
+>  		struct page *page = pages[i];
+>  
+>  		if (page) {
+> -			memcpy(data, kmap(page), PAGE_SIZE);
+> -			kunmap(page);
+> +			memcpy(data, kmap_thread(page), PAGE_SIZE);
+> +			kunmap_thread(page);
+>  			put_page(page);
+>  		} else
+>  			memset(data, 0, PAGE_SIZE);
+> @@ -826,7 +826,7 @@ static int cramfs_readpage(struct file *file, struct page *page)
+>  
+>  	maxblock = (inode->i_size + PAGE_SIZE - 1) >> PAGE_SHIFT;
+>  	bytes_filled = 0;
+> -	pgdata = kmap(page);
+> +	pgdata = kmap_thread(page);
+>  
+>  	if (page->index < maxblock) {
+>  		struct super_block *sb = inode->i_sb;
+> @@ -914,13 +914,13 @@ static int cramfs_readpage(struct file *file, struct page *page)
+>  
+>  	memset(pgdata + bytes_filled, 0, PAGE_SIZE - bytes_filled);
+>  	flush_dcache_page(page);
+> -	kunmap(page);
+> +	kunmap_thread(page);
+>  	SetPageUptodate(page);
+>  	unlock_page(page);
+>  	return 0;
+>  
+>  err:
+> -	kunmap(page);
+> +	kunmap_thread(page);
+>  	ClearPageUptodate(page);
+>  	SetPageError(page);
+>  	unlock_page(page);
+> -- 
+> 2.28.0.rc0.12.gb6a658bd00c9
+> 
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
