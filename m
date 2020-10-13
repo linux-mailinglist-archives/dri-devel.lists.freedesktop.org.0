@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FF628DA2C
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D41028DA40
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:05:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49CCB6EA0B;
-	Wed, 14 Oct 2020 07:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 194C66EA18;
+	Wed, 14 Oct 2020 07:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D7E06E92A
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 18:19:33 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id i1so486700wro.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 11:19:32 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0C706E928
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 18:19:38 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id s9so435745wro.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 11:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X/7tcaBSc33elA/rgEtQckaex9Y37TpIvbkMTYD15FQ=;
- b=BdRLGXOLVtwcCJKHFN6LI1uz2W2nHnSEpCRh+ZLlcat9mhHmZBiIXd63grxdiihmc9
- Rzl1CP6E+6aF19o6YBDWhZf/F8Yig576Lp+0GwWRASCYZYeOVhcmkfVj+X/AiupkBRKO
- i/T9O4iECcpZjmChTnGsLJffcGbey9NzagrQMSmFVRha8gYIGw8CIXj/P7lRuaGx9l1V
- N2SRv/sgeRwFCwTY2Z/nfzHekT9VbSn9GuvkYPslkZUAfv/zXsq3A8BKYbBNLt3yymXk
- bLpzabmAzwfd4pL/T4eaWHhJJBw9a/YeyOJ9Pn5/Itc79u9DvzTG5/k9FC0gnQp4gZMY
- V9Tw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=DtmadPtoPcokiIT8ReATg1pXkhzL2SuRBo5LddIMSVk=;
+ b=XaJ/M1ab0sb3wmangM5YA2nqcNI4cEEK4J6J89RdjZa7KK4sbY6rvX6VV/uDqCY7eO
+ BprKBVKFXAG30XVHwS7YwvDUaWfw0dXOKYgetZjYxpT/n+Ia5D7O55KZihuxApT5Pyki
+ sbzNbcI3uvDJ1ZBR/KYTICZUnQS/SlRcHS2ZEM/N2HSx665DzSjuHKS7vc8cWnrAYct8
+ SbiI2gfLvKdP5sLgqQkcgjoxbuFtBm2XSjhdOeuz/kSJa1/HQIiF84fRT+s+N35dz+dn
+ Bl/jOSnjWmGuofs/y0yw1TpV3mHyL/6vgt+zExdqElnlh3fGLf8nFLMl9Vf6SuTYbn3h
+ SIqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X/7tcaBSc33elA/rgEtQckaex9Y37TpIvbkMTYD15FQ=;
- b=Y0O6RA05cDGB+/P/vcC9yhhfjJQdcUtoooO8SBbhNewBwzbjILugc+/H7A4IchJASJ
- mSmL5IyuDIU6iwyMwNoAdpI7lWYEy2xHC9xg80ZMHJn53mrBgx6f3lHEllYZrnOE/7Jn
- R8Bq2fVm5tEdIakNRy369lDz+ecZy0It73Q5mBqqQo7LfXMDMA8GehGwzesl/ndiJdzp
- uspMZ6MgGb0w91Yud9VrD8LZhvF6MZcvG/i9sOYIADzV0qDd1QfbPDD+3150Yfaw/dpO
- b7zClZBAGc8ysv25NfvnrkO0aCeZGidUNlke3+7wBR9pxfsOGFI5t0mJZS5xHt1f1Dij
- XKtA==
-X-Gm-Message-State: AOAM532SxFiipjgMNKKOX1v0XHEeoSajvE8X/C88WoK0IHR9g96N1qfR
- O2CiLfW99QppoYAm1vS7G4VTFw==
-X-Google-Smtp-Source: ABdhPJxZZitZjRw01kW+dkf7x7AY+4r6rKZrX9DRFpRSi9rssDlZuRg60T6qu6WkP0UpWaKM8+Gvuw==
-X-Received: by 2002:adf:e88a:: with SMTP id d10mr1075084wrm.247.1602613171397; 
- Tue, 13 Oct 2020 11:19:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=DtmadPtoPcokiIT8ReATg1pXkhzL2SuRBo5LddIMSVk=;
+ b=ERIg+9YyfgSM+LXhvOkmh7anm4oJUAx+nffMaA9f7dSbstVn1pEV93exg0FbfTP5ui
+ 4HRukqpBG0LHeCGWc13Kwz4SzaLipmwxaZRkMsFxlnIam2dIo+TpAXaqeS1b9idJEAXc
+ d1swv59LGkGdsrBo3gSRxNZbaxOU2wMDTv+mF+04oElO+MeBu5IzL/P1OqJ3zyKE6WYy
+ LgHMbANjj/o8bF2ubmW7FpfN7EQ8TGwLXW5sxM6PIPOTm5JDQUERvRIwW8uoOppgDxHC
+ njhzc+p79jmqrt/UuV5wW30pkKa9UgtpaXOE/FY7wBBlQmINze0J/uyoHIvfaeYQ6+b3
+ ocbA==
+X-Gm-Message-State: AOAM533h5YCQR2uphpNQSZbRObfwKmW5xf5zvazi+JPosqeSVfQi3vbr
+ mPkemmE8f4C2benR83kjwdDc5A==
+X-Google-Smtp-Source: ABdhPJyYKFgxPBtvreY/bLMuxhTn3K88Do7E39RQO4MJweOu72cwzI7cuyOtwYsoYixEPS6WFk3dGg==
+X-Received: by 2002:adf:8541:: with SMTP id 59mr1042100wrh.61.1602613177428;
+ Tue, 13 Oct 2020 11:19:37 -0700 (PDT)
 Received: from localhost.localdomain (26.165.185.81.rev.sfr.net.
  [81.185.165.26])
- by smtp.gmail.com with ESMTPSA id w11sm490261wrs.26.2020.10.13.11.19.29
+ by smtp.gmail.com with ESMTPSA id w11sm490261wrs.26.2020.10.13.11.19.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 11:19:30 -0700 (PDT)
+ Tue, 13 Oct 2020 11:19:36 -0700 (PDT)
 From: Fabien Parent <fparent@baylibre.com>
 To: linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/2] drm/mediatek: mtk_hdmi: move 2 registers address into
- of_data
-Date: Tue, 13 Oct 2020 20:19:23 +0200
-Message-Id: <20201013181924.4143303-1-fparent@baylibre.com>
+Subject: [PATCH v2 2/2] drm/mediatek: mtk_hdmi: add MT8167 support for HDMI
+Date: Tue, 13 Oct 2020 20:19:24 +0200
+Message-Id: <20201013181924.4143303-2-fparent@baylibre.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201013181924.4143303-1-fparent@baylibre.com>
+References: <20201013181924.4143303-1-fparent@baylibre.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 14 Oct 2020 07:03:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,139 +77,60 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On MT8167, the two registers SYS_CFG1C and SYS_CFG20 don't have the
-same address as on MT8173. Add OF data in order to store the address
-of these two registers.
+Add support for HDMI on MT8167. HDMI on MT8167 is similar to
+MT8173/MT2701 execpt for the two registers: SYS_CFG1C and SYS_CFG20
 
 Signed-off-by: Fabien Parent <fparent@baylibre.com>
 ---
 
 Changelog:
-v2: no changes
+v2: fix name of pdata structure
 
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 45 ++++++++++++++++++++++-------
- 1 file changed, 34 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c      | 7 +++++++
+ drivers/gpu/drm/mediatek/mtk_hdmi_regs.h | 2 ++
+ 2 files changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index a97725680d4e..57370c036497 100644
+index 57370c036497..484ea9cd654a 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -36,6 +36,11 @@
- 
- #define NCTS_BYTES	7
- 
-+struct mtk_hdmi_data {
-+	uint32_t sys_cfg1c;
-+	uint32_t sys_cfg20;
-+};
-+
- enum mtk_hdmi_clk_id {
- 	MTK_HDMI_CLK_HDMI_PIXEL,
- 	MTK_HDMI_CLK_HDMI_PLL,
-@@ -146,6 +151,7 @@ struct hdmi_audio_param {
+@@ -1835,9 +1835,16 @@ static struct mtk_hdmi_data mt8173_hdmi_driver_data = {
+ 	.sys_cfg20 = HDMI_SYS_CFG20,
  };
  
- struct mtk_hdmi {
-+	const struct mtk_hdmi_data *data;
- 	struct drm_bridge bridge;
- 	struct drm_bridge *next_bridge;
- 	struct drm_connector conn;
-@@ -244,21 +250,24 @@ static void mtk_hdmi_hw_make_reg_writable(struct mtk_hdmi *hdmi, bool enable)
- 	 */
- 	if (hdmi_phy->conf && hdmi_phy->conf->tz_disabled)
- 		regmap_update_bits(hdmi->sys_regmap,
--				   hdmi->sys_offset + HDMI_SYS_CFG20,
-+				   hdmi->sys_offset + hdmi->data->sys_cfg20,
- 				   0x80008005, enable ? 0x80000005 : 0x8000);
- 	else
- 		arm_smccc_smc(MTK_SIP_SET_AUTHORIZED_SECURE_REG, 0x14000904,
- 			      0x80000000, 0, 0, 0, 0, 0, &res);
- 
--	regmap_update_bits(hdmi->sys_regmap, hdmi->sys_offset + HDMI_SYS_CFG20,
-+	regmap_update_bits(hdmi->sys_regmap,
-+			   hdmi->sys_offset + hdmi->data->sys_cfg20,
- 			   HDMI_PCLK_FREE_RUN, enable ? HDMI_PCLK_FREE_RUN : 0);
--	regmap_update_bits(hdmi->sys_regmap, hdmi->sys_offset + HDMI_SYS_CFG1C,
-+	regmap_update_bits(hdmi->sys_regmap,
-+			   hdmi->sys_offset + hdmi->data->sys_cfg1c,
- 			   HDMI_ON | ANLG_ON, enable ? (HDMI_ON | ANLG_ON) : 0);
- }
- 
- static void mtk_hdmi_hw_1p4_version_enable(struct mtk_hdmi *hdmi, bool enable)
- {
--	regmap_update_bits(hdmi->sys_regmap, hdmi->sys_offset + HDMI_SYS_CFG20,
-+	regmap_update_bits(hdmi->sys_regmap,
-+			   hdmi->sys_offset + hdmi->data->sys_cfg20,
- 			   HDMI2P0_EN, enable ? 0 : HDMI2P0_EN);
- }
- 
-@@ -274,12 +283,15 @@ static void mtk_hdmi_hw_aud_unmute(struct mtk_hdmi *hdmi)
- 
- static void mtk_hdmi_hw_reset(struct mtk_hdmi *hdmi)
- {
--	regmap_update_bits(hdmi->sys_regmap, hdmi->sys_offset + HDMI_SYS_CFG1C,
-+	regmap_update_bits(hdmi->sys_regmap,
-+			   hdmi->sys_offset + hdmi->data->sys_cfg1c,
- 			   HDMI_RST, HDMI_RST);
--	regmap_update_bits(hdmi->sys_regmap, hdmi->sys_offset + HDMI_SYS_CFG1C,
-+	regmap_update_bits(hdmi->sys_regmap,
-+			   hdmi->sys_offset + hdmi->data->sys_cfg1c,
- 			   HDMI_RST, 0);
- 	mtk_hdmi_clear_bits(hdmi, GRL_CFG3, CFG3_CONTROL_PACKET_DELAY);
--	regmap_update_bits(hdmi->sys_regmap, hdmi->sys_offset + HDMI_SYS_CFG1C,
-+	regmap_update_bits(hdmi->sys_regmap,
-+			   hdmi->sys_offset + hdmi->data->sys_cfg1c,
- 			   ANLG_ON, ANLG_ON);
- }
- 
-@@ -362,16 +374,19 @@ static void mtk_hdmi_hw_send_aud_packet(struct mtk_hdmi *hdmi, bool enable)
- 
- static void mtk_hdmi_hw_config_sys(struct mtk_hdmi *hdmi)
- {
--	regmap_update_bits(hdmi->sys_regmap, hdmi->sys_offset + HDMI_SYS_CFG20,
-+	regmap_update_bits(hdmi->sys_regmap,
-+			   hdmi->sys_offset + hdmi->data->sys_cfg20,
- 			   HDMI_OUT_FIFO_EN | MHL_MODE_ON, 0);
- 	usleep_range(2000, 4000);
--	regmap_update_bits(hdmi->sys_regmap, hdmi->sys_offset + HDMI_SYS_CFG20,
-+	regmap_update_bits(hdmi->sys_regmap,
-+			   hdmi->sys_offset + hdmi->data->sys_cfg20,
- 			   HDMI_OUT_FIFO_EN | MHL_MODE_ON, HDMI_OUT_FIFO_EN);
- }
- 
- static void mtk_hdmi_hw_set_deep_color_mode(struct mtk_hdmi *hdmi)
- {
--	regmap_update_bits(hdmi->sys_regmap, hdmi->sys_offset + HDMI_SYS_CFG20,
-+	regmap_update_bits(hdmi->sys_regmap,
-+			   hdmi->sys_offset + hdmi->data->sys_cfg20,
- 			   DEEP_COLOR_MODE_MASK | DEEP_COLOR_EN,
- 			   COLOR_8BIT_MODE);
- }
-@@ -1733,6 +1748,7 @@ static int mtk_drm_hdmi_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	hdmi->dev = dev;
-+	hdmi->data = of_device_get_match_data(dev);
- 
- 	ret = mtk_hdmi_dt_parse_pdata(hdmi, pdev);
- 	if (ret)
-@@ -1813,8 +1829,15 @@ static int mtk_hdmi_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(mtk_hdmi_pm_ops,
- 			 mtk_hdmi_suspend, mtk_hdmi_resume);
- 
-+
-+static struct mtk_hdmi_data mt8173_hdmi_driver_data = {
-+	.sys_cfg1c = HDMI_SYS_CFG1C,
-+	.sys_cfg20 = HDMI_SYS_CFG20,
++static struct mtk_hdmi_data mt8167_hdmi_driver_data = {
++	.sys_cfg1c = MT8167_HDMI_SYS_CFG1C,
++	.sys_cfg20 = MT8167_HDMI_SYS_CFG20,
 +};
 +
  static const struct of_device_id mtk_drm_hdmi_of_ids[] = {
--	{ .compatible = "mediatek,mt8173-hdmi", },
-+	{ .compatible = "mediatek,mt8173-hdmi",
-+	  .data = &mt8173_hdmi_driver_data },
+ 	{ .compatible = "mediatek,mt8173-hdmi",
+ 	  .data = &mt8173_hdmi_driver_data },
++	{ .compatible = "mediatek,mt8167-hdmi",
++	  .data = &mt8167_hdmi_driver_data },
  	{}
  };
  
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_regs.h b/drivers/gpu/drm/mediatek/mtk_hdmi_regs.h
+index 2050ba45b23a..a0f9c367d7aa 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi_regs.h
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi_regs.h
+@@ -195,6 +195,7 @@
+ #define GEN_RGB				(0 << 7)
+ 
+ #define HDMI_SYS_CFG1C		0x000
++#define MT8167_HDMI_SYS_CFG1C	0x800
+ #define HDMI_ON				BIT(0)
+ #define HDMI_RST			BIT(1)
+ #define ANLG_ON				BIT(2)
+@@ -211,6 +212,7 @@
+ #define HTPLG_PIN_SEL_OFF		BIT(30)
+ #define AES_EFUSE_ENABLE		BIT(31)
+ #define HDMI_SYS_CFG20		0x004
++#define MT8167_HDMI_SYS_CFG20	0x804
+ #define DEEP_COLOR_MODE_MASK		(3 << 1)
+ #define COLOR_8BIT_MODE			(0 << 1)
+ #define COLOR_10BIT_MODE		(1 << 1)
 -- 
 2.28.0
 
