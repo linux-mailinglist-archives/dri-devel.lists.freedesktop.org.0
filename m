@@ -1,55 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE97828CF0C
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 15:19:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 031B228DA2F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 789296E8E5;
-	Tue, 13 Oct 2020 13:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B5EB6EA0E;
+	Wed, 14 Oct 2020 07:04:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2171D6E8E5
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 13:19:26 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id j136so21740016wmj.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 06:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8B+0WtYgA7UeCgdHhqNVOekRpYFEf1vC2587zk4d0MY=;
- b=QhM8Yr0/b9eLK5UJ81fkSr6KAy4hIe4AyujsbxECrW/9PeIenMIlOTh8nc5Uep6G6I
- E3x+Ql1+ZC1Id4hrgbehvsp3X7oYj+A50ES2iRD0rXpT0z1FGnEFAmHlUBcmLwx7MADt
- a101pFNdTjs0rYm7u06xVPJUD53huilrrJgQ2GoR06trQfvJ/cpcY3cZ1u/VWXDWpHcf
- ZLbomTb6xPigrsuCE9sTTYI17skaj3wAAduFVc/MsejnbM5QCahGHao0NkzC/sDVPMcp
- nFMMQxh95HTL/9gXvB4Ya3nIUvFFTt25AAjKX+3fmTGkxdOVeZooHzElp3upWmOavb2z
- Pf+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8B+0WtYgA7UeCgdHhqNVOekRpYFEf1vC2587zk4d0MY=;
- b=BOKN8Rt2Aa9YIkm0auM01PN1X17DxzIDJ1mfMhI8KwmKwWxPGBm6SqOt0QXT5E6AF+
- nLzNu/wBipmwXHOzY1PZA8B0RaV2fdOaUce6ZTV1f/SIaJhDvh+Zt8oxRKnPZfca4oY4
- Gk+ORwYWovybz4eDRrPzWOlJW9k27Maf6uMAyhHEF9FyC7Nz54aAKhX7poVeAhaAb2vl
- LPOeCiaRzusw2NuaUE2lDyYKZ0TnhO+aWe6lqlTdDfGmHYvQAdmsuUaRmdRAZ0+iSblq
- zRhPe2BkCb7uIvyQbkToAKjJBbQQJmhtjimwnXEmyKANeJl8V4I+44B1i3kBjyuFNuoG
- 2QNQ==
-X-Gm-Message-State: AOAM5318Hg4X2dJ/NlDZF8PH5NMJn6QUePf2/PLVzjhBraTc7uWiVfRh
- fzxwAI/c3uQrTIXR2iBHjOo5/0JrDtWFFrdPra0=
-X-Google-Smtp-Source: ABdhPJxxSyht6Y7/wEQ5OVHDCml+oVdMZYIvBSFPYZ52jZrh7e8w8C8sY6IoaVu8tniA4jmPFgzc40uxHg3h7Wenwn8=
-X-Received: by 2002:a1c:49c2:: with SMTP id w185mr15334045wma.70.1602595164758; 
- Tue, 13 Oct 2020 06:19:24 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 495DE6E8E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 13:27:21 +0000 (UTC)
+IronPort-SDR: o2WvGFT7ybCG9pB5feKcyMtptNvZQU0/tIwPNTpUsBV9Qg/qKOV8XXV10uCeR6wzcckvP+fIn8
+ 9Qtaa6EPYYWQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="250601684"
+X-IronPort-AV: E=Sophos;i="5.77,370,1596524400"; d="scan'208";a="250601684"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2020 06:27:19 -0700
+IronPort-SDR: TYK4IrnTR+X0Cbr/2jiotEL4uJt/+l9BMomWSZsNWrOI9e0q0acjCl5Wt1Itupj+iXpp7uy5uJ
+ sK5LZrwzsBng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,370,1596524400"; d="scan'208";a="351107056"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmsmga002.fm.intel.com with ESMTP; 13 Oct 2020 06:27:17 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 82D6C3BB; Tue, 13 Oct 2020 16:27:16 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ virtualization@lists.linux-foundation.org
+Subject: [PATCH v2] drm/virtio: Use UUID API for importing the UUID
+Date: Tue, 13 Oct 2020 16:27:14 +0300
+Message-Id: <20201013132714.70973-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <cover.1602589096.git.mchehab+huawei@kernel.org>
- <6e511c1938e4b5e312474ea50bdde964770c1e44.1602589096.git.mchehab+huawei@kernel.org>
-In-Reply-To: <6e511c1938e4b5e312474ea50bdde964770c1e44.1602589096.git.mchehab+huawei@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 13 Oct 2020 09:19:13 -0400
-Message-ID: <CADnq5_ND_6uRzxkeXZBo-QpGvB+azZMxPB=6vhF6xGvkOptZaw@mail.gmail.com>
-Subject: Re: [PATCH v6 65/80] docs: amdgpu: fix a warning when building the
- documentation
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+X-Mailman-Approved-At: Wed, 14 Oct 2020 07:03:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +52,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ David Stevens <stevensd@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+There is import_uuid() function which imports u8 array to the uuid_t.
+Use it instead of open coding variant.
 
-Alex
+This allows to hide the uuid_t internals.
 
-On Tue, Oct 13, 2020 at 7:54 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> As reported by Sphinx:
->
->         Documentation/gpu/amdgpu.rst:200: WARNING: Inline emphasis start-string without end-string.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/gpu/amdgpu.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/gpu/amdgpu.rst b/Documentation/gpu/amdgpu.rst
-> index 17112352f605..4ed8ecf1cd86 100644
-> --- a/Documentation/gpu/amdgpu.rst
-> +++ b/Documentation/gpu/amdgpu.rst
-> @@ -197,8 +197,8 @@ pp_power_profile_mode
->  .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
->     :doc: pp_power_profile_mode
->
-> -*_busy_percent
-> -~~~~~~~~~~~~~~
-> +\*_busy_percent
-> +~~~~~~~~~~~~~~~
->
->  .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
->     :doc: gpu_busy_percent
-> --
-> 2.26.2
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Reviewed-by: David Stevens <stevensd@chromium.org>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: rebased on top of drm-misc-next (Gerd), added Rb tag (David)
+ drivers/gpu/drm/virtio/virtgpu_vq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 6434b9fb38a6..c1824f536936 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -1141,7 +1141,7 @@ static void virtio_gpu_cmd_resource_uuid_cb(struct virtio_gpu_device *vgdev,
+ 
+ 	if (resp_type == VIRTIO_GPU_RESP_OK_RESOURCE_UUID &&
+ 	    obj->uuid_state == STATE_INITIALIZING) {
+-		memcpy(&obj->uuid.b, resp->uuid, sizeof(obj->uuid.b));
++		import_uuid(&obj->uuid, resp->uuid);
+ 		obj->uuid_state = STATE_OK;
+ 	} else {
+ 		obj->uuid_state = STATE_ERR;
+-- 
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
