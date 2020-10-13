@@ -1,43 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434F228D6EE
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 01:18:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D235428D6F5
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 01:30:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A54D66E982;
-	Tue, 13 Oct 2020 23:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F14756E994;
+	Tue, 13 Oct 2020 23:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A56F6E982
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 23:17:57 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.1.79])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E8A7520B1F;
- Tue, 13 Oct 2020 23:17:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602631077;
- bh=UQ1kTWTCvomm7q0TZd9VPzHpHgnguOcIZu5JIN7IRpY=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=DFcN8qVOV4J2yI4znV6kmlilndnh2Ne6YdgO13yzegnqrxHEX1N40a2B2r1ZtCVu0
- cBmQBzxX9ApPMcKW2Yygot3ZUIgCN5Io0+IqvUeEWBD31eENWsRuWbwYrPJeNPNmGF
- c/SIgXvCS5TFk63eACfY14qL/LqPVkf8QcXTwA3Y=
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F62A6E994
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 23:30:51 +0000 (UTC)
+IronPort-SDR: QYECrz9nLHQvJZepZwRHUBuchEV9zHyH3ugRNgk1fAq4hoKNOfUxhpkmQeKd2vdbllF2lfq8x/
+ 9UIMysnMeLQg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="166115764"
+X-IronPort-AV: E=Sophos;i="5.77,372,1596524400"; d="scan'208";a="166115764"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2020 16:30:50 -0700
+IronPort-SDR: 235LoJrnDi8tb/2MVYVbqUho211EXcnyCLEh3YDOE9lJvmMGsuGANCF6MixwASEPbaW4LE6+xF
+ xwG/25jfLLIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,372,1596524400"; d="scan'208";a="345438754"
+Received: from irsmsx606.ger.corp.intel.com ([163.33.146.139])
+ by fmsmga004.fm.intel.com with ESMTP; 13 Oct 2020 16:30:49 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ IRSMSX606.ger.corp.intel.com (163.33.146.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 14 Oct 2020 00:30:47 +0100
+Received: from orsmsx610.amr.corp.intel.com ([10.22.229.23]) by
+ ORSMSX610.amr.corp.intel.com ([10.22.229.23]) with mapi id 15.01.1713.004;
+ Tue, 13 Oct 2020 16:30:46 -0700
+From: "Paauwe, Bob J" <bob.j.paauwe@intel.com>
+To: Rob Herring <robh@kernel.org>, "Chrisanthus, Anitha"
+ <anitha.chrisanthus@intel.com>
+Subject: RE: [PATCH v9 1/5] dt-bindings: display: Add support for Intel
+ KeemBay Display
+Thread-Topic: [PATCH v9 1/5] dt-bindings: display: Add support for Intel
+ KeemBay Display
+Thread-Index: AQHWndgeA8gVyqifRECc4bPveICdhKmPcYSAgAW2nACAAQB6AIAAA2rw
+Date: Tue, 13 Oct 2020 23:30:46 +0000
+Message-ID: <e765f70b66494d6eace3d2de2ee5628d@intel.com>
+References: <1602205443-9036-1-git-send-email-anitha.chrisanthus@intel.com>
+ <1602205443-9036-2-git-send-email-anitha.chrisanthus@intel.com>
+ <dc12f5ea-60bc-8a09-9b93-a4472183adc4@baylibre.com>
+ <BY5PR11MB41827BBE3556CD7972E6C4328C040@BY5PR11MB4182.namprd11.prod.outlook.com>
+ <20201013154236.GA3562909@bogus>
+In-Reply-To: <20201013154236.GA3562909@bogus>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.132]
 MIME-Version: 1.0
-In-Reply-To: <O0S7HQ.34QHSNHJ7JWJ2@crapouillou.net>
-References: <20200915123818.13272-1-paul@crapouillou.net>
- <20200915123818.13272-3-paul@crapouillou.net>
- <20200924202237.GJ1223313@ravnborg.org>
- <O0S7HQ.34QHSNHJ7JWJ2@crapouillou.net>
-Subject: Re: [PATCH 2/3] drm/ingenic: Reset pixclock rate when parent clock
- rate changes
-From: Stephen Boyd <sboyd@kernel.org>
-To: Michael Turquette <mturquette@baylibre.com>,
- Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>
-Date: Tue, 13 Oct 2020 16:17:55 -0700
-Message-ID: <160263107570.310579.5439811142598502777@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +71,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, od@zcrc.me, linux-clk@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, "Dea,
+ Edmund J" <edmund.j.dea@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vetter, 
+ Daniel" <daniel.vetter@intel.com>, "sam@ravnborg.org" <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Paul Cercueil (2020-09-25 05:29:12)
-> >>  +static int ingenic_drm_update_pixclk(struct notifier_block *nb,
-> >>  +                                unsigned long action,
-> >>  +                                void *data)
-> >>  +{
-> >>  +   struct ingenic_drm *priv = drm_nb_get_priv(nb);
-> >>  +
-> >>  +   switch (action) {
-> >>  +   case PRE_RATE_CHANGE:
-> >>  +           mutex_lock(&priv->clk_mutex);
-> >>  +           priv->update_clk_rate = true;
-> >>  +           drm_crtc_wait_one_vblank(&priv->crtc);
-> >>  +           return NOTIFY_OK;
-> >>  +   default:
-> >>  +           mutex_unlock(&priv->clk_mutex);
-> > Any risk the POST_RATE_CHANGE or ABORT_RATE_CHANGE may go missing so 
-> > we
-> > fail to unlock the mutex?
-> > I think not but wanted to make sure you had thought about it.
+> -----Original Message-----
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Rob
+> Herring
+> Sent: Tuesday, October 13, 2020 8:43 AM
+> To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>
+> Cc: devicetree@vger.kernel.org; Neil Armstrong <narmstrong@baylibre.com>;
+> Dea, Edmund J <edmund.j.dea@intel.com>; dri-devel@lists.freedesktop.org;
+> Vetter, Daniel <daniel.vetter@intel.com>; sam@ravnborg.org
+> Subject: Re: [PATCH v9 1/5] dt-bindings: display: Add support for Intel KeemBay
+> Display
 > 
-> My assumption was that you always get POST_RATE_CHANGE or 
-> ABORT_RATE_CHANGE. But I am not 100% sure about that.
+> On Tue, Oct 13, 2020 at 12:24:38AM +0000, Chrisanthus, Anitha wrote:
+> > Hi Neil,
+> >
+> >  Thanks for your review, please see my reply inline.
+> >
+> > > -----Original Message-----
+> > > From: Neil Armstrong <narmstrong@baylibre.com>
+> > > Sent: Friday, October 9, 2020 2:10 AM
+> > > To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>; dri-
+> > > devel@lists.freedesktop.org; devicetree@vger.kernel.org; Vetter, Daniel
+> > > <daniel.vetter@intel.com>
+> > > Cc: Dea, Edmund J <edmund.j.dea@intel.com>; sam@ravnborg.org
+> > > Subject: Re: [PATCH v9 1/5] dt-bindings: display: Add support for Intel
+> > > KeemBay Display
+> > >
+> > > Hi,
+> > >
+> > > On 09/10/2020 03:03, Anitha Chrisanthus wrote:
+> > > > This patch adds bindings for Intel KeemBay Display
+> > > >
+> > > > v2: review changes from Rob Herring
+> > > >
+> > > > Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > > > ---
+> > > >  .../bindings/display/intel,keembay-display.yaml    | 99
+> > > ++++++++++++++++++++++
+> > > >  1 file changed, 99 insertions(+)
+> > > >  create mode 100644
+> > > Documentation/devicetree/bindings/display/intel,keembay-display.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/display/intel,keembay-
+> > > display.yaml b/Documentation/devicetree/bindings/display/intel,keembay-
+> > > display.yaml
+> > > > new file mode 100644
+> > > > index 0000000..a38493d
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/display/intel,keembay-
+> > > display.yaml
+> > > > @@ -0,0 +1,99 @@
+> > > > +# SPDX-License-Identifier: GPL-2.0-only
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/display/intel,keembay-
+> > > display.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Devicetree bindings for Intel Keem Bay display controller
+> > > > +
+> > > > +maintainers:
+> > > > +  - Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > > > +  - Edmond J Dea <edmund.j.dea@intel.com>
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    const: intel,kmb_display
+> > > > +
+> > > > +  reg:
+> > > > +    items:
+> > > > +      - description: Lcd registers range
+> > > > +      - description: Mipi registers range
+> > >
+> > > Looking at the registers, the MIPI transceiver seems to be a separate IP,
+> > > same for D-PHY which should have a proper PHY driver instead of beeing
+> > > handled
+> > > here.
+> > >
+> > The LCD, MIPI DSI, DPHY and MSSCAM as a group, are considered the
+> > display subsystem for Keem Bay. As such, there are several
+> > interdependencies that make splitting them up next to impossible and
 > 
-> Michael, Stephen: is it safe to assume that I will always get notified 
-> with POST_RATE_CHANGE or ABORT_RATE_CHANGE, after I got notified with 
-> PRE_RATE_CHANGE?
+> Please detail what those inter-dependencies are. It's doubtful that you
+> have anything we have not had to deal with in other SoCs.
 > 
+> > currently we do not have the resources available for that effort.
+> 
+> That is certainly not justification for accepting this.
+> 
+> Rob
 
-I think one or the other will happen. Of course, the notifiers are sort
-of shunned so if you can avoid using notifiers entirely it would be
-better.
+Hi Rob,  the wording was probably a bit exaggerated and you're right in that
+there it's not unique from a hardware perspective.
+
+The problem we have (and I know, it's our problem, not yours) is that our 
+program required us to develop this internally first and then try to upstream it. 
+So now that we've put a large effort into developing and testing the driver, it's 
+very difficult for us to justify the resources to re-design it to better match the
+design of other SOC display drivers.
+
+We did review other SOC display drivers before creating this and thought that we
+were following the best practices for the design.
+
+I fully agree that lack of resources is not justification for not fixing something
+broken. But on the flip side,  neither is changing the design because it could
+be "better" justification for not accepting it.
+
+If there is something wrong with the driver and it will cause problems in the
+future, then please, let us know.  That would provide the data needed to 
+justify additional effort.
+
+Bob
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
