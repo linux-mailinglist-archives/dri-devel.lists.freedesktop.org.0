@@ -2,42 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995D328CF61
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 15:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CC028CF91
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 15:54:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6E936E8EA;
-	Tue, 13 Oct 2020 13:42:43 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7FEA36E8EA;
- Tue, 13 Oct 2020 13:42:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A164830E;
- Tue, 13 Oct 2020 06:42:41 -0700 (PDT)
-Received: from [10.57.48.76] (unknown [10.57.48.76])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A63CD3F719;
- Tue, 13 Oct 2020 06:42:39 -0700 (PDT)
-Subject: Re: [PATCH 2/3] drm/msm: add DRM_MSM_GEM_SYNC_CACHE for non-coherent
- cache maintenance
-To: Christoph Hellwig <hch@infradead.org>, Jonathan Marek <jonathan@marek.ca>
-References: <20201001002709.21361-1-jonathan@marek.ca>
- <20201001002709.21361-3-jonathan@marek.ca>
- <20201002075321.GA7547@infradead.org>
- <b22fb797-67b0-a912-1d23-2b47c9a9e674@marek.ca>
- <20201005082914.GA31702@infradead.org>
- <3e0b91be-e4a4-4ea5-7d58-6e71b8d51932@marek.ca>
- <20201006072306.GA12834@infradead.org>
- <148a1660-f0fc-7163-2240-6b94725342b5@marek.ca>
- <20201007062519.GA23519@infradead.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <c3baadae-8e20-86a6-44f5-4571a8d3035e@arm.com>
-Date: Tue, 13 Oct 2020 14:42:38 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92A246E8F3;
+	Tue, 13 Oct 2020 13:54:17 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE5C6E12B
+ for <dri-devel@freedesktop.org>; Tue, 13 Oct 2020 13:54:11 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1602597256; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=gsLBNF08kIQUPHwWgPJ8tOTx9xUsVo2JFkq3bKSuruw=;
+ b=UmlfInE5d4fBbl+xi6dTuwT0ebXoY0BOyj/nmmuTgpo1OKYNeq0BSU5M2Sfuzh/qjMUMKAW7
+ x2sKOv51mg4D1QJoRQOsvDFz2W64q5zYiQlXWYAuW+5H7XZeQMMSsBJrLSPHHtoVgbZDR6m/
+ oBtMrmTRp3g681EQcCqE/E6ownk=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5f85b164a03b63d673377e71 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 13 Oct 2020 13:53:40
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 87536C43385; Tue, 13 Oct 2020 13:53:40 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from [192.168.1.9] (unknown [117.210.177.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5BD99C433F1;
+ Tue, 13 Oct 2020 13:53:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5BD99C433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+Subject: Re: [2/2] drm/msm: Add support for GPU cooling
+To: mka@chromium.org
+References: <1602176947-17385-2-git-send-email-akhilpo@codeaurora.org>
+ <20201009183640.GB1292413@google.com>
+ <cab2105e-7a8c-988f-dcc1-056692a94e8b@codeaurora.org>
+ <20201012174035.GA44627@google.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+Message-ID: <80ded484-a058-70fc-be9d-045be2933563@codeaurora.org>
+Date: Tue, 13 Oct 2020 19:23:34 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201007062519.GA23519@infradead.org>
-Content-Language: en-GB
+In-Reply-To: <20201012174035.GA44627@google.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,41 +72,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- Joerg Roedel <joro@8bytes.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- iommu@lists.linux-foundation.org,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sean Paul <sean@poorly.run>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@freedesktop.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-07 07:25, Christoph Hellwig wrote:
-> On Tue, Oct 06, 2020 at 09:19:32AM -0400, Jonathan Marek wrote:
->> One example why drm/msm can't use DMA API is multiple page table support
->> (that is landing in 5.10), which is something that definitely couldn't work
->> with DMA API.
->>
->> Another one is being able to choose the address for mappings, which AFAIK
->> DMA API can't do (somewhat related to this: qcom hardware often has ranges
->> of allowed addresses, which the dma_mask mechanism fails to represent, what
->> I see is drivers using dma_mask as a "maximum address", and since addresses
->> are allocated from the top it generally works)
+On 10/12/2020 11:10 PM, mka@chromium.org wrote:
+> On Mon, Oct 12, 2020 at 07:03:51PM +0530, Akhil P Oommen wrote:
+>> On 10/10/2020 12:06 AM, mka@chromium.org wrote:
+>>> Hi Akhil,
+>>>
+>>> On Thu, Oct 08, 2020 at 10:39:07PM +0530, Akhil P Oommen wrote:
+>>>> Register GPU as a devfreq cooling device so that it can be passively
+>>>> cooled by the thermal framework.
+>>>>
+>>>> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/msm_gpu.c | 13 ++++++++++++-
+>>>>    drivers/gpu/drm/msm/msm_gpu.h |  2 ++
+>>>>    2 files changed, 14 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+>>>> index 55d1648..93ffd66 100644
+>>>> --- a/drivers/gpu/drm/msm/msm_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+>>>> @@ -14,6 +14,7 @@
+>>>>    #include <generated/utsrelease.h>
+>>>>    #include <linux/string_helpers.h>
+>>>>    #include <linux/devfreq.h>
+>>>> +#include <linux/devfreq_cooling.h>
+>>>>    #include <linux/devcoredump.h>
+>>>>    #include <linux/sched/task.h>
+>>>> @@ -107,9 +108,18 @@ static void msm_devfreq_init(struct msm_gpu *gpu)
+>>>>    	if (IS_ERR(gpu->devfreq.devfreq)) {
+>>>>    		DRM_DEV_ERROR(&gpu->pdev->dev, "Couldn't initialize GPU devfreq\n");
+>>>>    		gpu->devfreq.devfreq = NULL;
+>>>> +		return;
+>>>>    	}
+>>>>    	devfreq_suspend_device(gpu->devfreq.devfreq);
+>>>> +
+>>>> +	gpu->cooling = of_devfreq_cooling_register(gpu->pdev->dev.of_node,
+>>>> +			gpu->devfreq.devfreq);
+>>>> +	if (IS_ERR(gpu->cooling)) {
+>>>> +		DRM_DEV_ERROR(&gpu->pdev->dev,
+>>>> +				"Couldn't register GPU cooling device\n");
+>>>> +		gpu->cooling = NULL;
+>>>> +	}
+>>>>    }
+>>>>    static int enable_pwrrail(struct msm_gpu *gpu)
+>>>> @@ -926,7 +936,6 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>>>    	msm_devfreq_init(gpu);
+>>>> -
+Will remove this unintended change.
+>>>>    	gpu->aspace = gpu->funcs->create_address_space(gpu, pdev);
+>>>>    	if (gpu->aspace == NULL)
+>>>> @@ -1005,4 +1014,6 @@ void msm_gpu_cleanup(struct msm_gpu *gpu)
+>>>>    		gpu->aspace->mmu->funcs->detach(gpu->aspace->mmu);
+>>>>    		msm_gem_address_space_put(gpu->aspace);
+>>>>    	}
+>>>> +
+>>>> +	devfreq_cooling_unregister(gpu->cooling);
+>>>
+>>> Resources should be released in reverse order, otherwise the cooling device
+>>> could use resources that have already been freed.
+>>> Why do you think this is not the correct order? If you are thinking
+>> about devfreq struct, it is managed device resource.
 > 
-> That sounds like a good enough rason to use the IOMMU API.  I just
-> wanted to make sure this really makes sense.
+> I did not check specifically if changing the frequency really uses any of the
+> resources that are released previously, In any case it's not a good idea to
+> allow other parts of the kernel to use a half initialized/torn down device.
+> Even if it isn't a problem today someone could change the driver to use any
+> of these resources (or add a new one) in a frequency change, without even
+> thinking about the cooling device, just (rightfully) asuming that things are
+> set up and torn down in a sane order.
+'sane order' relative to what specifically here? Should we worry about 
+freq change at this point because we have already disabled gpu runtime 
+pm and devfreq?
 
-I still think this situation would be best handled with a variant of 
-dma_ops_bypass that also guarantees to bypass SWIOTLB, and can be set 
-automatically when attaching to an unmanaged IOMMU domain. That way the 
-device driver can make DMA API calls in the appropriate places that do 
-the right thing either way, and only needs logic to decide whether to 
-use the returned DMA addresses directly or ignore them if it knows 
-they're overridden by its own IOMMU mapping.
+-Akhil.
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 
-Robin.
+
+-Akhil.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
