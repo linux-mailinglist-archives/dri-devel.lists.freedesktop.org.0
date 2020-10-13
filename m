@@ -2,75 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D707928D4F1
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 21:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C421228DA32
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:04:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64ED06E93C;
-	Tue, 13 Oct 2020 19:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 314E86EA0A;
+	Wed, 14 Oct 2020 07:04:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76D576E93C
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 19:49:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602618556;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f0ux1xTKPBxfq9RjQgexlsC3i9yhXD4P12rrGU6ncZQ=;
- b=C+9RmjIYXHXqlouXKyhljoxHCMcI/ebP0pB6WBBD1k5AWGp6Zw0Ph/cYB5MPGIHrA+9O1Z
- wNRTCYQ2YOb1pWQNJ/ynrFTLllzO+6Tu3xdCwGr43lPr5n8kI4S2FmJ7YRFmU58ttXhyTb
- hserdyfqjbg7/rk8zUw0+3reJ+tGlkM=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149--3bK2S8sOrGx-AdK54QCGQ-1; Tue, 13 Oct 2020 15:49:14 -0400
-X-MC-Unique: -3bK2S8sOrGx-AdK54QCGQ-1
-Received: by mail-il1-f198.google.com with SMTP id y62so700079ilk.20
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 12:49:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=f0ux1xTKPBxfq9RjQgexlsC3i9yhXD4P12rrGU6ncZQ=;
- b=pGeYxnmcV41ukpeskM0s98kYEhpXo+m+G89wAin2DyC/ZVW25Zny8QYkLmm09JK7Ir
- 4w6kzzj2+uQJuHmRBrQ4sxLPdLjbuoWQ4URiq1Qh9tVYHJ2M0hxZEFGHge4DJgInqofm
- 1yM7trtQz4zdOfiVpmh+Pfw/2HV+eASEJOjOj/5sm/1QnqFCniOqatUvgMh4xZYsAaiW
- WHcLrDThfivcco5o4RiDcIlAKRq9ywyd6hHtveMqCaTvfTGTooOCPY81uusYlGfv8H6l
- p5+6OIvAor5oHtUWjQrVvpDhCwe9HaI45HwUP67j9ZbNCECFapjfWTBQP/MFbjX45jck
- mrtQ==
-X-Gm-Message-State: AOAM533O/6olOoT/OhOapXwJDjz8OZebeixBuPkcyKAteckks5tYULeO
- mORkI3Y7dC7LZkE5ml2a2gawpnNnrGmwHYLj5wSmYlqpZDX3qAgpMfh/Tk86YMvFQyOp48uqQR2
- ymzOAdZ1XvSX+QKO3yMlN1s1mGTAV
-X-Received: by 2002:a5d:904d:: with SMTP id v13mr367269ioq.116.1602618554060; 
- Tue, 13 Oct 2020 12:49:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzDqfEEfyJyMyCoWRznA9va/mq9ExgxhqBZ33Zi9msVGip30Bel4moaxsKIohV04qcw3BC6lA==
-X-Received: by 2002:a5d:904d:: with SMTP id v13mr367264ioq.116.1602618553871; 
- Tue, 13 Oct 2020 12:49:13 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id p12sm873496ili.14.2020.10.13.12.49.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 12:49:13 -0700 (PDT)
-Message-ID: <b7c9b5ddc2bdd5d1a0bb5a000d88681ad0b6fabe.camel@redhat.com>
-Subject: Re: [PATCH v2 12/24] drm/dp: fix a kernel-doc issue at drm_edid.c
-From: Lyude Paul <lyude@redhat.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Date: Tue, 13 Oct 2020 15:49:11 -0400
-In-Reply-To: <96d648f86024535e5f7d5b0caf8ebf93c7f8eaab.1602590106.git.mchehab+huawei@kernel.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <96d648f86024535e5f7d5b0caf8ebf93c7f8eaab.1602590106.git.mchehab+huawei@kernel.org>
-Organization: Red Hat
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+X-Greylist: delayed 1797 seconds by postgrey-1.36 at gabe;
+ Tue, 13 Oct 2020 20:32:43 UTC
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 691D06E941;
+ Tue, 13 Oct 2020 20:32:43 +0000 (UTC)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
+ Linux)) id 1kSQUX-00H96b-NT; Tue, 13 Oct 2020 20:01:49 +0000
+Date: Tue, 13 Oct 2020 21:01:49 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH RFC PKS/PMEM 33/58] fs/cramfs: Utilize new kmap_thread()
+Message-ID: <20201013200149.GI3576660@ZenIV.linux.org.uk>
+References: <20201009195033.3208459-1-ira.weiny@intel.com>
+ <20201009195033.3208459-34-ira.weiny@intel.com>
+ <CAPcyv4gL3jfw4d+SJGPqAD3Dp4F_K=X3domuN4ndAA1FQDGcPg@mail.gmail.com>
+ <20201013193643.GK20115@casper.infradead.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20201013193643.GK20115@casper.infradead.org>
+X-Mailman-Approved-At: Wed, 14 Oct 2020 07:03:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,57 +41,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-aio@kvack.org, linux-efi <linux-efi@vger.kernel.org>,
+ KVM list <kvm@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, linux-mmc@vger.kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>, target-devel@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-kselftest@vger.kernel.org,
+ samba-technical@lists.samba.org, "Weiny, Ira" <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, drbd-dev@lists.linbit.com,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-nvdimm <linux-nvdimm@lists.01.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, X86 ML <x86@kernel.org>,
+ ceph-devel@vger.kernel.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ io-uring@vger.kernel.org, cluster-devel@redhat.com,
+ Ingo Molnar <mingo@redhat.com>, intel-wired-lan@lists.osuosl.org,
+ xen-devel <xen-devel@lists.xenproject.org>,
+ linux-ext4 <linux-ext4@vger.kernel.org>, Fenghua Yu <fenghua.yu@intel.com>,
+ linux-afs@lists.infradead.org, linux-um@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, ecryptfs@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-cachefs@redhat.com,
+ linux-nfs@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+ linux-ntfs-dev@lists.sourceforge.net, Netdev <netdev@vger.kernel.org>,
+ Kexec Mailing List <kexec@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-f2fs-devel@lists.sourceforge.net,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ linux-btrfs <linux-btrfs@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-wait, I think there's some confusion here. these patches have already been
-pushed
+On Tue, Oct 13, 2020 at 08:36:43PM +0100, Matthew Wilcox wrote:
 
-
-On Tue, 2020-10-13 at 14:14 +0200, Mauro Carvalho Chehab wrote:
-> The name of the argument is different, causing those warnings:
+> static inline void copy_to_highpage(struct page *to, void *vfrom, unsigned int size)
+> {
+> 	char *vto = kmap_atomic(to);
 > 
-> 	./drivers/gpu/drm/drm_edid.c:3754: warning: Function parameter or member
-> 'video_code' not described in 'drm_display_mode_from_cea_vic'
-> 	./drivers/gpu/drm/drm_edid.c:3754: warning: Excess function parameter
-> 'vic' description in 'drm_display_mode_from_cea_vic'
+> 	memcpy(vto, vfrom, size);
+> 	kunmap_atomic(vto);
+> }
 > 
-> Fixes: 7af655bce275 ("drm/dp: Add drm_dp_downstream_mode()")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/gpu/drm/drm_edid.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index a82f37d44258..631125b46e04 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -3741,7 +3741,7 @@ drm_add_cmdb_modes(struct drm_connector *connector, u8
-> svd)
->  /**
->   * drm_display_mode_from_cea_vic() - return a mode for CEA VIC
->   * @dev: DRM device
-> - * @vic: CEA VIC of the mode
-> + * @video_code: CEA VIC of the mode
->   *
->   * Creates a new mode matching the specified CEA VIC.
->   *
--- 
-Sincerely,
-      Lyude Paul (she/her)
-      Software Engineer at Red Hat
+> in linux/highmem.h ?
 
-Note: I deal with a lot of emails and have a lot of bugs on my plate. If you've
-asked me a question, are waiting for a review/merge on a patch, etc. and I
-haven't responded in a while, please feel free to send me another email to check
-on my status. I don't bite!
+You mean, like
+static void memcpy_from_page(char *to, struct page *page, size_t offset, size_t len)
+{
+        char *from = kmap_atomic(page);
+        memcpy(to, from + offset, len);
+        kunmap_atomic(from);
+}
 
+static void memcpy_to_page(struct page *page, size_t offset, const char *from, size_t len)
+{
+        char *to = kmap_atomic(page);
+        memcpy(to + offset, from, len);
+        kunmap_atomic(to);
+}
+
+static void memzero_page(struct page *page, size_t offset, size_t len)
+{
+        char *addr = kmap_atomic(page);
+        memset(addr + offset, 0, len);
+        kunmap_atomic(addr);
+}
+
+in lib/iov_iter.c?  FWIW, I don't like that "highpage" in the name and
+highmem.h as location - these make perfect sense regardless of highmem;
+they are normal memory operations with page + offset used instead of
+a pointer...
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
