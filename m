@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4605028D4B5
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 21:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D707928D4F1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 21:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A0D6E938;
-	Tue, 13 Oct 2020 19:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64ED06E93C;
+	Tue, 13 Oct 2020 19:49:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A03106E939
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 19:41:49 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id e22so1473828ejr.4
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 12:41:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jlOzF1QhqikCoQxsvfJV6M6Hjgbrow9dB9uNs1AoGLE=;
- b=kTjS5KS3nYcf/wrvTsuRt1BvzGw557kJOoPvyzYoBgiqb4b8bKtbI2/mMLiZYyRjFR
- J9ydTuu0x47x+MEvbUBFhFH3/2QgRWgMVRtg9k6OLuYDe131Mp/cuPa30fJMGhSFjepr
- cqBBXWNROTwzHkSN49lY/psarWhxU27El5EYWXEJaiWvhTqo66L6QK98x3Y0Yvi2nF9y
- UTW/CUag9LBP+VfPW+1mn8JfLpPCSXoAzeg5FBjWoJMu0+7UEW9Ka5T8iigFwOd+JDvR
- rrctnvxFOZW164mxjZq4IMmZGZxG4l2jAUbsCf6skOMzcKIRAwJ8OakZ/jL0rfexuXSd
- 7ngQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D576E93C
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 19:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602618556;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f0ux1xTKPBxfq9RjQgexlsC3i9yhXD4P12rrGU6ncZQ=;
+ b=C+9RmjIYXHXqlouXKyhljoxHCMcI/ebP0pB6WBBD1k5AWGp6Zw0Ph/cYB5MPGIHrA+9O1Z
+ wNRTCYQ2YOb1pWQNJ/ynrFTLllzO+6Tu3xdCwGr43lPr5n8kI4S2FmJ7YRFmU58ttXhyTb
+ hserdyfqjbg7/rk8zUw0+3reJ+tGlkM=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149--3bK2S8sOrGx-AdK54QCGQ-1; Tue, 13 Oct 2020 15:49:14 -0400
+X-MC-Unique: -3bK2S8sOrGx-AdK54QCGQ-1
+Received: by mail-il1-f198.google.com with SMTP id y62so700079ilk.20
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 12:49:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jlOzF1QhqikCoQxsvfJV6M6Hjgbrow9dB9uNs1AoGLE=;
- b=H6xxDArtHK9LSaYZPIi7fsh0d5s4tOXmmaPYANtnEHTMbKLweKCGeBK6eTU0k3TVH3
- U/Wn3f4NjVT8SglK8dhki8Fo0fqOBPBramA2qvrazJgz6c+0o/U12tBlxsDyVzVTsELW
- 6DJwGx4JG4GeUsgBXSyCt8AnLsPz+9XKflFjZKO2ZavboExqTYr/5vcf8DCTHa1Nmt+y
- af+O5FHTExYy1c1QwAPLJZ24+/9KfeQ+NXQi2k8mVwWvNC+Iv7emX2dq6hqzxMFmtlYV
- G0NpwxLpYMXO6GIfn+l42GR0OZxg4+wvgdNNmPNUALubW0iX7r2wbHd5TKjWp/Lrg5oi
- Awhg==
-X-Gm-Message-State: AOAM531EY8qhF6pbWKV92RoQ/LJX32ZpNiU96VAvecXFN3aTaZF7BbY6
- GZ26u8go5TrxOcai4CLqNv8jS+9SjLEQ7M48bpKXtA==
-X-Google-Smtp-Source: ABdhPJxGxhMZ7o2BYtIDXOupUr3pSHVXck0tIwC9HMZ0nIbp0pU6AQKRljKqMwVkoxmX0BYp74elTVEnpYvo3LWFH24=
-X-Received: by 2002:a17:906:7e47:: with SMTP id
- z7mr1390518ejr.418.1602618108255; 
- Tue, 13 Oct 2020 12:41:48 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=f0ux1xTKPBxfq9RjQgexlsC3i9yhXD4P12rrGU6ncZQ=;
+ b=pGeYxnmcV41ukpeskM0s98kYEhpXo+m+G89wAin2DyC/ZVW25Zny8QYkLmm09JK7Ir
+ 4w6kzzj2+uQJuHmRBrQ4sxLPdLjbuoWQ4URiq1Qh9tVYHJ2M0hxZEFGHge4DJgInqofm
+ 1yM7trtQz4zdOfiVpmh+Pfw/2HV+eASEJOjOj/5sm/1QnqFCniOqatUvgMh4xZYsAaiW
+ WHcLrDThfivcco5o4RiDcIlAKRq9ywyd6hHtveMqCaTvfTGTooOCPY81uusYlGfv8H6l
+ p5+6OIvAor5oHtUWjQrVvpDhCwe9HaI45HwUP67j9ZbNCECFapjfWTBQP/MFbjX45jck
+ mrtQ==
+X-Gm-Message-State: AOAM533O/6olOoT/OhOapXwJDjz8OZebeixBuPkcyKAteckks5tYULeO
+ mORkI3Y7dC7LZkE5ml2a2gawpnNnrGmwHYLj5wSmYlqpZDX3qAgpMfh/Tk86YMvFQyOp48uqQR2
+ ymzOAdZ1XvSX+QKO3yMlN1s1mGTAV
+X-Received: by 2002:a5d:904d:: with SMTP id v13mr367269ioq.116.1602618554060; 
+ Tue, 13 Oct 2020 12:49:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDqfEEfyJyMyCoWRznA9va/mq9ExgxhqBZ33Zi9msVGip30Bel4moaxsKIohV04qcw3BC6lA==
+X-Received: by 2002:a5d:904d:: with SMTP id v13mr367264ioq.116.1602618553871; 
+ Tue, 13 Oct 2020 12:49:13 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id p12sm873496ili.14.2020.10.13.12.49.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Oct 2020 12:49:13 -0700 (PDT)
+Message-ID: <b7c9b5ddc2bdd5d1a0bb5a000d88681ad0b6fabe.camel@redhat.com>
+Subject: Re: [PATCH v2 12/24] drm/dp: fix a kernel-doc issue at drm_edid.c
+From: Lyude Paul <lyude@redhat.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Date: Tue, 13 Oct 2020 15:49:11 -0400
+In-Reply-To: <96d648f86024535e5f7d5b0caf8ebf93c7f8eaab.1602590106.git.mchehab+huawei@kernel.org>
+References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+ <96d648f86024535e5f7d5b0caf8ebf93c7f8eaab.1602590106.git.mchehab+huawei@kernel.org>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
- <20201009195033.3208459-34-ira.weiny@intel.com>
- <CAPcyv4gL3jfw4d+SJGPqAD3Dp4F_K=X3domuN4ndAA1FQDGcPg@mail.gmail.com>
- <20201013193643.GK20115@casper.infradead.org>
-In-Reply-To: <20201013193643.GK20115@casper.infradead.org>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Tue, 13 Oct 2020 12:41:36 -0700
-Message-ID: <CAPcyv4gL70FcLe8az7ezmpcZV=bG0Cka7daKWcCdmV4GoenSZw@mail.gmail.com>
-Subject: Re: [PATCH RFC PKS/PMEM 33/58] fs/cramfs: Utilize new kmap_thread()
-To: Matthew Wilcox <willy@infradead.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,90 +83,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aio@kvack.org, linux-efi <linux-efi@vger.kernel.org>,
- KVM list <kvm@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, linux-mmc@vger.kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>, target-devel@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-kselftest@vger.kernel.org,
- samba-technical@lists.samba.org, "Weiny, Ira" <ira.weiny@intel.com>,
- ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
- devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
- linux-nilfs@vger.kernel.org, linux-scsi <linux-scsi@vger.kernel.org>,
- linux-nvdimm <linux-nvdimm@lists.01.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, X86 ML <x86@kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, io-uring@vger.kernel.org,
- cluster-devel@redhat.com, Ingo Molnar <mingo@redhat.com>,
- intel-wired-lan@lists.osuosl.org, xen-devel <xen-devel@lists.xenproject.org>,
- linux-ext4 <linux-ext4@vger.kernel.org>, Fenghua Yu <fenghua.yu@intel.com>,
- linux-afs@lists.infradead.org, linux-um@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, ecryptfs@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
- Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, linux-cachefs@redhat.com,
- linux-nfs@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
- linux-ntfs-dev@lists.sourceforge.net, Netdev <netdev@vger.kernel.org>,
- Kexec Mailing List <kexec@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>, bpf@vger.kernel.org,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- linux-btrfs <linux-btrfs@vger.kernel.org>
+Reply-To: lyude@redhat.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 13, 2020 at 12:37 PM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Tue, Oct 13, 2020 at 11:44:29AM -0700, Dan Williams wrote:
-> > On Fri, Oct 9, 2020 at 12:52 PM <ira.weiny@intel.com> wrote:
-> > >
-> > > From: Ira Weiny <ira.weiny@intel.com>
-> > >
-> > > The kmap() calls in this FS are localized to a single thread.  To avoid
-> > > the over head of global PKRS updates use the new kmap_thread() call.
-> > >
-> > > Cc: Nicolas Pitre <nico@fluxnic.net>
-> > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> > > ---
-> > >  fs/cramfs/inode.c | 10 +++++-----
-> > >  1 file changed, 5 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/fs/cramfs/inode.c b/fs/cramfs/inode.c
-> > > index 912308600d39..003c014a42ed 100644
-> > > --- a/fs/cramfs/inode.c
-> > > +++ b/fs/cramfs/inode.c
-> > > @@ -247,8 +247,8 @@ static void *cramfs_blkdev_read(struct super_block *sb, unsigned int offset,
-> > >                 struct page *page = pages[i];
-> > >
-> > >                 if (page) {
-> > > -                       memcpy(data, kmap(page), PAGE_SIZE);
-> > > -                       kunmap(page);
-> > > +                       memcpy(data, kmap_thread(page), PAGE_SIZE);
-> > > +                       kunmap_thread(page);
-> >
-> > Why does this need a sleepable kmap? This looks like a textbook
-> > kmap_atomic() use case.
->
-> There's a lot of code of this form.  Could we perhaps have:
->
-> static inline void copy_to_highpage(struct page *to, void *vfrom, unsigned int size)
-> {
->         char *vto = kmap_atomic(to);
->
->         memcpy(vto, vfrom, size);
->         kunmap_atomic(vto);
-> }
->
-> in linux/highmem.h ?
+wait, I think there's some confusion here. these patches have already been
+pushed
 
-Nice, yes, that could also replace the local ones in lib/iov_iter.c
-(memcpy_{to,from}_page())
+
+On Tue, 2020-10-13 at 14:14 +0200, Mauro Carvalho Chehab wrote:
+> The name of the argument is different, causing those warnings:
+> 
+> 	./drivers/gpu/drm/drm_edid.c:3754: warning: Function parameter or member
+> 'video_code' not described in 'drm_display_mode_from_cea_vic'
+> 	./drivers/gpu/drm/drm_edid.c:3754: warning: Excess function parameter
+> 'vic' description in 'drm_display_mode_from_cea_vic'
+> 
+> Fixes: 7af655bce275 ("drm/dp: Add drm_dp_downstream_mode()")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index a82f37d44258..631125b46e04 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3741,7 +3741,7 @@ drm_add_cmdb_modes(struct drm_connector *connector, u8
+> svd)
+>  /**
+>   * drm_display_mode_from_cea_vic() - return a mode for CEA VIC
+>   * @dev: DRM device
+> - * @vic: CEA VIC of the mode
+> + * @video_code: CEA VIC of the mode
+>   *
+>   * Creates a new mode matching the specified CEA VIC.
+>   *
+-- 
+Sincerely,
+      Lyude Paul (she/her)
+      Software Engineer at Red Hat
+
+Note: I deal with a lot of emails and have a lot of bugs on my plate. If you've
+asked me a question, are waiting for a review/merge on a patch, etc. and I
+haven't responded in a while, please feel free to send me another email to check
+on my status. I don't bite!
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
