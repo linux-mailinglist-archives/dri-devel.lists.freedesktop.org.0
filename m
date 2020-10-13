@@ -2,92 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FCF28CE8B
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 14:41:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2E028DA22
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:04:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFBD46E3CE;
-	Tue, 13 Oct 2020 12:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9A3E6E9F4;
+	Wed, 14 Oct 2020 07:03:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2061.outbound.protection.outlook.com [40.107.237.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF6966E30D;
- Tue, 13 Oct 2020 12:41:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iRBB838i14AS9DvYcr0jikoBgcGS09aQG+oLz/zKZ1rwsLVq4uieEwt4eCKAl5UtcBNRQ5VxUyvjAOsIU5Wq05tD1NCoglOzg3UhtRoXPfOg+FYDffhvsKkUEsAZvdctwynJalmUkL1tgivhVwmABLUMcaKBriFGHNgM9aZ/mxfXiG9SQsI7M468uDMRYsSOc//Xzf0zV/1g/7xwInpl71KfBoizDuE2XvfnNWVjPB76Z9HPHNDH+5nRtmRzNd9sfjYs7NoHULTn94Z4rKaIL1a5ORmn1ufOjVYGJ+j7FkkJEeUFDmbcz6AYBQhBkXqo1cuU4MDUWUx3nrZ1sllI9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gFzoAspnzrGSlxB4um6wmOt6wviJg+HS0xcX+sd2tqE=;
- b=BJik+hVxuHtKym58J0oarAS4ZuS9DU6osC9OT2Xk5LSCcZn2JIlkrW2Gwortar1q8TwCJqisXFN1gxF8LeR2aqyXAbymfNWdyFZyVTnTF5WYeQmq7QBKZK0YElVm6mWQ+XFtU2DBI5hmzknSg+tznGF8LRfM3myGfcN5JnBvdMrnX63Rdleh6upR9A1rSByr9VCzElgJos7z6gASmVtjs2+W++46TUf4UXXRBfhNEupatYKYKy8DTrMXjJ5qiBmAiIK248TQsIAdpjec3aKXOE7nNVKdq3fouUHaVpaBwuJY3UwB6PFU6jflFpiQwvrXZ+VD+Ja3d6HyURBAWm+OjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gFzoAspnzrGSlxB4um6wmOt6wviJg+HS0xcX+sd2tqE=;
- b=FUD+FvhD1GB3SSPJ0H8LKWmmCcqgd78xkvIzOr/Ew/YX8YdYfPWv1GVXGWqKpcrKwEZsq+YPZaXgu1lHKfrEgFncD/sMNMg0PGkPN3/QH7JYWMl4qoRfk1e39a6FG3HP4N3zICVU6SjPTsuaHAjTgIvBRgjVDzBMsklU5G7uNOw=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2419.namprd12.prod.outlook.com (2603:10b6:207:44::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.24; Tue, 13 Oct
- 2020 12:41:40 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3455.030; Tue, 13 Oct 2020
- 12:41:40 +0000
-Subject: Re: [PATCH v2 07/24] drm: amdgpu: kernel-doc: update some adev
- parameters
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <cover.1602590106.git.mchehab+huawei@kernel.org>
- <e8d8081e713010edcae2414427fec4a497182fae.1602590106.git.mchehab+huawei@kernel.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <50178896-8166-0912-c3b3-5671b72740a5@amd.com>
-Date: Tue, 13 Oct 2020 14:41:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <e8d8081e713010edcae2414427fec4a497182fae.1602590106.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: FRYP281CA0005.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::15)
- To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6096E8DD;
+ Tue, 13 Oct 2020 12:47:53 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id p15so20293376ljj.8;
+ Tue, 13 Oct 2020 05:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZXTvUW8i/U5ht8x+SD+qkflPPjrpIHYF48QftZr+dnU=;
+ b=Tb/HEFXFqT688G41sablA8Rj4JLcFk3TxMzkrfT6uScq3/MeO3sr0c4+uYkJH10eSK
+ onifD8sknV8ZCDjbSFcoiYG2wX0/UU7Z+ZZgJoazflWqExBku4FiYfLl9vStr8FpvI0D
+ sho8c205xC1d8yQyTKcQPvlo5qBIp5mxFrr12tVCVxAyLpMJFDKK85hW3yn8a7fM9Owb
+ CkM1jCPJGASl6GAabDkxTXLN/HCr73mXAS3KfXyDLzO791VDdzKCpTWQC3oleDBFAGBL
+ XX67tjDHoU6KZ2POf6/hJD8ydBEzv3RtJc9r9bMV3tpsA0x3mjFb0VPhGo1ZEw0MDeS0
+ Dd5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZXTvUW8i/U5ht8x+SD+qkflPPjrpIHYF48QftZr+dnU=;
+ b=lUDeN6+oBGru7u776YL6ZCTYLJTZzHQvq8MVrppwILmiFeUc4px/XOsVORPM7xMPBt
+ WtRDmzExjqdSjvRpW3CyUF3Jyk2p1cWMnryqx52KtQmtiov0s1XAIzMXvHXIZ1Zgkal9
+ DmRAWANNaZGQrUUuM8+zaKUcBX8NaQdk8hx3w6QEMdwC0TThYit8p5vzOBCS7esYp/l7
+ KcHuy7MImH2jg2a5JAzm32fqcRQ1D7dwjZpoKsqCXRA6nc5Alwb4oyExRQNSaBQ4yDjy
+ EfTfIVRJ7gAA8qhSTQ8gAg8Mq7pJ6q/AbIMIBU7sfo87ChaKHqntyfLGUZhqeCj2zkLU
+ 3pAQ==
+X-Gm-Message-State: AOAM532Tzk9U2U7+MKMPE/AaNIz1j55oGC7361E2WI4EhX4jSQQosuds
+ IX2TQBHH0rt+zDsF6nk2rKg=
+X-Google-Smtp-Source: ABdhPJwTSyYPf21swLMDZjjUHzsZ7D5xgZYB/CN/9aYHZB44K6lAxY7nrshdcW+8vKZYzye4IQiFVg==
+X-Received: by 2002:a2e:9f0f:: with SMTP id u15mr9837257ljk.80.1602593271865; 
+ Tue, 13 Oct 2020 05:47:51 -0700 (PDT)
+Received: from lp-sasha.localdomain ([146.120.244.2])
+ by smtp.gmail.com with ESMTPSA id l25sm666532lfc.152.2020.10.13.05.47.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Oct 2020 05:47:50 -0700 (PDT)
+From: Alexander Kapshuk <alexander.kapshuk@gmail.com>
+To: lyude@redhat.com,
+	bskeggs@redhat.com
+Subject: [PATCH v2] drm/nouveau/kms: Fix NULL pointer dereference in
+ nouveau_connector_detect_depth
+Date: Tue, 13 Oct 2020 15:47:25 +0300
+Message-Id: <20201013124725.2394-1-alexander.kapshuk@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- FRYP281CA0005.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3477.12 via Frontend Transport; Tue, 13 Oct 2020 12:41:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: c44a1aec-a579-450a-210d-08d86f7554f6
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2419:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB24195C3749D765664F86C65F83040@BL0PR12MB2419.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:304;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yJL2/hyRavGiweobgi2ETv/bwf9Rk2lJKu03qvVDjs/omarMkdb7IPMZkPjCRd75mMB2WAdwllYx6snKxUoAGaAbpmV1byD9OgcdPUcMYU5ksempIJxtwjXVAo4szn0HhGOk8uRhqOOS9BpQAly1yEX/p1PT+ULvnmq85gHE2BmwNxt46X0rH2rTYw/XUMu8dE8PVwKRA0DyDMx6oyLkfijYxTzY6hP6ViudmHqqskw1mC2heHKd/eHiT1ohRQsuRnJZNESPws59lU4NVqo9opzM0joZRR/wMCrPbMtL+/A+DLwoy4U3rquVXPG9hueboOi4QCSPXbof9FjB7IqOYPVGgtF3qYk9j/QG1q2fPgRS8ZUj0duKAdMvriuW6AQP
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(6666004)(316002)(66556008)(66946007)(5660300002)(52116002)(54906003)(110136005)(15650500001)(66476007)(83380400001)(86362001)(186003)(2616005)(478600001)(7416002)(31686004)(31696002)(6486002)(8936002)(8676002)(2906002)(36756003)(4326008)(16526019)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: iGbubkCwWsuMXud1JJe2cgAuYD18+ubzQ7JGJLUZNmQz6Ksf49UK/3TI007ZMnuev28oQLFQ/1i8Rq1WKu1LYfujGwAd5ylYis0F4NXklbLQSk6ma/neJ/3t+TAZ7ZhLcqM46CH42xIVa7uY+zhbuAZLlatNzokPUZFM+8CpI2s+gXMj4/I/ahr/M69Rcu8PYh98ghz2u2ftEPFE2Ds8nQ3De7LvL99OBzlQCJfj0biOMZjLNFYrq42AfqZ1DsHxT5qiNZzMkXhAiz9m8gsD6yXzBPWynk/zl/+PvTtWpl3LZpoaKo04/i2Az+0S18I5JCeH12OK/qUKdcYIHcylYk19RXAKP8LArAogEmEFTnAyRYTgt9GAXjjw3bLECClM9v3nlI2fg2ASK+ibnKt/A6fVjDtEdzj+ORjjQu7W9lhy6meuxzJy8YzocFkP38GVl99dAnNRDqXAbOGgBEK6piRaPJPtnDMx6rKPf1Kn+h/Nc/1DAaXf1lCo8Kqd07waGQ+sjvk4U2l7H37hq8AMMoDdazJi8A3cEHP1/hasokQ1DwpyobThfxZMxFA0WzMIjtrXs6c34WEyFTM6jLgyGfcXUod2et3yR19geTYTuLJEXM/pZKxYbbneBYdigSRvZmkNvCgbwRXb8ncw2Qp45WraFGFlZduidG5SM03yQYpg1Oz+fJS3pdXeskr8y/zlo/vPByrifJCBHU8z5Ko0rw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c44a1aec-a579-450a-210d-08d86f7554f6
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2020 12:41:40.4366 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oZvPW/yrn9rMXB5OCd3Vixejn6DfcFrcON5fwzVK+EXZcu6vc6TEmEA/1tNJXWu2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2419
+X-Mailman-Approved-At: Wed, 14 Oct 2020 07:03:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,122 +67,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Luben Tuikov <luben.tuikov@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Bernard Zhao <bernard@vivo.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Colton Lewis <colton.w.lewis@protonmail.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Ben Skeggs <bskeggs@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
- Dave Airlie <airlied@redhat.com>, Evan Quan <evan.quan@amd.com>,
- Dennis Li <Dennis.Li@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: alexander.kapshuk@gmail.com, airlied@linux.ie,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-next@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.10.20 um 14:14 schrieb Mauro Carvalho Chehab:
-> Running "make htmldocs: produce lots of warnings on those files:
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
-> 	./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
->
-> They're related to the repacement of some parameters by adev,
-> and due to a few renamed parameters.
->
-> Update the kernel-doc documentation accordingly.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 6 +++---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 5 ++---
->   3 files changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index f8f298b34805..fb375752feb1 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -817,7 +817,7 @@ static void amdgpu_block_invalid_wreg(struct amdgpu_device *adev,
->   /**
->    * amdgpu_device_asic_init - Wrapper for atom asic_init
->    *
-> - * @dev: drm_device pointer
-> + * @adev: drm_device pointer
+This oops manifests itself on the following hardware:
+01:00.0 VGA compatible controller: NVIDIA Corporation G98M [GeForce G 103M] (rev a1)
 
-This should probably read amdgpu device pointer, but apart from that 
-looks good to me.
+Oct 09 14:17:46 lp-sasha kernel: BUG: kernel NULL pointer dereference, address: 0000000000000000
+Oct 09 14:17:46 lp-sasha kernel: #PF: supervisor read access in kernel mode
+Oct 09 14:17:46 lp-sasha kernel: #PF: error_code(0x0000) - not-present page
+Oct 09 14:17:46 lp-sasha kernel: PGD 0 P4D 0
+Oct 09 14:17:46 lp-sasha kernel: Oops: 0000 [#1] SMP PTI
+Oct 09 14:17:46 lp-sasha kernel: CPU: 1 PID: 191 Comm: systemd-udevd Not tainted 5.9.0-rc8-next-20201009 #38
+Oct 09 14:17:46 lp-sasha kernel: Hardware name: Hewlett-Packard Compaq Presario CQ61 Notebook PC/306A, BIOS F.03 03/23/2009
+Oct 09 14:17:46 lp-sasha kernel: RIP: 0010:nouveau_connector_detect_depth+0x71/0xc0 [nouveau]
+Oct 09 14:17:46 lp-sasha kernel: Code: 0a 00 00 48 8b 49 48 c7 87 b8 00 00 00 06 00 00 00 80 b9 4d 0a 00 00 00 75 1e 83 fa 41 75 05 48 85 c0 75 29 8b 81 10 0d 00 00 <39> 06 7c 25 f6 81 14 0d 00 00 02 75 b7 c3 80 b9 0c 0d 00 00 00 75
+Oct 09 14:17:46 lp-sasha kernel: RSP: 0018:ffffc9000028f8c0 EFLAGS: 00010297
+Oct 09 14:17:46 lp-sasha kernel: RAX: 0000000000014c08 RBX: ffff8880369d4000 RCX: ffff8880369d3000
+Oct 09 14:17:46 lp-sasha kernel: RDX: 0000000000000040 RSI: 0000000000000000 RDI: ffff8880369d4000
+Oct 09 14:17:46 lp-sasha kernel: RBP: ffff88800601cc00 R08: ffff8880051da298 R09: ffffffff8226201a
+Oct 09 14:17:46 lp-sasha kernel: R10: ffff88800469aa80 R11: ffff888004c84ff8 R12: 0000000000000000
+Oct 09 14:17:46 lp-sasha kernel: R13: ffff8880051da000 R14: 0000000000002000 R15: 0000000000000003
+Oct 09 14:17:46 lp-sasha kernel: FS:  00007fd0192b3440(0000) GS:ffff8880bc900000(0000) knlGS:0000000000000000
+Oct 09 14:17:46 lp-sasha kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Oct 09 14:17:46 lp-sasha kernel: CR2: 0000000000000000 CR3: 0000000004976000 CR4: 00000000000006e0
+Oct 09 14:17:46 lp-sasha kernel: Call Trace:
+Oct 09 14:17:46 lp-sasha kernel:  nouveau_connector_get_modes+0x1e6/0x240 [nouveau]
+Oct 09 14:17:46 lp-sasha kernel:  ? kfree+0xb9/0x240
+Oct 09 14:17:46 lp-sasha kernel:  ? drm_connector_list_iter_next+0x7c/0xa0
+Oct 09 14:17:46 lp-sasha kernel:  drm_helper_probe_single_connector_modes+0x1ba/0x7c0
+Oct 09 14:17:46 lp-sasha kernel:  drm_client_modeset_probe+0x27e/0x1360
+Oct 09 14:17:46 lp-sasha kernel:  ? nvif_object_sclass_put+0xc/0x20 [nouveau]
+Oct 09 14:17:46 lp-sasha kernel:  ? nouveau_cli_init+0x3cc/0x440 [nouveau]
+Oct 09 14:17:46 lp-sasha kernel:  ? ktime_get_mono_fast_ns+0x49/0xa0
+Oct 09 14:17:46 lp-sasha kernel:  ? nouveau_drm_open+0x4e/0x180 [nouveau]
+Oct 09 14:17:46 lp-sasha kernel:  __drm_fb_helper_initial_config_and_unlock+0x3f/0x4a0
+Oct 09 14:17:46 lp-sasha kernel:  ? drm_file_alloc+0x18f/0x260
+Oct 09 14:17:46 lp-sasha kernel:  ? mutex_lock+0x9/0x40
+Oct 09 14:17:46 lp-sasha kernel:  ? drm_client_init+0x110/0x160
+Oct 09 14:17:46 lp-sasha kernel:  nouveau_fbcon_init+0x14d/0x1c0 [nouveau]
+Oct 09 14:17:46 lp-sasha kernel:  nouveau_drm_device_init+0x1c0/0x880 [nouveau]
+Oct 09 14:17:46 lp-sasha kernel:  nouveau_drm_probe+0x11a/0x1e0 [nouveau]
+Oct 09 14:17:46 lp-sasha kernel:  pci_device_probe+0xcd/0x140
+Oct 09 14:17:46 lp-sasha kernel:  really_probe+0xd8/0x400
+Oct 09 14:17:46 lp-sasha kernel:  driver_probe_device+0x4a/0xa0
+Oct 09 14:17:46 lp-sasha kernel:  device_driver_attach+0x9c/0xc0
+Oct 09 14:17:46 lp-sasha kernel:  __driver_attach+0x6f/0x100
+Oct 09 14:17:46 lp-sasha kernel:  ? device_driver_attach+0xc0/0xc0
+Oct 09 14:17:46 lp-sasha kernel:  bus_for_each_dev+0x75/0xc0
+Oct 09 14:17:46 lp-sasha kernel:  bus_add_driver+0x106/0x1c0
+Oct 09 14:17:46 lp-sasha kernel:  driver_register+0x86/0xe0
+Oct 09 14:17:46 lp-sasha kernel:  ? 0xffffffffa044e000
+Oct 09 14:17:46 lp-sasha kernel:  do_one_initcall+0x48/0x1e0
+Oct 09 14:17:46 lp-sasha kernel:  ? _cond_resched+0x11/0x60
+Oct 09 14:17:46 lp-sasha kernel:  ? kmem_cache_alloc_trace+0x19c/0x1e0
+Oct 09 14:17:46 lp-sasha kernel:  do_init_module+0x57/0x220
+Oct 09 14:17:46 lp-sasha kernel:  __do_sys_finit_module+0xa0/0xe0
+Oct 09 14:17:46 lp-sasha kernel:  do_syscall_64+0x33/0x40
+Oct 09 14:17:46 lp-sasha kernel:  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Oct 09 14:17:46 lp-sasha kernel: RIP: 0033:0x7fd01a060d5d
+Oct 09 14:17:46 lp-sasha kernel: Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d e3 70 0c 00 f7 d8 64 89 01 48
+Oct 09 14:17:46 lp-sasha kernel: RSP: 002b:00007ffc8ad38a98 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+Oct 09 14:17:46 lp-sasha kernel: RAX: ffffffffffffffda RBX: 0000563f6e7fd530 RCX: 00007fd01a060d5d
+Oct 09 14:17:46 lp-sasha kernel: RDX: 0000000000000000 RSI: 00007fd01a19f95d RDI: 000000000000000f
+Oct 09 14:17:46 lp-sasha kernel: RBP: 0000000000020000 R08: 0000000000000000 R09: 0000000000000007
+Oct 09 14:17:46 lp-sasha kernel: R10: 000000000000000f R11: 0000000000000246 R12: 00007fd01a19f95d
+Oct 09 14:17:46 lp-sasha kernel: R13: 0000000000000000 R14: 0000563f6e7fbc10 R15: 0000563f6e7fd530
+Oct 09 14:17:46 lp-sasha kernel: Modules linked in: nouveau(+) ttm xt_string xt_mark xt_LOG vgem v4l2_dv_timings uvcvideo ulpi udf ts_kmp ts_fsm ts_bm snd_aloop sil164 qat_dh895xccvf nf_nat_sip nf_nat_irc nf_nat_ftp nf_nat nf_log_ipv6 nf_log_ipv4 nf_log_common ltc2990 lcd intel_qat input_leds i2c_mux gspca_main videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc drivetemp cuse fuse crc_itu_t coretemp ch7006 ath5k ath algif_hash
+Oct 09 14:17:46 lp-sasha kernel: CR2: 0000000000000000
+Oct 09 14:17:46 lp-sasha kernel: ---[ end trace 0ddafe218ad30017 ]---
+Oct 09 14:17:46 lp-sasha kernel: RIP: 0010:nouveau_connector_detect_depth+0x71/0xc0 [nouveau]
+Oct 09 14:17:46 lp-sasha kernel: Code: 0a 00 00 48 8b 49 48 c7 87 b8 00 00 00 06 00 00 00 80 b9 4d 0a 00 00 00 75 1e 83 fa 41 75 05 48 85 c0 75 29 8b 81 10 0d 00 00 <39> 06 7c 25 f6 81 14 0d 00 00 02 75 b7 c3 80 b9 0c 0d 00 00 00 75
+Oct 09 14:17:46 lp-sasha kernel: RSP: 0018:ffffc9000028f8c0 EFLAGS: 00010297
+Oct 09 14:17:46 lp-sasha kernel: RAX: 0000000000014c08 RBX: ffff8880369d4000 RCX: ffff8880369d3000
+Oct 09 14:17:46 lp-sasha kernel: RDX: 0000000000000040 RSI: 0000000000000000 RDI: ffff8880369d4000
+Oct 09 14:17:46 lp-sasha kernel: RBP: ffff88800601cc00 R08: ffff8880051da298 R09: ffffffff8226201a
+Oct 09 14:17:46 lp-sasha kernel: R10: ffff88800469aa80 R11: ffff888004c84ff8 R12: 0000000000000000
+Oct 09 14:17:46 lp-sasha kernel: R13: ffff8880051da000 R14: 0000000000002000 R15: 0000000000000003
+Oct 09 14:17:46 lp-sasha kernel: FS:  00007fd0192b3440(0000) GS:ffff8880bc900000(0000) knlGS:0000000000000000
+Oct 09 14:17:46 lp-sasha kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Oct 09 14:17:46 lp-sasha kernel: CR2: 0000000000000000 CR3: 0000000004976000 CR4: 00000000000006e0
 
-Christian.
+The disassembly:
+Code: 0a 00 00 48 8b 49 48 c7 87 b8 00 00 00 06 00 00 00 80 b9 4d 0a 00 00 00 75 1e 83 fa 41 75 05 48 85 c0 75 29 8b 81 10 0d 00 00 <39> 06 7c 25 f6 81 14 0d 00 00 02 75 b7 c3 80 b9 0c 0d 00 00 00 75
+All code
+========
+   0:   0a 00                   or     (%rax),%al
+   2:   00 48 8b                add    %cl,-0x75(%rax)
+   5:   49                      rex.WB
+   6:   48 c7 87 b8 00 00 00    movq   $0x6,0xb8(%rdi)
+   d:   06 00 00 00
+  11:   80 b9 4d 0a 00 00 00    cmpb   $0x0,0xa4d(%rcx)
+  18:   75 1e                   jne    0x38
+  1a:   83 fa 41                cmp    $0x41,%edx
+  1d:   75 05                   jne    0x24
+  1f:   48 85 c0                test   %rax,%rax
+  22:   75 29                   jne    0x4d
+  24:   8b 81 10 0d 00 00       mov    0xd10(%rcx),%eax
+  2a:*  39 06                   cmp    %eax,(%rsi)              <-- trapping instruction
+  2c:   7c 25                   jl     0x53
+  2e:   f6 81 14 0d 00 00 02    testb  $0x2,0xd14(%rcx)
+  35:   75 b7                   jne    0xffffffffffffffee
+  37:   c3                      retq
+  38:   80 b9 0c 0d 00 00 00    cmpb   $0x0,0xd0c(%rcx)
+  3f:   75                      .byte 0x75
 
->    *
->    * Does any asic specific work and then calls atom asic init.
->    */
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> index f203e4a6a3f2..5f3a04cd0fba 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> @@ -81,8 +81,8 @@ static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func;
->   /**
->    * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
->    *
-> - * @man: TTM memory type manager
-> - * @p_size: maximum size of GTT
-> + * @adev: amdgpu device structure
-> + * @gtt_size: maximum size of GTT
->    *
->    * Allocate and initialize the GTT manager.
->    */
-> @@ -123,7 +123,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
->   /**
->    * amdgpu_gtt_mgr_fini - free and destroy GTT manager
->    *
-> - * @man: TTM memory type manager
-> + * @adev: amdgpu device structure
->    *
->    * Destroy and free the GTT manager, returns -EBUSY if ranges are still
->    * allocated inside it.
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> index 01c1171afbe0..a0e787ddbbd7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> @@ -168,8 +168,7 @@ static const struct ttm_resource_manager_func amdgpu_vram_mgr_func;
->   /**
->    * amdgpu_vram_mgr_init - init VRAM manager and DRM MM
->    *
-> - * @man: TTM memory type manager
-> - * @p_size: maximum size of VRAM
-> + * @adev: amdgpu device structure
->    *
->    * Allocate and initialize the VRAM manager.
->    */
-> @@ -199,7 +198,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
->   /**
->    * amdgpu_vram_mgr_fini - free and destroy VRAM manager
->    *
-> - * @man: TTM memory type manager
-> + * @adev: amdgpu device structure
->    *
->    * Destroy and free the VRAM manager, returns -EBUSY if ranges are still
->    * allocated inside it.
+Code starting with the faulting instruction
+===========================================
+   0:   39 06                   cmp    %eax,(%rsi)
+   2:   7c 25                   jl     0x29
+   4:   f6 81 14 0d 00 00 02    testb  $0x2,0xd14(%rcx)
+   b:   75 b7                   jne    0xffffffffffffffc4
+   d:   c3                      retq
+   e:   80 b9 0c 0d 00 00 00    cmpb   $0x0,0xd0c(%rcx)
+  15:   75                      .byte 0x75
+
+objdump -SF --disassemble=nouveau_connector_detect_depth
+[...]
+        if (nv_connector->edid &&
+   c85e1:       83 fa 41                cmp    $0x41,%edx
+   c85e4:       75 05                   jne    c85eb <nouveau_connector_detect_depth+0x6b> (File Offset: 0xc866b)
+   c85e6:       48 85 c0                test   %rax,%rax
+   c85e9:       75 29                   jne    c8614 <nouveau_connector_detect_depth+0x94> (File Offset: 0xc8694)
+            nv_connector->type == DCB_CONNECTOR_LVDS_SPWG)
+                duallink = ((u8 *)nv_connector->edid)[121] == 2;
+        else
+                duallink = mode->clock >= bios->fp.duallink_transition_clk;
+
+        if ((!duallink && (bios->fp.strapless_is_24bit & 1)) ||
+   c85eb:       8b 81 10 0d 00 00       mov    0xd10(%rcx),%eax
+   c85f1:       39 06                   cmp    %eax,(%rsi)
+   c85f3:       7c 25                   jl     c861a <nouveau_connector_detect_depth+0x9a> (File Offset: 0xc869a)
+            ( duallink && (bios->fp.strapless_is_24bit & 2)))
+   c85f5:       f6 81 14 0d 00 00 02    testb  $0x2,0xd14(%rcx)
+   c85fc:       75 b7                   jne    c85b5 <nouveau_connector_detect_depth+0x35> (File Offset: 0xc8635)
+                connector->display_info.bpc = 8;
+[...]
+
+% scripts/faddr2line /lib/modules/5.9.0-rc8-next-20201009/kernel/drivers/gpu/drm/nouveau/nouveau.ko nouveau_connector_detect_depth+0x71/0xc0
+nouveau_connector_detect_depth+0x71/0xc0:
+nouveau_connector_detect_depth at /home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_connector.c:891
+
+It is actually line 889. See the disassembly below.
+889                     duallink = mode->clock >= bios->fp.duallink_transition_clk;
+
+The NULL pointer being dereferenced is mode.
+
+Git bisect has identified the following commit as bad:
+f28e32d3906e drm/nouveau/kms: Don't change EDID when it hasn't actually changed
+
+Here is the chain of events that causes the oops.
+On entry to nouveau_connector_detect_lvds, edid is set to NULL.  The call
+to nouveau_connector_detect sets nv_connector->edid to valid memory,
+with status set to connector_status_connected and the flow of execution
+branching to the out label.
+
+The subsequent call to nouveau_connector_set_edid erronously clears
+nv_connector->edid, via the local edid pointer which remains set to NULL.
+
+Fix this by setting edid to the value of the just acquired
+nv_connector->edid and executing the body of nouveau_connector_set_edid
+only if nv_connector->edid and edid point to different memory addresses
+thus preventing nv_connector->edid from being turned into a dangling
+pointer.
+
+Fixes: f28e32d3906e ("drm/nouveau/kms: Don't change EDID when it hasn't actually changed")
+Signed-off-by: Alexander Kapshuk <alexander.kapshuk@gmail.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+---
+v2:
+-----
+- nouveau_connector_set_edid updated to do the (nv_connector->edid
+!= edid) check instead of open coding it in nouveau_connector_detect_lvds
+- added Reviewed-by: from Lyude Paul
+
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 49dd0cbc332f..5eb322276be7 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -532,11 +532,13 @@ static void
+ nouveau_connector_set_edid(struct nouveau_connector *nv_connector,
+ 			   struct edid *edid)
+ {
+-	struct edid *old_edid = nv_connector->edid;
++	if (nv_connector->edid != edid) {
++		struct edid *old_edid = nv_connector->edid;
+
+-	drm_connector_update_edid_property(&nv_connector->base, edid);
+-	kfree(old_edid);
+-	nv_connector->edid = edid;
++		drm_connector_update_edid_property(&nv_connector->base, edid);
++		kfree(old_edid);
++		nv_connector->edid = edid;
++	}
+ }
+
+ static enum drm_connector_status
+@@ -669,8 +671,10 @@ nouveau_connector_detect_lvds(struct drm_connector *connector, bool force)
+ 	/* Try retrieving EDID via DDC */
+ 	if (!drm->vbios.fp_no_ddc) {
+ 		status = nouveau_connector_detect(connector, force);
+-		if (status == connector_status_connected)
++		if (status == connector_status_connected) {
++			edid = nv_connector->edid;
+ 			goto out;
++		}
+ 	}
+
+ 	/* On some laptops (Sony, i'm looking at you) there appears to
+--
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
