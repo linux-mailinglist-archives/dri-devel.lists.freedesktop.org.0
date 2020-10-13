@@ -1,55 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB1D28D169
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 17:42:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6B828D1E2
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 18:11:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65E476E117;
-	Tue, 13 Oct 2020 15:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE06A6E8F0;
+	Tue, 13 Oct 2020 16:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
- [209.85.167.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA586E117
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 15:42:38 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id 16so22905394oix.9
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 08:42:38 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFFAE6E8F0;
+ Tue, 13 Oct 2020 16:11:38 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id i1so18623825wro.1;
+ Tue, 13 Oct 2020 09:11:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UHsDQCy295Hvw56mXeSaZ5ilmXgdKd81n9fHINsRJmg=;
+ b=nZ3kr1ZvmphGw+hCXwxd1FBiNBdH15+XmV7uCx/N1aEPWdhltNbxfRJsOrYzCW5DYi
+ p28N16Qv3CesL618NYcwzKJl8ExdPBSsAxEVpNuBjc2t7Y3vSDiCUCXqUsTPP3ri+xa3
+ pYSiUdCkoFloRscJR5nF2nOA0n77jg0+DyulydlIg2O5dvN37b/KSTRSu0SrWqgYipLY
+ Bv2SinElVWGIxKdfjR2keb0VyF7cTpeW4ZZMmz56ud2NUc4LXZYnfMSWKg7cjru34Jnt
+ +3aGTZF5ErCoVoAaJUURuRybNuDUZmE1TuG1eiCC2mcWhrl0X3gWCU5HjivWDiRih7lu
+ Lf+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7HBDGBEJfyjtmUpYlLyhbIBIpuYqlwSspPw7rMsxz2U=;
- b=aeBF3SGrOxBEq+jfAsncc9K8pDCiz4P1ZktNQl0h9+9LVH9lohdOG7NeZo6FiGBa86
- 2X6Ye3QyyqSqFX+213wLig7dYWLUkFVsWWcR3XE8QlPth/jM5muD2cgHQTnVS6aMRhyD
- 7TovS7GaRt6XcOOSRoJrIhP+1y7O9BFcHtSmB4JUacxT/8g8ak6ibqY/GORb6PLlxMGC
- D0+MURrxZw75kGIRXOsgpTFfUfOQ7btOrwIkOFJ1iFG2nL2PqlCawtGt5UwD3zkB6xyP
- eWXO1WAWiwfzt//Ut4Bvq/k0YfhwKmQ2rslkQ7wmnrLETfDVrKFuuePYqs5E+xiScqyv
- dKfg==
-X-Gm-Message-State: AOAM531yExHlXLeKMUK5La0KJTkRnMgOFZCEUuF8jZ+cC6jJjJ3U5RVX
- 5Qelk0IYSVmz03KvKtoZdQ==
-X-Google-Smtp-Source: ABdhPJzNo1mwBWQ0pardH8uKZ+d/cwmUY5rjx3lm4PdGa4S0bZqBqsudnhysYq5uJGcdyzX0fegL0g==
-X-Received: by 2002:aca:40f:: with SMTP id 15mr222689oie.44.1602603757535;
- Tue, 13 Oct 2020 08:42:37 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id y13sm25534ote.45.2020.10.13.08.42.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 08:42:36 -0700 (PDT)
-Received: (nullmailer pid 3571584 invoked by uid 1000);
- Tue, 13 Oct 2020 15:42:36 -0000
-Date: Tue, 13 Oct 2020 10:42:36 -0500
-From: Rob Herring <robh@kernel.org>
-To: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-Subject: Re: [PATCH v9 1/5] dt-bindings: display: Add support for Intel
- KeemBay Display
-Message-ID: <20201013154236.GA3562909@bogus>
-References: <1602205443-9036-1-git-send-email-anitha.chrisanthus@intel.com>
- <1602205443-9036-2-git-send-email-anitha.chrisanthus@intel.com>
- <dc12f5ea-60bc-8a09-9b93-a4472183adc4@baylibre.com>
- <BY5PR11MB41827BBE3556CD7972E6C4328C040@BY5PR11MB4182.namprd11.prod.outlook.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UHsDQCy295Hvw56mXeSaZ5ilmXgdKd81n9fHINsRJmg=;
+ b=ov3yqYFQLm6yI1Wb9bHKVsHIu3bmb0TMswD9ur3ocSZ8sXhYLY1BQP/s1EJtYbx8oK
+ n4q4y9QjHFSCvC4tMl5HDTwMs0fAVaiwx4J5LOAM/h9lbrknx/JV2AX0Qgl8yICKWaKN
+ oiPLnvzQ2r5ybuS55bRYzcKUwX+hGVJcLXsSLG0+/mKxW3B5/DbVsCnftG3v0b58tHPR
+ K1jovbDGlFfcK1mJHcekReZr/VhyU/HPsnAuDDlJsX4tTpot1H/Hw5PDOyUZe5Aeqva+
+ hF6sJAly5znR7//7YpRIW1o9bHt5J2xfmvLYKT623rLn2NbAyThyfQ99L9cygr583wiI
+ rgtg==
+X-Gm-Message-State: AOAM532/jMsCD7CBwcyR0IjVDOeIgw4PoM6XCIi8FKzceAQZOw2rTid7
+ DZMHa5Hr0TVgMeQto8BikTe5SnUIKL6vcKzIb68=
+X-Google-Smtp-Source: ABdhPJxoD/2hTBypyfQGrCSNRV+Y6GtVMvHZ5uXUCdqyEiDvm0aXKSn04M6vBj6fqcnsx8/6ebXXeOA3cJnZw688USo=
+X-Received: by 2002:a5d:4987:: with SMTP id r7mr377398wrq.327.1602605497546;
+ Tue, 13 Oct 2020 09:11:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BY5PR11MB41827BBE3556CD7972E6C4328C040@BY5PR11MB4182.namprd11.prod.outlook.com>
+References: <20201001002709.21361-1-jonathan@marek.ca>
+ <20201001002709.21361-3-jonathan@marek.ca>
+ <20201002075321.GA7547@infradead.org>
+ <b22fb797-67b0-a912-1d23-2b47c9a9e674@marek.ca>
+ <20201005082914.GA31702@infradead.org>
+ <3e0b91be-e4a4-4ea5-7d58-6e71b8d51932@marek.ca>
+ <20201006072306.GA12834@infradead.org>
+ <148a1660-f0fc-7163-2240-6b94725342b5@marek.ca>
+ <20201007062519.GA23519@infradead.org>
+ <c3baadae-8e20-86a6-44f5-4571a8d3035e@arm.com>
+In-Reply-To: <c3baadae-8e20-86a6-44f5-4571a8d3035e@arm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 13 Oct 2020 09:11:26 -0700
+Message-ID: <CAF6AEGtyczviULunw0tQK0Q9M22vkib19j=R_jTT2EtP5aqRCw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/msm: add DRM_MSM_GEM_SYNC_CACHE for non-coherent
+ cache maintenance
+To: Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,94 +70,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, "Dea,
- Edmund J" <edmund.j.dea@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vetter,
- Daniel" <daniel.vetter@intel.com>, "sam@ravnborg.org" <sam@ravnborg.org>
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ freedreno <freedreno@lists.freedesktop.org>, Joerg Roedel <joro@8bytes.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Christoph Hellwig <hch@infradead.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 13, 2020 at 12:24:38AM +0000, Chrisanthus, Anitha wrote:
-> Hi Neil,
-> 
->  Thanks for your review, please see my reply inline.
-> 
-> > -----Original Message-----
-> > From: Neil Armstrong <narmstrong@baylibre.com>
-> > Sent: Friday, October 9, 2020 2:10 AM
-> > To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>; dri-
-> > devel@lists.freedesktop.org; devicetree@vger.kernel.org; Vetter, Daniel
-> > <daniel.vetter@intel.com>
-> > Cc: Dea, Edmund J <edmund.j.dea@intel.com>; sam@ravnborg.org
-> > Subject: Re: [PATCH v9 1/5] dt-bindings: display: Add support for Intel
-> > KeemBay Display
-> > 
-> > Hi,
-> > 
-> > On 09/10/2020 03:03, Anitha Chrisanthus wrote:
-> > > This patch adds bindings for Intel KeemBay Display
-> > >
-> > > v2: review changes from Rob Herring
-> > >
-> > > Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> > > ---
-> > >  .../bindings/display/intel,keembay-display.yaml    | 99
-> > ++++++++++++++++++++++
-> > >  1 file changed, 99 insertions(+)
-> > >  create mode 100644
-> > Documentation/devicetree/bindings/display/intel,keembay-display.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/intel,keembay-
-> > display.yaml b/Documentation/devicetree/bindings/display/intel,keembay-
-> > display.yaml
-> > > new file mode 100644
-> > > index 0000000..a38493d
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/intel,keembay-
-> > display.yaml
-> > > @@ -0,0 +1,99 @@
-> > > +# SPDX-License-Identifier: GPL-2.0-only
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/intel,keembay-
-> > display.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Devicetree bindings for Intel Keem Bay display controller
-> > > +
-> > > +maintainers:
-> > > +  - Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> > > +  - Edmond J Dea <edmund.j.dea@intel.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: intel,kmb_display
-> > > +
-> > > +  reg:
-> > > +    items:
-> > > +      - description: Lcd registers range
-> > > +      - description: Mipi registers range
-> > 
-> > Looking at the registers, the MIPI transceiver seems to be a separate IP,
-> > same for D-PHY which should have a proper PHY driver instead of beeing
-> > handled
-> > here.
-> > 
-> The LCD, MIPI DSI, DPHY and MSSCAM as a group, are considered the 
-> display subsystem for Keem Bay. As such, there are several 
-> interdependencies that make splitting them up next to impossible and 
+On Tue, Oct 13, 2020 at 6:42 AM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> On 2020-10-07 07:25, Christoph Hellwig wrote:
+> > On Tue, Oct 06, 2020 at 09:19:32AM -0400, Jonathan Marek wrote:
+> >> One example why drm/msm can't use DMA API is multiple page table support
+> >> (that is landing in 5.10), which is something that definitely couldn't work
+> >> with DMA API.
+> >>
+> >> Another one is being able to choose the address for mappings, which AFAIK
+> >> DMA API can't do (somewhat related to this: qcom hardware often has ranges
+> >> of allowed addresses, which the dma_mask mechanism fails to represent, what
+> >> I see is drivers using dma_mask as a "maximum address", and since addresses
+> >> are allocated from the top it generally works)
+> >
+> > That sounds like a good enough rason to use the IOMMU API.  I just
+> > wanted to make sure this really makes sense.
+>
+> I still think this situation would be best handled with a variant of
+> dma_ops_bypass that also guarantees to bypass SWIOTLB, and can be set
+> automatically when attaching to an unmanaged IOMMU domain. That way the
+> device driver can make DMA API calls in the appropriate places that do
+> the right thing either way, and only needs logic to decide whether to
+> use the returned DMA addresses directly or ignore them if it knows
+> they're overridden by its own IOMMU mapping.
+>
 
-Please detail what those inter-dependencies are. It's doubtful that you 
-have anything we have not had to deal with in other SoCs.
+That would be pretty ideal from my PoV
 
-> currently we do not have the resources available for that effort.
-
-That is certainly not justification for accepting this.
-
-Rob
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
