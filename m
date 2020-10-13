@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E99128CDE2
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 14:14:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BDD28CDEB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 14:15:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ADE96E8C6;
-	Tue, 13 Oct 2020 12:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20A806E8D8;
+	Tue, 13 Oct 2020 12:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A21E06E321
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E50386E321
  for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de
  [95.90.213.178])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F19E02224A;
- Tue, 13 Oct 2020 12:14:54 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 07BCB2225F;
+ Tue, 13 Oct 2020 12:14:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=default; t=1602591295;
- bh=4Bu6akfKjaahqyWEGXpzqa8kviAzcp1lUCJxl8zFrWQ=;
+ bh=7ZXF3P5p4MjWkObrbAOtTL+8XlJ9hHimuQqgAGSiEFc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2iGqVC1fOha+iGz8JFU7cdkGEU5OoGqj/YHIfj9cSSwx7NoAlAo3j5BZ3dcmeH9NA
- nV40NJUVyy592zk//xW5Y8s8+5F4tTcqOjj+IyBCezscgfuLxjGXYNLQ5QW84vqliE
- aOv4FYczeFA+p6ri5EUYEUavDvh93i6oKdwB9BKI=
+ b=hvKLPVk5uOkGbXS+3CQHvUclvnNC86uaO8lEvUhb33IUuixzNWEyC7Pq20TUbBHBg
+ UUKaQObwdzFXQ2ZxdpiafdOwqjWNUSo5R5N8R4jovvxvSh14a1IiHX0wLWAlPedyn0
+ +4wxcL2h1Sk81E8mKBkYPaEfNKtIVBvkee5VgDmc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
  (envelope-from <mchehab@kernel.org>)
- id 1kSJCe-006Co6-TJ; Tue, 13 Oct 2020 14:14:52 +0200
+ id 1kSJCe-006CoD-Vq; Tue, 13 Oct 2020 14:14:52 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: [PATCH v2 08/24] drm: kernel-doc: document
- drm_dp_set_subconnector_property() params
-Date: Tue, 13 Oct 2020 14:14:35 +0200
-Message-Id: <1d8b7e4aa3b5a3feedf11407b1b7437d2c680443.1602590106.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 11/24] drm/dp: fix kernel-doc warnings at drm_dp_helper.c
+Date: Tue, 13 Oct 2020 14:14:38 +0200
+Message-Id: <c7b13b7f9dae481fe552e3b8382841469bb993f0.1602590106.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1602590106.git.mchehab+huawei@kernel.org>
 References: <cover.1602590106.git.mchehab+huawei@kernel.org>
@@ -52,49 +51,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Oleg Vasilev <oleg.vasilev@intel.com>, linux-kernel@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Emil Velikov <emil.velikov@collabora.com>
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changeset e5b92773287c ("drm: report dp downstream port type as a subconnector property")
-added a new function to the kAPI, but didn't add any documentation
-for the parameters for drm_dp_set_subconnector_property().
+As warned by kernel-doc:
 
-Fixes: e5b92773287c ("drm: report dp downstream port type as a subconnector property")
+	./drivers/gpu/drm/drm_dp_helper.c:385: warning: Function parameter or member 'type' not described in 'drm_dp_downstream_is_type'
+	./drivers/gpu/drm/drm_dp_helper.c:886: warning: Function parameter or member 'dev' not described in 'drm_dp_downstream_mode'
+
+Some function parameters weren't documented.
+
+Fixes: 38784f6f8805 ("drm/dp: Add helpers to identify downstream facing port types")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/gpu/drm/drm_dp_helper.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_dp_helper.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 90807a6b415c..b1c71af88579 100644
+index b1c71af88579..deeed73f4ed6 100644
 --- a/drivers/gpu/drm/drm_dp_helper.c
 +++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1028,7 +1028,8 @@ EXPORT_SYMBOL(drm_dp_downstream_debug);
- 
- /**
-  * drm_dp_subconnector_type() - get DP branch device type
-- *
-+ * @dpcd: DisplayPort configuration data
-+ * @port_cap: port capabilities
-  */
- enum drm_mode_subconnector
- drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
-@@ -1079,6 +1080,10 @@ EXPORT_SYMBOL(drm_dp_subconnector_type);
- 
- /**
-  * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
-+ * @connector: connector to set property on
-+ * @status: connector status
-+ * @dpcd: DisplayPort configuration data
-+ * @port_cap: port capabilities
+@@ -374,6 +374,10 @@ static bool is_edid_digital_input_dp(const struct edid *edid)
+  * drm_dp_downstream_is_type() - is the downstream facing port of certain type?
+  * @dpcd: DisplayPort configuration data
+  * @port_cap: port capabilities
++ * @type: port type to be checked. Can be:
++ * 	  %DP_DS_PORT_TYPE_DP, %DP_DS_PORT_TYPE_VGA, %DP_DS_PORT_TYPE_DVI,
++ * 	  %DP_DS_PORT_TYPE_HDMI, %DP_DS_PORT_TYPE_NON_EDID,
++ *	  %DP_DS_PORT_TYPE_DP_DUALMODE or %DP_DS_PORT_TYPE_WIRELESS.
   *
-  * Called by a driver on every detect event.
-  */
+  * Caveat: Only works with DPCD 1.1+ port caps.
+  *
+@@ -870,6 +874,7 @@ EXPORT_SYMBOL(drm_dp_downstream_444_to_420_conversion);
+ 
+ /**
+  * drm_dp_downstream_mode() - return a mode for downstream facing port
++ * @dev: DRM device
+  * @dpcd: DisplayPort configuration data
+  * @port_cap: port capabilities
+  *
 -- 
 2.26.2
 
