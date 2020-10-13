@@ -2,61 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A2028C88F
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 08:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8BB28C920
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 09:17:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CACD16E88F;
-	Tue, 13 Oct 2020 06:14:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 211116E8A8;
+	Tue, 13 Oct 2020 07:17:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD2E06E88F
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 06:14:22 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id z2so1955880lfr.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 23:14:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=38PwdFZPi+aQVZpBDJXIDznph4dQq55YvumGeIwrSGg=;
- b=DAVkybXo5VCE16kEuD6a6hYh7OAObDfohk+yVOrvbTPwZj/8IGVEGjNmrMeIf+RwlA
- 9/SS7dHQ0sM42Ra8mjIL6pN8ZpSBGRb2KqW7iyW4If8n+aJPjniCZTpqCc5Pus/e3fUB
- ixDsWqO/G9pbn2lb2buV85ZTFtpkSwnTReOAbvBxKSEhcbPkImvszEMq2fzFSeVxKWwJ
- TcnR2LBwgYMTcBirtaqtdZppUN0Lj72EPLKD17VQp68YKO4n/TCnj7v4ZpHY3HXrbBrZ
- gQKjzAzUuaViyM5+VvpLsCzkZQlRC5tEab9Cl4duJL/HHPz5jXFH3qAuYstsZrRaDw2K
- HyjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=38PwdFZPi+aQVZpBDJXIDznph4dQq55YvumGeIwrSGg=;
- b=aXE4nM2JI8GSF3l9+k07BtU54IL3XrM9cBHGOJTbeTSKS3nVU7m+x7aqLZCt3hQgO9
- XOqpdcnoM/KVDaTrBpPqh3DPH58If8YhJXzkyGtt8tr47C36alziCOzK+qdEHGpsr/nL
- MtIpvRHEh+pG5SbwGA6PwtDPsqyBo/OEAzG6O9X+hBf6aRfHlbuIgUW+L1k1OKAbSk8l
- 3uaMs8GWcq2au94dGQ67gBzR7G/qLc9n9KUaCRH2XSif14pC962g+iyRLG8AcW4/OEUC
- BHPpK3ZdIKggTZZ83QImIZc73p1XLZbQaMtOSSBMnMajAIT1B+nu2hBjiM+3c0WWr2t4
- TZyA==
-X-Gm-Message-State: AOAM531JDHkMMqKEB6jgo8kFcLjaKVPMJOWMPh7NoqjW007tT5KXMFY5
- PmsN/Lf0JibUAFYnS+b0OeM=
-X-Google-Smtp-Source: ABdhPJz+LL5qQRSAoePNx8pIEUqpsy4mKXMl3zU+c1rrc8ETsuigMc7JA381A/oK37TsDXY8382axg==
-X-Received: by 2002:a19:c70f:: with SMTP id x15mr8452818lff.296.1602569661036; 
- Mon, 12 Oct 2020 23:14:21 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id q18sm4109198ljm.23.2020.10.12.23.14.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 23:14:20 -0700 (PDT)
-Date: Tue, 13 Oct 2020 09:14:10 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 3/3] drm/vkms: fbdev emulation support
-Message-ID: <20201013091410.06c98a1c@eldfell>
-In-Reply-To: <20201012142335.GY438822@phenom.ffwll.local>
-References: <20201009232156.3916879-1-daniel.vetter@ffwll.ch>
- <20201009232156.3916879-3-daniel.vetter@ffwll.ch>
- <20201012132452.1241297a@linux-uq9g>
- <9ad2c6dd-9f3e-8b88-e013-dcb0e1fd8005@baylibre.com>
- <20201012142335.GY438822@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19E0F6E872;
+ Tue, 13 Oct 2020 06:57:14 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 42715816;
+ Tue, 13 Oct 2020 02:57:13 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 13 Oct 2020 02:57:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm1; bh=ze2pfgrr7TNSylID41m19UPE7vbTMbF15m10yVdWrF4=; b=R8sZVKiF
+ k5LBqK//sXRNAHIhkXCE3UAG+wj7Rxocof1fFyD64sSNiHNENxRjByOPs0j8AvVw
+ 4b9vORWbo5pRO/Zq0eArIqSwhKvPRLZN/Rld3Dhf/8j8JRbOAFynYnQxgGCu2lbj
+ yLX1rBF22YpudJOaNAsKegQR+eDaUhjBtH3/V9CL6ONV28dsG478T3MmeE4C0gJ+
+ 9e1AdlK3Y4Rs8iiugc3Ux3lwSBv4SBjP8aqqYa+rIfJz3K0VwIeGbfpyRoeyn1vH
+ Ot8tgkXo4SShtk/C6Z9mzfOzucLdUVIA0rDP8d6VDfnk+CHu6P5YtBK9xmFXP3pd
+ bSrDe/R+TILPcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; bh=ze2pfgrr7TNSylID41m19UPE7vbTM
+ bF15m10yVdWrF4=; b=Iehapgqc4kcZCG8FAH6/e3CiuCTw0YF+VsiB5jy7kmP6/
+ rvz6Wcwa3zSkhMRkFcfR7jAq+7ZhNOK7g2Nn+wQfDKVNqh9COsFOlFhzbqTxbGqG
+ tFYgYAn75EsFs/TdduYnhVtX7Ftlluy9qAtbaUEy2FE8HlnBtJKUPETEBGgn4UEI
+ 1mIlwAYNwPH6fLcYWvMLDENfXU/roWg2IAtmDL6X0Z6DL+QKHU1omeFGnzmVvcul
+ HU4ww9EJCVUMEAXgMohdVkG6HkIXlJynXmM1FOI0MXqrCEq1XY60R4Y671Xv7lQr
+ 90qdewUMvJojBfNIGqpAd4MRxJAZP8GqZvKpOzXRg==
+X-ME-Sender: <xms:x0-FX7K8EqhGTO3fh6xNjF0PSBLUbqiIyrMId_-E33VDHHDx9A_oSA>
+ <xme:x0-FX_JfkP1YsOP8ZweiE3beSIQlpwaTLhOsuwOkBb0VashoytZ442dyn1OLI3_9E
+ Vak_QLZDcmRZNn5Iwo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrheekgdduudeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepgeeuvddtheeggeehhfeigeetffeufeelveeggfekveegieevudeljeeugedviefg
+ necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeltddrkeelrd
+ eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:x0-FXzueJPNt_fHynyjFkUoOInIGch6ljA9PJPw7Fpy3vntFC1o8sg>
+ <xmx:x0-FX0bNB7rKXcYmYNU1Yo0g7udXslJxtVTteOo8z9nSbxcySycctw>
+ <xmx:x0-FXyYPi2TJD83X052evagOXrxw2AasFd_gtm61FiXaa10CKbPqiw>
+ <xmx:yE-FX4OL8w_EqUl5ueWvmu7fLs02r4d5gimLRw5nPT0zl0sdSSPeY73QWeQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7F91D328005D;
+ Tue, 13 Oct 2020 02:57:11 -0400 (EDT)
+Date: Tue, 13 Oct 2020 08:57:09 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20201013065709.lwjw3fthoxwsbqsl@gilmour.lan>
 MIME-Version: 1.0
+X-Mailman-Approved-At: Tue, 13 Oct 2020 07:16:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,94 +76,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============1795551547=="
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1580749661=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1795551547==
+
+--===============1580749661==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/mj_kXiQRv3zg+GUUFcX/M6F"; protocol="application/pgp-signature"
-
---Sig_/mj_kXiQRv3zg+GUUFcX/M6F
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 12 Oct 2020 16:23:35 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> On Mon, Oct 12, 2020 at 02:40:58PM +0200, Neil Armstrong wrote:
-> > Hi,
-> >=20
-
-...
-
-> > It's weird because it the kernel is misconfigured and no console is spe=
-cified on the cmdline
-> > this console could become the main console...
-> >=20
-> > It's a great feature, but couldn't this be a module parameter ? =20
->=20
-> If you have vkms enabled in a distro, you're doing it wrong.
-
-That's really not a great position to take. I would prefer that
-if a random contributor writes a Weston patch and runs 'meson test', it
-will use VKMS to run Weston's DRM-backend tests on his machine
-automatically, maybe save for some seat and device node access
-permissions bits which distributions could be delivering as well.
-
-Just put the VKMS device node into a non-default seat, and Xorg etc.
-will happily ignore it.
-
-For the fbdev device node, I don't know. Maybe a module parameter
-really is a good choice there, defaulting to off. I have no interest in
-testing anything against fbdev, but other people might disagree of
-course.
-
-Why? Gitlab CI is still not running tests for every commit, just per
-MR, and it might even be infeasible too.
-
-I am also hoping for a future where I don't have to build my own kernel
-just to be able to run Weston DRM tests with VKMS. That means I want to
-be able to run my machine with VKMS loaded and active at all times,
-without affecting the normal desktop. I already have such a setup with
-an extra AMD card, but you can't run most KMS tests against real
-hardware drivers.
+	protocol="application/pgp-signature"; boundary="x2ygx4kz7pktrxul"
+Content-Disposition: inline
 
 
-Thanks,
-pq
+--x2ygx4kz7pktrxul
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---Sig_/mj_kXiQRv3zg+GUUFcX/M6F
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Hi Dave,
+
+Here's the remaining patches we have in drm-misc-next-fixes
+
+Maxime
+
+drm-misc-next-fixes-2020-10-13:
+One fix for a bad revert in ingenic-drm, and one fix for panfrost to increase a timeout at power up.
+The following changes since commit 8ba0b6d196315f68c271f549e8585129caefce97:
+
+  drm/vc4: crtc: Keep the previously assigned HVS FIFO (2020-09-25 16:56:21 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2020-10-13
+
+for you to fetch changes up to d3c8f2784d3266d27956659c78835ee1d1925ad2:
+
+  drm/ingenic: Fix bad revert (2020-10-12 20:26:14 +0200)
+
+----------------------------------------------------------------
+One fix for a bad revert in ingenic-drm, and one fix for panfrost to increase a timeout at power up.
+
+----------------------------------------------------------------
+Christian Hewitt (1):
+      drm/panfrost: increase readl_relaxed_poll_timeout values
+
+Ondrej Jirman (1):
+      MAINTAINERS: Update entry for st7703 driver after the rename
+
+Paul Cercueil (2):
+      Revert "gpu/drm: ingenic: Add option to mmap GEM buffers cached"
+      drm/ingenic: Fix bad revert
+
+ MAINTAINERS                               |   7 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 114 +-----------------------------
+ drivers/gpu/drm/ingenic/ingenic-drm.h     |   4 --
+ drivers/gpu/drm/ingenic/ingenic-ipu.c     |  12 +---
+ drivers/gpu/drm/panfrost/panfrost_gpu.c   |   4 +-
+ 5 files changed, 10 insertions(+), 131 deletions(-)
+
+--x2ygx4kz7pktrxul
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl+FRbIACgkQI1/ltBGq
-qqekwA//bQySh7EZd2TKI4FmSnLejTBtFhptfMRyQ0ulbHWOlp1XuKaU6OX1iNn+
-tE1cKRMr7smvgECaRtHIUphPRa3/d40qu7PFSXxgXgDXdm+0x+10jpTSL0cvChM4
-LEBBOmaJKREfAhi7pPsguTMfPPOoDe41GtluYk3Mje7TyjSb80AEV502uCn530GN
-soGpnC0ggY4iHGElIO0HfBwVvMxV72SEWJNcXcgt5sjfy8nMrTR/6SaTwoM232uU
-r6+CYAZzfmfEDCj2jmxWFOJjSfNmZjmMbfRNo06TnyhUQMaJw2kohk4y6WprXmv0
-UdhWh3mQSKydHg2Oy7TxduPXAOxcIxTG0qgWZi3Fu8kkqMoxiMbXZY6sUvGLL3H/
-699g6G7Hjwwm5lgwt1dc1oHyEquM/ykFPnsdQ+MGVa/3mBkYdoZQ2CBPQgapWBTM
-dPOeZAfQ6ZyCNLfhDPSRKHxARFJ22eM4JQw3GCHLkiUgqngMCj28EoQBgThlA99q
-hg9FEDpDOtSPCsxfEDptYxy6HYb+733zwd8avvKdC6T3Tntyf6KgzdTQKC4phfl/
-FzDQ6EPup3SjpkqQBBU1CoDqzfRnwjcHF02HxxIfFBsmmdCy8W/QdyV5Xq6xekNo
-g41kK4o+7IZQYKNnzTGpR9pMOp9kT3qbPPzi2tAPN5PVqLmVC0M=
-=7JA2
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX4VPxQAKCRDj7w1vZxhR
+xatQAP4/YXu16Mt69ADcZF8cnrHgX6fn3PtO2PY0PA3X71wQ8wD6AzEI3c45XTih
+Migf2njfVBITYel0Kz5FPKoJZr0A1Q0=
+=nY+j
 -----END PGP SIGNATURE-----
 
---Sig_/mj_kXiQRv3zg+GUUFcX/M6F--
+--x2ygx4kz7pktrxul--
 
---===============1795551547==
+--===============1580749661==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -167,4 +159,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1795551547==--
+--===============1580749661==--
