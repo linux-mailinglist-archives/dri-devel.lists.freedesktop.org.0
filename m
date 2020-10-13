@@ -1,57 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E9728CC4B
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 13:10:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A372528DA20
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:04:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA6196E2D7;
-	Tue, 13 Oct 2020 11:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77CE66E0B9;
+	Wed, 14 Oct 2020 07:03:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 425BF6E2D7
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 11:10:35 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id z22so15520361wmi.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 04:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=k/ZFVlD99CIO/xWyTZKvrrkAy627jj7kliW92YyZz9c=;
- b=F//Wnp3fwYQy6XNkLB2E0udRPtE4AU6qOGA9DsT2dO2LcPVoY4XuWOcDuqIPAnKVND
- jqJnOug3/3dkwxD8EJ3k6fi+RdxVp/lyvSZc+nOuDI+lR14W5XeEQiTKsKPEbTQ7PlXW
- nyvX63W7DDQmlVijDSeswUnWo7XbzB7U/UhkY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=k/ZFVlD99CIO/xWyTZKvrrkAy627jj7kliW92YyZz9c=;
- b=LMpRBJcFGo2dhTTv0djEAlYsE8uUVjVkaTjLjqL1NIUmuYTWLc5j6ZVVl8lUTYaybW
- BgtKHobQ8Re7EwP4c3NbcXZbjTRBxZoS85FYRPTP2U+udA9alOzGhn8eeKzPKX4Jm1N4
- KxlAH6DWkUZRLh6DZqlQeCWA6izBLsqFHuNE7Ysp0KBIrcJhA+5/f1DA/BHGp+/VfwHS
- MRyTHY3qDJF0k6wnTInbazh0F4u0R8Tu9QfDWeO8favaB3Na2qcZu3XmIQcuUdHze2TX
- eG++9OcoFI9BMk8hrD4AgFeDW90b1Ub50RlNrwPtqTd2dzVgPQ29oz+NnXS3JOQ8O6X1
- 6gmw==
-X-Gm-Message-State: AOAM533Ub4etOIvQWep1zy5yXs28xMznPMM2k+fYEQaRUr4KHmqy7lBV
- eq5Bp/mPWeiiuKANhhXjhcxGeCN+AQKrdMqI
-X-Google-Smtp-Source: ABdhPJzb5cCE1LGTrnpcf9kKgyu3GNjpkcGH60Btp+bgE8TRwOSLk3LkVZ/jgW5n/6iSPc0wEayRaA==
-X-Received: by 2002:a05:600c:2cd0:: with SMTP id
- l16mr15179283wmc.18.1602587433530; 
- Tue, 13 Oct 2020 04:10:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d30sm30496902wrc.19.2020.10.13.04.10.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 04:10:32 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/vkms: Switch to shmem helpers
-Date: Tue, 13 Oct 2020 13:10:27 +0200
-Message-Id: <20201013111027.375999-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201009232156.3916879-2-daniel.vetter@ffwll.ch>
-References: <20201009232156.3916879-2-daniel.vetter@ffwll.ch>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 579536E8BC;
+ Tue, 13 Oct 2020 11:12:47 +0000 (UTC)
+Date: Tue, 13 Oct 2020 13:12:32 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Message-Id: <WG05IQ.DABE5ILJAA631@crapouillou.net>
+In-Reply-To: <20201012152452.432c4867@canb.auug.org.au>
+References: <20201008140903.12a411b8@canb.auug.org.au>
+ <20201008154202.175fbec7@canb.auug.org.au>
+ <20201012152452.432c4867@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Approved-At: Wed, 14 Oct 2020 07:03:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,598 +35,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Chris Wilson <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, linux-next@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Inspired by a patch by Chris Wilson for vgem. Plus this gives us vmap
-at the gem bo level, which we need for generic fbdev emulation.
+Hi Stephen,
 
-Luckily shmem also tracks ->vaddr, so we just need to adjust the code
-all over a bit to make this fit.
+Le lun. 12 oct. 2020 =E0 15:24, Stephen Rothwell <sfr@canb.auug.org.au> =
 
-Also wire up handle_to_fd, dunno why that was missing.
+a =E9crit :
+> Hi all,
+> =
 
-v2:
-- Drop now unused container_of #define (Melissa)
-- Make sure we keep creating cached objects, this is for testing
-  (Thomas)
+> On Thu, 8 Oct 2020 15:42:02 +1100 Stephen Rothwell =
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
----
- drivers/gpu/drm/Kconfig               |   1 +
- drivers/gpu/drm/vkms/Makefile         |   1 -
- drivers/gpu/drm/vkms/vkms_composer.c  |  17 +-
- drivers/gpu/drm/vkms/vkms_drv.c       |  18 +-
- drivers/gpu/drm/vkms/vkms_drv.h       |  29 ---
- drivers/gpu/drm/vkms/vkms_gem.c       | 261 --------------------------
- drivers/gpu/drm/vkms/vkms_plane.c     |  13 +-
- drivers/gpu/drm/vkms/vkms_writeback.c |  17 +-
- 8 files changed, 30 insertions(+), 327 deletions(-)
- delete mode 100644 drivers/gpu/drm/vkms/vkms_gem.c
+> <sfr@canb.auug.org.au> wrote:
+>> =
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 9efb82caaa87..b796c118fc3b 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -287,6 +287,7 @@ config DRM_VKMS
- 	tristate "Virtual KMS (EXPERIMENTAL)"
- 	depends on DRM
- 	select DRM_KMS_HELPER
-+	select DRM_GEM_SHMEM_HELPER
- 	select CRC32
- 	default n
- 	help
-diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-index 333d3cead0e3..72f779cbfedd 100644
---- a/drivers/gpu/drm/vkms/Makefile
-+++ b/drivers/gpu/drm/vkms/Makefile
-@@ -4,7 +4,6 @@ vkms-y := \
- 	vkms_plane.o \
- 	vkms_output.o \
- 	vkms_crtc.o \
--	vkms_gem.o \
- 	vkms_composer.o \
- 	vkms_writeback.o
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 33c031f27c2c..66c6842d70db 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -5,6 +5,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_vblank.h>
- 
- #include "vkms_drv.h"
-@@ -129,15 +130,15 @@ static void compose_cursor(struct vkms_composer *cursor_composer,
- 			   void *vaddr_out)
- {
- 	struct drm_gem_object *cursor_obj;
--	struct vkms_gem_object *cursor_vkms_obj;
-+	struct drm_gem_shmem_object *cursor_shmem_obj;
- 
- 	cursor_obj = drm_gem_fb_get_obj(&cursor_composer->fb, 0);
--	cursor_vkms_obj = drm_gem_to_vkms_gem(cursor_obj);
-+	cursor_shmem_obj = to_drm_gem_shmem_obj(cursor_obj);
- 
--	if (WARN_ON(!cursor_vkms_obj->vaddr))
-+	if (WARN_ON(!cursor_shmem_obj->vaddr))
- 		return;
- 
--	blend(vaddr_out, cursor_vkms_obj->vaddr,
-+	blend(vaddr_out, cursor_shmem_obj->vaddr,
- 	      primary_composer, cursor_composer);
- }
- 
-@@ -147,20 +148,20 @@ static int compose_planes(void **vaddr_out,
- {
- 	struct drm_framebuffer *fb = &primary_composer->fb;
- 	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
--	struct vkms_gem_object *vkms_obj = drm_gem_to_vkms_gem(gem_obj);
-+	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(gem_obj);
- 
- 	if (!*vaddr_out) {
--		*vaddr_out = kzalloc(vkms_obj->gem.size, GFP_KERNEL);
-+		*vaddr_out = kzalloc(shmem_obj->base.size, GFP_KERNEL);
- 		if (!*vaddr_out) {
- 			DRM_ERROR("Cannot allocate memory for output frame.");
- 			return -ENOMEM;
- 		}
- 	}
- 
--	if (WARN_ON(!vkms_obj->vaddr))
-+	if (WARN_ON(!shmem_obj->vaddr))
- 		return -EINVAL;
- 
--	memcpy(*vaddr_out, vkms_obj->vaddr, vkms_obj->gem.size);
-+	memcpy(*vaddr_out, shmem_obj->vaddr, shmem_obj->base.size);
- 
- 	if (cursor_composer)
- 		compose_cursor(cursor_composer, primary_composer, *vaddr_out);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index eb4007443706..198a8941d6ea 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -23,6 +23,7 @@
- #include <drm/drm_ioctl.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_vblank.h>
- 
- #include "vkms_drv.h"
-@@ -39,17 +40,7 @@ bool enable_cursor = true;
- module_param_named(enable_cursor, enable_cursor, bool, 0444);
- MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
- 
--static const struct file_operations vkms_driver_fops = {
--	.owner		= THIS_MODULE,
--	.open		= drm_open,
--	.mmap		= drm_gem_mmap,
--	.unlocked_ioctl	= drm_ioctl,
--	.compat_ioctl	= drm_compat_ioctl,
--	.poll		= drm_poll,
--	.read		= drm_read,
--	.llseek		= no_llseek,
--	.release	= drm_release,
--};
-+DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
- 
- static void vkms_release(struct drm_device *dev)
- {
-@@ -91,9 +82,8 @@ static struct drm_driver vkms_driver = {
- 	.driver_features	= DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
- 	.release		= vkms_release,
- 	.fops			= &vkms_driver_fops,
--	.dumb_create		= vkms_dumb_create,
--	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
--	.gem_prime_import_sg_table = vkms_prime_import_sg_table,
-+	.gem_create_object = drm_gem_shmem_create_object_cached,
-+	DRM_GEM_SHMEM_DRIVER_OPS,
- 
- 	.name			= DRIVER_NAME,
- 	.desc			= DRIVER_DESC,
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 380a8f27e156..5ed91ff08cb3 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -88,23 +88,12 @@ struct vkms_device {
- 	struct vkms_output output;
- };
- 
--struct vkms_gem_object {
--	struct drm_gem_object gem;
--	struct mutex pages_lock; /* Page lock used in page fault handler */
--	struct page **pages;
--	unsigned int vmap_count;
--	void *vaddr;
--};
--
- #define drm_crtc_to_vkms_output(target) \
- 	container_of(target, struct vkms_output, crtc)
- 
- #define drm_device_to_vkms_device(target) \
- 	container_of(target, struct vkms_device, drm)
- 
--#define drm_gem_to_vkms_gem(target)\
--	container_of(target, struct vkms_gem_object, gem)
--
- #define to_vkms_crtc_state(target)\
- 	container_of(target, struct vkms_crtc_state, base)
- 
-@@ -120,24 +109,6 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index);
- struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
- 				  enum drm_plane_type type, int index);
- 
--/* Gem stuff */
--vm_fault_t vkms_gem_fault(struct vm_fault *vmf);
--
--int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
--		     struct drm_mode_create_dumb *args);
--
--void vkms_gem_free_object(struct drm_gem_object *obj);
--
--int vkms_gem_vmap(struct drm_gem_object *obj);
--
--void vkms_gem_vunmap(struct drm_gem_object *obj);
--
--/* Prime */
--struct drm_gem_object *
--vkms_prime_import_sg_table(struct drm_device *dev,
--			   struct dma_buf_attachment *attach,
--			   struct sg_table *sg);
--
- /* CRC Support */
- const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
- 					size_t *count);
-diff --git a/drivers/gpu/drm/vkms/vkms_gem.c b/drivers/gpu/drm/vkms/vkms_gem.c
-deleted file mode 100644
-index 19a0e260a4df..000000000000
---- a/drivers/gpu/drm/vkms/vkms_gem.c
-+++ /dev/null
-@@ -1,261 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0+
--
--#include <linux/dma-buf.h>
--#include <linux/shmem_fs.h>
--#include <linux/vmalloc.h>
--#include <drm/drm_prime.h>
--
--#include "vkms_drv.h"
--
--static const struct vm_operations_struct vkms_gem_vm_ops = {
--	.fault = vkms_gem_fault,
--	.open = drm_gem_vm_open,
--	.close = drm_gem_vm_close,
--};
--
--static const struct drm_gem_object_funcs vkms_gem_object_funcs = {
--	.free = vkms_gem_free_object,
--	.vm_ops = &vkms_gem_vm_ops,
--};
--
--static struct vkms_gem_object *__vkms_gem_create(struct drm_device *dev,
--						 u64 size)
--{
--	struct vkms_gem_object *obj;
--	int ret;
--
--	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
--	if (!obj)
--		return ERR_PTR(-ENOMEM);
--
--	obj->gem.funcs = &vkms_gem_object_funcs;
--
--	size = roundup(size, PAGE_SIZE);
--	ret = drm_gem_object_init(dev, &obj->gem, size);
--	if (ret) {
--		kfree(obj);
--		return ERR_PTR(ret);
--	}
--
--	mutex_init(&obj->pages_lock);
--
--	return obj;
--}
--
--void vkms_gem_free_object(struct drm_gem_object *obj)
--{
--	struct vkms_gem_object *gem = container_of(obj, struct vkms_gem_object,
--						   gem);
--
--	WARN_ON(gem->pages);
--	WARN_ON(gem->vaddr);
--
--	mutex_destroy(&gem->pages_lock);
--	drm_gem_object_release(obj);
--	kfree(gem);
--}
--
--vm_fault_t vkms_gem_fault(struct vm_fault *vmf)
--{
--	struct vm_area_struct *vma = vmf->vma;
--	struct vkms_gem_object *obj = vma->vm_private_data;
--	unsigned long vaddr = vmf->address;
--	pgoff_t page_offset;
--	loff_t num_pages;
--	vm_fault_t ret = VM_FAULT_SIGBUS;
--
--	page_offset = (vaddr - vma->vm_start) >> PAGE_SHIFT;
--	num_pages = DIV_ROUND_UP(obj->gem.size, PAGE_SIZE);
--
--	if (page_offset > num_pages)
--		return VM_FAULT_SIGBUS;
--
--	mutex_lock(&obj->pages_lock);
--	if (obj->pages) {
--		get_page(obj->pages[page_offset]);
--		vmf->page = obj->pages[page_offset];
--		ret = 0;
--	}
--	mutex_unlock(&obj->pages_lock);
--	if (ret) {
--		struct page *page;
--		struct address_space *mapping;
--
--		mapping = file_inode(obj->gem.filp)->i_mapping;
--		page = shmem_read_mapping_page(mapping, page_offset);
--
--		if (!IS_ERR(page)) {
--			vmf->page = page;
--			ret = 0;
--		} else {
--			switch (PTR_ERR(page)) {
--			case -ENOSPC:
--			case -ENOMEM:
--				ret = VM_FAULT_OOM;
--				break;
--			case -EBUSY:
--				ret = VM_FAULT_RETRY;
--				break;
--			case -EFAULT:
--			case -EINVAL:
--				ret = VM_FAULT_SIGBUS;
--				break;
--			default:
--				WARN_ON(PTR_ERR(page));
--				ret = VM_FAULT_SIGBUS;
--				break;
--			}
--		}
--	}
--	return ret;
--}
--
--static struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
--					      struct drm_file *file,
--					      u32 *handle,
--					      u64 size)
--{
--	struct vkms_gem_object *obj;
--	int ret;
--
--	if (!file || !dev || !handle)
--		return ERR_PTR(-EINVAL);
--
--	obj = __vkms_gem_create(dev, size);
--	if (IS_ERR(obj))
--		return ERR_CAST(obj);
--
--	ret = drm_gem_handle_create(file, &obj->gem, handle);
--	if (ret)
--		return ERR_PTR(ret);
--
--	return &obj->gem;
--}
--
--int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
--		     struct drm_mode_create_dumb *args)
--{
--	struct drm_gem_object *gem_obj;
--	u64 pitch, size;
--
--	if (!args || !dev || !file)
--		return -EINVAL;
--
--	pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
--	size = pitch * args->height;
--
--	if (!size)
--		return -EINVAL;
--
--	gem_obj = vkms_gem_create(dev, file, &args->handle, size);
--	if (IS_ERR(gem_obj))
--		return PTR_ERR(gem_obj);
--
--	args->size = gem_obj->size;
--	args->pitch = pitch;
--
--	drm_gem_object_put(gem_obj);
--
--	DRM_DEBUG_DRIVER("Created object of size %lld\n", size);
--
--	return 0;
--}
--
--static struct page **_get_pages(struct vkms_gem_object *vkms_obj)
--{
--	struct drm_gem_object *gem_obj = &vkms_obj->gem;
--
--	if (!vkms_obj->pages) {
--		struct page **pages = drm_gem_get_pages(gem_obj);
--
--		if (IS_ERR(pages))
--			return pages;
--
--		if (cmpxchg(&vkms_obj->pages, NULL, pages))
--			drm_gem_put_pages(gem_obj, pages, false, true);
--	}
--
--	return vkms_obj->pages;
--}
--
--void vkms_gem_vunmap(struct drm_gem_object *obj)
--{
--	struct vkms_gem_object *vkms_obj = drm_gem_to_vkms_gem(obj);
--
--	mutex_lock(&vkms_obj->pages_lock);
--	if (vkms_obj->vmap_count < 1) {
--		WARN_ON(vkms_obj->vaddr);
--		WARN_ON(vkms_obj->pages);
--		mutex_unlock(&vkms_obj->pages_lock);
--		return;
--	}
--
--	vkms_obj->vmap_count--;
--
--	if (vkms_obj->vmap_count == 0) {
--		vunmap(vkms_obj->vaddr);
--		vkms_obj->vaddr = NULL;
--		drm_gem_put_pages(obj, vkms_obj->pages, false, true);
--		vkms_obj->pages = NULL;
--	}
--
--	mutex_unlock(&vkms_obj->pages_lock);
--}
--
--int vkms_gem_vmap(struct drm_gem_object *obj)
--{
--	struct vkms_gem_object *vkms_obj = drm_gem_to_vkms_gem(obj);
--	int ret = 0;
--
--	mutex_lock(&vkms_obj->pages_lock);
--
--	if (!vkms_obj->vaddr) {
--		unsigned int n_pages = obj->size >> PAGE_SHIFT;
--		struct page **pages = _get_pages(vkms_obj);
--
--		if (IS_ERR(pages)) {
--			ret = PTR_ERR(pages);
--			goto out;
--		}
--
--		vkms_obj->vaddr = vmap(pages, n_pages, VM_MAP, PAGE_KERNEL);
--		if (!vkms_obj->vaddr)
--			goto err_vmap;
--	}
--
--	vkms_obj->vmap_count++;
--	goto out;
--
--err_vmap:
--	ret = -ENOMEM;
--	drm_gem_put_pages(obj, vkms_obj->pages, false, true);
--	vkms_obj->pages = NULL;
--out:
--	mutex_unlock(&vkms_obj->pages_lock);
--	return ret;
--}
--
--struct drm_gem_object *
--vkms_prime_import_sg_table(struct drm_device *dev,
--			   struct dma_buf_attachment *attach,
--			   struct sg_table *sg)
--{
--	struct vkms_gem_object *obj;
--	int npages;
--
--	obj = __vkms_gem_create(dev, attach->dmabuf->size);
--	if (IS_ERR(obj))
--		return ERR_CAST(obj);
--
--	npages = PAGE_ALIGN(attach->dmabuf->size) / PAGE_SIZE;
--	DRM_DEBUG_PRIME("Importing %d pages\n", npages);
--
--	obj->pages = kvmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
--	if (!obj->pages) {
--		vkms_gem_free_object(&obj->gem);
--		return ERR_PTR(-ENOMEM);
--	}
--
--	drm_prime_sg_to_page_addr_arrays(sg, obj->pages, NULL, npages);
--	return &obj->gem;
--}
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 6d31265a2ab7..9890137bcb8d 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -5,6 +5,7 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
- 
- #include "vkms_drv.h"
- 
-@@ -145,15 +146,15 @@ static int vkms_prepare_fb(struct drm_plane *plane,
- 			   struct drm_plane_state *state)
- {
- 	struct drm_gem_object *gem_obj;
--	int ret;
-+	void *vaddr;
- 
- 	if (!state->fb)
- 		return 0;
- 
- 	gem_obj = drm_gem_fb_get_obj(state->fb, 0);
--	ret = vkms_gem_vmap(gem_obj);
--	if (ret)
--		DRM_ERROR("vmap failed: %d\n", ret);
-+	vaddr = drm_gem_shmem_vmap(gem_obj);
-+	if (IS_ERR(vaddr))
-+		DRM_ERROR("vmap failed: %li\n", PTR_ERR(vaddr));
- 
- 	return drm_gem_fb_prepare_fb(plane, state);
- }
-@@ -162,12 +163,14 @@ static void vkms_cleanup_fb(struct drm_plane *plane,
- 			    struct drm_plane_state *old_state)
- {
- 	struct drm_gem_object *gem_obj;
-+	struct drm_gem_shmem_object *shmem_obj;
- 
- 	if (!old_state->fb)
- 		return;
- 
- 	gem_obj = drm_gem_fb_get_obj(old_state->fb, 0);
--	vkms_gem_vunmap(gem_obj);
-+	shmem_obj = to_drm_gem_shmem_obj(drm_gem_fb_get_obj(old_state->fb, 0));
-+	drm_gem_shmem_vunmap(gem_obj, shmem_obj->vaddr);
- }
- 
- static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 094fa4aa061d..26b903926872 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -6,6 +6,7 @@
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
- 
- static const u32 vkms_wb_formats[] = {
- 	DRM_FORMAT_XRGB8888,
-@@ -63,22 +64,20 @@ static int vkms_wb_connector_get_modes(struct drm_connector *connector)
- static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
- 			       struct drm_writeback_job *job)
- {
--	struct vkms_gem_object *vkms_obj;
- 	struct drm_gem_object *gem_obj;
--	int ret;
-+	void *vaddr;
- 
- 	if (!job->fb)
- 		return 0;
- 
- 	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
--	ret = vkms_gem_vmap(gem_obj);
--	if (ret) {
--		DRM_ERROR("vmap failed: %d\n", ret);
--		return ret;
-+	vaddr = drm_gem_shmem_vmap(gem_obj);
-+	if (IS_ERR(vaddr)) {
-+		DRM_ERROR("vmap failed: %li\n", PTR_ERR(vaddr));
-+		return PTR_ERR(vaddr);
- 	}
- 
--	vkms_obj = drm_gem_to_vkms_gem(gem_obj);
--	job->priv = vkms_obj->vaddr;
-+	job->priv = vaddr;
- 
- 	return 0;
- }
-@@ -93,7 +92,7 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
- 		return;
- 
- 	gem_obj = drm_gem_fb_get_obj(job->fb, 0);
--	vkms_gem_vunmap(gem_obj);
-+	drm_gem_shmem_vunmap(gem_obj, job->priv);
- 
- 	vkmsdev = drm_device_to_vkms_device(gem_obj->dev);
- 	vkms_set_composer(&vkmsdev->output, false);
--- 
-2.28.0
+>>  On Thu, 8 Oct 2020 14:09:03 +1100 Stephen Rothwell =
+
+>> <sfr@canb.auug.org.au> wrote:
+>>  >
+>>  > After merging the drm-misc tree, today's linux-next build (x86_64
+>>  > allmodconfig) failed like this:
+>> =
+
+>>  In file included from include/linux/clk.h:13,
+>>                   from drivers/gpu/drm/ingenic/ingenic-drm-drv.c:10:
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c: In function =
+
+>> 'ingenic_drm_update_palette':
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:35: error: 'struct =
+
+>> ingenic_drm' has no member named 'dma_hwdescs'; did you mean =
+
+>> 'dma_hwdesc_f0'?
+>>    448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); =
+
+>> i++) {
+>>        |                                   ^~~~~~~~~~~
+>>  include/linux/kernel.h:47:33: note: in definition of macro =
+
+>> 'ARRAY_SIZE'
+>>     47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + =
+
+>> __must_be_array(arr))
+>>        |                                 ^~~
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:35: error: 'struct =
+
+>> ingenic_drm' has no member named 'dma_hwdescs'; did you mean =
+
+>> 'dma_hwdesc_f0'?
+>>    448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); =
+
+>> i++) {
+>>        |                                   ^~~~~~~~~~~
+>>  include/linux/kernel.h:47:48: note: in definition of macro =
+
+>> 'ARRAY_SIZE'
+>>     47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + =
+
+>> __must_be_array(arr))
+>>        |                                                ^~~
+>>  In file included from include/linux/bits.h:22,
+>>                   from include/linux/bitops.h:5,
+>>                   from drivers/gpu/drm/ingenic/ingenic-drm.h:10,
+>>                   from drivers/gpu/drm/ingenic/ingenic-drm-drv.c:7:
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:35: error: 'struct =
+
+>> ingenic_drm' has no member named 'dma_hwdescs'; did you mean =
+
+>> 'dma_hwdesc_f0'?
+>>    448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); =
+
+>> i++) {
+>>        |                                   ^~~~~~~~~~~
+>>  include/linux/build_bug.h:16:62: note: in definition of macro =
+
+>> 'BUILD_BUG_ON_ZERO'
+>>     16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { =
+
+>> int:(-!!(e)); })))
+>>        |                                                             =
+
+>>  ^
+>>  include/linux/compiler.h:224:46: note: in expansion of macro =
+
+>> '__same_type'
+>>    224 | #define __must_be_array(a) =
+
+>> BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+>>        |                                              ^~~~~~~~~~~
+>>  include/linux/kernel.h:47:59: note: in expansion of macro =
+
+>> '__must_be_array'
+>>     47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + =
+
+>> __must_be_array(arr))
+>>        |                                                           =
+
+>> ^~~~~~~~~~~~~~~
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:18: note: in =
+
+>> expansion of macro 'ARRAY_SIZE'
+>>    448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); =
+
+>> i++) {
+>>        |                  ^~~~~~~~~~
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:35: error: 'struct =
+
+>> ingenic_drm' has no member named 'dma_hwdescs'; did you mean =
+
+>> 'dma_hwdesc_f0'?
+>>    448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); =
+
+>> i++) {
+>>        |                                   ^~~~~~~~~~~
+>>  include/linux/build_bug.h:16:62: note: in definition of macro =
+
+>> 'BUILD_BUG_ON_ZERO'
+>>     16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { =
+
+>> int:(-!!(e)); })))
+>>        |                                                             =
+
+>>  ^
+>>  include/linux/compiler.h:224:46: note: in expansion of macro =
+
+>> '__same_type'
+>>    224 | #define __must_be_array(a) =
+
+>> BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+>>        |                                              ^~~~~~~~~~~
+>>  include/linux/kernel.h:47:59: note: in expansion of macro =
+
+>> '__must_be_array'
+>>     47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + =
+
+>> __must_be_array(arr))
+>>        |                                                           =
+
+>> ^~~~~~~~~~~~~~~
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:18: note: in =
+
+>> expansion of macro 'ARRAY_SIZE'
+>>    448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); =
+
+>> i++) {
+>>        |                  ^~~~~~~~~~
+>>  include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' =
+
+>> width not an integer constant
+>>     16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { =
+
+>> int:(-!!(e)); })))
+>>        |                                                   ^
+>>  include/linux/compiler.h:224:28: note: in expansion of macro =
+
+>> 'BUILD_BUG_ON_ZERO'
+>>    224 | #define __must_be_array(a) =
+
+>> BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+>>        |                            ^~~~~~~~~~~~~~~~~
+>>  include/linux/kernel.h:47:59: note: in expansion of macro =
+
+>> '__must_be_array'
+>>     47 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + =
+
+>> __must_be_array(arr))
+>>        |                                                           =
+
+>> ^~~~~~~~~~~~~~~
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:448:18: note: in =
+
+>> expansion of macro 'ARRAY_SIZE'
+>>    448 |  for (i =3D 0; i < ARRAY_SIZE(priv->dma_hwdescs->palette); =
+
+>> i++) {
+>>        |                  ^~~~~~~~~~
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:453:9: error: 'struct =
+
+>> ingenic_drm' has no member named 'dma_hwdescs'; did you mean =
+
+>> 'dma_hwdesc_f0'?
+>>    453 |   priv->dma_hwdescs->palette[i] =3D color;
+>>        |         ^~~~~~~~~~~
+>>        |         dma_hwdesc_f0
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c: In function =
+
+>> 'ingenic_drm_plane_atomic_update':
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:467:3: error: =
+
+>> 'crtc_state' undeclared (first use in this function); did you mean =
+
+>> 'ctx_state'?
+>>    467 |   crtc_state =3D state->crtc->state;
+>>        |   ^~~~~~~~~~
+>>        |   ctx_state
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:467:3: note: each =
+
+>> undeclared identifier is reported only once for each function it =
+
+>> appears in
+>>  At top level:
+>>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c:443:13: warning: =
+
+>> 'ingenic_drm_update_palette' defined but not used [-Wunused-function]
+>>    443 | static void ingenic_drm_update_palette(struct ingenic_drm =
+
+>> *priv,
+>>        |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> =
+
+>>  > I noticed that the ingenic driver revert I had been waiting for =
+
+>> appeared
+>>  > in hte drm-misc tree, so I removed the BROKEN dependency for it, =
+
+>> but it
+>>  > produced the above errors, so I have marked it BROKEN again.
+> =
+
+> Any progress on this?  I am still marking CONFIG_DRM_INGENIC as BROKEN
+> in the drm and drm-misc trees.
+
+It should be good now.
+
+Cheers,
+-Paul
+
 
 _______________________________________________
 dri-devel mailing list
