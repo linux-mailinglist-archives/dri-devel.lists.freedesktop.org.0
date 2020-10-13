@@ -1,66 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FB928DA23
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:04:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CC528DA33
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 09:04:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 020826E9F5;
-	Wed, 14 Oct 2020 07:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E78B96EA06;
+	Wed, 14 Oct 2020 07:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 340166E8AF
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 08:01:30 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id g16so217105pjv.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 01:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OHUIn9W1x+5KlmekZkhiHQBGgSSK4eQqcPUC6t+lfRc=;
- b=NJoBFLThsczUbwkvrp7kZrvgmTGRNmb1Sil1e6gp0V7/Jrytl6je5a6cMug39yDVNc
- eJtOflG1IKbxzT0NaS0Z6IFsddksIW5hXejbBHY0KWuZf7IUTIFEfNI8E3GriO32yJIo
- eey5IHvSrLZWHWpJ2p43kLBrOmK4ZiBpVN6Mg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OHUIn9W1x+5KlmekZkhiHQBGgSSK4eQqcPUC6t+lfRc=;
- b=SUzFNQJaPfRnr66JtEGy28jvxeublAVThW4e/dPlvFuLDhpweV+IEKZ/2ZTfUKKLX2
- s6dSZf/hN18e6uuyJJIvnS+a3QuPHxAYRLSHQZEZANMw3G2CzCEmg+8ri5vDIjdNlGY+
- 1S+2sV166UfAm02pUmAiuuIJSNXvsqzLLOSIwzviUH4mKj32HFbQrIJEEvNoH3BQQ6WC
- MmSXQasOp7DCYC3+mnNdv21v+ylW7g1eKzD4JMA0vJp+UwDXSVWnKEZ0SIa7nDPCHtmv
- oV1nlROyHRHVZ4Db+nHlX0iDOezRfockcNEr1c5p9paarl1AXkiNiLg+VKatDXjaio7i
- 4mig==
-X-Gm-Message-State: AOAM533Wdu9jxi2W7b+nIjvdUascSoro7alWI3+V8YK9ZJ08WEaJx+wH
- tzhM3Ap70cpl6BP1e5O6gbl9TQ==
-X-Google-Smtp-Source: ABdhPJz191HpdE/vjX+LToftssVvpvCdV+wFU6xQmnXmYjzutm9Exh6Wi2eBL8fi0ndngxp3bHcTHA==
-X-Received: by 2002:a17:902:eacc:b029:d3:b362:72c0 with SMTP id
- p12-20020a170902eaccb02900d3b36272c0mr26510337pld.23.1602576089722; 
- Tue, 13 Oct 2020 01:01:29 -0700 (PDT)
-Received: from alex-desktop.lan (c-73-63-253-164.hsd1.ca.comcast.net.
- [73.63.253.164])
- by smtp.gmail.com with ESMTPSA id y124sm14956924pfy.28.2020.10.13.01.01.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 01:01:29 -0700 (PDT)
-From: Alexandru Stan <amstan@chromium.org>
-To: Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: [PATCH v2 1/3] backlight: pwm_bl: Fix interpolation
-Date: Tue, 13 Oct 2020 01:01:01 -0700
-Message-Id: <20201013010056.v2.1.I4dcea1c90e9da3902d466033aa73351e19e49c49@changeid>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201013080103.410133-1-amstan@chromium.org>
-References: <20201013080103.410133-1-amstan@chromium.org>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2ED376E0B8
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 08:52:13 +0000 (UTC)
+X-UUID: 9462f808e4ae44bcaaf9986b44205009-20201013
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=Bc/fiIj0WlfNiYPnaqYlSE5KgD2Ldf+jTT1I1/vW7h8=; 
+ b=BDCKMpdVY43JSKe6IFHXe11+1LPmz7jv6aDQ02wZ0bm3shLqiM9SiOh2NWDWI+4LtBP1oi+UiTrxaGaGUKwwdeMh87zEny0vmZu03f+SxqwNrdQ3e5zQv9ZgW+EwdKTUMNjCmu4epieQ5iW4qLn7qNsUckZ4ijBKSkaBDWfEZp4=;
+X-UUID: 9462f808e4ae44bcaaf9986b44205009-20201013
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <chunfeng.yun@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
+ ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 503725858; Tue, 13 Oct 2020 16:52:08 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 13 Oct 2020 16:52:08 +0800
+Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Tue, 13 Oct 2020 16:52:09 +0800
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v2 1/8] dt-bindings: phy: convert phy-mtk-xsphy.txt to YAML
+ schema
+Date: Tue, 13 Oct 2020 16:52:00 +0800
+Message-ID: <20201013085207.17749-1-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
+X-MTK: N
 X-Mailman-Approved-At: Wed, 14 Oct 2020 07:03:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,171 +52,356 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Alexandru Stan <amstan@chromium.org>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Matthias Kaehlcke <mka@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Min Guo <min.guo@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+ linux-mediatek@lists.infradead.org, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Stanley Chu <stanley.chu@mediatek.com>,
+ "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Whenever num-interpolated-steps was larger than the distance
-between 2 consecutive brightness levels the table would get really
-discontinuous. The slope of the interpolation would stick with
-integers only and if it was 0 the whole line segment would get skipped.
+Convert phy-mtk-xsphy.txt to YAML schema mediatek,xsphy.yaml
 
-Example settings:
-	brightness-levels = <0 1 2 4 8 16 32 64 128 256>;
-	num-interpolated-steps = <16>;
-
-The distances between 1 2 4 and 8 would be 1, and only starting with 16
-it would start to interpolate properly.
-
-Let's change it so there's always interpolation happening, even if
-there's no enough points available (read: values in the table would
-appear more than once). This should match the expected behavior much
-more closely.
-
-Signed-off-by: Alexandru Stan <amstan@chromium.org>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
+v2: modify description and compatible definition suggested by Rob
+---
+ .../bindings/phy/mediatek,xsphy.yaml          | 200 ++++++++++++++++++
+ .../devicetree/bindings/phy/phy-mtk-xsphy.txt | 109 ----------
+ 2 files changed, 200 insertions(+), 109 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
+ delete mode 100644 Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt
 
- drivers/video/backlight/pwm_bl.c | 70 ++++++++++++++------------------
- 1 file changed, 31 insertions(+), 39 deletions(-)
-
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index dfc760830eb9..3e77f6b73fd9 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -230,8 +230,7 @@ static int pwm_backlight_parse_dt(struct device *dev,
- 				  struct platform_pwm_backlight_data *data)
- {
- 	struct device_node *node = dev->of_node;
--	unsigned int num_levels = 0;
--	unsigned int levels_count;
-+	unsigned int num_levels;
- 	unsigned int num_steps = 0;
- 	struct property *prop;
- 	unsigned int *table;
-@@ -260,12 +259,11 @@ static int pwm_backlight_parse_dt(struct device *dev,
- 	if (!prop)
- 		return 0;
- 
--	data->max_brightness = length / sizeof(u32);
-+	num_levels = length / sizeof(u32);
- 
- 	/* read brightness levels from DT property */
--	if (data->max_brightness > 0) {
--		size_t size = sizeof(*data->levels) * data->max_brightness;
--		unsigned int i, j, n = 0;
-+	if (num_levels > 0) {
-+		size_t size = sizeof(*data->levels) * num_levels;
- 
- 		data->levels = devm_kzalloc(dev, size, GFP_KERNEL);
- 		if (!data->levels)
-@@ -273,7 +271,7 @@ static int pwm_backlight_parse_dt(struct device *dev,
- 
- 		ret = of_property_read_u32_array(node, "brightness-levels",
- 						 data->levels,
--						 data->max_brightness);
-+						 num_levels);
- 		if (ret < 0)
- 			return ret;
- 
-@@ -298,7 +296,13 @@ static int pwm_backlight_parse_dt(struct device *dev,
- 		 * between two points.
- 		 */
- 		if (num_steps) {
--			if (data->max_brightness < 2) {
-+			unsigned int num_input_levels = num_levels;
-+			unsigned int i;
-+			u32 x1, x2, x, dx;
-+			u32 y1, y2;
-+			s64 dy;
+diff --git a/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml b/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
+new file mode 100644
+index 000000000000..86511f19277a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/mediatek,xsphy.yaml
+@@ -0,0 +1,200 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2020 MediaTek
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/mediatek,xsphy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+			if (num_input_levels < 2) {
- 				dev_err(dev, "can't interpolate\n");
- 				return -EINVAL;
- 			}
-@@ -308,14 +312,7 @@ static int pwm_backlight_parse_dt(struct device *dev,
- 			 * taking in consideration the number of interpolated
- 			 * steps between two levels.
- 			 */
--			for (i = 0; i < data->max_brightness - 1; i++) {
--				if ((data->levels[i + 1] - data->levels[i]) /
--				   num_steps)
--					num_levels += num_steps;
--				else
--					num_levels++;
--			}
--			num_levels++;
-+			num_levels = (num_input_levels - 1) * num_steps + 1;
- 			dev_dbg(dev, "new number of brightness levels: %d\n",
- 				num_levels);
- 
-@@ -327,24 +324,25 @@ static int pwm_backlight_parse_dt(struct device *dev,
- 			table = devm_kzalloc(dev, size, GFP_KERNEL);
- 			if (!table)
- 				return -ENOMEM;
--
--			/* Fill the interpolated table. */
--			levels_count = 0;
--			for (i = 0; i < data->max_brightness - 1; i++) {
--				value = data->levels[i];
--				n = (data->levels[i + 1] - value) / num_steps;
--				if (n > 0) {
--					for (j = 0; j < num_steps; j++) {
--						table[levels_count] = value;
--						value += n;
--						levels_count++;
--					}
--				} else {
--					table[levels_count] = data->levels[i];
--					levels_count++;
-+			/*
-+			 * Fill the interpolated table[x] = y
-+			 * by draw lines between each (x1, y1) to (x2, y2).
-+			 */
-+			dx = num_steps;
-+			for (i = 0; i < num_input_levels - 1; i++) {
-+				x1 = i * dx;
-+				x2 = x1 + dx;
-+				y1 = data->levels[i];
-+				y2 = data->levels[i + 1];
-+				dy = (s64)y2 - y1;
++title: MediaTek XS-PHY Controller Device Tree Bindings
 +
-+				for (x = x1; x < x2; x++) {
-+					table[x] = y1 +
-+						div_s64(dy * ((s64)x - x1), dx);
- 				}
- 			}
--			table[levels_count] = data->levels[i];
-+			/* Fill in the last point, since no line starts here. */
-+			table[x2] = y2;
- 
- 			/*
- 			 * As we use interpolation lets remove current
-@@ -353,15 +351,9 @@ static int pwm_backlight_parse_dt(struct device *dev,
- 			 */
- 			devm_kfree(dev, data->levels);
- 			data->levels = table;
++maintainers:
++  - Chunfeng Yun <chunfeng.yun@mediatek.com>
++
++description: |
++  The XS-PHY controller supports physical layer functionality for USB3.1
++  GEN2 controller on MediaTek SoCs.
++
++  Banks layout of xsphy
++  ----------------------------------
++  port        offset    bank
++  u2 port0    0x0000    MISC
++              0x0100    FMREG
++              0x0300    U2PHY_COM
++  u2 port1    0x1000    MISC
++              0x1100    FMREG
++              0x1300    U2PHY_COM
++  u2 port2    0x2000    MISC
++              ...
++  u31 common  0x3000    DIG_GLB
++              0x3100    PHYA_GLB
++  u31 port0   0x3400    DIG_LN_TOP
++              0x3500    DIG_LN_TX0
++              0x3600    DIG_LN_RX0
++              0x3700    DIG_LN_DAIF
++              0x3800    PHYA_LN
++  u31 port1   0x3a00    DIG_LN_TOP
++              0x3b00    DIG_LN_TX0
++              0x3c00    DIG_LN_RX0
++              0x3d00    DIG_LN_DAIF
++              0x3e00    PHYA_LN
++              ...
++  DIG_GLB & PHYA_GLB are shared by U31 ports.
++
++properties:
++  $nodename:
++    pattern: "^xs-phy@[0-9a-f]+$"
++
++  compatible:
++    items:
++      - enum:
++          - mediatek,mt3611-xsphy
++          - mediatek,mt3612-xsphy
++      - const: mediatek,xsphy
++
++  reg:
++    description: |
++      Register shared by multiple U3 ports, exclude port's private register,
++      if only U2 ports provided, shouldn't use the property.
++    maxItems: 1
++
++  "#address-cells":
++      enum: [1, 2]
++
++  "#size-cells":
++      enum: [1, 2]
++
++  ranges: true
++
++  mediatek,src-ref-clk-mhz:
++    description:
++      Frequency of reference clock for slew rate calibrate
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 26
++
++  mediatek,src-coef:
++    description:
++      Coefficient for slew rate calibrate, depends on SoC process
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 17
++
++# Required child node:
++patternProperties:
++  "^usb-phy@[0-9a-f]+$":
++    type: object
++    description: |
++      A sub-node is required for each port the controller provides.
++      Address range information including the usual 'reg' property
++      is used inside these nodes to describe the controller's topology.
++
++    properties:
++      reg:
++        maxItems: 1
++
++      clocks:
++        items:
++          - description: Reference clock, (HS is 48Mhz, SS/P is 24~27Mhz)
++
++      clock-names:
++        items:
++          - const: ref
++
++      "#phy-cells":
++        const: 1
++        description: |
++          The cells contain the following arguments.
++
++          - description: The PHY type
++              enum:
++                - PHY_TYPE_USB2
++                - PHY_TYPE_USB3
++
++      #The following optional vendor properties are only for debug or HQA test
++      mediatek,eye-src:
++        description:
++          The value of slew rate calibrate (U2 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 7
++
++      mediatek,eye-vrt:
++        description:
++          The selection of VRT reference voltage (U2 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 7
++
++      mediatek,eye-term:
++        description:
++          The selection of HS_TX TERM reference voltage (U2 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 7
++
++      mediatek,efuse-intr:
++        description:
++          The selection of Internal Resistor (U2/U3 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 63
++
++      mediatek,efuse-tx-imp:
++        description:
++          The selection of TX Impedance (U3 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 31
++
++      mediatek,efuse-rx-imp:
++        description:
++          The selection of RX Impedance (U3 phy)
++        $ref: /schemas/types.yaml#/definitions/uint32
++        minimum: 1
++        maximum: 31
++
++    required:
++      - reg
++      - clocks
++      - clock-names
++      - "#phy-cells"
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - "#address-cells"
++  - "#size-cells"
++  - ranges
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/phy/phy.h>
++
++    u3phy: xs-phy@11c40000 {
++        compatible = "mediatek,mt3611-xsphy", "mediatek,xsphy";
++        reg = <0x11c43000 0x0200>;
++        mediatek,src-ref-clk-mhz = <26>;
++        mediatek,src-coef = <17>;
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        u2port0: usb-phy@11c40000 {
++            reg = <0x11c40000 0x0400>;
++            clocks = <&clk48m>;
++            clock-names = "ref";
++            mediatek,eye-src = <4>;
++            #phy-cells = <1>;
++        };
++
++        u3port0: usb-phy@11c43000 {
++            reg = <0x11c43400 0x0500>;
++            clocks = <&clk26m>;
++            clock-names = "ref";
++            mediatek,efuse-intr = <28>;
++            #phy-cells = <1>;
++        };
++    };
++
++...
+diff --git a/Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt b/Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt
+deleted file mode 100644
+index e7caefa0b9c2..000000000000
+--- a/Documentation/devicetree/bindings/phy/phy-mtk-xsphy.txt
++++ /dev/null
+@@ -1,109 +0,0 @@
+-MediaTek XS-PHY binding
+---------------------------
 -
--			/*
--			 * Reassign max_brightness value to the new total number
--			 * of brightness levels.
--			 */
--			data->max_brightness = num_levels;
- 		}
- 
--		data->max_brightness--;
-+		data->max_brightness = num_levels - 1;
- 	}
- 
- 	return 0;
+-The XS-PHY controller supports physical layer functionality for USB3.1
+-GEN2 controller on MediaTek SoCs.
+-
+-Required properties (controller (parent) node):
+- - compatible	: should be "mediatek,<soc-model>-xsphy", "mediatek,xsphy",
+-		  soc-model is the name of SoC, such as mt3611 etc;
+-		  when using "mediatek,xsphy" compatible string, you need SoC specific
+-		  ones in addition, one of:
+-		  - "mediatek,mt3611-xsphy"
+-
+- - #address-cells, #size-cells : should use the same values as the root node
+- - ranges: must be present
+-
+-Optional properties (controller (parent) node):
+- - reg		: offset and length of register shared by multiple U3 ports,
+-		  exclude port's private register, if only U2 ports provided,
+-		  shouldn't use the property.
+- - mediatek,src-ref-clk-mhz	: u32, frequency of reference clock for slew rate
+-		  calibrate
+- - mediatek,src-coef	: u32, coefficient for slew rate calibrate, depends on
+-		  SoC process
+-
+-Required nodes	: a sub-node is required for each port the controller
+-		  provides. Address range information including the usual
+-		  'reg' property is used inside these nodes to describe
+-		  the controller's topology.
+-
+-Required properties (port (child) node):
+-- reg		: address and length of the register set for the port.
+-- clocks	: a list of phandle + clock-specifier pairs, one for each
+-		  entry in clock-names
+-- clock-names	: must contain
+-		  "ref": 48M reference clock for HighSpeed analog phy; and 26M
+-			reference clock for SuperSpeedPlus analog phy, sometimes is
+-			24M, 25M or 27M, depended on platform.
+-- #phy-cells	: should be 1
+-		  cell after port phandle is phy type from:
+-			- PHY_TYPE_USB2
+-			- PHY_TYPE_USB3
+-
+-The following optional properties are only for debug or HQA test
+-Optional properties (PHY_TYPE_USB2 port (child) node):
+-- mediatek,eye-src	: u32, the value of slew rate calibrate
+-- mediatek,eye-vrt	: u32, the selection of VRT reference voltage
+-- mediatek,eye-term	: u32, the selection of HS_TX TERM reference voltage
+-- mediatek,efuse-intr	: u32, the selection of Internal Resistor
+-
+-Optional properties (PHY_TYPE_USB3 port (child) node):
+-- mediatek,efuse-intr	: u32, the selection of Internal Resistor
+-- mediatek,efuse-tx-imp	: u32, the selection of TX Impedance
+-- mediatek,efuse-rx-imp	: u32, the selection of RX Impedance
+-
+-Banks layout of xsphy
+--------------------------------------------------------------
+-port        offset    bank
+-u2 port0    0x0000    MISC
+-            0x0100    FMREG
+-            0x0300    U2PHY_COM
+-u2 port1    0x1000    MISC
+-            0x1100    FMREG
+-            0x1300    U2PHY_COM
+-u2 port2    0x2000    MISC
+-            ...
+-u31 common  0x3000    DIG_GLB
+-            0x3100    PHYA_GLB
+-u31 port0   0x3400    DIG_LN_TOP
+-            0x3500    DIG_LN_TX0
+-            0x3600    DIG_LN_RX0
+-            0x3700    DIG_LN_DAIF
+-            0x3800    PHYA_LN
+-u31 port1   0x3a00    DIG_LN_TOP
+-            0x3b00    DIG_LN_TX0
+-            0x3c00    DIG_LN_RX0
+-            0x3d00    DIG_LN_DAIF
+-            0x3e00    PHYA_LN
+-            ...
+-
+-DIG_GLB & PHYA_GLB are shared by U31 ports.
+-
+-Example:
+-
+-u3phy: usb-phy@11c40000 {
+-	compatible = "mediatek,mt3611-xsphy", "mediatek,xsphy";
+-	reg = <0 0x11c43000 0 0x0200>;
+-	mediatek,src-ref-clk-mhz = <26>;
+-	mediatek,src-coef = <17>;
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-	ranges;
+-
+-	u2port0: usb-phy@11c40000 {
+-		reg = <0 0x11c40000 0 0x0400>;
+-		clocks = <&clk48m>;
+-		clock-names = "ref";
+-		mediatek,eye-src = <4>;
+-		#phy-cells = <1>;
+-	};
+-
+-	u3port0: usb-phy@11c43000 {
+-		reg = <0 0x11c43400 0 0x0500>;
+-		clocks = <&clk26m>;
+-		clock-names = "ref";
+-		mediatek,efuse-intr = <28>;
+-		#phy-cells = <1>;
+-	};
+-};
 -- 
-2.28.0
-
+2.18.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
