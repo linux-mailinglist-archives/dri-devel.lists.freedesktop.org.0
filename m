@@ -1,43 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C3928C706
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 04:07:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A9B28C914
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Oct 2020 09:17:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65EFC6E03E;
-	Tue, 13 Oct 2020 02:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 963B26E89B;
+	Tue, 13 Oct 2020 07:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61F7A6E03E
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 02:07:07 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BEEDA42;
- Tue, 13 Oct 2020 04:07:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1602554825;
- bh=faWxdeUdzwGgd/jdihkSsVgvmpiWFPdtpRaopaRFFgU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FWzWrgms5AnQ5j0dxgRvZj1ljA30FYKM26WFUb4UG3G0QrOafcvS05e2JR4MMoSMZ
- mLD650iS6w2fq+3BI293vsXLWZBMw/Jh2ChVyV2N7lmh+ISjiwIriQ1R+kcBC9RqFq
- hoc688eHC3if1k1U7nA8ANv7QAUZqsTRYG4A+RYU=
-Date: Tue, 13 Oct 2020 05:06:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v2 3/7] dt-bindings: display: mxsfb: Add a bus-width
- endpoint property
-Message-ID: <20201013020619.GG3942@pendragon.ideasonboard.com>
-References: <20201007012438.27970-1-laurent.pinchart@ideasonboard.com>
- <20201007012438.27970-4-laurent.pinchart@ideasonboard.com>
- <7b8df7af-5ca8-708b-4975-2fdf4280116f@denx.de>
- <20201009235843.GR25040@pendragon.ideasonboard.com>
- <9c7615d6-0f69-5f67-0795-b86ecea2eea8@denx.de>
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3837F6E047
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Oct 2020 02:09:12 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id z6so19547895qkz.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Oct 2020 19:09:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JUaiZq94wnHDFKLOjrfv34l8lVrt5HtWQAYAaKuRdCQ=;
+ b=c9XdWygFB28AWxQNyJJp21eGp3b4CZlMOk3j8zubam+5vzuvw9HS4bmGO2WYigpO3z
+ F1/AFi0n9hGVN9JYv8fO2Bq9ng5zgkye57s9TbdW5L3mqeziraM3S+lisqGMnoI9UN2N
+ l+5wlGcW9OSN/ixu+4NyzEe3H600CcPrJ5jPk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JUaiZq94wnHDFKLOjrfv34l8lVrt5HtWQAYAaKuRdCQ=;
+ b=NU5T4ViiXdryxssNZcJIUkr+kpRukuqGL6JhXMRfVOAcb7OOsy8bwoKsXkgfEoH8W9
+ y26zlTmhPv2HnY147sU0Oy/NmSUuKdVSUZ4iJGl0X0MOV7FAfE4otHeh74NsdBneEXKy
+ NbjLS4D1L9DSR4R0Vc2meCJq57oJ+BKbVB2aFrhZBrsMS7K45mGvIV16m7KqbAYo0Us8
+ 5uNR+lSwbWZGDla3pV8QQtFyNWUQ/JoWzq+v07NCNpx52eCAUEOjSDh3yzPB/zKhon7U
+ KFOolcVEbmhmdKtmW28tynqC01i5TIg16cIcgx3TIOJkhijany2uYN5RLuD6vB9zujV6
+ sL7A==
+X-Gm-Message-State: AOAM531M/WlUJOlKKqtFmQyQD+o+aVPA6iDjDQ+qmUZ+Y1q1JqN2ajn1
+ bCj72ruh9NZ8KhGUANroYIN3jO7UD3wcsE0blx9gGw==
+X-Google-Smtp-Source: ABdhPJx4NaP+lP47L7QjXg3EhgVKzAirXzPA/xH9/7XolOdXD7VFPtHAAVwrcTnffcfk3i7/psHoH572kJSwrD73UPg=
+X-Received: by 2002:a37:9d4c:: with SMTP id g73mr12575230qke.391.1602554951290; 
+ Mon, 12 Oct 2020 19:09:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9c7615d6-0f69-5f67-0795-b86ecea2eea8@denx.de>
+References: <20201012171826.76509-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20201012171826.76509-1-andriy.shevchenko@linux.intel.com>
+From: David Stevens <stevensd@chromium.org>
+Date: Tue, 13 Oct 2020 11:08:57 +0900
+Message-ID: <CAD=HUj5wxwW8X8JojqaiSUB68_b0AsoTG2WcrMJkH7Z-=6eLZg@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/virtio: Use UUID API for importing the UUID
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+X-Mailman-Approved-At: Tue, 13 Oct 2020 07:16:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,63 +58,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Reviewed-by: David Stevens <stevensd@chromium.org>
 
-On Sat, Oct 10, 2020 at 10:47:05AM +0200, Marek Vasut wrote:
-> On 10/10/20 1:58 AM, Laurent Pinchart wrote:
-> > Hi Marek,
-> 
-> Hi,
-> 
-> > On Wed, Oct 07, 2020 at 10:40:26AM +0200, Marek Vasut wrote:
-> >> On 10/7/20 3:24 AM, Laurent Pinchart wrote:
-> >>
-> >> [...]
-> >>
-> >>> +          bus-width:
-> >>> +            enum: [16, 18, 24]
-> >>> +            description: |
-> >>> +              The output bus width. This value overrides the configuration
-> >>> +              derived from the connected device (encoder or panel). It should
-> >>> +              only be specified when PCB routing of the data signals require a
-> >>> +              different bus width on the LCDIF and the connected device. For
-> >>> +              instance, when a 18-bit RGB panel has its R[5:0], G[5:0] and
-> >>> +              B[5:0] signals connected to LCD_DATA[7:2], LCD_DATA[15:10] and
-> >>> +              LCD_DATA[23:18] instead of LCD_DATA[5:0], LCD_DATA[11:6] and
-> >>> +              LCD_DATA[17:12], bus-width should be set to 24.
-> >>
-> >> The iMX6 IPUv3 uses interface-pix-fmt which is a bit more flexible, but
-> >> I'm not sure whether it's the right way to go about this, see:
-> >> Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
-> > 
-> > I think specifying the bus with is better. It's a standard property, but
-> > more than that, a given bus width can carry different formats. For
-> > instance, a 24-bus could carry RGB666 data (with dithering for the
-> > LSBs).
-> 
-> I think that's exactly what the interface-pix-fmt was trying to solve
-> for the IPUv3, there you could have e.g. both RGB666 and LVDS666 , which
-> were different.
-
-My point is that the driver should support multiple formats that can be
-carried over a given bus width, with the actual format to be used
-queried from the sink (usually a panel) instead of being hardcoded in
-DT.
-
--- 
-Regards,
-
-Laurent Pinchart
+On Tue, Oct 13, 2020 at 2:18 AM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> There is import_uuid() function which imports u8 array to the uuid_t.
+> Use it instead of open coding variant.
+>
+> This allows to hide the uuid_t internals.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_vq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> index 07945ca238e2..8944cc0bf8eb 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> @@ -1129,7 +1129,7 @@ static void virtio_gpu_cmd_resource_uuid_cb(struct virtio_gpu_device *vgdev,
+>
+>         if (resp_type == VIRTIO_GPU_RESP_OK_RESOURCE_UUID &&
+>             obj->uuid_state == UUID_INITIALIZING) {
+> -               memcpy(&obj->uuid.b, resp->uuid, sizeof(obj->uuid.b));
+> +               import_uuid(&obj->uuid, resp->uuid);
+>                 obj->uuid_state = UUID_INITIALIZED;
+>         } else {
+>                 obj->uuid_state = UUID_INITIALIZATION_FAILED;
+> --
+> 2.28.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
