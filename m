@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6998428DBBE
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 10:38:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BC028DBCE
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 10:41:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A92D66EA23;
-	Wed, 14 Oct 2020 08:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E387C6EA25;
+	Wed, 14 Oct 2020 08:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46A656EA23
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 08:38:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 562D46EA25
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 08:41:48 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209673] New: divide_error in amdgpu freezes screen
-Date: Wed, 14 Oct 2020 08:38:40 +0000
+Subject: [Bug 209673] divide_error in amdgpu freezes screen
+Date: Wed, 14 Oct 2020 08:41:47 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -32,10 +32,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-209673-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209673-2300-RwVN4clJav@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209673-2300@https.bugzilla.kernel.org/>
+References: <bug-209673-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -58,33 +58,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209673
 
-            Bug ID: 209673
-           Summary: divide_error in amdgpu freezes screen
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.8.14-arch1-1
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: cornelius.riemenschneider@googlemail.com
-        Regression: No
-
-Created attachment 292959
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292959&action=edit
-dmesg.txt
-
-Today, my freeze froze spontaneously while browsing the web with firefox.
-I am using a Lenovo T14s with AMD Rzyen 4750U (internal GPU) with amdgpu, one
-external screen connected to a USB-C docking station.
-The system had an uptime of ~3 hours.
-
-I attached the dmesg output from the time of the crash, let me know if you need
-more information to debug this issue.
+--- Comment #1 from cornelius.riemenschneider@googlemail.com ---
+Xorg.0.log.old (the log that should contain the output of the crashed X server)
+is unfortunately empty.
 
 -- 
 You are receiving this mail because:
