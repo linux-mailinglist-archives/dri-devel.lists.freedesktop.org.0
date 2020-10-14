@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACCCF28ED68
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 09:08:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7D728DACC
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 10:01:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFDF6EC1E;
-	Thu, 15 Oct 2020 07:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B80D6EA1E;
+	Wed, 14 Oct 2020 08:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5647E6EA21
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 07:54:39 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id y1so1336155plp.6
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 00:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sslab.ics.keio.ac.jp; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=rKoJ8K1HmS89dQcSd+qek5XQD2mS7GsLcQDZpZn8svY=;
- b=U4iUTIxdQbehyuFrFc7WiEJXMgU4qgwSykRROhgkVSQ8nJXnnVIu+nERBK+TpjLiRD
- FMwQW+FwFT1JcwaQtl+Fz/QaBvp8jmMtZ7ylnHbyLTEKHTc9wtkbU3mga6WkYmW8/fYf
- hhu4vjpu74tK6F54iGiQ/E39YCMjKuZhHV1IA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=rKoJ8K1HmS89dQcSd+qek5XQD2mS7GsLcQDZpZn8svY=;
- b=Cd6pVr737Mg3yxketbtJL4N1ot7SH10ILNlLmmSdmFEi35EpX/gpJLjDO02LpjUPx4
- fdKGHT1QywZnT1W5vDRTyALD2aBbT9H5D7gFVw2SLj/GlZOGqntazejfhmYt2pQ8N8R6
- zkYValbqVFQBzzTyVoH+iYE5ctOd9LUx+fbj3mWC4VIGMDwR8HhpqTPuUJQBTZQBUuqL
- qjeUWQyL7z9TsAyYJF19Ni9k1L0qiAsSPDhIQNicNmPlyzJMnMTWZk8qnr9LfiXcT8h1
- JPVfxo/XxyiSbTrgEBTxAbxkY5zn1l1tCs/PaohSXVt35JDvdPYJvdP6rAFEWniszaKM
- fJbQ==
-X-Gm-Message-State: AOAM530blGJPVlJ94/vC+SLdLqeR4lb2Ixl4edAudXZZimlQoH/mVl8U
- 6aV81tP7GzHSSCB0A07BEc5DoA==
-X-Google-Smtp-Source: ABdhPJyUdVLPpvUpy5QQeSSCwMu0ll7oxBPg1VX62WnU03remZdsdlG7MQNxMpks3DmPoBF6p+L4aw==
-X-Received: by 2002:a17:902:ee83:b029:d4:bdd6:cabe with SMTP id
- a3-20020a170902ee83b02900d4bdd6cabemr3465976pld.68.1602662078593; 
- Wed, 14 Oct 2020 00:54:38 -0700 (PDT)
-Received: from brooklyn.i.sslab.ics.keio.ac.jp (sslab-relay.ics.keio.ac.jp.
- [131.113.126.173])
- by smtp.googlemail.com with ESMTPSA id x1sm2007824pjj.25.2020.10.14.00.54.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Oct 2020 00:54:37 -0700 (PDT)
-From: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
-To: 
-Subject: [PATCH RFC] drm/nouveau: fix memory leak in nvkm_iccsense_oneinit
-Date: Wed, 14 Oct 2020 07:54:16 +0000
-Message-Id: <20201014075419.19974-1-keitasuzuki.park@sslab.ics.keio.ac.jp>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Approved-At: Thu, 15 Oct 2020 07:08:24 +0000
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 706BC6EA21
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 08:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602662464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pkgGqDcKwPNInWK5gD36RJGreZG4CpyExPIqHD2mYAk=;
+ b=N33Gc81kUFOaJCZxuQGSdf7fbjQl8t8Ux67aawE7dsRztLtrYxLYtpKXJISy1NgXQ+0rj5
+ b3zTrCa+mFDU63Zr/Mx+FFah5kWoFTNI/c4WT8Ejcg2mMv87cUm8lPGdDoQZiTicUEUJWU
+ +YKe8OhvDGpBdJMTjBG27rzAII0NlcI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-P3emRcGEOzeVO65d3cimIg-1; Wed, 14 Oct 2020 04:01:00 -0400
+X-MC-Unique: P3emRcGEOzeVO65d3cimIg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E427879528;
+ Wed, 14 Oct 2020 08:00:59 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86D127366B;
+ Wed, 14 Oct 2020 08:00:55 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id BEAE29CBC; Wed, 14 Oct 2020 10:00:54 +0200 (CEST)
+Date: Wed, 14 Oct 2020 10:00:54 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2] drm/virtio: Use UUID API for importing the UUID
+Message-ID: <20201014080054.w35hdxsbzjmgktwo@sirius.home.kraxel.org>
+References: <20201013132714.70973-1-andriy.shevchenko@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <20201013132714.70973-1-andriy.shevchenko@linux.intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +64,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: takafumi@sslab.ics.keio.ac.jp, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- keitasuzuki.park@sslab.ics.keio.ac.jp
-MIME-Version: 1.0
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ David Stevens <stevensd@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-struct pw_rail_t is allocated as an array in function nvios_iccsense_parse,
-and stored to a struct member of local variable. However, the array is not
-freed when the local variable becomes invalid, and the reference is not
-passed on, leading to a memory leak.
+On Tue, Oct 13, 2020 at 04:27:14PM +0300, Andy Shevchenko wrote:
+> There is import_uuid() function which imports u8 array to the uuid_t.
+> Use it instead of open coding variant.
+> 
+> This allows to hide the uuid_t internals.
+> 
+> Reviewed-by: David Stevens <stevensd@chromium.org>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Fix this by freeing struct pw_rail_t when exiting nvkm_iccsense_oneinit.
+Pushed to drm-misc-next.
 
-Signed-off-by: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-index fecfa6afcf54..8ba8d8e3f52a 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-@@ -280,8 +280,10 @@ nvkm_iccsense_oneinit(struct nvkm_subdev *subdev)
- 			}
- 
- 			rail = kmalloc(sizeof(*rail), GFP_KERNEL);
--			if (!rail)
-+			if (!rail) {
-+				kfree(stbl.rail);
- 				return -ENOMEM;
-+			}
- 
- 			rail->read = read;
- 			rail->sensor = sensor;
-@@ -291,6 +293,7 @@ nvkm_iccsense_oneinit(struct nvkm_subdev *subdev)
- 			list_add_tail(&rail->head, &iccsense->rails);
- 		}
- 	}
-+	kfree(stbl.rail);
- 	return 0;
- }
- 
--- 
-2.17.1
+thanks,
+  Gerd
 
 _______________________________________________
 dri-devel mailing list
