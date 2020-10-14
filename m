@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0602228E3DF
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 18:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6C628E3E3
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 18:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B15EF89B3B;
-	Wed, 14 Oct 2020 16:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2A1D6EAA5;
+	Wed, 14 Oct 2020 16:02:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8398589B67
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 16:01:45 +0000 (UTC)
-IronPort-SDR: LTyC/r14Oi2FD0OXGVlvOrIExVtf0WBduxKbWDc+i4tdEEVRBLs9dMrmIyFQuEs9yZbzTtTfZU
- YS6BI5xWiQww==
-X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="227771036"
-X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="227771036"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D08FE89CA4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 16:02:01 +0000 (UTC)
+IronPort-SDR: 8X0lTl+EzhG52ZaoCf7gUUqqVX8mjTj92awTflS8x7vMANNM/Cqitl/2G6PXfaGvoDuNdgT2bC
+ bKHnvdH1N9zg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="165343801"
+X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="165343801"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 09:01:44 -0700
-IronPort-SDR: TsQdLgUUcw5Dbfgx0RjcixsGTdjm1Hq1BiY8kVqzs+T1N/0z7anYRlyemw0Md+sK54ZKSVHiAJ
- dYgHlwJJDW+Q==
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2020 09:01:58 -0700
+IronPort-SDR: DfBAFi75yC9OryKz1lKBNdATthFLHS9uxKfYZOyLJVz0Fi8UM8WCwYyLuCMwP7KMdqzn4AhFHj
+ NVNW30PqycEA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="390693658"
+X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="345711986"
 Received: from cst-dev.jf.intel.com ([10.23.221.69])
- by orsmga001.jf.intel.com with ESMTP; 14 Oct 2020 09:01:44 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 14 Oct 2020 09:01:57 -0700
 From: Jianxin Xiong <jianxin.xiong@intel.com>
-To: linux-rdma@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 4/5] RDMA/mlx5: Support dma-buf based userspace memory
- region
-Date: Wed, 14 Oct 2020 09:15:47 -0700
-Message-Id: <1602692147-107057-1-git-send-email-jianxin.xiong@intel.com>
+To: linux-rdma@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v4 5/5] dma-buf: Clarify that dma-buf sg lists are page aligned
+Date: Wed, 14 Oct 2020 09:16:01 -0700
+Message-Id: <1602692161-107096-1-git-send-email-jianxin.xiong@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,261 +56,70 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement the new driver method 'reg_user_mr_dmabuf'.  Utilize the core
-functions to import dma-buf based memory region and update the mappings.
-
-Add code to handle dma-buf related page fault.
+The dma-buf API have been used under the assumption that the sg lists
+returned from dma_buf_map_attachment() are fully page aligned. Lots of
+stuff can break otherwise all over the place. Clarify this in the
+documentation and add a check when DMA API debug is enabled.
 
 Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
-Reviewed-by: Sean Hefty <sean.hefty@intel.com>
-Acked-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-Acked-by: Christian Koenig <christian.koenig@amd.com>
 ---
- drivers/infiniband/hw/mlx5/main.c    |   2 +
- drivers/infiniband/hw/mlx5/mlx5_ib.h |   5 ++
- drivers/infiniband/hw/mlx5/mr.c      | 119 +++++++++++++++++++++++++++++++++++
- drivers/infiniband/hw/mlx5/odp.c     |  42 +++++++++++++
- 4 files changed, 168 insertions(+)
+ drivers/dma-buf/dma-buf.c | 21 +++++++++++++++++++++
+ include/linux/dma-buf.h   |  3 ++-
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
-index 89e04ca..ec4ad2f 100644
---- a/drivers/infiniband/hw/mlx5/main.c
-+++ b/drivers/infiniband/hw/mlx5/main.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
- /*
-  * Copyright (c) 2013-2020, Mellanox Technologies inc. All rights reserved.
-+ * Copyright (c) 2020, Intel Corporation. All rights reserved.
-  */
- 
- #include <linux/debugfs.h>
-@@ -4060,6 +4061,7 @@ static int mlx5_ib_enable_driver(struct ib_device *dev)
- 	.query_srq = mlx5_ib_query_srq,
- 	.query_ucontext = mlx5_ib_query_ucontext,
- 	.reg_user_mr = mlx5_ib_reg_user_mr,
-+	.reg_user_mr_dmabuf = mlx5_ib_reg_user_mr_dmabuf,
- 	.req_notify_cq = mlx5_ib_arm_cq,
- 	.rereg_user_mr = mlx5_ib_rereg_user_mr,
- 	.resize_cq = mlx5_ib_resize_cq,
-diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-index b1f2b34..65fcc18 100644
---- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-+++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-@@ -1,6 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
- /*
-  * Copyright (c) 2013-2020, Mellanox Technologies inc. All rights reserved.
-+ * Copyright (c) 2020, Intel Corporation. All rights reserved.
-  */
- 
- #ifndef MLX5_IB_H
-@@ -1174,6 +1175,10 @@ int mlx5_ib_create_cq(struct ib_cq *ibcq, const struct ib_cq_init_attr *attr,
- struct ib_mr *mlx5_ib_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
- 				  u64 virt_addr, int access_flags,
- 				  struct ib_udata *udata);
-+struct ib_mr *mlx5_ib_reg_user_mr_dmabuf(struct ib_pd *pd, u64 start,
-+					 u64 length, u64 virt_addr,
-+					 int dmabuf_fd, int access_flags,
-+					 struct ib_udata *udata);
- int mlx5_ib_advise_mr(struct ib_pd *pd,
- 		      enum ib_uverbs_advise_mr_advice advice,
- 		      u32 flags,
-diff --git a/drivers/infiniband/hw/mlx5/mr.c b/drivers/infiniband/hw/mlx5/mr.c
-index b261797..24750f1 100644
---- a/drivers/infiniband/hw/mlx5/mr.c
-+++ b/drivers/infiniband/hw/mlx5/mr.c
-@@ -1,5 +1,6 @@
- /*
-  * Copyright (c) 2013-2015, Mellanox Technologies. All rights reserved.
-+ * Copyright (c) 2020, Intel Corporation. All rights reserved.
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 844967f..7309c83 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -851,6 +851,9 @@ void dma_buf_unpin(struct dma_buf_attachment *attach)
+  * Returns sg_table containing the scatterlist to be returned; returns ERR_PTR
+  * on error. May return -EINTR if it is interrupted by a signal.
   *
-  * This software is available to you under a choice of one of two
-  * licenses.  You may choose to be licensed under the terms of the GNU
-@@ -1462,6 +1463,124 @@ struct ib_mr *mlx5_ib_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
- 	return ERR_PTR(err);
- }
- 
-+static int mlx5_ib_umem_dmabuf_xlt_init(struct ib_umem *umem, void *context)
-+{
-+	struct mlx5_ib_mr *mr = context;
-+	int flags = MLX5_IB_UPD_XLT_ENABLE;
-+
-+	if (!mr)
-+		return -EINVAL;
-+
-+	return mlx5_ib_update_xlt(mr, 0, mr->npages, PAGE_SHIFT, flags);
-+}
-+
-+static int mlx5_ib_umem_dmabuf_xlt_update(struct ib_umem *umem, void *context)
-+{
-+	struct mlx5_ib_mr *mr = context;
-+	int flags = MLX5_IB_UPD_XLT_ATOMIC;
-+
-+	if (!mr)
-+		return -EINVAL;
-+
-+	return mlx5_ib_update_xlt(mr, 0, mr->npages, PAGE_SHIFT, flags);
-+}
-+
-+static int mlx5_ib_umem_dmabuf_xlt_invalidate(struct ib_umem *umem, void *context)
-+{
-+	struct mlx5_ib_mr *mr = context;
-+	int flags = MLX5_IB_UPD_XLT_ZAP | MLX5_IB_UPD_XLT_ATOMIC;
-+
-+	if (!mr)
-+		return -EINVAL;
-+
-+	return mlx5_ib_update_xlt(mr, 0, mr->npages, PAGE_SHIFT, flags);
-+}
-+
-+static struct ib_umem_dmabuf_ops mlx5_ib_umem_dmabuf_ops = {
-+	.init = mlx5_ib_umem_dmabuf_xlt_init,
-+	.update = mlx5_ib_umem_dmabuf_xlt_update,
-+	.invalidate = mlx5_ib_umem_dmabuf_xlt_invalidate,
-+};
-+
-+struct ib_mr *mlx5_ib_reg_user_mr_dmabuf(struct ib_pd *pd, u64 start,
-+					 u64 length, u64 virt_addr,
-+					 int dmabuf_fd, int access_flags,
-+					 struct ib_udata *udata)
-+{
-+	struct mlx5_ib_dev *dev = to_mdev(pd->device);
-+	struct mlx5_ib_mr *mr = NULL;
-+	struct ib_umem *umem;
-+	int page_shift;
-+	int npages;
-+	int ncont;
-+	int order;
-+	int err;
-+
-+	if (!IS_ENABLED(CONFIG_INFINIBAND_USER_MEM))
-+		return ERR_PTR(-EOPNOTSUPP);
-+
-+	mlx5_ib_dbg(dev,
-+		    "start 0x%llx, virt_addr 0x%llx, length 0x%llx, fd %d, access_flags 0x%x\n",
-+		    start, virt_addr, length, dmabuf_fd, access_flags);
-+
-+	if (!mlx5_ib_can_load_pas_with_umr(dev, length))
-+		return ERR_PTR(-EINVAL);
-+
-+	umem = ib_umem_dmabuf_get(&dev->ib_dev, start, length, dmabuf_fd,
-+				  access_flags, &mlx5_ib_umem_dmabuf_ops);
-+	if (IS_ERR(umem)) {
-+		mlx5_ib_dbg(dev, "umem get failed (%ld)\n", PTR_ERR(umem));
-+		return ERR_PTR(PTR_ERR(umem));
-+	}
-+
-+	npages = ib_umem_num_pages(umem);
-+	if (!npages) {
-+		mlx5_ib_warn(dev, "avoid zero region\n");
-+		ib_umem_release(umem);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	page_shift = PAGE_SHIFT;
-+	ncont = npages;
-+	order = ilog2(roundup_pow_of_two(ncont));
-+
-+	mlx5_ib_dbg(dev, "npages %d, ncont %d, order %d, page_shift %d\n",
-+		    npages, ncont, order, page_shift);
-+
-+	mr = alloc_mr_from_cache(pd, umem, virt_addr, length, ncont,
-+				 page_shift, order, access_flags);
-+	if (IS_ERR(mr))
-+		mr = NULL;
-+
-+	if (!mr) {
-+		mutex_lock(&dev->slow_path_mutex);
-+		mr = reg_create(NULL, pd, virt_addr, length, umem, ncont,
-+				page_shift, access_flags, false);
-+		mutex_unlock(&dev->slow_path_mutex);
-+	}
-+
-+	if (IS_ERR(mr)) {
-+		err = PTR_ERR(mr);
-+		goto error;
-+	}
-+
-+	mlx5_ib_dbg(dev, "mkey 0x%x\n", mr->mmkey.key);
-+
-+	mr->umem = umem;
-+	set_mr_fields(dev, mr, npages, length, access_flags);
-+
-+	err = ib_umem_dmabuf_init_mapping(umem, mr);
-+	if (err) {
-+		dereg_mr(dev, mr);
-+		return ERR_PTR(err);
-+	}
-+
-+	return &mr->ibmr;
-+error:
-+	ib_umem_release(umem);
-+	return ERR_PTR(err);
-+}
-+
- /**
-  * mlx5_mr_cache_invalidate - Fence all DMA on the MR
-  * @mr: The MR to fence
-diff --git a/drivers/infiniband/hw/mlx5/odp.c b/drivers/infiniband/hw/mlx5/odp.c
-index 5c853ec..16e2e51 100644
---- a/drivers/infiniband/hw/mlx5/odp.c
-+++ b/drivers/infiniband/hw/mlx5/odp.c
-@@ -801,6 +801,44 @@ static int pagefault_implicit_mr(struct mlx5_ib_mr *imr,
-  * Returns:
-  *  -EFAULT: The io_virt->bcnt is not within the MR, it covers pages that are
-  *           not accessible, or the MR is no longer valid.
-+ *  -EAGAIN: The operation should be retried
++ * On success, the DMA addresses and lengths in the returned scatterlist are
++ * PAGE_SIZE aligned.
 + *
-+ *  >0: Number of pages mapped
-+ */
-+static int pagefault_dmabuf_mr(struct mlx5_ib_mr *mr, struct ib_umem *umem,
-+			       u64 io_virt, size_t bcnt, u32 *bytes_mapped,
-+			       u32 flags)
-+{
-+	u64 user_va;
-+	u64 end;
-+	int npages;
-+
-+	if (unlikely(io_virt < mr->mmkey.iova))
-+		return -EFAULT;
-+	if (check_add_overflow(io_virt - mr->mmkey.iova,
-+			       (u64)umem->address, &user_va))
-+		return -EFAULT;
-+
-+	/* Overflow has alreddy been checked at the umem creation time */
-+	end = umem->address + umem->length;
-+	if (unlikely(user_va >= end || end  - user_va < bcnt))
-+		return -EFAULT;
-+
-+	if (!ib_umem_dmabuf_mapping_ready(umem))
-+		return -EAGAIN;
-+
-+	if (bytes_mapped)
-+		*bytes_mapped += bcnt;
-+
-+	npages = (ALIGN(user_va + bcnt, PAGE_SIZE) -
-+		 ALIGN_DOWN(user_va, PAGE_SIZE)) >> PAGE_SHIFT;
-+	return npages;
-+}
-+
-+/*
-+ * Returns:
-+ *  -EFAULT: The io_virt->bcnt is not within the MR, it covers pages that are
-+ *           not accessible, or the MR is no longer valid.
-  *  -EAGAIN/-ENOMEM: The operation should be retried
-  *
-  *  -EINVAL/others: General internal malfunction
-@@ -811,6 +849,10 @@ static int pagefault_mr(struct mlx5_ib_mr *mr, u64 io_virt, size_t bcnt,
- {
- 	struct ib_umem_odp *odp = to_ib_umem_odp(mr->umem);
+  * A mapping must be unmapped by using dma_buf_unmap_attachment(). Note that
+  * the underlying backing storage is pinned for as long as a mapping exists,
+  * therefore users/importers should not hold onto a mapping for undue amounts of
+@@ -904,6 +907,24 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+ 		attach->dir = direction;
+ 	}
  
-+	if (mr->umem->is_dmabuf)
-+		return pagefault_dmabuf_mr(mr, mr->umem, io_virt, bcnt,
-+					   bytes_mapped, flags);
++#ifdef CONFIG_DMA_API_DEBUG
++	{
++		struct scatterlist *sg;
++		u64 addr;
++		int len;
++		int i;
 +
- 	lockdep_assert_held(&mr->dev->odp_srcu);
- 	if (unlikely(io_virt < mr->mmkey.iova))
- 		return -EFAULT;
++		for_each_sgtable_dma_sg(sg_table, sg, i) {
++			addr = sg_dma_address(sg);
++			len = sg_dma_len(sg);
++			if (!PAGE_ALIGNED(addr) || !PAGE_ALIGNED(len)) {
++				pr_debug("%s: addr %llx or len %x is not page aligned!\n",
++					 __func__, addr, len);
++			}
++		}
++	}
++#endif /* CONFIG_DMA_API_DEBUG */
++
+ 	return sg_table;
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index a2ca294e..4a5fa70 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -145,7 +145,8 @@ struct dma_buf_ops {
+ 	 *
+ 	 * A &sg_table scatter list of or the backing storage of the DMA buffer,
+ 	 * already mapped into the device address space of the &device attached
+-	 * with the provided &dma_buf_attachment.
++	 * with the provided &dma_buf_attachment. The addresses and lengths in
++	 * the scatter list are PAGE_SIZE aligned.
+ 	 *
+ 	 * On failure, returns a negative error value wrapped into a pointer.
+ 	 * May also return -EINTR when a signal was received while being
 -- 
 1.8.3.1
 
