@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B52B28E3E4
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 18:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0602228E3DF
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 18:01:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 267576EAB1;
-	Wed, 14 Oct 2020 16:02:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B15EF89B3B;
+	Wed, 14 Oct 2020 16:01:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD6D6EAA5
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 16:02:02 +0000 (UTC)
-IronPort-SDR: yaZw3Qid+dKpLaewostUJ62xYXoOn2Qb+rJveN4bQezDzqKS7pJ2sKk8vFc3S5mhi0A27M1HzF
- wc+3XwOB2kkg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="183661651"
-X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="183661651"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8398589B67
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 16:01:45 +0000 (UTC)
+IronPort-SDR: LTyC/r14Oi2FD0OXGVlvOrIExVtf0WBduxKbWDc+i4tdEEVRBLs9dMrmIyFQuEs9yZbzTtTfZU
+ YS6BI5xWiQww==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="227771036"
+X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="227771036"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 09:01:31 -0700
-IronPort-SDR: SdjKmP1y2PCUyb9QkV13uUYfRLXkhgcqHHeHrTnTdlDomyLH57deq5OZ2OYioQ5dzEFZn96dm1
- gd9S6BF7SggQ==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2020 09:01:44 -0700
+IronPort-SDR: TsQdLgUUcw5Dbfgx0RjcixsGTdjm1Hq1BiY8kVqzs+T1N/0z7anYRlyemw0Md+sK54ZKSVHiAJ
+ dYgHlwJJDW+Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="521471652"
+X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="390693658"
 Received: from cst-dev.jf.intel.com ([10.23.221.69])
- by fmsmga005.fm.intel.com with ESMTP; 14 Oct 2020 09:01:31 -0700
+ by orsmga001.jf.intel.com with ESMTP; 14 Oct 2020 09:01:44 -0700
 From: Jianxin Xiong <jianxin.xiong@intel.com>
 To: linux-rdma@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 3/5] RDMA/uverbs: Add uverbs command for dma-buf based MR
- registration
-Date: Wed, 14 Oct 2020 09:15:40 -0700
-Message-Id: <1602692140-107018-1-git-send-email-jianxin.xiong@intel.com>
+Subject: [PATCH v4 4/5] RDMA/mlx5: Support dma-buf based userspace memory
+ region
+Date: Wed, 14 Oct 2020 09:15:47 -0700
+Message-Id: <1602692147-107057-1-git-send-email-jianxin.xiong@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,199 +57,261 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement a new uverbs ioctl method for memory registration with file
-descriptor as an extra parameter.
+Implement the new driver method 'reg_user_mr_dmabuf'.  Utilize the core
+functions to import dma-buf based memory region and update the mappings.
+
+Add code to handle dma-buf related page fault.
 
 Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
 Reviewed-by: Sean Hefty <sean.hefty@intel.com>
 Acked-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
 Acked-by: Christian Koenig <christian.koenig@amd.com>
 ---
- drivers/infiniband/core/uverbs_std_types_mr.c | 112 ++++++++++++++++++++++++++
- include/uapi/rdma/ib_user_ioctl_cmds.h        |  14 ++++
- 2 files changed, 126 insertions(+)
+ drivers/infiniband/hw/mlx5/main.c    |   2 +
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |   5 ++
+ drivers/infiniband/hw/mlx5/mr.c      | 119 +++++++++++++++++++++++++++++++++++
+ drivers/infiniband/hw/mlx5/odp.c     |  42 +++++++++++++
+ 4 files changed, 168 insertions(+)
 
-diff --git a/drivers/infiniband/core/uverbs_std_types_mr.c b/drivers/infiniband/core/uverbs_std_types_mr.c
-index 9b22bb5..e54459f 100644
---- a/drivers/infiniband/core/uverbs_std_types_mr.c
-+++ b/drivers/infiniband/core/uverbs_std_types_mr.c
+diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
+index 89e04ca..ec4ad2f 100644
+--- a/drivers/infiniband/hw/mlx5/main.c
++++ b/drivers/infiniband/hw/mlx5/main.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
+ /*
+  * Copyright (c) 2013-2020, Mellanox Technologies inc. All rights reserved.
++ * Copyright (c) 2020, Intel Corporation. All rights reserved.
+  */
+ 
+ #include <linux/debugfs.h>
+@@ -4060,6 +4061,7 @@ static int mlx5_ib_enable_driver(struct ib_device *dev)
+ 	.query_srq = mlx5_ib_query_srq,
+ 	.query_ucontext = mlx5_ib_query_ucontext,
+ 	.reg_user_mr = mlx5_ib_reg_user_mr,
++	.reg_user_mr_dmabuf = mlx5_ib_reg_user_mr_dmabuf,
+ 	.req_notify_cq = mlx5_ib_arm_cq,
+ 	.rereg_user_mr = mlx5_ib_rereg_user_mr,
+ 	.resize_cq = mlx5_ib_resize_cq,
+diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+index b1f2b34..65fcc18 100644
+--- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
++++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+@@ -1,6 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
+ /*
+  * Copyright (c) 2013-2020, Mellanox Technologies inc. All rights reserved.
++ * Copyright (c) 2020, Intel Corporation. All rights reserved.
+  */
+ 
+ #ifndef MLX5_IB_H
+@@ -1174,6 +1175,10 @@ int mlx5_ib_create_cq(struct ib_cq *ibcq, const struct ib_cq_init_attr *attr,
+ struct ib_mr *mlx5_ib_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
+ 				  u64 virt_addr, int access_flags,
+ 				  struct ib_udata *udata);
++struct ib_mr *mlx5_ib_reg_user_mr_dmabuf(struct ib_pd *pd, u64 start,
++					 u64 length, u64 virt_addr,
++					 int dmabuf_fd, int access_flags,
++					 struct ib_udata *udata);
+ int mlx5_ib_advise_mr(struct ib_pd *pd,
+ 		      enum ib_uverbs_advise_mr_advice advice,
+ 		      u32 flags,
+diff --git a/drivers/infiniband/hw/mlx5/mr.c b/drivers/infiniband/hw/mlx5/mr.c
+index b261797..24750f1 100644
+--- a/drivers/infiniband/hw/mlx5/mr.c
++++ b/drivers/infiniband/hw/mlx5/mr.c
 @@ -1,5 +1,6 @@
  /*
-  * Copyright (c) 2018, Mellanox Technologies inc.  All rights reserved.
-+ * Copyright (c) 2020, Intel Corporation.  All rights reserved.
-  *
-  * This software is available to you under a choice of one of two
-  * licenses.  You may choose to be licensed under the terms of the GNU
-@@ -178,6 +179,85 @@ static int UVERBS_HANDLER(UVERBS_METHOD_QUERY_MR)(
- 	return IS_UVERBS_COPY_ERR(ret) ? ret : 0;
- }
- 
-+static int UVERBS_HANDLER(UVERBS_METHOD_REG_DMABUF_MR)(
-+	struct uverbs_attr_bundle *attrs)
-+{
-+	struct ib_uobject *uobj =
-+		uverbs_attr_get_uobject(attrs, UVERBS_ATTR_REG_DMABUF_MR_HANDLE);
-+	struct ib_pd *pd =
-+		uverbs_attr_get_obj(attrs, UVERBS_ATTR_REG_DMABUF_MR_PD_HANDLE);
-+	struct ib_device *ib_dev = pd->device;
-+
-+	u64 start, length, virt_addr;
-+	u32 fd, access_flags;
-+	struct ib_mr *mr;
-+	int ret;
-+
-+	if (!ib_dev->ops.reg_user_mr_dmabuf)
-+		return -EOPNOTSUPP;
-+
-+	ret = uverbs_copy_from(&start, attrs,
-+			       UVERBS_ATTR_REG_DMABUF_MR_ADDR);
-+	if (ret)
-+		return ret;
-+
-+	ret = uverbs_copy_from(&length, attrs,
-+			       UVERBS_ATTR_REG_DMABUF_MR_LENGTH);
-+	if (ret)
-+		return ret;
-+
-+	ret = uverbs_copy_from(&virt_addr, attrs,
-+			       UVERBS_ATTR_REG_DMABUF_MR_HCA_VA);
-+	if (ret)
-+		return ret;
-+
-+	ret = uverbs_copy_from(&fd, attrs,
-+			       UVERBS_ATTR_REG_DMABUF_MR_FD);
-+	if (ret)
-+		return ret;
-+
-+	ret = uverbs_get_flags32(&access_flags, attrs,
-+				 UVERBS_ATTR_REG_DMABUF_MR_ACCESS_FLAGS,
-+				 IB_ACCESS_SUPPORTED);
-+	if (ret)
-+		return ret;
-+
-+	ret = ib_check_mr_access(access_flags);
-+	if (ret)
-+		return ret;
-+
-+	mr = pd->device->ops.reg_user_mr_dmabuf(pd, start, length, virt_addr,
-+						fd, access_flags,
-+						&attrs->driver_udata);
-+	if (IS_ERR(mr))
-+		return PTR_ERR(mr);
-+
-+	mr->device  = pd->device;
-+	mr->pd      = pd;
-+	mr->type    = IB_MR_TYPE_USER;
-+	mr->uobject = uobj;
-+	atomic_inc(&pd->usecnt);
-+
-+	uobj->object = mr;
-+
-+	ret = uverbs_copy_to(attrs, UVERBS_ATTR_REG_DMABUF_MR_RESP_LKEY,
-+			     &mr->lkey, sizeof(mr->lkey));
-+	if (ret)
-+		goto err_dereg;
-+
-+	ret = uverbs_copy_to(attrs, UVERBS_ATTR_REG_DMABUF_MR_RESP_RKEY,
-+			     &mr->rkey, sizeof(mr->rkey));
-+	if (ret)
-+		goto err_dereg;
-+
-+	return 0;
-+
-+err_dereg:
-+	ib_dereg_mr_user(mr, uverbs_get_cleared_udata(attrs));
-+
-+	return ret;
-+}
-+
- DECLARE_UVERBS_NAMED_METHOD(
- 	UVERBS_METHOD_ADVISE_MR,
- 	UVERBS_ATTR_IDR(UVERBS_ATTR_ADVISE_MR_PD_HANDLE,
-@@ -243,6 +323,37 @@ static int UVERBS_HANDLER(UVERBS_METHOD_QUERY_MR)(
- 			    UVERBS_ATTR_TYPE(u32),
- 			    UA_MANDATORY));
- 
-+DECLARE_UVERBS_NAMED_METHOD(
-+	UVERBS_METHOD_REG_DMABUF_MR,
-+	UVERBS_ATTR_IDR(UVERBS_ATTR_REG_DMABUF_MR_HANDLE,
-+			UVERBS_OBJECT_MR,
-+			UVERBS_ACCESS_NEW,
-+			UA_MANDATORY),
-+	UVERBS_ATTR_IDR(UVERBS_ATTR_REG_DMABUF_MR_PD_HANDLE,
-+			UVERBS_OBJECT_PD,
-+			UVERBS_ACCESS_READ,
-+			UA_MANDATORY),
-+	UVERBS_ATTR_PTR_IN(UVERBS_ATTR_REG_DMABUF_MR_ADDR,
-+			   UVERBS_ATTR_TYPE(u64),
-+			   UA_MANDATORY),
-+	UVERBS_ATTR_PTR_IN(UVERBS_ATTR_REG_DMABUF_MR_LENGTH,
-+			   UVERBS_ATTR_TYPE(u64),
-+			   UA_MANDATORY),
-+	UVERBS_ATTR_PTR_IN(UVERBS_ATTR_REG_DMABUF_MR_HCA_VA,
-+			   UVERBS_ATTR_TYPE(u64),
-+			   UA_MANDATORY),
-+	UVERBS_ATTR_PTR_IN(UVERBS_ATTR_REG_DMABUF_MR_FD,
-+			   UVERBS_ATTR_TYPE(u32),
-+			   UA_MANDATORY),
-+	UVERBS_ATTR_FLAGS_IN(UVERBS_ATTR_REG_DMABUF_MR_ACCESS_FLAGS,
-+			     enum ib_access_flags),
-+	UVERBS_ATTR_PTR_OUT(UVERBS_ATTR_REG_DMABUF_MR_RESP_LKEY,
-+			    UVERBS_ATTR_TYPE(u32),
-+			    UA_MANDATORY),
-+	UVERBS_ATTR_PTR_OUT(UVERBS_ATTR_REG_DMABUF_MR_RESP_RKEY,
-+			    UVERBS_ATTR_TYPE(u32),
-+			    UA_MANDATORY));
-+
- DECLARE_UVERBS_NAMED_METHOD_DESTROY(
- 	UVERBS_METHOD_MR_DESTROY,
- 	UVERBS_ATTR_IDR(UVERBS_ATTR_DESTROY_MR_HANDLE,
-@@ -253,6 +364,7 @@ static int UVERBS_HANDLER(UVERBS_METHOD_QUERY_MR)(
- DECLARE_UVERBS_NAMED_OBJECT(
- 	UVERBS_OBJECT_MR,
- 	UVERBS_TYPE_ALLOC_IDR(uverbs_free_mr),
-+	&UVERBS_METHOD(UVERBS_METHOD_REG_DMABUF_MR),
- 	&UVERBS_METHOD(UVERBS_METHOD_DM_MR_REG),
- 	&UVERBS_METHOD(UVERBS_METHOD_MR_DESTROY),
- 	&UVERBS_METHOD(UVERBS_METHOD_ADVISE_MR),
-diff --git a/include/uapi/rdma/ib_user_ioctl_cmds.h b/include/uapi/rdma/ib_user_ioctl_cmds.h
-index 7968a18..7e07f52 100644
---- a/include/uapi/rdma/ib_user_ioctl_cmds.h
-+++ b/include/uapi/rdma/ib_user_ioctl_cmds.h
-@@ -1,5 +1,6 @@
- /*
-  * Copyright (c) 2018, Mellanox Technologies inc.  All rights reserved.
+  * Copyright (c) 2013-2015, Mellanox Technologies. All rights reserved.
 + * Copyright (c) 2020, Intel Corporation. All rights reserved.
   *
   * This software is available to you under a choice of one of two
   * licenses.  You may choose to be licensed under the terms of the GNU
-@@ -251,6 +252,7 @@ enum uverbs_methods_mr {
- 	UVERBS_METHOD_MR_DESTROY,
- 	UVERBS_METHOD_ADVISE_MR,
- 	UVERBS_METHOD_QUERY_MR,
-+	UVERBS_METHOD_REG_DMABUF_MR,
- };
+@@ -1462,6 +1463,124 @@ struct ib_mr *mlx5_ib_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
+ 	return ERR_PTR(err);
+ }
  
- enum uverbs_attrs_mr_destroy_ids {
-@@ -272,6 +274,18 @@ enum uverbs_attrs_query_mr_cmd_attr_ids {
- 	UVERBS_ATTR_QUERY_MR_RESP_IOVA,
- };
- 
-+enum uverbs_attrs_reg_dmabuf_mr_cmd_attr_ids {
-+	UVERBS_ATTR_REG_DMABUF_MR_HANDLE,
-+	UVERBS_ATTR_REG_DMABUF_MR_PD_HANDLE,
-+	UVERBS_ATTR_REG_DMABUF_MR_ADDR,
-+	UVERBS_ATTR_REG_DMABUF_MR_LENGTH,
-+	UVERBS_ATTR_REG_DMABUF_MR_HCA_VA,
-+	UVERBS_ATTR_REG_DMABUF_MR_FD,
-+	UVERBS_ATTR_REG_DMABUF_MR_ACCESS_FLAGS,
-+	UVERBS_ATTR_REG_DMABUF_MR_RESP_LKEY,
-+	UVERBS_ATTR_REG_DMABUF_MR_RESP_RKEY,
++static int mlx5_ib_umem_dmabuf_xlt_init(struct ib_umem *umem, void *context)
++{
++	struct mlx5_ib_mr *mr = context;
++	int flags = MLX5_IB_UPD_XLT_ENABLE;
++
++	if (!mr)
++		return -EINVAL;
++
++	return mlx5_ib_update_xlt(mr, 0, mr->npages, PAGE_SHIFT, flags);
++}
++
++static int mlx5_ib_umem_dmabuf_xlt_update(struct ib_umem *umem, void *context)
++{
++	struct mlx5_ib_mr *mr = context;
++	int flags = MLX5_IB_UPD_XLT_ATOMIC;
++
++	if (!mr)
++		return -EINVAL;
++
++	return mlx5_ib_update_xlt(mr, 0, mr->npages, PAGE_SHIFT, flags);
++}
++
++static int mlx5_ib_umem_dmabuf_xlt_invalidate(struct ib_umem *umem, void *context)
++{
++	struct mlx5_ib_mr *mr = context;
++	int flags = MLX5_IB_UPD_XLT_ZAP | MLX5_IB_UPD_XLT_ATOMIC;
++
++	if (!mr)
++		return -EINVAL;
++
++	return mlx5_ib_update_xlt(mr, 0, mr->npages, PAGE_SHIFT, flags);
++}
++
++static struct ib_umem_dmabuf_ops mlx5_ib_umem_dmabuf_ops = {
++	.init = mlx5_ib_umem_dmabuf_xlt_init,
++	.update = mlx5_ib_umem_dmabuf_xlt_update,
++	.invalidate = mlx5_ib_umem_dmabuf_xlt_invalidate,
 +};
 +
- enum uverbs_attrs_create_counters_cmd_attr_ids {
- 	UVERBS_ATTR_CREATE_COUNTERS_HANDLE,
- };
++struct ib_mr *mlx5_ib_reg_user_mr_dmabuf(struct ib_pd *pd, u64 start,
++					 u64 length, u64 virt_addr,
++					 int dmabuf_fd, int access_flags,
++					 struct ib_udata *udata)
++{
++	struct mlx5_ib_dev *dev = to_mdev(pd->device);
++	struct mlx5_ib_mr *mr = NULL;
++	struct ib_umem *umem;
++	int page_shift;
++	int npages;
++	int ncont;
++	int order;
++	int err;
++
++	if (!IS_ENABLED(CONFIG_INFINIBAND_USER_MEM))
++		return ERR_PTR(-EOPNOTSUPP);
++
++	mlx5_ib_dbg(dev,
++		    "start 0x%llx, virt_addr 0x%llx, length 0x%llx, fd %d, access_flags 0x%x\n",
++		    start, virt_addr, length, dmabuf_fd, access_flags);
++
++	if (!mlx5_ib_can_load_pas_with_umr(dev, length))
++		return ERR_PTR(-EINVAL);
++
++	umem = ib_umem_dmabuf_get(&dev->ib_dev, start, length, dmabuf_fd,
++				  access_flags, &mlx5_ib_umem_dmabuf_ops);
++	if (IS_ERR(umem)) {
++		mlx5_ib_dbg(dev, "umem get failed (%ld)\n", PTR_ERR(umem));
++		return ERR_PTR(PTR_ERR(umem));
++	}
++
++	npages = ib_umem_num_pages(umem);
++	if (!npages) {
++		mlx5_ib_warn(dev, "avoid zero region\n");
++		ib_umem_release(umem);
++		return ERR_PTR(-EINVAL);
++	}
++
++	page_shift = PAGE_SHIFT;
++	ncont = npages;
++	order = ilog2(roundup_pow_of_two(ncont));
++
++	mlx5_ib_dbg(dev, "npages %d, ncont %d, order %d, page_shift %d\n",
++		    npages, ncont, order, page_shift);
++
++	mr = alloc_mr_from_cache(pd, umem, virt_addr, length, ncont,
++				 page_shift, order, access_flags);
++	if (IS_ERR(mr))
++		mr = NULL;
++
++	if (!mr) {
++		mutex_lock(&dev->slow_path_mutex);
++		mr = reg_create(NULL, pd, virt_addr, length, umem, ncont,
++				page_shift, access_flags, false);
++		mutex_unlock(&dev->slow_path_mutex);
++	}
++
++	if (IS_ERR(mr)) {
++		err = PTR_ERR(mr);
++		goto error;
++	}
++
++	mlx5_ib_dbg(dev, "mkey 0x%x\n", mr->mmkey.key);
++
++	mr->umem = umem;
++	set_mr_fields(dev, mr, npages, length, access_flags);
++
++	err = ib_umem_dmabuf_init_mapping(umem, mr);
++	if (err) {
++		dereg_mr(dev, mr);
++		return ERR_PTR(err);
++	}
++
++	return &mr->ibmr;
++error:
++	ib_umem_release(umem);
++	return ERR_PTR(err);
++}
++
+ /**
+  * mlx5_mr_cache_invalidate - Fence all DMA on the MR
+  * @mr: The MR to fence
+diff --git a/drivers/infiniband/hw/mlx5/odp.c b/drivers/infiniband/hw/mlx5/odp.c
+index 5c853ec..16e2e51 100644
+--- a/drivers/infiniband/hw/mlx5/odp.c
++++ b/drivers/infiniband/hw/mlx5/odp.c
+@@ -801,6 +801,44 @@ static int pagefault_implicit_mr(struct mlx5_ib_mr *imr,
+  * Returns:
+  *  -EFAULT: The io_virt->bcnt is not within the MR, it covers pages that are
+  *           not accessible, or the MR is no longer valid.
++ *  -EAGAIN: The operation should be retried
++ *
++ *  >0: Number of pages mapped
++ */
++static int pagefault_dmabuf_mr(struct mlx5_ib_mr *mr, struct ib_umem *umem,
++			       u64 io_virt, size_t bcnt, u32 *bytes_mapped,
++			       u32 flags)
++{
++	u64 user_va;
++	u64 end;
++	int npages;
++
++	if (unlikely(io_virt < mr->mmkey.iova))
++		return -EFAULT;
++	if (check_add_overflow(io_virt - mr->mmkey.iova,
++			       (u64)umem->address, &user_va))
++		return -EFAULT;
++
++	/* Overflow has alreddy been checked at the umem creation time */
++	end = umem->address + umem->length;
++	if (unlikely(user_va >= end || end  - user_va < bcnt))
++		return -EFAULT;
++
++	if (!ib_umem_dmabuf_mapping_ready(umem))
++		return -EAGAIN;
++
++	if (bytes_mapped)
++		*bytes_mapped += bcnt;
++
++	npages = (ALIGN(user_va + bcnt, PAGE_SIZE) -
++		 ALIGN_DOWN(user_va, PAGE_SIZE)) >> PAGE_SHIFT;
++	return npages;
++}
++
++/*
++ * Returns:
++ *  -EFAULT: The io_virt->bcnt is not within the MR, it covers pages that are
++ *           not accessible, or the MR is no longer valid.
+  *  -EAGAIN/-ENOMEM: The operation should be retried
+  *
+  *  -EINVAL/others: General internal malfunction
+@@ -811,6 +849,10 @@ static int pagefault_mr(struct mlx5_ib_mr *mr, u64 io_virt, size_t bcnt,
+ {
+ 	struct ib_umem_odp *odp = to_ib_umem_odp(mr->umem);
+ 
++	if (mr->umem->is_dmabuf)
++		return pagefault_dmabuf_mr(mr, mr->umem, io_virt, bcnt,
++					   bytes_mapped, flags);
++
+ 	lockdep_assert_held(&mr->dev->odp_srcu);
+ 	if (unlikely(io_virt < mr->mmkey.iova))
+ 		return -EFAULT;
 -- 
 1.8.3.1
 
