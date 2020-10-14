@@ -1,55 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7496128E347
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 17:26:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1CAE28E3D0
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 18:01:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E5A6EAAA;
-	Wed, 14 Oct 2020 15:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFFCF8923A;
+	Wed, 14 Oct 2020 16:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F4B6EAAA;
- Wed, 14 Oct 2020 15:25:58 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id n6so4307693wrm.13;
- Wed, 14 Oct 2020 08:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YxBEZ2zwOvQ2OmfgqDWhyS8kAvpMsA83AdcbbwSb0EE=;
- b=ZAbFPWTQcSXPMYVBlmCH8uVilNTpEpqaXnTk/l4eTYe1Awp8Uwl8piKKbLJ1Eyxq5g
- GWM9HleNnX99p1uU/DahMgxpyJsHW0q2LBpDB9RRBaEiuZgWq6DBb/Wn69wj+v88GnnG
- Hm4xrXgEs873m2WQGe5LMS1rSRZWlcAL53JArHEZ49L38f5Djsoh0PGeNrykglNxoDeE
- lca5l7W4CcIaT50qHfCClXbgXBEA4R2ygx6JkIs03VwN/sJsTYYmNOGTk+yi3THqB6OH
- rXzS9wisOxT0mRtI5yoIJ9rFVbpgUHIDcAK+3QzwsmhQj5/XUnhts6DDN6J3sVKMC7ta
- 1qRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YxBEZ2zwOvQ2OmfgqDWhyS8kAvpMsA83AdcbbwSb0EE=;
- b=mys9v72Ob2Fyq14AEJsg9BWNHo3bBefktCtmLVUp+jYPoVzpyCQGwqm4s2yRboKZF0
- ximh2mAqJjSQqLNQLPgMQaB/WOAs/8FFUqaLQLO3N1qGrfHa/AmFG6Au7vRFZk7eui5+
- 8RSqX1VNBEGntPnxmnR4f8eayv/gAEKHmtll8a2baxqw+oUG4688CJU6OMm8J2GAxJYb
- 1gnkfZNk/G6Qds2mH4alOB0sMOQQznrglW7G22RR4ldzPKu4hpecYeMo/bW0goI0gLUA
- jDuXSPlVvpXHXMsVxCzWrstINZbAt6DvrdVf/rrtsvWtJJ30PUkctDIF9aypH2P/dPBH
- lT5w==
-X-Gm-Message-State: AOAM532qVDDKCN7ZfWfToJW8M2BiFTVeJk0FTgHt7MWrCf/+1pNI2P9v
- TfXxAg8/1WgPEc6MtcDhU0Mr5QCqltRFooVtVVk=
-X-Google-Smtp-Source: ABdhPJxt0hbMDz45mCBTIX0MF07E2kkg25OjgQEakXS6TJkZaNMfzplAhXY+OSjSSksFO8J1W8Fb6qb0EV+aalIxPaY=
-X-Received: by 2002:a05:6000:1633:: with SMTP id
- v19mr5814473wrb.147.1602689156795; 
- Wed, 14 Oct 2020 08:25:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <1602680296-8965-1-git-send-email-mkrishn@codeaurora.org>
-In-Reply-To: <1602680296-8965-1-git-send-email-mkrishn@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 14 Oct 2020 08:25:45 -0700
-Message-ID: <CAF6AEGtQEbGVQdNPSaHy41gqsiLV19X8kxMVCRUy8y1SzjTZGw@mail.gmail.com>
-Subject: Re: [v1] drm/msm: Fix race condition in msm driver with async layer
- updates
-To: Krishna Manikandan <mkrishn@codeaurora.org>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 103578923A
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 16:01:01 +0000 (UTC)
+IronPort-SDR: pLo7exNaabnccRQj/SzYmIV02wXSLNp1Hw/NEcnJnIQCJ8r1O4b99QgU3zB3K/UKqCPhhfkN9m
+ cc/KdGx8+6DA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="166254742"
+X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="166254742"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2020 09:01:00 -0700
+IronPort-SDR: ULsI3OX7atfYJ9yEVD6jKoLqN1G75PD6FmPyp0kPRiZzH4lgppheX1vm5fhYoAHQZ3bn2OPh3B
+ fumdXWZq1DVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="351533191"
+Received: from cst-dev.jf.intel.com ([10.23.221.69])
+ by fmsmga002.fm.intel.com with ESMTP; 14 Oct 2020 09:00:59 -0700
+From: Jianxin Xiong <jianxin.xiong@intel.com>
+To: linux-rdma@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 0/5] RDMA: Add dma-buf support
+Date: Wed, 14 Oct 2020 09:14:51 -0700
+Message-Id: <1602692091-106889-1-git-send-email-jianxin.xiong@intel.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,241 +46,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 14, 2020 at 5:58 AM Krishna Manikandan
-<mkrishn@codeaurora.org> wrote:
->
-> When there are back to back commits with async cursor update,
-> there is a case where second commit can program the DPU hw
-> blocks while first didn't complete flushing config to HW.
->
-> Synchronize the compositions such that second commit waits
-> until first commit flushes the composition.
->
-> This change also introduces per crtc commit lock, such that
-> commits on different crtcs are not blocked by each other.
->
-> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c |  1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h |  1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 26 ++++++++++++++++++++++++
->  drivers/gpu/drm/msm/msm_atomic.c         | 35 ++++++++++++++++++++++----------
->  drivers/gpu/drm/msm/msm_kms.h            |  5 +++++
->  5 files changed, 57 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index c2729f7..9024719 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1383,6 +1383,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->
->         /* initialize event handling */
->         spin_lock_init(&dpu_crtc->event_lock);
-> +       mutex_init(&dpu_crtc->commit_lock);
->
->         DPU_DEBUG("%s: successfully initialized crtc\n", dpu_crtc->name);
->         return crtc;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> index cec3474..1eeb73d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> @@ -169,6 +169,7 @@ struct dpu_crtc {
->
->         /* for handling internal event thread */
->         spinlock_t event_lock;
-> +       struct mutex commit_lock;
->
->         struct dpu_core_perf_params cur_perf;
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index c0a4d4e..f99ae7a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -445,6 +445,30 @@ static void dpu_kms_wait_flush(struct msm_kms *kms, unsigned crtc_mask)
->                 dpu_kms_wait_for_commit_done(kms, crtc);
->  }
->
-> +static void dpu_kms_commit_lock(struct msm_kms *kms, unsigned int crtc_mask)
-> +{
-> +       struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-> +       struct drm_crtc *crtc;
-> +       struct dpu_crtc *dpu_crtc;
-> +
-> +       for_each_crtc_mask(dpu_kms->dev, crtc, crtc_mask) {
-> +               dpu_crtc = to_dpu_crtc(crtc);
-> +               mutex_lock(&dpu_crtc->commit_lock);
-> +       }
-> +}
-> +
-> +static void dpu_kms_commit_unlock(struct msm_kms *kms, unsigned int crtc_mask)
-> +{
-> +       struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-> +       struct drm_crtc *crtc;
-> +       struct dpu_crtc *dpu_crtc;
-> +
-> +       for_each_crtc_mask(dpu_kms->dev, crtc, crtc_mask) {
-> +               dpu_crtc = to_dpu_crtc(crtc);
-> +               mutex_unlock(&dpu_crtc->commit_lock);
-> +       }
-> +}
-> +
->  static int _dpu_kms_initialize_dsi(struct drm_device *dev,
->                                     struct msm_drm_private *priv,
->                                     struct dpu_kms *dpu_kms)
-> @@ -738,6 +762,8 @@ static const struct msm_kms_funcs kms_funcs = {
->  #ifdef CONFIG_DEBUG_FS
->         .debugfs_init    = dpu_kms_debugfs_init,
->  #endif
-> +       .commit_lock     = dpu_kms_commit_lock,
-> +       .commit_unlock   = dpu_kms_commit_unlock,
->  };
->
->  static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms)
-> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-> index 561bfa4..d33253f 100644
-> --- a/drivers/gpu/drm/msm/msm_atomic.c
-> +++ b/drivers/gpu/drm/msm/msm_atomic.c
-> @@ -55,16 +55,32 @@ static void vblank_put(struct msm_kms *kms, unsigned crtc_mask)
->         }
->  }
->
-> +static void msm_commit_lock(struct msm_kms *kms, unsigned int crtc_mask)
-> +{
-> +       if (kms->funcs->commit_lock)
-> +               kms->funcs->commit_lock(kms, crtc_mask);
-> +       else
-> +               mutex_lock(&kms->commit_lock);
-> +}
-> +
-> +static void msm_commit_unlock(struct msm_kms *kms, unsigned int crtc_mask)
-> +{
-> +       if (kms->funcs->commit_unlock)
-> +               kms->funcs->commit_unlock(kms, crtc_mask);
-> +       else
-> +               mutex_unlock(&kms->commit_lock);
-> +}
+This is the fourth version of the patch set. Changelog:
 
-Hi, I think the per-crtc commit-lock, and the updated
-locking/unlocking points are the right thing to do, but I don't think
-we need to touch dpu for this.  Just change kms->commit_lock to an
-array of mutexes, and drop the vfunc indirection.  All the same
-locking logic applies to mdp4/mdp5 as well (ie. don't touch the hw
-until it has flushed)
+v4:
+* Add a new ib_device method reg_user_mr_dmabuf() instead of expanding
+  the existing method reg_user_mr()
+* Use a separate code flow for dma-buf instead of adding special cases
+  to the ODP memory region code path
+* In invalidation callback, new mapping is updated as whole using work
+  queue instead of being updated in page granularity in the page fault
+  handler
+* Use dma_resv_get_excl() and dma_fence_wait() to ensure the content of
+  the pages have been moved to the new location before the new mapping
+  is programmed into the NIC
+* Add code to the ODP page fault handler to check the mapping status
+* The new access flag added in v3 is removed.
+* The checking for on-demand paging support in the new uverbs command
+  is removed because it is implied by implementing the new ib_device
+  method
+* Clarify that dma-buf sg lists are page aligned
 
-BR,
--R
+v3: https://www.spinics.net/lists/linux-rdma/msg96330.html
+* Use dma_buf_dynamic_attach() instead of dma_buf_attach()
+* Use on-demand paging mechanism to avoid pinning the GPU memory
+* Instead of adding a new parameter to the device method for memory
+  registration, pass all the attributes including the file descriptor
+  as a structure
+* Define a new access flag for dma-buf based memory region
+* Check for on-demand paging support in the new uverbs command
 
-> +
->  static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
->  {
->         unsigned crtc_mask = BIT(crtc_idx);
->
->         trace_msm_atomic_async_commit_start(crtc_mask);
->
-> -       mutex_lock(&kms->commit_lock);
-> +       msm_commit_lock(kms, crtc_mask);
->
->         if (!(kms->pending_crtc_mask & crtc_mask)) {
-> -               mutex_unlock(&kms->commit_lock);
-> +               msm_commit_unlock(kms, crtc_mask);
->                 goto out;
->         }
->
-> @@ -79,7 +95,6 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
->          */
->         trace_msm_atomic_flush_commit(crtc_mask);
->         kms->funcs->flush_commit(kms, crtc_mask);
-> -       mutex_unlock(&kms->commit_lock);
->
->         /*
->          * Wait for flush to complete:
-> @@ -90,9 +105,8 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
->
->         vblank_put(kms, crtc_mask);
->
-> -       mutex_lock(&kms->commit_lock);
->         kms->funcs->complete_commit(kms, crtc_mask);
-> -       mutex_unlock(&kms->commit_lock);
-> +       msm_commit_unlock(kms, crtc_mask);
->         kms->funcs->disable_commit(kms);
->
->  out:
-> @@ -189,12 +203,11 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
->          * Ensure any previous (potentially async) commit has
->          * completed:
->          */
-> +       msm_commit_lock(kms, crtc_mask);
->         trace_msm_atomic_wait_flush_start(crtc_mask);
->         kms->funcs->wait_flush(kms, crtc_mask);
->         trace_msm_atomic_wait_flush_finish(crtc_mask);
->
-> -       mutex_lock(&kms->commit_lock);
-> -
->         /*
->          * Now that there is no in-progress flush, prepare the
->          * current update:
-> @@ -232,7 +245,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
->                 }
->
->                 kms->funcs->disable_commit(kms);
-> -               mutex_unlock(&kms->commit_lock);
-> +               msm_commit_unlock(kms, crtc_mask);
->
->                 /*
->                  * At this point, from drm core's perspective, we
-> @@ -260,7 +273,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
->          */
->         trace_msm_atomic_flush_commit(crtc_mask);
->         kms->funcs->flush_commit(kms, crtc_mask);
-> -       mutex_unlock(&kms->commit_lock);
-> +       msm_commit_unlock(kms, crtc_mask);
->
->         /*
->          * Wait for flush to complete:
-> @@ -271,9 +284,9 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
->
->         vblank_put(kms, crtc_mask);
->
-> -       mutex_lock(&kms->commit_lock);
-> +       msm_commit_lock(kms, crtc_mask);
->         kms->funcs->complete_commit(kms, crtc_mask);
-> -       mutex_unlock(&kms->commit_lock);
-> +       msm_commit_unlock(kms, crtc_mask);
->         kms->funcs->disable_commit(kms);
->
->         drm_atomic_helper_commit_hw_done(state);
-> diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-> index 1cbef6b..f02e73e 100644
-> --- a/drivers/gpu/drm/msm/msm_kms.h
-> +++ b/drivers/gpu/drm/msm/msm_kms.h
-> @@ -126,6 +126,11 @@ struct msm_kms_funcs {
->         /* debugfs: */
->         int (*debugfs_init)(struct msm_kms *kms, struct drm_minor *minor);
->  #endif
-> +       /* commit lock for crtc */
-> +       void (*commit_lock)(struct msm_kms *kms, unsigned int crtc_mask);
-> +
-> +       /* commit unlock for crtc */
-> +       void (*commit_unlock)(struct msm_kms *kms, unsigned int crtc_mask);
->  };
->
->  struct msm_kms;
-> --
-> 2.7.4
->
+v2: https://www.spinics.net/lists/linux-rdma/msg93643.html
+* The Kconfig option is removed. There is no dependence issue since
+  dma-buf driver is always enabled.
+* The declaration of new data structure and functions is reorganized to
+  minimize the visibility of the changes.
+* The new uverbs command now goes through ioctl() instead of write().
+* The rereg functionality is removed.
+* Instead of adding new device method for dma-buf specific registration,
+  existing method is extended to accept an extra parameter. 
+* The correct function is now used for address range checking. 
+
+v1: https://www.spinics.net/lists/linux-rdma/msg90720.html
+* The initial patch set
+* Implement core functions for importing and mapping dma-buf
+* Use dma-buf static attach interface
+* Add two ib_device methods reg_user_mr_fd() and rereg_user_mr_fd()
+* Add two uverbs commands via the write() interface
+* Add Kconfig option
+* Add dma-buf support to mlx5 device
+
+When enabled, an RDMA capable NIC can perform peer-to-peer transactions
+over PCIe to access the local memory located on another device. This can
+often lead to better performance than using a system memory buffer for
+RDMA and copying data between the buffer and device memory.
+
+Current kernel RDMA stack uses get_user_pages() to pin the physical
+pages backing the user buffer and uses dma_map_sg_attrs() to get the
+dma addresses for memory access. This usually doesn't work for peer
+device memory due to the lack of associated page structures.
+
+Several mechanisms exist today to facilitate device memory access.
+
+ZONE_DEVICE is a new zone for device memory in the memory management
+subsystem. It allows pages from device memory being described with
+specialized page structures, but what can be done with these page
+structures may be different from system memory. ZONE_DEVICE is further
+specialized into multiple memory types, such as one type for PCI
+p2pmem/p2pdma and one type for HMM.
+
+PCI p2pmem/p2pdma uses ZONE_DEVICE to represent device memory residing
+in a PCI BAR and provides a set of calls to publish, discover, allocate,
+and map such memory for peer-to-peer transactions. One feature of the
+API is that the buffer is allocated by the side that does the DMA
+transfer. This works well with the storage usage case, but is awkward
+with GPU-NIC communication, where typically the buffer is allocated by
+the GPU driver rather than the NIC driver.
+
+Heterogeneous Memory Management (HMM) utilizes mmu_interval_notifier
+and ZONE_DEVICE to support shared virtual address space and page
+migration between system memory and device memory. HMM doesn't support
+pinning device memory because pages located on device must be able to
+migrate to system memory when accessed by CPU. Peer-to-peer access
+is currently not supported by HMM.
+
+Dma-buf is a standard mechanism for sharing buffers among different
+device drivers. The buffer to be shared is exported by the owning
+driver and imported by the driver that wants to use it. The exporter
+provides a set of ops that the importer can call to pin and map the
+buffer. In addition, a file descriptor can be associated with a dma-
+buf object as the handle that can be passed to user space.
+
+This patch series adds dma-buf importer role to the RDMA driver in
+attempt to support RDMA using device memory such as GPU VRAM. Dma-buf is
+chosen for a few reasons: first, the API is relatively simple and allows
+a lot of flexibility in implementing the buffer manipulation ops.
+Second, it doesn't require page structure. Third, dma-buf is already
+supported in many GPU drivers. However, we are aware that existing GPU
+drivers don't allow pinning device memory via the dma-buf interface.
+Pinning would simply cause the backing storage to migrate to system RAM.
+True peer-to-peer access is only possible using dynamic attach, which
+requires on-demand paging support from the NIC to work. For this reason,
+this series only works with ODP capable NICs.
+
+This series consists of five patches. The first patch adds the common
+code for importing dma-buf from a file descriptor and mapping the
+dma-buf pages. Patch 2 add the new driver method reg_user_mr_dmabuf().
+Patch 3 adds a new uverbs command for registering dma-buf based memory
+region. Patch 4 adds dma-buf support to the mlx5 driver. Patch 5 adds
+clarification to the dma-buf API documentation that dma-buf sg lists
+are page aligned.
+
+Related user space RDMA library changes will be provided as a separate
+patch series.
+
+Jianxin Xiong (5):
+  RDMA/umem: Support importing dma-buf as user memory region
+  RDMA/core: Add device method for registering dma-buf base memory
+    region
+  RDMA/uverbs: Add uverbs command for dma-buf based MR registration
+  RDMA/mlx5: Support dma-buf based userspace memory region
+  dma-buf: Clarify that dma-buf sg lists are page aligned
+
+ drivers/dma-buf/dma-buf.c                     |  21 +++
+ drivers/infiniband/core/Makefile              |   2 +-
+ drivers/infiniband/core/device.c              |   1 +
+ drivers/infiniband/core/umem.c                |   4 +
+ drivers/infiniband/core/umem_dmabuf.c         | 200 ++++++++++++++++++++++++++
+ drivers/infiniband/core/umem_dmabuf.h         |  11 ++
+ drivers/infiniband/core/uverbs_std_types_mr.c | 112 +++++++++++++++
+ drivers/infiniband/hw/mlx5/main.c             |   2 +
+ drivers/infiniband/hw/mlx5/mlx5_ib.h          |   5 +
+ drivers/infiniband/hw/mlx5/mr.c               | 119 +++++++++++++++
+ drivers/infiniband/hw/mlx5/odp.c              |  42 ++++++
+ include/linux/dma-buf.h                       |   3 +-
+ include/rdma/ib_umem.h                        |  32 ++++-
+ include/rdma/ib_verbs.h                       |   6 +-
+ include/uapi/rdma/ib_user_ioctl_cmds.h        |  14 ++
+ 15 files changed, 570 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/infiniband/core/umem_dmabuf.c
+ create mode 100644 drivers/infiniband/core/umem_dmabuf.h
+
+-- 
+1.8.3.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
