@@ -1,61 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C25B28DFCC
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 13:26:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBB828E021
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 13:58:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A67806EA56;
-	Wed, 14 Oct 2020 11:26:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A98246EA57;
+	Wed, 14 Oct 2020 11:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E006EA58
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 11:26:48 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id h5so3357760wrv.7
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 04:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=W1Xb3EWi6oK1/DaQpKgXiT3NvJEd5yovI30IklakN70=;
- b=GL3cQIAWf+VkmTeQG0gsRX2Df5rOkHjVJgrZqtAvyztHNcswl+uQuyzfuCGZ28KJkL
- YAVgHVyzwVNQnjrp/DnSi4KG5rjbY8W869ipmyC/6FFxwG69MB3cvEUntMDLrJfv61Hw
- IpruzSz+SkXcFjCOe6Xm/pUOha4tQ5ZpAuWK2gC43lYOrlBc4GC9zhTwC5ZV3nWapFoi
- Ieizbagbsy8em+AlXNhlaurWUvIxETXGz7dpGQxQtNVNgUoWpJIgAdli2zVdRjF80fir
- F/XuWKaYccCX4k+QWfqdZatva20JKp+pUz2zjHWuwyq2HrWYNg9h6DhmNy8Le/89diCc
- QHzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=W1Xb3EWi6oK1/DaQpKgXiT3NvJEd5yovI30IklakN70=;
- b=kKYxukKXUPnfPTy6Xt4DKshgYhs9IrCrJJSr5f9CCsRRbs7kkZpZWo3ODZYxA2gpc7
- YY3tysD8KNBEEw7YbnrVcFzk3KQSL09lhagWd7zMqUy7+2JDyKodxyyn97Nd5gClbTla
- 4QtOZ+97b2jkzyLP2WxO8GOLWsQlKbyxVEC+efILFI2M2/MrOY+inaGP/GY/35P+eALz
- koA4a6B2hDEi6NxO9FjopywRirN1P2bApb8J2d90b8F/v77S4cOJtnVNmncGxYY/G8Bb
- dr4hH3zyyJnWCPlqfCA7UJ8GzGURO/t2JgAPerP8NCW2m1n7KFkBGhLAycsi06TVknHQ
- A/bA==
-X-Gm-Message-State: AOAM533nttPR+HFCwuYS2nJ7nPq70q5CE78pCFu/aL+O1lH30gDJfAhU
- 4RzPYOuGmqPlW6UKYOwDaHwbbg==
-X-Google-Smtp-Source: ABdhPJxgbrMq6ekWxBaMVjFkqS5MobV4c/7LwKcL+o1Ew8C+9mI/Vc0Clz/IN3aydIhGSZtLH/UCfA==
-X-Received: by 2002:adf:ed07:: with SMTP id a7mr5235113wro.326.1602674806848; 
- Wed, 14 Oct 2020 04:26:46 -0700 (PDT)
-Received: from holly.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id f7sm4690901wrx.64.2020.10.14.04.26.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Oct 2020 04:26:45 -0700 (PDT)
-Date: Wed, 14 Oct 2020 12:26:43 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Alexandru Stan <amstan@chromium.org>
-Subject: Re: [PATCH v2 1/3] backlight: pwm_bl: Fix interpolation
-Message-ID: <20201014112643.grd2x5jj33turihb@holly.lan>
-References: <20201013080103.410133-1-amstan@chromium.org>
- <20201013010056.v2.1.I4dcea1c90e9da3902d466033aa73351e19e49c49@changeid>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F5E16EA54
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 11:58:36 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 0BB14AC6D;
+ Wed, 14 Oct 2020 11:58:35 +0000 (UTC)
+Date: Wed, 14 Oct 2020 13:58:33 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>
+Subject: Re: [PATCH drm/hisilicon 1/2] drm/hisilicon: Use the same style of
+ variable type in hibmc_drm_de
+Message-ID: <20201014135833.285ee0e2@linux-uq9g>
+In-Reply-To: <1601449988-41463-2-git-send-email-tiantao6@hisilicon.com>
+References: <1601449988-41463-1-git-send-email-tiantao6@hisilicon.com>
+ <1601449988-41463-2-git-send-email-tiantao6@hisilicon.com>
+Organization: SUSE Software Solutions Germany GmbH
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201013010056.v2.1.I4dcea1c90e9da3902d466033aa73351e19e49c49@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,211 +40,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, Andy Gross <agross@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Lee Jones <lee.jones@linaro.org>, Matthias Kaehlcke <mka@chromium.org>,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linuxarm@huawei.com, xinliang.liu@linaro.org,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 13, 2020 at 01:01:01AM -0700, Alexandru Stan wrote:
-> Whenever num-interpolated-steps was larger than the distance
-> between 2 consecutive brightness levels the table would get really
-> discontinuous. The slope of the interpolation would stick with
-> integers only and if it was 0 the whole line segment would get skipped.
-> 
-> Example settings:
-> 	brightness-levels = <0 1 2 4 8 16 32 64 128 256>;
-> 	num-interpolated-steps = <16>;
-> 
-> The distances between 1 2 4 and 8 would be 1, and only starting with 16
-> it would start to interpolate properly.
-
-Both comments a perilously close to nitpicking but enough that I wanted
-to reply...
-
-I'd suggest that the current behaviour as having two properties.
-
-1. It was designed to generate strictly increasing tables (no repeated
-   values).
-
-2. It's implementation contains quantization errors when calculating the
-   step size. This results in both the discards of some interpolated
-   steps you mentioned (it is possible to insert extra steps between 4
-   and 8 whilst retaining a strictly increasing table). It also
-   results in a potentially large undershoot when multiplying a step
-   size (64 interpolated steps and a gap of 127 is likely to get a visual
-   jump as we hop through 63 physical steps in one go).
-
-#1 can is a policy that can be changed. #2 is a bug that could be fixed.
-
-To be clear I don't object to generating a monotonically increasing
-table but I'd prefer the policy change to be explicitly described in
-the description.
-
-
-> Let's change it so there's always interpolation happening, even if
-> there's no enough points available (read: values in the table would
-> appear more than once). This should match the expected behavior much
-> more closely.
-> 
-> Signed-off-by: Alexandru Stan <amstan@chromium.org>
-> ---
-> 
->  drivers/video/backlight/pwm_bl.c | 70 ++++++++++++++------------------
->  1 file changed, 31 insertions(+), 39 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-> index dfc760830eb9..3e77f6b73fd9 100644
-> --- a/drivers/video/backlight/pwm_bl.c
-> +++ b/drivers/video/backlight/pwm_bl.c
-> @@ -230,8 +230,7 @@ static int pwm_backlight_parse_dt(struct device *dev,
->  				  struct platform_pwm_backlight_data *data)
->  {
->  	struct device_node *node = dev->of_node;
-> -	unsigned int num_levels = 0;
-> -	unsigned int levels_count;
-> +	unsigned int num_levels;
->  	unsigned int num_steps = 0;
->  	struct property *prop;
->  	unsigned int *table;
-> @@ -260,12 +259,11 @@ static int pwm_backlight_parse_dt(struct device *dev,
->  	if (!prop)
->  		return 0;
->  
-> -	data->max_brightness = length / sizeof(u32);
-> +	num_levels = length / sizeof(u32);
->  
->  	/* read brightness levels from DT property */
-> -	if (data->max_brightness > 0) {
-> -		size_t size = sizeof(*data->levels) * data->max_brightness;
-> -		unsigned int i, j, n = 0;
-> +	if (num_levels > 0) {
-> +		size_t size = sizeof(*data->levels) * num_levels;
->  
->  		data->levels = devm_kzalloc(dev, size, GFP_KERNEL);
->  		if (!data->levels)
-> @@ -273,7 +271,7 @@ static int pwm_backlight_parse_dt(struct device *dev,
->  
->  		ret = of_property_read_u32_array(node, "brightness-levels",
->  						 data->levels,
-> -						 data->max_brightness);
-> +						 num_levels);
->  		if (ret < 0)
->  			return ret;
->  
-> @@ -298,7 +296,13 @@ static int pwm_backlight_parse_dt(struct device *dev,
->  		 * between two points.
->  		 */
->  		if (num_steps) {
-> -			if (data->max_brightness < 2) {
-> +			unsigned int num_input_levels = num_levels;
-> +			unsigned int i;
-> +			u32 x1, x2, x, dx;
-> +			u32 y1, y2;
-> +			s64 dy;
-> +
-> +			if (num_input_levels < 2) {
->  				dev_err(dev, "can't interpolate\n");
->  				return -EINVAL;
->  			}
-> @@ -308,14 +312,7 @@ static int pwm_backlight_parse_dt(struct device *dev,
->  			 * taking in consideration the number of interpolated
->  			 * steps between two levels.
->  			 */
-> -			for (i = 0; i < data->max_brightness - 1; i++) {
-> -				if ((data->levels[i + 1] - data->levels[i]) /
-> -				   num_steps)
-> -					num_levels += num_steps;
-> -				else
-> -					num_levels++;
-> -			}
-> -			num_levels++;
-> +			num_levels = (num_input_levels - 1) * num_steps + 1;
->  			dev_dbg(dev, "new number of brightness levels: %d\n",
->  				num_levels);
->  
-> @@ -327,24 +324,25 @@ static int pwm_backlight_parse_dt(struct device *dev,
->  			table = devm_kzalloc(dev, size, GFP_KERNEL);
->  			if (!table)
->  				return -ENOMEM;
-> -
-> -			/* Fill the interpolated table. */
-> -			levels_count = 0;
-> -			for (i = 0; i < data->max_brightness - 1; i++) {
-> -				value = data->levels[i];
-> -				n = (data->levels[i + 1] - value) / num_steps;
-> -				if (n > 0) {
-> -					for (j = 0; j < num_steps; j++) {
-> -						table[levels_count] = value;
-> -						value += n;
-> -						levels_count++;
-> -					}
-> -				} else {
-> -					table[levels_count] = data->levels[i];
-> -					levels_count++;
-> +			/*
-> +			 * Fill the interpolated table[x] = y
-> +			 * by draw lines between each (x1, y1) to (x2, y2).
-> +			 */
-> +			dx = num_steps;
-> +			for (i = 0; i < num_input_levels - 1; i++) {
-> +				x1 = i * dx;
-> +				x2 = x1 + dx;
-> +				y1 = data->levels[i];
-> +				y2 = data->levels[i + 1];
-> +				dy = (s64)y2 - y1;
-> +
-> +				for (x = x1; x < x2; x++) {
-> +					table[x] = y1 +
-> +						div_s64(dy * ((s64)x - x1), dx);
-
-I don't think it is possible for x - x1 to be negative (e.g. what is the
-s64 for). Obviously it makes little functional difference whether the
-cast is there or not but I don't like fixed point code that has been
-written with "just in case" casts.
-
-
-Daniel.
-
-
->  				}
->  			}
-> -			table[levels_count] = data->levels[i];
-> +			/* Fill in the last point, since no line starts here. */
-> +			table[x2] = y2;
->  
->  			/*
->  			 * As we use interpolation lets remove current
-> @@ -353,15 +351,9 @@ static int pwm_backlight_parse_dt(struct device *dev,
->  			 */
->  			devm_kfree(dev, data->levels);
->  			data->levels = table;
-> -
-> -			/*
-> -			 * Reassign max_brightness value to the new total number
-> -			 * of brightness levels.
-> -			 */
-> -			data->max_brightness = num_levels;
->  		}
->  
-> -		data->max_brightness--;
-> +		data->max_brightness = num_levels - 1;
->  	}
->  
->  	return 0;
-> -- 
-> 2.28.0
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpyZXZpZXdzIHRha2UgYSB3aGlsZSBhcyBJJ20gdmVyeSBidXN5IEFUTS4KCk9uIFdlZCwg
+MzAgU2VwIDIwMjAgMTU6MTM6MDcgKzA4MDAgVGlhbiBUYW8gPHRpYW50YW82QGhpc2lsaWNvbi5j
+b20+IHdyb3RlOgoKPiBDb25zaXN0ZW50bHkgVXNlIHRoZSBzYW1lIHN0eWxlIG9mIHZhcmlhYmxl
+IHR5cGUgaW4gaGlibWNfZHJtX2RlLmMuCj4gCj4gU2lnbmVkLW9mZi1ieTogVGlhbiBUYW8gPHRp
+YW50YW82QGhpc2lsaWNvbi5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24v
+aGlibWMvaGlibWNfZHJtX2RlLmMgfCA1OQo+ICsrKysrKysrKysrKystLS0tLS0tLS0tLS0tIDEg
+ZmlsZSBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspLCAzMCBkZWxldGlvbnMoLSkKPiAKPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZGUuYwo+
+IGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZGUuYyBpbmRleCBh
+M2E5ZTBhLi5jNTRmOTNkCj4gMTAwNjQ0IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24v
+aGlibWMvaGlibWNfZHJtX2RlLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hp
+Ym1jL2hpYm1jX2RybV9kZS5jCj4gQEAgLTIzLDE1ICsyMywxNSBAQAo+ICAjaW5jbHVkZSAiaGli
+bWNfZHJtX3JlZ3MuaCIKPiAgCj4gIHN0cnVjdCBoaWJtY19kaXNwbGF5X3BhbmVsX3BsbCB7Cj4g
+LQl1bnNpZ25lZCBsb25nIE07Cj4gLQl1bnNpZ25lZCBsb25nIE47Cj4gLQl1bnNpZ25lZCBsb25n
+IE9EOwo+IC0JdW5zaWduZWQgbG9uZyBQT0Q7Cj4gKwl1NjQgTTsKPiArCXU2NCBOOwo+ICsJdTY0
+IE9EOwo+ICsJdTY0IFBPRDsKPiAgfTsKPiAgCj4gIHN0cnVjdCBoaWJtY19kaXNsYXlfcGxsX2Nv
+bmZpZyB7Cj4gLQl1bnNpZ25lZCBsb25nIGhkaXNwbGF5Owo+IC0JdW5zaWduZWQgbG9uZyB2ZGlz
+cGxheTsKPiArCXU2NCBoZGlzcGxheTsKPiArCXU2NCB2ZGlzcGxheTsKPiAgCXUzMiBwbGwxX2Nv
+bmZpZ192YWx1ZTsKPiAgCXUzMiBwbGwyX2NvbmZpZ192YWx1ZTsKPiAgfTsKPiBAQCAtMTAyLDcg
+KzEwMiw3IEBAIHN0YXRpYyB2b2lkIGhpYm1jX3BsYW5lX2F0b21pY191cGRhdGUoc3RydWN0IGRy
+bV9wbGFuZQo+ICpwbGFuZSwgc3RydWN0IGRybV9wbGFuZV9zdGF0ZQkqc3RhdGUJPSBwbGFuZS0+
+c3RhdGU7Cj4gIAl1MzIgcmVnOwo+ICAJczY0IGdwdV9hZGRyID0gMDsKPiAtCXVuc2lnbmVkIGlu
+dCBsaW5lX2w7Cj4gKwl1MzIgbGluZV9sOwo+ICAJc3RydWN0IGhpYm1jX2RybV9wcml2YXRlICpw
+cml2ID0gdG9faGlibWNfZHJtX3ByaXZhdGUocGxhbmUtPmRldik7Cj4gIAlzdHJ1Y3QgZHJtX2dl
+bV92cmFtX29iamVjdCAqZ2JvOwo+ICAKPiBAQCAtMTU1LDEwICsxNTUsMTAgQEAgc3RhdGljIGNv
+bnN0IHN0cnVjdCBkcm1fcGxhbmVfaGVscGVyX2Z1bmNzCj4gaGlibWNfcGxhbmVfaGVscGVyX2Z1
+bmNzID0geyAuYXRvbWljX3VwZGF0ZSA9IGhpYm1jX3BsYW5lX2F0b21pY191cGRhdGUsCj4gIH07
+Cj4gIAo+IC1zdGF0aWMgdm9pZCBoaWJtY19jcnRjX2RwbXMoc3RydWN0IGRybV9jcnRjICpjcnRj
+LCBpbnQgZHBtcykKPiArc3RhdGljIHZvaWQgaGlibWNfY3J0Y19kcG1zKHN0cnVjdCBkcm1fY3J0
+YyAqY3J0YywgdTMyIGRwbXMpCj4gIHsKPiAgCXN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZSAqcHJp
+diA9IHRvX2hpYm1jX2RybV9wcml2YXRlKGNydGMtPmRldik7Cj4gLQl1bnNpZ25lZCBpbnQgcmVn
+Owo+ICsJdTMyIHJlZzsKPiAgCj4gIAlyZWcgPSByZWFkbChwcml2LT5tbWlvICsgSElCTUNfQ1JU
+X0RJU1BfQ1RMKTsKPiAgCXJlZyAmPSB+SElCTUNfQ1JUX0RJU1BfQ1RMX0RQTVNfTUFTSzsKPiBA
+QCAtMTcyLDcgKzE3Miw3IEBAIHN0YXRpYyB2b2lkIGhpYm1jX2NydGNfZHBtcyhzdHJ1Y3QgZHJt
+X2NydGMgKmNydGMsIGludAo+IGRwbXMpIHN0YXRpYyB2b2lkIGhpYm1jX2NydGNfYXRvbWljX2Vu
+YWJsZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4gIAkJCQkgICAgIHN0cnVjdCBkcm1fY3J0Y19z
+dGF0ZSAqb2xkX3N0YXRlKQo+ICB7Cj4gLQl1bnNpZ25lZCBpbnQgcmVnOwo+ICsJdTMyIHJlZzsK
+PiAgCXN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZSAqcHJpdiA9IHRvX2hpYm1jX2RybV9wcml2YXRl
+KGNydGMtPmRldik7Cj4gIAo+ICAJaGlibWNfc2V0X3Bvd2VyX21vZGUocHJpdiwgSElCTUNfUFdf
+TU9ERV9DVExfTU9ERV9NT0RFMCk7Cj4gQEAgLTE5MSw3ICsxOTEsNyBAQCBzdGF0aWMgdm9pZCBo
+aWJtY19jcnRjX2F0b21pY19lbmFibGUoc3RydWN0IGRybV9jcnRjCj4gKmNydGMsIHN0YXRpYyB2
+b2lkIGhpYm1jX2NydGNfYXRvbWljX2Rpc2FibGUoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ICAJ
+CQkJICAgICAgc3RydWN0IGRybV9jcnRjX3N0YXRlICpvbGRfc3RhdGUpCj4gIHsKPiAtCXVuc2ln
+bmVkIGludCByZWc7Cj4gKwl1MzIgcmVnOwo+ICAJc3RydWN0IGhpYm1jX2RybV9wcml2YXRlICpw
+cml2ID0gdG9faGlibWNfZHJtX3ByaXZhdGUoY3J0Yy0+ZGV2KTsKPiAgCj4gIAloaWJtY19jcnRj
+X2RwbXMoY3J0YywgSElCTUNfQ1JUX0RQTVNfT0ZGKTsKPiBAQCAtMjEyLDcgKzIxMiw3IEBAIHN0
+YXRpYyBlbnVtIGRybV9tb2RlX3N0YXR1cwo+ICBoaWJtY19jcnRjX21vZGVfdmFsaWQoc3RydWN0
+IGRybV9jcnRjICpjcnRjLAo+ICAJCSAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2Rl
+ICptb2RlKQo+ICB7Cj4gLQlpbnQgaSA9IDA7Cj4gKwl1MzIgaSA9IDA7CgpUaGlzIGlzIGEgY291
+bnRlciBhZ2FpbnN0IEFSUkFZX1NJWkUuIGkgc2hvdWxkIGJlIG9mIHR5cGUgJ3NpemVfdCcuCgo+
+ICAJaW50IHZyZWZyZXNoID0gZHJtX21vZGVfdnJlZnJlc2gobW9kZSk7Cj4gIAo+ICAJaWYgKHZy
+ZWZyZXNoIDwgNTkgfHwgdnJlZnJlc2ggPiA2MSkKPiBAQCAtMjI3LDkgKzIyNyw5IEBAIGhpYm1j
+X2NydGNfbW9kZV92YWxpZChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4gIAlyZXR1cm4gTU9ERV9C
+QUQ7Cj4gIH0KPiAgCj4gLXN0YXRpYyB1bnNpZ25lZCBpbnQgZm9ybWF0X3BsbF9yZWcodm9pZCkK
+PiArc3RhdGljIHUzMiBmb3JtYXRfcGxsX3JlZyh2b2lkKQo+ICB7Cj4gLQl1bnNpZ25lZCBpbnQg
+cGxscmVnID0gMDsKPiArCXUzMiBwbGxyZWcgPSAwOwo+ICAJc3RydWN0IGhpYm1jX2Rpc3BsYXlf
+cGFuZWxfcGxsIHBsbCA9IHswfTsKPiAgCj4gIAkvKgo+IEBAIC0yNDksNyArMjQ5LDcgQEAgc3Rh
+dGljIHVuc2lnbmVkIGludCBmb3JtYXRfcGxsX3JlZyh2b2lkKQo+ICAJcmV0dXJuIHBsbHJlZzsK
+PiAgfQo+ICAKPiAtc3RhdGljIHZvaWQgc2V0X3ZjbG9ja19oaXNpbGljb24oc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwgdW5zaWduZWQgbG9uZyBwbGwpCj4gK3N0YXRpYyB2b2lkIHNldF92Y2xvY2tf
+aGlzaWxpY29uKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHU2NCBwbGwpCj4gIHsKPiAgCXUzMiB2
+YWw7Cj4gIAlzdHJ1Y3QgaGlibWNfZHJtX3ByaXZhdGUgKnByaXYgPSB0b19oaWJtY19kcm1fcHJp
+dmF0ZShkZXYpOwo+IEBAIC0yNzksMTEgKzI3OSwxMCBAQCBzdGF0aWMgdm9pZCBzZXRfdmNsb2Nr
+X2hpc2lsaWNvbihzdHJ1Y3QgZHJtX2RldmljZQo+ICpkZXYsIHVuc2lnbmVkIGxvbmcgcGxsKSB3
+cml0ZWwodmFsLCBwcml2LT5tbWlvICsgQ1JUX1BMTDFfSFMpOwo+ICB9Cj4gIAo+IC1zdGF0aWMg
+dm9pZCBnZXRfcGxsX2NvbmZpZyh1bnNpZ25lZCBsb25nIHgsIHVuc2lnbmVkIGxvbmcgeSwKPiAt
+CQkJICAgdTMyICpwbGwxLCB1MzIgKnBsbDIpCj4gK3N0YXRpYyB2b2lkIGdldF9wbGxfY29uZmln
+KHU2NCB4LCB1NjQgeSwgdTMyICpwbGwxLCB1MzIgKnBsbDIpCj4gIHsKPiAtCWludCBpOwo+IC0J
+aW50IGNvdW50ID0gQVJSQVlfU0laRShoaWJtY19wbGxfdGFibGUpOwo+ICsJdTMyIGk7Cj4gKwl1
+MzIgY291bnQgPSBBUlJBWV9TSVpFKGhpYm1jX3BsbF90YWJsZSk7CgpUaGVzZSB2YXJpYWJsZXMg
+c2hvdWxkIGFsc28gYmUgc2l6ZV90LgoKPiAgCj4gIAlmb3IgKGkgPSAwOyBpIDwgY291bnQ7IGkr
+Kykgewo+ICAJCWlmIChoaWJtY19wbGxfdGFibGVbaV0uaGRpc3BsYXkgPT0geCAmJgo+IEBAIC0z
+MDYsMTEgKzMwNSwxMSBAQCBzdGF0aWMgdm9pZCBnZXRfcGxsX2NvbmZpZyh1bnNpZ25lZCBsb25n
+IHgsIHVuc2lnbmVkCj4gbG9uZyB5LAo+ICAgKiBGUEdBIG9ubHkgc3VwcG9ydHMgNyBwcmVkZWZp
+bmVkIHBpeGVsIGNsb2NrcywgYW5kIGNsb2NrIHNlbGVjdCBpcwo+ICAgKiBpbiBiaXQgNDowIG9m
+IG5ldyByZWdpc3RlciAweDgwMmE4Lgo+ICAgKi8KPiAtc3RhdGljIHVuc2lnbmVkIGludCBkaXNw
+bGF5X2N0cmxfYWRqdXN0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gLQkJCQkJc3RydWN0IGRy
+bV9kaXNwbGF5X21vZGUgKm1vZGUsCj4gLQkJCQkJdW5zaWduZWQgaW50IGN0cmwpCj4gK3N0YXRp
+YyB1MzIgZGlzcGxheV9jdHJsX2FkanVzdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICsJCQkg
+ICAgICAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUsCj4gKwkJCSAgICAgICB1MzIgY3Ry
+bCkKPiAgewo+IC0JdW5zaWduZWQgbG9uZyB4LCB5Owo+ICsJdTY0IHgsIHk7Cj4gIAl1MzIgcGxs
+MTsgLyogYml0WzMxOjBdIG9mIFBMTCAqLwo+ICAJdTMyIHBsbDI7IC8qIGJpdFs2MzozMl0gb2Yg
+UExMICovCj4gIAlzdHJ1Y3QgaGlibWNfZHJtX3ByaXZhdGUgKnByaXYgPSB0b19oaWJtY19kcm1f
+cHJpdmF0ZShkZXYpOwo+IEBAIC0zNTgsMTIgKzM1NywxMiBAQCBzdGF0aWMgdW5zaWduZWQgaW50
+IGRpc3BsYXlfY3RybF9hZGp1c3Qoc3RydWN0Cj4gZHJtX2RldmljZSAqZGV2LCAKPiAgc3RhdGlj
+IHZvaWQgaGlibWNfY3J0Y19tb2RlX3NldF9ub2ZiKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPiAg
+ewo+IC0JdW5zaWduZWQgaW50IHZhbDsKPiArCXUzMiB2YWw7Cj4gIAlzdHJ1Y3QgZHJtX2Rpc3Bs
+YXlfbW9kZSAqbW9kZSA9ICZjcnRjLT5zdGF0ZS0+bW9kZTsKPiAgCXN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYgPSBjcnRjLT5kZXY7Cj4gIAlzdHJ1Y3QgaGlibWNfZHJtX3ByaXZhdGUgKnByaXYgPSB0
+b19oaWJtY19kcm1fcHJpdmF0ZShkZXYpOwo+IC0JaW50IHdpZHRoID0gbW9kZS0+aHN5bmNfZW5k
+IC0gbW9kZS0+aHN5bmNfc3RhcnQ7Cj4gLQlpbnQgaGVpZ2h0ID0gbW9kZS0+dnN5bmNfZW5kIC0g
+bW9kZS0+dnN5bmNfc3RhcnQ7Cj4gKwl1MzIgd2lkdGggPSBtb2RlLT5oc3luY19lbmQgLSBtb2Rl
+LT5oc3luY19zdGFydDsKPiArCXUzMiBoZWlnaHQgPSBtb2RlLT52c3luY19lbmQgLSBtb2RlLT52
+c3luY19zdGFydDsKPiAgCj4gIAl3cml0ZWwoZm9ybWF0X3BsbF9yZWcoKSwgcHJpdi0+bW1pbyAr
+IEhJQk1DX0NSVF9QTExfQ1RSTCk7Cj4gIAl3cml0ZWwoSElCTUNfRklFTEQoSElCTUNfQ1JUX0hP
+UlpfVE9UQUxfVE9UQUwsIG1vZGUtPmh0b3RhbCAtIDEpIHwKPiBAQCAtMzkzLDcgKzM5Miw3IEBA
+IHN0YXRpYyB2b2lkIGhpYm1jX2NydGNfbW9kZV9zZXRfbm9mYihzdHJ1Y3QgZHJtX2NydGMKPiAq
+Y3J0Yykgc3RhdGljIHZvaWQgaGlibWNfY3J0Y19hdG9taWNfYmVnaW4oc3RydWN0IGRybV9jcnRj
+ICpjcnRjLAo+ICAJCQkJICAgIHN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqb2xkX3N0YXRlKQo+ICB7
+Cj4gLQl1bnNpZ25lZCBpbnQgcmVnOwo+ICsJdTMyIHJlZzsKPiAgCXN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYgPSBjcnRjLT5kZXY7Cj4gIAlzdHJ1Y3QgaGlibWNfZHJtX3ByaXZhdGUgKnByaXYgPSB0
+b19oaWJtY19kcm1fcHJpdmF0ZShkZXYpOwo+ICAKPiBAQCAtNDQ2LDE1ICs0NDUsMTUgQEAgc3Rh
+dGljIHZvaWQgaGlibWNfY3J0Y19sb2FkX2x1dChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCj4gIAlz
+dHJ1Y3QgaGlibWNfZHJtX3ByaXZhdGUgKnByaXYgPSB0b19oaWJtY19kcm1fcHJpdmF0ZShjcnRj
+LT5kZXYpOwo+ICAJdm9pZCBfX2lvbWVtICAgKm1taW8gPSBwcml2LT5tbWlvOwo+ICAJdTE2ICpy
+LCAqZywgKmI7Cj4gLQl1bnNpZ25lZCBpbnQgcmVnOwo+IC0JaW50IGk7Cj4gKwl1MzIgcmVnOwo+
+ICsJdTMyIGk7CgpUaGlzIG9uZSdzIGNvcnJlY3QgYmVjYXVzZSBjcnRjLT5nYW1tYV9zaXplIGlz
+IHVpbnQzMl90LgoKV2l0aCBteSBjb21tZW50cyBhZGRyZXNzZWQ6CgpBY2tlZC1ieTogVGhvbWFz
+IFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+CgpCZXN0IHJlZ2FyZHMKVGhvbWFzCgo+
+ICAKPiAgCXIgPSBjcnRjLT5nYW1tYV9zdG9yZTsKPiAgCWcgPSByICsgY3J0Yy0+Z2FtbWFfc2l6
+ZTsKPiAgCWIgPSBnICsgY3J0Yy0+Z2FtbWFfc2l6ZTsKPiAgCj4gIAlmb3IgKGkgPSAwOyBpIDwg
+Y3J0Yy0+Z2FtbWFfc2l6ZTsgaSsrKSB7Cj4gLQkJdW5zaWduZWQgaW50IG9mZnNldCA9IGkgPDwg
+MjsKPiArCQl1MzIgb2Zmc2V0ID0gaSA8PCAyOwo+ICAJCXU4IHJlZCA9ICpyKysgPj4gODsKPiAg
+CQl1OCBncmVlbiA9ICpnKysgPj4gODsKPiAgCQl1OCBibHVlID0gKmIrKyA+PiA4OwoKCgotLSAK
+VGhvbWFzIFppbW1lcm1hbm4KR3JhcGhpY3MgRHJpdmVyIERldmVsb3BlcgpTVVNFIFNvZnR3YXJl
+IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBH
+ZXJtYW55CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykKR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4
+IEltZW5kw7ZyZmZlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
