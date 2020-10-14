@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6F328E149
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 15:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE4428ED73
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 09:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 763FE6EAA2;
-	Wed, 14 Oct 2020 13:29:46 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07E2D6EAA2
- for <dri-devel@freedesktop.org>; Wed, 14 Oct 2020 13:29:42 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1602682185; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=rIC1SuV56SFchiZDRV34vNBmeGLmpoLkREQhbX7ZtSU=;
- b=OHfwn0T+lB84YC4UZv1EWHLwLZEhNoB7kAYdzC1nx0NjvJIedo4QEnVw9hsiD05fQfnfu2ZV
- d4CaGuIzJYO4Lt8uFYHUPu0Q6HG8TB3KvkrMC79rzRvx+C+46eItRS8tXCubOFQD6EF0O1xm
- hvAZYXYLicASncqMXCNK185Vt6E=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5f86fd3def891f1ee2b07955 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 14 Oct 2020 13:29:33
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 42B18C433FF; Wed, 14 Oct 2020 13:29:32 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.9] (unknown [117.210.180.193])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id F1AA7C433C9;
- Wed, 14 Oct 2020 13:29:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org F1AA7C433C9
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [PATCH 1/2] arm64: dts: qcom: sc7180: Add gpu cooling support
-To: Matthias Kaehlcke <mka@chromium.org>,
- Doug Anderson <dianders@chromium.org>, manafm@codeaurora.org
-References: <1602176947-17385-1-git-send-email-akhilpo@codeaurora.org>
- <CAD=FV=WjWv040TyBaqU8ZAuxGi-YpJ2tsVcUbOV4Htv=_-n8fA@mail.gmail.com>
- <20201009165705.GA1292413@google.com>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <fc490021-b046-68c5-7ceb-9c63d3ff5650@codeaurora.org>
-Date: Wed, 14 Oct 2020 18:59:26 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F80B6EC2A;
+	Thu, 15 Oct 2020 07:08:38 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC256EA97
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 14:34:52 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id n15so4171831wrq.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 07:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mpnbVKj5Qvt4DLAKTdCVqMoS29Ls9wg8TdVumw+fCxI=;
+ b=vCMS6T6nHEkh+s+Q2LVJ98o8dY2qydszI5cCQbV5feZqTzhNuEOXvuV+k4ViVXXLBg
+ AAwjwORQfzTpmXQ+7JBR7bWx+2Clt3yI/2f5DG9FRpFbLcjkJsOGcStJ7P93PjPLOTwy
+ y4Ig0aDQ9U4vKR/AqHc7SyCyjxWNo3ZqcoKTOOtjCMjMs64TW2v/lavmWZ3dzD1KS5N/
+ GZOlV8wIwTuq6pMlOxNgx9/h+yw5R8CM1vlVdG0tJTCOL2w8NnzFzrTZmDliKDRZA+K0
+ Awb7BHd6dejw+JxPPveRl7R73heF3KL46Yu6m0tX7tWFIYVG0f5RchI1NAdmI6+aGil4
+ RRlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mpnbVKj5Qvt4DLAKTdCVqMoS29Ls9wg8TdVumw+fCxI=;
+ b=XePuwFzrXhe+2Utq3jRMSGlFyZHjKHYXUTi7eDW8XCHJCxucll49cJACycPnlwLeN1
+ MEbkklXIoXYA2I325tAVqpXCBFUMd9QQs8GEPKdWTfgC4z+FbmpZKoU9G92eUq6NEqw8
+ a1mvwytP1pCdB51+UKn8H8ur3csqyzyQVGbwHL/Lr5Lt6fPJqa7UYqKBibVAaUAD73FO
+ X6Nxcge4HY80vIg9q2/fyoGwgIC1Be8gjhmVOiY7/SzSgnvyBhbIZoF8RYkAUxwdrxyv
+ Qg98RfeNeBxxUpn9UIyXiknUBmcMGT/uw71O7m5KZ5ST4nz6i2iPvgnsDmfNO5nyx/zT
+ OEdQ==
+X-Gm-Message-State: AOAM530bFh6O9XRk9G7VEkVzBJb9iH+JYYwnrY1ZjVB99vYFEFNkzctf
+ LlXNP0oF2nowvnts+gusB6hRQw==
+X-Google-Smtp-Source: ABdhPJxIq6cbJb8jyXUYvZ0nHc3Wjr5aiEeT2TGg5YK+5ormUkrDUikCiPSvQ7U+JTvAn1RU0xXKbw==
+X-Received: by 2002:adf:f48c:: with SMTP id l12mr6283823wro.77.1602686090400; 
+ Wed, 14 Oct 2020 07:34:50 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:8b3:b79b:6fb0:3e8f?
+ ([2a01:e34:ed2f:f020:8b3:b79b:6fb0:3e8f])
+ by smtp.googlemail.com with ESMTPSA id z127sm4179758wmc.2.2020.10.14.07.34.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Oct 2020 07:34:49 -0700 (PDT)
+Subject: Re: [PATCH 2/5] thermal: devfreq_cooling: get a copy of device status
+To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20200921122007.29610-1-lukasz.luba@arm.com>
+ <20200921122007.29610-3-lukasz.luba@arm.com>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <199bf0e0-88b3-1908-c291-92c85bfe06b1@linaro.org>
+Date: Wed, 14 Oct 2020 16:34:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201009165705.GA1292413@google.com>
+In-Reply-To: <20200921122007.29610-3-lukasz.luba@arm.com>
 Content-Language: en-US
+X-Mailman-Approved-At: Thu, 15 Oct 2020 07:08:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,97 +73,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: amit.kucheria@verdurent.com, airlied@linux.ie, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, orjan.eide@arm.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/9/2020 10:27 PM, Matthias Kaehlcke wrote:
-> On Fri, Oct 09, 2020 at 08:05:10AM -0700, Doug Anderson wrote:
->> Hi,
->>
->> On Thu, Oct 8, 2020 at 10:10 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
->>>
->>> Add cooling-cells property and the cooling maps for the gpu tzones
->>> to support GPU cooling.
->>>
->>> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
->>> ---
->>>   arch/arm64/boot/dts/qcom/sc7180.dtsi | 29 ++++++++++++++++++++++-------
->>>   1 file changed, 22 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
->>> index d46b383..40d6a28 100644
->>> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
->>> @@ -2,7 +2,7 @@
->>>   /*
->>>    * SC7180 SoC device tree source
->>>    *
->>> - * Copyright (c) 2019, The Linux Foundation. All rights reserved.
->>> + * Copyright (c) 2019-20, The Linux Foundation. All rights reserved.
->>>    */
->>>
->>>   #include <dt-bindings/clock/qcom,dispcc-sc7180.h>
->>> @@ -1885,6 +1885,7 @@
->>>                          iommus = <&adreno_smmu 0>;
->>>                          operating-points-v2 = <&gpu_opp_table>;
->>>                          qcom,gmu = <&gmu>;
->>> +                       #cooling-cells = <2>;
->>
->> Presumably we should add this to the devicetree bindings, too?
-Yes, thanks for catching this. Will update in the next patch.
-
->>
->>
->>>                          interconnects = <&gem_noc MASTER_GFX3D &mc_virt SLAVE_EBI1>;
->>>                          interconnect-names = "gfx-mem";
->>> @@ -3825,16 +3826,16 @@
->>>                  };
->>>
->>>                  gpuss0-thermal {
->>> -                       polling-delay-passive = <0>;
->>> +                       polling-delay-passive = <100>;
->>
->> Why did you make this change?  I'm pretty sure that we _don't_ want
->> this since we're using interrupts for the thermal sensor.  See commit
->> 22337b91022d ("arm64: dts: qcom: sc7180: Changed polling mode in
->> Thermal-zones node").
-> 
-> I was going to ask the same, this shouldn't be needed.
-> 
->>>                          polling-delay = <0>;
->>>
->>>                          thermal-sensors = <&tsens0 13>;
->>>
->>>                          trips {
->>>                                  gpuss0_alert0: trip-point0 {
->>> -                                       temperature = <90000>;
->>> +                                       temperature = <95000>;
->>>                                          hysteresis = <2000>;
->>> -                                       type = "hot";
->>> +                                       type = "passive";
->>
->> Matthias probably knows better, but I wonder if we should be making
->> two passive trip levels like we do with CPU.  IIRC this is important
->> if someone wants to be able to use this with IPA.
-> 
-> Yes, please introduce a second trip point and make both of them
-> 'passive'.
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
-Adding Manaf here.
-
--Akhil.
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjEvMDkvMjAyMCAxNDoyMCwgTHVrYXN6IEx1YmEgd3JvdGU6Cj4gRGV2ZnJlcSBjb29saW5n
+IG5lZWRzIHRvIG5vdyB0aGUgY29ycmVjdCBzdGF0dXMgb2YgdGhlIGRldmljZSBpbiBvcmRlcgo+
+IHRvIG9wZXJhdGUuIERvIG5vdCByZWx5IG9uIERldmZyZXEgbGFzdF9zdGF0dXMgd2hpY2ggbWln
+aHQgYmUgYSBzdGFsZSBkYXRhCj4gYW5kIGdldCBtb3JlIHVwLXRvLWRhdGUgdmFsdWVzIG9mIHRo
+ZSBsb2FkLgo+IAo+IERldmZyZXEgZnJhbWV3b3JrIGNhbiBjaGFuZ2UgdGhlIGRldmljZSBzdGF0
+dXMgaW4gdGhlIGJhY2tncm91bmQuIFRvCj4gbWl0aWdhdGUgdGhpcyBzaXR1YXRpb24gbWFrZSBh
+IGNvcHkgb2YgdGhlIHN0YXR1cyBzdHJ1Y3R1cmUgYW5kIHVzZSBpdAo+IGZvciBpbnRlcm5hbCBj
+YWxjdWxhdGlvbnMuCj4gCj4gSW4gYWRkaXRpb24gdGhpcyBwYXRjaCBhZGRzIG5vcm1hbGl6YXRp
+b24gZnVuY3Rpb24sIHdoaWNoIGFsc28gbWFrZXMgc3VyZQo+IHRoYXQgd2hhdGV2ZXIgZGF0YSBj
+b21lcyBmcm9tIHRoZSBkZXZpY2UsIGl0IGlzIGluIGEgc2FuZSByYW5nZS4KPiAKPiBTaWduZWQt
+b2ZmLWJ5OiBMdWthc3ogTHViYSA8bHVrYXN6Lmx1YmFAYXJtLmNvbT4KPiAtLS0KPiAgZHJpdmVy
+cy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jIHwgNTIgKysrKysrKysrKysrKysrKysrKysrKysr
+Ky0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNDMgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMo
+LSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jIGIv
+ZHJpdmVycy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jCj4gaW5kZXggNzA2M2NjYjdiODZkLi5j
+ZjA0NWJkNGQxNmIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy90aGVybWFsL2RldmZyZXFfY29vbGlu
+Zy5jCj4gKysrIGIvZHJpdmVycy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jCj4gQEAgLTIyNyw2
+ICsyMjcsMjQgQEAgc3RhdGljIGlubGluZSB1bnNpZ25lZCBsb25nIGdldF90b3RhbF9wb3dlcihz
+dHJ1Y3QgZGV2ZnJlcV9jb29saW5nX2RldmljZSAqZGZjLAo+ICAJCQkJCQkJICAgICAgIHZvbHRh
+Z2UpOwo+ICB9Cj4gIAo+ICtzdGF0aWMgdm9pZCBfbm9ybWFsaXplX2xvYWQoc3RydWN0IGRldmZy
+ZXFfZGV2X3N0YXR1cyAqc3RhdHVzKQo+ICt7Cj4gKwkvKiBNYWtlIHNvbWUgc3BhY2UgaWYgbmVl
+ZGVkICovCj4gKwlpZiAoc3RhdHVzLT5idXN5X3RpbWUgPiAweGZmZmYpIHsKPiArCQlzdGF0dXMt
+PmJ1c3lfdGltZSA+Pj0gMTA7Cj4gKwkJc3RhdHVzLT50b3RhbF90aW1lID4+PSAxMDsKPiArCX0K
+PiArCj4gKwlpZiAoc3RhdHVzLT5idXN5X3RpbWUgPiBzdGF0dXMtPnRvdGFsX3RpbWUpCj4gKwkJ
+c3RhdHVzLT5idXN5X3RpbWUgPSBzdGF0dXMtPnRvdGFsX3RpbWU7Cj4gKwo+ICsJc3RhdHVzLT5i
+dXN5X3RpbWUgKj0gMTAwOwo+ICsJc3RhdHVzLT5idXN5X3RpbWUgLz0gc3RhdHVzLT50b3RhbF90
+aW1lID8gOiAxOwo+ICsKPiArCS8qIEF2b2lkIGRpdmlzaW9uIGJ5IDAgKi8KPiArCXN0YXR1cy0+
+YnVzeV90aW1lID0gc3RhdHVzLT5idXN5X3RpbWUgPyA6IDE7Cj4gKwlzdGF0dXMtPnRvdGFsX3Rp
+bWUgPSAxMDA7Cj4gK30KCk5vdCBzdXJlIHRoYXQgd29ya3MgaWYgdGhlIGRldmZyZXEgZ292ZXJu
+b3IgaXMgbm90IG9uLWRlbWFuZC4KCklzIGl0IHBvc3NpYmxlIHRvIHVzZSB0aGUgZW5lcmd5IG1v
+ZGVsIGRpcmVjdGx5IGluIGRldmZyZXEgdG8gY29tcHV0ZQp0aGUgZW5lcmd5IGNvbnN1bXB0aW9u
+IGdpdmVuIHRoZSBzdGF0ZSB0cmFuc2l0aW9ucyBzaW5jZSB0aGUgbGFzdCByZWFkaW5nID8KClRo
+ZSBwb3dlciB3aWxsIGJlIHJlYWQgZGlyZWN0bHkgZnJvbSBkZXZmcmVxIHdoaWNoIHdpbGwgcmV0
+dXJuOgoKbnJqICsgKGN1cnJlbnRfcG93ZXIgKiAoamlmZmllcyAtIGxhc3RfdXBkYXRlKSkgLyAo
+amlmZmllcyAtIGxhc3RfdXBkYXRlKQoKVGhlIGRldmZyZXEgY29vbGluZyBkZXZpY2UgZHJpdmVy
+IHdvdWxkIHJlc3VsdCBpbiBhIG11Y2ggc2ltcGxlciBjb2RlLCBubz8KCj4gIHN0YXRpYyBpbnQg
+ZGV2ZnJlcV9jb29saW5nX2dldF9yZXF1ZXN0ZWRfcG93ZXIoc3RydWN0IHRoZXJtYWxfY29vbGlu
+Z19kZXZpY2UgKmNkZXYsCj4gIAkJCQkJICAgICAgIHN0cnVjdCB0aGVybWFsX3pvbmVfZGV2aWNl
+ICp0eiwKPiBAQCAtMjM0LDE0ICsyNTIsMjIgQEAgc3RhdGljIGludCBkZXZmcmVxX2Nvb2xpbmdf
+Z2V0X3JlcXVlc3RlZF9wb3dlcihzdHJ1Y3QgdGhlcm1hbF9jb29saW5nX2RldmljZSAqY2QKPiAg
+ewo+ICAJc3RydWN0IGRldmZyZXFfY29vbGluZ19kZXZpY2UgKmRmYyA9IGNkZXYtPmRldmRhdGE7
+Cj4gIAlzdHJ1Y3QgZGV2ZnJlcSAqZGYgPSBkZmMtPmRldmZyZXE7Cj4gLQlzdHJ1Y3QgZGV2ZnJl
+cV9kZXZfc3RhdHVzICpzdGF0dXMgPSAmZGYtPmxhc3Rfc3RhdHVzOwo+ICsJc3RydWN0IGRldmZy
+ZXFfZGV2X3N0YXR1cyBzdGF0dXM7Cj4gIAl1bnNpZ25lZCBsb25nIHN0YXRlOwo+IC0JdW5zaWdu
+ZWQgbG9uZyBmcmVxID0gc3RhdHVzLT5jdXJyZW50X2ZyZXF1ZW5jeTsKPiArCXVuc2lnbmVkIGxv
+bmcgZnJlcTsKPiAgCXVuc2lnbmVkIGxvbmcgdm9sdGFnZTsKPiAgCXUzMiBkeW5fcG93ZXIgPSAw
+Owo+ICAJdTMyIHN0YXRpY19wb3dlciA9IDA7Cj4gIAlpbnQgcmVzOwo+ICAKPiArCW11dGV4X2xv
+Y2soJmRmLT5sb2NrKTsKPiArCXJlcyA9IGRmLT5wcm9maWxlLT5nZXRfZGV2X3N0YXR1cyhkZi0+
+ZGV2LnBhcmVudCwgJnN0YXR1cyk7Cj4gKwltdXRleF91bmxvY2soJmRmLT5sb2NrKTsKPiArCWlm
+IChyZXMpCj4gKwkJcmV0dXJuIHJlczsKPiArCj4gKwlmcmVxID0gc3RhdHVzLmN1cnJlbnRfZnJl
+cXVlbmN5Owo+ICsKPiAgCXN0YXRlID0gZnJlcV9nZXRfc3RhdGUoZGZjLCBmcmVxKTsKPiAgCWlm
+IChzdGF0ZSA9PSBUSEVSTUFMX0NTVEFURV9JTlZBTElEKSB7Cj4gIAkJcmVzID0gLUVBR0FJTjsK
+PiBAQCAtMjY5LDE2ICsyOTUsMTggQEAgc3RhdGljIGludCBkZXZmcmVxX2Nvb2xpbmdfZ2V0X3Jl
+cXVlc3RlZF9wb3dlcihzdHJ1Y3QgdGhlcm1hbF9jb29saW5nX2RldmljZSAqY2QKPiAgCX0gZWxz
+ZSB7Cj4gIAkJZHluX3Bvd2VyID0gZGZjLT5wb3dlcl90YWJsZVtzdGF0ZV07Cj4gIAo+ICsJCV9u
+b3JtYWxpemVfbG9hZCgmc3RhdHVzKTsKPiArCj4gIAkJLyogU2NhbGUgZHluYW1pYyBwb3dlciBm
+b3IgdXRpbGl6YXRpb24gKi8KPiAtCQlkeW5fcG93ZXIgKj0gc3RhdHVzLT5idXN5X3RpbWU7Cj4g
+LQkJZHluX3Bvd2VyIC89IHN0YXR1cy0+dG90YWxfdGltZTsKPiArCQlkeW5fcG93ZXIgKj0gc3Rh
+dHVzLmJ1c3lfdGltZTsKPiArCQlkeW5fcG93ZXIgLz0gc3RhdHVzLnRvdGFsX3RpbWU7Cj4gIAkJ
+LyogR2V0IHN0YXRpYyBwb3dlciAqLwo+ICAJCXN0YXRpY19wb3dlciA9IGdldF9zdGF0aWNfcG93
+ZXIoZGZjLCBmcmVxKTsKPiAgCj4gIAkJKnBvd2VyID0gZHluX3Bvd2VyICsgc3RhdGljX3Bvd2Vy
+Owo+ICAJfQo+ICAKPiAtCXRyYWNlX3RoZXJtYWxfcG93ZXJfZGV2ZnJlcV9nZXRfcG93ZXIoY2Rl
+diwgc3RhdHVzLCBmcmVxLCAqcG93ZXIpOwo+ICsJdHJhY2VfdGhlcm1hbF9wb3dlcl9kZXZmcmVx
+X2dldF9wb3dlcihjZGV2LCAmc3RhdHVzLCBmcmVxLCAqcG93ZXIpOwo+ICAKPiAgCXJldHVybiAw
+Owo+ICBmYWlsOgo+IEBAIC0zMTIsMTQgKzM0MCwyMCBAQCBzdGF0aWMgaW50IGRldmZyZXFfY29v
+bGluZ19wb3dlcjJzdGF0ZShzdHJ1Y3QgdGhlcm1hbF9jb29saW5nX2RldmljZSAqY2RldiwKPiAg
+ewo+ICAJc3RydWN0IGRldmZyZXFfY29vbGluZ19kZXZpY2UgKmRmYyA9IGNkZXYtPmRldmRhdGE7
+Cj4gIAlzdHJ1Y3QgZGV2ZnJlcSAqZGYgPSBkZmMtPmRldmZyZXE7Cj4gLQlzdHJ1Y3QgZGV2ZnJl
+cV9kZXZfc3RhdHVzICpzdGF0dXMgPSAmZGYtPmxhc3Rfc3RhdHVzOwo+IC0JdW5zaWduZWQgbG9u
+ZyBmcmVxID0gc3RhdHVzLT5jdXJyZW50X2ZyZXF1ZW5jeTsKPiArCXN0cnVjdCBkZXZmcmVxX2Rl
+dl9zdGF0dXMgc3RhdHVzOwo+ICAJdW5zaWduZWQgbG9uZyBidXN5X3RpbWU7Cj4gKwl1bnNpZ25l
+ZCBsb25nIGZyZXE7Cj4gIAlzMzIgZHluX3Bvd2VyOwo+ICAJdTMyIHN0YXRpY19wb3dlcjsKPiAg
+CXMzMiBlc3RfcG93ZXI7Cj4gIAlpbnQgaTsKPiAgCj4gKwltdXRleF9sb2NrKCZkZi0+bG9jayk7
+Cj4gKwlzdGF0dXMgPSBkZi0+bGFzdF9zdGF0dXM7Cj4gKwltdXRleF91bmxvY2soJmRmLT5sb2Nr
+KTsKPiArCj4gKwlmcmVxID0gc3RhdHVzLmN1cnJlbnRfZnJlcXVlbmN5Owo+ICsKPiAgCWlmIChk
+ZmMtPnBvd2VyX29wcy0+Z2V0X3JlYWxfcG93ZXIpIHsKPiAgCQkvKiBTY2FsZSBmb3IgcmVzb3Vy
+Y2UgdXRpbGl6YXRpb24gKi8KPiAgCQllc3RfcG93ZXIgPSBwb3dlciAqIGRmYy0+cmVzX3V0aWw7
+Cj4gQEAgLTMzMSw4ICszNjUsOCBAQCBzdGF0aWMgaW50IGRldmZyZXFfY29vbGluZ19wb3dlcjJz
+dGF0ZShzdHJ1Y3QgdGhlcm1hbF9jb29saW5nX2RldmljZSAqY2RldiwKPiAgCQlkeW5fcG93ZXIg
+PSBkeW5fcG93ZXIgPiAwID8gZHluX3Bvd2VyIDogMDsKPiAgCj4gIAkJLyogU2NhbGUgZHluYW1p
+YyBwb3dlciBmb3IgdXRpbGl6YXRpb24gKi8KPiAtCQlidXN5X3RpbWUgPSBzdGF0dXMtPmJ1c3lf
+dGltZSA/OiAxOwo+IC0JCWVzdF9wb3dlciA9IChkeW5fcG93ZXIgKiBzdGF0dXMtPnRvdGFsX3Rp
+bWUpIC8gYnVzeV90aW1lOwo+ICsJCWJ1c3lfdGltZSA9IHN0YXR1cy5idXN5X3RpbWUgPzogMTsK
+PiArCQllc3RfcG93ZXIgPSAoZHluX3Bvd2VyICogc3RhdHVzLnRvdGFsX3RpbWUpIC8gYnVzeV90
+aW1lOwo+ICAJfQo+ICAKPiAgCS8qCj4gCgoKLS0gCjxodHRwOi8vd3d3LmxpbmFyby5vcmcvPiBM
+aW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQVJNIFNvQ3MKCkZvbGxvdyBM
+aW5hcm86ICA8aHR0cDovL3d3dy5mYWNlYm9vay5jb20vcGFnZXMvTGluYXJvPiBGYWNlYm9vayB8
+CjxodHRwOi8vdHdpdHRlci5jb20vIyEvbGluYXJvb3JnPiBUd2l0dGVyIHwKPGh0dHA6Ly93d3cu
+bGluYXJvLm9yZy9saW5hcm8tYmxvZy8+IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
