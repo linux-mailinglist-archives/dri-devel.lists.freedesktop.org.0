@@ -1,33 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C05128E03F
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Oct 2020 14:02:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3808428ED71
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 09:08:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 741866E0BA;
-	Wed, 14 Oct 2020 12:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EAC06EC25;
+	Thu, 15 Oct 2020 07:08:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBD1B6E0BA
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Oct 2020 12:02:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8F5A3AC6D;
- Wed, 14 Oct 2020 12:02:48 +0000 (UTC)
-Date: Wed, 14 Oct 2020 14:02:47 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH drm/hisilicon 2/2] drm/hisilicon: Use the same style of
- variable type in hibmc_drm_drv
-Message-ID: <20201014140247.154ed8ee@linux-uq9g>
-In-Reply-To: <1601449988-41463-3-git-send-email-tiantao6@hisilicon.com>
-References: <1601449988-41463-1-git-send-email-tiantao6@hisilicon.com>
- <1601449988-41463-3-git-send-email-tiantao6@hisilicon.com>
-Organization: SUSE Software Solutions Germany GmbH
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
-MIME-Version: 1.0
+X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
+ Wed, 14 Oct 2020 13:04:47 UTC
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE10A6EA78;
+ Wed, 14 Oct 2020 13:04:47 +0000 (UTC)
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 14 Oct 2020 05:58:42 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 14 Oct 2020 05:58:41 -0700
+X-QCInternal: smtphost
+Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 14 Oct 2020 18:28:21 +0530
+Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
+ id 5D0242141F; Wed, 14 Oct 2020 18:28:20 +0530 (IST)
+From: Krishna Manikandan <mkrishn@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v1] drm/msm: Fix race condition in msm driver with async layer
+ updates
+Date: Wed, 14 Oct 2020 18:28:16 +0530
+Message-Id: <1602680296-8965-1-git-send-email-mkrishn@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Thu, 15 Oct 2020 07:08:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,70 +46,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linuxarm@huawei.com, xinliang.liu@linaro.org,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>, linux-kernel@vger.kernel.org,
+ dianders@chromium.org, seanpaul@chromium.org, kalyan_t@codeaurora.org,
+ hoegsberg@chromium.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCk9uIFdlZCwgMzAgU2VwIDIwMjAgMTU6MTM6MDggKzA4MDAgVGlhbiBUYW8gPHRpYW50YW82
-QGhpc2lsaWNvbi5jb20+IHdyb3RlOgoKPiBDb25zaXN0ZW50bHkgVXNlIHRoZSBzYW1lIHN0eWxl
-IG9mIHZhcmlhYmxlIHR5cGUgaW4gaGlibWNfZHJtX2RlLmMgYW5kCj4gaGlibWNfZHJtX2RlLmgu
-Cj4gCj4gU2lnbmVkLW9mZi1ieTogVGlhbiBUYW8gPHRpYW50YW82QGhpc2lsaWNvbi5jb20+Cj4g
-LS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jIHwg
-MTMgKysrKysrLS0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1j
-X2RybV9kcnYuaCB8ICA4ICsrKystLS0tCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0aW9u
-cygrKSwgMTEgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9o
-aXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vaGlzaWxp
-Y29uL2hpYm1jL2hpYm1jX2RybV9kcnYuYyBpbmRleCA1NjMyYmNlLi4wYzFiNDBkCj4gMTAwNjQ0
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2LmMKPiBA
-QCAtMTIxLDEyICsxMjEsMTEgQEAgc3RhdGljIHZvaWQgaGlibWNfa21zX2Zpbmkoc3RydWN0IGhp
-Ym1jX2RybV9wcml2YXRlCj4gKnByaXYpIC8qCj4gICAqIEl0IGNhbiBvcGVyYXRlIGluIG9uZSBv
-ZiB0aHJlZSBtb2RlczogMCwgMSBvciBTbGVlcC4KPiAgICovCj4gLXZvaWQgaGlibWNfc2V0X3Bv
-d2VyX21vZGUoc3RydWN0IGhpYm1jX2RybV9wcml2YXRlICpwcml2LAo+IC0JCQkgIHVuc2lnbmVk
-IGludCBwb3dlcl9tb2RlKQo+ICt2b2lkIGhpYm1jX3NldF9wb3dlcl9tb2RlKHN0cnVjdCBoaWJt
-Y19kcm1fcHJpdmF0ZSAqcHJpdiwgdTMyIHBvd2VyX21vZGUpCj4gIHsKPiAtCXVuc2lnbmVkIGlu
-dCBjb250cm9sX3ZhbHVlID0gMDsKPiArCXUzMiBjb250cm9sX3ZhbHVlID0gMDsKPiAgCXZvaWQg
-X19pb21lbSAgICptbWlvID0gcHJpdi0+bW1pbzsKPiAtCXVuc2lnbmVkIGludCBpbnB1dCA9IDE7
-Cj4gKwl1MzIgaW5wdXQgPSAxOwo+ICAKPiAgCWlmIChwb3dlcl9tb2RlID4gSElCTUNfUFdfTU9E
-RV9DVExfTU9ERV9TTEVFUCkKPiAgCQlyZXR1cm47Cj4gQEAgLTE0NCw4ICsxNDMsOCBAQCB2b2lk
-IGhpYm1jX3NldF9wb3dlcl9tb2RlKHN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZQo+ICpwcml2LCAK
-PiAgdm9pZCBoaWJtY19zZXRfY3VycmVudF9nYXRlKHN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZSAq
-cHJpdiwgdW5zaWduZWQgaW50Cj4gZ2F0ZSkgewo+IC0JdW5zaWduZWQgaW50IGdhdGVfcmVnOwo+
-IC0JdW5zaWduZWQgaW50IG1vZGU7Cj4gKwl1MzIgZ2F0ZV9yZWc7Cj4gKwl1MzIgbW9kZTsKPiAg
-CXZvaWQgX19pb21lbSAgICptbWlvID0gcHJpdi0+bW1pbzsKPiAgCj4gIAkvKiBHZXQgY3VycmVu
-dCBwb3dlciBtb2RlLiAqLwo+IEBAIC0xNzAsNyArMTY5LDcgQEAgdm9pZCBoaWJtY19zZXRfY3Vy
-cmVudF9nYXRlKHN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZQo+ICpwcml2LCB1bnNpZ25lZCBpbnQg
-Z2F0ZSkgCj4gIHN0YXRpYyB2b2lkIGhpYm1jX2h3X2NvbmZpZyhzdHJ1Y3QgaGlibWNfZHJtX3By
-aXZhdGUgKnByaXYpCj4gIHsKPiAtCXVuc2lnbmVkIGludCByZWc7Cj4gKwl1MzIgcmVnOwo+ICAK
-PiAgCS8qIE9uIGhhcmR3YXJlIHJlc2V0LCBwb3dlciBtb2RlIDAgaXMgZGVmYXVsdC4gKi8KPiAg
-CWhpYm1jX3NldF9wb3dlcl9tb2RlKHByaXYsIEhJQk1DX1BXX01PREVfQ1RMX01PREVfTU9ERTAp
-Owo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2Ry
-bV9kcnYuaAo+IGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2
-LmggaW5kZXggNmE2MzUwMi4uNWM0MDMwZAo+IDEwMDY0NCAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-aGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9o
-aXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5oCj4gQEAgLTMzLDggKzMzLDggQEAgc3RydWN0
-IGhpYm1jX2RybV9wcml2YXRlIHsKPiAgCS8qIGh3ICovCj4gIAl2b2lkIF9faW9tZW0gICAqbW1p
-bzsKPiAgCXZvaWQgX19pb21lbSAgICpmYl9tYXA7Cj4gLQl1bnNpZ25lZCBsb25nICBmYl9iYXNl
-Owo+IC0JdW5zaWduZWQgbG9uZyAgZmJfc2l6ZTsKPiArCXU2NCAgZmJfYmFzZTsKPiArCXU2NCAg
-ZmJfc2l6ZTsKCnJlc291cmNlX3NpemVfdCB3b3VsZCBiZSB0aGUgY29ycmVjdCB0eXBlIGhlcmUu
-CgpXaXRoIG15IGNvbW1lbnRzIGFkZHJlc3NlZDoKCkFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFu
-biA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KCkJlc3QgcmVnYXJkcwpUaG9tYXMKCj4gIAo+ICAJLyog
-ZHJtICovCj4gIAlzdHJ1Y3QgZHJtX2RldmljZSAgKmRldjsKPiBAQCAtNTYsOSArNTYsOSBAQCBz
-dGF0aWMgaW5saW5lIHN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZQo+ICp0b19oaWJtY19kcm1fcHJp
-dmF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqIH0KPiAgCj4gIHZvaWQgaGlibWNfc2V0X3Bvd2VyX21v
-ZGUoc3RydWN0IGhpYm1jX2RybV9wcml2YXRlICpwcml2LAo+IC0JCQkgIHVuc2lnbmVkIGludCBw
-b3dlcl9tb2RlKTsKPiArCQkJICB1MzIgcG93ZXJfbW9kZSk7Cj4gIHZvaWQgaGlibWNfc2V0X2N1
-cnJlbnRfZ2F0ZShzdHJ1Y3QgaGlibWNfZHJtX3ByaXZhdGUgKnByaXYsCj4gLQkJCSAgICB1bnNp
-Z25lZCBpbnQgZ2F0ZSk7Cj4gKwkJCSAgICB1MzIgZ2F0ZSk7Cj4gIAo+ICBpbnQgaGlibWNfZGVf
-aW5pdChzdHJ1Y3QgaGlibWNfZHJtX3ByaXZhdGUgKnByaXYpOwo+ICBpbnQgaGlibWNfdmRhY19p
-bml0KHN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZSAqcHJpdik7CgoKCi0tIApUaG9tYXMgWmltbWVy
-bWFubgpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdl
-cm1hbnkgR21iSApNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKKEhSQiAz
-NjgwOSwgQUcgTsO8cm5iZXJnKQpHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVy
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+When there are back to back commits with async cursor update,
+there is a case where second commit can program the DPU hw
+blocks while first didn't complete flushing config to HW.
+
+Synchronize the compositions such that second commit waits
+until first commit flushes the composition.
+
+This change also introduces per crtc commit lock, such that
+commits on different crtcs are not blocked by each other.
+
+Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 26 ++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_atomic.c         | 35 ++++++++++++++++++++++----------
+ drivers/gpu/drm/msm/msm_kms.h            |  5 +++++
+ 5 files changed, 57 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index c2729f7..9024719 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -1383,6 +1383,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+ 
+ 	/* initialize event handling */
+ 	spin_lock_init(&dpu_crtc->event_lock);
++	mutex_init(&dpu_crtc->commit_lock);
+ 
+ 	DPU_DEBUG("%s: successfully initialized crtc\n", dpu_crtc->name);
+ 	return crtc;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+index cec3474..1eeb73d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+@@ -169,6 +169,7 @@ struct dpu_crtc {
+ 
+ 	/* for handling internal event thread */
+ 	spinlock_t event_lock;
++	struct mutex commit_lock;
+ 
+ 	struct dpu_core_perf_params cur_perf;
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index c0a4d4e..f99ae7a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -445,6 +445,30 @@ static void dpu_kms_wait_flush(struct msm_kms *kms, unsigned crtc_mask)
+ 		dpu_kms_wait_for_commit_done(kms, crtc);
+ }
+ 
++static void dpu_kms_commit_lock(struct msm_kms *kms, unsigned int crtc_mask)
++{
++	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
++	struct drm_crtc *crtc;
++	struct dpu_crtc *dpu_crtc;
++
++	for_each_crtc_mask(dpu_kms->dev, crtc, crtc_mask) {
++		dpu_crtc = to_dpu_crtc(crtc);
++		mutex_lock(&dpu_crtc->commit_lock);
++	}
++}
++
++static void dpu_kms_commit_unlock(struct msm_kms *kms, unsigned int crtc_mask)
++{
++	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
++	struct drm_crtc *crtc;
++	struct dpu_crtc *dpu_crtc;
++
++	for_each_crtc_mask(dpu_kms->dev, crtc, crtc_mask) {
++		dpu_crtc = to_dpu_crtc(crtc);
++		mutex_unlock(&dpu_crtc->commit_lock);
++	}
++}
++
+ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
+ 				    struct msm_drm_private *priv,
+ 				    struct dpu_kms *dpu_kms)
+@@ -738,6 +762,8 @@ static const struct msm_kms_funcs kms_funcs = {
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init    = dpu_kms_debugfs_init,
+ #endif
++	.commit_lock     = dpu_kms_commit_lock,
++	.commit_unlock   = dpu_kms_commit_unlock,
+ };
+ 
+ static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms)
+diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+index 561bfa4..d33253f 100644
+--- a/drivers/gpu/drm/msm/msm_atomic.c
++++ b/drivers/gpu/drm/msm/msm_atomic.c
+@@ -55,16 +55,32 @@ static void vblank_put(struct msm_kms *kms, unsigned crtc_mask)
+ 	}
+ }
+ 
++static void msm_commit_lock(struct msm_kms *kms, unsigned int crtc_mask)
++{
++	if (kms->funcs->commit_lock)
++		kms->funcs->commit_lock(kms, crtc_mask);
++	else
++		mutex_lock(&kms->commit_lock);
++}
++
++static void msm_commit_unlock(struct msm_kms *kms, unsigned int crtc_mask)
++{
++	if (kms->funcs->commit_unlock)
++		kms->funcs->commit_unlock(kms, crtc_mask);
++	else
++		mutex_unlock(&kms->commit_lock);
++}
++
+ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
+ {
+ 	unsigned crtc_mask = BIT(crtc_idx);
+ 
+ 	trace_msm_atomic_async_commit_start(crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
++	msm_commit_lock(kms, crtc_mask);
+ 
+ 	if (!(kms->pending_crtc_mask & crtc_mask)) {
+-		mutex_unlock(&kms->commit_lock);
++		msm_commit_unlock(kms, crtc_mask);
+ 		goto out;
+ 	}
+ 
+@@ -79,7 +95,6 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
+ 	 */
+ 	trace_msm_atomic_flush_commit(crtc_mask);
+ 	kms->funcs->flush_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
+ 
+ 	/*
+ 	 * Wait for flush to complete:
+@@ -90,9 +105,8 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
+ 
+ 	vblank_put(kms, crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
+ 	kms->funcs->complete_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
++	msm_commit_unlock(kms, crtc_mask);
+ 	kms->funcs->disable_commit(kms);
+ 
+ out:
+@@ -189,12 +203,11 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	 * Ensure any previous (potentially async) commit has
+ 	 * completed:
+ 	 */
++	msm_commit_lock(kms, crtc_mask);
+ 	trace_msm_atomic_wait_flush_start(crtc_mask);
+ 	kms->funcs->wait_flush(kms, crtc_mask);
+ 	trace_msm_atomic_wait_flush_finish(crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
+-
+ 	/*
+ 	 * Now that there is no in-progress flush, prepare the
+ 	 * current update:
+@@ -232,7 +245,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		}
+ 
+ 		kms->funcs->disable_commit(kms);
+-		mutex_unlock(&kms->commit_lock);
++		msm_commit_unlock(kms, crtc_mask);
+ 
+ 		/*
+ 		 * At this point, from drm core's perspective, we
+@@ -260,7 +273,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	 */
+ 	trace_msm_atomic_flush_commit(crtc_mask);
+ 	kms->funcs->flush_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
++	msm_commit_unlock(kms, crtc_mask);
+ 
+ 	/*
+ 	 * Wait for flush to complete:
+@@ -271,9 +284,9 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 
+ 	vblank_put(kms, crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
++	msm_commit_lock(kms, crtc_mask);
+ 	kms->funcs->complete_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
++	msm_commit_unlock(kms, crtc_mask);
+ 	kms->funcs->disable_commit(kms);
+ 
+ 	drm_atomic_helper_commit_hw_done(state);
+diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+index 1cbef6b..f02e73e 100644
+--- a/drivers/gpu/drm/msm/msm_kms.h
++++ b/drivers/gpu/drm/msm/msm_kms.h
+@@ -126,6 +126,11 @@ struct msm_kms_funcs {
+ 	/* debugfs: */
+ 	int (*debugfs_init)(struct msm_kms *kms, struct drm_minor *minor);
+ #endif
++	/* commit lock for crtc */
++	void (*commit_lock)(struct msm_kms *kms, unsigned int crtc_mask);
++
++	/* commit unlock for crtc */
++	void (*commit_unlock)(struct msm_kms *kms, unsigned int crtc_mask);
+ };
+ 
+ struct msm_kms;
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
