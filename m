@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E9928F992
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 21:35:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0810728F995
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 21:36:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781C789FA0;
-	Thu, 15 Oct 2020 19:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F466E043;
+	Thu, 15 Oct 2020 19:36:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7D8389FA0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 19:35:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E33576E043
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 19:36:06 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209673] divide_error in amdgpu freezes screen
-Date: Thu, 15 Oct 2020 19:35:36 +0000
+Date: Thu, 15 Oct 2020 19:36:06 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209673-2300-BkchGpgJaF@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-209673-2300-Jq5dViIhU3@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209673-2300@https.bugzilla.kernel.org/>
 References: <bug-209673-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,13 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209673
 
---- Comment #3 from cornelius.riemenschneider@googlemail.com ---
-Kernel is 5.8.14-arch1-1.
-
-I attached three dmesg outputs of the last two days, where each time the amdgpu
-driver seemed to cause a divide_error, and the screen froze.
-Audio playback, and in one case, video encoding (zoom call) continued working
-until I reset the system via the SysRq keys.
+--- Comment #4 from cornelius.riemenschneider@googlemail.com ---
+Created attachment 292995
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292995&action=edit
+crashing dmesg #1
 
 -- 
 You are receiving this mail because:
