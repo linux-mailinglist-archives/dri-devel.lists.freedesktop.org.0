@@ -1,44 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC91E28F8A5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 20:31:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7501028F8CE
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 20:42:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B531E6E270;
-	Thu, 15 Oct 2020 18:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E6EB6E139;
+	Thu, 15 Oct 2020 18:42:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A0406E222;
- Thu, 15 Oct 2020 18:31:29 +0000 (UTC)
-IronPort-SDR: eJR7aiJlhJVaY4itvF0NghpFbFjoU8ujFjdk3kKSqUh8XOqFTWIkX6ORjxJHAnATqxVeqc9dXb
- QDBkxISZgrbg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="165644555"
-X-IronPort-AV: E=Sophos;i="5.77,380,1596524400"; d="scan'208";a="165644555"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 11:31:28 -0700
-IronPort-SDR: 7GROFgBE4RCUigGB05d/0MNJRDcpjwBMp4DVTVwplIO3V8PkOlnsbghRcKmOUpz3ruAKKgNhWi
- h436yIC/KcPg==
-X-IronPort-AV: E=Sophos;i="5.77,380,1596524400"; d="scan'208";a="531365435"
-Received: from rdvivi-losangeles.jf.intel.com (HELO intel.com)
- ([10.165.21.201])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 11:31:28 -0700
-Date: Thu, 15 Oct 2020 14:33:13 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [Intel-gfx] [RFC v2 4/8] drm/i915/dp: Rename eDP VESA backlight
- interface functions
-Message-ID: <20201015183313.GD2616619@intel.com>
-References: <20200916171855.129511-1-lyude@redhat.com>
- <20200916171855.129511-5-lyude@redhat.com>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44EE36E139
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 18:42:43 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id a5so4151420ljj.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 11:42:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dw0XxsAm0N+xBFL5kuzzzttiWu26H5L6VPpZZ+p1K+Q=;
+ b=WUzSrl2W1MAsVn/qZ/fS9Hm0TAB8UoUns4rO41D2Ev/4lY06qhyR4V/dfGjo49/3F9
+ qF6QqX5XqRKgc2ZEoxerJCUvujPk9UZ4YbWpbs4OPfKOqXkcrp/7xo3biMGolLKVV5EU
+ uPwB97ePNYaE3YFEMLJFzu5dYVx4ce1tOZOJM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dw0XxsAm0N+xBFL5kuzzzttiWu26H5L6VPpZZ+p1K+Q=;
+ b=JOi0nCC6bVrKuKC/WpW6FLuBok2YLDin0kl4GhzfGU7HO+TupQRR/HooVeRnUyftwJ
+ PyPEO0MET5ECKGXPa4o3Cc9MdeCW98MnZPGxhaGvBvv0VJL/wpa2kzPfsmZ7Ey0AfaIs
+ WQaB1Wx7QBxaFfSPMF35mYGBBWs43cKRrywks6shm1fAZevJi9O1ww2HIMSucS2xlgTh
+ 4OSHohvAz8hV6GstUPnfJSKGdaiqYWgGO4x0rQ80CmmkVYyp6LKv9yqXMMAaT1WljVgy
+ UyuSHLXdMQFnJRR8pAee6tyw0VFqgjL0dAEpzb0cMQX2JQUTN1PR4QZSrliW99JR6Llf
+ etPQ==
+X-Gm-Message-State: AOAM531GrWD6ieeQ+62t5IzkqWHWdK4q2jAulJoY+T5xJn/qo3G0d4li
+ s0pGuzvKBkKspRkt21F5AVL/OJLLbUlYZw==
+X-Google-Smtp-Source: ABdhPJzGOpW2r9x9eTqotCGvcrQCEZgREEHgEKacUwV8gl2lrfVyUQEXb2fsavAG3RQSf9NlkbU8cA==
+X-Received: by 2002:a2e:3217:: with SMTP id y23mr42812ljy.300.1602787361193;
+ Thu, 15 Oct 2020 11:42:41 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com.
+ [209.85.208.179])
+ by smtp.gmail.com with ESMTPSA id j10sm1584726ljb.93.2020.10.15.11.42.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Oct 2020 11:42:39 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id f21so4182689ljh.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 11:42:39 -0700 (PDT)
+X-Received: by 2002:a2e:8815:: with SMTP id x21mr51353ljh.312.1602787358993;
+ Thu, 15 Oct 2020 11:42:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200916171855.129511-5-lyude@redhat.com>
+References: <CAPM=9txyMmW1DWhS--SuYQu4qDK1GPzgHJwxbAfhHT=hUsPODA@mail.gmail.com>
+ <CAHk-=wiP+S4K3yU+FqgGmF+EgcSgk04Eerf3gE-6qObicy346w@mail.gmail.com>
+In-Reply-To: <CAHk-=wiP+S4K3yU+FqgGmF+EgcSgk04Eerf3gE-6qObicy346w@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 15 Oct 2020 11:42:22 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgYNzhoYuUBsBcFq1TFA5C+Bie-2uzZkF2McO9joXxW0A@mail.gmail.com>
+Message-ID: <CAHk-=wgYNzhoYuUBsBcFq1TFA5C+Bie-2uzZkF2McO9joXxW0A@mail.gmail.com>
+Subject: Re: [git pull] drm next pull for 5.10-rc1
+To: Dave Airlie <airlied@gmail.com>, Eryk Brol <eryk.brol@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,181 +70,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Vasily Khoruzhick <anarsoul@gmail.com>,
- intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 16, 2020 at 01:18:51PM -0400, Lyude Paul wrote:
-> Since we're about to add support for a second type of backlight control
-> interface over DP AUX (specifically, Intel's proprietary HDR backlight
-> controls) let's rename all of the current backlight hooks we have for
-> vesa to make it clear that they're specific to the VESA interface and
-> not Intel's.
-> 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Cc: thaytan@noraisin.net
-> Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+On Thu, Oct 15, 2020 at 10:51 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> Thanks, looks good to me [..]
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Uhhuh. I already pushed things out, but my clang build (which I don't
+do between each merge) shows a problem:
 
-> ---
->  .../drm/i915/display/intel_dp_aux_backlight.c | 51 ++++++++++---------
->  1 file changed, 26 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index acbd7eb66cbe3..f601bcbe8ee46 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -25,7 +25,7 @@
->  #include "intel_display_types.h"
->  #include "intel_dp_aux_backlight.h"
->  
-> -static void set_aux_backlight_enable(struct intel_dp *intel_dp, bool enable)
-> +static void set_vesa_backlight_enable(struct intel_dp *intel_dp, bool enable)
->  {
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->  	u8 reg_val = 0;
-> @@ -56,7 +56,7 @@ static void set_aux_backlight_enable(struct intel_dp *intel_dp, bool enable)
->   * Read the current backlight value from DPCD register(s) based
->   * on if 8-bit(MSB) or 16-bit(MSB and LSB) values are supported
->   */
-> -static u32 intel_dp_aux_get_backlight(struct intel_connector *connector)
-> +static u32 intel_dp_aux_vesa_get_backlight(struct intel_connector *connector)
->  {
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> @@ -99,7 +99,8 @@ static u32 intel_dp_aux_get_backlight(struct intel_connector *connector)
->   * 8-bit or 16 bit value (MSB and LSB)
->   */
->  static void
-> -intel_dp_aux_set_backlight(const struct drm_connector_state *conn_state, u32 level)
-> +intel_dp_aux_vesa_set_backlight(const struct drm_connector_state *conn_state,
-> +				u32 level)
->  {
->  	struct intel_connector *connector = to_intel_connector(conn_state->connector);
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
-> @@ -129,7 +130,7 @@ intel_dp_aux_set_backlight(const struct drm_connector_state *conn_state, u32 lev
->   * - Where P = 2^Pn, where Pn is the value programmed by field 4:0 of the
->   *             EDP_PWMGEN_BIT_COUNT register (DPCD Address 00724h)
->   */
-> -static bool intel_dp_aux_set_pwm_freq(struct intel_connector *connector)
-> +static bool intel_dp_aux_vesa_set_pwm_freq(struct intel_connector *connector)
->  {
->  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
-> @@ -165,8 +166,8 @@ static bool intel_dp_aux_set_pwm_freq(struct intel_connector *connector)
->  	return true;
->  }
->  
-> -static void intel_dp_aux_enable_backlight(const struct intel_crtc_state *crtc_state,
-> -					  const struct drm_connector_state *conn_state)
-> +static void intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
-> +					       const struct drm_connector_state *conn_state)
->  {
->  	struct intel_connector *connector = to_intel_connector(conn_state->connector);
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
-> @@ -206,7 +207,7 @@ static void intel_dp_aux_enable_backlight(const struct intel_crtc_state *crtc_st
->  	}
->  
->  	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_FREQ_AUX_SET_CAP)
-> -		if (intel_dp_aux_set_pwm_freq(connector))
-> +		if (intel_dp_aux_vesa_set_pwm_freq(connector))
->  			new_dpcd_buf |= DP_EDP_BACKLIGHT_FREQ_AUX_SET_ENABLE;
->  
->  	if (new_dpcd_buf != dpcd_buf) {
-> @@ -217,18 +218,18 @@ static void intel_dp_aux_enable_backlight(const struct intel_crtc_state *crtc_st
->  		}
->  	}
->  
-> -	intel_dp_aux_set_backlight(conn_state,
-> -				   connector->panel.backlight.level);
-> -	set_aux_backlight_enable(intel_dp, true);
-> +	intel_dp_aux_vesa_set_backlight(conn_state,
-> +					connector->panel.backlight.level);
-> +	set_vesa_backlight_enable(intel_dp, true);
->  }
->  
-> -static void intel_dp_aux_disable_backlight(const struct drm_connector_state *old_conn_state)
-> +static void intel_dp_aux_vesa_disable_backlight(const struct drm_connector_state *old_conn_state)
->  {
-> -	set_aux_backlight_enable(enc_to_intel_dp(to_intel_encoder(old_conn_state->best_encoder)),
-> -				 false);
-> +	set_vesa_backlight_enable(enc_to_intel_dp(to_intel_encoder(old_conn_state->best_encoder)),
-> +				  false);
->  }
->  
-> -static u32 intel_dp_aux_calc_max_backlight(struct intel_connector *connector)
-> +static u32 intel_dp_aux_vesa_calc_max_backlight(struct intel_connector *connector)
->  {
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
-> @@ -308,24 +309,24 @@ static u32 intel_dp_aux_calc_max_backlight(struct intel_connector *connector)
->  	return max_backlight;
->  }
->  
-> -static int intel_dp_aux_setup_backlight(struct intel_connector *connector,
-> -					enum pipe pipe)
-> +static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector,
-> +					     enum pipe pipe)
->  {
->  	struct intel_panel *panel = &connector->panel;
->  
-> -	panel->backlight.max = intel_dp_aux_calc_max_backlight(connector);
-> +	panel->backlight.max = intel_dp_aux_vesa_calc_max_backlight(connector);
->  	if (!panel->backlight.max)
->  		return -ENODEV;
->  
->  	panel->backlight.min = 0;
-> -	panel->backlight.level = intel_dp_aux_get_backlight(connector);
-> +	panel->backlight.level = intel_dp_aux_vesa_get_backlight(connector);
->  	panel->backlight.enabled = panel->backlight.level != 0;
->  
->  	return 0;
->  }
->  
->  static bool
-> -intel_dp_aux_display_control_capable(struct intel_connector *connector)
-> +intel_dp_aux_supports_vesa_backlight(struct intel_connector *connector)
->  {
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> @@ -349,7 +350,7 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->  
->  	if (i915->params.enable_dpcd_backlight == 0 ||
-> -	    !intel_dp_aux_display_control_capable(intel_connector))
-> +	    !intel_dp_aux_supports_vesa_backlight(intel_connector))
->  		return -ENODEV;
->  
->  	/*
-> @@ -371,11 +372,11 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *intel_connector)
->  		return -ENODEV;
->  	}
->  
-> -	panel->backlight.setup = intel_dp_aux_setup_backlight;
-> -	panel->backlight.enable = intel_dp_aux_enable_backlight;
-> -	panel->backlight.disable = intel_dp_aux_disable_backlight;
-> -	panel->backlight.set = intel_dp_aux_set_backlight;
-> -	panel->backlight.get = intel_dp_aux_get_backlight;
-> +	panel->backlight.setup = intel_dp_aux_vesa_setup_backlight;
-> +	panel->backlight.enable = intel_dp_aux_vesa_enable_backlight;
-> +	panel->backlight.disable = intel_dp_aux_vesa_disable_backlight;
-> +	panel->backlight.set = intel_dp_aux_vesa_set_backlight;
-> +	panel->backlight.get = intel_dp_aux_vesa_get_backlight;
->  
->  	return 0;
->  }
-> -- 
-> 2.26.2
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+  drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:650:8:
+  warning: logical not is only applied to the left hand side of this
+comparison [-Wlogical-not-parentheses]
+                && !params[i].clock_force_enable == DSC_CLK_FORCE_DEFAULT) {
+                   ^                             ~~
+
+and I think clang is entirely right to complain about that code.
+
+Yes, the code may be correct, but even if it's correct, that's a
+really odd way to write things.
+
+Anyway, what it does is:
+
+   !params[i].clock_force_enable
+
+turns 0 into 1, and anything that isn't 0 into 0.
+
+And DSC_CLK_FORCE_DEFAULT has a value of 0, so what that line actually means is
+
+  (params[i].clock_force_enable == 0) == 0
+
+which obviously is
+
+  params[i].clock_force_enable != 0
+
+which in this case is the same as
+
+  params[i].clock_force_enable != DSC_CLK_FORCE_DEFAULT
+
+which may be what the code actually meant to do.
+
+So I suspect it does what it meant to do, but only because
+DSC_CLK_FORCE_DEFAULT also happens to be 0, which also acts as a
+boolean 'false'.
+
+But it's also possible that the '!' is a left-over, and the code
+actually _meant_ to do the exact reverse of that. I have no idea.
+
+This odd code was introduced by commit 0749ddeb7d6c ("drm/amd/display:
+Add DSC force disable to dsc_clock_en debugfs entry"), and can we
+please agree to not write this kind of obfuscated C code?
+
+               Linus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
