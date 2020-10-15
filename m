@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F132913EE
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 710D728EE65
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 10:22:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE6C6E217;
-	Sat, 17 Oct 2020 19:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88FA36EC1C;
+	Thu, 15 Oct 2020 08:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from script.cs.helsinki.fi (script.cs.helsinki.fi [128.214.11.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 838556E0CC
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 08:10:52 +0000 (UTC)
-X-DKIM: Courier DKIM Filter v0.50+pk-2017-10-25 mail.cs.helsinki.fi Thu,
- 15 Oct 2020 11:10:48 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.helsinki.fi;
- h=date:from:to:cc:subject:in-reply-to:message-id:references
- :mime-version:content-type; s=dkim20130528; bh=PsqLTnqbkQyhQKxXe
- V6MvaAmElLso9QGfdiutEPg14M=; b=I0hIeF2uwSCg4aw1GlF93p3PJRKCcZN2+
- K+y8VcopYAgGyWZpX6r/Q240qFn/vNH/2AGVOhK1GT85eNL5YrVenIbzyX64YwaQ
- PDo56GqYhs3Cm8r5Ub3SnD773CE9hofdpwSOz4aQ/gUmjFbBpbObCGGaKC6fDgXS
- CjMG6sFGWk=
-Received: from whs-18.cs.helsinki.fi (whs-18.cs.helsinki.fi [128.214.166.46])
- (TLS: TLSv1/SSLv3,256bits,AES256-GCM-SHA384)
- by mail.cs.helsinki.fi with ESMTPS; Thu, 15 Oct 2020 11:10:48 +0300
- id 00000000005A0932.000000005F880408.000016FC
-Date: Thu, 15 Oct 2020 11:10:48 +0300 (EEST)
-From: "=?ISO-8859-15?Q?Ilpo_J=E4rvinen?=" <ilpo.jarvinen@cs.helsinki.fi>
-X-X-Sender: ijjarvin@whs-18.cs.helsinki.fi
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: drm/ast something ate high-res modes (5.3->5.6 regression)
-In-Reply-To: <20201014090913.727e79bb@linux-uq9g>
-Message-ID: <alpine.DEB.2.20.2010151048080.21509@whs-18.cs.helsinki.fi>
-References: <alpine.DEB.2.20.2007081246050.12041@whs-18.cs.helsinki.fi>
- <5a3537c3-2c81-b9de-e4c7-c00577cdd43d@suse.de>
- <alpine.DEB.2.20.2009171407330.6530@whs-18.cs.helsinki.fi>
- <4ccd1076-29e3-044a-0696-fd205b100374@suse.de>
- <alpine.DEB.2.20.2010140938100.6967@whs-18.cs.helsinki.fi>
- <20201014090913.727e79bb@linux-uq9g>
-User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727826EC1C
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 08:22:51 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id m11so2117742otk.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 01:22:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RbfF8nokdxqbUPmfp9WHmzX//GvXPuhhpFjfx5IA4wQ=;
+ b=T9t6g+yo9ymX56V38aolG1A/9KAXyZikIasm30R3Ko9pDE6EYmLbKUHzK5HXSbKBO5
+ qbeM9yPK6Oz+xJGZMEgWEmIggYkYMU2WT+lQRC32PoOW9lfmZBB0rJTUStrIGRbZDE7u
+ 0WYfEqGYRzSUsx63jezpHV/KBj26eNgLxMvbQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RbfF8nokdxqbUPmfp9WHmzX//GvXPuhhpFjfx5IA4wQ=;
+ b=Y9OreIVEqqY6LtJKjIzJwBNC+ksWS6Wc+fmrrvtpHUoBk1UAD8AnqQSn/svOFH62x5
+ BcqfjSUJ7I6T4DpfFuZz5NtWcm9TcNjjkOXwNFMHNYqc1ObWoSMKfxMJO4T7ONlqBmuY
+ 34li2iK9lCIB6qBxZLDh99VHH77jDwtDJNJDGClJ6G/rTOeu7vrgWfGPoqFHLJjjA6Ih
+ zbYee5yXwrG/IK9UQxmTSaDsdPQY1yR8tL46N9TMuQ83HcVWOv0xEUIubVSaAHOE4gzp
+ F4rz6IvpkeJlTMapDG3VYETXcnr/QnKaWLrP5G1aTsOn9MI562P4GfO5E3ny7/6jCbCA
+ M1dg==
+X-Gm-Message-State: AOAM531UbjZ7zKLwdmr7giv173IxNsz1iF4wArskr/6nu+A8RG2sEJJQ
+ B1lLsvOmKl+6gfZwDM9znQgwwO9HjWy5M1ctJ2A8xg==
+X-Google-Smtp-Source: ABdhPJxXDNGfotqx0v5QajM2+CxwSI2ZMgsiK/moGuNgteF9MFJDikzgLrlsfcADZyubWdUn1wBehOQaLWfNouKU5kI=
+X-Received: by 2002:a05:6830:8b:: with SMTP id
+ a11mr1814721oto.303.1602750170682; 
+ Thu, 15 Oct 2020 01:22:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="=_script-5902-1602749448-0001-2"
-X-Mailman-Approved-At: Sat, 17 Oct 2020 19:04:47 +0000
+References: <20201012020958.229288-1-robdclark@gmail.com>
+ <20201012020958.229288-23-robdclark@gmail.com>
+ <20201012144018.GB438822@phenom.ffwll.local>
+ <CAF6AEGuZ0QOCbJDTF=FsHsbJ9J5rqLLPJexk_EvX+SxPGFZLDQ@mail.gmail.com>
+ <20201013110826.GD438822@phenom.ffwll.local>
+ <CAF6AEGvYJS38JjFzJOA3w9W0W_G47DJYw2bi4GsC1qgo3dAZ0A@mail.gmail.com>
+In-Reply-To: <CAF6AEGvYJS38JjFzJOA3w9W0W_G47DJYw2bi4GsC1qgo3dAZ0A@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 15 Oct 2020 10:22:39 +0200
+Message-ID: <CAKMK7uGJ1+Vr-RCHX6=sMwTcOqMNySiHS2fNo8mke4Vraw4rvQ@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v2 22/22] drm/msm: Don't implicit-sync if only
+ a single ring
+To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,89 +64,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a MIME-formatted message.  If you see this text it means that your
-E-mail software does not support MIME-formatted messages.
+On Tue, Oct 13, 2020 at 6:15 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Tue, Oct 13, 2020 at 4:08 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, Oct 12, 2020 at 08:07:38AM -0700, Rob Clark wrote:
+> > > On Mon, Oct 12, 2020 at 7:40 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > >
+> > > > On Sun, Oct 11, 2020 at 07:09:49PM -0700, Rob Clark wrote:
+> > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > >
+> > > > > Any cross-device sync use-cases *must* use explicit sync.  And if there
+> > > > > is only a single ring (no-preemption), everything is FIFO order and
+> > > > > there is no need to implicit-sync.
+> > > > >
+> > > > > Mesa should probably just always use MSM_SUBMIT_NO_IMPLICIT, as behavior
+> > > > > is undefined when fences are not used to synchronize buffer usage across
+> > > > > contexts (which is the only case where multiple different priority rings
+> > > > > could come into play).
+> > > >
+> > > > Uh does this mean msm is broken on dri2/3 and wayland? Or I'm I just
+> > > > confused by your commit message?
+> > >
+> > > No, I don't think so.  If there is only a single priority level
+> > > ringbuffer (ie. no preemption to higher priority ring) then everything
+> > > is inherently FIFO order.
+> >
+> > Well eventually you get a scheduler I guess/hope :-)
+>
+> we do have one currently for some gens, but not others.. hence the
+> check for # of rings.  (Ie. there is a ring per priority level, if
+> only one ring, that means no preemption/scheduler)
 
---=_script-5902-1602749448-0001-2
-Content-Type: text/plain; charset="iso-8859-15"
-Content-Transfer-Encoding: quoted-printable
+Even without preempt a scheduler is somewhat useful, if you have a
+very spammy client. Of course it assumes that everyone submits
+reasonably short workloads, otherwise nothing you can do.
 
-On Wed, 14 Oct 2020, Thomas Zimmermann wrote:
-> On Wed, 14 Oct 2020 09:58:37 +0300 (EEST) "Ilpo J=E4rvinen"
-> <ilpo.jarvinen@cs.helsinki.fi> wrote:
->=20
-> > The high-res mode works, however, I wasn't expecting it to be this sl=
-ow=20
-> > though as I can see the slowish sweeps to redraw the screen or large =
-parts=20
-> > of it. Maybe you meant all along this slow (I was expecting something =
-like=20
-> > memcpy slow and this looks definitely much slower)?
->=20
-> First of all, thanks for testing. I didn't expect it to be that slow ei=
-ther.
->=20
-> >=20
-> > While a large redrawing operation is going on, mouse cursor stops mov=
-ing=20
-> > normally until it is over and it then jumps to catch up. When the mou=
-se is=20
-> > over something that doesn't require large redraw, it seems to work qu=
-ite=20
-> > normally.
-> >=20
->=20
-> That sounds bad. The cursor is drawn by hardware, so I'd expect it to m=
-ove
-> smoothly across the screen. Maybe the position update is blocked from t=
-he
-> framebuffer's memcpy within the kernel code.
->=20
-> I was hoping the performance would be acceptable, but this sounds like =
-a
-> dealbreaker to me. I can look a bit closer if there are issues/bugs in =
-the
-> code that make it run slow. Not holding my breath for it though...
+> > > For cases where we are sharing buffers with something external to drm,
+> > > explicit sync will be used.  And we don't implicit sync with display,
+> > > otherwise x11 (frontbuffer rendering) would not work
+> >
+> > Uh now I'm even more confused. The implicit sync fences in dma_resv are
+> > kinda for everyone. That's also why dma_resv with the common locking
+> > approach is a useful idea.
+> >
+> > So display should definitely support implicit sync, and iirc msm does have
+> > the helper hooked up.
+>
+> yup
+>
+> > Wrt other subsystems, I guess passing dma_fence around somehow doesn't fit
+> > into v4l (the patches never landed), so v4l doesn't do any kind of sync
+> > right now. But this could be fixed. Not sure what else is going on.
+> >
+> > So I guess I still have no idea why you put that into the commit message.
+> >
+> > btw for what you're trying to do yourself, the way to do this is to
+> > allocate a fence timeline for your engine, compare fences, and no-op them
+> > all out if their own the same timeline.
+>
+> we do that already (with a fence timeline per-ring, in the case of
+> gens which support multiple rings / preemption).. this patch just
+> short-circuits that in the case where we already knows the fences will
+> of the same timeline
 
-Yeah, with like 5fps with full redraw it's not really acceptable (it's a=20
-bit hard to estimate exactly but certainly less than 10fps). Writing to=20
-video mem / normally working memcpy itself really cannot be this slow as=20
-it would impact fps in non-shmem case too I think.
+Ok so I think it's all good, no misunderstanding, but the commit
+message. I think if you delete the first sentence that cross-device
+sync must use explicit fences then it all makes sense and is
+consistent. Or clarify it that this is cross-engine sync with explicit
+internal synchronization, to differentiate it against cross-device
+sync (as seen by userspace, like different drm_device instances) and
+explicit dma_fence synchronization controlled by userspace.
+-Daniel
 
-Also, there's more into this. I noticed that after using this kernel,
-I cannot boot normally neither warm nor even cold boot after poweroff=20
-(POST is slower than usual, beeps one less and gets stuck, I didn't=20
-manage to switch into textual POST messages to see if there's any info as=20
-the tab key for swithing got also broken). Sadly those beeps don't match=20
-to the motherboard manual in ok nor broken case so I've no idea what they=20
-mean and whether the beeps really related to POST or e.g. from graphics=20
-init.
+> BR,
+> -R
+>
+> > -Daniel
+> >
+> > >
+> > > BR,
+> > > -R
+> > >
+> > > > Since for these protocols we do expect implicit sync accross processes to
+> > > > work. Even across devices (and nvidia have actually provided quite a bunch
+> > > > of patches to make this work in i915 - ttm based drivers get this right,
+> > > > plus dumb scanout drivers using the right helpers also get this all
+> > > > right).
+> > > > -Daniel
+> > > >
+> > > > >
+> > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > ---
+> > > > >  drivers/gpu/drm/msm/msm_gem_submit.c | 7 ++++---
+> > > > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > > index 3151a0ca8904..c69803ea53c8 100644
+> > > > > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > > @@ -277,7 +277,7 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
+> > > > >       return ret;
+> > > > >  }
+> > > > >
+> > > > > -static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+> > > > > +static int submit_fence_sync(struct msm_gem_submit *submit, bool implicit_sync)
+> > > > >  {
+> > > > >       int i, ret = 0;
+> > > > >
+> > > > > @@ -297,7 +297,7 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+> > > > >                               return ret;
+> > > > >               }
+> > > > >
+> > > > > -             if (no_implicit)
+> > > > > +             if (!implicit_sync)
+> > > > >                       continue;
+> > > > >
+> > > > >               ret = msm_gem_sync_object(&msm_obj->base, submit->ring->fctx,
+> > > > > @@ -768,7 +768,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> > > > >       if (ret)
+> > > > >               goto out;
+> > > > >
+> > > > > -     ret = submit_fence_sync(submit, !!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
+> > > > > +     ret = submit_fence_sync(submit, (gpu->nr_rings > 1) &&
+> > > > > +                     !(args->flags & MSM_SUBMIT_NO_IMPLICIT));
+> > > > >       if (ret)
+> > > > >               goto out;
+> > > > >
+> > > > > --
+> > > > > 2.26.2
+> > > > >
+> > > >
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > http://blog.ffwll.ch
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> > _______________________________________________
+> > Freedreno mailing list
+> > Freedreno@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/freedreno
 
-Only after cutting power entirely from the machine, the boot again=20
-succeeds. To me those symptoms sounds like it somehow managed to break=20
-something related to IPMI because IPMI is reinitialized only if I remove=20
-the power. If I've understood correctly IPMI is somehow connected to=20
-graphics side within the AST.
-
-I haven't yet tested with the plain 5.9-rc5 to rule out it breaking=20
-the boot (but I find it less likely to be case here).
 
 
---=20
- i.
---=_script-5902-1602749448-0001-2
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=_script-5902-1602749448-0001-2--
