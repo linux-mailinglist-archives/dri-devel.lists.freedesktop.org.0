@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1B528F5C0
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 17:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41CE28F5D9
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 17:29:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53F36ED64;
-	Thu, 15 Oct 2020 15:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D57746ED65;
+	Thu, 15 Oct 2020 15:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C32B56ED65
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 15:23:05 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id h7so4008546wre.4
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 08:23:05 -0700 (PDT)
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D23546ED65
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 15:29:17 +0000 (UTC)
+Received: by mail-oo1-xc42.google.com with SMTP id c10so805133oon.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 08:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=37I63cZBodA+13wzLqZfOcrBqfvt4ww4Wg+i0WcmZ1o=;
- b=T+bebg+YD46I6Hulxd9R88hBGXswgNHgXR0A/YJJrQtmpNN2az61LLTpHx08Ky8qfP
- rg0NBZBPJk2cKDM+H4K3WnVuFEZejqm1XPacEKoLgD1V8exuQRx/JBP47RiMfp0lrNKs
- qSjJ4WyTF02hebJ0G5b1UxVgqX83E1+oYSL74=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LJwfZvZzZbL3U3dsefi4j72Jm0TppMPnsxaVcVl6iT0=;
+ b=jiwyZuJU82zqfM3xXQZkNpewO6fCkqA7igabDZ79l9dEml7MlNt9/W6KspOKdTFMBv
+ l0ZZKLNyCyInH/bWkyXoNA3+A+JhbIMgDBR1thG0QOHKB4hsUrxgAlsNauv981ymHMte
+ aG33qVap5atzCP8H/NRFqSDXso79lnD2nYDfc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=37I63cZBodA+13wzLqZfOcrBqfvt4ww4Wg+i0WcmZ1o=;
- b=YSjbOWSLU2OnpJbNk887thpiLVQgK2mOBAqkYSCoczhXc5DZQOtBASKTk3/5kAL6Wb
- rKtiHlgGd544NkzlfvNjNVRSXTG1oeowrf6+gyXo5ZxtAAHevckGJesxbWQHDCEIz8ew
- mTFyO9nCCfUHK+w2bvg0XV6s1nYF9lyP3VNmKkGD9sW103kmylqY+LVJ8hjKgmlCbyGy
- QPGiWWQ29IfkwsmXcgrQW4moVQ15euH6fM1Io2SeljYMjSJGmQGQPi5HN4E3i+JM0Uz2
- ypx2Svd5zwm8xjkc9ac+jPYNDadaEvG185FzJZf0IAU9N0rOSx0bhy+zLOqklwDpqGqX
- J2Yw==
-X-Gm-Message-State: AOAM530TQU6AfXm/Fxi0yAbYGAopsp7IahOlBUDdiHTw4LUzfPoTmrhx
- kF4SYrst0XaVaKCwRlOAAiazWw==
-X-Google-Smtp-Source: ABdhPJz60cxmP1IUgfdwoRtfsr/U5/cjrhpBEp04wKon+qeZgoUhNl224cILQcKvdUU3iiEaIgb54g==
-X-Received: by 2002:a5d:5106:: with SMTP id s6mr4820538wrt.51.1602775384469;
- Thu, 15 Oct 2020 08:23:04 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x3sm5050001wmi.45.2020.10.15.08.23.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Oct 2020 08:23:03 -0700 (PDT)
-Date: Thu, 15 Oct 2020 17:23:01 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Kever Yang <kever.yang@rock-chips.com>
-Subject: Re: [PATCH v2] drm/of: Consider the state in which the ep is disabled
-Message-ID: <20201015152301.GE438822@phenom.ffwll.local>
-Mail-Followup-To: Kever Yang <kever.yang@rock-chips.com>,
- Sandy Huang <hjc@rock-chips.com>, heiko@sntech.de,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, huangtao@rock-chips.com,
- andy.yan@rock-chips.com, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20200707112526.18438-1-hjc@rock-chips.com>
- <5c0cdb9d-8e35-fa0c-35b3-adfa7770fb30@rock-chips.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LJwfZvZzZbL3U3dsefi4j72Jm0TppMPnsxaVcVl6iT0=;
+ b=nG9NtOE4UI3OlZRYuI7BoL56IA3n/Iq7YtYCNdPRRoF1xbohdE/bI//bQiXsAW2psB
+ 13zwlBu9NYj1nR7JUw4oY9eMUIpB7Efo4wZ8eG9hqjScIXwICJxUCL2ToLalZgXAm9MF
+ cn0fEt5oXuDKe3fjX6IG5v+R/qX6c7qQad2ZH2zFfmFGhzN3QJqH6CNWt4A2np+KArNK
+ HI01zA8tleB36lODxLmgd93ZEZHpwZYtIaZP9wcClYguQ+LaiNSs4MtNC0R73U53TFp+
+ WITDRvlq51QHDcI1RdVVaBC+7+VDwwrAmakhuDEJXw6i1+PaFeRTrk5XuC0LiTZBvqAk
+ oSTw==
+X-Gm-Message-State: AOAM5325SC7jkkTxbaDDLvUuYsly9uRzCHWuK30i12S7w9H2EPDSZYrj
+ SKwuvHFBZ5bUwxaL/v/UapX3UXH/sJVo7orZD4OtXQ==
+X-Google-Smtp-Source: ABdhPJwHGqKFcBCVEj4Z9lD8mpPIRoQJxs6gS7mqbJLVOqKjzGL3o2Yivo5QSuS7JTOQT9EJ/KzY1r55eHOicMya4wY=
+X-Received: by 2002:a4a:e1d7:: with SMTP id n23mr2788554oot.85.1602775756786; 
+ Thu, 15 Oct 2020 08:29:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5c0cdb9d-8e35-fa0c-35b3-adfa7770fb30@rock-chips.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-15-daniel.vetter@ffwll.ch>
+ <20201009123109.GO5177@ziepe.ca>
+ <CAKMK7uFpPP-Q0jC0vM7vYPEcg0m4NzTw+Ld=swdTF3BgMX5Qug@mail.gmail.com>
+ <20201009143209.GS5177@ziepe.ca>
+ <CAPcyv4j54O8ac6WB3LEeNud2r11V26gA0PRKK9bhyEMF67AXtQ@mail.gmail.com>
+ <20201015000939.GD6763@ziepe.ca>
+In-Reply-To: <20201015000939.GD6763@ziepe.ca>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 15 Oct 2020 17:29:05 +0200
+Message-ID: <CAKMK7uGeVzbe3=FR=a5MEfzDsrog6D4+Bkiaj8FrVeOLu3-9Mw@mail.gmail.com>
+Subject: Re: [PATCH v2 14/17] resource: Move devmem revoke code to resource
+ framework
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,36 +64,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: huangtao@rock-chips.com, David Airlie <airlied@linux.ie>,
- Sandy Huang <hjc@rock-chips.com>, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, andy.yan@rock-chips.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ David Hildenbrand <david@redhat.com>, John Hubbard <jhubbard@nvidia.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMTQsIDIwMjAgYXQgMDk6NDg6NDNBTSArMDgwMCwgS2V2ZXIgWWFuZyB3cm90
-ZToKPiBIaSBNYWludGFpbmVycywKPiAKPiDCoMKgwqAgRG9lcyB0aGlzIHBhdGNoIHJlYWR5IHRv
-IG1lcmdlPwoKV291bGQgbWF5YmUgYmUgZ29vZCB0byBnZXQgc29tZSBhY2tzIGZyb20gb3RoZXIg
-ZHJpdmVycyB1c2luZyB0aGlzLCB0aGVuClNhbmR5IGNhbiBwdXNoIHRvIGRybS1taXNjLW5leHQu
-Ci1EYW5pZWwKPiAKPiBPbiAyMDIwLzcvNyDkuIvljYg3OjI1LCBTYW5keSBIdWFuZyB3cm90ZToK
-PiA+IGRvbid0IG1hc2sgcG9zc2libGVfY3J0Y3MgaWYgcmVtb3RlLXBvaW50IGlzIGRpc2FibGVk
-Lgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBTYW5keSBIdWFuZyA8aGpjQHJvY2stY2hpcHMuY29t
-Pgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fb2YuYyB8IDMgKysrCj4gPiAgIDEg
-ZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fb2YuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fb2YuYwo+ID4gaW5kZXgg
-ZmRiMDVmYmY3MmEwLi41NjVmMDVmNWYxMWIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vZHJtX29mLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fb2YuYwo+ID4gQEAgLTY2
-LDYgKzY2LDkgQEAgdWludDMyX3QgZHJtX29mX2ZpbmRfcG9zc2libGVfY3J0Y3Moc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwKPiA+ICAgCXVpbnQzMl90IHBvc3NpYmxlX2NydGNzID0gMDsKPiA+ICAg
-CWZvcl9lYWNoX2VuZHBvaW50X29mX25vZGUocG9ydCwgZXApIHsKPiA+ICsJCWlmICghb2ZfZGV2
-aWNlX2lzX2F2YWlsYWJsZShlcCkpCj4gPiArCQkJY29udGludWU7Cj4gPiArCj4gPiAgIAkJcmVt
-b3RlX3BvcnQgPSBvZl9ncmFwaF9nZXRfcmVtb3RlX3BvcnQoZXApOwo+ID4gICAJCWlmICghcmVt
-b3RlX3BvcnQpIHsKPiA+ICAgCQkJb2Zfbm9kZV9wdXQoZXApOwo+IAo+IExvb2tzIGdvb2QgdG8g
-bWUuCj4gCj4gCj4gUmV2aWV3ZWQtYnk6IEtldmVyIFlhbmcgPGtldmVyLnlhbmdAcm9jay1jaGlw
-cy5jb20+Ci0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3Jh
-dGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+On Thu, Oct 15, 2020 at 2:09 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Fri, Oct 09, 2020 at 11:28:54AM -0700, Dan Williams wrote:
+> > On Fri, Oct 9, 2020 at 7:32 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Fri, Oct 09, 2020 at 04:24:45PM +0200, Daniel Vetter wrote:
+> > > > On Fri, Oct 9, 2020 at 2:31 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > > >
+> > > > > On Fri, Oct 09, 2020 at 09:59:31AM +0200, Daniel Vetter wrote:
+> > > > >
+> > > > > > +struct address_space *iomem_get_mapping(void)
+> > > > > > +{
+> > > > > > +     return iomem_inode->i_mapping;
+> > > > >
+> > > > > This should pair an acquire with the release below
+> > > > >
+> > > > > > +     /*
+> > > > > > +      * Publish /dev/mem initialized.
+> > > > > > +      * Pairs with smp_load_acquire() in revoke_iomem().
+> > > > > > +      */
+> > > > > > +     smp_store_release(&iomem_inode, inode);
+> > > > >
+> > > > > However, this seems abnormal, initcalls rarely do this kind of stuff
+> > > > > with global data..
+> > > > >
+> > > > > The kernel crashes if this fs_initcall is raced with
+> > > > > iomem_get_mapping() due to the unconditional dereference, so I think
+> > > > > it can be safely switched to a simple assignment.
+> > > >
+> > > > Ah yes I checked this all, but forgot to correctly annotate the
+> > > > iomem_get_mapping access. For reference, see b34e7e298d7a ("/dev/mem:
+> > > > Add missing memory barriers for devmem_inode").
+> > >
+> > > Oh yikes, so revoke_iomem can run concurrently during early boot,
+> > > tricky.
+> >
+> > It runs early because request_mem_region() can run before fs_initcall.
+> > Rather than add an unnecessary lock just arrange for the revoke to be
+> > skipped before the inode is initialized. The expectation is that any
+> > early resource reservations will block future userspace mapping
+> > attempts.
+>
+> Actually, on this point a simple WRITE_ONCE/READ_ONCE pairing is OK,
+> Paul once explained that the pointer chase on the READ_ONCE side is
+> required to be like an acquire - this is why rcu_dereference is just
+> READ_ONCE
+
+Hm so WRITE_ONCE doesn't have any barriers, and we'd need that for
+updating the pointer. That would leave things rather inconsistent, so
+I think I'll just leave it as-is for symmetry reasons. None of this
+code matters for performance anyway, so micro-optimizing barriers
+seems a bit silly.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
