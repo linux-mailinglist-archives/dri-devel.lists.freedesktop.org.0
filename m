@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7501028F8CE
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 20:42:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5EE291405
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E6EB6E139;
-	Thu, 15 Oct 2020 18:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9069F6E245;
+	Sat, 17 Oct 2020 19:04:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44EE36E139
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 18:42:43 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id a5so4151420ljj.11
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 11:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dw0XxsAm0N+xBFL5kuzzzttiWu26H5L6VPpZZ+p1K+Q=;
- b=WUzSrl2W1MAsVn/qZ/fS9Hm0TAB8UoUns4rO41D2Ev/4lY06qhyR4V/dfGjo49/3F9
- qF6QqX5XqRKgc2ZEoxerJCUvujPk9UZ4YbWpbs4OPfKOqXkcrp/7xo3biMGolLKVV5EU
- uPwB97ePNYaE3YFEMLJFzu5dYVx4ce1tOZOJM=
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5636E192
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 19:03:38 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id j30so4853819lfp.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 12:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7YS0cP3DNPcvbNXRWVhMLK0IxI1d+qLuJ8TulIiLDZ0=;
+ b=R6AIOc5WJ33f0BpBRKWYPfmzPqDTmiRJK6HbByTEodetAfGJmFjYidA1TNiqjvR4Fi
+ +z1TNNeyEyau6GtusqefeTQnKj5EcAJpmjSyGJsRm4kY0+nEU/tuqZaM645x9d52EkfJ
+ XlL9lbev6DTnB4JsfiHTcsinc3sEuY5IWeieKnPKFav7EuFVVDRflL68jIvC95bn0frl
+ ORFaopwANTwpTD6Yiy8F9m+79timzuVAvJkC66NNbUskf8Zvx8F7rJhZzbzksEu1tGPC
+ TnNB5kTXKRU103n6pq7CvDUmOa/QkY1XLAknl7zyYtDYikwQOcsZTXxzyVWNSIv/3QC6
+ 4zzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dw0XxsAm0N+xBFL5kuzzzttiWu26H5L6VPpZZ+p1K+Q=;
- b=JOi0nCC6bVrKuKC/WpW6FLuBok2YLDin0kl4GhzfGU7HO+TupQRR/HooVeRnUyftwJ
- PyPEO0MET5ECKGXPa4o3Cc9MdeCW98MnZPGxhaGvBvv0VJL/wpa2kzPfsmZ7Ey0AfaIs
- WQaB1Wx7QBxaFfSPMF35mYGBBWs43cKRrywks6shm1fAZevJi9O1ww2HIMSucS2xlgTh
- 4OSHohvAz8hV6GstUPnfJSKGdaiqYWgGO4x0rQ80CmmkVYyp6LKv9yqXMMAaT1WljVgy
- UyuSHLXdMQFnJRR8pAee6tyw0VFqgjL0dAEpzb0cMQX2JQUTN1PR4QZSrliW99JR6Llf
- etPQ==
-X-Gm-Message-State: AOAM531GrWD6ieeQ+62t5IzkqWHWdK4q2jAulJoY+T5xJn/qo3G0d4li
- s0pGuzvKBkKspRkt21F5AVL/OJLLbUlYZw==
-X-Google-Smtp-Source: ABdhPJzGOpW2r9x9eTqotCGvcrQCEZgREEHgEKacUwV8gl2lrfVyUQEXb2fsavAG3RQSf9NlkbU8cA==
-X-Received: by 2002:a2e:3217:: with SMTP id y23mr42812ljy.300.1602787361193;
- Thu, 15 Oct 2020 11:42:41 -0700 (PDT)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com.
- [209.85.208.179])
- by smtp.gmail.com with ESMTPSA id j10sm1584726ljb.93.2020.10.15.11.42.39
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Oct 2020 11:42:39 -0700 (PDT)
-Received: by mail-lj1-f179.google.com with SMTP id f21so4182689ljh.7
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 11:42:39 -0700 (PDT)
-X-Received: by 2002:a2e:8815:: with SMTP id x21mr51353ljh.312.1602787358993;
- Thu, 15 Oct 2020 11:42:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7YS0cP3DNPcvbNXRWVhMLK0IxI1d+qLuJ8TulIiLDZ0=;
+ b=qJyVBUH3NwDCwAhVTgjJVPVsAXPMfnnniztkv9pCjp9ynWXystE7gAIZerRrqZBulx
+ 5OKaC9DBomA1pfaqhsZSKid2b0y9IrSUzHogZZ3g5Elwc4jsr0Hfkm/yfdsOz6SMoM4V
+ hx39Vaw+jKVj1oZcm+8a59KudN9jlcvvLKgCCwHI1nas/rhvOHHGaCmuciY8Pvz6mKeu
+ s4+Jig/8JUB7U701d6RVpSY6u51oEDUGAX8Sh6v3cmBN3QOQ6ns2Dj2li8evt78mhWSp
+ RCC4L+qHIXF6HWXSU4c2ZhCRUDDcHA6SJgK/cVKu9iRQMTeVbHpjH0p35h9F8dLLTcx+
+ ilKQ==
+X-Gm-Message-State: AOAM533FjKeu4iEToZcbUKZtpN4guy1i32DaihNzxIq7OPNTgczDdWzr
+ xQxle3yYPR5N0g6eIICLWHCefA==
+X-Google-Smtp-Source: ABdhPJyrLs7S6IIec/2X2Mr3xlDlbDJAbGZIbUGS6+Evt+QFdDtmpf67+WxUOYXCG2lMLvxRifri5g==
+X-Received: by 2002:a19:c3d6:: with SMTP id t205mr21117lff.84.1602788616297;
+ Thu, 15 Oct 2020 12:03:36 -0700 (PDT)
+Received: from eriador.lan ([94.25.229.2])
+ by smtp.gmail.com with ESMTPSA id 71sm1309781lfm.78.2020.10.15.12.03.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Oct 2020 12:03:35 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Jonathan Marek <jonathan@marek.ca>
+Subject: [PATCH 1/4] drm/msm/dsi_pll_7nm: restore VCO rate during restore_state
+Date: Thu, 15 Oct 2020 22:03:29 +0300
+Message-Id: <20201015190332.1182588-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <CAPM=9txyMmW1DWhS--SuYQu4qDK1GPzgHJwxbAfhHT=hUsPODA@mail.gmail.com>
- <CAHk-=wiP+S4K3yU+FqgGmF+EgcSgk04Eerf3gE-6qObicy346w@mail.gmail.com>
-In-Reply-To: <CAHk-=wiP+S4K3yU+FqgGmF+EgcSgk04Eerf3gE-6qObicy346w@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 15 Oct 2020 11:42:22 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgYNzhoYuUBsBcFq1TFA5C+Bie-2uzZkF2McO9joXxW0A@mail.gmail.com>
-Message-ID: <CAHk-=wgYNzhoYuUBsBcFq1TFA5C+Bie-2uzZkF2McO9joXxW0A@mail.gmail.com>
-Subject: Re: [git pull] drm next pull for 5.10-rc1
-To: Dave Airlie <airlied@gmail.com>, Eryk Brol <eryk.brol@amd.com>
+X-Mailman-Approved-At: Sat, 17 Oct 2020 19:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,64 +66,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Harigovindan P <harigovi@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 15, 2020 at 10:51 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> Thanks, looks good to me [..]
+PHY disable/enable resets PLL registers to default values. Thus in
+addition to restoring several registers we also need to restore VCO rate
+settings.
 
-Uhhuh. I already pushed things out, but my clang build (which I don't
-do between each merge) shows a problem:
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
+---
+ drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-  drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:650:8:
-  warning: logical not is only applied to the left hand side of this
-comparison [-Wlogical-not-parentheses]
-                && !params[i].clock_force_enable == DSC_CLK_FORCE_DEFAULT) {
-                   ^                             ~~
+diff --git a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+index de0dfb815125..93bf142e4a4e 100644
+--- a/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
++++ b/drivers/gpu/drm/msm/dsi/pll/dsi_pll_7nm.c
+@@ -585,6 +585,7 @@ static int dsi_pll_7nm_restore_state(struct msm_dsi_pll *pll)
+ 	struct pll_7nm_cached_state *cached = &pll_7nm->cached_state;
+ 	void __iomem *phy_base = pll_7nm->phy_cmn_mmio;
+ 	u32 val;
++	int ret;
+ 
+ 	val = pll_read(pll_7nm->mmio + REG_DSI_7nm_PHY_PLL_PLL_OUTDIV_RATE);
+ 	val &= ~0x3;
+@@ -599,6 +600,13 @@ static int dsi_pll_7nm_restore_state(struct msm_dsi_pll *pll)
+ 	val |= cached->pll_mux;
+ 	pll_write(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG1, val);
+ 
++	ret = dsi_pll_7nm_vco_set_rate(&pll->clk_hw, pll_7nm->vco_current_rate, pll_7nm->vco_ref_clk_rate);
++	if (ret) {
++		DRM_DEV_ERROR(&pll_7nm->pdev->dev,
++			"restore vco rate failed. ret=%d\n", ret);
++		return ret;
++	}
++
+ 	DBG("DSI PLL%d", pll_7nm->id);
+ 
+ 	return 0;
+-- 
+2.28.0
 
-and I think clang is entirely right to complain about that code.
-
-Yes, the code may be correct, but even if it's correct, that's a
-really odd way to write things.
-
-Anyway, what it does is:
-
-   !params[i].clock_force_enable
-
-turns 0 into 1, and anything that isn't 0 into 0.
-
-And DSC_CLK_FORCE_DEFAULT has a value of 0, so what that line actually means is
-
-  (params[i].clock_force_enable == 0) == 0
-
-which obviously is
-
-  params[i].clock_force_enable != 0
-
-which in this case is the same as
-
-  params[i].clock_force_enable != DSC_CLK_FORCE_DEFAULT
-
-which may be what the code actually meant to do.
-
-So I suspect it does what it meant to do, but only because
-DSC_CLK_FORCE_DEFAULT also happens to be 0, which also acts as a
-boolean 'false'.
-
-But it's also possible that the '!' is a left-over, and the code
-actually _meant_ to do the exact reverse of that. I have no idea.
-
-This odd code was introduced by commit 0749ddeb7d6c ("drm/amd/display:
-Add DSC force disable to dsc_clock_en debugfs entry"), and can we
-please agree to not write this kind of obfuscated C code?
-
-               Linus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
