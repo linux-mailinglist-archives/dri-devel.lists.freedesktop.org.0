@@ -2,118 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F054A28EEAD
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 10:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DEE2913EF
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4CB89BFF;
-	Thu, 15 Oct 2020 08:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B065C6E212;
+	Sat, 17 Oct 2020 19:04:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5479789BFF;
- Thu, 15 Oct 2020 08:41:41 +0000 (UTC)
-IronPort-SDR: mAsKvaqyJBPPymmdMIvC5TcvfqIfkxhU0GZYIDjLkLRYzasBhPHziMPXLyN87YnoJg98gqtDZ6
- a1ZEEtaRibHg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9774"; a="250986038"
-X-IronPort-AV: E=Sophos;i="5.77,378,1596524400"; d="scan'208";a="250986038"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 01:41:40 -0700
-IronPort-SDR: xyvpgtN2+AvJjhV10oBKJVgxBlnq0xvXytRhvlM+PZAuVGzvn8VchfbyVcujxNQFI34he1QJ7N
- FYYDSbX6wOpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,378,1596524400"; d="scan'208";a="318952460"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga006.jf.intel.com with ESMTP; 15 Oct 2020 01:41:39 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 15 Oct 2020 01:41:39 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 15 Oct 2020 01:41:39 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.36.52) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Thu, 15 Oct 2020 01:41:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TUKRDUdF1uNvemSDTACPhiIamNct0AsXxxK3GW3mgxC19sWg4nrBEDmow0Y+eTft8RvU7EnZEGz8TVqBEfOQI584NwTom7fZPTaO/PZdMvmO7Kq0h65zKpE0DL30yDwnhea/TWVtHz5oubZ1S2QSf2Gqvs27H1wxbNdC3kDUVS163h0LcqDXwEcs4yhFhGl7jAjchyoKTIxmCXQ0+RK5wStg4VAZCnPdIELBr2rfVDvOB+eMFhMRl2Cgw0EOFzqnVIRkdYF9ryZlp1oa/owi0lx0/RH/ANurvVd9NiT9eMzPl1LWrLu+E3CObGe9yo0KmagWKg8A6GXy+LTjPeVSkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LpWEc+u3WpbJiP6T1vc+3TEf1UhRlqjBf7xistUh6p8=;
- b=EVtuF8MogRm+UeapcxUEPdzCkjPuOeHnLTWbsz0fjXxFv06mAA7TOhfqYSRcNNwrIUf+zY6pmhrALyeoyW9ZidcSF6t3jdB87MEfEKfK3RZYBc/S9FOaFIhMxfjCH00yw5AUhNogc59OoR/L2pUdSO/9iKmnzpKX0CSlv/56Y+4luhhgB/mQhWOg0feCOs/6k/XWZ/Z+l4/n2SAY/y4IvnlGdunmj8dEL+PUYKXstR8XgJLZDWVkFE7zWtAxuNxZxIbCM0EpkvKlVMJqBqaerT/WswNCl8aOEmyLqIgpBsBNTD8XLt5NcD4inUlFI5HZ23mgC4aBVS58bXZm1dJVVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LpWEc+u3WpbJiP6T1vc+3TEf1UhRlqjBf7xistUh6p8=;
- b=VqY+tWDeaYrKAxgFMEUngGYVrvAKGXZ9a3vBf10B4zyzMaQC1XzOjJyq+O8+4D3jJNo7QuGNF119ixklSpyHPSpPD+Di3W7wDCKQtZN53DChotbjIjxegtkUOqcntIv4eV56gBNil0+eHVpu3uST+vk2YQwYhFzP6BnmnBtWJNE=
-Received: from BYAPR11MB3014.namprd11.prod.outlook.com (2603:10b6:a03:91::17)
- by BYAPR11MB3365.namprd11.prod.outlook.com (2603:10b6:a03:7e::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.24; Thu, 15 Oct
- 2020 08:41:32 +0000
-Received: from BYAPR11MB3014.namprd11.prod.outlook.com
- ([fe80::64d4:f49d:bb3a:689d]) by BYAPR11MB3014.namprd11.prod.outlook.com
- ([fe80::64d4:f49d:bb3a:689d%6]) with mapi id 15.20.3455.030; Thu, 15 Oct 2020
- 08:41:32 +0000
-From: "K, SrinivasX" <srinivasx.k@intel.com>
-To: "Pandey, Hariom" <hariom.pandey@intel.com>
-Subject: RE: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe
- protection
-Thread-Topic: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe
- protection
-Thread-Index: AQHWm/En69MkClzmQ0ObvZWAiNjahamK2W6AgAAAfICAAAIGAIAAAfcAgAQV2sCAAFdYAIAAS2kAgAjJ5xA=
-Date: Thu, 15 Oct 2020 08:41:32 +0000
-Message-ID: <BYAPR11MB30149153D9229142DD2CF96BF9020@BYAPR11MB3014.namprd11.prod.outlook.com>
-References: <20201006145632.117291-1-srinivasx.k@intel.com>
- <2f7809798dd0b59246d67c5044dafb1e518fc4c5.camel@intel.com>
- <160200650945.2919.11750150118902885340@build.alporthouse.com>
- <3CDB63EE-D1CD-43E4-A977-4E966CD19313@intel.com>
- <c88bc0fbc4956395324674ca202b395326208888.camel@intel.com>
- <BYAPR11MB3014087624B8206C05362830F9080@BYAPR11MB3014.namprd11.prod.outlook.com>
- <B6C174E8-161A-43BD-AFDA-21C94F6D56E3@intel.com>
- <BY5PR11MB44341733BF4A7CCB79861322F6080@BY5PR11MB4434.namprd11.prod.outlook.com>
-In-Reply-To: <BY5PR11MB44341733BF4A7CCB79861322F6080@BY5PR11MB4434.namprd11.prod.outlook.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [49.205.250.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fd4f4491-bb63-41ed-1af8-08d870e61e78
-x-ms-traffictypediagnostic: BYAPR11MB3365:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR11MB3365EEEDD4981C385B9E26EDF9020@BYAPR11MB3365.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kSrOvzrJLux6zywWytulE6q7ip9VXvHM5zhJtP4wRbx21u2ITdyrzNyP4Gltt4KeRhAFVSlL4gmL5t6rvte+S6yngIh5mJbFWbMfrNRF2kUSl/hS15VyccGx4URjiIA7AAZHSeGtUnQEsE1jmnw1cUnguU1QH+PLe6xA2u6U9JftDq6YomO3wpjH/PwP9boHd9wye/b6cmb06Q4Zkw8oE9uoh0ni3ccImm1eD8975Bsjlnwpa08+9eE5WnMcw6j81BZ434TffVIhicV5a2IQejfCpwes0jyPpFO/nTw+nSvwtP8sGWTEFFJf+wbkH+jn1plNzZaRbEfLvq4nuVsqnJ6HCI4dTkop+M/Wr6BciufkaOU8dFlg0nTA+ZPP2uooqnD0YUv83s5BKUeWapwkaw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB3014.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(366004)(136003)(39860400002)(346002)(55016002)(54906003)(478600001)(83080400001)(66476007)(2906002)(4326008)(86362001)(316002)(52536014)(76116006)(66946007)(66556008)(64756008)(186003)(26005)(66446008)(107886003)(6862004)(5660300002)(53546011)(6506007)(83380400001)(966005)(33656002)(6636002)(8936002)(71200400001)(8676002)(7696005)(9686003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 2kD9hnpiY2SnpqlTqOvd/TLEua3EQQEMIVsWVpmyflqXDc2lmMcRuzKsD/ds3E+TLEOFKyNM7n7IjdLeLay/QzSNwdavilZxp4t6/ZrS0WaNlS3C7d5pyyjlNNYYeJmrT1GFkbKX8VrZej7Dm9IyY4AMM2Kyya5uAeBK+9+5zwXXkkkEL23z2gw3dpx/HhnmtJmNW1fcIT33Q6Vu37ZVNCUDcgxAXm4NX6I0UssAFQEGJAN3W7TXZAxY04FQ3jX1k6SNJJZ+NRXfD9V5yYi1lYcgv9MtKhZgsxEVxJau8N6Mr5lHIJEcp3Gy1Zih8hSLtVe6LvZUSX1uE1qwN4bjnLOy6PqKRJJrM4zwwxk5XTFjYlVHEtfxGH718bnBmH8Y8etnYzTEXrBq+X5KIo/mzQoW7ZAkhY1jOdENDTAA0TjDOyrfSK33bOOI0ihM4K7LmT0ciXVWcQJqGAamweY+WBDWArXTXGn4e4LovNy3bsuEh+W9W2fxogOp7/6e4GcTxRCQegcHDCxwEvm2AVXGa0POFGLxsClqbYwIrRppg+26UJ3v+oQpU7frn3XxxS79kSC7xZnx0H3sCjt57MxunuIMTjF4Kk8FPDJOE8N28S00zpFMocoxXbmK0kbaoVNLXNf/sPO4lXth6lAiSVCOTg==
+Received: from script.cs.helsinki.fi (script.cs.helsinki.fi [128.214.11.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB1A76EC41
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 08:49:43 +0000 (UTC)
+X-DKIM: Courier DKIM Filter v0.50+pk-2017-10-25 mail.cs.helsinki.fi Thu,
+ 15 Oct 2020 11:49:41 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.helsinki.fi;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references
+ :mime-version:content-type:content-id; s=dkim20130528; bh=g68CM2
+ hFxvGCdEsrlmiEWo4/rsu6Gl1+Qo3XA1E8EiI=; b=IYoNFkhENIUCvh16AOrCB5
+ WldtXE4FAHfoMm54T/BzDp5UIdhmHi7S3qAcY3QiMzd29V7iJzIT/xhdVLWkPnzz
+ rFKUrNUH+sdPWPQTSmC8Eo/sHzrdUsV6sBYNUbNnLo2xj/v320OTOuAMcJsUvRIr
+ eCLLCC0Z9ZCbg7lU2+1MQ=
+Received: from whs-18.cs.helsinki.fi (whs-18.cs.helsinki.fi [128.214.166.46])
+ (TLS: TLSv1/SSLv3,256bits,AES256-GCM-SHA384)
+ by mail.cs.helsinki.fi with ESMTPS; Thu, 15 Oct 2020 11:49:41 +0300
+ id 00000000005A1C71.000000005F880D25.000031FF
+Date: Thu, 15 Oct 2020 11:49:41 +0300 (EEST)
+From: "=?ISO-8859-15?Q?Ilpo_J=E4rvinen?=" <ilpo.jarvinen@cs.helsinki.fi>
+X-X-Sender: ijjarvin@whs-18.cs.helsinki.fi
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: drm/ast something ate high-res modes (5.3->5.6 regression)
+In-Reply-To: <20201015102958.1ce776f5@linux-uq9g>
+Message-ID: <alpine.DEB.2.20.2010151135300.21509@whs-18.cs.helsinki.fi>
+References: <alpine.DEB.2.20.2007081246050.12041@whs-18.cs.helsinki.fi>
+ <5a3537c3-2c81-b9de-e4c7-c00577cdd43d@suse.de>
+ <alpine.DEB.2.20.2009171407330.6530@whs-18.cs.helsinki.fi>
+ <4ccd1076-29e3-044a-0696-fd205b100374@suse.de>
+ <alpine.DEB.2.20.2010140938100.6967@whs-18.cs.helsinki.fi>
+ <20201014090913.727e79bb@linux-uq9g>
+ <alpine.DEB.2.20.2010151048080.21509@whs-18.cs.helsinki.fi>
+ <20201015102958.1ce776f5@linux-uq9g>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3014.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd4f4491-bb63-41ed-1af8-08d870e61e78
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Oct 2020 08:41:32.6903 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Fa2/dQ69OOwfc60f67Qrn1QFEsexD7B9v0ObS02F/vgUpB+Kq3ISpar/zSBvvD+L+sfyySWXQL63YIrP+tV9vg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3365
-X-OriginatorOrg: intel.com
+Content-Type: multipart/mixed; boundary="=_script-12824-1602751781-0001-2"
+Content-ID: <alpine.DEB.2.20.2010151144510.21509@whs-18.cs.helsinki.fi>
+X-Mailman-Approved-At: Sat, 17 Oct 2020 19:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,114 +57,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Ausmus, James" <james.ausmus@intel.com>, "Nikula,
- Jani" <jani.nikula@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Souza,
- Jose" <jose.souza@intel.com>,
- "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>, "Surendrakumar Upadhyay,
- TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hariom,
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
 
-With Sunil's help was able to see EHL achieving rc6 state. 
-Verified from sys entries, under no load to gpu rc6_residency_ms counter is changing.
-Also ran all the Rodrigo mention tests and I see them passing. But with i915_selftest dmesg warnings are still seen.
+--=_script-12824-1602751781-0001-2
+Content-Type: text/plain; charset="iso-8859-15"
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <alpine.DEB.2.20.2010151144511.21509@whs-18.cs.helsinki.fi>
 
-Thanks,
-Srinivas
+On Thu, 15 Oct 2020, Thomas Zimmermann wrote:
+> On Thu, 15 Oct 2020 11:10:48 +0300 (EEST) "Ilpo J=E4rvinen"
+> <ilpo.jarvinen@cs.helsinki.fi> wrote:
+> > On Wed, 14 Oct 2020, Thomas Zimmermann wrote:
+> > > On Wed, 14 Oct 2020 09:58:37 +0300 (EEST) "Ilpo J=E4rvinen"
+> > > <ilpo.jarvinen@cs.helsinki.fi> wrote:
+> > > > While a large redrawing operation is going on, mouse cursor stops
+> > > > moving normally until it is over and it then jumps to catch up. W=
+hen
+> > > > the mouse is over something that doesn't require large redraw, it =
+seems
+> > > > to work quite normally.
+> > > >=20
+> > >=20
+> > > That sounds bad. The cursor is drawn by hardware, so I'd expect it =
+to move
+> > > smoothly across the screen. Maybe the position update is blocked fr=
+om the
+> > > framebuffer's memcpy within the kernel code.
+> > >=20
+> > > I was hoping the performance would be acceptable, but this sounds l=
+ike a
+> > > dealbreaker to me. I can look a bit closer if there are issues/bugs =
+in the
+> > > code that make it run slow. Not holding my breath for it though...
+> >=20
+> > Yeah, with like 5fps with full redraw it's not really acceptable (it'=
+s a=20
+> > bit hard to estimate exactly but certainly less than 10fps). Writing =
+to=20
+> > video mem / normally working memcpy itself really cannot be this slow =
+as=20
+> > it would impact fps in non-shmem case too I think.
+>=20
+> I guess you run X for testing? In the current upstream kernel, X11 shou=
+ld use
+> an internal shadow buffer to compose the displayed image; and then do i=
+t's own
+> memcpy into video RAM.
 
------Original Message-----
-From: Pandey, Hariom <hariom.pandey@intel.com> 
-Sent: 09 October 2020 23:39
-To: K, SrinivasX <srinivasx.k@intel.com>
-Cc: Souza, Jose <jose.souza@intel.com>; chris@chris-wilson.co.uk; Ausmus, James <james.ausmus@intel.com>; Nikula, Jani <jani.nikula@intel.com>; Roper, Matthew D <matthew.d.roper@intel.com>; intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Surendrakumar Upadhyay, TejaskumarX <tejaskumarx.surendrakumar.upadhyay@intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>
-Subject: RE: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe protection
+Yes I run X, however, the slow redraws are already visible during boot
+up with the text console. It very noticeable while the text "scrolls"=20
+(=3Dslowly redraws) with 4-10fps.
 
-Hi Srinivas,
+I picked up that shadow buffer difference related while comparing the X=20
+log files. When I noticed that I was even considering whether to test als=
+o=20
+with that "extra" shadow buffer to see if it helps any but discarded the=20
+idea as I cannot really see how it would help.
 
-Take Sunil's help who has recently validated RC6 on EHL DRM tip and found to be passing. If the WA were sporadically failing and if you confirm that RC6 is passing, this patch can be proceeded with. 
+My point was that also in the upstream case there's memcpy from the shado=
+w=20
+buffer to video RAM which cannot be as slow as the copying now in shmem=20
+case because it would also fail to reach normal fps.
 
-Thanks
-Hariom Pandey
+> If you go to a lower resolution is the performance similar to the
+> current upstream kernel?
 
------Original Message-----
-From: Vivi, Rodrigo <rodrigo.vivi@intel.com> 
-Sent: Friday, October 9, 2020 7:09 PM
-To: K, SrinivasX <srinivasx.k@intel.com>
-Cc: Souza, Jose <jose.souza@intel.com>; chris@chris-wilson.co.uk; Ausmus, James <james.ausmus@intel.com>; Nikula, Jani <jani.nikula@intel.com>; Pandey, Hariom <hariom.pandey@intel.com>; Roper, Matthew D <matthew.d.roper@intel.com>; intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Surendrakumar Upadhyay, TejaskumarX <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe protection
+I'll try to remember to do that once I boot next time.
 
+> > Also, there's more into this. I noticed that after using this kernel,
+> > I cannot boot normally neither warm nor even cold boot after poweroff=20
+> > (POST is slower than usual, beeps one less and gets stuck, I didn't=20
+> > manage to switch into textual POST messages to see if there's any inf=
+o as=20
+> > the tab key for swithing got also broken). Sadly those beeps don't ma=
+tch=20
+> > to the motherboard manual in ok nor broken case so I've no idea what =
+they=20
+> > mean and whether the beeps really related to POST or e.g. from graphi=
+cs=20
+> > init.
+> >=20
+> > Only after cutting power entirely from the machine, the boot again=20
+> > succeeds. To me those symptoms sounds like it somehow managed to brea=
+k=20
+> > something related to IPMI because IPMI is reinitialized only if I rem=
+ove=20
+> > the power. If I've understood correctly IPMI is somehow connected to=20
+> > graphics side within the AST.
+>=20
+> The AST chip does all kinds of things. It's hard to say if it's related=
+.
+>=20
+> >=20
+> > I haven't yet tested with the plain 5.9-rc5 to rule out it breaking=20
+> > the boot (but I find it less likely to be case here).
+> >=20
+> >=20
+>=20
+> I can rebase the patch onto a more recent upstream kernel and send out =
+an
+> update.
 
+It's actually a bit more work for me to change the base.
 
-> On Oct 9, 2020, at 1:31 AM, K, SrinivasX <srinivasx.k@intel.com> wrote:
-> 
-> Hi Rodrigo,
-> 
-> How do we get W/A and rc6 changes in, do you have any details?
-
-I told based on what I was seeing on https://intel-gfx-ci.01.org/tree/drm-tip/drmtip-alt.html?
-focusing on the issues that are exclusively for ehl and not happening on other platforms.
-
-It looks like workarounds are fine there now. so I'm not sure if it was sporadic thing that day.
-
-for the rc6 there are a few testcases failing around it:
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_675/fi-ehl-1/igt@i915_pm_rc6_residency@rc6-fence.html
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_675/fi-ehl-1/igt@i915_pm_rc6_residency@rc6-idle.html
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_675/fi-ehl-1/igt@i915_selftest@live@gt_pm.html#dmesg-warnings415
-
-> 
-> Thanks,
-> Srinivas
-> 
-> -----Original Message-----
-> From: Souza, Jose <jose.souza@intel.com>
-> Sent: 06 October 2020 23:33
-> To: Vivi, Rodrigo <rodrigo.vivi@intel.com>; chris@chris-wilson.co.uk
-> Cc: Ausmus, James <james.ausmus@intel.com>; Nikula, Jani 
-> <jani.nikula@intel.com>; Pandey, Hariom <hariom.pandey@intel.com>; 
-> Roper, Matthew D <matthew.d.roper@intel.com>; 
-> intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; K, 
-> SrinivasX <srinivasx.k@intel.com>; Surendrakumar Upadhyay, TejaskumarX 
-> <tejaskumarx.surendrakumar.upadhyay@intel.com>
-> Subject: Re: [Intel-gfx] [PATCH] drm/i915/ehl: Remove 
-> require_force_probe protection
-> 
-> On Tue, 2020-10-06 at 10:55 -0700, Vivi, Rodrigo wrote:
->> 
->>> On Oct 6, 2020, at 10:48 AM, Chris Wilson <chris@chris-wilson.co.uk> wrote:
->>> 
->>> Quoting Souza, Jose (2020-10-06 18:46:45)
->>>> +Rodrigo and Jani
->>>> 
->>>> On Tue, 2020-10-06 at 14:56 +0000, Kamati Srinivas wrote:
->>>>> Removing force probe protection from EHL platform. Did not observe 
->>>>> warnings, errors, flickering or any visual defects while doing 
->>>>> ordinary tasks like browsing and editing documents in a two 
->>>>> monitor setup.
->>>> 
->>>> One of the requirements was also to have CI BAT all green and 
->>>> shards as green is possible but EHL don't show up in CI results, we actually have one single EHL machine in CI but I guess it is not able to run all tests that shards do:
->>>> https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_9097/filelist.html
->>> 
->>> https://intel-gfx-ci.01.org/tree/drm-tip/drmtip-alt.html
->> 
->> we are really close to that point. We just need to fix some w/a and
->> rc6 issues before applying this change.
->> 
->>> -Chris
->> 
-> 
-> Huum okay we have drm-tip results for EHL but if someone sends a patch that breaks EHL it will not be caught in pre-merge testing.
-> 
-
+--=20
+ i.
+--=_script-12824-1602751781-0001-2
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--=_script-12824-1602751781-0001-2--
