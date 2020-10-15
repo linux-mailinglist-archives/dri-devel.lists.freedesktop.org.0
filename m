@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B00A2913FD
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30E82913FC
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9569E6E220;
-	Sat, 17 Oct 2020 19:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76CD96E231;
+	Sat, 17 Oct 2020 19:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2D556EC44
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 08:59:45 +0000 (UTC)
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id D4D048F5487FF12A17A7;
- Thu, 15 Oct 2020 16:59:38 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 15 Oct 2020 16:59:30 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH drm/hisilicon v2 2/2] drm/hisilicon: Use the same style of
- variable type in hibmc_drm_drv
-Date: Thu, 15 Oct 2020 17:00:17 +0800
-Message-ID: <1602752417-20598-3-git-send-email-tiantao6@hisilicon.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8526E120;
+ Thu, 15 Oct 2020 09:15:34 +0000 (UTC)
+Received: from ironmsg07-lv.qualcomm.com (HELO ironmsg07-lv.qulacomm.com)
+ ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 15 Oct 2020 02:15:34 -0700
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA;
+ 15 Oct 2020 02:15:32 -0700
+X-QCInternal: smtphost
+Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 15 Oct 2020 14:45:13 +0530
+Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
+ id E4DC5214B6; Thu, 15 Oct 2020 14:45:11 +0530 (IST)
+From: Krishna Manikandan <mkrishn@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v2] drm/msm: Fix race condition in msm driver with async layer
+ updates
+Date: Thu, 15 Oct 2020 14:45:10 +0530
+Message-Id: <1602753310-22105-1-git-send-email-mkrishn@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1602752417-20598-1-git-send-email-tiantao6@hisilicon.com>
-References: <1602752417-20598-1-git-send-email-tiantao6@hisilicon.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sat, 17 Oct 2020 19:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,89 +45,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxarm@huawei.com
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>, linux-kernel@vger.kernel.org,
+ dianders@chromium.org, seanpaul@chromium.org, kalyan_t@codeaurora.org,
+ hoegsberg@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Consistently Use the same style of variable type in hibmc_drm_drv.c and
-hibmc_drm_drv.h.
+When there are back to back commits with async cursor update,
+there is a case where second commit can program the DPU hw
+blocks while first didn't complete flushing config to HW.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Synchronize the compositions such that second commit waits
+until first commit flushes the composition.
+
+This change also introduces per crtc commit lock, such that
+commits on different crtcs are not blocked by each other.
+
+Changes in v2:
+	- Use an array of mutexes in kms to handle commit
+	  lock per crtc. (Rob Clark)
+
+Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 13 ++++++-------
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  8 ++++----
- 2 files changed, 10 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/msm/msm_atomic.c | 32 +++++++++++++++++++-------------
+ drivers/gpu/drm/msm/msm_kms.h    |  6 ++++--
+ 2 files changed, 23 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 5632bce..0c1b40d 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -121,12 +121,11 @@ static void hibmc_kms_fini(struct hibmc_drm_private *priv)
- /*
-  * It can operate in one of three modes: 0, 1 or Sleep.
-  */
--void hibmc_set_power_mode(struct hibmc_drm_private *priv,
--			  unsigned int power_mode)
-+void hibmc_set_power_mode(struct hibmc_drm_private *priv, u32 power_mode)
- {
--	unsigned int control_value = 0;
-+	u32 control_value = 0;
- 	void __iomem   *mmio = priv->mmio;
--	unsigned int input = 1;
-+	u32 input = 1;
+diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+index 561bfa4..f9bd472 100644
+--- a/drivers/gpu/drm/msm/msm_atomic.c
++++ b/drivers/gpu/drm/msm/msm_atomic.c
+@@ -61,10 +61,10 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
  
- 	if (power_mode > HIBMC_PW_MODE_CTL_MODE_SLEEP)
- 		return;
-@@ -144,8 +143,8 @@ void hibmc_set_power_mode(struct hibmc_drm_private *priv,
+ 	trace_msm_atomic_async_commit_start(crtc_mask);
  
- void hibmc_set_current_gate(struct hibmc_drm_private *priv, unsigned int gate)
- {
--	unsigned int gate_reg;
--	unsigned int mode;
-+	u32 gate_reg;
-+	u32 mode;
- 	void __iomem   *mmio = priv->mmio;
+-	mutex_lock(&kms->commit_lock);
++	mutex_lock(&kms->commit_lock[crtc_idx]);
  
- 	/* Get current power mode. */
-@@ -170,7 +169,7 @@ void hibmc_set_current_gate(struct hibmc_drm_private *priv, unsigned int gate)
+ 	if (!(kms->pending_crtc_mask & crtc_mask)) {
+-		mutex_unlock(&kms->commit_lock);
++		mutex_unlock(&kms->commit_lock[crtc_idx]);
+ 		goto out;
+ 	}
  
- static void hibmc_hw_config(struct hibmc_drm_private *priv)
- {
--	unsigned int reg;
-+	u32 reg;
+@@ -79,7 +79,6 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
+ 	 */
+ 	trace_msm_atomic_flush_commit(crtc_mask);
+ 	kms->funcs->flush_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
  
- 	/* On hardware reset, power mode 0 is default. */
- 	hibmc_set_power_mode(priv, HIBMC_PW_MODE_CTL_MODE_MODE0);
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 6a63502..5c4030d 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -33,8 +33,8 @@ struct hibmc_drm_private {
- 	/* hw */
- 	void __iomem   *mmio;
- 	void __iomem   *fb_map;
--	unsigned long  fb_base;
--	unsigned long  fb_size;
-+	u64  fb_base;
-+	u64  fb_size;
+ 	/*
+ 	 * Wait for flush to complete:
+@@ -90,9 +89,8 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
  
- 	/* drm */
- 	struct drm_device  *dev;
-@@ -56,9 +56,9 @@ static inline struct hibmc_drm_private *to_hibmc_drm_private(struct drm_device *
+ 	vblank_put(kms, crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
+ 	kms->funcs->complete_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
++	mutex_unlock(&kms->commit_lock[crtc_idx]);
+ 	kms->funcs->disable_commit(kms);
+ 
+ out:
+@@ -171,6 +169,16 @@ static unsigned get_crtc_mask(struct drm_atomic_state *state)
+ 	return mask;
  }
  
- void hibmc_set_power_mode(struct hibmc_drm_private *priv,
--			  unsigned int power_mode);
-+			  u32 power_mode);
- void hibmc_set_current_gate(struct hibmc_drm_private *priv,
--			    unsigned int gate);
-+			    u32 gate);
++static int get_crtc_id(struct msm_kms *kms, unsigned int crtc_mask)
++{
++	struct drm_crtc *crtc;
++
++	for_each_crtc_mask(kms->dev, crtc, crtc_mask)
++		return drm_crtc_index(crtc);
++
++	return 0;
++}
++
+ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ {
+ 	struct drm_device *dev = state->dev;
+@@ -180,6 +188,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	unsigned crtc_mask = get_crtc_mask(state);
+ 	bool async = kms->funcs->vsync_time &&
+ 			can_do_async(state, &async_crtc);
++	int crtc_idx = get_crtc_id(kms, crtc_mask);
  
- int hibmc_de_init(struct hibmc_drm_private *priv);
- int hibmc_vdac_init(struct hibmc_drm_private *priv);
+ 	trace_msm_atomic_commit_tail_start(async, crtc_mask);
+ 
+@@ -189,12 +198,11 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	 * Ensure any previous (potentially async) commit has
+ 	 * completed:
+ 	 */
++	mutex_lock(&kms->commit_lock[crtc_idx]);
+ 	trace_msm_atomic_wait_flush_start(crtc_mask);
+ 	kms->funcs->wait_flush(kms, crtc_mask);
+ 	trace_msm_atomic_wait_flush_finish(crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
+-
+ 	/*
+ 	 * Now that there is no in-progress flush, prepare the
+ 	 * current update:
+@@ -232,8 +240,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		}
+ 
+ 		kms->funcs->disable_commit(kms);
+-		mutex_unlock(&kms->commit_lock);
+-
++		mutex_unlock(&kms->commit_lock[crtc_idx]);
+ 		/*
+ 		 * At this point, from drm core's perspective, we
+ 		 * are done with the atomic update, so we can just
+@@ -260,8 +267,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	 */
+ 	trace_msm_atomic_flush_commit(crtc_mask);
+ 	kms->funcs->flush_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
+-
++	mutex_unlock(&kms->commit_lock[crtc_idx]);
+ 	/*
+ 	 * Wait for flush to complete:
+ 	 */
+@@ -271,9 +277,9 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 
+ 	vblank_put(kms, crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
++	mutex_lock(&kms->commit_lock[crtc_idx]);
+ 	kms->funcs->complete_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
++	mutex_unlock(&kms->commit_lock[crtc_idx]);
+ 	kms->funcs->disable_commit(kms);
+ 
+ 	drm_atomic_helper_commit_hw_done(state);
+diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+index 1cbef6b..2049847 100644
+--- a/drivers/gpu/drm/msm/msm_kms.h
++++ b/drivers/gpu/drm/msm/msm_kms.h
+@@ -155,7 +155,7 @@ struct msm_kms {
+ 	 * For async commit, where ->flush_commit() and later happens
+ 	 * from the crtc's pending_timer close to end of the frame:
+ 	 */
+-	struct mutex commit_lock;
++	struct mutex commit_lock[MAX_CRTCS];
+ 	unsigned pending_crtc_mask;
+ 	struct msm_pending_timer pending_timers[MAX_CRTCS];
+ };
+@@ -165,7 +165,9 @@ static inline void msm_kms_init(struct msm_kms *kms,
+ {
+ 	unsigned i;
+ 
+-	mutex_init(&kms->commit_lock);
++	for (i = 0; i < ARRAY_SIZE(kms->commit_lock); i++)
++		mutex_init(&kms->commit_lock[i]);
++
+ 	kms->funcs = funcs;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(kms->pending_timers); i++)
 -- 
 2.7.4
 
