@@ -2,56 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54102913F4
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAFD2913FB
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 241146E21A;
-	Sat, 17 Oct 2020 19:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0784C6E23D;
+	Sat, 17 Oct 2020 19:04:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B81F6E152
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 09:18:03 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1602753483; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=iog80H5kgzzCUzTz3Y3JE52VmzSpGS6n8ZielLfUYZM=;
- b=NSD/0pbrhTNHJ7pwVNLKzWNIQcpp9cC7hCQ7HFOudOdSg0yD4j8AW278ZdFDB6RqCYpF1wtR
- Kur+44RSHmALot6MuTBltL6R2ZHKi3xOmPc/Ftn8XC24V8p4gboe+wbqD9DmsTHNondTAD1Z
- bhnJSPRpNTluLTxUWTq25iCwTfU=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 5f8813caaad2c3cd1cf8efda (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 15 Oct 2020 09:18:02
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 8D490C433FF; Thu, 15 Oct 2020 09:18:01 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: mkrishn)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 6D71AC433C9;
- Thu, 15 Oct 2020 09:18:00 +0000 (UTC)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE20C6EC4B
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 09:36:51 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 8A6CCF42;
+ Thu, 15 Oct 2020 05:36:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 15 Oct 2020 05:36:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=xk2BTXoTxTn4zzEw65FP3d0gnu
+ RDO6T9SchgL9SbCHs=; b=tnEvQi4xGKgURoOpu3WtRH0dTIHGKXnwLHxpI4G3o/
+ 1ESGtlyn0OYj2LNoxRitsua/cwNpv0Jv+qPYp/UFHTxpQxURHI+6I/8jdS7/KPVS
+ mwLMhpXwrZp0mfqNluRzrv6yJs/qw/RlhvsLUNF6Vnc4ApN9fCRsFctA6s7jaxZQ
+ Dobjd5X4ZNNMGsbm5mSS3OJHZwF2cvLKwDnedt3nN68qnFv/3/yjztO0pOKRfSAX
+ 0sEb5gb/j1eNsJFXEQy1MXo1NU7jmpw7TZ0tZEEJRE1mpA3u8MEcMQCH4ilb8Hgv
+ JWmzpArLSW3hu86SxMEGxH1vmhy14eHUV1C7UFXPKQ7A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=xk2BTXoTxTn4zzEw6
+ 5FP3d0gnuRDO6T9SchgL9SbCHs=; b=Zg9tz59MdwRZXntQ42JHAm6BBtjox72AX
+ wlwtvQJeEeH4PatQLRToz7Je28VUC9/8IxplMDG/ZreVDBCEbjmupSlZIXqIaleE
+ bIxjFXDcmn6q793GtTKkMQxMYTNpBn8E5G36bYzs8ANh7OBQ+Mj4t5E8ONz/2blV
+ zmsPxxrRTLxT6o7gRSD5X+iel+ruwU7rA7rvXDNgOO0bWnu90SUGX6/VtM+5m7Rg
+ wRSJ/rKU9eSFhu0KVG+8GwOZGhqrTl7C2YpzG0nJ7K9FRdVw0GFGKworn0qRRKSl
+ hpqUsByMo25lJ0xsI4yecMCvcXSrV+85vPhxSdMDM/TGaOqaPHlnA==
+X-ME-Sender: <xms:LRiIXyql9EZjPAsRWz3CPmEUngBI0aK7ByJsGir8ALf5-7L-pVClQA>
+ <xme:LRiIXworPPmZQV-ZhUrheDfZJ62Ffgw-lOSINFcpNPUC8AKVgQk-wl_g4T_hpeHOH
+ LPyIR9zZGBAGhgUL44>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrieefgddukecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:LRiIX3On4X0UJj_CmlwN3GnBBCrntC-0bEKDFUfsqQd3SXlbMkkUug>
+ <xmx:LRiIXx4KbbLo56lYF2-TzmOlxw0sYgo-dw4diSMgOgB2y3e5Ufrryg>
+ <xmx:LRiIXx4HcINpLPs5Iyo-rOI3S2stK1uMN6dX6Pyd6MIjYbBuA6-7mA>
+ <xmx:LhiIX-uo3S-E4NC5MjSrNEQM7nn4OZzYqWpNEVWRNGlWXhmuhPsLXA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2DFBC3064610;
+ Thu, 15 Oct 2020 05:36:45 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 1/3] drm/sun4i: frontend: Rework a bit the phase data
+Date: Thu, 15 Oct 2020 11:36:40 +0200
+Message-Id: <20201015093642.261440-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Date: Thu, 15 Oct 2020 14:48:00 +0530
-From: mkrishn@codeaurora.org
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [v1] drm/msm: Fix race condition in msm driver with async layer
- updates
-In-Reply-To: <CAF6AEGtQEbGVQdNPSaHy41gqsiLV19X8kxMVCRUy8y1SzjTZGw@mail.gmail.com>
-References: <1602680296-8965-1-git-send-email-mkrishn@codeaurora.org>
- <CAF6AEGtQEbGVQdNPSaHy41gqsiLV19X8kxMVCRUy8y1SzjTZGw@mail.gmail.com>
-Message-ID: <dda1ec958f188216b067fd40a36eb41d@codeaurora.org>
-X-Sender: mkrishn@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Sat, 17 Oct 2020 19:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,273 +77,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED
- DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Taras Galchenko <tpgalchenko@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-14 20:55, Rob Clark wrote:
-> On Wed, Oct 14, 2020 at 5:58 AM Krishna Manikandan
-> <mkrishn@codeaurora.org> wrote:
->> 
->> When there are back to back commits with async cursor update,
->> there is a case where second commit can program the DPU hw
->> blocks while first didn't complete flushing config to HW.
->> 
->> Synchronize the compositions such that second commit waits
->> until first commit flushes the composition.
->> 
->> This change also introduces per crtc commit lock, such that
->> commits on different crtcs are not blocked by each other.
->> 
->> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
->> ---
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c |  1 +
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h |  1 +
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 26 
->> ++++++++++++++++++++++++
->>  drivers/gpu/drm/msm/msm_atomic.c         | 35 
->> ++++++++++++++++++++++----------
->>  drivers/gpu/drm/msm/msm_kms.h            |  5 +++++
->>  5 files changed, 57 insertions(+), 11 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> index c2729f7..9024719 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> @@ -1383,6 +1383,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device 
->> *dev, struct drm_plane *plane,
->> 
->>         /* initialize event handling */
->>         spin_lock_init(&dpu_crtc->event_lock);
->> +       mutex_init(&dpu_crtc->commit_lock);
->> 
->>         DPU_DEBUG("%s: successfully initialized crtc\n", 
->> dpu_crtc->name);
->>         return crtc;
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
->> index cec3474..1eeb73d 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
->> @@ -169,6 +169,7 @@ struct dpu_crtc {
->> 
->>         /* for handling internal event thread */
->>         spinlock_t event_lock;
->> +       struct mutex commit_lock;
->> 
->>         struct dpu_core_perf_params cur_perf;
->> 
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> index c0a4d4e..f99ae7a 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> @@ -445,6 +445,30 @@ static void dpu_kms_wait_flush(struct msm_kms 
->> *kms, unsigned crtc_mask)
->>                 dpu_kms_wait_for_commit_done(kms, crtc);
->>  }
->> 
->> +static void dpu_kms_commit_lock(struct msm_kms *kms, unsigned int 
->> crtc_mask)
->> +{
->> +       struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->> +       struct drm_crtc *crtc;
->> +       struct dpu_crtc *dpu_crtc;
->> +
->> +       for_each_crtc_mask(dpu_kms->dev, crtc, crtc_mask) {
->> +               dpu_crtc = to_dpu_crtc(crtc);
->> +               mutex_lock(&dpu_crtc->commit_lock);
->> +       }
->> +}
->> +
->> +static void dpu_kms_commit_unlock(struct msm_kms *kms, unsigned int 
->> crtc_mask)
->> +{
->> +       struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->> +       struct drm_crtc *crtc;
->> +       struct dpu_crtc *dpu_crtc;
->> +
->> +       for_each_crtc_mask(dpu_kms->dev, crtc, crtc_mask) {
->> +               dpu_crtc = to_dpu_crtc(crtc);
->> +               mutex_unlock(&dpu_crtc->commit_lock);
->> +       }
->> +}
->> +
->>  static int _dpu_kms_initialize_dsi(struct drm_device *dev,
->>                                     struct msm_drm_private *priv,
->>                                     struct dpu_kms *dpu_kms)
->> @@ -738,6 +762,8 @@ static const struct msm_kms_funcs kms_funcs = {
->>  #ifdef CONFIG_DEBUG_FS
->>         .debugfs_init    = dpu_kms_debugfs_init,
->>  #endif
->> +       .commit_lock     = dpu_kms_commit_lock,
->> +       .commit_unlock   = dpu_kms_commit_unlock,
->>  };
->> 
->>  static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms)
->> diff --git a/drivers/gpu/drm/msm/msm_atomic.c 
->> b/drivers/gpu/drm/msm/msm_atomic.c
->> index 561bfa4..d33253f 100644
->> --- a/drivers/gpu/drm/msm/msm_atomic.c
->> +++ b/drivers/gpu/drm/msm/msm_atomic.c
->> @@ -55,16 +55,32 @@ static void vblank_put(struct msm_kms *kms, 
->> unsigned crtc_mask)
->>         }
->>  }
->> 
->> +static void msm_commit_lock(struct msm_kms *kms, unsigned int 
->> crtc_mask)
->> +{
->> +       if (kms->funcs->commit_lock)
->> +               kms->funcs->commit_lock(kms, crtc_mask);
->> +       else
->> +               mutex_lock(&kms->commit_lock);
->> +}
->> +
->> +static void msm_commit_unlock(struct msm_kms *kms, unsigned int 
->> crtc_mask)
->> +{
->> +       if (kms->funcs->commit_unlock)
->> +               kms->funcs->commit_unlock(kms, crtc_mask);
->> +       else
->> +               mutex_unlock(&kms->commit_lock);
->> +}
-> 
-> Hi, I think the per-crtc commit-lock, and the updated
-> locking/unlocking points are the right thing to do, but I don't think
-> we need to touch dpu for this.  Just change kms->commit_lock to an
-> array of mutexes, and drop the vfunc indirection.  All the same
-> locking logic applies to mdp4/mdp5 as well (ie. don't touch the hw
-> until it has flushed)
-> 
-> BR,
-> -R
-> 
+The scaler filter phase setup in the allwinner kernel has two different
+cases for setting up the scaler filter, the first one using different phase
+parameters for the two channels, and the second one reusing the first
+channel parameters on the second channel.
 
-Thanks for the comments Rob. I have addressed them in v2 patch.
+The allwinner kernel has a third option where the horizontal phase of the
+second channel will be set to a different value than the vertical one (and
+seems like it's the same value than one used on the first channel).
+However, that code path seems to never be taken, so we can ignore it for
+now, and it's essentially what we're doing so far as well.
 
-Regards,
-Krishna
->> +
->>  static void msm_atomic_async_commit(struct msm_kms *kms, int 
->> crtc_idx)
->>  {
->>         unsigned crtc_mask = BIT(crtc_idx);
->> 
->>         trace_msm_atomic_async_commit_start(crtc_mask);
->> 
->> -       mutex_lock(&kms->commit_lock);
->> +       msm_commit_lock(kms, crtc_mask);
->> 
->>         if (!(kms->pending_crtc_mask & crtc_mask)) {
->> -               mutex_unlock(&kms->commit_lock);
->> +               msm_commit_unlock(kms, crtc_mask);
->>                 goto out;
->>         }
->> 
->> @@ -79,7 +95,6 @@ static void msm_atomic_async_commit(struct msm_kms 
->> *kms, int crtc_idx)
->>          */
->>         trace_msm_atomic_flush_commit(crtc_mask);
->>         kms->funcs->flush_commit(kms, crtc_mask);
->> -       mutex_unlock(&kms->commit_lock);
->> 
->>         /*
->>          * Wait for flush to complete:
->> @@ -90,9 +105,8 @@ static void msm_atomic_async_commit(struct msm_kms 
->> *kms, int crtc_idx)
->> 
->>         vblank_put(kms, crtc_mask);
->> 
->> -       mutex_lock(&kms->commit_lock);
->>         kms->funcs->complete_commit(kms, crtc_mask);
->> -       mutex_unlock(&kms->commit_lock);
->> +       msm_commit_unlock(kms, crtc_mask);
->>         kms->funcs->disable_commit(kms);
->> 
->>  out:
->> @@ -189,12 +203,11 @@ void msm_atomic_commit_tail(struct 
->> drm_atomic_state *state)
->>          * Ensure any previous (potentially async) commit has
->>          * completed:
->>          */
->> +       msm_commit_lock(kms, crtc_mask);
->>         trace_msm_atomic_wait_flush_start(crtc_mask);
->>         kms->funcs->wait_flush(kms, crtc_mask);
->>         trace_msm_atomic_wait_flush_finish(crtc_mask);
->> 
->> -       mutex_lock(&kms->commit_lock);
->> -
->>         /*
->>          * Now that there is no in-progress flush, prepare the
->>          * current update:
->> @@ -232,7 +245,7 @@ void msm_atomic_commit_tail(struct 
->> drm_atomic_state *state)
->>                 }
->> 
->>                 kms->funcs->disable_commit(kms);
->> -               mutex_unlock(&kms->commit_lock);
->> +               msm_commit_unlock(kms, crtc_mask);
->> 
->>                 /*
->>                  * At this point, from drm core's perspective, we
->> @@ -260,7 +273,7 @@ void msm_atomic_commit_tail(struct 
->> drm_atomic_state *state)
->>          */
->>         trace_msm_atomic_flush_commit(crtc_mask);
->>         kms->funcs->flush_commit(kms, crtc_mask);
->> -       mutex_unlock(&kms->commit_lock);
->> +       msm_commit_unlock(kms, crtc_mask);
->> 
->>         /*
->>          * Wait for flush to complete:
->> @@ -271,9 +284,9 @@ void msm_atomic_commit_tail(struct 
->> drm_atomic_state *state)
->> 
->>         vblank_put(kms, crtc_mask);
->> 
->> -       mutex_lock(&kms->commit_lock);
->> +       msm_commit_lock(kms, crtc_mask);
->>         kms->funcs->complete_commit(kms, crtc_mask);
->> -       mutex_unlock(&kms->commit_lock);
->> +       msm_commit_unlock(kms, crtc_mask);
->>         kms->funcs->disable_commit(kms);
->> 
->>         drm_atomic_helper_commit_hw_done(state);
->> diff --git a/drivers/gpu/drm/msm/msm_kms.h 
->> b/drivers/gpu/drm/msm/msm_kms.h
->> index 1cbef6b..f02e73e 100644
->> --- a/drivers/gpu/drm/msm/msm_kms.h
->> +++ b/drivers/gpu/drm/msm/msm_kms.h
->> @@ -126,6 +126,11 @@ struct msm_kms_funcs {
->>         /* debugfs: */
->>         int (*debugfs_init)(struct msm_kms *kms, struct drm_minor 
->> *minor);
->>  #endif
->> +       /* commit lock for crtc */
->> +       void (*commit_lock)(struct msm_kms *kms, unsigned int 
->> crtc_mask);
->> +
->> +       /* commit unlock for crtc */
->> +       void (*commit_unlock)(struct msm_kms *kms, unsigned int 
->> crtc_mask);
->>  };
->> 
->>  struct msm_kms;
->> --
->> 2.7.4
->> 
+Since we will have always the same values across each components of the
+filter setup for a given channel, we can simplify a bit our frontend
+structure by only storing the phase value we want to apply to a given
+channel.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/sun4i/sun4i_frontend.c | 34 ++++++--------------------
+ drivers/gpu/drm/sun4i/sun4i_frontend.h |  6 +----
+ 2 files changed, 9 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
+index ec2a032e07b9..7462801b1fa8 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
+@@ -443,17 +443,17 @@ int sun4i_frontend_update_formats(struct sun4i_frontend *frontend,
+ 	 * related to the scaler FIR filter phase parameters.
+ 	 */
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH0_HORZPHASE_REG,
+-		     frontend->data->ch_phase[0].horzphase);
++		     frontend->data->ch_phase[0]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH1_HORZPHASE_REG,
+-		     frontend->data->ch_phase[1].horzphase);
++		     frontend->data->ch_phase[1]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH0_VERTPHASE0_REG,
+-		     frontend->data->ch_phase[0].vertphase[0]);
++		     frontend->data->ch_phase[0]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH1_VERTPHASE0_REG,
+-		     frontend->data->ch_phase[1].vertphase[0]);
++		     frontend->data->ch_phase[1]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH0_VERTPHASE1_REG,
+-		     frontend->data->ch_phase[0].vertphase[1]);
++		     frontend->data->ch_phase[0]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH1_VERTPHASE1_REG,
+-		     frontend->data->ch_phase[1].vertphase[1]);
++		     frontend->data->ch_phase[1]);
+ 
+ 	/*
+ 	 * Checking the input format is sufficient since we currently only
+@@ -687,30 +687,12 @@ static const struct dev_pm_ops sun4i_frontend_pm_ops = {
+ };
+ 
+ static const struct sun4i_frontend_data sun4i_a10_frontend = {
+-	.ch_phase		= {
+-		{
+-			.horzphase = 0,
+-			.vertphase = { 0, 0 },
+-		},
+-		{
+-			.horzphase = 0xfc000,
+-			.vertphase = { 0xfc000, 0xfc000 },
+-		},
+-	},
++	.ch_phase		= { 0x000, 0xfc000 },
+ 	.has_coef_rdy		= true,
+ };
+ 
+ static const struct sun4i_frontend_data sun8i_a33_frontend = {
+-	.ch_phase		= {
+-		{
+-			.horzphase = 0x400,
+-			.vertphase = { 0x400, 0x400 },
+-		},
+-		{
+-			.horzphase = 0x400,
+-			.vertphase = { 0x400, 0x400 },
+-		},
+-	},
++	.ch_phase		= { 0x400, 0x400 },
+ 	.has_coef_access_ctrl	= true,
+ };
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.h b/drivers/gpu/drm/sun4i/sun4i_frontend.h
+index 0c382c1ddb0f..2e7b76e50c2b 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_frontend.h
++++ b/drivers/gpu/drm/sun4i/sun4i_frontend.h
+@@ -115,11 +115,7 @@ struct reset_control;
+ struct sun4i_frontend_data {
+ 	bool	has_coef_access_ctrl;
+ 	bool	has_coef_rdy;
+-
+-	struct {
+-		u32	horzphase;
+-		u32	vertphase[2];
+-	} ch_phase[2];
++	u32	ch_phase[2];
+ };
+ 
+ struct sun4i_frontend {
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
