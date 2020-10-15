@@ -1,32 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E561928F033
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 12:30:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E4A28F07A
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 13:00:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84EDC6EC4F;
-	Thu, 15 Oct 2020 10:30:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1FAD89AEA;
+	Thu, 15 Oct 2020 11:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B65C36EC4F
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 10:30:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6C8ACAD1E;
- Thu, 15 Oct 2020 10:29:59 +0000 (UTC)
-Date: Thu, 15 Oct 2020 12:29:57 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH drm/hisilicon v2 2/2] drm/hisilicon: Use the same style
- of variable type in hibmc_drm_drv
-Message-ID: <20201015122957.6590adb3@linux-uq9g>
-In-Reply-To: <1602752417-20598-3-git-send-email-tiantao6@hisilicon.com>
-References: <1602752417-20598-1-git-send-email-tiantao6@hisilicon.com>
- <1602752417-20598-3-git-send-email-tiantao6@hisilicon.com>
-Organization: SUSE Software Solutions Germany GmbH
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CDAA89A72;
+ Thu, 15 Oct 2020 11:00:04 +0000 (UTC)
+IronPort-SDR: fj6QoAV5z9ieGKK7GAdGxcmoEX/uTtf3vyXEWxCqUTbQnlJcuzfiV7GA1r6XKtGq/gKYLBgZg6
+ wFe2eLSFtt6A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9774"; a="163686054"
+X-IronPort-AV: E=Sophos;i="5.77,378,1596524400"; d="scan'208";a="163686054"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Oct 2020 04:00:02 -0700
+IronPort-SDR: 5J0iBQvWFN4G8BZxaQFD9qkdW+hyL018cBEy/qbNpBVcEE1sojvoZLlXuRS2qD2OVqnk/+vQjw
+ dzuNeRg2Nmlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,378,1596524400"; d="scan'208";a="356949538"
+Received: from linux-akn.iind.intel.com ([10.223.34.148])
+ by FMSMGA003.fm.intel.com with ESMTP; 15 Oct 2020 03:59:59 -0700
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [RFC 00/13] Add support for DP-HDMI2.1 PCON
+Date: Thu, 15 Oct 2020 16:22:46 +0530
+Message-Id: <20201015105259.27934-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,70 +46,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linuxarm@huawei.com, xinliang.liu@linaro.org,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: vandita.kulkarni@intel.com, uma.shankar@intel.com,
+ dri-devel@lists.freedesktop.org, swati2.sharma@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCk9uIFRodSwgMTUgT2N0IDIwMjAgMTc6MDA6MTcgKzA4MDAgVGlhbiBUYW8gPHRpYW50YW82
-QGhpc2lsaWNvbi5jb20+IHdyb3RlOgoKPiBDb25zaXN0ZW50bHkgVXNlIHRoZSBzYW1lIHN0eWxl
-IG9mIHZhcmlhYmxlIHR5cGUgaW4gaGlibWNfZHJtX2Rydi5jIGFuZAo+IGhpYm1jX2RybV9kcnYu
-aC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBUaWFuIFRhbyA8dGlhbnRhbzZAaGlzaWxpY29uLmNvbT4K
-PiBBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gLS0t
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jIHwgMTMg
-KysrKysrLS0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2Ry
-bV9kcnYuaCB8ICA4ICsrKystLS0tCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygr
-KSwgMTEgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9oaXNp
-bGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29u
-L2hpYm1jL2hpYm1jX2RybV9kcnYuYyBpbmRleCA1NjMyYmNlLi4wYzFiNDBkCj4gMTAwNjQ0IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jCj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2LmMKPiBAQCAt
-MTIxLDEyICsxMjEsMTEgQEAgc3RhdGljIHZvaWQgaGlibWNfa21zX2Zpbmkoc3RydWN0IGhpYm1j
-X2RybV9wcml2YXRlCj4gKnByaXYpIC8qCj4gICAqIEl0IGNhbiBvcGVyYXRlIGluIG9uZSBvZiB0
-aHJlZSBtb2RlczogMCwgMSBvciBTbGVlcC4KPiAgICovCj4gLXZvaWQgaGlibWNfc2V0X3Bvd2Vy
-X21vZGUoc3RydWN0IGhpYm1jX2RybV9wcml2YXRlICpwcml2LAo+IC0JCQkgIHVuc2lnbmVkIGlu
-dCBwb3dlcl9tb2RlKQo+ICt2b2lkIGhpYm1jX3NldF9wb3dlcl9tb2RlKHN0cnVjdCBoaWJtY19k
-cm1fcHJpdmF0ZSAqcHJpdiwgdTMyIHBvd2VyX21vZGUpCj4gIHsKPiAtCXVuc2lnbmVkIGludCBj
-b250cm9sX3ZhbHVlID0gMDsKPiArCXUzMiBjb250cm9sX3ZhbHVlID0gMDsKPiAgCXZvaWQgX19p
-b21lbSAgICptbWlvID0gcHJpdi0+bW1pbzsKPiAtCXVuc2lnbmVkIGludCBpbnB1dCA9IDE7Cj4g
-Kwl1MzIgaW5wdXQgPSAxOwo+ICAKPiAgCWlmIChwb3dlcl9tb2RlID4gSElCTUNfUFdfTU9ERV9D
-VExfTU9ERV9TTEVFUCkKPiAgCQlyZXR1cm47Cj4gQEAgLTE0NCw4ICsxNDMsOCBAQCB2b2lkIGhp
-Ym1jX3NldF9wb3dlcl9tb2RlKHN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZQo+ICpwcml2LCAKPiAg
-dm9pZCBoaWJtY19zZXRfY3VycmVudF9nYXRlKHN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZSAqcHJp
-diwgdW5zaWduZWQgaW50Cj4gZ2F0ZSkgewo+IC0JdW5zaWduZWQgaW50IGdhdGVfcmVnOwo+IC0J
-dW5zaWduZWQgaW50IG1vZGU7Cj4gKwl1MzIgZ2F0ZV9yZWc7Cj4gKwl1MzIgbW9kZTsKPiAgCXZv
-aWQgX19pb21lbSAgICptbWlvID0gcHJpdi0+bW1pbzsKPiAgCj4gIAkvKiBHZXQgY3VycmVudCBw
-b3dlciBtb2RlLiAqLwo+IEBAIC0xNzAsNyArMTY5LDcgQEAgdm9pZCBoaWJtY19zZXRfY3VycmVu
-dF9nYXRlKHN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZQo+ICpwcml2LCB1bnNpZ25lZCBpbnQgZ2F0
-ZSkgCj4gIHN0YXRpYyB2b2lkIGhpYm1jX2h3X2NvbmZpZyhzdHJ1Y3QgaGlibWNfZHJtX3ByaXZh
-dGUgKnByaXYpCj4gIHsKPiAtCXVuc2lnbmVkIGludCByZWc7Cj4gKwl1MzIgcmVnOwo+ICAKPiAg
-CS8qIE9uIGhhcmR3YXJlIHJlc2V0LCBwb3dlciBtb2RlIDAgaXMgZGVmYXVsdC4gKi8KPiAgCWhp
-Ym1jX3NldF9wb3dlcl9tb2RlKHByaXYsIEhJQk1DX1BXX01PREVfQ1RMX01PREVfTU9ERTApOwo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9k
-cnYuaAo+IGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2Lmgg
-aW5kZXggNmE2MzUwMi4uNWM0MDMwZAo+IDEwMDY0NCAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaGlz
-aWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNp
-bGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5oCj4gQEAgLTMzLDggKzMzLDggQEAgc3RydWN0IGhp
-Ym1jX2RybV9wcml2YXRlIHsKPiAgCS8qIGh3ICovCj4gIAl2b2lkIF9faW9tZW0gICAqbW1pbzsK
-PiAgCXZvaWQgX19pb21lbSAgICpmYl9tYXA7Cj4gLQl1bnNpZ25lZCBsb25nICBmYl9iYXNlOwo+
-IC0JdW5zaWduZWQgbG9uZyAgZmJfc2l6ZTsKPiArCXU2NCAgZmJfYmFzZTsKPiArCXU2NCAgZmJf
-c2l6ZTsKCk5vIGNvbW1lbnQgb24gd2h5IHU2NCBpcyBiZXR0ZXIgdGhhbiByZXNvdXJjZV9zaXpl
-X3QgPwoKQmVzdCByZWdhcmRzClRob21hcwoKPiAgCj4gIAkvKiBkcm0gKi8KPiAgCXN0cnVjdCBk
-cm1fZGV2aWNlICAqZGV2Owo+IEBAIC01Niw5ICs1Niw5IEBAIHN0YXRpYyBpbmxpbmUgc3RydWN0
-IGhpYm1jX2RybV9wcml2YXRlCj4gKnRvX2hpYm1jX2RybV9wcml2YXRlKHN0cnVjdCBkcm1fZGV2
-aWNlICogfQo+ICAKPiAgdm9pZCBoaWJtY19zZXRfcG93ZXJfbW9kZShzdHJ1Y3QgaGlibWNfZHJt
-X3ByaXZhdGUgKnByaXYsCj4gLQkJCSAgdW5zaWduZWQgaW50IHBvd2VyX21vZGUpOwo+ICsJCQkg
-IHUzMiBwb3dlcl9tb2RlKTsKPiAgdm9pZCBoaWJtY19zZXRfY3VycmVudF9nYXRlKHN0cnVjdCBo
-aWJtY19kcm1fcHJpdmF0ZSAqcHJpdiwKPiAtCQkJICAgIHVuc2lnbmVkIGludCBnYXRlKTsKPiAr
-CQkJICAgIHUzMiBnYXRlKTsKPiAgCj4gIGludCBoaWJtY19kZV9pbml0KHN0cnVjdCBoaWJtY19k
-cm1fcHJpdmF0ZSAqcHJpdik7Cj4gIGludCBoaWJtY192ZGFjX2luaXQoc3RydWN0IGhpYm1jX2Ry
-bV9wcml2YXRlICpwcml2KTsKCgoKLS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBoaWNzIERyaXZl
-ciBEZXZlbG9wZXIKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICk1heGZlbGRz
-dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcp
-Ckdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This patch series attempts to add support for a DP-HDMI2.1 Protocol
+Convertor. The VESA spec for the HDMI2.1 PCON are proposed in Errata
+E5 to DisplayPort_v2.0:
+https://vesa.org/join-vesamemberships/member-downloads/?action=stamp&fileid=42299
+The details are mentioned in DP to HDMI2.1 PCON Enum/Config
+improvement slide decks:
+https://groups.vesa.org/wg/DP/document/folder/1316
+
+This RFC series starts with adding support for FRL (Fixed Rate Link)
+Training between the PCON and HDMI2.1 sink.
+As per HDMI2.1 specification, a new data-channel or lane is added in
+FRL mode, by repurposing the TMDS clock Channel. Through FRL, higher
+bit-rate can be supported, ie. up to 12 Gbps/lane (48 Gbps over 4
+lanes).
+
+With these patches, the HDMI2.1 PCON can be configured to achieve FRL
+training based on the maximum FRL rate supported by the panel, source
+and the PCON.
+The approach is to add the support for FRL training between PCON and
+HDMI2.1 sink and gradually add other blocks for supporting higher
+resolutions and other HDMI2.1 features, that can be supported by pcon
+for the sources that do not natively support HDMI2.1.
+
+This is done before the DP Link training between the source and PCON
+is started. In case of FRL training is not achieved, the PCON will
+work in the regular TMDS mode, without HDMI2.1 feature support.
+Any interruption in FRL training between the PCON and HDMI2.1 sink is
+notified through IRQ_HPD. On receiving the IRQ_HPD the concerned DPCD
+registers are read and FRL training is re-attempted.
+
+Currently, we have tested the FRL training and are able to enable 4K
+display with TGL Platform + Realtek PCON RTD2173 with HDMI2.1 supporting
+panel.
+
+v2: Added patch to capture the PCON FRL caps in downstream facing port
+cap structure.
+
+v3: Added patches for getting DSC capabilities of the PCON DSC encoder
+and HDMI decoder. Added support to configure PCON for DSC1.1 decoding
+and DSC1.2 encoding.
+
+Ankit Nautiyal (9):
+  drm/dp_helper: Add FRL training support for a DP-HDMI2.1 PCON
+  drm/i915: Capture max frl rate for PCON in dfp cap structure
+  drm/i915: Add support for starting FRL training for HDMI2.1 via PCON
+  drm/i915: Check for FRL training before DP Link training
+  drm/edid: Parse DSC1.2 cap fields from HFVSDB block
+  drm/dp_helper: Add support for Configuring DSC for HDMI2.1 Pcon
+  drm/i915: Read DSC capabilities of the HDMI2.1 PCON encoder
+  drm/i915: Add helper functions for calculating DSC parameters for
+    HDMI2.1
+  drm/i915: Configure PCON for DSC1.1 to DSC1.2 encoding
+
+Swati Sharma (4):
+  drm/edid: Add additional HFVSDB fields for HDMI2.1
+  drm/edid: Parse MAX_FRL field from HFVSDB block
+  drm/dp_helper: Add support for link status and link recovery
+  drm/i915: Add support for enabling link status and recovery
+
+ drivers/gpu/drm/drm_dp_helper.c               | 431 +++++++++++++
+ drivers/gpu/drm/drm_edid.c                    |  70 +++
+ drivers/gpu/drm/i915/display/intel_ddi.c      |   2 +
+ .../drm/i915/display/intel_display_types.h    |  24 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 576 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_dp.h       |   4 +
+ drivers/gpu/drm/i915/display/intel_hdmi.c     | 171 ++++++
+ drivers/gpu/drm/i915/display/intel_hdmi.h     |   7 +
+ include/drm/drm_connector.h                   |  38 ++
+ include/drm/drm_dp_helper.h                   | 205 +++++++
+ include/drm/drm_edid.h                        |  30 +
+ 11 files changed, 1553 insertions(+), 5 deletions(-)
+
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
