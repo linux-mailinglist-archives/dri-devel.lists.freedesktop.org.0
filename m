@@ -1,32 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392742913FE
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EFB2913EC
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B09326E23B;
-	Sat, 17 Oct 2020 19:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F1A06E0F8;
+	Sat, 17 Oct 2020 19:04:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 042E06EC44
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04C3E6EC4B
  for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 08:59:43 +0000 (UTC)
 Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id DD6D9D8C0D2F40740CF0;
- Thu, 15 Oct 2020 16:59:38 +0800 (CST)
+ by Forcepoint Email with ESMTP id 107BDFBE44B0C4FE43B2;
+ Thu, 15 Oct 2020 16:59:39 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 15 Oct 2020 16:59:29 +0800
+ 14.3.487.0; Thu, 15 Oct 2020 16:59:30 +0800
 From: Tian Tao <tiantao6@hisilicon.com>
 To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
  <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
  <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH drm/hisilicon v2 0/2] Use the same style of variable type
-Date: Thu, 15 Oct 2020 17:00:15 +0800
-Message-ID: <1602752417-20598-1-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH drm/hisilicon v2 1/2] drm/hisilicon: Use the same style of
+ variable type in hibmc_drm_de
+Date: Thu, 15 Oct 2020 17:00:16 +0800
+Message-ID: <1602752417-20598-2-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1602752417-20598-1-git-send-email-tiantao6@hisilicon.com>
+References: <1602752417-20598-1-git-send-email-tiantao6@hisilicon.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.69.192.56]
 X-CFilter-Loop: Reflected
@@ -49,21 +52,185 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-patch #1 and #2 Use the same style of variable type in hisilicon drm driver
-and both are clean up, no actual functional changes.
+Consistently Use the same style of variable type in hibmc_drm_de.c.
 
-Changes since v1:
--Change part of unsigned int to size_t.
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c | 59 +++++++++++++-------------
+ 1 file changed, 29 insertions(+), 30 deletions(-)
 
-Tian Tao (2):
-  drm/hisilicon: Use the same style of variable type in hibmc_drm_de
-  drm/hisilicon: Use the same style of variable type in hibmc_drm_drv
-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c  | 59 ++++++++++++-------------
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 13 +++---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  8 ++--
- 3 files changed, 39 insertions(+), 41 deletions(-)
-
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+index 8478a84..a1eabad 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+@@ -23,15 +23,15 @@
+ #include "hibmc_drm_regs.h"
+ 
+ struct hibmc_display_panel_pll {
+-	unsigned long M;
+-	unsigned long N;
+-	unsigned long OD;
+-	unsigned long POD;
++	u64 M;
++	u64 N;
++	u64 OD;
++	u64 POD;
+ };
+ 
+ struct hibmc_dislay_pll_config {
+-	unsigned long hdisplay;
+-	unsigned long vdisplay;
++	u64 hdisplay;
++	u64 vdisplay;
+ 	u32 pll1_config_value;
+ 	u32 pll2_config_value;
+ };
+@@ -102,7 +102,7 @@ static void hibmc_plane_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state	*state	= plane->state;
+ 	u32 reg;
+ 	s64 gpu_addr = 0;
+-	unsigned int line_l;
++	u32 line_l;
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(plane->dev);
+ 	struct drm_gem_vram_object *gbo;
+ 
+@@ -155,10 +155,10 @@ static const struct drm_plane_helper_funcs hibmc_plane_helper_funcs = {
+ 	.atomic_update = hibmc_plane_atomic_update,
+ };
+ 
+-static void hibmc_crtc_dpms(struct drm_crtc *crtc, int dpms)
++static void hibmc_crtc_dpms(struct drm_crtc *crtc, u32 dpms)
+ {
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+-	unsigned int reg;
++	u32 reg;
+ 
+ 	reg = readl(priv->mmio + HIBMC_CRT_DISP_CTL);
+ 	reg &= ~HIBMC_CRT_DISP_CTL_DPMS_MASK;
+@@ -172,7 +172,7 @@ static void hibmc_crtc_dpms(struct drm_crtc *crtc, int dpms)
+ static void hibmc_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				     struct drm_atomic_state *state)
+ {
+-	unsigned int reg;
++	u32 reg;
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+ 
+ 	hibmc_set_power_mode(priv, HIBMC_PW_MODE_CTL_MODE_MODE0);
+@@ -191,7 +191,7 @@ static void hibmc_crtc_atomic_enable(struct drm_crtc *crtc,
+ static void hibmc_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				      struct drm_atomic_state *state)
+ {
+-	unsigned int reg;
++	u32 reg;
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+ 
+ 	hibmc_crtc_dpms(crtc, HIBMC_CRT_DPMS_OFF);
+@@ -212,7 +212,7 @@ static enum drm_mode_status
+ hibmc_crtc_mode_valid(struct drm_crtc *crtc,
+ 		      const struct drm_display_mode *mode)
+ {
+-	int i = 0;
++	size_t i = 0;
+ 	int vrefresh = drm_mode_vrefresh(mode);
+ 
+ 	if (vrefresh < 59 || vrefresh > 61)
+@@ -227,9 +227,9 @@ hibmc_crtc_mode_valid(struct drm_crtc *crtc,
+ 	return MODE_BAD;
+ }
+ 
+-static unsigned int format_pll_reg(void)
++static u32 format_pll_reg(void)
+ {
+-	unsigned int pllreg = 0;
++	u32 pllreg = 0;
+ 	struct hibmc_display_panel_pll pll = {0};
+ 
+ 	/*
+@@ -249,7 +249,7 @@ static unsigned int format_pll_reg(void)
+ 	return pllreg;
+ }
+ 
+-static void set_vclock_hisilicon(struct drm_device *dev, unsigned long pll)
++static void set_vclock_hisilicon(struct drm_device *dev, u64 pll)
+ {
+ 	u32 val;
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+@@ -279,11 +279,10 @@ static void set_vclock_hisilicon(struct drm_device *dev, unsigned long pll)
+ 	writel(val, priv->mmio + CRT_PLL1_HS);
+ }
+ 
+-static void get_pll_config(unsigned long x, unsigned long y,
+-			   u32 *pll1, u32 *pll2)
++static void get_pll_config(u64 x, u64 y, u32 *pll1, u32 *pll2)
+ {
+-	int i;
+-	int count = ARRAY_SIZE(hibmc_pll_table);
++	size_t i;
++	size_t count = ARRAY_SIZE(hibmc_pll_table);
+ 
+ 	for (i = 0; i < count; i++) {
+ 		if (hibmc_pll_table[i].hdisplay == x &&
+@@ -306,11 +305,11 @@ static void get_pll_config(unsigned long x, unsigned long y,
+  * FPGA only supports 7 predefined pixel clocks, and clock select is
+  * in bit 4:0 of new register 0x802a8.
+  */
+-static unsigned int display_ctrl_adjust(struct drm_device *dev,
+-					struct drm_display_mode *mode,
+-					unsigned int ctrl)
++static u32 display_ctrl_adjust(struct drm_device *dev,
++			       struct drm_display_mode *mode,
++			       u32 ctrl)
+ {
+-	unsigned long x, y;
++	u64 x, y;
+ 	u32 pll1; /* bit[31:0] of PLL */
+ 	u32 pll2; /* bit[63:32] of PLL */
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+@@ -358,12 +357,12 @@ static unsigned int display_ctrl_adjust(struct drm_device *dev,
+ 
+ static void hibmc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ {
+-	unsigned int val;
++	u32 val;
+ 	struct drm_display_mode *mode = &crtc->state->mode;
+ 	struct drm_device *dev = crtc->dev;
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+-	int width = mode->hsync_end - mode->hsync_start;
+-	int height = mode->vsync_end - mode->vsync_start;
++	u32 width = mode->hsync_end - mode->hsync_start;
++	u32 height = mode->vsync_end - mode->vsync_start;
+ 
+ 	writel(format_pll_reg(), priv->mmio + HIBMC_CRT_PLL_CTRL);
+ 	writel(HIBMC_FIELD(HIBMC_CRT_HORZ_TOTAL_TOTAL, mode->htotal - 1) |
+@@ -393,7 +392,7 @@ static void hibmc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ static void hibmc_crtc_atomic_begin(struct drm_crtc *crtc,
+ 				    struct drm_crtc_state *old_state)
+ {
+-	unsigned int reg;
++	u32 reg;
+ 	struct drm_device *dev = crtc->dev;
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 
+@@ -446,15 +445,15 @@ static void hibmc_crtc_load_lut(struct drm_crtc *crtc)
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
+ 	void __iomem   *mmio = priv->mmio;
+ 	u16 *r, *g, *b;
+-	unsigned int reg;
+-	int i;
++	u32 reg;
++	u32 i;
+ 
+ 	r = crtc->gamma_store;
+ 	g = r + crtc->gamma_size;
+ 	b = g + crtc->gamma_size;
+ 
+ 	for (i = 0; i < crtc->gamma_size; i++) {
+-		unsigned int offset = i << 2;
++		u32 offset = i << 2;
+ 		u8 red = *r++ >> 8;
+ 		u8 green = *g++ >> 8;
+ 		u8 blue = *b++ >> 8;
 -- 
 2.7.4
 
