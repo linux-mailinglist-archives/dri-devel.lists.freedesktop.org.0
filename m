@@ -2,58 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C673928EDF9
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 09:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C542828EE27
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 10:06:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8F846EC33;
-	Thu, 15 Oct 2020 07:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9886EC3E;
+	Thu, 15 Oct 2020 08:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70F816EC33
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 07:55:50 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id d28so2139362ote.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 00:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SKpQn0FDypcCkXIOygWWNsNfWX2lsbxOB8uCbMksAIA=;
- b=HQSl5QWfcvPbV2pGTi/CgSYNE6yrm43VcrDZdZgXfpSEZAPIWhWUaC3Z9+19ZGIOT/
- L1FwUAUuyIWjzwGqR/YpO/MiPOAvkTi9v6qcb2Wcm3bTcyjMzBlJxDT1/tZLBuBLm3mU
- NDzd8Hc1lCeymtif5yx0kEE4DAlngk2j4kC84=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SKpQn0FDypcCkXIOygWWNsNfWX2lsbxOB8uCbMksAIA=;
- b=jDx2lrdg6+6HGqVr+z0XT66oB8/i5q7ImP5Kd7Oiw/NJZUncVb2sg7LSd5BlykazkE
- wUtMMB8oxoHCrTUi8BuouPe/BKAKPy/NhvmOqhxpdvbwERA30xye5hXDRs1DqfqxJ/Tu
- ljmf2TrChNQobgzhylo/koKTdI41lJxl8I5U7X67g3o8yiUHQQjA9b8aAoH7ydZ0SIVi
- Z4F3YPl6JRAnKmJs9abQ7P1EzZjt58Ob4q3mVgVCMrtl2JGbq1X6cdvUfPbG3GyGvapf
- 9qCZ1TCgfiHL5YGDafoPaO+c06DIVdhwCjDsiO1ruMh324waLnogNQzosBUAoXvYgXmn
- pHHQ==
-X-Gm-Message-State: AOAM533hS1JYWdBL97rGh7GYAH5dgzUXi+T0s0UP0TXYcK/M7znKh/h9
- iR6eYAo8XRBqrIVZDkPlj76pjS/J1LdA5TTnuFMWEw==
-X-Google-Smtp-Source: ABdhPJxdSyalRqLRcx8/tcfIkmtSxIfRSiuYpFEh1r0/JAJixM8EE3XAGRAgngn5UADgaJioF6PuXkNghwu1P0DfUPk=
-X-Received: by 2002:a05:6830:8b:: with SMTP id
- a11mr1751471oto.303.1602748549701; 
- Thu, 15 Oct 2020 00:55:49 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED356EC3E
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 08:06:00 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 03440AF84;
+ Thu, 15 Oct 2020 08:05:59 +0000 (UTC)
+Date: Thu, 15 Oct 2020 10:05:57 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Xu Wang <vulab@iscas.ac.cn>
+Subject: Re: [PATCH] au1100fb: Remove NULL pointer check before
+ clk_enable/disable
+Message-ID: <20201015100557.402f831f@linux-uq9g>
+In-Reply-To: <20201014082137.23320-1-vulab@iscas.ac.cn>
+References: <20201014082137.23320-1-vulab@iscas.ac.cn>
+Organization: SUSE Software Solutions Germany GmbH
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-15-daniel.vetter@ffwll.ch>
- <20201009123109.GO5177@ziepe.ca>
- <CAKMK7uFpPP-Q0jC0vM7vYPEcg0m4NzTw+Ld=swdTF3BgMX5Qug@mail.gmail.com>
- <20201009143209.GS5177@ziepe.ca>
- <CAPcyv4j54O8ac6WB3LEeNud2r11V26gA0PRKK9bhyEMF67AXtQ@mail.gmail.com>
- <20201015000939.GD6763@ziepe.ca>
- <CAKMK7uGu8yWRAGZX-dz-sXHsGufXKm003J5zuQr2AwNMG4+DUw@mail.gmail.com>
-In-Reply-To: <CAKMK7uGu8yWRAGZX-dz-sXHsGufXKm003J5zuQr2AwNMG4+DUw@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 15 Oct 2020 09:55:38 +0200
-Message-ID: <CAKMK7uHwi8_zurd59aX7ZDst+TGFB3TxyzPiWc8fmVvmomskMw@mail.gmail.com>
-Subject: Re: [PATCH v2 14/17] resource: Move devmem revoke code to resource
- framework
-To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,93 +39,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390 <linux-s390@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
- David Hildenbrand <david@redhat.com>, John Hubbard <jhubbard@nvidia.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
+ jani.nikula@intel.com, daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 15, 2020 at 9:52 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> On Thu, Oct 15, 2020 at 2:09 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Fri, Oct 09, 2020 at 11:28:54AM -0700, Dan Williams wrote:
-> > > On Fri, Oct 9, 2020 at 7:32 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > > >
-> > > > On Fri, Oct 09, 2020 at 04:24:45PM +0200, Daniel Vetter wrote:
-> > > > > On Fri, Oct 9, 2020 at 2:31 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > > > > >
-> > > > > > On Fri, Oct 09, 2020 at 09:59:31AM +0200, Daniel Vetter wrote:
-> > > > > >
-> > > > > > > +struct address_space *iomem_get_mapping(void)
-> > > > > > > +{
-> > > > > > > +     return iomem_inode->i_mapping;
-> > > > > >
-> > > > > > This should pair an acquire with the release below
-> > > > > >
-> > > > > > > +     /*
-> > > > > > > +      * Publish /dev/mem initialized.
-> > > > > > > +      * Pairs with smp_load_acquire() in revoke_iomem().
-> > > > > > > +      */
-> > > > > > > +     smp_store_release(&iomem_inode, inode);
-> > > > > >
-> > > > > > However, this seems abnormal, initcalls rarely do this kind of stuff
-> > > > > > with global data..
-> > > > > >
-> > > > > > The kernel crashes if this fs_initcall is raced with
-> > > > > > iomem_get_mapping() due to the unconditional dereference, so I think
-> > > > > > it can be safely switched to a simple assignment.
-> > > > >
-> > > > > Ah yes I checked this all, but forgot to correctly annotate the
-> > > > > iomem_get_mapping access. For reference, see b34e7e298d7a ("/dev/mem:
-> > > > > Add missing memory barriers for devmem_inode").
-> > > >
-> > > > Oh yikes, so revoke_iomem can run concurrently during early boot,
-> > > > tricky.
-> > >
-> > > It runs early because request_mem_region() can run before fs_initcall.
-> > > Rather than add an unnecessary lock just arrange for the revoke to be
-> > > skipped before the inode is initialized. The expectation is that any
-> > > early resource reservations will block future userspace mapping
-> > > attempts.
-> >
-> > Actually, on this point a simple WRITE_ONCE/READ_ONCE pairing is OK,
-> > Paul once explained that the pointer chase on the READ_ONCE side is
-> > required to be like an acquire - this is why rcu_dereference is just
-> > READ_ONCE
->
-> Indeed this changed with the sm_read_barrier_depends() removal a year
-> ago. Before that READ_ONCE and rcu_dereference where not actually the
-> same. I guess I'll throw a patch on top to switch that over too.
-
-Actually 2019 landed just the clean-up, the read change landed in 2017 already:
-
-commit 76ebbe78f7390aee075a7f3768af197ded1bdfbb
-Author: Will Deacon <will@kernel.org>
-Date:   Tue Oct 24 11:22:47 2017 +0100
-
-   locking/barriers: Add implicit smp_read_barrier_depends() to READ_ONCE()
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkKCk9uIFdlZCwgMTQgT2N0IDIwMjAgMDg6MjE6MzcgKzAwMDAgWHUgV2FuZyA8dnVsYWJAaXNj
+YXMuYWMuY24+IHdyb3RlOgoKPiBCZWNhdXNlIGNsa19lbmFibGUsIGNsa19kaXNhYmxlLCBjbGtf
+cHJlcGFyZSwgYW5kIGNsa191bnByZXBhcmUgYWxyZWFkeQo+IGNoZWNrZWQgTlVMTCBjbG9jayBw
+YXJhbWV0ZXIsIHNvIHRoZSBhZGRpdGlvbmFsIGNoZWNrcyBhcmUgdW5uZWNlc3NhcnksCj4ganVz
+dCByZW1vdmUgdGhlbS4KCkFsbCBjbGtfKigpIGZ1bmN0aW9ucyBzZWVtIHRvIGhhbmRsZSBOVUxM
+IHBvaW50ZXJzIGdyYWNlZnVsbHksIHNvIHlvdSBjYW4KYWxzbyByZW1vdmUgdGhlc2UgY2hlY2tz
+IGZyb20gdGhlIGRyaXZlcidzIF9wcm9iZSBhbmQgX3JlbW92ZSBmdW5jdGlvbnMuCgpCZXN0IHJl
+Z2FyZHMKVGhvbWFzCgo+IAo+IFNpZ25lZC1vZmYtYnk6IFh1IFdhbmcgPHZ1bGFiQGlzY2FzLmFj
+LmNuPgo+IC0tLQo+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2F1MTEwMGZiLmMgfCA2ICsrLS0tLQo+
+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+IAo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2F1MTEwMGZiLmMgYi9kcml2ZXJzL3ZpZGVv
+L2ZiZGV2L2F1MTEwMGZiLmMKPiBpbmRleCAzN2E2NTEyZmVkYTAuLjM2NTlkZmJiODFjMSAxMDA2
+NDQKPiAtLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2F1MTEwMGZiLmMKPiArKysgYi9kcml2ZXJz
+L3ZpZGVvL2ZiZGV2L2F1MTEwMGZiLmMKPiBAQCAtNTYwLDggKzU2MCw3IEBAIGludCBhdTExMDBm
+Yl9kcnZfc3VzcGVuZChzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpkZXYsCj4gcG1fbWVzc2FnZV90
+IHN0YXRlKSAvKiBCbGFuayB0aGUgTENEICovCj4gIAlhdTExMDBmYl9mYl9ibGFuayhWRVNBX1BP
+V0VSRE9XTiwgJmZiZGV2LT5pbmZvKTsKPiAgCj4gLQlpZiAoZmJkZXYtPmxjZGNsaykKPiAtCQlj
+bGtfZGlzYWJsZShmYmRldi0+bGNkY2xrKTsKPiArCWNsa19kaXNhYmxlKGZiZGV2LT5sY2RjbGsp
+Owo+ICAKPiAgCW1lbWNweSgmZmJyZWdzLCBmYmRldi0+cmVncywgc2l6ZW9mKHN0cnVjdCBhdTEx
+MDBmYl9yZWdzKSk7Cj4gIAo+IEBAIC01NzcsOCArNTc2LDcgQEAgaW50IGF1MTEwMGZiX2Rydl9y
+ZXN1bWUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqZGV2KQo+ICAKPiAgCW1lbWNweShmYmRldi0+
+cmVncywgJmZicmVncywgc2l6ZW9mKHN0cnVjdCBhdTExMDBmYl9yZWdzKSk7Cj4gIAo+IC0JaWYg
+KGZiZGV2LT5sY2RjbGspCj4gLQkJY2xrX2VuYWJsZShmYmRldi0+bGNkY2xrKTsKPiArCWNsa19l
+bmFibGUoZmJkZXYtPmxjZGNsayk7Cj4gIAo+ICAJLyogVW5ibGFuayB0aGUgTENEICovCj4gIAlh
+dTExMDBmYl9mYl9ibGFuayhWRVNBX05PX0JMQU5LSU5HLCAmZmJkZXYtPmluZm8pOwoKCgotLSAK
+VGhvbWFzIFppbW1lcm1hbm4KR3JhcGhpY3MgRHJpdmVyIERldmVsb3BlcgpTVVNFIFNvZnR3YXJl
+IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBH
+ZXJtYW55CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykKR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4
+IEltZW5kw7ZyZmZlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
