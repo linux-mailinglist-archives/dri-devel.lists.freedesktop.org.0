@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187D028F25A
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 14:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F7228F278
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 14:38:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 663956ECFD;
-	Thu, 15 Oct 2020 12:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E07C6ED1F;
+	Thu, 15 Oct 2020 12:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 271AE6ECE4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAEDD6ECF3;
  Thu, 15 Oct 2020 12:38:17 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7E978B19C;
- Thu, 15 Oct 2020 12:38:15 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 28C49B19A;
+ Thu, 15 Oct 2020 12:38:16 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch, sam@ravnborg.org, alexander.deucher@amd.com,
@@ -31,10 +31,10 @@ To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  sumit.semwal@linaro.org, emil.velikov@collabora.com, luben.tuikov@amd.com,
  apaneers@amd.com, linus.walleij@linaro.org, melissa.srw@gmail.com,
  chris@chris-wilson.co.uk, miaoqinglang@huawei.com
-Subject: [PATCH v4 07/10] drm/gem: Update internal GEM vmap/vunmap interfaces
- to use struct dma_buf_map
-Date: Thu, 15 Oct 2020 14:38:03 +0200
-Message-Id: <20201015123806.32416-8-tzimmermann@suse.de>
+Subject: [PATCH v4 08/10] drm/gem: Store client buffer mappings as struct
+ dma_buf_map
+Date: Thu, 15 Oct 2020 14:38:04 +0200
+Message-Id: <20201015123806.32416-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201015123806.32416-1-tzimmermann@suse.de>
 References: <20201015123806.32416-1-tzimmermann@suse.de>
@@ -59,103 +59,210 @@ Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>, xen-devel@lists.xenproject.org,
  spice-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-R0VNJ3Mgdm1hcCBhbmQgdnVubWFwIGludGVyZmFjZXMgbm93IHdyYXAgbWVtb3J5IHBvaW50ZXJz
-IGluIHN0cnVjdApkbWFfYnVmX21hcC4KClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5u
-IDx0emltbWVybWFubkBzdXNlLmRlPgpSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
-LnZldHRlckBmZndsbC5jaD4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5jICAgfCAx
-OCArKysrKysrKysrKy0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMgICAgICB8IDI2
-ICsrKysrKysrKysrKystLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2ludGVybmFs
-LmggfCAgNSArKystLQogZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jICAgIHwgMTQgKysrKy0t
-LS0tLS0tLS0KIDQgZmlsZXMgY2hhbmdlZCwgMzEgaW5zZXJ0aW9ucygrKSwgMzIgZGVsZXRpb25z
-KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnQuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fY2xpZW50LmMKaW5kZXggNDk1ZjQ3ZDIzZDg3Li5hYzAwODJiZWQ5NjYgMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50LmMKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV9jbGllbnQuYwpAQCAtMyw2ICszLDcgQEAKICAqIENvcHlyaWdodCAyMDE4IE5vcmFs
-ZiBUcsO4bm5lcwogICovCiAKKyNpbmNsdWRlIDxsaW51eC9kbWEtYnVmLW1hcC5oPgogI2luY2x1
-ZGUgPGxpbnV4L2xpc3QuaD4KICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KICNpbmNsdWRlIDxs
-aW51eC9tdXRleC5oPgpAQCAtMzA0LDcgKzMwNSw4IEBAIGRybV9jbGllbnRfYnVmZmVyX2NyZWF0
-ZShzdHJ1Y3QgZHJtX2NsaWVudF9kZXYgKmNsaWVudCwgdTMyIHdpZHRoLCB1MzIgaGVpZ2h0LCB1
-CiAgKi8KIHZvaWQgKmRybV9jbGllbnRfYnVmZmVyX3ZtYXAoc3RydWN0IGRybV9jbGllbnRfYnVm
-ZmVyICpidWZmZXIpCiB7Ci0Jdm9pZCAqdmFkZHI7CisJc3RydWN0IGRtYV9idWZfbWFwIG1hcDsK
-KwlpbnQgcmV0OwogCiAJaWYgKGJ1ZmZlci0+dmFkZHIpCiAJCXJldHVybiBidWZmZXItPnZhZGRy
-OwpAQCAtMzE3LDEzICszMTksMTMgQEAgdm9pZCAqZHJtX2NsaWVudF9idWZmZXJfdm1hcChzdHJ1
-Y3QgZHJtX2NsaWVudF9idWZmZXIgKmJ1ZmZlcikKIAkgKiBmZF9pbnN0YWxsIHN0ZXAgb3V0IG9m
-IHRoZSBkcml2ZXIgYmFja2VuZCBob29rcywgdG8gbWFrZSB0aGF0CiAJICogZmluYWwgc3RlcCBv
-cHRpb25hbCBmb3IgaW50ZXJuYWwgdXNlcnMuCiAJICovCi0JdmFkZHIgPSBkcm1fZ2VtX3ZtYXAo
-YnVmZmVyLT5nZW0pOwotCWlmIChJU19FUlIodmFkZHIpKQotCQlyZXR1cm4gdmFkZHI7CisJcmV0
-ID0gZHJtX2dlbV92bWFwKGJ1ZmZlci0+Z2VtLCAmbWFwKTsKKwlpZiAocmV0KQorCQlyZXR1cm4g
-RVJSX1BUUihyZXQpOwogCi0JYnVmZmVyLT52YWRkciA9IHZhZGRyOworCWJ1ZmZlci0+dmFkZHIg
-PSBtYXAudmFkZHI7CiAKLQlyZXR1cm4gdmFkZHI7CisJcmV0dXJuIG1hcC52YWRkcjsKIH0KIEVY
-UE9SVF9TWU1CT0woZHJtX2NsaWVudF9idWZmZXJfdm1hcCk7CiAKQEAgLTMzNyw3ICszMzksOSBA
-QCBFWFBPUlRfU1lNQk9MKGRybV9jbGllbnRfYnVmZmVyX3ZtYXApOwogICovCiB2b2lkIGRybV9j
-bGllbnRfYnVmZmVyX3Z1bm1hcChzdHJ1Y3QgZHJtX2NsaWVudF9idWZmZXIgKmJ1ZmZlcikKIHsK
-LQlkcm1fZ2VtX3Z1bm1hcChidWZmZXItPmdlbSwgYnVmZmVyLT52YWRkcik7CisJc3RydWN0IGRt
-YV9idWZfbWFwIG1hcCA9IERNQV9CVUZfTUFQX0lOSVRfVkFERFIoYnVmZmVyLT52YWRkcik7CisK
-Kwlkcm1fZ2VtX3Z1bm1hcChidWZmZXItPmdlbSwgJm1hcCk7CiAJYnVmZmVyLT52YWRkciA9IE5V
-TEw7CiB9CiBFWFBPUlRfU1lNQk9MKGRybV9jbGllbnRfYnVmZmVyX3Z1bm1hcCk7CmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0u
-YwppbmRleCBhODlhZDQ1NzBlM2MuLjRkNWZmZjRiZDgyMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2RybV9nZW0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jCkBAIC0xMjA2
-LDMyICsxMjA2LDMyIEBAIHZvaWQgZHJtX2dlbV91bnBpbihzdHJ1Y3QgZHJtX2dlbV9vYmplY3Qg
-Km9iaikKIAkJb2JqLT5mdW5jcy0+dW5waW4ob2JqKTsKIH0KIAotdm9pZCAqZHJtX2dlbV92bWFw
-KHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQoraW50IGRybV9nZW1fdm1hcChzdHJ1Y3QgZHJt
-X2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IGRtYV9idWZfbWFwICptYXApCiB7Ci0Jc3RydWN0IGRt
-YV9idWZfbWFwIG1hcDsKIAlpbnQgcmV0OwogCiAJaWYgKCFvYmotPmZ1bmNzLT52bWFwKQotCQly
-ZXR1cm4gRVJSX1BUUigtRU9QTk9UU1VQUCk7CisJCXJldHVybiAtRU9QTk9UU1VQUDsKIAotCXJl
-dCA9IG9iai0+ZnVuY3MtPnZtYXAob2JqLCAmbWFwKTsKKwlyZXQgPSBvYmotPmZ1bmNzLT52bWFw
-KG9iaiwgbWFwKTsKIAlpZiAocmV0KQotCQlyZXR1cm4gRVJSX1BUUihyZXQpOwotCWVsc2UgaWYg
-KGRtYV9idWZfbWFwX2lzX251bGwoJm1hcCkpCi0JCXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOwor
-CQlyZXR1cm4gcmV0OworCWVsc2UgaWYgKGRtYV9idWZfbWFwX2lzX251bGwobWFwKSkKKwkJcmV0
-dXJuIC1FTk9NRU07CiAKLQlyZXR1cm4gbWFwLnZhZGRyOworCXJldHVybiAwOwogfQogCi12b2lk
-IGRybV9nZW1fdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCB2b2lkICp2YWRkcikK
-K3ZvaWQgZHJtX2dlbV92dW5tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHN0cnVjdCBk
-bWFfYnVmX21hcCAqbWFwKQogewotCXN0cnVjdCBkbWFfYnVmX21hcCBtYXAgPSBETUFfQlVGX01B
-UF9JTklUX1ZBRERSKHZhZGRyKTsKLQotCWlmICghdmFkZHIpCisJaWYgKGRtYV9idWZfbWFwX2lz
-X251bGwobWFwKSkKIAkJcmV0dXJuOwogCiAJaWYgKG9iai0+ZnVuY3MtPnZ1bm1hcCkKLQkJb2Jq
-LT5mdW5jcy0+dnVubWFwKG9iaiwgJm1hcCk7CisJCW9iai0+ZnVuY3MtPnZ1bm1hcChvYmosIG1h
-cCk7CisKKwkvKiBBbHdheXMgc2V0IHRoZSBtYXBwaW5nIHRvIE5VTEwuIENhbGxlcnMgbWF5IHJl
-bHkgb24gdGhpcy4gKi8KKwlkbWFfYnVmX21hcF9jbGVhcihtYXApOwogfQogCiAvKioKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1faW50ZXJuYWwuaCBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1faW50ZXJuYWwuaAppbmRleCBiNjU4NjVjNjMwYjAuLjU4ODMyZDc1YTliZCAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9pbnRlcm5hbC5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1faW50ZXJuYWwuaApAQCAtMzMsNiArMzMsNyBAQAogCiBzdHJ1Y3QgZGVudHJ5Owogc3RydWN0
-IGRtYV9idWY7CitzdHJ1Y3QgZG1hX2J1Zl9tYXA7CiBzdHJ1Y3QgZHJtX2Nvbm5lY3RvcjsKIHN0
-cnVjdCBkcm1fY3J0YzsKIHN0cnVjdCBkcm1fZnJhbWVidWZmZXI7CkBAIC0xODcsOCArMTg4LDgg
-QEAgdm9pZCBkcm1fZ2VtX3ByaW50X2luZm8oc3RydWN0IGRybV9wcmludGVyICpwLCB1bnNpZ25l
-ZCBpbnQgaW5kZW50LAogCiBpbnQgZHJtX2dlbV9waW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpv
-YmopOwogdm9pZCBkcm1fZ2VtX3VucGluKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKTsKLXZv
-aWQgKmRybV9nZW1fdm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7Ci12b2lkIGRybV9n
-ZW1fdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCB2b2lkICp2YWRkcik7CitpbnQg
-ZHJtX2dlbV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3QgZG1hX2J1Zl9t
-YXAgKm1hcCk7Cit2b2lkIGRybV9nZW1fdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2Jq
-LCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgKm1hcCk7CiAKIC8qIGRybV9kZWJ1Z2ZzLmMgZHJtX2RlYnVn
-ZnNfY3JjLmMgKi8KICNpZiBkZWZpbmVkKENPTkZJR19ERUJVR19GUykKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwpp
-bmRleCA4OWUyYTI0OTY3MzQuLmNiOGZiZWViNzMxYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2RybV9wcmltZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYwpAQCAtNjY3
-LDIxICs2NjcsMTUgQEAgRVhQT1JUX1NZTUJPTChkcm1fZ2VtX3VubWFwX2RtYV9idWYpOwogICoK
-ICAqIFNldHMgdXAgYSBrZXJuZWwgdmlydHVhbCBtYXBwaW5nLiBUaGlzIGNhbiBiZSB1c2VkIGFz
-IHRoZSAmZG1hX2J1Zl9vcHMudm1hcAogICogY2FsbGJhY2suIENhbGxzIGludG8gJmRybV9nZW1f
-b2JqZWN0X2Z1bmNzLnZtYXAgZm9yIGRldmljZSBzcGVjaWZpYyBoYW5kbGluZy4KKyAqIFRoZSBr
-ZXJuZWwgdmlydHVhbCBhZGRyZXNzIGlzIHJldHVybmVkIGluIG1hcC4KICAqCi0gKiBSZXR1cm5z
-IHRoZSBrZXJuZWwgdmlydHVhbCBhZGRyZXNzIG9yIE5VTEwgb24gZmFpbHVyZS4KKyAqIFJldHVy
-bnMgMCBvbiBzdWNjZXNzIG9yIGEgbmVnYXRpdmUgZXJybm8gY29kZSBvdGhlcndpc2UuCiAgKi8K
-IGludCBkcm1fZ2VtX2RtYWJ1Zl92bWFwKHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmLCBzdHJ1Y3Qg
-ZG1hX2J1Zl9tYXAgKm1hcCkKIHsKIAlzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiA9IGRtYV9i
-dWYtPnByaXY7Ci0Jdm9pZCAqdmFkZHI7CiAKLQl2YWRkciA9IGRybV9nZW1fdm1hcChvYmopOwot
-CWlmIChJU19FUlIodmFkZHIpKQotCQlyZXR1cm4gUFRSX0VSUih2YWRkcik7Ci0KLQlkbWFfYnVm
-X21hcF9zZXRfdmFkZHIobWFwLCB2YWRkcik7Ci0KLQlyZXR1cm4gMDsKKwlyZXR1cm4gZHJtX2dl
-bV92bWFwKG9iaiwgbWFwKTsKIH0KIEVYUE9SVF9TWU1CT0woZHJtX2dlbV9kbWFidWZfdm1hcCk7
-CiAKQEAgLTY5Nyw3ICs2OTEsNyBAQCB2b2lkIGRybV9nZW1fZG1hYnVmX3Z1bm1hcChzdHJ1Y3Qg
-ZG1hX2J1ZiAqZG1hX2J1Ziwgc3RydWN0IGRtYV9idWZfbWFwICptYXApCiB7CiAJc3RydWN0IGRy
-bV9nZW1fb2JqZWN0ICpvYmogPSBkbWFfYnVmLT5wcml2OwogCi0JZHJtX2dlbV92dW5tYXAob2Jq
-LCBtYXAtPnZhZGRyKTsKKwlkcm1fZ2VtX3Z1bm1hcChvYmosIG1hcCk7CiB9CiBFWFBPUlRfU1lN
-Qk9MKGRybV9nZW1fZG1hYnVmX3Z1bm1hcCk7CiAKLS0gCjIuMjguMAoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Kernel DRM clients now store their framebuffer address in an instance
+of struct dma_buf_map. Depending on the buffer's location, the address
+refers to system or I/O memory.
+
+Callers of drm_client_buffer_vmap() receive a copy of the value in
+the call's supplied arguments. It can be accessed and modified with
+dma_buf_map interfaces.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/drm_client.c    | 34 +++++++++++++++++++--------------
+ drivers/gpu/drm/drm_fb_helper.c | 23 +++++++++++++---------
+ include/drm/drm_client.h        |  7 ++++---
+ 3 files changed, 38 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+index ac0082bed966..fe573acf1067 100644
+--- a/drivers/gpu/drm/drm_client.c
++++ b/drivers/gpu/drm/drm_client.c
+@@ -235,7 +235,7 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+ {
+ 	struct drm_device *dev = buffer->client->dev;
+ 
+-	drm_gem_vunmap(buffer->gem, buffer->vaddr);
++	drm_gem_vunmap(buffer->gem, &buffer->map);
+ 
+ 	if (buffer->gem)
+ 		drm_gem_object_put(buffer->gem);
+@@ -291,25 +291,31 @@ drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height, u
+ /**
+  * drm_client_buffer_vmap - Map DRM client buffer into address space
+  * @buffer: DRM client buffer
++ * @map_copy: Returns the mapped memory's address
+  *
+  * This function maps a client buffer into kernel address space. If the
+- * buffer is already mapped, it returns the mapping's address.
++ * buffer is already mapped, it returns the existing mapping's address.
+  *
+  * Client buffer mappings are not ref'counted. Each call to
+  * drm_client_buffer_vmap() should be followed by a call to
+  * drm_client_buffer_vunmap(); or the client buffer should be mapped
+  * throughout its lifetime.
+  *
++ * The returned address is a copy of the internal value. In contrast to
++ * other vmap interfaces, you don't need it for the client's vunmap
++ * function. So you can modify it at will during blit and draw operations.
++ *
+  * Returns:
+- *	The mapped memory's address
++ *	0 on success, or a negative errno code otherwise.
+  */
+-void *drm_client_buffer_vmap(struct drm_client_buffer *buffer)
++int
++drm_client_buffer_vmap(struct drm_client_buffer *buffer, struct dma_buf_map *map_copy)
+ {
+-	struct dma_buf_map map;
++	struct dma_buf_map *map = &buffer->map;
+ 	int ret;
+ 
+-	if (buffer->vaddr)
+-		return buffer->vaddr;
++	if (dma_buf_map_is_set(map))
++		goto out;
+ 
+ 	/*
+ 	 * FIXME: The dependency on GEM here isn't required, we could
+@@ -319,13 +325,14 @@ void *drm_client_buffer_vmap(struct drm_client_buffer *buffer)
+ 	 * fd_install step out of the driver backend hooks, to make that
+ 	 * final step optional for internal users.
+ 	 */
+-	ret = drm_gem_vmap(buffer->gem, &map);
++	ret = drm_gem_vmap(buffer->gem, map);
+ 	if (ret)
+-		return ERR_PTR(ret);
++		return ret;
+ 
+-	buffer->vaddr = map.vaddr;
++out:
++	*map_copy = *map;
+ 
+-	return map.vaddr;
++	return 0;
+ }
+ EXPORT_SYMBOL(drm_client_buffer_vmap);
+ 
+@@ -339,10 +346,9 @@ EXPORT_SYMBOL(drm_client_buffer_vmap);
+  */
+ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
+ {
+-	struct dma_buf_map map = DMA_BUF_MAP_INIT_VADDR(buffer->vaddr);
++	struct dma_buf_map *map = &buffer->map;
+ 
+-	drm_gem_vunmap(buffer->gem, &map);
+-	buffer->vaddr = NULL;
++	drm_gem_vunmap(buffer->gem, map);
+ }
+ EXPORT_SYMBOL(drm_client_buffer_vunmap);
+ 
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index c2f72bb6afb1..6212cd7cde1d 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -378,7 +378,7 @@ static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
+ 	unsigned int cpp = fb->format->cpp[0];
+ 	size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
+ 	void *src = fb_helper->fbdev->screen_buffer + offset;
+-	void *dst = fb_helper->buffer->vaddr + offset;
++	void *dst = fb_helper->buffer->map.vaddr + offset;
+ 	size_t len = (clip->x2 - clip->x1) * cpp;
+ 	unsigned int y;
+ 
+@@ -400,7 +400,8 @@ static void drm_fb_helper_dirty_work(struct work_struct *work)
+ 	struct drm_clip_rect *clip = &helper->dirty_clip;
+ 	struct drm_clip_rect clip_copy;
+ 	unsigned long flags;
+-	void *vaddr;
++	struct dma_buf_map map;
++	int ret;
+ 
+ 	spin_lock_irqsave(&helper->dirty_lock, flags);
+ 	clip_copy = *clip;
+@@ -413,8 +414,8 @@ static void drm_fb_helper_dirty_work(struct work_struct *work)
+ 
+ 		/* Generic fbdev uses a shadow buffer */
+ 		if (helper->buffer) {
+-			vaddr = drm_client_buffer_vmap(helper->buffer);
+-			if (IS_ERR(vaddr))
++			ret = drm_client_buffer_vmap(helper->buffer, &map);
++			if (ret)
+ 				return;
+ 			drm_fb_helper_dirty_blit_real(helper, &clip_copy);
+ 		}
+@@ -2060,7 +2061,8 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
+ 	struct drm_framebuffer *fb;
+ 	struct fb_info *fbi;
+ 	u32 format;
+-	void *vaddr;
++	struct dma_buf_map map;
++	int ret;
+ 
+ 	drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
+ 		    sizes->surface_width, sizes->surface_height,
+@@ -2096,11 +2098,14 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
+ 		fb_deferred_io_init(fbi);
+ 	} else {
+ 		/* buffer is mapped for HW framebuffer */
+-		vaddr = drm_client_buffer_vmap(fb_helper->buffer);
+-		if (IS_ERR(vaddr))
+-			return PTR_ERR(vaddr);
++		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
++		if (ret)
++			return ret;
++		if (map.is_iomem)
++			fbi->screen_base = map.vaddr_iomem;
++		else
++			fbi->screen_buffer = map.vaddr;
+ 
+-		fbi->screen_buffer = vaddr;
+ 		/* Shamelessly leak the physical address to user-space */
+ #if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
+ 		if (drm_leak_fbdev_smem && fbi->fix.smem_start == 0)
+diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+index 7aaea665bfc2..f07f2fb02e75 100644
+--- a/include/drm/drm_client.h
++++ b/include/drm/drm_client.h
+@@ -3,6 +3,7 @@
+ #ifndef _DRM_CLIENT_H_
+ #define _DRM_CLIENT_H_
+ 
++#include <linux/dma-buf-map.h>
+ #include <linux/lockdep.h>
+ #include <linux/mutex.h>
+ #include <linux/types.h>
+@@ -141,9 +142,9 @@ struct drm_client_buffer {
+ 	struct drm_gem_object *gem;
+ 
+ 	/**
+-	 * @vaddr: Virtual address for the buffer
++	 * @map: Virtual address for the buffer
+ 	 */
+-	void *vaddr;
++	struct dma_buf_map map;
+ 
+ 	/**
+ 	 * @fb: DRM framebuffer
+@@ -155,7 +156,7 @@ struct drm_client_buffer *
+ drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 height, u32 format);
+ void drm_client_framebuffer_delete(struct drm_client_buffer *buffer);
+ int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, struct drm_rect *rect);
+-void *drm_client_buffer_vmap(struct drm_client_buffer *buffer);
++int drm_client_buffer_vmap(struct drm_client_buffer *buffer, struct dma_buf_map *map);
+ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer);
+ 
+ int drm_client_modeset_create(struct drm_client_dev *client);
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
