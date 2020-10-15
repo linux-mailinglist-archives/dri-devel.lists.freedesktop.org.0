@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF7F28F996
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 21:36:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D4E28F997
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Oct 2020 21:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE976E05C;
-	Thu, 15 Oct 2020 19:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A8F6E079;
+	Thu, 15 Oct 2020 19:36:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48DBD6E05C
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 19:36:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A29F6E079
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Oct 2020 19:36:33 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209673] divide_error in amdgpu freezes screen
-Date: Thu, 15 Oct 2020 19:36:17 +0000
+Date: Thu, 15 Oct 2020 19:36:32 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-209673-2300-eYJeVcKwKq@https.bugzilla.kernel.org/>
+Message-ID: <bug-209673-2300-V7p5B5vDfQ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209673-2300@https.bugzilla.kernel.org/>
 References: <bug-209673-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,10 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209673
 
---- Comment #5 from cornelius.riemenschneider@googlemail.com ---
-Created attachment 292997
-  --> https://bugzilla.kernel.org/attachment.cgi?id=292997&action=edit
-crashing dmesg #2
+--- Comment #6 from cornelius.riemenschneider@googlemail.com ---
+Created attachment 292999
+  --> https://bugzilla.kernel.org/attachment.cgi?id=292999&action=edit
+crashing dmesg #3
 
 -- 
 You are receiving this mail because:
