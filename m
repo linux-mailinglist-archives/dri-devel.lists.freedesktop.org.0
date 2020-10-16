@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364E4290C87
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 22:00:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D22290C88
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 22:00:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 555416EE84;
-	Fri, 16 Oct 2020 20:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6F66EE89;
+	Fri, 16 Oct 2020 20:00:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0EBF6EE84
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 20:00:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A65846EE89
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 20:00:44 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209721] No output after AMDGPU loads.
-Date: Fri, 16 Oct 2020 20:00:14 +0000
+Date: Fri, 16 Oct 2020 20:00:44 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209721-2300-zmgVZebedx@https.bugzilla.kernel.org/>
+Message-ID: <bug-209721-2300-VcIiHIJ54a@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209721-2300@https.bugzilla.kernel.org/>
 References: <bug-209721-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,13 +58,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209721
 
---- Comment #4 from Haxk20 (haxk612@gmail.com) ---
-(In reply to Alex Deucher from comment #2)
-> Does this patch fix it?
-> https://cgit.freedesktop.org/~agd5f/linux/commit/?h=drm-fixes-5.
-> 10&id=44264591a8c4da7090a4bfd10e04f4cb8fe60afe
-
-That fixes it. Would be nice to see it in the next drm-fixes.
+--- Comment #5 from Haxk20 (haxk612@gmail.com) ---
+I will keep the bug opened until it is in linus tree
 
 -- 
 You are receiving this mail because:
