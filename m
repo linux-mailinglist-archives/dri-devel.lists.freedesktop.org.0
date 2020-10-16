@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F550290CE1
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 22:51:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E52C290CF7
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 22:58:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60C076EE92;
-	Fri, 16 Oct 2020 20:51:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 739036EE93;
+	Fri, 16 Oct 2020 20:58:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A55EE6EE92
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 20:51:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C7236EE93
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 20:58:40 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 7E2F520030;
- Fri, 16 Oct 2020 22:51:44 +0200 (CEST)
-Date: Fri, 16 Oct 2020 22:51:42 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 3528520030;
+ Fri, 16 Oct 2020 22:58:37 +0200 (CEST)
+Date: Fri, 16 Oct 2020 22:58:36 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Yannick Fertre <yannick.fertre@st.com>
-Subject: Re: [PATCH] drm/panel: rm68200: fix mode to 50fps
-Message-ID: <20201016205142.GA1496366@ravnborg.org>
-References: <20200925141618.12097-1-yannick.fertre@st.com>
+To: Li Heng <liheng40@huawei.com>
+Subject: Re: [PATCH -next] video: Remove set but not used variable
+Message-ID: <20201016205836.GB1496366@ravnborg.org>
+References: <1600957106-13741-1-git-send-email-liheng40@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200925141618.12097-1-yannick.fertre@st.com>
+In-Reply-To: <1600957106-13741-1-git-send-email-liheng40@huawei.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=8b9GpE9nAAAA:8 a=e5mUnYsNAAAA:8
- a=IhV6Tf_-iKTokH-9AMUA:9 a=CjuIK1q_8ugA:10 a=T3LWEMljR5ZiDmsYVIUa:22
- a=Vxmtnl_E_bksehYqCbjh:22
+ a=IkcTkHD0fZMA:10 a=i0EeH86SAAAA:8 a=e5mUnYsNAAAA:8
+ a=ta2fmmrRsy9J0w49oKkA:9 a=QEXdDO2ut3YA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,65 +43,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Antonio Borneo <antonio.borneo@st.com>,
- Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, tomi.valkeinen@ti.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ b.zolnierkie@samsung.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yannick
-
-On Fri, Sep 25, 2020 at 04:16:18PM +0200, Yannick Fertre wrote:
-> Compute new timings to get a framerate of 50fps with a pixel clock
-> @54Mhz.
-> 
-> Signed-off-by: Yannick Fertre <yannick.fertre@st.com>
-
-Thanks, applied to drm-misc-next.
-Sorry for taking so long time.
-
-	Sam
-> ---
->  drivers/gpu/drm/panel/panel-raydium-rm68200.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-raydium-rm68200.c b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-> index 2b9e48b0a491..412c0dbcb2b6 100644
-> --- a/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-> +++ b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-> @@ -82,15 +82,15 @@ struct rm68200 {
->  };
->  
->  static const struct drm_display_mode default_mode = {
-> -	.clock = 52582,
-> +	.clock = 54000,
->  	.hdisplay = 720,
-> -	.hsync_start = 720 + 38,
-> -	.hsync_end = 720 + 38 + 8,
-> -	.htotal = 720 + 38 + 8 + 38,
-> +	.hsync_start = 720 + 48,
-> +	.hsync_end = 720 + 48 + 9,
-> +	.htotal = 720 + 48 + 9 + 48,
->  	.vdisplay = 1280,
->  	.vsync_start = 1280 + 12,
-> -	.vsync_end = 1280 + 12 + 4,
-> -	.vtotal = 1280 + 12 + 4 + 12,
-> +	.vsync_end = 1280 + 12 + 5,
-> +	.vtotal = 1280 + 12 + 5 + 12,
->  	.flags = 0,
->  	.width_mm = 68,
->  	.height_mm = 122,
-> -- 
-> 2.17.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTGkgSGVuZwoKT24gVGh1LCBTZXAgMjQsIDIwMjAgYXQgMTA6MTg6MjZQTSArMDgwMCwgTGkg
+SGVuZyB3cm90ZToKPiBGaXhlcyBnY2MgJy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5p
+bmc6Cj4gCj4gZHJpdmVycy92aWRlby9mYmRldi9zaXMvMzAwdnRibC5oOjEwNjQ6Mjg6IHdhcm5p
+bmc6Cj4g4oCYU2lTMzAwX0NIVFZWQ0xLU09OVFND4oCZIGRlZmluZWQgYnV0IG5vdCB1c2VkIFst
+V3VudXNlZC1jb25zdC12YXJpYWJsZT1dCj4gCj4gUmVwb3J0ZWQtYnk6IEh1bGsgUm9ib3QgPGh1
+bGtjaUBodWF3ZWkuY29tPgo+IFNpZ25lZC1vZmYtYnk6IExpIEhlbmcgPGxpaGVuZzQwQGh1YXdl
+aS5jb20+CgpUaGFua3MsIG5vdyBhcHBsaWVkIHRvIGRybS1taXNjLW5leHQuCgoJU2FtCgo+IC0t
+LQo+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3Npcy8zMDB2dGJsLmggfCAyIC0tCj4gIDEgZmlsZSBj
+aGFuZ2VkLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2Zi
+ZGV2L3Npcy8zMDB2dGJsLmggYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3Npcy8zMDB2dGJsLmgKPiBp
+bmRleCBlNGI0YTI2Li4yNmIxOWY3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYv
+c2lzLzMwMHZ0YmwuaAo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvc2lzLzMwMHZ0YmwuaAo+
+IEBAIC0xMDYxLDggKzEwNjEsNiBAQCBzdGF0aWMgY29uc3QgdW5zaWduZWQgY2hhciBTaVMzMDBf
+Q0hUVlZDTEtVTlRTQ1tdICA9IHsgMHgyOSwweDI5LDB4MjksMHgyOSwweDJhLAo+IAo+ICBzdGF0
+aWMgY29uc3QgdW5zaWduZWQgY2hhciBTaVMzMDBfQ0hUVlZDTEtPTlRTQ1tdICA9IHsgMHgyYyww
+eDJjLDB4MmMsMHgyYywweDJkLDB4MmIgfTsKPiAKPiAtc3RhdGljIGNvbnN0IHVuc2lnbmVkIGNo
+YXIgU2lTMzAwX0NIVFZWQ0xLU09OVFNDW10gPSB7IDB4MmMsMHgyYywweDJjLDB4MmMsMHgyZCww
+eDJiIH07Cj4gLQo+ICBzdGF0aWMgY29uc3QgdW5zaWduZWQgY2hhciBTaVMzMDBfQ0hUVlZDTEtV
+UEFMW10gICA9IHsgMHgyZiwweDJmLDB4MmYsMHgyZiwweDJmLDB4MzEgfTsKPiAKPiAgc3RhdGlj
+IGNvbnN0IHVuc2lnbmVkIGNoYXIgU2lTMzAwX0NIVFZWQ0xLT1BBTFtdICAgPSB7IDB4MmYsMHgy
+ZiwweDJmLDB4MmYsMHgzMCwweDMyIH07Cj4gLS0KPiAyLjcuNAo+IAo+IF9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlz
+dAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
