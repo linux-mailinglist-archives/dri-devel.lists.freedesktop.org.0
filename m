@@ -2,54 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDAA7290BAA
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 20:48:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74512913F6
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477F86E038;
-	Fri, 16 Oct 2020 18:48:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C90F66E221;
+	Sat, 17 Oct 2020 19:04:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5571A6E038
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 18:47:58 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id t15so3383070otk.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 11:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/6ZPAavAgIBaIj1gBG4jv7Gu9L4sN03UOtnPoYPnkGM=;
- b=lP4NOv51TEXmx39salQG6uTSU8gkLmkF8p4KPDm1dBqsQhZGdByHYty0AxeWaPaWU8
- IMBNfFJZEqSvFcX/JetY+udEH2E82sSSdgfZuuppOCDvedBZJjGbifYxGHw+S7eNMkl7
- Q4yPOvK7BXm8r1/s/BzGQMn0sLvwN7kWFqYfrHSd+w3n665ToypEQlxLHvd/d1PUW4vB
- lOcigsbdkdaso/ojnZ9YEwwCJDkWy14nmMFgohf3GDceQCc+WNSA+0TELgk0n2HJ8reg
- s0X2GbNw/6VhfYupl1ci+c1/LDuzgv37IEaqsXpF4sHnYq/fMeKyFnBOZQamOHM/6axz
- 243Q==
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
+ [IPv6:2607:f8b0:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14C946EE78
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 18:58:32 +0000 (UTC)
+Received: by mail-il1-x143.google.com with SMTP id j8so3879686ilk.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 11:58:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=PD8XO9XeSIfAUH4+p8E5ji377Y5OQ/ZRdOb9h9Q0AUY=;
+ b=YtyCEDh49p27bnAfFJx7DthiAK2A2II8HT9mP8sz6ky0RhZKMz46wlhv7PTXt4CCfT
+ x9TsxyGnWiaW/KuMpRVJOz2FmQnKMxcXvyN7FNUPyvc35O3oY4/FS9XN7a3EDAsIIIPC
+ lA1WYfa/gDRz4UPQT8IAMjlpvIv9vntPyN6Z+y1YVL4N6gYy4V5TfuVuu6sI1QfgoFAJ
+ M5IsACs8IfR+q2viWS8zddkmDBLfiSUbMZty5/j+9TkDwVPkGnr8WxbCwD/kp7tyjpME
+ fgHQ/SIV3qdTg0ezy98YNoVbY2icJh/V1K9RVmD1Ti5bI3fcRZ5T9BjZJzeRzN8/s+bv
+ tFCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/6ZPAavAgIBaIj1gBG4jv7Gu9L4sN03UOtnPoYPnkGM=;
- b=KR9KT6aKO8Req6VmJ4VAaVTnI5QhzgH3RsRXGqpgzDZUs10G8fOZc9o4Iv3JdmZsik
- EqI1+SP7cUPR/Xb6tJzhhavhM+V1H3igmCD0uaGp4ilDj0rqCK8dhN39FLl+CkpXFk+O
- Ctyv1xiofodGYWTvZGF4jfZFFLmaoh+AO6C8jsPOgnx/jER0MR4rcxe4QHxoBskKeZN8
- wQtps7rlhEikGirSE8hGeWJY2cqIuRyiy9F8MHdhJLTQ+PiErbRdZQgR9ddRDr+ax92F
- FQ8hGt6zbnMQC0SLxT5UDkIu2qMtHnbTq/8waHXEPD6as03EQdf8YiZ93opYCqV7j5lM
- mMbA==
-X-Gm-Message-State: AOAM530Xt4SSqYSa9hkFILmOnN7a67SK0HYgDrT3JjndofDGT/+ufwem
- fYmbYzg8k2uf3z90vfhi4R1HIAUui8J565RTKh5scA==
-X-Google-Smtp-Source: ABdhPJwH6XcBKPJDC1Mm7DKnG5P/EL1ztBMF0+cVOUi9cs5EKrO3sGguh+sEF+ZQIE3ke+UzdUEAW/qfG0BqWAz8nWs=
-X-Received: by 2002:a9d:2d81:: with SMTP id g1mr3546671otb.352.1602874077645; 
- Fri, 16 Oct 2020 11:47:57 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PD8XO9XeSIfAUH4+p8E5ji377Y5OQ/ZRdOb9h9Q0AUY=;
+ b=HDczvtJXvQvTV1xTD0qDmoxI668PpWPBUuE+oY7O4qSg1k4+UseZT08rU+Oqh705gU
+ 2BSbtRuaaC0QJT5zuVTXXqLGyWEcUGSHQ+7Nd3oE+qkjFAVD/LAB/Ds8zhH8um3Jm7nO
+ U0QEXgzoBQKsGpktVdXvkbrLqtZFuXL2PUXuyYU0oZu2orWF9f20drrRMBI02I2b9iqL
+ e2L3thG1eMfGYuxNFsmeb7Zj0AN3p+JobPF2LNVdF5q1TTAJ1RITxHK3++RxNeSq9ONZ
+ 3kLj3hrDypzyD1b5+yBMb9x3YJjzGmf+qz6onmRxYOxi3+vX/0xRNRcGQsCn0VgVbqOu
+ ij2g==
+X-Gm-Message-State: AOAM531cJQvpVTK2T1VsGBhGfVMgKm3padAiPFw8m2MIX3ztnQJw8M1Z
+ 6186E/+qJvfvM6PZJ5F/nxX6lA==
+X-Google-Smtp-Source: ABdhPJwiBX4Osl3JVvSb7eq9FwPz+BgohwF2rr/Q2EiwqYCIHAy9f0KFOYs+A197ZIgy6r7hv4TlHg==
+X-Received: by 2002:a92:2003:: with SMTP id j3mr3882945ile.28.1602874711401;
+ Fri, 16 Oct 2020 11:58:31 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id t10sm2759362iog.49.2020.10.16.11.58.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Oct 2020 11:58:30 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kTUvt-000yoy-VK; Fri, 16 Oct 2020 15:58:29 -0300
+Date: Fri, 16 Oct 2020 15:58:29 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+Subject: Re: [PATCH v5 4/5] RDMA/mlx5: Support dma-buf based userspace memory
+ region
+Message-ID: <20201016185829.GB37159@ziepe.ca>
+References: <1602799378-138316-1-git-send-email-jianxin.xiong@intel.com>
+ <20201016005419.GA36674@ziepe.ca>
+ <MW3PR11MB4555528000D39F35A47C5F8CE5030@MW3PR11MB4555.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-References: <20201003040257.62768-1-john.stultz@linaro.org>
- <20201008113602.n7ju2hu3j6qsaxve@DESKTOP-E1NTVVP.localdomain>
-In-Reply-To: <20201008113602.n7ju2hu3j6qsaxve@DESKTOP-E1NTVVP.localdomain>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 16 Oct 2020 11:47:44 -0700
-Message-ID: <CALAqxLUbL4ci4Vnwe6UM1OEFfLyirsQOr57nmx5NSe8Bb_yAwg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] dma-buf: Performance improvements for system heap
- & a system-uncached implementation
-To: Brian Starkey <brian.starkey@arm.com>
+Content-Disposition: inline
+In-Reply-To: <MW3PR11MB4555528000D39F35A47C5F8CE5030@MW3PR11MB4555.namprd11.prod.outlook.com>
+X-Mailman-Approved-At: Sat, 17 Oct 2020 19:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,66 +74,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd <nd@arm.com>, Sandeep Patil <sspatil@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- linux-media <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 8, 2020 at 4:36 AM Brian Starkey <brian.starkey@arm.com> wrote:
->
-> Hi John,
->
-> On Sat, Oct 03, 2020 at 04:02:50AM +0000, John Stultz wrote:
-> > Hey All,
->
-> ...
->
-> >
-> > I did add to this series a reworked version of my uncached
-> > system heap implementation I was submitting a few weeks back.
-> > Since it duplicated a lot of the now reworked system heap code,
-> > I realized it would be much simpler to add the functionality to
-> > the system_heap implementaiton itself.
->
-> That looks like a neat approach to me. Referencing your previous
-> thread, I like the separate heap (as you have done), rather than a
-> generic "cached"/"noncached" flag on all heaps.
->
+On Fri, Oct 16, 2020 at 06:40:01AM +0000, Xiong, Jianxin wrote:
+> > > +	if (!mr)
+> > > +		return -EINVAL;
+> > > +
+> > > +	return mlx5_ib_update_xlt(mr, 0, mr->npages, PAGE_SHIFT, flags); }
+> > > +
+> > > +static struct ib_umem_dmabuf_ops mlx5_ib_umem_dmabuf_ops = {
+> > > +	.init = mlx5_ib_umem_dmabuf_xlt_init,
+> > > +	.update = mlx5_ib_umem_dmabuf_xlt_update,
+> > > +	.invalidate = mlx5_ib_umem_dmabuf_xlt_invalidate,
+> > > +};
+> > 
+> > I'm not really convinced these should be ops, this is usually a bad design pattern.
+> > 
+> > Why do I need so much code to extract the sgl from the dma_buf? I would prefer the dma_buf layer simplify this, not by adding a wrapper
+> > around it in the IB core code...
+> > 
+> 
+> We just need a way to call a device specific function to update the NIC's translation
+> table.  I considered three ways: (1) ops registered with ib_umem_get_dmabuf; 
+> (2) a single function pointer registered with ib_umem_get_dmabuf; (3) a method 
+> in 'struct ib_device'. Option (1) was chosen here with no strong reason. We could
+> consolidate the three functions of the ops into one, but then we will need to 
+> define commands or flags for different update operations.   
 
-Sounds good! I really appreciate the feedback on this.
+I'd rather the driver directly provide the dma_buf ops.. Inserting
+layers that do nothing be call other layers is usually a bad idea. I
+didn't look carefully yet at how that would be arranged.
 
-> > While not improving the core allocation performance, the
-> > uncached heap allocations do result in *much* improved
-> > performance on HiKey960 as it avoids a lot of flushing and
-> > invalidating buffers that the cpu doesn't touch often.
-> >
-> > Feedback on these would be great!
+> > > +	ncont = npages;
+> > > +	order = ilog2(roundup_pow_of_two(ncont));
+> > 
+> > We still need to deal with contiguity here, this ncont/npages is just obfuscation.
+> 
+> Since the pages can move, we can't take advantage of contiguity here. This handling
+> is similar to the ODP case. The variables 'ncont' and 'page_shift' here are not necessary.
+> They are kept just for the sake of signifying the semantics of the following functions that
+> use them.
+
+Well, in this case we can manage it, and the performance boost is high
+enough we need to. The work on mlx5 to do it is a bit inovlved though.
+ 
+> > > +	err = ib_umem_dmabuf_init_mapping(umem, mr);
+> > > +	if (err) {
+> > > +		dereg_mr(dev, mr);
+> > > +		return ERR_PTR(err);
+> > > +	}
+> > 
+> > Did you test the page fault path at all? Looks like some xarray code is missing here, and this is also missing the related complex teardown
+> > logic.
+> > 
+> > Does this mean you didn't test the pagefault_dmabuf_mr() at all?
+> 
+> Thanks for the hint. I was unable to get the test runs reaching the
+> pagefault_dmabuf_mr() function. Now I have found the reason. Along
+> the path of all the page fault handlers, the array "odp_mkeys" is checked
+> against the mr key. Since the dmabuf mr keys are not in the list the
+> handler is never called.
 >
-> Minor nit: s/detatch/detach/ on both heaps, but other than that
-> you can add my r-b to patches 1-5.
+> On the other hand, it seems that pagefault_dmabuf_mr() is not needed at all.
+> The pagefault is gracefully handled by retrying until the work thread finished
+> programming the NIC.
 
-Doh! Thanks for the spelling catch! Thanks again!
+This is a bug of some kind, pagefaults that can't find a mkey in the
+xarray should cause completion with error.
 
-> As you've said, it does feel like there's some room for
-> de-duplication, but that will be easier to work out once the
-> implementations settle.
->
-> I've a couple of comments for the uncached heap, but I'm not confident
-> I understand the implications of having the non-cached alias enough to
-> say if it looks OK or not.
-
-Thanks so much!
--john
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
