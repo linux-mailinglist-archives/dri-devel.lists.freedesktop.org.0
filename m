@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC560290D5D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 23:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED945290D62
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 23:44:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2EE06EEA1;
-	Fri, 16 Oct 2020 21:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6B4A6EEA2;
+	Fri, 16 Oct 2020 21:44:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACAD6EEA1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 21:43:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B62AD89EBB
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 21:44:23 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 708F980626;
- Fri, 16 Oct 2020 23:43:08 +0200 (CEST)
-Date: Fri, 16 Oct 2020 23:43:06 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id B77118058D;
+ Fri, 16 Oct 2020 23:44:21 +0200 (CEST)
+Date: Fri, 16 Oct 2020 23:44:20 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v17 0/2] Add initial support for slimport anx7625
-Message-ID: <20201016214306.GB1962741@ravnborg.org>
-References: <cover.1600423931.git.xji@analogixsemi.com>
+To: Qinglang Miao <miaoqinglang@huawei.com>
+Subject: Re: [PATCH -next] fbdev: nvidia: use for_each_child_of_node() macro
+Message-ID: <20201016214420.GC1962741@ravnborg.org>
+References: <20200916062123.190636-1-miaoqinglang@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <cover.1600423931.git.xji@analogixsemi.com>
+In-Reply-To: <20200916062123.190636-1-miaoqinglang@huawei.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=c9d5N8I3dh2ptQstVnYA:9 a=CjuIK1q_8ugA:10
+ a=kj9zAlcOel0A:10 a=i0EeH86SAAAA:8 a=e5mUnYsNAAAA:8
+ a=tj93dU6F_355QJNGr64A:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,33 +43,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pi-Hsun Shih <pihsun@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, Sheng Pan <span@analogixsemi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xin Ji
-On Fri, Sep 18, 2020 at 06:18:19PM +0800, Xin Ji wrote:
-> Hi all,
+Hi Qinglang Miao
+
+On Wed, Sep 16, 2020 at 02:21:23PM +0800, Qinglang Miao wrote:
+> Use for_each_child_of_node() macro instead of open coding it.
 > 
-> The following series add support for the Slimport ANX7625 transmitter, a
-> ultra-low power Full-HD 4K MIPI to DP transmitter designed for portable device.
+> Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
 
-Thanks for all the iterations on this series. Driver looks good and I
-have applied it to drm-misc-next.
-
-Expect it to appear in -next in a few weeks.
+Applied to drm-misc-next.
 
 	Sam
+
+> ---
+>  drivers/video/fbdev/nvidia/nv_of.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/nvidia/nv_of.c b/drivers/video/fbdev/nvidia/nv_of.c
+> index 5f3e5179c..d20b8779b 100644
+> --- a/drivers/video/fbdev/nvidia/nv_of.c
+> +++ b/drivers/video/fbdev/nvidia/nv_of.c
+> @@ -42,8 +42,7 @@ int nvidia_probe_of_connector(struct fb_info *info, int conn, u8 **out_edid)
+>  		const char *pname;
+>  		int len;
+>  
+> -		for (dp = NULL;
+> -		     (dp = of_get_next_child(parent, dp)) != NULL;) {
+> +		for_each_child_of_node(parent, dp) {
+>  			pname = of_get_property(dp, "name", NULL);
+>  			if (!pname)
+>  				continue;
+> -- 
+> 2.23.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
