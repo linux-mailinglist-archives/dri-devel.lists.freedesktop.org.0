@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932DE29049E
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 14:03:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD2A2904A4
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 14:03:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D19336EDC8;
-	Fri, 16 Oct 2020 12:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5808B6EDCE;
+	Fri, 16 Oct 2020 12:03:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8E806EDC8
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 12:03:02 +0000 (UTC)
-IronPort-SDR: JeFBqTkioiN7HTPlur3DJTM6GKt9Os2EOh4V1z7Vr22WWhmOMmcUeaUU+6F3Ld0OlX1cbzeHbb
- 7wXa8cUR9Hpg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="146453214"
-X-IronPort-AV: E=Sophos;i="5.77,382,1596524400"; d="scan'208";a="146453214"
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 703776EDCE;
+ Fri, 16 Oct 2020 12:03:35 +0000 (UTC)
+IronPort-SDR: I6T4UM5LXLt9cmQ/HXGzxmA6b9bVTLKOKs/lnBMBEiSu+5bp4yHqRU1Px5+rXlnBPN9JAkren6
+ WgexyrGvns6w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="230789165"
+X-IronPort-AV: E=Sophos;i="5.77,382,1596524400"; d="scan'208";a="230789165"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2020 05:03:02 -0700
-IronPort-SDR: fHmFbC1fYXjnIpbV4ktwp/QqDyiGPb7ESHcpmZ0AoZD5Z0tPNx68anIHHKN6HKWtB89/o7XK2/
- i3I9+3cGpWEA==
-X-IronPort-AV: E=Sophos;i="5.77,382,1596524400"; d="scan'208";a="531691514"
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Oct 2020 05:03:34 -0700
+IronPort-SDR: 5uNTqe4bYG6J69Pp1sWQmsPiQ5xfcoaWX+DglW63tlCAL5HqR1tfJFPMIUJftNDKS1cStgThvs
+ 1Uq2EQW1ArjQ==
+X-IronPort-AV: E=Sophos;i="5.77,382,1596524400"; d="scan'208";a="531691673"
 Received: from wpross-mobl1.ger.corp.intel.com (HELO [10.249.36.186])
  ([10.249.36.186])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2020 05:03:01 -0700
+ 16 Oct 2020 05:03:32 -0700
 Subject: Re: [PATCH v6 44/80] docs: gpu: i915.rst: Fix several C duplication
  warnings
-To: dri-devel@lists.freedesktop.org
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
 References: <cover.1602589096.git.mchehab+huawei@kernel.org>
  <52a0dd42d3730d35b3ecd00d20a0601793e443e6.1602589096.git.mchehab+huawei@kernel.org>
 From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
  Swindon SN3 1RJ
-Message-ID: <48f304ed-1a7e-c5c3-2542-f9c528f47d00@intel.com>
-Date: Fri, 16 Oct 2020 15:02:58 +0300
+Message-ID: <da5ef3ca-e546-9d39-e033-27c3ed1b762e@intel.com>
+Date: Fri, 16 Oct 2020 15:03:31 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.2
 MIME-Version: 1.0
@@ -55,6 +56,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
