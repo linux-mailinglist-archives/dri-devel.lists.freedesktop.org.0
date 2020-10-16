@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C75290495
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 14:01:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8217A290496
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 14:01:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC1C6E133;
-	Fri, 16 Oct 2020 12:01:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFAD6EDC0;
+	Fri, 16 Oct 2020 12:01:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 179616E133
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 12:01:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B7B66EDC0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 12:01:30 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209673] divide_error in amdgpu freezes screen
-Date: Fri, 16 Oct 2020 12:01:16 +0000
+Date: Fri, 16 Oct 2020 12:01:29 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-209673-2300-vPc5s8RrQe@https.bugzilla.kernel.org/>
+Message-ID: <bug-209673-2300-sXXIkpQDsN@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209673-2300@https.bugzilla.kernel.org/>
 References: <bug-209673-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,13 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209673
 
---- Comment #8 from cornelius.riemenschneider@googlemail.com ---
-Created attachment 293035
-  --> https://bugzilla.kernel.org/attachment.cgi?id=293035&action=edit
-crashing dmesg #5
-
-I compiled my own 5.9.0 kernel without any arch linux specific patches, and
-just had two crashes (#5 and 6) within 10 minutes.
+--- Comment #9 from cornelius.riemenschneider@googlemail.com ---
+Created attachment 293037
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293037&action=edit
+crashing dmesg #6
 
 -- 
 You are receiving this mail because:
