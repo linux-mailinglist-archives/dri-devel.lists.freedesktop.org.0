@@ -2,47 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF932906A0
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 15:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB862291408
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA26D6EE08;
-	Fri, 16 Oct 2020 13:50:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A876E2A3;
+	Sat, 17 Oct 2020 19:04:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2D796EE08
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 13:50:20 +0000 (UTC)
-IronPort-SDR: H9+dhwK29JyZGvhtorB+QftZ2UOjwRtaWMLNzdjiiSpd/N8BHvmmI1kWiPPyXl0Ha4qzjxXosI
- 9hohFbWzhrfQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="163136972"
-X-IronPort-AV: E=Sophos;i="5.77,383,1596524400"; d="scan'208";a="163136972"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2020 06:50:20 -0700
-IronPort-SDR: GWmUj63rUWzt2LO9Vqx60VE5xQHeBc60prECus/VlY2SVQkMFBshSDuR3jwts7Vz5tbF1wjtCl
- 4dm2EcmbrWKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,383,1596524400"; d="scan'208";a="347203772"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga008.jf.intel.com with SMTP; 16 Oct 2020 06:50:17 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 16 Oct 2020 16:50:16 +0300
-Date: Fri, 16 Oct 2020 16:50:16 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH] drm: document that user-space should avoid parsing EDIDs
-Message-ID: <20201016135016.GO6112@intel.com>
-References: <izOAkOJk67APzk9XP_DhUGr5Nvo_KwmIXlGQhiL101xxttvMO3K1DUdEQryIFXe2EjG16XGuc_YPMlTimZjqePYR3dB0m4Xs4J8Isa3mBAI=@emersion.fr>
- <CAPj87rM3H+kNzMgw1B00iDzH94gZPoLfr17KrAAiCXuUB2VHKA@mail.gmail.com>
- <20201009131025.GS6112@intel.com> <20201009165651.31199071@eldfell>
- <20201009142018.GT6112@intel.com> <20201012101101.12c6bbb8@eldfell>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201012101101.12c6bbb8@eldfell>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFA896E17D;
+ Fri, 16 Oct 2020 14:11:08 +0000 (UTC)
+Received: from ironmsg07-lv.qualcomm.com (HELO ironmsg07-lv.qulacomm.com)
+ ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 16 Oct 2020 07:11:08 -0700
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA;
+ 16 Oct 2020 07:11:07 -0700
+X-QCInternal: smtphost
+Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 16 Oct 2020 19:40:47 +0530
+Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
+ id F2461213ED; Fri, 16 Oct 2020 19:40:45 +0530 (IST)
+From: Krishna Manikandan <mkrishn@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v3] drm/msm: Fix race condition in msm driver with async layer
+ updates
+Date: Fri, 16 Oct 2020 19:40:43 +0530
+Message-Id: <1602857443-27317-1-git-send-email-mkrishn@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Sat, 17 Oct 2020 19:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,155 +45,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>, linux-kernel@vger.kernel.org,
+ dianders@chromium.org, seanpaul@chromium.org, kalyan_t@codeaurora.org,
+ hoegsberg@chromium.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 12, 2020 at 10:11:01AM +0300, Pekka Paalanen wrote:
-> On Fri, 9 Oct 2020 17:20:18 +0300
-> Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com> wrote:
-> =
+When there are back to back commits with async cursor update,
+there is a case where second commit can program the DPU hw
+blocks while first didn't complete flushing config to HW.
 
-> > On Fri, Oct 09, 2020 at 04:56:51PM +0300, Pekka Paalanen wrote:
-> > > On Fri, 9 Oct 2020 16:10:25 +0300
-> > > Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com> wrote:
-> > >   =
+Synchronize the compositions such that second commit waits
+until first commit flushes the composition.
 
-> > > > On Fri, Oct 09, 2020 at 01:07:20PM +0100, Daniel Stone wrote:  =
+This change also introduces per crtc commit lock, such that
+commits on different crtcs are not blocked by each other.
 
-> > > > > Hi,
-> > > > > =
+Changes in v2:
+	- Use an array of mutexes in kms to handle commit
+	  lock per crtc. (Rob Clark)
 
-> > > > > On Fri, 9 Oct 2020 at 10:24, Simon Ser <contact@emersion.fr> wrot=
-e:    =
+Changes in v3:
+	- Add wrapper functions to handle lock and unlock of
+	  commit_lock for each crtc. (Rob Clark)
 
-> > > > > > User-space should avoid parsing EDIDs for metadata already expo=
-sed via
-> > > > > > other KMS interfaces and properties. For instance, user-space s=
-hould not
-> > > > > > try to extract a list of modes from the EDID: the kernel might =
-mutate
-> > > > > > the mode list (because of link capabilities or quirks for insta=
-nce).
-> > > > > >
-> > > > > > Other metadata not exposed by KMS can be parsed by user-space. =
-This
-> > > > > > includes for instance monitor identification (make/model/serial=
-) and
-> > > > > > supported color-spaces.    =
+Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
+---
+ drivers/gpu/drm/msm/msm_atomic.c | 37 ++++++++++++++++++++++++-------------
+ drivers/gpu/drm/msm/msm_kms.h    |  6 ++++--
+ 2 files changed, 28 insertions(+), 15 deletions(-)
 
-> > > > > =
+diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+index 561bfa4..575e9af 100644
+--- a/drivers/gpu/drm/msm/msm_atomic.c
++++ b/drivers/gpu/drm/msm/msm_atomic.c
+@@ -55,16 +55,32 @@ static void vblank_put(struct msm_kms *kms, unsigned crtc_mask)
+ 	}
+ }
+ 
++static void lock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)
++{
++	struct drm_crtc *crtc;
++
++	for_each_crtc_mask(kms->dev, crtc, crtc_mask)
++		mutex_lock(&kms->commit_lock[drm_crtc_index(crtc)]);
++}
++
++static void unlock_crtcs(struct msm_kms *kms, unsigned int crtc_mask)
++{
++	struct drm_crtc *crtc;
++
++	for_each_crtc_mask(kms->dev, crtc, crtc_mask)
++		mutex_unlock(&kms->commit_lock[drm_crtc_index(crtc)]);
++}
++
+ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
+ {
+ 	unsigned crtc_mask = BIT(crtc_idx);
+ 
+ 	trace_msm_atomic_async_commit_start(crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
++	lock_crtcs(kms, crtc_mask);
+ 
+ 	if (!(kms->pending_crtc_mask & crtc_mask)) {
+-		mutex_unlock(&kms->commit_lock);
++		unlock_crtcs(kms, crtc_mask);
+ 		goto out;
+ 	}
+ 
+@@ -79,7 +95,6 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
+ 	 */
+ 	trace_msm_atomic_flush_commit(crtc_mask);
+ 	kms->funcs->flush_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
+ 
+ 	/*
+ 	 * Wait for flush to complete:
+@@ -90,9 +105,8 @@ static void msm_atomic_async_commit(struct msm_kms *kms, int crtc_idx)
+ 
+ 	vblank_put(kms, crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
+ 	kms->funcs->complete_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
++	unlock_crtcs(kms, crtc_mask);
+ 	kms->funcs->disable_commit(kms);
+ 
+ out:
+@@ -189,12 +203,11 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	 * Ensure any previous (potentially async) commit has
+ 	 * completed:
+ 	 */
++	lock_crtcs(kms, crtc_mask);
+ 	trace_msm_atomic_wait_flush_start(crtc_mask);
+ 	kms->funcs->wait_flush(kms, crtc_mask);
+ 	trace_msm_atomic_wait_flush_finish(crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
+-
+ 	/*
+ 	 * Now that there is no in-progress flush, prepare the
+ 	 * current update:
+@@ -232,8 +245,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		}
+ 
+ 		kms->funcs->disable_commit(kms);
+-		mutex_unlock(&kms->commit_lock);
+-
++		unlock_crtcs(kms, crtc_mask);
+ 		/*
+ 		 * At this point, from drm core's perspective, we
+ 		 * are done with the atomic update, so we can just
+@@ -260,8 +272,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	 */
+ 	trace_msm_atomic_flush_commit(crtc_mask);
+ 	kms->funcs->flush_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
+-
++	unlock_crtcs(kms, crtc_mask);
+ 	/*
+ 	 * Wait for flush to complete:
+ 	 */
+@@ -271,9 +282,9 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 
+ 	vblank_put(kms, crtc_mask);
+ 
+-	mutex_lock(&kms->commit_lock);
++	lock_crtcs(kms, crtc_mask);
+ 	kms->funcs->complete_commit(kms, crtc_mask);
+-	mutex_unlock(&kms->commit_lock);
++	unlock_crtcs(kms, crtc_mask);
+ 	kms->funcs->disable_commit(kms);
+ 
+ 	drm_atomic_helper_commit_hw_done(state);
+diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+index 1cbef6b..2049847 100644
+--- a/drivers/gpu/drm/msm/msm_kms.h
++++ b/drivers/gpu/drm/msm/msm_kms.h
+@@ -155,7 +155,7 @@ struct msm_kms {
+ 	 * For async commit, where ->flush_commit() and later happens
+ 	 * from the crtc's pending_timer close to end of the frame:
+ 	 */
+-	struct mutex commit_lock;
++	struct mutex commit_lock[MAX_CRTCS];
+ 	unsigned pending_crtc_mask;
+ 	struct msm_pending_timer pending_timers[MAX_CRTCS];
+ };
+@@ -165,7 +165,9 @@ static inline void msm_kms_init(struct msm_kms *kms,
+ {
+ 	unsigned i;
+ 
+-	mutex_init(&kms->commit_lock);
++	for (i = 0; i < ARRAY_SIZE(kms->commit_lock); i++)
++		mutex_init(&kms->commit_lock[i]);
++
+ 	kms->funcs = funcs;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(kms->pending_timers); i++)
+-- 
+2.7.4
 
-> > > > > So I take it the only way to get modes is through the connector's=
- list
-> > > > > of modes. That sounds reasonable enough to me, but I think to pro=
-perly
-> > > > > handle colour (e.g. CEA modes have different behaviour for
-> > > > > limited/full range depending on which VIC they correspond to IIRC=
-)    =
-
-> > > > =
-
-> > > > If the mode has a VIC and that VIC is not 1, then it's limited rang=
-e,
-> > > > otherwise full range. There are fortunately no cases where you would
-> > > > have the same exact timings corresponding to different quantization
-> > > > range depending on the VIC.
-> > > > =
-
-> > > > And the only reason the same timings could correspond to multiple V=
-ICs
-> > > > is aspect ratio. Which is already exposed via the mode flags, assum=
-ing
-> > > > the appropriate client cap is enabled.
-> > > > =
-
-> > > > So I think the only reason to expose the VIC would be if userspace =
-is
-> > > > non-lazy and wants to manage its colors presicely, but is otherwise=
- lazy
-> > > > and doesn't want to figure out what the VIC of the mode is on its o=
-wn.  =
-
-> > > =
-
-> > > What would "figure out what the VIC of the mode is" require in usersp=
-ace?
-> > > =
-
-> > > A database of all VIC modes and then compare if the detailed timings =
-match?
-> > > =
-
-> > > Is that also how the kernel recognises that userspace wants to set a
-> > > certain VIC mode instead of some arbitrary mode?  =
-
-> > =
-
-> > Yes and yes.
-> > =
-
-> > Note that atm we also don't have a way for userspace to say that it
-> > wants to signal limited range to the sink but wants the kernel
-> > to not do the full->limited range conversion. Ie. no way for userspace
-> > to pass in pixels that are already in limited range. There was a patch
-> > for that posted quite long ago, but it didn't go in.
-> =
-
-> Thanks for the heads-up.
-> =
-
-> If userspace uses all available KMS color management properties
-> (CTM, LUTs, etc.) *and* the video mode implies limited range on the
-> cable, at what point in the pixel pipeline does that conversion from
-> full to limited range occur?
-
-It should be the last step.
-
-<stop reading now if you don't care about Intel hw details>
-
-There is a slight snag on some Intel platforms that the gamma LUT
-is sitting after the CSC unit, and currently we use the CSC for
-the range compression.
-
-On glk in particular I *think* we currently just do the wrong
-thing do the range compression before gamma. The same probably
-applies to hsw+ when both gamma and degamma are used at the same
-time. But that is clearly buggy, and we should fix it to either:
-a) return an error, which isn't super awesome since then you
-   can't do gamma+limited range at the same time on glk, nor
-   gamma+degamma+limited range on hsw+.
-b) for the glk case we could use the hw degamma LUT for the
-   gamma, which isn't great becasue the hw gamma and degamma
-   LUTs are quite different beasts, and so the hw degamma LUT
-   might not be able to do exactly what we need. On hsw+ we do
-   use this trick already to get the gamma+limited range right,
-   but on these platforms the hw gamma and degamma LUTs have
-   identical capabilities.
-c) do the range compression with the hw gamma LUT instead, which
-   of course means we have to combine the user gamma and range
-   compression into the same gamma LUT.
-
-So I think c) is what it should be. Would just need to find the time
-to implement it, and figure out how to not totally mess up our
-driver's hw state checker. Hmm, except this won't help at all
-with YCbCr output since we need to apply gamma before the
-RGB->YCbCr conversion (which uses the same CSC again). Argh.
-So YCbCr output would still need option b).
-
-Thankfully icl+ fixed all this by adding a dedicated output CSC
-unit which sits after the gamma LUT in the pipeline. And pre-hsw
-is almost fine as well since the hw has a dedicated fixed function
-thing for the range compression. So the only snag on pre-hsw
-is the YCbCr+degamma+gamma case.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
