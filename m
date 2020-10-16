@@ -2,38 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99ED528FFF3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 10:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C883290003
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 10:36:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 788FA6E0F3;
-	Fri, 16 Oct 2020 08:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 796A36E10C;
+	Fri, 16 Oct 2020 08:36:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68FEF6E0F3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 08:29:14 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 557D720848;
- Fri, 16 Oct 2020 08:29:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602836954;
- bh=gfZRHfiV80AkMKP13njGzfHmEMvVJhxSpHJPlsKp1c0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M99FiJnEjdsc3CNdrjTG2ze4YE+/WGGIya7iMnIJ2VJM/C48P8VP8gGVqGmjMQLgI
- 7qJdGyKvgKAmGLUAhXsyRdkeTUX4EybvdBq0WNvZQFpQsEexH8YzwD7Ha5pbTjcA5s
- /JpgKN2bLBqm0vwfX6OownE57unxVBFlCa2ng6Rc=
-Date: Fri, 16 Oct 2020 10:29:45 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Laura Abbott <laura@labbott.name>
-Subject: Re: [PATCH] staging: ion: remove from the tree
-Message-ID: <20201016082945.GA1722359@kroah.com>
-References: <20200827123627.538189-1-gregkh@linuxfoundation.org>
- <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DEBB6E10C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 08:36:38 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208981] trace with B550I AORUS PRO AX and AMD Ryzen 5 PRO 4650G
+Date: Fri, 16 Oct 2020 08:36:37 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: florian.laroche@googlemail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208981-2300-K0Dy4j79Qn@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208981-2300@https.bugzilla.kernel.org/>
+References: <bug-208981-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,71 +51,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Christoph Hellwig <hch@infradead.org>,
- kernel-team@android.com, Todd Kjos <tkjos@android.com>,
- Martijn Coenen <maco@android.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Joel Fernandes <joel@joelfernandes.org>,
- Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
- Suren Baghdasaryan <surenb@google.com>, Hridya Valsaraju <hridya@google.com>,
- Shuah Khan <shuah@kernel.org>, Christian Brauner <christian@brauner.io>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 27, 2020 at 09:31:27AM -0400, Laura Abbott wrote:
-> On 8/27/20 8:36 AM, Greg Kroah-Hartman wrote:
-> > The ION android code has long been marked to be removed, now that we
-> > dma-buf support merged into the real part of the kernel.
-> > =
+https://bugzilla.kernel.org/show_bug.cgi?id=208981
 
-> > It was thought that we could wait to remove the ion kernel at a later
-> > time, but as the out-of-tree Android fork of the ion code has diverged
-> > quite a bit, and any Android device using the ion interface uses that
-> > forked version and not this in-tree version, the in-tree copy of the
-> > code is abandonded and not used by anyone.
-> > =
+--- Comment #9 from florian.laroche@googlemail.com ---
+Hello,
 
-> > Combine this abandoned codebase with the need to make changes to it in
-> > order to keep the kernel building properly, which then causes merge
-> > issues when merging those changes into the out-of-tree Android code, and
-> > you end up with two different groups of people (the in-kernel-tree
-> > developers, and the Android kernel developers) who are both annoyed at
-> > the current situation.  Because of this problem, just drop the in-kernel
-> > copy of the ion code now, as it's not used, and is only causing problems
-> > for everyone involved.
-> > =
+Am Mi., 14. Okt. 2020 um 11:44 Uhr schrieb
+<bugzilla-daemon@bugzilla.kernel.org>:
+> - Kernel 5.8.14 and 5.9 with mostly Gentoo kernel config
+> - AMD Ryzen 7 PRO 4750G CPU+iGPU
+> - ASRock A520M-ITX/ac mainboard + ECC UDIMM memory
+>
+> The trace mentioned above disappeared when I updated BIOS (v. 1.20 from
+> 2020/9/18, it contains AGESA 1.0.8.0). However, I'm still not able to run
+> ROCm
 
-> > Cc: "Arve Hj=F8nnev=E5g" <arve@android.com>
-> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > Cc: Christian Brauner <christian@brauner.io>
-> > Cc: Christoph Hellwig <hch@infradead.org>
-> > Cc: Hridya Valsaraju <hridya@google.com>
-> > Cc: Joel Fernandes <joel@joelfernandes.org>
-> > Cc: John Stultz <john.stultz@linaro.org>
-> > Cc: Laura Abbott <laura@labbott.name>
-> > Cc: Martijn Coenen <maco@android.com>
-> > Cc: Shuah Khan <shuah@kernel.org>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Suren Baghdasaryan <surenb@google.com>
-> > Cc: Todd Kjos <tkjos@android.com>
-> > Cc: devel@driverdev.osuosl.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> =
+I have updated my motherboard Gigabyte B550I AORUS PRO AX to
+BIOS F10 from 09/18/2020 with AMD AGESA ComboV2 1.0.8.1.
 
-> We discussed this at the Android MC on Monday and the plan was to
-> remove it after the next LTS release.
+The trace is still present, so this issue is still open for me.
 
-As 5.10 will be the next LTS release, I have now merged it to my
-"testing" branch to go into 5.11-rc1.
 
-thanks,
+> OpenCL (tried various versions, including 3.7 and 3.8), system either hangs,
+> or
+> (if the program is killed early) dmesg shows
+>
+>  Evicting PASID 0x8001 queues
+>
+> BTW, clinfo causes GPU resets, and leaves 99% GPU utilization, while dmesg
+> shows something like
+>
+>  qcm fence wait loop timeout expired
+>  The cp might be in an unrecoverable state due to an unsuccessful queues
+>  preemption
+>  amdgpu: Failed to evict process queues
+>  amdgpu: Failed to quiesce KFD
+>  amdgpu 0000:07:00.0: amdgpu: GPU reset begin!
+>  [drm] free PSP TMP buffer
+>  amdgpu 0000:07:00.0: amdgpu: GPU reset succeeded, trying to resume
+> ...(and similarly for kernel 5.9.0)
+>
+> It is probably an off-topic, but it seems to be related to amdgpu driver, and
+> I
+> don't know how to move forward (and somebody reported that ROCk 3.7 driver
+> works well with APU Renoir).
 
-greg k-h
+
+Seems this is all unrelated to my bug-report.
+
+best regards,
+
+Florian La Roche
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
