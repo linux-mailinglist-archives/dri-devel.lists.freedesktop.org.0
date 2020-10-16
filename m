@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19969290D2C
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 23:18:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 703CA290D30
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 23:19:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE6A6EE98;
-	Fri, 16 Oct 2020 21:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9DE56EE99;
+	Fri, 16 Oct 2020 21:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 018FB6EE98
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 21:18:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B085B6EE99
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 21:19:47 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 1E10780615;
- Fri, 16 Oct 2020 23:18:33 +0200 (CEST)
-Date: Fri, 16 Oct 2020 23:18:31 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 428CE8062D;
+ Fri, 16 Oct 2020 23:19:45 +0200 (CEST)
+Date: Fri, 16 Oct 2020 23:19:43 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Qinglang Miao <miaoqinglang@huawei.com>
-Subject: Re: [PATCH -next] omapfb: connector-analog-tv: simplify the return
- expression of tvc_connect()
-Message-ID: <20201016211831.GF1496366@ravnborg.org>
-References: <20200921131049.92616-1-miaoqinglang@huawei.com>
+Subject: Re: [PATCH -next] omapfb: connector-hdmi: simplify the return
+ expression of hdmic_connect
+Message-ID: <20201016211943.GG1496366@ravnborg.org>
+References: <20200921131051.92661-1-miaoqinglang@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200921131049.92616-1-miaoqinglang@huawei.com>
+In-Reply-To: <20200921131051.92661-1-miaoqinglang@huawei.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
  a=kj9zAlcOel0A:10 a=i0EeH86SAAAA:8 a=e5mUnYsNAAAA:8
- a=ToXaz2Xm6MjKWDOX7ugA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=no2T8IuB39rNVZpCtwQA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,31 +44,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
+Cc: linux-fbdev@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-omap@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 21, 2020 at 09:10:49PM +0800, Qinglang Miao wrote:
+Hi Qinglang Miao
+
+On Mon, Sep 21, 2020 at 09:10:51PM +0800, Qinglang Miao wrote:
 > Simplify the return expression.
 > 
 > Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
 
-Thanks, applied to drm-misc-next.
+I dropped the changes to gpio-cs5535.c when I applied this patch to
+drm-misc-next. It looks like an accident that it was included here.
 
 	Sam
+
 > ---
->  .../fbdev/omap2/omapfb/displays/connector-analog-tv.c      | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+>  drivers/gpio/gpio-cs5535.c                                 | 6 +-----
+>  drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c | 7 +------
+>  2 files changed, 2 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv.c b/drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv.c
-> index 63bd13ba4..a9fd732f8 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv.c
-> @@ -47,18 +47,13 @@ static int tvc_connect(struct omap_dss_device *dssdev)
+> diff --git a/drivers/gpio/gpio-cs5535.c b/drivers/gpio/gpio-cs5535.c
+> index 53b24e3ae..57b9ddffd 100644
+> --- a/drivers/gpio/gpio-cs5535.c
+> +++ b/drivers/gpio/gpio-cs5535.c
+> @@ -345,12 +345,8 @@ static int cs5535_gpio_probe(struct platform_device *pdev)
+>  				mask_orig, mask);
+>  
+>  	/* finally, register with the generic GPIO API */
+> -	err = devm_gpiochip_add_data(&pdev->dev, &cs5535_gpio_chip.chip,
+> +	return devm_gpiochip_add_data(&pdev->dev, &cs5535_gpio_chip.chip,
+>  				     &cs5535_gpio_chip);
+> -	if (err)
+> -		return err;
+> -
+> -	return 0;
+>  }
+>  
+>  static struct platform_driver cs5535_gpio_driver = {
+> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c b/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
+> index 49551afbd..670b9c6eb 100644
+> --- a/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
+> +++ b/drivers/video/fbdev/omap2/omapfb/displays/connector-hdmi.c
+> @@ -50,18 +50,13 @@ static int hdmic_connect(struct omap_dss_device *dssdev)
 >  {
 >  	struct panel_drv_data *ddata = to_panel_data(dssdev);
 >  	struct omap_dss_device *in = ddata->in;
@@ -79,15 +103,15 @@ Thanks, applied to drm-misc-next.
 >  	if (omapdss_device_is_connected(dssdev))
 >  		return 0;
 >  
-> -	r = in->ops.atv->connect(in, dssdev);
+> -	r = in->ops.hdmi->connect(in, dssdev);
 > -	if (r)
 > -		return r;
 > -
 > -	return 0;
-> +	return in->ops.atv->connect(in, dssdev);
+> +	return in->ops.hdmi->connect(in, dssdev);
 >  }
 >  
->  static void tvc_disconnect(struct omap_dss_device *dssdev)
+>  static void hdmic_disconnect(struct omap_dss_device *dssdev)
 > -- 
 > 2.23.0
 > 
