@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C615228FF84
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 09:54:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2ABB28FF97
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 09:59:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC8A6EA89;
-	Fri, 16 Oct 2020 07:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 852366EA8A;
+	Fri, 16 Oct 2020 07:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7952C6EA89
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 07:54:28 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f8951870000>; Fri, 16 Oct 2020 00:53:43 -0700
-Received: from [10.2.49.77] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 16 Oct
- 2020 07:54:19 +0000
-Subject: Re: [PATCH v2 05/17] mm/frame-vector: Use FOLL_LONGTERM
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-6-daniel.vetter@ffwll.ch>
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <4685181e-8306-0d96-8be6-592b3c563cbf@nvidia.com>
-Date: Fri, 16 Oct 2020 00:54:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com
+ [IPv6:2607:f8b0:4864:20::c41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C46C26EA8A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 07:58:57 +0000 (UTC)
+Received: by mail-oo1-xc41.google.com with SMTP id z1so414291ooj.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 00:58:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tewdnEIcomqLAQgtQAKYspeG6tEqRWNOiF+HBiFI6Mw=;
+ b=FFaNReymf2ffNkSnTEVbkOnaIx1vEXlq8wNRzKBEazElPeTroXDCEmqDCAPUfIKycj
+ OxrcMIt6c+Lz1DvOt7aY3XDjwKnKo1uTCPZekqMk7ut+qtE/9IkQ7y1mqmM29F24l4ji
+ QxTprnsTs6IBE4z9SDWP3TIeDR74MpJY6ppd4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tewdnEIcomqLAQgtQAKYspeG6tEqRWNOiF+HBiFI6Mw=;
+ b=P6OjBmlEIgDALUBbBe9DxTVibTd60HcjcSXi+799w2Nr/B5Mbkd+cqCZN0FCcwZWhW
+ +MPDPLeV9hFPs15pzQN6wryDdl7cwT7ImJ4p6ZeNNJ2sVv1YE9OwqzUqeD+RvIQTn58h
+ vDFkSd1+KZBuHqdrMZhdP9Z+ySfYZKiCfyGCFMHhCbGqCrYmj/GnygcuR74FYZT4M/Dg
+ dYvftl6dOuwtWFatP+O4tw9NrgCSSjDrS/E/lhAiNNwR1B0f+sanXDsaFq9IsxogswFk
+ l43YmcPMimPpHnciGdKy8wDaupqPkuvmSaS2mCDvG49q7Cj2jWM1SORivv6atMctL/2/
+ S1Nw==
+X-Gm-Message-State: AOAM5330pnZUXfMYJJxteISzUZdqjxvELPwHRHfhv3xLoWHQiYKkezGo
+ AYUlQCK5RbzdtQGAd2dGPC5L7GC9DTvtkcSWfS5UgA==
+X-Google-Smtp-Source: ABdhPJz6Ft9W6rL1fJHK5X7LsgAjE53B988IvCK8SlazPBpx9AEGn+icfapdEkZNqutWDzmTDYAYP9jRjyDK/0x2GL8=
+X-Received: by 2002:a4a:c011:: with SMTP id v17mr1755299oop.89.1602835137109; 
+ Fri, 16 Oct 2020 00:58:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201009075934.3509076-6-daniel.vetter@ffwll.ch>
-Content-Language: en-US
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1602834823; bh=x8+KhcjN/0jeBmkHwcjBNjUK8qbDE0ZVZJYKZ9Z6VGs=;
- h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
- MIME-Version:In-Reply-To:Content-Type:Content-Language:
- Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
- b=OPXG7m+swcryyW3+1c3mxRCD9ELJ64r6RX1Dgjsv/DxKINT3TrWkfzRvFH5oOjwQ9
- kbmWxE8cjt++1sfq9zZBm7pAsjxLHRKxIkJrIYBO5d5BHLfs1GBTG4uNWzgJwAYEib
- a0tpEVj2BXEbDUUj0WNA08KLGk0UpBLrh6Q4zl4oRKuwi2vFzQU7IWPvzl60U5doRa
- 9Sx7wqrwS1T6lY56FeeLMgq9fZLnJB5MNWWrmUCdHStngTzwSQOW6ZGYVnKoe93gas
- pNw8s4iejdBCZ9jkBUIDbZgPpbSPLosjj5nPK4785xOzYYi5NQgwhH2Nz6WyvBj4Gr
- OGagG2GGGM95w==
+References: <20201016071254.2681-1-shawn.guo@linaro.org>
+In-Reply-To: <20201016071254.2681-1-shawn.guo@linaro.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 16 Oct 2020 09:58:46 +0200
+Message-ID: <CAKMK7uHvDK6Cd2BBvUV-xtArD73gQVAp0ETBw=tLXrYUfOS-zw@mail.gmail.com>
+Subject: Re: [PATCH] drm/drm_vblank: use drm_warn_once() to warn undefined
+ mode timing
+To: Shawn Guo <shawn.guo@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,64 +58,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>, kvm@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Tomasz Figa <tfiga@chromium.org>, linux-mm@kvack.org, Kyungmin
- Park <kyungmin.park@samsung.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Sean Paul <seanpaul@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/9/20 12:59 AM, Daniel Vetter wrote:
-...
-> @@ -48,40 +47,25 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
->   
->   	start = untagged_addr(start);
->   
-> -	mmap_read_lock(mm);
-> -	locked = 1;
-> -	vma = find_vma_intersection(mm, start, start + 1);
-> -	if (!vma) {
-> -		ret = -EFAULT;
-> -		goto out;
-> -	}
-> -
-> -	/*
-> -	 * While get_vaddr_frames() could be used for transient (kernel
-> -	 * controlled lifetime) pinning of memory pages all current
-> -	 * users establish long term (userspace controlled lifetime)
-> -	 * page pinning. Treat get_vaddr_frames() like
-> -	 * get_user_pages_longterm() and disallow it for filesystem-dax
-> -	 * mappings.
-> -	 */
-> -	if (vma_is_fsdax(vma)) {
-> -		ret = -EOPNOTSUPP;
-> -		goto out;
-> -	}
-> -
-> -	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
-> +	ret = pin_user_pages_fast(start, nr_frames,
-> +				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> +				  (struct page **)(vec->ptrs));
-> +	if (ret > 0) {
+On Fri, Oct 16, 2020 at 9:13 AM Shawn Guo <shawn.guo@linaro.org> wrote:
+>
+> Commit 5caa0feafcc6 ("drm/vblank: Lock down vblank->hwmode more") added
+> WARN_ON_ONCE() for atomic drivers to warn the case that vsync is enabled
+> before a mode has been set on CRTC.  This happens sometimes during the
+> initial mode setting of a CRTC.  It also happens on Android running HWC2
+> backed with drm_hwcomposer, where HWC2::SetVsyncEnabled could be called
+> before the atomic mode setting on CRTC happens.
+>
+> In this case, there is nothing really bad to happen as kernel function
+> returns as no-op.  So using WARN() version might be overkilled,
+> considering some user space crash reporting services may treat kernel
+> WARNINGS as crashes.  Let's drop WARN_ON_ONCE() and change drm_dbg_core()
+> to drm_warn_once() for warning undefined mode timing.
 
-None of the callers that we have today will accept anything less than
-ret == nr_frames. And the whole partially pinned region idea turns out
-to be just not useful for almost everyone, from what I recall of the gup/pup
-call sites. So I wonder if we should just have get_vaddr_frames do the
-cleanup here and return -EFAULT, if ret != nr_frames ?
+This indicates a bug in your driver. Please fix it there, not by
+shutting up the core code complaining about that. Either you're
+getting vblank timestamps when the vblank isn't set up yet
+(drm_crtc_vblank_on/off) or there's some other race going on in your
+driver code resulting in this.
+-Daniel
 
-thanks,
+> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> ---
+>  drivers/gpu/drm/drm_vblank.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index b18e1efbbae1..5f7c4a923e8a 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -717,9 +717,9 @@ drm_crtc_vblank_helper_get_vblank_timestamp_internal(
+>          * Happens during initial modesetting of a crtc.
+>          */
+>         if (mode->crtc_clock == 0) {
+> -               drm_dbg_core(dev, "crtc %u: Noop due to uninitialized mode.\n",
+> -                            pipe);
+> -               drm_WARN_ON_ONCE(dev, drm_drv_uses_atomic_modeset(dev));
+> +               drm_warn_once(dev, "crtc %u: Noop due to uninitialized mode.\n",
+> +                             pipe);
+> +
+>                 return false;
+>         }
+>
+> --
+> 2.17.1
+>
+
+
 -- 
-John Hubbard
-NVIDIA
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
