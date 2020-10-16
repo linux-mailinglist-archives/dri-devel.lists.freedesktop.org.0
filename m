@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5C928FF63
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 09:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C615228FF84
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 09:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF4B6EA88;
-	Fri, 16 Oct 2020 07:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC8A6EA89;
+	Fri, 16 Oct 2020 07:54:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 452C36EA88
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 07:45:17 +0000 (UTC)
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7952C6EA89
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 07:54:28 +0000 (UTC)
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f894f800000>; Fri, 16 Oct 2020 00:45:04 -0700
-Received: from [10.2.49.77] (10.124.1.5) by HQMAIL107.nvidia.com
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f8951870000>; Fri, 16 Oct 2020 00:53:43 -0700
+Received: from [10.2.49.77] (172.20.13.39) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 16 Oct
- 2020 07:45:15 +0000
-Subject: Re: [PATCH v2 03/17] misc/habana: Stop using frame_vector helpers
+ 2020 07:54:19 +0000
+Subject: Re: [PATCH v2 05/17] mm/frame-vector: Use FOLL_LONGTERM
 To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
  <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>
 References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-4-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-6-daniel.vetter@ffwll.ch>
 From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <13282062-f8d7-62e4-1ee8-9462ac056ed5@nvidia.com>
-Date: Fri, 16 Oct 2020 00:45:15 -0700
+Message-ID: <4685181e-8306-0d96-8be6-592b3c563cbf@nvidia.com>
+Date: Fri, 16 Oct 2020 00:54:18 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201009075934.3509076-4-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201009075934.3509076-6-daniel.vetter@ffwll.ch>
 Content-Language: en-US
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
  HQMAIL107.nvidia.com (172.20.187.13)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1602834304; bh=+de1QPOaNy8jFnyKeo9MlrCg/nb0t2idpW6X5tFAQ+Y=;
+ t=1602834823; bh=x8+KhcjN/0jeBmkHwcjBNjUK8qbDE0ZVZJYKZ9Z6VGs=;
  h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
  MIME-Version:In-Reply-To:Content-Type:Content-Language:
  Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
- b=hPr5KUlpKzHzeUeo+1cBDTnY/Ka58tYJNr3ovgy7bWfefkHkq7edqGODAtXHB9NXU
- 4eLWx971P+gG9rg5Nuz85Cm8mbANwflo6wjTU+SNxaYC9J8kWuosn6U9MXQUAZ6n61
- X7zRsPlza1ruG0CRd/8gi1EodPGKnoEJ3a3YQf8v/y+uc46+FIoVTzAzUyUPwJCKdp
- wtr/JtXxwsmmSQw/rfKdilMyzIQAVENqsvG6H36223FxJxbZNk9V7IlXO8foEtpwK1
- GQWGeEozLDBHIjItrcJnA7sx+/Vax2oTG44rw9AWI3AT/PAs+2MONfvCB7ffYQyPqM
- DZsd9595OihIg==
+ b=OPXG7m+swcryyW3+1c3mxRCD9ELJ64r6RX1Dgjsv/DxKINT3TrWkfzRvFH5oOjwQ9
+ kbmWxE8cjt++1sfq9zZBm7pAsjxLHRKxIkJrIYBO5d5BHLfs1GBTG4uNWzgJwAYEib
+ a0tpEVj2BXEbDUUj0WNA08KLGk0UpBLrh6Q4zl4oRKuwi2vFzQU7IWPvzl60U5doRa
+ 9Sx7wqrwS1T6lY56FeeLMgq9fZLnJB5MNWWrmUCdHStngTzwSQOW6ZGYVnKoe93gas
+ pNw8s4iejdBCZ9jkBUIDbZgPpbSPLosjj5nPK4785xOzYYi5NQgwhH2Nz6WyvBj4Gr
+ OGagG2GGGM95w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,112 +59,64 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Pawel Piskorski <ppiskorski@habana.ai>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Ofir Bitton <obitton@habana.ai>,
- linux-mm@kvack.org, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Tomer Tayar <ttayar@habana.ai>, Omer
- Shpigelman <oshpigelman@habana.ai>, Daniel Vetter <daniel.vetter@intel.com>,
+ Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>, kvm@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Tomasz Figa <tfiga@chromium.org>, linux-mm@kvack.org, Kyungmin
+ Park <kyungmin.park@samsung.com>, Daniel Vetter <daniel.vetter@intel.com>,
  Andrew Morton <akpm@linux-foundation.org>,
- Moti Haimovski <mhaimovski@habana.ai>, Dan Williams <dan.j.williams@intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTAvOS8yMCAxMjo1OSBBTSwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBBbGwgd2UgbmVlZCBh
-cmUgYSBwYWdlcyBhcnJheSwgcGluX3VzZXJfcGFnZXNfZmFzdCBjYW4gZ2l2ZSB1cyB0aGF0Cj4g
-ZGlyZWN0bHkuIFBsdXMgdGhpcyBhdm9pZHMgdGhlIGVudGlyZSByYXcgcGZuIHNpZGUgb2YgZ2V0
-X3ZhZGRyX2ZyYW1lcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGludGVsLmNvbT4KPiBDYzogSmFzb24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+Cj4g
-Q2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+Cj4gQ2M6IEpvaG4g
-SHViYmFyZCA8amh1YmJhcmRAbnZpZGlhLmNvbT4KPiBDYzogSsOpcsO0bWUgR2xpc3NlIDxqZ2xp
-c3NlQHJlZGhhdC5jb20+Cj4gQ2M6IEphbiBLYXJhIDxqYWNrQHN1c2UuY3o+Cj4gQ2M6IERhbiBX
-aWxsaWFtcyA8ZGFuLmoud2lsbGlhbXNAaW50ZWwuY29tPgo+IENjOiBsaW51eC1tbUBrdmFjay5v
-cmcKPiBDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gQ2M6IGxpbnV4
-LXNhbXN1bmctc29jQHZnZXIua2VybmVsLm9yZwo+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5l
-bC5vcmcKPiBDYzogT2RlZCBHYWJiYXkgPG9kZWQuZ2FiYmF5QGdtYWlsLmNvbT4KPiBDYzogT21l
-ciBTaHBpZ2VsbWFuIDxvc2hwaWdlbG1hbkBoYWJhbmEuYWk+Cj4gQ2M6IE9maXIgQml0dG9uIDxv
-Yml0dG9uQGhhYmFuYS5haT4KPiBDYzogVG9tZXIgVGF5YXIgPHR0YXlhckBoYWJhbmEuYWk+Cj4g
-Q2M6IE1vdGkgSGFpbW92c2tpIDxtaGFpbW92c2tpQGhhYmFuYS5haT4KPiBDYzogRGFuaWVsIFZl
-dHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBDYzogR3JlZyBLcm9haC1IYXJ0bWFuIDxn
-cmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiBDYzogUGF3ZWwgUGlza29yc2tpIDxwcGlza29y
-c2tpQGhhYmFuYS5haT4KPiAtLQo+IHYyOiBVc2UgdW5waW5fdXNlcl9wYWdlc19kaXJ0eV9sb2Nr
-IChKb2huKQo+IC0tLQo+ICAgZHJpdmVycy9taXNjL2hhYmFuYWxhYnMvS2NvbmZpZyAgICAgICAg
-ICAgICB8ICAxIC0KPiAgIGRyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9oYWJhbmFsYWJz
-LmggfCAgMyArLQo+ICAgZHJpdmVycy9taXNjL2hhYmFuYWxhYnMvY29tbW9uL21lbW9yeS5jICAg
-ICB8IDQ5ICsrKysrKysrLS0tLS0tLS0tLS0tLQo+ICAgMyBmaWxlcyBjaGFuZ2VkLCAyMCBpbnNl
-cnRpb25zKCspLCAzMyBkZWxldGlvbnMoLSkKClJldmlld2VkLWJ5OiBKb2huIEh1YmJhcmQgPGpo
-dWJiYXJkQG52aWRpYS5jb20+Cgp0aGFua3MsCi0tIApKb2huIEh1YmJhcmQKTlZJRElBCgo+IAo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9LY29uZmlnIGIvZHJpdmVycy9t
-aXNjL2hhYmFuYWxhYnMvS2NvbmZpZwo+IGluZGV4IDhlYjVkMzhjNjE4ZS4uMmYwNDE4N2Y3MTY3
-IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL0tjb25maWcKPiArKysgYi9k
-cml2ZXJzL21pc2MvaGFiYW5hbGFicy9LY29uZmlnCj4gQEAgLTYsNyArNiw2IEBACj4gICBjb25m
-aWcgSEFCQU5BX0FJCj4gICAJdHJpc3RhdGUgIkhhYmFuYUFJIGFjY2VsZXJhdG9ycyAoaGFiYW5h
-bGFicykiCj4gICAJZGVwZW5kcyBvbiBQQ0kgJiYgSEFTX0lPTUVNCj4gLQlzZWxlY3QgRlJBTUVf
-VkVDVE9SCj4gICAJc2VsZWN0IERNQV9TSEFSRURfQlVGRkVSCj4gICAJc2VsZWN0IEdFTkVSSUNf
-QUxMT0NBVE9SCj4gICAJc2VsZWN0IEhXTU9OCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWlzYy9o
-YWJhbmFsYWJzL2NvbW1vbi9oYWJhbmFsYWJzLmggYi9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9j
-b21tb24vaGFiYW5hbGFicy5oCj4gaW5kZXggZWRiZDYyN2IyOWQyLi5jMWIzYWQ2MTNiMTUgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9taXNjL2hhYmFuYWxhYnMvY29tbW9uL2hhYmFuYWxhYnMuaAo+
-ICsrKyBiL2RyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9oYWJhbmFsYWJzLmgKPiBAQCAt
-ODgxLDcgKzg4MSw4IEBAIHN0cnVjdCBobF9jdHhfbWdyIHsKPiAgIHN0cnVjdCBobF91c2VycHRy
-IHsKPiAgIAllbnVtIHZtX3R5cGVfdAkJdm1fdHlwZTsgLyogbXVzdCBiZSBmaXJzdCAqLwo+ICAg
-CXN0cnVjdCBsaXN0X2hlYWQJam9iX25vZGU7Cj4gLQlzdHJ1Y3QgZnJhbWVfdmVjdG9yCSp2ZWM7
-Cj4gKwlzdHJ1Y3QgcGFnZQkJKipwYWdlczsKPiArCXVuc2lnbmVkIGludAkJbnBhZ2VzOwo+ICAg
-CXN0cnVjdCBzZ190YWJsZQkJKnNndDsKPiAgIAllbnVtIGRtYV9kYXRhX2RpcmVjdGlvbiBkaXI7
-Cj4gICAJc3RydWN0IGxpc3RfaGVhZAlkZWJ1Z2ZzX2xpc3Q7Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9tZW1vcnkuYyBiL2RyaXZlcnMvbWlzYy9oYWJhbmFs
-YWJzL2NvbW1vbi9tZW1vcnkuYwo+IGluZGV4IDVmZjQ2ODg2ODNmZC4uMzI3YjY0NDc5Zjk3IDEw
-MDY0NAo+IC0tLSBhL2RyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9tZW1vcnkuYwo+ICsr
-KyBiL2RyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1vbi9tZW1vcnkuYwo+IEBAIC0xMjgxLDQ1
-ICsxMjgxLDQxIEBAIHN0YXRpYyBpbnQgZ2V0X3VzZXJfbWVtb3J5KHN0cnVjdCBobF9kZXZpY2Ug
-KmhkZXYsIHU2NCBhZGRyLCB1NjQgc2l6ZSwKPiAgIAkJcmV0dXJuIC1FRkFVTFQ7Cj4gICAJfQo+
-ICAgCj4gLQl1c2VycHRyLT52ZWMgPSBmcmFtZV92ZWN0b3JfY3JlYXRlKG5wYWdlcyk7Cj4gLQlp
-ZiAoIXVzZXJwdHItPnZlYykgewo+ICsJdXNlcnB0ci0+cGFnZXMgPSBrdm1hbGxvY19hcnJheShu
-cGFnZXMsIHNpemVvZigqdXNlcnB0ci0+cGFnZXMpLAo+ICsJCQkJCUdGUF9LRVJORUwpOwo+ICsJ
-aWYgKCF1c2VycHRyLT5wYWdlcykgewo+ICAgCQlkZXZfZXJyKGhkZXYtPmRldiwgIkZhaWxlZCB0
-byBjcmVhdGUgZnJhbWUgdmVjdG9yXG4iKTsKPiAgIAkJcmV0dXJuIC1FTk9NRU07Cj4gICAJfQo+
-ICAgCj4gLQlyYyA9IGdldF92YWRkcl9mcmFtZXMoc3RhcnQsIG5wYWdlcywgRk9MTF9GT1JDRSB8
-IEZPTExfV1JJVEUsCj4gLQkJCQl1c2VycHRyLT52ZWMpOwo+ICsJcmMgPSBwaW5fdXNlcl9wYWdl
-c19mYXN0KHN0YXJ0LCBucGFnZXMsIEZPTExfRk9SQ0UgfCBGT0xMX1dSSVRFLAo+ICsJCQkJIHVz
-ZXJwdHItPnBhZ2VzKTsKPiAgIAo+ICAgCWlmIChyYyAhPSBucGFnZXMpIHsKPiAgIAkJZGV2X2Vy
-cihoZGV2LT5kZXYsCj4gICAJCQkiRmFpbGVkIHRvIG1hcCBob3N0IG1lbW9yeSwgdXNlciBwdHIg
-cHJvYmFibHkgd3JvbmdcbiIpOwo+ICAgCQlpZiAocmMgPCAwKQo+IC0JCQlnb3RvIGRlc3Ryb3lf
-ZnJhbWV2ZWM7Cj4gKwkJCWdvdG8gZGVzdHJveV9wYWdlczsKPiArCQlucGFnZXMgPSByYzsKPiAg
-IAkJcmMgPSAtRUZBVUxUOwo+IC0JCWdvdG8gcHV0X2ZyYW1ldmVjOwo+IC0JfQo+IC0KPiAtCWlm
-IChmcmFtZV92ZWN0b3JfdG9fcGFnZXModXNlcnB0ci0+dmVjKSA8IDApIHsKPiAtCQlkZXZfZXJy
-KGhkZXYtPmRldiwKPiAtCQkJIkZhaWxlZCB0byB0cmFuc2xhdGUgZnJhbWUgdmVjdG9yIHRvIHBh
-Z2VzXG4iKTsKPiAtCQlyYyA9IC1FRkFVTFQ7Cj4gLQkJZ290byBwdXRfZnJhbWV2ZWM7Cj4gKwkJ
-Z290byBwdXRfcGFnZXM7Cj4gICAJfQo+ICsJdXNlcnB0ci0+bnBhZ2VzID0gbnBhZ2VzOwo+ICAg
-Cj4gICAJcmMgPSBzZ19hbGxvY190YWJsZV9mcm9tX3BhZ2VzKHVzZXJwdHItPnNndCwKPiAtCQkJ
-CQlmcmFtZV92ZWN0b3JfcGFnZXModXNlcnB0ci0+dmVjKSwKPiAtCQkJCQlucGFnZXMsIG9mZnNl
-dCwgc2l6ZSwgR0ZQX0FUT01JQyk7Cj4gKwkJCQkgICAgICAgdXNlcnB0ci0+cGFnZXMsCj4gKwkJ
-CQkgICAgICAgbnBhZ2VzLCBvZmZzZXQsIHNpemUsIEdGUF9BVE9NSUMpOwo+ICAgCWlmIChyYyA8
-IDApIHsKPiAgIAkJZGV2X2VycihoZGV2LT5kZXYsICJmYWlsZWQgdG8gY3JlYXRlIFNHIHRhYmxl
-IGZyb20gcGFnZXNcbiIpOwo+IC0JCWdvdG8gcHV0X2ZyYW1ldmVjOwo+ICsJCWdvdG8gcHV0X3Bh
-Z2VzOwo+ICAgCX0KPiAgIAo+ICAgCXJldHVybiAwOwo+ICAgCj4gLXB1dF9mcmFtZXZlYzoKPiAt
-CXB1dF92YWRkcl9mcmFtZXModXNlcnB0ci0+dmVjKTsKPiAtZGVzdHJveV9mcmFtZXZlYzoKPiAt
-CWZyYW1lX3ZlY3Rvcl9kZXN0cm95KHVzZXJwdHItPnZlYyk7Cj4gK3B1dF9wYWdlczoKPiArCXVu
-cGluX3VzZXJfcGFnZXModXNlcnB0ci0+cGFnZXMsIG5wYWdlcyk7Cj4gK2Rlc3Ryb3lfcGFnZXM6
-Cj4gKwlrdmZyZWUodXNlcnB0ci0+cGFnZXMpOwo+ICAgCXJldHVybiByYzsKPiAgIH0KPiAgIAo+
-IEBAIC0xNDA1LDggKzE0MDEsNiBAQCBpbnQgaGxfcGluX2hvc3RfbWVtb3J5KHN0cnVjdCBobF9k
-ZXZpY2UgKmhkZXYsIHU2NCBhZGRyLCB1NjQgc2l6ZSwKPiAgICAqLwo+ICAgdm9pZCBobF91bnBp
-bl9ob3N0X21lbW9yeShzdHJ1Y3QgaGxfZGV2aWNlICpoZGV2LCBzdHJ1Y3QgaGxfdXNlcnB0ciAq
-dXNlcnB0cikKPiAgIHsKPiAtCXN0cnVjdCBwYWdlICoqcGFnZXM7Cj4gLQo+ICAgCWhsX2RlYnVn
-ZnNfcmVtb3ZlX3VzZXJwdHIoaGRldiwgdXNlcnB0cik7Cj4gICAKPiAgIAlpZiAodXNlcnB0ci0+
-ZG1hX21hcHBlZCkKPiBAQCAtMTQxNCwxNSArMTQwOCw4IEBAIHZvaWQgaGxfdW5waW5faG9zdF9t
-ZW1vcnkoc3RydWN0IGhsX2RldmljZSAqaGRldiwgc3RydWN0IGhsX3VzZXJwdHIgKnVzZXJwdHIp
-Cj4gICAJCQkJCQkJdXNlcnB0ci0+c2d0LT5uZW50cywKPiAgIAkJCQkJCQl1c2VycHRyLT5kaXIp
-Owo+ICAgCj4gLQlwYWdlcyA9IGZyYW1lX3ZlY3Rvcl9wYWdlcyh1c2VycHRyLT52ZWMpOwo+IC0J
-aWYgKCFJU19FUlIocGFnZXMpKSB7Cj4gLQkJaW50IGk7Cj4gLQo+IC0JCWZvciAoaSA9IDA7IGkg
-PCBmcmFtZV92ZWN0b3JfY291bnQodXNlcnB0ci0+dmVjKTsgaSsrKQo+IC0JCQlzZXRfcGFnZV9k
-aXJ0eV9sb2NrKHBhZ2VzW2ldKTsKPiAtCX0KPiAtCXB1dF92YWRkcl9mcmFtZXModXNlcnB0ci0+
-dmVjKTsKPiAtCWZyYW1lX3ZlY3Rvcl9kZXN0cm95KHVzZXJwdHItPnZlYyk7Cj4gKwl1bnBpbl91
-c2VyX3BhZ2VzX2RpcnR5X2xvY2sodXNlcnB0ci0+cGFnZXMsIHVzZXJwdHItPm5wYWdlcywgdHJ1
-ZSk7Cj4gKwlrdmZyZWUodXNlcnB0ci0+cGFnZXMpOwo+ICAgCj4gICAJbGlzdF9kZWwoJnVzZXJw
-dHItPmpvYl9ub2RlKTsKPiAgIAo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+On 10/9/20 12:59 AM, Daniel Vetter wrote:
+...
+> @@ -48,40 +47,25 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+>   
+>   	start = untagged_addr(start);
+>   
+> -	mmap_read_lock(mm);
+> -	locked = 1;
+> -	vma = find_vma_intersection(mm, start, start + 1);
+> -	if (!vma) {
+> -		ret = -EFAULT;
+> -		goto out;
+> -	}
+> -
+> -	/*
+> -	 * While get_vaddr_frames() could be used for transient (kernel
+> -	 * controlled lifetime) pinning of memory pages all current
+> -	 * users establish long term (userspace controlled lifetime)
+> -	 * page pinning. Treat get_vaddr_frames() like
+> -	 * get_user_pages_longterm() and disallow it for filesystem-dax
+> -	 * mappings.
+> -	 */
+> -	if (vma_is_fsdax(vma)) {
+> -		ret = -EOPNOTSUPP;
+> -		goto out;
+> -	}
+> -
+> -	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
+> +	ret = pin_user_pages_fast(start, nr_frames,
+> +				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+> +				  (struct page **)(vec->ptrs));
+> +	if (ret > 0) {
+
+None of the callers that we have today will accept anything less than
+ret == nr_frames. And the whole partially pinned region idea turns out
+to be just not useful for almost everyone, from what I recall of the gup/pup
+call sites. So I wonder if we should just have get_vaddr_frames do the
+cleanup here and return -EFAULT, if ret != nr_frames ?
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
