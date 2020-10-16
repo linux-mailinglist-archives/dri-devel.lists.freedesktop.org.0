@@ -2,36 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946BC290B6B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 20:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDAA7290BAA
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 20:48:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63EB26E135;
-	Fri, 16 Oct 2020 18:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 477F86E038;
+	Fri, 16 Oct 2020 18:48:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14C296E135
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 18:36:12 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 0615820030;
- Fri, 16 Oct 2020 20:36:08 +0200 (CEST)
-Date: Fri, 16 Oct 2020 20:36:07 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Add retries for link training
-Message-ID: <20201016183607.GA1345100@ravnborg.org>
-References: <20201002135920.1.I2adbc90b2db127763e2444bd5a4e5bf30e1db8e5@changeid>
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5571A6E038
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 18:47:58 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id t15so3383070otk.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 11:47:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/6ZPAavAgIBaIj1gBG4jv7Gu9L4sN03UOtnPoYPnkGM=;
+ b=lP4NOv51TEXmx39salQG6uTSU8gkLmkF8p4KPDm1dBqsQhZGdByHYty0AxeWaPaWU8
+ IMBNfFJZEqSvFcX/JetY+udEH2E82sSSdgfZuuppOCDvedBZJjGbifYxGHw+S7eNMkl7
+ Q4yPOvK7BXm8r1/s/BzGQMn0sLvwN7kWFqYfrHSd+w3n665ToypEQlxLHvd/d1PUW4vB
+ lOcigsbdkdaso/ojnZ9YEwwCJDkWy14nmMFgohf3GDceQCc+WNSA+0TELgk0n2HJ8reg
+ s0X2GbNw/6VhfYupl1ci+c1/LDuzgv37IEaqsXpF4sHnYq/fMeKyFnBOZQamOHM/6axz
+ 243Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/6ZPAavAgIBaIj1gBG4jv7Gu9L4sN03UOtnPoYPnkGM=;
+ b=KR9KT6aKO8Req6VmJ4VAaVTnI5QhzgH3RsRXGqpgzDZUs10G8fOZc9o4Iv3JdmZsik
+ EqI1+SP7cUPR/Xb6tJzhhavhM+V1H3igmCD0uaGp4ilDj0rqCK8dhN39FLl+CkpXFk+O
+ Ctyv1xiofodGYWTvZGF4jfZFFLmaoh+AO6C8jsPOgnx/jER0MR4rcxe4QHxoBskKeZN8
+ wQtps7rlhEikGirSE8hGeWJY2cqIuRyiy9F8MHdhJLTQ+PiErbRdZQgR9ddRDr+ax92F
+ FQ8hGt6zbnMQC0SLxT5UDkIu2qMtHnbTq/8waHXEPD6as03EQdf8YiZ93opYCqV7j5lM
+ mMbA==
+X-Gm-Message-State: AOAM530Xt4SSqYSa9hkFILmOnN7a67SK0HYgDrT3JjndofDGT/+ufwem
+ fYmbYzg8k2uf3z90vfhi4R1HIAUui8J565RTKh5scA==
+X-Google-Smtp-Source: ABdhPJwH6XcBKPJDC1Mm7DKnG5P/EL1ztBMF0+cVOUi9cs5EKrO3sGguh+sEF+ZQIE3ke+UzdUEAW/qfG0BqWAz8nWs=
+X-Received: by 2002:a9d:2d81:: with SMTP id g1mr3546671otb.352.1602874077645; 
+ Fri, 16 Oct 2020 11:47:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201002135920.1.I2adbc90b2db127763e2444bd5a4e5bf30e1db8e5@changeid>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8 a=e5mUnYsNAAAA:8
- a=TbjnnDg1GpMu5epwdsMA:9 a=g2MK2S0s9NEDQWlg:21 a=iS_yR1XhKHkLfVqC:21
- a=CjuIK1q_8ugA:10 a=xmb-EsYY8bH0VWELuYED:22 a=Vxmtnl_E_bksehYqCbjh:22
+References: <20201003040257.62768-1-john.stultz@linaro.org>
+ <20201008113602.n7ju2hu3j6qsaxve@DESKTOP-E1NTVVP.localdomain>
+In-Reply-To: <20201008113602.n7ju2hu3j6qsaxve@DESKTOP-E1NTVVP.localdomain>
+From: John Stultz <john.stultz@linaro.org>
+Date: Fri, 16 Oct 2020 11:47:44 -0700
+Message-ID: <CALAqxLUbL4ci4Vnwe6UM1OEFfLyirsQOr57nmx5NSe8Bb_yAwg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+To: Brian Starkey <brian.starkey@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,125 +62,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Steev Klimaszewski <steev@kali.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: nd <nd@arm.com>, Sandeep Patil <sspatil@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Douglas.
+On Thu, Oct 8, 2020 at 4:36 AM Brian Starkey <brian.starkey@arm.com> wrote:
+>
+> Hi John,
+>
+> On Sat, Oct 03, 2020 at 04:02:50AM +0000, John Stultz wrote:
+> > Hey All,
+>
+> ...
+>
+> >
+> > I did add to this series a reworked version of my uncached
+> > system heap implementation I was submitting a few weeks back.
+> > Since it duplicated a lot of the now reworked system heap code,
+> > I realized it would be much simpler to add the functionality to
+> > the system_heap implementaiton itself.
+>
+> That looks like a neat approach to me. Referencing your previous
+> thread, I like the separate heap (as you have done), rather than a
+> generic "cached"/"noncached" flag on all heaps.
+>
 
-On Fri, Oct 02, 2020 at 02:03:51PM -0700, Douglas Anderson wrote:
-> On some panels hooked up to the ti-sn65dsi86 bridge chip we found that
-> link training was failing.  Specifically, we'd see:
-> 
->   ti_sn65dsi86 2-002d: [drm:ti_sn_bridge_enable] *ERROR* Link training failed, link is off (-5)
-> 
-> The panel was hooked up to a logic analyzer and it was found that, as
-> part of link training, the bridge chip was writing a 0x1 to DPCD
-> address 00600h and the panel responded NACK.  As can be seen in header
-> files, the write of 0x1 to DPCD address 0x600h means we were trying to
-> write the value DP_SET_POWER_D0 to the register DP_SET_POWER.  The
-> panel vendor says that a NACK in this case is not unexpected and means
-> "not ready, try again".
-> 
-> In testing, we found that this panel would respond with a NACK in
-> about 1/25 times.  Adding the retry logic worked fine and the most
-> number of tries needed was 3.  Just to be safe, we'll add 10 tries
-> here and we'll add a little blurb to the logs if we ever need more
-> than 5.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Sounds good! I really appreciate the feedback on this.
 
-I have picked this patch up and applied to drm-misc-next now.
+> > While not improving the core allocation performance, the
+> > uncached heap allocations do result in *much* improved
+> > performance on HiKey960 as it avoids a lot of flushing and
+> > invalidating buffers that the cpu doesn't touch often.
+> >
+> > Feedback on these would be great!
+>
+> Minor nit: s/detatch/detach/ on both heaps, but other than that
+> you can add my r-b to patches 1-5.
 
-	Sam
+Doh! Thanks for the spelling catch! Thanks again!
 
-> ---
-> 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 40 +++++++++++++++++++--------
->  1 file changed, 29 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index ecdf9b01340f..6e12cda69b54 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -106,6 +106,8 @@
->  #define SN_NUM_GPIOS			4
->  #define SN_GPIO_PHYSICAL_OFFSET		1
->  
-> +#define SN_LINK_TRAINING_TRIES		10
-> +
->  /**
->   * struct ti_sn_bridge - Platform data for ti-sn65dsi86 driver.
->   * @dev:          Pointer to our device.
-> @@ -673,6 +675,7 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
->  {
->  	unsigned int val;
->  	int ret;
-> +	int i;
->  
->  	/* set dp clk frequency value */
->  	regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
-> @@ -689,19 +692,34 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
->  		goto exit;
->  	}
->  
-> -	/* Semi auto link training mode */
-> -	regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0x0A);
-> -	ret = regmap_read_poll_timeout(pdata->regmap, SN_ML_TX_MODE_REG, val,
-> -				       val == ML_TX_MAIN_LINK_OFF ||
-> -				       val == ML_TX_NORMAL_MODE, 1000,
-> -				       500 * 1000);
-> -	if (ret) {
-> -		*last_err_str = "Training complete polling failed";
-> -	} else if (val == ML_TX_MAIN_LINK_OFF) {
-> -		*last_err_str = "Link training failed, link is off";
-> -		ret = -EIO;
-> +	/*
-> +	 * We'll try to link train several times.  As part of link training
-> +	 * the bridge chip will write DP_SET_POWER_D0 to DP_SET_POWER.  If
-> +	 * the panel isn't ready quite it might respond NAK here which means
-> +	 * we need to try again.
-> +	 */
-> +	for (i = 0; i < SN_LINK_TRAINING_TRIES; i++) {
-> +		/* Semi auto link training mode */
-> +		regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0x0A);
-> +		ret = regmap_read_poll_timeout(pdata->regmap, SN_ML_TX_MODE_REG, val,
-> +					val == ML_TX_MAIN_LINK_OFF ||
-> +					val == ML_TX_NORMAL_MODE, 1000,
-> +					500 * 1000);
-> +		if (ret) {
-> +			*last_err_str = "Training complete polling failed";
-> +		} else if (val == ML_TX_MAIN_LINK_OFF) {
-> +			*last_err_str = "Link training failed, link is off";
-> +			ret = -EIO;
-> +			continue;
-> +		}
-> +
-> +		break;
->  	}
->  
-> +	/* If we saw quite a few retries, add a note about it */
-> +	if (!ret && i > SN_LINK_TRAINING_TRIES / 2)
-> +		DRM_DEV_INFO(pdata->dev, "Link training needed %d retries\n", i);
-> +
->  exit:
->  	/* Disable the PLL if we failed */
->  	if (ret)
-> -- 
-> 2.28.0.806.g8561365e88-goog
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> As you've said, it does feel like there's some room for
+> de-duplication, but that will be easier to work out once the
+> implementations settle.
+>
+> I've a couple of comments for the uncached heap, but I'm not confident
+> I understand the implications of having the non-cached alias enough to
+> say if it looks OK or not.
+
+Thanks so much!
+-john
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
