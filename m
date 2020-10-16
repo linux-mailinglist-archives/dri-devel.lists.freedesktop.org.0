@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9353629023D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 11:53:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A76290244
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 11:54:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4656EA90;
-	Fri, 16 Oct 2020 09:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 021496E9B6;
+	Fri, 16 Oct 2020 09:54:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5116EA90
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 09:53:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA1BD6E9B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 09:53:58 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1A87CACF1;
- Fri, 16 Oct 2020 09:53:34 +0000 (UTC)
-Date: Fri, 16 Oct 2020 11:53:31 +0200
+ by mx2.suse.de (Postfix) with ESMTP id 5F341AD0D;
+ Fri, 16 Oct 2020 09:53:57 +0000 (UTC)
+Date: Fri, 16 Oct 2020 11:53:56 +0200
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Xu Wang <vulab@iscas.ac.cn>
 Subject: Re: [PATCH] omapfb/dss: Remove redundant null check before
  clk_prepare_enable/clk_disable_unprepare
-Message-ID: <20201016115331.0dd4341e@linux-uq9g>
+Message-ID: <20201016115356.34c1620b@linux-uq9g>
 In-Reply-To: <20201015100827.1115fa9b@linux-uq9g>
 References: <20201014084920.25813-1-vulab@iscas.ac.cn>
  <20201015100827.1115fa9b@linux-uq9g>
