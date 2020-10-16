@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094E029083F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 17:24:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DBAE290845
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 17:26:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36B0D6EE18;
-	Fri, 16 Oct 2020 15:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A9446EE1C;
+	Fri, 16 Oct 2020 15:26:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B21166EE18
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 15:24:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42AB66EE1C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 15:26:56 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209721] New: No output after AMDGPU loads.
-Date: Fri, 16 Oct 2020 15:24:54 +0000
+Subject: [Bug 209721] No output after AMDGPU loads.
+Date: Fri, 16 Oct 2020 15:26:55 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -32,10 +32,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-209721-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209721-2300-IoJlvFgsOS@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209721-2300@https.bugzilla.kernel.org/>
+References: <bug-209721-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -58,34 +58,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209721
 
-            Bug ID: 209721
-           Summary: No output after AMDGPU loads.
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: Linux Master branch
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: blocking
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: haxk612@gmail.com
-        Regression: No
-
-I sadly cant even get an dmesg from journalctl or anything.
-when i enable loglevel8 it shows me that fb0 is giving word to AMDGPU module
-and then screen goes black turns back on but no output at all.
-
-System Specs: Acer Nitro 5 AN515-42
-GPUs: AMD Vega 8 (iGPU in Ryzen 5 2500U)
-      AMD Radeon RX560X (dGPU)
-
-If there is any way you know of to be able to grab logs i will gladly do it.
-
-It should be noted that 5.9 tag works just fine. So the bug was introduced in
-one of the drm-next merges.
+--- Comment #1 from Haxk20 (haxk612@gmail.com) ---
+The HEAD of the kernel is current head on mainline. That is
+"9ff9b0d392ea08090cd1780fb196f36dbb586529"
 
 -- 
 You are receiving this mail because:
