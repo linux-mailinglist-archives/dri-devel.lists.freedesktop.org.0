@@ -2,65 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD20B290D10
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 23:01:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070EA290D16
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 23:04:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA4976EE95;
-	Fri, 16 Oct 2020 21:01:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE3FC89C14;
+	Fri, 16 Oct 2020 21:04:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD2C6EE95
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 21:01:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602882113;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AlYX5xPuDw6omzg+v7l+b09FvuVO2K9RV0esx9PcxE4=;
- b=OF5ul9//VtPFlYXKeDlo78aqM5oesRiSlvkGl9jVj4pPNxErmZHX0CWYtx83t68pYy06te
- ophvoYpEF0MxwbtLQd3I03c/Pp61BtH4DZOuPiwsdlHB5Pdn3Kzt17TeCdLzGzILVb/mF/
- y+SeL4lq5k7wmNHBQJxZYQ5DXnan6KQ=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-SFHWzOs-Nq-FL3K2yJsofg-1; Fri, 16 Oct 2020 17:01:50 -0400
-X-MC-Unique: SFHWzOs-Nq-FL3K2yJsofg-1
-Received: by mail-oo1-f69.google.com with SMTP id p42so1600376ooi.9
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 14:01:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AlYX5xPuDw6omzg+v7l+b09FvuVO2K9RV0esx9PcxE4=;
- b=CLKYP0A2amHVKaoNoXb1wNNYu7UdT5UTk2qYspTWp+lBUaQ9BItw9kW1WCiYrlLEOl
- YpMAKJVgmHNR1sWXsBTJYBfKIit85jhG/HxIUArt8DnHNkyja+Y9prOG7lpzJwwYFX6/
- AFcWuSQw/rhdzTD1ExScxlou5AzV6PBgsLxKuIlQJUMlw2lncZVW0Lj3uIQ75NoA+rHy
- QX7kHIPh9iOdokvdlMk9iO3pewKgi2bzdprZwxXX1EEAYBto5JqgPfeW1BHOQ4VBV0lw
- SkciY8yCwYqwCJIIgoTNUbCoMwavoI8l+Sf14wPVvc241MpSvLIWqO2d9zIkOAwfS2ZN
- kVoA==
-X-Gm-Message-State: AOAM530n60VLN/xMttSrRKTaF9vgUd3x5ogd3YKNQ5MNqmtBSonVn4X8
- JZRtPoFmOu+bKB5oeb2eGQZ3QC4P52Q8XKKhd/VMlQ4qyKBbcszOtF3nZ/Fr6BLek4d+UaWgXo7
- JNroGHPzaEm+HuWb6p2EFqlqA43PmWvzqX89Ij0y7+vCB
-X-Received: by 2002:a9d:6d15:: with SMTP id o21mr4196220otp.232.1602882110026; 
- Fri, 16 Oct 2020 14:01:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyTtX44Wbe1X9NlP8rqoiKthOe9dn0QEXn0w9wcgulPqgv6O3zptr2EP6jNNjiqIH9roJhLDvgpytfRGGeCSZ0=
-X-Received: by 2002:a9d:6d15:: with SMTP id o21mr4196208otp.232.1602882109817; 
- Fri, 16 Oct 2020 14:01:49 -0700 (PDT)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02DD089944
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 21:04:23 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id BAF4320030;
+ Fri, 16 Oct 2020 23:04:20 +0200 (CEST)
+Date: Fri, 16 Oct 2020 23:04:19 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
+Message-ID: <20201016210419.GD1496366@ravnborg.org>
+References: <20200922105526.5252-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <1602834078-1700-1-git-send-email-kuohsiang_chou@aspeedtech.com>
-In-Reply-To: <1602834078-1700-1-git-send-email-kuohsiang_chou@aspeedtech.com>
-From: David Airlie <airlied@redhat.com>
-Date: Sat, 17 Oct 2020 07:01:38 +1000
-Message-ID: <CAMwc25oC596560WUJjh8f2jfcnHjfUTW+cgf=maSMsAc83TcrQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/ast: Avoid to access BMC addressing when P2A is
- disabled
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20200922105526.5252-1-laurent.pinchart+renesas@ideasonboard.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=yC-0_ovQAAAA:8 a=P1BnusSwAAAA:8 a=e5mUnYsNAAAA:8
+ a=mSdEz-HRsigmF5DYOmMA:9 a=CjuIK1q_8ugA:10 a=QsnFDINu91a9xkgZirup:22
+ a=D0XLA9XvdZm18NrgonBM:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +44,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jenmin_yuan@aspeedtech.com, eich@suse.com, arc_sung@aspeedtech.com,
- dri-devel <dri-devel@lists.freedesktop.org>, tommy_huang@aspeedtech.com
+Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 16, 2020 at 6:03 PM KuoHsiang Chou
-<kuohsiang_chou@aspeedtech.com> wrote:
->
-> The patch is upstreamed
-> 1. For RHEL7.x, because its native kernel is suggested to update
->    from 3.10 to 4.9 on 2 ODM's platform.
-> 2. For AST2600.
-> 3. For ASTDP.
-> 4. v1.11
+Hi Biju, Laurent
 
-Hi,
+On Tue, Sep 22, 2020 at 01:55:26PM +0300, Laurent Pinchart wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> Add the support for enabling optional regulator that may be used as VCC
+> source.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> [Replaced 'error' variable with 'ret']
+> [Renamed regulator from 'vcc' to 'power']
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-I've cc'ed Thomas who is maintaining this upstream, but this patch in
-it's current form isn't acceptable, Maybe Thomas can provide more
-detailed info, but the basic rules are
+Applied to drm-misc-next.
+Biju, could you make a follow-up patch that introduces dev_err_probe()
+where appropriate? I did not fix up the code but this was a good
+candidate.
 
-One patch should do one thing.
-Patches should be bisectable so any issues can be tracked down easier.
-Fixes should be separated from new code.
-New features and chip support should be separate.
+	Sam
 
-https://www.kernel.org/doc/html/v5.9/process/submitting-patches.html
-
-Please maybe work with Thomas on having a better upstream development
-process for ast chipsets.
-
-Thanks,
-Dave.
-
+> ---
+> Changes since v2:
+> 
+> - Use the correct regulator name
+> ---
+>  drivers/gpu/drm/bridge/lvds-codec.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+> index f19d9f7a5db2..f52ccffc1bd1 100644
+> --- a/drivers/gpu/drm/bridge/lvds-codec.c
+> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> @@ -10,13 +10,16 @@
+>  #include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/regulator/consumer.h>
+>  
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_panel.h>
+>  
+>  struct lvds_codec {
+> +	struct device *dev;
+>  	struct drm_bridge bridge;
+>  	struct drm_bridge *panel_bridge;
+> +	struct regulator *vcc;
+>  	struct gpio_desc *powerdown_gpio;
+>  	u32 connector_type;
+>  };
+> @@ -38,6 +41,14 @@ static int lvds_codec_attach(struct drm_bridge *bridge,
+>  static void lvds_codec_enable(struct drm_bridge *bridge)
+>  {
+>  	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
+> +	int ret;
+> +
+> +	ret = regulator_enable(lvds_codec->vcc);
+> +	if (ret) {
+> +		dev_err(lvds_codec->dev,
+> +			"Failed to enable regulator \"vcc\": %d\n", ret);
+> +		return;
+> +	}
+>  
+>  	if (lvds_codec->powerdown_gpio)
+>  		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio, 0);
+> @@ -46,9 +57,15 @@ static void lvds_codec_enable(struct drm_bridge *bridge)
+>  static void lvds_codec_disable(struct drm_bridge *bridge)
+>  {
+>  	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
+> +	int ret;
+>  
+>  	if (lvds_codec->powerdown_gpio)
+>  		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio, 1);
+> +
+> +	ret = regulator_disable(lvds_codec->vcc);
+> +	if (ret)
+> +		dev_err(lvds_codec->dev,
+> +			"Failed to disable regulator \"vcc\": %d\n", ret);
+>  }
+>  
+>  static const struct drm_bridge_funcs funcs = {
+> @@ -63,12 +80,24 @@ static int lvds_codec_probe(struct platform_device *pdev)
+>  	struct device_node *panel_node;
+>  	struct drm_panel *panel;
+>  	struct lvds_codec *lvds_codec;
+> +	int ret;
+>  
+>  	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
+>  	if (!lvds_codec)
+>  		return -ENOMEM;
+>  
+> +	lvds_codec->dev = &pdev->dev;
+>  	lvds_codec->connector_type = (uintptr_t)of_device_get_match_data(dev);
+> +
+> +	lvds_codec->vcc = devm_regulator_get(lvds_codec->dev, "power");
+> +	if (IS_ERR(lvds_codec->vcc)) {
+> +		ret = PTR_ERR(lvds_codec->vcc);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(lvds_codec->dev,
+> +				"Unable to get \"vcc\" supply: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+>  	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+>  							     GPIOD_OUT_HIGH);
+>  	if (IS_ERR(lvds_codec->powerdown_gpio))
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
