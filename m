@@ -1,39 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2594329028D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 12:09:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0EF290296
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 12:11:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B51456EA81;
-	Fri, 16 Oct 2020 10:09:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A63556E9C0;
+	Fri, 16 Oct 2020 10:11:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 287A16E9C0;
- Fri, 16 Oct 2020 10:09:08 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id DC35220027;
- Fri, 16 Oct 2020 12:08:55 +0200 (CEST)
-Date: Fri, 16 Oct 2020 12:08:54 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 09/10] dma-buf-map: Add memcpy and pointer-increment
- interfaces
-Message-ID: <20201016100854.GA1042954@ravnborg.org>
-References: <20201015123806.32416-1-tzimmermann@suse.de>
- <20201015123806.32416-10-tzimmermann@suse.de>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 902C06E9C0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 10:11:04 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id s9so2070780wro.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 03:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=OqgK8GE8u8GgE7hCKgynT+rKrVW8dlpriZEb87vuAJM=;
+ b=DRC+1IKG80ExkDHK/pP2DhvMdszkHIcaOw2nDv7BEjmpsGyM1MSi9YCX8ZdmimwXqu
+ wjL6XOCkfKO9IBk8fGPrC7C54RQuokjuflCJgymxYlwgUtB2LwFZeM5ElArFOLJEUdh6
+ Y8shi5MXlDcy4d9Zz41VDBJcoJTzL9Coy2rrIFlxAplsZ9WGxfuHn7hGwgVElWBS+MjG
+ /t1o0CwOSVTA6/hCtgFEigRHggU6IH4n70MTnI6GEWLbsTSLk6/w8QxZNgGao2t9hXYC
+ +dNU8x3bKPbHkUhqvUR8SnOOzWuOcj5yaYETOjluCyLA7raePXWBu8IZLiNjrZdNALeG
+ YaVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OqgK8GE8u8GgE7hCKgynT+rKrVW8dlpriZEb87vuAJM=;
+ b=GLcljnHwyk6Z4XaybVn0/2TidKuSanulJDgIwHc3lAQUWAgsE8CfCTGTK+yweifslg
+ F4ykM2fjTBCzig6WI8SOzW6gpP33nRY2CyQrrKpjQ1RbzpH9uo6vSd+jPrRkDWJdVdvg
+ MXTSiVWXAfu5lS+nTTfwZN6EOtCjaGs2WZAs21gKkKGmbLByjz5g2BEYGoqn0VjrhCEE
+ P9CLHQ07XZHHe+4xyP2MRo6GK2Rxk/t7NDG4A+tOi0s6AA5ivKMPP0lSn0262X4zE4Bl
+ PwEMjN1c9rjHn7g2twJDyYjHCxKw9Mqw45JSAyQ+/A0D4fIv3fQdHctdV+QI92Krvagl
+ 370g==
+X-Gm-Message-State: AOAM5338QiHW0v7kZNmId1FQpWsRdo6BKmW/gwLcUQH3xpY1Kh4dBavE
+ Pwsnr0mjNeuXnK4ryi3e/wZP0jIqO6E=
+X-Google-Smtp-Source: ABdhPJzWx4nuYV2O1JANxMaqzOIf1HDkolPDy4Dn4737wbGU4k//EBz2c6wC4ZZMy9b2y7bTuckSxg==
+X-Received: by 2002:a5d:6592:: with SMTP id q18mr3015599wru.293.1602843063248; 
+ Fri, 16 Oct 2020 03:11:03 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id k18sm2787625wrx.96.2020.10.16.03.11.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Oct 2020 03:11:02 -0700 (PDT)
+Date: Fri, 16 Oct 2020 07:10:56 -0300
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 3/3] drm/vkms: fbdev emulation support
+Message-ID: <20201016101056.gqp4ezu7pyeqa6el@smtp.gmail.com>
+References: <20201009232156.3916879-1-daniel.vetter@ffwll.ch>
+ <20201009232156.3916879-3-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201015123806.32416-10-tzimmermann@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=0A2xud3A4b7FAmx5SMIA:9
- a=7a1rlSNJFqSX5uOf:21 a=OU_kl8OV53ZSq-ss:21 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <20201009232156.3916879-3-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,148 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: luben.tuikov@amd.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- melissa.srw@gmail.com, ray.huang@amd.com, kraxel@redhat.com,
- emil.velikov@collabora.com, linux-samsung-soc@vger.kernel.org,
- jy0922.shim@samsung.com, lima@lists.freedesktop.org,
- oleksandr_andrushchenko@epam.com, krzk@kernel.org, steven.price@arm.com,
- linux-rockchip@lists.infradead.org, kgene@kernel.org,
- alyssa.rosenzweig@collabora.com, linux+etnaviv@armlinux.org.uk,
- spice-devel@lists.freedesktop.org, bskeggs@redhat.com,
- etnaviv@lists.freedesktop.org, hdegoede@redhat.com,
- xen-devel@lists.xenproject.org, virtualization@lists.linux-foundation.org,
- sean@poorly.run, apaneers@amd.com, linux-arm-kernel@lists.infradead.org,
- linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
- tomeu.vizoso@collabora.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- kyungmin.park@samsung.com, miaoqinglang@huawei.com, yuq825@gmail.com,
- alexander.deucher@amd.com, linux-media@vger.kernel.org,
- christian.koenig@amd.com
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas.
+Hi,
 
-On Thu, Oct 15, 2020 at 02:38:05PM +0200, Thomas Zimmermann wrote:
-> To do framebuffer updates, one needs memcpy from system memory and a
-> pointer-increment function. Add both interfaces with documentation.
+Thanks for this improvement.
+
+I could see that it increased the IGT test coverage, including now the
+fbdev test cases. 
+
+On 10/10, Daniel Vetter wrote:
+> Hooray for generic fbdev support, making this a oneliner. We just
+> needed to fix preferred_depth fixed and the vmap support added first.
+
+I consider that including in the msg that, with this patch, both fbdev
+test cases [info and mmap] are passing would be interesting for future
+debugs.
+
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Looks good.
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> Cc: Melissa Wen <melissa.srw@gmail.com>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  include/linux/dma-buf-map.h | 72 +++++++++++++++++++++++++++++++------
->  1 file changed, 62 insertions(+), 10 deletions(-)
+>  drivers/gpu/drm/vkms/vkms_drv.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
-> index 2e8bbecb5091..6ca0f304dda2 100644
-> --- a/include/linux/dma-buf-map.h
-> +++ b/include/linux/dma-buf-map.h
-> @@ -32,6 +32,14 @@
->   * accessing the buffer. Use the returned instance and the helper functions
->   * to access the buffer's memory in the correct way.
->   *
-> + * The type :c:type:`struct dma_buf_map <dma_buf_map>` and its helpers are
-> + * actually independent from the dma-buf infrastructure. When sharing buffers
-> + * among devices, drivers have to know the location of the memory to access
-> + * the buffers in a safe way. :c:type:`struct dma_buf_map <dma_buf_map>`
-> + * solves this problem for dma-buf and its users. If other drivers or
-> + * sub-systems require similar functionality, the type could be generalized
-> + * and moved to a more prominent header file.
-> + *
->   * Open-coding access to :c:type:`struct dma_buf_map <dma_buf_map>` is
->   * considered bad style. Rather then accessing its fields directly, use one
->   * of the provided helper functions, or implement your own. For example,
-> @@ -51,6 +59,14 @@
->   *
->   *	dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
->   *
-> + * Instances of struct dma_buf_map do not have to be cleaned up, but
-> + * can be cleared to NULL with dma_buf_map_clear(). Cleared mappings
-> + * always refer to system memory.
-> + *
-> + * .. code-block:: c
-> + *
-> + *	dma_buf_map_clear(&map);
-> + *
->   * Test if a mapping is valid with either dma_buf_map_is_set() or
->   * dma_buf_map_is_null().
->   *
-> @@ -73,17 +89,19 @@
->   *	if (dma_buf_map_is_equal(&sys_map, &io_map))
->   *		// always false
->   *
-> - * Instances of struct dma_buf_map do not have to be cleaned up, but
-> - * can be cleared to NULL with dma_buf_map_clear(). Cleared mappings
-> - * always refer to system memory.
-> + * A set up instance of struct dma_buf_map can be used to access or manipulate
-> + * the buffer memory. Depending on the location of the memory, the provided
-> + * helpers will pick the correct operations. Data can be copied into the memory
-> + * with dma_buf_map_memcpy_to(). The address can be manipulated with
-> + * dma_buf_map_incr().
->   *
-> - * The type :c:type:`struct dma_buf_map <dma_buf_map>` and its helpers are
-> - * actually independent from the dma-buf infrastructure. When sharing buffers
-> - * among devices, drivers have to know the location of the memory to access
-> - * the buffers in a safe way. :c:type:`struct dma_buf_map <dma_buf_map>`
-> - * solves this problem for dma-buf and its users. If other drivers or
-> - * sub-systems require similar functionality, the type could be generalized
-> - * and moved to a more prominent header file.
-> + * .. code-block:: c
-> + *
-> + *	const void *src = ...; // source buffer
-> + *	size_t len = ...; // length of src
-> + *
-> + *	dma_buf_map_memcpy_to(&map, src, len);
-> + *	dma_buf_map_incr(&map, len); // go to first byte after the memcpy
->   */
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 6221e5040264..cc09e2df5cb1 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -169,6 +169,8 @@ static int __init vkms_init(void)
+>  	if (ret)
+>  		goto out_devres;
 >  
->  /**
-> @@ -210,4 +228,38 @@ static inline void dma_buf_map_clear(struct dma_buf_map *map)
->  	}
->  }
+> +	drm_fbdev_generic_setup(&vkms_device->drm, 0);
+> +
+>  	return 0;
 >  
-> +/**
-> + * dma_buf_map_memcpy_to - Memcpy into dma-buf mapping
-> + * @dst:	The dma-buf mapping structure
-> + * @src:	The source buffer
-> + * @len:	The number of byte in src
-> + *
-> + * Copies data into a dma-buf mapping. The source buffer is in system
-> + * memory. Depending on the buffer's location, the helper picks the correct
-> + * method of accessing the memory.
-> + */
-> +static inline void dma_buf_map_memcpy_to(struct dma_buf_map *dst, const void *src, size_t len)
-> +{
-> +	if (dst->is_iomem)
-> +		memcpy_toio(dst->vaddr_iomem, src, len);
-> +	else
-> +		memcpy(dst->vaddr, src, len);
-> +}
-> +
-> +/**
-> + * dma_buf_map_incr - Increments the address stored in a dma-buf mapping
-> + * @map:	The dma-buf mapping structure
-> + * @incr:	The number of bytes to increment
-> + *
-> + * Increments the address stored in a dma-buf mapping. Depending on the
-> + * buffer's location, the correct value will be updated.
-> + */
-> +static inline void dma_buf_map_incr(struct dma_buf_map *map, size_t incr)
-> +{
-> +	if (map->is_iomem)
-> +		map->vaddr_iomem += incr;
-> +	else
-> +		map->vaddr += incr;
-> +}
-> +
->  #endif /* __DMA_BUF_MAP_H__ */
+>  out_devres:
 > -- 
 > 2.28.0
+>
+
+Looks good to me,
+
+Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
