@@ -1,38 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4C62904AB
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 14:04:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE342904F3
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 14:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1A26EDD5;
-	Fri, 16 Oct 2020 12:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8F2D6EDC6;
+	Fri, 16 Oct 2020 12:19:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDE636EDD3;
- Fri, 16 Oct 2020 12:03:56 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 5DD27806BD;
- Fri, 16 Oct 2020 14:03:49 +0200 (CEST)
-Date: Fri, 16 Oct 2020 14:03:47 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA0A16EDB7;
+ Fri, 16 Oct 2020 12:19:46 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 6C85AAFAB;
+ Fri, 16 Oct 2020 12:19:45 +0000 (UTC)
+Date: Fri, 16 Oct 2020 14:19:42 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
 Subject: Re: [PATCH v4 10/10] drm/fb_helper: Support framebuffers in I/O memory
-Message-ID: <20201016120347.GB1125266@ravnborg.org>
+Message-ID: <20201016141942.111e17f3@linux-uq9g>
+In-Reply-To: <20201016120347.GB1125266@ravnborg.org>
 References: <20201015123806.32416-1-tzimmermann@suse.de>
  <20201015123806.32416-11-tzimmermann@suse.de>
+ <20201016120347.GB1125266@ravnborg.org>
+Organization: SUSE Software Solutions Germany GmbH
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201015123806.32416-11-tzimmermann@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=NqsBjqOBP8_30qnptSgA:9
- a=FLTdSUe5Or9RI9Du:21 a=FeamgQ_8eGC75rZP:21 a=CjuIK1q_8ugA:10
- a=qfUslh1TxfEA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,409 +57,250 @@ Cc: luben.tuikov@amd.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
  kyungmin.park@samsung.com, miaoqinglang@huawei.com, yuq825@gmail.com,
  alexander.deucher@amd.com, linux-media@vger.kernel.org,
  christian.koenig@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas.
-
-On Thu, Oct 15, 2020 at 02:38:06PM +0200, Thomas Zimmermann wrote:
-> At least sparc64 requires I/O-specific access to framebuffers. This
-> patch updates the fbdev console accordingly.
-> 
-> For drivers with direct access to the framebuffer memory, the callback
-> functions in struct fb_ops test for the type of memory and call the rsp
-> fb_sys_ of fb_cfb_ functions.
-> 
-> For drivers that employ a shadow buffer, fbdev's blit function retrieves
-> the framebuffer address as struct dma_buf_map, and uses dma_buf_map
-> interfaces to access the buffer.
-> 
-> The bochs driver on sparc64 uses a workaround to flag the framebuffer as
-> I/O memory and avoid a HW exception. With the introduction of struct
-> dma_buf_map, this is not required any longer. The patch removes the rsp
-> code from both, bochs and fbdev.
-> 
-> v4:
-> 	* move dma_buf_map changes into separate patch (Daniel)
-> 	* TODO list: comment on fbdev updates (Daniel)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-The original workaround fixed it so we could run qemu with the
--nographic option.
-
-So I went ahead and tried to run quemu version:
-v5.0.0-1970-g0b100c8e72-dirty.
-And with the BOCHS driver built-in.
-
-With the following command line:
-qemu-system-sparc64 -m 512 -kernel vmlinux -append console=ttyS0 -nographic
-
-Behaviour was the same before and after applying this patch.
-(panic due to VFS: Unable to mount root fs on unknown-block(0,0))
-So I consider it fixed for real now and not just a workaround.
-
-I also tested with:
-qemu-system-sparc64 -m 512 -kernel vmlinux -append console=ttyS0 -serial stdio
-
-and it worked in both cases too.
-
-All the comments above so future-me have an easier time finding how to
-reproduce.
-
-Tested-by: Sam Ravnborg <sam@ravnborg.org>
-
-	Sam
-
-> ---
->  Documentation/gpu/todo.rst        |  19 ++-
->  drivers/gpu/drm/bochs/bochs_kms.c |   1 -
->  drivers/gpu/drm/drm_fb_helper.c   | 217 ++++++++++++++++++++++++++++--
->  include/drm/drm_mode_config.h     |  12 --
->  4 files changed, 220 insertions(+), 29 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 7e6fc3c04add..638b7f704339 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -197,13 +197,28 @@ Convert drivers to use drm_fbdev_generic_setup()
->  ------------------------------------------------
->  
->  Most drivers can use drm_fbdev_generic_setup(). Driver have to implement
-> -atomic modesetting and GEM vmap support. Current generic fbdev emulation
-> -expects the framebuffer in system memory (or system-like memory).
-> +atomic modesetting and GEM vmap support. Historically, generic fbdev emulation
-> +expected the framebuffer in system memory or system-like memory. By employing
-> +struct dma_buf_map, drivers with frambuffers in I/O memory can be supported
-> +as well.
->  
->  Contact: Maintainer of the driver you plan to convert
->  
->  Level: Intermediate
->  
-> +Reimplement functions in drm_fbdev_fb_ops without fbdev
-> +-------------------------------------------------------
-> +
-> +A number of callback functions in drm_fbdev_fb_ops could benefit from
-> +being rewritten without dependencies on the fbdev module. Some of the
-> +helpers could further benefit from using struct dma_buf_map instead of
-> +raw pointers.
-> +
-> +Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
-> +
-> +Level: Advanced
-> +
-> +
->  drm_framebuffer_funcs and drm_mode_config_funcs.fb_create cleanup
->  -----------------------------------------------------------------
->  
-> diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
-> index 13d0d04c4457..853081d186d5 100644
-> --- a/drivers/gpu/drm/bochs/bochs_kms.c
-> +++ b/drivers/gpu/drm/bochs/bochs_kms.c
-> @@ -151,7 +151,6 @@ int bochs_kms_init(struct bochs_device *bochs)
->  	bochs->dev->mode_config.preferred_depth = 24;
->  	bochs->dev->mode_config.prefer_shadow = 0;
->  	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
-> -	bochs->dev->mode_config.fbdev_use_iomem = true;
->  	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
->  
->  	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 6212cd7cde1d..462b0c130ebb 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -372,24 +372,22 @@ static void drm_fb_helper_resume_worker(struct work_struct *work)
->  }
->  
->  static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
-> -					  struct drm_clip_rect *clip)
-> +					  struct drm_clip_rect *clip,
-> +					  struct dma_buf_map *dst)
->  {
->  	struct drm_framebuffer *fb = fb_helper->fb;
->  	unsigned int cpp = fb->format->cpp[0];
->  	size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
->  	void *src = fb_helper->fbdev->screen_buffer + offset;
-> -	void *dst = fb_helper->buffer->map.vaddr + offset;
->  	size_t len = (clip->x2 - clip->x1) * cpp;
->  	unsigned int y;
->  
-> -	for (y = clip->y1; y < clip->y2; y++) {
-> -		if (!fb_helper->dev->mode_config.fbdev_use_iomem)
-> -			memcpy(dst, src, len);
-> -		else
-> -			memcpy_toio((void __iomem *)dst, src, len);
-> +	dma_buf_map_incr(dst, offset); /* go to first pixel within clip rect */
->  
-> +	for (y = clip->y1; y < clip->y2; y++) {
-> +		dma_buf_map_memcpy_to(dst, src, len);
-> +		dma_buf_map_incr(dst, fb->pitches[0]);
->  		src += fb->pitches[0];
-> -		dst += fb->pitches[0];
->  	}
->  }
->  
-> @@ -417,8 +415,9 @@ static void drm_fb_helper_dirty_work(struct work_struct *work)
->  			ret = drm_client_buffer_vmap(helper->buffer, &map);
->  			if (ret)
->  				return;
-> -			drm_fb_helper_dirty_blit_real(helper, &clip_copy);
-> +			drm_fb_helper_dirty_blit_real(helper, &clip_copy, &map);
->  		}
-> +
->  		if (helper->fb->funcs->dirty)
->  			helper->fb->funcs->dirty(helper->fb, NULL, 0, 0,
->  						 &clip_copy, 1);
-> @@ -755,6 +754,136 @@ void drm_fb_helper_sys_imageblit(struct fb_info *info,
->  }
->  EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
->  
-> +static ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user *buf,
-> +				      size_t count, loff_t *ppos)
-> +{
-> +	unsigned long p = *ppos;
-> +	u8 *dst;
-> +	u8 __iomem *src;
-> +	int c, err = 0;
-> +	unsigned long total_size;
-> +	unsigned long alloc_size;
-> +	ssize_t ret = 0;
-> +
-> +	if (info->state != FBINFO_STATE_RUNNING)
-> +		return -EPERM;
-> +
-> +	total_size = info->screen_size;
-> +
-> +	if (total_size == 0)
-> +		total_size = info->fix.smem_len;
-> +
-> +	if (p >= total_size)
-> +		return 0;
-> +
-> +	if (count >= total_size)
-> +		count = total_size;
-> +
-> +	if (count + p > total_size)
-> +		count = total_size - p;
-> +
-> +	src = (u8 __iomem *)(info->screen_base + p);
-> +
-> +	alloc_size = min(count, PAGE_SIZE);
-> +
-> +	dst = kmalloc(alloc_size, GFP_KERNEL);
-> +	if (!dst)
-> +		return -ENOMEM;
-> +
-> +	while (count) {
-> +		c = min(count, alloc_size);
-> +
-> +		memcpy_fromio(dst, src, c);
-> +		if (copy_to_user(buf, dst, c)) {
-> +			err = -EFAULT;
-> +			break;
-> +		}
-> +
-> +		src += c;
-> +		*ppos += c;
-> +		buf += c;
-> +		ret += c;
-> +		count -= c;
-> +	}
-> +
-> +	kfree(dst);
-> +
-> +	if (err)
-> +		return err;
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char __user *buf,
-> +				       size_t count, loff_t *ppos)
-> +{
-> +	unsigned long p = *ppos;
-> +	u8 *src;
-> +	u8 __iomem *dst;
-> +	int c, err = 0;
-> +	unsigned long total_size;
-> +	unsigned long alloc_size;
-> +	ssize_t ret = 0;
-> +
-> +	if (info->state != FBINFO_STATE_RUNNING)
-> +		return -EPERM;
-> +
-> +	total_size = info->screen_size;
-> +
-> +	if (total_size == 0)
-> +		total_size = info->fix.smem_len;
-> +
-> +	if (p > total_size)
-> +		return -EFBIG;
-> +
-> +	if (count > total_size) {
-> +		err = -EFBIG;
-> +		count = total_size;
-> +	}
-> +
-> +	if (count + p > total_size) {
-> +		/*
-> +		 * The framebuffer is too small. We do the
-> +		 * copy operation, but return an error code
-> +		 * afterwards. Taken from fbdev.
-> +		 */
-> +		if (!err)
-> +			err = -ENOSPC;
-> +		count = total_size - p;
-> +	}
-> +
-> +	alloc_size = min(count, PAGE_SIZE);
-> +
-> +	src = kmalloc(alloc_size, GFP_KERNEL);
-> +	if (!src)
-> +		return -ENOMEM;
-> +
-> +	dst = (u8 __iomem *)(info->screen_base + p);
-> +
-> +	while (count) {
-> +		c = min(count, alloc_size);
-> +
-> +		if (copy_from_user(src, buf, c)) {
-> +			err = -EFAULT;
-> +			break;
-> +		}
-> +		memcpy_toio(dst, src, c);
-> +
-> +		dst += c;
-> +		*ppos += c;
-> +		buf += c;
-> +		ret += c;
-> +		count -= c;
-> +	}
-> +
-> +	kfree(src);
-> +
-> +	if (err)
-> +		return err;
-> +
-> +	return ret;
-> +}
-> +
->  /**
->   * drm_fb_helper_cfb_fillrect - wrapper around cfb_fillrect
->   * @info: fbdev registered by the helper
-> @@ -2027,6 +2156,66 @@ static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
->  		return -ENODEV;
->  }
->  
-> +static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
-> +				 size_t count, loff_t *ppos)
-> +{
-> +	struct drm_fb_helper *fb_helper = info->par;
-> +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> +
-> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> +		return drm_fb_helper_sys_read(info, buf, count, ppos);
-> +	else
-> +		return drm_fb_helper_cfb_read(info, buf, count, ppos);
-> +}
-> +
-> +static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
-> +				  size_t count, loff_t *ppos)
-> +{
-> +	struct drm_fb_helper *fb_helper = info->par;
-> +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> +
-> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> +		return drm_fb_helper_sys_write(info, buf, count, ppos);
-> +	else
-> +		return drm_fb_helper_cfb_write(info, buf, count, ppos);
-> +}
-> +
-> +static void drm_fbdev_fb_fillrect(struct fb_info *info,
-> +				  const struct fb_fillrect *rect)
-> +{
-> +	struct drm_fb_helper *fb_helper = info->par;
-> +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> +
-> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> +		drm_fb_helper_sys_fillrect(info, rect);
-> +	else
-> +		drm_fb_helper_cfb_fillrect(info, rect);
-> +}
-> +
-> +static void drm_fbdev_fb_copyarea(struct fb_info *info,
-> +				  const struct fb_copyarea *area)
-> +{
-> +	struct drm_fb_helper *fb_helper = info->par;
-> +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> +
-> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> +		drm_fb_helper_sys_copyarea(info, area);
-> +	else
-> +		drm_fb_helper_cfb_copyarea(info, area);
-> +}
-> +
-> +static void drm_fbdev_fb_imageblit(struct fb_info *info,
-> +				   const struct fb_image *image)
-> +{
-> +	struct drm_fb_helper *fb_helper = info->par;
-> +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> +
-> +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> +		drm_fb_helper_sys_imageblit(info, image);
-> +	else
-> +		drm_fb_helper_cfb_imageblit(info, image);
-> +}
-> +
->  static const struct fb_ops drm_fbdev_fb_ops = {
->  	.owner		= THIS_MODULE,
->  	DRM_FB_HELPER_DEFAULT_OPS,
-> @@ -2034,11 +2223,11 @@ static const struct fb_ops drm_fbdev_fb_ops = {
->  	.fb_release	= drm_fbdev_fb_release,
->  	.fb_destroy	= drm_fbdev_fb_destroy,
->  	.fb_mmap	= drm_fbdev_fb_mmap,
-> -	.fb_read	= drm_fb_helper_sys_read,
-> -	.fb_write	= drm_fb_helper_sys_write,
-> -	.fb_fillrect	= drm_fb_helper_sys_fillrect,
-> -	.fb_copyarea	= drm_fb_helper_sys_copyarea,
-> -	.fb_imageblit	= drm_fb_helper_sys_imageblit,
-> +	.fb_read	= drm_fbdev_fb_read,
-> +	.fb_write	= drm_fbdev_fb_write,
-> +	.fb_fillrect	= drm_fbdev_fb_fillrect,
-> +	.fb_copyarea	= drm_fbdev_fb_copyarea,
-> +	.fb_imageblit	= drm_fbdev_fb_imageblit,
->  };
->  
->  static struct fb_deferred_io drm_fbdev_defio = {
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 5ffbb4ed5b35..ab424ddd7665 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -877,18 +877,6 @@ struct drm_mode_config {
->  	 */
->  	bool prefer_shadow_fbdev;
->  
-> -	/**
-> -	 * @fbdev_use_iomem:
-> -	 *
-> -	 * Set to true if framebuffer reside in iomem.
-> -	 * When set to true memcpy_toio() is used when copying the framebuffer in
-> -	 * drm_fb_helper.drm_fb_helper_dirty_blit_real().
-> -	 *
-> -	 * FIXME: This should be replaced with a per-mapping is_iomem
-> -	 * flag (like ttm does), and then used everywhere in fbdev code.
-> -	 */
-> -	bool fbdev_use_iomem;
-> -
->  	/**
->  	 * @quirk_addfb_prefer_xbgr_30bpp:
->  	 *
-> -- 
-> 2.28.0
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkKCk9uIEZyaSwgMTYgT2N0IDIwMjAgMTQ6MDM6NDcgKzAyMDAgU2FtIFJhdm5ib3JnIDxzYW1A
+cmF2bmJvcmcub3JnPiB3cm90ZToKCj4gSGkgVGhvbWFzLgo+IAo+IE9uIFRodSwgT2N0IDE1LCAy
+MDIwIGF0IDAyOjM4OjA2UE0gKzAyMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOgo+ID4gQXQg
+bGVhc3Qgc3BhcmM2NCByZXF1aXJlcyBJL08tc3BlY2lmaWMgYWNjZXNzIHRvIGZyYW1lYnVmZmVy
+cy4gVGhpcwo+ID4gcGF0Y2ggdXBkYXRlcyB0aGUgZmJkZXYgY29uc29sZSBhY2NvcmRpbmdseS4K
+PiA+IAo+ID4gRm9yIGRyaXZlcnMgd2l0aCBkaXJlY3QgYWNjZXNzIHRvIHRoZSBmcmFtZWJ1ZmZl
+ciBtZW1vcnksIHRoZSBjYWxsYmFjawo+ID4gZnVuY3Rpb25zIGluIHN0cnVjdCBmYl9vcHMgdGVz
+dCBmb3IgdGhlIHR5cGUgb2YgbWVtb3J5IGFuZCBjYWxsIHRoZSByc3AKPiA+IGZiX3N5c18gb2Yg
+ZmJfY2ZiXyBmdW5jdGlvbnMuCj4gPiAKPiA+IEZvciBkcml2ZXJzIHRoYXQgZW1wbG95IGEgc2hh
+ZG93IGJ1ZmZlciwgZmJkZXYncyBibGl0IGZ1bmN0aW9uIHJldHJpZXZlcwo+ID4gdGhlIGZyYW1l
+YnVmZmVyIGFkZHJlc3MgYXMgc3RydWN0IGRtYV9idWZfbWFwLCBhbmQgdXNlcyBkbWFfYnVmX21h
+cAo+ID4gaW50ZXJmYWNlcyB0byBhY2Nlc3MgdGhlIGJ1ZmZlci4KPiA+IAo+ID4gVGhlIGJvY2hz
+IGRyaXZlciBvbiBzcGFyYzY0IHVzZXMgYSB3b3JrYXJvdW5kIHRvIGZsYWcgdGhlIGZyYW1lYnVm
+ZmVyIGFzCj4gPiBJL08gbWVtb3J5IGFuZCBhdm9pZCBhIEhXIGV4Y2VwdGlvbi4gV2l0aCB0aGUg
+aW50cm9kdWN0aW9uIG9mIHN0cnVjdAo+ID4gZG1hX2J1Zl9tYXAsIHRoaXMgaXMgbm90IHJlcXVp
+cmVkIGFueSBsb25nZXIuIFRoZSBwYXRjaCByZW1vdmVzIHRoZSByc3AKPiA+IGNvZGUgZnJvbSBi
+b3RoLCBib2NocyBhbmQgZmJkZXYuCj4gPiAKPiA+IHY0Ogo+ID4gCSogbW92ZSBkbWFfYnVmX21h
+cCBjaGFuZ2VzIGludG8gc2VwYXJhdGUgcGF0Y2ggKERhbmllbCkKPiA+IAkqIFRPRE8gbGlzdDog
+Y29tbWVudCBvbiBmYmRldiB1cGRhdGVzIChEYW5pZWwpCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6
+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IAo+IFRoZSBvcmlnaW5h
+bCB3b3JrYXJvdW5kIGZpeGVkIGl0IHNvIHdlIGNvdWxkIHJ1biBxZW11IHdpdGggdGhlCj4gLW5v
+Z3JhcGhpYyBvcHRpb24uCj4gCj4gU28gSSB3ZW50IGFoZWFkIGFuZCB0cmllZCB0byBydW4gcXVl
+bXUgdmVyc2lvbjoKPiB2NS4wLjAtMTk3MC1nMGIxMDBjOGU3Mi1kaXJ0eS4KPiBBbmQgd2l0aCB0
+aGUgQk9DSFMgZHJpdmVyIGJ1aWx0LWluLgo+IAo+IFdpdGggdGhlIGZvbGxvd2luZyBjb21tYW5k
+IGxpbmU6Cj4gcWVtdS1zeXN0ZW0tc3BhcmM2NCAtbSA1MTIgLWtlcm5lbCB2bWxpbnV4IC1hcHBl
+bmQgY29uc29sZT10dHlTMCAtbm9ncmFwaGljCj4gCj4gQmVoYXZpb3VyIHdhcyB0aGUgc2FtZSBi
+ZWZvcmUgYW5kIGFmdGVyIGFwcGx5aW5nIHRoaXMgcGF0Y2guCj4gKHBhbmljIGR1ZSB0byBWRlM6
+IFVuYWJsZSB0byBtb3VudCByb290IGZzIG9uIHVua25vd24tYmxvY2soMCwwKSkKPiBTbyBJIGNv
+bnNpZGVyIGl0IGZpeGVkIGZvciByZWFsIG5vdyBhbmQgbm90IGp1c3QgYSB3b3JrYXJvdW5kLgo+
+IAo+IEkgYWxzbyB0ZXN0ZWQgd2l0aDoKPiBxZW11LXN5c3RlbS1zcGFyYzY0IC1tIDUxMiAta2Vy
+bmVsIHZtbGludXggLWFwcGVuZCBjb25zb2xlPXR0eVMwIC1zZXJpYWwKPiBzdGRpbwo+IAo+IGFu
+ZCBpdCB3b3JrZWQgaW4gYm90aCBjYXNlcyB0b28uCgpGVFIsIHlvdSBib290ZWQgYSBrZXJuZWwg
+YW5kIGdvdCBncmFwaGljcyBvdXRwdXQuIFRoZSBlcnJvciBpcyBzaW1wbHkgdGhhdAp0aGVyZSB3
+YXMgbm8gZGlzayB0byBtb3VudD8KCkJlc3QgcmVnYXJkcwpUaG9tYXMKCj4gCj4gQWxsIHRoZSBj
+b21tZW50cyBhYm92ZSBzbyBmdXR1cmUtbWUgaGF2ZSBhbiBlYXNpZXIgdGltZSBmaW5kaW5nIGhv
+dyB0bwo+IHJlcHJvZHVjZS4KPiAKPiBUZXN0ZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5i
+b3JnLm9yZz4KPiAKPiAJU2FtCj4gCj4gPiAtLS0KPiA+ICBEb2N1bWVudGF0aW9uL2dwdS90b2Rv
+LnJzdCAgICAgICAgfCAgMTkgKystCj4gPiAgZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2tt
+cy5jIHwgICAxIC0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jICAgfCAyMTcg
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tCj4gPiAgaW5jbHVkZS9kcm0vZHJtX21vZGVf
+Y29uZmlnLmggICAgIHwgIDEyIC0tCj4gPiAgNCBmaWxlcyBjaGFuZ2VkLCAyMjAgaW5zZXJ0aW9u
+cygrKSwgMjkgZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9u
+L2dwdS90b2RvLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0Cj4gPiBpbmRleCA3ZTZm
+YzNjMDRhZGQuLjYzOGI3ZjcwNDMzOSAxMDA2NDQKPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vZ3B1
+L3RvZG8ucnN0Cj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdAo+ID4gQEAgLTE5
+NywxMyArMTk3LDI4IEBAIENvbnZlcnQgZHJpdmVycyB0byB1c2UgZHJtX2ZiZGV2X2dlbmVyaWNf
+c2V0dXAoKQo+ID4gIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQo+ID4gIAo+ID4gIE1vc3QgZHJpdmVycyBjYW4gdXNlIGRybV9mYmRldl9nZW5lcmljX3Nl
+dHVwKCkuIERyaXZlciBoYXZlIHRvIGltcGxlbWVudAo+ID4gLWF0b21pYyBtb2Rlc2V0dGluZyBh
+bmQgR0VNIHZtYXAgc3VwcG9ydC4gQ3VycmVudCBnZW5lcmljIGZiZGV2IGVtdWxhdGlvbgo+ID4g
+LWV4cGVjdHMgdGhlIGZyYW1lYnVmZmVyIGluIHN5c3RlbSBtZW1vcnkgKG9yIHN5c3RlbS1saWtl
+IG1lbW9yeSkuCj4gPiArYXRvbWljIG1vZGVzZXR0aW5nIGFuZCBHRU0gdm1hcCBzdXBwb3J0LiBI
+aXN0b3JpY2FsbHksIGdlbmVyaWMgZmJkZXYKPiA+IGVtdWxhdGlvbiArZXhwZWN0ZWQgdGhlIGZy
+YW1lYnVmZmVyIGluIHN5c3RlbSBtZW1vcnkgb3Igc3lzdGVtLWxpa2UKPiA+IG1lbW9yeS4gQnkg
+ZW1wbG95aW5nICtzdHJ1Y3QgZG1hX2J1Zl9tYXAsIGRyaXZlcnMgd2l0aCBmcmFtYnVmZmVycyBp
+biBJL08KPiA+IG1lbW9yeSBjYW4gYmUgc3VwcG9ydGVkICthcyB3ZWxsLgo+ID4gIAo+ID4gIENv
+bnRhY3Q6IE1haW50YWluZXIgb2YgdGhlIGRyaXZlciB5b3UgcGxhbiB0byBjb252ZXJ0Cj4gPiAg
+Cj4gPiAgTGV2ZWw6IEludGVybWVkaWF0ZQo+ID4gIAo+ID4gK1JlaW1wbGVtZW50IGZ1bmN0aW9u
+cyBpbiBkcm1fZmJkZXZfZmJfb3BzIHdpdGhvdXQgZmJkZXYKPiA+ICstLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiArCj4gPiArQSBudW1i
+ZXIgb2YgY2FsbGJhY2sgZnVuY3Rpb25zIGluIGRybV9mYmRldl9mYl9vcHMgY291bGQgYmVuZWZp
+dCBmcm9tCj4gPiArYmVpbmcgcmV3cml0dGVuIHdpdGhvdXQgZGVwZW5kZW5jaWVzIG9uIHRoZSBm
+YmRldiBtb2R1bGUuIFNvbWUgb2YgdGhlCj4gPiAraGVscGVycyBjb3VsZCBmdXJ0aGVyIGJlbmVm
+aXQgZnJvbSB1c2luZyBzdHJ1Y3QgZG1hX2J1Zl9tYXAgaW5zdGVhZCBvZgo+ID4gK3JhdyBwb2lu
+dGVycy4KPiA+ICsKPiA+ICtDb250YWN0OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4sIERhbmllbCBWZXR0ZXIKPiA+ICsKPiA+ICtMZXZlbDogQWR2YW5jZWQKPiA+ICsK
+PiA+ICsKPiA+ICBkcm1fZnJhbWVidWZmZXJfZnVuY3MgYW5kIGRybV9tb2RlX2NvbmZpZ19mdW5j
+cy5mYl9jcmVhdGUgY2xlYW51cAo+ID4gIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAgCj4gPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2ttcy5jCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9i
+b2Nocy9ib2Noc19rbXMuYyBpbmRleCAxM2QwZDA0YzQ0NTcuLjg1MzA4MWQxODZkNQo+ID4gMTAw
+NjQ0IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19rbXMuYwo+ID4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2ttcy5jCj4gPiBAQCAtMTUxLDcgKzE1MSw2IEBAIGlu
+dCBib2Noc19rbXNfaW5pdChzdHJ1Y3QgYm9jaHNfZGV2aWNlICpib2NocykKPiA+ICAJYm9jaHMt
+PmRldi0+bW9kZV9jb25maWcucHJlZmVycmVkX2RlcHRoID0gMjQ7Cj4gPiAgCWJvY2hzLT5kZXYt
+Pm1vZGVfY29uZmlnLnByZWZlcl9zaGFkb3cgPSAwOwo+ID4gIAlib2Nocy0+ZGV2LT5tb2RlX2Nv
+bmZpZy5wcmVmZXJfc2hhZG93X2ZiZGV2ID0gMTsKPiA+IC0JYm9jaHMtPmRldi0+bW9kZV9jb25m
+aWcuZmJkZXZfdXNlX2lvbWVtID0gdHJ1ZTsKPiA+ICAJYm9jaHMtPmRldi0+bW9kZV9jb25maWcu
+cXVpcmtfYWRkZmJfcHJlZmVyX2hvc3RfYnl0ZV9vcmRlciA9Cj4gPiB0cnVlOyAKPiA+ICAJYm9j
+aHMtPmRldi0+bW9kZV9jb25maWcuZnVuY3MgPSAmYm9jaHNfbW9kZV9mdW5jczsKPiA+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCj4gPiBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fZmJfaGVscGVyLmMgaW5kZXggNjIxMmNkN2NkZTFkLi40NjJiMGMxMzBlYmIgMTAw
+NjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCj4gPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCj4gPiBAQCAtMzcyLDI0ICszNzIsMjIgQEAg
+c3RhdGljIHZvaWQgZHJtX2ZiX2hlbHBlcl9yZXN1bWVfd29ya2VyKHN0cnVjdAo+ID4gd29ya19z
+dHJ1Y3QgKndvcmspIH0KPiA+ICAKPiA+ICBzdGF0aWMgdm9pZCBkcm1fZmJfaGVscGVyX2RpcnR5
+X2JsaXRfcmVhbChzdHJ1Y3QgZHJtX2ZiX2hlbHBlcgo+ID4gKmZiX2hlbHBlciwKPiA+IC0JCQkJ
+CSAgc3RydWN0IGRybV9jbGlwX3JlY3QgKmNsaXApCj4gPiArCQkJCQkgIHN0cnVjdCBkcm1fY2xp
+cF9yZWN0ICpjbGlwLAo+ID4gKwkJCQkJICBzdHJ1Y3QgZG1hX2J1Zl9tYXAgKmRzdCkKPiA+ICB7
+Cj4gPiAgCXN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiID0gZmJfaGVscGVyLT5mYjsKPiA+ICAJ
+dW5zaWduZWQgaW50IGNwcCA9IGZiLT5mb3JtYXQtPmNwcFswXTsKPiA+ICAJc2l6ZV90IG9mZnNl
+dCA9IGNsaXAtPnkxICogZmItPnBpdGNoZXNbMF0gKyBjbGlwLT54MSAqIGNwcDsKPiA+ICAJdm9p
+ZCAqc3JjID0gZmJfaGVscGVyLT5mYmRldi0+c2NyZWVuX2J1ZmZlciArIG9mZnNldDsKPiA+IC0J
+dm9pZCAqZHN0ID0gZmJfaGVscGVyLT5idWZmZXItPm1hcC52YWRkciArIG9mZnNldDsKPiA+ICAJ
+c2l6ZV90IGxlbiA9IChjbGlwLT54MiAtIGNsaXAtPngxKSAqIGNwcDsKPiA+ICAJdW5zaWduZWQg
+aW50IHk7Cj4gPiAgCj4gPiAtCWZvciAoeSA9IGNsaXAtPnkxOyB5IDwgY2xpcC0+eTI7IHkrKykg
+ewo+ID4gLQkJaWYgKCFmYl9oZWxwZXItPmRldi0+bW9kZV9jb25maWcuZmJkZXZfdXNlX2lvbWVt
+KQo+ID4gLQkJCW1lbWNweShkc3QsIHNyYywgbGVuKTsKPiA+IC0JCWVsc2UKPiA+IC0JCQltZW1j
+cHlfdG9pbygodm9pZCBfX2lvbWVtICopZHN0LCBzcmMsIGxlbik7Cj4gPiArCWRtYV9idWZfbWFw
+X2luY3IoZHN0LCBvZmZzZXQpOyAvKiBnbyB0byBmaXJzdCBwaXhlbCB3aXRoaW4gY2xpcAo+ID4g
+cmVjdCAqLyAKPiA+ICsJZm9yICh5ID0gY2xpcC0+eTE7IHkgPCBjbGlwLT55MjsgeSsrKSB7Cj4g
+PiArCQlkbWFfYnVmX21hcF9tZW1jcHlfdG8oZHN0LCBzcmMsIGxlbik7Cj4gPiArCQlkbWFfYnVm
+X21hcF9pbmNyKGRzdCwgZmItPnBpdGNoZXNbMF0pOwo+ID4gIAkJc3JjICs9IGZiLT5waXRjaGVz
+WzBdOwo+ID4gLQkJZHN0ICs9IGZiLT5waXRjaGVzWzBdOwo+ID4gIAl9Cj4gPiAgfQo+ID4gIAo+
+ID4gQEAgLTQxNyw4ICs0MTUsOSBAQCBzdGF0aWMgdm9pZCBkcm1fZmJfaGVscGVyX2RpcnR5X3dv
+cmsoc3RydWN0Cj4gPiB3b3JrX3N0cnVjdCAqd29yaykgcmV0ID0gZHJtX2NsaWVudF9idWZmZXJf
+dm1hcChoZWxwZXItPmJ1ZmZlciwgJm1hcCk7Cj4gPiAgCQkJaWYgKHJldCkKPiA+ICAJCQkJcmV0
+dXJuOwo+ID4gLQkJCWRybV9mYl9oZWxwZXJfZGlydHlfYmxpdF9yZWFsKGhlbHBlciwKPiA+ICZj
+bGlwX2NvcHkpOwo+ID4gKwkJCWRybV9mYl9oZWxwZXJfZGlydHlfYmxpdF9yZWFsKGhlbHBlciwK
+PiA+ICZjbGlwX2NvcHksICZtYXApOyB9Cj4gPiArCj4gPiAgCQlpZiAoaGVscGVyLT5mYi0+ZnVu
+Y3MtPmRpcnR5KQo+ID4gIAkJCWhlbHBlci0+ZmItPmZ1bmNzLT5kaXJ0eShoZWxwZXItPmZiLCBO
+VUxMLCAwLCAwLAo+ID4gIAkJCQkJCSAmY2xpcF9jb3B5LCAxKTsKPiA+IEBAIC03NTUsNiArNzU0
+LDEzNiBAQCB2b2lkIGRybV9mYl9oZWxwZXJfc3lzX2ltYWdlYmxpdChzdHJ1Y3QgZmJfaW5mbwo+
+ID4gKmluZm8sIH0KPiA+ICBFWFBPUlRfU1lNQk9MKGRybV9mYl9oZWxwZXJfc3lzX2ltYWdlYmxp
+dCk7Cj4gPiAgCj4gPiArc3RhdGljIHNzaXplX3QgZHJtX2ZiX2hlbHBlcl9jZmJfcmVhZChzdHJ1
+Y3QgZmJfaW5mbyAqaW5mbywgY2hhciBfX3VzZXIKPiA+ICpidWYsCj4gPiArCQkJCSAgICAgIHNp
+emVfdCBjb3VudCwgbG9mZl90ICpwcG9zKQo+ID4gK3sKPiA+ICsJdW5zaWduZWQgbG9uZyBwID0g
+KnBwb3M7Cj4gPiArCXU4ICpkc3Q7Cj4gPiArCXU4IF9faW9tZW0gKnNyYzsKPiA+ICsJaW50IGMs
+IGVyciA9IDA7Cj4gPiArCXVuc2lnbmVkIGxvbmcgdG90YWxfc2l6ZTsKPiA+ICsJdW5zaWduZWQg
+bG9uZyBhbGxvY19zaXplOwo+ID4gKwlzc2l6ZV90IHJldCA9IDA7Cj4gPiArCj4gPiArCWlmIChp
+bmZvLT5zdGF0ZSAhPSBGQklORk9fU1RBVEVfUlVOTklORykKPiA+ICsJCXJldHVybiAtRVBFUk07
+Cj4gPiArCj4gPiArCXRvdGFsX3NpemUgPSBpbmZvLT5zY3JlZW5fc2l6ZTsKPiA+ICsKPiA+ICsJ
+aWYgKHRvdGFsX3NpemUgPT0gMCkKPiA+ICsJCXRvdGFsX3NpemUgPSBpbmZvLT5maXguc21lbV9s
+ZW47Cj4gPiArCj4gPiArCWlmIChwID49IHRvdGFsX3NpemUpCj4gPiArCQlyZXR1cm4gMDsKPiA+
+ICsKPiA+ICsJaWYgKGNvdW50ID49IHRvdGFsX3NpemUpCj4gPiArCQljb3VudCA9IHRvdGFsX3Np
+emU7Cj4gPiArCj4gPiArCWlmIChjb3VudCArIHAgPiB0b3RhbF9zaXplKQo+ID4gKwkJY291bnQg
+PSB0b3RhbF9zaXplIC0gcDsKPiA+ICsKPiA+ICsJc3JjID0gKHU4IF9faW9tZW0gKikoaW5mby0+
+c2NyZWVuX2Jhc2UgKyBwKTsKPiA+ICsKPiA+ICsJYWxsb2Nfc2l6ZSA9IG1pbihjb3VudCwgUEFH
+RV9TSVpFKTsKPiA+ICsKPiA+ICsJZHN0ID0ga21hbGxvYyhhbGxvY19zaXplLCBHRlBfS0VSTkVM
+KTsKPiA+ICsJaWYgKCFkc3QpCj4gPiArCQlyZXR1cm4gLUVOT01FTTsKPiA+ICsKPiA+ICsJd2hp
+bGUgKGNvdW50KSB7Cj4gPiArCQljID0gbWluKGNvdW50LCBhbGxvY19zaXplKTsKPiA+ICsKPiA+
+ICsJCW1lbWNweV9mcm9taW8oZHN0LCBzcmMsIGMpOwo+ID4gKwkJaWYgKGNvcHlfdG9fdXNlcihi
+dWYsIGRzdCwgYykpIHsKPiA+ICsJCQllcnIgPSAtRUZBVUxUOwo+ID4gKwkJCWJyZWFrOwo+ID4g
+KwkJfQo+ID4gKwo+ID4gKwkJc3JjICs9IGM7Cj4gPiArCQkqcHBvcyArPSBjOwo+ID4gKwkJYnVm
+ICs9IGM7Cj4gPiArCQlyZXQgKz0gYzsKPiA+ICsJCWNvdW50IC09IGM7Cj4gPiArCX0KPiA+ICsK
+PiA+ICsJa2ZyZWUoZHN0KTsKPiA+ICsKPiA+ICsJaWYgKGVycikKPiA+ICsJCXJldHVybiBlcnI7
+Cj4gPiArCj4gPiArCXJldHVybiByZXQ7Cj4gPiArfQo+ID4gKwo+ID4gK3N0YXRpYyBzc2l6ZV90
+IGRybV9mYl9oZWxwZXJfY2ZiX3dyaXRlKHN0cnVjdCBmYl9pbmZvICppbmZvLCBjb25zdCBjaGFy
+Cj4gPiBfX3VzZXIgKmJ1ZiwKPiA+ICsJCQkJICAgICAgIHNpemVfdCBjb3VudCwgbG9mZl90ICpw
+cG9zKQo+ID4gK3sKPiA+ICsJdW5zaWduZWQgbG9uZyBwID0gKnBwb3M7Cj4gPiArCXU4ICpzcmM7
+Cj4gPiArCXU4IF9faW9tZW0gKmRzdDsKPiA+ICsJaW50IGMsIGVyciA9IDA7Cj4gPiArCXVuc2ln
+bmVkIGxvbmcgdG90YWxfc2l6ZTsKPiA+ICsJdW5zaWduZWQgbG9uZyBhbGxvY19zaXplOwo+ID4g
+Kwlzc2l6ZV90IHJldCA9IDA7Cj4gPiArCj4gPiArCWlmIChpbmZvLT5zdGF0ZSAhPSBGQklORk9f
+U1RBVEVfUlVOTklORykKPiA+ICsJCXJldHVybiAtRVBFUk07Cj4gPiArCj4gPiArCXRvdGFsX3Np
+emUgPSBpbmZvLT5zY3JlZW5fc2l6ZTsKPiA+ICsKPiA+ICsJaWYgKHRvdGFsX3NpemUgPT0gMCkK
+PiA+ICsJCXRvdGFsX3NpemUgPSBpbmZvLT5maXguc21lbV9sZW47Cj4gPiArCj4gPiArCWlmIChw
+ID4gdG90YWxfc2l6ZSkKPiA+ICsJCXJldHVybiAtRUZCSUc7Cj4gPiArCj4gPiArCWlmIChjb3Vu
+dCA+IHRvdGFsX3NpemUpIHsKPiA+ICsJCWVyciA9IC1FRkJJRzsKPiA+ICsJCWNvdW50ID0gdG90
+YWxfc2l6ZTsKPiA+ICsJfQo+ID4gKwo+ID4gKwlpZiAoY291bnQgKyBwID4gdG90YWxfc2l6ZSkg
+ewo+ID4gKwkJLyoKPiA+ICsJCSAqIFRoZSBmcmFtZWJ1ZmZlciBpcyB0b28gc21hbGwuIFdlIGRv
+IHRoZQo+ID4gKwkJICogY29weSBvcGVyYXRpb24sIGJ1dCByZXR1cm4gYW4gZXJyb3IgY29kZQo+
+ID4gKwkJICogYWZ0ZXJ3YXJkcy4gVGFrZW4gZnJvbSBmYmRldi4KPiA+ICsJCSAqLwo+ID4gKwkJ
+aWYgKCFlcnIpCj4gPiArCQkJZXJyID0gLUVOT1NQQzsKPiA+ICsJCWNvdW50ID0gdG90YWxfc2l6
+ZSAtIHA7Cj4gPiArCX0KPiA+ICsKPiA+ICsJYWxsb2Nfc2l6ZSA9IG1pbihjb3VudCwgUEFHRV9T
+SVpFKTsKPiA+ICsKPiA+ICsJc3JjID0ga21hbGxvYyhhbGxvY19zaXplLCBHRlBfS0VSTkVMKTsK
+PiA+ICsJaWYgKCFzcmMpCj4gPiArCQlyZXR1cm4gLUVOT01FTTsKPiA+ICsKPiA+ICsJZHN0ID0g
+KHU4IF9faW9tZW0gKikoaW5mby0+c2NyZWVuX2Jhc2UgKyBwKTsKPiA+ICsKPiA+ICsJd2hpbGUg
+KGNvdW50KSB7Cj4gPiArCQljID0gbWluKGNvdW50LCBhbGxvY19zaXplKTsKPiA+ICsKPiA+ICsJ
+CWlmIChjb3B5X2Zyb21fdXNlcihzcmMsIGJ1ZiwgYykpIHsKPiA+ICsJCQllcnIgPSAtRUZBVUxU
+Owo+ID4gKwkJCWJyZWFrOwo+ID4gKwkJfQo+ID4gKwkJbWVtY3B5X3RvaW8oZHN0LCBzcmMsIGMp
+Owo+ID4gKwo+ID4gKwkJZHN0ICs9IGM7Cj4gPiArCQkqcHBvcyArPSBjOwo+ID4gKwkJYnVmICs9
+IGM7Cj4gPiArCQlyZXQgKz0gYzsKPiA+ICsJCWNvdW50IC09IGM7Cj4gPiArCX0KPiA+ICsKPiA+
+ICsJa2ZyZWUoc3JjKTsKPiA+ICsKPiA+ICsJaWYgKGVycikKPiA+ICsJCXJldHVybiBlcnI7Cj4g
+PiArCj4gPiArCXJldHVybiByZXQ7Cj4gPiArfQo+ID4gKwo+ID4gIC8qKgo+ID4gICAqIGRybV9m
+Yl9oZWxwZXJfY2ZiX2ZpbGxyZWN0IC0gd3JhcHBlciBhcm91bmQgY2ZiX2ZpbGxyZWN0Cj4gPiAg
+ICogQGluZm86IGZiZGV2IHJlZ2lzdGVyZWQgYnkgdGhlIGhlbHBlcgo+ID4gQEAgLTIwMjcsNiAr
+MjE1Niw2NiBAQCBzdGF0aWMgaW50IGRybV9mYmRldl9mYl9tbWFwKHN0cnVjdCBmYl9pbmZvICpp
+bmZvLAo+ID4gc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpIHJldHVybiAtRU5PREVWOwo+ID4g
+IH0KPiA+ICAKPiA+ICtzdGF0aWMgc3NpemVfdCBkcm1fZmJkZXZfZmJfcmVhZChzdHJ1Y3QgZmJf
+aW5mbyAqaW5mbywgY2hhciBfX3VzZXIgKmJ1ZiwKPiA+ICsJCQkJIHNpemVfdCBjb3VudCwgbG9m
+Zl90ICpwcG9zKQo+ID4gK3sKPiA+ICsJc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciA9
+IGluZm8tPnBhcjsKPiA+ICsJc3RydWN0IGRybV9jbGllbnRfYnVmZmVyICpidWZmZXIgPSBmYl9o
+ZWxwZXItPmJ1ZmZlcjsKPiA+ICsKPiA+ICsJaWYgKGRybV9mYmRldl91c2Vfc2hhZG93X2ZiKGZi
+X2hlbHBlcikgfHwgIWJ1ZmZlci0+bWFwLmlzX2lvbWVtKQo+ID4gKwkJcmV0dXJuIGRybV9mYl9o
+ZWxwZXJfc3lzX3JlYWQoaW5mbywgYnVmLCBjb3VudCwgcHBvcyk7Cj4gPiArCWVsc2UKPiA+ICsJ
+CXJldHVybiBkcm1fZmJfaGVscGVyX2NmYl9yZWFkKGluZm8sIGJ1ZiwgY291bnQsIHBwb3MpOwo+
+ID4gK30KPiA+ICsKPiA+ICtzdGF0aWMgc3NpemVfdCBkcm1fZmJkZXZfZmJfd3JpdGUoc3RydWN0
+IGZiX2luZm8gKmluZm8sIGNvbnN0IGNoYXIKPiA+IF9fdXNlciAqYnVmLAo+ID4gKwkJCQkgIHNp
+emVfdCBjb3VudCwgbG9mZl90ICpwcG9zKQo+ID4gK3sKPiA+ICsJc3RydWN0IGRybV9mYl9oZWxw
+ZXIgKmZiX2hlbHBlciA9IGluZm8tPnBhcjsKPiA+ICsJc3RydWN0IGRybV9jbGllbnRfYnVmZmVy
+ICpidWZmZXIgPSBmYl9oZWxwZXItPmJ1ZmZlcjsKPiA+ICsKPiA+ICsJaWYgKGRybV9mYmRldl91
+c2Vfc2hhZG93X2ZiKGZiX2hlbHBlcikgfHwgIWJ1ZmZlci0+bWFwLmlzX2lvbWVtKQo+ID4gKwkJ
+cmV0dXJuIGRybV9mYl9oZWxwZXJfc3lzX3dyaXRlKGluZm8sIGJ1ZiwgY291bnQsIHBwb3MpOwo+
+ID4gKwllbHNlCj4gPiArCQlyZXR1cm4gZHJtX2ZiX2hlbHBlcl9jZmJfd3JpdGUoaW5mbywgYnVm
+LCBjb3VudCwgcHBvcyk7Cj4gPiArfQo+ID4gKwo+ID4gK3N0YXRpYyB2b2lkIGRybV9mYmRldl9m
+Yl9maWxscmVjdChzdHJ1Y3QgZmJfaW5mbyAqaW5mbywKPiA+ICsJCQkJICBjb25zdCBzdHJ1Y3Qg
+ZmJfZmlsbHJlY3QgKnJlY3QpCj4gPiArewo+ID4gKwlzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqZmJf
+aGVscGVyID0gaW5mby0+cGFyOwo+ID4gKwlzdHJ1Y3QgZHJtX2NsaWVudF9idWZmZXIgKmJ1ZmZl
+ciA9IGZiX2hlbHBlci0+YnVmZmVyOwo+ID4gKwo+ID4gKwlpZiAoZHJtX2ZiZGV2X3VzZV9zaGFk
+b3dfZmIoZmJfaGVscGVyKSB8fCAhYnVmZmVyLT5tYXAuaXNfaW9tZW0pCj4gPiArCQlkcm1fZmJf
+aGVscGVyX3N5c19maWxscmVjdChpbmZvLCByZWN0KTsKPiA+ICsJZWxzZQo+ID4gKwkJZHJtX2Zi
+X2hlbHBlcl9jZmJfZmlsbHJlY3QoaW5mbywgcmVjdCk7Cj4gPiArfQo+ID4gKwo+ID4gK3N0YXRp
+YyB2b2lkIGRybV9mYmRldl9mYl9jb3B5YXJlYShzdHJ1Y3QgZmJfaW5mbyAqaW5mbywKPiA+ICsJ
+CQkJICBjb25zdCBzdHJ1Y3QgZmJfY29weWFyZWEgKmFyZWEpCj4gPiArewo+ID4gKwlzdHJ1Y3Qg
+ZHJtX2ZiX2hlbHBlciAqZmJfaGVscGVyID0gaW5mby0+cGFyOwo+ID4gKwlzdHJ1Y3QgZHJtX2Ns
+aWVudF9idWZmZXIgKmJ1ZmZlciA9IGZiX2hlbHBlci0+YnVmZmVyOwo+ID4gKwo+ID4gKwlpZiAo
+ZHJtX2ZiZGV2X3VzZV9zaGFkb3dfZmIoZmJfaGVscGVyKSB8fCAhYnVmZmVyLT5tYXAuaXNfaW9t
+ZW0pCj4gPiArCQlkcm1fZmJfaGVscGVyX3N5c19jb3B5YXJlYShpbmZvLCBhcmVhKTsKPiA+ICsJ
+ZWxzZQo+ID4gKwkJZHJtX2ZiX2hlbHBlcl9jZmJfY29weWFyZWEoaW5mbywgYXJlYSk7Cj4gPiAr
+fQo+ID4gKwo+ID4gK3N0YXRpYyB2b2lkIGRybV9mYmRldl9mYl9pbWFnZWJsaXQoc3RydWN0IGZi
+X2luZm8gKmluZm8sCj4gPiArCQkJCSAgIGNvbnN0IHN0cnVjdCBmYl9pbWFnZSAqaW1hZ2UpCj4g
+PiArewo+ID4gKwlzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqZmJfaGVscGVyID0gaW5mby0+cGFyOwo+
+ID4gKwlzdHJ1Y3QgZHJtX2NsaWVudF9idWZmZXIgKmJ1ZmZlciA9IGZiX2hlbHBlci0+YnVmZmVy
+Owo+ID4gKwo+ID4gKwlpZiAoZHJtX2ZiZGV2X3VzZV9zaGFkb3dfZmIoZmJfaGVscGVyKSB8fCAh
+YnVmZmVyLT5tYXAuaXNfaW9tZW0pCj4gPiArCQlkcm1fZmJfaGVscGVyX3N5c19pbWFnZWJsaXQo
+aW5mbywgaW1hZ2UpOwo+ID4gKwllbHNlCj4gPiArCQlkcm1fZmJfaGVscGVyX2NmYl9pbWFnZWJs
+aXQoaW5mbywgaW1hZ2UpOwo+ID4gK30KPiA+ICsKPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGZi
+X29wcyBkcm1fZmJkZXZfZmJfb3BzID0gewo+ID4gIAkub3duZXIJCT0gVEhJU19NT0RVTEUsCj4g
+PiAgCURSTV9GQl9IRUxQRVJfREVGQVVMVF9PUFMsCj4gPiBAQCAtMjAzNCwxMSArMjIyMywxMSBA
+QCBzdGF0aWMgY29uc3Qgc3RydWN0IGZiX29wcyBkcm1fZmJkZXZfZmJfb3BzID0gewo+ID4gIAku
+ZmJfcmVsZWFzZQk9IGRybV9mYmRldl9mYl9yZWxlYXNlLAo+ID4gIAkuZmJfZGVzdHJveQk9IGRy
+bV9mYmRldl9mYl9kZXN0cm95LAo+ID4gIAkuZmJfbW1hcAk9IGRybV9mYmRldl9mYl9tbWFwLAo+
+ID4gLQkuZmJfcmVhZAk9IGRybV9mYl9oZWxwZXJfc3lzX3JlYWQsCj4gPiAtCS5mYl93cml0ZQk9
+IGRybV9mYl9oZWxwZXJfc3lzX3dyaXRlLAo+ID4gLQkuZmJfZmlsbHJlY3QJPSBkcm1fZmJfaGVs
+cGVyX3N5c19maWxscmVjdCwKPiA+IC0JLmZiX2NvcHlhcmVhCT0gZHJtX2ZiX2hlbHBlcl9zeXNf
+Y29weWFyZWEsCj4gPiAtCS5mYl9pbWFnZWJsaXQJPSBkcm1fZmJfaGVscGVyX3N5c19pbWFnZWJs
+aXQsCj4gPiArCS5mYl9yZWFkCT0gZHJtX2ZiZGV2X2ZiX3JlYWQsCj4gPiArCS5mYl93cml0ZQk9
+IGRybV9mYmRldl9mYl93cml0ZSwKPiA+ICsJLmZiX2ZpbGxyZWN0CT0gZHJtX2ZiZGV2X2ZiX2Zp
+bGxyZWN0LAo+ID4gKwkuZmJfY29weWFyZWEJPSBkcm1fZmJkZXZfZmJfY29weWFyZWEsCj4gPiAr
+CS5mYl9pbWFnZWJsaXQJPSBkcm1fZmJkZXZfZmJfaW1hZ2VibGl0LAo+ID4gIH07Cj4gPiAgCj4g
+PiAgc3RhdGljIHN0cnVjdCBmYl9kZWZlcnJlZF9pbyBkcm1fZmJkZXZfZGVmaW8gPSB7Cj4gPiBk
+aWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmggYi9pbmNsdWRlL2RybS9k
+cm1fbW9kZV9jb25maWcuaAo+ID4gaW5kZXggNWZmYmI0ZWQ1YjM1Li5hYjQyNGRkZDc2NjUgMTAw
+NjQ0Cj4gPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fbW9kZV9jb25maWcuaAo+ID4gKysrIGIvaW5j
+bHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgKPiA+IEBAIC04NzcsMTggKzg3Nyw2IEBAIHN0cnVj
+dCBkcm1fbW9kZV9jb25maWcgewo+ID4gIAkgKi8KPiA+ICAJYm9vbCBwcmVmZXJfc2hhZG93X2Zi
+ZGV2Owo+ID4gIAo+ID4gLQkvKioKPiA+IC0JICogQGZiZGV2X3VzZV9pb21lbToKPiA+IC0JICoK
+PiA+IC0JICogU2V0IHRvIHRydWUgaWYgZnJhbWVidWZmZXIgcmVzaWRlIGluIGlvbWVtLgo+ID4g
+LQkgKiBXaGVuIHNldCB0byB0cnVlIG1lbWNweV90b2lvKCkgaXMgdXNlZCB3aGVuIGNvcHlpbmcg
+dGhlCj4gPiBmcmFtZWJ1ZmZlciBpbgo+ID4gLQkgKiBkcm1fZmJfaGVscGVyLmRybV9mYl9oZWxw
+ZXJfZGlydHlfYmxpdF9yZWFsKCkuCj4gPiAtCSAqCj4gPiAtCSAqIEZJWE1FOiBUaGlzIHNob3Vs
+ZCBiZSByZXBsYWNlZCB3aXRoIGEgcGVyLW1hcHBpbmcgaXNfaW9tZW0KPiA+IC0JICogZmxhZyAo
+bGlrZSB0dG0gZG9lcyksIGFuZCB0aGVuIHVzZWQgZXZlcnl3aGVyZSBpbiBmYmRldiBjb2RlLgo+
+ID4gLQkgKi8KPiA+IC0JYm9vbCBmYmRldl91c2VfaW9tZW07Cj4gPiAtCj4gPiAgCS8qKgo+ID4g
+IAkgKiBAcXVpcmtfYWRkZmJfcHJlZmVyX3hiZ3JfMzBicHA6Cj4gPiAgCSAqCj4gPiAtLSAKPiA+
+IDIuMjguMAoKCgotLSAKVGhvbWFzIFppbW1lcm1hbm4KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Bl
+cgpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKTWF4ZmVsZHN0ci4gNSwgOTA0
+MDkgTsO8cm5iZXJnLCBHZXJtYW55CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykKR2VzY2jDpGZ0
+c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
