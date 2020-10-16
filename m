@@ -2,55 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F78290B51
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 20:34:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 946BC290B6B
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 20:36:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314DD89450;
-	Fri, 16 Oct 2020 18:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63EB26E135;
+	Fri, 16 Oct 2020 18:36:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD0E89189
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 18:34:22 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id n15so3294130otl.8
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 11:34:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YjEtrYWM+WpdQq5rIA7Cd/jyyjiG9wZFmhoaoHRZ7kE=;
- b=jiImXk5hrhGQ0IWyjxH5N3WPRCnEJhLQ1Ofct0jdl3kYtYfBzOjopzIOhph2ww5ucE
- bHhNCDtjcpingtyfYKihX6S+h49vcZ+57/mKBJMBnpSaFGOunjMInAJrhuiJC8xS0+0x
- nQx95ph8OkadXjGH87uOJL3IrLwB7jDi2JndU/cK2wsIArZW6NkgnXZBo/gu/xYTnY++
- U0i0NQlZXBlsZ/MAUnzcch+FDez1RL6gniJ/Zd6vijE31oclp1Z9GhhyynOWkttp1WUq
- auKq9WKFoTJOuh2S5SZD1gBtou+YoQDnccq5BKI+JpBz7DZZgaLAM9TWWpk3MSQqbKCE
- P3Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YjEtrYWM+WpdQq5rIA7Cd/jyyjiG9wZFmhoaoHRZ7kE=;
- b=VPJ+RkrcBsACFivd1xhv0G75B7E8CjhAPIWwpFfOdlFlrPokh4543TvvQFv4RpLbEW
- w2BBda40jqDhqvSlyzJAAdFs93z5ncXgr/wuqwboQ9MVTGxpLeIfO1cEGPTUA3EeYpUq
- pouXbv4VL7P+m2iHbI2jZbo4Msu8XBT2iEg4WZRbbNCO/JbB5pI08+M85DfolO6R6iOR
- wuj78UJJc4W3hpQ6ePw6o3DcLsG6VAXsnDXRDivgfJsWj3pLL4ZxWdPbUHR/qCEi4E98
- 0gNYZ25D7J+pLdRPoGb6AkSHT6TDCrSv/E31YX49MgYUnbcwMBqlfSqKlSW47MMIjdu2
- GvEQ==
-X-Gm-Message-State: AOAM5317VNgebIdxB/FIFvtHJPnL9O4ncnDq8KiWmEsPPViCeOSNZihC
- t0bicXmvfOGFTwoGfUvd1Pd5gmqwWFq/mHd2SY2OJQ==
-X-Google-Smtp-Source: ABdhPJw7tjr1fm5GouHDD8zGthbFcVsfrvoic1jX6NFUO/r4ZCIcCnfQDkNxyGdlbwILCV5qg9V+t5ILDyD+A5ctrzQ=
-X-Received: by 2002:a9d:2d81:: with SMTP id g1mr3513164otb.352.1602873261398; 
- Fri, 16 Oct 2020 11:34:21 -0700 (PDT)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14C296E135
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 18:36:12 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 0615820030;
+ Fri, 16 Oct 2020 20:36:08 +0200 (CEST)
+Date: Fri, 16 Oct 2020 20:36:07 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Add retries for link training
+Message-ID: <20201016183607.GA1345100@ravnborg.org>
+References: <20201002135920.1.I2adbc90b2db127763e2444bd5a4e5bf30e1db8e5@changeid>
 MIME-Version: 1.0
-References: <20200827123627.538189-1-gregkh@linuxfoundation.org>
- <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
- <20201016082945.GA1722359@kroah.com>
-In-Reply-To: <20201016082945.GA1722359@kroah.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 16 Oct 2020 11:34:09 -0700
-Message-ID: <CALAqxLWtrnYizdDVAQMqy1JmeZ5jUCko1XKaEtAd0zoV6oj0aQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: ion: remove from the tree
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Disposition: inline
+In-Reply-To: <20201002135920.1.I2adbc90b2db127763e2444bd5a4e5bf30e1db8e5@changeid>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8 a=e5mUnYsNAAAA:8
+ a=TbjnnDg1GpMu5epwdsMA:9 a=g2MK2S0s9NEDQWlg:21 a=iS_yR1XhKHkLfVqC:21
+ a=CjuIK1q_8ugA:10 a=xmb-EsYY8bH0VWELuYED:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,65 +44,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: driverdevel <devel@driverdev.osuosl.org>,
- Christoph Hellwig <hch@infradead.org>,
- Android Kernel Team <kernel-team@android.com>, Todd Kjos <tkjos@android.com>,
- Martijn Coenen <maco@android.com>, lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Joel Fernandes <joel@joelfernandes.org>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- Suren Baghdasaryan <surenb@google.com>, Hridya Valsaraju <hridya@google.com>,
- Laura Abbott <laura@labbott.name>, Shuah Khan <shuah@kernel.org>,
- Christian Brauner <christian@brauner.io>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Steev Klimaszewski <steev@kali.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgMTYsIDIwMjAgYXQgMToyOSBBTSBHcmVnIEtyb2FoLUhhcnRtYW4KPGdyZWdr
-aEBsaW51eGZvdW5kYXRpb24ub3JnPiB3cm90ZToKPgo+IE9uIFRodSwgQXVnIDI3LCAyMDIwIGF0
-IDA5OjMxOjI3QU0gLTA0MDAsIExhdXJhIEFiYm90dCB3cm90ZToKPiA+IE9uIDgvMjcvMjAgODoz
-NiBBTSwgR3JlZyBLcm9haC1IYXJ0bWFuIHdyb3RlOgo+ID4gPiBUaGUgSU9OIGFuZHJvaWQgY29k
-ZSBoYXMgbG9uZyBiZWVuIG1hcmtlZCB0byBiZSByZW1vdmVkLCBub3cgdGhhdCB3ZQo+ID4gPiBk
-bWEtYnVmIHN1cHBvcnQgbWVyZ2VkIGludG8gdGhlIHJlYWwgcGFydCBvZiB0aGUga2VybmVsLgo+
-ID4gPgo+ID4gPiBJdCB3YXMgdGhvdWdodCB0aGF0IHdlIGNvdWxkIHdhaXQgdG8gcmVtb3ZlIHRo
-ZSBpb24ga2VybmVsIGF0IGEgbGF0ZXIKPiA+ID4gdGltZSwgYnV0IGFzIHRoZSBvdXQtb2YtdHJl
-ZSBBbmRyb2lkIGZvcmsgb2YgdGhlIGlvbiBjb2RlIGhhcyBkaXZlcmdlZAo+ID4gPiBxdWl0ZSBh
-IGJpdCwgYW5kIGFueSBBbmRyb2lkIGRldmljZSB1c2luZyB0aGUgaW9uIGludGVyZmFjZSB1c2Vz
-IHRoYXQKPiA+ID4gZm9ya2VkIHZlcnNpb24gYW5kIG5vdCB0aGlzIGluLXRyZWUgdmVyc2lvbiwg
-dGhlIGluLXRyZWUgY29weSBvZiB0aGUKPiA+ID4gY29kZSBpcyBhYmFuZG9uZGVkIGFuZCBub3Qg
-dXNlZCBieSBhbnlvbmUuCj4gPiA+Cj4gPiA+IENvbWJpbmUgdGhpcyBhYmFuZG9uZWQgY29kZWJh
-c2Ugd2l0aCB0aGUgbmVlZCB0byBtYWtlIGNoYW5nZXMgdG8gaXQgaW4KPiA+ID4gb3JkZXIgdG8g
-a2VlcCB0aGUga2VybmVsIGJ1aWxkaW5nIHByb3Blcmx5LCB3aGljaCB0aGVuIGNhdXNlcyBtZXJn
-ZQo+ID4gPiBpc3N1ZXMgd2hlbiBtZXJnaW5nIHRob3NlIGNoYW5nZXMgaW50byB0aGUgb3V0LW9m
-LXRyZWUgQW5kcm9pZCBjb2RlLCBhbmQKPiA+ID4geW91IGVuZCB1cCB3aXRoIHR3byBkaWZmZXJl
-bnQgZ3JvdXBzIG9mIHBlb3BsZSAodGhlIGluLWtlcm5lbC10cmVlCj4gPiA+IGRldmVsb3BlcnMs
-IGFuZCB0aGUgQW5kcm9pZCBrZXJuZWwgZGV2ZWxvcGVycykgd2hvIGFyZSBib3RoIGFubm95ZWQg
-YXQKPiA+ID4gdGhlIGN1cnJlbnQgc2l0dWF0aW9uLiAgQmVjYXVzZSBvZiB0aGlzIHByb2JsZW0s
-IGp1c3QgZHJvcCB0aGUgaW4ta2VybmVsCj4gPiA+IGNvcHkgb2YgdGhlIGlvbiBjb2RlIG5vdywg
-YXMgaXQncyBub3QgdXNlZCwgYW5kIGlzIG9ubHkgY2F1c2luZyBwcm9ibGVtcwo+ID4gPiBmb3Ig
-ZXZlcnlvbmUgaW52b2x2ZWQuCj4gPiA+Cj4gPiA+IENjOiAiQXJ2ZSBIasO4bm5ldsOlZyIgPGFy
-dmVAYW5kcm9pZC5jb20+Cj4gPiA+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5r
-b2VuaWdAYW1kLmNvbT4KPiA+ID4gQ2M6IENocmlzdGlhbiBCcmF1bmVyIDxjaHJpc3RpYW5AYnJh
-dW5lci5pbz4KPiA+ID4gQ2M6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAaW5mcmFkZWFkLm9yZz4K
-PiA+ID4gQ2M6IEhyaWR5YSBWYWxzYXJhanUgPGhyaWR5YUBnb29nbGUuY29tPgo+ID4gPiBDYzog
-Sm9lbCBGZXJuYW5kZXMgPGpvZWxAam9lbGZlcm5hbmRlcy5vcmc+Cj4gPiA+IENjOiBKb2huIFN0
-dWx0eiA8am9obi5zdHVsdHpAbGluYXJvLm9yZz4KPiA+ID4gQ2M6IExhdXJhIEFiYm90dCA8bGF1
-cmFAbGFiYm90dC5uYW1lPgo+ID4gPiBDYzogTWFydGlqbiBDb2VuZW4gPG1hY29AYW5kcm9pZC5j
-b20+Cj4gPiA+IENjOiBTaHVhaCBLaGFuIDxzaHVhaEBrZXJuZWwub3JnPgo+ID4gPiBDYzogU3Vt
-aXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KPiA+ID4gQ2M6IFN1cmVuIEJhZ2hk
-YXNhcnlhbiA8c3VyZW5iQGdvb2dsZS5jb20+Cj4gPiA+IENjOiBUb2RkIEtqb3MgPHRram9zQGFu
-ZHJvaWQuY29tPgo+ID4gPiBDYzogZGV2ZWxAZHJpdmVyZGV2Lm9zdW9zbC5vcmcKPiA+ID4gQ2M6
-IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4gQ2M6IGxpbmFyby1tbS1zaWdA
-bGlzdHMubGluYXJvLm9yZwo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4g
-PGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgo+ID4KPiA+IFdlIGRpc2N1c3NlZCB0aGlzIGF0
-IHRoZSBBbmRyb2lkIE1DIG9uIE1vbmRheSBhbmQgdGhlIHBsYW4gd2FzIHRvCj4gPiByZW1vdmUg
-aXQgYWZ0ZXIgdGhlIG5leHQgTFRTIHJlbGVhc2UuCj4KPiBBcyA1LjEwIHdpbGwgYmUgdGhlIG5l
-eHQgTFRTIHJlbGVhc2UsIEkgaGF2ZSBub3cgbWVyZ2VkIGl0IHRvIG15Cj4gInRlc3RpbmciIGJy
-YW5jaCB0byBnbyBpbnRvIDUuMTEtcmMxLgoKU291bmRzIGdyZWF0ISBUaGFua3Mgc28gbXVjaCBm
-b3Igd2FpdGluZyBhIGJpdCBvbiB0aGlzLCBJIHJlYWxseSBhcHByZWNpYXRlIGl0IQotam9obgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Douglas.
+
+On Fri, Oct 02, 2020 at 02:03:51PM -0700, Douglas Anderson wrote:
+> On some panels hooked up to the ti-sn65dsi86 bridge chip we found that
+> link training was failing.  Specifically, we'd see:
+> 
+>   ti_sn65dsi86 2-002d: [drm:ti_sn_bridge_enable] *ERROR* Link training failed, link is off (-5)
+> 
+> The panel was hooked up to a logic analyzer and it was found that, as
+> part of link training, the bridge chip was writing a 0x1 to DPCD
+> address 00600h and the panel responded NACK.  As can be seen in header
+> files, the write of 0x1 to DPCD address 0x600h means we were trying to
+> write the value DP_SET_POWER_D0 to the register DP_SET_POWER.  The
+> panel vendor says that a NACK in this case is not unexpected and means
+> "not ready, try again".
+> 
+> In testing, we found that this panel would respond with a NACK in
+> about 1/25 times.  Adding the retry logic worked fine and the most
+> number of tries needed was 3.  Just to be safe, we'll add 10 tries
+> here and we'll add a little blurb to the logs if we ever need more
+> than 5.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+
+I have picked this patch up and applied to drm-misc-next now.
+
+	Sam
+
+> ---
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 40 +++++++++++++++++++--------
+>  1 file changed, 29 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index ecdf9b01340f..6e12cda69b54 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -106,6 +106,8 @@
+>  #define SN_NUM_GPIOS			4
+>  #define SN_GPIO_PHYSICAL_OFFSET		1
+>  
+> +#define SN_LINK_TRAINING_TRIES		10
+> +
+>  /**
+>   * struct ti_sn_bridge - Platform data for ti-sn65dsi86 driver.
+>   * @dev:          Pointer to our device.
+> @@ -673,6 +675,7 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
+>  {
+>  	unsigned int val;
+>  	int ret;
+> +	int i;
+>  
+>  	/* set dp clk frequency value */
+>  	regmap_update_bits(pdata->regmap, SN_DATARATE_CONFIG_REG,
+> @@ -689,19 +692,34 @@ static int ti_sn_link_training(struct ti_sn_bridge *pdata, int dp_rate_idx,
+>  		goto exit;
+>  	}
+>  
+> -	/* Semi auto link training mode */
+> -	regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0x0A);
+> -	ret = regmap_read_poll_timeout(pdata->regmap, SN_ML_TX_MODE_REG, val,
+> -				       val == ML_TX_MAIN_LINK_OFF ||
+> -				       val == ML_TX_NORMAL_MODE, 1000,
+> -				       500 * 1000);
+> -	if (ret) {
+> -		*last_err_str = "Training complete polling failed";
+> -	} else if (val == ML_TX_MAIN_LINK_OFF) {
+> -		*last_err_str = "Link training failed, link is off";
+> -		ret = -EIO;
+> +	/*
+> +	 * We'll try to link train several times.  As part of link training
+> +	 * the bridge chip will write DP_SET_POWER_D0 to DP_SET_POWER.  If
+> +	 * the panel isn't ready quite it might respond NAK here which means
+> +	 * we need to try again.
+> +	 */
+> +	for (i = 0; i < SN_LINK_TRAINING_TRIES; i++) {
+> +		/* Semi auto link training mode */
+> +		regmap_write(pdata->regmap, SN_ML_TX_MODE_REG, 0x0A);
+> +		ret = regmap_read_poll_timeout(pdata->regmap, SN_ML_TX_MODE_REG, val,
+> +					val == ML_TX_MAIN_LINK_OFF ||
+> +					val == ML_TX_NORMAL_MODE, 1000,
+> +					500 * 1000);
+> +		if (ret) {
+> +			*last_err_str = "Training complete polling failed";
+> +		} else if (val == ML_TX_MAIN_LINK_OFF) {
+> +			*last_err_str = "Link training failed, link is off";
+> +			ret = -EIO;
+> +			continue;
+> +		}
+> +
+> +		break;
+>  	}
+>  
+> +	/* If we saw quite a few retries, add a note about it */
+> +	if (!ret && i > SN_LINK_TRAINING_TRIES / 2)
+> +		DRM_DEV_INFO(pdata->dev, "Link training needed %d retries\n", i);
+> +
+>  exit:
+>  	/* Disable the PLL if we failed */
+>  	if (ret)
+> -- 
+> 2.28.0.806.g8561365e88-goog
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
