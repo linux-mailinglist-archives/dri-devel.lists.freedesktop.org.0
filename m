@@ -1,52 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED87C28FFAC
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 10:03:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99ED528FFF3
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Oct 2020 10:29:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 391D56EA8D;
-	Fri, 16 Oct 2020 08:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 788FA6E0F3;
+	Fri, 16 Oct 2020 08:29:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE246EA8D
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 08:03:52 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id x62so1452790oix.11
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 01:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=INEWr2CP3X204G2+3BdRku1fQyrBAx5gcE6UKT3OyOY=;
- b=PYscHGENn896fSGfivBibPnplvLtnL/b2OJMTMD4dpMHQHxNw+64iWRis9sD2nvJ3L
- GOV/hMMVbuuc/Dh9AKUrk63GN8LOY99ye984UM1brrmBjSpje4c9K1cdtapwwULr3uYK
- 5a7sZUI60W2i8WwwI8UzzVDb5t1NNMYrEKGHc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=INEWr2CP3X204G2+3BdRku1fQyrBAx5gcE6UKT3OyOY=;
- b=kJR5uQ7s3yQWBpZGYe771rQNJyrH6iN03Xdq7vZYwbLdT8nyjFTlUO/kWpPlaC2XOC
- OVUhUfvEPqLr0JrM5ok2pnr5MdpGq4az4XqgNHszZajX8JxT9fS+0wsP3IKjBia8j5NC
- 3MgVdPd4SSGgDRk65cI537Mwj1J/kJvTOVTayHlP6gJvYvvDHhki90H+aWqITBx3tEQw
- +Eh4lBk0QA43z6fqFKDpAyBDo5Bwz9DfNaK34IGy+cf4bJdh7xagk+L873FGJ+jkZahg
- yys1h4MAUH3nAe1VUyagQIk1sQRrPp/+GZj5tT3nuWavF1O8fl1HRvVSJHyOQ0vq7aDY
- Ga2A==
-X-Gm-Message-State: AOAM533vBOkbI/XCmTcPmKBQsN8n8IyUmH59oEs7avCeKaUr/qy4rF53
- 17Xnj8i+b2sz2UfKGE3DCzo1uVRYlh6NbIbm1OBpXw==
-X-Google-Smtp-Source: ABdhPJyggtVpJqRzRZN6iIJJ0+C7Hddh3AOv25V3h7tJwuwrOe4WsT5egHelZJkzdhhjjawKTJeCGzwdsP8tFNIJ4dY=
-X-Received: by 2002:aca:cc01:: with SMTP id c1mr1679690oig.128.1602835431410; 
- Fri, 16 Oct 2020 01:03:51 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68FEF6E0F3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 08:29:14 +0000 (UTC)
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 557D720848;
+ Fri, 16 Oct 2020 08:29:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1602836954;
+ bh=gfZRHfiV80AkMKP13njGzfHmEMvVJhxSpHJPlsKp1c0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=M99FiJnEjdsc3CNdrjTG2ze4YE+/WGGIya7iMnIJ2VJM/C48P8VP8gGVqGmjMQLgI
+ 7qJdGyKvgKAmGLUAhXsyRdkeTUX4EybvdBq0WNvZQFpQsEexH8YzwD7Ha5pbTjcA5s
+ /JpgKN2bLBqm0vwfX6OownE57unxVBFlCa2ng6Rc=
+Date: Fri, 16 Oct 2020 10:29:45 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Laura Abbott <laura@labbott.name>
+Subject: Re: [PATCH] staging: ion: remove from the tree
+Message-ID: <20201016082945.GA1722359@kroah.com>
+References: <20200827123627.538189-1-gregkh@linuxfoundation.org>
+ <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
 MIME-Version: 1.0
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-6-daniel.vetter@ffwll.ch>
- <4685181e-8306-0d96-8be6-592b3c563cbf@nvidia.com>
-In-Reply-To: <4685181e-8306-0d96-8be6-592b3c563cbf@nvidia.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 16 Oct 2020 10:03:40 +0200
-Message-ID: <CAKMK7uEoM3vM9X-R6dAHPAqdKryMtj2BOoBbJwJR9mCwNSpQ1g@mail.gmail.com>
-Subject: Re: [PATCH v2 05/17] mm/frame-vector: Use FOLL_LONGTERM
-To: John Hubbard <jhubbard@nvidia.com>
+Content-Disposition: inline
+In-Reply-To: <3d8de519-65b3-123b-8ace-e820982884e0@labbott.name>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,83 +46,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- linux-s390 <linux-s390@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Pawel Osciak <pawel@osciak.com>, KVM list <kvm@vger.kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Tomasz Figa <tfiga@chromium.org>, Linux MM <linux-mm@kvack.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devel@driverdev.osuosl.org, Christoph Hellwig <hch@infradead.org>,
+ kernel-team@android.com, Todd Kjos <tkjos@android.com>,
+ Martijn Coenen <maco@android.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Joel Fernandes <joel@joelfernandes.org>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Suren Baghdasaryan <surenb@google.com>, Hridya Valsaraju <hridya@google.com>,
+ Shuah Khan <shuah@kernel.org>, Christian Brauner <christian@brauner.io>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 16, 2020 at 9:54 AM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 10/9/20 12:59 AM, Daniel Vetter wrote:
-> ...
-> > @@ -48,40 +47,25 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
-> >
-> >       start = untagged_addr(start);
-> >
-> > -     mmap_read_lock(mm);
-> > -     locked = 1;
-> > -     vma = find_vma_intersection(mm, start, start + 1);
-> > -     if (!vma) {
-> > -             ret = -EFAULT;
-> > -             goto out;
-> > -     }
-> > -
-> > -     /*
-> > -      * While get_vaddr_frames() could be used for transient (kernel
-> > -      * controlled lifetime) pinning of memory pages all current
-> > -      * users establish long term (userspace controlled lifetime)
-> > -      * page pinning. Treat get_vaddr_frames() like
-> > -      * get_user_pages_longterm() and disallow it for filesystem-dax
-> > -      * mappings.
-> > -      */
-> > -     if (vma_is_fsdax(vma)) {
-> > -             ret = -EOPNOTSUPP;
-> > -             goto out;
-> > -     }
-> > -
-> > -     if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
-> > +     ret = pin_user_pages_fast(start, nr_frames,
-> > +                               FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> > +                               (struct page **)(vec->ptrs));
-> > +     if (ret > 0) {
->
-> None of the callers that we have today will accept anything less than
-> ret == nr_frames. And the whole partially pinned region idea turns out
-> to be just not useful for almost everyone, from what I recall of the gup/pup
-> call sites. So I wonder if we should just have get_vaddr_frames do the
-> cleanup here and return -EFAULT, if ret != nr_frames ?
+On Thu, Aug 27, 2020 at 09:31:27AM -0400, Laura Abbott wrote:
+> On 8/27/20 8:36 AM, Greg Kroah-Hartman wrote:
+> > The ION android code has long been marked to be removed, now that we
+> > dma-buf support merged into the real part of the kernel.
+> > =
 
-Yeah I noticed that the calling convention here is a bit funny. But I
-with these frame-vector helpers now being part of drivers/media it's
-up to media folks if they want to clean that up, or leave it as is.
+> > It was thought that we could wait to remove the ion kernel at a later
+> > time, but as the out-of-tree Android fork of the ion code has diverged
+> > quite a bit, and any Android device using the ion interface uses that
+> > forked version and not this in-tree version, the in-tree copy of the
+> > code is abandonded and not used by anyone.
+> > =
 
-If this would be in drm I'd say we'll have the loud warning and
-tainting due to CONFIG_STRICT_FOLLOW_PFN=n for 2-3 years. Then
-assuming no big complaints showed up, rip it all out and just directly
-call pup in each place that wants it (like I've done for habanalabs
-and exynos).
--Daniel
+> > Combine this abandoned codebase with the need to make changes to it in
+> > order to keep the kernel building properly, which then causes merge
+> > issues when merging those changes into the out-of-tree Android code, and
+> > you end up with two different groups of people (the in-kernel-tree
+> > developers, and the Android kernel developers) who are both annoyed at
+> > the current situation.  Because of this problem, just drop the in-kernel
+> > copy of the ion code now, as it's not used, and is only causing problems
+> > for everyone involved.
+> > =
 
+> > Cc: "Arve Hj=F8nnev=E5g" <arve@android.com>
+> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > Cc: Christian Brauner <christian@brauner.io>
+> > Cc: Christoph Hellwig <hch@infradead.org>
+> > Cc: Hridya Valsaraju <hridya@google.com>
+> > Cc: Joel Fernandes <joel@joelfernandes.org>
+> > Cc: John Stultz <john.stultz@linaro.org>
+> > Cc: Laura Abbott <laura@labbott.name>
+> > Cc: Martijn Coenen <maco@android.com>
+> > Cc: Shuah Khan <shuah@kernel.org>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Suren Baghdasaryan <surenb@google.com>
+> > Cc: Todd Kjos <tkjos@android.com>
+> > Cc: devel@driverdev.osuosl.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> =
 
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> We discussed this at the Android MC on Monday and the plan was to
+> remove it after the next LTS release.
+
+As 5.10 will be the next LTS release, I have now merged it to my
+"testing" branch to go into 5.11-rc1.
+
+thanks,
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
