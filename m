@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE06291403
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB92290E76
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 03:33:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13BB76E3FE;
-	Sat, 17 Oct 2020 19:04:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E012D6E041;
+	Sat, 17 Oct 2020 01:33:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C56036E3E5
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Oct 2020 01:04:52 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f8a43250000>; Fri, 16 Oct 2020 18:04:39 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 17 Oct
- 2020 01:04:40 +0000
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.36.51) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server
- (TLS) id
- 15.0.1473.3 via Frontend Transport; Sat, 17 Oct 2020 01:04:40 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e5Qwe+3ZBtKl/YVMp0s9fHKUmp5HRG258zFj00YeiVvnpZzQ+jg+Fx+Ca8KqheDzjRmYx/Hkk+XY0yyK2OxX+cEnn5xdCCVBDAbyb72HT+7ViXtwdiQAWPjBwF00g90I+4pSH5woZAgK7Ma75SX0q93qInOWA8UD5yi+V2zwCymjC4GGvNmx4vMR+u17tBcgydcCcyJ1EQmJi+cbK9ZDUoSM67+WH0CdC/X2Y7rnZCDoci26s0y/LWF3oXTKbW770TLsoDWxliytDYbvylX9xtVCfBxQO0RcIBRKWZ32FfsEUXORbhzaS5hUTJCbVOWlP+VwqpfAE51eAUpnaswbZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2xgtFflxg3bpDIq+93IgyfKNLgFzELy2Lr0cQUv1yzM=;
- b=eLvSCho6ont/7ptBpa8onmtccStdiudG7yO7W1Wxhchmm1aRJfX03qOJpFulzygP43xGVOzqYUgSqID7sCH3M9mf10BGRf+8c5Z3a9DdEqc8yVeIHrOW6CQTNgw+J4umWbVxg1c19cM3OvwrNofYQy4OnwS4oIzag8ocW7kAPp9p2yO9mV47bPb8y1MilsxF2QNLKMmyk38KFsAxltiZmjo2VS0uYT/lGDKrwta0pZUqc+VyvtblfiU8SqdVNKeqY3geDqggFKrR20RgcUwVL+lGFFb27VSCF9ZPoyLaOSjx7YN8JlWP9oIrVKLkj7LDR0WQOsESda8yN9+C5g2LBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB3836.namprd12.prod.outlook.com (2603:10b6:5:1c3::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Sat, 17 Oct
- 2020 01:04:38 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3477.027; Sat, 17 Oct 2020
- 01:04:38 +0000
-Date: Fri, 16 Oct 2020 22:04:37 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-Subject: Re: [PATCH v5 1/5] RDMA/umem: Support importing dma-buf as user
- memory region
-Message-ID: <20201017010437.GZ6219@nvidia.com>
-References: <1602799365-138199-1-git-send-email-jianxin.xiong@intel.com>
- <20201017002816.GA334909@nvidia.com>
- <MW3PR11MB45556014C8D85ABC9EBFA97CE5000@MW3PR11MB4555.namprd11.prod.outlook.com>
-Content-Disposition: inline
-In-Reply-To: <MW3PR11MB45556014C8D85ABC9EBFA97CE5000@MW3PR11MB4555.namprd11.prod.outlook.com>
-X-ClientProxiedBy: BL0PR0102CA0025.prod.exchangelabs.com
- (2603:10b6:207:18::38) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 011126E041
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Oct 2020 01:33:02 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id p21so2292767pju.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Oct 2020 18:33:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C5OysJtvM42BExDrSWPepk1+ntovtD7pOwO/xcdChaw=;
+ b=BGY23IMQRW0yl9F0jX0ao1lYRZTCAEgSrhcam5pGSwwBp0okWk+jVwa9eE2JYEObKD
+ TsKP5vCtq0XeXWIsl8EF7en+vJ96qBGaRGyGS/sBNu7Cn3G0qLnJhsIIfJ0hODOD+x1G
+ IWh+t//F12zX9gFDr9pJaxHGXIvAECOcSuKr1aVEhzQ7o3JU7JTi4cNqnAwUDV7CEcM0
+ MBD3RflPojsg3nphAfPmG1ex0B8G5rezL4jWclRFgINVtkc1yZfGerA/eBJWgwj/fXwc
+ gWBK7YerfQ0X/3X6o/xS+8FfUTNj/jeBheSJYLo3UZXYq6YQwTx3GX6EDpXobV03Kt+H
+ vj2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=C5OysJtvM42BExDrSWPepk1+ntovtD7pOwO/xcdChaw=;
+ b=pzw5css72gpBo3S7nK3EOz2vFxgNudC9cBziZgfHx1ORPGdA5cUZN4s5CiLkr+cFyv
+ SkxaWkdPFWpVQGsmaQBxgYoVM6bckKxfwufZ+AZ+Xu8LDHitpyERy9Ke3HFRzVtpMTZC
+ AqkiJW2WnrcxzLkslXTdq2ZkmdIbVGrc7p3FBVZNqDT9YYI4PBUhlAfSua9qBrj7H//9
+ 97ZszM6GVnt6ovn5FJ5KUKnxT9IeISnwnxt/uq6I4YFjdnowzgxbLco1+7KVXtsTXZHA
+ U9JdZxEsrus/ciz1qlbtSc+BH6t7KLNoFGZUgqKt53uQlufXxgQKBNBmIygc62OhfXOW
+ GLGA==
+X-Gm-Message-State: AOAM531YfF+C5dDHsXwH5unjDoi8g7u5MLA17ZrkUE6EXarrPCidGe4w
+ qLBqlQVQs4CKiQKXM1iOqNt+sA==
+X-Google-Smtp-Source: ABdhPJwHJlZeqN6N0aXNECfz8P9EDG08ntt+PJs7x5uLqu0m/hGKeYlTAa5AxHxGx7pS07nW5P3kOw==
+X-Received: by 2002:a17:902:7c14:b029:d4:d894:7eed with SMTP id
+ x20-20020a1709027c14b02900d4d8947eedmr6994979pll.81.1602898382292; 
+ Fri, 16 Oct 2020 18:33:02 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+ by smtp.gmail.com with ESMTPSA id
+ e186sm4222122pfh.60.2020.10.16.18.32.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Oct 2020 18:33:01 -0700 (PDT)
+From: John Stultz <john.stultz@linaro.org>
+To: lkml <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 0/7] dma-buf: Performance improvements for system heap & a
+ system-uncached implementation
+Date: Sat, 17 Oct 2020 01:32:48 +0000
+Message-Id: <20201017013255.43568-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by
- BL0PR0102CA0025.prod.exchangelabs.com (2603:10b6:207:18::38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3477.21 via Frontend Transport; Sat, 17 Oct 2020 01:04:38 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1kTaeD-001QCd-AH; Fri, 16 Oct 2020 22:04:37 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1602896679; bh=2xgtFflxg3bpDIq+93IgyfKNLgFzELy2Lr0cQUv1yzM=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
- From:To:CC:Subject:Message-ID:References:Content-Type:
- Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType;
- b=O+2trJIXiDSlYVR880Uv2oepRo2fzVGTdoQWCnyimqSnLV9IiZ3gVnK9kyIg6ucAq
- DR6c0mc7qQMm0IKVhlVeyFEfysYdcx62JdlrcNxczsDh3sBnrSQz1xiwdSI9Ib+pUE
- NQ/tQVld2erejjyC7rQzqsnogPy+7cL+MST+o/vs2B5q1GDFZMu3vfmAQBpvfHcpY/
- 9xzmdMaBGHNOmzjCQC8DJJ/ddOCAdoJ+dkjhQl+jiqiXIxMwKe+oJzqJ+tZLoQYWKg
- 41vJXN3Lj68hlyAMNoZiTWbcLQcC5Sp0amkt2a0iYbuxd0fZAAayjGErmGLdWeqqxR
- wAukK4zIx9JTg==
-X-Mailman-Approved-At: Sat, 17 Oct 2020 19:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,80 +67,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Doug
- Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
+ Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+ linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ Daniel Mentz <danielmentz@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 17, 2020 at 12:57:21AM +0000, Xiong, Jianxin wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Friday, October 16, 2020 5:28 PM
-> > To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> > Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Leon Romanovsky
-> > <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel
-> > <daniel.vetter@intel.com>
-> > Subject: Re: [PATCH v5 1/5] RDMA/umem: Support importing dma-buf as user memory region
-> > 
-> > On Thu, Oct 15, 2020 at 03:02:45PM -0700, Jianxin Xiong wrote:
-> > > +struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
-> > > +				   unsigned long addr, size_t size,
-> > > +				   int dmabuf_fd, int access,
-> > > +				   const struct ib_umem_dmabuf_ops *ops) {
-> > > +	struct dma_buf *dmabuf;
-> > > +	struct ib_umem_dmabuf *umem_dmabuf;
-> > > +	struct ib_umem *umem;
-> > > +	unsigned long end;
-> > > +	long ret;
-> > > +
-> > > +	if (check_add_overflow(addr, (unsigned long)size, &end))
-> > > +		return ERR_PTR(-EINVAL);
-> > > +
-> > > +	if (unlikely(PAGE_ALIGN(end) < PAGE_SIZE))
-> > > +		return ERR_PTR(-EINVAL);
-> > > +
-> > > +	if (unlikely(!ops || !ops->invalidate || !ops->update))
-> > > +		return ERR_PTR(-EINVAL);
-> > > +
-> > > +	umem_dmabuf = kzalloc(sizeof(*umem_dmabuf), GFP_KERNEL);
-> > > +	if (!umem_dmabuf)
-> > > +		return ERR_PTR(-ENOMEM);
-> > > +
-> > > +	umem_dmabuf->ops = ops;
-> > > +	INIT_WORK(&umem_dmabuf->work, ib_umem_dmabuf_work);
-> > > +
-> > > +	umem = &umem_dmabuf->umem;
-> > > +	umem->ibdev = device;
-> > > +	umem->length = size;
-> > > +	umem->address = addr;
-> > 
-> > addr here is offset within the dma buf, but this code does nothing with it.
-> > 
-> The current code assumes 0 offset, and 'addr' is the nominal starting address of the
-> buffer. If this is to be changed to offset, then yes, some more handling is needed
-> as you mentioned below.
-
-There is no such thing as 'nominal starting address'
-
-If the user is to provide any argument it can only be offset and length.
-
-> > Also, dma_buf_map_attachment() does not do the correct dma mapping
-> > for RDMA, eg it does not use ib_dma_map(). This is not a problem
-> > for mlx5 but it is troublesome to put in the core code.
-> 
-> ib_dma_map() uses dma_map_single(), GPU drivers use dma_map_resource() for
-> dma_buf_map_attachment(). They belong to the same family, but take different
-> address type (kernel address vs MMIO physical address). Could you elaborate what
-> the problem could be for non-mlx5 HCAs?
-
-They use the virtual dma ops which we intend to remove
-
-Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGV5IEFsbCwKICBTbyB0aGlzIGlzIGFub3RoZXIgcmV2aXNpb24gb2YgbXkgcGF0Y2ggc2VyaWVz
+IHRvIHBlcmZvcm1hbmNlCm9wdGltaXphdGlvbnMgdG8gdGhlIGRtYS1idWYgc3lzdGVtIGhlYXAu
+CgpUaGlzIHNlcmllcyByZXdvcmtzIHRoZSBzeXN0ZW0gaGVhcCB0byB1c2Ugc2d0YWJsZXMsIGFu
+ZCB0aGVuCmNvbnNvbGlkYXRlcyB0aGUgcGFnZWxpc3QgbWV0aG9kIGZyb20gdGhlIGhlYXAtaGVs
+cGVycyBpbnRvIHRoZQpDTUEgaGVhcC4gQWZ0ZXIgd2hpY2ggdGhlIGhlYXAtaGVscGVycyBsb2dp
+YyBpcyByZW1vdmVkIChhcyBpdAppcyB1bnVzZWQpLiBJJ2Qgc3RpbGwgbGlrZSB0byBmaW5kIGEg
+YmV0dGVyIHdheSB0byBhdm9pZCBzb21lIG9mCnRoZSBsb2dpYyBkdXBsaWNhdGlvbiBpbiBpbXBs
+ZW1lbnRpbmcgdGhlIGVudGlyZSBkbWFfYnVmX29wcwpoYW5kbGVycyBwZXIgaGVhcC4gQnV0IHVu
+Zm9ydHVuYXRlbHkgdGhhdCBjb2RlIGlzIHRpZWQgc29tZXdoYXQKdG8gaG93IHRoZSBidWZmZXIn
+cyBtZW1vcnkgaXMgdHJhY2tlZC4KCkFmdGVyIHRoaXMsIHRoZSBzZXJpZXMgaW50cm9kdWNlcyBh
+biBvcHRpbWl6YXRpb24gdGhhdArDmHJqYW4gRWlkZSBpbXBsZW1lbnRlZCBmb3IgSU9OIHRoYXQg
+YXZvaWRzIGNhbGxpbmcgc3luYyBvbgphdHRhY2htZW50cyB0aGF0IGRvbid0IGhhdmUgYSBtYXBw
+aW5nLgoKTmV4dCwgYW4gb3B0aW1pemF0aW9uIHRvIHVzZSBsYXJnZXIgb3JkZXIgcGFnZXMgZm9y
+IHRoZSBzeXN0ZW0KaGVhcC4gVGhpcyBjaGFuZ2UgYnJpbmdzIHVzIGNsb3NlciB0byB0aGUgY3Vy
+cmVudCBwZXJmb3JtYW5jZQpvZiB0aGUgSU9OIGFsbG9jYXRpb24gY29kZSAodGhvdWdoIHRoZXJl
+IHN0aWxsIGlzIGEgZ2FwIGR1ZQp0byBJT04gdXNpbmcgYSBtaXggb2YgZGVmZXJyZWQtZnJlZWlu
+ZyBhbmQgcGFnZSBwb29scywgSSdsbCBiZQpsb29raW5nIGF0IGludGVncmF0aW5nIHRob3NlIGV2
+ZW50dWFsbHkpLgoKRmluYWxseSwgYSByZXdvcmtlZCB2ZXJzaW9uIG9mIG15IHVuY2FjaGVkIHN5
+c3RlbSBoZWFwCmltcGxlbWVudGF0aW9uIEkgd2FzIHN1Ym1pdHRpbmcgYSBmZXcgd2Vla3MgYmFj
+ay4gU2luY2UgaXQKZHVwbGljYXRlZCBhIGxvdCBvZiB0aGUgbm93IHJld29ya2VkIHN5c3RlbSBo
+ZWFwIGNvZGUsIEkKcmVhbGl6ZWQgaXQgd291bGQgYmUgbXVjaCBzaW1wbGVyIHRvIGFkZCB0aGUg
+ZnVuY3Rpb25hbGl0eSB0bwp0aGUgc3lzdGVtX2hlYXAgaW1wbGVtZW50YWl0b24gaXRzZWxmLgoK
+V2hpbGUgbm90IGltcHJvdmluZyB0aGUgY29yZSBhbGxvY2F0aW9uIHBlcmZvcm1hbmNlLCB0aGUK
+dW5jYWNoZWQgaGVhcCBhbGxvY2F0aW9ucyBkbyByZXN1bHQgaW4gKm11Y2gqIGltcHJvdmVkCnBl
+cmZvcm1hbmNlIG9uIEhpS2V5OTYwIGFzIGl0IGF2b2lkcyBhIGxvdCBvZiBmbHVzaGluZyBhbmQK
+aW52YWxpZGF0aW5nIGJ1ZmZlcnMgdGhhdCB0aGUgY3B1IGRvZXNuJ3QgdG91Y2ggb2Z0ZW4uCgpG
+ZWVkYmFjayBvbiB0aGVzZSB3b3VsZCBiZSBncmVhdCEKCnRoYW5rcwotam9obgoKTmV3IGluIHY0
+OgoqIE1ha2Ugc3lzX2hlYXAgc3RhdGljIChpbmRpcmVjdGx5KSBSZXBvcnRlZC1ieToKICAgICBr
+ZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4KKiBTcGVsbGluZyBmaXhlcyBzdWdnZXN0
+ZWQgYnkgQnJpYW5TCiogTWFrZSBzeXNfdW5jYWNoZWRfaGVhcCBzdGF0aWMsIGFzCiAgICBSZXBv
+cnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+CiogRml4IHdyb25nIHJl
+dHVybiB2YWx1ZSwgY2F1Z2h0IGJ5IHNtYXRjaAogICAgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0
+IHJvYm90IDxsa3BAaW50ZWwuY29tPgogICAgUmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRh
+bi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KKiBFbnN1cmUgd2UgY2FsbCBmbHVzaC9pbnZhbGlkYXRl
+X2tlcm5lbF92bWFwX3JhbmdlKCkgaW4gdGhlCiAgdW5jYWNoZWQgY2FzZXMgdG8gdHJ5IHRvIGFk
+ZHJlc3MgZmVlZGJhY2sgYWJvdXQgVklWVCBjYWNoZXMKICBmcm9tIENocmlzdG9waAoqIFJlb3Jk
+ZXIgYSBmZXcgbGluZXMgYXMgc3VnZ2VzdGVkIGJ5IEJyaWFuUwoqIEF2b2lkIGhvbGRpbmcgdGhl
+IGluaXRpYWwgbWFwcGluZyBmb3IgdGhlIGxpZmV0aW1lIG9mIHRoZSBidWZmZXIKICBhcyBzdWdn
+ZXN0ZWQgYnkgQnJpYW5TCiogRml4IGEgdW5saWtlbHkgcmFjZSBiZXR3ZWVuIGFsbG9jYXRlIGFu
+ZCB1cGRhdGluZyB0aGUgZG1hX21hc2sKICB0aGF0IEJyaWFuUyBub3RpY2VkLgoKCkNjOiBTdW1p
+dCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgpDYzogTGlhbSBNYXJrIDxsbWFya0Bj
+b2RlYXVyb3JhLm9yZz4KQ2M6IExhdXJhIEFiYm90dCA8bGFiYm90dEBrZXJuZWwub3JnPgpDYzog
+QnJpYW4gU3RhcmtleSA8QnJpYW4uU3RhcmtleUBhcm0uY29tPgpDYzogSHJpZHlhIFZhbHNhcmFq
+dSA8aHJpZHlhQGdvb2dsZS5jb20+CkNjOiBTdXJlbiBCYWdoZGFzYXJ5YW4gPHN1cmVuYkBnb29n
+bGUuY29tPgpDYzogU2FuZGVlcCBQYXRpbCA8c3NwYXRpbEBnb29nbGUuY29tPgpDYzogRGFuaWVs
+IE1lbnR6IDxkYW5pZWxtZW50ekBnb29nbGUuY29tPgpDYzogQ2hyaXMgR29sZHN3b3J0aHkgPGNn
+b2xkc3dvQGNvZGVhdXJvcmEub3JnPgpDYzogw5hyamFuIEVpZGUgPG9yamFuLmVpZGVAYXJtLmNv
+bT4KQ2M6IFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+CkNjOiBFemVxdWllbCBH
+YXJjaWEgPGV6ZXF1aWVsQGNvbGxhYm9yYS5jb20+CkNjOiBTaW1vbiBTZXIgPGNvbnRhY3RAZW1l
+cnNpb24uZnI+CkNjOiBKYW1lcyBKb25lcyA8amFqb25lc0BudmlkaWEuY29tPgpDYzogbGludXgt
+bWVkaWFAdmdlci5rZXJuZWwub3JnCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+CgpKb2huIFN0dWx0eiAoNyk6CiAgZG1hLWJ1Zjogc3lzdGVtX2hlYXA6IFJld29yayBzeXN0ZW0g
+aGVhcCB0byB1c2Ugc2d0YWJsZXMgaW5zdGVhZCBvZgogICAgcGFnZWxpc3RzCiAgZG1hLWJ1Zjog
+aGVhcHM6IE1vdmUgaGVhcC1oZWxwZXIgbG9naWMgaW50byB0aGUgY21hX2hlYXAKICAgIGltcGxl
+bWVudGF0aW9uCiAgZG1hLWJ1ZjogaGVhcHM6IFJlbW92ZSBoZWFwLWhlbHBlcnMgY29kZQogIGRt
+YS1idWY6IGhlYXBzOiBTa2lwIHN5bmMgaWYgbm90IG1hcHBlZAogIGRtYS1idWY6IHN5c3RlbV9o
+ZWFwOiBBbGxvY2F0ZSBoaWdoZXIgb3JkZXIgcGFnZXMgaWYgYXZhaWxhYmxlCiAgZG1hLWJ1Zjog
+ZG1hLWhlYXA6IEtlZXAgdHJhY2sgb2YgdGhlIGhlYXAgZGV2aWNlIHN0cnVjdAogIGRtYS1idWY6
+IHN5c3RlbV9oZWFwOiBBZGQgYSBzeXN0ZW0tdW5jYWNoZWQgaGVhcCByZS11c2luZyB0aGUgc3lz
+dGVtCiAgICBoZWFwCgogZHJpdmVycy9kbWEtYnVmL2RtYS1oZWFwLmMgICAgICAgICAgIHwgIDMz
+ICstCiBkcml2ZXJzL2RtYS1idWYvaGVhcHMvTWFrZWZpbGUgICAgICAgfCAgIDEgLQogZHJpdmVy
+cy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMgICAgIHwgMzI3ICsrKysrKysrKysrKysrKy0tLQog
+ZHJpdmVycy9kbWEtYnVmL2hlYXBzL2hlYXAtaGVscGVycy5jIHwgMjcwIC0tLS0tLS0tLS0tLS0t
+LQogZHJpdmVycy9kbWEtYnVmL2hlYXBzL2hlYXAtaGVscGVycy5oIHwgIDUzIC0tLQogZHJpdmVy
+cy9kbWEtYnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMgIHwgNDg4ICsrKysrKysrKysrKysrKysrKysr
+KysrKy0tLQogaW5jbHVkZS9saW51eC9kbWEtaGVhcC5oICAgICAgICAgICAgIHwgICA5ICsKIDcg
+ZmlsZXMgY2hhbmdlZCwgNzQ5IGluc2VydGlvbnMoKyksIDQzMiBkZWxldGlvbnMoLSkKIGRlbGV0
+ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2RtYS1idWYvaGVhcHMvaGVhcC1oZWxwZXJzLmMKIGRlbGV0
+ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2RtYS1idWYvaGVhcHMvaGVhcC1oZWxwZXJzLmgKCi0tIAoy
+LjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
