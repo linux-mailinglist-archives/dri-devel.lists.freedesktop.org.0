@@ -2,43 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25CA29131D
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 18:25:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629E82913FF
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 21:05:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 355F26E201;
-	Sat, 17 Oct 2020 16:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2239B6E215;
+	Sat, 17 Oct 2020 19:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0121.hostedemail.com
- [216.40.44.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 007C96E1F7;
- Sat, 17 Oct 2020 16:24:59 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay05.hostedemail.com (Postfix) with ESMTP id E0A6918029120;
- Sat, 17 Oct 2020 16:24:55 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:327:355:379:599:857:960:966:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1434:1437:1515:1516:1518:1593:1594:1605:1730:1747:1777:1792:2194:2196:2198:2199:2200:2201:2393:2525:2561:2564:2682:2685:2828:2859:2894:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3622:3865:3866:3867:3870:3871:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4385:5007:6742:6743:7576:7903:8557:8957:9025:10004:10848:11026:11232:11914:12043:12050:12295:12296:12297:12438:12555:12663:12712:12737:12740:12760:12895:13161:13225:13229:13439:13870:14096:14097:14659:21080:21325:21433:21451:21611:21627:21773:21990:30010:30034:30054:30055:30070:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: soap40_350edcc27227
-X-Filterd-Recvd-Size: 36889
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf13.hostedemail.com (Postfix) with ESMTPA;
- Sat, 17 Oct 2020 16:24:48 +0000 (UTC)
-Message-ID: <f530b7aeecbbf9654b4540cfa20023a4c2a11889.camel@perches.com>
-Subject: Re: [RFC] treewide: cleanup unreachable breaks
-From: Joe Perches <joe@perches.com>
-To: trix@redhat.com, linux-kernel@vger.kernel.org, cocci
- <cocci@systeme.lip6.fr>
-Date: Sat, 17 Oct 2020 09:24:47 -0700
-In-Reply-To: <20201017160928.12698-1-trix@redhat.com>
+X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
+ Sat, 17 Oct 2020 18:28:14 UTC
+Received: from mail2-relais-roc.national.inria.fr
+ (mail2-relais-roc.national.inria.fr [192.134.164.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3686E0D8;
+ Sat, 17 Oct 2020 18:28:14 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.77,387,1596492000"; d="scan'208";a="473115757"
+Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
+ by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2020 20:21:01 +0200
+Date: Sat, 17 Oct 2020 20:21:01 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Joe Perches <joe@perches.com>
+Subject: Re: [Cocci] [RFC] treewide: cleanup unreachable breaks
+In-Reply-To: <f530b7aeecbbf9654b4540cfa20023a4c2a11889.camel@perches.com>
+Message-ID: <alpine.DEB.2.22.394.2010172016370.9440@hadrien>
 References: <20201017160928.12698-1-trix@redhat.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ <f530b7aeecbbf9654b4540cfa20023a4c2a11889.camel@perches.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
+X-Mailman-Approved-At: Sat, 17 Oct 2020 19:04:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,362 +43,509 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, clang-built-linux@googlegroups.com,
- linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
- storagedev@microchip.com, dri-devel@lists.freedesktop.org,
+Cc: alsa-devel@alsa-project.org, linux-iio@vger.kernel.org, trix@redhat.com,
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
  virtualization@lists.linux-foundation.org, keyrings@vger.kernel.org,
- linux-mtd@lists.infradead.org, ath10k@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, usb-storage@lists.one-eyed-alien.net,
- linux-watchdog@vger.kernel.org, devel@driverdev.osuosl.org,
- linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvdimm@lists.01.org, amd-gfx@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- industrypack-devel@lists.sourceforge.net, linux-pci@vger.kernel.org,
- spice-devel@lists.freedesktop.org, MPT-FusionLinux.pdl@broadcom.com,
- linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-nfc@lists.01.org, linux-pm@vger.kernel.org, linux-can@vger.kernel.org,
+ linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
+ usb-storage@lists.one-eyed-alien.net, devel@driverdev.osuosl.org,
+ linux-samsung-soc@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-nvdimm@lists.01.org,
+ linux-pm@vger.kernel.org, ath10k@lists.infradead.org,
+ cocci <cocci@systeme.lip6.fr>, clang-built-linux@googlegroups.com,
+ intel-wired-lan@lists.osuosl.org, industrypack-devel@lists.sourceforge.net,
+ nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
+ MPT-FusionLinux.pdl@broadcom.com, linux-media@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-nfc@lists.01.org,
+ linux-serial@vger.kernel.org, linux-can@vger.kernel.org,
  linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-amlogic@lists.infradead.org,
+ storagedev@microchip.com, xen-devel@lists.xenproject.org,
  openipmi-developer@lists.sourceforge.net, platform-driver-x86@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-edac@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-crypto@vger.kernel.org, patches@opensource.cirrus.com,
- bpf@vger.kernel.org, ocfs2-devel@oss.oracle.com, linux-power@fi.rohmeurope.com
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-integrity@vger.kernel.org,
+ ocfs2-devel@oss.oracle.com, linux-power@fi.rohmeurope.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2020-10-17 at 09:09 -0700, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
-> 
-> This is a upcoming change to clean up a new warning treewide.
-> I am wondering if the change could be one mega patch (see below) or
-> normal patch per file about 100 patches or somewhere half way by collecting
-> early acks.
-> 
-> clang has a number of useful, new warnings see
-> https://clang.llvm.org/docs/DiagnosticsReference.html
-> 
-> This change cleans up -Wunreachable-code-break
-> https://clang.llvm.org/docs/DiagnosticsReference.html#wunreachable-code-break
-> for 266 of 485 warnings in this week's linux-next, allyesconfig on x86_64.
-
-Early acks/individual patches by subsystem would be good.
-Better still would be an automated cocci script.
-
-The existing checkpatch test for UNNECESSARY_BREAK
-has a few too many false positives.
-
-From a script run on next on July 28th:
-
-arch/arm/mach-s3c24xx/mach-rx1950.c:266: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/arm/nwfpe/fpa11_cprt.c:38: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/arm/nwfpe/fpa11_cprt.c:41: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/include/asm/mach-au1x00/au1000.h:684: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/include/asm/mach-au1x00/au1000.h:687: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/include/asm/mach-au1x00/au1000.h:690: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/include/asm/mach-au1x00/au1000.h:693: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/include/asm/mach-au1x00/au1000.h:697: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/include/asm/mach-au1x00/au1000.h:700: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/loongson2ef/common/cs5536/cs5536_isa.c:276: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/loongson2ef/common/cs5536/cs5536_isa.c:279: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/loongson2ef/common/cs5536/cs5536_isa.c:282: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/loongson2ef/common/cs5536/cs5536_isa.c:287: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/loongson2ef/common/cs5536/cs5536_isa.c:290: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/rb532/setup.c:76: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/mips/rb532/setup.c:79: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/powerpc/include/asm/kvm_book3s_64.h:231: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/powerpc/include/asm/kvm_book3s_64.h:234: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/powerpc/include/asm/kvm_book3s_64.h:237: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/powerpc/include/asm/kvm_book3s_64.h:240: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/powerpc/net/bpf_jit_comp.c:455: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/powerpc/platforms/cell/spufs/switch.c:2047: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/powerpc/platforms/cell/spufs/switch.c:2077: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/sh/boards/mach-landisk/gio.c:111: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/x86/kernel/cpu/mce/core.c:1734: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/x86/kernel/cpu/mce/core.c:1738: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-arch/x86/kernel/cpu/microcode/amd.c:218: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/acpi/utils.c:107: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/acpi/utils.c:132: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/acpi/utils.c:147: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/acpi/utils.c:158: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/ata/libata-scsi.c:3973: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/base/power/main.c:366: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/block/xen-blkback/blkback.c:1272: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/char/ipmi/ipmi_devintf.c:493: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/char/lp.c:625: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/char/mwave/mwavedd.c:406: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/cpufreq/e_powersaver.c:226: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/cpufreq/longhaul.c:596: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/crypto/atmel-sha.c:462: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/edac/amd64_edac.c:2464: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/edac/amd64_edac.c:2468: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/edac/amd64_edac.c:2471: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/edac/amd64_edac.c:2481: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/edac/amd64_edac.c:2485: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/edac/amd64_edac.c:2488: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/edac/amd64_edac.c:2491: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/amd/amdgpu/atombios_encoders.c:505: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/amd/amdgpu/atombios_encoders.c:528: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/amd/amdgpu/dce_v10_0.c:2220: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/amd/amdgpu/dce_v11_0.c:2253: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/amd/amdgpu/dce_v8_0.c:2110: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/gma500/cdv_intel_hdmi.c:346: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/mgag200/mgag200_mode.c:723: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/mgag200/mgag200_mode.c:727: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/mgag200/mgag200_mode.c:730: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/mgag200/mgag200_mode.c:734: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/mgag200/mgag200_mode.c:737: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/nouveau/nvkm/subdev/bios/pll.c:126: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/nouveau/nvkm/subdev/clk/mcp77.c:143: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/nouveau/nvkm/subdev/clk/mcp77.c:150: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/nouveau/nvkm/subdev/clk/mcp77.c:153: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramnv50.c:174: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/qxl/qxl_ioctl.c:163: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/radeon/atombios_encoders.c:749: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/radeon/atombios_encoders.c:780: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/radeon/r300.c:1160: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/gpu/drm/radeon/radeon_i2c.c:462: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/infiniband/hw/cxgb4/qp.c:1972: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/infiniband/hw/cxgb4/qp.c:2021: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/infiniband/hw/cxgb4/qp.c:2026: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/input/mouse/synaptics_usb.c:207: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/ipack/devices/ipoctal.c:547: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/irqchip/irq-crossbar.c:291: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/irqchip/irq-mips-gic.c:643: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/isdn/mISDN/dsp_dtmf.c:174: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/macintosh/via-pmu-led.c:65: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/cx24117.c:1175: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/dib0090.c:407: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/dib0090.c:497: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/drxd_hard.c:1625: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/drx39xyj/drxj.c:2328: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/drx39xyj/drxj.c:2655: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/drx39xyj/drxj.c:3597: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/drx39xyj/drxj.c:3621: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/drx39xyj/drxj.c:3645: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/drx39xyj/drxj.c:10947: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/drx39xyj/drxj.c:11068: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/drx39xyj/drxj.c:11890: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:171: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:193: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:219: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:242: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:245: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:377: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:558: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:583: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:597: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:613: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:629: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:641: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:667: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:723: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:745: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/nxt200x.c:1117: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/si21xx.c:467: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/si21xx.c:470: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/dvb-frontends/stv0900_core.c:1948: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/tuners/mt2063.c:1852: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/b2c2/flexcop-usb.c:198: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/b2c2/flexcop-usb.c:521: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/gspca/pac_common.h:105: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/pwc/pwc-if.c:860: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/pwc/pwc-if.c:872: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/pwc/pwc-if.c:931: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/pwc/pwc-if.c:957: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/pwc/pwc-if.c:976: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/pwc/pwc-if.c:988: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/pwc/pwc-if.c:1001: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/pwc/pwc-if.c:1019: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/tm6000/tm6000-core.c:674: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/tm6000/tm6000-core.c:696: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/tm6000/tm6000-core.c:761: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/ttusb-dec/ttusb_dec.c:1105: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/ttusb-dec/ttusb_dec.c:1109: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/ttusb-dec/ttusb_dec.c:1160: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/media/usb/ttusb-dec/ttusb_dec.c:1164: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/message/fusion/mptbase.c:476: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/misc/mei/hbm.c:1307: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/mmc/host/atmel-mci.c:1919: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/mtd/devices/ms02-nv.c:289: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/mtd/mtdchar.c:884: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/mtd/mtdchar.c:894: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/net/ethernet/8390/mac8390.c:193: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/net/ethernet/8390/mac8390.c:206: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/net/ethernet/cisco/enic/enic_ethtool.c:437: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/net/ethernet/intel/ixgbe/ixgbe_x540.c:353: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/net/wireless/ath/ath9k/hw.c:2311: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/net/wireless/realtek/rtlwifi/rtl8188ee/hw.c:1230: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/net/wireless/realtek/rtlwifi/rtl8723ae/hw.c:1135: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/nfc/trf7970a.c:1385: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/nvdimm/claim.c:205: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/parport/parport_ip32.c:1862: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pci/controller/pci-v3-semi.c:664: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pci/hotplug/ibmphp_pci.c:297: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pci/hotplug/ibmphp_pci.c:1512: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pinctrl/pinctrl-rockchip.c:2718: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pinctrl/pinctrl-rockchip.c:2788: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pinctrl/samsung/pinctrl-s3c24xx.c:111: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pinctrl/samsung/pinctrl-s3c24xx.c:114: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pinctrl/samsung/pinctrl-s3c24xx.c:117: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pinctrl/samsung/pinctrl-s3c24xx.c:120: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pinctrl/samsung/pinctrl-s3c24xx.c:123: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/platform/x86/acer-wmi.c:795: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/platform/x86/sony-laptop.c:2470: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/platform/x86/sony-laptop.c:2476: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/platform/x86/wmi.c:1263: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/platform/x86/wmi.c:1266: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/platform/x86/wmi.c:1269: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pnp/pnpbios/rsparser.c:192: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pnp/pnpbios/rsparser.c:476: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/pnp/pnpbios/rsparser.c:745: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/power/supply/ipaq_micro_battery.c:98: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/power/supply/ipaq_micro_battery.c:101: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/power/supply/ipaq_micro_battery.c:104: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/power/supply/wm831x_power.c:671: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/s390/char/tape_34xx.c:654: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/s390/char/tape_3590.c:946: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/s390/scsi/zfcp_fc.c:980: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/s390/scsi/zfcp_fc.c:983: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/aic94xx/aic94xx_task.c:272: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/arcmsr/arcmsr_hba.c:2702: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/arcmsr/arcmsr_hba.c:2705: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/be2iscsi/be_mgmt.c:1251: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/be2iscsi/be_mgmt.c:1254: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/bfa/bfa_ioc.h:1001: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/bfa/bfa_ioc.h:1004: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/bfa/bfa_ioc.h:1007: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/bfa/bfa_ioc.h:1019: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/bfa/bfa_ioc.h:1022: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/bfa/bfa_ioc.h:1025: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/bnx2fc/bnx2fc_hwi.c:773: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/fcoe/fcoe.c:1897: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/hptiop.c:761: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/hpsa.c:7443: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/isci/phy.c:756: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/isci/phy.c:961: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/ipr.c:9490: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_debugfs.c:3347: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_debugfs.c:4387: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_debugfs.c:4439: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_debugfs.c:4453: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_debugfs.c:4495: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_debugfs.c:4520: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_debugfs.c:4523: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_scsi.c:4287: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_init.c:7189: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_sli.c:9192: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_sli.c:10075: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/lpfc/lpfc_sli.c:10237: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/mvumi.c:2299: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/nsp32.c:2114: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/nsp32.c:2125: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/qla2xxx/qla_mbx.c:4026: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/st.c:2849: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/scsi/sym53c8xx_2/sym_hipd.c:4599: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:907: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:910: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:913: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:916: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:998: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1035: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1322: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1699: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1702: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1705: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1708: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/tty/nozomi.c:417: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/tty/nozomi.c:421: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/tty/nozomi.c:463: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/tty/nozomi.c:471: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/tty/serial/imx.c:323: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/tty/serial/imx.c:334: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/tty/serial/imx.c:337: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/tty/serial/imx.c:340: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/tty/serial/imx.c:343: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/gadget/function/f_hid.c:516: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/gadget/function/f_hid.c:524: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/gadget/function/f_hid.c:530: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/gadget/function/f_hid.c:547: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/gadget/function/f_hid.c:565: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/gadget/function/f_hid.c:573: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/gadget/function/f_hid.c:579: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/gadget/function/f_hid.c:587: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/host/xhci-mem.c:1147: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/image/microtek.c:294: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/misc/iowarrior.c:387: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/misc/iowarrior.c:457: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/misc/iowarrior.c:464: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/misc/usblcd.c:190: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/serial/iuu_phoenix.c:853: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/serial/iuu_phoenix.c:867: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/usb/storage/freecom.c:434: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/video/fbdev/amifb.c:1212: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/video/fbdev/core/fbcon.c:1915: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/video/fbdev/core/fbcon.c:2006: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_ca91cx42.c:372: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_ca91cx42.c:681: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_ca91cx42.c:713: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_ca91cx42.c:1126: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_ca91cx42.c:1338: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_tsi148.c:509: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_tsi148.c:998: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_tsi148.c:1506: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_tsi148.c:1606: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_tsi148.c:1704: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_tsi148.c:1741: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/bridges/vme_tsi148.c:1967: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/vme.c:71: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/vme.c:182: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/vme.c:190: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/vme.c:193: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-drivers/vme/vme.c:197: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-fs/efs/inode.c:166: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-fs/ocfs2/cluster/tcp.c:1201: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-kernel/bpf/syscall.c:2786: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-samples/hidraw/hid-example.c:168: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-samples/hidraw/hid-example.c:171: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-samples/hidraw/hid-example.c:174: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-samples/hidraw/hid-example.c:177: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-samples/hidraw/hid-example.c:180: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-security/integrity/ima/ima_appraise.c:173: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-security/keys/trusted-keys/trusted_tpm1.c:904: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/oss/dmasound/dmasound_core.c:1002: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/oss/dmasound/dmasound_core.c:1006: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/oss/dmasound/dmasound_core.c:1023: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/oss/dmasound/dmasound_core.c:1047: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/oss/dmasound/dmasound_core.c:1126: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/oss/dmasound/dmasound_core.c:1261: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/echoaudio/midi.c:100: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/echoaudio/midi.c:104: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme32.c:471: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/rme9652.c:735: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/rme9652.c:739: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/rme9652.c:743: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/rme9652.c:747: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/rme9652.c:751: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/rme9652.c:755: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/rme9652.c:762: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/hdspm.c:2289: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/hdspm.c:2315: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/hdspm.c:2341: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/hdspm.c:2361: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/hdspm.c:3848: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/pci/rme9652/hdspm.c:3859: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/soc/codecs/wl1273.c:314: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/soc/intel/skylake/skl-pcm.c:505: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/soc/sh/hac.c:254: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-sound/soc/ti/davinci-mcasp.c:2388: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-tools/perf/ui/stdio/hist.c:401: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-tools/perf/ui/stdio/hist.c:404: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-tools/perf/util/probe-event.c:1516: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-tools/power/acpi/tools/acpidbg/acpidbg.c:412: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
-tools/power/acpi/tools/acpidbg/acpidbg.c:418: WARNING:UNNECESSARY_BREAK: break is not useful after a goto or return
 
 
+On Sat, 17 Oct 2020, Joe Perches wrote:
+
+> On Sat, 2020-10-17 at 09:09 -0700, trix@redhat.com wrote:
+> > From: Tom Rix <trix@redhat.com>
+> >
+> > This is a upcoming change to clean up a new warning treewide.
+> > I am wondering if the change could be one mega patch (see below) or
+> > normal patch per file about 100 patches or somewhere half way by collecting
+> > early acks.
+> >
+> > clang has a number of useful, new warnings see
+> > https://clang.llvm.org/docs/DiagnosticsReference.html
+> >
+> > This change cleans up -Wunreachable-code-break
+> > https://clang.llvm.org/docs/DiagnosticsReference.html#wunreachable-code-break
+> > for 266 of 485 warnings in this week's linux-next, allyesconfig on x86_64.
+>
+> Early acks/individual patches by subsystem would be good.
+> Better still would be an automated cocci script.
+
+Coccinelle is not especially good at this, because it is based on control
+flow, and a return or goto diverts the control flow away from the break.
+A hack to solve the problem is to put an if around the return or goto, but
+that gives the break a meaningless file name and line number.  I collected
+the following list, but it only has 439 results, so fewer than clang.  But
+maybe there are some files that are not considered by clang in the x86
+allyesconfig configuration.
+
+Probably checkpatch is the best solution here, since it is not
+configuration sensitive and doesn't care about control flow.
+
+julia
+
+drivers/scsi/mvumi.c: function mvumi_cfg_hw_reg line 114
+drivers/watchdog/geodewdt.c: function geodewdt_ioctl line 18
+drivers/media/usb/b2c2/flexcop-usb.c: function flexcop_usb_init line 21
+drivers/media/usb/b2c2/flexcop-usb.c: function flexcop_usb_memory_req line 20
+drivers/tty/nozomi.c: function write_mem32 line 17
+drivers/tty/nozomi.c: function write_mem32 line 25
+drivers/tty/nozomi.c: function read_mem32 line 17
+drivers/tty/nozomi.c: function read_mem32 line 21
+sound/soc/codecs/wl1273.c: function wl1273_startup line 27
+drivers/iio/adc/meson_saradc.c: function meson_sar_adc_iio_info_read_raw line 12
+drivers/iio/adc/meson_saradc.c: function meson_sar_adc_iio_info_read_raw line 19
+drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c: function map_transmitter_id_to_phy_instance line 6
+drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c: function map_transmitter_id_to_phy_instance line 9
+drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c: function map_transmitter_id_to_phy_instance line 12
+drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c: function map_transmitter_id_to_phy_instance line 15
+drivers/media/tuners/mt2063.c: function mt2063_init line 81
+drivers/nfc/st21nfca/core.c: function st21nfca_hci_im_transceive line 46
+arch/sh/boards/mach-landisk/gio.c: function gio_ioctl line 53
+drivers/gpu/drm/mgag200/mgag200_mode.c: function mgag200_crtc_set_plls line 11
+drivers/gpu/drm/mgag200/mgag200_mode.c: function mgag200_crtc_set_plls line 15
+drivers/gpu/drm/mgag200/mgag200_mode.c: function mgag200_crtc_set_plls line 18
+drivers/gpu/drm/mgag200/mgag200_mode.c: function mgag200_crtc_set_plls line 22
+drivers/gpu/drm/mgag200/mgag200_mode.c: function mgag200_crtc_set_plls line 25
+drivers/media/dvb-frontends/cx24117.c: function cx24117_attach line 16
+drivers/block/xen-blkback/blkback.c: function dispatch_rw_block_io line 48
+drivers/platform/x86/sony-laptop.c: function __sony_nc_gfx_switch_status_get line 16
+drivers/platform/x86/sony-laptop.c: function __sony_nc_gfx_switch_status_get line 22
+drivers/platform/x86/sony-laptop.c: function __sony_nc_gfx_switch_status_get line 31
+drivers/char/mwave/mwavedd.c: function mwave_ioctl line 288
+drivers/scsi/be2iscsi/be_mgmt.c: function beiscsi_adap_family_disp line 15
+drivers/scsi/be2iscsi/be_mgmt.c: function beiscsi_adap_family_disp line 19
+drivers/scsi/be2iscsi/be_mgmt.c: function beiscsi_adap_family_disp line 22
+drivers/scsi/be2iscsi/be_mgmt.c: function beiscsi_adap_family_disp line 27
+drivers/iio/imu/bmi160/bmi160_core.c: function bmi160_write_raw line 11
+drivers/block/z2ram.c: function z2_open line 138
+drivers/net/wireless/realtek/rtlwifi/rtl8723ae/hw.c: function _rtl8723e_set_media_status line 38
+samples/hidraw/hid-example.c: function bus_str line 6
+samples/hidraw/hid-example.c: function bus_str line 9
+samples/hidraw/hid-example.c: function bus_str line 12
+samples/hidraw/hid-example.c: function bus_str line 15
+samples/hidraw/hid-example.c: function bus_str line 18
+drivers/scsi/ipr.c: function ipr_pci_error_detected line 10
+drivers/gpio/gpio-bd70528.c: function bd70528_gpio_set_config line 11
+drivers/gpio/gpio-bd70528.c: function bd70528_gpio_set_config line 17
+drivers/gpio/gpio-bd70528.c: function bd70528_gpio_set_config line 21
+drivers/pinctrl/pinctrl-rockchip.c: function rockchip_pinconf_get line 71
+drivers/pinctrl/pinctrl-rockchip.c: function rockchip_pinconf_set line 74
+drivers/gpu/drm/amd/display/include/signal_types.h: function dc_is_dvi_signal line 6
+security/keys/trusted-keys/trusted_tpm1.c: function datablob_parse line 63
+arch/x86/math-emu/fpu_trig.c: function fyl2xp1 line 71
+drivers/usb/gadget/function/f_hid.c: function hidg_setup line 26
+drivers/usb/gadget/function/f_hid.c: function hidg_setup line 34
+drivers/usb/gadget/function/f_hid.c: function hidg_setup line 40
+drivers/usb/gadget/function/f_hid.c: function hidg_setup line 58
+drivers/usb/gadget/function/f_hid.c: function hidg_setup line 76
+drivers/usb/gadget/function/f_hid.c: function hidg_setup line 84
+drivers/usb/gadget/function/f_hid.c: function hidg_setup line 90
+drivers/usb/gadget/function/f_hid.c: function hidg_setup line 98
+drivers/staging/rts5208/rtsx_scsi.c: function start_stop_unit line 29
+drivers/platform/x86/wmi.c: function acpi_wmi_ec_space_handler line 31
+drivers/platform/x86/wmi.c: function acpi_wmi_ec_space_handler line 34
+drivers/platform/x86/wmi.c: function acpi_wmi_ec_space_handler line 37
+drivers/nvdimm/claim.c: function nd_namespace_store line 72
+sound/soc/ti/davinci-mcasp.c: function davinci_mcasp_probe line 265
+drivers/gpu/drm/nouveau/nvkm/subdev/clk/mcp77.c: function mcp77_clk_read line 66
+drivers/gpu/drm/nouveau/nvkm/subdev/clk/mcp77.c: function mcp77_clk_read line 73
+drivers/gpu/drm/nouveau/nvkm/subdev/clk/mcp77.c: function mcp77_clk_read line 76
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 3
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 4
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 5
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 6
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 7
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 8
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 9
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 10
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 11
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 12
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 13
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 14
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 15
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 16
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 17
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 18
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 19
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 20
+tools/testing/selftests/powerpc/pmu/ebb/trace.c: function trace_decode_reg line 21
+drivers/media/usb/pwc/pwc-if.c: function usb_pwc_probe line 91
+drivers/media/usb/pwc/pwc-if.c: function usb_pwc_probe line 103
+drivers/media/usb/pwc/pwc-if.c: function usb_pwc_probe line 162
+drivers/media/usb/pwc/pwc-if.c: function usb_pwc_probe line 188
+drivers/media/usb/pwc/pwc-if.c: function usb_pwc_probe line 207
+drivers/media/usb/pwc/pwc-if.c: function usb_pwc_probe line 219
+drivers/media/usb/pwc/pwc-if.c: function usb_pwc_probe line 232
+drivers/media/usb/pwc/pwc-if.c: function usb_pwc_probe line 250
+drivers/media/dvb-frontends/drx39xyj/drxj.c: function ctrl_set_standard line 76
+drivers/media/dvb-frontends/drx39xyj/drxj.c: function ctrl_set_uio_cfg line 65
+drivers/media/dvb-frontends/drx39xyj/drxj.c: function ctrl_set_uio_cfg line 90
+drivers/media/dvb-frontends/drx39xyj/drxj.c: function ctrl_set_uio_cfg line 115
+drivers/media/dvb-frontends/drx39xyj/drxj.c: function hi_command line 52
+drivers/media/dvb-frontends/drx39xyj/drxj.c: function get_device_capabilities line 182
+drivers/media/dvb-frontends/drx39xyj/drxj.c: function ctrl_power_mode line 40
+drivers/media/dvb-frontends/drx39xyj/drxj.c: function drx_ctrl_u_code line 159
+drivers/macintosh/via-pmu-led.c: function pmu_led_set line 15
+drivers/net/wan/lmc/lmc_proto.c: function lmc_proto_type line 5
+drivers/net/wan/lmc/lmc_proto.c: function lmc_proto_type line 8
+drivers/net/wan/lmc/lmc_proto.c: function lmc_proto_type line 11
+drivers/net/wan/lmc/lmc_proto.c: function lmc_proto_type line 15
+drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c: function rtl8812ae_phy_config_rf_with_headerfile line 20
+drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c: function rtl8812ae_phy_config_rf_with_headerfile line 26
+drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c: function rtl8821ae_phy_config_rf_with_headerfile line 18
+arch/mips/loongson2ef/common/cs5536/cs5536_isa.c: function pci_isa_read_reg line 48
+arch/mips/loongson2ef/common/cs5536/cs5536_isa.c: function pci_isa_read_reg line 51
+arch/mips/loongson2ef/common/cs5536/cs5536_isa.c: function pci_isa_read_reg line 54
+arch/mips/loongson2ef/common/cs5536/cs5536_isa.c: function pci_isa_read_reg line 59
+arch/mips/loongson2ef/common/cs5536/cs5536_isa.c: function pci_isa_read_reg line 62
+arch/mips/include/asm/mach-au1x00/au1000.h: function alchemy_get_cputype line 5
+arch/mips/include/asm/mach-au1x00/au1000.h: function alchemy_get_cputype line 8
+arch/mips/include/asm/mach-au1x00/au1000.h: function alchemy_get_cputype line 11
+arch/mips/include/asm/mach-au1x00/au1000.h: function alchemy_get_cputype line 14
+arch/mips/include/asm/mach-au1x00/au1000.h: function alchemy_get_cputype line 18
+arch/mips/include/asm/mach-au1x00/au1000.h: function alchemy_get_cputype line 21
+arch/x86/kernel/cpu/microcode/amd.c: function __verify_patch_size line 21
+drivers/scsi/aic94xx/aic94xx_task.c: function asd_task_tasklet_complete line 78
+drivers/parport/parport_ip32.c: function parport_ip32_fifo_supported line 27
+drivers/staging/comedi/drivers/ni_mio_common.c: function ni_serial_insn_config line 90
+drivers/power/supply/ipaq_micro_battery.c: function get_capacity line 7
+drivers/power/supply/ipaq_micro_battery.c: function get_capacity line 10
+drivers/power/supply/ipaq_micro_battery.c: function get_capacity line 13
+drivers/net/wireless/marvell/mwifiex/cfg80211.c: function mwifiex_cfg80211_change_virtual_intf line 95
+drivers/net/wireless/marvell/mwifiex/cfg80211.c: function mwifiex_cfg80211_change_virtual_intf line 143
+fs/ocfs2/cluster/tcp.c: function o2net_process_message line 33
+drivers/scsi/hpsa.c: function find_PCI_BAR_index line 27
+drivers/s390/char/tape_34xx.c: function tape_34xx_unit_check line 351
+drivers/scsi/nsp32.c: function nsp32_msgin_occur line 193
+drivers/scsi/nsp32.c: function nsp32_msgin_occur line 204
+drivers/scsi/nsp32.c: function nsp32_msgin_occur line 215
+drivers/scsi/nsp32.c: function nsp32_msgin_occur line 220
+drivers/usb/misc/iowarrior.c: function iowarrior_write line 44
+drivers/usb/misc/iowarrior.c: function iowarrior_write line 114
+drivers/usb/misc/iowarrior.c: function iowarrior_write line 121
+drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c: function map_transmitter_id_to_phy_instance line 6
+drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c: function map_transmitter_id_to_phy_instance line 9
+drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c: function map_transmitter_id_to_phy_instance line 12
+drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c: function map_transmitter_id_to_phy_instance line 15
+drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c: function map_transmitter_id_to_phy_instance line 18
+drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c: function map_transmitter_id_to_phy_instance line 21
+drivers/gpu/drm/amd/display/dc/dce100/dce100_resource.c: function map_transmitter_id_to_phy_instance line 24
+drivers/usb/image/microtek.c: function mts_show_command line 72
+security/safesetid/lsm.c: function safesetid_security_capable line 41
+security/safesetid/lsm.c: function safesetid_security_capable line 57
+security/safesetid/lsm.c: function safesetid_security_capable line 61
+arch/powerpc/net/bpf_jit_comp.c: function bpf_jit_build_body line 345
+arch/mips/rb532/setup.c: function get_system_type line 5
+arch/mips/rb532/setup.c: function get_system_type line 8
+sound/soc/intel/skylake/skl-pcm.c: function skl_pcm_trigger line 46
+drivers/scsi/pcmcia/nsp_cs.c: function nspintr line 151
+drivers/usb/storage/freecom.c: function freecom_transport line 220
+drivers/gpu/drm/radeon/radeon_i2c.c: function r100_hw_i2c_xfer line 133
+drivers/power/supply/wm831x_power.c: function wm831x_power_probe line 141
+drivers/platform/x86/acer-wmi.c: function AMW0_set_u32 line 34
+drivers/scsi/bnx2fc/bnx2fc_hwi.c: function bnx2fc_process_unsol_compl line 150
+drivers/isdn/mISDN/dsp_dtmf.c: function dsp_dtmf_goertzel_decode line 57
+drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c: function map_transmitter_id_to_phy_instance line 6
+drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c: function map_transmitter_id_to_phy_instance line 9
+drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c: function map_transmitter_id_to_phy_instance line 12
+drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c: function map_transmitter_id_to_phy_instance line 15
+drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c: function map_transmitter_id_to_phy_instance line 18
+drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c: function map_transmitter_id_to_phy_instance line 21
+drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c: function map_transmitter_id_to_phy_instance line 24
+drivers/s390/scsi/zfcp_fc.c: function zfcp_fc_job_wka_port line 22
+drivers/s390/scsi/zfcp_fc.c: function zfcp_fc_job_wka_port line 25
+drivers/media/dvb-frontends/stv0900_core.c: function stv0900_attach line 52
+drivers/net/ethernet/intel/ixgbe/ixgbe_x540.c: function ixgbe_calc_eeprom_checksum_X540 line 47
+drivers/scsi/isci/phy.c: function sci_phy_event_handler line 72
+drivers/scsi/isci/phy.c: function sci_phy_event_handler line 277
+drivers/vme/vme.c: function find_bridge line 8
+drivers/vme/vme.c: function find_bridge line 13
+drivers/vme/vme.c: function find_bridge line 18
+drivers/vme/vme.c: function find_bridge line 23
+drivers/vme/vme.c: function find_bridge line 27
+drivers/vme/vme.c: function vme_get_size line 16
+drivers/vme/vme.c: function vme_get_size line 25
+drivers/vme/vme.c: function vme_get_size line 28
+drivers/vme/vme.c: function vme_get_size line 32
+drivers/scsi/lpfc/lpfc_debugfs.c: function lpfc_idiag_pcicfg_read line 59
+drivers/scsi/lpfc/lpfc_debugfs.c: function lpfc_idiag_queacc_write line 64
+drivers/scsi/lpfc/lpfc_debugfs.c: function lpfc_idiag_queacc_write line 120
+drivers/scsi/lpfc/lpfc_debugfs.c: function lpfc_idiag_queacc_write line 135
+drivers/scsi/lpfc/lpfc_debugfs.c: function lpfc_idiag_queacc_write line 180
+drivers/scsi/lpfc/lpfc_debugfs.c: function lpfc_idiag_queacc_write line 207
+drivers/scsi/lpfc/lpfc_debugfs.c: function lpfc_idiag_queacc_write line 210
+drivers/gpu/drm/qxl/qxl_ioctl.c: function qxl_process_single_command line 21
+drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c: function map_transmitter_id_to_phy_instance line 6
+drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c: function map_transmitter_id_to_phy_instance line 9
+drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c: function map_transmitter_id_to_phy_instance line 12
+drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c: function map_transmitter_id_to_phy_instance line 15
+drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c: function map_transmitter_id_to_phy_instance line 18
+drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c: function map_transmitter_id_to_phy_instance line 21
+drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c: function map_transmitter_id_to_phy_instance line 24
+drivers/net/wireless/ath/ath10k/htt_rx.c: function ath10k_htt_t2h_msg_handler line 119
+drivers/gpu/drm/nouveau/nvkm/subdev/bios/pll.c: function pll_map line 11
+drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramnv50.c: function nv50_ram_timing_read line 24
+sound/pci/rme9652/rme9652.c: function rme9652_spdif_sample_rate line 34
+sound/pci/rme9652/rme9652.c: function rme9652_spdif_sample_rate line 38
+sound/pci/rme9652/rme9652.c: function rme9652_spdif_sample_rate line 42
+sound/pci/rme9652/rme9652.c: function rme9652_spdif_sample_rate line 46
+sound/pci/rme9652/rme9652.c: function rme9652_spdif_sample_rate line 50
+sound/pci/rme9652/rme9652.c: function rme9652_spdif_sample_rate line 54
+sound/pci/rme9652/rme9652.c: function rme9652_spdif_sample_rate line 61
+drivers/gpu/drm/amd/amdgpu/dce_v11_0.c: function dce_v11_0_pick_dig_encoder line 32
+drivers/media/usb/go7007/go7007-usb.c: function go7007_usb_probe line 58
+drivers/pnp/pnpbios/rsparser.c: function pnpbios_encode_allocated_resource_data line 95
+drivers/pnp/pnpbios/rsparser.c: function pnpbios_parse_compatible_ids line 48
+drivers/pnp/pnpbios/rsparser.c: function pnpbios_parse_allocated_resource_data line 120
+drivers/net/wireless/ath/ath6kl/testmode.c: function ath6kl_tm_cmd line 31
+drivers/misc/mei/hbm.c: function mei_hbm_dispatch line 277
+drivers/scsi/hptiop.c: function hptiop_finish_scsi_req line 45
+drivers/pinctrl/samsung/pinctrl-s3c24xx.c: function s3c24xx_eint_get_trigger line 5
+drivers/pinctrl/samsung/pinctrl-s3c24xx.c: function s3c24xx_eint_get_trigger line 8
+drivers/pinctrl/samsung/pinctrl-s3c24xx.c: function s3c24xx_eint_get_trigger line 11
+drivers/pinctrl/samsung/pinctrl-s3c24xx.c: function s3c24xx_eint_get_trigger line 14
+drivers/pinctrl/samsung/pinctrl-s3c24xx.c: function s3c24xx_eint_get_trigger line 17
+drivers/base/power/main.c: function pm_op line 18
+kernel/bpf/syscall.c: function attach_type_to_prog_type line 7
+drivers/pci/hotplug/ibmphp_pci.c: function ibmphp_configure_card line 234
+drivers/pci/hotplug/ibmphp_pci.c: function unconfigure_boot_card line 96
+drivers/scsi/fcoe/fcoe.c: function fcoe_device_notification line 54
+drivers/scsi/lpfc/lpfc_sli.c: function lpfc_mbox_api_table_setup line 26
+drivers/scsi/lpfc/lpfc_sli.c: function lpfc_sli_api_table_setup line 18
+drivers/scsi/lpfc/lpfc_sli.c: function lpfc_sli4_iocb2wqe line 567
+drivers/media/dvb-frontends/drxd_hard.c: function CorrectSysClockDeviation line 43
+tools/perf/util/probe-event.c: function parse_perf_probe_point line 174
+drivers/scsi/bfa/bfa_ioc.h: function bfa_cb_image_get_chunk line 6
+drivers/scsi/bfa/bfa_ioc.h: function bfa_cb_image_get_chunk line 9
+drivers/scsi/bfa/bfa_ioc.h: function bfa_cb_image_get_chunk line 12
+drivers/scsi/bfa/bfa_ioc.h: function bfa_cb_image_get_size line 6
+drivers/scsi/bfa/bfa_ioc.h: function bfa_cb_image_get_size line 9
+drivers/scsi/bfa/bfa_ioc.h: function bfa_cb_image_get_size line 12
+drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c: function map_transmitter_id_to_phy_instance line 6
+drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c: function map_transmitter_id_to_phy_instance line 9
+drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c: function map_transmitter_id_to_phy_instance line 12
+drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c: function map_transmitter_id_to_phy_instance line 15
+drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c: function map_transmitter_id_to_phy_instance line 18
+drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c: function map_transmitter_id_to_phy_instance line 21
+drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c: function map_transmitter_id_to_phy_instance line 24
+drivers/net/wireless/realtek/rtlwifi/rtl8188ee/hw.c: function _rtl88ee_set_media_status line 35
+sound/oss/dmasound/dmasound_core.c: function sq_ioctl line 12
+sound/oss/dmasound/dmasound_core.c: function sq_ioctl line 16
+sound/oss/dmasound/dmasound_core.c: function sq_ioctl line 33
+sound/oss/dmasound/dmasound_core.c: function sq_ioctl line 57
+sound/oss/dmasound/dmasound_core.c: function sq_ioctl line 143
+sound/oss/dmasound/dmasound_core.c: function get_afmt_string line 5
+sound/oss/dmasound/dmasound_core.c: function get_afmt_string line 8
+sound/oss/dmasound/dmasound_core.c: function get_afmt_string line 11
+sound/oss/dmasound/dmasound_core.c: function get_afmt_string line 14
+sound/oss/dmasound/dmasound_core.c: function get_afmt_string line 17
+sound/oss/dmasound/dmasound_core.c: function get_afmt_string line 20
+sound/oss/dmasound/dmasound_core.c: function get_afmt_string line 23
+sound/oss/dmasound/dmasound_core.c: function get_afmt_string line 26
+sound/oss/dmasound/dmasound_core.c: function get_afmt_string line 29
+drivers/s390/char/tape_3590.c: function tape_3590_erp_read_opposite line 15
+drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c: function map_transmitter_id_to_phy_instance line 6
+drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c: function map_transmitter_id_to_phy_instance line 9
+drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c: function map_transmitter_id_to_phy_instance line 12
+drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c: function map_transmitter_id_to_phy_instance line 15
+drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c: function map_transmitter_id_to_phy_instance line 18
+drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c: function map_transmitter_id_to_phy_instance line 21
+drivers/gpu/drm/amd/display/dc/dce80/dce80_resource.c: function map_transmitter_id_to_phy_instance line 24
+drivers/media/usb/ttusb-dec/ttusb_dec.c: function ttusb_dec_start_feed line 16
+drivers/media/usb/ttusb-dec/ttusb_dec.c: function ttusb_dec_start_feed line 20
+drivers/media/usb/ttusb-dec/ttusb_dec.c: function ttusb_dec_stop_feed line 7
+drivers/media/usb/ttusb-dec/ttusb_dec.c: function ttusb_dec_stop_feed line 11
+drivers/net/ethernet/cisco/enic/enic_ethtool.c: function enic_grxclsrule line 19
+security/integrity/ima/ima_appraise.c: function ima_get_hash_algo line 18
+sound/pci/rme9652/hdspm.c: function hdspm_get_aes_sample_rate line 8
+sound/pci/rme9652/hdspm.c: function hdspm_wc_sync_check line 16
+sound/pci/rme9652/hdspm.c: function hdspm_wc_sync_check line 29
+sound/pci/rme9652/hdspm.c: function hdspm_wc_sync_check line 43
+sound/pci/rme9652/hdspm.c: function hdspm_get_tco_sample_rate line 10
+sound/pci/rme9652/hdspm.c: function hdspm_get_sync_in_sample_rate line 10
+sound/pci/rme9652/hdspm.c: function hdspm_get_wc_sample_rate line 9
+drivers/nfc/trf7970a.c: function trf7970a_is_iso15693_write_or_lock line 11
+drivers/media/usb/gspca/pac_common.h: function pac_find_sof line 45
+drivers/net/ethernet/aquantia/atlantic/aq_nic.c: function aq_nic_set_link_ksettings line 46
+drivers/scsi/lpfc/lpfc_scsi.c: function lpfc_scsi_api_table_setup line 25
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_readreg_multibyte line 18
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_readreg_multibyte line 41
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_readreg_multibyte line 44
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_writereg_multibyte line 30
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_writereg_multibyte line 54
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_setup_frontend_parameters line 33
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_setup_frontend_parameters line 58
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_setup_frontend_parameters line 72
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_setup_frontend_parameters line 88
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_setup_frontend_parameters line 104
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_setup_frontend_parameters line 116
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_setup_frontend_parameters line 142
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_setup_frontend_parameters line 198
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_setup_frontend_parameters line 220
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_init line 15
+drivers/media/dvb-frontends/nxt200x.c: function nxt200x_writetuner line 57
+drivers/tty/serial/imx.c: function imx_uart_readl line 5
+drivers/tty/serial/imx.c: function imx_uart_readl line 16
+drivers/tty/serial/imx.c: function imx_uart_readl line 19
+drivers/tty/serial/imx.c: function imx_uart_readl line 22
+drivers/tty/serial/imx.c: function imx_uart_readl line 25
+drivers/crypto/atmel-sha.c: function atmel_sha_init line 37
+drivers/edac/amd64_edac.c: function map_err_sym_to_channel line 7
+drivers/edac/amd64_edac.c: function map_err_sym_to_channel line 11
+drivers/edac/amd64_edac.c: function map_err_sym_to_channel line 14
+drivers/edac/amd64_edac.c: function map_err_sym_to_channel line 24
+drivers/edac/amd64_edac.c: function map_err_sym_to_channel line 28
+drivers/edac/amd64_edac.c: function map_err_sym_to_channel line 31
+drivers/edac/amd64_edac.c: function map_err_sym_to_channel line 34
+drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c: function map_transmitter_id_to_phy_instance line 6
+drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c: function map_transmitter_id_to_phy_instance line 9
+drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c: function map_transmitter_id_to_phy_instance line 12
+drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c: function map_transmitter_id_to_phy_instance line 15
+drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c: function map_transmitter_id_to_phy_instance line 18
+drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c: function map_transmitter_id_to_phy_instance line 21
+drivers/gpu/drm/amd/display/dc/dce60/dce60_resource.c: function map_transmitter_id_to_phy_instance line 24
+drivers/scsi/st.c: function st_int_ioctl line 155
+drivers/infiniband/hw/cxgb4/qp.c: function c4iw_modify_qp line 146
+drivers/infiniband/hw/cxgb4/qp.c: function c4iw_modify_qp line 195
+drivers/infiniband/hw/cxgb4/qp.c: function c4iw_modify_qp line 200
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function mcp251xfd_get_mode_str line 4
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function mcp251xfd_get_mode_str line 6
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function mcp251xfd_get_mode_str line 8
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function mcp251xfd_get_mode_str line 10
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function mcp251xfd_get_mode_str line 12
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function mcp251xfd_get_mode_str line 14
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function mcp251xfd_get_mode_str line 16
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function mcp251xfd_get_mode_str line 18
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function __mcp251xfd_get_model_str line 4
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function __mcp251xfd_get_model_str line 6
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c: function __mcp251xfd_get_model_str line 8
+drivers/ata/libata-scsi.c: function ata_get_xlat_func line 35
+drivers/char/ipmi/ipmi_devintf.c: function ipmi_ioctl line 201
+arch/arm/nwfpe/fpa11_cprt.c: function EmulateCPRT line 15
+arch/arm/nwfpe/fpa11_cprt.c: function EmulateCPRT line 18
+drivers/vme/bridges/vme_ca91cx42.c: function ca91cx42_dma_list_add line 108
+drivers/vme/bridges/vme_ca91cx42.c: function ca91cx42_master_set line 92
+drivers/vme/bridges/vme_ca91cx42.c: function ca91cx42_master_set line 124
+drivers/vme/bridges/vme_ca91cx42.c: function ca91cx42_slave_set line 39
+drivers/vme/bridges/vme_ca91cx42.c: function ca91cx42_lm_set line 45
+drivers/scsi/sym53c8xx_2/sym_hipd.c: function sym_int_sir line 230
+drivers/gpu/drm/radeon/r300.c: function r300_packet0_check line 534
+drivers/gpu/drm/amd/amdgpu/atombios_encoders.c: function amdgpu_atombios_encoder_get_encoder_mode line 70
+drivers/gpu/drm/amd/amdgpu/atombios_encoders.c: function amdgpu_atombios_encoder_get_encoder_mode line 96
+drivers/gpu/drm/amd/amdgpu/atombios_encoders.c: function amdgpu_atombios_encoder_get_encoder_mode line 103
+drivers/media/dvb-frontends/si21xx.c: function si21xx_set_voltage line 15
+drivers/media/dvb-frontends/si21xx.c: function si21xx_set_voltage line 18
+drivers/staging/vme/devices/vme_user.c: function vme_user_ioctl line 75
+drivers/staging/vme/devices/vme_user.c: function vme_user_ioctl line 119
+drivers/mmc/host/atmel-mci.c: function atmci_tasklet_func line 197
+drivers/irqchip/irq-mips-gic.c: function gic_ipi_domain_match line 9
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_buffer_configuration line 47
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_buffer_configuration line 84
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_system_configure_channel line 14
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_system_configure_channel line 17
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_system_configure_channel line 20
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_system_configure_channel line 23
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function configuration_to_registers line 83
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_system_configure_channel_sensor line 82
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_system_configure_channel_sensor line 85
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_system_configure_channel_sensor line 88
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: function input_system_configure_channel_sensor line 91
+drivers/net/ethernet/8390/mac8390.c: function mac8390_ident line 27
+drivers/net/ethernet/8390/mac8390.c: function mac8390_ident line 42
+drivers/irqchip/irq-crossbar.c: function crossbar_of_init line 100
+drivers/mtd/devices/ms02-nv.c: function ms02nv_init line 21
+arch/powerpc/platforms/cell/spufs/switch.c: function __do_spu_restore line 21
+arch/powerpc/platforms/cell/spufs/switch.c: function __do_spu_save line 23
+arch/powerpc/include/asm/kvm_book3s_64.h: function kvmppc_hpte_page_shifts line 11
+arch/powerpc/include/asm/kvm_book3s_64.h: function kvmppc_hpte_page_shifts line 14
+arch/powerpc/include/asm/kvm_book3s_64.h: function kvmppc_hpte_page_shifts line 17
+arch/powerpc/include/asm/kvm_book3s_64.h: function kvmppc_hpte_page_shifts line 20
+arch/x86/kernel/cpu/mce/core.c: function __mcheck_cpu_ancient_init line 10
+arch/x86/kernel/cpu/mce/core.c: function __mcheck_cpu_ancient_init line 14
+sound/pci/echoaudio/midi.c: function mtc_process_data line 10
+sound/pci/echoaudio/midi.c: function mtc_process_data line 14
+sound/pci/rme32.c: function snd_rme32_capture_getrate line 36
+tools/power/acpi/tools/acpidbg/acpidbg.c: function main line 33
+tools/power/acpi/tools/acpidbg/acpidbg.c: function main line 39
+drivers/scsi/lpfc/lpfc_init.c: function lpfc_init_api_table_setup line 22
+drivers/gpu/drm/amd/amdgpu/dce_v10_0.c: function dce_v10_0_pick_dig_encoder line 32
+drivers/acpi/utils.c: function acpi_extract_package line 66
+drivers/acpi/utils.c: function acpi_extract_package line 91
+drivers/acpi/utils.c: function acpi_extract_package line 106
+drivers/acpi/utils.c: function acpi_extract_package line 117
+drivers/char/lp.c: function lp_do_ioctl line 48
+drivers/mtd/mtdchar.c: function mtdchar_ioctl line 265
+drivers/mtd/mtdchar.c: function mtdchar_ioctl line 276
+arch/x86/kvm/emulate.c: function writeback line 26
+drivers/usb/host/xhci-mem.c: function xhci_setup_addressable_virt_dev line 46
+drivers/media/usb/tm6000/tm6000-core.c: function tm6000_set_audio_rinput line 26
+drivers/media/usb/tm6000/tm6000-core.c: function tm6000_set_audio_rinput line 48
+drivers/media/usb/tm6000/tm6000-core.c: function tm6000_tvaudio_set_mute line 26
+drivers/media/dvb-frontends/dib0090.c: function dib0090_fw_identify line 79
+drivers/media/dvb-frontends/dib0090.c: function dib0090_identify line 81
+drivers/net/dsa/b53/b53_common.c: function b53_switch_init line 46
+drivers/net/wireless/intel/iwlwifi/mvm/mac-ctxt.c: function iwl_mvm_mac_ctx_send line 9
+drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c: function map_transmitter_id_to_phy_instance line 6
+drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c: function map_transmitter_id_to_phy_instance line 9
+drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c: function map_transmitter_id_to_phy_instance line 12
+drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c: function map_transmitter_id_to_phy_instance line 15
+drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c: function map_transmitter_id_to_phy_instance line 18
+sound/soc/sh/hac.c: function hac_hw_params line 19
+drivers/gpu/drm/radeon/atombios_encoders.c: function atombios_get_encoder_mode line 83
+drivers/gpu/drm/radeon/atombios_encoders.c: function atombios_get_encoder_mode line 119
+drivers/gpu/drm/radeon/atombios_encoders.c: function atombios_get_encoder_mode line 126
+drivers/pci/controller/pci-v3-semi.c: function v3_get_dma_range_config line 64
+drivers/video/fbdev/amifb.c: function amifb_probe line 90
+drivers/video/fbdev/amifb.c: function ami_decode_var line 84
+fs/efs/inode.c: function efs_iget line 120
+drivers/vme/bridges/vme_tsi148.c: function tsi148_dma_list_add line 81
+drivers/vme/bridges/vme_tsi148.c: function tsi148_dma_list_add line 119
+drivers/vme/bridges/vme_tsi148.c: function tsi148_master_set line 191
+drivers/vme/bridges/vme_tsi148.c: function tsi148_slave_set line 38
+drivers/vme/bridges/vme_tsi148.c: function tsi148_dma_set_vme_dest_attributes line 87
+drivers/vme/bridges/vme_tsi148.c: function tsi148_dma_set_vme_src_attributes line 87
+drivers/vme/bridges/vme_tsi148.c: function tsi148_lm_set line 41
+net/ipv4/fib_frontend.c: function fib_gw_from_via line 35
+arch/arm/mach-s3c/mach-rx1950.c: function rx1950_led_blink_set line 17
+tools/perf/ui/stdio/hist.c: function hist_entry_callchain__fprintf line 15
+tools/perf/ui/stdio/hist.c: function hist_entry_callchain__fprintf line 21
+tools/perf/ui/stdio/hist.c: function hist_entry_callchain__fprintf line 24
+tools/perf/ui/stdio/hist.c: function hist_entry_callchain__fprintf line 27
+drivers/usb/serial/iuu_phoenix.c: function iuu_uart_baud line 74
+drivers/usb/serial/iuu_phoenix.c: function iuu_uart_baud line 88
+drivers/gpu/drm/amd/amdgpu/dce_v8_0.c: function dce_v8_0_pick_dig_encoder line 32
+drivers/net/hyperv/netvsc.c: function netvsc_process_raw_pkt line 19
+drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c: function map_transmitter_id_to_phy_instance line 6
+drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c: function map_transmitter_id_to_phy_instance line 9
+drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c: function map_transmitter_id_to_phy_instance line 12
+drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c: function map_transmitter_id_to_phy_instance line 15
+drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c: function map_transmitter_id_to_phy_instance line 18
+drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c: function map_transmitter_id_to_phy_instance line 21
+drivers/cpufreq/e_powersaver.c: function eps_cpu_init line 55
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
