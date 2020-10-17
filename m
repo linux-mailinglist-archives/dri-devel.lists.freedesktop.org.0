@@ -2,37 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DC62911D6
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 14:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9968229129E
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Oct 2020 17:23:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE7B6E0A1;
-	Sat, 17 Oct 2020 12:25:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F32AB6E0AF;
+	Sat, 17 Oct 2020 15:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF6F46E0A1
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Oct 2020 12:25:10 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id DEA978055B;
- Sat, 17 Oct 2020 14:25:07 +0200 (CEST)
-Date: Sat, 17 Oct 2020 14:25:06 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Yang Yingliang <yangyingliang@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] vgacon: fix a UAF in do_update_region()
-Message-ID: <20201017122506.GA2838103@ravnborg.org>
-References: <20200713110445.553974-1-yangyingliang@huawei.com>
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 946A76E0AF
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Oct 2020 15:23:18 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id n11so177344ota.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Oct 2020 08:23:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fgqV0JYXBVzJNxXWuMdGDsbblsxsbODpdYuC9k9q6zM=;
+ b=KRyOKsaCgyQN/22au7BX7bJzYEo5A0NkbOZgpQM1Qv3pCjHGxjvkvP6ZlnhLmsfSwe
+ enft53b+tLzcDwxtlS5xlRZxslCDs49wVlI0yiKhG+AytzxLopBGEShS57S9YXcgxgKH
+ p4MOVTaB7GGnHUz2cQEJ0WLxbdOfRo4lGY7Dc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fgqV0JYXBVzJNxXWuMdGDsbblsxsbODpdYuC9k9q6zM=;
+ b=OpB2j8RESGUtWrlVDmpFlJrDlsMUXO68E6iFTqMdKgMH2hAG2vocPPc3uzXiEbUuk4
+ dyOEGa4FOl/QD1WSLuyMxXFbuppuEV/vRlpe/Tq898VJC0xbY8WbuGDyMHHEqNTN+SNI
+ hvViF6mggbGu8EES4BJ5bBvnlvrMdit2XbwBqk8M0hmsmwbsFhB33jKvUlcZZdiiDWBS
+ svQ1/T1T5o4Enm3bEBUouc74v1ryfUxBSObZETI4M+SmF0g48btBU0ygP7AFPFyUeJid
+ aAIwBzEc5EV4jPdcUUQFwG2ZHzCfE9Hug5z20XHI62WpU/ccTnd9006cfRRziL65W1Kx
+ Ketw==
+X-Gm-Message-State: AOAM531nISIzC22ACldEEiHxeeOka5LdjL8n+JpEBG+VeiKhpw6olThw
+ XD5ezCqYNyE0Z1sVz8ix3uCNzf84QnWi+rOBj1QyRA==
+X-Google-Smtp-Source: ABdhPJw+N+Y0C4tbdqxbbySs05qCEakiirDqabvyxgxS9/DOKD+2fX9wxSFGIoNdblNbohZTMKHNhGSfwWT03mJrxI0=
+X-Received: by 2002:a05:6830:1c3c:: with SMTP id
+ f28mr6750020ote.188.1602948197635; 
+ Sat, 17 Oct 2020 08:23:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200713110445.553974-1-yangyingliang@huawei.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=ID6ng7r3AAAA:8 a=i0EeH86SAAAA:8 a=e5mUnYsNAAAA:8
- a=PHTwHYtFXg1mRD0ZxZcA:9 a=CjuIK1q_8ugA:10 a=-RoEEKskQ1sA:10
- a=AkheI1RvQwOzcTXhi5f4:22 a=Vxmtnl_E_bksehYqCbjh:22
+References: <20201009232156.3916879-1-daniel.vetter@ffwll.ch>
+ <UQ4Aj6rvEUPvWt1cTYlNRLNoawlAIGTCnzstzNkRjZkv_NH-jIpnL7Xt9kGALYGc1M0RzZS0BcdvTb0V4przOwP8UBG_Xm6q2yRjCi3n-QE=@emersion.fr>
+ <CAKMK7uFtesxom12TL4MX2rAb2eW2nEmh5gfeCG-wVAyfNvkGRw@mail.gmail.com>
+ <20201016170203.53wjzysqh2p7rfry@smtp.gmail.com>
+ <CAKMK7uGm6tiQmn34PeJC=0r7NUmHpYtTbXVcOfDdQ=vwJiqMRw@mail.gmail.com>
+ <20201017083940.xlq6g3visn2gojuu@smtp.gmail.com>
+In-Reply-To: <20201017083940.xlq6g3visn2gojuu@smtp.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Sat, 17 Oct 2020 17:23:06 +0200
+Message-ID: <CAKMK7uFq2kL2Owt_ZtTD6HR5UmpuGUpB+Derumm6v+SinGrsdA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/vkms: Set preferred depth correctly
+To: Melissa Wen <melissa.srw@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,103 +63,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, b.zolnierkie@samsung.com
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yang.
+On Sat, Oct 17, 2020 at 10:39 AM Melissa Wen <melissa.srw@gmail.com> wrote:
+>
+> On 10/16, Daniel Vetter wrote:
+> > On Fri, Oct 16, 2020 at 7:02 PM Melissa Wen <melissa.srw@gmail.com> wrote:
+> > >
+> > > On 10/16, Daniel Vetter wrote:
+> > > > On Fri, Oct 16, 2020 at 12:38 PM Simon Ser <contact@emersion.fr> wrote:
+> > > > >
+> > > > > > The only thing we support is xrgb8888.
+> > > > > >
+> > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > > > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > > > > > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > > > > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
+> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > > > index 726801ab44d4..eb4007443706 100644
+> > > > > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> > > > > > @@ -124,7 +124,7 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+> > > > > >       dev->mode_config.max_height = YRES_MAX;
+> > > > > >       dev->mode_config.cursor_width = 512;
+> > > > > >       dev->mode_config.cursor_height = 512;
+> > > > > > -     dev->mode_config.preferred_depth = 24;
+> > > > > > +     dev->mode_config.preferred_depth = 32;
+> > > > >
+> > > > > Are you sure xrgb8888's depth is 32 and not 24? Looking at drmdb [1], *all*
+> > > > > drivers set it to 24.
+> > > >
+> > > > Uh there's a problem I think. Depth should indeed stay at 24, the
+> > > > problem is that fb helpers directly take that to be the bpp parameter,
+> > > > which is a different thing. And if you look at how most drivers set up
+> > > > that, they pick 32.
+> > > >
+> > > > I guess I need to revert this here, and unconfuse the fb helpers about
+> > > > depth vs bpp.
+> > >
+> > > Hi guys,
+> > >
+> > > Perhaps it deserves to be pointed out: the documentation says
+> > > "preferred_depth: preferred RBG(sic) pixel depth, used by fb helpers",
+> > > and looking to fb helpers, preferred_depth is only used by
+> > > generic_setup, as bits by pixel (if I didn't miss something there).
+> > >
+> > > In fact, the alpha channel is not used for final display (perhaps in the
+> > > future); however, I saw another driver with a change similar to this
+> > > here and, possibly like me, following the same misunderstanding.
+> >
+> > Yeah the problem is that preferred_depth is depth, and that means 24
+> > bit for XRGB8888. But bpp as used by fb helpers would be 32 bit for
+> > XRGB8888.
+> >
+> > I think the real fix here is to switch this entire mess over to using
+> > drm_fourcc codes directly, at least for atomic drivers. Which nowadays
+> > are most. Interim I'm not sure whether we should revert my patch (it
+> > breaks fbdev) or switch preferred_depth to 0, which means we get the
+> > default every, and that means both fbdev helpers and userspace will
+> > pick XRGB8888.
+>
+> hmm... but why not keep preferred_depth = 24 and pass 32 as the
+> preferred_bpp parameter of fbdev_generic_setup?
 
-Can you please resend and include Greg in the recipient list.
-Greg is maintainer of the console subsystem these days.
+The goal is to get rid of this parameter in fbdev_generic_setup. It
+should be able to figure this out automatically, like any kms client
+in userspace.
 
-	Sam
+What does work is setting preferred_bpp = 0. Userspace will pick the
+default (which is generally 24 depth, 32bpp), and fbcon do the same.
 
-On Mon, Jul 13, 2020 at 11:04:45AM +0000, Yang Yingliang wrote:
-> I got a UAF report in do_update_region() when I doing fuzz test.
-> 
-> [   51.161905] BUG: KASAN: use-after-free in do_update_region+0x579/0x600
-> [   51.161918] Read of size 2 at addr ffff888000100000 by task test/295
-> 
-> [   51.161957] CPU: 2 PID: 295 Comm: test Not tainted 5.7.0+ #975
-> [   51.161969] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-0-gf21b5a4aeb02-prebuilt.qemu.org 04/01/2014
-> [   51.161976] Call Trace:
-> [   51.162001]  dump_stack+0xc6/0x11e
-> [   51.162019]  ? do_update_region+0x579/0x600
-> [   51.162047]  print_address_description.constprop.6+0x1a/0x220
-> [   51.162083]  ? vprintk_func+0x66/0xed
-> [   51.162100]  ? do_update_region+0x579/0x600
-> [   51.162112]  ? do_update_region+0x579/0x600
-> [   51.162128]  kasan_report.cold.9+0x37/0x7c
-> [   51.162151]  ? do_update_region+0x579/0x600
-> [   51.162173]  do_update_region+0x579/0x600
-> [   51.162207]  ? con_get_trans_old+0x230/0x230
-> [   51.162229]  ? retint_kernel+0x10/0x10
-> [   51.162278]  csi_J+0x557/0xa00
-> [   51.162307]  do_con_trol+0x49af/0x5cc0
-> [   51.162330]  ? lock_downgrade+0x720/0x720
-> [   51.162347]  ? reset_palette+0x1b0/0x1b0
-> [   51.162369]  ? lockdep_hardirqs_on_prepare+0x379/0x540
-> [   51.162393]  ? notifier_call_chain+0x11b/0x160
-> [   51.162438]  do_con_write.part.24+0xb0a/0x1a30
-> [   51.162501]  ? do_con_trol+0x5cc0/0x5cc0
-> [   51.162522]  ? console_unlock+0x7b8/0xb00
-> [   51.162555]  ? __mutex_unlock_slowpath+0xd4/0x670
-> [   51.162574]  ? this_tty+0xe0/0xe0
-> [   51.162589]  ? console_unlock+0x559/0xb00
-> [   51.162605]  ? wait_for_completion+0x260/0x260
-> [   51.162638]  con_write+0x31/0xb0
-> [   51.162658]  n_tty_write+0x4fa/0xd40
-> [   51.162710]  ? n_tty_read+0x1800/0x1800
-> [   51.162730]  ? prepare_to_wait_exclusive+0x270/0x270
-> [   51.162754]  ? __might_fault+0x175/0x1b0
-> [   51.162783]  tty_write+0x42b/0x8d0
-> [   51.162795]  ? n_tty_read+0x1800/0x1800
-> [   51.162825]  ? tty_lookup_driver+0x450/0x450
-> [   51.162848]  __vfs_write+0x7c/0x100
-> [   51.162875]  vfs_write+0x1c9/0x510
-> [   51.162901]  ksys_write+0xff/0x200
-> [   51.162918]  ? __ia32_sys_read+0xb0/0xb0
-> [   51.162940]  ? do_syscall_64+0x1a/0x520
-> [   51.162957]  ? lockdep_hardirqs_on_prepare+0x379/0x540
-> [   51.162984]  do_syscall_64+0xa1/0x520
-> [   51.163008]  entry_SYSCALL_64_after_hwframe+0x49/0xb3
-> 
-> After vgacon_set_origin() is called in set_origin(), the vc_origin is
-> set to vga_vram_base, the vc_pos should between vga_vram_base and
-> vga_vram_end. But we still use vc_screenbuf_size, if the vga_vram_size
-> is smaller than vc_screenbuf_size, vc_pos may be out of bound, using it
-> will cause a use-after-free(or out-of-bounds). Fix this by calling
-> vc_resize() if vga_vram_size is smaller than vc_screenbuf_size.
-> 
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/video/console/vgacon.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-> index b51ffb9a208d..2eabb86bb0dd 100644
-> --- a/drivers/video/console/vgacon.c
-> +++ b/drivers/video/console/vgacon.c
-> @@ -1341,6 +1341,9 @@ static int vgacon_set_origin(struct vc_data *c)
->  	if (vga_is_gfx ||	/* We don't play origin tricks in graphic modes */
->  	    (console_blanked && !vga_palette_blanked))	/* Nor we write to blanked screens */
->  		return 0;
-> +
-> +	if (c->vc_screenbuf_size > vga_vram_size)
-> +		vc_resize(c, screen_info.orig_video_cols, screen_info.orig_video_lines);
->  	c->vc_origin = c->vc_visible_origin = vga_vram_base;
->  	vga_set_mem_top(c);
->  	vga_rolled_over = 0;
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+And then I guess a nice patch series to clean up this mess.
+-Daniel
+
+> > -Daniel
+> >
+> > > Melissa
+> > > >
+> > > > Maybe best would be to just switch over to preferred drm_fourcc format
+> > > > code, or maybe just pick this up from the first format the primary
+> > > > plane supports.
+> > > >
+> > > > This is all getting slightly tricky and a lot more work :-/
+> > > > -Daniel
+> > > > --
+> > > > Daniel Vetter
+> > > > Software Engineer, Intel Corporation
+> > > > http://blog.ffwll.ch
+> >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
