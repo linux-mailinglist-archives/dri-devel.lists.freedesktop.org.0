@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034A7291A24
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F72F291A3A
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:23:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1986E862;
-	Sun, 18 Oct 2020 19:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD6CB6E86B;
+	Sun, 18 Oct 2020 19:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDD6C6E86A
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:23:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3E926E86A;
+ Sun, 18 Oct 2020 19:23:38 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DB03E2137B;
- Sun, 18 Oct 2020 19:23:28 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 033BE222E9;
+ Sun, 18 Oct 2020 19:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603049009;
- bh=edzlPgIpXnKLcwFNjE6WlQrOL+VP31svLN46mpLsRac=;
+ s=default; t=1603049018;
+ bh=7V9wtvwdCQLMZ8tHmSfN2E3T9IbfUcLtzn8OQH3qIUU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZOXlb+8LGXjng7nS3u9mPXalDKGIQqKSfo4nY0RREO+oOPOroe7bX35q8zynM9hro
- +6WBdYjQAp4+Sh2MxXaGxmjLdGCm5JOW8Uz4vpyN+L7dKGYGFhZ/8gumDQg2kpoQlv
- mIeAU7/qoX/TuAvo0S/91Hu4IdSrd6sWtTBhMe5Q=
+ b=G82bLGJGsF5tJrduwf92TKIIyOT8/3L967HuC57mM8jB73ryfLAILKS2RyBMlyZmN
+ YN+fPGDIXkF3v2412u6f3/ubiwYEnSEQ1NezSslL1mTFtUtEPd5+P2ZRG5NHxPt9Jf
+ TQ1EyZmbO6gHoFvtdSnVHYhkO6Qc4+6kblNLCsZA=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 45/80] drm/panfrost: add amlogic reset quirk
- callback
-Date: Sun, 18 Oct 2020 15:21:56 -0400
-Message-Id: <20201018192231.4054535-45-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 53/80] drm/msm/a6xx: fix a potential overflow issue
+Date: Sun, 18 Oct 2020 15:22:04 -0400
+Message-Id: <20201018192231.4054535-53-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201018192231.4054535-1-sashal@kernel.org>
 References: <20201018192231.4054535-1-sashal@kernel.org>
@@ -50,87 +49,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Neil Armstrong <narmstrong@baylibre.com>
+From: Zhenzhong Duan <zhenzhong.duan@gmail.com>
 
-[ Upstream commit 110003002291525bb209f47e6dbf121a63249a97 ]
+[ Upstream commit 08d3ab4b46339bc6f97e83b54a3fb4f8bf8f4cd9 ]
 
-The T820, G31 & G52 GPUs integrated by Amlogic in the respective GXM,
-G12A/SM1 & G12B SoCs needs a quirk in the PWR registers at the GPU reset
-time.
+It's allocating an array of a6xx_gpu_state_obj structure rathor than
+its pointers.
 
-Since the Amlogic's integration of the GPU cores with the SoC is not
-publicly documented we do not know what does these values, but they
-permit having a fully functional GPU running with Panfrost.
+This patch fix it.
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-[Steven: Fix typo in commit log]
-Reviewed-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Signed-off-by: Steven Price <steven.price@arm.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200916150147.25753-3-narmstrong@baylibre.com
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@gmail.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panfrost/panfrost_gpu.c  | 11 +++++++++++
- drivers/gpu/drm/panfrost/panfrost_gpu.h  |  2 ++
- drivers/gpu/drm/panfrost/panfrost_regs.h |  4 ++++
- 3 files changed, 17 insertions(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index 8822ec13a0d61..68e046b2f1680 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -75,6 +75,17 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index 691c1a277d91b..dfcbb2b7cdda3 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -834,7 +834,7 @@ static void a6xx_get_indexed_registers(struct msm_gpu *gpu,
+ 	int i;
  
-+void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev)
-+{
-+	/*
-+	 * The Amlogic integrated Mali-T820, Mali-G31 & Mali-G52 needs
-+	 * these undocumented bits in GPU_PWR_OVERRIDE1 to be set in order
-+	 * to operate correctly.
-+	 */
-+	gpu_write(pfdev, GPU_PWR_KEY, GPU_PWR_KEY_UNLOCK);
-+	gpu_write(pfdev, GPU_PWR_OVERRIDE1, 0xfff | (0x20 << 16));
-+}
-+
- static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
- {
- 	u32 quirks = 0;
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-index 4112412087b27..468c51e7e46db 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-@@ -16,4 +16,6 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
- void panfrost_gpu_power_on(struct panfrost_device *pfdev);
- void panfrost_gpu_power_off(struct panfrost_device *pfdev);
+ 	a6xx_state->indexed_regs = state_kcalloc(a6xx_state, count,
+-		sizeof(a6xx_state->indexed_regs));
++		sizeof(*a6xx_state->indexed_regs));
+ 	if (!a6xx_state->indexed_regs)
+ 		return;
  
-+void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev);
-+
- #endif
-diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-index ea38ac60581c6..eddaa62ad8b0e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-@@ -51,6 +51,10 @@
- #define GPU_STATUS			0x34
- #define   GPU_STATUS_PRFCNT_ACTIVE	BIT(2)
- #define GPU_LATEST_FLUSH_ID		0x38
-+#define GPU_PWR_KEY			0x50	/* (WO) Power manager key register */
-+#define  GPU_PWR_KEY_UNLOCK		0x2968A819
-+#define GPU_PWR_OVERRIDE0		0x54	/* (RW) Power manager override settings */
-+#define GPU_PWR_OVERRIDE1		0x58	/* (RW) Power manager override settings */
- #define GPU_FAULT_STATUS		0x3C
- #define GPU_FAULT_ADDRESS_LO		0x40
- #define GPU_FAULT_ADDRESS_HI		0x44
 -- 
 2.25.1
 
