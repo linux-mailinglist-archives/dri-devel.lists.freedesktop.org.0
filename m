@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB549291AAD
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:26:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7709291AD7
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19BE46E892;
-	Sun, 18 Oct 2020 19:26:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 047E26E884;
+	Sun, 18 Oct 2020 19:27:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2DD6E892
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:26:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4E7E6E884
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:27:18 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3B23F222C8;
- Sun, 18 Oct 2020 19:26:20 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B28B0222E9;
+ Sun, 18 Oct 2020 19:27:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603049181;
- bh=XmtH0B5d3U1FNGvtemeJjeJBz814mke7qpOlX3I7Z/g=;
+ s=default; t=1603049238;
+ bh=9/P4t3T4oK4ugxqKvYoEhfqCdKZSPxWGBfHV5mm1LCU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=X+6UwRLf/oyaE76A7xBdf/KSBZ2g4A1HN0UHZhEIoBiW0PmcVZvVhzSMIA5o4UywB
- Qqe3lssw0+K5wY6FeHtsIV1JAFOphFpYgnTE7vKmxySRFepG+Z7DWYTPczcsWwCfN1
- SA6NpoJq9yQyUsQLFw2neInFJynIaXWjBXjf77fQ=
+ b=oYp+3lbHnAD3g+R5E7FO2hOWqqDBCELTFMbbgkFnXHfvjOY6Gt6RQzc61YtivADfn
+ RWj3ObMFW8XxY1cTVY6bg9qGP6CyMVlHF7sm/8i0Vw+KctnScvIcvn7JnOp1RpY3sP
+ tLqvjImrTPDIvYcTgcX++kBvcwNg3JMXuZ80T5TU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 42/52] Fix use after free in get_capset_info
+Subject: [PATCH AUTOSEL 4.9 35/41] Fix use after free in get_capset_info
  callback.
-Date: Sun, 18 Oct 2020 15:25:19 -0400
-Message-Id: <20201018192530.4055730-42-sashal@kernel.org>
+Date: Sun, 18 Oct 2020 15:26:29 -0400
+Message-Id: <20201018192635.4056198-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201018192530.4055730-1-sashal@kernel.org>
-References: <20201018192530.4055730-1-sashal@kernel.org>
+In-Reply-To: <20201018192635.4056198-1-sashal@kernel.org>
+References: <20201018192635.4056198-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -76,7 +76,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 6400506a06b07..bed450fbb2168 100644
+index 036b0fbae0fb7..ba7855da7c7f6 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
 @@ -113,8 +113,10 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
@@ -91,10 +91,10 @@ index 6400506a06b07..bed450fbb2168 100644
  		}
  		DRM_INFO("cap set %d: id %d, max-version %d, max-size %d\n",
 diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index a3be65e689fd2..a956c73ea85e5 100644
+index 772a5a3b0ce1a..18e8fcad6690b 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -563,9 +563,13 @@ static void virtio_gpu_cmd_get_capset_info_cb(struct virtio_gpu_device *vgdev,
+@@ -596,9 +596,13 @@ static void virtio_gpu_cmd_get_capset_info_cb(struct virtio_gpu_device *vgdev,
  	int i = le32_to_cpu(cmd->capset_index);
  
  	spin_lock(&vgdev->display_info_lock);
