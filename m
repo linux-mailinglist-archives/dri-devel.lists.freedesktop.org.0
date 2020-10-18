@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955512919F3
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034A7291A24
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:23:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 814AF6E85D;
-	Sun, 18 Oct 2020 19:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1986E862;
+	Sun, 18 Oct 2020 19:23:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 798E06E85D;
- Sun, 18 Oct 2020 19:22:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDD6C6E86A
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:23:29 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 67BF5222E7;
- Sun, 18 Oct 2020 19:22:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DB03E2137B;
+ Sun, 18 Oct 2020 19:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603048946;
- bh=9Tg+4chMTK8bm7A8vFRKU5re1bN2ZXXqKnAZdc/dvzo=;
+ s=default; t=1603049009;
+ bh=edzlPgIpXnKLcwFNjE6WlQrOL+VP31svLN46mpLsRac=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vfqvfJbzeQg8H3mMFQFHpbTG4UdECleduk5vMItkbuEYjsAUd7xRNFf/HQuKrn+Qh
- dzk4TmSMTmkWWuds+DURNBKm6oEAH1UgIBuLvog31zSchoVs27FOAEIBJ5Jd3o31TW
- bbMbTbGzFLMYRYYsTr03FGyW1xJ/FIQlr5DuB/dM=
+ b=ZOXlb+8LGXjng7nS3u9mPXalDKGIQqKSfo4nY0RREO+oOPOroe7bX35q8zynM9hro
+ +6WBdYjQAp4+Sh2MxXaGxmjLdGCm5JOW8Uz4vpyN+L7dKGYGFhZ/8gumDQg2kpoQlv
+ mIeAU7/qoX/TuAvo0S/91Hu4IdSrd6sWtTBhMe5Q=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 098/101] drm/amd/display: Screen corruption on
- dual displays (DP+USB-C)
-Date: Sun, 18 Oct 2020 15:20:23 -0400
-Message-Id: <20201018192026.4053674-98-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 45/80] drm/panfrost: add amlogic reset quirk
+ callback
+Date: Sun, 18 Oct 2020 15:21:56 -0400
+Message-Id: <20201018192231.4054535-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201018192026.4053674-1-sashal@kernel.org>
-References: <20201018192026.4053674-1-sashal@kernel.org>
+In-Reply-To: <20201018192231.4054535-1-sashal@kernel.org>
+References: <20201018192231.4054535-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,83 +50,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qingqing Zhuo <qingqing.zhuo@amd.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
 
-[ Upstream commit ce271b40a91f781af3dee985c39e841ac5148766 ]
+[ Upstream commit 110003002291525bb209f47e6dbf121a63249a97 ]
 
-[why]
-Current pipe merge and split logic only supports cases where new
-dc_state is allocated and relies on dc->current_state to gather
-information from previous dc_state.
+The T820, G31 & G52 GPUs integrated by Amlogic in the respective GXM,
+G12A/SM1 & G12B SoCs needs a quirk in the PWR registers at the GPU reset
+time.
 
-Calls to validate_bandwidth on UPDATE_TYPE_MED would cause an issue
-because there is no new dc_state allocated, and data in
-dc->current_state would be overwritten during pipe merge.
+Since the Amlogic's integration of the GPU cores with the SoC is not
+publicly documented we do not know what does these values, but they
+permit having a fully functional GPU running with Panfrost.
 
-[how]
-Only allow validate_bandwidth when new dc_state space is created.
-
-Signed-off-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+[Steven: Fix typo in commit log]
+Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Signed-off-by: Steven Price <steven.price@arm.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200916150147.25753-3-narmstrong@baylibre.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c              | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 3 +++
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 3 +++
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_gpu.c  | 11 +++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gpu.h  |  2 ++
+ drivers/gpu/drm/panfrost/panfrost_regs.h |  4 ++++
+ 3 files changed, 17 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index d016f50e187c8..d261f425b80ec 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -2538,7 +2538,7 @@ void dc_commit_updates_for_stream(struct dc *dc,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index 8822ec13a0d61..68e046b2f1680 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -75,6 +75,17 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
+ 	return 0;
+ }
  
- 	copy_stream_update_to_stream(dc, context, stream, stream_update);
- 
--	if (update_type > UPDATE_TYPE_FAST) {
-+	if (update_type >= UPDATE_TYPE_FULL) {
- 		if (!dc->res_pool->funcs->validate_bandwidth(dc, context, false)) {
- 			DC_ERROR("Mode validation failed for stream update!\n");
- 			dc_release_state(context);
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-index 20bdabebbc434..76cd4f3de4eaf 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-@@ -3165,6 +3165,9 @@ static noinline bool dcn20_validate_bandwidth_fp(struct dc *dc,
- 	context->bw_ctx.dml.soc.allow_dram_clock_one_display_vactive =
- 		dc->debug.enable_dram_clock_change_one_display_vactive;
- 
-+	/*Unsafe due to current pipe merge and split logic*/
-+	ASSERT(context != dc->current_state);
++void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev)
++{
++	/*
++	 * The Amlogic integrated Mali-T820, Mali-G31 & Mali-G52 needs
++	 * these undocumented bits in GPU_PWR_OVERRIDE1 to be set in order
++	 * to operate correctly.
++	 */
++	gpu_write(pfdev, GPU_PWR_KEY, GPU_PWR_KEY_UNLOCK);
++	gpu_write(pfdev, GPU_PWR_OVERRIDE1, 0xfff | (0x20 << 16));
++}
 +
- 	if (fast_validate) {
- 		return dcn20_validate_bandwidth_internal(dc, context, true);
- 	}
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-index f00a568350848..c6ab3dee4fd69 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-@@ -1184,6 +1184,9 @@ bool dcn21_validate_bandwidth(struct dc *dc, struct dc_state *context,
+ static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
+ {
+ 	u32 quirks = 0;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+index 4112412087b27..468c51e7e46db 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+@@ -16,4 +16,6 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
+ void panfrost_gpu_power_on(struct panfrost_device *pfdev);
+ void panfrost_gpu_power_off(struct panfrost_device *pfdev);
  
- 	BW_VAL_TRACE_COUNT();
- 
-+	/*Unsafe due to current pipe merge and split logic*/
-+	ASSERT(context != dc->current_state);
++void panfrost_gpu_amlogic_quirk(struct panfrost_device *pfdev);
 +
- 	out = dcn20_fast_validate_bw(dc, context, pipes, &pipe_cnt, pipe_split_from, &vlevel);
- 
- 	if (pipe_cnt == 0)
+ #endif
+diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+index ea38ac60581c6..eddaa62ad8b0e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_regs.h
++++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+@@ -51,6 +51,10 @@
+ #define GPU_STATUS			0x34
+ #define   GPU_STATUS_PRFCNT_ACTIVE	BIT(2)
+ #define GPU_LATEST_FLUSH_ID		0x38
++#define GPU_PWR_KEY			0x50	/* (WO) Power manager key register */
++#define  GPU_PWR_KEY_UNLOCK		0x2968A819
++#define GPU_PWR_OVERRIDE0		0x54	/* (RW) Power manager override settings */
++#define GPU_PWR_OVERRIDE1		0x58	/* (RW) Power manager override settings */
+ #define GPU_FAULT_STATUS		0x3C
+ #define GPU_FAULT_ADDRESS_LO		0x40
+ #define GPU_FAULT_ADDRESS_HI		0x44
 -- 
 2.25.1
 
