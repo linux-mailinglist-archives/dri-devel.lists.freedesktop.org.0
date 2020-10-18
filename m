@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB47F291E04
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:51:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A258291FB3
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 22:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEC4B6E896;
-	Sun, 18 Oct 2020 19:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6FF6E898;
+	Sun, 18 Oct 2020 20:09:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B80976E896
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:51:08 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id x7so10952383eje.8
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 12:51:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A336E898
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 20:09:17 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id d28so8511250ote.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 13:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Axoep6mzwCJeogoILJ1LCqCxktp9YF81NRKU9qyj8RU=;
- b=WZ/KCVzt+quYHMQn6+Gt7phkbUyXK1kCEBS31x9CLzhHI2wx8Cmuouorq2yxbLspge
- sY6jssnRnemqCdkaUCvxi9SCf8Jc8f9+Nw5Chn6tK0edBaIjspOYZ0CcprnRLR7iwS3K
- zDpkkC63KHMFrfxeFsEK1nPwNJDlCxUihCTgLAAFZP5Cg2pZ9wqzoGCFZyYuAxbI8wth
- RDyLMq0Rg4cAKj7HDYTHzYyMJLZY7jY8zkd8b2ijQMgKdSb/tadpnswAwc3Qao2xyN2p
- hYhy3Xu230RhfKxP7PDHEg8P14n9DimuDUL9HYmdlV89gYuiHqVjHwSremyi7FpVvWsT
- 2H9w==
+ :cc; bh=uTkIKpAXXUMsdDW0M0pmci3ckhN0Y57VkQTrzhAampI=;
+ b=ZWCwRmzA1q9rUb7p8BjxAG+i4vhfm41OiL5T5ZG1GnAzhlOaxO4waXtz1aznqqxQm5
+ /oy0veyH2tbq9YBXGF14heMaLwtJ2uC0ylKJ28Fv5bQAY4Xf9NljJvappbUUvvslOsUF
+ n/y7UMXZeAkHNZVGiFW/izHWH2KpsQ+bkOwXw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Axoep6mzwCJeogoILJ1LCqCxktp9YF81NRKU9qyj8RU=;
- b=mCz75/oHyWtwucCpSnfwLB8BP5qsPl/P9N3IsvRx8I8gWb8foWca2xfAMkT/3V+FMj
- RWY20DSf096vP6/QZUFfRnSGHYI4CDbMNhUrMXrvfymLyQPP6eE0yET6y+ZD+M1WRoLF
- y0nA7MKWkFmBQWLFOCEtOHFwn+piwANBY2syFa/Lua4r0S/N3f57gYG3SG9tkcQ0m3Yp
- u1N7uHi7d2lG0qsiLL09A36EgXTVBJbudMKU9cRvxG4yvdal7CYSGvwqFRt+fQrUQMrH
- Hjb9T8HV7ki8pxdOMkYeFnEsYT8gBux9s8cPJcKVHtWFbHgiMpMKaCEUTJqYWiMB1jMv
- LQQQ==
-X-Gm-Message-State: AOAM530EDNUfDIh0tkv/a/2BTdNe4QAgGS1lgfyCiWiO3+dRSX1JJnwm
- c+cYQEAykg8do8LnFkHTP55Fjo1irFXuUnYyPwU=
-X-Google-Smtp-Source: ABdhPJxX1ILaJlpeeqk+Qg/a7DT3ekC0GQrYO+ePgSwdeziowwxEqI/jV9odnqLGqTVRcb7nXiKyX6+Mu2VHkUnKZog=
-X-Received: by 2002:a17:906:38c9:: with SMTP id
- r9mr14819854ejd.9.1603050667266; 
- Sun, 18 Oct 2020 12:51:07 -0700 (PDT)
+ bh=uTkIKpAXXUMsdDW0M0pmci3ckhN0Y57VkQTrzhAampI=;
+ b=XJpZqIgcdL1HcuqbxbGxrAmGcpUbwSMGzbjqGj66u7gZg4YqafERH//ysdHBOdteRL
+ /MZDtXF3Lwsur4lWDeiZ7tT4ZoMCNOEOnoGZIOK3kDE+hbd9nuYRnaru+ACLhI2u4eET
+ 7DNbZdDvx2vbcW4mn/L742GKtbYk+qbW+QwCI+b7GB7K20Pk86s474zf3FORSA6S+2mR
+ innv0nqKgPmzpf3MJyf5Pcf7xEoLpe5N1gLS6JZoMVBtypg1DoL0Vy7htc/OaDjBbFTi
+ dcmcMrWMNiAeW1gj6u46ijN409acDy48TxTdjDjJ8kjVoi3CgH3N5ufYNCHYj0sp4+Qa
+ mcig==
+X-Gm-Message-State: AOAM531efzXeb9oNrAwRXJM6nxfTb54yJMDMO9Ng9ArjzvuE1Del18Pf
+ 3DUh9Y7wZOlpkO9JZwrDdr6+DAlUo1CSwE2CfU671g==
+X-Google-Smtp-Source: ABdhPJxwCztnu8cd9eSC2rortQrG/hZH4mpTa2NjpeAnAc2MGwNccXKO+BizjvsWvItIcVTXrXUk+bHpiY8MDg2YKNU=
+X-Received: by 2002:a05:6830:8b:: with SMTP id
+ a11mr9517320oto.303.1603051757215; 
+ Sun, 18 Oct 2020 13:09:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <trinity-7bf82d9f-a022-48f3-bca0-d06eb28ebe35-1603048517864@3c-app-mailcom-bs08>
-In-Reply-To: <trinity-7bf82d9f-a022-48f3-bca0-d06eb28ebe35-1603048517864@3c-app-mailcom-bs08>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 19 Oct 2020 05:50:56 +1000
-Message-ID: <CAPM=9txi-M3uGmYP91F-OacUus_ZuWV81LBqbAXQS-_E-uWOfg@mail.gmail.com>
-Subject: Re: It appears drm-next TTM cleanup broke something . . .
-To: Kevin Brace <kevinbrace@gmx.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20200820082137.5907-1-s.hauer@pengutronix.de>
+ <926453876c92caac34cba8545716a491754d04d5.1603037079.git.yepeilin.cs@gmail.com>
+In-Reply-To: <926453876c92caac34cba8545716a491754d04d5.1603037079.git.yepeilin.cs@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Sun, 18 Oct 2020 22:09:06 +0200
+Message-ID: <CAKMK7uF9E24P=vzKt28=1_iaFTYD7obHs+tEPwwZPNMhh7DBrg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Fonts: Support FONT_EXTRA_WORDS macros for font_6x8
+To: Peilin Ye <yepeilin.cs@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,66 +60,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Sven Schneider <s.schneider@arkona-technologies.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Oct 2020 at 05:15, Kevin Brace <kevinbrace@gmx.com> wrote:
->
-> Hi Dave,
->
-> It is a little urgent, so I am writing this right now.
-> As usual, I pulled in DRM repository code for an out of tree OpenChrome DRM repository a few days ago.
-> While going through the changes I need to make to OpenChrome DRM to compile with the latest Linux kernel, I noticed that ttm_bo_init_mm() was discontinued, and it was replaced with ttm_range_man_init().
-> ttm_range_man_init() has a parameter called "bool use_tt", but honestly, I do not think it is functioning correctly.
-> If I keep "ttm_tt_create" member of ttm_bo_driver struct null by not specifying it, TTM still tries to call it, and crashes due to a null pointer access.
-> The workaround I found so far is to specify the "ttm_tt_create" member by copying bo_driver_ttm_tt_create() from drm/drm_gem_vram_helper.c.
-> This is what the call trace looks like without specifying the "ttm_tt_create" member (i.e., this member is null).
+Adding dri-devel too, not sure anyone is still listening on linux-fbdev.
 
-cc'ing Christian,
+On Sun, Oct 18, 2020 at 8:13 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+>
+> Recently, in commit 6735b4632def ("Fonts: Support FONT_EXTRA_WORDS macros
+> for built-in fonts"), we wrapped each of our built-in data buffers in a
+> `font_data` structure, in order to use the following macros on them, see
+> include/linux/font.h:
+>
+>         #define REFCOUNT(fd)    (((int *)(fd))[-1])
+>         #define FNTSIZE(fd)     (((int *)(fd))[-2])
+>         #define FNTCHARCNT(fd)  (((int *)(fd))[-3])
+>         #define FNTSUM(fd)      (((int *)(fd))[-4])
+>
+>         #define FONT_EXTRA_WORDS 4
+>
+> Do the same thing to our new 6x8 font. For built-in fonts, currently we
+> only use FNTSIZE(). Since this is only a temporary solution for an
+> out-of-bounds issue in the framebuffer layer (see commit 5af08640795b
+> ("fbcon: Fix global-out-of-bounds read in fbcon_get_font()")), all the
+> three other fields are intentionally set to zero in order to discourage
+> using these negative-indexing macros.
+>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 
-I can't remember if we did this deliberately or if just worked by
-accident previously.
+Patch looks good to me, but it says 1/2 and I can't find 2/2 anywhere,
+not even on lore. Did that get lost?
+-Daniel
 
-Either way, you should probably need a ttm_tt_create going forward.
+> ---
+>  lib/fonts/font_6x8.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/lib/fonts/font_6x8.c b/lib/fonts/font_6x8.c
+> index e06447788418..700039a9ceae 100644
+> --- a/lib/fonts/font_6x8.c
+> +++ b/lib/fonts/font_6x8.c
+> @@ -3,8 +3,8 @@
+>
+>  #define FONTDATAMAX 2048
+>
+> -static const unsigned char fontdata_6x8[FONTDATAMAX] = {
+> -
+> +static struct font_data fontdata_6x8 = {
+> +       { 0, 0, FONTDATAMAX, 0 }, {
+>         /* 0 0x00 '^@' */
+>         0x00, /* 000000 */
+>         0x00, /* 000000 */
+> @@ -2564,13 +2564,13 @@ static const unsigned char fontdata_6x8[FONTDATAMAX] = {
+>         0x00, /* 000000 */
+>         0x00, /* 000000 */
+>         0x00, /* 000000 */
+> -};
+> +} };
+>
+>  const struct font_desc font_6x8 = {
+>         .idx    = FONT6x8_IDX,
+>         .name   = "6x8",
+>         .width  = 6,
+>         .height = 8,
+> -       .data   = fontdata_6x8,
+> +       .data   = fontdata_6x8.data,
+>         .pref   = 0,
+>  };
+> --
+> 2.25.1
+>
 
-Dave.
 
->
-> _______________________________________________
-> . . .
-> kernel: [   34.310674] [drm:openchrome_bo_create [openchrome]] Entered openchrome_bo_create.
-> kernel: [   34.310697] [drm:openchrome_ttm_domain_to_placement [openchrome]] Entered openchrome_ttm_domain_to_placement.
-> kernel: [   34.310706] [drm:openchrome_ttm_domain_to_placement [openchrome]] Exiting openchrome_ttm_domain_to_placement.
-> kernel: [   34.310737] BUG: kernel NULL pointer dereference, address: 0000000000000000
-> kernel: [   34.310742] #PF: supervisor instruction fetch in kernel mode
-> kernel: [   34.310745] #PF: error_code(0x0010) - not-present page
-> . . .
-> kernel: [   34.310807] Call Trace:
-> kernel: [   34.310827]  ttm_tt_create+0x5f/0xa0 [ttm]
-> kernel: [   34.310839]  ttm_bo_validate+0xb8/0x140 [ttm]
-> kernel: [   34.310886]  ? drm_vma_offset_add+0x56/0x70 [drm]
-> kernel: [   34.310897]  ? openchrome_gem_create_ioctl+0x150/0x150 [openchrome]
-> . . .
-> _______________________________________________
->
-> The erroneous call to  "ttm_tt_create" member happens right after TTM placement is performed (openchrome_ttm_domain_to_placement()).
-> Currently, OpenChrome DRM's TTM implementation does not use "ttm_tt_create" member, and this arrangement worked fine until Linux 5.9's drm-next code.
-> It appears that Linux 5.10's drm-next code broke the code.
->
-> Regards,
->
-> Kevin Brace
-> Brace Computer Laboratory blog
-> https://bracecomputerlab.com
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
