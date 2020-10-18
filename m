@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7709291AD7
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436E8291AEB
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:28:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047E26E884;
-	Sun, 18 Oct 2020 19:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6EA6E893;
+	Sun, 18 Oct 2020 19:28:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4E7E6E884
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:27:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4099A6E893
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:28:01 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B28B0222E9;
- Sun, 18 Oct 2020 19:27:17 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5A05D22267;
+ Sun, 18 Oct 2020 19:28:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603049238;
- bh=9/P4t3T4oK4ugxqKvYoEhfqCdKZSPxWGBfHV5mm1LCU=;
+ s=default; t=1603049281;
+ bh=wDUYPS56b/18VlLZ2KLd4bd6O6ujEctojC7MEYgAW6o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oYp+3lbHnAD3g+R5E7FO2hOWqqDBCELTFMbbgkFnXHfvjOY6Gt6RQzc61YtivADfn
- RWj3ObMFW8XxY1cTVY6bg9qGP6CyMVlHF7sm/8i0Vw+KctnScvIcvn7JnOp1RpY3sP
- tLqvjImrTPDIvYcTgcX++kBvcwNg3JMXuZ80T5TU=
+ b=nmFR4Nk1r9NuNN/GuVrgjpSA0kiXXoC3OVA6zhkbkeEyMbDPvnvXfsuwePNGxSbmt
+ bFyTTnTR/EAS4Q/E6fP4f6xA3kmzbv6bEuwwXmnOYzqI3tVgEHuGTAtCoTGA/GzaiK
+ TvKhvg3EmWenoAVYFGAMLgXwlNH4K26oWxdcaCqQ=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 35/41] Fix use after free in get_capset_info
+Subject: [PATCH AUTOSEL 4.4 27/33] Fix use after free in get_capset_info
  callback.
-Date: Sun, 18 Oct 2020 15:26:29 -0400
-Message-Id: <20201018192635.4056198-35-sashal@kernel.org>
+Date: Sun, 18 Oct 2020 15:27:22 -0400
+Message-Id: <20201018192728.4056577-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201018192635.4056198-1-sashal@kernel.org>
-References: <20201018192635.4056198-1-sashal@kernel.org>
+In-Reply-To: <20201018192728.4056577-1-sashal@kernel.org>
+References: <20201018192728.4056577-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -76,7 +76,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 036b0fbae0fb7..ba7855da7c7f6 100644
+index 06496a1281622..476b9993b0682 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
 @@ -113,8 +113,10 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
