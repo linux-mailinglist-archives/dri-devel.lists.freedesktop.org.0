@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579CF2919A8
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:20:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0677F2919A9
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:20:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33A1A6E85C;
-	Sun, 18 Oct 2020 19:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A0B6E85E;
+	Sun, 18 Oct 2020 19:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 339FC6E854;
- Sun, 18 Oct 2020 19:20:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D15FE6E85E
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:20:19 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 25973222E8;
- Sun, 18 Oct 2020 19:20:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0C81B222E7;
+ Sun, 18 Oct 2020 19:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603048816;
- bh=PIerFogCN3KjWeRdp/pZF5bPqZtgIpKAi25ssPmwOXo=;
+ s=default; t=1603048819;
+ bh=ZVJjWqt/gLGBfV8vE0SwTTeHC7oOKwAYG59kYQ8fiZg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TM5pLo0grl+K4ZL27lirHBv69jWnePb/8dO7/SbnVX8YWRy7QdIkkhWtl4XdixSA1
- zYRWH+LAnM2MQay7TShB52axC/XdARssfkRmr+k70rMw+W+qjP5NIPFL2VGDzCugR1
- uzVpsMnl6+8jPlTggdcY7gdTuMmUeNys8FGOQH/8=
+ b=prhz/I6U+MT5+aP8cN+fFWW24+Z7jP4Z2Olc/iC6OdGKTvx6/HAch82q+1OohY6+E
+ 5cBrOVEiX3K/u4sbpUPfbAWL3ts3hNK76UjFgXzyLnKHiEqMvqltwR4He6TY5oAH2J
+ v5miAvPwr4Iu7CCHgJ5ywOxVF2Xy9JPTsafWg9SY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 105/111] drm/amd/display: Screen corruption on
- dual displays (DP+USB-C)
-Date: Sun, 18 Oct 2020 15:18:01 -0400
-Message-Id: <20201018191807.4052726-105-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.9 108/111] drm/hisilicon: Code refactoring for
+ hibmc_drv_de
+Date: Sun, 18 Oct 2020 15:18:04 -0400
+Message-Id: <20201018191807.4052726-108-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201018191807.4052726-1-sashal@kernel.org>
 References: <20201018191807.4052726-1-sashal@kernel.org>
@@ -50,83 +50,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Tian Tao <tiantao6@hisilicon.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qingqing Zhuo <qingqing.zhuo@amd.com>
+From: Tian Tao <tiantao6@hisilicon.com>
 
-[ Upstream commit ce271b40a91f781af3dee985c39e841ac5148766 ]
+[ Upstream commit 13b0d4a9ae0c2d650993c48be797992eaf621332 ]
 
-[why]
-Current pipe merge and split logic only supports cases where new
-dc_state is allocated and relies on dc->current_state to gather
-information from previous dc_state.
+The memory used to be allocated with devres helpers and released
+automatically. In rare circumstances, the memory's release could
+have happened before the DRM device got released, which would have
+caused memory corruption of some kind. Now we're embedding the data
+structures in struct hibmc_drm_private. The whole release problem
+has been resolved, because struct hibmc_drm_private is allocated
+with drmm_kzalloc and always released with the DRM device.
 
-Calls to validate_bandwidth on UPDATE_TYPE_MED would cause an issue
-because there is no new dc_state allocated, and data in
-dc->current_state would be overwritten during pipe merge.
-
-[how]
-Only allow validate_bandwidth when new dc_state space is created.
-
-Signed-off-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/1597218179-3938-3-git-send-email-tiantao6@hisilicon.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c              | 2 +-
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 3 +++
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 3 +++
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    | 55 +++++--------------
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  2 +
+ 2 files changed, 15 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 92eb1ca1634fc..22cbfda6ab338 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -2621,7 +2621,7 @@ void dc_commit_updates_for_stream(struct dc *dc,
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+index cc70e836522f0..8758958e16893 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+@@ -160,37 +160,6 @@ static const struct drm_plane_helper_funcs hibmc_plane_helper_funcs = {
+ 	.atomic_update = hibmc_plane_atomic_update,
+ };
  
- 	copy_stream_update_to_stream(dc, context, stream, stream_update);
+-static struct drm_plane *hibmc_plane_init(struct hibmc_drm_private *priv)
+-{
+-	struct drm_device *dev = priv->dev;
+-	struct drm_plane *plane;
+-	int ret = 0;
+-
+-	plane = devm_kzalloc(dev->dev, sizeof(*plane), GFP_KERNEL);
+-	if (!plane) {
+-		DRM_ERROR("failed to alloc memory when init plane\n");
+-		return ERR_PTR(-ENOMEM);
+-	}
+-	/*
+-	 * plane init
+-	 * TODO: Now only support primary plane, overlay planes
+-	 * need to do.
+-	 */
+-	ret = drm_universal_plane_init(dev, plane, 1, &hibmc_plane_funcs,
+-				       channel_formats1,
+-				       ARRAY_SIZE(channel_formats1),
+-				       NULL,
+-				       DRM_PLANE_TYPE_PRIMARY,
+-				       NULL);
+-	if (ret) {
+-		DRM_ERROR("failed to init plane: %d\n", ret);
+-		return ERR_PTR(ret);
+-	}
+-
+-	drm_plane_helper_add(plane, &hibmc_plane_helper_funcs);
+-	return plane;
+-}
+-
+ static void hibmc_crtc_dpms(struct drm_crtc *crtc, int dpms)
+ {
+ 	struct hibmc_drm_private *priv = crtc->dev->dev_private;
+@@ -537,22 +506,24 @@ static const struct drm_crtc_helper_funcs hibmc_crtc_helper_funcs = {
+ int hibmc_de_init(struct hibmc_drm_private *priv)
+ {
+ 	struct drm_device *dev = priv->dev;
+-	struct drm_crtc *crtc;
+-	struct drm_plane *plane;
++	struct drm_crtc *crtc = &priv->crtc;
++	struct drm_plane *plane = &priv->primary_plane;
+ 	int ret;
  
--	if (update_type > UPDATE_TYPE_FAST) {
-+	if (update_type >= UPDATE_TYPE_FULL) {
- 		if (!dc->res_pool->funcs->validate_bandwidth(dc, context, false)) {
- 			DC_ERROR("Mode validation failed for stream update!\n");
- 			dc_release_state(context);
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-index f31f48dd0da29..aaf9a99f9f045 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-@@ -3209,6 +3209,9 @@ static noinline bool dcn20_validate_bandwidth_fp(struct dc *dc,
- 	context->bw_ctx.dml.soc.allow_dram_clock_one_display_vactive =
- 		dc->debug.enable_dram_clock_change_one_display_vactive;
+-	plane = hibmc_plane_init(priv);
+-	if (IS_ERR(plane)) {
+-		DRM_ERROR("failed to create plane: %ld\n", PTR_ERR(plane));
+-		return PTR_ERR(plane);
+-	}
++	ret = drm_universal_plane_init(dev, plane, 1, &hibmc_plane_funcs,
++				       channel_formats1,
++				       ARRAY_SIZE(channel_formats1),
++				       NULL,
++				       DRM_PLANE_TYPE_PRIMARY,
++				       NULL);
  
-+	/*Unsafe due to current pipe merge and split logic*/
-+	ASSERT(context != dc->current_state);
-+
- 	if (fast_validate) {
- 		return dcn20_validate_bandwidth_internal(dc, context, true);
+-	crtc = devm_kzalloc(dev->dev, sizeof(*crtc), GFP_KERNEL);
+-	if (!crtc) {
+-		DRM_ERROR("failed to alloc memory when init crtc\n");
+-		return -ENOMEM;
++	if (ret) {
++		DRM_ERROR("failed to init plane: %d\n", ret);
++		return ret;
  	}
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-index 88d41a385add8..a4f37d83d5cc9 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-@@ -1184,6 +1184,9 @@ bool dcn21_validate_bandwidth(struct dc *dc, struct dc_state *context,
  
- 	BW_VAL_TRACE_COUNT();
- 
-+	/*Unsafe due to current pipe merge and split logic*/
-+	ASSERT(context != dc->current_state);
++	drm_plane_helper_add(plane, &hibmc_plane_helper_funcs);
 +
- 	out = dcn20_fast_validate_bw(dc, context, pipes, &pipe_cnt, pipe_split_from, &vlevel);
+ 	ret = drm_crtc_init_with_planes(dev, crtc, plane,
+ 					NULL, &hibmc_crtc_funcs, NULL);
+ 	if (ret) {
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+index 609768748de65..0a74ba220cac5 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+@@ -29,6 +29,8 @@ struct hibmc_drm_private {
  
- 	if (pipe_cnt == 0)
+ 	/* drm */
+ 	struct drm_device  *dev;
++	struct drm_plane primary_plane;
++	struct drm_crtc crtc;
+ 	struct drm_encoder encoder;
+ 	struct drm_connector connector;
+ 	bool mode_config_initialized;
 -- 
 2.25.1
 
