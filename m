@@ -1,53 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975F7291FD6
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 22:33:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E85B7291FF7
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 22:45:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C85886E89F;
-	Sun, 18 Oct 2020 20:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF99A6E8A4;
+	Sun, 18 Oct 2020 20:45:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3BD96E89F
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 20:33:22 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id s21so10181973oij.0
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 13:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2tjt8ngbdIU3h9PETCczfJ9vnTQ40FaapLpDo2xIhaE=;
- b=Sp9iIrfZIvjznRS75UO82B6KhHY8UwiZ3t5UFaGmGqwmbjlttQPIxbes+8+VYGfeUc
- vBjeQ28RaYl66uxePh4ZL0rA8ul4c6tJl5y34Ezn0mtkJ7fpCfvAm+1vc/JkXxoDiX+m
- XWZgtLUI+RJeQdB9hmX2gJ2FWQlkhnbRrBU7Y=
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 153B16E8A4
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 20:45:06 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id g16so4185103pjv.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 13:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=knFTAfIPNfK0zMG6Crewi1ksambWz4eNn+ixDl4AQuk=;
+ b=K+O1SkRwxCl1CIvmSz86ET2rIzrCAAEEw3mxrHscAYc/V3UDUtFL0ZG3UZ+X1D8O+U
+ FpHqvbDS8cpKWnCryE0nSxtw9jToBsLQX2pvHR1T1SG75TKAP3YfnjZblbf+qN4lyfN9
+ ek2RBUIdceP7nSyBBX0vsbafvg2JvmP8neUPQFdgVB5bJyGkRGX7q7EAULP+khK0n7fo
+ besSDZbrVdffWplXDW2T0/RzXsWHMHqILfhI0bYDhLOGQPM1+gVa6Krue3QPLjV5zdRf
+ YQAJSi5NMjJdjpF3eN5eKAEy+K5sSv8MC8GH0k1Hxnlqe4iIFPcGHUVYdYLkXKuZGsEK
+ MaOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2tjt8ngbdIU3h9PETCczfJ9vnTQ40FaapLpDo2xIhaE=;
- b=Nk2GDrJxQD96BwdahCazj5kPV315gsxHgROItSskfVZGgTVYlU/O9MEdnI8l9MrEZs
- iaSEqVwGP3HvZeNBgoBpBEyhglLYFtY6sv2eiaAtAVo2jZMShQGe7ZjOAPl2u2UCTxJD
- SvNJH23MIkKhxcpuIpq9toQ9Yt1mAVw/FzgGb1dR9IF/vNuK1Us2tDC74peM+0yM6neU
- tUQCCG4yd/T1ha33+yqJszd89d/JVibQ1DEHojb/R82GYDHsjq/wnoWzOG21t+tmrAsQ
- rgQZeB/c/mIIRGqc5lxjkbSrlSvlpfagFkeKJ1LUeTCNZ0yPAIiM81l9bhsEpwa8CQ7W
- cTAw==
-X-Gm-Message-State: AOAM531FOdLqGr+uC0auYmhgP9jEhZremxS1+WJlQ9MuzrKGLjO/rg2b
- INGpZscU3/M1oClXww1RTYLWLxEN88qel31I76FYDQ==
-X-Google-Smtp-Source: ABdhPJxGp/avmYnxlHs5bpREP0kcu2f1x3Av0xEFWBggKhyJihr+jjRB7wtkrc3DNtVCdX/JVjLJsFJDIiHvWMvOt4s=
-X-Received: by 2002:aca:6083:: with SMTP id u125mr9349336oib.14.1603053202045; 
- Sun, 18 Oct 2020 13:33:22 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=knFTAfIPNfK0zMG6Crewi1ksambWz4eNn+ixDl4AQuk=;
+ b=Rp9uiir/rN/ihVJR76io/cx6iDP8ICG9VvWsEZXkOtk1PqGt8daycHQD4asB/22AAT
+ 7OFsXEgfKmkLqFamqVxS5i2p5mM9i6kTEUiJRjOS8Pw/QhiGuIboBdZ7JJ7ioNelTUE8
+ +ZismkXvBZ2AEx6cM4RQucYOyRiOHqsv1fAnUILp8vfKN/zn1jShwRvWAYscpCabHs+2
+ JP0+2i3XZyhshFB4MwkhZ4DU+1xXqWKnSOFcO9e+Y5mUMH3DLxgTed3IMFsWpt+LygAc
+ ElM/FJtokTONUbyYe1zQFbLodBVgqVjBNSlP/j7f10xfTxlOerRZFWOAA4p10ma6OYxb
+ udFQ==
+X-Gm-Message-State: AOAM533Wk0fREl0yqZSxAwQ1xm9lIihCpuPwbGq9lxDDq4/7gFwjj9w9
+ +HdT/H9pujXot5+TaJZSKDTH3x8JpiEY3Dg=
+X-Google-Smtp-Source: ABdhPJwko5Q7XjO6YbrUJ+jWW0NWV3X1Jtv2FRCBiG7hzcQpdIYwm3jPq1Yk6OTo6LcyC22+U5oNRw==
+X-Received: by 2002:a17:902:6b07:b029:d3:ebaa:d028 with SMTP id
+ o7-20020a1709026b07b02900d3ebaad028mr14299830plk.11.1603053905596; 
+ Sun, 18 Oct 2020 13:45:05 -0700 (PDT)
+Received: from PWN ([161.117.80.159])
+ by smtp.gmail.com with ESMTPSA id gd14sm9656624pjb.31.2020.10.18.13.45.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 18 Oct 2020 13:45:04 -0700 (PDT)
+Date: Sun, 18 Oct 2020 16:44:56 -0400
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 1/2] Fonts: Support FONT_EXTRA_WORDS macros for font_6x8
+Message-ID: <20201018204456.GA697766@PWN>
 References: <20200820082137.5907-1-s.hauer@pengutronix.de>
  <926453876c92caac34cba8545716a491754d04d5.1603037079.git.yepeilin.cs@gmail.com>
  <CAKMK7uF9E24P=vzKt28=1_iaFTYD7obHs+tEPwwZPNMhh7DBrg@mail.gmail.com>
  <20201018201811.GA697615@PWN>
-In-Reply-To: <20201018201811.GA697615@PWN>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sun, 18 Oct 2020 22:33:11 +0200
-Message-ID: <CAKMK7uFEmNnBdpoHYqvCUYS=nxh99gKs6P1-1pgp-ouvTSioGw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Fonts: Support FONT_EXTRA_WORDS macros for font_6x8
-To: Peilin Ye <yepeilin.cs@gmail.com>
+ <CAKMK7uFEmNnBdpoHYqvCUYS=nxh99gKs6P1-1pgp-ouvTSioGw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uFEmNnBdpoHYqvCUYS=nxh99gKs6P1-1pgp-ouvTSioGw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,59 +84,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 18, 2020 at 10:18 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
->
-> On Sun, Oct 18, 2020 at 10:09:06PM +0200, Daniel Vetter wrote:
-> > Adding dri-devel too, not sure anyone is still listening on linux-fbdev.
->
-> I see, thanks!
->
-> > On Sun, Oct 18, 2020 at 8:13 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> > >
-> > > Recently, in commit 6735b4632def ("Fonts: Support FONT_EXTRA_WORDS macros
-> > > for built-in fonts"), we wrapped each of our built-in data buffers in a
-> > > `font_data` structure, in order to use the following macros on them, see
-> > > include/linux/font.h:
-> > >
-> > >         #define REFCOUNT(fd)    (((int *)(fd))[-1])
-> > >         #define FNTSIZE(fd)     (((int *)(fd))[-2])
-> > >         #define FNTCHARCNT(fd)  (((int *)(fd))[-3])
-> > >         #define FNTSUM(fd)      (((int *)(fd))[-4])
-> > >
-> > >         #define FONT_EXTRA_WORDS 4
-> > >
-> > > Do the same thing to our new 6x8 font. For built-in fonts, currently we
-> > > only use FNTSIZE(). Since this is only a temporary solution for an
-> > > out-of-bounds issue in the framebuffer layer (see commit 5af08640795b
-> > > ("fbcon: Fix global-out-of-bounds read in fbcon_get_font()")), all the
-> > > three other fields are intentionally set to zero in order to discourage
-> > > using these negative-indexing macros.
-> > >
-> > > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+On Sun, Oct 18, 2020 at 10:33:11PM +0200, Daniel Vetter wrote:
+> On Sun, Oct 18, 2020 at 10:18 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> > 2/2 is just updating the fb documentation:
 > >
-> > Patch looks good to me, but it says 1/2 and I can't find 2/2 anywhere,
-> > not even on lore. Did that get lost?
->
-> 2/2 is just updating the fb documentation:
->
-> [PATCH 2/2] docs: fb: Add font_6x8 to available built-in fonts
-> https://lore.kernel.org/lkml/717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com/
->
-> I did `git format-patch -2 --thread=deep`, did I do something wrong when
-> sending it?
+> > [PATCH 2/2] docs: fb: Add font_6x8 to available built-in fonts
+> > https://lore.kernel.org/lkml/717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com/
+> >
+> > I did `git format-patch -2 --thread=deep`, did I do something wrong when
+> > sending it?
+> 
+> No idea, it just didn't arrive anywhere I could find. And I did get
+> your previous patch series. Maybe just try again with dri-devel
+> included and hope it works then?
 
-No idea, it just didn't arrive anywhere I could find. And I did get
-your previous patch series. Maybe just try again with dri-devel
-included and hope it works then?
--Daniel
+I'm confused, I see it on LKML in the link above. Sure I'll resend soon.
 
->
+Peilin Ye
 
-
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
