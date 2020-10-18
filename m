@@ -1,57 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDB1291AAA
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:25:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 579CF2919A8
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:20:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A91136E88F;
-	Sun, 18 Oct 2020 19:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33A1A6E85C;
+	Sun, 18 Oct 2020 19:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
- [96.44.175.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 031126E88F;
- Sun, 18 Oct 2020 19:25:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by bedivere.hansenpartnership.com (Postfix) with ESMTP id 7A1D5128046A;
- Sun, 18 Oct 2020 12:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
- s=20151216; t=1603048682;
- bh=aTHhEGSm6DrUFNt/hKuOWL0f+WzaMvx/rc4IP5RJYRs=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=WcP5INjnqihCMCJ+2ZkHdzEWBsqi3wavZOcf0NGlcoun37UNiQ4GoZk+2AoMrr8hd
- 1s2t7Y8IzQcDUGm581+QcIuy/enpzpZm6HswhyX4zoKl9l3S5fk96frr/LU4I9kVw8
- r8s7AtR/5wOGbwEsua/QdQrVgo3j6VSqYIXYukhg=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id ywWMwLsGscQI; Sun, 18 Oct 2020 12:18:02 -0700 (PDT)
-Received: from jarvis.int.hansenpartnership.com (unknown
- [IPv6:2601:600:8280:66d1::c447])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 339FC6E854;
+ Sun, 18 Oct 2020 19:20:16 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 340C31280456;
- Sun, 18 Oct 2020 12:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
- s=20151216; t=1603048682;
- bh=aTHhEGSm6DrUFNt/hKuOWL0f+WzaMvx/rc4IP5RJYRs=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=WcP5INjnqihCMCJ+2ZkHdzEWBsqi3wavZOcf0NGlcoun37UNiQ4GoZk+2AoMrr8hd
- 1s2t7Y8IzQcDUGm581+QcIuy/enpzpZm6HswhyX4zoKl9l3S5fk96frr/LU4I9kVw8
- r8s7AtR/5wOGbwEsua/QdQrVgo3j6VSqYIXYukhg=
-Message-ID: <0a739bcd421a3154c2521b49779b287e6c0d08a2.camel@HansenPartnership.com>
-Subject: Re: [Ocfs2-devel] [RFC] treewide: cleanup unreachable breaks
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Matthew Wilcox <willy@infradead.org>
-Date: Sun, 18 Oct 2020 12:17:59 -0700
-In-Reply-To: <20201018191618.GO20115@casper.infradead.org>
-References: <20201017160928.12698-1-trix@redhat.com>
- <20201018185943.GM20115@casper.infradead.org>
- <45efa7780c79972eae9ca9bdeb9f7edbab4f3643.camel@HansenPartnership.com>
- <20201018191618.GO20115@casper.infradead.org>
-User-Agent: Evolution 3.34.4 
+ by mail.kernel.org (Postfix) with ESMTPSA id 25973222E8;
+ Sun, 18 Oct 2020 19:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603048816;
+ bh=PIerFogCN3KjWeRdp/pZF5bPqZtgIpKAi25ssPmwOXo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=TM5pLo0grl+K4ZL27lirHBv69jWnePb/8dO7/SbnVX8YWRy7QdIkkhWtl4XdixSA1
+ zYRWH+LAnM2MQay7TShB52axC/XdARssfkRmr+k70rMw+W+qjP5NIPFL2VGDzCugR1
+ uzVpsMnl6+8jPlTggdcY7gdTuMmUeNys8FGOQH/8=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.9 105/111] drm/amd/display: Screen corruption on
+ dual displays (DP+USB-C)
+Date: Sun, 18 Oct 2020 15:18:01 -0400
+Message-Id: <20201018191807.4052726-105-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201018191807.4052726-1-sashal@kernel.org>
+References: <20201018191807.4052726-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,65 +50,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-iio@vger.kernel.org, trix@redhat.com,
- linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, keyrings@vger.kernel.org,
- linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, usb-storage@lists.one-eyed-alien.net,
- devel@driverdev.osuosl.org, linux-samsung-soc@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-scsi@vger.kernel.org,
- linux-nvdimm@lists.01.org, linux-pm@vger.kernel.org,
- ath10k@lists.infradead.org, linux-acpi@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, industrypack-devel@lists.sourceforge.net,
- nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
- MPT-FusionLinux.pdl@broadcom.com, linux-media@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-nfc@lists.01.org,
- linux-serial@vger.kernel.org, linux-can@vger.kernel.org,
- linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
- storagedev@microchip.com, linux-amlogic@lists.infradead.org,
- openipmi-developer@lists.sourceforge.net, platform-driver-x86@vger.kernel.org,
- bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-edac@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-security-module@vger.kernel.org, clang-built-linux@googlegroups.com,
- patches@opensource.cirrus.com, linux-crypto@vger.kernel.org,
- linux-integrity@vger.kernel.org, ocfs2-devel@oss.oracle.com,
- linux-power@fi.rohmeurope.com
+Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 2020-10-18 at 20:16 +0100, Matthew Wilcox wrote:
-> On Sun, Oct 18, 2020 at 12:13:35PM -0700, James Bottomley wrote:
-> > On Sun, 2020-10-18 at 19:59 +0100, Matthew Wilcox wrote:
-> > > On Sat, Oct 17, 2020 at 09:09:28AM -0700, trix@redhat.com wrote:
-> > > > clang has a number of useful, new warnings see
-> > > > https://urldefense.com/v3/__https://clang.llvm.org/docs/DiagnosticsReference.html__;!!GqivPVa7Brio!Krxz78O3RKcB9JBMVo_F98FupVhj_jxX60ddN6tKGEbv_cnooXc1nnBmchm-e_O9ieGnyQ$ 
-> > > 
-> > > Please get your IT department to remove that stupidity.  If you
-> > > can't, please send email from a non-Red Hat email address.
-> > 
-> > Actually, the problem is at Oracle's end somewhere in the ocfs2
-> > list ... if you could fix it, that would be great.  The usual real
-> > mailing lists didn't get this transformation
-> > 
-> > https://lore.kernel.org/bpf/20201017160928.12698-1-trix@redhat.com/
-> > 
-> > but the ocfs2 list archive did:
-> > 
-> > https://oss.oracle.com/pipermail/ocfs2-devel/2020-October/015330.html
-> > 
-> > I bet Oracle IT has put some spam filter on the list that mangles
-> > URLs this way.
-> 
-> *sigh*.  I'm sure there's a way.  I've raised it with someone who
-> should be able to fix it.
+From: Qingqing Zhuo <qingqing.zhuo@amd.com>
 
-As someone who works for IBM I can only say I feel your pain ...
+[ Upstream commit ce271b40a91f781af3dee985c39e841ac5148766 ]
 
-James
+[why]
+Current pipe merge and split logic only supports cases where new
+dc_state is allocated and relies on dc->current_state to gather
+information from previous dc_state.
 
+Calls to validate_bandwidth on UPDATE_TYPE_MED would cause an issue
+because there is no new dc_state allocated, and data in
+dc->current_state would be overwritten during pipe merge.
+
+[how]
+Only allow validate_bandwidth when new dc_state space is created.
+
+Signed-off-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc.c              | 2 +-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 3 +++
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 3 +++
+ 3 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 92eb1ca1634fc..22cbfda6ab338 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -2621,7 +2621,7 @@ void dc_commit_updates_for_stream(struct dc *dc,
+ 
+ 	copy_stream_update_to_stream(dc, context, stream, stream_update);
+ 
+-	if (update_type > UPDATE_TYPE_FAST) {
++	if (update_type >= UPDATE_TYPE_FULL) {
+ 		if (!dc->res_pool->funcs->validate_bandwidth(dc, context, false)) {
+ 			DC_ERROR("Mode validation failed for stream update!\n");
+ 			dc_release_state(context);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+index f31f48dd0da29..aaf9a99f9f045 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+@@ -3209,6 +3209,9 @@ static noinline bool dcn20_validate_bandwidth_fp(struct dc *dc,
+ 	context->bw_ctx.dml.soc.allow_dram_clock_one_display_vactive =
+ 		dc->debug.enable_dram_clock_change_one_display_vactive;
+ 
++	/*Unsafe due to current pipe merge and split logic*/
++	ASSERT(context != dc->current_state);
++
+ 	if (fast_validate) {
+ 		return dcn20_validate_bandwidth_internal(dc, context, true);
+ 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+index 88d41a385add8..a4f37d83d5cc9 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+@@ -1184,6 +1184,9 @@ bool dcn21_validate_bandwidth(struct dc *dc, struct dc_state *context,
+ 
+ 	BW_VAL_TRACE_COUNT();
+ 
++	/*Unsafe due to current pipe merge and split logic*/
++	ASSERT(context != dc->current_state);
++
+ 	out = dcn20_fast_validate_bw(dc, context, pipes, &pipe_cnt, pipe_split_from, &vlevel);
+ 
+ 	if (pipe_cnt == 0)
+-- 
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
