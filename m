@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083D62919E9
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:21:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF142919EB
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 158926E854;
-	Sun, 18 Oct 2020 19:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAAFA6E867;
+	Sun, 18 Oct 2020 19:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FD276E854
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:21:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEFDC6E867;
+ Sun, 18 Oct 2020 19:21:49 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 27B10222E9;
- Sun, 18 Oct 2020 19:21:46 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CB09A223FB;
+ Sun, 18 Oct 2020 19:21:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603048907;
- bh=2CscpyPUTq5ces9fwMXzlJZFFHzMmXLkJxIFVnKjt0E=;
+ s=default; t=1603048909;
+ bh=nuqZbPGaVQvwnOYngLLEZ2+zo7gLgzoSpyjicX9nkQg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oW5M9TonfiPXhClN1pxNhR3MBUOHsFEnGg9lBGW/vRmI/xPBT2c+IfMlRxurfjzzN
- auYApngIleaPfeKmqP+eHC9xjxoDSO6UCLb2zRT6ksDABxvTfH+rW/CEwk9Eipbu9k
- wFOCjz2th2QiEPx8X7dtlysdSY792JL4azeLcFXI=
+ b=La1GPkUiII4vdEo81J7T/iRoYKxD13gQMSGoI92vxaATq85xCvKNxXSIETlH4EEUZ
+ IOlzBum6y5KwDm8kEDvdCXiQMnU6r1Mj4wxWRroVqRIbK7vgoJlyDXfpV4yxbFz5S0
+ n7/A7Jm2WmjkOXkhlHHZucHDvc1A0BA4fOaUv8pQ=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 067/101] drm: fix double free for gbo in
- drm_gem_vram_init and drm_gem_vram_create
-Date: Sun, 18 Oct 2020 15:19:52 -0400
-Message-Id: <20201018192026.4053674-67-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 069/101] drm/msm/a6xx: fix a potential overflow
+ issue
+Date: Sun, 18 Oct 2020 15:19:54 -0400
+Message-Id: <20201018192026.4053674-69-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201018192026.4053674-1-sashal@kernel.org>
 References: <20201018192026.4053674-1-sashal@kernel.org>
@@ -50,176 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jia Yang <jiayang5@huawei.com>,
- butt3rflyh4ck <butterflyhuangxx@gmail.com>, dri-devel@lists.freedesktop.org,
- Hulk Robot <hulkci@huawei.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>, freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jia Yang <jiayang5@huawei.com>
+From: Zhenzhong Duan <zhenzhong.duan@gmail.com>
 
-[ Upstream commit da62cb7230f0871c30dc9789071f63229158d261 ]
+[ Upstream commit 08d3ab4b46339bc6f97e83b54a3fb4f8bf8f4cd9 ]
 
-I got a use-after-free report when doing some fuzz test:
+It's allocating an array of a6xx_gpu_state_obj structure rathor than
+its pointers.
 
-If ttm_bo_init() fails, the "gbo" and "gbo->bo.base" will be
-freed by ttm_buffer_object_destroy() in ttm_bo_init(). But
-then drm_gem_vram_create() and drm_gem_vram_init() will free
-"gbo" and "gbo->bo.base" again.
+This patch fix it.
 
-BUG: KMSAN: use-after-free in drm_vma_offset_remove+0xb3/0x150
-CPU: 0 PID: 24282 Comm: syz-executor.1 Tainted: G    B   W         5.7.0-rc4-msan #2
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Ubuntu-1.8.2-1ubuntu1 04/01/2014
-Call Trace:
- __dump_stack
- dump_stack+0x1c9/0x220
- kmsan_report+0xf7/0x1e0
- __msan_warning+0x58/0xa0
- drm_vma_offset_remove+0xb3/0x150
- drm_gem_free_mmap_offset
- drm_gem_object_release+0x159/0x180
- drm_gem_vram_init
- drm_gem_vram_create+0x7c5/0x990
- drm_gem_vram_fill_create_dumb
- drm_gem_vram_driver_dumb_create+0x238/0x590
- drm_mode_create_dumb
- drm_mode_create_dumb_ioctl+0x41d/0x450
- drm_ioctl_kernel+0x5a4/0x710
- drm_ioctl+0xc6f/0x1240
- vfs_ioctl
- ksys_ioctl
- __do_sys_ioctl
- __se_sys_ioctl+0x2e9/0x410
- __x64_sys_ioctl+0x4a/0x70
- do_syscall_64+0xb8/0x160
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x4689b9
-Code: fd e0 fa ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 cb e0 fa ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f368fa4dc98 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 000000000076bf00 RCX: 00000000004689b9
-RDX: 0000000020000240 RSI: 00000000c02064b2 RDI: 0000000000000003
-RBP: 0000000000000004 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00000000004d17e0 R14: 00007f368fa4e6d4 R15: 000000000076bf0c
-
-Uninit was created at:
- kmsan_save_stack_with_flags
- kmsan_internal_poison_shadow+0x66/0xd0
- kmsan_slab_free+0x6e/0xb0
- slab_free_freelist_hook
- slab_free
- kfree+0x571/0x30a0
- drm_gem_vram_destroy
- ttm_buffer_object_destroy+0xc8/0x130
- ttm_bo_release
- kref_put
- ttm_bo_put+0x117d/0x23e0
- ttm_bo_init_reserved+0x11c0/0x11d0
- ttm_bo_init+0x289/0x3f0
- drm_gem_vram_init
- drm_gem_vram_create+0x775/0x990
- drm_gem_vram_fill_create_dumb
- drm_gem_vram_driver_dumb_create+0x238/0x590
- drm_mode_create_dumb
- drm_mode_create_dumb_ioctl+0x41d/0x450
- drm_ioctl_kernel+0x5a4/0x710
- drm_ioctl+0xc6f/0x1240
- vfs_ioctl
- ksys_ioctl
- __do_sys_ioctl
- __se_sys_ioctl+0x2e9/0x410
- __x64_sys_ioctl+0x4a/0x70
- do_syscall_64+0xb8/0x160
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-
-If ttm_bo_init() fails, the "gbo" will be freed by
-ttm_buffer_object_destroy() in ttm_bo_init(). But then
-drm_gem_vram_create() and drm_gem_vram_init() will free
-"gbo" again.
-
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Reported-by: butt3rflyh4ck <butterflyhuangxx@gmail.com>
-Signed-off-by: Jia Yang <jiayang5@huawei.com>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200714083238.28479-2-tzimmermann@suse.de
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@gmail.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 28 +++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 8b2d5c945c95c..1d85af9a481ac 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -175,6 +175,10 @@ static void drm_gem_vram_placement(struct drm_gem_vram_object *gbo,
- 	}
- }
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index d6023ba8033c0..3bb567812b990 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -864,7 +864,7 @@ static void a6xx_get_indexed_registers(struct msm_gpu *gpu,
+ 	int i;
  
-+/*
-+ * Note that on error, drm_gem_vram_init will free the buffer object.
-+ */
-+
- static int drm_gem_vram_init(struct drm_device *dev,
- 			     struct drm_gem_vram_object *gbo,
- 			     size_t size, unsigned long pg_align)
-@@ -184,15 +188,19 @@ static int drm_gem_vram_init(struct drm_device *dev,
- 	int ret;
- 	size_t acc_size;
- 
--	if (WARN_ONCE(!vmm, "VRAM MM not initialized"))
-+	if (WARN_ONCE(!vmm, "VRAM MM not initialized")) {
-+		kfree(gbo);
- 		return -EINVAL;
-+	}
- 	bdev = &vmm->bdev;
- 
- 	gbo->bo.base.funcs = &drm_gem_vram_object_funcs;
- 
- 	ret = drm_gem_object_init(dev, &gbo->bo.base, size);
--	if (ret)
-+	if (ret) {
-+		kfree(gbo);
- 		return ret;
-+	}
- 
- 	acc_size = ttm_bo_dma_acc_size(bdev, size, sizeof(*gbo));
- 
-@@ -203,13 +211,13 @@ static int drm_gem_vram_init(struct drm_device *dev,
- 			  &gbo->placement, pg_align, false, acc_size,
- 			  NULL, NULL, ttm_buffer_object_destroy);
- 	if (ret)
--		goto err_drm_gem_object_release;
-+		/*
-+		 * A failing ttm_bo_init will call ttm_buffer_object_destroy
-+		 * to release gbo->bo.base and kfree gbo.
-+		 */
-+		return ret;
- 
- 	return 0;
--
--err_drm_gem_object_release:
--	drm_gem_object_release(&gbo->bo.base);
--	return ret;
- }
- 
- /**
-@@ -243,13 +251,9 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
- 
- 	ret = drm_gem_vram_init(dev, gbo, size, pg_align);
- 	if (ret < 0)
--		goto err_kfree;
-+		return ERR_PTR(ret);
- 
- 	return gbo;
--
--err_kfree:
--	kfree(gbo);
--	return ERR_PTR(ret);
- }
- EXPORT_SYMBOL(drm_gem_vram_create);
+ 	a6xx_state->indexed_regs = state_kcalloc(a6xx_state, count,
+-		sizeof(a6xx_state->indexed_regs));
++		sizeof(*a6xx_state->indexed_regs));
+ 	if (!a6xx_state->indexed_regs)
+ 		return;
  
 -- 
 2.25.1
