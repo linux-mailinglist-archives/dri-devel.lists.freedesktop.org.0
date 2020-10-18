@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85B7291FF7
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 22:45:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E69A291FFD
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 22:47:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF99A6E8A4;
-	Sun, 18 Oct 2020 20:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFBD96E8A7;
+	Sun, 18 Oct 2020 20:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 153B16E8A4
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 20:45:06 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id g16so4185103pjv.3
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 13:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=knFTAfIPNfK0zMG6Crewi1ksambWz4eNn+ixDl4AQuk=;
- b=K+O1SkRwxCl1CIvmSz86ET2rIzrCAAEEw3mxrHscAYc/V3UDUtFL0ZG3UZ+X1D8O+U
- FpHqvbDS8cpKWnCryE0nSxtw9jToBsLQX2pvHR1T1SG75TKAP3YfnjZblbf+qN4lyfN9
- ek2RBUIdceP7nSyBBX0vsbafvg2JvmP8neUPQFdgVB5bJyGkRGX7q7EAULP+khK0n7fo
- besSDZbrVdffWplXDW2T0/RzXsWHMHqILfhI0bYDhLOGQPM1+gVa6Krue3QPLjV5zdRf
- YQAJSi5NMjJdjpF3eN5eKAEy+K5sSv8MC8GH0k1Hxnlqe4iIFPcGHUVYdYLkXKuZGsEK
- MaOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=knFTAfIPNfK0zMG6Crewi1ksambWz4eNn+ixDl4AQuk=;
- b=Rp9uiir/rN/ihVJR76io/cx6iDP8ICG9VvWsEZXkOtk1PqGt8daycHQD4asB/22AAT
- 7OFsXEgfKmkLqFamqVxS5i2p5mM9i6kTEUiJRjOS8Pw/QhiGuIboBdZ7JJ7ioNelTUE8
- +ZismkXvBZ2AEx6cM4RQucYOyRiOHqsv1fAnUILp8vfKN/zn1jShwRvWAYscpCabHs+2
- JP0+2i3XZyhshFB4MwkhZ4DU+1xXqWKnSOFcO9e+Y5mUMH3DLxgTed3IMFsWpt+LygAc
- ElM/FJtokTONUbyYe1zQFbLodBVgqVjBNSlP/j7f10xfTxlOerRZFWOAA4p10ma6OYxb
- udFQ==
-X-Gm-Message-State: AOAM533Wk0fREl0yqZSxAwQ1xm9lIihCpuPwbGq9lxDDq4/7gFwjj9w9
- +HdT/H9pujXot5+TaJZSKDTH3x8JpiEY3Dg=
-X-Google-Smtp-Source: ABdhPJwko5Q7XjO6YbrUJ+jWW0NWV3X1Jtv2FRCBiG7hzcQpdIYwm3jPq1Yk6OTo6LcyC22+U5oNRw==
-X-Received: by 2002:a17:902:6b07:b029:d3:ebaa:d028 with SMTP id
- o7-20020a1709026b07b02900d3ebaad028mr14299830plk.11.1603053905596; 
- Sun, 18 Oct 2020 13:45:05 -0700 (PDT)
-Received: from PWN ([161.117.80.159])
- by smtp.gmail.com with ESMTPSA id gd14sm9656624pjb.31.2020.10.18.13.45.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Oct 2020 13:45:04 -0700 (PDT)
-Date: Sun, 18 Oct 2020 16:44:56 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/2] Fonts: Support FONT_EXTRA_WORDS macros for font_6x8
-Message-ID: <20201018204456.GA697766@PWN>
-References: <20200820082137.5907-1-s.hauer@pengutronix.de>
- <926453876c92caac34cba8545716a491754d04d5.1603037079.git.yepeilin.cs@gmail.com>
- <CAKMK7uF9E24P=vzKt28=1_iaFTYD7obHs+tEPwwZPNMhh7DBrg@mail.gmail.com>
- <20201018201811.GA697615@PWN>
- <CAKMK7uFEmNnBdpoHYqvCUYS=nxh99gKs6P1-1pgp-ouvTSioGw@mail.gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE066E8A5;
+ Sun, 18 Oct 2020 20:47:35 +0000 (UTC)
+IronPort-SDR: lvrwhV84VwYCPvjwhGMrOSR7PS1JLULRYmsgfbHYx1EeRzXX3AnAh9gpumDxHQKe6RlKqw/4GA
+ Iv7CostlicvA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9778"; a="164313800"
+X-IronPort-AV: E=Sophos;i="5.77,392,1596524400"; d="scan'208";a="164313800"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2020 13:47:31 -0700
+IronPort-SDR: VJaghAPikIBTW/8hQ0AfdPXJvP/xmZkVPwPcpOwazyFTFXkb5vrYAAlnvpKh8CDmfqKaWBo/JJ
+ YVEHwZhSXPZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,392,1596524400"; d="scan'208";a="465296187"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga004.jf.intel.com with ESMTP; 18 Oct 2020 13:47:31 -0700
+Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sun, 18 Oct 2020 13:47:29 -0700
+Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
+ BGSMSX604.gar.corp.intel.com (10.67.234.6) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 19 Oct 2020 02:17:27 +0530
+Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
+ BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
+ Mon, 19 Oct 2020 02:17:27 +0530
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [RFC 01/13] drm/edid: Add additional HFVSDB fields for HDMI2.1
+Thread-Topic: [RFC 01/13] drm/edid: Add additional HFVSDB fields for HDMI2.1
+Thread-Index: AQHWouJZAJK76sJHwUKa0Yk1CIyeV6md1IPw
+Date: Sun, 18 Oct 2020 20:47:27 +0000
+Message-ID: <7137c1244ee3409da343a6c4a1de38ee@intel.com>
+References: <20201015105259.27934-1-ankit.k.nautiyal@intel.com>
+ <20201015105259.27934-2-ankit.k.nautiyal@intel.com>
+In-Reply-To: <20201015105259.27934-2-ankit.k.nautiyal@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.223.10.1]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFEmNnBdpoHYqvCUYS=nxh99gKs6P1-1pgp-ouvTSioGw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,36 +70,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sven Schneider <s.schneider@arkona-technologies.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma, 
+ Swati2" <swati2.sharma@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 18, 2020 at 10:33:11PM +0200, Daniel Vetter wrote:
-> On Sun, Oct 18, 2020 at 10:18 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> > 2/2 is just updating the fb documentation:
-> >
-> > [PATCH 2/2] docs: fb: Add font_6x8 to available built-in fonts
-> > https://lore.kernel.org/lkml/717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com/
-> >
-> > I did `git format-patch -2 --thread=deep`, did I do something wrong when
-> > sending it?
+
+
+> -----Original Message-----
+> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
+> Sent: Thursday, October 15, 2020 4:23 PM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
+> Kulkarni, Vandita <vandita.kulkarni@intel.com>; ville.syrjala@linux.intel.com;
+> Sharma, Swati2 <swati2.sharma@intel.com>
+> Subject: [RFC 01/13] drm/edid: Add additional HFVSDB fields for HDMI2.1
 > 
-> No idea, it just didn't arrive anywhere I could find. And I did get
-> your previous patch series. Maybe just try again with dri-devel
-> included and hope it works then?
+> From: Swati Sharma <swati2.sharma@intel.com>
+> 
+> The HDMI2.1 extends HFVSBD (HDMI Forum Vendor Specific Data block) to have
 
-I'm confused, I see it on LKML in the link above. Sure I'll resend soon.
+Typo in HFVSDB
 
-Peilin Ye
+> fields related to newly defined methods of FRL (Fixed Rate Link) levels, number
+> of lanes supported, DSC Color bit depth, VRR min/max, FVA (Fast Vactive), ALLM
+> etc.
+> 
+> This patch adds the new HFVSDB fields that are required for HDMI2.1.
+> 
+> Signed-off-by: Sharma, Swati2 <swati2.sharma@intel.com>
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> ---
+>  include/drm/drm_edid.h | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h index
+> b27a0e2169c8..1cc5c2c73282 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -229,6 +229,36 @@ struct detailed_timing {
+>  				    DRM_EDID_YCBCR420_DC_36 | \
+>  				    DRM_EDID_YCBCR420_DC_30)
+> 
+> +/* HDMI 2.1 additional fields */
+> +#define DRM_EDID_MAX_FRL_RATE_MASK		0xf0
+> +#define DRM_EDID_FAPA_START_LOCATION		(1 << 0)
+> +#define DRM_EDID_ALLM				(1 << 1)
+> +#define DRM_EDID_FVA				(1 << 2)
+> +
+> +/* Deep Color specific */
+> +#define DRM_EDID_DC_30BIT_420			(1 << 0)
+> +#define DRM_EDID_DC_36BIT_420			(1 << 1)
+> +#define DRM_EDID_DC_48BIT_420			(1 << 2)
+> +
+> +/* VRR specific */
+> +#define DRM_EDID_CNMVRR				(1 << 3)
+> +#define DRM_EDID_CINEMA_VRR			(1 << 4)
+> +#define DRM_EDID_MDELTA				(1 << 5)
+> +#define DRM_EDID_VRR_MAX_UPPER_MASK		0xc0
+> +#define DRM_EDID_VRR_MAX_LOWER_MASK		0xff
+> +#define DRM_EDID_VRR_MIN_MASK			0x3f
+> +
+> +/* DSC specific */
+> +#define DRM_EDID_DSC_10BPC			(1 << 0)
+> +#define DRM_EDID_DSC_12BPC			(1 << 1)
+> +#define DRM_EDID_DSC_16BPC			(1 << 2)
+> +#define DRM_EDID_DSC_ALL_BPP			(1 << 3)
+> +#define DRM_EDID_DSC_NATIVE_420			(1 << 6)
+> +#define DRM_EDID_DSC_1P2			(1 << 7)
+> +#define DRM_EDID_DSC_MAX_FRL_RATE		0xf
+
+This should be set as mask and made it as 0xf0
+
+> +#define DRM_EDID_DSC_MAX_SLICES			0xf
+> +#define DRM_EDID_DSC_TOTAL_CHUNK_KBYTES		0x3f
+> +
+>  /* ELD Header Block */
+>  #define DRM_ELD_HEADER_BLOCK_SIZE	4
+> 
+> --
+> 2.17.1
 
 _______________________________________________
 dri-devel mailing list
