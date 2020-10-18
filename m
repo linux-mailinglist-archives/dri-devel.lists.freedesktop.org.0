@@ -2,61 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30648291FC6
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 22:18:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4C1291FD4
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 22:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 259906E89D;
-	Sun, 18 Oct 2020 20:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA756E89E;
+	Sun, 18 Oct 2020 20:32:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 691676E89D
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 20:18:19 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id e10so4760279pfj.1
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 13:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=4EwdmieLopr730fBT092jGmCV6jWxaZo5R8egPxRxBo=;
- b=bEdLOYq0uwT93zPsTlYzcu7NYL6GQWq6YgXjrhZkf9QNU0jlqSEVF6ssnhdafsSTs6
- IuIJQ0arVKhAiHFMXk3TrN3YvGlkVWWizd5gDHZ6rIJZfLx7VHQVIAEPxVwKpqZjx/nm
- ze6W3bHse4Xx7rxiG9pYTKEez22Q/GTz3+Z7Riz117jy9CDBBoIYGVEIE9/rq2y76UBk
- SBQYpQQI97ZAYtPfH9NINxiJTIZT662CnAyXvoWN8juPzh0nArXfILe2MS2kbX+GO9RD
- 5r3epRL3Tg643LU7AV5dM7y/r5IyWwY+EIDGe8k5rPd1VjP186t6CJJTWbisOLX5nBwL
- QahQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4EwdmieLopr730fBT092jGmCV6jWxaZo5R8egPxRxBo=;
- b=O1DoyoIVU2Oa2Uhb6C4BeRwGEdQosVKh4JmxlkgIzMxSfDo2GLKnCf4NU/j8v+7hdj
- RPc7jEhpXr5fNUcxs88QgTtl/dASxesEKVQdxU5hRLa9c7v6wE94FNiuPQ1KjXzmL5Q8
- JFizdnAN67uabizPoFTi/9W5X1BQU23WIXAGH3M4/joRhpHr5egAJtCC+h4Mzj9JP3At
- pSZ+SI4FoHUONlx3nASutwywmrPoAVlqhGvEL6iaqm3oMllo3KHy3kLFqlU9kfkVOSEL
- 6XeThh5NacFI9PnCbWrg9qur5Ybd/cOnntr19FpWwUhKocwe/QSPDBiPsTOWMo4acylV
- mjSA==
-X-Gm-Message-State: AOAM531ijPh9AIa4qbwZS4QYpduN7eZszqT2fJHzy/0TUGYTrP5yRazP
- eCTCD8xmhE656clbmldcFA==
-X-Google-Smtp-Source: ABdhPJyQZEIkpoknp6K5CxLnfAdAyWDE7RCHr3fovGFQbRnzux3BEae4kATuON86B8qiqoel4KQSFA==
-X-Received: by 2002:aa7:911a:0:b029:155:8521:ba6c with SMTP id
- 26-20020aa7911a0000b02901558521ba6cmr13117544pfh.8.1603052298968; 
- Sun, 18 Oct 2020 13:18:18 -0700 (PDT)
-Received: from PWN ([161.117.41.183])
- by smtp.gmail.com with ESMTPSA id e4sm9568856pjt.31.2020.10.18.13.18.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Oct 2020 13:18:18 -0700 (PDT)
-Date: Sun, 18 Oct 2020 16:18:11 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/2] Fonts: Support FONT_EXTRA_WORDS macros for font_6x8
-Message-ID: <20201018201811.GA697615@PWN>
-References: <20200820082137.5907-1-s.hauer@pengutronix.de>
- <926453876c92caac34cba8545716a491754d04d5.1603037079.git.yepeilin.cs@gmail.com>
- <CAKMK7uF9E24P=vzKt28=1_iaFTYD7obHs+tEPwwZPNMhh7DBrg@mail.gmail.com>
+X-Greylist: delayed 367 seconds by postgrey-1.36 at gabe;
+ Sun, 18 Oct 2020 20:32:45 UTC
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
+ [185.70.41.103])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C41F36E89E
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 20:32:44 +0000 (UTC)
+Received: from mail-02.mail-europe.com (mail-02.mail-europe.com
+ [51.89.119.103])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ by mail-41103.protonmail.ch (Postfix) with ESMTPS id 6ACF9200A0F3
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 20:26:36 +0000 (UTC)
+Authentication-Results: mail-41103.protonmail.ch;
+ dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="Oz9KDr4V"
+Date: Sun, 18 Oct 2020 20:26:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me; s=protonmail;
+ t=1603052791; bh=fSCzWHwiRd7pVn7cIfc+r0HFiuIuE4EJJbeT7QKygKw=;
+ h=Date:To:From:Reply-To:Subject:From;
+ b=Oz9KDr4Vv0NhSrFERhET0ijw3tjqftxDMyEdGQ1jjB0yjKSiL4VjB+sCRfFMnaZr1
+ 7dVfFxrbBtGHY/E/TeBFcvrmyY9raIQ9wFDld0Hmk9bqEmLg0+SzpfBBRQ4ErnRlMy
+ vjnK/H0WWJru/SGUifvWWkm8Z4AGJmvuJXj4aVXh5QVtOWJFpIeBUfbFej5vOo89Mk
+ 2xU8luHPjZI9StB4hqyC5X3olip+QGNQKvqnxXPevI5vGQyxBphaMTmbeLa/RHmvTh
+ 7eb+3DG6IawViZ9OQyk6eNBEikm3bzLkp63o74VFMzPjTSpKi/45Sv9Wj5PAFEsLmL
+ RlaL6KDlDNSZg==
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+From: Josh Fuhs <Joshua.Fuhs@pm.me>
+Subject: amdgpu: Manual Card Configuration Change
+Message-ID: <-II5uGU2OLUvxeRHxuPIMmnyrFPVyg6pkc2UM16KaQ5f6_kbDJN0se2tfgIf15RJLLKrWZg0niAIgXxr-0V7qBQGR9mPq306qamxuQq9q7M=@pm.me>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uF9E24P=vzKt28=1_iaFTYD7obHs+tEPwwZPNMhh7DBrg@mail.gmail.com>
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HTML_MESSAGE shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,62 +56,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sven Schneider <s.schneider@arkona-technologies.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Josh Fuhs <Joshua.Fuhs@pm.me>
+Content-Type: multipart/mixed; boundary="===============1126582379=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 18, 2020 at 10:09:06PM +0200, Daniel Vetter wrote:
-> Adding dri-devel too, not sure anyone is still listening on linux-fbdev.
+This is a multi-part message in MIME format.
 
-I see, thanks!
+--===============1126582379==
+Content-Type: multipart/alternative;
+ boundary="b1_mwcqR2Mj4g941QuSDmMBcb5wbgRh6gvGwG20zs"
 
-> On Sun, Oct 18, 2020 at 8:13 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> >
-> > Recently, in commit 6735b4632def ("Fonts: Support FONT_EXTRA_WORDS macros
-> > for built-in fonts"), we wrapped each of our built-in data buffers in a
-> > `font_data` structure, in order to use the following macros on them, see
-> > include/linux/font.h:
-> >
-> >         #define REFCOUNT(fd)    (((int *)(fd))[-1])
-> >         #define FNTSIZE(fd)     (((int *)(fd))[-2])
-> >         #define FNTCHARCNT(fd)  (((int *)(fd))[-3])
-> >         #define FNTSUM(fd)      (((int *)(fd))[-4])
-> >
-> >         #define FONT_EXTRA_WORDS 4
-> >
-> > Do the same thing to our new 6x8 font. For built-in fonts, currently we
-> > only use FNTSIZE(). Since this is only a temporary solution for an
-> > out-of-bounds issue in the framebuffer layer (see commit 5af08640795b
-> > ("fbcon: Fix global-out-of-bounds read in fbcon_get_font()")), all the
-> > three other fields are intentionally set to zero in order to discourage
-> > using these negative-indexing macros.
-> >
-> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-> 
-> Patch looks good to me, but it says 1/2 and I can't find 2/2 anywhere,
-> not even on lore. Did that get lost?
+This is a multi-part message in MIME format.
 
-2/2 is just updating the fb documentation:
+--b1_mwcqR2Mj4g941QuSDmMBcb5wbgRh6gvGwG20zs
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
-[PATCH 2/2] docs: fb: Add font_6x8 to available built-in fonts
-https://lore.kernel.org/lkml/717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com/
+SGVsbG8gYWxsLAoKUmVnYXJkaW5nIGFtZGdwdSwgSSd2ZSBiZWVuIHVzaW5nIHNvbWUgUmFkZW9u
+IDU3MDBYVHMgZm9yIGNvbXB1dGUgd29yayB3aXRoIGtlcm5lbHMgdGhyb3VnaCA1LjguMTQuIEkg
+cmVjZW50bHkgdHJpZWQga2VybmVsIDUuOS4wLCBhbmQgZm91bmQgdGhhdCB0aGUgZm9sbG93aW5n
+IGlzIG5vIGxvbmdlciBhbGxvd2VkOgoKZWNobyAibSAxIDIwMCIgfCBzdWRvIHRlZSAvc3lzL2Ns
+YXNzL2RybS9jYXJkMC9kZXZpY2UvcHBfb2RfY2xrX3ZvbHRhZ2UKCklzIHRoaXMgYW4gZXhwZWN0
+ZWQgY2hhbmdlPyBJZiBzbywgd2hlcmUgc2hvdWxkIEkgbG9vayBmb3IgZG9jdW1lbnRhdGlvbiBy
+ZWdhcmRpbmcgaG93IHRvIG1hbnVhbGx5IGNvbmZpZ3VyZSB0aGVzZSBjYXJkcyB3aXRoIHRoaXMg
+a2VybmVsLiBOb3RlLCBJJ3ZlIGhhZCB0aGlzIHdvcmtpbmcgd2l0aCA1Ljgga2VybmVscyBmb3Ig
+bW9udGhzLgoKVGhhbmtzCgpKb3No
 
-I did `git format-patch -2 --thread=deep`, did I do something wrong when
-sending it?
+--b1_mwcqR2Mj4g941QuSDmMBcb5wbgRh6gvGwG20zs
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
 
-Thank you,
-Peilin Ye
+PGRpdj48ZGl2PkhlbGxvIGFsbCw8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5SZWdhcmRp
+bmcgYW1kZ3B1LCBJJ3ZlIGJlZW4gdXNpbmcgc29tZSBSYWRlb24gNTcwMFhUcyBmb3IgY29tcHV0
+ZSB3b3JrIHdpdGgga2VybmVscyB0aHJvdWdoIDUuOC4xNC4gSSByZWNlbnRseSB0cmllZCBrZXJu
+ZWwgNS45LjAsIGFuZCBmb3VuZCB0aGF0IHRoZSBmb2xsb3dpbmcgaXMgbm8gbG9uZ2VyIGFsbG93
+ZWQ6PGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+ZWNobyAibSAxIDIwMCIgfCBzdWRvIHRl
+ZSAvc3lzL2NsYXNzL2RybS9jYXJkMC9kZXZpY2UvcHBfb2RfY2xrX3ZvbHRhZ2U8YnI+PC9kaXY+
+PGRpdj48YnI+PC9kaXY+PGRpdj5JcyB0aGlzIGFuIGV4cGVjdGVkIGNoYW5nZT8gSWYgc28sIHdo
+ZXJlIHNob3VsZCBJIGxvb2sgZm9yIGRvY3VtZW50YXRpb24gcmVnYXJkaW5nIGhvdyB0byBtYW51
+YWxseSBjb25maWd1cmUgdGhlc2UgY2FyZHMgd2l0aCB0aGlzIGtlcm5lbC4gTm90ZSwgSSd2ZSBo
+YWQgdGhpcyB3b3JraW5nIHdpdGggNS44IGtlcm5lbHMgZm9yIG1vbnRocy48YnI+PGJyPlRoYW5r
+czxicj48YnI+Sm9zaDwvZGl2PjwvZGl2PjxkaXY+PC9kaXY+PGRpdiBjbGFzcz0icHJvdG9ubWFp
+bF9zaWduYXR1cmVfYmxvY2sgcHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2stZW1wdHkiPjxkaXYg
+Y2xhc3M9InByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrLXVzZXIgcHJvdG9ubWFpbF9zaWduYXR1
+cmVfYmxvY2stZW1wdHkiPjxicj48L2Rpdj48ZGl2IGNsYXNzPSJwcm90b25tYWlsX3NpZ25hdHVy
+ZV9ibG9jay1wcm90b24gcHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2stZW1wdHkiPjxicj48L2Rp
+dj48L2Rpdj48ZGl2Pjxicj48L2Rpdj4=
+
+
+--b1_mwcqR2Mj4g941QuSDmMBcb5wbgRh6gvGwG20zs--
+
+
+--===============1126582379==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1126582379==--
+
