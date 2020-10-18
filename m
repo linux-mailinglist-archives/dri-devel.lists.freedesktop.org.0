@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A17D29208B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 01:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A54EE292094
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 01:20:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2CEB6E8C9;
-	Sun, 18 Oct 2020 23:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAFD66E0D0;
+	Sun, 18 Oct 2020 23:20:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 302166E8C7;
- Sun, 18 Oct 2020 23:01:09 +0000 (UTC)
-IronPort-SDR: zYrT0kho0Qus/c0Xl/2nMZ2hjvFtjJgXkd3VPxxH+50b4txcLB24M6tKISkMtkKkzhom8ZrzoV
- ujUqBwQ5vhMA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9778"; a="167055387"
-X-IronPort-AV: E=Sophos;i="5.77,392,1596524400"; d="scan'208";a="167055387"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B77EE6E0D0;
+ Sun, 18 Oct 2020 23:20:00 +0000 (UTC)
+IronPort-SDR: W7m6T+b0/yQ1FWvhbG0Vk4aoFuokrJigWTIwRV1YE0m1D5RexM9NLRR57wLsnXvPn/fK/Gbyr5
+ NxOgzxeRLRbQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9778"; a="154732366"
+X-IronPort-AV: E=Sophos;i="5.77,392,1596524400"; d="scan'208";a="154732366"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2020 16:01:08 -0700
-IronPort-SDR: 3/ruMmr6Bdh6+1CdBMu1Un31+9QVtz7aa7ydV2hAAtGTwmhEr8PsMBQRaWGRKJn1cyShbihazh
- viDN6O2Rcusg==
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Oct 2020 16:19:59 -0700
+IronPort-SDR: s3wu/rVhloAPgEzmbt5n8xxqg25jHFrgRxIrCUKw0SszgcXv11+D+LjK1AqJRcPBhgzRCinKOE
+ UhQyl2DHtaOA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,392,1596524400"; d="scan'208";a="357977279"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by FMSMGA003.fm.intel.com with ESMTP; 18 Oct 2020 16:01:08 -0700
-Received: from bgsmsx602.gar.corp.intel.com (10.109.78.81) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.77,392,1596524400"; d="scan'208";a="320080548"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga006.jf.intel.com with ESMTP; 18 Oct 2020 16:19:59 -0700
+Received: from bgsmsx606.gar.corp.intel.com (10.67.234.8) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sun, 18 Oct 2020 16:01:07 -0700
+ 15.1.1713.5; Sun, 18 Oct 2020 16:19:57 -0700
 Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX602.gar.corp.intel.com (10.109.78.81) with Microsoft SMTP Server
+ BGSMSX606.gar.corp.intel.com (10.67.234.8) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 19 Oct 2020 04:31:04 +0530
+ 15.1.1713.5; Mon, 19 Oct 2020 04:49:55 +0530
 Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
  BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Mon, 19 Oct 2020 04:31:04 +0530
+ Mon, 19 Oct 2020 04:49:55 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [RFC 09/13] drm/edid: Parse DSC1.2 cap fields from HFVSDB block
-Thread-Topic: [RFC 09/13] drm/edid: Parse DSC1.2 cap fields from HFVSDB block
-Thread-Index: AQHWouJgqPu8VTYnhEOvfWw1y+iBi6md/FBg
-Date: Sun, 18 Oct 2020 23:01:04 +0000
-Message-ID: <dde5113aa60d430db1a1101e4e18cb70@intel.com>
+Subject: RE: [RFC 10/13] drm/dp_helper: Add support for Configuring DSC for
+ HDMI2.1 Pcon
+Thread-Topic: [RFC 10/13] drm/dp_helper: Add support for Configuring DSC for
+ HDMI2.1 Pcon
+Thread-Index: AQHWouJiixJP4SLuCESyPhsrz01shqmeAlmg
+Date: Sun, 18 Oct 2020 23:19:55 +0000
+Message-ID: <20f0995bdc9c4d3fb4b212a2acc3b257@intel.com>
 References: <20201015105259.27934-1-ankit.k.nautiyal@intel.com>
- <20201015105259.27934-10-ankit.k.nautiyal@intel.com>
-In-Reply-To: <20201015105259.27934-10-ankit.k.nautiyal@intel.com>
+ <20201015105259.27934-11-ankit.k.nautiyal@intel.com>
+In-Reply-To: <20201015105259.27934-11-ankit.k.nautiyal@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -87,115 +89,277 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
 > Kulkarni, Vandita <vandita.kulkarni@intel.com>; ville.syrjala@linux.intel.com;
 > Sharma, Swati2 <swati2.sharma@intel.com>
-> Subject: [RFC 09/13] drm/edid: Parse DSC1.2 cap fields from HFVSDB block
-
-Move this also to beginning of series along with all DRM helpers.
-
-> This patch parses HFVSDB fields for DSC1.2 capabilities of an
-> HDMI2.1 sink. These fields are required by a source to understand the DSC
-> capability of the sink, to set appropriate PPS parameters, before transmitting
-> compressed data stream.
+> Subject: [RFC 10/13] drm/dp_helper: Add support for Configuring DSC for
+> HDMI2.1 Pcon
+> 
+> This patch adds registers for getting DSC encoder capability for a HDMI2.1 PCon.
+> It also addes helper functions to configure DSC between the PCON and HDMI2.1
+> sink.
 > 
 > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 > ---
->  drivers/gpu/drm/drm_edid.c  | 19 +++++++++++++++++++
-> include/drm/drm_connector.h | 32 ++++++++++++++++++++++++++++++++
->  2 files changed, 51 insertions(+)
+>  drivers/gpu/drm/drm_dp_helper.c |  93 +++++++++++++++++++++++++++
+>  include/drm/drm_dp_helper.h     | 109 ++++++++++++++++++++++++++++++++
+>  2 files changed, 202 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c index
-> 8afb136e73f5..feee19657a7a 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -4889,10 +4889,29 @@ static void
-> drm_parse_hdmi_21_additional_fields(struct drm_connector *connector,  {
->  	struct drm_hdmi_info *hdmi = &connector->display_info.hdmi;
->  	u8 max_frl_rate;
-> +	u8 dsc_max_frl_rate;
-> 
->  	max_frl_rate = db[7] & DRM_EDID_MAX_FRL_RATE_MASK;
->  	drm_get_max_frl_rate(max_frl_rate, &hdmi->max_lanes,
->  			     &hdmi->max_frl_rate_per_lane);
-> +
-> +	hdmi->dsc_1p2 = db[11] & DRM_EDID_DSC_1P2;
-
-We should right shift them as well to get right values.
-
-> +        hdmi->dsc_native_420 = db[11] & DRM_EDID_DSC_NATIVE_420;
-
-Same here. Also Alignment is off.
-
-> +	hdmi->dsc_all_bpp = db[11] & DRM_EDID_DSC_ALL_BPP;
-> +
-> +	if (db[11] & DRM_EDID_DSC_16BPC)
-> +		hdmi->dsc_bpc_supported = 16;
-> +	else if (db[11] & DRM_EDID_DSC_12BPC)
-> +		hdmi->dsc_bpc_supported = 12;
-> +	else if (db[11] & DRM_EDID_DSC_10BPC)
-> +		hdmi->dsc_bpc_supported = 10;
-> +	else
-> +		hdmi->dsc_bpc_supported = 0;
-> +
-> +	dsc_max_frl_rate = db[12] & DRM_EDID_DSC_MAX_FRL_RATE;
-
-This will not give correct value. Fix it.
-
-> +	drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi->dsc_max_lanes,
-> +			     &hdmi->dsc_max_frl_rate_per_lane);
-> +	hdmi->dsc_total_chunk_kbytes = db[13] &
-> +DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c
+> b/drivers/gpu/drm/drm_dp_helper.c index 33a4ac2fb225..f10a9c2d6f04 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -2929,3 +2929,96 @@ void drm_dp_pcon_hdmi_frl_link_error_count(struct
+> drm_dp_aux *aux,
+>  	}
 >  }
-> 
->  static void drm_parse_ycbcr420_deep_color_info(struct drm_connector
-> *connector, diff --git a/include/drm/drm_connector.h
-> b/include/drm/drm_connector.h index f351bf10c076..7100012f9c0f 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -213,6 +213,38 @@ struct drm_hdmi_info {
-> 
->  	/** @max_lanes: supported by sink */
->  	u8 max_lanes;
+>  EXPORT_SYMBOL(drm_dp_pcon_hdmi_frl_link_error_count);
 > +
-> +	/** @dsc_1p2: flag for dsc1.2 support by sink */
-> +	bool dsc_1p2;
+> +static
+> +int drm_dp_pcon_configure_dsc_enc(struct drm_dp_aux *aux, u8
+> +pps_buf_config) {
+> +	u8 buf = 0;
+> +	int ret;
+> +
+> +	buf |= DP_PCON_ENABLE_DSC_ENCODER;
 
-Add a struct for all these HDMI dsc params.
+Directly assign it.
+
+> +	if (pps_buf_config <= DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER) {
+> +		buf &= ~DP_PCON_ENCODER_PPS_OVERRIDE_MASK;
+> +		buf |= pps_buf_config << 2;
+> +	}
+> +
+> +	ret = drm_dp_dpcd_writeb(aux,
+> DP_PROTOCOL_CONVERTER_CONTROL_2, buf);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * drm_dp_pcon_pps_default() - Let PCON fill the default pps parameters
+> + * for DSC1.2 between PCON & HDMI2.1 sink
+> + * @aux: DisplayPort AUX channel
+> + *
+> + * Returns 0 on success, else returns negative error code.
+> + * */
+> +int drm_dp_pcon_pps_default(struct drm_dp_aux *aux) {
+> +	int ret;
+> +
+> +	ret = drm_dp_pcon_configure_dsc_enc(aux,
+> DP_PCON_ENC_PPS_OVERRIDE_DISABLED);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_pcon_pps_default);
+> +
+> +/**
+> + * drm_dp_pcon_pps_override_buf() - Configure PPS encoder override
+> +buffer for
+> + * HDMI sink
+> + * @aux: DisplayPort AUX channel
+> + * @pps_buf: 128 bytes to be written into PPS buffer for HDMI sink by PCON.
+> + *
+> + * Returns 0 on success, else returns negative error code.
+> + * */
+> +int drm_dp_pcon_pps_override_buf(struct drm_dp_aux *aux, u8
+> +pps_buf[128]) {
+> +	int ret;
+> +
+> +	ret = drm_dp_dpcd_write(aux, DP_PCON_HDMI_PPS_OVERRIDE_BASE,
+> &pps_buf, 128);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = drm_dp_pcon_configure_dsc_enc(aux,
+> DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_pcon_pps_override_buf);
+> +
+> +/*
+> + * drm_dp_pcon_pps_override_param() - Write PPS parameters to DSC
+> +encoder
+> + * override registers
+> + * @aux: DisplayPort AUX channel
+> + * @pps_param: 3 Parameters (2 Bytes each) : Slice Width, Slice Height,
+> + * bits_per_pixel.
+> + *
+> + * Returns 0 on success, else returns negative error code.
+> + * */
+> +int drm_dp_pcon_pps_override_param(struct drm_dp_aux *aux, u8
+> +pps_param[6]) {
+> +	int ret;
+> +
+> +	ret = drm_dp_dpcd_write(aux,
+> DP_PCON_HDMI_PPS_OVRD_SLICE_HEIGHT, &pps_param[0], 2);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret = drm_dp_dpcd_write(aux,
+> DP_PCON_HDMI_PPS_OVRD_SLICE_WIDTH, &pps_param[1], 2);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret = drm_dp_dpcd_write(aux, DP_PCON_HDMI_PPS_OVRD_BPP,
+> &pps_param[2], 2);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = drm_dp_pcon_configure_dsc_enc(aux,
+> DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_pcon_pps_override_param);
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h index
+> eb26c86dc8ca..3de022d4a65e 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -441,6 +441,83 @@ struct drm_device;
+>  # define DP_FEC_CORR_BLK_ERROR_COUNT_CAP    (1 << 2)
+>  # define DP_FEC_BIT_ERROR_COUNT_CAP	    (1 << 3)
+> 
+> +/* DP-HDMI2.1 PCON DSC ENCODER SUPPORT */
+> +#define DP_PCON_DSC_ENCODER                 0x092
+> +# define DP_PCON_DSC_ENCODER_SUPPORTED      (1 << 0)
+> +# define DP_PCON_DSC_PPS_ENC_OVERRIDE       (1 << 1)
+> +
+> +/* DP-HDMI2.1 PCON DSC Version */
+> +#define DP_PCON_DSC_VERSION                 0x093
+> +# define DP_PCON_DSC_MAJOR_MASK		    (0xF << 0)
+> +# define DP_PCON_DSC_MINOR_MASK		    (0xF << 4)
+> +# define DP_PCON_DSC_MAJOR_SHIFT	    0
+> +# define DP_PCON_DSC_MINOR_SHIFT	    4
+> +
+> +/* DP-HDMI2.1 PCON DSC RC Buffer block size */
+> +#define DP_PCON_DSC_RC_BUF_BLK_INFO	    0x094
+> +# define DP_PCON_DSC_RC_BUF_BLK_SIZE	    (0x3 << 0)
+> +# define DP_PCON_DSC_RC_BUF_BLK_1KB	    0
+> +# define DP_PCON_DSC_RC_BUF_BLK_4KB	    1
+> +# define DP_PCON_DSC_RC_BUF_BLK_16KB	    2
+> +# define DP_PCON_DSC_RC_BUF_BLK_64KB	    3
+> +
+> +/* DP-HDMI2.1 PCON DSC RC Buffer size */
+> +#define DP_PCON_DSC_RC_BUF_SIZE		    0x095
+> +
+> +/* DP-HDMI2.1 PCON DSC Slice capabilities-1 */
+> +#define DP_PCON_DSC_SLICE_CAP_1		    0x096
+> +# define DP_PCON_DSC_1_PER_DSC_ENC     (0x1 << 0)
+> +# define DP_PCON_DSC_2_PER_DSC_ENC     (0x1 << 1)
+> +# define DP_PCON_DSC_4_PER_DSC_ENC     (0x1 << 3)
+> +# define DP_PCON_DSC_6_PER_DSC_ENC     (0x1 << 4)
+> +# define DP_PCON_DSC_8_PER_DSC_ENC     (0x1 << 5)
+> +# define DP_PCON_DSC_10_PER_DSC_ENC    (0x1 << 6)
+> +# define DP_PCON_DSC_12_PER_DSC_ENC    (0x1 << 7)
+> +
+> +#define DP_PCON_DSC_BUF_BIT_DEPTH	    0x097
+> +# define DP_PCON_DSC_BIT_DEPTH_MASK	    (0xF << 0)
+> +# define DP_PCON_DSC_DEPTH_9_BITS	    0
+> +# define DP_PCON_DSC_DEPTH_10_BITS	    1
+> +# define DP_PCON_DSC_DEPTH_11_BITS	    2
+> +# define DP_PCON_DSC_DEPTH_12_BITS	    3
+> +# define DP_PCON_DSC_DEPTH_13_BITS	    4
+> +# define DP_PCON_DSC_DEPTH_14_BITS	    5
+> +# define DP_PCON_DSC_DEPTH_15_BITS	    6
+> +# define DP_PCON_DSC_DEPTH_16_BITS	    7
+> +# define DP_PCON_DSC_DEPTH_8_BITS	    8
+> +
+> +#define DP_PCON_DSC_BLOCK_PREDICTION	    0x098
+> +# define DP_PCON_DSC_BLOCK_PRED_SUPPORT	    (0x1 << 0)
+> +
+> +#define DP_PCON_DSC_ENC_COLOR_FMT_CAP	    0x099
+> +# define DP_PCON_DSC_ENC_RGB		    (0x1 << 0)
+> +# define DP_PCON_DSC_ENC_YUV444		    (0x1 << 1)
+> +# define DP_PCON_DSC_ENC_YUV422_S	    (0x1 << 2)
+> +# define DP_PCON_DSC_ENC_YUV422_N	    (0x1 << 3)
+> +# define DP_PCON_DSC_ENC_YUV420_N	    (0x1 << 4)
+> +
+> +#define DP_PCON_DSC_ENC_COLOR_DEPTH_CAP	    0x09A
+> +# define DP_PCON_DSC_ENC_8BPC		    (0x1 << 0)
+> +# define DP_PCON_DSC_ENC_10BPC		    (0x1 << 0)
+> +# define DP_PCON_DSC_ENC_12BPC		    (0x1 << 0)
+
+These offsets are wrong, should be 0x1 < (1, 2 and 3)
 
 > +
-> +	/** @dsc_native_420: Does sink support DSC with 4:2:0 compression */
-> +	bool dsc_native_420;
+> +#define DP_PCON_DSC_MAX_SLICE_WIDTH	    0x09B
 > +
-> +	/**
-> +	 * @dsc_all_bpp: Does sink support all bpp with 4:4:4: or 4:2:2
-> +	 * compressed formats
-> +	 */
-> +	bool dsc_all_bpp;
+> +/* DP-HDMI2.1 PCON DSC Slice capabilities-2 */
+> +#define DP_PCON_DSC_SLICE_CAP_2             0x09C
+> +# define DP_PCON_DSC_16_PER_DSC_ENC	    (0x1 << 0)
+> +# define DP_PCON_DSC_20_PER_DSC_ENC         (0x1 << 1)
+> +# define DP_PCON_DSC_24_PER_DSC_ENC         (0x1 << 2)
 > +
-> +	/**
-> +	 * @dsc_bpc_supported: compressed bpc supported by sink : 10, 12 or 16
-> bpc
-> +	 */
-> +	u8 dsc_bpc_supported;
+> +/* DP-HDMI2.1 PCON HDMI TX Encoder Bits/pixel increment */
+> +#define DP_PCON_DSC_BPP_INCR		    0x09E
+> +# define DP_PCON_DSC_BPP_INCR_MASK	    (0x7 << 0)
+> +# define DP_PCON_DSC_ONE_16TH_BPP	    0
+> +# define DP_PCON_DSC_ONE_8TH_BPP	    1
+> +# define DP_PCON_DSC_ONE_4TH_BPP	    2
+> +# define DP_PCON_DSC_ONE_HALF_BPP	    3
+> +# define DP_PCON_DSC_ONE_BPP		    4
 > +
-> +	/** @dsc_max_slices: maximum number of Horizontal slices supported
-> by */
-> +	u8 dsc_max_slices;
+>  /* DP Extended DSC Capabilities */
+>  #define DP_DSC_BRANCH_OVERALL_THROUGHPUT_0  0x0a0   /* DP 1.4a SCR */
+>  #define DP_DSC_BRANCH_OVERALL_THROUGHPUT_1  0x0a1 @@ -1134,6
+> +1211,12 @@ struct drm_device;
+>  # define DP_HDMI_FORCE_SCRAMBLING		(1 << 3) /* DP 1.4 */
+>  #define DP_PROTOCOL_CONVERTER_CONTROL_2		0x3052 /* DP 1.3
+> */
+>  # define DP_CONVERSION_TO_YCBCR422_ENABLE	(1 << 0) /* DP 1.3 */
+> +# define DP_PCON_ENABLE_DSC_ENCODER	        (1 << 1)
+> +# define DP_PCON_ENCODER_PPS_OVERRIDE_MASK	(0x3 << 2)
+> +# define DP_PCON_ENC_PPS_OVERRIDE_DISABLED      0
+> +# define DP_PCON_ENC_PPS_OVERRIDE_EN_PARAMS     1
+> +# define DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER     2
 > +
-> +	/** @dsc_clk_per_slice : max pixel clock in MHz supported per slice */
-> +	u8 dsc_clk_per_slice;
-> +
-> +	/** @dsc_max_lanes : dsc max lanes supported for Fixed rate Link
-> training */
-> +	u8 dsc_max_lanes;
-> +
-> +	/** @dsc_max_frl_rate_per_lane : maximum frl rate with DSC per lane */
-> +	u8 dsc_max_frl_rate_per_lane;
-> +
-> +	/** @dsc_total_chunk_kbytes: max size of chunks in KBs supported per
-> line*/
-> +	u8 dsc_total_chunk_kbytes;
->  };
 > 
->  /**
+>  /* PCON Downstream HDMI ERROR Status per Lane */
+>  #define DP_PCON_HDMI_ERROR_STATUS_LN0          0x3037
+> @@ -1145,6 +1228,29 @@ struct drm_device;
+>  # define DP_PCON_HDMI_ERROR_COUNT_TEN_PLUS     (1 << 1)
+>  # define DP_PCON_HDMI_ERROR_COUNT_HUNDRED_PLUS (1 << 2)
+> 
+> +/* PCON HDMI CONFIG PPS Override Buffer
+> + * Valid Offsets to be added to Base : 0-127  */
+> +#define DP_PCON_HDMI_PPS_OVERRIDE_BASE        0x3100
+> +
+> +/* PCON HDMI CONFIG PPS Override Parameter: Slice height
+> + * Offset-0 8LSBs of the Slice height.
+> + * Offset-1 8MSBs of the Slice height.
+> + */
+> +#define DP_PCON_HDMI_PPS_OVRD_SLICE_HEIGHT    0x3180
+> +
+> +/* PCON HDMI CONFIG PPS Override Parameter: Slice width
+> + * Offset-0 8LSBs of the Slice width.
+> + * Offset-1 8MSBs of the Slice width.
+> + */
+> +#define DP_PCON_HDMI_PPS_OVRD_SLICE_WIDTH    0x3182
+> +
+> +/* PCON HDMI CONFIG PPS Override Parameter: bits_per_pixel
+> + * Offset-0 8LSBs of the bits_per_pixel.
+> + * Offset-1 2MSBs of the bits_per_pixel.
+> + */
+> +#define DP_PCON_HDMI_PPS_OVRD_BPP	     0x3184
+> +
+>  /* HDCP 1.3 and HDCP 2.2 */
+>  #define DP_AUX_HDCP_BKSV		0x68000
+>  #define DP_AUX_HDCP_RI_PRIME		0x68005
+> @@ -2063,4 +2169,7 @@ int drm_dp_pcon_frl_enable(struct drm_dp_aux *aux);
+> bool drm_dp_pcon_hdmi_link_active(struct drm_dp_aux *aux);  int
+> drm_dp_pcon_hdmi_link_mode(struct drm_dp_aux *aux, u8 *frl_trained_mask);
+> void drm_dp_pcon_hdmi_frl_link_error_count(struct drm_dp_aux *aux, struct
+> drm_connector *connector);
+> +int drm_dp_pcon_pps_default(struct drm_dp_aux *aux); int
+> +drm_dp_pcon_pps_override_buf(struct drm_dp_aux *aux, u8 pps_buf[128]);
+> +int drm_dp_pcon_pps_override_param(struct drm_dp_aux *aux, u8
+> +pps_param[6]);
+>  #endif /* _DRM_DP_HELPER_H_ */
 > --
 > 2.17.1
 
