@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36941292046
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 23:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5511829205A
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 23:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 999826E8AD;
-	Sun, 18 Oct 2020 21:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D6116E8B4;
+	Sun, 18 Oct 2020 21:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98CFD6E8AD;
- Sun, 18 Oct 2020 21:41:26 +0000 (UTC)
-IronPort-SDR: tzQsfKuTWeTil5omp8Ie9y9d4OICoxp/p3yPN/kYzRah0FgO53fHM9ePbJAX1GBTJ5PcrBZCn8
- 27Z/vnTNyhag==
-X-IronPort-AV: E=McAfee;i="6000,8403,9778"; a="251629890"
-X-IronPort-AV: E=Sophos;i="5.77,392,1596524400"; d="scan'208";a="251629890"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2020 14:41:24 -0700
-IronPort-SDR: pzIDHYWmRZxJWisyVv6PSCl/oGT7cp+3/j9yeU97slnkzhj/dOuL2rRs92YX40l/IqHwKRMeHf
- 5a+avafTcONg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,392,1596524400"; d="scan'208";a="331719723"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga002.jf.intel.com with ESMTP; 18 Oct 2020 14:41:24 -0700
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sun, 18 Oct 2020 14:41:23 -0700
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX604.gar.corp.intel.com (10.67.234.6) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 19 Oct 2020 03:11:21 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Mon, 19 Oct 2020 03:11:21 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [RFC 04/13] drm/i915: Capture max frl rate for PCON in dfp cap
- structure
-Thread-Topic: [RFC 04/13] drm/i915: Capture max frl rate for PCON in dfp cap
- structure
-Thread-Index: AQHWouJcgIX68uRI1UWxHSdq32y3YKmd56mg
-Date: Sun, 18 Oct 2020 21:41:21 +0000
-Message-ID: <0bc6df6f31934c4e99777e78a994808c@intel.com>
-References: <20201015105259.27934-1-ankit.k.nautiyal@intel.com>
- <20201015105259.27934-5-ankit.k.nautiyal@intel.com>
-In-Reply-To: <20201015105259.27934-5-ankit.k.nautiyal@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.223.10.1]
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E88366E8B3
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 21:51:30 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id u17so10304053oie.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 14:51:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uOm0rH6s2Inn755KHRA5gyyrbT/Z7MN7Wu94ps17kzM=;
+ b=PtP8AXVD5f+47NsKbqu4NiODWxLDn19lVbSVwxYhNGSh+fG5k9ev+in+zI5toF9YIl
+ ziHwu7efYWqlJQiUKyfnHgOUIq/uWgYyDqbQ4Zoum18JyJRAPQ5AiXVZ6e1ns47ZRSPa
+ HMDzHnJzmzzjLa/NxzqzidWBSY80KuAoUTXsA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uOm0rH6s2Inn755KHRA5gyyrbT/Z7MN7Wu94ps17kzM=;
+ b=qypVJfJj0uWrHKmVoaqCmxNBSLTHnQyI0HpK+oOxjfQBAO2KLUgPl2f11n4plU9BfI
+ ubwC3pEkrxVOvBtjOiHJ2ZYNlcd/iR8wOAX3+86fh5NZypKXWCHlGAOLLvDHs0o3Z7ry
+ Z5YEooYv5OeQo9IT6kSSW3emK0FVU4AKtjR6DKb0iDFmcEsL3Q30CyNRdjL92bl/juwF
+ QRoXl7K03IWx5GgoZf3jVNn5PEc5dzntYtuXDahWEq1XZr6JBgpj1GrDblEtGFE2r4Xj
+ 3DVKKhaRPmZ6kh08ei43mcgdjDspvgimrK2GO+8Gi2pqGbzW0pR57TGvS87sTqna5Avz
+ 1OXA==
+X-Gm-Message-State: AOAM532YOrc5U170jx14h1lURcth5FG8DwTYtg3DHEtk8qUMw17jwZP2
+ Ny1wiTQm6B5yB1SwqD/ykENZCXRaJFz8MPYwE6H69g==
+X-Google-Smtp-Source: ABdhPJzG61giwgOVJs6TJgWAxcPwMe72Rr1NDVTFtSLV5ouxvE6lsZ05+zjuB9xdjnjWFDbqTmfjkeBtCWPPXv0873w=
+X-Received: by 2002:aca:52c4:: with SMTP id g187mr8709278oib.101.1603057890244; 
+ Sun, 18 Oct 2020 14:51:30 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200820082137.5907-1-s.hauer@pengutronix.de>
+ <926453876c92caac34cba8545716a491754d04d5.1603037079.git.yepeilin.cs@gmail.com>
+ <CAKMK7uF9E24P=vzKt28=1_iaFTYD7obHs+tEPwwZPNMhh7DBrg@mail.gmail.com>
+ <20201018201811.GA697615@PWN>
+ <CAKMK7uFEmNnBdpoHYqvCUYS=nxh99gKs6P1-1pgp-ouvTSioGw@mail.gmail.com>
+ <20201018204456.GA697766@PWN>
+In-Reply-To: <20201018204456.GA697766@PWN>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Sun, 18 Oct 2020 23:51:19 +0200
+Message-ID: <CAKMK7uEoCqaPifM7CiaNwtSe8uZ9V-7joJfXSYLjy5pedAcjOg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Fonts: Support FONT_EXTRA_WORDS macros for font_6x8
+To: Peilin Ye <yepeilin.cs@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,132 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma, 
- Swati2" <swati2.sharma@intel.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Sven Schneider <s.schneider@arkona-technologies.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Oct 18, 2020 at 10:45 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+>
+> On Sun, Oct 18, 2020 at 10:33:11PM +0200, Daniel Vetter wrote:
+> > On Sun, Oct 18, 2020 at 10:18 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> > > 2/2 is just updating the fb documentation:
+> > >
+> > > [PATCH 2/2] docs: fb: Add font_6x8 to available built-in fonts
+> > > https://lore.kernel.org/lkml/717bb41dda8e2ed615f3faadfbc3e215de726d38.1603037079.git.yepeilin.cs@gmail.com/
+> > >
+> > > I did `git format-patch -2 --thread=deep`, did I do something wrong when
+> > > sending it?
+> >
+> > No idea, it just didn't arrive anywhere I could find. And I did get
+> > your previous patch series. Maybe just try again with dri-devel
+> > included and hope it works then?
+>
+> I'm confused, I see it on LKML in the link above. Sure I'll resend soon.
 
+My brain didn't work, sorry about the confusion.
 
-> -----Original Message-----
-> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
-> Sent: Thursday, October 15, 2020 4:23 PM
-> To: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
-> Kulkarni, Vandita <vandita.kulkarni@intel.com>; ville.syrjala@linux.intel.com;
-> Sharma, Swati2 <swati2.sharma@intel.com>
-> Subject: [RFC 04/13] drm/i915: Capture max frl rate for PCON in dfp cap structure
-> 
-> HDMI2.1 PCON advertises Max FRL bandwidth supported by the PCON and by the
-> sink.
-> 
-> This patch captures these in dfp cap structure in intel_dp and uses these to
-> prune connector modes that cannot be supported by the PCON and sink FRL
-> bandwidth.
-> 
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> ---
->  .../drm/i915/display/intel_display_types.h    |  1 +
->  drivers/gpu/drm/i915/display/intel_dp.c       | 33 +++++++++++++++++--
->  2 files changed, 32 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
-> b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 0b5df8e44966..e2f58d0575a2 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1398,6 +1398,7 @@ struct intel_dp {
->  	struct {
->  		int min_tmds_clock, max_tmds_clock;
->  		int max_dotclock;
-> +		int pcon_max_frl, sink_max_frl;
-
-Append it with bw or rate.
-
->  		u8 max_bpc;
->  		bool ycbcr_444_to_420;
->  	} dfp;
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
-> b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 0902a9aeeda1..cd6934f28f32 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -683,6 +683,24 @@ intel_dp_mode_valid_downstream(struct
-> intel_connector *connector,
->  	const struct drm_display_info *info = &connector->base.display_info;
->  	int tmds_clock;
-> 
-> +	/* If PCON and HDMI2.1 sink both support FRL MODE, check FRL
-
-Use multi line comment style.
-
-> +	 * bandwidth constraints.
-> +	 */
-> +	if (intel_dp->dfp.pcon_max_frl) {
-> +		int target_bw;
-> +		int max_frl_bw;
-> +		int bpp = intel_dp_mode_min_output_bpp(&connector->base,
-> mode);
-> +
-> +		target_bw = bpp * DIV_ROUND_UP(target_clock, 1000000);
-
-To avoid any roundup errors, it would be good to multiple max_frl_bw by 1000000 than dividing target_clock
-
-> +
-> +		max_frl_bw = min(intel_dp->dfp.pcon_max_frl,
-> +				 intel_dp->dfp.sink_max_frl);
-> +		if (target_bw > max_frl_bw)
-> +			return MODE_CLOCK_HIGH;
-> +
-> +		return MODE_OK;
-> +	}
-> +
->  	if (intel_dp->dfp.max_dotclock &&
->  	    target_clock > intel_dp->dfp.max_dotclock)
->  		return MODE_CLOCK_HIGH;
-> @@ -6383,13 +6401,21 @@ intel_dp_update_dfp(struct intel_dp *intel_dp,
->  						 intel_dp->downstream_ports,
->  						 edid);
-> 
-> +	intel_dp->dfp.pcon_max_frl =
-> +		drm_dp_get_pcon_max_frl_bw(intel_dp->dpcd,
-> +					   intel_dp->downstream_ports);
-> +
-> +	intel_dp->dfp.sink_max_frl =
-> +drm_dp_get_hdmi_max_frl_bw(&intel_dp->aux);
-> +
->  	drm_dbg_kms(&i915->drm,
-> -		    "[CONNECTOR:%d:%s] DFP max bpc %d, max dotclock %d,
-> TMDS clock %d-%d\n",
-> +		    "[CONNECTOR:%d:%s] DFP max bpc %d, max dotclock %d,
-> TMDS clock
-> +%d-%d, PCON Max FRL BW %dGbps, Sink Max FRL BW %dGbps\n",
->  		    connector->base.base.id, connector->base.name,
->  		    intel_dp->dfp.max_bpc,
->  		    intel_dp->dfp.max_dotclock,
->  		    intel_dp->dfp.min_tmds_clock,
-> -		    intel_dp->dfp.max_tmds_clock);
-> +		    intel_dp->dfp.max_tmds_clock,
-> +		    intel_dp->dfp.pcon_max_frl,
-> +		    intel_dp->dfp.sink_max_frl);
->  }
-> 
->  static void
-> @@ -6479,6 +6505,9 @@ intel_dp_unset_edid(struct intel_dp *intel_dp)
->  	intel_dp->dfp.min_tmds_clock = 0;
->  	intel_dp->dfp.max_tmds_clock = 0;
-> 
-> +	intel_dp->dfp.pcon_max_frl = 0;
-> +	intel_dp->dfp.sink_max_frl = 0;
-> +
->  	intel_dp->dfp.ycbcr_444_to_420 = false;
->  	connector->base.ycbcr_420_allowed = false;  }
-> --
-> 2.17.1
-
+I'll pick up the patches tomorrow, probably not a good idea I do
+anything more today :-)
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
