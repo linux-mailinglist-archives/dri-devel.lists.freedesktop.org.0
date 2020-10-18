@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D53B2919AB
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:20:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D62B2919E6
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:21:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0086E860;
-	Sun, 18 Oct 2020 19:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C6696E85F;
+	Sun, 18 Oct 2020 19:21:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A997A6E84F
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:20:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1AE46E85F
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:21:36 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C8743222E9;
- Sun, 18 Oct 2020 19:20:21 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 18D66222E8;
+ Sun, 18 Oct 2020 19:21:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603048822;
- bh=qVLQGQ6KsFo9hRXhNqOBETAXWIMU/bRwbo/wKvJagPE=;
+ s=default; t=1603048896;
+ bh=ntGs+necpS3D8VcETvW96bdW1Z+vD8P3JvUYLYzXTpQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lOmutrKv0WvAeNWwTt6SR13A/k3PYzpEqjv08Euqek+CkUoIbnGeUdmxIXKRNXxnE
- qeBXSyY8aMfWypTHYlj0M+E6XPlV/HA3xS8HjEdyaptAsI5CC3iUen0bzlOi+V8BSO
- PxPq7FAfyQjJ25yoXKgwOkRFsQWtw0OzgbomSA4s=
+ b=DksKIUji6iC8RCzy11L2G4TNto99M25Tgao1AFztpekP60/m5iLc5ooE0E57xgNc1
+ BqOBnbOCZ7mb3mD3+asxPjPn/VpXMhnMxrIDrBGfMBCWB/zRXeb10IgHHoMNDLzj0W
+ eVZYfHIRDs73/FwljE0swZ1eCG9FlzYx6oYDEPos=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 110/111] drm/panfrost: perfcnt: fix ref count leak
- in panfrost_perfcnt_enable_locked
-Date: Sun, 18 Oct 2020 15:18:06 -0400
-Message-Id: <20201018191807.4052726-110-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 058/101] drm/panfrost: add Amlogic GPU integration
+ quirks
+Date: Sun, 18 Oct 2020 15:19:43 -0400
+Message-Id: <20201018192026.4053674-58-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201018191807.4052726-1-sashal@kernel.org>
-References: <20201018191807.4052726-1-sashal@kernel.org>
+In-Reply-To: <20201018192026.4053674-1-sashal@kernel.org>
+References: <20201018192026.4053674-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,61 +50,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
+Cc: Sasha Levin <sashal@kernel.org>, Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel@lists.freedesktop.org, Navid Emamdoost <navid.emamdoost@gmail.com>
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
 
-[ Upstream commit 9df0e0c1889677175037445d5ad1654d54176369 ]
+[ Upstream commit afcd0c7d3d4c22afc8befcfc906db6ce3058d3ee ]
 
-in panfrost_perfcnt_enable_locked, pm_runtime_get_sync is called which
-increments the counter even in case of failure, leading to incorrect
-ref count. In case of failure, decrement the ref count before returning.
+This adds the required GPU quirks, including the quirk in the PWR
+registers at the GPU reset time and the IOMMU quirk for shareability
+issues observed on G52 in Amlogic G12B SoCs.
 
-Acked-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-Signed-off-by: Rob Herring <robh@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200614063619.44944-1-navid.emamdoost@gmail.com
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Signed-off-by: Steven Price <steven.price@arm.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200916150147.25753-4-narmstrong@baylibre.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-index ec4695cf3caf3..fdbc8d9491356 100644
---- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
-@@ -83,11 +83,13 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 882fecc33fdb1..6e11a73e81aa3 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -667,7 +667,18 @@ static const struct panfrost_compatible default_data = {
+ 	.pm_domain_names = NULL,
+ };
  
- 	ret = pm_runtime_get_sync(pfdev->dev);
- 	if (ret < 0)
--		return ret;
-+		goto err_put_pm;
- 
- 	bo = drm_gem_shmem_create(pfdev->ddev, perfcnt->bosize);
--	if (IS_ERR(bo))
--		return PTR_ERR(bo);
-+	if (IS_ERR(bo)) {
-+		ret = PTR_ERR(bo);
-+		goto err_put_pm;
-+	}
- 
- 	/* Map the perfcnt buf in the address space attached to file_priv. */
- 	ret = panfrost_gem_open(&bo->base, file_priv);
-@@ -168,6 +170,8 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
- 	panfrost_gem_close(&bo->base, file_priv);
- err_put_bo:
- 	drm_gem_object_put(&bo->base);
-+err_put_pm:
-+	pm_runtime_put(pfdev->dev);
- 	return ret;
- }
- 
++static const struct panfrost_compatible amlogic_data = {
++	.num_supplies = ARRAY_SIZE(default_supplies),
++	.supply_names = default_supplies,
++	.vendor_quirk = panfrost_gpu_amlogic_quirk,
++};
++
+ static const struct of_device_id dt_match[] = {
++	/* Set first to probe before the generic compatibles */
++	{ .compatible = "amlogic,meson-gxm-mali",
++	  .data = &amlogic_data, },
++	{ .compatible = "amlogic,meson-g12a-mali",
++	  .data = &amlogic_data, },
+ 	{ .compatible = "arm,mali-t604", .data = &default_data, },
+ 	{ .compatible = "arm,mali-t624", .data = &default_data, },
+ 	{ .compatible = "arm,mali-t628", .data = &default_data, },
 -- 
 2.25.1
 
