@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A34229199E
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F9F29199F
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Oct 2020 21:19:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D82B6E855;
-	Sun, 18 Oct 2020 19:19:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B329E6E856;
+	Sun, 18 Oct 2020 19:19:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE436E854
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:19:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0D366E856
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:19:46 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 75EA1222C8;
- Sun, 18 Oct 2020 19:19:35 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id BBEF4222E7;
+ Sun, 18 Oct 2020 19:19:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603048776;
- bh=OVYVtUYC6RZLbECK61g9hn+l8J0dj2wlIh4N0N4xiSY=;
+ s=default; t=1603048786;
+ bh=zvrrGLS+vN7Po8a8GeO6VS6rUuUTOvfNED6Py49q9Mo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=13yAWIDyhmidC2kTN5tiPLOTX+NycadaJPO0VJ1XXrf9ldahedQ1DVddbxa1B++MC
- DRwaWK8EXSoQ++MLYdivWDfN/KWvdbP4RNt9GGP+u3mbCOA0uhdLTGV25HtF6AXLlI
- mnuDGRcWaHCt70u4aNWjVi7jTpYWOR+rVLC0Z444=
+ b=SXWqzZj5FuLCC0TrriSg8tqLj0g8uvjlxFtI3h2A+V4vVL0uEs0Yl0sHuJpEzzHvL
+ h/D3oNal/y8S51u/6m+KF7e2X3evLWcJDM4aWG0vjA9XjoohWCaEKwYAW53A9zlHt2
+ 2KR0qkUNkWWRvi3ghdTC88pU6o1+VOIOgj7+nGXg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 074/111] drm/xlnx: Use devm_drm_dev_alloc
-Date: Sun, 18 Oct 2020 15:17:30 -0400
-Message-Id: <20201018191807.4052726-74-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.9 082/111] Fix use after free in get_capset_info
+ callback.
+Date: Sun, 18 Oct 2020 15:17:38 -0400
+Message-Id: <20201018191807.4052726-82-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201018191807.4052726-1-sashal@kernel.org>
 References: <20201018191807.4052726-1-sashal@kernel.org>
@@ -49,116 +50,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Michal Simek <michal.simek@xilinx.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, virtualization@lists.linux-foundation.org,
+ Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
+ Doug Horn <doughorn@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+From: Doug Horn <doughorn@google.com>
 
-[ Upstream commit 075342ea3d93044d68f821cf91c1a1a7d2fa569e ]
+[ Upstream commit e219688fc5c3d0d9136f8d29d7e0498388f01440 ]
 
-Gets rid of drmm_add_final_kfree, which I want to unexport so that it
-stops confusion people about this transitional state of rolling drm
-managed memory out.
+If a response to virtio_gpu_cmd_get_capset_info takes longer than
+five seconds to return, the callback will access freed kernel memory
+in vg->capsets.
 
-This also fixes the missing drm_dev_put in the error path of the probe
-code.
-
-v2: Drop the misplaced drm_dev_put from zynqmp_dpsub_drm_init (all
-other paths leaked on error, this should have been in
-zynqmp_dpsub_probe), now that subsumed by the auto-cleanup of
-devm_drm_dev_alloc.
-
-Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Link: https://patchwork.freedesktop.org/patch/msgid/20200907082225.150837-1-daniel.vetter@ffwll.ch
+Signed-off-by: Doug Horn <doughorn@google.com>
+Link: http://patchwork.freedesktop.org/patch/msgid/20200902210847.2689-2-gurchetansingh@chromium.org
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 27 ++++++---------------------
- 1 file changed, 6 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_kms.c |  2 ++
+ drivers/gpu/drm/virtio/virtgpu_vq.c  | 10 +++++++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 26328c76305be..8e69303aad3f7 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -111,7 +111,7 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- 	/* Initialize mode config, vblank and the KMS poll helper. */
- 	ret = drmm_mode_config_init(drm);
- 	if (ret < 0)
--		goto err_dev_put;
-+		return ret;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 4d944a0dff3e9..fdd7671a7b126 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -80,8 +80,10 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
+ 					 vgdev->capsets[i].id > 0, 5 * HZ);
+ 		if (ret == 0) {
+ 			DRM_ERROR("timed out waiting for cap set %d\n", i);
++			spin_lock(&vgdev->display_info_lock);
+ 			kfree(vgdev->capsets);
+ 			vgdev->capsets = NULL;
++			spin_unlock(&vgdev->display_info_lock);
+ 			return;
+ 		}
+ 		DRM_INFO("cap set %d: id %d, max-version %d, max-size %d\n",
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 53af60d484a44..9d2abdbd865a7 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -684,9 +684,13 @@ static void virtio_gpu_cmd_get_capset_info_cb(struct virtio_gpu_device *vgdev,
+ 	int i = le32_to_cpu(cmd->capset_index);
  
- 	drm->mode_config.funcs = &zynqmp_dpsub_mode_config_funcs;
- 	drm->mode_config.min_width = 0;
-@@ -121,7 +121,7 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- 
- 	ret = drm_vblank_init(drm, 1);
- 	if (ret)
--		goto err_dev_put;
-+		return ret;
- 
- 	drm->irq_enabled = 1;
- 
-@@ -154,8 +154,6 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- 
- err_poll_fini:
- 	drm_kms_helper_poll_fini(drm);
--err_dev_put:
--	drm_dev_put(drm);
- 	return ret;
+ 	spin_lock(&vgdev->display_info_lock);
+-	vgdev->capsets[i].id = le32_to_cpu(resp->capset_id);
+-	vgdev->capsets[i].max_version = le32_to_cpu(resp->capset_max_version);
+-	vgdev->capsets[i].max_size = le32_to_cpu(resp->capset_max_size);
++	if (vgdev->capsets) {
++		vgdev->capsets[i].id = le32_to_cpu(resp->capset_id);
++		vgdev->capsets[i].max_version = le32_to_cpu(resp->capset_max_version);
++		vgdev->capsets[i].max_size = le32_to_cpu(resp->capset_max_size);
++	} else {
++		DRM_ERROR("invalid capset memory.");
++	}
+ 	spin_unlock(&vgdev->display_info_lock);
+ 	wake_up(&vgdev->resp_wq);
  }
- 
-@@ -208,27 +206,16 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
- 	int ret;
- 
- 	/* Allocate private data. */
--	dpsub = kzalloc(sizeof(*dpsub), GFP_KERNEL);
--	if (!dpsub)
--		return -ENOMEM;
-+	dpsub = devm_drm_dev_alloc(&pdev->dev, &zynqmp_dpsub_drm_driver,
-+				   struct zynqmp_dpsub, drm);
-+	if (IS_ERR(dpsub))
-+		return PTR_ERR(dpsub);
- 
- 	dpsub->dev = &pdev->dev;
- 	platform_set_drvdata(pdev, dpsub);
- 
- 	dma_set_mask(dpsub->dev, DMA_BIT_MASK(ZYNQMP_DISP_MAX_DMA_BIT));
- 
--	/*
--	 * Initialize the DRM device early, as the DRM core mandates usage of
--	 * the managed memory helpers tied to the DRM device.
--	 */
--	ret = drm_dev_init(&dpsub->drm, &zynqmp_dpsub_drm_driver, &pdev->dev);
--	if (ret < 0) {
--		kfree(dpsub);
--		return ret;
--	}
--
--	drmm_add_final_kfree(&dpsub->drm, dpsub);
--
- 	/* Try the reserved memory. Proceed if there's none. */
- 	of_reserved_mem_device_init(&pdev->dev);
- 
-@@ -286,8 +273,6 @@ static int zynqmp_dpsub_remove(struct platform_device *pdev)
- 	clk_disable_unprepare(dpsub->apb_clk);
- 	of_reserved_mem_device_release(&pdev->dev);
- 
--	drm_dev_put(drm);
--
- 	return 0;
- }
- 
 -- 
 2.25.1
 
