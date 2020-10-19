@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3AA293131
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 00:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5C629312F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 00:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D71026EB54;
-	Mon, 19 Oct 2020 22:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA1F6EB4E;
+	Mon, 19 Oct 2020 22:23:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A2106EB4E
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 22:23:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FCF86EB51
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 22:23:11 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-lsiO6hTvNhmb8bZJ5TGqUQ-1; Mon, 19 Oct 2020 18:23:07 -0400
-X-MC-Unique: lsiO6hTvNhmb8bZJ5TGqUQ-1
+ us-mta-132-1K2rc0xtNHOxoHmQjZsQgw-1; Mon, 19 Oct 2020 18:23:08 -0400
+X-MC-Unique: 1K2rc0xtNHOxoHmQjZsQgw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C2BF8030B3;
- Mon, 19 Oct 2020 22:23:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36296186841A;
+ Mon, 19 Oct 2020 22:23:07 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-180.bne.redhat.com
  [10.64.54.180])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 530F81002391;
- Mon, 19 Oct 2020 22:23:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7075E1002391;
+ Mon, 19 Oct 2020 22:23:06 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/5] drm/ttm: add bo size in bytes wrapper.
-Date: Tue, 20 Oct 2020 08:22:56 +1000
-Message-Id: <20201019222257.1684769-5-airlied@gmail.com>
+Subject: [PATCH 5/5] drm/ttm: get rid of storing size in ttm_resource
+Date: Tue, 20 Oct 2020 08:22:57 +1000
+Message-Id: <20201019222257.1684769-6-airlied@gmail.com>
 In-Reply-To: <20201019222257.1684769-1-airlied@gmail.com>
 References: <20201019222257.1684769-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -58,155 +58,110 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-We store size and num pages, wrap size so it can be removed.
+Just use num_pages and a shift directly.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 8 ++++----
- drivers/gpu/drm/amd/amdgpu/mes_v10_1.c           | 2 +-
- drivers/gpu/drm/nouveau/nouveau_bo.c             | 8 ++++----
- drivers/gpu/drm/nouveau/nouveau_display.c        | 6 +++---
- drivers/gpu/drm/ttm/ttm_bo.c                     | 4 ++--
- include/drm/ttm/ttm_bo_api.h                     | 5 +++++
- 6 files changed, 19 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 2 +-
+ drivers/gpu/drm/nouveau/nv17_fence.c | 2 +-
+ drivers/gpu/drm/nouveau/nv50_fence.c | 2 +-
+ drivers/gpu/drm/ttm/ttm_bo.c         | 2 --
+ include/drm/ttm/ttm_bo_api.h         | 2 +-
+ include/drm/ttm/ttm_resource.h       | 2 --
+ 6 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 64d4b5ff95d6..60e8fdbcfd89 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -454,7 +454,7 @@ static int add_bo_to_vm(struct amdgpu_device *adev, struct kgd_mem *mem,
- 	struct amdgpu_bo *bo = mem->bo;
- 	uint64_t va = mem->va;
- 	struct list_head *list_bo_va = &mem->bo_va_list;
--	unsigned long bo_size = bo->tbo.mem.size;
-+	unsigned long bo_size = ttm_bo_size_bytes(&bo->tbo);
- 
- 	if (!va) {
- 		pr_err("Invalid VA when adding BO to VM\n");
-@@ -1282,7 +1282,7 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
- 		struct kgd_dev *kgd, struct kgd_mem *mem, uint64_t *size)
- {
- 	struct amdkfd_process_info *process_info = mem->process_info;
--	unsigned long bo_size = mem->bo->tbo.mem.size;
-+	unsigned long bo_size = ttm_bo_size_bytes(&mem->bo->tbo);
- 	struct kfd_bo_va_list *entry, *tmp;
- 	struct bo_vm_reservation_context ctx;
- 	struct ttm_validate_buffer *bo_list_entry;
-@@ -1403,7 +1403,7 @@ int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
- 	mutex_lock(&mem->lock);
- 
- 	domain = mem->domain;
--	bo_size = bo->tbo.mem.size;
-+	bo_size = ttm_bo_size_bytes(&bo->tbo);
- 
- 	pr_debug("Map VA 0x%llx - 0x%llx to vm %p domain %s\n",
- 			mem->va,
-@@ -1507,7 +1507,7 @@ int amdgpu_amdkfd_gpuvm_unmap_memory_from_gpu(
- 	struct amdgpu_device *adev = get_amdgpu_device(kgd);
- 	struct amdkfd_process_info *process_info =
- 		((struct amdgpu_vm *)vm)->process_info;
--	unsigned long bo_size = mem->bo->tbo.mem.size;
-+	unsigned long bo_size = ttm_bo_size_bytes(&mem->bo->tbo);
- 	struct kfd_bo_va_list *entry;
- 	struct bo_vm_reservation_context ctx;
- 	int ret;
-diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c b/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
-index 4b746584a797..f3b3276a27e7 100644
---- a/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
-+++ b/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
-@@ -554,7 +554,7 @@ static int mes_v10_1_allocate_eop_buf(struct amdgpu_device *adev)
- 		return r;
- 	}
- 
--	memset(eop, 0, adev->mes.eop_gpu_obj->tbo.mem.size);
-+	memset(eop, 0, ttm_bo_size_bytes(&adev->mes.eop_gpu_obj->tbo));
- 
- 	amdgpu_bo_kunmap(adev->mes.eop_gpu_obj);
- 	amdgpu_bo_unreserve(adev->mes.eop_gpu_obj);
 diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index ec79c3b251e8..3c24873ae8e9 100644
+index 3c24873ae8e9..fec7a901865e 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -473,10 +473,10 @@ nouveau_bo_pin(struct nouveau_bo *nvbo, uint32_t domain, bool contig)
+@@ -994,7 +994,7 @@ nouveau_bo_vm_bind(struct ttm_buffer_object *bo, struct ttm_resource *new_reg,
+ 		return 0;
  
- 	switch (bo->mem.mem_type) {
- 	case TTM_PL_VRAM:
--		drm->gem.vram_available -= bo->mem.size;
-+		drm->gem.vram_available -= ttm_bo_size_bytes(bo);
- 		break;
- 	case TTM_PL_TT:
--		drm->gem.gart_available -= bo->mem.size;
-+		drm->gem.gart_available -= ttm_bo_size_bytes(bo);
- 		break;
- 	default:
- 		break;
-@@ -504,10 +504,10 @@ nouveau_bo_unpin(struct nouveau_bo *nvbo)
- 	if (!nvbo->bo.pin_count) {
- 		switch (bo->mem.mem_type) {
- 		case TTM_PL_VRAM:
--			drm->gem.vram_available += bo->mem.size;
-+			drm->gem.vram_available += ttm_bo_size_bytes(bo);
- 			break;
- 		case TTM_PL_TT:
--			drm->gem.gart_available += bo->mem.size;
-+			drm->gem.gart_available += ttm_bo_size_bytes(bo);
- 			break;
- 		default:
- 			break;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index bceb48a2dfca..af28e3d16abd 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -288,9 +288,9 @@ nouveau_check_bl_size(struct nouveau_drm *drm, struct nouveau_bo *nvbo,
- 
- 	DRM_DEBUG_KMS("offset=%u stride=%u h=%u tile_mode=0x%02x bw=%u bh=%u gob_size=%u bl_size=%llu size=%lu\n",
- 		      offset, stride, h, tile_mode, bw, bh, gob_size, bl_size,
--		      nvbo->bo.mem.size);
-+		      ttm_bo_size_bytes(&nvbo->bo));
- 
--	if (bl_size + offset > nvbo->bo.mem.size)
-+	if (bl_size + offset > ttm_bo_size_bytes(&nvbo->bo))
- 		return -ERANGE;
- 
- 	return 0;
-@@ -363,7 +363,7 @@ nouveau_framebuffer_new(struct drm_device *dev,
- 		} else {
- 			uint32_t size = mode_cmd->pitches[i] * height;
- 
--			if (size + mode_cmd->offsets[i] > nvbo->bo.mem.size)
-+			if (size + mode_cmd->offsets[i] > ttm_bo_size_bytes(&nvbo->bo))
- 				return -ERANGE;
- 		}
+ 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_CELSIUS) {
+-		*new_tile = nv10_bo_set_tiling(dev, offset, new_reg->size,
++		*new_tile = nv10_bo_set_tiling(dev, offset, new_reg->num_pages << PAGE_SHIFT,
+ 					       nvbo->mode, nvbo->zeta);
  	}
+ 
+diff --git a/drivers/gpu/drm/nouveau/nv17_fence.c b/drivers/gpu/drm/nouveau/nv17_fence.c
+index 1253fdec712d..a6da8765f262 100644
+--- a/drivers/gpu/drm/nouveau/nv17_fence.c
++++ b/drivers/gpu/drm/nouveau/nv17_fence.c
+@@ -80,7 +80,7 @@ nv17_fence_context_new(struct nouveau_channel *chan)
+ 	struct nv10_fence_chan *fctx;
+ 	struct ttm_resource *reg = &priv->bo->bo.mem;
+ 	u32 start = reg->start * PAGE_SIZE;
+-	u32 limit = start + reg->size - 1;
++	u32 limit = start + (reg->num_pages << PAGE_SHIFT) - 1;
+ 	int ret = 0;
+ 
+ 	fctx = chan->fence = kzalloc(sizeof(*fctx), GFP_KERNEL);
+diff --git a/drivers/gpu/drm/nouveau/nv50_fence.c b/drivers/gpu/drm/nouveau/nv50_fence.c
+index 447238e3cbe7..65d9a20f4e55 100644
+--- a/drivers/gpu/drm/nouveau/nv50_fence.c
++++ b/drivers/gpu/drm/nouveau/nv50_fence.c
+@@ -39,7 +39,7 @@ nv50_fence_context_new(struct nouveau_channel *chan)
+ 	struct nv10_fence_chan *fctx;
+ 	struct ttm_resource *reg = &priv->bo->bo.mem;
+ 	u32 start = reg->start * PAGE_SIZE;
+-	u32 limit = start + reg->size - 1;
++	u32 limit = start + (reg->num_pages << PAGE_SHIFT) - 1;
+ 	int ret;
+ 
+ 	fctx = chan->fence = kzalloc(sizeof(*fctx), GFP_KERNEL);
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 82000675413f..a9f184cdbe24 100644
+index a9f184cdbe24..7602d7734d38 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -72,8 +72,8 @@ static void ttm_bo_mem_space_debug(struct ttm_buffer_object *bo,
- 	int i, mem_type;
+@@ -956,7 +956,6 @@ static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
+ 	dma_resv_assert_held(bo->base.resv);
  
- 	drm_printf(&p, "No space for %p (%lu pages, %luK, %luM)\n",
--		   bo, bo->mem.num_pages, bo->mem.size >> 10,
--		   bo->mem.size >> 20);
-+		   bo, bo->mem.num_pages, ttm_bo_size_bytes(bo) >> 10,
-+		   ttm_bo_size_bytes(bo) >> 20);
- 	for (i = 0; i < placement->num_placement; i++) {
- 		mem_type = placement->placement[i].mem_type;
- 		drm_printf(&p, "  placement[%d]=0x%08X (%d)\n",
+ 	mem.num_pages = bo->mem.num_pages;
+-	mem.size = mem.num_pages << PAGE_SHIFT;
+ 	mem.page_alignment = bo->mem.page_alignment;
+ 	mem.bus.offset = 0;
+ 	mem.bus.addr = NULL;
+@@ -1102,7 +1101,6 @@ int ttm_bo_init_reserved(struct ttm_bo_device *bdev,
+ 	INIT_LIST_HEAD(&bo->swap);
+ 	bo->bdev = bdev;
+ 	bo->type = type;
+-	bo->mem.size = num_pages << PAGE_SHIFT;
+ 	bo->mem.mem_type = TTM_PL_SYSTEM;
+ 	bo->mem.num_pages = num_pages;
+ 	bo->mem.mm_node = NULL;
 diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index 12d98c80b334..f201ec42b90b 100644
+index f201ec42b90b..f98d14957869 100644
 --- a/include/drm/ttm/ttm_bo_api.h
 +++ b/include/drm/ttm/ttm_bo_api.h
-@@ -612,4 +612,9 @@ void ttm_bo_vm_close(struct vm_area_struct *vma);
- int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
- 		     void *buf, int len, int write);
+@@ -614,7 +614,7 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
  
-+static inline unsigned long ttm_bo_size_bytes(struct ttm_buffer_object *bo)
-+{
-+	return bo->mem.size;
-+}
-+
+ static inline unsigned long ttm_bo_size_bytes(struct ttm_buffer_object *bo)
+ {
+-	return bo->mem.size;
++	return bo->mem.num_pages << PAGE_SHIFT;
+ }
+ 
  #endif
+diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+index f48a70d39ac5..fc9d9d7f9f15 100644
+--- a/include/drm/ttm/ttm_resource.h
++++ b/include/drm/ttm/ttm_resource.h
+@@ -159,7 +159,6 @@ struct ttm_bus_placement {
+  * struct ttm_resource
+  *
+  * @mm_node: Memory manager node.
+- * @size: Requested size of memory region.
+  * @num_pages: Actual size of memory region in pages.
+  * @page_alignment: Page alignment.
+  * @placement: Placement flags.
+@@ -171,7 +170,6 @@ struct ttm_bus_placement {
+ struct ttm_resource {
+ 	void *mm_node;
+ 	unsigned long start;
+-	unsigned long size;
+ 	unsigned long num_pages;
+ 	uint32_t page_alignment;
+ 	uint32_t mem_type;
 -- 
 2.27.0
 
