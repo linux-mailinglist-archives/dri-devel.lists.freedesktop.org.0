@@ -2,42 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5C629312F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 00:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD84293571
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 09:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA1F6EB4E;
-	Mon, 19 Oct 2020 22:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C4A66F42A;
+	Tue, 20 Oct 2020 07:05:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FCF86EB51
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 22:23:11 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-1K2rc0xtNHOxoHmQjZsQgw-1; Mon, 19 Oct 2020 18:23:08 -0400
-X-MC-Unique: 1K2rc0xtNHOxoHmQjZsQgw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36296186841A;
- Mon, 19 Oct 2020 22:23:07 +0000 (UTC)
-Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-180.bne.redhat.com
- [10.64.54.180])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7075E1002391;
- Mon, 19 Oct 2020 22:23:06 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/5] drm/ttm: get rid of storing size in ttm_resource
-Date: Tue, 20 Oct 2020 08:22:57 +1000
-Message-Id: <20201019222257.1684769-6-airlied@gmail.com>
-In-Reply-To: <20201019222257.1684769-1-airlied@gmail.com>
-References: <20201019222257.1684769-1-airlied@gmail.com>
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78C5C6EB88
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 23:05:49 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id k25so49618ioh.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 16:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=KZcwJitFojA7RhzeD/UU8gbzehCBdvf6g5ia0ZYCrq4=;
+ b=R0THCPfeT+NjRv5n7wRuWr3+iQQVH5mYQugrcFEorv7jMlZOJpq4gWO8x2sltRZ1S3
+ 8+uXkfK+0xraFRPc7RLEyC+L1Eqn+lwfgcQ60rCu3Ir6T0iqCUlHxkXPI8IxQxljNihW
+ MxA7dERE+Fo0B6yhfEPLGm6gbjuMrGvt0ee7i4ozPAa6C0OwTV1SJBaz+sj8rzyyiIix
+ DQ1LhxNguLsVQ2r9xWcmCur9QDHoeimXQtC/UVpN+4Yl8O9ZbpYKUwlrKFZtzYHwjpgZ
+ iC+kREvCZvwgmOBCIm7DmgxG6/6ncKrp6QDCnbxkp/qIzrhuMyauJsg53LWTp//HSslk
+ z+3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=KZcwJitFojA7RhzeD/UU8gbzehCBdvf6g5ia0ZYCrq4=;
+ b=r5uYvvf6H87Kx8maT41Wu2M3vRQN8D0xMz5cIyaOgKuUSEBCq7/m2SFV7O+SEE16XO
+ Um3/uM1NJzCZrz8LmzTqy3o1G+WDV2QIocs2bzxfnxVa38lh7YHJ+40oZb5YAYrDHILz
+ WAAKn+4A0vAg6T459ZjHyedXrWhelQZ1jVM50AKvYbEpGoTzaIiRELfvkDdduOMUpriv
+ ZSqbm7OV/tgnpb/2HED5T3Y8oiuItNLA2JjAMmm5gVI3cRM9bURZPOMu09MDWlDUifHN
+ fooTD7N7BtAorxOVHsCW/2+JvB6wy3t2xPKCSNFAqxKX+gQx+efOgh+cFpAYBPap2+U7
+ rFwg==
+X-Gm-Message-State: AOAM531A7Oh25wBCekLBBR3wmoVjdKmZyvYFChs8B4ZcvlBVdNfQaYrM
+ UM9wXk0jJItx46mkpTYYEyQR3A==
+X-Google-Smtp-Source: ABdhPJwE/qhLAedndnNRaUrUDMs331Onaq8Iz+VDEVRJN+4h4B5ckC67pNXDnvS9MRF/DxLJjNlnIQ==
+X-Received: by 2002:a6b:5019:: with SMTP id e25mr44377iob.123.1603148748578;
+ Mon, 19 Oct 2020 16:05:48 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id u8sm7938ilm.36.2020.10.19.16.05.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Oct 2020 16:05:47 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kUeDq-002hRf-LL; Mon, 19 Oct 2020 20:05:46 -0300
+Date: Mon, 19 Oct 2020 20:05:46 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [RFC] treewide: cleanup unreachable breaks
+Message-ID: <20201019230546.GH36674@ziepe.ca>
+References: <20201017160928.12698-1-trix@redhat.com>
+ <20201018054332.GB593954@kroah.com>
+ <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
+X-Mailman-Approved-At: Tue, 20 Oct 2020 07:05:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,121 +73,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com
+Cc: alsa-devel@alsa-project.org,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ Greg KH <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ Tom Rix <trix@redhat.com>, storagedev@microchip.com, linux-pci@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org, keyrings@vger.kernel.org,
+ linux-mtd@lists.infradead.org, ath10k@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, usb-storage@lists.one-eyed-alien.net,
+ linux-watchdog@vger.kernel.org, devel@driverdev.osuosl.org,
+ linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-nvdimm <linux-nvdimm@lists.01.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, linux-acpi@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, industrypack-devel@lists.sourceforge.net,
+ nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
+ MPT-FusionLinux.pdl@broadcom.com, linux-media@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-nfc@lists.01.org, linux-pm@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-gpio@vger.kernel.org, xen-devel@lists.xenproject.org,
+ linux-amlogic@lists.infradead.org, openipmi-developer@lists.sourceforge.net,
+ platform-driver-x86@vger.kernel.org, linux-integrity@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-edac@vger.kernel.org,
+ George Burgess <gbiv@google.com>, Network Development <netdev@vger.kernel.org>,
+ linux-usb@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-security-module@vger.kernel.org,
+ "open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
+ <linux-crypto@vger.kernel.org>, patches@opensource.cirrus.com,
+ bpf <bpf@vger.kernel.org>, ocfs2-devel@oss.oracle.com,
+ linux-power@fi.rohmeurope.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+On Mon, Oct 19, 2020 at 12:42:15PM -0700, Nick Desaulniers wrote:
+> On Sat, Oct 17, 2020 at 10:43 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Sat, Oct 17, 2020 at 09:09:28AM -0700, trix@redhat.com wrote:
+> > > From: Tom Rix <trix@redhat.com>
+> > >
+> > > This is a upcoming change to clean up a new warning treewide.
+> > > I am wondering if the change could be one mega patch (see below) or
+> > > normal patch per file about 100 patches or somewhere half way by collecting
+> > > early acks.
+> >
+> > Please break it up into one-patch-per-subsystem, like normal, and get it
+> > merged that way.
+> >
+> > Sending us a patch, without even a diffstat to review, isn't going to
+> > get you very far...
+> 
+> Tom,
+> If you're able to automate this cleanup, I suggest checking in a
+> script that can be run on a directory.  Then for each subsystem you
+> can say in your commit "I ran scripts/fix_whatever.py on this subdir."
+>  Then others can help you drive the tree wide cleanup.  Then we can
+> enable -Wunreachable-code-break either by default, or W=2 right now
+> might be a good idea.
 
-Just use num_pages and a shift directly.
+I remember using clang-modernize in the past to fix issues very
+similar to this, if clang machinery can generate the warning, can't
+something like clang-tidy directly generate the patch?
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_bo.c | 2 +-
- drivers/gpu/drm/nouveau/nv17_fence.c | 2 +-
- drivers/gpu/drm/nouveau/nv50_fence.c | 2 +-
- drivers/gpu/drm/ttm/ttm_bo.c         | 2 --
- include/drm/ttm/ttm_bo_api.h         | 2 +-
- include/drm/ttm/ttm_resource.h       | 2 --
- 6 files changed, 4 insertions(+), 8 deletions(-)
+You can send me a patch for drivers/infiniband/* as well
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 3c24873ae8e9..fec7a901865e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -994,7 +994,7 @@ nouveau_bo_vm_bind(struct ttm_buffer_object *bo, struct ttm_resource *new_reg,
- 		return 0;
- 
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_CELSIUS) {
--		*new_tile = nv10_bo_set_tiling(dev, offset, new_reg->size,
-+		*new_tile = nv10_bo_set_tiling(dev, offset, new_reg->num_pages << PAGE_SHIFT,
- 					       nvbo->mode, nvbo->zeta);
- 	}
- 
-diff --git a/drivers/gpu/drm/nouveau/nv17_fence.c b/drivers/gpu/drm/nouveau/nv17_fence.c
-index 1253fdec712d..a6da8765f262 100644
---- a/drivers/gpu/drm/nouveau/nv17_fence.c
-+++ b/drivers/gpu/drm/nouveau/nv17_fence.c
-@@ -80,7 +80,7 @@ nv17_fence_context_new(struct nouveau_channel *chan)
- 	struct nv10_fence_chan *fctx;
- 	struct ttm_resource *reg = &priv->bo->bo.mem;
- 	u32 start = reg->start * PAGE_SIZE;
--	u32 limit = start + reg->size - 1;
-+	u32 limit = start + (reg->num_pages << PAGE_SHIFT) - 1;
- 	int ret = 0;
- 
- 	fctx = chan->fence = kzalloc(sizeof(*fctx), GFP_KERNEL);
-diff --git a/drivers/gpu/drm/nouveau/nv50_fence.c b/drivers/gpu/drm/nouveau/nv50_fence.c
-index 447238e3cbe7..65d9a20f4e55 100644
---- a/drivers/gpu/drm/nouveau/nv50_fence.c
-+++ b/drivers/gpu/drm/nouveau/nv50_fence.c
-@@ -39,7 +39,7 @@ nv50_fence_context_new(struct nouveau_channel *chan)
- 	struct nv10_fence_chan *fctx;
- 	struct ttm_resource *reg = &priv->bo->bo.mem;
- 	u32 start = reg->start * PAGE_SIZE;
--	u32 limit = start + reg->size - 1;
-+	u32 limit = start + (reg->num_pages << PAGE_SHIFT) - 1;
- 	int ret;
- 
- 	fctx = chan->fence = kzalloc(sizeof(*fctx), GFP_KERNEL);
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index a9f184cdbe24..7602d7734d38 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -956,7 +956,6 @@ static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
- 	dma_resv_assert_held(bo->base.resv);
- 
- 	mem.num_pages = bo->mem.num_pages;
--	mem.size = mem.num_pages << PAGE_SHIFT;
- 	mem.page_alignment = bo->mem.page_alignment;
- 	mem.bus.offset = 0;
- 	mem.bus.addr = NULL;
-@@ -1102,7 +1101,6 @@ int ttm_bo_init_reserved(struct ttm_bo_device *bdev,
- 	INIT_LIST_HEAD(&bo->swap);
- 	bo->bdev = bdev;
- 	bo->type = type;
--	bo->mem.size = num_pages << PAGE_SHIFT;
- 	bo->mem.mem_type = TTM_PL_SYSTEM;
- 	bo->mem.num_pages = num_pages;
- 	bo->mem.mm_node = NULL;
-diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-index f201ec42b90b..f98d14957869 100644
---- a/include/drm/ttm/ttm_bo_api.h
-+++ b/include/drm/ttm/ttm_bo_api.h
-@@ -614,7 +614,7 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
- 
- static inline unsigned long ttm_bo_size_bytes(struct ttm_buffer_object *bo)
- {
--	return bo->mem.size;
-+	return bo->mem.num_pages << PAGE_SHIFT;
- }
- 
- #endif
-diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index f48a70d39ac5..fc9d9d7f9f15 100644
---- a/include/drm/ttm/ttm_resource.h
-+++ b/include/drm/ttm/ttm_resource.h
-@@ -159,7 +159,6 @@ struct ttm_bus_placement {
-  * struct ttm_resource
-  *
-  * @mm_node: Memory manager node.
-- * @size: Requested size of memory region.
-  * @num_pages: Actual size of memory region in pages.
-  * @page_alignment: Page alignment.
-  * @placement: Placement flags.
-@@ -171,7 +170,6 @@ struct ttm_bus_placement {
- struct ttm_resource {
- 	void *mm_node;
- 	unsigned long start;
--	unsigned long size;
- 	unsigned long num_pages;
- 	uint32_t page_alignment;
- 	uint32_t mem_type;
--- 
-2.27.0
-
+Thanks,
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
