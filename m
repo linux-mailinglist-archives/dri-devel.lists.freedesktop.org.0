@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3E9292FF0
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 22:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4793B293038
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 23:09:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B5936EAA1;
-	Mon, 19 Oct 2020 20:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74ECD6EAB2;
+	Mon, 19 Oct 2020 21:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88B596EA9A;
- Mon, 19 Oct 2020 20:46:24 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id y14so668920pgf.12;
- Mon, 19 Oct 2020 13:46:24 -0700 (PDT)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 976456EAB0;
+ Mon, 19 Oct 2020 21:09:32 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id p3so458981pjd.0;
+ Mon, 19 Oct 2020 14:09:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lZOmjAfebeIR7qmEAaLdEquc4ZpzVD3xby9O6rpIYDw=;
- b=KaeucAx9Nj30YybE6s+Jf6uDf6b1cN+oLUXUan8AmuAChdfmpnDNN1NSm47rlazZtF
- TBpVKIftFGFBzbv2LbvpRLD23lBjLepiq1T866p9/tWxlECEVBK/WvA4cgNmQfY8dmlD
- xV5pdA1EwPp0n1zQYbcGQ8ckG+Ft4AIz7E6dTP0kynmdiEq5sElCaHk3uA7Lu0Lv1nal
- hUG3tZSSTuZMPBvcjOjSssYMfINLT83yU+s5ZWqsxJm+IDHy0/7yTy0cL+2dRxLg1VF+
- f6T11cHukNtctrIXRNDwmu99wPM1xlvZ1YghdQySzICISN2fTLAC70HhlIbDTD3ECEbM
- TbIA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5YrNKJ5OY6r1EDWREJJiTgfyOgLrR9oDoJHGUldK/KM=;
+ b=sk1vZAZt6nDJGI3DN3CsUkDQqQewUoz6UX8weV2SBLNaljJS6JGOjgrTRmCB9+pRc1
+ tAfxb4KVqB6XKsnRAtJ2pJMdfwYe7SDlrGabiMyLVme7rNNsBXgHkxYtTvoa6pFhx7+T
+ YaqYgvnatV1kLkpCMXyy/KwWCJ0mKhTsy1zFHWXkoXcOJvUorwVCYjNoKc0v/u/9+f/D
+ gLM4xrEV9TQCpD+YJ/1Yiw68F2P50wvRAXeh+IIvqLlJ8pPjmDqWE7Co5T+bojzrUT3A
+ pZN6upIMy1lmoMjm7FFJ2CO02CHQkXQG/bhLk6kfOmoUCsDLju9fkc0rXYYVz+nhB/fz
+ ecqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lZOmjAfebeIR7qmEAaLdEquc4ZpzVD3xby9O6rpIYDw=;
- b=JGivAQx1LvNyvjiAExQRKwXmWs53Qh0ug/M5OBwZgkxMfJjw0Aa4rvbH6x5ZcS63Jp
- 4bYiRHxyq7JNDhWAHR2o/f4Z5EFbkW17OyT7lMGdkMZIexkLy4vjWZ1x+1/puzrQkdtO
- j/W10Qny/Awjn2BAP6aS12WPVPAUUp8sacCAZqKC73YcCvxCRwW+1JyZLnMU4REwpBAZ
- sa/uO8020ggUsCz32+u1nQ0SH9/ahbFstHDphC4YPM07fdMeBrZ8mWrzMYpTINckSFec
- XPiloBwdop7QTpA1aCwyad8KEw/0JR5dmsqC7l/mPenvTV56HSa14qQkZ6aHBX6vQh6C
- 16Ag==
-X-Gm-Message-State: AOAM533eIQNoFEB3r12b/rzK5eyZS0/3NsgtrZjwPXUKyPcovOF+VGNr
- JvK8cbB95kOCOghB5Z9qeZ5poBD4fseNPw==
-X-Google-Smtp-Source: ABdhPJxTFXUNhuydkPVXKdX4h4Tx8iM7i4oIj42HJR551i80t3OhePRoJxTyglW8CodaOQ5oAL6aQw==
-X-Received: by 2002:a63:1a64:: with SMTP id a36mr1328463pgm.153.1603140383538; 
- Mon, 19 Oct 2020 13:46:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5YrNKJ5OY6r1EDWREJJiTgfyOgLrR9oDoJHGUldK/KM=;
+ b=MvOc7u9BjFKmovhPbswUXrbOO0/SKVZf9DBf4HMWJzijbwejwGhUWpXOe+GlExYfzL
+ AZd4aNRR9B7gUtwG/Vln77tv4LMipr/mRR2/PnhjVcR9yRDWoBdY4ltmJ/4ptmPF64Vm
+ Jeph8pvtR8UqmNTYpTiDhIUMtBmt5VGEBja/UERDc7n+f8cDLCmvSX8uRcRz4a/S9jjr
+ laE3GsXzycqkHRWhmBmiypR/kCcHP7UgEWT4nfI4Z1F/o6meO/tek5z8yT9WOW16qD5O
+ N/joRKO2SbgIPviBZY+shTclvOp9pWkPZFCY+LS38NoDWeoWwqOJDFYyucJ0ESiSSLlk
+ wP4Q==
+X-Gm-Message-State: AOAM5328h+9xgM/mZilrMkcWFfrhhg8lQV7Ez8U/y3xamDYkP7UXYQ6b
+ 9gVKCDORGqzwsftQ611zgz22kOC55U8KFomJ
+X-Google-Smtp-Source: ABdhPJw6ZFvgJemAeXDfkdT7lTJg210w4NPRNngz9bDCEpAh6Hlfhey2JHH001X+x6eJZMUkM0IyPQ==
+X-Received: by 2002:a17:902:c313:b029:d4:b6ac:7b5d with SMTP id
+ k19-20020a170902c313b02900d4b6ac7b5dmr1778668plx.63.1603141771529; 
+ Mon, 19 Oct 2020 14:09:31 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- u15sm582027pfl.215.2020.10.19.13.46.22
+ i1sm330102pjh.52.2020.10.19.14.09.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Oct 2020 13:46:22 -0700 (PDT)
+ Mon, 19 Oct 2020 14:09:30 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 23/23] drm/msm: Don't implicit-sync if only a single ring
-Date: Mon, 19 Oct 2020 13:46:24 -0700
-Message-Id: <20201019204636.139997-24-robdclark@gmail.com>
+Subject: [PATCH 0/3] drm/msm: kthread_worker conversion
+Date: Mon, 19 Oct 2020 14:10:50 -0700
+Message-Id: <20201019211101.143327-1-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201019204636.139997-1-robdclark@gmail.com>
-References: <20201019204636.139997-1-robdclark@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,11 +66,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+Cc: Akhil P Oommen <akhilpo@codeaurora.org>,
+ Tanmay Shah <tanmay@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
+ Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Roy Spliet <nouveau@spliet.org>,
+ Wambui Karuga <wambui.karugax@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>, Rajendra Nayak <rnayak@codeaurora.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, tongtiangen <tongtiangen@huawei.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Drew Davenport <ddavenport@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -79,51 +88,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-If there is only a single ring (no-preemption), everything is FIFO order
-and there is no need to implicit-sync.
+In particular, converting the async atomic commit (for cursor updates,
+etc) to SCHED_FIFO kthread_worker helps with some cases where we
+wouldn't manage to flush the updates within the 1ms-before-vblank
+deadline resulting in fps drops when there is cursor movement.
 
-Mesa should probably just always use MSM_SUBMIT_NO_IMPLICIT, as behavior
-is undefined when fences are not used to synchronize buffer usage across
-contexts (which is the only case where multiple different priority rings
-could come into play).
+Rob Clark (3):
+  drm/msm/gpu: Convert retire/recover work to kthread_worker
+  drm/msm/kms: Update msm_kms_init/destroy
+  drm/msm/atomic: Convert to per-CRTC kthread_work
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  3 +--
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c |  6 ++---
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c     |  4 +--
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |  4 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c   |  8 +++++-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c  |  8 +++++-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c  | 11 ++++++---
+ drivers/gpu/drm/msm/disp/mdp_kms.h        |  9 +++++--
+ drivers/gpu/drm/msm/msm_atomic.c          | 25 +++++++++++++++----
+ drivers/gpu/drm/msm/msm_drv.h             |  3 ++-
+ drivers/gpu/drm/msm/msm_gpu.c             | 30 +++++++++++++++--------
+ drivers/gpu/drm/msm/msm_gpu.h             | 13 +++++++---
+ drivers/gpu/drm/msm/msm_kms.h             | 23 ++++++++++++++---
+ 13 files changed, 104 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index d784e97f233f..96832debc3b6 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -277,7 +277,7 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
- 	return ret;
- }
- 
--static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
-+static int submit_fence_sync(struct msm_gem_submit *submit, bool implicit_sync)
- {
- 	int i, ret = 0;
- 
-@@ -297,7 +297,7 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
- 				return ret;
- 		}
- 
--		if (no_implicit)
-+		if (!implicit_sync)
- 			continue;
- 
- 		ret = msm_gem_sync_object(&msm_obj->base, submit->ring->fctx,
-@@ -768,7 +768,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto out;
- 
--	ret = submit_fence_sync(submit, !!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
-+	ret = submit_fence_sync(submit, (gpu->nr_rings > 1) &&
-+			!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
- 	if (ret)
- 		goto out;
- 
 -- 
 2.26.2
 
