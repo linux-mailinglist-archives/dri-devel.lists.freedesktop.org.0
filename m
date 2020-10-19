@@ -1,118 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040A4292229
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 07:28:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FE5292231
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 07:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65D726E8D2;
-	Mon, 19 Oct 2020 05:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D51B16E083;
+	Mon, 19 Oct 2020 05:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1006E8D1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 05:28:51 +0000 (UTC)
-IronPort-SDR: nZ2WXQaJEYbVU3XJziY65RAPaJRLPHN7eqJWli5hwUBgUtC6fmFjs0EoMi7nyoGwt1TtYdQ4vF
- wW9cHoVddnaw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9778"; a="166188821"
-X-IronPort-AV: E=Sophos;i="5.77,393,1596524400"; d="scan'208";a="166188821"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2020 22:28:45 -0700
-IronPort-SDR: B98XMq6sgyjqQZGC/PQXOaatEEvie0BWRy1IUt0rjXLZKapfseMx4R13bKWzu+Hb+nTVFZXI7L
- UI9QIMg9WS/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,393,1596524400"; d="scan'208";a="465394476"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
- by orsmga004.jf.intel.com with ESMTP; 18 Oct 2020 22:28:44 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sun, 18 Oct 2020 22:28:44 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Sun, 18 Oct 2020 22:28:44 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.171)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Sun, 18 Oct 2020 22:28:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IcBNXqwlEHfgqjzQanwZm8Fm+YSrOlJQZnvMuyqcZ7Encu9NK30m7zOpjsgGmUoj7cvQDktKlq/ANjU1z27eX5Fjhr4DUIjN1rwMzUazH6BkKNcngKpmpldpeOREqtj014UMnHmlRjLyXE0FshXmEWfywzDExzON0dAIvzXYlrNqK0VqmIpSoa8gyHqW9juq7Rp82MMpQ1/55bRbyj3NttogL0XOY+2pqqGwGKxs1mJV3dQC9Oli9YjuES+cnOiBQp5hz10u2UtBIZF6ROOn/CMrCgmKpFoGexuk544oCyEycHE6y1OzHeBsw0e06wAwVKFIkRpetMNViz0R8vSymw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q3qn5U9bA/o2eMPFtdWmu/i3SAUlTEYhqG2GeUniQ44=;
- b=NUAggU4WojYc/82QkZfcYfNplnoqOk3Bx+8pLvuPBcd2fM9MILJDha5LlyrmfNxH9863RFI6MJth/COgKlNCVwA9/J67OBk6Pdcq4Y8x47WbdrVjuUvEgMC3nSlc7wqRTP0kfoBgbwZDbDtWFOeafkT0dJCmDWBO+7PzJW1E4Y2Q8eXSIHPK5LibMEYUod//ud7ZO6DfdqQzSkoZGlTn+p7vEFWYobezUUAiafw5t5cYHUj7sErRRwgeXdzmEH6qNaBmhZ80rf4sO2pJaGUk8swf7qE89VIMeDrj0ul4imDn+V6fKwCT+pi2LzcS6O9jIYG1AeBrUboh18GviW4U4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q3qn5U9bA/o2eMPFtdWmu/i3SAUlTEYhqG2GeUniQ44=;
- b=sak6e5HLEClJXSdUiQqDY0UnDY4x3fBgV6Puz+2pUKRZxs+KB4YBicKshVQFVx02WxznXlCxMLR5k4uPacXwlLVJZpEOFTzQPDYKJgsCciHpRlF+oxJqJmh0b5bHSo9k8QltESVCOeAwcnRGA9ofDLCQyTgFPWbM6wL6cjak3Kg=
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
- by CO1PR11MB4769.namprd11.prod.outlook.com (2603:10b6:303:91::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.27; Mon, 19 Oct
- 2020 05:28:40 +0000
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::7067:d996:719:10fa]) by MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::7067:d996:719:10fa%5]) with mapi id 15.20.3477.028; Mon, 19 Oct 2020
- 05:28:40 +0000
-From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: RE: [PATCH v5 1/5] RDMA/umem: Support importing dma-buf as user
- memory region
-Thread-Topic: [PATCH v5 1/5] RDMA/umem: Support importing dma-buf as user
- memory region
-Thread-Index: AQHWozz1hR5fnRv5A0WWquQaJ8S5uKma8lUAgAAErFCAAAV8gIADadNw
-Date: Mon, 19 Oct 2020 05:28:40 +0000
-Message-ID: <MW3PR11MB45552B6EC3A50E38483547ECE51E0@MW3PR11MB4555.namprd11.prod.outlook.com>
-References: <1602799365-138199-1-git-send-email-jianxin.xiong@intel.com>
- <20201017002816.GA334909@nvidia.com>
- <MW3PR11MB45556014C8D85ABC9EBFA97CE5000@MW3PR11MB4555.namprd11.prod.outlook.com>
- <20201017010437.GZ6219@nvidia.com>
-In-Reply-To: <20201017010437.GZ6219@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.53.14.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 483e6ebd-11a7-4a6f-6f8d-08d873efd68a
-x-ms-traffictypediagnostic: CO1PR11MB4769:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CO1PR11MB47695932889E98E8730A0B2AE51E0@CO1PR11MB4769.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XQTwTUe3t7Ea7BVv0Mxqc1GyMeuCXEsNI/PiErc/qcpzfFsEIE1E3wmW4T4H5HD4yO0JCazkcgUgbcApCKcUQ8gLlMY3iPOfBhza/99tBJKxxzsK7yWBb37yIRp4uPTIqIwUKZnlKWqkaQGT3byoIvBEHx2jJ8tOpkAFBrK7teblMeAQQ4ge9g9OnSZEOkv81wsel/xXB/SF3KoXeG5Kvp0FAlhWUoHsxvAHPDjpzrbwYPpWC0PxWo1OrOVkuKlWhPDYKCwfudM6SpDqtAgVqLDjbQGTe5/+DF9vhM2xCASYzca8Hg8hYlg9vgA8N3u52sJTQ73g9J8j4pplmj9+Kg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(366004)(136003)(396003)(346002)(107886003)(86362001)(9686003)(71200400001)(53546011)(6506007)(186003)(316002)(54906003)(26005)(7696005)(66556008)(478600001)(55016002)(8936002)(52536014)(5660300002)(8676002)(83380400001)(76116006)(6916009)(4326008)(66946007)(33656002)(66476007)(2906002)(66446008)(64756008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: HwPsCSbFD67hGqMgb9iPhwN59YmRxCBcnjMBdQJHqdXb00jstZ8pTZytTj7KObJTPasuUT0DwCV2ZRHsRf15ve9GGdlALQY2gj7ChVoSPZouU3atC+ZJ7E6N79GF1CCr3mVl7Lo/4CiOeb/DKraYsk3XOOgYiDciIjKR7ClaTLoH9w3/glp6ICzfHXlwAS5zR0QIVqIgqGG0f3W/h2nldymbdQFRRCRKuhcoDGIR3vGQWlzM479QpH9i9/6r2Q7wdt8B0AlDxtrUkpgF9vWS2e7KnGGjey4O3ivgKhoNXFEUOoFwbBUCqbk5MgiHt2uWi53At4MDh6culLHABkWeaWYFyZzHDCUn11hoZY7OeCZA9JMTg8RaRCld2Dz5ZOH3f5HrtCHym1Jr64WWQJ3oUY80VyeCsMHYhIvGfKS8EMlwYpSWQPJZ0gqgva+nfkPSmch5xCwbSQh7pCYBrlNyUiqx/j73DhgdX/yaZDvSGaCJ1sfNxsjBy3jw65luzU1vrMlPMg5JEN9rfVzMTIkBAgCWF19bK1JPIQjpjCYjK8Xv9F8G1skp17+RYxsRZjEkOD6JK3JXLLDTCFXGN5MEs9TmGEttyHDCuVCE5MocLnSZD08whMu7KyPUdj9WI7VRRTcZFcPMSWfrqt6eEMIqlg==
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A95F86E083
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 05:30:41 +0000 (UTC)
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20201019053039epoutp022f4bfaa1aecf497732e8098ad0923958~-Tba8Rgjo0116601166epoutp02O
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 05:30:39 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20201019053039epoutp022f4bfaa1aecf497732e8098ad0923958~-Tba8Rgjo0116601166epoutp02O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1603085439;
+ bh=WeTTCzDpOQ7XbkeWqPVnTgIy6m9BJhORQyCxqSptRMI=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=tEe/FqeRV6go9ZdfDzlCJziW7GsU7qCNEGe3sCxSLRB2k9rNLFp5pmkRJLNoyd8tL
+ 3OsXAq0tM4ZNd+98apIR8RRWTrN5ykYsT+wnaBxx2dZdc2IiecEHRCKK+t7UY+kEJl
+ tj6zOORzZ52C73CaZqPD01o8FG0/BwtQwEsSIC4o=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20201019053037epcas1p2013dd979619a6b5efce63af4de47feae~-TbZMGEI51360613606epcas1p2h;
+ Mon, 19 Oct 2020 05:30:37 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.40.157]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4CF5233HQ4zMqYkt; Mon, 19 Oct
+ 2020 05:30:35 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+ epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 51.94.09918.B742D8F5; Mon, 19 Oct 2020 14:30:35 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20201019053034epcas1p4f0e7875ba34fb6ac270034e7520cec97~-TbVunWEJ2374623746epcas1p4e;
+ Mon, 19 Oct 2020 05:30:34 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20201019053033epsmtrp25d0a8da8029c0cc621ed3d277916408b~-TbVuIP-f0823908239epsmtrp2G;
+ Mon, 19 Oct 2020 05:30:33 +0000 (GMT)
+X-AuditID: b6c32a36-713ff700000026be-81-5f8d247bcb15
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 7E.1E.08745.9742D8F5; Mon, 19 Oct 2020 14:30:33 +0900 (KST)
+Received: from [10.113.221.211] (unknown [10.113.221.211]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20201019053033epsmtip208d2ba83f6aaf51c187ed0b7356431a5~-TbVl327g3161631616epsmtip2Y;
+ Mon, 19 Oct 2020 05:30:33 +0000 (GMT)
+Subject: Re: [PATCH] drm/exynos/hdmi: add support for 1920x1200@60Hz mode
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
+From: Inki Dae <inki.dae@samsung.com>
+Message-ID: <2c460f28-96a6-d2c4-a6c1-9879036a4183@samsung.com>
+Date: Mon, 19 Oct 2020 14:37:41 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 483e6ebd-11a7-4a6f-6f8d-08d873efd68a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Oct 2020 05:28:40.4544 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ogN699txEg1uqwxkVczMkKskr5YNaGpMQHnAXzB4Ke0dGSBJBwHOUbajKfC6VYf9HvU0eTWlCvAlk1I3vIV2YA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4769
-X-OriginatorOrg: intel.com
+In-Reply-To: <20201009130524.30828-1-m.szyprowski@samsung.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpjk+LIzCtJLcpLzFFi42LZdlhTX7dapTfe4N12CYtb686xWlz5+p7N
+ Ysb5fUwWa4/cZbeYMfklmwOrx/3u40wefVtWMXp83iQXwByVbZORmpiSWqSQmpecn5KZl26r
+ 5B0c7xxvamZgqGtoaWGupJCXmJtqq+TiE6DrlpkDtFJJoSwxpxQoFJBYXKykb2dTlF9akqqQ
+ kV9cYquUWpCSU2BZoFecmFtcmpeul5yfa2VoYGBkClSYkJ3x4fQhxoLbnBWN668yNTA+Yu9i
+ 5OSQEDCReLhtGWMXIxeHkMAORommO5eYIJxPjBI/T7WyQjifGSV+/VzKDNPyr+U4O0RiF6PE
+ gxmrofrfA/W3HQYbLCzgKXH2zEqwDhGBUom5/4+BxZkFAiVuz+wCs9kEVCUmrrjPBmLzCthJ
+ PH7yA8xmAYp3965iBbFFBSIkjndPZoeoEZQ4OfMJC4jNCVT//tsmZoiZ4hK3nsxngrDlJZq3
+ zmYGOUhC4CW7xO7GfqizXSQ+vLkAZQtLvDq+BRoCUhKf3+1lg2hoZpSYOOM0E4TTwShx9/F1
+ FogqY4n9SycDJTiAVmhKrN+lDxFWlNj5ey4jxGY+iXdfe1hBSiQEeCU62oQgSpQkjl28wQhh
+ S0hcWDKRDcL2kFh+4RzjBEbFWUh+m4Xkn1lI/pmFsHgBI8sqRrHUguLc9NRiwwIj5PjexAhO
+ kFpmOxgnvf2gd4iRiYPxEKMEB7OSCG+kYFe8EG9KYmVValF+fFFpTmrxIUZTYGhPZJYSTc4H
+ pui8knhDUyNjY2MLE0MzU0NDJXHeP9od8UIC6YklqdmpqQWpRTB9TBycUg1M08VfpITXlH2I
+ 9Gn/unRV99mDvw5XXlzv5L2Z7dqmiG87/txIWchc2dTJvsM6fE2Sy9PNXuvsXwhf2bFtl+rx
+ TQu8yz2uvk9rZHr+bOprBbbV/R+PlARvUPWZterb8/4eq5cbn/X9ZDgqush78aawcL59xaYc
+ WdsSpKd/c9Fe2ig4yexEeOyjQ3vWaR6/n3mz8PZ7v8sV73h1TCzfpP9OWK51clnjxdeFdXF7
+ NfUm7AkNMeT4diNh3qowZqfPdnq3GvauLd257cvrk6tlWqWFeZz/L7Xdt+PcLcb0UuMk7s4L
+ LGGfljQ5WF902sZq3ur+r2ZGxv704wdC0pceKI27X/O0OcjM3TS+Zot8nOKRFCWW4oxEQy3m
+ ouJEAF3wSegZBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrELMWRmVeSWpSXmKPExsWy7bCSvG6lSm+8wby5Vha31p1jtbjy9T2b
+ xYzz+5gs1h65y24xY/JLNgdWj/vdx5k8+rasYvT4vEkugDmKyyYlNSezLLVI3y6BK+PD6UOM
+ Bbc5KxrXX2VqYHzE3sXIySEhYCLxr+U4kM3FISSwg1Hi5pKbLF2MHEAJCYktWzkgTGGJw4eL
+ IUreMkpMO3GVBaRXWMBT4uyZlcwgtohAqcSr/vuMIDazQKDE5w+bmSEaJjJKnH+1DmwZm4Cq
+ xMQV99lAbF4BO4nHT36A2SxA8e7eVawgtqhAhETL/T/sEDWCEidnPgFbxglU//7bJmaIBeoS
+ f+ZdgrLFJW49mc8EYctLNG+dzTyBUWgWkvZZSFpmIWmZhaRlASPLKkbJ1ILi3PTcYsMCo7zU
+ cr3ixNzi0rx0veT83E2M4GjQ0trBuGfVB71DjEwcjIcYJTiYlUR4IwW74oV4UxIrq1KL8uOL
+ SnNSiw8xSnOwKInzfp21ME5IID2xJDU7NbUgtQgmy8TBKdXAFHxAZNa0Z3rq74KO6vOYnFVb
+ d26PXueRZfFnVl0ojz1r7jKV8YvrgQ2veHZPOJp4oelvvabE3XX2Pvpm5Wcv7vdfwLNFbJV5
+ 3tZjKR6s7C/X9SbHP7rY5q28UmQiz1fjFWwur/ljmS7Iv83Ju3/+41Hz7Q89Bb2uxssonnSy
+ N9pavir6W6uu2/8UtxuBUfceu+1darMz2lkxu+vGiSle3n/ennq0WjqNRenC82Oy88u5Gg8k
+ FBhW6lvZ/u7e/Sdd2aau5pezhcbelz8MphxQTBETnbTlYKF8zM/Pc8UmyrTlpm5d9HyG5wS2
+ o10a809avTAJnuN/Sef6k7V/t7gyml35WqdmNkPxR/Zb5qzsWCWW4oxEQy3mouJEACYmWmP1
+ AgAA
+X-CMS-MailID: 20201019053034epcas1p4f0e7875ba34fb6ac270034e7520cec97
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20201009130531eucas1p25ba0c17803bd0647c65603feb3180799
+References: <CGME20201009130531eucas1p25ba0c17803bd0647c65603feb3180799@eucas1p2.samsung.com>
+ <20201009130524.30828-1-m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,101 +115,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Doug
- Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Andrzej Hajda <a.hajda@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -----Original Message-----
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> Sent: Friday, October 16, 2020 6:05 PM
-> To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Leon Romanovsky
-> <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel
-> <daniel.vetter@intel.com>
-> Subject: Re: [PATCH v5 1/5] RDMA/umem: Support importing dma-buf as user memory region
-> 
-> On Sat, Oct 17, 2020 at 12:57:21AM +0000, Xiong, Jianxin wrote:
-> > > From: Jason Gunthorpe <jgg@nvidia.com>
-> > > Sent: Friday, October 16, 2020 5:28 PM
-> > > To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> > > Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org;
-> > > Doug Ledford <dledford@redhat.com>; Leon Romanovsky
-> > > <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian
-> > > Koenig <christian.koenig@amd.com>; Vetter, Daniel
-> > > <daniel.vetter@intel.com>
-> > > Subject: Re: [PATCH v5 1/5] RDMA/umem: Support importing dma-buf as
-> > > user memory region
-> > >
-> > > On Thu, Oct 15, 2020 at 03:02:45PM -0700, Jianxin Xiong wrote:
-> > > > +struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
-> > > > +				   unsigned long addr, size_t size,
-> > > > +				   int dmabuf_fd, int access,
-> > > > +				   const struct ib_umem_dmabuf_ops *ops) {
-> > > > +	struct dma_buf *dmabuf;
-> > > > +	struct ib_umem_dmabuf *umem_dmabuf;
-> > > > +	struct ib_umem *umem;
-> > > > +	unsigned long end;
-> > > > +	long ret;
-> > > > +
-> > > > +	if (check_add_overflow(addr, (unsigned long)size, &end))
-> > > > +		return ERR_PTR(-EINVAL);
-> > > > +
-> > > > +	if (unlikely(PAGE_ALIGN(end) < PAGE_SIZE))
-> > > > +		return ERR_PTR(-EINVAL);
-> > > > +
-> > > > +	if (unlikely(!ops || !ops->invalidate || !ops->update))
-> > > > +		return ERR_PTR(-EINVAL);
-> > > > +
-> > > > +	umem_dmabuf = kzalloc(sizeof(*umem_dmabuf), GFP_KERNEL);
-> > > > +	if (!umem_dmabuf)
-> > > > +		return ERR_PTR(-ENOMEM);
-> > > > +
-> > > > +	umem_dmabuf->ops = ops;
-> > > > +	INIT_WORK(&umem_dmabuf->work, ib_umem_dmabuf_work);
-> > > > +
-> > > > +	umem = &umem_dmabuf->umem;
-> > > > +	umem->ibdev = device;
-> > > > +	umem->length = size;
-> > > > +	umem->address = addr;
-> > >
-> > > addr here is offset within the dma buf, but this code does nothing with it.
-> > >
-> > The current code assumes 0 offset, and 'addr' is the nominal starting
-> > address of the buffer. If this is to be changed to offset, then yes,
-> > some more handling is needed as you mentioned below.
-> 
-> There is no such thing as 'nominal starting address'
-> 
-> If the user is to provide any argument it can only be offset and length.
-> 
-> > > Also, dma_buf_map_attachment() does not do the correct dma mapping
-> > > for RDMA, eg it does not use ib_dma_map(). This is not a problem for
-> > > mlx5 but it is troublesome to put in the core code.
-> >
-> > ib_dma_map() uses dma_map_single(), GPU drivers use dma_map_resource()
-> > for dma_buf_map_attachment(). They belong to the same family, but take
-> > different address type (kernel address vs MMIO physical address).
-> > Could you elaborate what the problem could be for non-mlx5 HCAs?
-> 
-> They use the virtual dma ops which we intend to remove
-
-We can have a check with the dma device before attaching the dma-buf and thus 
-ib_umem_dmabuf_get() call from such drivers would fail. Something like:
-
-#ifdef CONFIG_DMA_VIRT_OPS
-	if (device->dma_device->dma_ops == &dma_virt_ops)
-		return ERR_PTR(-EINVAL);
-#endif
- 
-> 
-> Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgoyMC4gMTAuIDkuIOyYpO2bhCAxMDowNeyXkCBNYXJlayBTenlwcm93c2tpIOydtCjqsIApIOyT
+tCDquIA6Cj4gQWRkIGNsb2NrIGNvbmZpZ3VyYXRpb24gZm9yIDE1NE1IeiBwaXhlbGNsb2NrIHRv
+IEV4eW5vczU0MnggSERNSVBIWSwKPiB3aGljaCBpcyByZXF1aXJlZCBmb3IgMTkyMHgxMjAwQDYw
+SHogbW9kZS4gVGhlIFBMTCBjb25maWd1cmF0aW9uIGRhdGEKPiBoYXMgYmVlbiB0YWtlbiBmcm9t
+IHRoZSB2ZW5kb3IncyBrZXJuZWwgdHJlZSBmb3IgdGhlIE9kcm9pZCBYVTQgYm9hcmQuCgpNZXJn
+ZWQuCgpUaGFua3MsCklua2kgRGFlCgo+IAo+IFNpZ25lZC1vZmYtYnk6IE1hcmVrIFN6eXByb3dz
+a2kgPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V4
+eW5vcy9leHlub3NfaGRtaS5jIHwgOSArKysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDkgaW5z
+ZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5v
+c19oZG1pLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19oZG1pLmMKPiBpbmRleCBk
+YzAxYzE4OGMwZTAuLjM5ZmE1ZDNiMDFlZiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+ZXh5bm9zL2V4eW5vc19oZG1pLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5v
+c19oZG1pLmMKPiBAQCAtNTIyLDYgKzUyMiwxNSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhkbWlw
+aHlfY29uZmlnIGhkbWlwaHlfNTQyMF9jb25maWdzW10gPSB7Cj4gIAkJCTB4NTQsIDB4NEIsIDB4
+MjUsIDB4MDMsIDB4MDAsIDB4ODAsIDB4MDEsIDB4ODAsCj4gIAkJfSwKPiAgCX0sCj4gKwl7Cj4g
+KwkJLnBpeGVsX2Nsb2NrID0gMTU0MDAwMDAwLAo+ICsJCS5jb25mID0gewo+ICsJCQkweDAxLCAw
+eEQxLCAweDIwLCAweDAxLCAweDQwLCAweDMwLCAweDA4LCAweENDLAo+ICsJCQkweDhDLCAweEU4
+LCAweEMxLCAweEQ4LCAweDQ1LCAweEEwLCAweEFDLCAweDgwLAo+ICsJCQkweDA4LCAweDgwLCAw
+eDA5LCAweDg0LCAweDA1LCAweDAyLCAweDI0LCAweDg2LAo+ICsJCQkweDU0LCAweDNGLCAweDI1
+LCAweDAzLCAweDAwLCAweDAwLCAweDAxLCAweDgwLAo+ICsJCX0sCj4gKwl9LAo+ICB9Owo+ICAK
+PiAgc3RhdGljIGNvbnN0IHN0cnVjdCBoZG1pcGh5X2NvbmZpZyBoZG1pcGh5XzU0MzNfY29uZmln
+c1tdID0gewo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
