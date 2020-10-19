@@ -1,55 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EDAF292E7A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 21:28:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D65292AB5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 17:44:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3D4F6EA51;
-	Mon, 19 Oct 2020 19:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4506B6EA02;
+	Mon, 19 Oct 2020 15:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3F9A6E9FB;
- Mon, 19 Oct 2020 15:40:44 +0000 (UTC)
-Received: from localhost (mailhub1-int [192.168.12.234])
- by localhost (Postfix) with ESMTP id 4CFLYw6bNSzB09bN;
- Mon, 19 Oct 2020 17:40:36 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
- by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
- with ESMTP id zj42ynJJ94zM; Mon, 19 Oct 2020 17:40:36 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase1.c-s.fr (Postfix) with ESMTP id 4CFLYw4v98zB09bG;
- Mon, 19 Oct 2020 17:40:36 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 2194B8B7BD;
- Mon, 19 Oct 2020 17:40:42 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id 8f7Jl5JhxJ1G; Mon, 19 Oct 2020 17:40:42 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 2E7B38B79E;
- Mon, 19 Oct 2020 17:40:41 +0200 (CEST)
-Subject: Re: [PATCH] drm/amd/display: Fix missing declaration of
- enable_kernel_vsx()
-To: kernel test robot <lkp@intel.com>, Harry Wentland
- <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <1a5d454cf080a00c04ae488ef6e98d5fcc933550.1603100151.git.christophe.leroy@csgroup.eu>
- <202010192006.INRpAG6V-lkp@intel.com>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <718db443-8457-bb81-43d5-6548c0ed8c68@csgroup.eu>
-Date: Mon, 19 Oct 2020 17:40:35 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC92F6EA02
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 15:44:41 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id d3so307098wma.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 08:44:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=ZKAL2hZ3qOMWxJzH1IwKgv2j9AVNcU1OrEysy54jR20=;
+ b=FQdQEmvxir1K1aSRwc/YD4OVhWIMURxeuwSI9q/LNHwUOw91nTK9CTKgBWOc/AgZEd
+ 5RIIYazWw8sNuCWtZMasBoU/vyV3T+ET1FUyoh+jurtniuoLYL8lKeCvnNdjk7bpySfc
+ ZQSf9esLS8szzSzrUyms+bCdcYe3U35tH/skc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=ZKAL2hZ3qOMWxJzH1IwKgv2j9AVNcU1OrEysy54jR20=;
+ b=s/0Kj6FJSu4JDC0K8sU2Iybv47VdbizBrn+DIOBJ7+f4NSAjb05CkUVqvEvmaUW+QY
+ 6s6crnykn2SoZtZh207k7Bj/A36xcY1XLZGvn+kBzCrN/YnbMsUw3sUNxH8CskjuQDUJ
+ REklwmwbBp/1Kw76NFI+C9MV7/edjerSqYPNNe5oGxNHgIuVhzcRCrA8La/n379GOqYg
+ H0mJlJ9wA2MVztjlzja6E/e2aBOAPBXRqVnOz93Sl5NoDLhDy+dFdRiBDVxf6E6Oakbx
+ HmZyQ5PPaihuNOGwXfPEOSVYSYB3cW/gAgBR8+leey89zbg4BYb5ADgHhZbFzonE1VQs
+ qukA==
+X-Gm-Message-State: AOAM533ZremIFJG4QALovefpM6BtZkH8uUh3ftNRTbfB+pIvS7GwoP9j
+ eUPSSDlgzWx9Z7JBPRfPkNTpxA==
+X-Google-Smtp-Source: ABdhPJx+1Aku6RCS8tZ4DS52dzWXQ674ssKWd4gf8//xA0eTRcqBv49MCEwytlX/u9Aulak9Afz9VQ==
+X-Received: by 2002:a1c:9854:: with SMTP id a81mr40477wme.72.1603122280474;
+ Mon, 19 Oct 2020 08:44:40 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f17sm486108wme.22.2020.10.19.08.44.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Oct 2020 08:44:39 -0700 (PDT)
+Date: Mon, 19 Oct 2020 17:44:37 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 0/3] drm/panel: mantix panel reset fixes
+Message-ID: <20201019154437.GE401619@phenom.ffwll.local>
+Mail-Followup-To: Sam Ravnborg <sam@ravnborg.org>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1602584953.git.agx@sigxcpu.org>
+ <20201016142916.GA1184974@ravnborg.org>
+ <20201017091307.GA2885@bogon.m.sigxcpu.org>
+ <20201017104736.GA2822081@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <202010192006.INRpAG6V-lkp@intel.com>
-Content-Language: fr
-X-Mailman-Approved-At: Mon, 19 Oct 2020 19:28:29 +0000
+Content-Disposition: inline
+In-Reply-To: <20201017104736.GA2822081@ravnborg.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,99 +74,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linuxppc-dev@lists.ozlabs.org, amd-gfx@lists.freedesktop.org,
- kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="windows-1252"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 19/10/2020 =E0 14:52, kernel test robot a =E9crit=A0:
-> Hi Christophe,
+On Sat, Oct 17, 2020 at 12:47:36PM +0200, Sam Ravnborg wrote:
+> Hi Guido.
 > =
 
-> I love your patch! Yet something to improve:
+> On Sat, Oct 17, 2020 at 11:13:07AM +0200, Guido G=FCnther wrote:
+> > Hi Sam,
+> > On Fri, Oct 16, 2020 at 04:29:16PM +0200, Sam Ravnborg wrote:
+> > > Hi Guido.
+> > > On Tue, Oct 13, 2020 at 12:32:45PM +0200, Guido G=FCnther wrote:
+> > [..snip..]
+> > > > =
+
+> > > > Changes from v1:
+> > > >  - As per review comments by Fabio Estevam
+> > > >    https://lore.kernel.org/dri-devel/CAOMZO5B5ECcConvKej=3DRcaF8wvO=
+xgq7nUzKJ-ad0aSAOzUqtbQ@mail.gmail.com/
+> > > >    - Fix typo in commit messages
+> > > >  - As per review comments by Rob Herring
+> > > >    https://lore.kernel.org/dri-devel/20200929174624.GA832332@bogus/
+> > > >    - Don't use an array of reset lines
+> > > > =
+
+> > > > Guido G=FCnther (3):
+> > > >   drm/panel: mantix: Don't dereference NULL mode
+> > > >   drm/panel: mantix: Fix panel reset
+> > > >   dt-binding: display: Require two resets on mantix panel
+> > > =
+
+> > > All applied to drm-misc-next and pushed out.
+> > > And then I remembered you had commit right - sigh.
+> > =
+
+> > Thanks! Is there any special care needed to get that into 5.10? The
+> > driver landed there in 72967d5616d3f0c714f8eb6c4e258179a9031c45.
 > =
 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v5.9 next-20201016]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> =
+> As the patches was applied to drm-misc-next the easiet path would
+> be to cherry-pick them and apply to drm-misc-fixes.
+> dim has cherry-pick support - try to use it rahter than doing it by
+> hand.
 
-> url:    https://github.com/0day-ci/linux/commits/Christophe-Leroy/drm-amd=
--display-Fix-missing-declaration-of-enable_kernel_vsx/20201019-174155
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t 7cf726a59435301046250c42131554d9ccc566b8
-> config: arc-randconfig-r013-20201019 (attached as .config)
-> compiler: arceb-elf-gcc (GCC) 9.3.0
-> reproduce (this is a W=3D1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sb=
-in/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/0day-ci/linux/commit/33f0ea8bebc4132d957107=
-f55776d8f1e02df928
->          git remote add linux-review https://github.com/0day-ci/linux
->          git fetch --no-tags linux-review Christophe-Leroy/drm-amd-displa=
-y-Fix-missing-declaration-of-enable_kernel_vsx/20201019-174155
->          git checkout 33f0ea8bebc4132d957107f55776d8f1e02df928
->          # save the attached .config to linux build tree
->          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cro=
-ss ARCH=3Darc
-> =
+drm-misc-next-fixes while we're between freeze and merge window end:
 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> =
+https://drm.pages.freedesktop.org/maintainer-tools/committer-drm-misc.html#=
+where-do-i-apply-my-patch
 
-> All errors (new ones prefixed by >>):
-> =
-
->     In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_ser=
-vices_types.h:29,
->                      from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_int=
-erface.h:26,
->                      from drivers/gpu/drm/amd/amdgpu/amdgpu.h:67,
->                      from drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:40:
->>> drivers/gpu/drm/amd/amdgpu/../display/dc/os_types.h:36:10: fatal error:=
- asm/switch-to.h: No such file or directory
->        36 | #include <asm/switch-to.h>
->           |          ^~~~~~~~~~~~~~~~~
->     compilation terminated.
-
-
-Argh ! Yes that's a typo. And anyway it fixes nothing because <asm/switch_t=
-o.h> is already included.
-
-The issue is that enable_kernel_vsx() is only declared when CONFIG_VSX is s=
-et. The simplest solution =
-
-will probably be to declare it at all time.
-
-Christophe
+Cheers, Daniel
 
 > =
 
-> vim +36 drivers/gpu/drm/amd/amdgpu/../display/dc/os_types.h
+
+> When you apply to drm-misc-fixes include a Fixes: tag so the tooling
+> will pick the patches automagically.
 > =
 
->      34	=
-
->      35	#include <asm/byteorder.h>
->    > 36	#include <asm/switch-to.h>
->      37	=
-
+> In hindsight the patches should have carried a Fixes: tag from a start
+> and should have been applied to drm-misc-fixes from a start too.
 > =
 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> I have done something like above once or twice but anyway reach out if
+> you have questions. Or ask at #dri-devel.
 > =
 
+> 	Sam
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
