@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE054292FDF
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 22:46:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 590E5292FE1
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 22:46:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B6146EACE;
-	Mon, 19 Oct 2020 20:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 210DE6EAA3;
+	Mon, 19 Oct 2020 20:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1140E6EA7D;
- Mon, 19 Oct 2020 20:46:14 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id 10so681536pfp.5;
- Mon, 19 Oct 2020 13:46:14 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00DBC6EACD;
+ Mon, 19 Oct 2020 20:46:15 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id g29so700406pgl.2;
+ Mon, 19 Oct 2020 13:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DjvKpJElljP1CGKDtyawiR3HJwFiK2kIC8fsb2FEuqQ=;
- b=OidWH+e5WlxD+T+8SIqVgzIV0i57nSDWJzr8VsRClLS9yF3wX3zBj1yfnQp7tmCcPb
- 1zse+ri+TKCix/FWRIeuSFDzhusItfK4B0cc8xH/bet7cUNNzMGcHWvIbBC2I9bC2QB9
- uT/3O55E+w4b/BEVAU3YaoE1kN0spOpIELIuhKL/EUYGACTtShBjQLu+kvKNEVGWA9Ug
- hxuUOXrlidD47Ixp2+g8lZ266tUI+Nly9/OSeA4xM4y3KpW4a7ms5Z9jHOaRlLyzKn5d
- yPbyZws1wS0dcj+imFZSta+mXIn/uwqraMBdKbaB2mxguT04kh0AHY/FzqYD2lWSvs3y
- Mejw==
+ bh=22Jlev5gAzt2xdCMyh1bV9HE1I+PJVS0r6/a1b11meI=;
+ b=F/JS5BSQUzZBgIosKtn3TjchC81I0HCUqgLhuGxddGfI29vzgf0/Ac+CvyfgjYVX7Y
+ 9fnF/gV2IXCYc/v/KgfMuGWeKiO5LNpRVkzAIdMRgZsQCXcqbakNFumug8d7X4GbaqYA
+ 0v03SCROmNrVe/c0el2xA2+fhPkTmMso332FVWDaggSahQQnMCzm69dluPdhPWQ2fxtG
+ FAHuK740cXxPj6WXkaHi0e8eBpUTMpb+LolIpkW8Gs6Ymm3X2WaYzuDs2JM6w0+pc14l
+ V2DgxHZ9q0CNDsabOz/bjoQq538V1ErhcL75B+/up0bZSyblJgUWzzeRSA3BQh/stxj7
+ Y0fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DjvKpJElljP1CGKDtyawiR3HJwFiK2kIC8fsb2FEuqQ=;
- b=Ok8Zx+aBJrUFzMDoV8CMZsZX1I11rQWXURDD5MyTH5TTX6nVfTXpOHEaJFrIh0dKBe
- plw723d8IOlUTfoXLsbdQsXtljRQmoPOnc++25H/2+biJXDJ3ytwzZldE2Idlc1BM7bP
- AjxFAmXeeVHXGj7cYvceXJA5lWRZr7nuz3E1PcPXIzaZ4cC+UVQfRisIKyWy2zo96gbs
- NQuF7VyeJNX2+CRCHHEDGxbAGsCuMqbEV6qYG7YNSYGAUp22uJYMeURUeSk9fzFXXkQr
- MT8TpNS7zeVH//jND1D3fXifi/RlV/hVziF5Z0/h0IRqJbBAkls/VeNhUSH1m/4DGLyZ
- M+PQ==
-X-Gm-Message-State: AOAM5314cq91Xc0xqOmYGAy6J2l+w+YOyw1RqFMJo5y0AJlPPHrz4WrA
- gNfizZNSAbYCN2MZJW58QG3csh52kmBppg==
-X-Google-Smtp-Source: ABdhPJy4A2xGRFyNaIiOmsSayiLrZ8+3WMkfP8VzoC7DsZ27VqqF4SvAljhJDjshN/gS2YxPj4quHg==
-X-Received: by 2002:a63:370f:: with SMTP id e15mr1360758pga.124.1603140373089; 
- Mon, 19 Oct 2020 13:46:13 -0700 (PDT)
+ bh=22Jlev5gAzt2xdCMyh1bV9HE1I+PJVS0r6/a1b11meI=;
+ b=thAmU7aFf531OcV6epidGH8213aV/EV1vz0e6kXp676gxZl48ahBtt8+zoicvfRuUl
+ 2C5mwthzTUhb3MYjK8M9+y4ZOzHpMxbgXozxiGZ10EW3BiH59fQJlcezoybrhzAX8tKy
+ KBKUqMOV4fHGVLfcIK9H1QgCkF9cocj+hAGpjNEg7tmAXt66a23SeTYyOlfpEBObIph+
+ /hWArIvtgHCy1Pahy9+bYBymM4zCdF7w07ek7jU41sDrOe9G7xpMx5tCovh3lnM16XPh
+ d7t/It/2I826YX8woGUAG4TilUUsVHhLdlVE5CbAHdB5G3H4ZRxEiQ+vZQ7V5a2/baIc
+ nacg==
+X-Gm-Message-State: AOAM532yiiMqKoghqyA6+jXRbMoC+ybyhZ4LnRatAjsp9T5e2uKAuX8b
+ uCEeT6Y3TJq6ZBpvn7lW6v/jEE/q/CbXqA==
+X-Google-Smtp-Source: ABdhPJwdzx2KBhZc3edpmg8ERbRwwRTRFA0QkUXk+3oFfZHlQ54Q/dXufyuu8YqMSWhzmvx0D3JrxA==
+X-Received: by 2002:a63:3fc7:: with SMTP id m190mr1281127pga.293.1603140375067; 
+ Mon, 19 Oct 2020 13:46:15 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- y10sm612527pff.119.2020.10.19.13.46.11
+ s20sm590362pfc.201.2020.10.19.13.46.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Oct 2020 13:46:12 -0700 (PDT)
+ Mon, 19 Oct 2020 13:46:14 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 18/23] drm/msm: Drop struct_mutex from the retire path
-Date: Mon, 19 Oct 2020 13:46:19 -0700
-Message-Id: <20201019204636.139997-19-robdclark@gmail.com>
+Subject: [PATCH v3 19/23] drm/msm: Drop struct_mutex in free_object() path
+Date: Mon, 19 Oct 2020 13:46:20 -0700
+Message-Id: <20201019204636.139997-20-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201019204636.139997-1-robdclark@gmail.com>
 References: <20201019204636.139997-1-robdclark@gmail.com>
@@ -79,56 +79,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Now that we are not relying on dev->struct_mutex to protect the
-ring->submits lists, drop the struct_mutex lock.
+Now that active_list/inactive_list is protected by mm_lock, we no longer
+need dev->struct_mutex in the free_object() path.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
- drivers/gpu/drm/msm/msm_gpu.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index d0f625112a97..30ba3beaad0a 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -717,7 +717,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 
- 		msm_gem_active_put(&msm_obj->base);
- 		msm_gem_unpin_iova(&msm_obj->base, submit->aspace);
--		drm_gem_object_put_locked(&msm_obj->base);
-+		drm_gem_object_put(&msm_obj->base);
- 	}
- 
- 	pm_runtime_mark_last_busy(&gpu->pdev->dev);
-@@ -732,11 +732,8 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 
- static void retire_submits(struct msm_gpu *gpu)
- {
--	struct drm_device *dev = gpu->dev;
- 	int i;
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index e4876498be47..af1abddca78e 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -949,8 +949,6 @@ static void free_object(struct msm_gem_object *msm_obj)
+ 	struct drm_device *dev = obj->dev;
+ 	struct msm_drm_private *priv = dev->dev_private;
  
 -	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
 -
- 	/* Retire the commits starting with highest priority */
- 	for (i = 0; i < gpu->nr_rings; i++) {
- 		struct msm_ringbuffer *ring = gpu->rb[i];
-@@ -766,15 +763,12 @@ static void retire_submits(struct msm_gpu *gpu)
- static void retire_worker(struct work_struct *work)
+ 	/* object should not be on active list: */
+ 	WARN_ON(is_active(msm_obj));
+ 
+@@ -987,20 +985,14 @@ void msm_gem_free_work(struct work_struct *work)
  {
- 	struct msm_gpu *gpu = container_of(work, struct msm_gpu, retire_work);
--	struct drm_device *dev = gpu->dev;
- 	int i;
+ 	struct msm_drm_private *priv =
+ 		container_of(work, struct msm_drm_private, free_work);
+-	struct drm_device *dev = priv->dev;
+ 	struct llist_node *freed;
+ 	struct msm_gem_object *msm_obj, *next;
  
- 	for (i = 0; i < gpu->nr_rings; i++)
- 		update_fences(gpu, gpu->rb[i], gpu->rb[i]->memptrs->fence);
+ 	while ((freed = llist_del_all(&priv->free_list))) {
+-
+-		mutex_lock(&dev->struct_mutex);
+-
+ 		llist_for_each_entry_safe(msm_obj, next,
+ 					  freed, freed)
+ 			free_object(msm_obj);
  
--	mutex_lock(&dev->struct_mutex);
- 	retire_submits(gpu);
--	mutex_unlock(&dev->struct_mutex);
- }
- 
- /* call from irq handler to schedule work to retire bo's */
+-		mutex_unlock(&dev->struct_mutex);
+-
+ 		if (need_resched())
+ 			break;
+ 	}
 -- 
 2.26.2
 
