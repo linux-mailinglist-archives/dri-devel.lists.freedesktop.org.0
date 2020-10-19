@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14FD2922D8
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 09:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA742922D6
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 09:13:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3226E8E6;
-	Mon, 19 Oct 2020 07:13:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DAA56E8E3;
+	Mon, 19 Oct 2020 07:13:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC9E6E8E3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5D46E8E2
  for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 07:13:26 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-0QZABGv1OJaakGbc8E1tQg-1; Mon, 19 Oct 2020 03:13:20 -0400
-X-MC-Unique: 0QZABGv1OJaakGbc8E1tQg-1
+ us-mta-481-bn00AxmPN02WW7N3bfdpHQ-1; Mon, 19 Oct 2020 03:13:22 -0400
+X-MC-Unique: bn00AxmPN02WW7N3bfdpHQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2F5F8030B2;
- Mon, 19 Oct 2020 07:13:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D14064140;
+ Mon, 19 Oct 2020 07:13:21 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-180.bne.redhat.com
  [10.64.54.180])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE8B51A837;
- Mon, 19 Oct 2020 07:13:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 169FA1A837;
+ Mon, 19 Oct 2020 07:13:19 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/5] drm/ttm: refactor out common code to setup a new tt
- backed resource
-Date: Mon, 19 Oct 2020 17:13:10 +1000
-Message-Id: <20201019071314.1671485-2-airlied@gmail.com>
+Subject: [PATCH 2/5] drm/ttm: split out the move to system from move ttm code
+Date: Mon, 19 Oct 2020 17:13:11 +1000
+Message-Id: <20201019071314.1671485-3-airlied@gmail.com>
 In-Reply-To: <20201019071314.1671485-1-airlied@gmail.com>
 References: <20201019071314.1671485-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -59,112 +58,68 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-This factors out the code to setup non-system tt.
-
-The same code was used twice in the move paths.
-
 Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c      | 12 +++--------
- drivers/gpu/drm/ttm/ttm_bo_util.c | 34 +++++++++++++++++++++----------
- include/drm/ttm/ttm_bo_driver.h   |  4 ++++
- 3 files changed, 30 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 38 ++++++++++++++++++++-----------
+ 1 file changed, 25 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index b97ed6ca8765..cbc74a320db2 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -252,15 +252,9 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
- 		if (ret)
- 			goto out_err;
- 
--		if (mem->mem_type != TTM_PL_SYSTEM) {
--			ret = ttm_tt_populate(bdev, bo->ttm, ctx);
--			if (ret)
--				goto out_err;
--
--			ret = ttm_bo_tt_bind(bo, mem);
--			if (ret)
--				goto out_err;
--		}
-+		ret = ttm_bo_move_to_new_tt_mem(bo, ctx, mem);
-+		if (ret)
-+			goto out_err;
- 	}
- 
- 	if (bdev->driver->move_notify)
 diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index ed1114235b66..a36c615bdf24 100644
+index a36c615bdf24..29726652fef7 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -45,11 +45,30 @@ struct ttm_transfer_obj {
- 	struct ttm_buffer_object *bo;
- };
+@@ -65,6 +65,28 @@ int ttm_bo_move_to_new_tt_mem(struct ttm_buffer_object *bo,
+ 	return 0;
+ }
  
-+int ttm_bo_move_to_new_tt_mem(struct ttm_buffer_object *bo,
-+			      struct ttm_operation_ctx *ctx,
-+			      struct ttm_resource *new_mem)
++static int ttm_bo_move_old_to_system(struct ttm_buffer_object *bo,
++				     struct ttm_operation_ctx *ctx)
 +{
++	struct ttm_resource *old_mem = &bo->mem;
 +	int ret;
 +
-+	if (new_mem->mem_type == TTM_PL_SYSTEM)
++	if (old_mem->mem_type == TTM_PL_SYSTEM)
 +		return 0;
 +
-+	ret = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
-+	if (unlikely(ret != 0))
++	ret = ttm_bo_wait_ctx(bo, ctx);
++	if (unlikely(ret != 0)) {
++		if (ret != -ERESTARTSYS)
++			pr_err("Failed to expire sync object before unbinding TTM\n");
 +		return ret;
++	}
 +
-+	ret = ttm_bo_tt_bind(bo, new_mem);
-+	if (unlikely(ret != 0))
-+		return ret;
-+
++	ttm_bo_tt_unbind(bo);
++	ttm_resource_free(bo, &bo->mem);
++	old_mem->mem_type = TTM_PL_SYSTEM;
 +	return 0;
 +}
 +
  int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
  		   struct ttm_operation_ctx *ctx,
  		    struct ttm_resource *new_mem)
- {
--	struct ttm_tt *ttm = bo->ttm;
+@@ -72,19 +94,9 @@ int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
  	struct ttm_resource *old_mem = &bo->mem;
  	int ret;
  
-@@ -67,16 +86,9 @@ int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
- 		old_mem->mem_type = TTM_PL_SYSTEM;
- 	}
- 
--	if (new_mem->mem_type != TTM_PL_SYSTEM) {
+-	if (old_mem->mem_type != TTM_PL_SYSTEM) {
+-		ret = ttm_bo_wait_ctx(bo, ctx);
 -
--		ret = ttm_tt_populate(bo->bdev, ttm, ctx);
--		if (unlikely(ret != 0))
+-		if (unlikely(ret != 0)) {
+-			if (ret != -ERESTARTSYS)
+-				pr_err("Failed to expire sync object before unbinding TTM\n");
 -			return ret;
+-		}
 -
--		ret = ttm_bo_tt_bind(bo, new_mem);
--		if (unlikely(ret != 0))
--			return ret;
+-		ttm_bo_tt_unbind(bo);
+-		ttm_resource_free(bo, &bo->mem);
+-		old_mem->mem_type = TTM_PL_SYSTEM;
 -	}
-+	ret = ttm_bo_move_to_new_tt_mem(bo, ctx, new_mem);
++	ret = ttm_bo_move_old_to_system(bo, ctx);
 +	if (unlikely(ret != 0))
 +		return ret;
  
- 	ttm_bo_assign_mem(bo, new_mem);
- 	return 0;
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index 3dbc11eb6787..1f4d2b1febd0 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -593,6 +593,10 @@ int ttm_bo_move_ttm(struct ttm_buffer_object *bo,
- 		    struct ttm_operation_ctx *ctx,
- 		    struct ttm_resource *new_mem);
- 
-+int ttm_bo_move_to_new_tt_mem(struct ttm_buffer_object *bo,
-+			      struct ttm_operation_ctx *ctx,
-+			      struct ttm_resource *new_mem);
-+
- /**
-  * ttm_bo_move_memcpy
-  *
+ 	ret = ttm_bo_move_to_new_tt_mem(bo, ctx, new_mem);
+ 	if (unlikely(ret != 0))
 -- 
 2.27.0
 
