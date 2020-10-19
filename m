@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590E5292FE1
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 22:46:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA98C292FE3
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 22:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 210DE6EAA3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA2226EAA7;
 	Mon, 19 Oct 2020 20:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00DBC6EACD;
- Mon, 19 Oct 2020 20:46:15 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id g29so700406pgl.2;
- Mon, 19 Oct 2020 13:46:15 -0700 (PDT)
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BFE36EAA7;
+ Mon, 19 Oct 2020 20:46:18 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id hk7so473387pjb.2;
+ Mon, 19 Oct 2020 13:46:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=22Jlev5gAzt2xdCMyh1bV9HE1I+PJVS0r6/a1b11meI=;
- b=F/JS5BSQUzZBgIosKtn3TjchC81I0HCUqgLhuGxddGfI29vzgf0/Ac+CvyfgjYVX7Y
- 9fnF/gV2IXCYc/v/KgfMuGWeKiO5LNpRVkzAIdMRgZsQCXcqbakNFumug8d7X4GbaqYA
- 0v03SCROmNrVe/c0el2xA2+fhPkTmMso332FVWDaggSahQQnMCzm69dluPdhPWQ2fxtG
- FAHuK740cXxPj6WXkaHi0e8eBpUTMpb+LolIpkW8Gs6Ymm3X2WaYzuDs2JM6w0+pc14l
- V2DgxHZ9q0CNDsabOz/bjoQq538V1ErhcL75B+/up0bZSyblJgUWzzeRSA3BQh/stxj7
- Y0fg==
+ bh=H6+sBeRhptapBUb8S8VOKmxlxCqweD+FvkkgvD/zDmU=;
+ b=gsfijITFoKDCthWkpijN4xeAaLrn564jSmYZFjpeBoiq47kQM7s0bwWLNhfoZyDGgk
+ BQSUmpckTpA9dkkYZXQIiXMpa01LnEQepytwc0LLJDM9eVFVMcYidiWz4PFMYOyk/Br7
+ UiPY7Wlb79+QE1Zyib9KIENCI3Xnn5AHM1g4+yfgtEfS9hJNb/9K/UcNyp2RmGhyP+s/
+ zR/uAcZ5fHOsFiplUH3WLp1c1cB/i2xpT/W4FO/euSmQUEsSbD0fF1uhabV4Yr7qWL1W
+ iZzVR5TMrTF3DANC+MyE0ZMqoJL22HVzb/yIkDI74glAXpQ94o0ZnENAn2ZRyLASV/8w
+ XUqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=22Jlev5gAzt2xdCMyh1bV9HE1I+PJVS0r6/a1b11meI=;
- b=thAmU7aFf531OcV6epidGH8213aV/EV1vz0e6kXp676gxZl48ahBtt8+zoicvfRuUl
- 2C5mwthzTUhb3MYjK8M9+y4ZOzHpMxbgXozxiGZ10EW3BiH59fQJlcezoybrhzAX8tKy
- KBKUqMOV4fHGVLfcIK9H1QgCkF9cocj+hAGpjNEg7tmAXt66a23SeTYyOlfpEBObIph+
- /hWArIvtgHCy1Pahy9+bYBymM4zCdF7w07ek7jU41sDrOe9G7xpMx5tCovh3lnM16XPh
- d7t/It/2I826YX8woGUAG4TilUUsVHhLdlVE5CbAHdB5G3H4ZRxEiQ+vZQ7V5a2/baIc
- nacg==
-X-Gm-Message-State: AOAM532yiiMqKoghqyA6+jXRbMoC+ybyhZ4LnRatAjsp9T5e2uKAuX8b
- uCEeT6Y3TJq6ZBpvn7lW6v/jEE/q/CbXqA==
-X-Google-Smtp-Source: ABdhPJwdzx2KBhZc3edpmg8ERbRwwRTRFA0QkUXk+3oFfZHlQ54Q/dXufyuu8YqMSWhzmvx0D3JrxA==
-X-Received: by 2002:a63:3fc7:: with SMTP id m190mr1281127pga.293.1603140375067; 
- Mon, 19 Oct 2020 13:46:15 -0700 (PDT)
+ bh=H6+sBeRhptapBUb8S8VOKmxlxCqweD+FvkkgvD/zDmU=;
+ b=JPSnqCpC2rpqE8D8eA0lryTCkQcalN6jRyIPrtYcoA8/MCNfpALnGtO6BQgjJYljh+
+ IJ8HZlS2uaFHYR6oCL/lzIPv30JDzq148UIA/XuUyBP2OMXr0mMS5NhlYDixs/FI0EqH
+ mEOJXk52t7yk02rk6Qf/5hKaij05NuKBMAJ2NhlaFRJuiJ7JpuziuAxyeJidqD92zEe/
+ hiSsQj1hYKeIJiO1a+G4y3kyU82z32AwyEV6JapfCGt5vybu0BvG850GJ3NUgjqfObA/
+ CWIBvMh7L6TKBMIO3uk7xlWJaQH3jt1Ir3efJ3/tXXiKbByas9AHKrOIguUJ8FQ1soEk
+ T55Q==
+X-Gm-Message-State: AOAM530DA/18VSQS5NltpgF6Zw5oBk5vhuUehECq5dINEADzDsoHnEtU
+ vKXcQ6bpSaDgqQDrbjsLMKOlJJ8dZWnmPw==
+X-Google-Smtp-Source: ABdhPJx+azay6jZ0FALaNW1mfwsshSz1cP+yEKa0SIK5foZIwDG66VXP4R70dUW6zO59EYMv3auEAQ==
+X-Received: by 2002:a17:902:d896:b029:d2:288e:bafc with SMTP id
+ b22-20020a170902d896b02900d2288ebafcmr1737571plz.43.1603140377045; 
+ Mon, 19 Oct 2020 13:46:17 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- s20sm590362pfc.201.2020.10.19.13.46.13
+ m22sm591316pfk.214.2020.10.19.13.46.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Oct 2020 13:46:14 -0700 (PDT)
+ Mon, 19 Oct 2020 13:46:16 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 19/23] drm/msm: Drop struct_mutex in free_object() path
-Date: Mon, 19 Oct 2020 13:46:20 -0700
-Message-Id: <20201019204636.139997-20-robdclark@gmail.com>
+Subject: [PATCH v3 20/23] drm/msm: Remove msm_gem_free_work
+Date: Mon, 19 Oct 2020 13:46:21 -0700
+Message-Id: <20201019204636.139997-21-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201019204636.139997-1-robdclark@gmail.com>
 References: <20201019204636.139997-1-robdclark@gmail.com>
@@ -79,48 +80,111 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Now that active_list/inactive_list is protected by mm_lock, we no longer
-need dev->struct_mutex in the free_object() path.
+Now that we don't need struct_mutex in the free path, we can get rid of
+the asynchronous free altogether.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c |  3 ---
+ drivers/gpu/drm/msm/msm_drv.h |  5 -----
+ drivers/gpu/drm/msm/msm_gem.c | 27 ---------------------------
+ drivers/gpu/drm/msm/msm_gem.h |  1 -
+ 4 files changed, 36 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 15c41786d018..ebcd8e827363 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -465,9 +465,6 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
+ 
+ 	priv->wq = alloc_ordered_workqueue("msm", 0);
+ 
+-	INIT_WORK(&priv->free_work, msm_gem_free_work);
+-	init_llist_head(&priv->free_list);
+-
+ 	INIT_LIST_HEAD(&priv->inactive_list);
+ 	mutex_init(&priv->mm_lock);
+ 
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index 7e6fb4af4964..5308e636a90c 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -188,10 +188,6 @@ struct msm_drm_private {
+ 	struct list_head inactive_list;
+ 	struct mutex mm_lock;
+ 
+-	/* worker for delayed free of objects: */
+-	struct work_struct free_work;
+-	struct llist_head free_list;
+-
+ 	struct workqueue_struct *wq;
+ 
+ 	unsigned int num_planes;
+@@ -291,7 +287,6 @@ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
+ 		struct dma_buf_attachment *attach, struct sg_table *sg);
+ int msm_gem_prime_pin(struct drm_gem_object *obj);
+ void msm_gem_prime_unpin(struct drm_gem_object *obj);
+-void msm_gem_free_work(struct work_struct *work);
+ 
+ int msm_framebuffer_prepare(struct drm_framebuffer *fb,
+ 		struct msm_gem_address_space *aspace);
 diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index e4876498be47..af1abddca78e 100644
+index af1abddca78e..827c7397ed12 100644
 --- a/drivers/gpu/drm/msm/msm_gem.c
 +++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -949,8 +949,6 @@ static void free_object(struct msm_gem_object *msm_obj)
+@@ -939,16 +939,6 @@ void msm_gem_free_object(struct drm_gem_object *obj)
  	struct drm_device *dev = obj->dev;
  	struct msm_drm_private *priv = dev->dev_private;
  
--	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
+-	if (llist_add(&msm_obj->freed, &priv->free_list))
+-		queue_work(priv->wq, &priv->free_work);
+-}
+-
+-static void free_object(struct msm_gem_object *msm_obj)
+-{
+-	struct drm_gem_object *obj = &msm_obj->base;
+-	struct drm_device *dev = obj->dev;
+-	struct msm_drm_private *priv = dev->dev_private;
 -
  	/* object should not be on active list: */
  	WARN_ON(is_active(msm_obj));
  
-@@ -987,20 +985,14 @@ void msm_gem_free_work(struct work_struct *work)
- {
- 	struct msm_drm_private *priv =
- 		container_of(work, struct msm_drm_private, free_work);
--	struct drm_device *dev = priv->dev;
- 	struct llist_node *freed;
- 	struct msm_gem_object *msm_obj, *next;
+@@ -981,23 +971,6 @@ static void free_object(struct msm_gem_object *msm_obj)
+ 	kfree(msm_obj);
+ }
  
- 	while ((freed = llist_del_all(&priv->free_list))) {
+-void msm_gem_free_work(struct work_struct *work)
+-{
+-	struct msm_drm_private *priv =
+-		container_of(work, struct msm_drm_private, free_work);
+-	struct llist_node *freed;
+-	struct msm_gem_object *msm_obj, *next;
 -
--		mutex_lock(&dev->struct_mutex);
+-	while ((freed = llist_del_all(&priv->free_list))) {
+-		llist_for_each_entry_safe(msm_obj, next,
+-					  freed, freed)
+-			free_object(msm_obj);
 -
- 		llist_for_each_entry_safe(msm_obj, next,
- 					  freed, freed)
- 			free_object(msm_obj);
+-		if (need_resched())
+-			break;
+-	}
+-}
+-
+ /* convenience method to construct a GEM buffer object, and userspace handle */
+ int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+ 		uint32_t size, uint32_t flags, uint32_t *handle,
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index f4e73c6f07bf..ffa2130ee97d 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -204,7 +204,6 @@ static inline bool is_vunmapable(struct msm_gem_object *msm_obj)
  
--		mutex_unlock(&dev->struct_mutex);
--
- 		if (need_resched())
- 			break;
- 	}
+ void msm_gem_purge(struct drm_gem_object *obj);
+ void msm_gem_vunmap(struct drm_gem_object *obj);
+-void msm_gem_free_work(struct work_struct *work);
+ 
+ /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
+  * associated with the cmdstream submission for synchronization (and
 -- 
 2.26.2
 
