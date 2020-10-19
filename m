@@ -1,39 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF8F2920C6
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 02:55:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A47A2292E70
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 21:28:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA666E155;
-	Mon, 19 Oct 2020 00:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FC186EA46;
+	Mon, 19 Oct 2020 19:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ABC46E155
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 00:55:27 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2705D6E;
- Mon, 19 Oct 2020 02:55:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1603068924;
- bh=tOXnkkRj98BJCVwTopIvEwnZ3JPBrNQuP3wdI26At4Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=j1xaqDWbIv84pyHUqAJ/tSWRY87/DnhRJxx5Q7r93QRm6ECrRC96Qqorr8eO4fx3O
- Tqso2mDm7rJhNevt/1tDwEgKbQfPgs071VtDyT2Cyko7uuuq0bjvpoXSJlSYepQOu2
- l0DKv+KErAOnIEmwlLkCOCC/19BliaMKoJf3jAIY=
-Date: Mon, 19 Oct 2020 03:54:38 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [RFC][PATCH] drm/bridge: lvds-codec: Add support for pixel data
- sampling edge select
-Message-ID: <20201019005438.GD4174@pendragon.ideasonboard.com>
-References: <20201002230823.242147-1-marex@denx.de>
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 744836E32A
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 02:21:21 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id v6so12146661lfa.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Oct 2020 19:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=m+DOuOMWvvKHKiCURgikN8Y0Kr2cQb9cXTckw8NyNLE=;
+ b=kvCnVlGwso7Jf67TjHV+ieOnUVecJsa7ctXI2WETH7qn/5IR6iriZkC0oyTnMR43mS
+ /xUd6IcfLCve17t9Quie+Gk8uomjSh4nlgL7VwR1aPP1bzV06qKr3lgazXitAKOjWK1u
+ 87BR2mFaz1EmQpnGj0MOuqsYbFVGG9swF+omae2ubEJMIgSYCy8ffWHPe0wBnSD4cK+n
+ HVVTSY4xMUNfJ6/Mb6TCnFMJ3kc1ZFtO2eintus/moZIJG45wdpfG+sfBwezJAEztJye
+ 8lYTOMhhU706ZRn6aDHkIGhBeZtVxfEdE4wB8MPjTOnxtLEzZh+O7jwbJ62d7EF3io3L
+ Ae7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=m+DOuOMWvvKHKiCURgikN8Y0Kr2cQb9cXTckw8NyNLE=;
+ b=hoJ2nLjNUEn8s8YOkrvf/ystnOc52Q9GCRA9ETbF//9P/pO+vofjvxJYx5zB1nRFTj
+ 8OToCIf+pUF59Ey3cuLPzz3GABvVC4xovFVnVsJEoK+hKsfJxqtDOEVr07bMJCfOAh27
+ WeLHK6BsGbAl53QoCXdwXDoEUET94wUwQuxqi0vm68v7Btghgm3zuMfVHfWYwsO6keNY
+ Gug5F+DtZEb87e5DVPVyOli/mEfGEfp3qRRmEYJ2qCLbnAaKc2WENNTdn2YfcoQMqcMV
+ bTXvMqq2Ncy4VIgmFeKmpLxsKdvqcjPH+RT9vG5kXSxUwK5lpv7haOZ6iXzrbIuf9v6G
+ cYcw==
+X-Gm-Message-State: AOAM533VZLsLMSE0mvHDUxr/q2gzOwhzZVU18LGKyGVf+mKz0X63x28S
+ pgp/tLGkpNSCCEu3RuaI4oA=
+X-Google-Smtp-Source: ABdhPJx7PACSdz0Ay2NcOuJC/k7L5C2ZbWYRB+SqDKWIU+wlNbeITzTUrKJkMZZ8yGnBbSaMnErQ6A==
+X-Received: by 2002:a05:6512:3053:: with SMTP id
+ b19mr5441996lfb.338.1603074079944; 
+ Sun, 18 Oct 2020 19:21:19 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-186.dynamic.spd-mgts.ru.
+ [109.252.193.186])
+ by smtp.googlemail.com with ESMTPSA id o4sm3048145lfg.247.2020.10.18.19.21.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 18 Oct 2020 19:21:19 -0700 (PDT)
+Subject: Re: [PATCH v3 19/20] drm/tegra: Implement new UAPI
+To: Mikko Perttunen <mperttunen@nvidia.com>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20201007171238.1795964-1-mperttunen@nvidia.com>
+ <20201007171238.1795964-20-mperttunen@nvidia.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <dd13ec2c-1e01-ca61-656c-b23b156b100f@gmail.com>
+Date: Mon, 19 Oct 2020 05:21:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201002230823.242147-1-marex@denx.de>
+In-Reply-To: <20201007171238.1795964-20-mperttunen@nvidia.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Mon, 19 Oct 2020 19:28:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,106 +74,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Torgue <alexandre.torgue@st.com>,
- Antonio Borneo <antonio.borneo@st.com>, Vincent Abriou <vincent.abriou@st.com>,
- Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
- Yannick Fertre <yannick.fertre@st.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- Benjamin Gaignard <benjamin.gaignard@st.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-Thank you for the patch.
-
-On Sat, Oct 03, 2020 at 01:08:23AM +0200, Marek Vasut wrote:
-> The OnSemi FIN3385 Parallel-to-LVDS encoder has a dedicated input line to
-> select input pixel data sampling edge. Add DT property "pixelclk-active",
-> same as the one used by display timings, and configure bus flags based on
-> this DT property.
-
-The feature looks good to me. I however wonder if we shouldn't use the
-standard pclk-sample endpoint property (documented in [1]) instead of a
-custom properly.
-
-The DT bindings for the lvds-codec should be updated accordingly. And
-the property should only be taken into account when operating in encoder
-mode, as for decoder mode there's no polarity for the sampling of LVDS
-signals, as you've explained in a reply to Sam.
-
-[1] Documentation/devicetree/bindings/media/video-interfaces.txt
-
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Alexandre Torgue <alexandre.torgue@st.com>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Antonio Borneo <antonio.borneo@st.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
-> Cc: Biju Das <biju.das.jz@bp.renesas.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Philippe Cornu <philippe.cornu@st.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Vincent Abriou <vincent.abriou@st.com>
-> Cc: Yannick Fertre <yannick.fertre@st.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> To: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/bridge/lvds-codec.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-> index f52ccffc1bd1..bc941d4fb5b9 100644
-> --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> @@ -19,6 +19,7 @@ struct lvds_codec {
->  	struct device *dev;
->  	struct drm_bridge bridge;
->  	struct drm_bridge *panel_bridge;
-> +	struct drm_bridge_timings timings;
->  	struct regulator *vcc;
->  	struct gpio_desc *powerdown_gpio;
->  	u32 connector_type;
-> @@ -80,6 +81,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
->  	struct device_node *panel_node;
->  	struct drm_panel *panel;
->  	struct lvds_codec *lvds_codec;
-> +	u32 val;
->  	int ret;
->  
->  	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
-> @@ -124,6 +126,12 @@ static int lvds_codec_probe(struct platform_device *pdev)
->  	if (IS_ERR(lvds_codec->panel_bridge))
->  		return PTR_ERR(lvds_codec->panel_bridge);
->  
-> +	if (!of_property_read_u32(dev->of_node, "pixelclk-active", &val)) {
-> +		lvds_codec->timings.input_bus_flags = val ?
-> +			DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE :
-> +			DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE;
-> +	}
-> +
->  	/*
->  	 * The panel_bridge bridge is attached to the panel's of_node,
->  	 * but we need a bridge attached to our of_node for our user
-> @@ -131,6 +139,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
->  	 */
->  	lvds_codec->bridge.of_node = dev->of_node;
->  	lvds_codec->bridge.funcs = &funcs;
-> +	lvds_codec->bridge.timings = &lvds_codec->timings;
->  	drm_bridge_add(&lvds_codec->bridge);
->  
->  	platform_set_drvdata(pdev, lvds_codec);
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDcuMTAuMjAyMCAyMDoxMiwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gK2ludCB0ZWdy
+YV9kcm1faW9jdGxfY2hhbm5lbF9tYXAoc3RydWN0IGRybV9kZXZpY2UgKmRybSwgdm9pZCAqZGF0
+YSwKPiArCQkJCXN0cnVjdCBkcm1fZmlsZSAqZmlsZSkKPiArewoKSGVsbG8sIE1pa2tvIQoKQ291
+bGQgeW91IHBsZWFzZSB0ZWxsIHdoYXQgYXJlIHRoZSBob3N0MXggY2xpZW50cyB0aGF0IGFyZSBn
+b2luZyB0byBiZQp1cHN0cmVhbWVkIGFuZCB3aWxsIG5lZWQgdGhpcyBJT0NUTD8KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
