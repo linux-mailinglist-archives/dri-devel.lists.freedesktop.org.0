@@ -1,37 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23734292F6A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 22:28:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63B38292FA5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 22:45:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBDF96EA66;
-	Mon, 19 Oct 2020 20:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C57A6EA7A;
+	Mon, 19 Oct 2020 20:45:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D6076EA66
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 20:28:34 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 60C25804A3;
- Mon, 19 Oct 2020 22:28:32 +0200 (CEST)
-Date: Mon, 19 Oct 2020 22:28:30 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Kevin Brace <kevinbrace@gmx.com>
-Subject: Re: It appears drm-next TTM cleanup broke something . . .
-Message-ID: <20201019202830.GA1484408@ravnborg.org>
-References: <trinity-7bf82d9f-a022-48f3-bca0-d06eb28ebe35-1603048517864@3c-app-mailcom-bs08>
- <20201018210412.GA515543@ravnborg.org>
- <trinity-a0f09460-7d25-457a-aef8-e70fcf617a83-1603136588694@3c-app-mailcom-bs01>
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5086F6EA79;
+ Mon, 19 Oct 2020 20:45:24 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id b26so689186pff.3;
+ Mon, 19 Oct 2020 13:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VYlmVNr0dY3l4uhDIFjX37H6wetw4+WykhKJz4MPamw=;
+ b=BqRbwvF6wiCTRseSCUHa+Vi3jOPkteT3dZ8Nxhx+bebtph7DXrcWvdDA1SeKMI7EqL
+ MkM+ls4W5sETyKntRt5zv1jXwuKlyZ1PX7bYO3g2l2NppjkPO1XWPpqKoRYMBd9/b6Tj
+ dhbiR5fEpHplIPYRv76JWflDYqw2NYo0Z8sHrHtF8msfG5ftWNB8Jz32Go3Ebon3OTDU
+ VG4NDGDsG/eQVQ90JE32BhmMsGIpU1fNsIyGsJgNDGGduE5XkoLb5JSITwXfUxE4nRli
+ VGtj5q4t2feQxNm0f2UN2Up9t3u2vap9cEzCcnLi3PzG8ni+z+r/5rin+urNigILaBsc
+ Ol8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VYlmVNr0dY3l4uhDIFjX37H6wetw4+WykhKJz4MPamw=;
+ b=Jmsnz9O2vzpSmf8UksXzPvaFq2Jkw8uA+xG+X53zdIM0ikn06fzSTEkvymfrBNU9On
+ k8FKPkugHl/UxIcKeEd9xaMC9DnKygM2xbqcLD2f+KCh7peAQjWopIrT9JsyToX+XXv7
+ vLvsk5GiPsTSRhfncAAKgJLQJoq/GTRAD6B0BXs7MR/yCed09ZBOoBouEoj6xP2C90Fp
+ tuPj70XPWSNcJitWJrOlCx+Ouc1dpzAwoscofOziWxqR5kTYFLAItDs0f8aQS6EHipgb
+ 84H8cdi04/ESzpudvFheJD9rye293OlpdyahRZfPV0fcMEgTsQg5qtPHIAa0afSxO8PV
+ dNKA==
+X-Gm-Message-State: AOAM531q558Vcl+umMEHyeDJWQiqS8uNq7HEyIYpGc/CNPjO4yDbfjeg
+ uTm7woVNV9Shx3PU+iOh1KESs9IAAAvBwQ==
+X-Google-Smtp-Source: ABdhPJymNRUHlbOevPw6zBiQT2pmXXAjTcTJ54Q1CuigBS6O5RZ8CtU1GZZz2Y9Z3I8WiLFEGOOOUg==
+X-Received: by 2002:a63:778f:: with SMTP id s137mr1293614pgc.7.1603140323111; 
+ Mon, 19 Oct 2020 13:45:23 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ x18sm431812pga.49.2020.10.19.13.45.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Oct 2020 13:45:21 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 00/23] drm/msm: de-struct_mutex-ification
+Date: Mon, 19 Oct 2020 13:46:01 -0700
+Message-Id: <20201019204636.139997-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <trinity-a0f09460-7d25-457a-aef8-e70fcf617a83-1603136588694@3c-app-mailcom-bs01>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=WZjgWShK6GzV7LxlQ8MA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,63 +65,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Harigovindan P <harigovi@codeaurora.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
+ Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ Matthias Kaehlcke <mka@chromium.org>, Thierry Reding <treding@nvidia.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rajendra Nayak <rnayak@codeaurora.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Brian Masney <masneyb@onstation.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kevin.
+From: Rob Clark <robdclark@chromium.org>
 
-On Mon, Oct 19, 2020 at 09:43:08PM +0200, Kevin Brace wrote:
-> Hi Sam,
-> 
-> Thanks for asking the question.
-> The current OpenChrome DRM code has these two major issues.
-> 
-> 1) It does not support atomic modesetting
-> 
-> I do internally have working code to support atomic modesetting, but it is not ready for committing into the upstream OpenChrome DRM repository.
-> In particular, it suffers from a freeze relating to a cursor plane.
-> The freeze is a bad kind that kern.log does not really tell me what is wrong.
-> If I disable hardware cursor, the atomic modesetting based OpenChrome DRM appears to work okay.
-> In other words, I am getting close to getting atomic modesetting working, but I am stuck.
-Maybe posting what you have now - and explain that it has this defect.
-Chances are that you will receive feedback that may help you on your way
-to fix this.
+This doesn't remove *all* the struct_mutex, but it covers the worst
+of it, ie. shrinker/madvise/free/retire.  The submit path still uses
+struct_mutex, but it still needs *something* serialize a portion of
+the submit path, and lock_stat mostly just shows the lock contention
+there being with other submits.  And there are a few other bits of
+struct_mutex usage in less critical paths (debugfs, etc).  But this
+seems like a reasonable step in the right direction.
 
-With all the infrastructure improvements made the last years I would be
-suprised if you have managed to include it all and maybe some of the
-infrastructure may help you.
+v2: teach lockdep about shrinker locking patters (danvet) and
+    convert to obj->resv locking (danvet)
+v3: fix get_vaddr locking for legacy userspace (relocs), devcoredump,
+    and rd/hangrd
 
-Also I know we have seems some cursor plane related discussions the last
-months so maybe there are something to gain from the people involved
-there.
+Rob Clark (23):
+  drm/msm: Fix a couple incorrect usages of get_vaddr_active()
+  drm/msm/gem: Add obj->lock wrappers
+  drm/msm/gem: Rename internal get_iova_locked helper
+  drm/msm/gem: Move prototypes to msm_gem.h
+  drm/msm/gem: Add some _locked() helpers
+  drm/msm/gem: Move locking in shrinker path
+  drm/msm/submit: Move copy_from_user ahead of locking bos
+  drm/msm: Do rpm get sooner in the submit path
+  drm/msm/gem: Switch over to obj->resv for locking
+  drm/msm: Use correct drm_gem_object_put() in fail case
+  drm/msm: Drop chatty trace
+  drm/msm: Move update_fences()
+  drm/msm: Add priv->mm_lock to protect active/inactive lists
+  drm/msm: Document and rename preempt_lock
+  drm/msm: Protect ring->submits with it's own lock
+  drm/msm: Refcount submits
+  drm/msm: Remove obj->gpu
+  drm/msm: Drop struct_mutex from the retire path
+  drm/msm: Drop struct_mutex in free_object() path
+  drm/msm: Remove msm_gem_free_work
+  drm/msm: Drop struct_mutex in madvise path
+  drm/msm: Drop struct_mutex in shrinker path
+  drm/msm: Don't implicit-sync if only a single ring
 
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |   6 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c |  12 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |   6 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c |   1 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c        |   1 +
+ drivers/gpu/drm/msm/msm_debugfs.c         |   7 +
+ drivers/gpu/drm/msm/msm_drv.c             |  21 +-
+ drivers/gpu/drm/msm/msm_drv.h             |  73 +-----
+ drivers/gpu/drm/msm/msm_fbdev.c           |   1 +
+ drivers/gpu/drm/msm/msm_gem.c             | 266 +++++++++++-----------
+ drivers/gpu/drm/msm/msm_gem.h             | 133 +++++++++--
+ drivers/gpu/drm/msm/msm_gem_shrinker.c    |  81 ++-----
+ drivers/gpu/drm/msm/msm_gem_submit.c      | 158 ++++++++-----
+ drivers/gpu/drm/msm/msm_gpu.c             | 110 +++++----
+ drivers/gpu/drm/msm/msm_gpu.h             |   5 +-
+ drivers/gpu/drm/msm/msm_rd.c              |   2 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c      |   3 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.h      |  13 +-
+ 19 files changed, 495 insertions(+), 405 deletions(-)
 
-> 2) Double allocation of visible portion of frame buffer
-> 
-> This is a big problem left behind from the previous developer who developed OpenChrome prior to me.
-> For some reason, the developer wanted to allocate visible portion of the frame buffer to be the maximum possible size supported by the detected monitor when initializing the frame buffer inside OpenChrome DRM code.
-> I believe Radeon DRM does something similar to that.
-> The problem is, OpenChrome DDX allocates an equal sized frame buffer visible portion during the DDX's initialization.
-> This means that we got two same sized visible portions allocated, but OpenChrome DDX and OpenChrome DRM combined should really be allocating only one.
-> At this point, OpenChrome is not supporting double buffering.
-> This double allocation of a visible portion of the frame buffer contributes to a X Server crash when the screen is resized and 16 MB or less (i.e., 8 MB) shared frame buffer is reserved by the system via BIOS setup.
-> I personally think letting OpenChrome DRM allocate the visible portion of the frame buffer is the way to go, but if so, how do I get the DDX or shadow FB to access the frame buffer visible portion allocated by OpenChrome DRM?
-> Any suggestions on what to do about this issue will be greatly appreciated.
-> Perhaps, I should post a question to dri-devel regarding this issue.
-> I really do not know what I should do at this point.
-Likewise.
+-- 
+2.26.2
 
-But obviously you shall not post it to dri-devel unless you are prepared
-to handle the feedback that you *may* get.
-
-I promise to take a look - but that will cover mostly trivial stuff.
-You have to rely on others for all the stuff around atomic modestetting
-and the memory handling etc. - the areas where you have challenges now.
-
-	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
