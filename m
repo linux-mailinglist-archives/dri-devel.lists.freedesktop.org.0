@@ -1,51 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC942930B9
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 23:44:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE3629356F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 09:05:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52666EB34;
-	Mon, 19 Oct 2020 21:44:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 392876F421;
+	Tue, 20 Oct 2020 07:05:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59A4D6EB34
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 21:44:42 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id dg9so810082edb.12
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 14:44:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=nyrn42er1Nwkl34LqpCRDyMvGc+rEtVTi6lpho4x3l0=;
- b=AWOOCzui1OCjtb2lH6I7hB6K3OjgVlGzLvVtvh8mWYNG7FkC/FEJWhjAm66gD24s0Y
- EShKT/uIweYkKUmZGKNpQg9Wla07cZKqDovfb/QH1yDrdjuAaLaBaujoI//ppuaSc5Sd
- 1p0DRfpBSrIK8cKyz/+HhN1YD3B2aZccBoEjvq2aAjcVHNLSytFHnHe3bL6ERZUTP8gm
- AfBZ3huhNx6w91K3mck4poIqOJVkqS7bszZZClyy9JUfdw6Q347vrmvu26HTUS5MhwMV
- 5mEgIuYl2HZ8gEKFaaHV/zch5H0sRm2mJ+HjB9sYEcfszDeOD5OjM7RnKrSn7e8PJ0jz
- 8Wmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=nyrn42er1Nwkl34LqpCRDyMvGc+rEtVTi6lpho4x3l0=;
- b=cnbsz6ChLqCRvBAD1P7Jpq8M4IsuBMYxgF4YaGosfStRHGFNFrm7sNAocHKV01vWS9
- iW07GSkTrtbRLMofjN0VFxowtuE3IvQOMV5ROVNy0E62nxRrXKdyfSG9+SHU7lODbPd6
- 0ree4EIHnq8lM3T4NwZXVVTDKo2yocfFvLmUr0bbGXsp+NQkB6g1QgOFBcB6SjBAhq4c
- JfAli8bUiIqzSnTMlP8vgNMsPyVHU5Dw23Q7cerc2P/cP4OSFQvQ/V2Ek10kIoRQB+bv
- r6C3VWgqq+8hMuFhCvCLi7yslAHLCWQNQxncE+9bID1ci/ka/bTaNw1XAjXbgB4Y1+Nd
- yWtA==
-X-Gm-Message-State: AOAM532951u/FNH04kTSP9EY7Ldmf8Td5y2x3ELT7sUIkCH5uFI04Wn5
- feLf+rocqbUYvuLyh8mBHF8PyCQvPRnOTqpEOqyio1MXRdc=
-X-Google-Smtp-Source: ABdhPJzzcNxxPY1VsmFYOTXp5dKH/iSz5bKL2iNQI5XruX9I6TQeK4d6+r5x0W8YGDGVA2nkY7PXGN8bEecbQFAG220=
-X-Received: by 2002:a50:d987:: with SMTP id w7mr1881236edj.113.1603143880685; 
- Mon, 19 Oct 2020 14:44:40 -0700 (PDT)
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5D7F6EB33
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 22:09:44 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4CFWBs1rGrz1qs10;
+ Tue, 20 Oct 2020 00:09:40 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4CFWBr3FV4z1qryT;
+ Tue, 20 Oct 2020 00:09:40 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id QLOlEyoyRyZB; Tue, 20 Oct 2020 00:09:38 +0200 (CEST)
+X-Auth-Info: Tzf/BxdUU4K2Y9+pwlHbvD3zwpLHgG6AleZMuipK0l0=
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Tue, 20 Oct 2020 00:09:38 +0200 (CEST)
+Subject: Re: [RFC][PATCH] drm/bridge: lvds-codec: Add support for pixel data
+ sampling edge select
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201002230823.242147-1-marex@denx.de>
+ <20201019005438.GD4174@pendragon.ideasonboard.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <0c038afd-f4f2-966c-babc-f4275678840f@denx.de>
+Date: Tue, 20 Oct 2020 00:09:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 20 Oct 2020 07:44:29 +1000
-Message-ID: <CAPM=9tzpNLTnZ0yfqaUzrbu507LX-Z1tJbdV0_PbtsJwjVUNOQ@mail.gmail.com>
-Subject: ttm_bo_eviction_valuable wrong units?
-To: dri-devel <dri-devel@lists.freedesktop.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20201019005438.GD4174@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Tue, 20 Oct 2020 07:05:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,20 +55,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Alexandre Torgue <alexandre.torgue@st.com>,
+ Antonio Borneo <antonio.borneo@st.com>, Vincent Abriou <vincent.abriou@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
+ Yannick Fertre <yannick.fertre@st.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ Benjamin Gaignard <benjamin.gaignard@st.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-if (place->fpfn >= (bo->mem.start + bo->mem.size) ||
-            (place->lpfn && place->lpfn <= bo->mem.start))
-                return false;
+On 10/19/20 2:54 AM, Laurent Pinchart wrote:
+> Hi Marek,
 
-Should the bo->mem.size there be bo->mem.num_pages?
+Hi,
 
-I was just writing patches to get rid of size and noticed this.
+> Thank you for the patch.
+> 
+> On Sat, Oct 03, 2020 at 01:08:23AM +0200, Marek Vasut wrote:
+>> The OnSemi FIN3385 Parallel-to-LVDS encoder has a dedicated input line to
+>> select input pixel data sampling edge. Add DT property "pixelclk-active",
+>> same as the one used by display timings, and configure bus flags based on
+>> this DT property.
+> 
+> The feature looks good to me. I however wonder if we shouldn't use the
+> standard pclk-sample endpoint property (documented in [1]) instead of a
+> custom properly.
 
-Dave.
+Either is fine by me, but I think pixelclk-active, which comes from
+panel-timings.yaml is closer to the video than multimedia bindings.
+(the multimedia and video bindings should be aligned, sigh)
+
+> The DT bindings for the lvds-codec should be updated accordingly. And
+> the property should only be taken into account when operating in encoder
+> mode, as for decoder mode there's no polarity for the sampling of LVDS
+> signals, as you've explained in a reply to Sam.
+
+So, we need to rework the whole compatible data and identify what is
+encoder/decoder in addition to connector there.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
