@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E352927FD
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 15:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFF7292814
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 15:20:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7099F6E97F;
-	Mon, 19 Oct 2020 13:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C1A96E988;
+	Mon, 19 Oct 2020 13:19:58 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
 Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A566E986
- for <dri-devel@freedesktop.org>; Mon, 19 Oct 2020 13:15:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 880EF6E988
+ for <dri-devel@freedesktop.org>; Mon, 19 Oct 2020 13:19:56 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1603113306; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=EDT6u1q6ACEvrBc2BppeDYMdoHFAYde7oPctSzlqmv4=;
- b=Jh+tSGTInYWgFwFQzCIHGwFfHVsxDS2omfGKgzeMxnJ0pCn60BT6Xyy0tZCv7d8tIeEbC2vI
- tj8HPI6z8/3dd8PSCSestCpRt4OUx75Nx31WlIquSIDlVkyyCy5cfutLCKPCaUGnvJF5V5nn
- FBR8bukOohpcIAuJ72m+FFcUnP8=
+ s=smtp; t=1603113597; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=/ZGUMfp1A0aHVNO/vay/6ICqzhjKvdAharx01TPBxAI=;
+ b=YcaqyPf9L6r55glFpaFx8E46i2iXW+g9CFte5fT1h9p3nDylk8YAOoZYH4WrPHXoq1DOFDAW
+ dMHPuRKpbky7xcTUCjRjN+ROtuJEFn/+SmYhUmA3AR6UcL5VgmVHFX2DpUTmxBWjUUB7F2YF
+ kPTpBC8a1UNU3VSIziLkka8JdBo=
 X-Mailgun-Sending-Ip: 69.72.42.4
 X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 5f8d914ae9e942744c17efb8 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 19 Oct 2020 13:14:50
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5f8d92624f8cc67c31b6c47b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 19 Oct 2020 13:19:30
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 4F0D6C433AD; Mon, 19 Oct 2020 13:14:49 +0000 (UTC)
+ id 56B4BC433F1; Mon, 19 Oct 2020 13:19:29 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -39,22 +38,19 @@ X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
 Received: from akhilpo-linux.qualcomm.com (unknown [202.46.22.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E4E74C433FF;
- Mon, 19 Oct 2020 13:14:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E4E74C433FF
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 73B34C433CB;
+ Mon, 19 Oct 2020 13:19:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 73B34C433CB
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=akhilpo@codeaurora.org
 From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: freedreno@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v2 3/3] dt-bindings: drm/msm/gpu: Add cooling device support
-Date: Mon, 19 Oct 2020 18:44:28 +0530
-Message-Id: <1603113268-21161-3-git-send-email-akhilpo@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/msm: Implement shutdown callback for adreno
+Date: Mon, 19 Oct 2020 18:49:17 +0530
+Message-Id: <1603113558-23330-1-git-send-email-akhilpo@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1603113268-21161-1-git-send-email-akhilpo@codeaurora.org>
-References: <1603113268-21161-1-git-send-email-akhilpo@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,46 +71,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add cooling device support to gpu. A cooling device is bound to a
-thermal zone to allow thermal mitigation.
+Implement the shutdown callback for adreno gpu platform device
+to safely shutdown it before a system reboot. This helps to avoid
+futher transactions from gpu after the smmu is moved to bypass mode.
 
 Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
 ---
- Documentation/devicetree/bindings/display/msm/gpu.txt | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/gpu.txt b/Documentation/devicetree/bindings/display/msm/gpu.txt
-index 1af0ff1..a496381 100644
---- a/Documentation/devicetree/bindings/display/msm/gpu.txt
-+++ b/Documentation/devicetree/bindings/display/msm/gpu.txt
-@@ -39,6 +39,10 @@ Required properties:
-         a4xx Snapdragon SoCs. See
-         Documentation/devicetree/bindings/sram/qcom,ocmem.yaml.
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 58e03b2..87c8b03 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -475,6 +475,11 @@ static int adreno_remove(struct platform_device *pdev)
+ 	return 0;
+ }
  
-+Optional properties:
-+- #cooling-cells: The value must be 2. Please refer
-+	Documentation/devicetree/bindings/thermal/thermal.txt for detail.
++static void adreno_shutdown(struct platform_device *pdev)
++{
++	pm_runtime_force_suspend(&pdev->dev);
++}
 +
- Example 3xx/4xx:
- 
- / {
-@@ -61,6 +65,7 @@ Example 3xx/4xx:
- 		power-domains = <&mmcc OXILICX_GDSC>;
- 		operating-points-v2 = <&gpu_opp_table>;
- 		iommus = <&gpu_iommu 0>;
-+		#cooling-cells = <2>;
- 	};
- 
- 	gpu_sram: ocmem@fdd00000 {
-@@ -98,6 +103,8 @@ Example a6xx (with GMU):
- 		reg = <0x5000000 0x40000>, <0x509e000 0x10>;
- 		reg-names = "kgsl_3d0_reg_memory", "cx_mem";
- 
-+		#cooling-cells = <2>;
-+
- 		/*
- 		 * Look ma, no clocks! The GPU clocks and power are
- 		 * controlled entirely by the GMU
+ static const struct of_device_id dt_match[] = {
+ 	{ .compatible = "qcom,adreno" },
+ 	{ .compatible = "qcom,adreno-3xx" },
+@@ -509,6 +514,7 @@ static const struct dev_pm_ops adreno_pm_ops = {
+ static struct platform_driver adreno_driver = {
+ 	.probe = adreno_probe,
+ 	.remove = adreno_remove,
++	.shutdown = adreno_shutdown,
+ 	.driver = {
+ 		.name = "adreno",
+ 		.of_match_table = dt_match,
 -- 
 2.7.4
 
