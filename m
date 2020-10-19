@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4C32922ED
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 09:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24A92922D5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Oct 2020 09:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D32476E8EB;
-	Mon, 19 Oct 2020 07:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A78B56E8E4;
+	Mon, 19 Oct 2020 07:13:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E154A6E8E2;
- Mon, 19 Oct 2020 07:23:34 +0000 (UTC)
-IronPort-SDR: e+CLbM9wHDjsfKQHkPVixNoWgIg/B2An6NnIPqZsCWU3WRAjZlxFeGrzfSL3SX1EUyH81xMKnu
- Hgww0gB4E6PQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9778"; a="146841709"
-X-IronPort-AV: E=Sophos;i="5.77,393,1596524400"; d="scan'208";a="146841709"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2020 00:23:34 -0700
-IronPort-SDR: Axi42uHUYYOSKb6aCDkw+HAfZZw6E4wArEb1IRJFcXi7qVOt4xGMEM43KuxMXTk2lw8lvxNtjW
- Cx0uYV18qIXQ==
-X-IronPort-AV: E=Sophos;i="5.77,393,1596524400"; d="scan'208";a="465429219"
-Received: from genxfsim-desktop.iind.intel.com ([10.223.74.178])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2020 00:23:32 -0700
-From: Anshuman Gupta <anshuman.gupta@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [RFC] drm/hdcp: Max MST content streams
-Date: Mon, 19 Oct 2020 12:42:59 +0530
-Message-Id: <20201019071259.24566-1-anshuman.gupta@intel.com>
-X-Mailer: git-send-email 2.26.2
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE6116E8DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 07:13:24 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-Jrl4_oKxN9-NPlWv12M8NA-1; Mon, 19 Oct 2020 03:13:19 -0400
+X-MC-Unique: Jrl4_oKxN9-NPlWv12M8NA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67B18835BB8;
+ Mon, 19 Oct 2020 07:13:18 +0000 (UTC)
+Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-180.bne.redhat.com
+ [10.64.54.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70EF827CB7;
+ Mon, 19 Oct 2020 07:13:17 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/5] ttm get rid of ttm_bo_move_ttm
+Date: Mon, 19 Oct 2020 17:13:09 +1000
+Message-Id: <20201019071314.1671485-1-airlied@gmail.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,46 +48,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anshuman Gupta <anshuman.gupta@intel.com>,
- Sean Paul <seanpaul@chromium.org>
+Cc: christian.koenig@amd.com, rscheidegger.oss@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's define Maximum MST content streams up to four
-generically which can be supported by modern display
-controllers.
+This function post removal of the caching stuff was doing 3 jobs,
+moving non system old ttm to system, moving from system to a new TT
+and assigning. Instead this series splits it into 3 and only calls
+the necessary combination from the drivers.
 
-Cc: Sean Paul <seanpaul@chromium.org>
-Cc: Ramalingam C <ramalingam.c@intel.com>
-Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
----
- include/drm/drm_hdcp.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+This is just a cleaned up and rebased version of some patches I've posted
+before, and should be easier to digest. (Ben's r-bs are probably enough
+to land this, but I said I'd resend first).
 
-diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
-index fe58dbb46962..ac22c246542a 100644
---- a/include/drm/drm_hdcp.h
-+++ b/include/drm/drm_hdcp.h
-@@ -101,11 +101,11 @@
- 
- /* Following Macros take a byte at a time for bit(s) masking */
- /*
-- * TODO: This has to be changed for DP MST, as multiple stream on
-- * same port is possible.
-- * For HDCP2.2 on HDMI and DP SST this value is always 1.
-+ * TODO: HDCP_2_2_MAX_CONTENT_STREAMS_CNT is based upon actual
-+ * H/W MST streams capacity.
-+ * This required to be moved out to platform specific header.
-  */
--#define HDCP_2_2_MAX_CONTENT_STREAMS_CNT	1
-+#define HDCP_2_2_MAX_CONTENT_STREAMS_CNT	4
- #define HDCP_2_2_TXCAP_MASK_LEN			2
- #define HDCP_2_2_RXCAPS_LEN			3
- #define HDCP_2_2_RX_REPEATER(x)			((x) & BIT(0))
--- 
-2.26.2
+Thanks,
+Dave.
+
 
 _______________________________________________
 dri-devel mailing list
