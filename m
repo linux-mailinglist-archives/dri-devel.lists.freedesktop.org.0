@@ -2,78 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09540293E31
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 16:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50058293E5F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 16:13:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250CB6ECA7;
-	Tue, 20 Oct 2020 14:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE7556ECD3;
+	Tue, 20 Oct 2020 14:13:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 074ED6ECA8
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 14:09:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603202971;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rOdQp2iOSkahNa0CfH1+VDlgH/zqWEjNOjN0qUXEes0=;
- b=cuyIW1vX98ejDJgGwWUrx5HXCyaRZHAdK8jbsDHi6bt2cJE/GyXTfgYKvfyCxzlkRvK5cq
- U/9NpE0AZnBJ12NKKZWjwB4FYjRIXi2QUCsk8EviSsGgpl7YwKTYtrluIutBzuCRV7heFV
- J9KA6VI/uMpQZYuy/0zKz5S53TGjgz0=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-mxGTqNDVO8WNK1CtxOXWFA-1; Tue, 20 Oct 2020 10:09:30 -0400
-X-MC-Unique: mxGTqNDVO8WNK1CtxOXWFA-1
-Received: by mail-qv1-f72.google.com with SMTP id u17so1436306qvt.23
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 07:09:30 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E8E66ECA8;
+ Tue, 20 Oct 2020 14:13:29 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id i1so2354563wro.1;
+ Tue, 20 Oct 2020 07:13:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lPduyuxLbnNllpgP2V2Es26ID1Kul6jDVcjp8m/z5tY=;
+ b=QcseFjYifB/nVwGx8PCygt1Vws+vwLnAZoZnY7eb+iBfLZPjf+93MuL4oIrSF3TqfC
+ t69uXmycEpmZ8Azg+sKG9GWz/Am2OTJu/qeKLFSlY9WSSG1cfk2uOPA9NiCPb4DQMqYl
+ 6fapEZnNZXGx8L+uJXYUcMlF5Hyeqsy9sMoB1D8noPcM7CejcLlnPih2gDvfpZPepWwl
+ 7vpQT6YplrXfqnr3EkcipvsyhOeZjoxjrC3zt6VHeuH+YO6rdtoy9c8ozGhzw158resj
+ 12A2r+FvK90i6Alpn0wYzxLn7zMstl6o+V1AyDsy0DMZwitTVKQxEBQdxNMC7jqOspGy
+ 2hAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=rOdQp2iOSkahNa0CfH1+VDlgH/zqWEjNOjN0qUXEes0=;
- b=fQ71ggr0BjFbLwYeqbiIAizlVaXCWwLPzFsu3R3+nquYQh3pdeP1r3D7enus2bkQpZ
- h/KuErFLO4ePwit3j/68FtFMf/2LzSqcgqzR+wqg/cvPDa94wQtmUDpBOT/i6yzDtnAa
- BNdKnM0QUloJ/Kk2FgrJjizP9U984HCLGNqlYbbokrrCkcUMfEdel8E+hFID+gg0+9fY
- BcJ1FleSy11NY9S4gu8KZy6PGROQV01DosPkqO0mzmCTvZtXqY858kG2saQ6sLIEUvHC
- y/PEdHXLkkLU/qQo7b/VcxF5UWjMM/J9hUDbe7RNvDMyMc5viN8te82vd0equ35pBcFD
- N0KA==
-X-Gm-Message-State: AOAM5314s8wSzfUNQsYdPO8y7Tsm5NKC9u5J+H/8t0ZGZZlEB9thMI2R
- dsZIzfVWmp254SrtSeXOzC6gi5wargvwHygutZRwY83FNMggmicKQG6H7jhHe48YJ/3o2AyrsSB
- DBpNH6KK22UqoPohjzGTRFr8xwROl
-X-Received: by 2002:a05:620a:2195:: with SMTP id
- g21mr2990105qka.358.1603202969813; 
- Tue, 20 Oct 2020 07:09:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwKUy8N8weGLwzCzHDZ8oTBMtQsWbHEBLlPfZD5zpEfJ13ExA6QvxSe7FmqqHnm4D1jNxINeQ==
-X-Received: by 2002:a05:620a:2195:: with SMTP id
- g21mr2990039qka.358.1603202969497; 
- Tue, 20 Oct 2020 07:09:29 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id o14sm785284qto.16.2020.10.20.07.09.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Oct 2020 07:09:28 -0700 (PDT)
-Subject: Re: [RFC] treewide: cleanup unreachable breaks
-To: Jason Gunthorpe <jgg@ziepe.ca>, Nick Desaulniers <ndesaulniers@google.com>
-References: <20201017160928.12698-1-trix@redhat.com>
- <20201018054332.GB593954@kroah.com>
- <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
- <20201019230546.GH36674@ziepe.ca>
-From: Tom Rix <trix@redhat.com>
-Message-ID: <859ff6ff-3e10-195c-6961-7b2902b151d4@redhat.com>
-Date: Tue, 20 Oct 2020 07:09:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lPduyuxLbnNllpgP2V2Es26ID1Kul6jDVcjp8m/z5tY=;
+ b=nM0dzZKBv/Y398RjbcaeO7a4/MNbFD9L+CsxQ8OAjujY2syhO+n/yHwrMHB+1P45Io
+ glGsyJ7m4+JSJO5yKevLe+HBmm0BS4OcbGdK7xlSsmzCdPsuTMjZlzilB33mtdSRn5Eq
+ bWMzpiXEC9HWeq7TayGugoA+/2RLUgVtd+DZjaCoYks0Xhg9us/dFQjUxEY3XlTRf8U6
+ n9txLxvtOMxekcHcKfNqJY4AFth0uKEee4MP4VKLwcLkBxjCLA6oUjpXcVvZXnXa02O8
+ 43f9RGcciiqVHmyh/3jyhlHsdc1xDwUxmVr3HsI9iKq+Lj7Tb1BiRc2G5SCBnp9cPvJM
+ Z7ZA==
+X-Gm-Message-State: AOAM530Axa2j2JPgcNgZs9Um0O+fqZ6PiKuZG+Tr9Dou6dEpeGra0ONV
+ fAc6+HoToXoHz1OCbbCTVZuRMHkD8YrfM/wo0Uo=
+X-Google-Smtp-Source: ABdhPJwiIFJyn3Q5AIFqYLZqNCyx2EQe+Sgocwvo1SpEVzuITf+JiH5ahXbfSyscCtrJiTVAeTVSlYpIvlkgFI7GjVc=
+X-Received: by 2002:a5d:640d:: with SMTP id z13mr3657378wru.28.1603203208025; 
+ Tue, 20 Oct 2020 07:13:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201019230546.GH36674@ziepe.ca>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+References: <20201012020958.229288-1-robdclark@gmail.com>
+ <20201012020958.229288-8-robdclark@gmail.com>
+ <20201012143555.GA438822@phenom.ffwll.local>
+ <CAF6AEGstGtBswUUiyHxT2cCm8NwZekDnMzD0J_pQH37GwS=LiA@mail.gmail.com>
+ <20201020090729.qgqish5kqamhvatj@vireshk-i7>
+ <CAKMK7uHAgVUPHOPxDdt3LeAWqokxfuzqjZj4qqFkoKxFbRbRrg@mail.gmail.com>
+ <20201020112413.xbk2vow2kgjky3pb@vireshk-i7>
+In-Reply-To: <20201020112413.xbk2vow2kgjky3pb@vireshk-i7>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 20 Oct 2020 07:13:16 -0700
+Message-ID: <CAF6AEGsCj-AtFozn8d1xiNNFNbuMJ0UxS-eMhBVXiQ7rKahKnQ@mail.gmail.com>
+Subject: Re: [PATCH v2 07/22] drm/msm: Do rpm get sooner in the submit path
+To: Viresh Kumar <viresh.kumar@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,86 +66,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Greg KH <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
- nouveau@lists.freedesktop.org, storagedev@microchip.com,
- dri-devel <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, keyrings@vger.kernel.org,
- linux-mtd@lists.infradead.org, ath10k@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, usb-storage@lists.one-eyed-alien.net,
- linux-watchdog@vger.kernel.org, devel@driverdev.osuosl.org,
- linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvdimm <linux-nvdimm@lists.01.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, linux-acpi@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, industrypack-devel@lists.sourceforge.net,
- linux-pci@vger.kernel.org, spice-devel@lists.freedesktop.org,
- MPT-FusionLinux.pdl@broadcom.com, linux-media@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-nfc@lists.01.org, linux-pm@vger.kernel.org,
- linux-can@vger.kernel.org, linux-block@vger.kernel.org,
- linux-gpio@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-amlogic@lists.infradead.org, openipmi-developer@lists.sourceforge.net,
- platform-driver-x86@vger.kernel.org, linux-integrity@vger.kernel.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-edac@vger.kernel.org,
- George Burgess <gbiv@google.com>, Network Development <netdev@vger.kernel.org>,
- linux-usb@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, linux-security-module@vger.kernel.org,
- "open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
- <linux-crypto@vger.kernel.org>, patches@opensource.cirrus.com,
- bpf <bpf@vger.kernel.org>, ocfs2-devel@oss.oracle.com,
- linux-power@fi.rohmeurope.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, "Menon, Nishanth" <nm@ti.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 10/19/20 4:05 PM, Jason Gunthorpe wrote:
-> On Mon, Oct 19, 2020 at 12:42:15PM -0700, Nick Desaulniers wrote:
->> On Sat, Oct 17, 2020 at 10:43 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->>> On Sat, Oct 17, 2020 at 09:09:28AM -0700, trix@redhat.com wrote:
->>>> From: Tom Rix <trix@redhat.com>
->>>>
->>>> This is a upcoming change to clean up a new warning treewide.
->>>> I am wondering if the change could be one mega patch (see below) or
->>>> normal patch per file about 100 patches or somewhere half way by collecting
->>>> early acks.
->>> Please break it up into one-patch-per-subsystem, like normal, and get it
->>> merged that way.
->>>
->>> Sending us a patch, without even a diffstat to review, isn't going to
->>> get you very far...
->> Tom,
->> If you're able to automate this cleanup, I suggest checking in a
->> script that can be run on a directory.  Then for each subsystem you
->> can say in your commit "I ran scripts/fix_whatever.py on this subdir."
->>  Then others can help you drive the tree wide cleanup.  Then we can
->> enable -Wunreachable-code-break either by default, or W=2 right now
->> might be a good idea.
-> I remember using clang-modernize in the past to fix issues very
-> similar to this, if clang machinery can generate the warning, can't
-> something like clang-tidy directly generate the patch?
-
-Yes clang-tidy and similar are good tools.
-
-Sometimes they change too much and your time shifts
-
-from editing to analyzing and dropping changes.
-
-
-I am looking at them for auto changing api.
-
-When i have something greater than half baked i will post.
-
-Tom
-
+On Tue, Oct 20, 2020 at 4:24 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
 >
-> You can send me a patch for drivers/infiniband/* as well
+> On 20-10-20, 12:56, Daniel Vetter wrote:
+> > Yeah that's bad practice. Generally you shouldn't need to hold locks
+> > in setup/teardown code, since there's no other thread which can
+> > possible hold a reference to anything your touching anymore. Ofc
+> > excluding quickly grabbing/dropping a lock to insert/remove objects
+> > into lists and stuff.
+> >
+> > The other reason is that especially with anything related to sysfs or
+> > debugfs, the locking dependencies you're pulling in are enormous: vfs
+> > locks pull in mm locks (due to mmap) and at that point there's pretty
+> > much nothing left you're allowed to hold while acquiring such a lock.
+> > For simple drivers this is no issue, but for fancy drivers (like gpu
+> > drivers) which need to interact with core mm) this means your
+> > subsystem is a major pain to use.
+> >
+> > Usually the correct fix is to only hold your subsystem locks in
+> > setup/teardown when absolutely required, and fix any data
+> > inconsistency issues by reordering your setup/teardown code: When you
+> > register as the last step and unregister as the first step, there's no
+> > need for any additional locking. And hence no need to call debugfs
+> > functions while holding your subsystem locks.
+> >
+> > The catch phrase I use for this is "don't solve object lifetime issues
+> > with locking". Instead use refcounting and careful ordering in
+> > setup/teardown code.
 >
-> Thanks,
-> Jason
->
+> This is exactly what I have done in the OPP core, the locks were taken
+> only when really necessary, though as we have seen now I have missed
+> that at a single place and that should be fixed as well. Will do that,
+> thanks.
 
+I do have an easy enough way to repro the issue, so if you have a
+patch I can certainly test it.
+
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
