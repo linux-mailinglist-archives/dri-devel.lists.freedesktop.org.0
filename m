@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6FC293271
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 02:53:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EA729328F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 03:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E352A6EE51;
-	Tue, 20 Oct 2020 00:53:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 993F26EE50;
+	Tue, 20 Oct 2020 01:03:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 102433 seconds by postgrey-1.36 at gabe;
- Tue, 20 Oct 2020 00:53:46 UTC
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C81A6EE51
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 00:53:45 +0000 (UTC)
-Date: Tue, 20 Oct 2020 00:53:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me; s=protonmail;
- t=1603155223; bh=LgALgR4MRmvmRN5k/EEis0U/JvVFZ45pZ8o/wjnkZw8=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=HOtoFolxlkdGoTBpFRNCZxCvwKvpwbF/m3dWDEvcA3Z/Q2WL6ZI4Pk3jFdyYIzByg
- xUEJ3QF0Pt2ewrYjJylEHYqzDJePRrK2f07dc02k0Xg9I5E/tNEiBJr65DFq/Q5tVh
- MC/r7A7dQRjebKyUxaH6BIUF1+7w8K2lD4cSzfyekfalk1atn6hBsyec0XS+FVfWkI
- 8n8HhVciI0fomRg0pHl9Vd5ofFwcasPSXiMygjzLXxiVR0mZMEc/oYbDVpY5NXBuqV
- kwS4Np574okifwkndGacAhPJzMarveGwtLJp8+qRgvk+Ps0LlHDAqPD0ipizWL/L9K
- rDwfV8Y5k3t3Q==
-To: Alex Deucher <alexdeucher@gmail.com>
-From: Josh Fuhs <Joshua.Fuhs@pm.me>
-Subject: Re: amdgpu: Manual Card Configuration Change
-Message-ID: <rfi6blr6iZOO9U7GHVXPZVcbAxN21dh52TEK19odIK5sxSI3JiOSKEowBQqN97pJcTkgV8nFzG_d70g9-x1swBX-7kQ-ZqTme73yCbXgIm4=@pm.me>
-In-Reply-To: <CADnq5_M+qgk7p92daoUMNN-OaoXKeTWULUQiivGe=V_J4e1oqA@mail.gmail.com>
-References: <-II5uGU2OLUvxeRHxuPIMmnyrFPVyg6pkc2UM16KaQ5f6_kbDJN0se2tfgIf15RJLLKrWZg0niAIgXxr-0V7qBQGR9mPq306qamxuQq9q7M=@pm.me>
- <CADnq5_M+qgk7p92daoUMNN-OaoXKeTWULUQiivGe=V_J4e1oqA@mail.gmail.com>
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A58096EE50
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 01:03:27 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-IqH9z2H7PSKq-0bF_CKh4A-1; Mon, 19 Oct 2020 21:03:24 -0400
+X-MC-Unique: IqH9z2H7PSKq-0bF_CKh4A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1881A186840D;
+ Tue, 20 Oct 2020 01:03:23 +0000 (UTC)
+Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-180.bne.redhat.com
+ [10.64.54.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5198755775;
+ Tue, 20 Oct 2020 01:03:21 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/7] drm/ttm: get rid of bind/unbind
+Date: Tue, 20 Oct 2020 11:03:12 +1000
+Message-Id: <20201020010319.1692445-1-airlied@gmail.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,33 +48,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Josh Fuhs <Joshua.Fuhs@pm.me>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: christian.koenig@amd.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhhbmtzLiBJIHRyaWVkIDUuOS4xIGFuZCBJIHRoaW5rIHRoZXJlJ3Mgc3RpbGwgYSBwcm9ibGVt
-LCBvciBhdCBsZWFzdCBzb21ldGhpbmcgZGlmZmVyZW50LgoKVXNpbmcgdGhlIHNhbWUgY29uZmln
-dXJhdGlvbiBzY3JpcHQsIEkgbm90aWNlZCB0aGF0IG15IGNhcmRzIGFyZSBydW5uaW5nIGEgbG90
-IGhvdHRlci4gRm9yIGV4YW1wbGUsIGhlcmUncyB0b3RhbCBwb3dlciBjb25zdW1wdGlvbiBvZiBh
-IHR3by1jYXJkIHN5c3RlbSB3aXRoIHR3byBkaWZmZXJlbnQga2VybmVsczoKCiAgICA1LjguMTQ6
-IDQ2MFcKICAgIDUuOS4xOiAgNTYwK1cKCk1lbW9yeSBhbmQgc3lzdGVtIGNsb2NrcyBhcmUgaW5p
-dGlhbGx5IHNldCB0aGUgc2FtZSBvbiBhbGwgY2FyZHMgaW4gYWxsIGNhc2VzLgoKSm9zaAoKCuKA
-kOKAkOKAkOKAkOKAkOKAkOKAkCBPcmlnaW5hbCBNZXNzYWdlIOKAkOKAkOKAkOKAkOKAkOKAkOKA
-kApPbiBNb25kYXksIE9jdG9iZXIgMTksIDIwMjAgMjoyMiBQTSwgQWxleCBEZXVjaGVyIDxhbGV4
-ZGV1Y2hlckBnbWFpbC5jb20+IHdyb3RlOgoKPiBPbiBTdW4sIE9jdCAxOCwgMjAyMCBhdCA0OjMy
-IFBNIEpvc2ggRnVocyBKb3NodWEuRnVoc0BwbS5tZSB3cm90ZToKPgo+ID4gSGVsbG8gYWxsLAo+
-ID4gUmVnYXJkaW5nIGFtZGdwdSwgSSd2ZSBiZWVuIHVzaW5nIHNvbWUgUmFkZW9uIDU3MDBYVHMg
-Zm9yIGNvbXB1dGUgd29yayB3aXRoIGtlcm5lbHMgdGhyb3VnaCA1LjguMTQuIEkgcmVjZW50bHkg
-dHJpZWQga2VybmVsIDUuOS4wLCBhbmQgZm91bmQgdGhhdCB0aGUgZm9sbG93aW5nIGlzIG5vIGxv
-bmdlciBhbGxvd2VkOgo+ID4gZWNobyAibSAxIDIwMCIgfCBzdWRvIHRlZSAvc3lzL2NsYXNzL2Ry
-bS9jYXJkMC9kZXZpY2UvcHBfb2RfY2xrX3ZvbHRhZ2UKPiA+IElzIHRoaXMgYW4gZXhwZWN0ZWQg
-Y2hhbmdlPyBJZiBzbywgd2hlcmUgc2hvdWxkIEkgbG9vayBmb3IgZG9jdW1lbnRhdGlvbiByZWdh
-cmRpbmcgaG93IHRvIG1hbnVhbGx5IGNvbmZpZ3VyZSB0aGVzZSBjYXJkcyB3aXRoIHRoaXMga2Vy
-bmVsLiBOb3RlLCBJJ3ZlIGhhZCB0aGlzIHdvcmtpbmcgd2l0aCA1Ljgga2VybmVscyBmb3IgbW9u
-dGhzLgo+Cj4gSXQgd2FzIGEgYnVnLiBGaXhlZCBpbiA1LjkuMS4KPgo+IEFsZXgKCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This series is a rebase/cleanup of previous patches.
+
+The goal is to drop the bind/unbind callbacks from the ttm and
+have the driver handle it all in it's move function.
+
+This also has the driver do it's own move notifys from within
+move as well (move notify is still used for cleanup_memtype_use0.
+
+I've booted this on nouveau and vmwgfx.
+
+Dave.
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
