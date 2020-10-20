@@ -2,90 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7BC293913
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 12:22:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3126293975
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 12:57:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7BF6F42C;
-	Tue, 20 Oct 2020 10:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D392C6EC44;
+	Tue, 20 Oct 2020 10:57:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2066.outbound.protection.outlook.com [40.107.220.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 651AC6EC45
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 10:22:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fC2phTY2vI9rxmtZzfcKWAYCzlZrmrK4DAJGwVazynYqkiALOhcvYnNxboK47mAMEb0hIrsPjxsBnOt4L9XgD9faGy7OK1A+mJOtPI/G+Q5QhClcr8ApetD0EryuGeVEnQCKa0Ex1+LKJOFdDiFosZ9PPpSbp2Jt/jhCeN/i4eWhXjU9J7g1natY/WNXj4/vIapmpHJfjqjaKm41Dvv8DZ8j7jIlJwubNsLvx9pWQaASOD2T4wAYWoNktFADgJoIcy4y51YO+xSgtg+KdDGA8KK5N9tKaXVuKsBiUNa1GEpaAiNQkJbiX+5BpooSJ7rGz2fF3LmYhxzZWKY3QPfEOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=85EZlsUir4JFWbid+H/M0+DpQVfX5/SrsXYB0+EcSt0=;
- b=N089L+4CtbXYnudj8pc9MsrocQ+5f+UTuAN7KT1+F2TcSYTtGSJx4D6gZ8UMMOMI16CAMbQafcaidz2HOQSbhh0NTYEE92244DEjGEzBDgRqAwTmDuse5BLj13aRPlkqQ3xwnHt/s426tgVY45Ybcv9b9jAlUqhz2nJ2jTj2YBVIAAF3pAVQ5/9HApNCdGjio9yr1qklwqIUblwQyzOVtdsS8X2Px1yUg+0G1nXPRZ3k2kMZUzTpC9mtuhi/aBTzUv53F1xCKBGTV+qahR8d6gAOhkTIFgnMsaM9OKRDI/UW49svCQvfKH/fBnyXRvV7W1ls1pRDLw4Dq+xkgT5Uug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=85EZlsUir4JFWbid+H/M0+DpQVfX5/SrsXYB0+EcSt0=;
- b=2u8mI+JC2XcWnKXfytFf9ubDqPZrxWF3QERTQfrAfffgYLYi/b7d+gYsHB7UxDxj8pC0lq4NQeuzmLF3QqWpP1ogqkZXUAGJHkev2QKOyhcIjrfwo92HdlQJu7BP12SFi+fuYYsV47gc7Yzv6WcwMs5k/kmw8N7GmR87wQAC110=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4111.namprd12.prod.outlook.com (2603:10b6:208:1de::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Tue, 20 Oct
- 2020 10:22:43 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3477.028; Tue, 20 Oct 2020
- 10:22:43 +0000
-Subject: Re: [PATCH 2/7] drm/ttm: minor cleanup to move to system
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20201020010319.1692445-1-airlied@gmail.com>
- <20201020010319.1692445-3-airlied@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <65c7e749-e6cd-98bf-fe27-a4c80d5ecf7a@amd.com>
-Date: Tue, 20 Oct 2020 12:22:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201020010319.1692445-3-airlied@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR04CA0118.eurprd04.prod.outlook.com
- (2603:10a6:208:55::23) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A88A6EC44
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 10:57:11 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id k68so1288394otk.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 03:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rqOPpZ12fcOCJG8387o2w3J06TqQ9CeNeDxu1JGqlZU=;
+ b=f4lLkaQ3F26yg/sXjHZY/XBPSMiDqOJRzmwwgiPk5kxtfblwSwMMJlagh4yjto+M6u
+ MiRxGozcLm7745Nhth8fHstJ8fBQi2q7auejnvbTXefJCZJTMS60ZpxhZ5xvaL5+h/3c
+ t8gHcmcOsheP+iAMerStnKBZAneSFW6GubYzA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rqOPpZ12fcOCJG8387o2w3J06TqQ9CeNeDxu1JGqlZU=;
+ b=fyc8G0BEJO3wbqmLRG3K16vBJxqE/JbL/F5SMm1sdlftE3rMASinBukOraYjrmdeqc
+ lDFQusj9lGmvPS419BuUGIJrozMHEKNE1c8xOBXeFBFVPuL/vC/Ju50mQwvrKfimx9Zc
+ GvfzuLTmji5co0QYhiZh7UTDtBWnljbIG+luSCPn5Yu7eaJH04LwaDq/uUm5uWqTEQHs
+ vmuDx5Y60x41Tq7locFmhR6lsmukvqyx7eCVhcXZnfPOI6VWHoHt3Kp8ogFWBkawVrvx
+ hYKJ/u1g/7ql/wwvjW4/SHrIW4O5TdqwdbDQTcJEEaWaeKde00B7HCErmlfdjtnforGP
+ fWYw==
+X-Gm-Message-State: AOAM530ig8akwZnUpdIxUiKTqmORdubaNSBd3O6AyYGJ3Xr28SiKLCAZ
+ wDmSozRP1JED2qjsCb73e/Vx9lM5ZAIjzfPJNh/zoA==
+X-Google-Smtp-Source: ABdhPJyIi2CTLsn4CJcOV6eOdo8RRdAeAXZ3rjIY+UPZF2ZYXpU4WIs86lAr/CB5twhZ3p7NMGSAQLzsBnhPvVRCTS8=
+X-Received: by 2002:a05:6830:1c3c:: with SMTP id
+ f28mr1390486ote.188.1603191430428; 
+ Tue, 20 Oct 2020 03:57:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR04CA0118.eurprd04.prod.outlook.com (2603:10a6:208:55::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Tue, 20 Oct 2020 10:22:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b18ca84c-3655-4424-8699-08d874e214a8
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4111:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB41117BBD50D6264633FCB7C7831F0@MN2PR12MB4111.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1247;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZPjFo531VH0bZaPUDcF0hgT3oBCQLAV7cigCC64ZAe9uvik29PF4xlzcf7UKZX+eSkBWesD39S6TUB7ofMW+OADgl94UYBR+xfSBBd3alTLy+C4FKvUkKsqKuxiteqtqpRWI0h6ECLFKPhLsfMZMzsNv1mq7XxRYDQL9ct8l9PG+Ev3Ow+vFOT35YYtB1wc0bWbW6VkVwbEPDq9NsGXdP5+QbQRT0HTyaRvMx5BQ/3Q5cnQ2owzs+ryLaIEHQgRHoI4ZhdmRIDeRF1i4X0c3oFkxrIfzYqi+KOAr8dE8z1X9T1AJhQxqxTg5NTd+uEYGIaCX9bkTDjl/gO5Y9yAWI5dVAHgfp2L/QPitwbpoUjqA1OfWkIRC+60Z2M6fARKk
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(346002)(396003)(136003)(366004)(186003)(36756003)(16526019)(2906002)(86362001)(31686004)(66556008)(2616005)(478600001)(6486002)(83380400001)(316002)(66946007)(8936002)(52116002)(6666004)(5660300002)(8676002)(66476007)(31696002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: +8o7QgYF7diI9vlAHN39EzDCM4egRpkSVVieRyUOZGxKbUUM8RIQvXElzcWxyixeUeRuSWy/heO+3pHuCHSx5pygf8ZiUGHvrOEvDMNr0ONuordD/3esXKOIsnU1aDyEibr3/oxTCnmYZEdEZXToJ9w3VQQYN5fX/1/mFR8GN+aA8CVsrzpy5ZdCXLoyLJULDetKVC1irFFCU3mE5x309PmtRGfF6PE+FIDWF+XT3kIRJ2NTFHBcVAYcXNz3C4dsuXWDSOPo9nw1m7oOXuXScWKCG58LfD/xsQmlN6Yae2Zq1s1HAiALZSLsFJTnGrjMStdYGNsfH+xaHnk/4pXCiessshv5xYVVnaLRwD9pTQ5bjnCbjTHwBWhkrKeTnxvuM6uyCH3cJTTgF7Ogwtz2Ekwh5T+OiUpQq6ReYwuGiFFoTFHlgOClnUkYzXZ+L3NuqqJF99l0mDBlt4oHemghx2L6VxQAjrH4NEaN4Gt4duGCmaa6e3UQT41qSqzn3JbmleAFiyyT60AgFbR6VRiwSSA81Kw7Zeu99FzsP+or96Z2P19vsudT9ErDZS+S1lU6PLbI7MbtRQnjEJVRHKqwISR74yl4A6yqFlOywk/3zITXdSUOGaiADggV7zs7a7n26a1mD3Etcx2cU4s3GqkyOfVYnQN377+a3cJs85p9PRSmQNZFDymxusfCAk0UgRg4RtCdYYT0VRZd9huuPxSk6w==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b18ca84c-3655-4424-8699-08d874e214a8
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2020 10:22:43.3413 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1ryubmfcS6ABXAvYWnQbMP+p37PSGhX7ZMmxjng2Ppa5mElFAo3N6GrXwLzjmnhU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4111
+References: <20201012020958.229288-1-robdclark@gmail.com>
+ <20201012020958.229288-8-robdclark@gmail.com>
+ <20201012143555.GA438822@phenom.ffwll.local>
+ <CAF6AEGstGtBswUUiyHxT2cCm8NwZekDnMzD0J_pQH37GwS=LiA@mail.gmail.com>
+ <20201020090729.qgqish5kqamhvatj@vireshk-i7>
+In-Reply-To: <20201020090729.qgqish5kqamhvatj@vireshk-i7>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 20 Oct 2020 12:56:59 +0200
+Message-ID: <CAKMK7uHAgVUPHOPxDdt3LeAWqokxfuzqjZj4qqFkoKxFbRbRrg@mail.gmail.com>
+Subject: Re: [PATCH v2 07/22] drm/msm: Do rpm get sooner in the submit path
+To: Viresh Kumar <viresh.kumar@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,33 +62,301 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, "Menon, Nishanth" <nm@ti.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjAuMTAuMjAgdW0gMDM6MDMgc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
-cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gcmVzb3VyY2UgZnJlZSBhbHJlYWR5IHNldHMg
-dGhlIGRvbWFpbiB0byBzeXN0ZW0sIGFuZCBvbGRfbWVtCj4gaXNuJ3QgcmVhbGx5IG5lZWRlZC4K
-Pgo+IFNpZ25lZC1vZmYtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+CgpSZXZp
-ZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKPiAt
-LS0KPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYyB8IDQgKy0tLQo+ICAgMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYyBiL2RyaXZlcnMvZ3B1L2RybS90
-dG0vdHRtX2JvX3V0aWwuYwo+IGluZGV4IGM4Y2E2Njk0Y2MxYy4uYjczMGU2MjRhMjIwIDEwMDY0
-NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYwo+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYwo+IEBAIC02OCwxMCArNjgsOSBAQCBpbnQgdHRt
-X2JvX21vdmVfdG9fbmV3X3R0X21lbShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAg
-aW50IHR0bV9ib19tb3ZlX3RvX3N5c3RlbShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+
-ICAgCQkJICBzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHggKmN0eCkKPiAgIHsKPiAtCXN0cnVjdCB0
-dG1fcmVzb3VyY2UgKm9sZF9tZW0gPSAmYm8tPm1lbTsKPiAgIAlpbnQgcmV0Owo+ICAgCj4gLQlp
-ZiAob2xkX21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1NZU1RFTSkKPiArCWlmIChiby0+bWVtLm1l
-bV90eXBlID09IFRUTV9QTF9TWVNURU0pCj4gICAJCXJldHVybiAwOwo+ICAgCj4gICAJcmV0ID0g
-dHRtX2JvX3dhaXRfY3R4KGJvLCBjdHgpOwo+IEBAIC04Myw3ICs4Miw2IEBAIGludCB0dG1fYm9f
-bW92ZV90b19zeXN0ZW0oc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKPiAgIAo+ICAgCXR0
-bV9ib190dF91bmJpbmQoYm8pOwo+ICAgCXR0bV9yZXNvdXJjZV9mcmVlKGJvLCAmYm8tPm1lbSk7
-Cj4gLQlvbGRfbWVtLT5tZW1fdHlwZSA9IFRUTV9QTF9TWVNURU07Cj4gICAJcmV0dXJuIDA7Cj4g
-ICB9Cj4gICBFWFBPUlRfU1lNQk9MKHR0bV9ib19tb3ZlX3RvX3N5c3RlbSk7CgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Oct 20, 2020 at 11:07 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> On 12-10-20, 08:43, Rob Clark wrote:
+> > On Mon, Oct 12, 2020 at 7:35 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Sun, Oct 11, 2020 at 07:09:34PM -0700, Rob Clark wrote:
+> > > > From: Rob Clark <robdclark@chromium.org>
+> > > >
+> > > > Unfortunately, due to an dev_pm_opp locking interaction with
+> > > > mm->mmap_sem, we need to do pm get before aquiring obj locks,
+> > > > otherwise we can have anger lockdep with the chain:
+> > >
+> > > tbh this sounds like a bug in that subsystem, since it means we cannot use
+> > > said subsystem in mmap handlers either.
+> > >
+> > > So if you have some remapping unit or need to wake up your gpu to blt the
+> > > buffer into system memory first, we're toast. That doesn't sound right. So
+> > > maybe Cc: pm folks and figure out how to fix this long term properly? Imo
+> > > not a good reason to hold up this patch set, since unwrangling mmap_sem
+> > > tends to be work ...
+> >
+> > + a couple of PM folks
+> >
+> > Looks like it has been this way for quite some time, so I guess the
+> > overlap between things using dev_pm_opp and mmap is low..
+> >
+> > fwiw, example splat so folks can see the locking interaction I am
+> > talking about.. I suspect the pm_opp interaction with mm->mmap_sem is
+> > from the debugfs calls while opp_table_lock is held?
+>
+> I am not very sure about why this circular locking dependency is
+> happening here and how exactly can we fix it. The OPP core works under
+> the opp_table_lock, from within which it creates/remove the debugfs
+> stuff as well.
+
+Yeah that's bad practice. Generally you shouldn't need to hold locks
+in setup/teardown code, since there's no other thread which can
+possible hold a reference to anything your touching anymore. Ofc
+excluding quickly grabbing/dropping a lock to insert/remove objects
+into lists and stuff.
+
+The other reason is that especially with anything related to sysfs or
+debugfs, the locking dependencies you're pulling in are enormous: vfs
+locks pull in mm locks (due to mmap) and at that point there's pretty
+much nothing left you're allowed to hold while acquiring such a lock.
+For simple drivers this is no issue, but for fancy drivers (like gpu
+drivers) which need to interact with core mm) this means your
+subsystem is a major pain to use.
+
+Usually the correct fix is to only hold your subsystem locks in
+setup/teardown when absolutely required, and fix any data
+inconsistency issues by reordering your setup/teardown code: When you
+register as the last step and unregister as the first step, there's no
+need for any additional locking. And hence no need to call debugfs
+functions while holding your subsystem locks.
+
+The catch phrase I use for this is "don't solve object lifetime issues
+with locking". Instead use refcounting and careful ordering in
+setup/teardown code.
+
+I think Rob has found some duct-tape, so this isn't an immediate
+issue, but would be really nice to get fixed.
+
+Cheers, Daniel
+
+> > [   15.627855] ======================================================
+> > [   15.634202] WARNING: possible circular locking dependency detected
+> > [   15.640550] 5.4.70 #41 Not tainted
+> > [   15.644050] ------------------------------------------------------
+> > [   15.650397] chrome/1805 is trying to acquire lock:
+> > [   15.655314] ffffffed90720738 (opp_table_lock){+.+.}, at:
+> > _find_opp_table+0x34/0x74
+> > [   15.663092]
+> > [   15.663092] but task is already holding lock:
+> > [   15.669082] ffffff80ff3911a8 (reservation_ww_class_mutex){+.+.},
+> > at: submit_lock_objects+0x70/0x1ec
+> > [   15.678369]
+> > [   15.678369] which lock already depends on the new lock.
+> > [   15.678369]
+> > [   15.686764]
+> > [   15.686764] the existing dependency chain (in reverse order) is:
+> > [   15.694438]
+> > [   15.694438] -> #3 (reservation_ww_class_mutex){+.+.}:
+> > [   15.701146]        __mutex_lock_common+0xec/0xc0c
+> > [   15.705978]        ww_mutex_lock_interruptible+0x5c/0xc4
+> > [   15.711432]        msm_gem_fault+0x2c/0x124
+> > [   15.715731]        __do_fault+0x40/0x16c
+> > [   15.719766]        handle_mm_fault+0x7cc/0xd98
+> > [   15.724337]        do_page_fault+0x230/0x3b4
+> > [   15.728721]        do_translation_fault+0x5c/0x78
+> > [   15.733558]        do_mem_abort+0x4c/0xb4
+> > [   15.737680]        el0_da+0x1c/0x20
+> > [   15.741266]
+> > [   15.741266] -> #2 (&mm->mmap_sem){++++}:
+> > [   15.746809]        __might_fault+0x70/0x98
+> > [   15.751022]        compat_filldir+0xf8/0x48c
+> > [   15.755412]        dcache_readdir+0x70/0x1dc
+> > [   15.759808]        iterate_dir+0xd4/0x180
+> > [   15.763931]        __arm64_compat_sys_getdents+0xa0/0x19c
+> > [   15.769476]        el0_svc_common+0xa8/0x178
+> > [   15.773861]        el0_svc_compat_handler+0x2c/0x40
+> > [   15.778868]        el0_svc_compat+0x8/0x10
+> > [   15.783075]
+> > [   15.783075] -> #1 (&sb->s_type->i_mutex_key#3){++++}:
+> > [   15.789788]        down_write+0x54/0x16c
+> > [   15.793826]        debugfs_remove_recursive+0x50/0x158
+> > [   15.799108]        opp_debug_unregister+0x34/0x114
+> > [   15.804028]        dev_pm_opp_put_opp_table+0xd0/0x14c
+> > [   15.809308]        dev_pm_opp_put_clkname+0x3c/0x50
+> > [   15.814318]        msm_dsi_host_destroy+0xb0/0xcc
+> > [   15.819149]        dsi_destroy+0x40/0x58
+> > [   15.823184]        dsi_bind+0x90/0x170
+> > [   15.827041]        component_bind_all+0xf0/0x208
+> > [   15.831787]        msm_drm_init+0x188/0x60c
+> > [   15.836084]        msm_drm_bind+0x24/0x30
+> > [   15.840205]        try_to_bring_up_master+0x15c/0x1a4
+> > [   15.845396]        __component_add+0x98/0x14c
+> > [   15.849878]        component_add+0x28/0x34
+> > [   15.854086]        dp_display_probe+0x324/0x370
+> > [   15.858744]        platform_drv_probe+0x90/0xb0
+> > [   15.863400]        really_probe+0x134/0x2ec
+> > [   15.867699]        driver_probe_device+0x64/0xfc
+> > [   15.872443]        __device_attach_driver+0x8c/0xa4
+> > [   15.877459]        bus_for_each_drv+0x90/0xd8
+> > [   15.881939]        __device_attach+0xc0/0x148
+> > [   15.886420]        device_initial_probe+0x20/0x2c
+> > [   15.891254]        bus_probe_device+0x34/0x94
+> > [   15.895726]        deferred_probe_work_func+0x78/0xb4
+> > [   15.900914]        process_one_work+0x30c/0x5d0
+> > [   15.905573]        worker_thread+0x240/0x3f0
+> > [   15.909959]        kthread+0x144/0x154
+> > [   15.913809]        ret_from_fork+0x10/0x18
+> > [   15.918016]
+> > [   15.918016] -> #0 (opp_table_lock){+.+.}:
+> > [   15.923660]        __lock_acquire+0xee4/0x2450
+> > [   15.928230]        lock_acquire+0x1cc/0x210
+> > [   15.932527]        __mutex_lock_common+0xec/0xc0c
+> > [   15.937359]        mutex_lock_nested+0x40/0x50
+> > [   15.941928]        _find_opp_table+0x34/0x74
+> > [   15.946312]        dev_pm_opp_find_freq_exact+0x2c/0xdc
+> > [   15.951680]        a6xx_gmu_resume+0xc8/0xecc
+> > [   15.952812] fscrypt: AES-256-CTS-CBC using implementation "cts-cbc-aes-ce"
+> > [   15.956161]        a6xx_pm_resume+0x148/0x200
+> > [   15.956166]        adreno_resume+0x28/0x34
+> > [   15.956171]        pm_generic_runtime_resume+0x34/0x48
+> > [   15.956174]        __rpm_callback+0x70/0x10c
+> > [   15.956176]        rpm_callback+0x34/0x8c
+> > [   15.956179]        rpm_resume+0x414/0x550
+> > [   15.956182]        __pm_runtime_resume+0x7c/0xa0
+> > [   15.956185]        msm_gpu_submit+0x60/0x1c0
+> > [   15.956190]        msm_ioctl_gem_submit+0xadc/0xb60
+> > [   16.003961]        drm_ioctl_kernel+0x9c/0x118
+> > [   16.008532]        drm_ioctl+0x27c/0x408
+> > [   16.012562]        drm_compat_ioctl+0xcc/0xdc
+> > [   16.017038]        __se_compat_sys_ioctl+0x100/0x206c
+> > [   16.022224]        __arm64_compat_sys_ioctl+0x20/0x2c
+> > [   16.027412]        el0_svc_common+0xa8/0x178
+> > [   16.031800]        el0_svc_compat_handler+0x2c/0x40
+> > [   16.036810]        el0_svc_compat+0x8/0x10
+> > [   16.041021]
+> > [   16.041021] other info that might help us debug this:
+> > [   16.041021]
+> > [   16.049235] Chain exists of:
+> > [   16.049235]   opp_table_lock --> &mm->mmap_sem --> reservation_ww_class_mutex
+> > [   16.049235]
+> > [   16.061014]  Possible unsafe locking scenario:
+> > [   16.061014]
+> > [   16.067091]        CPU0                    CPU1
+> > [   16.071750]        ----                    ----
+> > [   16.076399]   lock(reservation_ww_class_mutex);
+> > [   16.081059]                                lock(&mm->mmap_sem);
+> > [   16.087134]                                lock(reservation_ww_class_mutex);
+> > [   16.094369]   lock(opp_table_lock);
+> > [   16.097961]
+> > [   16.097961]  *** DEADLOCK ***
+> > [   16.097961]
+> > [   16.104038] 3 locks held by chrome/1805:
+> > [   16.108068]  #0: ffffff80fb20c0d8 (&dev->struct_mutex){+.+.}, at:
+> > msm_ioctl_gem_submit+0x264/0xb60
+> > [   16.117264]  #1: ffffff80dd712c70
+> > (reservation_ww_class_acquire){+.+.}, at:
+> > msm_ioctl_gem_submit+0x8e8/0xb60
+> > [   16.127357]  #2: ffffff80ff3911a8
+> > (reservation_ww_class_mutex){+.+.}, at: submit_lock_objects+0x70/0x1ec
+> > [   16.137089]
+> > [   16.137089] stack backtrace:
+> > [   16.141567] CPU: 4 PID: 1805 Comm: chrome Not tainted 5.4.70 #41
+> > [   16.147733] Hardware name: Google Lazor (rev1+) with LTE (DT)
+> > [   16.153632] Call trace:
+> > [   16.156154]  dump_backtrace+0x0/0x158
+> > [   16.159924]  show_stack+0x20/0x2c
+> > [   16.163340]  dump_stack+0xc8/0x160
+> > [   16.166840]  print_circular_bug+0x2c4/0x2c8
+> > [   16.171144]  check_noncircular+0x1a8/0x1b0
+> > [   16.175351]  __lock_acquire+0xee4/0x2450
+> > [   16.179382]  lock_acquire+0x1cc/0x210
+> > [   16.183146]  __mutex_lock_common+0xec/0xc0c
+> > [   16.187450]  mutex_lock_nested+0x40/0x50
+> > [   16.191481]  _find_opp_table+0x34/0x74
+> > [   16.195344]  dev_pm_opp_find_freq_exact+0x2c/0xdc
+> > [   16.200178]  a6xx_gmu_resume+0xc8/0xecc
+> > [   16.204120]  a6xx_pm_resume+0x148/0x200
+> > [   16.208064]  adreno_resume+0x28/0x34
+> > [   16.211743]  pm_generic_runtime_resume+0x34/0x48
+> > [   16.216488]  __rpm_callback+0x70/0x10c
+> > [   16.220342]  rpm_callback+0x34/0x8c
+> > [   16.223933]  rpm_resume+0x414/0x550
+> > [   16.227524]  __pm_runtime_resume+0x7c/0xa0
+> > [   16.231731]  msm_gpu_submit+0x60/0x1c0
+> > [   16.235586]  msm_ioctl_gem_submit+0xadc/0xb60
+> > [   16.240066]  drm_ioctl_kernel+0x9c/0x118
+> > [   16.244097]  drm_ioctl+0x27c/0x408
+> > [   16.247602]  drm_compat_ioctl+0xcc/0xdc
+> > [   16.251546]  __se_compat_sys_ioctl+0x100/0x206c
+> > [   16.256204]  __arm64_compat_sys_ioctl+0x20/0x2c
+> > [   16.260861]  el0_svc_common+0xa8/0x178
+> > [   16.264716]  el0_svc_compat_handler+0x2c/0x40
+> > [   16.269196]  el0_svc_compat+0x8/0x10
+> >
+> > BR,
+> > -R
+> >
+> > > -Daniel
+> > >
+> > > >
+> > > >   opp_table_lock --> &mm->mmap_sem --> reservation_ww_class_mutex
+> > > >
+> > > > For an explicit fencing userspace, the impact should be minimal
+> > > > as we do all the fence waits before this point.  It could result
+> > > > in some needless resumes in error cases, etc.
+> > > >
+> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > ---
+> > > >  drivers/gpu/drm/msm/msm_gem_submit.c | 15 +++++++++++++--
+> > > >  1 file changed, 13 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > index 002130d826aa..a9422d043bfe 100644
+> > > > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > @@ -744,11 +744,20 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> > > >
+> > > >       ret = submit_lookup_objects(submit, args, file);
+> > > >       if (ret)
+> > > > -             goto out;
+> > > > +             goto out_pre_pm;
+> > > >
+> > > >       ret = submit_lookup_cmds(submit, args, file);
+> > > >       if (ret)
+> > > > -             goto out;
+> > > > +             goto out_pre_pm;
+> > > > +
+> > > > +     /*
+> > > > +      * Thanks to dev_pm_opp opp_table_lock interactions with mm->mmap_sem
+> > > > +      * in the resume path, we need to to rpm get before we lock objs.
+> > > > +      * Which unfortunately might involve powering up the GPU sooner than
+> > > > +      * is necessary.  But at least in the explicit fencing case, we will
+> > > > +      * have already done all the fence waiting.
+> > > > +      */
+> > > > +     pm_runtime_get_sync(&gpu->pdev->dev);
+> > > >
+> > > >       /* copy_*_user while holding a ww ticket upsets lockdep */
+> > > >       ww_acquire_init(&submit->ticket, &reservation_ww_class);
+> > > > @@ -825,6 +834,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> > > >
+> > > >
+> > > >  out:
+> > > > +     pm_runtime_put(&gpu->pdev->dev);
+> > > > +out_pre_pm:
+> > > >       submit_cleanup(submit);
+> > > >       if (has_ww_ticket)
+> > > >               ww_acquire_fini(&submit->ticket);
+>
+> --
+> viresh
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
