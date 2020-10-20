@@ -1,67 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D91C2948B7
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 09:17:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D3A2948BB
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 09:17:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 523C86E973;
-	Wed, 21 Oct 2020 07:16:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 605876E9AE;
+	Wed, 21 Oct 2020 07:17:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6A16ECDC
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 14:01:31 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id j7so2209755oie.12
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 07:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eV8Qm7gEOxRXitBzZlCD866ixtrTlZl+PdLiNQm+4Rs=;
- b=KIOkMaR+xgikLjNfFY6MoCOuGLLfV5odzjo6goJ8rKsRKC7ER4ZEWzrZq1+QALyz92
- OLZjAOuB9yy9mDzUU6PTpIVHfOUc0NOl+P7JBOOJnpqG8i3ZxUEkBKMwByHIhD0TbG7G
- 6PwXpV4ynfFTKDaOukPCrazXF0DjW2CeKGCOyn+LEB4jjuwp4x0WRs83lIRvTEgO6GC0
- kcNpf/LgBxbf6BgQB5ELNEGNOGu8JcN0ScKFoQnl2nOnxzsIoDFB97f5gLQWTlQdHyoL
- 2nPIlwMXJiWBpi7njvJQIlprd6l9jZ9mBKBk91Ljc1NW6lBj2PcHU2HngOgI3M/oJVSa
- o42g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eV8Qm7gEOxRXitBzZlCD866ixtrTlZl+PdLiNQm+4Rs=;
- b=tvb3BuDtP5JVKXXnIkpq2BPqgZ8LjKpFAFtSEFhZ1qvw5UtbtbGp4tWUWYsbwxTWDz
- Gr+npVtQJuQq1NYrKbtQGlki4XKKdVBTB3tJ+vbE16oKcW2VZF5w2QWaOVllobqDEEcy
- 1Bf3CfohX9TRafs1UvCHIlWM8hSqzkLcj+3i2Y6DUcxscU+88N7IXLzQR8s1bGFNuWV+
- baU5aft3ai72s1qqFV5p4f1Zit1p1JH2E8wcGRPu0hkyRmxheNYfS3SV4CMYx+Jstmbg
- s42HxyjCtXcDtXLFrsXgdt61UYhze/HYHMnvUC2sB9GIKgvaThOOCNYbSOjTnnP0Mpv0
- coaA==
-X-Gm-Message-State: AOAM532cdmEPI1/TEprVCXqFmwEjzyc5BOv/y/vHTjfxHUgrX1Z9lmV3
- pd/LfaokHha+r2t2j9lPMlQ=
-X-Google-Smtp-Source: ABdhPJz96OxyT8iyC0IE4Iv4A+26UjobchLzlieGvOBLB0JJpiOumMEENEaX6qE7xLpkRxGIN6mGSg==
-X-Received: by 2002:aca:cd0a:: with SMTP id d10mr2037540oig.52.1603202489420; 
- Tue, 20 Oct 2020 07:01:29 -0700 (PDT)
-Received: from nuclearis2-1.gtech (c-98-195-139-126.hsd1.tx.comcast.net.
- [98.195.139.126])
- by smtp.gmail.com with ESMTPSA id y5sm473639ool.30.2020.10.20.07.01.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Oct 2020 07:01:28 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] drm/bridge: sii902x: Enable I/O and core VCC
- supplies if present
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200924200507.1175888-1-mr.nuke.me@gmail.com>
- <20200928173056.1674274-1-mr.nuke.me@gmail.com>
- <d74c7626-8f16-db85-c23f-79bf0cc400d0@gmail.com>
- <20201020071628.GA1737816@ravnborg.org>
-From: "Alex G." <mr.nuke.me@gmail.com>
-Message-ID: <5c21a4a4-717c-9f8a-9764-6e3fb9554e46@gmail.com>
-Date: Tue, 20 Oct 2020 09:01:27 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 427AB6ECA8;
+ Tue, 20 Oct 2020 14:14:54 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 4CFC9B45;
+ Tue, 20 Oct 2020 10:14:50 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 20 Oct 2020 10:14:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm1; bh=QNxDlJJQRQrOOLUrLPsoyXNQLI0P4pusWiyTYiUp3D4=; b=CebhdNj4
+ e+tsVNlDaqXzt+5TyTL5+nmlarnlcXVW7nB3dil372bboMpCmHfAc4Kd3+JCnBdV
+ U5ug15/bwwvlZSQiH5dYsj3xIIRSY8Ws1Wgm64fs4Wn+F0uJQzIh3gIoZSV2F+GZ
+ AnmEmu5bDt+k+J+4n+KNADdnkkoDVprlS9mXihEkuU62KfjqHh7v1h9QLLuR+WjG
+ 226LbtzNMkAf+0GgfPfT0xe84P/SUiSiDFoRi4AX4rgEPm7ZBFEJgaJR2YTjMSOR
+ K/UNm8oVlWsPA9EkIKpgxYzeOFwuBZ0Upd1AjD6lqgWVi0hPA2AducPqOzHy8MbX
+ FKr5n+8Q/bNJvg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; bh=QNxDlJJQRQrOOLUrLPsoyXNQLI0P4
+ pusWiyTYiUp3D4=; b=PLfG9Nxw9rpNR5Tg7Dejc3RTLy1DxPd3uXGA6vunT35ns
+ f44yClnqADL9atBaxBiqIAxokUn1CySp44W7RKQmbjiG2zLFpvHYzHpGtRUpM3Do
+ LlgdavxGO7yOC4zsBzGacg0RCoIXUMb1QNFJhLVk/OA3jhhJhRoX8X9LBocU0PZ+
+ vM6ZhEiuOmUv+A5m/gf+LMWVqe6Ak7sWh11mctBafkwFtPnjLWu5jUxllQLS6pSj
+ shgfEUcRbCVssGwuX+Qf1lr7/9Ws5doZOnwKI3fLyQku5oiA9ZokhGxVgwxnkOmL
+ mffOnao6F+jAFBwNtzK1soqMDmyKaAVqs33JPKFiA==
+X-ME-Sender: <xms:2PCOX6koDCe_uLxAFJKa0VIGk3Nb8be9ti6jGfETpz0pIC3dT7_Vug>
+ <xme:2PCOXx1Cd95aRth1EQ0AlYkdg8OrHk4FzXWGSHVFgU854ko_kS1tyerShARWKi40G
+ dWVFiWB8dKrhlGTQwU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeefgdejvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeeguedvtdehgeeghefhieegteffueefleevgefgkeevgeeiveduleejueegvdeigfen
+ ucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepledtrdekledrie
+ ekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+ pehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:2PCOX4qMSe5__ZJn6RLlidWuA8AZ8mrfy2tvMK0ottVAfb0yuV12Ew>
+ <xmx:2PCOX-k-sAmWLezgq7E3x9_c3n_DgQoQHhAounrzAEtvcg3YQRtBJQ>
+ <xmx:2PCOX43jn8FW_28RBAmV8txWEqQ-wT9L5ndpG8E_Cbw95a2pdexa0g>
+ <xmx:2vCOX5Kr_Lm1TTmyGF6c0xdrgczklP52bXLjcHJPOcknfr7jYePZWKBR09o>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 5479A3280063;
+ Tue, 20 Oct 2020 10:14:48 -0400 (EDT)
+Date: Tue, 20 Oct 2020 16:14:45 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20201020141445.4jisqylfbusdnzge@gilmour>
 MIME-Version: 1.0
-In-Reply-To: <20201020071628.GA1737816@ravnborg.org>
-Content-Language: en-US
 X-Mailman-Approved-At: Wed, 21 Oct 2020 07:16:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,144 +76,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Rob Herring <robh+dt@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0843284710=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--===============0843284710==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="cjr3fy77yrhqgfqc"
+Content-Disposition: inline
 
-On 10/20/20 2:16 AM, Sam Ravnborg wrote:
-> Hi Alex.
 
-[snip]
+--cjr3fy77yrhqgfqc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->>
->>
->>> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
->>> index 33fd33f953ec..d15e9f2c0d8a 100644
->>> --- a/drivers/gpu/drm/bridge/sii902x.c
->>> +++ b/drivers/gpu/drm/bridge/sii902x.c
->>> @@ -17,6 +17,7 @@
->>>    #include <linux/i2c.h>
->>>    #include <linux/module.h>
->>>    #include <linux/regmap.h>
->>> +#include <linux/regulator/consumer.h>
->>>    #include <linux/clk.h>
->>>    #include <drm/drm_atomic_helper.h>
->>> @@ -168,6 +169,8 @@ struct sii902x {
->>>    	struct drm_connector connector;
->>>    	struct gpio_desc *reset_gpio;
->>>    	struct i2c_mux_core *i2cmux;
->>> +	struct regulator *iovcc;
->>> +	struct regulator *cvcc12;
->>>    	/*
->>>    	 * Mutex protects audio and video functions from interfering
->>>    	 * each other, by keeping their i2c command sequences atomic.
->>> @@ -954,13 +957,13 @@ static const struct drm_bridge_timings default_sii902x_timings = {
->>>    		 | DRM_BUS_FLAG_DE_HIGH,
->>>    };
->>> +static int sii902x_init(struct sii902x *sii902x);
-> Please re-arrange the code so this prototype is not needed.
+Hi!
 
-I'd be happy to re-arrange things. It will make the diff look a lot 
-bigger than what it is. Is that okay?
+Here's a couple of patches that should be merged in the current merge-window.
 
-Alex
+Thanks!
+Maxime
 
->>> +
->>>    static int sii902x_probe(struct i2c_client *client,
->>>    			 const struct i2c_device_id *id)
->>>    {
->>>    	struct device *dev = &client->dev;
->>> -	unsigned int status = 0;
->>>    	struct sii902x *sii902x;
->>> -	u8 chipid[4];
->>>    	int ret;
->>>    	ret = i2c_check_functionality(client->adapter,
->>> @@ -989,6 +992,43 @@ static int sii902x_probe(struct i2c_client *client,
->>>    	mutex_init(&sii902x->mutex);
->>> +	sii902x->iovcc = devm_regulator_get(dev, "iovcc");
->>> +	if (IS_ERR(sii902x->iovcc))
->>> +		return PTR_ERR(sii902x->iovcc);
->>> +
->>> +	sii902x->cvcc12 = devm_regulator_get(dev, "cvcc12");
->>> +	if (IS_ERR(sii902x->cvcc12))
->>> +		return PTR_ERR(sii902x->cvcc12);
->>> +
->>> +	ret = regulator_enable(sii902x->iovcc);
->>> +	if (ret < 0) {
->>> +		dev_err_probe(dev, ret, "Failed to enable iovcc supply");
->>> +		return ret;
->>> +	}
->>> +
->>> +	ret = regulator_enable(sii902x->cvcc12);
->>> +	if (ret < 0) {
->>> +		dev_err_probe(dev, ret, "Failed to enable cvcc12 supply");
->>> +		regulator_disable(sii902x->iovcc);
->>> +		return ret;
->>> +	}
->>> +
->>> +	ret = sii902x_init(sii902x);
->>> +	if (ret < 0) {
->>> +		regulator_disable(sii902x->cvcc12);
->>> +		regulator_disable(sii902x->iovcc);
->>> +	}
->>> +
->>> +	return ret;
->>> +}
->>> +
->>> +static int sii902x_init(struct sii902x *sii902x)
->>> +{
->>> +	struct device *dev = &sii902x->i2c->dev;
->>> +	unsigned int status = 0;
->>> +	u8 chipid[4];
->>> +	int ret;
->>> +
->>>    	sii902x_reset(sii902x);
->>>    	ret = regmap_write(sii902x->regmap, SII902X_REG_TPI_RQB, 0x0);
->>> @@ -1012,11 +1052,11 @@ static int sii902x_probe(struct i2c_client *client,
->>>    	regmap_read(sii902x->regmap, SII902X_INT_STATUS, &status);
->>>    	regmap_write(sii902x->regmap, SII902X_INT_STATUS, status);
->>> -	if (client->irq > 0) {
->>> +	if (sii902x->i2c->irq > 0) {
->>>    		regmap_write(sii902x->regmap, SII902X_INT_ENABLE,
->>>    			     SII902X_HOTPLUG_EVENT);
->>> -		ret = devm_request_threaded_irq(dev, client->irq, NULL,
->>> +		ret = devm_request_threaded_irq(dev, sii902x->i2c->irq, NULL,
->>>    						sii902x_interrupt,
->>>    						IRQF_ONESHOT, dev_name(dev),
->>>    						sii902x);
->>> @@ -1031,9 +1071,9 @@ static int sii902x_probe(struct i2c_client *client,
->>>    	sii902x_audio_codec_init(sii902x, dev);
->>> -	i2c_set_clientdata(client, sii902x);
->>> +	i2c_set_clientdata(sii902x->i2c, sii902x);
->>> -	sii902x->i2cmux = i2c_mux_alloc(client->adapter, dev,
->>> +	sii902x->i2cmux = i2c_mux_alloc(sii902x->i2c->adapter, dev,
->>>    					1, 0, I2C_MUX_GATE,
->>>    					sii902x_i2c_bypass_select,
->>>    					sii902x_i2c_bypass_deselect);
->>> @@ -1051,6 +1091,8 @@ static int sii902x_remove(struct i2c_client *client)
->>>    	i2c_mux_del_adapters(sii902x->i2cmux);
->>>    	drm_bridge_remove(&sii902x->bridge);
->>> +	regulator_disable(sii902x->cvcc12);
->>> +	regulator_disable(sii902x->iovcc);
->>>    	return 0;
->>>    }
->>>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+drm-misc-next-fixes-2020-10-20:
+Two patches to prevent out-of-bands accesses on fonts buffers
+The following changes since commit d3c8f2784d3266d27956659c78835ee1d1925ad2:
+
+  drm/ingenic: Fix bad revert (2020-10-12 20:26:14 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2020-10-20
+
+for you to fetch changes up to 272d70895113ef00c03ab325787d159ee51718c8:
+
+  Fonts: Support FONT_EXTRA_WORDS macros for font_6x8 (2020-10-19 17:55:10 +0200)
+
+----------------------------------------------------------------
+Two patches to prevent out-of-bands accesses on fonts buffers
+
+----------------------------------------------------------------
+Peilin Ye (2):
+      docs: fb: Add font_6x8 to available built-in fonts
+      Fonts: Support FONT_EXTRA_WORDS macros for font_6x8
+
+ Documentation/fb/fbcon.rst | 2 +-
+ lib/fonts/font_6x8.c       | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+--cjr3fy77yrhqgfqc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX47w1QAKCRDj7w1vZxhR
+xdOcAQCNl61Tr2zRoeD0sBeDstoAICioSfcXnJATXOQOlDhB/AD+IdTeU6ZZ7U/z
+6dTV02h2nd99xSpJgGSCR+m0tuFVagA=
+=heIM
+-----END PGP SIGNATURE-----
+
+--cjr3fy77yrhqgfqc--
+
+--===============0843284710==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0843284710==--
