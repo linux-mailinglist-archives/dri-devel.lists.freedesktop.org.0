@@ -2,42 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D6A293296
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 03:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1210293577
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 09:05:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 066A86EE5C;
-	Tue, 20 Oct 2020 01:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970186F427;
+	Tue, 20 Oct 2020 07:05:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 471AB6EE56
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 01:03:35 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-hsLe6FE_OJW0tO1iESU-ug-1; Mon, 19 Oct 2020 21:03:32 -0400
-X-MC-Unique: hsLe6FE_OJW0tO1iESU-ug-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC38510E2180;
- Tue, 20 Oct 2020 01:03:30 +0000 (UTC)
-Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-180.bne.redhat.com
- [10.64.54.180])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3147355775;
- Tue, 20 Oct 2020 01:03:30 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/ttm: move last binding into the drivers.
-Date: Tue, 20 Oct 2020 11:03:19 +1000
-Message-Id: <20201020010319.1692445-8-airlied@gmail.com>
-In-Reply-To: <20201020010319.1692445-1-airlied@gmail.com>
-References: <20201020010319.1692445-1-airlied@gmail.com>
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B64E26EBAC
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 01:24:42 +0000 (UTC)
+Received: by mail-oo1-xc42.google.com with SMTP id f19so21589oot.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Oct 2020 18:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=D564rZOfF3k0oVe3HCHAGp0/NJldYMB7oVirijE+i+I=;
+ b=Qn5BGl0fJYBFVJhISBYmMOaefLst5heIFuvb0zICODjXjQ/wrDFZvlhV8cCmcqPu+t
+ jYGFAKkFGU33f4FH9kppekKzxJ/tvVrJCuve/hG36gN8rJndS/w0fy4eLwHR7YEBllYq
+ LyZMshTvx9mYIyF4+2Tsiv661ZgtqLU2UrHtgR8/dhLXUcSSjhlQo1xAgWMPQ2eYxrBq
+ pLDN4KYunO0uI7GoeUOb6/RqQo0jX6TEVS6n/EEXoYiVsyvcWAEjxgqNKdPk299VRK4S
+ AXg9JD+0GQl80ICOfuZPPCVeOnBAzV6fPP7Avr7ryfRVwNqC+1Zz+RudDch9IB1h7rd1
+ EEBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=D564rZOfF3k0oVe3HCHAGp0/NJldYMB7oVirijE+i+I=;
+ b=dM+wn1SoObsW0Zq1y8WboAbDk0S/z3kpEfKkmRaXU/4AYcHZfKhvc8a3HiYeRkAeZX
+ q3S3VMuCrZJF0J8kOCM7gQKx5eLrDvJ6yPUFt19c4rx888ST3mZNKvqZ4Bm0JekzCHZp
+ vny+yL0qcEzsT2sYQqu5dGj3hrbgRiDWzh71sZTrJIG6StSuhfrST5t09+ToLe2RISuc
+ /qJl3Nz4ECPy5lSaBtTMXPiKwJ0wo08GIvqKQ1Jg1ZbiFOHsH6vtkq1TivChha2fjXtJ
+ 6AHy8TPLV+Tcvok45tp4Ch5fEnAZKv6Pf8dIH/2/eIOiqwXzXjrFkKCoqYMobuTbf2cb
+ 6/Xw==
+X-Gm-Message-State: AOAM531LbXdiNZc0nlNDKnHS0tgLbUdVzfnPXH3ZItOKG90Gk4zyDXwt
+ OSiboieBh3Xvcocig3ETmag=
+X-Google-Smtp-Source: ABdhPJxMGxNhib1lTLCTo6dKakOyPTgK9aoKBakEA28oMI2Fb2EpiVVRQTTFzl4e8Jjjc8EQ+7CDeA==
+X-Received: by 2002:a4a:a844:: with SMTP id p4mr144097oom.59.1603157081962;
+ Mon, 19 Oct 2020 18:24:41 -0700 (PDT)
+Received: from nuclearis2-1.gtech (c-98-195-139-126.hsd1.tx.comcast.net.
+ [98.195.139.126])
+ by smtp.gmail.com with ESMTPSA id 15sm32385ooy.36.2020.10.19.18.24.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Oct 2020 18:24:41 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] drm/bridge: sii902x: Enable I/O and core VCC
+ supplies if present
+To: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20200924200507.1175888-1-mr.nuke.me@gmail.com>
+ <20200928173056.1674274-1-mr.nuke.me@gmail.com>
+From: "Alex G." <mr.nuke.me@gmail.com>
+Message-ID: <d74c7626-8f16-db85-c23f-79bf0cc400d0@gmail.com>
+Date: Mon, 19 Oct 2020 20:24:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
+In-Reply-To: <20200928173056.1674274-1-mr.nuke.me@gmail.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Tue, 20 Oct 2020 07:05:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,202 +73,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Mark Brown <broonie@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ open list <linux-kernel@vger.kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+On 9/28/20 12:30 PM, Alexandru Gagniuc wrote:
+> On the SII9022, the IOVCC and CVCC12 supplies must reach the correct
+> voltage before the reset sequence is initiated. On most boards, this
+> assumption is true at boot-up, so initialization succeeds.
+> 
+> However, when we try to initialize the chip with incorrect supply
+> voltages, it will not respond to I2C requests. sii902x_probe() fails
+> with -ENXIO.
+> 
+> To resolve this, look for the "iovcc" and "cvcc12" regulators, and
+> make sure they are enabled before starting the reset sequence. If
+> these supplies are not available in devicetree, then they will default
+> to dummy-regulator. In that case everything will work like before.
+> 
+> This was observed on a STM32MP157C-DK2 booting in u-boot falcon mode.
+> On this board, the supplies would be set by the second stage
+> bootloader, which does not run in falcon mode.
+> 
+> Signed-off-by: Alexandru Gagniuc <mr.nuke.me@gmail.com>
+> ---
+> Changes since v1:
+>    * Fix return code after regulator_enable(sii902x->iovcc) fails (Fabio Estevam)
+>    * Use dev_err_probe() instead of dev_err() where appropriate (Sam Ravnborg)
+> 
+>   drivers/gpu/drm/bridge/sii902x.c | 54 ++++++++++++++++++++++++++++----
+>   1 file changed, 48 insertions(+), 6 deletions(-)
 
-This moves the call to tt binding into the driver move,
-and drops the driver callback.
+This patch seems to have entered fall dormancy. Did I miss somebody in 
+the CC field?
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  7 ++++++-
- drivers/gpu/drm/nouveau/nouveau_bo.c       |  7 ++++++-
- drivers/gpu/drm/qxl/qxl_ttm.c              | 14 --------------
- drivers/gpu/drm/radeon/radeon_ttm.c        |  6 +++++-
- drivers/gpu/drm/ttm/ttm_bo.c               |  4 ----
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  7 ++++++-
- include/drm/ttm/ttm_bo_driver.h            | 14 --------------
- 7 files changed, 23 insertions(+), 36 deletions(-)
+Alex
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 9aba34b57e60..d1d1bd656153 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -666,6 +666,12 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource *old_mem = &bo->mem;
- 	int r;
- 
-+	if (new_mem->mem_type == TTM_PL_TT) {
-+		r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, new_mem);
-+		if (r)
-+			return r;
-+	}
-+
- 	amdgpu_bo_move_notify(bo, evict, new_mem);
- 
- 	/* Can't move a pinned BO */
-@@ -1728,7 +1734,6 @@ static struct ttm_bo_driver amdgpu_bo_driver = {
- 	.ttm_tt_create = &amdgpu_ttm_tt_create,
- 	.ttm_tt_populate = &amdgpu_ttm_tt_populate,
- 	.ttm_tt_unpopulate = &amdgpu_ttm_tt_unpopulate,
--	.ttm_tt_bind = &amdgpu_ttm_backend_bind,
- 	.ttm_tt_destroy = &amdgpu_ttm_backend_destroy,
- 	.eviction_valuable = amdgpu_ttm_bo_eviction_valuable,
- 	.evict_flags = &amdgpu_evict_flags,
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index ad0493c5103b..a69bd4098984 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1032,6 +1032,12 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct nouveau_drm_tile *new_tile = NULL;
- 	int ret = 0;
- 
-+	if (new_reg->mem_type == TTM_PL_TT) {
-+		ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, new_reg);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	nouveau_bo_move_ntfy(bo, evict, new_reg);
- 	ret = ttm_bo_wait_ctx(bo, ctx);
- 	if (ret)
-@@ -1399,7 +1405,6 @@ struct ttm_bo_driver nouveau_bo_driver = {
- 	.ttm_tt_create = &nouveau_ttm_tt_create,
- 	.ttm_tt_populate = &nouveau_ttm_tt_populate,
- 	.ttm_tt_unpopulate = &nouveau_ttm_tt_unpopulate,
--	.ttm_tt_bind = &nouveau_ttm_tt_bind,
- 	.ttm_tt_destroy = &nouveau_ttm_tt_destroy,
- 	.eviction_valuable = ttm_bo_eviction_valuable,
- 	.evict_flags = nouveau_bo_evict_flags,
-diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index a6149e3cc3d2..1cc3c14bc684 100644
---- a/drivers/gpu/drm/qxl/qxl_ttm.c
-+++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -100,19 +100,6 @@ int qxl_ttm_io_mem_reserve(struct ttm_bo_device *bdev,
- /*
-  * TTM backend functions.
-  */
--
--static int qxl_ttm_backend_bind(struct ttm_bo_device *bdev,
--				struct ttm_tt *ttm,
--				struct ttm_resource *bo_mem)
--{
--	if (!ttm->num_pages) {
--		WARN(1, "nothing to bind %lu pages for mreg %p back %p!\n",
--		     ttm->num_pages, bo_mem, ttm);
--	}
--	/* Not implemented */
--	return -1;
--}
--
- static void qxl_ttm_backend_destroy(struct ttm_bo_device *bdev,
- 				    struct ttm_tt *ttm)
- {
-@@ -181,7 +168,6 @@ static int qxl_bo_move(struct ttm_buffer_object *bo, bool evict,
- 
- static struct ttm_bo_driver qxl_bo_driver = {
- 	.ttm_tt_create = &qxl_ttm_tt_create,
--	.ttm_tt_bind = &qxl_ttm_backend_bind,
- 	.ttm_tt_destroy = &qxl_ttm_backend_destroy,
- 	.eviction_valuable = ttm_bo_eviction_valuable,
- 	.evict_flags = &qxl_evict_flags,
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index e427194b0b50..ac916fdd54d1 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -311,6 +311,11 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource *old_mem = &bo->mem;
- 	int r;
- 
-+	if (new_mem->mem_type == TTM_PL_TT) {
-+		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
-+		if (r)
-+			return r;
-+	}
- 	radeon_bo_move_notify(bo, evict, new_mem);
- 
- 	r = ttm_bo_wait_ctx(bo, ctx);
-@@ -823,7 +828,6 @@ static struct ttm_bo_driver radeon_bo_driver = {
- 	.ttm_tt_create = &radeon_ttm_tt_create,
- 	.ttm_tt_populate = &radeon_ttm_tt_populate,
- 	.ttm_tt_unpopulate = &radeon_ttm_tt_unpopulate,
--	.ttm_tt_bind = &radeon_ttm_tt_bind,
- 	.ttm_tt_destroy = &radeon_ttm_tt_destroy,
- 	.eviction_valuable = ttm_bo_eviction_valuable,
- 	.evict_flags = &radeon_evict_flags,
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index e8ac3bc45d95..4b7fdb49df52 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -256,10 +256,6 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
- 			ret = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
- 			if (ret)
- 				goto out_err;
--
--			ret = bdev->driver->ttm_tt_bind(bo->bdev, bo->ttm, mem);
--			if (ret)
--				goto out_err;
- 		}
- 	}
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index fd82c9ba2d77..de25cf016be2 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -737,6 +737,12 @@ static int vmw_move(struct ttm_buffer_object *bo,
- 	struct ttm_resource_manager *new_man = ttm_manager_type(bo->bdev, new_mem->mem_type);
- 	int ret;
- 
-+	if (new_man->use_tt && new_mem->mem_type != TTM_PL_SYSTEM) {
-+		ret = vmw_ttm_bind(bo->bdev, bo->ttm, new_mem);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	vmw_move_notify(bo, evict, new_mem);
- 
- 	if (old_man->use_tt && new_man->use_tt) {
-@@ -769,7 +775,6 @@ struct ttm_bo_driver vmw_bo_driver = {
- 	.ttm_tt_create = &vmw_ttm_tt_create,
- 	.ttm_tt_populate = &vmw_ttm_populate,
- 	.ttm_tt_unpopulate = &vmw_ttm_unpopulate,
--	.ttm_tt_bind = &vmw_ttm_bind,
- 	.ttm_tt_destroy = &vmw_ttm_destroy,
- 	.eviction_valuable = ttm_bo_eviction_valuable,
- 	.evict_flags = vmw_evict_flags,
-diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-index 0c4efc169f46..72f106b335e9 100644
---- a/include/drm/ttm/ttm_bo_driver.h
-+++ b/include/drm/ttm/ttm_bo_driver.h
-@@ -90,20 +90,6 @@ struct ttm_bo_driver {
- 	 */
- 	void (*ttm_tt_unpopulate)(struct ttm_bo_device *bdev, struct ttm_tt *ttm);
- 
--	/**
--	 * ttm_tt_bind
--	 *
--	 * @bdev: Pointer to a ttm device
--	 * @ttm: Pointer to a struct ttm_tt.
--	 * @bo_mem: Pointer to a struct ttm_resource describing the
--	 * memory type and location for binding.
--	 *
--	 * Bind the backend pages into the aperture in the location
--	 * indicated by @bo_mem. This function should be able to handle
--	 * differences between aperture and system page sizes.
--	 */
--	int (*ttm_tt_bind)(struct ttm_bo_device *bdev, struct ttm_tt *ttm, struct ttm_resource *bo_mem);
--
- 	/**
- 	 * ttm_tt_destroy
- 	 *
--- 
-2.27.0
 
+> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+> index 33fd33f953ec..d15e9f2c0d8a 100644
+> --- a/drivers/gpu/drm/bridge/sii902x.c
+> +++ b/drivers/gpu/drm/bridge/sii902x.c
+> @@ -17,6 +17,7 @@
+>   #include <linux/i2c.h>
+>   #include <linux/module.h>
+>   #include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+>   #include <linux/clk.h>
+>   
+>   #include <drm/drm_atomic_helper.h>
+> @@ -168,6 +169,8 @@ struct sii902x {
+>   	struct drm_connector connector;
+>   	struct gpio_desc *reset_gpio;
+>   	struct i2c_mux_core *i2cmux;
+> +	struct regulator *iovcc;
+> +	struct regulator *cvcc12;
+>   	/*
+>   	 * Mutex protects audio and video functions from interfering
+>   	 * each other, by keeping their i2c command sequences atomic.
+> @@ -954,13 +957,13 @@ static const struct drm_bridge_timings default_sii902x_timings = {
+>   		 | DRM_BUS_FLAG_DE_HIGH,
+>   };
+>   
+> +static int sii902x_init(struct sii902x *sii902x);
+> +
+>   static int sii902x_probe(struct i2c_client *client,
+>   			 const struct i2c_device_id *id)
+>   {
+>   	struct device *dev = &client->dev;
+> -	unsigned int status = 0;
+>   	struct sii902x *sii902x;
+> -	u8 chipid[4];
+>   	int ret;
+>   
+>   	ret = i2c_check_functionality(client->adapter,
+> @@ -989,6 +992,43 @@ static int sii902x_probe(struct i2c_client *client,
+>   
+>   	mutex_init(&sii902x->mutex);
+>   
+> +	sii902x->iovcc = devm_regulator_get(dev, "iovcc");
+> +	if (IS_ERR(sii902x->iovcc))
+> +		return PTR_ERR(sii902x->iovcc);
+> +
+> +	sii902x->cvcc12 = devm_regulator_get(dev, "cvcc12");
+> +	if (IS_ERR(sii902x->cvcc12))
+> +		return PTR_ERR(sii902x->cvcc12);
+> +
+> +	ret = regulator_enable(sii902x->iovcc);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "Failed to enable iovcc supply");
+> +		return ret;
+> +	}
+> +
+> +	ret = regulator_enable(sii902x->cvcc12);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "Failed to enable cvcc12 supply");
+> +		regulator_disable(sii902x->iovcc);
+> +		return ret;
+> +	}
+> +
+> +	ret = sii902x_init(sii902x);
+> +	if (ret < 0) {
+> +		regulator_disable(sii902x->cvcc12);
+> +		regulator_disable(sii902x->iovcc);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int sii902x_init(struct sii902x *sii902x)
+> +{
+> +	struct device *dev = &sii902x->i2c->dev;
+> +	unsigned int status = 0;
+> +	u8 chipid[4];
+> +	int ret;
+> +
+>   	sii902x_reset(sii902x);
+>   
+>   	ret = regmap_write(sii902x->regmap, SII902X_REG_TPI_RQB, 0x0);
+> @@ -1012,11 +1052,11 @@ static int sii902x_probe(struct i2c_client *client,
+>   	regmap_read(sii902x->regmap, SII902X_INT_STATUS, &status);
+>   	regmap_write(sii902x->regmap, SII902X_INT_STATUS, status);
+>   
+> -	if (client->irq > 0) {
+> +	if (sii902x->i2c->irq > 0) {
+>   		regmap_write(sii902x->regmap, SII902X_INT_ENABLE,
+>   			     SII902X_HOTPLUG_EVENT);
+>   
+> -		ret = devm_request_threaded_irq(dev, client->irq, NULL,
+> +		ret = devm_request_threaded_irq(dev, sii902x->i2c->irq, NULL,
+>   						sii902x_interrupt,
+>   						IRQF_ONESHOT, dev_name(dev),
+>   						sii902x);
+> @@ -1031,9 +1071,9 @@ static int sii902x_probe(struct i2c_client *client,
+>   
+>   	sii902x_audio_codec_init(sii902x, dev);
+>   
+> -	i2c_set_clientdata(client, sii902x);
+> +	i2c_set_clientdata(sii902x->i2c, sii902x);
+>   
+> -	sii902x->i2cmux = i2c_mux_alloc(client->adapter, dev,
+> +	sii902x->i2cmux = i2c_mux_alloc(sii902x->i2c->adapter, dev,
+>   					1, 0, I2C_MUX_GATE,
+>   					sii902x_i2c_bypass_select,
+>   					sii902x_i2c_bypass_deselect);
+> @@ -1051,6 +1091,8 @@ static int sii902x_remove(struct i2c_client *client)
+>   
+>   	i2c_mux_del_adapters(sii902x->i2cmux);
+>   	drm_bridge_remove(&sii902x->bridge);
+> +	regulator_disable(sii902x->cvcc12);
+> +	regulator_disable(sii902x->iovcc);
+>   
+>   	return 0;
+>   }
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
