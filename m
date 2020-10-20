@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD276293862
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 11:44:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E25293871
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 11:48:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7C96EC47;
-	Tue, 20 Oct 2020 09:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C14296EC24;
+	Tue, 20 Oct 2020 09:48:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAF946EC32
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 09:43:57 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id l4so1171717ota.7
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 02:43:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vjmJglt2xwcPAOj6s6wIPs7tJTEQI0XIzMDh8rDIULM=;
- b=bQtfWoHLewSQ1EtuzRz77TnPdjc1fHtHrdPNKLsEf5oIO8P18UWsWsF3+XqQHIN/Av
- HbjBnlmkMNl6Koi5PL803CrdU77o3CHX/UZGgU1qauDQ23Vu7DgahxYCsdL/ruFuStdE
- npdKyx7vsvprMq8BMmBWLUNDSPXVSpbWuh2be5Pq5cfaCNvkiLyclCeejyu/+aJneRGj
- +OvIR2FiDEEcZJRqGEdZkYziEckjuXX3IeV7T6rzx5f2mpE/37owrV1yrEpxOgfJAc0t
- 84D3MBAwQ64a3Ocq887l3H90MnOgqW21vDzqPNEyQcOm5p5+/nXjCCxEnXTiPv82PpD/
- whgw==
-X-Gm-Message-State: AOAM532XE9CIlqpxOAkvYYPwqIbew1CzpC8IxciShSwggP23jgpSalhe
- y044eTjcFQUCSLZy7V6st3rarexzT8xwg1+9T+I=
-X-Google-Smtp-Source: ABdhPJx527/uggMsMuYrmv6PN6DgycfjmJpdtNouoy3MQrTD53VKY+Wk2w8JJf3MxTZjNXIfyBikVutFASoATcWsGX8=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr1061097oti.107.1603187036996; 
- Tue, 20 Oct 2020 02:43:56 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 147566EC24;
+ Tue, 20 Oct 2020 09:48:00 +0000 (UTC)
+IronPort-SDR: 4Wf0A9VQS2mJXPk2uwCoOLE6f4J6wNR1+4yVwf1A26Q4cAJWh4URHsGv9suR+wJC2zIZsU1aTL
+ eHwSCurhhEJA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="146476097"
+X-IronPort-AV: E=Sophos;i="5.77,396,1596524400"; d="scan'208";a="146476097"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2020 02:47:59 -0700
+IronPort-SDR: YLl+tuvLOZJarVxhlNfLLufJ7DJEG1B6+h2/mamvk0zcSUgqc4JZCAX81Qw9zfA+7rVmLHscWq
+ zKfx0OLuUzyA==
+X-IronPort-AV: E=Sophos;i="5.77,396,1596524400"; d="scan'208";a="532993174"
+Received: from pshakya-mobl1.gar.corp.intel.com (HELO [10.252.55.30])
+ ([10.252.55.30])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2020 02:47:57 -0700
+Subject: Re: [Intel-gfx] [RFC] drm/hdcp: Max MST content streams
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+References: <20201019071259.24566-1-anshuman.gupta@intel.com>
+ <8736299qtu.fsf@intel.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <5fb7a376-d520-97e0-54cd-6174019ce1d1@linux.intel.com>
+Date: Tue, 20 Oct 2020 11:47:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
-References: <20201020093655.3584-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20201020093655.3584-1-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Oct 2020 11:43:46 +0200
-Message-ID: <CAMuHMdUyWJW2_wzdPaGhUbfhjr-_wm+bF+Ry1CymodnrLc_GJg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: lvds-codec: Use dev_err_probe for error
- handling
-To: Biju Das <biju.das.jz@bp.renesas.com>
+In-Reply-To: <8736299qtu.fsf@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,40 +54,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Jonas Karlman <jonas@kwiboo.se>, Chris Paterson <Chris.Paterson2@renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 20, 2020 at 11:37 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> dev_err_probe function simplifies error handling. So use the same in probe
-> function wherever possible.
+Op 20-10-2020 om 11:42 schreef Jani Nikula:
+> On Mon, 19 Oct 2020, Anshuman Gupta <anshuman.gupta@intel.com> wrote:
+>> Let's define Maximum MST content streams up to four
+>> generically which can be supported by modern display
+>> controllers.
+>>
+>> Cc: Sean Paul <seanpaul@chromium.org>
+>> Cc: Ramalingam C <ramalingam.c@intel.com>
+>> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> Hey drm-misc maintainers,
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> I'd like to get an ack to merge this via drm-intel as part of [1].
+>
+> Thanks,
+> Jani.
+>
+>
+>
+> [1] http://lore.kernel.org/r/20201014045252.13608-1-anshuman.gupta@intel.com
+>
+>
+>
+>> ---
+>>  include/drm/drm_hdcp.h | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
+>> index fe58dbb46962..ac22c246542a 100644
+>> --- a/include/drm/drm_hdcp.h
+>> +++ b/include/drm/drm_hdcp.h
+>> @@ -101,11 +101,11 @@
+>>  
+>>  /* Following Macros take a byte at a time for bit(s) masking */
+>>  /*
+>> - * TODO: This has to be changed for DP MST, as multiple stream on
+>> - * same port is possible.
+>> - * For HDCP2.2 on HDMI and DP SST this value is always 1.
+>> + * TODO: HDCP_2_2_MAX_CONTENT_STREAMS_CNT is based upon actual
+>> + * H/W MST streams capacity.
+>> + * This required to be moved out to platform specific header.
+>>   */
+>> -#define HDCP_2_2_MAX_CONTENT_STREAMS_CNT	1
+>> +#define HDCP_2_2_MAX_CONTENT_STREAMS_CNT	4
+>>  #define HDCP_2_2_TXCAP_MASK_LEN			2
+>>  #define HDCP_2_2_RXCAPS_LEN			3
+>>  #define HDCP_2_2_RX_REPEATER(x)			((x) & BIT(0))
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Well since it's such a small change..
 
-Gr{oetje,eeting}s,
+Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
