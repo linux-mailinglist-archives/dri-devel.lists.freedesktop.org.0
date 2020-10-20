@@ -1,42 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D148D293D60
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 15:33:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BC7293DA1
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 15:49:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A71236EC9B;
-	Tue, 20 Oct 2020 13:33:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53D046ECA1;
+	Tue, 20 Oct 2020 13:49:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75FE86EC9B
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 13:33:47 +0000 (UTC)
-Date: Tue, 20 Oct 2020 13:33:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1603200824;
- bh=/qrUNfD2un69gxG7TsoELDfBz6AJjk4bWWrDR11SIRo=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=f8JFuCgnNviWjNP2rrge7mRkY1WE1nSs7L1IBv/xF1kqJgwpaSGwMprxWNmeKLD1R
- ajQLe3gvIGPjr551eSJJfkxW6s7Tz4mk64OwgFu0G6BZbKt3bdqnOGelUapxajOp0R
- g9vj5LGF3Uve5fvREpmC9qaEUa6SuOJ0AANVBwpQXiM8NV+WqIYoWv+K+dEqvHsqDb
- HLPPy2y4EdFOyt5katxxjEy+orKf/o+T6v9snRnWuuEhTePt4nxzl1K2+U0DnJy+Az
- +ec6xoPH7Qvsd79QZeTt+WW0LcPUdecZ/P8g4PlF8lYOsSekxGjhFwXW008J8MaYsN
- R30N/EBAw60kg==
-To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v6 0/5] Introduce drm scaling filter property
-Message-ID: <SPCOniYxuZnmPvS-BpjG2y_Hb_qbNbLe07PpRGY0XCmm8F4SsMsG6uEM84YRiVoLUvDrYpiIAGE6T99HNs3h4X6Vk49TVsBZna-VfgLoNlI=@emersion.fr>
-In-Reply-To: <vAUfKEENNAi4ZswHsZfaOx4XnRIPIaMJkD4soWMaRs5uMwMW8gTwVDm0yMbfOSk6E8yjFanRUUe1asYjMgg-bOOOUI_pvJlcNtCQhNzR418=@emersion.fr>
-References: <20201012184130.937-1-pankaj.laxminarayan.bharadiya@intel.com>
- <vAUfKEENNAi4ZswHsZfaOx4XnRIPIaMJkD4soWMaRs5uMwMW8gTwVDm0yMbfOSk6E8yjFanRUUe1asYjMgg-bOOOUI_pvJlcNtCQhNzR418=@emersion.fr>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7816ECA1;
+ Tue, 20 Oct 2020 13:49:37 +0000 (UTC)
+IronPort-SDR: DClain8hHX1hoH8kRywcXolrVRznGom7Zp0Xtb0awmj5bKoz5L0uEp17Nj9nfD+7aD9fZ8o9gF
+ G5UiTbXjarvA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="184837486"
+X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; d="scan'208";a="184837486"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2020 06:49:36 -0700
+IronPort-SDR: ai/70cqnfmXF/bleRMlXs6irPpCpSoGiTc9jgzT3w579hmNMctfG7NsZXsRV6HiYdu6xhDKSEB
+ 2R/MsvdxRfkg==
+X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; d="scan'208";a="465934906"
+Received: from genxfsim-desktop.iind.intel.com ([10.223.74.178])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2020 06:49:33 -0700
+From: Anshuman Gupta <anshuman.gupta@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 00/15] HDCP 2.2 DP MST Support 
+Date: Tue, 20 Oct 2020 19:08:51 +0530
+Message-Id: <20201020133906.23710-1-anshuman.gupta@intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,37 +47,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: "sameer.lattannavar@intel.com" <sameer.lattannavar@intel.com>,
- "daniels@collabora.com" <daniels@collabora.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "lorusak@gmail.com" <lorusak@gmail.com>,
- "themagnificentmrg@gmail.com" <themagnificentmrg@gmail.com>
+Cc: jani.nikula@intel.com, seanpaul@chromium.org, juston.li@intel.com,
+ Anshuman Gupta <anshuman.gupta@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, October 13, 2020 4:26 PM, Simon Ser <contact@emersion.fr> wrote:
+v2 version of this series has added below two patch in this series.
+[PATCH v2 09/15] misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
+[PATCH v2 10/15] drm/hdcp: Max MST content streams
+([PATCH v2 10/15] has received an Ack from drm-misc maintainer 
+in separate patch https://patchwork.freedesktop.org/series/82806/) 
 
-> On Monday, October 12, 2020 8:41 PM, Pankaj Bharadiya pankaj.laxminarayan.bharadiya@intel.com wrote:
->
-> > Now, Sameer has implemented Integer scaling in Kodi Retro gaming
-> > framework which demonstrate how Integer scaling gives distinctive
-> > look to pixel art games when played on higher resolution monitors.
-> > Kodi patches are reviewed and accepted for merge now.
-> > Here is the userspace patch series link:
-> > https://github.com/xbmc/xbmc/pull/18194
->
-> As a side note, these user-space patches hard-code the kernel enum
-> values [1]. This is something which we discussed some time ago [2],
-> the result of the discussion is that user-space shouldn't do that.
+This series has been tested with IGT changes to do
+a single commit to enable HDCP on all DP-MST connector.
 
-Sameer has submitted a pull request [1] to fix this. Thanks, this looks
-good to me from a uAPI usage point-of-view!
+HDCP 2.2 support over DP MST actually starts
+from patch [PATCH 07/13] Pass dig_port to intel_hdcp_init
 
-[1]: https://github.com/xbmc/xbmc/pull/18567
+Other patches of this series has already floated for
+Gen12 HDCP 1.4 DP MST support
+(https://patchwork.freedesktop.org/series/81289/)
+and HDCP over MST misc series.
+(https://patchwork.freedesktop.org/series/82605/)
+
+Anshuman Gupta (15):
+  drm/i915/hdcp: Update CP property in update_pipe
+  drm/i915/hotplug: Handle CP_IRQ for DP-MST
+  drm/i915/hdcp: DP MST transcoder for link and stream
+  drm/i915/hdcp: Move HDCP enc status timeout to header
+  drm/i915/hdcp: HDCP stream encryption support
+  drm/i915/hdcp: Enable Gen12 HDCP 1.4 DP MST support
+  drm/i915/hdcp: Pass dig_port to intel_hdcp_init
+  drm/i915/hdcp: Encapsulate hdcp_port_data to dig_port
+  misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
+  drm/hdcp: Max MST content streams
+  drm/i915/hdcp: mst streams support in hdcp port_data
+  drm/i915/hdcp: Pass connector to check_2_2_link
+  drm/i915/hdcp: Add HDCP 2.2 stream register
+  drm/i915/hdcp: Support for HDCP 2.2 MST shim callbacks
+  drm/i915/hdcp: Enable HDCP 2.2 MST support
+
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  12 +-
+ drivers/gpu/drm/i915/display/intel_ddi.h      |   6 +-
+ .../drm/i915/display/intel_display_types.h    |  20 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |  14 +-
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 168 +++++++++--
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |  12 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     | 282 ++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_hdcp.h     |   8 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  19 +-
+ drivers/gpu/drm/i915/i915_reg.h               |  31 ++
+ drivers/misc/mei/hdcp/mei_hdcp.c              |   3 +-
+ include/drm/drm_hdcp.h                        |   8 +-
+ 12 files changed, 463 insertions(+), 120 deletions(-)
+
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
