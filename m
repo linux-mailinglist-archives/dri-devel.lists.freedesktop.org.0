@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1B02948C8
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 09:17:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D2E2948C1
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 09:17:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5A176F476;
-	Wed, 21 Oct 2020 07:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74B926F456;
+	Wed, 21 Oct 2020 07:17:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0388E6E0FC
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 22:05:51 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1603231555; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=mlPj7fHUpRRtLXqaKr8zfFXtq5AIPkZSJCf6RrMHo5A=;
- b=dEMLp57VDw1LF43XQ+L7vtj1elJ/VOSyVGLVCi3C77ji7xBoPwX/16ZTy7bT7tpmBJKiYxSg
- W7gUXGD/BRZajtjotoOBYGExc218g5STZPS27nqh+8l7Ug+HZP1MxAMOuNHrVQ2Gkci1SVWR
- ZBoCieCs9WIeaIhTQ8NtzJhi/Eo=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5f8f5f0f3711fec7b1a4f9a1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 20 Oct 2020 22:05:03
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id B93ADC43387; Tue, 20 Oct 2020 22:05:02 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 001FDC433C9;
- Tue, 20 Oct 2020 22:05:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 001FDC433C9
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=khsieh@codeaurora.org
-From: Kuogee Hsieh <khsieh@codeaurora.org>
-To: robdclark@gmail.com,
-	sean@poorly.run,
-	swboyd@chromium.org
-Subject: [PATCH v3] drm/msm/dp: add opp_table corner voting support base on
- dp_ink_clk rate
-Date: Tue, 20 Oct 2020 15:04:54 -0700
-Message-Id: <20201020220454.23512-1-khsieh@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EBD36E02D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 22:15:10 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id s21so3846021oij.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 15:15:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+CpEO8YhmbVOZXzaRTTlPwKKMh8ff8K9DvXivuST1qc=;
+ b=Wt1L2chonevKKt3UJIbVeNDb+bYA161TTXwmzFBs+lABdRQxknsdeHXkEp8yzzTZIo
+ 7BNOKfubqjn+jNKiQKJRRunBp/upoEvvKVgJN1wKvQz4hhFOHGRlHWdac3u+feevyYO+
+ HBxKwu6edrm+woL8n6yvlIK3NlUYR8hxCZ1mipEe29n0GuBgNGbY3ozp63u0o/9Z368o
+ K+sKlL+1cVabaySLHgmx5o+KI8uQTqH+zjen16e2qtxpMGkv2bWkStEMytU7SjKe+rvM
+ O7ny6I8iCeSA+ppkNZEJYXMmYStnyQWUtdt4YpiGaetODkOHIBvVr4nysBkiilU0ALLQ
+ t28A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=+CpEO8YhmbVOZXzaRTTlPwKKMh8ff8K9DvXivuST1qc=;
+ b=hqVvKXjoUV4IiqmuBXOPhkbSSmSyhY+B9QhlBC43SJlRFXEVQ6EY2L4erchs4U6NX2
+ cf9J/8tMtmwnUFdrbRJjJJQslYAc+kaoR8iv8ucRktTDV8hbHfvJxDbr+pSocxdIlGQc
+ WoDiMxvkipKelPJZXMjMy/dw1miwPP9mbs2/3b/uE+vbeurdXRpNImPmOTw1MWwZlzQB
+ uiTkDfaFDAN8TS3XvvX+BVCuRn77PGathLREME1Nk+HXyq5kib4xqjuOG5EnFBdoVe94
+ RVHNGukY9H6oy/E4zpXcuTcJBmCupj+tapa+7mmxHsBKUhXNy2lbdMW6GrZATviJ8tuJ
+ sSiw==
+X-Gm-Message-State: AOAM531ELwEo8mhdekHLskHxc/r/RxYxC8zEEua440Du9uXjaDApcZmh
+ dLJ+c2p+G5BNS2kFdxpuL4uz+yiCoodeKA==
+X-Google-Smtp-Source: ABdhPJxfNRSrioVTPpQ0lhQURF8C6l5m0Fewl/pKBJDVDbUIqIKC5y3LfPoelGxitYrmKAMxp/NY4g==
+X-Received: by 2002:aca:1105:: with SMTP id 5mr156072oir.46.1603232109349;
+ Tue, 20 Oct 2020 15:15:09 -0700 (PDT)
+Received: from nuclearis2-1.lan (c-98-195-139-126.hsd1.tx.comcast.net.
+ [98.195.139.126])
+ by smtp.gmail.com with ESMTPSA id 81sm57005oti.79.2020.10.20.15.15.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Oct 2020 15:15:08 -0700 (PDT)
+From: Alexandru Gagniuc <mr.nuke.me@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v3 1/3] drm/bridge: sii902x: Refactor init code into separate
+ function
+Date: Tue, 20 Oct 2020 17:14:57 -0500
+Message-Id: <20201020221501.260025-1-mr.nuke.me@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200928173056.1674274-1-mr.nuke.me@gmail.com>
+References: <20200928173056.1674274-1-mr.nuke.me@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 21 Oct 2020 07:16:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,220 +70,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rnayak@codeaurora.org, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Mark Brown <broonie@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ open list <linux-kernel@vger.kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>, Alexandru Gagniuc <mr.nuke.me@gmail.com>,
+ sam@ravnborg.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set link rate by using OPP set rate api so that CX level will be set
-accordingly based on the link rate.
+Separate the hardware initialization code from setting up the data
+structures and parsing the device tree. The purpose of this change is
+to provide a single exit point and avoid a waterfall of 'goto's in
+the subsequent patch.
 
-Changes in v2:
--- remove dev from dp_ctrl_put() parameters
--- Add more information to commit message
-
-Changes in v3:
--- return when dev_pm_opp_set_clkname() failed
-
-Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+Signed-off-by: Alexandru Gagniuc <mr.nuke.me@gmail.com>
 ---
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 28 ++++++++++++++++++
- drivers/gpu/drm/msm/dp/dp_display.c |  2 +-
- drivers/gpu/drm/msm/dp/dp_power.c   | 44 ++++++++++++++++++++++++++---
- drivers/gpu/drm/msm/dp/dp_power.h   |  2 +-
- 4 files changed, 70 insertions(+), 6 deletions(-)
+Changes since v1/and v2:
+  * Separated this from main patch to better show diff
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 76e891c91c6e..f12767793211 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -10,6 +10,7 @@
- #include <linux/delay.h>
- #include <linux/phy/phy.h>
- #include <linux/phy/phy-dp.h>
-+#include <linux/pm_opp.h>
- #include <drm/drm_fixed.h>
- #include <drm/drm_dp_helper.h>
- #include <drm/drm_print.h>
-@@ -76,6 +77,8 @@ struct dp_ctrl_private {
- 	struct dp_parser *parser;
- 	struct dp_catalog *catalog;
- 
-+	struct opp_table *opp_table;
-+
- 	struct completion idle_comp;
- 	struct completion video_comp;
+ drivers/gpu/drm/bridge/sii902x.c | 77 ++++++++++++++++++--------------
+ 1 file changed, 43 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+index 33fd33f953ec..f78c17f49887 100644
+--- a/drivers/gpu/drm/bridge/sii902x.c
++++ b/drivers/gpu/drm/bridge/sii902x.c
+@@ -954,41 +954,13 @@ static const struct drm_bridge_timings default_sii902x_timings = {
+ 		 | DRM_BUS_FLAG_DE_HIGH,
  };
-@@ -1833,6 +1836,7 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
- 			struct dp_parser *parser)
+ 
+-static int sii902x_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *id)
++static int sii902x_init(struct sii902x *sii902x)
  {
- 	struct dp_ctrl_private *ctrl;
-+	int ret;
+-	struct device *dev = &client->dev;
++	struct device *dev = &sii902x->i2c->dev;
+ 	unsigned int status = 0;
+-	struct sii902x *sii902x;
+ 	u8 chipid[4];
+ 	int ret;
  
- 	if (!dev || !panel || !aux ||
- 	    !link || !catalog) {
-@@ -1846,6 +1850,21 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
- 		return ERR_PTR(-ENOMEM);
- 	}
+-	ret = i2c_check_functionality(client->adapter,
+-				      I2C_FUNC_SMBUS_BYTE_DATA);
+-	if (!ret) {
+-		dev_err(dev, "I2C adapter not suitable\n");
+-		return -EIO;
+-	}
+-
+-	sii902x = devm_kzalloc(dev, sizeof(*sii902x), GFP_KERNEL);
+-	if (!sii902x)
+-		return -ENOMEM;
+-
+-	sii902x->i2c = client;
+-	sii902x->regmap = devm_regmap_init_i2c(client, &sii902x_regmap_config);
+-	if (IS_ERR(sii902x->regmap))
+-		return PTR_ERR(sii902x->regmap);
+-
+-	sii902x->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+-						      GPIOD_OUT_LOW);
+-	if (IS_ERR(sii902x->reset_gpio)) {
+-		dev_err(dev, "Failed to retrieve/request reset gpio: %ld\n",
+-			PTR_ERR(sii902x->reset_gpio));
+-		return PTR_ERR(sii902x->reset_gpio);
+-	}
+-
+-	mutex_init(&sii902x->mutex);
+-
+ 	sii902x_reset(sii902x);
  
-+	ctrl->opp_table = dev_pm_opp_set_clkname(dev, "ctrl_link");
-+	if (IS_ERR(ctrl->opp_table)) {
-+		dev_err(dev, "invalid DP OPP table in device tree\n");
-+		/* caller do PTR_ERR(ctrl->opp_table) */
-+		return (struct dp_ctrl *)ctrl->opp_table;
-+	}
-+
-+	/* OPP table is optional */
-+	ret = dev_pm_opp_of_add_table(dev);
-+	if (ret) {
-+		dev_err(dev, "failed to add DP OPP table\n");
-+		dev_pm_opp_put_clkname(ctrl->opp_table);
-+		ctrl->opp_table = NULL;
-+	}
-+
- 	init_completion(&ctrl->idle_comp);
- 	init_completion(&ctrl->video_comp);
+ 	ret = regmap_write(sii902x->regmap, SII902X_REG_TPI_RQB, 0x0);
+@@ -1012,11 +984,11 @@ static int sii902x_probe(struct i2c_client *client,
+ 	regmap_read(sii902x->regmap, SII902X_INT_STATUS, &status);
+ 	regmap_write(sii902x->regmap, SII902X_INT_STATUS, status);
  
-@@ -1863,4 +1882,13 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+-	if (client->irq > 0) {
++	if (sii902x->i2c->irq > 0) {
+ 		regmap_write(sii902x->regmap, SII902X_INT_ENABLE,
+ 			     SII902X_HOTPLUG_EVENT);
  
- void dp_ctrl_put(struct dp_ctrl *dp_ctrl)
- {
-+	struct dp_ctrl_private *ctrl;
-+
-+	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-+
-+	if (ctrl->opp_table) {
-+		dev_pm_opp_of_remove_table(ctrl->dev);
-+		dev_pm_opp_put_clkname(ctrl->opp_table);
-+		ctrl->opp_table = NULL;
-+	}
- }
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index c0665a0a4c78..f76139dd495a 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -702,7 +702,7 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
- 		goto error;
- 	}
+-		ret = devm_request_threaded_irq(dev, client->irq, NULL,
++		ret = devm_request_threaded_irq(dev, sii902x->i2c->irq, NULL,
+ 						sii902x_interrupt,
+ 						IRQF_ONESHOT, dev_name(dev),
+ 						sii902x);
+@@ -1031,9 +1003,9 @@ static int sii902x_probe(struct i2c_client *client,
  
--	dp->power = dp_power_get(dp->parser);
-+	dp->power = dp_power_get(dev, dp->parser);
- 	if (IS_ERR(dp->power)) {
- 		rc = PTR_ERR(dp->power);
- 		DRM_ERROR("failed to initialize power, rc = %d\n", rc);
-diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-index 17c1fc6a2d44..9c4ea00a5f2a 100644
---- a/drivers/gpu/drm/msm/dp/dp_power.c
-+++ b/drivers/gpu/drm/msm/dp/dp_power.c
-@@ -8,12 +8,14 @@
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/pm_opp.h>
- #include "dp_power.h"
- #include "msm_drv.h"
+ 	sii902x_audio_codec_init(sii902x, dev);
  
- struct dp_power_private {
- 	struct dp_parser *parser;
- 	struct platform_device *pdev;
-+	struct device *dev;
- 	struct clk *link_clk_src;
- 	struct clk *pixel_provider;
- 	struct clk *link_provider;
-@@ -148,18 +150,51 @@ static int dp_power_clk_deinit(struct dp_power_private *power)
- 	return 0;
+-	i2c_set_clientdata(client, sii902x);
++	i2c_set_clientdata(sii902x->i2c, sii902x);
+ 
+-	sii902x->i2cmux = i2c_mux_alloc(client->adapter, dev,
++	sii902x->i2cmux = i2c_mux_alloc(sii902x->i2c->adapter, dev,
+ 					1, 0, I2C_MUX_GATE,
+ 					sii902x_i2c_bypass_select,
+ 					sii902x_i2c_bypass_deselect);
+@@ -1044,6 +1016,43 @@ static int sii902x_probe(struct i2c_client *client,
+ 	return i2c_mux_add_adapter(sii902x->i2cmux, 0, 0, 0);
  }
  
-+static int dp_power_clk_set_link_rate(struct dp_power_private *power,
-+			struct dss_clk *clk_arry, int num_clk, int enable)
++static int sii902x_probe(struct i2c_client *client,
++			 const struct i2c_device_id *id)
 +{
-+	u32 rate;
-+	int i, rc = 0;
++	struct device *dev = &client->dev;
++	struct sii902x *sii902x;
++	int ret;
 +
-+	for (i = 0; i < num_clk; i++) {
-+		if (clk_arry[i].clk) {
-+			if (clk_arry[i].type == DSS_CLK_PCLK) {
-+				if (enable)
-+					rate = clk_arry[i].rate;
-+				else
-+					rate = 0;
-+
-+				rc = dev_pm_opp_set_rate(power->dev, rate);
-+				if (rc)
-+					break;
-+			}
-+
-+		}
++	ret = i2c_check_functionality(client->adapter,
++				      I2C_FUNC_SMBUS_BYTE_DATA);
++	if (!ret) {
++		dev_err(dev, "I2C adapter not suitable\n");
++		return -EIO;
 +	}
-+	return rc;
++
++	sii902x = devm_kzalloc(dev, sizeof(*sii902x), GFP_KERNEL);
++	if (!sii902x)
++		return -ENOMEM;
++
++	sii902x->i2c = client;
++	sii902x->regmap = devm_regmap_init_i2c(client, &sii902x_regmap_config);
++	if (IS_ERR(sii902x->regmap))
++		return PTR_ERR(sii902x->regmap);
++
++	sii902x->reset_gpio = devm_gpiod_get_optional(dev, "reset",
++						      GPIOD_OUT_LOW);
++	if (IS_ERR(sii902x->reset_gpio)) {
++		dev_err(dev, "Failed to retrieve/request reset gpio: %ld\n",
++			PTR_ERR(sii902x->reset_gpio));
++		return PTR_ERR(sii902x->reset_gpio);
++	}
++
++	mutex_init(&sii902x->mutex);
++
++	ret = sii902x_init(sii902x);
++	return ret;
 +}
 +
- static int dp_power_clk_set_rate(struct dp_power_private *power,
- 		enum dp_pm_type module, bool enable)
+ static int sii902x_remove(struct i2c_client *client)
+ 
  {
- 	int rc = 0;
- 	struct dss_module_power *mp = &power->parser->mp[module];
- 
--	if (enable) {
--		rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
-+	if (module == DP_CTRL_PM) {
-+		rc = dp_power_clk_set_link_rate(power, mp->clk_config, mp->num_clk, enable);
- 		if (rc) {
--			DRM_ERROR("failed to set clks rate.\n");
-+			DRM_ERROR("failed to set link clks rate\n");
- 			return rc;
- 		}
-+	} else {
-+
-+		if (enable) {
-+			rc = msm_dss_clk_set_rate(mp->clk_config, mp->num_clk);
-+			if (rc) {
-+				DRM_ERROR("failed to set clks rate\n");
-+				return rc;
-+			}
-+		}
- 	}
- 
- 	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, enable);
-@@ -349,7 +384,7 @@ int dp_power_deinit(struct dp_power *dp_power)
- 	return 0;
- }
- 
--struct dp_power *dp_power_get(struct dp_parser *parser)
-+struct dp_power *dp_power_get(struct device *dev, struct dp_parser *parser)
- {
- 	struct dp_power_private *power;
- 	struct dp_power *dp_power;
-@@ -365,6 +400,7 @@ struct dp_power *dp_power_get(struct dp_parser *parser)
- 
- 	power->parser = parser;
- 	power->pdev = parser->pdev;
-+	power->dev = dev;
- 
- 	dp_power = &power->dp_power;
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_power.h b/drivers/gpu/drm/msm/dp/dp_power.h
-index 76743d755833..7d0327bbc0d5 100644
---- a/drivers/gpu/drm/msm/dp/dp_power.h
-+++ b/drivers/gpu/drm/msm/dp/dp_power.h
-@@ -102,6 +102,6 @@ void dp_power_client_deinit(struct dp_power *power);
-  * methods to be called by the client to configure the power related
-  * modueles.
-  */
--struct dp_power *dp_power_get(struct dp_parser *parser);
-+struct dp_power *dp_power_get(struct device *dev, struct dp_parser *parser);
- 
- #endif /* _DP_POWER_H_ */
-
-base-commit: 0855cb4b31953b8c539e57b970da8146bcd4405a
-prerequisite-patch-id: 6221bf61b4663cab27a511b59735639aa475ee6c
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
