@@ -2,34 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1899293525
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 08:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D63A293592
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 09:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D566F41F;
-	Tue, 20 Oct 2020 06:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 019C76F425;
+	Tue, 20 Oct 2020 07:16:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C86D6F41F
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 06:45:42 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D5FFFAC0C;
- Tue, 20 Oct 2020 06:45:40 +0000 (UTC)
-Subject: Re: It appears drm-next TTM cleanup broke something . . .
-To: Sam Ravnborg <sam@ravnborg.org>, Kevin Brace <kevinbrace@gmx.com>
-References: <trinity-7bf82d9f-a022-48f3-bca0-d06eb28ebe35-1603048517864@3c-app-mailcom-bs08>
- <20201018210412.GA515543@ravnborg.org>
- <trinity-a0f09460-7d25-457a-aef8-e70fcf617a83-1603136588694@3c-app-mailcom-bs01>
- <20201019202830.GA1484408@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <8d4c5209-e429-628b-394d-161cc14811d1@suse.de>
-Date: Tue, 20 Oct 2020 08:45:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A046F425
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 07:16:35 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 26D402002A;
+ Tue, 20 Oct 2020 09:16:30 +0200 (CEST)
+Date: Tue, 20 Oct 2020 09:16:28 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: "Alex G." <mr.nuke.me@gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/bridge: sii902x: Enable I/O and core VCC
+ supplies if present
+Message-ID: <20201020071628.GA1737816@ravnborg.org>
+References: <20200924200507.1175888-1-mr.nuke.me@gmail.com>
+ <20200928173056.1674274-1-mr.nuke.me@gmail.com>
+ <d74c7626-8f16-db85-c23f-79bf0cc400d0@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201019202830.GA1484408@ravnborg.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <d74c7626-8f16-db85-c23f-79bf0cc400d0@gmail.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=e5mUnYsNAAAA:8
+ a=vrf_ZfXLQi0HMj2fYoAA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,76 +46,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Rob Herring <robh+dt@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCk9uIDE5LjEwLjIwIDIyOjI4LCBTYW0gUmF2bmJvcmcgd3JvdGU6Cj4gSGkgS2V2aW4uCj4g
-Cj4gT24gTW9uLCBPY3QgMTksIDIwMjAgYXQgMDk6NDM6MDhQTSArMDIwMCwgS2V2aW4gQnJhY2Ug
-d3JvdGU6Cj4+IEhpIFNhbSwKPj4KPj4gVGhhbmtzIGZvciBhc2tpbmcgdGhlIHF1ZXN0aW9uLgo+
-PiBUaGUgY3VycmVudCBPcGVuQ2hyb21lIERSTSBjb2RlIGhhcyB0aGVzZSB0d28gbWFqb3IgaXNz
-dWVzLgo+Pgo+PiAxKSBJdCBkb2VzIG5vdCBzdXBwb3J0IGF0b21pYyBtb2Rlc2V0dGluZwo+Pgo+
-PiBJIGRvIGludGVybmFsbHkgaGF2ZSB3b3JraW5nIGNvZGUgdG8gc3VwcG9ydCBhdG9taWMgbW9k
-ZXNldHRpbmcsIGJ1dCBpdCBpcyBub3QgcmVhZHkgZm9yIGNvbW1pdHRpbmcgaW50byB0aGUgdXBz
-dHJlYW0gT3BlbkNocm9tZSBEUk0gcmVwb3NpdG9yeS4KPj4gSW4gcGFydGljdWxhciwgaXQgc3Vm
-ZmVycyBmcm9tIGEgZnJlZXplIHJlbGF0aW5nIHRvIGEgY3Vyc29yIHBsYW5lLgo+PiBUaGUgZnJl
-ZXplIGlzIGEgYmFkIGtpbmQgdGhhdCBrZXJuLmxvZyBkb2VzIG5vdCByZWFsbHkgdGVsbCBtZSB3
-aGF0IGlzIHdyb25nLgo+PiBJZiBJIGRpc2FibGUgaGFyZHdhcmUgY3Vyc29yLCB0aGUgYXRvbWlj
-IG1vZGVzZXR0aW5nIGJhc2VkIE9wZW5DaHJvbWUgRFJNIGFwcGVhcnMgdG8gd29yayBva2F5Lgo+
-PiBJbiBvdGhlciB3b3JkcywgSSBhbSBnZXR0aW5nIGNsb3NlIHRvIGdldHRpbmcgYXRvbWljIG1v
-ZGVzZXR0aW5nIHdvcmtpbmcsIGJ1dCBJIGFtIHN0dWNrLgo+IE1heWJlIHBvc3Rpbmcgd2hhdCB5
-b3UgaGF2ZSBub3cgLSBhbmQgZXhwbGFpbiB0aGF0IGl0IGhhcyB0aGlzIGRlZmVjdC4KPiBDaGFu
-Y2VzIGFyZSB0aGF0IHlvdSB3aWxsIHJlY2VpdmUgZmVlZGJhY2sgdGhhdCBtYXkgaGVscCB5b3Ug
-b24geW91ciB3YXkKPiB0byBmaXggdGhpcy4KPiAKPiBXaXRoIGFsbCB0aGUgaW5mcmFzdHJ1Y3R1
-cmUgaW1wcm92ZW1lbnRzIG1hZGUgdGhlIGxhc3QgeWVhcnMgSSB3b3VsZCBiZQo+IHN1cHJpc2Vk
-IGlmIHlvdSBoYXZlIG1hbmFnZWQgdG8gaW5jbHVkZSBpdCBhbGwgYW5kIG1heWJlIHNvbWUgb2Yg
-dGhlCj4gaW5mcmFzdHJ1Y3R1cmUgbWF5IGhlbHAgeW91Lgo+IAo+IEFsc28gSSBrbm93IHdlIGhh
-dmUgc2VlbXMgc29tZSBjdXJzb3IgcGxhbmUgcmVsYXRlZCBkaXNjdXNzaW9ucyB0aGUgbGFzdAo+
-IG1vbnRocyBzbyBtYXliZSB0aGVyZSBhcmUgc29tZXRoaW5nIHRvIGdhaW4gZnJvbSB0aGUgcGVv
-cGxlIGludm9sdmVkCj4gdGhlcmUuCgpJJ2QgYmUgaW50ZXJlc3RlZCBpbiB0aGlzIGFzIHdlbGwu
-IElmIHlvdSBjb3VsZCBzaGFyZSBhbiBVUkwgdG8gdGhlCnJlcG8sIEknZCB0YWtlIGEgbG9vay4g
-SSB0aGluayBJIGV2ZW4gaGF2ZSBhIFZpYSBtYWNoaW5lIHNvbWV3aGVyZSB0bwpnaXZlIGl0IGEg
-dHJ5LgoKQmVzdCByZWdhcmRzClRob21hcwoKPiAKPiAKPj4gMikgRG91YmxlIGFsbG9jYXRpb24g
-b2YgdmlzaWJsZSBwb3J0aW9uIG9mIGZyYW1lIGJ1ZmZlcgo+Pgo+PiBUaGlzIGlzIGEgYmlnIHBy
-b2JsZW0gbGVmdCBiZWhpbmQgZnJvbSB0aGUgcHJldmlvdXMgZGV2ZWxvcGVyIHdobyBkZXZlbG9w
-ZWQgT3BlbkNocm9tZSBwcmlvciB0byBtZS4KPj4gRm9yIHNvbWUgcmVhc29uLCB0aGUgZGV2ZWxv
-cGVyIHdhbnRlZCB0byBhbGxvY2F0ZSB2aXNpYmxlIHBvcnRpb24gb2YgdGhlIGZyYW1lIGJ1ZmZl
-ciB0byBiZSB0aGUgbWF4aW11bSBwb3NzaWJsZSBzaXplIHN1cHBvcnRlZCBieSB0aGUgZGV0ZWN0
-ZWQgbW9uaXRvciB3aGVuIGluaXRpYWxpemluZyB0aGUgZnJhbWUgYnVmZmVyIGluc2lkZSBPcGVu
-Q2hyb21lIERSTSBjb2RlLgo+PiBJIGJlbGlldmUgUmFkZW9uIERSTSBkb2VzIHNvbWV0aGluZyBz
-aW1pbGFyIHRvIHRoYXQuCj4+IFRoZSBwcm9ibGVtIGlzLCBPcGVuQ2hyb21lIEREWCBhbGxvY2F0
-ZXMgYW4gZXF1YWwgc2l6ZWQgZnJhbWUgYnVmZmVyIHZpc2libGUgcG9ydGlvbiBkdXJpbmcgdGhl
-IEREWCdzIGluaXRpYWxpemF0aW9uLgo+PiBUaGlzIG1lYW5zIHRoYXQgd2UgZ290IHR3byBzYW1l
-IHNpemVkIHZpc2libGUgcG9ydGlvbnMgYWxsb2NhdGVkLCBidXQgT3BlbkNocm9tZSBERFggYW5k
-IE9wZW5DaHJvbWUgRFJNIGNvbWJpbmVkIHNob3VsZCByZWFsbHkgYmUgYWxsb2NhdGluZyBvbmx5
-IG9uZS4KPj4gQXQgdGhpcyBwb2ludCwgT3BlbkNocm9tZSBpcyBub3Qgc3VwcG9ydGluZyBkb3Vi
-bGUgYnVmZmVyaW5nLgo+PiBUaGlzIGRvdWJsZSBhbGxvY2F0aW9uIG9mIGEgdmlzaWJsZSBwb3J0
-aW9uIG9mIHRoZSBmcmFtZSBidWZmZXIgY29udHJpYnV0ZXMgdG8gYSBYIFNlcnZlciBjcmFzaCB3
-aGVuIHRoZSBzY3JlZW4gaXMgcmVzaXplZCBhbmQgMTYgTUIgb3IgbGVzcyAoaS5lLiwgOCBNQikg
-c2hhcmVkIGZyYW1lIGJ1ZmZlciBpcyByZXNlcnZlZCBieSB0aGUgc3lzdGVtIHZpYSBCSU9TIHNl
-dHVwLgo+PiBJIHBlcnNvbmFsbHkgdGhpbmsgbGV0dGluZyBPcGVuQ2hyb21lIERSTSBhbGxvY2F0
-ZSB0aGUgdmlzaWJsZSBwb3J0aW9uIG9mIHRoZSBmcmFtZSBidWZmZXIgaXMgdGhlIHdheSB0byBn
-bywgYnV0IGlmIHNvLCBob3cgZG8gSSBnZXQgdGhlIEREWCBvciBzaGFkb3cgRkIgdG8gYWNjZXNz
-IHRoZSBmcmFtZSBidWZmZXIgdmlzaWJsZSBwb3J0aW9uIGFsbG9jYXRlZCBieSBPcGVuQ2hyb21l
-IERSTT8KPj4gQW55IHN1Z2dlc3Rpb25zIG9uIHdoYXQgdG8gZG8gYWJvdXQgdGhpcyBpc3N1ZSB3
-aWxsIGJlIGdyZWF0bHkgYXBwcmVjaWF0ZWQuCj4+IFBlcmhhcHMsIEkgc2hvdWxkIHBvc3QgYSBx
-dWVzdGlvbiB0byBkcmktZGV2ZWwgcmVnYXJkaW5nIHRoaXMgaXNzdWUuCj4+IEkgcmVhbGx5IGRv
-IG5vdCBrbm93IHdoYXQgSSBzaG91bGQgZG8gYXQgdGhpcyBwb2ludC4KPiBMaWtld2lzZS4KPiAK
-PiBCdXQgb2J2aW91c2x5IHlvdSBzaGFsbCBub3QgcG9zdCBpdCB0byBkcmktZGV2ZWwgdW5sZXNz
-IHlvdSBhcmUgcHJlcGFyZWQKPiB0byBoYW5kbGUgdGhlIGZlZWRiYWNrIHRoYXQgeW91ICptYXkq
-IGdldC4KPiAKPiBJIHByb21pc2UgdG8gdGFrZSBhIGxvb2sgLSBidXQgdGhhdCB3aWxsIGNvdmVy
-IG1vc3RseSB0cml2aWFsIHN0dWZmLgo+IFlvdSBoYXZlIHRvIHJlbHkgb24gb3RoZXJzIGZvciBh
-bGwgdGhlIHN0dWZmIGFyb3VuZCBhdG9taWMgbW9kZXN0ZXR0aW5nCj4gYW5kIHRoZSBtZW1vcnkg
-aGFuZGxpbmcgZXRjLiAtIHRoZSBhcmVhcyB3aGVyZSB5b3UgaGF2ZSBjaGFsbGVuZ2VzIG5vdy4K
-PiAKPiAJU2FtCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCj4gCgotLSAKVGhvbWFzIFppbW1lcm1hbm4KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Bl
-cgpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKTWF4ZmVsZHN0ci4gNSwgOTA0
-MDkgTsO8cm5iZXJnLCBHZXJtYW55CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykKR2VzY2jDpGZ0
-c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+Hi Alex.
+
+On Mon, Oct 19, 2020 at 08:24:40PM -0500, Alex G. wrote:
+> On 9/28/20 12:30 PM, Alexandru Gagniuc wrote:
+> > On the SII9022, the IOVCC and CVCC12 supplies must reach the correct
+> > voltage before the reset sequence is initiated. On most boards, this
+> > assumption is true at boot-up, so initialization succeeds.
+> > 
+> > However, when we try to initialize the chip with incorrect supply
+> > voltages, it will not respond to I2C requests. sii902x_probe() fails
+> > with -ENXIO.
+> > 
+> > To resolve this, look for the "iovcc" and "cvcc12" regulators, and
+> > make sure they are enabled before starting the reset sequence. If
+> > these supplies are not available in devicetree, then they will default
+> > to dummy-regulator. In that case everything will work like before.
+> > 
+> > This was observed on a STM32MP157C-DK2 booting in u-boot falcon mode.
+> > On this board, the supplies would be set by the second stage
+> > bootloader, which does not run in falcon mode.
+> > 
+> > Signed-off-by: Alexandru Gagniuc <mr.nuke.me@gmail.com>
+> > ---
+> > Changes since v1:
+> >    * Fix return code after regulator_enable(sii902x->iovcc) fails (Fabio Estevam)
+> >    * Use dev_err_probe() instead of dev_err() where appropriate (Sam Ravnborg)
+> > 
+> >   drivers/gpu/drm/bridge/sii902x.c | 54 ++++++++++++++++++++++++++++----
+> >   1 file changed, 48 insertions(+), 6 deletions(-)
+> 
+> This patch seems to have entered fall dormancy. Did I miss somebody in the
+> CC field?
+
+I have lost the original mail/patch.
+Can you resend with one fix - see below.
+
+	Sam
+
+> 
+> Alex
+> 
+> 
+> > diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+> > index 33fd33f953ec..d15e9f2c0d8a 100644
+> > --- a/drivers/gpu/drm/bridge/sii902x.c
+> > +++ b/drivers/gpu/drm/bridge/sii902x.c
+> > @@ -17,6 +17,7 @@
+> >   #include <linux/i2c.h>
+> >   #include <linux/module.h>
+> >   #include <linux/regmap.h>
+> > +#include <linux/regulator/consumer.h>
+> >   #include <linux/clk.h>
+> >   #include <drm/drm_atomic_helper.h>
+> > @@ -168,6 +169,8 @@ struct sii902x {
+> >   	struct drm_connector connector;
+> >   	struct gpio_desc *reset_gpio;
+> >   	struct i2c_mux_core *i2cmux;
+> > +	struct regulator *iovcc;
+> > +	struct regulator *cvcc12;
+> >   	/*
+> >   	 * Mutex protects audio and video functions from interfering
+> >   	 * each other, by keeping their i2c command sequences atomic.
+> > @@ -954,13 +957,13 @@ static const struct drm_bridge_timings default_sii902x_timings = {
+> >   		 | DRM_BUS_FLAG_DE_HIGH,
+> >   };
+> > +static int sii902x_init(struct sii902x *sii902x);
+Please re-arrange the code so this prototype is not needed.
+
+> > +
+> >   static int sii902x_probe(struct i2c_client *client,
+> >   			 const struct i2c_device_id *id)
+> >   {
+> >   	struct device *dev = &client->dev;
+> > -	unsigned int status = 0;
+> >   	struct sii902x *sii902x;
+> > -	u8 chipid[4];
+> >   	int ret;
+> >   	ret = i2c_check_functionality(client->adapter,
+> > @@ -989,6 +992,43 @@ static int sii902x_probe(struct i2c_client *client,
+> >   	mutex_init(&sii902x->mutex);
+> > +	sii902x->iovcc = devm_regulator_get(dev, "iovcc");
+> > +	if (IS_ERR(sii902x->iovcc))
+> > +		return PTR_ERR(sii902x->iovcc);
+> > +
+> > +	sii902x->cvcc12 = devm_regulator_get(dev, "cvcc12");
+> > +	if (IS_ERR(sii902x->cvcc12))
+> > +		return PTR_ERR(sii902x->cvcc12);
+> > +
+> > +	ret = regulator_enable(sii902x->iovcc);
+> > +	if (ret < 0) {
+> > +		dev_err_probe(dev, ret, "Failed to enable iovcc supply");
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = regulator_enable(sii902x->cvcc12);
+> > +	if (ret < 0) {
+> > +		dev_err_probe(dev, ret, "Failed to enable cvcc12 supply");
+> > +		regulator_disable(sii902x->iovcc);
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = sii902x_init(sii902x);
+> > +	if (ret < 0) {
+> > +		regulator_disable(sii902x->cvcc12);
+> > +		regulator_disable(sii902x->iovcc);
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int sii902x_init(struct sii902x *sii902x)
+> > +{
+> > +	struct device *dev = &sii902x->i2c->dev;
+> > +	unsigned int status = 0;
+> > +	u8 chipid[4];
+> > +	int ret;
+> > +
+> >   	sii902x_reset(sii902x);
+> >   	ret = regmap_write(sii902x->regmap, SII902X_REG_TPI_RQB, 0x0);
+> > @@ -1012,11 +1052,11 @@ static int sii902x_probe(struct i2c_client *client,
+> >   	regmap_read(sii902x->regmap, SII902X_INT_STATUS, &status);
+> >   	regmap_write(sii902x->regmap, SII902X_INT_STATUS, status);
+> > -	if (client->irq > 0) {
+> > +	if (sii902x->i2c->irq > 0) {
+> >   		regmap_write(sii902x->regmap, SII902X_INT_ENABLE,
+> >   			     SII902X_HOTPLUG_EVENT);
+> > -		ret = devm_request_threaded_irq(dev, client->irq, NULL,
+> > +		ret = devm_request_threaded_irq(dev, sii902x->i2c->irq, NULL,
+> >   						sii902x_interrupt,
+> >   						IRQF_ONESHOT, dev_name(dev),
+> >   						sii902x);
+> > @@ -1031,9 +1071,9 @@ static int sii902x_probe(struct i2c_client *client,
+> >   	sii902x_audio_codec_init(sii902x, dev);
+> > -	i2c_set_clientdata(client, sii902x);
+> > +	i2c_set_clientdata(sii902x->i2c, sii902x);
+> > -	sii902x->i2cmux = i2c_mux_alloc(client->adapter, dev,
+> > +	sii902x->i2cmux = i2c_mux_alloc(sii902x->i2c->adapter, dev,
+> >   					1, 0, I2C_MUX_GATE,
+> >   					sii902x_i2c_bypass_select,
+> >   					sii902x_i2c_bypass_deselect);
+> > @@ -1051,6 +1091,8 @@ static int sii902x_remove(struct i2c_client *client)
+> >   	i2c_mux_del_adapters(sii902x->i2cmux);
+> >   	drm_bridge_remove(&sii902x->bridge);
+> > +	regulator_disable(sii902x->cvcc12);
+> > +	regulator_disable(sii902x->iovcc);
+> >   	return 0;
+> >   }
+> > 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
