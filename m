@@ -2,52 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D13C293C32
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 14:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D148D293D60
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 15:33:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22486EC8A;
-	Tue, 20 Oct 2020 12:51:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A71236EC9B;
+	Tue, 20 Oct 2020 13:33:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E81396EC8A
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 12:51:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=uGxWEQsK754B3hOZSl63aoEnD4e7Swtrm1bF3mwOKPw=; b=WkE+8hpnwpJq7/7GOu+amAhzHH
- fUudy/CdvWDL0aR4T5oBcdGrxh2ewoX6vaIKYVjG9EfaSPtWzk6Bnxs3cpnTFaHpFsxBJHgu1KXrx
- Z7SfCzMN7DlM7/Xr3NCzCF+6XVWU3/Jn7Qgbm8OBhu4kzwKz4DaVbNSZJNdaZyIVxnPgSbO6CwLua
- Y0W8O/9ElmK7UvejFALfbIaApSyjV/STjnDXh+UkZ8PxG5BIaA5cJGlXzZvlOF8HtdFU3GJDjT04/
- V6oFrlSz2mUZIryGUC5BC8Td8sAVAFMAkz82qp61D11c1fp8VuUds5HKUdzbEfAlcEjBJOzs6AgSM
- jw7GHFaQ==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1kUr6T-0003kC-IK; Tue, 20 Oct 2020 15:51:01 +0300
-Subject: Re: [PATCH v3 19/20] drm/tegra: Implement new UAPI
-To: Daniel Vetter <daniel@ffwll.ch>, Dmitry Osipenko <digetx@gmail.com>
-References: <20201007171238.1795964-1-mperttunen@nvidia.com>
- <20201007171238.1795964-20-mperttunen@nvidia.com>
- <dd13ec2c-1e01-ca61-656c-b23b156b100f@gmail.com>
- <b33a5084-7dc3-a865-2f36-274ecebf2ee7@kapsi.fi>
- <1f3267a9-37b4-2cff-08a2-2ca7c905ce01@gmail.com>
- <CAKMK7uFWyMZQauakjzSWa9r494R4JKDkAk6ABZOLLsCXb6_yHg@mail.gmail.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <ec4138c0-6c7f-b32e-2049-7848b6ac7f6b@kapsi.fi>
-Date: Tue, 20 Oct 2020 15:51:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75FE86EC9B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 13:33:47 +0000 (UTC)
+Date: Tue, 20 Oct 2020 13:33:41 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1603200824;
+ bh=/qrUNfD2un69gxG7TsoELDfBz6AJjk4bWWrDR11SIRo=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=f8JFuCgnNviWjNP2rrge7mRkY1WE1nSs7L1IBv/xF1kqJgwpaSGwMprxWNmeKLD1R
+ ajQLe3gvIGPjr551eSJJfkxW6s7Tz4mk64OwgFu0G6BZbKt3bdqnOGelUapxajOp0R
+ g9vj5LGF3Uve5fvREpmC9qaEUa6SuOJ0AANVBwpQXiM8NV+WqIYoWv+K+dEqvHsqDb
+ HLPPy2y4EdFOyt5katxxjEy+orKf/o+T6v9snRnWuuEhTePt4nxzl1K2+U0DnJy+Az
+ +ec6xoPH7Qvsd79QZeTt+WW0LcPUdecZ/P8g4PlF8lYOsSekxGjhFwXW008J8MaYsN
+ R30N/EBAw60kg==
+To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v6 0/5] Introduce drm scaling filter property
+Message-ID: <SPCOniYxuZnmPvS-BpjG2y_Hb_qbNbLe07PpRGY0XCmm8F4SsMsG6uEM84YRiVoLUvDrYpiIAGE6T99HNs3h4X6Vk49TVsBZna-VfgLoNlI=@emersion.fr>
+In-Reply-To: <vAUfKEENNAi4ZswHsZfaOx4XnRIPIaMJkD4soWMaRs5uMwMW8gTwVDm0yMbfOSk6E8yjFanRUUe1asYjMgg-bOOOUI_pvJlcNtCQhNzR418=@emersion.fr>
+References: <20201012184130.937-1-pankaj.laxminarayan.bharadiya@intel.com>
+ <vAUfKEENNAi4ZswHsZfaOx4XnRIPIaMJkD4soWMaRs5uMwMW8gTwVDm0yMbfOSk6E8yjFanRUUe1asYjMgg-bOOOUI_pvJlcNtCQhNzR418=@emersion.fr>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFWyMZQauakjzSWa9r494R4JKDkAk6ABZOLLsCXb6_yHg@mail.gmail.com>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,71 +49,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Jon Hunter <jonathanh@nvidia.com>, talho@nvidia.com, bhuntsman@nvidia.com,
- Thierry Reding <thierry.reding@gmail.com>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: "sameer.lattannavar@intel.com" <sameer.lattannavar@intel.com>,
+ "daniels@collabora.com" <daniels@collabora.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "lorusak@gmail.com" <lorusak@gmail.com>,
+ "themagnificentmrg@gmail.com" <themagnificentmrg@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTAvMjAvMjAgMjo0MCBQTSwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBPbiBNb24sIE9jdCAx
-OSwgMjAyMCBhdCA3OjI3IFBNIERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4gd3Jv
-dGU6Cj4+Cj4+IDE5LjEwLjIwMjAgMTE6MTMsIE1pa2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+
-Pj4gT24gMTAvMTkvMjAgNToyMSBBTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+Pj4+IDA3LjEw
-LjIwMjAgMjA6MTIsIE1pa2tvIFBlcnR0dW5lbiDQv9C40YjQtdGCOgo+Pj4+PiAraW50IHRlZ3Jh
-X2RybV9pb2N0bF9jaGFubmVsX21hcChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLCB2b2lkICpkYXRh
-LAo+Pj4+PiArICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fZmlsZSAqZmlsZSkKPj4+Pj4gK3sK
-Pj4+Pgo+Pj4+IEhlbGxvLCBNaWtrbyEKPj4+Pgo+Pj4+IENvdWxkIHlvdSBwbGVhc2UgdGVsbCB3
-aGF0IGFyZSB0aGUgaG9zdDF4IGNsaWVudHMgdGhhdCBhcmUgZ29pbmcgdG8gYmUKPj4+PiB1cHN0
-cmVhbWVkIGFuZCB3aWxsIG5lZWQgdGhpcyBJT0NUTD8KPj4+Pgo+Pj4KPj4+IEhpIERtaXRyeSEK
-Pj4+Cj4+PiBJdCBpcyBuZWVkZWQgZm9yIGFueSBlbmdpbmUvam9iIHRoYXQgd2FudHMgdG8gYWNj
-ZXNzIG1lbW9yeSwgYXMgdGhpcwo+Pj4gSU9DVEwgbXVzdCBiZSB1c2VkIHRvIG1hcCBtZW1vcnkg
-Zm9yIHRoZSBlbmdpbmUuIFNvIGFsbCBvZiB0aGVtLgo+Pj4KPj4+IERvd25zdHJlYW0gZG9lc24n
-dCBoYXZlIGFuIGVxdWl2YWxlbnQgSU9DVEwgYmVjYXVzZSBpdCAoY3VycmVudGx5KSBkb2VzCj4+
-PiBtYXBwaW5nIGF0IHN1Ym1pdCB0aW1lLCBidXQgdGhhdCBpcyBzdWJvcHRpbWFsIGJlY2F1c2UK
-Pj4+Cj4+PiAtIGl0IHJlcXVpcmVzIGRvaW5nIHJlbG9jYXRpb25zIGluIHRoZSBrZXJuZWwgd2hp
-Y2ggaXNuJ3QgcmVxdWlyZWQgZm9yCj4+PiBUMTg2Kwo+Pj4gLSBpdCdzIGEgYmlnIHBlcmZvcm1h
-bmNlIHBlbmFsdHksIGR1ZSB0byB3aGljaCB0aGUgZG93bnN0cmVhbSBrZXJuZWwgaGFzCj4+PiB0
-aGUgImRlZmVycmVkIGRtYS1idWYgdW5tYXBwaW5nIiBmZWF0dXJlLCB3aGVyZSB1bm1hcHBpbmcg
-YSBkbWFfYnVmIG1heQo+Pj4gbm90IGltbWVkaWF0ZWx5IHVubWFwIGl0IGluIGNhc2UgaXQncyB1
-c2VkIGxhdGVyLCBzbyB0aGF0IHRoZSAibWFwcGluZyIKPj4+IGxhdGVyIGlzIGZhc3Rlci4gQSBm
-ZWF0dXJlIHdoaWNoIHdlJ2QgcHJlZmVyYWJseSBnZXQgcmlkIG9mLgo+Pj4gLSBiZWNhdXNlIG9m
-IHRoZSBhYm92ZSBmZWF0dXJlIG5vdCBiZWluZyBjb250cm9sbGVkIGJ5IHRoZSB1c2VyLCBpdCBj
-YW4KPj4+IGNhdXNlIHZhcmlhbmNlIGluIHN1Ym1pdCB0aW1lcy4KPj4+Cj4+PiBPbiB0aGUgb3Ro
-ZXIgaGFuZCwgd2UgY2Fubm90IChhdCBsZWFzdCBhbHdheXMpIGRvIHRoZSBtYXBwaW5nIGF0Cj4+
-PiBhbGxvY2F0aW9uL2ltcG9ydCB0aW1lLCBiZWNhdXNlCj4+Pgo+Pj4gLSBBIHNpbmdsZSBGRCBt
-YXkgaGF2ZSBtdWx0aXBsZSBjaGFubmVsX2N0eCdzLCBhbmQgYW4gYWxsb2NhdGlvbi9pbXBvcnQK
-Pj4+IG1heSBuZWVkIHRvIGJlIHVzZWQgaW4gYW55IHN1YnNldCBvZiB0aGVtCj4+PiAtIFRoZSBp
-bXBvcnQgSU9DVEwgaXMgZml4ZWQgYW5kIGRvZXNuJ3QgaGF2ZSB0aGUgcGFyYW1ldGVycyB3ZSdk
-IG5lZWQgdG8KPj4+IGRvIHRoaXMgYXQgaW1wb3J0IHRpbWUKPj4+IC0gT3ZlcmFsbCBpdCdzIG1v
-cmUgb3J0aG9nb25hbCB0byBoYXZlIEdFTSBvYmplY3QgYWNxdWlyZW1lbnQgaW4gb25lCj4+PiBz
-dGVwIGFuZCBtYXBwaW5nIGluIGFub3RoZXIuCj4+Pgo+Pj4gTWF5YmUgdGhhdCdzIG5vdCBxdWl0
-ZSB3aGF0IHlvdSBhc2tlZCwgYnV0IGl0J3Mgc29tZSBiYWNrZ3JvdW5kIGFueXdheSA6KQo+Pgo+
-PiBJJ20gYXNraW5nIHRoaXMgcXVlc3Rpb24gYmVjYXVzZSByaWdodCBub3cgdGhlcmUgaXMgb25s
-eSBvbmUgcG90ZW50aWFsCj4+IGNsaWVudCBmb3IgdGhpcyBJT0NUTCwgdGhlIFZJQy4gSWYgb3Ro
-ZXIgY2xpZW50cyBhcmVuJ3Qgc3VwcG9zZWQgdG8gYmUgYQo+PiBwYXJ0IG9mIHRoZSBEUk0gZHJp
-dmVyLCBsaWtlIGZvciBleGFtcGxlIE5WREVDIHdoaWNoIHByb2JhYmx5IHNob3VsZCBiZQo+PiBh
-IFY0TCBkcml2ZXIsIHRoZW4gRFJNIGRyaXZlciB3aWxsIGhhdmUgb25seSBhIHNpbmdsZSBWSUMg
-YW5kIGluIHRoaXMKPj4gY2FzZSB3ZSBzaG91bGRuJ3QgbmVlZCB0aGlzIElPQ1RMIGJlY2F1c2Ug
-RFJNIGFuZCBWNEwgc2hvdWxkIHVzZSBnZW5lcmljCj4+IGRtYWJ1ZiBBUEkgZm9yIGltcG9ydGlu
-ZyBhbmQgZXhwb3J0aW5nIGJ1ZmZlcnMuCj4gCj4gUmFuZG9tbHkganVtcGluZyBpbiBoZXJlIC4u
-Lgo+IAo+IFNvIGlmIHlvdSBoYXZlIGEgZHJtIGRyaXZlciB3aXRoIHVzZXJzcGFjZSBpbiBtZXNh
-M2QgYWxyZWFkeSwgdGhlCj4gdXN1YWwgYXBwcm9hY2ggaXMgdG8gaGF2ZSBhIGxpYnZhIGltcGxl
-bWVudGF0aW9uIChpZGVhbGx5IGluIG1lc2EzZAo+IHRvbywgdXNpbmcgdGhlIGdhbGxpdW0gZnJh
-bWV3b3JrIHNvIHRoYXQgYSBsb3Qgb2YgdGhlIGJvcmluZwo+IGludGVncmF0aW9uIGdsdWUgaXMg
-dGFrZW4gY2FyZSBvZiBhbHJlYWR5KSBkaXJlY3RseSBvbiB0b3Agb2YgZHJtLiBObwo+IHY0bCBk
-cml2ZXIgbmVlZGVkIGF0IGFsbCBoZXJlLgo+IAo+IEFuZCBpdCBzb3VuZHMgbGlrZSB0aGlzIG52
-ZGVjIHRoaW5nIHdvdWxkIGZpdCB0aGF0IGJpbGwgcHJldHR5IG5lYXRseS4KU29tZXRoaW5nIGxp
-a2UgdGhpcyB3b3VsZCBiZSBteSBwcmVmZXJlbmNlIGFzIHdlbGwuCgpNaWtrbwoKPiAKPj4gSSdt
-IGFsc28gbm90IHF1aXRlIHN1cmUgYWJvdXQgd2hldGhlciB0aGUgY3VycmVudCBtb2RlbCBvZiB0
-aGUgdW5pZmllZAo+PiBUZWdyYSBEUk0gZHJpdmVyIGlzIHN1aXRhYmxlIGZvciBoYXZpbmcgdGhl
-IHNlcGFyYXRlZCBlbmdpbmVzLiBQZXJoYXBzCj4+IGVhY2ggc2VwYXJhdGVkIGVuZ2luZSBzaG91
-bGQganVzdCBoYXZlIGl0cyBvd24gcmVuZGVyaW5nIG5vZGU/Cj4gCj4gQWJvdmUgbW9kZWwgdXNp
-bmcgbGlidmEgZHJpdmVyIGluIHVzZXJzcGFjZSBmb3IgbnZkZWMgd291bGQgYXZvaWQgdGhpcwo+
-IGlzc3VlIHRvby4KPiAtRGFuaWVsCj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+On Tuesday, October 13, 2020 4:26 PM, Simon Ser <contact@emersion.fr> wrote:
+
+> On Monday, October 12, 2020 8:41 PM, Pankaj Bharadiya pankaj.laxminarayan.bharadiya@intel.com wrote:
+>
+> > Now, Sameer has implemented Integer scaling in Kodi Retro gaming
+> > framework which demonstrate how Integer scaling gives distinctive
+> > look to pixel art games when played on higher resolution monitors.
+> > Kodi patches are reviewed and accepted for merge now.
+> > Here is the userspace patch series link:
+> > https://github.com/xbmc/xbmc/pull/18194
+>
+> As a side note, these user-space patches hard-code the kernel enum
+> values [1]. This is something which we discussed some time ago [2],
+> the result of the discussion is that user-space shouldn't do that.
+
+Sameer has submitted a pull request [1] to fix this. Thanks, this looks
+good to me from a uAPI usage point-of-view!
+
+[1]: https://github.com/xbmc/xbmc/pull/18567
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
