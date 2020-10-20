@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F48D293F34
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 17:05:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8DB293F36
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 17:05:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 087496ECE2;
-	Tue, 20 Oct 2020 15:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C5C6ECF2;
+	Tue, 20 Oct 2020 15:05:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE226ECDC;
- Tue, 20 Oct 2020 15:05:26 +0000 (UTC)
-IronPort-SDR: q4hP99+Jthw6RkadzuZYjREpnA3lv+KeVso94GYl/h9KH4v4jxiG/tAMpIi9IfEXe4Irf6uMh8
- jNmHuR6jdw2w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="154165999"
-X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; d="scan'208";a="154165999"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78A486ECF2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 15:05:49 +0000 (UTC)
+IronPort-SDR: nO+LBUbhdnh1sAq0hobfiHtuUtMNpTv1Lz0r3N9g2zSo8+opFPWIQYNPg9KCITf75JCeeaV1mw
+ PurDH/Z0WZpw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="167341148"
+X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; d="scan'208";a="167341148"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Oct 2020 08:02:29 -0700
-IronPort-SDR: Mv8BGaIN96dDX9IxMJJt29ubRH+IR63WCMzDhopF9M0aDn1eHPEXw1vWzEsW0Stw2r7lCsdX6G
- /Sh26NXxZB9A==
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2020 08:04:47 -0700
+IronPort-SDR: E+/8Yz0Oe+4SC3X34hrVQ/He2wKvuwq7b/yAnc9OLtylGq2RD1XBOfC9575AeMZjTnLInebLZq
+ Z4pGNZqkYVdQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; d="scan'208";a="358551400"
+X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; d="scan'208";a="359200971"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 20 Oct 2020 08:02:23 -0700
+ by orsmga007.jf.intel.com with SMTP; 20 Oct 2020 08:04:44 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 20 Oct 2020 18:02:23 +0300
-Date: Tue, 20 Oct 2020 18:02:23 +0300
+ Tue, 20 Oct 2020 18:04:43 +0300
+Date: Tue, 20 Oct 2020 18:04:43 +0300
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: Re: [PATCH v6 4/5] drm/i915/display: Add Nearest-neighbor based
- integer scaling support
-Message-ID: <20201020150223.GY6112@intel.com>
-References: <20201012184130.937-1-pankaj.laxminarayan.bharadiya@intel.com>
- <20201012184130.937-5-pankaj.laxminarayan.bharadiya@intel.com>
+To: Vitaly Prosyak <vitaly.prosyak@amd.com>
+Subject: Re: [PATCH] drm: document that user-space should avoid parsing EDIDs
+Message-ID: <20201020150443.GZ6112@intel.com>
+References: <izOAkOJk67APzk9XP_DhUGr5Nvo_KwmIXlGQhiL101xxttvMO3K1DUdEQryIFXe2EjG16XGuc_YPMlTimZjqePYR3dB0m4Xs4J8Isa3mBAI=@emersion.fr>
+ <CAPj87rM3H+kNzMgw1B00iDzH94gZPoLfr17KrAAiCXuUB2VHKA@mail.gmail.com>
+ <20201009131025.GS6112@intel.com> <20201009165651.31199071@eldfell>
+ <20201009142018.GT6112@intel.com> <20201012101101.12c6bbb8@eldfell>
+ <20201016135016.GO6112@intel.com> <20201019104948.5ae842c0@eldfell>
+ <4f443474-6884-c480-6e72-60ed47ccc0de@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201012184130.937-5-pankaj.laxminarayan.bharadiya@intel.com>
+In-Reply-To: <4f443474-6884-c480-6e72-60ed47ccc0de@amd.com>
 X-Patchwork-Hint: comment
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,248 +57,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>, daniels@collabora.com,
- Anshuman Gupta <anshuman.gupta@intel.com>, David Airlie <airlied@linux.ie>,
- Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Manasi Navare <manasi.d.navare@intel.com>,
- lorusak@gmail.com, themagnificentmrg@gmail.com, sameer.lattannavar@intel.com,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>
+Cc: Sebastian Wick <sebastian@sebastianwick.net>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 13, 2020 at 12:11:29AM +0530, Pankaj Bharadiya wrote:
-> Integer scaling (IS) is a nearest-neighbor upscaling technique that
-> simply scales up the existing pixels by an integer
-> (i.e., whole number) multiplier.Nearest-neighbor (NN) interpolation
-> works by filling in the missing color values in the upscaled image
-> with that of the coordinate-mapped nearest source pixel value.
+On Mon, Oct 19, 2020 at 11:08:27PM -0400, Vitaly Prosyak wrote:
 > =
 
-> Both IS and NN preserve the clarity of the original image. Integer
-> scaling is particularly useful for pixel art games that rely on
-> sharp, blocky images to deliver their distinctive look.
+> On 2020-10-19 3:49 a.m., Pekka Paalanen wrote:
+> > On Fri, 16 Oct 2020 16:50:16 +0300
+> > Ville Syrj=E4l=E4<ville.syrjala@linux.intel.com>  wrote:
+> >
+> >> On Mon, Oct 12, 2020 at 10:11:01AM +0300, Pekka Paalanen wrote:
+> >>> On Fri, 9 Oct 2020 17:20:18 +0300
+> >>> Ville Syrj=E4l=E4<ville.syrjala@linux.intel.com>  wrote:
+<snip>
+> >> There is a slight snag on some Intel platforms that the gamma LUT
+> >> is sitting after the CSC unit, and currently we use the CSC for
+> >> the range compression.
 > =
 
-> Introduce functions to configure the scaler filter coefficients to
-> enable nearest-neighbor filtering.
+> Thanks a lot for letting us to know about this!
+> AMD display pipe has always at the end CSC matrix where we apply appropri=
+ate range conversion if necessary.
 > =
 
-> Bspec: 49247
+> >>
+> >> On glk in particular I*think*  we currently just do the wrong
+> >> thing do the range compression before gamma. The same probably
+> >> applies to hsw+ when both gamma and degamma are used at the same
+> >> time. But that is clearly buggy, and we should fix it to either:
+> >> a) return an error, which isn't super awesome since then you
+> >>     can't do gamma+limited range at the same time on glk, nor
+> >>     gamma+degamma+limited range on hsw+.
+> >> b) for the glk case we could use the hw degamma LUT for the
+> >>     gamma, which isn't great becasue the hw gamma and degamma
+> >>     LUTs are quite different beasts, and so the hw degamma LUT
+> >>     might not be able to do exactly what we need.
 > =
 
-> changes since v4:
-> * Make cnl_coef_tap(), cnl_nearest_filter_coef() inline (Uma)
-> changes since v3:
-> * None
-> changes since v2:
-> * Move APIs from 5/5 into this patch.
-> * Change filter programming related function names to cnl_*, move
->   filter select bits related code into inline function (Ville)
-> changes since v1:
-> * Rearrange skl_scaler_setup_nearest_neighbor_filter() to iterate the
->   registers directly instead of the phases and taps (Ville)
+> Do you mean that hw de-gamma LUT build on ROM ( it is not programmable, j=
+ust select the proper bit)?
+
+No. The hw degamma LUT is a 1x33 linearly interpolated
+non-decreasing curve. So can't do directcolor type stuff,
+and each RGB channel must have the same gamma.
+
+The hw gamma LUT on the other hand can operate in multiple
+different modes, from which we currently choose the
+3x1024 non-interpoated mode. Which can do all those
+things the degamma LUT can't do.
+
 > =
 
-> changes since RFC:
-> * Refine the skl_scaler_setup_nearest_neighbor_filter() logic (Ville)
+> >> On hsw+ we do
+> >>     use this trick already to get the gamma+limited range right,
+> >>     but on these platforms the hw gamma and degamma LUTs have
+> >>     identical capabilities.
+> >> c) do the range compression with the hw gamma LUT instead, which
+> >>     of course means we have to combine the user gamma and range
+> >>     compression into the same gamma LUT.
 > =
 
-> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-> Signed-off-by: Shashank Sharma <shashank.sharma@intel.com>
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_display.c | 99 ++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_display.h |  4 +
->  2 files changed, 103 insertions(+)
+> Nice w/a and in amdgpu we are using also curve concatenations into re gam=
+ma LUT.
 > =
 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
-rm/i915/display/intel_display.c
-> index cf1417ff54d7..871a1f44a2bd 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -6285,6 +6285,105 @@ void skl_scaler_disable(const struct intel_crtc_s=
-tate *old_crtc_state)
->  		skl_detach_scaler(crtc, i);
->  }
->  =
+> The number of concatenations could be as many as need it and we may take =
+advantage of this in user mode. Does this sounds preliminarily  good?
+> =
 
-> +static inline int cnl_coef_tap(int i)
-> +{
-> +	return i % 7;
-> +}
-> +
-> +static inline u16 cnl_nearest_filter_coef(int t)
-> +{
-> +	return t =3D=3D 3 ? 0x0800 : 0x3000;
-> +}
+> Wouldn't the following sentence be interesting for you if the user mode g=
+enerates 1D LUT points using X axis exponential distribution to avoid
+> unnecessary interpolation in kernel?  It may be especially important if c=
+urve concatenation is expected?
 
-If the compiler doesn't inline these without manual help then the
-compiler is broken. So I'd just drop these pointless inline keywords.
+Yeah, I think we want a new uapi for gamma stuff that will allow
+userspace to properly calculate things up front for different kinds
+of hw implementations, without the kernel having to interpolate/decimate.
+We've had some discussions/proposals on the list.
 
-Quick scan over all the rest looks OK.
-From my POV it all looks good so for the series:
-Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> =
 
-But please address Simon's concerns about the kernel docs.
+> >>
+> >> So I think c) is what it should be. Would just need to find the time
+> >> to implement it, and figure out how to not totally mess up our
+> >> driver's hw state checker. Hmm, except this won't help at all
+> >> with YCbCr output since we need to apply gamma before the
+> >> RGB->YCbCr conversion (which uses the same CSC again). Argh.
+> >> So YCbCr output would still need option b).
+> >>
+> >> Thankfully icl+ fixed all this by adding a dedicated output CSC
+> >> unit which sits after the gamma LUT in the pipeline. And pre-hsw
+> >> is almost fine as well since the hw has a dedicated fixed function
+> >> thing for the range compression. So the only snag on pre-hsw
+> >> is the YCbCr+degamma+gamma case.
+> =
 
-> +
-> +/**
-> + *  Theory behind setting nearest-neighbor integer scaling:
-> + *
-> + *  17 phase of 7 taps requires 119 coefficients in 60 dwords per set.
-> + *  The letter represents the filter tap (D is the center tap) and the n=
-umber
-> + *  represents the coefficient set for a phase (0-16).
-> + *
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |Index value | Data value coeffient 1 | Data value coeffient =
-2 |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   00h      |          B0            |          A0          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   01h      |          D0            |          C0          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   02h      |          F0            |          E0          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   03h      |          A1            |          G0          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   04h      |          C1            |          B1          =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   ...      |          ...           |          ...         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   38h      |          B16           |          A16         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   39h      |          D16           |          C16         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   3Ah      |          F16           |          C16         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *         |   3Bh      |        Reserved        |          G16         =
-  |
-> + *         +------------+------------------------+----------------------=
---+
-> + *
-> + *  To enable nearest-neighbor scaling:  program scaler coefficents with
-> + *  the center tap (Dxx) values set to 1 and all other values set to 0 a=
-s per
-> + *  SCALER_COEFFICIENT_FORMAT
-> + *
-> + */
-> +
-> +static void cnl_program_nearest_filter_coefs(struct drm_i915_private *de=
-v_priv,
-> +					     enum pipe pipe, int id, int set)
-> +{
-> +	int i;
-> +
-> +	intel_de_write_fw(dev_priv, CNL_PS_COEF_INDEX_SET(pipe, id, set),
-> +			  PS_COEE_INDEX_AUTO_INC);
-> +
-> +	for (i =3D 0; i < 17 * 7; i +=3D 2) {
-> +		u32 tmp;
-> +		int t;
-> +
-> +		t =3D cnl_coef_tap(i);
-> +		tmp =3D cnl_nearest_filter_coef(t);
-> +
-> +		t =3D cnl_coef_tap(i + 1);
-> +		tmp |=3D cnl_nearest_filter_coef(t) << 16;
-> +
-> +		intel_de_write_fw(dev_priv, CNL_PS_COEF_DATA_SET(pipe, id, set),
-> +				  tmp);
-> +	}
-> +
-> +	intel_de_write_fw(dev_priv, CNL_PS_COEF_INDEX_SET(pipe, id, set), 0);
-> +}
-> +
-> +inline u32 skl_scaler_get_filter_select(enum drm_scaling_filter filter, =
-int set)
-> +{
-> +	if (filter =3D=3D DRM_SCALING_FILTER_NEAREST_NEIGHBOR) {
-> +		return (PS_FILTER_PROGRAMMED |
-> +			PS_Y_VERT_FILTER_SELECT(set) |
-> +			PS_Y_HORZ_FILTER_SELECT(set) |
-> +			PS_UV_VERT_FILTER_SELECT(set) |
-> +			PS_UV_HORZ_FILTER_SELECT(set));
-> +	}
-> +
-> +	return PS_FILTER_MEDIUM;
-> +}
-> +
-> +void skl_scaler_setup_filter(struct drm_i915_private *dev_priv, enum pip=
-e pipe,
-> +			     int id, int set, enum drm_scaling_filter filter)
-> +{
-> +	switch (filter) {
-> +	case DRM_SCALING_FILTER_DEFAULT:
-> +		break;
-> +	case DRM_SCALING_FILTER_NEAREST_NEIGHBOR:
-> +		cnl_program_nearest_filter_coefs(dev_priv, pipe, id, set);
-> +		break;
-> +	default:
-> +		MISSING_CASE(filter);
-> +	}
-> +}
-> +
->  static void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
->  {
->  	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.h b/drivers/gpu/d=
-rm/i915/display/intel_display.h
-> index d10b7c8cde3f..1b946209e06b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display.h
-> @@ -28,6 +28,7 @@
->  #include <drm/drm_util.h>
->  =
+> Where is the display engine scaler is located on Intel platforms?
+> AMD old ASIC's have a display scaler after display color pipeline ,so the=
+ whole color processing can be a bit mess up unless integer scaling is in u=
+se.
+> =
 
->  enum link_m_n_set;
-> +enum drm_scaling_filter;
->  struct dpll;
->  struct drm_connector;
->  struct drm_device;
-> @@ -599,6 +600,9 @@ void intel_crtc_arm_fifo_underrun(struct intel_crtc *=
-crtc,
->  =
+> The new ASIC's ( ~5 years already)=A0 have scaler before color pipeline.
 
->  u16 skl_scaler_calc_phase(int sub, int scale, bool chroma_center);
->  void skl_scaler_disable(const struct intel_crtc_state *old_crtc_state);
-> +u32 skl_scaler_get_filter_select(enum drm_scaling_filter filter, int set=
-);
-> +void skl_scaler_setup_filter(struct drm_i915_private *dev_priv, enum pip=
-e pipe,
-> +			     int id, int set, enum drm_scaling_filter filter);
->  void ilk_pfit_disable(const struct intel_crtc_state *old_crtc_state);
->  u32 glk_plane_color_ctl(const struct intel_crtc_state *crtc_state,
->  			const struct intel_plane_state *plane_state);
-> -- =
+We have a somewhat similar situation.
 
-> 2.23.0
+On older hw the scaler tap point is at the end of the pipe, so
+between the gamma LUT and dithering.
+
+On icl+ I think we have two tap points; one between degamma
+LUT and the first pipe CSC, and a second one between the output
+CSC and dithering. The spec calls these non-linear and linear tap
+points. The scaler also gained another linear vs. non-linear
+control knob which affects the precision at which it can operate
+in some form. There's also some other interaction between this and
+another knob ("HDR" mode) which controls the precision of blending
+in the pipe. I haven't yet thought how we should configure all this
+to the best effect. For the moment we leave these scaler settings
+to their defaults, which means using the non-linear tap point and
+non-linear precision setting. The blending precision we adjust
+dynamically depending on which planes are enabled. Only a subset
+of the planes (so called HDR planes) can be enabled when using the
+high precision blending mode.
+
+On icl+ plane scaling also has the two different tap points, but
+this time I think it just depdends on the type of plane used;
+HDR planes have a linear tap point just before blending, SDR
+planes have a non-linear tap point right after the pixels enter
+the plane's pipeline. Older hw again just had the non-linear
+tap point.
 
 -- =
 
