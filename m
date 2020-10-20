@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0592293F48
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 17:08:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F86A294092
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Oct 2020 18:34:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 488996ECFB;
-	Tue, 20 Oct 2020 15:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2BA46ED72;
+	Tue, 20 Oct 2020 16:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84F0C6ECFB
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 15:08:50 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 34794200CF;
- Tue, 20 Oct 2020 17:08:47 +0200 (CEST)
-Date: Tue, 20 Oct 2020 17:08:45 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: "Alex G." <mr.nuke.me@gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/bridge: sii902x: Enable I/O and core VCC
- supplies if present
-Message-ID: <20201020150845.GA1913775@ravnborg.org>
-References: <20200924200507.1175888-1-mr.nuke.me@gmail.com>
- <20200928173056.1674274-1-mr.nuke.me@gmail.com>
- <d74c7626-8f16-db85-c23f-79bf0cc400d0@gmail.com>
- <20201020071628.GA1737816@ravnborg.org>
- <5c21a4a4-717c-9f8a-9764-6e3fb9554e46@gmail.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69AB86ED72;
+ Tue, 20 Oct 2020 16:33:31 +0000 (UTC)
+IronPort-SDR: YDTYz2sS3r06T9YgLTQzj4xIQjjknZcg5MLihRPDoIxoZAFWg9lgfX6+KXz+0qdP9/Gux5SPO0
+ 1N4bLLR8eGzw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9780"; a="166461995"
+X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; d="scan'208";a="166461995"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Oct 2020 09:33:22 -0700
+IronPort-SDR: ne1ypfFLMOgWSLi3ZmPB1hwYv7vQbBGv9lLnSr5rjN6K/QjbsQZVBPhtr7I7wfDHjmCCkRTQl0
+ f8PiFalBtZoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; d="scan'208";a="316083863"
+Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
+ by orsmga003.jf.intel.com with ESMTP; 20 Oct 2020 09:33:17 -0700
+From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com, daniels@collabora.com,
+ sameer.lattannavar@intel.com, contact@emersion.fr
+Subject: [PATCH v7 0/4] Introduce drm scaling filter property
+Date: Tue, 20 Oct 2020 21:44:22 +0530
+Message-Id: <20201020161427.6941-1-pankaj.laxminarayan.bharadiya@intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5c21a4a4-717c-9f8a-9764-6e3fb9554e46@gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=Q3oUw9V0dMcNOY3BEmcA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,64 +49,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Rob Herring <robh+dt@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: pankaj.laxminarayan.bharadiya@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex.
+Kodi patches are reviewed and accepted for merge now.
 
-On Tue, Oct 20, 2020 at 09:01:27AM -0500, Alex G. wrote:
-> 
-> 
-> On 10/20/20 2:16 AM, Sam Ravnborg wrote:
-> > Hi Alex.
-> 
-> [snip]
-> 
-> > > 
-> > > 
-> > > > diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-> > > > index 33fd33f953ec..d15e9f2c0d8a 100644
-> > > > --- a/drivers/gpu/drm/bridge/sii902x.c
-> > > > +++ b/drivers/gpu/drm/bridge/sii902x.c
-> > > > @@ -17,6 +17,7 @@
-> > > >    #include <linux/i2c.h>
-> > > >    #include <linux/module.h>
-> > > >    #include <linux/regmap.h>
-> > > > +#include <linux/regulator/consumer.h>
-> > > >    #include <linux/clk.h>
-> > > >    #include <drm/drm_atomic_helper.h>
-> > > > @@ -168,6 +169,8 @@ struct sii902x {
-> > > >    	struct drm_connector connector;
-> > > >    	struct gpio_desc *reset_gpio;
-> > > >    	struct i2c_mux_core *i2cmux;
-> > > > +	struct regulator *iovcc;
-> > > > +	struct regulator *cvcc12;
-> > > >    	/*
-> > > >    	 * Mutex protects audio and video functions from interfering
-> > > >    	 * each other, by keeping their i2c command sequences atomic.
-> > > > @@ -954,13 +957,13 @@ static const struct drm_bridge_timings default_sii902x_timings = {
-> > > >    		 | DRM_BUS_FLAG_DE_HIGH,
-> > > >    };
-> > > > +static int sii902x_init(struct sii902x *sii902x);
-> > Please re-arrange the code so this prototype is not needed.
-> 
-> I'd be happy to re-arrange things. It will make the diff look a lot bigger
-> than what it is. Is that okay?
+Here is the userspace patch series link:
+https://github.com/xbmc/xbmc/pull/18567
 
-The best way would be to split it in two patches.
-One that is pure code movement and one that does the actula changes.
+Background on Integer scaling:
 
-	Sam
+Integer scaling (IS) is a nearest-neighbor upscaling technique that
+simply scales up the existing pixels by an integer (i.e., whole
+number) multiplier. Nearest-neighbor (NN) interpolation works by
+filling in the missing color values in the upscaled image with that of
+the coordinate-mapped nearest source pixel value.
+
+Both IS and NN preserve the clarity of the original image. In
+contrast, traditional upscaling algorithms, such as bilinear or
+bicubic interpolation, result in blurry upscaled images because they
+employ interpolation techniques that smooth out the transition from
+one pixel to another.  Therefore, integer scaling is particularly
+useful for pixel art games that rely on sharp, blocky images to
+deliver their distinctive look.
+
+Many gaming communities have been asking for integer-mode scaling
+support, some links and background:
+
+https://software.intel.com/en-us/articles/integer-scaling-support-on-intel-graphics
+http://tanalin.com/en/articles/lossless-scaling/
+https://community.amd.com/thread/209107
+https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/1002/feature-request-nonblurry-upscaling-at-integer-rat/
+
+changes since v6:
+* Move property doc to existing "Standard CRTC Properties" and
+  "Plane Composition Properties" doc comments (Simon)
+* Drop 0002 patch
+
+Pankaj Bharadiya (4):
+  drm: Introduce plane and CRTC scaling filter properties
+  drm/i915: Introduce scaling filter related registers and bit fields
+  drm/i915/display: Add Nearest-neighbor based integer scaling support
+  drm/i915: Enable scaling filter for plane and CRTC
+
+ drivers/gpu/drm/drm_atomic_uapi.c             |   8 ++
+ drivers/gpu/drm/drm_blend.c                   |  13 ++
+ drivers/gpu/drm/drm_crtc.c                    |  40 ++++++
+ drivers/gpu/drm/drm_crtc_internal.h           |   3 +
+ drivers/gpu/drm/drm_plane.c                   |  73 +++++++++++
+ .../gpu/drm/i915/display/intel_atomic_plane.c |   1 +
+ drivers/gpu/drm/i915/display/intel_display.c  | 117 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_display.h  |   4 +
+ .../drm/i915/display/intel_display_types.h    |   2 +
+ drivers/gpu/drm/i915/display/intel_sprite.c   |  15 ++-
+ drivers/gpu/drm/i915/i915_reg.h               |  22 ++++
+ include/drm/drm_crtc.h                        |  16 +++
+ include/drm/drm_plane.h                       |  21 ++++
+ 13 files changed, 331 insertions(+), 4 deletions(-)
+
+-- 
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
