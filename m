@@ -1,57 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727F8294BD0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 13:31:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46ECA294C4E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 14:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 542E16E104;
-	Wed, 21 Oct 2020 11:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E4A36EAAB;
+	Wed, 21 Oct 2020 12:12:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F06E06E104
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 11:31:53 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09LBVlQw027176;
- Wed, 21 Oct 2020 06:31:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1603279907;
- bh=bSm+XbdrrxDgou+V+B5Ey7KPyehT6gn8sO8/XIWyDyA=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=i/H9j7g8tuynNtFuTDqe3AhkBCcz9ABhzZkHtaYQrgu78nrQqA24LQBtO+mhIfVV+
- VL2TLD39WrfUOumScgOjir1g3QJjvz2GWFj4+VYIo/uk6hhz8jS4nlHRKkIOwM/0fZ
- EUYxlUszna3/q2aCaTax2V+lrAi6O9mxVQYfxE5A=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09LBVlIg078950
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 21 Oct 2020 06:31:47 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 21
- Oct 2020 06:31:47 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 21 Oct 2020 06:31:46 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09LBVjkO089719;
- Wed, 21 Oct 2020 06:31:45 -0500
-Subject: Re: [PATCH 3/5] drm: bridge: Propagate the bus flags from
- bridge->timings
-To: Nikhil Devshatwar <nikhil.nd@ti.com>, <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>
-References: <20201016103917.26838-1-nikhil.nd@ti.com>
- <20201016103917.26838-4-nikhil.nd@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <fd65aa92-bc89-2420-bbc1-e131db1f6c25@ti.com>
-Date: Wed, 21 Oct 2020 14:31:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 381D86EAAB
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 12:12:48 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id DF70BB30E;
+ Wed, 21 Oct 2020 12:12:46 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: b.zolnierkie@samsung.com, gwan-gyeong.mun@intel.com, sam@ravnborg.org,
+ daniel.vetter@ffwll.ch, bernard@vivo.com, laurent.pinchart@ideasonboard.com
+Subject: [PATCH] drivers/video: Fix -Wstringop-truncation in hdmi.c
+Date: Wed, 21 Oct 2020 14:12:41 +0200
+Message-Id: <20201021121241.17623-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201016103917.26838-4-nikhil.nd@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,52 +36,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sekhar Nori <nsekhar@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Swapnil Jakhade <sjakhade@cadence.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/10/2020 13:39, Nikhil Devshatwar wrote:
-> When the next bridge does not specify any bus flags, use the
-> bridge->timings->input_bus_flags as fallback when propagating
-> bus flags from next bridge to current bridge.
-> 
-> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-> ---
->  drivers/gpu/drm/drm_bridge.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 64f0effb52ac..8353723323ab 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -975,6 +975,13 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
->  	 * duplicate the "dummy propagation" logic.
->  	 */
->  	bridge_state->input_bus_cfg.flags = output_flags;
-> +
-> +	/*
-> +	 * Use the bridge->timings->input_bus_flags as fallback if the next bridge
-> +	 * does not specify the flags
-> +	 */
-> +	if (!bridge_state->input_bus_cfg.flags)
-> +		bridge_state->input_bus_cfg.flags = bridge->timings->input_bus_flags;
+Trying to copy into the string fields with strncpy() gives a warning from
+gcc. Both fields are part of a packed HDMI header and do not require a
+terminating \0 character.
 
-According to docs, timings can be NULL.
+../drivers/video/hdmi.c: In function 'hdmi_spd_infoframe_init':
+../drivers/video/hdmi.c:230:2: warning: 'strncpy' specified bound 8 equals destination size [-Wstringop-truncation]
+  230 |  strncpy(frame->vendor, vendor, sizeof(frame->vendor));
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../drivers/video/hdmi.c:231:2: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
+  231 |  strncpy(frame->product, product, sizeof(frame->product));
+      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-And, hmm... It's too easy to get confused with these, but... If the bridge defines timings, and
-timings->input_bus_flags != 0, should we always pick that, even if we got something via
-output_flags? Logic being, if this bridge defines timings->input_bus_flags, it probably wants that
-to be used regardless whether we got something from the next bridge.
+Just use memcpy() instead.
 
- Tomi
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/video/hdmi.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+index b7a1d6fae90d..1e4cb63d0d11 100644
+--- a/drivers/video/hdmi.c
++++ b/drivers/video/hdmi.c
+@@ -221,14 +221,18 @@ EXPORT_SYMBOL(hdmi_avi_infoframe_pack);
+ int hdmi_spd_infoframe_init(struct hdmi_spd_infoframe *frame,
+ 			    const char *vendor, const char *product)
+ {
++	size_t len;
++
+ 	memset(frame, 0, sizeof(*frame));
+ 
+ 	frame->type = HDMI_INFOFRAME_TYPE_SPD;
+ 	frame->version = 1;
+ 	frame->length = HDMI_SPD_INFOFRAME_SIZE;
+ 
+-	strncpy(frame->vendor, vendor, sizeof(frame->vendor));
+-	strncpy(frame->product, product, sizeof(frame->product));
++	len = strlen(vendor);
++	memcpy(frame->vendor, vendor, min(len, sizeof(frame->vendor)));
++	len = strlen(product);
++	memcpy(frame->product, product, min(len, sizeof(frame->product)));
+ 
+ 	return 0;
+ }
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
