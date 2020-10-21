@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29EF529524C
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 20:33:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C44E29525C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 20:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 089356EE67;
-	Wed, 21 Oct 2020 18:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF4C6F4AD;
+	Wed, 21 Oct 2020 18:37:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B58E6EE65;
- Wed, 21 Oct 2020 18:33:25 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id d78so3133072wmd.3;
- Wed, 21 Oct 2020 11:33:25 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70E7C6EE77;
+ Wed, 21 Oct 2020 18:37:14 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id d3so3655214wma.4;
+ Wed, 21 Oct 2020 11:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5j6DB/Z5rJHZN4Xv7MCF1wLoQyev8+XvCjJ+bJuvbWg=;
- b=pBCFQeyKSJiVVPEep2Tg482gOn+YHInxQc9UW+D6rVFfFdlNOMY1N8Q4kB9MpHRsiM
- 7UddmLOyN+wpR46uQBiF5cQeXdF75LWERzVtR6T+kUBRbr1ZTaJSeHRHtiyT9EKG3fuD
- jXDw/Hcwp8PCZ/OGehABf2Qw+/HKgH0pWujaNTQN0HtgrcuamcptuGerIU/D/eQkSnGN
- 1KqFjBZgzu9uF3sRmRfRVBEHLD8raWonn1VxSJcyiUk9nWAdoIwEGNXpL3fbF/BJAuH2
- 9x5cWHx0VGiheV8uRQ1dFurChN1VygL0HmPk0qAHQ0gp2tnKA4GucmQUwfwdZ1DnX+lj
- 5Zww==
+ :cc; bh=pDlQHi/rfDtXDyn1RgoMtt0ZMFpl/xYYH/AJUVM3sNs=;
+ b=NQXuKx23uhrXtGYhinLl7CAk6uKb5YX216ppDJt7laEC6FVnHh7y7Y2/en4ejsZLCz
+ yzTP7vWAcJGmQFp4wOXyCaXz1X0wXmW+8WHrEZBWty7kTDTDT7K5R7VVNcG5IAD0noQC
+ Df6yjM7yZT86O4/+Ku3e7sfQZBEIQmT5JZDCEfE0Ty8Gr8xOclq97y7ItEaxEvPDfAWm
+ LJ/s6+QUiOWbcnFysBKgIqJopO89nzs48oAfMk6x2rd0UPFQO9PnrTkSJNnbA9Ewq9BB
+ 95vIUQZMGFLAKOhNArqX7K1eEJxrnjSW+dROnu18MOhNgMd9VltQ+WsbxJiNsRmzjRrF
+ WOwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5j6DB/Z5rJHZN4Xv7MCF1wLoQyev8+XvCjJ+bJuvbWg=;
- b=ablnxbBJYKviG/XZVTt/j7VsKwvaoddlMnrfcENyYxcouOML/Jh3RtUeRGf/lszKWC
- wZuU0kSMFqBGu+CRXG6TWLJa63Y/xtzcaj+E+9Jng61yRZ5p3reHZDotC9GnnRyUq18L
- Ysa7uTtA75fUuYYyZ3VRDgi3ssJnTYPIIsNqrFceHwBDo3PTnbwIaWIrpOMMJj8eYsG6
- 71HDBBYkFVnxU7kHcjMVzC0vE0tim0cdjBHzdsbzimFw1G7l74B1xbF2PrbKF8oE5eyE
- WydMJZvyST6WA0G+gF4nmyS5dIrNCvIAS8ipwibh5evmRxdwLPdVt2H/cSRR+Wyphirt
- h+OQ==
-X-Gm-Message-State: AOAM530xj/ZHZGQIQDJArE/cK+2/5AmIiJSucEszG/iyTFLoR8wNgb0e
- KZyucEJ1yYuMsJS41shFpFVl4QrZUG0FOPBli7k=
-X-Google-Smtp-Source: ABdhPJzPaIruAPrEkLX+4gFBwskCJuWJ/R1jH2ZlUJQ08UNuVVoDQ7DYW2fnxGZo+EekRucucu9hHau88dnsgXcrSms=
-X-Received: by 2002:a1c:4b05:: with SMTP id y5mr5008613wma.56.1603305203705;
- Wed, 21 Oct 2020 11:33:23 -0700 (PDT)
+ bh=pDlQHi/rfDtXDyn1RgoMtt0ZMFpl/xYYH/AJUVM3sNs=;
+ b=n5vBZrN8ylV7POoVo32a9edKI4BgHA50kY6f5IFXJ8gLZ3Y40Hbf+qasuC7P4ZnkDa
+ RCuHI6imFGUv2dEJnUgrp9nUb9e1mW5hOFT47XgKV8e/7mkeKeAOwSDUn/71JV3i6UNM
+ uRDkptx5UORU/FseiAocDyMxJaBiyEWMSz6rhQD7re3CR6Lno4ZXwXZfN5Ilg0Tnd1+J
+ djg9LuAJZS4XEX+fViiX/+rLg13K0ARzIDY7g6FRw/ZICcsA8WEPTdOpeSraEhfUFwoL
+ EZU3ETPl2m2dUQKnYR/fzfl+XuhZ9JYwXE/uL9TDfVtFINMANqE108wBgOf6QRhMlFTy
+ g/Cg==
+X-Gm-Message-State: AOAM5337TKqoCzw+xwSkO9iEGEhnC/N46tLomfaMyll/KDFh+D7156iv
+ YPTFvhm3LDj3kXXb2nqlapOJnFdN6cmDYdAAjFY=
+X-Google-Smtp-Source: ABdhPJxzPuccmmb5vOFOTXSOSHTm+pFwQKaC34ofxdHpoEAi7LVjOYcnPl1ZN6D2s+A73DVP0fKoUCnSSPjfLybZdzA=
+X-Received: by 2002:a1c:4b05:: with SMTP id y5mr5019720wma.56.1603305432951;
+ Wed, 21 Oct 2020 11:37:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201021182610.4l65yg3y3nhzcac4@adolin>
-In-Reply-To: <20201021182610.4l65yg3y3nhzcac4@adolin>
+References: <cover.1603282193.git.mchehab+huawei@kernel.org>
+ <8245658e2c6fb724e2ffbe6ead43b75bbdf8818d.1603282193.git.mchehab+huawei@kernel.org>
+In-Reply-To: <8245658e2c6fb724e2ffbe6ead43b75bbdf8818d.1603282193.git.mchehab+huawei@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 21 Oct 2020 14:33:11 -0400
-Message-ID: <CADnq5_PkEszu1Uz+vcnVF+_qUgVmMAcO_vvKhpVFVm0N0PUR3Q@mail.gmail.com>
-Subject: Re: [Outreachy kernel][PATCH] gpu: amd: Return boolean types instead
- of integer values
-To: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Date: Wed, 21 Oct 2020 14:37:00 -0400
+Message-ID: <CADnq5_Mm3ZZbE-Wh-VyjWjGUG7HMOawS=fLhoeSmOM03JGVTOQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] drm: amdgpu: kernel-doc: update some adev
+ parameters
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,13 +62,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ Bernard Zhao <bernard@vivo.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
  LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Colton Lewis <colton.w.lewis@protonmail.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dennis Li <Dennis.Li@amd.com>, Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -77,42 +83,236 @@ Applied.  Thanks!
 
 Alex
 
-On Wed, Oct 21, 2020 at 2:29 PM Sumera Priyadarsini
-<sylphrenadin@gmail.com> wrote:
+On Wed, Oct 21, 2020 at 8:17 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 >
-> Return statements for functions returning bool should use truth
-> and false instead of 1 and 0 respectively.
+> Running "make htmldocs: produce lots of warnings on those files:
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:177: warning: Excess function parameter 'p_size' description in 'amdgpu_vram_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:211: warning: Excess function parameter 'man' description in 'amdgpu_vram_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:90: warning: Excess function parameter 'p_size' description in 'amdgpu_gtt_mgr_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:134: warning: Excess function parameter 'man' description in 'amdgpu_gtt_mgr_fini'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
+>         ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:675: warning: Excess function parameter 'dev' description in 'amdgpu_device_asic_init'
 >
-> Modify cik_event_interrupt.c to return false instead of 0.
+> They're related to the repacement of some parameters by adev,
+> and due to a few renamed parameters.
 >
-> Issue found with Coccinelle.
+> While here, uniform the name of the parameter for it to be
+> the same on all functions using a pointer to struct amdgpu_device.
 >
-> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+> Update the kernel-doc documentation accordingly.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 28 ++++++++++----------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  |  6 ++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c |  7 +++--
+>  3 files changed, 20 insertions(+), 21 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c b/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c
-> index 24b471734117..8e64c01565ac 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c
-> @@ -66,12 +66,12 @@ static bool cik_event_interrupt_isr(struct kfd_dev *dev,
->         vmid  = (ihre->ring_id & 0x0000ff00) >> 8;
->         if (vmid < dev->vm_info.first_vmid_kfd ||
->             vmid > dev->vm_info.last_vmid_kfd)
-> -               return 0;
-> +               return false;
->
->         /* If there is no valid PASID, it's likely a firmware bug */
->         pasid = (ihre->ring_id & 0xffff0000) >> 16;
->         if (WARN_ONCE(pasid == 0, "FW bug: No PASID in KFD interrupt"))
-> -               return 0;
-> +               return false;
->
->         /* Interrupt types we care about: various signals and faults.
->          * They will be forwarded to a work queue (see below).
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index e8b41756c9f9..f8785bdec79c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -705,7 +705,7 @@ void amdgpu_device_indirect_wreg64(struct amdgpu_device *adev,
+>  /**
+>   * amdgpu_invalid_rreg - dummy reg read function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @reg: offset of register
+>   *
+>   * Dummy register read function.  Used for register blocks
+> @@ -722,7 +722,7 @@ static uint32_t amdgpu_invalid_rreg(struct amdgpu_device *adev, uint32_t reg)
+>  /**
+>   * amdgpu_invalid_wreg - dummy reg write function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @reg: offset of register
+>   * @v: value to write to the register
+>   *
+> @@ -739,7 +739,7 @@ static void amdgpu_invalid_wreg(struct amdgpu_device *adev, uint32_t reg, uint32
+>  /**
+>   * amdgpu_invalid_rreg64 - dummy 64 bit reg read function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @reg: offset of register
+>   *
+>   * Dummy register read function.  Used for register blocks
+> @@ -756,7 +756,7 @@ static uint64_t amdgpu_invalid_rreg64(struct amdgpu_device *adev, uint32_t reg)
+>  /**
+>   * amdgpu_invalid_wreg64 - dummy reg write function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @reg: offset of register
+>   * @v: value to write to the register
+>   *
+> @@ -773,7 +773,7 @@ static void amdgpu_invalid_wreg64(struct amdgpu_device *adev, uint32_t reg, uint
+>  /**
+>   * amdgpu_block_invalid_rreg - dummy reg read function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @block: offset of instance
+>   * @reg: offset of register
+>   *
+> @@ -793,7 +793,7 @@ static uint32_t amdgpu_block_invalid_rreg(struct amdgpu_device *adev,
+>  /**
+>   * amdgpu_block_invalid_wreg - dummy reg write function
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @block: offset of instance
+>   * @reg: offset of register
+>   * @v: value to write to the register
+> @@ -813,7 +813,7 @@ static void amdgpu_block_invalid_wreg(struct amdgpu_device *adev,
+>  /**
+>   * amdgpu_device_asic_init - Wrapper for atom asic_init
+>   *
+> - * @dev: drm_device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Does any asic specific work and then calls atom asic init.
+>   */
+> @@ -827,7 +827,7 @@ static int amdgpu_device_asic_init(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_vram_scratch_init - allocate the VRAM scratch page
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Allocates a scratch page of VRAM for use by various things in the
+>   * driver.
+> @@ -844,7 +844,7 @@ static int amdgpu_device_vram_scratch_init(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_vram_scratch_fini - Free the VRAM scratch page
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Frees the VRAM scratch page.
+>   */
+> @@ -3011,7 +3011,7 @@ bool amdgpu_device_asic_has_dc_support(enum amd_asic_type asic_type)
+>  /**
+>   * amdgpu_device_has_dc_support - check if dc is supported
+>   *
+> - * @adev: amdgpu_device_pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Returns true for supported, false for not supported
+>   */
+> @@ -4045,7 +4045,7 @@ static int amdgpu_device_recover_vram(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_reset_sriov - reset ASIC for SR-IOV vf
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @from_hypervisor: request from hypervisor
+>   *
+>   * do VF FLR and reinitialize Asic
+> @@ -4100,7 +4100,7 @@ static int amdgpu_device_reset_sriov(struct amdgpu_device *adev,
+>  /**
+>   * amdgpu_device_has_job_running - check if there is any job in mirror list
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * check if there is any job in mirror list
+>   */
+> @@ -4128,7 +4128,7 @@ bool amdgpu_device_has_job_running(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_should_recover_gpu - check if we should try GPU recovery
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Check amdgpu_gpu_recovery and SRIOV status to see if we should try to recover
+>   * a hung GPU.
+> @@ -4477,7 +4477,7 @@ static int amdgpu_device_suspend_display_audio(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_device_gpu_recover - reset the asic and recover scheduler
+>   *
+> - * @adev: amdgpu device pointer
+> + * @adev: amdgpu_device pointer
+>   * @job: which job trigger hang
+>   *
+>   * Attempt to reset the GPU if it has hung (all asics).
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> index f203e4a6a3f2..731f3aa2e6ba 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> @@ -81,8 +81,8 @@ static const struct ttm_resource_manager_func amdgpu_gtt_mgr_func;
+>  /**
+>   * amdgpu_gtt_mgr_init - init GTT manager and DRM MM
+>   *
+> - * @man: TTM memory type manager
+> - * @p_size: maximum size of GTT
+> + * @adev: amdgpu_device pointer
+> + * @gtt_size: maximum size of GTT
+>   *
+>   * Allocate and initialize the GTT manager.
+>   */
+> @@ -123,7 +123,7 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+>  /**
+>   * amdgpu_gtt_mgr_fini - free and destroy GTT manager
+>   *
+> - * @man: TTM memory type manager
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Destroy and free the GTT manager, returns -EBUSY if ranges are still
+>   * allocated inside it.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> index 01c1171afbe0..0c6b7c5ecfec 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> @@ -168,8 +168,7 @@ static const struct ttm_resource_manager_func amdgpu_vram_mgr_func;
+>  /**
+>   * amdgpu_vram_mgr_init - init VRAM manager and DRM MM
+>   *
+> - * @man: TTM memory type manager
+> - * @p_size: maximum size of VRAM
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Allocate and initialize the VRAM manager.
+>   */
+> @@ -199,7 +198,7 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_vram_mgr_fini - free and destroy VRAM manager
+>   *
+> - * @man: TTM memory type manager
+> + * @adev: amdgpu_device pointer
+>   *
+>   * Destroy and free the VRAM manager, returns -EBUSY if ranges are still
+>   * allocated inside it.
+> @@ -229,7 +228,7 @@ void amdgpu_vram_mgr_fini(struct amdgpu_device *adev)
+>  /**
+>   * amdgpu_vram_mgr_vis_size - Calculate visible node size
+>   *
+> - * @adev: amdgpu device structure
+> + * @adev: amdgpu_device pointer
+>   * @node: MM node structure
+>   *
+>   * Calculate how many bytes of the MM node are inside visible VRAM
 > --
-> 2.25.1
+> 2.26.2
 >
 > _______________________________________________
 > amd-gfx mailing list
