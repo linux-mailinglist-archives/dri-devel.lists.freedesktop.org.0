@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2BD294EC1
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 16:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36396294EEE
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 16:42:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 368076E17D;
-	Wed, 21 Oct 2020 14:35:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08F0E6EDB2;
+	Wed, 21 Oct 2020 14:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0816EDB2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 14:35:04 +0000 (UTC)
-IronPort-SDR: ZlOeqAAUA+5U1pMWR/Bk4NDKC8kAywKC5ELSr0ucMq9dKvpD0Ajn+8XEeInmb1g9Mg/hR+hb/s
- 7pnrKMG33liw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9780"; a="167466436"
-X-IronPort-AV: E=Sophos;i="5.77,401,1596524400"; d="scan'208";a="167466436"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2020 07:35:03 -0700
-IronPort-SDR: akq0xJpuVJJPP+QEoWejXetmhm+GNTQp7ONahVBW+XF2NnbEurV8MoBgSJ7fR1r4ZNmWW0Jgoe
- l2idSFe0VW/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,401,1596524400"; d="scan'208";a="302091848"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 21 Oct 2020 07:35:00 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 21 Oct 2020 17:35:00 +0300
-Date: Wed, 21 Oct 2020 17:35:00 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Vitaly Prosyak <vitaly.prosyak@amd.com>
-Subject: Re: [PATCH] drm: document that user-space should avoid parsing EDIDs
-Message-ID: <20201021143500.GG6112@intel.com>
-References: <CAPj87rM3H+kNzMgw1B00iDzH94gZPoLfr17KrAAiCXuUB2VHKA@mail.gmail.com>
- <20201009131025.GS6112@intel.com> <20201009165651.31199071@eldfell>
- <20201009142018.GT6112@intel.com> <20201012101101.12c6bbb8@eldfell>
- <20201016135016.GO6112@intel.com> <20201019104948.5ae842c0@eldfell>
- <4f443474-6884-c480-6e72-60ed47ccc0de@amd.com>
- <20201020150443.GZ6112@intel.com>
- <bb6a9bfe-e85e-8db5-fa85-37436940ead6@amd.com>
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96BFB6EDB2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 14:42:23 +0000 (UTC)
+Received: by mail-oo1-xc42.google.com with SMTP id w25so587887oos.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 07:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=AfTAgHtdVyrAaS1/nhVnFIFYQUqkwRIKER1d/mcr31s=;
+ b=OFfWjJvd0e4xoMAnKosQZX6u4yueJkvQajrGY1gnJgHtnDIJWFT6fq0RgYnrDwWRw+
+ gRHeZQoM62EreIDByRy+hh+RB9j+SqRdJPUlf5qW1UjkGm+tTrGcfzuZz+PumuavbfPc
+ b7fWM4FcGBuAVp+/h1VQnDUxVv4jkFf54gZSo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AfTAgHtdVyrAaS1/nhVnFIFYQUqkwRIKER1d/mcr31s=;
+ b=l3yynYup2rAI3vx2D6MyxReVUEvHsvl5ZoMow5bYNnPP9h0hkJO3WZv1blzht5snbb
+ PxFScXzu9BD2jhfRMApfEhDK4yBGd5X8akiOKrR1cpElde88mMrnL7/2Fy8mXU1xP9Dy
+ BOJPsn+FrsBxOiQ4ebL2anpPOJSrX3m9f4krqtbKooQ/74Xw7tU2RYYL9EbvfN3WWqNc
+ xQzFkCSxJQ4hMcSoqJ3qEDjSDx2lFwXQuzxy0GS0bveg4osv2v6ixyTXbkxI2N4P1UbJ
+ xb7aEl97btOLa+0btePu/YbUMaEltXoWKyDn7Pd27zZgtXbJGBnFyD/R+5urn4uyfFiE
+ c6kQ==
+X-Gm-Message-State: AOAM530PsVX215PyQ5XdvLKucOUqFcMtIm/fozNt9S5q2q7NiMXhhtGW
+ osbFlCu2O4B3VTuBIGDsW1MrfIPk4Hs/SJ8ShvX+w6RY1guQyw==
+X-Google-Smtp-Source: ABdhPJycyct2TB9wVg2Ih3Z02FAHwtZsXVwJzQ0pYxum/KMQuFJw++9YeXuYFSUooQTyT8GemxYhpDCSqAKwx53jYrg=
+X-Received: by 2002:a4a:e1d7:: with SMTP id n23mr2839407oot.85.1603291342907; 
+ Wed, 21 Oct 2020 07:42:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bb6a9bfe-e85e-8db5-fa85-37436940ead6@amd.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+ <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
+ <20201021125030.GK36674@ziepe.ca>
+In-Reply-To: <20201021125030.GK36674@ziepe.ca>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 21 Oct 2020 16:42:11 +0200
+Message-ID: <CAKMK7uEWe8CaT7zjcZ6dJAKHxtxtqzjVB35fCFviwhcnqksDfw@mail.gmail.com>
+Subject: Re: [PATCH v3 12/16] PCI: Obey iomem restrictions for procfs mmap
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,193 +60,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian@sebastianwick.net>,
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.com>, John Hubbard <jhubbard@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 20, 2020 at 09:46:30PM -0400, Vitaly Prosyak wrote:
-> =
-
-> On 2020-10-20 11:04 a.m., Ville Syrj=E4l=E4 wrote:
-> > On Mon, Oct 19, 2020 at 11:08:27PM -0400, Vitaly Prosyak wrote:
-> >> On 2020-10-19 3:49 a.m., Pekka Paalanen wrote:
-> >>> On Fri, 16 Oct 2020 16:50:16 +0300
-> >>> Ville Syrj=E4l=E4<ville.syrjala@linux.intel.com>  wrote:
-> >>>
-> >>>> On Mon, Oct 12, 2020 at 10:11:01AM +0300, Pekka Paalanen wrote:
-> >>>>> On Fri, 9 Oct 2020 17:20:18 +0300
-> >>>>> Ville Syrj=E4l=E4<ville.syrjala@linux.intel.com>  wrote:
-> > <snip>
-> >>>> There is a slight snag on some Intel platforms that the gamma LUT
-> >>>> is sitting after the CSC unit, and currently we use the CSC for
-> >>>> the range compression.
-> >> Thanks a lot for letting us to know about this!
-> >> AMD display pipe has always at the end CSC matrix where we apply appro=
-priate range conversion if necessary.
-> >>
-> >>>> On glk in particular I*think*  we currently just do the wrong
-> >>>> thing do the range compression before gamma. The same probably
-> >>>> applies to hsw+ when both gamma and degamma are used at the same
-> >>>> time. But that is clearly buggy, and we should fix it to either:
-> >>>> a) return an error, which isn't super awesome since then you
-> >>>>      can't do gamma+limited range at the same time on glk, nor
-> >>>>      gamma+degamma+limited range on hsw+.
-> >>>> b) for the glk case we could use the hw degamma LUT for the
-> >>>>      gamma, which isn't great becasue the hw gamma and degamma
-> >>>>      LUTs are quite different beasts, and so the hw degamma LUT
-> >>>>      might not be able to do exactly what we need.
-> >> Do you mean that hw de-gamma LUT build on ROM ( it is not programmable=
-, just select the proper bit)?
-> > No. The hw degamma LUT is a 1x33 linearly interpolated
-> > non-decreasing curve. So can't do directcolor type stuff,
-> > and each RGB channel must have the same gamma.
-> >
-> > The hw gamma LUT on the other hand can operate in multiple
-> > different modes, from which we currently choose the
-> > 3x1024 non-interpoated mode. Which can do all those
-> > things the degamma LUT can't do.
-> >
-> >>>> On hsw+ we do
-> >>>>      use this trick already to get the gamma+limited range right,
-> >>>>      but on these platforms the hw gamma and degamma LUTs have
-> >>>>      identical capabilities.
-> >>>> c) do the range compression with the hw gamma LUT instead, which
-> >>>>      of course means we have to combine the user gamma and range
-> >>>>      compression into the same gamma LUT.
-> >> Nice w/a and in amdgpu we are using also curve concatenations into re =
-gamma LUT.
-> >>
-> >> The number of concatenations could be as many as need it and we may ta=
-ke advantage of this in user mode. Does this sounds preliminarily  good?
-> >>
-> >> Wouldn't the following sentence be interesting for you if the user mod=
-e generates 1D LUT points using X axis exponential distribution to avoid
-> >> unnecessary interpolation in kernel?  It may be especially important i=
-f curve concatenation is expected?
-> > Yeah, I think we want a new uapi for gamma stuff that will allow
-> > userspace to properly calculate things up front for different kinds
-> > of hw implementations, without the kernel having to interpolate/decimat=
-e.
-> > We've had some discussions/proposals on the list.
-> >
-> >>>> So I think c) is what it should be. Would just need to find the time
-> >>>> to implement it, and figure out how to not totally mess up our
-> >>>> driver's hw state checker. Hmm, except this won't help at all
-> >>>> with YCbCr output since we need to apply gamma before the
-> >>>> RGB->YCbCr conversion (which uses the same CSC again). Argh.
-> >>>> So YCbCr output would still need option b).
-> >>>>
-> >>>> Thankfully icl+ fixed all this by adding a dedicated output CSC
-> >>>> unit which sits after the gamma LUT in the pipeline. And pre-hsw
-> >>>> is almost fine as well since the hw has a dedicated fixed function
-> >>>> thing for the range compression. So the only snag on pre-hsw
-> >>>> is the YCbCr+degamma+gamma case.
-> >> Where is the display engine scaler is located on Intel platforms?
-> >> AMD old ASIC's have a display scaler after display color pipeline ,so =
-the whole color processing can be a bit mess up unless integer scaling is i=
-n use.
-> >>
-> >> The new ASIC's ( ~5 years already)=A0 have scaler before color pipelin=
-e.
-> > We have a somewhat similar situation.
-> >
-> > On older hw the scaler tap point is at the end of the pipe, so
-> > between the gamma LUT and dithering.
-> >
-> > On icl+ I think we have two tap points; one between degamma
-> > LUT and the first pipe CSC, and a second one between the output
-> > CSC and dithering. The spec calls these non-linear and linear tap
-> > points. The scaler also gained another linear vs. non-linear
-> > control knob which affects the precision at which it can operate
-> > in some form. There's also some other interaction between this and
-> > another knob ("HDR" mode) which controls the precision of blending
-> > in the pipe. I haven't yet thought how we should configure all this
-> > to the best effect. For the moment we leave these scaler settings
-> > to their defaults, which means using the non-linear tap point and
-> > non-linear precision setting. The blending precision we adjust
-> > dynamically depending on which planes are enabled. Only a subset
-> > of the planes (so called HDR planes) can be enabled when using the
-> > high precision blending mode.
-> >
-> > On icl+ plane scaling also has the two different tap points, but
-> > this time I think it just depdends on the type of plane used;
-> > HDR planes have a linear tap point just before blending, SDR
-> > planes have a non-linear tap point right after the pixels enter
-> > the plane's pipeline. Older hw again just had the non-linear
-> > tap point.
-> =
-
-> Thanks for the clarification Ville!
-> =
-
-> I am not sure if i understood correctly tap points.
-> =
-
-> Are you referring that you have full 2 scalers and each-one can do horizo=
-ntal and vertical scaling?
-> =
-
-> The first scaler does scaling in linear space and and the second in non l=
-inear. Is it correct?
-
-There are two scalers per pipe, each will do the full horz+vert scaling,
-and each one can be assigned to either:
-- any HDR plane linear tap point to scale the plane
-- any SDR plane non-linear tap point to scale the plane
-- pipe linear pipe tap point to scale the whole crtc output
-- pipe non-linear tap point to scale the whole crtc output
-
-I don't think you're supposed to assign scalers to both of
-the pipe tap points simultaneously. The registers might allow
-it though, so could be an interesting experiment :P
- =
-
-> I just found thread from Pekka :https://lists.freedesktop.org/archives/wa=
-yland-devel/2020-October/041637.html
-> =
-
-> regarding integer scaling and other related stuff.
-> =
-
-> AMD display engine has always 1 scaler, we do concatenation of two or mor=
-e scaling transforms into one if it is necessary.
-> =
-
-> Old ASIC's do scaling in nonlinear space, new ASIC's in linear space sinc=
-e scaler precision is half float.
-> =
-
-> All these questions are become important for hardware composition and if =
-the differences are too big( not sure about this) and it can't be abstracte=
-d.
-> =
-
-> As one approach , can we think about shared object in user mode for each =
-vendor ( this approach was in android for hardware composition) and this sm=
-all component can do
-> =
-
-> LUT's , scaler coefficients content and other not compatible stuff ) ?
-
-The idea has come up before. Getting any kind of acceptance for such a
-thing across the various userspace components would probably require
-a full time lobbyist.
-
-I think various forms of gamma and CSC should be possible to abstract
-in a somewhat reasonable way. For scaling we're now moving ahead with
-the enum prop to specify the filter. If there was a real need we could
-even try to abstract some kind of filter coefficients uapi as well.
-I suspect most things would have some kind of polyphase FIR filter.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBPY3QgMjEsIDIwMjAgYXQgMjo1MCBQTSBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVw
+ZS5jYT4gd3JvdGU6Cj4KPiBPbiBXZWQsIE9jdCAyMSwgMjAyMCBhdCAxMDo1Njo1MUFNICswMjAw
+LCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4gVGhlcmUncyB0aHJlZSB3YXlzIHRvIGFjY2VzcyBQ
+Q0kgQkFScyBmcm9tIHVzZXJzcGFjZTogL2Rldi9tZW0sIHN5c2ZzCj4gPiBmaWxlcywgYW5kIHRo
+ZSBvbGQgcHJvYyBpbnRlcmZhY2UuIFR3byBjaGVjayBhZ2FpbnN0Cj4gPiBpb21lbV9pc19leGNs
+dXNpdmUsIHByb2MgbmV2ZXIgZGlkLiBBbmQgd2l0aCBDT05GSUdfSU9fU1RSSUNUX0RFVk1FTSwK
+PiA+IHRoaXMgc3RhcnRzIHRvIG1hdHRlciwgc2luY2Ugd2UgZG9uJ3Qgd2FudCByYW5kb20gdXNl
+cnNwYWNlIGhhdmluZwo+ID4gYWNjZXNzIHRvIFBDSSBCQVJzIHdoaWxlIGEgZHJpdmVyIGlzIGxv
+YWRlZCBhbmQgdXNpbmcgaXQuCj4gPgo+ID4gRml4IHRoaXMgYnkgYWRkaW5nIHRoZSBzYW1lIGlv
+bWVtX2lzX2V4Y2x1c2l2ZSgpIGNoZWNrIHdlIGFscmVhZHkgaGF2ZQo+ID4gb24gdGhlIHN5c2Zz
+IHNpZGUgaW4gcGNpX21tYXBfcmVzb3VyY2UoKS4KPiA+Cj4gPiBSZWZlcmVuY2VzOiA5MGE1NDVl
+OTgxMjYgKCJyZXN0cmljdCAvZGV2L21lbSB0byBpZGxlIGlvIG1lbW9yeSByYW5nZXMiKQo+ID4g
+U2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4g
+PiBDYzogSmFzb24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+Cj4gPiBDYzogS2VlcyBDb29rIDxr
+ZWVzY29va0BjaHJvbWl1bS5vcmc+Cj4gPiBDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFt
+c0BpbnRlbC5jb20+Cj4gPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9u
+Lm9yZz4KPiA+IENjOiBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52aWRpYS5jb20+Cj4gPiBDYzog
+SsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3NlQHJlZGhhdC5jb20+Cj4gPiBDYzogSmFuIEthcmEgPGph
+Y2tAc3VzZS5jej4KPiA+IENjOiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNv
+bT4KPiA+IENjOiBsaW51eC1tbUBrdmFjay5vcmcKPiA+IENjOiBsaW51eC1hcm0ta2VybmVsQGxp
+c3RzLmluZnJhZGVhZC5vcmcKPiA+IENjOiBsaW51eC1zYW1zdW5nLXNvY0B2Z2VyLmtlcm5lbC5v
+cmcKPiA+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiA+IENjOiBCam9ybiBIZWxn
+YWFzIDxiaGVsZ2Fhc0Bnb29nbGUuY29tPgo+ID4gQ2M6IGxpbnV4LXBjaUB2Z2VyLmtlcm5lbC5v
+cmcKPiA+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwu
+Y29tPgo+Cj4gTWF5YmUgbm90IGZvciBmaXhpbmcgaW4gdGhpcyBzZXJpZXMsIGJ1dCB0aGlzIGFj
+Y2VzcyB0bwo+IElPUkVTT1VSQ0VfQlVTWSBkb2Vzbid0IGhhdmUgYW55IGxvY2tpbmcuCj4KPiBU
+aGUgd3JpdGUgc2lkZSBob2xkcyB0aGUgcmVzb3VyY2VfbG9jayBhdCBsZWFzdC4uCj4KPiA+ICAg
+ICAgIHJldCA9IHBjaV9tbWFwX3BhZ2VfcmFuZ2UoZGV2LCBpLCB2bWEsCj4gPiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIGZwcml2LT5tbWFwX3N0YXRlLCB3cml0ZV9jb21iaW5lKTsK
+Pgo+IEF0IHRoaXMgcG9pbnQgdGhlIHZtYSBpc24ndCBsaW5rZWQgaW50byB0aGUgYWRkcmVzcyBz
+cGFjZSwgc28gZG9lc24ndAo+IHRoaXMgaGFwcGVuPwo+Cj4gICAgICBDUFUgMCAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBDUFUxCj4gIG1tYXBfcmVnaW9uKCkKPiAgICB2bWEgPSB2
+bV9hcmVhX2FsbG9jCj4gICAgcHJvY19idXNfcGNpX21tYXAKPiAgICAgaW9tZW1faXNfZXhjbHVz
+aXZlCj4gICAgIHBjaV9tbWFwX3BhZ2VfcmFuZ2UKPiAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHJldm9rZV9kZXZtZW0KPiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB1bm1hcF9tYXBwaW5nX3JhbmdlKCkKPiAgICAgIC8vIHZt
+YSBpcyBub3QgbGlua2VkIHRvIHRoZSBhZGRyZXNzIHNwYWNlIGhlcmUsCj4gICAgICAvLyB1bm1h
+cCBkb2Vzbid0IGZpbmQgaXQKPiAgIHZtYV9saW5rKCkKPiAgICEhISBUaGUgVk1BIGdldHMgbWFw
+cGVkIHdpdGggdGhlIHJldm9rZWQgUFRFcwo+Cj4gSSBjb3VsZG4ndCBmaW5kIGFueXRoaW5nIHRo
+YXQgcHJldmVudHMgaXQgYXQgbGVhc3QsIG5vIG1tYXBfc2VtIG9uIHRoZQo+IHVubWFwIHNpZGUs
+IGp1c3QgdGhlIGlfbW1hcF9sb2NrCj4KPiBOb3Qgc2VlaW5nIGhvdyBhZGRyZXNzIHNwYWNlIGFu
+ZCBwcmUtcG9wdWxhdGluZyBkdXJpbmcgbW1hcCB3b3JrCj4gdG9nZXRoZXI/IERpZCBJIG1pc3Mg
+bG9ja2luZyBzb21lcGxhY2U/Cj4KPiBOb3Qgc29tZXRoaW5nIHRvIGJlIGZpeGVkIGZvciB0aGlz
+IHNlcmllcywgdGhpcyBpcyBjbGVhcmx5IGFuCj4gaW1wcm92ZW1lbnQsIGJ1dCBzZWVtcyBsaWtl
+IGFub3RoZXIgcHJvYmxlbSB0byB0YWNrbGU/CgpVaCB5ZXMuIEluIGRyaXZlcnMvZ3B1IHRoaXMg
+aXNuJ3QgYSBwcm9ibGVtIGJlY2F1c2Ugd2Ugb25seSBpbnN0YWxsCnB0ZXMgZnJvbSB0aGUgdm1f
+b3BzLT5mYXVsdCBoYW5kbGVyLiBTbyBubyByYWNlcy4gQW5kIEkgZG9uJ3QgdGhpbmsKeW91IGNh
+biBmaXggdGhpcyBvdGhlcndpc2UgdGhyb3VnaCBob2xkaW5nIGxvY2tzOiBtbWFwX3NlbSB3ZSBj
+YW4ndApob2xkIGJlY2F1c2UgYmVmb3JlIHZtYV9saW5rIHdlIGRvbid0IGV2ZW4ga25vdyB3aGlj
+aCBtbV9zdHJ1Y3QgaXMKaW52b2x2ZWQsIHNvIGNhbid0IHNvbHZlIHRoZSByYWNlLiBQbHVzIHRo
+aXMgd291bGQgYmUgd29yc2UgdGhhdAptbV90YWtlX2FsbF9sb2NrcyB1c2VkIGJ5IG1tdSBub3Rp
+Zmllci4gQW5kIHRoZSBhZGRyZXNzX3NwYWNlCmlfbW1hcF9sb2NrIGlzIGFsc28gbm8gZ29vZCBz
+aW5jZSBpdCdzIG5vdCBoZWxkIGR1cmluZyB0aGUgLT5tbWFwCmNhbGxiYWNrLCB3aGVuIHdlIHdy
+aXRlIHRoZSBwdGVzLiBBbmQgdGhlIHJlc291cmNlIGxvY2tzIGlzIGV2ZW4gbGVzcwp1c2VmdWws
+IHNpbmNlIHdlJ3JlIG5vdCBnb2luZyB0byBob2xkIHRoYXQgYXQgdm1hX2xpbmsoKSB0aW1lIGZv
+cgpzdXJlLgoKSGVuY2UgZGVsYXlpbmcgdGhlIHB0ZSB3cml0ZXMgYWZ0ZXIgdGhlIHZtYV9saW5r
+LCB3aGljaCBtZWFucyAtPmZhdWx0CnRpbWUsIGxvb2tzIGxpa2UgdGhlIG9ubHkgd2F5IHRvIGNs
+b3NlIHRoaXMgZ2FwLgoKVHJvdWJsZSBpcyBJIGhhdmUgbm8gaWRlYSBob3cgdG8gZG8gdGhpcyBj
+bGVhbmx5IC4uLgotRGFuaWVsCgoKCi0tCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIs
+IEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
