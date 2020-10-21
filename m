@@ -1,65 +1,100 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9620295913
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:27:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4DA295919
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3736E07D;
-	Thu, 22 Oct 2020 07:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE676F3E2;
+	Thu, 22 Oct 2020 07:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 971DC6E9B2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 07:24:07 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id f19so942459pfj.11
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 00:24:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=hAIhzFswDyObHC/AccJ2pW9tYMVZUmTRll6IsakeHDI=;
- b=hcxqhkvAd7gaUVg+ADZjC/g5t7FunCEWj40dk9Jkh/xjioI52ZXAkwo5BMXN3dd6bK
- 5yXuvLzPNM3xRKnqdyMdj4t+47mqUiHukE7zp03beKQSUIMlvPx4UIwK8I+FHjqcmJK+
- m/BFHJXQmFjXQ8bMAZqWLhKkQs9XMJMwLfK9KLRTPTTK0VqGNT1ILV7h8O1faqdo/jo4
- RnbVTYrqOhJJX40NnBh57Kvpk11HcrFZljb+h+jDOuMIAQLRZDKUntg+d0RwJGn2AWEH
- 05nApZQVycKIsoa+R52Nh1RncFPKJRVeAHd/N+wiBZk7rXT5ryOvdRuVzz3Kc2MSGxVM
- o+vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=hAIhzFswDyObHC/AccJ2pW9tYMVZUmTRll6IsakeHDI=;
- b=hnJflPIgFJFvTqzLeVMkKyx/p0knvtxVG+U2H3Ax+FplRTa6kdpfQX4gfm2AIOJezJ
- naeAOf0fdAQcXAoWIzANVsNIhxKoOhr7YsifznSPtp+MXFSy3a45Q0e7ioiFTR6RBNOB
- 7E0Aix8sh8rAieiReqFqeAjslpbbBGJ11yvesBiZiFV99oua5ojp8LKvjNohGqD35PTs
- 5B2H6x6MvQ+s56F98jWww27XVrs8W+B3BIytJEyXDF9Q370iGPHm83qg9eBE2lUoE7jb
- q5InIr5VAMnJ7YJUoqW7QVsgS9j3hUC32hTgiSE+sUIp6ReWm4KAaWq3OhjVW3x0mfKC
- UU2Q==
-X-Gm-Message-State: AOAM533q5Beax8MHQVI1P2XIBawPu5eC4W7AvGEX8uLl2COgDYmmZAxN
- hecQp/l6LZtwPKJm6Sc4d592Wg==
-X-Google-Smtp-Source: ABdhPJxdvf151N9thd6CsPj2u4ESktngUMo7t9TYxraGbFVI19jZ698HL0h3xJRccblV6DfAzwc+Ng==
-X-Received: by 2002:aa7:84c6:0:b029:155:d56e:5191 with SMTP id
- x6-20020aa784c60000b0290155d56e5191mr2068267pfn.41.1603265047189; 
- Wed, 21 Oct 2020 00:24:07 -0700 (PDT)
-Received: from localhost ([122.181.54.133])
- by smtp.gmail.com with ESMTPSA id o2sm1377845pgg.3.2020.10.21.00.24.05
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 21 Oct 2020 00:24:06 -0700 (PDT)
-Date: Wed, 21 Oct 2020 12:54:04 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: rnayak@codeaurora.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH V2 3/8] drm/msm: Unconditionally call
- dev_pm_opp_of_remove_table()
-Message-ID: <20201021072404.y43tjzd2ehclrejp@vireshk-i7>
-References: <cover.1598594714.git.viresh.kumar@linaro.org>
- <6e4110032f8711e8bb0acbeccfe66dec3b09d5c1.1598594714.git.viresh.kumar@linaro.org>
- <20201005062633.ejpehkpeuwksrx3e@vireshk-i7>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 778776E071
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 07:56:08 +0000 (UTC)
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09L7X16V066044; Wed, 21 Oct 2020 03:56:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=lv0GwBldnmbZQXrayavRSYj6mxTJ2VfqBwFS3jQIG0c=;
+ b=dUv4rTX/nfJgprmkjOdg/5aMNPuqyVb/enj5JDQw9bniaKU2bnh8sbD2Y8UOdBgiaPty
+ 9nnPLGBESYPJKwDsDB98+duUeED7csFciXP23ClQhtZhGQ1arOV75HXtSWrTF3bTdM/a
+ R1XwxPsvjilXzGOOu7JJ8R95o65oCrwFvZte6e1Piz4lya872/SzZHEoZ7GsuMzH19al
+ 0rnOqou3KlBmxWNZKa7kH6GzbDoXTeeuyhHGV02HSvREsYslXl3QtEAplEW7VW7RnHaK
+ AjKKmH/TdGcIYX/5UDQoDExVw2rwMpxPlF1iFwQjshxFzKC3jAP0OSpSWpJICUaYtCvb vg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34agdm96ad-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 21 Oct 2020 03:56:03 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09L7Y7ob070104;
+ Wed, 21 Oct 2020 03:56:03 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34agdm969c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 21 Oct 2020 03:56:03 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09L7plEK007941;
+ Wed, 21 Oct 2020 07:56:00 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06fra.de.ibm.com with ESMTP id 347qvha47f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 21 Oct 2020 07:56:00 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09L7twAb32506250
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 21 Oct 2020 07:55:58 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4BD5DA4051;
+ Wed, 21 Oct 2020 07:55:58 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 88367A4055;
+ Wed, 21 Oct 2020 07:55:57 +0000 (GMT)
+Received: from [9.145.178.173] (unknown [9.145.178.173])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 21 Oct 2020 07:55:57 +0000 (GMT)
+Subject: Re: [PATCH v2 08/17] s390/pci: Remove races against pte updates
+To: DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+ linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-s390@vger.kernel.org,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Dan Williams <dan.j.williams@intel.com>, Kees Cook <keescook@chromium.org>,
+ Andrew Morton <akpm@linux-foundation.org>, John Hubbard
+ <jhubbard@nvidia.com>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
+ <jglisse@redhat.com>, Jan Kara <jack@suse.cz>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-9-daniel.vetter@ffwll.ch>
+ <6deb08dd-46f3-bf26-5362-fdc696f6fd74@linux.ibm.com>
+ <20201012141906.GX438822@phenom.ffwll.local>
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Message-ID: <3594c115-541f-806a-ee33-e99a2d1d31e8@linux.ibm.com>
+Date: Wed, 21 Oct 2020 09:55:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201005062633.ejpehkpeuwksrx3e@vireshk-i7>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20201012141906.GX438822@phenom.ffwll.local>
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
+ definitions=2020-10-21_03:2020-10-20,
+ 2020-10-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 suspectscore=0 adultscore=0 phishscore=0
+ malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010210060
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,35 +108,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, Naresh Kamboju <naresh.kamboju@linaro.org>,
- Rafael Wysocki <rjw@rjwysocki.net>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05-10-20, 11:56, Viresh Kumar wrote:
-> On 28-08-20, 11:37, Viresh Kumar wrote:
-> > dev_pm_opp_of_remove_table() doesn't report any errors when it fails to
-> > find the OPP table with error -ENODEV (i.e. OPP table not present for
-> > the device). And we can call dev_pm_opp_of_remove_table()
-> > unconditionally here.
-> > 
-> > While at it, also create a label to put clkname.
-> > 
-> > Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> 
-> Can someone please apply this and the other drm patch (2/8) ?
-
-Rob/Rajendra, can someone please have a look at these patches ?
-
--- 
-viresh
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRGFuaWVsLAoKZnJpZW5kbHkgcGluZy4gSSBoYXZlbid0IHNlZW4gYSBuZXcgdmVyc2lvbiBv
+ZiB0aGlzIHBhdGNoIHNlcmllcywKYXMgSSBzYWlkIEkgdGhpbmsgeW91ciBjaGFuZ2UgZm9yIHMz
+OTAvcGNpIGlzIGdlbmVyYWxseSB1c2VmdWwgc28KSSdtIGN1cmlvdXMsIGFyZSB5b3UgcGxhbm5p
+bmcgb24gc2VuZGluZyBhIG5ldyB2ZXJzaW9uIHNvb24/CklmIHlvdSB3YW50IHlvdSBjYW4gYWxz
+byBqdXN0IHNlbnQgdGhpcyBwYXRjaCB3aXRoIHRoZSBsYXN0IGZldwpuaXRwaWNrcyAocHJpbWFy
+aWx5IHRoZSBtYWlsIGFkZHJlc3MpIGZpeGVkIGFuZCBJJ2xsIGhhcHBpbHkgYXBwbHkuCgpCZXN0
+IHJlZ2FyZHMsCk5pa2xhcyBTY2huZWxsZQoKT24gMTAvMTIvMjAgNDoxOSBQTSwgRGFuaWVsIFZl
+dHRlciB3cm90ZToKPiBPbiBNb24sIE9jdCAxMiwgMjAyMCBhdCAwNDowMzoyOFBNICswMjAwLCBO
+aWtsYXMgU2NobmVsbGUgd3JvdGU6Ci4uLiBzbmlwIC4uLi4KPj4+IENjOiBKYXNvbiBHdW50aG9y
+cGUgPGpnZ0B6aWVwZS5jYT4KPj4+IENjOiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGlu
+dGVsLmNvbT4KPj4+IENjOiBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4KPj4+IENj
+OiBBbmRyZXcgTW9ydG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPgo+Pj4gQ2M6IEpvaG4g
+SHViYmFyZCA8amh1YmJhcmRAbnZpZGlhLmNvbT4KPj4+IENjOiBKw6lyw7RtZSBHbGlzc2UgPGpn
+bGlzc2VAcmVkaGF0LmNvbT4KPj4+IENjOiBKYW4gS2FyYSA8amFja0BzdXNlLmN6Pgo+Pj4gQ2M6
+IERhbiBXaWxsaWFtcyA8ZGFuLmoud2lsbGlhbXNAaW50ZWwuY29tPgo+Pgo+PiBUaGUgYWJvdmUg
+Q2M6IGxpbmUgZm9yIERhbiBXaWxsaWFtcyBpcyBhIGR1cGxpY2F0ZQo+Pgo+Pj4gQ2M6IGxpbnV4
+LW1tQGt2YWNrLm9yZwo+Pj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9y
+Zwo+Pj4gQ2M6IGxpbnV4LXNhbXN1bmctc29jQHZnZXIua2VybmVsLm9yZwo+Pj4gQ2M6IGxpbnV4
+LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+Pj4gQ2M6IE5pa2xhcyBTY2huZWxsZSA8c2NobmVsbGVA
+bGludXguaWJtLmNvbT4KPj4+IENjOiBHZXJhbGQgU2NoYWVmZXIgPGdlcmFsZC5zY2hhZWZlckBs
+aW51eC5pYm0uY29tPgo+Pj4gQ2M6IGxpbnV4LXMzOTBAdmdlci5rZXJuZWwub3JnCj4+PiAtLQo+
+Pj4gdjI6IE1vdmUgVk1fSU8gfCBWTV9QRk5NQVAgY2hlY2tzIGFyb3VuZCBzbyB0aGV5IGtlZXAg
+cmV0dXJuaW5nIEVJTlZBTAo+Pj4gbGlrZSBiZWZvcmUgKEdlcmFyZCkKPj4KPj4gSSB0aGluayB0
+aGUgYWJvdmUgc2hvdWxkIGdvIGJlZm9yZSB0aGUgQ0MvU2lnbmVkLW9mZi9SZXZpZXdldiBibG9j
+ay4KPiAKPiBUaGlzIGlzIGEgcGVyLXN1YnN5c3RlbSBiaWtlc2hlZCA6LSkgZHJpdmVycy9ncHUg
+ZGVmaW5pdGVseSB3YW50cyBpdAo+IGFib3ZlLCBidXQgbW9zdCBjb3JlIHN1YnN5c3RlbXMgd2Fu
+dCBpdCBiZWxvdy4gSSdsbCBtb3ZlIGl0Lgo+IAo+Pj4gLS0tCj4+PiAgYXJjaC9zMzkwL3BjaS9w
+Y2lfbW1pby5jIHwgOTggKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLQo+
+Pj4gIDEgZmlsZSBjaGFuZ2VkLCA1NyBpbnNlcnRpb25zKCspLCA0MSBkZWxldGlvbnMoLSkKPj4+
+Cj4+PiBkaWZmIC0tZ2l0IGEvYXJjaC9zMzkwL3BjaS9wY2lfbW1pby5jIGIvYXJjaC9zMzkwL3Bj
+aS9wY2lfbW1pby5jCj4+PiBpbmRleCA0MDFjZjY3MGEyNDMuLjFhNmFkYmM2OGVlOCAxMDA2NDQK
+Pj4+IC0tLSBhL2FyY2gvczM5MC9wY2kvcGNpX21taW8uYwo+Pj4gKysrIGIvYXJjaC9zMzkwL3Bj
+aS9wY2lfbW1pby5jCj4+PiBAQCAtMTE5LDMzICsxMTksMTUgQEAgc3RhdGljIGlubGluZSBpbnQg
+X19tZW1jcHlfdG9pb19pbnVzZXIodm9pZCBfX2lvbWVtICpkc3QsCj4+PiAgCXJldHVybiByYzsK
+Pj4+ICB9Cj4+PiAgCj4+PiAtc3RhdGljIGxvbmcgZ2V0X3Bmbih1bnNpZ25lZCBsb25nIHVzZXJf
+YWRkciwgdW5zaWduZWQgbG9uZyBhY2Nlc3MsCj4+PiAtCQkgICAgdW5zaWduZWQgbG9uZyAqcGZu
+KQo+Pj4gLXsKPj4+IC0Jc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWE7Cj4+PiAtCWxvbmcgcmV0
+Owo+Pj4gLQo+Pj4gLQltbWFwX3JlYWRfbG9jayhjdXJyZW50LT5tbSk7Cj4+PiAtCXJldCA9IC1F
+SU5WQUw7Cj4+PiAtCXZtYSA9IGZpbmRfdm1hKGN1cnJlbnQtPm1tLCB1c2VyX2FkZHIpOwo+Pj4g
+LQlpZiAoIXZtYSkKPj4+IC0JCWdvdG8gb3V0Owo+Pj4gLQlyZXQgPSAtRUFDQ0VTOwo+Pj4gLQlp
+ZiAoISh2bWEtPnZtX2ZsYWdzICYgYWNjZXNzKSkKPj4+IC0JCWdvdG8gb3V0Owo+Pj4gLQlyZXQg
+PSBmb2xsb3dfcGZuKHZtYSwgdXNlcl9hZGRyLCBwZm4pOwo+Pj4gLW91dDoKPj4+IC0JbW1hcF9y
+ZWFkX3VubG9jayhjdXJyZW50LT5tbSk7Cj4+PiAtCXJldHVybiByZXQ7Cj4+PiAtfQo+Pj4gLQo+
+Pj4gIFNZU0NBTExfREVGSU5FMyhzMzkwX3BjaV9tbWlvX3dyaXRlLCB1bnNpZ25lZCBsb25nLCBt
+bWlvX2FkZHIsCj4+PiAgCQljb25zdCB2b2lkIF9fdXNlciAqLCB1c2VyX2J1ZmZlciwgc2l6ZV90
+LCBsZW5ndGgpCj4+PiAgewo+Pj4gIAl1OCBsb2NhbF9idWZbNjRdOwo+Pj4gIAl2b2lkIF9faW9t
+ZW0gKmlvX2FkZHI7Cj4+PiAgCXZvaWQgKmJ1ZjsKPj4+IC0JdW5zaWduZWQgbG9uZyBwZm47Cj4+
+PiArCXN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hOwo+Pj4gKwlwdGVfdCAqcHRlcDsKPj4+ICsJ
+c3BpbmxvY2tfdCAqcHRsOwo+Pgo+PiBXaXRoIGNoZWNrcGF0Y2gucGwgLS1zdHJpY3QgdGhlIGFi
+b3ZlIHlpZWxkcyBhIGNvbXBsYWluZWQKPj4gIkNIRUNLOiBzcGlubG9ja190IGRlZmluaXRpb24g
+d2l0aG91dCBjb21tZW50IiBidXQgSSB0aGluawo+PiB0aGF0J3MgcmVhbGx5IG9rYXkgc2luY2Ug
+eW91ciBjb21taXQgZGVzY3JpcHRpb24gaXMgdmVyeSBjbGVhci4KPj4gU2FtZSBvaW4gbGluZSAy
+NzcuCj4gCj4gSSB0aGluayB0aGlzIGlzIGEgZmFsbHMgcG9zaXRpdmUsIGNoZWNrcGF0Y2ggZG9l
+c24ndCByZWFsaXplIHRoYXQKPiBTWVNDQUxMX0RFRklORTMgaXMgYSBmdW5jdGlvbiwgbm90IGEg
+c3RydWN0dXJlLiBBbmQgaW4gYSBzdHJ1Y3R1cmUgSSdkCj4gaGF2ZSBhZGRlZCB0aGUga2VybmVs
+ZG9jIG9yIGNvbW1lbnQuCj4gCj4gSSdsbCBmaXggdXAgYWxsIHRoZSBuaXRzIHlvdSd2ZSBmb3Vu
+ZCBmb3IgdGhlIG5leHQgcm91bmQuIFRoYW5rcyBmb3IKPiB0YWtpbmcgYSBsb29rLgo+IC1EYW5p
+ZWwKPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
