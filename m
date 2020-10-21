@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6501B29592A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD2D295926
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91D916F521;
-	Thu, 22 Oct 2020 07:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0ECB6F51E;
+	Thu, 22 Oct 2020 07:28:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 455 seconds by postgrey-1.36 at gabe;
- Wed, 21 Oct 2020 17:18:29 UTC
-Received: from mail.siol.net (mailoutvs11.siol.net [185.57.226.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16D378861A
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 17:18:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTP id 77CC8527434;
- Wed, 21 Oct 2020 19:13:11 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id 7pY5Dxuq1YDw; Wed, 21 Oct 2020 19:13:11 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Postfix) with ESMTPS id 2576652743A;
- Wed, 21 Oct 2020 19:13:11 +0200 (CEST)
-Received: from kista.localnet (cpe1-5-97.cable.triera.net [213.161.5.97])
- (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Postfix) with ESMTPA id AA475527434;
- Wed, 21 Oct 2020 19:13:10 +0200 (CEST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
- Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 2/3] drm/sun4i: frontend: Reuse the ch0 phase for RGB
- formats
-Date: Wed, 21 Oct 2020 19:18:37 +0200
-Message-ID: <3169628.grsLiRHT83@kista>
-In-Reply-To: <20201015093642.261440-2-maxime@cerno.tech>
-References: <20201015093642.261440-1-maxime@cerno.tech>
- <20201015093642.261440-2-maxime@cerno.tech>
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 063E36EE48;
+ Wed, 21 Oct 2020 18:26:15 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id n16so1954753pgv.13;
+ Wed, 21 Oct 2020 11:26:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=1FO9M9j075wuOALfoXxDUJe5XnERWTNac+Lhpl+//0M=;
+ b=Gs0RQUdBzH+ye2gZxvGyB0vM44Vo1uzip3av9KXrzGiFzj6YVV0VumoXinNm+HrTGF
+ a41sMv9p0md1kZicJUhprFfUc2BB4N5GTHHfL2/53CllymaxHzYWG3QlNvGhsWXHM1pO
+ HVTwVuGQpK6iQIswHqk4r/fLpwesA1BVIPVKhHlesT4AYpwXtVOTZ5PYgNdMz0m4Cb0i
+ wordHDyvWIPqUWCOjd7BYH0vG6llIyahcJ+PaLnLGlGlKtkBrCEO2OwG1EcFGudjEb4S
+ DyyBwT22QxYCsC1524F991wBE4KrUgar6bkJqGLUz53wW0YbQAuEZvUKOIj57R/49kYh
+ Cepw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=1FO9M9j075wuOALfoXxDUJe5XnERWTNac+Lhpl+//0M=;
+ b=mzmcU/TtMkF0mKkjg1WYtw99akCrHSAUvbmepCQwDVLdneyk9CztklYZ0TdlQmjVzF
+ 5LJKyWsFQnw5e4+YG/7JvTQDaSJtx6iF+GF6/1Gr2H7jPxWaV32T0kd/QDUoeZd7KqR4
+ 7CPYeXew1Rq3RCNebJRAmU4xmEmhjvN5bT8SFcRvPLoa+NFTG8nTG+MWKEvFy3CfsvS4
+ LYH/E30x9vLHKKCe5K92F2VukGUZY0WIrcF5oMDwXEt3tcsM8L1FVNjGt6avsuJUfBY7
+ Yg194eDVITA+0PjOd8lGcBZvqNMHBPIhJ4+4AOcj6P98X0mYx1jP7JJt1CCtnfFSPTE9
+ fk/Q==
+X-Gm-Message-State: AOAM532NVNe/fxm3cwHxZoqyGuvF8c7DFGMB4y+U5lpoDBOkhc/A4r22
+ JdJiReimkzb1WQ1Hsb6+6D1Pa1K/CJsroiht
+X-Google-Smtp-Source: ABdhPJwP7EAt/uDM8x/2lBeocMVF3gYnnutiOkf68MN0f4x419/TMu9i75QIWYZrPndftnu7GsLn+g==
+X-Received: by 2002:a63:5d03:: with SMTP id r3mr4341644pgb.2.1603304775269;
+ Wed, 21 Oct 2020 11:26:15 -0700 (PDT)
+Received: from adolin ([49.207.215.109])
+ by smtp.gmail.com with ESMTPSA id a22sm3074560pfk.29.2020.10.21.11.26.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Oct 2020 11:26:14 -0700 (PDT)
+Date: Wed, 21 Oct 2020 23:56:10 +0530
+From: Sumera Priyadarsini <sylphrenadin@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [Outreachy kernel][PATCH] gpu: amd: Return boolean types instead of
+ integer values
+Message-ID: <20201021182610.4l65yg3y3nhzcac4@adolin>
 MIME-Version: 1.0
+Content-Disposition: inline
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,36 +65,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Taras Galchenko <tpgalchenko@gmail.com>, dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, Felix.Kuehling@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, melissa.srw@gmail.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkhCgpEbmUgxI1ldHJ0ZWssIDE1LiBva3RvYmVyIDIwMjAgb2IgMTE6MzY6NDEgQ0VTVCBqZSBN
-YXhpbWUgUmlwYXJkIG5hcGlzYWwoYSk6Cj4gV2hlbiB1c2luZyB0aGUgc2NhbGVyIG9uIHRoZSBB
-MTAtbGlrZSBmcm9udGVuZCB3aXRoIHNpbmdsZS1wbGFuYXIgZm9ybWF0cywKPiB0aGUgY3VycmVu
-dCBjb2RlIHdpbGwgc2V0dXAgdGhlIGNoYW5uZWwgMCBmaWx0ZXIgKHVzZWQgZm9yIHRoZSBSIG9y
-IFkKPiBjb21wb25lbnQpIHdpdGggYSBkaWZmZXJlbnQgcGhhc2UgcGFyYW1ldGVyIHRoYW4gdGhl
-IGNoYW5uZWwgMSBmaWx0ZXIgKHVzZWQKPiBmb3IgdGhlIEcvQiBvciBVL1YgY29tcG9uZW50cyku
-Cj4gCj4gVGhpcyBjcmVhdGVzIGEgYmxlZWQgb3V0IHRoYXQga2VlcHMgcmVwZWF0aW5nIG9uIG9m
-IHRoZSBsYXN0IGxpbmUgb2YgdGhlCj4gUkdCIHBsYW5lIGFjcm9zcyB0aGUgcmVzdCBvZiB0aGUg
-ZGlzcGxheS4gVGhlIEFsbHdpbm5lciBCU1AgZWl0aGVyIGFwcGxpZXMKPiB0aGUgc2FtZSBwaGFz
-ZSBwYXJhbWV0ZXIgb3ZlciBib3RoIGNoYW5uZWxzIG9yIHVzZSBhIHNlcGFyYXRlIG9uZSwgdGhl
-Cj4gY29uZGl0aW9uIGJlaW5nIHdoZXRoZXIgdGhlIGlucHV0IGZvcm1hdCBpcyBZVVY0MjAgb3Ig
-bm90Lgo+IAo+IFNpbmNlIFlVVjQyMCBpcyBib3RoIHN1YnNhbXBsZWQgYW5kIG11bHRpLXBsYW5h
-ciwgYW5kIHNpbmNlIFlVWVYgaXMKPiBzdWJzYW1wbGVkIGJ1dCBzaW5nbGUtcGxhbmFyLCB3ZSBj
-YW4gcnVsZSBvdXQgdGhlIHN1YnNhbXBsaW5nIGFuZCBhc3N1bWUKPiB0aGF0IHRoZSBjb25kaXRp
-b24gaXMgYWN0dWFsbHkgd2hldGhlciB0aGUgZm9ybWF0IGlzIHNpbmdsZSBvcgo+IG11bHRpLXBs
-YW5hci4gQW5kIGl0IGxvb2tzIGxpa2UgYXBwbHlpbmcgdGhlIHNhbWUgcGhhc2UgcGFyYW1ldGVy
-IG92ZXIgYm90aAo+IGNoYW5uZWxzIGZvciBzaW5nbGUtcGxhbmFyIGZvcm1hdHMgZml4ZXMgb3Vy
-IGlzc3VlLCB3aGlsZSB3ZSBrZWVwIHRoZQo+IG11bHRpLXBsYW5hciBmb3JtYXRzIHdvcmtpbmcg
-cHJvcGVybHkuCj4gCj4gUmVwb3J0ZWQtYnk6IFRhcmFzIEdhbGNoZW5rbyA8dHBnYWxjaGVua29A
-Z21haWwuY29tPgo+IFNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZUBjZXJuby50
-ZWNoPgoKQWNrZWQtYnk6IEplcm5laiBTa3JhYmVjIDxqZXJuZWouc2tyYWJlY0BzaW9sLm5ldD4K
-CkJlc3QgcmVnYXJkcywKSmVybmVqCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+Return statements for functions returning bool should use truth
+and false instead of 1 and 0 respectively.
+
+Modify cik_event_interrupt.c to return false instead of 0.
+
+Issue found with Coccinelle.
+
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+---
+ drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c b/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c
+index 24b471734117..8e64c01565ac 100644
+--- a/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c
++++ b/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c
+@@ -66,12 +66,12 @@ static bool cik_event_interrupt_isr(struct kfd_dev *dev,
+ 	vmid  = (ihre->ring_id & 0x0000ff00) >> 8;
+ 	if (vmid < dev->vm_info.first_vmid_kfd ||
+ 	    vmid > dev->vm_info.last_vmid_kfd)
+-		return 0;
++		return false;
+ 
+ 	/* If there is no valid PASID, it's likely a firmware bug */
+ 	pasid = (ihre->ring_id & 0xffff0000) >> 16;
+ 	if (WARN_ONCE(pasid == 0, "FW bug: No PASID in KFD interrupt"))
+-		return 0;
++		return false;
+ 
+ 	/* Interrupt types we care about: various signals and faults.
+ 	 * They will be forwarded to a work queue (see below).
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
