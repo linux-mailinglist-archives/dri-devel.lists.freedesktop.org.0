@@ -2,64 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832F2295920
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD68329591F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E867C6F3EF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C539A6F3ED;
 	Thu, 22 Oct 2020 07:28:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
- [IPv6:2607:f8b0:4864:20::f42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3066EACF
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 12:50:32 +0000 (UTC)
-Received: by mail-qv1-xf42.google.com with SMTP id h11so985510qvq.7
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 05:50:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=VkhhJyafoy36fds4PnCfWF9LNV9fC1i6gyayD/bdTsE=;
- b=Bjric0h8k3E5nVSnyA3y8syn5qJbzN5IRzuOHR0d7uEDz69w1rKEdQtJjX2klnSD2f
- HQcTpKD5D3V7kWLlToHxrM8UOfbUsM4NGMyxmaL4cJNWPBOlwy7SSVlgAu3fXQNgW/tm
- E/Z154bHNIDfOdfpW4c0/FAD/DUsAoEBg7tdzOhHMjGwZ1srI5ZzmyHw1kqTbOA20Zsr
- 6FkTvbFUFtQy26Mpkg7JM8b/jc3WZ4zNCmcMh6GqroRxUEuzzQjwRRq/1rm+GvI0lwIa
- yqkLIFnQ0gQqj71OpMsdVbj1j0y2lESP0Xm+nHN0pfprmhEnmw6kFUQw4XnnGYDmJyHR
- D1HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=VkhhJyafoy36fds4PnCfWF9LNV9fC1i6gyayD/bdTsE=;
- b=K8pZYPinXJq86SVgD7ruRwJsodv6x22qrXZinj/eQkyv0d4q3zkAdKjvgRWcag/Z5E
- nV4Z5jXpJbupRwabod2QgtsXa3us7jB7v/8Aj5sxRKqylJS4qyE3RzCVK5ZHZj5t9tnP
- 9TytGtivKXcEbJSAgYRQ9ZAuwaAWYkCPBKVHUV0+8lgKBL8E6UcrS45SqvfP2+B5lO5h
- 4BlBh+zcQ0aCL8oiTa3E2aPXcJWK6ySKkQIhGkqAyLIZid0tKd/p5oIYz+Kj3wjj/iq8
- xxcdFE3/fV2xK9l/uT18fBbneHsPdgCGuEqLM4x+GDfHiVwmmn1ebEB+xxdVmursH7fz
- nTBA==
-X-Gm-Message-State: AOAM531+8zrfMXyzDWsgMnpR8ig8QJoXIbQRpywwjZXi+ScmG6iN4gqZ
- Cot4foSZd89apyoNtM+Do2Lvrg==
-X-Google-Smtp-Source: ABdhPJylgNYamo6kqGCWkyezTruGMIXv95IBuM/bFST1jOCSfo3IMWIRoN2J3LwPyBiAPIKaTroxlw==
-X-Received: by 2002:ad4:52c6:: with SMTP id p6mr2781869qvs.38.1603284631882;
- Wed, 21 Oct 2020 05:50:31 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id r11sm1016060qtw.47.2020.10.21.05.50.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 05:50:31 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kVDZW-003UAg-0q; Wed, 21 Oct 2020 09:50:30 -0300
-Date: Wed, 21 Oct 2020 09:50:30 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
+Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88A986EB0C
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 12:51:35 +0000 (UTC)
+Received: from HKMAIL104.nvidia.com (Not Verified[10.18.92.77]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f902ed00001>; Wed, 21 Oct 2020 20:51:28 +0800
+Received: from HKMAIL102.nvidia.com (10.18.16.11) by HKMAIL104.nvidia.com
+ (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 21 Oct
+ 2020 12:51:28 +0000
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by HKMAIL102.nvidia.com (10.18.16.11) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Wed, 21 Oct 2020 12:51:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FRw8/EytkfcUBldJuP/BUuxxIDH9Cjfkp7Nmm09svP82seUUZfOU/ahD2Ulz4L2wWbcVan/0CdFMo6RobnpIzM27wU2MFgf3UZNaFMDAqPgUzu2xEisqqJiXSZxE4/RdsmqwQcsSpZ8B1Rd/qPPrQ5JuL/7rotO1Z38dlgYW0XBnhzqD02IOt67LgNrMdo07HikgJ298nvGqMcHoDGbwSDMF6E54RLYQnEjjTeGkeYscYrmTL2ImCgq3KPEZx6eOpBYeBO1VO73nlTHK3vTTcwDa+vjSVtO8l3Obv+UKChkK7HgpAhty9SbHgUzvWKb9ijXIetg/l+t9+zATfsE6Zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yh/1ZhTxXHD1YXbmPcINfY1BXvQtNEnRPtNoRP9PEH4=;
+ b=MeXBi/FsegQ4Ozc+o9nqHqApf9xo37Zq7fkpRtw8dnhIsQf/36ff6syWd4R3od1pGpPh/H3vP/RuPutpklaZoDu3aBKB8c2rys5z9vLqvptYiP63DDyWBOjniy46NJjGgep0pKrZ3QyLnxznLFlDP/PqxAs1iGAME1qzEQqfVJra/s8urs/k+BUxQp+uLasxIQjPMPRm+bciVVfol61EgyKjQOkBPk0GLtsTvHaz0GXmnD/T9n54Eeor/x+Qprk0olGD2IK2LFtyCdXevIy4b8X05lIdUSJroNjV49dy81c/1pyr9TtkkrEwEr1Ra/rlitUC0mY3whPauKPOIqSrag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB4498.namprd12.prod.outlook.com (2603:10b6:5:2a2::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Wed, 21 Oct
+ 2020 12:51:26 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
+ 12:51:26 +0000
+Date: Wed, 21 Oct 2020 09:51:24 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v3 12/16] PCI: Obey iomem restrictions for procfs mmap
-Message-ID: <20201021125030.GK36674@ziepe.ca>
+Subject: Re: [PATCH v3 00/16] follow_pfn and other iomap races
+Message-ID: <20201021125124.GA827089@nvidia.com>
 References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
- <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
-MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+X-ClientProxiedBy: MN2PR08CA0025.namprd08.prod.outlook.com
+ (2603:10b6:208:239::30) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by
+ MN2PR08CA0025.namprd08.prod.outlook.com (2603:10b6:208:239::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.24 via Frontend
+ Transport; Wed, 21 Oct 2020 12:51:25 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1kVDaO-003UBS-Qb; Wed, 21 Oct 2020 09:51:24 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1603284689; bh=yh/1ZhTxXHD1YXbmPcINfY1BXvQtNEnRPtNoRP9PEH4=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=C7xYU0fDsha18ThIXlmRE40GkYuRAFPxCvdB3o1nMvhmU+vNu/rWItr/hyVsI9JH9
+ fOswYgLrZ1ZCdIq3o74WRdiiwn36I+f089K2bd5TwpCAN88YO70quRsJez5AumELr1
+ rUSxhC1RAFOXp/GeUnJ89506tos7uvcJw1UAIv6ruwvgDQgeI9UdjilJv1BO6pVzHs
+ voW1qRPuxMuaDc5hOEpSvzFbPi+5E52IQsBge0a0DfxAsa6VhbITJG8CQ4ZD4w6A0O
+ 0U0LE7MYwwqgIITuqPz4Q6uMmb+s1eOV3pscqtu/o7GoBFJpxWCQpWJhazPnrKwrXa
+ XsZ5x/vGm+/Rg==
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,62 +86,74 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.com>,
- John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
+ kvm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMjEsIDIwMjAgYXQgMTA6NTY6NTFBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBUaGVyZSdzIHRocmVlIHdheXMgdG8gYWNjZXNzIFBDSSBCQVJzIGZyb20gdXNlcnNw
-YWNlOiAvZGV2L21lbSwgc3lzZnMKPiBmaWxlcywgYW5kIHRoZSBvbGQgcHJvYyBpbnRlcmZhY2Uu
-IFR3byBjaGVjayBhZ2FpbnN0Cj4gaW9tZW1faXNfZXhjbHVzaXZlLCBwcm9jIG5ldmVyIGRpZC4g
-QW5kIHdpdGggQ09ORklHX0lPX1NUUklDVF9ERVZNRU0sCj4gdGhpcyBzdGFydHMgdG8gbWF0dGVy
-LCBzaW5jZSB3ZSBkb24ndCB3YW50IHJhbmRvbSB1c2Vyc3BhY2UgaGF2aW5nCj4gYWNjZXNzIHRv
-IFBDSSBCQVJzIHdoaWxlIGEgZHJpdmVyIGlzIGxvYWRlZCBhbmQgdXNpbmcgaXQuCj4gCj4gRml4
-IHRoaXMgYnkgYWRkaW5nIHRoZSBzYW1lIGlvbWVtX2lzX2V4Y2x1c2l2ZSgpIGNoZWNrIHdlIGFs
-cmVhZHkgaGF2ZQo+IG9uIHRoZSBzeXNmcyBzaWRlIGluIHBjaV9tbWFwX3Jlc291cmNlKCkuCj4g
-Cj4gUmVmZXJlbmNlczogOTBhNTQ1ZTk4MTI2ICgicmVzdHJpY3QgL2Rldi9tZW0gdG8gaWRsZSBp
-byBtZW1vcnkgcmFuZ2VzIikKPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGludGVsLmNvbT4KPiBDYzogSmFzb24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+Cj4g
-Q2M6IEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3JnPgo+IENjOiBEYW4gV2lsbGlhbXMg
-PGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51
-eC1mb3VuZGF0aW9uLm9yZz4KPiBDYzogSm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlkaWEuY29t
-Pgo+IENjOiBKw6lyw7RtZSBHbGlzc2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KPiBDYzogSmFuIEth
-cmEgPGphY2tAc3VzZS5jej4KPiBDYzogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFtc0BpbnRl
-bC5jb20+Cj4gQ2M6IGxpbnV4LW1tQGt2YWNrLm9yZwo+IENjOiBsaW51eC1hcm0ta2VybmVsQGxp
-c3RzLmluZnJhZGVhZC5vcmcKPiBDYzogbGludXgtc2Ftc3VuZy1zb2NAdmdlci5rZXJuZWwub3Jn
-Cj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+IENjOiBCam9ybiBIZWxnYWFzIDxi
-aGVsZ2Fhc0Bnb29nbGUuY29tPgo+IENjOiBsaW51eC1wY2lAdmdlci5rZXJuZWwub3JnCj4gU2ln
-bmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jb20+CgpNYXli
-ZSBub3QgZm9yIGZpeGluZyBpbiB0aGlzIHNlcmllcywgYnV0IHRoaXMgYWNjZXNzIHRvCklPUkVT
-T1VSQ0VfQlVTWSBkb2Vzbid0IGhhdmUgYW55IGxvY2tpbmcuCgpUaGUgd3JpdGUgc2lkZSBob2xk
-cyB0aGUgcmVzb3VyY2VfbG9jayBhdCBsZWFzdC4uCgo+ICAJcmV0ID0gcGNpX21tYXBfcGFnZV9y
-YW5nZShkZXYsIGksIHZtYSwKPiAgCQkJCSAgZnByaXYtPm1tYXBfc3RhdGUsIHdyaXRlX2NvbWJp
-bmUpOwoKQXQgdGhpcyBwb2ludCB0aGUgdm1hIGlzbid0IGxpbmtlZCBpbnRvIHRoZSBhZGRyZXNz
-IHNwYWNlLCBzbyBkb2Vzbid0CnRoaXMgaGFwcGVuPwoKICAgICBDUFUgMCAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBDUFUxCiBtbWFwX3JlZ2lvbigpCiAgIHZtYSA9IHZtX2FyZWFf
-YWxsb2MKICAgcHJvY19idXNfcGNpX21tYXAKICAgIGlvbWVtX2lzX2V4Y2x1c2l2ZQogICAgcGNp
-X21tYXBfcGFnZV9yYW5nZQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHJldm9rZV9kZXZtZW0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgdW5tYXBfbWFwcGluZ19yYW5nZSgpCiAgICAgLy8gdm1hIGlzIG5vdCBsaW5rZWQgdG8g
-dGhlIGFkZHJlc3Mgc3BhY2UgaGVyZSwKICAgICAvLyB1bm1hcCBkb2Vzbid0IGZpbmQgaXQKICB2
-bWFfbGluaygpIAogICEhISBUaGUgVk1BIGdldHMgbWFwcGVkIHdpdGggdGhlIHJldm9rZWQgUFRF
-cwoKSSBjb3VsZG4ndCBmaW5kIGFueXRoaW5nIHRoYXQgcHJldmVudHMgaXQgYXQgbGVhc3QsIG5v
-IG1tYXBfc2VtIG9uIHRoZQp1bm1hcCBzaWRlLCBqdXN0IHRoZSBpX21tYXBfbG9jawoKTm90IHNl
-ZWluZyBob3cgYWRkcmVzcyBzcGFjZSBhbmQgcHJlLXBvcHVsYXRpbmcgZHVyaW5nIG1tYXAgd29y
-awp0b2dldGhlcj8gRGlkIEkgbWlzcyBsb2NraW5nIHNvbWVwbGFjZT8KCk5vdCBzb21ldGhpbmcg
-dG8gYmUgZml4ZWQgZm9yIHRoaXMgc2VyaWVzLCB0aGlzIGlzIGNsZWFybHkgYW4KaW1wcm92ZW1l
-bnQsIGJ1dCBzZWVtcyBsaWtlIGFub3RoZXIgcHJvYmxlbSB0byB0YWNrbGU/CgpKYXNvbgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Oct 21, 2020 at 10:56:39AM +0200, Daniel Vetter wrote:
+> Hi all,
+> 
+> Round 3 of my patch series to clamp down a bunch of races and gaps
+> around follow_pfn and other access to iomem mmaps. Previous version:
+> 
+> v1: https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
+> v2: https://lore.kernel.org/dri-devel/20201009075934.3509076-1-daniel.vetter@ffwll.ch
+> 
+> And the discussion that sparked this journey:
+> 
+> https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
+> 
+> I was waiting for the testing result for habanalabs from Oded, but I guess
+> Oded was waiting for my v3.
+> 
+> Changes in v3:
+> - Bunch of polish all over, no functional changes aside from one barrier
+>   in the resource code, for consistency.
+> - A few more r-b tags.
+> 
+> Changes in v2:
+> - tons of small polish&fixes all over, thanks to all the reviewers who
+>   spotted issues
+> - I managed to test at least the generic_access_phys and pci mmap revoke
+>   stuff with a few gdb sessions using our i915 debug tools (hence now also
+>   the drm/i915 patch to properly request all the pci bar regions)
+> - reworked approach for the pci mmap revoke: Infrastructure moved into
+>   kernel/resource.c, address_space mapping is now set up at open time for
+>   everyone (which required some sysfs changes). Does indeed look a lot
+>   cleaner and a lot less invasive than I feared at first.
+> 
+> The big thing I can't test are all the frame_vector changes in habanalbas,
+> exynos and media. Gerald has given the s390 patch a spin already.
+> 
+> Review, testing, feedback all very much welcome.
+> 
+> Daniel Vetter (16):
+>   drm/exynos: Stop using frame_vector helpers
+>   drm/exynos: Use FOLL_LONGTERM for g2d cmdlists
+>   misc/habana: Stop using frame_vector helpers
+>   misc/habana: Use FOLL_LONGTERM for userptr
+>   mm/frame-vector: Use FOLL_LONGTERM
+>   media: videobuf2: Move frame_vector into media subsystem
+>   mm: Close race in generic_access_phys
+>   s390/pci: Remove races against pte updates
+>   mm: Add unsafe_follow_pfn
+>   media/videbuf1|2: Mark follow_pfn usage as unsafe
+>   vfio/type1: Mark follow_pfn as unsafe
+>   PCI: Obey iomem restrictions for procfs mmap
+>   /dev/mem: Only set filp->f_mapping
+>   resource: Move devmem revoke code to resource framework
+>   sysfs: Support zapping of binary attr mmaps
+>   PCI: Revoke mappings like devmem
+
+The whole thing looks like a great improvement!
+
+Thanks,
+Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
