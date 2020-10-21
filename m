@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD2D295926
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DA9295923
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0ECB6F51E;
-	Thu, 22 Oct 2020 07:28:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 183FD6F3F0;
+	Thu, 22 Oct 2020 07:28:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 063E36EE48;
- Wed, 21 Oct 2020 18:26:15 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id n16so1954753pgv.13;
- Wed, 21 Oct 2020 11:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=1FO9M9j075wuOALfoXxDUJe5XnERWTNac+Lhpl+//0M=;
- b=Gs0RQUdBzH+ye2gZxvGyB0vM44Vo1uzip3av9KXrzGiFzj6YVV0VumoXinNm+HrTGF
- a41sMv9p0md1kZicJUhprFfUc2BB4N5GTHHfL2/53CllymaxHzYWG3QlNvGhsWXHM1pO
- HVTwVuGQpK6iQIswHqk4r/fLpwesA1BVIPVKhHlesT4AYpwXtVOTZ5PYgNdMz0m4Cb0i
- wordHDyvWIPqUWCOjd7BYH0vG6llIyahcJ+PaLnLGlGlKtkBrCEO2OwG1EcFGudjEb4S
- DyyBwT22QxYCsC1524F991wBE4KrUgar6bkJqGLUz53wW0YbQAuEZvUKOIj57R/49kYh
- Cepw==
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 194706E135
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 18:56:44 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id z5so4332370iob.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 11:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Cc/K/PIuG41/PR7b04TzfA68X44vY0DhA0nNvxK+odE=;
+ b=GrBOpz3B04eglI4Ou/H+aoMQQg7CO3n/sx11CnC2KFyl751f5YKbxaSJfAieTMWw+3
+ kUWQ215pQELE9Py74xWRSY0RUbNNU8vjRkpRQdw7F2GGU/dlVP7gC2Eu6WVVw+Hv6gmq
+ fT3Ik/FKSDcRA8IdinKj2EfiCJZ8PsY1Wpev4G37iKVKPC3gKiVcL75dRi5pCmlhLOnb
+ xw6VL88vbHWo41Wgo35mqxEQH5kQUEKl7XojseMCtNHeMNA9jtXbEr72jh9Sdcuc9GaW
+ bW/GP+M9fsP2tI1TpMf5ZvWbfEtZl4I+lpZjbzIxPbFgx9c8joumjuG2a2iPHZxVfnnB
+ pD2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=1FO9M9j075wuOALfoXxDUJe5XnERWTNac+Lhpl+//0M=;
- b=mzmcU/TtMkF0mKkjg1WYtw99akCrHSAUvbmepCQwDVLdneyk9CztklYZ0TdlQmjVzF
- 5LJKyWsFQnw5e4+YG/7JvTQDaSJtx6iF+GF6/1Gr2H7jPxWaV32T0kd/QDUoeZd7KqR4
- 7CPYeXew1Rq3RCNebJRAmU4xmEmhjvN5bT8SFcRvPLoa+NFTG8nTG+MWKEvFy3CfsvS4
- LYH/E30x9vLHKKCe5K92F2VukGUZY0WIrcF5oMDwXEt3tcsM8L1FVNjGt6avsuJUfBY7
- Yg194eDVITA+0PjOd8lGcBZvqNMHBPIhJ4+4AOcj6P98X0mYx1jP7JJt1CCtnfFSPTE9
- fk/Q==
-X-Gm-Message-State: AOAM532NVNe/fxm3cwHxZoqyGuvF8c7DFGMB4y+U5lpoDBOkhc/A4r22
- JdJiReimkzb1WQ1Hsb6+6D1Pa1K/CJsroiht
-X-Google-Smtp-Source: ABdhPJwP7EAt/uDM8x/2lBeocMVF3gYnnutiOkf68MN0f4x419/TMu9i75QIWYZrPndftnu7GsLn+g==
-X-Received: by 2002:a63:5d03:: with SMTP id r3mr4341644pgb.2.1603304775269;
- Wed, 21 Oct 2020 11:26:15 -0700 (PDT)
-Received: from adolin ([49.207.215.109])
- by smtp.gmail.com with ESMTPSA id a22sm3074560pfk.29.2020.10.21.11.26.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 11:26:14 -0700 (PDT)
-Date: Wed, 21 Oct 2020 23:56:10 +0530
-From: Sumera Priyadarsini <sylphrenadin@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [Outreachy kernel][PATCH] gpu: amd: Return boolean types instead of
- integer values
-Message-ID: <20201021182610.4l65yg3y3nhzcac4@adolin>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Cc/K/PIuG41/PR7b04TzfA68X44vY0DhA0nNvxK+odE=;
+ b=Cb9nliYu4fm3shItmi0j+ZS9Xx6EfmJV1Da9JQpMYA2fe094r0457vjBsKElgfD/p2
+ 68D2y5DobGyd52c94Y8OvfDyOf5p2LeMWhIJXIhZOR37Ju+PS8ZPi9iyDzAT9Bv2i4Z7
+ dal+e1qoPi+AWEZ5JxSLL0cuukw5Nw130qE5uSw5iHCqhkeKyRA+LOOcpuvDMU5WGyb9
+ +MQINzU0BcBFEUJUihwJDdaQObxYr6PKPXO1Fc4Gvz//Apk7z11M4pEYmVYuaLAB0e7S
+ tuHLpsOC6QbTK8K5r0Idv7S0cLST0BjJsU2sUbxZ10K0Ugy8b8dR5zQ5Qv7jYN/aHHlJ
+ +Twg==
+X-Gm-Message-State: AOAM530tDRnVs3tnHPgnDROgQdtOtiA+8CIzlgPC0rMPSy21V2avD8Pn
+ iXIaozMlCZR/uW9eRIFvVXftRfzTuwRDlmL7RoLPwA==
+X-Google-Smtp-Source: ABdhPJyLG0RAlvFN8Zp7U5m+RnWUUNGK8TOymUgePPUKY/An2N5DmxSuoTuNWfKoZwAH4W8THjAuI9EyHl7jMFAlVZ4=
+X-Received: by 2002:a05:6638:1243:: with SMTP id
+ o3mr3993558jas.82.1603306603222; 
+ Wed, 21 Oct 2020 11:56:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <20201020174253.3757771-1-fparent@baylibre.com>
+ <20201020174253.3757771-3-fparent@baylibre.com>
+ <CAAOTY_9m-nqCe1HanPv5xa3mVLpyG6mC1pF1FRAFJdU1jqza_A@mail.gmail.com>
+In-Reply-To: <CAAOTY_9m-nqCe1HanPv5xa3mVLpyG6mC1pF1FRAFJdU1jqza_A@mail.gmail.com>
+From: Fabien Parent <fparent@baylibre.com>
+Date: Wed, 21 Oct 2020 20:56:32 +0200
+Message-ID: <CAOwMV_wvf6v1acXjtuB3Sm83YNyf=A7ULJkEDz7RY7T7mijqHg@mail.gmail.com>
+Subject: Re: [PATCH 2/8] dt-bindings: display: mediatek: dsi: add
+ documentation for MT8167 SoC
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,49 +67,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Felix.Kuehling@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, melissa.srw@gmail.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Return statements for functions returning bool should use truth
-and false instead of 1 and 0 respectively.
-
-Modify cik_event_interrupt.c to return false instead of 0.
-
-Issue found with Coccinelle.
-
-Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
----
- drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c b/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c
-index 24b471734117..8e64c01565ac 100644
---- a/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c
-+++ b/drivers/gpu/drm/amd/amdkfd/cik_event_interrupt.c
-@@ -66,12 +66,12 @@ static bool cik_event_interrupt_isr(struct kfd_dev *dev,
- 	vmid  = (ihre->ring_id & 0x0000ff00) >> 8;
- 	if (vmid < dev->vm_info.first_vmid_kfd ||
- 	    vmid > dev->vm_info.last_vmid_kfd)
--		return 0;
-+		return false;
- 
- 	/* If there is no valid PASID, it's likely a firmware bug */
- 	pasid = (ihre->ring_id & 0xffff0000) >> 16;
- 	if (WARN_ONCE(pasid == 0, "FW bug: No PASID in KFD interrupt"))
--		return 0;
-+		return false;
- 
- 	/* Interrupt types we care about: various signals and faults.
- 	 * They will be forwarded to a work queue (see below).
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQ2h1bi1LdWFuZywKCk9uIFdlZCwgT2N0IDIxLCAyMDIwIGF0IDc6MDEgUE0gQ2h1bi1LdWFu
+ZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gSGksIEZhYmllbjoKPgo+
+IEZhYmllbiBQYXJlbnQgPGZwYXJlbnRAYmF5bGlicmUuY29tPiDmlrwgMjAyMOW5tDEw5pyIMjHm
+l6Ug6YCx5LiJIOS4iuWNiDE6NDPlr6vpgZPvvJoKPiA+Cj4gPiBBZGQgYmluZGluZyBkb2N1bWVu
+dGF0aW9uIGZvciB0aGUgTVQ4MTY3IFNvQy4gVGhlIFNvQyBuZWVkcwo+ID4gYW4gYWRkaXRpb25h
+bCBjbG9jayBjb21wYXJlZCB0byB0aGUgYWxyZWFkeSBzdXBwb3J0ZWQgU29DOiBtaXBpMjZtLgo+
+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEZhYmllbiBQYXJlbnQgPGZwYXJlbnRAYmF5bGlicmUuY29t
+Pgo+ID4gLS0tCj4gPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9t
+ZWRpYXRlayxkc2kudHh0ICB8IDcgKysrKy0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2Vy
+dGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQg
+Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRp
+YXRlayxkc2kudHh0Cj4gPiBpbmRleCBmMDZmMjRkNDA1YTUuLjEwYWU2YmU3MjI1ZSAxMDA2NDQK
+PiA+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlh
+dGVrL21lZGlhdGVrLGRzaS50eHQKPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQKPiA+IEBAIC03LDEyICs3
+LDEzIEBAIGNoYW5uZWwgb3V0cHV0Lgo+ID4KPiA+ICBSZXF1aXJlZCBwcm9wZXJ0aWVzOgo+ID4g
+IC0gY29tcGF0aWJsZTogIm1lZGlhdGVrLDxjaGlwPi1kc2kiCj4gPiAtLSB0aGUgc3VwcG9ydGVk
+IGNoaXBzIGFyZSBtdDI3MDEsIG10NzYyMywgbXQ4MTczIGFuZCBtdDgxODMuCj4gPiArLSB0aGUg
+c3VwcG9ydGVkIGNoaXBzIGFyZSBtdDI3MDEsIG10NzYyMywgbXQ4MTY3LCBtdDgxNzMgYW5kIG10
+ODE4My4KPiA+ICAtIHJlZzogUGh5c2ljYWwgYmFzZSBhZGRyZXNzIGFuZCBsZW5ndGggb2YgdGhl
+IGNvbnRyb2xsZXIncyByZWdpc3RlcnMKPiA+ICAtIGludGVycnVwdHM6IFRoZSBpbnRlcnJ1cHQg
+c2lnbmFsIGZyb20gdGhlIGZ1bmN0aW9uIGJsb2NrLgo+ID4gIC0gY2xvY2tzOiBkZXZpY2UgY2xv
+Y2tzCj4gPiAgICBTZWUgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Nsb2NrL2Ns
+b2NrLWJpbmRpbmdzLnR4dCBmb3IgZGV0YWlscy4KPiA+IC0tIGNsb2NrLW5hbWVzOiBtdXN0IGNv
+bnRhaW4gImVuZ2luZSIsICJkaWdpdGFsIiwgYW5kICJocyIKPiA+ICstIGNsb2NrLW5hbWVzOiBt
+dXN0IGNvbnRhaW4gImVuZ2luZSIsICJkaWdpdGFsIiwgImhzIgo+ID4gKyAgQ2FuIG9wdGlvbm5h
+bGx5IGFsc28gY29udGFpbiAibWlwaTI2bSIKPgo+IEl0IHNlZW1zIHRoYXQgbWlwaTI2bSBpcyB0
+aGUgY2xvY2sgb2YgbWlwaS10eC4gSW4gbXQ4MTczLmR0c2kgWzFdLAo+IG1pcGktdHgncyBjbG9j
+ayBpcyAyNm0uCj4KPiBtaXBpX3R4MDogbWlwaS1kcGh5QDEwMjE1MDAwIHsKPiBjb21wYXRpYmxl
+ID0gIm1lZGlhdGVrLG10ODE3My1taXBpLXR4IjsKPiByZWcgPSA8MCAweDEwMjE1MDAwIDAgMHgx
+MDAwPjsKPiBjbG9ja3MgPSA8JmNsazI2bT47Cj4gY2xvY2stb3V0cHV0LW5hbWVzID0gIm1pcGlf
+dHgwX3BsbCI7Cj4gI2Nsb2NrLWNlbGxzID0gPDA+Owo+ICNwaHktY2VsbHMgPSA8MD47Cj4gc3Rh
+dHVzID0gImRpc2FibGVkIjsKPiB9Owo+Cj4gSWYgdGhpcyBpcyB0aGUgY2xvY2sgb2YgbWlwaS10
+eCwgaXQgc2hvdWxkIGJlIGNvbnRyb2xsZWQgYnkgbWlwaS10eCBkcml2ZXIuCgpUaGFua3MsIEkg
+d2lsbCBmaXggdGhhdCBpbiB2Mi4KCj4KPiBbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIv
+c2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvYXJjaC9hcm02NC9i
+b290L2R0cy9tZWRpYXRlay9tdDgxNzMuZHRzaT9oPXY1LjkKPgo+IFJlZ2FyZHMsCj4gQ2h1bi1L
+dWFuZy4KPgo+ID4gIC0gcGh5czogcGhhbmRsZSBsaW5rIHRvIHRoZSBNSVBJIEQtUEhZIGNvbnRy
+b2xsZXIuCj4gPiAgLSBwaHktbmFtZXM6IG11c3QgY29udGFpbiAiZHBoeSIKPiA+ICAtIHBvcnQ6
+IE91dHB1dCBwb3J0IG5vZGUgd2l0aCBlbmRwb2ludCBkZWZpbml0aW9ucyBhcyBkZXNjcmliZWQg
+aW4KPiA+IEBAIC0yNiw3ICsyNyw3IEBAIFRoZSBNSVBJIFRYIGNvbmZpZ3VyYXRpb24gbW9kdWxl
+IGNvbnRyb2xzIHRoZSBNSVBJIEQtUEhZLgo+ID4KPiA+ICBSZXF1aXJlZCBwcm9wZXJ0aWVzOgo+
+ID4gIC0gY29tcGF0aWJsZTogIm1lZGlhdGVrLDxjaGlwPi1taXBpLXR4Igo+ID4gLS0gdGhlIHN1
+cHBvcnRlZCBjaGlwcyBhcmUgbXQyNzAxLCA3NjIzLCBtdDgxNzMgYW5kIG10ODE4My4KPiA+ICst
+IHRoZSBzdXBwb3J0ZWQgY2hpcHMgYXJlIG10MjcwMSwgNzYyMywgbXQ4MTY3LCBtdDgxNzMgYW5k
+IG10ODE4My4KPiA+ICAtIHJlZzogUGh5c2ljYWwgYmFzZSBhZGRyZXNzIGFuZCBsZW5ndGggb2Yg
+dGhlIGNvbnRyb2xsZXIncyByZWdpc3RlcnMKPiA+ICAtIGNsb2NrczogUExMIHJlZmVyZW5jZSBj
+bG9jawo+ID4gIC0gY2xvY2stb3V0cHV0LW5hbWVzOiBuYW1lIG9mIHRoZSBvdXRwdXQgY2xvY2sg
+bGluZSB0byB0aGUgRFNJIGVuY29kZXIKPiA+IC0tCj4gPiAyLjI4LjAKPiA+Cl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
