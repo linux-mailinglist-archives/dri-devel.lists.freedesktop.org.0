@@ -1,61 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2E6295151
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 19:09:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D6A295223
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 20:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 242CF6EE20;
-	Wed, 21 Oct 2020 17:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A06D96EE63;
+	Wed, 21 Oct 2020 18:21:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0C0E6EE20
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 17:09:17 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id n15so3996091wrq.2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 10:09:17 -0700 (PDT)
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 532F66EE48
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 18:21:29 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id t25so4569934ejd.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 11:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pK+230oFdHH5Bmu1JYbySOQhpYniyN1ymz8lPDi53/I=;
- b=r5RxEqtjOTtNZCmb0s9xaAe1N+gXSMiL/xH8MMKQe6PXMa/3BiCwSSpFC9OlL0CHwb
- dYrN06iPkrMEoFdp/y5iQMnpoYk5LyvYLOwn+KgdugBmdIk+UJCTCLh0PRXfLHVjP8Ij
- Mx4U0jB1CdraW4Vt5kCmkq5E8nHzkWpueXLhSNMfRGYkEb9X/lYg2+7pNkQVKAdc7K9D
- HlAGyxk8i8AH4CZ+Vu4tLY7tjnoyFQN8Xik89J5lfDmaPkxQPK7G6TbTMVhpN4Nu1xbU
- vRsOdo4Lv5zBU/B/q+QGdchj15RCDfIpEAnYX6csDvy8tpj4/kIeVfDQI6dre0+Wd1XV
- aHdg==
+ :cc:content-transfer-encoding;
+ bh=lBYBT2trM0zWLuScJPu/8MEsMxH22DaNGgcD4PxkzgM=;
+ b=aI4DCgQQ2pNgP8FJefkPAHWyeYDZ6gBOdUW5ASwTjCdJPt6/F0D5IUw+ryIpjQNXm7
+ gK4+rVdRij2UezhsYNKjky15pbLyx71SXm/fZWi7e8Q4m+RVncNlw0/EQHwWG71kG1jW
+ swatZpkYTu5yAZOXhuMbyP3n0EJyZ6Tj4Y/cuYa29u3olktUJdc4M4TJ2rd4I+0DOH8g
+ zGBna8sz6bZsljPuc9avDUo1nfa6ddJFnaen4gYQFZ8z/YYqPo9kDiLM1CATyUVyGmG8
+ pnWq4b5N/m5mvr9ZCnxufY7oD2D56MpGg2WZMNT6wzDAol9vlUAst1BSJiogsIkNya2g
+ yS+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pK+230oFdHH5Bmu1JYbySOQhpYniyN1ymz8lPDi53/I=;
- b=XDbwV0Qi0uMD9lslT8SWkLdru8ldG3xKaUyiZIdXS8ZZLTfa7a4ouNL4rDILcLJuoL
- pfg/YGLo1DBxrvW7OzJ4asRKmHJMk2+DPd9KogWhnYdgfJeIbWP2wPxziIQmKIGHuuPA
- KpGHPZtODVymWyDz3WoQV7aKSn9mloQ/CJztDdXd7YSYvfzWk0a1aVZLpSy9QbYWU3XC
- /l/wiMX7ifFIgJNxUlyTLHsLBWdGyTjsr3Zko857Hud6q4zLP+77BYpcY7SKlJwfyrLO
- dp5nHfEd7KDrtKry1+Zs4jHHGpbQfYE1txbW6fgzS9fnM3ltMueYGVNijypzJtCKFRt0
- LBFQ==
-X-Gm-Message-State: AOAM532R+vLhD1A9P2yPyHpYEE/6VpX8WJcSWc3Mt1QV5df8kHZ9WBdX
- jFfaFo/Aoud1UOunM8VR/p4QzIWk7kFiVnlu22OkRw==
-X-Google-Smtp-Source: ABdhPJzf75d0coitydzbq/7bGNhuKFBfzeO1Z1CnQzUe9i4r+Oe7/HEHQ0XLki00Kr3cW42XvFD/D40LWp654QfO2wg=
-X-Received: by 2002:a05:6000:108:: with SMTP id
- o8mr5874410wrx.256.1603300156439; 
- Wed, 21 Oct 2020 10:09:16 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lBYBT2trM0zWLuScJPu/8MEsMxH22DaNGgcD4PxkzgM=;
+ b=Cg5b4sB28oDz0ctV+ZkN33gLu8aRAMwyPyPqORi7tC55aev4IzO+aRCq68v0tsSc6m
+ 34cClmWSnRfneuKPuMCMwCWAFS/5EZdW/hONU3LWVVkj/iLa7Y9qarR5aOf6NY5M71hU
+ lUa2SfkOaPMfvp5XXk6FMz5d2djWPdZZNtDxXX4a2+waEh/mak1SwfY+EFchNKdWtJ60
+ enR3nDvTFjd278D9X7KpphaaukvMIr2FEuMS3OwCU66nsg4AbiSbCe5m9jFzMD3yZV53
+ SfrgA4PIs0ktpGE04Q0Z53yDHrU12AvySfTK0OTHSrDC632DqIo+Id9+xAAsqHGRb1Zm
+ 29dw==
+X-Gm-Message-State: AOAM532RAygvmQV13rWIYYWvjstyEIAYv+WKuOE4uNW7Bb3feIaDqAp6
+ znD445KoYjiHAdMHmoKNvs5gitkKlUZ0HFwM7dMa7w==
+X-Google-Smtp-Source: ABdhPJzA1jSls/Kx/Mwjc1+1+EpDhh/HoRUDuIKQ8K0ggJGziicPcEE6tEKertKBv/kwHwmxQELgJDflTG3MPc+CL3w=
+X-Received: by 2002:a17:906:c20f:: with SMTP id
+ d15mr4627011ejz.341.1603304487981; 
+ Wed, 21 Oct 2020 11:21:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201021065404.1336797-1-kenbshuang@google.com>
- <xyxxV-NdH-NcnbRURBYThCKj5j6VFLMi0twD2wptimtzrod1EyQ_Rp5BYQoQlVKUXsmZGxhrltrYBW4dgD4UDvgKSgW2CAzt_Q1e5bCNWlk=@emersion.fr>
- <20201021083415.GN401619@phenom.ffwll.local>
- <CAJxBc99xxc1S6CrE0KswPpY2Rf3KS0AQewNZQOfmOTbMWrtnTA@mail.gmail.com>
- <CAKMK7uECj12NaOeh3PzLM8C_oT=_bce515z-5rDGnjkKf92Htw@mail.gmail.com>
- <CAPj87rMc5=eBKRDJUg0VSCCWcvNk6_8vj1TZeJcK8oPdi=DVwQ@mail.gmail.com>
- <20201021163452.GP401619@phenom.ffwll.local>
-In-Reply-To: <20201021163452.GP401619@phenom.ffwll.local>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 21 Oct 2020 18:09:05 +0100
-Message-ID: <CAPj87rPTSOiFosCfq+LpFaM_++S6Pd150VFuxMWS3gLMNXCp-g@mail.gmail.com>
-Subject: Re: [PATCH] drm: add client cap to expose low power modes
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+ <20201021085655.1192025-14-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201021085655.1192025-14-daniel.vetter@ffwll.ch>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 21 Oct 2020 11:21:17 -0700
+Message-ID: <CAPcyv4jJTeH-PNjsXGrn=Ooz7=9rsZLdnFgwJ9xpQ6y14YoDrQ@mail.gmail.com>
+Subject: Re: [PATCH v3 13/16] /dev/mem: Only set filp->f_mapping
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,47 +64,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ken Huang <kenbshuang@google.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Adrian Salido <salidoa@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Oct 2020 at 17:34, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Wed, Oct 21, 2020 at 05:11:00PM +0100, Daniel Stone wrote:
-> > It makes sense to me: some modes are annotated with a 'low-power'
-> > flag, tucked away behind a client cap which makes clients opt in, and
-> > they can switch into the low-power mode (letting the display/panel
-> > save a lot of power) _if_ they only have at most 15% of pixels lit up.
-> >
-> > My worry is about the 15% though ... what happens when hardware allows
-> > up to 20%, or only allows 10%?
->
-> Yeah exactly, that's what I'm worried about too, these kind of details.
-> Opt-in flag for special modes, no problem, but we need to make sure we
-> agree on what flavour of special exactly they are.
->
-> > If we can reuse the same modelines, then rather than create new
-> > modelines just for low-power modes, I'd rather create a client CRTC
-> > property specifying the number/percentages of pixels on the CRTC which
-> > are lit non-zero. That would give us more wriggle room to change the
-> > semantics, as well as redefine 'low power' in terms of
-> > monochrome/scaled/non-bright/etc modes. But it does make the
-> > switching-between-clients problem even worse than it already is.
->
-> Yeah, that would make sense too. Or maybe even add read-only hint that
-> says "if you're below 15% non-black we can do low power for your, please
-> be nice".
-
-If the hardware can actually do that autonomously then great, but I'm
-guessing the reason we're talking about separate opt-in modes here is
-that it can't.
-
-Cheers,
-Daniel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBPY3QgMjEsIDIwMjAgYXQgMTo1NyBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
+dGVyQGZmd2xsLmNoPiB3cm90ZToKPgo+IFdoZW4gd2UgY2FyZSBhYm91dCBwYWdlY2FjaGUgbWFp
+bnRlbmFuY2UsIHdlIG5lZWQgdG8gbWFrZSBzdXJlIHRoYXQKPiBib3RoIGZfbWFwcGluZyBhbmQg
+aV9tYXBwaW5nIHBvaW50IGF0IHRoZSByaWdodCBtYXBwaW5nLgo+Cj4gQnV0IGZvciBpb21lbSBt
+YXBwaW5ncyB3ZSBvbmx5IGNhcmUgYWJvdXQgdGhlIHZpcnR1YWwvcHRlIHNpZGUgb2YKPiB0aGlu
+Z3MsIHNvIGZfbWFwcGluZyBpcyBlbm91Z2guIEFsc28gc2V0dGluZyBpbm9kZS0+aV9tYXBwaW5n
+IHdhcwo+IGNvbmZ1c2luZyBtZSBhcyBhIGRyaXZlciBtYWludGFpbmVyLCBzaW5jZSBpbiBlLmcu
+IGRyaXZlcnMvZ3B1IHdlCj4gZG9uJ3QgZG8gdGhhdC4gUGVyIERhbiB0aGlzIHNlZW1zIHRvIGJl
+IGNvcHlwYXN0YSBmcm9tIHBsYWNlcyB3aGljaCBkbwo+IGNhcmUgYWJvdXQgcGFnZWNhY2hlIGNv
+bnNpc3RlbmN5LCBidXQgbm90IG5lZWRlZC4gSGVuY2UgcmVtb3ZlIGl0IGZvcgo+IHNsaWdodGx5
+IGxlc3MgY29uZnVzaW9uLgo+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+LnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IEphc29uIEd1bnRob3JwZSA8amdnQHppZXBlLmNhPgo+
+IENjOiBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4KPiBDYzogRGFuIFdpbGxpYW1z
+IDxkYW4uai53aWxsaWFtc0BpbnRlbC5jb20+Cj4gQ2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGlu
+dXgtZm91bmRhdGlvbi5vcmc+Cj4gQ2M6IEpvaG4gSHViYmFyZCA8amh1YmJhcmRAbnZpZGlhLmNv
+bT4KPiBDYzogSsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3NlQHJlZGhhdC5jb20+Cj4gQ2M6IEphbiBL
+YXJhIDxqYWNrQHN1c2UuY3o+Cj4gQ2M6IERhbiBXaWxsaWFtcyA8ZGFuLmoud2lsbGlhbXNAaW50
+ZWwuY29tPgoKUmV2aWV3ZWQtYnk6IERhbiBXaWxsaWFtcyA8ZGFuLmoud2lsbGlhbXNAaW50ZWwu
+Y29tPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
