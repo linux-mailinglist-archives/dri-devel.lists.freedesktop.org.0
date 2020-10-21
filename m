@@ -1,56 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607952950CB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 18:33:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1CB2950D4
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 18:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC22C6EDD8;
-	Wed, 21 Oct 2020 16:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5C686E28B;
+	Wed, 21 Oct 2020 16:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 990576EDD8
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 16:32:52 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id x7so3870084wrl.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 09:32:52 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 919B06E28B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 16:34:56 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id c16so3279988wmd.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 09:34:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=WpciX4s5+nlfIa0YzJ767hWGBGfbGF0VES+27qIdEFs=;
- b=aVI71n9mfFbtGud447m49jzDnSQzAsufn/Y3KLvKMgw6LrfxD1hy4W47TLTUBc526g
- 7UrvMthB97RymJYgAVXR1sMsuhMqFy1SJM3Pj/ATMxxLfN2Wd/L0SpIzcS0/wyaQ8dAX
- Q8geoXmZxf+eJaPjuSK63328msKk72goZBSgg=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=w1XFXB4Lo0aWOgZF5lGLmTIHFRPFV3ALzwHfkaTecHk=;
+ b=KRAdZ5EHZhGlOY9kYxl4cbmtfro/BKg/yv6DqN0dBOjvY3WvA++BZw33nidAz4KUTN
+ mTJh5IzwKccgptRMeoYAJGOz3+iPBErvEleGjAArtx4ryzL7toqd/imSaICsaCiV622v
+ bmiz7E9OuViwli/Mc2bXTzJo3YJsNwEGwJFoI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WpciX4s5+nlfIa0YzJ767hWGBGfbGF0VES+27qIdEFs=;
- b=BJAlEYpECwFk8MvSLcczvvnIvGtj0kzDlwt0yde9HhNxh1efBq2sN0Mne/fqIZOkuw
- Kz3jEdEDld+ITpzg40Qh4Zd9DRTf28q4Dx9UN9I4kKVq9Ed0eI7/pkN2hzOHwE80dUh+
- YaWlPSX5cP7gOawyzmVzu8WjudE5L9GVottcnax9/BIxpji4qIIvFkzFdZ35gcwv2iyP
- M6Xa5SeNBthE1/tPPCBaSJmqB4HnFHMEPFOkkZ+MN0eqnUIVDGZbUy7qz3Cmuq+J8kpV
- LDgDuhaWBjRqTHKlVtgaXGvI+/U2pGeGEHCSv0c6SWcZrykQddfuzjag18qgWODayIRz
- FaeA==
-X-Gm-Message-State: AOAM5315W+hnECe2SFeGjt9Co2VesWNUGfrcwjvvSMgFLS3c1KOPqn1B
- 92yDCwQTKxxTERJX02oeMzF66OEqjWEe3Ec7
-X-Google-Smtp-Source: ABdhPJz0drR5QGnvXTrbsKs/gzrgNUywAFQo3pHS14qJJsTmrdBiEqKAcYhIGN0ni8U1pJlWEEJwlA==
-X-Received: by 2002:adf:de91:: with SMTP id w17mr5643934wrl.84.1603297971025; 
- Wed, 21 Oct 2020 09:32:51 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=w1XFXB4Lo0aWOgZF5lGLmTIHFRPFV3ALzwHfkaTecHk=;
+ b=mZz4vbao8BhzJZpr7YyWznNmT35TYdk/YuCgF2/K0hZ+GYFvhq3ZhaM/P/UWPVQ082
+ OtoHPMB6HUZkbhjW+6KD/0Yw0EUB3yUaXZlBopbwKQDo0azYXoKXMCQXOyeo7DJ9NXdc
+ pdbhSHsgdAJktPquQNHgA41JC4z6fLEj094o05bU7uSjOYva4NZqMXfFYFnFq0AmHM1P
+ gudughZmLoO6o9m2cSdykTwn8WCsoC3Zq+hkrh5RpXlDoyPvIVb2wqlkKTI56Y6iwgln
+ vUIqq9O/rhbwfHZ3ylyTe7cdgw3e8HuhJgNtCpNoZ8Z1fsZEimOXpUpZgc/+ExkG5AJg
+ +Ukg==
+X-Gm-Message-State: AOAM530FSmA/hdmwkszY/IgCVIX/+eiDAofWveWXFK+2gRMOl0DNWk5t
+ pXx83pvULLQtzedwQWmjR1FFeQ==
+X-Google-Smtp-Source: ABdhPJxD5BXcGhMlk4C+AiZAera5C1GikZByVFHzWSQGo/agy+tg4D8YH38faq/jTFL5oTYnc+1BgA==
+X-Received: by 2002:a7b:c20a:: with SMTP id x10mr4216159wmi.29.1603298095017; 
+ Wed, 21 Oct 2020 09:34:55 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v17sm5547431wrc.23.2020.10.21.09.32.49
+ by smtp.gmail.com with ESMTPSA id 30sm4982706wrs.84.2020.10.21.09.34.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 09:32:50 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/3] drm/doc: Document legacy_cursor_update better
-Date: Wed, 21 Oct 2020 18:32:42 +0200
-Message-Id: <20201021163242.1458885-3-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201021163242.1458885-1-daniel.vetter@ffwll.ch>
-References: <20201021163242.1458885-1-daniel.vetter@ffwll.ch>
+ Wed, 21 Oct 2020 09:34:54 -0700 (PDT)
+Date: Wed, 21 Oct 2020 18:34:52 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Daniel Stone <daniel@fooishbar.org>
+Subject: Re: [PATCH] drm: add client cap to expose low power modes
+Message-ID: <20201021163452.GP401619@phenom.ffwll.local>
+References: <20201021065404.1336797-1-kenbshuang@google.com>
+ <xyxxV-NdH-NcnbRURBYThCKj5j6VFLMi0twD2wptimtzrod1EyQ_Rp5BYQoQlVKUXsmZGxhrltrYBW4dgD4UDvgKSgW2CAzt_Q1e5bCNWlk=@emersion.fr>
+ <20201021083415.GN401619@phenom.ffwll.local>
+ <CAJxBc99xxc1S6CrE0KswPpY2Rf3KS0AQewNZQOfmOTbMWrtnTA@mail.gmail.com>
+ <CAKMK7uECj12NaOeh3PzLM8C_oT=_bce515z-5rDGnjkKf92Htw@mail.gmail.com>
+ <CAPj87rMc5=eBKRDJUg0VSCCWcvNk6_8vj1TZeJcK8oPdi=DVwQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAPj87rMc5=eBKRDJUg0VSCCWcvNk6_8vj1TZeJcK8oPdi=DVwQ@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,82 +69,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Ken Huang <kenbshuang@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Adrian Salido <salidoa@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's the horror and shouldn't be used. Realized we're not clear on
-this in a discussion with Rob about what msm is doing to better
-support async commits.
+On Wed, Oct 21, 2020 at 05:11:00PM +0100, Daniel Stone wrote:
+> On Wed, 21 Oct 2020 at 16:58, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Wed, Oct 21, 2020 at 4:59 PM Ken Huang <kenbshuang@google.com> wrote:
+> > > It's useful in Android and other embedded devices to implement Always On Display (ex. showing clock faces with less than 15% OPR on screen).
+> > >
+> > > OPR (On Pixel Ratio) is the percentage of luminance amount over the display area.
+> > > It's derived by gray levels of display image pattern and the backlight (or OLED) driving force (or current).
+> > > ex: OPR=100% means a full white pattern with maximum backlight (or OLED) brightness, while full black would be OPR=0%.
+> > >
+> > > In userspace, when the client initializes, we can set capability via drmSetClientCap() to ask the display driver to expose the drm modes with DRM_MODE_FLAG_LOW_POWER flag.
+> > > Userspace can check DRM_MODE_FLAG_LOW_POWER flag to know which modes can be used to consume the least amount of power during Always On Display.
+> > > Ignoring modes with this flag set during normal operating mode.
+> >
+> > Hm I'm not really sure what this changes ... I think we need the
+> > entire pile of patches: Userspace, driver, drm core, anything else.
+> > Just adding this flag doesn't make much sense really, since I have no
+> > idea what the semantics are. Even after you've explained the use-case.
+> 
+> It makes sense to me: some modes are annotated with a 'low-power'
+> flag, tucked away behind a client cap which makes clients opt in, and
+> they can switch into the low-power mode (letting the display/panel
+> save a lot of power) _if_ they only have at most 15% of pixels lit up.
+> 
+> My worry is about the 15% though ... what happens when hardware allows
+> up to 20%, or only allows 10%?
 
-v2: Refine existing todo item to include this (Thomas)
+Yeah exactly, that's what I'm worried about too, these kind of details.
+Opt-in flag for special modes, no problem, but we need to make sure we
+agree on what flavour of special exactly they are.
 
-Cc: Sean Paul <sean@poorly.run>
-Cc: Rob Clark <robdclark@gmail.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
- Documentation/gpu/todo.rst |  4 ++++
- include/drm/drm_atomic.h   | 12 +++++++++++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+> If we can reuse the same modelines, then rather than create new
+> modelines just for low-power modes, I'd rather create a client CRTC
+> property specifying the number/percentages of pixels on the CRTC which
+> are lit non-zero. That would give us more wriggle room to change the
+> semantics, as well as redefine 'low power' in terms of
+> monochrome/scaled/non-bright/etc modes. But it does make the
+> switching-between-clients problem even worse than it already is.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 700637e25ecd..6b224ef14455 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -105,6 +105,10 @@ converted over to the new infrastructure.
- One issue with the helpers is that they require that drivers handle completion
- events for atomic commits correctly. But fixing these bugs is good anyway.
- 
-+Somewhat related is the legacy_cursor_update hack, which should be replaced with
-+the new atomic_async_check/commit functionality in the helpers in drivers that
-+still look at that flag.
-+
- Contact: Daniel Vetter, respective driver maintainers
- 
- Level: Advanced
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index d07c851d255b..413fd0ca56a8 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -308,7 +308,6 @@ struct __drm_private_objs_state {
-  * struct drm_atomic_state - the global state object for atomic updates
-  * @ref: count of all references to this state (will not be freed until zero)
-  * @dev: parent DRM device
-- * @legacy_cursor_update: hint to enforce legacy cursor IOCTL semantics
-  * @async_update: hint for asynchronous plane update
-  * @planes: pointer to array of structures with per-plane data
-  * @crtcs: pointer to array of CRTC pointers
-@@ -336,6 +335,17 @@ struct drm_atomic_state {
- 	 * drm_atomic_crtc_needs_modeset().
- 	 */
- 	bool allow_modeset : 1;
-+	/**
-+	 * @legacy_cursor_update:
-+	 *
-+	 * Hint to enforce legacy cursor IOCTL semantics.
-+	 *
-+	 * WARNING: This is thoroughly broken and pretty much impossible to
-+	 * implement correctly. Drivers must ignore this and should instead
-+	 * implement &drm_plane_helper_funcs.atomic_async_check and
-+	 * &drm_plane_helper_funcs.atomic_async_commit hooks. New users of this
-+	 * flag are not allowed.
-+	 */
- 	bool legacy_cursor_update : 1;
- 	bool async_update : 1;
- 	/**
+Yeah, that would make sense too. Or maybe even add read-only hint that
+says "if you're below 15% non-black we can do low power for your, please
+be nice".
+-Daniel
 -- 
-2.28.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
