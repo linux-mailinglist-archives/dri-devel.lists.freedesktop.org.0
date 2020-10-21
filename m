@@ -2,61 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1CB2950D4
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 18:34:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7421929512C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 18:56:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5C686E28B;
-	Wed, 21 Oct 2020 16:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E550B6EE1A;
+	Wed, 21 Oct 2020 16:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 919B06E28B
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 16:34:56 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id c16so3279988wmd.2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 09:34:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=w1XFXB4Lo0aWOgZF5lGLmTIHFRPFV3ALzwHfkaTecHk=;
- b=KRAdZ5EHZhGlOY9kYxl4cbmtfro/BKg/yv6DqN0dBOjvY3WvA++BZw33nidAz4KUTN
- mTJh5IzwKccgptRMeoYAJGOz3+iPBErvEleGjAArtx4ryzL7toqd/imSaICsaCiV622v
- bmiz7E9OuViwli/Mc2bXTzJo3YJsNwEGwJFoI=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5EE6EE1A
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 16:56:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603299379;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YpWDrSQ0xS4iFl6zf0HLMlyff6mhU5Ears3TWXC/4Ho=;
+ b=R8oNNqGMz5F+8u4M+CwCPe6aXc7yqrbejnQOAQPOKoKrEjTv9ulzuQZzcXx74Df3Dr+QeO
+ n1NUthD23NPICNj0KjpgE7nWRX87zG+ey7R9SIEb0SeCffASZ7Q+UjK6LORv7iR49LHec4
+ G4XC6iBvBDAzovwjw2dWqDvhtYMQf3A=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-DNUjUCzAM9KeHdaakZJHQQ-1; Wed, 21 Oct 2020 12:56:14 -0400
+X-MC-Unique: DNUjUCzAM9KeHdaakZJHQQ-1
+Received: by mail-qv1-f69.google.com with SMTP id u17so1686078qvt.23
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 09:56:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=w1XFXB4Lo0aWOgZF5lGLmTIHFRPFV3ALzwHfkaTecHk=;
- b=mZz4vbao8BhzJZpr7YyWznNmT35TYdk/YuCgF2/K0hZ+GYFvhq3ZhaM/P/UWPVQ082
- OtoHPMB6HUZkbhjW+6KD/0Yw0EUB3yUaXZlBopbwKQDo0azYXoKXMCQXOyeo7DJ9NXdc
- pdbhSHsgdAJktPquQNHgA41JC4z6fLEj094o05bU7uSjOYva4NZqMXfFYFnFq0AmHM1P
- gudughZmLoO6o9m2cSdykTwn8WCsoC3Zq+hkrh5RpXlDoyPvIVb2wqlkKTI56Y6iwgln
- vUIqq9O/rhbwfHZ3ylyTe7cdgw3e8HuhJgNtCpNoZ8Z1fsZEimOXpUpZgc/+ExkG5AJg
- +Ukg==
-X-Gm-Message-State: AOAM530FSmA/hdmwkszY/IgCVIX/+eiDAofWveWXFK+2gRMOl0DNWk5t
- pXx83pvULLQtzedwQWmjR1FFeQ==
-X-Google-Smtp-Source: ABdhPJxD5BXcGhMlk4C+AiZAera5C1GikZByVFHzWSQGo/agy+tg4D8YH38faq/jTFL5oTYnc+1BgA==
-X-Received: by 2002:a7b:c20a:: with SMTP id x10mr4216159wmi.29.1603298095017; 
- Wed, 21 Oct 2020 09:34:55 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 30sm4982706wrs.84.2020.10.21.09.34.53
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=YpWDrSQ0xS4iFl6zf0HLMlyff6mhU5Ears3TWXC/4Ho=;
+ b=Fh+/fWpgd0TVtxJIk/BKq7+lXUkAInV3QdbIlHzjOPej73JbHTwm6BkrkZ1528mVNZ
+ yJlqfrUoZ+j7IzxwTHDQ6bf6xTSQ2w+Mk7LH8Jh2Kry1CM7Q8Pr9JHqcBWWYh+n5oMxc
+ 1613TTAakv/YUQ3J9qj/P7SNGdtVwK4tsiYg2bXv4DERYlWqCrnDG8c/L+f3c0ICifwU
+ QsefakU9XPoazkBBk2W1fh2qMuRY+g8PjTEBB9YForugksOHDJOf5KaVsl5Nzuj//fAa
+ eRj29sRLT1G/BiSUX2QZdEgkFLvu+xdJDatoplo4P5xcpqi0R/hxW+InKMz4MHicE+Zg
+ 930Q==
+X-Gm-Message-State: AOAM530L8vSOA3v9YYNPzJUyjYvWeAlLtn57C2XnsPd0/sPXNbtqC1N8
+ mXKrim4mu8HDiQCKV6PRg/wWUsenTv65PM7HNRdmNqh4dmX6Z8cmFjaarrfWwmZ38PHZzrbVXNC
+ omqqGWxXiL3Wu/gFNu38noWAiHj18
+X-Received: by 2002:a05:620a:142d:: with SMTP id
+ k13mr3922508qkj.315.1603299373817; 
+ Wed, 21 Oct 2020 09:56:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2v8PeoZ/a94ls9zOIyKWksYLW/NAN8enNJ9jX43dkLHUQkSE464KGbP6E/4BzXTqrq+S0iw==
+X-Received: by 2002:a05:620a:142d:: with SMTP id
+ k13mr3922487qkj.315.1603299373526; 
+ Wed, 21 Oct 2020 09:56:13 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id 19sm1575196qki.33.2020.10.21.09.56.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 09:34:54 -0700 (PDT)
-Date: Wed, 21 Oct 2020 18:34:52 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Daniel Stone <daniel@fooishbar.org>
-Subject: Re: [PATCH] drm: add client cap to expose low power modes
-Message-ID: <20201021163452.GP401619@phenom.ffwll.local>
-References: <20201021065404.1336797-1-kenbshuang@google.com>
- <xyxxV-NdH-NcnbRURBYThCKj5j6VFLMi0twD2wptimtzrod1EyQ_Rp5BYQoQlVKUXsmZGxhrltrYBW4dgD4UDvgKSgW2CAzt_Q1e5bCNWlk=@emersion.fr>
- <20201021083415.GN401619@phenom.ffwll.local>
- <CAJxBc99xxc1S6CrE0KswPpY2Rf3KS0AQewNZQOfmOTbMWrtnTA@mail.gmail.com>
- <CAKMK7uECj12NaOeh3PzLM8C_oT=_bce515z-5rDGnjkKf92Htw@mail.gmail.com>
- <CAPj87rMc5=eBKRDJUg0VSCCWcvNk6_8vj1TZeJcK8oPdi=DVwQ@mail.gmail.com>
+ Wed, 21 Oct 2020 09:56:12 -0700 (PDT)
+Message-ID: <54b001e1748fd3d80c711181521e5cf1ec6875eb.camel@redhat.com>
+Subject: Re: [PATCH v2 12/24] drm/dp: fix a kernel-doc issue at drm_edid.c
+From: Lyude Paul <lyude@redhat.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Date: Wed, 21 Oct 2020 12:56:11 -0400
+In-Reply-To: <20201021121108.51972144@coco.lan>
+References: <cover.1602590106.git.mchehab+huawei@kernel.org>
+ <96d648f86024535e5f7d5b0caf8ebf93c7f8eaab.1602590106.git.mchehab+huawei@kernel.org>
+ <b7c9b5ddc2bdd5d1a0bb5a000d88681ad0b6fabe.camel@redhat.com>
+ <20201021121108.51972144@coco.lan>
+Organization: Red Hat
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAPj87rMc5=eBKRDJUg0VSCCWcvNk6_8vj1TZeJcK8oPdi=DVwQ@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,60 +85,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Ken Huang <kenbshuang@google.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Adrian Salido <salidoa@google.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 21, 2020 at 05:11:00PM +0100, Daniel Stone wrote:
-> On Wed, 21 Oct 2020 at 16:58, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Wed, Oct 21, 2020 at 4:59 PM Ken Huang <kenbshuang@google.com> wrote:
-> > > It's useful in Android and other embedded devices to implement Always On Display (ex. showing clock faces with less than 15% OPR on screen).
-> > >
-> > > OPR (On Pixel Ratio) is the percentage of luminance amount over the display area.
-> > > It's derived by gray levels of display image pattern and the backlight (or OLED) driving force (or current).
-> > > ex: OPR=100% means a full white pattern with maximum backlight (or OLED) brightness, while full black would be OPR=0%.
-> > >
-> > > In userspace, when the client initializes, we can set capability via drmSetClientCap() to ask the display driver to expose the drm modes with DRM_MODE_FLAG_LOW_POWER flag.
-> > > Userspace can check DRM_MODE_FLAG_LOW_POWER flag to know which modes can be used to consume the least amount of power during Always On Display.
-> > > Ignoring modes with this flag set during normal operating mode.
-> >
-> > Hm I'm not really sure what this changes ... I think we need the
-> > entire pile of patches: Userspace, driver, drm core, anything else.
-> > Just adding this flag doesn't make much sense really, since I have no
-> > idea what the semantics are. Even after you've explained the use-case.
+Ah, good point. It looks like you've already added the drm-misc-next and drm
+maintainers to here so as long as they're aware that should be fine
+
+On Wed, 2020-10-21 at 12:11 +0200, Mauro Carvalho Chehab wrote:
+> Hi Lyude,
 > 
-> It makes sense to me: some modes are annotated with a 'low-power'
-> flag, tucked away behind a client cap which makes clients opt in, and
-> they can switch into the low-power mode (letting the display/panel
-> save a lot of power) _if_ they only have at most 15% of pixels lit up.
+> Em Tue, 13 Oct 2020 15:49:11 -0400
+> Lyude Paul <lyude@redhat.com> escreveu:
 > 
-> My worry is about the 15% though ... what happens when hardware allows
-> up to 20%, or only allows 10%?
-
-Yeah exactly, that's what I'm worried about too, these kind of details.
-Opt-in flag for special modes, no problem, but we need to make sure we
-agree on what flavour of special exactly they are.
-
-> If we can reuse the same modelines, then rather than create new
-> modelines just for low-power modes, I'd rather create a client CRTC
-> property specifying the number/percentages of pixels on the CRTC which
-> are lit non-zero. That would give us more wriggle room to change the
-> semantics, as well as redefine 'low power' in terms of
-> monochrome/scaled/non-bright/etc modes. But it does make the
-> switching-between-clients problem even worse than it already is.
-
-Yeah, that would make sense too. Or maybe even add read-only hint that
-says "if you're below 15% non-black we can do low power for your, please
-be nice".
--Daniel
+> > wait, I think there's some confusion here. these patches have already been
+> > pushed
+> 
+> As the patch adding the warning was merged upstream at the 5.10 merge
+> window, the fixup one should also be added there, instead of waiting
+> until 5.11 ;-)
+> 
+> So, if OK for you, I'll send this upstream via my tree by the end of
+> the merge window, as our goal is that 5.10 won't have doc warnings.
+> 
+> Regards,
+> Mauro
+> > 
+> > On Tue, 2020-10-13 at 14:14 +0200, Mauro Carvalho Chehab wrote:
+> > > The name of the argument is different, causing those warnings:
+> > > 
+> > > 	./drivers/gpu/drm/drm_edid.c:3754: warning: Function parameter or
+> > > member
+> > > 'video_code' not described in 'drm_display_mode_from_cea_vic'
+> > > 	./drivers/gpu/drm/drm_edid.c:3754: warning: Excess function parameter
+> > > 'vic' description in 'drm_display_mode_from_cea_vic'
+> > > 
+> > > Fixes: 7af655bce275 ("drm/dp: Add drm_dp_downstream_mode()")
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > > ---
+> > >  drivers/gpu/drm/drm_edid.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> > > index a82f37d44258..631125b46e04 100644
+> > > --- a/drivers/gpu/drm/drm_edid.c
+> > > +++ b/drivers/gpu/drm/drm_edid.c
+> > > @@ -3741,7 +3741,7 @@ drm_add_cmdb_modes(struct drm_connector
+> > > *connector, u8
+> > > svd)
+> > >  /**
+> > >   * drm_display_mode_from_cea_vic() - return a mode for CEA VIC
+> > >   * @dev: DRM device
+> > > - * @vic: CEA VIC of the mode
+> > > + * @video_code: CEA VIC of the mode
+> > >   *
+> > >   * Creates a new mode matching the specified CEA VIC.
+> > >   *  
+> 
+> 
+> Thanks,
+> Mauro
+> 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Cheers,
+	Lyude Paul (she/her)
+	Software Engineer at Red Hat
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
