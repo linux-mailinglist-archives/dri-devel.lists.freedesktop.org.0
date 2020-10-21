@@ -2,58 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76DA9295923
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F9F29592C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 183FD6F3F0;
-	Thu, 22 Oct 2020 07:28:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 572266F527;
+	Thu, 22 Oct 2020 07:28:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 194706E135
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 18:56:44 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id z5so4332370iob.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 11:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Cc/K/PIuG41/PR7b04TzfA68X44vY0DhA0nNvxK+odE=;
- b=GrBOpz3B04eglI4Ou/H+aoMQQg7CO3n/sx11CnC2KFyl751f5YKbxaSJfAieTMWw+3
- kUWQ215pQELE9Py74xWRSY0RUbNNU8vjRkpRQdw7F2GGU/dlVP7gC2Eu6WVVw+Hv6gmq
- fT3Ik/FKSDcRA8IdinKj2EfiCJZ8PsY1Wpev4G37iKVKPC3gKiVcL75dRi5pCmlhLOnb
- xw6VL88vbHWo41Wgo35mqxEQH5kQUEKl7XojseMCtNHeMNA9jtXbEr72jh9Sdcuc9GaW
- bW/GP+M9fsP2tI1TpMf5ZvWbfEtZl4I+lpZjbzIxPbFgx9c8joumjuG2a2iPHZxVfnnB
- pD2g==
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFB826F4A7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 19:03:20 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id e65so2287519iof.18
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 12:03:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Cc/K/PIuG41/PR7b04TzfA68X44vY0DhA0nNvxK+odE=;
- b=Cb9nliYu4fm3shItmi0j+ZS9Xx6EfmJV1Da9JQpMYA2fe094r0457vjBsKElgfD/p2
- 68D2y5DobGyd52c94Y8OvfDyOf5p2LeMWhIJXIhZOR37Ju+PS8ZPi9iyDzAT9Bv2i4Z7
- dal+e1qoPi+AWEZ5JxSLL0cuukw5Nw130qE5uSw5iHCqhkeKyRA+LOOcpuvDMU5WGyb9
- +MQINzU0BcBFEUJUihwJDdaQObxYr6PKPXO1Fc4Gvz//Apk7z11M4pEYmVYuaLAB0e7S
- tuHLpsOC6QbTK8K5r0Idv7S0cLST0BjJsU2sUbxZ10K0Ugy8b8dR5zQ5Qv7jYN/aHHlJ
- +Twg==
-X-Gm-Message-State: AOAM530tDRnVs3tnHPgnDROgQdtOtiA+8CIzlgPC0rMPSy21V2avD8Pn
- iXIaozMlCZR/uW9eRIFvVXftRfzTuwRDlmL7RoLPwA==
-X-Google-Smtp-Source: ABdhPJyLG0RAlvFN8Zp7U5m+RnWUUNGK8TOymUgePPUKY/An2N5DmxSuoTuNWfKoZwAH4W8THjAuI9EyHl7jMFAlVZ4=
-X-Received: by 2002:a05:6638:1243:: with SMTP id
- o3mr3993558jas.82.1603306603222; 
- Wed, 21 Oct 2020 11:56:43 -0700 (PDT)
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=UZ+enrykDZn0RBAehZWXA0bKtfaNR6wmh3gkDAdQ0qU=;
+ b=F+aFxwWjELtnXl1FmliICrFHZWFBA/o2cnte8OZQesMh3ItWxa5S3MUwky/0qrbq57
+ O8ghfxnwc/QKsLEe1k/R43PUAQznPI1W1wFS74ORmrS+JtLhbkE+r8F8V4LGE6BRcOao
+ 4ytAl0myB+OUKpd6f+whwWnD+7ntYxF0MkSXFhjHkehgn5wpDelcfAywgPi5iQkXshKO
+ pOqhZEyaf4t7h2xZdmCKuRgvyc8Ou1IoMovWxQA+0zr8zpGgUMuz0tlcCs6uTH+7jQno
+ EXjtetyDOivuphp25EpQT2cM22bkskSyTQiSry3vS72K+OC748kgj95DrMCU+F6r3OJo
+ W6Vg==
+X-Gm-Message-State: AOAM532RyCDFVd0vxmpJvFQWSVZ6ONCabNkpf4eAn+r8jF4x3LL1OxEW
+ PV758vc/LLj3kNvaamUocSlt4ssxRYkfNffSCoWBJvoDjNrX
+X-Google-Smtp-Source: ABdhPJz2DS8buf571WovUNMKHuSLSF76DGgezNV/agArJmCbhllMoFPN7q2PFS7kA5XVwafLNLZkSOV+4eJYXHkyl2WL1jnLWRkI
 MIME-Version: 1.0
-References: <20201020174253.3757771-1-fparent@baylibre.com>
- <20201020174253.3757771-3-fparent@baylibre.com>
- <CAAOTY_9m-nqCe1HanPv5xa3mVLpyG6mC1pF1FRAFJdU1jqza_A@mail.gmail.com>
-In-Reply-To: <CAAOTY_9m-nqCe1HanPv5xa3mVLpyG6mC1pF1FRAFJdU1jqza_A@mail.gmail.com>
-From: Fabien Parent <fparent@baylibre.com>
-Date: Wed, 21 Oct 2020 20:56:32 +0200
-Message-ID: <CAOwMV_wvf6v1acXjtuB3Sm83YNyf=A7ULJkEDz7RY7T7mijqHg@mail.gmail.com>
-Subject: Re: [PATCH 2/8] dt-bindings: display: mediatek: dsi: add
- documentation for MT8167 SoC
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+X-Received: by 2002:a02:8661:: with SMTP id e88mr4055127jai.43.1603306999991; 
+ Wed, 21 Oct 2020 12:03:19 -0700 (PDT)
+Date: Wed, 21 Oct 2020 12:03:19 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000335adc05b23300f6@google.com>
+Subject: WARNING in dma_map_page_attrs
+From: syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, hch@lst.de, 
+ iommu@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ m.szyprowski@samsung.com, robin.murphy@arm.com, sumit.semwal@linaro.org, 
+ syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,68 +55,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQ2h1bi1LdWFuZywKCk9uIFdlZCwgT2N0IDIxLCAyMDIwIGF0IDc6MDEgUE0gQ2h1bi1LdWFu
-ZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gSGksIEZhYmllbjoKPgo+
-IEZhYmllbiBQYXJlbnQgPGZwYXJlbnRAYmF5bGlicmUuY29tPiDmlrwgMjAyMOW5tDEw5pyIMjHm
-l6Ug6YCx5LiJIOS4iuWNiDE6NDPlr6vpgZPvvJoKPiA+Cj4gPiBBZGQgYmluZGluZyBkb2N1bWVu
-dGF0aW9uIGZvciB0aGUgTVQ4MTY3IFNvQy4gVGhlIFNvQyBuZWVkcwo+ID4gYW4gYWRkaXRpb25h
-bCBjbG9jayBjb21wYXJlZCB0byB0aGUgYWxyZWFkeSBzdXBwb3J0ZWQgU29DOiBtaXBpMjZtLgo+
-ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEZhYmllbiBQYXJlbnQgPGZwYXJlbnRAYmF5bGlicmUuY29t
-Pgo+ID4gLS0tCj4gPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9t
-ZWRpYXRlayxkc2kudHh0ICB8IDcgKysrKy0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2Vy
-dGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
-b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQg
-Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRp
-YXRlayxkc2kudHh0Cj4gPiBpbmRleCBmMDZmMjRkNDA1YTUuLjEwYWU2YmU3MjI1ZSAxMDA2NDQK
-PiA+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlh
-dGVrL21lZGlhdGVrLGRzaS50eHQKPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRzaS50eHQKPiA+IEBAIC03LDEyICs3
-LDEzIEBAIGNoYW5uZWwgb3V0cHV0Lgo+ID4KPiA+ICBSZXF1aXJlZCBwcm9wZXJ0aWVzOgo+ID4g
-IC0gY29tcGF0aWJsZTogIm1lZGlhdGVrLDxjaGlwPi1kc2kiCj4gPiAtLSB0aGUgc3VwcG9ydGVk
-IGNoaXBzIGFyZSBtdDI3MDEsIG10NzYyMywgbXQ4MTczIGFuZCBtdDgxODMuCj4gPiArLSB0aGUg
-c3VwcG9ydGVkIGNoaXBzIGFyZSBtdDI3MDEsIG10NzYyMywgbXQ4MTY3LCBtdDgxNzMgYW5kIG10
-ODE4My4KPiA+ICAtIHJlZzogUGh5c2ljYWwgYmFzZSBhZGRyZXNzIGFuZCBsZW5ndGggb2YgdGhl
-IGNvbnRyb2xsZXIncyByZWdpc3RlcnMKPiA+ICAtIGludGVycnVwdHM6IFRoZSBpbnRlcnJ1cHQg
-c2lnbmFsIGZyb20gdGhlIGZ1bmN0aW9uIGJsb2NrLgo+ID4gIC0gY2xvY2tzOiBkZXZpY2UgY2xv
-Y2tzCj4gPiAgICBTZWUgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Nsb2NrL2Ns
-b2NrLWJpbmRpbmdzLnR4dCBmb3IgZGV0YWlscy4KPiA+IC0tIGNsb2NrLW5hbWVzOiBtdXN0IGNv
-bnRhaW4gImVuZ2luZSIsICJkaWdpdGFsIiwgYW5kICJocyIKPiA+ICstIGNsb2NrLW5hbWVzOiBt
-dXN0IGNvbnRhaW4gImVuZ2luZSIsICJkaWdpdGFsIiwgImhzIgo+ID4gKyAgQ2FuIG9wdGlvbm5h
-bGx5IGFsc28gY29udGFpbiAibWlwaTI2bSIKPgo+IEl0IHNlZW1zIHRoYXQgbWlwaTI2bSBpcyB0
-aGUgY2xvY2sgb2YgbWlwaS10eC4gSW4gbXQ4MTczLmR0c2kgWzFdLAo+IG1pcGktdHgncyBjbG9j
-ayBpcyAyNm0uCj4KPiBtaXBpX3R4MDogbWlwaS1kcGh5QDEwMjE1MDAwIHsKPiBjb21wYXRpYmxl
-ID0gIm1lZGlhdGVrLG10ODE3My1taXBpLXR4IjsKPiByZWcgPSA8MCAweDEwMjE1MDAwIDAgMHgx
-MDAwPjsKPiBjbG9ja3MgPSA8JmNsazI2bT47Cj4gY2xvY2stb3V0cHV0LW5hbWVzID0gIm1pcGlf
-dHgwX3BsbCI7Cj4gI2Nsb2NrLWNlbGxzID0gPDA+Owo+ICNwaHktY2VsbHMgPSA8MD47Cj4gc3Rh
-dHVzID0gImRpc2FibGVkIjsKPiB9Owo+Cj4gSWYgdGhpcyBpcyB0aGUgY2xvY2sgb2YgbWlwaS10
-eCwgaXQgc2hvdWxkIGJlIGNvbnRyb2xsZWQgYnkgbWlwaS10eCBkcml2ZXIuCgpUaGFua3MsIEkg
-d2lsbCBmaXggdGhhdCBpbiB2Mi4KCj4KPiBbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIv
-c2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvYXJjaC9hcm02NC9i
-b290L2R0cy9tZWRpYXRlay9tdDgxNzMuZHRzaT9oPXY1LjkKPgo+IFJlZ2FyZHMsCj4gQ2h1bi1L
-dWFuZy4KPgo+ID4gIC0gcGh5czogcGhhbmRsZSBsaW5rIHRvIHRoZSBNSVBJIEQtUEhZIGNvbnRy
-b2xsZXIuCj4gPiAgLSBwaHktbmFtZXM6IG11c3QgY29udGFpbiAiZHBoeSIKPiA+ICAtIHBvcnQ6
-IE91dHB1dCBwb3J0IG5vZGUgd2l0aCBlbmRwb2ludCBkZWZpbml0aW9ucyBhcyBkZXNjcmliZWQg
-aW4KPiA+IEBAIC0yNiw3ICsyNyw3IEBAIFRoZSBNSVBJIFRYIGNvbmZpZ3VyYXRpb24gbW9kdWxl
-IGNvbnRyb2xzIHRoZSBNSVBJIEQtUEhZLgo+ID4KPiA+ICBSZXF1aXJlZCBwcm9wZXJ0aWVzOgo+
-ID4gIC0gY29tcGF0aWJsZTogIm1lZGlhdGVrLDxjaGlwPi1taXBpLXR4Igo+ID4gLS0gdGhlIHN1
-cHBvcnRlZCBjaGlwcyBhcmUgbXQyNzAxLCA3NjIzLCBtdDgxNzMgYW5kIG10ODE4My4KPiA+ICst
-IHRoZSBzdXBwb3J0ZWQgY2hpcHMgYXJlIG10MjcwMSwgNzYyMywgbXQ4MTY3LCBtdDgxNzMgYW5k
-IG10ODE4My4KPiA+ICAtIHJlZzogUGh5c2ljYWwgYmFzZSBhZGRyZXNzIGFuZCBsZW5ndGggb2Yg
-dGhlIGNvbnRyb2xsZXIncyByZWdpc3RlcnMKPiA+ICAtIGNsb2NrczogUExMIHJlZmVyZW5jZSBj
-bG9jawo+ID4gIC0gY2xvY2stb3V0cHV0LW5hbWVzOiBuYW1lIG9mIHRoZSBvdXRwdXQgY2xvY2sg
-bGluZSB0byB0aGUgRFNJIGVuY29kZXIKPiA+IC0tCj4gPiAyLjI4LjAKPiA+Cl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    c4d6fe73 Merge tag 'xarray-5.9' of git://git.infradead.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14862ff0500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7d790573d3e379c4
+dashboard link: https://syzkaller.appspot.com/bug?extid=34dc2fea3478e659af01
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com
+
+infiniband syz1: set active
+infiniband syz1: added vcan0
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 9851 at kernel/dma/mapping.c:149 dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+Modules linked in:
+CPU: 1 PID: 9851 Comm: syz-executor.1 Not tainted 5.9.0-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+RIP: 0010:dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+Code: 80 3c 10 00 0f 85 ed 01 00 00 48 8b 1d 36 c3 fa 0c e9 2d fc ff ff 48 89 c3 e9 d1 fd ff ff e8 04 12 12 00 0f 0b e8 fd 11 12 00 <0f> 0b 49 c7 c4 ff ff ff ff e9 d5 fd ff ff e8 ea 11 12 00 48 8d 7b
+RSP: 0018:ffffc90001546c68 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: ffffffff894d0040 RCX: ffffc9000dbe4000
+RDX: 0000000000040000 RSI: ffffffff815d3b03 RDI: ffff88806a988b00
+RBP: ffff8880236cc400 R08: 0000000000000002 R09: 0000000000000000
+R10: 0000000000000002 R11: 0000000000000000 R12: ffffea00008db300
+R13: ffff88806a9886e8 R14: 00000000000004b8 R15: 0000000000000002
+FS:  00007f678fae2700(0000) GS:ffff88802ce00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f299a39b190 CR3: 0000000069f31000 CR4: 0000000000350ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ dma_map_single_attrs include/linux/dma-mapping.h:279 [inline]
+ ib_dma_map_single include/rdma/ib_verbs.h:3967 [inline]
+ ib_mad_post_receive_mads+0x23f/0xd60 drivers/infiniband/core/mad.c:2715
+ ib_mad_port_start drivers/infiniband/core/mad.c:2862 [inline]
+ ib_mad_port_open drivers/infiniband/core/mad.c:3016 [inline]
+ ib_mad_init_device+0x72b/0x1400 drivers/infiniband/core/mad.c:3092
+ add_client_context+0x405/0x5e0 drivers/infiniband/core/device.c:680
+ enable_device_and_get+0x1d5/0x3c0 drivers/infiniband/core/device.c:1301
+ ib_register_device drivers/infiniband/core/device.c:1376 [inline]
+ ib_register_device+0x7a7/0xa40 drivers/infiniband/core/device.c:1335
+ rxe_register_device+0x46d/0x570 drivers/infiniband/sw/rxe/rxe_verbs.c:1182
+ rxe_add+0x12fe/0x16d0 drivers/infiniband/sw/rxe/rxe.c:247
+ rxe_net_add+0x8c/0xe0 drivers/infiniband/sw/rxe/rxe_net.c:507
+ rxe_newlink drivers/infiniband/sw/rxe/rxe.c:269 [inline]
+ rxe_newlink+0xb7/0xe0 drivers/infiniband/sw/rxe/rxe.c:250
+ nldev_newlink+0x30e/0x540 drivers/infiniband/core/nldev.c:1555
+ rdma_nl_rcv_msg+0x367/0x690 drivers/infiniband/core/netlink.c:195
+ rdma_nl_rcv_skb drivers/infiniband/core/netlink.c:239 [inline]
+ rdma_nl_rcv+0x2f2/0x440 drivers/infiniband/core/netlink.c:259
+ netlink_unicast_kernel net/netlink/af_netlink.c:1304 [inline]
+ netlink_unicast+0x533/0x7d0 net/netlink/af_netlink.c:1330
+ netlink_sendmsg+0x856/0xd90 net/netlink/af_netlink.c:1919
+ sock_sendmsg_nosec net/socket.c:651 [inline]
+ sock_sendmsg+0xcf/0x120 net/socket.c:671
+ ____sys_sendmsg+0x6e8/0x810 net/socket.c:2353
+ ___sys_sendmsg+0xf3/0x170 net/socket.c:2407
+ __sys_sendmsg+0xe5/0x1b0 net/socket.c:2440
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x45d9f9
+Code: bd b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 8b b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007f678fae1c88 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 000000000071f480 RCX: 000000000045d9f9
+RDX: 0000000000000000 RSI: 0000000020000200 RDI: 0000000000000003
+RBP: 00000000004aab13 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000075bf00
+R13: 00007ffc6f9b8bbf R14: 00007f678fac2000 R15: 0000000000000003
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
