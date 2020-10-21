@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9E42948C0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 09:17:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C1F2948C6
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 09:17:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1586E9BD;
-	Wed, 21 Oct 2020 07:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6126F475;
+	Wed, 21 Oct 2020 07:17:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B68B76E0FD
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 22:15:58 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id lw2so73400pjb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 15:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=Byl068bSjplKbL4+PGKJ1dC619S+qOz8jD1tUz0XwHk=;
- b=KE+PETcp6MXxJp2h7R+7wX6TA7o0bnwOzHNuKMnSSWmLWLDVi3exXozEpC2/oJlQN8
- +KRIahNRWZR0vRBqf05eo1Ca/0Copjo/AjJwsptmk2Bqoyw0eP6VNszY2u4x5ZaFVSkZ
- BbyHVYsoDxQI619GGH5gKMoNNbSkLn0vaviZk=
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com
+ [IPv6:2607:f8b0:4864:20::749])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48D556E96C
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 06:55:22 +0000 (UTC)
+Received: by mail-qk1-x749.google.com with SMTP id f126so966474qke.17
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Oct 2020 23:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=kqIBqfY+Hcr7A7v5M3/iiJmOoTUsbHrDS0m6HNeC0jY=;
+ b=ciLRT5zHEWJ9eOvi55jX9OgHieT3KfG13ACzGI33brcOzxHpY42/gk3kXwkC3NBr0s
+ E5cXf94irMI6gsUS2rN8ZC00zBnIlI941Z53PtVlA2u4nTyU7iNcM2REf9qEHdhVtegL
+ i/Xr5J10pjo4xWUzVftp6A9pl731OD6vOOlIkr7o6YsvF52LJtCD7ug1gd0vcy3LM9iH
+ cM0mMDvjc/PP7FeDApsE+YhfNMMM/S1X8aSSBNCJPI36qBPQZfi8kI/r9RIFs+8omAop
+ bD8npsSgf2T8u9/XlaTpZul4i0TdrO66/23M/g+HNZLNh80Yxsik5R69Xz9z1H0ZVf13
+ aG7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=Byl068bSjplKbL4+PGKJ1dC619S+qOz8jD1tUz0XwHk=;
- b=dkN+V7iSEfbdERUGVSoGr2JVSaUAsry9vakt7aBQtUbvCBFRrBIKbOW2JdZpveS+sA
- +frKly0CRhu4gYlYwWdqCCXxlspZzsJPrV2FsE6UAKerd9HPLJneNMJ2WV/T0A4DmgOs
- GOtLZgj77r1yKGad71x5y9EZWnMxcLIalw1DUla6Hrg5KKd4ZKkbu1q8bvZjVyHSXRzB
- tk4GJwGNgSIRazChRCwhBCt4hg5YkaIzF7gDmZ9r7iucVkth0CxTJDsv9FNzPqqxPtQy
- FVQ4m2frHFNnndk4iyZbmXd+cZS0a9aM42s3DoRvp/iT5H3puHydV7dcdoLTNKcbGHrf
- 04XQ==
-X-Gm-Message-State: AOAM530jMhpee2qLYh/ZGPH4LjK1qHDad9xF40jjyrYaP5ARxdcrwiUB
- +0Cy7VJLtGwX0kw7JOdWkNyBGQ==
-X-Google-Smtp-Source: ABdhPJyhGqquEURVzCUWjkxaXE1f4ZbyUwHjKWuvLzMw7wyKxAe9p8Ze3hRndsQEWKczhrZO5Thjvw==
-X-Received: by 2002:a17:902:b7c3:b029:d4:bc6e:8aae with SMTP id
- v3-20020a170902b7c3b02900d4bc6e8aaemr269153plz.12.1603232158094; 
- Tue, 20 Oct 2020 15:15:58 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id e196sm50988pfh.128.2020.10.20.15.15.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 15:15:57 -0700 (PDT)
-MIME-Version: 1.0
-In-Reply-To: <20201020165959.7441-1-khsieh@codeaurora.org>
-References: <20201020165959.7441-1-khsieh@codeaurora.org>
-Subject: Re: [PATCH] drm/msm/dp: skip checking LINK_STATUS_UPDATED bit
-From: Stephen Boyd <swboyd@chromium.org>
-To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run
-Date: Tue, 20 Oct 2020 15:15:55 -0700
-Message-ID: <160323215566.884498.14018580767640192186@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=kqIBqfY+Hcr7A7v5M3/iiJmOoTUsbHrDS0m6HNeC0jY=;
+ b=VQVaUBKYC9fLcguRS0NTdjBYM7fQGS8Uq4U2h7xZ8xwgG+kXDrzNxYqkpSBA2ZUqYc
+ IPQGi21VoJ6heMOy/0D9zDkiwsKXxb+aAs5sxgx+4oMhjW39eC5oee4pFagx/LvfsUOQ
+ LgJ2gzXC/gMFDep6Fd6ubrj6Hw2AYrt44Nt2YyjZuFF/8t6nbjvx13j23a3MiQ8DWOgv
+ d5JcZUbjclmBv+cBdv8DMBMm/LAnwo4yghzTxeKwo0K0JVAuWJsur7NBhrcKxzVGPWyV
+ cZkvMaCdEphVXff4apNvHlI98JfUCROWCMyIswTWK9NuqZ/mbjlB/EnemNi23qryW12I
+ vOfw==
+X-Gm-Message-State: AOAM533ZEUwNrpZ6T/ebahAFV+m0VzBK1pwwFhv4KUDi2II5Zc1NX+A2
+ ZHJ1Hjl19GFfZYW8cbMNpHvsz/74WHuhbC3V
+X-Google-Smtp-Source: ABdhPJyVeRl2TfkbPk0Oo2hxaHWZvtsEyFHMTPbqqvBXQ5/1B1CjslD9c9JP/8ORxT0A/2gVMqJQrgnb5FHjFsmb
+X-Received: from kenbshuang.ntc.corp.google.com
+ ([2401:fa00:fc:202:3e52:82ff:fe5b:37a9])
+ (user=kenbshuang job=sendgmr) by 2002:ad4:45ca:: with SMTP id
+ v10mr312755qvt.48.1603263321099; Tue, 20 Oct 2020 23:55:21 -0700 (PDT)
+Date: Wed, 21 Oct 2020 14:54:04 +0800
+Message-Id: <20201021065404.1336797-1-kenbshuang@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
+Subject: [PATCH] drm: add client cap to expose low power modes
+From: Ken Huang <kenbshuang@google.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
 X-Mailman-Approved-At: Wed, 21 Oct 2020 07:16:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,95 +65,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: Ken Huang <kenbshuang@google.com>, Adrian Salido <salidoa@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2020-10-20 09:59:59)
-> No need to check LINK_STATuS_UPDATED bit before
+From: Adrian Salido <salidoa@google.com>
 
-LINK_STATUS_UPDATED?
+Some displays may support Low Power modes, however, these modes may
+require special handling as they would usually require lower OPR
+content on framebuffers. Add a drm mode flag to specify display
+capability to support low power mode, and add a drm client cap for
+it. If a client doesn't support the capability, that will filter it
+out for the client.
 
-> return 6 bytes of link status during link training.
+Signed-off-by: Adrian Salido <salidoa@google.com>
+Signed-off-by: Ken Huang <kenbshuang@google.com>
+---
+ drivers/gpu/drm/drm_connector.c |  4 ++++
+ drivers/gpu/drm/drm_ioctl.c     |  5 +++++
+ include/drm/drm_file.h          |  7 +++++++
+ include/uapi/drm/drm.h          | 10 ++++++++++
+ include/uapi/drm/drm_mode.h     |  3 +++
+ 5 files changed, 29 insertions(+)
 
-Why?
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 717c4e7271b0..46a29b156ffa 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -2318,6 +2318,10 @@ drm_mode_expose_to_userspace(const struct drm_display_mode *mode,
+ 		}
+ 	}
+ 
++	if (!file_priv->low_power_modes_allowed &&
++	    (mode->flags & DRM_MODE_FLAG_LOW_POWER))
++		return false;
++
+ 	return true;
+ }
+ 
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index 789ee65ac1f5..e7e025698b3b 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -362,6 +362,11 @@ drm_setclientcap(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ 			return -EINVAL;
+ 		file_priv->writeback_connectors = req->value;
+ 		break;
++	case DRM_CLIENT_CAP_LOW_POWER_MODES:
++		if (req->value > 1)
++			return -EINVAL;
++		file_priv->low_power_modes_allowed = req->value;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index 716990bace10..2fa66c32f066 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -212,6 +212,13 @@ struct drm_file {
+ 	 */
+ 	bool was_master;
+ 
++	/**
++	 * @low_power_modes_allowed:
++	 *
++	 * True if the client understands how to work with low power modes
++	 */
++	bool low_power_modes_allowed;
++
+ 	/**
+ 	 * @is_master:
+ 	 *
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 808b48a93330..12f39a628bb5 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -698,6 +698,16 @@ struct drm_get_cap {
+  */
+ #define DRM_CLIENT_CAP_WRITEBACK_CONNECTORS	5
+ 
++/**
++ * DRM_CLIENT_CAP_LOW_POWER_MODES
++ *
++ * If set to 1, the DRM core will expose modes that support Lower Power at the
++ * potential cost of reduced fidelity. Special care must be taken by clients
++ * that work with these modes, (ex. framebuffer contents are expected to
++ * have reduced OPRs)
++ */
++#define DRM_CLIENT_CAP_LOW_POWER_MODES	6
++
+ /** DRM_IOCTL_SET_CLIENT_CAP ioctl argument type */
+ struct drm_set_client_cap {
+ 	__u64 capability;
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 863eda048265..71137280b1e6 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -124,6 +124,8 @@ extern "C" {
+ #define  DRM_MODE_FLAG_PIC_AR_256_135 \
+ 			(DRM_MODE_PICTURE_ASPECT_256_135<<19)
+ 
++#define  DRM_MODE_FLAG_LOW_POWER		(1<<23)
++
+ #define  DRM_MODE_FLAG_ALL	(DRM_MODE_FLAG_PHSYNC |		\
+ 				 DRM_MODE_FLAG_NHSYNC |		\
+ 				 DRM_MODE_FLAG_PVSYNC |		\
+@@ -136,6 +138,7 @@ extern "C" {
+ 				 DRM_MODE_FLAG_HSKEW |		\
+ 				 DRM_MODE_FLAG_DBLCLK |		\
+ 				 DRM_MODE_FLAG_CLKDIV2 |	\
++				 DRM_MODE_FLAG_LOW_POWER |	\
+ 				 DRM_MODE_FLAG_3D_MASK)
+ 
+ /* DPMS flags */
+-- 
+2.29.0.rc1.297.gfa9743e501-goog
 
-> This patch also fix phy compliance test link rate
-> conversion error.
-
-How?
-
-> 
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-> ---
-
-Any Fixes: tag?
-
->  drivers/gpu/drm/msm/dp/dp_ctrl.c | 20 ++++++--------------
->  drivers/gpu/drm/msm/dp/dp_link.c | 24 +++++++++++-------------
->  2 files changed, 17 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index 6bdaec778c4c..76e891c91c6e 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1061,23 +1061,15 @@ static bool dp_ctrl_train_pattern_set(struct dp_ctrl_private *ctrl,
->  static int dp_ctrl_read_link_status(struct dp_ctrl_private *ctrl,
->                                     u8 *link_status)
->  {
-> -       int len = 0;
-> -       u32 const offset = DP_LANE_ALIGN_STATUS_UPDATED - DP_LANE0_1_STATUS;
-> -       u32 link_status_read_max_retries = 100;
-> -
-> -       while (--link_status_read_max_retries) {
-> -               len = drm_dp_dpcd_read_link_status(ctrl->aux,
-> -                       link_status);
-> -               if (len != DP_LINK_STATUS_SIZE) {
-> -                       DRM_ERROR("DP link status read failed, err: %d\n", len);
-> -                       return len;
-> -               }
-> +       int ret = 0, len;
->  
-> -               if (!(link_status[offset] & DP_LINK_STATUS_UPDATED))
-> -                       return 0;
-> +       len = drm_dp_dpcd_read_link_status(ctrl->aux, link_status);
-> +       if (len != DP_LINK_STATUS_SIZE) {
-> +               DRM_ERROR("DP link status read failed, err: %d\n", len);
-> +               ret = len;
-
-Could this be positive if the len is greater than 0 but not
-DP_LINK_STATUS_SIZE? Maybe the check should be len < 0? We certainly
-don't want to return some smaller size from this function, right?
-
->         }
->  
-> -       return -ETIMEDOUT;
-> +       return ret;
->  }
->  
->  static int dp_ctrl_link_train_1(struct dp_ctrl_private *ctrl,
-> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-> index c811da515fb3..58d65daae3b3 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_link.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
-> @@ -773,7 +773,8 @@ static int dp_link_process_link_training_request(struct dp_link_private *link)
->                         link->request.test_lane_count);
->  
->         link->dp_link.link_params.num_lanes = link->request.test_lane_count;
-> -       link->dp_link.link_params.rate = link->request.test_link_rate;
-> +       link->dp_link.link_params.rate =
-> +               drm_dp_bw_code_to_link_rate(link->request.test_link_rate);
-
-Why are we storing bw_code in test_link_rate? This looks very confusing.
-
->  
->         return 0;
->  }
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
