@@ -1,68 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2774B295915
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:27:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 537FC295928
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0166F3D8;
-	Thu, 22 Oct 2020 07:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 208376F51F;
+	Thu, 22 Oct 2020 07:28:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A58426EDD2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 16:37:04 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id i22so3075024qkn.9
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 09:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BzRdHxhoEjnpcVyZTB9k2I2+fkzcE70kBpksBajHHPg=;
- b=c06LmWtB/eBV/fSiYmdEtL9GPYUkBEwiw6eScZ5dk4Sur880r0RUDUdOasWQ2KsUGe
- bZgM/0p8jMLFa+ikbb0dWN5Ow5CevA+xGmpM9sZNHVumRdO1Tl6lKH78eEdBiQO/7MSc
- SyBxogrPHboOf7N/zRQinZbDgCQncGQf+B3tCHdeRI6jhJnIAAoc2n5M0i1ORD3y+prI
- vtMVVV6QAXuny3nyioqppKj86tWO1HhufpTOjkK/v2RsEfqLugKDikZxGHBEJZrzkhBg
- lGNMu1/vnxQxiUuVEAydazAgNl/YziHidKE+BchWShczAu98wiVxpsNR+uw83dVIq+/q
- VdCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BzRdHxhoEjnpcVyZTB9k2I2+fkzcE70kBpksBajHHPg=;
- b=np1v7m63xmaN0N/DVTbAcchBkmSYiqjiVYQUJAMzvNzG4zjq1qntwzhPou0VsUbzUY
- maLTX080w7IfkcLWmyW3jwq76PcwHFRTX0xnwvvRBsf4otJmRt+Jn+ZwxXNp5UcU6Sgg
- dgGtLqbYDSt2ZgXeKQQsw0AQJpeAHYDR9HrRG9+YL+walGaSl19A8WXp3nnvomSZoPDa
- uc2riKztLWOtGy45MD4xWsNWI3Cb6ilmZrn7UKuXyZZ/4xbRZrS5Xt2vHjg1RZ/+1XIb
- xwj7zuDmVRlqdink9GKezHlQ++ZgHrwygSYPD4+Hj5txVQAI1tDQ4FiERf6Nso1nyWlu
- d80w==
-X-Gm-Message-State: AOAM533EQXZvbcLS9p3uMIZVI+ieSShY4RYvTVauotMjlwCDBr5FDB+G
- 4QS05H91e8IyEZpg/eD4mf24Aw==
-X-Google-Smtp-Source: ABdhPJzGADmR3Upv87Rf5RxP6nvmSwt5ZnM0S0wnKL/4oE2AOzzQDQjF/MbwQajcSGEwpbzdpDuubQ==
-X-Received: by 2002:a37:4244:: with SMTP id p65mr3998477qka.141.1603298223560; 
- Wed, 21 Oct 2020 09:37:03 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id r58sm1532749qte.94.2020.10.21.09.37.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 09:37:02 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kVH6k-003YkE-3P; Wed, 21 Oct 2020 13:37:02 -0300
-Date: Wed, 21 Oct 2020 13:37:02 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v3 12/16] PCI: Obey iomem restrictions for procfs mmap
-Message-ID: <20201021163702.GM36674@ziepe.ca>
-References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
- <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
- <20201021125030.GK36674@ziepe.ca>
- <CAKMK7uEWe8CaT7zjcZ6dJAKHxtxtqzjVB35fCFviwhcnqksDfw@mail.gmail.com>
- <20201021151352.GL36674@ziepe.ca>
- <CAKMK7uGq0=ks7Zj1Et44k7x9FwE9u_ua4zANSqrLRri0v01V+Q@mail.gmail.com>
+Received: from mail.siol.net (mailoutvs22.siol.net [185.57.226.213])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 950678861A
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 17:18:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTP id 00B6B527428;
+ Wed, 21 Oct 2020 19:10:51 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+ by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new,
+ port 10032)
+ with ESMTP id xaTPb3dd-nCG; Wed, 21 Oct 2020 19:10:51 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+ by mail.siol.net (Postfix) with ESMTPS id A611B527430;
+ Wed, 21 Oct 2020 19:10:51 +0200 (CEST)
+Received: from kista.localnet (cpe1-5-97.cable.triera.net [213.161.5.97])
+ (Authenticated sender: jernej.skrabec@siol.net)
+ by mail.siol.net (Postfix) with ESMTPA id BACC0527428;
+ Wed, 21 Oct 2020 19:10:50 +0200 (CEST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
+ Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 1/3] drm/sun4i: frontend: Rework a bit the phase data
+Date: Wed, 21 Oct 2020 19:16:17 +0200
+Message-ID: <3090261.6p6c3PZEHK@kista>
+In-Reply-To: <20201015093642.261440-1-maxime@cerno.tech>
+References: <20201015093642.261440-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGq0=ks7Zj1Et44k7x9FwE9u_ua4zANSqrLRri0v01V+Q@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,46 +49,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390 <linux-s390@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.com>, John Hubbard <jhubbard@nvidia.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Taras Galchenko <tpgalchenko@gmail.com>, dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 21, 2020 at 05:54:54PM +0200, Daniel Vetter wrote:
-
-> The trouble is that io_remap_pfn adjust vma->pgoff, so we'd need to
-> split that. So ideally ->mmap would never set up any ptes.
-
-/dev/mem makes pgoff == pfn so it doesn't get changed by remap.
-
-pgoff doesn't get touched for MAP_SHARED either, so there are other
-users that could work like this - eg anyone mmaping IO memory is
-probably OK.
-
-> I guess one option would be if remap_pfn_range would steal the
-> vma->vm_ops pointer for itself, then it could set up the correct
-> ->install_ptes hook. But there's tons of callers for that, so not sure
-> that's a bright idea.
-
-The caller has to check that the mapping is still live, and I think
-hold a lock across the remap? Auto-defering it doesn't seem feasible.
-
-Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkhCgpEbmUgxI1ldHJ0ZWssIDE1LiBva3RvYmVyIDIwMjAgb2IgMTE6MzY6NDAgQ0VTVCBqZSBN
+YXhpbWUgUmlwYXJkIG5hcGlzYWwoYSk6Cj4gVGhlIHNjYWxlciBmaWx0ZXIgcGhhc2Ugc2V0dXAg
+aW4gdGhlIGFsbHdpbm5lciBrZXJuZWwgaGFzIHR3byBkaWZmZXJlbnQKPiBjYXNlcyBmb3Igc2V0
+dGluZyB1cCB0aGUgc2NhbGVyIGZpbHRlciwgdGhlIGZpcnN0IG9uZSB1c2luZyBkaWZmZXJlbnQg
+cGhhc2UKPiBwYXJhbWV0ZXJzIGZvciB0aGUgdHdvIGNoYW5uZWxzLCBhbmQgdGhlIHNlY29uZCBv
+bmUgcmV1c2luZyB0aGUgZmlyc3QKPiBjaGFubmVsIHBhcmFtZXRlcnMgb24gdGhlIHNlY29uZCBj
+aGFubmVsLgo+IAo+IFRoZSBhbGx3aW5uZXIga2VybmVsIGhhcyBhIHRoaXJkIG9wdGlvbiB3aGVy
+ZSB0aGUgaG9yaXpvbnRhbCBwaGFzZSBvZiB0aGUKPiBzZWNvbmQgY2hhbm5lbCB3aWxsIGJlIHNl
+dCB0byBhIGRpZmZlcmVudCB2YWx1ZSB0aGFuIHRoZSB2ZXJ0aWNhbCBvbmUgKGFuZAo+IHNlZW1z
+IGxpa2UgaXQncyB0aGUgc2FtZSB2YWx1ZSB0aGFuIG9uZSB1c2VkIG9uIHRoZSBmaXJzdCBjaGFu
+bmVsKS4KPiBIb3dldmVyLCB0aGF0IGNvZGUgcGF0aCBzZWVtcyB0byBuZXZlciBiZSB0YWtlbiwg
+c28gd2UgY2FuIGlnbm9yZSBpdCBmb3IKPiBub3csIGFuZCBpdCdzIGVzc2VudGlhbGx5IHdoYXQg
+d2UncmUgZG9pbmcgc28gZmFyIGFzIHdlbGwuCj4gCj4gU2luY2Ugd2Ugd2lsbCBoYXZlIGFsd2F5
+cyB0aGUgc2FtZSB2YWx1ZXMgYWNyb3NzIGVhY2ggY29tcG9uZW50cyBvZiB0aGUKPiBmaWx0ZXIg
+c2V0dXAgZm9yIGEgZ2l2ZW4gY2hhbm5lbCwgd2UgY2FuIHNpbXBsaWZ5IGEgYml0IG91ciBmcm9u
+dGVuZAo+IHN0cnVjdHVyZSBieSBvbmx5IHN0b3JpbmcgdGhlIHBoYXNlIHZhbHVlIHdlIHdhbnQg
+dG8gYXBwbHkgdG8gYSBnaXZlbgo+IGNoYW5uZWwuCj4gCj4gU2lnbmVkLW9mZi1ieTogTWF4aW1l
+IFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+CgpBY2tlZC1ieTogSmVybmVqIFNrcmFiZWMgPGpl
+cm5lai5za3JhYmVjQHNpb2wubmV0PgoKQmVzdCByZWdhcmRzLApKZXJuZWoKCgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
