@@ -1,54 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053DE295782
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 07:02:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9620295913
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:27:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF3E46F3A4;
-	Thu, 22 Oct 2020 05:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3736E07D;
+	Thu, 22 Oct 2020 07:27:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5C946E34B;
- Thu, 22 Oct 2020 05:02:51 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id d3so453416wma.4;
- Wed, 21 Oct 2020 22:02:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4wrpDjbP4w2xCq7mdzj75yVVv1DI/Z3nNPuhthG3gKU=;
- b=dZDXR6TkXw2gxAmMluY+wCv51B853jen6oLPQSb3pqaYX1NYXPCBu+tBYr79b1KxxH
- yDiwdTtKWgVb55jLnnlwao1splHVI/kvnrvnmoLPxh6MyMVdyjHeClDdM1O3KnH37/wH
- nSUJRQXbChgevvcfgH9083sSEYrHT8svseDw/KihzWi1JiopHkBZ+PLZjyiV/pxe3/HR
- mukUPHM9yVVdu35GhFjnSQ6y6qCnLmH+f/rWAJ25qOs2cHrl+0MgQk4Jc48+/iw4loGZ
- l5WrOEOtg7V5LIWx2fKr6ZOFOq/Do4n0fwB1NyNQa2pS83IHcW1v/DSJmGS/vgddw7Ci
- E/kA==
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 971DC6E9B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 07:24:07 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id f19so942459pfj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 00:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=hAIhzFswDyObHC/AccJ2pW9tYMVZUmTRll6IsakeHDI=;
+ b=hcxqhkvAd7gaUVg+ADZjC/g5t7FunCEWj40dk9Jkh/xjioI52ZXAkwo5BMXN3dd6bK
+ 5yXuvLzPNM3xRKnqdyMdj4t+47mqUiHukE7zp03beKQSUIMlvPx4UIwK8I+FHjqcmJK+
+ m/BFHJXQmFjXQ8bMAZqWLhKkQs9XMJMwLfK9KLRTPTTK0VqGNT1ILV7h8O1faqdo/jo4
+ RnbVTYrqOhJJX40NnBh57Kvpk11HcrFZljb+h+jDOuMIAQLRZDKUntg+d0RwJGn2AWEH
+ 05nApZQVycKIsoa+R52Nh1RncFPKJRVeAHd/N+wiBZk7rXT5ryOvdRuVzz3Kc2MSGxVM
+ o+vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4wrpDjbP4w2xCq7mdzj75yVVv1DI/Z3nNPuhthG3gKU=;
- b=OEh+huW32uR7dfEwTD8BvynaMTf9Px80NYuyoP/q8/RTuBfK7ELE6uDIa56qoXr25H
- cD9+CqcVzJrq24ej6SrJmMTx+59w2WeBZcld4nA+SV2zFGGLiDYwICt61liFvGQJ2LJA
- xX0MblBwhTHTYBBxn+EaBd0B6nxvRNAv9FlPakBo/JmOGEE5M/wp5jPCDYOEDQ59+fua
- rDYBMCyX13Ulot1lwGJhyPwn7YspdWUenaTLsw8y0mf2jb7UMGU+htWVRSCXy0qWsbQa
- AHyxykFjITES5P4kE7MA80/Vpqv1o38sz7JYbyS2/45T1e+4fIKJYvaxKaA94HuMRbsx
- UGAA==
-X-Gm-Message-State: AOAM533mN3tdG9gjniXINgll+vljvYP/kg0FpfuF8hqfWRAX5EMEv39F
- fMzRyGOVzR50JIbg7FIu495zhy3tpWEMoWV8ozE=
-X-Google-Smtp-Source: ABdhPJxMFoQB7LByS4OaQ1rQSqobrtazTFawEDpuosydZ97IIqDtpTgXrJT1bdZ4KeaMqoXWb3c/tqEul4MnOhdibCw=
-X-Received: by 2002:a1c:6302:: with SMTP id x2mr207443wmb.56.1603342970516;
- Wed, 21 Oct 2020 22:02:50 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=hAIhzFswDyObHC/AccJ2pW9tYMVZUmTRll6IsakeHDI=;
+ b=hnJflPIgFJFvTqzLeVMkKyx/p0knvtxVG+U2H3Ax+FplRTa6kdpfQX4gfm2AIOJezJ
+ naeAOf0fdAQcXAoWIzANVsNIhxKoOhr7YsifznSPtp+MXFSy3a45Q0e7ioiFTR6RBNOB
+ 7E0Aix8sh8rAieiReqFqeAjslpbbBGJ11yvesBiZiFV99oua5ojp8LKvjNohGqD35PTs
+ 5B2H6x6MvQ+s56F98jWww27XVrs8W+B3BIytJEyXDF9Q370iGPHm83qg9eBE2lUoE7jb
+ q5InIr5VAMnJ7YJUoqW7QVsgS9j3hUC32hTgiSE+sUIp6ReWm4KAaWq3OhjVW3x0mfKC
+ UU2Q==
+X-Gm-Message-State: AOAM533q5Beax8MHQVI1P2XIBawPu5eC4W7AvGEX8uLl2COgDYmmZAxN
+ hecQp/l6LZtwPKJm6Sc4d592Wg==
+X-Google-Smtp-Source: ABdhPJxdvf151N9thd6CsPj2u4ESktngUMo7t9TYxraGbFVI19jZ698HL0h3xJRccblV6DfAzwc+Ng==
+X-Received: by 2002:aa7:84c6:0:b029:155:d56e:5191 with SMTP id
+ x6-20020aa784c60000b0290155d56e5191mr2068267pfn.41.1603265047189; 
+ Wed, 21 Oct 2020 00:24:07 -0700 (PDT)
+Received: from localhost ([122.181.54.133])
+ by smtp.gmail.com with ESMTPSA id o2sm1377845pgg.3.2020.10.21.00.24.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 21 Oct 2020 00:24:06 -0700 (PDT)
+Date: Wed, 21 Oct 2020 12:54:04 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: rnayak@codeaurora.org, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH V2 3/8] drm/msm: Unconditionally call
+ dev_pm_opp_of_remove_table()
+Message-ID: <20201021072404.y43tjzd2ehclrejp@vireshk-i7>
+References: <cover.1598594714.git.viresh.kumar@linaro.org>
+ <6e4110032f8711e8bb0acbeccfe66dec3b09d5c1.1598594714.git.viresh.kumar@linaro.org>
+ <20201005062633.ejpehkpeuwksrx3e@vireshk-i7>
 MIME-Version: 1.0
-References: <tencent_6CDB3D2D9BB1A93DCB856F2AD38C59F93F05@qq.com>
-In-Reply-To: <tencent_6CDB3D2D9BB1A93DCB856F2AD38C59F93F05@qq.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 22 Oct 2020 01:02:38 -0400
-Message-ID: <CADnq5_PAefQhvb=Yh9=uzrhnHtV9-5Lo01ervN32cSqGGDS9_g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: fix a possible NULL pointer dereference
- in bios_parser_get_src_obj()
-To: estherbdf <603571786@qq.com>
+Content-Disposition: inline
+In-Reply-To: <20201005062633.ejpehkpeuwksrx3e@vireshk-i7>
+User-Agent: NeoMutt/20180716-391-311a52
+X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +73,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Rafael Wysocki <rjw@rjwysocki.net>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 19, 2020 at 8:38 AM estherbdf <603571786@qq.com> wrote:
->
-> [Why] the func  bios_parser_get_src_obj () is similar to  bios_parser_get_dst_obj () which is fixed by the commit<a8f976473196>("drm/amd/display: Banch of smatch error and warning fixes in DC").
-> the symbol 'id' is uninitialized and it is not checked before dereference it,may lead to null pointer dereference.
-> [How] Initialized variable explicitly with NULL and add sanitizer.
+On 05-10-20, 11:56, Viresh Kumar wrote:
+> On 28-08-20, 11:37, Viresh Kumar wrote:
+> > dev_pm_opp_of_remove_table() doesn't report any errors when it fails to
+> > find the OPP table with error -ENODEV (i.e. OPP table not present for
+> > the device). And we can call dev_pm_opp_of_remove_table()
+> > unconditionally here.
+> > 
+> > While at it, also create a label to put clkname.
+> > 
+> > Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> 
+> Can someone please apply this and the other drm patch (2/8) ?
 
-I think the current code is safe as is.  get_src_obj_list() will
-return 0 if *id_list is NULL and bios_parser_get_src_obj() checks if
-number <= index.
+Rob/Rajendra, can someone please have a look at these patches ?
 
-Alex
-
-
->
-> Signed-off-by: estherbdf <603571786@qq.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/bios/bios_parser.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
-> index 008d4d1..94c6cca 100644
-> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
-> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
-> @@ -190,7 +190,7 @@ static enum bp_result bios_parser_get_src_obj(struct dc_bios *dcb,
->         struct graphics_object_id *src_object_id)
->  {
->         uint32_t number;
-> -       uint16_t *id;
-> +       uint16_t *id = NULL;
->         ATOM_OBJECT *object;
->         struct bios_parser *bp = BP_FROM_DCB(dcb);
->
-> @@ -206,7 +206,7 @@ static enum bp_result bios_parser_get_src_obj(struct dc_bios *dcb,
->
->         number = get_src_obj_list(bp, object, &id);
->
-> -       if (number <= index)
-> +       if (number <= index || !id)
->                 return BP_RESULT_BADINPUT;
->
->         *src_object_id = object_id_from_bios_object_id(id[index]);
-> --
-> 1.9.1
->
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+-- 
+viresh
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
