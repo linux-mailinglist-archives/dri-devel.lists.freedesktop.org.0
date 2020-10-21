@@ -2,69 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9438929591D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C15629591A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41A4A6F3EA;
-	Thu, 22 Oct 2020 07:27:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C66B6F3E3;
+	Thu, 22 Oct 2020 07:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB84E6EEAF
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 23:20:24 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id p88so3652791qtd.12
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 16:20:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=b4cfx4QZgYz15NDTJwDbByQvqvRvpDxc8U181kXRfhk=;
- b=CZio0pvjUOAZVmGpPYnoIJZ3k0VTIRDxHgnxsmYuQhsz2jEdpX7JlzXAa5B1lHI4hj
- 1dkeZm3vsuYQ0+al/4Q5F2/2IuJErhNsTuza+Audcu3R6UagNTTPFO2TOlLXvivwU2k/
- TKA9JSMlFjnoXG+A2LL1MAujxpBHcxjoID0aD31L+i9KzL1iVOVlTBMfml1ncQpAA1Ef
- K50QmLDH8932V/fZEd6cOcCwLbIUGXgj3Ry86gAn7SRneMoAL4zkD8ulKknh501sjbP8
- vU0trDw7S+JXN+4tdtkGwNszgrrA7N4l+RnFY0GZRBBOKZJ2H2dSIxQhc+QJQE2SJt1m
- cPcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=b4cfx4QZgYz15NDTJwDbByQvqvRvpDxc8U181kXRfhk=;
- b=ffuHZg8h/vs6yJF5TRUuoxVOJ5zr2qYTuz52ca7MIJhspBmR0W967GFlGsgMvg75Sp
- DatmKPEbOTfue0SEYn5EjF7cNrVr7Lpz2mOp3c+FINAMs/SHp/ZB8IufZd4IbbfSdwRU
- XiIKmpr4mIJWssd289V9nnEfg9dkBplrd8g6zmjjmJFFPdoxN+TZYC62AC/IeXtQ1jlh
- 2EZ8TsAhZOunWVf0UyvPdzGPlVQhQ+eaQeWwao6RP6bFPTZpQ2nKOEni/gRKEZAGpz/m
- LRW/8ZalgcqH8rxFDyRKiJQAIIrjN9k7yEmnuyt/I0jHa5UDIb+nbb3tSGqWZs2dHz0C
- kJ+w==
-X-Gm-Message-State: AOAM5302lCUxZJ5ibTge/OAmBbXg+UDghKbiEDAOfjlZgkN8TsJyBjHQ
- ohkui4wJ3nsuxYv+9fhFjQdpPA==
-X-Google-Smtp-Source: ABdhPJylFppbCqYnSmCDnE4ueYGv0xNZzmWfiqeCGK69SNIht11gj1i8NPwvoXi//7kIPj5qPGxCVQ==
-X-Received: by 2002:ac8:1c39:: with SMTP id a54mr5530504qtk.344.1603322423832; 
- Wed, 21 Oct 2020 16:20:23 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id n63sm2410770qka.45.2020.10.21.16.20.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 16:20:23 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kVNP4-003k7m-9M; Wed, 21 Oct 2020 20:20:22 -0300
-Date: Wed, 21 Oct 2020 20:20:22 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v3 12/16] PCI: Obey iomem restrictions for procfs mmap
-Message-ID: <20201021232022.GN36674@ziepe.ca>
-References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
- <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
- <20201021125030.GK36674@ziepe.ca>
- <CAKMK7uEWe8CaT7zjcZ6dJAKHxtxtqzjVB35fCFviwhcnqksDfw@mail.gmail.com>
- <20201021151352.GL36674@ziepe.ca>
- <CAKMK7uGq0=ks7Zj1Et44k7x9FwE9u_ua4zANSqrLRri0v01V+Q@mail.gmail.com>
- <20201021163702.GM36674@ziepe.ca>
- <CAKMK7uEjE5sHUq0hV_bnYjPKRxYyBnty0sLre+owANGZjLJg9Q@mail.gmail.com>
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDFCA6EEBD
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 23:59:06 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09LNsmm4104771;
+ Wed, 21 Oct 2020 23:59:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=ia1bvcLIGRlULe3HUUv1lS8YCwcY+Jyv65hKmvu1yYo=;
+ b=T+mPkrULepGxEyQ+/ozMIxARHfBx1kgMxaNvSMGMmxaAPv19uO3pCsUhIFHIdaPQlJua
+ Dz+efSUQ3HiZ2ExKj7c9rRko9VWVnYFu/UFUwqN23SoVSIFwyjCzciO5Qhql8VHhzFEU
+ ol9ZFqhXQkokyJQ2D716Vbq6G+1u6bJmtHLDrWru8wBpL/ZYM1kIQR+eIN5SykFiP8//
+ k1qNNQM9FY5hvRjy0Y8jZAozeRV7my956gX9Lei4ENt/zsPh5bxSqycZlMr51CIdHsPL
+ jBrwZ0K2dgPYwqIW1ICC30GImMIO1EraDqQmBZga87GkOnmQpFrsFY0i5R0HYphniJKm hA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 34ak16kky0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 21 Oct 2020 23:58:59 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09LNtheh114258;
+ Wed, 21 Oct 2020 23:58:59 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3020.oracle.com with ESMTP id 348ah086yt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 21 Oct 2020 23:58:59 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09LNwwIj119041;
+ Wed, 21 Oct 2020 23:58:58 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
+ by aserp3020.oracle.com with ESMTP id 348ah086yg-1;
+ Wed, 21 Oct 2020 23:58:58 +0000
+From: saeed.mirzamohammadi@oracle.com
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] video: fbdev: fix divide error in fbcon_switch
+Date: Wed, 21 Oct 2020 16:57:58 -0700
+Message-Id: <20201021235758.59993-1-saeed.mirzamohammadi@oracle.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uEjE5sHUq0hV_bnYjPKRxYyBnty0sLre+owANGZjLJg9Q@mail.gmail.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0
+ priorityscore=1501 clxscore=1011 malwarescore=0 mlxscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
+ suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010210166
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,45 +69,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390 <linux-s390@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.com>, John Hubbard <jhubbard@nvidia.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
+ jani.nikula@intel.com, daniel.vetter@ffwll.ch, gustavoars@kernel.org,
+ dri-devel@lists.freedesktop.org, akpm@linux-foundation.org, rppt@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 21, 2020 at 09:24:08PM +0200, Daniel Vetter wrote:
-> On Wed, Oct 21, 2020 at 6:37 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Wed, Oct 21, 2020 at 05:54:54PM +0200, Daniel Vetter wrote:
-> >
-> > > The trouble is that io_remap_pfn adjust vma->pgoff, so we'd need to
-> > > split that. So ideally ->mmap would never set up any ptes.
-> >
-> > /dev/mem makes pgoff == pfn so it doesn't get changed by remap.
-> >
-> > pgoff doesn't get touched for MAP_SHARED either, so there are other
-> > users that could work like this - eg anyone mmaping IO memory is
-> > probably OK.
-> 
-> I was more generally thinking for io_remap_pfn_users because of the
-> mkwrite use-case we might have in fbdev emulation in drm.
+From: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
 
-You have a use case for MAP_PRIVATE and io_remap_pfn_range()??
+This patch fixes the issue due to:
 
-Jason
+[   89.572883] divide_error: 0000 [#1] SMP KASAN PTI
+[   89.572897] CPU: 3 PID: 16083 Comm: repro Not tainted 5.9.0-rc7.20200930.rc1.allarch-19-g3e32d0d.syzk #5
+[   89.572902] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.5.1 01/01/2011
+[   89.572934] RIP: 0010:cirrusfb_check_var+0x84/0x1260
+
+The error happens when the pixels value is calculated before performing the sanity checks on bits_per_pixel.
+A bits_per_pixel set to zero causes divide by zero error.
+
+This patch moves the calculation after the sanity check.
+
+Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Tested-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+---
+ drivers/video/fbdev/cirrusfb.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
+index 15a9ee7cd734..a7749101b094 100644
+--- a/drivers/video/fbdev/cirrusfb.c
++++ b/drivers/video/fbdev/cirrusfb.c
+@@ -531,7 +531,7 @@ static int cirrusfb_check_var(struct fb_var_screeninfo *var,
+ {
+ 	int yres;
+ 	/* memory size in pixels */
+-	unsigned pixels = info->screen_size * 8 / var->bits_per_pixel;
++	unsigned int pixels;
+ 	struct cirrusfb_info *cinfo = info->par;
+ 
+ 	switch (var->bits_per_pixel) {
+@@ -573,6 +573,7 @@ static int cirrusfb_check_var(struct fb_var_screeninfo *var,
+ 		return -EINVAL;
+ 	}
+ 
++	pixels = info->screen_size * 8 / var->bits_per_pixel;
+ 	if (var->xres_virtual < var->xres)
+ 		var->xres_virtual = var->xres;
+ 	/* use highest possible virtual resolution */
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
