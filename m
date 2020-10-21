@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6488D2949B5
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 10:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31552949C8
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 10:58:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD196F47D;
-	Wed, 21 Oct 2020 08:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D30EB6EAC1;
+	Wed, 21 Oct 2020 08:57:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF67D6F478
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 08:57:27 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id t9so2039955wrq.11
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 01:57:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ylZkHmK3aE1VlYRsGRUx3nUrnQWYBOnVeS+ToU4JUCI=;
- b=D88rd5JfQWap5HZksMfg9cXMMl3QwJVhjS6+VSQvUjjDd24gp69dQjtY144venALwF
- VsrNY/8fJu7KcREUK2gdnkvUKz4v4CFfNVYD7BE7l4swdssS9MrlGthSCyyUQikNqz1t
- 3VSJEkLS9OteyMKDcMhL8pGN2qtRl9K89wcCU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ylZkHmK3aE1VlYRsGRUx3nUrnQWYBOnVeS+ToU4JUCI=;
- b=f4eiDqZueuxNyrPtEEN6IgfYhxyNBKCQHHsKWj+oeigu33zG+isFzCMPKR2X0P3i56
- IxjhueodZdAehsJ9O1JpjVMsY0GSuUH9mIlHGXWJc6i/C4B+uSW6W5iW9ooM05ukqBYd
- qkIxik6ApQrmayJQpb+3UUAilUo+PecERYdKZ7yYlqcQXQLx5yaO/dyZiGVlMXhm8CUq
- QzOUTZxrB2qkatA8sreoJxUR38nSDRnBTrmsphDW4K9TA5/I43mb2eXe1Nz+6iD7t7T6
- p75Hm4c6eAcq61IYpUygirX9320om2iN4Ae90ZyaDhjY8RrAmBD00rqtzNwN4sB2aimw
- Oh8w==
-X-Gm-Message-State: AOAM530sgZRVaDL3l2LUDAzl+RBwULqPhtjSxN23uSNkoE8aYPzi7g4e
- GNDA0Pd2v/hi6B8adNrbLXtPunk9u5HhW+AR
-X-Google-Smtp-Source: ABdhPJyRYpgvahsTCZYVhKWO7YaUqSYEiS71WxybX5MQOWBTVSJxRg21hOuSPVSQTJs5khc2TIcK9w==
-X-Received: by 2002:adf:f810:: with SMTP id s16mr3280019wrp.424.1603270646012; 
- Wed, 21 Oct 2020 01:57:26 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q8sm2675939wro.32.2020.10.21.01.57.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 01:57:25 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 16/16] PCI: Revoke mappings like devmem
-Date: Wed, 21 Oct 2020 10:56:55 +0200
-Message-Id: <20201021085655.1192025-17-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
-References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8BD6EA8F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 08:57:57 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 203339] AMDGPU: virtual_display disables physical outputs
+Date: Wed, 21 Oct 2020 08:57:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: vita.amaro@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-203339-2300-wgRHijlAnF@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203339-2300@https.bugzilla.kernel.org/>
+References: <bug-203339-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,98 +51,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@ffwll.com>, linux-pci@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2luY2UgMzIzNGFjNjY0YTg3ICgiL2Rldi9tZW06IFJldm9rZSBtYXBwaW5ncyB3aGVuIGEgZHJp
-dmVyIGNsYWltcwp0aGUgcmVnaW9uIikgL2Rldi9rbWVtIHphcHMgcHRlcyB3aGVuIHRoZSBrZXJu
-ZWwgcmVxdWVzdHMgZXhjbHVzaXZlCmFjY2Nlc3MgdG8gYW4gaW9tZW0gcmVnaW9uLiBBbmQgd2l0
-aCBDT05GSUdfSU9fU1RSSUNUX0RFVk1FTSwgdGhpcyBpcwp0aGUgZGVmYXVsdCBmb3IgYWxsIGRy
-aXZlciB1c2VzLgoKRXhjZXB0IHRoZXJlJ3MgdHdvIG1vcmUgd2F5cyB0byBhY2Nlc3MgUENJIEJB
-UnM6IHN5c2ZzIGFuZCBwcm9jIG1tYXAKc3VwcG9ydC4gTGV0J3MgcGx1ZyB0aGF0IGhvbGUuCgpG
-b3IgcmV2b2tlX2Rldm1lbSgpIHRvIHdvcmsgd2UgbmVlZCB0byBsaW5rIG91ciB2bWEgaW50byB0
-aGUgc2FtZQphZGRyZXNzX3NwYWNlLCB3aXRoIGNvbnNpc3RlbnQgdm1hLT52bV9wZ29mZi4gLT5w
-Z29mZiBpcyBhbHJlYWR5CmFkanVzdGVkLCBiZWNhdXNlIHRoYXQncyBob3cgKGlvXylyZW1hcF9w
-Zm5fcmFuZ2Ugd29ya3MsIGJ1dCBmb3IgdGhlCm1hcHBpbmcgd2UgbmVlZCB0byBhZGp1c3Qgdm1h
-LT52bV9maWxlLT5mX21hcHBpbmcuIFRoZSBjbGVhbmVzdCB3YXkgaXMKdG8gYWRqdXN0IHRoaXMg
-YXQgYXQgLT5vcGVuIHRpbWU6CgotIGZvciBzeXNmcyB0aGlzIGlzIGVhc3ksIG5vdyB0aGF0IGJp
-bmFyeSBhdHRyaWJ1dGVzIHN1cHBvcnQgdGhpcy4gV2UKICBqdXN0IHNldCBiaW5fYXR0ci0+bWFw
-cGluZyB3aGVuIG1tYXAgaXMgc3VwcG9ydGVkCi0gZm9yIHByb2NmcyBpdCdzIGEgYml0IG1vcmUg
-dHJpY2t5LCBzaW5jZSBwcm9jZnMgcGNpIGFjY2VzcyBoYXMgb25seQogIG9uZSBmaWxlIHBlciBk
-ZXZpY2UsIGFuZCBhY2Nlc3MgdG8gYSBzcGVjaWZpYyByZXNvdXJjZXMgZmlyc3QgbmVlZHMKICB0
-byBiZSBzZXQgdXAgd2l0aCBzb21lIGlvY3RsIGNhbGxzLiBCdXQgbW1hcCBpcyBvbmx5IHN1cHBv
-cnRlZCBmb3IKICB0aGUgc2FtZSByZXNvdXJjZXMgYXMgc3lzZnMgZXhwb3NlcyB3aXRoIG1tYXAg
-c3VwcG9ydCwgYW5kIG90aGVyd2lzZQogIHJlamVjdGVkLCBzbyB3ZSBjYW4gc2V0IHRoZSBtYXBw
-aW5nIHVuY29uZGl0aW9uYWxseSBhdCBvcGVuIHRpbWUKICB3aXRob3V0IGhhcm0uCgpBIHNwZWNp
-YWwgY29uc2lkZXJhdGlvbiBpcyBmb3IgYXJjaF9jYW5fcGNpX21tYXBfaW8oKSAtIHdlIG5lZWQg
-dG8KbWFrZSBzdXJlIHRoYXQgdGhlIC0+Zl9tYXBwaW5nIGRvZXNuJ3QgYWxpYXMgYmV0d2VlbiBp
-b3BvcnQgYW5kIGlvbWVtCnNwYWNlLiBUaGVyZSdzIG9ubHkgMiB3YXlzIGluLXRyZWUgdG8gc3Vw
-cG9ydCBtbWFwIG9mIGlvcG9ydHM6IGdlbmVyaWMKcGNpIG1tYXAgKEFSQ0hfR0VORVJJQ19QQ0lf
-TU1BUF9SRVNPVVJDRSksIGFuZCBzcGFyYyBhcyB0aGUgc2luZ2xlCmFyY2hpdGVjdHVyZSBoYW5k
-LXJvbGxpbmcuIEJvdGggYXBwcm9hY2ggc3VwcG9ydCBpb3BvcnQgbW1hcCB0aHJvdWdoIGEKc3Bl
-Y2lhbCBwZm4gcmFuZ2UgYW5kIG5vdCB0aHJvdWdoIG1hZ2ljIHB0ZSBhdHRyaWJ1dGVzLiBBbGlh
-c2luZyBpcwp0aGVyZWZvcmUgbm90IGEgcHJvYmxlbS4KClRoZSBvbmx5IGRpZmZlcmVuY2UgaW4g
-YWNjZXNzIGNoZWNrcyBsZWZ0IGlzIHRoYXQgc3lzZnMgUENJIG1tYXAgZG9lcwpub3QgY2hlY2sg
-Zm9yIENBUF9SQVdJTy4gSSdtIG5vdCByZWFsbHkgc3VyZSB3aGV0aGVyIHRoYXQgc2hvdWxkIGJl
-CmFkZGVkIG9yIG5vdC4KClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0
-ZXJAaW50ZWwuY29tPgpDYzogSmFzb24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+CkNjOiBLZWVz
-IENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4KQ2M6IERhbiBXaWxsaWFtcyA8ZGFuLmoud2ls
-bGlhbXNAaW50ZWwuY29tPgpDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9u
-Lm9yZz4KQ2M6IEpvaG4gSHViYmFyZCA8amh1YmJhcmRAbnZpZGlhLmNvbT4KQ2M6IErDqXLDtG1l
-IEdsaXNzZSA8amdsaXNzZUByZWRoYXQuY29tPgpDYzogSmFuIEthcmEgPGphY2tAc3VzZS5jej4K
-Q2M6IERhbiBXaWxsaWFtcyA8ZGFuLmoud2lsbGlhbXNAaW50ZWwuY29tPgpDYzogR3JlZyBLcm9h
-aC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KQ2M6IGxpbnV4LW1tQGt2YWNr
-Lm9yZwpDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCkNjOiBsaW51eC1z
-YW1zdW5nLXNvY0B2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
-ZwpDYzogQmpvcm4gSGVsZ2FhcyA8YmhlbGdhYXNAZ29vZ2xlLmNvbT4KQ2M6IGxpbnV4LXBjaUB2
-Z2VyLmtlcm5lbC5vcmcKU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRl
-ckBmZndsbC5jb20+Ci0tCnYyOgotIFRvdGFsbHkgbmV3IGFwcHJvYWNoOiBBZGp1c3QgZmlscC0+
-Zl9tYXBwaW5nIGF0IG9wZW4gdGltZS4gTm90ZSB0aGF0CiAgdGhpcyBub3cgd29ya3Mgb24gYWxs
-IGFyY2hpdGVjdHVyZXMsIG5vdCBqdXN0IHRob3NlIHN1cHBvcnQKICBBUkNIX0dFTkVSSUNfUENJ
-X01NQVBfUkVTT1VSQ0UKLS0tCiBkcml2ZXJzL3BjaS9wY2ktc3lzZnMuYyB8IDQgKysrKwogZHJp
-dmVycy9wY2kvcHJvYy5jICAgICAgfCAxICsKIDIgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25z
-KCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9wY2kvcGNpLXN5c2ZzLmMgYi9kcml2ZXJzL3BjaS9w
-Y2ktc3lzZnMuYwppbmRleCA2ZDc4ZGY5ODFkNDEuLmNlZTM4ZmNiNGE4NiAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9wY2kvcGNpLXN5c2ZzLmMKKysrIGIvZHJpdmVycy9wY2kvcGNpLXN5c2ZzLmMKQEAg
-LTkyOCw2ICs5MjgsNyBAQCB2b2lkIHBjaV9jcmVhdGVfbGVnYWN5X2ZpbGVzKHN0cnVjdCBwY2lf
-YnVzICpiKQogCWItPmxlZ2FjeV9pby0+cmVhZCA9IHBjaV9yZWFkX2xlZ2FjeV9pbzsKIAliLT5s
-ZWdhY3lfaW8tPndyaXRlID0gcGNpX3dyaXRlX2xlZ2FjeV9pbzsKIAliLT5sZWdhY3lfaW8tPm1t
-YXAgPSBwY2lfbW1hcF9sZWdhY3lfaW87CisJYi0+bGVnYWN5X2lvLT5tYXBwaW5nID0gaW9tZW1f
-Z2V0X21hcHBpbmcoKTsKIAlwY2lfYWRqdXN0X2xlZ2FjeV9hdHRyKGIsIHBjaV9tbWFwX2lvKTsK
-IAllcnJvciA9IGRldmljZV9jcmVhdGVfYmluX2ZpbGUoJmItPmRldiwgYi0+bGVnYWN5X2lvKTsK
-IAlpZiAoZXJyb3IpCkBAIC05NDAsNiArOTQxLDcgQEAgdm9pZCBwY2lfY3JlYXRlX2xlZ2FjeV9m
-aWxlcyhzdHJ1Y3QgcGNpX2J1cyAqYikKIAliLT5sZWdhY3lfbWVtLT5zaXplID0gMTAyNCoxMDI0
-OwogCWItPmxlZ2FjeV9tZW0tPmF0dHIubW9kZSA9IDA2MDA7CiAJYi0+bGVnYWN5X21lbS0+bW1h
-cCA9IHBjaV9tbWFwX2xlZ2FjeV9tZW07CisJYi0+bGVnYWN5X2lvLT5tYXBwaW5nID0gaW9tZW1f
-Z2V0X21hcHBpbmcoKTsKIAlwY2lfYWRqdXN0X2xlZ2FjeV9hdHRyKGIsIHBjaV9tbWFwX21lbSk7
-CiAJZXJyb3IgPSBkZXZpY2VfY3JlYXRlX2Jpbl9maWxlKCZiLT5kZXYsIGItPmxlZ2FjeV9tZW0p
-OwogCWlmIChlcnJvcikKQEAgLTExNTUsNiArMTE1Nyw4IEBAIHN0YXRpYyBpbnQgcGNpX2NyZWF0
-ZV9hdHRyKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBpbnQgbnVtLCBpbnQgd3JpdGVfY29tYmluZSkK
-IAkJCXJlc19hdHRyLT5tbWFwID0gcGNpX21tYXBfcmVzb3VyY2VfdWM7CiAJCX0KIAl9CisJaWYg
-KHJlc19hdHRyLT5tbWFwKQorCQlyZXNfYXR0ci0+bWFwcGluZyA9IGlvbWVtX2dldF9tYXBwaW5n
-KCk7CiAJcmVzX2F0dHItPmF0dHIubmFtZSA9IHJlc19hdHRyX25hbWU7CiAJcmVzX2F0dHItPmF0
-dHIubW9kZSA9IDA2MDA7CiAJcmVzX2F0dHItPnNpemUgPSBwY2lfcmVzb3VyY2VfbGVuKHBkZXYs
-IG51bSk7CmRpZmYgLS1naXQgYS9kcml2ZXJzL3BjaS9wcm9jLmMgYi9kcml2ZXJzL3BjaS9wcm9j
-LmMKaW5kZXggM2EyZjkwYmViNGNiLi45YmFiMDczMDJiYmYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-cGNpL3Byb2MuYworKysgYi9kcml2ZXJzL3BjaS9wcm9jLmMKQEAgLTI5OCw2ICsyOTgsNyBAQCBz
-dGF0aWMgaW50IHByb2NfYnVzX3BjaV9vcGVuKHN0cnVjdCBpbm9kZSAqaW5vZGUsIHN0cnVjdCBm
-aWxlICpmaWxlKQogCWZwcml2LT53cml0ZV9jb21iaW5lID0gMDsKIAogCWZpbGUtPnByaXZhdGVf
-ZGF0YSA9IGZwcml2OworCWZpbGUtPmZfbWFwcGluZyA9IGlvbWVtX2dldF9tYXBwaW5nKCk7CiAK
-IAlyZXR1cm4gMDsKIH0KLS0gCjIuMjguMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=203339
+
+vita.amaro@gmail.com (vita.amaro@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |vita.amaro@gmail.com
+
+--- Comment #4 from vita.amaro@gmail.com (vita.amaro@gmail.com) ---
+But what if i need virtual display in order to use it as a second monitor via
+vnc? There is no way...
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
