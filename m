@@ -2,32 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1D829492D
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 10:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B6729493A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Oct 2020 10:14:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE456E9BE;
-	Wed, 21 Oct 2020 08:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA0A6EA63;
+	Wed, 21 Oct 2020 08:14:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68F686E9BE
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 08:03:29 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CFEF7AEAC;
- Wed, 21 Oct 2020 08:03:27 +0000 (UTC)
-To: Kevin Brace <kevinbrace@gmx.com>, Sam Ravnborg <sam@ravnborg.org>
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBD56EA63
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 08:14:13 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id u127so1242065oib.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 01:14:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ihgdsPkK1OS0D6sGYtmy8IZXGHvJrqpOo8+cMgZYyME=;
+ b=OfcsMFJdnhqNUj5G23Bi855PKzMfTz9hTpvuGVKTbCA1DiQL/mzrI6MJTBPUILLBP9
+ mZPXasukPEQ1cnI6RYhsakq64Qwa48ivE9W4SdIpptJUtOD0tWOyAUFRHmICIcDpDlfR
+ g/wd1UhfqM1zfV/IAEX5MeOk4o3IQuxxYSsWk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ihgdsPkK1OS0D6sGYtmy8IZXGHvJrqpOo8+cMgZYyME=;
+ b=pG4k7aThmTEZ7xdVlxRTjqv7IzbycwQCnp+GwrhbCajh5gCFhCVQvpXuKd1rPYvwe5
+ ECwEdFiL5PYd4c3pgs6s3ELU9A2mYSFByG9ZX9Rw+ipascJ6kcyTbYAYPfFx0HZ/+ZBx
+ HrGyO5bDG/2z3ZycBVGf1du82PWbCpnGmdUr9hQNrhTE5b5lk6sjAwcHTjZyvvmCJ71F
+ AimOpn59r2mrnTwss7Tibrru8Sm/sGsXE6k3RZPRU1Nne10C5t0ap2kMXxuvQyJB2V8W
+ HjHzFldCMcZByB7OJYCgg6ePA9J+nSuKWsn+JP1SLngHfYGbh6W5ie8VilMlz82LPZsn
+ CiOA==
+X-Gm-Message-State: AOAM532XKzkfEmV8GcxqRBsvMzE4DCE+MRQdxq7jHcW1XPdk9eFxHjL0
+ SImcSi1R50Gn5kk/DgQ2AXx3LiHU5fv+ls2kXGqLZg==
+X-Google-Smtp-Source: ABdhPJwicI9g22vqGNmSoonQmlERju1+68wSQW9fA8OuXmHv3HL69NUcFHUxDeg9BW9VupizsYOGSb9uSnWGReLdM6Q=
+X-Received: by 2002:aca:39d6:: with SMTP id g205mr1459328oia.14.1603268052417; 
+ Wed, 21 Oct 2020 01:14:12 -0700 (PDT)
+MIME-Version: 1.0
 References: <trinity-7bf82d9f-a022-48f3-bca0-d06eb28ebe35-1603048517864@3c-app-mailcom-bs08>
  <20201018210412.GA515543@ravnborg.org>
  <trinity-a0f09460-7d25-457a-aef8-e70fcf617a83-1603136588694@3c-app-mailcom-bs01>
-From: Thomas Zimmermann <tzimmermann@suse.de>
+ <895376c5-9f47-6c37-c530-0fe296346431@suse.de>
+In-Reply-To: <895376c5-9f47-6c37-c530-0fe296346431@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 21 Oct 2020 10:14:01 +0200
+Message-ID: <CAKMK7uFi4SF1D_2xEHy6cZpxzkeMtzUb7KT0Or0VitjbhpzNqA@mail.gmail.com>
 Subject: Re: It appears drm-next TTM cleanup broke something . . .
-Message-ID: <895376c5-9f47-6c37-c530-0fe296346431@suse.de>
-Date: Wed, 21 Oct 2020 10:03:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
-MIME-Version: 1.0
-In-Reply-To: <trinity-a0f09460-7d25-457a-aef8-e70fcf617a83-1603136588694@3c-app-mailcom-bs01>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,310 +61,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1851082650=="
+Cc: Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Kevin Brace <kevinbrace@gmx.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1851082650==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="8hNUbDX6CO238SDQfJ8DTPCU1bZdJ7x4d"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---8hNUbDX6CO238SDQfJ8DTPCU1bZdJ7x4d
-Content-Type: multipart/mixed; boundary="YVM7DrZiPSwT8XgbOHUNwo8B2jgys1QBN";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Kevin Brace <kevinbrace@gmx.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
-Message-ID: <895376c5-9f47-6c37-c530-0fe296346431@suse.de>
-Subject: Re: It appears drm-next TTM cleanup broke something . . .
-References: <trinity-7bf82d9f-a022-48f3-bca0-d06eb28ebe35-1603048517864@3c-app-mailcom-bs08>
- <20201018210412.GA515543@ravnborg.org>
- <trinity-a0f09460-7d25-457a-aef8-e70fcf617a83-1603136588694@3c-app-mailcom-bs01>
-In-Reply-To: <trinity-a0f09460-7d25-457a-aef8-e70fcf617a83-1603136588694@3c-app-mailcom-bs01>
-
---YVM7DrZiPSwT8XgbOHUNwo8B2jgys1QBN
-Content-Type: multipart/mixed;
- boundary="------------AD92DD108DBCCF7722A30A3D"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------AD92DD108DBCCF7722A30A3D
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On 19.10.20 21:43, Kevin Brace wrote:
-> Hi Sam,
->=20
-> Thanks for asking the question.
-> The current OpenChrome DRM code has these two major issues.
->=20
-> 1) It does not support atomic modesetting
->=20
-> I do internally have working code to support atomic modesetting, but it=
- is not ready for committing into the upstream OpenChrome DRM repository.=
-
-> In particular, it suffers from a freeze relating to a cursor plane.
-> The freeze is a bad kind that kern.log does not really tell me what is =
-wrong.
-> If I disable hardware cursor, the atomic modesetting based OpenChrome D=
-RM appears to work okay.
-> In other words, I am getting close to getting atomic modesetting workin=
-g, but I am stuck.
-
-This could be related to the memory problems. See below. Otherwise, I
-suggest to reduce the driver to the minimum functionality that is
-required for modesetting (even without HW cursors) and submit this code
-for review and merging.
-
->=20
->=20
-> 2) Double allocation of visible portion of frame buffer
->=20
-> This is a big problem left behind from the previous developer who devel=
-oped OpenChrome prior to me.
-> For some reason, the developer wanted to allocate visible portion of th=
-e frame buffer to be the maximum possible size supported by the detected =
-monitor when initializing the frame buffer inside OpenChrome DRM code.
-> I believe Radeon DRM does something similar to that.
-> The problem is, OpenChrome DDX allocates an equal sized frame buffer vi=
-sible portion during the DDX's initialization.
-> This means that we got two same sized visible portions allocated, but O=
-penChrome DDX and OpenChrome DRM combined should really be allocating onl=
-y one.
-> At this point, OpenChrome is not supporting double buffering.
-> This double allocation of a visible portion of the frame buffer contrib=
-utes to a X Server crash when the screen is resized and 16 MB or less (i.=
-e., 8 MB) shared frame buffer is reserved by the system via BIOS setup.
-> I personally think letting OpenChrome DRM allocate the visible portion =
-of the frame buffer is the way to go, but if so, how do I get the DDX or =
-shadow FB to access the frame buffer visible portion allocated by OpenChr=
-ome DRM?
-> Any suggestions on what to do about this issue will be greatly apprecia=
-ted.
-> Perhaps, I should post a question to dri-devel regarding this issue.
-> I really do not know what I should do at this point.
-
-The double allocation is expected. Atomic modesetting requires two
-framebuffers in video memory during the pageflip. You have to sort out
-the modes where 2 framebuffers do not fit into video memory at the same
-time.
-
-The mode_valid callback in struct drm_mode_config_funcs [1] is a good
-place to do this. Check the mode's pixels with the maximum BPC against
-the available memory. Example code is at [2]. You should also plane for
-common additional layers, such as HW cursors, to require video memory.
-So maybe test the mode against 80% of the video memory.
-
-Best regards
-Thomas
-
-[1]
-https://cgit.freedesktop.org/openchrome/drm-openchrome/tree/drivers/gpu/d=
-rm/openchrome/openchrome_fb.c?h=3Ddrm-next-5.10&id=3D22e0ee2460b4b70cde56=
-2b7a3818ae94c2786f46#n102
-
-[2]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
-rivers/gpu/drm/drm_gem_vram_helper.c?h=3Dv5.9#n1285
-
->=20
-> Regards,
->=20
-> Kevin Brace
-> Brace Computer Laboratory blog
-> https://bracecomputerlab.com
->=20
->=20
->> Sent: Sunday, October 18, 2020 at 2:04 PM
->> From: "Sam Ravnborg" <sam@ravnborg.org>
->> To: "Kevin Brace" <kevinbrace@gmx.com>
->> Cc: dri-devel@lists.freedesktop.org, "Dave Airlie" <airlied@redhat.com=
->
->> Subject: Re: It appears drm-next TTM cleanup broke something . . .
->>
->> Hi Kevin.
->>
->> On Sun, Oct 18, 2020 at 09:15:17PM +0200, Kevin Brace wrote:
->>> As usual, I pulled in DRM repository code for an out of tree OpenChro=
-me DRM repository a few days ago.
->>
->> I know you have been working on and off on the openchrome driver for a=
-
->> long time now. Any chance we will see the driver submitted for upstrea=
-m soon?
->>
->> 	Sam
->>
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
---------------AD92DD108DBCCF7722A30A3D
-Content-Type: application/pgp-keys;
- name="OpenPGP_0x680DC11D530B7A23.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="OpenPGP_0x680DC11D530B7A23.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
-H47
-fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
-bqP
-5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
-z9E
-ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
-nEm
-imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
-W1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
-BYC
-AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
-Onf
-G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
-GJm
-DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
-+1Q
-DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
-p8n
-91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
-zF1
-CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wsBzBBABCAAdFiEEHl2YIZkIo5VO2MxYqlA7ya4PR=
-6cF
-Als58bEACgkQqlA7ya4PR6eNnwgAyL7GXAHdODwxXJUZbR69obsurO/mWQOj4GJTG5RAYeGyQ=
-PnT
-TwU786SexSb/25hzmvqYVslK4xKXxRrjihrlgH84FQBLudnzK1t/5pvjtus9QCiLvIYmf8fTg=
-HuA
-DO9WTtpWa1df+d2Xc1p0bjuOTRkHKLVPKHlX0/aJAH5qM5ljJiDKu0NCum1fFt6og+V3wzcY6=
-9nG
-sXP/Vl9W2T1KN59B9tzDWgE6cjs+99lLQ4erClAAdUX8wQXf0RG4xw+/qrsCRgHUUnMg0Z3F9=
-bzW
-9vsIoctIqQOvV2N25IUeYg7uawPXp7ojHuidSATCNT2YfrzrnwfzOnHdg/UVCyCWicJdBBARA=
-gAd
-FiEEJ+jjpp87z/+5LY5qLnehMBH108IFAls6HVcACgkQLnehMBH108InbwCg5DgAwx3yNEDV6=
-gGX
-IOotZDp3QGAAni1xwcKY57ppD0sqGmyIi/oXvK98wsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
-/N8
-GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
-j0g
-voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
-bZM
-RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
-zWw
-iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
-Xy9
-RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
-c0n
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+wsCOBBMBCAA4AhsDBQsJC=
-AcC
-BhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl78SF4ACgkQaA3BH=
-VML
-eiOpGAgAih6C1OnWms/N8eBMC4Q93y/nyywe5vCL22Dr1rwgn6Iw2jOGziJSi7zhY4sEk2NKJ=
-5cd
-lFrx8mP//b+xO4AGffwBD0Vwpf38Hj2Gt0KjpzRYccqqU+tJPO5c0pjI52ZIV3+kOEFvYGfkN=
-PHE
-flE+b81T8L2dSXCLtj4WAGUM1rmHn3bCYl+/RwkB+8XnoL5AvrmMcU4Uhb3FJpM4DHExccYkd=
-eSL
-ojBppOCztBCUpBx3le+8QPVvAvJDuur4wRmjk3sjKClAwzeqoYyUKcN3JDdb3mt3QcJal9rSh=
-VEI
-7B25IvfmEbs42oGm8GPzPkaNJu3gcska+l5PSTfurNETGsLAcwQQAQgAHRYhBB5dmCGZCKOVT=
-tjM
-WKpQO8muD0enBQJbOfGzAAoJEKpQO8muD0enL0wIAM2NTeUDCofBAkbWHGTZopclefbh0xGPY=
-QEf
-ttNyalp0hn1CrVO7OsX5eTjRqgyOa1C5OAsNghCM4PUmrfv5cZ9+sNn9bRM50uVW9IFRlq8ww=
-BY4
-+7QejJ5gs7DW/0tZIMZ6iTGKK0WEO7gd2K9hXadPBScTdIqXeWH82meiqElnEQL+K9UeGUBrk=
-u+1
-EQIOxwziKwTDlTvhyJ+xmEKj0uWRcOcl27xLS9XOWPGXcNQBtlZhF8e/E1kFRt5CPP5UBdUCN=
-8qy
-dUadseXivSNDiYob9dyJSFt7G0Bq4/acRet5ANtGRWsp8xYJQRossRMWL0w9P8SiIc2IY/JrQ=
-rpz
-29nCXQQQEQIAHRYhBCfo46afO8//uS2Oai53oTAR9dPCBQJbOh1XAAoJEC53oTAR9dPC05AAo=
-Iy0
-HQ2DBDYugQ42P4HfyxfZTIvKAJ0fqNBcBFW9StbRDEP9cfpNVOv8YMLAcwQQAQgAHRYhBLsjb=
-bex
-nu/GyEcdaKfzfBmMOTGBBQJbOjLAAAoJEKfzfBmMOTGBBoMIALIW4EtBY28tPwZMOpN/+ARPO=
-a2g
-Qzpivw7iNtiDTnGIXMCoxly1CybfMdqTHYmuKbEO9AlFAlDOnkgInsn8E65IvgUTVI95Ah+Ob=
-iPI
-FkYc/9a+AexPl7f5kI9489k77eKtqtMpWFpo/vROmRroSw4JnM7ovwPq1QOSHExfTKbLunzD1=
-i3V
-4PShSZ6bGsp1LW6Wk0lRMHDuAk3xsyjBWfJwSbrCe3E6OsLG7BuQqEUt2fR6NxdDRSR9tQUp9=
-Tri
-AYG5LndmUzxeU6FAQjD8Wt1ezOFH5ODcCDXfRyYmE6uCGA4EvO8l9R3o68NPlUjPRAZsCbxJa=
-UAg
-iazX1nyQGwvOwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHU=
-E9e
-osYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+q=
-bU6
-3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWWG=
-KdD
-egUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lvhFXod=
-NFM
-AgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsAEQEAAcLAf=
-AQY
-AQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkDwmcAAAoJEGgNwR1TC3ojp=
-fcI
-AInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2h9ifw9Nf2TjCZ6AMvC3thAN0r=
-FDj
-55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxUn+LSiRrOdywn6erjxRi9EYTVLCHcD=
-hBE
-jKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uIaMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU=
-2y3
-ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBWHE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/t=
-sZv
-yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
-=3Dn+f7
------END PGP PUBLIC KEY BLOCK-----
-
---------------AD92DD108DBCCF7722A30A3D--
-
---YVM7DrZiPSwT8XgbOHUNwo8B2jgys1QBN--
-
---8hNUbDX6CO238SDQfJ8DTPCU1bZdJ7x4d
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+P608FAwAAAAAACgkQaA3BHVMLeiNa
-VAf+PDKR+Wwc+byamWfIY1lxK8p4IxEyahuXvoKQ29jFL7Y+yXSDV4nKLdA4f/RD8R5N0chpcGPG
-x+nbVmk/V4aRahiQ+W58CcjYJ+lOoyUTUtxozLMottyMTm/osScPQeoWYV0kigIDYAO93BLzWiX5
-n8OsthmzQu+dW+Jl0pEeW5MIQErygeqcDvtVtvKmdZLwrWGmFQqZYIx1bHaorz+5AFW5dk9xormy
-+X8VGzeGEK/9z6ppSkqfrbcI0u3l/Xa6qTx9FkBJYj2ZesI0TaJ/e0oWcTR3nrIHWRL36aQsnFj7
-2Rjfn1gPTjCDY3m3kLMYzdQDt7L8TeuNoo4LMh/0rA==
-=Zocg
------END PGP SIGNATURE-----
-
---8hNUbDX6CO238SDQfJ8DTPCU1bZdJ7x4d--
-
---===============1851082650==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1851082650==--
+T24gV2VkLCBPY3QgMjEsIDIwMjAgYXQgMTA6MDMgQU0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+Cj4gSGkKPgo+IE9uIDE5LjEwLjIwIDIxOjQzLCBLZXZp
+biBCcmFjZSB3cm90ZToKPiA+IEhpIFNhbSwKPiA+Cj4gPiBUaGFua3MgZm9yIGFza2luZyB0aGUg
+cXVlc3Rpb24uCj4gPiBUaGUgY3VycmVudCBPcGVuQ2hyb21lIERSTSBjb2RlIGhhcyB0aGVzZSB0
+d28gbWFqb3IgaXNzdWVzLgo+ID4KPiA+IDEpIEl0IGRvZXMgbm90IHN1cHBvcnQgYXRvbWljIG1v
+ZGVzZXR0aW5nCj4gPgo+ID4gSSBkbyBpbnRlcm5hbGx5IGhhdmUgd29ya2luZyBjb2RlIHRvIHN1
+cHBvcnQgYXRvbWljIG1vZGVzZXR0aW5nLCBidXQgaXQgaXMgbm90IHJlYWR5IGZvciBjb21taXR0
+aW5nIGludG8gdGhlIHVwc3RyZWFtIE9wZW5DaHJvbWUgRFJNIHJlcG9zaXRvcnkuCj4gPiBJbiBw
+YXJ0aWN1bGFyLCBpdCBzdWZmZXJzIGZyb20gYSBmcmVlemUgcmVsYXRpbmcgdG8gYSBjdXJzb3Ig
+cGxhbmUuCj4gPiBUaGUgZnJlZXplIGlzIGEgYmFkIGtpbmQgdGhhdCBrZXJuLmxvZyBkb2VzIG5v
+dCByZWFsbHkgdGVsbCBtZSB3aGF0IGlzIHdyb25nLgo+ID4gSWYgSSBkaXNhYmxlIGhhcmR3YXJl
+IGN1cnNvciwgdGhlIGF0b21pYyBtb2Rlc2V0dGluZyBiYXNlZCBPcGVuQ2hyb21lIERSTSBhcHBl
+YXJzIHRvIHdvcmsgb2theS4KPiA+IEluIG90aGVyIHdvcmRzLCBJIGFtIGdldHRpbmcgY2xvc2Ug
+dG8gZ2V0dGluZyBhdG9taWMgbW9kZXNldHRpbmcgd29ya2luZywgYnV0IEkgYW0gc3R1Y2suCj4K
+PiBUaGlzIGNvdWxkIGJlIHJlbGF0ZWQgdG8gdGhlIG1lbW9yeSBwcm9ibGVtcy4gU2VlIGJlbG93
+LiBPdGhlcndpc2UsIEkKPiBzdWdnZXN0IHRvIHJlZHVjZSB0aGUgZHJpdmVyIHRvIHRoZSBtaW5p
+bXVtIGZ1bmN0aW9uYWxpdHkgdGhhdCBpcwo+IHJlcXVpcmVkIGZvciBtb2Rlc2V0dGluZyAoZXZl
+biB3aXRob3V0IEhXIGN1cnNvcnMpIGFuZCBzdWJtaXQgdGhpcyBjb2RlCj4gZm9yIHJldmlldyBh
+bmQgbWVyZ2luZy4KPgo+ID4KPiA+Cj4gPiAyKSBEb3VibGUgYWxsb2NhdGlvbiBvZiB2aXNpYmxl
+IHBvcnRpb24gb2YgZnJhbWUgYnVmZmVyCj4gPgo+ID4gVGhpcyBpcyBhIGJpZyBwcm9ibGVtIGxl
+ZnQgYmVoaW5kIGZyb20gdGhlIHByZXZpb3VzIGRldmVsb3BlciB3aG8gZGV2ZWxvcGVkIE9wZW5D
+aHJvbWUgcHJpb3IgdG8gbWUuCj4gPiBGb3Igc29tZSByZWFzb24sIHRoZSBkZXZlbG9wZXIgd2Fu
+dGVkIHRvIGFsbG9jYXRlIHZpc2libGUgcG9ydGlvbiBvZiB0aGUgZnJhbWUgYnVmZmVyIHRvIGJl
+IHRoZSBtYXhpbXVtIHBvc3NpYmxlIHNpemUgc3VwcG9ydGVkIGJ5IHRoZSBkZXRlY3RlZCBtb25p
+dG9yIHdoZW4gaW5pdGlhbGl6aW5nIHRoZSBmcmFtZSBidWZmZXIgaW5zaWRlIE9wZW5DaHJvbWUg
+RFJNIGNvZGUuCj4gPiBJIGJlbGlldmUgUmFkZW9uIERSTSBkb2VzIHNvbWV0aGluZyBzaW1pbGFy
+IHRvIHRoYXQuCj4gPiBUaGUgcHJvYmxlbSBpcywgT3BlbkNocm9tZSBERFggYWxsb2NhdGVzIGFu
+IGVxdWFsIHNpemVkIGZyYW1lIGJ1ZmZlciB2aXNpYmxlIHBvcnRpb24gZHVyaW5nIHRoZSBERFgn
+cyBpbml0aWFsaXphdGlvbi4KPiA+IFRoaXMgbWVhbnMgdGhhdCB3ZSBnb3QgdHdvIHNhbWUgc2l6
+ZWQgdmlzaWJsZSBwb3J0aW9ucyBhbGxvY2F0ZWQsIGJ1dCBPcGVuQ2hyb21lIEREWCBhbmQgT3Bl
+bkNocm9tZSBEUk0gY29tYmluZWQgc2hvdWxkIHJlYWxseSBiZSBhbGxvY2F0aW5nIG9ubHkgb25l
+Lgo+ID4gQXQgdGhpcyBwb2ludCwgT3BlbkNocm9tZSBpcyBub3Qgc3VwcG9ydGluZyBkb3VibGUg
+YnVmZmVyaW5nLgo+ID4gVGhpcyBkb3VibGUgYWxsb2NhdGlvbiBvZiBhIHZpc2libGUgcG9ydGlv
+biBvZiB0aGUgZnJhbWUgYnVmZmVyIGNvbnRyaWJ1dGVzIHRvIGEgWCBTZXJ2ZXIgY3Jhc2ggd2hl
+biB0aGUgc2NyZWVuIGlzIHJlc2l6ZWQgYW5kIDE2IE1CIG9yIGxlc3MgKGkuZS4sIDggTUIpIHNo
+YXJlZCBmcmFtZSBidWZmZXIgaXMgcmVzZXJ2ZWQgYnkgdGhlIHN5c3RlbSB2aWEgQklPUyBzZXR1
+cC4KPiA+IEkgcGVyc29uYWxseSB0aGluayBsZXR0aW5nIE9wZW5DaHJvbWUgRFJNIGFsbG9jYXRl
+IHRoZSB2aXNpYmxlIHBvcnRpb24gb2YgdGhlIGZyYW1lIGJ1ZmZlciBpcyB0aGUgd2F5IHRvIGdv
+LCBidXQgaWYgc28sIGhvdyBkbyBJIGdldCB0aGUgRERYIG9yIHNoYWRvdyBGQiB0byBhY2Nlc3Mg
+dGhlIGZyYW1lIGJ1ZmZlciB2aXNpYmxlIHBvcnRpb24gYWxsb2NhdGVkIGJ5IE9wZW5DaHJvbWUg
+RFJNPwo+ID4gQW55IHN1Z2dlc3Rpb25zIG9uIHdoYXQgdG8gZG8gYWJvdXQgdGhpcyBpc3N1ZSB3
+aWxsIGJlIGdyZWF0bHkgYXBwcmVjaWF0ZWQuCj4gPiBQZXJoYXBzLCBJIHNob3VsZCBwb3N0IGEg
+cXVlc3Rpb24gdG8gZHJpLWRldmVsIHJlZ2FyZGluZyB0aGlzIGlzc3VlLgo+ID4gSSByZWFsbHkg
+ZG8gbm90IGtub3cgd2hhdCBJIHNob3VsZCBkbyBhdCB0aGlzIHBvaW50Lgo+Cj4gVGhlIGRvdWJs
+ZSBhbGxvY2F0aW9uIGlzIGV4cGVjdGVkLiBBdG9taWMgbW9kZXNldHRpbmcgcmVxdWlyZXMgdHdv
+Cj4gZnJhbWVidWZmZXJzIGluIHZpZGVvIG1lbW9yeSBkdXJpbmcgdGhlIHBhZ2VmbGlwLiBZb3Ug
+aGF2ZSB0byBzb3J0IG91dAo+IHRoZSBtb2RlcyB3aGVyZSAyIGZyYW1lYnVmZmVycyBkbyBub3Qg
+Zml0IGludG8gdmlkZW8gbWVtb3J5IGF0IHRoZSBzYW1lCj4gdGltZS4KCldoYXQgd2UgaGF2ZSBk
+b25lIG9uIHNldmVybHkgcmVzdHJpY3RlZCBkaXNjcmV0ZSBncHUgaXMgdG8ga2VlcCBvbmUKZnJh
+bWVidWZmZXIgZm9yIGV2ZXJ5b25lIGluIHZyYW0sIGFuZCBibHQgdGhlIGttcyBmcmFtZWJ1ZmZl
+cnMgb3ZlciBhcwpuZWVkZWQuIFdpdGggYWxsIHRoZSBkaXJ0eSB0cmFja2luZyBoZWxwZXJzIGZv
+ciBhdG9taWMgdGhhdCdzIGxpa2UgYQpvbmUtbGluZXIgdG8gc2V0IHVwIChvciBqdXN0IHNsaWdo
+dGx5IG1vcmUpLiBJIHRoaW5rIGNpcnJ1cyB3b3JrcyBsaWtlCnRoYXQgKGJ1dCBpdCdzIHVzaW5n
+IGNwdSBtZW1jcHkgc2luY2UgdGhhdCdzIHRoZSBvbmx5IHRoaW5nIHRoYXQKZXhpc3RzLCBJIGd1
+ZXNzIG9wZW5jaHJvbWUgY291bGQgZXZlbiB1c2UgdGhlIGJsaXR0ZXIgZm9yIHRoaXMpLgoKVGhl
+IG1vcmUgdXN1YWwgYXBwcm9hY2ggaXMgd2hhdCBub3V2ZWF1IGd1eXMgYWxyZWFkeSBleHBsYWlu
+ZWQ6IEp1c3QKcnVuIGZiY29uIGF0IHZlcnkgbG93IHJlc29sdXRpb24gc28gaXQgZG9lc24ndCBj
+b25zdW1lIHRvbyBtdWNoIHNwYWNlLgotRGFuaWVsCgo+IFRoZSBtb2RlX3ZhbGlkIGNhbGxiYWNr
+IGluIHN0cnVjdCBkcm1fbW9kZV9jb25maWdfZnVuY3MgWzFdIGlzIGEgZ29vZAo+IHBsYWNlIHRv
+IGRvIHRoaXMuIENoZWNrIHRoZSBtb2RlJ3MgcGl4ZWxzIHdpdGggdGhlIG1heGltdW0gQlBDIGFn
+YWluc3QKPiB0aGUgYXZhaWxhYmxlIG1lbW9yeS4gRXhhbXBsZSBjb2RlIGlzIGF0IFsyXS4gWW91
+IHNob3VsZCBhbHNvIHBsYW5lIGZvcgo+IGNvbW1vbiBhZGRpdGlvbmFsIGxheWVycywgc3VjaCBh
+cyBIVyBjdXJzb3JzLCB0byByZXF1aXJlIHZpZGVvIG1lbW9yeS4KPiBTbyBtYXliZSB0ZXN0IHRo
+ZSBtb2RlIGFnYWluc3QgODAlIG9mIHRoZSB2aWRlbyBtZW1vcnkuCj4KPiBCZXN0IHJlZ2FyZHMK
+PiBUaG9tYXMKPgo+IFsxXQo+IGh0dHBzOi8vY2dpdC5mcmVlZGVza3RvcC5vcmcvb3BlbmNocm9t
+ZS9kcm0tb3BlbmNocm9tZS90cmVlL2RyaXZlcnMvZ3B1L2RybS9vcGVuY2hyb21lL29wZW5jaHJv
+bWVfZmIuYz9oPWRybS1uZXh0LTUuMTAmaWQ9MjJlMGVlMjQ2MGI0YjcwY2RlNTYyYjdhMzgxOGFl
+OTRjMjc4NmY0NiNuMTAyCj4KPiBbMl0KPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20v
+bGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQvdHJlZS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2dlbV92cmFtX2hlbHBlci5jP2g9djUuOSNuMTI4NQo+Cj4gPgo+ID4gUmVnYXJkcywKPiA+
+Cj4gPiBLZXZpbiBCcmFjZQo+ID4gQnJhY2UgQ29tcHV0ZXIgTGFib3JhdG9yeSBibG9nCj4gPiBo
+dHRwczovL2JyYWNlY29tcHV0ZXJsYWIuY29tCj4gPgo+ID4KPiA+PiBTZW50OiBTdW5kYXksIE9j
+dG9iZXIgMTgsIDIwMjAgYXQgMjowNCBQTQo+ID4+IEZyb206ICJTYW0gUmF2bmJvcmciIDxzYW1A
+cmF2bmJvcmcub3JnPgo+ID4+IFRvOiAiS2V2aW4gQnJhY2UiIDxrZXZpbmJyYWNlQGdteC5jb20+
+Cj4gPj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsICJEYXZlIEFpcmxpZSIg
+PGFpcmxpZWRAcmVkaGF0LmNvbT4KPiA+PiBTdWJqZWN0OiBSZTogSXQgYXBwZWFycyBkcm0tbmV4
+dCBUVE0gY2xlYW51cCBicm9rZSBzb21ldGhpbmcgLiAuIC4KPiA+Pgo+ID4+IEhpIEtldmluLgo+
+ID4+Cj4gPj4gT24gU3VuLCBPY3QgMTgsIDIwMjAgYXQgMDk6MTU6MTdQTSArMDIwMCwgS2V2aW4g
+QnJhY2Ugd3JvdGU6Cj4gPj4+IEFzIHVzdWFsLCBJIHB1bGxlZCBpbiBEUk0gcmVwb3NpdG9yeSBj
+b2RlIGZvciBhbiBvdXQgb2YgdHJlZSBPcGVuQ2hyb21lIERSTSByZXBvc2l0b3J5IGEgZmV3IGRh
+eXMgYWdvLgo+ID4+Cj4gPj4gSSBrbm93IHlvdSBoYXZlIGJlZW4gd29ya2luZyBvbiBhbmQgb2Zm
+IG9uIHRoZSBvcGVuY2hyb21lIGRyaXZlciBmb3IgYQo+ID4+IGxvbmcgdGltZSBub3cuIEFueSBj
+aGFuY2Ugd2Ugd2lsbCBzZWUgdGhlIGRyaXZlciBzdWJtaXR0ZWQgZm9yIHVwc3RyZWFtIHNvb24/
+Cj4gPj4KPiA+PiAgICAgIFNhbQo+ID4+Cj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwo+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiA+Cj4KPiAtLQo+IFRob21hcyBaaW1tZXJt
+YW5uCj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcgo+IFNVU0UgU29mdHdhcmUgU29sdXRpb25z
+IEdlcm1hbnkgR21iSAo+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQo+
+IChIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykKPiBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1l
+bmTDtnJmZmVyCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jw
+b3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
