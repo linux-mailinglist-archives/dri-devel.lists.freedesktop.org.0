@@ -2,44 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30FD8295C83
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 12:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC74E295C90
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 12:17:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743736F5B4;
-	Thu, 22 Oct 2020 10:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B9206F5BA;
+	Thu, 22 Oct 2020 10:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A455E6F5B4;
- Thu, 22 Oct 2020 10:14:27 +0000 (UTC)
-IronPort-SDR: dFK3Qxo4/BVCYGINPbe9Te7NSiBblccXjlunuptD//ATSjfMjfJhBuOpHDziV9KTZ5NKaE6Osk
- oRwhYr4D/VWg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9781"; a="185181461"
-X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; d="scan'208";a="185181461"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2020 03:14:27 -0700
-IronPort-SDR: caeVgLpgaw+1iULmWLBKXvrucZJa7vfINHxPW0I+EOBg1n2CVk1VuYBq0Y2+B1MMCar3Tywvj4
- hb3qOHIoaTTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; d="scan'208";a="348842846"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga008.jf.intel.com with SMTP; 22 Oct 2020 03:14:24 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 22 Oct 2020 13:14:23 +0300
-Date: Thu, 22 Oct 2020 13:14:23 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [Intel-gfx] drm_modes: signed integer overflow
-Message-ID: <20201022101423.GI6112@intel.com>
-References: <47527cdb-2eda-b5a3-d77c-3855b91a0b61@infradead.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 485F06F5BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 10:17:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603361859;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yATTwmcDbVALtZgCHCWEYdtftttyHBS7mBxN7foWQBA=;
+ b=UUPvS4euGyEKwgWbGXYralLJpQ/TS0LWUWYPLDMXzr3sKHsHbKPTldIPv6fiX34MBb0uzs
+ jGHd0E/inlJEU7I7bq8qVSlH3r6seeDKbHluhHotlPc09ddu1iIgzkGxtVH/MsUSVyfMni
+ Jq76IlNWsBLGt/vvbhCGcgI0WdBvKlM=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-579-MMgBpOaRP2yCSrguVIV8PA-1; Thu, 22 Oct 2020 06:17:36 -0400
+X-MC-Unique: MMgBpOaRP2yCSrguVIV8PA-1
+Received: by mail-ej1-f71.google.com with SMTP id k23so487351ejx.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 03:17:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yATTwmcDbVALtZgCHCWEYdtftttyHBS7mBxN7foWQBA=;
+ b=cZ3+3eQsE1lMbijQf6FqiTtKsI/6tBWSl0BrWlHDpueSvJwVMYl1fpiJngWIOgjsQk
+ 0pGqpVqhteyPvESiqlLsTl/Xo2dU2dobV7tN6aCIZQlg4MwMd72stRHt1IVBBNn/nQoK
+ VX1oZ+kjPAP4OVBm8abdNOP8TF7hkE4Vnsttu4vB/HpfGGC790pkoXWrZOxJVIgMAvob
+ m0UvDFQnVFUgoy9UruF2ecT2hFy2K98OBtU8PrB1wjcgB5yOeqguPbbkpYpMxBiWC8pS
+ r8KZEWIwBS8Ig4b8YteW/de3hv/fOToojaHjw2bhjbZkC61Uf1ENMW1ReOst9vfkIzxj
+ 0tGg==
+X-Gm-Message-State: AOAM530WDS1Zh5+3O/tMxzxtP08JmfaAY7tnzQ0q6AJcE5rVS0OlMJV8
+ L6k5uVwig4BGJ2Cobulwpxp1uwhu05E/ivwk42awZkvE6pCphuP/4N69nofLoqm3j3ySQexE80r
+ 4tQ8VWDe9QLRot6aliaYebroB7igk
+X-Received: by 2002:a05:6402:36d:: with SMTP id
+ s13mr1522289edw.203.1603361855256; 
+ Thu, 22 Oct 2020 03:17:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDxnzAz251NGj4jdvqdeAuRiNtNiQOun8yyyF0MykASicnqNF2hkQYjsa9Pty/28LryZG6sQ==
+X-Received: by 2002:a05:6402:36d:: with SMTP id
+ s13mr1522271edw.203.1603361855051; 
+ Thu, 22 Oct 2020 03:17:35 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id k21sm504105edv.31.2020.10.22.03.17.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Oct 2020 03:17:34 -0700 (PDT)
+Subject: Re: [PATCH 0/3] drm: Store USB device in struct drm_device
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ daniel@ffwll.ch, sean@poorly.run, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org
+References: <20201021130732.4048-1-tzimmermann@suse.de>
+ <d5cc8a94-e908-84a1-09b2-fef7a2e78d91@redhat.com>
+ <42768db1-37a6-ee8d-aa82-d14fc8806a4b@suse.de>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <ff855bd4-8b74-15f4-c81e-05ad39ac5885@redhat.com>
+Date: Thu, 22 Oct 2020 12:17:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <47527cdb-2eda-b5a3-d77c-3855b91a0b61@infradead.org>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <42768db1-37a6-ee8d-aa82-d14fc8806a4b@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,86 +88,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 21, 2020 at 08:13:43PM -0700, Randy Dunlap wrote:
-> Hi,
-> =
+Hi,
 
-> With linux-next 20201021, when booting up, I am seeing this:
-> =
+On 10/22/20 11:30 AM, Thomas Zimmermann wrote:
+> Hi
+> 
+> On 22.10.20 11:20, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 10/21/20 3:07 PM, Thomas Zimmermann wrote:
+>>> The drivers gm12u320 and udl operate on USB devices. They leave the
+>>> PCI device in struct drm_device empty and store the USB device in their
+>>> own driver structure.
+>>>
+>>> Fix this special case and save a few bytes by putting the USB device
+>>> into an anonymous union with the PCI data. It's expected that DRM
+>>> core and helpers only touch the PCI-device field for actual PCI devices.
+>>>
+>>> Thomas Zimmermann (3):
+>>>   drm: Add reference to USB device to struct drm_device
+>>>   drm/tiny/gm12u320: Store USB device in struct drm_device.udev
+>>>   drm/udl: Store USB device in struct drm_device.udev
+>>
+>> This series looks good to me:
+>>
+>> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> 
+> Thanks a lot. Following Daniel's request, I'll drop patch 1 and instead
+> do an upcast from drm_device.dev to the USB device structure. The driver
+> patches 2 and 3 will be slightly different. Unless you object, I''ll
+> take the r-b into the new patches.
 
-> [    0.560896] UBSAN: signed-integer-overflow in ../drivers/gpu/drm/drm_m=
-odes.c:765:20
-> [    0.560903] 2376000 * 1000 cannot be represented in type 'int'
+I somehow missed Daniel's reply about this.
 
-Dang. Didn't realize these new crazy >8k modes have dotclocks reaching
-almost 6 GHz, which would overflow even u32. I guess we'll switch to
-64bit maths. Now I wonder how many other places can hit this overflow
-in practice...
+With that said, hmm that is going to be an interesting up-cast, at least
+for the gm12u320, that is going to look something like this:
 
-> [    0.560909] CPU: 3 PID: 7 Comm: kworker/u16:0 Not tainted 5.9.0-next-2=
-0201021 #2
-> [    0.560914] Hardware name: TOSHIBA PORTEGE R835/Portable PC, BIOS Vers=
-ion 4.10   01/08/2013
-> [    0.560924] Workqueue: events_unbound async_run_entry_fn
-> =
+	struct usb_device *udev = interface_to_usbdev(to_usb_interface(drm_dev->dev));
 
-> [    0.560930] Call Trace:
-> [    0.560938]  dump_stack+0x5e/0x74
-> [    0.560943]  ubsan_epilogue+0x9/0x45
-> [    0.560948]  handle_overflow+0x8b/0x98
-> [    0.560953]  ? set_track+0x3f/0xad
-> [    0.560958]  __ubsan_handle_mul_overflow+0xe/0x10
-> [    0.560964]  drm_mode_vrefresh+0x4a/0xbc
-> [    0.560970] initcall i915_init+0x0/0x6a returned 0 after 116076 usecs
-> [    0.560974] calling  cn_proc_init+0x0/0x36 @ 1
-> [    0.560978]  cea_mode_alternate_clock+0x11/0x62
-> [    0.560985]  drm_match_cea_mode+0xc7/0x1e7
-> [    0.560987] initcall cn_proc_init+0x0/0x36 returned 0 after 3 usecs
-> [    0.560990] calling  topology_sysfs_init+0x0/0x2d @ 1
-> [    0.561000]  drm_mode_validate_ycbcr420+0xd/0x48
-> [    0.561005]  drm_helper_probe_single_connector_modes+0x6db/0x7da
-> [    0.561012]  drm_client_modeset_probe+0x225/0x143f
-> [    0.561018]  ? bitmap_fold+0x8a/0x8a
-> [    0.561023]  ? update_cfs_rq_load_avg+0x192/0x1a2
-> [    0.561029]  __drm_fb_helper_initial_config_and_unlock+0x3f/0x5b7
-> [    0.561035]  ? get_sd_balance_interval+0x1c/0x40
-> [    0.561040]  drm_fb_helper_initial_config+0x48/0x4f
-> [    0.561047]  intel_fbdev_initial_config+0x13/0x23
-> [    0.561052]  async_run_entry_fn+0x89/0x15c
-> [    0.561058]  process_one_work+0x15c/0x1f3
-> [    0.561064]  worker_thread+0x1ac/0x25d
-> [    0.561069]  ? process_scheduled_works+0x2e/0x2e
-> [    0.561074]  kthread+0x10e/0x116
-> [    0.561078]  ? kthread_parkme+0x1c/0x1c
-> [    0.561083]  ret_from_fork+0x22/0x30
-> [    0.561087] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =
+(I wrote drm_dev instead of dev to make it more clear what is going on)
 
-> -- =
+For the DRM_DEV_ERROR() macro you can just use gm12u320->dev.dev ,
+that will make the errors be printed with the in usb-interface device-name
+as prefix instead of the usb-device device-name, but that is fine.
 
-> ~Randy
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+I wonder of this is all worth it then though, just to save those few bytes ?
 
--- =
+The first version made some sense since it made how drm devices with
+usb resp. pci parents are handled consistent. Now it seems to make the code
+somewhat harder to understand just to save the storage for a single pointer...
 
-Ville Syrj=E4l=E4
-Intel
+Regards,
+
+Hans
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
