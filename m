@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D26295927
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 966E729592D
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C01996F51D;
-	Thu, 22 Oct 2020 07:28:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6785D6F528;
+	Thu, 22 Oct 2020 07:28:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD03A6F3A2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 05:14:56 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id r10so240152pgb.10
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 22:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=9N4AwJ1uFCW577znU9D4xEwyN9NsDba4VzTyi1307gQ=;
- b=yOA8f8kva3txVhVULf+6KyqMM6X6M5+Xq4kyU1AaaaeiRmVBHtfho0ndnz7P7+ksgb
- W2XD8LnIqe4xOqonit7kehkgF+JZvgSGPfhjNDzWxpcHS646OOK8Oy/L48/DVwIkJuYO
- UgvmCwGCf28d9+rxPSjbDBdwXk3YJ5o3rHKw8gw5dB3lYEv14YjymPgNjCJsTWFB3bOb
- fPWrK3+Q6/dnEzTjIo15k0gfucqhX08ixAMmzbXz7iLoAnG7g2ClLIDG2i4sATiuDCxq
- TRv2Lnax6EY1hdZkDGSJwIiZvtvt7dWcO60+ED8uAgRt3gWh/GBsdSZn196afU1z76WC
- SW2Q==
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4576E086
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 06:46:04 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id bh6so435445plb.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 23:46:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=c453qtYp4+kqUNar4yPQ33bHiMSGU/Heqv+afQDk3IE=;
+ b=oksaLU8/d0ArYDNg/+kQD3NHCn//UP6sXaTQKAsy2hqzNvy/Xq/bYha9JeLMQEYxVI
+ YmefwxuerXdpx3ibgs30i9xpeHxGM4+6NsEu6fLiCofzQTfumduvqNplzS4gILXd7MCe
+ QY3Z81Yzb8+qHLIFofDMDi6dPo/aR4Sl4DLSekGHLIwGF1RboCVgeFASD+taTS05CQ67
+ rvPaBtbz1faSangS77JbnrZBvLohVxdmkk1r399WtnjtiFgWTlS3xduy4Un6uabLiM00
+ g4FBYEIZH92EkiRo12CohZD76zPoM8U5fAA5VdXo6SLEEOyARd2lod4MPXeQ/8eAhkwT
+ mjqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=9N4AwJ1uFCW577znU9D4xEwyN9NsDba4VzTyi1307gQ=;
- b=sUlPFDQgDrZiOGepAw5b4KHbCGHGSeIsfv4Yx8V+Yz69X/8ncnxRpZpvkF6ja+CiHZ
- cd5D4aZxW4XO2xPG7CGw52+KtSJ5T6spv3IpfiuDBYEch22P3WNCjKCf3QUwHpyrZlIn
- LHqFzR1GbyTl9gaOlmUz4nysU4iz1nVanSSZPmetMHHYyfzGep0Y0V4pxqBffQfp73Cm
- ZCGX9YFfKDU72I2A2TRr1uQ9OrzXUXIeQwKoi9l5H1CfNI/hM4HAa5VMJ4UxwHM4YLxA
- FSszF/wwNTiE4pp3jsyt831eMGvrKk+A0Ycdaxj+yrFbCN55eaQOjwOjJ9PEqmlSL5sU
- PciQ==
-X-Gm-Message-State: AOAM532E1L2j6z6jhnKEBdBpHjHZqjCOQRXWXqflJzjd+22cxdo+IzFU
- wPezqAKTTV2TX10uKnUqigUdIA==
-X-Google-Smtp-Source: ABdhPJy/Aaj8vx5eIZaXacCj6mJYxS7bjf6e3Y9pPqYEIm1OT+kS0t3cdteyul8PjIUtlKAzs3Sbnw==
-X-Received: by 2002:a63:3d48:: with SMTP id k69mr880965pga.269.1603343696496; 
- Wed, 21 Oct 2020 22:14:56 -0700 (PDT)
-Received: from localhost ([122.181.54.133])
- by smtp.gmail.com with ESMTPSA id z18sm482300pfn.158.2020.10.21.22.14.55
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=c453qtYp4+kqUNar4yPQ33bHiMSGU/Heqv+afQDk3IE=;
+ b=BkKDzV25FFMzOb/YX+EsreCKFbzQYeRwKvI4fvCTwoz7RSIe8P1CuVxhPAKh1YD48n
+ hTy0Bwmk4CdHTVS3RGFYekYV3mAy+jp0ncx5qIw5wsmUEXnBYr/duxM424JLGp6IH9fY
+ t9ieR0vsH5cFHVIA8zEiUqPAdW5fme09DNYU0CkSX69awUMyEYbJgK5gEzLqopKwLWS1
+ 4Q2Yix1PDYqPM1LFH0qII0GNOXIH3d7lf0YGZbHM2e4mOrNDvymeX+8x4BkpqomESwhF
+ rZ1sljo97U+VAJ2HPGJ9Jbeuv8VGQq/Vc/4sw3up8ffTDv732JF9Ze9LLgmPulwncnmi
+ G6VA==
+X-Gm-Message-State: AOAM531AW1j7FI2FThdffBdwpkhu99Mbq0nuYpxdUDL9Zo62X/EWwmjn
+ 96UF2HswEoTe9v305UYwg+8=
+X-Google-Smtp-Source: ABdhPJwjP9cQ7BIJoNY9u9mraCOYWvPRfG2ImbEE9Ew69vpO5f/aYwqasGZPWnzSg0IQSjqwBfDYGQ==
+X-Received: by 2002:a17:90a:b38f:: with SMTP id
+ e15mr1075003pjr.226.1603349163608; 
+ Wed, 21 Oct 2020 23:46:03 -0700 (PDT)
+Received: from inforce-server-Z9PE-D8-WS.routereb3c90.com ([106.51.138.45])
+ by smtp.gmail.com with ESMTPSA id m22sm816004pfk.214.2020.10.21.23.46.00
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 21 Oct 2020 22:14:55 -0700 (PDT)
-Date: Thu, 22 Oct 2020 10:44:53 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: rnayak@codeaurora.org, Qiang Yu <yuq825@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH V2 2/8] drm/lima: Unconditionally call
- dev_pm_opp_of_remove_table()
-Message-ID: <20201022051453.xufcga7icohm74rg@vireshk-i7>
-References: <cover.1598594714.git.viresh.kumar@linaro.org>
- <62d944bdac75ec696828daad49fc1ddb6c637bcf.1598594714.git.viresh.kumar@linaro.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <62d944bdac75ec696828daad49fc1ddb6c637bcf.1598594714.git.viresh.kumar@linaro.org>
-User-Agent: NeoMutt/20180716-391-311a52
+ Wed, 21 Oct 2020 23:46:03 -0700 (PDT)
+From: Vinay Simha BN <simhavcs@gmail.com>
+To: 
+Subject: [PATCH RESEND v2] drm/bridge/tc358775: Fixes bus formats read
+Date: Thu, 22 Oct 2020 12:15:47 +0530
+Message-Id: <1603349147-3495-1-git-send-email-simhavcs@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,36 +63,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- lima@lists.freedesktop.org, linux-pm@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>, Naresh Kamboju <naresh.kamboju@linaro.org>,
- Rafael Wysocki <rjw@rjwysocki.net>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Vinay Simha BN <simhavcs@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28-08-20, 11:37, Viresh Kumar wrote:
-> dev_pm_opp_of_remove_table() doesn't report any errors when it fails to
-> find the OPP table with error -ENODEV (i.e. OPP table not present for
-> the device). And we can call dev_pm_opp_of_remove_table()
-> unconditionally here.
-> 
-> Reviewed-by: Qiang Yu <yuq825@gmail.com>
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> 
-> ---
-> V2: Applied Reviewed by tag.
-> ---
->  drivers/gpu/drm/lima/lima_devfreq.c | 6 +-----
->  drivers/gpu/drm/lima/lima_devfreq.h | 1 -
->  2 files changed, 1 insertion(+), 6 deletions(-)
+- atomic_check removed
+- video data input and output formats added
+- bus formats read from drm_bridge_state.output_bus_cfg.format
+  and .atomic_get_input_bus_fmts() instead of connector
 
-Qiang, can you please pick it up ?
+Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
 
+---
+v1:
+ * Laurent Pinchart review comments incorporated
+   drm_bridge_state.output_bus_cfg.format
+   instead of connector
+v2:
+ * Laurent Pinchart review comments incorporated
+   atomic_check removed
+   video data input and output formats added
+---
+ drivers/gpu/drm/bridge/tc358775.c | 75 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 58 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+index 2272adc..cc27570 100644
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -271,6 +271,20 @@ struct tc_data {
+ 	struct gpio_desc	*stby_gpio;
+ 	u8			lvds_link; /* single-link or dual-link */
+ 	u8			bpc;
++	u32			output_bus_fmt;
++};
++
++static const u32 tc_lvds_in_bus_fmts[] = {
++	MEDIA_BUS_FMT_RGB565_1X16,
++	MEDIA_BUS_FMT_RGB666_1X18,
++	MEDIA_BUS_FMT_RGB666_1X24_CPADHI,
++	MEDIA_BUS_FMT_RBG888_1X24,
++};
++
++static const u32 tc_lvds_out_bus_fmts[] = {
++	MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
++	MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+ };
+ 
+ static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
+@@ -359,19 +373,6 @@ static void d2l_write(struct i2c_client *i2c, u16 addr, u32 val)
+ 			ret, addr);
+ }
+ 
+-/* helper function to access bus_formats */
+-static struct drm_connector *get_connector(struct drm_encoder *encoder)
+-{
+-	struct drm_device *dev = encoder->dev;
+-	struct drm_connector *connector;
+-
+-	list_for_each_entry(connector, &dev->mode_config.connector_list, head)
+-		if (connector->encoder == encoder)
+-			return connector;
+-
+-	return NULL;
+-}
+-
+ static void tc_bridge_enable(struct drm_bridge *bridge)
+ {
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+@@ -380,7 +381,10 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+ 	u32 val = 0;
+ 	u16 dsiclk, clkdiv, byteclk, t1, t2, t3, vsdelay;
+ 	struct drm_display_mode *mode;
+-	struct drm_connector *connector = get_connector(bridge->encoder);
++	struct drm_bridge_state *state =
++			drm_priv_to_bridge_state(bridge->base.state);
++
++	tc->output_bus_fmt = state->output_bus_cfg.format;
+ 
+ 	mode = &bridge->encoder->crtc->state->adjusted_mode;
+ 
+@@ -451,14 +455,13 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+ 	d2l_write(tc->i2c, LVPHY0, LV_PHY0_PRBS_ON(4) | LV_PHY0_ND(6));
+ 
+ 	dev_dbg(tc->dev, "bus_formats %04x bpc %d\n",
+-		connector->display_info.bus_formats[0],
++		tc->output_bus_fmt,
+ 		tc->bpc);
+ 	/*
+ 	 * Default hardware register settings of tc358775 configured
+ 	 * with MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA jeida-24 format
+ 	 */
+-	if (connector->display_info.bus_formats[0] ==
+-		MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
++	if (tc->output_bus_fmt == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
+ 		/* VESA-24 */
+ 		d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R0, LVI_R1, LVI_R2, LVI_R3));
+ 		d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R4, LVI_R7, LVI_R5, LVI_G0));
+@@ -590,6 +593,40 @@ static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
+ 	return 0;
+ }
+ 
++static u32 *
++tc_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
++			     struct drm_bridge_state *bridge_state,
++			     struct drm_crtc_state *crtc_state,
++			     struct drm_connector_state *conn_state,
++			     u32 output_fmt,
++			     unsigned int *num_input_fmts)
++{
++	u32 *input_fmts = NULL;
++	u8 i;
++
++	*num_input_fmts = 0;
++
++	for (i = 0 ; i < ARRAY_SIZE(tc_lvds_out_bus_fmts) ; ++i) {
++		if (output_fmt == tc_lvds_out_bus_fmts[i])
++			break;
++	}
++
++	if (i == ARRAY_SIZE(tc_lvds_out_bus_fmts))
++		return NULL;
++
++	*num_input_fmts = ARRAY_SIZE(tc_lvds_in_bus_fmts);
++
++	input_fmts = kcalloc(*num_input_fmts, ARRAY_SIZE(tc_lvds_in_bus_fmts),
++			     GFP_KERNEL);
++	if (!input_fmts)
++		return NULL;
++
++	for (i = 0; i < ARRAY_SIZE(tc_lvds_in_bus_fmts); ++i)
++		input_fmts[i] = tc_lvds_in_bus_fmts[i];
++
++	return input_fmts;
++}
++
+ static int tc_bridge_attach(struct drm_bridge *bridge,
+ 			    enum drm_bridge_attach_flags flags)
+ {
+@@ -639,6 +676,10 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+ }
+ 
+ static const struct drm_bridge_funcs tc_bridge_funcs = {
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
++	.atomic_get_input_bus_fmts = tc_bridge_get_input_bus_fmts,
+ 	.attach = tc_bridge_attach,
+ 	.pre_enable = tc_bridge_pre_enable,
+ 	.enable = tc_bridge_enable,
 -- 
-viresh
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
