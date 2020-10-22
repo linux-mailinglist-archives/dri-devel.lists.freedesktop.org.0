@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F82295776
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 07:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6957D295789
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 07:03:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0882D6E30F;
-	Thu, 22 Oct 2020 05:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3E06F3A5;
+	Thu, 22 Oct 2020 05:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36BCE6E34B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 05:01:57 +0000 (UTC)
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A01C96F3A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 05:02:54 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1603342917; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=dJeqbgvDoGJPUAJEY3w2PBoqGLK3m49Yhbog9DTT4pw=;
- b=MYE0iCdy6vzo0ztM2CYYvz9PdeXX2LSzU7P2g3/bidZAnPTZuOeURRmxZVmFO+UVERUVfinJ
- QIarL6x3+G4UZiddn/aFbvOyMhjcejR6gixVMq3Dz2UtBgXck3U/i4gzEas2JSArRu1KCZDJ
- WSfvzxr2JngF97gSsYMS8d6yLA4=
-X-Mailgun-Sending-Ip: 104.130.96.5
+ s=smtp; t=1603342994; h=Content-Transfer-Encoding: Content-Type:
+ MIME-Version: References: In-Reply-To: Message-Id: Date: Subject: Cc:
+ To: From: Sender; bh=p8DrmjkJQ+oHJ54FdquYm+sXfHeHtA9olhAJnkqW0sU=;
+ b=GqCC83B5ehl0mTU6nG99QMF/qBWOD0w++PgjY4hE4pAXBzO7BoxRhFTs5O903LXv9aZER0+v
+ TB1A93pm1qtsl3qU0EBWpD3mdOMi+vvYXADEHsWir0Vm6dOWTEwli9YKQZQJitHr+oGeaM4D
+ oRW42Uty4BRlcjgpemGcAWvmc8Q=
+X-Mailgun-Sending-Ip: 69.72.42.4
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 5f91124406d81bc48dbdf1f9 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 22 Oct 2020 05:01:56
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 5f911248bfed2afaa62364ce (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 22 Oct 2020 05:02:00
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 53FCCC433C9; Thu, 22 Oct 2020 05:01:56 +0000 (UTC)
+ id AF006C433FE; Thu, 22 Oct 2020 05:01:59 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 59F6AC433CB;
- Thu, 22 Oct 2020 05:01:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 59F6AC433CB
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id AD62EC433C9;
+ Thu, 22 Oct 2020 05:01:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AD62EC433C9
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=abhinavk@codeaurora.org
 From: Abhinav Kumar <abhinavk@codeaurora.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/4] Add devcoredump support for DPU
-Date: Wed, 21 Oct 2020 22:01:44 -0700
-Message-Id: <20201022050148.27105-1-abhinavk@codeaurora.org>
+Subject: [PATCH 1/4] drm: allow drm_atomic_print_state() to accept any
+ drm_printer
+Date: Wed, 21 Oct 2020 22:01:45 -0700
+Message-Id: <20201022050148.27105-2-abhinavk@codeaurora.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20201022050148.27105-1-abhinavk@codeaurora.org>
+References: <20201022050148.27105-1-abhinavk@codeaurora.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,58 +73,92 @@ Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
  swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
  tanmay@codeaurora.org, aravindh@codeaurora.org,
  freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds support to use devcoredump for DPU driver. It introduces
-the dpu_dbg module which assists in the capturing of register dumps during
-error scenarios. When a display related error happens, the dpu_dbg module
-captures all the relevant register dumps along with the snapshot of the drm
-atomic state and triggers a devcoredump.
-
-Abhinav Kumar (4):
-  drm: allow drm_atomic_print_state() to accept any drm_printer
-  disp/msm/dpu: add support to dump dpu registers
-  drm/msm: register the base address with dpu_dbg module
-  drm/msm/dpu: add dpu_dbg points across dpu driver
-
- drivers/gpu/drm/drm_atomic.c                  |  17 +-
- drivers/gpu/drm/drm_atomic_uapi.c             |   4 +-
- drivers/gpu/drm/drm_crtc_internal.h           |   4 +-
- drivers/gpu/drm/msm/Makefile                  |   2 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_dbg.c       | 316 ++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_dbg.h       | 273 +++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_dbg_util.c  | 313 +++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  12 +-
- .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |   5 +-
- .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |   5 +-
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |   6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   |   7 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |   5 +-
- .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |   6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |   8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |   7 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  12 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   4 +-
- drivers/gpu/drm/msm/dp/dp_catalog.c           |  12 +
- drivers/gpu/drm/msm/dp/dp_catalog.h           |   4 +
- drivers/gpu/drm/msm/dp/dp_display.c           |   2 +
- drivers/gpu/drm/msm/dsi/dsi_host.c            |  10 +-
- drivers/gpu/drm/msm/msm_drv.c                 |  30 +-
- drivers/gpu/drm/msm/msm_drv.h                 |   3 +-
- 25 files changed, 1045 insertions(+), 26 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_dbg.c
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_dbg.h
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_dbg_util.c
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Q3VycmVudGx5IGRybV9hdG9taWNfcHJpbnRfc3RhdGUoKSBpbnRlcm5hbGx5IGFsbG9jYXRlcyBh
+bmQgdXNlcyBhCmRybV9pbmZvIHByaW50ZXIuIEFsbG93IGl0IHRvIGFjY2VwdCBhbnkgZHJtX3By
+aW50ZXIgdHlwZSBzbyB0aGF0CnRoZSBBUEkgY2FuIGJlIGxldmVyYWdlZCBldmVuIGZvciB0YWtp
+bmcgZHJtIHNuYXBzaG90LgoKU2lnbmVkLW9mZi1ieTogQWJoaW5hdiBLdW1hciA8YWJoaW5hdmtA
+Y29kZWF1cm9yYS5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMuYyAgICAgICAg
+fCAxNyArKysrKysrKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfdWFwaS5j
+ICAgfCAgNCArKystCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJuYWwuaCB8ICA0ICsr
+Ky0KIDMgZmlsZXMgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKCmRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pYy5jIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9hdG9taWMuYwppbmRleCA1ODUyN2YxNTE5ODQuLmU3MDc5YTVmNDM5YyAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2F0b21pYy5jCkBAIC0xLDYgKzEsNyBAQAogLyoKICAqIENvcHlyaWdodCAoQykgMjAxNCBSZWQg
+SGF0CiAgKiBDb3B5cmlnaHQgKEMpIDIwMTQgSW50ZWwgQ29ycC4KKyAqIENvcHlyaWdodCAoYykg
+MjAyMCwgVGhlIExpbnV4IEZvdW5kYXRpb24uIEFsbCByaWdodHMgcmVzZXJ2ZWQuCiAgKgogICog
+UGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJz
+b24gb2J0YWluaW5nIGEKICAqIGNvcHkgb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBk
+b2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksCkBAIC0xNTQzLDkgKzE1NDQsOSBA
+QCBpbnQgX19kcm1fYXRvbWljX2hlbHBlcl9zZXRfY29uZmlnKHN0cnVjdCBkcm1fbW9kZV9zZXQg
+KnNldCwKIH0KIEVYUE9SVF9TWU1CT0woX19kcm1fYXRvbWljX2hlbHBlcl9zZXRfY29uZmlnKTsK
+IAotdm9pZCBkcm1fYXRvbWljX3ByaW50X3N0YXRlKGNvbnN0IHN0cnVjdCBkcm1fYXRvbWljX3N0
+YXRlICpzdGF0ZSkKK3ZvaWQgZHJtX2F0b21pY19wcmludF9zdGF0ZShjb25zdCBzdHJ1Y3QgZHJt
+X2F0b21pY19zdGF0ZSAqc3RhdGUsCisJCXN0cnVjdCBkcm1fcHJpbnRlciAqcCkKIHsKLQlzdHJ1
+Y3QgZHJtX3ByaW50ZXIgcCA9IGRybV9pbmZvX3ByaW50ZXIoc3RhdGUtPmRldi0+ZGV2KTsKIAlz
+dHJ1Y3QgZHJtX3BsYW5lICpwbGFuZTsKIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpwbGFuZV9z
+dGF0ZTsKIAlzdHJ1Y3QgZHJtX2NydGMgKmNydGM7CkBAIC0xNTU0LDE3ICsxNTU1LDIzIEBAIHZv
+aWQgZHJtX2F0b21pY19wcmludF9zdGF0ZShjb25zdCBzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAq
+c3RhdGUpCiAJc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKmNvbm5lY3Rvcl9zdGF0ZTsKIAlp
+bnQgaTsKIAorCWlmICghcCkgeworCQlEUk1fRVJST1IoImludmFsaWQgZHJtIHByaW50ZXJcbiIp
+OworCQlyZXR1cm47CisJfQorCiAJRFJNX0RFQlVHX0FUT01JQygiY2hlY2tpbmcgJXBcbiIsIHN0
+YXRlKTsKIAogCWZvcl9lYWNoX25ld19wbGFuZV9pbl9zdGF0ZShzdGF0ZSwgcGxhbmUsIHBsYW5l
+X3N0YXRlLCBpKQotCQlkcm1fYXRvbWljX3BsYW5lX3ByaW50X3N0YXRlKCZwLCBwbGFuZV9zdGF0
+ZSk7CisJCWRybV9hdG9taWNfcGxhbmVfcHJpbnRfc3RhdGUocCwgcGxhbmVfc3RhdGUpOwogCiAJ
+Zm9yX2VhY2hfbmV3X2NydGNfaW5fc3RhdGUoc3RhdGUsIGNydGMsIGNydGNfc3RhdGUsIGkpCi0J
+CWRybV9hdG9taWNfY3J0Y19wcmludF9zdGF0ZSgmcCwgY3J0Y19zdGF0ZSk7CisJCWRybV9hdG9t
+aWNfY3J0Y19wcmludF9zdGF0ZShwLCBjcnRjX3N0YXRlKTsKIAogCWZvcl9lYWNoX25ld19jb25u
+ZWN0b3JfaW5fc3RhdGUoc3RhdGUsIGNvbm5lY3RvciwgY29ubmVjdG9yX3N0YXRlLCBpKQotCQlk
+cm1fYXRvbWljX2Nvbm5lY3Rvcl9wcmludF9zdGF0ZSgmcCwgY29ubmVjdG9yX3N0YXRlKTsKKwkJ
+ZHJtX2F0b21pY19jb25uZWN0b3JfcHJpbnRfc3RhdGUocCwgY29ubmVjdG9yX3N0YXRlKTsKIH0K
+K0VYUE9SVF9TWU1CT0woZHJtX2F0b21pY19wcmludF9zdGF0ZSk7CiAKIHN0YXRpYyB2b2lkIF9f
+ZHJtX3N0YXRlX2R1bXAoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRybV9wcmludGVy
+ICpwLAogCQkJICAgICBib29sIHRha2VfbG9ja3MpCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vZHJtX2F0b21pY191YXBpLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY191YXBpLmMK
+aW5kZXggMjVjMjY5YmM0NjgxLi5kOWFlODZjOTI2MDggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fYXRvbWljX3VhcGkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY191
+YXBpLmMKQEAgLTIsNiArMiw3IEBACiAgKiBDb3B5cmlnaHQgKEMpIDIwMTQgUmVkIEhhdAogICog
+Q29weXJpZ2h0IChDKSAyMDE0IEludGVsIENvcnAuCiAgKiBDb3B5cmlnaHQgKEMpIDIwMTggSW50
+ZWwgQ29ycC4KKyAqIENvcHlyaWdodCAoYykgMjAyMCwgVGhlIExpbnV4IEZvdW5kYXRpb24uIEFs
+bCByaWdodHMgcmVzZXJ2ZWQuCiAgKgogICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwg
+ZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKICAqIGNvcHkgb2YgdGhp
+cyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3
+YXJlIiksCkBAIC0xMjk0LDYgKzEyOTUsNyBAQCBpbnQgZHJtX21vZGVfYXRvbWljX2lvY3RsKHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJc3RydWN0IGRybV9vdXRfZmVuY2Vfc3RhdGUgKmZlbmNl
+X3N0YXRlOwogCWludCByZXQgPSAwOwogCXVuc2lnbmVkIGludCBpLCBqLCBudW1fZmVuY2VzOwor
+CXN0cnVjdCBkcm1fcHJpbnRlciBwID0gZHJtX2luZm9fcHJpbnRlcihkZXYtPmRldik7CiAKIAkv
+KiBkaXNhbGxvdyBmb3IgZHJpdmVycyBub3Qgc3VwcG9ydGluZyBhdG9taWM6ICovCiAJaWYgKCFk
+cm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0FUT01JQykpCkBAIC0xNDEzLDcgKzE0
+MTUsNyBAQCBpbnQgZHJtX21vZGVfYXRvbWljX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
+CiAJCXJldCA9IGRybV9hdG9taWNfbm9uYmxvY2tpbmdfY29tbWl0KHN0YXRlKTsKIAl9IGVsc2Ug
+ewogCQlpZiAoZHJtX2RlYnVnX2VuYWJsZWQoRFJNX1VUX1NUQVRFKSkKLQkJCWRybV9hdG9taWNf
+cHJpbnRfc3RhdGUoc3RhdGUpOworCQkJZHJtX2F0b21pY19wcmludF9zdGF0ZShzdGF0ZSwgJnAp
+OwogCiAJCXJldCA9IGRybV9hdG9taWNfY29tbWl0KHN0YXRlKTsKIAl9CmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJuYWwuaCBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+Y3J0Y19pbnRlcm5hbC5oCmluZGV4IGRhOTZiMmY2NGQ3ZS4uZDM0MjE1MzY2OTM2IDEwMDY0NAot
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaW50ZXJuYWwuaAorKysgYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2NydGNfaW50ZXJuYWwuaApAQCAtNSw2ICs1LDcgQEAKICAqICAgSmVzc2UgQmFy
+bmVzIDxqZXNzZS5iYXJuZXNAaW50ZWwuY29tPgogICogQ29weXJpZ2h0IMKpIDIwMTQgSW50ZWwg
+Q29ycG9yYXRpb24KICAqICAgRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4K
+KyAqIENvcHlyaWdodCAoYykgMjAyMCwgVGhlIExpbnV4IEZvdW5kYXRpb24uIEFsbCByaWdodHMg
+cmVzZXJ2ZWQuCiAgKgogICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBj
+aGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKICAqIGNvcHkgb2YgdGhpcyBzb2Z0d2Fy
+ZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksCkBA
+IC0yMzMsNyArMjM0LDggQEAgaW50IF9fZHJtX2F0b21pY19oZWxwZXJfZGlzYWJsZV9wbGFuZShz
+dHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIGludCBfX2RybV9hdG9taWNfaGVscGVyX3NldF9jb25m
+aWcoc3RydWN0IGRybV9tb2RlX3NldCAqc2V0LAogCQkJCSAgIHN0cnVjdCBkcm1fYXRvbWljX3N0
+YXRlICpzdGF0ZSk7CiAKLXZvaWQgZHJtX2F0b21pY19wcmludF9zdGF0ZShjb25zdCBzdHJ1Y3Qg
+ZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpOwordm9pZCBkcm1fYXRvbWljX3ByaW50X3N0YXRlKGNv
+bnN0IHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKKwkJc3RydWN0IGRybV9wcmludGVy
+ICpwKTsKIAogLyogZHJtX2F0b21pY191YXBpLmMgKi8KIGludCBkcm1fYXRvbWljX2Nvbm5lY3Rv
+cl9jb21taXRfZHBtcyhzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUsCi0tIApUaGUgUXVh
+bGNvbW0gSW5ub3ZhdGlvbiBDZW50ZXIsIEluYy4gaXMgYSBtZW1iZXIgb2YgdGhlIENvZGUgQXVy
+b3JhIEZvcnVtLAphIExpbnV4IEZvdW5kYXRpb24gQ29sbGFib3JhdGl2ZSBQcm9qZWN0CgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
