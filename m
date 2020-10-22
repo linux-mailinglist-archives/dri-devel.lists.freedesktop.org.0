@@ -2,35 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C354A296A33
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27605296A3A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:22:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8FB6E49A;
-	Fri, 23 Oct 2020 07:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF2376E4AA;
+	Fri, 23 Oct 2020 07:22:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 34A886E087
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 11:26:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96FBED6E;
- Thu, 22 Oct 2020 04:26:45 -0700 (PDT)
-Received: from [10.57.20.67] (unknown [10.57.20.67])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4262F3F66B;
- Thu, 22 Oct 2020 04:26:43 -0700 (PDT)
-Subject: Re: [PATCH 4/5] thermal: devfreq_cooling: remove old power model and
- use EM
-To: Ionela Voinescu <ionela.voinescu@arm.com>
-References: <20200921122007.29610-1-lukasz.luba@arm.com>
- <20200921122007.29610-5-lukasz.luba@arm.com> <20201007151225.GB15063@arm.com>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <4929dcfa-9ab0-52fa-8426-50cda52eb8dc@arm.com>
-Date: Thu, 22 Oct 2020 12:26:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
+ [IPv6:2607:f8b0:4864:20::f43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DED06E0D4
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 11:43:47 +0000 (UTC)
+Received: by mail-qv1-xf43.google.com with SMTP id bl9so647743qvb.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 04:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Tn5VStmyr19eg0AHWkg65WyZIMHvKO6plAVuAqOgPDQ=;
+ b=W2W63+Km46WNPYtkSR3igfnV7TEUq5madmsiNOsLljJ4hXhwY+tNpYNU0U98RMc/Ra
+ N/OqT1bclh4ytLL1rVRfHDNQXuCClycUHEstVDTB13O2SeX7rcenP16ZDtQZwB1W1jcc
+ qY+V9dfylqzLN5PiDQabSjcYMeIPMV8H3MvDBIvqP9uVDzx0l3+DGSbt51z70fKAGBps
+ MOgHN8p+THySDXKSzKDRAxFER+JAglmr7hGRyvf9N5t7jpnIarxCymOKiSFfwhwoQKR+
+ 3E88SiMtx1h9HdY+LUkd3T5LmcI1LTVNdrFdFYFYlKXO0Wntp7OMh6vxttQFR1tsYI0Q
+ kJBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Tn5VStmyr19eg0AHWkg65WyZIMHvKO6plAVuAqOgPDQ=;
+ b=mITGXpGHOsugqXIF3l3Hu++9rNg17cdXT/B5RQ81hxCY89FdnEvzPa7WCVx0qek+3h
+ v+Q4vMz2CG1YCxJDcL/yp/0/xDYVRKJuIOMYN/WS9V9J2OCY955vR85XQ4W3Lr//lq9l
+ Uhw389PtBdDCVTNIKAeHRsHhRqv3xnqDR9SzQb5wvcWywlLt87l/in4xuR/VRg6413PY
+ C0/zBAIopb6fEnFqO5OH2iFy3lkrm86kOO4g0JCX3FYoKyuKgKW/md/inbZiLRpDhlwn
+ IMx8yC4D43YuPhVqDHnjIwPAg8WCjvIt8oWMnW7eicR65Ud+orxInfiI3yqWZ4qgIgSX
+ 2nxA==
+X-Gm-Message-State: AOAM5339bVlf4iWvsDXqVHIb4RwyT2QSdKysL20m7Zl9yAFKpcMDlHZx
+ bkgSqTHZFv9tx2SxgFm1udyncQ==
+X-Google-Smtp-Source: ABdhPJw6OYYGIWsKIpwZGlvXqWx4K8ij3H0LBJb/eEFtxBXIO8uo2emBiN1PSKDxC0xVD0g026FmxA==
+X-Received: by 2002:ad4:45a5:: with SMTP id y5mr1935405qvu.40.1603367026713;
+ Thu, 22 Oct 2020 04:43:46 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id l25sm820821qtf.18.2020.10.22.04.43.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Oct 2020 04:43:45 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kVZ0T-0040bW-1W; Thu, 22 Oct 2020 08:43:45 -0300
+Date: Thu, 22 Oct 2020 08:43:45 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v3 12/16] PCI: Obey iomem restrictions for procfs mmap
+Message-ID: <20201022114345.GO36674@ziepe.ca>
+References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+ <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
+ <20201021125030.GK36674@ziepe.ca>
+ <CAKMK7uEWe8CaT7zjcZ6dJAKHxtxtqzjVB35fCFviwhcnqksDfw@mail.gmail.com>
+ <20201021151352.GL36674@ziepe.ca>
+ <CAKMK7uGq0=ks7Zj1Et44k7x9FwE9u_ua4zANSqrLRri0v01V+Q@mail.gmail.com>
+ <20201021163702.GM36674@ziepe.ca>
+ <CAKMK7uEjE5sHUq0hV_bnYjPKRxYyBnty0sLre+owANGZjLJg9Q@mail.gmail.com>
+ <20201021232022.GN36674@ziepe.ca>
+ <CAKMK7uEkAK42+19KRo06XzJFuMCVriEEg0jxqXq8oAdt2ExLsQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201007151225.GB15063@arm.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEkAK42+19KRo06XzJFuMCVriEEg0jxqXq8oAdt2ExLsQ@mail.gmail.com>
 X-Mailman-Approved-At: Fri, 23 Oct 2020 07:22:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,209 +80,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
- daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, orjan.eide@arm.com
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, KVM list <kvm@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.com>, John Hubbard <jhubbard@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Oct 22, 2020 at 09:00:44AM +0200, Daniel Vetter wrote:
+> On Thu, Oct 22, 2020 at 1:20 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Wed, Oct 21, 2020 at 09:24:08PM +0200, Daniel Vetter wrote:
+> > > On Wed, Oct 21, 2020 at 6:37 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > >
+> > > > On Wed, Oct 21, 2020 at 05:54:54PM +0200, Daniel Vetter wrote:
+> > > >
+> > > > > The trouble is that io_remap_pfn adjust vma->pgoff, so we'd need to
+> > > > > split that. So ideally ->mmap would never set up any ptes.
+> > > >
+> > > > /dev/mem makes pgoff == pfn so it doesn't get changed by remap.
+> > > >
+> > > > pgoff doesn't get touched for MAP_SHARED either, so there are other
+> > > > users that could work like this - eg anyone mmaping IO memory is
+> > > > probably OK.
+> > >
+> > > I was more generally thinking for io_remap_pfn_users because of the
+> > > mkwrite use-case we might have in fbdev emulation in drm.
+> >
+> > You have a use case for MAP_PRIVATE and io_remap_pfn_range()??
+> 
+> Uh no :-)
 
+So it is fine, the pgoff mangling only happens for MAP_PRIVATE
 
-On 10/7/20 4:12 PM, Ionela Voinescu wrote:
-> Hi Lukasz,
-> 
-> On Monday 21 Sep 2020 at 13:20:06 (+0100), Lukasz Luba wrote:
-> [..]
->>   /**
->> - * freq_get_state() - get the cooling state corresponding to a frequency
->> + * freq_get_state() - get the performance index corresponding to a frequency
-> 
-> If we change the meaning of the return value, I think the function needs
-> a name change as well.
-> 
-> Also, we do treat this as a cooling state when we do validation and
-> compare it to THERMAL_CSTATE_INVALID,  but it's not actually a cooling
-> state (it's max_state - state). It does create confusion if we name
-> "state" both a performance index and a cooling state.
-> 
-> Given that the only user is devfreq_cooling_get_requested_power(),
-> might be good to collapse freq_get_state() in that function and rename
-> the "state" variable in there to "em_perf_idx".
-
-I will have a look into this.
-
-> 
->>    * @dfc:	Pointer to devfreq cooling device
->> - * @freq:	frequency in Hz
->> + * @freq:	frequency in kHz
->>    *
->> - * Return: the cooling state associated with the @freq, or
->> + * Return: the performance index associated with the @freq, or
->>    * THERMAL_CSTATE_INVALID if it wasn't found.
->>    */
->>   static unsigned long
->> @@ -128,8 +130,8 @@ freq_get_state(struct devfreq_cooling_device *dfc, unsigned long freq)
->>   {
->>   	int i;
->>   
->> -	for (i = 0; i < dfc->freq_table_size; i++) {
->> -		if (dfc->freq_table[i] == freq)
->> +	for (i = 0; i <= dfc->max_state; i++) {
->> +		if (dfc->em->table[i].frequency == freq)
->>   			return i;
->>   	}
->>   
->> @@ -164,71 +166,15 @@ static unsigned long get_voltage(struct devfreq *df, unsigned long freq)
->>   	return voltage;
->>   }
->>   
->> -/**
->> - * get_static_power() - calculate the static power
->> - * @dfc:	Pointer to devfreq cooling device
->> - * @freq:	Frequency in Hz
->> - *
->> - * Calculate the static power in milliwatts using the supplied
->> - * get_static_power().  The current voltage is calculated using the
->> - * OPP library.  If no get_static_power() was supplied, assume the
->> - * static power is negligible.
->> - */
->> -static unsigned long
->> -get_static_power(struct devfreq_cooling_device *dfc, unsigned long freq)
->> +static void dfc_em_get_requested_power(struct em_perf_domain *em,
->> +				       struct devfreq_dev_status *status,
->> +				       u32 *power, int em_perf_idx)
-> 
-> Is there a reason for not directly returning the power value in this
-> function? Also, this only does a few arithmetic operations and it's only
-> called in one place. Is it worth to have this in a separate function?
-
-Good question, maybe I will just put this code where it's called.
-
-> 
-> [..]
->> @@ -345,11 +279,8 @@ static int devfreq_cooling_power2state(struct thermal_cooling_device *cdev,
->>   	struct devfreq_cooling_device *dfc = cdev->devdata;
->>   	struct devfreq *df = dfc->devfreq;
->>   	struct devfreq_dev_status status;
->> -	unsigned long busy_time;
->> +	u32 est_power = power;
-> 
-> Nit: You could use power directly and remove est_power as well.
-> 
->>   	unsigned long freq;
->> -	s32 dyn_power;
->> -	u32 static_power;
->> -	s32 est_power;
->>   	int i;
->>   
->>   	mutex_lock(&df->lock);
->> @@ -358,31 +289,26 @@ static int devfreq_cooling_power2state(struct thermal_cooling_device *cdev,
->>   
->>   	freq = status.current_frequency;
->>   
->> -	if (dfc->power_ops->get_real_power) {
->> +	if (dfc->power_ops && dfc->power_ops->get_real_power) {
->>   		/* Scale for resource utilization */
->>   		est_power = power * dfc->res_util;
->>   		est_power /= SCALE_ERROR_MITIGATION;
->>   	} else {
->> -		static_power = get_static_power(dfc, freq);
->> -
->> -		dyn_power = power - static_power;
->> -		dyn_power = dyn_power > 0 ? dyn_power : 0;
->> -
->> -		/* Scale dynamic power for utilization */
->> -		busy_time = status.busy_time ?: 1;
->> -		est_power = (dyn_power * status.total_time) / busy_time;
->> +		_normalize_load(&status);
->> +		est_power *= status.total_time;
->> +		est_power /= status.busy_time;
->>   	}
->>   
->>   	/*
->>   	 * Find the first cooling state that is within the power
->> -	 * budget for dynamic power.
->> +	 * budget. The EM power table is sorted ascending.
->>   	 */
->> -	for (i = 0; i < dfc->freq_table_size - 1; i++)
->> -		if (est_power >= dfc->power_table[i])
->> +	for (i = dfc->max_state; i > 0; i--)
->> +		if (est_power >= dfc->em->table[i].power)
->>   			break;
->>   
->> -	*state = i;
->> -	dfc->capped_state = i;
->> +	*state = dfc->max_state - i;
->> +	dfc->capped_state = *state;
->>   	trace_thermal_power_devfreq_limit(cdev, freq, *state, power);
->>   	return 0;
->>   }
-> [..]
->>   /**
->> @@ -503,7 +381,7 @@ of_devfreq_cooling_register_power(struct device_node *np, struct devfreq *df,
->>   	struct thermal_cooling_device *cdev;
->>   	struct devfreq_cooling_device *dfc;
->>   	char dev_name[THERMAL_NAME_LENGTH];
->> -	int err;
->> +	int err, num_opps;
->>   
->>   	dfc = kzalloc(sizeof(*dfc), GFP_KERNEL);
->>   	if (!dfc)
->> @@ -511,28 +389,45 @@ of_devfreq_cooling_register_power(struct device_node *np, struct devfreq *df,
->>   
->>   	dfc->devfreq = df;
->>   
->> -	if (dfc_power) {
->> -		dfc->power_ops = dfc_power;
->> -
->> +	dfc->em = em_pd_get(df->dev.parent);
->> +	if (dfc->em) {
->>   		devfreq_cooling_ops.get_requested_power =
->>   			devfreq_cooling_get_requested_power;
->>   		devfreq_cooling_ops.state2power = devfreq_cooling_state2power;
->>   		devfreq_cooling_ops.power2state = devfreq_cooling_power2state;
->> +
->> +		dfc->power_ops = dfc_power;
->> +
->> +		num_opps = em_pd_nr_perf_states(dfc->em);
->> +	} else {
->> +		/* Backward compatibility for drivers which do not use IPA */
->> +		dev_dbg(df->dev.parent, "missing EM for cooling device\n");
->> +
->> +		num_opps = dev_pm_opp_get_opp_count(df->dev.parent);
->> +
->> +		err = devfreq_cooling_gen_tables(dfc, num_opps);
->> +		if (err)
->> +			goto free_dfc;
->>   	}
->>   
->> -	err = devfreq_cooling_gen_tables(dfc);
->> -	if (err)
->> +	if (num_opps <= 0) {
->> +		err = -EINVAL;
->>   		goto free_dfc;
->> +	}
->> +
->> +	/* max_state is an index, not a counter */
-> 
-> Nit: Might be more clear to replace "index" with cooling state. Then
-> knowledge about cooling states would make this more clear.
-
-Similar comment is in cpufreq_cooling.c. The 'index' here means the last
-valid index in the array.
-
-Thank you for the review comments for all patches.
-
-Regards,
-Lukasz
-
-> 
-> Regards,
-> Ionela.
-> 
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
