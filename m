@@ -2,57 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CD02959D3
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 10:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0B52959F1
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 10:15:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79CC36F53D;
-	Thu, 22 Oct 2020 08:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4177D6F537;
+	Thu, 22 Oct 2020 08:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74726F53B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 08:05:39 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id 13so895511wmf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 01:05:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=jo9DObZgd9Jq6ZPonfHxKOsM2RbE9S9o0V4+k1CciSY=;
- b=LpVtkQQEzDhGLYock7xQGko/zoS3bHGVeS2MwITVSQjnbfP4AMhqamrvOtAFmXYrPu
- M4rdxuuXfajVAiGf91dIAQUVAfjFyk3TE3h9FLC57hbSTRNI8HSEiW7wSnn833mLl3bT
- qYQcRr7XPtDbhyfcVfQaWMtP5UWNo6sIUEMEs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jo9DObZgd9Jq6ZPonfHxKOsM2RbE9S9o0V4+k1CciSY=;
- b=ca+fLIr+Yl83WJDo6QP5rXu4oCm4I7p2aZ/OiR2g8PjQNKxqlW84OIMRiuu+4ChpI1
- shuGaICH7VaEi9gWkAD8YZb3PBL848SCZENHmSM+eN4YyO2A2w66ykr47IpGi7fpIChp
- 96tYjADtkSrjJmE4Vl/DfNvkt/URJjQCofl0oeedfql3LoL8KHrvjBm9rUb6pZQGursv
- iZbzhnu3Yq/W/os9+zPJLGJLa6JdUZ0XJbipKnwgVspV85KvnN61sm3jUsgJWFXecsCK
- D58XjXa6U2FMOmFB2ZeQlsjuoV47yYpfNAB2uNNP3TeulxjR1LrLKSOjQkz1KbQi3iRk
- UgJw==
-X-Gm-Message-State: AOAM5326P9ug5G/CjEEXqzPR+c2TgMGHMgR65LmSbuh7em4ZKPccYsKU
- d0y4KYB3ZKo6DpmMxS7lx5q3wQ==
-X-Google-Smtp-Source: ABdhPJz1mIaxROQHFnkDMtAkyfocV37SNrA+OnkarpcW450fCaDG5+KffMOrvXq4qfjJmhfMWT0ZNg==
-X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr1359132wms.77.1603353938320; 
- Thu, 22 Oct 2020 01:05:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 32sm2105875wro.31.2020.10.22.01.05.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Oct 2020 01:05:37 -0700 (PDT)
-Date: Thu, 22 Oct 2020 10:05:34 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v5 10/10] drm/fb_helper: Support framebuffers in I/O memory
-Message-ID: <20201022080534.GT401619@phenom.ffwll.local>
-References: <20201020122046.31167-1-tzimmermann@suse.de>
- <20201020122046.31167-11-tzimmermann@suse.de>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2082.outbound.protection.outlook.com [40.107.94.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D9826F537
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 08:14:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d0eDQmXHCFH9EVstsy5S+Kgg+DThsA17P4FyB8U/ZGUFMUYO9S/5JY0Wdk+JTCQuHznksd6EozfOvBCsAJ28o4AKBWU8hBTHTLXhEzfNVoFcZuZpXBHfZubP1MvmFr415KXcLNQCMdpQYAmAMXcTnEPnu6ikjHcK6ze1k23Sd1xaXzwkz98sHqfYiBev1diFEXBbGXHjQ2J7Z0gkgVSCBStZqsnXOz5YjPh80gog3gNOoc3Afe8liQKx80l6qWlln05Ken8n88UNRD0pMLtWXmeQDQj+WMYCPg64Fw+FGyfMA+3qWolKnd7DFD494YqyNUNrLDimU7fab1ESgES1JQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6UwV527Vrhu9H6R7/5bKDWEuwdCQ93xVwA6zo9h7IF0=;
+ b=eHRS0+HLtyKa0zl+Bv6G1TcruRKBnWeTQoKoLN5W+4v/D4Lv675LWvq82rPR4dGJe5IH4H+pccKY3pCOIW4HWUopiwvUBq5linZiMl2c955EQu0hVaMKSNRzvpjrlHdZH2TnB/VIJBQuuvAbjI9MlV6iCBZpt1QCsoexIaGeEXRz/auZk9u/9swdQkEEJjAnLfZ7sNwLqqV4FBy031tXpsK3QOSp+F702tY/JOvwVK4o/7bwNrHeTGI3rXeGeq9K24ejsoplFiBjg4MTR/Td4IJgmXo9saBtwjRKyGSjLITj6+JeP7rHIjruRmXEG3KmL47+dQ74zrvc6PcW8JXKkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6UwV527Vrhu9H6R7/5bKDWEuwdCQ93xVwA6zo9h7IF0=;
+ b=Uty15rG7fx/iPQxCm8BuGyxcFrc8RvtnDQvbjtlzYNkaeSikiHFlcfDeIGaMT2JkSFaDUoknNGWQXv2NPhM8sxlCUJ8Cxq541EKCD1zOMDG3JzMVOEY6q9YbAkH8UzqUg4d8EUlD0Eo/iHh+MMvmBZbn7thdGw0YEBQ/lSkzZgM=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4929.namprd12.prod.outlook.com (2603:10b6:208:1c4::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Thu, 22 Oct
+ 2020 08:14:55 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3477.028; Thu, 22 Oct 2020
+ 08:14:55 +0000
+Subject: Re: [PATCH] drm/ttm: remove overlapping memcpy support
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20201022031152.1916925-1-airlied@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <3e60d0ae-da24-fd62-fad7-c96156f82d62@amd.com>
+Date: Thu, 22 Oct 2020 10:14:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201022031152.1916925-1-airlied@gmail.com>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR03CA0063.eurprd03.prod.outlook.com (2603:10a6:208::40)
+ To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201020122046.31167-11-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR03CA0063.eurprd03.prod.outlook.com (2603:10a6:208::40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Thu, 22 Oct 2020 08:14:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 41d1e4ec-0d6c-4236-ec12-08d876628f07
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4929:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB49290BCF5E0F089347347F44831D0@BL0PR12MB4929.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ns1KTt+IAMlmS/DIrfgClwR9PgpGbsyNWTfCfbz4ekvA93VeOTENaOq80DLC4xszYomfEWGHt/nJQFunXHjDXi/t6m5E3ji0p3mBV+M/6l8x/yEqw0W+9RR0IWxgvwqRu1/ybm7xWrhw17NPaZtVm2BBOOt8iaD3fc/Usuz0Sw8wRzAgwiuGoF1Q5yi1/A4PC+jpRwkcU+2owDEqUr2GhQa/5kYBePc9obIbTg7DLsYoN9XVpSeRXpBjPX6DF7b6e0YzqvXlkNr2zlNEBCwZ86IxcLMRIcvuau5zmGRvgdICAwGRskOQDN7vGBODO0QEqhLKw7vB8AZ3GIBePK8fFeZ9X7aT7GBkAvGzk/16ewvTPfHGgttu4jMmAPW76uJ9
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(136003)(396003)(376002)(346002)(2906002)(66556008)(52116002)(66476007)(5660300002)(6666004)(83380400001)(86362001)(2616005)(478600001)(31686004)(66946007)(6486002)(316002)(8676002)(186003)(16526019)(31696002)(36756003)(8936002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: hUk1pNiaMNb8HaQCkuw7w8etp8JHKFULNg8RCdZN1TQai9h+fspFQVWYgX5SEdO5r/2HD6f0MO+3f9dVEkIfs0oiHCQZRvgjoPTFG9smnwT147N6vWPUWvWk6rD8NNLLa7HK1LTWSnFWlhodE/7xtU303dTCUFljRqSu99tf3onLcf5Xak8CojdgbWPaZQC1ZunU3aBRnmVUx4SoJN1NkAs3PJM5kXuc26qL6w1BjtUvRs6+EILR+LxuvvyH0yRAsPPHf5RmzZ3wQ2/EBXxO7EWsnK4Ydp4JLlkYRDKAJqdTdhSSPzWxDe4UogYlDhL0wuTKtWkcmsZ4oDXDeFQd/D7zNyqdkr/vaGqL46jY5cW0FSgwhMXvfQ1g5449x78N+G6+fKkmy8ydMf+5akz8kWx7KsKOoAAj/E88PkuAXT1ZHrY1SPPBkiLCNnA2oAbCrtXYRFerxvNwbztfR9DxZwyhRMNROLQObxe/Km5U8PBQd0QQv9fSXFJfxazvXdnAgIqqw/K28N5lm6LX5oiYysE8aCHZ/COprObFZENSQuDDGNZheDgCJJGe6tV7zElhKngBFzUU6qHJWNHe7pQIjc2tK5qEPOrQBS73+R1L5uiPzCYtmC2cDgHacqe43aymzCdyXqxeAcajzw1pD0lwcc2f8cc6/SgyKlyCjbpQJzjAlduPYVHxsY4vZYXGfDVxA5+MPol+tOdJVzH+rQ7jjg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41d1e4ec-0d6c-4236-ec12-08d876628f07
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2020 08:14:55.4756 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3zFwbiApgetEcZeAxWAIuGYJjeBKNwVw3dT3BX4pEN8yCPwR7YS3DyLirw8KYhZW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4929
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,427 +97,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: luben.tuikov@amd.com, airlied@linux.ie, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- melissa.srw@gmail.com, ray.huang@amd.com, kraxel@redhat.com, sam@ravnborg.org,
- emil.velikov@collabora.com, linux-samsung-soc@vger.kernel.org,
- jy0922.shim@samsung.com, lima@lists.freedesktop.org,
- oleksandr_andrushchenko@epam.com, krzk@kernel.org, steven.price@arm.com,
- linux-rockchip@lists.infradead.org, kgene@kernel.org, bskeggs@redhat.com,
- linux+etnaviv@armlinux.org.uk, spice-devel@lists.freedesktop.org,
- alyssa.rosenzweig@collabora.com, etnaviv@lists.freedesktop.org,
- hdegoede@redhat.com, xen-devel@lists.xenproject.org,
- virtualization@lists.linux-foundation.org, sean@poorly.run, apaneers@amd.com,
- linux-arm-kernel@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
- amd-gfx@lists.freedesktop.org, tomeu.vizoso@collabora.com,
- sw0312.kim@samsung.com, hjc@rock-chips.com, kyungmin.park@samsung.com,
- miaoqinglang@huawei.com, yuq825@gmail.com, alexander.deucher@amd.com,
- linux-media@vger.kernel.org, christian.koenig@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 20, 2020 at 02:20:46PM +0200, Thomas Zimmermann wrote:
-> At least sparc64 requires I/O-specific access to framebuffers. This
-> patch updates the fbdev console accordingly.
-> 
-> For drivers with direct access to the framebuffer memory, the callback
-> functions in struct fb_ops test for the type of memory and call the rsp
-> fb_sys_ of fb_cfb_ functions. Read and write operations are implemented
-> internally by DRM's fbdev helper.
-> 
-> For drivers that employ a shadow buffer, fbdev's blit function retrieves
-> the framebuffer address as struct dma_buf_map, and uses dma_buf_map
-> interfaces to access the buffer.
-> 
-> The bochs driver on sparc64 uses a workaround to flag the framebuffer as
-> I/O memory and avoid a HW exception. With the introduction of struct
-> dma_buf_map, this is not required any longer. The patch removes the rsp
-> code from both, bochs and fbdev.
-> 
-> v5:
-> 	* implement fb_read/fb_write internally (Daniel, Sam)
-> v4:
-> 	* move dma_buf_map changes into separate patch (Daniel)
-> 	* TODO list: comment on fbdev updates (Daniel)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Tested-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  Documentation/gpu/todo.rst        |  19 ++-
->  drivers/gpu/drm/bochs/bochs_kms.c |   1 -
->  drivers/gpu/drm/drm_fb_helper.c   | 227 ++++++++++++++++++++++++++++--
->  include/drm/drm_mode_config.h     |  12 --
->  4 files changed, 230 insertions(+), 29 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 7e6fc3c04add..638b7f704339 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -197,13 +197,28 @@ Convert drivers to use drm_fbdev_generic_setup()
->  ------------------------------------------------
->  
->  Most drivers can use drm_fbdev_generic_setup(). Driver have to implement
-> -atomic modesetting and GEM vmap support. Current generic fbdev emulation
-> -expects the framebuffer in system memory (or system-like memory).
-> +atomic modesetting and GEM vmap support. Historically, generic fbdev emulation
-> +expected the framebuffer in system memory or system-like memory. By employing
-> +struct dma_buf_map, drivers with frambuffers in I/O memory can be supported
-> +as well.
->  
->  Contact: Maintainer of the driver you plan to convert
->  
->  Level: Intermediate
->  
-> +Reimplement functions in drm_fbdev_fb_ops without fbdev
-> +-------------------------------------------------------
-> +
-> +A number of callback functions in drm_fbdev_fb_ops could benefit from
-> +being rewritten without dependencies on the fbdev module. Some of the
-> +helpers could further benefit from using struct dma_buf_map instead of
-> +raw pointers.
-> +
-> +Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
-> +
-> +Level: Advanced
-> +
-> +
->  drm_framebuffer_funcs and drm_mode_config_funcs.fb_create cleanup
->  -----------------------------------------------------------------
->  
-> diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
-> index 13d0d04c4457..853081d186d5 100644
-> --- a/drivers/gpu/drm/bochs/bochs_kms.c
-> +++ b/drivers/gpu/drm/bochs/bochs_kms.c
-> @@ -151,7 +151,6 @@ int bochs_kms_init(struct bochs_device *bochs)
->  	bochs->dev->mode_config.preferred_depth = 24;
->  	bochs->dev->mode_config.prefer_shadow = 0;
->  	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
-> -	bochs->dev->mode_config.fbdev_use_iomem = true;
->  	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
->  
->  	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 6212cd7cde1d..1d3180841778 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -372,24 +372,22 @@ static void drm_fb_helper_resume_worker(struct work_struct *work)
->  }
->  
->  static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
-> -					  struct drm_clip_rect *clip)
-> +					  struct drm_clip_rect *clip,
-> +					  struct dma_buf_map *dst)
->  {
->  	struct drm_framebuffer *fb = fb_helper->fb;
->  	unsigned int cpp = fb->format->cpp[0];
->  	size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
->  	void *src = fb_helper->fbdev->screen_buffer + offset;
-> -	void *dst = fb_helper->buffer->map.vaddr + offset;
->  	size_t len = (clip->x2 - clip->x1) * cpp;
->  	unsigned int y;
->  
-> -	for (y = clip->y1; y < clip->y2; y++) {
-> -		if (!fb_helper->dev->mode_config.fbdev_use_iomem)
-> -			memcpy(dst, src, len);
-> -		else
-> -			memcpy_toio((void __iomem *)dst, src, len);
-> +	dma_buf_map_incr(dst, offset); /* go to first pixel within clip rect */
->  
-> +	for (y = clip->y1; y < clip->y2; y++) {
-> +		dma_buf_map_memcpy_to(dst, src, len);
-> +		dma_buf_map_incr(dst, fb->pitches[0]);
->  		src += fb->pitches[0];
-> -		dst += fb->pitches[0];
->  	}
->  }
->  
-> @@ -417,8 +415,9 @@ static void drm_fb_helper_dirty_work(struct work_struct *work)
->  			ret = drm_client_buffer_vmap(helper->buffer, &map);
->  			if (ret)
->  				return;
-> -			drm_fb_helper_dirty_blit_real(helper, &clip_copy);
-> +			drm_fb_helper_dirty_blit_real(helper, &clip_copy, &map);
->  		}
-> +
->  		if (helper->fb->funcs->dirty)
->  			helper->fb->funcs->dirty(helper->fb, NULL, 0, 0,
->  						 &clip_copy, 1);
-> @@ -2027,6 +2026,206 @@ static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
->  		return -ENODEV;
->  }
->  
-> +static bool drm_fbdev_use_iomem(struct fb_info *info)
-> +{
-> +	struct drm_fb_helper *fb_helper = info->par;
-> +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> +
-> +	return !drm_fbdev_use_shadow_fb(fb_helper) && buffer->map.is_iomem;
-> +}
-> +
-> +static ssize_t fb_read_screen_base(struct fb_info *info, char __user *buf, size_t count, 
-> +				   loff_t pos)
-> +{
-> +	const char __iomem *src = info->screen_base + pos;
-
-Maybe a bit much a bikeshed, but I'd write this in terms of drm objects,
-like the dirty_blit function, using the dma_buf_map (instead of the
-fb_info parameter). And then instead of
-screen_base and screen_buffer suffixes give them _mem and _iomem suffixes.
-
-Same for write below. Or I'm not quite understanding why we do it like
-this here - I don't think this code will be used outside of the generic
-fbdev code, so we can always assume that drm_fb_helper->buffer is set up.
-
-The other thing I think we need is some minimal testcases to make sure.
-The fbtest tool used way back seems to have disappeared, I couldn't find
-a copy of the source anywhere anymore.
-
-With all that: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Cheers, Daniel
-
-> +	size_t alloc_size = min(count, PAGE_SIZE);
-> +	ssize_t ret = 0;
-> +	char *tmp;
-> +
-> +	tmp = kmalloc(alloc_size, GFP_KERNEL);
-> +	if (!tmp)
-> +		return -ENOMEM;
-> +
-> +	while (count) {
-> +		size_t c = min(count, alloc_size);
-> +
-> +		memcpy_fromio(tmp, src, c);
-> +		if (copy_to_user(buf, tmp, c)) {
-> +			ret = -EFAULT;
-> +			break;
-> +		}
-> +
-> +		src += c;
-> +		buf += c;
-> +		ret += c;
-> +		count -= c;
-> +	}
-> +
-> +	kfree(tmp);
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t fb_read_screen_buffer(struct fb_info *info, char __user *buf, size_t count,
-> +				     loff_t pos)
-> +{
-> +	const char *src = info->screen_buffer + pos;
-> +
-> +	if (copy_to_user(buf, src, count))
-> +		return -EFAULT;
-> +
-> +	return count;
-> +}
-> +
-> +static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
-> +				 size_t count, loff_t *ppos)
-> +{
-> +	loff_t pos = *ppos;
-> +	size_t total_size;
-> +	ssize_t ret;
-> +
-> +	if (info->state != FBINFO_STATE_RUNNING)
-> +		return -EPERM;
-> +
-> +	if (info->screen_size)
-> +		total_size = info->screen_size;
-> +	else
-> +		total_size = info->fix.smem_len;
-> +
-> +	if (pos >= total_size)
-> +		return 0;
-> +	if (count >= total_size)
-> +		count = total_size;
-> +	if (total_size - count < pos)
-> +		count = total_size - pos;
-> +
-> +	if (drm_fbdev_use_iomem(info))
-> +		ret = fb_read_screen_base(info, buf, count, pos);
-> +	else
-> +		ret = fb_read_screen_buffer(info, buf, count, pos);
-> +
-> +	if (ret > 0)
-> +		*ppos = ret;
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t fb_write_screen_base(struct fb_info *info, const char __user *buf, size_t count,
-> +				    loff_t pos)
-> +{
-> +	char __iomem *dst = info->screen_base + pos;
-> +	size_t alloc_size = min(count, PAGE_SIZE);
-> +	ssize_t ret = 0;
-> +	u8 *tmp;
-> +
-> +	tmp = kmalloc(alloc_size, GFP_KERNEL);
-> +	if (!tmp)
-> +		return -ENOMEM;
-> +
-> +	while (count) {
-> +		size_t c = min(count, alloc_size);
-> +
-> +		if (copy_from_user(tmp, buf, c)) {
-> +			ret = -EFAULT;
-> +			break;
-> +		}
-> +		memcpy_toio(dst, tmp, c);
-> +
-> +		dst += c;
-> +		buf += c;
-> +		ret += c;
-> +		count -= c;
-> +	}
-> +
-> +	kfree(tmp);
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t fb_write_screen_buffer(struct fb_info *info, const char __user *buf, size_t count,
-> +				      loff_t pos)
-> +{
-> +	char *dst = info->screen_buffer + pos;
-> +
-> +	if (copy_from_user(dst, buf, count))
-> +		return -EFAULT;
-> +
-> +	return count;
-> +}
-> +
-> +static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
-> +				  size_t count, loff_t *ppos)
-> +{
-> +	loff_t pos = *ppos;
-> +	size_t total_size;
-> +	ssize_t ret;
-> +	int err;
-> +
-> +	if (info->state != FBINFO_STATE_RUNNING)
-> +		return -EPERM;
-> +
-> +	if (info->screen_size)
-> +		total_size = info->screen_size;
-> +	else
-> +		total_size = info->fix.smem_len;
-> +
-> +	if (pos > total_size)
-> +		return -EFBIG;
-> +	if (count > total_size) {
-> +		err = -EFBIG;
-> +		count = total_size;
-> +	}
-> +	if (total_size - count < pos) {
-> +		if (!err)
-> +			err = -ENOSPC;
-> +		count = total_size - pos;
-> +	}
-> +
-> +	/*
-> +	 * Copy to framebuffer even if we already logged an error. Emulates
-> +	 * the behavior of the original fbdev implementation.
-> +	 */
-> +	if (drm_fbdev_use_iomem(info))
-> +		ret = fb_write_screen_base(info, buf, count, pos);
-> +	else
-> +		ret = fb_write_screen_buffer(info, buf, count, pos);
-> +
-> +	if (ret > 0)
-> +		*ppos = ret;
-> +
-> +	if (err)
-> +		return err;
-> +
-> +	return ret;
-> +}
-> +
-> +static void drm_fbdev_fb_fillrect(struct fb_info *info,
-> +				  const struct fb_fillrect *rect)
-> +{
-> +	if (drm_fbdev_use_iomem(info))
-> +		drm_fb_helper_cfb_fillrect(info, rect);
-> +	else
-> +		drm_fb_helper_sys_fillrect(info, rect);
-> +}
-> +
-> +static void drm_fbdev_fb_copyarea(struct fb_info *info,
-> +				  const struct fb_copyarea *area)
-> +{
-> +	if (drm_fbdev_use_iomem(info))
-> +		drm_fb_helper_cfb_copyarea(info, area);
-> +	else
-> +		drm_fb_helper_sys_copyarea(info, area);
-> +}
-> +
-> +static void drm_fbdev_fb_imageblit(struct fb_info *info,
-> +				   const struct fb_image *image)
-> +{
-> +	if (drm_fbdev_use_iomem(info))
-> +		drm_fb_helper_cfb_imageblit(info, image);
-> +	else
-> +		drm_fb_helper_sys_imageblit(info, image);
-> +}
-> +
->  static const struct fb_ops drm_fbdev_fb_ops = {
->  	.owner		= THIS_MODULE,
->  	DRM_FB_HELPER_DEFAULT_OPS,
-> @@ -2034,11 +2233,11 @@ static const struct fb_ops drm_fbdev_fb_ops = {
->  	.fb_release	= drm_fbdev_fb_release,
->  	.fb_destroy	= drm_fbdev_fb_destroy,
->  	.fb_mmap	= drm_fbdev_fb_mmap,
-> -	.fb_read	= drm_fb_helper_sys_read,
-> -	.fb_write	= drm_fb_helper_sys_write,
-> -	.fb_fillrect	= drm_fb_helper_sys_fillrect,
-> -	.fb_copyarea	= drm_fb_helper_sys_copyarea,
-> -	.fb_imageblit	= drm_fb_helper_sys_imageblit,
-> +	.fb_read	= drm_fbdev_fb_read,
-> +	.fb_write	= drm_fbdev_fb_write,
-> +	.fb_fillrect	= drm_fbdev_fb_fillrect,
-> +	.fb_copyarea	= drm_fbdev_fb_copyarea,
-> +	.fb_imageblit	= drm_fbdev_fb_imageblit,
->  };
->  
->  static struct fb_deferred_io drm_fbdev_defio = {
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 5ffbb4ed5b35..ab424ddd7665 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -877,18 +877,6 @@ struct drm_mode_config {
->  	 */
->  	bool prefer_shadow_fbdev;
->  
-> -	/**
-> -	 * @fbdev_use_iomem:
-> -	 *
-> -	 * Set to true if framebuffer reside in iomem.
-> -	 * When set to true memcpy_toio() is used when copying the framebuffer in
-> -	 * drm_fb_helper.drm_fb_helper_dirty_blit_real().
-> -	 *
-> -	 * FIXME: This should be replaced with a per-mapping is_iomem
-> -	 * flag (like ttm does), and then used everywhere in fbdev code.
-> -	 */
-> -	bool fbdev_use_iomem;
-> -
->  	/**
->  	 * @quirk_addfb_prefer_xbgr_30bpp:
->  	 *
-> -- 
-> 2.28.0
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMjIuMTAuMjAgdW0gMDU6MTEgc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
+cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gcmVtb3ZlIHRoZSBvdmVybGFwcGluZyBtZW1j
+cCBzdXBwb3J0IGFzIGl0J3MgbmV2ZXIgdXNlZC4KPgo+IFNpZ25lZC1vZmYtYnk6IERhdmUgQWly
+bGllIDxhaXJsaWVkQHJlZGhhdC5jb20+CgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8
+Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0v
+dHRtX2JvX3V0aWwuYyB8IDE5ICsrKy0tLS0tLS0tLS0tLS0tLS0KPiAgIDEgZmlsZSBjaGFuZ2Vk
+LCAzIGluc2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Jv
+X3V0aWwuYwo+IGluZGV4IDBhNTY5NGVmMWUwNy4uZWNiNTQ0MTVkMWNhIDEwMDY0NAo+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS90dG0vdHRtX2JvX3V0aWwuYwo+IEBAIC0xODAsOSArMTgwLDYgQEAgaW50IHR0bV9ib19tb3Zl
+X21lbWNweShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCXZvaWQgKm5ld19pb21h
+cDsKPiAgIAlpbnQgcmV0Owo+ICAgCXVuc2lnbmVkIGxvbmcgaTsKPiAtCXVuc2lnbmVkIGxvbmcg
+cGFnZTsKPiAtCXVuc2lnbmVkIGxvbmcgYWRkID0gMDsKPiAtCWludCBkaXI7Cj4gICAKPiAgIAly
+ZXQgPSB0dG1fYm9fd2FpdF9jdHgoYm8sIGN0eCk7Cj4gICAJaWYgKHJldCkKPiBAQCAtMjIwLDI3
+ICsyMTcsMTcgQEAgaW50IHR0bV9ib19tb3ZlX21lbWNweShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
+Y3QgKmJvLAo+ICAgCQkJZ290byBvdXQxOwo+ICAgCX0KPiAgIAo+IC0JYWRkID0gMDsKPiAtCWRp
+ciA9IDE7Cj4gLQo+IC0JaWYgKChvbGRfbWVtLT5tZW1fdHlwZSA9PSBuZXdfbWVtLT5tZW1fdHlw
+ZSkgJiYKPiAtCSAgICAobmV3X21lbS0+c3RhcnQgPCBvbGRfbWVtLT5zdGFydCArIG9sZF9tZW0t
+PnNpemUpKSB7Cj4gLQkJZGlyID0gLTE7Cj4gLQkJYWRkID0gbmV3X21lbS0+bnVtX3BhZ2VzIC0g
+MTsKPiAtCX0KPiAtCj4gICAJZm9yIChpID0gMDsgaSA8IG5ld19tZW0tPm51bV9wYWdlczsgKytp
+KSB7Cj4gLQkJcGFnZSA9IGkgKiBkaXIgKyBhZGQ7Cj4gICAJCWlmIChvbGRfaW9tYXAgPT0gTlVM
+TCkgewo+ICAgCQkJcGdwcm90X3QgcHJvdCA9IHR0bV9pb19wcm90KGJvLCBvbGRfbWVtLCBQQUdF
+X0tFUk5FTCk7Cj4gLQkJCXJldCA9IHR0bV9jb3B5X3R0bV9pb19wYWdlKHR0bSwgbmV3X2lvbWFw
+LCBwYWdlLAo+ICsJCQlyZXQgPSB0dG1fY29weV90dG1faW9fcGFnZSh0dG0sIG5ld19pb21hcCwg
+aSwKPiAgIAkJCQkJCSAgIHByb3QpOwo+ICAgCQl9IGVsc2UgaWYgKG5ld19pb21hcCA9PSBOVUxM
+KSB7Cj4gICAJCQlwZ3Byb3RfdCBwcm90ID0gdHRtX2lvX3Byb3QoYm8sIG5ld19tZW0sIFBBR0Vf
+S0VSTkVMKTsKPiAtCQkJcmV0ID0gdHRtX2NvcHlfaW9fdHRtX3BhZ2UodHRtLCBvbGRfaW9tYXAs
+IHBhZ2UsCj4gKwkJCXJldCA9IHR0bV9jb3B5X2lvX3R0bV9wYWdlKHR0bSwgb2xkX2lvbWFwLCBp
+LAo+ICAgCQkJCQkJICAgcHJvdCk7Cj4gICAJCX0gZWxzZSB7Cj4gLQkJCXJldCA9IHR0bV9jb3B5
+X2lvX3BhZ2UobmV3X2lvbWFwLCBvbGRfaW9tYXAsIHBhZ2UpOwo+ICsJCQlyZXQgPSB0dG1fY29w
+eV9pb19wYWdlKG5ld19pb21hcCwgb2xkX2lvbWFwLCBpKTsKPiAgIAkJfQo+ICAgCQlpZiAocmV0
+KQo+ICAgCQkJZ290byBvdXQxOwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
