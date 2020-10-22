@@ -1,78 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33C3295B9E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 11:20:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CB6295BD0
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 11:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C3C6E046;
-	Thu, 22 Oct 2020 09:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985746E03F;
+	Thu, 22 Oct 2020 09:30:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 636546E046
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 09:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603358442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e3jOFm9ce5hvw8xSLzH7tyekR19F8FNfDB8a9ocIepg=;
- b=DbecBdCpltE1zlvAieNDi/zJapfbDiZO4fyQAAlV6R1QnFN3y1CStQ2IurgXFUA+4/PLEe
- OHAqasBOIqMkJH68JxUrEBThaAJSQU2JcLDGbzeCly0lfzZtKa3AqLiWJqIzsCADSgia+H
- syI2pR59pStbnZqRKmGPTuYtIfjDnzc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-6jHkr6BoO_mM36c42cT62w-1; Thu, 22 Oct 2020 05:20:40 -0400
-X-MC-Unique: 6jHkr6BoO_mM36c42cT62w-1
-Received: by mail-ej1-f71.google.com with SMTP id k23so432506ejx.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 02:20:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=e3jOFm9ce5hvw8xSLzH7tyekR19F8FNfDB8a9ocIepg=;
- b=s7gXpqY6NZr/9lkWy4z3lh+5N4Dz+/JKrACp0l/opQ85iFX19p1lzB5t5tnq8NyluO
- eaeV5TCcbneQtbsKkyB4ITxL+9Ce7SOCobmbagLxWSePDNN/GefKE+4aBzyqEt9uf8ls
- sR/jl7iD78kPpxbUNPqd+PU01RXhpM1DK6uGyPp4qLj7ZCMUi6mkZRcWwDWvrKFQKrA2
- QTwFEghiE6lcWYpiz2/vYd7VJeg01YoGkqAQJOnZV49Nhg3GyFWf2PBQtTCMhRFYEE0f
- fh/vxvfkRzBR73wqLBk0MwRvFgJ8XJTdG9/wqBIbW7nlLyuwbo482vP0sF4KYmgBdnwI
- tYCw==
-X-Gm-Message-State: AOAM533BefnIC9FUTklCwgRwNSiT+YWelX8+FDg3u105AFuH0iEsJ1G2
- KdCJ23NO8R03MkaHPa+xXWigSBA0SPHn1YHmuXm0wIuOsP0onFXXCGWJmJ2vdmmKJnsBP7Oxf6i
- KsLJnsxQyyycu9VSu1ptqzNm41zRy
-X-Received: by 2002:a05:6402:b8f:: with SMTP id
- cf15mr1342872edb.369.1603358439165; 
- Thu, 22 Oct 2020 02:20:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHyaq9pMCEBMDvpI3ftwUCjdgIu+dlejcx9ImqKgunXgPZixX9Yjar7jmPd9v6K302tg0U9Q==
-X-Received: by 2002:a05:6402:b8f:: with SMTP id
- cf15mr1342855edb.369.1603358438935; 
- Thu, 22 Oct 2020 02:20:38 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id qw1sm501091ejb.44.2020.10.22.02.20.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Oct 2020 02:20:38 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 849316E03F
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 09:30:02 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3C9AAAC3C;
+ Thu, 22 Oct 2020 09:30:01 +0000 (UTC)
 Subject: Re: [PATCH 0/3] drm: Store USB device in struct drm_device
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
- daniel@ffwll.ch, sean@poorly.run, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org
+To: Hans de Goede <hdegoede@redhat.com>, airlied@linux.ie, daniel@ffwll.ch,
+ sean@poorly.run, maarten.lankhorst@linux.intel.com, mripard@kernel.org
 References: <20201021130732.4048-1-tzimmermann@suse.de>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <d5cc8a94-e908-84a1-09b2-fef7a2e78d91@redhat.com>
-Date: Thu, 22 Oct 2020 11:20:37 +0200
+ <d5cc8a94-e908-84a1-09b2-fef7a2e78d91@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <42768db1-37a6-ee8d-aa82-d14fc8806a4b@suse.de>
+Date: Thu, 22 Oct 2020 11:30:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-In-Reply-To: <20201021130732.4048-1-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <d5cc8a94-e908-84a1-09b2-fef7a2e78d91@redhat.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,50 +42,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 10/21/20 3:07 PM, Thomas Zimmermann wrote:
-> The drivers gm12u320 and udl operate on USB devices. They leave the
-> PCI device in struct drm_device empty and store the USB device in their
-> own driver structure.
-> 
-> Fix this special case and save a few bytes by putting the USB device
-> into an anonymous union with the PCI data. It's expected that DRM
-> core and helpers only touch the PCI-device field for actual PCI devices.
-> 
-> Thomas Zimmermann (3):
->   drm: Add reference to USB device to struct drm_device
->   drm/tiny/gm12u320: Store USB device in struct drm_device.udev
->   drm/udl: Store USB device in struct drm_device.udev
-
-This series looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-> 
->  drivers/gpu/drm/tiny/gm12u320.c     | 52 +++++++++++++----------------
->  drivers/gpu/drm/udl/udl_connector.c |  8 ++---
->  drivers/gpu/drm/udl/udl_drv.c       |  2 +-
->  drivers/gpu/drm/udl/udl_drv.h       |  1 -
->  drivers/gpu/drm/udl/udl_main.c      | 15 +++++----
->  include/drm/drm_device.h            | 21 ++++++++----
->  6 files changed, 52 insertions(+), 47 deletions(-)
-> 
-> --
-> 2.28.0
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkKCk9uIDIyLjEwLjIwIDExOjIwLCBIYW5zIGRlIEdvZWRlIHdyb3RlOgo+IEhpLAo+IAo+IE9u
+IDEwLzIxLzIwIDM6MDcgUE0sIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOgo+PiBUaGUgZHJpdmVy
+cyBnbTEydTMyMCBhbmQgdWRsIG9wZXJhdGUgb24gVVNCIGRldmljZXMuIFRoZXkgbGVhdmUgdGhl
+Cj4+IFBDSSBkZXZpY2UgaW4gc3RydWN0IGRybV9kZXZpY2UgZW1wdHkgYW5kIHN0b3JlIHRoZSBV
+U0IgZGV2aWNlIGluIHRoZWlyCj4+IG93biBkcml2ZXIgc3RydWN0dXJlLgo+Pgo+PiBGaXggdGhp
+cyBzcGVjaWFsIGNhc2UgYW5kIHNhdmUgYSBmZXcgYnl0ZXMgYnkgcHV0dGluZyB0aGUgVVNCIGRl
+dmljZQo+PiBpbnRvIGFuIGFub255bW91cyB1bmlvbiB3aXRoIHRoZSBQQ0kgZGF0YS4gSXQncyBl
+eHBlY3RlZCB0aGF0IERSTQo+PiBjb3JlIGFuZCBoZWxwZXJzIG9ubHkgdG91Y2ggdGhlIFBDSS1k
+ZXZpY2UgZmllbGQgZm9yIGFjdHVhbCBQQ0kgZGV2aWNlcy4KPj4KPj4gVGhvbWFzIFppbW1lcm1h
+bm4gKDMpOgo+PiAgIGRybTogQWRkIHJlZmVyZW5jZSB0byBVU0IgZGV2aWNlIHRvIHN0cnVjdCBk
+cm1fZGV2aWNlCj4+ICAgZHJtL3RpbnkvZ20xMnUzMjA6IFN0b3JlIFVTQiBkZXZpY2UgaW4gc3Ry
+dWN0IGRybV9kZXZpY2UudWRldgo+PiAgIGRybS91ZGw6IFN0b3JlIFVTQiBkZXZpY2UgaW4gc3Ry
+dWN0IGRybV9kZXZpY2UudWRldgo+IAo+IFRoaXMgc2VyaWVzIGxvb2tzIGdvb2QgdG8gbWU6Cj4g
+Cj4gUmV2aWV3ZWQtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+CgpUaGFu
+a3MgYSBsb3QuIEZvbGxvd2luZyBEYW5pZWwncyByZXF1ZXN0LCBJJ2xsIGRyb3AgcGF0Y2ggMSBh
+bmQgaW5zdGVhZApkbyBhbiB1cGNhc3QgZnJvbSBkcm1fZGV2aWNlLmRldiB0byB0aGUgVVNCIGRl
+dmljZSBzdHJ1Y3R1cmUuIFRoZSBkcml2ZXIKcGF0Y2hlcyAyIGFuZCAzIHdpbGwgYmUgc2xpZ2h0
+bHkgZGlmZmVyZW50LiBVbmxlc3MgeW91IG9iamVjdCwgSScnbGwKdGFrZSB0aGUgci1iIGludG8g
+dGhlIG5ldyBwYXRjaGVzLgoKQmVzdCByZWdhcmRzClRob21hcwoKPiAKPiBSZWdhcmRzLAo+IAo+
+IEhhbnMKPiAKPiAKPj4KPj4gIGRyaXZlcnMvZ3B1L2RybS90aW55L2dtMTJ1MzIwLmMgICAgIHwg
+NTIgKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0KPj4gIGRyaXZlcnMvZ3B1L2RybS91ZGwv
+dWRsX2Nvbm5lY3Rvci5jIHwgIDggKystLS0KPj4gIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Ry
+di5jICAgICAgIHwgIDIgKy0KPj4gIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2Rydi5oICAgICAg
+IHwgIDEgLQo+PiAgZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfbWFpbi5jICAgICAgfCAxNSArKysr
+Ky0tLS0KPj4gIGluY2x1ZGUvZHJtL2RybV9kZXZpY2UuaCAgICAgICAgICAgIHwgMjEgKysrKysr
+KystLS0tCj4+ICA2IGZpbGVzIGNoYW5nZWQsIDUyIGluc2VydGlvbnMoKyksIDQ3IGRlbGV0aW9u
+cygtKQo+Pgo+PiAtLQo+PiAyLjI4LjAKPj4KPiAKPiBfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiAKCi0tIApUaG9tYXMgWmltbWVybWFubgpHcmFw
+aGljcyBEcml2ZXIgRGV2ZWxvcGVyClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
+SApNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKKEhSQiAzNjgwOSwgQUcg
+TsO8cm5iZXJnKQpHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
