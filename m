@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED42B29577F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 07:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053DE295782
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 07:02:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7D46E195;
-	Thu, 22 Oct 2020 05:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF3E46F3A4;
+	Thu, 22 Oct 2020 05:02:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 537506F3A3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 05:02:19 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1603342950; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=0JWoXgMpwaHzZI4kd4jG4Y5uVwRB0gzA/eSLgcK+n/k=;
- b=TxuttCvyPQIScJ71nOHOmVaa0rJtXsrCVe9DzQknh/rxeySfkrNhj+Bl1mF/nekWrmWgUcYH
- rn9Gt/FFT3D02gdRwiURmK1FleScbEVrQRLJuA4LreraT/q1afIcOPUU1J4OTfJ0kNzxJost
- jdfDEWVEt5sjfPGfXDQqwSsYtz4=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 5f91124f856d9308b5d7c39e (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 22 Oct 2020 05:02:07
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 25B58C433FF; Thu, 22 Oct 2020 05:02:07 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B9407C433FE;
- Thu, 22 Oct 2020 05:02:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B9407C433FE
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/msm/dpu: add dpu_dbg points across dpu driver
-Date: Wed, 21 Oct 2020 22:01:48 -0700
-Message-Id: <20201022050148.27105-5-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20201022050148.27105-1-abhinavk@codeaurora.org>
-References: <20201022050148.27105-1-abhinavk@codeaurora.org>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C946E34B;
+ Thu, 22 Oct 2020 05:02:51 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id d3so453416wma.4;
+ Wed, 21 Oct 2020 22:02:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4wrpDjbP4w2xCq7mdzj75yVVv1DI/Z3nNPuhthG3gKU=;
+ b=dZDXR6TkXw2gxAmMluY+wCv51B853jen6oLPQSb3pqaYX1NYXPCBu+tBYr79b1KxxH
+ yDiwdTtKWgVb55jLnnlwao1splHVI/kvnrvnmoLPxh6MyMVdyjHeClDdM1O3KnH37/wH
+ nSUJRQXbChgevvcfgH9083sSEYrHT8svseDw/KihzWi1JiopHkBZ+PLZjyiV/pxe3/HR
+ mukUPHM9yVVdu35GhFjnSQ6y6qCnLmH+f/rWAJ25qOs2cHrl+0MgQk4Jc48+/iw4loGZ
+ l5WrOEOtg7V5LIWx2fKr6ZOFOq/Do4n0fwB1NyNQa2pS83IHcW1v/DSJmGS/vgddw7Ci
+ E/kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4wrpDjbP4w2xCq7mdzj75yVVv1DI/Z3nNPuhthG3gKU=;
+ b=OEh+huW32uR7dfEwTD8BvynaMTf9Px80NYuyoP/q8/RTuBfK7ELE6uDIa56qoXr25H
+ cD9+CqcVzJrq24ej6SrJmMTx+59w2WeBZcld4nA+SV2zFGGLiDYwICt61liFvGQJ2LJA
+ xX0MblBwhTHTYBBxn+EaBd0B6nxvRNAv9FlPakBo/JmOGEE5M/wp5jPCDYOEDQ59+fua
+ rDYBMCyX13Ulot1lwGJhyPwn7YspdWUenaTLsw8y0mf2jb7UMGU+htWVRSCXy0qWsbQa
+ AHyxykFjITES5P4kE7MA80/Vpqv1o38sz7JYbyS2/45T1e+4fIKJYvaxKaA94HuMRbsx
+ UGAA==
+X-Gm-Message-State: AOAM533mN3tdG9gjniXINgll+vljvYP/kg0FpfuF8hqfWRAX5EMEv39F
+ fMzRyGOVzR50JIbg7FIu495zhy3tpWEMoWV8ozE=
+X-Google-Smtp-Source: ABdhPJxMFoQB7LByS4OaQ1rQSqobrtazTFawEDpuosydZ97IIqDtpTgXrJT1bdZ4KeaMqoXWb3c/tqEul4MnOhdibCw=
+X-Received: by 2002:a1c:6302:: with SMTP id x2mr207443wmb.56.1603342970516;
+ Wed, 21 Oct 2020 22:02:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <tencent_6CDB3D2D9BB1A93DCB856F2AD38C59F93F05@qq.com>
+In-Reply-To: <tencent_6CDB3D2D9BB1A93DCB856F2AD38C59F93F05@qq.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 22 Oct 2020 01:02:38 -0400
+Message-ID: <CADnq5_PAefQhvb=Yh9=uzrhnHtV9-5Lo01ervN32cSqGGDS9_g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: fix a possible NULL pointer dereference
+ in bios_parser_get_src_obj()
+To: estherbdf <603571786@qq.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,137 +61,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
- tanmay@codeaurora.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add dpu_dbg points across dpu driver to trigger dumps when critical
-errors are hit.
+On Mon, Oct 19, 2020 at 8:38 AM estherbdf <603571786@qq.com> wrote:
+>
+> [Why] the func  bios_parser_get_src_obj () is similar to  bios_parser_get_dst_obj () which is fixed by the commit<a8f976473196>("drm/amd/display: Banch of smatch error and warning fixes in DC").
+> the symbol 'id' is uninitialized and it is not checked before dereference it,may lead to null pointer dereference.
+> [How] Initialized variable explicitly with NULL and add sanitizer.
 
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c          | 12 ++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  5 +++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c |  5 ++++-
- 3 files changed, 17 insertions(+), 5 deletions(-)
+I think the current code is safe as is.  get_src_obj_list() will
+return 0 if *id_list is NULL and bios_parser_get_src_obj() checks if
+number <= index.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index f7f5c258b553..a2ee1af73c9f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2014-2018, 2020 The Linux Foundation. All rights reserved.
-  * Copyright (C) 2013 Red Hat
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
-@@ -26,6 +26,7 @@
- #include "dpu_crtc.h"
- #include "dpu_trace.h"
- #include "dpu_core_irq.h"
-+#include "dpu_dbg.h"
- 
- #define DPU_DEBUG_ENC(e, fmt, ...) DPU_DEBUG("enc%d " fmt,\
- 		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
-@@ -1313,6 +1314,11 @@ static void dpu_encoder_underrun_callback(struct drm_encoder *drm_enc,
- 
- 	DPU_ATRACE_BEGIN("encoder_underrun_callback");
- 	atomic_inc(&phy_enc->underrun_cnt);
-+
-+	/* trigger dump only on the first underrun */
-+	if (atomic_read(&phy_enc->underrun_cnt) == 1)
-+		DPU_DBG_DUMP("all");
-+
- 	trace_dpu_enc_underrun_cb(DRMID(drm_enc),
- 				  atomic_read(&phy_enc->underrun_cnt));
- 	DPU_ATRACE_END("encoder_underrun_callback");
-@@ -1553,8 +1559,10 @@ static void dpu_encoder_helper_hw_reset(struct dpu_encoder_phys *phys_enc)
- 		      ctl->idx);
- 
- 	rc = ctl->ops.reset(ctl);
--	if (rc)
-+	if (rc) {
- 		DPU_ERROR_ENC(dpu_enc, "ctl %d reset failure\n",  ctl->idx);
-+		DPU_DBG_DUMP("all");
-+	}
- 
- 	phys_enc->enable_state = DPU_ENC_ENABLED;
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index 8493d68ad841..58f79557b560 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
-  */
- 
- #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
-@@ -9,6 +9,7 @@
- #include "dpu_core_irq.h"
- #include "dpu_formats.h"
- #include "dpu_trace.h"
-+#include "dpu_dbg.h"
- 
- #define DPU_DEBUG_CMDENC(e, fmt, ...) DPU_DEBUG("enc%d intf%d " fmt, \
- 		(e) && (e)->base.parent ? \
-@@ -213,7 +214,7 @@ static int _dpu_encoder_phys_cmd_handle_ppdone_timeout(
- 			  phys_enc->hw_ctl->idx - CTL_0,
- 			  cmd_enc->pp_timeout_report_cnt,
- 			  atomic_read(&phys_enc->pending_kickoff_cnt));
--
-+		DPU_DBG_DUMP("all");
- 		dpu_encoder_helper_unregister_irq(phys_enc, INTR_IDX_RDPTR);
- 	}
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 805e059b50b7..46c5320150fa 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
--/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-+/* Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
-  */
- 
- #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
-@@ -8,6 +8,7 @@
- #include "dpu_core_irq.h"
- #include "dpu_formats.h"
- #include "dpu_trace.h"
-+#include "dpu_dbg.h"
- 
- #define DPU_DEBUG_VIDENC(e, fmt, ...) DPU_DEBUG("enc%d intf%d " fmt, \
- 		(e) && (e)->parent ? \
-@@ -467,6 +468,7 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
- 		"update pending flush ctl %d flush_mask 0%x intf_mask 0x%x\n",
- 		ctl->idx - CTL_0, flush_mask, intf_flush_mask);
- 
-+	atomic_set(&phys_enc->underrun_cnt, 0);
- 
- 	/* ctl_flush & timing engine enable will be triggered by framework */
- 	if (phys_enc->enable_state == DPU_ENC_DISABLED)
-@@ -549,6 +551,7 @@ static void dpu_encoder_phys_vid_prepare_for_kickoff(
- 	if (rc) {
- 		DPU_ERROR_VIDENC(phys_enc, "ctl %d reset failure: %d\n",
- 				ctl->idx, rc);
-+		DPU_DBG_DUMP("all");
- 		dpu_encoder_helper_unregister_irq(phys_enc, INTR_IDX_VSYNC);
- 	}
- }
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Alex
 
+
+>
+> Signed-off-by: estherbdf <603571786@qq.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/bios/bios_parser.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+> index 008d4d1..94c6cca 100644
+> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+> @@ -190,7 +190,7 @@ static enum bp_result bios_parser_get_src_obj(struct dc_bios *dcb,
+>         struct graphics_object_id *src_object_id)
+>  {
+>         uint32_t number;
+> -       uint16_t *id;
+> +       uint16_t *id = NULL;
+>         ATOM_OBJECT *object;
+>         struct bios_parser *bp = BP_FROM_DCB(dcb);
+>
+> @@ -206,7 +206,7 @@ static enum bp_result bios_parser_get_src_obj(struct dc_bios *dcb,
+>
+>         number = get_src_obj_list(bp, object, &id);
+>
+> -       if (number <= index)
+> +       if (number <= index || !id)
+>                 return BP_RESULT_BADINPUT;
+>
+>         *src_object_id = object_id_from_bios_object_id(id[index]);
+> --
+> 1.9.1
+>
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
