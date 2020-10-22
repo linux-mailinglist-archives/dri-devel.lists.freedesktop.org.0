@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EC8295918
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D26295927
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C83176F3DA;
-	Thu, 22 Oct 2020 07:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C01996F51D;
+	Thu, 22 Oct 2020 07:28:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FCC86F3A2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 05:12:46 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id c20so400219pfr.8
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 22:12:46 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD03A6F3A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 05:14:56 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id r10so240152pgb.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 22:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=2Zb63bH1NbEum/OLuzSIrhnLWeKUO8Zod+ndrWM7EmA=;
- b=Ju9bd5gphU99uj/yh0ufc8gQO+ePImeOwBqeesvMqPmC3AyeC0tO/3AyY71FcT8+UJ
- lhZWTwfk556SigBHRAMOs+x8SrDWcBTfqbt/rKeOSeiEtgT6Omg8FDoJz9Y8tVjy/mhy
- W2gpzNN+/VLnHnzOpW4uuZITN/dre75uqO3aoFILFRAcb3Fyub7jadMs9KCSgq8W0A+W
- XvDueW/cbwwS/N78UYnh07M9h5ohJTKWRx8DJqlXS5WfrN/BMHxA/wyRdGF3bMBvo3G7
- Azv+j0mVpLtSIkuEjWr8jdSb/cEP4Ve+suem9ZNycndWhPZeLNj0QwF5kLLQh69akiXK
- Z4HQ==
+ bh=9N4AwJ1uFCW577znU9D4xEwyN9NsDba4VzTyi1307gQ=;
+ b=yOA8f8kva3txVhVULf+6KyqMM6X6M5+Xq4kyU1AaaaeiRmVBHtfho0ndnz7P7+ksgb
+ W2XD8LnIqe4xOqonit7kehkgF+JZvgSGPfhjNDzWxpcHS646OOK8Oy/L48/DVwIkJuYO
+ UgvmCwGCf28d9+rxPSjbDBdwXk3YJ5o3rHKw8gw5dB3lYEv14YjymPgNjCJsTWFB3bOb
+ fPWrK3+Q6/dnEzTjIo15k0gfucqhX08ixAMmzbXz7iLoAnG7g2ClLIDG2i4sATiuDCxq
+ TRv2Lnax6EY1hdZkDGSJwIiZvtvt7dWcO60+ED8uAgRt3gWh/GBsdSZn196afU1z76WC
+ SW2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=2Zb63bH1NbEum/OLuzSIrhnLWeKUO8Zod+ndrWM7EmA=;
- b=roouJoKPdxPOnlkxzSOt1KzISFyFzhJMtYXkkVcmyEMorEgvbVnDK6Z1yjDJ7Iuo7T
- iKR4+5OERuT0y4MCSr8Jpgo+RcEtD7Iabn5hp3O3ZWCByr8HMO6RqpSVXeN1mbTZXgWs
- XRlFzCQ6Q/mNMdL62cCeRg1/vUvl3CIxf4jnveLC28NROAXGjzeFlNYdt7CWF6NwtODS
- Ec66ZWRboxa63EBPC+7+fbD9DoZLPHeYh4rhgvfj6WclBARGOoXMCgC/75OKZSHBQhb3
- MhrG0mwjPBcbQaWxcrp59RulurGLAco2Bhsr0osgzwuizQKU1Ok+9/RedLLeegVuLTI+
- Mp4Q==
-X-Gm-Message-State: AOAM530dUIJwxEpmmWG9d4+/k9XoTG7qof6yOAuBjC9oVC8FNw1YFo9G
- ffgKPWZLGwFwaFRbiJ/nL8s4/A==
-X-Google-Smtp-Source: ABdhPJyeB2dOc+PbV3anGzAlbLWOVkX8Lfo6+NfKbVZ5BbJKHOgDEoPAhSmOXTX5LGmjkYXRJZQ01A==
-X-Received: by 2002:a63:24c2:: with SMTP id k185mr870579pgk.421.1603343565998; 
- Wed, 21 Oct 2020 22:12:45 -0700 (PDT)
+ bh=9N4AwJ1uFCW577znU9D4xEwyN9NsDba4VzTyi1307gQ=;
+ b=sUlPFDQgDrZiOGepAw5b4KHbCGHGSeIsfv4Yx8V+Yz69X/8ncnxRpZpvkF6ja+CiHZ
+ cd5D4aZxW4XO2xPG7CGw52+KtSJ5T6spv3IpfiuDBYEch22P3WNCjKCf3QUwHpyrZlIn
+ LHqFzR1GbyTl9gaOlmUz4nysU4iz1nVanSSZPmetMHHYyfzGep0Y0V4pxqBffQfp73Cm
+ ZCGX9YFfKDU72I2A2TRr1uQ9OrzXUXIeQwKoi9l5H1CfNI/hM4HAa5VMJ4UxwHM4YLxA
+ FSszF/wwNTiE4pp3jsyt831eMGvrKk+A0Ycdaxj+yrFbCN55eaQOjwOjJ9PEqmlSL5sU
+ PciQ==
+X-Gm-Message-State: AOAM532E1L2j6z6jhnKEBdBpHjHZqjCOQRXWXqflJzjd+22cxdo+IzFU
+ wPezqAKTTV2TX10uKnUqigUdIA==
+X-Google-Smtp-Source: ABdhPJy/Aaj8vx5eIZaXacCj6mJYxS7bjf6e3Y9pPqYEIm1OT+kS0t3cdteyul8PjIUtlKAzs3Sbnw==
+X-Received: by 2002:a63:3d48:: with SMTP id k69mr880965pga.269.1603343696496; 
+ Wed, 21 Oct 2020 22:14:56 -0700 (PDT)
 Received: from localhost ([122.181.54.133])
- by smtp.gmail.com with ESMTPSA id q66sm505225pfc.109.2020.10.21.22.12.44
+ by smtp.gmail.com with ESMTPSA id z18sm482300pfn.158.2020.10.21.22.14.55
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 21 Oct 2020 22:12:45 -0700 (PDT)
-Date: Thu, 22 Oct 2020 10:42:43 +0530
+ Wed, 21 Oct 2020 22:14:55 -0700 (PDT)
+Date: Thu, 22 Oct 2020 10:44:53 +0530
 From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH V2 3/8] drm/msm: Unconditionally call
+To: rnayak@codeaurora.org, Qiang Yu <yuq825@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH V2 2/8] drm/lima: Unconditionally call
  dev_pm_opp_of_remove_table()
-Message-ID: <20201022051243.gsjx2ksoilec4wo2@vireshk-i7>
+Message-ID: <20201022051453.xufcga7icohm74rg@vireshk-i7>
 References: <cover.1598594714.git.viresh.kumar@linaro.org>
- <6e4110032f8711e8bb0acbeccfe66dec3b09d5c1.1598594714.git.viresh.kumar@linaro.org>
- <20201005062633.ejpehkpeuwksrx3e@vireshk-i7>
- <20201021072404.y43tjzd2ehclrejp@vireshk-i7>
- <CAF6AEGvAK_mAxJB32vvPOD3jumpYprRtUBPT8GRBV8gty7fxFQ@mail.gmail.com>
+ <62d944bdac75ec696828daad49fc1ddb6c637bcf.1598594714.git.viresh.kumar@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGvAK_mAxJB32vvPOD3jumpYprRtUBPT8GRBV8gty7fxFQ@mail.gmail.com>
+In-Reply-To: <62d944bdac75ec696828daad49fc1ddb6c637bcf.1598594714.git.viresh.kumar@linaro.org>
 User-Agent: NeoMutt/20180716-391-311a52
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,43 +71,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, freedreno <freedreno@lists.freedesktop.org>,
- Rajendra Nayak <rnayak@codeaurora.org>, Linux PM <linux-pm@vger.kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, Rafael Wysocki <rjw@rjwysocki.net>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Vincent Guittot <vincent.guittot@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ lima@lists.freedesktop.org, linux-pm@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>, Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Rafael Wysocki <rjw@rjwysocki.net>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21-10-20, 09:58, Rob Clark wrote:
-> On Wed, Oct 21, 2020 at 12:24 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> >
-> > On 05-10-20, 11:56, Viresh Kumar wrote:
-> > > On 28-08-20, 11:37, Viresh Kumar wrote:
-> > > > dev_pm_opp_of_remove_table() doesn't report any errors when it fails to
-> > > > find the OPP table with error -ENODEV (i.e. OPP table not present for
-> > > > the device). And we can call dev_pm_opp_of_remove_table()
-> > > > unconditionally here.
-> > > >
-> > > > While at it, also create a label to put clkname.
-> > > >
-> > > > Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> > >
-> > > Can someone please apply this and the other drm patch (2/8) ?
-> >
-> > Rob/Rajendra, can someone please have a look at these patches ?
+On 28-08-20, 11:37, Viresh Kumar wrote:
+> dev_pm_opp_of_remove_table() doesn't report any errors when it fails to
+> find the OPP table with error -ENODEV (i.e. OPP table not present for
+> the device). And we can call dev_pm_opp_of_remove_table()
+> unconditionally here.
 > 
-> Oh, sorry I missed that, could someone re-send it and CC
-> freedreno@lists.freedesktop.org so it shows up in patchworks.. that is
-> more reliable counting on me to not overlook something in my mail
+> Reviewed-by: Qiang Yu <yuq825@gmail.com>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> 
+> ---
+> V2: Applied Reviewed by tag.
+> ---
+>  drivers/gpu/drm/lima/lima_devfreq.c | 6 +-----
+>  drivers/gpu/drm/lima/lima_devfreq.h | 1 -
+>  2 files changed, 1 insertion(+), 6 deletions(-)
 
-I have just bounced it back to you and freedreno was already cc'd,
-though I have bounced it there again.
+Qiang, can you please pick it up ?
 
 -- 
 viresh
