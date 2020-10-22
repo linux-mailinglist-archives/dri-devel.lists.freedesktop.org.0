@@ -1,68 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71314296A41
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:23:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 948AB296A36
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:22:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E3A96E4B1;
-	Fri, 23 Oct 2020 07:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 841826E49F;
+	Fri, 23 Oct 2020 07:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB726F53B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 08:06:47 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id m3so570427pjf.4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 01:06:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=TVfb7WnwNXKGUxz4iiR3sXsOPTJFuGFroopSW7eD6Gk=;
- b=VXy3s7QjvhLDl7KsBOg8MVmOhDTShSxGrDo6aWcBaOc02FD0F85qf0Ti+YtY62gqo0
- fQvsKNmMSTtfrleV5GPKxLU+JcUEc2NSUgl+bZqbTTJxWGVdAW4Ks+6O+WpMyT0UYZQU
- Rk77fNgDCNEX1rBFx3tEw9PNvK5zoEOTcw4Exzt4s4Kw7B/lg/rPlU9NFNmT5+fHkPsJ
- L6jVrWsH6VfFT6UlRDL93//CvMxZ+gekuFnxD58I6yOGqSKCXsq41PVDX1T/ttn8Zw46
- jyhR4qHH+pZ/cQmtByv3Eoc+7RyZzWcCjxuptfiSir3cOI6jaqjAtUWeYCqvGt5RwgoA
- 0OuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=TVfb7WnwNXKGUxz4iiR3sXsOPTJFuGFroopSW7eD6Gk=;
- b=CIw4Q+I+Qw+0qJpB45/mxbTO8spLDN6i7jpJEeoHdP4ssIYXR/ojMQax3bRQnb40V9
- s7ZUSUNo9kvyik1p/XdJmGUl2mvPKNLB/YUwSvLLyce0dbQdCPCC0DiwkmCRS+xprbHy
- K6AMg5OVmtiBEwCoHzVcUXTjJJcYMVWZ2YKHabGfoP81/S9JAIDQ8bqfwmvrUbeXuoJc
- cEoMtVgug6cVHa6OJ0MqdsSWi0Mi8lnilxDbdkIG/pYOkzddf8ns5+PGQjoGTG0O5dD/
- WS/SDFBPdVyB420qUwzsCIM3MkEvC97bBS/KZIhbiQHna/Luf/lPBU5/LW+ctFCLNbOv
- QHgg==
-X-Gm-Message-State: AOAM532n9AOc0Q7DXJHMM1sgWgXgRz6/hI6FDoNta0SYEaSS2CXhkeQk
- thUHTwzPBTi4IzYnlFcHPKJBlQ==
-X-Google-Smtp-Source: ABdhPJwVqL7oVk5t6FqFadGaytgpFZzZfoLCZKLY/TTEFKuYJ70F6UW4MwiJzoxuD6cE1PnzwUK9mQ==
-X-Received: by 2002:a17:902:7fcd:b029:d3:f037:d9dc with SMTP id
- t13-20020a1709027fcdb02900d3f037d9dcmr1305142plb.79.1603354007060; 
- Thu, 22 Oct 2020 01:06:47 -0700 (PDT)
-Received: from localhost ([122.181.54.133])
- by smtp.gmail.com with ESMTPSA id v13sm1292150pgl.6.2020.10.22.01.06.45
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 22 Oct 2020 01:06:46 -0700 (PDT)
-Date: Thu, 22 Oct 2020 13:36:44 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 07/22] drm/msm: Do rpm get sooner in the submit path
-Message-ID: <20201022080644.2ck4okrxygmkuatn@vireshk-i7>
-References: <20201012020958.229288-1-robdclark@gmail.com>
- <20201012020958.229288-8-robdclark@gmail.com>
- <20201012143555.GA438822@phenom.ffwll.local>
- <CAF6AEGstGtBswUUiyHxT2cCm8NwZekDnMzD0J_pQH37GwS=LiA@mail.gmail.com>
- <20201020090729.qgqish5kqamhvatj@vireshk-i7>
- <CAKMK7uHAgVUPHOPxDdt3LeAWqokxfuzqjZj4qqFkoKxFbRbRrg@mail.gmail.com>
- <20201020112413.xbk2vow2kgjky3pb@vireshk-i7>
- <CAF6AEGsCj-AtFozn8d1xiNNFNbuMJ0UxS-eMhBVXiQ7rKahKnQ@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 872286E03C
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 10:55:33 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B81C4D6E;
+ Thu, 22 Oct 2020 03:55:32 -0700 (PDT)
+Received: from [10.57.20.67] (unknown [10.57.20.67])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5BF123F66B;
+ Thu, 22 Oct 2020 03:55:30 -0700 (PDT)
+Subject: Re: [PATCH 2/5] thermal: devfreq_cooling: get a copy of device status
+To: Ionela Voinescu <ionela.voinescu@arm.com>
+References: <20200921122007.29610-1-lukasz.luba@arm.com>
+ <20200921122007.29610-3-lukasz.luba@arm.com> <20201007161120.GC15063@arm.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <76e0ef49-5898-adbb-0c54-23d5999f4907@arm.com>
+Date: Thu, 22 Oct 2020 11:55:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGsCj-AtFozn8d1xiNNFNbuMJ0UxS-eMhBVXiQ7rKahKnQ@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20201007161120.GC15063@arm.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 23 Oct 2020 07:22:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,89 +43,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, "Menon, Nishanth" <nm@ti.com>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
+ daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, orjan.eide@arm.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20-10-20, 07:13, Rob Clark wrote:
-> On Tue, Oct 20, 2020 at 4:24 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> >
-> > On 20-10-20, 12:56, Daniel Vetter wrote:
-> > > Yeah that's bad practice. Generally you shouldn't need to hold locks
-> > > in setup/teardown code, since there's no other thread which can
-> > > possible hold a reference to anything your touching anymore. Ofc
-> > > excluding quickly grabbing/dropping a lock to insert/remove objects
-> > > into lists and stuff.
-> > >
-> > > The other reason is that especially with anything related to sysfs or
-> > > debugfs, the locking dependencies you're pulling in are enormous: vfs
-> > > locks pull in mm locks (due to mmap) and at that point there's pretty
-> > > much nothing left you're allowed to hold while acquiring such a lock.
-> > > For simple drivers this is no issue, but for fancy drivers (like gpu
-> > > drivers) which need to interact with core mm) this means your
-> > > subsystem is a major pain to use.
-> > >
-> > > Usually the correct fix is to only hold your subsystem locks in
-> > > setup/teardown when absolutely required, and fix any data
-> > > inconsistency issues by reordering your setup/teardown code: When you
-> > > register as the last step and unregister as the first step, there's no
-> > > need for any additional locking. And hence no need to call debugfs
-> > > functions while holding your subsystem locks.
-> > >
-> > > The catch phrase I use for this is "don't solve object lifetime issues
-> > > with locking". Instead use refcounting and careful ordering in
-> > > setup/teardown code.
-> >
-> > This is exactly what I have done in the OPP core, the locks were taken
-> > only when really necessary, though as we have seen now I have missed
-> > that at a single place and that should be fixed as well. Will do that,
-> > thanks.
+Hi Ionela,
+
+
+On 10/7/20 5:11 PM, Ionela Voinescu wrote:
+> On Monday 21 Sep 2020 at 13:20:04 (+0100), Lukasz Luba wrote:
+>> Devfreq cooling needs to now the correct status of the device in order
+>> to operate. Do not rely on Devfreq last_status which might be a stale data
+>> and get more up-to-date values of the load.
+>>
+>> Devfreq framework can change the device status in the background. To
+>> mitigate this situation make a copy of the status structure and use it
+>> for internal calculations.
+>>
+>> In addition this patch adds normalization function, which also makes sure
+>> that whatever data comes from the device, it is in a sane range.
+>>
+>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>> ---
+>>   drivers/thermal/devfreq_cooling.c | 52 +++++++++++++++++++++++++------
+>>   1 file changed, 43 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/thermal/devfreq_cooling.c b/drivers/thermal/devfreq_cooling.c
+>> index 7063ccb7b86d..cf045bd4d16b 100644
+>> --- a/drivers/thermal/devfreq_cooling.c
+>> +++ b/drivers/thermal/devfreq_cooling.c
+>> @@ -227,6 +227,24 @@ static inline unsigned long get_total_power(struct devfreq_cooling_device *dfc,
+>>   							       voltage);
+>>   }
+>>   
+>> +static void _normalize_load(struct devfreq_dev_status *status)
 > 
-> I do have an easy enough way to repro the issue, so if you have a
-> patch I can certainly test it.
+> Is there a reason for the leading "_" ?
+> AFAIK, "__name()" is meant to suggest a "worker" function for another
+> "name()" function, but that would not apply here.
 
-Does this fix it for you ? There is one more place still left where we
-are taking the opp_table_lock while adding stuff to debugfs and that's
-not that straight forward to fix. But I didn't see that path in your
-circular dependency trace, so who knows :)
+It is just a local name. Check e.g. ./drivers/opp/core.c there is a few:
+_generic_set_opp_regulator(), _generic_set_opp_clk_only(),
+_get_opp_count(), _find_opp_table(), _set_opp_bw(), etc.
 
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 2483e765318a..4cc0fb716381 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -1181,6 +1181,10 @@ static void _opp_table_kref_release(struct kref *kref)
-        struct opp_device *opp_dev, *temp;
-        int i;
- 
-+       /* Drop the lock as soon as we can */
-+       list_del(&opp_table->node);
-+       mutex_unlock(&opp_table_lock);
-+
-        _of_clear_opp_table(opp_table);
- 
-        /* Release clk */
-@@ -1208,10 +1212,7 @@ static void _opp_table_kref_release(struct kref *kref)
- 
-        mutex_destroy(&opp_table->genpd_virt_dev_lock);
-        mutex_destroy(&opp_table->lock);
--       list_del(&opp_table->node);
-        kfree(opp_table);
--
--       mutex_unlock(&opp_table_lock);
- }
- 
- void dev_pm_opp_put_opp_table(struct opp_table *opp_table)
+It is just a shorter name for me, '_' means here locality.
+Instead of calling it devfreq_cooling_normalize_load().
 
--- 
-viresh
+> 
+>> +{
+>> +	/* Make some space if needed */
+>> +	if (status->busy_time > 0xffff) {
+>> +		status->busy_time >>= 10;
+>> +		status->total_time >>= 10;
+>> +	}
+> 
+> How about removing the above code and adding here:
+> 
+> status->busy_time = status->busy_time ? : 1;
+
+It's not equivalent. The code operates on raw device values, which
+might be big (e.g. read from counters). If it's lager than the 0xffff,
+it is going to be shifted to get smaller.
+
+> 
+>> +
+>> +	if (status->busy_time > status->total_time)
+> 
+> This check would then cover the possibility that total_time is 0.
+> 
+>> +		status->busy_time = status->total_time;
+> 
+> But a reversal is needed here:
+> 		status->total_time = status->busy_time;
+
+No, I want to clamp the busy_time, which should not be bigger that
+total time. It could happen when we deal with 'raw' values from device
+counters.
+
+> 
+>> +
+>> +	status->busy_time *= 100;
+>> +	status->busy_time /= status->total_time ? : 1;
+>> +
+>> +	/* Avoid division by 0 */
+>> +	status->busy_time = status->busy_time ? : 1;
+>> +	status->total_time = 100;
+> 
+> Then all of this code can be replaced by:
+> 
+> status->busy_time = (unsigned long)div64_u64((u64)status->busy_time << 10,
+> 					     status->total_time);
+> status->total_time = 1 << 10;
+
+No, the total_time closed to 'unsigned long' would overflow.
+
+> 
+> This way you gain some resolution to busy_time and the divisions in the
+> callers would just become shifts by 10.
+
+
+I don't want to gain more resolution here. I want to be prepare for raw
+(not processed yet) big values coming from driver.
+
+Regards,
+Lukasz
+
+> 
+> Hope it helps,
+> Ionela.
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
