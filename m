@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A588296A38
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA313296A42
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD216E4A5;
-	Fri, 23 Oct 2020 07:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692AB6E4BA;
+	Fri, 23 Oct 2020 07:22:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5B816F52B;
- Thu, 22 Oct 2020 13:47:10 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id a17so1059424pju.1;
- Thu, 22 Oct 2020 06:47:10 -0700 (PDT)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F92B6F52F;
+ Thu, 22 Oct 2020 13:48:02 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id az3so1056299pjb.4;
+ Thu, 22 Oct 2020 06:48:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=1gypUtIc864PbkDDcPxNQEUh8zBoJi60ZtKxJZr3rhk=;
- b=BhFPvqZ2fI2InSAjrYY0zeX18fhNHww1+FQ/xSM5zKcowMhycbuWkOnfxAIq4PB4Er
- UOJF2GZM0pLpbcswZLc3aeYilTgEEmxUEGT0/k2CEEdmC3m5ftiWv8BJm10VuGQirQFT
- tk+IS1SS/s1WxJ+zcwFm5SZX4KFb/kcYL5onqjBP80vdQAiVFHIBwyJXNgb6uVUwdkfy
- EtQgkvNjRxzy5e109mcft/9UN0MFO0q3Sq8D2mLc65jjek86iE1AkevB8kdyhRlWYhsQ
- h7X8b8kWeuL8yLHrj6mOZa86q+dowjDyuKh3VA6Uv3YSEaEnUt2vXSiZa/M+UVXLUoGQ
- AeZg==
+ bh=U432S97cU+kXrslvGgog8CihEs2p/DakYW0kgHJLU04=;
+ b=rYwjb2xkkh0hxJWaPtOnGa4hSe5DuH6RLUZsZBwxA6M+Z3ZP+laaYWty/n+xFUh7CT
+ x62XiY4/BFnQkTugiegwK2EiFTnJxllQ/XJKCth8g5mxJ93KuTm6ClHqTZ8sBEI+L1hq
+ C/X1pxD7EjWrJ4/3qk4xaMAAEFtZKDHCo7Sjpb7ezoHZNY5/k26tuFpTDDtl4JTmW4v0
+ 3+QVKvhFHvha8uUUEE7iCJl2d90+KRDbgRLvBeKbJ2RylZwbMd1l+gVJSnmaRTiDjFb1
+ N/sk7fU/JL99mAX5kVZbQ+JYnhO6HLzCtiGv1N1tQoIOymoGU077WXHGYycWfasE6u12
+ yQnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=1gypUtIc864PbkDDcPxNQEUh8zBoJi60ZtKxJZr3rhk=;
- b=Y+H7K5+qqkCw632pP1yZNYD2znCSd2ZPCu9lkROPwgW6I5RYi0GqWs8uAbIj8jJxgQ
- znBWTgfM1tgBkJo2kiQ2BeXWjb5AAVz6YMPU9uS4xrsJNqxOmzT0OXQ7KewFZRsgcmMu
- KzVIYlaBo7lITD4PVxWhtFMxOJygd2FdnorSzs4P+TzJ3NY7+eC5cIZLXJsnIaYL/zF1
- 52kfguZpy43tp1c4Z8nt1nhK8KnS+IjIE9ry+dWWEc3lNHe4THJWUTRvGz4MKAF+oVAR
- zb8Meb8569Jny3eDeJf6YX3u4lxct4CWiTIIVStfHY2FraBJqU/iU9caefa6iRihUo81
- plDQ==
-X-Gm-Message-State: AOAM532x0adkTuajERvEHq8P7h2xtL2u0eK+a0VNDXiKCrA5QsHF0oVM
- x7X/etZ/uU92KRoDTF92cQPPIjqo1WM1Lw==
-X-Google-Smtp-Source: ABdhPJxgfTDPOdZuV7oWxSOXYyNciFXIQfbcH4Wjz4kzLnC7p5Iw7rt5cpaeGQoeis6/vilsflQLfw==
-X-Received: by 2002:a17:902:a50f:b029:d6:da2:aaa7 with SMTP id
- s15-20020a170902a50fb02900d60da2aaa7mr2614665plq.42.1603374430254; 
- Thu, 22 Oct 2020 06:47:10 -0700 (PDT)
+ bh=U432S97cU+kXrslvGgog8CihEs2p/DakYW0kgHJLU04=;
+ b=BlIfHzo6uOWeOY1X4jjZ128mxhRv3i7k0gAbvKCWDc6ASU0FkkhmXmA0iO1jp2eJbQ
+ wDhG6Z3GnL+6iFjPW4IXB93jeSrle0y6jYYXFKEy9hFtl6zL/78+xkrxZyKEf1wQRauZ
+ cSCfTdM9TM9D895utwzyfElYkzCAuHodTnD0m/NwR0/PRnOJSiSP0g8DcsP35lNdfy0b
+ jJj+e3TrSWyw2ZHpN0fCFqtxORj6+ag4c7TzDcNlxLDhM4fRu6lKKVtOASjrl/fNTZA9
+ mfuZW/99k8pewvPm0jc/b2ed1SpqArX4J0tGA2oqxh9WzUldGD2ptr6tsqdld7t9ISs4
+ /u8w==
+X-Gm-Message-State: AOAM532c06zHMBzVfWZPf+gbRgWOdQa68N/JzIPFFl24cwxUFCYSbwj7
+ 0bdvf0gDxL4gr0zrCS0duhSjkUNqSmJzCg==
+X-Google-Smtp-Source: ABdhPJwM3YcRS24T5SIMczPQMewNzH1W31xII0vjX1FFvHeMteycQ8Cm7A31YkVKAcu0jmw+NBB7Tg==
+X-Received: by 2002:a17:902:e983:b029:d5:f469:60c0 with SMTP id
+ f3-20020a170902e983b02900d5f46960c0mr2536227plb.61.1603374481995; 
+ Thu, 22 Oct 2020 06:48:01 -0700 (PDT)
 Received: from adolin ([49.207.204.75])
- by smtp.gmail.com with ESMTPSA id b128sm2233467pga.80.2020.10.22.06.47.06
+ by smtp.gmail.com with ESMTPSA id g17sm2357979pfu.130.2020.10.22.06.47.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Oct 2020 06:47:09 -0700 (PDT)
-Date: Thu, 22 Oct 2020 19:17:04 +0530
+ Thu, 22 Oct 2020 06:48:01 -0700 (PDT)
+Date: Thu, 22 Oct 2020 19:17:56 +0530
 From: Sumera Priyadarsini <sylphrenadin@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
-Message-ID: <864a0c5d7bc85d9eeaf1ca7b3db38b58e042471b.1603371258.git.sylphrenadin@gmail.com>
+Subject: [PATCH 4/5] gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
+Message-ID: <f6107f3e467f1906abdcc33d35f13cf54f7e5a96.1603371258.git.sylphrenadin@gmail.com>
 References: <cover.1603371258.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -68,7 +68,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.or,
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, melissa.srw@gmail.com,
  outreachy-kernel@googlegroups.com, alexander.deucher@amd.com,
  christian.koenig@amd.com, linux-media@vger.kernel.org
@@ -81,38 +81,29 @@ Using snprintf() for show() methods holds the risk of buffer overrun
 as snprintf() does not know the PAGE_SIZE maximum of the temporary
 buffer used to output sysfs content.
 
-Modify amdgpu_gtt_mgr.c to use sysfs_emit() instead which knows the
+Modify amdgpu_psp.c to use sysfs_emit() instead which knows the
 size of the temporary buffer.
 
 Issue found with Coccinelle.
 
 Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 1721739def84..441e07ee1967 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -49,7 +49,7 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index d6c38e24f130..4d1d1e1b005d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -2621,7 +2621,7 @@ static ssize_t psp_usbc_pd_fw_sysfs_read(struct device *dev,
+ 		return ret;
+ 	}
  
--	return snprintf(buf, PAGE_SIZE, "%llu\n",
-+	return sysfs_emit(buf, PAGE_SIZE, "%llu\n",
- 			man->size * PAGE_SIZE);
+-	return snprintf(buf, PAGE_SIZE, "%x\n", fw_ver);
++	return sysfs_emit(buf, PAGE_SIZE, "%x\n", fw_ver);
  }
  
-@@ -68,7 +68,7 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
- 
--	return snprintf(buf, PAGE_SIZE, "%llu\n",
-+	return sysfs_emit(buf, PAGE_SIZE, "%llu\n",
- 			amdgpu_gtt_mgr_usage(man));
- }
- 
+ static ssize_t psp_usbc_pd_fw_sysfs_write(struct device *dev,
 -- 
 2.25.1
 
