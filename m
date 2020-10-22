@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948AB296A36
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:22:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECD6296A43
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:23:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 841826E49F;
-	Fri, 23 Oct 2020 07:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6A276E4C1;
+	Fri, 23 Oct 2020 07:23:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 872286E03C
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 10:55:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4F10D6F5DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 11:17:37 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B81C4D6E;
- Thu, 22 Oct 2020 03:55:32 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8EF76D6E;
+ Thu, 22 Oct 2020 04:17:36 -0700 (PDT)
 Received: from [10.57.20.67] (unknown [10.57.20.67])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5BF123F66B;
- Thu, 22 Oct 2020 03:55:30 -0700 (PDT)
-Subject: Re: [PATCH 2/5] thermal: devfreq_cooling: get a copy of device status
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 341953F66B;
+ Thu, 22 Oct 2020 04:17:34 -0700 (PDT)
+Subject: Re: [PATCH 3/5] thermal: devfreq_cooling: add new registration
+ functions with Energy Model
 To: Ionela Voinescu <ionela.voinescu@arm.com>
 References: <20200921122007.29610-1-lukasz.luba@arm.com>
- <20200921122007.29610-3-lukasz.luba@arm.com> <20201007161120.GC15063@arm.com>
+ <20200921122007.29610-4-lukasz.luba@arm.com> <20201007120746.GA15063@arm.com>
 From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <76e0ef49-5898-adbb-0c54-23d5999f4907@arm.com>
-Date: Thu, 22 Oct 2020 11:55:28 +0100
+Message-ID: <71cfae58-8ea5-c591-455b-d84420d8412a@arm.com>
+Date: Thu, 22 Oct 2020 12:17:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20201007161120.GC15063@arm.com>
+In-Reply-To: <20201007120746.GA15063@arm.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Fri, 23 Oct 2020 07:22:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,111 +53,280 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ionela,
 
 
-On 10/7/20 5:11 PM, Ionela Voinescu wrote:
-> On Monday 21 Sep 2020 at 13:20:04 (+0100), Lukasz Luba wrote:
->> Devfreq cooling needs to now the correct status of the device in order
->> to operate. Do not rely on Devfreq last_status which might be a stale data
->> and get more up-to-date values of the load.
->>
->> Devfreq framework can change the device status in the background. To
->> mitigate this situation make a copy of the status structure and use it
->> for internal calculations.
->>
->> In addition this patch adds normalization function, which also makes sure
->> that whatever data comes from the device, it is in a sane range.
+On 10/7/20 1:07 PM, Ionela Voinescu wrote:
+> Hi Lukasz,
+> 
+> On Monday 21 Sep 2020 at 13:20:05 (+0100), Lukasz Luba wrote:
+>> The Energy Model (EM) framework supports devices such as Devfreq. Create
+>> new registration functions which automatically register EM for the thermal
+>> devfreq_cooling devices. This patch prepares the code for coming changes
+>> which are going to replace old power model with the new EM.
 >>
 >> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
 >> ---
->>   drivers/thermal/devfreq_cooling.c | 52 +++++++++++++++++++++++++------
->>   1 file changed, 43 insertions(+), 9 deletions(-)
+>>   drivers/thermal/devfreq_cooling.c | 99 ++++++++++++++++++++++++++++++-
+>>   include/linux/devfreq_cooling.h   | 22 +++++++
+>>   2 files changed, 120 insertions(+), 1 deletion(-)
 >>
 >> diff --git a/drivers/thermal/devfreq_cooling.c b/drivers/thermal/devfreq_cooling.c
->> index 7063ccb7b86d..cf045bd4d16b 100644
+>> index cf045bd4d16b..7e091e795284 100644
 >> --- a/drivers/thermal/devfreq_cooling.c
 >> +++ b/drivers/thermal/devfreq_cooling.c
->> @@ -227,6 +227,24 @@ static inline unsigned long get_total_power(struct devfreq_cooling_device *dfc,
->>   							       voltage);
->>   }
+>> @@ -50,6 +50,8 @@ static DEFINE_IDA(devfreq_ida);
+>>    * @capped_state:	index to cooling state with in dynamic power budget
+>>    * @req_max_freq:	PM QoS request for limiting the maximum frequency
+>>    *			of the devfreq device.
+>> + * @em:		Energy Model which represents the associated Devfreq device
+>                                       ^^^^^^^^^^^^^^^^
+> 				     for
+
+I will change it.
+
+>> + * @em_registered:	Devfreq cooling registered the EM and should free it.
+>>    */
+>>   struct devfreq_cooling_device {
+>>   	int id;
+>> @@ -63,6 +65,8 @@ struct devfreq_cooling_device {
+>>   	u32 res_util;
+>>   	int capped_state;
+>>   	struct dev_pm_qos_request req_max_freq;
+>> +	struct em_perf_domain *em;
+>> +	bool em_registered;
+>>   };
 >>   
->> +static void _normalize_load(struct devfreq_dev_status *status)
+>>   static int devfreq_cooling_get_max_state(struct thermal_cooling_device *cdev,
+>> @@ -586,22 +590,115 @@ struct thermal_cooling_device *devfreq_cooling_register(struct devfreq *df)
+>>   }
+>>   EXPORT_SYMBOL_GPL(devfreq_cooling_register);
+>>   
+>> +/**
+>> + * devfreq_cooling_em_register_power() - Register devfreq cooling device with
+>> + *		power information and attempt to register Energy Model (EM)
 > 
-> Is there a reason for the leading "_" ?
-> AFAIK, "__name()" is meant to suggest a "worker" function for another
-> "name()" function, but that would not apply here.
+> It took me a while to understand the differences between devfreq
+> register functions and it left me with a nagging feeling that we don't
+> need all of them. Also, looking over the cpufreq cooling devices, they
+> keep their registering interfaces quite simple.
 
-It is just a local name. Check e.g. ./drivers/opp/core.c there is a few:
-_generic_set_opp_regulator(), _generic_set_opp_clk_only(),
-_get_opp_count(), _find_opp_table(), _set_opp_bw(), etc.
-
-It is just a shorter name for me, '_' means here locality.
-Instead of calling it devfreq_cooling_normalize_load().
+This was discussed in previous series, related to EM core changes.
+It was requested to have a helper registration function which would
+create EM automatically.
 
 > 
+> With the functions added by this patch, the devfreq cooling devices will have:
+>   - old:
+>         of_devfreq_cooling_register_power
+>         of_devfreq_cooling_register
+>         devfreq_cooling_register
+>         devfreq_cooling_unregister
+>   - new:
+>         devfreq_cooling_em_register_power
+>         devfreq_cooling_em_register
+> 
+> My question is whether we actually need the two new
+> devfreq_cooling_em_register_power() and devfreq_cooling_em_register()?
+
+It is just for consistency, with older scheme. It is only a wrapper, one
+line, with default NULL. This scheme is common in thermal and some other
+frameworks.
+
+> 
+> The power_ops and the em are dependent on one another, so could we
+> extend the of_devfreq_cooling_register_power() to do the additional em
+> registration. We only need a way to pass the em_cb and I think that
+> could fit nicely in devfreq_cooling_power.
+
+No, they aren't 'dependent on one another'. The EM usage doesn't depend
+on presence of power_ops. Drivers might not support power_ops, but want
+the framework still use EM and do power estimation.
+
+> 
+> To be noted that I've reviewed these interfaces in the context of the
+> final state of devfreq_cooling.c, after the changes in 4/5.
+> 
+>> + * @df:		Pointer to devfreq device.
+>> + * @dfc_power:	Pointer to devfreq_cooling_power.
+>> + * @em_cb:	Callback functions providing the data of the EM
+>> + *
+>> + * Register a devfreq cooling device and attempt to register Energy Model. The
+>> + * available OPPs must be registered for the device.
+>> + *
+>> + * If @dfc_power is provided, the cooling device is registered with the
+>> + * power extensions. If @em_cb is provided it will be called for each OPP to
+>> + * calculate power value and cost. If @em_cb is not provided then simple Energy
+>> + * Model is going to be used, which requires "dynamic-power-coefficient" a
+>> + * devicetree property.
+>> + */
+>> +struct thermal_cooling_device *
+>> +devfreq_cooling_em_register_power(struct devfreq *df,
+>> +				  struct devfreq_cooling_power *dfc_power,
+>> +				  struct em_data_callback *em_cb)
 >> +{
->> +	/* Make some space if needed */
->> +	if (status->busy_time > 0xffff) {
->> +		status->busy_time >>= 10;
->> +		status->total_time >>= 10;
+>> +	struct thermal_cooling_device *cdev;
+>> +	struct devfreq_cooling_device *dfc;
+>> +	struct device_node *np = NULL;
+>> +	struct device *dev;
+>> +	int nr_opp, ret;
+>> +
+>> +	if (IS_ERR_OR_NULL(df))
+>> +		return ERR_PTR(-EINVAL);
+>> +
+>> +	dev = df->dev.parent;
+>> +
+>> +	if (em_cb) {
+>> +		nr_opp = dev_pm_opp_get_opp_count(dev);
+>> +		if (nr_opp <= 0) {
+>> +			dev_err(dev, "No valid OPPs found\n");
+>> +			return ERR_PTR(-EINVAL);
+>> +		}
+>> +
+>> +		ret = em_dev_register_perf_domain(dev, nr_opp, em_cb, NULL);
+>> +	} else {
+>> +		ret = dev_pm_opp_of_register_em(dev, NULL);
 >> +	}
-> 
-> How about removing the above code and adding here:
-> 
-> status->busy_time = status->busy_time ? : 1;
-
-It's not equivalent. The code operates on raw device values, which
-might be big (e.g. read from counters). If it's lager than the 0xffff,
-it is going to be shifted to get smaller.
-
-> 
 >> +
->> +	if (status->busy_time > status->total_time)
-> 
-> This check would then cover the possibility that total_time is 0.
-> 
->> +		status->busy_time = status->total_time;
-> 
-> But a reversal is needed here:
-> 		status->total_time = status->busy_time;
-
-No, I want to clamp the busy_time, which should not be bigger that
-total time. It could happen when we deal with 'raw' values from device
-counters.
-
-> 
+>> +	if (ret)
+>> +		dev_warn(dev, "Unable to register EM for devfreq cooling device (%d)\n",
+>> +			 ret);
 >> +
->> +	status->busy_time *= 100;
->> +	status->busy_time /= status->total_time ? : 1;
+>> +	if (dev->of_node)
+>> +		np = of_node_get(dev->of_node);
 >> +
->> +	/* Avoid division by 0 */
->> +	status->busy_time = status->busy_time ? : 1;
->> +	status->total_time = 100;
+>> +	cdev = of_devfreq_cooling_register_power(np, df, dfc_power);
+>> +
+>> +	if (np)
+>> +		of_node_put(np);
+>> +
+>> +	if (IS_ERR_OR_NULL(cdev)) {
+>> +		if (!ret)
+>> +			em_dev_unregister_perf_domain(dev);
+>> +	} else {
+>> +		dfc = cdev->devdata;
+>> +		dfc->em_registered = !ret;
+>> +	}
+>> +
+>> +	return cdev;
+>> +}
+>> +EXPORT_SYMBOL_GPL(devfreq_cooling_em_register_power);
+>> +
+>> +/**
+>> + * devfreq_cooling_em_register() - Register devfreq cooling device together
+>> + *				with Energy Model.
+>> + * @df:		Pointer to devfreq device.
+>> + * @em_cb:	Callback functions providing the data of the Energy Model
+>> + *
+>> + * This function attempts to register Energy Model for devfreq device and then
+>> + * register the devfreq cooling device.
+>> + */
+>> +struct thermal_cooling_device *
+>> +devfreq_cooling_em_register(struct devfreq *df, struct em_data_callback *em_cb)
+>> +{
+>> +	return devfreq_cooling_em_register_power(df, NULL, em_cb);
+>> +}
+>> +EXPORT_SYMBOL_GPL(devfreq_cooling_em_register);
+>> +
+>>   /**
+>>    * devfreq_cooling_unregister() - Unregister devfreq cooling device.
+>>    * @cdev: Pointer to devfreq cooling device to unregister.
+>> + *
+>> + * Unregisters devfreq cooling device and related Energy Model if it was
+>> + * present.
+>>    */
+>>   void devfreq_cooling_unregister(struct thermal_cooling_device *cdev)
+>>   {
+>>   	struct devfreq_cooling_device *dfc;
+>> +	struct device *dev;
+>>   
+>> -	if (!cdev)
+>> +	if (IS_ERR_OR_NULL(cdev))
+>>   		return;
+>>   
+>>   	dfc = cdev->devdata;
+>> +	dev = dfc->devfreq->dev.parent;
+>>   
+>>   	thermal_cooling_device_unregister(dfc->cdev);
+>>   	ida_simple_remove(&devfreq_ida, dfc->id);
+>>   	dev_pm_qos_remove_request(&dfc->req_max_freq);
+>> +
+>> +	if (dfc->em_registered)
+>> +		em_dev_unregister_perf_domain(dev);
 > 
-> Then all of this code can be replaced by:
-> 
-> status->busy_time = (unsigned long)div64_u64((u64)status->busy_time << 10,
-> 					     status->total_time);
-> status->total_time = 1 << 10;
+> Nit: Isn't it enough to check if dev->em_pd != NULL to be able to
+> unregister the perf_domain? That would remove the need for
+> dfc->em_registered.
 
-No, the total_time closed to 'unsigned long' would overflow.
-
-> 
-> This way you gain some resolution to busy_time and the divisions in the
-> callers would just become shifts by 10.
-
-
-I don't want to gain more resolution here. I want to be prepare for raw
-(not processed yet) big values coming from driver.
-
-Regards,
-Lukasz
+The devfreq cooling may only unregister the EM if it has registered it.
+If any other code did the registration, it should unregister when it
+finished using it.
 
 > 
-> Hope it helps,
+> I suppose one could say that's using implementation details on how the
+> EM is built and stored and we should not rely on it, so it's up to you
+> if you want to change it.
+> 
+> Kind regards,
 > Ionela.
 > 
+>> +
+>>   	kfree(dfc->power_table);
+>>   	kfree(dfc->freq_table);
+>>   
+>> diff --git a/include/linux/devfreq_cooling.h b/include/linux/devfreq_cooling.h
+>> index 9df2dfca68dd..19868fb922f1 100644
+>> --- a/include/linux/devfreq_cooling.h
+>> +++ b/include/linux/devfreq_cooling.h
+>> @@ -11,6 +11,7 @@
+>>   #define __DEVFREQ_COOLING_H__
+>>   
+>>   #include <linux/devfreq.h>
+>> +#include <linux/energy_model.h>
+>>   #include <linux/thermal.h>
+>>   
+>>   
+>> @@ -65,6 +66,13 @@ struct thermal_cooling_device *
+>>   of_devfreq_cooling_register(struct device_node *np, struct devfreq *df);
+>>   struct thermal_cooling_device *devfreq_cooling_register(struct devfreq *df);
+>>   void devfreq_cooling_unregister(struct thermal_cooling_device *dfc);
+>> +struct thermal_cooling_device *
+>> +devfreq_cooling_em_register_power(struct devfreq *df,
+>> +				  struct devfreq_cooling_power *dfc_power,
+>> +				  struct em_data_callback *em_cb);
+>> +struct thermal_cooling_device *
+>> +devfreq_cooling_em_register(struct devfreq *df,
+>> +			    struct em_data_callback *em_cb);
+>>   
+>>   #else /* !CONFIG_DEVFREQ_THERMAL */
+>>   
+>> @@ -87,6 +95,20 @@ devfreq_cooling_register(struct devfreq *df)
+>>   	return ERR_PTR(-EINVAL);
+>>   }
+>>   
+>> +static inline struct thermal_cooling_device *
+>> +devfreq_cooling_em_register_power(struct devfreq *df,
+>> +				  struct devfreq_cooling_power *dfc_power,
+>> +				  struct em_data_callback *em_cb)
+>> +{
+>> +	return ERR_PTR(-EINVAL);
+>> +}
+>> +
+>> +static inline struct thermal_cooling_device *
+>> +devfreq_cooling_em_register(struct devfreq *df,	struct em_data_callback *em_cb)
+>> +{
+>> +	return ERR_PTR(-EINVAL);
+>> +}
+>> +
+>>   static inline void
+>>   devfreq_cooling_unregister(struct thermal_cooling_device *dfc)
+>>   {
+>> -- 
+>> 2.17.1
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
