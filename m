@@ -2,55 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D722963A6
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 19:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F4729645D
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 20:05:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 321936F5FC;
-	Thu, 22 Oct 2020 17:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D89E6F530;
+	Thu, 22 Oct 2020 18:04:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29FB16F5F4;
- Thu, 22 Oct 2020 17:22:09 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id h7so3438392wre.4;
- Thu, 22 Oct 2020 10:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3SbKtGsD0deWgGwVQ6la/8JOmG1h8qGCr8ZTv5ep8js=;
- b=OO7sm4t4/zsmQdXQSOuAQBxpt3zn/uMPrPLifttyDIUq1DLrvRdxXGQre9CMz8+YBK
- I/K8Ik8pMsaEPFRLr5jXsSKezrgM/rlDmAZmWYhbjKyDo3INJ4SRqjMBovvhCBDxxrk1
- dOQ5NMQjgeaczExu4OPAJEb4CFdE50O3UFTymGe/RztHH11xv66/iJ7tMLrzpT1LIE8g
- arJZG59B1N+sLNpSo8bfry0e2sr1ywvOG56Zl6QVR+ywEbIZ21OWcJS+bKBMpBFENlYD
- +fE4Tz1gDVDmRKFAiMAgVhiVCzOh+hAaO/+CCb/2YgnjX/LxonVAbAbp1FvWyjRZGQ1x
- 881w==
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+ [209.85.217.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDD396F530
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 18:04:56 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id n18so1406474vsl.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 11:04:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3SbKtGsD0deWgGwVQ6la/8JOmG1h8qGCr8ZTv5ep8js=;
- b=pK0bxcb6/GYUVS1by4oXSmnmSRNaB4mAx4XB3wwtRomS85Gds9pkaBFPVlgWfdBhm/
- cdsGKxJWFms6+xw9LrXvoYRNOiy3vW4f326SHm70lNMtFp+q6UuKMFc4H6WkZ9ZFutwF
- vxyjWEPhhQbunvO+sMhIU6/2foOg6BWSHsSQrHOFFGABpDfutl7ZRWIqOc9bVoPhIrr+
- tFSXf94xrpYIpqRZoWFTJE/Vdfv+ptmKkxN/MWrEwVGKwBmrpHAiv8cszRn2wGYux5hI
- VZYcaO1JwzLtKRdZGBvq/liEwP49oyLsMDfwU/e9vrvibf5/pyF5jRi99PhmS0btomKa
- FFQw==
-X-Gm-Message-State: AOAM533frj+KlZf7dQe3qX8yoHDMBIqld3YoqKwBfEoL9HgcQZ8ZdyDz
- CHjcIB2sTnfLtqzurbOmf56G0LE2m8zkPpARwTI=
-X-Google-Smtp-Source: ABdhPJzeIFqaRFgtHCBVv3UkBvkbJ25pSuQX/PPgOa5jkAnaq+DgqTO5mlTEJC+4oW4om7Rf5pLjaomDHv0aKhmDr+0=
-X-Received: by 2002:adf:c501:: with SMTP id q1mr3593309wrf.147.1603387327777; 
- Thu, 22 Oct 2020 10:22:07 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=F2WaCG/dYdFJ11nkOsm0t4JOBwXNWT6cncqbDXaSdgI=;
+ b=WyjnS6wtHQLvvwWf5He9VL7I30FI6EAvHaqnfRNSZgQ76mTHUsLYonySZ6KB991J2O
+ WZRXKcOkIsCVh4Ug8RkZTY2d2MidooPSYvbcuc0I107eB/9Z0/fK6MQqO8oCuLV+2qIp
+ NurXapoUuqVmkIR4wZrY4zG0BPx9yNgBSJW8VZHY2VN2ikWznC7XhDfrnIX61FTfGKUs
+ rCQYfRpJLruQRC+LsDirgJwxIz+HSjWCq79uSgJZ7fhX8TC5WdwKJazdnQKn5IjBD8se
+ 3qXteTnI6OXqjcsS1lDKXq50uli4vjtq3VHRxsZ1gLLnWxvtv0zFC+W5bxN+cTXpLKiW
+ 59Og==
+X-Gm-Message-State: AOAM5301hrQ4wOWlG5PR4FJRY62BdA7+f3eEdAxij5zaVa0B84sROgYc
+ FGisoZvMnUx0X587wl40RGmOnxEyeq3Um4JtQHw=
+X-Google-Smtp-Source: ABdhPJz/FfN9kqeD9Yru3eUPJX0l1B8dOWo9/182fA56Mbh5zE4f9yy6Wa4Th9GlE+1q8+8c9jkPhsldcPjshjYo1kI=
+X-Received: by 2002:a67:f3c3:: with SMTP id j3mr2962798vsn.52.1603389896042;
+ Thu, 22 Oct 2020 11:04:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201021163242.1458885-1-daniel.vetter@ffwll.ch>
- <CAF6AEGsHA33RGoX-iX=9mL+EgtxFJgLH4n2xKR9XckBA=SJhBw@mail.gmail.com>
-In-Reply-To: <CAF6AEGsHA33RGoX-iX=9mL+EgtxFJgLH4n2xKR9XckBA=SJhBw@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 22 Oct 2020 10:21:56 -0700
-Message-ID: <CAF6AEGta-uZ=YV3aKTatWkp-XD7S1GzrW9Mcdyp=qsFrHibuiQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm/atomic-helpers: remove
- legacy_cursor_update hacks
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20201022165450.682571-1-lyude@redhat.com>
+In-Reply-To: <20201022165450.682571-1-lyude@redhat.com>
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Thu, 22 Oct 2020 14:04:45 -0400
+Message-ID: <CAKb7UvhfWA6ijoQnq2Mvrx8jfn57EC-P5KBkYR3HmrBUrntJhg@mail.gmail.com>
+Subject: Re: [PATCH] drm/edid: Fix uninitialized variable in drm_cvt_modes()
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,82 +51,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, mikita.lipski@amd.com,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Kees Cook <keescook@chromium.org>, Leon Romanovsky <leon@kernel.org>,
+ David Airlie <airlied@linux.ie>, Chao Yu <chao@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "# 3.9+" <stable@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Kalle Valo <kvalo@codeaurora.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBPY3QgMjIsIDIwMjAgYXQgMTA6MDIgQU0gUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21h
-aWwuY29tPiB3cm90ZToKPgo+IE9uIFdlZCwgT2N0IDIxLCAyMDIwIGF0IDk6MzIgQU0gRGFuaWVs
-IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4gd3JvdGU6Cj4gPgo+ID4gVGhlIHN0dWZm
-IG5ldmVyIHJlYWxseSB3b3JrZWQsIGFuZCBsZWFkcyB0byBsb3RzIG9mIGZ1biBiZWNhdXNlIGl0
-Cj4gPiBvdXQtb2Ytb3JkZXIgZnJlZXMgYXRvbWljIHN0YXRlcy4gV2hpY2ggdXBzZXRzIEtBU0FO
-LCBhbW9uZyBvdGhlcgo+ID4gdGhpbmdzLgo+ID4KPiA+IEZvciBhc3luYyB1cGRhdGVzIHdlIG5v
-dyBoYXZlIGEgbW9yZSBzb2xpZCBzb2x1dGlvbiB3aXRoIHRoZQo+ID4gLT5hdG9taWNfYXN5bmNf
-Y2hlY2sgYW5kIC0+YXRvbWljX2FzeW5jX2NvbW1pdCBob29rcy4gU3VwcG9ydCBmb3IgdGhhdAo+
-ID4gZm9yIG1zbSBhbmQgdmM0IGxhbmRlZC4gbm91dmVhdSBhbmQgaTkxNSBoYXZlIHRoZWlyIG93
-biBjb21taXQKPiA+IHJvdXRpbmVzLCBkb2luZyBzb21ldGhpbmcgc2ltaWxhci4KPiA+Cj4gPiBG
-b3IgZXZlcnlvbmUgZWxzZSBpdCdzIHByb2JhYmx5IGJldHRlciB0byByZW1vdmUgdGhlIHVzZS1h
-ZnRlci1mcmVlCj4gPiBidWcsIGFuZCBlbmNvdXJhZ2UgZm9sa3MgdG8gdXNlIHRoZSBhc3luYyBz
-dXBwb3J0IGluc3RlYWQuIFRoZQo+ID4gYWZmZWN0ZWQgZHJpdmVycyB3aGljaCByZWdpc3RlciBh
-IGxlZ2FjeSBjdXJzb3IgcGxhbmUgYW5kIGRvbid0IGVpdGhlcgo+ID4gdXNlIHRoZSBuZXcgYXN5
-bmMgc3R1ZmYgb3IgdGhlaXIgb3duIGNvbW1pdCByb3V0aW5lIGFyZTogYW1kZ3B1LAo+ID4gYXRt
-ZWwsIG1lZGlhdGVrLCBxeGwsIHJvY2tjaGlwLCBzdGksIHN1bjRpLCB0ZWdyYSwgdmlydGlvLCBh
-bmQgdm13Z2Z4Lgo+ID4KPiA+IEluc3BpcmVkIGJ5IGFuIGFtZGdwdSBidWcgcmVwb3J0Lgo+ID4K
-PiA+IHYyOiBEcm9wIFJGQywgSSB0aGluayB3aXRoIGFtZGdwdSBjb252ZXJ0ZWQgb3ZlciB0byB1
-c2UKPiA+IGF0b21pY19hc3luY19jaGVjay9jb21taXQgZG9uZSBpbgo+ID4KPiA+IGNvbW1pdCA2
-NzRlNzhhY2FlMGRmYjRiZWI1NjEzMmU0MWNiYWU1YjYwZjdkNjYyCj4gPiBBdXRob3I6IE5pY2hv
-bGFzIEthemxhdXNrYXMgPG5pY2hvbGFzLmthemxhdXNrYXNAYW1kLmNvbT4KPiA+IERhdGU6ICAg
-V2VkIERlYyA1IDE0OjU5OjA3IDIwMTggLTA1MDAKPiA+Cj4gPiAgICAgZHJtL2FtZC9kaXNwbGF5
-OiBBZGQgZmFzdCBwYXRoIGZvciBjdXJzb3IgcGxhbmUgdXBkYXRlcwo+ID4KPiA+IHdlIGRvbid0
-IGhhdmUgYW55IGRyaXZlciBhbnltb3JlIHdoZXJlIHdlIGhhdmUgdXNlcnNwYWNlIGV4cGVjdGlu
-Zwo+ID4gc29saWQgbGVnYWN5IGN1cnNvciBzdXBwb3J0IF9hbmRfIHRoZXkgYXJlIHVzaW5nIHRo
-ZSBhdG9taWMgaGVscGVycyBpbgo+ID4gdGhlaXIgZnVsbHkgZ2xvcnkuIFNvIHdlIGNhbiByZXRp
-cmUgdGhpcy4KPiA+Cj4gPiBSZWZlcmVuY2VzOiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcv
-c2hvd19idWcuY2dpP2lkPTE5OTQyNQo+ID4gQ2M6IG1pa2l0YS5saXBza2lAYW1kLmNvbQo+ID4g
-Q2M6IE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5uZXQ+Cj4gPiBDYzogaGFycnkud2Vu
-dGxhbmRAYW1kLmNvbQo+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
-dHRlckBpbnRlbC5jb20+Cj4KPiBUaGlzICpjb21wbGV0ZWx5KiBkZXN0cm95cyBmcHMgd2hlbiB0
-aGVyZSBpcyBjdXJzb3IgbW92ZW1lbnQsIGl0IHdvdWxkCj4gYmUgYSBwcmV0dHkgYmFkIHJlZ3Jl
-c3Npb24sIHNvIG5hawoKV2hpY2ggSSAqZ3Vlc3MqIGlzIGR1ZSB0byBkcHUgbm90IHdpcmluZyB1
-cCB0aGUgcGxhbmUtPmFzeW5jXyogZnVuY3MsCmVmZmVjdGl2ZWx5IG1ha2luZyBjdXJzb3IgdXBk
-YXRlcyBzeW5jaHJvbm91cy4uIGJ1dCBpdCB3aWxsIHRha2Ugc29tZQp0aW1lIHRvIHNvcnQgb3V0
-IDotKAoKPiBCUiwKPiAtUgo+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21p
-Y19oZWxwZXIuYyB8IDEzIC0tLS0tLS0tLS0tLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTMgZGVs
-ZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWlj
-X2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVscGVyLmMKPiA+IGluZGV4
-IGE3YmNiNGI0NTg2Yy4uNTQ5YTMxZTYwNDJjIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2RybV9hdG9taWNfaGVscGVyLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRv
-bWljX2hlbHBlci5jCj4gPiBAQCAtMTQ4MSwxMyArMTQ4MSw2IEBAIGRybV9hdG9taWNfaGVscGVy
-X3dhaXRfZm9yX3ZibGFua3Moc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+ICAgICAgICAgaW50
-IGksIHJldDsKPiA+ICAgICAgICAgdW5zaWduZWQgY3J0Y19tYXNrID0gMDsKPiA+Cj4gPiAtICAg
-ICAgICAvKgo+ID4gLSAgICAgICAgICogTGVnYWN5IGN1cnNvciBpb2N0bHMgYXJlIGNvbXBsZXRl
-bHkgdW5zeW5jZWQsIGFuZCB1c2Vyc3BhY2UKPiA+IC0gICAgICAgICAqIHJlbGllcyBvbiB0aGF0
-IChieSBkb2luZyB0b25zIG9mIGN1cnNvciB1cGRhdGVzKS4KPiA+IC0gICAgICAgICAqLwo+ID4g
-LSAgICAgICBpZiAob2xkX3N0YXRlLT5sZWdhY3lfY3Vyc29yX3VwZGF0ZSkKPiA+IC0gICAgICAg
-ICAgICAgICByZXR1cm47Cj4gPiAtCj4gPiAgICAgICAgIGZvcl9lYWNoX29sZG5ld19jcnRjX2lu
-X3N0YXRlKG9sZF9zdGF0ZSwgY3J0Yywgb2xkX2NydGNfc3RhdGUsIG5ld19jcnRjX3N0YXRlLCBp
-KSB7Cj4gPiAgICAgICAgICAgICAgICAgaWYgKCFuZXdfY3J0Y19zdGF0ZS0+YWN0aXZlKQo+ID4g
-ICAgICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4gPiBAQCAtMjEwNiwxMiArMjA5OSw2
-IEBAIGludCBkcm1fYXRvbWljX2hlbHBlcl9zZXR1cF9jb21taXQoc3RydWN0IGRybV9hdG9taWNf
-c3RhdGUgKnN0YXRlLAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4gPiAg
-ICAgICAgICAgICAgICAgfQo+ID4KPiA+IC0gICAgICAgICAgICAgICAvKiBMZWdhY3kgY3Vyc29y
-IHVwZGF0ZXMgYXJlIGZ1bGx5IHVuc3luY2VkLiAqLwo+ID4gLSAgICAgICAgICAgICAgIGlmIChz
-dGF0ZS0+bGVnYWN5X2N1cnNvcl91cGRhdGUpIHsKPiA+IC0gICAgICAgICAgICAgICAgICAgICAg
-IGNvbXBsZXRlX2FsbCgmY29tbWl0LT5mbGlwX2RvbmUpOwo+ID4gLSAgICAgICAgICAgICAgICAg
-ICAgICAgY29udGludWU7Cj4gPiAtICAgICAgICAgICAgICAgfQo+ID4gLQo+ID4gICAgICAgICAg
-ICAgICAgIGlmICghbmV3X2NydGNfc3RhdGUtPmV2ZW50KSB7Cj4gPiAgICAgICAgICAgICAgICAg
-ICAgICAgICBjb21taXQtPmV2ZW50ID0ga3phbGxvYyhzaXplb2YoKmNvbW1pdC0+ZXZlbnQpLAo+
-ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgR0ZQX0tF
-Uk5FTCk7Cj4gPiAtLQo+ID4gMi4yOC4wCj4gPgo+ID4gX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KPiA+IEludGVsLWdmeCBtYWlsaW5nIGxpc3QKPiA+IElu
-dGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vaW50ZWwtZ2Z4Cl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Oct 22, 2020 at 12:55 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> Noticed this when trying to compile with -Wall on a kernel fork. We potentially
+> don't set width here, which causes the compiler to complain about width
+> potentially being uninitialized in drm_cvt_modes(). So, let's fix that.
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+>
+> Cc: <stable@vger.kernel.org> # v5.9+
+> Fixes: 3f649ab728cd ("treewide: Remove uninitialized_var() usage")
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 631125b46e04..2da158ffed8e 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3094,6 +3094,7 @@ static int drm_cvt_modes(struct drm_connector *connector,
+>
+>         for (i = 0; i < 4; i++) {
+>                 int width, height;
+> +               u8 cvt_aspect_ratio;
+>
+>                 cvt = &(timing->data.other_data.data.cvt[i]);
+>
+> @@ -3101,7 +3102,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
+>                         continue;
+>
+>                 height = (cvt->code[0] + ((cvt->code[1] & 0xf0) << 4) + 1) * 2;
+> -               switch (cvt->code[1] & 0x0c) {
+> +               cvt_aspect_ratio = cvt->code[1] & 0x0c;
+> +               switch (cvt_aspect_ratio) {
+>                 case 0x00:
+>                         width = height * 4 / 3;
+>                         break;
+> @@ -3114,6 +3116,10 @@ static int drm_cvt_modes(struct drm_connector *connector,
+>                 case 0x0c:
+>                         width = height * 15 / 9;
+>                         break;
+> +               default:
+
+What value would cvt->code[1] have such that this gets hit?
+
+Or is this a "compiler is broken, so let's add more code" situation?
+If so, perhaps the code added could just be enough to silence the
+compiler (unreachable, etc)?
+
+  -ilia
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
