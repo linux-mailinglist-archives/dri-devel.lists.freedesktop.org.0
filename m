@@ -2,64 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893C02960BC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 16:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFCD29632A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 18:55:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0C86F581;
-	Thu, 22 Oct 2020 14:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71FDE6F5F6;
+	Thu, 22 Oct 2020 16:55:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC6A6F585
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 14:13:51 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id c77so2283141wmd.4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 07:13:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=enF/NQ78UlHZi0kpjlRMqO+lesxBNMFNnWEi966YlwU=;
- b=lcgl8RehFALlBvKW+2WEqI6hL3DQCvnayUx386YFYdIACL6eZdDekWSge6wl0xau/P
- OurS80PGFdE+uCz2ywydsXe1KEcW2OKxZnMZUyxNDMbbrQ0IMr0SI/JTRmyVAXaE9J1O
- hmmezb9rcO1k/LRCAp+BJe5NUZwtKmz2hdtkk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=enF/NQ78UlHZi0kpjlRMqO+lesxBNMFNnWEi966YlwU=;
- b=cVB2J4BCTUjP8HdAWrqXhjOfukiFocv+G6hnNsMWSkf5zV1obRKvkvlDq58U7m3yC0
- 9tKqmK9c70rPWsbowvPeSYGmSJ8h4l9LkkVS65OrV3LQwXZyVbs+wEIRFTe8VD5n2npb
- iR1x9Zt8rl49YF3eCjZYjbhv5O+xLcKiBmYW8qBFTGoneX1rIQYBIVpJjolOqpR6oeYc
- aQSG48+bhDR881JXdwVsGOm53xcbFkR4TI36mcnAwPgL+4mP7sPuEru+/j7Gh14KUP1d
- JoL5uum4P+a266Y2eUkO8sAgnlz3atdOiQZ81kQDphJP8nasjBaF8xp6XS4JePWtQEiN
- tmcA==
-X-Gm-Message-State: AOAM5313fK7/gZiW/pQMLU4LSCoy6CKDo1x3IocTm3LqCmsLfeTIn4Jn
- cW3GcwtALQdGRnwaJyNRtBckfw==
-X-Google-Smtp-Source: ABdhPJwHYDGIRoRMV1tiPrqE+G8DvABiHKwtdx9svGn7vK4QZAvd1J5pyjsiQ/shrV+Vnd5qklpZ6Q==
-X-Received: by 2002:a1c:4604:: with SMTP id t4mr2863073wma.95.1603376030491;
- Thu, 22 Oct 2020 07:13:50 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y4sm3726390wmj.2.2020.10.22.07.13.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Oct 2020 07:13:49 -0700 (PDT)
-Date: Thu, 22 Oct 2020 16:13:47 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Sumera Priyadarsini <sylphrenadin@gmail.com>
-Subject: Re: [Outreachy kernel][PATCH 0/5] drm/amdgpu: Replace snprintf()
- with sysfs_emit
-Message-ID: <20201022141347.GZ401619@phenom.ffwll.local>
-Mail-Followup-To: Sumera Priyadarsini <sylphrenadin@gmail.com>,
- dri-devel@lists.freedesktop.org, outreachy-kernel@googlegroups.com,
- alexander.deucher@amd.com, christian.koenig@amd.com,
- airlied@linux.ie, melissa.srw@gmail.com,
- linux-media@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <cover.1603371258.git.sylphrenadin@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8689A6F5F6
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 16:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603385699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RfHt33Q6QNtNcq19XL3ZUvkrRWcWtQabIE1/VWN80vo=;
+ b=Weiamt+FMbVp/xABWDqN4o7eFWZSfk18zf9I/266aOgqwdT9dXEMK5X3qfpe8qn7fJpu62
+ xCzNwm1IIizgsSKYBLCE3udAT8TF80oNB/DY5CTxuLBgUjMUAUVBExqQMGiYaLJqxwSzv+
+ wpK1GjgcMTjUSHgT/WsBKKTFoRkThXQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-456-zpMY86BrN9W1ovi7Ol_--w-1; Thu, 22 Oct 2020 12:54:56 -0400
+X-MC-Unique: zpMY86BrN9W1ovi7Ol_--w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64D15804B69;
+ Thu, 22 Oct 2020 16:54:54 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-114-121.rdu2.redhat.com
+ [10.10.114.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83FF35B4BA;
+ Thu, 22 Oct 2020 16:54:52 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/edid: Fix uninitialized variable in drm_cvt_modes()
+Date: Thu, 22 Oct 2020 12:54:50 -0400
+Message-Id: <20201022165450.682571-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1603371258.git.sylphrenadin@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,51 +55,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
- outreachy-kernel@googlegroups.com, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com,
- linux-media@vger.kernel.org
+Cc: Leon Romanovsky <leon@kernel.org>, David Airlie <airlied@linux.ie>,
+ Chao Yu <chao@kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, stable@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Kalle Valo <kvalo@codeaurora.org>,
+ Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 22, 2020 at 07:07:50PM +0530, Sumera Priyadarsini wrote:
-> Using snprintf() for show() methods holds the risk of buffer overrun
-> as snprintf() does not know the PAGE_SIZE maximum of the temporary
-> buffer used to output sysfs content.
-> 
-> This patchset is a series of Coccinelle cleanups across the staging
-> directory to convert snprintf with scnprintf in the relevant files.
+Noticed this when trying to compile with -Wall on a kernel fork. We potentially
+don't set width here, which causes the compiler to complain about width
+potentially being uninitialized in drm_cvt_modes(). So, let's fix that.
 
-I think you need to edit your template here since this is now drivers/gpu,
-not staging :-)
--Daniel
+Signed-off-by: Lyude Paul <lyude@redhat.com>
 
-> 
-> Sumera Priyadarsini (5):
->   gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
->   gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
->   gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
->   gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
->   gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 8 ++++----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 4 ++--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c      | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c      | 4 ++--
->  5 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+Cc: <stable@vger.kernel.org> # v5.9+
+Fixes: 3f649ab728cd ("treewide: Remove uninitialized_var() usage")
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+---
+ drivers/gpu/drm/drm_edid.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 631125b46e04..2da158ffed8e 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -3094,6 +3094,7 @@ static int drm_cvt_modes(struct drm_connector *connector,
+ 
+ 	for (i = 0; i < 4; i++) {
+ 		int width, height;
++		u8 cvt_aspect_ratio;
+ 
+ 		cvt = &(timing->data.other_data.data.cvt[i]);
+ 
+@@ -3101,7 +3102,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
+ 			continue;
+ 
+ 		height = (cvt->code[0] + ((cvt->code[1] & 0xf0) << 4) + 1) * 2;
+-		switch (cvt->code[1] & 0x0c) {
++		cvt_aspect_ratio = cvt->code[1] & 0x0c;
++		switch (cvt_aspect_ratio) {
+ 		case 0x00:
+ 			width = height * 4 / 3;
+ 			break;
+@@ -3114,6 +3116,10 @@ static int drm_cvt_modes(struct drm_connector *connector,
+ 		case 0x0c:
+ 			width = height * 15 / 9;
+ 			break;
++		default:
++			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] unknown CVT aspect ratio %x\n",
++				    connector->base.id, connector->name, cvt_aspect_ratio);
++			continue;
+ 		}
+ 
+ 		for (j = 1; j < 5; j++) {
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
