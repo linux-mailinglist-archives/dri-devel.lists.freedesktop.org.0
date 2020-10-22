@@ -2,39 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62BCB296637
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 22:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1D22967A2
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 01:25:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AEBD6E250;
-	Thu, 22 Oct 2020 20:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4C5C6E432;
+	Thu, 22 Oct 2020 23:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5611D6E24D;
- Thu, 22 Oct 2020 20:54:36 +0000 (UTC)
-IronPort-SDR: jhnxwNKkeieGJwNELgg8K1W1YPxU5gQbE0Ip0ORpxNY3j2T05sewjbEV05+EuOgDy8W4mItaOy
- 3RnlhoDReLvA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9782"; a="155377271"
-X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; d="scan'208";a="155377271"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2020 13:54:35 -0700
-IronPort-SDR: 3Tpqp/yAFjqjBMIKGg19ESYxLe6Kj5o0492FcPVK/KcX8JD+gBYbwh7gwX1XbONp2tG/uhnpti
- VoiSLsy1W5Og==
-X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; d="scan'208";a="316859993"
-Received: from rdvivi-losangeles.jf.intel.com (HELO intel.com)
- ([10.165.21.201])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Oct 2020 13:54:35 -0700
-Date: Thu, 22 Oct 2020 16:56:13 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <20201022205613.GA3469192@intel.com>
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04BEF6E432
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 23:25:55 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id q136so3761926oic.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 16:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=PvvgIc8ObfRiL+MPVmQCX04z0W4Nlk/hKlPwfFnOk20=;
+ b=Ov0m9PRNKyhsZIp+OikFaOLlNZr6L1TgsTfO8Vq+J6qp7dtqckpqDw67u3pqVK4xwU
+ POVpV/wRW8cRiNRQxSKryr6nTOIELYw1Yiq9cmOnRGCchAWwvA4pvIEZMuWyWqQDFw/r
+ ux2D5DxXRjb9y8nkmiKrxov78LHwloYkTOUCP8uMGu58FwKKQe5mgZ4N3+1e2RNgQUOW
+ PVjifrqlsC56es455IC/Jfh+1OnrG3YAzP5Jn7EdQCkMq3sVz6pCHnq8bNtXXT03f28z
+ v4ugKHRj2pyU2vFjTZEZpk5l2V7FPedFLYHdRYNw8oAxTTa6gOrJ4DbOic5dxC8DQ9yx
+ jVKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=PvvgIc8ObfRiL+MPVmQCX04z0W4Nlk/hKlPwfFnOk20=;
+ b=piAlRcISMMcPF5ozRX4kyBDOvCLpP0XWX9UuZrrnYlKxOO+C4YVjehukLMyRDi7bq7
+ /0LkK20ps86mrpdL4SpyJMKZjZ6sob+vdaRcDfVNErvjtGhcrbwYEAlNf0VlnV8xePUj
+ 4uLfemgqzgDvLMyG9Pvy4gLRQmx3De8AvWU2T+RXyWQePjRn9gZj4sE5OvwsKje6GHsI
+ BIM7xa6hQl0Gke9xFVDH/jgNRL9GyFEo4CS/N/8RZ53YPTsY5ioEBRo8FOEDRsk4kRFi
+ +jPCmsFEeYYgcwH3vr6IeVwOaq/eIssVfOD0VhDo+O0p9IEbxRyDFEUDMCBnowEpw8x1
+ ssKA==
+X-Gm-Message-State: AOAM530ecYwonHSteIsLKkkGziKBMxlo2PL8fOmC+0zudwZNcZ3qzuwW
+ gqXvNy9KPKyIZK6rMRg+KrkrcqPADnKfxX2+478uTkB7Zr4=
+X-Google-Smtp-Source: ABdhPJzUPX4Knm+Nmic5jePILL9powDkQ9+u3xdK0vkDy0CJzBqVC8MKBWi7C6MEEhVlHBwQE8euynmDg7i/O0xRUIg=
+X-Received: by 2002:aca:4a16:: with SMTP id x22mr3264508oia.61.1603409154078; 
+ Thu, 22 Oct 2020 16:25:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+From: =?UTF-8?Q?=C3=89meric_MASCHINO?= <emeric.maschino@gmail.com>
+Date: Fri, 23 Oct 2020 01:25:42 +0200
+Message-ID: <CAA9xbM4AJTCttaDuPZNLCRmuU5ca3P_o=uKU+S38WNQaQLgpog@mail.gmail.com>
+Subject: [PATCH 1/3] drm/radeon: remove AGP support
+To: dri-devel <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,103 +59,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
-
-Here is probably the last drm-intel-next-fixes before -rc1.
-
-This includes a few patches from dinq and a bunch from drm-intel-gt-next.
-
-drm-intel-next-fixes-2020-10-22:
-- Tweak initia DPCD backlight.enabled value (Sean)
-- Initialize reserved MOCS indices (Ayaz)
-- Mark initial fb obj as WT on eLLC machines to avoid rcu lockup (Ville)
-- Support parsing of oversize batches (Chris)
-- Delay execlists processing for TGL (Chris)
-- Use the active reference on the vma during error capture (Chris)
-- Widen CSB pointer (Chris)
-- Wait for CSB entries on TGL (Chris)
-- Fix unwind for scratch page allocation (Chris)
-- Exclude low patches of stolen memory (Chris)
-- Force VT'd workarounds when running as a guest OS (Chris)
-- Drop runtime-pm assert from vpgu io accessors (Chris)
-The following changes since commit 214bba50616f65264dfc30d095daef3ab7500f52:
-
-  drm/i915: Set all unused color plane offsets to ~0xfff again (2020-10-12 =
-14:23:22 -0400)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-202=
-0-10-22
-
-for you to fetch changes up to 5c6c13cd1102caf92d006a3cf4591c0229019daf:
-
-  drm/i915: Drop runtime-pm assert from vgpu io accessors (2020-10-21 08:32=
-:32 -0400)
-
-----------------------------------------------------------------
-- Tweak initia DPCD backlight.enabled value (Sean)
-- Initialize reserved MOCS indices (Ayaz)
-- Mark initial fb obj as WT on eLLC machines to avoid rcu lockup (Ville)
-- Support parsing of oversize batches (Chris)
-- Delay execlists processing for TGL (Chris)
-- Use the active reference on the vma during error capture (Chris)
-- Widen CSB pointer (Chris)
-- Wait for CSB entries on TGL (Chris)
-- Fix unwind for scratch page allocation (Chris)
-- Exclude low patches of stolen memory (Chris)
-- Force VT'd workarounds when running as a guest OS (Chris)
-- Drop runtime-pm assert from vpgu io accessors (Chris)
-
-----------------------------------------------------------------
-Ayaz A Siddiqui (1):
-      drm/i915/gt: Initialize reserved and unspecified MOCS indices
-
-Chris Wilson (10):
-      drm/i915/gem: Support parsing of oversize batches
-      drm/i915/gt: Delay execlist processing for tgl
-      drm/i915/gt: Undo forced context restores after trivial preemptions
-      drm/i915: Use the active reference on the vma while capturing
-      drm/i915/gt: Widen CSB pointer to u64 for the parsers
-      drm/i915/gt: Wait for CSB entries on Tigerlake
-      drm/i915/gt: Onion unwind for scratch page allocation failure
-      drm/i915: Exclude low pages (128KiB) of stolen from use
-      drm/i915: Force VT'd workarounds when running as a guest OS
-      drm/i915: Drop runtime-pm assert from vgpu io accessors
-
-Sean Paul (1):
-      drm/i915/dp: Tweak initial dpcd backlight.enabled value
-
-Ville Syrj=E4l=E4 (1):
-      drm/i915: Mark ininitial fb obj as WT on eLLC machines to avoid rcu l=
-ockup during fbdev init
-
- drivers/gpu/drm/i915/Kconfig.debug                 |   1 +
- drivers/gpu/drm/i915/display/intel_display.c       |   8 +
- .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |  31 ++--
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |  10 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |   6 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.h         |   2 +
- drivers/gpu/drm/i915/gt/gen6_ppgtt.c               |  18 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |   3 +-
- drivers/gpu/drm/i915/gt/intel_engine_types.h       |   2 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c                |  58 +++---
- drivers/gpu/drm/i915/gt/intel_mocs.c               |  16 +-
- drivers/gpu/drm/i915/gt/selftest_reset.c           | 196 +++++++++++++++++=
-++++
- drivers/gpu/drm/i915/i915_drv.h                    |   6 +-
- drivers/gpu/drm/i915/i915_gpu_error.c              |   3 +-
- drivers/gpu/drm/i915/intel_uncore.c                |  27 ++-
- 15 files changed, 334 insertions(+), 53 deletions(-)
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiBPbiBUdWUsIE1heSAxMiwgMjAyMCBhdCA0OjE2IEFNIE1pY2hlbCBEw6RuemVyIDxtaWNoZWwg
+YXQgZGFlbnplci5uZXQ+IHdyb3RlOgo+ID4KPiA+IE9uIDIwMjAtMDUtMTEgMTA6MTIgcC5tLiwg
+QWxleCBEZXVjaGVyIHdyb3RlOgo+ID4gPiBPbiBNb24sIE1heSAxMSwgMjAyMCBhdCAxOjE3IFBN
+IENocmlzdGlhbiBLw7ZuaWcKPiA+ID4gPGNrb2VuaWcubGVpY2h0enVtZXJrZW4gYXQgZ21haWwu
+Y29tPiB3cm90ZToKPiA+ID4+Cj4gPiA+PiBBR1AgaXMgZGVwcmVjYXRlZCBmb3IgMTArIHllYXJz
+IG5vdyBhbmQgbm90IHVzZWQgYW55IG1vcmUgb24gbW9kZXJuIGhhcmR3YXJlLgo+ID4gPj4KPiA+
+ID4+IE9sZCBoYXJkd2FyZSBzaG91bGQgY29udGludWUgdG8gd29yayBpbiBQQ0kgbW9kZS4KPiA+
+ID4KPiA+ID4gTWlnaHQgd2FudCB0byBjbGFyaWZ5IHRoYXQgdGhlcmUgaXMgbm8gbG9zcyBvZiBm
+dW5jdGlvbmFsaXR5IGhlcmUuCj4gPiA+IFNvbWV0aGluZyBsaWtlOgo+ID4gPgo+ID4gPiAiVGhl
+cmUgaXMgbm8gbG9zcyBvZiBmdW5jdGlvbmFsaXR5IGhlcmUuICBHUFVzIHdpbGwgY29udGludWUg
+dG8KPiA+ID4gZnVuY3Rpb24uICBUaGlzIGp1c3QgZHJvcHMgdGhlIHVzZSBvZiB0aGUgQUdQIE1N
+VSBpbiB0aGUgY2hpcHNldCBpbgo+ID4gPiBmYXZvciBvZiB0aGUgTU1VIG9uIHRoZSBkZXZpY2Ug
+d2hpY2ggaGFzIHByb3ZlbiB0byBiZSBtdWNoIG1vcmUKPiA+ID4gcmVsaWFibGUuICBEdWUgdG8g
+aXRzIHVucmVsaWFiaWxpdHksIEFHUCBzdXBwb3J0IGhhcyBiZWVuIGRpc2FibGVkIG9uCj4gPiA+
+IFBvd2VyUEMgZm9yIHllYXJzIGFscmVhZHkgc28gdGhlcmUgaXMgbm8gY2hhbmdlIG9uIFBvd2Vy
+UEMuIgo+ID4KPiA+IFRoZXJlJ3MgYSBkaWZmZXJlbmNlIGJldHdlZW4gc29tZXRoaW5nIGJlaW5n
+IGRpc2FibGVkIGJ5IGRlZmF1bHQgb3Igbm90Cj4gPiBiZWluZyBhdmFpbGFibGUgYXQgYWxsLiBX
+ZSBtYXkgZGVjaWRlIGl0J3Mgd29ydGggaXQgYW55d2F5LCBidXQgbGV0J3MgZG8KPiA+IGl0IGJh
+c2VkIG9uIGZhY3RzLgo+ID4KPgo+IEkgZGlkbid0IG1lYW4gdG8gaW1wbHkgdGhhdCBBR1AgR0FS
+VCBzdXBwb3J0IHdhcyBhbHJlYWR5IHJlbW92ZWQuICBCdXQKPiBmb3IgdGhlIHZhc3QgbWFqb3Jp
+dHkgb2YgdXNlcnMgdGhlIGVuZCByZXN1bHQgaXMgdGhlIHNhbWUuICBJZiB5b3UKPiBrbmV3IGVu
+b3VnaCByZS1lbmFibGUgQUdQIEdBUlQsIHlvdSBwcm9iYWJseSB3b3VsZG4ndCBoYXZlIGJlZW4g
+YXMKPiBjb25mdXNlZCBhYm91dCB3aGF0IHRoaXMgcGF0Y2ggc2V0IGRvZXMgZWl0aGVyLiAgVG8g
+cmVpdGVyYXRlLCB0aGlzCj4gcGF0Y2ggc2V0IGRvZXMgbm90IHJlbW92ZSBzdXBwb3J0IGZvciBB
+R1AgY2FyZHMsIGl0IG9ubHkgcmVtb3ZlcyB0aGUKPiBzdXBwb3J0IGZvciBBR1AgR0FSVC4gIFRo
+ZSBjYXJkcyB3aWxsIHN0aWxsIGJlIGZ1bmN0aW9uYWwgdXNpbmcgdGhlCj4gZGV2aWNlIEdBUlQu
+ICBUaGVyZSBtYXkgYmUgcGVyZm9ybWFuY2UgdHJhZGVvZmZzIHRoZXJlIGluIHNvbWUgY2FzZXMu
+Cj4KPiBBbGV4CgpCYWNrIGluIHRoZSBmZ2xyeCBkYXlzLCB0aGUgZmdscnhjb25maWcgdXRpbGl0
+eSBwcm9wb3NlZDoKCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KQWR2YW5jZWQgT1MgU2V0dGluZ3MK
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09CgpFeHRlcm5hbCBBR1BHQVJUIG1vZHVsZToKCkl0IGlzIHBv
+c3NpYmxlIChidXQgbm90IHJlY29tbWVuZGVkKSB0byB0dXJuIG9mZiB0aGUgdXNhZ2Ugb2YKYnVp
+bHQtaW4gYWdwIHN1cHBvcnQgb2YgdGhlIHByb3ZpZGVkIGZnbHJ4IGtlcm5lbCBtb2R1bGUgYW5k
+CnVzZSB0aGUgZXh0ZXJuYWwgQUdQIEdBUlQgbW9kdWxlIChhZ3BnYXJ0Lm8pIG9mIHRoZSBMaW51
+eCBrZXJuZWwuCklmIHlvdSB3YW50IHRvIHVzZSB0aGUgZXh0ZXJuYWwgbW9kdWxlIHRoZW4gZW5z
+dXJlIHRoYXQgaXQgbG9hZHMKcHJpb3IgdG8gdGhlIGRyaXZlcnMgZnVsbCBzdGFydHVwLiBJbiBv
+cmRlciB0byBtYW51YWxseSBsb2FkIHRoZQpleHRlcm5hbCBhZ3BnYXJ0IG1vZHVsZSBleGVjdXRl
+IHRoaXMgb24gdGhlIGNvbW1hbmRsaW5lIChhcyByb290KToKL3NiaW4vaW5zbW9kIGFncGdhcnQK
+b3IgYWx0ZXJuYXRpdmVseSBjb25maWd1cmUgeW91ciBzeXN0ZW0gdG8gYXV0byBsb2FkIHRoZSBt
+b2R1bGUuCgpEbyB5b3Ugd2FudCB0byB1c2UgdGhlIGV4dGVybmFsIEFHUCBHQVJUIG1vZHVsZSAo
+eS9uKT8gW25dCgoKQnkgImJ1aWx0LWluIGFncCBzdXBwb3J0IG9mIHRoZSBwcm92aWRlZCBmZ2xy
+eCBrZXJuZWwgbW9kdWxlIiwgd2FzCmZnbHJ4Y29uZmlnIHJlZmVycmluZyB0byB0aGUgImRldmlj
+ZSBHQVJUIj8gU28gdGhlIGRldmljZS1zaWRlIElPTU1VCmFsbG93aW5nIHRvICJ3b3JrIGluIFBD
+SSBtb2RlIiwgc29tZXdoYXQgZHViYmVkIGFzICJQQ0kgR0FSVCIgKGV2ZW4KZm9yIEFHUCBncmFw
+aGljcyBhZGFwdGVycz8hPz8pIGluIHNvbWUgbWVzc2FnZXMgaGVyZT8KCklmIHNvLCBpdCBpcyBu
+b3Rld29ydGh5IHRoYXQgdGhlIGRlZmF1bHQgY2hvaWNlIHdhcyBub3QgdG8gdXNlIHRoZQpleHRl
+cm5hbCBBR1AgR0FSVCAocmVzdWx0aW5nIGluIE9wdGlvbiAiVXNlSW50ZXJuYWxBR1BHQVJUIiAi
+eWVzIiBpbgovZXRjL1gxMS9YRjg2Q29uZmlnKSwgdGh1cyBsZXZlcmFnaW5nIHRoZSBkZXZpY2Ug
+R0FSVCwgaS5lLiB3aGF0CkNocmlzdGlhbiBwcm9wb3NhbCBpcyBhbGwgYWJvdXQuIFVubGVzcyBJ
+IHN0aWxsIG1peCBldmVyeXRoaW5nLgoKICAgICDDiW1lcmljCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
