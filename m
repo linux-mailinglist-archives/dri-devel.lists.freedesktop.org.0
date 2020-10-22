@@ -2,69 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07AC295924
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0678295929
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Oct 2020 09:28:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6536F51B;
-	Thu, 22 Oct 2020 07:28:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1AE6F524;
+	Thu, 22 Oct 2020 07:28:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 580096E17B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 04:20:51 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id v6so461034lfa.13
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 21:20:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bHoZT/Fr9uAigMoBzLNCfLcCJhHkAk9QlkwBKzVc6sU=;
- b=JcGsnzpG4cmLKqGoh+N5JKm4CoANnz8x2hANg5VK15vgE2wyhYhmCX5p34ujEWGo6L
- lDJsZgl8whwW72iGwUUf9uH7C7lcT+QpEf3Dw95PGkovSjbYMpM8MHDUDwR8Yrson+/U
- jUTgvn+xmj9GuAs8q6kmxA2WyejrM5XYLGcmxEIbyCIBTjRPGzuuQdXus4RxIZf6OpDU
- 1DYFDXwPiB9YFP4/Te503421p9Vfhc0ZDE2dCQgFUR4TG+n82N7GuAGZh3cYcnNAcAcN
- 869MmrFBHLRTQOe8J1Fov4OUjdkRIMQXahKOwbiRlrx6imqpJr9EVg0riVsJPG0/Y6e+
- 7fmw==
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA66F6E34B
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 05:05:13 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id a17so365909pju.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Oct 2020 22:05:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=br1VG/AftR5rvhAmwlJkFmu6wT77im0wqYMY63lXCPc=;
+ b=f48hBtEYiQ9cumyN91pZln9WRYzYGIagC8IaqGZt02+O2MHl6eQhg0BtJ9+cg1Lz5h
+ o78FtZXmTE3jBKH3YGJw6UO0d0jZFwtKCoYPkexfnY1SZ/dfXt7VslCJZM/bN6IMdzvi
+ 1GjVCtofogBD1D5SMd8g0By60jOJ/X9Pviva4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bHoZT/Fr9uAigMoBzLNCfLcCJhHkAk9QlkwBKzVc6sU=;
- b=UIlY6ennkpZj5DnaKb7rUTbSRnvud/cT+QIygj7UKrLq+0QKqq1aRKqWQzMWl5UYNM
- 1deAN/zGRxrO2rSeU542dAxHzuUZlirfaMjQCjqADG1MyJrnrAHSdjpDPIP+UOa8foRm
- V+QYQGqDRvKQ/qZjvQJoQLdh0knnSte3nG6YNw72I4fnHVGjb257tjIofE9OV/3labOf
- hFKTvtfEly05+vdVlWBh7XlToggPxEmZMW6BWjy00DpOniooCxJrm34vfFwutqdTdTnl
- U5CMdzdirvWiXBY1gWX+zKPQ4Pq28HVevr7JqDGfB5KhFe98ToJlv5+Gs6a/CW/wex2H
- hWOg==
-X-Gm-Message-State: AOAM531Dsr5wVitqbdLk5zWquOYNmY6bUe7uvw+vhEW0VCUDgY06Bbjr
- 9Jjj6sAu+eVtWTXlSbztJc4=
-X-Google-Smtp-Source: ABdhPJxcRk3r72EvW5bHItYyzrdcIYOyYwLLZoWJW2nYBOTOUUajal7hm4xXuJnEcof9Pvja15gWXw==
-X-Received: by 2002:a19:7009:: with SMTP id h9mr200749lfc.201.1603340449722;
- Wed, 21 Oct 2020 21:20:49 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-186.dynamic.spd-mgts.ru.
- [109.252.193.186])
- by smtp.googlemail.com with ESMTPSA id t80sm60273lff.72.2020.10.21.21.20.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Oct 2020 21:20:48 -0700 (PDT)
-Subject: Re: [PATCH v3 19/20] drm/tegra: Implement new UAPI
-To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
- <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <20201007171238.1795964-1-mperttunen@nvidia.com>
- <20201007171238.1795964-20-mperttunen@nvidia.com>
- <dd13ec2c-1e01-ca61-656c-b23b156b100f@gmail.com>
- <b33a5084-7dc3-a865-2f36-274ecebf2ee7@kapsi.fi>
- <1f3267a9-37b4-2cff-08a2-2ca7c905ce01@gmail.com>
- <6a7b4d4e-8d4a-416e-9789-45282b44bce5@kapsi.fi>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <48f5bbac-3955-c227-dbe1-d987b4ec5bd0@gmail.com>
-Date: Thu, 22 Oct 2020 07:20:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=br1VG/AftR5rvhAmwlJkFmu6wT77im0wqYMY63lXCPc=;
+ b=RwXrqEd/XgObl99FqzZR2HlqZSktzC57hGIDLDRlEhiYEJr57IvitBEFNLNNAalxny
+ dUy137K/bRS9T/sYNN10p9aYxxkA5+MF2kguU2GQqnQX1N3wq8hPCydEfdganfVGckqO
+ vx79u5a2hfOn5pfngirkDm5juboGXVBwbW8etrdR1+986ZOPrraQOxa4LJo96YQuKhYs
+ w6EtKtrJ8aN8mDPE0VI0V19ErFPX68YQJIUTkZjEkBnvS7WvajvyGGPrx9dxpZ60SKlg
+ BIjAtlvLOdVsb6ZP3NgdFP4z8oFtdK9HAijtlYX90636J0SUa0ZSJ/IXrLL5fPbYahXj
+ T7Og==
+X-Gm-Message-State: AOAM532We8Np1wyImXsk2dB9FE23ikZ/sgTnj1gEXK/jhKBCW6LQMQIO
+ JnfTFlNtok46jz3Jop7wKDSogw==
+X-Google-Smtp-Source: ABdhPJymcPyyQm+Vwkk6bRyWkhQZdrrKBm+8kHDpsoJwQTQghvs0I0e+UpqN3Vxv1JCNbjDoQlFwsw==
+X-Received: by 2002:a17:902:ab89:b029:d5:b297:2cc1 with SMTP id
+ f9-20020a170902ab89b02900d5b2972cc1mr765458plr.7.1603343113453; 
+ Wed, 21 Oct 2020 22:05:13 -0700 (PDT)
+Received: from alex-desktop.lan (c-73-63-253-164.hsd1.ca.comcast.net.
+ [73.63.253.164])
+ by smtp.gmail.com with ESMTPSA id q16sm394954pfu.206.2020.10.21.22.05.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Oct 2020 22:05:12 -0700 (PDT)
+From: Alexandru Stan <amstan@chromium.org>
+To: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH v3 0/3] PWM backlight interpolation adjustments
+Date: Wed, 21 Oct 2020 22:04:42 -0700
+Message-Id: <20201022050445.930403-1-amstan@chromium.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <6a7b4d4e-8d4a-416e-9789-45282b44bce5@kapsi.fi>
-Content-Language: en-US
 X-Mailman-Approved-At: Thu, 22 Oct 2020 07:27:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,56 +72,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Alexandru Stan <amstan@chromium.org>, linux-pwm@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Matthias Kaehlcke <mka@chromium.org>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjAuMTAuMjAyMCAxMjoxOCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4+IEknbSBhc2tp
-bmcgdGhpcyBxdWVzdGlvbiBiZWNhdXNlIHJpZ2h0IG5vdyB0aGVyZSBpcyBvbmx5IG9uZSBwb3Rl
-bnRpYWwKPj4gY2xpZW50IGZvciB0aGlzIElPQ1RMLCB0aGUgVklDLiBJZiBvdGhlciBjbGllbnRz
-IGFyZW4ndCBzdXBwb3NlZCB0byBiZSBhCj4+IHBhcnQgb2YgdGhlIERSTSBkcml2ZXIsIGxpa2Ug
-Zm9yIGV4YW1wbGUgTlZERUMgd2hpY2ggcHJvYmFibHkgc2hvdWxkIGJlCj4+IGEgVjRMIGRyaXZl
-ciwgdGhlbiBEUk0gZHJpdmVyIHdpbGwgaGF2ZSBvbmx5IGEgc2luZ2xlIFZJQyBhbmQgaW4gdGhp
-cwo+PiBjYXNlIHdlIHNob3VsZG4ndCBuZWVkIHRoaXMgSU9DVEwgYmVjYXVzZSBEUk0gYW5kIFY0
-TCBzaG91bGQgdXNlIGdlbmVyaWMKPj4gZG1hYnVmIEFQSSBmb3IgaW1wb3J0aW5nIGFuZCBleHBv
-cnRpbmcgYnVmZmVycy4KPiAKPiBUaGlzIElPQ1RMIGlzIHJlcXVpcmVkIGZvciBHUjJEL0dSM0Qg
-dG9vLCBhcyB0aGV5IG5lZWQgdG8gYWNjZXNzIG1lbW9yeQo+IGFzIHdlbGwuIFRoaXMgaXMgYSBk
-aWZmZXJlbnQgc3RlcCBmcm9tIGltcG9ydC9leHBvcnQgLS0gZmlyc3QgeW91IGltcG9ydAo+IG9y
-IGFsbG9jYXRlIHlvdXIgbWVtb3J5IHNvIHlvdSBoYXZlIGEgR0VNIGhhbmRsZSwgdGhlbiB5b3Ug
-bWFwIGl0IHRvIHRoZQo+IGNoYW5uZWwsIHdoaWNoIGRvZXMgdGhlIElPTU1VIG1hcHBpbmcgKGlm
-IHRoZXJlIGlzIGFuIElPTU1VKS4KPiAKClRoaXMgZG9lc24ndCBhbnN3ZXIgbXkgcXVlc3Rpb24u
-IEkgZG9uJ3QgaGF2ZSBhIGZ1bGwgcGljdHVyZSBhbmQgZm9yIG5vdwp3aWxsIHJlbWFpbiBkdWJp
-b3VzIGFib3V0IHRoaXMgSU9DVEwsIGJ1dCBpdCBzaG91bGQgYmUgZmluZSB0byBoYXZlIGl0Cmlu
-IGEgZm9ybSBvZiBXSVAgcGF0Y2hlcyAobWF5YmUgc3RhZ2luZyBmZWF0dXJlKSB1bnRpbCB1c2Vy
-c3BhY2UgY29kZQphbmQgaGFyZHdhcmUgc3BlY3Mgd2lsbCBiZWNvbWUgYXZhaWxhYmxlLgoKU29t
-ZSBtb3JlIGNvbW1lbnRzOgoKMS4gT2xkZXIgVGVncmEgU29DcyBkbyBub3QgaGF2ZSByZXN0cmlj
-dGlvbnMgd2hpY2ggZG8gbm90IGFsbG93IHRvIGdyb3VwCklPTU1VIGFzIHdpc2hlZCBieSBrZXJu
-ZWwgZHJpdmVyLiBJdCdzIGZpbmUgdG8gaGF2ZSBvbmUgc3RhdGljIG1hcHBpbmcKcGVyLUdFTSB0
-aGF0IGNhbiBiZSBhY2Nlc3NlZCBieSBhbGwgRFJNIGRldmljZXMsIHRoYXQncyB3aHkgQ0hBTk5F
-TF9NQVAKaXMgcXVlc3Rpb25hYmxlLgoKMi4gSUlVQywgdGhlIG1hcHBpbmdzIG5lZWQgdG8gYmUg
-ZG9uZSBwZXItZGV2aWNlIGdyb3VwL3N0cmVhbSBhbmQgbm90CnBlci1jaGFubmVsX2N0eC4gSXQg
-bG9va3MgbGlrZSBub3RoaW5nIHN0b3BzIGNoYW5uZWwgY29udGV4dHMgdG8gZ3Vlc3MKbWFwcGlu
-ZyBhZGRyZXNzZXMgb2YgdGhlIG90aGVyIGNvbnRleHQsIGlzbid0IGl0PwoKSSdtIHN1Z2dlc3Rp
-bmcgdGhhdCBlYWNoIEdFTSBzaG91bGQgaGF2ZSBhIHBlci1kZXZpY2UgbWFwcGluZyBhbmQgdGhl
-Cm5ldyBJT0NUTCBzaG91bGQgY3JlYXRlIHRoZXNlIEdFTS1tYXBwaW5ncywgaW5zdGVhZCBvZiB0
-aGUgY2hhbm5lbF9jdHgKbWFwcGluZ3MuCgozLiBXZSBzaG91bGRuJ3QgbmVlZCBjaGFubmVsIGNv
-bnRleHRzIGF0IGFsbCwgYSBzaW5nbGUgIkRSTSBmaWxlIgpjb250ZXh0IHNob3VsZCBiZSBlbm91
-Z2ggdG8gaGF2ZS4KCjQuIFRoZSBuZXcgVUFQSSBuZWVkIHRvIGJlIHNlcGFyYXRlZCBpbnRvIHNl
-dmVyYWwgcGFydHMgaW4gdGhlIG5leHQKcmV2aXNpb24sIG9uZSBwYXRjaCBmb3IgZWFjaCBuZXcg
-ZmVhdHVyZS4KClRoZSBmaXJzdCBwYXRjaGVzIHNob3VsZCBiZSB0aGUgb25lcyB0aGF0IGFyZSBy
-ZWxldmFudCB0byB0aGUgZXhpc3RpbmcKdXNlcnNwYWNlIGNvZGUsIGxpa2Ugc3VwcG9ydCBmb3Ig
-dGhlIHdhaXRzLgoKUGFydGlhbCBtYXBwaW5ncyBzaG91bGQgYmUgYSBzZXBhcmF0ZSBmZWF0dXJl
-IGJlY2F1c2UgaXQncyBhCnF1ZXN0aW9uYWJsZSBmZWF0dXJlIHRoYXQgbmVlZHMgdG8gYmUgcHJv
-dmVkIGJ5IGEgcmVhbCB1c2Vyc3BhY2UgZmlyc3QuCk1heWJlIGl0IHdvdWxkIGJlIGV2ZW4gYmV0
-dGVyIHRvIGRyb3AgaXQgZm9yIHRoZSBzdGFydGVyLCB0byBlYXNlIHJldmlld2luZy4KCldhaXRp
-bmcgZm9yIGZlbmNlcyBvbiBob3N0MXggc2hvdWxkIGJlIGEgc2VwYXJhdGUgZmVhdHVyZS4KClRo
-ZSBzeW5jZmlsZSBzdXBwb3J0IG5lZWRzIHRvIGJlIGEgc2VwYXJhdGUgZmVhdHVyZSBhcyB3ZWxs
-IGJlY2F1c2UgSQpkb24ndCBzZWUgYSB1c2UtY2FzZSBmb3IgaXQgcmlnaHQgbm93LgoKSSdkIGxp
-a2UgdG8gc2VlIHRoZSBEUk1fU0NIRUQgYW5kIHN5bmNvYmogc3VwcG9ydC4gSSBjYW4gaGVscCB5
-b3Ugd2l0aAppdCBpZiBpdCdzIG91dCBvZiB5b3VycyBzY29wZSBmb3Igbm93LgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+I was trying to adjust the brightness-levels for the trogdor boards:
+https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2291209
+Like on a lot of panels, trogdor's low end needs to be cropped,
+and now that we have the interpolation stuff I wanted to make use of it
+and bake in even the curve that's customary to have on chromebooks.
+
+I found the current behavior of the pwm_bl driver a little unintuitive
+and non-linear. See patch 1 for a suggested fix for this.
+
+A few veyron dts files were relying on this (perhaps weird) behavior.
+Those devices also want a minimum brightness like trogdor, so changed
+them to use the new way.
+
+Finally, given that trogdor's dts is part of linux-next now, add the
+brightness-levels to it, since that's the original reason I was looking at
+this.
+
+Changes in v3:
+- Reordered patches, since both dts changes will work just fine
+  even before the driver change.
+- Rewrote a bit of the commit message to describe the new policy,
+  as Daniel suggested.
+- Removed redundant s64 for something that's always positive
+
+Changes in v2:
+- Fixed type promotion in the driver
+- Removed "backlight: pwm_bl: Artificially add 0% during interpolation",
+  userspace works just fine without it because it already knows how to use
+  bl_power for turning off the display.
+- Added brightness-levels to trogdor as well, now the dts is upstream.
+
+
+Alexandru Stan (3):
+  ARM: dts: rockchip: veyron: Remove 0 point from brightness-levels
+  arm64: dts: qcom: trogdor: Add brightness-levels
+  backlight: pwm_bl: Fix interpolation
+
+ arch/arm/boot/dts/rk3288-veyron-jaq.dts      |  2 +-
+ arch/arm/boot/dts/rk3288-veyron-minnie.dts   |  2 +-
+ arch/arm/boot/dts/rk3288-veyron-tiger.dts    |  2 +-
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi |  9 +++
+ drivers/video/backlight/pwm_bl.c             | 70 +++++++++-----------
+ 5 files changed, 43 insertions(+), 42 deletions(-)
+
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
