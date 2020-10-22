@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D798D296A31
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:22:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3ED9296A34
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 09:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C94F06E499;
-	Fri, 23 Oct 2020 07:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 164946E49C;
+	Fri, 23 Oct 2020 07:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0B566F530
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 13:17:10 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id a9so2214746lfc.7
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 06:17:10 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 760DC6F539
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 13:17:12 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id l2so2247339lfk.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Oct 2020 06:17:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TyXq3yjsQPYdsJgpFHjxB/VRn0ETbIYTAv/S0yiOfjs=;
- b=nlLagyEepawUDEx1Aw+Oh5h0+kN+b6w2IXZr5NqwQB2NeHc1bM9Wr/vixYF25Pfo/T
- KwsjdVsYBiYLZkbCvY2X2hBdgrrKt7fEbrk2bYPPFgecb5X6lYAfUI/axqBTUWbghjIM
- kvrAOT+yNb+sLZWX8BFp2OmtMptEe4hKqiRc5kh9hvI4Mwqw4/nB8TxdDAECkgwnnpdp
- vpF6l7nbmgQDD7OhnSVtDFSnKUJHmD1EQevMDFAdSg8A4noItMAyi1fxqn8Mw4p6NnUH
- 96niKBiuk1toK17LwztzYDrbJkhon9uUwNVctMJFqn7gjYgykdCDxDnBLPpGCICpijYw
- fGxA==
+ bh=iik7NuEvFJru4BTIjZ31fu0Ns9B171zjeLUtO1FCToQ=;
+ b=bEsGSZfbrZ/9KjznpX8x1bB+ZNt4qTY9FvGm1izajVybQg7kAc266CO/fbqn0k87Od
+ wnn70CHFPFzafc03LwNyxzgye6WAp6sI6N0YUIvv5OgD+AVFq/Hl2oZoO3o9P9+2nj7g
+ Y7n+J5cZKk+8BvtuqnMyEHlkOIFycz9E56S9LGOxvdxW9iLO1eSB3iZBQSDPWSNe/fwW
+ lwvvZBpsBU/sIR6fUP7CYZYeJN1Pl9pELP/R+mnR+GuHlDRphlAeX06zU3XGN+f3zLJh
+ ank92L2TdKL8DhINm+Lyh1V2UTRcqxNeSSWC8rCoKESzgfeuyw4/7UGLUbX/Jpmtv+LG
+ AR5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TyXq3yjsQPYdsJgpFHjxB/VRn0ETbIYTAv/S0yiOfjs=;
- b=hZuS8OQvAI0GaWQhX7vCztTV2VUgA9fUtjiHsqMMl+OZtneicMSV123/91jocGmZiR
- dOWuHHyrxqHSjyK5CclCoxU69IEiVjoTfwpmXP55VaehQ/KarJyFIybH6pA5gP9ObIHJ
- ZPkH6BnXoslpHgTI6ysHYJ8KT1S4GSt0bdBhAfU3rIe2iDWdks8v1Lra+N6ykSrz1/QR
- vV+SDZS4qVxOxu8Hf56Lj5QJxkIc+OJadL/YtY3IIXu06ySJT+aTynsCIMWPvPRDqf9s
- ou/RS/lC1sYH96e3vgY7jwNun452rhYxsAm4oO+Z6uCxNph27pUu/t0mTi4tOUqdutWm
- jy5Q==
-X-Gm-Message-State: AOAM533lWJfZ6sQJcKBdQg5zquxSpRAhEHjHAQHbFJeVPxuqLJsKpfkF
- pYI1p3vT20eWTNoNXuwWdFE4mw==
-X-Google-Smtp-Source: ABdhPJyCrdIJ2vddYvTYMxpPQHPlzFkILPndQw8l8xjMRy333FHr+u46YkWIHf9i47vj5j3IwvO3zA==
-X-Received: by 2002:a19:cb14:: with SMTP id b20mr812828lfg.162.1603372629174; 
- Thu, 22 Oct 2020 06:17:09 -0700 (PDT)
+ bh=iik7NuEvFJru4BTIjZ31fu0Ns9B171zjeLUtO1FCToQ=;
+ b=X2y5gfhETrm/kQ00+vYAF23RvEtftSOhuGT4x1A/AbrzM86ZrjzBMuTWDcLszC+DS0
+ 8POZAHFKl1GqvhQN+fpTruEoD9iWWIdv/tAE+C6qxTecXtmnssOXu7Hn8QqOfnTCwQjy
+ 4aD/MPbXJPueIJsaJ9F2AMTw45/VhazwZLK3NYWvxlWZ07bataHbLVJ0wmZj0aI76RrZ
+ 2VRSpfWDJvTygxh+aaUlIC9SvriBrO5+Xb1k8mGqtCgLYUg1EUqS1CXM3C+ObqN+BQeT
+ cVcPO4pKeYkKjg6YMUbj/Ch+cxtuz29/DslG8jYNiKYm2Q9XALSMO1FGel+fRJ/JC8Q0
+ rjPA==
+X-Gm-Message-State: AOAM532kx6+Csc2BC0sGHrWuVRIS5p3cv6IYuYzj/wlBol/rvvFST11g
+ 4+5xnmBfqhiMbkbsF3B43mUqBg==
+X-Google-Smtp-Source: ABdhPJx4QqNAuSP1FOLBV9jiSBwv6plHuWLbADeWfX0dJL2/T5QXPkrO6rwx8YVaObYg6ZTZdJ0JZg==
+X-Received: by 2002:a19:cb94:: with SMTP id b142mr787202lfg.388.1603372630902; 
+ Thu, 22 Oct 2020 06:17:10 -0700 (PDT)
 Received: from eriador.lan ([188.162.64.195])
- by smtp.gmail.com with ESMTPSA id j10sm308514ljb.93.2020.10.22.06.17.07
+ by smtp.gmail.com with ESMTPSA id j10sm308514ljb.93.2020.10.22.06.17.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Oct 2020 06:17:08 -0700 (PDT)
+ Thu, 22 Oct 2020 06:17:10 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: [PATCH 2/5] drm/msm/dpu: initial support for merge3D hardware block
-Date: Thu, 22 Oct 2020 16:16:55 +0300
-Message-Id: <20201022131658.181363-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 3/5] drm/msm/dpu: handle merge_3d configuration in hw_ctl block
+Date: Thu, 22 Oct 2020 16:16:56 +0300
+Message-Id: <20201022131658.181363-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201022131658.181363-1-dmitry.baryshkov@linaro.org>
 References: <20201022131658.181363-1-dmitry.baryshkov@linaro.org>
@@ -75,426 +75,121 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add initial support for merge3D hardware block on SM8[12]50. Merge3D is
-reposible for merging contents of two LMs (two PPs) into single
-interface.
+Active HW CTL blocks need separate handling for merge_3d flushes.
+Implement necessary merge_3d configuration and flushing.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/Makefile                  |  1 +
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 53 ++++++++++----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 18 +++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  8 ++
- .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 73 +++++++++++++++++++
- .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    | 64 ++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 27 +++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |  1 +
- 8 files changed, 231 insertions(+), 14 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 16 ++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h | 12 ++++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index 340682cd0f32..3cc906121fb3 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -67,6 +67,7 @@ msm-y := \
- 	disp/dpu1/dpu_hw_pingpong.o \
- 	disp/dpu1/dpu_hw_sspp.o \
- 	disp/dpu1/dpu_hw_dspp.o \
-+	disp/dpu1/dpu_hw_merge3d.o \
- 	disp/dpu1/dpu_hw_top.o \
- 	disp/dpu1/dpu_hw_util.o \
- 	disp/dpu1/dpu_hw_vbif.o \
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 60b304b72b7c..6a6a7172e3be 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -41,6 +41,8 @@
- #define PINGPONG_SDM845_SPLIT_MASK \
- 	(PINGPONG_SDM845_MASK | BIT(DPU_PINGPONG_TE2))
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index f61b545d7257..8981cfa9dbc3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -22,7 +22,9 @@
+ #define   CTL_PREPARE                   0x0d0
+ #define   CTL_SW_RESET                  0x030
+ #define   CTL_LAYER_EXTN_OFFSET         0x40
++#define   CTL_MERGE_3D_ACTIVE           0x0E4
+ #define   CTL_INTF_ACTIVE               0x0F4
++#define   CTL_MERGE_3D_FLUSH            0x100
+ #define   CTL_INTF_FLUSH                0x110
+ #define   CTL_INTF_MASTER               0x134
  
-+#define MERGE_3D_SM8150_MASK (0)
+@@ -30,6 +32,7 @@
+ #define CTL_FLUSH_MASK_CTL              BIT(17)
+ 
+ #define DPU_REG_RESET_TIMEOUT_US        2000
++#define  MERGE_3D_IDX   23
+ #define  INTF_IDX       31
+ 
+ static const struct dpu_ctl_cfg *_ctl_offset(enum dpu_ctl ctl,
+@@ -112,6 +115,9 @@ static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
+ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
+ {
+ 
++	if (ctx->pending_flush_mask & BIT(MERGE_3D_IDX))
++		DPU_REG_WRITE(&ctx->hw, CTL_MERGE_3D_FLUSH,
++				ctx->pending_merge_3d_flush_mask);
+ 	if (ctx->pending_flush_mask & BIT(INTF_IDX))
+ 		DPU_REG_WRITE(&ctx->hw, CTL_INTF_FLUSH,
+ 				ctx->pending_intf_flush_mask);
+@@ -242,6 +248,13 @@ static void dpu_hw_ctl_update_pending_flush_intf_v1(struct dpu_hw_ctl *ctx,
+ 	ctx->pending_flush_mask |= BIT(INTF_IDX);
+ }
+ 
++static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
++		enum dpu_merge_3d merge_3d)
++{
++	ctx->pending_merge_3d_flush_mask |= BIT(merge_3d - MERGE_3D_0);
++	ctx->pending_flush_mask |= BIT(MERGE_3D_IDX);
++}
 +
- #define DSPP_SC7180_MASK BIT(DPU_DSPP_PCC)
+ static uint32_t dpu_hw_ctl_get_bitmask_dspp(struct dpu_hw_ctl *ctx,
+ 	enum dpu_dspp dspp)
+ {
+@@ -483,6 +496,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
  
- #define INTF_SDM845_MASK (0)
-@@ -481,40 +483,59 @@ static const struct dpu_pingpong_sub_blks sdm845_pp_sblk = {
- 		.len = 0x20, .version = 0x10000},
- };
+ 	DPU_REG_WRITE(c, CTL_TOP, mode_sel);
+ 	DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
++	DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE, BIT(cfg->merge_3d - MERGE_3D_0));
+ }
  
--#define PP_BLK_TE(_name, _id, _base) \
-+#define PP_BLK_TE(_name, _id, _base, _merge_3d) \
- 	{\
- 	.name = _name, .id = _id, \
- 	.base = _base, .len = 0xd4, \
- 	.features = PINGPONG_SDM845_SPLIT_MASK, \
-+	.merge_3d = _merge_3d, \
- 	.sblk = &sdm845_pp_sblk_te \
- 	}
--#define PP_BLK(_name, _id, _base) \
-+#define PP_BLK(_name, _id, _base, _merge_3d) \
- 	{\
- 	.name = _name, .id = _id, \
- 	.base = _base, .len = 0xd4, \
- 	.features = PINGPONG_SDM845_MASK, \
-+	.merge_3d = _merge_3d, \
- 	.sblk = &sdm845_pp_sblk \
- 	}
- 
- static const struct dpu_pingpong_cfg sdm845_pp[] = {
--	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000),
--	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800),
--	PP_BLK("pingpong_2", PINGPONG_2, 0x71000),
--	PP_BLK("pingpong_3", PINGPONG_3, 0x71800),
-+	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, 0),
-+	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, 0),
-+	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, 0),
-+	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, 0),
- };
- 
- static struct dpu_pingpong_cfg sc7180_pp[] = {
--	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000),
--	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800),
-+	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, 0),
-+	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, 0),
- };
- 
- static const struct dpu_pingpong_cfg sm8150_pp[] = {
--	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000),
--	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800),
--	PP_BLK("pingpong_2", PINGPONG_2, 0x71000),
--	PP_BLK("pingpong_3", PINGPONG_3, 0x71800),
--	PP_BLK("pingpong_4", PINGPONG_4, 0x72000),
--	PP_BLK("pingpong_5", PINGPONG_5, 0x72800),
-+	PP_BLK_TE("pingpong_0", PINGPONG_0, 0x70000, MERGE_3D_0),
-+	PP_BLK_TE("pingpong_1", PINGPONG_1, 0x70800, MERGE_3D_0),
-+	PP_BLK("pingpong_2", PINGPONG_2, 0x71000, MERGE_3D_1),
-+	PP_BLK("pingpong_3", PINGPONG_3, 0x71800, MERGE_3D_1),
-+	PP_BLK("pingpong_4", PINGPONG_4, 0x72000, MERGE_3D_2),
-+	PP_BLK("pingpong_5", PINGPONG_5, 0x72800, MERGE_3D_2),
-+};
-+
-+/*************************************************************
-+ * MERGE_3D sub blocks config
-+ *************************************************************/
-+#define MERGE_3D_BLK(_name, _id, _base) \
-+	{\
-+	.name = _name, .id = _id, \
-+	.base = _base, .len = 0x100, \
-+	.features = MERGE_3D_SM8150_MASK, \
-+	.sblk = NULL \
-+	}
-+
-+static const struct dpu_merge_3d_cfg sm8150_merge_3d[] = {
-+	MERGE_3D_BLK("merge_3d_0", MERGE_3D_0, 0x83000),
-+	MERGE_3D_BLK("merge_3d_1", MERGE_3D_1, 0x83100),
-+	MERGE_3D_BLK("merge_3d_2", MERGE_3D_2, 0x83200),
- };
- 
- /*************************************************************
-@@ -838,6 +859,8 @@ static void sm8150_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 		.mixer = sm8150_lm,
- 		.pingpong_count = ARRAY_SIZE(sm8150_pp),
- 		.pingpong = sm8150_pp,
-+		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-+		.merge_3d = sm8150_merge_3d,
- 		.intf_count = ARRAY_SIZE(sm8150_intf),
- 		.intf = sm8150_intf,
- 		.vbif_count = ARRAY_SIZE(sdm845_vbif),
-@@ -868,6 +891,8 @@ static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 		.mixer = sm8150_lm,
- 		.pingpong_count = ARRAY_SIZE(sm8150_pp),
- 		.pingpong = sm8150_pp,
-+		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-+		.merge_3d = sm8150_merge_3d,
- 		.intf_count = ARRAY_SIZE(sm8150_intf),
- 		.intf = sm8150_intf,
- 		.vbif_count = ARRAY_SIZE(sdm845_vbif),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 3544af1a45c5..eaef99db2d2f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -524,9 +524,23 @@ struct dpu_dspp_cfg  {
+ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl *ctx,
+@@ -523,6 +537,8 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+ 		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg_v1;
+ 		ops->update_pending_flush_intf =
+ 			dpu_hw_ctl_update_pending_flush_intf_v1;
++		ops->update_pending_flush_merge_3d =
++			dpu_hw_ctl_update_pending_flush_merge_3d_v1;
+ 	} else {
+ 		ops->trigger_flush = dpu_hw_ctl_trigger_flush;
+ 		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+index 73378fcba2d1..e93a42ab60b1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+@@ -37,12 +37,14 @@ struct dpu_hw_stage_cfg {
+  * struct dpu_hw_intf_cfg :Describes how the DPU writes data to output interface
+  * @intf :                 Interface id
+  * @mode_3d:               3d mux configuration
++ * @merge_3d:              3d merge block used
+  * @intf_mode_sel:         Interface mode, cmd / vid
+  * @stream_sel:            Stream selection for multi-stream interfaces
   */
- struct dpu_pingpong_cfg  {
- 	DPU_HW_BLK_INFO;
-+	u32 merge_3d;
- 	const struct dpu_pingpong_sub_blks *sblk;
+ struct dpu_hw_intf_cfg {
+ 	enum dpu_intf intf;
+ 	enum dpu_3d_blend_mode mode_3d;
++	enum dpu_merge_3d merge_3d;
+ 	enum dpu_ctl_mode_sel intf_mode_sel;
+ 	int stream_sel;
  };
+@@ -99,6 +101,15 @@ struct dpu_hw_ctl_ops {
+ 	void (*update_pending_flush_intf)(struct dpu_hw_ctl *ctx,
+ 		enum dpu_intf blk);
  
-+/**
-+ * struct dpu_merge_3d_cfg - information of DSPP blocks
-+ * @id                 enum identifying this block
-+ * @base               register offset of this block
-+ * @features           bit mask identifying sub-blocks/features
-+ *                     supported by this block
-+ * @sblk               sub-blocks information
-+ */
-+struct dpu_merge_3d_cfg  {
-+	DPU_HW_BLK_INFO;
-+	const struct dpu_merge_3d_sub_blks *sblk;
-+};
++	/**
++	 * OR in the given flushbits to the cached pending_(merge_3d_)flush_mask
++	 * No effect on hardware
++	 * @ctx       : ctl path ctx pointer
++	 * @blk       : interface block index
++	 */
++	void (*update_pending_flush_merge_3d)(struct dpu_hw_ctl *ctx,
++		enum dpu_merge_3d blk);
 +
- /**
-  * struct dpu_intf_cfg - information of timing engine blocks
-  * @id                 enum identifying this block
-@@ -724,6 +738,9 @@ struct dpu_mdss_cfg {
- 	u32 pingpong_count;
- 	const struct dpu_pingpong_cfg *pingpong;
+ 	/**
+ 	 * Write the value of the pending_flush_mask to hardware
+ 	 * @ctx       : ctl path ctx pointer
+@@ -181,6 +192,7 @@ struct dpu_hw_ctl {
+ 	const struct dpu_lm_cfg *mixer_hw_caps;
+ 	u32 pending_flush_mask;
+ 	u32 pending_intf_flush_mask;
++	u32 pending_merge_3d_flush_mask;
  
-+	u32 merge_3d_count;
-+	const struct dpu_merge_3d_cfg *merge_3d;
-+
- 	u32 intf_count;
- 	const struct dpu_intf_cfg *intf;
- 
-@@ -767,6 +784,7 @@ struct dpu_mdss_hw_cfg_handler {
- #define BLK_INTF(s) ((s)->intf)
- #define BLK_AD(s) ((s)->ad)
- #define BLK_DSPP(s) ((s)->dspp)
-+#define BLK_MERGE3d(s) ((s)->merge_3d)
- 
- /**
-  * dpu_hw_catalog_init - dpu hardware catalog init API retrieves
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index 979fd2c60aa0..09a3fb3e89f5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -96,6 +96,7 @@ enum dpu_hw_blk_type {
- 	DPU_HW_BLK_INTF,
- 	DPU_HW_BLK_WB,
- 	DPU_HW_BLK_DSPP,
-+	DPU_HW_BLK_MERGE_3D,
- 	DPU_HW_BLK_MAX,
- };
- 
-@@ -186,6 +187,13 @@ enum dpu_pingpong {
- 	PINGPONG_MAX
- };
- 
-+enum dpu_merge_3d {
-+	MERGE_3D_0 = 1,
-+	MERGE_3D_1,
-+	MERGE_3D_2,
-+	MERGE_3D_MAX
-+};
-+
- enum dpu_intf {
- 	INTF_0 = 1,
- 	INTF_1,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
-new file mode 100644
-index 000000000000..5c7ad19feea3
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
-@@ -0,0 +1,73 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-+ */
-+
-+#include <linux/iopoll.h>
-+
-+#include "dpu_hw_mdss.h"
-+#include "dpu_hwio.h"
-+#include "dpu_hw_catalog.h"
-+#include "dpu_hw_merge3d.h"
-+#include "dpu_kms.h"
-+#include "dpu_trace.h"
-+
-+static const struct dpu_merge_3d_cfg *_merge_3d_offset(enum dpu_merge_3d idx,
-+		const struct dpu_mdss_cfg *m,
-+		void __iomem *addr,
-+		struct dpu_hw_blk_reg_map *b)
-+{
-+	int i;
-+
-+	for (i = 0; i < m->merge_3d_count; i++) {
-+		if (idx == m->merge_3d[i].id) {
-+			b->base_off = addr;
-+			b->blk_off = m->merge_3d[i].base;
-+			b->length = m->merge_3d[i].len;
-+			b->hwversion = m->hwversion;
-+			b->log_mask = DPU_DBG_MASK_PINGPONG;
-+			return &m->merge_3d[i];
-+		}
-+	}
-+
-+	return ERR_PTR(-EINVAL);
-+}
-+
-+static void _setup_merge_3d_ops(struct dpu_hw_merge_3d *c,
-+				unsigned long features)
-+{
-+};
-+
-+static struct dpu_hw_blk_ops dpu_hw_ops;
-+
-+struct dpu_hw_merge_3d *dpu_hw_merge_3d_init(enum dpu_merge_3d idx,
-+		void __iomem *addr,
-+		const struct dpu_mdss_cfg *m)
-+{
-+	struct dpu_hw_merge_3d *c;
-+	const struct dpu_merge_3d_cfg *cfg;
-+
-+	c = kzalloc(sizeof(*c), GFP_KERNEL);
-+	if (!c)
-+		return ERR_PTR(-ENOMEM);
-+
-+	cfg = _merge_3d_offset(idx, m, addr, &c->hw);
-+	if (IS_ERR_OR_NULL(cfg)) {
-+		kfree(c);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	c->idx = idx;
-+	c->caps = cfg;
-+	_setup_merge_3d_ops(c, c->caps->features);
-+
-+	dpu_hw_blk_init(&c->base, DPU_HW_BLK_MERGE_3D, idx, &dpu_hw_ops);
-+
-+	return c;
-+}
-+
-+void dpu_hw_merge_3d_destroy(struct dpu_hw_merge_3d *hw)
-+{
-+	if (hw)
-+		dpu_hw_blk_destroy(&hw->base);
-+	kfree(hw);
-+}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h
-new file mode 100644
-index 000000000000..aaad7c90cfb0
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h
-@@ -0,0 +1,64 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-+ */
-+
-+#ifndef _DPU_HW_MERGE3D_H
-+#define _DPU_HW_MERGE3D_H
-+
-+#include "dpu_hw_catalog.h"
-+#include "dpu_hw_mdss.h"
-+#include "dpu_hw_util.h"
-+#include "dpu_hw_blk.h"
-+
-+struct dpu_hw_merge_3d;
-+
-+/**
-+ *
-+ * struct dpu_hw_merge_3d_ops : Interface to the merge_3d Hw driver functions
-+ *  Assumption is these functions will be called after clocks are enabled
-+ */
-+struct dpu_hw_merge_3d_ops {
-+};
-+
-+struct dpu_hw_merge_3d {
-+	struct dpu_hw_blk base;
-+	struct dpu_hw_blk_reg_map hw;
-+
-+	/* merge_3d */
-+	enum dpu_merge_3d idx;
-+	const struct dpu_merge_3d_cfg *caps;
-+
-+	/* ops */
-+	struct dpu_hw_merge_3d_ops ops;
-+};
-+
-+/**
-+ * to_dpu_hw_merge_3d - convert base object dpu_hw_base to container
-+ * @hw: Pointer to base hardware block
-+ * return: Pointer to hardware block container
-+ */
-+static inline struct dpu_hw_merge_3d *to_dpu_hw_merge_3d(struct dpu_hw_blk *hw)
-+{
-+	return container_of(hw, struct dpu_hw_merge_3d, base);
-+}
-+
-+/**
-+ * dpu_hw_merge_3d_init - initializes the merge_3d driver for the passed
-+ *	merge_3d idx.
-+ * @idx:  Pingpong index for which driver object is required
-+ * @addr: Mapped register io address of MDP
-+ * @m:    Pointer to mdss catalog data
-+ * Returns: Error code or allocated dpu_hw_merge_3d context
-+ */
-+struct dpu_hw_merge_3d *dpu_hw_merge_3d_init(enum dpu_merge_3d idx,
-+		void __iomem *addr,
-+		const struct dpu_mdss_cfg *m);
-+
-+/**
-+ * dpu_hw_merge_3d_destroy - destroys merge_3d driver context
-+ *	should be called to free the context
-+ * @pp:   Pointer to PP driver context returned by dpu_hw_merge_3d_init
-+ */
-+void dpu_hw_merge_3d_destroy(struct dpu_hw_merge_3d *pp);
-+
-+#endif /*_DPU_HW_MERGE3D_H */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 9b2b5044e8e0..7ddc26f51d8e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -10,6 +10,7 @@
- #include "dpu_hw_pingpong.h"
- #include "dpu_hw_intf.h"
- #include "dpu_hw_dspp.h"
-+#include "dpu_hw_merge3d.h"
- #include "dpu_encoder.h"
- #include "dpu_trace.h"
- 
-@@ -42,6 +43,14 @@ int dpu_rm_destroy(struct dpu_rm *rm)
- 			dpu_hw_pingpong_destroy(hw);
- 		}
- 	}
-+	for (i = 0; i < ARRAY_SIZE(rm->merge_3d_blks); i++) {
-+		struct dpu_hw_merge_3d *hw;
-+
-+		if (rm->merge_3d_blks[i]) {
-+			hw = to_dpu_hw_merge_3d(rm->merge_3d_blks[i]);
-+			dpu_hw_merge_3d_destroy(hw);
-+		}
-+	}
- 	for (i = 0; i < ARRAY_SIZE(rm->mixer_blks); i++) {
- 		struct dpu_hw_mixer *hw;
- 
-@@ -119,6 +128,24 @@ int dpu_rm_init(struct dpu_rm *rm,
- 		}
- 	}
- 
-+	for (i = 0; i < cat->merge_3d_count; i++) {
-+		struct dpu_hw_merge_3d *hw;
-+		const struct dpu_merge_3d_cfg *merge_3d = &cat->merge_3d[i];
-+
-+		if (merge_3d->id < MERGE_3D_0 || merge_3d->id >= MERGE_3D_MAX) {
-+			DPU_ERROR("skip merge_3d %d with invalid id\n", merge_3d->id);
-+			continue;
-+		}
-+		hw = dpu_hw_merge_3d_init(merge_3d->id, mmio, cat);
-+		if (IS_ERR_OR_NULL(hw)) {
-+			rc = PTR_ERR(hw);
-+			DPU_ERROR("failed merge_3d object creation: err %d\n",
-+				rc);
-+			goto fail;
-+		}
-+		rm->merge_3d_blks[merge_3d->id - MERGE_3D_0] = &hw->base;
-+	}
-+
- 	for (i = 0; i < cat->pingpong_count; i++) {
- 		struct dpu_hw_pingpong *hw;
- 		const struct dpu_pingpong_cfg *pp = &cat->pingpong[i];
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-index 08726bb1063a..1f12c8d5b8aa 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-@@ -29,6 +29,7 @@ struct dpu_rm {
- 	struct dpu_hw_blk *ctl_blks[CTL_MAX - CTL_0];
- 	struct dpu_hw_blk *intf_blks[INTF_MAX - INTF_0];
- 	struct dpu_hw_blk *dspp_blks[DSPP_MAX - DSPP_0];
-+	struct dpu_hw_blk *merge_3d_blks[MERGE_3D_MAX - MERGE_3D_0];
- 
- 	uint32_t lm_max_width;
- };
+ 	/* ops */
+ 	struct dpu_hw_ctl_ops ops;
 -- 
 2.28.0
 
