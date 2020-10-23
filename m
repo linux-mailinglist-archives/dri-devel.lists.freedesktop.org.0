@@ -1,63 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5335D297D9A
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:05:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07773297DA3
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:05:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C5196E8FE;
-	Sat, 24 Oct 2020 17:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 020856E905;
+	Sat, 24 Oct 2020 17:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA9B6F64D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 13:31:44 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id s9so1833355wro.8
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 06:31:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7UUKG/LdlfV6sZK7oObeH3Pp/56/1o4238Sc20l0q64=;
- b=xqjypZaYlllZdmVqeTaUnqnDJZlcUG5lEMaD+ainEZ095AMyG2pF2UHy1gdG26tnPW
- /yacinSuDEoApePc41tq4elhlIEuX2E7ybJh+xt4ukyRL7QAxJi+9yTfqGP55ED/hRlT
- wicq/trKzki+t5NVjTmpkfwAcIUx3Cge8KbmVhmARga9u7FHvbifw3+5mPzGVdeNCdr5
- MiOLsnefFlRfeCznEh7TzczyPfkVEECNa3AjNPo1Fap6bm8Lf1SSgPols6ip+yW355wU
- Eet3uJN7M4agZJrrtiqWT5+n7nDG4/DX3EL2zLXoevaTX9Q0/OVicySy/KAwvUVXY/S1
- Qh7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7UUKG/LdlfV6sZK7oObeH3Pp/56/1o4238Sc20l0q64=;
- b=Chs8GZzWA7yc8UvZdqVDrnZpJ6jsWtFldNQDBldR9nuzofJ4+DjH4/SUn0ahFbODd7
- SPhgNnssN9bIF4+K/w1c6xO68QJ5is1qqYlEAxvQF98jLq6//Qq6uAd1NDjgWC9pwkCi
- OSF7t2HEjgGF/yqQkEYeMwcze754mtkAwOM7LIBCVoFwVpXKH00z3JFudBRDr1OkvZAr
- hcyhPLKkSgETo0z3xHzgqdGKTAxzruOCS/QqSMxs6AclREHxXzaTRtsHjZ9gseWG0Gho
- BrqjeV3t8Y/nEyR7/8fvVWcjJekGIQR6vspfcXVaOLU9jJrRSP1heVOebWgLlqOOrWMx
- wChg==
-X-Gm-Message-State: AOAM532Dq6kCoSlKb21Zn0i2ZPBdU+tp2b098yWnfvrcYf/emksVcQOE
- OygIKxkkezzfdxQQH93q2B2ifA==
-X-Google-Smtp-Source: ABdhPJx6l2pdglLr+KqBeAeNzoT8JICIkggqQiEnqOGdVY8A+xxL414KjFEIma8NNitHd9PmMTGEwg==
-X-Received: by 2002:adf:e38e:: with SMTP id e14mr2663318wrm.168.1603459903421; 
- Fri, 23 Oct 2020 06:31:43 -0700 (PDT)
-Received: from localhost.localdomain (211.160.185.81.rev.sfr.net.
- [81.185.160.211])
- by smtp.gmail.com with ESMTPSA id f6sm3146107wru.50.2020.10.23.06.31.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 06:31:42 -0700 (PDT)
-From: Fabien Parent <fparent@baylibre.com>
-To: linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 5/5] drm/mediatek: Add support for main DDP path on MT8167
-Date: Fri, 23 Oct 2020 15:31:30 +0200
-Message-Id: <20201023133130.194140-6-fparent@baylibre.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201023133130.194140-1-fparent@baylibre.com>
-References: <20201023133130.194140-1-fparent@baylibre.com>
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 155516E125;
+ Fri, 23 Oct 2020 15:10:44 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id B87B35C014F;
+ Fri, 23 Oct 2020 11:10:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 23 Oct 2020 11:10:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=+GwpoAOk5CgKo9WK1gZ7MrIquGJ
+ OvS1gGK1GZxx/HJg=; b=IMIOJcvCDcR1V4VnFQl9gOP97kk3FcclX66xWnLvMvQ
+ fmNiRD+e2jY9RsOGyMISmidadj0rJgilJU1HX7raWewR1xi89flG95LdvBG6lYTD
+ 7f2PjY1Z+4baQrORnstpS9xPyeTo+AFXtO9WgIun2xvMlUO722rEel0S0CWRC8CR
+ XLUnFIicWOmpwBgG0S9M4gaWtPLcSqsWLcqYCWa2oE6SgOaxAc4wMIe1slZOWfB9
+ SvPb2Mg2ly7jQLhWbvTc2KDLNA/+2ds7XHq1W6YyyBs/ZmE8CR6gKl2I/cIUxxuu
+ fMAkib5YyPrAmoass5y4rNF+F+hKUBonarkYBIS+/cQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+GwpoA
+ Ok5CgKo9WK1gZ7MrIquGJOvS1gGK1GZxx/HJg=; b=X2SNSB6km77+Zb7mXhXi7y
+ SZKJ5pn6pqR4FfzrV/ECuF/8ihERmqVik+4/QJYFWW1K5/xgDmV/EFjBpV2LmxHb
+ DyOsByExBddX0zBJln9NMQ1iqu5GBK4PE1hor+O206OCEBKTex4oFX3mB50k7EBJ
+ fenlxNtveYkUhxnK4gnUAZyRKyx/BPLDNR+d6ytBp9is3TGsDf+RfZzLDsWZbWAi
+ Y9jbORxbtHUU3NEfiazoDntxUrVUJe1Z9OcriAy+5Xg81bztj6bJse94nVtO3QYw
+ qkOOQQ9wiLHXPLLHMGf5yCXpjRMXPFt372MaWKO7DmcpJ/z53RUo0WdmJpy8cSKg
+ ==
+X-ME-Sender: <xms:cPKSX9r16mchfyXUmKSeamQJBOStllOGcvKWlX9Eh0ENKzNoC83vTw>
+ <xme:cPKSX_ql2lB-ocV1kMKeQKbwElKrNPysaam5MNqW_INKbqLjUOiWZx1bA-cPNfdB5
+ eeclA7DH0jMxP-DJ1k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkedtgdekiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:cPKSX6OfD6RK7cz-XqRtbVVcjUBoFK1O6ZVAAeAAW5axXsyJkRBpXg>
+ <xmx:cPKSX47WOq0MBib4PFYKhtFE1ISiFRthQdc-yoEIIdNdd4TB-wvCzA>
+ <xmx:cPKSX86y_Mkf4-HcAHLZeDdZC4YYAucQNg0WBIy6ZgC5snX-Tf5l4w>
+ <xmx:cfKSX2TiPe8NNsFaTGbZXsFnQmYBOnQcM2DK6ukfUB0hYj0SlW3L-Q>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 432F3328005A;
+ Fri, 23 Oct 2020 11:10:40 -0400 (EDT)
+Date: Fri, 23 Oct 2020 17:10:37 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/5] drm: Compile out legacy chunks from struct drm_device
+Message-ID: <20201023151037.oh7dpqxm5jtt5bf7@gilmour.lan>
+References: <20201023122811.2374118-1-daniel.vetter@ffwll.ch>
+ <20201023122811.2374118-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+In-Reply-To: <20201023122811.2374118-2-daniel.vetter@ffwll.ch>
 X-Mailman-Approved-At: Sat, 24 Oct 2020 17:05:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,131 +79,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, airlied@linux.ie,
- Fabien Parent <fparent@baylibre.com>, robh+dt@kernel.org,
- matthias.bgg@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============1571421758=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the main (DSI) drm display path for MT8167.
 
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
----
+--===============1571421758==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="tkgsn6srbhvuaavv"
+Content-Disposition: inline
 
-Changelog:
 
-V2: No change
+--tkgsn6srbhvuaavv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 38 ++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+On Fri, Oct 23, 2020 at 02:28:08PM +0200, Daniel Vetter wrote:
+> This means some very few #ifdef in code, but it allows us to
+> enlist the compiler to make sure this stuff isn't used anymore.
+>=20
+> More important, only legacy drivers change drm_device (for the
+> legacy_dev_list shadow attach management), therefore this is
+> prep to allow modern drivers to have a const driver struct. Which
+> is nice, because there's a ton of function pointers in there.
+>=20
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 59c85c63b7cc..3952435093fe 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -112,6 +112,17 @@ static const enum mtk_ddp_comp_id mt2712_mtk_ddp_third[] = {
- 	DDP_COMPONENT_PWM2,
- };
- 
-+static enum mtk_ddp_comp_id mt8167_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_DSI0,
-+};
-+
- static const enum mtk_ddp_comp_id mt8173_mtk_ddp_main[] = {
- 	DDP_COMPONENT_OVL0,
- 	DDP_COMPONENT_COLOR0,
-@@ -163,6 +174,11 @@ static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt8173_mtk_ddp_ext),
- };
- 
-+static const struct mtk_mmsys_driver_data mt8167_mmsys_driver_data = {
-+	.main_path = mt8167_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8167_mtk_ddp_main),
-+};
-+
- static int mtk_drm_kms_init(struct drm_device *drm)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
-@@ -401,26 +417,42 @@ static const struct component_master_ops mtk_drm_ops = {
- static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	{ .compatible = "mediatek,mt2701-disp-ovl",
- 	  .data = (void *)MTK_DISP_OVL },
-+	{ .compatible = "mediatek,mt8167-disp-ovl",
-+	  .data = (void *)MTK_DISP_OVL },
- 	{ .compatible = "mediatek,mt8173-disp-ovl",
- 	  .data = (void *)MTK_DISP_OVL },
- 	{ .compatible = "mediatek,mt2701-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
-+	{ .compatible = "mediatek,mt8167-disp-rdma",
-+	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-wdma",
- 	  .data = (void *)MTK_DISP_WDMA },
-+	{ .compatible = "mediatek,mt8167-disp-ccorr",
-+	  .data = (void *)MTK_DISP_CCORR },
- 	{ .compatible = "mediatek,mt2701-disp-color",
- 	  .data = (void *)MTK_DISP_COLOR },
-+	{ .compatible = "mediatek,mt8167-disp-color",
-+	  .data = (void *)MTK_DISP_COLOR },
- 	{ .compatible = "mediatek,mt8173-disp-color",
- 	  .data = (void *)MTK_DISP_COLOR },
-+	{ .compatible = "mediatek,mt8167-disp-aal",
-+	  .data = (void *)MTK_DISP_AAL},
- 	{ .compatible = "mediatek,mt8173-disp-aal",
- 	  .data = (void *)MTK_DISP_AAL},
-+	{ .compatible = "mediatek,mt8167-disp-gamma",
-+	  .data = (void *)MTK_DISP_GAMMA, },
- 	{ .compatible = "mediatek,mt8173-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
-+	{ .compatible = "mediatek,mt8167-disp-dither",
-+	  .data = (void *)MTK_DISP_DITHER },
- 	{ .compatible = "mediatek,mt8173-disp-ufoe",
- 	  .data = (void *)MTK_DISP_UFOE },
- 	{ .compatible = "mediatek,mt2701-dsi",
- 	  .data = (void *)MTK_DSI },
-+	{ .compatible = "mediatek,mt8167-dsi",
-+	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt8173-dsi",
- 	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt2701-dpi",
-@@ -431,10 +463,14 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt2712-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8167-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8173-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt2701-disp-pwm",
- 	  .data = (void *)MTK_DISP_BLS },
-+	{ .compatible = "mediatek,mt8167-disp-pwm",
-+	  .data = (void *)MTK_DISP_PWM },
- 	{ .compatible = "mediatek,mt8173-disp-pwm",
- 	  .data = (void *)MTK_DISP_PWM },
- 	{ .compatible = "mediatek,mt8173-disp-od",
-@@ -449,6 +485,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt7623_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt2712-mmsys",
- 	  .data = &mt2712_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8167-mmsys",
-+	  .data = &mt8167_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8173-mmsys",
- 	  .data = &mt8173_mmsys_driver_data},
- 	{ }
--- 
-2.28.0
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Maxime
+
+--tkgsn6srbhvuaavv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5LybQAKCRDj7w1vZxhR
+xRhOAP41lf2ie23y1eSDBKsDxAXl1BAFiKc21kX1dgZij3HLWgEAm5SAvbo3AFEX
+pQ7IhrYZLB6wrVzoXU9msF3zSBPXqQ0=
+=2BeL
+-----END PGP SIGNATURE-----
+
+--tkgsn6srbhvuaavv--
+
+--===============1571421758==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1571421758==--
