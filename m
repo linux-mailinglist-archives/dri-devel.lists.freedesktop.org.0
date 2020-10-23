@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C420296E6E
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 14:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9360296EBA
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 14:23:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B911D6E526;
-	Fri, 23 Oct 2020 12:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 597886E55E;
+	Fri, 23 Oct 2020 12:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA2096E512
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 12:22:33 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id 13so1239045wmf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 05:22:33 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32F9C6E52A
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 12:22:35 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id t9so1554111wrq.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 05:22:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b6rkxHUpAoW3ADDD9yecvzJ/H8V6QUCVWd37I73mhug=;
- b=NegaIL95AZMZrYGEqpllAPuC4YEXKBSPt9ZC7f3moTusYcOgVcquEa7EUPPwSNw6VX
- P8XlYhkp9fN2p0U2nDvu/GspeLO3MxC4mkMamOxURRDVec3O22ixrxUe9gOzG3Fxy1ZU
- bdOffu5jdeoXA1UFdxglK3jWwRG0E30/YhqVw=
+ bh=87Ui2ukUe17uzUsJ4zdOWtZExO02a40nKEMk3tN4TBQ=;
+ b=BxT1c9BpiSf7D1ApXI0i7z0aOpiQDRRvA8cWL76VmdAiDtDuVX0JS+Wbg3kpqy0k3Z
+ LtPNYGl5ZaQWC/DqfexPaVcqR9HwqT0Co5azbKVTwqbMmk7I5XiMf96FmNsCk7ELzhqH
+ FwyDTC8ZRfDuuR0F5v5bI5YO1tDwaIbTzhK5M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b6rkxHUpAoW3ADDD9yecvzJ/H8V6QUCVWd37I73mhug=;
- b=RQwtzQvHYyaOtQtWjvDYr5cQkJuvV98RncXyCGA/FqwzdIjHxdz6tKA6EWEak2D8qr
- co2Zh3du0Kp3VRyzH2AL3RmF2QbIKi6Imbq29GGHYSbyzr1ImO269j4kjel6sYFlkbTs
- O7HBHYw00+VqoGo9PuGyev6mYhrkfJICaS9T9mh5e8q9lmKHxMKZL1ZYQPAaQ/CK8UdP
- ZZHdLnLFVfn1hvctoquvnGDpubJ3ROT4aXkvMcGZgwv5SU6rX29Gpm1aqVASoc1EbrHx
- pW10T0WsmQDLVQlqDzGlcoUOmIqnf9ny0zaE8Pki2W/SNAIAqGgR6FR0B6AXE3MpJTup
- cacA==
-X-Gm-Message-State: AOAM533K/2k2ZjrHDwBeuB5NoAAmZkxndruPiijopBxK9MGr1bCcyPON
- KiI2vSlHjxpewZZCPnic8hlF8cLwyCrGq/ts
-X-Google-Smtp-Source: ABdhPJxaXmfrljo2z/YC6BMM1jXiTv3getDGMOtXk2mx5+EFG5MTRnEQFcRRKNnuONVbcKQ3sPx42A==
-X-Received: by 2002:a1c:2681:: with SMTP id m123mr1987673wmm.138.1603455752369; 
- Fri, 23 Oct 2020 05:22:32 -0700 (PDT)
+ bh=87Ui2ukUe17uzUsJ4zdOWtZExO02a40nKEMk3tN4TBQ=;
+ b=DAL/vwQXXWHG8aijPUdsRHYLMKPvwxOi8AArfIigCMvvodo5FRLkJtyocl7RAIqVEG
+ i7nZ7c0KFT3f0UYS6Li4sCNsKepyv4roQv9vts8baPVVvBWdTTnIgNuVMAYLh71hKvBJ
+ YZWc1GWtUYqxinttcM2GySutZuorsBTr/BsHD1yjYcpAovvOk9wWk6V1yQt2/BsvG5Eu
+ oZGuJ1d510pevvPSd76syiyA+JU6xZuna+w8nc+YojlpK+twA18EN+NSOUeo/KlMqOKB
+ 9irJCx/X6c1hU6v3QqWK5UWYV8U710VR7QPdmBShNmoCYmhFOnozdr+EH+NQO8kUuss/
+ 3dSQ==
+X-Gm-Message-State: AOAM53012sKfd/xLUj8bGSrSsseiO5a1pDfiJU1rNa12HE5FUqh3mtK6
+ 8f/urWaBZMhS7rEhu3/wJvG++b2w7eGvd6Oo
+X-Google-Smtp-Source: ABdhPJwvzJgaTicYXaEe6o9r3saTM6Z/EsEwxjdJDtfabqL+YtOlR1OatAv6Ub3mAjrLf64IUQd2Zw==
+X-Received: by 2002:adf:fd8a:: with SMTP id d10mr2234644wrr.85.1603455753502; 
+ Fri, 23 Oct 2020 05:22:33 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y4sm3056484wrp.74.2020.10.23.05.22.31
+ by smtp.gmail.com with ESMTPSA id y4sm3056484wrp.74.2020.10.23.05.22.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 05:22:31 -0700 (PDT)
+ Fri, 23 Oct 2020 05:22:32 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 09/65] drm/komeda: Annotate dma-fence critical section in
+Subject: [PATCH 10/65] drm/malidp: Annotate dma-fence critical section in
  commit path
-Date: Fri, 23 Oct 2020 14:21:20 +0200
-Message-Id: <20201023122216.2373294-9-daniel.vetter@ffwll.ch>
+Date: Fri, 23 Oct 2020 14:21:21 +0200
+Message-Id: <20201023122216.2373294-10-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023122216.2373294-1-daniel.vetter@ffwll.ch>
 References: <20201021163242.1458885-1-daniel.vetter@ffwll.ch>
@@ -67,7 +67,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Liviu Dudau <liviu.dudau@arm.com>, James Qian Wang <james.qian.wang@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Mihail Atanassov <mihail.atanassov@arm.com>
 Content-Type: text/plain; charset="us-ascii"
@@ -75,50 +76,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Like the helpers, nothing special. Well except not, because we the
-critical section extends until after hw_done(), since that's the last
-thing which could hold up a subsequent atomic commit. That means the
-wait_for_flip_done is included, but that's not a problem, we're
-allowed to call dma_fence_wait() from signalling critical sections.
-Even on our own fence (which this does), it's just a bit confusing.
-But in a way those last 2 function calls are already part of the fence
-signalling critical section for the next atomic commit.
+Again needs to be put right after the call to
+drm_atomic_helper_commit_hw_done(), since that's the last thing which
+can hold up a subsequent atomic commit.
 
-Reading this I'm wondering why komeda waits for flip_done() before
-calling hw_done(), which is a bit backwards (but hey hw can be
-special). Might be good to throw a comment in there that explains why,
-because the original commit that added this just doesn't.
+No surprises here.
 
-Reviewed-by: James Qian Wang <james.qian.wang@arm.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
 Cc: Liviu Dudau <liviu.dudau@arm.com>
 Cc: Mihail Atanassov <mihail.atanassov@arm.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 3 +++
+ drivers/gpu/drm/arm/malidp_drv.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-index 1f6682032ca4..cc5b5915bc5e 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-@@ -73,6 +73,7 @@ static struct drm_driver komeda_kms_driver = {
- static void komeda_kms_commit_tail(struct drm_atomic_state *old_state)
- {
- 	struct drm_device *dev = old_state->dev;
+diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+index 69fee05c256c..26e60401a8e1 100644
+--- a/drivers/gpu/drm/arm/malidp_drv.c
++++ b/drivers/gpu/drm/arm/malidp_drv.c
+@@ -234,6 +234,7 @@ static void malidp_atomic_commit_tail(struct drm_atomic_state *state)
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *old_crtc_state;
+ 	int i;
 +	bool fence_cookie = dma_fence_begin_signalling();
  
- 	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+ 	pm_runtime_get_sync(drm->dev);
  
-@@ -85,6 +86,8 @@ static void komeda_kms_commit_tail(struct drm_atomic_state *old_state)
+@@ -260,6 +261,8 @@ static void malidp_atomic_commit_tail(struct drm_atomic_state *state)
  
- 	drm_atomic_helper_commit_hw_done(old_state);
+ 	malidp_atomic_commit_hw_done(state);
  
 +	dma_fence_end_signalling(fence_cookie);
 +
- 	drm_atomic_helper_cleanup_planes(dev, old_state);
- }
+ 	pm_runtime_put(drm->dev);
  
+ 	drm_atomic_helper_cleanup_planes(drm, state);
 -- 
 2.28.0
 
