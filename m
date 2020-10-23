@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BA4296BDA
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 11:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54EBC296D34
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 12:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCD1E6E4EC;
-	Fri, 23 Oct 2020 09:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E31F96E4F9;
+	Fri, 23 Oct 2020 10:58:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD3F76E4EC
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 09:13:04 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id s21so1151978oij.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 02:13:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDD06E4F9;
+ Fri, 23 Oct 2020 10:58:22 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id u7so602690vsq.11;
+ Fri, 23 Oct 2020 03:58:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qM5nhEMYeFdEA7QerSEffOkMoRD8vG6Y+rmNtsxnjd4=;
- b=Xxk1aGPWSfFkpkis6OoEqJ2gCaQ0ahlPrRIzd5LTpnMwyB8U4J5r+K0BKl7hDE+eYN
- 3FcbH6Xq/dGBMGOJztPD8i+0aPOjlnDIfmE3yk5nKc52BxNSLHg2zElLlqf99LJUx8Jn
- jnSHwE5Y+hs0wMvh4+/GAgohgcKexUIqGABys=
+ :cc; bh=ItpYQ9GC5N7T8BIaRPk6eDBkbaLNrhafp2hlkR07Zf8=;
+ b=UWCMKvB22GNLPgs/wI1WMvtJJWWyCwl5uYR5/+GlTMTjEXFJELvwTkGow1zPIG31qj
+ 5owmCXqTsL5+giHkxsK0gu7nxaD9rL6MAxrU9aoPPHSUErOmQ1byFpAdhPywSz46Rf1R
+ il793oELbdCqICbPhyEHegwwP7QeNl4SysPX035uiWDlK/w5X4MGYvYYjwrMKHQ+QL0w
+ CYTHoxTDcFsTmnKYHb3jJ0uwYRFi1tkB5Y2lhIFNN2dHLD1uPIbzV3sp0H2IUXDx/V9t
+ CgZ5R4ScrCUewwPHap8Vj6iRKJjkvjkwFncidFOZUGR/Do5bHy8oSM3ikMqlkpwVkLLc
+ FQOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qM5nhEMYeFdEA7QerSEffOkMoRD8vG6Y+rmNtsxnjd4=;
- b=c4ipTwneG52qKXyHRcWgqeIYgZsaz7wGvNse1I8k7zYUR3b/y2DcML44CoL8GTUU8C
- QSolXvCYUGsWse3jm37Mc7vSLuY9tRU7HXDN9Yd7j3OCrFdjkjJLuh6jPK/kPLFfN9xb
- GAuq6oM9m89Nk3NN7PrjJ5CjPw5DjZu/L9CLMI6HyR0eabE96I9mtz3ZjhW3IcF93B1u
- u3Eq1vFD2zUaJiDWJLOH7w8lw/RBLaoC8OqJ+nh3ceuY2AutoM4NxbZqVhsstTvLGP3n
- AQmmbcJ4mtbWf7xjqtWcLg/+Ne7BMtmfafOuyFG9n65OfOF7/5/yYffel5+/62yhsDdS
- BWlw==
-X-Gm-Message-State: AOAM532mP99Pr+zsKxnMi4RHEC2yLtg/S6CJsjw+q9lR0usrjmmZCWLC
- pwFBAgom//yJWLerAfRxt8zPxybeLEe4K8cXLsnDAEcWydF9lg==
-X-Google-Smtp-Source: ABdhPJxJfW2e7RMT1o53fgdROAZNOXDUkt9dx9afCHGb/w0gAtXuC9OHLmkK0ZV4M3byXb+A+RT/xRPrOH90bLENhKU=
-X-Received: by 2002:aca:39d6:: with SMTP id g205mr958482oia.14.1603444384107; 
- Fri, 23 Oct 2020 02:13:04 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=ItpYQ9GC5N7T8BIaRPk6eDBkbaLNrhafp2hlkR07Zf8=;
+ b=f3RNkmOOI/MFA8QA7xaxETcPYDY1024W6UX3Ez8NN3cYQBTxP/p8E0SBY50ZlbfpEF
+ oiFTvzhtPLPFPRkZXau+i+eE3468vkM7yRUCGWoRkn4Jue9NAFAPP5ywrYxbtsr9eKI1
+ TpN1EaBjmBeq1572sMP4S2+y5My64lmVdkhVPqQfd7nuVieo62267+yxW5NxjfasURP+
+ 9LN0SNHNpX1/GjJDFraW7FcBad7jpPhGcdHYQ59FPfIRhA1fOxpTSUh0IjT218BElPQd
+ bK0kvuvxkLHhTpI4zjFrmCpTN1WY9N2iiI3LA+EM9Z1xzQQ8wOuFFfZSSwboprZR9JAq
+ DM6w==
+X-Gm-Message-State: AOAM530xwoWemENots9WjfhRtC3ubayxoHa8vzWSY7pSS4rwgTTA/U4u
+ EnZiXfJAM7oPHA6nK3KLyCyo4hoiEP8GZWpLOq1JJ2o4ZRuwGxEa
+X-Google-Smtp-Source: ABdhPJzRCu5YBLYYbZrfyB1lNhHvs2A3xuz04HFQccRe3INHBEU4kBKApK9853f5c1kF9RhQUXPegvd1h6khtJJrJuU=
+X-Received: by 2002:a05:6102:31b5:: with SMTP id
+ d21mr796747vsh.19.1603450701006; 
+ Fri, 23 Oct 2020 03:58:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
- <20201021085655.1192025-5-daniel.vetter@ffwll.ch>
-In-Reply-To: <20201021085655.1192025-5-daniel.vetter@ffwll.ch>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 23 Oct 2020 11:12:52 +0200
-Message-ID: <CAKMK7uE50TPNruEQv5JDX91q0DDqy-CXfbQzc48YeqPzSE96yA@mail.gmail.com>
-Subject: Re: [PATCH v3 04/16] misc/habana: Use FOLL_LONGTERM for userptr
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+References: <20201019204636.139997-1-robdclark@gmail.com>
+In-Reply-To: <20201019204636.139997-1-robdclark@gmail.com>
+From: =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
+Date: Fri, 23 Oct 2020 12:58:09 +0200
+Message-ID: <CAOeoa-fAkNGfCbmZ-nBaYyupFV4Eo8fc7pKimaWtPhczmK4h3Q@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v3 00/23] drm/msm: de-struct_mutex-ification
+To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,61 +61,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390 <linux-s390@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Pawel Piskorski <ppiskorski@habana.ai>, John Hubbard <jhubbard@nvidia.com>,
- Daniel Vetter <daniel.vetter@ffwll.com>, Ofir Bitton <obitton@habana.ai>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Tomer Tayar <ttayar@habana.ai>, Omer Shpigelman <oshpigelman@habana.ai>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Moti Haimovski <mhaimovski@habana.ai>, Dan Williams <dan.j.williams@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
+ Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ Matthias Kaehlcke <mka@chromium.org>, Thierry Reding <treding@nvidia.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Rajendra Nayak <rnayak@codeaurora.org>,
+ Harigovindan P <harigovi@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Brian Masney <masneyb@onstation.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgT2RlZCwKCkRpZCB0ZXN0aW5nIG9uIHlvdXIgZW5kIHR1cm4gdXAgYW55dGhpbmcsIG9yIGNh
-biBJIHB1dCBhbgphY2smdGVzdGVkLWJ5IGZyb20geW91IG9uIHRoZSB0d28gaGFiYW5hIHBhdGNo
-ZXMgZm9yIHRoZSBuZXh0IHJvdW5kPwoKVGhhbmtzLCBEYW5pZWwKCk9uIFdlZCwgT2N0IDIxLCAy
-MDIwIGF0IDEwOjU3IEFNIERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IHdy
-b3RlOgo+Cj4gVGhlc2UgYXJlIHBlcnNpc3RlbnQsIG5vdCBqdXN0IGZvciB0aGUgZHVyYXRpb24g
-b2YgYSBkbWEgb3BlcmF0aW9uLgo+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFu
-aWVsLnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IEphc29uIEd1bnRob3JwZSA8amdnQHppZXBlLmNh
-Pgo+IENjOiBBbmRyZXcgTW9ydG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPgo+IENjOiBK
-b2huIEh1YmJhcmQgPGpodWJiYXJkQG52aWRpYS5jb20+Cj4gQ2M6IErDqXLDtG1lIEdsaXNzZSA8
-amdsaXNzZUByZWRoYXQuY29tPgo+IENjOiBKYW4gS2FyYSA8amFja0BzdXNlLmN6Pgo+IENjOiBE
-YW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiBDYzogbGludXgtbW1Aa3Zh
-Y2sub3JnCj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+IENjOiBs
-aW51eC1zYW1zdW5nLXNvY0B2Z2VyLmtlcm5lbC5vcmcKPiBDYzogbGludXgtbWVkaWFAdmdlci5r
-ZXJuZWwub3JnCj4gQ2M6IE9kZWQgR2FiYmF5IDxvZGVkLmdhYmJheUBnbWFpbC5jb20+Cj4gQ2M6
-IE9tZXIgU2hwaWdlbG1hbiA8b3NocGlnZWxtYW5AaGFiYW5hLmFpPgo+IENjOiBPZmlyIEJpdHRv
-biA8b2JpdHRvbkBoYWJhbmEuYWk+Cj4gQ2M6IFRvbWVyIFRheWFyIDx0dGF5YXJAaGFiYW5hLmFp
-Pgo+IENjOiBNb3RpIEhhaW1vdnNraSA8bWhhaW1vdnNraUBoYWJhbmEuYWk+Cj4gQ2M6IERhbmll
-bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gQ2M6IEdyZWcgS3JvYWgtSGFydG1h
-biA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Cj4gQ2M6IFBhd2VsIFBpc2tvcnNraSA8cHBp
-c2tvcnNraUBoYWJhbmEuYWk+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
-LnZldHRlckBmZndsbC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1v
-bi9tZW1vcnkuYyB8IDMgKystCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEg
-ZGVsZXRpb24oLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9jb21t
-b24vbWVtb3J5LmMgYi9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9jb21tb24vbWVtb3J5LmMKPiBp
-bmRleCAzMjdiNjQ0NzlmOTcuLjc2N2QzNjQ0YzAzMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL21p
-c2MvaGFiYW5hbGFicy9jb21tb24vbWVtb3J5LmMKPiArKysgYi9kcml2ZXJzL21pc2MvaGFiYW5h
-bGFicy9jb21tb24vbWVtb3J5LmMKPiBAQCAtMTI4OCw3ICsxMjg4LDggQEAgc3RhdGljIGludCBn
-ZXRfdXNlcl9tZW1vcnkoc3RydWN0IGhsX2RldmljZSAqaGRldiwgdTY0IGFkZHIsIHU2NCBzaXpl
-LAo+ICAgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiAgICAgICAgIH0KPgo+IC0gICAg
-ICAgcmMgPSBwaW5fdXNlcl9wYWdlc19mYXN0KHN0YXJ0LCBucGFnZXMsIEZPTExfRk9SQ0UgfCBG
-T0xMX1dSSVRFLAo+ICsgICAgICAgcmMgPSBwaW5fdXNlcl9wYWdlc19mYXN0KHN0YXJ0LCBucGFn
-ZXMsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRk9MTF9GT1JDRSB8IEZPTExf
-V1JJVEUgfCBGT0xMX0xPTkdURVJNLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHVzZXJwdHItPnBhZ2VzKTsKPgo+ICAgICAgICAgaWYgKHJjICE9IG5wYWdlcykgewo+IC0tCj4g
-Mi4yOC4wCj4KCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29y
-cG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Oct 19, 2020 at 10:45 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> This doesn't remove *all* the struct_mutex, but it covers the worst
+> of it, ie. shrinker/madvise/free/retire.  The submit path still uses
+> struct_mutex, but it still needs *something* serialize a portion of
+> the submit path, and lock_stat mostly just shows the lock contention
+> there being with other submits.  And there are a few other bits of
+> struct_mutex usage in less critical paths (debugfs, etc).  But this
+> seems like a reasonable step in the right direction.
+>
+> v2: teach lockdep about shrinker locking patters (danvet) and
+>     convert to obj->resv locking (danvet)
+> v3: fix get_vaddr locking for legacy userspace (relocs), devcoredump,
+>     and rd/hangrd
+
+For the series:
+
+Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
+
+> Rob Clark (23):
+>   drm/msm: Fix a couple incorrect usages of get_vaddr_active()
+>   drm/msm/gem: Add obj->lock wrappers
+>   drm/msm/gem: Rename internal get_iova_locked helper
+>   drm/msm/gem: Move prototypes to msm_gem.h
+>   drm/msm/gem: Add some _locked() helpers
+>   drm/msm/gem: Move locking in shrinker path
+>   drm/msm/submit: Move copy_from_user ahead of locking bos
+>   drm/msm: Do rpm get sooner in the submit path
+>   drm/msm/gem: Switch over to obj->resv for locking
+>   drm/msm: Use correct drm_gem_object_put() in fail case
+>   drm/msm: Drop chatty trace
+>   drm/msm: Move update_fences()
+>   drm/msm: Add priv->mm_lock to protect active/inactive lists
+>   drm/msm: Document and rename preempt_lock
+>   drm/msm: Protect ring->submits with it's own lock
+>   drm/msm: Refcount submits
+>   drm/msm: Remove obj->gpu
+>   drm/msm: Drop struct_mutex from the retire path
+>   drm/msm: Drop struct_mutex in free_object() path
+>   drm/msm: Remove msm_gem_free_work
+>   drm/msm: Drop struct_mutex in madvise path
+>   drm/msm: Drop struct_mutex in shrinker path
+>   drm/msm: Don't implicit-sync if only a single ring
+>
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |   6 +-
+>  drivers/gpu/drm/msm/adreno/a5xx_preempt.c |  12 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |   6 +-
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c |   1 +
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c |   1 +
+>  drivers/gpu/drm/msm/dsi/dsi_host.c        |   1 +
+>  drivers/gpu/drm/msm/msm_debugfs.c         |   7 +
+>  drivers/gpu/drm/msm/msm_drv.c             |  21 +-
+>  drivers/gpu/drm/msm/msm_drv.h             |  73 +-----
+>  drivers/gpu/drm/msm/msm_fbdev.c           |   1 +
+>  drivers/gpu/drm/msm/msm_gem.c             | 266 +++++++++++-----------
+>  drivers/gpu/drm/msm/msm_gem.h             | 133 +++++++++--
+>  drivers/gpu/drm/msm/msm_gem_shrinker.c    |  81 ++-----
+>  drivers/gpu/drm/msm/msm_gem_submit.c      | 158 ++++++++-----
+>  drivers/gpu/drm/msm/msm_gpu.c             | 110 +++++----
+>  drivers/gpu/drm/msm/msm_gpu.h             |   5 +-
+>  drivers/gpu/drm/msm/msm_rd.c              |   2 +-
+>  drivers/gpu/drm/msm/msm_ringbuffer.c      |   3 +-
+>  drivers/gpu/drm/msm/msm_ringbuffer.h      |  13 +-
+>  19 files changed, 495 insertions(+), 405 deletions(-)
+>
+> --
+> 2.26.2
+>
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
