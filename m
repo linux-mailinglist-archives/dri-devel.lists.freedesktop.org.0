@@ -2,70 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6857D297D98
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:05:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0058F297D9E
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:05:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE4A26E900;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 001036E901;
 	Sat, 24 Oct 2020 17:05:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 652A76F89C;
- Fri, 23 Oct 2020 15:13:15 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 97C1258021E;
- Fri, 23 Oct 2020 11:13:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 23 Oct 2020 11:13:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=yHUcAmJW2I9T3l6rNG9J/PGMT7A
- ONxqRp4Me/z+CyMI=; b=QHSU0VkXkO9RlO2AiXsgNqtJsfqEDmLJ4jP7OK/pZr1
- 2hFvx/h45pissJNVcqIudrN/qPAZdBKj9RVGeuA5Fyf5TBH14R3L4eqmxQ71fH0m
- /74UieKdM+aKOxapRCjPCiWxQ6dElOQ7RCZJWJZvyxUgdXZqWxj4Do7JOaaayqDu
- wj11zrGCGoy7ZSWo+eOO7uAkJ6+OLmlgEyYpvCklS3n8r2Gb53CyAJd4KS34fB2M
- BNthsMPt2datZbhgTjTY9kcJd+5yqZnMA9xi6ITLj6t14Z9ZPAfZsMe40q3QeGW7
- yaW1Q6Ul6wRxnHJBgKGjZp1xex6cgw0qBQ0dQjUj3uA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=yHUcAm
- JW2I9T3l6rNG9J/PGMT7AONxqRp4Me/z+CyMI=; b=pASw2KLZ5pcvAmmrCSqIyh
- Sd6G8y7lbNeMnrBAVKiyCwxi5NvfkA9MUJITwOX7mikdN/YTZHtPAbSnhrVA9pZ/
- XcE9i8Lx9Y80YiNE4BBOOmmaLY+acxVxz9pcCV7c6ZxCJb0+05MiRYdKlghDGeUy
- mhyIpkmdgF+GuZ4QzyeyWHMhPraT9SgWo4Dcqxu0R24i53d1nISkK6L4zmRYGk4K
- ZRIYk1rM51NTM6OoV6n7zAQHa/TN8TyCCJVUNQrvH68L/qLLZmn/l9qBgFKT60s/
- 0jw/3frCPOV4gcM4R2sxmphsFrhMCdnlXMP9SmO/ZGK4pFZMQpjPKKCmANq3Fvbg
- ==
-X-ME-Sender: <xms:CPOSX5HPL-cq5fatPsGiygXdo8TS5zTFgeY8hCvxhWJou0zmrrNZNA>
- <xme:CPOSX-XCecNMSivmX3PH59bx0ywNy5EyaqQhCzXHe1FPInAhDTMSmC9akHv4KLy41
- Z2XXtrt62LoNIYh71g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkedtgdekiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
- veenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:CPOSX7IRbth7Y-6TS_z_DfTmCYy5HucDpSfoePZ_CY_dNkuY01CCbg>
- <xmx:CPOSX_Hgvvvmh1B3eZdcTiSpkZec8o1gXMd_hbqefzzaQUnn-CABGw>
- <xmx:CPOSX_UQzkZGPbssURz5QLTaffUDZ0EgHbAKqqcYcJPMZuXd1W7T8Q>
- <xmx:CvOSXyP0DxljUcctKZUHHzsqsvVw2F4qSodqdYrd7rL3gqQa2jByeg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7D69D328005D;
- Fri, 23 Oct 2020 11:13:12 -0400 (EDT)
-Date: Fri, 23 Oct 2020 17:13:11 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 5/5] drm/<drivers>: Constify struct drm_driver
-Message-ID: <20201023151311.dd246rt5chohjw57@gilmour.lan>
-References: <20201023122811.2374118-1-daniel.vetter@ffwll.ch>
- <20201023122811.2374118-5-daniel.vetter@ffwll.ch>
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CEF56E2E1;
+ Fri, 23 Oct 2020 18:04:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=sSHscReIOky4s2YqhdJExEQEr3QLb6PUad1azvWlF30=; b=bmsxUUxca14wmg+tWuc9J1Um54
+ mwroxkG794AcVyl8IP7HQsnwrASV2FxLYnIfozn/D8XrX/Mo+fexew4sRMCVCOnkMdWZkjtcgEDjX
+ REIeoGHTnPvZ1jCNCHVxphOPMLqGWJ4WXE2e6sRjXih7ax+g+bRCkDRpBAZgG9FzszKFIb6ejmT5i
+ N9zLluyc760N2toNQTl5e2otI6XmQORpnxTNE/HcSLj+sD5Xqh6hjvdtr13zzC+iHhh5FmIaoJ6wc
+ r+JuKK4IQruoWQ1HN+oDW0Lcy2j+AjJdTPwcXmJAKrdMjUuhoT7npBSLr6TuWbu6zZqIKEehPkxnv
+ 8rNvuoAQ==;
+Received: from [2601:1c0:6280:3f0::507c]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kW1QW-0005sn-H0; Fri, 23 Oct 2020 18:04:32 +0000
+Subject: Re: [PATCH] drm/modes: Switch to 64bit maths to avoid integer overflow
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20201022194256.30978-1-ville.syrjala@linux.intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <a9b837f9-1293-b513-230a-5aa7385e2a3f@infradead.org>
+Date: Fri, 23 Oct 2020 11:04:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201023122811.2374118-5-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201022194256.30978-1-ville.syrjala@linux.intel.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 24 Oct 2020 17:05:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,86 +51,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, nouveau@lists.freedesktop.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: multipart/mixed; boundary="===============0857915395=="
+Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0857915395==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="v4ipol7ndp77sm72"
-Content-Disposition: inline
-
-
---v4ipol7ndp77sm72
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Oct 23, 2020 at 02:28:11PM +0200, Daniel Vetter wrote:
-> Only the following drivers aren't converted:
-> - amdgpu, because of the driver_feature mangling due to virt support
-> - nouveau, because DRIVER_ATOMIC uapi is still not the default on the
->   platforms where it's supported (i.e. again driver_feature mangling)
-> - vc4, again because of driver_feature mangling
-> - qxl, because the ioctl table is somewhere else and moving that is
->   maybe a bit too much, hence the num_ioctls assignment prevents a
->   const driver structure.
->=20
-> Note that for armada I also went ahead and made the ioctl array const.
->=20
-> Only cc'ing the driver people who've not been converted (everyone else
-> is way too much).
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: virtualization@lists.linux-foundation.org
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Christian K=F6nig <christian.koenig@amd.com>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: nouveau@lists.freedesktop.org
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---v4ipol7ndp77sm72
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5LzBwAKCRDj7w1vZxhR
-xQeYAP90dRsz0KSJ0nih77xgZfEUElpITJItnWR67S1ZmoKEwwEAoNThieyWwPHB
-68gdd7FrdMZXhjQv8Q+AZTU3S7CBZg8=
-=rHUD
------END PGP SIGNATURE-----
-
---v4ipol7ndp77sm72--
-
---===============0857915395==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0857915395==--
+T24gMTAvMjIvMjAgMTI6NDIgUE0sIFZpbGxlIFN5cmphbGEgd3JvdGU6Cj4gRnJvbTogVmlsbGUg
+U3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiAKPiBUaGUgbmV3ID44
+ayBDRUEgbW9kZXMgaGF2ZSBkb3RjbG9ja3MgcmVhY2hpbmcgNS45NCBHSHosIHdoaWNoCj4gbWVh
+bnMgb3VyIGNsb2NrKjEwMDAgd2lsbCBub3cgb3ZlcmZsb3cgdGhlIDMyYml0IHVuc2lnbmVkCj4g
+aW50ZWdlci4gU3dpdGNoIHRvIDY0Yml0IG1hdGhzIHRvIGF2b2lkIGl0Lgo+IAo+IENjOiBzdGFi
+bGVAdmdlci5rZXJuZWwub3JnCj4gUmVwb3J0ZWQtYnk6IFJhbmR5IER1bmxhcCA8cmR1bmxhcEBp
+bmZyYWRlYWQub3JnPgo+IFNpZ25lZC1vZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3ly
+amFsYUBsaW51eC5pbnRlbC5jb20+CgpUaGlzIGN1cmVzIHRoZSBwcm9ibGVtIHRoYXQgSSByZXBv
+cnRlZC4gVGhhbmtzLgoKVGVzdGVkLWJ5OiBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFk
+Lm9yZz4KCj4gLS0tCj4gQW4gaW50ZXJlc3RpbmcgcXVlc3Rpb24gaG93IG1hbnkgb3RoZXIgcGxh
+Y2UgbWlnaHQgc3VmZmVyIGZyb20gc2ltaWxhcgo+IG92ZXJmbG93cy4gSSB0aGluayBpOTE1IHNo
+b3VsZCBiZSBtb3N0bHkgT0suIFRoZSBvbmUgcGxhY2UgSSBrbm93IHdlIHVzZQo+IEh6IGluc3Rl
+YWQga0h6IGlzIHRoZSBoc3cgRFBMTCBjb2RlLCB3aGljaCBJIHdvdWxkIHByZWZlciB3ZSBhbHNv
+IGNoYW5nZQo+IHRvIHVzZSBrSHouIFRoZSBvdGhlciBjb25jZXJuIGlzIHdoZXRoZXIgd2UgaGF2
+ZSBhbnkgcG90ZW50aWFsIG92ZXJmbG93cwo+IGJlZm9yZSB3ZSBjaGVjayB0aGlzIGFnYWluc3Qg
+dGhlIHBsYXRmb3JtJ3MgbWF4IGRvdGNsb2NrLgo+IAo+IEkgZG8gaGF2ZSB0aGlzIHVucmV2aWV3
+ZWQgaWd0IHNlcmllcyAKPiBodHRwczovL3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvc2VyaWVz
+LzY5NTMxLyB3aGljaCBleHRlbmRzIHRoZQo+IGN1cnJlbnQgdGVzdGluZyB3aXRoIHNvbWUgb3Ro
+ZXIgZm9ybXMgb2YgaW52YWxpZCBtb2Rlcy4gQ291bGQgcHJvYmFibHkKPiBleHRlbmQgdGhhdCB3
+aXRoIGEgbW9kZS5jbG9jaz1JTlRfTUFYIHRlc3QgdG8gc2VlIGlmIGFueXRoaW5nIGVsc2UgbWln
+aHQKPiB0cmlwIHVwLgo+IAo+IE5vIGlkZWEgYWJvdXQgb3RoZXIgZHJpdmVycy4KPiAKPiAgZHJp
+dmVycy9ncHUvZHJtL2RybV9tb2Rlcy5jIHwgNCArKy0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
+c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fbW9kZXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZXMuYwo+IGluZGV4IDUw
+MWI0ZmU1NWEzZC4uNTExY2RlNWM3ZmE2IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fbW9kZXMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZXMuYwo+IEBAIC03NjIs
+NyArNzYyLDcgQEAgaW50IGRybV9tb2RlX3ZyZWZyZXNoKGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxh
+eV9tb2RlICptb2RlKQo+ICAJaWYgKG1vZGUtPmh0b3RhbCA9PSAwIHx8IG1vZGUtPnZ0b3RhbCA9
+PSAwKQo+ICAJCXJldHVybiAwOwo+ICAKPiAtCW51bSA9IG1vZGUtPmNsb2NrICogMTAwMDsKPiAr
+CW51bSA9IG1vZGUtPmNsb2NrOwo+ICAJZGVuID0gbW9kZS0+aHRvdGFsICogbW9kZS0+dnRvdGFs
+Owo+ICAKPiAgCWlmIChtb2RlLT5mbGFncyAmIERSTV9NT0RFX0ZMQUdfSU5URVJMQUNFKQo+IEBA
+IC03NzIsNyArNzcyLDcgQEAgaW50IGRybV9tb2RlX3ZyZWZyZXNoKGNvbnN0IHN0cnVjdCBkcm1f
+ZGlzcGxheV9tb2RlICptb2RlKQo+ICAJaWYgKG1vZGUtPnZzY2FuID4gMSkKPiAgCQlkZW4gKj0g
+bW9kZS0+dnNjYW47Cj4gIAo+IC0JcmV0dXJuIERJVl9ST1VORF9DTE9TRVNUKG51bSwgZGVuKTsK
+PiArCXJldHVybiBESVZfUk9VTkRfQ0xPU0VTVF9VTEwobXVsX3UzMl91MzIobnVtLCAxMDAwKSwg
+ZGVuKTsKPiAgfQo+ICBFWFBPUlRfU1lNQk9MKGRybV9tb2RlX3ZyZWZyZXNoKTsKPiAgCj4gCgoK
+LS0gCn5SYW5keQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
