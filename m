@@ -2,44 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937BE2977FD
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 22:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC12297855
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 22:40:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 451226E400;
-	Fri, 23 Oct 2020 20:02:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F1556E823;
+	Fri, 23 Oct 2020 20:40:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 595576E400
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 20:02:39 +0000 (UTC)
-Received: from localhost (p5b35db11.dip0.t-ipconnect.de [91.53.219.17])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5C6F920FC3;
- Fri, 23 Oct 2020 20:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603483359;
- bh=hDOEzAxi95sem2PmS9KZVDmchKA6xtzm/88DXdUooiw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FwezQFVQVyDr5A2On7/Xianed48bAS8BClnsEKjQEF5rFTdB9bUDAX6dKigGf5+nf
- O1HXQYVc63Ei0vCbEEJLiEdAjto/zryJzDpjbX3j/y/gi9DjHDpww6Ffgd4jFETEaq
- WlepcR46MPw5EswUs8/ag1N8myRCHuScU/nqODuM=
-Date: Fri, 23 Oct 2020 22:02:35 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: More whitespace clean-ups in schema files
-Message-ID: <20201023200235.GA4473@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-pm@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20201023192258.3126047-1-robh@kernel.org>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 778186E823;
+ Fri, 23 Oct 2020 20:40:01 +0000 (UTC)
+IronPort-SDR: /AafczF3owKnhh13c+aG9EnEnAsOSsyY/u9wjOQB/WLXwiweneXHeAOgW2fya4Gu134fqap+n0
+ 5u8jmtCvWBlw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9783"; a="231920964"
+X-IronPort-AV: E=Sophos;i="5.77,409,1596524400"; d="scan'208";a="231920964"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2020 13:40:00 -0700
+IronPort-SDR: xpqGVB7Nlr5ymj9xZcxRPT6JQsOqTlH5910zgpYNMGZQtLziAmg9pkw3ww4orwob0T9RIPXz76
+ YrBPA0e1TH7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,409,1596524400"; d="scan'208";a="360339594"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 23 Oct 2020 13:39:58 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 23 Oct 2020 23:39:57 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: Don't create the IN_FORMATS blob when the driver does
+ not provide .format_mod_supported()
+Date: Fri, 23 Oct 2020 23:39:57 +0300
+Message-Id: <20201023203957.3255-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201023192258.3126047-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,82 +49,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-pm@vger.kernel.org, linux-iio@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0455731004=="
+Cc: intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0455731004==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3V7upXqbjpZ4EhLz"
-Content-Disposition: inline
-
-
---3V7upXqbjpZ4EhLz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Oct 23, 2020 at 02:22:58PM -0500, Rob Herring wrote:
-> Clean-up incorrect indentation, extra spaces, and missing EOF newline in
-> schema files. Most of the clean-ups are for list indentation which
-> should always be 2 spaces more than the preceding keyword.
->=20
-> Found with yamllint (now integrated into the checks).
->=20
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-i2c@vger.kernel.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-mmc@vger.kernel.org
-> Cc: linux-mtd@lists.infradead.org
-> Cc: linux-serial@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-Acked-by: Wolfram Sang <wsa@kernel.org> # for I2C
-
-
---3V7upXqbjpZ4EhLz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl+TNtcACgkQFA3kzBSg
-KbZOdBAAkqpJEFfYvRRb1SGSzO/gUrubqUMa8fIlI3uJkjT7IeUC5fnw0hLY1MxJ
-Cbfd4NNRvkk6E9yKwFo8kApquTQGdGpwcO9r0CiBa7hkbQgUbDKVvtBmjGSslFWs
-0j0Vo+YnXMNHy5/Wm1f9ZJLUUiE+VZgFJcq4A4Vu4caF03uI0DUINEIYkllpitlB
-2df2t4pMA5Hzy9BXd2LvhDIDp1CkyWqQ8gXiQ39xE3IzqU6PHe5g9nb0d2HH41Jf
-qdI7CqNt+W1d20gSUA6xr2LesbmR0ZxdJ2Vhl99IiUR3VLXWvq4nuF3Y+12pYZoW
-DJNroSrxWH8330Lhgqz/KWtZ/6XThDblaU0vXoP5svYMsCfaobu+g6mgRFCzVBRB
-YFhUS0I8Vl5IxMWXjodFn2QtX8Ojc4Ip3DchF4Q2fYqkU8JGm1viFZb7OyCzMCok
-1eBcR34Ba2ssrW98znmk7am1PSWWp8/X4odPTQBGamLSeq3iYKSZCCUPnTvR4RJu
-4C19OWsUy3ILh65y/6CquGIbEVQP+HtACQlEU3JWsBSPfT+wfdazF8sZkTo1keoZ
-tQxJw0DPlBMo5id9L9vahqoV8J7pncnzOonWyFr0AgHQ3V9DJV1ggVC/qD0rXEyx
-jrzs0Ye/zKGIorZ8jxV6ggh/XpRNjEgM1g/5l+LT1mb7cY593Ao=
-=P6je
------END PGP SIGNATURE-----
-
---3V7upXqbjpZ4EhLz--
-
---===============0455731004==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0455731004==--
+RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KClRo
+ZSBjb2RlIHJlc3BvbnNpYmxlIGZvciBjcmVhdGluZyB0aGUgSU5fRk9STUFUUwpibG9iIGlzIGJy
+b2tlbiB3aGVuIHRoZSBkcml2ZXIgZG9lc24ndCBwcm92aWRlIGEKLmZvcm1hdF9tb2Rfc3VwcG9y
+dGVkKCkgaG9vay4gSXQganVzdCBjb3BpZXMgaW4KdGhlIGZvcm1hdCBsaXN0LCBidXQgbGVhdmVz
+IGFsbCB0aGUgbW9kaWZpZXIgaW5mb3JtYXRpb24KemVyb2VkLiBUaGF0IHdvdWxkIGluZGljYXRl
+IChpbiBhIHZlcnkgc2lsbHkgd2F5KSB0aGF0CnRoZXJlIGFyZSBpbiBmYWN0IG5vIHN1cHBvcnRl
+ZCBmb3JtYXQrbW9kaWZpZXIgY29tYmluYXRpb25zLgpUaGF0IGlzIHV0dGVyIG5vbnNlbnNlLgoK
+TGV0J3MganVzdCBub3QgY3JlYXRlIHRoZSBibG9iIGF0IGFsbCBpbiB0aGF0IGNhc2UuIFRoZQph
+bHRlcm5hdGl2ZSB3b3VsZCBiZSB0byBhc3N1bWUgYWxsIGZvcm1hdCttb2QgY29tYm9zIHdpbGwK
+d29yayBhbmQgcG9wdWxhdGUgaXQgYWNjb3JkaW5nbHkuIEJ1dCBJJ20gbm90IGNvbnZpbmNlZCB3
+ZQpjYW4gbWFrZSB0aGF0IHByb21pc2UgdG8gdXNlcnNwYWNlIGZvciBhbGwgdGhlIGRyaXZlcnMu
+CgpTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50
+ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyB8IDcgKy0tLS0tLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUu
+YwppbmRleCBlNjIzMTk0N2Y5ODcuLjIwMmEyYjY4MDk0NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2RybV9wbGFuZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYwpAQCAt
+MTI0LDEwICsxMjQsNiBAQCBzdGF0aWMgaW50IGNyZWF0ZV9pbl9mb3JtYXRfYmxvYihzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZQogCiAJbWVtY3B5KGZvcm1h
+dHNfcHRyKGJsb2JfZGF0YSksIHBsYW5lLT5mb3JtYXRfdHlwZXMsIGZvcm1hdHNfc2l6ZSk7CiAK
+LQkvKiBJZiB3ZSBjYW4ndCBkZXRlcm1pbmUgc3VwcG9ydCwganVzdCBiYWlsICovCi0JaWYgKCFw
+bGFuZS0+ZnVuY3MtPmZvcm1hdF9tb2Rfc3VwcG9ydGVkKQotCQlnb3RvIGRvbmU7Ci0KIAltb2Qg
+PSBtb2RpZmllcnNfcHRyKGJsb2JfZGF0YSk7CiAJZm9yIChpID0gMDsgaSA8IHBsYW5lLT5tb2Rp
+Zmllcl9jb3VudDsgaSsrKSB7CiAJCWZvciAoaiA9IDA7IGogPCBwbGFuZS0+Zm9ybWF0X2NvdW50
+OyBqKyspIHsKQEAgLTE0NSw3ICsxNDEsNiBAQCBzdGF0aWMgaW50IGNyZWF0ZV9pbl9mb3JtYXRf
+YmxvYihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZQogCQlt
+b2QrKzsKIAl9CiAKLWRvbmU6CiAJZHJtX29iamVjdF9hdHRhY2hfcHJvcGVydHkoJnBsYW5lLT5i
+YXNlLCBjb25maWctPm1vZGlmaWVyc19wcm9wZXJ0eSwKIAkJCQkgICBibG9iLT5iYXNlLmlkKTsK
+IApAQCAtMjgxLDcgKzI3Niw3IEBAIGludCBkcm1fdW5pdmVyc2FsX3BsYW5lX2luaXQoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiAJCWRybV9vYmplY3Rf
+YXR0YWNoX3Byb3BlcnR5KCZwbGFuZS0+YmFzZSwgY29uZmlnLT5wcm9wX3NyY19oLCAwKTsKIAl9
+CiAKLQlpZiAoY29uZmlnLT5hbGxvd19mYl9tb2RpZmllcnMpCisJaWYgKGNvbmZpZy0+YWxsb3df
+ZmJfbW9kaWZpZXJzICYmIGZ1bmNzLT5mb3JtYXRfbW9kX3N1cHBvcnRlZCkKIAkJY3JlYXRlX2lu
+X2Zvcm1hdF9ibG9iKGRldiwgcGxhbmUpOwogCiAJcmV0dXJuIDA7Ci0tIAoyLjI2LjIKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
