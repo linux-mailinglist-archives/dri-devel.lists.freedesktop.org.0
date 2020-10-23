@@ -2,31 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F40296B3D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 10:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460C2296B8D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 10:55:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC3FB6E4DE;
-	Fri, 23 Oct 2020 08:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA4B6E4DD;
+	Fri, 23 Oct 2020 08:55:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C5456E4DE
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 08:29:51 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5491AABF4;
- Fri, 23 Oct 2020 08:29:50 +0000 (UTC)
-Subject: Re: [PATCH] gpu/drm/mgag200:remove break after return
-To: Bernard <bernard@vivo.com>
-References: <ADgA6wAcDbnOQfg3AhKb6KoN.3.1603439329788.Hmail.bernard@vivo.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <44e91fc5-275e-0cd3-b6cd-acc14621a9fd@suse.de>
-Date: Fri, 23 Oct 2020 10:29:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADF3B6E0A0;
+ Fri, 23 Oct 2020 08:55:54 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id b129so466002vsb.1;
+ Fri, 23 Oct 2020 01:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VrgWV1XWbcuCg9GaCDJeiAri9+wMdkyvxmkhnkdh2XQ=;
+ b=k/zsz1D5kJL1QqFMhfky40jSWvVoK56aDfPqEapqNR77K9tqGrd7nOc1uPV2aCqEUi
+ zdJiZw63yV2i6Hyji7F8b2+zdTgoO3KCuEb2BVqZf19YRYt7SvvZ3iKem19to/08p5CC
+ tEaqVviVrkFaN6n4z6ASWYejJEtreiSXQh9LqgKBZt9Fr5/2wXAIr3as9GGztW5Vm0WT
+ PgvCAejIHZlkLsdy+GWOn2dMxAWhabc8tcJ/pwkCklLkRjeKH5JP2Mes39LVbAhlz7m5
+ 15pGx9iAjwTwLTYNKVnreYjuAZMYWVlKmTJBqhhDOD0qiqXMBhNncp8RzBE9qKWc9KuT
+ bxzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VrgWV1XWbcuCg9GaCDJeiAri9+wMdkyvxmkhnkdh2XQ=;
+ b=NHj5ytEzkk16cAxAQXU1fa479azOyjTmjwd8iYPDaaNxjSMU/bOguNifyUDyvEIVhL
+ kqeeT5OXJshdWsXXO53yVj3Jbs/XvbvQaM64Cpj8+ozOL57XA5Ebke3LB+WHLRBUUwHo
+ +6HhEEZFAphvArGhHkBBlOBshI8W4jjcUvzoF0TBmtCxvqia6Xc15BXoKtvRBMjw4deJ
+ x4WKpec8znVprgfgINW5FPvjERmxvZFNBQuEAYWvz44K7II0wWM+Z1H2L2e62jydlPS8
+ L2BlKjR+9OVG5hLiYpiEz7Zp11ZerA+qZwrSnzr8SJSGNcHcbZmhI3AQLfm4VU2liZO1
+ +AwA==
+X-Gm-Message-State: AOAM533/XhYNOz72RXhP0re/sRjObN1iJelSzxz1Y+BXcMsBBPYTpdUX
+ kNQgL7Vt2/r9M1NhJbi13or1h+E8ijBxej1p44o=
+X-Google-Smtp-Source: ABdhPJxzw/TzwHl8NsIg10rvRwEW2mPINuyDLe8SZgJ7I5reykwZdVAlN/5t6G6QC7KBmfvF1V0QRkpdTfuZ4Fmj9gY=
+X-Received: by 2002:a05:6102:31b5:: with SMTP id
+ d21mr563635vsh.19.1603443353482; 
+ Fri, 23 Oct 2020 01:55:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ADgA6wAcDbnOQfg3AhKb6KoN.3.1603439329788.Hmail.bernard@vivo.com>
-Content-Language: en-US
+References: <20201019204636.139997-1-robdclark@gmail.com>
+ <20201019204636.139997-7-robdclark@gmail.com>
+In-Reply-To: <20201019204636.139997-7-robdclark@gmail.com>
+From: =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
+Date: Fri, 23 Oct 2020 10:55:42 +0200
+Message-ID: <CAOeoa-e+ObTCG+KFvkT7NJngHvDyDoc+zNTyOpJqRkL=8TxqVg@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v3 06/23] drm/msm/gem: Move locking in
+ shrinker path
+To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,66 +63,237 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCk9uIDIzLjEwLjIwIDA5OjQ4LCBCZXJuYXJkIHdyb3RlOgo+IAo+IAo+IEZyb206IFRob21h
-cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IERhdGU6IDIwMjAtMTAtMjMgMTU6
-MTM6MzAKPiBUbzogIEJlcm5hcmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4sRGF2ZSBBaXJsaWUg
-PGFpcmxpZWRAcmVkaGF0LmNvbT4sRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPixEYW5p
-ZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+LGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcsbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZwo+IENjOiAgb3BlbnNvdXJjZS5rZXJuZWxA
-dml2by5jb20KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBncHUvZHJtL21nYWcyMDA6cmVtb3ZlIGJy
-ZWFrIGFmdGVyIHJldHVybj5IaQo+Pgo+PiBPbiAyMy4xMC4yMCAwOTowMCwgQmVybmFyZCBaaGFv
-IHdyb3RlOgo+Pj4gSW4gZnVuY3Rpb24gbWdhZzIwMF9zZXRfcGNpX3JlZ3MsIHRoZXJlIGFyZSBz
-b21lIHN3aXRjaCBjYXNlcwo+Pj4gcmV0dXJuZWQsIHRoZW4gYnJlYWsuIFRoZXNlIGJyZWFrIHdp
-bGwgbmV2ZXIgcnVuLgo+Pj4gVGhpcyBwYXRjaCBpcyB0byBtYWtlIHRoZSBjb2RlIGEgYml0IHJl
-YWRhYmxlLgo+Pj4KPj4+IFNpZ25lZC1vZmYtYnk6IEJlcm5hcmQgWmhhbyA8YmVybmFyZEB2aXZv
-LmNvbT4KPj4+IC0tLQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5j
-IHwgNSArLS0tLQo+Pj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgNCBkZWxldGlv
-bnMoLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIw
-MF9tb2RlLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYwo+Pj4gaW5k
-ZXggMzg2NzJmOWU1YzRmLi5kZTg3M2E1ZDI3NmUgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21n
-YWcyMDAvbWdhZzIwMF9tb2RlLmMKPj4+IEBAIC03OTQsMjAgKzc5NCwxNyBAQCBzdGF0aWMgaW50
-IG1nYWcyMDBfY3J0Y19zZXRfcGxscyhzdHJ1Y3QgbWdhX2RldmljZSAqbWRldiwgbG9uZyBjbG9j
-aykKPj4+ICAJY2FzZSBHMjAwX1NFX0E6Cj4+PiAgCWNhc2UgRzIwMF9TRV9COgo+Pj4gIAkJcmV0
-dXJuIG1nYV9nMjAwc2Vfc2V0X3BsbHMobWRldiwgY2xvY2spOwo+Pj4gLQkJYnJlYWs7Cj4+PiAg
-CWNhc2UgRzIwMF9XQjoKPj4+ICAJY2FzZSBHMjAwX0VXMzoKPj4+ICAJCXJldHVybiBtZ2FfZzIw
-MHdiX3NldF9wbGxzKG1kZXYsIGNsb2NrKTsKPj4+IC0JCWJyZWFrOwo+Pj4gIAljYXNlIEcyMDBf
-RVY6Cj4+PiAgCQlyZXR1cm4gbWdhX2cyMDBldl9zZXRfcGxscyhtZGV2LCBjbG9jayk7Cj4+PiAt
-CQlicmVhazsKPj4+ICAJY2FzZSBHMjAwX0VIOgo+Pj4gIAljYXNlIEcyMDBfRUgzOgo+Pj4gIAkJ
-cmV0dXJuIG1nYV9nMjAwZWhfc2V0X3BsbHMobWRldiwgY2xvY2spOwo+Pj4gLQkJYnJlYWs7Cj4+
-PiAgCWNhc2UgRzIwMF9FUjoKPj4+ICAJCXJldHVybiBtZ2FfZzIwMGVyX3NldF9wbGxzKG1kZXYs
-IGNsb2NrKTsKPj4+ICsJZGVmYXVsdDoKPj4KPj4gTm8gZGVmYXVsdCBjYXNlIGhlcmUuIElmIG9u
-ZSBvZiB0aGUgZW51bSB2YWx1ZXMgaXMgbm90IGhhbmRsZWQgYnkgdGhlCj4+IHN3aXRjaCwgdGhl
-IGNvbXBpbGVyIHNob3VsZCB3YXJuIGFib3V0IGl0Lgo+IAo+IEhpCj4gCj4gRm9yIHRoaXMgcG9p
-bnQgSSB3YXMgYSBsaXR0bGUgY29uZnVzZWQsIGFib3V0IHRoaXMgc3dpdGNoIHZhcmlhYmxlICJt
-ZGV2LT50eXBlIiwgbXkgdW5kZXJzdGFuZGluZyBpcyB0aGF0IHRoaXMgdmFyaWFibGVgcyB2YWx1
-ZSBjYW4gYmUgY2VydGFpbiBvbmx5IHdoZW4gdGhlIGNvZGUgaXMgcnVubmluZy4KPiBIb3cgZG9l
-cyB0aGUgY29tcGlsZXIgd2FybiB0aGlzKCJJZiBvbmUgb2YgdGhlIGVudW0gdmFsdWVzIGlzIG5v
-dCBoYW5kbGVkIikgYmVmb3JlIHRoZSBjb2RlIHJ1bnM/CgpUaGUgZW51bSBtZ2FfdHlwZSB7fSBo
-YXMgdmFsdWVzIChHMjAwX0VSLCBHMjAwX1dCLCBldGMpIHRoYXQgYXJlIGtub3duCnRvIHRoZSBj
-b21waWxlci4gSWYgb25lIG9mIHRob3NlIHZhbHVlcyBkb2VzIG5vdCBzaG93IHVwIGluIHRoZSBz
-d2l0Y2gKc3RhdGVtZW50LCB0aGUgY29tcGlsZXIgd2FybnMuIEFkZGluZyBkZWZhdWx0IHdvdWxk
-IHNpbGVuY2UgdGhpcyB3YXJuaW5nLgoKSW4gcHJpbmNpcGxlLCBtZGV2LT50eXBlIGNvdWxkIGNv
-bnRhaW4gYW55IHZhbHVlIHRoYXQgZml0cyBpbnRvIGFuIGludC4KQnV0IGFzc2lnbmluZyBhbnl0
-aGluZyB0aGF0IGlzIG5vdCBsaXN0ZWQgaW4gZW51bSBtZ2FfdHlwZSB7fSBpcwpjb25zaWRlcmVk
-IGFuIGVycm9yIGFzIHdlbGwuCgpCZXN0IHJlZ2FyZHMKVGhvbWFzCgo+IAo+IEJSLy9CZXJuYXJk
-Cj4gCj4+IEJlc3QgcmVnYXJkcwo+PiBUaG9tYXMKPj4KPj4+ICAJCWJyZWFrOwo+Pj4gIAl9Cj4+
-PiAgCj4+Pgo+Pgo+PiAtLSAKPj4gVGhvbWFzIFppbW1lcm1hbm4KPj4gR3JhcGhpY3MgRHJpdmVy
-IERldmVsb3Blcgo+PiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPj4gTWF4
-ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4+IChIUkIgMzY4MDksIEFHIE7D
-vHJuYmVyZykKPj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+IAo+IAoK
-LS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKU1VTRSBTb2Z0
-d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
-ZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCkdlc2Now6RmdHNmw7xocmVyOiBG
-ZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+On Mon, Oct 19, 2020 at 10:45 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Move grabbing the bo lock into shrinker, with a msm_gem_trylock() to
+> skip over bo's that are already locked.  This gets rid of the nested
+> lock classes.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/msm_gem.c          | 24 +++++----------------
+>  drivers/gpu/drm/msm/msm_gem.h          | 29 ++++++++++----------------
+>  drivers/gpu/drm/msm/msm_gem_shrinker.c | 27 +++++++++++++++++-------
+>  3 files changed, 35 insertions(+), 45 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index e0d8d739b068..1195847714ba 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -17,8 +17,6 @@
+>  #include "msm_gpu.h"
+>  #include "msm_mmu.h"
+>
+> -static void msm_gem_vunmap_locked(struct drm_gem_object *obj);
+> -
+>
+>  static dma_addr_t physaddr(struct drm_gem_object *obj)
+>  {
+> @@ -693,20 +691,19 @@ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv)
+>         return (madv != __MSM_MADV_PURGED);
+>  }
+>
+> -void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass)
+> +void msm_gem_purge(struct drm_gem_object *obj)
+>  {
+>         struct drm_device *dev = obj->dev;
+>         struct msm_gem_object *msm_obj = to_msm_bo(obj);
+>
+>         WARN_ON(!mutex_is_locked(&dev->struct_mutex));
+> +       WARN_ON(!msm_gem_is_locked(obj));
+>         WARN_ON(!is_purgeable(msm_obj));
+>         WARN_ON(obj->import_attach);
+>
+> -       mutex_lock_nested(&msm_obj->lock, subclass);
+> -
+>         put_iova(obj);
+>
+> -       msm_gem_vunmap_locked(obj);
+> +       msm_gem_vunmap(obj);
+>
+>         put_pages(obj);
+>
+> @@ -724,11 +721,9 @@ void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass)
+>
+>         invalidate_mapping_pages(file_inode(obj->filp)->i_mapping,
+>                         0, (loff_t)-1);
+> -
+> -       msm_gem_unlock(obj);
+>  }
+>
+> -static void msm_gem_vunmap_locked(struct drm_gem_object *obj)
+> +void msm_gem_vunmap(struct drm_gem_object *obj)
+>  {
+>         struct msm_gem_object *msm_obj = to_msm_bo(obj);
+>
+> @@ -741,15 +736,6 @@ static void msm_gem_vunmap_locked(struct drm_gem_object *obj)
+>         msm_obj->vaddr = NULL;
+>  }
+>
+> -void msm_gem_vunmap(struct drm_gem_object *obj, enum msm_gem_lock subclass)
+> -{
+> -       struct msm_gem_object *msm_obj = to_msm_bo(obj);
+> -
+> -       mutex_lock_nested(&msm_obj->lock, subclass);
+> -       msm_gem_vunmap_locked(obj);
+> -       msm_gem_unlock(obj);
+> -}
+> -
+>  /* must be called before _move_to_active().. */
+>  int msm_gem_sync_object(struct drm_gem_object *obj,
+>                 struct msm_fence_context *fctx, bool exclusive)
+> @@ -986,7 +972,7 @@ static void free_object(struct msm_gem_object *msm_obj)
+>
+>                 drm_prime_gem_destroy(obj, msm_obj->sgt);
+>         } else {
+> -               msm_gem_vunmap_locked(obj);
+> +               msm_gem_vunmap(obj);
+>                 put_pages(obj);
+>         }
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+> index d55d5401a2d2..c5232b8da794 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.h
+> +++ b/drivers/gpu/drm/msm/msm_gem.h
+> @@ -162,6 +162,13 @@ msm_gem_lock(struct drm_gem_object *obj)
+>         mutex_lock(&msm_obj->lock);
+>  }
+>
+> +static inline bool __must_check
+> +msm_gem_trylock(struct drm_gem_object *obj)
+> +{
+> +       struct msm_gem_object *msm_obj = to_msm_bo(obj);
+> +       return mutex_trylock_recursive(&msm_obj->lock) == MUTEX_TRYLOCK_SUCCESS;
+
+This can just be
+
+    return mutex_trylock(&msm_obj->lock) == 1;
+
+now, right?
+
+> +}
+> +
+>  static inline int
+>  msm_gem_lock_interruptible(struct drm_gem_object *obj)
+>  {
+> @@ -190,6 +197,7 @@ static inline bool is_active(struct msm_gem_object *msm_obj)
+>
+>  static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+>  {
+> +       WARN_ON(!msm_gem_is_locked(&msm_obj->base));
+>         WARN_ON(!mutex_is_locked(&msm_obj->base.dev->struct_mutex));
+>         return (msm_obj->madv == MSM_MADV_DONTNEED) && msm_obj->sgt &&
+>                         !msm_obj->base.dma_buf && !msm_obj->base.import_attach;
+> @@ -197,27 +205,12 @@ static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+>
+>  static inline bool is_vunmapable(struct msm_gem_object *msm_obj)
+>  {
+> +       WARN_ON(!msm_gem_is_locked(&msm_obj->base));
+>         return (msm_obj->vmap_count == 0) && msm_obj->vaddr;
+>  }
+>
+> -/* The shrinker can be triggered while we hold objA->lock, and need
+> - * to grab objB->lock to purge it.  Lockdep just sees these as a single
+> - * class of lock, so we use subclasses to teach it the difference.
+> - *
+> - * OBJ_LOCK_NORMAL is implicit (ie. normal mutex_lock() call), and
+> - * OBJ_LOCK_SHRINKER is used by shrinker.
+> - *
+> - * It is *essential* that we never go down paths that could trigger the
+> - * shrinker for a purgable object.  This is ensured by checking that
+> - * msm_obj->madv == MSM_MADV_WILLNEED.
+> - */
+> -enum msm_gem_lock {
+> -       OBJ_LOCK_NORMAL,
+> -       OBJ_LOCK_SHRINKER,
+> -};
+> -
+> -void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass);
+> -void msm_gem_vunmap(struct drm_gem_object *obj, enum msm_gem_lock subclass);
+> +void msm_gem_purge(struct drm_gem_object *obj);
+> +void msm_gem_vunmap(struct drm_gem_object *obj);
+>  void msm_gem_free_work(struct work_struct *work);
+>
+>  /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
+> diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+> index 482576d7a39a..2dc0ffa925b4 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+> @@ -52,8 +52,11 @@ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
+>                 return 0;
+>
+>         list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
+> +               if (!msm_gem_trylock(&msm_obj->base))
+> +                       continue;
+>                 if (is_purgeable(msm_obj))
+>                         count += msm_obj->base.size >> PAGE_SHIFT;
+> +               msm_gem_unlock(&msm_obj->base);
+>         }
+>
+>         if (unlock)
+> @@ -78,10 +81,13 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+>         list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
+>                 if (freed >= sc->nr_to_scan)
+>                         break;
+> +               if (!msm_gem_trylock(&msm_obj->base))
+> +                       continue;
+>                 if (is_purgeable(msm_obj)) {
+> -                       msm_gem_purge(&msm_obj->base, OBJ_LOCK_SHRINKER);
+> +                       msm_gem_purge(&msm_obj->base);
+>                         freed += msm_obj->base.size >> PAGE_SHIFT;
+>                 }
+> +               msm_gem_unlock(&msm_obj->base);
+>         }
+>
+>         if (unlock)
+> @@ -107,15 +113,20 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
+>                 return NOTIFY_DONE;
+>
+>         list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
+> +               if (!msm_gem_trylock(&msm_obj->base))
+> +                       continue;
+>                 if (is_vunmapable(msm_obj)) {
+> -                       msm_gem_vunmap(&msm_obj->base, OBJ_LOCK_SHRINKER);
+> -                       /* since we don't know any better, lets bail after a few
+> -                        * and if necessary the shrinker will be invoked again.
+> -                        * Seems better than unmapping *everything*
+> -                        */
+> -                       if (++unmapped >= 15)
+> -                               break;
+> +                       msm_gem_vunmap(&msm_obj->base);
+> +                       unmapped++;
+>                 }
+> +               msm_gem_unlock(&msm_obj->base);
+> +
+> +               /* since we don't know any better, lets bail after a few
+> +                * and if necessary the shrinker will be invoked again.
+> +                * Seems better than unmapping *everything*
+> +                */
+> +               if (++unmapped >= 15)
+> +                       break;
+>         }
+>
+>         if (unlock)
+> --
+> 2.26.2
+>
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
