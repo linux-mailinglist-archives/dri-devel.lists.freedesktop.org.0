@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BA0296BC8
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 11:09:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4BA4296BDA
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 11:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8B356E0A0;
-	Fri, 23 Oct 2020 09:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCD1E6E4EC;
+	Fri, 23 Oct 2020 09:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7192D6E0A0;
- Fri, 23 Oct 2020 09:08:59 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id n18so478950vsl.2;
- Fri, 23 Oct 2020 02:08:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3F76E4EC
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 09:13:04 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id s21so1151978oij.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 02:13:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wem+NylVu/3ov/fkXS57osU2iNI0XmG3B8ARt9wz/5A=;
- b=R6KdPQnObho4Td4VWsSPL63GF2j7KplJv3T018SPGs21Azl4R++Cxwt3TAAmXY+MKJ
- KDE/ZM3PkRGKdnHjWQv1VUJJPTw0xihDNdnPPpH5bgF5xHcKNgrTBYap5plzdVH8x5JI
- gcBy3LlTw/jmFmWIVC9C7y9etu3W3JCsIbDwQ7Y71QPBROOmiZlgXXE2AgEbQW8nMHjA
- CnROv6l9tsnplQs5IYCphtXH5yXki+Fv15FetSAx8nOfvp+eVUQ3bZ4gKgRicEwbz60f
- L6CaH0phF3FmtqGWVBImj/SLLr55B1mEPAR5fecuRZONO1xAc9R2P3g8XWRUWj2wtq52
- yg0Q==
+ :cc:content-transfer-encoding;
+ bh=qM5nhEMYeFdEA7QerSEffOkMoRD8vG6Y+rmNtsxnjd4=;
+ b=Xxk1aGPWSfFkpkis6OoEqJ2gCaQ0ahlPrRIzd5LTpnMwyB8U4J5r+K0BKl7hDE+eYN
+ 3FcbH6Xq/dGBMGOJztPD8i+0aPOjlnDIfmE3yk5nKc52BxNSLHg2zElLlqf99LJUx8Jn
+ jnSHwE5Y+hs0wMvh4+/GAgohgcKexUIqGABys=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wem+NylVu/3ov/fkXS57osU2iNI0XmG3B8ARt9wz/5A=;
- b=WX45zmjdc4snPBiLo3fkhvYMu9W4x4EeQYI9be7hhb1OXsZaSqfdIj59Qn8BVS2nBr
- Lq3rK0llt1G1P04Y8rLbY1wLcc6gAVaQdJOFlGvy6cBif68oe+eWVr6no5451N2J54e4
- NImSRq9bGwgveZQR8pHmbW4oRzVIJDRKbuvv72UDHETrB/ytp7Y98p8w3THoq/z2fDGd
- fO/WYguMcLc32vu1BstqZ/TtrEfMSJtVJjLUh9YDtDUTwj1tA6hknp66cWwLoiN9Tn2R
- ANHtwDoWknfsCZPffyY+znkAgV+jJ6po3Zpyeyx4eepXELDoMoqeSLb4eWwkKRmGnP/q
- /vPA==
-X-Gm-Message-State: AOAM532XlQYZdbOuIwFWy3D07pcJh5+pLsheBIJ1SdgcwNRkHOBRJJ2a
- S8xudy8euCzD4fEmdaXU22DyoKyaR6oEr6V98N0=
-X-Google-Smtp-Source: ABdhPJy38Q095ZgB/JArW7mlS/RlJXZzyXODxGBRzGe7+80ka89drMo7RnqzfKBzNLpoLvGP5AoC1EUoK7cpD/gg5xc=
-X-Received: by 2002:a05:6102:31b5:: with SMTP id
- d21mr593072vsh.19.1603444138226; 
- Fri, 23 Oct 2020 02:08:58 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qM5nhEMYeFdEA7QerSEffOkMoRD8vG6Y+rmNtsxnjd4=;
+ b=c4ipTwneG52qKXyHRcWgqeIYgZsaz7wGvNse1I8k7zYUR3b/y2DcML44CoL8GTUU8C
+ QSolXvCYUGsWse3jm37Mc7vSLuY9tRU7HXDN9Yd7j3OCrFdjkjJLuh6jPK/kPLFfN9xb
+ GAuq6oM9m89Nk3NN7PrjJ5CjPw5DjZu/L9CLMI6HyR0eabE96I9mtz3ZjhW3IcF93B1u
+ u3Eq1vFD2zUaJiDWJLOH7w8lw/RBLaoC8OqJ+nh3ceuY2AutoM4NxbZqVhsstTvLGP3n
+ AQmmbcJ4mtbWf7xjqtWcLg/+Ne7BMtmfafOuyFG9n65OfOF7/5/yYffel5+/62yhsDdS
+ BWlw==
+X-Gm-Message-State: AOAM532mP99Pr+zsKxnMi4RHEC2yLtg/S6CJsjw+q9lR0usrjmmZCWLC
+ pwFBAgom//yJWLerAfRxt8zPxybeLEe4K8cXLsnDAEcWydF9lg==
+X-Google-Smtp-Source: ABdhPJxJfW2e7RMT1o53fgdROAZNOXDUkt9dx9afCHGb/w0gAtXuC9OHLmkK0ZV4M3byXb+A+RT/xRPrOH90bLENhKU=
+X-Received: by 2002:aca:39d6:: with SMTP id g205mr958482oia.14.1603444384107; 
+ Fri, 23 Oct 2020 02:13:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201019204636.139997-1-robdclark@gmail.com>
- <20201019204636.139997-8-robdclark@gmail.com>
-In-Reply-To: <20201019204636.139997-8-robdclark@gmail.com>
-From: =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
-Date: Fri, 23 Oct 2020 11:08:46 +0200
-Message-ID: <CAOeoa-dmWmsd86ZT6KVQbcpKHJ-1TNz-Tcx0nJFUXbbK+Ds3mA@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v3 07/23] drm/msm/submit: Move copy_from_user
- ahead of locking bos
-To: Rob Clark <robdclark@gmail.com>
+References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+ <20201021085655.1192025-5-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201021085655.1192025-5-daniel.vetter@ffwll.ch>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 23 Oct 2020 11:12:52 +0200
+Message-ID: <CAKMK7uE50TPNruEQv5JDX91q0DDqy-CXfbQzc48YeqPzSE96yA@mail.gmail.com>
+Subject: Re: [PATCH v3 04/16] misc/habana: Use FOLL_LONGTERM for userptr
+To: DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,248 +60,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-s390 <linux-s390@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Pawel Piskorski <ppiskorski@habana.ai>, John Hubbard <jhubbard@nvidia.com>,
+ Daniel Vetter <daniel.vetter@ffwll.com>, Ofir Bitton <obitton@habana.ai>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Tomer Tayar <ttayar@habana.ai>, Omer Shpigelman <oshpigelman@habana.ai>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Moti Haimovski <mhaimovski@habana.ai>, Dan Williams <dan.j.williams@intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 19, 2020 at 10:45 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> We cannot switch to using obj->resv for locking without first moving all
-> the copy_from_user() ahead of submit_lock_objects().  Otherwise in the
-> mm fault path we aquire mm->mmap_sem before obj lock, but in the submit
-> path the order is reversed.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/msm_gem.h        |   3 +
->  drivers/gpu/drm/msm/msm_gem_submit.c | 121 ++++++++++++++++-----------
->  2 files changed, 76 insertions(+), 48 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-> index c5232b8da794..0b7dda312992 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.h
-> +++ b/drivers/gpu/drm/msm/msm_gem.h
-> @@ -240,7 +240,10 @@ struct msm_gem_submit {
->                 uint32_t type;
->                 uint32_t size;  /* in dwords */
->                 uint64_t iova;
-> +               uint32_t offset;/* in dwords */
->                 uint32_t idx;   /* cmdstream buffer idx in bos[] */
-> +               uint32_t nr_relocs;
-> +               struct drm_msm_gem_submit_reloc *relocs;
->         } *cmd;  /* array of size nr_cmds */
->         struct {
->                 uint32_t flags;
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-> index aa5c60a7132d..002130d826aa 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -62,11 +62,16 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
->
->  void msm_gem_submit_free(struct msm_gem_submit *submit)
->  {
-> +       unsigned i;
-> +
->         dma_fence_put(submit->fence);
->         list_del(&submit->node);
->         put_pid(submit->pid);
->         msm_submitqueue_put(submit->queue);
->
-> +       for (i = 0; i < submit->nr_cmds; i++)
-> +               kfree(submit->cmd[i].relocs);
-> +
->         kfree(submit);
->  }
->
-> @@ -150,6 +155,60 @@ static int submit_lookup_objects(struct msm_gem_submit *submit,
->         return ret;
->  }
->
-> +static int submit_lookup_cmds(struct msm_gem_submit *submit,
-> +               struct drm_msm_gem_submit *args, struct drm_file *file)
-> +{
-> +       unsigned i, sz;
-> +       int ret = 0;
-> +
-> +       for (i = 0; i < args->nr_cmds; i++) {
-> +               struct drm_msm_gem_submit_cmd submit_cmd;
-> +               void __user *userptr =
-> +                       u64_to_user_ptr(args->cmds + (i * sizeof(submit_cmd)));
-> +
-> +               ret = copy_from_user(&submit_cmd, userptr, sizeof(submit_cmd));
-> +               if (ret) {
-> +                       ret = -EFAULT;
-> +                       goto out;
-> +               }
-> +
-> +               /* validate input from userspace: */
-> +               switch (submit_cmd.type) {
-> +               case MSM_SUBMIT_CMD_BUF:
-> +               case MSM_SUBMIT_CMD_IB_TARGET_BUF:
-> +               case MSM_SUBMIT_CMD_CTX_RESTORE_BUF:
-> +                       break;
-> +               default:
-> +                       DRM_ERROR("invalid type: %08x\n", submit_cmd.type);
-> +                       return -EINVAL;
-> +               }
-> +
-> +               if (submit_cmd.size % 4) {
-> +                       DRM_ERROR("non-aligned cmdstream buffer size: %u\n",
-> +                                       submit_cmd.size);
-> +                       ret = -EINVAL;
-> +                       goto out;
-> +               }
-> +
-> +               submit->cmd[i].type = submit_cmd.type;
-> +               submit->cmd[i].size = submit_cmd.size / 4;
-> +               submit->cmd[i].offset = submit_cmd.submit_offset / 4;
-> +               submit->cmd[i].idx  = submit_cmd.submit_idx;
-> +               submit->cmd[i].nr_relocs = submit_cmd.nr_relocs;
-> +
-> +               sz = sizeof(struct drm_msm_gem_submit_reloc) * submit_cmd.nr_relocs;
-> +               submit->cmd[i].relocs = kmalloc(sz, GFP_KERNEL);
-
-kmalloc_array() or check_mul_overflow() here for the integer overflow check.
-
-> +               ret = copy_from_user(submit->cmd[i].relocs, userptr, sz);
-> +               if (ret) {
-> +                       ret = -EFAULT;
-> +                       goto out;
-> +               }
-> +       }
-> +
-> +out:
-> +       return ret;
-> +}
-> +
->  static void submit_unlock_unpin_bo(struct msm_gem_submit *submit,
->                 int i, bool backoff)
->  {
-> @@ -301,7 +360,7 @@ static int submit_bo(struct msm_gem_submit *submit, uint32_t idx,
->
->  /* process the reloc's and patch up the cmdstream as needed: */
->  static int submit_reloc(struct msm_gem_submit *submit, struct msm_gem_object *obj,
-> -               uint32_t offset, uint32_t nr_relocs, uint64_t relocs)
-> +               uint32_t offset, uint32_t nr_relocs, struct drm_msm_gem_submit_reloc *relocs)
->  {
->         uint32_t i, last_offset = 0;
->         uint32_t *ptr;
-> @@ -327,18 +386,11 @@ static int submit_reloc(struct msm_gem_submit *submit, struct msm_gem_object *ob
->         }
->
->         for (i = 0; i < nr_relocs; i++) {
-> -               struct drm_msm_gem_submit_reloc submit_reloc;
-> -               void __user *userptr =
-> -                       u64_to_user_ptr(relocs + (i * sizeof(submit_reloc)));
-> +               struct drm_msm_gem_submit_reloc submit_reloc = relocs[i];
->                 uint32_t off;
->                 uint64_t iova;
->                 bool valid;
->
-> -               if (copy_from_user(&submit_reloc, userptr, sizeof(submit_reloc))) {
-> -                       ret = -EFAULT;
-> -                       goto out;
-> -               }
-> -
->                 if (submit_reloc.submit_offset % 4) {
->                         DRM_ERROR("non-aligned reloc offset: %u\n",
->                                         submit_reloc.submit_offset);
-> @@ -694,6 +746,10 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
->         if (ret)
->                 goto out;
->
-> +       ret = submit_lookup_cmds(submit, args, file);
-> +       if (ret)
-> +               goto out;
-> +
->         /* copy_*_user while holding a ww ticket upsets lockdep */
->         ww_acquire_init(&submit->ticket, &reservation_ww_class);
->         has_ww_ticket = true;
-> @@ -710,60 +766,29 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
->                 goto out;
->
->         for (i = 0; i < args->nr_cmds; i++) {
-> -               struct drm_msm_gem_submit_cmd submit_cmd;
-> -               void __user *userptr =
-> -                       u64_to_user_ptr(args->cmds + (i * sizeof(submit_cmd)));
->                 struct msm_gem_object *msm_obj;
->                 uint64_t iova;
->
-> -               ret = copy_from_user(&submit_cmd, userptr, sizeof(submit_cmd));
-> -               if (ret) {
-> -                       ret = -EFAULT;
-> -                       goto out;
-> -               }
-> -
-> -               /* validate input from userspace: */
-> -               switch (submit_cmd.type) {
-> -               case MSM_SUBMIT_CMD_BUF:
-> -               case MSM_SUBMIT_CMD_IB_TARGET_BUF:
-> -               case MSM_SUBMIT_CMD_CTX_RESTORE_BUF:
-> -                       break;
-> -               default:
-> -                       DRM_ERROR("invalid type: %08x\n", submit_cmd.type);
-> -                       ret = -EINVAL;
-> -                       goto out;
-> -               }
-> -
-> -               ret = submit_bo(submit, submit_cmd.submit_idx,
-> +               ret = submit_bo(submit, submit->cmd[i].idx,
->                                 &msm_obj, &iova, NULL);
->                 if (ret)
->                         goto out;
->
-> -               if (submit_cmd.size % 4) {
-> -                       DRM_ERROR("non-aligned cmdstream buffer size: %u\n",
-> -                                       submit_cmd.size);
-> +               if (!submit->cmd[i].size ||
-> +                       ((submit->cmd[i].size + submit->cmd[i].offset) >
-> +                               msm_obj->base.size / 4)) {
-> +                       DRM_ERROR("invalid cmdstream size: %u\n", submit->cmd[i].size * 4);
->                         ret = -EINVAL;
->                         goto out;
->                 }
->
-> -               if (!submit_cmd.size ||
-> -                       ((submit_cmd.size + submit_cmd.submit_offset) >
-> -                               msm_obj->base.size)) {
-> -                       DRM_ERROR("invalid cmdstream size: %u\n", submit_cmd.size);
-> -                       ret = -EINVAL;
-> -                       goto out;
-> -               }
-> -
-> -               submit->cmd[i].type = submit_cmd.type;
-> -               submit->cmd[i].size = submit_cmd.size / 4;
-> -               submit->cmd[i].iova = iova + submit_cmd.submit_offset;
-> -               submit->cmd[i].idx  = submit_cmd.submit_idx;
-> +               submit->cmd[i].iova = iova + (submit->cmd[i].offset * 4);
->
->                 if (submit->valid)
->                         continue;
->
-> -               ret = submit_reloc(submit, msm_obj, submit_cmd.submit_offset,
-> -                               submit_cmd.nr_relocs, submit_cmd.relocs);
-> +               ret = submit_reloc(submit, msm_obj, submit->cmd[i].offset * 4,
-> +                               submit->cmd[i].nr_relocs, submit->cmd[i].relocs);
->                 if (ret)
->                         goto out;
->         }
-> --
-> 2.26.2
->
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgT2RlZCwKCkRpZCB0ZXN0aW5nIG9uIHlvdXIgZW5kIHR1cm4gdXAgYW55dGhpbmcsIG9yIGNh
+biBJIHB1dCBhbgphY2smdGVzdGVkLWJ5IGZyb20geW91IG9uIHRoZSB0d28gaGFiYW5hIHBhdGNo
+ZXMgZm9yIHRoZSBuZXh0IHJvdW5kPwoKVGhhbmtzLCBEYW5pZWwKCk9uIFdlZCwgT2N0IDIxLCAy
+MDIwIGF0IDEwOjU3IEFNIERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IHdy
+b3RlOgo+Cj4gVGhlc2UgYXJlIHBlcnNpc3RlbnQsIG5vdCBqdXN0IGZvciB0aGUgZHVyYXRpb24g
+b2YgYSBkbWEgb3BlcmF0aW9uLgo+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFu
+aWVsLnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IEphc29uIEd1bnRob3JwZSA8amdnQHppZXBlLmNh
+Pgo+IENjOiBBbmRyZXcgTW9ydG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPgo+IENjOiBK
+b2huIEh1YmJhcmQgPGpodWJiYXJkQG52aWRpYS5jb20+Cj4gQ2M6IErDqXLDtG1lIEdsaXNzZSA8
+amdsaXNzZUByZWRoYXQuY29tPgo+IENjOiBKYW4gS2FyYSA8amFja0BzdXNlLmN6Pgo+IENjOiBE
+YW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiBDYzogbGludXgtbW1Aa3Zh
+Y2sub3JnCj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+IENjOiBs
+aW51eC1zYW1zdW5nLXNvY0B2Z2VyLmtlcm5lbC5vcmcKPiBDYzogbGludXgtbWVkaWFAdmdlci5r
+ZXJuZWwub3JnCj4gQ2M6IE9kZWQgR2FiYmF5IDxvZGVkLmdhYmJheUBnbWFpbC5jb20+Cj4gQ2M6
+IE9tZXIgU2hwaWdlbG1hbiA8b3NocGlnZWxtYW5AaGFiYW5hLmFpPgo+IENjOiBPZmlyIEJpdHRv
+biA8b2JpdHRvbkBoYWJhbmEuYWk+Cj4gQ2M6IFRvbWVyIFRheWFyIDx0dGF5YXJAaGFiYW5hLmFp
+Pgo+IENjOiBNb3RpIEhhaW1vdnNraSA8bWhhaW1vdnNraUBoYWJhbmEuYWk+Cj4gQ2M6IERhbmll
+bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gQ2M6IEdyZWcgS3JvYWgtSGFydG1h
+biA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Cj4gQ2M6IFBhd2VsIFBpc2tvcnNraSA8cHBp
+c2tvcnNraUBoYWJhbmEuYWk+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+LnZldHRlckBmZndsbC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvbWlzYy9oYWJhbmFsYWJzL2NvbW1v
+bi9tZW1vcnkuYyB8IDMgKystCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEg
+ZGVsZXRpb24oLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9jb21t
+b24vbWVtb3J5LmMgYi9kcml2ZXJzL21pc2MvaGFiYW5hbGFicy9jb21tb24vbWVtb3J5LmMKPiBp
+bmRleCAzMjdiNjQ0NzlmOTcuLjc2N2QzNjQ0YzAzMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL21p
+c2MvaGFiYW5hbGFicy9jb21tb24vbWVtb3J5LmMKPiArKysgYi9kcml2ZXJzL21pc2MvaGFiYW5h
+bGFicy9jb21tb24vbWVtb3J5LmMKPiBAQCAtMTI4OCw3ICsxMjg4LDggQEAgc3RhdGljIGludCBn
+ZXRfdXNlcl9tZW1vcnkoc3RydWN0IGhsX2RldmljZSAqaGRldiwgdTY0IGFkZHIsIHU2NCBzaXpl
+LAo+ICAgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiAgICAgICAgIH0KPgo+IC0gICAg
+ICAgcmMgPSBwaW5fdXNlcl9wYWdlc19mYXN0KHN0YXJ0LCBucGFnZXMsIEZPTExfRk9SQ0UgfCBG
+T0xMX1dSSVRFLAo+ICsgICAgICAgcmMgPSBwaW5fdXNlcl9wYWdlc19mYXN0KHN0YXJ0LCBucGFn
+ZXMsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRk9MTF9GT1JDRSB8IEZPTExf
+V1JJVEUgfCBGT0xMX0xPTkdURVJNLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHVzZXJwdHItPnBhZ2VzKTsKPgo+ICAgICAgICAgaWYgKHJjICE9IG5wYWdlcykgewo+IC0tCj4g
+Mi4yOC4wCj4KCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29y
+cG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
