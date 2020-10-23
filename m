@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94769297529
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 18:51:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B141A297521
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 18:51:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC0916F8F6;
-	Fri, 23 Oct 2020 16:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 089766F8FD;
+	Fri, 23 Oct 2020 16:51:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
  [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3850C6F8E6;
- Fri, 23 Oct 2020 16:51:04 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id 1so1222187ple.2;
- Fri, 23 Oct 2020 09:51:04 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3363C6F900;
+ Fri, 23 Oct 2020 16:51:07 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id v22so1202686ply.12;
+ Fri, 23 Oct 2020 09:51:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9sfqxF9mk3Lc51iY+H1cSzrjPU+7CCgm4eEof0V4Vlw=;
- b=d7ZrPrRwGpKkt+z7k4ZEXHpsy9Z5QSGLOfa5ygon/JcL0Ctxqj15MGvdmRnYZGZA1v
- e6jYLqNgKMjJLSiPfZfpjxrAnKM2YlQ5eEP7z1JYjUVpwHxZ9b+LRUQzUpkn/orihx6R
- XQpnlJz6OVr1LDAvbDOfrZ8y1AP6MHrXzqo+/c4uG2OqB2akmssxlReze2seZiC3EAAR
- l/VNy0/G75zBLIqvJz3+i112P4jKWvLKBFadZ1QsNRMm6rs6Mw+n2883wpSR+iuCkDIv
- n5+TLfJnT6rpmz13kWVMZHYDaz4m/L0cz6JzM5nvA2A2OpEcacpaLliUonvaA4NEnKLW
- tzpA==
+ bh=+y45oOjahWFnPOijBG1RjZS6QNlundMFracTuBu5nFw=;
+ b=uMQ6ut+28KSF/d2T/mMdJ9gJ+8d0lrPiTStP+3woilItyiOZZ+r8H/knJ9o7W3QXJR
+ Vsm9yZ2ZQmpraVcnAgf15A6pDwhxpStJBm0KRI4pBiccBslqt6RTNXlSUVqv30AeGoL5
+ gufnon++t2BS5uvWQeTO+uGtsObDF37a/ClsEQ99LVrkJm8P8t/Cc2QDlPRo16bY0jZq
+ EeIHIXOgp9ynXWTHgHj7U0ujdPWiNC+eFwz7gryGWbgkQd51AnN7sPhPX3MCEUbkcTfs
+ 2SkqnXwqwP2AbeU5Jxmilvxx1PeLFmShMp480020rPQ67WZin0pPp9E/y2SAaA66jAwJ
+ hkZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9sfqxF9mk3Lc51iY+H1cSzrjPU+7CCgm4eEof0V4Vlw=;
- b=QvYLE/zRT+AOybkGUlXeXBy0LAZraK3QaN6rKkSlQ/66ibmy9+K5Gq5VE3a4Go1UGj
- FRakv3eDYLM3fRjffWjaHOVRfSI6Ubykz4/HD9F8MS0XzqmdTr1LFZZ1K/Kz5/aQm/+v
- 6ys+uSJGrhr4aFJgxTuzMjE+VepAyOKip/xhdOG9W1Jp4ROF+gApm1HVp7KWFv5q9yJK
- D48ojVWHxQcO+HuIZQIdQdbYq0NDKF7gkmxJX6nowCloEuovASovPeqqRlu384i8DsP2
- 5IOpKkJ36bS7+FwukMrOKw1QreQ4z+IVLSd3O1ZosE0qhVSoxctO7DIR7GCMiakr01/L
- mVGg==
-X-Gm-Message-State: AOAM5318Xz9VOAGaG62wBULqjfVAVFSy9Oiwjz7Vwp1xTQii5NNAXjcK
- g9JpCsJYBlpkQeC3cd7w43PL/LXev6+V/g==
-X-Google-Smtp-Source: ABdhPJzb6WAjkYuIX030962Q3iyTELJ0B0vy/zbByHllvY0Q2Vr/alj/EQmOhN0lsrhZMtghqKvLeg==
-X-Received: by 2002:a17:902:a612:b029:d6:6ae:4d47 with SMTP id
- u18-20020a170902a612b02900d606ae4d47mr17667plq.50.1603471863282; 
- Fri, 23 Oct 2020 09:51:03 -0700 (PDT)
+ bh=+y45oOjahWFnPOijBG1RjZS6QNlundMFracTuBu5nFw=;
+ b=lxIhRDKnXK3F+NRwCHiNdQtrsiSDLa8HJtTrjsaN2FbFDFAhoZcozD817TcFX8xuql
+ oAdevxE/MP7s5M0bmf4l75wt/gCJkqJPgzv7BfAwMTA+EVLl303K3mNcNk93NXql/wYT
+ AFL3Y/lY0w0o49bcotOFafVMA95P3K3/y2pResjkNIqEyv4bFaZ3o7MxpBmdOSbIDupq
+ XrhrcthJKagIr5VZyiMEnGHUaDz/NWX7LBAxAqslI4/v9cV+9XoFKt0PBWHlYRzAlxDX
+ hfwWYa7NBu2//osJx1gFc5K8MeInJk9hsuxS9EDRq/xGRiWzIL8QqNXpK9+TuhLDOZ0/
+ rNjQ==
+X-Gm-Message-State: AOAM530A2WLVQHRvhc/1iP5zwGEE5JZyTsk+7HL7aOJ6+w1U/aXI8ZAS
+ /yadfbguMJFXBYacA5BMExQIEdNIBIcxRQ==
+X-Google-Smtp-Source: ABdhPJzOrhH9Lf+kx9ky/4JoNzEVfS+XfiI/Gs5d2XPCWsxzUeVmUKjNOksMwmGIUuQhpinAivxxgA==
+X-Received: by 2002:a17:902:a609:b029:d5:dde6:f135 with SMTP id
+ u9-20020a170902a609b02900d5dde6f135mr3248918plq.75.1603471866097; 
+ Fri, 23 Oct 2020 09:51:06 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- i17sm2618735pfa.183.2020.10.23.09.51.01
+ o13sm3023420pjq.19.2020.10.23.09.51.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 09:51:02 -0700 (PDT)
+ Fri, 23 Oct 2020 09:51:04 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 21/23] drm/msm: Drop struct_mutex in madvise path
-Date: Fri, 23 Oct 2020 09:51:22 -0700
-Message-Id: <20201023165136.561680-22-robdclark@gmail.com>
+Subject: [PATCH v4 22/23] drm/msm: Drop struct_mutex in shrinker path
+Date: Fri, 23 Oct 2020 09:51:23 -0700
+Message-Id: <20201023165136.561680-23-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201023165136.561680-1-robdclark@gmail.com>
 References: <20201023165136.561680-1-robdclark@gmail.com>
@@ -79,97 +79,140 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-The obj->lock is sufficient for what we need.
-
-This *does* have the implication that userspace can try to shoot
-themselves in the foot by racing madvise(DONTNEED) with submit.  But
-the result will be about the same if they did madvise(DONTNEED) before
-the submit ioctl, ie. they might not get want they want if they race
-with shrinker.  But iova fault handling is robust enough, and userspace
-is only shooting it's own foot.
+Now that the inactive_list is protected by mm_lock, and everything
+else on per-obj basis is protected by obj->lock, we no longer depend
+on struct_mutex.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 11 ++---------
- drivers/gpu/drm/msm/msm_gem.c |  4 +---
- drivers/gpu/drm/msm/msm_gem.h |  2 --
- 3 files changed, 3 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c          |  1 -
+ drivers/gpu/drm/msm/msm_gem_shrinker.c | 54 --------------------------
+ 2 files changed, 55 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 49e6daf30b42..f2d58fe25497 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -912,14 +912,9 @@ static int msm_ioctl_gem_madvise(struct drm_device *dev, void *data,
- 		return -EINVAL;
- 	}
- 
--	ret = mutex_lock_interruptible(&dev->struct_mutex);
--	if (ret)
--		return ret;
--
- 	obj = drm_gem_object_lookup(file, args->handle);
- 	if (!obj) {
--		ret = -ENOENT;
--		goto unlock;
-+		return -ENOENT;
- 	}
- 
- 	ret = msm_gem_madvise(obj, args->madv);
-@@ -928,10 +923,8 @@ static int msm_ioctl_gem_madvise(struct drm_device *dev, void *data,
- 		ret = 0;
- 	}
- 
--	drm_gem_object_put_locked(obj);
-+	drm_gem_object_put(obj);
- 
--unlock:
--	mutex_unlock(&dev->struct_mutex);
- 	return ret;
- }
- 
 diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 00b4788366c5..7f24a58c0390 100644
+index 7f24a58c0390..a9a834bb7794 100644
 --- a/drivers/gpu/drm/msm/msm_gem.c
 +++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -673,8 +673,6 @@ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv)
- 
- 	msm_gem_lock(obj);
- 
--	WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
--
- 	if (msm_obj->madv != __MSM_MADV_PURGED)
- 		msm_obj->madv = madv;
- 
-@@ -691,7 +689,6 @@ void msm_gem_purge(struct drm_gem_object *obj)
+@@ -688,7 +688,6 @@ void msm_gem_purge(struct drm_gem_object *obj)
+ 	struct drm_device *dev = obj->dev;
  	struct msm_gem_object *msm_obj = to_msm_bo(obj);
  
- 	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
--	WARN_ON(!msm_gem_is_locked(obj));
+-	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
  	WARN_ON(!is_purgeable(msm_obj));
  	WARN_ON(obj->import_attach);
  
-@@ -771,6 +768,7 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
- 	struct msm_drm_private *priv = obj->dev->dev_private;
+diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+index 6be073b8ca08..6f4b1355725f 100644
+--- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
++++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+@@ -8,48 +8,13 @@
+ #include "msm_gem.h"
+ #include "msm_gpu_trace.h"
  
- 	might_sleep();
-+	WARN_ON(!msm_gem_is_locked(obj));
- 	WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED);
- 
- 	if (!atomic_fetch_inc(&msm_obj->active_count)) {
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index ffa2130ee97d..d79e7019cc88 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -190,8 +190,6 @@ static inline bool is_active(struct msm_gem_object *msm_obj)
- 
- static inline bool is_purgeable(struct msm_gem_object *msm_obj)
+-static bool msm_gem_shrinker_lock(struct drm_device *dev, bool *unlock)
+-{
+-	/* NOTE: we are *closer* to being able to get rid of
+-	 * mutex_trylock_recursive().. the msm_gem code itself does
+-	 * not need struct_mutex, although codepaths that can trigger
+-	 * shrinker are still called in code-paths that hold the
+-	 * struct_mutex.
+-	 *
+-	 * Also, msm_obj->madv is protected by struct_mutex.
+-	 *
+-	 * The next step is probably split out a seperate lock for
+-	 * protecting inactive_list, so that shrinker does not need
+-	 * struct_mutex.
+-	 */
+-	switch (mutex_trylock_recursive(&dev->struct_mutex)) {
+-	case MUTEX_TRYLOCK_FAILED:
+-		return false;
+-
+-	case MUTEX_TRYLOCK_SUCCESS:
+-		*unlock = true;
+-		return true;
+-
+-	case MUTEX_TRYLOCK_RECURSIVE:
+-		*unlock = false;
+-		return true;
+-	}
+-
+-	BUG();
+-}
+-
+ static unsigned long
+ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
  {
--	WARN_ON(!msm_gem_is_locked(&msm_obj->base));
--	WARN_ON(!mutex_is_locked(&msm_obj->base.dev->struct_mutex));
- 	return (msm_obj->madv == MSM_MADV_DONTNEED) && msm_obj->sgt &&
- 			!msm_obj->base.dma_buf && !msm_obj->base.import_attach;
+ 	struct msm_drm_private *priv =
+ 		container_of(shrinker, struct msm_drm_private, shrinker);
+-	struct drm_device *dev = priv->dev;
+ 	struct msm_gem_object *msm_obj;
+ 	unsigned long count = 0;
+-	bool unlock;
+-
+-	if (!msm_gem_shrinker_lock(dev, &unlock))
+-		return 0;
+ 
+ 	mutex_lock(&priv->mm_lock);
+ 
+@@ -63,9 +28,6 @@ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
+ 
+ 	mutex_unlock(&priv->mm_lock);
+ 
+-	if (unlock)
+-		mutex_unlock(&dev->struct_mutex);
+-
+ 	return count;
  }
+ 
+@@ -74,13 +36,8 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ {
+ 	struct msm_drm_private *priv =
+ 		container_of(shrinker, struct msm_drm_private, shrinker);
+-	struct drm_device *dev = priv->dev;
+ 	struct msm_gem_object *msm_obj;
+ 	unsigned long freed = 0;
+-	bool unlock;
+-
+-	if (!msm_gem_shrinker_lock(dev, &unlock))
+-		return SHRINK_STOP;
+ 
+ 	mutex_lock(&priv->mm_lock);
+ 
+@@ -98,9 +55,6 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ 
+ 	mutex_unlock(&priv->mm_lock);
+ 
+-	if (unlock)
+-		mutex_unlock(&dev->struct_mutex);
+-
+ 	if (freed > 0)
+ 		trace_msm_gem_purge(freed << PAGE_SHIFT);
+ 
+@@ -112,13 +66,8 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
+ {
+ 	struct msm_drm_private *priv =
+ 		container_of(nb, struct msm_drm_private, vmap_notifier);
+-	struct drm_device *dev = priv->dev;
+ 	struct msm_gem_object *msm_obj;
+ 	unsigned unmapped = 0;
+-	bool unlock;
+-
+-	if (!msm_gem_shrinker_lock(dev, &unlock))
+-		return NOTIFY_DONE;
+ 
+ 	mutex_lock(&priv->mm_lock);
+ 
+@@ -141,9 +90,6 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
+ 
+ 	mutex_unlock(&priv->mm_lock);
+ 
+-	if (unlock)
+-		mutex_unlock(&dev->struct_mutex);
+-
+ 	*(unsigned long *)ptr += unmapped;
+ 
+ 	if (unmapped > 0)
 -- 
 2.26.2
 
