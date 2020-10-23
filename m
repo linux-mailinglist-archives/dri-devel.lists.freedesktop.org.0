@@ -1,60 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAD6297366
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 18:19:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C022E29739A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Oct 2020 18:26:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A67286E123;
-	Fri, 23 Oct 2020 16:19:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBF6C6E2B4;
+	Fri, 23 Oct 2020 16:26:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28B716E11C;
- Fri, 23 Oct 2020 16:19:46 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id e17so2582483wru.12;
- Fri, 23 Oct 2020 09:19:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pcyKnD0GL8cUH+LZqBS5drzjgkD+yDyZKgqlHZHy/po=;
- b=g1775DhxGYhUcP2uR4Ds7PEc/0qOetJ3gRLRLL7AhQLSpyZopfVEQT1bLIMHVZg3uw
- d8lJM0O7sNa1aTqFhp7UkNa6fSkTqzavQXVj5z5pttzCPdsRVMq+GGWnQBj7FQD68FrR
- vTuQecZd0ALn5d9j0atfGZiByKwgyi6NapmrX7Zq++N/Y3/6WuK+fYeUJXvSjWRCFrtO
- gO0ug5rHoEYOHltLXxmflTE29xgLqcBFr0rNdvF6YLMBuayj6kqC+RS/efsva/72pCye
- jgqNkFUoq9IwGSAXPojAuz4yO9a/mp0O9HkI2k86LvuusHZ3vAv2+8AYhb0XTGJgDPKt
- /Bsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pcyKnD0GL8cUH+LZqBS5drzjgkD+yDyZKgqlHZHy/po=;
- b=kxlPgNDijd3ucUNvrvBM46/rChMVHvaa6RMaT4LCPi2pfiiP1LP/rKLBzfIVf0vqip
- qD2qs+osWuawxvT9858Ip7hPWtSncur2Zt1WAwFQP+/1sOlf11AAWgBgJkbE4O4P+Y2M
- NFiBUhIm0BE3QzxqZuDm57tqwxovc6n7cUghStoGEM5yvQGmUbLRQJXn8jpdf2RzlkRw
- h0Y4zjcdT22Al/1lp8+QBjhwYpHmAgEZ/hPokGygsIRKLYQqUpjrE3h9abfnbD9Bb/RU
- 2ew/ZD1bsyGN3Ig7W71jdkBQfyp3u5K+dk6nH4U5gRnLY29ZqIoFFMDEK/ID5I8poVwQ
- I5Bw==
-X-Gm-Message-State: AOAM531lk15qL7wWR+KKYwgwDwKLykrIdWoBWkGS4E9ZlwKQ759fZRr2
- b3zLRUqinS1yghqxjxAwGNy12fYtnv7qCSUfggU=
-X-Google-Smtp-Source: ABdhPJztTB0f29AwyS+8nwtQJvMn1n+zibaIB9dbkkIIkW0xgjPhNLjm0bXpoVAC8RHu3f2nqpN1l4tyHVZ7HU5zGVs=
-X-Received: by 2002:adf:bc0f:: with SMTP id s15mr3495405wrg.83.1603469984697; 
- Fri, 23 Oct 2020 09:19:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201021163242.1458885-1-daniel.vetter@ffwll.ch>
- <CAF6AEGsHA33RGoX-iX=9mL+EgtxFJgLH4n2xKR9XckBA=SJhBw@mail.gmail.com>
- <CAF6AEGta-uZ=YV3aKTatWkp-XD7S1GzrW9Mcdyp=qsFrHibuiQ@mail.gmail.com>
- <CAKMK7uETWveBqOCRvHe2fGGnrVOB_9prmmenW3bARRCT-kg__A@mail.gmail.com>
- <CAF6AEGtWAT-pD+ZO0T9E0W2uuZ_KgvX2r_BsGUQpzS7M5x4u5w@mail.gmail.com>
- <CAKMK7uHu7fRrfPEjZKy9m8jOnmLk2wOGApZDWpz-8CdLmc+_EA@mail.gmail.com>
-In-Reply-To: <CAKMK7uHu7fRrfPEjZKy9m8jOnmLk2wOGApZDWpz-8CdLmc+_EA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 23 Oct 2020 09:21:10 -0700
-Message-ID: <CAF6AEGvY5oUcnFC=3bfgxTv-no=+4p3nkuH1G+mkNWfF-hzgtw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm/atomic-helpers: remove
- legacy_cursor_update hacks
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A52D86E25B
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 16:26:17 +0000 (UTC)
+IronPort-SDR: bNgsXIv/rXEjZvgbOvbXM8YkRt4tcI1wVjizad8rREVvUEzlLGbY2jQlA37+ug3ZirzApB+AOM
+ 80SWz4EA6VjQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9782"; a="229333773"
+X-IronPort-AV: E=Sophos;i="5.77,409,1596524400"; d="scan'208";a="229333773"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2020 09:25:56 -0700
+IronPort-SDR: r4R4V1dbGXOBYxncuCr6l/qY0eYvr7ohFtBiPZ9GpHKskxlbwUPEBDM+yyXGnqHWkIpMeZ1l9X
+ OcjRumdg3j1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,409,1596524400"; d="scan'208";a="349257122"
+Received: from cst-dev.jf.intel.com ([10.23.221.69])
+ by fmsmga004.fm.intel.com with ESMTP; 23 Oct 2020 09:25:56 -0700
+From: Jianxin Xiong <jianxin.xiong@intel.com>
+To: linux-rdma@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v6 0/4] RDMA: Add dma-buf support
+Date: Fri, 23 Oct 2020 09:39:57 -0700
+Message-Id: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,140 +46,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Mikita Lipski <mikita.lipski@amd.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgMjMsIDIwMjAgYXQgOTowMCBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
-dGVyQGZmd2xsLmNoPiB3cm90ZToKPgo+IE9uIEZyaSwgT2N0IDIzLCAyMDIwIGF0IDU6MDIgUE0g
-Um9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwuY29tPiB3cm90ZToKPiA+Cj4gPiBPbiBUaHUsIE9j
-dCAyMiwgMjAyMCBhdCAxMjoxNiBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xs
-LmNoPiB3cm90ZToKPiA+ID4KPiA+ID4gT24gVGh1LCBPY3QgMjIsIDIwMjAgYXQgNzoyMiBQTSBS
-b2IgQ2xhcmsgPHJvYmRjbGFya0BnbWFpbC5jb20+IHdyb3RlOgo+ID4gPiA+Cj4gPiA+ID4gT24g
-VGh1LCBPY3QgMjIsIDIwMjAgYXQgMTA6MDIgQU0gUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwu
-Y29tPiB3cm90ZToKPiA+ID4gPiA+Cj4gPiA+ID4gPiBPbiBXZWQsIE9jdCAyMSwgMjAyMCBhdCA5
-OjMyIEFNIERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IHdyb3RlOgo+ID4g
-PiA+ID4gPgo+ID4gPiA+ID4gPiBUaGUgc3R1ZmYgbmV2ZXIgcmVhbGx5IHdvcmtlZCwgYW5kIGxl
-YWRzIHRvIGxvdHMgb2YgZnVuIGJlY2F1c2UgaXQKPiA+ID4gPiA+ID4gb3V0LW9mLW9yZGVyIGZy
-ZWVzIGF0b21pYyBzdGF0ZXMuIFdoaWNoIHVwc2V0cyBLQVNBTiwgYW1vbmcgb3RoZXIKPiA+ID4g
-PiA+ID4gdGhpbmdzLgo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiBGb3IgYXN5bmMgdXBkYXRlcyB3
-ZSBub3cgaGF2ZSBhIG1vcmUgc29saWQgc29sdXRpb24gd2l0aCB0aGUKPiA+ID4gPiA+ID4gLT5h
-dG9taWNfYXN5bmNfY2hlY2sgYW5kIC0+YXRvbWljX2FzeW5jX2NvbW1pdCBob29rcy4gU3VwcG9y
-dCBmb3IgdGhhdAo+ID4gPiA+ID4gPiBmb3IgbXNtIGFuZCB2YzQgbGFuZGVkLiBub3V2ZWF1IGFu
-ZCBpOTE1IGhhdmUgdGhlaXIgb3duIGNvbW1pdAo+ID4gPiA+ID4gPiByb3V0aW5lcywgZG9pbmcg
-c29tZXRoaW5nIHNpbWlsYXIuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IEZvciBldmVyeW9uZSBl
-bHNlIGl0J3MgcHJvYmFibHkgYmV0dGVyIHRvIHJlbW92ZSB0aGUgdXNlLWFmdGVyLWZyZWUKPiA+
-ID4gPiA+ID4gYnVnLCBhbmQgZW5jb3VyYWdlIGZvbGtzIHRvIHVzZSB0aGUgYXN5bmMgc3VwcG9y
-dCBpbnN0ZWFkLiBUaGUKPiA+ID4gPiA+ID4gYWZmZWN0ZWQgZHJpdmVycyB3aGljaCByZWdpc3Rl
-ciBhIGxlZ2FjeSBjdXJzb3IgcGxhbmUgYW5kIGRvbid0IGVpdGhlcgo+ID4gPiA+ID4gPiB1c2Ug
-dGhlIG5ldyBhc3luYyBzdHVmZiBvciB0aGVpciBvd24gY29tbWl0IHJvdXRpbmUgYXJlOiBhbWRn
-cHUsCj4gPiA+ID4gPiA+IGF0bWVsLCBtZWRpYXRlaywgcXhsLCByb2NrY2hpcCwgc3RpLCBzdW40
-aSwgdGVncmEsIHZpcnRpbywgYW5kIHZtd2dmeC4KPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gSW5z
-cGlyZWQgYnkgYW4gYW1kZ3B1IGJ1ZyByZXBvcnQuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IHYy
-OiBEcm9wIFJGQywgSSB0aGluayB3aXRoIGFtZGdwdSBjb252ZXJ0ZWQgb3ZlciB0byB1c2UKPiA+
-ID4gPiA+ID4gYXRvbWljX2FzeW5jX2NoZWNrL2NvbW1pdCBkb25lIGluCj4gPiA+ID4gPiA+Cj4g
-PiA+ID4gPiA+IGNvbW1pdCA2NzRlNzhhY2FlMGRmYjRiZWI1NjEzMmU0MWNiYWU1YjYwZjdkNjYy
-Cj4gPiA+ID4gPiA+IEF1dGhvcjogTmljaG9sYXMgS2F6bGF1c2thcyA8bmljaG9sYXMua2F6bGF1
-c2thc0BhbWQuY29tPgo+ID4gPiA+ID4gPiBEYXRlOiAgIFdlZCBEZWMgNSAxNDo1OTowNyAyMDE4
-IC0wNTAwCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ICAgICBkcm0vYW1kL2Rpc3BsYXk6IEFkZCBm
-YXN0IHBhdGggZm9yIGN1cnNvciBwbGFuZSB1cGRhdGVzCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+
-IHdlIGRvbid0IGhhdmUgYW55IGRyaXZlciBhbnltb3JlIHdoZXJlIHdlIGhhdmUgdXNlcnNwYWNl
-IGV4cGVjdGluZwo+ID4gPiA+ID4gPiBzb2xpZCBsZWdhY3kgY3Vyc29yIHN1cHBvcnQgX2FuZF8g
-dGhleSBhcmUgdXNpbmcgdGhlIGF0b21pYyBoZWxwZXJzIGluCj4gPiA+ID4gPiA+IHRoZWlyIGZ1
-bGx5IGdsb3J5LiBTbyB3ZSBjYW4gcmV0aXJlIHRoaXMuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+
-IFJlZmVyZW5jZXM6IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9
-MTk5NDI1Cj4gPiA+ID4gPiA+IENjOiBtaWtpdGEubGlwc2tpQGFtZC5jb20KPiA+ID4gPiA+ID4g
-Q2M6IE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5uZXQ+Cj4gPiA+ID4gPiA+IENjOiBo
-YXJyeS53ZW50bGFuZEBhbWQuY29tCj4gPiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+ID4gPiA+ID4KPiA+ID4gPiA+IFRoaXMg
-KmNvbXBsZXRlbHkqIGRlc3Ryb3lzIGZwcyB3aGVuIHRoZXJlIGlzIGN1cnNvciBtb3ZlbWVudCwg
-aXQgd291bGQKPiA+ID4gPiA+IGJlIGEgcHJldHR5IGJhZCByZWdyZXNzaW9uLCBzbyBuYWsKPiA+
-ID4gPgo+ID4gPiA+IFdoaWNoIEkgKmd1ZXNzKiBpcyBkdWUgdG8gZHB1IG5vdCB3aXJpbmcgdXAg
-dGhlIHBsYW5lLT5hc3luY18qIGZ1bmNzLAo+ID4gPiA+IGVmZmVjdGl2ZWx5IG1ha2luZyBjdXJz
-b3IgdXBkYXRlcyBzeW5jaHJvbm91cy4uIGJ1dCBpdCB3aWxsIHRha2Ugc29tZQo+ID4gPiA+IHRp
-bWUgdG8gc29ydCBvdXQgOi0oCj4gPiA+Cj4gPiA+IERvZXMgc29tZXRoaW5nIGxpa2UgdGhlIGJl
-bG93IChub3QgZXZlbiBjb21waWxlIHRlc3RlZCkgZ2V0IGRwdSBiYWNrIGluIG9yZGVyPwo+ID4g
-Pgo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fYXRvbWljLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vbXNtL21zbV9hdG9taWMuYwo+ID4gPiBpbmRleCA1NjFiZmE0ODg0MWMu
-LmVjOGI0Zjc0ZGE0OSAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21f
-YXRvbWljLmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fYXRvbWljLmMKPiA+
-ID4gQEAgLTIxNSw2ICsyMTUsOCBAQCB2b2lkIG1zbV9hdG9taWNfY29tbWl0X3RhaWwoc3RydWN0
-IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQo+ID4gPiAgICAgICAgICAgICAgICAvKiBhc3luYyB1
-cGRhdGVzIGFyZSBsaW1pdGVkIHRvIHNpbmdsZS1jcnRjIHVwZGF0ZXM6ICovCj4gPiA+ICAgICAg
-ICAgICAgICAgIFdBUk5fT04oY3J0Y19tYXNrICE9IGRybV9jcnRjX21hc2soYXN5bmNfY3J0Yykp
-Owo+ID4gPgo+ID4gPiArICAgICAgICAgICAgICAgY29tcGxldGVfYWxsKGFzeW5jX2NydGMtPnN0
-YXRlLT5mbGlwX2RvbmUpOwo+ID4gPiArCj4gPiA+ICAgICAgICAgICAgICAgIC8qCj4gPiA+ICAg
-ICAgICAgICAgICAgICAqIFN0YXJ0IHRpbWVyIGlmIHdlIGRvbid0IGFscmVhZHkgaGF2ZSBhbiB1
-cGRhdGUgcGVuZGluZwo+ID4gPiAgICAgICAgICAgICAgICAgKiBvbiB0aGlzIGNydGM6Cj4gPiA+
-Cj4gPiA+IFRoYXQgd2F5IHdlIGNvdWxkIHBlcmhhcHMgc3RpbGwgbW92ZSBhaGVhZCB3aXRoIHJl
-bW92aW5nIHRoZSBoYWNrcwo+ID4gPiBmcm9tIHNoYXJlZCBoZWxwZXJzLCBhbmQgbXNtLWRwdSBj
-YW4ga2VlcCBkb2luZyB3aGF0IGl0IGRvZXMuIFRoZQo+ID4gPiBvdGhlciBodW5rIGlzIGluIGEg
-ZnVuY3Rpb24gdGhhdCBkcHUgY29kZSBkb2Vzbid0IGV2ZW4gdXNlLCBzbyBjYW4ndAo+ID4gPiBz
-ZWUgaG93IHRoYXQgd291bGQgY2hhbmdlIGFueXRoaW5nLgo+ID4KPiA+IFRoYXQgY2F1c2VzIG1h
-c3NpdmUgZXhwbG9zaW9ucy4uLiBhbmdlcmluZyBXQVJOX09OKGRwdV9jcnRjLT5ldmVudCk7Cj4g
-Pgo+ID4gU2VlbXMgaXQgaXMgcHJvYmFibHkgdGhlIHJpZ2h0IGlkZWEgYnV0IHRoZSB3cm9uZyBw
-bGFjZT8gIEknbGwgdHJ5IHRvCj4gPiBtYWtlIHNvbWUgdGltZSBpbiBuZXh0IGZldyBkYXlzIHRv
-IGxvb2sgYXQgdGhpcyBtb3JlLCBidXQganVnZ2xpbmcgYQo+ID4gYnVuY2ggb2YgZGlmZmVyZW50
-IHRoaW5ncyBhdG0gKGFuZCBJIGd1ZXNzIGF0IGFueSByYXRlIHRoaXMgd29uJ3QgYmUgYQo+ID4g
-NS4xMCB0aGluZywgc28gd2UgaGF2ZSBhIGJpdCBvZiB0aW1lKQo+Cj4gWWVhaCB3ZSBoYXZlIHRp
-bWUgZm9yIHRoaXMsIGxlZ2FjeV9jdXJzb3JfdXBkYXRlIGJlaW5nIGEgbWlzdGFrZSBpbgo+IGF0
-b21pYyBoYXMgYmVlbiBhIHRob3JuIHRvIG15IGVnbyBmb3IgeWVhcnMsIGl0J3Mgbm90IGdvaW5n
-IHRvIGdldAo+IHdvcnNlIHdpdGggYSBiaXQgbW9yZSB0aW1lIGl0Y2hpbmcgOi0pIEl0J3MgbW9y
-ZSB0aGF0IEkgd2FudCB0byByZWFsbHkKPiBtYWtlIHN1cmUgd2UgZG9uJ3Qgc3ByZWFkIHRoaXMg
-ZnVydGhlciwgc2luY2UgdGhlIGhhY2tzIGluIGF0b21pYwo+IGhlbHBlcnMgcmVhbGx5IGJyZWFr
-IHRoZSBlbnRpcmUgY29tbWl0IGhlbHBlciBtb2RlbCBxdWl0ZSBiYWRseSBhbGwKPiBvdmVyLgo+
-Cj4gU28gbWF5YmUganVzdCBhY2sgb24gdGhlIGRvY3VtZW50YXRpb24gcGF0Y2ggaW50ZXJpbSwg
-d2hpbGUgd2UgZmlndXJlCj4gb3V0IHNvbWV0aGluZyBhdCBsZWFzdXJlPyBJJ3ZlIGFsc28gYnJv
-a2VuIGk5MTUsIHNvIG1heWJlIEkgZmlndXJlIG91dAo+IG1lYW53aGlsZSBob3cgdG8gcmVhcHBs
-eSB0aGUgZHVjdC10YXBlIHRoZXJlLgoKeWVhaCwgbWFrZXMgc2Vuc2UsIGEtYiBmb3IgZG9jIHBh
-dGNoCgpCUiwKLVIKCj4gLURhbmllbAo+Cj4gPiBCUiwKPiA+IC1SCj4gPgo+ID4gPiAtRGFuaWVs
-Cj4gPiA+Cj4gPiA+ID4KPiA+ID4gPiA+IEJSLAo+ID4gPiA+ID4gLVIKPiA+ID4gPiA+Cj4gPiA+
-ID4gPiA+IC0tLQo+ID4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVscGVy
-LmMgfCAxMyAtLS0tLS0tLS0tLS0tCj4gPiA+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTMgZGVs
-ZXRpb25zKC0pCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hl
-bHBlci5jCj4gPiA+ID4gPiA+IGluZGV4IGE3YmNiNGI0NTg2Yy4uNTQ5YTMxZTYwNDJjIDEwMDY0
-NAo+ID4gPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYwo+
-ID4gPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYwo+ID4g
-PiA+ID4gPiBAQCAtMTQ4MSwxMyArMTQ4MSw2IEBAIGRybV9hdG9taWNfaGVscGVyX3dhaXRfZm9y
-X3ZibGFua3Moc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+ID4gPiA+ID4gICAgICAgICBpbnQg
-aSwgcmV0Owo+ID4gPiA+ID4gPiAgICAgICAgIHVuc2lnbmVkIGNydGNfbWFzayA9IDA7Cj4gPiA+
-ID4gPiA+Cj4gPiA+ID4gPiA+IC0gICAgICAgIC8qCj4gPiA+ID4gPiA+IC0gICAgICAgICAqIExl
-Z2FjeSBjdXJzb3IgaW9jdGxzIGFyZSBjb21wbGV0ZWx5IHVuc3luY2VkLCBhbmQgdXNlcnNwYWNl
-Cj4gPiA+ID4gPiA+IC0gICAgICAgICAqIHJlbGllcyBvbiB0aGF0IChieSBkb2luZyB0b25zIG9m
-IGN1cnNvciB1cGRhdGVzKS4KPiA+ID4gPiA+ID4gLSAgICAgICAgICovCj4gPiA+ID4gPiA+IC0g
-ICAgICAgaWYgKG9sZF9zdGF0ZS0+bGVnYWN5X2N1cnNvcl91cGRhdGUpCj4gPiA+ID4gPiA+IC0g
-ICAgICAgICAgICAgICByZXR1cm47Cj4gPiA+ID4gPiA+IC0KPiA+ID4gPiA+ID4gICAgICAgICBm
-b3JfZWFjaF9vbGRuZXdfY3J0Y19pbl9zdGF0ZShvbGRfc3RhdGUsIGNydGMsIG9sZF9jcnRjX3N0
-YXRlLCBuZXdfY3J0Y19zdGF0ZSwgaSkgewo+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgaWYg
-KCFuZXdfY3J0Y19zdGF0ZS0+YWN0aXZlKQo+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAg
-ICAgICBjb250aW51ZTsKPiA+ID4gPiA+ID4gQEAgLTIxMDYsMTIgKzIwOTksNiBAQCBpbnQgZHJt
-X2F0b21pY19oZWxwZXJfc2V0dXBfY29tbWl0KHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
-ZSwKPiA+ID4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4gPiA+ID4g
-PiA+ICAgICAgICAgICAgICAgICB9Cj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IC0gICAgICAgICAg
-ICAgICAvKiBMZWdhY3kgY3Vyc29yIHVwZGF0ZXMgYXJlIGZ1bGx5IHVuc3luY2VkLiAqLwo+ID4g
-PiA+ID4gPiAtICAgICAgICAgICAgICAgaWYgKHN0YXRlLT5sZWdhY3lfY3Vyc29yX3VwZGF0ZSkg
-ewo+ID4gPiA+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgICBjb21wbGV0ZV9hbGwoJmNvbW1p
-dC0+ZmxpcF9kb25lKTsKPiA+ID4gPiA+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgY29udGlu
-dWU7Cj4gPiA+ID4gPiA+IC0gICAgICAgICAgICAgICB9Cj4gPiA+ID4gPiA+IC0KPiA+ID4gPiA+
-ID4gICAgICAgICAgICAgICAgIGlmICghbmV3X2NydGNfc3RhdGUtPmV2ZW50KSB7Cj4gPiA+ID4g
-PiA+ICAgICAgICAgICAgICAgICAgICAgICAgIGNvbW1pdC0+ZXZlbnQgPSBremFsbG9jKHNpemVv
-ZigqY29tbWl0LT5ldmVudCksCj4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIEdGUF9LRVJORUwpOwo+ID4gPiA+ID4gPiAtLQo+ID4gPiA+
-ID4gPiAyLjI4LjAKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+ID4gPiA+ID4gSW50ZWwtZ2Z4IG1haWxpbmcg
-bGlzdAo+ID4gPiA+ID4gPiBJbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiA+ID4g
-PiA+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vaW50ZWwt
-Z2Z4Cj4gPiA+Cj4gPiA+Cj4gPiA+Cj4gPiA+IC0tCj4gPiA+IERhbmllbCBWZXR0ZXIKPiA+ID4g
-U29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gPiA+IGh0dHA6Ly9ibG9nLmZm
-d2xsLmNoCj4KPgo+Cj4gLS0KPiBEYW5pZWwgVmV0dGVyCj4gU29mdHdhcmUgRW5naW5lZXIsIElu
-dGVsIENvcnBvcmF0aW9uCj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+This is the sixth version of the patch set. Changelog:
+
+v6:
+* Move the dma-buf invalidation callback from the core to the device
+  driver
+* Move mapping update from work queue to pagefault handler
+* Add dma-buf based MRs to the xarray of mmkeys so that the pagefault
+  handler can be reached
+* Update the new driver method and uverbs command signature by changing
+  the paramter 'addr' to 'offset'
+* Modify the sg list returned from dma_buf_map_attachment() based on
+  the parameters 'offset' and 'length'
+* Don't import dma-buf if 'dma_virt_ops' is used by the dma device
+* The patch that clarifies dma-buf sg lists alignment has landed at
+  https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ac80cd17a615
+  and thus is no longer included with this set
+
+v5: https://www.spinics.net/lists/linux-rdma/msg96786.html
+* Fix a few warnings reported by kernel test robot:
+    - no previous prototype for function 'ib_umem_dmabuf_release' 
+    - no previous prototype for function 'ib_umem_dmabuf_map_pages'
+    - comparison of distinct pointer types in 'check_add_overflow'
+* Add comment for the wait between getting the dma-buf sg tagle and
+  updating the NIC page table
+
+v4: https://www.spinics.net/lists/linux-rdma/msg96767.html
+* Add a new ib_device method reg_user_mr_dmabuf() instead of expanding
+  the existing method reg_user_mr()
+* Use a separate code flow for dma-buf instead of adding special cases
+  to the ODP memory region code path
+* In invalidation callback, new mapping is updated as whole using work
+  queue instead of being updated in page granularity in the page fault
+  handler
+* Use dma_resv_get_excl() and dma_fence_wait() to ensure the content of
+  the pages have been moved to the new location before the new mapping
+  is programmed into the NIC
+* Add code to the ODP page fault handler to check the mapping status
+* The new access flag added in v3 is removed.
+* The checking for on-demand paging support in the new uverbs command
+  is removed because it is implied by implementing the new ib_device
+  method
+* Clarify that dma-buf sg lists are page aligned
+
+v3: https://www.spinics.net/lists/linux-rdma/msg96330.html
+* Use dma_buf_dynamic_attach() instead of dma_buf_attach()
+* Use on-demand paging mechanism to avoid pinning the GPU memory
+* Instead of adding a new parameter to the device method for memory
+  registration, pass all the attributes including the file descriptor
+  as a structure
+* Define a new access flag for dma-buf based memory region
+* Check for on-demand paging support in the new uverbs command
+
+v2: https://www.spinics.net/lists/linux-rdma/msg93643.html
+* The Kconfig option is removed. There is no dependence issue since
+  dma-buf driver is always enabled.
+* The declaration of new data structure and functions is reorganized to
+  minimize the visibility of the changes.
+* The new uverbs command now goes through ioctl() instead of write().
+* The rereg functionality is removed.
+* Instead of adding new device method for dma-buf specific registration,
+  existing method is extended to accept an extra parameter. 
+* The correct function is now used for address range checking. 
+
+v1: https://www.spinics.net/lists/linux-rdma/msg90720.html
+* The initial patch set
+* Implement core functions for importing and mapping dma-buf
+* Use dma-buf static attach interface
+* Add two ib_device methods reg_user_mr_fd() and rereg_user_mr_fd()
+* Add two uverbs commands via the write() interface
+* Add Kconfig option
+* Add dma-buf support to mlx5 device
+
+When enabled, an RDMA capable NIC can perform peer-to-peer transactions
+over PCIe to access the local memory located on another device. This can
+often lead to better performance than using a system memory buffer for
+RDMA and copying data between the buffer and device memory.
+
+Current kernel RDMA stack uses get_user_pages() to pin the physical
+pages backing the user buffer and uses dma_map_sg_attrs() to get the
+dma addresses for memory access. This usually doesn't work for peer
+device memory due to the lack of associated page structures.
+
+Several mechanisms exist today to facilitate device memory access.
+
+ZONE_DEVICE is a new zone for device memory in the memory management
+subsystem. It allows pages from device memory being described with
+specialized page structures, but what can be done with these page
+structures may be different from system memory. ZONE_DEVICE is further
+specialized into multiple memory types, such as one type for PCI
+p2pmem/p2pdma and one type for HMM.
+
+PCI p2pmem/p2pdma uses ZONE_DEVICE to represent device memory residing
+in a PCI BAR and provides a set of calls to publish, discover, allocate,
+and map such memory for peer-to-peer transactions. One feature of the
+API is that the buffer is allocated by the side that does the DMA
+transfer. This works well with the storage usage case, but is awkward
+with GPU-NIC communication, where typically the buffer is allocated by
+the GPU driver rather than the NIC driver.
+
+Heterogeneous Memory Management (HMM) utilizes mmu_interval_notifier
+and ZONE_DEVICE to support shared virtual address space and page
+migration between system memory and device memory. HMM doesn't support
+pinning device memory because pages located on device must be able to
+migrate to system memory when accessed by CPU. Peer-to-peer access
+is currently not supported by HMM.
+
+Dma-buf is a standard mechanism for sharing buffers among different
+device drivers. The buffer to be shared is exported by the owning
+driver and imported by the driver that wants to use it. The exporter
+provides a set of ops that the importer can call to pin and map the
+buffer. In addition, a file descriptor can be associated with a dma-
+buf object as the handle that can be passed to user space.
+
+This patch series adds dma-buf importer role to the RDMA driver in
+attempt to support RDMA using device memory such as GPU VRAM. Dma-buf is
+chosen for a few reasons: first, the API is relatively simple and allows
+a lot of flexibility in implementing the buffer manipulation ops.
+Second, it doesn't require page structure. Third, dma-buf is already
+supported in many GPU drivers. However, we are aware that existing GPU
+drivers don't allow pinning device memory via the dma-buf interface.
+Pinning would simply cause the backing storage to migrate to system RAM.
+True peer-to-peer access is only possible using dynamic attach, which
+requires on-demand paging support from the NIC to work. For this reason,
+this series only works with ODP capable NICs.
+
+This series consists of five patches. The first patch adds the common
+code for importing dma-buf from a file descriptor and mapping the
+dma-buf pages. Patch 2 add the new driver method reg_user_mr_dmabuf().
+Patch 3 adds a new uverbs command for registering dma-buf based memory
+region. Patch 4 adds dma-buf support to the mlx5 driver. Patch 5 adds
+clarification to the dma-buf API documentation that dma-buf sg lists
+are page aligned.
+
+Related user space RDMA library changes will be provided as a separate
+patch series.
+
+Jianxin Xiong (4):
+  RDMA/umem: Support importing dma-buf as user memory region
+  RDMA/core: Add device method for registering dma-buf base memory
+    region
+  RDMA/uverbs: Add uverbs command for dma-buf based MR registration
+  RDMA/mlx5: Support dma-buf based userspace memory region
+
+ drivers/infiniband/core/Makefile              |   2 +-
+ drivers/infiniband/core/device.c              |   1 +
+ drivers/infiniband/core/umem.c                |   4 +
+ drivers/infiniband/core/umem_dmabuf.c         | 197 ++++++++++++++++++++++++++
+ drivers/infiniband/core/umem_dmabuf.h         |  11 ++
+ drivers/infiniband/core/uverbs_std_types_mr.c | 112 +++++++++++++++
+ drivers/infiniband/hw/mlx5/main.c             |   2 +
+ drivers/infiniband/hw/mlx5/mlx5_ib.h          |  11 ++
+ drivers/infiniband/hw/mlx5/mr.c               | 114 ++++++++++++++-
+ drivers/infiniband/hw/mlx5/odp.c              |  70 ++++++++-
+ include/rdma/ib_umem.h                        |  35 ++++-
+ include/rdma/ib_verbs.h                       |   6 +-
+ include/uapi/rdma/ib_user_ioctl_cmds.h        |  14 ++
+ 13 files changed, 570 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/infiniband/core/umem_dmabuf.c
+ create mode 100644 drivers/infiniband/core/umem_dmabuf.h
+
+-- 
+1.8.3.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
