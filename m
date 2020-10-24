@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37492297DA4
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:05:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADADB297DB3
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:15:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6CCC6E908;
-	Sat, 24 Oct 2020 17:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28EF96E8F8;
+	Sat, 24 Oct 2020 17:15:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 379 seconds by postgrey-1.36 at gabe;
- Sat, 24 Oct 2020 17:05:37 UTC
-Received: from abrecht.li (75-128-16-94.static.cable.fcom.ch [94.16.128.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23F216E902
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Oct 2020 17:05:37 +0000 (UTC)
-Received: from mail.abrecht.li (unknown [10.60.1.3])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 482B56E8F8
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Oct 2020 17:15:02 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by abrecht.li (Postfix) with ESMTPSA id BBA672D97C5B;
- Sat, 24 Oct 2020 16:59:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 abrecht.li BBA672D97C5B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=danielabrecht.ch;
- s=mail; t=1603558756;
- bh=HsJULwZf6cG3rWJMuqPzecGHdGk+1847RFAtqmArmVU=; h=From:To:Cc:From;
- b=LM12OErJy3GaJD/884SQoEOYRQEdJdTlomfb+bHVw5fVBm445k5hkOwW+aSl354Fh
- 6MK8m8zIAylFWfcD/3X709jSdV6fWUF8SHfeprOMbrWsr3L2Kq4JCkoFrKUS8G724c
- 172oClBSWppeGOoLIlOfS1CKMS+YN8r4ZBlJr548=
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 539B820020;
+ Sat, 24 Oct 2020 19:14:59 +0200 (CEST)
+Date: Sat, 24 Oct 2020 19:14:57 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Bernard <bernard@vivo.com>
+Subject: Re: Re: [PATCH] gpu/drm/mgag200:remove break after return
+Message-ID: <20201024171457.GA76883@ravnborg.org>
+References: <a6eab3c7-f1dd-82db-1cc0-35997c04bd7d@suse.de>
+ <ADgA6wAcDbnOQfg3AhKb6KoN.3.1603439329788.Hmail.bernard@vivo.com>
 MIME-Version: 1.0
-Date: Sat, 24 Oct 2020 16:59:16 +0000
-From: Daniel Abrecht <freedesktop-linux-dri-devel@danielabrecht.ch>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] Implement .format_mod_supported in mxsfb
-Message-ID: <96f62304bad202e4f920d2f4ed62c485@abrecht.li>
-X-Sender: freedesktop-linux-dri-devel@danielabrecht.ch
-User-Agent: Roundcube Webmail/1.3.15
+Content-Disposition: inline
+In-Reply-To: <ADgA6wAcDbnOQfg3AhKb6KoN.3.1603439329788.Hmail.bernard@vivo.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=1WtWmnkvAAAA:8 a=20KFwNOVAAAA:8 a=VwQbUJbxAAAA:8
+ a=24COTcmDj64ZDdr2WTQA:9 a=CjuIK1q_8ugA:10 a=-_UHfarfsM-RsASml2Jt:22
+ a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,55 +45,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, kernel@pengutronix.de, linux-imx@nxp.com
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will make sure applications which use the IN_FORMATS blob
-to figure out which modifiers they can use will pick up the
-linear modifier which is needed by mxsfb. Such applications
-will not work otherwise if an incompatible implicit modifier
-ends up being selected.
+Hi Bernard.
 
-Signed-off-by: Daniel Abrecht <public@danielabrecht.ch>
----
-  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 8 ++++++++
-  1 file changed, 8 insertions(+)
+On Fri, Oct 23, 2020 at 03:48:49PM +0800, Bernard wrote:
+> 
+> 
+> From: Thomas Zimmermann <tzimmermann@suse.de>
+> Date: 2020-10-23 15:13:30
+> To:  Bernard Zhao <bernard@vivo.com>,Dave Airlie <airlied@redhat.com>,David Airlie <airlied@linux.ie>,Daniel Vetter <daniel@ffwll.ch>,dri-devel@lists.freedesktop.org,linux-kernel@vger.kernel.org
+> Cc:  opensource.kernel@vivo.com
+> Subject: Re: [PATCH] gpu/drm/mgag200:remove break after return>Hi
+> >
+> >On 23.10.20 09:00, Bernard Zhao wrote:
+> >> In function mgag200_set_pci_regs, there are some switch cases
+> >> returned, then break. These break will never run.
+> >> This patch is to make the code a bit readable.
+> >> 
+> >> Signed-off-by: Bernard Zhao <bernard@vivo.com>
+> >> ---
+> >>  drivers/gpu/drm/mgag200/mgag200_mode.c | 5 +----
+> >>  1 file changed, 1 insertion(+), 4 deletions(-)
+> >> 
+> >> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> >> index 38672f9e5c4f..de873a5d276e 100644
+> >> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> >> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> >> @@ -794,20 +794,17 @@ static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
+> >>  	case G200_SE_A:
+> >>  	case G200_SE_B:
+> >>  		return mga_g200se_set_plls(mdev, clock);
+> >> -		break;
+> >>  	case G200_WB:
+> >>  	case G200_EW3:
+> >>  		return mga_g200wb_set_plls(mdev, clock);
+> >> -		break;
+> >>  	case G200_EV:
+> >>  		return mga_g200ev_set_plls(mdev, clock);
+> >> -		break;
+> >>  	case G200_EH:
+> >>  	case G200_EH3:
+> >>  		return mga_g200eh_set_plls(mdev, clock);
+> >> -		break;
+> >>  	case G200_ER:
+> >>  		return mga_g200er_set_plls(mdev, clock);
+> >> +	default:
+> >
+> >No default case here. If one of the enum values is not handled by the
+> >switch, the compiler should warn about it.
+> 
+> Hi
+> 
+> For this point I was a little confused, about this switch variable "mdev->type", my understanding is that this variable`s value can be certain only when the code is running.
+> How does the compiler warn this("If one of the enum values is not handled") before the code runs?
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c 
-b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 956f631997f2..fc4b1626261b 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -484,6 +484,13 @@ static void 
-mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
-  	writel(ctrl, mxsfb->base + LCDC_AS_CTRL);
-  }
+If the switch/case does not include "G200_ER" then the compiler can see
+one enum value is missing from the list and can warn.
+As a test - Try to drop the default and drop G200_ER - then the
+compiler (hopefully) will warn.
 
-+static bool mxsfb_format_mod_supported(struct drm_plane *plane,
-+				       uint32_t format,
-+				       uint64_t modifier)
-+{
-+	return modifier == DRM_FORMAT_MOD_LINEAR;
-+}
-+
-  static const struct drm_plane_helper_funcs 
-mxsfb_plane_primary_helper_funcs = {
-  	.atomic_check = mxsfb_plane_atomic_check,
-  	.atomic_update = mxsfb_plane_primary_atomic_update,
-@@ -495,6 +502,7 @@ static const struct drm_plane_helper_funcs 
-mxsfb_plane_overlay_helper_funcs = {
-  };
-
-  static const struct drm_plane_funcs mxsfb_plane_funcs = {
-+	.format_mod_supported	= mxsfb_format_mod_supported,
-  	.update_plane		= drm_atomic_helper_update_plane,
-  	.disable_plane		= drm_atomic_helper_disable_plane,
-  	.destroy		= drm_plane_cleanup,
--- 
-2.20.1
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
