@@ -1,63 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671DF297DA0
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:05:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37492297DA4
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:05:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC03B6E8FF;
-	Sat, 24 Oct 2020 17:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6CCC6E908;
+	Sat, 24 Oct 2020 17:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8634D6E8AB
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Oct 2020 03:54:33 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id c20so2942488pfr.8
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 20:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DHxWsys+dsHZlYbTCgm4K5sedJ6MYP3oaeNFmkALrqM=;
- b=UNSecyD70DJbdoa3nEKStvo16idn3uPBVMvv8wciCKz/CZ9XLg49oc8I3gUJm1XHyf
- LBiIKrAbhaElf2C78Cnv7M0oxeBmaDsBCL6JQ5NgtRzBFkip40NcvFg2N97N5WeycBpw
- 9p89xyh5DFXVCowIdoEbOk1wh2yMRPnUxkUtbAkryY44N2zs5Za7EOLbaMBnVwfQhHZN
- Raafp8ETUVeMOEFj06PQTqWZmZJeFc3PsU1VqxNNFAbu0tFEJmTYTK/sxDOQ53EIzcTy
- 7FN91bJl7snVlH7bPIxB5bxnG3e1zADNpzAPhXVqOuTLH/ysbHQ6d3dmKCVhRHAk5Gmo
- K4wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DHxWsys+dsHZlYbTCgm4K5sedJ6MYP3oaeNFmkALrqM=;
- b=GppJJFb+oc6NmYPeB61BPHFlnkEs9a2TXNJLjGedTRNY4PLfdXrLKFDU2VcsX7ZEZ3
- Q+HMHyARqXKVEc1MCd7FKFNpWssu0FxRkuX4tEMMLzvItPESR1x637cCx8Sdd/Qh+T+2
- lp4f/f34mRFa2XijnUlhydvtVthERY8xYviemiAI6GTVJo/gi9Uc7pnIWQ98jvIplYW7
- oQjebPqN9E3x9DrDc1Qzc2U8oVwdj1TDRQ6TsmNU5h7omtOYqrX9XOJtZb98DnrxdH6j
- l3vBs4TtgwXaxngNsohZGwRGSVCpgp2sKUJiKvv1n8vTkqCa5sKdf6Ss+9UPyJlpJrzw
- 6Jbw==
-X-Gm-Message-State: AOAM533UAQGW7xqgxhcn7zCh/UA+RIBVDgUnEF24kaQ2tTiOZwkfE2aD
- sLaXLS3810DJ0VMF+zH0GBE=
-X-Google-Smtp-Source: ABdhPJxnaoZIHSyeaLHOggKuQPc6R2MJHs3zj6tNNwoEkVIMlDjR5/Bgui16x+FHxJUCspKSGIZoVA==
-X-Received: by 2002:aa7:8498:0:b029:160:190:327b with SMTP id
- u24-20020aa784980000b02901600190327bmr1953801pfn.61.1603511673103; 
- Fri, 23 Oct 2020 20:54:33 -0700 (PDT)
-Received: from 119-18-5-146.771205.syd.nbn.aussiebb.net
- (119-18-5-146.771205.syd.nbn.aussiebb.net. [119.18.5.146])
- by smtp.gmail.com with ESMTPSA id c187sm4083870pfc.153.2020.10.23.20.54.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 20:54:32 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/rockchip: dw_hdmi: fix incorrect clock in vpll clock
- error message
-Date: Sat, 24 Oct 2020 14:53:21 +1100
-Message-Id: <20201024035321.4898-1-net147@gmail.com>
-X-Mailer: git-send-email 2.29.1
+X-Greylist: delayed 379 seconds by postgrey-1.36 at gabe;
+ Sat, 24 Oct 2020 17:05:37 UTC
+Received: from abrecht.li (75-128-16-94.static.cable.fcom.ch [94.16.128.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23F216E902
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Oct 2020 17:05:37 +0000 (UTC)
+Received: from mail.abrecht.li (unknown [10.60.1.3])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by abrecht.li (Postfix) with ESMTPSA id BBA672D97C5B;
+ Sat, 24 Oct 2020 16:59:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 abrecht.li BBA672D97C5B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=danielabrecht.ch;
+ s=mail; t=1603558756;
+ bh=HsJULwZf6cG3rWJMuqPzecGHdGk+1847RFAtqmArmVU=; h=From:To:Cc:From;
+ b=LM12OErJy3GaJD/884SQoEOYRQEdJdTlomfb+bHVw5fVBm445k5hkOwW+aSl354Fh
+ 6MK8m8zIAylFWfcD/3X709jSdV6fWUF8SHfeprOMbrWsr3L2Kq4JCkoFrKUS8G724c
+ 172oClBSWppeGOoLIlOfS1CKMS+YN8r4ZBlJr548=
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 24 Oct 2020 17:05:18 +0000
+Date: Sat, 24 Oct 2020 16:59:16 +0000
+From: Daniel Abrecht <freedesktop-linux-dri-devel@danielabrecht.ch>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] Implement .format_mod_supported in mxsfb
+Message-ID: <96f62304bad202e4f920d2f4ed62c485@abrecht.li>
+X-Sender: freedesktop-linux-dri-devel@danielabrecht.ch
+User-Agent: Roundcube Webmail/1.3.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +46,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, Jonathan Liu <net147@gmail.com>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Marek Vasut <marex@denx.de>, kernel@pengutronix.de, linux-imx@nxp.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Error message incorrectly refers to grf clock instead of vpll clock.
+This will make sure applications which use the IN_FORMATS blob
+to figure out which modifiers they can use will pick up the
+linear modifier which is needed by mxsfb. Such applications
+will not work otherwise if an incompatible implicit modifier
+ends up being selected.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+Signed-off-by: Daniel Abrecht <public@danielabrecht.ch>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 8 ++++++++
+  1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 23de359a1dec..830bdd5e9b7c 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -202,7 +202,7 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
- 	} else if (PTR_ERR(hdmi->vpll_clk) == -EPROBE_DEFER) {
- 		return -EPROBE_DEFER;
- 	} else if (IS_ERR(hdmi->vpll_clk)) {
--		DRM_DEV_ERROR(hdmi->dev, "failed to get grf clock\n");
-+		DRM_DEV_ERROR(hdmi->dev, "failed to get vpll clock\n");
- 		return PTR_ERR(hdmi->vpll_clk);
- 	}
- 
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c 
+b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index 956f631997f2..fc4b1626261b 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -484,6 +484,13 @@ static void 
+mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
+  	writel(ctrl, mxsfb->base + LCDC_AS_CTRL);
+  }
+
++static bool mxsfb_format_mod_supported(struct drm_plane *plane,
++				       uint32_t format,
++				       uint64_t modifier)
++{
++	return modifier == DRM_FORMAT_MOD_LINEAR;
++}
++
+  static const struct drm_plane_helper_funcs 
+mxsfb_plane_primary_helper_funcs = {
+  	.atomic_check = mxsfb_plane_atomic_check,
+  	.atomic_update = mxsfb_plane_primary_atomic_update,
+@@ -495,6 +502,7 @@ static const struct drm_plane_helper_funcs 
+mxsfb_plane_overlay_helper_funcs = {
+  };
+
+  static const struct drm_plane_funcs mxsfb_plane_funcs = {
++	.format_mod_supported	= mxsfb_format_mod_supported,
+  	.update_plane		= drm_atomic_helper_update_plane,
+  	.disable_plane		= drm_atomic_helper_disable_plane,
+  	.destroy		= drm_plane_cleanup,
 -- 
-2.29.1
-
+2.20.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
