@@ -2,37 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADADB297DB3
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:15:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013D4297DDA
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:47:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28EF96E8F8;
-	Sat, 24 Oct 2020 17:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6D16E154;
+	Sat, 24 Oct 2020 17:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482B56E8F8
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Oct 2020 17:15:02 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 539B820020;
- Sat, 24 Oct 2020 19:14:59 +0200 (CEST)
-Date: Sat, 24 Oct 2020 19:14:57 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Bernard <bernard@vivo.com>
-Subject: Re: Re: [PATCH] gpu/drm/mgag200:remove break after return
-Message-ID: <20201024171457.GA76883@ravnborg.org>
-References: <a6eab3c7-f1dd-82db-1cc0-35997c04bd7d@suse.de>
- <ADgA6wAcDbnOQfg3AhKb6KoN.3.1603439329788.Hmail.bernard@vivo.com>
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF946E154
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Oct 2020 17:47:27 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id a12so4042702ybg.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Oct 2020 10:47:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=8ecMWNY+NoIcQ0QjfG3ajjtWoLUU6bkCGpdkuJczaBQ=;
+ b=g485thhR2PtFPltTGhautEjnE7Hhpo6+ExZncAZxH+Q50DVFuEjx5a6JQ+L4P06S2X
+ UYR3KhJjRiNBrAeGwYji991GcdSn0vXuyhUGmg7uISZ6LSyaVm8cBj9LpUAwvF2vbNef
+ IZsMBj5GlNmzeurIXx9Xu09kBEiJoN7L0Gkf5Sgwd77RHlfQXkiinsz4jVKheFpqFLvW
+ pQFZntKx7BSpti7a2pOLUrvt/OxHqq9FwhtLSg7Myo7kzzoX4uRddJp9XkK/2JTzfO05
+ JQzw4fDGL74oWhZ+Zm8mAueS7Wh4nuTJEAToYftt55YUKthR+eG5t3cwsVZ+PbVHOqvQ
+ FsGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=8ecMWNY+NoIcQ0QjfG3ajjtWoLUU6bkCGpdkuJczaBQ=;
+ b=T1qxHpphBKhidRQLiOzs6vZODOo8hB7Nll8yzIkPqXd53Hc4dMrd+tvkXcnpdZ1xeX
+ 0nbZTwNAs/jFDWfTHW/WfoEsIrjRP8m/DkgJ/hccqYtYOipTzwgbX+PSQmGYhIfsc/mS
+ iPrkd/LGh3B5rn4g+3plkk4h6/3uE2ZmyZmR6oOjirWcYJZJLjXB3oInZf8I9UHDkGeb
+ 6fvSPaEuXlGCp+ffAv6zaDTmkrHee+QbPvKqqjmAfw4aKHiHNE2I+OX9Hh1vrVzPhm+5
+ Eu1KJOeCoQJOrzobfkMUa/ZfR1668xeWzSkNghbL9Fb/Y7na0/DmPcrFbgpwYlUJw6h8
+ dsLw==
+X-Gm-Message-State: AOAM532OG4/SWBL105i/rzsI+co8S35RIM69lJjri44nRm0S6S1Ec5IF
+ q7cSoRrlgn6QV7q0wgPYfhf5BnJMZuGvAFVKnng=
+X-Google-Smtp-Source: ABdhPJx9ALKpPqmMJlcYydk8NB0UHB3LOIy+rXnccOBq3t75OazHqmwJePi3+KqQ6OsoOJIwZiY/KHHr69djVP+u5d8=
+X-Received: by 2002:a25:bfcf:: with SMTP id q15mr10938055ybm.103.1603561646692; 
+ Sat, 24 Oct 2020 10:47:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ADgA6wAcDbnOQfg3AhKb6KoN.3.1603439329788.Hmail.bernard@vivo.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=1WtWmnkvAAAA:8 a=20KFwNOVAAAA:8 a=VwQbUJbxAAAA:8
- a=24COTcmDj64ZDdr2WTQA:9 a=CjuIK1q_8ugA:10 a=-_UHfarfsM-RsASml2Jt:22
- a=AjGcO6oz07-iQ99wixmX:22
+References: <9faa1070-d46e-5340-f6a2-5826614f306b@gmail.com>
+In-Reply-To: <9faa1070-d46e-5340-f6a2-5826614f306b@gmail.com>
+From: Sandeep <sandy.8925@gmail.com>
+Date: Sat, 24 Oct 2020 23:17:16 +0530
+Message-ID: <CAGPDPzA3+NFO5meR-YHByaRc+unQvPOU-2sjGkpBEkwcdsJwWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm/radeon: Add new callback that exposes vddc
+To: "Deucher, Alexander" <alexander.deucher@amd.com>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,73 +61,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bernard.
+Hello,
 
-On Fri, Oct 23, 2020 at 03:48:49PM +0800, Bernard wrote:
-> 
-> 
-> From: Thomas Zimmermann <tzimmermann@suse.de>
-> Date: 2020-10-23 15:13:30
-> To:  Bernard Zhao <bernard@vivo.com>,Dave Airlie <airlied@redhat.com>,David Airlie <airlied@linux.ie>,Daniel Vetter <daniel@ffwll.ch>,dri-devel@lists.freedesktop.org,linux-kernel@vger.kernel.org
-> Cc:  opensource.kernel@vivo.com
-> Subject: Re: [PATCH] gpu/drm/mgag200:remove break after return>Hi
-> >
-> >On 23.10.20 09:00, Bernard Zhao wrote:
-> >> In function mgag200_set_pci_regs, there are some switch cases
-> >> returned, then break. These break will never run.
-> >> This patch is to make the code a bit readable.
-> >> 
-> >> Signed-off-by: Bernard Zhao <bernard@vivo.com>
-> >> ---
-> >>  drivers/gpu/drm/mgag200/mgag200_mode.c | 5 +----
-> >>  1 file changed, 1 insertion(+), 4 deletions(-)
-> >> 
-> >> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> >> index 38672f9e5c4f..de873a5d276e 100644
-> >> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> >> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> >> @@ -794,20 +794,17 @@ static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
-> >>  	case G200_SE_A:
-> >>  	case G200_SE_B:
-> >>  		return mga_g200se_set_plls(mdev, clock);
-> >> -		break;
-> >>  	case G200_WB:
-> >>  	case G200_EW3:
-> >>  		return mga_g200wb_set_plls(mdev, clock);
-> >> -		break;
-> >>  	case G200_EV:
-> >>  		return mga_g200ev_set_plls(mdev, clock);
-> >> -		break;
-> >>  	case G200_EH:
-> >>  	case G200_EH3:
-> >>  		return mga_g200eh_set_plls(mdev, clock);
-> >> -		break;
-> >>  	case G200_ER:
-> >>  		return mga_g200er_set_plls(mdev, clock);
-> >> +	default:
-> >
-> >No default case here. If one of the enum values is not handled by the
-> >switch, the compiler should warn about it.
-> 
-> Hi
-> 
-> For this point I was a little confused, about this switch variable "mdev->type", my understanding is that this variable`s value can be certain only when the code is running.
-> How does the compiler warn this("If one of the enum values is not handled") before the code runs?
+I've resent the patches in the correct format. Please review.
 
-If the switch/case does not include "G200_ER" then the compiler can see
-one enum value is missing from the list and can warn.
-As a test - Try to drop the default and drop G200_ER - then the
-compiler (hopefully) will warn.
+- Sandeep
 
-	Sam
+On Fri, 9 Oct 2020 at 13:14, Sandeep Raghuraman <sandy.8925@gmail.com> wrote:
+>
+> This patch adds a callback for reporting vddc, to the dpm field of the radeon_asic structure.
+>
+> Signed-off-by: Sandeep Raghuraman <sandy.8925@gmail.com>
+>
+> ---
+>  drivers/gpu/drm/radeon/radeon.h | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+> index cc4f58d16589..85a1cafdf303 100644
+> --- a/drivers/gpu/drm/radeon/radeon.h
+> +++ b/drivers/gpu/drm/radeon/radeon.h
+> @@ -1992,6 +1992,7 @@ struct radeon_asic {
+>                 int (*get_fan_speed_percent)(struct radeon_device *rdev, u32 *speed);
+>                 u32 (*get_current_sclk)(struct radeon_device *rdev);
+>                 u32 (*get_current_mclk)(struct radeon_device *rdev);
+> +               u16 (*get_current_vddc)(struct radeon_device *rdev);
+>         } dpm;
+>         /* pageflipping */
+>         struct {
+> --
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
