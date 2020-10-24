@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190FC297A35
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 03:45:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 812A1297A8E
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 05:47:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA6126E155;
-	Sat, 24 Oct 2020 01:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1766C6E8A9;
+	Sat, 24 Oct 2020 03:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 036806E155
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Oct 2020 01:45:21 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id k3so2570742otp.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 18:45:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 877D56E32F;
+ Sat, 24 Oct 2020 03:47:49 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id n18so4780951wrs.5;
+ Fri, 23 Oct 2020 20:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rGsi5YcxzQ7stG6G1DguJ+xZk2RUvzGBT2tUgkec1Ic=;
- b=FW8l6rNcPlkkHIxYAmxn2I5AzqFraX97UvSo6j5QaiD9JXDr9IgTqtrzGcVywpJMDS
- LUJn1/A1JOpYsDnjZG/w6zhkz6kqFQM84bEoADT/E2GPcuaDij8HZqkWlMO7VFktz7hl
- GAV2MM0PnpX7OmivnkLoLLZP2ZffvuNGVt47E=
+ :cc; bh=Mt3yDzgMQVdkwkYDlINmngXs9x8aGBvvpOuUYt4E2FI=;
+ b=uJpEEYJMuLoMWbQLRJVUT5bDDQZTWuCcEJzQHr1VG+HH9Q4DLIq09fBfT9uARbgiq5
+ 98iI2b4iKZ7BOk/ZU1P8roakkblsFnYCCHfzsiNga9Iol7g5y9r/JVM8ixshRQpsrDwC
+ 6hTLmHRD7YBg+zef1rOHgF2+FREH5eO91FIrudL/pPhbkuttPjwwPyB0c7IP+0KyC6DD
+ sSFrZCEsxUVvNBClaHwoozLK4fQ11UZcO1pwHidctd7Qyp9sOA509iJOYFZghO3ZHVA3
+ FbJKoNDJ+OslZiTncvDQPJe+8By3cOLIl8f3kr+cP/4nLG1JA5ElOmPz0eos/pkrb037
+ XtBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rGsi5YcxzQ7stG6G1DguJ+xZk2RUvzGBT2tUgkec1Ic=;
- b=elDgoiu3YFxFmJdbXu1FwV2s5qDX+PEmb+kw1+NvuAZKqlucACzmbkddimpOOZL4ki
- E1bFioKAAparfYt3GdICDxiFkO0wtQogWGO4aVbgmayBYo3kRW+q8zX7J2XtUeTF9p1R
- 11JlmX37VRBJxary+bzmQXpjAF+2k70PWLmQ7KASKvdqMtT5Kylq1tzK6ZKSRH9gPYb7
- jqB/jdGR/iXV1dfJCfwlTRFlBcdO39VsshpHPlO7vTXw523CjrfkAs5IAuLx1ZYDcYpC
- 0vqtvcd5cUQ4+mw/6/Q+a1LiWoUQrgFvi4xjXvC/KY7ZJV2oECydkd85UsJrfOXKBPx8
- q53Q==
-X-Gm-Message-State: AOAM531vUU4Zo+9Zuru50XFSgqcikAAYxtjkm4TzMgtVLd5EGVc2qtdc
- hvoJ8ToR+//ez0ceZ7c2hXYu8lcqFRcLfBBBHX6AOg==
-X-Google-Smtp-Source: ABdhPJxFEVvckOn8TMXbpUybEsH7El0kXpT+Js80avNLpe6rV/n5sIRCcmCgObpEiyOiSTQf0HfPhdVAvC4QMJ8TNC0=
-X-Received: by 2002:a05:6830:1647:: with SMTP id
- h7mr4466267otr.281.1603503920944; 
- Fri, 23 Oct 2020 18:45:20 -0700 (PDT)
+ bh=Mt3yDzgMQVdkwkYDlINmngXs9x8aGBvvpOuUYt4E2FI=;
+ b=E5RNpdEIEqOxNu0YEs9F/6lkoYGmGrFWBu0hQGug/BUj4Fi4S/vnoItN3VyCWnykSS
+ 6HXCuGPmyqFgZ1m+jGgTiZZkLVYKzk5PeNi+ehKOitOLYpKf6AMpxJ2dovlmELOA7CK8
+ KKI3gs7RQH4dgDOKFbis7n/yzvqQavQhFvyfItizkYhvv7i6sNUACUCy7WgtaPNXy7sW
+ aRMGL+ZwE7CbN4BEeQSUb7Gzf8T2ZiyTZuhJXPFRG47wU/hOy25mr+kP+fo2PSUZa6Ik
+ i6CgvJlykH5Ui/i0Kx875UAgOMZI1o1OjxGDpSNVCm8PNWDIdwTHVcE8NoXkD+H7MC82
+ 7JKA==
+X-Gm-Message-State: AOAM531LcckecJTbMt8kB0E3Rcg1Lx8BtUkuJTjd0i4I4VHqYUwJPFbH
+ Ythak1Lc6XBIiXMWdxCr1OBWSct8zyrz2bv2mak=
+X-Google-Smtp-Source: ABdhPJykogrRTV9Gbt/HoTxHHphSIFX+YNRTGfPg5YErAVFnGqs3bkvyiUa0n1TulZQNIlTk1owhKT0NfsLHsT0xlRE=
+X-Received: by 2002:adf:c501:: with SMTP id q1mr5311111wrf.147.1603511267881; 
+ Fri, 23 Oct 2020 20:47:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
- <1603471201-32588-2-git-send-email-jianxin.xiong@intel.com>
- <20201023164911.GF401619@phenom.ffwll.local> <20201023182005.GP36674@ziepe.ca>
-In-Reply-To: <20201023182005.GP36674@ziepe.ca>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sat, 24 Oct 2020 03:45:09 +0200
-Message-ID: <CAKMK7uEZYdtwHKchNwiFjuYJDjA+F+qDgw64TNkchjp4uYUr6g@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-To: Jason Gunthorpe <jgg@ziepe.ca>
+References: <20201023165136.561680-1-robdclark@gmail.com>
+ <20201023165136.561680-24-robdclark@gmail.com>
+ <d0fb714b99f13bea6000ecd17fba324433782ae5.camel@pengutronix.de>
+In-Reply-To: <d0fb714b99f13bea6000ecd17fba324433782ae5.camel@pengutronix.de>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 23 Oct 2020 20:49:14 -0700
+Message-ID: <CAF6AEGsf=pJ5H4guvL-+AAkK0PwCZ5g9k3K=7UPYzFmr02ReoA@mail.gmail.com>
+Subject: Re: [PATCH v4 23/23] drm/msm: Don't implicit-sync if only a single
+ ring
+To: Lucas Stach <l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +63,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
+Cc: Rob Clark <robdclark@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
+ "Kristian H . Kristensen" <hoegsberg@google.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 23, 2020 at 8:20 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Fri, Oct 23, 2020 at 11:20 AM Lucas Stach <l.stach@pengutronix.de> wrote:
 >
-> On Fri, Oct 23, 2020 at 06:49:11PM +0200, Daniel Vetter wrote:
-> > > +struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
-> > > +                              unsigned long offset, size_t size,
-> > > +                              int fd, int access,
-> > > +                              const struct dma_buf_attach_ops *ops)
-> > > +{
-> > > +   struct dma_buf *dmabuf;
-> > > +   struct ib_umem_dmabuf *umem_dmabuf;
-> > > +   struct ib_umem *umem;
-> > > +   unsigned long end;
-> > > +   long ret;
-> > > +
-> > > +   if (check_add_overflow(offset, (unsigned long)size, &end))
-> > > +           return ERR_PTR(-EINVAL);
-> > > +
-> > > +   if (unlikely(PAGE_ALIGN(end) < PAGE_SIZE))
-> > > +           return ERR_PTR(-EINVAL);
-> > > +
-> > > +   if (unlikely(!ops || !ops->move_notify))
-> > > +           return ERR_PTR(-EINVAL);
-> > > +
-> > > +#ifdef CONFIG_DMA_VIRT_OPS
-> > > +   if (device->dma_device->dma_ops == &dma_virt_ops)
-> > > +           return ERR_PTR(-EINVAL);
-> > > +#endif
+> On Fr, 2020-10-23 at 09:51 -0700, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
 > >
-> > Maybe I'm confused, but should we have this check in dma_buf_attach, or at
-> > least in dma_buf_dynamic_attach? The p2pdma functions use that too, and I
-> > can't imagine how zerocopy should work (which is like the entire point of
-> > dma-buf) when we have dma_virt_ops.
+> > If there is only a single ring (no-preemption), everything is FIFO order
+> > and there is no need to implicit-sync.
+> >
+> > Mesa should probably just always use MSM_SUBMIT_NO_IMPLICIT, as behavior
+> > is undefined when fences are not used to synchronize buffer usage across
+> > contexts (which is the only case where multiple different priority rings
+> > could come into play).
 >
-> The problem is we have RDMA drivers that assume SGL's have a valid
-> struct page, and these hacky/wrong P2P sgls that DMABUF creates cannot
-> be passed into those drivers.
+> Really, doesn't this break cross-device implicit sync? Okay, you may
+> not have many peripherals that rely on implicit sync on devices where
+> Adreno is usually found, but it seems rather heavy-handed.
 >
-> But maybe this is just a 'drivers are using it wrong' if they call
-> this function and expect struct pages..
->
-> The check in the p2p stuff was done to avoid this too, but it was on a
-> different flow.
+> Wouldn't it be better to only ignore fences from your own ring context
+> in the implicit sync, like we do in the common DRM scheduler
+> (drm_sched_dependency_optimized)?
 
-Yeah definitely don't call dma_buf_map_attachment and expect a page
-back. In practice you'll get a page back fairly often, but I don't
-think we want to bake that in, maybe we eventually get to non-hacky
-dma_addr_t only sgl.
+we already do this.. as was discussed on an earlier iteration of this patchset
 
-What I'm wondering is whether dma_buf_attach shouldn't reject such
-devices directly, instead of each importer having to do that.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+But I'm not aware of any other non-gpu related implicit sync use-case
+(even on imx devices where display is decoupled from gpu).. I'll
+revert the patch if someone comes up with one, but otherwise lets let
+the implicit sync baggage die
+
+BR,
+-R
+
+
+
+>
+> Regards,
+> Lucas
+>
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
+> > ---
+> >  drivers/gpu/drm/msm/msm_gem_submit.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > index d04c349d8112..b6babc7f9bb8 100644
+> > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > @@ -283,7 +283,7 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
+> >       return ret;
+> >  }
+> >
+> > -static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+> > +static int submit_fence_sync(struct msm_gem_submit *submit, bool implicit_sync)
+> >  {
+> >       int i, ret = 0;
+> >
+> > @@ -303,7 +303,7 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+> >                               return ret;
+> >               }
+> >
+> > -             if (no_implicit)
+> > +             if (!implicit_sync)
+> >                       continue;
+> >
+> >               ret = msm_gem_sync_object(&msm_obj->base, submit->ring->fctx,
+> > @@ -774,7 +774,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> >       if (ret)
+> >               goto out;
+> >
+> > -     ret = submit_fence_sync(submit, !!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
+> > +     ret = submit_fence_sync(submit, (gpu->nr_rings > 1) &&
+> > +                     !(args->flags & MSM_SUBMIT_NO_IMPLICIT));
+> >       if (ret)
+> >               goto out;
+> >
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
