@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6BAF297D95
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:05:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EE5297DA1
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Oct 2020 19:05:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 809916E8F5;
-	Sat, 24 Oct 2020 17:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 502A06E904;
+	Sat, 24 Oct 2020 17:05:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21A196E33F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 18:20:08 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id m65so1655993qte.11
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 11:20:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=d/+MlewygeiienB2mRVhuu6CHgxoRL3d5SyiUrYkbUk=;
- b=P4s3di/PHximFnEKCWi0KnwrrxyUpqpcmCQy2Nth1PVvkNCVxwt8YTbQ+cWCzJ+rnD
- f5u7no5HH802n8lLR852ZUhFFg0kr2kfshpdHDx1axKHrq58MWe8ZN93rEE/Dhi4yduP
- +lWucSf+1tTgEBWpz9UaUW9nYQXFF0grtVVrH19T4mCRSk6URpMvHyVqPBsiQK5IJ7Qi
- BTlV57OclczClDMZu+PXRkkPJmwtdeJaX4kTqMOGVWlzaWL8V+y7I7BDKV/C3C3VckhR
- ai8VK0aBvsufYBiH7tqeJHT+Q1RpyA+lNbgwb8D9agAm9SxQHuzaNf8S6fnpZmRb4p5I
- tI8A==
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35EDF6E47A
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Oct 2020 00:47:30 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id k3so4760720ejj.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Oct 2020 17:47:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rasmusvillemoes.dk; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9nGBhSaBuMaImbsbpDD696OYT/ES8t/q7g+4eLy+bu8=;
+ b=gOZhoV+6gGSXqS8XfN8jVsjRRRjofmjn+hpYzAmNvCrWy9I5g0qMUVR5e5R9NweGJ0
+ ABDDLfGOiOVsu/LmVAo2oaVNbi03304MCep7p0yUlBcH13Q6UhLDnjwymy4mLmiWZhls
+ 3uHEGqYLM0eAJBn6cq3eglfA4U2IMp01rPZkI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=d/+MlewygeiienB2mRVhuu6CHgxoRL3d5SyiUrYkbUk=;
- b=sUb1FB8VZ2HGWMIIiJZp5oi9toiS/Nn/XBG+CNgKYC+w9adKSsydt6kCWoM+3QqNiS
- /XCkFvyzKm7Udl9SI2QuNaUgojc6kHz8OiZYRH8Qy92kChyCfScOgsgN4VW4es/KTtZG
- sIXRuCJ73tjtafTEd2HCRX/VVX2rZPg8djp+Af+zTGqSVoPqme6crp6B5LCotowiHyug
- T5+CVWJE4Y+Mfmh332794NUH3eI0Y7aSaJrN2iTMcsdLu105ePRNaM3mQwqJS3szV5eU
- XpFNXygB/RQrioYur4AEgat7zXSk7Fg67Adu8MHW0dHE2FXgLvttG1BZQKHgwKE/UkqE
- LCdA==
-X-Gm-Message-State: AOAM531SAbXwP801F8nDevp3fdCFnWd+zHD+tZsVLgmWzz2q2PP+le79
- VXlPLPH9o5OZ3eJYmlLE7aqETw==
-X-Google-Smtp-Source: ABdhPJzEK0E5cN3UuD9k/y/M+Nvpt4LbYO1AelIkz6dEQYGwBH4YhcUAmfE4fNEeUt7dggHiEbURCg==
-X-Received: by 2002:ac8:13c9:: with SMTP id i9mr3275402qtj.89.1603477207177;
- Fri, 23 Oct 2020 11:20:07 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id v5sm1242273qkv.89.2020.10.23.11.20.06
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9nGBhSaBuMaImbsbpDD696OYT/ES8t/q7g+4eLy+bu8=;
+ b=PLJiS7BWo1DJWqsa2pjZdg11b3gsRBbIIijujbsRVjXVbzNdwa6rm9JKvvkhQ+Wfd/
+ d+rVBkx0jocFh6C7WkJVUNFFYaZPMsPXpNo++k4bgXdhU6CNI79qM/Fd8fR1hHotNByH
+ Lf0fJ1Lsvy8aDKUUFMyxDqqciJgf7r+3GRvqraNTU37XqcMB5TkNSeAkE7sVr9OcjzW6
+ sjxk89riBEx7TiDIBgYi7u6ITsied9xoWrQiBpzfsI/2CQdR4qpkoNWBj0+6C2mj1aih
+ 9rkrgi8ld0p1ozdainLKreskFczvH/9kcHeWm9R9fiO9Qsr1HRmk1yl04Kc/PMsfuRZk
+ bGYA==
+X-Gm-Message-State: AOAM532RqNbFkH31KfMQj8ZpLi6gofhZdjw26s2aEZrKbMGe8nDLJyz2
+ tQ6zegBkBDTZwlh/1as7qIo2KQ==
+X-Google-Smtp-Source: ABdhPJwDurk4oHPdsox9A9z3dqzjWUY5yj8mDDqlIRq04fNZyTcZK1l9lEzo723x7M0+yR9UN4D2tg==
+X-Received: by 2002:a17:906:3bd7:: with SMTP id
+ v23mr4829055ejf.100.1603500449274; 
+ Fri, 23 Oct 2020 17:47:29 -0700 (PDT)
+Received: from prevas-ravi.prevas.se (5.186.115.188.cgn.fibianet.dk.
+ [5.186.115.188])
+ by smtp.gmail.com with ESMTPSA id i14sm1527349ejp.2.2020.10.23.17.47.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 11:20:06 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kW1fZ-006OVO-L8; Fri, 23 Oct 2020 15:20:05 -0300
-Date: Fri, 23 Oct 2020 15:20:05 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-Message-ID: <20201023182005.GP36674@ziepe.ca>
-References: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
- <1603471201-32588-2-git-send-email-jianxin.xiong@intel.com>
- <20201023164911.GF401619@phenom.ffwll.local>
+ Fri, 23 Oct 2020 17:47:28 -0700 (PDT)
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/ttm: add __user annotation in radeon_ttm_vram_read
+Date: Sat, 24 Oct 2020 02:47:06 +0200
+Message-Id: <20201024004706.24518-1-linux@rasmusvillemoes.dk>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201023164911.GF401619@phenom.ffwll.local>
 X-Mailman-Approved-At: Sat, 24 Oct 2020 17:05:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,58 +67,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
+Cc: kernel test robot <lkp@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 23, 2020 at 06:49:11PM +0200, Daniel Vetter wrote:
-> > +struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
-> > +				   unsigned long offset, size_t size,
-> > +				   int fd, int access,
-> > +				   const struct dma_buf_attach_ops *ops)
-> > +{
-> > +	struct dma_buf *dmabuf;
-> > +	struct ib_umem_dmabuf *umem_dmabuf;
-> > +	struct ib_umem *umem;
-> > +	unsigned long end;
-> > +	long ret;
-> > +
-> > +	if (check_add_overflow(offset, (unsigned long)size, &end))
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	if (unlikely(PAGE_ALIGN(end) < PAGE_SIZE))
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	if (unlikely(!ops || !ops->move_notify))
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +#ifdef CONFIG_DMA_VIRT_OPS
-> > +	if (device->dma_device->dma_ops == &dma_virt_ops)
-> > +		return ERR_PTR(-EINVAL);
-> > +#endif
-> 
-> Maybe I'm confused, but should we have this check in dma_buf_attach, or at
-> least in dma_buf_dynamic_attach? The p2pdma functions use that too, and I
-> can't imagine how zerocopy should work (which is like the entire point of
-> dma-buf) when we have dma_virt_ops.
+Keep sparse happy by preserving the __user annotation when casting.
 
-The problem is we have RDMA drivers that assume SGL's have a valid
-struct page, and these hacky/wrong P2P sgls that DMABUF creates cannot
-be passed into those drivers.
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+---
 
-But maybe this is just a 'drivers are using it wrong' if they call
-this function and expect struct pages..
+kernel test robot has already started spamming me due to 9c5743dff. If
+I don't fix those warnings I'll keep getting those emails for
+months, so let me do the easy ones.
 
-The check in the p2p stuff was done to avoid this too, but it was on a
-different flow.
 
-Jason
+ drivers/gpu/drm/radeon/radeon_ttm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 36150b7f31a90aa1eece..ecfe88b0a35d8f317712 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -1005,7 +1005,7 @@ static ssize_t radeon_ttm_vram_read(struct file *f, char __user *buf,
+ 		value = RREG32(RADEON_MM_DATA);
+ 		spin_unlock_irqrestore(&rdev->mmio_idx_lock, flags);
+ 
+-		r = put_user(value, (uint32_t *)buf);
++		r = put_user(value, (uint32_t __user *)buf);
+ 		if (r)
+ 			return r;
+ 
+-- 
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
