@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2FB2987BE
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:08:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FD92987E5
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:09:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC5DF6E83B;
-	Mon, 26 Oct 2020 08:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0376E95E;
+	Mon, 26 Oct 2020 08:09:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 072D66E0DF
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 22:17:56 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id 23so7704371ljv.7
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 15:17:55 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 471D26E0EC
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 22:17:57 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id z2so9435475lfr.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 15:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1bx8gx8+d1g03DAKla/SIGpVTuVq7snjdNHpSyCav3o=;
- b=i947Rcj1upUno+xtTpk05tqFfb8+q/5AIzJJvuhnPOcfBtRNeVcE8iww4PN98oK+3z
- xxrAvSpkFvy9hrpK351SoA7AZyki2zig6s/0uSyjzUvlPLTTgTqft54DEjo4rVGospAq
- 8Xe7h2hJj6AJdjUYZ+uuxLwX6vqQ7xGUL3xUA79RAPMnMXA0m0CPeNTXQo1XtHgwiw3c
- wMS7bL9Pw3Z96EaOw2TAqWJjtdhWJl2QRym5uLqITgcKLZXMurA58bdGTibokajBORWO
- wnnWUJPaxJGjzB4fe72NVtUiNdVNPflO361f0nHsEF5HSGu0iQj1SEFIn3/bWypLqSYH
- nXoA==
+ bh=lWu/mMLdPTGio8YSQylDeD3S9LBmx+ajaTXUfXipIPE=;
+ b=FZZV5aOHHxAcLl8vvVYkO+lmSej36EV0gZ3ub+YcHLnIr8Dtb5vglgR5pUr4kX388G
+ lSnK6cs63/zQQf0hzUNYFT+TTaYrUanI8RCj9MY304sa/FxuHqfJTOWCbAJ3U4gVuyd0
+ /cxoHnaYURF5/RdAefp79Q0SHQPuvX105yKy9SCyncGfwmltsjG4087Ml4OFt9EznGfu
+ cpIDu61s4EBGE2kulCHmTsuz+KplPDpZi59ShikSxSDukloobbl4oVnDns41fcSKI50/
+ 1tIlnaLewqoK7jcvPYjejSlsQIWOqvAXDFIQM9EpZm4CdgFg9vzw4ph1fAHR7wSEmfGE
+ xddA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1bx8gx8+d1g03DAKla/SIGpVTuVq7snjdNHpSyCav3o=;
- b=LfKPQQ7ralWrn5VW323vWY8mOZlBFKsA+pgRviiKUkQZ/ezxDOaNk1cgOLb0iw1hhq
- xeNcDKGjr9PHpsTREW/41YStc8isa7k1YjBFoG3oeNGEqAImLFxEzHN3jqILP8GMlD5I
- T11cM/dIt6O/ijbJLAQpUff5/hgWm4nKJ0dBg9JEHHTS/s3mEIzaxG+gpvvKm2IM8ROd
- VETJ8DmWFIRlKmnsfNZtR7m8IpEtd2wz+mztfA15od54kPGamcjbJXFuQiuEuZXcvuPG
- /a+5xKOBEIsXwP05GXkZX1cb+SdYkwiuhGkhxKt9N7ISxEKkfzIsNkpMqd83N4jhcSnW
- ybrA==
-X-Gm-Message-State: AOAM532pOXXXDeXPUpetDY0wIwNhTSIrT+5Y1O3AES1AMAex2o8cpBeq
- NaEuVzvAq9pVGR2Nan3WjtI=
-X-Google-Smtp-Source: ABdhPJz+1LjXdbQ+D/yc8viE9lMCwBHY23zU4GE4LsvRVfk/mxSEXHmG1SbwFx1wcRejokAz+Em7+w==
-X-Received: by 2002:a2e:7217:: with SMTP id n23mr4699165ljc.43.1603664274503; 
- Sun, 25 Oct 2020 15:17:54 -0700 (PDT)
+ bh=lWu/mMLdPTGio8YSQylDeD3S9LBmx+ajaTXUfXipIPE=;
+ b=RXYeo9CrubzNxyVqlRA87BmrncMDDVoW6KWkRYY8UBtCp3rfGaxKi1fdF41oFsceA7
+ nQAo5Scq6Hj+vhrQSudhVv0nbKJh4Sw64SDfph9gfg9eMr0zd4/86tZNFehloQPcUaP3
+ CrLK8t+bve+KvPo4CxjB8wGZZ7yZj33fWVPB412vBzE2CMbCs3RMtM3AD+/IyMnP8zLG
+ fKfjPpKHWNjko03bTdPARGUP4ycdbekGOOKQG6aF1AOqFgmmsvYutv8ngsS1ztdv1vFd
+ HUCVx3kXIqz5SktJupz2Z/ipo7Y7/aBNc2ljMWHInmBaKNKjUT5eouhb929xjUE41wm6
+ +zcQ==
+X-Gm-Message-State: AOAM531TLijxke4Fdmr521R3Wh9Crcso9kfnB3CMYDJKY+db67stbvC0
+ DKq/sjzRpwW/iTJ4TnAwt0w=
+X-Google-Smtp-Source: ABdhPJzA53mkM4J1Nl0Ouu4LDwd4GMj+pfYIySmoHsV/wNETKZbiy8fCBMKxrhMwExjUJR50dfgAsw==
+X-Received: by 2002:a05:6512:3490:: with SMTP id
+ v16mr3848789lfr.61.1603664275759; 
+ Sun, 25 Oct 2020 15:17:55 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-186.dynamic.spd-mgts.ru.
  [109.252.193.186])
- by smtp.gmail.com with ESMTPSA id k13sm932423ljh.136.2020.10.25.15.17.53
+ by smtp.gmail.com with ESMTPSA id k13sm932423ljh.136.2020.10.25.15.17.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Oct 2020 15:17:54 -0700 (PDT)
+ Sun, 25 Oct 2020 15:17:55 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,10 +59,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v6 05/52] dt-bindings: memory: tegra20: mc: Document new
+Subject: [PATCH v6 06/52] dt-bindings: memory: tegra20: emc: Document new
  interconnect property
-Date: Mon, 26 Oct 2020 01:16:48 +0300
-Message-Id: <20201025221735.3062-6-digetx@gmail.com>
+Date: Mon, 26 Oct 2020 01:16:49 +0300
+Message-Id: <20201025221735.3062-7-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201025221735.3062-1-digetx@gmail.com>
 References: <20201025221735.3062-1-digetx@gmail.com>
@@ -87,37 +88,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Memory controller is interconnected with memory clients and with the
-External Memory Controller. Document new interconnect property which
-turns memory controller into interconnect provider.
+External Memory Controller is interconnected with memory controller and
+with external memory. Document new interconnect property which turns EMC
+into interconnect provider.
 
 Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../bindings/memory-controllers/nvidia,tegra20-mc.txt          | 3 +++
- 1 file changed, 3 insertions(+)
+ .../bindings/memory-controllers/nvidia,tegra20-emc.txt          | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-mc.txt b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-mc.txt
-index e55328237df4..739b7c6f2e26 100644
---- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-mc.txt
-+++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-mc.txt
-@@ -16,6 +16,8 @@ Required properties:
-   IOMMU specifier needed to encode an address. GART supports only a single
-   address space that is shared by all devices, therefore no additional
-   information needed for the address encoding.
-+- #interconnect-cells : Should be 1. This cell represents memory client.
-+  The assignments may be found in header file <dt-bindings/memory/tegra20-mc.h>.
+diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
+index 1b0d4417aad8..0a53adc6ccba 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
++++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
+@@ -13,6 +13,7 @@ Properties:
+ - interrupts : Should contain EMC General interrupt.
+ - clocks : Should contain EMC clock.
+ - nvidia,memory-controller : Phandle of the Memory Controller node.
++- #interconnect-cells : Should be 0.
  
- Example:
- 	mc: memory-controller@7000f000 {
-@@ -27,6 +29,7 @@ Example:
- 		interrupts = <GIC_SPI 77 0x04>;
- 		#reset-cells = <1>;
- 		#iommu-cells = <0>;
-+		#interconnect-cells = <1>;
- 	};
+ Child device nodes describe the memory settings for different configurations and clock rates.
  
- 	video-codec@6001a000 {
+@@ -21,6 +22,7 @@ Example:
+ 	memory-controller@7000f400 {
+ 		#address-cells = < 1 >;
+ 		#size-cells = < 0 >;
++		#interconnect-cells = < 0 >;
+ 		compatible = "nvidia,tegra20-emc";
+ 		reg = <0x7000f400 0x400>;
+ 		interrupts = <0 78 0x04>;
 -- 
 2.27.0
 
