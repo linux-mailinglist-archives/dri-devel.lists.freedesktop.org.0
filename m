@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C482987BF
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A792987D5
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:09:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E04F86E83D;
-	Mon, 26 Oct 2020 08:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED726E881;
+	Mon, 26 Oct 2020 08:08:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 959736E0CA
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 22:17:51 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id d24so7704740ljg.10
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 15:17:51 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2E6C6E0CA
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 22:17:52 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id a9so9412238lfc.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 15:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S8WUsWu+WDkJcn4CeG8tWfLig6GMVsRbCZOtSjwc5GA=;
- b=uOiJ83Ab/HUSvRlO5J2M7nAN56/Fkm/YLCjuQB4FNn+rI+eMKxxQgtnWzeuzRAq5tA
- rCTGY4mOJNfJXFlA+6mOUNR8kMdxGsMO5HywGojjtkkVjnsJyLBd/2n/nu/IG3iEqJd8
- VISEJp5k89hHlTwknTwfEIyAMDJdI6J0vKMj0rjdpnaAkYVIyzsWmbsPQuKoniJ4ZHY/
- ybS1wcn+Ij2OFA5opFnvWFb5Gitg7bjREx50SnbwWo4/mfn6M7byfKlAec3fw7bRftO8
- 3X6HdhQQDxu/NM4r8lzUNr86Q/usHhVhhQ8sUaN9eKUDuiyTW3KQaBER6yrr8zGdyqvG
- S6Qg==
+ bh=XxBDmQPM1u3TxsC8gvQqVBRZUJtQqbbcwOXSeprhG3U=;
+ b=pMuTcykNw3g9kYCpJ7OFz9qPr2VLTMUmlxgpJ1q6B+Ai4QzKza1brA2TxVsV3t3ywn
+ pFOq5EcA6p+7ktWe1yLarZtj1dGRBOs8oDIb3eVD2CSYzbNW9L+wTMHRsdSsyLegSssp
+ K9p79pyZq/dqu4DyqjRrAxb5jVL0tgxfyLk7e+WYTd0dSDoTsRwUh2oTZ3eGf0LYo/Em
+ 6GrUQGdIRxCi/ttEGpZ64bJY7pyoH8fMMdAe5yjsQu2o3QFuOG/KPBELiXgArLxCvTDY
+ srhAzu5vxqZVzmfYRiZVnoQ7x14Oh4r7rPKsm34Oopf+J5G1qHuNvvopB77xWfcr3vzs
+ Vcuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S8WUsWu+WDkJcn4CeG8tWfLig6GMVsRbCZOtSjwc5GA=;
- b=A8pA94w5tnyUifFag3NuZzWcy1doLGIgl8bSgSBdAkEBu/9V/p2Nmw8yI9ctZn0zE0
- g5CrwepvcvypCSJm4ypXHXnL4bdpEeaAaQVgFGrFGwuFfxYU9406FWQgIv8ExwsPw1rv
- MUa7SkeyFW9CXmkofk9ITxt40HVTHbwVkA7B+wH2BoG1pkhmAngX4P/1Fl+s1GTqOh+c
- mffcWhaxp2It0EN/zZCryPN2sb/hqEijTAtVfSxBeicDpsrQmDtRsOAlqqOc/ly8PBPB
- o8Or5ZcWZW6i6XFQkn0QIbX8VleUm+IaRO1PMCba/AD2erlUSEX76jCCIaJIBWCuLxVZ
- SOjg==
-X-Gm-Message-State: AOAM533lx5+nTzPHiXMv35zfqsaPc4r/W8UVgLHQenSTdTmpCjndixVI
- shwuCPd19A70J3P4Ei1wUtM=
-X-Google-Smtp-Source: ABdhPJwHKIyuwDeTFmyp2q3zTLbU7HZciLx18JOBVb3ayyd5qKamxiFgAe+YEQNLOvbrCHzupiN4jA==
-X-Received: by 2002:a05:651c:1307:: with SMTP id
- u7mr4495342lja.39.1603664270018; 
- Sun, 25 Oct 2020 15:17:50 -0700 (PDT)
+ bh=XxBDmQPM1u3TxsC8gvQqVBRZUJtQqbbcwOXSeprhG3U=;
+ b=MILuIea/p5hDRGs65+Ginp1ei+2YmyUJcPtRiPkLmoU28CFGMtQWCbKzRT7hLbboeC
+ EymBApOxKtEFBWfeU4qSRggV26gkzQmdykMA/mXesMmlkI+XSYqz+hPYPl87emEZrbrb
+ XHpdBhljYbH3gkA4kmwdYtZkkyrOsUIqsL/ZqKBwhGuorpkByRITlxno4th8tvljr7zE
+ U8Kl2vcjR1fZc+DSggny0BbRkfU/ioCdSAmGIBk3iGQ6wQVfuSkXrWazocu1pgtR/4W/
+ nq56xl6cZqX3b0WZU6z7MNBtvYFi8nW0QT5WOGQ7w6+IWtMCfxwSNnw8PqcaSlHB42Ot
+ E1Og==
+X-Gm-Message-State: AOAM531SeRrmDXVwG+swKf7N5Gx9NfiIHmno9OGcxCZWKVp0efLlsrFD
+ UNypTedNbbwYJ2LyGSG1Xhk=
+X-Google-Smtp-Source: ABdhPJzneogPL95UN/cBtkWY5gKTrzlU3UHPgIt2MzqCBff5HU8piBWYDzFE7VGhxY92HYijisvZNQ==
+X-Received: by 2002:a05:6512:3455:: with SMTP id
+ j21mr4440799lfr.135.1603664271160; 
+ Sun, 25 Oct 2020 15:17:51 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-186.dynamic.spd-mgts.ru.
  [109.252.193.186])
- by smtp.gmail.com with ESMTPSA id k13sm932423ljh.136.2020.10.25.15.17.48
+ by smtp.gmail.com with ESMTPSA id k13sm932423ljh.136.2020.10.25.15.17.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Oct 2020 15:17:49 -0700 (PDT)
+ Sun, 25 Oct 2020 15:17:50 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -59,9 +59,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v6 01/52] clk: tegra: Export Tegra20 EMC kernel symbols
-Date: Mon, 26 Oct 2020 01:16:44 +0300
-Message-Id: <20201025221735.3062-2-digetx@gmail.com>
+Subject: [PATCH v6 02/52] soc/tegra: fuse: Export tegra_read_ram_code()
+Date: Mon, 26 Oct 2020 01:16:45 +0300
+Message-Id: <20201025221735.3062-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201025221735.3062-1-digetx@gmail.com>
 References: <20201025221735.3062-1-digetx@gmail.com>
@@ -87,39 +87,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're going to modularize Tegra EMC drivers and some of the EMC clk driver
-symbols need to be exported, let's export them.
+The tegra_read_ram_code() is used by EMC drivers and we're going to make
+these driver modular, hence this function needs to be exported.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/clk/tegra/clk-tegra20-emc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/soc/tegra/fuse/tegra-apbmisc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/clk/tegra/clk-tegra20-emc.c b/drivers/clk/tegra/clk-tegra20-emc.c
-index 03bf0009a33c..dd74b8543bf1 100644
---- a/drivers/clk/tegra/clk-tegra20-emc.c
-+++ b/drivers/clk/tegra/clk-tegra20-emc.c
-@@ -13,6 +13,7 @@
- #include <linux/clk-provider.h>
- #include <linux/clk/tegra.h>
- #include <linux/err.h>
+diff --git a/drivers/soc/tegra/fuse/tegra-apbmisc.c b/drivers/soc/tegra/fuse/tegra-apbmisc.c
+index cee207d10024..590c862538d0 100644
+--- a/drivers/soc/tegra/fuse/tegra-apbmisc.c
++++ b/drivers/soc/tegra/fuse/tegra-apbmisc.c
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2014, NVIDIA CORPORATION.  All rights reserved.
+  */
+ 
 +#include <linux/export.h>
- #include <linux/io.h>
  #include <linux/kernel.h>
- #include <linux/slab.h>
-@@ -235,6 +236,7 @@ void tegra20_clk_set_emc_round_callback(tegra20_clk_emc_round_cb *round_cb,
- 		emc->cb_arg = cb_arg;
- 	}
- }
-+EXPORT_SYMBOL_GPL(tegra20_clk_set_emc_round_callback);
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+@@ -90,6 +91,7 @@ u32 tegra_read_ram_code(void)
  
- bool tegra20_clk_emc_driver_available(struct clk_hw *emc_hw)
- {
-@@ -291,3 +293,4 @@ int tegra20_clk_prepare_emc_mc_same_freq(struct clk *emc_clk, bool same)
- 
- 	return 0;
+ 	return straps >> PMC_STRAPPING_OPT_A_RAM_CODE_SHIFT;
  }
-+EXPORT_SYMBOL_GPL(tegra20_clk_prepare_emc_mc_same_freq);
++EXPORT_SYMBOL_GPL(tegra_read_ram_code);
+ 
+ static const struct of_device_id apbmisc_match[] __initconst = {
+ 	{ .compatible = "nvidia,tegra20-apbmisc", },
 -- 
 2.27.0
 
