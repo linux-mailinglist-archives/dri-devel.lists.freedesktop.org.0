@@ -2,40 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8CF298468
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Oct 2020 23:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1C72984EF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 00:05:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBEA76E192;
-	Sun, 25 Oct 2020 22:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C49BD6E0DF;
+	Sun, 25 Oct 2020 23:05:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B85B6E0CA;
- Sun, 25 Oct 2020 22:23:07 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 890DE80617;
- Sun, 25 Oct 2020 23:23:04 +0100 (CET)
-Date: Sun, 25 Oct 2020 23:23:03 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/<drivers>: Constify struct drm_driver
-Message-ID: <20201025222303.GC13779@ravnborg.org>
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AD6D6E0AB
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 23:05:01 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id b2so5901038ots.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 16:05:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vtm2sdu6UxZgUIr9kbWgl1dtfmIP3bQiqJ/WqRw+gjo=;
+ b=WQ93Do7ynQwilsCGR6CMxrPW9bK12PG8t77NBsA0HuKoLDjqrzrXjBZFq9NMGmCAqZ
+ q9Rrgv/hLLdD4duLK0sVJYDGpRseOdbiyrhyizrQpZNvFVB4Xl8fQGDrZu63LYo57Oo8
+ jt56DjkUWJ4adBgUsY94TZCQGimUWtlMFsktM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vtm2sdu6UxZgUIr9kbWgl1dtfmIP3bQiqJ/WqRw+gjo=;
+ b=c9hOcf7X4jzSyRzwmXpomDKKxkDtAEZ/cJrsKpcZPBgEko4lHKLzYljmqqaHhQ+fqA
+ 6xD2SzQLGc9iNhr8E4eeL/w30Oo1Sp9RwZW1F4nc76upUt29osbUFr1X2CkuvBV3AJpE
+ yJ3mIFYzvEn6gUSvKJs/rJ1jNBkWrvrlImkv9VCgogH5Xd+sSluqs0SQ6ancWLCiEjWR
+ uocbqrhH2cdsfJXZ8TCcSvrzkJFPH8NnH2VdceXx3jNyIjNXpxp9YlRJM7/mWozEFUwf
+ +hOA1BfgO789ULt5tIr/Tbti+j33yNsOtgWITstPTpTLKRBJRKxp2WtytbBpDl01yisA
+ YnJw==
+X-Gm-Message-State: AOAM531rcR4B0gUjWqAE1lkFXqe8XKuIsbayCP19V4gfjpLGqE941gE8
+ rHGcuG5C4jnXl+wlgu++36r22ns5M1jvruS4CriTdw==
+X-Google-Smtp-Source: ABdhPJy7TUh0O7F4Uth4IsUUKJrSrIOzBbGs0dsiHqMyeWQ7wos/bGKIoyMy5W1OEVu4Mjxhz3EZQn5P2ys2RCnwBzY=
+X-Received: by 2002:a9d:6e81:: with SMTP id a1mr9154724otr.303.1603667100238; 
+ Sun, 25 Oct 2020 16:05:00 -0700 (PDT)
+MIME-Version: 1.0
 References: <20201023122811.2374118-5-daniel.vetter@ffwll.ch>
  <20201023160444.2465340-1-daniel.vetter@ffwll.ch>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201023160444.2465340-1-daniel.vetter@ffwll.ch>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8
- a=20KFwNOVAAAA:8 a=Z4Rwk6OoAAAA:8 a=zd2uoN0lAAAA:8 a=-VAfIpHNAAAA:8
- a=e5mUnYsNAAAA:8 a=fLIKNa0IfpaR454oFnEA:9 a=dFbw1gzEVroshRA1:21
- a=HkR1fkZi_cuvAmkX:21 a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=AjGcO6oz07-iQ99wixmX:22 a=HkZW87K1Qel5hWWM3VKY:22
- a=srlwD-8ojaedGGhPAyx8:22 a=Vxmtnl_E_bksehYqCbjh:22
+ <20201025222303.GC13779@ravnborg.org>
+In-Reply-To: <20201025222303.GC13779@ravnborg.org>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 26 Oct 2020 00:04:48 +0100
+Message-ID: <CAKMK7uFPxc1Bn3hbozE2OKfOQ0MxWGBDWVqJCKMue-GWy-2dpg@mail.gmail.com>
+Subject: Re: [PATCH] drm/<drivers>: Constify struct drm_driver
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,1335 +61,900 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: kernel test robot <lkp@intel.com>, Leo Li <sunpeng.li@amd.com>,
- nouveau@lists.freedesktop.org,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Dave Airlie <airlied@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, "open list:VIRTIO CORE,
+ NET..." <virtualization@lists.linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel.
-
-On Fri, Oct 23, 2020 at 06:04:44PM +0200, Daniel Vetter wrote:
-> Only the following drivers aren't converted:
-> - amdgpu, because of the driver_feature mangling due to virt support
-> - nouveau, because DRIVER_ATOMIC uapi is still not the default on the
->   platforms where it's supported (i.e. again driver_feature mangling)
-> - vc4, again because of driver_feature mangling
-> - qxl, because the ioctl table is somewhere else and moving that is
->   maybe a bit too much, hence the num_ioctls assignment prevents a
->   const driver structure.
-My grepping turned up the following:
-- The example in drm_drv needs to be updated
-- legacy drivers, that are obviously not converted - but worth to
-  mention above
-- arc is not converted and it is not legacy  =
-
-  Maybe you have it covered in your big arc conversion patch?
-
-With the above fixed:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> =
-
-> Note that for armada I also went ahead and made the ioctl array const.
-> =
-
-> Only cc'ing the driver people who've not been converted (everyone else
-> is way too much).
-> =
-
-> v2: Fix one misplaced const static, should be static const (0day)
-> =
-
-> Cc: kernel test robot <lkp@intel.com>
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: virtualization@lists.linux-foundation.org
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Christian K=F6nig <christian.koenig@amd.com>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: nouveau@lists.freedesktop.org
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-Hmm, so we have more than one Daniel in play here.
-Both the Intel guy and the ffwll guy - looks funny.
-
-	Sam
-
-> ---
->  drivers/gpu/drm/arm/display/komeda/komeda_kms.c  | 2 +-
->  drivers/gpu/drm/arm/hdlcd_drv.c                  | 2 +-
->  drivers/gpu/drm/arm/malidp_drv.c                 | 2 +-
->  drivers/gpu/drm/armada/armada_drv.c              | 7 +++----
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c          | 2 +-
->  drivers/gpu/drm/ast/ast_drv.c                    | 2 +-
->  drivers/gpu/drm/ast/ast_drv.h                    | 2 +-
->  drivers/gpu/drm/ast/ast_main.c                   | 2 +-
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c     | 2 +-
->  drivers/gpu/drm/bochs/bochs_drv.c                | 2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c            | 2 +-
->  drivers/gpu/drm/exynos/exynos_drm_drv.c          | 2 +-
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c        | 5 ++---
->  drivers/gpu/drm/gma500/psb_drv.c                 | 4 ++--
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 2 +-
->  drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c  | 2 +-
->  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h  | 2 +-
->  drivers/gpu/drm/i915/i915_drv.c                  | 4 ++--
->  drivers/gpu/drm/i915/selftests/mock_gem_device.c | 2 +-
->  drivers/gpu/drm/imx/dcss/dcss-kms.c              | 2 +-
->  drivers/gpu/drm/imx/imx-drm-core.c               | 2 +-
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c        | 2 +-
->  drivers/gpu/drm/lima/lima_drv.c                  | 2 +-
->  drivers/gpu/drm/mcde/mcde_drv.c                  | 2 +-
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c           | 2 +-
->  drivers/gpu/drm/meson/meson_drv.c                | 2 +-
->  drivers/gpu/drm/mgag200/mgag200_drv.c            | 2 +-
->  drivers/gpu/drm/msm/msm_drv.c                    | 4 ++--
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c                | 2 +-
->  drivers/gpu/drm/omapdrm/omap_drv.c               | 2 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c          | 2 +-
->  drivers/gpu/drm/pl111/pl111_drv.c                | 2 +-
->  drivers/gpu/drm/radeon/radeon_drv.c              | 4 ++--
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c            | 2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c      | 4 ++--
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c         | 2 +-
->  drivers/gpu/drm/sti/sti_drv.c                    | 2 +-
->  drivers/gpu/drm/stm/drv.c                        | 2 +-
->  drivers/gpu/drm/sun4i/sun4i_drv.c                | 2 +-
->  drivers/gpu/drm/tegra/drm.c                      | 5 ++---
->  drivers/gpu/drm/tidss/tidss_drv.c                | 2 +-
->  drivers/gpu/drm/tilcdc/tilcdc_drv.c              | 4 ++--
->  drivers/gpu/drm/tiny/cirrus.c                    | 2 +-
->  drivers/gpu/drm/tiny/gm12u320.c                  | 2 +-
->  drivers/gpu/drm/tiny/hx8357d.c                   | 2 +-
->  drivers/gpu/drm/tiny/ili9225.c                   | 2 +-
->  drivers/gpu/drm/tiny/ili9341.c                   | 2 +-
->  drivers/gpu/drm/tiny/ili9486.c                   | 2 +-
->  drivers/gpu/drm/tiny/mi0283qt.c                  | 2 +-
->  drivers/gpu/drm/tiny/repaper.c                   | 2 +-
->  drivers/gpu/drm/tiny/st7586.c                    | 2 +-
->  drivers/gpu/drm/tiny/st7735r.c                   | 2 +-
->  drivers/gpu/drm/tve200/tve200_drv.c              | 2 +-
->  drivers/gpu/drm/udl/udl_drv.c                    | 2 +-
->  drivers/gpu/drm/v3d/v3d_drv.c                    | 2 +-
->  drivers/gpu/drm/vboxvideo/vbox_drv.c             | 4 ++--
->  drivers/gpu/drm/vgem/vgem_drv.c                  | 2 +-
->  drivers/gpu/drm/virtio/virtgpu_drv.c             | 4 ++--
->  drivers/gpu/drm/vkms/vkms_drv.c                  | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c              | 2 +-
->  drivers/gpu/drm/xen/xen_drm_front.c              | 2 +-
->  drivers/gpu/drm/xlnx/zynqmp_dpsub.c              | 2 +-
->  drivers/gpu/drm/zte/zx_drm_drv.c                 | 2 +-
->  63 files changed, 75 insertions(+), 78 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gp=
-u/drm/arm/display/komeda/komeda_kms.c
-> index cc5b5915bc5e..d04008f3e31a 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> @@ -58,7 +58,7 @@ static irqreturn_t komeda_kms_irq_handler(int irq, void=
- *data)
->  	return status;
->  }
->  =
-
-> -static struct drm_driver komeda_kms_driver =3D {
-> +static const struct drm_driver komeda_kms_driver =3D {
->  	.driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.lastclose			=3D drm_fb_helper_lastclose,
->  	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(komeda_gem_cma_dumb_create),
-> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_=
-drv.c
-> index faa8a5a752da..81ae92390736 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-> @@ -234,7 +234,7 @@ static void hdlcd_debugfs_init(struct drm_minor *mino=
-r)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(fops);
->  =
-
-> -static struct drm_driver hdlcd_driver =3D {
-> +static const struct drm_driver hdlcd_driver =3D {
->  	.driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.irq_handler =3D hdlcd_irq,
->  	.irq_preinstall =3D hdlcd_irq_preinstall,
-> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malid=
-p_drv.c
-> index 26e60401a8e1..d83c7366b348 100644
-> --- a/drivers/gpu/drm/arm/malidp_drv.c
-> +++ b/drivers/gpu/drm/arm/malidp_drv.c
-> @@ -564,7 +564,7 @@ static void malidp_debugfs_init(struct drm_minor *min=
-or)
->  =
-
->  #endif //CONFIG_DEBUG_FS
->  =
-
-> -static struct drm_driver malidp_driver =3D {
-> +static const struct drm_driver malidp_driver =3D {
->  	.driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(malidp_dumb_create),
->  #ifdef CONFIG_DEBUG_FS
-> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada=
-/armada_drv.c
-> index 22247cfce80b..44fe9f994fc5 100644
-> --- a/drivers/gpu/drm/armada/armada_drv.c
-> +++ b/drivers/gpu/drm/armada/armada_drv.c
-> @@ -27,7 +27,7 @@
->  #include <drm/armada_drm.h>
->  #include "armada_ioctlP.h"
->  =
-
-> -static struct drm_ioctl_desc armada_ioctls[] =3D {
-> +static const struct drm_ioctl_desc armada_ioctls[] =3D {
->  	DRM_IOCTL_DEF_DRV(ARMADA_GEM_CREATE, armada_gem_create_ioctl,0),
->  	DRM_IOCTL_DEF_DRV(ARMADA_GEM_MMAP, armada_gem_mmap_ioctl, 0),
->  	DRM_IOCTL_DEF_DRV(ARMADA_GEM_PWRITE, armada_gem_pwrite_ioctl, 0),
-> @@ -35,7 +35,7 @@ static struct drm_ioctl_desc armada_ioctls[] =3D {
->  =
-
->  DEFINE_DRM_GEM_FOPS(armada_drm_fops);
->  =
-
-> -static struct drm_driver armada_drm_driver =3D {
-> +static const struct drm_driver armada_drm_driver =3D {
->  	.lastclose		=3D drm_fb_helper_lastclose,
->  	.prime_handle_to_fd	=3D drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle,
-> @@ -48,6 +48,7 @@ static struct drm_driver armada_drm_driver =3D {
->  	.date			=3D "20120730",
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.ioctls			=3D armada_ioctls,
-> +	.num_ioctls =3D ARRAY_SIZE(armada_ioctls),
->  	.fops			=3D &armada_drm_fops,
->  };
->  =
-
-> @@ -275,8 +276,6 @@ static int __init armada_drm_init(void)
->  {
->  	int ret;
->  =
-
-> -	armada_drm_driver.num_ioctls =3D ARRAY_SIZE(armada_ioctls);
-> -
->  	ret =3D platform_driver_register(&armada_lcd_platform_driver);
->  	if (ret)
->  		return ret;
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/as=
-peed/aspeed_gfx_drv.c
-> index 771ad71cd340..457ec04950f7 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> @@ -191,7 +191,7 @@ static void aspeed_gfx_unload(struct drm_device *drm)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(fops);
->  =
-
-> -static struct drm_driver aspeed_gfx_driver =3D {
-> +static const struct drm_driver aspeed_gfx_driver =3D {
->  	.driver_features        =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	DRM_GEM_CMA_DRIVER_OPS,
->  	.fops =3D &fops,
-> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-> index f0b4af1c390a..667b450606ef 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.c
-> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> @@ -49,7 +49,7 @@ module_param_named(modeset, ast_modeset, int, 0400);
->  =
-
->  DEFINE_DRM_GEM_FOPS(ast_fops);
->  =
-
-> -static struct drm_driver ast_driver =3D {
-> +static const struct drm_driver ast_driver =3D {
->  	.driver_features =3D DRIVER_ATOMIC |
->  			   DRIVER_GEM |
->  			   DRIVER_MODESET,
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 467049ca8430..33e596a4f042 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -159,7 +159,7 @@ static inline struct ast_private *to_ast_private(stru=
-ct drm_device *dev)
->  	return container_of(dev, struct ast_private, base);
->  }
->  =
-
-> -struct ast_private *ast_device_create(struct drm_driver *drv,
-> +struct ast_private *ast_device_create(const struct drm_driver *drv,
->  				      struct pci_dev *pdev,
->  				      unsigned long flags);
->  =
-
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_mai=
-n.c
-> index 77066bca8793..45dd8185a488 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -392,7 +392,7 @@ static void ast_device_release(void *data)
->  	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x04);
->  }
->  =
-
-> -struct ast_private *ast_device_create(struct drm_driver *drv,
-> +struct ast_private *ast_device_create(const struct drm_driver *drv,
->  				      struct pci_dev *pdev,
->  				      unsigned long flags)
->  {
-> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/d=
-rm/atmel-hlcdc/atmel_hlcdc_dc.c
-> index 03984932d174..65af56e47129 100644
-> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> @@ -712,7 +712,7 @@ static void atmel_hlcdc_dc_irq_uninstall(struct drm_d=
-evice *dev)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(fops);
->  =
-
-> -static struct drm_driver atmel_hlcdc_dc_driver =3D {
-> +static const struct drm_driver atmel_hlcdc_dc_driver =3D {
->  	.driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.irq_handler =3D atmel_hlcdc_dc_irq_handler,
->  	.irq_preinstall =3D atmel_hlcdc_dc_irq_uninstall,
-> diff --git a/drivers/gpu/drm/bochs/bochs_drv.c b/drivers/gpu/drm/bochs/bo=
-chs_drv.c
-> index e18c51de1196..fd454225fd19 100644
-> --- a/drivers/gpu/drm/bochs/bochs_drv.c
-> +++ b/drivers/gpu/drm/bochs/bochs_drv.c
-> @@ -57,7 +57,7 @@ static int bochs_load(struct drm_device *dev)
->  =
-
->  DEFINE_DRM_GEM_FOPS(bochs_fops);
->  =
-
-> -static struct drm_driver bochs_driver =3D {
-> +static const struct drm_driver bochs_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &bochs_fops,
->  	.name			=3D "bochs-drm",
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
-viv/etnaviv_drv.c
-> index aa270b79e585..7604e3c07973 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -480,7 +480,7 @@ static const struct file_operations fops =3D {
->  	.mmap               =3D etnaviv_gem_mmap,
->  };
->  =
-
-> -static struct drm_driver etnaviv_drm_driver =3D {
-> +static const struct drm_driver etnaviv_drm_driver =3D {
->  	.driver_features    =3D DRIVER_GEM | DRIVER_RENDER,
->  	.open               =3D etnaviv_open,
->  	.postclose           =3D etnaviv_postclose,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/ex=
-ynos/exynos_drm_drv.c
-> index fe46680ca208..e60257f1f24b 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> @@ -113,7 +113,7 @@ static const struct file_operations exynos_drm_driver=
-_fops =3D {
->  	.release	=3D drm_release,
->  };
->  =
-
-> -static struct drm_driver exynos_drm_driver =3D {
-> +static const struct drm_driver exynos_drm_driver =3D {
->  	.driver_features	=3D DRIVER_MODESET | DRIVER_GEM
->  				  | DRIVER_ATOMIC | DRIVER_RENDER,
->  	.open			=3D exynos_drm_open,
-> diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/=
-fsl-dcu/fsl_dcu_drm_drv.c
-> index ae584f62aa19..75b58d55a940 100644
-> --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-> @@ -124,7 +124,7 @@ static irqreturn_t fsl_dcu_drm_irq(int irq, void *arg)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(fsl_dcu_drm_fops);
->  =
-
-> -static struct drm_driver fsl_dcu_drm_driver =3D {
-> +static const struct drm_driver fsl_dcu_drm_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.load			=3D fsl_dcu_load,
->  	.unload			=3D fsl_dcu_unload,
-> @@ -224,7 +224,6 @@ static int fsl_dcu_drm_probe(struct platform_device *=
-pdev)
->  	struct device *dev =3D &pdev->dev;
->  	struct resource *res;
->  	void __iomem *base;
-> -	struct drm_driver *driver =3D &fsl_dcu_drm_driver;
->  	struct clk *pix_clk_in;
->  	char pix_clk_name[32];
->  	const char *pix_clk_in_name;
-> @@ -294,7 +293,7 @@ static int fsl_dcu_drm_probe(struct platform_device *=
-pdev)
->  =
-
->  	fsl_dev->tcon =3D fsl_tcon_init(dev);
->  =
-
-> -	drm =3D drm_dev_alloc(driver, dev);
-> +	drm =3D drm_dev_alloc(&fsl_dcu_drm_driver, dev);
->  	if (IS_ERR(drm)) {
->  		ret =3D PTR_ERR(drm);
->  		goto unregister_pix_clk;
-> diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/ps=
-b_drv.c
-> index b13376a6fb91..6e7197d89463 100644
-> --- a/drivers/gpu/drm/gma500/psb_drv.c
-> +++ b/drivers/gpu/drm/gma500/psb_drv.c
-> @@ -34,7 +34,7 @@
->  #include "psb_intel_reg.h"
->  #include "psb_reg.h"
->  =
-
-> -static struct drm_driver driver;
-> +static const struct drm_driver driver;
->  static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_i=
-d *ent);
->  =
-
->  /*
-> @@ -491,7 +491,7 @@ static const struct file_operations psb_gem_fops =3D {
->  	.read =3D drm_read,
->  };
->  =
-
-> -static struct drm_driver driver =3D {
-> +static const struct drm_driver driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM,
->  	.lastclose =3D drm_fb_helper_lastclose,
->  =
-
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gp=
-u/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index a684814927cd..27205aa907f4 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -43,7 +43,7 @@ static irqreturn_t hibmc_drm_interrupt(int irq, void *a=
-rg)
->  	return IRQ_HANDLED;
->  }
->  =
-
-> -static struct drm_driver hibmc_driver =3D {
-> +static const struct drm_driver hibmc_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &hibmc_fops,
->  	.name			=3D "hibmc",
-> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gp=
-u/drm/hisilicon/kirin/kirin_drm_ade.c
-> index cfe8ff596d55..aa9641a6a7d8 100644
-> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-> @@ -918,7 +918,7 @@ static const struct drm_mode_config_funcs ade_mode_co=
-nfig_funcs =3D {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(ade_fops);
->  =
-
-> -static struct drm_driver ade_driver =3D {
-> +static const struct drm_driver ade_driver =3D {
->  	.driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops =3D &ade_fops,
->  	DRM_GEM_CMA_DRIVER_OPS,
-> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h b/drivers/gp=
-u/drm/hisilicon/kirin/kirin_drm_drv.h
-> index dee8ec2f7f2e..386d137f29e5 100644
-> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h
-> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h
-> @@ -40,7 +40,7 @@ struct kirin_drm_data {
->  	u32 num_planes;
->  	u32 prim_plane;
->  =
-
-> -	struct drm_driver *driver;
-> +	const struct drm_driver *driver;
->  	const struct drm_crtc_helper_funcs *crtc_helper_funcs;
->  	const struct drm_crtc_funcs *crtc_funcs;
->  	const struct drm_plane_helper_funcs *plane_helper_funcs;
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_=
-drv.c
-> index d3237b0d821d..27249b5e2729 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -87,7 +87,7 @@
->  #include "intel_sideband.h"
->  #include "vlv_suspend.h"
->  =
-
-> -static struct drm_driver driver;
-> +static const struct drm_driver driver;
->  =
-
->  static int i915_get_bridge_dev(struct drm_i915_private *dev_priv)
->  {
-> @@ -1758,7 +1758,7 @@ static const struct drm_ioctl_desc i915_ioctls[] =
-=3D {
->  	DRM_IOCTL_DEF_DRV(I915_GEM_VM_DESTROY, i915_gem_vm_destroy_ioctl, DRM_R=
-ENDER_ALLOW),
->  };
->  =
-
-> -static struct drm_driver driver =3D {
-> +static const struct drm_driver driver =3D {
->  	/* Don't use MTRRs here; the Xserver or userspace app should
->  	 * deal with them for Intel hardware.
->  	 */
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/g=
-pu/drm/i915/selftests/mock_gem_device.c
-> index 9220c9d1a4b7..e946bd2087d8 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> @@ -81,7 +81,7 @@ static void mock_device_release(struct drm_device *dev)
->  	i915_params_free(&i915->params);
->  }
->  =
-
-> -static struct drm_driver mock_driver =3D {
-> +static const struct drm_driver mock_driver =3D {
->  	.name =3D "mock",
->  	.driver_features =3D DRIVER_GEM,
->  	.release =3D mock_device_release,
-> diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dc=
-ss/dcss-kms.c
-> index b72e5cef7e40..b549ce5e7607 100644
-> --- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> +++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-> @@ -26,7 +26,7 @@ static const struct drm_mode_config_funcs dcss_drm_mode=
-_config_funcs =3D {
->  	.atomic_commit =3D drm_atomic_helper_commit,
->  };
->  =
-
-> -static struct drm_driver dcss_kms_driver =3D {
-> +static const struct drm_driver dcss_kms_driver =3D {
->  	.driver_features	=3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  	DRM_GEM_CMA_DRIVER_OPS,
->  	.fops			=3D &dcss_cma_fops,
-> diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx=
--drm-core.c
-> index 183f2e91881d..7090b82e7ea2 100644
-> --- a/drivers/gpu/drm/imx/imx-drm-core.c
-> +++ b/drivers/gpu/drm/imx/imx-drm-core.c
-> @@ -143,7 +143,7 @@ static const struct drm_ioctl_desc imx_drm_ioctls[] =
-=3D {
->  	/* none so far */
->  };
->  =
-
-> -static struct drm_driver imx_drm_driver =3D {
-> +static const struct drm_driver imx_drm_driver =3D {
->  	.driver_features	=3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  	DRM_GEM_CMA_DRIVER_OPS,
->  	.ioctls			=3D imx_drm_ioctls,
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/=
-ingenic/ingenic-drm-drv.c
-> index 2329754af116..082cb9e45908 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -710,7 +710,7 @@ static void ingenic_drm_disable_vblank(struct drm_crt=
-c *crtc)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(ingenic_drm_fops);
->  =
-
-> -static struct drm_driver ingenic_drm_driver_data =3D {
-> +static const struct drm_driver ingenic_drm_driver_data =3D {
->  	.driver_features	=3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  	.name			=3D "ingenic-drm",
->  	.desc			=3D "DRM module for Ingenic SoCs",
-> diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_=
-drv.c
-> index ab460121fd52..d497af91d850 100644
-> --- a/drivers/gpu/drm/lima/lima_drv.c
-> +++ b/drivers/gpu/drm/lima/lima_drv.c
-> @@ -261,7 +261,7 @@ DEFINE_DRM_GEM_FOPS(lima_drm_driver_fops);
->   * - 1.1.0 - add heap buffer support
->   */
->  =
-
-> -static struct drm_driver lima_drm_driver =3D {
-> +static const struct drm_driver lima_drm_driver =3D {
->  	.driver_features    =3D DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
->  	.open               =3D lima_drm_driver_open,
->  	.postclose          =3D lima_drm_driver_postclose,
-> diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_=
-drv.c
-> index f9b5f450a9cb..870626e04ec0 100644
-> --- a/drivers/gpu/drm/mcde/mcde_drv.c
-> +++ b/drivers/gpu/drm/mcde/mcde_drv.c
-> @@ -178,7 +178,7 @@ static int mcde_modeset_init(struct drm_device *drm)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
->  =
-
-> -static struct drm_driver mcde_drm_driver =3D {
-> +static const struct drm_driver mcde_drm_driver =3D {
->  	.driver_features =3D
->  		DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  	.lastclose =3D drm_fb_helper_lastclose,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index 7f3398a7c2b0..2e8065b1e2bb 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -321,7 +321,7 @@ struct drm_gem_object *mtk_drm_gem_prime_import(struc=
-t drm_device *dev,
->  	return drm_gem_prime_import_dev(dev, dma_buf, private->dma_dev);
->  }
->  =
-
-> -static struct drm_driver mtk_drm_driver =3D {
-> +static const struct drm_driver mtk_drm_driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  =
-
->  	.dumb_create =3D mtk_drm_gem_dumb_create,
-> diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/me=
-son_drv.c
-> index 8b9c8dd788c4..dc8509ceb787 100644
-> --- a/drivers/gpu/drm/meson/meson_drv.c
-> +++ b/drivers/gpu/drm/meson/meson_drv.c
-> @@ -90,7 +90,7 @@ static int meson_dumb_create(struct drm_file *file, str=
-uct drm_device *dev,
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(fops);
->  =
-
-> -static struct drm_driver meson_driver =3D {
-> +static const struct drm_driver meson_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  =
-
->  	/* IRQ */
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag=
-200/mgag200_drv.c
-> index 771b26aeee19..0f07f259503d 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -28,7 +28,7 @@ module_param_named(modeset, mgag200_modeset, int, 0400);
->  =
-
->  DEFINE_DRM_GEM_FOPS(mgag200_driver_fops);
->  =
-
-> -static struct drm_driver mgag200_driver =3D {
-> +static const struct drm_driver mgag200_driver =3D {
->  	.driver_features =3D DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
->  	.fops =3D &mgag200_driver_fops,
->  	.name =3D DRIVER_NAME,
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index aa4509766d64..f8fd31e709bb 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -393,7 +393,7 @@ static int msm_init_vram(struct drm_device *dev)
->  	return ret;
->  }
->  =
-
-> -static int msm_drm_init(struct device *dev, struct drm_driver *drv)
-> +static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->  {
->  	struct platform_device *pdev =3D to_platform_device(dev);
->  	struct drm_device *ddev;
-> @@ -984,7 +984,7 @@ static const struct file_operations fops =3D {
->  	.mmap               =3D msm_gem_mmap,
->  };
->  =
-
-> -static struct drm_driver msm_driver =3D {
-> +static const struct drm_driver msm_driver =3D {
->  	.driver_features    =3D DRIVER_GEM |
->  				DRIVER_RENDER |
->  				DRIVER_ATOMIC |
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mx=
-sfb_drv.c
-> index 35122aef037b..6faf17b6408d 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -289,7 +289,7 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *d=
-ata)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(fops);
->  =
-
-> -static struct drm_driver mxsfb_driver =3D {
-> +static const struct drm_driver mxsfb_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.irq_handler		=3D mxsfb_irq_handler,
->  	.irq_preinstall		=3D mxsfb_irq_disable,
-> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm=
-/omap_drv.c
-> index 2b82a708eca6..21a6cd3f5473 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-> @@ -534,7 +534,7 @@ static const struct file_operations omapdriver_fops =
-=3D {
->  	.llseek =3D noop_llseek,
->  };
->  =
-
-> -static struct drm_driver omap_drm_driver =3D {
-> +static const struct drm_driver omap_drm_driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM  |
->  		DRIVER_ATOMIC | DRIVER_RENDER,
->  	.open =3D dev_open,
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/pa=
-nfrost/panfrost_drv.c
-> index 37d4cb7a5491..ed116bd3d6d6 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -548,7 +548,7 @@ DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
->   * - 1.0 - initial interface
->   * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
->   */
-> -static struct drm_driver panfrost_drm_driver =3D {
-> +static const struct drm_driver panfrost_drm_driver =3D {
->  	.driver_features	=3D DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
->  	.open			=3D panfrost_open,
->  	.postclose		=3D panfrost_postclose,
-> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl=
-111_drv.c
-> index 3899c28f428d..10d9a12be672 100644
-> --- a/drivers/gpu/drm/pl111/pl111_drv.c
-> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
-> @@ -213,7 +213,7 @@ pl111_gem_import_sg_table(struct drm_device *dev,
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
->  =
-
-> -static struct drm_driver pl111_drm_driver =3D {
-> +static const struct drm_driver pl111_drm_driver =3D {
->  	.driver_features =3D
->  		DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  	.ioctls =3D NULL,
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon=
-/radeon_drv.c
-> index 9c11e36ad33a..bfadb799d6a3 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -297,7 +297,7 @@ static struct pci_device_id pciidlist[] =3D {
->  =
-
->  MODULE_DEVICE_TABLE(pci, pciidlist);
->  =
-
-> -static struct drm_driver kms_driver;
-> +static const struct drm_driver kms_driver;
->  =
-
->  bool radeon_device_is_virtual(void);
->  =
-
-> @@ -629,7 +629,7 @@ static const struct drm_ioctl_desc radeon_ioctls_kms[=
-] =3D {
->  	DRM_IOCTL_DEF_DRV(RADEON_GEM_USERPTR, radeon_gem_userptr_ioctl, DRM_AUT=
-H|DRM_RENDER_ALLOW),
->  };
->  =
-
-> -static struct drm_driver kms_driver =3D {
-> +static const struct drm_driver kms_driver =3D {
->  	.driver_features =3D
->  	    DRIVER_GEM | DRIVER_RENDER | DRIVER_MODESET,
->  	.load =3D radeon_driver_load_kms,
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar=
--du/rcar_du_drv.c
-> index 447be991fa25..600056dff374 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -507,7 +507,7 @@ MODULE_DEVICE_TABLE(of, rcar_du_of_table);
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
->  =
-
-> -static struct drm_driver rcar_du_driver =3D {
-> +static const struct drm_driver rcar_du_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(rcar_du_dumb_create),
->  	.fops			=3D &rcar_du_fops,
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/dr=
-m/rockchip/rockchip_drm_drv.c
-> index b7654f5e4225..212bd87c0c4a 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> @@ -35,7 +35,7 @@
->  #define DRIVER_MINOR	0
->  =
-
->  static bool is_support_iommu =3D true;
-> -static struct drm_driver rockchip_drm_driver;
-> +static const struct drm_driver rockchip_drm_driver;
->  =
-
->  /*
->   * Attach a (component) device to the shared drm dma mapping from master=
- drm
-> @@ -209,7 +209,7 @@ static const struct file_operations rockchip_drm_driv=
-er_fops =3D {
->  	.release =3D drm_release,
->  };
->  =
-
-> -static struct drm_driver rockchip_drm_driver =3D {
-> +static const struct drm_driver rockchip_drm_driver =3D {
->  	.driver_features	=3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  	.lastclose		=3D drm_fb_helper_lastclose,
->  	.dumb_create		=3D rockchip_gem_dumb_create,
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/s=
-hmobile/shmob_drm_drv.c
-> index 26a15c214bd3..0a02b7092c04 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -128,7 +128,7 @@ static irqreturn_t shmob_drm_irq(int irq, void *arg)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
->  =
-
-> -static struct drm_driver shmob_drm_driver =3D {
-> +static const struct drm_driver shmob_drm_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET,
->  	.irq_handler		=3D shmob_drm_irq,
->  	DRM_GEM_CMA_DRIVER_OPS,
-> diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-> index 3f54efa36098..c7efb43b83ee 100644
-> --- a/drivers/gpu/drm/sti/sti_drv.c
-> +++ b/drivers/gpu/drm/sti/sti_drv.c
-> @@ -130,7 +130,7 @@ static void sti_mode_config_init(struct drm_device *d=
-ev)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(sti_driver_fops);
->  =
-
-> -static struct drm_driver sti_driver =3D {
-> +static const struct drm_driver sti_driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  	.fops =3D &sti_driver_fops,
->  	DRM_GEM_CMA_DRIVER_OPS,
-> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-> index 411103f013e2..222869b232ae 100644
-> --- a/drivers/gpu/drm/stm/drv.c
-> +++ b/drivers/gpu/drm/stm/drv.c
-> @@ -53,7 +53,7 @@ static int stm_gem_cma_dumb_create(struct drm_file *fil=
-e,
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(drv_driver_fops);
->  =
-
-> -static struct drm_driver drv_driver =3D {
-> +static const struct drm_driver drv_driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  	.name =3D "stm",
->  	.desc =3D "STMicroelectronics SoC DRM",
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/su=
-n4i_drv.c
-> index 29861fc81b35..91502937f26d 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> @@ -40,7 +40,7 @@ static int drm_sun4i_gem_dumb_create(struct drm_file *f=
-ile_priv,
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(sun4i_drv_fops);
->  =
-
-> -static struct drm_driver sun4i_drv_driver =3D {
-> +static const struct drm_driver sun4i_drv_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  =
-
->  	/* Generic Operations */
-> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> index 24f353c1cee8..ae13a3ff8a87 100644
-> --- a/drivers/gpu/drm/tegra/drm.c
-> +++ b/drivers/gpu/drm/tegra/drm.c
-> @@ -850,7 +850,7 @@ static void tegra_debugfs_init(struct drm_minor *mino=
-r)
->  }
->  #endif
->  =
-
-> -static struct drm_driver tegra_drm_driver =3D {
-> +static const struct drm_driver tegra_drm_driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM |
->  			   DRIVER_ATOMIC | DRIVER_RENDER,
->  	.open =3D tegra_drm_open,
-> @@ -1084,12 +1084,11 @@ static bool host1x_drm_wants_iommu(struct host1x_=
-device *dev)
->  =
-
->  static int host1x_drm_probe(struct host1x_device *dev)
->  {
-> -	struct drm_driver *driver =3D &tegra_drm_driver;
->  	struct tegra_drm *tegra;
->  	struct drm_device *drm;
->  	int err;
->  =
-
-> -	drm =3D drm_dev_alloc(driver, &dev->dev);
-> +	drm =3D drm_dev_alloc(&tegra_drm_driver, &dev->dev);
->  	if (IS_ERR(drm))
->  		return PTR_ERR(drm);
->  =
-
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/ti=
-dss_drv.c
-> index 9179ea18f625..66e3c86eb5c7 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -108,7 +108,7 @@ static void tidss_release(struct drm_device *ddev)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(tidss_fops);
->  =
-
-> -static struct drm_driver tidss_driver =3D {
-> +static const struct drm_driver tidss_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &tidss_fops,
->  	.release		=3D tidss_release,
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc=
-/tilcdc_drv.c
-> index c5f82e693f1a..137f74f613ab 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -166,7 +166,7 @@ static void tilcdc_fini(struct drm_device *dev)
->  	drm_dev_put(dev);
->  }
->  =
-
-> -static int tilcdc_init(struct drm_driver *ddrv, struct device *dev)
-> +static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
->  {
->  	struct drm_device *ddev;
->  	struct platform_device *pdev =3D to_platform_device(dev);
-> @@ -452,7 +452,7 @@ static void tilcdc_debugfs_init(struct drm_minor *min=
-or)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(fops);
->  =
-
-> -static struct drm_driver tilcdc_driver =3D {
-> +static const struct drm_driver tilcdc_driver =3D {
->  	.driver_features    =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.irq_handler        =3D tilcdc_irq,
->  	DRM_GEM_CMA_DRIVER_OPS,
-> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-> index 759a5a66dd0b..e5641969c181 100644
-> --- a/drivers/gpu/drm/tiny/cirrus.c
-> +++ b/drivers/gpu/drm/tiny/cirrus.c
-> @@ -536,7 +536,7 @@ static int cirrus_mode_config_init(struct cirrus_devi=
-ce *cirrus)
->  =
-
->  DEFINE_DRM_GEM_FOPS(cirrus_fops);
->  =
-
-> -static struct drm_driver cirrus_driver =3D {
-> +static const struct drm_driver cirrus_driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  =
-
->  	.name		 =3D DRIVER_NAME,
-> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u=
-320.c
-> index cc397671f689..5a953c4ce265 100644
-> --- a/drivers/gpu/drm/tiny/gm12u320.c
-> +++ b/drivers/gpu/drm/tiny/gm12u320.c
-> @@ -600,7 +600,7 @@ static const uint64_t gm12u320_pipe_modifiers[] =3D {
->  =
-
->  DEFINE_DRM_GEM_FOPS(gm12u320_fops);
->  =
-
-> -static struct drm_driver gm12u320_drm_driver =3D {
-> +static const struct drm_driver gm12u320_drm_driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  =
-
->  	.name		 =3D DRIVER_NAME,
-> diff --git a/drivers/gpu/drm/tiny/hx8357d.c b/drivers/gpu/drm/tiny/hx8357=
-d.c
-> index 0998309b0d95..c6525cd02bc2 100644
-> --- a/drivers/gpu/drm/tiny/hx8357d.c
-> +++ b/drivers/gpu/drm/tiny/hx8357d.c
-> @@ -193,7 +193,7 @@ static const struct drm_display_mode yx350hv15_mode =
-=3D {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(hx8357d_fops);
->  =
-
-> -static struct drm_driver hx8357d_driver =3D {
-> +static const struct drm_driver hx8357d_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &hx8357d_fops,
->  	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-> diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili922=
-5.c
-> index 97a77262d791..8e98962db5a2 100644
-> --- a/drivers/gpu/drm/tiny/ili9225.c
-> +++ b/drivers/gpu/drm/tiny/ili9225.c
-> @@ -337,7 +337,7 @@ static const struct drm_display_mode ili9225_mode =3D=
- {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(ili9225_fops);
->  =
-
-> -static struct drm_driver ili9225_driver =3D {
-> +static const struct drm_driver ili9225_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &ili9225_fops,
->  	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-> diff --git a/drivers/gpu/drm/tiny/ili9341.c b/drivers/gpu/drm/tiny/ili934=
-1.c
-> index d39c39df56ad..6ce97f0698eb 100644
-> --- a/drivers/gpu/drm/tiny/ili9341.c
-> +++ b/drivers/gpu/drm/tiny/ili9341.c
-> @@ -149,7 +149,7 @@ static const struct drm_display_mode yx240qv29_mode =
-=3D {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(ili9341_fops);
->  =
-
-> -static struct drm_driver ili9341_driver =3D {
-> +static const struct drm_driver ili9341_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &ili9341_fops,
->  	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-> diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili948=
-6.c
-> index 403af68fa440..d7ce40eb166a 100644
-> --- a/drivers/gpu/drm/tiny/ili9486.c
-> +++ b/drivers/gpu/drm/tiny/ili9486.c
-> @@ -162,7 +162,7 @@ static const struct drm_display_mode waveshare_mode =
-=3D {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(ili9486_fops);
->  =
-
-> -static struct drm_driver ili9486_driver =3D {
-> +static const struct drm_driver ili9486_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &ili9486_fops,
->  	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-> diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi028=
-3qt.c
-> index 2131b4268c00..ff77f983f803 100644
-> --- a/drivers/gpu/drm/tiny/mi0283qt.c
-> +++ b/drivers/gpu/drm/tiny/mi0283qt.c
-> @@ -153,7 +153,7 @@ static const struct drm_display_mode mi0283qt_mode =
-=3D {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(mi0283qt_fops);
->  =
-
-> -static struct drm_driver mi0283qt_driver =3D {
-> +static const struct drm_driver mi0283qt_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &mi0283qt_fops,
->  	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repape=
-r.c
-> index 2e01cf0a9876..11c602fc9897 100644
-> --- a/drivers/gpu/drm/tiny/repaper.c
-> +++ b/drivers/gpu/drm/tiny/repaper.c
-> @@ -936,7 +936,7 @@ static const u8 repaper_e2271cs021_cs[] =3D { 0x00, 0=
-x00, 0x00, 0x7f,
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(repaper_fops);
->  =
-
-> -static struct drm_driver repaper_driver =3D {
-> +static const struct drm_driver repaper_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &repaper_fops,
->  	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-> diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
-> index d05de03891f8..ff5cf60f4bd7 100644
-> --- a/drivers/gpu/drm/tiny/st7586.c
-> +++ b/drivers/gpu/drm/tiny/st7586.c
-> @@ -277,7 +277,7 @@ static const struct drm_display_mode st7586_mode =3D {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(st7586_fops);
->  =
-
-> -static struct drm_driver st7586_driver =3D {
-> +static const struct drm_driver st7586_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &st7586_fops,
->  	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-> diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735=
-r.c
-> index a0f688f0d050..2c77d9ab7e8d 100644
-> --- a/drivers/gpu/drm/tiny/st7735r.c
-> +++ b/drivers/gpu/drm/tiny/st7735r.c
-> @@ -154,7 +154,7 @@ static const struct st7735r_cfg rh128128t_cfg =3D {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(st7735r_fops);
->  =
-
-> -static struct drm_driver st7735r_driver =3D {
-> +static const struct drm_driver st7735r_driver =3D {
->  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	.fops			=3D &st7735r_fops,
->  	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-> diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200=
-/tve200_drv.c
-> index b5259cb1383f..07140e0b90a3 100644
-> --- a/drivers/gpu/drm/tve200/tve200_drv.c
-> +++ b/drivers/gpu/drm/tve200/tve200_drv.c
-> @@ -137,7 +137,7 @@ static int tve200_modeset_init(struct drm_device *dev)
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(drm_fops);
->  =
-
-> -static struct drm_driver tve200_drm_driver =3D {
-> +static const struct drm_driver tve200_drm_driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  	.ioctls =3D NULL,
->  	.fops =3D &drm_fops,
-> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-> index 96d4317a2c1b..46df4d07bd7b 100644
-> --- a/drivers/gpu/drm/udl/udl_drv.c
-> +++ b/drivers/gpu/drm/udl/udl_drv.c
-> @@ -34,7 +34,7 @@ static int udl_usb_resume(struct usb_interface *interfa=
-ce)
->  =
-
->  DEFINE_DRM_GEM_FOPS(udl_driver_fops);
->  =
-
-> -static struct drm_driver driver =3D {
-> +static const struct drm_driver driver =3D {
->  	.driver_features =3D DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
->  =
-
->  	/* GEM hooks */
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index 9f7c26193831..2da0c1180bc6 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -194,7 +194,7 @@ static const struct drm_ioctl_desc v3d_drm_ioctls[] =
-=3D {
->  	DRM_IOCTL_DEF_DRV(V3D_SUBMIT_CSD, v3d_submit_csd_ioctl, DRM_RENDER_ALLO=
-W | DRM_AUTH),
->  };
->  =
-
-> -static struct drm_driver v3d_drm_driver =3D {
-> +static const struct drm_driver v3d_drm_driver =3D {
->  	.driver_features =3D (DRIVER_GEM |
->  			    DRIVER_RENDER |
->  			    DRIVER_SYNCOBJ),
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxv=
-ideo/vbox_drv.c
-> index cf2e3e6a2388..f3eac72cb46e 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> @@ -26,7 +26,7 @@ static int vbox_modeset =3D -1;
->  MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
->  module_param_named(modeset, vbox_modeset, int, 0400);
->  =
-
-> -static struct drm_driver driver;
-> +static const struct drm_driver driver;
->  =
-
->  static const struct pci_device_id pciidlist[] =3D {
->  	{ PCI_DEVICE(0x80ee, 0xbeef) },
-> @@ -175,7 +175,7 @@ static struct pci_driver vbox_pci_driver =3D {
->  =
-
->  DEFINE_DRM_GEM_FOPS(vbox_fops);
->  =
-
-> -static struct drm_driver driver =3D {
-> +static const struct drm_driver driver =3D {
->  	.driver_features =3D
->  	    DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
->  =
-
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_=
-drv.c
-> index fa54a6d1403d..3e9b7a4c30ce 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -415,7 +415,7 @@ static const struct drm_gem_object_funcs vgem_gem_obj=
-ect_funcs =3D {
->  	.vm_ops =3D &vgem_gem_vm_ops,
->  };
->  =
-
-> -static struct drm_driver vgem_driver =3D {
-> +static const struct drm_driver vgem_driver =3D {
->  	.driver_features		=3D DRIVER_GEM | DRIVER_RENDER,
->  	.open				=3D vgem_open,
->  	.postclose			=3D vgem_postclose,
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virti=
-o/virtgpu_drv.c
-> index 86330f1ade72..27f13bd29c13 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> @@ -37,7 +37,7 @@
->  =
-
->  #include "virtgpu_drv.h"
->  =
-
-> -static struct drm_driver driver;
-> +static const struct drm_driver driver;
->  =
-
->  static int virtio_gpu_modeset =3D -1;
->  =
-
-> @@ -190,7 +190,7 @@ MODULE_AUTHOR("Alon Levy");
->  =
-
->  DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
->  =
-
-> -static struct drm_driver driver =3D {
-> +static const struct drm_driver driver =3D {
->  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIV=
-ER_ATOMIC,
->  	.open =3D virtio_gpu_driver_open,
->  	.postclose =3D virtio_gpu_driver_postclose,
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
-drv.c
-> index 98ba844ae77d..8056b3d1ff6a 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -78,7 +78,7 @@ static void vkms_atomic_commit_tail(struct drm_atomic_s=
-tate *old_state)
->  	drm_atomic_helper_cleanup_planes(dev, old_state);
->  }
->  =
-
-> -static struct drm_driver vkms_driver =3D {
-> +static const struct drm_driver vkms_driver =3D {
->  	.driver_features	=3D DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
->  	.release		=3D vkms_release,
->  	.fops			=3D &vkms_driver_fops,
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.c
-> index 68206d0a1237..e66b252e3923 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -1465,7 +1465,7 @@ static const struct file_operations vmwgfx_driver_f=
-ops =3D {
->  	.get_unmapped_area =3D vmw_get_unmapped_area,
->  };
->  =
-
-> -static struct drm_driver driver =3D {
-> +static const struct drm_driver driver =3D {
->  	.driver_features =3D
->  	DRIVER_MODESET | DRIVER_RENDER | DRIVER_ATOMIC,
->  	.ioctls =3D vmw_ioctls,
-> diff --git a/drivers/gpu/drm/xen/xen_drm_front.c b/drivers/gpu/drm/xen/xe=
-n_drm_front.c
-> index 98b6d2ba088a..30d9adf31c84 100644
-> --- a/drivers/gpu/drm/xen/xen_drm_front.c
-> +++ b/drivers/gpu/drm/xen/xen_drm_front.c
-> @@ -483,7 +483,7 @@ static const struct file_operations xen_drm_dev_fops =
-=3D {
->  	.mmap           =3D xen_drm_front_gem_mmap,
->  };
->  =
-
-> -static struct drm_driver xen_drm_driver =3D {
-> +static const struct drm_driver xen_drm_driver =3D {
->  	.driver_features           =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATO=
-MIC,
->  	.release                   =3D xen_drm_drv_release,
->  	.prime_handle_to_fd        =3D drm_gem_prime_handle_to_fd,
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/z=
-ynqmp_dpsub.c
-> index f3ffc3703a0e..0c1c50271a88 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> @@ -76,7 +76,7 @@ static const struct drm_mode_config_funcs zynqmp_dpsub_=
-mode_config_funcs =3D {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(zynqmp_dpsub_drm_fops);
->  =
-
-> -static struct drm_driver zynqmp_dpsub_drm_driver =3D {
-> +static const struct drm_driver zynqmp_dpsub_drm_driver =3D {
->  	.driver_features		=3D DRIVER_MODESET | DRIVER_GEM |
->  					  DRIVER_ATOMIC,
->  =
-
-> diff --git a/drivers/gpu/drm/zte/zx_drm_drv.c b/drivers/gpu/drm/zte/zx_dr=
-m_drv.c
-> index 31014a451f8b..5506336594e2 100644
-> --- a/drivers/gpu/drm/zte/zx_drm_drv.c
-> +++ b/drivers/gpu/drm/zte/zx_drm_drv.c
-> @@ -34,7 +34,7 @@ static const struct drm_mode_config_funcs zx_drm_mode_c=
-onfig_funcs =3D {
->  =
-
->  DEFINE_DRM_GEM_CMA_FOPS(zx_drm_fops);
->  =
-
-> -static struct drm_driver zx_drm_driver =3D {
-> +static const struct drm_driver zx_drm_driver =3D {
->  	.driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	DRM_GEM_CMA_DRIVER_OPS,
->  	.fops =3D &zx_drm_fops,
-> -- =
-
-> 2.28.0
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU3VuLCBPY3QgMjUsIDIwMjAgYXQgMTE6MjMgUE0gU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
+cmcub3JnPiB3cm90ZToKPgo+IEhpIERhbmllbC4KPgo+IE9uIEZyaSwgT2N0IDIzLCAyMDIwIGF0
+IDA2OjA0OjQ0UE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiBPbmx5IHRoZSBmb2xs
+b3dpbmcgZHJpdmVycyBhcmVuJ3QgY29udmVydGVkOgo+ID4gLSBhbWRncHUsIGJlY2F1c2Ugb2Yg
+dGhlIGRyaXZlcl9mZWF0dXJlIG1hbmdsaW5nIGR1ZSB0byB2aXJ0IHN1cHBvcnQKPiA+IC0gbm91
+dmVhdSwgYmVjYXVzZSBEUklWRVJfQVRPTUlDIHVhcGkgaXMgc3RpbGwgbm90IHRoZSBkZWZhdWx0
+IG9uIHRoZQo+ID4gICBwbGF0Zm9ybXMgd2hlcmUgaXQncyBzdXBwb3J0ZWQgKGkuZS4gYWdhaW4g
+ZHJpdmVyX2ZlYXR1cmUgbWFuZ2xpbmcpCj4gPiAtIHZjNCwgYWdhaW4gYmVjYXVzZSBvZiBkcml2
+ZXJfZmVhdHVyZSBtYW5nbGluZwo+ID4gLSBxeGwsIGJlY2F1c2UgdGhlIGlvY3RsIHRhYmxlIGlz
+IHNvbWV3aGVyZSBlbHNlIGFuZCBtb3ZpbmcgdGhhdCBpcwo+ID4gICBtYXliZSBhIGJpdCB0b28g
+bXVjaCwgaGVuY2UgdGhlIG51bV9pb2N0bHMgYXNzaWdubWVudCBwcmV2ZW50cyBhCj4gPiAgIGNv
+bnN0IGRyaXZlciBzdHJ1Y3R1cmUuCj4gTXkgZ3JlcHBpbmcgdHVybmVkIHVwIHRoZSBmb2xsb3dp
+bmc6Cj4gLSBUaGUgZXhhbXBsZSBpbiBkcm1fZHJ2IG5lZWRzIHRvIGJlIHVwZGF0ZWQKPiAtIGxl
+Z2FjeSBkcml2ZXJzLCB0aGF0IGFyZSBvYnZpb3VzbHkgbm90IGNvbnZlcnRlZCAtIGJ1dCB3b3J0
+aCB0bwo+ICAgbWVudGlvbiBhYm92ZQo+IC0gYXJjIGlzIG5vdCBjb252ZXJ0ZWQgYW5kIGl0IGlz
+IG5vdCBsZWdhY3kKPiAgIE1heWJlIHlvdSBoYXZlIGl0IGNvdmVyZWQgaW4geW91ciBiaWcgYXJj
+IGNvbnZlcnNpb24gcGF0Y2g/CgpZZWFoIEkgZXhjbHVkZWQgdGhhdCBvbmUgYmVjYXVzZSBpdCdz
+IHN0dWNrIGJlaGluZCBteSBhcmNwZ3UKdGluaWZpY2F0aW9uLiBJJ2xsIHVwZGF0ZSB0aGUgY29t
+bWl0IG1lc3NhZ2UgdG8gbWVudGlvbiB0aGF0IHdpdGggeW91cgpvdGhlciBzdWdnZXN0aW9ucy4K
+LURhbmllbAoKPgo+IFdpdGggdGhlIGFib3ZlIGZpeGVkOgo+IEFja2VkLWJ5OiBTYW0gUmF2bmJv
+cmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gPgo+ID4gTm90ZSB0aGF0IGZvciBhcm1hZGEgSSBhbHNv
+IHdlbnQgYWhlYWQgYW5kIG1hZGUgdGhlIGlvY3RsIGFycmF5IGNvbnN0Lgo+ID4KPiA+IE9ubHkg
+Y2MnaW5nIHRoZSBkcml2ZXIgcGVvcGxlIHdobyd2ZSBub3QgYmVlbiBjb252ZXJ0ZWQgKGV2ZXJ5
+b25lIGVsc2UKPiA+IGlzIHdheSB0b28gbXVjaCkuCj4gPgo+ID4gdjI6IEZpeCBvbmUgbWlzcGxh
+Y2VkIGNvbnN0IHN0YXRpYywgc2hvdWxkIGJlIHN0YXRpYyBjb25zdCAoMGRheSkKPiA+Cj4gPiBD
+Yzoga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4gPiBBY2tlZC1ieTogTWF4aW1l
+IFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgo+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZl
+dHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiA+IENjOiBEYXZlIEFpcmxpZSA8YWlybGll
+ZEByZWRoYXQuY29tPgo+ID4gQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgo+
+ID4gQ2M6IHZpcnR1YWxpemF0aW9uQGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCj4gPiBDYzog
+SGFycnkgV2VudGxhbmQgPGhhcnJ5LndlbnRsYW5kQGFtZC5jb20+Cj4gPiBDYzogTGVvIExpIDxz
+dW5wZW5nLmxpQGFtZC5jb20+Cj4gPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hl
+ckBhbWQuY29tPgo+ID4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1k
+LmNvbT4KPiA+IENjOiBFcmljIEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0Pgo+ID4gQ2M6IE1heGlt
+ZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KPiA+IENjOiBCZW4gU2tlZ2dzIDxic2tlZ2dz
+QHJlZGhhdC5jb20+Cj4gPiBDYzogbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IFNp
+Z25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+Cj4g
+SG1tLCBzbyB3ZSBoYXZlIG1vcmUgdGhhbiBvbmUgRGFuaWVsIGluIHBsYXkgaGVyZS4KPiBCb3Ro
+IHRoZSBJbnRlbCBndXkgYW5kIHRoZSBmZndsbCBndXkgLSBsb29rcyBmdW5ueS4KPgo+ICAgICAg
+ICAgU2FtCj4KPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEv
+a29tZWRhX2ttcy5jICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2Rydi5j
+ICAgICAgICAgICAgICAgICAgfCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBf
+ZHJ2LmMgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9hcm1hZGEv
+YXJtYWRhX2Rydi5jICAgICAgICAgICAgICB8IDcgKysrLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2Ry
+bS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYuYyAgICAgICAgICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dw
+dS9kcm0vYXN0L2FzdF9kcnYuYyAgICAgICAgICAgICAgICAgICAgfCAyICstCj4gPiAgZHJpdmVy
+cy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmggICAgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4gIGRy
+aXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYyAgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+
+ICBkcml2ZXJzL2dwdS9kcm0vYXRtZWwtaGxjZGMvYXRtZWxfaGxjZGNfZGMuYyAgICAgfCAyICst
+Cj4gPiAgZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2Rydi5jICAgICAgICAgICAgICAgIHwg
+MiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMgICAgICAgICAg
+ICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZHJ2LmMgICAg
+ICAgICAgfCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9kcm1fZHJ2
+LmMgICAgICAgIHwgNSArKy0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2Rydi5j
+ICAgICAgICAgICAgICAgICB8IDQgKystLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24v
+aGlibWMvaGlibWNfZHJtX2Rydi5jICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vaGlzaWxp
+Y29uL2tpcmluL2tpcmluX2RybV9hZGUuYyAgfCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL2hp
+c2lsaWNvbi9raXJpbi9raXJpbl9kcm1fZHJ2LmggIHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2k5MTVfZHJ2LmMgICAgICAgICAgICAgICAgICB8IDQgKystLQo+ID4gIGRyaXZlcnMv
+Z3B1L2RybS9pOTE1L3NlbGZ0ZXN0cy9tb2NrX2dlbV9kZXZpY2UuYyB8IDIgKy0KPiA+ICBkcml2
+ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1rbXMuYyAgICAgICAgICAgICAgfCAyICstCj4gPiAg
+ZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtZHJtLWNvcmUuYyAgICAgICAgICAgICAgIHwgMiArLQo+
+ID4gIGRyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtZHJtLWRydi5jICAgICAgICB8IDIg
+Ky0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX2Rydi5jICAgICAgICAgICAgICAgICAg
+fCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL21jZGUvbWNkZV9kcnYuYyAgICAgICAgICAgICAg
+ICAgIHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jICAg
+ICAgICAgICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fZHJ2LmMgICAg
+ICAgICAgICAgICAgfCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9k
+cnYuYyAgICAgICAgICAgIHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2Rydi5j
+ICAgICAgICAgICAgICAgICAgICB8IDQgKystLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9teHNmYi9t
+eHNmYl9kcnYuYyAgICAgICAgICAgICAgICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vb21h
+cGRybS9vbWFwX2Rydi5jICAgICAgICAgICAgICAgfCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJt
+L3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jICAgICAgICAgIHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1
+L2RybS9wbDExMS9wbDExMV9kcnYuYyAgICAgICAgICAgICAgICB8IDIgKy0KPiA+ICBkcml2ZXJz
+L2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYuYyAgICAgICAgICAgICAgfCA0ICsrLS0KPiA+ICBk
+cml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1X2Rydi5jICAgICAgICAgICAgfCAyICstCj4g
+PiAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9kcnYuYyAgICAgIHwgNCAr
+Ky0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL3NobW9iaWxlL3NobW9iX2RybV9kcnYuYyAgICAgICAg
+IHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2Rydi5jICAgICAgICAgICAgICAg
+ICAgICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vc3RtL2Rydi5jICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2Rydi5jICAg
+ICAgICAgICAgICAgIHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9kcm0uYyAgICAg
+ICAgICAgICAgICAgICAgICB8IDUgKystLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vdGlkc3MvdGlk
+c3NfZHJ2LmMgICAgICAgICAgICAgICAgfCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL3RpbGNk
+Yy90aWxjZGNfZHJ2LmMgICAgICAgICAgICAgIHwgNCArKy0tCj4gPiAgZHJpdmVycy9ncHUvZHJt
+L3RpbnkvY2lycnVzLmMgICAgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1
+L2RybS90aW55L2dtMTJ1MzIwLmMgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+ICBkcml2ZXJz
+L2dwdS9kcm0vdGlueS9oeDgzNTdkLmMgICAgICAgICAgICAgICAgICAgfCAyICstCj4gPiAgZHJp
+dmVycy9ncHUvZHJtL3RpbnkvaWxpOTIyNS5jICAgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4g
+IGRyaXZlcnMvZ3B1L2RybS90aW55L2lsaTkzNDEuYyAgICAgICAgICAgICAgICAgICB8IDIgKy0K
+PiA+ICBkcml2ZXJzL2dwdS9kcm0vdGlueS9pbGk5NDg2LmMgICAgICAgICAgICAgICAgICAgfCAy
+ICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL3RpbnkvbWkwMjgzcXQuYyAgICAgICAgICAgICAgICAg
+IHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS90aW55L3JlcGFwZXIuYyAgICAgICAgICAgICAg
+ICAgICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vdGlueS9zdDc1ODYuYyAgICAgICAgICAg
+ICAgICAgICAgfCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc3Q3NzM1ci5jICAgICAg
+ICAgICAgICAgICAgIHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS90dmUyMDAvdHZlMjAwX2Ry
+di5jICAgICAgICAgICAgICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYu
+YyAgICAgICAgICAgICAgICAgICAgfCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rf
+ZHJ2LmMgICAgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS92Ym94
+dmlkZW8vdmJveF9kcnYuYyAgICAgICAgICAgICB8IDQgKystLQo+ID4gIGRyaXZlcnMvZ3B1L2Ry
+bS92Z2VtL3ZnZW1fZHJ2LmMgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dw
+dS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmMgICAgICAgICAgICAgfCA0ICsrLS0KPiA+ICBkcml2
+ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5jICAgICAgICAgICAgICAgICAgfCAyICstCj4gPiAg
+ZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMgICAgICAgICAgICAgIHwgMiArLQo+
+ID4gIGRyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udC5jICAgICAgICAgICAgICB8IDIg
+Ky0KPiA+ICBkcml2ZXJzL2dwdS9kcm0veGxueC96eW5xbXBfZHBzdWIuYyAgICAgICAgICAgICAg
+fCAyICstCj4gPiAgZHJpdmVycy9ncHUvZHJtL3p0ZS96eF9kcm1fZHJ2LmMgICAgICAgICAgICAg
+ICAgIHwgMiArLQo+ID4gIDYzIGZpbGVzIGNoYW5nZWQsIDc1IGluc2VydGlvbnMoKyksIDc4IGRl
+bGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3Bs
+YXkva29tZWRhL2tvbWVkYV9rbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21l
+ZGEva29tZWRhX2ttcy5jCj4gPiBpbmRleCBjYzViNTkxNWJjNWUuLmQwNDAwOGYzZTMxYSAxMDA2
+NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2tt
+cy5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9r
+bXMuYwo+ID4gQEAgLTU4LDcgKzU4LDcgQEAgc3RhdGljIGlycXJldHVybl90IGtvbWVkYV9rbXNf
+aXJxX2hhbmRsZXIoaW50IGlycSwgdm9pZCAqZGF0YSkKPiA+ICAgICAgIHJldHVybiBzdGF0dXM7
+Cj4gPiAgfQo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIga29tZWRhX2ttc19kcml2
+ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIGtvbWVkYV9rbXNfZHJp
+dmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyA9IERSSVZFUl9HRU0gfCBEUklWRVJf
+TU9ERVNFVCB8IERSSVZFUl9BVE9NSUMsCj4gPiAgICAgICAubGFzdGNsb3NlICAgICAgICAgICAg
+ICAgICAgICAgID0gZHJtX2ZiX2hlbHBlcl9sYXN0Y2xvc2UsCj4gPiAgICAgICBEUk1fR0VNX0NN
+QV9EUklWRVJfT1BTX1dJVEhfRFVNQl9DUkVBVEUoa29tZWRhX2dlbV9jbWFfZHVtYl9jcmVhdGUp
+LAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMgYi9kcml2
+ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2Rydi5jCj4gPiBpbmRleCBmYWE4YTVhNzUyZGEuLjgxYWU5
+MjM5MDczNiAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMK
+PiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMKPiA+IEBAIC0yMzQsNyAr
+MjM0LDcgQEAgc3RhdGljIHZvaWQgaGRsY2RfZGVidWdmc19pbml0KHN0cnVjdCBkcm1fbWlub3Ig
+Km1pbm9yKQo+ID4KPiA+ICBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUyhmb3BzKTsKPiA+Cj4gPiAt
+c3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGhkbGNkX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29u
+c3Qgc3RydWN0IGRybV9kcml2ZXIgaGRsY2RfZHJpdmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9m
+ZWF0dXJlcyA9IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9BVE9NSUMsCj4g
+PiAgICAgICAuaXJxX2hhbmRsZXIgPSBoZGxjZF9pcnEsCj4gPiAgICAgICAuaXJxX3ByZWluc3Rh
+bGwgPSBoZGxjZF9pcnFfcHJlaW5zdGFsbCwKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vYXJtL21hbGlkcF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jCj4g
+PiBpbmRleCAyNmU2MDQwMWE4ZTEuLmQ4M2M3MzY2YjM0OCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJt
+L21hbGlkcF9kcnYuYwo+ID4gQEAgLTU2NCw3ICs1NjQsNyBAQCBzdGF0aWMgdm9pZCBtYWxpZHBf
+ZGVidWdmc19pbml0KHN0cnVjdCBkcm1fbWlub3IgKm1pbm9yKQo+ID4KPiA+ICAjZW5kaWYgLy9D
+T05GSUdfREVCVUdfRlMKPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIG1hbGlkcF9k
+cml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIG1hbGlkcF9kcml2
+ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzID0gRFJJVkVSX0dFTSB8IERSSVZFUl9N
+T0RFU0VUIHwgRFJJVkVSX0FUT01JQywKPiA+ICAgICAgIERSTV9HRU1fQ01BX0RSSVZFUl9PUFNf
+V0lUSF9EVU1CX0NSRUFURShtYWxpZHBfZHVtYl9jcmVhdGUpLAo+ID4gICNpZmRlZiBDT05GSUdf
+REVCVUdfRlMKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9k
+cnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm1hZGEvYXJtYWRhX2Rydi5jCj4gPiBpbmRleCAyMjI0
+N2NmY2U4MGIuLjQ0ZmU5Zjk5NGZjNSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9h
+cm1hZGEvYXJtYWRhX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFk
+YV9kcnYuYwo+ID4gQEAgLTI3LDcgKzI3LDcgQEAKPiA+ICAjaW5jbHVkZSA8ZHJtL2FybWFkYV9k
+cm0uaD4KPiA+ICAjaW5jbHVkZSAiYXJtYWRhX2lvY3RsUC5oIgo+ID4KPiA+IC1zdGF0aWMgc3Ry
+dWN0IGRybV9pb2N0bF9kZXNjIGFybWFkYV9pb2N0bHNbXSA9IHsKPiA+ICtzdGF0aWMgY29uc3Qg
+c3RydWN0IGRybV9pb2N0bF9kZXNjIGFybWFkYV9pb2N0bHNbXSA9IHsKPiA+ICAgICAgIERSTV9J
+T0NUTF9ERUZfRFJWKEFSTUFEQV9HRU1fQ1JFQVRFLCBhcm1hZGFfZ2VtX2NyZWF0ZV9pb2N0bCww
+KSwKPiA+ICAgICAgIERSTV9JT0NUTF9ERUZfRFJWKEFSTUFEQV9HRU1fTU1BUCwgYXJtYWRhX2dl
+bV9tbWFwX2lvY3RsLCAwKSwKPiA+ICAgICAgIERSTV9JT0NUTF9ERUZfRFJWKEFSTUFEQV9HRU1f
+UFdSSVRFLCBhcm1hZGFfZ2VtX3B3cml0ZV9pb2N0bCwgMCksCj4gPiBAQCAtMzUsNyArMzUsNyBA
+QCBzdGF0aWMgc3RydWN0IGRybV9pb2N0bF9kZXNjIGFybWFkYV9pb2N0bHNbXSA9IHsKPiA+Cj4g
+PiAgREVGSU5FX0RSTV9HRU1fRk9QUyhhcm1hZGFfZHJtX2ZvcHMpOwo+ID4KPiA+IC1zdGF0aWMg
+c3RydWN0IGRybV9kcml2ZXIgYXJtYWRhX2RybV9kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0
+IHN0cnVjdCBkcm1fZHJpdmVyIGFybWFkYV9kcm1fZHJpdmVyID0gewo+ID4gICAgICAgLmxhc3Rj
+bG9zZSAgICAgICAgICAgICAgPSBkcm1fZmJfaGVscGVyX2xhc3RjbG9zZSwKPiA+ICAgICAgIC5w
+cmltZV9oYW5kbGVfdG9fZmQgICAgID0gZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZmQsCj4gPiAg
+ICAgICAucHJpbWVfZmRfdG9faGFuZGxlICAgICA9IGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxl
+LAo+ID4gQEAgLTQ4LDYgKzQ4LDcgQEAgc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGFybWFkYV9k
+cm1fZHJpdmVyID0gewo+ID4gICAgICAgLmRhdGUgICAgICAgICAgICAgICAgICAgPSAiMjAxMjA3
+MzAiLAo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyAgICAgICAgPSBEUklWRVJfR0VNIHwgRFJJ
+VkVSX01PREVTRVQgfCBEUklWRVJfQVRPTUlDLAo+ID4gICAgICAgLmlvY3RscyAgICAgICAgICAg
+ICAgICAgPSBhcm1hZGFfaW9jdGxzLAo+ID4gKyAgICAgLm51bV9pb2N0bHMgPSBBUlJBWV9TSVpF
+KGFybWFkYV9pb2N0bHMpLAo+ID4gICAgICAgLmZvcHMgICAgICAgICAgICAgICAgICAgPSAmYXJt
+YWRhX2RybV9mb3BzLAo+ID4gIH07Cj4gPgo+ID4gQEAgLTI3NSw4ICsyNzYsNiBAQCBzdGF0aWMg
+aW50IF9faW5pdCBhcm1hZGFfZHJtX2luaXQodm9pZCkKPiA+ICB7Cj4gPiAgICAgICBpbnQgcmV0
+Owo+ID4KPiA+IC0gICAgIGFybWFkYV9kcm1fZHJpdmVyLm51bV9pb2N0bHMgPSBBUlJBWV9TSVpF
+KGFybWFkYV9pb2N0bHMpOwo+ID4gLQo+ID4gICAgICAgcmV0ID0gcGxhdGZvcm1fZHJpdmVyX3Jl
+Z2lzdGVyKCZhcm1hZGFfbGNkX3BsYXRmb3JtX2RyaXZlcik7Cj4gPiAgICAgICBpZiAocmV0KQo+
+ID4gICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNw
+ZWVkX2dmeF9kcnYuYwo+ID4gaW5kZXggNzcxYWQ3MWNkMzQwLi40NTdlYzA0OTUwZjcgMTAwNjQ0
+Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnhfZHJ2LmMKPiA+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYuYwo+ID4gQEAgLTE5MSw3
+ICsxOTEsNyBAQCBzdGF0aWMgdm9pZCBhc3BlZWRfZ2Z4X3VubG9hZChzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZHJtKQo+ID4KPiA+ICBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUyhmb3BzKTsKPiA+Cj4gPiAt
+c3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGFzcGVlZF9nZnhfZHJpdmVyID0gewo+ID4gK3N0YXRp
+YyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBhc3BlZWRfZ2Z4X2RyaXZlciA9IHsKPiA+ICAgICAg
+IC5kcml2ZXJfZmVhdHVyZXMgICAgICAgID0gRFJJVkVSX0dFTSB8IERSSVZFUl9NT0RFU0VUIHwg
+RFJJVkVSX0FUT01JQywKPiA+ICAgICAgIERSTV9HRU1fQ01BX0RSSVZFUl9PUFMsCj4gPiAgICAg
+ICAuZm9wcyA9ICZmb3BzLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
+X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmMKPiA+IGluZGV4IGYwYjRhZjFj
+MzkwYS4uNjY3YjQ1MDYwNmVmIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9h
+c3RfZHJ2LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5jCj4gPiBAQCAt
+NDksNyArNDksNyBAQCBtb2R1bGVfcGFyYW1fbmFtZWQobW9kZXNldCwgYXN0X21vZGVzZXQsIGlu
+dCwgMDQwMCk7Cj4gPgo+ID4gIERFRklORV9EUk1fR0VNX0ZPUFMoYXN0X2ZvcHMpOwo+ID4KPiA+
+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgYXN0X2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29u
+c3Qgc3RydWN0IGRybV9kcml2ZXIgYXN0X2RyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVh
+dHVyZXMgPSBEUklWRVJfQVRPTUlDIHwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBEUklW
+RVJfR0VNIHwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBEUklWRVJfTU9ERVNFVCwKPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCBiL2RyaXZlcnMvZ3B1
+L2RybS9hc3QvYXN0X2Rydi5oCj4gPiBpbmRleCA0NjcwNDljYTg0MzAuLjMzZTU5NmE0ZjA0MiAx
+MDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oCj4gPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaAo+ID4gQEAgLTE1OSw3ICsxNTksNyBAQCBzdGF0
+aWMgaW5saW5lIHN0cnVjdCBhc3RfcHJpdmF0ZSAqdG9fYXN0X3ByaXZhdGUoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldikKPiA+ICAgICAgIHJldHVybiBjb250YWluZXJfb2YoZGV2LCBzdHJ1Y3QgYXN0
+X3ByaXZhdGUsIGJhc2UpOwo+ID4gIH0KPiA+Cj4gPiAtc3RydWN0IGFzdF9wcml2YXRlICphc3Rf
+ZGV2aWNlX2NyZWF0ZShzdHJ1Y3QgZHJtX2RyaXZlciAqZHJ2LAo+ID4gK3N0cnVjdCBhc3RfcHJp
+dmF0ZSAqYXN0X2RldmljZV9jcmVhdGUoY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgKmRydiwKPiA+
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBwY2lfZGV2ICpwZGV2
+LAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgbG9uZyBm
+bGFncyk7Cj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4u
+YyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYwo+ID4gaW5kZXggNzcwNjZiY2E4Nzkz
+Li40NWRkODE4NWE0ODggMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9t
+YWluLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYwo+ID4gQEAgLTM5
+Miw3ICszOTIsNyBAQCBzdGF0aWMgdm9pZCBhc3RfZGV2aWNlX3JlbGVhc2Uodm9pZCAqZGF0YSkK
+PiA+ICAgICAgIGFzdF9zZXRfaW5kZXhfcmVnKGFzdCwgQVNUX0lPX0NSVENfUE9SVCwgMHhhMSwg
+MHgwNCk7Cj4gPiAgfQo+ID4KPiA+IC1zdHJ1Y3QgYXN0X3ByaXZhdGUgKmFzdF9kZXZpY2VfY3Jl
+YXRlKHN0cnVjdCBkcm1fZHJpdmVyICpkcnYsCj4gPiArc3RydWN0IGFzdF9wcml2YXRlICphc3Rf
+ZGV2aWNlX2NyZWF0ZShjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciAqZHJ2LAo+ID4gICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IHBjaV9kZXYgKnBkZXYsCj4gPiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBsb25nIGZsYWdzKQo+ID4g
+IHsKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXRtZWwtaGxjZGMvYXRtZWxfaGxj
+ZGNfZGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hdG1lbC1obGNkYy9hdG1lbF9obGNkY19kYy5jCj4g
+PiBpbmRleCAwMzk4NDkzMmQxNzQuLjY1YWY1NmU0NzEyOSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9hdG1lbC1obGNkYy9hdG1lbF9obGNkY19kYy5jCj4gPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vYXRtZWwtaGxjZGMvYXRtZWxfaGxjZGNfZGMuYwo+ID4gQEAgLTcxMiw3ICs3MTIs
+NyBAQCBzdGF0aWMgdm9pZCBhdG1lbF9obGNkY19kY19pcnFfdW5pbnN0YWxsKHN0cnVjdCBkcm1f
+ZGV2aWNlICpkZXYpCj4gPgo+ID4gIERFRklORV9EUk1fR0VNX0NNQV9GT1BTKGZvcHMpOwo+ID4K
+PiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgYXRtZWxfaGxjZGNfZGNfZHJpdmVyID0gewo+
+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBhdG1lbF9obGNkY19kY19kcml2ZXIg
+PSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzID0gRFJJVkVSX0dFTSB8IERSSVZFUl9NT0RF
+U0VUIHwgRFJJVkVSX0FUT01JQywKPiA+ICAgICAgIC5pcnFfaGFuZGxlciA9IGF0bWVsX2hsY2Rj
+X2RjX2lycV9oYW5kbGVyLAo+ID4gICAgICAgLmlycV9wcmVpbnN0YWxsID0gYXRtZWxfaGxjZGNf
+ZGNfaXJxX3VuaW5zdGFsbCwKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYm9jaHMv
+Ym9jaHNfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfZHJ2LmMKPiA+IGluZGV4
+IGUxOGM1MWRlMTE5Ni4uZmQ0NTQyMjVmZDE5IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2JvY2hzL2JvY2hzX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9j
+aHNfZHJ2LmMKPiA+IEBAIC01Nyw3ICs1Nyw3IEBAIHN0YXRpYyBpbnQgYm9jaHNfbG9hZChzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2KQo+ID4KPiA+ICBERUZJTkVfRFJNX0dFTV9GT1BTKGJvY2hzX2Zv
+cHMpOwo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgYm9jaHNfZHJpdmVyID0gewo+
+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBib2Noc19kcml2ZXIgPSB7Cj4gPiAg
+ICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICA9IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNF
+VCB8IERSSVZFUl9BVE9NSUMsCj4gPiAgICAgICAuZm9wcyAgICAgICAgICAgICAgICAgICA9ICZi
+b2Noc19mb3BzLAo+ID4gICAgICAgLm5hbWUgICAgICAgICAgICAgICAgICAgPSAiYm9jaHMtZHJt
+IiwKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5j
+IGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuYwo+ID4gaW5kZXggYWEyNzBi
+NzllNTg1Li43NjA0ZTNjMDc5NzMgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRu
+YXZpdi9ldG5hdml2X2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5h
+dml2X2Rydi5jCj4gPiBAQCAtNDgwLDcgKzQ4MCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZmls
+ZV9vcGVyYXRpb25zIGZvcHMgPSB7Cj4gPiAgICAgICAubW1hcCAgICAgICAgICAgICAgID0gZXRu
+YXZpdl9nZW1fbW1hcCwKPiA+ICB9Owo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIg
+ZXRuYXZpdl9kcm1fZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZl
+ciBldG5hdml2X2RybV9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgID0g
+RFJJVkVSX0dFTSB8IERSSVZFUl9SRU5ERVIsCj4gPiAgICAgICAub3BlbiAgICAgICAgICAgICAg
+ID0gZXRuYXZpdl9vcGVuLAo+ID4gICAgICAgLnBvc3RjbG9zZSAgICAgICAgICAgPSBldG5hdml2
+X3Bvc3RjbG9zZSwKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5v
+c19kcm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZHJ2LmMKPiA+
+IGluZGV4IGZlNDY2ODBjYTIwOC4uZTYwMjU3ZjFmMjRiIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vZXh5bm9zL2V4eW5vc19kcm1fZHJ2LmMKPiA+IEBAIC0xMTMsNyArMTEzLDcgQEAgc3RhdGlj
+IGNvbnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMgZXh5bm9zX2RybV9kcml2ZXJfZm9wcyA9IHsK
+PiA+ICAgICAgIC5yZWxlYXNlICAgICAgICA9IGRybV9yZWxlYXNlLAo+ID4gIH07Cj4gPgo+ID4g
+LXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBleHlub3NfZHJtX2RyaXZlciA9IHsKPiA+ICtzdGF0
+aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgZXh5bm9zX2RybV9kcml2ZXIgPSB7Cj4gPiAgICAg
+ICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICA9IERSSVZFUl9NT0RFU0VUIHwgRFJJVkVSX0dFTQo+
+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IERSSVZFUl9BVE9NSUMgfCBEUklW
+RVJfUkVOREVSLAo+ID4gICAgICAgLm9wZW4gICAgICAgICAgICAgICAgICAgPSBleHlub3NfZHJt
+X29wZW4sCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9k
+cm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZnNsLWRjdS9mc2xfZGN1X2RybV9kcnYuYwo+ID4g
+aW5kZXggYWU1ODRmNjJhYTE5Li43NWI1OGQ1NWE5NDAgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vZnNsLWRjdS9mc2xfZGN1X2RybV9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2ZzbC1kY3UvZnNsX2RjdV9kcm1fZHJ2LmMKPiA+IEBAIC0xMjQsNyArMTI0LDcgQEAgc3Rh
+dGljIGlycXJldHVybl90IGZzbF9kY3VfZHJtX2lycShpbnQgaXJxLCB2b2lkICphcmcpCj4gPgo+
+ID4gIERFRklORV9EUk1fR0VNX0NNQV9GT1BTKGZzbF9kY3VfZHJtX2ZvcHMpOwo+ID4KPiA+IC1z
+dGF0aWMgc3RydWN0IGRybV9kcml2ZXIgZnNsX2RjdV9kcm1fZHJpdmVyID0gewo+ID4gK3N0YXRp
+YyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBmc2xfZGN1X2RybV9kcml2ZXIgPSB7Cj4gPiAgICAg
+ICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICA9IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCB8
+IERSSVZFUl9BVE9NSUMsCj4gPiAgICAgICAubG9hZCAgICAgICAgICAgICAgICAgICA9IGZzbF9k
+Y3VfbG9hZCwKPiA+ICAgICAgIC51bmxvYWQgICAgICAgICAgICAgICAgID0gZnNsX2RjdV91bmxv
+YWQsCj4gPiBAQCAtMjI0LDcgKzIyNCw2IEBAIHN0YXRpYyBpbnQgZnNsX2RjdV9kcm1fcHJvYmUo
+c3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiA+ICAgICAgIHN0cnVjdCBkZXZpY2UgKmRl
+diA9ICZwZGV2LT5kZXY7Cj4gPiAgICAgICBzdHJ1Y3QgcmVzb3VyY2UgKnJlczsKPiA+ICAgICAg
+IHZvaWQgX19pb21lbSAqYmFzZTsKPiA+IC0gICAgIHN0cnVjdCBkcm1fZHJpdmVyICpkcml2ZXIg
+PSAmZnNsX2RjdV9kcm1fZHJpdmVyOwo+ID4gICAgICAgc3RydWN0IGNsayAqcGl4X2Nsa19pbjsK
+PiA+ICAgICAgIGNoYXIgcGl4X2Nsa19uYW1lWzMyXTsKPiA+ICAgICAgIGNvbnN0IGNoYXIgKnBp
+eF9jbGtfaW5fbmFtZTsKPiA+IEBAIC0yOTQsNyArMjkzLDcgQEAgc3RhdGljIGludCBmc2xfZGN1
+X2RybV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4KPiA+ICAgICAgIGZz
+bF9kZXYtPnRjb24gPSBmc2xfdGNvbl9pbml0KGRldik7Cj4gPgo+ID4gLSAgICAgZHJtID0gZHJt
+X2Rldl9hbGxvYyhkcml2ZXIsIGRldik7Cj4gPiArICAgICBkcm0gPSBkcm1fZGV2X2FsbG9jKCZm
+c2xfZGN1X2RybV9kcml2ZXIsIGRldik7Cj4gPiAgICAgICBpZiAoSVNfRVJSKGRybSkpIHsKPiA+
+ICAgICAgICAgICAgICAgcmV0ID0gUFRSX0VSUihkcm0pOwo+ID4gICAgICAgICAgICAgICBnb3Rv
+IHVucmVnaXN0ZXJfcGl4X2NsazsKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ21h
+NTAwL3BzYl9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2Rydi5jCj4gPiBpbmRl
+eCBiMTMzNzZhNmZiOTEuLjZlNzE5N2Q4OTQ2MyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9nbWE1MDAvcHNiX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3Bz
+Yl9kcnYuYwo+ID4gQEAgLTM0LDcgKzM0LDcgQEAKPiA+ICAjaW5jbHVkZSAicHNiX2ludGVsX3Jl
+Zy5oIgo+ID4gICNpbmNsdWRlICJwc2JfcmVnLmgiCj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJt
+X2RyaXZlciBkcml2ZXI7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIGRyaXZl
+cjsKPiA+ICBzdGF0aWMgaW50IHBzYl9wY2lfcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGNv
+bnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkICplbnQpOwo+ID4KPiA+ICAvKgo+ID4gQEAgLTQ5MSw3
+ICs0OTEsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBwc2JfZ2VtX2Zv
+cHMgPSB7Cj4gPiAgICAgICAucmVhZCA9IGRybV9yZWFkLAo+ID4gIH07Cj4gPgo+ID4gLXN0YXRp
+YyBzdHJ1Y3QgZHJtX2RyaXZlciBkcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBk
+cm1fZHJpdmVyIGRyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgPSBEUklWRVJf
+TU9ERVNFVCB8IERSSVZFUl9HRU0sCj4gPiAgICAgICAubGFzdGNsb3NlID0gZHJtX2ZiX2hlbHBl
+cl9sYXN0Y2xvc2UsCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGlj
+b24vaGlibWMvaGlibWNfZHJtX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJt
+Yy9oaWJtY19kcm1fZHJ2LmMKPiA+IGluZGV4IGE2ODQ4MTQ5MjdjZC4uMjcyMDVhYTkwN2Y0IDEw
+MDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1f
+ZHJ2LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJt
+X2Rydi5jCj4gPiBAQCAtNDMsNyArNDMsNyBAQCBzdGF0aWMgaXJxcmV0dXJuX3QgaGlibWNfZHJt
+X2ludGVycnVwdChpbnQgaXJxLCB2b2lkICphcmcpCj4gPiAgICAgICByZXR1cm4gSVJRX0hBTkRM
+RUQ7Cj4gPiAgfQo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgaGlibWNfZHJpdmVy
+ID0gewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBoaWJtY19kcml2ZXIgPSB7
+Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICA9IERSSVZFUl9HRU0gfCBEUklWRVJf
+TU9ERVNFVCB8IERSSVZFUl9BVE9NSUMsCj4gPiAgICAgICAuZm9wcyAgICAgICAgICAgICAgICAg
+ICA9ICZoaWJtY19mb3BzLAo+ID4gICAgICAgLm5hbWUgICAgICAgICAgICAgICAgICAgPSAiaGli
+bWMiLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24va2lyaW4va2ly
+aW5fZHJtX2FkZS5jIGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9raXJpbi9raXJpbl9kcm1f
+YWRlLmMKPiA+IGluZGV4IGNmZThmZjU5NmQ1NS4uYWE5NjQxYTZhN2Q4IDEwMDY0NAo+ID4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9raXJpbi9raXJpbl9kcm1fYWRlLmMKPiA+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24va2lyaW4va2lyaW5fZHJtX2FkZS5jCj4gPiBA
+QCAtOTE4LDcgKzkxOCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX21vZGVfY29uZmlnX2Z1
+bmNzIGFkZV9tb2RlX2NvbmZpZ19mdW5jcyA9IHsKPiA+Cj4gPiAgREVGSU5FX0RSTV9HRU1fQ01B
+X0ZPUFMoYWRlX2ZvcHMpOwo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgYWRlX2Ry
+aXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgYWRlX2RyaXZlciA9
+IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgPSBEUklWRVJfR0VNIHwgRFJJVkVSX01PREVT
+RVQgfCBEUklWRVJfQVRPTUlDLAo+ID4gICAgICAgLmZvcHMgPSAmYWRlX2ZvcHMsCj4gPiAgICAg
+ICBEUk1fR0VNX0NNQV9EUklWRVJfT1BTLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9oaXNpbGljb24va2lyaW4va2lyaW5fZHJtX2Rydi5oIGIvZHJpdmVycy9ncHUvZHJtL2hpc2ls
+aWNvbi9raXJpbi9raXJpbl9kcm1fZHJ2LmgKPiA+IGluZGV4IGRlZThlYzJmN2YyZS4uMzg2ZDEz
+N2YyOWU1IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9raXJpbi9r
+aXJpbl9kcm1fZHJ2LmgKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24va2lyaW4v
+a2lyaW5fZHJtX2Rydi5oCj4gPiBAQCAtNDAsNyArNDAsNyBAQCBzdHJ1Y3Qga2lyaW5fZHJtX2Rh
+dGEgewo+ID4gICAgICAgdTMyIG51bV9wbGFuZXM7Cj4gPiAgICAgICB1MzIgcHJpbV9wbGFuZTsK
+PiA+Cj4gPiAtICAgICBzdHJ1Y3QgZHJtX2RyaXZlciAqZHJpdmVyOwo+ID4gKyAgICAgY29uc3Qg
+c3RydWN0IGRybV9kcml2ZXIgKmRyaXZlcjsKPiA+ICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fY3J0
+Y19oZWxwZXJfZnVuY3MgKmNydGNfaGVscGVyX2Z1bmNzOwo+ID4gICAgICAgY29uc3Qgc3RydWN0
+IGRybV9jcnRjX2Z1bmNzICpjcnRjX2Z1bmNzOwo+ID4gICAgICAgY29uc3Qgc3RydWN0IGRybV9w
+bGFuZV9oZWxwZXJfZnVuY3MgKnBsYW5lX2hlbHBlcl9mdW5jczsKPiA+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkx
+NV9kcnYuYwo+ID4gaW5kZXggZDMyMzdiMGQ4MjFkLi4yNzI0OWI1ZTI3MjkgMTAwNjQ0Cj4gPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9pOTE1X2Rydi5jCj4gPiBAQCAtODcsNyArODcsNyBAQAo+ID4gICNpbmNsdWRl
+ICJpbnRlbF9zaWRlYmFuZC5oIgo+ID4gICNpbmNsdWRlICJ2bHZfc3VzcGVuZC5oIgo+ID4KPiA+
+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgZHJpdmVyOwo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1
+Y3QgZHJtX2RyaXZlciBkcml2ZXI7Cj4gPgo+ID4gIHN0YXRpYyBpbnQgaTkxNV9nZXRfYnJpZGdl
+X2RldihzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpCj4gPiAgewo+ID4gQEAgLTE3
+NTgsNyArMTc1OCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2lvY3RsX2Rlc2MgaTkxNV9p
+b2N0bHNbXSA9IHsKPiA+ICAgICAgIERSTV9JT0NUTF9ERUZfRFJWKEk5MTVfR0VNX1ZNX0RFU1RS
+T1ksIGk5MTVfZ2VtX3ZtX2Rlc3Ryb3lfaW9jdGwsIERSTV9SRU5ERVJfQUxMT1cpLAo+ID4gIH07
+Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBkcml2ZXIgPSB7Cj4gPiArc3RhdGlj
+IGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIGRyaXZlciA9IHsKPiA+ICAgICAgIC8qIERvbid0IHVz
+ZSBNVFJScyBoZXJlOyB0aGUgWHNlcnZlciBvciB1c2Vyc3BhY2UgYXBwIHNob3VsZAo+ID4gICAg
+ICAgICogZGVhbCB3aXRoIHRoZW0gZm9yIEludGVsIGhhcmR3YXJlLgo+ID4gICAgICAgICovCj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL21vY2tfZ2VtX2Rl
+dmljZS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL21vY2tfZ2VtX2RldmljZS5j
+Cj4gPiBpbmRleCA5MjIwYzlkMWE0YjcuLmU5NDZiZDIwODdkOCAxMDA2NDQKPiA+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L3NlbGZ0ZXN0cy9tb2NrX2dlbV9kZXZpY2UuYwo+ID4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL21vY2tfZ2VtX2RldmljZS5jCj4gPiBAQCAt
+ODEsNyArODEsNyBAQCBzdGF0aWMgdm9pZCBtb2NrX2RldmljZV9yZWxlYXNlKHN0cnVjdCBkcm1f
+ZGV2aWNlICpkZXYpCj4gPiAgICAgICBpOTE1X3BhcmFtc19mcmVlKCZpOTE1LT5wYXJhbXMpOwo+
+ID4gIH0KPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIG1vY2tfZHJpdmVyID0gewo+
+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBtb2NrX2RyaXZlciA9IHsKPiA+ICAg
+ICAgIC5uYW1lID0gIm1vY2siLAo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyA9IERSSVZFUl9H
+RU0sCj4gPiAgICAgICAucmVsZWFzZSA9IG1vY2tfZGV2aWNlX3JlbGVhc2UsCj4gPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3Mta21zLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vaW14L2Rjc3MvZGNzcy1rbXMuYwo+ID4gaW5kZXggYjcyZTVjZWY3ZTQwLi5iNTQ5Y2U1ZTc2
+MDcgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1rbXMuYwo+
+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3Mta21zLmMKPiA+IEBAIC0yNiw3
+ICsyNiw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX21vZGVfY29uZmlnX2Z1bmNzIGRjc3Nf
+ZHJtX21vZGVfY29uZmlnX2Z1bmNzID0gewo+ID4gICAgICAgLmF0b21pY19jb21taXQgPSBkcm1f
+YXRvbWljX2hlbHBlcl9jb21taXQsCj4gPiAgfTsKPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBkcm1f
+ZHJpdmVyIGRjc3Nfa21zX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9k
+cml2ZXIgZGNzc19rbXNfZHJpdmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyAgICAg
+ICAgPSBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9HRU0gfCBEUklWRVJfQVRPTUlDLAo+ID4gICAg
+ICAgRFJNX0dFTV9DTUFfRFJJVkVSX09QUywKPiA+ICAgICAgIC5mb3BzICAgICAgICAgICAgICAg
+ICAgID0gJmRjc3NfY21hX2ZvcHMsCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2lt
+eC9pbXgtZHJtLWNvcmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMKPiA+
+IGluZGV4IDE4M2YyZTkxODgxZC4uNzA5MGI4MmU3ZWEyIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2lteC9pbXgtZHJtLWNvcmUuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2lt
+eC9pbXgtZHJtLWNvcmUuYwo+ID4gQEAgLTE0Myw3ICsxNDMsNyBAQCBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGRybV9pb2N0bF9kZXNjIGlteF9kcm1faW9jdGxzW10gPSB7Cj4gPiAgICAgICAvKiBub25l
+IHNvIGZhciAqLwo+ID4gIH07Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBpbXhf
+ZHJtX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgaW14X2Ry
+bV9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICA9IERSSVZFUl9N
+T0RFU0VUIHwgRFJJVkVSX0dFTSB8IERSSVZFUl9BVE9NSUMsCj4gPiAgICAgICBEUk1fR0VNX0NN
+QV9EUklWRVJfT1BTLAo+ID4gICAgICAgLmlvY3RscyAgICAgICAgICAgICAgICAgPSBpbXhfZHJt
+X2lvY3RscywKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmlj
+LWRybS1kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtZHJtLWRydi5jCj4g
+PiBpbmRleCAyMzI5NzU0YWYxMTYuLjA4MmNiOWU0NTkwOCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtZHJtLWRydi5jCj4gPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS1kcnYuYwo+ID4gQEAgLTcxMCw3ICs3MTAsNyBAQCBz
+dGF0aWMgdm9pZCBpbmdlbmljX2RybV9kaXNhYmxlX3ZibGFuayhzdHJ1Y3QgZHJtX2NydGMgKmNy
+dGMpCj4gPgo+ID4gIERFRklORV9EUk1fR0VNX0NNQV9GT1BTKGluZ2VuaWNfZHJtX2ZvcHMpOwo+
+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgaW5nZW5pY19kcm1fZHJpdmVyX2RhdGEg
+PSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIGluZ2VuaWNfZHJtX2RyaXZl
+cl9kYXRhID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyAgICAgICAgPSBEUklWRVJfTU9E
+RVNFVCB8IERSSVZFUl9HRU0gfCBEUklWRVJfQVRPTUlDLAo+ID4gICAgICAgLm5hbWUgICAgICAg
+ICAgICAgICAgICAgPSAiaW5nZW5pYy1kcm0iLAo+ID4gICAgICAgLmRlc2MgICAgICAgICAgICAg
+ICAgICAgPSAiRFJNIG1vZHVsZSBmb3IgSW5nZW5pYyBTb0NzIiwKPiA+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGlt
+YV9kcnYuYwo+ID4gaW5kZXggYWI0NjAxMjFmZDUyLi5kNDk3YWY5MWQ4NTAgMTAwNjQ0Cj4gPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vbGltYS9saW1hX2Rydi5jCj4gPiBAQCAtMjYxLDcgKzI2MSw3IEBAIERFRklORV9EUk1f
+R0VNX0ZPUFMobGltYV9kcm1fZHJpdmVyX2ZvcHMpOwo+ID4gICAqIC0gMS4xLjAgLSBhZGQgaGVh
+cCBidWZmZXIgc3VwcG9ydAo+ID4gICAqLwo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2
+ZXIgbGltYV9kcm1fZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZl
+ciBsaW1hX2RybV9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgID0gRFJJ
+VkVSX1JFTkRFUiB8IERSSVZFUl9HRU0gfCBEUklWRVJfU1lOQ09CSiwKPiA+ICAgICAgIC5vcGVu
+ICAgICAgICAgICAgICAgPSBsaW1hX2RybV9kcml2ZXJfb3BlbiwKPiA+ICAgICAgIC5wb3N0Y2xv
+c2UgICAgICAgICAgPSBsaW1hX2RybV9kcml2ZXJfcG9zdGNsb3NlLAo+ID4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9tY2RlL21jZGVfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWNkZS9t
+Y2RlX2Rydi5jCj4gPiBpbmRleCBmOWI1ZjQ1MGE5Y2IuLjg3MDYyNmUwNGVjMCAxMDA2NDQKPiA+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tY2RlL21jZGVfZHJ2LmMKPiA+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9tY2RlL21jZGVfZHJ2LmMKPiA+IEBAIC0xNzgsNyArMTc4LDcgQEAgc3RhdGljIGlu
+dCBtY2RlX21vZGVzZXRfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtKQo+ID4KPiA+ICBERUZJ
+TkVfRFJNX0dFTV9DTUFfRk9QUyhkcm1fZm9wcyk7Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJt
+X2RyaXZlciBtY2RlX2RybV9kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1f
+ZHJpdmVyIG1jZGVfZHJtX2RyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgPQo+
+ID4gICAgICAgICAgICAgICBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9HRU0gfCBEUklWRVJfQVRP
+TUlDLAo+ID4gICAgICAgLmxhc3RjbG9zZSA9IGRybV9mYl9oZWxwZXJfbGFzdGNsb3NlLAo+ID4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jIGIvZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMKPiA+IGluZGV4IDdmMzM5OGE3YzJi
+MC4uMmU4MDY1YjFlMmJiIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19kcm1fZHJ2LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJt
+X2Rydi5jCj4gPiBAQCAtMzIxLDcgKzMyMSw3IEBAIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqbXRr
+X2RybV9nZW1fcHJpbWVfaW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gPiAgICAgICBy
+ZXR1cm4gZHJtX2dlbV9wcmltZV9pbXBvcnRfZGV2KGRldiwgZG1hX2J1ZiwgcHJpdmF0ZS0+ZG1h
+X2Rldik7Cj4gPiAgfQo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgbXRrX2RybV9k
+cml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIG10a19kcm1fZHJp
+dmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyA9IERSSVZFUl9NT0RFU0VUIHwgRFJJ
+VkVSX0dFTSB8IERSSVZFUl9BVE9NSUMsCj4gPgo+ID4gICAgICAgLmR1bWJfY3JlYXRlID0gbXRr
+X2RybV9nZW1fZHVtYl9jcmVhdGUsCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21l
+c29uL21lc29uX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2Rydi5jCj4gPiBp
+bmRleCA4YjljOGRkNzg4YzQuLmRjODUwOWNlYjc4NyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9tZXNvbi9tZXNvbl9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lc29u
+L21lc29uX2Rydi5jCj4gPiBAQCAtOTAsNyArOTAsNyBAQCBzdGF0aWMgaW50IG1lc29uX2R1bWJf
+Y3JlYXRlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwgc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+
+Cj4gPiAgREVGSU5FX0RSTV9HRU1fQ01BX0ZPUFMoZm9wcyk7Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1
+Y3QgZHJtX2RyaXZlciBtZXNvbl9kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBk
+cm1fZHJpdmVyIG1lc29uX2RyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgICAg
+ICAgID0gRFJJVkVSX0dFTSB8IERSSVZFUl9NT0RFU0VUIHwgRFJJVkVSX0FUT01JQywKPiA+Cj4g
+PiAgICAgICAvKiBJUlEgKi8KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIw
+MC9tZ2FnMjAwX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYwo+
+ID4gaW5kZXggNzcxYjI2YWVlZTE5Li4wZjA3ZjI1OTUwM2QgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jCj4gPiBAQCAtMjgsNyArMjgsNyBAQCBtb2R1bGVfcGFy
+YW1fbmFtZWQobW9kZXNldCwgbWdhZzIwMF9tb2Rlc2V0LCBpbnQsIDA0MDApOwo+ID4KPiA+ICBE
+RUZJTkVfRFJNX0dFTV9GT1BTKG1nYWcyMDBfZHJpdmVyX2ZvcHMpOwo+ID4KPiA+IC1zdGF0aWMg
+c3RydWN0IGRybV9kcml2ZXIgbWdhZzIwMF9kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0
+cnVjdCBkcm1fZHJpdmVyIG1nYWcyMDBfZHJpdmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0
+dXJlcyA9IERSSVZFUl9BVE9NSUMgfCBEUklWRVJfR0VNIHwgRFJJVkVSX01PREVTRVQsCj4gPiAg
+ICAgICAuZm9wcyA9ICZtZ2FnMjAwX2RyaXZlcl9mb3BzLAo+ID4gICAgICAgLm5hbWUgPSBEUklW
+RVJfTkFNRSwKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9kcnYuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2Rydi5jCj4gPiBpbmRleCBhYTQ1MDk3NjZkNjQuLmY4
+ZmQzMWU3MDliYiAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2Rydi5j
+Cj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9kcnYuYwo+ID4gQEAgLTM5Myw3ICsz
+OTMsNyBAQCBzdGF0aWMgaW50IG1zbV9pbml0X3ZyYW0oc3RydWN0IGRybV9kZXZpY2UgKmRldikK
+PiA+ICAgICAgIHJldHVybiByZXQ7Cj4gPiAgfQo+ID4KPiA+IC1zdGF0aWMgaW50IG1zbV9kcm1f
+aW5pdChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fZHJpdmVyICpkcnYpCj4gPiArc3Rh
+dGljIGludCBtc21fZHJtX2luaXQoc3RydWN0IGRldmljZSAqZGV2LCBjb25zdCBzdHJ1Y3QgZHJt
+X2RyaXZlciAqZHJ2KQo+ID4gIHsKPiA+ICAgICAgIHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBk
+ZXYgPSB0b19wbGF0Zm9ybV9kZXZpY2UoZGV2KTsKPiA+ICAgICAgIHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZGV2Owo+ID4gQEAgLTk4NCw3ICs5ODQsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVf
+b3BlcmF0aW9ucyBmb3BzID0gewo+ID4gICAgICAgLm1tYXAgICAgICAgICAgICAgICA9IG1zbV9n
+ZW1fbW1hcCwKPiA+ICB9Owo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgbXNtX2Ry
+aXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgbXNtX2RyaXZlciA9
+IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgICAgPSBEUklWRVJfR0VNIHwKPiA+ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIERSSVZFUl9SRU5ERVIgfAo+ID4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgRFJJVkVSX0FUT01JQyB8Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL214c2ZiL214c2ZiX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2Zi
+X2Rydi5jCj4gPiBpbmRleCAzNTEyMmFlZjAzN2IuLjZmYWYxN2I2NDA4ZCAxMDA2NDQKPiA+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL214c2ZiL214c2ZiX2Rydi5jCj4gPiBAQCAtMjg5LDcgKzI4OSw3IEBAIHN0YXRpYyBp
+cnFyZXR1cm5fdCBteHNmYl9pcnFfaGFuZGxlcihpbnQgaXJxLCB2b2lkICpkYXRhKQo+ID4KPiA+
+ICBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUyhmb3BzKTsKPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBk
+cm1fZHJpdmVyIG14c2ZiX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9k
+cml2ZXIgbXhzZmJfZHJpdmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyAgICAgICAg
+PSBEUklWRVJfR0VNIHwgRFJJVkVSX01PREVTRVQgfCBEUklWRVJfQVRPTUlDLAo+ID4gICAgICAg
+LmlycV9oYW5kbGVyICAgICAgICAgICAgPSBteHNmYl9pcnFfaGFuZGxlciwKPiA+ICAgICAgIC5p
+cnFfcHJlaW5zdGFsbCAgICAgICAgID0gbXhzZmJfaXJxX2Rpc2FibGUsCj4gPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9v
+bWFwZHJtL29tYXBfZHJ2LmMKPiA+IGluZGV4IDJiODJhNzA4ZWNhNi4uMjFhNmNkM2Y1NDczIDEw
+MDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9kcnYuYwo+ID4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9kcnYuYwo+ID4gQEAgLTUzNCw3ICs1MzQs
+NyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBvbWFwZHJpdmVyX2ZvcHMg
+PSB7Cj4gPiAgICAgICAubGxzZWVrID0gbm9vcF9sbHNlZWssCj4gPiAgfTsKPiA+Cj4gPiAtc3Rh
+dGljIHN0cnVjdCBkcm1fZHJpdmVyIG9tYXBfZHJtX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29u
+c3Qgc3RydWN0IGRybV9kcml2ZXIgb21hcF9kcm1fZHJpdmVyID0gewo+ID4gICAgICAgLmRyaXZl
+cl9mZWF0dXJlcyA9IERSSVZFUl9NT0RFU0VUIHwgRFJJVkVSX0dFTSAgfAo+ID4gICAgICAgICAg
+ICAgICBEUklWRVJfQVRPTUlDIHwgRFJJVkVSX1JFTkRFUiwKPiA+ICAgICAgIC5vcGVuID0gZGV2
+X29wZW4sCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0
+X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jCj4gPiBpbmRl
+eCAzN2Q0Y2I3YTU0OTEuLmVkMTE2YmQzZDZkNiAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Bh
+bmZyb3N0L3BhbmZyb3N0X2Rydi5jCj4gPiBAQCAtNTQ4LDcgKzU0OCw3IEBAIERFRklORV9EUk1f
+R0VNX0ZPUFMocGFuZnJvc3RfZHJtX2RyaXZlcl9mb3BzKTsKPiA+ICAgKiAtIDEuMCAtIGluaXRp
+YWwgaW50ZXJmYWNlCj4gPiAgICogLSAxLjEgLSBhZGRzIEhFQVAgYW5kIE5PRVhFQyBmbGFncyBm
+b3IgQ1JFQVRFX0JPCj4gPiAgICovCj4gPiAtc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIHBhbmZy
+b3N0X2RybV9kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIHBh
+bmZyb3N0X2RybV9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICA9
+IERSSVZFUl9SRU5ERVIgfCBEUklWRVJfR0VNIHwgRFJJVkVSX1NZTkNPQkosCj4gPiAgICAgICAu
+b3BlbiAgICAgICAgICAgICAgICAgICA9IHBhbmZyb3N0X29wZW4sCj4gPiAgICAgICAucG9zdGNs
+b3NlICAgICAgICAgICAgICA9IHBhbmZyb3N0X3Bvc3RjbG9zZSwKPiA+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vcGwxMTEv
+cGwxMTFfZHJ2LmMKPiA+IGluZGV4IDM4OTljMjhmNDI4ZC4uMTBkOWExMmJlNjcyIDEwMDY0NAo+
+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2Rydi5jCj4gPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZHJ2LmMKPiA+IEBAIC0yMTMsNyArMjEzLDcgQEAgcGwx
+MTFfZ2VtX2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4KPiA+ICBE
+RUZJTkVfRFJNX0dFTV9DTUFfRk9QUyhkcm1fZm9wcyk7Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3Qg
+ZHJtX2RyaXZlciBwbDExMV9kcm1fZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qg
+ZHJtX2RyaXZlciBwbDExMV9kcm1fZHJpdmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJl
+cyA9Cj4gPiAgICAgICAgICAgICAgIERSSVZFUl9NT0RFU0VUIHwgRFJJVkVSX0dFTSB8IERSSVZF
+Ul9BVE9NSUMsCj4gPiAgICAgICAuaW9jdGxzID0gTlVMTCwKPiA+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24v
+cmFkZW9uX2Rydi5jCj4gPiBpbmRleCA5YzExZTM2YWQzM2EuLmJmYWRiNzk5ZDZhMyAxMDA2NDQK
+PiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rydi5jCj4gPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYuYwo+ID4gQEAgLTI5Nyw3ICsyOTcsNyBA
+QCBzdGF0aWMgc3RydWN0IHBjaV9kZXZpY2VfaWQgcGNpaWRsaXN0W10gPSB7Cj4gPgo+ID4gIE1P
+RFVMRV9ERVZJQ0VfVEFCTEUocGNpLCBwY2lpZGxpc3QpOwo+ID4KPiA+IC1zdGF0aWMgc3RydWN0
+IGRybV9kcml2ZXIga21zX2RyaXZlcjsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2
+ZXIga21zX2RyaXZlcjsKPiA+Cj4gPiAgYm9vbCByYWRlb25fZGV2aWNlX2lzX3ZpcnR1YWwodm9p
+ZCk7Cj4gPgo+ID4gQEAgLTYyOSw3ICs2MjksNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9p
+b2N0bF9kZXNjIHJhZGVvbl9pb2N0bHNfa21zW10gPSB7Cj4gPiAgICAgICBEUk1fSU9DVExfREVG
+X0RSVihSQURFT05fR0VNX1VTRVJQVFIsIHJhZGVvbl9nZW1fdXNlcnB0cl9pb2N0bCwgRFJNX0FV
+VEh8RFJNX1JFTkRFUl9BTExPVyksCj4gPiAgfTsKPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBkcm1f
+ZHJpdmVyIGttc19kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVy
+IGttc19kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzID0KPiA+ICAgICAgICAg
+ICBEUklWRVJfR0VNIHwgRFJJVkVSX1JFTkRFUiB8IERSSVZFUl9NT0RFU0VULAo+ID4gICAgICAg
+LmxvYWQgPSByYWRlb25fZHJpdmVyX2xvYWRfa21zLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9y
+Y2FyX2R1X2Rydi5jCj4gPiBpbmRleCA0NDdiZTk5MWZhMjUuLjYwMDA1NmRmZjM3NCAxMDA2NDQK
+PiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfZHJ2LmMKPiA+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfZHJ2LmMKPiA+IEBAIC01MDcsNyArNTA3
+LDcgQEAgTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgcmNhcl9kdV9vZl90YWJsZSk7Cj4gPgo+ID4g
+IERFRklORV9EUk1fR0VNX0NNQV9GT1BTKHJjYXJfZHVfZm9wcyk7Cj4gPgo+ID4gLXN0YXRpYyBz
+dHJ1Y3QgZHJtX2RyaXZlciByY2FyX2R1X2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGRybV9kcml2ZXIgcmNhcl9kdV9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1
+cmVzICAgICAgICA9IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9BVE9NSUMs
+Cj4gPiAgICAgICBEUk1fR0VNX0NNQV9EUklWRVJfT1BTX1dJVEhfRFVNQl9DUkVBVEUocmNhcl9k
+dV9kdW1iX2NyZWF0ZSksCj4gPiAgICAgICAuZm9wcyAgICAgICAgICAgICAgICAgICA9ICZyY2Fy
+X2R1X2ZvcHMsCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tj
+aGlwX2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZHJ2
+LmMKPiA+IGluZGV4IGI3NjU0ZjVlNDIyNS4uMjEyYmQ4N2MwYzRhIDEwMDY0NAo+ID4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9kcnYuYwo+ID4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9kcnYuYwo+ID4gQEAgLTM1LDcgKzM1
+LDcgQEAKPiA+ICAjZGVmaW5lIERSSVZFUl9NSU5PUiAwCj4gPgo+ID4gIHN0YXRpYyBib29sIGlz
+X3N1cHBvcnRfaW9tbXUgPSB0cnVlOwo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciByb2Nr
+Y2hpcF9kcm1fZHJpdmVyOwo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciByb2Nr
+Y2hpcF9kcm1fZHJpdmVyOwo+ID4KPiA+ICAvKgo+ID4gICAqIEF0dGFjaCBhIChjb21wb25lbnQp
+IGRldmljZSB0byB0aGUgc2hhcmVkIGRybSBkbWEgbWFwcGluZyBmcm9tIG1hc3RlciBkcm0KPiA+
+IEBAIC0yMDksNyArMjA5LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMg
+cm9ja2NoaXBfZHJtX2RyaXZlcl9mb3BzID0gewo+ID4gICAgICAgLnJlbGVhc2UgPSBkcm1fcmVs
+ZWFzZSwKPiA+ICB9Owo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgcm9ja2NoaXBf
+ZHJtX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgcm9ja2No
+aXBfZHJtX2RyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgICAgICAgID0gRFJJ
+VkVSX01PREVTRVQgfCBEUklWRVJfR0VNIHwgRFJJVkVSX0FUT01JQywKPiA+ICAgICAgIC5sYXN0
+Y2xvc2UgICAgICAgICAgICAgID0gZHJtX2ZiX2hlbHBlcl9sYXN0Y2xvc2UsCj4gPiAgICAgICAu
+ZHVtYl9jcmVhdGUgICAgICAgICAgICA9IHJvY2tjaGlwX2dlbV9kdW1iX2NyZWF0ZSwKPiA+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2htb2JpbGUvc2htb2JfZHJtX2Rydi5jIGIvZHJp
+dmVycy9ncHUvZHJtL3NobW9iaWxlL3NobW9iX2RybV9kcnYuYwo+ID4gaW5kZXggMjZhMTVjMjE0
+YmQzLi4wYTAyYjcwOTJjMDQgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2htb2Jp
+bGUvc2htb2JfZHJtX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc2htb2JpbGUvc2ht
+b2JfZHJtX2Rydi5jCj4gPiBAQCAtMTI4LDcgKzEyOCw3IEBAIHN0YXRpYyBpcnFyZXR1cm5fdCBz
+aG1vYl9kcm1faXJxKGludCBpcnEsIHZvaWQgKmFyZykKPiA+Cj4gPiAgREVGSU5FX0RSTV9HRU1f
+Q01BX0ZPUFMoc2htb2JfZHJtX2ZvcHMpOwo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2
+ZXIgc2htb2JfZHJtX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2
+ZXIgc2htb2JfZHJtX2RyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgICAgICAg
+ID0gRFJJVkVSX0dFTSB8IERSSVZFUl9NT0RFU0VULAo+ID4gICAgICAgLmlycV9oYW5kbGVyICAg
+ICAgICAgICAgPSBzaG1vYl9kcm1faXJxLAo+ID4gICAgICAgRFJNX0dFTV9DTUFfRFJJVkVSX09Q
+UywKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9kcnYuYyBiL2RyaXZl
+cnMvZ3B1L2RybS9zdGkvc3RpX2Rydi5jCj4gPiBpbmRleCAzZjU0ZWZhMzYwOTguLmM3ZWZiNDNi
+ODNlZSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2Rydi5jCj4gPiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9kcnYuYwo+ID4gQEAgLTEzMCw3ICsxMzAsNyBA
+QCBzdGF0aWMgdm9pZCBzdGlfbW9kZV9jb25maWdfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+KQo+ID4KPiA+ICBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUyhzdGlfZHJpdmVyX2ZvcHMpOwo+ID4K
+PiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgc3RpX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMg
+Y29uc3Qgc3RydWN0IGRybV9kcml2ZXIgc3RpX2RyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJf
+ZmVhdHVyZXMgPSBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9HRU0gfCBEUklWRVJfQVRPTUlDLAo+
+ID4gICAgICAgLmZvcHMgPSAmc3RpX2RyaXZlcl9mb3BzLAo+ID4gICAgICAgRFJNX0dFTV9DTUFf
+RFJJVkVSX09QUywKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3RtL2Rydi5jIGIv
+ZHJpdmVycy9ncHUvZHJtL3N0bS9kcnYuYwo+ID4gaW5kZXggNDExMTAzZjAxM2UyLi4yMjI4Njli
+MjMyYWUgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3RtL2Rydi5jCj4gPiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vc3RtL2Rydi5jCj4gPiBAQCAtNTMsNyArNTMsNyBAQCBzdGF0aWMg
+aW50IHN0bV9nZW1fY21hX2R1bWJfY3JlYXRlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwKPiA+Cj4g
+PiAgREVGSU5FX0RSTV9HRU1fQ01BX0ZPUFMoZHJ2X2RyaXZlcl9mb3BzKTsKPiA+Cj4gPiAtc3Rh
+dGljIHN0cnVjdCBkcm1fZHJpdmVyIGRydl9kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0
+cnVjdCBkcm1fZHJpdmVyIGRydl9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVz
+ID0gRFJJVkVSX01PREVTRVQgfCBEUklWRVJfR0VNIHwgRFJJVkVSX0FUT01JQywKPiA+ICAgICAg
+IC5uYW1lID0gInN0bSIsCj4gPiAgICAgICAuZGVzYyA9ICJTVE1pY3JvZWxlY3Ryb25pY3MgU29D
+IERSTSIsCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2Rydi5j
+IGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2Rydi5jCj4gPiBpbmRleCAyOTg2MWZjODFi
+MzUuLjkxNTAyOTM3ZjI2ZCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9z
+dW40aV9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2Rydi5jCj4g
+PiBAQCAtNDAsNyArNDAsNyBAQCBzdGF0aWMgaW50IGRybV9zdW40aV9nZW1fZHVtYl9jcmVhdGUo
+c3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsCj4gPgo+ID4gIERFRklORV9EUk1fR0VNX0NNQV9G
+T1BTKHN1bjRpX2Rydl9mb3BzKTsKPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIHN1
+bjRpX2Rydl9kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIHN1
+bjRpX2Rydl9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICA9IERS
+SVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9BVE9NSUMsCj4gPgo+ID4gICAgICAg
+LyogR2VuZXJpYyBPcGVyYXRpb25zICovCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3RlZ3JhL2RybS5jIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RybS5jCj4gPiBpbmRleCAyNGYz
+NTNjMWNlZTguLmFlMTNhM2ZmOGE4NyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90
+ZWdyYS9kcm0uYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RybS5jCj4gPiBAQCAt
+ODUwLDcgKzg1MCw3IEBAIHN0YXRpYyB2b2lkIHRlZ3JhX2RlYnVnZnNfaW5pdChzdHJ1Y3QgZHJt
+X21pbm9yICptaW5vcikKPiA+ICB9Cj4gPiAgI2VuZGlmCj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3Qg
+ZHJtX2RyaXZlciB0ZWdyYV9kcm1fZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qg
+ZHJtX2RyaXZlciB0ZWdyYV9kcm1fZHJpdmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJl
+cyA9IERSSVZFUl9NT0RFU0VUIHwgRFJJVkVSX0dFTSB8Cj4gPiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgRFJJVkVSX0FUT01JQyB8IERSSVZFUl9SRU5ERVIsCj4gPiAgICAgICAub3BlbiA9IHRl
+Z3JhX2RybV9vcGVuLAo+ID4gQEAgLTEwODQsMTIgKzEwODQsMTEgQEAgc3RhdGljIGJvb2wgaG9z
+dDF4X2RybV93YW50c19pb21tdShzdHJ1Y3QgaG9zdDF4X2RldmljZSAqZGV2KQo+ID4KPiA+ICBz
+dGF0aWMgaW50IGhvc3QxeF9kcm1fcHJvYmUoc3RydWN0IGhvc3QxeF9kZXZpY2UgKmRldikKPiA+
+ICB7Cj4gPiAtICAgICBzdHJ1Y3QgZHJtX2RyaXZlciAqZHJpdmVyID0gJnRlZ3JhX2RybV9kcml2
+ZXI7Cj4gPiAgICAgICBzdHJ1Y3QgdGVncmFfZHJtICp0ZWdyYTsKPiA+ICAgICAgIHN0cnVjdCBk
+cm1fZGV2aWNlICpkcm07Cj4gPiAgICAgICBpbnQgZXJyOwo+ID4KPiA+IC0gICAgIGRybSA9IGRy
+bV9kZXZfYWxsb2MoZHJpdmVyLCAmZGV2LT5kZXYpOwo+ID4gKyAgICAgZHJtID0gZHJtX2Rldl9h
+bGxvYygmdGVncmFfZHJtX2RyaXZlciwgJmRldi0+ZGV2KTsKPiA+ICAgICAgIGlmIChJU19FUlIo
+ZHJtKSkKPiA+ICAgICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIoZHJtKTsKPiA+Cj4gPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2Rydi5jIGIvZHJpdmVycy9ncHUv
+ZHJtL3RpZHNzL3RpZHNzX2Rydi5jCj4gPiBpbmRleCA5MTc5ZWExOGY2MjUuLjY2ZTNjODZlYjVj
+NyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19kcnYuYwo+ID4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX2Rydi5jCj4gPiBAQCAtMTA4LDcgKzEw
+OCw3IEBAIHN0YXRpYyB2b2lkIHRpZHNzX3JlbGVhc2Uoc3RydWN0IGRybV9kZXZpY2UgKmRkZXYp
+Cj4gPgo+ID4gIERFRklORV9EUk1fR0VNX0NNQV9GT1BTKHRpZHNzX2ZvcHMpOwo+ID4KPiA+IC1z
+dGF0aWMgc3RydWN0IGRybV9kcml2ZXIgdGlkc3NfZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25z
+dCBzdHJ1Y3QgZHJtX2RyaXZlciB0aWRzc19kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2Zl
+YXR1cmVzICAgICAgICA9IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9BVE9N
+SUMsCj4gPiAgICAgICAuZm9wcyAgICAgICAgICAgICAgICAgICA9ICZ0aWRzc19mb3BzLAo+ID4g
+ICAgICAgLnJlbGVhc2UgICAgICAgICAgICAgICAgPSB0aWRzc19yZWxlYXNlLAo+ID4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aWxjZGMvdGlsY2RjX2Rydi5jIGIvZHJpdmVycy9ncHUv
+ZHJtL3RpbGNkYy90aWxjZGNfZHJ2LmMKPiA+IGluZGV4IGM1ZjgyZTY5M2YxYS4uMTM3Zjc0ZjYx
+M2FiIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3RpbGNkYy90aWxjZGNfZHJ2LmMK
+PiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90aWxjZGMvdGlsY2RjX2Rydi5jCj4gPiBAQCAtMTY2
+LDcgKzE2Niw3IEBAIHN0YXRpYyB2b2lkIHRpbGNkY19maW5pKHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYpCj4gPiAgICAgICBkcm1fZGV2X3B1dChkZXYpOwo+ID4gIH0KPiA+Cj4gPiAtc3RhdGljIGlu
+dCB0aWxjZGNfaW5pdChzdHJ1Y3QgZHJtX2RyaXZlciAqZGRydiwgc3RydWN0IGRldmljZSAqZGV2
+KQo+ID4gK3N0YXRpYyBpbnQgdGlsY2RjX2luaXQoY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgKmRk
+cnYsIHN0cnVjdCBkZXZpY2UgKmRldikKPiA+ICB7Cj4gPiAgICAgICBzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGRldjsKPiA+ICAgICAgIHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYgPSB0b19wbGF0
+Zm9ybV9kZXZpY2UoZGV2KTsKPiA+IEBAIC00NTIsNyArNDUyLDcgQEAgc3RhdGljIHZvaWQgdGls
+Y2RjX2RlYnVnZnNfaW5pdChzdHJ1Y3QgZHJtX21pbm9yICptaW5vcikKPiA+Cj4gPiAgREVGSU5F
+X0RSTV9HRU1fQ01BX0ZPUFMoZm9wcyk7Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZl
+ciB0aWxjZGNfZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciB0
+aWxjZGNfZHJpdmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyAgICA9IERSSVZFUl9H
+RU0gfCBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9BVE9NSUMsCj4gPiAgICAgICAuaXJxX2hhbmRs
+ZXIgICAgICAgID0gdGlsY2RjX2lycSwKPiA+ICAgICAgIERSTV9HRU1fQ01BX0RSSVZFUl9PUFMs
+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvY2lycnVzLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vdGlueS9jaXJydXMuYwo+ID4gaW5kZXggNzU5YTVhNjZkZDBiLi5lNTY0MTk2OWMx
+ODEgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9jaXJydXMuYwo+ID4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL3RpbnkvY2lycnVzLmMKPiA+IEBAIC01MzYsNyArNTM2LDcgQEAg
+c3RhdGljIGludCBjaXJydXNfbW9kZV9jb25maWdfaW5pdChzdHJ1Y3QgY2lycnVzX2RldmljZSAq
+Y2lycnVzKQo+ID4KPiA+ICBERUZJTkVfRFJNX0dFTV9GT1BTKGNpcnJ1c19mb3BzKTsKPiA+Cj4g
+PiAtc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGNpcnJ1c19kcml2ZXIgPSB7Cj4gPiArc3RhdGlj
+IGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIGNpcnJ1c19kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJp
+dmVyX2ZlYXR1cmVzID0gRFJJVkVSX01PREVTRVQgfCBEUklWRVJfR0VNIHwgRFJJVkVSX0FUT01J
+QywKPiA+Cj4gPiAgICAgICAubmFtZSAgICAgICAgICAgID0gRFJJVkVSX05BTUUsCj4gPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvZ20xMnUzMjAuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS90aW55L2dtMTJ1MzIwLmMKPiA+IGluZGV4IGNjMzk3NjcxZjY4OS4uNWE5NTNjNGNlMjY1IDEw
+MDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvZ20xMnUzMjAuYwo+ID4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3RpbnkvZ20xMnUzMjAuYwo+ID4gQEAgLTYwMCw3ICs2MDAsNyBAQCBz
+dGF0aWMgY29uc3QgdWludDY0X3QgZ20xMnUzMjBfcGlwZV9tb2RpZmllcnNbXSA9IHsKPiA+Cj4g
+PiAgREVGSU5FX0RSTV9HRU1fRk9QUyhnbTEydTMyMF9mb3BzKTsKPiA+Cj4gPiAtc3RhdGljIHN0
+cnVjdCBkcm1fZHJpdmVyIGdtMTJ1MzIwX2RybV9kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0
+IHN0cnVjdCBkcm1fZHJpdmVyIGdtMTJ1MzIwX2RybV9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJp
+dmVyX2ZlYXR1cmVzID0gRFJJVkVSX01PREVTRVQgfCBEUklWRVJfR0VNIHwgRFJJVkVSX0FUT01J
+QywKPiA+Cj4gPiAgICAgICAubmFtZSAgICAgICAgICAgID0gRFJJVkVSX05BTUUsCj4gPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvaHg4MzU3ZC5jIGIvZHJpdmVycy9ncHUvZHJt
+L3RpbnkvaHg4MzU3ZC5jCj4gPiBpbmRleCAwOTk4MzA5YjBkOTUuLmM2NTI1Y2QwMmJjMiAxMDA2
+NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L2h4ODM1N2QuYwo+ID4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL3RpbnkvaHg4MzU3ZC5jCj4gPiBAQCAtMTkzLDcgKzE5Myw3IEBAIHN0YXRp
+YyBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSB5eDM1MGh2MTVfbW9kZSA9IHsKPiA+Cj4g
+PiAgREVGSU5FX0RSTV9HRU1fQ01BX0ZPUFMoaHg4MzU3ZF9mb3BzKTsKPiA+Cj4gPiAtc3RhdGlj
+IHN0cnVjdCBkcm1fZHJpdmVyIGh4ODM1N2RfZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25zdCBz
+dHJ1Y3QgZHJtX2RyaXZlciBoeDgzNTdkX2RyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVh
+dHVyZXMgICAgICAgID0gRFJJVkVSX0dFTSB8IERSSVZFUl9NT0RFU0VUIHwgRFJJVkVSX0FUT01J
+QywKPiA+ICAgICAgIC5mb3BzICAgICAgICAgICAgICAgICAgID0gJmh4ODM1N2RfZm9wcywKPiA+
+ICAgICAgIERSTV9HRU1fQ01BX0RSSVZFUl9PUFNfVk1BUCwKPiA+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vdGlueS9pbGk5MjI1LmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9pbGk5MjI1
+LmMKPiA+IGluZGV4IDk3YTc3MjYyZDc5MS4uOGU5ODk2MmRiNWEyIDEwMDY0NAo+ID4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3RpbnkvaWxpOTIyNS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+dGlueS9pbGk5MjI1LmMKPiA+IEBAIC0zMzcsNyArMzM3LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVj
+dCBkcm1fZGlzcGxheV9tb2RlIGlsaTkyMjVfbW9kZSA9IHsKPiA+Cj4gPiAgREVGSU5FX0RSTV9H
+RU1fQ01BX0ZPUFMoaWxpOTIyNV9mb3BzKTsKPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBkcm1fZHJp
+dmVyIGlsaTkyMjVfZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZl
+ciBpbGk5MjI1X2RyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgICAgICAgID0g
+RFJJVkVSX0dFTSB8IERSSVZFUl9NT0RFU0VUIHwgRFJJVkVSX0FUT01JQywKPiA+ICAgICAgIC5m
+b3BzICAgICAgICAgICAgICAgICAgID0gJmlsaTkyMjVfZm9wcywKPiA+ICAgICAgIERSTV9HRU1f
+Q01BX0RSSVZFUl9PUFNfVk1BUCwKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlu
+eS9pbGk5MzQxLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9pbGk5MzQxLmMKPiA+IGluZGV4IGQz
+OWMzOWRmNTZhZC4uNmNlOTdmMDY5OGViIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3RpbnkvaWxpOTM0MS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9pbGk5MzQxLmMK
+PiA+IEBAIC0xNDksNyArMTQ5LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9t
+b2RlIHl4MjQwcXYyOV9tb2RlID0gewo+ID4KPiA+ICBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUyhp
+bGk5MzQxX2ZvcHMpOwo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgaWxpOTM0MV9k
+cml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIGlsaTkzNDFfZHJp
+dmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyAgICAgICAgPSBEUklWRVJfR0VNIHwg
+RFJJVkVSX01PREVTRVQgfCBEUklWRVJfQVRPTUlDLAo+ID4gICAgICAgLmZvcHMgICAgICAgICAg
+ICAgICAgICAgPSAmaWxpOTM0MV9mb3BzLAo+ID4gICAgICAgRFJNX0dFTV9DTUFfRFJJVkVSX09Q
+U19WTUFQLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aW55L2lsaTk0ODYuYyBi
+L2RyaXZlcnMvZ3B1L2RybS90aW55L2lsaTk0ODYuYwo+ID4gaW5kZXggNDAzYWY2OGZhNDQwLi5k
+N2NlNDBlYjE2NmEgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9pbGk5NDg2
+LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L2lsaTk0ODYuYwo+ID4gQEAgLTE2Miw3
+ICsxNjIsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgd2F2ZXNoYXJl
+X21vZGUgPSB7Cj4gPgo+ID4gIERFRklORV9EUk1fR0VNX0NNQV9GT1BTKGlsaTk0ODZfZm9wcyk7
+Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBpbGk5NDg2X2RyaXZlciA9IHsKPiA+
+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgaWxpOTQ4Nl9kcml2ZXIgPSB7Cj4gPiAg
+ICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICA9IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNF
+VCB8IERSSVZFUl9BVE9NSUMsCj4gPiAgICAgICAuZm9wcyAgICAgICAgICAgICAgICAgICA9ICZp
+bGk5NDg2X2ZvcHMsCj4gPiAgICAgICBEUk1fR0VNX0NNQV9EUklWRVJfT1BTX1ZNQVAsCj4gPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvbWkwMjgzcXQuYyBiL2RyaXZlcnMvZ3B1
+L2RybS90aW55L21pMDI4M3F0LmMKPiA+IGluZGV4IDIxMzFiNDI2OGMwMC4uZmY3N2Y5ODNmODAz
+IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvbWkwMjgzcXQuYwo+ID4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL3RpbnkvbWkwMjgzcXQuYwo+ID4gQEAgLTE1Myw3ICsxNTMsNyBA
+QCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgbWkwMjgzcXRfbW9kZSA9IHsK
+PiA+Cj4gPiAgREVGSU5FX0RSTV9HRU1fQ01BX0ZPUFMobWkwMjgzcXRfZm9wcyk7Cj4gPgo+ID4g
+LXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBtaTAyODNxdF9kcml2ZXIgPSB7Cj4gPiArc3RhdGlj
+IGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIG1pMDI4M3F0X2RyaXZlciA9IHsKPiA+ICAgICAgIC5k
+cml2ZXJfZmVhdHVyZXMgICAgICAgID0gRFJJVkVSX0dFTSB8IERSSVZFUl9NT0RFU0VUIHwgRFJJ
+VkVSX0FUT01JQywKPiA+ICAgICAgIC5mb3BzICAgICAgICAgICAgICAgICAgID0gJm1pMDI4M3F0
+X2ZvcHMsCj4gPiAgICAgICBEUk1fR0VNX0NNQV9EUklWRVJfT1BTX1ZNQVAsCj4gPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvcmVwYXBlci5jIGIvZHJpdmVycy9ncHUvZHJtL3Rp
+bnkvcmVwYXBlci5jCj4gPiBpbmRleCAyZTAxY2YwYTk4NzYuLjExYzYwMmZjOTg5NyAxMDA2NDQK
+PiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3JlcGFwZXIuYwo+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL3RpbnkvcmVwYXBlci5jCj4gPiBAQCAtOTM2LDcgKzkzNiw3IEBAIHN0YXRpYyBj
+b25zdCB1OCByZXBhcGVyX2UyMjcxY3MwMjFfY3NbXSA9IHsgMHgwMCwgMHgwMCwgMHgwMCwgMHg3
+ZiwKPiA+Cj4gPiAgREVGSU5FX0RSTV9HRU1fQ01BX0ZPUFMocmVwYXBlcl9mb3BzKTsKPiA+Cj4g
+PiAtc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIHJlcGFwZXJfZHJpdmVyID0gewo+ID4gK3N0YXRp
+YyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciByZXBhcGVyX2RyaXZlciA9IHsKPiA+ICAgICAgIC5k
+cml2ZXJfZmVhdHVyZXMgICAgICAgID0gRFJJVkVSX0dFTSB8IERSSVZFUl9NT0RFU0VUIHwgRFJJ
+VkVSX0FUT01JQywKPiA+ICAgICAgIC5mb3BzICAgICAgICAgICAgICAgICAgID0gJnJlcGFwZXJf
+Zm9wcywKPiA+ICAgICAgIERSTV9HRU1fQ01BX0RSSVZFUl9PUFNfVk1BUCwKPiA+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9zdDc1ODYuYyBiL2RyaXZlcnMvZ3B1L2RybS90aW55
+L3N0NzU4Ni5jCj4gPiBpbmRleCBkMDVkZTAzODkxZjguLmZmNWNmNjBmNGJkNyAxMDA2NDQKPiA+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3N0NzU4Ni5jCj4gPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vdGlueS9zdDc1ODYuYwo+ID4gQEAgLTI3Nyw3ICsyNzcsNyBAQCBzdGF0aWMgY29uc3Qg
+c3RydWN0IGRybV9kaXNwbGF5X21vZGUgc3Q3NTg2X21vZGUgPSB7Cj4gPgo+ID4gIERFRklORV9E
+Uk1fR0VNX0NNQV9GT1BTKHN0NzU4Nl9mb3BzKTsKPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBkcm1f
+ZHJpdmVyIHN0NzU4Nl9kcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJp
+dmVyIHN0NzU4Nl9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICA9
+IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9BVE9NSUMsCj4gPiAgICAgICAu
+Zm9wcyAgICAgICAgICAgICAgICAgICA9ICZzdDc1ODZfZm9wcywKPiA+ICAgICAgIERSTV9HRU1f
+Q01BX0RSSVZFUl9PUFNfVk1BUCwKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlu
+eS9zdDc3MzVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zdDc3MzVyLmMKPiA+IGluZGV4IGEw
+ZjY4OGYwZDA1MC4uMmM3N2Q5YWI3ZThkIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3Rpbnkvc3Q3NzM1ci5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zdDc3MzVyLmMK
+PiA+IEBAIC0xNTQsNyArMTU0LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBzdDc3MzVyX2NmZyBy
+aDEyODEyOHRfY2ZnID0gewo+ID4KPiA+ICBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUyhzdDc3MzVy
+X2ZvcHMpOwo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgc3Q3NzM1cl9kcml2ZXIg
+PSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIHN0NzczNXJfZHJpdmVyID0g
+ewo+ID4gICAgICAgLmRyaXZlcl9mZWF0dXJlcyAgICAgICAgPSBEUklWRVJfR0VNIHwgRFJJVkVS
+X01PREVTRVQgfCBEUklWRVJfQVRPTUlDLAo+ID4gICAgICAgLmZvcHMgICAgICAgICAgICAgICAg
+ICAgPSAmc3Q3NzM1cl9mb3BzLAo+ID4gICAgICAgRFJNX0dFTV9DTUFfRFJJVkVSX09QU19WTUFQ
+LAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dmUyMDAvdHZlMjAwX2Rydi5jIGIv
+ZHJpdmVycy9ncHUvZHJtL3R2ZTIwMC90dmUyMDBfZHJ2LmMKPiA+IGluZGV4IGI1MjU5Y2IxMzgz
+Zi4uMDcxNDBlMGI5MGEzIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R2ZTIwMC90
+dmUyMDBfZHJ2LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dmUyMDAvdHZlMjAwX2Rydi5j
+Cj4gPiBAQCAtMTM3LDcgKzEzNyw3IEBAIHN0YXRpYyBpbnQgdHZlMjAwX21vZGVzZXRfaW5pdChz
+dHJ1Y3QgZHJtX2RldmljZSAqZGV2KQo+ID4KPiA+ICBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUyhk
+cm1fZm9wcyk7Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciB0dmUyMDBfZHJtX2Ry
+aXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgdHZlMjAwX2RybV9k
+cml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzID0gRFJJVkVSX01PREVTRVQgfCBE
+UklWRVJfR0VNIHwgRFJJVkVSX0FUT01JQywKPiA+ICAgICAgIC5pb2N0bHMgPSBOVUxMLAo+ID4g
+ICAgICAgLmZvcHMgPSAmZHJtX2ZvcHMsCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L3VkbC91ZGxfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuYwo+ID4gaW5kZXgg
+OTZkNDMxN2EyYzFiLi40NmRmNGQwN2JkN2IgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vdWRsL3VkbF9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMK
+PiA+IEBAIC0zNCw3ICszNCw3IEBAIHN0YXRpYyBpbnQgdWRsX3VzYl9yZXN1bWUoc3RydWN0IHVz
+Yl9pbnRlcmZhY2UgKmludGVyZmFjZSkKPiA+Cj4gPiAgREVGSU5FX0RSTV9HRU1fRk9QUyh1ZGxf
+ZHJpdmVyX2ZvcHMpOwo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgZHJpdmVyID0g
+ewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBkcml2ZXIgPSB7Cj4gPiAgICAg
+ICAuZHJpdmVyX2ZlYXR1cmVzID0gRFJJVkVSX0FUT01JQyB8IERSSVZFUl9HRU0gfCBEUklWRVJf
+TU9ERVNFVCwKPiA+Cj4gPiAgICAgICAvKiBHRU0gaG9va3MgKi8KPiA+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2Ry
+di5jCj4gPiBpbmRleCA5ZjdjMjYxOTM4MzEuLjJkYTBjMTE4MGJjNiAxMDA2NDQKPiA+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+djNkL3YzZF9kcnYuYwo+ID4gQEAgLTE5NCw3ICsxOTQsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
+IGRybV9pb2N0bF9kZXNjIHYzZF9kcm1faW9jdGxzW10gPSB7Cj4gPiAgICAgICBEUk1fSU9DVExf
+REVGX0RSVihWM0RfU1VCTUlUX0NTRCwgdjNkX3N1Ym1pdF9jc2RfaW9jdGwsIERSTV9SRU5ERVJf
+QUxMT1cgfCBEUk1fQVVUSCksCj4gPiAgfTsKPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBkcm1fZHJp
+dmVyIHYzZF9kcm1fZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZl
+ciB2M2RfZHJtX2RyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgPSAoRFJJVkVS
+X0dFTSB8Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgIERSSVZFUl9SRU5ERVIgfAo+ID4g
+ICAgICAgICAgICAgICAgICAgICAgICAgICBEUklWRVJfU1lOQ09CSiksCj4gPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJt
+L3Zib3h2aWRlby92Ym94X2Rydi5jCj4gPiBpbmRleCBjZjJlM2U2YTIzODguLmYzZWFjNzJjYjQ2
+ZSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJveF9kcnYuYwo+
+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Zib3h2aWRlby92Ym94X2Rydi5jCj4gPiBAQCAtMjYs
+NyArMjYsNyBAQCBzdGF0aWMgaW50IHZib3hfbW9kZXNldCA9IC0xOwo+ID4gIE1PRFVMRV9QQVJN
+X0RFU0MobW9kZXNldCwgIkRpc2FibGUvRW5hYmxlIG1vZGVzZXR0aW5nIik7Cj4gPiAgbW9kdWxl
+X3BhcmFtX25hbWVkKG1vZGVzZXQsIHZib3hfbW9kZXNldCwgaW50LCAwNDAwKTsKPiA+Cj4gPiAt
+c3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGRyaXZlcjsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0
+IGRybV9kcml2ZXIgZHJpdmVyOwo+ID4KPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHBjaV9kZXZp
+Y2VfaWQgcGNpaWRsaXN0W10gPSB7Cj4gPiAgICAgICB7IFBDSV9ERVZJQ0UoMHg4MGVlLCAweGJl
+ZWYpIH0sCj4gPiBAQCAtMTc1LDcgKzE3NSw3IEBAIHN0YXRpYyBzdHJ1Y3QgcGNpX2RyaXZlciB2
+Ym94X3BjaV9kcml2ZXIgPSB7Cj4gPgo+ID4gIERFRklORV9EUk1fR0VNX0ZPUFModmJveF9mb3Bz
+KTsKPiA+Cj4gPiAtc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGRyaXZlciA9IHsKPiA+ICtzdGF0
+aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgZHJpdmVyID0gewo+ID4gICAgICAgLmRyaXZlcl9m
+ZWF0dXJlcyA9Cj4gPiAgICAgICAgICAgRFJJVkVSX01PREVTRVQgfCBEUklWRVJfR0VNIHwgRFJJ
+VkVSX0FUT01JQywKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZnZW0vdmdl
+bV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS92Z2VtL3ZnZW1fZHJ2LmMKPiA+IGluZGV4IGZhNTRh
+NmQxNDAzZC4uM2U5YjdhNGMzMGNlIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Zn
+ZW0vdmdlbV9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZnZW0vdmdlbV9kcnYuYwo+
+ID4gQEAgLTQxNSw3ICs0MTUsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9nZW1fb2JqZWN0
+X2Z1bmNzIHZnZW1fZ2VtX29iamVjdF9mdW5jcyA9IHsKPiA+ICAgICAgIC52bV9vcHMgPSAmdmdl
+bV9nZW1fdm1fb3BzLAo+ID4gIH07Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciB2
+Z2VtX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgdmdlbV9k
+cml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICAgICAgICAgID0gRFJJ
+VkVSX0dFTSB8IERSSVZFUl9SRU5ERVIsCj4gPiAgICAgICAub3BlbiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgID0gdmdlbV9vcGVuLAo+ID4gICAgICAgLnBvc3RjbG9zZSAgICAgICAgICAgICAg
+ICAgICAgICA9IHZnZW1fcG9zdGNsb3NlLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS92aXJ0aW8vdmlydGdwdV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9k
+cnYuYwo+ID4gaW5kZXggODYzMzBmMWFkZTcyLi4yN2YxM2JkMjljMTMgMTAwNjQ0Cj4gPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmMKPiA+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS92aXJ0aW8vdmlydGdwdV9kcnYuYwo+ID4gQEAgLTM3LDcgKzM3LDcgQEAKPiA+Cj4g
+PiAgI2luY2x1ZGUgInZpcnRncHVfZHJ2LmgiCj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2Ry
+aXZlciBkcml2ZXI7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIGRyaXZlcjsK
+PiA+Cj4gPiAgc3RhdGljIGludCB2aXJ0aW9fZ3B1X21vZGVzZXQgPSAtMTsKPiA+Cj4gPiBAQCAt
+MTkwLDcgKzE5MCw3IEBAIE1PRFVMRV9BVVRIT1IoIkFsb24gTGV2eSIpOwo+ID4KPiA+ICBERUZJ
+TkVfRFJNX0dFTV9GT1BTKHZpcnRpb19ncHVfZHJpdmVyX2ZvcHMpOwo+ID4KPiA+IC1zdGF0aWMg
+c3RydWN0IGRybV9kcml2ZXIgZHJpdmVyID0gewo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJt
+X2RyaXZlciBkcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzID0gRFJJVkVSX01P
+REVTRVQgfCBEUklWRVJfR0VNIHwgRFJJVkVSX1JFTkRFUiB8IERSSVZFUl9BVE9NSUMsCj4gPiAg
+ICAgICAub3BlbiA9IHZpcnRpb19ncHVfZHJpdmVyX29wZW4sCj4gPiAgICAgICAucG9zdGNsb3Nl
+ID0gdmlydGlvX2dwdV9kcml2ZXJfcG9zdGNsb3NlLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS92a21zL3ZrbXNfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5j
+Cj4gPiBpbmRleCA5OGJhODQ0YWU3N2QuLjgwNTZiM2QxZmY2YSAxMDA2NDQKPiA+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfZHJ2LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92
+a21zL3ZrbXNfZHJ2LmMKPiA+IEBAIC03OCw3ICs3OCw3IEBAIHN0YXRpYyB2b2lkIHZrbXNfYXRv
+bWljX2NvbW1pdF90YWlsKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpvbGRfc3RhdGUpCj4gPiAg
+ICAgICBkcm1fYXRvbWljX2hlbHBlcl9jbGVhbnVwX3BsYW5lcyhkZXYsIG9sZF9zdGF0ZSk7Cj4g
+PiAgfQo+ID4KPiA+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgdmttc19kcml2ZXIgPSB7Cj4g
+PiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyIHZrbXNfZHJpdmVyID0gewo+ID4gICAg
+ICAgLmRyaXZlcl9mZWF0dXJlcyAgICAgICAgPSBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9BVE9N
+SUMgfCBEUklWRVJfR0VNLAo+ID4gICAgICAgLnJlbGVhc2UgICAgICAgICAgICAgICAgPSB2a21z
+X3JlbGVhc2UsCj4gPiAgICAgICAuZm9wcyAgICAgICAgICAgICAgICAgICA9ICZ2a21zX2RyaXZl
+cl9mb3BzLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Ry
+di5jIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMKPiA+IGluZGV4IDY4MjA2
+ZDBhMTIzNy4uZTY2YjI1MmUzOTIzIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Zt
+d2dmeC92bXdnZnhfZHJ2LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4
+X2Rydi5jCj4gPiBAQCAtMTQ2NSw3ICsxNDY1LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxl
+X29wZXJhdGlvbnMgdm13Z2Z4X2RyaXZlcl9mb3BzID0gewo+ID4gICAgICAgLmdldF91bm1hcHBl
+ZF9hcmVhID0gdm13X2dldF91bm1hcHBlZF9hcmVhLAo+ID4gIH07Cj4gPgo+ID4gLXN0YXRpYyBz
+dHJ1Y3QgZHJtX2RyaXZlciBkcml2ZXIgPSB7Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1f
+ZHJpdmVyIGRyaXZlciA9IHsKPiA+ICAgICAgIC5kcml2ZXJfZmVhdHVyZXMgPQo+ID4gICAgICAg
+RFJJVkVSX01PREVTRVQgfCBEUklWRVJfUkVOREVSIHwgRFJJVkVSX0FUT01JQywKPiA+ICAgICAg
+IC5pb2N0bHMgPSB2bXdfaW9jdGxzLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94
+ZW4veGVuX2RybV9mcm9udC5jIGIvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250LmMK
+PiA+IGluZGV4IDk4YjZkMmJhMDg4YS4uMzBkOWFkZjMxYzg0IDEwMDY0NAo+ID4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS94ZW4veGVuX2RybV9mcm9udC5jCj4gPiBAQCAtNDgzLDcgKzQ4Myw3IEBAIHN0YXRpYyBjb25z
+dCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIHhlbl9kcm1fZGV2X2ZvcHMgPSB7Cj4gPiAgICAgICAu
+bW1hcCAgICAgICAgICAgPSB4ZW5fZHJtX2Zyb250X2dlbV9tbWFwLAo+ID4gIH07Cj4gPgo+ID4g
+LXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciB4ZW5fZHJtX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMg
+Y29uc3Qgc3RydWN0IGRybV9kcml2ZXIgeGVuX2RybV9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJp
+dmVyX2ZlYXR1cmVzICAgICAgICAgICA9IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCB8IERS
+SVZFUl9BVE9NSUMsCj4gPiAgICAgICAucmVsZWFzZSAgICAgICAgICAgICAgICAgICA9IHhlbl9k
+cm1fZHJ2X3JlbGVhc2UsCj4gPiAgICAgICAucHJpbWVfaGFuZGxlX3RvX2ZkICAgICAgICA9IGRy
+bV9nZW1fcHJpbWVfaGFuZGxlX3RvX2ZkLAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS94bG54L3p5bnFtcF9kcHN1Yi5jIGIvZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rwc3Vi
+LmMKPiA+IGluZGV4IGYzZmZjMzcwM2EwZS4uMGMxYzUwMjcxYTg4IDEwMDY0NAo+ID4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2Rwc3ViLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS94bG54L3p5bnFtcF9kcHN1Yi5jCj4gPiBAQCAtNzYsNyArNzYsNyBAQCBzdGF0aWMgY29u
+c3Qgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19mdW5jcyB6eW5xbXBfZHBzdWJfbW9kZV9jb25maWdf
+ZnVuY3MgPSB7Cj4gPgo+ID4gIERFRklORV9EUk1fR0VNX0NNQV9GT1BTKHp5bnFtcF9kcHN1Yl9k
+cm1fZm9wcyk7Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciB6eW5xbXBfZHBzdWJf
+ZHJtX2RyaXZlciA9IHsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgenlucW1w
+X2Rwc3ViX2RybV9kcml2ZXIgPSB7Cj4gPiAgICAgICAuZHJpdmVyX2ZlYXR1cmVzICAgICAgICAg
+ICAgICAgID0gRFJJVkVSX01PREVTRVQgfCBEUklWRVJfR0VNIHwKPiA+ICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBEUklWRVJfQVRPTUlDLAo+ID4KPiA+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0venRlL3p4X2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS96
+dGUvenhfZHJtX2Rydi5jCj4gPiBpbmRleCAzMTAxNGE0NTFmOGIuLjU1MDYzMzY1OTRlMiAxMDA2
+NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS96dGUvenhfZHJtX2Rydi5jCj4gPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0venRlL3p4X2RybV9kcnYuYwo+ID4gQEAgLTM0LDcgKzM0LDcgQEAgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBkcm1fbW9kZV9jb25maWdfZnVuY3MgenhfZHJtX21vZGVfY29uZmln
+X2Z1bmNzID0gewo+ID4KPiA+ICBERUZJTkVfRFJNX0dFTV9DTUFfRk9QUyh6eF9kcm1fZm9wcyk7
+Cj4gPgo+ID4gLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciB6eF9kcm1fZHJpdmVyID0gewo+ID4g
+K3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciB6eF9kcm1fZHJpdmVyID0gewo+ID4gICAg
+ICAgLmRyaXZlcl9mZWF0dXJlcyA9IERSSVZFUl9HRU0gfCBEUklWRVJfTU9ERVNFVCB8IERSSVZF
+Ul9BVE9NSUMsCj4gPiAgICAgICBEUk1fR0VNX0NNQV9EUklWRVJfT1BTLAo+ID4gICAgICAgLmZv
+cHMgPSAmenhfZHJtX2ZvcHMsCj4gPiAtLQo+ID4gMi4yOC4wCj4gPgo+ID4gX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+IGRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKPiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IGh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgoKCi0tIApEYW5p
+ZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxv
+Zy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
