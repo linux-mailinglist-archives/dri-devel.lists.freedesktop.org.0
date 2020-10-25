@@ -1,47 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146CE298347
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Oct 2020 20:02:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2BF298361
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Oct 2020 20:35:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 503B66E092;
-	Sun, 25 Oct 2020 19:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBA96E090;
+	Sun, 25 Oct 2020 19:35:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B296A6E092
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 19:02:09 +0000 (UTC)
-IronPort-SDR: BHlL1oiBdLxbAmN/WJa0a+Ksfcy47JyhjjF5bf30jSZlinx2yUUrQOpPocxcBiE74Ctb8+p3QA
- XoviPTw0p7BA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9785"; a="147704334"
-X-IronPort-AV: E=Sophos;i="5.77,416,1596524400"; d="scan'208";a="147704334"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Oct 2020 12:02:08 -0700
-IronPort-SDR: ZGcz3/ENZDuArUPjCAGCHcmp3RC35n5L3RtT+8axxuspkqdxpLTPO28KhpPoqmdzDyxvvg919J
- D5p3Sm4ZjxqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,416,1596524400"; d="scan'208";a="423916610"
-Received: from lkp-server01.sh.intel.com (HELO cda15bb6d7bd) ([10.239.97.150])
- by fmsmga001.fm.intel.com with ESMTP; 25 Oct 2020 12:02:07 -0700
-Received: from kbuild by cda15bb6d7bd with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1kWlHJ-000126-K0; Sun, 25 Oct 2020 19:02:05 +0000
-Date: Mon, 26 Oct 2020 03:01:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Madhav.Chauhan@amd.com, dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH] drm/ttm: ttm_pool_apply_caching() can be static
-Message-ID: <20201025190124.GA72848@3000059d93ee>
-References: <20201025154100.16400-6-christian.koenig@amd.com>
+Received: from abrecht.li (75-128-16-94.static.cable.fcom.ch [94.16.128.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B4626E090
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 19:35:21 +0000 (UTC)
+Received: from mail.abrecht.li (unknown [10.60.1.3])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by abrecht.li (Postfix) with ESMTPSA id B7C632D97C5F;
+ Sun, 25 Oct 2020 19:35:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 abrecht.li B7C632D97C5F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=danielabrecht.ch;
+ s=mail; t=1603654517;
+ bh=a5efiLUDrkeTEsCKZAvnApXCBqioTFwxOtE4nY4KXVA=; h=From:To:Cc:From;
+ b=j0E3ZjnFRJ/ZkcZm/ZKW6XW8BpyKYFZ0LH4FeGsbmY0Q3+vSNHm0z73x2IBFSVNPj
+ PvVWL7j4C0TFMYvW6TqpDvIOnShMqjdKJ/9Ak0QJSK8AQFQtPjYzf9llVKFvTa9id/
+ QDf42zvnIHT2YcZkmTM/hJzMFk/umD2ELCp+/P6k=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201025154100.16400-6-christian.koenig@amd.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Date: Sun, 25 Oct 2020 19:35:17 +0000
+From: Daniel Abrecht <freedesktop-linux-dri-devel@danielabrecht.ch>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm: mxsfb: Implement .format_mod_supported
+Message-ID: <c16280927b4e5c7386005bc3a463cfce@danielabrecht.ch>
+X-Sender: freedesktop-linux-dri-devel@danielabrecht.ch
+User-Agent: Roundcube Webmail/1.3.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,33 +44,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ray.Huang@amd.com, kbuild-all@lists.01.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Marek Vasut <marex@denx.de>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, kernel@pengutronix.de,
+ linux-imx@nxp.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This will make sure applications which use the IN_FORMATS blob
+to figure out which modifiers they can use will pick up the
+linear modifier which is needed by mxsfb. Such applications
+will not work otherwise if an incompatible implicit modifier
+ends up being selected.
 
-Signed-off-by: kernel test robot <lkp@intel.com>
+Before commit ae1ed0093281 ("drm: mxsfb: Stop using DRM simple
+display pipeline helper"), the DRM simple display pipeline
+helper took care of this.
+
+Signed-off-by: Daniel Abrecht <public@danielabrecht.ch>
+Fixes: ae1ed0093281 ("drm: mxsfb: Stop using DRM simple display pipeline 
+helper")
 ---
- ttm_pool.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 8 ++++++++
+  1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index 86bd173d93a52..a7818b3cd7c6e 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -151,8 +151,8 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
- }
- 
- /* Apply a new caching to an array of pages */
--int ttm_pool_apply_caching(struct page **first, struct page **last,
--			   enum ttm_caching caching)
-+static int ttm_pool_apply_caching(struct page **first, struct page **last,
-+				  enum ttm_caching caching)
- {
- #ifdef CONFIG_X86
- 	unsigned int num_pages = last - first;
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c 
+b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index 956f631997f2..fc4b1626261b 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -484,6 +484,13 @@ static void 
+mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
+  	writel(ctrl, mxsfb->base + LCDC_AS_CTRL);
+  }
+
++static bool mxsfb_format_mod_supported(struct drm_plane *plane,
++				       uint32_t format,
++				       uint64_t modifier)
++{
++	return modifier == DRM_FORMAT_MOD_LINEAR;
++}
++
+  static const struct drm_plane_helper_funcs 
+mxsfb_plane_primary_helper_funcs = {
+  	.atomic_check = mxsfb_plane_atomic_check,
+  	.atomic_update = mxsfb_plane_primary_atomic_update,
+@@ -495,6 +502,7 @@ static const struct drm_plane_helper_funcs 
+mxsfb_plane_overlay_helper_funcs = {
+  };
+
+  static const struct drm_plane_funcs mxsfb_plane_funcs = {
++	.format_mod_supported	= mxsfb_format_mod_supported,
+  	.update_plane		= drm_atomic_helper_update_plane,
+  	.disable_plane		= drm_atomic_helper_disable_plane,
+  	.destroy		= drm_plane_cleanup,
+-- 
+2.20.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
