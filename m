@@ -1,71 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9371A2987F9
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:09:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECAD2987D2
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:08:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 544876E971;
-	Mon, 26 Oct 2020 08:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 957546E87A;
+	Mon, 26 Oct 2020 08:08:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0C2C6E222
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 22:18:48 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id a9so9413786lfc.7
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 15:18:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LdiZrrGK3XSDuaDqdvEn5sNXECSyQyzuvaJBQ5a6gpI=;
- b=BFsKgExK5mmiZk/T1b5Fphn/W8R05bQS1UGW3Zy/tybjtACTbxQ7HmPYEaIYLu9xTR
- aEAcmNa1NOf6sD+OvMbYTD/Armlc+FP06Bp1xlg+djCb6zndAVwuJ7OIB9p7UdRxzFCM
- eH4OvGnWdiLC2ZTWdxWst4UdEmJUgKQYBR6FgBB+GAupTsAkzzkClP2QYd2hNeN4qdwY
- bcdrmdbbQnZNGStDApenM8mFa7Yys7MLZLQ+Yh7Wgcz2P13Qk4btUPizal/cMRUsHNep
- nzcaI64mEtrCvov5tHBfmaWllGQGBmPT0jb4Dlr3CtJtLejjAoVDUceA1U1WRYB0gwTc
- sUhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LdiZrrGK3XSDuaDqdvEn5sNXECSyQyzuvaJBQ5a6gpI=;
- b=o/pIohzbAl4KQ72kkPEKqwqyq9E1ZVnwNUo/j5M46cGdWNHo+04+VsC4KH4tGOg7+r
- zUboZ/M55q+MJr4+Bm1NEmrVdDKsRc6tCTvZ18H3ebPsvs8FleXPUD/SWSnvUEuzGbL3
- xUMf1kNwmMUt+szD9+zDQV+oy25Sj1FNxE1GV4OQ/gtUPmbz90QjRqHur3kTtQtkvdtJ
- k/11lI3n5ZAYM/NO40s2W/2hlbELNj2VShhTJFMmHTSF91zfTUsQyRqn2CjxiKPwSlBs
- 53xFctkJmhgp413ZulCt3fuiz3wYef4f9IlL+Tev/UzieOOvaRk7yIw53EVhhZqqxHVf
- SuJA==
-X-Gm-Message-State: AOAM532LhiUvJC8pvbnhi9lA0L6L19IpIOraFA+uoItOx4QCXpP7nHPR
- 2zDHfIh1Gdw/mukif35PQMs=
-X-Google-Smtp-Source: ABdhPJxMMlMxc3Ux1JgbgvNpd6rj5NUgdKbgQjR+tgIGJcQOq/Qc6TInPjjlzZ3yQt7ws6L+QDgEsA==
-X-Received: by 2002:a19:8c07:: with SMTP id o7mr3834632lfd.525.1603664327423; 
- Sun, 25 Oct 2020 15:18:47 -0700 (PDT)
-Received: from localhost.localdomain (109-252-193-186.dynamic.spd-mgts.ru.
- [109.252.193.186])
- by smtp.gmail.com with ESMTPSA id k13sm932423ljh.136.2020.10.25.15.18.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Oct 2020 15:18:47 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
- Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
- Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v6 52/52] PM / devfreq: tegra30: Separate configurations
- per-SoC generation
-Date: Mon, 26 Oct 2020 01:17:35 +0300
-Message-Id: <20201025221735.3062-53-digetx@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201025221735.3062-1-digetx@gmail.com>
-References: <20201025221735.3062-1-digetx@gmail.com>
-MIME-Version: 1.0
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03FF16E0FD
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 23:33:51 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09PNPDUE078732;
+ Sun, 25 Oct 2020 23:33:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : message-id :
+ content-type : mime-version : subject : date : in-reply-to : cc : to :
+ references; s=corp-2020-01-29;
+ bh=ZhamaOXuVkARDz6Y/coDiz1ugeVWOsS9GaNJhL3iQx0=;
+ b=KXgjFEmaSwGL1QRtjVkwY3o84FaVtHQu0lLenyl5AIZFqUr1iOIwlKf4HiwQEPGPDxzJ
+ JPNTTAv3k5sFi3nYJt/XMGb8nK5LeF4vWo+3y5HtNgdx7RctDCHFhe9YqyldPVgDlCr4
+ xICcvJLRS99eU85lR1E9I7CrwdkC4nfpO0ye+yKsDIMAf/wlwBYqi0ZHMXDRZeCNEpzA
+ KPC/RoiQsBQl3o0GP8/OC1W2iwj9CZZTuFxJl5cJNkBF2hh/ZACEPTf51dfKPvbwz2Su
+ tmQuoeTzm0h3rLmtuDU9C4S3kE/EekvQFmS3Gjw4ynVb5PDYnk3ZU8IjQTSHrheyannS HA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 34dgm3r3ke-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Sun, 25 Oct 2020 23:33:44 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09PNJttU104769;
+ Sun, 25 Oct 2020 23:31:43 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 34cx5vgvqg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 25 Oct 2020 23:31:43 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09PNVWH8032033;
+ Sun, 25 Oct 2020 23:31:32 GMT
+Received: from dhcp-10-159-151-51.vpn.oracle.com (/10.159.151.51)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Sun, 25 Oct 2020 16:31:31 -0700
+From: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Message-Id: <D8632766-13CA-4499-839A-AF21E247F5B9@oracle.com>
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
+Subject: Re: [PATCH 1/1] video: fbdev: fix divide error in fbcon_switch
+Date: Sun, 25 Oct 2020 16:31:30 -0700
+In-Reply-To: <ad87c5c1-061d-8a81-7b2c-43a8687a464f@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org
+References: <20201021235758.59993-1-saeed.mirzamohammadi@oracle.com>
+ <ad87c5c1-061d-8a81-7b2c-43a8687a464f@suse.de>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9785
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxscore=0 mlxlogscore=999
+ suspectscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010250177
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9785
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 impostorscore=0
+ adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ suspectscore=0 clxscore=1011 mlxscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010250177
 X-Mailman-Approved-At: Mon, 26 Oct 2020 08:08:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,181 +80,451 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
+ jani.nikula@intel.com, daniel.vetter@ffwll.ch, gustavoars@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ akpm@linux-foundation.org, rppt@kernel.org
+Content-Type: multipart/mixed; boundary="===============0324873083=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously we were using count-weight of the T124 for T30 in order to
-get EMC clock rate that was reasonable for T30. In fact the count-weight
-should be x2 times smaller on T30, but then devfreq was producing a bit
-too low EMC clock rate for ISO memory clients, like display controller
-for example.
 
-Now both Tegra ACTMON and Tegra DRM display drivers support interconnect
-framework and display driver tells to ICC what a minimum memory bandwidth
-is needed, preventing FIFO underflows. Thus, now we can use a proper
-count-weight value for Tegra30 and MC_ALL device config needs a bit more
-aggressive boosting.
+--===============0324873083==
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_DCD68940-031B-4C2D-BBAE-1D2D330BDA5E"
 
-This patch adds a separate ACTMON driver configuration that is specific
-to Tegra30.
 
-Tested-by: Peter Geis <pgwipeout@gmail.com>
-Tested-by: Nicolas Chauvet <kwizart@gmail.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/devfreq/tegra30-devfreq.c | 68 ++++++++++++++++++++++++-------
- 1 file changed, 54 insertions(+), 14 deletions(-)
+--Apple-Mail=_DCD68940-031B-4C2D-BBAE-1D2D330BDA5E
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-index 1b0b91a71886..95aba89eae88 100644
---- a/drivers/devfreq/tegra30-devfreq.c
-+++ b/drivers/devfreq/tegra30-devfreq.c
-@@ -57,13 +57,6 @@
- #define ACTMON_BELOW_WMARK_WINDOW				3
- #define ACTMON_BOOST_FREQ_STEP					16000
- 
--/*
-- * Activity counter is incremented every 256 memory transactions, and each
-- * transaction takes 4 EMC clocks for Tegra124; So the COUNT_WEIGHT is
-- * 4 * 256 = 1024.
-- */
--#define ACTMON_COUNT_WEIGHT					0x400
--
- /*
-  * ACTMON_AVERAGE_WINDOW_LOG2: default value for @DEV_CTRL_K_VAL, which
-  * translates to 2 ^ (K_VAL + 1). ex: 2 ^ (6 + 1) = 128
-@@ -111,7 +104,7 @@ enum tegra_actmon_device {
- 	MCCPU,
- };
- 
--static const struct tegra_devfreq_device_config actmon_device_configs[] = {
-+static const struct tegra_devfreq_device_config tegra124_device_configs[] = {
- 	{
- 		/* MCALL: All memory accesses (including from the CPUs) */
- 		.offset = 0x1c0,
-@@ -133,6 +126,28 @@ static const struct tegra_devfreq_device_config actmon_device_configs[] = {
- 	},
- };
- 
-+static const struct tegra_devfreq_device_config tegra30_device_configs[] = {
-+	{
-+		/* MCALL: All memory accesses (including from the CPUs) */
-+		.offset = 0x1c0,
-+		.irq_mask = 1 << 26,
-+		.boost_up_coeff = 200,
-+		.boost_down_coeff = 50,
-+		.boost_up_threshold = 20,
-+		.boost_down_threshold = 10,
-+	},
-+	{
-+		/* MCCPU: memory accesses from the CPUs */
-+		.offset = 0x200,
-+		.irq_mask = 1 << 25,
-+		.boost_up_coeff = 800,
-+		.boost_down_coeff = 40,
-+		.boost_up_threshold = 27,
-+		.boost_down_threshold = 10,
-+		.avg_dependency_threshold = 16000, /* 16MHz in kHz units */
-+	},
-+};
-+
- /**
-  * struct tegra_devfreq_device - state specific to an ACTMON device
-  *
-@@ -155,6 +170,12 @@ struct tegra_devfreq_device {
- 	unsigned long target_freq;
- };
- 
-+struct tegra_devfreq_soc_data {
-+	const struct tegra_devfreq_device_config *configs;
-+	/* Weight value for count measurements */
-+	unsigned int count_weight;
-+};
-+
- struct tegra_devfreq {
- 	struct devfreq		*devfreq;
- 	struct opp_table	*opp_table;
-@@ -171,11 +192,13 @@ struct tegra_devfreq {
- 	struct delayed_work	cpufreq_update_work;
- 	struct notifier_block	cpu_rate_change_nb;
- 
--	struct tegra_devfreq_device devices[ARRAY_SIZE(actmon_device_configs)];
-+	struct tegra_devfreq_device devices[ARRAY_SIZE(tegra124_device_configs)];
- 
- 	unsigned int		irq;
- 
- 	bool			started;
-+
-+	const struct tegra_devfreq_soc_data *soc;
- };
- 
- struct tegra_actmon_emc_ratio {
-@@ -488,7 +511,7 @@ static void tegra_actmon_configure_device(struct tegra_devfreq *tegra,
- 	tegra_devfreq_update_avg_wmark(tegra, dev);
- 	tegra_devfreq_update_wmark(tegra, dev);
- 
--	device_writel(dev, ACTMON_COUNT_WEIGHT, ACTMON_DEV_COUNT_WEIGHT);
-+	device_writel(dev, tegra->soc->count_weight, ACTMON_DEV_COUNT_WEIGHT);
- 	device_writel(dev, ACTMON_INTR_STATUS_CLEAR, ACTMON_DEV_INTR_STATUS);
- 
- 	val |= ACTMON_DEV_CTRL_ENB_PERIODIC;
-@@ -781,6 +804,8 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
- 	if (!tegra)
- 		return -ENOMEM;
- 
-+	tegra->soc = of_device_get_match_data(&pdev->dev);
-+
- 	tegra->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(tegra->regs))
- 		return PTR_ERR(tegra->regs);
-@@ -858,9 +883,9 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
- 
- 	tegra->max_freq = rate / KHZ;
- 
--	for (i = 0; i < ARRAY_SIZE(actmon_device_configs); i++) {
-+	for (i = 0; i < ARRAY_SIZE(tegra124_device_configs); i++) {
- 		dev = tegra->devices + i;
--		dev->config = actmon_device_configs + i;
-+		dev->config = tegra->soc->configs + i;
- 		dev->regs = tegra->regs + dev->config->offset;
- 	}
- 
-@@ -925,9 +950,24 @@ static int tegra_devfreq_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct tegra_devfreq_soc_data tegra124_soc = {
-+	.configs = tegra124_device_configs,
-+
-+	/*
-+	 * Activity counter is incremented every 256 memory transactions,
-+	 * and each transaction takes 4 EMC clocks.
-+	 */
-+	.count_weight = 4 * 256,
-+};
-+
-+static const struct tegra_devfreq_soc_data tegra30_soc = {
-+	.configs = tegra30_device_configs,
-+	.count_weight = 2 * 256,
-+};
-+
- static const struct of_device_id tegra_devfreq_of_match[] = {
--	{ .compatible = "nvidia,tegra30-actmon" },
--	{ .compatible = "nvidia,tegra124-actmon" },
-+	{ .compatible = "nvidia,tegra30-actmon",  .data = &tegra30_soc, },
-+	{ .compatible = "nvidia,tegra124-actmon", .data = &tegra124_soc, },
- 	{ },
- };
- 
--- 
-2.27.0
+Thanks, adding stable.
+
+> On Oct 22, 2020, at 12:34 AM, Thomas Zimmermann <tzimmermann@suse.de> =
+wrote:
+>=20
+> Hi
+>=20
+> On 22.10.20 01:57, saeed.mirzamohammadi@oracle.com =
+<mailto:saeed.mirzamohammadi@oracle.com> wrote:
+>> From: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com =
+<mailto:saeed.mirzamohammadi@oracle.com>>
+>>=20
+>> This patch fixes the issue due to:
+>>=20
+>> [   89.572883] divide_error: 0000 [#1] SMP KASAN PTI
+>> [   89.572897] CPU: 3 PID: 16083 Comm: repro Not tainted =
+5.9.0-rc7.20200930.rc1.allarch-19-g3e32d0d.syzk #5
+>> [   89.572902] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), =
+BIOS 0.5.1 01/01/2011
+>> [   89.572934] RIP: 0010:cirrusfb_check_var+0x84/0x1260
+>=20
+> BTW, if you run qemu with cirrus, there's also a DRM driver named
+> cirrus.ko. Might be a better choice than the old fbdev driver. If you
+> just care about qemu, but not the actual graphics device, take a look =
+at
+>=20
+>  =
+https://urldefense.com/v3/__https://www.kraxel.org/blog/2014/10/qemu-using=
+-cirrus-considered-harmful/__;!!GqivPVa7Brio!LmgeM-pVBVH80uVELF1P1nBGAbAlh=
+vnxKKE_ZrEc9d76AznvAAgP1FAp3_zNa2frKaIUZteK$ =
+<https://urldefense.com/v3/__https://www.kraxel.org/blog/2014/10/qemu-usin=
+g-cirrus-considered-harmful/__;!!GqivPVa7Brio!LmgeM-pVBVH80uVELF1P1nBGAbAl=
+hvnxKKE_ZrEc9d76AznvAAgP1FAp3_zNa2frKaIUZteK$>=20
+>=20
+> Anyway, thanks for your patch.
+>=20
+> Best regards
+> Thomas
+>=20
+>>=20
+>> The error happens when the pixels value is calculated before =
+performing the sanity checks on bits_per_pixel.
+>> A bits_per_pixel set to zero causes divide by zero error.
+>>=20
+>> This patch moves the calculation after the sanity check.
+>>=20
+>> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+>> Tested-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+>> ---
+>> drivers/video/fbdev/cirrusfb.c | 3 ++-
+>> 1 file changed, 2 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/drivers/video/fbdev/cirrusfb.c =
+b/drivers/video/fbdev/cirrusfb.c
+>> index 15a9ee7cd734..a7749101b094 100644
+>> --- a/drivers/video/fbdev/cirrusfb.c
+>> +++ b/drivers/video/fbdev/cirrusfb.c
+>> @@ -531,7 +531,7 @@ static int cirrusfb_check_var(struct =
+fb_var_screeninfo *var,
+>> {
+>> 	int yres;
+>> 	/* memory size in pixels */
+>> -	unsigned pixels =3D info->screen_size * 8 / var->bits_per_pixel;
+>> +	unsigned int pixels;
+>> 	struct cirrusfb_info *cinfo =3D info->par;
+>>=20
+>> 	switch (var->bits_per_pixel) {
+>> @@ -573,6 +573,7 @@ static int cirrusfb_check_var(struct =
+fb_var_screeninfo *var,
+>> 		return -EINVAL;
+>> 	}
+>>=20
+>> +	pixels =3D info->screen_size * 8 / var->bits_per_pixel;
+>> 	if (var->xres_virtual < var->xres)
+>> 		var->xres_virtual =3D var->xres;
+>> 	/* use highest possible virtual resolution */
+>>=20
+>=20
+> --=20
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--Apple-Mail=_DCD68940-031B-4C2D-BBAE-1D2D330BDA5E
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" =
+class=3D"">Thanks, adding stable.<br class=3D""><div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">On Oct =
+22, 2020, at 12:34 AM, Thomas Zimmermann &lt;<a =
+href=3D"mailto:tzimmermann@suse.de" class=3D"">tzimmermann@suse.de</a>&gt;=
+ wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D""><span=
+ style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" class=3D"">Hi</span><br style=3D"caret-color:=
+ rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: =
+normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">On 22.10.20 01:57,<span =
+class=3D"Apple-converted-space">&nbsp;</span></span><a =
+href=3D"mailto:saeed.mirzamohammadi@oracle.com" style=3D"font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; orphans: auto; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; =
+-webkit-text-stroke-width: 0px;" =
+class=3D"">saeed.mirzamohammadi@oracle.com</a><span style=3D"caret-color: =
+rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: =
+normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D""><span =
+class=3D"Apple-converted-space">&nbsp;</span>wrote:</span><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" =
+class=3D""><blockquote type=3D"cite" style=3D"font-family: Helvetica; =
+font-size: 12px; font-style: normal; font-variant-caps: normal; =
+font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D"">From: =
+Saeed Mirzamohammadi &lt;<a =
+href=3D"mailto:saeed.mirzamohammadi@oracle.com" =
+class=3D"">saeed.mirzamohammadi@oracle.com</a>&gt;<br class=3D""><br =
+class=3D"">This patch fixes the issue due to:<br class=3D""><br =
+class=3D"">[ &nbsp;&nbsp;89.572883] divide_error: 0000 [#1] SMP KASAN =
+PTI<br class=3D"">[ &nbsp;&nbsp;89.572897] CPU: 3 PID: 16083 Comm: repro =
+Not tainted 5.9.0-rc7.20200930.rc1.allarch-19-g3e32d0d.syzk #5<br =
+class=3D"">[ &nbsp;&nbsp;89.572902] Hardware name: QEMU Standard PC =
+(i440FX + PIIX, 1996), BIOS 0.5.1 01/01/2011<br class=3D"">[ =
+&nbsp;&nbsp;89.572934] RIP: 0010:cirrusfb_check_var+0x84/0x1260<br =
+class=3D""></blockquote><br style=3D"caret-color: rgb(0, 0, 0); =
+font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">BTW, if you run qemu with cirrus, there's also a DRM driver =
+named</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none; float: none; display: inline !important;" class=3D"">cirrus.ko. =
+Might be a better choice than the old fbdev driver. If you</span><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" class=3D"">just care about qemu, but not =
+the actual graphics device, take a look at</span><br style=3D"caret-color:=
+ rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: =
+normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">&nbsp;</span><a =
+href=3D"https://urldefense.com/v3/__https://www.kraxel.org/blog/2014/10/qe=
+mu-using-cirrus-considered-harmful/__;!!GqivPVa7Brio!LmgeM-pVBVH80uVELF1P1=
+nBGAbAlhvnxKKE_ZrEc9d76AznvAAgP1FAp3_zNa2frKaIUZteK$" =
+style=3D"font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;" =
+class=3D"">https://urldefense.com/v3/__https://www.kraxel.org/blog/2014/10=
+/qemu-using-cirrus-considered-harmful/__;!!GqivPVa7Brio!LmgeM-pVBVH80uVELF=
+1P1nBGAbAlhvnxKKE_ZrEc9d76AznvAAgP1FAp3_zNa2frKaIUZteK$</a><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" class=3D""><span =
+class=3D"Apple-converted-space">&nbsp;</span></span><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" class=3D"">Anyway, thanks for your =
+patch.</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none;" class=3D""><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none; float: none; display: inline !important;" class=3D"">Best =
+regards</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none; float: none; display: inline !important;" =
+class=3D"">Thomas</span><br style=3D"caret-color: rgb(0, 0, 0); =
+font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><blockquote type=3D"cite" =
+style=3D"font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><br class=3D"">The error happens when =
+the pixels value is calculated before performing the sanity checks on =
+bits_per_pixel.<br class=3D"">A bits_per_pixel set to zero causes divide =
+by zero error.<br class=3D""><br class=3D"">This patch moves the =
+calculation after the sanity check.<br class=3D""><br =
+class=3D"">Signed-off-by: Saeed Mirzamohammadi &lt;<a =
+href=3D"mailto:saeed.mirzamohammadi@oracle.com" =
+class=3D"">saeed.mirzamohammadi@oracle.com</a>&gt;<br =
+class=3D"">Tested-by: Saeed Mirzamohammadi &lt;<a =
+href=3D"mailto:saeed.mirzamohammadi@oracle.com" =
+class=3D"">saeed.mirzamohammadi@oracle.com</a>&gt;<br class=3D"">---<br =
+class=3D"">drivers/video/fbdev/cirrusfb.c | 3 ++-<br class=3D"">1 file =
+changed, 2 insertions(+), 1 deletion(-)<br class=3D""><br class=3D"">diff =
+--git a/drivers/video/fbdev/cirrusfb.c =
+b/drivers/video/fbdev/cirrusfb.c<br class=3D"">index =
+15a9ee7cd734..a7749101b094 100644<br class=3D"">--- =
+a/drivers/video/fbdev/cirrusfb.c<br class=3D"">+++ =
+b/drivers/video/fbdev/cirrusfb.c<br class=3D"">@@ -531,7 +531,7 @@ =
+static int cirrusfb_check_var(struct fb_var_screeninfo *var,<br =
+class=3D"">{<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>int yres;<br class=3D""><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>/* memory =
+size in pixels */<br class=3D"">-<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>unsigned pixels =3D =
+info-&gt;screen_size * 8 / var-&gt;bits_per_pixel;<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>unsigned =
+int pixels;<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>struct cirrusfb_info *cinfo =3D =
+info-&gt;par;<br class=3D""><br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>switch (var-&gt;bits_per_pixel) =
+{<br class=3D"">@@ -573,6 +573,7 @@ static int cirrusfb_check_var(struct =
+fb_var_screeninfo *var,<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>return -EINVAL;<br class=3D""><span=
+ class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>}<br =
+class=3D""><br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>pixels =3D info-&gt;screen_size * =
+8 / var-&gt;bits_per_pixel;<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>if (var-&gt;xres_virtual &lt; =
+var-&gt;xres)<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>var-&gt;xres_virtual =3D =
+var-&gt;xres;<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>/* use highest possible virtual =
+resolution */<br class=3D""><br class=3D""></blockquote><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" class=3D"">--<span =
+class=3D"Apple-converted-space">&nbsp;</span></span><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" class=3D"">Thomas Zimmermann</span><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" class=3D"">Graphics Driver =
+Developer</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none; float: none; display: inline !important;" class=3D"">SUSE Software =
+Solutions Germany GmbH</span><br style=3D"caret-color: rgb(0, 0, 0); =
+font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany</span><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" class=3D"">(HRB 36809, AG =
+N=C3=BCrnberg)</span><br style=3D"caret-color: rgb(0, 0, 0); =
+font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">Gesch=C3=A4ftsf=C3=BChrer: Felix =
+Imend=C3=B6rffer</span></div></blockquote></div><br =
+class=3D""></body></html>=
+
+--Apple-Mail=_DCD68940-031B-4C2D-BBAE-1D2D330BDA5E--
+
+--===============0324873083==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0324873083==--
