@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4D92987C0
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:08:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C856C2987EC
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:09:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0535E6E84A;
-	Mon, 26 Oct 2020 08:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76BA06E9B1;
+	Mon, 26 Oct 2020 08:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
  [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F8866E214
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 22:18:14 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id c141so9409625lfg.5
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 15:18:13 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25AED6E296
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 22:18:15 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id v6so9390884lfa.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 15:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qXc6alv2GyhB3hhhLZedHDIUdftmQRoQ6V9Gv1leNe8=;
- b=G6CU/I9GbnvzY10MrdETnPX8Y9FK8jZ2VS1eEkZFKWM+mx9WxzE8Pb0TNuIuJuU4r3
- hwCjzn2S2s5zlBO5uCpQbt+t0N2BCMzZU3/SBmR8MIHvN3vT/eXuCZKJBZ7OWtazqYxp
- CW9CMBMh36p+etuJ3wq+gZ0zaQPP6/XL2r/mqyk+BQoSA2TTcouzD98uTqqyHzTj5ktT
- uOzWRf9QhGdQdEeWDS2fn+RPq5UdWtQ83joJxtstyMMijjjIfKiKOgCPDTTHIRGJcasV
- /tgp7hHVrkKH9Rxc5XcExIcSRA+qb8hb7bTiBdeZSpPgYjeQYJSjEWf4ovBBd2QAYtzp
- jbGw==
+ bh=zMjVAb/o+piDt6czNf33ZOuiJhcOMgOALVgnOUvCv+Q=;
+ b=akPOnPZUgCnA7WgGrwZzYa0pPbJ50b5saChlSacGkyMgPl81Tj7oDS86nsQIEPUtsn
+ 63vpfhSeceRUZWx2gYdskkKIT0O+PK4E8/iNN/Raopu5CDdltp43KHPQSzMakDcY/ft7
+ FGnGYK8eBLUZ/7Nve3OBWyCfCm6j9a0vU8F6Hm6Ad4Pp+wpZNv4L0WZJPr6XhVdqUpAo
+ YNo+x4KO9EZ27nLqzOPNxWe4AhmFt/n1uJbg+WLfUobV6yiTf3D80jpRz+XLUxJFc3JF
+ jeW6fICzLCYQVWmo6RbRftjhMJGIWg0Z97xLNckzflFxxDngg9P/CAUBy/3hvVVv7A0d
+ DiNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qXc6alv2GyhB3hhhLZedHDIUdftmQRoQ6V9Gv1leNe8=;
- b=YHk2QwJvj8TSN1URBGQxa9ybjLukAurvwkSQLAK+LDUnNi2Bvc1p/EwQt91trj2bG9
- vh+rw7ifS7ce9gRNh08JS2356FI52HvLBT3R+A+ewv6lvNPmbU6IczVPKFwi2wB0L/XP
- I3SRtUUVbL5zn8y0CDN2Dsc6hhLygM4g1J+giXmqsJi/1fmSGY+SQJqfWSiI3an5MCwB
- hFTxHpI2YBc3y8ikqBt6zidcjvrOJg9iD8+/E4uXaeGCmzK278XpW222/6sGNtcdjMEX
- +blFTXfBG0opQCxLlOvaTMuGxNFnbUT5N4IQybYu+eZaFig1zrArhE2Peu7JKF3dtmNh
- Llew==
-X-Gm-Message-State: AOAM530wycsd6a949ikLOyyrwVy3OV8iNFA7rA2nKJ3RG0XY18ahJxNB
- 4qBi7dJvsqxJvsDUkVGSabw=
-X-Google-Smtp-Source: ABdhPJxZ6phL/YfFsYul3o/0DLqnGI3fifIYeEWPWolgBfP0BBtk9aMQ63fWf5njWfi8lnm4NMOz8w==
-X-Received: by 2002:a19:fc1c:: with SMTP id a28mr4367965lfi.517.1603664292475; 
- Sun, 25 Oct 2020 15:18:12 -0700 (PDT)
+ bh=zMjVAb/o+piDt6czNf33ZOuiJhcOMgOALVgnOUvCv+Q=;
+ b=ir0zgYvvXgKcjYtA7fD0ITRVoJzRCXtEcUlV0dEHDcFB5rjgf7s0D12C2lvacrfYY2
+ UtHK9CwB/iTr5AL5bV4WIQWBhHC4sEierHldZQtedkuc3QM4weA9RiZ75bNfwp5FQGRW
+ 7VuluBxbWe7VFfU0fn41xU49H8blqrXOgkAtPF9ByyfCBROi9FUFM/6s7jP56gVHyGcz
+ aGW1VJO7VunV8+iO11dhy2C/7VWMoHghWkAhr2219ceimf1ieGDPyAWoRjCBKfLBb6yB
+ NS/eBWSweHMh3bJ9Jf74R88LPcpyzCgskoQe18IixYaRjxnhxSE5hruypxjM0PE3cBDu
+ leZw==
+X-Gm-Message-State: AOAM532O/gqnQfJ8kAtAAQAA40giU5/qigmyo+W7zFpZibRaZsUYNI/z
+ LH0umnjgGh/n1hRrN3Q78hA=
+X-Google-Smtp-Source: ABdhPJzH5nJXk7LVha9r+hCH/LhYgtkRW40Rsp7NnrDNLJuP4PeaVAq9qJpuel3mqU/iWqWAtR1tmQ==
+X-Received: by 2002:a19:8488:: with SMTP id g130mr4084378lfd.424.1603664293635; 
+ Sun, 25 Oct 2020 15:18:13 -0700 (PDT)
 Received: from localhost.localdomain (109-252-193-186.dynamic.spd-mgts.ru.
  [109.252.193.186])
- by smtp.gmail.com with ESMTPSA id k13sm932423ljh.136.2020.10.25.15.18.11
+ by smtp.gmail.com with ESMTPSA id k13sm932423ljh.136.2020.10.25.15.18.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Oct 2020 15:18:12 -0700 (PDT)
+ Sun, 25 Oct 2020 15:18:13 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,10 +58,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v6 21/52] ARM: tegra: Add interconnect properties to Tegra20
+Subject: [PATCH v6 22/52] ARM: tegra: Add interconnect properties to Tegra30
  device-tree
-Date: Mon, 26 Oct 2020 01:17:04 +0300
-Message-Id: <20201025221735.3062-22-digetx@gmail.com>
+Date: Mon, 26 Oct 2020 01:17:05 +0300
+Message-Id: <20201025221735.3062-23-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201025221735.3062-1-digetx@gmail.com>
 References: <20201025221735.3062-1-digetx@gmail.com>
@@ -93,22 +93,22 @@ interconnection.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra20.dtsi | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/tegra30.dtsi | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
-index 9347f7789245..2e1304493f7d 100644
---- a/arch/arm/boot/dts/tegra20.dtsi
-+++ b/arch/arm/boot/dts/tegra20.dtsi
-@@ -111,6 +111,17 @@ dc@54200000 {
+diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
+index aeae8c092d41..2caf6cc6f4b1 100644
+--- a/arch/arm/boot/dts/tegra30.dtsi
++++ b/arch/arm/boot/dts/tegra30.dtsi
+@@ -210,6 +210,17 @@ dc@54200000 {
  
  			nvidia,head = <0>;
  
-+			interconnects = <&mc TEGRA20_MC_DISPLAY0A &emc>,
-+					<&mc TEGRA20_MC_DISPLAY0B &emc>,
-+					<&mc TEGRA20_MC_DISPLAY1B &emc>,
-+					<&mc TEGRA20_MC_DISPLAY0C &emc>,
-+					<&mc TEGRA20_MC_DISPLAYHC &emc>;
++			interconnects = <&mc TEGRA30_MC_DISPLAY0A &emc>,
++					<&mc TEGRA30_MC_DISPLAY0B &emc>,
++					<&mc TEGRA30_MC_DISPLAY1B &emc>,
++					<&mc TEGRA30_MC_DISPLAY0C &emc>,
++					<&mc TEGRA30_MC_DISPLAYHC &emc>;
 +			interconnect-names = "wina",
 +					     "winb",
 +					     "winb-vfilter",
@@ -118,15 +118,15 @@ index 9347f7789245..2e1304493f7d 100644
  			rgb {
  				status = "disabled";
  			};
-@@ -128,6 +139,17 @@ dc@54240000 {
+@@ -229,6 +240,17 @@ dc@54240000 {
  
  			nvidia,head = <1>;
  
-+			interconnects = <&mc TEGRA20_MC_DISPLAY0AB &emc>,
-+					<&mc TEGRA20_MC_DISPLAY0BB &emc>,
-+					<&mc TEGRA20_MC_DISPLAY1BB &emc>,
-+					<&mc TEGRA20_MC_DISPLAY0CB &emc>,
-+					<&mc TEGRA20_MC_DISPLAYHCB &emc>;
++			interconnects = <&mc TEGRA30_MC_DISPLAY0AB &emc>,
++					<&mc TEGRA30_MC_DISPLAY0BB &emc>,
++					<&mc TEGRA30_MC_DISPLAY1BB &emc>,
++					<&mc TEGRA30_MC_DISPLAY0CB &emc>,
++					<&mc TEGRA30_MC_DISPLAYHCB &emc>;
 +			interconnect-names = "wina",
 +					     "winb",
 +					     "winb-vfilter",
@@ -136,21 +136,22 @@ index 9347f7789245..2e1304493f7d 100644
  			rgb {
  				status = "disabled";
  			};
-@@ -630,15 +652,17 @@ mc: memory-controller@7000f000 {
- 		interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>;
+@@ -748,15 +770,18 @@ mc: memory-controller@7000f000 {
+ 
+ 		#iommu-cells = <1>;
  		#reset-cells = <1>;
- 		#iommu-cells = <0>;
 +		#interconnect-cells = <1>;
  	};
  
 -	memory-controller@7000f400 {
 +	emc: memory-controller@7000f400 {
- 		compatible = "nvidia,tegra20-emc";
+ 		compatible = "nvidia,tegra30-emc";
  		reg = <0x7000f400 0x400>;
  		interrupts = <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&tegra_car TEGRA20_CLK_EMC>;
- 		#address-cells = <1>;
- 		#size-cells = <0>;
+ 		clocks = <&tegra_car TEGRA30_CLK_EMC>;
+ 
+ 		nvidia,memory-controller = <&mc>;
++
 +		#interconnect-cells = <0>;
  	};
  
