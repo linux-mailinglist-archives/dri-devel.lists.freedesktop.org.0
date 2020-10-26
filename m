@@ -2,55 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8B329983D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 21:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA6129985A
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 22:00:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75EDC6EA62;
-	Mon, 26 Oct 2020 20:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 016146EA6B;
+	Mon, 26 Oct 2020 21:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35FF06E153
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 20:52:55 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1603745575; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=mH1ppLB1bjTbcIIdnHKn7TDzomVstmyqNeLzh7eO2fQ=;
- b=lUdGfD6QwXfPAe0d/lJqEd9gLCLbHmmMrkA46VXVycf9qMcLd1x/o5uW47OwAF8GmRRSq8OP
- 3MtrwIW5X7b6rTbbvZEFJWupp8t/ceWqZ0aQiLYPL9neqRecrmciRNPZd66xDdsqT0PaV/l6
- gNYij39Ysd9vkzF1zdbfXy0N7us=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5f9737261e4642bf755fa41c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 26 Oct 2020 20:52:54
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id AB28DC43382; Mon, 26 Oct 2020 20:52:53 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D0C93C433F0;
- Mon, 26 Oct 2020 20:52:52 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92C896EA6A;
+ Mon, 26 Oct 2020 21:00:46 +0000 (UTC)
+Received: from localhost.localdomain (unknown [192.30.34.233])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9B36520B1F;
+ Mon, 26 Oct 2020 21:00:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603746046;
+ bh=igjkUN6wESAd/DH60fWZ+VmAdJIU5sWPvyCPO5XJN48=;
+ h=From:To:Cc:Subject:Date:From;
+ b=VzUdhLcPpA/VYtY4oGcXxakGk/klmGlbWxN7jUe4lHINDG2OR0v498DkIilt3SKQx
+ 9EgiYQT80bpyfptSqnLQC0nlOAwQ27biV7F2UzJBbeJzhw12tMcXZhs3tumDFTCB5/
+ EPQlB8+1RK2gG1f7tadgZIZl9RITJf45G3X7XF84=
+From: Arnd Bergmann <arnd@kernel.org>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/5] drm/amdgpu: fix enum mismatches
+Date: Mon, 26 Oct 2020 22:00:29 +0100
+Message-Id: <20201026210039.3884312-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Date: Mon, 26 Oct 2020 13:52:52 -0700
-From: abhinavk@codeaurora.org
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [Freedreno] [PATCH 3/4] drm/msm: fix -Woverride-init warning
-In-Reply-To: <20201026194110.3817470-3-arnd@kernel.org>
-References: <20201026194110.3817470-1-arnd@kernel.org>
- <20201026194110.3817470-3-arnd@kernel.org>
-Message-ID: <5a99adc26963c0a64fe6de41b87c6244@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,54 +46,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Krishna Manikandan <mkrishn@codeaurora.org>,
- Shubhashree Dhar <dhar@codeaurora.org>, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Marek <jonathan@marek.ca>, Raviteja Tamatam <travitej@codeaurora.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-26 12:41, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> There is one harmless duplicate initialization that causes a warning
-> with 'make W=1':
-> 
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:122:19: warning:
-> initialized field overwritten [-Woverride-init]
->   122 |  .max_linewidth = 4096,
->       |                   ^~~~
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:122:19: note: (near
-> initialization for 'sm8250_dpu_caps.max_linewidth')
-> 
-> Remove one of the two identical initializers to avoid the warning.
-> 
-> Fixes: af776a3e1c30 ("drm/msm/dpu: add SM8250 to hw catalog")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 60b304b72b7c..9c23f814ccaf 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -111,7 +111,6 @@ static const struct dpu_caps sm8150_dpu_caps = {
->  static const struct dpu_caps sm8250_dpu_caps = {
->  	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
->  	.max_mixer_blendstages = 0xb,
-> -	.max_linewidth = 4096,
->  	.qseed_type = DPU_SSPP_SCALER_QSEED3, /* TODO: qseed3 lite */
->  	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
->  	.ubwc_version = DPU_HW_UBWC_VER_40,
+From: Arnd Bergmann <arnd@arndb.de>
+
+gcc -Wextra warns about an incorrect prototype causing multiple
+mismatched enums:
+
+display/dc/gpio/gpio_service.c: In function 'dal_gpio_service_create':
+display/dc/gpio/gpio_service.c:70:50: warning: implicit conversion from 'enum dce_environment' to 'enum dce_version' [-Wenum-conversion]
+display/dc/gpio/gpio_service.c:71:4: warning: implicit conversion from 'enum dce_version' to 'enum dce_environment' [-Wenum-conversion]
+display/dc/gpio/gpio_service.c:76:46: warning: implicit conversion from 'enum dce_environment' to 'enum dce_version' [-Wenum-conversion]
+display/dc/gpio/gpio_service.c:77:4: warning: implicit conversion from 'enum dce_version' to 'enum dce_environment' [-Wenum-conversion]
+
+display/dc/core/dc.c: In function 'dc_construct':
+display/dc/core/dc.c:718:10: warning: implicit conversion from 'enum dce_version' to 'enum dce_environment' [-Wenum-conversion]
+display/dc/core/dc.c:719:10: warning: implicit conversion from 'enum dce_environment' to 'enum dce_version' [-Wenum-conversion]
+
+Fixes: 4562236b3bc0 ("drm/amd/dc: Add dc display driver (v2)")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c           | 2 +-
+ drivers/gpu/drm/amd/display/include/gpio_service_interface.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
+index 92280cc05e2d..67bb5cc67255 100644
+--- a/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
++++ b/drivers/gpu/drm/amd/display/dc/gpio/gpio_service.c
+@@ -54,7 +54,7 @@
+ 
+ struct gpio_service *dal_gpio_service_create(
+ 	enum dce_version dce_version_major,
+-	enum dce_version dce_version_minor,
++	enum dce_environment dce_version_minor,
+ 	struct dc_context *ctx)
+ {
+ 	struct gpio_service *service;
+diff --git a/drivers/gpu/drm/amd/display/include/gpio_service_interface.h b/drivers/gpu/drm/amd/display/include/gpio_service_interface.h
+index 9c55d247227e..5f0f94e83d19 100644
+--- a/drivers/gpu/drm/amd/display/include/gpio_service_interface.h
++++ b/drivers/gpu/drm/amd/display/include/gpio_service_interface.h
+@@ -43,7 +43,7 @@ void dal_gpio_destroy(
+ 
+ struct gpio_service *dal_gpio_service_create(
+ 	enum dce_version dce_version_major,
+-	enum dce_version dce_version_minor,
++	enum dce_environment dce_version_minor,
+ 	struct dc_context *ctx);
+ 
+ struct gpio *dal_gpio_service_create_irq(
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
