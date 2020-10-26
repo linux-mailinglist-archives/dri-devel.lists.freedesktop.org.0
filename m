@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F0B299808
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 21:33:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8B329983D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 21:53:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5039C6E116;
-	Mon, 26 Oct 2020 20:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75EDC6EA62;
+	Mon, 26 Oct 2020 20:52:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 941706E116;
- Mon, 26 Oct 2020 20:33:18 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id l15so13834718wmi.3;
- Mon, 26 Oct 2020 13:33:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/O8B5tDsbMKoWPbr5etGrG3WN9TQf/YvulQxtm1JNqc=;
- b=fgGtA4dZkC7fJbJEp77T2zNmJPL+rQzgZ1HlLKVt9cz6ql8n6Ew8NtQxmH48a25heT
- lkDvFDx9tZgelHI68g+i3kcvouujmjmCv6AQVtHFRvt07YjyP2EZmGVBm8Wt56o2cORX
- wRO+5ZqpFhdG6Ac53AX7WPmPeLDNH2bucLyVDtdurw0THcKB7xgZ0qdUjmnAhov8y8E4
- xSEIBjkL944sHXH0benknMyN3QHAffKFDnglOwcPQUYcAr32JBvTBWqT/5UXf0dnsww+
- 1f8kFHIKp3KuUV2ogMZyU++YgUpCB4zQs0wa7WvtqQBO+mf3QgBdjrAb2KkzSy3M9uJf
- 0QwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/O8B5tDsbMKoWPbr5etGrG3WN9TQf/YvulQxtm1JNqc=;
- b=Hju+dArgvQ5w2FbTNo+239I/+aBcHr8Wxf9HgLdg4tA5xnD1ph7LzbdTPJOxVsRpK3
- MDJGktgf2uryODo9f1CmdcxGAqh/COJiNa2pXlaS4jUpHJozxkrNAqZH7MXQv9ud1hxK
- 5GebKMDJMREfogpehFVAVlEmL9dPsA3OA2COlZ0mplmph/24Wo5xHoA//k6P0ncKHvCA
- KVuaIlw0tDl+0oolRFLtg5S3ZcbbWU3yxEsqZYXFkuWeLDyOByqfIs4jbiDxpElOUscc
- 0pnxadZde/IRK7QexgMNTXJsSI1FnJPZtvJWoLLVGuCVdkG151vTD5Pdcn+fX3WpkZGA
- EzsQ==
-X-Gm-Message-State: AOAM532hJtt97Y54KEsHs1qky3+9rDYiK7wqxEAAyQPUuarWoxzECfUq
- +Ql0ppPe+4OfgOrES887ZxPxgqPgXkwReoCe/7iASJut
-X-Google-Smtp-Source: ABdhPJwMDiAiLRKHlrvYhOBxCY24XJ9FgKn7gwnrmpvOmcovyvuheNcYl6kswwxOccE6N3E2mp6N1hUoQVyoAadJXtE=
-X-Received: by 2002:a05:600c:25a:: with SMTP id
- 26mr17442752wmj.39.1603744397278; 
- Mon, 26 Oct 2020 13:33:17 -0700 (PDT)
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35FF06E153
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 20:52:55 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1603745575; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=mH1ppLB1bjTbcIIdnHKn7TDzomVstmyqNeLzh7eO2fQ=;
+ b=lUdGfD6QwXfPAe0d/lJqEd9gLCLbHmmMrkA46VXVycf9qMcLd1x/o5uW47OwAF8GmRRSq8OP
+ 3MtrwIW5X7b6rTbbvZEFJWupp8t/ceWqZ0aQiLYPL9neqRecrmciRNPZd66xDdsqT0PaV/l6
+ gNYij39Ysd9vkzF1zdbfXy0N7us=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5f9737261e4642bf755fa41c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 26 Oct 2020 20:52:54
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id AB28DC43382; Mon, 26 Oct 2020 20:52:53 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D0C93C433F0;
+ Mon, 26 Oct 2020 20:52:52 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201023074656.11855-1-tiwai@suse.de>
- <1d3e22ef-a301-f557-79ca-33d6520bb64e@amd.com>
- <CADnq5_OY8tRqs-bao9mkKxgcXC=305-_71U=04C5z9HM0+5MuQ@mail.gmail.com>
- <22ab9117-0281-2ff3-8328-d7780e353643@amd.com>
-In-Reply-To: <22ab9117-0281-2ff3-8328-d7780e353643@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 26 Oct 2020 16:33:06 -0400
-Message-ID: <CADnq5_NVPRpiOj+Cpzh1TM=2J-ym8xbKbxGc_hUL=4_j_MAo6A@mail.gmail.com>
-Subject: Re: [PATCH 0/3] drm/amd/display: Fix kernel panic by breakpoint
-To: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+Date: Mon, 26 Oct 2020 13:52:52 -0700
+From: abhinavk@codeaurora.org
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [Freedreno] [PATCH 3/4] drm/msm: fix -Woverride-init warning
+In-Reply-To: <20201026194110.3817470-3-arnd@kernel.org>
+References: <20201026194110.3817470-1-arnd@kernel.org>
+ <20201026194110.3817470-3-arnd@kernel.org>
+Message-ID: <5a99adc26963c0a64fe6de41b87c6244@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,81 +63,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Rob Clark <robdclark@chromium.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>,
+ Shubhashree Dhar <dhar@codeaurora.org>, Arnd Bergmann <arnd@arndb.de>,
+ Jonathan Marek <jonathan@marek.ca>, Raviteja Tamatam <travitej@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Mon, Oct 26, 2020 at 4:22 PM Kazlauskas, Nicholas
-<nicholas.kazlauskas@amd.com> wrote:
->
-> Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
->
-> Looks fine to me. Feel free to apply.
->
-> Regards,
-> Nicholas Kazlauskas
->
-> On 2020-10-26 3:34 p.m., Alex Deucher wrote:
-> > Yes, looks good to me as well.  Series is:
-> > Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> > I'll give the display guys a few more days to look this over, but if
-> > there are no objections, I'll apply them.
-> >
-> > Thanks!
-> >
-> > Alex
-> >
-> > On Fri, Oct 23, 2020 at 7:16 PM Luben Tuikov <luben.tuikov@amd.com> wrote:
-> >>
-> >> On 2020-10-23 03:46, Takashi Iwai wrote:
-> >>> Hi,
-> >>>
-> >>> the amdgpu driver's ASSERT_CRITICAL() macro calls the
-> >>> kgdb_breakpoing() even if no debug option is set, and this leads to a
-> >>> kernel panic on distro kernels.  The first two patches are the
-> >>> oneliner fixes for those, while the last one is the cleanup of those
-> >>> debug macros.
-> >>
-> >> This looks like good work and solid. Hopefully it gets picked up.
-> >>
-> >> Regards,
-> >> Luben
-> >>
-> >>>
-> >>>
-> >>> Takashi
-> >>>
-> >>> ===
-> >>>
-> >>> Takashi Iwai (3):
-> >>>    drm/amd/display: Fix kernel panic by dal_gpio_open() error
-> >>>    drm/amd/display: Don't invoke kgdb_breakpoint() unconditionally
-> >>>    drm/amd/display: Clean up debug macros
-> >>>
-> >>>   drivers/gpu/drm/amd/display/Kconfig             |  1 +
-> >>>   drivers/gpu/drm/amd/display/dc/gpio/gpio_base.c |  4 +--
-> >>>   drivers/gpu/drm/amd/display/dc/os_types.h       | 33 +++++++++----------------
-> >>>   3 files changed, 15 insertions(+), 23 deletions(-)
-> >>>
-> >>
-> >> _______________________________________________
-> >> amd-gfx mailing list
-> >> amd-gfx@lists.freedesktop.org
-> >> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-> > _______________________________________________
-> > amd-gfx mailing list
-> > amd-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-> >
->
+On 2020-10-26 12:41, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> There is one harmless duplicate initialization that causes a warning
+> with 'make W=1':
+> 
+> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:122:19: warning:
+> initialized field overwritten [-Woverride-init]
+>   122 |  .max_linewidth = 4096,
+>       |                   ^~~~
+> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:122:19: note: (near
+> initialization for 'sm8250_dpu_caps.max_linewidth')
+> 
+> Remove one of the two identical initializers to avoid the warning.
+> 
+> Fixes: af776a3e1c30 ("drm/msm/dpu: add SM8250 to hw catalog")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 60b304b72b7c..9c23f814ccaf 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -111,7 +111,6 @@ static const struct dpu_caps sm8150_dpu_caps = {
+>  static const struct dpu_caps sm8250_dpu_caps = {
+>  	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+>  	.max_mixer_blendstages = 0xb,
+> -	.max_linewidth = 4096,
+>  	.qseed_type = DPU_SSPP_SCALER_QSEED3, /* TODO: qseed3 lite */
+>  	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
+>  	.ubwc_version = DPU_HW_UBWC_VER_40,
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
