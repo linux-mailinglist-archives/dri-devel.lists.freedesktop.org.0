@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18789299BDD
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:54:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA283299BE6
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:54:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E7C6EAA7;
-	Mon, 26 Oct 2020 23:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D79026EAA6;
+	Mon, 26 Oct 2020 23:54:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A736EA9D;
- Mon, 26 Oct 2020 23:53:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1BC86EAA8;
+ Mon, 26 Oct 2020 23:53:59 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8137B221FC;
- Mon, 26 Oct 2020 23:53:57 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D2F8720B1F;
+ Mon, 26 Oct 2020 23:53:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603756438;
- bh=CUAm1ZA/uTha7zEcMPCPQqwNyJtYOevfkbW618zk7m0=;
+ s=default; t=1603756439;
+ bh=SbFHCpjFUIgnRes5SSzBfbN3T+ObB3Aq3esfOYYDvAw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h1z8vFFCqoWiY4oM6Wv701PyDfeU5puhPn+LFJzERzffOWHW+pBzH3p8r9dH9La3R
- f8MJbja40EuoXfIm87gz3IEKll1a/X+U6rvTA9YjIMcx2Wor3sKoF6O+1WCcwo9e9M
- J7pMRkqGjh6WIfbWKwcd9FoAzNHlputKNSMJLu8Q=
+ b=1CHaCkP6k6Qf4mEwsL54jIzQmMKTAWjXmwRUy9o3jfIUUdD4ofIOS/e65KxFdhzZy
+ iiEjveCSvYd1ZcIn6O4VT+ce0RKVIN/luRZG7keps3k0YOmOBMRdkknupYcVMvbxna
+ HnObQQRpS3nP1FVDv7Af3izw70OVNIXLOb6cD4I4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 092/132] drm/amd/display: HDMI remote sink need
- mode validation for Linux
-Date: Mon, 26 Oct 2020 19:51:24 -0400
-Message-Id: <20201026235205.1023962-92-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 093/132] drm/amd/display: Avoid set zero in the
+ requested clk
+Date: Mon, 26 Oct 2020 19:51:25 -0400
+Message-Id: <20201026235205.1023962-93-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201026235205.1023962-1-sashal@kernel.org>
 References: <20201026235205.1023962-1-sashal@kernel.org>
@@ -51,55 +51,61 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, Eryk Brol <eryk.brol@amd.com>,
- amd-gfx@lists.freedesktop.org, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fangzhi Zuo <Jerry.Zuo@amd.com>
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 
-[ Upstream commit 95d620adb48f7728e67d82f56f756e8d451cf8d2 ]
+[ Upstream commit 2f8be0e516803cc3fd87c1671247896571a5a8fb ]
 
 [Why]
-Currently mode validation is bypassed if remote sink exists. That
-leads to mode set issue when a BW bottle neck exists in the link path,
-e.g., a DP-to-HDMI converter that only supports HDMI 1.4.
+Sometimes CRTCs can be disabled due to display unplugging or temporarily
+transition in the userspace; in these circumstances, DCE tries to set
+the minimum clock threshold. When we have this situation, the function
+bw_calcs is invoked with number_of_displays set to zero, making DCE set
+dispclk_khz and sclk_khz to zero. For these reasons, we have seen some
+ATOM bios errors that look like:
 
-Any invalid mode passed to Linux user space will cause the modeset
-failure due to limitation of Linux user space implementation.
+[drm:atom_op_jump [amdgpu]] *ERROR* atombios stuck in loop for more than
+5secs aborting
+[drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
+executing EA8A (len 761, WS 0, PS 0) @ 0xEABA
 
 [How]
-Mode validation is skipped only if in edid override. For real remote
-sink, clock limit check should be done for HDMI remote sink.
+This error happens due to an attempt to optimize the bandwidth using the
+sclk, and the dispclk clock set to zero. Technically we handle this in
+the function dce112_set_clock, but we are not considering the case that
+this value is set to zero. This commit fixes this issue by ensuring that
+we never set a minimum value below the minimum clock threshold.
 
-Have HDMI related remote sink going through mode validation to
-elimiate modes which pixel clock exceeds BW limitation.
-
-Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
-Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Acked-by: Eryk Brol <eryk.brol@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dce112/dce112_clk_mgr.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index 885beb0bcc199..eeb4d01048f32 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -2439,7 +2439,7 @@ enum dc_status dc_link_validate_mode_timing(
- 	/* A hack to avoid failing any modes for EDID override feature on
- 	 * topology change such as lower quality cable for DP or different dongle
- 	 */
--	if (link->remote_sinks[0])
-+	if (link->remote_sinks[0] && link->remote_sinks[0]->sink_signal == SIGNAL_TYPE_VIRTUAL)
- 		return DC_OK;
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dce112/dce112_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dce112/dce112_clk_mgr.c
+index d031bd3d30724..807dca8f7d7aa 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dce112/dce112_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dce112/dce112_clk_mgr.c
+@@ -79,8 +79,7 @@ int dce112_set_clock(struct clk_mgr *clk_mgr_base, int requested_clk_khz)
+ 	memset(&dce_clk_params, 0, sizeof(dce_clk_params));
  
- 	/* Passive Dongle */
+ 	/* Make sure requested clock isn't lower than minimum threshold*/
+-	if (requested_clk_khz > 0)
+-		requested_clk_khz = max(requested_clk_khz,
++	requested_clk_khz = max(requested_clk_khz,
+ 				clk_mgr_dce->base.dentist_vco_freq_khz / 62);
+ 
+ 	dce_clk_params.target_clock_frequency = requested_clk_khz;
 -- 
 2.25.1
 
