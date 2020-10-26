@@ -1,50 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927442990F5
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 16:27:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 529CB2990FA
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 16:28:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53A416E187;
-	Mon, 26 Oct 2020 15:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EEBE6EA15;
+	Mon, 26 Oct 2020 15:28:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com
- [IPv6:2607:f8b0:4864:20::c42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 322F56E187
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 15:27:38 +0000 (UTC)
-Received: by mail-oo1-xc42.google.com with SMTP id x1so2383351ooo.12
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 08:27:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B92BC6E95B;
+ Mon, 26 Oct 2020 15:28:30 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id v5so12081584wmh.1;
+ Mon, 26 Oct 2020 08:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mWn4WewhRLsBTPcbmy2OSughHssP6G/Wcsv5qOCOPQk=;
- b=SD+mpY3nOlP7M8eJKYGCxjWExSwFHYaqBTmdWWvmUYnYsVr+FGYqCI9BKa14HB86fn
- v8Ya4jrA+NrqkRi969zal5BwaqoGxUEMmw8Xogy0u1ZZlx55HW74A8E9Hy3PYdMBDxWN
- NZ8jJtjpxBnIs66Xg4pr3fMGuaC9Yq+1wW8AQ=
+ :cc; bh=5fixE0Fzxa17/LaNC7f09xiejxOpGyiNSz6J/RfP0Nk=;
+ b=iKJOj/M7ENfJnhaI82M3THtzki19jT4wz4VC4GxWYY8cSgG55UbYRaKsGrCrom7MLA
+ 1aVzJp/N7HJpj2SnQDBTD5gt+4q2p6apsgwoyZbxsIVoutUycFaLtVQ5LHJ5iiTf+EV1
+ Kv/QvP+rsxcJpGNfjWrimeSCunnV2uOEDWvqZ+7ZcLH3UFGQvxETzFXYI1GfwtfSYUrF
+ 9tsGt9Y0HwvkUpDoWFHgL3acDOJNMPu4ieFQsBuyIhutiQAYO1wgNqkP4c4Xf+LHbszK
+ 5OHrVIiEQhcZ25Tw1Mus2JD/nnL81RUJEOxCRZEQ2aBfREFToc/8cNpa3BnVtKdI3xi6
+ l1Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mWn4WewhRLsBTPcbmy2OSughHssP6G/Wcsv5qOCOPQk=;
- b=pzTMTcYjd3S3DrrQlVoF8Mib52iIXhjZ0/YE/WiMSF86L2mueutimop9aaiUDx7H/G
- /MteT7B2TD2PpY8EA/6NASEPRpxcuebb73uvQ3oP62JL7aynRtxFCOWVdR8EwVWoZWF2
- 8ChGPG/vZlynOFsz5swkcRxYGbz1zzkhABKNkHru/ILeOgV2wjOexDe+xvrEVpW9P1VN
- qFz/1B2sn9XU3rValqzo4wrl9SdBtmVJmV+c1elVpagfTM2ZHkTmgVbuy2Zgrd0oOhVh
- z8erPo1Eu0FB7B3r3fxyzylRGHHkwZAwK7mhTsNoKDqP5ybC1b45I9nuZboummZks8ye
- ObrQ==
-X-Gm-Message-State: AOAM5306kLVG/yDnJhekbV20vNtIlYSCbOJsSlINchHf94OO4hupWGnn
- CFguEaTXsvFOJhqUksU0uyjQNQ+SItgs93SaiLLPig==
-X-Google-Smtp-Source: ABdhPJyLQkn8JZrid25zA5cw0eLagIbqC2+EB0Konvgn8Ww9p/XZFkIBmG0BpEnRA9ZpGrwe32jIJhNclIXVUe0eWqE=
-X-Received: by 2002:a4a:b503:: with SMTP id r3mr13888316ooo.28.1603726057540; 
- Mon, 26 Oct 2020 08:27:37 -0700 (PDT)
+ bh=5fixE0Fzxa17/LaNC7f09xiejxOpGyiNSz6J/RfP0Nk=;
+ b=RKVr6ImDi8Y6MbiZl3Ak0eo5pA0G58AF4ux0jMhdCsotCpMoextreKqe9IcOJIrrOS
+ KJ/baib+SxCB7tWvTMlWTYF/3N6UzIcy/R798fRLLROo6WoiaHfqyRZ7PycglayfeF/W
+ 827O2Z/I/2UEFWMTy7stEEaEGQTDrRXucvIKOpfYz0hCR5Nv4Av5GRQSDkem1hApFcJ1
+ wlJLclrdXWiVldJ6A+ag14n+PvsFubCFTBP86qIomBHsx+wM/rs+B7vo6y9qz9KkwdG2
+ 8WyjnayDFefTgnxLtolBlAwAVRM3aqJyiL7NG2cAtc2yRRMQn8PeyQjfvSrYyoD+8Urg
+ UM9Q==
+X-Gm-Message-State: AOAM531VtTEpem5CQg7QE49g9MF+mMRc/sXgZZJpMajWnhkgQ4iNCozR
+ lsapHdcQAr1k7EgVBbaLgHWQpEJjbrPIv/ATYldMlRxPEa73Vg==
+X-Google-Smtp-Source: ABdhPJwgQp8TU+rXlS1EmwKGUKBfI0Hn6qEhlIl0U9B6UJQqUib0WcAJ72ToKsIb5ibIajGh4NjUL1IXIZYlQxaJpik=
+X-Received: by 2002:a05:600c:2241:: with SMTP id
+ a1mr17556594wmm.49.1603726109285; 
+ Mon, 26 Oct 2020 08:28:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <a2j8KTgc26k5QniSAhDSTgCw4XWZhmsNHwG8UVa6U@cp4-web-014.plabs.ch>
-In-Reply-To: <a2j8KTgc26k5QniSAhDSTgCw4XWZhmsNHwG8UVa6U@cp4-web-014.plabs.ch>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 26 Oct 2020 16:27:25 +0100
-Message-ID: <CAKMK7uHqPA-Wb2kar4cz91p8599-_Z-YyOCxL353gJn=cyfd6Q@mail.gmail.com>
-Subject: Re: [PATCH] drm: deprecate DRM_FORMAT_MOD_NONE
-To: Simon Ser <contact@emersion.fr>
+References: <b9117317819c8b63d558231e6b88410ea717065e.1603716447.git.robin.murphy@arm.com>
+In-Reply-To: <b9117317819c8b63d558231e6b88410ea717065e.1603716447.git.robin.murphy@arm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 26 Oct 2020 08:28:17 -0700
+Message-ID: <CAF6AEGvavr6aGkkK6uhcY8nEYbZ82AiAs4uYwRSkuHfQ5p==Uw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Add missing stub definition
+To: Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,75 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 26, 2020 at 2:17 PM Simon Ser <contact@emersion.fr> wrote:
+On Mon, Oct 26, 2020 at 5:48 AM Robin Murphy <robin.murphy@arm.com> wrote:
 >
-> DRM_FORMAT_MOD_NONE is in the list of vendors, which is pretty
-> confusing. We already have DRM_FORMAT_MOD_VENDOR_NONE. Move it down in
-> the list of format modifiers.
+> DRM_MSM fails to build with DRM_MSM_DP=n; add the missing stub.
 >
-> DRM_FORMAT_MOD_NONE is an alias for DRM_FORMAT_MOD_LINEAR, however the
-> name is confusing: NONE doesn't mean that the modifier is implicit,
-> instead it means that the layout is linear. Deprecate it.
->
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Suggested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+
+Thanks..
+
+Reviewed-by: Rob Clark <robdclark@gmail.com>
+
+and looks like,
+
+Fixes: 8ede2ecc3e5e ("drm/msm/dp: Add DP compliance tests on
+Snapdragon Chipsets")
+
 > ---
->  include/uapi/drm/drm_fourcc.h | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/msm/msm_drv.h | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index d720f1e8ae5e..ca1d5587b5fc 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -350,7 +350,6 @@ extern "C" {
->   */
->
->  /* Vendor Ids: */
-> -#define DRM_FORMAT_MOD_NONE           0
->  #define DRM_FORMAT_MOD_VENDOR_NONE    0
->  #define DRM_FORMAT_MOD_VENDOR_INTEL   0x01
->  #define DRM_FORMAT_MOD_VENDOR_AMD     0x02
-> @@ -422,6 +421,14 @@ extern "C" {
->   */
->  #define DRM_FORMAT_MOD_LINEAR  fourcc_mod_code(NONE, 0)
->
-> +/*
-> + * Deprecated: use DRM_FORMAT_MOD_LINEAR instead
-> + *
-> + * The "none" format modifier doesn't actually mean that the modifier is
-> + * implicit, instead it means that the layout is linear.
-> + */
-
-Maybe mention that "are modifiers used" is out-of-band information
-carried in e.g. the modifier flag for addfb2 (or for EGL in the
-presence/absence of the modifier settings when initializing a buffer).
-Either way,
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +#define DRM_FORMAT_MOD_NONE    0
-> +
->  /* Intel framebuffer modifiers */
->
->  /*
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index b9dd8f8f4887..0b2686b060c7 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -423,6 +423,11 @@ static inline int msm_dp_display_disable(struct msm_dp *dp,
+>  {
+>         return -EINVAL;
+>  }
+> +static inline int msm_dp_display_pre_disable(struct msm_dp *dp,
+> +                                       struct drm_encoder *encoder)
+> +{
+> +       return -EINVAL;
+> +}
+>  static inline void msm_dp_display_mode_set(struct msm_dp *dp,
+>                                 struct drm_encoder *encoder,
+>                                 struct drm_display_mode *mode,
 > --
-> 2.28.0
+> 2.28.0.dirty
 >
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
