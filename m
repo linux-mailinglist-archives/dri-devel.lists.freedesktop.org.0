@@ -1,72 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECAD2987D2
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:08:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FDC2987F8
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:09:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 957546E87A;
-	Mon, 26 Oct 2020 08:08:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E68C6E9B4;
+	Mon, 26 Oct 2020 08:09:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03FF16E0FD
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 23:33:51 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09PNPDUE078732;
- Sun, 25 Oct 2020 23:33:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : message-id :
- content-type : mime-version : subject : date : in-reply-to : cc : to :
- references; s=corp-2020-01-29;
- bh=ZhamaOXuVkARDz6Y/coDiz1ugeVWOsS9GaNJhL3iQx0=;
- b=KXgjFEmaSwGL1QRtjVkwY3o84FaVtHQu0lLenyl5AIZFqUr1iOIwlKf4HiwQEPGPDxzJ
- JPNTTAv3k5sFi3nYJt/XMGb8nK5LeF4vWo+3y5HtNgdx7RctDCHFhe9YqyldPVgDlCr4
- xICcvJLRS99eU85lR1E9I7CrwdkC4nfpO0ye+yKsDIMAf/wlwBYqi0ZHMXDRZeCNEpzA
- KPC/RoiQsBQl3o0GP8/OC1W2iwj9CZZTuFxJl5cJNkBF2hh/ZACEPTf51dfKPvbwz2Su
- tmQuoeTzm0h3rLmtuDU9C4S3kE/EekvQFmS3Gjw4ynVb5PDYnk3ZU8IjQTSHrheyannS HA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 34dgm3r3ke-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sun, 25 Oct 2020 23:33:44 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09PNJttU104769;
- Sun, 25 Oct 2020 23:31:43 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 34cx5vgvqg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 25 Oct 2020 23:31:43 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09PNVWH8032033;
- Sun, 25 Oct 2020 23:31:32 GMT
-Received: from dhcp-10-159-151-51.vpn.oracle.com (/10.159.151.51)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sun, 25 Oct 2020 16:31:31 -0700
-From: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Message-Id: <D8632766-13CA-4499-839A-AF21E247F5B9@oracle.com>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Re: [PATCH 1/1] video: fbdev: fix divide error in fbcon_switch
-Date: Sun, 25 Oct 2020 16:31:30 -0700
-In-Reply-To: <ad87c5c1-061d-8a81-7b2c-43a8687a464f@suse.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org
-References: <20201021235758.59993-1-saeed.mirzamohammadi@oracle.com>
- <ad87c5c1-061d-8a81-7b2c-43a8687a464f@suse.de>
-X-Mailer: Apple Mail (2.3608.120.23.2.1)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9785
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxscore=0 mlxlogscore=999
- suspectscore=0 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010250177
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9785
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 impostorscore=0
- adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- suspectscore=0 clxscore=1011 mlxscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010250177
+X-Greylist: delayed 314 seconds by postgrey-1.36 at gabe;
+ Mon, 26 Oct 2020 05:29:21 UTC
+Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C0BE6E193
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 05:29:21 +0000 (UTC)
+Received: from HKMAIL102.nvidia.com (Not Verified[10.18.92.9]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f965d740002>; Mon, 26 Oct 2020 13:24:04 +0800
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL102.nvidia.com
+ (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Oct
+ 2020 05:23:52 +0000
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
+ by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Mon, 26 Oct 2020 05:23:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AP+9bidxNVRZPCeIYcrgqDiVBhlURUe4mvJh8BCpwtn8k48AcsSn3mSt+0yNOv5xOTw9n2pCGmo/b00j6JP93lIA7NnboxH0rypaMnTvzAJvmkAtc0/DV3Rf/4hwUDdR5YAPCxgcIj6asK/6IEaFrINdP5I5nXwB/JNzqW/nL4NWhA+GkKGqUEFHmMN9Ujzs+XmtJmZ1QlaYdKjHD4qPzAfIjLxNgS9n7BGQSwEE++BGhF5gvWCrtK1bOi6MLEcrKctQXx8Mbjpv7pwJycBO7ywyK8qCturi6m41Qcq9d8h2bm4DjlF+0D7LjgSn5bjv2RPyp+8pI3UEc99d7IAsMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tbMLpDqrsvU0+iByqjIAN0xatWbwA6AlnyCh2OwMIvU=;
+ b=KDNG1u7F/Vqz1klep1mD6dQU3nw/9NdSXYalEe6W//2lyfUzVwwNp9rzQ7zgELAze2nNUyrHfbKH7wSR1nMXOhDp/TMQqnd/qEf/NxWWLFdOD4HPDxYhTPTe79WUNmTRPDBNGQtCDPBKOCUFiyRzBOdn7cpF3pWGGepPFkt7WfaLSmPCGLE7yZw3wHQ4Ou+Orb8xCJNDp8kpfGJvfY4pC4CWqEHEpT4zcurDpDi4C/iaV0ZfE86qWfSGqytps+bFd1MNKf1DY3K2aR5JDz5/VFdk16wGHg4d4rkeRX5T8eegcxUlTqPZjwI5ET7bRo+9CGNE6U3/vYhMCRDFzVkiAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BY5PR12MB4322.namprd12.prod.outlook.com (2603:10b6:a03:20a::20)
+ by BY5PR12MB3842.namprd12.prod.outlook.com (2603:10b6:a03:1ab::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Mon, 26 Oct
+ 2020 05:23:48 +0000
+Received: from BY5PR12MB4322.namprd12.prod.outlook.com
+ ([fe80::3c25:6e4c:d506:6105]) by BY5PR12MB4322.namprd12.prod.outlook.com
+ ([fe80::3c25:6e4c:d506:6105%6]) with mapi id 15.20.3477.028; Mon, 26 Oct 2020
+ 05:23:48 +0000
+From: Parav Pandit <parav@nvidia.com>
+To: Jakub Kicinski <kuba@kernel.org>, syzbot
+ <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>
+Subject: RE: WARNING in dma_map_page_attrs
+Thread-Topic: WARNING in dma_map_page_attrs
+Thread-Index: AQHWqbLPPEPI9mnwmUSeVEeL/Zim3qmnD9kAgAJKk0A=
+Date: Mon, 26 Oct 2020 05:23:48 +0000
+Message-ID: <BY5PR12MB4322CC03CE0D34B83269676ADC190@BY5PR12MB4322.namprd12.prod.outlook.com>
+References: <000000000000335adc05b23300f6@google.com>
+ <000000000000a0f8a305b261fe4a@google.com>
+ <20201024111516.59abc9ec@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <20201024111516.59abc9ec@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nvidia.com;
+x-originating-ip: [49.207.195.223]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b1011120-8eb3-4bd9-1576-08d8796f5156
+x-ms-traffictypediagnostic: BY5PR12MB3842:
+x-microsoft-antispam-prvs: <BY5PR12MB38420528634827441C4D31F2DC190@BY5PR12MB3842.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2582;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Y+3F1SaWjx/zRrb0K3rSjRkyshOOTTlkfAS0S1MJ4igzSWAV2f3LtcEhi460dXZxxU2pN8pUb78Y4T6P41a8xczXqoWyEzM62ZnocZI0JrJFE/G8d/WGfU1MgvGDJ6AjP+Lfy3iRMawvAGBlJG2tqBehHhS2Gbu81eJvuuz75CMDrSSKWHtUUoBOJalPislzN9Asp3iph7H6eWt5ZPoWl/iJJbrzcJyOvnhCsBYaka4S0WOUsGdN+BJKO2z5wHM16cr4v0W5MczTGyteinrPQMtzu8lN2Ki50G2i6ES7iqde6hDO4j3V7T5WocvsNiZV/36238gDctiW4ESwprkSwi6YB0X+rMADd9WJKhb/7WPHttI7xXKPSsda5aEHJa19iTJlQ+jnc9OYvhyZVQfjRg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4322.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(376002)(39860400002)(396003)(346002)(7116003)(2906002)(7416002)(66946007)(4326008)(8936002)(5660300002)(55016002)(33656002)(478600001)(45080400002)(83380400001)(966005)(110136005)(66476007)(64756008)(66556008)(86362001)(52536014)(76116006)(66446008)(186003)(71200400001)(316002)(26005)(54906003)(6506007)(55236004)(8676002)(7696005)(9686003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: um3a6/B+qi795WTVO+zikuAuO8OsftQsFvKddYoBgSHg2hFOq3JYHAg3cBbzLf3ZEVu6879ppX1b+qU0dGbCyPSdK9K3yn/lI3+N16kTt+hHJX/B6rZoXJK1dorMF/hczLrQAZsYLrsywJ03tA0WRdir4A39dVBQfOtUqOsbEG/+WK+4+wkBRh6zPVPTtY8JdDr0dhXzNVn6oa8+s/vDapiBpC4Ovupjo+tQJFDITjSN21v2NOP86elQzuqS8G4RFGttTqycN2/adA4eDdhkgytvVPHEeaGJO3Y2QpRIrDztz+i6XFsLODOz+SoJShDuVONjPJlScYY85FpJajOi+xoBlBndq5TzCFSH62ZyndokB4tdAI8xJhmwV5cgBJUi3eYox6aZZEBhaG2tElYDLhQ0uHbTon2V9MCJTnFPG9dRFhubTuoNOkVbfI7rm+/srWBwXT3tJUWWgDCa8/76YXcq8inTMbx9PpZ97H07g4vOo8dWj2izaFahSUZOGXmgj8FlQxgrEvZqa3Rqjnl5xUbb4WFR6gzzzK3sjovsb3pqh4Aq93/iCyubG/JgZ9GzzzuEI33e/kSQdBw/9hUsP/rtUtA82maaQAnA/jS2JRt7Hz/VRSSqEn9hkL+rHK9kAW4UroyhPhhUTr5RiYLjMA==
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4322.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1011120-8eb3-4bd9-1576-08d8796f5156
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2020 05:23:48.4438 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 34yrQB1V5yaoAvaBs06eEUzOtttYEuGETHA7nEqHb+pxirXG1j7n/hCF44Wjy4VsQlyitKkXvStD+e0K612ohA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3842
+X-OriginatorOrg: Nvidia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1603689844; bh=tbMLpDqrsvU0+iByqjIAN0xatWbwA6AlnyCh2OwMIvU=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:From:To:
+ CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:References:
+ In-Reply-To:Accept-Language:Content-Language:X-MS-Has-Attach:
+ X-MS-TNEF-Correlator:authentication-results:x-originating-ip:
+ x-ms-publictraffictype:x-ms-office365-filtering-correlation-id:
+ x-ms-traffictypediagnostic:x-microsoft-antispam-prvs:
+ x-ms-oob-tlc-oobclassifiers:x-ms-exchange-senderadcheck:
+ x-microsoft-antispam:x-microsoft-antispam-message-info:
+ x-forefront-antispam-report:x-ms-exchange-antispam-messagedata:
+ x-ms-exchange-transport-forked:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:
+ X-MS-Exchange-CrossTenant-AuthAs:
+ X-MS-Exchange-CrossTenant-AuthSource:
+ X-MS-Exchange-CrossTenant-Network-Message-Id:
+ X-MS-Exchange-CrossTenant-originalarrivaltime:
+ X-MS-Exchange-CrossTenant-fromentityheader:
+ X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+ X-MS-Exchange-CrossTenant-userprincipalname:
+ X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+ b=IAOVmhswVe83Qe3IsX4Xt7Ei3P+qa6kSxmgtT6+zEwaQyqKnS+BiXAA1ymF2RTzzf
+ RPYBKBKp4vRRAzwLESbu/NUG+f9jdcgOQvzEser5dWyVDxsG2c1/eM0olFqrq8kT0d
+ ZnD2OlDb/OlbBJRjrbi52t6BdIsFKe/vsgw9UtauzK2POwYvoDA02eTJWIoNBGlmRZ
+ nbXRj4qKCASD4U2f0kWTd68wv7lonaxkQLXALrD4Z5gPAHUTOe9wWhj4D+JrONuDT0
+ qS7b7wwKknKCpSKq8VcuHXm7eplpBzEP9W1wDzEY8ZG0YiH5jmX0h6WFdybRtK1kDn
+ VWyqhRUUqEnUg==
 X-Mailman-Approved-At: Mon, 26 Oct 2020 08:08:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,451 +126,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
- jani.nikula@intel.com, daniel.vetter@ffwll.ch, gustavoars@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- akpm@linux-foundation.org, rppt@kernel.org
-Content-Type: multipart/mixed; boundary="===============0324873083=="
+Cc: "linaro-mm-sig-owner@lists.linaro.org"
+ <linaro-mm-sig-owner@lists.linaro.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "hch@lst.de" <hch@lst.de>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Christoph,
 
---===============0324873083==
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_DCD68940-031B-4C2D-BBAE-1D2D330BDA5E"
+> From: Jakub Kicinski <kuba@kernel.org>
+> Sent: Saturday, October 24, 2020 11:45 PM
+> 
+> CC: rdma, looks like rdma from the stack trace
+> 
+> On Fri, 23 Oct 2020 20:07:17 -0700 syzbot wrote:
+> > syzbot has found a reproducer for the following issue on:
+> >
+> > HEAD commit:    3cb12d27 Merge tag 'net-5.10-rc1' of git://git.kernel.org/..
 
+In [1] you mentioned that dma_mask should not be set for dma_virt_ops.
+So patch [2] removed it.
 
---Apple-Mail=_DCD68940-031B-4C2D-BBAE-1D2D330BDA5E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+But check to validate the dma mask for all dma_ops was added in [3].
 
-Thanks, adding stable.
+What is the right way? Did I misunderstood your comment about dma_mask in [1]?
 
-> On Oct 22, 2020, at 12:34 AM, Thomas Zimmermann <tzimmermann@suse.de> =
-wrote:
->=20
-> Hi
->=20
-> On 22.10.20 01:57, saeed.mirzamohammadi@oracle.com =
-<mailto:saeed.mirzamohammadi@oracle.com> wrote:
->> From: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com =
-<mailto:saeed.mirzamohammadi@oracle.com>>
->>=20
->> This patch fixes the issue due to:
->>=20
->> [   89.572883] divide_error: 0000 [#1] SMP KASAN PTI
->> [   89.572897] CPU: 3 PID: 16083 Comm: repro Not tainted =
-5.9.0-rc7.20200930.rc1.allarch-19-g3e32d0d.syzk #5
->> [   89.572902] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), =
-BIOS 0.5.1 01/01/2011
->> [   89.572934] RIP: 0010:cirrusfb_check_var+0x84/0x1260
->=20
-> BTW, if you run qemu with cirrus, there's also a DRM driver named
-> cirrus.ko. Might be a better choice than the old fbdev driver. If you
-> just care about qemu, but not the actual graphics device, take a look =
-at
->=20
->  =
-https://urldefense.com/v3/__https://www.kraxel.org/blog/2014/10/qemu-using=
--cirrus-considered-harmful/__;!!GqivPVa7Brio!LmgeM-pVBVH80uVELF1P1nBGAbAlh=
-vnxKKE_ZrEc9d76AznvAAgP1FAp3_zNa2frKaIUZteK$ =
-<https://urldefense.com/v3/__https://www.kraxel.org/blog/2014/10/qemu-usin=
-g-cirrus-considered-harmful/__;!!GqivPVa7Brio!LmgeM-pVBVH80uVELF1P1nBGAbAl=
-hvnxKKE_ZrEc9d76AznvAAgP1FAp3_zNa2frKaIUZteK$>=20
->=20
-> Anyway, thanks for your patch.
->=20
-> Best regards
-> Thomas
->=20
->>=20
->> The error happens when the pixels value is calculated before =
-performing the sanity checks on bits_per_pixel.
->> A bits_per_pixel set to zero causes divide by zero error.
->>=20
->> This patch moves the calculation after the sanity check.
->>=20
->> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
->> Tested-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
->> ---
->> drivers/video/fbdev/cirrusfb.c | 3 ++-
->> 1 file changed, 2 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/drivers/video/fbdev/cirrusfb.c =
-b/drivers/video/fbdev/cirrusfb.c
->> index 15a9ee7cd734..a7749101b094 100644
->> --- a/drivers/video/fbdev/cirrusfb.c
->> +++ b/drivers/video/fbdev/cirrusfb.c
->> @@ -531,7 +531,7 @@ static int cirrusfb_check_var(struct =
-fb_var_screeninfo *var,
->> {
->> 	int yres;
->> 	/* memory size in pixels */
->> -	unsigned pixels =3D info->screen_size * 8 / var->bits_per_pixel;
->> +	unsigned int pixels;
->> 	struct cirrusfb_info *cinfo =3D info->par;
->>=20
->> 	switch (var->bits_per_pixel) {
->> @@ -573,6 +573,7 @@ static int cirrusfb_check_var(struct =
-fb_var_screeninfo *var,
->> 		return -EINVAL;
->> 	}
->>=20
->> +	pixels =3D info->screen_size * 8 / var->bits_per_pixel;
->> 	if (var->xres_virtual < var->xres)
->> 		var->xres_virtual =3D var->xres;
->> 	/* use highest possible virtual resolution */
->>=20
->=20
-> --=20
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+[1] https://www.spinics.net/lists/linux-rdma/msg96374.html
+[2] e0477b34d9d ("RDMA: Explicitly pass in the dma_device to ib_register_device")
+[3] f959dcd6ddfd ("dma-direct: Fix potential NULL pointer dereference")
 
-
---Apple-Mail=_DCD68940-031B-4C2D-BBAE-1D2D330BDA5E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" =
-class=3D"">Thanks, adding stable.<br class=3D""><div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">On Oct =
-22, 2020, at 12:34 AM, Thomas Zimmermann &lt;<a =
-href=3D"mailto:tzimmermann@suse.de" class=3D"">tzimmermann@suse.de</a>&gt;=
- wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D""><span=
- style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">Hi</span><br style=3D"caret-color:=
- rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: =
-normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
-normal; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">On 22.10.20 01:57,<span =
-class=3D"Apple-converted-space">&nbsp;</span></span><a =
-href=3D"mailto:saeed.mirzamohammadi@oracle.com" style=3D"font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; orphans: auto; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; =
--webkit-text-stroke-width: 0px;" =
-class=3D"">saeed.mirzamohammadi@oracle.com</a><span style=3D"caret-color: =
-rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: =
-normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
-normal; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D""><span =
-class=3D"Apple-converted-space">&nbsp;</span>wrote:</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" =
-class=3D""><blockquote type=3D"cite" style=3D"font-family: Helvetica; =
-font-size: 12px; font-style: normal; font-variant-caps: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D"">From: =
-Saeed Mirzamohammadi &lt;<a =
-href=3D"mailto:saeed.mirzamohammadi@oracle.com" =
-class=3D"">saeed.mirzamohammadi@oracle.com</a>&gt;<br class=3D""><br =
-class=3D"">This patch fixes the issue due to:<br class=3D""><br =
-class=3D"">[ &nbsp;&nbsp;89.572883] divide_error: 0000 [#1] SMP KASAN =
-PTI<br class=3D"">[ &nbsp;&nbsp;89.572897] CPU: 3 PID: 16083 Comm: repro =
-Not tainted 5.9.0-rc7.20200930.rc1.allarch-19-g3e32d0d.syzk #5<br =
-class=3D"">[ &nbsp;&nbsp;89.572902] Hardware name: QEMU Standard PC =
-(i440FX + PIIX, 1996), BIOS 0.5.1 01/01/2011<br class=3D"">[ =
-&nbsp;&nbsp;89.572934] RIP: 0010:cirrusfb_check_var+0x84/0x1260<br =
-class=3D""></blockquote><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">BTW, if you run qemu with cirrus, there's also a DRM driver =
-named</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none; float: none; display: inline !important;" class=3D"">cirrus.ko. =
-Might be a better choice than the old fbdev driver. If you</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">just care about qemu, but not =
-the actual graphics device, take a look at</span><br style=3D"caret-color:=
- rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: =
-normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
-normal; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">&nbsp;</span><a =
-href=3D"https://urldefense.com/v3/__https://www.kraxel.org/blog/2014/10/qe=
-mu-using-cirrus-considered-harmful/__;!!GqivPVa7Brio!LmgeM-pVBVH80uVELF1P1=
-nBGAbAlhvnxKKE_ZrEc9d76AznvAAgP1FAp3_zNa2frKaIUZteK$" =
-style=3D"font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;" =
-class=3D"">https://urldefense.com/v3/__https://www.kraxel.org/blog/2014/10=
-/qemu-using-cirrus-considered-harmful/__;!!GqivPVa7Brio!LmgeM-pVBVH80uVELF=
-1P1nBGAbAlhvnxKKE_ZrEc9d76AznvAAgP1FAp3_zNa2frKaIUZteK$</a><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D""><span =
-class=3D"Apple-converted-space">&nbsp;</span></span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">Anyway, thanks for your =
-patch.</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" class=3D""><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none; float: none; display: inline !important;" class=3D"">Best =
-regards</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none; float: none; display: inline !important;" =
-class=3D"">Thomas</span><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><blockquote type=3D"cite" =
-style=3D"font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><br class=3D"">The error happens when =
-the pixels value is calculated before performing the sanity checks on =
-bits_per_pixel.<br class=3D"">A bits_per_pixel set to zero causes divide =
-by zero error.<br class=3D""><br class=3D"">This patch moves the =
-calculation after the sanity check.<br class=3D""><br =
-class=3D"">Signed-off-by: Saeed Mirzamohammadi &lt;<a =
-href=3D"mailto:saeed.mirzamohammadi@oracle.com" =
-class=3D"">saeed.mirzamohammadi@oracle.com</a>&gt;<br =
-class=3D"">Tested-by: Saeed Mirzamohammadi &lt;<a =
-href=3D"mailto:saeed.mirzamohammadi@oracle.com" =
-class=3D"">saeed.mirzamohammadi@oracle.com</a>&gt;<br class=3D"">---<br =
-class=3D"">drivers/video/fbdev/cirrusfb.c | 3 ++-<br class=3D"">1 file =
-changed, 2 insertions(+), 1 deletion(-)<br class=3D""><br class=3D"">diff =
---git a/drivers/video/fbdev/cirrusfb.c =
-b/drivers/video/fbdev/cirrusfb.c<br class=3D"">index =
-15a9ee7cd734..a7749101b094 100644<br class=3D"">--- =
-a/drivers/video/fbdev/cirrusfb.c<br class=3D"">+++ =
-b/drivers/video/fbdev/cirrusfb.c<br class=3D"">@@ -531,7 +531,7 @@ =
-static int cirrusfb_check_var(struct fb_var_screeninfo *var,<br =
-class=3D"">{<br class=3D""><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>int yres;<br class=3D""><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>/* memory =
-size in pixels */<br class=3D"">-<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>unsigned pixels =3D =
-info-&gt;screen_size * 8 / var-&gt;bits_per_pixel;<br class=3D"">+<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>unsigned =
-int pixels;<br class=3D""><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>struct cirrusfb_info *cinfo =3D =
-info-&gt;par;<br class=3D""><br class=3D""><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>switch (var-&gt;bits_per_pixel) =
-{<br class=3D"">@@ -573,6 +573,7 @@ static int cirrusfb_check_var(struct =
-fb_var_screeninfo *var,<br class=3D""><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>return -EINVAL;<br class=3D""><span=
- class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>}<br =
-class=3D""><br class=3D"">+<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>pixels =3D info-&gt;screen_size * =
-8 / var-&gt;bits_per_pixel;<br class=3D""><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (var-&gt;xres_virtual &lt; =
-var-&gt;xres)<br class=3D""><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>var-&gt;xres_virtual =3D =
-var-&gt;xres;<br class=3D""><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>/* use highest possible virtual =
-resolution */<br class=3D""><br class=3D""></blockquote><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">--<span =
-class=3D"Apple-converted-space">&nbsp;</span></span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">Thomas Zimmermann</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">Graphics Driver =
-Developer</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none; float: none; display: inline !important;" class=3D"">SUSE Software =
-Solutions Germany GmbH</span><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">(HRB 36809, AG =
-N=C3=BCrnberg)</span><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">Gesch=C3=A4ftsf=C3=BChrer: Felix =
-Imend=C3=B6rffer</span></div></blockquote></div><br =
-class=3D""></body></html>=
-
---Apple-Mail=_DCD68940-031B-4C2D-BBAE-1D2D330BDA5E--
-
---===============0324873083==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> > WARNING: CPU: 1 PID: 8488 at kernel/dma/mapping.c:149
+> > dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149 Modules
+> linked in:
+> >  dma_map_single_attrs include/linux/dma-mapping.h:279 [inline]
+> > ib_dma_map_single include/rdma/ib_verbs.h:3967 [inline]
+> >  ib_mad_post_receive_mads+0x23f/0xd60
+> > drivers/infiniband/core/mad.c:2715
+> >  ib_mad_port_start drivers/infiniband/core/mad.c:2862 [inline]
+> > ib_mad_port_open drivers/infiniband/core/mad.c:3016 [inline]
+> >  ib_mad_init_device+0x72b/0x1400 drivers/infiniband/core/mad.c:3092
+> >  add_client_context+0x405/0x5e0 drivers/infiniband/core/device.c:680
+> >  enable_device_and_get+0x1d5/0x3c0
+> > drivers/infiniband/core/device.c:1301
+> >  ib_register_device drivers/infiniband/core/device.c:1376 [inline]
+> >  ib_register_device+0x7a7/0xa40 drivers/infiniband/core/device.c:1335
+> >  rxe_register_device+0x46d/0x570
+> > drivers/infiniband/sw/rxe/rxe_verbs.c:1182
+> >  rxe_add+0x12fe/0x16d0 drivers/infiniband/sw/rxe/rxe.c:247
+> >  rxe_net_add+0x8c/0xe0 drivers/infiniband/sw/rxe/rxe_net.c:507
+> >  rxe_newlink drivers/infiniband/sw/rxe/rxe.c:269 [inline]
+> >  rxe_newlink+0xb7/0xe0 drivers/infiniband/sw/rxe/rxe.c:250
+> >  nldev_newlink+0x30e/0x540 drivers/infiniband/core/nldev.c:1555
+> >  rdma_nl_rcv_msg+0x367/0x690 drivers/infiniband/core/netlink.c:195
+> >  rdma_nl_rcv_skb drivers/infiniband/core/netlink.c:239 [inline]
+> >  rdma_nl_rcv+0x2f2/0x440 drivers/infiniband/core/netlink.c:259
+> >  netlink_unicast_kernel net/netlink/af_netlink.c:1304 [inline]
+> >  netlink_unicast+0x533/0x7d0 net/netlink/af_netlink.c:1330
+> >  netlink_sendmsg+0x856/0xd90 net/netlink/af_netlink.c:1919
+> > sock_sendmsg_nosec net/socket.c:651 [inline]
+> >  sock_sendmsg+0xcf/0x120 net/socket.c:671
+> >  ____sys_sendmsg+0x6e8/0x810 net/socket.c:2353
+> >  ___sys_sendmsg+0xf3/0x170 net/socket.c:2407
+> >  __sys_sendmsg+0xe5/0x1b0 net/socket.c:2440
+> >  do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+> >  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> > RIP: 0033:0x443699
+> > Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48
+> > 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d
+> > 01 f0 ff ff 0f 83 db 0d fc ff c3 66 2e 0f 1f 84 00 00 00 00
+> > RSP: 002b:00007ffc067db418 EFLAGS: 00000246 ORIG_RAX:
+> 000000000000002e
+> > RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000443699
+> > RDX: 0000000000000000 RSI: 00000000200002c0 RDI: 0000000000000003
+> > RBP: 00007ffc067db420 R08: 0000000001bbbbbb R09: 0000000001bbbbbb
+> > R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffc067db430
+> > R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+> >
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0324873083==--
