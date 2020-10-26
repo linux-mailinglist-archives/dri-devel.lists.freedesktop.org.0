@@ -2,64 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D0D2994BC
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:02:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1982994B7
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:01:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 180476EA45;
-	Mon, 26 Oct 2020 18:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 096B26EA5A;
+	Mon, 26 Oct 2020 18:01:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2C316E9FF
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 11:55:17 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1603713322; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=gWbIE7C0uttXUDIpuGQCOy8JhDjczIXQfYWdOHE0ZWM=;
- b=AxzHzehOuVjmjg/ua95zAIdFpcwi3b6gARN9tsa3ygin0R/S+qaJzXZFW4w6Tq6YArmwKgkd
- pna6EQrT0uIN/8Pm39ZR9zMMnwIqpOhJp6vEJhgDYMqleGB+MwdwP0NoPFwRvx3xWJnXXZPp
- 7J1SDN2Q5SceKDVGceIUWnDSDh8=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5f96b90bfcd46a2b7688e2d5 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 26 Oct 2020 11:54:51
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 27A3FC433AF; Mon, 26 Oct 2020 11:54:51 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from blr-ubuntu-253.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7D905C43395;
- Mon, 26 Oct 2020 11:54:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7D905C43395
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
- smtp.mailfrom=saiprakash.ranjan@codeaurora.org
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
- Rob Clark <robdclark@gmail.com>
-Subject: [PATCHv6 6/6] iommu: arm-smmu-impl: Add a space before open
- parenthesis
-Date: Mon, 26 Oct 2020 17:24:05 +0530
-Message-Id: <2f53c9fb61613c7531d142c30e12789c60276201.1603448364.git.saiprakash.ranjan@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1603448364.git.saiprakash.ranjan@codeaurora.org>
-References: <cover.1603448364.git.saiprakash.ranjan@codeaurora.org>
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04F556E122;
+ Mon, 26 Oct 2020 11:48:50 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CKY5J1Hzpzhb8s;
+ Mon, 26 Oct 2020 19:48:52 +0800 (CST)
+Received: from huawei.com (10.90.53.225) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Mon, 26 Oct 2020
+ 19:48:45 +0800
+From: Zhang Qilong <zhangqilong3@huawei.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH -next] drm/amdgpu: Discard unnecessary breaks
+Date: Mon, 26 Oct 2020 19:59:30 +0800
+Message-ID: <20201026115930.14991-1-zhangqilong3@huawei.com>
+X-Mailer: git-send-email 2.26.0.106.g9fadedd
 MIME-Version: 1.0
+X-Originating-IP: [10.90.53.225]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Mon, 26 Oct 2020 18:01:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,41 +40,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- iommu@lists.linux-foundation.org,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: alexander.deucher@amd.com, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the checkpatch warning for space required before the open
-parenthesis.
+The 'break' is unnecessary because of previous
+'return', discard it.
 
-Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 6 ------
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c         | 4 ----
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c         | 7 -------
+ 3 files changed, 17 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index ffaf3f91ba52..f16da4a21270 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -12,7 +12,7 @@
+diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+index 8339c8c3a328..fa817ebff980 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
++++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+@@ -499,10 +499,8 @@ int amdgpu_atombios_encoder_get_encoder_mode(struct drm_encoder *encoder)
+ 		} else {
+ 			return ATOM_ENCODER_MODE_DVI;
+ 		}
+-		break;
+ 	case DRM_MODE_CONNECTOR_LVDS:
+ 		return ATOM_ENCODER_MODE_LVDS;
+-		break;
+ 	case DRM_MODE_CONNECTOR_DisplayPort:
+ 		dig_connector = amdgpu_connector->con_priv;
+ 		if ((dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT) ||
+@@ -519,20 +517,16 @@ int amdgpu_atombios_encoder_get_encoder_mode(struct drm_encoder *encoder)
+ 		} else {
+ 			return ATOM_ENCODER_MODE_DVI;
+ 		}
+-		break;
+ 	case DRM_MODE_CONNECTOR_eDP:
+ 		return ATOM_ENCODER_MODE_DP;
+ 	case DRM_MODE_CONNECTOR_DVIA:
+ 	case DRM_MODE_CONNECTOR_VGA:
+ 		return ATOM_ENCODER_MODE_CRT;
+-		break;
+ 	case DRM_MODE_CONNECTOR_Composite:
+ 	case DRM_MODE_CONNECTOR_SVIDEO:
+ 	case DRM_MODE_CONNECTOR_9PinDIN:
+ 		/* fix me */
+ 		return ATOM_ENCODER_MODE_TV;
+-		/*return ATOM_ENCODER_MODE_CV;*/
+-		break;
+ 	}
+ }
  
- static int arm_smmu_gr0_ns(int offset)
- {
--	switch(offset) {
-+	switch (offset) {
- 	case ARM_SMMU_GR0_sCR0:
- 	case ARM_SMMU_GR0_sACR:
- 	case ARM_SMMU_GR0_sGFSR:
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+index 5963cbe0d455..34448df0ccf3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+@@ -2202,22 +2202,18 @@ static int dce_v10_0_pick_dig_encoder(struct drm_encoder *encoder)
+ 			return 1;
+ 		else
+ 			return 0;
+-		break;
+ 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY1:
+ 		if (dig->linkb)
+ 			return 3;
+ 		else
+ 			return 2;
+-		break;
+ 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY2:
+ 		if (dig->linkb)
+ 			return 5;
+ 		else
+ 			return 4;
+-		break;
+ 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY3:
+ 		return 6;
+-		break;
+ 	default:
+ 		DRM_ERROR("invalid encoder_id: 0x%x\n", amdgpu_encoder->encoder_id);
+ 		return 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+index 1954472c8e8f..eb16f7529223 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+@@ -2235,22 +2235,18 @@ static int dce_v11_0_pick_dig_encoder(struct drm_encoder *encoder)
+ 			return 1;
+ 		else
+ 			return 0;
+-		break;
+ 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY1:
+ 		if (dig->linkb)
+ 			return 3;
+ 		else
+ 			return 2;
+-		break;
+ 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY2:
+ 		if (dig->linkb)
+ 			return 5;
+ 		else
+ 			return 4;
+-		break;
+ 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY3:
+ 		return 6;
+-		break;
+ 	default:
+ 		DRM_ERROR("invalid encoder_id: 0x%x\n", amdgpu_encoder->encoder_id);
+ 		return 0;
+@@ -2304,19 +2300,16 @@ static u32 dce_v11_0_pick_pll(struct drm_crtc *crtc)
+ 				return ATOM_COMBOPHY_PLL1;
+ 			else
+ 				return ATOM_COMBOPHY_PLL0;
+-			break;
+ 		case ENCODER_OBJECT_ID_INTERNAL_UNIPHY1:
+ 			if (dig->linkb)
+ 				return ATOM_COMBOPHY_PLL3;
+ 			else
+ 				return ATOM_COMBOPHY_PLL2;
+-			break;
+ 		case ENCODER_OBJECT_ID_INTERNAL_UNIPHY2:
+ 			if (dig->linkb)
+ 				return ATOM_COMBOPHY_PLL5;
+ 			else
+ 				return ATOM_COMBOPHY_PLL4;
+-			break;
+ 		default:
+ 			DRM_ERROR("invalid encoder_id: 0x%x\n", amdgpu_encoder->encoder_id);
+ 			return ATOM_PPLL_INVALID;
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
