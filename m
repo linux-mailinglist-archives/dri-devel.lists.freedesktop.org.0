@@ -2,37 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFE929921F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 17:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48041299232
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 17:20:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB6E6EA35;
-	Mon, 26 Oct 2020 16:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA07E6E044;
+	Mon, 26 Oct 2020 16:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id BB9196EA35
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 16:16:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1DF61042;
- Mon, 26 Oct 2020 09:16:51 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D2E943F719;
- Mon, 26 Oct 2020 09:16:50 -0700 (PDT)
-Subject: Re: [PATCH] drm/panfrost: Fix a race in the job timeout handling
- (again)
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20201026153206.97037-1-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <67cf9263-a400-6ffe-0e30-9e8bce0d3a87@arm.com>
-Date: Mon, 26 Oct 2020 16:16:49 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C29236E044;
+ Mon, 26 Oct 2020 16:20:50 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id d78so12271037wmd.3;
+ Mon, 26 Oct 2020 09:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FneYwIRzGWRgT/Sz6YdB9/M1Akj6cm+qmZoMOttLQjk=;
+ b=ZfV3YV9hqOUVSJRCNHJ5pMK+LrpPzJT56mirDKob6UJrKlhMcf8Sl5+0Wapx48W3Zj
+ CSWyHrEe52EIB6QfMQwHQH9gpnv0Gqmregjr/qU8YjQSe35IC2+2mF/Ud2EJ+QNig1af
+ s7UwftDK7X48ZswkeVz3xjCvsa3qqO2osbuR865qfeti0dKR8esZbUTapVu1IQ0Mu/sp
+ NeO03lSDL0DZTgDhZXbV/LQSvsmuAtwTZRXYAKkLrUNytJVRxyAXlMYLeqMvxTI1W1wB
+ ap9NnMMobfpSzL/PHHEfY1Icrl0YZvvPjXhWie9b5469MbtX2ckq6KElgfHLkIPCr2jv
+ U9/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FneYwIRzGWRgT/Sz6YdB9/M1Akj6cm+qmZoMOttLQjk=;
+ b=KYHt9Pp3Wld8g6j4WPv0l90MkFH/owB2JMZLs/DSpuGoUSJOJA9CeCnM7SuU9ClGzq
+ eaYVihsjPB+VB47MUAEl8c72KBuIjRZrmzbDJ9yFvtEeVLFpTEF2SivutN6P4lT4yPiz
+ iwz+Qh4570shJzjrp6rPr/kgvqvi5Rpd8BvoNUcLttFPZuib3JtzA3ZcX8tcdKMHc9AJ
+ +QJTmyhD3/1SBNduCZAxhzpfcqkCscCzD/KBp7oWPBoxLmMw/qIreoEtp0eWlcWgAYQE
+ WxtAaKuSKLU3LqJuccxGo6O8ilSJtp6X8QnvAJzJaU8roc+n8y1mcDKRc3V0TvNwT764
+ sSuw==
+X-Gm-Message-State: AOAM531eWCl3G4kdu6Yg9kMGu8nBnI92M93+b60+vLlZ66h1yxHirEBK
+ tSWRnT2hrlXSLt+wOwDfglhbWNsWlFEsTp2QK6dY7zcp
+X-Google-Smtp-Source: ABdhPJwtVnC/D43zPbJQlp/7EvUuT3yhGhh8G+o60Y77WMEfvByKDNna6OOP9xyMc5nmXxQ83OFOAg/WoA3glNMCS00=
+X-Received: by 2002:a1c:6302:: with SMTP id x2mr17098606wmb.56.1603729249478; 
+ Mon, 26 Oct 2020 09:20:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201026153206.97037-1-boris.brezillon@collabora.com>
-Content-Language: en-GB
+References: <20201026115930.14991-1-zhangqilong3@huawei.com>
+In-Reply-To: <20201026115930.14991-1-zhangqilong3@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 26 Oct 2020 12:20:38 -0400
+Message-ID: <CADnq5_NeD__bpPcs7cQWWNyUmGtjKVo+yQ_3GOYSM+Sx8L=H8Q@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amdgpu: Discard unnecessary breaks
+To: Zhang Qilong <zhangqilong3@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,133 +60,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@linux.ie>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/10/2020 15:32, Boris Brezillon wrote:
-> In our last attempt to fix races in the panfrost_job_timedout() path we
-> overlooked the case where a re-submitted job immediately triggers a
-> fault. This lead to a situation where we try to stop a scheduler that's
-> not resumed yet and lose the 'timedout' event without restarting the
-> timeout, thus blocking the whole queue.
-> 
-> Let's fix that by tracking timeouts occurring between the
-> drm_sched_resubmit_jobs() and drm_sched_start() calls.
-> 
-> Fixes: 1a11a88cfd9a ("drm/panfrost: Fix job timeout handling")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Applied.  Thanks!
+
+Alex
+
+On Mon, Oct 26, 2020 at 11:31 AM Zhang Qilong <zhangqilong3@huawei.com> wrote:
+>
+> The 'break' is unnecessary because of previous
+> 'return', discard it.
+>
+> Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
 > ---
->   drivers/gpu/drm/panfrost/panfrost_job.c | 42 ++++++++++++++++++++-----
->   1 file changed, 34 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index d0469e944143..96c2c21a4205 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -26,6 +26,7 @@
->   struct panfrost_queue_state {
->   	struct drm_gpu_scheduler sched;
->   	bool stopped;
-> +	bool timedout;
->   	struct mutex lock;
->   	u64 fence_context;
->   	u64 emit_seqno;
-> @@ -383,11 +384,33 @@ static bool panfrost_scheduler_stop(struct panfrost_queue_state *queue,
->   		queue->stopped = true;
->   		stopped = true;
->   	}
-> +	queue->timedout = true;
->   	mutex_unlock(&queue->lock);
->   
->   	return stopped;
->   }
->   
-> +static void panfrost_scheduler_start(struct panfrost_queue_state *queue)
-> +{
-> +	if (WARN_ON(!queue->stopped))
-
-I *think* this can be hit, see below.
-
-> +		return;
-> +
-> +	mutex_lock(&queue->lock);
-> +	drm_sched_start(&queue->sched, true);
-> +
-> +	/*
-> +	 * We might have missed fault-timeouts (AKA immediate timeouts) while
-> +	 * the scheduler was stopped. Let's fake a new fault to trigger an
-> +	 * immediate reset.
-> +	 */
-> +	if (queue->timedout)
-> +		drm_sched_fault(&queue->sched);
-> +
-> +	queue->timedout = false;
-> +	queue->stopped = false;
-> +	mutex_unlock(&queue->lock);
-> +}
-> +
->   static void panfrost_job_timedout(struct drm_sched_job *sched_job)
->   {
->   	struct panfrost_job *job = to_panfrost_job(sched_job);
-> @@ -437,12 +460,6 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
->   		 */
->   		if (panfrost_scheduler_stop(&pfdev->js->queue[i], NULL))
->   			cancel_delayed_work_sync(&sched->work_tdr);
-> -
-> -		/*
-> -		 * Now that we cancelled the pending timeouts, we can safely
-> -		 * reset the stopped state.
-> -		 */
-> -		pfdev->js->queue[i].stopped = false;
->   	}
->   
->   	spin_lock_irqsave(&pfdev->js->job_lock, flags);
-> @@ -457,14 +474,23 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
->   
->   	panfrost_device_reset(pfdev);
->   
-> -	for (i = 0; i < NUM_JOB_SLOTS; i++)
-> +	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-> +		/*
-> +		 * The GPU is idle, and the scheduler is stopped, we can safely
-> +		 * reset the ->timedout state without taking any lock. We need
-> +		 * to do that before calling drm_sched_resubmit_jobs() though,
-> +		 * because the resubmission might trigger immediate faults
-> +		 * which we want to catch.
-> +		 */
-> +		pfdev->js->queue[i].timedout = false;
->   		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
-> +	}
->   
->   	mutex_unlock(&pfdev->reset_lock);
-
-In here we've resubmitted the jobs and are no longer holding the mutex. 
-So AFAICT if one of those jobs fails we may re-enter 
-panfrost_job_timedout() and stop (no-op) the scheduler. The first thread 
-could then proceed to start the scheduler (possibly during the GPU reset 
-handled by the second thread which could be interesting in itself), 
-followed by the second thread attempting to start the scheduler which 
-then hits the WARN_ON().
-
-Of course the above requires somewhat crazy scheduling, but I can't see 
-anything preventing it from happening. Am I missing something?
-
-Steve
-
->   
->   	/* restart scheduler after GPU is usable again */
->   	for (i = 0; i < NUM_JOB_SLOTS; i++)
-> -		drm_sched_start(&pfdev->js->queue[i].sched, true);
-> +		panfrost_scheduler_start(&pfdev->js->queue[i]);
->   }
->   
->   static const struct drm_sched_backend_ops panfrost_sched_ops = {
-> 
-
+>  drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 6 ------
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c         | 4 ----
+>  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c         | 7 -------
+>  3 files changed, 17 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> index 8339c8c3a328..fa817ebff980 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
+> @@ -499,10 +499,8 @@ int amdgpu_atombios_encoder_get_encoder_mode(struct drm_encoder *encoder)
+>                 } else {
+>                         return ATOM_ENCODER_MODE_DVI;
+>                 }
+> -               break;
+>         case DRM_MODE_CONNECTOR_LVDS:
+>                 return ATOM_ENCODER_MODE_LVDS;
+> -               break;
+>         case DRM_MODE_CONNECTOR_DisplayPort:
+>                 dig_connector = amdgpu_connector->con_priv;
+>                 if ((dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT) ||
+> @@ -519,20 +517,16 @@ int amdgpu_atombios_encoder_get_encoder_mode(struct drm_encoder *encoder)
+>                 } else {
+>                         return ATOM_ENCODER_MODE_DVI;
+>                 }
+> -               break;
+>         case DRM_MODE_CONNECTOR_eDP:
+>                 return ATOM_ENCODER_MODE_DP;
+>         case DRM_MODE_CONNECTOR_DVIA:
+>         case DRM_MODE_CONNECTOR_VGA:
+>                 return ATOM_ENCODER_MODE_CRT;
+> -               break;
+>         case DRM_MODE_CONNECTOR_Composite:
+>         case DRM_MODE_CONNECTOR_SVIDEO:
+>         case DRM_MODE_CONNECTOR_9PinDIN:
+>                 /* fix me */
+>                 return ATOM_ENCODER_MODE_TV;
+> -               /*return ATOM_ENCODER_MODE_CV;*/
+> -               break;
+>         }
+>  }
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> index 5963cbe0d455..34448df0ccf3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> @@ -2202,22 +2202,18 @@ static int dce_v10_0_pick_dig_encoder(struct drm_encoder *encoder)
+>                         return 1;
+>                 else
+>                         return 0;
+> -               break;
+>         case ENCODER_OBJECT_ID_INTERNAL_UNIPHY1:
+>                 if (dig->linkb)
+>                         return 3;
+>                 else
+>                         return 2;
+> -               break;
+>         case ENCODER_OBJECT_ID_INTERNAL_UNIPHY2:
+>                 if (dig->linkb)
+>                         return 5;
+>                 else
+>                         return 4;
+> -               break;
+>         case ENCODER_OBJECT_ID_INTERNAL_UNIPHY3:
+>                 return 6;
+> -               break;
+>         default:
+>                 DRM_ERROR("invalid encoder_id: 0x%x\n", amdgpu_encoder->encoder_id);
+>                 return 0;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> index 1954472c8e8f..eb16f7529223 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+> @@ -2235,22 +2235,18 @@ static int dce_v11_0_pick_dig_encoder(struct drm_encoder *encoder)
+>                         return 1;
+>                 else
+>                         return 0;
+> -               break;
+>         case ENCODER_OBJECT_ID_INTERNAL_UNIPHY1:
+>                 if (dig->linkb)
+>                         return 3;
+>                 else
+>                         return 2;
+> -               break;
+>         case ENCODER_OBJECT_ID_INTERNAL_UNIPHY2:
+>                 if (dig->linkb)
+>                         return 5;
+>                 else
+>                         return 4;
+> -               break;
+>         case ENCODER_OBJECT_ID_INTERNAL_UNIPHY3:
+>                 return 6;
+> -               break;
+>         default:
+>                 DRM_ERROR("invalid encoder_id: 0x%x\n", amdgpu_encoder->encoder_id);
+>                 return 0;
+> @@ -2304,19 +2300,16 @@ static u32 dce_v11_0_pick_pll(struct drm_crtc *crtc)
+>                                 return ATOM_COMBOPHY_PLL1;
+>                         else
+>                                 return ATOM_COMBOPHY_PLL0;
+> -                       break;
+>                 case ENCODER_OBJECT_ID_INTERNAL_UNIPHY1:
+>                         if (dig->linkb)
+>                                 return ATOM_COMBOPHY_PLL3;
+>                         else
+>                                 return ATOM_COMBOPHY_PLL2;
+> -                       break;
+>                 case ENCODER_OBJECT_ID_INTERNAL_UNIPHY2:
+>                         if (dig->linkb)
+>                                 return ATOM_COMBOPHY_PLL5;
+>                         else
+>                                 return ATOM_COMBOPHY_PLL4;
+> -                       break;
+>                 default:
+>                         DRM_ERROR("invalid encoder_id: 0x%x\n", amdgpu_encoder->encoder_id);
+>                         return ATOM_PPLL_INVALID;
+> --
+> 2.17.1
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
