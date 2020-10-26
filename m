@@ -2,66 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AD0298E50
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 14:43:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36739298E59
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 14:45:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BAEB6EA07;
-	Mon, 26 Oct 2020 13:43:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0E78989C;
+	Mon, 26 Oct 2020 13:45:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 882326EA03
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 13:43:47 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id k3so13580499ejj.10
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 06:43:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=UFkfIIkcUpkTK+fiDzaBdmcdzOyG9+teQQrE7YNh7gU=;
- b=vB0c2kTkYriRj6mPl3GUk9ZC/zNjOZ7kOBCoNtYYe3TuJhXKLizu0QHXovGCO9W7kO
- viEwAKUjCGVQQVJ6NXxb/c/R4oml4tTATmROYxu/0haVnNDqeSKKioBbll1g+m8YLOSu
- Bdj/4fU+evaYjqmZ6Bvv8HinfAVlB5fpGLRc5S+NtBtzgaUOf2V+nEqz+ceQ87AZBkJm
- F5nkWdDpy2GNiZ9KyNPqqGLaQg7KNA1WyzYbjqEfxRhMMZY4qtaAdFCo9NFcfdfp2hyb
- UVG/6rrdnPVo/IT0hJezAy3n0b54pLVyNwhe98j14rjcN1iwJVIUqwVrIFbPoi+yn+2P
- bYBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=UFkfIIkcUpkTK+fiDzaBdmcdzOyG9+teQQrE7YNh7gU=;
- b=nli57gPFUyeebf/vasgLpRL3evgghpvXJyT5DaOPruacnKFUfeqkdez9lFv7Rm2DGN
- 85tZtzTaIaG2dTL0EC7C8esFM2wv3ga9py0D8zc4KWTrZDAQs9e30CRu5uO9Owdgs1Xv
- z3+kQXvabFWlJhVjYX9wa+ta2ukzM8GE/V6WW9LGuMWCa10+HC676TZxQ2gsx0Xh1FCv
- pbZvSrOe/87j5ZJk4nEowKzvmAXMiBe30KJt337FY8aosvGsPFzTRT+RKfi7qU1hE7Z5
- 7aTQ8VpBmhB9U2qKHqdNv9WzVuZJ3ZHvaOJGkmz3pkqOAoJZaPWV6x4k5lfoVGQnHnMX
- KZNg==
-X-Gm-Message-State: AOAM533JKHXUg2/wLLV1n1mZAh1clP3Y2T2OqDjVBbQyykdfkW+kAAAG
- UrORkf8E5WlET2Aqxp7gDyk=
-X-Google-Smtp-Source: ABdhPJyM0d2nIkS7oSz69Nb/hZ3NQJ8qkFRrdsqzvqaHcbCxFTCyfWCeaoGmPxr6I2GX+B0oh+djeQ==
-X-Received: by 2002:a17:906:3150:: with SMTP id
- e16mr15579805eje.266.1603719826111; 
- Mon, 26 Oct 2020 06:43:46 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id 6sm5938079ejv.49.2020.10.26.06.43.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 06:43:45 -0700 (PDT)
-Subject: Re: [PATCH 01/13] drm/ttm: nuke ttm_tt_set_(un)populated again
-To: "Chauhan, Madhav" <Madhav.Chauhan@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2072.outbound.protection.outlook.com [40.107.243.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 661B88989C
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 13:45:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XasEaeRuE9uB321tTgwOsZpyXEq5J5qFlRR0JMOPSm84e5U86OiwgpRqC8CVV1r4YU4LL5gluoSCpkbAKaErhkp4hk0MpkiEPpW5gAocpvlQosn3Nr6zZDueNP/uLbQTKcFPyfh0iQ/Z+Ik9cT6BjXbUHWxFc0DcTdUehciDa2m6mBhklI3l8lZfIKK1gsBy8VBi5/tZdxw6xWNaO8W73l0VL6qyXL6Fr0ng+gT2NwSTM2kvCfuM5Gdd8K/7BmgR6fO4kzvKb2cs2UXFA+7sK9FfAmyPx2BaV1fbDg37bLoqUsQXv7OvhPsgNiWSf/12td+I6SBaC1vZsh9KwP3rLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CBheozrcB4OvrqWRxhyYLtcZ0b66XMziiqtc+sRq81E=;
+ b=S3DIdpDtENR/UggTq2i2cPPhEu76Cuf0gFuciUkPQBgQynVjQHaJfRY9f/W1TWMjFzeLRW4NwZNyAyThIkNOLFqf0OjveBv5g25uk87bfEFrAR4yEQ5c6iQUv/h2dVMqsPLeMA03lAJZeAGI5OzXnS8sV7lc8e28B5kSNdeyNQFN1fzhfGAVxVSycj7CWkhsqEMyAHr/GQfUBnICpRZSgPy9tCI2NXYFYtoVVtm9Fgz9m96BtEFnc/IinqmBC2kRqqih9R2x1fMCigJElrS7QApSHpV0sS77M6ArsDKf4rOv/UnFabc8QjeOR09GnaHNYSMitraEK5nWcSIzzzCiMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CBheozrcB4OvrqWRxhyYLtcZ0b66XMziiqtc+sRq81E=;
+ b=O8DQVZKMDYzWJl+ZsFn0lzvKqS+GYJwnGr0v2odlklf88veytykNMZff8vGyjkZGD6hmvXSbVpsuiXKmPlxd+e+nhk6M3CaG+3I43JSfVLK3y3RYH9afVrGN1mlCuouxufuNi/WObZvu+eemOeDswhCJUGdh3gqHHlRvHZRQDdA=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from MWHPR12MB1248.namprd12.prod.outlook.com (2603:10b6:300:12::21)
+ by MWHPR12MB1312.namprd12.prod.outlook.com (2603:10b6:300:11::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.28; Mon, 26 Oct
+ 2020 13:45:19 +0000
+Received: from MWHPR12MB1248.namprd12.prod.outlook.com
+ ([fe80::b885:8b56:a460:4624]) by MWHPR12MB1248.namprd12.prod.outlook.com
+ ([fe80::b885:8b56:a460:4624%11]) with mapi id 15.20.3499.018; Mon, 26 Oct
+ 2020 13:45:19 +0000
+Date: Mon, 26 Oct 2020 21:45:12 +0800
+From: Huang Rui <ray.huang@amd.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: drm/ttm: new TT backend allocation pool
+Message-ID: <20201026134512.GA410214@hr-amd>
 References: <20201025154100.16400-1-christian.koenig@amd.com>
- <20201025154100.16400-2-christian.koenig@amd.com>
- <BL0PR12MB2433E7F89BBAC53A5EB3EF179C190@BL0PR12MB2433.namprd12.prod.outlook.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <19351dd7-02a1-ec4f-ae26-dd568bb4b2dc@gmail.com>
-Date: Mon, 26 Oct 2020 14:43:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Content-Disposition: inline
+In-Reply-To: <20201025154100.16400-1-christian.koenig@amd.com>
+X-Originating-IP: [58.247.170.245]
+X-ClientProxiedBy: HK0PR01CA0071.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::35) To MWHPR12MB1248.namprd12.prod.outlook.com
+ (2603:10b6:300:12::21)
 MIME-Version: 1.0
-In-Reply-To: <BL0PR12MB2433E7F89BBAC53A5EB3EF179C190@BL0PR12MB2433.namprd12.prod.outlook.com>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from hr-amd (58.247.170.245) by
+ HK0PR01CA0071.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::35) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
+ Transport; Mon, 26 Oct 2020 13:45:18 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 033e5c69-06e9-44b1-fd6b-08d879b560b5
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1312:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1312C9001B049F319514B52BEC190@MWHPR12MB1312.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: e0e5cwm0qh38xCdyk4HuRVFzln833OtVnvzjWiqpDsCjG9aYrbzVbb1G4oSd6sxjcYXRFTl/+j5JTTwjzX39U1uuJgKOadGx7CgCY7bg7MNqXpQ6ETVTuaVFOYhyutMEQCgBkFQl7q9Dm67M3sRfN3dBge4C22ax/fgHU3J1yS8iiFH8WoDkr3p6R32ScmfKpcgz7HaIX+3RMZ7HRccUmzxuQhFlFpGMOcwtmswwW46MwoE/9NIDwNmrGh5brqGR/2Pl8KjfYw4wf3yawzsHQp6ySoGxG44M7y3utqWWphw7WOm7gDR2L5Bf4bmsBUfO6z7SYatOIwhXOMQM84FjaQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR12MB1248.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(376002)(366004)(136003)(346002)(478600001)(33716001)(9686003)(86362001)(8676002)(66946007)(66556008)(66476007)(8936002)(2906002)(1076003)(4326008)(6496006)(956004)(52116002)(26005)(33656002)(6916009)(6666004)(186003)(54906003)(5660300002)(66574015)(16526019)(83380400001)(316002)(55016002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: NZsXgINYuKdqtP2KCMOVIcIsTq+Ia5EOqXGDWI3OCFGVcvlplaxgSnl8yyfUALsajp8iYpVwENyP3+pnpVhQL3ZLA5orGAmaedog5W3RE4qSduSd2Bgv0xaYWSx2JAJ/ChldGhMMiZ7f9YAsKD/Xz8nMoQziy26za/15fDWvKvz2C+Y27fC9qcuZ45UqxJ2S4Zx8VnAF6AiPiR24sk3vTpb5b/KeKxbKsREJllq5DusV6L6BysMZu3JJ5x5tsD4gsuJh0anYsekA4dYH63Qs1KkOZ5VYTAjQAq/MBAmDSs52yuF2V1qjbgnP0yv6VgpJKusFuy1gWRcuvyl76sPDqqwB6I3Ex535QhxzV0zARIfpBKDZaoJmAjzEYS26eLCr9wm30h+aqkD7VzwIf0ulwELCOb599yx3VkpmURMviXzL5z0WzL/Muxni+75n7fjyrb5gEsPvwSft8TYAmgUooN+oPfaVLLn8WZ3mJG30aePcUZMlu7shuRhgUNoe0TlMa+cQrdRd9zm2E8YBz+Ra5hAV1Qhh++VPiQIuvbsx2m2siTr4vSr7yH2lai5jdwg8ja/pMYVFFkVBHUWA7EmJ5oc51dRTbYJ1ofcZSgEsf4acFOYaTDFUvasEISwOVB+EyrBR9ToM2FXcqjbL7ub+Kg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 033e5c69-06e9-44b1-fd6b-08d879b560b5
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR12MB1248.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2020 13:45:19.3175 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 39LGBgv4RqVeSEaXTUgvECebGme5v0PoftLksUHWdeLmhHzgIkGJChtML3tv2CTbt+BdRRiPlkb63rBor1rWEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1312
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,123 +95,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: "Huang, Ray" <Ray.Huang@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "Chauhan, Madhav" <Madhav.Chauhan@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjYuMTAuMjAgdW0gMTQ6MzYgc2NocmllYiBDaGF1aGFuLCBNYWRoYXY6Cj4gW0FNRCBQdWJs
-aWMgVXNlXQo+Cj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0KPiBGcm9tOiBDaHJpc3RpYW4g
-S8O2bmlnIDxja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4KPiBTZW50OiBTdW5kYXks
-IE9jdG9iZXIgMjUsIDIwMjAgOToxMSBQTQo+IFRvOiBDaGF1aGFuLCBNYWRoYXYgPE1hZGhhdi5D
-aGF1aGFuQGFtZC5jb20+OyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IEh1
-YW5nLCBSYXkgPFJheS5IdWFuZ0BhbWQuY29tPgo+IFN1YmplY3Q6IFtQQVRDSCAwMS8xM10gZHJt
-L3R0bTogbnVrZSB0dG1fdHRfc2V0Xyh1bilwb3B1bGF0ZWQgYWdhaW4KPgo+IE5laXRoZXIgcGFn
-ZSBhbGxvY2F0aW9uIGJhY2tlbmQgbm9yIHRoZSBkcml2ZXIgc2hvdWxkIG1lc3Mgd2l0aCB0aGF0
-Lgo+Cj4gTG9va3MgZmluZSB0byBtZTogUmV2aWV3ZWQtYnk6IE1hZGhhdiBDaGF1aGFuIDxtYWRo
-YXYuY2hhdWhhbkBhbWQuY29tPgoKSnVzdCBmb3IgdGhpcyBwYXRjaCBvciB0aGUgc2VyaWVzPwoK
-Q2hyaXN0aWFuLgoKPgo+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
-bi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
-ZGdwdV90dG0uYyAgfCAgMiAtLQo+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9i
-by5jICAgICB8ICAxIC0KPiAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jICAg
-ICAgfCAgMiAtLQo+ICAgZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcGFnZV9hbGxvYy5jICAgICB8
-ICAyIC0tCj4gICBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wYWdlX2FsbG9jX2RtYS5jIHwgIDIg
-LS0KPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMgICAgICAgICAgICAgfCAxMSArKysr
-KysrLS0tLQo+ICAgaW5jbHVkZS9kcm0vdHRtL3R0bV90dC5oICAgICAgICAgICAgICAgICB8IDEw
-IC0tLS0tLS0tLS0KPiAgIDcgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAyMyBkZWxl
-dGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKPiBpbmRl
-eCA2MmY5MTk0YjFkZDEuLjE2OTQ2ODU3MjkzMCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfdHRtLmMKPiBAQCAtMTM2Myw3ICsxMzYzLDYgQEAgc3RhdGljIGludCBhbWRn
-cHVfdHRtX3R0X3BvcHVsYXRlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAo+ICAgCQkJcmV0
-dXJuIC1FTk9NRU07Cj4gICAKPiAgIAkJdHRtLT5wYWdlX2ZsYWdzIHw9IFRUTV9QQUdFX0ZMQUdf
-U0c7Cj4gLQkJdHRtX3R0X3NldF9wb3B1bGF0ZWQodHRtKTsKPiAgIAkJcmV0dXJuIDA7Cj4gICAJ
-fQo+ICAgCj4gQEAgLTEzODMsNyArMTM4Miw2IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X3R0bV90dF9w
-b3B1bGF0ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwKPiAgIAkJZHJtX3ByaW1lX3NnX3Rv
-X3BhZ2VfYWRkcl9hcnJheXModHRtLT5zZywgdHRtLT5wYWdlcywKPiAgIAkJCQkJCSBndHQtPnR0
-bS5kbWFfYWRkcmVzcywKPiAgIAkJCQkJCSB0dG0tPm51bV9wYWdlcyk7Cj4gLQkJdHRtX3R0X3Nl
-dF9wb3B1bGF0ZWQodHRtKTsKPiAgIAkJcmV0dXJuIDA7Cj4gICAJfQo+ICAgCj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+IGluZGV4IGFjZmY4MmFmZTI2MC4uMDZhMWY0YzRlOTZl
-IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+IEBAIC0xMzIxLDcgKzEz
-MjEsNiBAQCBub3V2ZWF1X3R0bV90dF9wb3B1bGF0ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRl
-diwKPiAgIAkJLyogbWFrZSB1c2Vyc3BhY2UgZmF1bHRpbmcgd29yayAqLwo+ICAgCQlkcm1fcHJp
-bWVfc2dfdG9fcGFnZV9hZGRyX2FycmF5cyh0dG0tPnNnLCB0dG0tPnBhZ2VzLAo+ICAgCQkJCQkJ
-IHR0bV9kbWEtPmRtYV9hZGRyZXNzLCB0dG0tPm51bV9wYWdlcyk7Cj4gLQkJdHRtX3R0X3NldF9w
-b3B1bGF0ZWQodHRtKTsKPiAgIAkJcmV0dXJuIDA7Cj4gICAJfQo+ICAgCj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL3Jh
-ZGVvbi9yYWRlb25fdHRtLmMKPiBpbmRleCAzMjFjMDlkMjBjNmMuLjc1ZmEyZjU1MTg2YiAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gQEAgLTY3MCwxNCArNjcwLDEyIEBA
-IHN0YXRpYyBpbnQgcmFkZW9uX3R0bV90dF9wb3B1bGF0ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAq
-YmRldiwKPiAgIAkJCXJldHVybiAtRU5PTUVNOwo+ICAgCj4gICAJCXR0bS0+cGFnZV9mbGFncyB8
-PSBUVE1fUEFHRV9GTEFHX1NHOwo+IC0JCXR0bV90dF9zZXRfcG9wdWxhdGVkKHR0bSk7Cj4gICAJ
-CXJldHVybiAwOwo+ICAgCX0KPiAgIAo+ICAgCWlmIChzbGF2ZSAmJiB0dG0tPnNnKSB7Cj4gICAJ
-CWRybV9wcmltZV9zZ190b19wYWdlX2FkZHJfYXJyYXlzKHR0bS0+c2csIHR0bS0+cGFnZXMsCj4g
-ICAJCQkJCQkgZ3R0LT50dG0uZG1hX2FkZHJlc3MsIHR0bS0+bnVtX3BhZ2VzKTsKPiAtCQl0dG1f
-dHRfc2V0X3BvcHVsYXRlZCh0dG0pOwo+ICAgCQlyZXR1cm4gMDsKPiAgIAl9Cj4gICAKPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcGFnZV9hbGxvYy5jIGIvZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fcGFnZV9hbGxvYy5jCj4gaW5kZXggYzhmNjc5MDk2MmI5Li4wNDA5OWRk
-ZGNlMTYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcGFnZV9hbGxvYy5j
-Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcGFnZV9hbGxvYy5jCj4gQEAgLTEwNDEs
-NyArMTA0MSw2IEBAIHR0bV9wb29sX3VucG9wdWxhdGVfaGVscGVyKHN0cnVjdCB0dG1fdHQgKnR0
-bSwgdW5zaWduZWQgbWVtX2NvdW50X3VwZGF0ZSkKPiAgIHB1dF9wYWdlczoKPiAgIAl0dG1fcHV0
-X3BhZ2VzKHR0bS0+cGFnZXMsIHR0bS0+bnVtX3BhZ2VzLCB0dG0tPnBhZ2VfZmxhZ3MsCj4gICAJ
-CSAgICAgIHR0bS0+Y2FjaGluZyk7Cj4gLQl0dG1fdHRfc2V0X3VucG9wdWxhdGVkKHR0bSk7Cj4g
-ICB9Cj4gICAKPiAgIGludCB0dG1fcG9vbF9wb3B1bGF0ZShzdHJ1Y3QgdHRtX3R0ICp0dG0sIHN0
-cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4KSBAQCAtMTA4MCw3ICsxMDc5LDYgQEAgaW50IHR0
-bV9wb29sX3BvcHVsYXRlKHN0cnVjdCB0dG1fdHQgKnR0bSwgc3RydWN0IHR0bV9vcGVyYXRpb25f
-Y3R4ICpjdHgpCj4gICAJCX0KPiAgIAl9Cj4gICAKPiAtCXR0bV90dF9zZXRfcG9wdWxhdGVkKHR0
-bSk7Cj4gICAJcmV0dXJuIDA7Cj4gICB9Cj4gICBFWFBPUlRfU1lNQk9MKHR0bV9wb29sX3BvcHVs
-YXRlKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fcGFnZV9hbGxvY19k
-bWEuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3BhZ2VfYWxsb2NfZG1hLmMKPiBpbmRleCA2
-NjI1YjQzZjYyNTYuLjg1ZGFkNjk0MTlmNiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-dHRtL3R0bV9wYWdlX2FsbG9jX2RtYS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
-cGFnZV9hbGxvY19kbWEuYwo+IEBAIC05ODMsNyArOTgzLDYgQEAgaW50IHR0bV9kbWFfcG9wdWxh
-dGUoc3RydWN0IHR0bV9kbWFfdHQgKnR0bV9kbWEsIHN0cnVjdCBkZXZpY2UgKmRldiwKPiAgIAkJ
-fQo+ICAgCX0KPiAgIAo+IC0JdHRtX3R0X3NldF9wb3B1bGF0ZWQodHRtKTsKPiAgIAlyZXR1cm4g
-MDsKPiAgIH0KPiAgIEVYUE9SVF9TWU1CT0xfR1BMKHR0bV9kbWFfcG9wdWxhdGUpOwo+IEBAIC0x
-MDc3LDcgKzEwNzYsNiBAQCB2b2lkIHR0bV9kbWFfdW5wb3B1bGF0ZShzdHJ1Y3QgdHRtX2RtYV90
-dCAqdHRtX2RtYSwgc3RydWN0IGRldmljZSAqZGV2KQo+ICAgCS8qIHNocmluayBwb29sIGlmIG5l
-Y2Vzc2FyeSAob25seSBvbiAhaXNfY2FjaGVkIHBvb2xzKSovCj4gICAJaWYgKG5wYWdlcykKPiAg
-IAkJdHRtX2RtYV9wYWdlX3Bvb2xfZnJlZShwb29sLCBucGFnZXMsIGZhbHNlKTsKPiAtCXR0bV90
-dF9zZXRfdW5wb3B1bGF0ZWQodHRtKTsKPiAgIH0KPiAgIEVYUE9SVF9TWU1CT0xfR1BMKHR0bV9k
-bWFfdW5wb3B1bGF0ZSk7Cj4gICAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3R0bS90
-dG1fdHQuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMgaW5kZXggM2U1ZGQ2MjcxZDRj
-Li5iZWIxZTg3OGZlZDkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQu
-Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMKPiBAQCAtMTM4LDcgKzEzOCw2
-IEBAIHN0YXRpYyB2b2lkIHR0bV90dF9pbml0X2ZpZWxkcyhzdHJ1Y3QgdHRtX3R0ICp0dG0sCj4g
-ICAJdHRtLT5udW1fcGFnZXMgPSBiby0+bnVtX3BhZ2VzOwo+ICAgCXR0bS0+Y2FjaGluZyA9IHR0
-bV9jYWNoZWQ7Cj4gICAJdHRtLT5wYWdlX2ZsYWdzID0gcGFnZV9mbGFnczsKPiAtCXR0bV90dF9z
-ZXRfdW5wb3B1bGF0ZWQodHRtKTsKPiAgIAl0dG0tPnN3YXBfc3RvcmFnZSA9IE5VTEw7Cj4gICAJ
-dHRtLT5zZyA9IGJvLT5zZzsKPiAgIAl0dG0tPmNhY2hpbmcgPSBjYWNoaW5nOwo+IEBAIC0zMzQs
-OSArMzMzLDEyIEBAIGludCB0dG1fdHRfcG9wdWxhdGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJk
-ZXYsCj4gICAJCXJldCA9IGJkZXYtPmRyaXZlci0+dHRtX3R0X3BvcHVsYXRlKGJkZXYsIHR0bSwg
-Y3R4KTsKPiAgIAllbHNlCj4gICAJCXJldCA9IHR0bV9wb29sX3BvcHVsYXRlKHR0bSwgY3R4KTsK
-PiAtCWlmICghcmV0KQo+IC0JCXR0bV90dF9hZGRfbWFwcGluZyhiZGV2LCB0dG0pOwo+IC0JcmV0
-dXJuIHJldDsKPiArCWlmIChyZXQpCj4gKwkJcmV0dXJuIHJldDsKPiArCj4gKwl0dG1fdHRfYWRk
-X21hcHBpbmcoYmRldiwgdHRtKTsKPiArCXR0bS0+cGFnZV9mbGFncyB8PSBUVE1fUEFHRV9GTEFH
-X1BSSVZfUE9QVUxBVEVEOwo+ICsJcmV0dXJuIDA7Cj4gICB9Cj4gICBFWFBPUlRfU1lNQk9MKHR0
-bV90dF9wb3B1bGF0ZSk7Cj4gICAKPiBAQCAtMzY1LDQgKzM2Nyw1IEBAIHZvaWQgdHRtX3R0X3Vu
-cG9wdWxhdGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCj4gICAJCWJkZXYtPmRyaXZlci0+
-dHRtX3R0X3VucG9wdWxhdGUoYmRldiwgdHRtKTsKPiAgIAllbHNlCj4gICAJCXR0bV9wb29sX3Vu
-cG9wdWxhdGUodHRtKTsKPiArCXR0bS0+cGFnZV9mbGFncyAmPSB+VFRNX1BBR0VfRkxBR19QUklW
-X1BPUFVMQVRFRDsKPiAgIH0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV90dC5o
-IGIvaW5jbHVkZS9kcm0vdHRtL3R0bV90dC5oIGluZGV4IGUwNDJkZWM1ZTZjMS4uZTNlNjBjMWRh
-NzU0IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fdHQuaAo+ICsrKyBiL2luY2x1
-ZGUvZHJtL3R0bS90dG1fdHQuaAo+IEBAIC03MiwxNiArNzIsNiBAQCBzdGF0aWMgaW5saW5lIGJv
-b2wgdHRtX3R0X2lzX3BvcHVsYXRlZChzdHJ1Y3QgdHRtX3R0ICp0dCkKPiAgIAlyZXR1cm4gdHQt
-PnBhZ2VfZmxhZ3MgJiBUVE1fUEFHRV9GTEFHX1BSSVZfUE9QVUxBVEVEOyAgfQo+ICAgCj4gLXN0
-YXRpYyBpbmxpbmUgdm9pZCB0dG1fdHRfc2V0X3VucG9wdWxhdGVkKHN0cnVjdCB0dG1fdHQgKnR0
-KSAtewo+IC0JdHQtPnBhZ2VfZmxhZ3MgJj0gflRUTV9QQUdFX0ZMQUdfUFJJVl9QT1BVTEFURUQ7
-Cj4gLX0KPiAtCj4gLXN0YXRpYyBpbmxpbmUgdm9pZCB0dG1fdHRfc2V0X3BvcHVsYXRlZChzdHJ1
-Y3QgdHRtX3R0ICp0dCkgLXsKPiAtCXR0LT5wYWdlX2ZsYWdzIHw9IFRUTV9QQUdFX0ZMQUdfUFJJ
-Vl9QT1BVTEFURUQ7Cj4gLX0KPiAtCj4gICAvKioKPiAgICAqIHN0cnVjdCB0dG1fZG1hX3R0Cj4g
-ICAgKgo+IC0tCj4gMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+On Sun, Oct 25, 2020 at 11:40:47PM +0800, Christian K=F6nig wrote:
+> This replaces the spaghetti code in the two existing page pools.
+>     =
+
+> First of all depending on the allocation size it is between 3 (1GiB) and
+> 5 (1MiB) times faster than the old implementation.
+>     =
+
+> It makes better use of buddy pages to allow for larger physical contiguous
+> allocations which should result in better TLB utilization at least for am=
+dgpu.
+>     =
+
+> Instead of a completely braindead approach of filling the pool with one C=
+PU
+> while another one is trying to shrink it we only give back freed pages.
+>     =
+
+> This also results in much less locking contention and a trylock free MM
+> shrinker callback, so we can guarantee that pages are given back to the s=
+ystem
+> when needed.
+>     =
+
+> Downside of this is that it takes longer for many small allocations until=
+ the
+> pool is filled up. We could address this, but I couldn't find an use case
+> where this actually matters. And we don't bother freeing large chunks of =
+pages
+> any more.
+>     =
+
+> The sysfs files are replaced with a single module parameter, allowing use=
+rs to
+> override how many pages should be globally pooled in TTM. This unfortunat=
+ely
+> breaks the UAPI slightly, but as far as we know nobody ever depended on t=
+his.
+>    =
+
+> Zeroing memory coming from the pool was handled inconsistently. The
+> alloc_pages() based pool was zeroing it, the dma_alloc_attr() based one w=
+asn't.
+> The new implementation isn't zeroing pages from the pool either and only =
+sets
+> the __GFP_ZERO flag when necessary.
+>     =
+
+> The implementation has only 753 lines of code compared to the over 2600 o=
+f the
+> old one, and also allows for saving quite a bunch of code in the drivers =
+since
+> we don't need specialized handling there any more based on kernel config.
+>   =
+
+> Additional to all of that there was a neat bug with IOMMU, coherent DMA
+> mappings and huge pages which is now fixed in the new code as well.
+
+Let me give a test your patch set in my renoir and new vangogh platform
+with iommu enabled. (I actually encountered many page faults in legacy
+ttm_page_alloc_dma implementation with swiotlb=3D1)
+
+Thanks,
+Ray
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
