@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBFB299B2C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C295C299B2D
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:50:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DEAA6EA90;
-	Mon, 26 Oct 2020 23:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E446B6EA91;
+	Mon, 26 Oct 2020 23:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5512C6EA90
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 23:50:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAC126EA91
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 23:50:10 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 59C1422264;
- Mon, 26 Oct 2020 23:50:06 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 125B021741;
+ Mon, 26 Oct 2020 23:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603756207;
- bh=O9+4R0uE/Q1cQQ0dH/dZd0lBqNt0LR9XGS61r6UN/7s=;
+ s=default; t=1603756210;
+ bh=gAPL6BNOfP5T2Mrk9jG/GKNKMQj51k78R9X5CwxhFNM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=081Zy2kZBm0dp81GydVy8WJtv2qaLxcS4SCu1MoBlPOBFJ0NOrDodUlA8ew0uAhW8
- e4HyUaUNDOpM/EgIpOGvXiwn4E5QMRvSbF5JJlkbtiZp+T1X4sOYhVth2iLawM2HSi
- DmqSFGvciiQ9dXbz9W241mEEi9jOYvvB0LKeousE=
+ b=JhK1Xl4d+kd5Eu5m8LOTwb+5f/2zW5DHQv6lzMf+GTrFvcxCGRv3dUvHaARKHKAEY
+ wb8rX/ZEYWz4az2PylRId3zWlSncvZmLvMVZnKfFNP1crB6hKpDuSrYMLuFN+4pgIt
+ eY2cOTefDyjJc6xvyhn9hJZBw9wc5Jlfhe17aE4I=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 049/147] drm/vkms: avoid warning in
- vkms_get_vblank_timestamp
-Date: Mon, 26 Oct 2020 19:47:27 -0400
-Message-Id: <20201026234905.1022767-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.9 052/147] drm/bridge/synopsys: dsi: add support for
+ non-continuous HS clock
+Date: Mon, 26 Oct 2020 19:47:30 -0400
+Message-Id: <20201026234905.1022767-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201026234905.1022767-1-sashal@kernel.org>
 References: <20201026234905.1022767-1-sashal@kernel.org>
@@ -50,85 +50,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
- Sidong Yang <realwakka@gmail.com>
+Cc: Antonio Borneo <antonio.borneo@st.com>, Sasha Levin <sashal@kernel.org>,
+ Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sidong Yang <realwakka@gmail.com>
+From: Antonio Borneo <antonio.borneo@st.com>
 
-[ Upstream commit 05ca530268a9d0ab3547e7b288635e35990a77c4 ]
+[ Upstream commit c6d94e37bdbb6dfe7e581e937a915ab58399b8a5 ]
 
-This patch avoid the warning in vkms_get_vblank_timestamp when vblanks
-aren't enabled. When running igt test kms_cursor_crc just after vkms
-module, the warning raised like below. Initial value of vblank time is
-zero and hrtimer.node.expires is also zero if vblank aren't enabled
-before. vkms module isn't real hardware but just virtual hardware
-module. so vkms can't generate a resonable timestamp when hrtimer is
-off. it's best to grab the current time.
+Current code enables the HS clock when video mode is started or to
+send out a HS command, and disables the HS clock to send out a LP
+command. This is not what DSI spec specify.
 
-[106444.464503] [IGT] kms_cursor_crc: starting subtest pipe-A-cursor-size-change
-[106444.471475] WARNING: CPU: 0 PID: 10109 at
-vkms_get_vblank_timestamp+0x42/0x50 [vkms]
-[106444.471511] CPU: 0 PID: 10109 Comm: kms_cursor_crc Tainted: G        W  OE
-5.9.0-rc1+ #6
-[106444.471514] RIP: 0010:vkms_get_vblank_timestamp+0x42/0x50 [vkms]
-[106444.471528] Call Trace:
-[106444.471551]  drm_get_last_vbltimestamp+0xb9/0xd0 [drm]
-[106444.471566]  drm_reset_vblank_timestamp+0x63/0xe0 [drm]
-[106444.471579]  drm_crtc_vblank_on+0x85/0x150 [drm]
-[106444.471582]  vkms_crtc_atomic_enable+0xe/0x10 [vkms]
-[106444.471592]  drm_atomic_helper_commit_modeset_enables+0x1db/0x230
-[drm_kms_helper]
-[106444.471594]  vkms_atomic_commit_tail+0x38/0xc0 [vkms]
-[106444.471601]  commit_tail+0x97/0x130 [drm_kms_helper]
-[106444.471608]  drm_atomic_helper_commit+0x117/0x140 [drm_kms_helper]
-[106444.471622]  drm_atomic_commit+0x4a/0x50 [drm]
-[106444.471629]  drm_atomic_helper_set_config+0x63/0xb0 [drm_kms_helper]
-[106444.471642]  drm_mode_setcrtc+0x1d9/0x7b0 [drm]
-[106444.471654]  ? drm_mode_getcrtc+0x1a0/0x1a0 [drm]
-[106444.471666]  drm_ioctl_kernel+0xb6/0x100 [drm]
-[106444.471677]  drm_ioctl+0x3ad/0x470 [drm]
-[106444.471688]  ? drm_mode_getcrtc+0x1a0/0x1a0 [drm]
-[106444.471692]  ? tomoyo_file_ioctl+0x19/0x20
-[106444.471694]  __x64_sys_ioctl+0x96/0xd0
-[106444.471697]  do_syscall_64+0x37/0x80
-[106444.471699]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Enable HS clock either in command and in video mode.
+Set automatic HS clock management for panels and devices that
+support non-continuous HS clock.
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-
-Signed-off-by: Sidong Yang <realwakka@gmail.com>
-Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
-Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200828124553.2178-1-realwakka@gmail.com
+Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
+Tested-by: Philippe Cornu <philippe.cornu@st.com>
+Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
+Acked-by: Neil Armstrong <narmstrong@baylibre.com>
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200701194234.18123-1-yannick.fertre@st.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vkms/vkms_crtc.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index ac85e17428f88..09c012d54d58f 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -86,6 +86,11 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
- 	struct vkms_output *output = &vkmsdev->output;
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index d580b2aa4ce98..979acaa90d002 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -365,7 +365,6 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
+ 	if (lpm)
+ 		val |= CMD_MODE_ALL_LP;
  
-+	if (!READ_ONCE(vblank->enabled)) {
-+		*vblank_time = ktime_get();
-+		return true;
-+	}
+-	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
+ 	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
+ }
+ 
+@@ -541,16 +540,22 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
+ static void dw_mipi_dsi_set_mode(struct dw_mipi_dsi *dsi,
+ 				 unsigned long mode_flags)
+ {
++	u32 val;
 +
- 	*vblank_time = READ_ONCE(output->vblank_hrtimer.node.expires);
+ 	dsi_write(dsi, DSI_PWR_UP, RESET);
  
- 	if (WARN_ON(*vblank_time == vblank->time))
+ 	if (mode_flags & MIPI_DSI_MODE_VIDEO) {
+ 		dsi_write(dsi, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
+ 		dw_mipi_dsi_video_mode_config(dsi);
+-		dsi_write(dsi, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
+ 	} else {
+ 		dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
+ 	}
+ 
++	val = PHY_TXREQUESTCLKHS;
++	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
++		val |= AUTO_CLKLANE_CTRL;
++	dsi_write(dsi, DSI_LPCLK_CTRL, val);
++
+ 	dsi_write(dsi, DSI_PWR_UP, POWERUP);
+ }
+ 
 -- 
 2.25.1
 
