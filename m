@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6BF299BA1
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:52:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B65299BAA
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:52:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C10506EA95;
-	Mon, 26 Oct 2020 23:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81B2C6EA9A;
+	Mon, 26 Oct 2020 23:52:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9D66EA88;
- Mon, 26 Oct 2020 23:52:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F7CF6EA8F
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 23:52:41 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4FD85221FA;
- Mon, 26 Oct 2020 23:52:39 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8B48720B1F;
+ Mon, 26 Oct 2020 23:52:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603756360;
- bh=Tck5dv2qtba8u2Jf38M/7hnYMasdDz2D8I9vwSUc5ds=;
+ s=default; t=1603756361;
+ bh=LuDTJvUP42aUFHwVP4Gapde+YuW1PFjyYZnDoPLU+kM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XxaBzqwCrhRbcEwefjgmMMnrwHJv6KqJPVn1dYWk1iBVyxN+qMSr4n8XRjHnDo2JD
- S+3k7av78/1wqp2WEUTHJkKb4uinEf5deGLjI2SAPWZmE/iqmqqMjx1lFEi8L9E+Fc
- XST/aue7EgwVgworSunmqFxcYSjXSUmMDTinoHM0=
+ b=VODbBcDoN0bA6dtQr4NkGKbmf946VRY/Z/YDtgA5WgB1TwMz3IamLKS3FYTQe+hKi
+ VbfBCCVJJ+vSZMgnc5EYA3QCF3xFfUm0RQPZ6VUYOT9tjUTDOh19RVbmUsndhHuDch
+ 5VFQ63DcHaxbIy7KdOJE8iLE7KJsy1jUAzur2AaY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 029/132] drm/amdgpu: restore ras flags when user
- resets eeprom(v2)
-Date: Mon, 26 Oct 2020 19:50:21 -0400
-Message-Id: <20201026235205.1023962-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 030/132] video: fbdev: pvr2fb: initialize variables
+Date: Mon, 26 Oct 2020 19:50:22 -0400
+Message-Id: <20201026235205.1023962-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201026235205.1023962-1-sashal@kernel.org>
 References: <20201026235205.1023962-1-sashal@kernel.org>
@@ -50,59 +49,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Guchun Chen <guchun.chen@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
+ dri-devel@lists.freedesktop.org, clang-built-linux@googlegroups.com,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guchun Chen <guchun.chen@amd.com>
+From: Tom Rix <trix@redhat.com>
 
-[ Upstream commit bf0b91b78f002faa1be1902a75eeb0797f9fbcf3 ]
+[ Upstream commit 8e1ba47c60bcd325fdd097cd76054639155e5d2e ]
 
-RAS flags needs to be cleaned as well when user requires
-one clean eeprom.
+clang static analysis reports this repesentative error
 
-v2: RAS flags shall be restored after eeprom reset succeeds.
+pvr2fb.c:1049:2: warning: 1st function call argument
+  is an uninitialized value [core.CallAndMessage]
+        if (*cable_arg)
+        ^~~~~~~~~~~~~~~
 
-Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Problem is that cable_arg depends on the input loop to
+set the cable_arg[0].  If it does not, then some random
+value from the stack is used.
+
+A similar problem exists for output_arg.
+
+So initialize cable_arg and output_arg.
+
+Signed-off-by: Tom Rix <trix@redhat.com>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200720191845.20115-1-trix@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/pvr2fb.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index 3f47f35eedff1..50fc974655f0d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -364,12 +364,19 @@ static ssize_t amdgpu_ras_debugfs_ctrl_write(struct file *f, const char __user *
- static ssize_t amdgpu_ras_debugfs_eeprom_write(struct file *f, const char __user *buf,
- 		size_t size, loff_t *pos)
- {
--	struct amdgpu_device *adev = (struct amdgpu_device *)file_inode(f)->i_private;
-+	struct amdgpu_device *adev =
-+		(struct amdgpu_device *)file_inode(f)->i_private;
- 	int ret;
+diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
+index f18d457175d90..2f045c356882a 100644
+--- a/drivers/video/fbdev/pvr2fb.c
++++ b/drivers/video/fbdev/pvr2fb.c
+@@ -1016,6 +1016,8 @@ static int __init pvr2fb_setup(char *options)
+ 	if (!options || !*options)
+ 		return 0;
  
--	ret = amdgpu_ras_eeprom_reset_table(&adev->psp.ras.ras->eeprom_control);
-+	ret = amdgpu_ras_eeprom_reset_table(
-+			&(amdgpu_ras_get_context(adev)->eeprom_control));
- 
--	return ret == 1 ? size : -EIO;
-+	if (ret == 1) {
-+		amdgpu_ras_get_context(adev)->flags = RAS_DEFAULT_FLAGS;
-+		return size;
-+	} else {
-+		return -EIO;
-+	}
- }
- 
- static const struct file_operations amdgpu_ras_debugfs_ctrl_ops = {
++	cable_arg[0] = output_arg[0] = 0;
++
+ 	while ((this_opt = strsep(&options, ","))) {
+ 		if (!*this_opt)
+ 			continue;
 -- 
 2.25.1
 
