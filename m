@@ -2,60 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D54298DCF
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 14:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86696298DA6
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 14:17:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8EF6E133;
-	Mon, 26 Oct 2020 13:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0A356E174;
+	Mon, 26 Oct 2020 13:17:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 942 seconds by postgrey-1.36 at gabe;
- Mon, 26 Oct 2020 13:27:20 UTC
-Received: from mail.codeweavers.com (mail.codeweavers.com [50.203.203.244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7D26E133
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 13:27:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=kOGBy83gPfRHwJKiQK/8YJ1+92SKsGK1ZFtpod1fVoA=; b=vlUwfTOqJOEl0oKVSd2d6fcAk8
- ZFuofD9eh4kAY3F4mO4AslIAtQVMeTtU9Pc66SLpilynqtL999dvup36EiykUl0KMcIYt5qoJdgiT
- bAC6T5Z4YG2rxq9gxKxsTDAqdtgqKiui1hrzk81S7cvEh6v0Lp0PF8GLA7SFqmyYkCyY=;
-Received: from [10.69.141.123] (helo=dell.localdomain)
- by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <pgofman@codeweavers.com>)
- id 1kX2Hg-0004zW-10; Mon, 26 Oct 2020 08:11:37 -0500
-From: Paul Gofman <pgofman@codeweavers.com>
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D18386E174
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 13:17:08 +0000 (UTC)
+Date: Mon, 26 Oct 2020 13:17:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1603718225;
+ bh=PTSApkk3ASYdkVdJl8Vv/zY3AnAjoynNACsXSOxnfhc=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=XRMggTarJWrwH4hEDcRcXaFyQMoR6/ON5hxSlyp0zbd6UrhHNcY5yrSNlrxChVSAx
+ Fppib6YtqSebgU2iIyHCJkHxMveZFDY+x5o4i2jWJ0wP/iXi31XchkE12bq3x7hZIV
+ B2u/kuglfKV84DRT83ouL61A2LdzcLAVGkQKQEek2x7xc5y1HKL76uNd/y0k7g34X1
+ clvQr0ETwjsGIv4hqjmEUfcuhnoO3JW5u1deq5ZgEP+Rla7Fusg2PvVfR19G7S1IMQ
+ JS5ET56lWDKuKzF1o+ItD9HjfLlYGz4KWIYJlRt827uh9RtCdW7yITN9JuDZmPokM4
+ XoGRzbv7w3Ysg==
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm] xf86drm.c: Use integer logarithm.
-Date: Mon, 26 Oct 2020 16:11:20 +0300
-Message-Id: <20201026131120.1068959-1-pgofman@codeweavers.com>
-X-Mailer: git-send-email 2.26.2
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH] drm: deprecate DRM_FORMAT_MOD_NONE
+Message-ID: <a2j8KTgc26k5QniSAhDSTgCw4XWZhmsNHwG8UVa6U@cp4-web-014.plabs.ch>
 MIME-Version: 1.0
-X-Spam-Score: -40.4
-X-Spam-Report: Spam detection software,
- running on the system "mail.codeweavers.com", 
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- Content preview: log() is affected by FP control word and can provide
- inaccurate
- result. Fixes Killer Instinct under Wine not being able to find AMD vulkan
- device. Signed-off-by: Paul Gofman <pgofman@codeweavers.com> --- With the
- rounding mode the application sets (unsigned int)log2(4) is 1. The log2_int()
- implemetation is copied from radeon/radeon_surface.c. 
- Content analysis details:   (-40.4 points, 5.0 required)
- pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -0.0 USER_IN_WELCOMELIST    user is listed in 'welcomelist_from'
- -20 USER_IN_WHITELIST      DEPRECATED: See USER_IN_WELCOMELIST
- -20 ALL_TRUSTED            Passed through trusted hosts only via SMTP
- -0.5 BAYES_00               BODY: Bayes spam probability is 0 to 1%
- [score: 0.0000]
- 0.1 AWL AWL: Adjusted score from AWL reputation of From: address
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,63 +45,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Gofman <pgofman@codeweavers.com>
+Reply-To: Simon Ser <contact@emersion.fr>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-log() is affected by FP control word and can provide inaccurate result.
+DRM_FORMAT_MOD_NONE is in the list of vendors, which is pretty
+confusing. We already have DRM_FORMAT_MOD_VENDOR_NONE. Move it down in
+the list of format modifiers.
 
-Fixes Killer Instinct under Wine not being able to find AMD vulkan
-device.
+DRM_FORMAT_MOD_NONE is an alias for DRM_FORMAT_MOD_LINEAR, however the
+name is confusing: NONE doesn't mean that the modifier is implicit,
+instead it means that the layout is linear. Deprecate it.
 
-Signed-off-by: Paul Gofman <pgofman@codeweavers.com>
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Suggested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
 ---
-    With the rounding mode the application sets (unsigned int)log2(4) is 1.
-    The log2_int() implemetation is copied from radeon/radeon_surface.c.
+ include/uapi/drm/drm_fourcc.h | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- xf86drm.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/xf86drm.c b/xf86drm.c
-index 50a6f092..dbb7c14b 100644
---- a/xf86drm.c
-+++ b/xf86drm.c
-@@ -124,6 +124,22 @@ static drmServerInfoPtr drm_server_info;
- static bool drmNodeIsDRM(int maj, int min);
- static char *drmGetMinorNameForFD(int fd, int type);
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index d720f1e8ae5e..ca1d5587b5fc 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -350,7 +350,6 @@ extern "C" {
+  */
  
-+static unsigned log2_int(unsigned x)
-+{
-+    unsigned l;
+ /* Vendor Ids: */
+-#define DRM_FORMAT_MOD_NONE           0
+ #define DRM_FORMAT_MOD_VENDOR_NONE    0
+ #define DRM_FORMAT_MOD_VENDOR_INTEL   0x01
+ #define DRM_FORMAT_MOD_VENDOR_AMD     0x02
+@@ -422,6 +421,14 @@ extern "C" {
+  */
+ #define DRM_FORMAT_MOD_LINEAR	fourcc_mod_code(NONE, 0)
+ 
++/*
++ * Deprecated: use DRM_FORMAT_MOD_LINEAR instead
++ *
++ * The "none" format modifier doesn't actually mean that the modifier is
++ * implicit, instead it means that the layout is linear.
++ */
++#define DRM_FORMAT_MOD_NONE	0
 +
-+    if (x < 2) {
-+        return 0;
-+    }
-+    for (l = 2; ; l++) {
-+        if ((unsigned)(1 << l) > x) {
-+            return l - 1;
-+        }
-+    }
-+    return 0;
-+}
-+
-+
- drm_public void drmSetServerInfo(drmServerInfoPtr info)
- {
-     drm_server_info = info;
-@@ -4001,7 +4017,7 @@ static void drmFoldDuplicatedDevices(drmDevicePtr local_devices[], int count)
-         for (j = i + 1; j < count; j++) {
-             if (drmDevicesEqual(local_devices[i], local_devices[j])) {
-                 local_devices[i]->available_nodes |= local_devices[j]->available_nodes;
--                node_type = log2(local_devices[j]->available_nodes);
-+                node_type = log2_int(local_devices[j]->available_nodes);
-                 memcpy(local_devices[i]->nodes[node_type],
-                        local_devices[j]->nodes[node_type], drmGetMaxNodeName());
-                 drmFreeDevice(&local_devices[j]);
+ /* Intel framebuffer modifiers */
+ 
+ /*
 -- 
-2.26.2
+2.28.0
+
 
 _______________________________________________
 dri-devel mailing list
