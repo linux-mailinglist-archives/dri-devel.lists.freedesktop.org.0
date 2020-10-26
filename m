@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C295C299B2D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:50:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25814299B41
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:50:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E446B6EA91;
-	Mon, 26 Oct 2020 23:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4786EA8E;
+	Mon, 26 Oct 2020 23:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAC126EA91
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 23:50:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B15A26EA8E
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 23:50:21 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 125B021741;
- Mon, 26 Oct 2020 23:50:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C7FC721707;
+ Mon, 26 Oct 2020 23:50:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603756210;
- bh=gAPL6BNOfP5T2Mrk9jG/GKNKMQj51k78R9X5CwxhFNM=;
+ s=default; t=1603756221;
+ bh=CtXkxi4z3ePz3347kCygJai6J6gCO1+WxDFYAEUk9so=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JhK1Xl4d+kd5Eu5m8LOTwb+5f/2zW5DHQv6lzMf+GTrFvcxCGRv3dUvHaARKHKAEY
- wb8rX/ZEYWz4az2PylRId3zWlSncvZmLvMVZnKfFNP1crB6hKpDuSrYMLuFN+4pgIt
- eY2cOTefDyjJc6xvyhn9hJZBw9wc5Jlfhe17aE4I=
+ b=giX/b5RloOfIOK0dEGdfXlPJVlbA31hCJNAJwjTnXraRC0CY4+Ecik+fnmAnhQ+2P
+ HGftatvgOrF06dmCUdN1B4GDXFW4MdndJXEd5NnPR3+MgjP2+HKNrUxJ+5r64FhSVL
+ c0WSqsnG3tk5wWFequ1VD8TB8DV8JANiJ+vQlTKw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 052/147] drm/bridge/synopsys: dsi: add support for
- non-continuous HS clock
-Date: Mon, 26 Oct 2020 19:47:30 -0400
-Message-Id: <20201026234905.1022767-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.9 061/147] drm: exynos: fix common struct sg_table
+ related issues
+Date: Mon, 26 Oct 2020 19:47:39 -0400
+Message-Id: <20201026234905.1022767-61-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201026234905.1022767-1-sashal@kernel.org>
 References: <20201026234905.1022767-1-sashal@kernel.org>
@@ -50,72 +50,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Antonio Borneo <antonio.borneo@st.com>, Sasha Levin <sashal@kernel.org>,
- Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Antonio Borneo <antonio.borneo@st.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
 
-[ Upstream commit c6d94e37bdbb6dfe7e581e937a915ab58399b8a5 ]
+[ Upstream commit 84404614167b829f7b58189cd24b6c0c74897171 ]
 
-Current code enables the HS clock when video mode is started or to
-send out a HS command, and disables the HS clock to send out a LP
-command. This is not what DSI spec specify.
+The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+returns the number of the created entries in the DMA address space.
+However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+dma_unmap_sg must be called with the original number of the entries
+passed to the dma_map_sg().
 
-Enable HS clock either in command and in video mode.
-Set automatic HS clock management for panels and devices that
-support non-continuous HS clock.
+struct sg_table is a common structure used for describing a non-contiguous
+memory buffer, used commonly in the DRM and graphics subsystems. It
+consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+and DMA mapped pages (nents entry).
 
-Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
-Tested-by: Philippe Cornu <philippe.cornu@st.com>
-Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200701194234.18123-1-yannick.fertre@st.com
+It turned out that it was a common mistake to misuse nents and orig_nents
+entries, calling DMA-mapping functions with a wrong number of entries or
+ignoring the number of mapped entries returned by the dma_map_sg()
+function.
+
+To avoid such issues, lets use a common dma-mapping wrappers operating
+directly on the struct sg_table objects and use scatterlist page
+iterators where possible. This, almost always, hides references to the
+nents and orig_nents entries, making the code robust, easier to follow
+and copy/paste safe.
+
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+Acked-by : Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index d580b2aa4ce98..979acaa90d002 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -365,7 +365,6 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
- 	if (lpm)
- 		val |= CMD_MODE_ALL_LP;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+index 03be314271811..967a5cdc120e3 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+@@ -395,8 +395,8 @@ static void g2d_userptr_put_dma_addr(struct g2d_data *g2d,
+ 		return;
  
--	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
- 	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
- }
+ out:
+-	dma_unmap_sg(to_dma_dev(g2d->drm_dev), g2d_userptr->sgt->sgl,
+-			g2d_userptr->sgt->nents, DMA_BIDIRECTIONAL);
++	dma_unmap_sgtable(to_dma_dev(g2d->drm_dev), g2d_userptr->sgt,
++			  DMA_BIDIRECTIONAL, 0);
  
-@@ -541,16 +540,22 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
- static void dw_mipi_dsi_set_mode(struct dw_mipi_dsi *dsi,
- 				 unsigned long mode_flags)
- {
-+	u32 val;
-+
- 	dsi_write(dsi, DSI_PWR_UP, RESET);
+ 	pages = frame_vector_pages(g2d_userptr->vec);
+ 	if (!IS_ERR(pages)) {
+@@ -511,10 +511,10 @@ static dma_addr_t *g2d_userptr_get_dma_addr(struct g2d_data *g2d,
  
- 	if (mode_flags & MIPI_DSI_MODE_VIDEO) {
- 		dsi_write(dsi, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
- 		dw_mipi_dsi_video_mode_config(dsi);
--		dsi_write(dsi, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
- 	} else {
- 		dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
+ 	g2d_userptr->sgt = sgt;
+ 
+-	if (!dma_map_sg(to_dma_dev(g2d->drm_dev), sgt->sgl, sgt->nents,
+-				DMA_BIDIRECTIONAL)) {
++	ret = dma_map_sgtable(to_dma_dev(g2d->drm_dev), sgt,
++			      DMA_BIDIRECTIONAL, 0);
++	if (ret) {
+ 		DRM_DEV_ERROR(g2d->dev, "failed to map sgt with dma region.\n");
+-		ret = -ENOMEM;
+ 		goto err_sg_free_table;
  	}
- 
-+	val = PHY_TXREQUESTCLKHS;
-+	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
-+		val |= AUTO_CLKLANE_CTRL;
-+	dsi_write(dsi, DSI_LPCLK_CTRL, val);
-+
- 	dsi_write(dsi, DSI_PWR_UP, POWERUP);
- }
  
 -- 
 2.25.1
