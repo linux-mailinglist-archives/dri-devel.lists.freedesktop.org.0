@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D772729A640
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 09:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F29F29A644
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 09:12:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C1266EB23;
-	Tue, 27 Oct 2020 08:12:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FB3E6EB26;
+	Tue, 27 Oct 2020 08:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3AF89E9B
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 19:14:14 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id x16so11520580ljh.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 12:14:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dq2PzuCzxyYXjp7izV7Nz4V/toYcZjqA2m1mpqmQcWc=;
- b=a4A23VompEg7ZU78ZOB4AepZ1yz/UI086hDid7oIuoPSEr3Rt0l3y4puzGzQzMnB7E
- ulmHkfUh0H5mSv+9leZPOZ0nCacUo7tB6u3bFl0Vqr1CjPOVLLkYjGN0miH+IvFUdvI3
- QuTJG/Ut1u1hi4MxUWew1UOC9uB3rZni6HYQA/+d34UJNcEYVBQd2umMR2OcvF+v/L20
- 6mYjK3YorWbMAXCk0Z/1+BfGaUW8D1h6sxfupIFpwxeHaYZv6fZhmAIoqomkNeM/9fdD
- 9Qd8F9HXHVGAHJp1rV4zcj4BCeVTU5c+rcujkUM1tE0dsIdSkv2ElWLBn0QWyLbRQDyB
- FbUA==
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A05F6EA5C
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 19:45:01 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id v22so5217836ply.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 12:45:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UvmyfAS3FNKDIUlMjXBNYKBYoK/vtIij8n9c082Mubc=;
+ b=Z12aKn10RT7C+3vv+Dd1Qd3nDVfwmXeae7+m3xHAdCx85aOB2Ws7HE+ACqBhBXrMGV
+ NehOiNBdl5lbTfi1yIOBt80NUA5Po4VsqhAyaAOC51MuHbfbmvuV709wMQ6aBx/IGyUm
+ 3henAzzU6ESqHqwQmAGqRvS3m7nsVrOozE3NPK7k28PGVWxMoWzGfImr1yTV7feWcRvA
+ t+prlzoIShFvDMMoupo9RG21asc7kOD82jAGaZhwMF2V/nf9yPC/fU6weKMXF1kVLV0q
+ 6eeylUw0wdGM+y680r9NV7ySMUaHEz1uVz1BHfbcAwTyqkRcCeq0ZIgxkviZFdzsdXc5
+ pIHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dq2PzuCzxyYXjp7izV7Nz4V/toYcZjqA2m1mpqmQcWc=;
- b=hAAp8kNDUIIA1+wvyssYwOhDTk/OyJk6sV4MMlM0jYC6x9xPXScF5tVnp3v0VPiF+7
- 9d8oot1i4MB2Ak0HkkNeiRlXCHvu5cTk6kkLxf8llZW6Cz8tQMuBp3u5haU+O7sB0y5s
- Tz6ZSr0TY+xF2T9oUuP9l26lJotvJK2SEFVqB/dBeqtjncjkYgOXT9pzN7jecs7sSbMm
- U7R1UmhafiGk/We2KR8NufczqSWWFoQJvmVKaxsgw5zKEiqC2W+nYb96AHOMLkhefHCl
- KNKCuVDBgxVhC/G39g8DGrBWz3QnpoqH/s8L8Q2Uti7iDHgQcthkyF4kPdPnp3Dgut+U
- YPDg==
-X-Gm-Message-State: AOAM533e5VkHbtLkTBgsvOAvNijFTUcnk73MBvAWMN0ltFkhHkZsXLC/
- MIPVQCzFVzaq6dd6d4b3S8A=
-X-Google-Smtp-Source: ABdhPJyD0NDjbABoCatjn1w/Ey9Ef6HeuvvsweZ+aBXUAru5GebuoxfPUOebSAQ0Ivmfhv7NpHeadw==
-X-Received: by 2002:a2e:9eca:: with SMTP id h10mr6129956ljk.352.1603739652647; 
- Mon, 26 Oct 2020 12:14:12 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-186.dynamic.spd-mgts.ru.
- [109.252.193.186])
- by smtp.googlemail.com with ESMTPSA id r19sm1280779ljn.73.2020.10.26.12.14.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 12:14:11 -0700 (PDT)
-Subject: Re: [PATCH v6 00/52] Introduce memory interconnect for NVIDIA Tegra
- SoCs
-To: Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201026150845.GA87050@kozik-lap>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <48a5cfdd-c170-f6d3-001a-2d343ecb2c5e@gmail.com>
-Date: Mon, 26 Oct 2020 22:14:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UvmyfAS3FNKDIUlMjXBNYKBYoK/vtIij8n9c082Mubc=;
+ b=ORAh8BR0CvVXPws4FQeVyyYc24jmQKeVYvZYtNesgyJRnku8Xq42/LbyedUqFyXfdZ
+ M0jWscBx5PtF6XhVF2IDThqtlO/AuUY5q89fJ/T3Sr9gQK404anJyBiz++082PJY6e51
+ F4Y0mKL282NoVSfIDBqFqiZmLGlktOqY+Bm/naTcaC15hLYvF43N+/7SGifZPednAuLi
+ AP87Cgt3/EW1Dfs+psT/L3F83RRPLJ8U532gAUTSfgO6onXFgKDTLNOhicVuxIY7RP3r
+ fgLUzijm1TuWeD06d3QjcQr4tsEsgwJZu8TNEzfpQwwvErpTWipjKsF3JQR6CT/Y/To8
+ DP5Q==
+X-Gm-Message-State: AOAM530ddRCaq0O3FZnxDjPdcFzv1qpB4O4juzCfa6Y1YgtvIrWdNUdB
+ ggunppIkIuHs8B0ug3sV8sf2bG4FgWVqRqxZg+GZ0A==
+X-Google-Smtp-Source: ABdhPJzo8W8E/m1R7rra7IFPqewUOrGPxKXu7J09tIasrTWLM5xWrumM7TFDDFkiXzDRs8Myt1FX1umkbCmB5lyZAZI=
+X-Received: by 2002:a17:90a:740a:: with SMTP id
+ a10mr18182181pjg.32.1603741500883; 
+ Mon, 26 Oct 2020 12:45:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201026150845.GA87050@kozik-lap>
-Content-Language: en-US
+References: <20201026194110.3817470-1-arnd@kernel.org>
+ <20201026194110.3817470-2-arnd@kernel.org>
+In-Reply-To: <20201026194110.3817470-2-arnd@kernel.org>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Mon, 26 Oct 2020 12:44:49 -0700
+Message-ID: <CAKwvOdnb+nC+5SHjqU0gqwD2kaEptE6EjGtxxgmr36Ts19rNTQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] drm/imx: tve remove extraneous type qualifier
+To: Arnd Bergmann <arnd@kernel.org>
 X-Mailman-Approved-At: Tue, 27 Oct 2020 08:12:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,54 +63,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Nicolas Chauvet <kwizart@gmail.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: LKML <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Marco Felsch <m.felsch@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Markus Elfring <elfring@users.sourceforge.net>,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Nathan Chancellor <natechancellor@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjYuMTAuMjAyMCAxODowOCwgS3J6eXN6dG9mIEtvemxvd3NraSDQv9C40YjQtdGCOgo+IE9uIE1v
-biwgT2N0IDI2LCAyMDIwIGF0IDAxOjE2OjQzQU0gKzAzMDAsIERtaXRyeSBPc2lwZW5rbyB3cm90
-ZToKPj4gSGVsbG8sCj4+Cj4+IFRoaXMgc2VyaWVzIGJyaW5ncyBpbml0aWFsIHN1cHBvcnQgZm9y
-IG1lbW9yeSBpbnRlcmNvbm5lY3QgdG8gVGVncmEyMCwKPj4gVGVncmEzMCBhbmQgVGVncmExMjQg
-U29Dcy4KPj4KPj4gRm9yIHRoZSBzdGFydGVyIG9ubHkgZGlzcGxheSBjb250cm9sbGVycyBhbmQg
-ZGV2ZnJlcSBkZXZpY2VzIGFyZSBnZXR0aW5nCj4+IGludGVyY29ubmVjdCBBUEkgc3VwcG9ydCwg
-b3RoZXJzIGNvdWxkIGJlIHN1cHBvcnRlZCBsYXRlciBvbi4gVGhlIGRpc3BsYXkKPj4gY29udHJv
-bGxlcnMgaGF2ZSB0aGUgYmlnZ2VzdCBkZW1hbmQgZm9yIGludGVyY29ubmVjdCBBUEkgcmlnaHQg
-bm93IGJlY2F1c2UKPj4gZHluYW1pYyBtZW1vcnkgZnJlcXVlbmN5IHNjYWxpbmcgY2FuJ3QgYmUg
-ZG9uZSBzYWZlbHkgd2l0aG91dCB0YWtpbmcgaW50bwo+PiBhY2NvdW50IGJhbmR3aWR0aCByZXF1
-aXJlbWVudCBmcm9tIHRoZSBkaXNwbGF5cy4gSW4gcGFydGljdWxhciB0aGlzIHNlcmllcwo+PiBm
-aXhlcyBkaXN0b3J0ZWQgZGlzcGxheSBvdXRwdXQgb24gVDMwIE91eWEgYW5kIFQxMjQgVEsxIGRl
-dmljZXMuCj4gCj4gSGksCj4gCj4gWW91IGludHJvZHVjZWQgaW4gdjYgbXVsdGlwbGUgbmV3IHBh
-dGNoZXMuIENvdWxkIHlvdSBkZXNjcmliZSB0aGUKPiBkZXBlbmRlbmNpZXMsIGlmIGFueT8KCkhl
-bGxvLAoKVGhlIHY2IGRyb3BwZWQgc29tZSBvbGRlciBwYXRjaGVzIGFuZCByZXBsYWNlZCB0aGVt
-IHdpdGggdGhlIG5ldwpwYXRjaGVzLiBQcmV2aW91c2x5IEkgd2FudGVkIHRvIHBvc3Rwb25lIHRo
-ZSBtb3JlIGNvbXBsZXggY2hhbmdlcyBmb3IKbGF0ZXIgdGltZXMsIGxpa2Ugc3VwcG9ydGluZyBP
-UFAgdGFibGVzIGFuZCBEVkZTLCBidXQgdGhlbiB0aGUgcmV2aWV3CnN0YXJ0ZWQgdG8gdGFrZSBt
-b3JlIHRpbWUgdGhhbiB3YXMgZXhwZWN0ZWQgYW5kIHRoZXJlIHdhcyBlbm91Z2ggdGltZSB0bwpj
-b21wbGV0ZSB0aG9zZSBmZWF0dXJlcy4KClRoZXJlIGFyZSBmaXZlIGJhc2ljIHNldHMgb2YgcGF0
-Y2hlczoKCgkxLiBEVCBiaW5kaW5ncwoJMi4gRFQgY2hhbmdlcwoJMy4gU29DLCBjbGsgYW5kIG1l
-bW9yeQoJNC4gZGV2ZnJlcQoJNS4gRFJNCgpFYWNoIHNldCBjb3VsZCBiZSBhcHBsaWVkIHNlcGFy
-YXRlbHkuCgpNZW1vcnkgcGF0Y2hlcyBoYXZlIGEgYnVpbGQgZGVwZW5kZW5jeSBvbiB0aGUgU29D
-IGFuZCBjbGsgcGF0Y2hlcy4KClRoZSAidGVncmEtbWM6IEFkZCBpbnRlcmNvbm5lY3QgZnJhbWV3
-b3JrIiBhbmQgIkFkZCBhbmQgdXNlCmRldm1fdGVncmFfZ2V0X21lbW9yeV9jb250cm9sbGVyKCki
-IGFyZSB0aGUgcm9vdCBidWlsZCBkZXBlbmRlbmNpZXMgZm9yCmFsbCBtZW1vcnkvIHBhdGNoZXMu
-IE90aGVyIHBhdGNoZXMgYXJlIGdyb3VwZWQgcGVyIFNvQyBnZW5lcmF0aW9uCihUZWdyYTIwLzMw
-LzEyNCksIHBhdGNoZXMgd2l0aGluIGEgU29DLWdlbiBncm91cCBhcmUgaW50ZXJkZXBlbmRlbnQu
-CgpJIHN1cHBvc2UgdGhlIGJlc3QgdmFyaWFudCB3b3VsZCBiZSB0byBtZXJnZSB0aGUgd2hvbGUg
-c2VyaWVzIHZpYQp0ZWdyYS10cmVlIGluIG9yZGVyIHRvIHByZXNlcnZlIGxvZ2ljYWwgb3JkZXIg
-b2YgdGhlIHBhdGNoZXMuIEFsdGhvdWdoLAptZXJnaW5nIGVhY2ggc2V0IG9mIHBhdGNoZXMgc2Vw
-YXJhdGVseSBhbHNvIHNob3VsZCBiZSBva2F5IHRvIGRvLgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Oct 26, 2020 at 12:41 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> clang warns about functions returning a 'const int' result:
+>
+> drivers/gpu/drm/imx/imx-tve.c:487:8: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+>
+> Remove the extraneous 'const' qualifier here. I would guess that the
+> function was intended to be marked __attribute__((const)) instead,
+> but that would also be wrong since it call other functions without
+> that attribute.
+>
+> Fixes: fcbc51e54d2a ("staging: drm/imx: Add support for Television Encoder (TVEv2)")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+> ---
+>  drivers/gpu/drm/imx/imx-tve.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
+> index ef3c25d87d87..2a8d2e32e7b4 100644
+> --- a/drivers/gpu/drm/imx/imx-tve.c
+> +++ b/drivers/gpu/drm/imx/imx-tve.c
+> @@ -484,7 +484,7 @@ static const char * const imx_tve_modes[] = {
+>         [TVE_MODE_VGA] = "vga",
+>  };
+>
+> -static const int of_get_tve_mode(struct device_node *np)
+> +static int of_get_tve_mode(struct device_node *np)
+>  {
+>         const char *bm;
+>         int ret, i;
+> --
+> 2.27.0
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
