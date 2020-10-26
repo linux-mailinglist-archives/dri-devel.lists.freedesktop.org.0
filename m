@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0975298652
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 06:23:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E84298745
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 08:14:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6886E1A3;
-	Mon, 26 Oct 2020 05:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7E756E1F9;
+	Mon, 26 Oct 2020 07:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A886B6E1A3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 05:23:48 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id l24so7981657edj.8
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Oct 2020 22:23:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JCqBX9d42aOwRBRP8MyR11QYkG3vm6wbXxKbI74Ejls=;
- b=mfSxauv5rL4DauOYvO6k6fIvO5n2ZDfg2Vz55LXS+OfqgEudwQDAtncM2b4yseZSih
- hVRIrRrGuXkpnqeNleucqiiW68ostsp/wkDhDURXPdY3aTQwjpNPP3Q+FdMBCG/PtY9g
- kawV5ISsdLV384J+TJ28gh/sKVjZ0n5JcYznqtMT651qNkSIZNoV6eIoy3jjuzMxrZ3c
- 8F0tG0Ymg1PIcCVq0zdA2wcxq6iGMfOmUWUdnhwfnTugGRkIHSJPeWsFOa+LFDmOBwUV
- h2dDoYt0OeaNw96JgQHB3CJ1zoOurAks2IGnaRP0fz7I+SyQ6ztPeUWj9UpkPAUKP1LR
- l2aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JCqBX9d42aOwRBRP8MyR11QYkG3vm6wbXxKbI74Ejls=;
- b=RYoWIs+Rbt7zotc76ypMPCYbmbG8pr1GJe/3UOFGrvEdqelnWaOnoQnRh3uq8Zf53+
- 10AtMN6q9LBQvFT0MS0tXxZ67wONI3jHgYxkTzZNaTITCCVi7IGbNaPEq+d+gI4oVRD3
- PTglxwMlab1G4z4cfh8kIhfAbYg3jGc03h05MIp40ijuD+AyfPDSuz6hTNqgsvZ+qXBZ
- VeMm9CEAri/V1wOMNkVL1yMImLuP6p3S8qt+tCLqav8Rti5f/QFS+Xe4MkCLfTbNG3ev
- aeNU+5FddgJdqelq3a5HyDUpq6gv7rF9bN7gMH0z4a4jwf9QW5P8uZV0da8xV+wlkg8y
- 3CbA==
-X-Gm-Message-State: AOAM531FT6BCXgKOWUWM5oEBIawyVD/zdk/v1qqiDsf73MyYIao2/CCd
- 7Y3N9/x61VHB4UlZrgoiQtjebaf+GYNZFKeeV2s=
-X-Google-Smtp-Source: ABdhPJxXbybvwQ9jC1h5hsUdhPUcQpgKL2LFeuDeIQgZe7xQVstsfGzAghstVieHz/9GIFn7LwXpecJVoQzwo2V3RDk=
-X-Received: by 2002:a50:d69e:: with SMTP id r30mr13825280edi.383.1603689827237; 
- Sun, 25 Oct 2020 22:23:47 -0700 (PDT)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFF036E1F9
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 07:13:53 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09Q7DnKE056180;
+ Mon, 26 Oct 2020 02:13:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1603696429;
+ bh=J6bEWCZut8iA51alISLtCNAaSgdBxa3EoGP/WK6QrAM=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=D03Z+u6vH+dZ8edzTHpPgKqCxB+pv399Wui9mMVBEDSS8e0qQdCmRo36CcLAvFx6u
+ mHJ3ZwYHS67gGuym0Ij91SRmLYzwNfDQOXnCcaaW3f4Ks2H31seDeM8K/gGz6rrVu6
+ 2D2g1N3b/sg59oGJfU4B2+zJUjKP1huwhCalq2DQ=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09Q7Dncr019471
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 26 Oct 2020 02:13:49 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 26
+ Oct 2020 02:13:48 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 26 Oct 2020 02:13:48 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09Q7DlRQ043235;
+ Mon, 26 Oct 2020 02:13:47 -0500
+Subject: Re: [PATCH 13/65] drm/omapdrm: Annotate dma-fence critical section in
+ commit path
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
+ <dri-devel@lists.freedesktop.org>
+References: <20201021163242.1458885-1-daniel.vetter@ffwll.ch>
+ <20201023122216.2373294-1-daniel.vetter@ffwll.ch>
+ <20201023122216.2373294-13-daniel.vetter@ffwll.ch>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <c4b4e6d9-8b2a-ee8a-7708-011827d955a3@ti.com>
+Date: Mon, 26 Oct 2020 09:13:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201025154100.16400-1-christian.koenig@amd.com>
-In-Reply-To: <20201025154100.16400-1-christian.koenig@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 26 Oct 2020 15:23:35 +1000
-Message-ID: <CAPM=9txCyG9STDiJq3e7arGBABFiqrU_2dthii=pKvnCug5D5Q@mail.gmail.com>
-Subject: Re: drm/ttm: new TT backend allocation pool
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20201023122216.2373294-13-daniel.vetter@ffwll.ch>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,66 +65,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Madhav.Chauhan@amd.com, Huang Rui <Ray.Huang@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyNiBPY3QgMjAyMCBhdCAwMTo0MSwgQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5pZy5s
-ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gVGhpcyByZXBsYWNlcyB0aGUgc3Bh
-Z2hldHRpIGNvZGUgaW4gdGhlIHR3byBleGlzdGluZyBwYWdlIHBvb2xzLgo+Cj4gRmlyc3Qgb2Yg
-YWxsIGRlcGVuZGluZyBvbiB0aGUgYWxsb2NhdGlvbiBzaXplIGl0IGlzIGJldHdlZW4gMyAoMUdp
-QikgYW5kCj4gNSAoMU1pQikgdGltZXMgZmFzdGVyIHRoYW4gdGhlIG9sZCBpbXBsZW1lbnRhdGlv
-bi4KPgo+IEl0IG1ha2VzIGJldHRlciB1c2Ugb2YgYnVkZHkgcGFnZXMgdG8gYWxsb3cgZm9yIGxh
-cmdlciBwaHlzaWNhbCBjb250aWd1b3VzCj4gYWxsb2NhdGlvbnMgd2hpY2ggc2hvdWxkIHJlc3Vs
-dCBpbiBiZXR0ZXIgVExCIHV0aWxpemF0aW9uIGF0IGxlYXN0IGZvciBhbWRncHUuCj4KPiBJbnN0
-ZWFkIG9mIGEgY29tcGxldGVseSBicmFpbmRlYWQgYXBwcm9hY2ggb2YgZmlsbGluZyB0aGUgcG9v
-bCB3aXRoIG9uZSBDUFUKPiB3aGlsZSBhbm90aGVyIG9uZSBpcyB0cnlpbmcgdG8gc2hyaW5rIGl0
-IHdlIG9ubHkgZ2l2ZSBiYWNrIGZyZWVkIHBhZ2VzLgo+Cj4gVGhpcyBhbHNvIHJlc3VsdHMgaW4g
-bXVjaCBsZXNzIGxvY2tpbmcgY29udGVudGlvbiBhbmQgYSB0cnlsb2NrIGZyZWUgTU0KPiBzaHJp
-bmtlciBjYWxsYmFjaywgc28gd2UgY2FuIGd1YXJhbnRlZSB0aGF0IHBhZ2VzIGFyZSBnaXZlbiBi
-YWNrIHRvIHRoZSBzeXN0ZW0KPiB3aGVuIG5lZWRlZC4KPgo+IERvd25zaWRlIG9mIHRoaXMgaXMg
-dGhhdCBpdCB0YWtlcyBsb25nZXIgZm9yIG1hbnkgc21hbGwgYWxsb2NhdGlvbnMgdW50aWwgdGhl
-Cj4gcG9vbCBpcyBmaWxsZWQgdXAuIFdlIGNvdWxkIGFkZHJlc3MgdGhpcywgYnV0IEkgY291bGRu
-J3QgZmluZCBhbiB1c2UgY2FzZQo+IHdoZXJlIHRoaXMgYWN0dWFsbHkgbWF0dGVycy4gQW5kIHdl
-IGRvbid0IGJvdGhlciBmcmVlaW5nIGxhcmdlIGNodW5rcyBvZiBwYWdlcwo+IGFueSBtb3JlLgo+
-Cj4gVGhlIHN5c2ZzIGZpbGVzIGFyZSByZXBsYWNlZCB3aXRoIGEgc2luZ2xlIG1vZHVsZSBwYXJh
-bWV0ZXIsIGFsbG93aW5nIHVzZXJzIHRvCj4gb3ZlcnJpZGUgaG93IG1hbnkgcGFnZXMgc2hvdWxk
-IGJlIGdsb2JhbGx5IHBvb2xlZCBpbiBUVE0uIFRoaXMgdW5mb3J0dW5hdGVseQo+IGJyZWFrcyB0
-aGUgVUFQSSBzbGlnaHRseSwgYnV0IGFzIGZhciBhcyB3ZSBrbm93IG5vYm9keSBldmVyIGRlcGVu
-ZGVkIG9uIHRoaXMuCj4KPiBaZXJvaW5nIG1lbW9yeSBjb21pbmcgZnJvbSB0aGUgcG9vbCB3YXMg
-aGFuZGxlZCBpbmNvbnNpc3RlbnRseS4gVGhlCj4gYWxsb2NfcGFnZXMoKSBiYXNlZCBwb29sIHdh
-cyB6ZXJvaW5nIGl0LCB0aGUgZG1hX2FsbG9jX2F0dHIoKSBiYXNlZCBvbmUgd2Fzbid0Lgo+IFRo
-ZSBuZXcgaW1wbGVtZW50YXRpb24gaXNuJ3QgemVyb2luZyBwYWdlcyBmcm9tIHRoZSBwb29sIGVp
-dGhlciBhbmQgb25seSBzZXRzCj4gdGhlIF9fR0ZQX1pFUk8gZmxhZyB3aGVuIG5lY2Vzc2FyeS4K
-Pgo+IFRoZSBpbXBsZW1lbnRhdGlvbiBoYXMgb25seSA3NTMgbGluZXMgb2YgY29kZSBjb21wYXJl
-ZCB0byB0aGUgb3ZlciAyNjAwIG9mIHRoZQo+IG9sZCBvbmUsIGFuZCBhbHNvIGFsbG93cyBmb3Ig
-c2F2aW5nIHF1aXRlIGEgYnVuY2ggb2YgY29kZSBpbiB0aGUgZHJpdmVycyBzaW5jZQo+IHdlIGRv
-bid0IG5lZWQgc3BlY2lhbGl6ZWQgaGFuZGxpbmcgdGhlcmUgYW55IG1vcmUgYmFzZWQgb24ga2Vy
-bmVsIGNvbmZpZy4KPgo+IEFkZGl0aW9uYWwgdG8gYWxsIG9mIHRoYXQgdGhlcmUgd2FzIGEgbmVh
-dCBidWcgd2l0aCBJT01NVSwgY29oZXJlbnQgRE1BCj4gbWFwcGluZ3MgYW5kIGh1Z2UgcGFnZXMg
-d2hpY2ggaXMgbm93IGZpeGVkIGluIHRoZSBuZXcgY29kZSBhcyB3ZWxsLgo+Cj4gUGxlYXNlIHJl
-dmlldyBhbmQgY29tbWVudCwKCkludGVyZXN0aW5nLCA1IGRvZXNuJ3QgaGF2ZSBhcHBlYXJlZCB0
-byBtYWtlIG9uIHRoZSBsaXN0LCBidXQgaXQKZGVmaW5pdGVseSBoYXMgc29tZSBjaGVja3BhdGNo
-IHdhcm5pbmdzLiAoaW5kZW50cywgbWlzc2luZyBzcGFjZXMKZXRjKSwgUGxlYXNlIGNsZWFuIHRo
-b3NlIHVwLgoKc29tZSBvdGhlciByYW5kb20gY29tbWVudHMgb24gaXQKCisgICAgICAgaWYgKG9y
-ZGVyKSB7CisgICAgICAgICAgICAgICBnZnBfZmxhZ3MgfD0gR0ZQX1RSQU5TSFVHRV9MSUdIVCB8
-IF9fR0ZQX05PUkVUUlkgfAorICAgICAgICAgICAgICAgICAgICAgICBfX0dGUF9LU1dBUERfUkVD
-TEFJTTsKKyAgICAgICAgICAgICAgIGdmcF9mbGFncyAmPSB+X19HRlBfTU9WQUJMRTsKKyAgICAg
-ICAgICAgICAgIGdmcF9mbGFncyAmPSB+X19HRlBfQ09NUDsKKyAgICAgICB9CgpJJ2QgbGlrZSBz
-b21lIGV4cGxhaW5zIG9mIHdoeSB0aGVzZSBmbGFncyBhcmUgY2hvc2VuLgoKT3RoZXJ3aXNlIEkn
-bSBwcmV0dHkgaGFwcHkgd2l0aCB0aGUgcmVtYWluaW5nIHBhdGNoIGluIHRoZSBzZXJpZXMsIGl0
-CmVuZHMgdXAgd2l0aCBhIHByZXR0eSBuaWNlIGNsZWFudXAuCgpOb3RlIGRybV9nZW1fdnJhbV9o
-ZWxwZXIgZmFpbHMgdG8gYnVpbGQgKHZtbS0+ZGV2IHNob3VsZCBiZSBkZXYtPmRldiBwb3NzaWJs
-eSkuCgpPbmNlIHlvdSBjbGVhbiB1cCBjaGVja3BhdGNoIGFuZCBtYWtlIGRybV9nZW1fdnJhbV9o
-ZWxwZXIgYnVpbGQgYWdhaW4uCkZvciA1LTEzIFJldmlld2VkLWJ5OiBEYXZlIEFpcmxpZSA8YWly
-bGllZEByZWRoYXQuY29tPgoKSSd2ZSBhbHNvIGJvb3QgdGVzdGVkIHRoaXMgb24gbm91dmVhdSBh
-bmQgaXQgc3Vydml2ZXMgdGhlIGJhc2ljcyBmaW5lLgoKRGF2ZS4KCj4gQ2hyaXN0aWFuLgo+Cj4K
-PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 23/10/2020 15:21, Daniel Vetter wrote:
+> Nothing special, just put the end right after hw_done(). Note that in
+> one path there's a wait for the flip/update to complete. But as far as
+> I understand from comments and code that's only relevant for modesets,
+> and skipped if there wasn't a modeset done on a given crtc.
+> 
+> For a bit more clarity pull the hw_done() call out of the if/else,
+> that way it's a bit clearer flow. But happy to shuffle this around as
+> is seen fit.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  drivers/gpu/drm/omapdrm/omap_drv.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> index 2e598b8b72af..2b82a708eca6 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> @@ -68,6 +68,7 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  {
+>  	struct drm_device *dev = old_state->dev;
+>  	struct omap_drm_private *priv = dev->dev_private;
+> +	bool fence_cookie = dma_fence_begin_signalling();
+>  
+>  	priv->dispc_ops->runtime_get(priv->dispc);
+>  
+> @@ -90,8 +91,6 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  		omap_atomic_wait_for_completion(dev, old_state);
+>  
+>  		drm_atomic_helper_commit_planes(dev, old_state, 0);
+> -
+> -		drm_atomic_helper_commit_hw_done(old_state);
+>  	} else {
+>  		/*
+>  		 * OMAP3 DSS seems to have issues with the work-around above,
+> @@ -101,10 +100,12 @@ static void omap_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  		drm_atomic_helper_commit_planes(dev, old_state, 0);
+>  
+>  		drm_atomic_helper_commit_modeset_enables(dev, old_state);
+> -
+> -		drm_atomic_helper_commit_hw_done(old_state);
+>  	}
+>  
+> +	drm_atomic_helper_commit_hw_done(old_state);
+> +
+> +	dma_fence_end_signalling(fence_cookie);
+> +
+>  	/*
+>  	 * Wait for completion of the page flips to ensure that old buffers
+>  	 * can't be touched by the hardware anymore before cleaning up planes.
+> 
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
