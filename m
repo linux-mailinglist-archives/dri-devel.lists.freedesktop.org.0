@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06AEB299C00
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:55:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC512299C33
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:56:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8DB6EA8B;
-	Mon, 26 Oct 2020 23:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A47AE6EAAA;
+	Mon, 26 Oct 2020 23:56:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E4736EA8B
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 23:55:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A17876EA9C;
+ Mon, 26 Oct 2020 23:56:21 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 984F72151B;
- Mon, 26 Oct 2020 23:55:49 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9967C20770;
+ Mon, 26 Oct 2020 23:56:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603756550;
- bh=scenCdaykCIS9/ktaWIti9ZG+4PJN2VqVmUcyHrSsnY=;
+ s=default; t=1603756581;
+ bh=Tksrrd5nZCDgdYeDXvFTj2hLaruXIlWO1dXPfNuYV1A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fVdfFg7hfPt8pFEvX1tzyuSDmiuSsg5/ZaRKrk0YSYWdhp29Sj/KJU9xKbZCs5EFb
- S/5WX82c5mFf3NYylfixTAbqXtAxHIZi/MB9nOXWn0sW1i5+wX3hZDQ/qsIJ8JzU+F
- KCtrvGnoCH/rSIN/K19NYXmn+AMkyRvBa+NitGI4=
+ b=YJZhR0UbOZqamjnuAx3/9oRGKmbN5uAd0JLogtrxFLLbAXFA7GDBBlNSg2REn5FDb
+ 8sim67dTsdpDaOCeH4KjFIEViRlxTl8Ts+V76lVXY6pCHal1wrxQ/sDiJ9fXJKMpdJ
+ FL9lg+RyJ/BO7WhIcNzhIsMtNi9vmjm7BL+lWQP4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 27/80] drm/bridge/synopsys: dsi: add support for
- non-continuous HS clock
-Date: Mon, 26 Oct 2020 19:54:23 -0400
-Message-Id: <20201026235516.1025100-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 54/80] drm/amd/display: HDMI remote sink need mode
+ validation for Linux
+Date: Mon, 26 Oct 2020 19:54:50 -0400
+Message-Id: <20201026235516.1025100-54-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201026235516.1025100-1-sashal@kernel.org>
 References: <20201026235516.1025100-1-sashal@kernel.org>
@@ -50,73 +50,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Antonio Borneo <antonio.borneo@st.com>, Sasha Levin <sashal@kernel.org>,
- Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>
+Cc: Sasha Levin <sashal@kernel.org>, Eryk Brol <eryk.brol@amd.com>,
+ amd-gfx@lists.freedesktop.org, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Antonio Borneo <antonio.borneo@st.com>
+From: Fangzhi Zuo <Jerry.Zuo@amd.com>
 
-[ Upstream commit c6d94e37bdbb6dfe7e581e937a915ab58399b8a5 ]
+[ Upstream commit 95d620adb48f7728e67d82f56f756e8d451cf8d2 ]
 
-Current code enables the HS clock when video mode is started or to
-send out a HS command, and disables the HS clock to send out a LP
-command. This is not what DSI spec specify.
+[Why]
+Currently mode validation is bypassed if remote sink exists. That
+leads to mode set issue when a BW bottle neck exists in the link path,
+e.g., a DP-to-HDMI converter that only supports HDMI 1.4.
 
-Enable HS clock either in command and in video mode.
-Set automatic HS clock management for panels and devices that
-support non-continuous HS clock.
+Any invalid mode passed to Linux user space will cause the modeset
+failure due to limitation of Linux user space implementation.
 
-Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
-Tested-by: Philippe Cornu <philippe.cornu@st.com>
-Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200701194234.18123-1-yannick.fertre@st.com
+[How]
+Mode validation is skipped only if in edid override. For real remote
+sink, clock limit check should be done for HDMI remote sink.
+
+Have HDMI related remote sink going through mode validation to
+elimiate modes which pixel clock exceeds BW limitation.
+
+Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
+Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
+Acked-by: Eryk Brol <eryk.brol@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 675442bfc1bd7..77384c49fb8dd 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -365,7 +365,6 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
- 	if (lpm)
- 		val |= CMD_MODE_ALL_LP;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index 3efee7b3378a3..47cefc05fd3f5 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -2268,7 +2268,7 @@ enum dc_status dc_link_validate_mode_timing(
+ 	/* A hack to avoid failing any modes for EDID override feature on
+ 	 * topology change such as lower quality cable for DP or different dongle
+ 	 */
+-	if (link->remote_sinks[0])
++	if (link->remote_sinks[0] && link->remote_sinks[0]->sink_signal == SIGNAL_TYPE_VIRTUAL)
+ 		return DC_OK;
  
--	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
- 	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
- }
- 
-@@ -541,16 +540,22 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
- static void dw_mipi_dsi_set_mode(struct dw_mipi_dsi *dsi,
- 				 unsigned long mode_flags)
- {
-+	u32 val;
-+
- 	dsi_write(dsi, DSI_PWR_UP, RESET);
- 
- 	if (mode_flags & MIPI_DSI_MODE_VIDEO) {
- 		dsi_write(dsi, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
- 		dw_mipi_dsi_video_mode_config(dsi);
--		dsi_write(dsi, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
- 	} else {
- 		dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
- 	}
- 
-+	val = PHY_TXREQUESTCLKHS;
-+	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
-+		val |= AUTO_CLKLANE_CTRL;
-+	dsi_write(dsi, DSI_LPCLK_CTRL, val);
-+
- 	dsi_write(dsi, DSI_PWR_UP, POWERUP);
- }
- 
+ 	/* Passive Dongle */
 -- 
 2.25.1
 
