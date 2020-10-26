@@ -2,58 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2D42987C5
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1BA29885F
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 09:37:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC736E852;
-	Mon, 26 Oct 2020 08:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 474016E885;
+	Mon, 26 Oct 2020 08:37:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com
- [148.163.135.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E77396E28A
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 06:43:59 +0000 (UTC)
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
- by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09Q6PP1n001258; Mon, 26 Oct 2020 02:43:57 -0400
-Received: from nwd2mta3.analog.com ([137.71.173.56])
- by mx0a-00128a01.pphosted.com with ESMTP id 34ce45pmu2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 02:43:57 -0400
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
- by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 09Q6huxL007330
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL); 
- Mon, 26 Oct 2020 02:43:56 -0400
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Mon, 26 Oct
- 2020 02:43:55 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
- Transport; Mon, 26 Oct 2020 02:43:55 -0400
-Received: from btogorean-pc.ad.analog.com ([10.48.65.113])
- by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 09Q6geJQ003008;
- Mon, 26 Oct 2020 02:43:52 -0400
-From: Bogdan Togorean <bogdan.togorean@analog.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 2/2] drm: dt-bindings: adi: axi-hdmi-tx: Add DT bindings
- for axi-hdmi-tx
-Date: Mon, 26 Oct 2020 08:41:06 +0200
-Message-ID: <20201026064122.2831-2-bogdan.togorean@analog.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201026064122.2831-1-bogdan.togorean@analog.com>
-References: <20201026064122.2831-1-bogdan.togorean@analog.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0306E885;
+ Mon, 26 Oct 2020 08:37:43 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 1AC8AB025;
+ Mon, 26 Oct 2020 08:37:42 +0000 (UTC)
+Subject: Re: [PATCH 2/5] drm: Compile out legacy chunks from struct drm_device
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20201023122811.2374118-1-daniel.vetter@ffwll.ch>
+ <20201023122811.2374118-2-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <f31b5607-cfd8-4ab7-3b37-a5cb36509420@suse.de>
+Date: Mon, 26 Oct 2020 09:37:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
- definitions=2020-10-26_04:2020-10-26,
- 2020-10-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=1 phishscore=0
- spamscore=0 malwarescore=0 impostorscore=0 adultscore=0 mlxlogscore=999
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010260045
-X-Mailman-Approved-At: Mon, 26 Oct 2020 08:08:06 +0000
+In-Reply-To: <20201023122811.2374118-2-daniel.vetter@ffwll.ch>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,107 +41,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Mike Looijmans <mike.looijmans@topic.nl>, Rob Herring <robh+dt@kernel.org>,
- Bogdan Togorean <bogdan.togorean@analog.com>,
- Alexandru Ardelean <alexandru.ardelean@analog.com>, sam@ravnborg.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add YAML device tree bindings for Analog Devices Inc. AXI HDMI TX
-IP core DRM driver.
-
-Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
----
- .../bindings/display/adi/adi,axi-hdmi-tx.yaml | 72 +++++++++++++++++++
- 1 file changed, 72 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/adi/adi,axi-hdmi-tx.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/adi/adi,axi-hdmi-tx.yaml b/Documentation/devicetree/bindings/display/adi/adi,axi-hdmi-tx.yaml
-new file mode 100644
-index 000000000000..12a0ed9b187e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/adi/adi,axi-hdmi-tx.yaml
-@@ -0,0 +1,72 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/adi/adi,axi-hdmi-tx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Analog Devices AXI HDMI TX HDL core
-+
-+maintainers:
-+  - Bogdan Togorean <bogdan.togorean@analog.com>
-+
-+description: |
-+  The AXI HDMI HDL driver is the driver for the HDL graphics core which
-+  is used on various FPGA designs. It's mostly used to interface with
-+  the ADV7511 driver on some Zynq boards (e.g. ZC702 & ZedBoard).
-+
-+properties:
-+  compatible:
-+    const: adi,axi-hdmi-tx-1.00.a
-+
-+  reg:
-+    maxItems: 1
-+
-+  dmas:
-+    items:
-+      - description: phandle to AXIS DMA controller
-+    maxItems: 1
-+
-+  dma-names:
-+    items:
-+      - const: video
-+
-+  clocks:
-+    maxItems: 1
-+    description: phandle to the pixel clock
-+
-+  adi,is-rgb:
-+    type: boolean
-+    description: enable color space conversion
-+
-+  port:
-+    type: object
-+    description: |
-+      Port as described in Documentation/devicetree/bindings/graph.txt.
-+      Remote output connection to bridge driver
-+
-+required:
-+  - compatible
-+  - reg
-+  - dmas
-+  - dma-names
-+  - clocks
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    axi_hdmi_tx: axi_hdmi@70e00000 {
-+            compatible = "adi,axi-hdmi-tx-1.00.a";
-+            reg = <0x70e00000 0x10000>;
-+            dmas = <&hdmi_dma 0>;
-+            dma-names = "video";
-+            clocks = <&hdmi_clock>;
-+
-+            port {
-+                    axi_hdmi_out: endpoint {
-+                            remote-endpoint = <&zynq_hdmi_in>;
-+                    };
-+            };
-+    };
-+...
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkKCkFtIDIzLjEwLjIwIHVtIDE0OjI4IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiBUaGlzIG1l
+YW5zIHNvbWUgdmVyeSBmZXcgI2lmZGVmIGluIGNvZGUsIGJ1dCBpdCBhbGxvd3MgdXMgdG8KPiBl
+bmxpc3QgdGhlIGNvbXBpbGVyIHRvIG1ha2Ugc3VyZSB0aGlzIHN0dWZmIGlzbid0IHVzZWQgYW55
+bW9yZS4KPiAKPiBNb3JlIGltcG9ydGFudCwgb25seSBsZWdhY3kgZHJpdmVycyBjaGFuZ2UgZHJt
+X2RldmljZSAoZm9yIHRoZQo+IGxlZ2FjeV9kZXZfbGlzdCBzaGFkb3cgYXR0YWNoIG1hbmFnZW1l
+bnQpLCB0aGVyZWZvcmUgdGhpcyBpcwo+IHByZXAgdG8gYWxsb3cgbW9kZXJuIGRyaXZlcnMgdG8g
+aGF2ZSBhIGNvbnN0IGRyaXZlciBzdHJ1Y3QuIFdoaWNoCj4gaXMgbmljZSwgYmVjYXVzZSB0aGVy
+ZSdzIGEgdG9uIG9mIGZ1bmN0aW9uIHBvaW50ZXJzIGluIHRoZXJlLgo+IAo+IFNpZ25lZC1vZmYt
+Ynk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+IENjOiBNYWFydGVu
+IExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgo+IENjOiBNYXhp
+bWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+Cj4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0
+emltbWVybWFubkBzdXNlLmRlPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+
+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBTaWduZWQtb2ZmLWJ5OiBE
+YW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgoKUmV2aWV3LWJ5OiBUaG9tYXMg
+WmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KClNvcnQgb2YgcmVsYXRlZDogdGhlIGlt
+cGxlbWVudGF0aW9uIGZvciBLTVMgYW5kIFVNUyBkZXZpY2VzIGlzIG1vcmUgYW5kCm1vcmUgZGlz
+dGluY3QgZnJvbSBlYWNoIG90aGVyLiBEaWQgeW91IGV2ZXIgY29uc2lkZXIgZ29pbmcgZm9yIHNl
+cGFyYXRlCmxlZ2FjeSBoZWxwZXJzIGluc3RlYWQgb2YgbWl4aW5nLWluIGFsbCB0aGVzZSBpZmRl
+ZnM/CgpCZXN0IHJlZ2FyZHMKVGhvbWFzCgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2Zp
+bGUuYyAgIHwgIDIgKysKPiAgZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyB8IDE1ICsrKysr
+KysrKysrKy0tLQo+ICBpbmNsdWRlL2RybS9kcm1fZHJ2LmggICAgICAgIHwgIDIgKysKPiAgMyBm
+aWxlcyBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+ZmlsZS5jCj4gaW5kZXggMGFjNDU2NmFlM2Y0Li5iNTAzODBmYTgwY2UgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2RybV9maWxlLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Zp
+bGUuYwo+IEBAIC0yNTgsOSArMjU4LDExIEBAIHZvaWQgZHJtX2ZpbGVfZnJlZShzdHJ1Y3QgZHJt
+X2ZpbGUgKmZpbGUpCj4gIAkJICAobG9uZylvbGRfZW5jb2RlX2RldihmaWxlLT5taW5vci0+a2Rl
+di0+ZGV2dCksCj4gIAkJICBhdG9taWNfcmVhZCgmZGV2LT5vcGVuX2NvdW50KSk7Cj4gIAo+ICsj
+aWZkZWYgQ09ORklHX0RSTV9MRUdBQ1kKPiAgCWlmIChkcm1fY29yZV9jaGVja19mZWF0dXJlKGRl
+diwgRFJJVkVSX0xFR0FDWSkgJiYKPiAgCSAgICBkZXYtPmRyaXZlci0+cHJlY2xvc2UpCj4gIAkJ
+ZGV2LT5kcml2ZXItPnByZWNsb3NlKGRldiwgZmlsZSk7Cj4gKyNlbmRpZgo+ICAKPiAgCWlmIChk
+cm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpCj4gIAkJZHJtX2xlZ2Fj
+eV9sb2NrX3JlbGVhc2UoZGV2LCBmaWxlLT5maWxwKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2RybV92YmxhbmsuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMKPiBpbmRl
+eCBiYTdlNzQxNzY0YWEuLjE1ZTVlYTQzNjQzNCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vZHJtX3ZibGFuay5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYwo+IEBA
+IC0yMTAsOSArMjEwLDEyIEBAIHN0YXRpYyB1MzIgX19nZXRfdmJsYW5rX2NvdW50ZXIoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgaW50IHBpcGUpCj4gIAo+ICAJCWlmIChjcnRjLT5m
+dW5jcy0+Z2V0X3ZibGFua19jb3VudGVyKQo+ICAJCQlyZXR1cm4gY3J0Yy0+ZnVuY3MtPmdldF92
+YmxhbmtfY291bnRlcihjcnRjKTsKPiAtCX0gZWxzZSBpZiAoZGV2LT5kcml2ZXItPmdldF92Ymxh
+bmtfY291bnRlcikgewo+ICsJfQo+ICsjaWZkZWYgQ09ORklHX0RSTV9MRUdBQ1kKPiArCWVsc2Ug
+aWYgKGRldi0+ZHJpdmVyLT5nZXRfdmJsYW5rX2NvdW50ZXIpIHsKPiAgCQlyZXR1cm4gZGV2LT5k
+cml2ZXItPmdldF92YmxhbmtfY291bnRlcihkZXYsIHBpcGUpOwo+ICAJfQo+ICsjZW5kaWYKPiAg
+Cj4gIAlyZXR1cm4gZHJtX3ZibGFua19ub19od19jb3VudGVyKGRldiwgcGlwZSk7Cj4gIH0KPiBA
+QCAtNDMwLDkgKzQzMywxMiBAQCBzdGF0aWMgdm9pZCBfX2Rpc2FibGVfdmJsYW5rKHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYsIHVuc2lnbmVkIGludCBwaXBlKQo+ICAKPiAgCQlpZiAoY3J0Yy0+ZnVu
+Y3MtPmRpc2FibGVfdmJsYW5rKQo+ICAJCQljcnRjLT5mdW5jcy0+ZGlzYWJsZV92YmxhbmsoY3J0
+Yyk7Cj4gLQl9IGVsc2Ugewo+ICsJfQo+ICsjaWZkZWYgQ09ORklHX0RSTV9MRUdBQ1kKPiArCWVs
+c2Ugewo+ICAJCWRldi0+ZHJpdmVyLT5kaXNhYmxlX3ZibGFuayhkZXYsIHBpcGUpOwo+ICAJfQo+
+ICsjZW5kaWYKPiAgfQo+ICAKPiAgLyoKPiBAQCAtMTA5Nyw5ICsxMTAzLDEyIEBAIHN0YXRpYyBp
+bnQgX19lbmFibGVfdmJsYW5rKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHVuc2lnbmVkIGludCBw
+aXBlKQo+ICAKPiAgCQlpZiAoY3J0Yy0+ZnVuY3MtPmVuYWJsZV92YmxhbmspCj4gIAkJCXJldHVy
+biBjcnRjLT5mdW5jcy0+ZW5hYmxlX3ZibGFuayhjcnRjKTsKPiAtCX0gZWxzZSBpZiAoZGV2LT5k
+cml2ZXItPmVuYWJsZV92YmxhbmspIHsKPiArCX0KPiArI2lmZGVmIENPTkZJR19EUk1fTEVHQUNZ
+Cj4gKwllbHNlIGlmIChkZXYtPmRyaXZlci0+ZW5hYmxlX3ZibGFuaykgewo+ICAJCXJldHVybiBk
+ZXYtPmRyaXZlci0+ZW5hYmxlX3ZibGFuayhkZXYsIHBpcGUpOwo+ICAJfQo+ICsjZW5kaWYKPiAg
+Cj4gIAlyZXR1cm4gLUVJTlZBTDsKPiAgfQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1f
+ZHJ2LmggYi9pbmNsdWRlL2RybS9kcm1fZHJ2LmgKPiBpbmRleCBjNmQxNzU1MGVmYzkuLjdhZjIy
+MDIyNmEyNSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZHJ2LmgKPiArKysgYi9pbmNs
+dWRlL2RybS9kcm1fZHJ2LmgKPiBAQCAtNDk4LDYgKzQ5OCw3IEBAIHN0cnVjdCBkcm1fZHJpdmVy
+IHsKPiAgCSAqLwo+ICAJY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyAqZm9wczsKPiAgCj4g
+KyNpZmRlZiBDT05GSUdfRFJNX0xFR0FDWQo+ICAJLyogRXZlcnl0aGluZyBiZWxvdyBoZXJlIGlz
+IGZvciBsZWdhY3kgZHJpdmVyLCBuZXZlciB1c2UhICovCj4gIAkvKiBwcml2YXRlOiAqLwo+ICAK
+PiBAQCAtNTEyLDYgKzUxMyw3IEBAIHN0cnVjdCBkcm1fZHJpdmVyIHsKPiAgCWludCAoKmVuYWJs
+ZV92YmxhbmspKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHVuc2lnbmVkIGludCBwaXBlKTsKPiAg
+CXZvaWQgKCpkaXNhYmxlX3ZibGFuaykoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQg
+aW50IHBpcGUpOwo+ICAJaW50IGRldl9wcml2X3NpemU7Cj4gKyNlbmRpZgo+ICB9Owo+ICAKPiAg
+dm9pZCAqX19kZXZtX2RybV9kZXZfYWxsb2Moc3RydWN0IGRldmljZSAqcGFyZW50LCBzdHJ1Y3Qg
+ZHJtX2RyaXZlciAqZHJpdmVyLAo+IAoKLS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBoaWNzIERy
+aXZlciBEZXZlbG9wZXIKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICk1heGZl
+bGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBOw7xybmJl
+cmcpCkdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
