@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA31029972E
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 20:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0DD29972F
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 20:41:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 449AF6E038;
-	Mon, 26 Oct 2020 19:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D76036E05D;
+	Mon, 26 Oct 2020 19:41:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 731406E038
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 19:40:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFF76E05D
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 19:41:17 +0000 (UTC)
 Received: from localhost.localdomain (unknown [192.30.34.233])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8D57220760;
- Mon, 26 Oct 2020 19:40:20 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2380F20760;
+ Mon, 26 Oct 2020 19:41:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603741222;
- bh=nGR/itPh0jz6AbVxRkpFGc/DrAZq4nbxrqWJE5Gzyb0=;
+ s=default; t=1603741276;
+ bh=uy/Dd88vKPnPfb5LV8zDZKHQiy07h3pNTguOKFJpBdI=;
  h=From:To:Cc:Subject:Date:From;
- b=0IfrEwAww116p9n62jgFdrxDrcJfSr3FN0QwP3khTPqJkzGE3ME/FMtgQOPBQBS2T
- spYjXpTIVLHz1Em0QaHed7uYCzl8seSsArlUP18ei/XuCj1thrBV+1bKq+vodby961
- TMzcY/KXq/xW7pUD3f0WY5q6Mzb7D4NaoFK+T354=
+ b=DIcusht26pawNI4TxAoolmq4mmWZTDn2U2FCjskbQl7Zjaeih5EGLOlghAy2ks4tV
+ ZG9+SXQJ2e0AUxWpIdp9D9lBkHIPYxM64wU8XHZ1VIGIh2jcL9UfrFT1Ls+XcqlMuF
+ +/oi+5rG84fIyxQ55mUkvb1d5Fo3OTIhZBuqQrDM=
 From: Arnd Bergmann <arnd@kernel.org>
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH] matroxfb: avoid -Warray-bounds warning
-Date: Mon, 26 Oct 2020 20:39:55 +0100
-Message-Id: <20201026194010.3817166-1-arnd@kernel.org>
+To: Jyri Sarha <jsarha@ti.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/4] drm/tilcdc: avoid 'make W=2' build failure
+Date: Mon, 26 Oct 2020 20:41:01 +0100
+Message-Id: <20201026194110.3817470-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,8 +44,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -52,45 +56,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The open-coded list_for_each_entry() causes a harmless warning:
+The -Wmissing-field-initializer warning when building with W=2
+turns into an error because tilcdc is built with -Werror:
 
-drivers/video/fbdev/matrox/matroxfb_base.c: In function 'matroxfb_register_driver':
-include/linux/kernel.h:856:3: warning: array subscript -98 is outside array bounds of 'struct list_head[1]' [-Warray-bounds]
+drm/tilcdc/tilcdc_drv.c:431:33: error: missing field 'data' initializer [-Werror,-Wmissing-field-initializers] { "regs", tilcdc_regs_show, 0 },
+drm/tilcdc/tilcdc_drv.c:432:33: error: missing field 'data' initializer [-Werror,-Wmissing-field-initializers] { "mm",   tilcdc_mm_show,   0 },
 
-Use the normal list_for_each_entry instead.
+Add the missing field initializers to address the warning.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/video/fbdev/matrox/matroxfb_base.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/matrox/matroxfb_base.c b/drivers/video/fbdev/matrox/matroxfb_base.c
-index 570439b32655..a3853421b263 100644
---- a/drivers/video/fbdev/matrox/matroxfb_base.c
-+++ b/drivers/video/fbdev/matrox/matroxfb_base.c
-@@ -1970,9 +1970,7 @@ int matroxfb_register_driver(struct matroxfb_driver* drv) {
- 	struct matrox_fb_info* minfo;
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index 4f5fc3e87383..754a66051a21 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -428,8 +428,8 @@ static int tilcdc_mm_show(struct seq_file *m, void *arg)
+ }
  
- 	list_add(&drv->node, &matroxfb_driver_list);
--	for (minfo = matroxfb_l(matroxfb_list.next);
--	     minfo != matroxfb_l(&matroxfb_list);
--	     minfo = matroxfb_l(minfo->next_fb.next)) {
-+	list_for_each_entry(minfo, &matroxfb_list, next_fb) {
- 		void* p;
+ static struct drm_info_list tilcdc_debugfs_list[] = {
+-		{ "regs", tilcdc_regs_show, 0 },
+-		{ "mm",   tilcdc_mm_show,   0 },
++		{ "regs", tilcdc_regs_show, 0, NULL },
++		{ "mm",   tilcdc_mm_show,   0, NULL },
+ };
  
- 		if (minfo->drivers_count == MATROXFB_MAX_FB_DRIVERS)
-@@ -1990,9 +1988,7 @@ void matroxfb_unregister_driver(struct matroxfb_driver* drv) {
- 	struct matrox_fb_info* minfo;
- 
- 	list_del(&drv->node);
--	for (minfo = matroxfb_l(matroxfb_list.next);
--	     minfo != matroxfb_l(&matroxfb_list);
--	     minfo = matroxfb_l(minfo->next_fb.next)) {
-+	list_for_each_entry(minfo, &matroxfb_list, next_fb) {
- 		int i;
- 
- 		for (i = 0; i < minfo->drivers_count; ) {
+ static void tilcdc_debugfs_init(struct drm_minor *minor)
 -- 
 2.27.0
 
