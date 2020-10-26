@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD17298D87
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 14:11:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D54298DCF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 14:27:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C40E6EA0B;
-	Mon, 26 Oct 2020 13:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8EF6E133;
+	Mon, 26 Oct 2020 13:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49D696E9B6;
- Mon, 26 Oct 2020 13:11:16 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id m20so9991294ljj.5;
- Mon, 26 Oct 2020 06:11:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Qixz5MZ8UvuVGnSzUYcMGABBBz62xcYc9zeA7e0GfQM=;
- b=Q48pgQhGX3TOn712PqBnY6XdJHZZ/ZMpAzvDI1Ra1pqW/cLDtSoR0s3SA8aHo2Kprt
- xKm0b2LRfh2iWjIqxc9L5Yn14xwKEENZc1CUu/J30DxvwCpwMgM4JyDp+7cniDONvf7F
- xLNcVohutpCbf4QHpzYV7BUSEkuI2pJKve/jDe41pbj2KNE6kBo8oDr3Xz/BGVdkrDul
- RYXE1AQ8ouONlvJ0aLF+bMlT+NMuj2OgzGvqmM8q36htpCv/26+LPdlnyz67HP+fCkRL
- dWxB0BmM9tCbo7hgOaRxfSKJifZsmLL8hfcHe9XPXlwydlJmxoqQJ5NfI5dE0kaTxA8N
- 7B8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Qixz5MZ8UvuVGnSzUYcMGABBBz62xcYc9zeA7e0GfQM=;
- b=l7wDtN8JpEv5VOvrDLSTmnTnHXA65BeqRHlGw9dhPBcHnUzr4Xbg6ZbQeSxow7wM3l
- 1WDc8xOL7oJsweujL764KWOxGSh6HnWFkHFkXuKdvyzyGRhuz+cfRKlyXzLEp66x45H7
- 1xipPz7NDqVQKJa3d8lqM7dVRWE2VDbyukbA9CziUgdd7ZdVOmYgWG/h08l/Fyj9QM3O
- XfIkiblolcZiFXphnlobf1veek2s2nKWdBkXLncRjAGuw5IM5ilSVZXyq2S5B2lxVU9C
- qCKR8DPUieCvOsRAMhzXsWfJW835Lw9mEicsY35Mke/7l6+5R3R3OlNFC1rSw7tLjjWB
- SLeQ==
-X-Gm-Message-State: AOAM532QKnmEc4cImTo3DQfk6mhS3jgs6ieaewZIG/vkMGPF5NiVCwDe
- R/dM1UpvC9bAqpDiQ9N/6ohtXkn87C6yAIzNL5w=
-X-Google-Smtp-Source: ABdhPJzfOSzdFejjwUyHTTfaeT9ZzI27JdQ31zEaJgwQbyhHs25/WWDf+pSyObqgiBccV5qmK7SR/EkYYQe2Z9kPar0=
-X-Received: by 2002:a2e:7007:: with SMTP id l7mr6177004ljc.185.1603717874674; 
- Mon, 26 Oct 2020 06:11:14 -0700 (PDT)
+X-Greylist: delayed 942 seconds by postgrey-1.36 at gabe;
+ Mon, 26 Oct 2020 13:27:20 UTC
+Received: from mail.codeweavers.com (mail.codeweavers.com [50.203.203.244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7D26E133
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 13:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=kOGBy83gPfRHwJKiQK/8YJ1+92SKsGK1ZFtpod1fVoA=; b=vlUwfTOqJOEl0oKVSd2d6fcAk8
+ ZFuofD9eh4kAY3F4mO4AslIAtQVMeTtU9Pc66SLpilynqtL999dvup36EiykUl0KMcIYt5qoJdgiT
+ bAC6T5Z4YG2rxq9gxKxsTDAqdtgqKiui1hrzk81S7cvEh6v0Lp0PF8GLA7SFqmyYkCyY=;
+Received: from [10.69.141.123] (helo=dell.localdomain)
+ by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <pgofman@codeweavers.com>)
+ id 1kX2Hg-0004zW-10; Mon, 26 Oct 2020 08:11:37 -0500
+From: Paul Gofman <pgofman@codeweavers.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH libdrm] xf86drm.c: Use integer logarithm.
+Date: Mon, 26 Oct 2020 16:11:20 +0300
+Message-Id: <20201026131120.1068959-1-pgofman@codeweavers.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201023124804.11457-1-jandryuk@gmail.com>
-In-Reply-To: <20201023124804.11457-1-jandryuk@gmail.com>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Mon, 26 Oct 2020 09:11:03 -0400
-Message-ID: <CAKf6xpt_S9WJ5dnhQoUH75QSPWXJA5-wiMym+e4EgR_BstgbHA@mail.gmail.com>
-Subject: Re: [PATCH] i915: Add QUIRK_EDP_CHANNEL_EQ for Dell 7200 2-in-1
-To: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+X-Spam-Score: -40.4
+X-Spam-Report: Spam detection software,
+ running on the system "mail.codeweavers.com", 
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ the administrator of that system for details.
+ Content preview: log() is affected by FP control word and can provide
+ inaccurate
+ result. Fixes Killer Instinct under Wine not being able to find AMD vulkan
+ device. Signed-off-by: Paul Gofman <pgofman@codeweavers.com> --- With the
+ rounding mode the application sets (unsigned int)log2(4) is 1. The log2_int()
+ implemetation is copied from radeon/radeon_surface.c. 
+ Content analysis details:   (-40.4 points, 5.0 required)
+ pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -0.0 USER_IN_WELCOMELIST    user is listed in 'welcomelist_from'
+ -20 USER_IN_WHITELIST      DEPRECATED: See USER_IN_WELCOMELIST
+ -20 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+ -0.5 BAYES_00               BODY: Bayes spam probability is 0 to 1%
+ [score: 0.0000]
+ 0.1 AWL AWL: Adjusted score from AWL reputation of From: address
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,107 +68,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
+Cc: Paul Gofman <pgofman@codeweavers.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 23, 2020 at 8:48 AM Jason Andryuk <jandryuk@gmail.com> wrote:
->
-> We're seeing channel equalization "fail" consistently coming out of DPMS
-> on the eDP of a Dell Latitude 7200 2-in-1.  When the display tries to
-> come out of DPMS, it briefly flashes on before going dark.  This repeats
-> once per second, and the system is unusable.  ssh-ing into the system,
-> it also seems to be sluggish when in this state.  You have to reboot to
-> get the display back.
->
-> In intel_dp_link_training_channel_equalization, lane 0 can get to state
-> 0x7 by the 3rd pattern, but lane 1 never gets further than 0x1.
-> [drm] ln0_1:0x0 ln2_3:0x0 align:0x0 sink:0x0 adj_req0_1:0x0 adj_req2_3:0x0
-> [drm] ln0_1:0x11 ln2_3:0x0 align:0x80 sink:0x0 adj_req0_1:0x44 adj_req2_3:0x0
-> [drm] ln0_1:0x11 ln2_3:0x0 align:0x80 sink:0x0 adj_req0_1:0x88 adj_req2_3:0x0
-> [drm] ln0_1:0x71 ln2_3:0x0 align:0x80 sink:0x0 adj_req0_1:0x84 adj_req2_3:0x0
-> [drm] ln0_1:0x71 ln2_3:0x0 align:0x0 sink:0x0 adj_req0_1:0x84 adj_req2_3:0x0
-> [drm] ln0_1:0x71 ln2_3:0x0 align:0x0 sink:0x0 adj_req0_1:0x84 adj_req2_3:0x0
->
-> Narrow fast vs. wide slow is not an option because the max clock is
-> 270000 and the 1920x1280 resolution requires 2x270000.
-> [drm] DP link computation with lane count min/max 1/2 270000/270000 bpp
-> min/max 18/24 pixel clock 164250KHz
->
-> The display is functional even though lane 1 is in state 0x1, so just
-> return success for channel equalization on eDP.
->
-> Introduce QUIRK_EDP_CHANNEL_EQ and match the DMI for a Dell Latitude
-> 7200 2-in-1.  This quirk allows channel equalization to succeed even
-> though it failed.
->
-> Workaround for https://gitlab.freedesktop.org/drm/intel/-/issues/1378
+log() is affected by FP control word and can provide inaccurate result.
 
-CI reported the patch doesn't apply to drm-tip.  It was developed
-against 5.4 and forward ported to 5.10-rc1-ish when I submitted it.
-It applied there but not to drm-tip.
+Fixes Killer Instinct under Wine not being able to find AMD vulkan
+device.
 
-5.4 & 5.6.6 is fine until DPMS.  Then when it tries to come out, it
-fails link training and gives the flashing.
-5.8.16 starts flashing during boot.  I guess the driver now runs link
-training during boot?
+Signed-off-by: Paul Gofman <pgofman@codeweavers.com>
+---
+    With the rounding mode the application sets (unsigned int)log2(4) is 1.
+    The log2_int() implemetation is copied from radeon/radeon_surface.c.
 
-drm-tip doesn't have the flashing issue.  I guess "drm/i915: Switch to
-LTTPR non-transparent mode link training"  or some of the other link
-training change lets the hardware succeed?
+ xf86drm.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-Oh, this is interesting:
-kernel: i915 0000:00:02.0: [drm:hsw_set_signal_levels [i915]] Using
-signal levels 02000000
-kernel: [drm:intel_dp_link_train_phy [i915]] ln0_1:0x71 ln2_3:0x0
-align:0x0 sink:0x0 adj_req0_1:0x84 adj_req2_3:0x0
-kernel: i915 0000:00:02.0: [drm:intel_dp_link_train_phy [i915]]
-Channel equalization failed 5 times
-kernel: i915 0000:00:02.0: [drm:intel_dp_link_train_phy [i915]]
-[CONNECTOR:95:eDP-1] Link Training failed at link rate = 270000, lane
-count = 2, at DPRX
-kernel: i915 0000:00:02.0: [drm:intel_enable_pipe [i915]] enabling pipe A
+diff --git a/xf86drm.c b/xf86drm.c
+index 50a6f092..dbb7c14b 100644
+--- a/xf86drm.c
++++ b/xf86drm.c
+@@ -124,6 +124,22 @@ static drmServerInfoPtr drm_server_info;
+ static bool drmNodeIsDRM(int maj, int min);
+ static char *drmGetMinorNameForFD(int fd, int type);
+ 
++static unsigned log2_int(unsigned x)
++{
++    unsigned l;
++
++    if (x < 2) {
++        return 0;
++    }
++    for (l = 2; ; l++) {
++        if ((unsigned)(1 << l) > x) {
++            return l - 1;
++        }
++    }
++    return 0;
++}
++
++
+ drm_public void drmSetServerInfo(drmServerInfoPtr info)
+ {
+     drm_server_info = info;
+@@ -4001,7 +4017,7 @@ static void drmFoldDuplicatedDevices(drmDevicePtr local_devices[], int count)
+         for (j = i + 1; j < count; j++) {
+             if (drmDevicesEqual(local_devices[i], local_devices[j])) {
+                 local_devices[i]->available_nodes |= local_devices[j]->available_nodes;
+-                node_type = log2(local_devices[j]->available_nodes);
++                node_type = log2_int(local_devices[j]->available_nodes);
+                 memcpy(local_devices[i]->nodes[node_type],
+                        local_devices[j]->nodes[node_type], drmGetMaxNodeName());
+                 drmFreeDevice(&local_devices[j]);
+-- 
+2.26.2
 
-Note DPRX above, so not using LTTPR.
-
-Looks like the link training logic is wrong. :
-
-intel_dp_link_training_channel_equalization fails, so
-intel_dp_link_train_phy fails, but:
-
-intel_dp_link_train_all_phys(struct intel_dp *intel_dp,
-                             const struct intel_crtc_state *crtc_state,
-                             int lttpr_count)
-{
-        bool ret = true;
-        int i;
-
-        intel_dp_prepare_link_train(intel_dp, crtc_state);
-
-        for (i = lttpr_count - 1; i >= 0; i--) {
-                enum drm_dp_phy dp_phy = DP_PHY_LTTPR(i);
-
-                ret = intel_dp_link_train_phy(intel_dp, crtc_state, dp_phy);
-                intel_dp_disable_dpcd_training_pattern(intel_dp, dp_phy);
-
-                if (!ret)
-                        break;
-        }
-
-        if (ret)
-                intel_dp_link_train_phy(intel_dp, crtc_state, DP_PHY_DPRX);
-
-Here we don't update ret, so linking training "succeeds" for DPRX.
-
-This does let the 7200 display "work", but it's probably not what you
-want in general.
-
-Regards,
-Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
