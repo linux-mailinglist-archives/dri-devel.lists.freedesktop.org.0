@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4AB2994C2
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:02:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C822994C0
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:02:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D92E46EA59;
-	Mon, 26 Oct 2020 18:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6664B6EA58;
+	Mon, 26 Oct 2020 18:02:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85CB86E9FC
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 10:22:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5C726E9FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 10:23:54 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id A736877E;
- Mon, 26 Oct 2020 06:22:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 26 Oct 2020 06:22:14 -0400
+ by mailout.west.internal (Postfix) with ESMTP id 1464F882;
+ Mon, 26 Oct 2020 06:23:54 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 26 Oct 2020 06:23:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=ut2sdepL6yw92AQidtoDuLgidNS
- b+oeZ6y4ZTu894T8=; b=RNIYRpkubJ8ZCGrl7o20RCNm7kDwLvVC+B5iEc9WPXR
- BpUfgkT2KYSaVfvTNm9FTiQOLk7yAE6+zlrU6if0qru7Zu/VMTOZ0V7PwxweNsXv
- JSmufxq5tByVwVC9/zCEJ1lWiWdm4QP2PIbPERltjN3NUNABrVuKM8XfxjnAHfC6
- FSVrHMmTGx5idcJZp/Ioe91YjXgMt1EaPNQiFBEHPh9NaLwxff23tvuJgiFXjg/3
- I7dERMG/vGXyWiwpCWn+/Hr1s7JmysRjOGOocoLNlYCxI4CO4GFlZKWO7qXo3crm
- SmI26syXF5xZeevYkb1V3Nl/+mpovT2V0pWsErp6FZQ==
+ :content-type:in-reply-to; s=fm1; bh=jc6i7Hc8w3myh56ikM0OiwRh+JM
+ PRpvORY5WoqXgr78=; b=LZyueJ3DSYyiVR1GRFVcIS+SXDcYl4Rkbzpaa5jxqAw
+ /Z84FilFPDAiJV10LFuUORv8rvIzyQU/Of8Kc1i4WRWbV7gYI6KuLtjMi7rtFUSr
+ RAfrgX93AgYVgUSXTdD3agnfKx9/+JE7JCpTB6jSgBBuSscyP03zHx58FTjqRtKH
+ guQONG3NStL315XYRXfp/diTgq7DswxdapPeBXTT9LxSeMltah7nHfoS6SIb1u/R
+ EmkcBd1J6X1dNjo5yZhEBKSP1WF4BVOvSmzzDGVVFcyJGIs9lmQrYJd7SQRjNDPM
+ 3n6yOqmUH+MzuhJwYNx7XsPUFMNx8CKRhecIpqk6DKw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ut2sde
- pL6yw92AQidtoDuLgidNSb+oeZ6y4ZTu894T8=; b=MCPTKKYXO1oSzvO5R75kcv
- AuYPcetwHj3Pu+hiaZdFnCns57Ar3pRVGvBLdmMI+OJ/qX2TimGflFA3dDcJEWaG
- oh5IIkR7zRay/cVgkiQEuvXtbJL5EkBAgwWtvh33T5mq+laB+65KYvbFdWy3peeo
- RctVIRikWge4x/yVtcJXA+ISm8ous5juqsom9NYnhTHCjrecqihUdR9WFIL4Clzr
- iECNU0lViGvM/IC+fBB5ILA8m1J5efBrOhLTAHqNDejT36Pxy29Q+2j16qKLRTPP
- D6x0nP8LeAI9prITLxKGlE4DsJKbQUzq7F2pYxq+EmNC3zx+SPTWZ2blIrjp+VeQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jc6i7H
+ c8w3myh56ikM0OiwRh+JMPRpvORY5WoqXgr78=; b=eLfMoa7qh8ojvsC6dFwsS9
+ tc7BicTJnn3TMgEyh6A2hIs3Zc7xE+h00PejrpVvB2VRHZEqKaDkXy1cpUEcz593
+ 7g/PbI3jY/IatwRlxqTNDHi+Q273EnA4CQ9fF5s8y5FkCC7Z3JjQGDo+WvAKaTwt
+ yQItavrGzSVSo5VgffoBqoVjMx4Mex239zBhNV6Og9yK0JfXsEC8O0yUBD+Yc4kP
+ QcTnO/XujJfqc2tULntawvizllxFSsQCO089jZCn6U9zmCf/Ueia5pDKeGCP/CSV
+ AXRp2SlBdlq3Ek4gPmINMownmJ2EEgJhuWrYNljqgTtZ61YwOUd7bhJYwdPVF8aA
  ==
-X-ME-Sender: <xms:UqOWX_YBwNDm9QBBltiYAaN9Nx3w4VMpiI01hl3HITMRDwcv2evCYQ>
- <xme:UqOWX-b1Qc7LmVQ-K8B6t-cPlUijYHdEkfLd5-AIk2QIy-VWrpoxcPruW_dFkHioC
- xoIu0jrHX7ZFNVaSok>
+X-ME-Sender: <xms:uKOWX9sjjsR41ZYWiNluL1-hYos7mqyMDTy0uioIL00HZR-aviiftw>
+ <xme:uKOWX2cilqS2dy8NeA4zXmVy6TyUr1wLRDyt5bSFQ8rf1CQ9ZQVubnDTpnZwPMTmd
+ L0MN2o5cb2TBb72vHI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeeigdduhecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihimhgv
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeutdfgjeeuudehvefgvedvtedtudelfffgffekledtffekgedukeejueevieeg
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
  udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:UqOWXx-vajD4LY8Evm0pIfTBJ3S7adSuWE2W5HDT-gdff-Ro0x56mw>
- <xmx:UqOWX1rWOQ4XWf0utKasrLk3GdggbOM0C-a7VVdmky19Xpt35TYkgg>
- <xmx:UqOWX6rkcOjuT2CB4Xm1POsDdec1Z_brS995ka89Gn19_I_K6Go1rg>
- <xmx:VaOWX3CYgkQiEzpwszNtheKUMQoVGmXXwwF4OqX9f8a0hJmA8A2Wvg>
+X-ME-Proxy: <xmx:uKOWXwyIKfcLsgZngEA7d96oEKO5MMKDva0B15Kd4Up4WpjhCydLIQ>
+ <xmx:uKOWX0Mh3aQGQRDE-ryFbh3RQKvczjgb_q706vTDL5-Hdvs7NvO4hg>
+ <xmx:uKOWX98fEd7dmdobpFFCFLPeJFgBo5pRPyCLCUuRHD9nq3I7JPJG6w>
+ <xmx:uaOWX4bRnIE8TjRPBOWI7r9m4wrSkMaMjXZCBdt4RM8mopi6tGeP4A>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 236A7328005E;
- Mon, 26 Oct 2020 06:22:10 -0400 (EDT)
-Date: Mon, 26 Oct 2020 11:22:07 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 988B13064680;
+ Mon, 26 Oct 2020 06:23:52 -0400 (EDT)
+Date: Mon, 26 Oct 2020 11:23:51 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
-Subject: Re: [PATCH 3/3] drm/sun4i: frontend: Fix the scaler phase on A33
-Message-ID: <20201026102207.fgpzz4gffzl5vvgi@gilmour.lan>
-References: <20201015093642.261440-1-maxime@cerno.tech>
- <20201015093642.261440-3-maxime@cerno.tech>
- <5606996.mc5IMTkvpr@kista>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH resend] drm/v3d: Fix double free in v3d_submit_cl_ioctl()
+Message-ID: <20201026102351.yhiuuklu6q5xba6k@gilmour.lan>
+References: <20191024205306.GA14416@mwanda> <20201026094905.GA1634423@mwanda>
 MIME-Version: 1.0
-In-Reply-To: <5606996.mc5IMTkvpr@kista>
+In-Reply-To: <20201026094905.GA1634423@mwanda>
 X-Mailman-Approved-At: Mon, 26 Oct 2020 18:01:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,56 +78,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Taras Galchenko <tpgalchenko@gmail.com>, dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0321879868=="
+Cc: Eric Anholt <eric@anholt.duckdns.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1199616583=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0321879868==
+--===============1199616583==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5fscyzlzvuddiuta"
+	protocol="application/pgp-signature"; boundary="wqc7vvjf6t3frdq3"
 Content-Disposition: inline
 
 
---5fscyzlzvuddiuta
-Content-Type: text/plain; charset=utf-8
+--wqc7vvjf6t3frdq3
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 21, 2020 at 07:16:52PM +0200, Jernej =C5=A0krabec wrote:
-> Hi!
+On Mon, Oct 26, 2020 at 12:49:05PM +0300, Dan Carpenter wrote:
+> Originally this error path used to leak "bin" but then we accidentally
+> applied two separate commits to fix it and ended up with a double free.
 >=20
-> Dne =C4=8Detrtek, 15. oktober 2020 ob 11:36:42 CEST je Maxime Ripard napi=
-sal(a):
-> > The A33 has a different phase parameter in the Allwinner BSP on the
-> > channel1 than the one currently applied. Fix this.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Acked-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> Resending a year later because it was confusing at the time who should
+> apply this and it fell through the cracks.  For some reason the kbuild
+> bot flagged it as a new warning so it showed up on my radar again.
 
-Thanks for reviewing those patches, I've merged them
-
+Applied, thanks!
 Maxime
 
---5fscyzlzvuddiuta
+--wqc7vvjf6t3frdq3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5ajTwAKCRDj7w1vZxhR
-xYfCAPwLf7s++FWhEnckRztmWT6oMgbTrdiHToH0Kyxnec8uvgD+KaXdO6BFsxI4
-Vr7l18eTI8ACMHMXt+7goL07sXc6CAI=
-=gTeq
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5ajtwAKCRDj7w1vZxhR
+xbsOAP9+wXjpnneXqYX/IW1SAYx+BadjnZcNpZ81x9nrkrL2bAEAvKpyfpvc/yGA
+RYGsUWFVwQTl/qoRUSzoFkNmeBsYrAg=
+=yJd/
 -----END PGP SIGNATURE-----
 
---5fscyzlzvuddiuta--
+--wqc7vvjf6t3frdq3--
 
---===============0321879868==
+--===============1199616583==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -140,4 +134,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0321879868==--
+--===============1199616583==--
