@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C809A298AD5
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 11:58:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A44D298AD6
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 11:58:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 906FB89147;
-	Mon, 26 Oct 2020 10:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFDB6E0E8;
+	Mon, 26 Oct 2020 10:58:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
  [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3DFF89147
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 10:58:26 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id c16so11967242wmd.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 03:58:26 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 234AF6E0F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 10:58:29 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id h22so878797wmb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 03:58:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FLkPK/wakWgPcP2XtBGkyHk3/K5f5jOPCyDZpBtuyVA=;
- b=UWVGBGjyj6MIRYbUDiITJq5L6QqEg6/q2/NHckpyd8RPSBh26b0bPaluvTWItOuYKc
- uaoPMBpxALWoXXsF90NCYVWJoITCFikSp8O7FpqdOPDdJXFgIlHFG/TgfvpItfUwxafp
- 6wW5he4gsgXTW7dkqWJgYLc8PHDC8/A2/zOmc=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5HSDx6z2iUpxgLk7STJ2LBrJWLho+Vrj3pPui9pXoI8=;
+ b=UlPNDMGyixYlC+gPNujgEL2rDmgBnacLev+zB09AcN9jWsIhwDD/rSZ38jOBVqq8xO
+ iKAMMw2Dn+O1sn5M45MuUANko75LMiByct+0sTK4Y1zG/mkhWRt6wfXXCeYyMZpxuDFP
+ ohoyHxlTs9ukBeuTT1XZ/1TieNop7LHOqq+kU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FLkPK/wakWgPcP2XtBGkyHk3/K5f5jOPCyDZpBtuyVA=;
- b=KRoJxdSE1rl1sxCsJYFDvwVXK3j8x5iO26CeOl4yRMt9lQQCddLqaqn+YKi62yAEKR
- TIjn91o9sWcHOkwUoKHtWfSxuMl8DE+6M8poQ8Y4RWvMUncY60vHlNtt5iuBu72kbOx5
- ejNPZnKO2nrxE74KljeIanbPWmjvK5DrRDyQ9naZDMDVwLWLa4r2BjpoDW7Lwpyz5OMF
- UEDONbDw4aPTJLuSEzPtqjoiR3f20KlbEMJ5+RV2WbsgB6Fvj/5duIzPdtShaZ33THzV
- oaNPbl56WxD/AOI0RCzF3ynjdBU+IOP3cRFP4njR4fkcLUgG0NIlTB9WMGewDaQfjPZH
- 8zXQ==
-X-Gm-Message-State: AOAM533uVmbPp4qvnz8V3zMgY0QZfOPCAJ1qhGi0LMgqyM5vsPWlMdsS
- X8L7/Wb0dFw7bYJAuI4rf/TtpU2RiUopCo2v
-X-Google-Smtp-Source: ABdhPJxesVax0WQRMCyO4OuQvYno6G/x4zHb3UoXArN6uKT0KIo/6VWoGjLr6p0ejXLAy+E8fDIECg==
-X-Received: by 2002:a1c:3243:: with SMTP id y64mr15267147wmy.175.1603709905111; 
- Mon, 26 Oct 2020 03:58:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5HSDx6z2iUpxgLk7STJ2LBrJWLho+Vrj3pPui9pXoI8=;
+ b=nVODuPuLGQZSJnf8vrxjyqQlxQCQXMsh3t8if+ezzMGLcjBvkkG+62VvL+DzTmyZuq
+ pNgzAWA/xQlKyV5ASa7V3Few/YLXbFfxbUbTqerH2+4/l2gMNLZ4PdJeoSpdHHZ5SMJF
+ WG/DBpbB5JtS369yavU838GgUItHENxq5nw5fisBaAuxvSD03YbcK7GqQDCos5exek2f
+ uOWEzkCtkB6FSZJKov638/3p+coHGXjAF9NtJ88dagPbCVROoOtzz3DVZB9nYy3cmQDT
+ rnOJGLHbCPUXfLRIWgwLuvxtIzJHqw6P/11ZMth4AUbHBWFftpQQbdLYVXh+cJS6zzfo
+ tEfQ==
+X-Gm-Message-State: AOAM530/KkThzrKpga+ra4P1pI9ru8+e1Sk7D9+pB0JwddTRKXw8NB/x
+ 38Qqrk/eIX6Fc9pggjsbiheygNzmBHoLMKeP
+X-Google-Smtp-Source: ABdhPJwk+WyO7L+7DmDEv6NKzv9NT0FNUGzlLjoe/puysIw3cSVvPS9bRY2rLzmA6270BRM/TeV4wg==
+X-Received: by 2002:a05:600c:25a:: with SMTP id
+ 26mr14956631wmj.39.1603709906608; 
+ Mon, 26 Oct 2020 03:58:26 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w83sm21165156wmg.48.2020.10.26.03.58.23
+ by smtp.gmail.com with ESMTPSA id w83sm21165156wmg.48.2020.10.26.03.58.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 03:58:24 -0700 (PDT)
+ Mon, 26 Oct 2020 03:58:25 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 00/15] follow_pfn and other iomap races
-Date: Mon, 26 Oct 2020 11:58:03 +0100
-Message-Id: <20201026105818.2585306-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH v4 01/15] drm/exynos: Stop using frame_vector helpers
+Date: Mon, 26 Oct 2020 11:58:04 +0100
+Message-Id: <20201026105818.2585306-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201026105818.2585306-1-daniel.vetter@ffwll.ch>
+References: <20201026105818.2585306-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,104 +66,103 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- kvm@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+ Jan Kara <jack@suse.cz>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-mm@kvack.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
  linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all
-
-Round 3 of my patch series to clamp down a bunch of races and gaps
-around follow_pfn and other access to iomem mmaps. Previous version:
-
-v1: https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
-v2: https://lore.kernel.org/dri-devel/20201009075934.3509076-1-daniel.vetter@ffwll.ch
-v3: https://lore.kernel.org/dri-devel/20201021085655.1192025-1-daniel.vetter@ffwll.ch/
-
-And the discussion that sparked this journey:
-
-https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
-
-Changes in v4:
-- Drop the s390 patch, that was very stand-alone and now queued up to land
-  through s390 trees.
-- Comment polish per Dan's review.
-
-Changes in v3:
-- Bunch of polish all over, no functional changes aside from one barrier
-  in the resource code, for consistency.
-- A few more r-b tags.
-
-Changes in v2:
-- tons of small polish&fixes all over, thanks to all the reviewers who
-  spotted issues
-- I managed to test at least the generic_access_phys and pci mmap revoke
-  stuff with a few gdb sessions using our i915 debug tools (hence now also
-  the drm/i915 patch to properly request all the pci bar regions)
-- reworked approach for the pci mmap revoke: Infrastructure moved into
-  kernel/resource.c, address_space mapping is now set up at open time for
-  everyone (which required some sysfs changes). Does indeed look a lot
-  cleaner and a lot less invasive than I feared at first.
-
-I feel like this is ready for some wider soaking. Since the remaining bits
-are all kinda connnected probably simplest if it all goes through -mm.
-
-Cheers, Daniel
-
-Daniel Vetter (15):
-  drm/exynos: Stop using frame_vector helpers
-  drm/exynos: Use FOLL_LONGTERM for g2d cmdlists
-  misc/habana: Stop using frame_vector helpers
-  misc/habana: Use FOLL_LONGTERM for userptr
-  mm/frame-vector: Use FOLL_LONGTERM
-  media: videobuf2: Move frame_vector into media subsystem
-  mm: Close race in generic_access_phys
-  mm: Add unsafe_follow_pfn
-  media/videbuf1|2: Mark follow_pfn usage as unsafe
-  vfio/type1: Mark follow_pfn as unsafe
-  PCI: Obey iomem restrictions for procfs mmap
-  /dev/mem: Only set filp->f_mapping
-  resource: Move devmem revoke code to resource framework
-  sysfs: Support zapping of binary attr mmaps
-  PCI: Revoke mappings like devmem
-
- drivers/char/mem.c                            |  86 +--------------
- drivers/gpu/drm/exynos/Kconfig                |   1 -
- drivers/gpu/drm/exynos/exynos_drm_g2d.c       |  48 ++++-----
- drivers/media/common/videobuf2/Kconfig        |   1 -
- drivers/media/common/videobuf2/Makefile       |   1 +
- .../media/common/videobuf2}/frame_vector.c    |  54 ++++------
- drivers/media/platform/omap/Kconfig           |   1 -
- drivers/media/v4l2-core/videobuf-dma-contig.c |   2 +-
- drivers/misc/habanalabs/Kconfig               |   1 -
- drivers/misc/habanalabs/common/habanalabs.h   |   6 +-
- drivers/misc/habanalabs/common/memory.c       |  50 ++++-----
- drivers/pci/pci-sysfs.c                       |   4 +
- drivers/pci/proc.c                            |   6 ++
- drivers/vfio/vfio_iommu_type1.c               |   4 +-
- fs/sysfs/file.c                               |  11 ++
- include/linux/ioport.h                        |   6 +-
- include/linux/mm.h                            |  47 +-------
- include/linux/sysfs.h                         |   2 +
- include/media/frame_vector.h                  |  47 ++++++++
- include/media/videobuf2-core.h                |   1 +
- kernel/resource.c                             | 101 +++++++++++++++++-
- mm/Kconfig                                    |   3 -
- mm/Makefile                                   |   1 -
- mm/memory.c                                   |  78 +++++++++++++-
- mm/nommu.c                                    |  17 +++
- security/Kconfig                              |  13 +++
- 26 files changed, 347 insertions(+), 245 deletions(-)
- rename {mm => drivers/media/common/videobuf2}/frame_vector.c (85%)
- create mode 100644 include/media/frame_vector.h
-
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QWxsIHdlIG5lZWQgYXJlIGEgcGFnZXMgYXJyYXksIHBpbl91c2VyX3BhZ2VzX2Zhc3QgY2FuIGdp
+dmUgdXMgdGhhdApkaXJlY3RseS4gUGx1cyB0aGlzIGF2b2lkcyB0aGUgZW50aXJlIHJhdyBwZm4g
+c2lkZSBvZiBnZXRfdmFkZHJfZnJhbWVzLgoKUmV2aWV3ZWQtYnk6IEpvaG4gSHViYmFyZCA8amh1
+YmJhcmRAbnZpZGlhLmNvbT4KU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
+dHRlckBpbnRlbC5jb20+CkNjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5jYT4KQ2M6IElu
+a2kgRGFlIDxpbmtpLmRhZUBzYW1zdW5nLmNvbT4KQ2M6IEpvb255b3VuZyBTaGltIDxqeTA5MjIu
+c2hpbUBzYW1zdW5nLmNvbT4KQ2M6IFNldW5nLVdvbyBLaW0gPHN3MDMxMi5raW1Ac2Ftc3VuZy5j
+b20+CkNjOiBLeXVuZ21pbiBQYXJrIDxreXVuZ21pbi5wYXJrQHNhbXN1bmcuY29tPgpDYzogS3Vr
+amluIEtpbSA8a2dlbmVAa2VybmVsLm9yZz4KQ2M6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtA
+a2VybmVsLm9yZz4KQ2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+
+CkNjOiBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52aWRpYS5jb20+CkNjOiBKw6lyw7RtZSBHbGlz
+c2UgPGpnbGlzc2VAcmVkaGF0LmNvbT4KQ2M6IEphbiBLYXJhIDxqYWNrQHN1c2UuY3o+CkNjOiBE
+YW4gV2lsbGlhbXMgPGRhbi5qLndpbGxpYW1zQGludGVsLmNvbT4KQ2M6IGxpbnV4LW1tQGt2YWNr
+Lm9yZwpDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCkNjOiBsaW51eC1z
+YW1zdW5nLXNvY0B2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
+ZwpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgot
+LQp2MjogVXNlIHVucGluX3VzZXJfcGFnZXNfZGlydHlfbG9jayAoSm9obikKLS0tCiBkcml2ZXJz
+L2dwdS9kcm0vZXh5bm9zL0tjb25maWcgICAgICAgICAgfCAgMSAtCiBkcml2ZXJzL2dwdS9kcm0v
+ZXh5bm9zL2V4eW5vc19kcm1fZzJkLmMgfCA0NyArKysrKysrKysrKy0tLS0tLS0tLS0tLS0tCiAy
+IGZpbGVzIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDI4IGRlbGV0aW9ucygtKQoKZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9l
+eHlub3MvS2NvbmZpZwppbmRleCA2NDE3ZjM3NGI5MjMuLjQzMjU3ZWYzYzA5ZCAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9LY29uZmlnCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9l
+eHlub3MvS2NvbmZpZwpAQCAtODgsNyArODgsNiBAQCBjb21tZW50ICJTdWItZHJpdmVycyIKIGNv
+bmZpZyBEUk1fRVhZTk9TX0cyRAogCWJvb2wgIkcyRCIKIAlkZXBlbmRzIG9uIFZJREVPX1NBTVNV
+TkdfUzVQX0cyRD1uIHx8IENPTVBJTEVfVEVTVAotCXNlbGVjdCBGUkFNRV9WRUNUT1IKIAloZWxw
+CiAJICBDaG9vc2UgdGhpcyBvcHRpb24gaWYgeW91IHdhbnQgdG8gdXNlIEV4eW5vcyBHMkQgZm9y
+IERSTS4KIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2cy
+ZC5jIGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2cyZC5jCmluZGV4IDk2N2E1
+Y2RjMTIwZS4uZWNlZGU0MWFmOWI5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9z
+L2V4eW5vc19kcm1fZzJkLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJt
+X2cyZC5jCkBAIC0yMDUsNyArMjA1LDggQEAgc3RydWN0IGcyZF9jbWRsaXN0X3VzZXJwdHIgewog
+CWRtYV9hZGRyX3QJCWRtYV9hZGRyOwogCXVuc2lnbmVkIGxvbmcJCXVzZXJwdHI7CiAJdW5zaWdu
+ZWQgbG9uZwkJc2l6ZTsKLQlzdHJ1Y3QgZnJhbWVfdmVjdG9yCSp2ZWM7CisJc3RydWN0IHBhZ2UJ
+CSoqcGFnZXM7CisJdW5zaWduZWQgaW50CQlucGFnZXM7CiAJc3RydWN0IHNnX3RhYmxlCQkqc2d0
+OwogCWF0b21pY190CQlyZWZjb3VudDsKIAlib29sCQkJaW5fcG9vbDsKQEAgLTM3OCw3ICszNzks
+NiBAQCBzdGF0aWMgdm9pZCBnMmRfdXNlcnB0cl9wdXRfZG1hX2FkZHIoc3RydWN0IGcyZF9kYXRh
+ICpnMmQsCiAJCQkJCWJvb2wgZm9yY2UpCiB7CiAJc3RydWN0IGcyZF9jbWRsaXN0X3VzZXJwdHIg
+KmcyZF91c2VycHRyID0gb2JqOwotCXN0cnVjdCBwYWdlICoqcGFnZXM7CiAKIAlpZiAoIW9iaikK
+IAkJcmV0dXJuOwpAQCAtMzk4LDE1ICszOTgsOSBAQCBzdGF0aWMgdm9pZCBnMmRfdXNlcnB0cl9w
+dXRfZG1hX2FkZHIoc3RydWN0IGcyZF9kYXRhICpnMmQsCiAJZG1hX3VubWFwX3NndGFibGUodG9f
+ZG1hX2RldihnMmQtPmRybV9kZXYpLCBnMmRfdXNlcnB0ci0+c2d0LAogCQkJICBETUFfQklESVJF
+Q1RJT05BTCwgMCk7CiAKLQlwYWdlcyA9IGZyYW1lX3ZlY3Rvcl9wYWdlcyhnMmRfdXNlcnB0ci0+
+dmVjKTsKLQlpZiAoIUlTX0VSUihwYWdlcykpIHsKLQkJaW50IGk7Ci0KLQkJZm9yIChpID0gMDsg
+aSA8IGZyYW1lX3ZlY3Rvcl9jb3VudChnMmRfdXNlcnB0ci0+dmVjKTsgaSsrKQotCQkJc2V0X3Bh
+Z2VfZGlydHlfbG9jayhwYWdlc1tpXSk7Ci0JfQotCXB1dF92YWRkcl9mcmFtZXMoZzJkX3VzZXJw
+dHItPnZlYyk7Ci0JZnJhbWVfdmVjdG9yX2Rlc3Ryb3koZzJkX3VzZXJwdHItPnZlYyk7CisJdW5w
+aW5fdXNlcl9wYWdlc19kaXJ0eV9sb2NrKGcyZF91c2VycHRyLT5wYWdlcywgZzJkX3VzZXJwdHIt
+Pm5wYWdlcywKKwkJCQkgICAgdHJ1ZSk7CisJa3ZmcmVlKGcyZF91c2VycHRyLT5wYWdlcyk7CiAK
+IAlpZiAoIWcyZF91c2VycHRyLT5vdXRfb2ZfbGlzdCkKIAkJbGlzdF9kZWxfaW5pdCgmZzJkX3Vz
+ZXJwdHItPmxpc3QpOwpAQCAtNDc0LDM1ICs0NjgsMzQgQEAgc3RhdGljIGRtYV9hZGRyX3QgKmcy
+ZF91c2VycHRyX2dldF9kbWFfYWRkcihzdHJ1Y3QgZzJkX2RhdGEgKmcyZCwKIAlvZmZzZXQgPSB1
+c2VycHRyICYgflBBR0VfTUFTSzsKIAllbmQgPSBQQUdFX0FMSUdOKHVzZXJwdHIgKyBzaXplKTsK
+IAlucGFnZXMgPSAoZW5kIC0gc3RhcnQpID4+IFBBR0VfU0hJRlQ7Ci0JZzJkX3VzZXJwdHItPnZl
+YyA9IGZyYW1lX3ZlY3Rvcl9jcmVhdGUobnBhZ2VzKTsKLQlpZiAoIWcyZF91c2VycHRyLT52ZWMp
+IHsKKwlnMmRfdXNlcnB0ci0+cGFnZXMgPSBrdm1hbGxvY19hcnJheShucGFnZXMsIHNpemVvZigq
+ZzJkX3VzZXJwdHItPnBhZ2VzKSwKKwkJCQkJICAgIEdGUF9LRVJORUwpOworCWlmICghZzJkX3Vz
+ZXJwdHItPnBhZ2VzKSB7CiAJCXJldCA9IC1FTk9NRU07CiAJCWdvdG8gZXJyX2ZyZWU7CiAJfQog
+Ci0JcmV0ID0gZ2V0X3ZhZGRyX2ZyYW1lcyhzdGFydCwgbnBhZ2VzLCBGT0xMX0ZPUkNFIHwgRk9M
+TF9XUklURSwKLQkJZzJkX3VzZXJwdHItPnZlYyk7CisJcmV0ID0gcGluX3VzZXJfcGFnZXNfZmFz
+dChzdGFydCwgbnBhZ2VzLCBGT0xMX0ZPUkNFIHwgRk9MTF9XUklURSwKKwkJCQkgIGcyZF91c2Vy
+cHRyLT5wYWdlcyk7CiAJaWYgKHJldCAhPSBucGFnZXMpIHsKIAkJRFJNX0RFVl9FUlJPUihnMmQt
+PmRldiwKIAkJCSAgICAgICJmYWlsZWQgdG8gZ2V0IHVzZXIgcGFnZXMgZnJvbSB1c2VycHRyLlxu
+Iik7CiAJCWlmIChyZXQgPCAwKQotCQkJZ290byBlcnJfZGVzdHJveV9mcmFtZXZlYzsKLQkJcmV0
+ID0gLUVGQVVMVDsKLQkJZ290byBlcnJfcHV0X2ZyYW1ldmVjOwotCX0KLQlpZiAoZnJhbWVfdmVj
+dG9yX3RvX3BhZ2VzKGcyZF91c2VycHRyLT52ZWMpIDwgMCkgeworCQkJZ290byBlcnJfZGVzdHJv
+eV9wYWdlczsKKwkJbnBhZ2VzID0gcmV0OwogCQlyZXQgPSAtRUZBVUxUOwotCQlnb3RvIGVycl9w
+dXRfZnJhbWV2ZWM7CisJCWdvdG8gZXJyX3VucGluX3BhZ2VzOwogCX0KKwlnMmRfdXNlcnB0ci0+
+bnBhZ2VzID0gbnBhZ2VzOwogCiAJc2d0ID0ga3phbGxvYyhzaXplb2YoKnNndCksIEdGUF9LRVJO
+RUwpOwogCWlmICghc2d0KSB7CiAJCXJldCA9IC1FTk9NRU07Ci0JCWdvdG8gZXJyX3B1dF9mcmFt
+ZXZlYzsKKwkJZ290byBlcnJfdW5waW5fcGFnZXM7CiAJfQogCiAJcmV0ID0gc2dfYWxsb2NfdGFi
+bGVfZnJvbV9wYWdlcyhzZ3QsCi0JCQkJCWZyYW1lX3ZlY3Rvcl9wYWdlcyhnMmRfdXNlcnB0ci0+
+dmVjKSwKKwkJCQkJZzJkX3VzZXJwdHItPnBhZ2VzLAogCQkJCQlucGFnZXMsIG9mZnNldCwgc2l6
+ZSwgR0ZQX0tFUk5FTCk7CiAJaWYgKHJldCA8IDApIHsKIAkJRFJNX0RFVl9FUlJPUihnMmQtPmRl
+diwgImZhaWxlZCB0byBnZXQgc2d0IGZyb20gcGFnZXMuXG4iKTsKQEAgLTUzOCwxMSArNTMxLDEx
+IEBAIHN0YXRpYyBkbWFfYWRkcl90ICpnMmRfdXNlcnB0cl9nZXRfZG1hX2FkZHIoc3RydWN0IGcy
+ZF9kYXRhICpnMmQsCiBlcnJfZnJlZV9zZ3Q6CiAJa2ZyZWUoc2d0KTsKIAotZXJyX3B1dF9mcmFt
+ZXZlYzoKLQlwdXRfdmFkZHJfZnJhbWVzKGcyZF91c2VycHRyLT52ZWMpOworZXJyX3VucGluX3Bh
+Z2VzOgorCXVucGluX3VzZXJfcGFnZXMoZzJkX3VzZXJwdHItPnBhZ2VzLCBucGFnZXMpOwogCi1l
+cnJfZGVzdHJveV9mcmFtZXZlYzoKLQlmcmFtZV92ZWN0b3JfZGVzdHJveShnMmRfdXNlcnB0ci0+
+dmVjKTsKK2Vycl9kZXN0cm95X3BhZ2VzOgorCWt2ZnJlZShnMmRfdXNlcnB0ci0+cGFnZXMpOwog
+CiBlcnJfZnJlZToKIAlrZnJlZShnMmRfdXNlcnB0cik7Ci0tIAoyLjI4LjAKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
