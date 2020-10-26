@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5023298D1A
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 13:49:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67228298D2B
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 13:51:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 030786E10E;
-	Mon, 26 Oct 2020 12:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03CAD6E134;
+	Mon, 26 Oct 2020 12:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF4F96E10E
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 12:49:54 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id x1so2547831oic.13
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 05:49:54 -0700 (PDT)
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC1CC6E134
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 12:51:45 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id e20so7825194otj.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 05:51:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=oAb942PkprtooTAkcphjHuX+nYeTcTWj5DRWfq1D+/8=;
- b=W3oryulnwuxmmk70RPdzGB31/wJyZoc5ncu/VCf9PBUb+NC5Q7vD/7D7IyyvPwwrdg
- Gl7985EQsVbCR1x4ILzl1ksrBUz8cLnFm5SrABvlEONx4mV5tjvbtc1+pbTc4uAQe970
- RwwbFG59Mly+HgJAWMeeVMuqSnjOunyOS4txp6/9ovn5SyUvpjO9WKbMmSOJHcHadkUm
- 1aBsPXwr5cV7fwvbHMm3nVXXa2w1GRIuVFwte1ZvDZjfQzx733YgmMruqewFaNdQVFwM
- Ie0msQ7xUxDsp3CX99ipsDCxNLVpiPtnnlED2zFfSCVMLMFKOKJpOXP+lrESX6K4NTtv
- aTlA==
-X-Gm-Message-State: AOAM530PRAldOIW35vxZyL6/0XLwnfZyZifTQeuclUORKEqYbG4/dLWL
- Xy8BtNfvyg+2d6OV2iOs3A==
-X-Google-Smtp-Source: ABdhPJyw8X8wHgRmnVOj73HYL5Yt/7SSSmhyblzN5O3WGOsS2MFEvEEq1YMx197Ky6/S+smUlunNeA==
-X-Received: by 2002:aca:4e4b:: with SMTP id c72mr969519oib.96.1603716594205;
- Mon, 26 Oct 2020 05:49:54 -0700 (PDT)
+ bh=7vcZvKgWj3tvpCdWw11KvF34FDIuvpLAkBuN1aheOyE=;
+ b=JU40kRMQ0ij50Ui8wpIGYXbJrUaVVWxGe0ugA/baK4x9RAqSnCt9algt0e5bIJqdaV
+ gWvErLQN0QCU7v77QxbYETh7cgf4YIqxJHe0ORFAhmP9EhOwMRNioGaKGJwsYppA4fGS
+ /7QBcZQB7BOuia79BNaXfS7ePYtQ6ulKvLIdik23/IWqjEOGOgn2hPy2nc2+ta2IEMCj
+ whejqXFo8JzKGTJ2otnLqs6NP6hKose+xn2nDvT5/zL4xI834YwLjJIbXSzLVXVkrwXY
+ FdfSMUaXfTkk7lBKVPxQgxvBrVqkT92J8XrRw4mHag+hCt+gCDKNYMgPZD6GIaYRv56D
+ o2WA==
+X-Gm-Message-State: AOAM530p9hN0GdB3WXNqcjKT5RsUTuIC6JQ2IxZYpViNBD3J87fYsJru
+ y2rzYqrV0XLlv/xImdAx9A==
+X-Google-Smtp-Source: ABdhPJwtQ8qXPYNncRhuW2K59WC9pM4KV3qQo7AARhnKaGe2bwX3DRc0S3phoNePbEXYmvRskbucJw==
+X-Received: by 2002:a05:6830:448:: with SMTP id
+ d8mr8698533otc.318.1603716705097; 
+ Mon, 26 Oct 2020 05:51:45 -0700 (PDT)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id b8sm3824400oov.29.2020.10.26.05.49.52
+ by smtp.gmail.com with ESMTPSA id a16sm3524919otk.39.2020.10.26.05.51.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 05:49:53 -0700 (PDT)
-Received: (nullmailer pid 4167734 invoked by uid 1000);
- Mon, 26 Oct 2020 12:49:52 -0000
-Date: Mon, 26 Oct 2020 07:49:52 -0500
+ Mon, 26 Oct 2020 05:51:44 -0700 (PDT)
+Received: (nullmailer pid 4170335 invoked by uid 1000);
+ Mon, 26 Oct 2020 12:51:43 -0000
+Date: Mon, 26 Oct 2020 07:51:43 -0500
 From: Rob Herring <robh@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v6 12/52] dt-bindings: memory: tegra124: mc: Document new
- interconnect property
-Message-ID: <20201026124952.GA4166359@bogus>
+Subject: Re: [PATCH v6 13/52] dt-bindings: memory: tegra124: emc: Document
+ new interconnect property
+Message-ID: <20201026125143.GA4170168@bogus>
 References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-13-digetx@gmail.com>
+ <20201025221735.3062-14-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201025221735.3062-13-digetx@gmail.com>
+In-Reply-To: <20201025221735.3062-14-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,56 +62,34 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
- Rob Herring <robh+dt@kernel.org>, linux-pm@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Nicolas Chauvet <kwizart@gmail.com>,
  Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-pm@vger.kernel.org,
  Chanwoo Choi <cw00.choi@samsung.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Nicolas Chauvet <kwizart@gmail.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Krzysztof Kozlowski <krzk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Kyungmin Park <kyungmin.park@samsung.com>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Georgi Djakov <georgi.djakov@linaro.org>
+ linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Oct 2020 01:16:55 +0300, Dmitry Osipenko wrote:
-> Memory controller is interconnected with memory clients and with the
-> External Memory Controller. Document new interconnect property which
-> turns memory controller into interconnect provider.
+On Mon, 26 Oct 2020 01:16:56 +0300, Dmitry Osipenko wrote:
+> External memory controller is interconnected with memory controller and
+> with external memory. Document new interconnect property which turns
+> External Memory Controller into interconnect provider.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  .../bindings/memory-controllers/nvidia,tegra124-mc.yaml      | 5 +++++
->  1 file changed, 5 insertions(+)
+>  .../bindings/memory-controllers/nvidia,tegra124-emc.yaml   | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.example.dt.yaml: memory-controller@70019000: '#interconnect-cells' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-mc.yaml
-
-
-See https://patchwork.ozlabs.org/patch/1387321
-
-The base for the patch is generally the last rc1. Any dependencies
-should be noted.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
