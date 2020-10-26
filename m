@@ -1,69 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD732994BA
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:01:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB1D02994BD
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:02:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 242956EA4B;
-	Mon, 26 Oct 2020 18:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD3FE6EA48;
+	Mon, 26 Oct 2020 18:02:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF72A6EA08
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 12:26:41 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id q199so8030754qke.10
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 05:26:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=sFAWCcExMHTOHRRV6PN8qO5lJJu/poaIEUM21VQxEeo=;
- b=ZpyWLyYtOxl9708I/3m316/fIsDBjoAhyxwdOJlxJsIQp89vrJ1psU80YjbboMJ7f+
- tjkXsGPp1n/tjrS7CO8YSh0BHMKyUL63RtYRbvtww00icDvInnKVld+7oqUZ9+TGlc6F
- fDw882W6OHcN4/prlG8d1si+B4vfUksndF/RKBd79O6i+A4Kk0TDArWp84D8tONbHwUO
- mjzsEQIK9YKqjijoHPI8dDym7XkPY3mjwJHpu56witca+ty26WsTaDlk50Tz3FaSzx+y
- iFM/9NSMb8xonezq2xpKJPKvrRGrNpyEg6Oc7kGTBlfyP5WaH+WvPUOYZYZL+VsZPtau
- HvBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=sFAWCcExMHTOHRRV6PN8qO5lJJu/poaIEUM21VQxEeo=;
- b=QU0zOwMNVSTaqwBKHh1EYV+LE8SvjDsqpSnRFOfWCfoBk0C/ZysH/3uKzWeqmremiJ
- u0nVA326uRbVtc2uA2ZImezFy44g5agQCJzoi4lCkAdF4e96OIZtYmKecWF9wgoGq3mp
- Vn0cK6kgEbjfyp+t9YoOXxHT4JAepJAAIg+lOrRGHggPEyC/wcS2XU7bBT9coQw00S/0
- quypAmcgzdbK6K+9p4fFUHCBOUfKhn1WPGXLNVLYpKDDLYU9GINOL11ej03pTqDkE/4t
- nij6AWt/kgZPzI9noPKZQa5ue9NrLOi6tJrKmECNVlQ/GZy7PpCD7MvRWpaDZBt9T/vr
- pEZg==
-X-Gm-Message-State: AOAM533ucJaNH9RNnZ/VUlSGmCLLA+6e2Ml8Jfu8JOZeATLZlckz7zxk
- 1ZLKhPqXMYWfYQjiVejchR7fVQ==
-X-Google-Smtp-Source: ABdhPJwVw9RhhXxLcuyakL72UDPW4hT0r1fAS1TYVYmudNNMnoyPoutHDAwVmODEJzlfT62CHDCqmw==
-X-Received: by 2002:a05:620a:214b:: with SMTP id
- m11mr16914254qkm.6.1603715200851; 
- Mon, 26 Oct 2020 05:26:40 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id y125sm6145331qkb.114.2020.10.26.05.26.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 05:26:38 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kX1a9-007zcj-SH; Mon, 26 Oct 2020 09:26:37 -0300
-Date: Mon, 26 Oct 2020 09:26:37 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-Message-ID: <20201026122637.GQ36674@ziepe.ca>
-References: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
- <1603471201-32588-2-git-send-email-jianxin.xiong@intel.com>
- <20201023164911.GF401619@phenom.ffwll.local>
- <20201023182005.GP36674@ziepe.ca>
- <20201024074807.GA3112@infradead.org>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4B2B6E177
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 16:54:57 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09QGsiYp013043;
+ Mon, 26 Oct 2020 11:54:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1603731284;
+ bh=lI1+t9kOFNtGhtBm80EWQM6FulLisnAeQk+fkW7PgBY=;
+ h=From:To:CC:Subject:Date;
+ b=jnmpF6o/CmuTi9W2w+KauHS2vLgrxasO7v9Iw7eHaDRH1dkVECzGdwiLnZWihpaDf
+ v3DfJ/UEWhy7uqmAbUJKbB/3bSdhaeDxz3P9Az3zxy41YHyvWZ53xgpnK2O2MZzsou
+ vewTpHzbAMuykc2438SyP9z2bwLjZXdmEUjqTllg=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09QGsi6l081232
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 26 Oct 2020 11:54:44 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 26
+ Oct 2020 11:54:44 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 26 Oct 2020 11:54:44 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09QGsi3E088555;
+ Mon, 26 Oct 2020 11:54:44 -0500
+From: Nishanth Menon <nm@ti.com>
+To: Swapnil Jakhade <sjakhade@cadence.com>, Jyri Sarha <jsarha@ti.com>, Yuti
+ Amonkar <yamonkar@cadence.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Jernej
+ Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH] drm: bridge: cdns: Kconfig: Switch over dependency to ARCH_K3
+Date: Mon, 26 Oct 2020 11:54:41 -0500
+Message-ID: <20201026165441.22894-1-nm@ti.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201024074807.GA3112@infradead.org>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Mon, 26 Oct 2020 18:01:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,31 +63,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
+Cc: Nishanth Menon <nm@ti.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, ssantosh@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 24, 2020 at 08:48:07AM +0100, Christoph Hellwig wrote:
-> On Fri, Oct 23, 2020 at 03:20:05PM -0300, Jason Gunthorpe wrote:
-> > The problem is we have RDMA drivers that assume SGL's have a valid
-> > struct page, and these hacky/wrong P2P sgls that DMABUF creates cannot
-> > be passed into those drivers.
-> 
-> RDMA drivers do not assume scatterlist have a valid struct page,
-> scatterlists are defined to have a valid struct page.  Any scatterlist
-> without a struct page is completely buggy.
+With the integration of chip-id detection scheme in kernel[1], there
+is no specific need to maintain multitudes of SoC specific config
+options, discussed as per [2], we have deprecated the usage in other
+places for v5.10-rc1. Fix the missing user so that we can clean up the
+configs in v5.11.
 
-It is not just having the struct page, it needs to be a CPU accessible
-one for memcpy/etc. They aren't correct with the
-MEMORY_DEVICE_PCI_P2PDMA SGLs either.
+[1] drivers/soc/ti/k3-socinfo.c commit 907a2b7e2fc7 ("soc: ti: add k3 platforms chipid module driver")
+[2] https://lore.kernel.org/linux-arm-kernel/20200908112534.t5bgrjf7y3a6l2ss@akan/
 
-Jason
+Fixes: afba7e6c5fc1 ("rm: bridge: cdns-mhdp8546: Add TI J721E wrapper")
+Cc: Swapnil Jakhade <sjakhade@cadence.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Yuti Amonkar <yamonkar@cadence.com>
+Cc: Jyri Sarha <jsarha@ti.com>
+Signed-off-by: Nishanth Menon <nm@ti.com>
+---
+ drivers/gpu/drm/bridge/cadence/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
+index 511d67b16d14..ef8c230e0f62 100644
+--- a/drivers/gpu/drm/bridge/cadence/Kconfig
++++ b/drivers/gpu/drm/bridge/cadence/Kconfig
+@@ -13,7 +13,7 @@ config DRM_CDNS_MHDP8546
+ if DRM_CDNS_MHDP8546
+ 
+ config DRM_CDNS_MHDP8546_J721E
+-	depends on ARCH_K3_J721E_SOC || COMPILE_TEST
++	depends on ARCH_K3 || COMPILE_TEST
+ 	bool "J721E Cadence DPI/DP wrapper support"
+ 	default y
+ 	help
+-- 
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
