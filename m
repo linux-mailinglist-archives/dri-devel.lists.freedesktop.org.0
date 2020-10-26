@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77626298AF2
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 11:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F3C298BB1
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 12:19:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 638F06E9FC;
-	Mon, 26 Oct 2020 10:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39EA66E02B;
+	Mon, 26 Oct 2020 11:19:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD6346E9FF
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 10:58:48 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id j7so11842160wrt.9
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 03:58:48 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053B1883A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 11:19:25 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id h5so11941127wrv.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 04:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rl2aV6v4BUOFD3sWM4dGPxjWFUFBHT1H6eKln2146qM=;
- b=RdtN9nvqXygrqpRjlwyadHI2Akx5GphSp7V8MoSkao2AUFwNDdcs0pb2/4JjL395li
- 67V6FN5HHlmjn9vWJcOKZYD+h4GMXwH3UsicvAL/IRAbuzUTcqbK0mc+9nQX8VqJ0N1G
- QvYjui1JxD/SV+BAqoPjDtW6UkWb8unscHOVc=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=/VW2HRuEabTUpCEA7FydXfQ0d9IISOMPldNqgaRvsIo=;
+ b=G/P42ZHyLJJPyxAGV4NV00rmPIX3EQaX/im1cRDfb4i/6BmLZElOpYnlhEJ0+PiO8x
+ xOQdCZJNv03klVs8ldysh7UH954Qz42qTrRF285BK3vaSBcbg1QxBRCJzRO0EjSOiwrp
+ WigDtnaUNG328d9723PXI+B99Pdp6/Oh1Lzv4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rl2aV6v4BUOFD3sWM4dGPxjWFUFBHT1H6eKln2146qM=;
- b=YulkaHyMpECLbY3gq0bxM7ba23ErFBhGufnp+DH/7fSfNLkJ2WtuYLxXJqSMttHi2+
- L7x9e/ZX4VaW6G3EVm4Lveui+gZ9wfd2emGNOhUepzTGxCx5MlUHoj5VlP4mrAAezxzm
- GmpyoMTjaiABRzWIRUZ/Tb4xarcomHbLa4jT7ogG4RUxfNWchORvBhfJVVbvNDrpaL86
- qB3cyHbzE2C3AgNa9uv7e/5pcnBcSwq8MwQQj+X5kQLAykT9YAuv/wscM5wBQqhBzX2u
- SGQUvSO7H5IEnruiN2gr3pCRCijTTXrl9cfx2cich4WTC/4tcNp03zTvD06eMbDjwAXS
- Z6ww==
-X-Gm-Message-State: AOAM533Abb080cNe5JdxicTQbLScp7Jp6bXhB29DGDDSF9pZ4+k50aZc
- VIJ70DAGFDnkBGdG80BeQTu2Fg/fpJbTOAdy
-X-Google-Smtp-Source: ABdhPJyJEgobhpYPgpR3deeCaVtbSbKMyoksav28TvwMmYamt9hp5XzgBWl2um1YOhVBMyiCN8BNmg==
-X-Received: by 2002:a5d:498a:: with SMTP id r10mr17440576wrq.106.1603709927066; 
- Mon, 26 Oct 2020 03:58:47 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=/VW2HRuEabTUpCEA7FydXfQ0d9IISOMPldNqgaRvsIo=;
+ b=pNTMqR1cea77ZFYj37N+fiPyzOKT+MJrOwRDDBH24v+TgujySVnCrDhXMMHC02vPQe
+ JGtWFtr4IbSGknB32tvYCSK+8KTCkW1Nfu06hQw7aOLGVgvS7rlD7j5GvHbCMoQ1QwEC
+ DDMgk/p9NkpKoAlm0/kXl9+ZxMg4wh3cK0NaqepAodYIQjHkC0vAG9nYLqKoSjOkXwC0
+ iorubvKlC12R33xk0b2vOs3fj3oyZCZQjB0ASbLqACnMXkxkPjFPFDdvRaQgPpjHKTAL
+ dDRu0Xdcnc/M7VyKOTxhgH79igVs3lkgPo4u4smmELQbCzDfzKEVdTnF/jwHYokr7pf8
+ NFng==
+X-Gm-Message-State: AOAM533vTunxC0caK4qj0fV9BOBhRxAUXmn4bzwS2OZfNbJ6iOP4tyqJ
+ Fikm2eAH+pJKiyKhfEN6RuLmpuMLmfx+gnh9
+X-Google-Smtp-Source: ABdhPJzckuP8n7twSipb2BG2NbUDON/F9BL6IEaU5QUpJYVsOpV9fDu4ADIiJwevpvjxS5MW/jWETw==
+X-Received: by 2002:adf:93c1:: with SMTP id 59mr17008807wrp.369.1603711163749; 
+ Mon, 26 Oct 2020 04:19:23 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w83sm21165156wmg.48.2020.10.26.03.58.45
+ by smtp.gmail.com with ESMTPSA id u9sm969489wrp.65.2020.10.26.04.19.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 03:58:46 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 15/15] PCI: Revoke mappings like devmem
-Date: Mon, 26 Oct 2020 11:58:18 +0100
-Message-Id: <20201026105818.2585306-16-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201026105818.2585306-1-daniel.vetter@ffwll.ch>
-References: <20201026105818.2585306-1-daniel.vetter@ffwll.ch>
+ Mon, 26 Oct 2020 04:19:22 -0700 (PDT)
+Date: Mon, 26 Oct 2020 12:19:20 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] Implement .format_mod_supported in mxsfb
+Message-ID: <20201026111920.GH401619@phenom.ffwll.local>
+References: <96f62304bad202e4f920d2f4ed62c485@abrecht.li>
+ <20201025155201.GA25070@bogon.m.sigxcpu.org>
+ <CAKMK7uEX38yzJGy6PWBs-L375kUGAPQK7SMPjT8Ze+3oKk38Mg@mail.gmail.com>
+ <20201026105207.GI6112@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201026105207.GI6112@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,97 +68,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-pci@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Marek Vasut <marex@denx.de>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, dl-linux-imx <linux-imx@nxp.com>,
+ Sascha Hauer <kernel@pengutronix.de>,
+ Daniel Abrecht <freedesktop-linux-dri-devel@danielabrecht.ch>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2luY2UgMzIzNGFjNjY0YTg3ICgiL2Rldi9tZW06IFJldm9rZSBtYXBwaW5ncyB3aGVuIGEgZHJp
-dmVyIGNsYWltcwp0aGUgcmVnaW9uIikgL2Rldi9rbWVtIHphcHMgcHRlcyB3aGVuIHRoZSBrZXJu
-ZWwgcmVxdWVzdHMgZXhjbHVzaXZlCmFjY2Nlc3MgdG8gYW4gaW9tZW0gcmVnaW9uLiBBbmQgd2l0
-aCBDT05GSUdfSU9fU1RSSUNUX0RFVk1FTSwgdGhpcyBpcwp0aGUgZGVmYXVsdCBmb3IgYWxsIGRy
-aXZlciB1c2VzLgoKRXhjZXB0IHRoZXJlJ3MgdHdvIG1vcmUgd2F5cyB0byBhY2Nlc3MgUENJIEJB
-UnM6IHN5c2ZzIGFuZCBwcm9jIG1tYXAKc3VwcG9ydC4gTGV0J3MgcGx1ZyB0aGF0IGhvbGUuCgpG
-b3IgcmV2b2tlX2Rldm1lbSgpIHRvIHdvcmsgd2UgbmVlZCB0byBsaW5rIG91ciB2bWEgaW50byB0
-aGUgc2FtZQphZGRyZXNzX3NwYWNlLCB3aXRoIGNvbnNpc3RlbnQgdm1hLT52bV9wZ29mZi4gLT5w
-Z29mZiBpcyBhbHJlYWR5CmFkanVzdGVkLCBiZWNhdXNlIHRoYXQncyBob3cgKGlvXylyZW1hcF9w
-Zm5fcmFuZ2Ugd29ya3MsIGJ1dCBmb3IgdGhlCm1hcHBpbmcgd2UgbmVlZCB0byBhZGp1c3Qgdm1h
-LT52bV9maWxlLT5mX21hcHBpbmcuIFRoZSBjbGVhbmVzdCB3YXkgaXMKdG8gYWRqdXN0IHRoaXMg
-YXQgYXQgLT5vcGVuIHRpbWU6CgotIGZvciBzeXNmcyB0aGlzIGlzIGVhc3ksIG5vdyB0aGF0IGJp
-bmFyeSBhdHRyaWJ1dGVzIHN1cHBvcnQgdGhpcy4gV2UKICBqdXN0IHNldCBiaW5fYXR0ci0+bWFw
-cGluZyB3aGVuIG1tYXAgaXMgc3VwcG9ydGVkCi0gZm9yIHByb2NmcyBpdCdzIGEgYml0IG1vcmUg
-dHJpY2t5LCBzaW5jZSBwcm9jZnMgcGNpIGFjY2VzcyBoYXMgb25seQogIG9uZSBmaWxlIHBlciBk
-ZXZpY2UsIGFuZCBhY2Nlc3MgdG8gYSBzcGVjaWZpYyByZXNvdXJjZXMgZmlyc3QgbmVlZHMKICB0
-byBiZSBzZXQgdXAgd2l0aCBzb21lIGlvY3RsIGNhbGxzLiBCdXQgbW1hcCBpcyBvbmx5IHN1cHBv
-cnRlZCBmb3IKICB0aGUgc2FtZSByZXNvdXJjZXMgYXMgc3lzZnMgZXhwb3NlcyB3aXRoIG1tYXAg
-c3VwcG9ydCwgYW5kIG90aGVyd2lzZQogIHJlamVjdGVkLCBzbyB3ZSBjYW4gc2V0IHRoZSBtYXBw
-aW5nIHVuY29uZGl0aW9uYWxseSBhdCBvcGVuIHRpbWUKICB3aXRob3V0IGhhcm0uCgpBIHNwZWNp
-YWwgY29uc2lkZXJhdGlvbiBpcyBmb3IgYXJjaF9jYW5fcGNpX21tYXBfaW8oKSAtIHdlIG5lZWQg
-dG8KbWFrZSBzdXJlIHRoYXQgdGhlIC0+Zl9tYXBwaW5nIGRvZXNuJ3QgYWxpYXMgYmV0d2VlbiBp
-b3BvcnQgYW5kIGlvbWVtCnNwYWNlLiBUaGVyZSdzIG9ubHkgMiB3YXlzIGluLXRyZWUgdG8gc3Vw
-cG9ydCBtbWFwIG9mIGlvcG9ydHM6IGdlbmVyaWMKcGNpIG1tYXAgKEFSQ0hfR0VORVJJQ19QQ0lf
-TU1BUF9SRVNPVVJDRSksIGFuZCBzcGFyYyBhcyB0aGUgc2luZ2xlCmFyY2hpdGVjdHVyZSBoYW5k
-LXJvbGxpbmcuIEJvdGggYXBwcm9hY2ggc3VwcG9ydCBpb3BvcnQgbW1hcCB0aHJvdWdoIGEKc3Bl
-Y2lhbCBwZm4gcmFuZ2UgYW5kIG5vdCB0aHJvdWdoIG1hZ2ljIHB0ZSBhdHRyaWJ1dGVzLiBBbGlh
-c2luZyBpcwp0aGVyZWZvcmUgbm90IGEgcHJvYmxlbS4KClRoZSBvbmx5IGRpZmZlcmVuY2UgaW4g
-YWNjZXNzIGNoZWNrcyBsZWZ0IGlzIHRoYXQgc3lzZnMgUENJIG1tYXAgZG9lcwpub3QgY2hlY2sg
-Zm9yIENBUF9SQVdJTy4gSSdtIG5vdCByZWFsbHkgc3VyZSB3aGV0aGVyIHRoYXQgc2hvdWxkIGJl
-CmFkZGVkIG9yIG5vdC4KClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0
-ZXJAaW50ZWwuY29tPgpDYzogSmFzb24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+CkNjOiBLZWVz
-IENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4KQ2M6IERhbiBXaWxsaWFtcyA8ZGFuLmoud2ls
-bGlhbXNAaW50ZWwuY29tPgpDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9u
-Lm9yZz4KQ2M6IEpvaG4gSHViYmFyZCA8amh1YmJhcmRAbnZpZGlhLmNvbT4KQ2M6IErDqXLDtG1l
-IEdsaXNzZSA8amdsaXNzZUByZWRoYXQuY29tPgpDYzogSmFuIEthcmEgPGphY2tAc3VzZS5jej4K
-Q2M6IERhbiBXaWxsaWFtcyA8ZGFuLmoud2lsbGlhbXNAaW50ZWwuY29tPgpDYzogR3JlZyBLcm9h
-aC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KQ2M6IGxpbnV4LW1tQGt2YWNr
-Lm9yZwpDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCkNjOiBsaW51eC1z
-YW1zdW5nLXNvY0B2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
-ZwpDYzogQmpvcm4gSGVsZ2FhcyA8YmhlbGdhYXNAZ29vZ2xlLmNvbT4KQ2M6IGxpbnV4LXBjaUB2
-Z2VyLmtlcm5lbC5vcmcKU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRl
-ckBmZndsbC5jaD4KLS0KdjI6Ci0gVG90YWxseSBuZXcgYXBwcm9hY2g6IEFkanVzdCBmaWxwLT5m
-X21hcHBpbmcgYXQgb3BlbiB0aW1lLiBOb3RlIHRoYXQKICB0aGlzIG5vdyB3b3JrcyBvbiBhbGwg
-YXJjaGl0ZWN0dXJlcywgbm90IGp1c3QgdGhvc2Ugc3VwcG9ydAogIEFSQ0hfR0VORVJJQ19QQ0lf
-TU1BUF9SRVNPVVJDRQotLS0KIGRyaXZlcnMvcGNpL3BjaS1zeXNmcy5jIHwgNCArKysrCiBkcml2
-ZXJzL3BjaS9wcm9jLmMgICAgICB8IDEgKwogMiBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMo
-KykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3BjaS9wY2ktc3lzZnMuYyBiL2RyaXZlcnMvcGNpL3Bj
-aS1zeXNmcy5jCmluZGV4IDZkNzhkZjk4MWQ0MS4uY2VlMzhmY2I0YTg2IDEwMDY0NAotLS0gYS9k
-cml2ZXJzL3BjaS9wY2ktc3lzZnMuYworKysgYi9kcml2ZXJzL3BjaS9wY2ktc3lzZnMuYwpAQCAt
-OTI4LDYgKzkyOCw3IEBAIHZvaWQgcGNpX2NyZWF0ZV9sZWdhY3lfZmlsZXMoc3RydWN0IHBjaV9i
-dXMgKmIpCiAJYi0+bGVnYWN5X2lvLT5yZWFkID0gcGNpX3JlYWRfbGVnYWN5X2lvOwogCWItPmxl
-Z2FjeV9pby0+d3JpdGUgPSBwY2lfd3JpdGVfbGVnYWN5X2lvOwogCWItPmxlZ2FjeV9pby0+bW1h
-cCA9IHBjaV9tbWFwX2xlZ2FjeV9pbzsKKwliLT5sZWdhY3lfaW8tPm1hcHBpbmcgPSBpb21lbV9n
-ZXRfbWFwcGluZygpOwogCXBjaV9hZGp1c3RfbGVnYWN5X2F0dHIoYiwgcGNpX21tYXBfaW8pOwog
-CWVycm9yID0gZGV2aWNlX2NyZWF0ZV9iaW5fZmlsZSgmYi0+ZGV2LCBiLT5sZWdhY3lfaW8pOwog
-CWlmIChlcnJvcikKQEAgLTk0MCw2ICs5NDEsNyBAQCB2b2lkIHBjaV9jcmVhdGVfbGVnYWN5X2Zp
-bGVzKHN0cnVjdCBwY2lfYnVzICpiKQogCWItPmxlZ2FjeV9tZW0tPnNpemUgPSAxMDI0KjEwMjQ7
-CiAJYi0+bGVnYWN5X21lbS0+YXR0ci5tb2RlID0gMDYwMDsKIAliLT5sZWdhY3lfbWVtLT5tbWFw
-ID0gcGNpX21tYXBfbGVnYWN5X21lbTsKKwliLT5sZWdhY3lfaW8tPm1hcHBpbmcgPSBpb21lbV9n
-ZXRfbWFwcGluZygpOwogCXBjaV9hZGp1c3RfbGVnYWN5X2F0dHIoYiwgcGNpX21tYXBfbWVtKTsK
-IAllcnJvciA9IGRldmljZV9jcmVhdGVfYmluX2ZpbGUoJmItPmRldiwgYi0+bGVnYWN5X21lbSk7
-CiAJaWYgKGVycm9yKQpAQCAtMTE1NSw2ICsxMTU3LDggQEAgc3RhdGljIGludCBwY2lfY3JlYXRl
-X2F0dHIoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGludCBudW0sIGludCB3cml0ZV9jb21iaW5lKQog
-CQkJcmVzX2F0dHItPm1tYXAgPSBwY2lfbW1hcF9yZXNvdXJjZV91YzsKIAkJfQogCX0KKwlpZiAo
-cmVzX2F0dHItPm1tYXApCisJCXJlc19hdHRyLT5tYXBwaW5nID0gaW9tZW1fZ2V0X21hcHBpbmco
-KTsKIAlyZXNfYXR0ci0+YXR0ci5uYW1lID0gcmVzX2F0dHJfbmFtZTsKIAlyZXNfYXR0ci0+YXR0
-ci5tb2RlID0gMDYwMDsKIAlyZXNfYXR0ci0+c2l6ZSA9IHBjaV9yZXNvdXJjZV9sZW4ocGRldiwg
-bnVtKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvcGNpL3Byb2MuYyBiL2RyaXZlcnMvcGNpL3Byb2Mu
-YwppbmRleCAzYTJmOTBiZWI0Y2IuLjliYWIwNzMwMmJiZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9w
-Y2kvcHJvYy5jCisrKyBiL2RyaXZlcnMvcGNpL3Byb2MuYwpAQCAtMjk4LDYgKzI5OCw3IEBAIHN0
-YXRpYyBpbnQgcHJvY19idXNfcGNpX29wZW4oc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGZp
-bGUgKmZpbGUpCiAJZnByaXYtPndyaXRlX2NvbWJpbmUgPSAwOwogCiAJZmlsZS0+cHJpdmF0ZV9k
-YXRhID0gZnByaXY7CisJZmlsZS0+Zl9tYXBwaW5nID0gaW9tZW1fZ2V0X21hcHBpbmcoKTsKIAog
-CXJldHVybiAwOwogfQotLSAKMi4yOC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+On Mon, Oct 26, 2020 at 12:52:07PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Mon, Oct 26, 2020 at 10:05:17AM +0100, Daniel Vetter wrote:
+> > On Sun, Oct 25, 2020 at 4:52 PM Guido G=FCnther <agx@sigxcpu.org> wrote:
+> > >
+> > > Hi Daniel,
+> > > On Sat, Oct 24, 2020 at 04:59:16PM +0000, Daniel Abrecht wrote:
+> > > > This will make sure applications which use the IN_FORMATS blob
+> > > > to figure out which modifiers they can use will pick up the
+> > > > linear modifier which is needed by mxsfb. Such applications
+> > > > will not work otherwise if an incompatible implicit modifier
+> > > > ends up being selected.
+> > >
+> > > Since this got broken by the switch away for the simple display
+> > > pipeline helper (ae1ed0093281939b80664a687689f12436c0e874) could
+> > > you add a fixes tag?
+> > =
+
+> > mxsfb is also missing setting the allow_fb_modifiers flag, without
+> > which all this modifier stuff won't work great.
+> =
+
+> drm_universal_plane_init() automagically adds it if a modifier list
+> is passed in.
+
+Oh right I missed that :-/ I guess then removing the explicit setting from
+drivers would be good, and maybe adding a comment to the kerneldoc about
+that.
+
+And more of a mess indeed ...
+-Daniel
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
