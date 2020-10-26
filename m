@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D83299B4B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:50:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D34A7299B4E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:50:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5418E6EA93;
-	Mon, 26 Oct 2020 23:50:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 917436EA94;
+	Mon, 26 Oct 2020 23:50:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42F9F6EA94
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 23:50:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9612B6EA94;
+ Mon, 26 Oct 2020 23:50:32 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6C97B217A0;
- Mon, 26 Oct 2020 23:50:24 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AD0EE216FD;
+ Mon, 26 Oct 2020 23:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603756225;
- bh=FvjtP9+18S2U2Qyjg5K2P7RIB0dkS4u0TTOdg280Gwg=;
+ s=default; t=1603756232;
+ bh=5SwOcDG6zpmV/M7GZH/CDE9DdYD5oGCjxlb8cnRuBac=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C3AmjeSBtd0GoWxdxbLNMklZ/q1Kz14t9WwJ5SU6KVyxkLsdqBrTtdQ3IVhdBLqC1
- ndPWCljJ4gWonGYTjcFaQ87pkdu3CApYx8OY9jYCV8Bh57QDEIZxx07egkyNjZ9m/F
- wugUOkcseNm+v1or1eANTY1AQ0MeYeo8ZGqgfQzc=
+ b=yJ2v1KQZIpgv6OwuPY3gsmxilbcqFwXfRbC/8iCWE78Kh/s0a2GVnoiifqAsTwH6t
+ Wth2K5+BJaeqHNBOguKv7EFXOhxTRzJ4otbHaThlZrQv0o+h5xMAU/6m1ObGpVkXlV
+ SvHytwnR576G8r9ogGw4Pan+644VtaOT36VZ+/cc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 064/147] drm: panfrost: fix common struct sg_table
- related issues
-Date: Mon, 26 Oct 2020 19:47:42 -0400
-Message-Id: <20201026234905.1022767-64-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.9 070/147] drm/amd/display: Check clock table return
+Date: Mon, 26 Oct 2020 19:47:48 -0400
+Message-Id: <20201026234905.1022767-70-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201026234905.1022767-1-sashal@kernel.org>
 References: <20201026234905.1022767-1-sashal@kernel.org>
@@ -50,90 +49,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Steven Price <steven.price@arm.com>,
- dri-devel@lists.freedesktop.org, Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Szyprowski <m.szyprowski@samsung.com>
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 
-[ Upstream commit 34a4e66faf8b22c8409cbd46839ba5e488b1e6a9 ]
+[ Upstream commit 4b4f21ff7f5d11bb77e169b306dcbc5b216f5db5 ]
 
-The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
-returns the number of the created entries in the DMA address space.
-However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
-dma_unmap_sg must be called with the original number of the entries
-passed to the dma_map_sg().
+During the load processes for Renoir, our display code needs to retrieve
+the SMU clock and voltage table, however, this operation can fail which
+means that we have to check this scenario. Currently, we are not
+handling this case properly and as a result, we have seen the following
+dmesg log during the boot:
 
-struct sg_table is a common structure used for describing a non-contiguous
-memory buffer, used commonly in the DRM and graphics subsystems. It
-consists of a scatterlist with memory pages and DMA addresses (sgl entry),
-as well as the number of scatterlist entries: CPU pages (orig_nents entry)
-and DMA mapped pages (nents entry).
+RIP: 0010:rn_clk_mgr_construct+0x129/0x3d0 [amdgpu]
+...
+Call Trace:
+ dc_clk_mgr_create+0x16a/0x1b0 [amdgpu]
+ dc_create+0x231/0x760 [amdgpu]
 
-It turned out that it was a common mistake to misuse nents and orig_nents
-entries, calling DMA-mapping functions with a wrong number of entries or
-ignoring the number of mapped entries returned by the dma_map_sg()
-function.
+This commit fixes this issue by checking the return status retrieved
+from the clock table before try to populate any bandwidth.
 
-To avoid such issues, lets use a common dma-mapping wrappers operating
-directly on the struct sg_table objects and use scatterlist page
-iterators where possible. This, almost always, hides references to the
-nents and orig_nents entries, making the code robust, easier to follow
-and copy/paste safe.
-
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panfrost/panfrost_gem.c | 4 ++--
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 7 +++----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index 33355dd302f11..1a6cea0e0bd74 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -41,8 +41,8 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
+index 21a3073c8929e..2f8fee05547ac 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c
+@@ -761,6 +761,7 @@ void rn_clk_mgr_construct(
+ {
+ 	struct dc_debug_options *debug = &ctx->dc->debug;
+ 	struct dpm_clocks clock_table = { 0 };
++	enum pp_smu_status status = 0;
  
- 		for (i = 0; i < n_sgt; i++) {
- 			if (bo->sgts[i].sgl) {
--				dma_unmap_sg(pfdev->dev, bo->sgts[i].sgl,
--					     bo->sgts[i].nents, DMA_BIDIRECTIONAL);
-+				dma_unmap_sgtable(pfdev->dev, &bo->sgts[i],
-+						  DMA_BIDIRECTIONAL, 0);
- 				sg_free_table(&bo->sgts[i]);
- 			}
+ 	clk_mgr->base.ctx = ctx;
+ 	clk_mgr->base.funcs = &dcn21_funcs;
+@@ -817,8 +818,10 @@ void rn_clk_mgr_construct(
+ 	clk_mgr->base.bw_params = &rn_bw_params;
+ 
+ 	if (pp_smu && pp_smu->rn_funcs.get_dpm_clock_table) {
+-		pp_smu->rn_funcs.get_dpm_clock_table(&pp_smu->rn_funcs.pp_smu, &clock_table);
+-		if (ctx->dc_bios && ctx->dc_bios->integrated_info) {
++		status = pp_smu->rn_funcs.get_dpm_clock_table(&pp_smu->rn_funcs.pp_smu, &clock_table);
++
++		if (status == PP_SMU_RESULT_OK &&
++		    ctx->dc_bios && ctx->dc_bios->integrated_info) {
+ 			rn_clk_mgr_helper_populate_bw_params (clk_mgr->base.bw_params, &clock_table, ctx->dc_bios->integrated_info);
  		}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index e8f7b11352d27..776448c527ea9 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -253,7 +253,7 @@ static int mmu_map_sg(struct panfrost_device *pfdev, struct panfrost_mmu *mmu,
- 	struct io_pgtable_ops *ops = mmu->pgtbl_ops;
- 	u64 start_iova = iova;
- 
--	for_each_sg(sgt->sgl, sgl, sgt->nents, count) {
-+	for_each_sgtable_dma_sg(sgt, sgl, count) {
- 		unsigned long paddr = sg_dma_address(sgl);
- 		size_t len = sg_dma_len(sgl);
- 
-@@ -517,10 +517,9 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	if (ret)
- 		goto err_pages;
- 
--	if (!dma_map_sg(pfdev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL)) {
--		ret = -EINVAL;
-+	ret = dma_map_sgtable(pfdev->dev, sgt, DMA_BIDIRECTIONAL, 0);
-+	if (ret)
- 		goto err_map;
--	}
- 
- 	mmu_map_sg(pfdev, bomapping->mmu, addr,
- 		   IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
+ 	}
 -- 
 2.25.1
 
