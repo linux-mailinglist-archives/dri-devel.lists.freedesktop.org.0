@@ -2,31 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1982994B7
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:01:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD732994BA
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:01:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 096B26EA5A;
-	Mon, 26 Oct 2020 18:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 242956EA4B;
+	Mon, 26 Oct 2020 18:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F556E122;
- Mon, 26 Oct 2020 11:48:50 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CKY5J1Hzpzhb8s;
- Mon, 26 Oct 2020 19:48:52 +0800 (CST)
-Received: from huawei.com (10.90.53.225) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Mon, 26 Oct 2020
- 19:48:45 +0800
-From: Zhang Qilong <zhangqilong3@huawei.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/amdgpu: Discard unnecessary breaks
-Date: Mon, 26 Oct 2020 19:59:30 +0800
-Message-ID: <20201026115930.14991-1-zhangqilong3@huawei.com>
-X-Mailer: git-send-email 2.26.0.106.g9fadedd
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF72A6EA08
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 12:26:41 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id q199so8030754qke.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 05:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=sFAWCcExMHTOHRRV6PN8qO5lJJu/poaIEUM21VQxEeo=;
+ b=ZpyWLyYtOxl9708I/3m316/fIsDBjoAhyxwdOJlxJsIQp89vrJ1psU80YjbboMJ7f+
+ tjkXsGPp1n/tjrS7CO8YSh0BHMKyUL63RtYRbvtww00icDvInnKVld+7oqUZ9+TGlc6F
+ fDw882W6OHcN4/prlG8d1si+B4vfUksndF/RKBd79O6i+A4Kk0TDArWp84D8tONbHwUO
+ mjzsEQIK9YKqjijoHPI8dDym7XkPY3mjwJHpu56witca+ty26WsTaDlk50Tz3FaSzx+y
+ iFM/9NSMb8xonezq2xpKJPKvrRGrNpyEg6Oc7kGTBlfyP5WaH+WvPUOYZYZL+VsZPtau
+ HvBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sFAWCcExMHTOHRRV6PN8qO5lJJu/poaIEUM21VQxEeo=;
+ b=QU0zOwMNVSTaqwBKHh1EYV+LE8SvjDsqpSnRFOfWCfoBk0C/ZysH/3uKzWeqmremiJ
+ u0nVA326uRbVtc2uA2ZImezFy44g5agQCJzoi4lCkAdF4e96OIZtYmKecWF9wgoGq3mp
+ Vn0cK6kgEbjfyp+t9YoOXxHT4JAepJAAIg+lOrRGHggPEyC/wcS2XU7bBT9coQw00S/0
+ quypAmcgzdbK6K+9p4fFUHCBOUfKhn1WPGXLNVLYpKDDLYU9GINOL11ej03pTqDkE/4t
+ nij6AWt/kgZPzI9noPKZQa5ue9NrLOi6tJrKmECNVlQ/GZy7PpCD7MvRWpaDZBt9T/vr
+ pEZg==
+X-Gm-Message-State: AOAM533ucJaNH9RNnZ/VUlSGmCLLA+6e2Ml8Jfu8JOZeATLZlckz7zxk
+ 1ZLKhPqXMYWfYQjiVejchR7fVQ==
+X-Google-Smtp-Source: ABdhPJwVw9RhhXxLcuyakL72UDPW4hT0r1fAS1TYVYmudNNMnoyPoutHDAwVmODEJzlfT62CHDCqmw==
+X-Received: by 2002:a05:620a:214b:: with SMTP id
+ m11mr16914254qkm.6.1603715200851; 
+ Mon, 26 Oct 2020 05:26:40 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id y125sm6145331qkb.114.2020.10.26.05.26.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Oct 2020 05:26:38 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kX1a9-007zcj-SH; Mon, 26 Oct 2020 09:26:37 -0300
+Date: Mon, 26 Oct 2020 09:26:37 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user
+ memory region
+Message-ID: <20201026122637.GQ36674@ziepe.ca>
+References: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
+ <1603471201-32588-2-git-send-email-jianxin.xiong@intel.com>
+ <20201023164911.GF401619@phenom.ffwll.local>
+ <20201023182005.GP36674@ziepe.ca>
+ <20201024074807.GA3112@infradead.org>
 MIME-Version: 1.0
-X-Originating-IP: [10.90.53.225]
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <20201024074807.GA3112@infradead.org>
 X-Mailman-Approved-At: Mon, 26 Oct 2020 18:01:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,136 +77,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, amd-gfx@lists.freedesktop.org
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The 'break' is unnecessary because of previous
-'return', discard it.
+On Sat, Oct 24, 2020 at 08:48:07AM +0100, Christoph Hellwig wrote:
+> On Fri, Oct 23, 2020 at 03:20:05PM -0300, Jason Gunthorpe wrote:
+> > The problem is we have RDMA drivers that assume SGL's have a valid
+> > struct page, and these hacky/wrong P2P sgls that DMABUF creates cannot
+> > be passed into those drivers.
+> 
+> RDMA drivers do not assume scatterlist have a valid struct page,
+> scatterlists are defined to have a valid struct page.  Any scatterlist
+> without a struct page is completely buggy.
 
-Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
----
- drivers/gpu/drm/amd/amdgpu/atombios_encoders.c | 6 ------
- drivers/gpu/drm/amd/amdgpu/dce_v10_0.c         | 4 ----
- drivers/gpu/drm/amd/amdgpu/dce_v11_0.c         | 7 -------
- 3 files changed, 17 deletions(-)
+It is not just having the struct page, it needs to be a CPU accessible
+one for memcpy/etc. They aren't correct with the
+MEMORY_DEVICE_PCI_P2PDMA SGLs either.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-index 8339c8c3a328..fa817ebff980 100644
---- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-@@ -499,10 +499,8 @@ int amdgpu_atombios_encoder_get_encoder_mode(struct drm_encoder *encoder)
- 		} else {
- 			return ATOM_ENCODER_MODE_DVI;
- 		}
--		break;
- 	case DRM_MODE_CONNECTOR_LVDS:
- 		return ATOM_ENCODER_MODE_LVDS;
--		break;
- 	case DRM_MODE_CONNECTOR_DisplayPort:
- 		dig_connector = amdgpu_connector->con_priv;
- 		if ((dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT) ||
-@@ -519,20 +517,16 @@ int amdgpu_atombios_encoder_get_encoder_mode(struct drm_encoder *encoder)
- 		} else {
- 			return ATOM_ENCODER_MODE_DVI;
- 		}
--		break;
- 	case DRM_MODE_CONNECTOR_eDP:
- 		return ATOM_ENCODER_MODE_DP;
- 	case DRM_MODE_CONNECTOR_DVIA:
- 	case DRM_MODE_CONNECTOR_VGA:
- 		return ATOM_ENCODER_MODE_CRT;
--		break;
- 	case DRM_MODE_CONNECTOR_Composite:
- 	case DRM_MODE_CONNECTOR_SVIDEO:
- 	case DRM_MODE_CONNECTOR_9PinDIN:
- 		/* fix me */
- 		return ATOM_ENCODER_MODE_TV;
--		/*return ATOM_ENCODER_MODE_CV;*/
--		break;
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-index 5963cbe0d455..34448df0ccf3 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-@@ -2202,22 +2202,18 @@ static int dce_v10_0_pick_dig_encoder(struct drm_encoder *encoder)
- 			return 1;
- 		else
- 			return 0;
--		break;
- 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY1:
- 		if (dig->linkb)
- 			return 3;
- 		else
- 			return 2;
--		break;
- 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY2:
- 		if (dig->linkb)
- 			return 5;
- 		else
- 			return 4;
--		break;
- 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY3:
- 		return 6;
--		break;
- 	default:
- 		DRM_ERROR("invalid encoder_id: 0x%x\n", amdgpu_encoder->encoder_id);
- 		return 0;
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-index 1954472c8e8f..eb16f7529223 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-@@ -2235,22 +2235,18 @@ static int dce_v11_0_pick_dig_encoder(struct drm_encoder *encoder)
- 			return 1;
- 		else
- 			return 0;
--		break;
- 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY1:
- 		if (dig->linkb)
- 			return 3;
- 		else
- 			return 2;
--		break;
- 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY2:
- 		if (dig->linkb)
- 			return 5;
- 		else
- 			return 4;
--		break;
- 	case ENCODER_OBJECT_ID_INTERNAL_UNIPHY3:
- 		return 6;
--		break;
- 	default:
- 		DRM_ERROR("invalid encoder_id: 0x%x\n", amdgpu_encoder->encoder_id);
- 		return 0;
-@@ -2304,19 +2300,16 @@ static u32 dce_v11_0_pick_pll(struct drm_crtc *crtc)
- 				return ATOM_COMBOPHY_PLL1;
- 			else
- 				return ATOM_COMBOPHY_PLL0;
--			break;
- 		case ENCODER_OBJECT_ID_INTERNAL_UNIPHY1:
- 			if (dig->linkb)
- 				return ATOM_COMBOPHY_PLL3;
- 			else
- 				return ATOM_COMBOPHY_PLL2;
--			break;
- 		case ENCODER_OBJECT_ID_INTERNAL_UNIPHY2:
- 			if (dig->linkb)
- 				return ATOM_COMBOPHY_PLL5;
- 			else
- 				return ATOM_COMBOPHY_PLL4;
--			break;
- 		default:
- 			DRM_ERROR("invalid encoder_id: 0x%x\n", amdgpu_encoder->encoder_id);
- 			return ATOM_PPLL_INVALID;
--- 
-2.17.1
-
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
