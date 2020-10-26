@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548C6299092
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 16:08:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 927442990F5
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 16:27:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 548406E175;
-	Mon, 26 Oct 2020 15:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A416E187;
+	Mon, 26 Oct 2020 15:27:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDB926E175
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 15:08:50 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id k3so14059749ejj.10
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 08:08:50 -0700 (PDT)
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 322F56E187
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 15:27:38 +0000 (UTC)
+Received: by mail-oo1-xc42.google.com with SMTP id x1so2383351ooo.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 08:27:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mWn4WewhRLsBTPcbmy2OSughHssP6G/Wcsv5qOCOPQk=;
+ b=SD+mpY3nOlP7M8eJKYGCxjWExSwFHYaqBTmdWWvmUYnYsVr+FGYqCI9BKa14HB86fn
+ v8Ya4jrA+NrqkRi969zal5BwaqoGxUEMmw8Xogy0u1ZZlx55HW74A8E9Hy3PYdMBDxWN
+ NZ8jJtjpxBnIs66Xg4pr3fMGuaC9Yq+1wW8AQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5iSdu1PXK0XmR2WnB9STaXKJ3YlzmlR/0SoXDLvMrSM=;
- b=lbHlvKIv2MCnezdReL+yqvmSFO7VzaKCRnr5OpeQzQ8TFCS6K83eeqzQLLv/K0obgE
- kK/YiIKrxoq3JAURl3XCql8fO7ndVyzGNVHKiWhEK1V+r1f/ohCA4irGsIrEU7A9MUpV
- tzXuHxeFo+V7Uce/fmCCtbEPTAdpC1kEfgYtAiDV8WxX37ZA/V8VmdL9wc04k3aUE+ch
- znEN9QvR/3qX3/8+ypNieqrIBACdBfD2g1661c43KYHO66UQBFOPifFF501K58CpRi3E
- tL+DZKbMcVREM1XUBXT/SsXoGqPeabOQ0aw6qtT0xoqqRaweOCCu3Z9LYbJuaOsLcKNE
- z+bA==
-X-Gm-Message-State: AOAM5333JYJihpbqIhfBW+V3kUnhYInMq80s3fsZyy9i0CkdgycdRRRm
- lrQ02COxgaIm1s5BfJPmHCk=
-X-Google-Smtp-Source: ABdhPJzjOQyo/e3kBWa/0LWJrvv9aB0EgvPcyQ0RaOH16AfjnowP+uij6FgtMEz6bs/a8mLsEfLJ3Q==
-X-Received: by 2002:a17:906:8401:: with SMTP id
- n1mr15669965ejx.215.1603724929210; 
- Mon, 26 Oct 2020 08:08:49 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.184])
- by smtp.googlemail.com with ESMTPSA id d24sm5360000edq.34.2020.10.26.08.08.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 08:08:48 -0700 (PDT)
-Date: Mon, 26 Oct 2020 16:08:45 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v6 00/52] Introduce memory interconnect for NVIDIA Tegra
- SoCs
-Message-ID: <20201026150845.GA87050@kozik-lap>
-References: <20201025221735.3062-1-digetx@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mWn4WewhRLsBTPcbmy2OSughHssP6G/Wcsv5qOCOPQk=;
+ b=pzTMTcYjd3S3DrrQlVoF8Mib52iIXhjZ0/YE/WiMSF86L2mueutimop9aaiUDx7H/G
+ /MteT7B2TD2PpY8EA/6NASEPRpxcuebb73uvQ3oP62JL7aynRtxFCOWVdR8EwVWoZWF2
+ 8ChGPG/vZlynOFsz5swkcRxYGbz1zzkhABKNkHru/ILeOgV2wjOexDe+xvrEVpW9P1VN
+ qFz/1B2sn9XU3rValqzo4wrl9SdBtmVJmV+c1elVpagfTM2ZHkTmgVbuy2Zgrd0oOhVh
+ z8erPo1Eu0FB7B3r3fxyzylRGHHkwZAwK7mhTsNoKDqP5ybC1b45I9nuZboummZks8ye
+ ObrQ==
+X-Gm-Message-State: AOAM5306kLVG/yDnJhekbV20vNtIlYSCbOJsSlINchHf94OO4hupWGnn
+ CFguEaTXsvFOJhqUksU0uyjQNQ+SItgs93SaiLLPig==
+X-Google-Smtp-Source: ABdhPJyLQkn8JZrid25zA5cw0eLagIbqC2+EB0Konvgn8Ww9p/XZFkIBmG0BpEnRA9ZpGrwe32jIJhNclIXVUe0eWqE=
+X-Received: by 2002:a4a:b503:: with SMTP id r3mr13888316ooo.28.1603726057540; 
+ Mon, 26 Oct 2020 08:27:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201025221735.3062-1-digetx@gmail.com>
+References: <a2j8KTgc26k5QniSAhDSTgCw4XWZhmsNHwG8UVa6U@cp4-web-014.plabs.ch>
+In-Reply-To: <a2j8KTgc26k5QniSAhDSTgCw4XWZhmsNHwG8UVa6U@cp4-web-014.plabs.ch>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 26 Oct 2020 16:27:25 +0100
+Message-ID: <CAKMK7uHqPA-Wb2kar4cz91p8599-_Z-YyOCxL353gJn=cyfd6Q@mail.gmail.com>
+Subject: Re: [PATCH] drm: deprecate DRM_FORMAT_MOD_NONE
+To: Simon Ser <contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,151 +57,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
- devicetree@vger.kernel.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 26, 2020 at 01:16:43AM +0300, Dmitry Osipenko wrote:
-> Hello,
-> 
-> This series brings initial support for memory interconnect to Tegra20,
-> Tegra30 and Tegra124 SoCs.
-> 
-> For the starter only display controllers and devfreq devices are getting
-> interconnect API support, others could be supported later on. The display
-> controllers have the biggest demand for interconnect API right now because
-> dynamic memory frequency scaling can't be done safely without taking into
-> account bandwidth requirement from the displays. In particular this series
-> fixes distorted display output on T30 Ouya and T124 TK1 devices.
+On Mon, Oct 26, 2020 at 2:17 PM Simon Ser <contact@emersion.fr> wrote:
+>
+> DRM_FORMAT_MOD_NONE is in the list of vendors, which is pretty
+> confusing. We already have DRM_FORMAT_MOD_VENDOR_NONE. Move it down in
+> the list of format modifiers.
+>
+> DRM_FORMAT_MOD_NONE is an alias for DRM_FORMAT_MOD_LINEAR, however the
+> name is confusing: NONE doesn't mean that the modifier is implicit,
+> instead it means that the layout is linear. Deprecate it.
+>
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Suggested-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> ---
+>  include/uapi/drm/drm_fourcc.h | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index d720f1e8ae5e..ca1d5587b5fc 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -350,7 +350,6 @@ extern "C" {
+>   */
+>
+>  /* Vendor Ids: */
+> -#define DRM_FORMAT_MOD_NONE           0
+>  #define DRM_FORMAT_MOD_VENDOR_NONE    0
+>  #define DRM_FORMAT_MOD_VENDOR_INTEL   0x01
+>  #define DRM_FORMAT_MOD_VENDOR_AMD     0x02
+> @@ -422,6 +421,14 @@ extern "C" {
+>   */
+>  #define DRM_FORMAT_MOD_LINEAR  fourcc_mod_code(NONE, 0)
+>
+> +/*
+> + * Deprecated: use DRM_FORMAT_MOD_LINEAR instead
+> + *
+> + * The "none" format modifier doesn't actually mean that the modifier is
+> + * implicit, instead it means that the layout is linear.
+> + */
 
-Hi,
+Maybe mention that "are modifiers used" is out-of-band information
+carried in e.g. the modifier flag for addfb2 (or for EGL in the
+presence/absence of the modifier settings when initializing a buffer).
+Either way,
 
-You introduced in v6 multiple new patches. Could you describe the
-dependencies, if any?
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Best regards,
-Krzysztof
+> +#define DRM_FORMAT_MOD_NONE    0
+> +
+>  /* Intel framebuffer modifiers */
+>
+>  /*
+> --
+> 2.28.0
+>
+>
 
-> Changelog:
-> 
-> v6: - This series was massively reworked in comparison to v5, most of the
->       patches that previously got r-b need a new round of a review (!).
-> 
->     - Added missed clk-rounding to the set() callback of EMC ICC providers.
->       Now clk_set_min_rate() doesn't error out on rate overflow.
-> 
->     - Now peak bandwidth is properly taken into account by the set() callback
->       of EMC ICC providers.
-> 
->     - EMC runs at 2x of the DRAM bus only on Tegra20, this now taken in account
->       properly by the EMC ICC set() callbacks.
-> 
->     - ICC drivers use new icc_sync_state() and xlate_extended().
-> 
->     - ICC drivers support new TEGRA_MC_ICC_TAG_ISO for ICC paths, which
->       conveys to ICC driver that memory path uses isochronous transfers.
-> 
->     - Added support for memory latency scaling to Tegra30 ICC provider.
->       It's required for fixing display FIFO underflows on T30.
-> 
->     - Added basic interconnect support to Tegra124 drivers.
-> 
->     - Tegra20/30/124 EMC drivers now support voltage scaling using generic
->       OPP API.
-> 
->     - The display bandwidth management is reworked and improved. It now
->       supports both bandwidth and latency allocations. The nv-display is
->       now also taken into account properly, i.e. it's kept untouched.
->       The extra bandwidth reservation required for ISO clients is moved
->       from DC driver to the ICC drivers.
-> 
->     - Dropped patch that tuned T20 display controller memory client because
->       turned out that it kills ~30% of memory bandwidth. It should be possible
->       to support client tuning, but it's too complicated for now.
-> 
->     - Corrected display's cursor and winb-vfilter ICC clients.
->       The winb-vfilter was erroneously used in place of cursor's client
->       in device-trees.
-> 
->     - Added devm_tegra_get_memory_controller() and switched drivers to
->       use it.
-> 
->     - Device-tree OPP tables are now supported by memory and devfreq
->       drivers.
-> 
->     - Tegra20-devfeq driver is reworked and now uses EMC-stats instead
->       of IMC-stats (which are nearly identical modules) because previously
->       I failed to understand how EMC-stats work and succeeded this time,
->       thinking that it simply doesn't work. This removes a bit icky dependency
->       on using both EMC and MC drivers simultaneously by the devfreq driver.
-> 
->     - Tegra20-devfeq driver now is a sub-device of the EMC, it also now uses
->       interconnect API for driving memory bandwidth.
-> 
->     - Tegra30-devfreq got interconnect support.
-> 
->     - Devfreq patches now use dev_err_probe(), which was suggested by
->       Chanwoo Choi.
-> 
->     - Added acks from Chanwoo Choi and Rob Herring to the reviewed and
->       unchanged patches.
-> 
->     - Added tested-by from Peter Geis and Nicolas Chauvet, who tested this
->       series on Ouya and TK1 devices, reporting that it fixes display
->       corruption on these devices which happened due to insufficient memory
->       bandwidth.
-> 
->     - Added patches to fix T20 EMC registers size.
-> 
->     - Fixed missing LA entry for PTC in the Tegra MC drivers.
-> 
->     - New and updated patches in v6:
-> 
->         dt-bindings: memory: tegra20: emc: Correct registers range in example
->         dt-bindings: memory: tegra20: emc: Document nvidia,memory-controller property
->         dt-bindings: memory: tegra20: emc: Document OPP table and voltage regulator
->         dt-bindings: memory: tegra20: emc: Document mfd-simple compatible and statistics sub-device
->         dt-bindings: memory: tegra30: emc: Document OPP table and voltage regulator
->         dt-bindings: memory: tegra124: mc: Document new interconnect property
->         dt-bindings: memory: tegra124: emc: Document new interconnect property
->         dt-bindings: memory: tegra124: emc: Document OPP table and voltage regulator
->         dt-bindings: tegra30-actmon: Document OPP and interconnect properties
->         dt-bindings: memory: tegra124: Add memory client IDs
->         ARM: tegra: Correct EMC registers size in Tegra20 device-tree
->         ARM: tegra: Add interconnect properties to Tegra124 device-tree
->         ARM: tegra: Add nvidia,memory-controller phandle to Tegra20 EMC device-tree
->         ARM: tegra: Add DVFS properties to Tegra20 EMC device-tree node
->         ARM: tegra: Add DVFS properties to Tegra30 EMC and ACTMON device-tree nodes
->         ARM: tegra: Add DVFS properties to Tegra124 EMC and ACTMON device-tree nodes
->         memory: tegra: Add and use devm_tegra_get_memory_controller()
->         memory: tegra-mc: Add interconnect framework
->         memory: tegra20: Support interconnect framework
->         memory: tegra20-emc: Skip parsing of emc-stats DT sub-node
->         memory: tegra: Add missing latency allowness entry for Page Table Cache
->         memory: tegra: Add FIFO sizes to Tegra30 memory clients
->         memory: tegra30: Support interconnect framework
->         memory: tegra124-emc: Make driver modular
->         memory: tegra124: Support interconnect framework
->         memory: tegra: Remove superfluous error messages around platform_get_irq()
->         drm/tegra: dc: Support memory bandwidth management
->         drm/tegra: dc: Extend debug stats with total number of events
->         PM / devfreq: tegra20: Convert to EMC_STAT driver, support interconnect and device-tree
->         PM / devfreq: tegra30: Support interconnect and OPPs from device-tree
->         PM / devfreq: tegra30: Separate configurations per-SoC generation
->         opp: Put interconnect paths outside of opp_table_lock
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
