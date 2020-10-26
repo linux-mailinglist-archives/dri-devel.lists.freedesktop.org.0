@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848A22985C0
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 04:02:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0BD2985C4
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 04:04:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1D086E176;
-	Mon, 26 Oct 2020 03:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D7B6E17C;
+	Mon, 26 Oct 2020 03:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 207956E176
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 03:02:47 +0000 (UTC)
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20201026030245epoutp0333adc90629c9993f0de05aa883fccb62~Ba7SMwIbX2476824768epoutp03o
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 03:02:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20201026030245epoutp0333adc90629c9993f0de05aa883fccb62~Ba7SMwIbX2476824768epoutp03o
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFD226E17C
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 03:04:03 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20201026030401epoutp0439b14fff9742ee8b16b3b8232f8f316c~Ba8ZHZZme1358513585epoutp04Q
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 03:04:01 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20201026030401epoutp0439b14fff9742ee8b16b3b8232f8f316c~Ba8ZHZZme1358513585epoutp04Q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1603681365;
- bh=hknHZ+cLjuYOEjh3nIdJbQqtqS+z8612JQBoz407ctU=;
+ s=mail20170921; t=1603681441;
+ bh=y609irCBYybY+9S/rFRyWytQWA30gaNleBpJh3UjY/s=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=CmzQJL3+wRGl/IKU2IG/Dhe5UZ3dVq5ni+0BQKi9af6rg/kY9JO6AsbfC6eF8u1cV
- +T9tNSNCmGOCnkqI0V7Z5FAuoTD9qwKbh7QTQJVynb157v09+n3raSC6NP0rkvX7xp
- kg2u7EyeLYrVwxqijw+TgwJEP93l29FTkUUY3jVc=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20201026030245epcas1p2a8d5d3e9eb326c4c895023ef2a850daf~Ba7RwZoyZ1357213572epcas1p2o;
- Mon, 26 Oct 2020 03:02:45 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.40.155]) by
- epsnrtp2.localdomain (Postfix) with ESMTP id 4CKKQB5Y6bzMqYkW; Mon, 26 Oct
- 2020 03:02:42 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
- epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
- B1.10.09543.25C369F5; Mon, 26 Oct 2020 12:02:42 +0900 (KST)
+ b=B+j+f/mTPpYWk80KMTVQHIzPeAl16vsiFp2QZPyZOtPv+nCVoM3rKsTmnOYcoNSpc
+ 4ARUG9IABdIrsakdk5bgb7Nwk2kPRSS07tpi+Vk1+OBQmwUviL5HtnMhAt3cTEeVu1
+ kBFUtjEORuyALk/dQy6gPB6kymy0+SN1TmDWIx9g=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+ 20201026030400epcas1p4a0edb4057a394c5039a6e82ca71b9c9f~Ba8YeFwP80689906899epcas1p4I;
+ Mon, 26 Oct 2020 03:04:00 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.40.155]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4CKKRb6P24zMqYlp; Mon, 26 Oct
+ 2020 03:03:55 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+ epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 42.54.10463.B9C369F5; Mon, 26 Oct 2020 12:03:55 +0900 (KST)
 Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20201026030241epcas1p219980df0fe3d9d3dc107b02b8a4f20cc~Ba7O5mfk41794217942epcas1p2i;
- Mon, 26 Oct 2020 03:02:41 +0000 (GMT)
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201026030355epcas1p19fc746c6b362de310863b725c7a1583b~Ba8TRuN9H1859618596epcas1p1f;
+ Mon, 26 Oct 2020 03:03:55 +0000 (GMT)
 Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
  epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20201026030241epsmtrp26d438f82cbb8d4266fe6b3e886368b65~Ba7O4ov1m3128731287epsmtrp20;
- Mon, 26 Oct 2020 03:02:41 +0000 (GMT)
-X-AuditID: b6c32a35-347ff70000002547-cd-5f963c523034
+ 20201026030355epsmtrp253dd774871f3ce099a89186dd3876bcc~Ba8TQs7X-3146731467epsmtrp22;
+ Mon, 26 Oct 2020 03:03:55 +0000 (GMT)
+X-AuditID: b6c32a38-efbff700000028df-0d-5f963c9b2ab1
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
  epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- F1.A6.08745.15C369F5; Mon, 26 Oct 2020 12:02:41 +0900 (KST)
+ EF.B6.08745.B9C369F5; Mon, 26 Oct 2020 12:03:55 +0900 (KST)
 Received: from [10.113.221.102] (unknown [10.113.221.102]) by
  epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20201026030241epsmtip10fa986889482099bb846bf373ea2a4d3~Ba7OllRRi1057310573epsmtip1Y;
- Mon, 26 Oct 2020 03:02:41 +0000 (GMT)
-Subject: Re: [PATCH v6 47/52] PM / devfreq: tegra20: Silence deferred probe
+ 20201026030355epsmtip170465f0d872a33a00bf7309ed66a01dc~Ba8S_Ixc51238112381epsmtip1e;
+ Mon, 26 Oct 2020 03:03:55 +0000 (GMT)
+Subject: Re: [PATCH v6 50/52] PM / devfreq: tegra30: Silence deferred probe
  error
 To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
  <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Georgi
@@ -64,59 +64,59 @@ To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
  Kozlowski <krzk@kernel.org>
 From: Chanwoo Choi <cw00.choi@samsung.com>
 Organization: Samsung Electronics
-Message-ID: <6c4169da-6648-d93b-75a6-4a41a61b7ad9@samsung.com>
-Date: Mon, 26 Oct 2020 12:16:31 +0900
+Message-ID: <0bbf89ed-c8ac-86a8-8ed4-b5a887c82656@samsung.com>
+Date: Mon, 26 Oct 2020 12:17:44 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
  Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <20201025221735.3062-48-digetx@gmail.com>
+In-Reply-To: <20201025221735.3062-51-digetx@gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTVxzHc24vt4Wt210BOSNkK5eYKI5HxbIjAiPTkeswG5E4t7mt3tEb
- YJS26WM6kQx5VEBBmQLaMXk4HLKZTR7KMwxsoCUiTApRgahBjENsESSW8Brt3TL++5zf+f5+
- v/P9nXMEPNFTwleQotSxGiWjoAgP/NqNzaFBeyNLZaGzP29EttlJN1RhuuWGfn0+AZB13k6g
- so56AuUYq3E0MPAHHzVN/oah/qxpPhpqLSfQXKEJoPwXRgL91fcBGj1WS6AfrpQA1P84DuV2
- mPhoZeQqjhZaL+Co4UEPEeNF2+/k8ukW4zifvn1riUfX1+UT9NhIO0HfP9GL0YXZNoIuaqwD
- 9Fz9W/Hun6dGJrOMnNWIWWWiSp6iTIqi4hJkO2XS8FBJkGQ7epcSK5k0NoratSc+KDZFseaM
- En/LKPRroXhGq6VCoiM1Kr2OFSertLooilXLFert6mAtk6bVK5OCE1VpEZLQ0K3SNeHB1OTq
- ihxC7fA4vPDSBjKBQ1AA3AWQ3AazzEv8AuAhEJHNAJZa7uPcYhbAwuJRjFvMATiXswoKgMCV
- 0mbRcvFWAG1lnTxnKRFpB7D3T7GTPckE2HdvxFXJi7yLw19qVwjnBo88B+BYe4CTCTIQdj65
- 44q/TvrDYccEcLKQjIZ1jku4k3FyIyzvbHZpvMlPoOVazr+aN6Dl/COXxp0Mh0/bx3Guvg+8
- 96gC4/hteP1ZOc95CEiecYfVDTk4Z3oXXBhrARx7wqneRj7HvnDO1kFwnA4vW0wEl5wHYGPn
- oBu3EQY7a85gzlHwyM3w99YQLuwPWxZ/Alzj16Bt/qQbNy0hzDOIOEkAHHowjnH8Jrx4PJ84
- DSjjOjvGdRaM6ywY/29WCfA6sIFVa9OSWK1ELVl/2/XA9eoDpc2g+NlMcDfABKAbQAGP8hKW
- +5XIREI5890RVqOSafQKVtsNpGsDLub5eieq1r6NUieTSLeGhYWhbZJwqURC+QiXtuTJRGQS
- o2NTWVbNav7LwwTuvpmYV9bZJXvM1MRMwv4vypK/DG7i7a1drrP1fKz3pDaVShZehlfd/Cam
- 6kUWs5qYXi83tFIpi/ZYusmvY99DRVfu6Z6uLUfN1tH29pNjZ+WDk13dReaAd841KE3WEWOG
- +BW/4B3L5/13Z1raQt5riw2r2ZFe6e1RI//0RL+9cqHx7+sROk8zdugIfHjA/HVj3qULH3rZ
- /aevTBtKvi+yVtTOnMw7dvv48MXZEMOBDatLNzMjD+n0h5v2RMVFH60aNOTvDHRY7xqS9pv9
- PsrAqtQWtelq9u7HlzdlRO+j838sOHVw6kZIz/C8uMGR/bzPx7H8ZGXo/UocfWZlIwZeFX6V
- 0dSySOHaZEYSyNNomX8AKyyx0X4EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Ra0hTYRyHe885nZ2tlse57LVMcxCClWVpvJGZH5QOGZR2k7BstZOFbsmO
- 3Q20FFIxxXLpSVpeklo3W2bLNMHNUkttprKsdTMtKi+l1ox120bgt+fP73k+/Slc0kPMpvap
- Uli1Sp4kI0VEjVHmsyg6VBO/5Hd2MBr61j8VaU3tU9HVr30AdY0Pk+hcvZ5EGXwZgTo6qgTo
- Tv81DLWd+CJAz2pLSDSaawIoa4wnkbk1Er1Iv0yiguuFALUNRKHMepMA/e65RaCJ2gsEuv3m
- IRkuZYYtmQLmHm8VMJ3tdpzR67JI5mVPHcm8znmEMbknh0jmdLUOMKN6nw3CbaJQBZu07yCr
- Xhy2U7S3TJtBJttEhyd+DIE0YKOyAUVBOhjeb+GygZCS0AYAOzSxDoa0F9SYm3CX4gGNxn+K
- 6J8yCGB/Qb/A4XjQG2Frbw/hGKS0lYAFtl7SceB0EYD2qlsCV1INYOlYnjMh6QDY8NFCOtiN
- 9oPdtj7gYDEdBnW2SsLBBD0fljQYnM5Megu8V9GHuRx32FL83ukI6eXwc53VyTjtD+0XOnEX
- z4K977WYi33h3cESPB948JNyflLCT0r4SclFQOiAF5vMKROUXFDyUhV7KJCTK7kDqoTA3fuV
- euB8fUCAAdTpRgIbAUaBRgApXCYVl3gXxkvECvmRo6x6f7z6QBLLNYI5FCGbJR7nS3dI6AR5
- CpvIssms+v+KUcLZaZii06L1exXXPLyqvEyfp/L+nmpMj4vM6uJPRpwRR42/i4lwN7TAeLsh
- j8MjpGr/mOZ5OnvFroG+X4nLjt1I1WniYhIF5Tl5+UVuI982RdmuHeytl873MT0u9F17dE1N
- RWzgus3aaX7P+RUfqjUhscIZEeVTTL6Nx5/uSQn2tOZ4NlXaY66aF6Zeas4xTnjvWc+Hb181
- Kkn7aeGVY54DqZp1lqLmU9vOPnkQ2mUO84o71jRiPxMZwvx5NygixNiGmnRMtbmq0JS7uubT
- 3MTz2o3uh1uDFZWcf+bnrEuRb68sZ7ozFN7h1pXd5E3f6fnRIXOCNrlNWSJiitPfmLc2sQtk
- BLdXHhSAqzn5X9u4i11pAwAA
-X-CMS-MailID: 20201026030241epcas1p219980df0fe3d9d3dc107b02b8a4f20cc
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TbUxTVxjO6cdtQequgOsZcYiX+EMWPiq0OzhgKmoqbguJYQyTURt60xJK
+ W3vBjKnRKUqhfqJWaUEcRkE2h5SOYS2gDGE1KahsDhw4UDAEbetaiajI1vZixr/nfd/nOc95
+ zgeXGerEIrj5qiJSq5IqCSyY1frrqthYU4pBkuCYjkcuzwQb1Xb3sdEP/zwG6PdpN4bOtJsx
+ VGqsY6H+/qsc9PPEjwzk2P+Mgwas1RjyHukGqPyFEUN3b29Ef33XgKHKK6cBcjzZgg62d3PQ
+ 3P1mFnplPcdCLaM92NpwsXvwIEd8zTjCEd/rm2WKzY3lmHj4vg0T/63vZYiPHHBh4qOWRiD2
+ miMzg7YVpChIqYzURpGqPLUsXyVPJbZslaRLhKIEQawgGX1MRKmkhWQqseGzzNhN+UpfMiJq
+ p1RZ7GtlSimKiE9L0aqLi8gohZoqSiVIjUypSdbEUdJCqlglj8tTF64RJCSsFvqI2wsUh6/f
+ wTStwd/0mc4x94FebgUI4kI8CT5xlLIqQDA3FG8D8EKFjUEXHgDbTriZdOEF8OkNJ+udpKm2
+ jU0PrACWew5x6MIN4OQjJ9PPCsO3QltjS0Aejg+xYH3DHOYfMPGzAA7bov0Yw2Ng5+RgoP8e
+ vgL+MfMY+DEPT4OVnVfZfszCV8LKA5cC1kvxL6G9tXSeswTaq8YD/SBcBL3HugC9Ph8+GK9l
+ 0Hg5/MVZHdgExE1B8PKQi0ln2AArn7sZNA6DU70WDo0joNfVjtF4F7xs78ZosQ5AS+cdNj1I
+ hJ0XT/rEXJ/DKthkjafbK+C1NzXzm1gMXdOH2X4KxHlQdyiUpkTDgdGRedsP4IWycuw4IIwL
+ 4hgXRDAuiGD83+w8YDWC90kNVSgnKYEmaeF9m0Hg3cegNlDjfB7XBRhc0AUgl0mE86qXnZaE
+ 8mTSkm9JrVqiLVaSVBcQ+g74BDNiaZ7a93FURRKBcHViYiJKEoiEAgHB581+pJOE4nJpEVlA
+ khpS+07H4AZF7GMkzvbXZ9uzDX296z7xOLFnjpAe5ZvolumqAffU0Fy2fqT5bmrGZtv6TZst
+ ux0dbz3DP6muK08dd6XpqP2m8pwMvVN4Pv3fY7dq5rI8ubtE5gfrVzoMX5BjY5HbZ/iURa59
+ HTdrAovedq7r7/E8OhnXccpl8E6m75F9pX/qrVIsurf7e5Ooh0rW38hcw3lpiHSGYU32ZR+q
+ tkUG71Xk6MjI0dyykJKch7Li3FaUUS+37uhQH9UvnqlLizU7GfyHhu7JSxO1dSVLNoqzbn76
+ 9ctXn4/uEI1ZdPXjU2Vw8JY8hC/Kar742rbnN+uV8YabMYq1Yzv/tJ9d/mJvOu928nI+waIU
+ UkEMU0tJ/wOPD6awgAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRmVeSWpSXmKPExsWy7bCSnO5sm2nxBh8XC1q8+/SU1WL+kXOs
+ Fqs/Pma0uPL1PZvF9L2b2CxaZi1isTh/fgO7xdana5gszja9Ybe4vGsOm8Xn3iOMFp1fZrFZ
+ XDzlanG7cQWbxaS1Uxktzj7ztmjde4Td4t+1jSwWP3fNY7HY/OAYm4OIx/sbreweO2fdZfe4
+ dO4Ps8emVZ1sHneu7WHzuN99nMmjt/kdm0ffllWMHp83yQVwRnHZpKTmZJalFunbJXBl9Oy+
+ wFawjavi3Ox5zA2Mxzm6GDk5JARMJNbP38HaxcjFISSwg1Hi08Sp7BAJSYlpF48ydzFyANnC
+ EocPF0PUvGWUuDfzDitIjbBAsMSeVZuZQRIiAndZJCb9uMUG4jALzGCU+LNhIztEyxZGidZZ
+ 29hAWtgEtCT2v7gBZvMLKEpc/fGYEcTmFbCTmLR/A9hYFgFViUnNy1hAbFGBMImdSx4zQdQI
+ Spyc+QQszilgJvG5/xBYL7OAusSfeZeYIWxxiVtP5jNB2PIS29/OYZ7AKDwLSfssJC2zkLTM
+ QtKygJFlFaNkakFxbnpusWGBUV5quV5xYm5xaV66XnJ+7iZGcORrae1g3LPqg94hRiYOxkOM
+ EhzMSiK8c2SmxgvxpiRWVqUW5ccXleakFh9ilOZgURLn/TprYZyQQHpiSWp2ampBahFMlomD
+ U6qBqfAr08dfM9+vSv8SZn8lav9m1SMR3ncqXTdGCr2Y7/HoYYhpjUYW46ypwc2cB0ov8R3c
+ GxVTJuDyWremXlMn6sYiLSc559e/Imq/u3tkRDhN73902n1L6tWUhXIOcpY7dz2W3maVJPi/
+ uWvKm4OCsxMbNvoZPGl/2/C9/N7ykpf/VK45vJ0clJ8udZqhjsmmK5xFQVL14Ofz88z1I7mP
+ 9vMvmZV1t/c+a/FEjok+AW1z/veZGT5+XzXT7e7swuvdOTkPbna1h9TMO9e7aUrvFON3278F
+ vhOt1Z1QFbau7mL8n8uVaU5FhcXyYlr9lYa9ZhrWp9S+MUd+vLm8X8D/0ORlD1QyNopezE2W
+ WVGrxFKckWioxVxUnAgA7YsTrGsDAAA=
+X-CMS-MailID: 20201026030355epcas1p19fc746c6b362de310863b725c7a1583b
 X-Msg-Generator: CA
 X-Sendblock-Type: SVC_REQ_APPROVE
 CMS-TYPE: 101P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20201025221928epcas1p48d77b56eaf6f05a8a5bf60dd468fdd41
+X-CMS-RootMailID: 20201025222140epcas1p28ff3c4dc35d4b524185fe46c98617d8d
 References: <20201025221735.3062-1-digetx@gmail.com>
- <CGME20201025221928epcas1p48d77b56eaf6f05a8a5bf60dd468fdd41@epcas1p4.samsung.com>
- <20201025221735.3062-48-digetx@gmail.com>
+ <CGME20201025222140epcas1p28ff3c4dc35d4b524185fe46c98617d8d@epcas1p2.samsung.com>
+ <20201025221735.3062-51-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,28 +146,27 @@ On 10/26/20 7:17 AM, Dmitry Osipenko wrote:
 > Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/devfreq/tegra20-devfreq.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
+>  drivers/devfreq/tegra30-devfreq.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/devfreq/tegra20-devfreq.c b/drivers/devfreq/tegra20-devfreq.c
-> index ff82bac9ee4e..fd801534771d 100644
-> --- a/drivers/devfreq/tegra20-devfreq.c
-> +++ b/drivers/devfreq/tegra20-devfreq.c
-> @@ -141,11 +141,9 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+> index f5e74c2ede85..3f732ab53573 100644
+> --- a/drivers/devfreq/tegra30-devfreq.c
+> +++ b/drivers/devfreq/tegra30-devfreq.c
+> @@ -801,10 +801,9 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  	}
 >  
->  	/* EMC is a system-critical clock that is always enabled */
 >  	tegra->emc_clock = devm_clk_get(&pdev->dev, "emc");
 > -	if (IS_ERR(tegra->emc_clock)) {
-> -		err = PTR_ERR(tegra->emc_clock);
-> -		dev_err(&pdev->dev, "failed to get emc clock: %d\n", err);
-> -		return err;
+> -		dev_err(&pdev->dev, "Failed to get emc clock\n");
+> -		return PTR_ERR(tegra->emc_clock);
 > -	}
 > +	if (IS_ERR(tegra->emc_clock))
 > +		return dev_err_probe(&pdev->dev, PTR_ERR(tegra->emc_clock),
-> +				     "failed to get emc clock\n");
+> +				     "Failed to get emc clock\n");
 >  
->  	tegra->regs = mc->regs;
->  
+>  	err = platform_get_irq(pdev, 0);
+>  	if (err < 0)
 > 
 
 Applied it. Thanks.
@@ -176,7 +175,6 @@ Applied it. Thanks.
 Best Regards,
 Chanwoo Choi
 Samsung Electronics
- 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
