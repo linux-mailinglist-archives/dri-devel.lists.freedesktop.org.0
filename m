@@ -1,70 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C822994C0
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:02:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0063E2994B6
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Oct 2020 19:01:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6664B6EA58;
-	Mon, 26 Oct 2020 18:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C891589F5B;
+	Mon, 26 Oct 2020 18:01:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5C726E9FC
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 10:23:54 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 1464F882;
- Mon, 26 Oct 2020 06:23:54 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 26 Oct 2020 06:23:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=jc6i7Hc8w3myh56ikM0OiwRh+JM
- PRpvORY5WoqXgr78=; b=LZyueJ3DSYyiVR1GRFVcIS+SXDcYl4Rkbzpaa5jxqAw
- /Z84FilFPDAiJV10LFuUORv8rvIzyQU/Of8Kc1i4WRWbV7gYI6KuLtjMi7rtFUSr
- RAfrgX93AgYVgUSXTdD3agnfKx9/+JE7JCpTB6jSgBBuSscyP03zHx58FTjqRtKH
- guQONG3NStL315XYRXfp/diTgq7DswxdapPeBXTT9LxSeMltah7nHfoS6SIb1u/R
- EmkcBd1J6X1dNjo5yZhEBKSP1WF4BVOvSmzzDGVVFcyJGIs9lmQrYJd7SQRjNDPM
- 3n6yOqmUH+MzuhJwYNx7XsPUFMNx8CKRhecIpqk6DKw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jc6i7H
- c8w3myh56ikM0OiwRh+JMPRpvORY5WoqXgr78=; b=eLfMoa7qh8ojvsC6dFwsS9
- tc7BicTJnn3TMgEyh6A2hIs3Zc7xE+h00PejrpVvB2VRHZEqKaDkXy1cpUEcz593
- 7g/PbI3jY/IatwRlxqTNDHi+Q273EnA4CQ9fF5s8y5FkCC7Z3JjQGDo+WvAKaTwt
- yQItavrGzSVSo5VgffoBqoVjMx4Mex239zBhNV6Og9yK0JfXsEC8O0yUBD+Yc4kP
- QcTnO/XujJfqc2tULntawvizllxFSsQCO089jZCn6U9zmCf/Ueia5pDKeGCP/CSV
- AXRp2SlBdlq3Ek4gPmINMownmJ2EEgJhuWrYNljqgTtZ61YwOUd7bhJYwdPVF8aA
- ==
-X-ME-Sender: <xms:uKOWX9sjjsR41ZYWiNluL1-hYos7mqyMDTy0uioIL00HZR-aviiftw>
- <xme:uKOWX2cilqS2dy8NeA4zXmVy6TyUr1wLRDyt5bSFQ8rf1CQ9ZQVubnDTpnZwPMTmd
- L0MN2o5cb2TBb72vHI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeeigdduhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:uKOWXwyIKfcLsgZngEA7d96oEKO5MMKDva0B15Kd4Up4WpjhCydLIQ>
- <xmx:uKOWX0Mh3aQGQRDE-ryFbh3RQKvczjgb_q706vTDL5-Hdvs7NvO4hg>
- <xmx:uKOWX98fEd7dmdobpFFCFLPeJFgBo5pRPyCLCUuRHD9nq3I7JPJG6w>
- <xmx:uaOWX4bRnIE8TjRPBOWI7r9m4wrSkMaMjXZCBdt4RM8mopi6tGeP4A>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 988B13064680;
- Mon, 26 Oct 2020 06:23:52 -0400 (EDT)
-Date: Mon, 26 Oct 2020 11:23:51 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH resend] drm/v3d: Fix double free in v3d_submit_cl_ioctl()
-Message-ID: <20201026102351.yhiuuklu6q5xba6k@gilmour.lan>
-References: <20191024205306.GA14416@mwanda> <20201026094905.GA1634423@mwanda>
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D155A89A5E
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 11:54:26 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1603713272; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=szGp3b/hhWRxwpJshGTpSP+kxFDoTXvVtB0VW0Yh+A4=;
+ b=luqWrE/vx3I09V0CX1fQSwwNNl8BizOLZKOMGQfJL56K8KbG06ah6AJBeEPShEfaQ/R+UYWG
+ rvepeoh+AwmjFcVhxuHB16Khmf9/toYiddyXwA0zVf9T1nu/BxysdUg45BdeDkgfUiEj+YoR
+ Jo4QS7aCAq4qsiNhMsz5iRPhAJI=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5f96b8e8856acb9b099380c2 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 26 Oct 2020 11:54:16
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1CDECC433FF; Mon, 26 Oct 2020 11:54:16 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from blr-ubuntu-253.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 3FA89C433C9;
+ Mon, 26 Oct 2020 11:54:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3FA89C433C9
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
+ smtp.mailfrom=saiprakash.ranjan@codeaurora.org
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Rob Clark <robdclark@gmail.com>
+Subject: [PATCHv6 0/6] System Cache support for GPU and required SMMU support
+Date: Mon, 26 Oct 2020 17:23:59 +0530
+Message-Id: <cover.1603448364.git.saiprakash.ranjan@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20201026094905.GA1634423@mwanda>
 X-Mailman-Approved-At: Mon, 26 Oct 2020 18:01:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,60 +70,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Eric Anholt <eric@anholt.duckdns.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1199616583=="
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ iommu@lists.linux-foundation.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some hardware variants contain a system cache or the last level
+cache(llc). This cache is typically a large block which is shared
+by multiple clients on the SOC. GPU uses the system cache to cache
+both the GPU data buffers(like textures) as well the SMMU pagetables.
+This helps with improved render performance as well as lower power
+consumption by reducing the bus traffic to the system memory.
 
---===============1199616583==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wqc7vvjf6t3frdq3"
-Content-Disposition: inline
+The system cache architecture allows the cache to be split into slices
+which then be used by multiple SOC clients. This patch series is an
+effort to enable and use two of those slices perallocated for the GPU,
+one for the GPU data buffers and another for the GPU SMMU hardware
+pagetables.
+
+Patch 1 - Patch 4 adds system cache support in SMMU and GPU driver.
+Patch 5 and 6 are minor cleanups for arm-smmu impl.
+
+The series is based on top of https://gitlab.freedesktop.org/drm/msm/-/tree/msm-next-pgtables
+
+Changes in v6:
+ * Move table to arm-smmu-qcom (Robin)
+
+Changes in v5:
+ * Drop cleanup of blank lines since it was intentional (Robin)
+ * Rebase again on top of msm-next-pgtables as it moves pretty fast
+
+Changes in v4:
+ * Drop IOMMU_SYS_CACHE prot flag
+ * Rebase on top of https://gitlab.freedesktop.org/drm/msm/-/tree/msm-next-pgtables
+
+Changes in v3:
+ * Fix domain attribute setting to before iommu_attach_device()
+ * Fix few code style and checkpatch warnings
+ * Rebase on top of Jordan's latest split pagetables and per-instance
+   pagetables support
+
+Changes in v2:
+ * Addressed review comments and rebased on top of Jordan's split
+   pagetables series
+
+Sai Prakash Ranjan (4):
+  iommu/io-pgtable-arm: Add support to use system cache
+  iommu/arm-smmu: Add domain attribute for system cache
+  iommu: arm-smmu-impl: Use table to list QCOM implementations
+  iommu: arm-smmu-impl: Add a space before open parenthesis
+
+Sharat Masetty (2):
+  drm/msm: rearrange the gpu_rmw() function
+  drm/msm/a6xx: Add support for using system cache(LLC)
+
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 83 ++++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h      |  4 ++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 17 +++++
+ drivers/gpu/drm/msm/msm_drv.c              |  8 +++
+ drivers/gpu/drm/msm/msm_drv.h              |  1 +
+ drivers/gpu/drm/msm/msm_gpu.h              |  5 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 11 +--
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 21 ++++--
+ drivers/iommu/arm/arm-smmu/arm-smmu.c      | 17 +++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.h      |  2 +-
+ drivers/iommu/io-pgtable-arm.c             |  7 +-
+ include/linux/io-pgtable.h                 |  4 ++
+ include/linux/iommu.h                      |  1 +
+ 13 files changed, 161 insertions(+), 20 deletions(-)
 
 
---wqc7vvjf6t3frdq3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Oct 26, 2020 at 12:49:05PM +0300, Dan Carpenter wrote:
-> Originally this error path used to leak "bin" but then we accidentally
-> applied two separate commits to fix it and ended up with a double free.
->=20
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
-> Resending a year later because it was confusing at the time who should
-> apply this and it fell through the cracks.  For some reason the kbuild
-> bot flagged it as a new warning so it showed up on my radar again.
-
-Applied, thanks!
-Maxime
-
---wqc7vvjf6t3frdq3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5ajtwAKCRDj7w1vZxhR
-xbsOAP9+wXjpnneXqYX/IW1SAYx+BadjnZcNpZ81x9nrkrL2bAEAvKpyfpvc/yGA
-RYGsUWFVwQTl/qoRUSzoFkNmeBsYrAg=
-=yJd/
------END PGP SIGNATURE-----
-
---wqc7vvjf6t3frdq3--
-
---===============1199616583==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+base-commit: ea95e543fd6201aceff96a0dd95530b2085874c4
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1199616583==--
