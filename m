@@ -1,46 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6F229ABC4
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 13:18:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE2E29ABF4
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 13:21:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C62B6E0EF;
-	Tue, 27 Oct 2020 12:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94B6A6EB68;
+	Tue, 27 Oct 2020 12:21:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA1F6E0EF;
- Tue, 27 Oct 2020 12:18:33 +0000 (UTC)
-IronPort-SDR: VNX5c0kWiLbZHZqWKaJV2Xohbby+9lLawyxBULSgZ/cw8j02s+gffWpnBW/a9IOhpTNVGdxJG2
- Lh+zP12T/j6g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9786"; a="164568695"
-X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; d="scan'208";a="164568695"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 05:18:33 -0700
-IronPort-SDR: YNN8Okkn3bb0sf54zIvhyrHLBCwCgglliIlsUhu6t2luMIOo8k3xyma4TyZDFqgIAHtA1fl1Ub
- nlznqwO5UorA==
-X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; d="scan'208";a="303860138"
-Received: from genxfsim-desktop.iind.intel.com (HELO intel.com)
- ([10.223.74.178])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 05:18:30 -0700
-Date: Tue, 27 Oct 2020 17:34:53 +0530
-From: Anshuman Gupta <anshuman.gupta@intel.com>
-To: "Shankar, Uma" <uma.shankar@intel.com>
-Subject: Re: [PATCH v3 07/16] drm/i915/hdcp: Enable Gen12 HDCP 1.4 DP MST
- support
-Message-ID: <20201027120452.GH29526@intel.com>
-References: <20201023122112.15265-1-anshuman.gupta@intel.com>
- <20201023122112.15265-8-anshuman.gupta@intel.com>
- <bcd909eb40694baba56d58941aa7518a@intel.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2082.outbound.protection.outlook.com [40.107.244.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 004096EB68
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:21:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BLlrvziaIyuU3SspzYokz812M6cAod9QDKRsYTjeVro9M9hRQj7GGw7BPR11x2cN1uLC6DJssjbXuhiQ0L+yR2tZfVSBxjuzoiOJmAjVIMmbFYkt1oiLTIFtFSnyJXFECom9XqjoiFGTi9kLxE/2UfRmSAEzA8h2sCIqTZGe7A5k5OFfikGzDcHKgn7WMqDC1Q5SDou1EsnyzT8X5UPY67SqzkCOfvxJT8qlj9SpuitPsqKc2iQ1Fhpeixn5s2dwl91IfEBmPiwe1foLrgcKuu9EOrnwE507Ep3ExZudvwlyEtcT0IvyGWVybbwAj+fTl9w2/h56WpZDufSwZlZ5Og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z0uywEG7ytgt5hsUFXKH12dLQ6cokqZFnsWdRhpAxSs=;
+ b=flQrEhDqknXkt2sCJuTO1KNW94HMgu43a/2yhpYZzhqPEb67GWtAJTEglRNDTqyVPexm8r9lCnynn1V8CbpmOzRsmRZnuF768h9IuzCtSkgTcI0+r5y+LdA1hqsyIOMkb6coLwu7+D+WBu5d1vfverFBpkJqF1APxaneI4tOcLprgjPG3HyB7RhSCcrEQkKNgAqsIcSRUr+xIHZrgnY943oaPnwDsnK6RAa5WmBCvi9t5CwPj/YyVZF65JKhUM2sBFybGz2vluHsMLG5XhXhTXAsowXsUQm0pqtFQ1+O+pi3LpjMMehXSAfOlQTBN0/GiLHe39Pi1K+ZmuuKV7evuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z0uywEG7ytgt5hsUFXKH12dLQ6cokqZFnsWdRhpAxSs=;
+ b=1BNOWCazcq7ahc70MoqU1trdaxNis6GohUxx3jzCA98xFHWR7SURRJNv5VqHsjjiZ9JzcV0S3t2selQp5r1wwDDrs1J6Bhu6WZmCc0JId52tWvLW6gWqHiRlDgpAuG18kXXKdaD6B25uN/2ofrPdV5tLTaPZnrWGY1SegCZ3zOQ=
+Authentication-Results: baylibre.com; dkim=none (message not signed)
+ header.d=none;baylibre.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4536.namprd12.prod.outlook.com (2603:10b6:208:263::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Tue, 27 Oct
+ 2020 12:21:40 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
+ 12:21:40 +0000
+Subject: Re: [PATCH 8/8] dma-buf: use krealloc_array()
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+ James Morse <james.morse@arm.com>, Robert Richter <rric@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+ David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20201027121725.24660-1-brgl@bgdev.pl>
+ <20201027121725.24660-9-brgl@bgdev.pl>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <0b41d541-30a9-a020-f065-fb55dc766bc1@amd.com>
+Date: Tue, 27 Oct 2020 13:21:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201027121725.24660-9-brgl@bgdev.pl>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR04CA0005.eurprd04.prod.outlook.com
+ (2603:10a6:208:122::18) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bcd909eb40694baba56d58941aa7518a@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR04CA0005.eurprd04.prod.outlook.com (2603:10a6:208:122::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
+ Transport; Tue, 27 Oct 2020 12:21:35 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 4a9ccb29-0bf0-4bbc-8097-08d87a72dbcb
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4536:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB453650BEAA05349A6A4E2BA283160@MN2PR12MB4536.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pqEq0WXz7JKgB6Ql3KJBLH5AYrTjK5M2jtAgZS6kH16rbGMXsVzP+JfXQ7zg8W69imE0I//FAjeKtQnAD2TIhsEiBUwKveQd4GNpiZ8yylbm7Jo9XSV3isikrahqC98Wy9DyBPGDIKgL3GFq47D2+03ouhYdRXwuSlIhrYKdBT3WRcB0uo2g1m3Dsh/3vwIvxUHq9zYmJHagvGRHwmNyGgJshBakvkmsOxNy2PlAFU+1p7FmH+xcizm15aKfdSC9HAQZ8usGklEJFwFGrkeY0RSB8H1Wx7VB0dzabYQej+qYBNkaVsjHHHWi2SRxyczrreMc/2KPgliWfBJi/aLcnDtWVjvpduwqEr3fo5Yb24OTL1jrpkAW0b4VBzxvpnk2v0QlMFTGy+8CD7/dszJWow==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(366004)(39860400002)(346002)(376002)(4744005)(7406005)(5660300002)(83380400001)(66556008)(16526019)(66946007)(52116002)(8936002)(316002)(186003)(66476007)(6486002)(31696002)(110136005)(2616005)(6666004)(7416002)(2906002)(4326008)(478600001)(86362001)(8676002)(36756003)(31686004)(921003)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 97vJT1bWj4JuIqlB3lM08hOS0mbbkIwaaXA6HIMCZNnSevvdudkGUonMw0ndN+QpRlA3y/XWlf7zdiV3f60aiQYfbK7Tuu0gok7qk8Kl4TtW79Z7FeFIk1HsvnAP+Zmo2/deeOl+GNycCCX/ePKCNbThOaY8bQWv/LKUJ794ioHxdrFjF2EE40yqHrqZXlGhsc6t+I4WvCjqt7ly60LO6dFIDRDCYa7+2jDo7JtpulC9ytwm0TfqnuILkPJkGod2Si10tRDxSTD3YbcQorkCNTDRccQAGoCBCGKn0qt24xJIrZLswFNBb8rSvGBTu3oPpieaN9G4b9qp7jZ4E8OSOzTKaxKh0pEA7oHFxtv7HRHDJ8KScCMGjOdazN6IarDcf2jYchVCQYWactUH82DiKZJNQdy7tU3WVEMjf7W9y7hkWJIMOhzOlP/qeN9QpKC4UWJXzzH0z25BhlJCvYeCg55+ik2Wbe2MA0E8w6hkNtvdZKm59W6/JOCPWqC/uYvlUuTKFo4lewjVZfO9egZcJtNyWpX5Cnt8jcUiyeXOCo1Q5mVHaOazxJ+8hqYEABObaNNuMLo9QMuAYlP0Tg/YpLq7PNSaGJ9q9w6r9h+wfBvv7MOvej0d9laooqe/jvbEXyzdahKmpZVzcDACJCTJqp3RCr1ukyHHzTTj+/BYVJc4vZO0ue9kBNsIHg955Dio0EYLPZmb6JNURZI/lHBgJg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a9ccb29-0bf0-4bbc-8097-08d87a72dbcb
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 12:21:40.8550 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oEKxYQK0NHX7xk+/r0yZhJpur2OX1UekLRtALy6oFy5OGVfFhixUWxfCnPfM0nef
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4536
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,165 +113,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>, "Li,
- Juston" <juston.li@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-gpio@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-media@vger.kernel.org,
+ linux-edac@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-27 at 11:59:14 +0530, Shankar, Uma wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Anshuman Gupta <anshuman.gupta@intel.com>
-> > Sent: Friday, October 23, 2020 5:51 PM
-> > To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> > Cc: seanpaul@chromium.org; Nikula, Jani <jani.nikula@intel.com>; C,
-> > Ramalingam <ramalingam.c@intel.com>; Li, Juston <juston.li@intel.com>;
-> > Shankar, Uma <uma.shankar@intel.com>; Gupta, Anshuman
-> > <anshuman.gupta@intel.com>
-> > Subject: [PATCH v3 07/16] drm/i915/hdcp: Enable Gen12 HDCP 1.4 DP MST
-> > support
-> > 
-> > Enable HDCP 1.4 over DP MST for Gen12.
-> > This also enable the stream encryption support for older generations, which was
-> > missing earlier.
-> > 
-> > v2:
-> > - Added debug print for stream encryption.
-> > - Disable the hdcp on port after disabling last stream
-> >   encryption.
-> 
-> Don't see port disable here, Am I missing something.
-> 
-> > 
-> > Cc: Ramalingam C <ramalingam.c@intel.com>
-> > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 10 ++---
-> >  drivers/gpu/drm/i915/display/intel_hdcp.c   | 46 ++++++++++++++-------
-> >  2 files changed, 35 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > index 16865b200062..f00e12fc83e8 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > @@ -826,13 +826,9 @@ static struct drm_connector
-> > *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
-> >  	intel_attach_force_audio_property(connector);
-> >  	intel_attach_broadcast_rgb_property(connector);
-> > 
-> > -
-> > -	/* TODO: Figure out how to make HDCP work on GEN12+ */
-> > -	if (INTEL_GEN(dev_priv) < 12) {
-> > -		ret = intel_dp_init_hdcp(dig_port, intel_connector);
-> > -		if (ret)
-> > -			DRM_DEBUG_KMS("HDCP init failed, skipping.\n");
-> > -	}
-> > +	ret = intel_dp_init_hdcp(dig_port, intel_connector);
-> > +	if (ret)
-> > +		drm_dbg_kms(&dev_priv->drm, "HDCP init failed, skipping.\n");
-> > 
-> >  	/*
-> >  	 * Reuse the prop from the SST connector because we're diff --git
-> > a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > index 61252d4be3dd..46c9bd588db1 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > @@ -612,7 +612,12 @@ int intel_hdcp_auth_downstream(struct intel_connector
-> > *connector)
-> >  	return ret;
-> >  }
-> > 
-> > -/* Implements Part 1 of the HDCP authorization procedure */
-> > +/*
-> > + * Implements Part 1 of the HDCP authorization procedure.
-> > + * Authentication Part 1 steps for Multi-stream DisplayPort.
-> > + * Step 1. Auth Part 1 sequence on the driving MST Trasport Link.
-> > + * Step 2. Enable encryption for each stream that requires encryption.
-> > + */
-> >  static int intel_hdcp_auth(struct intel_connector *connector)  {
-> >  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
-> > @@ -766,10 +771,16 @@ static int intel_hdcp_auth(struct intel_connector
-> > *connector)
-> >  		return -ETIMEDOUT;
-> >  	}
-> > 
-> > -	/*
-> > -	 * XXX: If we have MST-connected devices, we need to enable encryption
-> > -	 * on those as well.
-> > -	 */
-> > +	/* DP MST Auth Part 1 Step 2.a and Step 2.b */
-> > +	if (shim->stream_encryption) {
-> > +		ret = shim->stream_encryption(dig_port, true);
-> > +		if (ret) {
-> > +			drm_err(&dev_priv->drm, "Failed to enable HDCP 1.4
-> > stream enc\n");
-> > +			return ret;
-> > +		}
-> > +		drm_dbg_kms(&dev_priv->drm, "HDCP 1.4 tras %s stream
-> > encrypted\n",
-> > +			    transcoder_name(hdcp->stream_transcoder));
-> > +	}
-> > 
-> >  	if (repeater_present)
-> >  		return intel_hdcp_auth_downstream(connector);
-> > @@ -790,19 +801,26 @@ static int _intel_hdcp_disable(struct intel_connector
-> > *connector)
-> > 
-> >  	drm_dbg_kms(&dev_priv->drm, "[%s:%d] HDCP is being disabled...\n",
-> >  		    connector->base.name, connector->base.base.id);
-> > +	/*
-> > +	 * Step 1: Deselect HDCP Multiplestream Bit.
-> > +	 * Step 2: poll for stream encryption status to be disable.
-> > +	 */
-> 
-> The above comment should be inside the callback, doesn't add value here.
-stream_encryption call back is common for enable/disable stream encryption.
-probbaly it would be better to nuke the above comment in case not adds value here.
-Thanks,
-Anshuman.
-> 
-> > +	if (hdcp->shim->stream_encryption) {
-> > +		ret = hdcp->shim->stream_encryption(dig_port, false);
-> > +		if (ret) {
-> > +			drm_err(&dev_priv->drm, "Failed to disable HDCP 1.4
-> > stream enc\n");
-> > +			return ret;
-> > +		}
-> > +		drm_dbg_kms(&dev_priv->drm, "HDCP 1.4 trans %s stream
-> > encryption disabled\n",
-> > +			    transcoder_name(hdcp->stream_transcoder));
-> > +	}
-> > 
-> >  	/*
-> > -	 * If there are other connectors on this port using HDCP, don't disable
-> > -	 * it. Instead, toggle the HDCP signalling off on that particular
-> > -	 * connector/pipe and exit.
-> > +	 * If there are other connectors on this port using HDCP, don't disable it.
-> > +	 * Repeat steps 1-2 for each stream that no longer requires encryption.
-> >  	 */
-> > -	if (dig_port->num_hdcp_streams > 0) {
-> > -		ret = hdcp->shim->toggle_signalling(dig_port,
-> > -						    cpu_transcoder, false);
-> > -		if (ret)
-> > -			DRM_ERROR("Failed to disable HDCP signalling\n");
-> > +	if (dig_port->num_hdcp_streams > 0)
-> >  		return ret;
-> > -	}
-> > 
-> >  	hdcp->hdcp_encrypted = false;
-> >  	intel_de_write(dev_priv, HDCP_CONF(dev_priv, cpu_transcoder, port), 0);
-> > --
-> > 2.26.2
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMjcuMTAuMjAgdW0gMTM6MTcgc2NocmllYiBCYXJ0b3N6IEdvbGFzemV3c2tpOgo+IEZyb206
+IEJhcnRvc3ogR29sYXN6ZXdza2kgPGJnb2xhc3pld3NraUBiYXlsaWJyZS5jb20+Cj4KPiBVc2Ug
+dGhlIGhlbHBlciB0aGF0IGNoZWNrcyBmb3Igb3ZlcmZsb3dzIGludGVybmFsbHkgaW5zdGVhZCBv
+ZiBtYW51YWxseQo+IGNhbGN1bGF0aW5nIHRoZSBzaXplIG9mIHRoZSBuZXcgYXJyYXkuCj4KPiBT
+aWduZWQtb2ZmLWJ5OiBCYXJ0b3N6IEdvbGFzemV3c2tpIDxiZ29sYXN6ZXdza2lAYmF5bGlicmUu
+Y29tPgoKQWNrZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
+bT4KCj4gLS0tCj4gICBkcml2ZXJzL2RtYS1idWYvc3luY19maWxlLmMgfCA0ICsrLS0KPiAgIDEg
+ZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9kbWEtYnVmL3N5bmNfZmlsZS5jIGIvZHJpdmVycy9kbWEtYnVmL3N5bmNf
+ZmlsZS5jCj4gaW5kZXggNWE1YTFkYTAxYTAwLi4yOTI1ZWEwM2VlZjAgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9kbWEtYnVmL3N5bmNfZmlsZS5jCj4gKysrIGIvZHJpdmVycy9kbWEtYnVmL3N5bmNf
+ZmlsZS5jCj4gQEAgLTI3MCw4ICsyNzAsOCBAQCBzdGF0aWMgc3RydWN0IHN5bmNfZmlsZSAqc3lu
+Y19maWxlX21lcmdlKGNvbnN0IGNoYXIgKm5hbWUsIHN0cnVjdCBzeW5jX2ZpbGUgKmEsCj4gICAJ
+CWZlbmNlc1tpKytdID0gZG1hX2ZlbmNlX2dldChhX2ZlbmNlc1swXSk7Cj4gICAKPiAgIAlpZiAo
+bnVtX2ZlbmNlcyA+IGkpIHsKPiAtCQluZmVuY2VzID0ga3JlYWxsb2MoZmVuY2VzLCBpICogc2l6
+ZW9mKCpmZW5jZXMpLAo+IC0JCQkJICBHRlBfS0VSTkVMKTsKPiArCQluZmVuY2VzID0ga3JlYWxs
+b2NfYXJyYXkoZmVuY2VzLCBpLAo+ICsJCQkJCSBzaXplb2YoKmZlbmNlcyksIEdGUF9LRVJORUwp
+Owo+ICAgCQlpZiAoIW5mZW5jZXMpCj4gICAJCQlnb3RvIGVycjsKPiAgIAoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
