@@ -2,52 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727B829CEC7
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F23D29CEAF
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCE36EC92;
-	Wed, 28 Oct 2020 08:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 347646EC56;
+	Wed, 28 Oct 2020 08:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
- [IPv6:2607:f8b0:4864:20::a43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C83CC6EB6E
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:18:37 +0000 (UTC)
-Received: by mail-vk1-xa43.google.com with SMTP id n141so298792vke.9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 05:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3jyDQ9HYmLe4tO1fin5xOrARrhAlqUCR+rLAB0OtwC8=;
- b=O2E045nZSWrDpgz0+IGARkSYIQCCOa611Xz9JYpbINKhGifsf21Oa23WZOXfipyyye
- 8/HU0nSR0tFlQFTbkcQkr171zPLdIVuCDT1NduBZlQSTZKgs4tQOyhplGOSPE6zYi0Dt
- Eq4Zn6FmHMgaqvtnmkIXSKXoAXgy1gm/hQGKJRJdHoPjWlg7smihiJEeeAaSeFgF/zpw
- VNhfDkNzFgjFmcPYHWKMPEor7Cjy1C94KNDzvA/lzGzeVoNfUBE6EoO39nulP0dvlEtr
- d1FSCpBJb/YlTXHoQWMuZaui5fbhQT9Vz0qGj5QYVTwrQm45QGTd5OMugnwIXtnCjaPG
- XxPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3jyDQ9HYmLe4tO1fin5xOrARrhAlqUCR+rLAB0OtwC8=;
- b=B66LywOx309y2dgp5mRNAB/nXcRWKAg4eh9cG22oA4ZHPNW+YhCyp/yO3jj6HBZ25X
- GRvd8nBKWQumbXs/dXtZJ5B8P9D6DY+RG11oWjKsTMqtAn2nZuHWOIo+EejEbYdi1Flt
- heYNanpiD6kbXlnMCkLSLAyrdPsYbJDm26/3hlYlsCpd+RTllODNyTWQwOwaqnefNBwk
- NNROGC/pk+ZSrimmCiPrXLHEUT+KKbzG+tlxagC8uQM9qedXw9osufzKgxzSaDMTfobR
- Pvs12nRDytV7TakxEPKZis3gtRF6NC9god1HBSCgbJlQ3uk9BZ99UBChhjbmyrVwjbhu
- 0Pjw==
-X-Gm-Message-State: AOAM533NrLcwxZF/exhMKPlPtVFZFTsfz/4/i3EheXBL6c7ykzRz6BXi
- YjjSiRLKWQILKrKFy4PdQTAa/Uef3RvhKp7/fJ/YxQ==
-X-Google-Smtp-Source: ABdhPJyKKtLTx7wnVGBtnlsqheMWp6qU36VWbzvNVfLncL4DTpwGryiqWWdX4OvYN6XUBmdGWbg+sVmduX7bkWp0dhg=
-X-Received: by 2002:a1f:9682:: with SMTP id y124mr1142873vkd.6.1603801116727; 
- Tue, 27 Oct 2020 05:18:36 -0700 (PDT)
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 356A86E0ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:52:46 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f9818070000>; Tue, 27 Oct 2020 05:52:24 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 27 Oct
+ 2020 12:52:31 +0000
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
+ by HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 27 Oct 2020 12:52:31 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fH6znLiLtAIrPRi0aQYXb4P1ZpPULgtVmpVsPKUBhfxuxEYiJOj/myp9a6Br88eOMCtzcQ6afwRm/5eeqmTfSd22N8tvO+qbuLv1TbN6EstjxcKLxKTdU4Y4Cfx0zFjEmKpUnlRiuYmSouO27LPvdilN2mQFSSHNhaenA33lAlR2DTLhG7ksRIeg8LmxRxc5GB8qUvsBuNbOQH9bUK/8lS1Zv8OsWFSaoW4pRsntwQFvypCSZ1oGZanCF+gfCn0ezI1FnG+p0Va21tOJkpqGt3czc/pNMVAuUeisMJ4Jy2TN3jNzzj7hGbA5eJrdvG2SejW7Uat77MseZB+1COkSXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eVM0n0cEFEDTz3oXadiW4+5zeyt+CYPjh8AT0a0SoDo=;
+ b=Y7du4kXTdlGqTdQxhQzsHzgoRdiaWTMiSwvhDPzTSgoO/pp/zNf+pMdCv9nCvqsz2Niyy04yKuv69uxqMCm3oCygzTt/CIWzYEg00JYIs/UrbrCgegvG6wochh6+1S+CW5GQAJFZ2S/oJizMVRT2NmH5mhxI3TBAWhTv9WcnwE/qRTl1ps/PPeFEuYrFbaPbefgBOc+mAEgmMfgXakmsmJbWyTMYgo9eXap387QT0B0xbVOupGfTvs4aLbKtWG2PBF6ywDhqosQNpBIeKnoqBxWhbZuQy61KqIRaM4CTvOE0322e/g6YiuWoD89LC2ie239mCGBtDvaBqa1jts6pIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BY5PR12MB4322.namprd12.prod.outlook.com (2603:10b6:a03:20a::20)
+ by BYAPR12MB2933.namprd12.prod.outlook.com (2603:10b6:a03:138::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.28; Tue, 27 Oct
+ 2020 12:52:30 +0000
+Received: from BY5PR12MB4322.namprd12.prod.outlook.com
+ ([fe80::3c25:6e4c:d506:6105]) by BY5PR12MB4322.namprd12.prod.outlook.com
+ ([fe80::3c25:6e4c:d506:6105%6]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
+ 12:52:30 +0000
+From: Parav Pandit <parav@nvidia.com>
+To: "hch@lst.de" <hch@lst.de>
+Subject: RE: WARNING in dma_map_page_attrs
+Thread-Topic: WARNING in dma_map_page_attrs
+Thread-Index: AQHWqbLPPEPI9mnwmUSeVEeL/Zim3qmnD9kAgAJKk0CAAcOagIAATcGA
+Date: Tue, 27 Oct 2020 12:52:30 +0000
+Message-ID: <BY5PR12MB43221380BB0259FF0693BB0CDC160@BY5PR12MB4322.namprd12.prod.outlook.com>
+References: <000000000000335adc05b23300f6@google.com>
+ <000000000000a0f8a305b261fe4a@google.com>
+ <20201024111516.59abc9ec@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+ <BY5PR12MB4322CC03CE0D34B83269676ADC190@BY5PR12MB4322.namprd12.prod.outlook.com>
+ <20201027081103.GA22877@lst.de>
+In-Reply-To: <20201027081103.GA22877@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
+x-originating-ip: [49.207.200.190]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6326d4db-810e-41f0-fdce-08d87a772a45
+x-ms-traffictypediagnostic: BYAPR12MB2933:
+x-microsoft-antispam-prvs: <BYAPR12MB29335F7AF6099F9C9EFB4960DC160@BYAPR12MB2933.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1247;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: i65ek6GWej7LGpI07kd+40ng867ItDdKk1syXgBWEtzZNoHwMNwoaItXuiKSdlJzdukL6aBS9mWSLD6FFISaUnHFzeRZBbO1xroQANLcbVUQbwnTsN8C0zdyEfQsgSFjl809sVg6X9QYwPUTQb1H8pHdhV5z2uD7iWG6YWdvBcPeRXYK2JZKb+LB+DRYUmAN5u3376cA1vMTg/Da06U9kjERgkJxaEB18P8ZCsS2A2wieTurwLsV4xu55HW0RAVTry7jBIbNQbLmZqX2ouA9AeHDtxOARhN6lxdYYm/Mwl3ysoJPn+A/hdbbhE03geC+qeCFhEhfut2FtiMGjJx7nw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4322.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(136003)(366004)(376002)(346002)(55016002)(66946007)(9686003)(6916009)(4326008)(478600001)(33656002)(83380400001)(26005)(86362001)(316002)(52536014)(5660300002)(66446008)(66476007)(186003)(55236004)(54906003)(66556008)(8676002)(71200400001)(7116003)(2906002)(64756008)(53546011)(7696005)(7416002)(6506007)(8936002)(76116006);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: v+l9GLGUKDGh3cKbTwJNergT08hkoCIoTB49GIH8c9JrX2tahYFTm3FI/44s6oha0HOojbx4OnIff4+rr3AU3OFJ5xCyvBGx5FGXcmWX5r3u6Js80cL6uVerZRXTaeZ3lxMs7vZ1DTlW74FMXJF17dpT5c4gNvTr9eUEPEJTt4qb7M2tW7VRaLtcDR008Yx2MRf2IABNAST5uWjAW7QUtNpe+y82Gr5IXQYOyJABXoSbcfD8W1kOz/wnqmYQdUnge4L2xMYJtd3njaUwUNIb5/nprWTijc07cj1e2cAH7onpxN3DIGq4KABT0gZU6cKHLCemeRdbNIZlK9zup/WguxBPjCROByyCANIVoRaO97ioXH+Zus0uSCV5xPg84hmAO/z8tlzMYKRrdyayGOUhmW3KSQkh253pdCxWmsAwCNosL5OKEF5k8rcOkdq8asS+DI+hUXXcPEACx2Ji2kd93igOV3Ldm/31MgpdN1xp9LauU94T6Ft2VcC6H4S5436VKgzy8US0MUWsjWkGGtXSZD81hWrEYN+kiQVQZ8lGtkcA2giRmvbTgIK0ZdYTfuHX1mFrLpbhGTeD6eLhwDnYs9+itFpuMjXn2u4sCQh0+LE/6l7KEEeYdSMGHa2YaY6PampoJQpZChWrQh/AaIDC4g==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20201023192258.3126047-1-robh@kernel.org>
-In-Reply-To: <20201023192258.3126047-1-robh@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 27 Oct 2020 13:17:59 +0100
-Message-ID: <CAPDyKFpCBp1G3FsH3F737mrn3Hrt-daW8MsP-RTeuaS9MJUaWg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: More whitespace clean-ups in schema files
-To: Rob Herring <robh@kernel.org>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4322.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6326d4db-810e-41f0-fdce-08d87a772a45
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2020 12:52:30.1045 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yUUrRIBw8/EVGdF5ooDvsd3UZ/Zcs9NLOW9M7OGOX3PpLweKePxirbq7iE6iDVoaQVP/a1NhXbZpIoDR6KhiQQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2933
+X-OriginatorOrg: Nvidia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1603803144; bh=eVM0n0cEFEDTz3oXadiW4+5zeyt+CYPjh8AT0a0SoDo=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:From:To:
+ CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:References:
+ In-Reply-To:Accept-Language:Content-Language:X-MS-Has-Attach:
+ X-MS-TNEF-Correlator:authentication-results:x-originating-ip:
+ x-ms-publictraffictype:x-ms-office365-filtering-correlation-id:
+ x-ms-traffictypediagnostic:x-microsoft-antispam-prvs:
+ x-ms-oob-tlc-oobclassifiers:x-ms-exchange-senderadcheck:
+ x-microsoft-antispam:x-microsoft-antispam-message-info:
+ x-forefront-antispam-report:x-ms-exchange-antispam-messagedata:
+ x-ms-exchange-transport-forked:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:
+ X-MS-Exchange-CrossTenant-AuthAs:
+ X-MS-Exchange-CrossTenant-AuthSource:
+ X-MS-Exchange-CrossTenant-Network-Message-Id:
+ X-MS-Exchange-CrossTenant-originalarrivaltime:
+ X-MS-Exchange-CrossTenant-fromentityheader:
+ X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+ X-MS-Exchange-CrossTenant-userprincipalname:
+ X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+ b=AlFfJHwlIhESIno9ZWxWX/lcM1ERiNjggMifDpg8xnLpLnruKppRCRuq846vUFHBs
+ ra5bwNNaUWNpD9m9G0OyLXkZpXoyk8/88hLPqVeWl4ZP7w2KrqRHPL+jryYuclsuON
+ XmuS69g4dTOqK7W33sIKEIpoqK8Yst0WVUTmMRIAjswVCgswfLLXivkVy1KqadJkCM
+ 4HkcgJASUAkl23sfT43C/r+u9e7BDb9Danj79aKFROpCaBopGDczWDvu4EKFB8fbhz
+ lS5XnnZYNFJo0MnYGjj0+MvbH6AmOjnq4x8XptCIKjwt3tOyW4RV8gtTN4gDQMaFc2
+ pJjFFzFK+vClg==
 X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,974 +126,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, alsa-devel@alsa-project.org,
- Linux PM <linux-pm@vger.kernel.org>, linux-iio@vger.kernel.org,
- Linux USB List <linux-usb@vger.kernel.org>,
- "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-serial@vger.kernel.org, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: "linaro-mm-sig-owner@lists.linaro.org"
+ <linaro-mm-sig-owner@lists.linaro.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Oct 2020 at 21:23, Rob Herring <robh@kernel.org> wrote:
->
-> Clean-up incorrect indentation, extra spaces, and missing EOF newline in
-> schema files. Most of the clean-ups are for list indentation which
-> should always be 2 spaces more than the preceding keyword.
->
-> Found with yamllint (now integrated into the checks).
->
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-i2c@vger.kernel.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-mmc@vger.kernel.org
-> Cc: linux-mtd@lists.infradead.org
-> Cc: linux-serial@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+> From: hch@lst.de <hch@lst.de>
+> Sent: Tuesday, October 27, 2020 1:41 PM
+> 
+> On Mon, Oct 26, 2020 at 05:23:48AM +0000, Parav Pandit wrote:
+> > Hi Christoph,
+> >
+> > > From: Jakub Kicinski <kuba@kernel.org>
+> > > Sent: Saturday, October 24, 2020 11:45 PM
+> > >
+> > > CC: rdma, looks like rdma from the stack trace
+> > >
+> > > On Fri, 23 Oct 2020 20:07:17 -0700 syzbot wrote:
+> > > > syzbot has found a reproducer for the following issue on:
+> > > >
+> > > > HEAD commit:    3cb12d27 Merge tag 'net-5.10-rc1' of
+> git://git.kernel.org/..
+> >
+> > In [1] you mentioned that dma_mask should not be set for dma_virt_ops.
+> > So patch [2] removed it.
+> >
+> > But check to validate the dma mask for all dma_ops was added in [3].
+> >
+> > What is the right way? Did I misunderstood your comment about
+> dma_mask in [1]?
+> 
+> No, I did not say we don't need the mask.  I said copying over the various
+> dma-related fields from the parent is bogus.
+> 
+> I think rxe (and ther other drivers/infiniband/sw drivers) need a simple
+> dma_coerce_mask_and_coherent and nothing else.
 
-> ---
->  .../display/bridge/toshiba,tc358775.yaml      |  18 ++--
->  .../display/panel/ilitek,ili9881c.yaml        |   5 +-
->  .../devicetree/bindings/eeprom/at25.yaml      |   6 +-
->  .../bindings/gpio/kontron,sl28cpld-gpio.yaml  |   4 +-
->  .../devicetree/bindings/i2c/ingenic,i2c.yaml  |   8 +-
->  .../bindings/iio/adc/adi,ad7291.yaml          |   3 +-
->  .../bindings/iio/adc/adi,ad7768-1.yaml        |   3 +-
->  .../bindings/iio/adc/cosmic,10001-adc.yaml    |   4 +-
->  .../bindings/iio/adc/holt,hi8435.yaml         |   2 +-
->  .../interrupt-controller/ti,pruss-intc.yaml   |  12 +--
->  .../devicetree/bindings/mfd/ene-kb3930.yaml   |   2 +-
->  .../devicetree/bindings/mmc/arasan,sdhci.yaml |   8 +-
->  .../devicetree/bindings/mmc/sdhci-am654.yaml  |  15 ++-
->  .../pci/socionext,uniphier-pcie-ep.yaml       |  18 ++--
->  .../phy/socionext,uniphier-ahci-phy.yaml      |   6 +-
->  .../devicetree/bindings/phy/ti,omap-usb2.yaml |  20 ++--
->  .../pinctrl/actions,s500-pinctrl.yaml         | 102 +++++++++---------
->  .../bindings/pinctrl/pinctrl-mt8192.yaml      |   2 +-
->  .../pinctrl/qcom,msm8226-pinctrl.yaml         |   6 +-
->  .../pinctrl/toshiba,visconti-pinctrl.yaml     |  24 ++---
->  .../bindings/power/reset/reboot-mode.yaml     |   6 +-
->  .../power/supply/ingenic,battery.yaml         |   8 +-
->  .../power/supply/summit,smb347-charger.yaml   |  16 +--
->  .../bindings/riscv/sifive-l2-cache.yaml       |   4 +-
->  .../devicetree/bindings/rng/imx-rng.yaml      |   6 +-
->  .../bindings/serial/fsl-imx-uart.yaml         |  34 +++---
->  .../bindings/sound/mchp,spdifrx.yaml          |   4 +-
->  .../bindings/sound/mchp,spdiftx.yaml          |   4 +-
->  .../bindings/sound/qcom,lpass-cpu.yaml        |  40 +++----
->  .../devicetree/bindings/timer/arm,sp804.yaml  |  12 +--
->  .../devicetree/bindings/usb/cdns,usb3.yaml    |   4 +-
->  .../devicetree/bindings/usb/ti,hd3ss3220.yaml |   2 +-
->  .../devicetree/bindings/w1/fsl-imx-owire.yaml |   8 +-
->  33 files changed, 210 insertions(+), 206 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> index 31f085d8ab13..526bbd63924b 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: Toshiba TC358775 DSI to LVDS bridge bindings
->
->  maintainers:
-> - - Vinay Simha BN <simhavcs@gmail.com>
-> +  - Vinay Simha BN <simhavcs@gmail.com>
->
->  description: |
->   This binding supports DSI to LVDS bridge TC358775
-> @@ -29,7 +29,7 @@ properties:
->
->    vdd-supply:
->      maxItems: 1
-> -    description:  1.2V LVDS Power Supply
-> +    description: 1.2V LVDS Power Supply
->
->    vddio-supply:
->      maxItems: 1
-> @@ -77,13 +77,13 @@ properties:
->        - port@1
->
->  required:
-> - - compatible
-> - - reg
-> - - vdd-supply
-> - - vddio-supply
-> - - stby-gpios
-> - - reset-gpios
-> - - ports
-> +  - compatible
-> +  - reg
-> +  - vdd-supply
-> +  - vddio-supply
-> +  - stby-gpios
-> +  - reset-gpios
-> +  - ports
->
->  examples:
->   - |
-> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> index c60b3bd74337..b2fcec4f22fd 100644
-> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> @@ -13,9 +13,8 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - bananapi,lhr050h41
-> -        - feixin,k101-im2byl02
-> -
-> +          - bananapi,lhr050h41
-> +          - feixin,k101-im2byl02
->        - const: ilitek,ili9881c
->
->    backlight: true
-> diff --git a/Documentation/devicetree/bindings/eeprom/at25.yaml b/Documentation/devicetree/bindings/eeprom/at25.yaml
-> index 9810619a2b5c..744973637678 100644
-> --- a/Documentation/devicetree/bindings/eeprom/at25.yaml
-> +++ b/Documentation/devicetree/bindings/eeprom/at25.yaml
-> @@ -81,14 +81,14 @@ properties:
->    at25,byte-len:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description:
-> -       Total eeprom size in bytes. Deprecated, use "size" property instead.
-> +      Total eeprom size in bytes. Deprecated, use "size" property instead.
->      deprecated: true
->
->    at25,addr-mode:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description:
-> -       Addr-mode flags, as defined in include/linux/spi/eeprom.h.
-> -       Deprecated, use "address-width" property instead.
-> +      Addr-mode flags, as defined in include/linux/spi/eeprom.h.
-> +      Deprecated, use "address-width" property instead.
->      deprecated: true
->
->    at25,page-size:
-> diff --git a/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml b/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
-> index e2d2c10e536a..b032471831e7 100644
-> --- a/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
-> @@ -43,8 +43,8 @@ properties:
->    gpio-controller: true
->
->    gpio-line-names:
-> -      minItems: 1
-> -      maxItems: 8
-> +    minItems: 1
-> +    maxItems: 8
->
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/i2c/ingenic,i2c.yaml b/Documentation/devicetree/bindings/i2c/ingenic,i2c.yaml
-> index 0e7b4b8a7e48..e1e65eb4f795 100644
-> --- a/Documentation/devicetree/bindings/i2c/ingenic,i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/ingenic,i2c.yaml
-> @@ -19,11 +19,11 @@ properties:
->    compatible:
->      oneOf:
->        - enum:
-> -        - ingenic,jz4770-i2c
-> -        - ingenic,x1000-i2c
-> +          - ingenic,jz4770-i2c
-> +          - ingenic,x1000-i2c
->        - items:
-> -        - const: ingenic,jz4780-i2c
-> -        - const: ingenic,jz4770-i2c
-> +          - const: ingenic,jz4780-i2c
-> +          - const: ingenic,jz4770-i2c
->
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7291.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7291.yaml
-> index 6feafb7e531e..930f9e3904d7 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7291.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7291.yaml
-> @@ -43,4 +43,5 @@ examples:
->          vref-supply = <&adc_vref>;
->        };
->      };
-> -...
-> \ No newline at end of file
-> +...
-> +
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.yaml
-> index d3733ad8785a..8f32800fe5b7 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7768-1.yaml
-> @@ -46,7 +46,8 @@ properties:
->    spi-max-frequency: true
->
->    spi-cpol: true
-> -  spi-cpha : true
-> +
-> +  spi-cpha: true
->
->    "#io-channel-cells":
->      const: 1
-> diff --git a/Documentation/devicetree/bindings/iio/adc/cosmic,10001-adc.yaml b/Documentation/devicetree/bindings/iio/adc/cosmic,10001-adc.yaml
-> index 5d92b477e23f..4e695b97d015 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/cosmic,10001-adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/cosmic,10001-adc.yaml
-> @@ -22,8 +22,8 @@ properties:
->    adc-reserved-channels:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description:
-> -       Bitmask of reserved channels, i.e. channels that cannot be
-> -       used by the OS.
-> +      Bitmask of reserved channels, i.e. channels that cannot be
-> +      used by the OS.
->
->    clocks:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/iio/adc/holt,hi8435.yaml b/Documentation/devicetree/bindings/iio/adc/holt,hi8435.yaml
-> index 9514c3381c42..52490cbb0af0 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/holt,hi8435.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/holt,hi8435.yaml
-> @@ -21,7 +21,7 @@ properties:
->
->    gpios:
->      description:
-> -       GPIO used for controlling the reset pin
-> +      GPIO used for controlling the reset pin
->      maxItems: 1
->
->    spi-max-frequency: true
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/ti,pruss-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/ti,pruss-intc.yaml
-> index bbf79d125675..1c4c009dedd0 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/ti,pruss-intc.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/ti,pruss-intc.yaml
-> @@ -94,12 +94,12 @@ properties:
->                instances.
->
->  required:
-> - - compatible
-> - - reg
-> - - interrupts
-> - - interrupt-names
-> - - interrupt-controller
-> - - "#interrupt-cells"
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - interrupt-controller
-> +  - "#interrupt-cells"
->
->  additionalProperties: false
->
-> diff --git a/Documentation/devicetree/bindings/mfd/ene-kb3930.yaml b/Documentation/devicetree/bindings/mfd/ene-kb3930.yaml
-> index 074243c40891..08af356f5d27 100644
-> --- a/Documentation/devicetree/bindings/mfd/ene-kb3930.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/ene-kb3930.yaml
-> @@ -17,7 +17,7 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - dell,wyse-ariel-ec  # Dell Wyse Ariel board (3020)
-> +          - dell,wyse-ariel-ec  # Dell Wyse Ariel board (3020)
->        - const: ene,kb3930
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml b/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml
-> index 58fe9d02a781..0753289fba84 100644
-> --- a/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/arasan,sdhci.yaml
-> @@ -32,11 +32,11 @@ allOf:
->          clock-output-names:
->            oneOf:
->              - items:
-> -              - const: clk_out_sd0
-> -              - const: clk_in_sd0
-> +                - const: clk_out_sd0
-> +                - const: clk_in_sd0
->              - items:
-> -              - const: clk_out_sd1
-> -              - const: clk_in_sd1
-> +                - const: clk_out_sd1
-> +                - const: clk_in_sd1
->
->  properties:
->    compatible:
-> diff --git a/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml b/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
-> index ac79f3adf20b..2cd859066462 100644
-> --- a/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
-> @@ -3,7 +3,7 @@
->  %YAML 1.2
->  ---
->  $id: "http://devicetree.org/schemas/mmc/sdhci-am654.yaml#"
-> -$schema : "http://devicetree.org/meta-schemas/core.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
->
->  title: TI AM654 MMC Controller
->
-> @@ -163,13 +163,12 @@ properties:
->    ti,driver-strength-ohm:
->      description: DLL drive strength in ohms
->      $ref: "/schemas/types.yaml#/definitions/uint32"
-> -    oneOf:
-> -      - enum:
-> -        - 33
-> -        - 40
-> -        - 50
-> -        - 66
-> -        - 100
-> +    enum:
-> +      - 33
-> +      - 40
-> +      - 50
-> +      - 66
-> +      - 100
->
->    ti,strobe-sel:
->      description: strobe select delay for HS400 speed mode.
-> diff --git a/Documentation/devicetree/bindings/pci/socionext,uniphier-pcie-ep.yaml b/Documentation/devicetree/bindings/pci/socionext,uniphier-pcie-ep.yaml
-> index f4292d2c54e3..d6cf8a560ef0 100644
-> --- a/Documentation/devicetree/bindings/pci/socionext,uniphier-pcie-ep.yaml
-> +++ b/Documentation/devicetree/bindings/pci/socionext,uniphier-pcie-ep.yaml
-> @@ -29,16 +29,16 @@ properties:
->    reg-names:
->      oneOf:
->        - items:
-> -        - const: dbi
-> -        - const: dbi2
-> -        - const: link
-> -        - const: addr_space
-> +          - const: dbi
-> +          - const: dbi2
-> +          - const: link
-> +          - const: addr_space
->        - items:
-> -        - const: dbi
-> -        - const: dbi2
-> -        - const: link
-> -        - const: addr_space
-> -        - const: atu
-> +          - const: dbi
-> +          - const: dbi2
-> +          - const: link
-> +          - const: addr_space
-> +          - const: atu
->
->    clocks:
->      maxItems: 2
-> diff --git a/Documentation/devicetree/bindings/phy/socionext,uniphier-ahci-phy.yaml b/Documentation/devicetree/bindings/phy/socionext,uniphier-ahci-phy.yaml
-> index bab2ff4d9dc9..34756347a14e 100644
-> --- a/Documentation/devicetree/bindings/phy/socionext,uniphier-ahci-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/socionext,uniphier-ahci-phy.yaml
-> @@ -31,10 +31,10 @@ properties:
->    clock-names:
->      oneOf:
->        - items:          # for PXs2
-> -        - const: link
-> +          - const: link
->        - items:          # for others
-> -        - const: link
-> -        - const: phy
-> +          - const: link
-> +          - const: phy
->
->    resets:
->      maxItems: 2
-> diff --git a/Documentation/devicetree/bindings/phy/ti,omap-usb2.yaml b/Documentation/devicetree/bindings/phy/ti,omap-usb2.yaml
-> index 15207ca9548f..ab77a65c5c55 100644
-> --- a/Documentation/devicetree/bindings/phy/ti,omap-usb2.yaml
-> +++ b/Documentation/devicetree/bindings/phy/ti,omap-usb2.yaml
-> @@ -7,23 +7,23 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: OMAP USB2 PHY
->
->  maintainers:
-> - - Kishon Vijay Abraham I <kishon@ti.com>
-> - - Roger Quadros <rogerq@ti.com>
-> +  - Kishon Vijay Abraham I <kishon@ti.com>
-> +  - Roger Quadros <rogerq@ti.com>
->
->  properties:
->    compatible:
->      oneOf:
->        - items:
-> -        - enum:
-> -          - ti,dra7x-usb2
-> -          - ti,dra7x-usb2-phy2
-> -          - ti,am654-usb2
-> -        - enum:
-> -          - ti,omap-usb2
-> +          - enum:
-> +              - ti,dra7x-usb2
-> +              - ti,dra7x-usb2-phy2
-> +              - ti,am654-usb2
-> +          - enum:
-> +              - ti,omap-usb2
->        - items:
-> -        - const: ti,am437x-usb2
-> +          - const: ti,am437x-usb2
->        - items:
-> -        - const: ti,omap-usb2
-> +          - const: ti,omap-usb2
->
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/pinctrl/actions,s500-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/actions,s500-pinctrl.yaml
-> index 33391d30c00c..ccdd9e3820d7 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/actions,s500-pinctrl.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/actions,s500-pinctrl.yaml
-> @@ -76,22 +76,22 @@ patternProperties:
->              items:
->                oneOf:
->                  - enum: [lcd0_d18_mfp, rmii_crs_dv_mfp, rmii_txd0_mfp,
-> -                    rmii_txd1_mfp, rmii_txen_mfp, rmii_rxen_mfp, rmii_rxd1_mfp,
-> -                    rmii_rxd0_mfp, rmii_ref_clk_mfp, i2s_d0_mfp, i2s_pcm1_mfp,
-> -                    i2s0_pcm0_mfp, i2s1_pcm0_mfp, i2s_d1_mfp, ks_in2_mfp,
-> -                    ks_in1_mfp, ks_in0_mfp, ks_in3_mfp, ks_out0_mfp,
-> -                    ks_out1_mfp, ks_out2_mfp, lvds_o_pn_mfp, dsi_dn0_mfp,
-> -                    dsi_dp2_mfp, lcd0_d17_mfp, dsi_dp3_mfp, dsi_dn3_mfp,
-> -                    dsi_dp0_mfp, lvds_ee_pn_mfp, spi0_i2c_pcm_mfp,
-> -                    spi0_i2s_pcm_mfp, dsi_dnp1_cp_mfp, lvds_e_pn_mfp,
-> -                    dsi_dn2_mfp, uart2_rtsb_mfp, uart2_ctsb_mfp, uart3_rtsb_mfp,
-> -                    uart3_ctsb_mfp, sd0_d0_mfp, sd0_d1_mfp, sd0_d2_d3_mfp,
-> -                    sd1_d0_d3_mfp, sd0_cmd_mfp, sd0_clk_mfp, sd1_cmd_mfp,
-> -                    uart0_rx_mfp, clko_25m_mfp, csi_cn_cp_mfp, sens0_ckout_mfp,
-> -                    uart0_tx_mfp, i2c0_mfp, csi_dn_dp_mfp, sen0_pclk_mfp,
-> -                    pcm1_in_mfp, pcm1_clk_mfp, pcm1_sync_mfp, pcm1_out_mfp,
-> -                    dnand_data_wr_mfp, dnand_acle_ce0_mfp, nand_ceb2_mfp,
-> -                    nand_ceb3_mfp]
-> +                         rmii_txd1_mfp, rmii_txen_mfp, rmii_rxen_mfp, rmii_rxd1_mfp,
-> +                         rmii_rxd0_mfp, rmii_ref_clk_mfp, i2s_d0_mfp, i2s_pcm1_mfp,
-> +                         i2s0_pcm0_mfp, i2s1_pcm0_mfp, i2s_d1_mfp, ks_in2_mfp,
-> +                         ks_in1_mfp, ks_in0_mfp, ks_in3_mfp, ks_out0_mfp,
-> +                         ks_out1_mfp, ks_out2_mfp, lvds_o_pn_mfp, dsi_dn0_mfp,
-> +                         dsi_dp2_mfp, lcd0_d17_mfp, dsi_dp3_mfp, dsi_dn3_mfp,
-> +                         dsi_dp0_mfp, lvds_ee_pn_mfp, spi0_i2c_pcm_mfp,
-> +                         spi0_i2s_pcm_mfp, dsi_dnp1_cp_mfp, lvds_e_pn_mfp,
-> +                         dsi_dn2_mfp, uart2_rtsb_mfp, uart2_ctsb_mfp, uart3_rtsb_mfp,
-> +                         uart3_ctsb_mfp, sd0_d0_mfp, sd0_d1_mfp, sd0_d2_d3_mfp,
-> +                         sd1_d0_d3_mfp, sd0_cmd_mfp, sd0_clk_mfp, sd1_cmd_mfp,
-> +                         uart0_rx_mfp, clko_25m_mfp, csi_cn_cp_mfp, sens0_ckout_mfp,
-> +                         uart0_tx_mfp, i2c0_mfp, csi_dn_dp_mfp, sen0_pclk_mfp,
-> +                         pcm1_in_mfp, pcm1_clk_mfp, pcm1_sync_mfp, pcm1_out_mfp,
-> +                         dnand_data_wr_mfp, dnand_acle_ce0_mfp, nand_ceb2_mfp,
-> +                         nand_ceb3_mfp]
->              minItems: 1
->              maxItems: 32
->
-> @@ -100,10 +100,10 @@ patternProperties:
->                Specify the alternative function to be configured for the
->                given gpio pin groups.
->              enum: [nor, eth_rmii, eth_smii, spi0, spi1, spi2, spi3, sens0,
-> -              sens1, uart0, uart1, uart2, uart3, uart4, uart5, uart6, i2s0,
-> -              i2s1, pcm1, pcm0, ks, jtag, pwm0, pwm1, pwm2, pwm3, pwm4, pwm5,
-> -              p0, sd0, sd1, sd2, i2c0, i2c1, i2c3, dsi, lvds, usb30, clko_25m,
-> -              mipi_csi, nand, spdif, ts, lcd0]
-> +                   sens1, uart0, uart1, uart2, uart3, uart4, uart5, uart6, i2s0,
-> +                   i2s1, pcm1, pcm0, ks, jtag, pwm0, pwm1, pwm2, pwm3, pwm4, pwm5,
-> +                   p0, sd0, sd1, sd2, i2c0, i2c1, i2c3, dsi, lvds, usb30, clko_25m,
-> +                   mipi_csi, nand, spdif, ts, lcd0]
->
->          required:
->            - groups
-> @@ -126,14 +126,14 @@ patternProperties:
->              items:
->                oneOf:
->                  - enum: [sirq_drv, rmii_txd01_txen_drv, rmii_rxer_drv,
-> -                    rmii_crs_drv, rmii_rxd10_drv, rmii_ref_clk_drv,
-> -                    smi_mdc_mdio_drv, i2s_d0_drv, i2s_bclk0_drv, i2s3_drv,
-> -                    i2s13_drv, pcm1_drv, ks_in_drv, ks_out_drv, lvds_all_drv,
-> -                    lcd_dsi_drv, dsi_drv, sd0_d0_d3_drv, sd1_d0_d3_drv,
-> -                    sd0_cmd_drv, sd0_clk_drv, sd1_cmd_drv, sd1_clk_drv,
-> -                    spi0_all_drv, uart0_rx_drv, uart0_tx_drv, uart2_all_drv,
-> -                    i2c0_all_drv, i2c12_all_drv, sens0_pclk_drv,
-> -                    sens0_ckout_drv, uart3_all_drv]
-> +                         rmii_crs_drv, rmii_rxd10_drv, rmii_ref_clk_drv,
-> +                         smi_mdc_mdio_drv, i2s_d0_drv, i2s_bclk0_drv, i2s3_drv,
-> +                         i2s13_drv, pcm1_drv, ks_in_drv, ks_out_drv, lvds_all_drv,
-> +                         lcd_dsi_drv, dsi_drv, sd0_d0_d3_drv, sd1_d0_d3_drv,
-> +                         sd0_cmd_drv, sd0_clk_drv, sd1_cmd_drv, sd1_clk_drv,
-> +                         spi0_all_drv, uart0_rx_drv, uart0_tx_drv, uart2_all_drv,
-> +                         i2c0_all_drv, i2c12_all_drv, sens0_pclk_drv,
-> +                         sens0_ckout_drv, uart3_all_drv]
->              minItems: 1
->              maxItems: 32
->
-> @@ -144,29 +144,29 @@ patternProperties:
->              items:
->                oneOf:
->                  - enum: [dnand_dqs, dnand_dqsn, eth_txd0, eth_txd1, eth_txen,
-> -                    eth_rxer, eth_crs_dv, eth_rxd1, eth_rxd0, eth_ref_clk,
-> -                    eth_mdc, eth_mdio, sirq0, sirq1, sirq2, i2s_d0, i2s_bclk0,
-> -                    i2s_lrclk0, i2s_mclk0, i2s_d1, i2s_bclk1, i2s_lrclk1,
-> -                    i2s_mclk1, ks_in0, ks_in1, ks_in2, ks_in3, ks_out0, ks_out1,
-> -                    ks_out2, lvds_oep, lvds_oen, lvds_odp, lvds_odn, lvds_ocp,
-> -                    lvds_ocn, lvds_obp, lvds_obn, lvds_oap, lvds_oan, lvds_eep,
-> -                    lvds_een, lvds_edp, lvds_edn, lvds_ecp, lvds_ecn, lvds_ebp,
-> -                    lvds_ebn, lvds_eap, lvds_ean, lcd0_d18, lcd0_d17, dsi_dp3,
-> -                    dsi_dn3, dsi_dp1, dsi_dn1, dsi_cp, dsi_cn, dsi_dp0, dsi_dn0,
-> -                    dsi_dp2, dsi_dn2, sd0_d0, sd0_d1, sd0_d2, sd0_d3, sd1_d0,
-> -                    sd1_d1, sd1_d2, sd1_d3, sd0_cmd, sd0_clk, sd1_cmd, sd1_clk,
-> -                    spi0_sclk, spi0_ss, spi0_miso, spi0_mosi, uart0_rx,
-> -                    uart0_tx, i2c0_sclk, i2c0_sdata, sensor0_pclk,
-> -                    sensor0_ckout, dnand_ale, dnand_cle, dnand_ceb0, dnand_ceb1,
-> -                    dnand_ceb2, dnand_ceb3, uart2_rx, uart2_tx, uart2_rtsb,
-> -                    uart2_ctsb, uart3_rx, uart3_tx, uart3_rtsb, uart3_ctsb,
-> -                    pcm1_in, pcm1_clk, pcm1_sync, pcm1_out, i2c1_sclk,
-> -                    i2c1_sdata, i2c2_sclk, i2c2_sdata, csi_dn0, csi_dp0,
-> -                    csi_dn1, csi_dp1, csi_dn2, csi_dp2, csi_dn3, csi_dp3,
-> -                    csi_cn, csi_cp, dnand_d0, dnand_d1, dnand_d2, dnand_d3,
-> -                    dnand_d4, dnand_d5, dnand_d6, dnand_d7, dnand_rb, dnand_rdb,
-> -                    dnand_rdbn, dnand_wrb, porb, clko_25m, bsel, pkg0, pkg1,
-> -                    pkg2, pkg3]
-> +                         eth_rxer, eth_crs_dv, eth_rxd1, eth_rxd0, eth_ref_clk,
-> +                         eth_mdc, eth_mdio, sirq0, sirq1, sirq2, i2s_d0, i2s_bclk0,
-> +                         i2s_lrclk0, i2s_mclk0, i2s_d1, i2s_bclk1, i2s_lrclk1,
-> +                         i2s_mclk1, ks_in0, ks_in1, ks_in2, ks_in3, ks_out0, ks_out1,
-> +                         ks_out2, lvds_oep, lvds_oen, lvds_odp, lvds_odn, lvds_ocp,
-> +                         lvds_ocn, lvds_obp, lvds_obn, lvds_oap, lvds_oan, lvds_eep,
-> +                         lvds_een, lvds_edp, lvds_edn, lvds_ecp, lvds_ecn, lvds_ebp,
-> +                         lvds_ebn, lvds_eap, lvds_ean, lcd0_d18, lcd0_d17, dsi_dp3,
-> +                         dsi_dn3, dsi_dp1, dsi_dn1, dsi_cp, dsi_cn, dsi_dp0, dsi_dn0,
-> +                         dsi_dp2, dsi_dn2, sd0_d0, sd0_d1, sd0_d2, sd0_d3, sd1_d0,
-> +                         sd1_d1, sd1_d2, sd1_d3, sd0_cmd, sd0_clk, sd1_cmd, sd1_clk,
-> +                         spi0_sclk, spi0_ss, spi0_miso, spi0_mosi, uart0_rx,
-> +                         uart0_tx, i2c0_sclk, i2c0_sdata, sensor0_pclk,
-> +                         sensor0_ckout, dnand_ale, dnand_cle, dnand_ceb0, dnand_ceb1,
-> +                         dnand_ceb2, dnand_ceb3, uart2_rx, uart2_tx, uart2_rtsb,
-> +                         uart2_ctsb, uart3_rx, uart3_tx, uart3_rtsb, uart3_ctsb,
-> +                         pcm1_in, pcm1_clk, pcm1_sync, pcm1_out, i2c1_sclk,
-> +                         i2c1_sdata, i2c2_sclk, i2c2_sdata, csi_dn0, csi_dp0,
-> +                         csi_dn1, csi_dp1, csi_dn2, csi_dp2, csi_dn3, csi_dp3,
-> +                         csi_cn, csi_cp, dnand_d0, dnand_d1, dnand_d2, dnand_d3,
-> +                         dnand_d4, dnand_d5, dnand_d6, dnand_d7, dnand_rb, dnand_rdb,
-> +                         dnand_rdbn, dnand_wrb, porb, clko_25m, bsel, pkg0, pkg1,
-> +                         pkg2, pkg3]
->              minItems: 1
->              maxItems: 64
->
-> diff --git a/Documentation/devicetree/bindings/pinctrl/pinctrl-mt8192.yaml b/Documentation/devicetree/bindings/pinctrl/pinctrl-mt8192.yaml
-> index 5556def6b99b..c4c071211611 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/pinctrl-mt8192.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/pinctrl-mt8192.yaml
-> @@ -106,7 +106,7 @@ patternProperties:
->      required:
->        - pinmux
->
-> -    additionalProperties:  false
-> +    additionalProperties: false
->
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/pinctrl/qcom,msm8226-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/qcom,msm8226-pinctrl.yaml
-> index 1f0f5757f9e1..040d2ada3669 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/qcom,msm8226-pinctrl.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/qcom,msm8226-pinctrl.yaml
-> @@ -71,9 +71,9 @@ patternProperties:
->            Specify the alternative function to be configured for the specified
->            pins. Functions are only valid for gpio pins.
->          enum: [ gpio, cci_i2c0, blsp_uim1, blsp_uim2, blsp_uim3, blsp_uim5,
-> -          blsp_i2c1, blsp_i2c2, blsp_i2c3, blsp_i2c5, blsp_spi1,
-> -          blsp_spi2, blsp_spi3, blsp_spi5, blsp_uart1, blsp_uart2,
-> -          blsp_uart3, blsp_uart5, cam_mclk0, cam_mclk1, wlan ]
-> +                blsp_i2c1, blsp_i2c2, blsp_i2c3, blsp_i2c5, blsp_spi1,
-> +                blsp_spi2, blsp_spi3, blsp_spi5, blsp_uart1, blsp_uart2,
-> +                blsp_uart3, blsp_uart5, cam_mclk0, cam_mclk1, wlan ]
->
->        drive-strength:
->          enum: [2, 4, 6, 8, 10, 12, 14, 16]
-> diff --git a/Documentation/devicetree/bindings/pinctrl/toshiba,visconti-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/toshiba,visconti-pinctrl.yaml
-> index d0d1a01140ea..9f1dab0c2430 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/toshiba,visconti-pinctrl.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/toshiba,visconti-pinctrl.yaml
-> @@ -40,24 +40,24 @@ patternProperties:
->            Function to mux.
->          $ref: "/schemas/types.yaml#/definitions/string"
->          enum: [i2c0, i2c1, i2c2, i2c3, i2c4, i2c5, i2c6, i2c7, i2c8,
-> -          spi0, spi1, spi2, spi3, spi4, spi5, spi6,
-> -          uart0, uart1, uart2, uart3, pwm, pcmif_out, pcmif_in]
-> +               spi0, spi1, spi2, spi3, spi4, spi5, spi6,
-> +               uart0, uart1, uart2, uart3, pwm, pcmif_out, pcmif_in]
->
->        groups:
->          description:
->            Name of the pin group to use for the functions.
->          $ref: "/schemas/types.yaml#/definitions/string"
->          enum: [i2c0_grp, i2c1_grp, i2c2_grp, i2c3_grp, i2c4_grp,
-> -          i2c5_grp, i2c6_grp, i2c7_grp, i2c8_grp,
-> -          spi0_grp, spi0_cs0_grp, spi0_cs1_grp, spi0_cs2_grp,
-> -          spi1_grp, spi2_grp, spi3_grp, spi4_grp, spi5_grp, spi6_grp,
-> -          uart0_grp, uart1_grp, uart2_grp, uart3_grp,
-> -          pwm0_gpio4_grp, pwm0_gpio8_grp, pwm0_gpio12_grp,
-> -          pwm0_gpio16_grp, pwm1_gpio5_grp, pwm1_gpio9_grp,
-> -          pwm1_gpio13_grp, pwm1_gpio17_grp, pwm2_gpio6_grp,
-> -          pwm2_gpio10_grp, pwm2_gpio14_grp, pwm2_gpio18_grp,
-> -          pwm3_gpio7_grp, pwm3_gpio11_grp, pwm3_gpio15_grp,
-> -          pwm3_gpio19_grp, pcmif_out_grp, pcmif_in_grp]
-> +               i2c5_grp, i2c6_grp, i2c7_grp, i2c8_grp,
-> +               spi0_grp, spi0_cs0_grp, spi0_cs1_grp, spi0_cs2_grp,
-> +               spi1_grp, spi2_grp, spi3_grp, spi4_grp, spi5_grp, spi6_grp,
-> +               uart0_grp, uart1_grp, uart2_grp, uart3_grp,
-> +               pwm0_gpio4_grp, pwm0_gpio8_grp, pwm0_gpio12_grp,
-> +               pwm0_gpio16_grp, pwm1_gpio5_grp, pwm1_gpio9_grp,
-> +               pwm1_gpio13_grp, pwm1_gpio17_grp, pwm2_gpio6_grp,
-> +               pwm2_gpio10_grp, pwm2_gpio14_grp, pwm2_gpio18_grp,
-> +               pwm3_gpio7_grp, pwm3_gpio11_grp, pwm3_gpio15_grp,
-> +               pwm3_gpio19_grp, pcmif_out_grp, pcmif_in_grp]
->
->        drive-strength:
->          enum: [2, 4, 6, 8, 16, 24, 32]
-> diff --git a/Documentation/devicetree/bindings/power/reset/reboot-mode.yaml b/Documentation/devicetree/bindings/power/reset/reboot-mode.yaml
-> index a6c91026d4cc..a2dca38577f7 100644
-> --- a/Documentation/devicetree/bindings/power/reset/reboot-mode.yaml
-> +++ b/Documentation/devicetree/bindings/power/reset/reboot-mode.yaml
-> @@ -28,9 +28,9 @@ description: |
->
->  properties:
->    mode-normal:
-> -      $ref: /schemas/types.yaml#/definitions/uint32
-> -      description: |
-> -        Default value to set on a reboot if no command was provided.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Default value to set on a reboot if no command was provided.
->
->  patternProperties:
->    "^mode-.*$":
-> diff --git a/Documentation/devicetree/bindings/power/supply/ingenic,battery.yaml b/Documentation/devicetree/bindings/power/supply/ingenic,battery.yaml
-> index 867e3e6b7e80..76c227a7cd5c 100644
-> --- a/Documentation/devicetree/bindings/power/supply/ingenic,battery.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/ingenic,battery.yaml
-> @@ -15,10 +15,10 @@ properties:
->      oneOf:
->        - const: ingenic,jz4740-battery
->        - items:
-> -        - enum:
-> -          - ingenic,jz4725b-battery
-> -          - ingenic,jz4770-battery
-> -        - const: ingenic,jz4740-battery
-> +          - enum:
-> +              - ingenic,jz4725b-battery
-> +              - ingenic,jz4770-battery
-> +          - const: ingenic,jz4740-battery
->
->    io-channels:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/power/supply/summit,smb347-charger.yaml b/Documentation/devicetree/bindings/power/supply/summit,smb347-charger.yaml
-> index 193a23af2007..983fc215c1e5 100644
-> --- a/Documentation/devicetree/bindings/power/supply/summit,smb347-charger.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/summit,smb347-charger.yaml
-> @@ -84,12 +84,12 @@ allOf:
->      then:
->        properties:
->          summit,mains-current-limit-microamp:
-> -          enum: [ 300000,  500000,  700000, 1000000,
-> -                 1500000, 1800000, 2000000]
-> +          enum: [ 300000, 500000, 700000, 1000000,
-> +                  1500000, 1800000, 2000000]
->
->          summit,usb-current-limit-microamp:
-> -          enum: [ 300000,  500000,  700000, 1000000,
-> -                 1500000, 1800000, 2000000]
-> +          enum: [ 300000, 500000, 700000, 1000000,
-> +                  1500000, 1800000, 2000000]
->
->          summit,charge-current-compensation-microamp:
->            enum: [200000, 450000, 600000, 900000]
-> @@ -97,12 +97,12 @@ allOf:
->      else:
->        properties:
->          summit,mains-current-limit-microamp:
-> -          enum: [ 300000,  500000,  700000,  900000, 1200000,
-> -                 1500000, 1800000, 2000000, 2200000, 2500000]
-> +          enum: [ 300000, 500000, 700000, 900000, 1200000,
-> +                  1500000, 1800000, 2000000, 2200000, 2500000]
->
->          summit,usb-current-limit-microamp:
-> -          enum: [ 300000,  500000,  700000,  900000, 1200000,
-> -                 1500000, 1800000, 2000000, 2200000, 2500000]
-> +          enum: [ 300000, 500000, 700000, 900000, 1200000,
-> +                  1500000, 1800000, 2000000, 2200000, 2500000]
->
->          summit,charge-current-compensation-microamp:
->            enum: [250000, 700000, 900000, 1200000]
-> diff --git a/Documentation/devicetree/bindings/riscv/sifive-l2-cache.yaml b/Documentation/devicetree/bindings/riscv/sifive-l2-cache.yaml
-> index 3f4a1939554d..efc0198eeb74 100644
-> --- a/Documentation/devicetree/bindings/riscv/sifive-l2-cache.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/sifive-l2-cache.yaml
-> @@ -25,8 +25,8 @@ select:
->    properties:
->      compatible:
->        items:
-> -       - enum:
-> -          - sifive,fu540-c000-ccache
-> +        - enum:
-> +            - sifive,fu540-c000-ccache
->
->    required:
->      - compatible
-> diff --git a/Documentation/devicetree/bindings/rng/imx-rng.yaml b/Documentation/devicetree/bindings/rng/imx-rng.yaml
-> index 4ad1e456a801..07f6ff89bcc1 100644
-> --- a/Documentation/devicetree/bindings/rng/imx-rng.yaml
-> +++ b/Documentation/devicetree/bindings/rng/imx-rng.yaml
-> @@ -19,9 +19,9 @@ properties:
->            - const: fsl,imx21-rnga
->        - items:
->            - enum:
-> -            - fsl,imx6sl-rngb
-> -            - fsl,imx6sll-rngb
-> -            - fsl,imx6ull-rngb
-> +              - fsl,imx6sl-rngb
-> +              - fsl,imx6sll-rngb
-> +              - fsl,imx6ull-rngb
->            - const: fsl,imx25-rngb
->        - const: fsl,imx35-rngc
->
-> diff --git a/Documentation/devicetree/bindings/serial/fsl-imx-uart.yaml b/Documentation/devicetree/bindings/serial/fsl-imx-uart.yaml
-> index 9ff85bc6859c..9702c07a6b6c 100644
-> --- a/Documentation/devicetree/bindings/serial/fsl-imx-uart.yaml
-> +++ b/Documentation/devicetree/bindings/serial/fsl-imx-uart.yaml
-> @@ -20,30 +20,30 @@ properties:
->        - const: fsl,imx21-uart
->        - items:
->            - enum:
-> -            - fsl,imx25-uart
-> -            - fsl,imx27-uart
-> -            - fsl,imx31-uart
-> -            - fsl,imx35-uart
-> -            - fsl,imx50-uart
-> -            - fsl,imx51-uart
-> -            - fsl,imx53-uart
-> -            - fsl,imx6q-uart
-> +              - fsl,imx25-uart
-> +              - fsl,imx27-uart
-> +              - fsl,imx31-uart
-> +              - fsl,imx35-uart
-> +              - fsl,imx50-uart
-> +              - fsl,imx51-uart
-> +              - fsl,imx53-uart
-> +              - fsl,imx6q-uart
->            - const: fsl,imx21-uart
->        - items:
->            - enum:
-> -            - fsl,imx6sl-uart
-> -            - fsl,imx6sll-uart
-> -            - fsl,imx6sx-uart
-> +              - fsl,imx6sl-uart
-> +              - fsl,imx6sll-uart
-> +              - fsl,imx6sx-uart
->            - const: fsl,imx6q-uart
->            - const: fsl,imx21-uart
->        - items:
->            - enum:
-> -            - fsl,imx6ul-uart
-> -            - fsl,imx7d-uart
-> -            - fsl,imx8mm-uart
-> -            - fsl,imx8mn-uart
-> -            - fsl,imx8mp-uart
-> -            - fsl,imx8mq-uart
-> +              - fsl,imx6ul-uart
-> +              - fsl,imx7d-uart
-> +              - fsl,imx8mm-uart
-> +              - fsl,imx8mn-uart
-> +              - fsl,imx8mp-uart
-> +              - fsl,imx8mq-uart
->            - const: fsl,imx6q-uart
->
->    reg:
-> diff --git a/Documentation/devicetree/bindings/sound/mchp,spdifrx.yaml b/Documentation/devicetree/bindings/sound/mchp,spdifrx.yaml
-> index 7d8bd4e14434..4a2129005c0f 100644
-> --- a/Documentation/devicetree/bindings/sound/mchp,spdifrx.yaml
-> +++ b/Documentation/devicetree/bindings/sound/mchp,spdifrx.yaml
-> @@ -10,8 +10,8 @@ maintainers:
->    - Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
->
->  description:
-> -        The Microchip Sony/Philips Digital Interface Receiver is a
-> -        serial port compliant with the IEC-60958 standard.
-> +  The Microchip Sony/Philips Digital Interface Receiver is a serial port
-> +  compliant with the IEC-60958 standard.
->
->  properties:
->    "#sound-dai-cells":
-> diff --git a/Documentation/devicetree/bindings/sound/mchp,spdiftx.yaml b/Documentation/devicetree/bindings/sound/mchp,spdiftx.yaml
-> index a03b0b871fc9..bdfb63387c53 100644
-> --- a/Documentation/devicetree/bindings/sound/mchp,spdiftx.yaml
-> +++ b/Documentation/devicetree/bindings/sound/mchp,spdiftx.yaml
-> @@ -10,8 +10,8 @@ maintainers:
->    - Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
->
->  description:
-> -        The Microchip Sony/Philips Digital Interface Transmitter is a
-> -        serial port compliant with the IEC-60958 standard.
-> +  The Microchip Sony/Philips Digital Interface Transmitter is a serial port
-> +  compliant with the IEC-60958 standard.
->
->  properties:
->    "#sound-dai-cells":
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-cpu.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-cpu.yaml
-> index f6f9fb49f385..1e23c0e20bc1 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,lpass-cpu.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,lpass-cpu.yaml
-> @@ -26,8 +26,10 @@ properties:
->    reg:
->      maxItems: 2
->      description: LPAIF core registers
-> +
->    reg-names:
-> -     maxItems: 2
-> +    maxItems: 2
-> +
->    clocks:
->      minItems: 3
->      maxItems: 6
-> @@ -39,8 +41,10 @@ properties:
->    interrupts:
->      maxItems: 2
->      description: LPAIF DMA buffer interrupt
-> +
->    interrupt-names:
->      maxItems: 2
-> +
->    qcom,adsp:
->      $ref: /schemas/types.yaml#/definitions/phandle
->      description: Phandle for the audio DSP node
-> @@ -141,31 +145,31 @@ allOf:
->        properties:
->          clock-names:
->            oneOf:
-> -           - items:   #for I2S
-> -              - const: pcnoc-sway-clk
-> -              - const: audio-core
-> -              - const: mclk0
-> -              - const: pcnoc-mport-clk
-> -              - const: mi2s-bit-clk0
-> -              - const: mi2s-bit-clk1
-> -           - items:   #for HDMI
-> -              - const: pcnoc-sway-clk
-> -              - const: audio-core
-> -              - const: pcnoc-mport-clk
-> +            - items:   #for I2S
-> +                - const: pcnoc-sway-clk
-> +                - const: audio-core
-> +                - const: mclk0
-> +                - const: pcnoc-mport-clk
-> +                - const: mi2s-bit-clk0
-> +                - const: mi2s-bit-clk1
-> +            - items:   #for HDMI
-> +                - const: pcnoc-sway-clk
-> +                - const: audio-core
-> +                - const: pcnoc-mport-clk
->          reg-names:
->            anyOf:
->              - items:   #for I2S
-> -              - const: lpass-lpaif
-> +                - const: lpass-lpaif
->              - items:   #for I2S and HDMI
-> -              - const: lpass-hdmiif
-> -              - const: lpass-lpaif
-> +                - const: lpass-hdmiif
-> +                - const: lpass-lpaif
->          interrupt-names:
->            anyOf:
->              - items:   #for I2S
-> -              - const: lpass-irq-lpaif
-> +                - const: lpass-irq-lpaif
->              - items:   #for I2S and HDMI
-> -              - const: lpass-irq-lpaif
-> -              - const: lpass-irq-hdmi
-> +                - const: lpass-irq-lpaif
-> +                - const: lpass-irq-hdmi
->        required:
->          - iommus
->          - power-domains
-> diff --git a/Documentation/devicetree/bindings/timer/arm,sp804.yaml b/Documentation/devicetree/bindings/timer/arm,sp804.yaml
-> index e35d3053250a..960e2bd66a97 100644
-> --- a/Documentation/devicetree/bindings/timer/arm,sp804.yaml
-> +++ b/Documentation/devicetree/bindings/timer/arm,sp804.yaml
-> @@ -33,8 +33,8 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - arm,sp804
-> -        - hisilicon,sp804
-> +          - arm,sp804
-> +          - hisilicon,sp804
->        - const: arm,primecell
->
->    interrupts:
-> @@ -58,11 +58,11 @@ properties:
->        clock is used for all clock inputs.
->      oneOf:
->        - items:
-> -        - description: clock for timer 1
-> -        - description: clock for timer 2
-> -        - description: bus clock
-> +          - description: clock for timer 1
-> +          - description: clock for timer 2
-> +          - description: bus clock
->        - items:
-> -        - description: unified clock for both timers and the bus
-> +          - description: unified clock for both timers and the bus
->
->    clock-names: true
->      # The original binding did not specify any clock names, and there is no
-> diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-> index ac20b98e9910..d6af2794d444 100644
-> --- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-> +++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-> @@ -44,8 +44,8 @@ properties:
->      enum: [super-speed, high-speed, full-speed]
->
->    phys:
-> -   minItems: 1
-> -   maxItems: 2
-> +    minItems: 1
-> +    maxItems: 2
->
->    phy-names:
->      minItems: 1
-> diff --git a/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
-> index 5fe9e6211ba2..52ceb07294a3 100644
-> --- a/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
-> +++ b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
-> @@ -17,7 +17,7 @@ description: |-
->
->  properties:
->    compatible:
-> -   const: ti,hd3ss3220
-> +    const: ti,hd3ss3220
->
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/w1/fsl-imx-owire.yaml b/Documentation/devicetree/bindings/w1/fsl-imx-owire.yaml
-> index 1aaf3e768c81..55adea827c34 100644
-> --- a/Documentation/devicetree/bindings/w1/fsl-imx-owire.yaml
-> +++ b/Documentation/devicetree/bindings/w1/fsl-imx-owire.yaml
-> @@ -15,10 +15,10 @@ properties:
->        - const: fsl,imx21-owire
->        - items:
->            - enum:
-> -            - fsl,imx27-owire
-> -            - fsl,imx50-owire
-> -            - fsl,imx51-owire
-> -            - fsl,imx53-owire
-> +              - fsl,imx27-owire
-> +              - fsl,imx50-owire
-> +              - fsl,imx51-owire
-> +              - fsl,imx53-owire
->            - const: fsl,imx21-owire
->
->    reg:
-> --
-> 2.25.1
->
+I see. Does below fix make sense?
+Is DMA_MASK_NONE correct?
+
+From cfad78c35788b4ff604abedd96559500c5fd2a72 Mon Sep 17 00:00:00 2001
+From: Parav Pandit <parav@nvidia.com>
+Date: Tue, 27 Oct 2020 14:20:07 +0200
+Subject: [PATCH] RDMA: Fix software RDMA drivers for dma mapping error
+
+A cited commit in fixes tag avoided setting dma_mask of the ib_device.
+Commit [1] made dma_mask as mandetory field to be setup even for
+dma_virt_ops based dma devices.
+
+Fix it by setting empty DMA MASK for software based RDMA devices.
+
+[1] commit: f959dcd6ddfd2 ("dma-direct: Fix potential NULL pointer dereference")
+
+Reported-by: syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com
+Fixes: e0477b34d9d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
+Signed-off-by: Parav Pandit <parav@nvidia.com>
+---
+ drivers/infiniband/sw/rdmavt/vt.c     | 5 +++--
+ drivers/infiniband/sw/rxe/rxe_verbs.c | 4 +++-
+ drivers/infiniband/sw/siw/siw_main.c  | 5 +++--
+ 3 files changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/infiniband/sw/rdmavt/vt.c b/drivers/infiniband/sw/rdmavt/vt.c
+index 52218684ad4a..1b456f4d4fcf 100644
+--- a/drivers/infiniband/sw/rdmavt/vt.c
++++ b/drivers/infiniband/sw/rdmavt/vt.c
+@@ -580,8 +580,9 @@ int rvt_register_device(struct rvt_dev_info *rdi)
+ 
+ 	/* DMA Operations */
+ 	rdi->ibdev.dev.dma_parms = rdi->ibdev.dev.parent->dma_parms;
+-	dma_set_coherent_mask(&rdi->ibdev.dev,
+-			      rdi->ibdev.dev.parent->coherent_dma_mask);
++	ret = dma_coerce_mask_and_coherent(&rdi->ibdev.dev, DMA_MASK_NONE);
++	if (ret)
++		goto bail_wss;
+ 
+ 	/* Protection Domain */
+ 	spin_lock_init(&rdi->n_pds_lock);
+diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infiniband/sw/rxe/rxe_verbs.c
+index 1fc022362fbe..357787688293 100644
+--- a/drivers/infiniband/sw/rxe/rxe_verbs.c
++++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
+@@ -1130,7 +1130,9 @@ int rxe_register_device(struct rxe_dev *rxe, const char *ibdev_name)
+ 			    rxe->ndev->dev_addr);
+ 	dev->dev.dma_parms = &rxe->dma_parms;
+ 	dma_set_max_seg_size(&dev->dev, UINT_MAX);
+-	dma_set_coherent_mask(&dev->dev, dma_get_required_mask(&dev->dev));
++	err = dma_coerce_mask_and_coherent(&dev->dev, DMA_MASK_NONE);
++	if (err)
++		return err;
+ 
+ 	dev->uverbs_cmd_mask = BIT_ULL(IB_USER_VERBS_CMD_GET_CONTEXT)
+ 	    | BIT_ULL(IB_USER_VERBS_CMD_CREATE_COMP_CHANNEL)
+diff --git a/drivers/infiniband/sw/siw/siw_main.c b/drivers/infiniband/sw/siw/siw_main.c
+index ca8bc7296867..d3dc50a42dab 100644
+--- a/drivers/infiniband/sw/siw/siw_main.c
++++ b/drivers/infiniband/sw/siw/siw_main.c
+@@ -384,8 +384,9 @@ static struct siw_device *siw_device_create(struct net_device *netdev)
+ 	base_dev->dev.parent = parent;
+ 	base_dev->dev.dma_parms = &sdev->dma_parms;
+ 	dma_set_max_seg_size(&base_dev->dev, UINT_MAX);
+-	dma_set_coherent_mask(&base_dev->dev,
+-			      dma_get_required_mask(&base_dev->dev));
++	if (dma_coerce_mask_and_coherent(&base_dev->dev, DMA_MASK_NONE))
++		goto error;
++
+ 	base_dev->num_comp_vectors = num_possible_cpus();
+ 
+ 	xa_init_flags(&sdev->qp_xa, XA_FLAGS_ALLOC1);
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
