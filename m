@@ -1,66 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE5229BD2E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:43:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C77BA29BD33
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:46:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEC106E1D6;
-	Tue, 27 Oct 2020 16:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCCBE6E1D2;
+	Tue, 27 Oct 2020 16:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A44B76E1D2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 16:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603817000;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=mj6uaiHROCag3uZJ/gHJroorYDnXKuN4EyYRFIYPu8Y=;
- b=FbJgonJ171jSzvgL5bSjkunUgVE0c/JRuU5j7wHHrOq44T6Rc1XG2YIppSgfyNdgm3+H4+
- ctgWgWSzC+v9k4HbynT7FMiok41p91k/1D9XSsa58LSES6Nnoq9aGdn6qgLfcJgVN5pG0T
- MbesBu30ocjhHLF8C5sYgz0ikBjQ+6w=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-ApWZ3ED_OFSjyJTvFFIa5Q-1; Tue, 27 Oct 2020 12:43:14 -0400
-X-MC-Unique: ApWZ3ED_OFSjyJTvFFIa5Q-1
-Received: by mail-oo1-f70.google.com with SMTP id q9so1036946ool.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:43:14 -0700 (PDT)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 159516E1D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 16:46:29 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id 10so1243828pfp.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:46:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bsZEVeTPuxeWNhyuGo8tUdund/O3OcaD79qUn4oefT8=;
+ b=jpUCUhjI1DzbIPLIhYF0iFV+0AMGhMrCYScsCt6V1q+QGIqVOxiHOO2/cwxW2p/vXi
+ 357pMeH7v+k393kaf0E0crX1Mm3IotUsit7Faw4aj1eiGRJeQkeUNcQWj5HLAVREyHgy
+ m5LkfV9zfgN+hNqjsJYsKE783iPGkc7R5YPh8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=mj6uaiHROCag3uZJ/gHJroorYDnXKuN4EyYRFIYPu8Y=;
- b=lhBApo4HfTGMxMttcT49asOswwshHHzXqcrE9HDp4dqsdr/Fhsxb3R3Ofkj8qtKo8G
- 88BcjU2oeVrLLyVnqEVWCKJeE9k+DMxu1g6Ssi7Ku6zBOpBnZbeR1wh08Si7KC9NQ2/f
- TzTl9jK6lmKYVHURU01/SwLPYc6H+ZQRgIPkyc3Irw6Hm9HOOH8Rh9K9eowAaso6W6gF
- Y4os7dQlJEq1TQ1OPwLkJCAnhYEtxHZSfjgASXonQWDfTdD9X9/698jvMOZWwRjEdt+d
- cgcCJQZv1CxZn3pa5vkRYe86gREF49xIx19VSYyhFMcjAt9hB7Z7GGkt5jMGO7G08nyf
- vPsQ==
-X-Gm-Message-State: AOAM532EbN3dBTINpXNLe0PmQitdTFvrn96Y0E7ecvCXZS/DW8t6D6RO
- jHsX2fJxaiNXYuuvsXhXjpmivma5/PVmebdBawbUxanCHN97ivoqO9pOYiJJxRZDYHVx+BgrZjL
- Kh4CGIfxp3Q8yI3aVwupo6kxS0VOw
-X-Received: by 2002:aca:ef03:: with SMTP id n3mr2048467oih.67.1603816993830;
- Tue, 27 Oct 2020 09:43:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7y1eCX7WfRNi9tkZnfLpiDio1qtG9FKTpwYlLMD9SlPYp6FIE57BquNUx5oTk2cs+UUc+WA==
-X-Received: by 2002:aca:ef03:: with SMTP id n3mr2048435oih.67.1603816993577;
- Tue, 27 Oct 2020 09:43:13 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id l89sm90968otc.6.2020.10.27.09.43.10
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bsZEVeTPuxeWNhyuGo8tUdund/O3OcaD79qUn4oefT8=;
+ b=Bs/xHYCcIf1z0ab/l6T3vjVCXBfsjUyCuNWhnQJEnvFByEcwdc9tSsE8GLubGHhCd9
+ LcJ228fAn/+7M02CCtOq0C90VDnr23+6ni+ZALYnaVKCygNoaDqD3N1nKv5zS2p15zp0
+ a52hSBueavPo9VEKVn2Z58PfjpV+Sz94Erl9AkRu8iSXAdoKXFGt11dxPjI7ehvH9Iwy
+ liC2gCQtDlF1p5KYsITiIfFnuix9I9Y/wodkydKuHXH8ttEnGbk1JVvxNYhLKPhuPrWV
+ QDdPG5uoD2RafrxqsV4Zs3a5l6iUXvfTwAqPIbv93DSTQxbmCNszNI/Xkk5CDDzuh3Xt
+ 6d8Q==
+X-Gm-Message-State: AOAM532swsfOnC0O1N4R2gSWdk/rlO8SNSGNVxxBJnVv/aQol9607xWE
+ PLlIjgIClapcpQWrR1txAdGiCg==
+X-Google-Smtp-Source: ABdhPJy6kI/jv5TbL1WQCyeCthgUrZ18nX4JbLu7XsYrfHw0VtV5ZfSNPYg6/axupJDydAQHOkNGEA==
+X-Received: by 2002:a63:7408:: with SMTP id p8mr2559660pgc.273.1603817188516; 
+ Tue, 27 Oct 2020 09:46:28 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:42b0:34ff:fe3d:58e6])
+ by smtp.gmail.com with ESMTPSA id c12sm3002688pgi.14.2020.10.27.09.46.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 09:43:12 -0700 (PDT)
-From: trix@redhat.com
-To: linux-kernel@vger.kernel.org,
-	clang-built-linux@googlegroups.com
-Subject: Subject: [RFC] clang tooling cleanups
-Date: Tue, 27 Oct 2020 09:42:55 -0700
-Message-Id: <20201027164255.1573301-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Tue, 27 Oct 2020 09:46:27 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH 1/3] drm: panel: simple: Allow timing constraints,
+ not fixed delays
+Date: Tue, 27 Oct 2020 09:45:54 -0700
+Message-Id: <20201027094553.1.I31c4f8b111dbef1ab658f206764655ae983bc560@changeid>
+X-Mailer: git-send-email 2.29.0.rc2.309.g374f81d7ae-goog
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,170 +63,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
- linux-iio@vger.kernel.org,
- =?UTF-8?q?=EF=BB=BFFrom=20=3A=20Tom=20Rix?= <trix@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-rtc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org, qat-linux@intel.com,
- amd-gfx@lists.freedesktop.org, linux-pm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-nfs@vger.kernel.org, netdev@vger.kernel.org, linux-mmc@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, linux-crypto@vger.kernel.org,
- linux-btrfs@vger.kernel.org
-MIME-Version: 1.0
+Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This rfc will describe
-An upcoming treewide cleanup.
-How clang tooling was used to programatically do the clean up.
-Solicit opinions on how to generally use clang tooling.
+The simple panel code currently allows panels to define fixed delays
+at certain stages of initialization.  These work OK, but they don't
+really map all that clearly to the requirements presented in many
+panel datasheets.  Instead of defining a fixed delay, those datasheets
+provide a timing diagram and specify a minimum amount of time that
+needs to pass from event A to event B.
 
-The clang warning -Wextra-semi-stmt produces about 10k warnings.
-Reviewing these, a subset of semicolon after a switch looks safe to
-fix all the time.  An example problem
+Because of the way things are currently defined, most panels end up
+over-delaying.  One prime example here is that a number of panels I've
+looked at define the amount of time that must pass between turning a
+panel off and turning it back on again.  Since there is no way to
+specify this, many developers have listed this as the "unprepare"
+delay.  However, if nobody ever tried to turn the panel on again in
+the next 500 ms (or whatever the delay was) then this delay was
+pointless.  It's better to do the delay only in the case that someone
+tried to turn the panel on too quickly.
 
-void foo(int a) {
-     switch(a) {
-     	       case 1:
-	       ...
-     }; <--- extra semicolon
-}
+Let's support specifying delays as constraints.  We'll start with the
+one above and also a second one: the minimum time between prepare
+being done and doing the enable.  On the panel I'm looking at, there's
+an 80 ms minimum time between HPD being asserted by the panel and
+setting the backlight enable GPIO.  By specifying as a constraint we
+can enforce this without over-delaying.  Specifically the link
+training is allowed to happen in parallel with this delay so adding a
+fixed 80 ms delay isn't ideal.
 
-Treewide, there are about 100 problems in 50 files for x86_64 allyesconfig.
-These fixes will be the upcoming cleanup.
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
-clang already supports fixing this problem. Add to your command line
+ drivers/gpu/drm/panel/panel-simple.c | 51 ++++++++++++++++++++++++----
+ 1 file changed, 44 insertions(+), 7 deletions(-)
 
-  clang -c -Wextra-semi-stmt -Xclang -fixit foo.c
-
-  foo.c:8:3: warning: empty expression statement has no effect;
-    remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
-        };
-         ^
-  foo.c:8:3: note: FIX-IT applied suggested code changes
-  1 warning generated.
-
-The big problem is using this treewide is it will fix all 10k problems.
-10k changes to analyze and upstream is not practical.
-
-Another problem is the generic fixer only removes the semicolon.
-So empty lines with some tabs need to be manually cleaned.
-
-What is needed is a more precise fixer.
-
-Enter clang-tidy.
-https://clang.llvm.org/extra/clang-tidy/
-
-Already part of the static checker infrastructure, invoke on the clang
-build with
-  make clang-tidy
-
-It is only a matter of coding up a specific checker for the cleanup.
-Upstream this is review is happening here
-https://reviews.llvm.org/D90180
-
-The development of a checker/fixer is
-Start with a reproducer
-
-void foo (int a) {
-  switch (a) {};
-}
-
-Generate the abstract syntax tree (AST)
-
-  clang -Xclang -ast-dump foo.c
-
-`-FunctionDecl 
-  |-ParmVarDecl 
-  `-CompoundStmt 
-    |-SwitchStmt 
-    | |-ImplicitCastExpr
-    | | `-DeclRefExpr
-    | `-CompoundStmt
-    `-NullStmt
-
-Write a matcher to get you most of the way
-
-void SwitchSemiCheck::registerMatchers(MatchFinder *Finder) {
-  Finder->addMatcher(
-      compoundStmt(has(switchStmt().bind("switch"))).bind("comp"), this);
-}
-
-The 'bind' method is important, it allows a string to be associated
-with a node in the AST.  In this case these are
-
-`-FunctionDecl 
-  |-ParmVarDecl 
-  `-CompoundStmt <-------- comp
-    |-SwitchStmt <-------- switch
-    | |-ImplicitCastExpr
-    | | `-DeclRefExpr
-    | `-CompoundStmt
-    `-NullStmt
-
-When a match is made the 'check' method will be called.
-
-  void SwitchSemiCheck::check(const MatchFinder::MatchResult &Result) {
-    auto *C = Result.Nodes.getNodeAs<CompoundStmt>("comp");
-    auto *S = Result.Nodes.getNodeAs<SwitchStmt>("switch");
-
-This is where the string in the bind calls are changed to nodes
-
-`-FunctionDecl 
-  |-ParmVarDecl 
-  `-CompoundStmt <-------- comp, C
-    |-SwitchStmt <-------- switch, S
-    | |-ImplicitCastExpr
-    | | `-DeclRefExpr
-    | `-CompoundStmt
-    `-NullStmt <---------- looking for N
-
-And then more logic to find the NullStmt
-
-  auto Current = C->body_begin();
-  auto Next = Current;
-  Next++;
-  while (Next != C->body_end()) {
-    if (*Current == S) {
-      if (const auto *N = dyn_cast<NullStmt>(*Next)) {
-
-When it is found, a warning is printed and a FixItHint is proposed.
-
-  auto H = FixItHint::CreateReplacement(
-    SourceRange(S->getBody()->getEndLoc(), N->getSemiLoc()), "}");
-  diag(N->getSemiLoc(), "unneeded semicolon") << H;
-
-This fixit replaces from the end of switch to the semicolon with a
-'}'.  Because the end of the switch is '}' this has the effect of
-removing all the whitespace as well as the semicolon.
-
-Because of the checker's placement in clang-tidy existing linuxkernel
-checkers, all that was needed to fix the tree was to add a '-fix'to the
-build's clang-tidy call.
-
-I am looking for opinions on what we want to do specifically with
-cleanups and generally about other source-to-source programmatic
-changes to the code base.
-
-For cleanups, I think we need a new toplevel target
-
-clang-tidy-fix
-
-And an explicit list of fixers that have a very high (100%?) fix rate.
-
-Ideally a bot should make the changes, but a bot could also nag folks.
-Is there interest in a bot making the changes? Does one already exist?
-
-The general source-to-source is a bit blue sky.  Ex/ could automagicly
-refactor api, outline similar cut-n-pasted functions etc. Anything on
-someone's wishlist you want to try out ?
-
-Signed-off-by: Tom Rix <trix@redhat.com>
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 2be358fb46f7..cbbe71a2a940 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -92,6 +92,19 @@ struct panel_desc {
+ 		unsigned int unprepare;
+ 	} delay;
+ 
++	/**
++	 * @prepare_to_enable_ms: If this many milliseconds hasn't passed after
++	 *                        prepare finished, add a delay to the start
++	 *                        of enable.
++	 * @unprepare_to_prepare_ms: If this many milliseconds hasn't passed
++	 *                           unprepare finished, add a delay to the
++	 *                           start of prepare.
++	 */
++	struct {
++		unsigned int prepare_to_enable_ms;
++		unsigned int unprepare_to_prepare_ms;
++	} timing_constraints;
++
+ 	u32 bus_format;
+ 	u32 bus_flags;
+ 	int connector_type;
+@@ -99,10 +112,12 @@ struct panel_desc {
+ 
+ struct panel_simple {
+ 	struct drm_panel base;
+-	bool prepared;
+ 	bool enabled;
+ 	bool no_hpd;
+ 
++	ktime_t prepared_time;
++	ktime_t unprepared_time;
++
+ 	const struct panel_desc *desc;
+ 
+ 	struct regulator *supply;
+@@ -230,6 +245,21 @@ static int panel_simple_get_non_edid_modes(struct panel_simple *panel,
+ 	return num;
+ }
+ 
++static void panel_simple_enforce_constraint(ktime_t start_ktime,
++					    unsigned int min_ms)
++{
++	ktime_t now_ktime, min_ktime;
++
++	if (!min_ms)
++		return;
++
++	min_ktime = ktime_add(start_ktime, ms_to_ktime(min_ms));
++	now_ktime = ktime_get();
++
++	if (ktime_before(now_ktime, min_ktime))
++		msleep(ktime_to_ms(ktime_sub(min_ktime, now_ktime)) + 1);
++}
++
+ static int panel_simple_disable(struct drm_panel *panel)
+ {
+ 	struct panel_simple *p = to_panel_simple(panel);
+@@ -249,18 +279,19 @@ static int panel_simple_unprepare(struct drm_panel *panel)
+ {
+ 	struct panel_simple *p = to_panel_simple(panel);
+ 
+-	if (!p->prepared)
++	if (!p->prepared_time)
+ 		return 0;
+ 
+ 	gpiod_set_value_cansleep(p->enable_gpio, 0);
+ 
+ 	regulator_disable(p->supply);
+ 
++	p->prepared_time = 0;
++	p->unprepared_time = ktime_get();
++
+ 	if (p->desc->delay.unprepare)
+ 		msleep(p->desc->delay.unprepare);
+ 
+-	p->prepared = false;
+-
+ 	return 0;
+ }
+ 
+@@ -296,9 +327,12 @@ static int panel_simple_prepare(struct drm_panel *panel)
+ 	int err;
+ 	int hpd_asserted;
+ 
+-	if (p->prepared)
++	if (p->prepared_time)
+ 		return 0;
+ 
++	panel_simple_enforce_constraint(p->unprepared_time,
++					p->desc->timing_constraints.unprepare_to_prepare_ms);
++
+ 	err = regulator_enable(p->supply);
+ 	if (err < 0) {
+ 		dev_err(panel->dev, "failed to enable supply: %d\n", err);
+@@ -333,7 +367,7 @@ static int panel_simple_prepare(struct drm_panel *panel)
+ 		}
+ 	}
+ 
+-	p->prepared = true;
++	p->prepared_time = ktime_get();
+ 
+ 	return 0;
+ }
+@@ -348,6 +382,9 @@ static int panel_simple_enable(struct drm_panel *panel)
+ 	if (p->desc->delay.enable)
+ 		msleep(p->desc->delay.enable);
+ 
++	panel_simple_enforce_constraint(p->prepared_time,
++					p->desc->timing_constraints.prepare_to_enable_ms);
++
+ 	p->enabled = true;
+ 
+ 	return 0;
+@@ -514,7 +551,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 		return -ENOMEM;
+ 
+ 	panel->enabled = false;
+-	panel->prepared = false;
++	panel->prepared_time = 0;
+ 	panel->desc = desc;
+ 
+ 	panel->no_hpd = of_property_read_bool(dev->of_node, "no-hpd");
+-- 
+2.29.0.rc2.309.g374f81d7ae-goog
 
 _______________________________________________
 dri-devel mailing list
