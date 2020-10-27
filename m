@@ -2,41 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C46E29BE2D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE5229BD2E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:43:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C11CE6EBB7;
-	Tue, 27 Oct 2020 16:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEC106E1D6;
+	Tue, 27 Oct 2020 16:43:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F17CC6EBB7;
- Tue, 27 Oct 2020 16:56:46 +0000 (UTC)
-IronPort-SDR: teCQXRCYNFe6mjEAPchoSIr9LS2nqVO90WTYfkbUyQWZgvzr7tx3VS42vPOjBj2hFDGfkkRWyd
- cALoafhu0MuQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="147975904"
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="147975904"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 09:56:46 -0700
-IronPort-SDR: BhArHE62PJR86TuWZdYlmVWEzMayLLIQrrKiiMn+czrhlLK7ihOZwGecGxttCO9YzkAMR/GM1i
- zMaVes5GYOMQ==
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="355613296"
-Received: from genxfsim-desktop.iind.intel.com ([10.223.74.178])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 09:56:44 -0700
-From: Anshuman Gupta <anshuman.gupta@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 16/16] drm/i915/hdcp: Enable HDCP 2.2 MST support
-Date: Tue, 27 Oct 2020 22:12:08 +0530
-Message-Id: <20201027164208.10026-17-anshuman.gupta@intel.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201027164208.10026-1-anshuman.gupta@intel.com>
-References: <20201027164208.10026-1-anshuman.gupta@intel.com>
-MIME-Version: 1.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A44B76E1D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 16:43:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603817000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=mj6uaiHROCag3uZJ/gHJroorYDnXKuN4EyYRFIYPu8Y=;
+ b=FbJgonJ171jSzvgL5bSjkunUgVE0c/JRuU5j7wHHrOq44T6Rc1XG2YIppSgfyNdgm3+H4+
+ ctgWgWSzC+v9k4HbynT7FMiok41p91k/1D9XSsa58LSES6Nnoq9aGdn6qgLfcJgVN5pG0T
+ MbesBu30ocjhHLF8C5sYgz0ikBjQ+6w=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-ApWZ3ED_OFSjyJTvFFIa5Q-1; Tue, 27 Oct 2020 12:43:14 -0400
+X-MC-Unique: ApWZ3ED_OFSjyJTvFFIa5Q-1
+Received: by mail-oo1-f70.google.com with SMTP id q9so1036946ool.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:43:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=mj6uaiHROCag3uZJ/gHJroorYDnXKuN4EyYRFIYPu8Y=;
+ b=lhBApo4HfTGMxMttcT49asOswwshHHzXqcrE9HDp4dqsdr/Fhsxb3R3Ofkj8qtKo8G
+ 88BcjU2oeVrLLyVnqEVWCKJeE9k+DMxu1g6Ssi7Ku6zBOpBnZbeR1wh08Si7KC9NQ2/f
+ TzTl9jK6lmKYVHURU01/SwLPYc6H+ZQRgIPkyc3Irw6Hm9HOOH8Rh9K9eowAaso6W6gF
+ Y4os7dQlJEq1TQ1OPwLkJCAnhYEtxHZSfjgASXonQWDfTdD9X9/698jvMOZWwRjEdt+d
+ cgcCJQZv1CxZn3pa5vkRYe86gREF49xIx19VSYyhFMcjAt9hB7Z7GGkt5jMGO7G08nyf
+ vPsQ==
+X-Gm-Message-State: AOAM532EbN3dBTINpXNLe0PmQitdTFvrn96Y0E7ecvCXZS/DW8t6D6RO
+ jHsX2fJxaiNXYuuvsXhXjpmivma5/PVmebdBawbUxanCHN97ivoqO9pOYiJJxRZDYHVx+BgrZjL
+ Kh4CGIfxp3Q8yI3aVwupo6kxS0VOw
+X-Received: by 2002:aca:ef03:: with SMTP id n3mr2048467oih.67.1603816993830;
+ Tue, 27 Oct 2020 09:43:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7y1eCX7WfRNi9tkZnfLpiDio1qtG9FKTpwYlLMD9SlPYp6FIE57BquNUx5oTk2cs+UUc+WA==
+X-Received: by 2002:aca:ef03:: with SMTP id n3mr2048435oih.67.1603816993577;
+ Tue, 27 Oct 2020 09:43:13 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
+ [75.142.250.213])
+ by smtp.gmail.com with ESMTPSA id l89sm90968otc.6.2020.10.27.09.43.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 09:43:12 -0700 (PDT)
+From: trix@redhat.com
+To: linux-kernel@vger.kernel.org,
+	clang-built-linux@googlegroups.com
+Subject: Subject: [RFC] clang tooling cleanups
+Date: Tue, 27 Oct 2020 09:42:55 -0700
+Message-Id: <20201027164255.1573301-1-trix@redhat.com>
+X-Mailer: git-send-email 2.18.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,136 +73,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, uma.shankar@intel.com, seanpaul@chromium.org,
- Anshuman Gupta <anshuman.gupta@intel.com>, juston.li@intel.com
+Cc: alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
+ linux-iio@vger.kernel.org,
+ =?UTF-8?q?=EF=BB=BFFrom=20=3A=20Tom=20Rix?= <trix@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-rtc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org, qat-linux@intel.com,
+ amd-gfx@lists.freedesktop.org, linux-pm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-nfs@vger.kernel.org, netdev@vger.kernel.org, linux-mmc@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, linux-crypto@vger.kernel.org,
+ linux-btrfs@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable HDCP 2.2 over DP MST.
-Authenticate and enable port encryption only once for
-an active HDCP 2.2 session, once port is authenticated
-and encrypted enable encryption for each stream that
-requires encryption on this port.
+This rfc will describe
+An upcoming treewide cleanup.
+How clang tooling was used to programatically do the clean up.
+Solicit opinions on how to generally use clang tooling.
 
-Similarly disable the stream encryption for each encrypted
-stream, once all encrypted stream encryption is disabled,
-disable the port HDCP encryption and deauthenticate the port.
+The clang warning -Wextra-semi-stmt produces about 10k warnings.
+Reviewing these, a subset of semicolon after a switch looks safe to
+fix all the time.  An example problem
 
-Cc: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
----
- drivers/gpu/drm/i915/display/intel_hdcp.c | 46 ++++++++++++++++++++++-
- 1 file changed, 44 insertions(+), 2 deletions(-)
+void foo(int a) {
+     switch(a) {
+     	       case 1:
+	       ...
+     }; <--- extra semicolon
+}
 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index 87f7aaf3a319..71fd01bf63a6 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -1693,6 +1693,32 @@ static int hdcp2_authenticate_sink(struct intel_connector *connector)
- 	return ret;
- }
- 
-+static int hdcp2_enable_stream_encryption(struct intel_connector *connector)
-+{
-+	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct intel_hdcp *hdcp = &connector->hdcp;
-+	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
-+	enum port port = dig_port->base.port;
-+	int ret = 0;
-+
-+	if (!(intel_de_read(dev_priv, HDCP2_STATUS(dev_priv, cpu_transcoder, port)) &
-+			    LINK_ENCRYPTION_STATUS)) {
-+		drm_err(&dev_priv->drm, "HDCP 2.2 Link is not encrypted\n");
-+		return -EPERM;
-+	}
-+
-+	if (hdcp->shim->stream_2_2_encryption) {
-+		ret = hdcp->shim->stream_2_2_encryption(dig_port, true);
-+		if (ret) {
-+			drm_err(&dev_priv->drm, "Failed to enable HDCP 2.2 stream enc\n");
-+			return ret;
-+		}
-+	}
-+
-+	return ret;
-+}
-+
- static int hdcp2_enable_encryption(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
-@@ -1831,7 +1857,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
- 			drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
- 	}
- 
--	if (!ret) {
-+	if (!ret && !dig_port->port_auth) {
- 		/*
- 		 * Ensuring the required 200mSec min time interval between
- 		 * Session Key Exchange and encryption.
-@@ -1846,6 +1872,8 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
- 		}
- 	}
- 
-+	ret = hdcp2_enable_stream_encryption(connector);
-+
- 	return ret;
- }
- 
-@@ -1891,11 +1919,23 @@ static int _intel_hdcp2_disable(struct intel_connector *connector)
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
- 	struct hdcp_port_data *data = &dig_port->port_data;
-+	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret;
- 
- 	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being Disabled\n",
- 		    connector->base.name, connector->base.base.id);
- 
-+	if (hdcp->shim->stream_2_2_encryption) {
-+		ret = hdcp->shim->stream_2_2_encryption(dig_port, false);
-+		if (ret) {
-+			drm_err(&i915->drm, "Failed to disable HDCP 2.2 stream enc\n");
-+			return ret;
-+		}
-+	}
-+
-+	if (dig_port->num_hdcp_streams > 0)
-+		return ret;
-+
- 	ret = hdcp2_disable_encryption(connector);
- 
- 	if (hdcp2_deauthenticate_port(connector) < 0)
-@@ -1919,6 +1959,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
- 	int ret = 0;
- 
- 	mutex_lock(&hdcp->mutex);
-+	mutex_lock(&dig_port->hdcp_mutex);
- 	cpu_transcoder = hdcp->cpu_transcoder;
- 
- 	/* hdcp2_check_link is expected only when HDCP2.2 is Enabled */
-@@ -1996,6 +2037,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
- 	}
- 
- out:
-+	mutex_unlock(&dig_port->hdcp_mutex);
- 	mutex_unlock(&hdcp->mutex);
- 	return ret;
- }
-@@ -2177,7 +2219,7 @@ int intel_hdcp_init(struct intel_connector *connector,
- 	if (!shim)
- 		return -EINVAL;
- 
--	if (is_hdcp2_supported(dev_priv) && !connector->mst_port)
-+	if (is_hdcp2_supported(dev_priv))
- 		intel_hdcp2_init(connector, dig_port, shim);
- 
- 	ret =
--- 
-2.26.2
+Treewide, there are about 100 problems in 50 files for x86_64 allyesconfig.
+These fixes will be the upcoming cleanup.
+
+clang already supports fixing this problem. Add to your command line
+
+  clang -c -Wextra-semi-stmt -Xclang -fixit foo.c
+
+  foo.c:8:3: warning: empty expression statement has no effect;
+    remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+        };
+         ^
+  foo.c:8:3: note: FIX-IT applied suggested code changes
+  1 warning generated.
+
+The big problem is using this treewide is it will fix all 10k problems.
+10k changes to analyze and upstream is not practical.
+
+Another problem is the generic fixer only removes the semicolon.
+So empty lines with some tabs need to be manually cleaned.
+
+What is needed is a more precise fixer.
+
+Enter clang-tidy.
+https://clang.llvm.org/extra/clang-tidy/
+
+Already part of the static checker infrastructure, invoke on the clang
+build with
+  make clang-tidy
+
+It is only a matter of coding up a specific checker for the cleanup.
+Upstream this is review is happening here
+https://reviews.llvm.org/D90180
+
+The development of a checker/fixer is
+Start with a reproducer
+
+void foo (int a) {
+  switch (a) {};
+}
+
+Generate the abstract syntax tree (AST)
+
+  clang -Xclang -ast-dump foo.c
+
+`-FunctionDecl 
+  |-ParmVarDecl 
+  `-CompoundStmt 
+    |-SwitchStmt 
+    | |-ImplicitCastExpr
+    | | `-DeclRefExpr
+    | `-CompoundStmt
+    `-NullStmt
+
+Write a matcher to get you most of the way
+
+void SwitchSemiCheck::registerMatchers(MatchFinder *Finder) {
+  Finder->addMatcher(
+      compoundStmt(has(switchStmt().bind("switch"))).bind("comp"), this);
+}
+
+The 'bind' method is important, it allows a string to be associated
+with a node in the AST.  In this case these are
+
+`-FunctionDecl 
+  |-ParmVarDecl 
+  `-CompoundStmt <-------- comp
+    |-SwitchStmt <-------- switch
+    | |-ImplicitCastExpr
+    | | `-DeclRefExpr
+    | `-CompoundStmt
+    `-NullStmt
+
+When a match is made the 'check' method will be called.
+
+  void SwitchSemiCheck::check(const MatchFinder::MatchResult &Result) {
+    auto *C = Result.Nodes.getNodeAs<CompoundStmt>("comp");
+    auto *S = Result.Nodes.getNodeAs<SwitchStmt>("switch");
+
+This is where the string in the bind calls are changed to nodes
+
+`-FunctionDecl 
+  |-ParmVarDecl 
+  `-CompoundStmt <-------- comp, C
+    |-SwitchStmt <-------- switch, S
+    | |-ImplicitCastExpr
+    | | `-DeclRefExpr
+    | `-CompoundStmt
+    `-NullStmt <---------- looking for N
+
+And then more logic to find the NullStmt
+
+  auto Current = C->body_begin();
+  auto Next = Current;
+  Next++;
+  while (Next != C->body_end()) {
+    if (*Current == S) {
+      if (const auto *N = dyn_cast<NullStmt>(*Next)) {
+
+When it is found, a warning is printed and a FixItHint is proposed.
+
+  auto H = FixItHint::CreateReplacement(
+    SourceRange(S->getBody()->getEndLoc(), N->getSemiLoc()), "}");
+  diag(N->getSemiLoc(), "unneeded semicolon") << H;
+
+This fixit replaces from the end of switch to the semicolon with a
+'}'.  Because the end of the switch is '}' this has the effect of
+removing all the whitespace as well as the semicolon.
+
+Because of the checker's placement in clang-tidy existing linuxkernel
+checkers, all that was needed to fix the tree was to add a '-fix'to the
+build's clang-tidy call.
+
+I am looking for opinions on what we want to do specifically with
+cleanups and generally about other source-to-source programmatic
+changes to the code base.
+
+For cleanups, I think we need a new toplevel target
+
+clang-tidy-fix
+
+And an explicit list of fixers that have a very high (100%?) fix rate.
+
+Ideally a bot should make the changes, but a bot could also nag folks.
+Is there interest in a bot making the changes? Does one already exist?
+
+The general source-to-source is a bit blue sky.  Ex/ could automagicly
+refactor api, outline similar cut-n-pasted functions etc. Anything on
+someone's wishlist you want to try out ?
+
+Signed-off-by: Tom Rix <trix@redhat.com>
 
 _______________________________________________
 dri-devel mailing list
