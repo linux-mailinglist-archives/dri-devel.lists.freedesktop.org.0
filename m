@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BA429CE9B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:06:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3E129CEBD
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3D56E446;
-	Wed, 28 Oct 2020 08:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4B76EB8E;
+	Wed, 28 Oct 2020 08:06:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E06B96EB78
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:17:51 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id h22so1205552wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 05:17:51 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E6F6EB79
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:17:54 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id l15so1204272wmi.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 05:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J57Co4keOJLPpkOAtm30WeNaGboSbDo7KGbxSzSraLw=;
- b=yOHWFHMOzbagC0sIByz6wesCWV3cXS/nI3Cmoh9rPQnQfktOmQ2fHmfj8t5QiyPB1i
- JUphXOi/RvRU2h+y1C0PS56sy6nIPSViAjZH7ZD1nL0kVb70/VdVHhj/AlJj5MwbzGtT
- Fz4SQHpcI/4fYul/80WnINgeUHB50rR1cTYD2+ptya0cZz6H6MnTFFgMAr7/MnsWRrjc
- rDDqtu/ht+rkyImTxS5uHgJepl4JUTv6GjjiiaPzGql9lSo9xdd048jkI/Kvk/PDUJaD
- tXJ1HdRkottcOLQk8yrpkIleD3Wyxw+1fcCHjnYdEOneZJMoeya+bL6uoh2P347Mm79Q
- Or/Q==
+ bh=nNS5tvBpA/i0H7p7l8m9y8bW5QzwJCcb9cwqd3juySc=;
+ b=uINaxail9sUfALoEWstn2csJR9jE7v9clDsZtLcLiOMSXg2LAVFIQqN6lHKyyZUd4l
+ jRiwMGMG4DxMFJH69rSCLOtob+027D28VPhBQtpIrjKA/W5lb5Kv+7Q+cjTTcQNW8hxv
+ wUoV9A8I84g3amtYBnRWsQ9zCBUoSUYIxS8yqik5kvDE0D17HbZwhUPBEWV0xwo4eSQB
+ xtGlMRrIXAwBsMOZYueqppFbh9JQaNXeAayhSnZZJNrW9nmKvVAevDfxEiP//pXPGQn7
+ 22ZoAAwvkiz2v+dHQuQfEfVqcnXh5D2KeVL1FBqvTUVKMuvl7wX7b6wRp1orV+Uuzzwn
+ SgBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J57Co4keOJLPpkOAtm30WeNaGboSbDo7KGbxSzSraLw=;
- b=PHTOr80sR4mj9ZB8vBYd0UDnvLuO/5jC1KzHMeY2WSD98wgNqnT5aEr0nPdVH7mz8J
- TQezl0aIFm7a3Kw1rimBg0/cv50C8rzpES9NP/qsauxbljGocCVG7/6CFcW9bcrUj0sz
- K0dgCnohGGUfUNKwiFRBcncpyeRcdG4XX3y2G/NQsFVOccBpSy4ZW94bHABTQHGuKWNa
- qMBho5GLLr2Ln1aJrHBEv4FEw2l5RKpPx/iyi4ttQNZxJ1n5iKtnAwq7o3qWye4Yq41H
- GW4csY5jz9whCMznjrftamSgzlBa2H4JXJvPX5K1L4uvSSImg3ijpuDnCcxzan13yQtg
- xhoQ==
-X-Gm-Message-State: AOAM5317QWlWXFYg80WthI3AfXVwR0T7NIs+BotDOudQ7WzeXaO89BT8
- kFZqECGCSrfYzr0cHNxst57TTw==
-X-Google-Smtp-Source: ABdhPJzwzTmHdRfbZ3iyfMT0YC13fJkeiYScFTFd2MhD0PJKT6LJ0wGB9w/fQb4FZN9R2w5rbG6dAQ==
-X-Received: by 2002:a7b:c92c:: with SMTP id h12mr2566357wml.134.1603801070666; 
- Tue, 27 Oct 2020 05:17:50 -0700 (PDT)
+ bh=nNS5tvBpA/i0H7p7l8m9y8bW5QzwJCcb9cwqd3juySc=;
+ b=EOLmp9Opxw1irp2wF9aj0pSAQ7a3LcdBA20W1mP1QbdeUscpIegq15E0JVQeJPX7WX
+ OKYr2kst6G5eEaHpb0bhkTkuOuQH9kFSbW13hur42SIRDafJXIkDo13PVexk4KGJdhTP
+ bgLBPPkBgcEElP5iYG+9OVa5MZ03V9RV/5YFCGrZeApKt2gDMhHtRzDNFLeeB/2mE5K6
+ +2hyPRntBH9I3t3Y4hfF8fl2OPK8ns8yPQ/dFFcUvIkomIHIU1lEEbGsbZxsOcs3jchN
+ uyrU1Pc1L+9QICv7UzrdH7i08nMs4H803ftkUqTScDMDchhSgPfahDyQi8aVpUYeInPA
+ PpwA==
+X-Gm-Message-State: AOAM5308Kf8iiKWUUWwX6Qwz4FtZy5AqtUXfI7pT4T9Jj9IN18wFveKI
+ gWspkYDQkZQv7WClfgDfaXcb4A==
+X-Google-Smtp-Source: ABdhPJwlnp8d7/fOEkypkqwExUCmIl2RKP9vSFIY6Z3TXZuynGv+gQ6ZzaCTjRN4xR7i9/EdKZccow==
+X-Received: by 2002:a1c:28d4:: with SMTP id o203mr2460319wmo.143.1603801072719; 
+ Tue, 27 Oct 2020 05:17:52 -0700 (PDT)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr.
  [90.8.158.167])
- by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.48
+ by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 05:17:49 -0700 (PDT)
+ Tue, 27 Oct 2020 05:17:51 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
@@ -66,9 +66,9 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH 7/8] hwtracing: intel: use krealloc_array()
-Date: Tue, 27 Oct 2020 13:17:24 +0100
-Message-Id: <20201027121725.24660-8-brgl@bgdev.pl>
+Subject: [PATCH 8/8] dma-buf: use krealloc_array()
+Date: Tue, 27 Oct 2020 13:17:25 +0100
+Message-Id: <20201027121725.24660-9-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201027121725.24660-1-brgl@bgdev.pl>
 References: <20201027121725.24660-1-brgl@bgdev.pl>
@@ -104,22 +104,24 @@ calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/hwtracing/intel_th/msu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma-buf/sync_file.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hwtracing/intel_th/msu.c b/drivers/hwtracing/intel_th/msu.c
-index 3a77551fb4fc..7d95242db900 100644
---- a/drivers/hwtracing/intel_th/msu.c
-+++ b/drivers/hwtracing/intel_th/msu.c
-@@ -2002,7 +2002,7 @@ nr_pages_store(struct device *dev, struct device_attribute *attr,
- 		}
+diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+index 5a5a1da01a00..2925ea03eef0 100644
+--- a/drivers/dma-buf/sync_file.c
++++ b/drivers/dma-buf/sync_file.c
+@@ -270,8 +270,8 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+ 		fences[i++] = dma_fence_get(a_fences[0]);
  
- 		nr_wins++;
--		rewin = krealloc(win, sizeof(*win) * nr_wins, GFP_KERNEL);
-+		rewin = krealloc_array(win, nr_wins, sizeof(*win), GFP_KERNEL);
- 		if (!rewin) {
- 			kfree(win);
- 			return -ENOMEM;
+ 	if (num_fences > i) {
+-		nfences = krealloc(fences, i * sizeof(*fences),
+-				  GFP_KERNEL);
++		nfences = krealloc_array(fences, i,
++					 sizeof(*fences), GFP_KERNEL);
+ 		if (!nfences)
+ 			goto err;
+ 
 -- 
 2.29.1
 
