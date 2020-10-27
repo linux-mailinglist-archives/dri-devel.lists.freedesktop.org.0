@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B855A29BE22
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:56:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 846D429BE25
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:56:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2D76EBED;
-	Tue, 27 Oct 2020 16:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89E196EBFE;
+	Tue, 27 Oct 2020 16:56:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE5536EBED;
- Tue, 27 Oct 2020 16:56:29 +0000 (UTC)
-IronPort-SDR: gIxG4b0pUzLi4WpkKxkKtjXKlvoxNr372lxB2B+h/GzbXo6rW8yuV9fmJ1VXwcsofw+uCx3+bT
- UgivcuokNqbg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="147975854"
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="147975854"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C16FC6EBFF;
+ Tue, 27 Oct 2020 16:56:32 +0000 (UTC)
+IronPort-SDR: uocaGbe0SFAxjeh19mDVB+63RqoiQvs7QVI+l65OHm1wYStM2Nr/HWggS82sUjhJ/ndf1DvxLJ
+ cMH1Itmx35vw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="147975862"
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="147975862"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 09:56:29 -0700
-IronPort-SDR: FAduU/Qd21agw56ETwUwif/ura8tzNkzfeFtCnNzclSSwn3CWxpkMSiGN1FDWW2SGsBK5jSjyu
- Rj5y4jL6lJNA==
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="355613201"
+ 27 Oct 2020 09:56:32 -0700
+IronPort-SDR: +goLr/Z4/bdwjI9kSFtq0w/H5fXMPgvn7XB+nkDSnci8/i5sTQNUXOTkYhDnbShjaRpq3cgRbk
+ 10J5w1c5qx4A==
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="355613216"
 Received: from genxfsim-desktop.iind.intel.com ([10.223.74.178])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 09:56:27 -0700
+ 27 Oct 2020 09:56:29 -0700
 From: Anshuman Gupta <anshuman.gupta@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 10/16] misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
-Date: Tue, 27 Oct 2020 22:12:02 +0530
-Message-Id: <20201027164208.10026-11-anshuman.gupta@intel.com>
+Subject: [PATCH v4 11/16] drm/hdcp: Max MST content streams
+Date: Tue, 27 Oct 2020 22:12:03 +0530
+Message-Id: <20201027164208.10026-12-anshuman.gupta@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027164208.10026-1-anshuman.gupta@intel.com>
 References: <20201027164208.10026-1-anshuman.gupta@intel.com>
@@ -50,44 +50,45 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: jani.nikula@intel.com, uma.shankar@intel.com, seanpaul@chromium.org,
- Anshuman Gupta <anshuman.gupta@intel.com>,
- Tomas Winkler <tomas.winkler@intel.com>, juston.li@intel.com
+ Anshuman Gupta <anshuman.gupta@intel.com>, juston.li@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the size of WIRED_REPEATER_AUTH_STREAM_REQ cmd buffer size.
-It is based upon the actual number of MST streams and size
-of wired_cmd_repeater_auth_stream_req_in.
-Excluding the size of hdcp_cmd_header.
+Let's define Maximum MST content streams up to four
+generically which can be supported by modern display
+controllers.
 
-v2:
-hdcp_cmd_header size annotation nitpick. [Tomas]
-
-Cc: Tomas Winkler <tomas.winkler@intel.com>
+Cc: Sean Paul <seanpaul@chromium.org>
 Cc: Ramalingam C <ramalingam.c@intel.com>
-Acked-by: Tomas Winkler <tomas.winkler@intel.com>
+Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 ---
- drivers/misc/mei/hdcp/mei_hdcp.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/drm/drm_hdcp.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/misc/mei/hdcp/mei_hdcp.c b/drivers/misc/mei/hdcp/mei_hdcp.c
-index 9ae9669e46ea..3506a3534294 100644
---- a/drivers/misc/mei/hdcp/mei_hdcp.c
-+++ b/drivers/misc/mei/hdcp/mei_hdcp.c
-@@ -569,8 +569,7 @@ static int mei_hdcp_verify_mprime(struct device *dev,
- 	verify_mprime_in->header.api_version = HDCP_API_VERSION;
- 	verify_mprime_in->header.command_id = WIRED_REPEATER_AUTH_STREAM_REQ;
- 	verify_mprime_in->header.status = ME_HDCP_STATUS_SUCCESS;
--	verify_mprime_in->header.buffer_len =
--			WIRED_CMD_BUF_LEN_REPEATER_AUTH_STREAM_REQ_MIN_IN;
-+	verify_mprime_in->header.buffer_len = cmd_size  - sizeof(verify_mprime_in->header);
+diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
+index fe58dbb46962..ac22c246542a 100644
+--- a/include/drm/drm_hdcp.h
++++ b/include/drm/drm_hdcp.h
+@@ -101,11 +101,11 @@
  
- 	verify_mprime_in->port.integrated_port_type = data->port_type;
- 	verify_mprime_in->port.physical_port = (u8)data->fw_ddi;
+ /* Following Macros take a byte at a time for bit(s) masking */
+ /*
+- * TODO: This has to be changed for DP MST, as multiple stream on
+- * same port is possible.
+- * For HDCP2.2 on HDMI and DP SST this value is always 1.
++ * TODO: HDCP_2_2_MAX_CONTENT_STREAMS_CNT is based upon actual
++ * H/W MST streams capacity.
++ * This required to be moved out to platform specific header.
+  */
+-#define HDCP_2_2_MAX_CONTENT_STREAMS_CNT	1
++#define HDCP_2_2_MAX_CONTENT_STREAMS_CNT	4
+ #define HDCP_2_2_TXCAP_MASK_LEN			2
+ #define HDCP_2_2_RXCAPS_LEN			3
+ #define HDCP_2_2_RX_REPEATER(x)			((x) & BIT(0))
 -- 
 2.26.2
 
