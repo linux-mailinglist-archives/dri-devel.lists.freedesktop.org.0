@@ -2,53 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F86F29C7FF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 20:01:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D0629C859
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 20:07:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AD2B6EC25;
-	Tue, 27 Oct 2020 19:01:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8EA6EC0D;
+	Tue, 27 Oct 2020 19:07:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 511606EC21
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 19:01:27 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id w191so2408243oif.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:01:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M/ppSbcOSIkyb0WLxSLtuLH+l8WQbDgVdPBCEGLhzkg=;
- b=ITgfknbVMZfp35lpmLI31j4Nz1iCLqIjRADmmwWUK5/lEwTGJCtZuIg7KxFWy7ItTQ
- hfI9rUKmuyCzK+NN6zramPdeJQr3T/y85wtC502Wh1aA+EVeb5zEhSA9pSEyllBQ0ubV
- 93+c6QQRkdWNThoyRK6g0NvSsnUYPyNsOg5A0=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 116446EC18
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 19:07:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603825660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=l0PCwDa1wHGV+Q/jQHXorblfnJ1kxgpeCNddFrrP2u8=;
+ b=DVWQEmwsHVuNj1CUczWg7D0aYOyzxiZFqWZYzi2iTK+zx7YUo7MpklqQRxPHMAdcHMdivf
+ 1r+E5ThCsrFAPM9ujIFs6GF5LJB4auyTjTCyqnkMVTpUeMRj83m0+A4D6MwZRgl+sKCZLj
+ 9hmMJDyGL1xd9Ss5uzTetxArIuLeQ9M=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-qRLgUpCeMfCMIJN8-CdoqQ-1; Tue, 27 Oct 2020 15:07:33 -0400
+X-MC-Unique: qRLgUpCeMfCMIJN8-CdoqQ-1
+Received: by mail-oo1-f69.google.com with SMTP id q9so1221967ool.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:07:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M/ppSbcOSIkyb0WLxSLtuLH+l8WQbDgVdPBCEGLhzkg=;
- b=iO/1Kyl6T+HReg6kmNZLT+1XzBe1resMPgyFbhZMq+yzqOdmp42epEi4fY9nrvW+3K
- WYbH3N1aHVwLYkJel2ta0WR3CRq2S9EMDPyLcnbOgWoQ/wcxJ3IpHpZ2xdcZvq7AL9n9
- BbTuJiZ2/lBPawGE5lWYPmjkFe3hzopdizLjn8Aq/zLTPol5gbRkVfb/mCN16C5qIZJn
- INOYQnFmGLO2Cns2zd0hl9Q8PBayDTA6e6SGKsFr/av8QoxUVrAd0veYXYZCYN6vR8oL
- exN7cjYbzPJAF/LeZhCHnh6QH3VPalqRNs8PlVPxkABG44C1NrtAN0I+ARvojlz5QnT2
- p5mw==
-X-Gm-Message-State: AOAM531FJmOqOO1++Cf3oYdN56onC6YhO2lo28HWpOkmBDfKFXdzEuNa
- t3vN1CKJF9eIGXMC9apHodRW0QOIEK/U2HJk8f4VEA==
-X-Google-Smtp-Source: ABdhPJwHcWbTJCbJ7AAyjVib0AGCCVAs4xDrwxrSwOfpPtT8albuTTgqSli8X5JVplvyhTsqPY2DxlaYLA/ZcsBiLvA=
-X-Received: by 2002:aca:39d6:: with SMTP id g205mr2530848oia.14.1603825286633; 
- Tue, 27 Oct 2020 12:01:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201021163242.1458885-1-daniel.vetter@ffwll.ch>
- <20201023122216.2373294-1-daniel.vetter@ffwll.ch>
- <20201023122216.2373294-3-daniel.vetter@ffwll.ch>
- <20201027185100.GD12824@infradead.org>
-In-Reply-To: <20201027185100.GD12824@infradead.org>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 27 Oct 2020 20:01:15 +0100
-Message-ID: <CAKMK7uERSRmJ+E03SWsXcjVEbg24pzbVcXf7dpCvcR1JvnTcnA@mail.gmail.com>
-Subject: Re: [PATCH 03/65] mm: Track mmu notifiers in
- fs_reclaim_acquire/release
-To: Christoph Hellwig <hch@infradead.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=l0PCwDa1wHGV+Q/jQHXorblfnJ1kxgpeCNddFrrP2u8=;
+ b=DamSOr9Moixzvq332gFdt5afc6RR2CQDZ6UMWNjD3sVX00wWGzwVe7VAsuJxHB/MWM
+ d+iZpWAaEUlTP5xlEuchTJNeTQSDNKczXg1wq39dbpzxL5RHNszPtIHMPEiKgvtNEppv
+ ErkU/agC3FyOmwMngPJEJmRliYeQVnY7efoSKKwfeAnnPYBneoGNDGFc/TX40xx2GiR0
+ UM/KfpVwJ5Ig7gxtMKPK+BdB3SRBjqga5fXfiVTpD/Xv+xgz3KNQVfMib4TWnfWaGL1+
+ aiOIjtkfsI4+lptX/PYgsSuyEX6NmS94krHb1xXh/aqScaKeYk7ElRTrPiz2lsA4CoJ5
+ JVpw==
+X-Gm-Message-State: AOAM530XfrWTA1GdKnI1CmuxSdgiBds/DZBQlbqjAc6GQaQkjJ8eRis1
+ f5y/RnuASodsqUaiAVXIzxUy5qEMorSxcAd+65PGV13uBHPmfE3Qb1CbmoiQOR0BoDZgpewjyij
+ 788C8a4FRdkciVY1a2/mDOh6ol9iO
+X-Received: by 2002:a9d:491:: with SMTP id 17mr2601951otm.338.1603825652820;
+ Tue, 27 Oct 2020 12:07:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzWW33cuqBanM3RqWmNlIAsoMbT3S8VnWYdIw36FDCID2skFOgGdV/X/Ei7bypd9s6bTTHJSg==
+X-Received: by 2002:a9d:491:: with SMTP id 17mr2601933otm.338.1603825652601;
+ Tue, 27 Oct 2020 12:07:32 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
+ [75.142.250.213])
+ by smtp.gmail.com with ESMTPSA id x83sm1765339oig.39.2020.10.27.12.07.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 12:07:32 -0700 (PDT)
+From: trix@redhat.com
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, jonathan.kim@amd.com, harish.kasiviswanathan@amd.com,
+ Felix.Kuehling@amd.com, zhengbin13@huawei.com, luben.tuikov@amd.com,
+ Joseph.Greathouse@amd.com, Hawking.Zhang@amd.com, guchun.chen@amd.com,
+ john.clements@amd.com, tao.zhou1@amd.com, Dennis.Li@amd.com,
+ Stanley.Yang@amd.com
+Subject: [PATCH] drm/amdgpu: remove unneeded semicolon
+Date: Tue, 27 Oct 2020 12:07:26 -0700
+Message-Id: <20201027190726.1588801-1-trix@redhat.com>
+X-Mailer: git-send-email 2.18.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +77,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Dave Chinner <david@fromorbit.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Christian K??nig <christian.koenig@amd.com>, linux-xfs@vger.kernel.org,
- Linux MM <linux-mm@kvack.org>, Jason Gunthorpe <jgg@mellanox.com>,
- Qian Cai <cai@lca.pw>, linux-fsdevel@vger.kernel.org,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Thomas Hellstr??m <thomas_os@shipmail.org>
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 27, 2020 at 7:51 PM Christoph Hellwig <hch@infradead.org> wrote:
-> Is there a list that has the cover letter and the whole series?
-> I've only found fragments (and mostly the same fragments) while
-> wading through my backlog in various list folders..
+From: Tom Rix <trix@redhat.com>
 
-Typoed git send-email command that I only caught half-way through. I
-tried to reply with apologies in a few spots, I guess I didn't cover
-all the lists this spams :-/
+A semicolon is not needed after a switch statement.
 
-The patch itself is still somewhere on my todo to respin, I want to
-pep it up with some testcases since previous version was kinda badly
-broken. Just didn't get around to that yet.
--Daniel
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+index 1b213c4ddfcb..19c0a3655228 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+@@ -654,7 +654,7 @@ int amdgpu_pmu_init(struct amdgpu_device *adev)
+ 
+ 	default:
+ 		return 0;
+-	};
++	}
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+index 8bf6a7c056bc..a61cf8cfbfc3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -953,7 +953,7 @@ static char *amdgpu_ras_badpage_flags_str(unsigned int flags)
+ 	case AMDGPU_RAS_RETIRE_PAGE_FAULT:
+ 	default:
+ 		return "F";
+-	};
++	}
+ }
+ 
+ /**
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.18.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
