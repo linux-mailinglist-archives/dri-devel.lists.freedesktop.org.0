@@ -1,49 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D5329C588
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 19:20:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F142729C73E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 19:31:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6AD26EBF6;
-	Tue, 27 Oct 2020 18:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49EA16E0DC;
+	Tue, 27 Oct 2020 18:31:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0146EBF6
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 18:20:09 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E2118ADCA;
- Tue, 27 Oct 2020 18:20:07 +0000 (UTC)
-Subject: Re: [PATCH 1/8] mm: slab: provide krealloc_array()
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
- James Morse <james.morse@arm.com>, Robert Richter <rric@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
- David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
+X-Greylist: delayed 345 seconds by postgrey-1.36 at gabe;
+ Tue, 27 Oct 2020 18:31:23 UTC
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F126E0DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 18:31:23 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f0dae00bf53706700052072.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0d:ae00:bf53:7067:5:2072])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BAB771EC0212;
+ Tue, 27 Oct 2020 19:25:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1603823132;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=HIlEQ668ZK65lA6MbCzNrMzTRfwiOqR1WIXbuHA3yjs=;
+ b=EgbFsJdf1OZ3IGcke8XXZo3hz2cAmj/RcULw8QVmtef7YinSrbWCYFvbL5yywQPkzemwXO
+ N724w3YmM6BIy+GiS4LbNct6nLnnKYjmBEbvDSj3xaVvbYC4cp66jlosXNW/p8ekCy1vAQ
+ YuPzn8Qmf75kT/ZiIBq27HMK3PaA71Y=
+Date: Tue, 27 Oct 2020 19:25:20 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH 5/8] edac: ghes: use krealloc_array()
+Message-ID: <20201027182520.GK15580@zn.tnic>
 References: <20201027121725.24660-1-brgl@bgdev.pl>
- <20201027121725.24660-2-brgl@bgdev.pl>
-From: Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <21ae795b-c0f4-bbf3-20f6-830d0980a673@suse.cz>
-Date: Tue, 27 Oct 2020 19:20:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+ <20201027121725.24660-6-brgl@bgdev.pl>
 MIME-Version: 1.0
-In-Reply-To: <20201027121725.24660-2-brgl@bgdev.pl>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201027121725.24660-6-brgl@bgdev.pl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,61 +51,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org, linux-mm@kvack.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-gpio@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-media@vger.kernel.org,
- linux-edac@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Gustavo Padovan <gustavo@padovan.org>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, linux-mm@kvack.org,
+ Christoph Lameter <cl@linux.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ David Rientjes <rientjes@google.com>,
+ virtualization@lists.linux-foundation.org, Jason Wang <jasowang@redhat.com>,
+ linux-media@vger.kernel.org, Robert Richter <rric@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linaro-mm-sig@lists.linaro.org,
+ linux-gpio@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>, linux-edac@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, netdev@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Pekka Enberg <penberg@kernel.org>, James Morse <james.morse@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/27/20 1:17 PM, Bartosz Golaszewski wrote:
+On Tue, Oct 27, 2020 at 01:17:22PM +0100, Bartosz Golaszewski wrote:
 > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> When allocating an array of elements, users should check for
-> multiplication overflow or preferably use one of the provided helpers
-> like: kmalloc_array().
-> 
-> There's no krealloc_array() counterpart but there are many users who use
-> regular krealloc() to reallocate arrays. Let's provide an actual
-> krealloc_array() implementation.
+> Use the helper that checks for overflows internally instead of manually
+> calculating the size of the new array.
 > 
 > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-
-Makes sense.
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-
 > ---
->   include/linux/slab.h | 11 +++++++++++
->   1 file changed, 11 insertions(+)
+>  drivers/edac/ghes_edac.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index dd6897f62010..0e6683affee7 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -592,6 +592,17 @@ static inline void *kmalloc_array(size_t n, size_t size, gfp_t flags)
->   	return __kmalloc(bytes, flags);
->   }
->   
-> +static __must_check inline void *
-> +krealloc_array(void *p, size_t new_n, size_t new_size, gfp_t flags)
-> +{
-> +	size_t bytes;
-> +
-> +	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
-> +		return NULL;
-> +
-> +	return krealloc(p, bytes, flags);
-> +}
-> +
->   /**
->    * kcalloc - allocate memory for an array. The memory is set to zero.
->    * @n: number of elements.
-> 
+> diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
+> index a918ca93e4f7..6d1ddecbf0da 100644
+> --- a/drivers/edac/ghes_edac.c
+> +++ b/drivers/edac/ghes_edac.c
+> @@ -207,8 +207,8 @@ static void enumerate_dimms(const struct dmi_header *dh, void *arg)
+>  	if (!hw->num_dimms || !(hw->num_dimms % 16)) {
+>  		struct dimm_info *new;
+>  
+> -		new = krealloc(hw->dimms, (hw->num_dimms + 16) * sizeof(struct dimm_info),
+> -			        GFP_KERNEL);
+> +		new = krealloc_array(hw->dimms, hw->num_dimms + 16,
+> +				     sizeof(struct dimm_info), GFP_KERNEL);
+>  		if (!new) {
+>  			WARN_ON_ONCE(1);
+>  			return;
+> -- 
 
+Sure, why not.
+
+Acked-by: Borislav Petkov <bp@suse.de>
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
