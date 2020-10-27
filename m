@@ -1,70 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0760029C887
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 20:18:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7B729C88D
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 20:19:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A96266EC1A;
-	Tue, 27 Oct 2020 19:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D25976EC1D;
+	Tue, 27 Oct 2020 19:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54F566EC1A
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 19:18:18 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id j7so3147965wrt.9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:18:18 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABB396EC1B
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 19:19:34 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id i1so3213427wro.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=UcIHLAfMrGIWb94gFQbYez2rtiLYhxYGzbhepgOEqhg=;
- b=jZmcXQX1A2S40vjJo/nTH0aljwKjJuAPXb+B36lbyLEdT9egc+lxtWdJnMB+OCR1q/
- z8JXGeDZMMgDs7eEoLuZcbtLb4W4PRiKB7xEFyfMBTPNVjvHVRgf0wKWDBhLE7BeF3Ee
- HdUsFRjxEA01mA8iefIMZVO+toudXuG7t7vSE=
+ bh=94FVc/lhmQBJbpQ0I0StwCkg4DMhTbsduFiN4bjClk4=;
+ b=Sld6hciHThDqeso8S8+jXbwutFt+C8GMsFv9uR38kkL9A2ymfTua46NMT/Q9ZBn3uh
+ noluYBIeHRwknPmU94BZzwh6l7DE4uJbJLLOru2dF0iDS5wDVUIl89TAYeWKJJDtgD9J
+ qGm+daZidj774s7wADWav2trLrU+zVLJfeX5A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=UcIHLAfMrGIWb94gFQbYez2rtiLYhxYGzbhepgOEqhg=;
- b=NUOUVmET1jMith2E/6BtEulBJKMwmoZSXFwjSBygnqJBjfvMLNCGa+BJtKRnXJ/63v
- TcFSOlIyAyZYgMY3fE9p6fB5DmkvX6oiMPiazaiNUKH8jg6nTJ9Ln/C/zstck/YbrzQg
- llYDzRNSxr3DdIbsc5lJ+AIn4c8Veic11PqLdKVZlwMrkaKeIdaLuxvbf+U2+nFGpbDc
- gUM1dqufO8PUKu257xNH1tdjqzdeEYhe2J0V747L4gF81eQ0I1B7+dp06lU9vJdOF/xE
- +p4q7fjt3/qUlBhZBzyX3DwjLg3yZXVVnELae7lgfUDDJgXvPLKL8PCnOfI+WCbr9nnQ
- I31w==
-X-Gm-Message-State: AOAM5327QNzoVBXZ3AkpySKO/QSdsJ8VO7GF+Aq8eO3R+HEmEaTfZMM7
- ArEDsthS/bXaC1Ux1mM0HZQ/zg==
-X-Google-Smtp-Source: ABdhPJwcdYcb/+YbSAqoFdbmEhcuESXU1vQTf/whNx4Mk55hbq+3g75bW6OZn0DeRMXMMRK+am3X9g==
-X-Received: by 2002:adf:dd50:: with SMTP id u16mr4781710wrm.419.1603826296987; 
- Tue, 27 Oct 2020 12:18:16 -0700 (PDT)
+ bh=94FVc/lhmQBJbpQ0I0StwCkg4DMhTbsduFiN4bjClk4=;
+ b=lsTh4a9oV+JaY6mfFMoDSxsDHAiic9l7WOR0yf1M4JO8KtDX7q0C4dDFIFj1pIGezz
+ 0cLF/e7MZmJcHczOB3kL6bhZVvG/AL8AASfF9H29NXuEnZ4hZX3Tm+AxuzPyFw3VWPvu
+ ggvbiKo+WJ6FjGaJ3xK9fvCQX9JqqBTbRcIet/fAtSvgQYYuX0ebibGPcB559vbkv9uu
+ 3pKyTff9SVfSsccgTBD4YqVeNAu+vLGHN6DYeoeVupUCTMKoZrgSpChQbTZ/4jXJV+yE
+ k+ZqHuMxsZgjERztI1x1vIKUCfi4X5rNeDtDNrS/8a29actzLSTa7BvIm26erMnGww2G
+ AIwQ==
+X-Gm-Message-State: AOAM531EYvbMQ8YIA8CMVdb4xXPOwI2W/DUrikfjzVq0zSacO8dHJXgy
+ VawSrQwF4hFQcwOJfyRdE0z4Ig==
+X-Google-Smtp-Source: ABdhPJxSeCImtuoOwiJ2SgVqpZLT/QAEeRHxQ9b1eMNAwd7xtGe8jna3O2uLNWNIxJE6aH3a1ktGnQ==
+X-Received: by 2002:a5d:4dc7:: with SMTP id f7mr4027819wru.375.1603826373382; 
+ Tue, 27 Oct 2020 12:19:33 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b7sm3280521wrp.16.2020.10.27.12.18.15
+ by smtp.gmail.com with ESMTPSA id h206sm3012251wmf.47.2020.10.27.12.19.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 12:18:16 -0700 (PDT)
-Date: Tue, 27 Oct 2020 20:18:14 +0100
+ Tue, 27 Oct 2020 12:19:32 -0700 (PDT)
+Date: Tue, 27 Oct 2020 20:19:30 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-Subject: Re: [PATCH 5/5] parisc/sticore: Avoid hard-coding built-in font
- charcount
-Message-ID: <20201027191814.GP401619@phenom.ffwll.local>
-Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-parisc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1603788511.git.yepeilin.cs@gmail.com>
- <cb5bb49a33ff54fef41e719ee9d301a6a73c5f9c.1603788512.git.yepeilin.cs@gmail.com>
- <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
- <6c28279a10dbe7a7e5ac3e3a8dd7c67f8d63a9f2.1603788512.git.yepeilin.cs@gmail.com>
- <a3b1b3cdc160fb9aef389c366f387fb27f0aef38.1603788512.git.yepeilin.cs@gmail.com>
- <c38042bbf5c9777c84900d56c09f3c156b32af48.1603788512.git.yepeilin.cs@gmail.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH 6/8] drm: atomic: use krealloc_array()
+Message-ID: <20201027191930.GQ401619@phenom.ffwll.local>
+Mail-Followup-To: Bartosz Golaszewski <brgl@bgdev.pl>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+ James Morse <james.morse@arm.com>, Robert Richter <rric@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Christoph Lameter <cl@linux.com>,
+ Pekka Enberg <penberg@kernel.org>,
+ David Rientjes <rientjes@google.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+ kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ netdev@vger.kernel.org, linux-mm@kvack.org,
+ alsa-devel@alsa-project.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>
+References: <20201027121725.24660-1-brgl@bgdev.pl>
+ <20201027121725.24660-7-brgl@bgdev.pl>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <c38042bbf5c9777c84900d56c09f3c156b32af48.1603788512.git.yepeilin.cs@gmail.com>
+In-Reply-To: <20201027121725.24660-7-brgl@bgdev.pl>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,80 +94,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Gustavo Padovan <gustavo@padovan.org>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, linux-mm@kvack.org,
+ Christoph Lameter <cl@linux.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ David Rientjes <rientjes@google.com>,
+ virtualization@lists.linux-foundation.org, Jason Wang <jasowang@redhat.com>,
+ linux-media@vger.kernel.org, Robert Richter <rric@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linaro-mm-sig@lists.linaro.org,
+ linux-gpio@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-edac@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, netdev@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Pekka Enberg <penberg@kernel.org>, James Morse <james.morse@arm.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 27, 2020 at 12:41:02PM -0400, Peilin Ye wrote:
-> sti_select_fbfont() and sti_cook_fonts() are hard-coding the number of
-> characters of our built-in fonts as 256. Recently, we included that
-> information in our kernel font descriptor `struct font_desc`, so use
-> `fbfont->charcount` instead of hard-coded values.
+On Tue, Oct 27, 2020 at 01:17:23PM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> This patch depends on patch "Fonts: Add charcount field to font_desc".
+> Use the helper that checks for overflows internally instead of manually
+> calculating the size of the new array.
 > 
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+I don't expect conflicts with this going through some other tree, so
+please make that happen. Or resend once I can apply this to drm trees.
+
+Thanks, Daniel
 
 > ---
-> $ # Build-tested (Ubuntu 20.04)
-> $ sudo apt-get install binutils-hppa64-linux-gnu gcc-7-hppa64-linux-gnu
-> $ cp arch/parisc/configs/generic-64bit_defconfig .config
-> $ make -j`nproc` ARCH=parisc CROSS_COMPILE=hppa64-linux-gnu- all
+>  drivers/gpu/drm/drm_atomic.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
->  drivers/video/console/sticore.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/video/console/sticore.c b/drivers/video/console/sticore.c
-> index d1bb5915082b..f869b723494f 100644
-> --- a/drivers/video/console/sticore.c
-> +++ b/drivers/video/console/sticore.c
-> @@ -506,7 +506,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
->  			fbfont->width, fbfont->height, fbfont->name);
->  			
->  	bpc = ((fbfont->width+7)/8) * fbfont->height; 
-> -	size = bpc * 256;
-> +	size = bpc * fbfont->charcount;
->  	size += sizeof(struct sti_rom_font);
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 58527f151984..09ad6a2ec17b 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -960,7 +960,8 @@ drm_atomic_get_connector_state(struct drm_atomic_state *state,
+>  		struct __drm_connnectors_state *c;
+>  		int alloc = max(index + 1, config->num_connector);
 >  
->  	nf = kzalloc(size, STI_LOWMEM);
-> @@ -514,7 +514,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
->  		return NULL;
+> -		c = krealloc(state->connectors, alloc * sizeof(*state->connectors), GFP_KERNEL);
+> +		c = krealloc_array(state->connectors, alloc,
+> +				   sizeof(*state->connectors), GFP_KERNEL);
+>  		if (!c)
+>  			return ERR_PTR(-ENOMEM);
 >  
->  	nf->first_char = 0;
-> -	nf->last_char = 255;
-> +	nf->last_char = fbfont->charcount - 1;
->  	nf->width = fbfont->width;
->  	nf->height = fbfont->height;
->  	nf->font_type = STI_FONT_HPROMAN8;
-> @@ -525,7 +525,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
->  
->  	dest = nf;
->  	dest += sizeof(struct sti_rom_font);
-> -	memcpy(dest, fbfont->data, bpc*256);
-> +	memcpy(dest, fbfont->data, bpc * fbfont->charcount);
->  
->  	cooked_font = kzalloc(sizeof(*cooked_font), GFP_KERNEL);
->  	if (!cooked_font) {
-> @@ -660,7 +660,7 @@ static int sti_cook_fonts(struct sti_cooked_rom *cooked_rom,
->  void sti_font_convert_bytemode(struct sti_struct *sti, struct sti_cooked_font *f)
->  {
->  	unsigned char *n, *p, *q;
-> -	int size = f->raw->bytes_per_char * 256 + sizeof(struct sti_rom_font);
-> +	int size = f->raw->bytes_per_char * (f->raw->last_char + 1) + sizeof(struct sti_rom_font);
->  	struct sti_rom_font *old_font;
->  
->  	if (sti->wordmode)
 > -- 
-> 2.25.1
+> 2.29.1
 > 
 
 -- 
