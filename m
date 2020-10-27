@@ -1,63 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90B229A838
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 10:50:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EA629A843
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 10:51:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 083006E03F;
-	Tue, 27 Oct 2020 09:50:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF9DC6EB4C;
+	Tue, 27 Oct 2020 09:51:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAA836E03F;
- Tue, 27 Oct 2020 09:50:25 +0000 (UTC)
-IronPort-SDR: RV3TBTjK7yPnmbi7qCwcIJrfNSbBVko39V1agiu+D9SEL3lj8nIafOgIeXGvdfk4cnnFsc+cK9
- UoCXqt0WkvcQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9786"; a="147337270"
-X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; d="scan'208";a="147337270"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 02:50:25 -0700
-IronPort-SDR: qMCcsfCv7LcXekTU/FKXjKqMgkKZYiw4Jv8CPir+TvgmB4iHfiAfmIdq9P2QcIWSqhtaPOWQII
- iPoa/dfj4AcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; d="scan'208";a="350223557"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by orsmga008.jf.intel.com with ESMTP; 27 Oct 2020 02:50:24 -0700
-Received: from bgsmsx603.gar.corp.intel.com (10.109.78.82) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 27 Oct 2020 02:50:23 -0700
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX603.gar.corp.intel.com (10.109.78.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 27 Oct 2020 15:20:21 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Tue, 27 Oct 2020 15:20:21 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: "Gupta, Anshuman" <anshuman.gupta@intel.com>
-Subject: RE: [PATCH v3 14/16] drm/i915/hdcp: Add HDCP 2.2 stream register
-Thread-Topic: [PATCH v3 14/16] drm/i915/hdcp: Add HDCP 2.2 stream register
-Thread-Index: AQHWqTkItgbYgdwjiEOXz7Jf5LPbkKmrClsQ///FSICAAGlvIA==
-Date: Tue, 27 Oct 2020 09:50:21 +0000
-Message-ID: <38f7ba3e3ff348928c959864e1f1c3ec@intel.com>
-References: <20201023122112.15265-1-anshuman.gupta@intel.com>
- <20201023122112.15265-15-anshuman.gupta@intel.com>
- <3b7df974286b4497ba31ad4a554062e0@intel.com>
- <20201027085704.GG29526@intel.com>
-In-Reply-To: <20201027085704.GG29526@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.223.10.1]
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38C376EB4C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:51:42 +0000 (UTC)
+Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de
+ [95.90.213.175])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 49ADD223AB;
+ Tue, 27 Oct 2020 09:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603792301;
+ bh=4Bu6akfKjaahqyWEGXpzqa8kviAzcp1lUCJxl8zFrWQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=vntfPDjZdT2gTCYKiegEGjUfFDRECf8mdyMsr1tqgA0lruUT8kyHr6xO4C/cZFEEk
+ GvZtryzyEdBNjQsBhau+bn/DlTHMjAq9d0tt6F4ltEadnvHmVoS3fTPoE7O5GOfnKD
+ NhT4fVuELY20BAiin4QgPu5X9l/8TMu9l/1vil1Y=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+ (envelope-from <mchehab@kernel.org>)
+ id 1kXLdj-003FEr-8B; Tue, 27 Oct 2020 10:51:39 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v3 10/32] drm: kernel-doc: document
+ drm_dp_set_subconnector_property() params
+Date: Tue, 27 Oct 2020 10:51:14 +0100
+Message-Id: <0870be85a77bea4ba5cf1715010834289a4e10b1.1603791716.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
+References: <cover.1603791716.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,129 +51,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>, "Li, 
- Juston" <juston.li@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Oleg Vasilev <oleg.vasilev@intel.com>, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changeset e5b92773287c ("drm: report dp downstream port type as a subconnector property")
+added a new function to the kAPI, but didn't add any documentation
+for the parameters for drm_dp_set_subconnector_property().
 
+Fixes: e5b92773287c ("drm: report dp downstream port type as a subconnector property")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/gpu/drm/drm_dp_helper.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-> -----Original Message-----
-> From: Anshuman Gupta <anshuman.gupta@intel.com>
-> Sent: Tuesday, October 27, 2020 2:27 PM
-> To: Shankar, Uma <uma.shankar@intel.com>
-> Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
-> seanpaul@chromium.org; Nikula, Jani <jani.nikula@intel.com>; C, Ramalingam
-> <ramalingam.c@intel.com>; Li, Juston <juston.li@intel.com>
-> Subject: Re: [PATCH v3 14/16] drm/i915/hdcp: Add HDCP 2.2 stream register
-> 
-> On 2020-10-27 at 12:41:41 +0530, Shankar, Uma wrote:
-> >
-> >
-> > > -----Original Message-----
-> > > From: Anshuman Gupta <anshuman.gupta@intel.com>
-> > > Sent: Friday, October 23, 2020 5:51 PM
-> > > To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> > > Cc: seanpaul@chromium.org; Nikula, Jani <jani.nikula@intel.com>; C,
-> > > Ramalingam <ramalingam.c@intel.com>; Li, Juston
-> > > <juston.li@intel.com>; Shankar, Uma <uma.shankar@intel.com>; Gupta,
-> > > Anshuman <anshuman.gupta@intel.com>
-> > > Subject: [PATCH v3 14/16] drm/i915/hdcp: Add HDCP 2.2 stream
-> > > register
-> > >
-> > > Add HDCP 2.2 DP MST HDCP2_STREAM_STATUS and HDCP2_AUTH_STREAM
-> > > register in i915_reg header.
-> > >
-> > > Cc: Ramalingam C <ramalingam.c@intel.com>
-> > > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/i915_reg.h | 30 ++++++++++++++++++++++++++++++
-> > >  1 file changed, 30 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/i915_reg.h
-> > > b/drivers/gpu/drm/i915/i915_reg.h index 86a9a5145e47..cb6ec2c241f2
-> > > 100644
-> > > --- a/drivers/gpu/drm/i915/i915_reg.h
-> > > +++ b/drivers/gpu/drm/i915/i915_reg.h
-> > > @@ -9882,6 +9882,7 @@ enum skl_power_gate {
-> > >  					  _PORTD_HDCP2_BASE, \
-> > >  					  _PORTE_HDCP2_BASE, \
-> > >  					  _PORTF_HDCP2_BASE) + (x))
-> > > +
-> > >  #define PORT_HDCP2_AUTH(port)		_PORT_HDCP2_BASE(port, 0x98)
-> > >  #define _TRANSA_HDCP2_AUTH		0x66498
-> > >  #define _TRANSB_HDCP2_AUTH		0x66598
-> > > @@ -9921,6 +9922,35 @@ enum skl_power_gate {
-> > >  					 TRANS_HDCP2_STATUS(trans) : \
-> > >  					 PORT_HDCP2_STATUS(port))
-> > >
-> > > +#define PORT_HDCP2_STREAM_STATUS(port)
-> 	_PORT_HDCP2_BASE(port,
-> > > 0xC0)
-> > > +#define _TRANSA_HDCP2_STREAM_STATUS		0x664C0
-> > > +#define _TRANSB_HDCP2_STREAM_STATUS		0x665C0
-> > > +#define TRANS_HDCP2_STREAM_STATUS(trans)	_MMIO_TRANS(trans, \
-> > > +
-> > > _TRANSA_HDCP2_STREAM_STATUS, \
-> > > +
-> > > _TRANSB_HDCP2_STREAM_STATUS)
-> > > +#define   STREAM_ENCRYPTION_STATUS	BIT(31)
-> > > +#define   STREAM_TYPE_STATUS		BIT(30)
-> > > +#define HDCP2_STREAM_STATUS(dev_priv, trans, port) \
-> > > +					(INTEL_GEN(dev_priv) >= 12 ? \
-> > > +					 TRANS_HDCP2_STREAM_STATUS(trans) :
-> > > \
-> > > +					 PORT_HDCP2_STREAM_STATUS(port))
-> > > +
-> > > +#define _PORTA_HDCP2_AUTH_STREAM		0x66F00
-> > > +#define _PORTB_HDCP2_AUTH_STREAM		0x66F04
-> > > +#define PORT_HDCP2_AUTH_STREAM(port)	_MMIO_PORT(port, \
-> > > +
-> > > _PORTA_HDCP2_AUTH_STREAM, \
-> > > +
-> > > _PORTB_HDCP2_AUTH_STREAM)
-> >
-> > Should it also not be defined as the other counterparts for pre Gen12.
-> It has already been defined with Gen12 and Pre Gen12 annotation below
-> HDCP2_AUTH_STREAM should TRANS_HDCP2_AUTH_STREAM for Gen12 and
-> PORT_HDCP2_AUTH_STREAM for pre Gen12.
-> Is it something else u find it is missing ?
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 90807a6b415c..b1c71af88579 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -1028,7 +1028,8 @@ EXPORT_SYMBOL(drm_dp_downstream_debug);
+ 
+ /**
+  * drm_dp_subconnector_type() - get DP branch device type
+- *
++ * @dpcd: DisplayPort configuration data
++ * @port_cap: port capabilities
+  */
+ enum drm_mode_subconnector
+ drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+@@ -1079,6 +1080,10 @@ EXPORT_SYMBOL(drm_dp_subconnector_type);
+ 
+ /**
+  * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
++ * @connector: connector to set property on
++ * @status: connector status
++ * @dpcd: DisplayPort configuration data
++ * @port_cap: port capabilities
+  *
+  * Called by a driver on every detect event.
+  */
+-- 
+2.26.2
 
-I was checking the declarations similar to
-#define PORT_HDCP2_AUTH(port)		_PORT_HDCP2_BASE(port, 0x98)
-
-But as discussed offline, this set is placed at different register group then the rest of
-HDCP regs. So this looks good.
-
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-
-> Thanks,
-> Anshuman.
-> >
-> > > +#define _TRANSA_HDCP2_AUTH_STREAM		0x66F00
-> > > +#define _TRANSB_HDCP2_AUTH_STREAM		0x66F04
-> > > +#define TRANS_HDCP2_AUTH_STREAM(trans)	_MMIO_TRANS(trans, \
-> > > +
-> > > _TRANSA_HDCP2_AUTH_STREAM, \
-> > > +
-> > > _TRANSB_HDCP2_AUTH_STREAM)
-> > > +#define   AUTH_STREAM_TYPE		BIT(31)
-> > > +#define HDCP2_AUTH_STREAM(dev_priv, trans, port) \
-> > > +					(INTEL_GEN(dev_priv) >= 12 ? \
-> > > +					 TRANS_HDCP2_AUTH_STREAM(trans) : \
-> > > +					 PORT_HDCP2_AUTH_STREAM(port))
-> > > +
-> > >  /* Per-pipe DDI Function Control */
-> > >  #define _TRANS_DDI_FUNC_CTL_A		0x60400
-> > >  #define _TRANS_DDI_FUNC_CTL_B		0x61400
-> > > --
-> > > 2.26.2
-> >
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
