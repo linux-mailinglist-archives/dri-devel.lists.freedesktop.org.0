@@ -2,59 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE7529BDD2
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:50:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3740929BDF7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:50:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 806B26E1CD;
-	Tue, 27 Oct 2020 16:50:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7102F6EB80;
+	Tue, 27 Oct 2020 16:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9136E6E1CD
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 16:50:28 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id j5so1058606plk.7
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=HptrGwBSY+SD+CDa0bd+3OxbTLi4hMQSBZc7Kms8AlM=;
- b=SloE/kKeI7PO02Z+h+wXGCAWMViSW6igjNsKi66UgTllzsf3Xo6lcfNN9TKzvnGz+O
- XdUGidI0SkH6IYKDAy6fCGH7p45ca7aCZPPpBs+hzcCKoaTXmYy1hRg1UxzuO9/Ir52v
- 2GHeyuWwCB3PgNUJyCJ99aWZ19Ta+Swx/eL8cyS04LCr67nbMkcvk+AiQLkiCrXLtGaa
- 1bI5nNiH/BumJ7Kfksftg+A48qlnMSXf91iRXxjciYyPK50SL8nGjswljjr+F3yUqq6G
- KX+R6b8X5fPOfTFGIOkwhGfPyjq22j391lukmuhQ5KjUA2gOJDoXLmpIoW+sDYulXSh3
- GqdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HptrGwBSY+SD+CDa0bd+3OxbTLi4hMQSBZc7Kms8AlM=;
- b=fet5/YGr0aUZPiVhME7XZU5T6DuGz+66e51d56tL/DLGvw/1rqiJcyVtRKWCxIqKO7
- K8E8jKKqaKTykbYK2A4a76iaINP2h4/3X9H1HQfeZOeLBntf9ABVvJTI+72o+mN7r622
- ZRhT6GLJ6EG1FBMxgWy0KsjDDAoQ82mZ8LhAlAMaRRbeW2DPj11oYkmIcVFYMGeKKAZd
- IguPXnYIr92qgTwI18fKtJ6iq/+VswxBHDLHUsEvbWUR8xOFQAlM38UzbLa5zNgS7lmn
- hB5JpQaieSLECGdh9IuiBUyfRMPIzQrRhwjaJnIqtEb7GkxuNK9kIZNlUCPWWn4PxO8W
- 33mQ==
-X-Gm-Message-State: AOAM533tc4a0h1u5GZKpsKj4gfieuV0/f0adJ3/GAC6HVB6aBc8wHkzn
- srld2eTWYAXkFtQhZwI8yw==
-X-Google-Smtp-Source: ABdhPJzMTJ8Bn35UCTNCGA0/agh8C9PXo3qzw/+//DmpetLuoSxkefj3JCZmZuvgck6DNRGfBiwPoA==
-X-Received: by 2002:a17:902:9a84:b029:d3:8b4f:50d5 with SMTP id
- w4-20020a1709029a84b02900d38b4f50d5mr3605768plp.48.1603817428057; 
- Tue, 27 Oct 2020 09:50:28 -0700 (PDT)
-Received: from PWN (n11212042025.netvigator.com. [112.120.42.25])
- by smtp.gmail.com with ESMTPSA id b3sm2840505pfd.66.2020.10.27.09.50.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 09:50:27 -0700 (PDT)
-Date: Tue, 27 Oct 2020 12:50:21 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Following up
-Message-ID: <20201027165021.GA1178130@PWN>
-References: <cover.1603788511.git.yepeilin.cs@gmail.com>
+Received: from smtprelay.hostedemail.com (smtprelay0190.hostedemail.com
+ [216.40.44.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 565296EB80
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 16:50:46 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay04.hostedemail.com (Postfix) with ESMTP id 86139180A7FE0;
+ Tue, 27 Oct 2020 16:50:43 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:69:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2828:3138:3139:3140:3141:3142:3353:3622:3865:3866:3870:3872:3874:4321:4605:5007:6742:6743:7576:7903:8603:10004:10400:10848:11026:11232:11473:11658:11914:12043:12296:12297:12438:12555:12740:12760:12895:12986:13069:13311:13357:13439:14096:14097:14181:14659:14721:21080:21451:21627:21990:30012:30054:30090:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:30, LUA_SUMMARY:none
+X-HE-Tag: bag02_2a11e012727d
+X-Filterd-Recvd-Size: 4083
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf19.hostedemail.com (Postfix) with ESMTPA;
+ Tue, 27 Oct 2020 16:50:38 +0000 (UTC)
+Message-ID: <685d850347a1191bba8ba7766fc409b140d18f03.camel@perches.com>
+Subject: Re: [PATCH 3/8] vhost: vringh: use krealloc_array()
+From: Joe Perches <joe@perches.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 27 Oct 2020 09:50:36 -0700
+In-Reply-To: <20201027112607-mutt-send-email-mst@kernel.org>
+References: <20201027121725.24660-1-brgl@bgdev.pl>
+ <20201027121725.24660-4-brgl@bgdev.pl>
+ <20201027112607-mutt-send-email-mst@kernel.org>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1603788511.git.yepeilin.cs@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,99 +52,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Gustavo Padovan <gustavo@padovan.org>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ linux-mm@kvack.org, Christoph Lameter <cl@linux.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ David Rientjes <rientjes@google.com>,
+ virtualization@lists.linux-foundation.org, Jason Wang <jasowang@redhat.com>,
+ linux-media@vger.kernel.org, Robert Richter <rric@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linaro-mm-sig@lists.linaro.org,
+ linux-gpio@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>, linux-edac@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, netdev@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Pekka Enberg <penberg@kernel.org>, James Morse <james.morse@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Tue, 2020-10-27 at 11:28 -0400, Michael S. Tsirkin wrote:
+> On Tue, Oct 27, 2020 at 01:17:20PM +0100, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > 
+> > Use the helper that checks for overflows internally instead of manually
+> > calculating the size of the new array.
+> > 
+> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> 
+> No problem with the patch, it does introduce some symmetry in the code.
 
-More about the 3 things we've discussed before:
+Perhaps more symmetry by using kmemdup
+---
+ drivers/vhost/vringh.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-  1. Cleaning up con_font_op():
-
-(drivers/tty/vt/vt.c)
-int con_font_op(struct vc_data *vc, struct console_font_op *op)
-{
-	switch (op->op) {
-	case KD_FONT_OP_SET:
-		return con_font_set(vc, op);
-	case KD_FONT_OP_GET:
-		return con_font_get(vc, op);
-	case KD_FONT_OP_SET_DEFAULT:
-		return con_font_default(vc, op);
-	case KD_FONT_OP_COPY:
-		return con_font_copy(vc, op);
-	}
-	return -ENOSYS;
-}
-
-On Tue, Sep 29, 2020 at 04:38:49PM +0200, Daniel Vetter wrote:
-> I think if we change the conf_font_get/set/default/copy functions to not
-> take the *op struct (which is take pretty arbitrarily from one of the
-> ioctl), but the parameters each needs directly, that would clean up the
-> code a _lot_.
-
-    This is on my TODO list! One day I came up with some idea about
-    fbcon.c, so I postponed this a bit...
-
-  2. Removing dummy functions, like sisusbdummycon_font_set():
-    
-    Turns out, before c396a5bf457f ("console: Expand dummy functions for
-    CFI"), they were just some macros:
-
--#define SISUSBCONDUMMY (void *)sisusbdummycon_dummy
-+static int sisusbdummycon_font_set(struct vc_data *vc,
-+                                  struct console_font *font,
-+                                  unsigned int flags)
-+{
-+       return 0;
-+}
-
-    ...and they had been there for a very long (10+ years) time. Removing
-    code like this makes me a bit nervous, and...
-
-On Tue, Sep 29, 2020 at 04:38:49PM +0200, Daniel Vetter wrote:
-> This actually does something. tbh I would not be surprises if the
-> fb_set utility is the only thing that uses this - with a bit of code
-> search we could perhaps confirm this, and delete all the other
-> implementations.
-
-    ...you mentioned code search, where & what should we look at, in order
-    to confirm it's safe to remove them?
-
-  3. Using `font_desc` in `vc_data`:
-
-    Our plan for the gradual conversion was to use a helper function to
-    set font for a vc, but after reviewing the 300-ish occurrence of
-    `vc_font`, it seems like code doesn't usually set it as a whole:
-
-(drivers/usb/misc/sisusbvga/sisusb_con.c)
-	[...]
-	c->vc_font.height = sisusb->current_font_height;
-	[...]
-
-    ...that's it! It only cares about the height. There are only 4 or 5
-    places in fbcon.c that actually set all fields of `vc_font`, like:
-
-    		vc->vc_font.width = font->width;
-		vc->vc_font.height = font->height;
-		vc->vc_font.data = (void *)(p->fontdata = font->data);
-		vc->vc_font.charcount = 256; /* FIXME  Need to support more fonts */
-
-    To make it even more complicated, `p` is a `struct fbcon_display *`,
-    containing yet another font data pointer (`fontdata`) that I think
-    should be replaced by a `font_desc *`...
-
-    In conclusion, I think it's all about a few hard problems in fbcon.c.
-    I'll keep trying and see how it goes.
-    
-Thank you,
-Peilin Ye
+diff --git a/drivers/vhost/vringh.c b/drivers/vhost/vringh.c
+index 8bd8b403f087..99222a3651cd 100644
+--- a/drivers/vhost/vringh.c
++++ b/drivers/vhost/vringh.c
+@@ -191,26 +191,23 @@ static int move_to_indirect(const struct vringh *vrh,
+ static int resize_iovec(struct vringh_kiov *iov, gfp_t gfp)
+ {
+ 	struct kvec *new;
+-	unsigned int flag, new_num = (iov->max_num & ~VRINGH_IOV_ALLOCATED) * 2;
++	size_t new_num = (iov->max_num & ~VRINGH_IOV_ALLOCATED) * 2;
++	size_t size;
+ 
+ 	if (new_num < 8)
+ 		new_num = 8;
+ 
+-	flag = (iov->max_num & VRINGH_IOV_ALLOCATED);
+-	if (flag)
+-		new = krealloc(iov->iov, new_num * sizeof(struct iovec), gfp);
+-	else {
+-		new = kmalloc_array(new_num, sizeof(struct iovec), gfp);
+-		if (new) {
+-			memcpy(new, iov->iov,
+-			       iov->max_num * sizeof(struct iovec));
+-			flag = VRINGH_IOV_ALLOCATED;
+-		}
+-	}
++	if (unlikely(check_mul_overflow(new_num, sizeof(struct iovec), &size)))
++		return -ENOMEM;
++
++	if (iov->max_num & VRINGH_IOV_ALLOCATED)
++		new = krealloc(iov->iov, size, gfp);
++	else
++		new = kmemdup(iov->iov, size, gfp);
+ 	if (!new)
+ 		return -ENOMEM;
+ 	iov->iov = new;
+-	iov->max_num = (new_num | flag);
++	iov->max_num = new_num | VRINGH_IOV_ALLOCATED;
+ 	return 0;
+ }
+ 
+ 
 
 _______________________________________________
 dri-devel mailing list
