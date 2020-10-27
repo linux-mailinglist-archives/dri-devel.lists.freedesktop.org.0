@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC512299C33
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 00:56:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03200299D1E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 01:04:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A47AE6EAAA;
-	Mon, 26 Oct 2020 23:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46E7C89C83;
+	Tue, 27 Oct 2020 00:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A17876EA9C;
- Mon, 26 Oct 2020 23:56:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F3289D5F
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 00:04:31 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9967C20770;
- Mon, 26 Oct 2020 23:56:20 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id EF80121707;
+ Tue, 27 Oct 2020 00:04:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603756581;
- bh=Tksrrd5nZCDgdYeDXvFTj2hLaruXIlWO1dXPfNuYV1A=;
+ s=default; t=1603757070;
+ bh=WDIy5NAMUgKJed38rTklTj5huLIPmnjqzgrejSlkD80=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YJZhR0UbOZqamjnuAx3/9oRGKmbN5uAd0JLogtrxFLLbAXFA7GDBBlNSg2REn5FDb
- 8sim67dTsdpDaOCeH4KjFIEViRlxTl8Ts+V76lVXY6pCHal1wrxQ/sDiJ9fXJKMpdJ
- FL9lg+RyJ/BO7WhIcNzhIsMtNi9vmjm7BL+lWQP4=
+ b=fQHqMgh9HuAsJGUfz/7Rp1ld2oB64cxrtZO+ci1C4iNadvM/+POMruTXgfLMeag3U
+ bHiE4Qr9jpO3ZdX85txuwuUYoT+Q1MCUI1Kj5YHf4Mg1rIpFItjHUpNA/CIrVKHPjY
+ OqxlGSh7Ul1o3nBESmjUPmeNKNfQnPQ7Ozc2xLnE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 54/80] drm/amd/display: HDMI remote sink need mode
- validation for Linux
-Date: Mon, 26 Oct 2020 19:54:50 -0400
-Message-Id: <20201026235516.1025100-54-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 12/60] video: fbdev: pvr2fb: initialize variables
+Date: Mon, 26 Oct 2020 20:03:27 -0400
+Message-Id: <20201027000415.1026364-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201026235516.1025100-1-sashal@kernel.org>
-References: <20201026235516.1025100-1-sashal@kernel.org>
+In-Reply-To: <20201027000415.1026364-1-sashal@kernel.org>
+References: <20201027000415.1026364-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,56 +49,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Eryk Brol <eryk.brol@amd.com>,
- amd-gfx@lists.freedesktop.org, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- Hersen Wu <hersenxs.wu@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
+ dri-devel@lists.freedesktop.org, clang-built-linux@googlegroups.com,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fangzhi Zuo <Jerry.Zuo@amd.com>
+From: Tom Rix <trix@redhat.com>
 
-[ Upstream commit 95d620adb48f7728e67d82f56f756e8d451cf8d2 ]
+[ Upstream commit 8e1ba47c60bcd325fdd097cd76054639155e5d2e ]
 
-[Why]
-Currently mode validation is bypassed if remote sink exists. That
-leads to mode set issue when a BW bottle neck exists in the link path,
-e.g., a DP-to-HDMI converter that only supports HDMI 1.4.
+clang static analysis reports this repesentative error
 
-Any invalid mode passed to Linux user space will cause the modeset
-failure due to limitation of Linux user space implementation.
+pvr2fb.c:1049:2: warning: 1st function call argument
+  is an uninitialized value [core.CallAndMessage]
+        if (*cable_arg)
+        ^~~~~~~~~~~~~~~
 
-[How]
-Mode validation is skipped only if in edid override. For real remote
-sink, clock limit check should be done for HDMI remote sink.
+Problem is that cable_arg depends on the input loop to
+set the cable_arg[0].  If it does not, then some random
+value from the stack is used.
 
-Have HDMI related remote sink going through mode validation to
-elimiate modes which pixel clock exceeds BW limitation.
+A similar problem exists for output_arg.
 
-Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
-Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
-Acked-by: Eryk Brol <eryk.brol@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+So initialize cable_arg and output_arg.
+
+Signed-off-by: Tom Rix <trix@redhat.com>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200720191845.20115-1-trix@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/pvr2fb.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index 3efee7b3378a3..47cefc05fd3f5 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -2268,7 +2268,7 @@ enum dc_status dc_link_validate_mode_timing(
- 	/* A hack to avoid failing any modes for EDID override feature on
- 	 * topology change such as lower quality cable for DP or different dongle
- 	 */
--	if (link->remote_sinks[0])
-+	if (link->remote_sinks[0] && link->remote_sinks[0]->sink_signal == SIGNAL_TYPE_VIRTUAL)
- 		return DC_OK;
+diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
+index 8a53d1de611d5..3fd2cb4cdfa90 100644
+--- a/drivers/video/fbdev/pvr2fb.c
++++ b/drivers/video/fbdev/pvr2fb.c
+@@ -1027,6 +1027,8 @@ static int __init pvr2fb_setup(char *options)
+ 	if (!options || !*options)
+ 		return 0;
  
- 	/* Passive Dongle */
++	cable_arg[0] = output_arg[0] = 0;
++
+ 	while ((this_opt = strsep(&options, ","))) {
+ 		if (!*this_opt)
+ 			continue;
 -- 
 2.25.1
 
