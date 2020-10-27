@@ -1,66 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1842429CEB6
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3397429CEB4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E04856EB33;
-	Wed, 28 Oct 2020 08:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 346416EB89;
+	Wed, 28 Oct 2020 08:06:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA7876E1B2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 08:32:47 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id d24so756649ljg.10
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 01:32:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=X82VobCub5wdmETS8bjf+vsdYdzdCr0PUmctvSLcEXs=;
- b=KhZ5AD7Jw9jBSL5FbMoztfPKGbPuygHGVL/xEfq2XjOAML/HDO8WCDbzSkhKyibuAU
- EdS7G74Z4xdzPbTaGFJM60aGA7elIq0mM1xpSG+76kNXuXg6Zy8JHG5XHUqOGhpK34S2
- GBXe4XxWKlqFmjAjWTSutGi7pdAEaHPAGR/I6Ugdxfahk/n85pfH7WdokpQ4nweP/5aU
- vnGoTK/26xRIqlW1NPVseaIbS5jZF3f1FigFuawXl+oSZfctnBZn0uvRAMMYelFfoK8V
- oRGzJyg+Yn7kqncPCe2KU5YcVp2fuIKuT5nFQCCis7SYNgPo0hG5Xb9SkGKPfW0vnSPc
- d6Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=X82VobCub5wdmETS8bjf+vsdYdzdCr0PUmctvSLcEXs=;
- b=SUyHMyy2pKqgVvkiBVb516P6FnPPAeZ9tsHvPJamqLyOHo8KDus83ZY4uFncyNMrqq
- 3ZpXV31bDJdBpo+AvsXJ592V1K/Dmc23WNFpC530sLy3DxxbHj9Pv8zMV8qeoRZi9CAY
- oAtuUyhV/owR/1QGBHdrhb90o2PLLCmj1w7pQgF9bPwqNRr7Yt+4cAXIQYu78zJta8I4
- 7TOXE3TukXqMwrEUIFLXeE0UDR6ETkCgeGn7W1aqa/FT3quHRXBEcAf6Km0hPF0arlxi
- G/DkhCi8P3YRitPAyXLhnXNPE+icW+iMhpZAy0UXtjkzce3XMLYBrwgv5n+HnlaRzHYd
- WE0w==
-X-Gm-Message-State: AOAM531NhvxT5cuoaIYtnsAu7ux9NtRbD6xWjvLYb5LnLrx2WK+Qg0Z7
- d33Goe7AXcHtle4X/k5nmQfqcw==
-X-Google-Smtp-Source: ABdhPJz1bsKo5yTgSnDzbbvP5V2jQw+5aQqoUkmOwX1eV8OBkkpGpm8QyCzEOzVMO02QIpg+mOjbYQ==
-X-Received: by 2002:a2e:874c:: with SMTP id q12mr579587ljj.148.1603787565936; 
- Tue, 27 Oct 2020 01:32:45 -0700 (PDT)
-Received: from [192.168.1.211] ([188.162.64.248])
- by smtp.gmail.com with ESMTPSA id c4sm67675lfr.14.2020.10.27.01.32.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Oct 2020 01:32:45 -0700 (PDT)
-Subject: Re: [PATCH 3/3] drm/msm/dpu: add support for clk and bw scaling for
- display
-To: Rob Clark <robdclark@gmail.com>, Kalyan Thota <kalyan_t@codeaurora.org>
-References: <1594899334-19772-1-git-send-email-kalyan_t@codeaurora.org>
- <1594899334-19772-3-git-send-email-kalyan_t@codeaurora.org>
- <CAF6AEGsYmxwmG2OWdX3Q-5tio+kU-AwhiL_0EyLTVb0=gWgwgw@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <1faa4d88-7acf-1895-f93b-59fd20d6de06@linaro.org>
-Date: Tue, 27 Oct 2020 11:32:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E44196E0BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 10:16:04 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5E29658026C;
+ Tue, 27 Oct 2020 06:16:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 27 Oct 2020 06:16:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=6ek8BSXlWORnKgWBP5B1QQSoz7
+ NyffqGB/miVQHie5s=; b=jd+cEYOKyqBI6Z4flqJkU0nSnJreKbFG7FEZ94JcLj
+ I4fpqUTlV6+QPT1SXZ1D9ox1NltkhHmJICAMw0TchWZ8onD/Gt8y+wgZ6sqkURP0
+ dVuo3wgTLcNNj0Zjz0u5xS/Iq25XjpOhsTVawGGHWE9P+v4ZemmM0dJyJtQF4NPO
+ e4R3pml9xa4VsMe29g8T1apsKmMG4BYw7UIDIlL6C6CRBm0i0X2kWxXhty2ZzlZD
+ RZuUyDkx7ZxoTeCWzYbaf7X+zFacisfjD3KogNMa+8AOLlGu/BkP2vaHDFSKZRjN
+ H/dYKrg0gYYvX5fRWMcpI+p10Lv73aobZx/o0arBrVhQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=6ek8BSXlWORnKgWBP
+ 5B1QQSoz7NyffqGB/miVQHie5s=; b=laAL9ajaUvSvn+d2qPIfsh7b+l9hhC87+
+ dtA1GPLq9YjglxPYJR1ewC4lVdkZyxuyxig7rcVSsLyXnqAJfBBXS2dGM7V0kK3b
+ 5o7n01bXo3YBf/ai7L/ayv6aBg0orgNVbMPSBbCFxJoplJf6DzCCydhjr6MjokdP
+ 2xzNK5bQk1vd/3lnFUP2J4YNbldo4VP/j8FdGAwI+UICdisFVulO9O8fGT742RpA
+ sIhcUeFKdwlBtd7cus3yG22WFQaKfhuOnYYsE0lIWwWnNM0VyP/ZHq05JxtTPEj8
+ 0P2rEoWgXkyONIbEdvgk8dQxBE12Cf4HIj9pt2CK1JOqdhdVdjm9A==
+X-ME-Sender: <xms:YfOXXyudBtTFTDcaWmwGap3SIvxqV7hshZJ_GphIwSsMKoMSESDwMQ>
+ <xme:YfOXX3epn63wLpbySvXh8mgbMC7WJUCQkwtzqH2QuHMygrkpkL8DE9RqC88MhJmjJ
+ QA2ImQCIvnzSNtAfcE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddugecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+ ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+ hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
+ ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:YfOXX9xpUMKgAByl8QlIGHPUmhXjt1RKTO99sh0xR6QvpyE5MO_rxQ>
+ <xmx:YfOXX9MmDJ-qm7r5w91mt6-qYk5PLxAHZmcKIxyXaaZ_zh8VMREf_w>
+ <xmx:YfOXXy_e1aOcFCJs-PnpJYvc2ILdBNNF4f_qFFXyL-WIyURGEPXMpA>
+ <xmx:YvOXX1VC_02m04r_d-yiwhKt8TwnE5Jd8f6uIuEp0ffn5IQ1HJS0DQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B861D328005D;
+ Tue, 27 Oct 2020 06:16:00 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH] drm/vc4: hdmi: Avoid sleeping in atomic context
+Date: Tue, 27 Oct 2020 11:15:58 +0100
+Message-Id: <20201027101558.427256-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAF6AEGsYmxwmG2OWdX3Q-5tio+kU-AwhiL_0EyLTVb0=gWgwgw@mail.gmail.com>
-Content-Language: en-GB
-X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:30 +0000
+X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,214 +77,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Krishna Manikandan <mkrishn@codeaurora.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Raviteja Tamatam <travitej@codeaurora.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: alsa-devel@alsa-project.org, Dom Cobley <dom@raspberrypi.com>,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+When running the trigger hook, ALSA by default will take a spinlock, and
+thus will run the trigger hook in atomic context.
 
-On 04/08/2020 18:40, Rob Clark wrote:
-> On Thu, Jul 16, 2020 at 4:36 AM Kalyan Thota <kalyan_t@codeaurora.org> wrote:
->>
->> This change adds support to scale src clk and bandwidth as
->> per composition requirements.
->>
->> Interconnect registration for bw has been moved to mdp
->> device node from mdss to facilitate the scaling.
->>
->> Changes in v1:
->>   - Address armv7 compilation issues with the patch (Rob)
->>
->> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+However, our HDMI driver will send the infoframes as part of the trigger
+hook, and part of that process is to wait for a bit to be cleared for up to
+100ms. To be nicer to the system, that wait has some usleep_range that
+interact poorly with the atomic context.
 
-Kalyan, back in July you promised to provide a followup patchset, 
-removing code duplication. It's close to November now. Are there any 
-plans for the followup or is a forgotten topic?
+There's several ways we can fix this, but the more obvious one is to make
+ALSA take a mutex instead by setting the nonatomic flag on the DAI link.
+That doesn't work though, since now the cyclic callback installed by the
+dmaengine helpers in ALSA will take a mutex, while that callback is run by
+dmaengine's virt-chan code in a tasklet where sleeping is not allowed
+either.
 
-> 
-> Reviewed-by: Rob Clark <robdclark@chromium.org>
-> 
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c  | 109 +++++++++++++++++++++----
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |   5 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |   4 +
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        |  37 ++++++++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h        |   4 +
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c       |   9 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      |  84 +++++++++++++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h      |   4 +
->>   8 files changed, 233 insertions(+), 23 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->> index 7c230f7..e52bc44 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->> @@ -29,6 +29,74 @@ enum dpu_perf_mode {
->>          DPU_PERF_MODE_MAX
->>   };
->>
->> +/**
->> + * @_dpu_core_perf_calc_bw() - to calculate BW per crtc
->> + * @kms -  pointer to the dpu_kms
->> + * @crtc - pointer to a crtc
->> + * Return: returns aggregated BW for all planes in crtc.
->> + */
->> +static u64 _dpu_core_perf_calc_bw(struct dpu_kms *kms,
->> +               struct drm_crtc *crtc)
->> +{
->> +       struct drm_plane *plane;
->> +       struct dpu_plane_state *pstate;
->> +       u64 crtc_plane_bw = 0;
->> +       u32 bw_factor;
->> +
->> +       drm_atomic_crtc_for_each_plane(plane, crtc) {
->> +               pstate = to_dpu_plane_state(plane->state);
->> +               if (!pstate)
->> +                       continue;
->> +
->> +               crtc_plane_bw += pstate->plane_fetch_bw;
->> +       }
->> +
->> +       bw_factor = kms->catalog->perf.bw_inefficiency_factor;
->> +       if (bw_factor) {
->> +               crtc_plane_bw *= bw_factor;
->> +               do_div(crtc_plane_bw, 100);
->> +       }
->> +
->> +       return crtc_plane_bw;
->> +}
->> +
->> +/**
->> + * _dpu_core_perf_calc_clk() - to calculate clock per crtc
->> + * @kms -  pointer to the dpu_kms
->> + * @crtc - pointer to a crtc
->> + * @state - pointer to a crtc state
->> + * Return: returns max clk for all planes in crtc.
->> + */
->> +static u64 _dpu_core_perf_calc_clk(struct dpu_kms *kms,
->> +               struct drm_crtc *crtc, struct drm_crtc_state *state)
->> +{
->> +       struct drm_plane *plane;
->> +       struct dpu_plane_state *pstate;
->> +       struct drm_display_mode *mode;
->> +       u64 crtc_clk;
->> +       u32 clk_factor;
->> +
->> +       mode = &state->adjusted_mode;
->> +
->> +       crtc_clk = mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
->> +
->> +       drm_atomic_crtc_for_each_plane(plane, crtc) {
->> +               pstate = to_dpu_plane_state(plane->state);
->> +               if (!pstate)
->> +                       continue;
->> +
->> +               crtc_clk = max(pstate->plane_clk, crtc_clk);
->> +       }
->> +
->> +       clk_factor = kms->catalog->perf.clk_inefficiency_factor;
->> +       if (clk_factor) {
->> +               crtc_clk *= clk_factor;
->> +               do_div(crtc_clk, 100);
->> +       }
->> +
->> +       return crtc_clk;
->> +}
->> +
->>   static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
->>   {
->>          struct msm_drm_private *priv;
->> @@ -51,12 +119,7 @@ static void _dpu_core_perf_calc_crtc(struct dpu_kms *kms,
->>          dpu_cstate = to_dpu_crtc_state(state);
->>          memset(perf, 0, sizeof(struct dpu_core_perf_params));
->>
->> -       if (!dpu_cstate->bw_control) {
->> -               perf->bw_ctl = kms->catalog->perf.max_bw_high *
->> -                                       1000ULL;
->> -               perf->max_per_pipe_ib = perf->bw_ctl;
->> -               perf->core_clk_rate = kms->perf.max_core_clk_rate;
->> -       } else if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
->> +       if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
->>                  perf->bw_ctl = 0;
->>                  perf->max_per_pipe_ib = 0;
->>                  perf->core_clk_rate = 0;
+Given the delay we need to poll the bit for, changing the usleep_range for
+a udelay and keep running it from a context where interrupts are disabled
+is not really a good option either.
 
-Now bw_control is unused and can be removed alltogether.
+However, we can move the infoframe setup code in the hw_params hook, like
+is usually done in other HDMI controllers, that isn't protected by a
+spinlock and thus where we can sleep. Infoframes will be sent on a regular
+basis anyway, and since hw_params is where the audio parameters that end up
+in the infoframes are setup, this also makes a bit more sense.
 
->> @@ -64,6 +127,10 @@ static void _dpu_core_perf_calc_crtc(struct dpu_kms *kms,
->>                  perf->bw_ctl = kms->perf.fix_core_ab_vote;
->>                  perf->max_per_pipe_ib = kms->perf.fix_core_ib_vote;
->>                  perf->core_clk_rate = kms->perf.fix_core_clk_rate;
->> +       } else {
->> +               perf->bw_ctl = _dpu_core_perf_calc_bw(kms, crtc);
->> +               perf->max_per_pipe_ib = kms->catalog->perf.min_dram_ib;
->> +               perf->core_clk_rate = _dpu_core_perf_calc_clk(kms, crtc, state);
->>          }
->>
->>          DPU_DEBUG(
->> @@ -115,11 +182,7 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
->>                          DPU_DEBUG("crtc:%d bw:%llu ctrl:%d\n",
->>                                  tmp_crtc->base.id, tmp_cstate->new_perf.bw_ctl,
->>                                  tmp_cstate->bw_control);
->> -                       /*
->> -                        * For bw check only use the bw if the
->> -                        * atomic property has been already set
->> -                        */
->> -                       if (tmp_cstate->bw_control)
->> +
->>                                  bw_sum_of_intfs += tmp_cstate->new_perf.bw_ctl;
+Fixes: bb7d78568814 ("drm/vc4: Add HDMI audio support")
+Suggested-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Just a nitpick: indent is wrong.
-
->>                  }
->>
->> @@ -131,9 +194,7 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
->>
->>                  DPU_DEBUG("final threshold bw limit = %d\n", threshold);
->>
->> -               if (!dpu_cstate->bw_control) {
->> -                       DPU_DEBUG("bypass bandwidth check\n");
->> -               } else if (!threshold) {
->> +               if (!threshold) {
->>                          DPU_ERROR("no bandwidth limits specified\n");
->>                          return -E2BIG;
->>                  } else if (bw > threshold) {
->> @@ -154,7 +215,11 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
->>                                          = dpu_crtc_get_client_type(crtc);
->>          struct drm_crtc *tmp_crtc;
->>          struct dpu_crtc_state *dpu_cstate;
->> -       int ret = 0;
->> +       int i, ret = 0;
->> +       u64 avg_bw;
->> +
->> +       if (!kms->num_paths)
->> +               return -EINVAL;
-
-This broke bandwidth setting for everybody except sc7180, since 
-_dpu_core_perf_crtc_update_bus will be still called for them, and 
-returning -EINVAL here prevents dpu_core_perf_crtc_update() from setting 
-clock rate. Returning 0 here fixes the issue.
-
-
->>
->>          drm_for_each_crtc(tmp_crtc, crtc->dev) {
->>                  if (tmp_crtc->enabled &&
->> @@ -165,10 +230,20 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
-
-
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 74da7c00ecd0..ec3ba3ecd32a 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1077,6 +1077,7 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
+ 				    struct snd_soc_dai *dai)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = dai_to_hdmi(dai);
++	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
+ 	struct device *dev = &vc4_hdmi->pdev->dev;
+ 	u32 audio_packet_config, channel_mask;
+ 	u32 channel_map;
+@@ -1136,6 +1137,8 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
+ 	HDMI_WRITE(HDMI_AUDIO_PACKET_CONFIG, audio_packet_config);
+ 	vc4_hdmi_set_n_cts(vc4_hdmi);
+ 
++	vc4_hdmi_set_audio_infoframe(encoder);
++
+ 	return 0;
+ }
+ 
+@@ -1143,11 +1146,9 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
+ 				  struct snd_soc_dai *dai)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = dai_to_hdmi(dai);
+-	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
+ 
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+-		vc4_hdmi_set_audio_infoframe(encoder);
+ 		vc4_hdmi->audio.streaming = true;
+ 
+ 		if (vc4_hdmi->variant->phy_rng_enable)
 -- 
-With best wishes
-Dmitry
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
