@@ -1,118 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F23D29CEAF
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 122AB29CE9E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:06:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 347646EC56;
-	Wed, 28 Oct 2020 08:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96516E491;
+	Wed, 28 Oct 2020 08:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 356A86E0ED
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:52:46 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f9818070000>; Tue, 27 Oct 2020 05:52:24 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 27 Oct
- 2020 12:52:31 +0000
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
- by HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Tue, 27 Oct 2020 12:52:31 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fH6znLiLtAIrPRi0aQYXb4P1ZpPULgtVmpVsPKUBhfxuxEYiJOj/myp9a6Br88eOMCtzcQ6afwRm/5eeqmTfSd22N8tvO+qbuLv1TbN6EstjxcKLxKTdU4Y4Cfx0zFjEmKpUnlRiuYmSouO27LPvdilN2mQFSSHNhaenA33lAlR2DTLhG7ksRIeg8LmxRxc5GB8qUvsBuNbOQH9bUK/8lS1Zv8OsWFSaoW4pRsntwQFvypCSZ1oGZanCF+gfCn0ezI1FnG+p0Va21tOJkpqGt3czc/pNMVAuUeisMJ4Jy2TN3jNzzj7hGbA5eJrdvG2SejW7Uat77MseZB+1COkSXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eVM0n0cEFEDTz3oXadiW4+5zeyt+CYPjh8AT0a0SoDo=;
- b=Y7du4kXTdlGqTdQxhQzsHzgoRdiaWTMiSwvhDPzTSgoO/pp/zNf+pMdCv9nCvqsz2Niyy04yKuv69uxqMCm3oCygzTt/CIWzYEg00JYIs/UrbrCgegvG6wochh6+1S+CW5GQAJFZ2S/oJizMVRT2NmH5mhxI3TBAWhTv9WcnwE/qRTl1ps/PPeFEuYrFbaPbefgBOc+mAEgmMfgXakmsmJbWyTMYgo9eXap387QT0B0xbVOupGfTvs4aLbKtWG2PBF6ywDhqosQNpBIeKnoqBxWhbZuQy61KqIRaM4CTvOE0322e/g6YiuWoD89LC2ie239mCGBtDvaBqa1jts6pIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BY5PR12MB4322.namprd12.prod.outlook.com (2603:10b6:a03:20a::20)
- by BYAPR12MB2933.namprd12.prod.outlook.com (2603:10b6:a03:138::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.28; Tue, 27 Oct
- 2020 12:52:30 +0000
-Received: from BY5PR12MB4322.namprd12.prod.outlook.com
- ([fe80::3c25:6e4c:d506:6105]) by BY5PR12MB4322.namprd12.prod.outlook.com
- ([fe80::3c25:6e4c:d506:6105%6]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
- 12:52:30 +0000
-From: Parav Pandit <parav@nvidia.com>
-To: "hch@lst.de" <hch@lst.de>
-Subject: RE: WARNING in dma_map_page_attrs
-Thread-Topic: WARNING in dma_map_page_attrs
-Thread-Index: AQHWqbLPPEPI9mnwmUSeVEeL/Zim3qmnD9kAgAJKk0CAAcOagIAATcGA
-Date: Tue, 27 Oct 2020 12:52:30 +0000
-Message-ID: <BY5PR12MB43221380BB0259FF0693BB0CDC160@BY5PR12MB4322.namprd12.prod.outlook.com>
-References: <000000000000335adc05b23300f6@google.com>
- <000000000000a0f8a305b261fe4a@google.com>
- <20201024111516.59abc9ec@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
- <BY5PR12MB4322CC03CE0D34B83269676ADC190@BY5PR12MB4322.namprd12.prod.outlook.com>
- <20201027081103.GA22877@lst.de>
-In-Reply-To: <20201027081103.GA22877@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
-x-originating-ip: [49.207.200.190]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6326d4db-810e-41f0-fdce-08d87a772a45
-x-ms-traffictypediagnostic: BYAPR12MB2933:
-x-microsoft-antispam-prvs: <BYAPR12MB29335F7AF6099F9C9EFB4960DC160@BYAPR12MB2933.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1247;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: i65ek6GWej7LGpI07kd+40ng867ItDdKk1syXgBWEtzZNoHwMNwoaItXuiKSdlJzdukL6aBS9mWSLD6FFISaUnHFzeRZBbO1xroQANLcbVUQbwnTsN8C0zdyEfQsgSFjl809sVg6X9QYwPUTQb1H8pHdhV5z2uD7iWG6YWdvBcPeRXYK2JZKb+LB+DRYUmAN5u3376cA1vMTg/Da06U9kjERgkJxaEB18P8ZCsS2A2wieTurwLsV4xu55HW0RAVTry7jBIbNQbLmZqX2ouA9AeHDtxOARhN6lxdYYm/Mwl3ysoJPn+A/hdbbhE03geC+qeCFhEhfut2FtiMGjJx7nw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR12MB4322.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(136003)(366004)(376002)(346002)(55016002)(66946007)(9686003)(6916009)(4326008)(478600001)(33656002)(83380400001)(26005)(86362001)(316002)(52536014)(5660300002)(66446008)(66476007)(186003)(55236004)(54906003)(66556008)(8676002)(71200400001)(7116003)(2906002)(64756008)(53546011)(7696005)(7416002)(6506007)(8936002)(76116006);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: v+l9GLGUKDGh3cKbTwJNergT08hkoCIoTB49GIH8c9JrX2tahYFTm3FI/44s6oha0HOojbx4OnIff4+rr3AU3OFJ5xCyvBGx5FGXcmWX5r3u6Js80cL6uVerZRXTaeZ3lxMs7vZ1DTlW74FMXJF17dpT5c4gNvTr9eUEPEJTt4qb7M2tW7VRaLtcDR008Yx2MRf2IABNAST5uWjAW7QUtNpe+y82Gr5IXQYOyJABXoSbcfD8W1kOz/wnqmYQdUnge4L2xMYJtd3njaUwUNIb5/nprWTijc07cj1e2cAH7onpxN3DIGq4KABT0gZU6cKHLCemeRdbNIZlK9zup/WguxBPjCROByyCANIVoRaO97ioXH+Zus0uSCV5xPg84hmAO/z8tlzMYKRrdyayGOUhmW3KSQkh253pdCxWmsAwCNosL5OKEF5k8rcOkdq8asS+DI+hUXXcPEACx2Ji2kd93igOV3Ldm/31MgpdN1xp9LauU94T6Ft2VcC6H4S5436VKgzy8US0MUWsjWkGGtXSZD81hWrEYN+kiQVQZ8lGtkcA2giRmvbTgIK0ZdYTfuHX1mFrLpbhGTeD6eLhwDnYs9+itFpuMjXn2u4sCQh0+LE/6l7KEEeYdSMGHa2YaY6PampoJQpZChWrQh/AaIDC4g==
-x-ms-exchange-transport-forked: True
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E04586EB86
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 14:54:39 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5E702580391;
+ Tue, 27 Oct 2020 10:54:37 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 27 Oct 2020 10:54:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=UW+E2zW4VZ3UJMxESpcdsxmlJiw
+ oieqYRzoHTXgnbW0=; b=XgvLsbAxk4Z7pmp8Nxz1jtzRQm//UA5mEDYBA8X/FbL
+ KKjsM2NIkNWCQIywwzKkqDBLL4uMAIoWk1pKM9y17X6JiSRqtJsfSitEj/HV9Quf
+ MAe+CDcMepUznuryAtfiWzi0fDkGJ1XTnp8xM15qydp3FELZFf79voTpYHx3jGKa
+ 3hJGEX4sx7cy1XPczlJe8QJXMpHymfrnzlr362tubaoxFkaQFLz+wzRHtr9D6py5
+ oTjfT4dmTI5lJE1zkIMHix5UGm5Lrg9taEa9Hs8n7xAEAIE3nt9sBJJpy19JN/hp
+ YxZOHvO3Td5NHJEXsSBfgdZrtZHgKOT12pmmtSu+crg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=UW+E2z
+ W4VZ3UJMxESpcdsxmlJiwoieqYRzoHTXgnbW0=; b=P2CJnQ8uuy9FH7czKoH61q
+ LLSW5lizedJjUKo0MQj3NUG4aRK7G2jyg4qkhYzYWMVKjQGiGs1BJRr0BHt3Ek8I
+ 1tFPS/+I/aEcoR6bvuHm3vA3bCjnS64Wo8nWokF6zPMkUWAX/LCMxuBu/LaLxdzN
+ RVNvp+FcXx18qYf+/M+nWlBNxL47z30KvBnc6E3dzECo5zBLo8frjm+dpQZNTQCb
+ xdiytaAPPBDkR7D3AopbdxRZrgQn8iCExVgz43QZ0mkshLy06ffmmfpVvyVoA9Xt
+ nJ7/xaRvvOGNUZuKlpmo5kBoT2rXcA1W6KRhfMtVcbvT/gSeEyXDnydyPj7xGn8g
+ ==
+X-ME-Sender: <xms:qjSYX8pFfMlV8R1cAmDDHtINi4OWwiVTBfOYDEtjx3-KSD7Gzdz1mQ>
+ <xme:qjSYXypPyzowgHmZi0IIJaIMaICyrNw8B5gyuH3RhCUBohvmQ1btXCyzYAQNbKx_M
+ 2032qMHIKcEWGq-7UM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgdeilecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:qjSYXxPJyA-scb1IKYFP_IJ58uvSuC6cHLlrC6yj6vtrgaA3_2KQlA>
+ <xmx:qjSYXz4bjDnp-ZxtumAIPjnsYuO_dzJ3KzO9rQDBmxXp-uYPtj6tLA>
+ <xmx:qjSYX74RjX5yu3Xb5jgR6iO3skzUOYFx78Ic5vqBDOXDZmu4xCmuKA>
+ <xmx:rTSYX4yPcxa1l_Dz1l_yRAm44oatfrLZ8YmYXWV_rk9iPjpKXLOeCw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 13C12328005D;
+ Tue, 27 Oct 2020 10:54:33 -0400 (EDT)
+Date: Tue, 27 Oct 2020 15:54:31 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Subject: Re: [PATCH 1/1] drm/vc4: drv: Add error handding for bind
+Message-ID: <20201027145431.zasv2oiydglz3n63@gilmour.lan>
+References: <20201027041442.30352-1-hoegeun.kwon@samsung.com>
+ <CGME20201027041535epcas1p489bbfe80b461f1e5c5deca1a571f1f35@epcas1p4.samsung.com>
+ <20201027041442.30352-2-hoegeun.kwon@samsung.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4322.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6326d4db-810e-41f0-fdce-08d87a772a45
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2020 12:52:30.1045 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yUUrRIBw8/EVGdF5ooDvsd3UZ/Zcs9NLOW9M7OGOX3PpLweKePxirbq7iE6iDVoaQVP/a1NhXbZpIoDR6KhiQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2933
-X-OriginatorOrg: Nvidia.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603803144; bh=eVM0n0cEFEDTz3oXadiW4+5zeyt+CYPjh8AT0a0SoDo=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:From:To:
- CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:References:
- In-Reply-To:Accept-Language:Content-Language:X-MS-Has-Attach:
- X-MS-TNEF-Correlator:authentication-results:x-originating-ip:
- x-ms-publictraffictype:x-ms-office365-filtering-correlation-id:
- x-ms-traffictypediagnostic:x-microsoft-antispam-prvs:
- x-ms-oob-tlc-oobclassifiers:x-ms-exchange-senderadcheck:
- x-microsoft-antispam:x-microsoft-antispam-message-info:
- x-forefront-antispam-report:x-ms-exchange-antispam-messagedata:
- x-ms-exchange-transport-forked:Content-Type:
- Content-Transfer-Encoding:MIME-Version:
- X-MS-Exchange-CrossTenant-AuthAs:
- X-MS-Exchange-CrossTenant-AuthSource:
- X-MS-Exchange-CrossTenant-Network-Message-Id:
- X-MS-Exchange-CrossTenant-originalarrivaltime:
- X-MS-Exchange-CrossTenant-fromentityheader:
- X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
- X-MS-Exchange-CrossTenant-userprincipalname:
- X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
- b=AlFfJHwlIhESIno9ZWxWX/lcM1ERiNjggMifDpg8xnLpLnruKppRCRuq846vUFHBs
- ra5bwNNaUWNpD9m9G0OyLXkZpXoyk8/88hLPqVeWl4ZP7w2KrqRHPL+jryYuclsuON
- XmuS69g4dTOqK7W33sIKEIpoqK8Yst0WVUTmMRIAjswVCgswfLLXivkVy1KqadJkCM
- 4HkcgJASUAkl23sfT43C/r+u9e7BDb9Danj79aKFROpCaBopGDczWDvu4EKFB8fbhz
- lS5XnnZYNFJo0MnYGjj0+MvbH6AmOjnq4x8XptCIKjwt3tOyW4RV8gtTN4gDQMaFc2
- pJjFFzFK+vClg==
+In-Reply-To: <20201027041442.30352-2-hoegeun.kwon@samsung.com>
 X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,134 +80,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linaro-mm-sig-owner@lists.linaro.org"
- <linaro-mm-sig-owner@lists.linaro.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>,
- Jakub Kicinski <kuba@kernel.org>,
- "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, sungguk.na@samsung.com,
+ dave.stevenson@raspberrypi.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1957688912=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-> From: hch@lst.de <hch@lst.de>
-> Sent: Tuesday, October 27, 2020 1:41 PM
-> 
-> On Mon, Oct 26, 2020 at 05:23:48AM +0000, Parav Pandit wrote:
-> > Hi Christoph,
-> >
-> > > From: Jakub Kicinski <kuba@kernel.org>
-> > > Sent: Saturday, October 24, 2020 11:45 PM
-> > >
-> > > CC: rdma, looks like rdma from the stack trace
-> > >
-> > > On Fri, 23 Oct 2020 20:07:17 -0700 syzbot wrote:
-> > > > syzbot has found a reproducer for the following issue on:
-> > > >
-> > > > HEAD commit:    3cb12d27 Merge tag 'net-5.10-rc1' of
-> git://git.kernel.org/..
-> >
-> > In [1] you mentioned that dma_mask should not be set for dma_virt_ops.
-> > So patch [2] removed it.
-> >
-> > But check to validate the dma mask for all dma_ops was added in [3].
-> >
-> > What is the right way? Did I misunderstood your comment about
-> dma_mask in [1]?
-> 
-> No, I did not say we don't need the mask.  I said copying over the various
-> dma-related fields from the parent is bogus.
-> 
-> I think rxe (and ther other drivers/infiniband/sw drivers) need a simple
-> dma_coerce_mask_and_coherent and nothing else.
+--===============1957688912==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wxa2nq6hnmca3hde"
+Content-Disposition: inline
 
-I see. Does below fix make sense?
-Is DMA_MASK_NONE correct?
 
-From cfad78c35788b4ff604abedd96559500c5fd2a72 Mon Sep 17 00:00:00 2001
-From: Parav Pandit <parav@nvidia.com>
-Date: Tue, 27 Oct 2020 14:20:07 +0200
-Subject: [PATCH] RDMA: Fix software RDMA drivers for dma mapping error
+--wxa2nq6hnmca3hde
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-A cited commit in fixes tag avoided setting dma_mask of the ib_device.
-Commit [1] made dma_mask as mandetory field to be setup even for
-dma_virt_ops based dma devices.
+Hi,
 
-Fix it by setting empty DMA MASK for software based RDMA devices.
+On Tue, Oct 27, 2020 at 01:14:42PM +0900, Hoegeun Kwon wrote:
+> There is a problem that if vc4_drm bind fails, a memory leak occurs on
+> the drm_property_create side. Add error handding for drm_mode_config.
+>=20
+> Signed-off-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 
-[1] commit: f959dcd6ddfd2 ("dma-direct: Fix potential NULL pointer dereference")
+Applied, thanks!
+Maxime
 
-Reported-by: syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com
-Fixes: e0477b34d9d1 ("RDMA: Explicitly pass in the dma_device to ib_register_device")
-Signed-off-by: Parav Pandit <parav@nvidia.com>
----
- drivers/infiniband/sw/rdmavt/vt.c     | 5 +++--
- drivers/infiniband/sw/rxe/rxe_verbs.c | 4 +++-
- drivers/infiniband/sw/siw/siw_main.c  | 5 +++--
- 3 files changed, 9 insertions(+), 5 deletions(-)
+--wxa2nq6hnmca3hde
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/infiniband/sw/rdmavt/vt.c b/drivers/infiniband/sw/rdmavt/vt.c
-index 52218684ad4a..1b456f4d4fcf 100644
---- a/drivers/infiniband/sw/rdmavt/vt.c
-+++ b/drivers/infiniband/sw/rdmavt/vt.c
-@@ -580,8 +580,9 @@ int rvt_register_device(struct rvt_dev_info *rdi)
- 
- 	/* DMA Operations */
- 	rdi->ibdev.dev.dma_parms = rdi->ibdev.dev.parent->dma_parms;
--	dma_set_coherent_mask(&rdi->ibdev.dev,
--			      rdi->ibdev.dev.parent->coherent_dma_mask);
-+	ret = dma_coerce_mask_and_coherent(&rdi->ibdev.dev, DMA_MASK_NONE);
-+	if (ret)
-+		goto bail_wss;
- 
- 	/* Protection Domain */
- 	spin_lock_init(&rdi->n_pds_lock);
-diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infiniband/sw/rxe/rxe_verbs.c
-index 1fc022362fbe..357787688293 100644
---- a/drivers/infiniband/sw/rxe/rxe_verbs.c
-+++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
-@@ -1130,7 +1130,9 @@ int rxe_register_device(struct rxe_dev *rxe, const char *ibdev_name)
- 			    rxe->ndev->dev_addr);
- 	dev->dev.dma_parms = &rxe->dma_parms;
- 	dma_set_max_seg_size(&dev->dev, UINT_MAX);
--	dma_set_coherent_mask(&dev->dev, dma_get_required_mask(&dev->dev));
-+	err = dma_coerce_mask_and_coherent(&dev->dev, DMA_MASK_NONE);
-+	if (err)
-+		return err;
- 
- 	dev->uverbs_cmd_mask = BIT_ULL(IB_USER_VERBS_CMD_GET_CONTEXT)
- 	    | BIT_ULL(IB_USER_VERBS_CMD_CREATE_COMP_CHANNEL)
-diff --git a/drivers/infiniband/sw/siw/siw_main.c b/drivers/infiniband/sw/siw/siw_main.c
-index ca8bc7296867..d3dc50a42dab 100644
---- a/drivers/infiniband/sw/siw/siw_main.c
-+++ b/drivers/infiniband/sw/siw/siw_main.c
-@@ -384,8 +384,9 @@ static struct siw_device *siw_device_create(struct net_device *netdev)
- 	base_dev->dev.parent = parent;
- 	base_dev->dev.dma_parms = &sdev->dma_parms;
- 	dma_set_max_seg_size(&base_dev->dev, UINT_MAX);
--	dma_set_coherent_mask(&base_dev->dev,
--			      dma_get_required_mask(&base_dev->dev));
-+	if (dma_coerce_mask_and_coherent(&base_dev->dev, DMA_MASK_NONE))
-+		goto error;
-+
- 	base_dev->num_comp_vectors = num_possible_cpus();
- 
- 	xa_init_flags(&sdev->qp_xa, XA_FLAGS_ALLOC1);
--- 
-2.26.2
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5g0pwAKCRDj7w1vZxhR
+xVOGAP97fk3mnbTRj0i/hLPPsFBfQ4SlfOkkqL3lZO6PXlFQdQEA+sZ/6u7b+J7p
+esNNHHdopvh+MLAwJW47eC/lLIZScAQ=
+=oZCt
+-----END PGP SIGNATURE-----
+
+--wxa2nq6hnmca3hde--
+
+--===============1957688912==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1957688912==--
