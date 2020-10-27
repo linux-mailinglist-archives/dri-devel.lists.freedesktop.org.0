@@ -2,55 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F2529CEA4
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FC029CEB5
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 584136EC50;
-	Wed, 28 Oct 2020 08:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CCD36E49B;
+	Wed, 28 Oct 2020 08:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DBDD89B62
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 16:14:37 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1603815277; h=Message-ID: Subject: Cc: To: From: Date:
- Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
- bh=DpMi3wZzYzZFIDmbhPw67VwM72fcMWlU80A+xtAhYJ4=;
- b=c4LNfLNXUW8lD5lBvCzV2d7E6Kjx/ilos1d9xF7notq9fEjPhIkHIHVwctAzO3vOAyYFRP2H
- rXwo/dxtcxv3/kPmFn9ZtO+0pI/NZEW43lQwoVk6tzfGUXywIW56vxGhdh00KwH6Zrstx9Eq
- VDtwbNzmTeSdyXBZSK0vvlM6OWA=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5f98476c83cdcf4c2fe5d43f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 27 Oct 2020 16:14:36
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 7AC9DC38533; Tue, 27 Oct 2020 16:14:36 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 876CDC3852B;
- Tue, 27 Oct 2020 16:14:34 +0000 (UTC)
-MIME-Version: 1.0
-Date: Tue, 27 Oct 2020 21:44:34 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] drm/msm/a6xx: Add support for using system cache on
- MMU500 based targets
-Message-ID: <6775698bb9ddd14f5ac9325aa093d884@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:31 +0000
+X-Greylist: delayed 11912 seconds by postgrey-1.36 at gabe;
+ Tue, 27 Oct 2020 19:41:28 UTC
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 660696E081
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 19:41:28 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09RGJOUO110334;
+ Tue, 27 Oct 2020 16:22:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : message-id :
+ content-type : mime-version : subject : date : in-reply-to : cc : to :
+ references; s=corp-2020-01-29;
+ bh=RraPsPchjYko1rN7AqDrq+xfb3+rtyb4aQ3acwGbWtw=;
+ b=gFIWNJWgvwhTehNJOK99XtUuKI0KREiQjydqOEmXmU92j+Fnd6h5+moqNuN2c75iYFPx
+ 9AjFefZiYQ3KuhRDWgVCHOzNH7PlyGM4xfjOVOwvd57yolp7zl5+tc9PmTymkWqAYhpd
+ 8K6A4K/UnkClEDUOTCD/C42ULaCOGL4gWQ/2QcxlCScX3nAHcRa7jnHJ4LUFtS5mhQrh
+ S1iHLUFoApnEoJjMgLI1GDt7vOgLGxxN5knbwMmnnLFDXP4Zi5N+XKeVBVg9LNy48byZ
+ oysW59HkFJTR1sn6OA2FvnyPQtrDGxSyYYrHfRprMeUWjXweyolObMbxEUYOqT5u8mPx xw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 34c9sau6nu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 27 Oct 2020 16:22:44 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09RGLKOv096743;
+ Tue, 27 Oct 2020 16:22:43 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 34cx6w6eap-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 27 Oct 2020 16:22:43 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09RGMfDe007629;
+ Tue, 27 Oct 2020 16:22:42 GMT
+Received: from dhcp-10-159-231-98.vpn.oracle.com (/10.159.231.98)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 27 Oct 2020 09:22:41 -0700
+From: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Message-Id: <3871E7E7-518B-460C-8CFE-8E302BF5EF80@oracle.com>
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
+Subject: Re: [PATCH 1/1] video: fbdev: fix divide error in fbcon_switch
+Date: Tue, 27 Oct 2020 09:22:37 -0700
+In-Reply-To: <20201027062217.GE206502@kroah.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <20201021235758.59993-1-saeed.mirzamohammadi@oracle.com>
+ <ad87c5c1-061d-8a81-7b2c-43a8687a464f@suse.de>
+ <3294C797-1BBB-4410-812B-4A4BB813F002@oracle.com>
+ <20201027062217.GE206502@kroah.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 suspectscore=3
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010270099
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ impostorscore=0
+ mlxlogscore=999 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 clxscore=1011 suspectscore=3
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010270099
+X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,134 +84,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
+ jani.nikula@intel.com, daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, gustavoars@kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, akpm@linux-foundation.org,
+ rppt@kernel.org
+Content-Type: multipart/mixed; boundary="===============0341192864=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-27 21:10, Robin Murphy wrote:
-> On 2020-10-26 18:54, Jordan Crouse wrote:
->> This is an extension to the series [1] to enable the System Cache 
->> (LLC) for
->> Adreno a6xx targets.
->> 
->> GPU targets with an MMU-500 attached have a slightly different process 
->> for
->> enabling system cache. Use the compatible string on the IOMMU phandle
->> to see if an MMU-500 is attached and modify the programming sequence
->> accordingly.
->> 
->> [1] https://patchwork.freedesktop.org/series/83037/
->> 
->> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
->> ---
->> 
->>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 46 
->> +++++++++++++++++++++------
->>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
->>   2 files changed, 37 insertions(+), 10 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c 
->> b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> index 95c98c642876..b7737732fbb6 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> @@ -1042,6 +1042,8 @@ static void a6xx_llc_deactivate(struct a6xx_gpu 
->> *a6xx_gpu)
->>     static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
->>   {
->> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
->> +	struct msm_gpu *gpu = &adreno_gpu->base;
->>   	u32 cntl1_regval = 0;
->>     	if (IS_ERR(a6xx_gpu->llc_mmio))
->> @@ -1055,11 +1057,17 @@ static void a6xx_llc_activate(struct a6xx_gpu 
->> *a6xx_gpu)
->>   			       (gpu_scid << 15) | (gpu_scid << 20);
->>   	}
->>   +	/*
->> +	 * For targets with a MMU500, activate the slice but don't program 
->> the
->> +	 * register.  The XBL will take care of that.
->> +	 */
->>   	if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
->> -		u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
->> +		if (!a6xx_gpu->have_mmu500) {
->> +			u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
->>   -		gpuhtw_scid &= 0x1f;
->> -		cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
->> +			gpuhtw_scid &= 0x1f;
->> +			cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
->> +		}
->>   	}
->>     	if (cntl1_regval) {
->> @@ -1067,13 +1075,20 @@ static void a6xx_llc_activate(struct a6xx_gpu 
->> *a6xx_gpu)
->>   		 * Program the slice IDs for the various GPU blocks and GPU MMU
->>   		 * pagetables
->>   		 */
->> -		a6xx_llc_write(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, 
->> cntl1_regval);
->> -
->> -		/*
->> -		 * Program cacheability overrides to not allocate cache lines on
->> -		 * a write miss
->> -		 */
->> -		a6xx_llc_rmw(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 
->> 0x03);
->> +		if (a6xx_gpu->have_mmu500)
->> +			gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0),
->> +				cntl1_regval);
->> +		else {
->> +			a6xx_llc_write(a6xx_gpu,
->> +				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
->> +
->> +			/*
->> +			 * Program cacheability overrides to not allocate cache
->> +			 * lines on a write miss
->> +			 */
->> +			a6xx_llc_rmw(a6xx_gpu,
->> +				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
->> +		}
->>   	}
->>   }
->>   @@ -1086,10 +1101,21 @@ static void a6xx_llc_slices_destroy(struct 
->> a6xx_gpu *a6xx_gpu)
->>   static void a6xx_llc_slices_init(struct platform_device *pdev,
->>   		struct a6xx_gpu *a6xx_gpu)
->>   {
->> +	struct device_node *phandle;
->> +
->>   	a6xx_gpu->llc_mmio = msm_ioremap(pdev, "cx_mem", "gpu_cx");
->>   	if (IS_ERR(a6xx_gpu->llc_mmio))
->>   		return;
->>   +	/*
->> +	 * There is a different programming path for targets with an mmu500
->> +	 * attached, so detect if that is the case
->> +	 */
->> +	phandle = of_parse_phandle(pdev->dev.of_node, "iommus", 0);
->> +	a6xx_gpu->have_mmu500 = (phandle &&
->> +		of_device_is_compatible(phandle, "arm,mmu500"));
-> 
-> Note that this should never match, since the compatible string defined
-> by the binding is "arm,mmu-500" ;)
-> 
 
-Hawk eye ;) I will fix it in the next version when I squash
-this with my series.
+--===============0341192864==
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_87DB7CFD-6FE1-4D87-891F-FB912B95A2F7"
+
+
+--Apple-Mail=_87DB7CFD-6FE1-4D87-891F-FB912B95A2F7
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+Hi Greg,
+
+Sorry for the confusion. I=E2=80=99m requesting stable maintainers to =
+cherry-pick this patch into stable 5.4 and 5.8. I=E2=80=99ll be more =
+explicit.
+Commit: cc07057c7c88fb8eff3b1991131ded0f0bcfa7e3 ("video: fbdev: fix =
+divide error in fbcon_pswitch=E2=80=9D)
 
 Thanks,
-Sai
+Saeed
 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
+> On Oct 26, 2020, at 11:22 PM, Greg KH <gregkh@linuxfoundation.org> =
+wrote:
+>=20
+> On Mon, Oct 26, 2020 at 10:00:11AM -0700, Saeed Mirzamohammadi wrote:
+>> Thanks, adding stable.
+>=20
+> Why?  What are we supposed to do with this?
+
+
+--Apple-Mail=_87DB7CFD-6FE1-4D87-891F-FB912B95A2F7
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D"">Hi =
+Greg,<div class=3D""><br class=3D""></div><div class=3D"">Sorry for the =
+confusion. I=E2=80=99m requesting stable maintainers to cherry-pick this =
+patch into stable 5.4 and 5.8. I=E2=80=99ll be more explicit.</div><div =
+class=3D""><h1 style=3D"box-sizing: border-box; margin: 20px 0px 10px; =
+line-height: 1.1; font-variant-ligatures: normal; orphans: 2; widows: 2; =
+background-color: rgb(255, 255, 255);" class=3D""><span style=3D"color: =
+rgb(51, 51, 51); font-weight: 500; font-size: 12px;" =
+class=3D"">Commit:&nbsp;<span style=3D"font-variant-ligatures: normal;" =
+class=3D"">cc07057c7c88fb8eff3b1991131ded0f0bcfa7e3 =
+("</span></span><span style=3D"color: rgb(51, 51, 51); font-weight: 500; =
+font-size: 12px;" class=3D"">video: fbdev: fix divide error =
+in&nbsp;</span><font color=3D"#333333" class=3D""><span =
+style=3D"font-size: 12px; font-weight: 500;" =
+class=3D"">fbcon_pswitch=E2=80=9D)</span></font></h1></div><div =
+class=3D""><div><br =
+class=3D""></div><div>Thanks,</div><div>Saeed</div><div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">On Oct =
+26, 2020, at 11:22 PM, Greg KH &lt;<a =
+href=3D"mailto:gregkh@linuxfoundation.org" =
+class=3D"">gregkh@linuxfoundation.org</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div class=3D"">On =
+Mon, Oct 26, 2020 at 10:00:11AM -0700, Saeed Mirzamohammadi wrote:<br =
+class=3D""><blockquote type=3D"cite" class=3D"">Thanks, adding =
+stable.<br class=3D""></blockquote><br class=3D"">Why? &nbsp;What are we =
+supposed to do with this?<br class=3D""></div></div></blockquote></div><br=
+ class=3D""></div></body></html>=
+
+--Apple-Mail=_87DB7CFD-6FE1-4D87-891F-FB912B95A2F7--
+
+--===============0341192864==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0341192864==--
