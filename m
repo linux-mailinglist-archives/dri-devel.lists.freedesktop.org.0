@@ -2,66 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5EE29BCFF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35E329BE0F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:56:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C90016E12D;
-	Tue, 27 Oct 2020 16:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B31A6E1D8;
+	Tue, 27 Oct 2020 16:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 776426E12D
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 16:41:55 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id p21so1078903pju.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ebBfe6g+xIwA0Tw7T7ptAhswGHI+h9atRQ+wtk5eLJM=;
- b=vFw9A52vUPt+Z6azESaiWaj6f6RnK6WmgcZfmCdqg30ygptQfXqoaWHeScuoNsMUcL
- LFBrxcc3UK6ZrcRlK5yMWQydC4uSY8bXOQANfqwRP1eXlykw3jV58ZyR58sIXBm+HRfy
- vYQZ8hSojiimEwm6a2/Jpl+5twHC88GdAmxu3wHGuRHWue5fVcJY1DPUHhnpeRigSGZc
- VrPVUTeS6NGaTlPe7onOvCg10lX1FXx8QdW4QCJZ8DwsAcTcxh7dq+42zHm6DOHOPN6X
- Fkze0CaGWSHSGRhOa+UQSIkAV+OUv4T06N/Yptxodpi2pNzEzDFOn+8yW6ly7Lth7XwK
- QnvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ebBfe6g+xIwA0Tw7T7ptAhswGHI+h9atRQ+wtk5eLJM=;
- b=bMrgzAVDD+LCvcAcNbKV0kK6BCboPo1mb6XF9isVbEWMf4/5zUZEkFimVdug1I89G3
- caUVK6lBTWaisLu4PQJm2tLfU9Q5vlEyw4o6ldlXOQ7+VJIHa1IC2L5xa5ZByV84LeZe
- n64/anrfJYbIX+HOXQ7/Y1BdjrMspRoYfpGChDnM19V/IipzM1kySTaeJjxYCHoQomZi
- pA8hDnqezjr/XrRRNgdIqZw4HtL5aCXsUH6LI+V1jn6Iq7Pt7ltTMiFzwjFz9qmATBbU
- wkGa5SzklB+u+u3xNne/4XlTjxUSofD0EZ4IxzQ4M5wUFk0XWlX5hYjhE41RBQIjL2zk
- LxGA==
-X-Gm-Message-State: AOAM532qW78RZOMtimVXd9w5cozVAusUf6unpNNAVqtGKW+ngwBjI+du
- qBoPA7KbZf1UuTmyygXo2w==
-X-Google-Smtp-Source: ABdhPJxLkLvUsLuiUeeggrviMsdPesWsRrw2oB2fz/mRoiv9z7/Da38zY8teYsS2tEKx7sc/DwEgDg==
-X-Received: by 2002:a17:902:b488:b029:d4:dbdf:c6a5 with SMTP id
- y8-20020a170902b488b02900d4dbdfc6a5mr3312027plr.42.1603816915108; 
- Tue, 27 Oct 2020 09:41:55 -0700 (PDT)
-Received: from localhost.localdomain (n11212042025.netvigator.com.
- [112.120.42.25])
- by smtp.gmail.com with ESMTPSA id gx20sm2459230pjb.1.2020.10.27.09.41.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 09:41:54 -0700 (PDT)
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>
-Subject: [PATCH 5/5] parisc/sticore: Avoid hard-coding built-in font charcount
-Date: Tue, 27 Oct 2020 12:41:02 -0400
-Message-Id: <c38042bbf5c9777c84900d56c09f3c156b32af48.1603788512.git.yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <a3b1b3cdc160fb9aef389c366f387fb27f0aef38.1603788512.git.yepeilin.cs@gmail.com>
-References: <cover.1603788511.git.yepeilin.cs@gmail.com>
- <cb5bb49a33ff54fef41e719ee9d301a6a73c5f9c.1603788512.git.yepeilin.cs@gmail.com>
- <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
- <6c28279a10dbe7a7e5ac3e3a8dd7c67f8d63a9f2.1603788512.git.yepeilin.cs@gmail.com>
- <a3b1b3cdc160fb9aef389c366f387fb27f0aef38.1603788512.git.yepeilin.cs@gmail.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4CAB6E1D8;
+ Tue, 27 Oct 2020 16:55:59 +0000 (UTC)
+IronPort-SDR: TT80VQTVE8X8V/Hq0G9A2GoPVplOt8qFLKBiJzvTAnj7cn4FX8lkmiJ/eWvZMdNmnIzJqZ0uWh
+ 6SniT73RjQ+w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="147975740"
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="147975740"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2020 09:55:59 -0700
+IronPort-SDR: bRJV6oJb1K4RDYyHYs8/HC1QXURYTq7+q8gLlax6UsER7jVko0/7wxzXJwkblUoaRu3LPry6b/
+ yogUQOmdxV8w==
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="355612980"
+Received: from genxfsim-desktop.iind.intel.com ([10.223.74.178])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2020 09:55:56 -0700
+From: Anshuman Gupta <anshuman.gupta@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 00/16] HDCP 2.2 and HDCP 1.4 Gen12 DP MST support
+Date: Tue, 27 Oct 2020 22:11:52 +0530
+Message-Id: <20201027164208.10026-1-anshuman.gupta@intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,74 +47,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Peilin Ye <yepeilin.cs@gmail.com>
+Cc: jani.nikula@intel.com, uma.shankar@intel.com, seanpaul@chromium.org,
+ Anshuman Gupta <anshuman.gupta@intel.com>, juston.li@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-sti_select_fbfont() and sti_cook_fonts() are hard-coding the number of
-characters of our built-in fonts as 256. Recently, we included that
-information in our kernel font descriptor `struct font_desc`, so use
-`fbfont->charcount` instead of hard-coded values.
+This is v4 version to test with IGT https://patchwork.freedesktop.org/series/82987/
+This has addressed the review comments from Uma.
+It has been also tested manually with IGT above series.
 
-This patch depends on patch "Fonts: Add charcount field to font_desc".
+[PATCH v4 10/16] misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
+has an Ack from Tomas to merge it via drm-intel.
 
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
----
-$ # Build-tested (Ubuntu 20.04)
-$ sudo apt-get install binutils-hppa64-linux-gnu gcc-7-hppa64-linux-gnu
-$ cp arch/parisc/configs/generic-64bit_defconfig .config
-$ make -j`nproc` ARCH=parisc CROSS_COMPILE=hppa64-linux-gnu- all
+[PATCH v4 11/16] drm/hdcp: Max MST content streams
+has an Ack from drm-misc maintainer to merge it via dm-intel.
 
- drivers/video/console/sticore.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Test-with: 20201023100709.5211-2-karthik.b.s@intel.com
 
-diff --git a/drivers/video/console/sticore.c b/drivers/video/console/sticore.c
-index d1bb5915082b..f869b723494f 100644
---- a/drivers/video/console/sticore.c
-+++ b/drivers/video/console/sticore.c
-@@ -506,7 +506,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
- 			fbfont->width, fbfont->height, fbfont->name);
- 			
- 	bpc = ((fbfont->width+7)/8) * fbfont->height; 
--	size = bpc * 256;
-+	size = bpc * fbfont->charcount;
- 	size += sizeof(struct sti_rom_font);
- 
- 	nf = kzalloc(size, STI_LOWMEM);
-@@ -514,7 +514,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
- 		return NULL;
- 
- 	nf->first_char = 0;
--	nf->last_char = 255;
-+	nf->last_char = fbfont->charcount - 1;
- 	nf->width = fbfont->width;
- 	nf->height = fbfont->height;
- 	nf->font_type = STI_FONT_HPROMAN8;
-@@ -525,7 +525,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
- 
- 	dest = nf;
- 	dest += sizeof(struct sti_rom_font);
--	memcpy(dest, fbfont->data, bpc*256);
-+	memcpy(dest, fbfont->data, bpc * fbfont->charcount);
- 
- 	cooked_font = kzalloc(sizeof(*cooked_font), GFP_KERNEL);
- 	if (!cooked_font) {
-@@ -660,7 +660,7 @@ static int sti_cook_fonts(struct sti_cooked_rom *cooked_rom,
- void sti_font_convert_bytemode(struct sti_struct *sti, struct sti_cooked_font *f)
- {
- 	unsigned char *n, *p, *q;
--	int size = f->raw->bytes_per_char * 256 + sizeof(struct sti_rom_font);
-+	int size = f->raw->bytes_per_char * (f->raw->last_char + 1) + sizeof(struct sti_rom_font);
- 	struct sti_rom_font *old_font;
- 
- 	if (sti->wordmode)
+Anshuman Gupta (16):
+  drm/i915/hdcp: Update CP property in update_pipe
+  drm/i915/hdcp: Get conn while content_type changed
+  drm/i915/hotplug: Handle CP_IRQ for DP-MST
+  drm/i915/hdcp: DP MST transcoder for link and stream
+  drm/i915/hdcp: Move HDCP enc status timeout to header
+  drm/i915/hdcp: HDCP stream encryption support
+  drm/i915/hdcp: Enable Gen12 HDCP 1.4 DP MST support
+  drm/i915/hdcp: Pass dig_port to intel_hdcp_init
+  drm/i915/hdcp: Encapsulate hdcp_port_data to dig_port
+  misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
+  drm/hdcp: Max MST content streams
+  drm/i915/hdcp: MST streams support in hdcp port_data
+  drm/i915/hdcp: Pass connector to check_2_2_link
+  drm/i915/hdcp: Add HDCP 2.2 stream register
+  drm/i915/hdcp: Support for HDCP 2.2 MST shim callbacks
+  drm/i915/hdcp: Enable HDCP 2.2 MST support
+
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  14 +-
+ drivers/gpu/drm/i915/display/intel_ddi.h      |   6 +-
+ .../drm/i915/display/intel_display_types.h    |  20 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |  14 +-
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 167 ++++++++--
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |  12 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     | 285 ++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_hdcp.h     |   8 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  19 +-
+ drivers/gpu/drm/i915/i915_reg.h               |  31 ++
+ drivers/misc/mei/hdcp/mei_hdcp.c              |   3 +-
+ include/drm/drm_hdcp.h                        |   8 +-
+ 12 files changed, 466 insertions(+), 121 deletions(-)
+
 -- 
-2.25.1
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
