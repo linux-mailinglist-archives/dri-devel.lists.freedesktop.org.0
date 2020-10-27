@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB1629CEB2
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC8C29CE99
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:06:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C7536EC5F;
-	Wed, 28 Oct 2020 08:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A625E6E0D9;
+	Wed, 28 Oct 2020 08:06:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1BF16EB72
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:17:45 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id i1so1681573wro.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 05:17:45 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B11226E0EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:17:47 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id k18so1202450wmj.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 05:17:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Yv5nQ3yDPCTR6Qr42pQX9T0J3MZN9NU/gU5iZJIrkWk=;
- b=fei0ANa2ElSFo4FKASLBvqdzEpQMc369lxMXy79AWLlLE4ldM0t9l6k8RVF3buSnvA
- InRbHn9r2hR680pZZ+gYHBH0cxjnXEpWTBjRsyn3pPicTDT7ROS1njEmMsQ0EtyoYRv/
- vBz+LlGkNh9F45O2WPmNPaWYUC2TRs+1c28W6I2DHNQSUKyUoBTvCUXW/RmCgB8tOU8G
- g5O/0EGVAt658IQXZb3tOQIDePMiXd3i3GdEI4By620HO0ioGffbTx/3svpvzdtTVEbj
- pJSbSja7AzYXp5nq6dTEmNRhW6+2gmmrtbUq1fP5SW49DL3CQr9yND4Z3iXAPYqZ02Lj
- 0X6A==
+ bh=DX4Vpt/5rOOp/h8PsP6BCvcutYZPagP/0wvqhEtDkrc=;
+ b=fcBVAav93bPjLTMO/GKGNWbWJSyP9xDWjrQdREKVHUObC2fvcpeMBWbKtOvwqTtDBw
+ TYuM0tjJGe4hFI+bJgCEuy05Jhcj7DoPbEbpzYlue9mGnIAJyPrd5G7jnyVyC0ouqYQE
+ KUcuZgHebd/KjJ7WpMudfra+Ob5jpn/DPH6XMb8lun7OwUCY62x1ZRk3XnvNkzK8JTfI
+ GDSUhxWu1bxiLfQLX/wnkP4DE/r3YkbU7n/g2xdLeTwmRffMBnF1fQyXeAU/KAOUkWXm
+ Qr72qjOlysXmXLLv9c8JP8XDyn+yxZSMDREYLPBPXV2IBO4ogKZ9faYnUv5Hy6pUK1mv
+ KBnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Yv5nQ3yDPCTR6Qr42pQX9T0J3MZN9NU/gU5iZJIrkWk=;
- b=Eps1HcgC8V7FHo/+6u/1Yc9fVHGYMuTUPhnmbbB4ZxBpWz5sniyYleQX/yZD1FnF2N
- dnacgd8McdRT3cDu9/7BvQBZ3INxi5paE+7O/Vp4GO8QEa6VmJqktE1emIg3tChdg6Me
- 8k+x2M+M0ruzka5cwRFCjHxsypxrrD3YBv3xKDSPNgnsr0l15hE7fT6bcwUPr/anTgmS
- ABzAki0Krq7MXwtAM3k1AGPzGCBVa48gWUSBuWVTEFZCVdW4oJ+DQ0vKowi9wJX+3dg7
- yykN/6j0R0+K5bBTvumTju/bbl/uOCs4zY3XcVONVDlkDdEck7IZ7YrTC3m9xHBohM8M
- HyfA==
-X-Gm-Message-State: AOAM532mldfKIrUzb5mcfAhC3nRwR4Ow87GetVOMopCLVydxouTzWdCL
- TRoQSz0hZ9lqmbgpS/ByJdcfGg==
-X-Google-Smtp-Source: ABdhPJwBy/86P9NLjWm4ayzRrNeTPV1ezoUeA/zg5bUjnQJez1TgK6PN9H/ezjMnvntOGwzzJ6JYWg==
-X-Received: by 2002:a05:6000:108:: with SMTP id
- o8mr2545710wrx.256.1603801064364; 
- Tue, 27 Oct 2020 05:17:44 -0700 (PDT)
+ bh=DX4Vpt/5rOOp/h8PsP6BCvcutYZPagP/0wvqhEtDkrc=;
+ b=rekz+XzeTz6+zVqDj3YzyPlCr8MA6/P4nl0czYVlhMeswQV9ufbsVgJBmb7866rYK8
+ uIqZcPRbkWAicM9pZtDD++O3joD7nLhTugGHFbmmiIGihiv4+4FY34gIWigY4xmDWgby
+ X3BL+m4zSl9jEd5TVfMBa0mRNfM4xDqlzYyJZ2XhMArAMIEMAx+TI/vtOQqVGBe1/FTv
+ uPTqIwrOZs8dWVNA2EzCwcVruRlaV19bC192jzSzc7sUGHU9QyAVB1nkX7W1bVBJu7/B
+ 4sTivwW/ZhS9MHsQcY/WezHjG5MoadiDy3BEdUkVx3hXh5oYcRBTqrhhuohmm2ir8i4r
+ v3MA==
+X-Gm-Message-State: AOAM532bd5ONWmucIhTgPwpOgu3nDemUOMU77mO2qA9UCC40LIo2Fw9K
+ 7fNpv4j1el+LF9Q7s8JUOI8tWw==
+X-Google-Smtp-Source: ABdhPJxpFHC1iDNaVhyqgdX0LXFgCHzNZUEcFDl9D5G1/wCxSZcWoj/5QOXgpccEbzpQpJAT/3s/cw==
+X-Received: by 2002:a7b:cb81:: with SMTP id m1mr2573033wmi.140.1603801066439; 
+ Tue, 27 Oct 2020 05:17:46 -0700 (PDT)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr.
  [90.8.158.167])
- by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.42
+ by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 05:17:43 -0700 (PDT)
+ Tue, 27 Oct 2020 05:17:45 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
@@ -67,14 +66,14 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH 4/8] pinctrl: use krealloc_array()
-Date: Tue, 27 Oct 2020 13:17:21 +0100
-Message-Id: <20201027121725.24660-5-brgl@bgdev.pl>
+Subject: [PATCH 5/8] edac: ghes: use krealloc_array()
+Date: Tue, 27 Oct 2020 13:17:22 +0100
+Message-Id: <20201027121725.24660-6-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201027121725.24660-1-brgl@bgdev.pl>
 References: <20201027121725.24660-1-brgl@bgdev.pl>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:31 +0000
+X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,22 +104,24 @@ calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/pinctrl/pinctrl-utils.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/edac/ghes_edac.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pinctrl/pinctrl-utils.c b/drivers/pinctrl/pinctrl-utils.c
-index f2bcbf62c03d..93df0d4c0a24 100644
---- a/drivers/pinctrl/pinctrl-utils.c
-+++ b/drivers/pinctrl/pinctrl-utils.c
-@@ -39,7 +39,7 @@ int pinctrl_utils_reserve_map(struct pinctrl_dev *pctldev,
- 	if (old_num >= new_num)
- 		return 0;
+diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
+index a918ca93e4f7..6d1ddecbf0da 100644
+--- a/drivers/edac/ghes_edac.c
++++ b/drivers/edac/ghes_edac.c
+@@ -207,8 +207,8 @@ static void enumerate_dimms(const struct dmi_header *dh, void *arg)
+ 	if (!hw->num_dimms || !(hw->num_dimms % 16)) {
+ 		struct dimm_info *new;
  
--	new_map = krealloc(*map, sizeof(*new_map) * new_num, GFP_KERNEL);
-+	new_map = krealloc_array(*map, new_num, sizeof(*new_map), GFP_KERNEL);
- 	if (!new_map) {
- 		dev_err(pctldev->dev, "krealloc(map) failed\n");
- 		return -ENOMEM;
+-		new = krealloc(hw->dimms, (hw->num_dimms + 16) * sizeof(struct dimm_info),
+-			        GFP_KERNEL);
++		new = krealloc_array(hw->dimms, hw->num_dimms + 16,
++				     sizeof(struct dimm_info), GFP_KERNEL);
+ 		if (!new) {
+ 			WARN_ON_ONCE(1);
+ 			return;
 -- 
 2.29.1
 
