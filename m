@@ -1,75 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9333329CE9A
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:06:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F2329CEA8
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81A346E07B;
-	Wed, 28 Oct 2020 08:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44D386EC59;
+	Wed, 28 Oct 2020 08:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A1806E1CF
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 16:34:01 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09RGKWk2011655;
- Tue, 27 Oct 2020 16:33:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : message-id :
- content-type : mime-version : subject : date : in-reply-to : cc : to :
- references; s=corp-2020-01-29;
- bh=I7q2p2jRMn6HsHtmiM+IYEv8vqhICap8/epKjVMV+0E=;
- b=g1AOro9j9HRRd304FBtH9p7a9KJz/oTyJCD9ZEgeM20rMhffRMfDDpLCSaNviENyBlD4
- Xh+re99a3zjlDo7aAzD03ahLmKxostqNppiy5WB8x4mdPyu23tXv6W2kldZA1N9r2rez
- Hbgp2NLMCM3uXO5aIar04r5mCmHVfhe7xIb0qCgsbZ4Z+nmwXfYwyZ1sQhqin7uPGG4R
- cB/Wc/C1imiqJssnvtCoH+bFX59haN+a1sfXUfrUF0pVrb+eJViT9d9zOfnYLCanQ+zG
- kXQ4fP3azeD0ZSuNnp6Z0cUufcrAZ4lL1d294YYk8+AawEApUiEKy+o64rifZVtFCtjQ IA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 34dgm40qdc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 27 Oct 2020 16:33:51 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09RGKUDu168656;
- Tue, 27 Oct 2020 16:33:50 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 34cwumkunf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 27 Oct 2020 16:33:50 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09RGXmmM014159;
- Tue, 27 Oct 2020 16:33:48 GMT
-Received: from dhcp-10-159-231-98.vpn.oracle.com (/10.159.231.98)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 27 Oct 2020 09:33:47 -0700
-From: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Message-Id: <0532C732-BD87-4E0D-A6D6-CB0926AEC0E1@oracle.com>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Re: [PATCH 1/1] video: fbdev: fix divide error in fbcon_switch
-Date: Tue, 27 Oct 2020 09:33:44 -0700
-In-Reply-To: <20201027062217.GE206502@kroah.com>
-To: Greg KH <gregkh@linuxfoundation.org>, stable@vger.kernel.org
-References: <20201021235758.59993-1-saeed.mirzamohammadi@oracle.com>
- <ad87c5c1-061d-8a81-7b2c-43a8687a464f@suse.de>
- <3294C797-1BBB-4410-812B-4A4BB813F002@oracle.com>
- <20201027062217.GE206502@kroah.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.1)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 bulkscore=0
- spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 suspectscore=3
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010270099
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 impostorscore=0
- adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- suspectscore=3 clxscore=1015 mlxscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010270099
-X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:31 +0000
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC616EC0C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 16:58:56 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id d6so3213330ejb.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jbe/1MUIOazjJNoYCLbZSaF/EYC3tySch0SP+bPnG10=;
+ b=jVifv3wcHJtbLJO22cQhSQScaHCOkHk0uy60SV24XvvF7WpqIaa807hmufMDVKqnPF
+ 3xm47weUtJacIjSqbcrwXivMAtenN13kZafFSMO2m8dHHXFLXYX56OUdOoMTcRWlbgDG
+ Thpj0UzfAOOdteCoRx63Xv7ZHZnjkyReDZ1Swoq+LyDarWGF0Mhj1KXWH3CO+MSgLHKb
+ ZCBeQPWb0noZpqy+qKiKznJoq/vsPZZzkzwPD8DcAe8kPG1EHjLxd45J8Yu892ID37T7
+ 4/FpLOCqsI/vnQoRJn422RcKliIdkwc27vyhzCgMqyr6Vk10qaJ+O1CUPcx0OY5r8WIV
+ v25A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jbe/1MUIOazjJNoYCLbZSaF/EYC3tySch0SP+bPnG10=;
+ b=U65fMt938vR/p1/dWiCUt7DDyOoeyvi3LWQyc73axUClK5DWZ62krqR9GsfR2stlB2
+ lpH30q4bcP6RQpJL1IaiN5Pb5oZV3AEzIyUaIrRY0T8ftS5zLj4OLyxfiz58mEL0sDwi
+ VZvgZBvvl7CNJcev03dUt22IKf8Bz+DbfrCn19NCwxskJEbg57H+j8AU4RfVDGjJqIqa
+ cbEpeEnUTUyIm2swglN5/9IjJliO69LjmjBQz1T0aBL7lA3K77VFXr1+Ggiee8tnaphQ
+ JuiE8yAIz8iQh6Ckyxryfi0Ths9/UsZuTYk2cNf3jLE+wBAmPjz7YOfiUbJSJoZItQJe
+ HiIQ==
+X-Gm-Message-State: AOAM533JT5Fv5yNTWDcKT2lhyDTadKFHFx7YB1b+YGL3RiXs67/OjLCg
+ fd+N/pEY3MpCQohqcHgSBCvVLi+QJ5uOu674ViHlgg==
+X-Google-Smtp-Source: ABdhPJzA1XzwQDZrf0aO0vJ0GFK7TlKkhiOIHp72TDLrdQ3tpl8EeLXanxCM3mEYAMp7LHDhMqHnk4D8XhUXPqwrAS0=
+X-Received: by 2002:a17:906:d159:: with SMTP id
+ br25mr3508153ejb.155.1603817934690; 
+ Tue, 27 Oct 2020 09:58:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201027121725.24660-1-brgl@bgdev.pl>
+ <20201027121725.24660-4-brgl@bgdev.pl>
+ <20201027112607-mutt-send-email-mst@kernel.org>
+ <685d850347a1191bba8ba7766fc409b140d18f03.camel@perches.com>
+In-Reply-To: <685d850347a1191bba8ba7766fc409b140d18f03.camel@perches.com>
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date: Tue, 27 Oct 2020 17:58:43 +0100
+Message-ID: <CAMpxmJU0C84DjPmqmWvPgv0zwgGLhkpKLRDuKkZHAa=wi+LvBA@mail.gmail.com>
+Subject: Re: [PATCH 3/8] vhost: vringh: use krealloc_array()
+To: Joe Perches <joe@perches.com>
+X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,91 +66,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
- jani.nikula@intel.com, daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, gustavoars@kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, akpm@linux-foundation.org,
- rppt@kernel.org
-Content-Type: multipart/mixed; boundary="===============0508443210=="
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ linux-drm <dri-devel@lists.freedesktop.org>, Jaroslav Kysela <perex@perex.cz>,
+ linux-mm@kvack.org, Christoph Lameter <cl@linux.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ David Rientjes <rientjes@google.com>,
+ virtualization@lists.linux-foundation.org, Jason Wang <jasowang@redhat.com>,
+ linux-media <linux-media@vger.kernel.org>, Robert Richter <rric@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linaro-mm-sig@lists.linaro.org,
+ linux-gpio <linux-gpio@vger.kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-edac@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, netdev <netdev@vger.kernel.org>,
+ Takashi Iwai <tiwai@suse.com>, LKML <linux-kernel@vger.kernel.org>,
+ Pekka Enberg <penberg@kernel.org>, James Morse <james.morse@arm.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Oct 27, 2020 at 5:50 PM Joe Perches <joe@perches.com> wrote:
+>
+> On Tue, 2020-10-27 at 11:28 -0400, Michael S. Tsirkin wrote:
+> > On Tue, Oct 27, 2020 at 01:17:20PM +0100, Bartosz Golaszewski wrote:
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > >
+> > > Use the helper that checks for overflows internally instead of manually
+> > > calculating the size of the new array.
+> > >
+> > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > No problem with the patch, it does introduce some symmetry in the code.
+>
+> Perhaps more symmetry by using kmemdup
+> ---
+>  drivers/vhost/vringh.c | 23 ++++++++++-------------
+>  1 file changed, 10 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/vhost/vringh.c b/drivers/vhost/vringh.c
+> index 8bd8b403f087..99222a3651cd 100644
+> --- a/drivers/vhost/vringh.c
+> +++ b/drivers/vhost/vringh.c
+> @@ -191,26 +191,23 @@ static int move_to_indirect(const struct vringh *vrh,
+>  static int resize_iovec(struct vringh_kiov *iov, gfp_t gfp)
+>  {
+>         struct kvec *new;
+> -       unsigned int flag, new_num = (iov->max_num & ~VRINGH_IOV_ALLOCATED) * 2;
+> +       size_t new_num = (iov->max_num & ~VRINGH_IOV_ALLOCATED) * 2;
+> +       size_t size;
+>
+>         if (new_num < 8)
+>                 new_num = 8;
+>
+> -       flag = (iov->max_num & VRINGH_IOV_ALLOCATED);
+> -       if (flag)
+> -               new = krealloc(iov->iov, new_num * sizeof(struct iovec), gfp);
+> -       else {
+> -               new = kmalloc_array(new_num, sizeof(struct iovec), gfp);
+> -               if (new) {
+> -                       memcpy(new, iov->iov,
+> -                              iov->max_num * sizeof(struct iovec));
+> -                       flag = VRINGH_IOV_ALLOCATED;
+> -               }
+> -       }
+> +       if (unlikely(check_mul_overflow(new_num, sizeof(struct iovec), &size)))
+> +               return -ENOMEM;
+> +
 
---===============0508443210==
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_C44B9A7D-F6AE-4D9D-AFA4-575F843CD749"
+The whole point of using helpers such as kmalloc_array() is not doing
+these checks manually.
 
+Bartosz
 
---Apple-Mail=_C44B9A7D-F6AE-4D9D-AFA4-575F843CD749
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
-Hi Greg,
-
-Sorry for the confusion. I=E2=80=99m requesting stable maintainers to =
-cherry-pick this patch into stable 5.4 and 5.8. I=E2=80=99ll be more =
-explicit.
-Commit: cc07057c7c88fb8eff3b1991131ded0f0bcfa7e3 ("video: fbdev: fix =
-divide error in fbcon_pswitch=E2=80=9D)
-
-Thanks,
-Saeed
-
-> On Oct 26, 2020, at 11:22 PM, Greg KH <gregkh@linuxfoundation.org> =
-wrote:
->=20
-> On Mon, Oct 26, 2020 at 10:00:11AM -0700, Saeed Mirzamohammadi wrote:
->> Thanks, adding stable.
->=20
-> Why?  What are we supposed to do with this?
-
-
---Apple-Mail=_C44B9A7D-F6AE-4D9D-AFA4-575F843CD749
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" class=3D"">Hi =
-Greg,<div class=3D""><br class=3D""></div><div class=3D"">Sorry for the =
-confusion. I=E2=80=99m requesting stable maintainers to cherry-pick this =
-patch into stable 5.4 and 5.8. I=E2=80=99ll be more explicit.</div><div =
-class=3D""><h1 class=3D"" style=3D"box-sizing: border-box; margin: 20px =
-0px 10px; line-height: 1.1; font-variant-ligatures: normal; orphans: 2; =
-widows: 2; background-color: rgb(255, 255, 255);"><span class=3D"" =
-style=3D"color: rgb(51, 51, 51); font-weight: 500; font-size: =
-12px;">Commit:&nbsp;<span class=3D"" style=3D"font-variant-ligatures: =
-normal;">cc07057c7c88fb8eff3b1991131ded0f0bcfa7e3 ("</span></span><span =
-class=3D"" style=3D"color: rgb(51, 51, 51); font-weight: 500; font-size: =
-12px;">video: fbdev: fix divide error in&nbsp;</span><font =
-color=3D"#333333" class=3D""><span class=3D"" style=3D"font-size: 12px; =
-font-weight: 500;">fbcon_pswitch=E2=80=9D)</span></font></h1></div><div =
-class=3D""><div class=3D""><br class=3D""></div><div =
-class=3D"">Thanks,</div><div class=3D"">Saeed</div></div><div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">On Oct =
-26, 2020, at 11:22 PM, Greg KH &lt;<a =
-href=3D"mailto:gregkh@linuxfoundation.org" =
-class=3D"">gregkh@linuxfoundation.org</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div class=3D"">On =
-Mon, Oct 26, 2020 at 10:00:11AM -0700, Saeed Mirzamohammadi wrote:<br =
-class=3D""><blockquote type=3D"cite" class=3D"">Thanks, adding =
-stable.<br class=3D""></blockquote><br class=3D"">Why? &nbsp;What are we =
-supposed to do with this?<br class=3D""></div></div></blockquote></div><br=
- class=3D""></body></html>=
-
---Apple-Mail=_C44B9A7D-F6AE-4D9D-AFA4-575F843CD749--
-
---===============0508443210==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> +       if (iov->max_num & VRINGH_IOV_ALLOCATED)
+> +               new = krealloc(iov->iov, size, gfp);
+> +       else
+> +               new = kmemdup(iov->iov, size, gfp);
+>         if (!new)
+>                 return -ENOMEM;
+>         iov->iov = new;
+> -       iov->max_num = (new_num | flag);
+> +       iov->max_num = new_num | VRINGH_IOV_ALLOCATED;
+>         return 0;
+>  }
+>
+>
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0508443210==--
