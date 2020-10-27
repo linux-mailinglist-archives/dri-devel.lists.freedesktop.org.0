@@ -1,70 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C0029A7EF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 10:34:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4763629A7FD
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 10:36:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 771CD6E08C;
-	Tue, 27 Oct 2020 09:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 118436E1A5;
+	Tue, 27 Oct 2020 09:36:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1466E08C
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:33:55 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id g12so1039305wrp.10
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 02:33:55 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C0946E1A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:36:35 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id s9so1062330wro.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 02:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ub2OQ9S7t1kcBGYAcEMMt+aJ2+YepKfrmcjGDAX1O4g=;
- b=IVxeO6Vr9iH8EoAazuEDyvS4Qnu8Qz5nbl4rDuw5V1brxHiOyXx6id5gwEh5ZNDrwP
- Z+RallfzodY5UGkcDM5QsYTqT0RZskyAf+6S0BPuPpXz5GA62KzuTs0QCOmdxGHAaASA
- +i5SgBFaQLJWfVtCh9ZgL/Ncr8LJ6Q6wImPYg=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=oKyhhlggIzQZEALt6LDXbEGeExFCJKLngSO4q056TRw=;
+ b=SgiGfHua4PGRBgKddAU9OCyQ6gEct1idFssRqSbWwjGRJqXG169x46PTmvdjQceWZf
+ fk5dAtJxunjnhbD4rbCsNxxDzknml/sX2Srv0TepflP0Th4ndJ/+cwJxg9Nb54onNn7a
+ SioLMZC7T1foebo0tvNh9MYDlsSqwMmR1SUDo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=Ub2OQ9S7t1kcBGYAcEMMt+aJ2+YepKfrmcjGDAX1O4g=;
- b=SPS8S3DFpkwAYRn/MAnxokO09E3Bg4DD3CBRleFl3z36HXbbFe49ATRdxi26tnICjI
- 2gROOgdEjQ/67GejOtaX6wxlj3DEn/nKI331lgovQb00VxwimI47iADch4P4eb7W6t5N
- Z0F/i+jqw9FvKMU6boftp66Tcubo9A/hOmNtkKEClvNPbOoVQWIX2S6PuB0dFXEFbRlM
- bTjS3GMViFapo//xXkG016YoV+LBgC2C9QZAfOdzPIBToaB8hg1Sd/NU6Vg7XPtHR812
- fnHGEuhnpEtgpVnQweoPs0qf3H5QYXutBIEpAvw9gtJpjPAxizanDUUY9RAX8XePYMst
- Y3sA==
-X-Gm-Message-State: AOAM530Wx/kKZ95ZFefPu3a6R5kHUXJ/xTCD+v68jIlrYkZ6dmekWdJ2
- YZqY7pIDtwmZRTn4+JEPWMVjzg==
-X-Google-Smtp-Source: ABdhPJxgfnIDYgOvbEbTrCnvCeptzJB/xcXyPJfOrqGWQibdGcD2ePVfDRbdpz8P+44fRAsO2M4ynQ==
-X-Received: by 2002:a5d:6a86:: with SMTP id s6mr1726334wru.344.1603791234191; 
- Tue, 27 Oct 2020 02:33:54 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=oKyhhlggIzQZEALt6LDXbEGeExFCJKLngSO4q056TRw=;
+ b=IE6eHMMu1ir5dg5t5XUWEtGQgEj/GW/SSn7cvhX3gP8XVGTMbZdBu3bXu9Tc01LLZF
+ X9j/CoWZVzKducZVHho5QgPZVVX3HvOWQ+8QkPpFNRYzD4m3GE7yNaVpOPFfABtNwg4K
+ ixPzHsoJlk5VzSJGtsIf7I0I+0UzNfEF9huN9y/iSGS09/mGy2Kv5UyzR34jVnbHUNET
+ 2uNHwjLk2dXDxB+GoldyX9/Ih0Du5cZZQ3ogu7UU2KUkAOFMVifpKVSJC6/QvsyaiDj+
+ opdw5HpEKEKpEIrcyFQHOyJ12Bb1LSmjAgB/LKwEutTmUV32SOY/b5eNC9llXJ54uUyK
+ pwTw==
+X-Gm-Message-State: AOAM531gkWEbN/0GBP2D6vCFI/pTi6YPMSOzVuS6bEEYpUitZydD+TXT
+ +33dAicL4FFAXgFVNtyOz4wiiiZvwtQR8P9w
+X-Google-Smtp-Source: ABdhPJzHD8U/7HI5c4wsPD1H08r/8tFlxpBIJaaJcDdq1QoqLSTpEsPUJ2pxSZrV6BQcS2YaZr5g8A==
+X-Received: by 2002:adf:c3c6:: with SMTP id d6mr1782755wrg.206.1603791394082; 
+ Tue, 27 Oct 2020 02:36:34 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b5sm1218224wrs.97.2020.10.27.02.33.52
+ by smtp.gmail.com with ESMTPSA id u15sm1268718wrm.77.2020.10.27.02.36.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 02:33:53 -0700 (PDT)
-Date: Tue, 27 Oct 2020 10:33:50 +0100
+ Tue, 27 Oct 2020 02:36:33 -0700 (PDT)
+Date: Tue, 27 Oct 2020 10:36:31 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 4/4] drm/gma500: avoid Woverride-init warning
-Message-ID: <20201027093350.GI401619@phenom.ffwll.local>
-Mail-Followup-To: Arnd Bergmann <arnd@kernel.org>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- David Airlie <airlied@linux.ie>,
- Stefan Christ <contact@stefanchrist.eu>,
- Arnd Bergmann <arnd@arndb.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Emil Velikov <emil.velikov@collabora.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20201026194110.3817470-1-arnd@kernel.org>
- <20201026194110.3817470-4-arnd@kernel.org>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 3/3] drm/doc: Document legacy_cursor_update better
+Message-ID: <20201027093631.GJ401619@phenom.ffwll.local>
+References: <20201023123925.2374863-1-daniel.vetter@ffwll.ch>
+ <20201023123925.2374863-3-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201026194110.3817470-4-arnd@kernel.org>
+In-Reply-To: <20201023123925.2374863-3-daniel.vetter@ffwll.ch>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,64 +65,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Stefan Christ <contact@stefanchrist.eu>,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 26, 2020 at 08:41:04PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Fri, Oct 23, 2020 at 02:39:25PM +0200, Daniel Vetter wrote:
+> It's the horror and shouldn't be used. Realized we're not clear on
+> this in a discussion with Rob about what msm is doing to better
+> support async commits.
 > 
-> gcc -Wextra notices that one of the fields in psbfb_roll_ops has two
-> initializers:
+> v2: Refine existing todo item to include this (Thomas)
 > 
-> drivers/gpu/drm/gma500/framebuffer.c:185:20: warning: initialized field overwritten [-Woverride-init]
-> 
-> Open-code this instead, leaving out the extraneous initializers for
-> .fb_pan_display.
-> 
-> Fixes: 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for fb_ops")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 
-Scrollback is dead, so I'm not sure it's even worth to keep all this. I'd
-just garbage-collect this, maybe als the entire accelerator code and just
-leave psbfb_unaccel_ops behind ...
+Pushed this one with Rob's irc-ack, since the functional changes will take
+a bit longer to figure out.
 -Daniel
 
 > ---
->  drivers/gpu/drm/gma500/framebuffer.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  Documentation/gpu/todo.rst |  4 ++++
+>  include/drm/drm_atomic.h   | 12 +++++++++++-
+>  2 files changed, 15 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-> index 54d9876b5305..a56a6b53fac6 100644
-> --- a/drivers/gpu/drm/gma500/framebuffer.c
-> +++ b/drivers/gpu/drm/gma500/framebuffer.c
-> @@ -177,7 +177,14 @@ static const struct fb_ops psbfb_ops = {
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 700637e25ecd..6b224ef14455 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -105,6 +105,10 @@ converted over to the new infrastructure.
+>  One issue with the helpers is that they require that drivers handle completion
+>  events for atomic commits correctly. But fixing these bugs is good anyway.
 >  
->  static const struct fb_ops psbfb_roll_ops = {
->  	.owner = THIS_MODULE,
-> -	DRM_FB_HELPER_DEFAULT_OPS,
-> +	.fb_check_var = drm_fb_helper_check_var,
-> +	.fb_set_par = drm_fb_helper_set_par,
-> +	.fb_setcmap = drm_fb_helper_setcmap,
-> +	.fb_blank = drm_fb_helper_blank,
-> +	.fb_debug_enter = drm_fb_helper_debug_enter,
-> +	.fb_debug_leave = drm_fb_helper_debug_leave,
-> +	.fb_ioctl = drm_fb_helper_ioctl,
+> +Somewhat related is the legacy_cursor_update hack, which should be replaced with
+> +the new atomic_async_check/commit functionality in the helpers in drivers that
+> +still look at that flag.
 > +
->  	.fb_setcolreg = psbfb_setcolreg,
->  	.fb_fillrect = drm_fb_helper_cfb_fillrect,
->  	.fb_copyarea = drm_fb_helper_cfb_copyarea,
+>  Contact: Daniel Vetter, respective driver maintainers
+>  
+>  Level: Advanced
+> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> index d07c851d255b..413fd0ca56a8 100644
+> --- a/include/drm/drm_atomic.h
+> +++ b/include/drm/drm_atomic.h
+> @@ -308,7 +308,6 @@ struct __drm_private_objs_state {
+>   * struct drm_atomic_state - the global state object for atomic updates
+>   * @ref: count of all references to this state (will not be freed until zero)
+>   * @dev: parent DRM device
+> - * @legacy_cursor_update: hint to enforce legacy cursor IOCTL semantics
+>   * @async_update: hint for asynchronous plane update
+>   * @planes: pointer to array of structures with per-plane data
+>   * @crtcs: pointer to array of CRTC pointers
+> @@ -336,6 +335,17 @@ struct drm_atomic_state {
+>  	 * drm_atomic_crtc_needs_modeset().
+>  	 */
+>  	bool allow_modeset : 1;
+> +	/**
+> +	 * @legacy_cursor_update:
+> +	 *
+> +	 * Hint to enforce legacy cursor IOCTL semantics.
+> +	 *
+> +	 * WARNING: This is thoroughly broken and pretty much impossible to
+> +	 * implement correctly. Drivers must ignore this and should instead
+> +	 * implement &drm_plane_helper_funcs.atomic_async_check and
+> +	 * &drm_plane_helper_funcs.atomic_async_commit hooks. New users of this
+> +	 * flag are not allowed.
+> +	 */
+>  	bool legacy_cursor_update : 1;
+>  	bool async_update : 1;
+>  	/**
 > -- 
-> 2.27.0
+> 2.28.0
 > 
 
 -- 
