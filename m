@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78D429A84E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 10:51:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1432829A84F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 10:51:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C536EB57;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B095A6EB5A;
 	Tue, 27 Oct 2020 09:51:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E8D96EB4D;
- Tue, 27 Oct 2020 09:51:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1948D6EB4C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 09:51:43 +0000 (UTC)
 Received: from mail.kernel.org (ip5f5ad5af.dynamic.kabel-deutschland.de
  [95.90.213.175])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1A0A52467D;
+ by mail.kernel.org (Postfix) with ESMTPSA id 0D8DC24677;
  Tue, 27 Oct 2020 09:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=default; t=1603792302;
- bh=5vDvj3oyzh1Zm3XZyqT4S1ZktLUHAAkzgfhs/XvhF0g=;
+ bh=7iRzQ9FtMsadAedSe/m2uOK3R6zBKK4pf/UOJjIXzSM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Kbv2wrvY2jihYBFGLE/Yg2vUUrX9J+UvwwK/VyhCFicXCGFnq+GSYdX/esugtNTzl
- zX6G5mvSt5TB+EkFXs6iJjUWGuTWpT3NL5r/ueNsMC0QXe0VjWufFf2zG3JliuDKS9
- g8GrpxFmK1GH/pPBjsLqyj/CaawGPgt6WOnrBxSk=
+ b=Dcsblmz0EkVXN+vfJXxMzME789p5Ep83AyUYuExckEi++nLmuGrXGYKf6fuAZb9mB
+ Hzh7y+UgEnIONRwARO7M8zu6X8DbUj2CYUy+IAJRei33rZOzx2juH2dSni9X2bpUY8
+ sQk0IAHZvYVieBp/DkSc/RRJz6gtpNx56Qv7saQU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
  (envelope-from <mchehab@kernel.org>)
- id 1kXLdj-003FFn-VV; Tue, 27 Oct 2020 10:51:39 +0100
+ id 1kXLdk-003FFr-0G; Tue, 27 Oct 2020 10:51:40 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
  Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3 30/32] amdgpu: fix a few kernel-doc markup issues
-Date: Tue, 27 Oct 2020 10:51:34 +0100
-Message-Id: <e899f50404e94ac9a7c3267dd34f951c1a44fb2b.1603791716.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 31/32] drm: drm_print.h: fix kernel-doc markups
+Date: Tue, 27 Oct 2020 10:51:35 +0100
+Message-Id: <5b76c5625709aaaa3abee98faa620b9f3d27ff85.1603791716.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1603791716.git.mchehab+huawei@kernel.org>
 References: <cover.1603791716.git.mchehab+huawei@kernel.org>
@@ -50,55 +50,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dennis Li <Dennis.Li@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A kernel-doc markup can't be mixed with a random comment,
-as it causes parsing problems.
-
-While here, change an invalid kernel-doc markup into
-a common comment.
+A kernel-doc markup should start with the identifier on its
+first line.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ include/drm/drm_print.h | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 641c039150eb..5dbe93fe884c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -239,9 +239,11 @@ bool amdgpu_device_supports_baco(struct drm_device *dev)
- 	return amdgpu_asic_supports_baco(adev);
- }
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index 1c9417430d08..f32d179e139d 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -338,7 +338,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 		 const char *format, ...);
  
-+/*
-+ * VRAM access helper functions
-+ */
-+
  /**
-- * VRAM access helper functions.
-- *
-  * amdgpu_device_vram_access - read/write a buffer in vram
+- * Error output.
++ * DRM_DEV_ERROR() - Error output.
   *
-  * @adev: amdgpu_device pointer
-@@ -4497,7 +4499,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 	bool need_emergency_restart = false;
- 	bool audio_suspended = false;
+  * @dev: device pointer
+  * @fmt: printf() like format string.
+@@ -347,10 +347,12 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 	drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
  
--	/**
-+	/*
- 	 * Special case: RAS triggered and full reset isn't supported
- 	 */
- 	need_emergency_restart = amdgpu_ras_need_emergency_restart(adev);
+ /**
+- * Rate limited error output.  Like DRM_ERROR() but won't flood the log.
++ * DRM_DEV_ERROR_RATELIMITED() - Rate limited error output.
+  *
+  * @dev: device pointer
+  * @fmt: printf() like format string.
++ *
++ * Like DRM_ERROR() but won't flood the log.
+  */
+ #define DRM_DEV_ERROR_RATELIMITED(dev, fmt, ...)			\
+ ({									\
+@@ -375,15 +377,27 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ })
+ 
+ /**
+- * Debug output.
++ * DRM_DEV_DEBUG() - Debug output for generic drm code
+  *
+  * @dev: device pointer
+  * @fmt: printf() like format string.
+  */
+ #define DRM_DEV_DEBUG(dev, fmt, ...)					\
+ 	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
++/**
++ * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
++ *
++ * @dev: device pointer
++ * @fmt: printf() like format string.
++ */
+ #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
+ 	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
++/**
++ * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
++ *
++ * @dev: device pointer
++ * @fmt: printf() like format string.
++ */
+ #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+ 	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+ 
 -- 
 2.26.2
 
