@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6DD299DE8
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 01:10:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C69F6299E06
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 01:11:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8ED16E063;
-	Tue, 27 Oct 2020 00:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA6B6EAA8;
+	Tue, 27 Oct 2020 00:11:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 993446E063
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 00:10:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC7DB6EAA8
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 00:11:31 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 978F221D41;
- Tue, 27 Oct 2020 00:10:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C30E7216FD;
+ Tue, 27 Oct 2020 00:11:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603757454;
- bh=GZDu+Tqg1pFD0PY3tQOhmPXoTm96/juxbPBf9YbQsH0=;
+ s=default; t=1603757491;
+ bh=SxMbSgR8oVo7ZAAJ9C1b775WC8FXTUk+UVCr21uKT50=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=svCFrTVqjunFqCdwkJs1pUGURSOzH/v2bgq1mgEceZuidjTXzB/NHWbyDEHyTZtKM
- kyhXiaCfITslglVYmoI8QHCWJVTPvVm+Vi0Fdh+4eliIDH8w8KYMkZ8uZqq1RHRAAu
- iNfzTlbM7Bjvc3PSPCQs+XK5S50S/MuZCzKgw1Kc=
+ b=we/zrHMaAC47jKjPckTuej3Kz4ZZXPtau9Q7f40Ymzxpk+XEM6s9w7BA8PSyTnQmr
+ NzKQ7kaWtTbypvWf9BrWjBbKZRbcbBfPMwBvJ+8KjFers5expy7BKm54UDue4Bcxjs
+ rp8D9gyg4FKK4SsClBBlRfROeflr34I38ihqum3U=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 08/30] video: fbdev: pvr2fb: initialize variables
-Date: Mon, 26 Oct 2020 20:10:22 -0400
-Message-Id: <20201027001044.1027349-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 06/25] video: fbdev: pvr2fb: initialize variables
+Date: Mon, 26 Oct 2020 20:11:04 -0400
+Message-Id: <20201027001123.1027642-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027001044.1027349-1-sashal@kernel.org>
-References: <20201027001044.1027349-1-sashal@kernel.org>
+In-Reply-To: <20201027001123.1027642-1-sashal@kernel.org>
+References: <20201027001123.1027642-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -87,7 +87,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
-index a2564ab91e62d..27478ffeeacdc 100644
+index 750a384bf1915..1a015a6b682e7 100644
 --- a/drivers/video/fbdev/pvr2fb.c
 +++ b/drivers/video/fbdev/pvr2fb.c
 @@ -1029,6 +1029,8 @@ static int __init pvr2fb_setup(char *options)
