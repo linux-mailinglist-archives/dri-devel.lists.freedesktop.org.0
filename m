@@ -2,53 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670D529A95A
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 11:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7A129A976
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 11:23:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A31196EB5F;
-	Tue, 27 Oct 2020 10:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B66976EB60;
+	Tue, 27 Oct 2020 10:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFF86EB62
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 10:18:18 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id y186so741487oia.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 03:18:18 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 653F16EB60
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 10:22:57 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id n6so1196511wrm.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 03:22:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YjXYxaFPwSeN30BLPfmc3I2KnuswdrHPK9m/TSUfAjQ=;
- b=kUbKUBT0LzTVLn0pxmm+MNdCOgrLoI3cXBm9DqcbnxPwzr4DkWgWzvZ9EhIdI1I+Rj
- 10xlKQj1rQACU0jhG6X1mVHVlEZQaYp9tiywAR42lIBmQCGZbuVvG9YvZjENoC3nFXfx
- AIQE6y2+OC/imjrzBqMhOvnN9XSH5nLRpH5lM=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kWfU0dsyfTV6Wn29xNZN4rB2izI9mNIuZ5x5HbFggb0=;
+ b=TfOGSAIo690wcW1CPshgXsDVYR5lDSaWjS8jI2wLXZffUxp7+0vANRr2T3ro0ATwGe
+ ttyqu6UNKdahyR70yZRCX2JEiCTn1X9YbHmksiOxYyA06n98V9UmrYRhyfVxiA8N1vBz
+ 4zhY6iT9jp/nTy9vfeFVzZMkdmw8S18gzJboU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YjXYxaFPwSeN30BLPfmc3I2KnuswdrHPK9m/TSUfAjQ=;
- b=iZS85Jkt1OC99XAVVxU/saA2WC7bKy/UysJCQWpeKJolw0FN2ak7FhFDmyWU+I3y0O
- 8s0MA6vXvHA42UzGlW6WxvmGmqnUMeKcjQ8Djb+Goyr7Ghw23uXbFuf0sRlGs8rspKoc
- 9ltUyyPSash/3raVzZSoYOqSXGFgdbP5jxzy13IMnAHrZt4TUara0InBbIwdZU3t02Yt
- TwSvKiVNYgGdlkHWD7V6YFB7g0P9JGUGVTqg3Hw4Kysq7FS6Ui778MXoPr/kG5VnLVrN
- jQMglXT2YhvQImSKIWXRU4TtlS49nLLWOfBc8si0Gse1di59YyI6YLbbBYoCf6CUOyeG
- XtOw==
-X-Gm-Message-State: AOAM530LnRJjeEQJB223KnUcn4Qs1jFe5fFVTAyN3wuPqLFWKr0pgGqC
- u/pmlg6VbWnDQcDW+KCOCPRJWQkUXWQhXMzBY7yayg==
-X-Google-Smtp-Source: ABdhPJzaItJivtZErHQMoBUWOCNpV8MjpWkJm/S/9oieHueLsdvGo+hu/4SSiaOPE/nNvWtvohs7tvbJeD0owr2bPoU=
-X-Received: by 2002:aca:cc01:: with SMTP id c1mr936257oig.128.1603793897422;
- Tue, 27 Oct 2020 03:18:17 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=kWfU0dsyfTV6Wn29xNZN4rB2izI9mNIuZ5x5HbFggb0=;
+ b=qAQWI2xBzF0EYfvL5lKi9gAKaWlkMYXGNqsA7oaKalTK60GADaraCBrhUoeRvHl9Q/
+ PcZCEYdyqficdPaBQUdAVXI3nhZVWeZjfpqOPkQwkEfLECJV51G6+2XWTQ5mVa9wLHjl
+ F8FbFkpIqNQiJCqwgUHIlXCp7DvXUwQfAw90NiVJ2e9qN+Gh5FzgYBxEZCYmLloGkWBX
+ nqYtE2Q4tyxbSmIPxFLJgAjdw680Awuisg564mI3KymGPdQqsV0Q6Zj3fAE/abKucHNm
+ tKO2rI9ENl0EtsRl0lR7wL7CXMTSjmA28lITK/0AP10qag0+k5GmIlI+cl2xg2QRZV7A
+ zaKw==
+X-Gm-Message-State: AOAM531dFWWqGCafKlkw1Uj9mEYH1uViJ5aptyJjmMSf97bKNJCCZ9rM
+ THItUGYKGQOfVhklJeNjJDOc+Q==
+X-Google-Smtp-Source: ABdhPJydcxVBv/ADPzNa2jJ5qOWXsDx1BNtlSbm3Tn+0CBzU5+ltuST+K2UUh6w1jxJ+OjkENwSVng==
+X-Received: by 2002:a5d:4e48:: with SMTP id r8mr1880774wrt.141.1603794176106; 
+ Tue, 27 Oct 2020 03:22:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h3sm1403110wrw.78.2020.10.27.03.22.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 03:22:55 -0700 (PDT)
+Date: Tue, 27 Oct 2020 11:22:53 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v3 31/32] drm: drm_print.h: fix kernel-doc markups
+Message-ID: <20201027102253.GK401619@phenom.ffwll.local>
+Mail-Followup-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <cover.1603791716.git.mchehab+huawei@kernel.org>
+ <5b76c5625709aaaa3abee98faa620b9f3d27ff85.1603791716.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20201009232156.3916879-1-daniel.vetter@ffwll.ch>
- <UQ4Aj6rvEUPvWt1cTYlNRLNoawlAIGTCnzstzNkRjZkv_NH-jIpnL7Xt9kGALYGc1M0RzZS0BcdvTb0V4przOwP8UBG_Xm6q2yRjCi3n-QE=@emersion.fr>
- <CAKMK7uFtesxom12TL4MX2rAb2eW2nEmh5gfeCG-wVAyfNvkGRw@mail.gmail.com>
- <ef0788e4-d645-6f71-bece-fb8bcd0cb3c7@suse.de>
-In-Reply-To: <ef0788e4-d645-6f71-bece-fb8bcd0cb3c7@suse.de>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 27 Oct 2020 11:18:06 +0100
-Message-ID: <CAKMK7uHX2j2nKFWfk1KReGymto8HEVVG_L8wQAzqe4X+WoFeYw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/vkms: Set preferred depth correctly
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Disposition: inline
+In-Reply-To: <5b76c5625709aaaa3abee98faa620b9f3d27ff85.1603791716.git.mchehab+huawei@kernel.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,65 +73,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBPY3QgMjcsIDIwMjAgYXQgMTE6MTMgQU0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+Cj4gSGkKPgo+IEFtIDE2LjEwLjIwIHVtIDEzOjM1IHNj
-aHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+IE9uIEZyaSwgT2N0IDE2LCAyMDIwIGF0IDEyOjM4IFBN
-IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4gd3JvdGU6Cj4gPj4KPiA+Pj4gVGhlIG9u
-bHkgdGhpbmcgd2Ugc3VwcG9ydCBpcyB4cmdiODg4OC4KPiA+Pj4KPiA+Pj4gU2lnbmVkLW9mZi1i
-eTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gPj4+IENjOiBSb2Ry
-aWdvIFNpcXVlaXJhIDxyb2RyaWdvc2lxdWVpcmFtZWxvQGdtYWlsLmNvbT4KPiA+Pj4gQ2M6IE1l
-bGlzc2EgV2VuIDxtZWxpc3NhLnNyd0BnbWFpbC5jb20+Cj4gPj4+IENjOiBIYW5lZW4gTW9oYW1t
-ZWQgPGhhbW9oYW1tZWQuc2FAZ21haWwuY29tPgo+ID4+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPgo+ID4+PiAtLS0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNf
-ZHJ2LmMgfCAyICstCj4gPj4+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
-ZXRpb24oLSkKPiA+Pj4KPiA+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92a21zL3Zr
-bXNfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5jCj4gPj4+IGluZGV4IDcy
-NjgwMWFiNDRkNC4uZWI0MDA3NDQzNzA2IDEwMDY0NAo+ID4+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vdmttcy92a21zX2Rydi5jCj4gPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNf
-ZHJ2LmMKPiA+Pj4gQEAgLTEyNCw3ICsxMjQsNyBAQCBzdGF0aWMgaW50IHZrbXNfbW9kZXNldF9p
-bml0KHN0cnVjdCB2a21zX2RldmljZSAqdmttc2RldikKPiA+Pj4gICAgICAgZGV2LT5tb2RlX2Nv
-bmZpZy5tYXhfaGVpZ2h0ID0gWVJFU19NQVg7Cj4gPj4+ICAgICAgIGRldi0+bW9kZV9jb25maWcu
-Y3Vyc29yX3dpZHRoID0gNTEyOwo+ID4+PiAgICAgICBkZXYtPm1vZGVfY29uZmlnLmN1cnNvcl9o
-ZWlnaHQgPSA1MTI7Cj4gPj4+IC0gICAgIGRldi0+bW9kZV9jb25maWcucHJlZmVycmVkX2RlcHRo
-ID0gMjQ7Cj4gPj4+ICsgICAgIGRldi0+bW9kZV9jb25maWcucHJlZmVycmVkX2RlcHRoID0gMzI7
-Cj4gPj4KPiA+PiBBcmUgeW91IHN1cmUgeHJnYjg4ODgncyBkZXB0aCBpcyAzMiBhbmQgbm90IDI0
-PyBMb29raW5nIGF0IGRybWRiIFsxXSwgKmFsbCoKPiA+PiBkcml2ZXJzIHNldCBpdCB0byAyNC4K
-PiA+Cj4gPiBVaCB0aGVyZSdzIGEgcHJvYmxlbSBJIHRoaW5rLiBEZXB0aCBzaG91bGQgaW5kZWVk
-IHN0YXkgYXQgMjQsIHRoZQo+ID4gcHJvYmxlbSBpcyB0aGF0IGZiIGhlbHBlcnMgZGlyZWN0bHkg
-dGFrZSB0aGF0IHRvIGJlIHRoZSBicHAgcGFyYW1ldGVyLAo+ID4gd2hpY2ggaXMgYSBkaWZmZXJl
-bnQgdGhpbmcuIEFuZCBpZiB5b3UgbG9vayBhdCBob3cgbW9zdCBkcml2ZXJzIHNldCB1cAo+ID4g
-dGhhdCwgdGhleSBwaWNrIDMyLgo+ID4KPiA+IEkgZ3Vlc3MgSSBuZWVkIHRvIHJldmVydCB0aGlz
-IGhlcmUsIGFuZCB1bmNvbmZ1c2UgdGhlIGZiIGhlbHBlcnMgYWJvdXQKPiA+IGRlcHRoIHZzIGJw
-cC4KPgo+IEkganVzdCBwcmVwYXJlZCB0aGUgUFIgZm9yIGRybS1taXNjLW5leHQsIGJ1dCBzYXcg
-aXQgYXQgMzIgc3RpbGwuIFdhcwo+IHRoaXMgc3VwcG9zZWQgdG8gYmUgcmV2ZXJ0ZWQ/CgpSZXZl
-cnQgbWFrZXMgZmJkZXYgZ28gYm9vbSwgb25seSB0aGluZyB0aGF0IHdvdWxkIHdvcmsgaXMgbGVh
-dmluZyBpdAphdCAwIHNvIHRoYXQgZXZlcnlvbmUgcGlja3MgdGhlIGRlZmF1bHQuIEkndmUgdHJp
-ZWQgdG8gY29tZSB1cCB3aXRoIGEKcGF0Y2ggc2VyaWVzIHRvIGNsZWFuIHVwIHRoaXMgbWVzcywg
-YnV0IGl0J3MgcmF0aGVyIGhvcnJpYmxlIDotLwotRGFuaWVsCgo+Cj4gQmVzdCByZWdhcmRzCj4g
-VGhvbWFzCj4KPiA+Cj4gPiBNYXliZSBiZXN0IHdvdWxkIGJlIHRvIGp1c3Qgc3dpdGNoIG92ZXIg
-dG8gcHJlZmVycmVkIGRybV9mb3VyY2MgZm9ybWF0Cj4gPiBjb2RlLCBvciBtYXliZSBqdXN0IHBp
-Y2sgdGhpcyB1cCBmcm9tIHRoZSBmaXJzdCBmb3JtYXQgdGhlIHByaW1hcnkKPiA+IHBsYW5lIHN1
-cHBvcnRzLgo+ID4KPiA+IFRoaXMgaXMgYWxsIGdldHRpbmcgc2xpZ2h0bHkgdHJpY2t5IGFuZCBh
-IGxvdCBtb3JlIHdvcmsgOi0vCj4gPiAtRGFuaWVsCj4gPiAtLQo+ID4gRGFuaWVsIFZldHRlcgo+
-ID4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gPiBodHRwOi8vYmxvZy5m
-ZndsbC5jaAo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KPiA+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKPiA+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiBN
-YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5LCBBRyBO
-w7xybmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgoKCgotLSAK
-RGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDov
-L2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+On Tue, Oct 27, 2020 at 10:51:35AM +0100, Mauro Carvalho Chehab wrote:
+> A kernel-doc markup should start with the identifier on its
+> first line.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+I've merged all the drm patches, excluding the amdgpu ones, to
+drm-misc-fixes. Should land in -rc2.
+
+Thanks for doing these patches.
+-Daniel
+
+> ---
+>  include/drm/drm_print.h | 20 +++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 1c9417430d08..f32d179e139d 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -338,7 +338,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  		 const char *format, ...);
+>  
+>  /**
+> - * Error output.
+> + * DRM_DEV_ERROR() - Error output.
+>   *
+>   * @dev: device pointer
+>   * @fmt: printf() like format string.
+> @@ -347,10 +347,12 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  	drm_dev_printk(dev, KERN_ERR, "*ERROR* " fmt, ##__VA_ARGS__)
+>  
+>  /**
+> - * Rate limited error output.  Like DRM_ERROR() but won't flood the log.
+> + * DRM_DEV_ERROR_RATELIMITED() - Rate limited error output.
+>   *
+>   * @dev: device pointer
+>   * @fmt: printf() like format string.
+> + *
+> + * Like DRM_ERROR() but won't flood the log.
+>   */
+>  #define DRM_DEV_ERROR_RATELIMITED(dev, fmt, ...)			\
+>  ({									\
+> @@ -375,15 +377,27 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+>  })
+>  
+>  /**
+> - * Debug output.
+> + * DRM_DEV_DEBUG() - Debug output for generic drm code
+>   *
+>   * @dev: device pointer
+>   * @fmt: printf() like format string.
+>   */
+>  #define DRM_DEV_DEBUG(dev, fmt, ...)					\
+>  	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+> +/**
+> + * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
+> + *
+> + * @dev: device pointer
+> + * @fmt: printf() like format string.
+> + */
+>  #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
+>  	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
+> +/**
+> + * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
+> + *
+> + * @dev: device pointer
+> + * @fmt: printf() like format string.
+> + */
+>  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+>  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+>  
+> -- 
+> 2.26.2
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
