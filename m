@@ -2,69 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AED029CEC9
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37E629CE9C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:06:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB5706E4A1;
-	Wed, 28 Oct 2020 08:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A47B6E48E;
+	Wed, 28 Oct 2020 08:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC786EB44
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 11:35:36 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id az3so628954pjb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 04:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=c/Krm+1ZA4YmJhqWJ5tHTEQyF/AowEQIIYGwFZByT4c=;
- b=FLaTxPcUU3hFifx6tDWFaoRvcbFb8B/WI7a7VEHPZOo+6oMv9ZOb1XJfYyusUicGEg
- odNKEQCDwKXwD0l1ozWWGExUaH/P4WJ/fX2QFzplnuuxvORVKo70uRy8/gOoXnxi4nCi
- 8Yp+9m6Q7Wi7r2v8kCSrqTwtL8PJEDB6FRxCo/CV0nDMt8wEZjRb8cLpa4bOuBeoZMOf
- 07OINL0JGqkB+MozyPRHLzJzc5mxbwTq53cv21Dg60tNU4dPfdGd0GjY25Vcl0vvv0if
- JZy35vCNcXTDByOivJYn4Ga2PZZbMie8UOlhcBzioTXu53vyqJnkw68GP86DYD2QaI9+
- 6jSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=c/Krm+1ZA4YmJhqWJ5tHTEQyF/AowEQIIYGwFZByT4c=;
- b=AWp5c3qgUH7tksdBhaxoESSHV/TZJ2zl1WtdHXUn/f2eP7uabmcjzHgPdhxUMDxFYP
- 9a3Nom4KHdHzt0jWrPmzNE2ZAKzKDB8IQ8u/GJi1BZ4nyUssJW4vbjW1jA/rPNwJxiZC
- XoIIeg6kpXzH1Rgwo3GEAwo0u22pljZe8XDlnP1xToKZ9x3d8v0MYE/+8WSJweYQ9f+h
- Mzfwy4GJCa2a+EgWGRXHhq6KxNk4ROgXKbZmM3fN0WtbxiPNWaR5/FCkUC4u8rboEUgb
- IRrdH6aEmHPD1KmSmDIP3MP1SWXHuU3kAXLq2FYYeP3KCd5Oz+KiZGWLi7IyoAaPIgJJ
- Q9oA==
-X-Gm-Message-State: AOAM530K+z22+FaDrTRuFouSchajzPIe+cc1Y+jqGsZZDftB+ZfFDJsC
- OhSibWJn81Fp/LzU+s/A9kWXe28slfYl3A==
-X-Google-Smtp-Source: ABdhPJxGGMygDZQtzR6z3or/TovlYieo+JjvlwmM9R7c9+byU3/uH1Knz7hakWSZ7zadUc0tCVk4iA==
-X-Received: by 2002:a17:90a:ed87:: with SMTP id
- k7mr1613912pjy.127.1603798536231; 
- Tue, 27 Oct 2020 04:35:36 -0700 (PDT)
-Received: from localhost ([122.181.54.133])
- by smtp.gmail.com with ESMTPSA id gm14sm1827382pjb.2.2020.10.27.04.35.34
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Oct 2020 04:35:35 -0700 (PDT)
-Date: Tue, 27 Oct 2020 17:05:32 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 07/22] drm/msm: Do rpm get sooner in the submit path
-Message-ID: <20201027113532.nriqqws7gdcu5su6@vireshk-i7>
-References: <20201012020958.229288-1-robdclark@gmail.com>
- <20201012020958.229288-8-robdclark@gmail.com>
- <20201012143555.GA438822@phenom.ffwll.local>
- <CAF6AEGstGtBswUUiyHxT2cCm8NwZekDnMzD0J_pQH37GwS=LiA@mail.gmail.com>
- <20201020090729.qgqish5kqamhvatj@vireshk-i7>
- <CAKMK7uHAgVUPHOPxDdt3LeAWqokxfuzqjZj4qqFkoKxFbRbRrg@mail.gmail.com>
- <20201020112413.xbk2vow2kgjky3pb@vireshk-i7>
- <CAF6AEGsCj-AtFozn8d1xiNNFNbuMJ0UxS-eMhBVXiQ7rKahKnQ@mail.gmail.com>
- <20201022080644.2ck4okrxygmkuatn@vireshk-i7>
- <CAF6AEGv6RMCsK4yp-W2d1mVTMcEiiwFGAb+V8rYLhDdMhqP80Q@mail.gmail.com>
+Received: from m176150.mail.qiye.163.com (m176150.mail.qiye.163.com
+ [59.111.176.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A13276E0D4
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:06:19 +0000 (UTC)
+Received: from vivo.com (wm-10.qy.internal [127.0.0.1])
+ by m176150.mail.qiye.163.com (Hmail) with ESMTP id E4A0F1A3916;
+ Tue, 27 Oct 2020 20:05:37 +0800 (CST)
+Message-ID: <AI*A2QCRDU1TckczAP0mGarS.3.1603800337928.Hmail.bernard@vivo.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: =?UTF-8?B?UmU6UmU6IFJlOiBbUEFUQ0hdIGdwdS9kcm0vbWdhZzIwMDpyZW1vdmUgYnJlYWsgYWZ0ZXIgcmV0dXJu?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 157.0.31.124
+In-Reply-To: <20201024171457.GA76883@ravnborg.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGv6RMCsK4yp-W2d1mVTMcEiiwFGAb+V8rYLhDdMhqP80Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Received: from bernard@vivo.com( [157.0.31.124) ] by ajax-webmail (
+ [127.0.0.1] ) ; Tue, 27 Oct 2020 20:05:37 +0800 (GMT+08:00)
+From: Bernard <bernard@vivo.com>
+Date: Tue, 27 Oct 2020 20:05:37 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZS04dS0tKHUwdGkhDVkpNS0hDS0tISENLSUxVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kJHlYWEh9ZQU5CSElMSEpIQk9NN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
+ WUc6MlE6SSo4KT8uSi8YEBgBOitLFjwaCShVSFVKTUtIQ0tLSEhDSENLVTMWGhIXVRkeCRUaCR87
+ DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSU9ZV1kIAVlBTkNOSjcG
+X-HM-Tid: 0a7569f30e1693b4kuwse4a0f1a3916
 X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,196 +48,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, "Menon, Nishanth" <nm@ti.com>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25-10-20, 10:39, Rob Clark wrote:
-> Nope, I suspect any creation of debugfs files will be problematic.
-
-Yeah, so it only fixed part of the problem.
-
-> (btw, _add_opp_dev_unlocked() looks like it should be called
-> _add_opp_dev_locked()?)
-> 
-> It does look like 'struct opp_table' is already refcnt'd, so I suspect
-> you could replace holding opp_table_lock while calling into debugfs
-> with holding a reference to the opp_table instead?
-
-It isn't that straight forward unfortunately, we need to make sure the
-table doesn't get allocated for the same device twice, so
-find+allocate needs to happen within a locked region.
-
-I have taken, not so straight forward, approach to fixing this issue,
-lets see if this fixes it or not.
-
--------------------------8<-------------------------
-
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 4ac4e7ce6b8b..6f4a73a6391f 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -29,6 +29,8 @@
- LIST_HEAD(opp_tables);
- /* Lock to allow exclusive modification to the device and opp lists */
- DEFINE_MUTEX(opp_table_lock);
-+/* Flag indicating that opp_tables list is being updated at the moment */
-+static bool opp_tables_busy;
- 
- static struct opp_device *_find_opp_dev(const struct device *dev,
- 					struct opp_table *opp_table)
-@@ -1036,8 +1038,8 @@ static void _remove_opp_dev(struct opp_device *opp_dev,
- 	kfree(opp_dev);
- }
- 
--static struct opp_device *_add_opp_dev_unlocked(const struct device *dev,
--						struct opp_table *opp_table)
-+struct opp_device *_add_opp_dev(const struct device *dev,
-+				struct opp_table *opp_table)
- {
- 	struct opp_device *opp_dev;
- 
-@@ -1048,7 +1050,9 @@ static struct opp_device *_add_opp_dev_unlocked(const struct device *dev,
- 	/* Initialize opp-dev */
- 	opp_dev->dev = dev;
- 
-+	mutex_lock(&opp_table->lock);
- 	list_add(&opp_dev->node, &opp_table->dev_list);
-+	mutex_unlock(&opp_table->lock);
- 
- 	/* Create debugfs entries for the opp_table */
- 	opp_debug_register(opp_dev, opp_table);
-@@ -1056,18 +1060,6 @@ static struct opp_device *_add_opp_dev_unlocked(const struct device *dev,
- 	return opp_dev;
- }
- 
--struct opp_device *_add_opp_dev(const struct device *dev,
--				struct opp_table *opp_table)
--{
--	struct opp_device *opp_dev;
--
--	mutex_lock(&opp_table->lock);
--	opp_dev = _add_opp_dev_unlocked(dev, opp_table);
--	mutex_unlock(&opp_table->lock);
--
--	return opp_dev;
--}
--
- static struct opp_table *_allocate_opp_table(struct device *dev, int index)
- {
- 	struct opp_table *opp_table;
-@@ -1121,8 +1113,6 @@ static struct opp_table *_allocate_opp_table(struct device *dev, int index)
- 	INIT_LIST_HEAD(&opp_table->opp_list);
- 	kref_init(&opp_table->kref);
- 
--	/* Secure the device table modification */
--	list_add(&opp_table->node, &opp_tables);
- 	return opp_table;
- 
- err:
-@@ -1135,27 +1125,64 @@ void _get_opp_table_kref(struct opp_table *opp_table)
- 	kref_get(&opp_table->kref);
- }
- 
-+/*
-+ * We need to make sure that the OPP table for a device doesn't get added twice,
-+ * if this routine gets called in parallel with the same device pointer.
-+ *
-+ * The simplest way to enforce that is to perform everything (find existing
-+ * table and if not found, create a new one) under the opp_table_lock, so only
-+ * one creator gets access to the same. But that expands the critical section
-+ * under the lock and may end up causing circular dependencies with frameworks
-+ * like debugfs, interconnect or clock framework as they may be direct or
-+ * indirect users of OPP core.
-+ *
-+ * And for that reason we have to go for a bit tricky implementation here, which
-+ * uses the opp_tables_busy flag to indicate if another creator is in the middle
-+ * of adding an OPP table and others should wait for it to finish.
-+ */
- static struct opp_table *_opp_get_opp_table(struct device *dev, int index)
- {
- 	struct opp_table *opp_table;
- 
--	/* Hold our table modification lock here */
-+again:
- 	mutex_lock(&opp_table_lock);
- 
- 	opp_table = _find_opp_table_unlocked(dev);
- 	if (!IS_ERR(opp_table))
- 		goto unlock;
- 
-+	/*
-+	 * The opp_tables list or an OPP table's dev_list is getting updated by
-+	 * another user, wait for it to finish.
-+	 */
-+	if (unlikely(opp_tables_busy)) {
-+		mutex_unlock(&opp_table_lock);
-+		cpu_relax();
-+		goto again;
-+	}
-+
-+	opp_tables_busy = true;
- 	opp_table = _managed_opp(dev, index);
-+
-+	/* Drop the lock to reduce the size of critical section */
-+	mutex_unlock(&opp_table_lock);
-+
- 	if (opp_table) {
--		if (!_add_opp_dev_unlocked(dev, opp_table)) {
-+		if (!_add_opp_dev(dev, opp_table)) {
- 			dev_pm_opp_put_opp_table(opp_table);
- 			opp_table = ERR_PTR(-ENOMEM);
- 		}
--		goto unlock;
-+
-+		mutex_lock(&opp_table_lock);
-+	} else {
-+		opp_table = _allocate_opp_table(dev, index);
-+
-+		mutex_lock(&opp_table_lock);
-+		if (!IS_ERR(opp_table))
-+			list_add(&opp_table->node, &opp_tables);
- 	}
- 
--	opp_table = _allocate_opp_table(dev, index);
-+	opp_tables_busy = false;
- 
- unlock:
- 	mutex_unlock(&opp_table_lock);
-@@ -1181,6 +1208,10 @@ static void _opp_table_kref_release(struct kref *kref)
- 	struct opp_device *opp_dev, *temp;
- 	int i;
- 
-+	/* Drop the lock as soon as we can */
-+	list_del(&opp_table->node);
-+	mutex_unlock(&opp_table_lock);
-+
- 	_of_clear_opp_table(opp_table);
- 
- 	/* Release clk */
-@@ -1208,10 +1239,7 @@ static void _opp_table_kref_release(struct kref *kref)
- 
- 	mutex_destroy(&opp_table->genpd_virt_dev_lock);
- 	mutex_destroy(&opp_table->lock);
--	list_del(&opp_table->node);
- 	kfree(opp_table);
--
--	mutex_unlock(&opp_table_lock);
- }
- 
- void dev_pm_opp_put_opp_table(struct opp_table *opp_table)
-
--- 
-viresh
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CkZyb206IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KRGF0ZTogMjAyMC0xMC0yNSAw
+MToxNDo1NwpUbzogIEJlcm5hcmQgPGJlcm5hcmRAdml2by5jb20+CkNjOiAgVGhvbWFzIFppbW1l
+cm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+LG9wZW5zb3VyY2Uua2VybmVsQHZpdm8uY29tLERh
+dmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4sbGludXgta2VybmVsQHZnZXIua2VybmVsLm9y
+ZyxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLERhdmUgQWlybGllIDxhaXJsaWVkQHJl
+ZGhhdC5jb20+ClN1YmplY3Q6IFJlOiBSZTogW1BBVENIXSBncHUvZHJtL21nYWcyMDA6cmVtb3Zl
+IGJyZWFrIGFmdGVyIHJldHVybj5IaSBCZXJuYXJkLgo+Cj5PbiBGcmksIE9jdCAyMywgMjAyMCBh
+dCAwMzo0ODo0OVBNICswODAwLCBCZXJuYXJkIHdyb3RlOgo+PiAKPj4gCj4+IEZyb206IFRob21h
+cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+PiBEYXRlOiAyMDIwLTEwLTIzIDE1
+OjEzOjMwCj4+IFRvOiAgQmVybmFyZCBaaGFvIDxiZXJuYXJkQHZpdm8uY29tPixEYXZlIEFpcmxp
+ZSA8YWlybGllZEByZWRoYXQuY29tPixEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+LERh
+bmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4sZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZyxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnCj4+IENjOiAgb3BlbnNvdXJjZS5rZXJu
+ZWxAdml2by5jb20KPj4gU3ViamVjdDogUmU6IFtQQVRDSF0gZ3B1L2RybS9tZ2FnMjAwOnJlbW92
+ZSBicmVhayBhZnRlciByZXR1cm4+SGkKPj4gPgo+PiA+T24gMjMuMTAuMjAgMDk6MDAsIEJlcm5h
+cmQgWmhhbyB3cm90ZToKPj4gPj4gSW4gZnVuY3Rpb24gbWdhZzIwMF9zZXRfcGNpX3JlZ3MsIHRo
+ZXJlIGFyZSBzb21lIHN3aXRjaCBjYXNlcwo+PiA+PiByZXR1cm5lZCwgdGhlbiBicmVhay4gVGhl
+c2UgYnJlYWsgd2lsbCBuZXZlciBydW4uCj4+ID4+IFRoaXMgcGF0Y2ggaXMgdG8gbWFrZSB0aGUg
+Y29kZSBhIGJpdCByZWFkYWJsZS4KPj4gPj4gCj4+ID4+IFNpZ25lZC1vZmYtYnk6IEJlcm5hcmQg
+WmhhbyA8YmVybmFyZEB2aXZvLmNvbT4KPj4gPj4gLS0tCj4+ID4+ICBkcml2ZXJzL2dwdS9kcm0v
+bWdhZzIwMC9tZ2FnMjAwX21vZGUuYyB8IDUgKy0tLS0KPj4gPj4gIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgNCBkZWxldGlvbnMoLSkKPj4gPj4gCj4+ID4+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9t
+Z2FnMjAwL21nYWcyMDBfbW9kZS5jCj4+ID4+IGluZGV4IDM4NjcyZjllNWM0Zi4uZGU4NzNhNWQy
+NzZlIDEwMDY0NAo+PiA+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21v
+ZGUuYwo+PiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYwo+
+PiA+PiBAQCAtNzk0LDIwICs3OTQsMTcgQEAgc3RhdGljIGludCBtZ2FnMjAwX2NydGNfc2V0X3Bs
+bHMoc3RydWN0IG1nYV9kZXZpY2UgKm1kZXYsIGxvbmcgY2xvY2spCj4+ID4+ICAJY2FzZSBHMjAw
+X1NFX0E6Cj4+ID4+ICAJY2FzZSBHMjAwX1NFX0I6Cj4+ID4+ICAJCXJldHVybiBtZ2FfZzIwMHNl
+X3NldF9wbGxzKG1kZXYsIGNsb2NrKTsKPj4gPj4gLQkJYnJlYWs7Cj4+ID4+ICAJY2FzZSBHMjAw
+X1dCOgo+PiA+PiAgCWNhc2UgRzIwMF9FVzM6Cj4+ID4+ICAJCXJldHVybiBtZ2FfZzIwMHdiX3Nl
+dF9wbGxzKG1kZXYsIGNsb2NrKTsKPj4gPj4gLQkJYnJlYWs7Cj4+ID4+ICAJY2FzZSBHMjAwX0VW
+Ogo+PiA+PiAgCQlyZXR1cm4gbWdhX2cyMDBldl9zZXRfcGxscyhtZGV2LCBjbG9jayk7Cj4+ID4+
+IC0JCWJyZWFrOwo+PiA+PiAgCWNhc2UgRzIwMF9FSDoKPj4gPj4gIAljYXNlIEcyMDBfRUgzOgo+
+PiA+PiAgCQlyZXR1cm4gbWdhX2cyMDBlaF9zZXRfcGxscyhtZGV2LCBjbG9jayk7Cj4+ID4+IC0J
+CWJyZWFrOwo+PiA+PiAgCWNhc2UgRzIwMF9FUjoKPj4gPj4gIAkJcmV0dXJuIG1nYV9nMjAwZXJf
+c2V0X3BsbHMobWRldiwgY2xvY2spOwo+PiA+PiArCWRlZmF1bHQ6Cj4+ID4KPj4gPk5vIGRlZmF1
+bHQgY2FzZSBoZXJlLiBJZiBvbmUgb2YgdGhlIGVudW0gdmFsdWVzIGlzIG5vdCBoYW5kbGVkIGJ5
+IHRoZQo+PiA+c3dpdGNoLCB0aGUgY29tcGlsZXIgc2hvdWxkIHdhcm4gYWJvdXQgaXQuCj4+IAo+
+PiBIaQo+PiAKPj4gRm9yIHRoaXMgcG9pbnQgSSB3YXMgYSBsaXR0bGUgY29uZnVzZWQsIGFib3V0
+IHRoaXMgc3dpdGNoIHZhcmlhYmxlICJtZGV2LT50eXBlIiwgbXkgdW5kZXJzdGFuZGluZyBpcyB0
+aGF0IHRoaXMgdmFyaWFibGVgcyB2YWx1ZSBjYW4gYmUgY2VydGFpbiBvbmx5IHdoZW4gdGhlIGNv
+ZGUgaXMgcnVubmluZy4KPj4gSG93IGRvZXMgdGhlIGNvbXBpbGVyIHdhcm4gdGhpcygiSWYgb25l
+IG9mIHRoZSBlbnVtIHZhbHVlcyBpcyBub3QgaGFuZGxlZCIpIGJlZm9yZSB0aGUgY29kZSBydW5z
+Pwo+Cj5JZiB0aGUgc3dpdGNoL2Nhc2UgZG9lcyBub3QgaW5jbHVkZSAiRzIwMF9FUiIgdGhlbiB0
+aGUgY29tcGlsZXIgY2FuIHNlZQo+b25lIGVudW0gdmFsdWUgaXMgbWlzc2luZyBmcm9tIHRoZSBs
+aXN0IGFuZCBjYW4gd2Fybi4KPkFzIGEgdGVzdCAtIFRyeSB0byBkcm9wIHRoZSBkZWZhdWx0IGFu
+ZCBkcm9wIEcyMDBfRVIgLSB0aGVuIHRoZQo+Y29tcGlsZXIgKGhvcGVmdWxseSkgd2lsbCB3YXJu
+LgoKSGksIFNhbSAmIFRob21hc++8mgoKICBUaGFuayB5b3UgdmVyeSBtdWNoIGZvciB5b3VyIGtp
+bmQgY29tbWVudHMsIEkgbGVhcm5lZCBuZXcgdXNlZnVsIGtub3dsZWRnZS4KICBJIHdpbGwgcmVz
+dWJtaXQgdGhlIHBhdGNoLgoKQlIvL0Jlcm5hcmQKCj4JU2FtCg0KDQpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
