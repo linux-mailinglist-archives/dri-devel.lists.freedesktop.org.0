@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7EA29C8B3
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 20:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118FE29C8E9
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 20:30:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 031236EC1E;
-	Tue, 27 Oct 2020 19:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3987F6EC24;
+	Tue, 27 Oct 2020 19:30:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A306EC1E
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 19:23:22 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id t3so212080wmi.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=/YQzLo+xoKlsG0a7NL1LNhQR3WpxUD3R+vAi/OnWfW8=;
- b=O2CAJu78UGUOEi4Xc/BPb7wK1FL93c+jsFNe+Yi1iBAjjnj4juWvFui6xgTytrGyXA
- IfcVXGDr98N54cWGV2NbVrpQMhSMKuPp2l4Zc/Fwda3OAyc9bFyhVwiC7W0fpPjElP+n
- ELmRy7VEKz73d7ORmDt1DBFovrVUubwA/6Dys=
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF196EC24
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 19:30:44 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id k9so550550edo.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:30:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=/YQzLo+xoKlsG0a7NL1LNhQR3WpxUD3R+vAi/OnWfW8=;
- b=pOHcGsRPgbpPcQFhbFHmc2nYPb7tHh9AuePwlou5E+qGvUuvezZ2S9swyuLHZp3atT
- gSVyszoZhjSbZ4qYwpIcOXqSi0IUoOUAV3jcAVu3NECokULkgudv9iQ2UhRatm2Xitvn
- 2I7+1gXUjbM5WvUvShlyl8Pt1GJmj6lcAjPPLNvniCksSmqVF2A/JbrAF7LGEy/D/SdX
- DHa1LSXh5oNYBVhHb3lMZ4/4I+V9uM2m53m+by+4UUBrN5j19wPpqd/A4zVEH+zUT+Oy
- vgrQS93FewcVxRTJkAoK4rgFaKqgc46VjBSh9DJDGjDVzlAa2nW8JALIVTWSzWBTMb1e
- th3Q==
-X-Gm-Message-State: AOAM531bAiN6FGGp0FI2QTuEyaUvwHeokWzzHOo8ZsV5hc6CGTSUJm1n
- QsWTiyq1ZbHa1yiidDT0EoUXtw==
-X-Google-Smtp-Source: ABdhPJxOHRYEQnF6IiD4ylGtkmpksOj8tOpUYCFlPvKL9rDCAdhxr3VjReayHl47qQUkuSx2JIO6Jw==
-X-Received: by 2002:a1c:c28a:: with SMTP id s132mr4235285wmf.67.1603826601373; 
- Tue, 27 Oct 2020 12:23:21 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f13sm3053361wrp.12.2020.10.27.12.23.20
+ bh=RBb2W6vnvr8BZ3JPOSPoABcC6/USapoO19wplu4GSWk=;
+ b=nDr7Hit+C/Z/yobPmfI/v3ygzZ8ta4f5OZ5CwhDnwWaFlKyjAySyY88C5GW/CTmiO/
+ a0qy1CCi8yOhq41yMnZGV+3Yb9wAK86i90rBDj6TgJpdt7uxh43t+rzPAb+C3moUW8DU
+ 15/V6eaEn9bio2cg2sp8z+HzwQdwc5+F3i33Y6BivzJz/vqHvschZewIT4E/iKAe9MbN
+ rhrakKkw90VQ0wddIR0E003kMigRTIyZrEwGD8ZT0cEDebdIa4pmQaJrTDUI7gGyYlsy
+ I9TZchAvT2WUxwnkUTKDf5bKZbE2zyYyLrheylGSSBBE9SpK9hch65AYZH/53y4PQyB+
+ zk3Q==
+X-Gm-Message-State: AOAM530l4u/akddU+BZkCK5CceBC+mi9JJ4l9bSFEaXRdL8D712bXIq+
+ pG2SqMWj3Pvn6nO+NDkyYuI=
+X-Google-Smtp-Source: ABdhPJyZ/rq/EC6GsN4s/PCybZFKTFwJikds6RvGuu7wY5AqoMWIc9Vxh43XdGRJGg8dsyUGVp5G3w==
+X-Received: by 2002:a05:6402:1b1e:: with SMTP id
+ by30mr3972107edb.369.1603827042919; 
+ Tue, 27 Oct 2020 12:30:42 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.184])
+ by smtp.googlemail.com with ESMTPSA id s12sm1518324edu.28.2020.10.27.12.30.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 12:23:20 -0700 (PDT)
-Date: Tue, 27 Oct 2020 20:23:18 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH 1/3] drm: panel: simple: Allow timing constraints, not
- fixed delays
-Message-ID: <20201027192318.GR401619@phenom.ffwll.local>
-Mail-Followup-To: Thierry Reding <thierry.reding@gmail.com>,
- Douglas Anderson <dianders@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, robdclark@chromium.org,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org
-References: <20201027094553.1.I31c4f8b111dbef1ab658f206764655ae983bc560@changeid>
- <20201027171459.GA2097755@ulmo>
+ Tue, 27 Oct 2020 12:30:41 -0700 (PDT)
+Date: Tue, 27 Oct 2020 20:30:39 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v6 04/52] dt-bindings: memory: tegra20: emc: Document
+ nvidia,memory-controller property
+Message-ID: <20201027193039.GA140636@kozik-lap>
+References: <20201025221735.3062-1-digetx@gmail.com>
+ <20201025221735.3062-5-digetx@gmail.com>
+ <20201027085417.GD4244@kozik-lap>
+ <54191034-dcb9-7cab-333b-5bb2553f0ed1@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201027171459.GA2097755@ulmo>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <54191034-dcb9-7cab-333b-5bb2553f0ed1@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,207 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
+ Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
+ devicetree@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 27, 2020 at 06:14:59PM +0100, Thierry Reding wrote:
-> On Tue, Oct 27, 2020 at 09:45:54AM -0700, Douglas Anderson wrote:
-> > The simple panel code currently allows panels to define fixed delays
-> > at certain stages of initialization.  These work OK, but they don't
-> > really map all that clearly to the requirements presented in many
-> > panel datasheets.  Instead of defining a fixed delay, those datasheets
-> > provide a timing diagram and specify a minimum amount of time that
-> > needs to pass from event A to event B.
-> > 
-> > Because of the way things are currently defined, most panels end up
-> > over-delaying.  One prime example here is that a number of panels I've
-> > looked at define the amount of time that must pass between turning a
-> > panel off and turning it back on again.  Since there is no way to
-> > specify this, many developers have listed this as the "unprepare"
-> > delay.  However, if nobody ever tried to turn the panel on again in
-> > the next 500 ms (or whatever the delay was) then this delay was
-> > pointless.  It's better to do the delay only in the case that someone
-> > tried to turn the panel on too quickly.
-> > 
-> > Let's support specifying delays as constraints.  We'll start with the
-> > one above and also a second one: the minimum time between prepare
-> > being done and doing the enable.  On the panel I'm looking at, there's
-> > an 80 ms minimum time between HPD being asserted by the panel and
-> > setting the backlight enable GPIO.  By specifying as a constraint we
-> > can enforce this without over-delaying.  Specifically the link
-> > training is allowed to happen in parallel with this delay so adding a
-> > fixed 80 ms delay isn't ideal.
-> > 
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> > 
-> >  drivers/gpu/drm/panel/panel-simple.c | 51 ++++++++++++++++++++++++----
-> >  1 file changed, 44 insertions(+), 7 deletions(-)
-> 
-> This has always been bugging me a bit about the current setup, so I very
-> much like this idea.
-> 
-> > 
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> > index 2be358fb46f7..cbbe71a2a940 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -92,6 +92,19 @@ struct panel_desc {
-> >  		unsigned int unprepare;
-> >  	} delay;
-> >  
-> > +	/**
-> > +	 * @prepare_to_enable_ms: If this many milliseconds hasn't passed after
-> > +	 *                        prepare finished, add a delay to the start
-> > +	 *                        of enable.
-> > +	 * @unprepare_to_prepare_ms: If this many milliseconds hasn't passed
-> > +	 *                           unprepare finished, add a delay to the
-> > +	 *                           start of prepare.
-> 
-> I find this very difficult to understand and it's also not clear from
-> this what exactly the delay is. Perhaps this can be somewhat clarified
-> Something like the below perhaps?
-> 
-> 	@prepare_to_enable_ms: The minimum time, in milliseconds, that
-> 	    needs to have passed between when prepare finished and enable
-> 	    may begin. If at enable time less time has passed since
-> 	    prepare finished, the driver waits for the remaining time.
-
-Also maybe split the kerneldoc into the sub-structure (this should work I
-think), so that you can go really wild on formatting :-)
-
-You could even include diagrams or at least ascii art and stuff ...
--Daniel
-
-
-> 
-> > +	 */
-> > +	struct {
-> > +		unsigned int prepare_to_enable_ms;
-> > +		unsigned int unprepare_to_prepare_ms;
-> > +	} timing_constraints;
-> > +
-> >  	u32 bus_format;
-> >  	u32 bus_flags;
-> >  	int connector_type;
-> > @@ -99,10 +112,12 @@ struct panel_desc {
-> >  
-> >  struct panel_simple {
-> >  	struct drm_panel base;
-> > -	bool prepared;
-> 
-> I understand how you're trying to reuse the value of prepared_time to
-> replace this flag, but I find the logic very hard to understand now.
-> 
-> >  	bool enabled;
-> >  	bool no_hpd;
-> >  
-> > +	ktime_t prepared_time;
-> > +	ktime_t unprepared_time;
-> > +
-> >  	const struct panel_desc *desc;
-> >  
-> >  	struct regulator *supply;
-> > @@ -230,6 +245,21 @@ static int panel_simple_get_non_edid_modes(struct panel_simple *panel,
-> >  	return num;
-> >  }
-> >  
-> > +static void panel_simple_enforce_constraint(ktime_t start_ktime,
-> > +					    unsigned int min_ms)
-> > +{
-> > +	ktime_t now_ktime, min_ktime;
-> > +
-> > +	if (!min_ms)
-> > +		return;
-> > +
-> > +	min_ktime = ktime_add(start_ktime, ms_to_ktime(min_ms));
-> > +	now_ktime = ktime_get();
-> > +
-> > +	if (ktime_before(now_ktime, min_ktime))
-> > +		msleep(ktime_to_ms(ktime_sub(min_ktime, now_ktime)) + 1);
-> > +}
-> > +
-> >  static int panel_simple_disable(struct drm_panel *panel)
-> >  {
-> >  	struct panel_simple *p = to_panel_simple(panel);
-> > @@ -249,18 +279,19 @@ static int panel_simple_unprepare(struct drm_panel *panel)
-> >  {
-> >  	struct panel_simple *p = to_panel_simple(panel);
-> >  
-> > -	if (!p->prepared)
-> > +	if (!p->prepared_time)
-> >  		return 0;
-> 
-> Here for example I now need to actively think about what exactly
-> !prepared_time actually means, when all it really means is that we're
-> checking if the panel has already been enabled.
-> 
-> Perhaps we could provide a tiny helper to make this clearer?
-> 
-> 	static inline bool panel_simple_prepared(struct drm_panel *panel)
-> 	{
-> 		return p->prepared_time != 0;
-> 	}
-> 
-> I think that clarifies what's meant here. We could even add a comment
-> explaining what's going on here if that's still not clear.
-> 
-> Actually, looking at that, I think the explicit comparison alone makes
-> this clearer, so this already seems better to me as well:
-> 
-> 	if (p->prepared_time != 0)
-> 		return 0
-> 
-> Then again, this may just be me. If everyone else thinks this is clear
-> enough, feel free to leave it as-is.
-> 
-> Another alternative would be to leave the current flag and logic in
-> place and not rely on a special value for prepared_time to control the
-> flow. That's slightly redundant, but it's really just one flag.
-> 
-> >  	gpiod_set_value_cansleep(p->enable_gpio, 0);
-> >  
-> >  	regulator_disable(p->supply);
-> >  
-> > +	p->prepared_time = 0;
-> > +	p->unprepared_time = ktime_get();
-> > +
-> >  	if (p->desc->delay.unprepare)
-> >  		msleep(p->desc->delay.unprepare);
-> >  
-> > -	p->prepared = false;
-> > -
-> >  	return 0;
-> >  }
-> >  
-> > @@ -296,9 +327,12 @@ static int panel_simple_prepare(struct drm_panel *panel)
-> >  	int err;
-> >  	int hpd_asserted;
-> >  
-> > -	if (p->prepared)
-> > +	if (p->prepared_time)
-> >  		return 0;
-> >  
-> > +	panel_simple_enforce_constraint(p->unprepared_time,
-> > +					p->desc->timing_constraints.unprepare_to_prepare_ms);
-> 
-> Looking at this, perhaps we can come up with shorter names for these?
-> 
-> Thierry
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBPY3QgMjcsIDIwMjAgYXQgMTA6MTc6MTlQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+IDI3LjEwLjIwMjAgMTE6NTQsIEtyenlzenRvZiBLb3psb3dza2kg0L/QuNGI0LXR
+gjoKPiA+IE9uIE1vbiwgT2N0IDI2LCAyMDIwIGF0IDAxOjE2OjQ3QU0gKzAzMDAsIERtaXRyeSBP
+c2lwZW5rbyB3cm90ZToKPiA+PiBUZWdyYTIwIEV4dGVybmFsIE1lbW9yeSBDb250cm9sbGVyIHRh
+bGtzIHRvIERSQU0gY2hpcHMgYW5kIGl0IG5lZWRzIHRvIGJlCj4gPj4gcmVwcm9ncmFtbWVkIHdo
+ZW4gbWVtb3J5IGZyZXF1ZW5jeSBjaGFuZ2VzLiBUZWdyYSBNZW1vcnkgQ29udHJvbGxlciBzaXRz
+Cj4gPj4gYmVoaW5kIEVNQyBhbmQgdGhlc2UgY29udHJvbGxlcnMgYXJlIHRpZ2h0bHkgY291cGxl
+ZC4gVGhpcyBwYXRjaCBhZGRzIHRoZQo+ID4+IG5ldyBwaGFuZGxlIHByb3BlcnR5IHdoaWNoIGFs
+bG93cyB0byBwcm9wZXJseSBleHByZXNzIGNvbm5lY3Rpb24gb2YgRU1DCj4gPj4gYW5kIE1DIGhh
+cmR3YXJlIGluIGEgZGV2aWNlLXRyZWUsIGl0IGFsc28gcHV0IHRoZSBUZWdyYTIwIEVNQyBiaW5k
+aW5nIG9uCj4gPj4gcGFyIHdpdGggVGVncmEzMCsgRU1DIGJpbmRpbmdzLCB3aGljaCBpcyBoYW5k
+eSB0byBoYXZlLgo+ID4+Cj4gPj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtvIDxkaWdl
+dHhAZ21haWwuY29tPgo+ID4+IC0tLQo+ID4+ICAuLi4vYmluZGluZ3MvbWVtb3J5LWNvbnRyb2xs
+ZXJzL252aWRpYSx0ZWdyYTIwLWVtYy50eHQgICAgICAgICAgfCAyICsrCj4gPj4gIDEgZmlsZSBj
+aGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPiA+Pgo+ID4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVtb3J5LWNvbnRyb2xsZXJzL252aWRpYSx0ZWdyYTIw
+LWVtYy50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVtb3J5LWNvbnRy
+b2xsZXJzL252aWRpYSx0ZWdyYTIwLWVtYy50eHQKPiA+PiBpbmRleCA1NjdjZmZkMzdmM2YuLjFi
+MGQ0NDE3YWFkOCAxMDA2NDQKPiA+PiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvbWVtb3J5LWNvbnRyb2xsZXJzL252aWRpYSx0ZWdyYTIwLWVtYy50eHQKPiA+PiArKysg
+Yi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVtb3J5LWNvbnRyb2xsZXJzL252
+aWRpYSx0ZWdyYTIwLWVtYy50eHQKPiA+PiBAQCAtMTIsNiArMTIsNyBAQCBQcm9wZXJ0aWVzOgo+
+ID4+ICAgIGlycmVzcGVjdGl2ZSBvZiByYW0tY29kZSBjb25maWd1cmF0aW9uLgo+ID4+ICAtIGlu
+dGVycnVwdHMgOiBTaG91bGQgY29udGFpbiBFTUMgR2VuZXJhbCBpbnRlcnJ1cHQuCj4gPj4gIC0g
+Y2xvY2tzIDogU2hvdWxkIGNvbnRhaW4gRU1DIGNsb2NrLgo+ID4+ICstIG52aWRpYSxtZW1vcnkt
+Y29udHJvbGxlciA6IFBoYW5kbGUgb2YgdGhlIE1lbW9yeSBDb250cm9sbGVyIG5vZGUuCj4gPiAK
+PiA+IEl0IGxvb2tzIGxpa2UgeW91IGFkZGluZyBhIHJlcXVpcmVkIHByb3BlcnR5IHdoaWNoIGlz
+IGFuIEFCSSBicmVhay4KPiBUaGUgVDIwIEVNQyBkcml2ZXIgaXMgdW51c2VkIHNvIGZhciBpbiB1
+cHN0cmVhbSBhbmQgaXQgd2lsbCBiZWNvbWUgdXNlZAo+IG9ubHkgb25jZSB0aGlzIHNlcmllcyBp
+cyBhcHBsaWVkLiBIZW5jZSBpdCdzIGZpbmUgdG8gY2hhbmdlIHRoZSBBQkkuCgpUaGUgQUJJIGlz
+IG5vdCBhYm91dCB1cHN0cmVhbSwgYnV0IGRvd25zdHJlYW0uIFRoZXJlIGFyZSBubyBvdGhlcgp1
+cHN0cmVhbXMgdXNpbmcgdGhpcyBBQkkuIFVubGVzcyB5b3UgaGF2ZSBpbiBtaW5kIHRoYXQgZXhp
+c3RpbmcgVDIwIEVNQwpkcml2ZXIgd2FzIGEgbm9vcCwgZG9pbmcgYWJzb2x1dGVseSBub3RoaW5n
+LCB0aGVyZWZvcmUgdGhlcmUgaXMgbm8KYnJlYWthZ2Ugb2YgYW55IG90aGVyIHVzZXJzPwoKQmVz
+dCByZWdhcmRzLApLcnp5c3p0b2YKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
