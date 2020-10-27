@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A6129CEA2
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0FC29CEB9
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFB96E4B6;
-	Wed, 28 Oct 2020 08:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D12FE6EC5D;
+	Wed, 28 Oct 2020 08:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 734416EC3F
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 20:08:18 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id 140so2473450qko.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 13:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=jrAbQmIO9l0gKRhCtebOMWdfiW13JmKcBvfXSkc8Lzo=;
- b=OyI3SNhYDvW6q5MZydasNII4hGtXtW6dwpLstJEBN55gIKylIc4vNfe0elqYpwF/Ts
- AXB1UTBX3tChPHZ5uKGVuq4d6OcCvHgapmqYhbc3XUH0e3RqpF7d9WNR3z+A1pJbLud3
- SQkbFLgt0qL6k3qUpkhwYuFTvEaSIzFh67ohJbJeD7ZU6g7wHQPlpVMq8oE0yJrf7fDZ
- 4SzdATUi0DwmyCzI2ClJZz6dwEWHiUr/zXCP7a8sZV22LxxYfd9ZHywzR58z3NDe0KmS
- 9D4PX0JuLm/zanRoYE5LaQm3KF15KDfwd6X8vRA1VFrMmx1kU+77/Zg8DHLa7am8nZ7i
- 0qZw==
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63F9C6EC42
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 20:16:32 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id l28so3950348lfp.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 13:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NZ/QoULjtElXVXQH2NSCFi85fHMToCHynpanEMruLAo=;
+ b=W01C0YxDJA+JZP7S2bioKHSYjG2/2Ev1CsLzkaCvkGY6p5KDwKm77oEDUYGG4FELCi
+ kzBdBCEdFEmfeoXiZnHElufMHoAsgDlmpjvAiBIgQxsjWS1DQYGRxYNzvkW+IlfB2MCy
+ PSC0W7v13wyWzy3LE6D+WmefS9/IIwzmftdOaN7W7d8IHWoeAeQ2UcYkLoTmpihETbJ8
+ PfuKxM1xunWQdbcvLDJqWpRG921c60S13LrXcSQBv2cMwDsLkt4YKkbYc7HZhdd+BkY0
+ EEbDfRLKjeFDnasxFUGOjYGrVJChOEexx3+MdVTE5AAhbwZlScabGL5AFIMlQ0MKFKh/
+ kyeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jrAbQmIO9l0gKRhCtebOMWdfiW13JmKcBvfXSkc8Lzo=;
- b=Si45TkjabhQ+ao9BxCaZuiwHTa93DdktmsBILsdzDgkWFQKPifyW1kYqqBu2Yj7PZ3
- 2EkQWCiVixkGpV947VwNspru2p/yXyXVKChYqFReQIJ9mFCYPfzdGN5aBcMV63jXbOmw
- MmHAuy5RsaB1gi23W4G736FyJo5YE6FcBF2fLQ3wC5agDV/Cn6d6NDPhgEiUt4SX3dr/
- z+YN0rW6wxoEZu2ulxTxsKbTQrlC49U1cEjSrOZHrxLuiDWDRcFHfMPOF16O13ma8J+G
- FxBLJVSY4PsqF0xn1XV+LVj7efjEulzwaUu+UAFcYku1rkKv6IlDuSsX7nIUQh2utDFg
- O73A==
-X-Gm-Message-State: AOAM533u1Qj2Yl6qKpI8prnOY4StUeQ7P0z0z72tBa89cz5jTgVJJ0jb
- F5Xr+9b2rKdEzXcfB+sPYyu8Fw==
-X-Google-Smtp-Source: ABdhPJwUL2sZmjopWwOlm9Qm+gVas9mebhyAozpumTzdtQJA0/KPrF4gIh761hU1h+pPbAiwu9gwqw==
-X-Received: by 2002:a05:620a:a4c:: with SMTP id
- j12mr3678015qka.263.1603829297591; 
- Tue, 27 Oct 2020 13:08:17 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id h125sm1497410qkc.36.2020.10.27.13.08.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 13:08:16 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kXVGS-009fOZ-Aj; Tue, 27 Oct 2020 17:08:16 -0300
-Date: Tue, 27 Oct 2020 17:08:16 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jianxin Xiong <jianxin.xiong@intel.com>
-Subject: Re: [PATCH v6 4/4] RDMA/mlx5: Support dma-buf based userspace memory
- region
-Message-ID: <20201027200816.GX36674@ziepe.ca>
-References: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
- <1603471201-32588-5-git-send-email-jianxin.xiong@intel.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NZ/QoULjtElXVXQH2NSCFi85fHMToCHynpanEMruLAo=;
+ b=mkdZP2b4fhKSfKebN+2/nydXM6t94C8Gs/5JBfE/bHoEfSJNTxMrS4Lg0cbVQbDjwf
+ UzFCZusFb6MOX+53lqzwvDPKHAW0Cueav+25KQjgV674dTcAve8t2vAblVIO4GJlYwQp
+ r1VgP/dJ1iE8PMBqkbMrlvrl6fxpefN7pPjOECOQRMmGX11z7NraV+ubmAfAWdSVZwaN
+ 888k+QSCcYxHq8JV/pXBVlum0uAYNQB5PV/AWt5/4DPi4xMtgsdUrILyoasTkBc3cdQA
+ gkjXt1o1og80nHx/FbUdzcTynXgfCm/gzk0MFtXFEx1CaFSkLcjcT2YnYC8EcgNeG1hV
+ zRMQ==
+X-Gm-Message-State: AOAM531D38oU2lPvM892knnPa0bHy3MCBFjPXMX6fOvjzB9YhZ6fbOim
+ RGeyH1iUPcR3OTFRXqb7/as=
+X-Google-Smtp-Source: ABdhPJzhElyTa1Nm+0EwsDbXiq6YOVoLV9mChM3jCyg8PWOvYvdZKxeME2v9jB1jCLHlQP8elBRK5w==
+X-Received: by 2002:a19:550d:: with SMTP id n13mr1374492lfe.526.1603829790828; 
+ Tue, 27 Oct 2020 13:16:30 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-186.dynamic.spd-mgts.ru.
+ [109.252.193.186])
+ by smtp.googlemail.com with ESMTPSA id t66sm241138lff.85.2020.10.27.13.16.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Oct 2020 13:16:30 -0700 (PDT)
+Subject: Re: [PATCH v6 13/52] dt-bindings: memory: tegra124: emc: Document new
+ interconnect property
+To: Krzysztof Kozlowski <krzk@kernel.org>
+References: <20201025221735.3062-1-digetx@gmail.com>
+ <20201025221735.3062-14-digetx@gmail.com> <20201027102506.GB17089@kozik-lap>
+ <f38984b6-d53f-a43d-0387-e787b3c1924d@gmail.com>
+ <20201027194833.GE140636@kozik-lap>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0a7aeebf-c5ab-13ea-3927-fa39512afd87@gmail.com>
+Date: Tue, 27 Oct 2020 23:16:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1603471201-32588-5-git-send-email-jianxin.xiong@intel.com>
+In-Reply-To: <20201027194833.GE140636@kozik-lap>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,227 +75,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
+ Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
+ devicetree@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 23, 2020 at 09:40:01AM -0700, Jianxin Xiong wrote:
-
-> diff --git a/drivers/infiniband/hw/mlx5/mr.c b/drivers/infiniband/hw/mlx5/mr.c
-> index b261797..3bc412b 100644
-> +++ b/drivers/infiniband/hw/mlx5/mr.c
-> @@ -1,5 +1,6 @@
->  /*
->   * Copyright (c) 2013-2015, Mellanox Technologies. All rights reserved.
-> + * Copyright (c) 2020, Intel Corporation. All rights reserved.
->   *
->   * This software is available to you under a choice of one of two
->   * licenses.  You may choose to be licensed under the terms of the GNU
-> @@ -36,6 +37,8 @@
->  #include <linux/debugfs.h>
->  #include <linux/export.h>
->  #include <linux/delay.h>
-> +#include <linux/dma-buf.h>
-> +#include <linux/dma-resv.h>
->  #include <rdma/ib_umem.h>
->  #include <rdma/ib_umem_odp.h>
->  #include <rdma/ib_verbs.h>
-> @@ -1113,6 +1116,8 @@ int mlx5_ib_update_xlt(struct mlx5_ib_mr *mr, u64 idx, int npages,
->  		dma_sync_single_for_cpu(ddev, dma, size, DMA_TO_DEVICE);
->  		if (mr->umem->is_odp) {
->  			mlx5_odp_populate_xlt(xlt, idx, npages, mr, flags);
-> +		} else if (mr->umem->is_dmabuf && (flags & MLX5_IB_UPD_XLT_ZAP)) {
-> +			memset(xlt, 0, size);
->  		} else {
->  			__mlx5_ib_populate_pas(dev, mr->umem, page_shift, idx,
->  					       npages, xlt,
-> @@ -1462,6 +1467,111 @@ struct ib_mr *mlx5_ib_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
->  	return ERR_PTR(err);
->  }
->  
-> +static void mlx5_ib_dmabuf_invalidate_cb(struct dma_buf_attachment *attach)
-> +{
-> +	struct ib_umem_dmabuf *umem_dmabuf = attach->importer_priv;
-> +	struct mlx5_ib_mr *mr = umem_dmabuf->device_context;
-> +
-> +	mlx5_ib_update_xlt(mr, 0, mr->npages, PAGE_SHIFT, MLX5_IB_UPD_XLT_ZAP);
-> +	ib_umem_dmabuf_unmap_pages(umem_dmabuf);
-> +}
-> +
-> +static struct dma_buf_attach_ops mlx5_ib_dmabuf_attach_ops = {
-> +	.allow_peer2peer = 1,
-> +	.move_notify = mlx5_ib_dmabuf_invalidate_cb,
-> +};
-> +
-> +struct ib_mr *mlx5_ib_reg_user_mr_dmabuf(struct ib_pd *pd, u64 offset,
-> +					 u64 length, u64 virt_addr,
-> +					 int fd, int access_flags,
-> +					 struct ib_udata *udata)
-> +{
-> +	struct mlx5_ib_dev *dev = to_mdev(pd->device);
-> +	struct mlx5_ib_mr *mr = NULL;
-> +	struct ib_umem *umem;
-> +	struct ib_umem_dmabuf *umem_dmabuf;
-> +	int npages;
-> +	int order;
-> +	int err;
-> +
-> +	if (!IS_ENABLED(CONFIG_INFINIBAND_USER_MEM))
-> +		return ERR_PTR(-EOPNOTSUPP);
-> +
-> +	mlx5_ib_dbg(dev,
-> +		    "offset 0x%llx, virt_addr 0x%llx, length 0x%llx, fd %d, access_flags 0x%x\n",
-> +		    offset, virt_addr, length, fd, access_flags);
-> +
-> +	if (!mlx5_ib_can_load_pas_with_umr(dev, length))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	umem = ib_umem_dmabuf_get(&dev->ib_dev, offset, length, fd, access_flags,
-> +				  &mlx5_ib_dmabuf_attach_ops);
-> +	if (IS_ERR(umem)) {
-> +		mlx5_ib_dbg(dev, "umem get failed (%ld)\n", PTR_ERR(umem));
-> +		return ERR_PTR(PTR_ERR(umem));
-> +	}
-> +
-> +	npages = ib_umem_num_pages(umem);
-> +	if (!npages) {
-
-ib_umem_get should reject invalid umems like this
-
-> +		mlx5_ib_warn(dev, "avoid zero region\n");
-> +		ib_umem_release(umem);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
-> +	order = ilog2(roundup_pow_of_two(npages));
-
-Must always call ib_umem_find_best_pgsz(), specify PAGE_SIZE as the
-argument for this scenario
-
-> +	mlx5_ib_dbg(dev, "npages %d, ncont %d, order %d, page_shift %d\n",
-> +		    npages, npages, order, PAGE_SHIFT);
-> +
-> +	mr = alloc_mr_from_cache(pd, umem, virt_addr, length, npages,
-> +				 PAGE_SHIFT, order, access_flags);
-> +	if (IS_ERR(mr))
-> +		mr = NULL;
-> +
-> +	if (!mr) {
-> +		mutex_lock(&dev->slow_path_mutex);
-> +		mr = reg_create(NULL, pd, virt_addr, length, umem, npages,
-> +				PAGE_SHIFT, access_flags, false);
-> +		mutex_unlock(&dev->slow_path_mutex);
-> +	}
-
-Rebase on the mlx5 series just posted and use their version of this
-code sequence, this is just not quite right
-
-
-> +	err = mlx5_ib_update_xlt(mr, 0, mr->npages, PAGE_SHIFT,
-> +				 MLX5_IB_UPD_XLT_ENABLE | MLX5_IB_UPD_XLT_ZAP);
-> +
-> +	if (err) {
-> +		dereg_mr(dev, mr);
-> +		return ERR_PTR(err);
-> +	}
-
-The current mlx5 code preloads the buffer with the right data, zapping
-is fairly expensive, mapping and loading is the same cost
-
-> @@ -1536,7 +1646,7 @@ int mlx5_ib_rereg_user_mr(struct ib_mr *ib_mr, int flags, u64 start,
->  	if (!mr->umem)
->  		return -EINVAL;
->  
-> -	if (is_odp_mr(mr))
-> +	if (is_odp_mr(mr) || is_dmabuf_mr(mr))
->  		return -EOPNOTSUPP;
->  
->  	if (flags & IB_MR_REREG_TRANS) {
-> @@ -1695,7 +1805,7 @@ static void dereg_mr(struct mlx5_ib_dev *dev, struct mlx5_ib_mr *mr)
->  	struct ib_umem *umem = mr->umem;
->  
->  	/* Stop all DMA */
-> -	if (is_odp_mr(mr))
-> +	if (is_odp_mr(mr) || is_dmabuf_mr(mr))
->  		mlx5_ib_fence_odp_mr(mr);
-
-Make a dma buf specific function
-
-I have another series touching this area too, but I think 
-
-> @@ -801,6 +816,52 @@ static int pagefault_implicit_mr(struct mlx5_ib_mr *imr,
->   * Returns:
->   *  -EFAULT: The io_virt->bcnt is not within the MR, it covers pages that are
->   *           not accessible, or the MR is no longer valid.
-> + *  -EAGAIN: The operation should be retried
-> + *
-> + *  >0: Number of pages mapped
-> + */
-> +static int pagefault_dmabuf_mr(struct mlx5_ib_mr *mr, struct ib_umem *umem,
-> +			       u64 io_virt, size_t bcnt, u32 *bytes_mapped,
-> +			       u32 flags)
-> +{
-> +	struct ib_umem_dmabuf *umem_dmabuf = to_ib_umem_dmabuf(umem);
-> +	u64 user_va;
-> +	u64 end;
-> +	int npages;
-> +	int err;
-> +
-> +	if (unlikely(io_virt < mr->mmkey.iova))
-> +		return -EFAULT;
-> +	if (check_add_overflow(io_virt - mr->mmkey.iova,
-> +			       (u64)umem->address, &user_va))
-> +		return -EFAULT;
-> +	/* Overflow has alreddy been checked at the umem creation time */
-> +	end = umem->address + umem->length;
-> +	if (unlikely(user_va >= end || end  - user_va < bcnt))
-> +		return -EFAULT;
-
-Why duplicate this sequence? Caller does it
-
-> @@ -811,6 +872,10 @@ static int pagefault_mr(struct mlx5_ib_mr *mr, u64 io_virt, size_t bcnt,
->  {
->  	struct ib_umem_odp *odp = to_ib_umem_odp(mr->umem);
->  
-> +	if (is_dmabuf_mr(mr))
-> +		return pagefault_dmabuf_mr(mr, mr->umem, io_virt, bcnt,
-> +					   bytes_mapped, flags);
-> +
->  	lockdep_assert_held(&mr->dev->odp_srcu);
->  	if (unlikely(io_virt < mr->mmkey.iova))
->  		return -EFAULT;
-> @@ -1747,7 +1812,6 @@ static void destroy_prefetch_work(struct prefetch_mr_work *work)
->  {
->  	struct mlx5_ib_dev *dev = to_mdev(pd->device);
->  	struct mlx5_core_mkey *mmkey;
-> -	struct ib_umem_odp *odp;
->  	struct mlx5_ib_mr *mr;
->  
->  	lockdep_assert_held(&dev->odp_srcu);
-> @@ -1761,11 +1825,9 @@ static void destroy_prefetch_work(struct prefetch_mr_work *work)
->  	if (mr->ibmr.pd != pd)
->  		return NULL;
->  
-> -	odp = to_ib_umem_odp(mr->umem);
-> -
->  	/* prefetch with write-access must be supported by the MR */
->  	if (advice == IB_UVERBS_ADVISE_MR_ADVICE_PREFETCH_WRITE &&
-> -	    !odp->umem.writable)
-> +	    !mr->umem->writable)
-
-??
-
-This does look basically right though. I think a little more polishing
-and it can be merged. It does need to go after the mlx5 MR series
-though..
-
-Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MjcuMTAuMjAyMCAyMjo0OCwgS3J6eXN6dG9mIEtvemxvd3NraSDQv9C40YjQtdGCOgo+IE9uIFR1
+ZSwgT2N0IDI3LCAyMDIwIGF0IDEwOjE5OjI4UE0gKzAzMDAsIERtaXRyeSBPc2lwZW5rbyB3cm90
+ZToKPj4gMjcuMTAuMjAyMCAxMzoyNSwgS3J6eXN6dG9mIEtvemxvd3NraSDQv9C40YjQtdGCOgo+
+Pj4gT24gTW9uLCBPY3QgMjYsIDIwMjAgYXQgMDE6MTY6NTZBTSArMDMwMCwgRG1pdHJ5IE9zaXBl
+bmtvIHdyb3RlOgo+Pj4+IEV4dGVybmFsIG1lbW9yeSBjb250cm9sbGVyIGlzIGludGVyY29ubmVj
+dGVkIHdpdGggbWVtb3J5IGNvbnRyb2xsZXIgYW5kCj4+Pj4gd2l0aCBleHRlcm5hbCBtZW1vcnku
+IERvY3VtZW50IG5ldyBpbnRlcmNvbm5lY3QgcHJvcGVydHkgd2hpY2ggdHVybnMKPj4+PiBFeHRl
+cm5hbCBNZW1vcnkgQ29udHJvbGxlciBpbnRvIGludGVyY29ubmVjdCBwcm92aWRlci4KPj4+Pgo+
+Pj4+IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4KPj4+
+PiAtLS0KPj4+PiAgLi4uL2JpbmRpbmdzL21lbW9yeS1jb250cm9sbGVycy9udmlkaWEsdGVncmEx
+MjQtZW1jLnlhbWwgICB8IDcgKysrKysrKwo+Pj4+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRp
+b25zKCspCj4+Pj4KPj4+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL21lbW9yeS1jb250cm9sbGVycy9udmlkaWEsdGVncmExMjQtZW1jLnlhbWwgYi9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVtb3J5LWNvbnRyb2xsZXJzL252aWRpYSx0
+ZWdyYTEyNC1lbWMueWFtbAo+Pj4+IGluZGV4IDI3ODU0OWY5ZTA1MS4uYWMwMDgzMmNlYWMxIDEw
+MDY0NAo+Pj4+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZW1vcnkt
+Y29udHJvbGxlcnMvbnZpZGlhLHRlZ3JhMTI0LWVtYy55YW1sCj4+Pj4gKysrIGIvRG9jdW1lbnRh
+dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lbW9yeS1jb250cm9sbGVycy9udmlkaWEsdGVncmEx
+MjQtZW1jLnlhbWwKPj4+PiBAQCAtMjksNiArMjksOSBAQCBwcm9wZXJ0aWVzOgo+Pj4+ICAgICAg
+aXRlbXM6Cj4+Pj4gICAgICAgIC0gY29uc3Q6IGVtYwo+Pj4+ICAKPj4+PiArICAiI2ludGVyY29u
+bmVjdC1jZWxscyI6Cj4+Pj4gKyAgICBjb25zdDogMAo+Pj4+ICsKPj4+PiAgICBudmlkaWEsbWVt
+b3J5LWNvbnRyb2xsZXI6Cj4+Pj4gICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZp
+bml0aW9ucy9waGFuZGxlCj4+Pj4gICAgICBkZXNjcmlwdGlvbjoKPj4+PiBAQCAtMzI3LDYgKzMz
+MCw3IEBAIHJlcXVpcmVkOgo+Pj4+ICAgIC0gY2xvY2tzCj4+Pj4gICAgLSBjbG9jay1uYW1lcwo+
+Pj4+ICAgIC0gbnZpZGlhLG1lbW9yeS1jb250cm9sbGVyCj4+Pj4gKyAgLSAiI2ludGVyY29ubmVj
+dC1jZWxscyIKPj4+Cj4+PiBBbm90aGVyIHJlcXVpcmVkIHByb3BlcnR5LCB3aGF0IGFib3V0IGFs
+bCBleGlzdGluZyB1c2VycyBvZiB0aGlzIGJpbmRpbmc/Cj4+Cj4+IEVNQy9kZXZmcmVxIGRyaXZl
+cnMgY2hlY2sgcHJlc2VuY2Ugb2YgdGhlIG5ldyBwcm9wZXJ0aWVzIGFuZCBhc2sgdXNlcnMKPj4g
+dG8gdXBncmFkZSB0aGUgRFQuIFRoZSBrZXJuZWwgd2lsbCBjb250aW51ZSB0byB3b3JrIGZpbmUg
+dXNpbmcgb2xkZXIKPj4gRFRCcywgYnV0IGRldmZyZXEgZHJpdmVyIHdvbid0IGxvYWQuCj4gCj4g
+SWYgdGhlIGRldmZyZXEgd2FzIHdvcmtpbmcgZmluZSBiZWZvcmUgKHdpdGggdGhlc2Ugb2xkZXIg
+RFRCcyBhbmQgb2xkZXIKPiBrZXJuZWwpIHRoZW4geW91IGJyZWFrIHRoZSBmZWF0dXJlLgo+IAo+
+IElmIGRldmZyZXEgd2FzIG5vdCB3b3JraW5nIG9yIHdhcyBub3Qgc3RhYmxlIGVub3VnaCwgdGhl
+biBub3RoaW5nIGlzCj4gYnJva2VuIHNvIHN1Y2ggY2hhbmdlIGlzIGFjY2VwdGVkLgo+IAo+IFdo
+aWNoIG9uZSBpcyB0aGVuPwoKRGVmaW5pdGVseSB0aGUgbGF0dGVyLiBUaGUgY3VycmVudCBkZXZm
+cmVxIHdvcmtzIG9rYXknaXNoLCBidXQgd2UgcmVseQpvbiBoYXJkd2FyZSB0byByZWNvdmVyIGZy
+b20gdGVtcG9yYWwgRklGTyB1bmRlcmZsb3dzIGFuZCBpdCdzIGEKdXNlci12aXNpYmxlIHByb2Js
+ZW0gd2hpY2ggdGhpcyBzZXJpZXMgYWRkcmVzc2VzLgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwK
