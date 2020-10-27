@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6DC29A641
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 09:12:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50BF29A643
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 09:12:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 390496EB24;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB2E56EB28;
 	Tue, 27 Oct 2020 08:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD1E66EACF
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 05:10:16 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id t22so135179plr.9
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Oct 2020 22:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=RQEP5hZqG2K6tNEaxMR+sF9wkLrep88WEdk8ACgqhWM=;
- b=OeplTnTZ8cios1tUcJtmxMxW/XjtujPrVbRNVQkBWUo4Vm/OisXbot5tqg0LhW7HKR
- CRS6gMNiU0N8Fvs7b8uedyYRTq64pVs9n9m4CmfPdOrVH24s1utC/sk0EfpFXKn+DsNT
- 9VqIkZYIiSIM0UZfHkKrgoK4TyD9wD270321/i+TDSXRvB0f4CGZPfhQaNfCbpQBMyeB
- wtiDnlZ1Ruq4hB6OB8CxVDQpxy5GfEbwFlzqmI6NP5rukik+NpHmD+aiDe21PclM9aag
- 78s984K5fddIvkYrh4dRtcAZfews6H8YgME97CBLV3XsML64ABIWydNoC/7knVQ82P9E
- 1WGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=RQEP5hZqG2K6tNEaxMR+sF9wkLrep88WEdk8ACgqhWM=;
- b=YLQeUpDFYnTdvGuFCB2udtKuhTyNEUamX1qq5haseFahz3nJzsYZGgEfOnJeXtR6CT
- SlQaLxw/PsUEqHCzJ4Zm5Md2BFD3YUgAVzoSdTYdRdCNg5IA8sR6chwUl//u0Ia9e1iJ
- 6It7hxeO9IWNNVnGwAyXmcFVHoRxuHSBbnkIAJINCyDyCvisSsthXwkRawoX1Ya75K6G
- pnrRAfjshNmgjHKrq8bp3aZgWDbSTIEkXx+RxnClGrooDsr7BLZUubi7Gbo4GtsCX0+9
- IMt45P68qLcfBwr5r46eFqNTkRH1CaovUNfDrKUps0yt9gamFjUl88njtzntB5IE+XP9
- vj5Q==
-X-Gm-Message-State: AOAM5338QoqS3Z+tuVj7NY/mt07UeB58/IFImqD/hyllZH6OzgsnpKYj
- awRs3JphdGnYaPI6rg2PtxWnew==
-X-Google-Smtp-Source: ABdhPJw9l/c3Wv/MhYdUbVpRNKWIf4C4NW8ScWjU3o6CL+b7zdCKwHqnNirDSxp55Qgd4nrtwV6jvQ==
-X-Received: by 2002:a17:90a:8906:: with SMTP id u6mr427458pjn.35.1603775416396; 
- Mon, 26 Oct 2020 22:10:16 -0700 (PDT)
-Received: from localhost ([122.181.54.133])
- by smtp.gmail.com with ESMTPSA id i21sm379783pgh.2.2020.10.26.22.10.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 26 Oct 2020 22:10:15 -0700 (PDT)
-Date: Tue, 27 Oct 2020 10:40:13 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v6 46/52] opp: Put interconnect paths outside of
- opp_table_lock
-Message-ID: <20201027051013.5gr4s3wuuwxsd7ax@vireshk-i7>
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-47-digetx@gmail.com>
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 405616E34B
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 07:08:05 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1603782485; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=ahIMEJAF2HOCmKrnWEJ6rC/ZR2DgHhKiGOo7hQp4WiM=;
+ b=pH0mwhFH1VXLMqPcFp9gcX0W97lBCugQWuQ1GWlIZyIN4YXAoxSXwzSsnqW9ZNqQNg6IXeEJ
+ ukny+5WZSuOn0S4ZLZHOU7hXgPYG8y963aePmRVAoW9g4khKW64oJx52Hf6+PC0pKT1byRe4
+ EWcZnX1YF+Fkk+uupwkryM9UCkY=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 5f97c7541e4642bf753b7643 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 27 Oct 2020 07:08:04
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 914A2C43382; Tue, 27 Oct 2020 07:08:03 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 51DD3C433CB;
+ Tue, 27 Oct 2020 07:08:02 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201025221735.3062-47-digetx@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Date: Tue, 27 Oct 2020 12:38:02 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Jordan Crouse <jcrouse@codeaurora.org>
+Subject: Re: [PATCH] drm/msm/a6xx: Add support for using system cache on
+ MMU500 based targets
+In-Reply-To: <20201026185428.101443-1-jcrouse@codeaurora.org>
+References: <20201026185428.101443-1-jcrouse@codeaurora.org>
+Message-ID: <d5050762b88d5d0d957ad5057f165b21@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Tue, 27 Oct 2020 08:12:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,116 +65,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sean Paul <sean@poorly.run>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26-10-20, 01:17, Dmitry Osipenko wrote:
-> This patch fixes lockup which happens when OPP table is released if
-> interconnect provider uses OPP in the icc_provider->set() callback
-> and bandwidth of the ICC path is set to 0 by the ICC core when path
-> is released. The icc_put() doesn't need the opp_table_lock protection,
-> hence let's move it outside of the lock in order to resolve the problem.
+On 2020-10-27 00:24, Jordan Crouse wrote:
+> This is an extension to the series [1] to enable the System Cache (LLC) 
+> for
+> Adreno a6xx targets.
 > 
-> In particular this fixes tegra-devfreq driver lockup on trying to unload
-> the driver module. The devfreq driver uses OPP-bandwidth API and its ICC
-> provider also uses OPP for DVFS, hence they both take same opp_table_lock
-> when OPP table of the devfreq is released.
+> GPU targets with an MMU-500 attached have a slightly different process 
+> for
+> enabling system cache. Use the compatible string on the IOMMU phandle
+> to see if an MMU-500 is attached and modify the programming sequence
+> accordingly.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> [1] https://patchwork.freedesktop.org/series/83037/
+> 
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 > ---
->  drivers/opp/core.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-> index 2483e765318a..1134df360fe0 100644
-> --- a/drivers/opp/core.c
-> +++ b/drivers/opp/core.c
-> @@ -1187,12 +1187,6 @@ static void _opp_table_kref_release(struct kref *kref)
->  	if (!IS_ERR(opp_table->clk))
->  		clk_put(opp_table->clk);
->  
-> -	if (opp_table->paths) {
-> -		for (i = 0; i < opp_table->path_count; i++)
-> -			icc_put(opp_table->paths[i]);
-> -		kfree(opp_table->paths);
-> -	}
-> -
->  	WARN_ON(!list_empty(&opp_table->opp_list));
->  
->  	list_for_each_entry_safe(opp_dev, temp, &opp_table->dev_list, node) {
-> @@ -1209,9 +1203,22 @@ static void _opp_table_kref_release(struct kref *kref)
->  	mutex_destroy(&opp_table->genpd_virt_dev_lock);
->  	mutex_destroy(&opp_table->lock);
->  	list_del(&opp_table->node);
-> -	kfree(opp_table);
->  
->  	mutex_unlock(&opp_table_lock);
-> +
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 46 +++++++++++++++++++++------
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
+>  2 files changed, 37 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 95c98c642876..b7737732fbb6 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1042,6 +1042,8 @@ static void a6xx_llc_deactivate(struct a6xx_gpu 
+> *a6xx_gpu)
+> 
+>  static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+>  {
+> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+> +	struct msm_gpu *gpu = &adreno_gpu->base;
+>  	u32 cntl1_regval = 0;
+> 
+>  	if (IS_ERR(a6xx_gpu->llc_mmio))
+> @@ -1055,11 +1057,17 @@ static void a6xx_llc_activate(struct a6xx_gpu 
+> *a6xx_gpu)
+>  			       (gpu_scid << 15) | (gpu_scid << 20);
+>  	}
+> 
 > +	/*
-> +	 * Interconnect provider may use OPP too, hence icc_put() needs to be
-> +	 * invoked outside of the opp_table_lock in order to prevent nested
-> +	 * locking which happens when bandwidth of the ICC path is set to 0
-> +	 * by ICC core on release of the path.
+> +	 * For targets with a MMU500, activate the slice but don't program 
+> the
+> +	 * register.  The XBL will take care of that.
 > +	 */
-> +	if (opp_table->paths) {
-> +		for (i = 0; i < opp_table->path_count; i++)
-> +			icc_put(opp_table->paths[i]);
-> +		kfree(opp_table->paths);
-> +	}
+>  	if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
+> -		u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
+> +		if (!a6xx_gpu->have_mmu500) {
+> +			u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
+> 
+> -		gpuhtw_scid &= 0x1f;
+> -		cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
+> +			gpuhtw_scid &= 0x1f;
+> +			cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
+> +		}
+>  	}
+> 
+>  	if (cntl1_regval) {
+> @@ -1067,13 +1075,20 @@ static void a6xx_llc_activate(struct a6xx_gpu 
+> *a6xx_gpu)
+>  		 * Program the slice IDs for the various GPU blocks and GPU MMU
+>  		 * pagetables
+>  		 */
+> -		a6xx_llc_write(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, 
+> cntl1_regval);
+> -
+> -		/*
+> -		 * Program cacheability overrides to not allocate cache lines on
+> -		 * a write miss
+> -		 */
+> -		a6xx_llc_rmw(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 
+> 0x03);
+> +		if (a6xx_gpu->have_mmu500)
+> +			gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0),
+> +				cntl1_regval);
+> +		else {
+> +			a6xx_llc_write(a6xx_gpu,
+> +				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
 > +
-> +	kfree(opp_table);
+> +			/*
+> +			 * Program cacheability overrides to not allocate cache
+> +			 * lines on a write miss
+> +			 */
+> +			a6xx_llc_rmw(a6xx_gpu,
+> +				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
+> +		}
+>  	}
 >  }
+> 
+> @@ -1086,10 +1101,21 @@ static void a6xx_llc_slices_destroy(struct
+> a6xx_gpu *a6xx_gpu)
+>  static void a6xx_llc_slices_init(struct platform_device *pdev,
+>  		struct a6xx_gpu *a6xx_gpu)
+>  {
+> +	struct device_node *phandle;
+> +
+>  	a6xx_gpu->llc_mmio = msm_ioremap(pdev, "cx_mem", "gpu_cx");
+>  	if (IS_ERR(a6xx_gpu->llc_mmio))
+>  		return;
+> 
+> +	/*
+> +	 * There is a different programming path for targets with an mmu500
+> +	 * attached, so detect if that is the case
+> +	 */
+> +	phandle = of_parse_phandle(pdev->dev.of_node, "iommus", 0);
+> +	a6xx_gpu->have_mmu500 = (phandle &&
+> +		of_device_is_compatible(phandle, "arm,mmu500"));
+> +	of_node_put(phandle);
+> +
+>  	a6xx_gpu->llc_slice = llcc_slice_getd(LLCC_GPU);
+>  	a6xx_gpu->htw_llc_slice = llcc_slice_getd(LLCC_GPUHTW);
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> index 9e6079af679c..e793d329e77b 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> @@ -32,6 +32,7 @@ struct a6xx_gpu {
+>  	void __iomem *llc_mmio;
+>  	void *llc_slice;
+>  	void *htw_llc_slice;
+> +	bool have_mmu500;
+>  };
+> 
+>  #define to_a6xx_gpu(x) container_of(x, struct a6xx_gpu, base)
 
-Never make such _fixes_ part of such a big patchset. Always send them
-separately.
-
-Having said that, I already have a patch with me which shall fix it for you as
-well:
-
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 4ac4e7ce6b8b..0e0a5269dc82 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -1181,6 +1181,10 @@ static void _opp_table_kref_release(struct kref *kref)
-        struct opp_device *opp_dev, *temp;
-        int i;
- 
-+       /* Drop the lock as soon as we can */
-+       list_del(&opp_table->node);
-+       mutex_unlock(&opp_table_lock);
-+
-        _of_clear_opp_table(opp_table);
- 
-        /* Release clk */
-@@ -1208,10 +1212,7 @@ static void _opp_table_kref_release(struct kref *kref)
- 
-        mutex_destroy(&opp_table->genpd_virt_dev_lock);
-        mutex_destroy(&opp_table->lock);
--       list_del(&opp_table->node);
-        kfree(opp_table);
--
--       mutex_unlock(&opp_table_lock);
- }
- 
- void dev_pm_opp_put_opp_table(struct opp_table *opp_table)
-
+Thanks Jordan for the patch.
 
 -- 
-viresh
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
