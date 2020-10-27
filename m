@@ -2,38 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35E329BE0F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C76529BE11
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:56:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B31A6E1D8;
-	Tue, 27 Oct 2020 16:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0B596EB9C;
+	Tue, 27 Oct 2020 16:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4CAB6E1D8;
- Tue, 27 Oct 2020 16:55:59 +0000 (UTC)
-IronPort-SDR: TT80VQTVE8X8V/Hq0G9A2GoPVplOt8qFLKBiJzvTAnj7cn4FX8lkmiJ/eWvZMdNmnIzJqZ0uWh
- 6SniT73RjQ+w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="147975740"
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="147975740"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 379A36EB92;
+ Tue, 27 Oct 2020 16:56:02 +0000 (UTC)
+IronPort-SDR: xk9iTVOT6MSbKVqUCRP8oFtI0cAcoB18f3sOGjuccQKQlCT4Zs5+ZewkL7R4fa96BeIQFx9UIc
+ R0IKKZW4hjJg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="147975746"
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="147975746"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 09:55:59 -0700
-IronPort-SDR: bRJV6oJb1K4RDYyHYs8/HC1QXURYTq7+q8gLlax6UsER7jVko0/7wxzXJwkblUoaRu3LPry6b/
- yogUQOmdxV8w==
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="355612980"
+ 27 Oct 2020 09:56:02 -0700
+IronPort-SDR: 7Fr57LxZz7P5v9dnL1mc8KgAECbay4hqzoxSO9cTYk6NLm0pySs6BLRhS33M2WvQQ2sZGtr/V0
+ 0J1xSaRk/tLg==
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="355613018"
 Received: from genxfsim-desktop.iind.intel.com ([10.223.74.178])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 09:55:56 -0700
+ 27 Oct 2020 09:55:59 -0700
 From: Anshuman Gupta <anshuman.gupta@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 00/16] HDCP 2.2 and HDCP 1.4 Gen12 DP MST support
-Date: Tue, 27 Oct 2020 22:11:52 +0530
-Message-Id: <20201027164208.10026-1-anshuman.gupta@intel.com>
+Subject: [PATCH v4 01/16] drm/i915/hdcp: Update CP property in update_pipe
+Date: Tue, 27 Oct 2020 22:11:53 +0530
+Message-Id: <20201027164208.10026-2-anshuman.gupta@intel.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201027164208.10026-1-anshuman.gupta@intel.com>
+References: <20201027164208.10026-1-anshuman.gupta@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,50 +56,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is v4 version to test with IGT https://patchwork.freedesktop.org/series/82987/
-This has addressed the review comments from Uma.
-It has been also tested manually with IGT above series.
+When crtc state need_modeset is true it is not necessary
+it is going to be a real modeset, it can turns to be a
+fastset instead of modeset.
+This turns content protection property to be DESIRED and hdcp
+update_pipe left with property to be in DESIRED state but
+actual hdcp->value was ENABLED.
 
-[PATCH v4 10/16] misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
-has an Ack from Tomas to merge it via drm-intel.
+This issue is caught with DP MST setup, where we have multiple
+connector in same DP_MST topology. When disabling HDCP on one of
+DP MST connector leads to set the crtc state need_modeset to true
+for all other crtc driving the other DP-MST topology connectors.
+This turns up other DP MST connectors CP property to be DESIRED
+despite the actual hdcp->value is ENABLED.
+Above scenario fails the DP MST HDCP IGT test, disabling HDCP on
+one MST stream should not cause to disable HDCP on another MST
+stream on same DP MST topology.
 
-[PATCH v4 11/16] drm/hdcp: Max MST content streams
-has an Ack from drm-misc maintainer to merge it via dm-intel.
+v2:
+Fix WARN_ON(connector->base.registration_state == DRM_CONNECTOR_REGISTERED)
+v3:
+Commit log improvement. [Uma]
+Added a comment before scheduling prop_work. [Uma]
 
-Test-with: 20201023100709.5211-2-karthik.b.s@intel.com
+Fixes: 33f9a623bfc6 ("drm/i915/hdcp: Update CP as per the kernel internal state")
+Cc: Ramalingam C <ramalingam.c@intel.com>
+Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_hdcp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Anshuman Gupta (16):
-  drm/i915/hdcp: Update CP property in update_pipe
-  drm/i915/hdcp: Get conn while content_type changed
-  drm/i915/hotplug: Handle CP_IRQ for DP-MST
-  drm/i915/hdcp: DP MST transcoder for link and stream
-  drm/i915/hdcp: Move HDCP enc status timeout to header
-  drm/i915/hdcp: HDCP stream encryption support
-  drm/i915/hdcp: Enable Gen12 HDCP 1.4 DP MST support
-  drm/i915/hdcp: Pass dig_port to intel_hdcp_init
-  drm/i915/hdcp: Encapsulate hdcp_port_data to dig_port
-  misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
-  drm/hdcp: Max MST content streams
-  drm/i915/hdcp: MST streams support in hdcp port_data
-  drm/i915/hdcp: Pass connector to check_2_2_link
-  drm/i915/hdcp: Add HDCP 2.2 stream register
-  drm/i915/hdcp: Support for HDCP 2.2 MST shim callbacks
-  drm/i915/hdcp: Enable HDCP 2.2 MST support
-
- drivers/gpu/drm/i915/display/intel_ddi.c      |  14 +-
- drivers/gpu/drm/i915/display/intel_ddi.h      |   6 +-
- .../drm/i915/display/intel_display_types.h    |  20 +-
- drivers/gpu/drm/i915/display/intel_dp.c       |  14 +-
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 167 ++++++++--
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |  12 +-
- drivers/gpu/drm/i915/display/intel_hdcp.c     | 285 ++++++++++++++----
- drivers/gpu/drm/i915/display/intel_hdcp.h     |   8 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c     |  19 +-
- drivers/gpu/drm/i915/i915_reg.h               |  31 ++
- drivers/misc/mei/hdcp/mei_hdcp.c              |   3 +-
- include/drm/drm_hdcp.h                        |   8 +-
- 12 files changed, 466 insertions(+), 121 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+index b2a4bbcfdcd2..eee8263405b9 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdcp.c
++++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+@@ -2221,6 +2221,14 @@ void intel_hdcp_update_pipe(struct intel_atomic_state *state,
+ 		desired_and_not_enabled =
+ 			hdcp->value != DRM_MODE_CONTENT_PROTECTION_ENABLED;
+ 		mutex_unlock(&hdcp->mutex);
++		/*
++		 * If HDCP already ENABLED and CP property is DESIRED, schedule
++		 * prop_work to update correct CP property to user space.
++		 */
++		if (!desired_and_not_enabled && !content_protection_type_changed) {
++			drm_connector_get(&connector->base);
++			schedule_work(&hdcp->prop_work);
++		}
+ 	}
+ 
+ 	if (desired_and_not_enabled || content_protection_type_changed)
 -- 
 2.26.2
 
