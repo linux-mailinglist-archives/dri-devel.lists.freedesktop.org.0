@@ -1,61 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D0029C060
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 18:15:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B68629C228
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 18:32:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAED06E201;
-	Tue, 27 Oct 2020 17:15:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D70D86E1F7;
+	Tue, 27 Oct 2020 17:32:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 025226E201
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 17:15:03 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id h24so3309298ejg.9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 10:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=+YG7zkgnx5qOXdRyIr/ZsTmXWebdIbRLlVsPyhxnzh0=;
- b=N7kyHxPUIgEJKuYr+k8G/TPQD9rHDstF4MWUPj/nxa5BZzXCIJdQlaO/rdU21fUeuO
- 5y+sRG/nGgIXI+6WkDkh++EBNxEe+RsPw5WfbvxmZ8sodYGcl4fq3akQ730BAmyKg6Yz
- Qkt/UO8l8gTpgqNpzv3lfi9lYDQgApie0zF7q4RmTet8rFOaVZvjbUa88f/STICIuEEw
- vjjvSCdqEYgvFkaiiL0YcWtDyI3FlwaW0P8emkBmiwhhsk7YNtH8FlrJQWGcw7jGe3u4
- VHBzBqjsK4XiHN2euxvsCImajTt3mbIbvZ34vFH0BOYYIcrv3N3ESpwTBLbSez8kAC5p
- o/Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=+YG7zkgnx5qOXdRyIr/ZsTmXWebdIbRLlVsPyhxnzh0=;
- b=oItOuHSYT3Jq9KN14MUOd4qEdGu0M5kla6VRBytopTx0EJWbYGFDqfmpfbFUJIB5/7
- wOGMvX5auecP/3eh+KPKOcQfI27zMA9GrTGPQdB6x3U8l8ivq320LyKeaVMe5wHKiyKV
- PbTnA5fDkT3QxSG3lnLmyPF1MKNsoNb5JldgCq6Bp/5FeMovyKJ5A24MbeMO3qqpbKBV
- g2jr26IkMLkJ5ZMXGu3y85Y6d+QtVbbX2g9/49HiwTbW4eGZQZJzbhynKKWZHsjfXijx
- 3c9phnO5955jcm1GZ6HZpIzXBFpbewZNioUGHyYQrI66LpZtZBvBSUUX16V7Pc4kbd8K
- qHSQ==
-X-Gm-Message-State: AOAM533fBFfGpzVATZQHdkUksL9tQiqwnbK85VGYRtbQSj7qY++skTYG
- VegcVjd+ymQWMtGX/Ry7nfyfCsZyFno=
-X-Google-Smtp-Source: ABdhPJxjC/dwhdLE7H2UIyg3mMDyMEcNrGgVg+UqAr6VcxjSSbFR4iMj+A/c1mMMOdNYFOzZGh5Rdg==
-X-Received: by 2002:a17:906:bc50:: with SMTP id
- s16mr3306138ejv.275.1603818902420; 
- Tue, 27 Oct 2020 10:15:02 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id o3sm1311815edv.63.2020.10.27.10.15.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 10:15:00 -0700 (PDT)
-Date: Tue, 27 Oct 2020 18:14:59 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 1/3] drm: panel: simple: Allow timing constraints, not
- fixed delays
-Message-ID: <20201027171459.GA2097755@ulmo>
-References: <20201027094553.1.I31c4f8b111dbef1ab658f206764655ae983bc560@changeid>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 361056E1F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 17:32:51 +0000 (UTC)
+IronPort-SDR: DztCgXuey2WfCOE1JWNqagjAoZ5KU9ZrHVzAjupfr92jKhWQaO4cvn3Kf8Aj4vNcjxyVkdYyrh
+ 10njLhpeg+6A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="165538512"
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="165538512"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2020 10:32:50 -0700
+IronPort-SDR: bO6WDdYq4JnUjpQ2L19avZVACSrB9N2phgT2IekZlrf8vAsii0MX7y2pdg1cSm5/0izRZytCOg
+ i/XreWTOo7NA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="535884552"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga005.jf.intel.com with ESMTP; 27 Oct 2020 10:32:50 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 27 Oct 2020 10:32:50 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 27 Oct 2020 10:32:49 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Tue, 27 Oct 2020 10:32:49 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Tue, 27 Oct 2020 10:32:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JkWMgbKCUlzcsj7KF8Nja+1N/mxWlU5iC12ztKdKVz7T76seqbXbRkbfTEu7UEaLeF72rIyYnnCTi7B/oNegg7BqjobMQ1kM4pav8AHaPCBnD3KOWOz3JNJ5/x7GGz+7VY6z8S5vSivAQ2UhhtZLp819fe5shJgmwIMIXxcf24HG4ZneEkGkCQfduHEjrZkMDSNInJA1S0S788E7qrVNTnmwlAn1dHf17i8d5aXXi71zH9BQeN/WXu5zlKCqXI+77K+7T8Hm6KAICqbnOj3zx2aQQ+s2pffIob4HcpEOTgssu/oqlyvUp46Re4xeAvHNHJq9Xh78Yzqb1ff9cGg9mQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fXcLA2c0uh3zc2KOepJHtv+caDdMb91Rjp0OJx5wV/U=;
+ b=KLcT4zDQCaTH0p4O3nkvr9vUB/oXTmL9qN3ncaQ0gHzxbf3oLZviKxTQfLVGoFZ9dwMU9lyDyOiUU+0z8eHTyerjeo0GA8PC5WRIAKm6KayJeTJKEiagNB3dRG7jK0AVPG4yXZbslccEcW/Hw1R4alyXWKhz+ZHasWPFnRxRuewxN/bfEhwNJKbaY0pt1kyzeyLu2EVS9Fi1Yb+h2p1KvCLzb4JZ98DH5enxE5CE9EtVKJquTqPayHUBBYCGAgxHaK7GUEOl7Ld5oBy6va5VhYpYjqopdOQu6wRB5OrSqzGMAC1rIs3aSednxgPol9PQYLD2/nSNIFDp1x77nZSMeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fXcLA2c0uh3zc2KOepJHtv+caDdMb91Rjp0OJx5wV/U=;
+ b=EsCDBUKWeUGo8JBhujg+O6ISia3HhNd6LGkeOh5RpufRn/YTEx7xTceOOHjYSO4Pqv5W9RpX7mq81Z3r+HpnXetGA91NtwqD6LnevAW899ZXAKLJHbP0P+D9QMoL4S4b1LHOPQp506b4VJeaF4TsQKeJUrP3/nJ0mtVCSqWxTFA=
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
+ by CO1PR11MB4961.namprd11.prod.outlook.com (2603:10b6:303:93::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Tue, 27 Oct
+ 2020 17:32:26 +0000
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::7067:d996:719:10fa]) by MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::7067:d996:719:10fa%5]) with mapi id 15.20.3477.029; Tue, 27 Oct 2020
+ 17:32:26 +0000
+From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+To: Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: RE: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user
+ memory region
+Thread-Topic: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user
+ memory region
+Thread-Index: AQHWqVlE332Lg1o1rU+Qqd8CQ3VTXKmlZiqAgAAZZoCAAOHDgIADcnmAgAFKJgCAAJZW4A==
+Date: Tue, 27 Oct 2020 17:32:26 +0000
+Message-ID: <MW3PR11MB4555208D038CEFE6C468DAF5E5160@MW3PR11MB4555.namprd11.prod.outlook.com>
+References: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
+ <1603471201-32588-2-git-send-email-jianxin.xiong@intel.com>
+ <20201023164911.GF401619@phenom.ffwll.local>
+ <20201023182005.GP36674@ziepe.ca> <20201024074807.GA3112@infradead.org>
+ <20201026122637.GQ36674@ziepe.ca> <20201027080816.GA2692@infradead.org>
+In-Reply-To: <20201027080816.GA2692@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [73.53.14.45]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d4e861fc-370f-4592-d78b-08d87a9e459b
+x-ms-traffictypediagnostic: CO1PR11MB4961:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CO1PR11MB49615E655411B0954103E5BAE5160@CO1PR11MB4961.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: lWYhyJFxBlylJn0VrnQMeY1H5qUcBJPTpgfqhT3BGxNmAl+DqTyrToQSqVNkIEFIeP99kvce+AxlqgM6kUnFwWTWhjTTTKRXKFaGevDAs1rz1HsDzPQWDpCO+3+g7J3u5gSpKQhdiTCsY1AZr+9IOTcuCkFXJWFl0PkbkqrbLhnEQF5ODjooyndU1NSRtxrO8dwuHASCSC6JXGYnhJmJZbsB9x7wvgi19KdrCGEJLlmElXpTNRwmFt61Xb65P8XNPLYIJeqZ7ad8MIoAeqyfgQmscCa7e+mPYmaXen+Y5fWb/65fYnUzRWCrhuyxzwK6pUThz3Eo3NIj6j8Dyugbag==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(366004)(136003)(396003)(39860400002)(53546011)(33656002)(6506007)(83380400001)(8936002)(186003)(71200400001)(86362001)(2906002)(4326008)(55016002)(52536014)(478600001)(316002)(66476007)(66556008)(54906003)(110136005)(9686003)(66446008)(26005)(8676002)(7696005)(76116006)(5660300002)(64756008)(66946007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: bYA/v28wrNsZyek+hL5GNYYtG86ivp0XN/bDwczn62sQyFU/x6JbSFt5IN0g3ND7DJmH/o9hBKyRyN/jKa2i/5bBJvFh4yUKRtqIxtU7d6Fmc4shrdJu48FTZMHQ4iOJeGvdweeqrtdJl6kFElcyEPeVrWZ56stJxqio+2PA5KU/aU9lxFc7riN0k4H0mCEUmEmvRGmVUKx3U3mLT5gSEnNc4IH+C5uFSj63BgWd25qV64IRhrQSCVVVa6LApE9SlUNhFjVAbJ9sESRsQ+BFYVlNX80BA4P4cBYrGmzPsnD5a4M3Axvl4Q9zL5NqdIJwdE9okNKl+9hPpHn31P0F3tgY50l267UodUMM7u6r2LjBHjyvAg5lOq4bD8oJph9hW3/Cqy9rokwzRlwXztLm02x2Rbk3M04ezrEX1JpukSNcKKFzkNdOk7nlJ1nUQsR7e4F0m6pAQQn+O2Oa/xkxb1YoT7jgw3AHIY1zyY4vsZpDhQ94bTs5G1C5ei8+aGP1dJgc5SwyiwTqlYmJeRx92950AWTeHwjQRAdVK7uXo28i33Kyr0mOyJ8TTTaXKbOJxYquCBSMP/7v8Z8Epr8QUhVZYBqL//rDP3793B4z5zCeJIi5xqw75j8CmQoRTwMv3qd/6dLfr5R5rC2RC3z/vA==
 MIME-Version: 1.0
-In-Reply-To: <20201027094553.1.I31c4f8b111dbef1ab658f206764655ae983bc560@changeid>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4e861fc-370f-4592-d78b-08d87a9e459b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2020 17:32:26.3590 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8vRvY3fKcJIvd2hZNKvm+xVAwdS050sSVj98wV9UBsBpfu4Dqy6zwDXi7Ll6/IXyM9qEJLHgM62K19dLuQp60A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4961
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,236 +130,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0920559446=="
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Doug
+ Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> -----Original Message-----
+> From: Christoph Hellwig <hch@infradead.org>
+> Sent: Tuesday, October 27, 2020 1:08 AM
+> To: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Christoph Hellwig <hch@infradead.org>; Daniel Vetter <daniel@ffwll.ch>; Xiong, Jianxin <jianxin.xiong@intel.com>; linux-
+> rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Leon Romanovsky <leon@kernel.org>; Doug Ledford <dledford@redhat.com>;
+> Vetter, Daniel <daniel.vetter@intel.com>; Christian Koenig <christian.koenig@amd.com>
+> Subject: Re: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user memory region
+> 
+> On Mon, Oct 26, 2020 at 09:26:37AM -0300, Jason Gunthorpe wrote:
+> > On Sat, Oct 24, 2020 at 08:48:07AM +0100, Christoph Hellwig wrote:
+> > > On Fri, Oct 23, 2020 at 03:20:05PM -0300, Jason Gunthorpe wrote:
+> > > > The problem is we have RDMA drivers that assume SGL's have a valid
+> > > > struct page, and these hacky/wrong P2P sgls that DMABUF creates
+> > > > cannot be passed into those drivers.
+> > >
+> > > RDMA drivers do not assume scatterlist have a valid struct page,
+> > > scatterlists are defined to have a valid struct page.  Any
+> > > scatterlist without a struct page is completely buggy.
+> >
+> > It is not just having the struct page, it needs to be a CPU accessible
+> > one for memcpy/etc. They aren't correct with the
+> > MEMORY_DEVICE_PCI_P2PDMA SGLs either.
+> 
+> Exactly.
 
---===============0920559446==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="PNTmBPCT7hxwcZjr"
-Content-Disposition: inline
+In the function ib_umem_dmabuf_sgt_slice() (part of this patch) we could generate
+a dma address array instead of filling the scatterlist 'umem->sg_head'. The array
+would be handled similar to 'umem_odp->dma_list'. With such change, the RDMA
+drivers wouldn't see incorrectly formed scatterlist. The check for dma_virt_ops here
+wouldn't be needed either.
 
+Would such proposal address the concern here?
 
---PNTmBPCT7hxwcZjr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 27, 2020 at 09:45:54AM -0700, Douglas Anderson wrote:
-> The simple panel code currently allows panels to define fixed delays
-> at certain stages of initialization.  These work OK, but they don't
-> really map all that clearly to the requirements presented in many
-> panel datasheets.  Instead of defining a fixed delay, those datasheets
-> provide a timing diagram and specify a minimum amount of time that
-> needs to pass from event A to event B.
->=20
-> Because of the way things are currently defined, most panels end up
-> over-delaying.  One prime example here is that a number of panels I've
-> looked at define the amount of time that must pass between turning a
-> panel off and turning it back on again.  Since there is no way to
-> specify this, many developers have listed this as the "unprepare"
-> delay.  However, if nobody ever tried to turn the panel on again in
-> the next 500 ms (or whatever the delay was) then this delay was
-> pointless.  It's better to do the delay only in the case that someone
-> tried to turn the panel on too quickly.
->=20
-> Let's support specifying delays as constraints.  We'll start with the
-> one above and also a second one: the minimum time between prepare
-> being done and doing the enable.  On the panel I'm looking at, there's
-> an 80 ms minimum time between HPD being asserted by the panel and
-> setting the backlight enable GPIO.  By specifying as a constraint we
-> can enforce this without over-delaying.  Specifically the link
-> training is allowed to happen in parallel with this delay so adding a
-> fixed 80 ms delay isn't ideal.
->=20
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->=20
->  drivers/gpu/drm/panel/panel-simple.c | 51 ++++++++++++++++++++++++----
->  1 file changed, 44 insertions(+), 7 deletions(-)
-
-This has always been bugging me a bit about the current setup, so I very
-much like this idea.
-
->=20
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel=
-/panel-simple.c
-> index 2be358fb46f7..cbbe71a2a940 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -92,6 +92,19 @@ struct panel_desc {
->  		unsigned int unprepare;
->  	} delay;
-> =20
-> +	/**
-> +	 * @prepare_to_enable_ms: If this many milliseconds hasn't passed after
-> +	 *                        prepare finished, add a delay to the start
-> +	 *                        of enable.
-> +	 * @unprepare_to_prepare_ms: If this many milliseconds hasn't passed
-> +	 *                           unprepare finished, add a delay to the
-> +	 *                           start of prepare.
-
-I find this very difficult to understand and it's also not clear from
-this what exactly the delay is. Perhaps this can be somewhat clarified
-Something like the below perhaps?
-
-	@prepare_to_enable_ms: The minimum time, in milliseconds, that
-	    needs to have passed between when prepare finished and enable
-	    may begin. If at enable time less time has passed since
-	    prepare finished, the driver waits for the remaining time.
-
-> +	 */
-> +	struct {
-> +		unsigned int prepare_to_enable_ms;
-> +		unsigned int unprepare_to_prepare_ms;
-> +	} timing_constraints;
-> +
->  	u32 bus_format;
->  	u32 bus_flags;
->  	int connector_type;
-> @@ -99,10 +112,12 @@ struct panel_desc {
-> =20
->  struct panel_simple {
->  	struct drm_panel base;
-> -	bool prepared;
-
-I understand how you're trying to reuse the value of prepared_time to
-replace this flag, but I find the logic very hard to understand now.
-
->  	bool enabled;
->  	bool no_hpd;
-> =20
-> +	ktime_t prepared_time;
-> +	ktime_t unprepared_time;
-> +
->  	const struct panel_desc *desc;
-> =20
->  	struct regulator *supply;
-> @@ -230,6 +245,21 @@ static int panel_simple_get_non_edid_modes(struct pa=
-nel_simple *panel,
->  	return num;
->  }
-> =20
-> +static void panel_simple_enforce_constraint(ktime_t start_ktime,
-> +					    unsigned int min_ms)
-> +{
-> +	ktime_t now_ktime, min_ktime;
-> +
-> +	if (!min_ms)
-> +		return;
-> +
-> +	min_ktime =3D ktime_add(start_ktime, ms_to_ktime(min_ms));
-> +	now_ktime =3D ktime_get();
-> +
-> +	if (ktime_before(now_ktime, min_ktime))
-> +		msleep(ktime_to_ms(ktime_sub(min_ktime, now_ktime)) + 1);
-> +}
-> +
->  static int panel_simple_disable(struct drm_panel *panel)
->  {
->  	struct panel_simple *p =3D to_panel_simple(panel);
-> @@ -249,18 +279,19 @@ static int panel_simple_unprepare(struct drm_panel =
-*panel)
->  {
->  	struct panel_simple *p =3D to_panel_simple(panel);
-> =20
-> -	if (!p->prepared)
-> +	if (!p->prepared_time)
->  		return 0;
-
-Here for example I now need to actively think about what exactly
-!prepared_time actually means, when all it really means is that we're
-checking if the panel has already been enabled.
-
-Perhaps we could provide a tiny helper to make this clearer?
-
-	static inline bool panel_simple_prepared(struct drm_panel *panel)
-	{
-		return p->prepared_time !=3D 0;
-	}
-
-I think that clarifies what's meant here. We could even add a comment
-explaining what's going on here if that's still not clear.
-
-Actually, looking at that, I think the explicit comparison alone makes
-this clearer, so this already seems better to me as well:
-
-	if (p->prepared_time !=3D 0)
-		return 0
-
-Then again, this may just be me. If everyone else thinks this is clear
-enough, feel free to leave it as-is.
-
-Another alternative would be to leave the current flag and logic in
-place and not rely on a special value for prepared_time to control the
-flow. That's slightly redundant, but it's really just one flag.
-
->  	gpiod_set_value_cansleep(p->enable_gpio, 0);
-> =20
->  	regulator_disable(p->supply);
-> =20
-> +	p->prepared_time =3D 0;
-> +	p->unprepared_time =3D ktime_get();
-> +
->  	if (p->desc->delay.unprepare)
->  		msleep(p->desc->delay.unprepare);
-> =20
-> -	p->prepared =3D false;
-> -
->  	return 0;
->  }
-> =20
-> @@ -296,9 +327,12 @@ static int panel_simple_prepare(struct drm_panel *pa=
-nel)
->  	int err;
->  	int hpd_asserted;
-> =20
-> -	if (p->prepared)
-> +	if (p->prepared_time)
->  		return 0;
-> =20
-> +	panel_simple_enforce_constraint(p->unprepared_time,
-> +					p->desc->timing_constraints.unprepare_to_prepare_ms);
-
-Looking at this, perhaps we can come up with shorter names for these?
-
-Thierry
-
---PNTmBPCT7hxwcZjr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+YVY8ACgkQ3SOs138+
-s6H+sw/8DDA6Ecc/I6tAbFaAHcLujardUGK42UdBGG7ZBmYY+4BYDXpLPpm6gqTe
-xUKjeTmecc+029J1/XWuqLde/PsBGMDbIxPZfp0VjMbE6pkqC3KzGDMVuJVZPetP
-2zuSaUOj+t3+TQJMrOhQ1IlGUWx0Sv2aoxt6IIeDWBvMtCcG0GEC9JT/qCt6K2u2
-FFD98fDtvJIyx9SOKWWKMH3cIHBBFrzEuLyucjbFSrTZNxMiouGkMEDC9Mo3MYvj
-hhpiedT8sIrvkgrBOXme6GptHdNAhozswNuWIKRCYWuDF3I3cMQoJ4WzG78yrwSk
-aMuz6w9nIB0LmKcHP6rS8Bk2fyyx5pX3wHEQzvRwn75Zm2KB6XgU1mvWF/8mjD3f
-LbBUdvXOeLeq6pcAvT6uFs0XDKjDuVd4hozl6TQ4L+c+cEa5etN1MkQWTtq45qRm
-saglM9zBoTqIY++huNSRc4Sgom2X/1/3OKMojFMsnahKL39c5U6m+lW1GkgxRiMy
-gQU+tA1xxvKTytJuWhc4gLPqE8uXyvUenmRsvC4aJ+NAXo40BUY9hTE+Be90iXkb
-xMVcb2xBWdqoORdmByIVrETSPR/e5VGGCpLhTtHydlrZPAlOBOqOLqJA8MFx5p5G
-pvriym2e5OWq/jrOskHfi/BXpXNqCvohhXZOZcb+ah4Ep9p7EbE=
-=UH1U
------END PGP SIGNATURE-----
-
---PNTmBPCT7hxwcZjr--
-
---===============0920559446==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-Jianxin
+ 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0920559446==--
