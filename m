@@ -2,69 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D0629C859
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 20:07:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4A529C872
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 20:14:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8EA6EC0D;
-	Tue, 27 Oct 2020 19:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13E786EC19;
+	Tue, 27 Oct 2020 19:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 116446EC18
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 19:07:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603825660;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=l0PCwDa1wHGV+Q/jQHXorblfnJ1kxgpeCNddFrrP2u8=;
- b=DVWQEmwsHVuNj1CUczWg7D0aYOyzxiZFqWZYzi2iTK+zx7YUo7MpklqQRxPHMAdcHMdivf
- 1r+E5ThCsrFAPM9ujIFs6GF5LJB4auyTjTCyqnkMVTpUeMRj83m0+A4D6MwZRgl+sKCZLj
- 9hmMJDyGL1xd9Ss5uzTetxArIuLeQ9M=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-qRLgUpCeMfCMIJN8-CdoqQ-1; Tue, 27 Oct 2020 15:07:33 -0400
-X-MC-Unique: qRLgUpCeMfCMIJN8-CdoqQ-1
-Received: by mail-oo1-f69.google.com with SMTP id q9so1221967ool.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:07:33 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 282326EC19
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 19:13:57 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id c194so2422129wme.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:13:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=P3J/+0GiuC41DT0MOvT+FF9RAHnRvTVHa938Xwr2s1o=;
+ b=iAotOM6WKIuDQ6FgXb5rOAYby/U4SAR7GX1dfobxCt0NUEUYvR3JU5IbXXXzzEzb+x
+ NVw1W6NV+zW7ZjBUjaeVYKNjF3on3pNs1Hgp6GQgb8ezNmvtVbTVJ9+wG1SxiBt1nZ0N
+ E1jWM77BDsGkX6UGDdQshv1RZmgj9/9Fqg5Zw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=l0PCwDa1wHGV+Q/jQHXorblfnJ1kxgpeCNddFrrP2u8=;
- b=DamSOr9Moixzvq332gFdt5afc6RR2CQDZ6UMWNjD3sVX00wWGzwVe7VAsuJxHB/MWM
- d+iZpWAaEUlTP5xlEuchTJNeTQSDNKczXg1wq39dbpzxL5RHNszPtIHMPEiKgvtNEppv
- ErkU/agC3FyOmwMngPJEJmRliYeQVnY7efoSKKwfeAnnPYBneoGNDGFc/TX40xx2GiR0
- UM/KfpVwJ5Ig7gxtMKPK+BdB3SRBjqga5fXfiVTpD/Xv+xgz3KNQVfMib4TWnfWaGL1+
- aiOIjtkfsI4+lptX/PYgsSuyEX6NmS94krHb1xXh/aqScaKeYk7ElRTrPiz2lsA4CoJ5
- JVpw==
-X-Gm-Message-State: AOAM530XfrWTA1GdKnI1CmuxSdgiBds/DZBQlbqjAc6GQaQkjJ8eRis1
- f5y/RnuASodsqUaiAVXIzxUy5qEMorSxcAd+65PGV13uBHPmfE3Qb1CbmoiQOR0BoDZgpewjyij
- 788C8a4FRdkciVY1a2/mDOh6ol9iO
-X-Received: by 2002:a9d:491:: with SMTP id 17mr2601951otm.338.1603825652820;
- Tue, 27 Oct 2020 12:07:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzWW33cuqBanM3RqWmNlIAsoMbT3S8VnWYdIw36FDCID2skFOgGdV/X/Ei7bypd9s6bTTHJSg==
-X-Received: by 2002:a9d:491:: with SMTP id 17mr2601933otm.338.1603825652601;
- Tue, 27 Oct 2020 12:07:32 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id x83sm1765339oig.39.2020.10.27.12.07.30
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=P3J/+0GiuC41DT0MOvT+FF9RAHnRvTVHa938Xwr2s1o=;
+ b=OPvgvZZMO1c9s+Ox469MJe0g+6/bh7YcRcG8OKMgamgHuHpbC80GGX+P1T4tGisPe1
+ jA8E2gP0+2o91oXIEXXJE/YwP0JOmHVxg3/if/qhh6p3G3nF5JNDsY65veZ6RrGxfA4t
+ s7+GpripLYq29rPlWLQd+gtOEHA2rpW/o2R4x/2Z7p7LqQyDOZa0vjTfI6190cPo8UTx
+ gFVCDlHggEdHUWFO+YC2jn5Gs6JNZUGBAuJkgnMMG+3nILBkiNfJTojwRe7yNOVfIqrI
+ LPi1XiXvaiW4o3i2K6+H0hc8ZosvKPEjSpRtMRuVWtEByqbdmc8jMwq3EpJN9o9NWtdI
+ So6w==
+X-Gm-Message-State: AOAM53277+F9PkERnmCvwGf8oXfGCi5qSkEpw0Ghsk7wj9MjspCTzObR
+ Q5oZ7OpvUWbOQpxkrRjf4+I4nw==
+X-Google-Smtp-Source: ABdhPJxjvWUPnbB7pc9K8JYx7BBlTro1Je2YY0UCsz4EPGzzcVzaADg0zmoo0CDvgaDra903bJTkUw==
+X-Received: by 2002:a1c:e919:: with SMTP id q25mr4233791wmc.142.1603826035820; 
+ Tue, 27 Oct 2020 12:13:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m1sm3070487wmm.34.2020.10.27.12.13.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 12:07:32 -0700 (PDT)
-From: trix@redhat.com
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, jonathan.kim@amd.com, harish.kasiviswanathan@amd.com,
- Felix.Kuehling@amd.com, zhengbin13@huawei.com, luben.tuikov@amd.com,
- Joseph.Greathouse@amd.com, Hawking.Zhang@amd.com, guchun.chen@amd.com,
- john.clements@amd.com, tao.zhou1@amd.com, Dennis.Li@amd.com,
- Stanley.Yang@amd.com
-Subject: [PATCH] drm/amdgpu: remove unneeded semicolon
-Date: Tue, 27 Oct 2020 12:07:26 -0700
-Message-Id: <20201027190726.1588801-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Tue, 27 Oct 2020 12:13:55 -0700 (PDT)
+Date: Tue, 27 Oct 2020 20:13:53 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [PATCH 4/5] fbcon: Avoid hard-coding built-in font charcount
+Message-ID: <20201027191353.GO401619@phenom.ffwll.local>
+Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jiri Slaby <jirislaby@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1603788511.git.yepeilin.cs@gmail.com>
+ <cb5bb49a33ff54fef41e719ee9d301a6a73c5f9c.1603788512.git.yepeilin.cs@gmail.com>
+ <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
+ <6c28279a10dbe7a7e5ac3e3a8dd7c67f8d63a9f2.1603788512.git.yepeilin.cs@gmail.com>
+ <a3b1b3cdc160fb9aef389c366f387fb27f0aef38.1603788512.git.yepeilin.cs@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <a3b1b3cdc160fb9aef389c366f387fb27f0aef38.1603788512.git.yepeilin.cs@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,53 +74,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-MIME-Version: 1.0
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+On Tue, Oct 27, 2020 at 12:37:29PM -0400, Peilin Ye wrote:
+> fbcon_startup() and fbcon_init() are hard-coding the number of characters
+> of our built-in fonts as 256. Recently, we included that information in
+> our kernel font descriptor `struct font_desc`, so use `font->charcount`
+> instead of a hard-coded value.
+> 
+> This patch depends on patch "Fonts: Add charcount field to font_desc".
+> 
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 
-A semicolon is not needed after a switch statement.
+So I think this is correct, but it also doesn't do a hole lot yet. fbcon.c
+still has tons of hard-coded 256 all over, and if (p->userfont).
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+I think if we instead set vc->vc_font.charcount both in fbcon_init and in
+fbcon_do_set_font (probably just replace the userfont parameter with
+font_charcount for now), then we could replace these all with
+vc->vc_font.charcount. And the code would already improve quite a bit I
+think.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-index 1b213c4ddfcb..19c0a3655228 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-@@ -654,7 +654,7 @@ int amdgpu_pmu_init(struct amdgpu_device *adev)
- 
- 	default:
- 		return 0;
--	};
-+	}
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index 8bf6a7c056bc..a61cf8cfbfc3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -953,7 +953,7 @@ static char *amdgpu_ras_badpage_flags_str(unsigned int flags)
- 	case AMDGPU_RAS_RETIRE_PAGE_FAULT:
- 	default:
- 		return "F";
--	};
-+	}
- }
- 
- /**
+With just this change here I think we have even more inconsistency, since
+for built-in fonts vc->vc_font.charcount is now set correctly, but for
+userfonts we need to instead look at FNTCHARCNT(vc->vc_font.data).
+
+We'd still need to maintain p->userfont because of the refcount chaos, but
+that is much more work.
+
+Or do I miss something here?
+-Daniel
+
+> ---
+>  drivers/video/fbdev/core/fbcon.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index cef437817b0d..e563847991b7 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -1004,7 +1004,7 @@ static const char *fbcon_startup(void)
+>  		vc->vc_font.width = font->width;
+>  		vc->vc_font.height = font->height;
+>  		vc->vc_font.data = (void *)(p->fontdata = font->data);
+> -		vc->vc_font.charcount = 256; /* FIXME  Need to support more fonts */
+> +		vc->vc_font.charcount = font->charcount;
+>  	} else {
+>  		p->fontdata = vc->vc_font.data;
+>  	}
+> @@ -1083,8 +1083,7 @@ static void fbcon_init(struct vc_data *vc, int init)
+>  			vc->vc_font.width = font->width;
+>  			vc->vc_font.height = font->height;
+>  			vc->vc_font.data = (void *)(p->fontdata = font->data);
+> -			vc->vc_font.charcount = 256; /* FIXME  Need to
+> -							support more fonts */
+> +			vc->vc_font.charcount = font->charcount;
+>  		}
+>  	}
+>  
+> -- 
+> 2.25.1
+> 
+
 -- 
-2.18.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
