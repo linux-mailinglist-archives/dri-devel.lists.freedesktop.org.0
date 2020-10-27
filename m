@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57BF29CEBB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4BB29CEBA
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 989B16EC53;
-	Wed, 28 Oct 2020 08:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D6A26EB86;
+	Wed, 28 Oct 2020 08:06:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55A526EB6E
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:17:39 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id c16so1209391wmd.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 05:17:39 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 959F56EB6F
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 12:17:41 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id j7so1628783wrt.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 05:17:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2L3lr/8sLf7Z5y8Aim//8p5VZua449ayHzLh+PHsAEM=;
- b=I6NX/4rt5CDmPWW1saFsLZWRkPzrAH2KBDwRbhX67CXdUXPPBiQxknBpev7HNopX7v
- T4hCqsqEQ+8slSjg9oVsWiouDFBCjUxT2tQhZ7IsbEhntldfWt0pGCC18RYKkF8HyqJx
- 9RTh6mcLw4a5t85mWwIRiBjPnX8DfWDpwoFyv2x3tXDUqIcE4ydx14krTVgwR7Mujyzi
- c7FeX7rajI1jIGSq0UFLTHM/eXW6rmNIQ+ewJ8tVOZErdCBzyF6pzeFt8JKoMnrfmiqh
- HH4RQszopE21d3R0VoR6twetVnWG7wRPJVw9OB9Ugbj6v6iDFbcVtXVpkFtNwEVIqDq0
- 2QCw==
+ bh=BD6BZhiJRXUg2mUZGG0fkwDlbzmZ0eUsKwHAsGlj294=;
+ b=GYoAOUdpehA8D5iOITnO5eSHqy74EWPa2UIAtVbkWsImVc99HZ2Meqd4q5mrUiPwJi
+ 1APAlHnt2Cb4RjSuekciaevLzEzJMqfqHXfoSP/8Nqsfy2vu/QE/h1rKpHfgBNuem/9E
+ bOYwNpK5Rv+6EItbQEiKit8Nwszh+pcjtDbIO4wjR4xJz/1weNgEVHMghJunm+Jmvs3D
+ DwFELNR01LinoQoxBBCOkfLlLHqTKRB+bYhg8Wi8nXmI+1DlDpMCRqOKS/1P7aEomQVd
+ T289FY4bD7H12YIHjVFYqTifMYdbsOOawVKJDDr9Ow0FRgVTPhbXfojcEyRGy0x+TbG2
+ NISQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2L3lr/8sLf7Z5y8Aim//8p5VZua449ayHzLh+PHsAEM=;
- b=pK1q3fUpt7G79fgdFUe6AVJuoIlqez9or5KhFiOiEQ8ii6eVi9uW0Hh2dGkEdp3vT6
- yopYlllTgukvcWecFczbgo7y0016HX+2IcCzekjciEGD5hudkTIaxhaCzk19tJndgfCY
- e+EGWYpffWZloVgfb5uuR0F5E2+3zE4smrpdesX/ZIKfjtCCKmtYMmiFVW0FK/fKUyj5
- Wv+9tKZyHynbnzVvcTSSq5gZY9qIoYBVix4MXW3U6IF4KonJoFN7HU1AOAcpg8bh+Ixu
- 93UzJzqQu6MX+LAQpcookXyjLB/+dUfRvty2Hm9/hXde90IxT2RWVJq60OvtIi2Q5Hcs
- t64A==
-X-Gm-Message-State: AOAM533KXhSuPawmYkf3YSxtAu8a6oWkuXi2q9YhlyddfxlTiQMrQwtn
- OM8Qy6BaJYvSgcROUY6wqgFD1Q==
-X-Google-Smtp-Source: ABdhPJwnQfDZtXuM3jzzK38lXBwCGy/kfsjXsJcKEg+cED0SodtStCj40BizmPHJbimBDnnjg0sfuQ==
-X-Received: by 2002:a1c:7c1a:: with SMTP id x26mr2463834wmc.4.1603801057987;
- Tue, 27 Oct 2020 05:17:37 -0700 (PDT)
+ bh=BD6BZhiJRXUg2mUZGG0fkwDlbzmZ0eUsKwHAsGlj294=;
+ b=QFzRz4RRO5vBz53sWbq+uQXyhVbhq4aaKLraGlHmb/pWSnimAXCf3gtV6ACJPJHXcZ
+ LF5ByZzDOL2ACDbpguo6RT0dUVhccaoJYyj8y+St6TBuJaeAM2+n8XjTpPgEeGTBDb5S
+ bSzVH+S/Fm1vy7D9f1KEt4PY4tjAsZbijwXLzAAm/+G4r00tkqRzvGsf05WMEIrf3Cg9
+ LOpoiG2l11TKH6yOWG17ajZsYAaLfeJJxPSLPRcvJZhEC9KjJub8me5B8Tymb2QsjKsh
+ OWrfB4Clav2H2WiJGEJtKQMV/2n2tE3ioFsyQrvpGmKE1n8+foTVrkCOr3d3waP2o2wt
+ PmoQ==
+X-Gm-Message-State: AOAM532BUpuHvYBKVAdHv728sxIUUkUJM8KC8pO2xZmSvk0xB3Ps/RcB
+ 0ZVOWZYpoiY8CXp0KRPs7/Bt8A==
+X-Google-Smtp-Source: ABdhPJycS5PuqPPHWbBOB4wuxjdkw4uku7T6ocjCFZm8vDs8KzBrNQe0wHUyzYWAYWc0X5WB+59JaQ==
+X-Received: by 2002:a5d:6cc8:: with SMTP id c8mr2428078wrc.233.1603801060190; 
+ Tue, 27 Oct 2020 05:17:40 -0700 (PDT)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr.
  [90.8.158.167])
- by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.36
+ by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 05:17:37 -0700 (PDT)
+ Tue, 27 Oct 2020 05:17:39 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
@@ -66,9 +66,9 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH 1/8] mm: slab: provide krealloc_array()
-Date: Tue, 27 Oct 2020 13:17:18 +0100
-Message-Id: <20201027121725.24660-2-brgl@bgdev.pl>
+Subject: [PATCH 2/8] ALSA: pcm: use krealloc_array()
+Date: Tue, 27 Oct 2020 13:17:19 +0100
+Message-Id: <20201027121725.24660-3-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201027121725.24660-1-brgl@bgdev.pl>
 References: <20201027121725.24660-1-brgl@bgdev.pl>
@@ -99,41 +99,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-When allocating an array of elements, users should check for
-multiplication overflow or preferably use one of the provided helpers
-like: kmalloc_array().
-
-There's no krealloc_array() counterpart but there are many users who use
-regular krealloc() to reallocate arrays. Let's provide an actual
-krealloc_array() implementation.
+Use the helper that checks for overflows internally instead of manually
+calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- include/linux/slab.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ sound/core/pcm_lib.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index dd6897f62010..0e6683affee7 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -592,6 +592,17 @@ static inline void *kmalloc_array(size_t n, size_t size, gfp_t flags)
- 	return __kmalloc(bytes, flags);
- }
- 
-+static __must_check inline void *
-+krealloc_array(void *p, size_t new_n, size_t new_size, gfp_t flags)
-+{
-+	size_t bytes;
-+
-+	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
-+		return NULL;
-+
-+	return krealloc(p, bytes, flags);
-+}
-+
- /**
-  * kcalloc - allocate memory for an array. The memory is set to zero.
-  * @n: number of elements.
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+index d531e1bc2b81..c6f8f9e252e0 100644
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -1129,8 +1129,8 @@ int snd_pcm_hw_rule_add(struct snd_pcm_runtime *runtime, unsigned int cond,
+ 	if (constrs->rules_num >= constrs->rules_all) {
+ 		struct snd_pcm_hw_rule *new;
+ 		unsigned int new_rules = constrs->rules_all + 16;
+-		new = krealloc(constrs->rules, new_rules * sizeof(*c),
+-			       GFP_KERNEL);
++		new = krealloc_array(constrs->rules, new_rules,
++				     sizeof(*c), GFP_KERNEL);
+ 		if (!new) {
+ 			va_end(args);
+ 			return -ENOMEM;
 -- 
 2.29.1
 
