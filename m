@@ -2,55 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B1329C7BB
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 19:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA7229C7C8
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 19:51:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C6CE6EC15;
-	Tue, 27 Oct 2020 18:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9760F6EC16;
+	Tue, 27 Oct 2020 18:51:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA6E26EB82
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 18:49:09 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1603824549; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=onN6cnFqDOSCbb9Mxt8SddPJFHmruGIv8WFUjOBVlaQ=;
- b=OXEbDdzlEJ6oVNm/MxGrhkl1Ztlg8SgZoA7mY5dRWBleWLMD0JhMoBkhcg0H0sqGWR+e0JgQ
- n8TcPWMGF/EKa+XKR7yCBbH8l7sounhFRcFnMKRyW5vxsilZX8mtpvjXCL0SnHyusLSyN290
- 1If69JAkdEnPSrWvWErzwJFHevM=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5f986ba437949e554bb67f21 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 27 Oct 2020 18:49:08
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 08DE8C433CB; Tue, 27 Oct 2020 18:49:08 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 34CFFC433C9;
- Tue, 27 Oct 2020 18:49:07 +0000 (UTC)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCDA16EC16
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 18:51:02 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id j7so3069668wrt.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 11:51:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xZvOPp8kVilTXiarx7tF8Az0EBe1RW6Y/QV8MotyV8s=;
+ b=E+QQVJ6LfsGiPw+sjgvs9YvBaCMf1GKIz7ybqinbvbTMr1KW7mqY4QeBxNzuBdpThA
+ 5nblxw4cSCvxn53HUmGzrWW56wSRcZpEwRo8h3Il6vyoNnQIHYZG/9MPA2jqo8IOuzOL
+ 8MTCtvJdUGydgE1zIBJMJEYdbTnFiHIdKO51I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=xZvOPp8kVilTXiarx7tF8Az0EBe1RW6Y/QV8MotyV8s=;
+ b=Bo2hVoyp62sF2WOg8d7eeLoOZg0RbylVijqRRlX3PwvYnpa5TVzM2RNKrnHhIWDL4S
+ HFWqKaTjFNtz72r2CAkUfDeOzq0LPM15/B3xZQR+UDhLO0WXftQe6nncovK0fVgggOjy
+ FN4z3X8Fdeo24f/tNXK5qGu/jaDxN5FEbsT6hvo+dpfZOx0gXFJDRP+a7RoFoxR6WTle
+ WGr4eUr5j5o1zU7VOxkhQ6BmzR/LKH9dhcA9E3SAOKx0GgDi5QFtcAD1UTvCuZcePW54
+ BYHM4WnDicgK47a1IBA9Rv1St5LdTUw5Y5heOu9ED1V1fYk0VWxfZWbfUcYyS28pxsSk
+ UuEw==
+X-Gm-Message-State: AOAM533fbTQEbh50aeinKoTRcddkkm8u/XAkl7UvK3Yr8fPj6IFDPt/6
+ Ok3j8r9Mt9SSgQaLsJHdxYVEFg==
+X-Google-Smtp-Source: ABdhPJynFNg4Z7kz02rR4kjthPaTiI0vcEd436zZEQWyrQ9iXhwvzQ88EYNHIKOIDvTpL9kSzGn5Jg==
+X-Received: by 2002:adf:e446:: with SMTP id t6mr4255615wrm.46.1603824661583;
+ Tue, 27 Oct 2020 11:51:01 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 24sm2884131wmg.8.2020.10.27.11.51.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 11:51:00 -0700 (PDT)
+Date: Tue, 27 Oct 2020 19:50:58 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [PATCH 2/5] Fonts: Make font size unsigned in font_desc
+Message-ID: <20201027185058.GM401619@phenom.ffwll.local>
+Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jiri Slaby <jirislaby@kernel.org>, linux-parisc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1603788511.git.yepeilin.cs@gmail.com>
+ <cb5bb49a33ff54fef41e719ee9d301a6a73c5f9c.1603788512.git.yepeilin.cs@gmail.com>
+ <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-Date: Tue, 27 Oct 2020 11:49:07 -0700
-From: abhinavk@codeaurora.org
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: fix clock scaling on non-sc7180
- board
-In-Reply-To: <20201027102304.945424-1-dmitry.baryshkov@linaro.org>
-References: <20201027102304.945424-1-dmitry.baryshkov@linaro.org>
-Message-ID: <20ac1894035103cc989cbfad3f07d885@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Disposition: inline
+In-Reply-To: <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,60 +75,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kalyan Thota <kalyan_t@codeaurora.org>, Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-27 03:23, Dmitry Baryshkov wrote:
-> c33b7c0389e1 ("drm/msm/dpu: add support for clk and bw scaling for
-> display") has added support for handling bandwidth voting in kms path 
-> in
-> addition to old mdss path. However this broke all other platforms since
-> _dpu_core_perf_crtc_update_bus() will now error out instead of properly
-> calculating bandwidth and core clocks. Fix
-> _dpu_core_perf_crtc_update_bus() to just skip bandwidth setting instead
-> of returning an error in case kms->num_paths == 0 (MDSS is used for
-> bandwidth management).
+On Tue, Oct 27, 2020 at 12:33:05PM -0400, Peilin Ye wrote:
+> It is improper to define `width` and `height` as signed in `struct
+> font_desc`. Make them unsigned. Also, change the corresponding printk()
+> format identifiers from `%d` to `%u`, in sti_select_fbfont().
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Fixes: c33b7c0389e1 ("drm/msm/dpu: add support for clk and bw scaling
-> for display")
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+
+I'm not entirely sure of the motivation here ... height/width should never
+ever be even close to the limit here. Or have you seen integer math that
+could potentially go wrong if we go with unsigned instead of int?
+-Daniel
+
 > ---
-Looks fine to me, thanks for the fix.
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
->  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Build-tested.
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> index 393858ef8a83..37c8270681c2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> @@ -219,9 +219,6 @@ static int _dpu_core_perf_crtc_update_bus(struct
-> dpu_kms *kms,
->  	int i, ret = 0;
->  	u64 avg_bw;
+>  drivers/video/console/sticore.c | 2 +-
+>  include/linux/font.h            | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> -	if (!kms->num_paths)
-> -		return -EINVAL;
-> -
->  	drm_for_each_crtc(tmp_crtc, crtc->dev) {
->  		if (tmp_crtc->enabled &&
->  			curr_client_type ==
-> @@ -239,6 +236,9 @@ static int _dpu_core_perf_crtc_update_bus(struct
-> dpu_kms *kms,
->  		}
->  	}
+> diff --git a/drivers/video/console/sticore.c b/drivers/video/console/sticore.c
+> index 6a26a364f9bd..d1bb5915082b 100644
+> --- a/drivers/video/console/sticore.c
+> +++ b/drivers/video/console/sticore.c
+> @@ -502,7 +502,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
+>  	if (!fbfont)
+>  		return NULL;
+>  
+> -	pr_info("STI selected %dx%d framebuffer font %s for sticon\n",
+> +	pr_info("STI selected %ux%u framebuffer font %s for sticon\n",
+>  			fbfont->width, fbfont->height, fbfont->name);
+>  			
+>  	bpc = ((fbfont->width+7)/8) * fbfont->height; 
+> diff --git a/include/linux/font.h b/include/linux/font.h
+> index b5b312c19e46..4f50d736ea72 100644
+> --- a/include/linux/font.h
+> +++ b/include/linux/font.h
+> @@ -16,7 +16,7 @@
+>  struct font_desc {
+>      int idx;
+>      const char *name;
+> -    int width, height;
+> +    unsigned int width, height;
+>      const void *data;
+>      int pref;
+>  };
+> -- 
+> 2.25.1
 > 
-> +	if (!kms->num_paths)
-> +		return 0;
-> +
->  	avg_bw = perf.bw_ctl;
->  	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
