@@ -1,42 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69F6299E06
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 01:11:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1923529A198
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 01:48:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA6B6EAA8;
-	Tue, 27 Oct 2020 00:11:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 770A36EAAB;
+	Tue, 27 Oct 2020 00:48:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC7DB6EAA8
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 00:11:31 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C30E7216FD;
- Tue, 27 Oct 2020 00:11:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603757491;
- bh=SxMbSgR8oVo7ZAAJ9C1b775WC8FXTUk+UVCr21uKT50=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=we/zrHMaAC47jKjPckTuej3Kz4ZZXPtau9Q7f40Ymzxpk+XEM6s9w7BA8PSyTnQmr
- NzKQ7kaWtTbypvWf9BrWjBbKZRbcbBfPMwBvJ+8KjFers5expy7BKm54UDue4Bcxjs
- rp8D9gyg4FKK4SsClBBlRfROeflr34I38ihqum3U=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 06/25] video: fbdev: pvr2fb: initialize variables
-Date: Mon, 26 Oct 2020 20:11:04 -0400
-Message-Id: <20201027001123.1027642-6-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027001123.1027642-1-sashal@kernel.org>
-References: <20201027001123.1027642-1-sashal@kernel.org>
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0697D6EAAB
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 00:48:32 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CKtNp16w1z9sRR;
+ Tue, 27 Oct 2020 11:48:26 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1603759707;
+ bh=822m9qPrS+s1QTXC9KKA+PRBV5PsASCb6wd+PHD2IGk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=PK2x0obBl2hfCbbRMAxLpWaKbgU1lMndwYIVlfzoaL8Yzl79HT2/ZrJVv7rz4L4a7
+ 39pfCGuLEQ043M44cWnJd+H+Irrrz+r6cA80fsIYASWS2YklUxR1A8H5fv17UEiCR9
+ lp8L+RtX5XKF78pmsM1hCeEN+z4xHRnKjOhcn+L0pxRnwHO4k5ILkS4PTfW8SH+4ov
+ CA7VQyntNNADU0Pq8vwiCnLO4sSJpxvS96xJRA0UUXUcVWq8fnzf01Xa5VBa7/I1mT
+ OXOyiU1HNaGYAgtzFeOoEVv2TJXOg3bvRjisLlwsP2zkacixkXRCTPksOQ7Jq1IOAD
+ FV4iba+idpI9A==
+Date: Tue, 27 Oct 2020 11:48:23 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: linux-next: manual merge of the amdgpu tree with Linus' tree
+Message-ID: <20201027114823.09453419@canb.auug.org.au>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,60 +46,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
- dri-devel@lists.freedesktop.org, clang-built-linux@googlegroups.com,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, xinhui pan <xinhui.pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============0101837344=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+--===============0101837344==
+Content-Type: multipart/signed; boundary="Sig_/qr/RIjtqx3ZIyJFFILrt6ka";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-[ Upstream commit 8e1ba47c60bcd325fdd097cd76054639155e5d2e ]
+--Sig_/qr/RIjtqx3ZIyJFFILrt6ka
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-clang static analysis reports this repesentative error
+Hi all,
 
-pvr2fb.c:1049:2: warning: 1st function call argument
-  is an uninitialized value [core.CallAndMessage]
-        if (*cable_arg)
-        ^~~~~~~~~~~~~~~
+Today's linux-next merge of the amdgpu tree got a conflict in:
 
-Problem is that cable_arg depends on the input loop to
-set the cable_arg[0].  If it does not, then some random
-value from the stack is used.
+  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 
-A similar problem exists for output_arg.
+between commits:
 
-So initialize cable_arg and output_arg.
+  0fe438cec9e1 ("drm/ttm: remove default caching")
+  9c3006a4cc1b ("drm/ttm: remove available_caching")
 
-Signed-off-by: Tom Rix <trix@redhat.com>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200720191845.20115-1-trix@redhat.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/fbdev/pvr2fb.c | 2 ++
- 1 file changed, 2 insertions(+)
+from Linus' tree and commit:
 
-diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
-index 750a384bf1915..1a015a6b682e7 100644
---- a/drivers/video/fbdev/pvr2fb.c
-+++ b/drivers/video/fbdev/pvr2fb.c
-@@ -1029,6 +1029,8 @@ static int __init pvr2fb_setup(char *options)
- 	if (!options || !*options)
- 		return 0;
- 
-+	cable_arg[0] = output_arg[0] = 0;
-+
- 	while ((this_opt = strsep(&options, ","))) {
- 		if (!*this_opt)
- 			continue;
--- 
-2.25.1
+  d836917da7e5 ("drm/amdgpu: Fix size calculation when init onchip memory")
+
+from the amdgpu tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 8039d2399584,11dd3d9eac15..000000000000
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@@ -63,16 -63,13 +63,16 @@@
+ =20
+  #define AMDGPU_TTM_VRAM_MAX_DW_READ	(size_t)128
+ =20
+ +static int amdgpu_ttm_backend_bind(struct ttm_bo_device *bdev,
+ +				   struct ttm_tt *ttm,
+ +				   struct ttm_resource *bo_mem);
+ +
+  static int amdgpu_ttm_init_on_chip(struct amdgpu_device *adev,
+  				    unsigned int type,
+- 				    uint64_t size)
++ 				    uint64_t size_in_page)
+  {
+  	return ttm_range_man_init(&adev->mman.bdev, type,
+- 				  false, size >> PAGE_SHIFT);
+ -				  TTM_PL_FLAG_UNCACHED, TTM_PL_FLAG_UNCACHED,
++ 				  false, size_in_page);
+  }
+ =20
+  /**
+
+--Sig_/qr/RIjtqx3ZIyJFFILrt6ka
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+XblcACgkQAVBC80lX
+0GwsQwf+NNOmLmYkDDIOs7m//Rmr/GoZzfMviPlSKzg3K8YXO6kbuAzjY4EwPPWl
+X4wtUYBdStPPrY0GbRjAXwo//Sm/z3TM7ZaMUOzInAswVBkqz7npCyqVDhbftkiu
+3lVCC+zna2m7fMe68TxTedsEBKbGVd9kyXe7OcK4o8dthcYg+k3y8Ndc7EVktpDl
+4QSBO/6im1Ar2XMmYMkqXNi8iVP6supr5Iew1X2R67+73qzoDRSvEnFW0HEstGhv
+cBGTbK24y2lTWZSa/dippuCmoJAdP5KcjDTnSzsUHDdC715j0unyIc5vKG3H7nCN
+NmcCTm88jM1aBSD0Bv0kQVflpZKr9g==
+=iZ5l
+-----END PGP SIGNATURE-----
+
+--Sig_/qr/RIjtqx3ZIyJFFILrt6ka--
+
+--===============0101837344==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0101837344==--
