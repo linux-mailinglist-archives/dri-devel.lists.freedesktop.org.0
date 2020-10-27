@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB1A29BE21
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:56:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F1929BE20
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 17:56:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 407996EBFB;
-	Tue, 27 Oct 2020 16:56:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C35B26EBD0;
+	Tue, 27 Oct 2020 16:56:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3E4A6EBB5;
- Tue, 27 Oct 2020 16:56:23 +0000 (UTC)
-IronPort-SDR: sUNuSkPR1Y5XDrJASweWc8sg5aGjlasgBJohMq/vI9qCk/Ti+sfOvGBx5oVj2t5cvyhoEpPonF
- PGEC4+2K3GbQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="147975817"
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="147975817"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E97666EBB5;
+ Tue, 27 Oct 2020 16:56:26 +0000 (UTC)
+IronPort-SDR: dHiJXDgu5XRR4lixXR2Dmi72QNQYewxcDiA0thlfqznShgDnc/b1utEkajQkp2cczhZ2uIZ18p
+ x69iZBp0uwOQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="147975842"
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="147975842"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 09:56:23 -0700
-IronPort-SDR: FIJTHiWM+1bMAs5Zj5ja2FVYpUtxbcdyAuijvmrj21hO01YqMvzqDvOlBxd/w7ZajHYWf2wm9k
- nqh/stn7YDJA==
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="355613163"
+ 27 Oct 2020 09:56:26 -0700
+IronPort-SDR: oS4C0nvRFfIwz0zpX7CWgq2E9+StrWGxr+zH6PH+Aanb7HTdP+Bj7JfMZ4cxm/UtIhsjs/DNb6
+ BWPXt3UnPtKA==
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; d="scan'208";a="355613189"
 Received: from genxfsim-desktop.iind.intel.com ([10.223.74.178])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2020 09:56:21 -0700
+ 27 Oct 2020 09:56:24 -0700
 From: Anshuman Gupta <anshuman.gupta@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 08/16] drm/i915/hdcp: Pass dig_port to intel_hdcp_init
-Date: Tue, 27 Oct 2020 22:12:00 +0530
-Message-Id: <20201027164208.10026-9-anshuman.gupta@intel.com>
+Subject: [PATCH v4 09/16] drm/i915/hdcp: Encapsulate hdcp_port_data to dig_port
+Date: Tue, 27 Oct 2020 22:12:01 +0530
+Message-Id: <20201027164208.10026-10-anshuman.gupta@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027164208.10026-1-anshuman.gupta@intel.com>
 References: <20201027164208.10026-1-anshuman.gupta@intel.com>
@@ -56,126 +56,275 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pass dig_port as an argument to intel_hdcp_init()
-and intel_hdcp2_init().
-This will be required for HDCP 2.2 stream encryption.
+hdcp_port_data is specific to a port on which HDCP
+encryption is getting enabled, so encapsulate it to
+intel_digital_port.
+This will be required to enable HDCP 2.2 stream encryption.
 
 Cc: Ramalingam C <ramalingam.c@intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c |  4 ++--
- drivers/gpu/drm/i915/display/intel_hdcp.c    | 12 +++++++-----
- drivers/gpu/drm/i915/display/intel_hdcp.h    |  4 +++-
- drivers/gpu/drm/i915/display/intel_hdmi.c    |  2 +-
- 4 files changed, 13 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  2 +
+ .../drm/i915/display/intel_display_types.h    |  5 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     | 56 +++++++++++--------
+ 3 files changed, 39 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-index 6dcbfaffd2c5..591b68e5de48 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-@@ -751,10 +751,10 @@ int intel_dp_init_hdcp(struct intel_digital_port *dig_port,
- 		return 0;
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 779603a38cfc..1bc6cf0b83ec 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -4746,6 +4746,8 @@ static void intel_ddi_encoder_destroy(struct drm_encoder *encoder)
+ 	intel_dp_encoder_flush_work(encoder);
  
- 	if (intel_connector->mst_port)
--		return intel_hdcp_init(intel_connector, port,
-+		return intel_hdcp_init(intel_connector, dig_port,
- 				       &intel_dp_mst_hdcp_shim);
- 	else if (!intel_dp_is_edp(intel_dp))
--		return intel_hdcp_init(intel_connector, port,
-+		return intel_hdcp_init(intel_connector, dig_port,
- 				       &intel_dp_hdcp_shim);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index 937af4aeaac2..b0f47687bc59 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -1982,12 +1982,13 @@ static enum mei_fw_tc intel_get_mei_fw_tc(enum transcoder cpu_transcoder)
+ 	drm_encoder_cleanup(encoder);
++	if (dig_port)
++		kfree(dig_port->port_data.streams);
+ 	kfree(dig_port);
  }
  
- static int initialize_hdcp_port_data(struct intel_connector *connector,
--				     enum port port,
-+				     struct intel_digital_port *dig_port,
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 59b8fc21e3e8..749c3a7e0b45 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -402,7 +402,6 @@ struct intel_hdcp {
+ 	 * content can flow only through a link protected by HDCP2.2.
+ 	 */
+ 	u8 content_type;
+-	struct hdcp_port_data port_data;
+ 
+ 	bool is_paired;
+ 	bool is_repeater;
+@@ -1446,10 +1445,12 @@ struct intel_digital_port {
+ 	enum phy_fia tc_phy_fia;
+ 	u8 tc_phy_fia_idx;
+ 
+-	/* protects num_hdcp_streams reference count */
++	/* protects num_hdcp_streams reference count, port_data */
+ 	struct mutex hdcp_mutex;
+ 	/* the number of pipes using HDCP signalling out of this port */
+ 	unsigned int num_hdcp_streams;
++	/* HDCP port data need to pass to security f/w */
++	struct hdcp_port_data port_data;
+ 
+ 	void (*write_infoframe)(struct intel_encoder *encoder,
+ 				const struct intel_crtc_state *crtc_state,
+diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+index b0f47687bc59..a5ec4f72f50f 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdcp.c
++++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+@@ -15,6 +15,7 @@
+ #include <drm/drm_hdcp.h>
+ #include <drm/i915_component.h>
+ 
++#include "i915_drv.h"
+ #include "i915_reg.h"
+ #include "intel_display_power.h"
+ #include "intel_display_types.h"
+@@ -1028,7 +1029,8 @@ static int
+ hdcp2_prepare_ake_init(struct intel_connector *connector,
+ 		       struct hdcp2_ake_init *ake_data)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1057,7 +1059,8 @@ hdcp2_verify_rx_cert_prepare_km(struct intel_connector *connector,
+ 				struct hdcp2_ake_no_stored_km *ek_pub_km,
+ 				size_t *msg_sz)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1084,7 +1087,8 @@ hdcp2_verify_rx_cert_prepare_km(struct intel_connector *connector,
+ static int hdcp2_verify_hprime(struct intel_connector *connector,
+ 			       struct hdcp2_ake_send_hprime *rx_hprime)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1109,7 +1113,8 @@ static int
+ hdcp2_store_pairing_info(struct intel_connector *connector,
+ 			 struct hdcp2_ake_send_pairing_info *pairing_info)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1135,7 +1140,8 @@ static int
+ hdcp2_prepare_lc_init(struct intel_connector *connector,
+ 		      struct hdcp2_lc_init *lc_init)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1161,7 +1167,8 @@ static int
+ hdcp2_verify_lprime(struct intel_connector *connector,
+ 		    struct hdcp2_lc_send_lprime *rx_lprime)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1186,7 +1193,8 @@ hdcp2_verify_lprime(struct intel_connector *connector,
+ static int hdcp2_prepare_skey(struct intel_connector *connector,
+ 			      struct hdcp2_ske_send_eks *ske_data)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1214,7 +1222,8 @@ hdcp2_verify_rep_topology_prepare_ack(struct intel_connector *connector,
+ 								*rep_topology,
+ 				      struct hdcp2_rep_send_ack *rep_send_ack)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1242,7 +1251,8 @@ static int
+ hdcp2_verify_mprime(struct intel_connector *connector,
+ 		    struct hdcp2_rep_stream_ready *stream_ready)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1265,7 +1275,8 @@ hdcp2_verify_mprime(struct intel_connector *connector,
+ 
+ static int hdcp2_authenticate_port(struct intel_connector *connector)
+ {
+-	struct hdcp_port_data *data = &connector->hdcp.port_data;
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1289,6 +1300,7 @@ static int hdcp2_authenticate_port(struct intel_connector *connector)
+ 
+ static int hdcp2_close_mei_session(struct intel_connector *connector)
+ {
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+ 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+ 	struct i915_hdcp_comp_master *comp;
+ 	int ret;
+@@ -1302,7 +1314,7 @@ static int hdcp2_close_mei_session(struct intel_connector *connector)
+ 	}
+ 
+ 	ret = comp->ops->close_hdcp_session(comp->mei_dev,
+-					     &connector->hdcp.port_data);
++					     &dig_port->port_data);
+ 	mutex_unlock(&dev_priv->hdcp_comp_mutex);
+ 
+ 	return ret;
+@@ -1495,8 +1507,9 @@ int _hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+ 	if (ret < 0)
+ 		goto out;
+ 
+-	hdcp->port_data.seq_num_m = hdcp->seq_num_m;
+-	hdcp->port_data.streams[0].stream_type = hdcp->content_type;
++	dig_port->port_data.seq_num_m = hdcp->seq_num_m;
++	dig_port->port_data.streams[0].stream_type = hdcp->content_type;
++
+ 	ret = hdcp2_verify_mprime(connector, &msgs.stream_ready);
+ 
+ out:
+@@ -1728,7 +1741,9 @@ hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+ 
+ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+ {
++	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+ 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
++	struct hdcp_port_data *data = &dig_port->port_data;
+ 	struct intel_hdcp *hdcp = &connector->hdcp;
+ 	int ret, i, tries = 3;
+ 
+@@ -1742,8 +1757,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+ 					    ret);
+ 				break;
+ 			}
+-			hdcp->port_data.streams[0].stream_type =
+-							hdcp->content_type;
++			data->streams[0].stream_type = hdcp->content_type;
+ 			ret = hdcp2_authenticate_port(connector);
+ 			if (!ret)
+ 				break;
+@@ -1986,8 +2000,8 @@ static int initialize_hdcp_port_data(struct intel_connector *connector,
  				     const struct intel_hdcp_shim *shim)
  {
  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
++	struct hdcp_port_data *data = &dig_port->port_data;
  	struct intel_hdcp *hdcp = &connector->hdcp;
- 	struct hdcp_port_data *data = &hdcp->port_data;
-+	enum port port = dig_port->base.port;
+-	struct hdcp_port_data *data = &hdcp->port_data;
+ 	enum port port = dig_port->base.port;
  
  	if (INTEL_GEN(dev_priv) < 12)
- 		data->fw_ddi = intel_get_mei_fw_ddi_index(port);
-@@ -2060,14 +2061,15 @@ void intel_hdcp_component_init(struct drm_i915_private *dev_priv)
+@@ -2009,16 +2023,15 @@ static int initialize_hdcp_port_data(struct intel_connector *connector,
+ 	data->port_type = (u8)HDCP_PORT_TYPE_INTEGRATED;
+ 	data->protocol = (u8)shim->protocol;
+ 
+-	data->k = 1;
+ 	if (!data->streams)
+-		data->streams = kcalloc(data->k,
++		data->streams = kcalloc(INTEL_NUM_PIPES(dev_priv),
+ 					sizeof(struct hdcp2_streamid_type),
+ 					GFP_KERNEL);
+ 	if (!data->streams) {
+ 		drm_err(&dev_priv->drm, "Out of Memory\n");
+ 		return -ENOMEM;
  	}
- }
+-
++	/* For SST */
+ 	data->streams[0].stream_id = 0;
+ 	data->streams[0].stream_type = hdcp->content_type;
  
--static void intel_hdcp2_init(struct intel_connector *connector, enum port port,
-+static void intel_hdcp2_init(struct intel_connector *connector,
-+			     struct intel_digital_port *dig_port,
- 			     const struct intel_hdcp_shim *shim)
- {
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret;
- 
--	ret = initialize_hdcp_port_data(connector, port, shim);
-+	ret = initialize_hdcp_port_data(connector, dig_port, shim);
+@@ -2097,7 +2110,7 @@ int intel_hdcp_init(struct intel_connector *connector,
+ 							 hdcp->hdcp2_supported);
  	if (ret) {
- 		drm_dbg_kms(&i915->drm, "Mei hdcp data init failed\n");
- 		return;
-@@ -2077,7 +2079,7 @@ static void intel_hdcp2_init(struct intel_connector *connector, enum port port,
+ 		hdcp->hdcp2_supported = false;
+-		kfree(hdcp->port_data.streams);
++		kfree(dig_port->port_data.streams);
+ 		return ret;
+ 	}
+ 
+@@ -2137,7 +2150,7 @@ int intel_hdcp_enable(struct intel_connector *connector,
+ 	}
+ 
+ 	if (INTEL_GEN(dev_priv) >= 12)
+-		hdcp->port_data.fw_tc = intel_get_mei_fw_tc(hdcp->cpu_transcoder);
++		dig_port->port_data.fw_tc = intel_get_mei_fw_tc(hdcp->cpu_transcoder);
+ 
+ 	/*
+ 	 * Considering that HDCP2.2 is more secure than HDCP1.4, If the setup
+@@ -2307,7 +2320,6 @@ void intel_hdcp_cleanup(struct intel_connector *connector)
+ 	drm_WARN_ON(connector->base.dev, work_pending(&hdcp->prop_work));
+ 
+ 	mutex_lock(&hdcp->mutex);
+-	kfree(hdcp->port_data.streams);
+ 	hdcp->shim = NULL;
+ 	mutex_unlock(&hdcp->mutex);
  }
- 
- int intel_hdcp_init(struct intel_connector *connector,
--		    enum port port,
-+		    struct intel_digital_port *dig_port,
- 		    const struct intel_hdcp_shim *shim)
- {
- 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-@@ -2088,7 +2090,7 @@ int intel_hdcp_init(struct intel_connector *connector,
- 		return -EINVAL;
- 
- 	if (is_hdcp2_supported(dev_priv) && !connector->mst_port)
--		intel_hdcp2_init(connector, port, shim);
-+		intel_hdcp2_init(connector, dig_port, shim);
- 
- 	ret =
- 	drm_connector_attach_content_protection_property(&connector->base,
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.h b/drivers/gpu/drm/i915/display/intel_hdcp.h
-index b912a3a0f5b8..8f53b0c7fe5c 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.h
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.h
-@@ -18,13 +18,15 @@ struct intel_connector;
- struct intel_crtc_state;
- struct intel_encoder;
- struct intel_hdcp_shim;
-+struct intel_digital_port;
- enum port;
- enum transcoder;
- 
- void intel_hdcp_atomic_check(struct drm_connector *connector,
- 			     struct drm_connector_state *old_state,
- 			     struct drm_connector_state *new_state);
--int intel_hdcp_init(struct intel_connector *connector, enum port port,
-+int intel_hdcp_init(struct intel_connector *connector,
-+		    struct intel_digital_port *dig_port,
- 		    const struct intel_hdcp_shim *hdcp_shim);
- int intel_hdcp_enable(struct intel_connector *connector,
- 		      const struct intel_crtc_state *pipe_config, u8 content_type);
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index f58469226694..0788de04711b 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -3302,7 +3302,7 @@ void intel_hdmi_init_connector(struct intel_digital_port *dig_port,
- 	intel_hdmi->attached_connector = intel_connector;
- 
- 	if (is_hdcp_supported(dev_priv, port)) {
--		int ret = intel_hdcp_init(intel_connector, port,
-+		int ret = intel_hdcp_init(intel_connector, dig_port,
- 					  &intel_hdmi_hdcp_shim);
- 		if (ret)
- 			drm_dbg_kms(&dev_priv->drm,
 -- 
 2.26.2
 
