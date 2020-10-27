@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8113A29AB04
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 12:40:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A0129AB3D
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 12:53:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A0B6EB5B;
-	Tue, 27 Oct 2020 11:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754346E0CD;
+	Tue, 27 Oct 2020 11:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E4C76EB5B
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 11:40:30 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09RBeHX6030879;
- Tue, 27 Oct 2020 06:40:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1603798817;
- bh=nfRhkoLnLUOvgtAdlZjcju3oync9ao17Pky8vmQ0ce0=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=G2vHeSaaJ99cw7lLwkzmt4NkeB67wjH9bEkc+L/wIOU7E7ysCeKEoqS/8hh7JTOyR
- XHLyZ2m4SFnP4dKCAMA7+kx8rO0UV/ve/FQoIC18ji/96rq+oYqnMqXKynWz+vXzdB
- OUeABjeohJWDelXBqIXu9Q/Wn+0BceMgukJrMPCc=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09RBeHD7078112
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 27 Oct 2020 06:40:17 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 27
- Oct 2020 06:40:16 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 27 Oct 2020 06:40:16 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09RBeDIb126547;
- Tue, 27 Oct 2020 06:40:13 -0500
-Subject: Re: [PATCH] drm: bridge: cdns: Kconfig: Switch over dependency to
- ARCH_K3
-To: Nishanth Menon <nm@ti.com>, Swapnil Jakhade <sjakhade@cadence.com>, Jyri
- Sarha <jsarha@ti.com>, Yuti Amonkar <yamonkar@cadence.com>, Daniel Vetter
- <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Jernej Skrabec
- <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
- <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>
-References: <20201026165441.22894-1-nm@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <82d5e520-e223-71c3-b6e0-22b8e1eda8bf@ti.com>
-Date: Tue, 27 Oct 2020 13:40:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AFC96E0CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 11:53:52 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id h196so994091ybg.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 04:53:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hnKwpVswYLVqzewBr97E5OQTzvwGSxL8/ltDolpPU9Y=;
+ b=dI71zb0UmdzL/B+q1RdSJ8KkKEJ8m4cR+wPDwHQVORZyMZGEDe38s7fso5whqmEsdD
+ 365QBCoJLwuyPg0WpBK5EvVFzcXMRyHgEtUcHuiYrT+SBsSmw6exp7ta2xuyjMAtu9pw
+ spaXlEt2R/bIWY1hWD120AZ+6jqbxtok83KuZja7zKxeqagh3nWaAkUqnmeNfy+d7it8
+ 9TNqWxUorsYSFZPNrQL7vSWA3AogI2dSDjGK/oeuY8xDusO1MuvZYQ6gHCl5VH09GL3M
+ WFQ0+8gbpzp9cZXg2ruxNnQIeCTqvUdW9uqo5yoN+IoL67477UCIi0/aOMYo2SLZ9Nq/
+ cxhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hnKwpVswYLVqzewBr97E5OQTzvwGSxL8/ltDolpPU9Y=;
+ b=QALld0XEiyoSiUq60yBUkTWX8vZArCuxUReN4t7biBwsok4uuaTOTgd0ZwVUbH2qi7
+ YUC4hTPd/0RIAdQHEwy5gnzYiEQS1j/TchMBu1ArfEvEMcYMWZW0KQjiexf2VjMWoztP
+ DugKU69k8Qbl+c96N4nX3Cuqv7bPRutQHkuz8xLk57EFRFf22YYL/1fgPw7pI2bZUVuB
+ oe5RhoAlBxe4QD3emfL15GveFsp4pT0WzCDYLrG3C1KuN+V92qC09nhYZH8PiO+NveZ9
+ Kbuv0InW2ITK5nJEDAeX5JMYpznjIaHw2igkAO6IKOybMr+cLijfMrjxkhpKx4Diyti1
+ FL2w==
+X-Gm-Message-State: AOAM532qrCCzTkFE0oJMHFDZ0HiJTeVE0zyq/c8E2ZQE401sTc3idkFZ
+ O0E4hmAOG2bf9g8DQ3zpdc5myN89qJwbhziWInN6Wgj9w+A=
+X-Google-Smtp-Source: ABdhPJy0GMztsPVPpTApPeNXwAXCDkmB82h1jBSV9loUkjCm8bLoKtVyJDRHOOkhS3RpTMPSJsYn2pOj9uIDKRfkZ4w=
+X-Received: by 2002:a25:81d0:: with SMTP id n16mr2545067ybm.140.1603799631221; 
+ Tue, 27 Oct 2020 04:53:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201026165441.22894-1-nm@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <9faa1070-d46e-5340-f6a2-5826614f306b@gmail.com>
+ <CAGPDPzA3+NFO5meR-YHByaRc+unQvPOU-2sjGkpBEkwcdsJwWQ@mail.gmail.com>
+ <CADnq5_OfGqShN+4hzK75UKj7OiBrYgXbXE_iFSCTV_bJUyKk-Q@mail.gmail.com>
+In-Reply-To: <CADnq5_OfGqShN+4hzK75UKj7OiBrYgXbXE_iFSCTV_bJUyKk-Q@mail.gmail.com>
+From: Sandeep <sandy.8925@gmail.com>
+Date: Tue, 27 Oct 2020 17:23:40 +0530
+Message-ID: <CAGPDPzBufXbfv=o0hJo=DsH=0GFtH+Anct0hsbH=u7nnz5_rvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm/radeon: Add new callback that exposes vddc
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,56 +62,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ssantosh@kernel.org
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/10/2020 18:54, Nishanth Menon wrote:
-> With the integration of chip-id detection scheme in kernel[1], there
-> is no specific need to maintain multitudes of SoC specific config
-> options, discussed as per [2], we have deprecated the usage in other
-> places for v5.10-rc1. Fix the missing user so that we can clean up the
-> configs in v5.11.
-> 
-> [1] drivers/soc/ti/k3-socinfo.c commit 907a2b7e2fc7 ("soc: ti: add k3 platforms chipid module driver")
-> [2] https://lore.kernel.org/linux-arm-kernel/20200908112534.t5bgrjf7y3a6l2ss@akan/
-> 
-> Fixes: afba7e6c5fc1 ("rm: bridge: cdns-mhdp8546: Add TI J721E wrapper")
-> Cc: Swapnil Jakhade <sjakhade@cadence.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Yuti Amonkar <yamonkar@cadence.com>
-> Cc: Jyri Sarha <jsarha@ti.com>
-> Signed-off-by: Nishanth Menon <nm@ti.com>
-> ---
->  drivers/gpu/drm/bridge/cadence/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
-> index 511d67b16d14..ef8c230e0f62 100644
-> --- a/drivers/gpu/drm/bridge/cadence/Kconfig
-> +++ b/drivers/gpu/drm/bridge/cadence/Kconfig
-> @@ -13,7 +13,7 @@ config DRM_CDNS_MHDP8546
->  if DRM_CDNS_MHDP8546
->  
->  config DRM_CDNS_MHDP8546_J721E
-> -	depends on ARCH_K3_J721E_SOC || COMPILE_TEST
-> +	depends on ARCH_K3 || COMPILE_TEST
->  	bool "J721E Cadence DPI/DP wrapper support"
->  	default y
->  	help
-> 
+On Mon, 26 Oct 2020 at 23:53, Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> I don't see them on the mailing list.  Are you sure they went out?
+>
+> Alex
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+The original email in this chain is the v2, sent in the correct form.
 
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>
+> On Sat, Oct 24, 2020 at 1:47 PM Sandeep <sandy.8925@gmail.com> wrote:
+> >
+> > Hello,
+> >
+> > I've resent the patches in the correct format. Please review.
+> >
+> > - Sandeep
+> >
+> > On Fri, 9 Oct 2020 at 13:14, Sandeep Raghuraman <sandy.8925@gmail.com> wrote:
+> > >
+> > > This patch adds a callback for reporting vddc, to the dpm field of the radeon_asic structure.
+> > >
+> > > Signed-off-by: Sandeep Raghuraman <sandy.8925@gmail.com>
+> > >
+> > > ---
+> > >  drivers/gpu/drm/radeon/radeon.h | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+> > > index cc4f58d16589..85a1cafdf303 100644
+> > > --- a/drivers/gpu/drm/radeon/radeon.h
+> > > +++ b/drivers/gpu/drm/radeon/radeon.h
+> > > @@ -1992,6 +1992,7 @@ struct radeon_asic {
+> > >                 int (*get_fan_speed_percent)(struct radeon_device *rdev, u32 *speed);
+> > >                 u32 (*get_current_sclk)(struct radeon_device *rdev);
+> > >                 u32 (*get_current_mclk)(struct radeon_device *rdev);
+> > > +               u16 (*get_current_vddc)(struct radeon_device *rdev);
+> > >         } dpm;
+> > >         /* pageflipping */
+> > >         struct {
+> > > --
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
