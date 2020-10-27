@@ -1,67 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DFF29CEBC
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE81129CEA7
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 939C46EC5A;
-	Wed, 28 Oct 2020 08:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2746EC61;
+	Wed, 28 Oct 2020 08:06:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09D806E0F7
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 21:12:04 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id 2so3335700ljj.13
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 14:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xx452EybhZY/Be3m6ZPFyPAZdRMh+EqfNW2ocWqJUkQ=;
- b=D6Wr3oaM9cb6BAmiXy3RkDD4ypsh2yfV8mv0vEtF5pP1za3dGFHgk3xtjw87AkfiqN
- omzwflvsg5c3541QMlIKkoHT4+D1FIZ2bFGO7nnh7r16tMFPnPouySY0KiZ5B+0yFUzW
- jAwlJz05zfj7nRFVKSs2LqKL7Xkxs0q+w55fq+OEbWp6C83f1YUR5Z4sd8rvoQQiatgt
- sRSC/upzBI+sqHvANT1BPo8HtPkXVjBRc9jwm4rpY3tOGQdLsf0lLSaQL1PLASU1v8qu
- hGfPJkzaUUUVklWeOsK5NV5iT6rRLnCqvMy6tGpA+sbqkn6kkN5iOmAaLWkzt5cdR3/q
- /WpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xx452EybhZY/Be3m6ZPFyPAZdRMh+EqfNW2ocWqJUkQ=;
- b=oCx9N00pn1CLJ+7JREsP+y8l8KkOWCgcN0Rarb9viuIiEDKuleDaxzIdhQgcHk0/Wo
- CCOuYm2jJJ981e0EHM131lnMpHQ3BTfy3ryAAMf0CX64qBMZrqy7f/omh5cK0wuF4J1g
- +jEXlwbWQWSLG0PFRAwoyRjh/uLz7XNp4XF9Q/tWdFFTzhNnoWc1wrnS009eWEPm/n6n
- /niqgJmDJh0EsAL24UngP4C/2w5XVlUJyZKFx9Al57rDvVoorrYYSqyuswSVFcYu781h
- oTrbhrRqZE17+SicR4XC3oczYrJH1TFlkE8gFJgDt7PeMyLRzKUMab1AwacmbuQRFUKr
- kLSA==
-X-Gm-Message-State: AOAM533HO/eizMgwCS6YT144toKG14qO+ao+ui9ErKmmQMb8T9u4ytLS
- 8yYtL0IuuDEbW4d1YYHfXec=
-X-Google-Smtp-Source: ABdhPJwv14XNGp2zM2xoLnCiq9kknsnE1yraNpyVdtEy7elcpP9cB4Kgv07q0csNDEYeh5IGZ093Gg==
-X-Received: by 2002:a05:651c:1291:: with SMTP id
- 17mr1768187ljc.52.1603833122475; 
- Tue, 27 Oct 2020 14:12:02 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-186.dynamic.spd-mgts.ru.
- [109.252.193.186])
- by smtp.googlemail.com with ESMTPSA id i139sm292785lfi.276.2020.10.27.14.12.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Oct 2020 14:12:01 -0700 (PDT)
-Subject: Re: [PATCH v6 33/52] memory: tegra20: Support interconnect framework
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-34-digetx@gmail.com> <20201027141152.GN1822510@ulmo>
- <713bf4eb-dc5b-9c4b-4ab4-23b36ba4fab1@gmail.com>
-Message-ID: <4ff5d718-5e05-fc11-9795-7c3fef4525d3@gmail.com>
-Date: Wed, 28 Oct 2020 00:12:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1076D6E0F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 21:34:54 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 931105803F4;
+ Tue, 27 Oct 2020 17:34:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 27 Oct 2020 17:34:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=CezU/dgj5+5orBpUNPrDSyKMRKG
+ 0im0x8YN75ut3nvo=; b=sbDvA38lKlV3Myf7YFDHWT7g2d8dUkSuLFD84ZYAKVL
+ +WVldz6qL8WCE/Uzj/8+qUDzbCPMi+9cWfJqcbSksccvEX3RgUk47VrQDf3OM245
+ MmVU1MNmNfLhlqthIV7RebrjsLy/hiifeGuaxtA0upHDVNPOmmzDQxUHWE9fRKoP
+ XhTUHdQwW4e6VKEFw9ULtKSrk1s25lG7ZZ8E1eZWqCZgFe+oxQ4yEJwMfKwLjh0B
+ UwUc6kYieyzS2KrAQJYWbz+t2f+I3OZfiQ7H///vrEfkTfTF58Qy2DcYrTLsVM0d
+ mvKufPfT6xnXYZLeZGAaV6p2xn+Cxk6UL5Rs2HE8SQQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=CezU/d
+ gj5+5orBpUNPrDSyKMRKG0im0x8YN75ut3nvo=; b=Nz1cpbLS25Dw7CsQif2C2s
+ RL8tHiZ3e1Lws1hPpcYS/IqnDMc8ZFiB6DVrhLn7N3q2ZiKuuQPNcOUTpleRJwzM
+ HPp9eOlAsgC7U44TeBzu07VNrNB1i3bTW3zvOF1iZmv/0cwznnqGeUnahoz+8+yf
+ Sc+E9U5kgLNjkU0fI5/zJK+1E9oXClS9OnF6G2g+RXe3Pyl+cPZfTCfIMqBeZsuE
+ 030++v/mKaaqcfcbOetaknwSmDWnj9MwfSQ3jlJhgfAmGSVsDZIaesE6LQyFMfOT
+ 58hHeYHkcoxepRbjEPRoLncUyPcNA6ZC/ktwtUJV82xMz2q9L40Il9kS0cZxCMdw
+ ==
+X-ME-Sender: <xms:eZKYXwNy_8kp7QIDC_165xZQOn5t2Kd2IQqBiWOLkjMO2xLUqCicXA>
+ <xme:eZKYX29Z7H5lh_RmePqHVxOQipDdsCBfknwF25LWPnFgzOhH32zZvUCS_mRjxxA0o
+ -8I_nEmMeznNVLdVAM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgdduhedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:eZKYX3QmsA5eVPmhEes7rjlMCGTku1exXMkHulPUewAUKk5dtwOmYQ>
+ <xmx:eZKYX4sDYNMH5lYzPGbxXyLheQSAo_tpKVIN1V6JigvzQuS438Iyuw>
+ <xmx:eZKYX4coeE2inv7SzSVoH1U94EzJOsgbxQq1RBBuVM40aG2Wr16J0Q>
+ <xmx:fJKYX5XqZSmy_VErqnXBPkdDc_HVlz8MsSpIdmc2KMWeLJTScVauow>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6712E3280060;
+ Tue, 27 Oct 2020 17:34:49 -0400 (EDT)
+Date: Tue, 27 Oct 2020 22:34:47 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH] drm/vc4: hdmi: Avoid sleeping in atomic context
+Message-ID: <20201027213447.3fhnkqqik3pbhw5d@gilmour.lan>
+References: <20201027101558.427256-1-maxime@cerno.tech>
 MIME-Version: 1.0
-In-Reply-To: <713bf4eb-dc5b-9c4b-4ab4-23b36ba4fab1@gmail.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:31 +0000
+In-Reply-To: <20201027101558.427256-1-maxime@cerno.tech>
+X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,35 +79,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Georgi Djakov <georgi.djakov@linaro.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: alsa-devel@alsa-project.org, Dom Cobley <dom@raspberrypi.com>,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>
+Content-Type: multipart/mixed; boundary="===============0404251980=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjcuMTAuMjAyMCAyMzoyMiwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Ci4uLgo+Pj4gKwo+
-Pj4gKwkqYWdnX2F2ZyArPSBhdmdfYnc7Cj4+PiArCSphZ2dfcGVhayA9IG1heCgqYWdnX3BlYWss
-IHBlYWtfYncpOwo+Pgo+PiBJJ20gbm90IHZlcnkgZmFtaWxpYXIgd2l0aCBJQ0MsIGJ1dCBzaG91
-bGRuJ3QgdGhlIGFnZ3JlZ2F0ZWQgcGVhayB2YWx1ZQo+PiBiZSB0aGUgc3VtIG9mIHRoZSBjdXJy
-ZW50IGFnZ3JlZ2F0ZWQgcGVhayBhbmQgdGhlIG5ldyBwZWFrIGJhbmR3aWR0aD8KPj4gQ3VycmVu
-dGx5IHlvdSdyZSBzZWxlY3RpbmcgdGhlIG1heGltdW0gcGVhayBiYW5kd2lkdGggYWNyb3NzIGFs
-bAo+PiBjbGllbnRzLCBzbyBpc24ndCB0aGF0IGdvaW5nIHRvIGJlIHRvbyBzbWFsbCBpZiBmb3Ig
-d2hhdGV2ZXIgcmVhc29uCj4+IG11bHRpcGxlIGNsaWVudHMgbmVlZCBwZWFrIGJhbmR3aWR0aCBh
-dCB0aGUgc2FtZSB0aW1lPwoKVGhlIGN1cnJlbnQgdmFyaWFudCB3aXRoIG1heC1wZWFrIHNlbGVj
-dGlvbiBzaG91bGQgYmUgb2theSBzaW5jZSBpdAp0YWtlcyBpbnRvIGFjY291bnQgdGhlIGNvbXBl
-dGluZyBJU08gYmFuZHdpZHRocyBvZiBvdGhlciBkZXZpY2VzIGJ5Cm92ZXJlc3RpbWF0aW5nIHRo
-ZSBiYW5kd2lkdGguCgpGb3Igbm93IHdlIGhhdmUgb25seSBkaXNwbGF5IElTTyBjbGllbnRzIGFu
-ZCBpdCB3b24ndCBiZSBhIHByb2JsZW0gdG8KdHVuZSB0aGUgYWxnb3JpdGhtIGxhdGVyIG9uIGlm
-IGl0IHdvbid0IHdvcmsgd2VsbCBmb3Igb3RoZXIgSVNPIGNsaWVudHMuCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+--===============0404251980==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="rg67p2rixirimeqk"
+Content-Disposition: inline
+
+
+--rg67p2rixirimeqk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 27, 2020 at 11:15:58AM +0100, Maxime Ripard wrote:
+> When running the trigger hook, ALSA by default will take a spinlock, and
+> thus will run the trigger hook in atomic context.
+>=20
+> However, our HDMI driver will send the infoframes as part of the trigger
+> hook, and part of that process is to wait for a bit to be cleared for up =
+to
+> 100ms. To be nicer to the system, that wait has some usleep_range that
+> interact poorly with the atomic context.
+>=20
+> There's several ways we can fix this, but the more obvious one is to make
+> ALSA take a mutex instead by setting the nonatomic flag on the DAI link.
+> That doesn't work though, since now the cyclic callback installed by the
+> dmaengine helpers in ALSA will take a mutex, while that callback is run by
+> dmaengine's virt-chan code in a tasklet where sleeping is not allowed
+> either.
+>=20
+> Given the delay we need to poll the bit for, changing the usleep_range for
+> a udelay and keep running it from a context where interrupts are disabled
+> is not really a good option either.
+>=20
+> However, we can move the infoframe setup code in the hw_params hook, like
+> is usually done in other HDMI controllers, that isn't protected by a
+> spinlock and thus where we can sleep. Infoframes will be sent on a regular
+> basis anyway, and since hw_params is where the audio parameters that end =
+up
+> in the infoframes are setup, this also makes a bit more sense.
+>=20
+> Fixes: bb7d78568814 ("drm/vc4: Add HDMI audio support")
+> Suggested-by: Mark Brown <broonie@kernel.org>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Applied to drm-misc-fixes
+
+Maxime
+
+--rg67p2rixirimeqk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5iSdwAKCRDj7w1vZxhR
+xe5LAQD2z4jrHFI7lepdfsHTZyw73NdLCmF62GCIDGYB6AmypgD+KFUl+5dP9Xj/
+iu2xv69jA6EvGgqK5hY1OaSNYbOXrwg=
+=sECL
+-----END PGP SIGNATURE-----
+
+--rg67p2rixirimeqk--
+
+--===============0404251980==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0404251980==--
