@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A2A299DCD
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 01:10:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6DD299DE8
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 01:10:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD9C6EAAC;
-	Tue, 27 Oct 2020 00:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8ED16E063;
+	Tue, 27 Oct 2020 00:10:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F826EAAC
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 00:10:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 993446E063
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 00:10:54 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 75D44216FD;
- Tue, 27 Oct 2020 00:10:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 978F221D41;
+ Tue, 27 Oct 2020 00:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603757410;
- bh=hxocgt0eIJGqhWzYRhd1/XRyiq1XfUojwJYXGONq5Ac=;
+ s=default; t=1603757454;
+ bh=GZDu+Tqg1pFD0PY3tQOhmPXoTm96/juxbPBf9YbQsH0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M5a+Cdy9xh6afM2N7dveFJvngcjLNLjHo+3ARvC0MDQyqYl+dxhpda4VMa0AE86Q4
- ZczLIWOxPWi+smL5ETMRver4d74oODz74lgnEMbbY8RHSvqr9TyWxzpNsDMA1vdHiE
- EaDFcr5Becydo/fDM0jTtClZtYZjVjUqcASnXBs8=
+ b=svCFrTVqjunFqCdwkJs1pUGURSOzH/v2bgq1mgEceZuidjTXzB/NHWbyDEHyTZtKM
+ kyhXiaCfITslglVYmoI8QHCWJVTPvVm+Vi0Fdh+4eliIDH8w8KYMkZ8uZqq1RHRAAu
+ iNfzTlbM7Bjvc3PSPCQs+XK5S50S/MuZCzKgw1Kc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 19/46] drm/bridge/synopsys: dsi: add support for
- non-continuous HS clock
-Date: Mon, 26 Oct 2020 20:09:18 -0400
-Message-Id: <20201027000946.1026923-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 08/30] video: fbdev: pvr2fb: initialize variables
+Date: Mon, 26 Oct 2020 20:10:22 -0400
+Message-Id: <20201027001044.1027349-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027000946.1026923-1-sashal@kernel.org>
-References: <20201027000946.1026923-1-sashal@kernel.org>
+In-Reply-To: <20201027001044.1027349-1-sashal@kernel.org>
+References: <20201027001044.1027349-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,73 +49,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Antonio Borneo <antonio.borneo@st.com>, Sasha Levin <sashal@kernel.org>,
- Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
+ dri-devel@lists.freedesktop.org, clang-built-linux@googlegroups.com,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Antonio Borneo <antonio.borneo@st.com>
+From: Tom Rix <trix@redhat.com>
 
-[ Upstream commit c6d94e37bdbb6dfe7e581e937a915ab58399b8a5 ]
+[ Upstream commit 8e1ba47c60bcd325fdd097cd76054639155e5d2e ]
 
-Current code enables the HS clock when video mode is started or to
-send out a HS command, and disables the HS clock to send out a LP
-command. This is not what DSI spec specify.
+clang static analysis reports this repesentative error
 
-Enable HS clock either in command and in video mode.
-Set automatic HS clock management for panels and devices that
-support non-continuous HS clock.
+pvr2fb.c:1049:2: warning: 1st function call argument
+  is an uninitialized value [core.CallAndMessage]
+        if (*cable_arg)
+        ^~~~~~~~~~~~~~~
 
-Signed-off-by: Antonio Borneo <antonio.borneo@st.com>
-Tested-by: Philippe Cornu <philippe.cornu@st.com>
-Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200701194234.18123-1-yannick.fertre@st.com
+Problem is that cable_arg depends on the input loop to
+set the cable_arg[0].  If it does not, then some random
+value from the stack is used.
+
+A similar problem exists for output_arg.
+
+So initialize cable_arg and output_arg.
+
+Signed-off-by: Tom Rix <trix@redhat.com>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200720191845.20115-1-trix@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/pvr2fb.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 63c7a01b7053e..d95b0703d0255 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -311,7 +311,6 @@ static void dw_mipi_message_config(struct dw_mipi_dsi *dsi,
- 	if (lpm)
- 		val |= CMD_MODE_ALL_LP;
+diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
+index a2564ab91e62d..27478ffeeacdc 100644
+--- a/drivers/video/fbdev/pvr2fb.c
++++ b/drivers/video/fbdev/pvr2fb.c
+@@ -1029,6 +1029,8 @@ static int __init pvr2fb_setup(char *options)
+ 	if (!options || !*options)
+ 		return 0;
  
--	dsi_write(dsi, DSI_LPCLK_CTRL, lpm ? 0 : PHY_TXREQUESTCLKHS);
- 	dsi_write(dsi, DSI_CMD_MODE_CFG, val);
- }
- 
-@@ -468,16 +467,22 @@ static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
- static void dw_mipi_dsi_set_mode(struct dw_mipi_dsi *dsi,
- 				 unsigned long mode_flags)
- {
-+	u32 val;
++	cable_arg[0] = output_arg[0] = 0;
 +
- 	dsi_write(dsi, DSI_PWR_UP, RESET);
- 
- 	if (mode_flags & MIPI_DSI_MODE_VIDEO) {
- 		dsi_write(dsi, DSI_MODE_CFG, ENABLE_VIDEO_MODE);
- 		dw_mipi_dsi_video_mode_config(dsi);
--		dsi_write(dsi, DSI_LPCLK_CTRL, PHY_TXREQUESTCLKHS);
- 	} else {
- 		dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
- 	}
- 
-+	val = PHY_TXREQUESTCLKHS;
-+	if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
-+		val |= AUTO_CLKLANE_CTRL;
-+	dsi_write(dsi, DSI_LPCLK_CTRL, val);
-+
- 	dsi_write(dsi, DSI_PWR_UP, POWERUP);
- }
- 
+ 	while ((this_opt = strsep(&options, ","))) {
+ 		if (!*this_opt)
+ 			continue;
 -- 
 2.25.1
 
