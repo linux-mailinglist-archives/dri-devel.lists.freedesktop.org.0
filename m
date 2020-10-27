@@ -1,61 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D5229ADE4
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 14:50:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F00429ADF4
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 14:52:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 538D86E1B7;
-	Tue, 27 Oct 2020 13:50:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41DD96EB83;
+	Tue, 27 Oct 2020 13:52:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777E96E1B7
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 13:50:55 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id l24so1496142edj.8
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 06:50:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=UpTv+N44qmDZNKSKOpBL1gv18cc8KZ331d2Wj1p0YQg=;
- b=iVBDSqXPbyhMom5M/1h/9OcQTUUSnjymUB4Hbi7C7uMD/QVVeedzxVl2zLQa4ESuR9
- gdsutuRaBNgvI0Hwfwndoil8xPNV2vDfT5jcPE8fanTz0J1XvfVP0MfF/kMdV4tH6MCn
- iO9xdNfMEX41DdMg2t0HvKjNjBvzi1WnJubsffwjg+NyFtfH9q3ZsHw+tHAMAcaIghLH
- VNgDS2enn8MUaA+nOhVH+mU6Map5nA6SoyNr5cAKK6hdjwr63AglMPcnhU5QbeXyUWPg
- yzKckeFV2spRM2FHSK7C47aAfkbmRN0RgBDEDeRFY9YdYrhm/p4QVskIzctUV8UIymWS
- GeTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=UpTv+N44qmDZNKSKOpBL1gv18cc8KZ331d2Wj1p0YQg=;
- b=LPxXvoIXL6vhyDcIzYPNG1cxsPBOlOEVIMnOtEmgRtu23QUkZHJZjncDcog6pBAMCI
- 8uvquaA1wiPUarDqOT5yz3qrnMFM1KQ3RNTRx4CPzqrVK6zL2Z+2XAC3eAbjxFRDmXvQ
- YyjTI/ZjgoFogR7OL7unDg+oD1s2hQ6w9SD5NAHe+z7ixKCSMM9oBJ2k2o0Ymkwzk+0e
- hbWCcS7i30kVUkjL9MAN2uSjLeofPy1T5HZlwKDdpO3iaFHhqa7CymXluNsj+cNw6qjj
- 6hKXZFSrLs6Nfbdc29ONuotrdBhu798NKTza5vbhgBGAho6FPTaAitchbwoZ/o2ubz7G
- 2bgg==
-X-Gm-Message-State: AOAM531JGDpJjzcxOrDrwaS1cryieZln97c0ogcpa0BFGPHsx+ZdR9r5
- NIYjoyliSL7WAzpFcjF6uaY=
-X-Google-Smtp-Source: ABdhPJzoug3kqXmwuIlVZWpSCnC1WqKifa1HHV8r4AwHgTv48ReSSRME9k3xx42F9bEE4Xx6QKYLwQ==
-X-Received: by 2002:a50:9ec6:: with SMTP id a64mr2283115edf.382.1603806653958; 
- Tue, 27 Oct 2020 06:50:53 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id b8sm999899edv.20.2020.10.27.06.50.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 06:50:52 -0700 (PDT)
-Date: Tue, 27 Oct 2020 14:50:51 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v6 31/52] memory: tegra20-emc: Use
- devm_platform_ioremap_resource()
-Message-ID: <20201027135051.GL1822510@ulmo>
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-32-digetx@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74FE86EB7A
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 13:52:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603806724;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8/2bpBz0hyBwDEWaq0chG+sMEQIBJVOfKIjc9RhBOFk=;
+ b=YTOuYF2tUBFkjeLmXps6gaUHr23boRT9TtxdUThfdRiq7kO1fqLijSVRXremc04YmdlicK
+ K9M+SnXydDiLV44YAKtsGjs4WfgndQXIJQicx1BuS4q7RDLNUCYZw3RcwXU5fs9fBURXxP
+ HgwIrE84TpsfiLIAO5C99uSrYMLluz4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-Z-2XA2YoOU6m0Y5o6IHJIw-1; Tue, 27 Oct 2020 09:52:00 -0400
+X-MC-Unique: Z-2XA2YoOU6m0Y5o6IHJIw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FDFC809DD7;
+ Tue, 27 Oct 2020 13:51:58 +0000 (UTC)
+Received: from x1.localdomain (ovpn-114-223.ams2.redhat.com [10.36.114.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D6B05D9DD;
+ Tue, 27 Oct 2020 13:51:54 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>
+Subject: [PATCH] drm/vboxvideo: Unmap iomem on probe-failure and remove
+Date: Tue, 27 Oct 2020 14:51:53 +0100
+Message-Id: <20201027135153.324873-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201025221735.3062-32-digetx@gmail.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,79 +61,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Georgi Djakov <georgi.djakov@linaro.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>
-Content-Type: multipart/mixed; boundary="===============2023667978=="
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, kernel test robot <lkp@intel.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add missing pci_iounmap() calls to properly unmap the memory on
+probe-failure and remove.
 
---===============2023667978==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fDERRRNgB4on1jOB"
-Content-Disposition: inline
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/vboxvideo/vbox_main.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-
---fDERRRNgB4on1jOB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Oct 26, 2020 at 01:17:14AM +0300, Dmitry Osipenko wrote:
-> Use devm_platform_ioremap_resource() helper which makes code a bit
-> cleaner.
->=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/memory/tegra/tegra20-emc.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-
-I'm not a fan of this helper, to be honest, because I think all the
-churn that we've seen with the conversions isn't really worth the 1 or 2
-lines that it saves, but hey, looks like this is pretty broadly
-accepted, so if Krzysztof likes it:
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---fDERRRNgB4on1jOB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+YJbsACgkQ3SOs138+
-s6G9URAAtj7PIBjSjv1nses5GEAWNmBaiDfGSjpiLUkmRQdPi+MiY6E8ka3TCPaQ
-Ekhqca6aM48b4MSYkHBvSpuECG8SZMrpXTofBh11pu4OaydcdUUASsgySz/x6ARu
-zK+qwwSxvPvtq6a4YYcbts0aJu4y0Gk9Sw4zXjMl0mvuB03J0yTYlWgJuFGNv92K
-gGqj4cUqhkHR3WcJ9rmv7wgYo78DfNhYvM0Ux5EemnRiGpzWljNDYpTVwPaK/vlT
-D9WcDj3EZpxi/hwCZLy8IsIhamHoM+BZGtkuXh77BNqz1zpKLCj+YuC4pg4D6+ux
-UN3UmGNW5HK7HIc2eqMOXd7srzlQZc9jYyt0VSxYeukp5/KYCwVHhVT2zL1ryxfK
-lVnWEu1SMM4+pRFLRWvgHUoTsfA0QW//fFdvB8x0nH1mEO0LLKFrnY4ariB1j9/a
-wpcwTfKlSTw75KeK2sjOIQFZsVtlorIqPhRyS57fqPstxeoVfDQ8n6z+OjuZ6TWQ
-Br5RGkUloMKCM0f92oWT0oPJCFUrkNFrMrXdETQ3Y0vcHQeJaER36h8ddCxB0PJt
-fEOT+057askejUvy4Tx+xXPw4zfxPBUZcZq4b2n6VRfAojW66mC+rv7Y1FHVSAbo
-aU/pmuqSUPw4Z8eNVQe7ZHQjHvHVulA8PmLWXvCMfjlJBhErFf4=
-=ihq2
------END PGP SIGNATURE-----
-
---fDERRRNgB4on1jOB--
-
---===============2023667978==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
+index d68d9bad7674..2eeb1d3be54a 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_main.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
+@@ -71,6 +71,8 @@ static void vbox_accel_fini(struct vbox_private *vbox)
+ 
+ 	for (i = 0; i < vbox->num_crtcs; ++i)
+ 		vbva_disable(&vbox->vbva_info[i], vbox->guest_pool, i);
++
++	pci_iounmap(vbox->ddev.pdev, vbox->vbva_buffers);
+ }
+ 
+ /* Do we support the 4.3 plus mode hint reporting interface? */
+@@ -124,19 +126,19 @@ int vbox_hw_init(struct vbox_private *vbox)
+ 	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
+ 						"vboxvideo-accel");
+ 	if (!vbox->guest_pool)
+-		return -ENOMEM;
++		goto out_unmap_guest_heap;
+ 
+ 	ret = gen_pool_add_virt(vbox->guest_pool,
+ 				(unsigned long)vbox->guest_heap,
+ 				GUEST_HEAP_OFFSET(vbox),
+ 				GUEST_HEAP_USABLE_SIZE, -1);
+ 	if (ret)
+-		return ret;
++		goto out_unmap_guest_heap;
+ 
+ 	ret = hgsmi_test_query_conf(vbox->guest_pool);
+ 	if (ret) {
+ 		DRM_ERROR("vboxvideo: hgsmi_test_query_conf failed\n");
+-		return ret;
++		goto out_unmap_guest_heap;
+ 	}
+ 
+ 	/* Reduce available VRAM size to reflect the guest heap. */
+@@ -148,23 +150,30 @@ int vbox_hw_init(struct vbox_private *vbox)
+ 
+ 	if (!have_hgsmi_mode_hints(vbox)) {
+ 		ret = -ENOTSUPP;
+-		return ret;
++		goto out_unmap_guest_heap;
+ 	}
+ 
+ 	vbox->last_mode_hints = devm_kcalloc(vbox->ddev.dev, vbox->num_crtcs,
+ 					     sizeof(struct vbva_modehint),
+ 					     GFP_KERNEL);
+-	if (!vbox->last_mode_hints)
+-		return -ENOMEM;
++	if (!vbox->last_mode_hints) {
++		ret = -ENOMEM;
++		goto out_unmap_guest_heap;
++	}
+ 
+ 	ret = vbox_accel_init(vbox);
+ 	if (ret)
+-		return ret;
++		goto out_unmap_guest_heap;
+ 
+ 	return 0;
++
++out_unmap_guest_heap:
++	pci_iounmap(vbox->ddev.pdev, vbox->guest_pool);
++	return ret;
+ }
+ 
+ void vbox_hw_fini(struct vbox_private *vbox)
+ {
+ 	vbox_accel_fini(vbox);
++	pci_iounmap(vbox->ddev.pdev, vbox->guest_pool);
+ }
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2023667978==--
