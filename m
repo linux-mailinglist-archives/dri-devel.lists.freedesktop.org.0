@@ -2,57 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50BF29A643
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 09:12:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD7529A613
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Oct 2020 09:04:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB2E56EB28;
-	Tue, 27 Oct 2020 08:12:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28C2B6EB1F;
+	Tue, 27 Oct 2020 08:04:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 405616E34B
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 07:08:05 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1603782485; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=ahIMEJAF2HOCmKrnWEJ6rC/ZR2DgHhKiGOo7hQp4WiM=;
- b=pH0mwhFH1VXLMqPcFp9gcX0W97lBCugQWuQ1GWlIZyIN4YXAoxSXwzSsnqW9ZNqQNg6IXeEJ
- ukny+5WZSuOn0S4ZLZHOU7hXgPYG8y963aePmRVAoW9g4khKW64oJx52Hf6+PC0pKT1byRe4
- EWcZnX1YF+Fkk+uupwkryM9UCkY=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 5f97c7541e4642bf753b7643 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 27 Oct 2020 07:08:04
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 914A2C43382; Tue, 27 Oct 2020 07:08:03 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 51DD3C433CB;
- Tue, 27 Oct 2020 07:08:02 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5642D6E1B3;
+ Tue, 27 Oct 2020 08:04:03 +0000 (UTC)
+IronPort-SDR: kr6fKKF/gdo6u6zhvQTVaylukm2beDOTkYsXOQw9UqAS7ERiZZz0uCTn59wqmC38TtNiHn+klM
+ ig30nRq7ygRA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9786"; a="229679240"
+X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; d="scan'208";a="229679240"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2020 01:04:02 -0700
+IronPort-SDR: w1c8joy0st/SiY0LXb8lELpGViZNHbWIVdFAUHdXmG6eQKsiYam4JyY6UopZs6i7gDhS9tbPCn
+ cjYrov6rV4JQ==
+X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; d="scan'208";a="535694834"
+Received: from genxfsim-desktop.iind.intel.com (HELO intel.com)
+ ([10.223.74.178])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2020 01:04:00 -0700
+Date: Tue, 27 Oct 2020 13:20:22 +0530
+From: Anshuman Gupta <anshuman.gupta@intel.com>
+To: "Shankar, Uma" <uma.shankar@intel.com>
+Subject: Re: [PATCH v3 01/16] drm/i915/hdcp: Update CP property in update_pipe
+Message-ID: <20201027075022.GE29526@intel.com>
+References: <20201023122112.15265-1-anshuman.gupta@intel.com>
+ <20201023122112.15265-2-anshuman.gupta@intel.com>
+ <3aff190f909b4dc290ca1f1d8b47d963@intel.com>
 MIME-Version: 1.0
-Date: Tue, 27 Oct 2020 12:38:02 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Jordan Crouse <jcrouse@codeaurora.org>
-Subject: Re: [PATCH] drm/msm/a6xx: Add support for using system cache on
- MMU500 based targets
-In-Reply-To: <20201026185428.101443-1-jcrouse@codeaurora.org>
-References: <20201026185428.101443-1-jcrouse@codeaurora.org>
-Message-ID: <d5050762b88d5d0d957ad5057f165b21@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-X-Mailman-Approved-At: Tue, 27 Oct 2020 08:12:06 +0000
+Content-Disposition: inline
+In-Reply-To: <3aff190f909b4dc290ca1f1d8b47d963@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,148 +52,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sean Paul <sean@poorly.run>
+Cc: "Nikula, Jani" <jani.nikula@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>, "Li,
+ Juston" <juston.li@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-27 00:24, Jordan Crouse wrote:
-> This is an extension to the series [1] to enable the System Cache (LLC) 
-> for
-> Adreno a6xx targets.
+On 2020-10-27 at 11:02:26 +0530, Shankar, Uma wrote:
 > 
-> GPU targets with an MMU-500 attached have a slightly different process 
-> for
-> enabling system cache. Use the compatible string on the IOMMU phandle
-> to see if an MMU-500 is attached and modify the programming sequence
-> accordingly.
 > 
-> [1] https://patchwork.freedesktop.org/series/83037/
+> > -----Original Message-----
+> > From: Anshuman Gupta <anshuman.gupta@intel.com>
+> > Sent: Friday, October 23, 2020 5:51 PM
+> > To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> > Cc: seanpaul@chromium.org; Nikula, Jani <jani.nikula@intel.com>; C,
+> > Ramalingam <ramalingam.c@intel.com>; Li, Juston <juston.li@intel.com>;
+> > Shankar, Uma <uma.shankar@intel.com>; Gupta, Anshuman
+> > <anshuman.gupta@intel.com>
+> > Subject: [PATCH v3 01/16] drm/i915/hdcp: Update CP property in update_pipe
+> > 
+> > When crtc state need_modeset is true it is not necessary it is going to be a real
+> > modeset, it can turns to be a update_pipe instead of modeset.
 > 
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> ---
+> I believe you refer fastest here. May be make this a bit clear. 
 > 
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 46 +++++++++++++++++++++------
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
->  2 files changed, 37 insertions(+), 10 deletions(-)
+> > This turns content protection property to be DESIRED and hdcp update_pipe left
+> > with property to be in DESIRED state but actually hdcp->value was ENABLED.
+> > This caught with DP MST setup, when disabling HDCP on a connector sets the crtc
+> > state need_modeset to true for all crtc driving the other DP-MST topology
+> > connectors.
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 95c98c642876..b7737732fbb6 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -1042,6 +1042,8 @@ static void a6xx_llc_deactivate(struct a6xx_gpu 
-> *a6xx_gpu)
+> This is a bit ambiguous, you can mention it a bit more clearly. In case of DP MST, how this
+> affects would help make it clearer.
 > 
->  static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
->  {
-> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-> +	struct msm_gpu *gpu = &adreno_gpu->base;
->  	u32 cntl1_regval = 0;
+> > 
+> > v2:
+> > Fix WARN_ON(connector->base.registration_state ==
+> > DRM_CONNECTOR_REGISTERED)
+> > 
+> > Fixes: 33f9a623bfc6 ("drm/i915/hdcp: Update CP as per the kernel internal
+> > state")
+> > Cc: Ramalingam C <ramalingam.c@intel.com>
+> > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_hdcp.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > index b2a4bbcfdcd2..0d9e8d3b5603 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > @@ -2221,6 +2221,11 @@ void intel_hdcp_update_pipe(struct
+> > intel_atomic_state *state,
+> >  		desired_and_not_enabled =
+> >  			hdcp->value !=
+> > DRM_MODE_CONTENT_PROTECTION_ENABLED;
+> >  		mutex_unlock(&hdcp->mutex);
+> >
 > 
->  	if (IS_ERR(a6xx_gpu->llc_mmio))
-> @@ -1055,11 +1057,17 @@ static void a6xx_llc_activate(struct a6xx_gpu 
-> *a6xx_gpu)
->  			       (gpu_scid << 15) | (gpu_scid << 20);
->  	}
+> Please add a comment explaining the rationale here as well.
+Sure i will fix all above comment.
 > 
-> +	/*
-> +	 * For targets with a MMU500, activate the slice but don't program 
-> the
-> +	 * register.  The XBL will take care of that.
-> +	 */
->  	if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
-> -		u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
-> +		if (!a6xx_gpu->have_mmu500) {
-> +			u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
+> > +		if (!desired_and_not_enabled &&
+> > !content_protection_type_changed) {
+> > +			drm_connector_get(&connector->base);
 > 
-> -		gpuhtw_scid &= 0x1f;
-> -		cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
-> +			gpuhtw_scid &= 0x1f;
-> +			cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
-> +		}
->  	}
+> Where are we releasing this ref.
+prop worker function releases the connector reference.
+Thanks,
+Anshuman Gupta.
 > 
->  	if (cntl1_regval) {
-> @@ -1067,13 +1075,20 @@ static void a6xx_llc_activate(struct a6xx_gpu 
-> *a6xx_gpu)
->  		 * Program the slice IDs for the various GPU blocks and GPU MMU
->  		 * pagetables
->  		 */
-> -		a6xx_llc_write(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, 
-> cntl1_regval);
-> -
-> -		/*
-> -		 * Program cacheability overrides to not allocate cache lines on
-> -		 * a write miss
-> -		 */
-> -		a6xx_llc_rmw(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 
-> 0x03);
-> +		if (a6xx_gpu->have_mmu500)
-> +			gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0),
-> +				cntl1_regval);
-> +		else {
-> +			a6xx_llc_write(a6xx_gpu,
-> +				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
-> +
-> +			/*
-> +			 * Program cacheability overrides to not allocate cache
-> +			 * lines on a write miss
-> +			 */
-> +			a6xx_llc_rmw(a6xx_gpu,
-> +				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
-> +		}
->  	}
->  }
+> > +			schedule_work(&hdcp->prop_work);
+> > +		}
+> >  	}
+> > 
+> >  	if (desired_and_not_enabled || content_protection_type_changed)
+> > --
+> > 2.26.2
 > 
-> @@ -1086,10 +1101,21 @@ static void a6xx_llc_slices_destroy(struct
-> a6xx_gpu *a6xx_gpu)
->  static void a6xx_llc_slices_init(struct platform_device *pdev,
->  		struct a6xx_gpu *a6xx_gpu)
->  {
-> +	struct device_node *phandle;
-> +
->  	a6xx_gpu->llc_mmio = msm_ioremap(pdev, "cx_mem", "gpu_cx");
->  	if (IS_ERR(a6xx_gpu->llc_mmio))
->  		return;
-> 
-> +	/*
-> +	 * There is a different programming path for targets with an mmu500
-> +	 * attached, so detect if that is the case
-> +	 */
-> +	phandle = of_parse_phandle(pdev->dev.of_node, "iommus", 0);
-> +	a6xx_gpu->have_mmu500 = (phandle &&
-> +		of_device_is_compatible(phandle, "arm,mmu500"));
-> +	of_node_put(phandle);
-> +
->  	a6xx_gpu->llc_slice = llcc_slice_getd(LLCC_GPU);
->  	a6xx_gpu->htw_llc_slice = llcc_slice_getd(LLCC_GPUHTW);
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> index 9e6079af679c..e793d329e77b 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> @@ -32,6 +32,7 @@ struct a6xx_gpu {
->  	void __iomem *llc_mmio;
->  	void *llc_slice;
->  	void *htw_llc_slice;
-> +	bool have_mmu500;
->  };
-> 
->  #define to_a6xx_gpu(x) container_of(x, struct a6xx_gpu, base)
-
-Thanks Jordan for the patch.
-
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
