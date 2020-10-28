@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC2029CE2F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 06:34:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C35929CE3E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 06:43:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2F8A6E461;
-	Wed, 28 Oct 2020 05:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA5926E462;
+	Wed, 28 Oct 2020 05:43:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A7C6E461
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 05:34:31 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id t22so1928005plr.9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 22:34:31 -0700 (PDT)
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C764C6E462
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 05:43:15 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id p21so1991789pju.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 22:43:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=o3LdnC6Ytf9c4DWqirvo5UI8m31/cCv50Msd5N5b88E=;
- b=Kf71SoURoZbPK+PTfpdvnSb2QDHbMtDUocxpU73Xm5V5jGamSBODV0w6lYIVnGP0nV
- DZ9Gdjd5BFLVfw5kKlCaR03dC5cXa8EhN79hBIChP81o6QIvCt3WeTJ6Z36GHc0sK8as
- 5VJGnPsXbHwajZqU3QZfdcaACxkdjVqQJrKLGa9SfKw5RFFspZAmZoqSHmkX/kLiBgKz
- EABafBm1gpst3U19AYutktoYC/VVn1aIk+uU147O2FzwNnThNMnyL8Mm5/HfWdxMpdFq
- 9CX3CfnmQZJbrmns0KcGq5/u0bTWswbBbqF5CUIduXQm+0DpA1rB7M758jtPjYrpaPdl
- 53JA==
+ bh=ilRPL3DQy2H6Zk6HIeE59f6ZVzkXagVII22DPJDLAag=;
+ b=oMgPjhgxZddy2MlRFdbHYzpkCf87TsiBUTX9Ks/FpT3aQndQx4GqWe2bP+n/EbYvLK
+ G1tltXAUtW51uKPeWm+onBtFrW91UIbBqzugq8Yge5v2RSaqWZBehWsQj8RJtV73/pFL
+ d6gkE0MOVrqCTFZ9MOCF8Vuw/OHrI8fmqJO0nwMxLplEKOEqIP6uE2tJ5wp6HfoZEmdd
+ Cq8O68SQLUe86Aj1FuZB3sd2PzhWfvWAOn86z0G60wA3vX6KoB97+w3XzD08OI/asmn8
+ jxuPOWBYul5ybPvb8jmYyUZiDSC5cNjKx0wg2DN1ileDgwWqwlqxtlcoUC4KMxA82yyA
+ TMBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=o3LdnC6Ytf9c4DWqirvo5UI8m31/cCv50Msd5N5b88E=;
- b=I9UjCYaPkByFxavRi4Gf3aJNPDqE2gDzL/+Z0w1INYwia4gPfytQ9e8USTh+jm6NnG
- vdt7NiFYNGGXBtmfMB7fKxbEhenccGNsQ+gdazwAs8D3VhgmPLBWR90rwKMbdf5k+v6+
- d4cA9NmszExUymyYO5A98j0JZGUGpGF7B6l2+lHUXqfY5Hx7uGAbfuf9GbEBTxDZUeZv
- jmzyAuL68noGfpmI2EMm1hRh05vCau2K1jtoWE/ULa4dINCtGIeFTbSzLtcSaMoDATI5
- Nz1muSDldTWkF4dPEDA7EkE/GSEWR6NTvSh1pMXUEp2gx1KjFbTglOYAaM0LJxpnGu5q
- G+Cg==
-X-Gm-Message-State: AOAM532Ob4va8XxEIJKk93nAbOmMqlgc3SPuAe10mginPae7Va8LXWuk
- hMjDMzJ2QX/pslOCEePm/Q==
-X-Google-Smtp-Source: ABdhPJyMeXkxKEBeQiHyAtviwtfq3kqG2WHDNhJ1R5euCg8w4YtLIcQ7PkGZIvhWiAeQxnrwQKGzPg==
-X-Received: by 2002:a17:90b:4a4f:: with SMTP id
- lb15mr1916524pjb.103.1603863270836; 
- Tue, 27 Oct 2020 22:34:30 -0700 (PDT)
+ bh=ilRPL3DQy2H6Zk6HIeE59f6ZVzkXagVII22DPJDLAag=;
+ b=ROxCe+B6cSIT9kWPKUJ/5Y49A80r8pG+muLnI4DBPGpIV7P1Imix3HTqTxBqqXL3mc
+ g/nchR8MkWwepdCwSrPdidywJk9RLKV/lXG62WC5xbtHGTNQn1YQ63rQxhBjfjeGObse
+ A10+4h0m/mPw4ck1GS4JHuHDwpmjovy0mVDwMYsHnMCOCaqL3ZRMKWyrRPbdEyMO+xLV
+ 7FnefKVt/2whvtgWKojQEN4RR/HtxQbRBZUmHZ/P7vPY+ziW96P7Lp6642fRWZLNRJNL
+ YLfnQZfQpTQRqf3dlLvp1EaZmbhxM1ATYvh5crASDEwg6XZbW0OEdvQiGUW1h0pQs6jh
+ ecAw==
+X-Gm-Message-State: AOAM533Vi8vlGWG9VIMDk7hLTMNhbBKI6/pxKKaghmods8+uKYAR91Bj
+ XIN8KZlDhSM6zbLCaaAhCw==
+X-Google-Smtp-Source: ABdhPJyLn0I7cW6/sgcaJEeTzSzspFyQyOpnfBVX38qqSHlqULuJKLLKtI8EzomBKUQCoIRROFr/3w==
+X-Received: by 2002:a17:90a:14a4:: with SMTP id
+ k33mr5177792pja.236.1603863795449; 
+ Tue, 27 Oct 2020 22:43:15 -0700 (PDT)
 Received: from PWN (n11212042025.netvigator.com. [112.120.42.25])
- by smtp.gmail.com with ESMTPSA id j20sm3771189pgl.40.2020.10.27.22.34.27
+ by smtp.gmail.com with ESMTPSA id 10sm4008324pjt.50.2020.10.27.22.43.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 22:34:30 -0700 (PDT)
-Date: Wed, 28 Oct 2020 01:34:23 -0400
+ Tue, 27 Oct 2020 22:43:14 -0700 (PDT)
+Date: Wed, 28 Oct 2020 01:43:07 -0400
 From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: Following up
-Message-ID: <20201028053423.GA1205528@PWN>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 2/5] Fonts: Make font size unsigned in font_desc
+Message-ID: <20201028054307.GA1205568@PWN>
 References: <cover.1603788511.git.yepeilin.cs@gmail.com>
- <20201027165021.GA1178130@PWN>
- <CAKMK7uH9L9WHBndEnUhAMMh0KsKUcz2zfKdi250gVqJGEG6usQ@mail.gmail.com>
+ <cb5bb49a33ff54fef41e719ee9d301a6a73c5f9c.1603788512.git.yepeilin.cs@gmail.com>
+ <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
+ <20201027185058.GM401619@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uH9L9WHBndEnUhAMMh0KsKUcz2zfKdi250gVqJGEG6usQ@mail.gmail.com>
+In-Reply-To: <20201027185058.GM401619@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,36 +70,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Jiri Slaby <jirislaby@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 27, 2020 at 07:36:54PM +0100, Daniel Vetter wrote:
-> On Tue, Oct 27, 2020 at 5:50 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> >     ...you mentioned code search, where & what should we look at, in order
-> >     to confirm it's safe to remove them?
+On Tue, Oct 27, 2020 at 07:50:58PM +0100, Daniel Vetter wrote:
+> On Tue, Oct 27, 2020 at 12:33:05PM -0400, Peilin Ye wrote:
+> > It is improper to define `width` and `height` as signed in `struct
+> > font_desc`. Make them unsigned. Also, change the corresponding printk()
+> > format identifiers from `%d` to `%u`, in sti_select_fbfont().
+> > 
+> > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 > 
-> Way back there was google's code search, which was awesome. Now I just
-> put the structure name/ioctl #define/number into
-> google/bing/duckduckgo and see if anything turns up. Plus check how
-> it's used in fb tools (although I just recently learned that fb-test
-> pretty much disappeared from the internet, very hard to find the
-> original).
-> 
-> If you're unsure, we can merge a patch, then wait about 1 year for any
-> users to show up with problems. If that's not the case, assume they're
-> all gone, or it was never used and just implemented because it was
-> copied from somewhere else, or "just in case". There's lots of dead
-> uapi around.
+> I'm not entirely sure of the motivation here ... height/width should never
+> ever be even close to the limit here. Or have you seen integer math that
+> could potentially go wrong if we go with unsigned instead of int?
 
-I see, it will be my next thing to do. Hopefully this will remove a lot
-of console_font occurrences.
+Oh... No, I have not. I just thought we shouldn't represent a length
+using a signed value. Also, width and height in console_font are
+unsigned int - that shouldn't matter that much though.
+
+[3/5] doesn't hunk properly without this patch, I'll send a v2 for [3/5]
+soon.
 
 Peilin
 
