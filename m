@@ -2,54 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EE029D1B3
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 20:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC9629D1BF
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 20:35:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC9D6E323;
-	Wed, 28 Oct 2020 19:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D39F6E328;
+	Wed, 28 Oct 2020 19:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D64406E323
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 19:28:26 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id x1so703098eds.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 12:28:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=vP95c5G5AiWt8jFAMoFHGwxXSql0kCQrJ9xpkPgq6gg=;
- b=Q/87pBiI4fpZqtIU5Q3RaA7rlBe+NAEt8rKRTvJmOfKNis0D7iiHdJiuaE6HSrPb5S
- fLQqr+AoEdk8rb4rBnPQnR9/61WzRRZH+wB/rmHXHghfx+UZO2VwsUOmuqtkMU6W1Bpo
- +Z3o+o8qPbFO+ExTeF6bGFMMhANBCHs0wAdqTCYhdtwXEfTQ3X+CUWGiJvyPDMZfsgwj
- xejl28XY4WGF7rZqSbxo3JhJTwqb9fGtVYM5fUmjpQdATL98+p/On5VgdnRMxNSJEv2C
- oXbFGU+lZMubxsOeh2bEEvS9TodJjJtZSzv1rIgMapPlXNfSGEfqcP4WZV3Ax8W9srDq
- kU4w==
-X-Gm-Message-State: AOAM53233msnryRi/pGy5n9Rh9lpuXztyYVATMeMKXqi1PdJ8hc4We7u
- HEXS0iCDrusKhb64xIFiohw=
-X-Google-Smtp-Source: ABdhPJyHdwuuiwRcW53qYzu6ELBzFaASak8bZZ7cUJm7qaJ+2lCiPhJEUbxJ3cDKZqX83Q9tfRG3aQ==
-X-Received: by 2002:a05:6402:134c:: with SMTP id
- y12mr460552edw.344.1603913305471; 
- Wed, 28 Oct 2020 12:28:25 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.184])
- by smtp.googlemail.com with ESMTPSA id p1sm261722ejd.33.2020.10.28.12.28.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 12:28:23 -0700 (PDT)
-Date: Wed, 28 Oct 2020 20:28:21 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v6 41/52] memory: tegra124-emc: Use
- devm_platform_ioremap_resource()
-Message-ID: <20201028192821.GB170285@kozik-lap>
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-42-digetx@gmail.com>
- <20201027102707.GC17089@kozik-lap>
- <d79e4972-acf9-f889-50b8-f0829a0e8e08@gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4316E334;
+ Wed, 28 Oct 2020 19:35:28 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E95D4B90E;
+ Wed, 28 Oct 2020 19:35:26 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, sam@ravnborg.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, kraxel@redhat.com, l.stach@pengutronix.de,
+ linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
+ inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+ yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
+ tomeu.vizoso@collabora.com, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, hjc@rock-chips.com, heiko@sntech.de,
+ hdegoede@redhat.com, sean@poorly.run, eric@anholt.net,
+ oleksandr_andrushchenko@epam.com, ray.huang@amd.com,
+ sumit.semwal@linaro.org, emil.velikov@collabora.com, luben.tuikov@amd.com,
+ apaneers@amd.com, linus.walleij@linaro.org, melissa.srw@gmail.com,
+ chris@chris-wilson.co.uk, miaoqinglang@huawei.com
+Subject: [PATCH v6 00/10] Support GEM object mappings from I/O memory
+Date: Wed, 28 Oct 2020 20:35:11 +0100
+Message-Id: <20201028193521.2489-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d79e4972-acf9-f889-50b8-f0829a0e8e08@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +48,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ xen-devel@lists.xenproject.org, spice-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBPY3QgMjcsIDIwMjAgYXQgMTE6MzA6MzFQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
-IHdyb3RlOgo+IDI3LjEwLjIwMjAgMTM6MjcsIEtyenlzenRvZiBLb3psb3dza2kg0L/QuNGI0LXR
-gjoKPiA+IE9uIE1vbiwgT2N0IDI2LCAyMDIwIGF0IDAxOjE3OjI0QU0gKzAzMDAsIERtaXRyeSBP
-c2lwZW5rbyB3cm90ZToKPiA+PiBVc2UgZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKCkg
-aGVscGVyIHdoaWNoIG1ha2VzIGNvZGUgYSBiaXQKPiA+PiBjbGVhbmVyLgo+ID4gCj4gPiBTdWNo
-IGNsZWFudXBzIChhbmQgZmV3IG90aGVyIGluIHRoaXMgcGF0Y2hzZXQpIHNob3VsZCBiZSBhdCBi
-ZWdpbm5pbmcgb2YKPiA+IHBhdGNoc2V0IG9yIGV2ZW4gYXMgcGFydCBvZiBhIHNlcGFyYXRlIG9u
-ZS4gIEkgdGhpbmsgdGhlcmUgaXMgbm90IG11Y2gKPiA+IHN0b3BwaW5nIGFueW9uZSBmcm9tIGFw
-cGx5aW5nIHRoZXNlLi4uIGV4Y2VwdCB0aGF0IHlvdSBwdXQgdGhlbSBpbiB0aGUKPiA+IG1pZGRs
-ZSBvZiBiaWcgZGVwZW5kZW5jeS4KPiAKPiBTb21lIG9mIHRoZXNlIGNsZWFudXAgcGF0Y2hlcyBj
-YW4ndCBiZSBhcHBsaWVkIHNlcGFyYXRlbHkgd2l0aG91dCBhIG5lZWQKPiB0byBtYWtlIGEgcmVi
-YXNlLiBJIHRoaW5rIGl0IHNob3VsZCBiZSBtb3JlIHByZWZlcnJlZCB0byBoYXZlIGFsbCB0aGUK
-PiBwYXRjaGVzIHdpdGhpbiBhIHNpbmdsZSBzZXJpZXMuCj4gCj4gSSdsbCB0cnkgdG8gcmVvcmRl
-ciB0aGUgcGF0Y2hlcyBpbiB2NyBpZiB0aGlzIHdpbGwgZWFzZSB0aGUgcmV2aWV3LCB0aGFua3Mu
-CgpJZiBmZWFzaWJsZSwgdGhhdCB3b3VsZCBiZSBnb29kLiBUaGFua3MuCgpCZXN0IHJlZ2FyZHMs
-CktyenlzenRvZgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+DRM's fbdev console uses regular load and store operations to update
+framebuffer memory. The bochs driver on sparc64 requires the use of
+I/O-specific load and store operations. We have a workaround, but need
+a long-term solution to the problem.
+
+This patchset changes GEM's vmap/vunmap interfaces to forward pointers
+of type struct dma_buf_map and updates the generic fbdev emulation to
+use them correctly. This enables I/O-memory operations on all framebuffers
+that require and support them.
+
+Patches #1 to #4 prepare VRAM helpers and drivers.
+
+Next is the update of the GEM vmap functions. Patch #5 adds vmap and vunmap
+that is usable with TTM-based GEM drivers, and patch #6 updates GEM's
+vmap/vunmap callback to forward instances of type struct dma_buf_map. While
+the patch touches many files throughout the DRM modules, the applied changes
+are mostly trivial interface fixes. Several TTM-based GEM drivers now use
+the new vmap code. Patch #7 updates GEM's internal vmap/vunmap functions to
+forward struct dma_buf_map.
+
+With struct dma_buf_map propagated through the layers, patches #8 to #10
+convert DRM clients and generic fbdev emulation to use it. Updating the
+fbdev framebuffer will select the correct functions, either for system or
+I/O memory.
+
+v6:
+	* don't call page_to_phys() on fbdev framebuffers in I/O memory;
+	  warn instead (Daniel)
+v5:
+	* rebase onto latest TTM changes (Christian)
+	* support TTM premapped memory correctly (Christian)
+	* implement fb_read/fb_write internally (Sam, Daniel)
+	* cleanups
+v4:
+	* provide TTM vmap/vunmap plus GEM helpers and convert drivers
+	  over (Christian, Daniel)
+	* remove several empty functions
+	* more TODOs and documentation (Daniel)
+v3:
+	* recreate the whole patchset on top of struct dma_buf_map
+v2:
+	* RFC patchset
+
+Thomas Zimmermann (10):
+  drm/vram-helper: Remove invariant parameters from internal kmap
+    function
+  drm/cma-helper: Remove empty drm_gem_cma_prime_vunmap()
+  drm/etnaviv: Remove empty etnaviv_gem_prime_vunmap()
+  drm/exynos: Remove empty exynos_drm_gem_prime_{vmap,vunmap}()
+  drm/ttm: Add vmap/vunmap to TTM and TTM GEM helpers
+  drm/gem: Use struct dma_buf_map in GEM vmap ops and convert GEM
+    backends
+  drm/gem: Update internal GEM vmap/vunmap interfaces to use struct
+    dma_buf_map
+  drm/gem: Store client buffer mappings as struct dma_buf_map
+  dma-buf-map: Add memcpy and pointer-increment interfaces
+  drm/fb_helper: Support framebuffers in I/O memory
+
+ Documentation/gpu/todo.rst                  |  37 ++-
+ drivers/gpu/drm/Kconfig                     |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  36 ---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h |   2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |   1 -
+ drivers/gpu/drm/ast/ast_cursor.c            |  27 +-
+ drivers/gpu/drm/ast/ast_drv.h               |   7 +-
+ drivers/gpu/drm/bochs/bochs_kms.c           |   1 -
+ drivers/gpu/drm/drm_client.c                |  38 +--
+ drivers/gpu/drm/drm_fb_helper.c             | 257 ++++++++++++++++++--
+ drivers/gpu/drm/drm_gem.c                   |  29 ++-
+ drivers/gpu/drm/drm_gem_cma_helper.c        |  27 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c      |  48 ++--
+ drivers/gpu/drm/drm_gem_ttm_helper.c        |  38 +++
+ drivers/gpu/drm/drm_gem_vram_helper.c       | 117 ++++-----
+ drivers/gpu/drm/drm_internal.h              |   5 +-
+ drivers/gpu/drm/drm_prime.c                 |  14 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |   3 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       |   1 -
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  12 +-
+ drivers/gpu/drm/exynos/exynos_drm_gem.c     |  12 -
+ drivers/gpu/drm/exynos/exynos_drm_gem.h     |   2 -
+ drivers/gpu/drm/lima/lima_gem.c             |   6 +-
+ drivers/gpu/drm/lima/lima_sched.c           |  11 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c      |  10 +-
+ drivers/gpu/drm/nouveau/Kconfig             |   1 +
+ drivers/gpu/drm/nouveau/nouveau_bo.h        |   2 -
+ drivers/gpu/drm/nouveau/nouveau_gem.c       |   6 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.h       |   2 -
+ drivers/gpu/drm/nouveau/nouveau_prime.c     |  20 --
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c |  14 +-
+ drivers/gpu/drm/qxl/qxl_display.c           |  11 +-
+ drivers/gpu/drm/qxl/qxl_draw.c              |  14 +-
+ drivers/gpu/drm/qxl/qxl_drv.h               |  11 +-
+ drivers/gpu/drm/qxl/qxl_object.c            |  31 ++-
+ drivers/gpu/drm/qxl/qxl_object.h            |   2 +-
+ drivers/gpu/drm/qxl/qxl_prime.c             |  12 +-
+ drivers/gpu/drm/radeon/radeon.h             |   1 -
+ drivers/gpu/drm/radeon/radeon_gem.c         |   7 +-
+ drivers/gpu/drm/radeon/radeon_prime.c       |  20 --
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c |  22 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.h |   4 +-
+ drivers/gpu/drm/tiny/cirrus.c               |  10 +-
+ drivers/gpu/drm/tiny/gm12u320.c             |  10 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c           |  72 ++++++
+ drivers/gpu/drm/udl/udl_modeset.c           |   8 +-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c       |  11 +-
+ drivers/gpu/drm/vc4/vc4_bo.c                |   7 +-
+ drivers/gpu/drm/vc4/vc4_drv.h               |   2 +-
+ drivers/gpu/drm/vgem/vgem_drv.c             |  16 +-
+ drivers/gpu/drm/vkms/vkms_plane.c           |  15 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c       |  22 +-
+ drivers/gpu/drm/xen/xen_drm_front_gem.c     |  18 +-
+ drivers/gpu/drm/xen/xen_drm_front_gem.h     |   6 +-
+ include/drm/drm_client.h                    |   7 +-
+ include/drm/drm_gem.h                       |   5 +-
+ include/drm/drm_gem_cma_helper.h            |   3 +-
+ include/drm/drm_gem_shmem_helper.h          |   4 +-
+ include/drm/drm_gem_ttm_helper.h            |   6 +
+ include/drm/drm_gem_vram_helper.h           |  14 +-
+ include/drm/drm_mode_config.h               |  12 -
+ include/drm/ttm/ttm_bo_api.h                |  28 +++
+ include/linux/dma-buf-map.h                 |  93 ++++++-
+ 64 files changed, 859 insertions(+), 438 deletions(-)
+
+--
+2.29.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
