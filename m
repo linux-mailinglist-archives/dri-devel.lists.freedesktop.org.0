@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1423A29E5F9
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 09:13:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCC529E5F8
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 09:13:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FAB56E88F;
-	Thu, 29 Oct 2020 08:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 523726E895;
+	Thu, 29 Oct 2020 08:13:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 593596E512
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58D506E511
  for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 12:41:09 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7D7BD580118;
+ by mailnew.nyi.internal (Postfix) with ESMTP id 837AA58011B;
  Wed, 28 Oct 2020 08:41:08 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
+Received: from mailfrontend1 ([10.202.2.162])
  by compute6.internal (MEProxy); Wed, 28 Oct 2020 08:41:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=iXTKYI0ategc7ffuiuB8ir+zWv
- 2EhcjdkdIAEe/TMaA=; b=nv/xQZC2Kc+FDvf1Fj2lQfWzIN7scuMoBeGKbdKqmg
- wvLnEXRGJ0HAYgWj4+D++2O3DSXKxVEgTMlR6uZW0wishu1zIJMWvy8W4cYr119J
- FhwKDfxzBKpluaYRdbVvpWm+avBOJyqwqbTXz5hWkYeMsmmrxDNikiOyBuafc5iG
- 9ERcVSeMGcCPUDozv9PHX+l+gWEse/qN1dw/EOsLCSTs0/K1onEiupBzjSK75M1I
- VSFGQ/VcYKQlliosEWpNpvhsUggLiLqIn4xlfAo8nKM9s/Z4A3DqwJo6yQD+SB7T
- kQ1LDvZbu5n8D5/wd/unwlpuiao9Kbxufe2twA+6wKKA==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=pGuPsVhlyShIi
+ WSfeyFhhg0EnQwVmnnyEOEiuGfCnxE=; b=Dte5OytkL1w2KKl4hCxnB16GK9dKq
+ oLo2YFqAUCVnbeULDVGIr3iTb4BH9EgCnKb0C3NptUHuTq3fZMRMAmZxxmPA8iGd
+ xhxU6HIVrB+1LzM9hEUAXLeMCuvuYexO0/TSCIZpdjgi2JtUGg/mTIdvi+v72QpN
+ KTlYULnFybUzvi147Q4uSf5ga2bAUDRvBhejKkwuGq8cPGLjOUSB0Cpy97L6hold
+ /7xJD4u6ogWlOwr5lFvB/ZqkRAnUVhEQP//Jr5u35vy/qb0QGnckW1YMQAC22kQ9
+ NNO82WwMZW7YAQ+pW8HiDfRd25UfdihQa+7JxZd/qaA8gbcL3vjxzNONA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=iXTKYI0ategc7ffui
- uB8ir+zWv2EhcjdkdIAEe/TMaA=; b=pdhmwA5cLaLNXCJ6d0fuYyOUcr/atPgZL
- 0FWwiflyQAA0CYmFD8D5GzHm6hKLH2jyU6mb0O2t7aF2ZAV7uGGakCsp8dmVmL73
- LX0kKxgFoy81FRdJJGya0G3vYAmTiuLZn6iV0dvgaU/kAi1Qth2FKdO8ldwm4xLf
- eca2BvY3/nNkDeXc5CZULn2OYVeJUWVX8YoJTJtjr1yrwCq1DRZ8a84v6kjVSuK9
- 2qu2XOz2pye59ptKDzskv9l27Amr8bVk80GIqM99yDpnxx/0di8Q//0/DAaRVZQZ
- 4WptJ5fmkKgT8ktoLO+MaY0K/lwdG/bqKJlJYTfPv8z1cBC8PHyyA==
-X-ME-Sender: <xms:4maZX3_kFQV5tRxxkwD72mKdW8QbyySrr0QdmMsILgIHn5--a6_1Ig>
- <xme:4maZXzuApuTC4bpOx4Jf0E9od2K4y2oV-FgLfg4PNBk_mt9GQjqUXZbdq4OB-_YFq
- jAsdBaL2mpoK7Cof_4>
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=pGuPsVhlyShIiWSfeyFhhg0EnQwVmnnyEOEiuGfCnxE=; b=DlEFe4mx
+ v6KaN7Tdd35yROzU+AeHagEEbNF1y9wkSe3N6/BO3W7xCvHmsWwsSdcOTUJkSRys
+ 8XnhuKscRk1Lj5HnaC230ibUtDfHlJzEMfZD3GK2aL90XrVupjLV9BdO0e/wRsYP
+ SyY67uc/3GUK7ysDfiThLDzGc5bO/ud4K64aQFm8KZ6ub9s3Md13VTIgMhxDAf02
+ KaAe9HZ9xYcY+Hj/MC+FyO6YiqoRByCAjtXhCVHUXcShE8od+r3beeRJSGGCKBs6
+ y/lLqa94+BNfDnzPXtNHO+xwqxwTReiFIhPFEwkvZ5eg6Uq1AiIPY0f2l3zokE6j
+ 1lNNz0ZFEbpOrw==
+X-ME-Sender: <xms:42aZX9aalK3tfUE0Nyg-jupA0gFPwUciBRc1H1Z4EK9314v7QofDUA>
+ <xme:42aZX0ZNoAQa4EN6JAFLmmysDblQMpvDTM51kIOUBqwfB8EWxDzix8udaSO9WTLCZ
+ r3WCx6eIfe2MabvsI8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrledugdegvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
- ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
- hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
- ucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
- grmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:4maZX1Dz3UnOIpLp-znR9QZoV4SlTumofNNn_481tprgEszMtow1Qg>
- <xmx:4maZXzflvc5ae7cVl4p-hTEmpfWoD0pvxYgjm_PIWWR4C2_94dRg8A>
- <xmx:4maZX8PGwd9o3f8ynNVlwRvVo6ClnDmto7VCpgG3EePb0aDorttzXA>
- <xmx:5GaZXxurwuY0aY2y_m-MZPVKxn_weDJSj5qGin4yrdkNWNwvYb6c3Q>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:42aZX_8iluX0gLJQJH955i1sHS1_rkcIarOox476v0ycDevwKzo1QQ>
+ <xmx:42aZX7psVU69NcJr8kdxutifpdMrvDuG6yP2FOxJ-3UVLojI9xEPoQ>
+ <xmx:42aZX4oryt1lyEI-zUg3sJDrQaiCNusMqguu4gBabvgFLBAIG7nztg>
+ <xmx:5GaZX0af-uGHMmaQQMD69IexBH5C2HJZebFpMjounRkWJd7G5KtRvw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id E9815306467D;
- Wed, 28 Oct 2020 08:41:05 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3F41C3280059;
+ Wed, 28 Oct 2020 08:41:07 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>,
@@ -63,10 +64,12 @@ To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 0/7] drm/vc4: Rework the HVS muxing code
-Date: Wed, 28 Oct 2020 13:40:57 +0100
-Message-Id: <cover.3eb3532def69f3610b18104e45b7274bbdc1b0a0.1603888799.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 1/7] drm/vc4: kms: Remove useless define
+Date: Wed, 28 Oct 2020 13:40:58 +0100
+Message-Id: <7c2cf02a0782f257bcc2823d52d7de11cb4d8778.1603888799.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.3eb3532def69f3610b18104e45b7274bbdc1b0a0.1603888799.git-series.maxime@cerno.tech>
+References: <cover.3eb3532def69f3610b18104e45b7274bbdc1b0a0.1603888799.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 29 Oct 2020 08:12:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,34 +94,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+NUM_OUTPUTS isn't used anymore, let's remove it.
 
-Here's a second attempt at fixing the current issues we have with the
-muxing code that results in a PV muxing its HVS muxing when only another
-CRTC is modified by a state, or vblank timeouts when trying to wait for a
-vblank on a single CRTC while another one is inactive but enabled.
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_kms.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Let me know what you think,
-Maxime
-
-Changes from v1:
-  - Dropped the code trying to access all the CRTCs (whether in the state
-    or not) state
-
-Maxime Ripard (7):
-  drm/vc4: kms: Remove useless define
-  drm/vc4: kms: Rename NUM_CHANNELS
-  drm/vc4: kms: Split the HVS muxing check in a separate function
-  drm/vc4: kms: Document the muxing corner cases
-  drm/vc4: kms: Add functions to create the state objects
-  drm/vc4: kms: Store the unassigned channel list in the state
-  drm/vc4: kms: Don't disable the muxing of an active CRTC
-
- drivers/gpu/drm/vc4/vc4_drv.h |   2 +-
- drivers/gpu/drm/vc4/vc4_kms.c | 314 +++++++++++++++++++++++++----------
- 2 files changed, 235 insertions(+), 81 deletions(-)
-
-base-commit: 66e2a590a11f54865fb3ffd3ec932a6a4e477b40
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 149825ff5df8..f8081c996193 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -609,7 +609,6 @@ static const struct drm_private_state_funcs vc4_load_tracker_state_funcs = {
+ 	.atomic_destroy_state = vc4_load_tracker_destroy_state,
+ };
+ 
+-#define NUM_OUTPUTS  6
+ #define NUM_CHANNELS 3
+ 
+ static int
 -- 
 git-series 0.9.1
 _______________________________________________
