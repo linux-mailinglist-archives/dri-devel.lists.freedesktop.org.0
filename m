@@ -2,62 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F1929E574
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 08:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5530429E603
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 09:13:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD856E854;
-	Thu, 29 Oct 2020 07:59:04 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40D886E854
- for <dri-devel@freedesktop.org>; Thu, 29 Oct 2020 07:58:58 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1603958342; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=TlU0fDOuXAQSqUNYC4Vl1Hk+7AlQn1pnRJi/r7LKsoc=;
- b=VVmXAgGfHR2KUPbzpck3C5QFw0dlHM1vPhHOkNvVr6a2jj3Y/GMe+0t8g7sx9B0Dq0UxELlW
- kOkTeZadugOkomIlgNrjxZiApHkVDb3lYqyo2EP13YCxMVS6Vkg1c6bzEWCRVqu4HWGfTukj
- M9Ehew7hnYvCJr4Vm4kPlQrV7cc=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 5f9a762f3500ab29c8ba3dc4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Oct 2020 07:58:39
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 49166C433C9; Thu, 29 Oct 2020 07:58:39 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.2 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.9] (unknown [61.3.76.235])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 63B9BC433FE;
- Thu, 29 Oct 2020 07:58:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 63B9BC433FE
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [v3,2/3] arm64: dts: qcom: sc7180: Add gpu cooling support
-To: mka@chromium.org
-References: <1603892395-3570-2-git-send-email-akhilpo@codeaurora.org>
- <20201029003931.GA1855806@google.com>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <2919f377-4824-dc85-aa2c-c3ce252d437c@codeaurora.org>
-Date: Thu, 29 Oct 2020 13:28:33 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA156E8A0;
+	Thu, 29 Oct 2020 08:13:01 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5F96E49C;
+ Wed, 28 Oct 2020 08:24:29 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CLhSV3Vzrzhbkn;
+ Wed, 28 Oct 2020 16:24:26 +0800 (CST)
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 28 Oct 2020 16:24:12 +0800
+From: Zou Wei <zou_wei@huawei.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+Subject: [PATCH -next] drm/amd/display: remove useless if/else
+Date: Wed, 28 Oct 2020 16:36:11 +0800
+Message-ID: <1603874171-106841-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-In-Reply-To: <20201029003931.GA1855806@google.com>
-Content-Language: en-US
+X-Originating-IP: [10.175.103.112]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Thu, 29 Oct 2020 08:12:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,128 +42,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dianders@chromium.org, linux-kernel@vger.kernel.org, dri-devel@freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: Zou Wei <zou_wei@huawei.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/29/2020 6:09 AM, mka@chromium.org wrote:
-> Hi Akhil,
-> 
-> On Wed, Oct 28, 2020 at 07:09:53PM +0530, Akhil P Oommen wrote:
->> Add cooling-cells property and the cooling maps for the gpu tzones
->> to support GPU cooling.
->>
->> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
->> ---
->>   arch/arm64/boot/dts/qcom/sc7180.dtsi | 30 +++++++++++++++++++++++-------
->>   1 file changed, 23 insertions(+), 7 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
->> index d46b383..a7ea029 100644
->> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
->> @@ -2,7 +2,7 @@
->>   /*
->>    * SC7180 SoC device tree source
->>    *
->> - * Copyright (c) 2019, The Linux Foundation. All rights reserved.
->> + * Copyright (c) 2019-20, The Linux Foundation. All rights reserved.
->>    */
->>   
->>   #include <dt-bindings/clock/qcom,dispcc-sc7180.h>
->> @@ -1886,6 +1886,8 @@
->>   			operating-points-v2 = <&gpu_opp_table>;
->>   			qcom,gmu = <&gmu>;
->>   
->> +			#cooling-cells = <2>;
->> +
->>   			interconnects = <&gem_noc MASTER_GFX3D &mc_virt SLAVE_EBI1>;
->>   			interconnect-names = "gfx-mem";
->>   
->> @@ -3825,16 +3827,16 @@
->>   		};
->>   
->>   		gpuss0-thermal {
->> -			polling-delay-passive = <0>;
->> +			polling-delay-passive = <100>;
->>   			polling-delay = <0>;
->>   
->>   			thermal-sensors = <&tsens0 13>;
->>   
->>   			trips {
->>   				gpuss0_alert0: trip-point0 {
->> -					temperature = <90000>;
->> +					temperature = <95000>;
->>   					hysteresis = <2000>;
->> -					type = "hot";
->> +					type = "passive";
->>   				};
->>   
->>   				gpuss0_crit: gpuss0_crit {
->> @@ -3843,19 +3845,26 @@
->>   					type = "critical";
->>   				};
->>   			};
->> +
->> +			cooling-maps {
->> +				map0 {
->> +					trip = <&gpuss0_alert0>;
->> +					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
->> +				};
->> +			};
->>   		};
->>   
->>   		gpuss1-thermal {
->> -			polling-delay-passive = <0>;
->> +			polling-delay-passive = <100>;
->>   			polling-delay = <0>;
->>   
->>   			thermal-sensors = <&tsens0 14>;
->>   
->>   			trips {
->>   				gpuss1_alert0: trip-point0 {
->> -					temperature = <90000>;
->> +					temperature = <95000>;
->>   					hysteresis = <2000>;
->> -					type = "hot";
->> +					type = "passive";
->>   				};
->>   
->>   				gpuss1_crit: gpuss1_crit {
->> @@ -3864,6 +3873,13 @@
->>   					type = "critical";
->>   				};
->>   			};
->> +
->> +			cooling-maps {
->> +				map0 {
->> +					trip = <&gpuss0_alert0>;
-> 
-> Copy & paste error, this should be 'gpuss1_alert0'.
-aah! you are correct.
+Fix the following coccinelle report:
 
---Akhil
-> 
->> +					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
->> +				};
->> +			};
->>   		};
->>   
->>   		aoss1-thermal {
-> 
-> 
-> Other than the C&P error:
-> 
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
+./drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c:1367:3-5:
+WARNING: possible condition with no effect (if == else)
+
+Both branches are the same, so remove the if/else altogether.
+
+Fixes: 81875979f0b2 ("drm/amd/display: Remove extra pairs of parentheses in dce_calcs.c")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
+---
+ drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
+index 2c6db37..e4f29cd 100644
+--- a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
++++ b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
+@@ -1364,13 +1364,10 @@ static void calculate_bandwidth(
+ 	/*if stutter and dram clock state change are gated before cursor then the cursor latency hiding does not limit stutter or dram clock state change*/
+ 	for (i = 0; i <= maximum_number_of_surfaces - 1; i++) {
+ 		if (data->enable[i]) {
+-			if (dceip->graphics_lb_nodownscaling_multi_line_prefetching == 1) {
+-				data->maximum_latency_hiding[i] = bw_add(data->minimum_latency_hiding[i], bw_mul(bw_frc_to_fixed(5, 10), data->total_dmifmc_urgent_latency));
+-			}
+-			else {
+-				/*maximum_latency_hiding(i) = minimum_latency_hiding(i) + 1 / vsr(i) * h_total(i) / pixel_rate(i) + 0.5 * total_dmifmc_urgent_latency*/
+-				data->maximum_latency_hiding[i] = bw_add(data->minimum_latency_hiding[i], bw_mul(bw_frc_to_fixed(5, 10), data->total_dmifmc_urgent_latency));
+-			}
++			/*maximum_latency_hiding(i) = minimum_latency_hiding(i) + 1 / vsr(i) **/
++			/*      h_total(i) / pixel_rate(i) + 0.5 * total_dmifmc_urgent_latency*/
++			data->maximum_latency_hiding[i] = bw_add(data->minimum_latency_hiding[i],
++				bw_mul(bw_frc_to_fixed(5, 10), data->total_dmifmc_urgent_latency));
+ 			data->maximum_latency_hiding_with_cursor[i] = bw_min2(data->maximum_latency_hiding[i], data->cursor_latency_hiding[i]);
+ 		}
+ 	}
+-- 
+2.6.2
 
 _______________________________________________
 dri-devel mailing list
