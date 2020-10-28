@@ -1,57 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C5129D1F4
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 20:49:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE9829D1F9
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 20:56:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4705389D61;
-	Wed, 28 Oct 2020 19:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4016E334;
+	Wed, 28 Oct 2020 19:56:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E56736E334
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 19:49:16 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id w1so372511wrm.4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 12:49:16 -0700 (PDT)
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD7616E334
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 19:56:10 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id f7so831724oib.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 12:56:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7yGnLARxCw22Ojs/TsKg75JWHtU+IWb2IRnsoKkOIBA=;
- b=HnaZhcpFD2zdrJWFOiQ++1/fi5BWdqMCwdagSfdXQ0TXWd67iL0kca/eV7VBK4vIVl
- N+J9xs2HqGBU6716GH1M6bhtHvqHhUCNeeOP8H5EsRJxEJSsUdSZ0oEFwig/VZusPpLH
- eKYXd0oIz+x6QYi0pQch4tKz7P3L0Yy6+YF4s=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4/jRtjflB3FOXE8tWLebJmZXQcQDgbUGyYXnWDHMhFw=;
+ b=HezzhLUgZyCPNLIs/d3xL14ndLiU3FDih8baQjxTIzucorbX3xZA/sANE7v96gfn2u
+ ujbgT8BX5jxbB0YB53HR2lr73aC7/ZTdPq+DhQvgSyCF+1kMPsTnDjZ0cvVkHcogRbyh
+ CvC4Ptamg5lstIgELvMJGVQpCv7DScrul4O8s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7yGnLARxCw22Ojs/TsKg75JWHtU+IWb2IRnsoKkOIBA=;
- b=NnkL6R2qo6loYkGFVgfyCKv4FpFBoFB5KjbxR1AYGScdaTahLozafkUs9UptcEcvkR
- X/98Tw0KGZ+Q0w5//tfPmLBd4wyks4fost3anYB0IpxVgIUPYdObrd6qa8cSnsJnVP6S
- JUEzOsgbODg47Xs4xOK7WVmlPZh7zHXjty7pI3/N3/hRb0zRiKgh6uUnpcU3j5PWOL49
- t7AHOThn0Qz1QfRgDrJVBfdlgsyRQmNre3sonwwAcpOMdJx+JM5GZ3xkLQqsbcHbumPi
- prIhhatmya6xUVtx7cLNJEIFpqpqWQe5Tu4EOKtYa4Vd+g2u/DEUHXmmOqj71JJX0px4
- 44Xg==
-X-Gm-Message-State: AOAM530koWmTQ4+gJfmmwNrr8liMCibKHXIKDw6ZwbE027oGZ5fl9/bU
- PEvx96dS7pb52LiDzvXKLVUGUg==
-X-Google-Smtp-Source: ABdhPJwy91Tkz6a/lq4QdXJXSiaLOmD1dxTOuvAjFra1URVheEiMxpxM6fq4ibeaccGqh6Aakv9CuA==
-X-Received: by 2002:a5d:6605:: with SMTP id n5mr1031398wru.355.1603914555405; 
- Wed, 28 Oct 2020 12:49:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j13sm791045wru.86.2020.10.28.12.49.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 12:49:14 -0700 (PDT)
-Date: Wed, 28 Oct 2020 20:49:11 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH] drm: Remove SCATTERLIST_MAX_SEGMENT
-Message-ID: <20201028194911.GY401619@phenom.ffwll.local>
-References: <0-v1-44733fccd781+13d-rm_scatterlist_max_jgg@nvidia.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4/jRtjflB3FOXE8tWLebJmZXQcQDgbUGyYXnWDHMhFw=;
+ b=G8Co0i4UgfJbuE8gMp5R0ce8KqmYZ4Fq5izTdIZZZo1UFGAOMz3Vy01yo00aFBL3WJ
+ rN4DEBpVD8QJT/kWIXkJU+VT2vwpuOH+8CwSjdbo/MKq6NByTLiDc7PEHUhpfg3S1+nw
+ oD6P7EOCYQfTihpF8dXj9iolbZKsaqz4kBBerIfXaDWLsQVhAB55YQhH78Mnz+6kEc5m
+ G5xFuGRrdRy/gNI2C4koF7z6cv3wzifqY11PTtne3M0EFyz6HuKou6h58OYy5YS5r2p7
+ nfDOY1mAzD3fgp34TUzrGrHsWNK4Ba+g5pF7Wxn3aoFxrNt9J0l7oTaHO4WLE6Ppt8ep
+ F9QA==
+X-Gm-Message-State: AOAM5315K0oxV9M8+z9PR0JO3S4XnTc5CKDVp00PRelcvZ813sRuBMU7
+ l7yhKu1Up1pMydhPUo+Ew/MbGTcI6od1XrmHeLmoag==
+X-Google-Smtp-Source: ABdhPJy3Fb7yGQ6INQZe6hvfVlG/wkVqyEK6JzPi4QAyciptAFDqG06CHpvm+ayF9ZZwYvUocVw2evUt3oB0C8rAHRQ=
+X-Received: by 2002:aca:39d6:: with SMTP id g205mr510311oia.14.1603914970160; 
+ Wed, 28 Oct 2020 12:56:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <0-v1-44733fccd781+13d-rm_scatterlist_max_jgg@nvidia.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20201028160600.3752105-1-daniel.vetter@ffwll.ch>
+ <470585bd-74de-d652-928b-b03fe3bd8614@suse.de>
+In-Reply-To: <470585bd-74de-d652-928b-b03fe3bd8614@suse.de>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 28 Oct 2020 20:55:59 +0100
+Message-ID: <CAKMK7uEgn1ZMDpk=hnm7KODVBjUnNYiTsm-O-mDeuGRBi8qYxg@mail.gmail.com>
+Subject: Re: [PATCH] fbcon: Disable accelerated scrolling
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,140 +59,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
- Roland Scheidegger <sroland@vmware.com>, intel-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Qian Cai <cai@lca.pw>, Christoph Hellwig <hch@lst.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Peilin Ye <yepeilin.cs@gmail.com>, George Kennedy <george.kennedy@oracle.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Peter Rosin <peda@axentia.se>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 28, 2020 at 04:15:26PM -0300, Jason Gunthorpe wrote:
-> Since commit 9a40401cfa13 ("lib/scatterlist: Do not limit max_segment to
-> PAGE_ALIGNED values") the max_segment input to sg_alloc_table_from_pages()
-> does not have to be any special value. The new algorithm will always
-> create something less than what the user provides. Thus eliminate this
-> confusing constant.
-> 
-> - vmwgfx should use the HW capability, not mix in the OS page size for
->   calling dma_set_max_seg_size()
-> 
-> - i915 uses i915_sg_segment_size() both for sg_alloc_table_from_pages
->   and for some open coded sgl construction. This doesn't change the value
->   since rounddown(size, UINT_MAX) == SCATTERLIST_MAX_SEGMENT
-> 
-> - drm_prime_pages_to_sg uses it as a default if max_segment is zero,
->   UINT_MAX is fine to use directly.
-> 
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Thomas Hellstrom <thellstrom@vmware.com>
-> Cc: Qian Cai <cai@lca.pw>
-> Cc: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>
-> Suggested-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-
-lgtm. Do you want to push this through some other queue, or should I put
-this into drm trees? Prefer 5.10 or 5.11?
-
-If you want to merge this Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
--Daniel
-
-> ---
->  drivers/gpu/drm/drm_prime.c             | 4 ++--
->  drivers/gpu/drm/i915/i915_scatterlist.h | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 3 +--
->  include/linux/scatterlist.h             | 6 ------
->  tools/testing/scatterlist/main.c        | 2 +-
->  5 files changed, 5 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index d6808f678db541..c3693e5e8b74b0 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -816,8 +816,8 @@ struct sg_table *drm_prime_pages_to_sg(struct drm_device *dev,
->  
->  	if (dev)
->  		max_segment = dma_max_mapping_size(dev->dev);
-> -	if (max_segment == 0 || max_segment > SCATTERLIST_MAX_SEGMENT)
-> -		max_segment = SCATTERLIST_MAX_SEGMENT;
-> +	if (max_segment == 0)
-> +		max_segment = UINT_MAX;
->  	sge = __sg_alloc_table_from_pages(sg, pages, nr_pages, 0,
->  					  nr_pages << PAGE_SHIFT,
->  					  max_segment,
-> diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
-> index b7b59328cb76ab..883dd8d09d6bf2 100644
-> --- a/drivers/gpu/drm/i915/i915_scatterlist.h
-> +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
-> @@ -112,7 +112,7 @@ static inline unsigned int i915_sg_segment_size(void)
->  	unsigned int size = swiotlb_max_segment();
->  
->  	if (size == 0)
-> -		return SCATTERLIST_MAX_SEGMENT;
-> +		size = UINT_MAX;
->  
->  	size = rounddown(size, PAGE_SIZE);
->  	/* swiotlb_max_segment_size can return 1 byte when it means one page. */
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> index 31e3e5c9f36223..c1817f1a3006e0 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -792,8 +792,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
->  	if (unlikely(ret != 0))
->  		goto out_err0;
->  
-> -	dma_set_max_seg_size(dev->dev, min_t(unsigned int, U32_MAX & PAGE_MASK,
-> -					     SCATTERLIST_MAX_SEGMENT));
-> +	dma_set_max_seg_size(dev->dev, U32_MAX);
->  
->  	if (dev_priv->capabilities & SVGA_CAP_GMR2) {
->  		DRM_INFO("Max GMR ids is %u\n",
-> diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-> index 36c47e7e66a203..6f70572b2938be 100644
-> --- a/include/linux/scatterlist.h
-> +++ b/include/linux/scatterlist.h
-> @@ -18,12 +18,6 @@ struct scatterlist {
->  #endif
->  };
->  
-> -/*
-> - * Since the above length field is an unsigned int, below we define the maximum
-> - * length in bytes that can be stored in one scatterlist entry.
-> - */
-> -#define SCATTERLIST_MAX_SEGMENT (UINT_MAX & PAGE_MASK)
-> -
->  /*
->   * These macros should be used after a dma_map_sg call has been done
->   * to get bus addresses of each of the SG entries and their lengths.
-> diff --git a/tools/testing/scatterlist/main.c b/tools/testing/scatterlist/main.c
-> index b2c7e9f7b8d3dc..d264bf853034bd 100644
-> --- a/tools/testing/scatterlist/main.c
-> +++ b/tools/testing/scatterlist/main.c
-> @@ -50,7 +50,7 @@ static void fail(struct test *test, struct sg_table *st, const char *cond)
->  
->  int main(void)
->  {
-> -	const unsigned int sgmax = SCATTERLIST_MAX_SEGMENT;
-> +	const unsigned int sgmax = UINT_MAX;
->  	struct test *test, tests[] = {
->  		{ -EINVAL, 1, pfn(0), PAGE_SIZE, PAGE_SIZE + 1, 1 },
->  		{ -EINVAL, 1, pfn(0), PAGE_SIZE, 0, 1 },
-> -- 
-> 2.28.0
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBPY3QgMjgsIDIwMjAgYXQgODowMiBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMjguMTAuMjAgdW0gMTc6MDYgc2No
+cmllYiBEYW5pZWwgVmV0dGVyOgo+ID4gU28gZXZlciBzaW5jZSBzeXpib3QgZGlzY292ZXJlZCBm
+YmNvbiwgd2UgaGF2ZSBzb2xpZCBwcm9vZiB0aGF0IGl0J3MKPiA+IGZ1bGwgb2YgYnVncy4gQW5k
+IG9mdGVuIHRoZSBzb2x1dGlvbiBpcyB0byBqdXN0IGRlbGV0ZSBjb2RlIGFuZCByZW1vdmUKPiA+
+IGZlYXR1cmVzLCBlLmcuICA1MDE0NTQ3NGY2ZWYgKCJmYmNvbjogcmVtb3ZlIHNvZnQgc2Nyb2xs
+YmFjayBjb2RlIikuCj4gPgo+ID4gTm93IHRoZSBwcm9ibGVtIGlzIHRoYXQgbW9zdCBtb2Rlcm4t
+aXNoIGRyaXZlcnMgcmVhbGx5IG9ubHkgdHJlYXQKPiA+IGZiY29uIGFzIGFuIGR1bWIga2VybmVs
+IGNvbnNvbGUgdW50aWwgdXNlcnNwYWNlIHRha2VzIG92ZXIsIGFuZCBPb3BzCj4gPiBwcmludGVy
+IGZvciBzb21lIGVtZXJnZW5jaWVzLiBMb29raW5nIGF0IGRybSBkcml2ZXJzIGFuZCB0aGUgYmFz
+aWMKPiA+IHZlc2EvZWZpIGZiZGV2IGRyaXZlcnMgc2hvd3MgdGhhdCBvbmx5IDMgZHJpdmVycyBz
+dXBwb3J0IGFueSBraW5kIG9mCj4gPiBhY2NlbGVyYXRpb246Cj4gPgo+ID4gLSBub3V2ZWF1LCBz
+ZWVtcyB0byBiZSBlbmFibGVkIGJ5IGRlZmF1bHQKPiA+IC0gb21hcGRybSwgd2hlbiBhIERNTSBy
+ZW1hcHBlciBleGlzdHMgdXNpbmcgcmVtYXBwZXIgcmV3cml0aW5nIGZvcgo+ID4gICB5L3hwYW5u
+aW5nCj4gPiAtIGdtYTUwMCwgYnV0IHRoYXQgaXMgZ2V0dGluZyBkZWxldGVkIG5vdyBmb3IgdGhl
+IEdUVCByZW1hcHBlciB0cmljaywKPiA+ICAgYW5kIHRoZSBhY2NlbGVyYXRlZCBjb3B5YXJlYSBu
+ZXZlciBzZXQgdGhlIEZCSU5GT19IV0FDQ0VMX0NPUFlBUkVBCj4gPiAgIGZsYWcsIHNvIHVudXNl
+ZCAoYW5kIGNvdWxkIGJlIGRlbGV0ZWQgYWxyZWFkeSBJIHRoaW5rKS4KPiA+Cj4gPiBObyBvdGhl
+ciBkcml2ZXIgc3VwcG9ydGVzIGFjY2VsZXJhdGVkIGZiY29uLiBBbmQgZmJjb24gaXMgdGhlIG9u
+bHkKPiA+IHVzZXIgb2YgdGhpcyBhY2NlbCBjb2RlIChpdCdzIG5vdCBleHBvc2VkIGFzIHVhcGkg
+dGhyb3VnaCBpb2N0bHMpLAo+ID4gd2hpY2ggbWVhbnMgd2UgY291bGQgZ2FyYmFnZSBjb2xsZWN0
+IGZhaXJseSBlbm9ybW91cyBhbW91bnRzIG9mIGNvZGUKPiA+IGlmIHdlIGtpbGwgdGhpcy4KPiA+
+Cj4gPiBQbHVzIGJlY2F1c2Ugc3l6Ym90IG9ubHkgcnVucyBvbiB2aXJ0dWFsIGhhcmR3YXJlLCBh
+bmQgbm9uZSBvZiB0aGUKPiA+IGRyaXZlcnMgZm9yIHRoYXQgaGF2ZSBhY2NlbGVyYXRpb24sIHdl
+J2QgcmVtb3ZlIGEgaHVnZSBnYXAgaW4gdGVzdGluZy4KPiA+IEFuZCB0aGVyZSdzIG5vIG90aGVy
+IGV2ZW4gcmVtb3RlbHkgY29tcHJlaGVuc2l2ZSB0ZXN0aW5nIGFzaWRlIGZyb20KPiA+IHN5emJv
+dC4KPiA+Cj4gPiBUaGlzIHBhdGNoIGhlcmUganVzdCBkaXNhYmxlcyB0aGUgYWNjZWxlcmF0aW9u
+IGNvZGUgYnkgYWx3YXlzCj4gPiByZWRyYXdpbmcgd2hlbiBzY3JvbGxpbmcuIFRoZSBwbGFuIGlz
+IHRoYXQgb25jZSB0aGlzIGhhcyBiZWVuIG1lcmdlZAo+ID4gZm9yIHdlbGwgb3ZlciBhIHllYXIg
+aW4gcmVsZWFzZWQga2VybmVscywgd2UgY2FuIHN0YXJ0IHRvIGdvIGFyb3VuZAo+ID4gYW5kIGRl
+bGV0ZSBhIGxvdCBvZiBjb2RlLgo+Cj4gV2h5IHdhaXQgYSB5ZWFyPyBJJ2Qgc2F5IGRlbGV0ZSBl
+YXJseSwgZGVsZXRlIG9mdGVuLiA7KQo+Cj4gPgo+ID4gQ2M6IEJhcnRsb21pZWogWm9sbmllcmtp
+ZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KPiA+IENjOiBHcmVnIEtyb2FoLUhhcnRt
+YW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgo+ID4gQ2M6IExpbnVzIFRvcnZhbGRzIDx0
+b3J2YWxkc0BsaW51eC1mb3VuZGF0aW9uLm9yZz4KPiA+IENjOiBCZW4gU2tlZ2dzIDxic2tlZ2dz
+QHJlZGhhdC5jb20+Cj4gPiBDYzogbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IENj
+OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPgo+ID4gQ2M6IERhbmllbCBW
+ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gPiBDYzogSmlyaSBTbGFieSA8amlyaXNs
+YWJ5QGtlcm5lbC5vcmc+Cj4gPiBDYzogIkd1c3Rhdm8gQS4gUi4gU2lsdmEiIDxndXN0YXZvYXJz
+QGtlcm5lbC5vcmc+Cj4gPiBDYzogVGV0c3VvIEhhbmRhIDxwZW5ndWluLWtlcm5lbEBJLWxvdmUu
+U0FLVVJBLm5lLmpwPgo+ID4gQ2M6IFBlaWxpbiBZZSA8eWVwZWlsaW4uY3NAZ21haWwuY29tPgo+
+ID4gQ2M6IEdlb3JnZSBLZW5uZWR5IDxnZW9yZ2Uua2VubmVkeUBvcmFjbGUuY29tPgo+ID4gQ2M6
+IE5hdGhhbiBDaGFuY2VsbG9yIDxuYXRlY2hhbmNlbGxvckBnbWFpbC5jb20+Cj4gPiBDYzogUGV0
+ZXIgUm9zaW4gPHBlZGFAYXhlbnRpYS5zZT4KPiA+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0
+ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+ID4gLS0tCj4gPiAgZHJpdmVycy92aWRlby9m
+YmRldi9jb3JlL2ZiY29uLmMgfCAzOCArKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+
+ID4gIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDMxIGRlbGV0aW9ucygtKQo+ID4K
+PiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJjb24uYyBiL2RyaXZl
+cnMvdmlkZW8vZmJkZXYvY29yZS9mYmNvbi5jCj4gPiBpbmRleCBjZWY0Mzc4MTdiMGQuLmQ3NGNj
+YmJiMjliYiAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYmNvbi5j
+Cj4gPiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJjb24uYwo+ID4gQEAgLTExNDcs
+MTEgKzExNDcsMTMgQEAgc3RhdGljIHZvaWQgZmJjb25faW5pdChzdHJ1Y3QgdmNfZGF0YSAqdmMs
+IGludCBpbml0KQo+ID4KPiA+ICAgICAgIG9wcy0+Z3JhcGhpY3MgPSAwOwo+ID4KPiA+IC0gICAg
+IGlmICgoY2FwICYgRkJJTkZPX0hXQUNDRUxfQ09QWUFSRUEpICYmCj4gPiAtICAgICAgICAgIShj
+YXAgJiBGQklORk9fSFdBQ0NFTF9ESVNBQkxFRCkpCj4gPiAtICAgICAgICAgICAgIHAtPnNjcm9s
+bG1vZGUgPSBTQ1JPTExfTU9WRTsKPiA+IC0gICAgIGVsc2UgLyogZGVmYXVsdCB0byBzb21ldGhp
+bmcgc2FmZSAqLwo+ID4gLSAgICAgICAgICAgICBwLT5zY3JvbGxtb2RlID0gU0NST0xMX1JFRFJB
+VzsKPiA+ICsgICAgIC8qCj4gPiArICAgICAgKiBObyBtb3JlIGh3IGFjY2VsZXJhdGlvbiBmb3Ig
+ZmJjb24uCj4gPiArICAgICAgKgo+ID4gKyAgICAgICogRklYTUU6IEdhcmFiZ2UgY29sbGVjdCBh
+bGwgdGhlIG5vdyBkZWFkIGNvZGUgYWZ0ZXIgc3VmZmljaWVudCB0aW1lCj4gPiArICAgICAgKiBo
+YXMgcGFzc2VkLgo+ID4gKyAgICAgICovCj4gPiArICAgICBwLT5zY3JvbGxtb2RlID0gU0NST0xM
+X1JFRFJBVzsKPgo+IEkganVzdCBncmVwcGVkIGZvciBzY3JvbGxtb2RlIGFuZCB0aGVyZSBhcmVu
+J3QgbWFueSBwbGFjZXMgdGhhdCB1c2UgaXQuCj4gQ291bGQgeW91IHJlbW92ZSBpdCBhcyB3ZWxs
+PwoKUmVtb3Zpbmcgc2Nyb2xsbW9kZSB3aWxsIHN0YXJ0IHRoZSBkZWxldGUgZmVhc3QuIEluIGZi
+Y29uIGFsb25lIEkKdGhpbmsgd2UgY2FuIGRyb3AgaGFsZiB0aGUgY29kZS4KLURhbmllbAoKPgo+
+IEluIGFueSBjYXNlCj4KPiBSZXZpZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
+YW5uQHN1c2UuZGU+Cj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPgo+ID4KPiA+ICAgICAgIC8q
+Cj4gPiAgICAgICAgKiAgKytndWVudGhlcjogY29uc29sZS5jOnZjX2FsbG9jYXRlKCkgcmVsaWVz
+IG9uIGluaXRpYWxpemluZwo+ID4gQEAgLTE5NjEsNyArMTk2Myw2IEBAIHN0YXRpYyB2b2lkIHVw
+ZGF0ZXNjcm9sbG1vZGUoc3RydWN0IGZiY29uX2Rpc3BsYXkgKnAsCj4gPiAgewo+ID4gICAgICAg
+c3RydWN0IGZiY29uX29wcyAqb3BzID0gaW5mby0+ZmJjb25fcGFyOwo+ID4gICAgICAgaW50IGZo
+ID0gdmMtPnZjX2ZvbnQuaGVpZ2h0Owo+ID4gLSAgICAgaW50IGNhcCA9IGluZm8tPmZsYWdzOwo+
+ID4gICAgICAgdTE2IHQgPSAwOwo+ID4gICAgICAgaW50IHlwYW4gPSBGQkNPTl9TV0FQKG9wcy0+
+cm90YXRlLCBpbmZvLT5maXgueXBhbnN0ZXAsCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIGluZm8tPmZpeC54cGFuc3RlcCk7Cj4gPiBAQCAtMTk2OSwzNyArMTk3MCwxMiBAQCBz
+dGF0aWMgdm9pZCB1cGRhdGVzY3JvbGxtb2RlKHN0cnVjdCBmYmNvbl9kaXNwbGF5ICpwLAo+ID4g
+ICAgICAgaW50IHlyZXMgPSBGQkNPTl9TV0FQKG9wcy0+cm90YXRlLCBpbmZvLT52YXIueXJlcywg
+aW5mby0+dmFyLnhyZXMpOwo+ID4gICAgICAgaW50IHZ5cmVzID0gRkJDT05fU1dBUChvcHMtPnJv
+dGF0ZSwgaW5mby0+dmFyLnlyZXNfdmlydHVhbCwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIGluZm8tPnZhci54cmVzX3ZpcnR1YWwpOwo+ID4gLSAgICAgaW50IGdvb2RfcGFu
+ID0gKGNhcCAmIEZCSU5GT19IV0FDQ0VMX1lQQU4pICYmCj4gPiAtICAgICAgICAgICAgIGRpdmlk
+ZXMoeXBhbiwgdmMtPnZjX2ZvbnQuaGVpZ2h0KSAmJiB2eXJlcyA+IHlyZXM7Cj4gPiAtICAgICBp
+bnQgZ29vZF93cmFwID0gKGNhcCAmIEZCSU5GT19IV0FDQ0VMX1lXUkFQKSAmJgo+ID4gLSAgICAg
+ICAgICAgICBkaXZpZGVzKHl3cmFwLCB2Yy0+dmNfZm9udC5oZWlnaHQpICYmCj4gPiAtICAgICAg
+ICAgICAgIGRpdmlkZXModmMtPnZjX2ZvbnQuaGVpZ2h0LCB2eXJlcykgJiYKPiA+IC0gICAgICAg
+ICAgICAgZGl2aWRlcyh2Yy0+dmNfZm9udC5oZWlnaHQsIHlyZXMpOwo+ID4gLSAgICAgaW50IHJl
+YWRpbmdfZmFzdCA9IGNhcCAmIEZCSU5GT19SRUFEU19GQVNUOwo+ID4gLSAgICAgaW50IGZhc3Rf
+Y29weWFyZWEgPSAoY2FwICYgRkJJTkZPX0hXQUNDRUxfQ09QWUFSRUEpICYmCj4gPiAtICAgICAg
+ICAgICAgICEoY2FwICYgRkJJTkZPX0hXQUNDRUxfRElTQUJMRUQpOwo+ID4gLSAgICAgaW50IGZh
+c3RfaW1hZ2VibGl0ID0gKGNhcCAmIEZCSU5GT19IV0FDQ0VMX0lNQUdFQkxJVCkgJiYKPiA+IC0g
+ICAgICAgICAgICAgIShjYXAgJiBGQklORk9fSFdBQ0NFTF9ESVNBQkxFRCk7Cj4gPgo+ID4gICAg
+ICAgcC0+dnJvd3MgPSB2eXJlcy9maDsKPiA+ICAgICAgIGlmICh5cmVzID4gKGZoICogKHZjLT52
+Y19yb3dzICsgMSkpKQo+ID4gICAgICAgICAgICAgICBwLT52cm93cyAtPSAoeXJlcyAtIChmaCAq
+IHZjLT52Y19yb3dzKSkgLyBmaDsKPiA+ICAgICAgIGlmICgoeXJlcyAlIGZoKSAmJiAodnlyZXMg
+JSBmaCA8IHlyZXMgJSBmaCkpCj4gPiAgICAgICAgICAgICAgIHAtPnZyb3dzLS07Cj4gPiAtCj4g
+PiAtICAgICBpZiAoZ29vZF93cmFwIHx8IGdvb2RfcGFuKSB7Cj4gPiAtICAgICAgICAgICAgIGlm
+IChyZWFkaW5nX2Zhc3QgfHwgZmFzdF9jb3B5YXJlYSkKPiA+IC0gICAgICAgICAgICAgICAgICAg
+ICBwLT5zY3JvbGxtb2RlID0gZ29vZF93cmFwID8KPiA+IC0gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIFNDUk9MTF9XUkFQX01PVkUgOiBTQ1JPTExfUEFOX01PVkU7Cj4gPiAtICAgICAgICAg
+ICAgIGVsc2UKPiA+IC0gICAgICAgICAgICAgICAgICAgICBwLT5zY3JvbGxtb2RlID0gZ29vZF93
+cmFwID8gU0NST0xMX1JFRFJBVyA6Cj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICBT
+Q1JPTExfUEFOX1JFRFJBVzsKPiA+IC0gICAgIH0gZWxzZSB7Cj4gPiAtICAgICAgICAgICAgIGlm
+IChyZWFkaW5nX2Zhc3QgfHwgKGZhc3RfY29weWFyZWEgJiYgIWZhc3RfaW1hZ2VibGl0KSkKPiA+
+IC0gICAgICAgICAgICAgICAgICAgICBwLT5zY3JvbGxtb2RlID0gU0NST0xMX01PVkU7Cj4gPiAt
+ICAgICAgICAgICAgIGVsc2UKPiA+IC0gICAgICAgICAgICAgICAgICAgICBwLT5zY3JvbGxtb2Rl
+ID0gU0NST0xMX1JFRFJBVzsKPiA+IC0gICAgIH0KPiA+ICB9Cj4gPgo+ID4gICNkZWZpbmUgUElU
+Q0godykgKCgodykgKyA3KSA+PiAzKQo+ID4KPgo+IC0tCj4gVGhvbWFzIFppbW1lcm1hbm4KPiBH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJICj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4gKEhSQiAz
+NjgwOSwgQUcgTsO8cm5iZXJnKQo+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZm
+ZXIKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
+aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
