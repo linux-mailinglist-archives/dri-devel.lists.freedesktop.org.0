@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C8729CF26
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 10:16:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF7E329CF40
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 10:39:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3681F6E4B3;
-	Wed, 28 Oct 2020 09:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80CB36E047;
+	Wed, 28 Oct 2020 09:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C96A46E4B3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 09:16:25 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id k18so4024293wmj.5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 02:16:25 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4396E047
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 09:39:55 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id l20so2870935wme.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 02:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Ef4v3cP1xPuu0jMaaNBBUHPYFO8zk076vAefo9A49Hs=;
- b=bzwb0rt75nLwXb5o9Z9Mr6TJIDK3ctyFIXZ2B3wLmtqhnc9OD8tnxPOQHpdm6LkYG9
- 2ahmj9BRum5DhCrFpDGF8g3xhlLBZ1lwSEpHhy2JGhaAEyrHCTGF9P7SAYi7SPwpUthq
- D0iC58eNIdG7HCew+gQKuXI+YHNAWSKzKhavU=
+ :content-disposition:in-reply-to;
+ bh=hOAqsbFx2RdxhmHke8ksA3s2O88q5aScq5I6jSiebQg=;
+ b=ha7Hml8WAeYWpbwLod/2HoY9/AJf7/VtysAhAYh9u50f7vvEdTJwZutxIcM7SDKdDg
+ ILLRg+a17tGZFEALD0zErnP0jrBmt0jNH+lSCnGNJ4zFmKaZVf05ykNAgFURgadWYkMx
+ 6IVZ/fq4XIVEoGJXkrcy9TMxEPCUsz6rsEqXI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Ef4v3cP1xPuu0jMaaNBBUHPYFO8zk076vAefo9A49Hs=;
- b=VNLN1J1rbeF9EbXvkkOGwEI7iVhjtybk2J/HnBUXXDWiPFMy5W+9Nif0gJgpegzqlw
- GWvC+0vprST9Ca1gbSo16oZNcbjnjwbscvtGJQQmNx5Xubp3kgX4kyT28umT94bZtZMP
- ilB5vSnf0Ampv9ERBMzw1zrv9r+gJxWqdGtnGo6+LdBYONRaOcxjUBiGsZPXR7gHH8ai
- WQfimmYw7G+oADCjW9s9OzXon7BA5sz45PD8WZAWExV65NXSPaJxmECfcxGcGKyKg1vb
- 53xdBliRLfVLun+wt2UfMFLqqoKbtRar/s3sUl977QmV0nindunzdbeCa6mEWT7ENcnO
- BbgQ==
-X-Gm-Message-State: AOAM5308kbVIOTHBMu9t83PqGmk05eQwP+nXM87/UpyGwO6o1rINtKJd
- etC4OqPfPp+xLTmqQb51tqdmrQ==
-X-Google-Smtp-Source: ABdhPJztAPmrgFPSxl4+jj+/G/+Vm08v7+BZxmeXI8ZAc5z27bOZiT91JTV21ZQTl6N6oiJG3iFQKQ==
-X-Received: by 2002:a1c:f405:: with SMTP id z5mr6839220wma.126.1603876584348; 
- Wed, 28 Oct 2020 02:16:24 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=hOAqsbFx2RdxhmHke8ksA3s2O88q5aScq5I6jSiebQg=;
+ b=GIHLeS4hrDeo5+vzl/DBFXXwaprYimx7CZzyMlyDSfHStAfrYx+8yzeQuo9Xc15z4h
+ zZeE9G5QH7U3tA7em05NNtw/EENm71WQcSNHHzSizqup4/ugxTGDdyid0+2qC8PkJKN7
+ fUMQ6zLYkyW3YnwDMwlBiW/Il0m4QjFsQVcH5bP3FjINvCA0GR+BKm3N5csPYMLGXlFg
+ 4Fedl1hU167mJIBT7YaxP9SQP/gU24XjnHNW3v9XeSJzKQSm4S5e/xrywLdFd37IYS8B
+ BdNHZKTrcaPxVMpfyDvVTYTrbY0sFibvMRUTQ87LXSZrfZq2qxVkI6+4mBHLo+qXT/5X
+ cSAA==
+X-Gm-Message-State: AOAM531fr3oedN17S5UsKidCvLhZg7C29yHTImAoecLmleH8WAeSpwhT
+ Hw3zi5FoKR3Ikdn1Pxh1OvmRSQ==
+X-Google-Smtp-Source: ABdhPJyKabs7vcfuI4nZSDx1E7qIotiKAvcxkGXyNx8/nVZOQk2OoPpegXopaV9hGOPdW+BdFeZrvg==
+X-Received: by 2002:a7b:c387:: with SMTP id s7mr7041117wmj.52.1603877993778;
+ Wed, 28 Oct 2020 02:39:53 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m12sm5350859wmi.33.2020.10.28.02.16.23
+ by smtp.gmail.com with ESMTPSA id v19sm5432849wmj.31.2020.10.28.02.39.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 02:16:23 -0700 (PDT)
-Date: Wed, 28 Oct 2020 10:16:21 +0100
+ Wed, 28 Oct 2020 02:39:53 -0700 (PDT)
+Date: Wed, 28 Oct 2020 10:39:51 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 1/3] drm/ttm: replace last move_notify with
- delete_mem_notify
-Message-ID: <20201028091621.GT401619@phenom.ffwll.local>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH 3/3] drm/ttm: avoid multihop moves in drivers.
+Message-ID: <20201028093951.GU401619@phenom.ffwll.local>
 References: <20201021044031.1752624-1-airlied@gmail.com>
- <20201021044031.1752624-2-airlied@gmail.com>
- <ace0e5e0-e3cf-4729-d2cc-a50ac6012044@amd.com>
+ <20201021044031.1752624-4-airlied@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <ace0e5e0-e3cf-4729-d2cc-a50ac6012044@amd.com>
+In-Reply-To: <20201021044031.1752624-4-airlied@gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,270 +65,747 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 21, 2020 at 11:58:45AM +0200, Christian K=F6nig wrote:
-> Am 21.10.20 um 06:40 schrieb Dave Airlie:
-> > From: Dave Airlie <airlied@redhat.com>
-> > =
+On Wed, Oct 21, 2020 at 02:40:31PM +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> Currently drivers get called to move a buffer, but if they have to
+> move it temporarily through another space (SYSTEM->VRAM via TT)
+> then they can end up with a lot of ttm->driver->ttm call stacks,
+> if the temprorary space moves requires eviction.
+> 
+> Instead of letting the driver do all the placement/space for the
+> temporary, allow it to report back (-EMULTIHOP) a placement (hop)
+> to the move code, which will then do the temporary move, and the
+> correct placement move afterwards.
+> 
+> This removes a lot of code from drivers, at the expense of
+> adding some midlayering. I've some further ideas on how to turn
+> it inside out, but I think this is a good solution to the call
+> stack problems.
+> 
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 
-> > The move notify callback is only used in one place, this should
-> > be removed in the future, but for now just rename it to the use
-> > case which is to notify the driver that the GPU memory is to be
-> > deleted.
-> =
+I think it'd be good to split out the ttm infrastructure work from the
+driver conversions. I'm not seeing any dependencies that require the flag
+day approach here, and might help if this blows up somehow.
 
-> Probably the right thing to do is to call the move callback with move(fro=
-m,
-> NULL) in this case as well.
-> =
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 139 +++------------------
+>  drivers/gpu/drm/drm_gem_vram_helper.c      |   3 +-
+>  drivers/gpu/drm/nouveau/nouveau_bo.c       | 115 +++--------------
+>  drivers/gpu/drm/qxl/qxl_ttm.c              |   3 +-
+>  drivers/gpu/drm/radeon/radeon_ttm.c        | 122 +++---------------
+>  drivers/gpu/drm/ttm/ttm_bo.c               |  62 +++++++--
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |   3 +-
+>  include/drm/ttm/ttm_bo_driver.h            |   5 +-
+>  8 files changed, 108 insertions(+), 344 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 62f9194b1dd1..0fd4f270d794 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -515,119 +515,6 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+>  	return r;
+>  }
+>  
+> -/**
+> - * amdgpu_move_vram_ram - Copy VRAM buffer to RAM buffer
+> - *
+> - * Called by amdgpu_bo_move().
+> - */
+> -static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
+> -				struct ttm_operation_ctx *ctx,
+> -				struct ttm_resource *new_mem)
+> -{
+> -	struct ttm_resource *old_mem = &bo->mem;
+> -	struct ttm_resource tmp_mem;
+> -	struct ttm_place placements;
+> -	struct ttm_placement placement;
+> -	int r;
+> -
+> -	/* create space/pages for new_mem in GTT space */
+> -	tmp_mem = *new_mem;
+> -	tmp_mem.mm_node = NULL;
+> -	placement.num_placement = 1;
+> -	placement.placement = &placements;
+> -	placement.num_busy_placement = 1;
+> -	placement.busy_placement = &placements;
+> -	placements.fpfn = 0;
+> -	placements.lpfn = 0;
+> -	placements.mem_type = TTM_PL_TT;
+> -	placements.flags = 0;
+> -	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
+> -	if (unlikely(r)) {
+> -		pr_err("Failed to find GTT space for blit from VRAM\n");
+> -		return r;
+> -	}
+> -
+> -	r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> -	if (unlikely(r))
+> -		goto out_cleanup;
+> -
+> -	/* Bind the memory to the GTT space */
+> -	r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, &tmp_mem);
+> -	if (unlikely(r)) {
+> -		goto out_cleanup;
+> -	}
+> -
+> -	/* blit VRAM to GTT */
+> -	r = amdgpu_move_blit(bo, evict, &tmp_mem, old_mem);
+> -	if (unlikely(r)) {
+> -		goto out_cleanup;
+> -	}
+> -
+> -	r = ttm_bo_wait_ctx(bo, ctx);
+> -	if (unlikely(r))
+> -		goto out_cleanup;
+> -
+> -	amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
+> -	ttm_resource_free(bo, &bo->mem);
+> -	ttm_bo_assign_mem(bo, new_mem);
+> -out_cleanup:
+> -	ttm_resource_free(bo, &tmp_mem);
+> -	return r;
+> -}
+> -
+> -/**
+> - * amdgpu_move_ram_vram - Copy buffer from RAM to VRAM
+> - *
+> - * Called by amdgpu_bo_move().
+> - */
+> -static int amdgpu_move_ram_vram(struct ttm_buffer_object *bo, bool evict,
+> -				struct ttm_operation_ctx *ctx,
+> -				struct ttm_resource *new_mem)
+> -{
+> -	struct ttm_resource *old_mem = &bo->mem;
+> -	struct ttm_resource tmp_mem;
+> -	struct ttm_placement placement;
+> -	struct ttm_place placements;
+> -	int r;
+> -
+> -	/* make space in GTT for old_mem buffer */
+> -	tmp_mem = *new_mem;
+> -	tmp_mem.mm_node = NULL;
+> -	placement.num_placement = 1;
+> -	placement.placement = &placements;
+> -	placement.num_busy_placement = 1;
+> -	placement.busy_placement = &placements;
+> -	placements.fpfn = 0;
+> -	placements.lpfn = 0;
+> -	placements.mem_type = TTM_PL_TT;
+> -	placements.flags = 0;
+> -	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
+> -	if (unlikely(r)) {
+> -		pr_err("Failed to find GTT space for blit to VRAM\n");
+> -		return r;
+> -	}
+> -
+> -	/* move/bind old memory to GTT space */
+> -	r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> -	if (unlikely(r))
+> -		return r;
+> -
+> -	r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, &tmp_mem);
+> -	if (unlikely(r)) {
+> -		goto out_cleanup;
+> -	}
+> -
+> -	ttm_bo_assign_mem(bo, &tmp_mem);
+> -	/* copy to VRAM */
+> -	r = amdgpu_move_blit(bo, evict, new_mem, old_mem);
+> -	if (unlikely(r)) {
+> -		goto out_cleanup;
+> -	}
+> -out_cleanup:
+> -	ttm_resource_free(bo, &tmp_mem);
+> -	return r;
+> -}
+> -
+>  /**
+>   * amdgpu_mem_visible - Check that memory can be accessed by ttm_bo_move_memcpy
+>   *
+> @@ -659,13 +546,25 @@ static bool amdgpu_mem_visible(struct amdgpu_device *adev,
+>   */
+>  static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  			  struct ttm_operation_ctx *ctx,
+> -			  struct ttm_resource *new_mem)
+> +			  struct ttm_resource *new_mem,
+> +			  struct ttm_place *hop)
+>  {
+>  	struct amdgpu_device *adev;
+>  	struct amdgpu_bo *abo;
+>  	struct ttm_resource *old_mem = &bo->mem;
+>  	int r;
+>  
+> +	if ((old_mem->mem_type == TTM_PL_SYSTEM &&
+> +	     new_mem->mem_type == TTM_PL_VRAM) ||
+> +	    (old_mem->mem_type == TTM_PL_VRAM &&
+> +	     new_mem->mem_type == TTM_PL_SYSTEM)) {
+> +		hop->fpfn = 0;
+> +		hop->lpfn = 0;
+> +		hop->mem_type = TTM_PL_TT;
+> +		hop->flags = 0;
+> +		return -EMULTIHOP;
+> +	}
+> +
+>  	if (new_mem->mem_type == TTM_PL_TT) {
+>  		r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, new_mem);
+>  		if (r)
+> @@ -719,16 +618,8 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  		goto memcpy;
+>  	}
+>  
+> -	if (old_mem->mem_type == TTM_PL_VRAM &&
+> -	    new_mem->mem_type == TTM_PL_SYSTEM) {
+> -		r = amdgpu_move_vram_ram(bo, evict, ctx, new_mem);
+> -	} else if (old_mem->mem_type == TTM_PL_SYSTEM &&
+> -		   new_mem->mem_type == TTM_PL_VRAM) {
+> -		r = amdgpu_move_ram_vram(bo, evict, ctx, new_mem);
+> -	} else {
+> -		r = amdgpu_move_blit(bo, evict,
+> -				     new_mem, old_mem);
+> -	}
+> +	r = amdgpu_move_blit(bo, evict,
+> +			     new_mem, old_mem);
+>  
+>  	if (r) {
+>  memcpy:
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> index 9da823eb0edd..c51096cc7fb2 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -965,7 +965,8 @@ static void bo_driver_delete_mem_notify(struct ttm_buffer_object *bo)
+>  static int bo_driver_move(struct ttm_buffer_object *bo,
+>  			  bool evict,
+>  			  struct ttm_operation_ctx *ctx,
+> -			  struct ttm_resource *new_mem)
+> +			  struct ttm_resource *new_mem,
+> +			  struct ttm_place *hop)
+>  {
+>  	struct drm_gem_vram_object *gbo;
+>  
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> index acff82afe260..623577412d19 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> @@ -862,96 +862,6 @@ nouveau_bo_move_init(struct nouveau_drm *drm)
+>  	NV_INFO(drm, "MM: using %s for buffer copies\n", name);
+>  }
+>  
+> -static int
+> -nouveau_bo_move_flipd(struct ttm_buffer_object *bo, bool evict,
+> -		      struct ttm_operation_ctx *ctx,
+> -		      struct ttm_resource *new_reg)
+> -{
+> -	struct ttm_place placement_memtype = {
+> -		.fpfn = 0,
+> -		.lpfn = 0,
+> -		.mem_type = TTM_PL_TT,
+> -		.flags = 0
+> -	};
+> -	struct ttm_placement placement;
+> -	struct ttm_resource tmp_reg;
+> -	int ret;
+> -
+> -	placement.num_placement = placement.num_busy_placement = 1;
+> -	placement.placement = placement.busy_placement = &placement_memtype;
+> -
+> -	tmp_reg = *new_reg;
+> -	tmp_reg.mm_node = NULL;
+> -	ret = ttm_bo_mem_space(bo, &placement, &tmp_reg, ctx);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> -	if (ret)
+> -		goto out;
+> -
+> -	ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_reg);
+> -	if (ret)
+> -		goto out;
+> -
+> -	ret = nouveau_bo_move_m2mf(bo, true, ctx, &tmp_reg);
+> -	if (ret)
+> -		goto out;
+> -
+> -	ret = ttm_bo_wait_ctx(bo, ctx);
+> -	if (ret)
+> -		goto out;
+> -
+> -	nouveau_ttm_tt_unbind(bo->bdev, bo->ttm);
+> -	ttm_resource_free(bo, &bo->mem);
+> -	ttm_bo_assign_mem(bo, &tmp_reg);
+> -out:
+> -	ttm_resource_free(bo, &tmp_reg);
+> -	return ret;
+> -}
+> -
+> -static int
+> -nouveau_bo_move_flips(struct ttm_buffer_object *bo, bool evict,
+> -		      struct ttm_operation_ctx *ctx,
+> -		      struct ttm_resource *new_reg)
+> -{
+> -	struct ttm_place placement_memtype = {
+> -		.fpfn = 0,
+> -		.lpfn = 0,
+> -		.mem_type = TTM_PL_TT,
+> -		.flags = 0
+> -	};
+> -	struct ttm_placement placement;
+> -	struct ttm_resource tmp_reg;
+> -	int ret;
+> -
+> -	placement.num_placement = placement.num_busy_placement = 1;
+> -	placement.placement = placement.busy_placement = &placement_memtype;
+> -
+> -	tmp_reg = *new_reg;
+> -	tmp_reg.mm_node = NULL;
+> -	ret = ttm_bo_mem_space(bo, &placement, &tmp_reg, ctx);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> -	if (unlikely(ret != 0))
+> -		return ret;
+> -
+> -	ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_reg);
+> -	if (unlikely(ret != 0))
+> -		return ret;
+> -
+> -	ttm_bo_assign_mem(bo, &tmp_reg);
+> -	ret = nouveau_bo_move_m2mf(bo, true, ctx, new_reg);
+> -	if (ret)
+> -		goto out;
+> -
+> -out:
+> -	ttm_resource_free(bo, &tmp_reg);
+> -	return ret;
+> -}
+> -
+>  static void
+>  nouveau_bo_move_ntfy(struct ttm_buffer_object *bo, bool evict,
+>  		     struct ttm_resource *new_reg)
+> @@ -1024,7 +934,8 @@ nouveau_bo_vm_cleanup(struct ttm_buffer_object *bo,
+>  static int
+>  nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  		struct ttm_operation_ctx *ctx,
+> -		struct ttm_resource *new_reg)
+> +		struct ttm_resource *new_reg,
+> +		struct ttm_place *hop)
+>  {
+>  	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+>  	struct nouveau_bo *nvbo = nouveau_bo(bo);
+> @@ -1032,6 +943,17 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  	struct nouveau_drm_tile *new_tile = NULL;
+>  	int ret = 0;
+>  
+> +	if ((old_reg->mem_type == TTM_PL_SYSTEM &&
+> +	     new_reg->mem_type == TTM_PL_VRAM) ||
+> +	    (old_reg->mem_type == TTM_PL_VRAM &&
+> +	     new_reg->mem_type == TTM_PL_SYSTEM)) {
+> +		hop->fpfn = 0;
+> +		hop->lpfn = 0;
+> +		hop->mem_type = TTM_PL_TT;
+> +		hop->flags = 0;
+> +		return -EMULTIHOP;
+> +	}
+> +
+>  	if (new_reg->mem_type == TTM_PL_TT) {
+>  		ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, new_reg);
+>  		if (ret)
+> @@ -1074,15 +996,8 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  
+>  	/* Hardware assisted copy. */
+>  	if (drm->ttm.move) {
+> -		if (new_reg->mem_type == TTM_PL_SYSTEM)
+> -			ret = nouveau_bo_move_flipd(bo, evict, ctx,
+> -						    new_reg);
+> -		else if (old_reg->mem_type == TTM_PL_SYSTEM)
+> -			ret = nouveau_bo_move_flips(bo, evict, ctx,
+> -						    new_reg);
+> -		else
+> -			ret = nouveau_bo_move_m2mf(bo, evict, ctx,
+> -						   new_reg);
+> +		ret = nouveau_bo_move_m2mf(bo, evict, ctx,
+> +					   new_reg);
+>  		if (!ret)
+>  			goto out;
+>  	}
+> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+> index b52a4563b47b..103e4f248f37 100644
+> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+> @@ -141,7 +141,8 @@ static void qxl_bo_move_notify(struct ttm_buffer_object *bo,
+>  
+>  static int qxl_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  		       struct ttm_operation_ctx *ctx,
+> -		       struct ttm_resource *new_mem)
+> +		       struct ttm_resource *new_mem,
+> +		       struct ttm_place *hop)
+>  {
+>  	struct ttm_resource *old_mem = &bo->mem;
+>  	int ret;
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+> index 321c09d20c6c..ddb04a2dc25f 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -207,110 +207,27 @@ static int radeon_move_blit(struct ttm_buffer_object *bo,
+>  	return r;
+>  }
+>  
+> -static int radeon_move_vram_ram(struct ttm_buffer_object *bo,
+> -				bool evict,
+> -				struct ttm_operation_ctx *ctx,
+> -				struct ttm_resource *new_mem)
+> -{
+> -	struct ttm_resource *old_mem = &bo->mem;
+> -	struct ttm_resource tmp_mem;
+> -	struct ttm_place placements;
+> -	struct ttm_placement placement;
+> -	int r;
+> -
+> -	tmp_mem = *new_mem;
+> -	tmp_mem.mm_node = NULL;
+> -	placement.num_placement = 1;
+> -	placement.placement = &placements;
+> -	placement.num_busy_placement = 1;
+> -	placement.busy_placement = &placements;
+> -	placements.fpfn = 0;
+> -	placements.lpfn = 0;
+> -	placements.mem_type = TTM_PL_TT;
+> -	placements.flags = 0;
+> -	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
+> -	if (unlikely(r)) {
+> -		return r;
+> -	}
+> -
+> -	r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> -	if (unlikely(r)) {
+> -		goto out_cleanup;
+> -	}
+> -
+> -	r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_mem);
+> -	if (unlikely(r)) {
+> -		goto out_cleanup;
+> -	}
+> -	r = radeon_move_blit(bo, true, &tmp_mem, old_mem);
+> -	if (unlikely(r)) {
+> -		goto out_cleanup;
+> -	}
+> -	r = ttm_bo_wait_ctx(bo, ctx);
+> -	if (unlikely(r))
+> -		goto out_cleanup;
+> -
+> -	radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
+> -	ttm_resource_free(bo, &bo->mem);
+> -	ttm_bo_assign_mem(bo, new_mem);
+> -out_cleanup:
+> -	ttm_resource_free(bo, &tmp_mem);
+> -	return r;
+> -}
+> -
+> -static int radeon_move_ram_vram(struct ttm_buffer_object *bo,
+> -				bool evict,
+> -				struct ttm_operation_ctx *ctx,
+> -				struct ttm_resource *new_mem)
+> -{
+> -	struct ttm_resource *old_mem = &bo->mem;
+> -	struct ttm_resource tmp_mem;
+> -	struct ttm_placement placement;
+> -	struct ttm_place placements;
+> -	int r;
+> -
+> -	tmp_mem = *new_mem;
+> -	tmp_mem.mm_node = NULL;
+> -	placement.num_placement = 1;
+> -	placement.placement = &placements;
+> -	placement.num_busy_placement = 1;
+> -	placement.busy_placement = &placements;
+> -	placements.fpfn = 0;
+> -	placements.lpfn = 0;
+> -	placements.mem_type = TTM_PL_TT;
+> -	placements.flags = 0;
+> -	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
+> -	if (unlikely(r)) {
+> -		return r;
+> -	}
+> -
+> -	r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> -	if (unlikely(r))
+> -		goto out_cleanup;
+> -
+> -	r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_mem);
+> -	if (unlikely(r))
+> -		goto out_cleanup;
+> -
+> -	ttm_bo_assign_mem(bo, &tmp_mem);
+> -	r = radeon_move_blit(bo, true, new_mem, old_mem);
+> -	if (unlikely(r)) {
+> -		goto out_cleanup;
+> -	}
+> -out_cleanup:
+> -	ttm_resource_free(bo, &tmp_mem);
+> -	return r;
+> -}
+> -
+>  static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  			  struct ttm_operation_ctx *ctx,
+> -			  struct ttm_resource *new_mem)
+> +			  struct ttm_resource *new_mem,
+> +			  struct ttm_place *hop)
+>  {
+>  	struct radeon_device *rdev;
+>  	struct radeon_bo *rbo;
+>  	struct ttm_resource *old_mem = &bo->mem;
+>  	int r;
+>  
+> +	if ((old_mem->mem_type == TTM_PL_SYSTEM &&
+> +	     new_mem->mem_type == TTM_PL_VRAM) ||
+> +	    (old_mem->mem_type == TTM_PL_VRAM &&
+> +	     new_mem->mem_type == TTM_PL_SYSTEM)) {
+> +		hop->fpfn = 0;
+> +		hop->lpfn = 0;
+> +		hop->mem_type = TTM_PL_TT;
+> +		hop->flags = 0;
+> +		return -EMULTIHOP;
+> +	}
+> +
+>  	if (new_mem->mem_type == TTM_PL_TT) {
+>  		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
+>  		if (r)
+> @@ -351,17 +268,8 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  		goto memcpy;
+>  	}
+>  
+> -	if (old_mem->mem_type == TTM_PL_VRAM &&
+> -	    new_mem->mem_type == TTM_PL_SYSTEM) {
+> -		r = radeon_move_vram_ram(bo, evict, ctx, new_mem);
+> -	} else if (old_mem->mem_type == TTM_PL_SYSTEM &&
+> -		   new_mem->mem_type == TTM_PL_VRAM) {
+> -		r = radeon_move_ram_vram(bo, evict, ctx, new_mem);
+> -	} else {
+> -		r = radeon_move_blit(bo, evict,
+> -				     new_mem, old_mem);
+> -	}
+> -
+> +	r = radeon_move_blit(bo, evict,
+> +			     new_mem, old_mem);
+>  	if (r) {
+>  memcpy:
+>  		r = ttm_bo_move_memcpy(bo, ctx, new_mem);
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 5b411252a857..a8830fdf8bc6 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -231,7 +231,8 @@ EXPORT_SYMBOL(ttm_bo_bulk_move_lru_tail);
+>  
+>  static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+>  				  struct ttm_resource *mem, bool evict,
+> -				  struct ttm_operation_ctx *ctx)
+> +				  struct ttm_operation_ctx *ctx,
+> +				  struct ttm_place *hop)
+>  {
+>  	struct ttm_bo_device *bdev = bo->bdev;
+>  	struct ttm_resource_manager *old_man = ttm_manager_type(bdev, bo->mem.mem_type);
+> @@ -259,9 +260,12 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+>  		}
+>  	}
+>  
+> -	ret = bdev->driver->move(bo, evict, ctx, mem);
+> -	if (ret)
+> +	ret = bdev->driver->move(bo, evict, ctx, mem, hop);
+> +	if (ret) {
+> +		if (ret == -EMULTIHOP)
+> +			return ret;
+>  		goto out_err;
+> +	}
+>  
+>  	ctx->bytes_moved += bo->num_pages << PAGE_SHIFT;
+>  	return 0;
+> @@ -596,7 +600,7 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+>  		goto out;
+>  	}
+>  
+> -	ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, ctx);
+> +	ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, ctx, NULL);
 
-> And then driver can call the necessary function to throw away the backing
-> store pipelined.
-> =
+I think passing NULL here could lead to surprising oopses when drivers get
+some inconsistency between their evict_flags callback and what ->move
+does. I think it'd be better to pass in a dummy structure here, and
+WARN_ON if you get EMULTIHOP, dumping both what we got from evict_flags
+and here.
 
-> > =
+Also I think an updated comment for both evict_flags and ->move callbacks
+in the kerneldoc highlighting this connection sounds like a good idea.
 
-> > Drivers can be cleaned up after this separately.
-> > =
+I'm also wondering whether imposing this limitation is a good idea, since
+fancy multi-node gpus might want/need to evict in mutliple hops too. But I
+guess that can be readded later on.
 
-> > Signed-off-by: Dave Airlie <airlied@redhat.com>
-> =
+>  	if (unlikely(ret)) {
+>  		if (ret != -ERESTARTSYS)
+>  			pr_err("Buffer eviction failed\n");
+> @@ -936,11 +940,39 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+>  }
+>  EXPORT_SYMBOL(ttm_bo_mem_space);
+>  
+> +static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
+> +				     struct ttm_resource *mem,
+> +				     struct ttm_operation_ctx *ctx,
+> +				     struct ttm_place *hop)
+> +{
+> +	struct ttm_placement hop_placement;
+> +	int ret;
+> +	struct ttm_resource hop_mem = *mem;
+> +
+> +	hop_mem.mm_node = NULL;
+> +	hop_mem.mem_type = TTM_PL_SYSTEM;
+> +	hop_mem.placement = 0;
+> +
+> +	hop_placement.num_placement = hop_placement.num_busy_placement = 1;
+> +	hop_placement.placement = hop_placement.busy_placement = hop;
+> +
+> +	/* find space in the bounce domain */
+> +	ret = ttm_bo_mem_space(bo, &hop_placement, &hop_mem, ctx);
+> +	if (ret)
+> +		return ret;
+> +	/* move to the bounce domain */
+> +	ret = ttm_bo_handle_move_mem(bo, &hop_mem, false, ctx, NULL);
 
-> Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
+Again I'd pass a dummy here and complain loudly if we get an EMULTIHOP.
 
-Not sure where to best ask this question, but while reading code I
-stumbled over the bo->pin_count check in ttm_bo_release(). And I'm
-confused.
+> +	if (ret)
+> +		return ret;
+> +	return 0;
+> +}
+> +
+>  static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
+>  			      struct ttm_placement *placement,
+>  			      struct ttm_operation_ctx *ctx)
+>  {
+>  	int ret = 0;
+> +	struct ttm_place hop = {};
+>  	struct ttm_resource mem;
+>  
+>  	dma_resv_assert_held(bo->base.resv);
+> @@ -954,12 +986,25 @@ static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
+>  
+>  	/*
+>  	 * Determine where to move the buffer.
+> +	 *
+> +	 * If driver determines move is going to need
+> +	 * an extra step then it will return -EMULTIHOP
+> +	 * and the buffer will be moved to the temporary
+> +	 * stop and the driver will be called to make
+> +	 * the second hop.
+>  	 */
+> +bounce:
+>  	ret = ttm_bo_mem_space(bo, placement, &mem, ctx);
+>  	if (ret)
+> -		goto out_unlock;
+> -	ret = ttm_bo_handle_move_mem(bo, &mem, false, ctx);
+> -out_unlock:
+> +		return ret;
+> +	ret = ttm_bo_handle_move_mem(bo, &mem, false, ctx, &hop);
+> +	if (ret == -EMULTIHOP) {
+> +		ret = ttm_bo_bounce_temp_buffer(bo, &mem, ctx, &hop);
 
-Allowing a bo to be pinned without holding a full reference to it feels
-like a pretty serious bug. Where&why is that needed? I'm kinda tempted to
-wrap this in a WARN_ON, just to make sure there's no surprises in usage
-(and maybe warn in unpin if we drop the pin count with the refcount at 0
-already).
--Daniel
+Now that this is all lifted I wonder whether ttm could keep track of the
+stack of eviction locations. And complain loudly when that loops, since
+that's a driver bug :-) But for that to be effective I think we'd need to
+disallow any bo allocations/reservations from the ->move callback, and I'm
+not sure how to do that really. I think the only way would be a PF_ flag
+to notice ttm recursions, but might be good to add this to make really
+sure this ping-pong is dead for good.
 
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  8 +++++++-
-> >   drivers/gpu/drm/drm_gem_vram_helper.c      |  8 +++-----
-> >   drivers/gpu/drm/nouveau/nouveau_bo.c       |  8 +++++++-
-> >   drivers/gpu/drm/qxl/qxl_ttm.c              |  7 ++++++-
-> >   drivers/gpu/drm/radeon/radeon_ttm.c        |  8 +++++++-
-> >   drivers/gpu/drm/ttm/ttm_bo.c               |  4 ++--
-> >   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  8 +++++++-
-> >   include/drm/ttm/ttm_bo_driver.h            | 10 ++--------
-> >   8 files changed, 41 insertions(+), 20 deletions(-)
-> > =
+Or maybe we can use a fake lockdep lock that we take, which would also
+complain about recursion. But might cause lockdep false positives ...
 
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_ttm.c
-> > index 87e10a212b8a..62f9194b1dd1 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > @@ -1730,6 +1730,12 @@ static int amdgpu_ttm_access_memory(struct ttm_b=
-uffer_object *bo,
-> >   	return ret;
-> >   }
-> > +static void
-> > +amdgpu_bo_delete_mem_notify(struct ttm_buffer_object *bo)
-> > +{
-> > +	amdgpu_bo_move_notify(bo, false, NULL);
-> > +}
-> > +
-> >   static struct ttm_bo_driver amdgpu_bo_driver =3D {
-> >   	.ttm_tt_create =3D &amdgpu_ttm_tt_create,
-> >   	.ttm_tt_populate =3D &amdgpu_ttm_tt_populate,
-> > @@ -1739,7 +1745,7 @@ static struct ttm_bo_driver amdgpu_bo_driver =3D {
-> >   	.evict_flags =3D &amdgpu_evict_flags,
-> >   	.move =3D &amdgpu_bo_move,
-> >   	.verify_access =3D &amdgpu_verify_access,
-> > -	.move_notify =3D &amdgpu_bo_move_notify,
-> > +	.delete_mem_notify =3D &amdgpu_bo_delete_mem_notify,
-> >   	.release_notify =3D &amdgpu_bo_release_notify,
-> >   	.io_mem_reserve =3D &amdgpu_ttm_io_mem_reserve,
-> >   	.io_mem_pfn =3D amdgpu_ttm_io_mem_pfn,
-> > diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/dr=
-m_gem_vram_helper.c
-> > index 19087b22bdbb..9da823eb0edd 100644
-> > --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> > @@ -949,9 +949,7 @@ static void bo_driver_evict_flags(struct ttm_buffer=
-_object *bo,
-> >   	drm_gem_vram_bo_driver_evict_flags(gbo, placement);
-> >   }
-> > -static void bo_driver_move_notify(struct ttm_buffer_object *bo,
-> > -				  bool evict,
-> > -				  struct ttm_resource *new_mem)
-> > +static void bo_driver_delete_mem_notify(struct ttm_buffer_object *bo)
-> >   {
-> >   	struct drm_gem_vram_object *gbo;
-> > @@ -961,7 +959,7 @@ static void bo_driver_move_notify(struct ttm_buffer=
-_object *bo,
-> >   	gbo =3D drm_gem_vram_of_bo(bo);
-> > -	drm_gem_vram_bo_driver_move_notify(gbo, evict, new_mem);
-> > +	drm_gem_vram_bo_driver_move_notify(gbo, false, NULL);
-> >   }
-> >   static int bo_driver_move(struct ttm_buffer_object *bo,
-> > @@ -1002,7 +1000,7 @@ static struct ttm_bo_driver bo_driver =3D {
-> >   	.eviction_valuable =3D ttm_bo_eviction_valuable,
-> >   	.evict_flags =3D bo_driver_evict_flags,
-> >   	.move =3D bo_driver_move,
-> > -	.move_notify =3D bo_driver_move_notify,
-> > +	.delete_mem_notify =3D bo_driver_delete_mem_notify,
-> >   	.io_mem_reserve =3D bo_driver_io_mem_reserve,
-> >   };
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nou=
-veau/nouveau_bo.c
-> > index 70b6f3b1ae85..acff82afe260 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > @@ -1401,6 +1401,12 @@ nouveau_bo_fence(struct nouveau_bo *nvbo, struct=
- nouveau_fence *fence, bool excl
-> >   		dma_resv_add_shared_fence(resv, &fence->base);
-> >   }
-> > +static void
-> > +nouveau_bo_delete_mem_notify(struct ttm_buffer_object *bo)
-> > +{
-> > +	nouveau_bo_move_ntfy(bo, false, NULL);
-> > +}
-> > +
-> >   struct ttm_bo_driver nouveau_bo_driver =3D {
-> >   	.ttm_tt_create =3D &nouveau_ttm_tt_create,
-> >   	.ttm_tt_populate =3D &nouveau_ttm_tt_populate,
-> > @@ -1408,7 +1414,7 @@ struct ttm_bo_driver nouveau_bo_driver =3D {
-> >   	.ttm_tt_destroy =3D &nouveau_ttm_tt_destroy,
-> >   	.eviction_valuable =3D ttm_bo_eviction_valuable,
-> >   	.evict_flags =3D nouveau_bo_evict_flags,
-> > -	.move_notify =3D nouveau_bo_move_ntfy,
-> > +	.delete_mem_notify =3D nouveau_bo_delete_mem_notify,
-> >   	.move =3D nouveau_bo_move,
-> >   	.verify_access =3D nouveau_bo_verify_access,
-> >   	.io_mem_reserve =3D &nouveau_ttm_io_mem_reserve,
-> > diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_tt=
-m.c
-> > index 1cc3c14bc684..b52a4563b47b 100644
-> > --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> > +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> > @@ -166,6 +166,11 @@ static int qxl_bo_move(struct ttm_buffer_object *b=
-o, bool evict,
-> >   	return ret;
-> >   }
-> > +static void qxl_bo_delete_mem_notify(struct ttm_buffer_object *bo)
-> > +{
-> > +	qxl_bo_move_notify(bo, false, NULL);
-> > +}
-> > +
-> >   static struct ttm_bo_driver qxl_bo_driver =3D {
-> >   	.ttm_tt_create =3D &qxl_ttm_tt_create,
-> >   	.ttm_tt_destroy =3D &qxl_ttm_backend_destroy,
-> > @@ -173,7 +178,7 @@ static struct ttm_bo_driver qxl_bo_driver =3D {
-> >   	.evict_flags =3D &qxl_evict_flags,
-> >   	.move =3D &qxl_bo_move,
-> >   	.io_mem_reserve =3D &qxl_ttm_io_mem_reserve,
-> > -	.move_notify =3D &qxl_bo_move_notify,
-> > +	.delete_mem_notify =3D &qxl_bo_delete_mem_notify,
-> >   };
-> >   static int qxl_ttm_init_mem_type(struct qxl_device *qdev,
-> > diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/rade=
-on/radeon_ttm.c
-> > index cd454e5c802f..321c09d20c6c 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> > +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> > @@ -824,6 +824,12 @@ bool radeon_ttm_tt_is_readonly(struct radeon_devic=
-e *rdev,
-> >   	return !!(gtt->userflags & RADEON_GEM_USERPTR_READONLY);
-> >   }
-> > +static void
-> > +radeon_bo_delete_mem_notify(struct ttm_buffer_object *bo)
-> > +{
-> > +	radeon_bo_move_notify(bo, false, NULL);
-> > +}
-> > +
-> >   static struct ttm_bo_driver radeon_bo_driver =3D {
-> >   	.ttm_tt_create =3D &radeon_ttm_tt_create,
-> >   	.ttm_tt_populate =3D &radeon_ttm_tt_populate,
-> > @@ -833,7 +839,7 @@ static struct ttm_bo_driver radeon_bo_driver =3D {
-> >   	.evict_flags =3D &radeon_evict_flags,
-> >   	.move =3D &radeon_bo_move,
-> >   	.verify_access =3D &radeon_verify_access,
-> > -	.move_notify =3D &radeon_bo_move_notify,
-> > +	.delete_mem_notify =3D &radeon_bo_delete_mem_notify,
-> >   	.io_mem_reserve =3D &radeon_ttm_io_mem_reserve,
-> >   };
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> > index 2b578012cdef..e2afab3d97ee 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > @@ -284,8 +284,8 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer=
-_object *bo,
-> >   static void ttm_bo_cleanup_memtype_use(struct ttm_buffer_object *bo)
-> >   {
-> > -	if (bo->bdev->driver->move_notify)
-> > -		bo->bdev->driver->move_notify(bo, false, NULL);
-> > +	if (bo->bdev->driver->delete_mem_notify)
-> > +		bo->bdev->driver->delete_mem_notify(bo);
-> >   	ttm_bo_tt_destroy(bo);
-> >   	ttm_resource_free(bo, &bo->mem);
-> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/d=
-rm/vmwgfx/vmwgfx_ttm_buffer.c
-> > index de25cf016be2..88be48ad0344 100644
-> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > @@ -771,6 +771,12 @@ static int vmw_move(struct ttm_buffer_object *bo,
-> >   	return ret;
-> >   }
-> > +static void
-> > +vmw_delete_mem_notify(struct ttm_buffer_object *bo)
-> > +{
-> > +	vmw_move_notify(bo, false, NULL);
-> > +}
-> > +
-> >   struct ttm_bo_driver vmw_bo_driver =3D {
-> >   	.ttm_tt_create =3D &vmw_ttm_tt_create,
-> >   	.ttm_tt_populate =3D &vmw_ttm_populate,
-> > @@ -780,7 +786,7 @@ struct ttm_bo_driver vmw_bo_driver =3D {
-> >   	.evict_flags =3D vmw_evict_flags,
-> >   	.move =3D vmw_move,
-> >   	.verify_access =3D vmw_verify_access,
-> > -	.move_notify =3D vmw_move_notify,
-> > +	.delete_mem_notify =3D vmw_delete_mem_notify,
-> >   	.swap_notify =3D vmw_swap_notify,
-> >   	.io_mem_reserve =3D &vmw_ttm_io_mem_reserve,
-> >   };
-> > diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_d=
-river.h
-> > index 72f106b335e9..29f6a1d1c853 100644
-> > --- a/include/drm/ttm/ttm_bo_driver.h
-> > +++ b/include/drm/ttm/ttm_bo_driver.h
-> > @@ -156,15 +156,9 @@ struct ttm_bo_driver {
-> >   			     struct file *filp);
-> >   	/**
-> > -	 * Hook to notify driver about a driver move so it
-> > -	 * can do tiling things and book-keeping.
-> > -	 *
-> > -	 * @evict: whether this move is evicting the buffer from the graphics
-> > -	 * address space
-> > +	 * Hook to notify driver about a resource delete.
-> >   	 */
-> > -	void (*move_notify)(struct ttm_buffer_object *bo,
-> > -			    bool evict,
-> > -			    struct ttm_resource *new_mem);
-> > +	void (*delete_mem_notify)(struct ttm_buffer_object *bo);
-> >   	/**
-> >   	 * notify the driver that we're about to swap out this bo
-> =
+The other really nice thing this allows is that now it's feasible to wire
+through the ww_acquire_ctx in the ttm eviction code. That would allow us
+to resolve the TODO in ttm_mem_evict_wait_busy().
 
+> +		if (ret)
+> +			return ret;
+> +		/* try and move to final place now. */
+> +		goto bounce;
+> +	}
+>  	if (ret)
+>  		ttm_resource_free(bo, &mem);
+>  	return ret;
+> @@ -1435,7 +1480,7 @@ int ttm_bo_swapout(struct ttm_operation_ctx *ctx)
+>  		evict_mem.placement = 0;
+>  		evict_mem.mem_type = TTM_PL_SYSTEM;
+>  
+> -		ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, &ctx);
+> +		ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, &ctx, NULL);
+>  		if (unlikely(ret != 0))
+>  			goto out;
+>  	}
+> @@ -1481,4 +1526,3 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+>  	ttm_tt_destroy(bo->bdev, bo->ttm);
+>  	bo->ttm = NULL;
+>  }
+> -
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> index 88be48ad0344..d48b70605a56 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> @@ -731,7 +731,8 @@ static void vmw_swap_notify(struct ttm_buffer_object *bo)
+>  static int vmw_move(struct ttm_buffer_object *bo,
+>  		    bool evict,
+>  		    struct ttm_operation_ctx *ctx,
+> -		    struct ttm_resource *new_mem)
+> +		    struct ttm_resource *new_mem,
+> +		    struct ttm_place *hop)
+>  {
+>  	struct ttm_resource_manager *old_man = ttm_manager_type(bo->bdev, bo->mem.mem_type);
+>  	struct ttm_resource_manager *new_man = ttm_manager_type(bo->bdev, new_mem->mem_type);
+> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+> index 29f6a1d1c853..e4eab7a45ace 100644
+> --- a/include/drm/ttm/ttm_bo_driver.h
+> +++ b/include/drm/ttm/ttm_bo_driver.h
+> @@ -133,12 +133,15 @@ struct ttm_bo_driver {
+>  	 * the graphics address space
+>  	 * @ctx: context for this move with parameters
+>  	 * @new_mem: the new memory region receiving the buffer
+> +	 @ @hop: placement for driver directed intermediate hop
+>  	 *
+>  	 * Move a buffer between two memory regions.
+> +	 * Returns errno -EMULTIHOP if driver requests a hop
+>  	 */
+>  	int (*move)(struct ttm_buffer_object *bo, bool evict,
+>  		    struct ttm_operation_ctx *ctx,
+> -		    struct ttm_resource *new_mem);
+> +		    struct ttm_resource *new_mem,
+> +		    struct ttm_place *hop);
+>  
+>  	/**
+>  	 * struct ttm_bo_driver_member verify_access
+
+Aside from the nit to never pass a NULL @hop for some driver safety and
+sanity checking I think ttm part looks all good.
+
+I didn't yet look at the driver conversions in detail to make sure they
+match the current code.
+
+Cheers, Daniel
+
+> -- 
+> 2.27.0
+> 
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
 > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
