@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADEB29D932
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 23:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3A229D9A1
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 23:58:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5B256E7D5;
-	Wed, 28 Oct 2020 22:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EC8F6E7EA;
+	Wed, 28 Oct 2020 22:58:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF476E7D5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 22:49:26 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id i6so906691lfd.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 15:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7HeNAv00uJfTCl+gT8Pb9nI+qY/4pxggFwvuy72uboY=;
- b=dlYEYTdu/IRlVd2XSYKs0S1jSlu80UHQFTxfkxJUACy+FRprUFNXARTiGqUEF4hZt9
- wJ8vWhMsjsOkzs4qFWRiyZ/gEgt4HLEq9XYDP1rUlt/h1AFN4UP38ttIJjTFvo20bw0L
- 3P/zy2T5eU8SsMOWSze24P7bAROAzxmZbe7025aqaTd9cK8rQo1BVV04rdGTiSnYHnbV
- ZaSJuhH2MO1hc4Y8xfFTdpzTYXexhDlTHeTLudBa17op32D7dx41kt18Y5HszJ7tFFXH
- 9+s+VoALWAwG1m885BPvUreKofQZLSCS3DzBXQGkt1wikDMRz/C3CAS0RVopeUZa0HKC
- s7Cg==
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BCE66E7EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 22:58:28 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id s22so734152pga.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 15:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6JrNRWkX7EOt8SVl4zWRV9sKmFHfyMIG2OqzNYF3b1M=;
+ b=FlAUuLWzuw4wyGQlXQPvLmW7TDzRwrWOn7nj+yU138n3wf1/Ss6yWLBsI6l320puRM
+ OJuS3tXIeV/UtDOjqvL57DPMv9d5VUunc2MFA5W06K3LywQLLFi++HLcqV4vuqth/vSq
+ Qrv+z+ZN2iEFcAPNb1UdB9E9REkSFVTiD9hN0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7HeNAv00uJfTCl+gT8Pb9nI+qY/4pxggFwvuy72uboY=;
- b=cS80ss77abmgNuzrZjyDQw3MohN2nUjB/8BFITLy7xaCg2rjrWeVCHecR2Bh1EBpNu
- PehdQ6rgITvhLLgXARHQRQA4BUpjmMhZKeMoIupAjYsjWf6DzTzf3Xhgq6j1pNNsg1J2
- K4ZQt8hHnb9z25EvPyyNR5FJDilYNiOQsBEdSpAX+ZvosNBPhoaeR8T6PjqXyfvxtH9v
- qhjqW+xtdPzD/gc821nZkBhaX4G+CR8wteEpxCvXIoUH6ouvnqcwxuipSD+gHXO+lqWr
- 1sJJF+R27PK1Fsf2WryeoBRa82A1c0IKib4KYym2lhfxmjevmlNSm80jykrMDlsSPNPS
- escQ==
-X-Gm-Message-State: AOAM532KnUg4O13nAjyALSozrWhX/gWu0hERSQkfrX85SpOd9FAl/tzB
- ZmrFfcOPrtA99SMxikbkvOQ9u0l9ggQadS933tfD3Ng68kMK3w==
-X-Google-Smtp-Source: ABdhPJwe39ANcGBIhfn8CADOB2EFLrbAAl7Mg7aHahyVQ4iUHigZDCzg4VcJSYXV0I0zQNqdI544SpYw6GRcgDJBmvU=
-X-Received: by 2002:a19:224b:: with SMTP id i72mr422510lfi.226.1603925364771; 
- Wed, 28 Oct 2020 15:49:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6JrNRWkX7EOt8SVl4zWRV9sKmFHfyMIG2OqzNYF3b1M=;
+ b=AVqRy1l1zgkOHeO4URobNEpeIz/6LAwp0EU1iLkFhJooMNs5ZwKyd53vtuay8gvfpk
+ X3pO0rgDT2DPNjIUKBrxbxNSXQzOo536n37yzDNA/G69vttvz9TajbmN/PIazMkmGX52
+ QefGimWwz6POx5XRJtgBbd4k7G2XH8yy1PdVmNmxhOyY6voY9E7UncyCN+ofo9yAvTHX
+ cPRkCtC03affTgkhZRDINsRTryQb+IDm/g4+kBzPR1EiIZ5LXnhFV+j4wuxKC5x+iumX
+ kM83XeV1uoN3b7tuAoyaXqM0pFW8GO/9tSZ9k5wymllpmaj3PFNAbFf+MTLffUOZVQ4B
+ RCzQ==
+X-Gm-Message-State: AOAM530PhXqmBKjA4eVRTi9WnGfnKlVjTOvHOgS5BguYu2gWxqsd/LFU
+ PaDmG4i0uQd1wFnWigrZZjaWcQ==
+X-Google-Smtp-Source: ABdhPJxe0Y9rORN07q3KsR3t9GhM59XksWeUXABlljFXed/iVl2hw85V8N4/e6n2yfJnZenjSqNdfw==
+X-Received: by 2002:a17:90a:a4c9:: with SMTP id
+ l9mr1060040pjw.203.1603925907664; 
+ Wed, 28 Oct 2020 15:58:27 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:42b0:34ff:fe3d:58e6])
+ by smtp.gmail.com with ESMTPSA id b185sm394364pgc.68.2020.10.28.15.58.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Oct 2020 15:58:26 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v2 1/3] drm: panel: simple: Allow timing constraints,
+ not fixed delays
+Date: Wed, 28 Oct 2020 15:58:01 -0700
+Message-Id: <20201028155617.v2.1.I31c4f8b111dbef1ab658f206764655ae983bc560@changeid>
+X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
 MIME-Version: 1.0
-References: <20201028143608.1284-1-patrik.r.jakobsson@gmail.com>
- <CAKMK7uFLpXoJ-CrgvTd6+akWxQTFxgXb4yMxufwzuStPy=m7dg@mail.gmail.com>
-In-Reply-To: <CAKMK7uFLpXoJ-CrgvTd6+akWxQTFxgXb4yMxufwzuStPy=m7dg@mail.gmail.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Wed, 28 Oct 2020 23:49:13 +0100
-Message-ID: <CAMeQTsYtMjyk=sRi9oJjeYzmWw3FG-krVk2s4ExyXCATeEMZSg@mail.gmail.com>
-Subject: Re: [PATCH] drm/gma500: Remove GTT roll support
-To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,293 +64,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 28, 2020 at 4:41 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Wed, Oct 28, 2020 at 3:36 PM Patrik Jakobsson
-> <patrik.r.jakobsson@gmail.com> wrote:
-> >
-> > GTT roll support was used to accelerate fb panning on some machines.
-> > Unfortunately this never worked properly with multiple monitors and
-> > caused issues on others where the framebuffer wouldn't fit in stolen
-> > memory. Let's remove it!
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> btw I tried to figure out whether the accel code is of any use too,
-> and we don't set FBINFO_HWACCEL_COPYAREA, despite that we have an
-> accelerated copyarea. So I think we could delete all that code too,
-> since essentially unused. And aside of fbcon no one is using these
-> acceleration functions anyway.
-> -Daniel
+The simple panel code currently allows panels to define fixed delays
+at certain stages of initialization.  These work OK, but they don't
+really map all that clearly to the requirements presented in many
+panel datasheets.  Instead of defining a fixed delay, those datasheets
+provide a timing diagram and specify a minimum amount of time that
+needs to pass from event A to event B.
 
-Yes, it can also go away. It'll remove quite a bit of code. I'll have a look.
+Because of the way things are currently defined, most panels end up
+over-delaying.  One prime example here is that a number of panels I've
+looked at define the amount of time that must pass between turning a
+panel off and turning it back on again.  Since there is no way to
+specify this, many developers have listed this as the "unprepare"
+delay.  However, if nobody ever tried to turn the panel on again in
+the next 500 ms (or whatever the delay was) then this delay was
+pointless.  It's better to do the delay only in the case that someone
+tried to turn the panel on too quickly.
 
--Patrik
+Let's support specifying delays as constraints.  We'll start with the
+one above and also a second one: the minimum time between prepare
+being done and doing the enable.  On the panel I'm looking at, there's
+an 80 ms minimum time between HPD being asserted by the panel and
+setting the backlight enable GPIO.  By specifying as a constraint we
+can enforce this without over-delaying.  Specifically the link
+training is allowed to happen in parallel with this delay so adding a
+fixed 80 ms delay isn't ideal.
 
->
-> >
-> > Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> > ---
-> >  drivers/gpu/drm/gma500/framebuffer.c | 96 ++++------------------------
-> >  drivers/gpu/drm/gma500/gtt.c         | 52 +--------------
-> >  drivers/gpu/drm/gma500/gtt.h         |  3 -
-> >  3 files changed, 14 insertions(+), 137 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-> > index 5ede24fb44ae..2d64c58607f5 100644
-> > --- a/drivers/gpu/drm/gma500/framebuffer.c
-> > +++ b/drivers/gpu/drm/gma500/framebuffer.c
-> > @@ -76,27 +76,6 @@ static int psbfb_setcolreg(unsigned regno, unsigned red, unsigned green,
-> >         return 0;
-> >  }
-> >
-> > -static int psbfb_pan(struct fb_var_screeninfo *var, struct fb_info *info)
-> > -{
-> > -       struct drm_fb_helper *fb_helper = info->par;
-> > -       struct drm_framebuffer *fb = fb_helper->fb;
-> > -       struct drm_device *dev = fb->dev;
-> > -       struct gtt_range *gtt = to_gtt_range(fb->obj[0]);
-> > -
-> > -       /*
-> > -        *      We have to poke our nose in here. The core fb code assumes
-> > -        *      panning is part of the hardware that can be invoked before
-> > -        *      the actual fb is mapped. In our case that isn't quite true.
-> > -        */
-> > -       if (gtt->npage) {
-> > -               /* GTT roll shifts in 4K pages, we need to shift the right
-> > -                  number of pages */
-> > -               int pages = info->fix.line_length >> 12;
-> > -               psb_gtt_roll(dev, gtt, var->yoffset * pages);
-> > -       }
-> > -        return 0;
-> > -}
-> > -
-> >  static vm_fault_t psbfb_vm_fault(struct vm_fault *vmf)
-> >  {
-> >         struct vm_area_struct *vma = vmf->vma;
-> > @@ -176,17 +155,6 @@ static const struct fb_ops psbfb_ops = {
-> >         .fb_sync = psbfb_sync,
-> >  };
-> >
-> > -static const struct fb_ops psbfb_roll_ops = {
-> > -       .owner = THIS_MODULE,
-> > -       DRM_FB_HELPER_DEFAULT_OPS,
-> > -       .fb_setcolreg = psbfb_setcolreg,
-> > -       .fb_fillrect = drm_fb_helper_cfb_fillrect,
-> > -       .fb_copyarea = drm_fb_helper_cfb_copyarea,
-> > -       .fb_imageblit = drm_fb_helper_cfb_imageblit,
-> > -       .fb_pan_display = psbfb_pan,
-> > -       .fb_mmap = psbfb_mmap,
-> > -};
-> > -
-> >  static const struct fb_ops psbfb_unaccel_ops = {
-> >         .owner = THIS_MODULE,
-> >         DRM_FB_HELPER_DEFAULT_OPS,
-> > @@ -312,8 +280,6 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
-> >         int ret;
-> >         struct gtt_range *backing;
-> >         u32 bpp, depth;
-> > -       int gtt_roll = 0;
-> > -       int pitch_lines = 0;
-> >
-> >         mode_cmd.width = sizes->surface_width;
-> >         mode_cmd.height = sizes->surface_height;
-> > @@ -324,50 +290,15 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
-> >         if (bpp == 24)
-> >                 bpp = 32;
-> >
-> > -       do {
-> > -               /*
-> > -                * Acceleration via the GTT requires pitch to be
-> > -                * power of two aligned. Preferably page but less
-> > -                * is ok with some fonts
-> > -                */
-> > -               mode_cmd.pitches[0] =  ALIGN(mode_cmd.width * ((bpp + 7) / 8), 4096 >> pitch_lines);
-> > -
-> > -               size = mode_cmd.pitches[0] * mode_cmd.height;
-> > -               size = ALIGN(size, PAGE_SIZE);
-> > -
-> > -               /* Allocate the fb in the GTT with stolen page backing */
-> > -               backing = psbfb_alloc(dev, size);
-> > -
-> > -               if (pitch_lines)
-> > -                       pitch_lines *= 2;
-> > -               else
-> > -                       pitch_lines = 1;
-> > -               gtt_roll++;
-> > -       } while (backing == NULL && pitch_lines <= 16);
-> > -
-> > -       /* The final pitch we accepted if we succeeded */
-> > -       pitch_lines /= 2;
-> > -
-> > -       if (backing == NULL) {
-> > -               /*
-> > -                *      We couldn't get the space we wanted, fall back to the
-> > -                *      display engine requirement instead.  The HW requires
-> > -                *      the pitch to be 64 byte aligned
-> > -                */
-> > -
-> > -               gtt_roll = 0;   /* Don't use GTT accelerated scrolling */
-> > -               pitch_lines = 64;
-> > -
-> > -               mode_cmd.pitches[0] =  ALIGN(mode_cmd.width * ((bpp + 7) / 8), 64);
-> > -
-> > -               size = mode_cmd.pitches[0] * mode_cmd.height;
-> > -               size = ALIGN(size, PAGE_SIZE);
-> > -
-> > -               /* Allocate the framebuffer in the GTT with stolen page backing */
-> > -               backing = psbfb_alloc(dev, size);
-> > -               if (backing == NULL)
-> > -                       return -ENOMEM;
-> > -       }
-> > +       mode_cmd.pitches[0] = ALIGN(mode_cmd.width * DIV_ROUND_UP(bpp, 8), 64);
-> > +
-> > +       size = mode_cmd.pitches[0] * mode_cmd.height;
-> > +       size = ALIGN(size, PAGE_SIZE);
-> > +
-> > +       /* Allocate the framebuffer in the GTT with stolen page backing */
-> > +       backing = psbfb_alloc(dev, size);
-> > +       if (backing == NULL)
-> > +               return -ENOMEM;
-> >
-> >         memset(dev_priv->vram_addr + backing->offset, 0, size);
-> >
-> > @@ -387,17 +318,14 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
-> >
-> >         fb_helper->fb = fb;
-> >
-> > -       if (dev_priv->ops->accel_2d && pitch_lines > 8) /* 2D engine */
-> > +       if (dev_priv->ops->accel_2d)    /* 2D engine */
-> >                 info->fbops = &psbfb_ops;
-> > -       else if (gtt_roll) {    /* GTT rolling seems best */
-> > -               info->fbops = &psbfb_roll_ops;
-> > -               info->flags |= FBINFO_HWACCEL_YPAN;
-> > -       } else  /* Software */
-> > +       else    /* Software */
-> >                 info->fbops = &psbfb_unaccel_ops;
-> >
-> >         info->fix.smem_start = dev->mode_config.fb_base;
-> >         info->fix.smem_len = size;
-> > -       info->fix.ywrapstep = gtt_roll;
-> > +       info->fix.ywrapstep = 0;
-> >         info->fix.ypanstep = 0;
-> >
-> >         /* Accessed stolen memory directly */
-> > diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
-> > index 9278bcfad1bf..d246b1f70366 100644
-> > --- a/drivers/gpu/drm/gma500/gtt.c
-> > +++ b/drivers/gpu/drm/gma500/gtt.c
-> > @@ -96,16 +96,12 @@ static int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r,
-> >         }
-> >
-> >         /* Write our page entries into the GTT itself */
-> > -       for (i = r->roll; i < r->npage; i++) {
-> > -               pte = psb_gtt_mask_pte(page_to_pfn(r->pages[i]),
-> > -                                      PSB_MMU_CACHED_MEMORY);
-> > -               iowrite32(pte, gtt_slot++);
-> > -       }
-> > -       for (i = 0; i < r->roll; i++) {
-> > +       for (i = 0; i < r->npage; i++) {
-> >                 pte = psb_gtt_mask_pte(page_to_pfn(r->pages[i]),
-> >                                        PSB_MMU_CACHED_MEMORY);
-> >                 iowrite32(pte, gtt_slot++);
-> >         }
-> > +
-> >         /* Make sure all the entries are set before we return */
-> >         ioread32(gtt_slot - 1);
-> >
-> > @@ -140,49 +136,6 @@ static void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r)
-> >         set_pages_array_wb(r->pages, r->npage);
-> >  }
-> >
-> > -/**
-> > - *     psb_gtt_roll    -       set scrolling position
-> > - *     @dev: our DRM device
-> > - *     @r: the gtt mapping we are using
-> > - *     @roll: roll offset
-> > - *
-> > - *     Roll an existing pinned mapping by moving the pages through the GTT.
-> > - *     This allows us to implement hardware scrolling on the consoles without
-> > - *     a 2D engine
-> > - */
-> > -void psb_gtt_roll(struct drm_device *dev, struct gtt_range *r, int roll)
-> > -{
-> > -       u32 __iomem *gtt_slot;
-> > -       u32 pte;
-> > -       int i;
-> > -
-> > -       if (roll >= r->npage) {
-> > -               WARN_ON(1);
-> > -               return;
-> > -       }
-> > -
-> > -       r->roll = roll;
-> > -
-> > -       /* Not currently in the GTT - no worry we will write the mapping at
-> > -          the right position when it gets pinned */
-> > -       if (!r->stolen && !r->in_gart)
-> > -               return;
-> > -
-> > -       gtt_slot = psb_gtt_entry(dev, r);
-> > -
-> > -       for (i = r->roll; i < r->npage; i++) {
-> > -               pte = psb_gtt_mask_pte(page_to_pfn(r->pages[i]),
-> > -                                      PSB_MMU_CACHED_MEMORY);
-> > -               iowrite32(pte, gtt_slot++);
-> > -       }
-> > -       for (i = 0; i < r->roll; i++) {
-> > -               pte = psb_gtt_mask_pte(page_to_pfn(r->pages[i]),
-> > -                                      PSB_MMU_CACHED_MEMORY);
-> > -               iowrite32(pte, gtt_slot++);
-> > -       }
-> > -       ioread32(gtt_slot - 1);
-> > -}
-> > -
-> >  /**
-> >   *     psb_gtt_attach_pages    -       attach and pin GEM pages
-> >   *     @gt: the gtt range
-> > @@ -346,7 +299,6 @@ struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
-> >         gt->resource.name = name;
-> >         gt->stolen = backed;
-> >         gt->in_gart = backed;
-> > -       gt->roll = 0;
-> >         /* Ensure this is set for non GEM objects */
-> >         gt->gem.dev = dev;
-> >         ret = allocate_resource(dev_priv->gtt_mem, &gt->resource,
-> > diff --git a/drivers/gpu/drm/gma500/gtt.h b/drivers/gpu/drm/gma500/gtt.h
-> > index 3cf190295ad3..2bf165849ebe 100644
-> > --- a/drivers/gpu/drm/gma500/gtt.h
-> > +++ b/drivers/gpu/drm/gma500/gtt.h
-> > @@ -37,7 +37,6 @@ struct gtt_range {
-> >         bool mmapping;                  /* Is mmappable */
-> >         struct page **pages;            /* Backing pages if present */
-> >         int npage;                      /* Number of backing pages */
-> > -       int roll;                       /* Roll applied to the GTT entries */
-> >  };
-> >
-> >  #define to_gtt_range(x) container_of(x, struct gtt_range, gem)
-> > @@ -49,7 +48,5 @@ extern void psb_gtt_kref_put(struct gtt_range *gt);
-> >  extern void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt);
-> >  extern int psb_gtt_pin(struct gtt_range *gt);
-> >  extern void psb_gtt_unpin(struct gtt_range *gt);
-> > -extern void psb_gtt_roll(struct drm_device *dev,
-> > -                                       struct gtt_range *gt, int roll);
-> >  extern int psb_gtt_restore(struct drm_device *dev);
-> >  #endif
-> > --
-> > 2.28.0
-> >
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+
+Changes in v2:
+- Inline the kernel doc for the two new members.
+- Beefed up kernel doc saying exactly when the delay happens.
+- Removed "_ms" from the end of members to shorten them.
+- Renamed "timing_constraints" to "min_times" to shorten it.
+- Renamed "enforce_constraint()" to "wait_min_time()" to shorten it.
+- Check "prepared_time" against 0 to see if we've been prepared.
+
+ drivers/gpu/drm/panel/panel-simple.c | 99 ++++++++++++++++++++++++++--
+ 1 file changed, 92 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 2be358fb46f7..2613b9434548 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -92,6 +92,68 @@ struct panel_desc {
+ 		unsigned int unprepare;
+ 	} delay;
+ 
++	struct {
++		/**
++		 * @prepare_to_enable: Time between prepare and enable.
++		 *
++		 * The minimum time, in milliseconds, that needs to have passed
++		 * between when prepare finished and enable may begin. If at
++		 * enable time less time has passed since prepare finished,
++		 * the driver waits for the remaining time.
++		 *
++		 * If a fixed enable delay is also specified, we'll start
++		 * counting before delaying for the fixed delay.
++		 *
++		 * If a fixed prepare delay is also specified, we won't start
++		 * counting until after the fixed delay. We can't overlap this
++		 * fixed delay with the min time because the fixed delay
++		 * doesn't happen at the end of the function if a HPD GPIO was
++		 * specified.
++		 *
++		 * In other words:
++		 *   prepare()
++		 *     ...
++		 *     // do fixed prepare delay
++		 *     // wait for HPD GPIO if applicable
++		 *     // start counting for prepare_to_enable
++		 *
++		 *   enable()
++		 *     // do fixed enable delay
++		 *     // enforce prepare_to_enable min time
++		 */
++		unsigned int prepare_to_enable;
++
++		/**
++		 * @unprepare_to_prepare: Time between unprepare and prepare.
++		 *
++		 * The minimum time, in milliseconds, that needs to have passed
++		 * between when unprepare finished and prepare may begin. If at
++		 * prepare time less time has passed since unprepare finished,
++		 * the driver waits for the remaining time.
++		 *
++		 * If a fixed unprepare delay is also specified, we'll start
++		 * counting before delaying for the fixed delay.
++		 *
++		 * If a fixed prepare delay is also specified, it will happen
++		 * separately and after we've enforced this minimum. We can't
++		 * overlap this fixed delay with the min time because the
++		 * fixed delay doesn't happen at the start of the function
++		 * if a regulator or enable GPIO was specified.
++		 *
++		 * In other words:
++		 *   unprepare():
++		 *     ...
++		 *     // start counting for unprepare_to_prepare
++		 *     // do fixed unprepare delay
++		 *
++		 *   prepare():
++		 *     // enforce unprepare_to_prepare min time
++		 *     // turn on regulator / set enable GPIO if applicable
++		 *     // do fixed prepare delay
++		 */
++		unsigned int unprepare_to_prepare;
++	} min_times;
++
+ 	u32 bus_format;
+ 	u32 bus_flags;
+ 	int connector_type;
+@@ -99,10 +161,12 @@ struct panel_desc {
+ 
+ struct panel_simple {
+ 	struct drm_panel base;
+-	bool prepared;
+ 	bool enabled;
+ 	bool no_hpd;
+ 
++	ktime_t prepared_time;
++	ktime_t unprepared_time;
++
+ 	const struct panel_desc *desc;
+ 
+ 	struct regulator *supply;
+@@ -230,6 +294,20 @@ static int panel_simple_get_non_edid_modes(struct panel_simple *panel,
+ 	return num;
+ }
+ 
++static void panel_simple_wait_min_time(ktime_t start_ktime, unsigned int min_ms)
++{
++	ktime_t now_ktime, min_ktime;
++
++	if (!min_ms)
++		return;
++
++	min_ktime = ktime_add(start_ktime, ms_to_ktime(min_ms));
++	now_ktime = ktime_get();
++
++	if (ktime_before(now_ktime, min_ktime))
++		msleep(ktime_to_ms(ktime_sub(min_ktime, now_ktime)) + 1);
++}
++
+ static int panel_simple_disable(struct drm_panel *panel)
+ {
+ 	struct panel_simple *p = to_panel_simple(panel);
+@@ -249,18 +327,19 @@ static int panel_simple_unprepare(struct drm_panel *panel)
+ {
+ 	struct panel_simple *p = to_panel_simple(panel);
+ 
+-	if (!p->prepared)
++	if (p->prepared_time != 0)
+ 		return 0;
+ 
+ 	gpiod_set_value_cansleep(p->enable_gpio, 0);
+ 
+ 	regulator_disable(p->supply);
+ 
++	p->prepared_time = 0;
++	p->unprepared_time = ktime_get();
++
+ 	if (p->desc->delay.unprepare)
+ 		msleep(p->desc->delay.unprepare);
+ 
+-	p->prepared = false;
+-
+ 	return 0;
+ }
+ 
+@@ -296,9 +375,12 @@ static int panel_simple_prepare(struct drm_panel *panel)
+ 	int err;
+ 	int hpd_asserted;
+ 
+-	if (p->prepared)
++	if (p->prepared_time == 0)
+ 		return 0;
+ 
++	panel_simple_wait_min_time(p->unprepared_time,
++				   p->desc->min_times.unprepare_to_prepare);
++
+ 	err = regulator_enable(p->supply);
+ 	if (err < 0) {
+ 		dev_err(panel->dev, "failed to enable supply: %d\n", err);
+@@ -333,7 +415,7 @@ static int panel_simple_prepare(struct drm_panel *panel)
+ 		}
+ 	}
+ 
+-	p->prepared = true;
++	p->prepared_time = ktime_get();
+ 
+ 	return 0;
+ }
+@@ -348,6 +430,9 @@ static int panel_simple_enable(struct drm_panel *panel)
+ 	if (p->desc->delay.enable)
+ 		msleep(p->desc->delay.enable);
+ 
++	panel_simple_wait_min_time(p->prepared_time,
++				   p->desc->min_times.prepare_to_enable);
++
+ 	p->enabled = true;
+ 
+ 	return 0;
+@@ -514,7 +599,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 		return -ENOMEM;
+ 
+ 	panel->enabled = false;
+-	panel->prepared = false;
++	panel->prepared_time = 0;
+ 	panel->desc = desc;
+ 
+ 	panel->no_hpd = of_property_read_bool(dev->of_node, "no-hpd");
+-- 
+2.29.1.341.ge80a0c044ae-goog
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
