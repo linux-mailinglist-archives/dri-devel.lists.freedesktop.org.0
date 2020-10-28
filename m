@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0802529D060
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 15:36:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A71E429D064
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 15:41:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E86B16E52F;
-	Wed, 28 Oct 2020 14:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5DA26E542;
+	Wed, 28 Oct 2020 14:41:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D49F76E52F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 14:36:16 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id d3so5004212wma.4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 07:36:16 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 679DF6E542
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 14:41:44 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id m16so6609412ljo.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 07:41:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9RWH380HJ+UNML9g77gATW7GVqT/bhtLGz7/r5Xo8BA=;
- b=SlhHhKw2iUaWn3mfGNoDgSmHw0lwAGHQQwZYJ/6uy39FWQYcTI02XaY0xRCKIxA7k2
- 5usKKqSuwJF4KcEWA/KDwWQSBouJrQW+cp7zg+T5TsRfNwGcWNAppDmnxFjHF8+3FPTW
- Qwi/dpusMV7kE4QrOwQkwTPsJi05xEjz1tc7OMYp8/oFaNR+14PZh39TOu+THEo86Ax1
- /1fpt2o/UZBHv2zZFOzj2h32iIcjqBgrwXfrJMFIlz/B/iPB3DgAwqNHVtOSkP7Fj+wX
- 5efj+027aorRxIS931o0u6lE59hIRyFWGt6XUcI7V3m34mGirtyndX5klVUpthVicZjn
- cixw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sJ4wXj2K7lJdOYLrd0jjyxtKvvbExzYsZz6tEJ6wk7o=;
+ b=mM89ZJBbiOM2uifaVqXNKqSvyE2s1UPxX02cbg2psjG2RIj0UXsi1Jjgz1Oryq1Qpm
+ nNtWV/Lrq7xaMOk1nJUvpvDcRkMIdXEYqEEPQNx0EvW2fb18AxSruEfievimQTV2NSfy
+ d0ZLC0dIboHF2NU3uV6aWrN39eLuYFOWlQFDS8HE82cJyQv58B1iQYh8FUIVQimKPUBs
+ MLmpU9GAuvttzfyZH62cYrJkwYEM6/nTI48cqRrX/HBH394+76DrhzeIYjoGxOMY6O/1
+ WuTtGpzaeuJe62Yr9yIyeS1BzuZq3pkYhGrezT1vDZgBDsXXtyz4klkHdsp/3vDFLiQ4
+ ehDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9RWH380HJ+UNML9g77gATW7GVqT/bhtLGz7/r5Xo8BA=;
- b=sXcR60NFpxTLn3i4VfMaK637dkTj4SLhc3ItELHrTR8L+UqdTrURmwzDlZ7rqA4Y8Y
- z/NeJ5LQlfkHbbMmNEayHoHVjPklijfvlXoly51amxDF/6pTPQZnJCqCoAI5kiFdB39l
- e4uvdGBvFNIHFMMynEc2jjBoCCouuau3XyWJEf/I6j0GR95reocGJXzhQEAJTDKpYDgE
- NyQsgMdO53buk9SKkknKmLs8ArmneSCAuOttB0WCS86oAdjBLQI9QM5xKrkMQAwIsWdz
- atSsrpWbH2Y5yuU1xCFLXvBEmPOYzyZ0rCqktUb7Syt7tE7t3Ij6ZjT+pcIw5cMecRt4
- A2sw==
-X-Gm-Message-State: AOAM530T4AihvIdDKCdW/HugEqPSlYHdnRUf/mW1pnRe41eHXyE1XVmY
- IOxB8Jf1+ChzHW3XudkLGhYMkzxTvaQwTQ==
-X-Google-Smtp-Source: ABdhPJyRRHi4Rd1PGpXXKpgn2lMUA8DH2gcHEQLtRecE5UOX2i8fCuylONlSj/QZ965Oblum9q5MTA==
-X-Received: by 2002:a7b:c20d:: with SMTP id x13mr9177523wmi.83.1603895775075; 
- Wed, 28 Oct 2020 07:36:15 -0700 (PDT)
-Received: from workstation.suse.de (81-229-85-231-no13.tbcn.telia.com.
- [81.229.85.231])
- by smtp.gmail.com with ESMTPSA id y206sm6560648wmd.34.2020.10.28.07.36.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 07:36:14 -0700 (PDT)
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/gma500: Remove GTT roll support
-Date: Wed, 28 Oct 2020 15:36:08 +0100
-Message-Id: <20201028143608.1284-1-patrik.r.jakobsson@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sJ4wXj2K7lJdOYLrd0jjyxtKvvbExzYsZz6tEJ6wk7o=;
+ b=td9qKRdzWbyMvWZ29c77PJGC/Gj76AUhoMiiLH926gqqnwYmrGAUiWkt2UG0KhHxQK
+ BeR1f187FjNdxbcNaE2j5R399n7BWoAjW9WjRpK31szABX97ECkmXBJUvgX53a4V1Bng
+ +JvuifW+XGU8onbgDjl8PGnxKQYGVXpZ+gV+L4Ta1+47go6fc7GsRlABPWR5I0BVPLEA
+ WYtE51G4FV7lV5e6+tkuZg3LFmOYvQbSWM489CYfLgtjse3LBm4AhM8muOwZ0Fx4pENi
+ XHvOh6sppZt2FV1HuE8Wn5mTxoJOm+kcvAv1LP5x4IgRLy7I1z22oMCXg2Rj9B2gnErS
+ /fGg==
+X-Gm-Message-State: AOAM5301i0el1ry03H4Uxb960EHbq5ktW0cyJVHPYJaAWOM/EiBADlzg
+ IxtbBJThXIKZp0EkEkNLtOTbwd/SNo/QMK5waDk=
+X-Google-Smtp-Source: ABdhPJx8co+572PLantQaUV7Gqe51Vag+Xsh6dam5kO2twasvje9+9Se8vxhWJ1wtDg0J7s2tzvkIaPm0Y/N1NL42uQ=
+X-Received: by 2002:a2e:8706:: with SMTP id m6mr3509012lji.129.1603896102594; 
+ Wed, 28 Oct 2020 07:41:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201026194110.3817470-1-arnd@kernel.org>
+ <20201026194110.3817470-4-arnd@kernel.org>
+ <20201027093350.GI401619@phenom.ffwll.local>
+ <CAMeQTsZ9rBh2W_y8W4aaGJR3v5CA4g2BLmr-wAvcoKjOQtL68g@mail.gmail.com>
+ <CAK8P3a35i9Z7sfFfVk_COotmyKVN6jcXadhaHu-BbbWCy_8ypQ@mail.gmail.com>
+In-Reply-To: <CAK8P3a35i9Z7sfFfVk_COotmyKVN6jcXadhaHu-BbbWCy_8ypQ@mail.gmail.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Wed, 28 Oct 2020 15:41:31 +0100
+Message-ID: <CAMeQTsbATjR2KZ9ML8OsmXgZpbSEsWU3FjYArG8enPtY=yoQww@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/gma500: avoid Woverride-init warning
+To: Arnd Bergmann <arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,267 +64,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Stefan Christ <contact@stefanchrist.eu>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GTT roll support was used to accelerate fb panning on some machines.
-Unfortunately this never worked properly with multiple monitors and
-caused issues on others where the framebuffer wouldn't fit in stolen
-memory. Let's remove it!
+On Tue, Oct 27, 2020 at 5:50 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> On Tue, Oct 27, 2020 at 10:54 AM Patrik Jakobsson
+> <patrik.r.jakobsson@gmail.com> wrote:
+> > On Tue, Oct 27, 2020 at 10:33 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > On Mon, Oct 26, 2020 at 08:41:04PM +0100, Arnd Bergmann wrote:
+> > > > From: Arnd Bergmann <arnd@arndb.de>
+> > > >
+> > > > gcc -Wextra notices that one of the fields in psbfb_roll_ops has two
+> > > > initializers:
+> > > >
+> > > > drivers/gpu/drm/gma500/framebuffer.c:185:20: warning: initialized field overwritten [-Woverride-init]
+> > > >
+> > > > Open-code this instead, leaving out the extraneous initializers for
+> > > > .fb_pan_display.
+> > > >
+> > > > Fixes: 3da6c2f3b730 ("drm/gma500: use DRM_FB_HELPER_DEFAULT_OPS for fb_ops")
+> > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > >
+> > > Scrollback is dead, so I'm not sure it's even worth to keep all this. I'd
+> > > just garbage-collect this, maybe als the entire accelerator code and just
+> > > leave psbfb_unaccel_ops behind ...
+> > > -Daniel
+> >
+> > That's been my idea for quite some time. The gtt roll code is also
+> > broken in multi display setups.
+> >
+> > Arnd, I can take care of this unless you feel an urge to do it yourself.
+>
+> That would be good, thanks
 
-Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
----
- drivers/gpu/drm/gma500/framebuffer.c | 96 ++++------------------------
- drivers/gpu/drm/gma500/gtt.c         | 52 +--------------
- drivers/gpu/drm/gma500/gtt.h         |  3 -
- 3 files changed, 14 insertions(+), 137 deletions(-)
+Should be fixed with:
+https://patchwork.freedesktop.org/patch/397482/?series=83153&rev=1
 
-diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index 5ede24fb44ae..2d64c58607f5 100644
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -76,27 +76,6 @@ static int psbfb_setcolreg(unsigned regno, unsigned red, unsigned green,
- 	return 0;
- }
- 
--static int psbfb_pan(struct fb_var_screeninfo *var, struct fb_info *info)
--{
--	struct drm_fb_helper *fb_helper = info->par;
--	struct drm_framebuffer *fb = fb_helper->fb;
--	struct drm_device *dev = fb->dev;
--	struct gtt_range *gtt = to_gtt_range(fb->obj[0]);
--
--	/*
--	 *	We have to poke our nose in here. The core fb code assumes
--	 *	panning is part of the hardware that can be invoked before
--	 *	the actual fb is mapped. In our case that isn't quite true.
--	 */
--	if (gtt->npage) {
--		/* GTT roll shifts in 4K pages, we need to shift the right
--		   number of pages */
--		int pages = info->fix.line_length >> 12;
--		psb_gtt_roll(dev, gtt, var->yoffset * pages);
--	}
--        return 0;
--}
--
- static vm_fault_t psbfb_vm_fault(struct vm_fault *vmf)
- {
- 	struct vm_area_struct *vma = vmf->vma;
-@@ -176,17 +155,6 @@ static const struct fb_ops psbfb_ops = {
- 	.fb_sync = psbfb_sync,
- };
- 
--static const struct fb_ops psbfb_roll_ops = {
--	.owner = THIS_MODULE,
--	DRM_FB_HELPER_DEFAULT_OPS,
--	.fb_setcolreg = psbfb_setcolreg,
--	.fb_fillrect = drm_fb_helper_cfb_fillrect,
--	.fb_copyarea = drm_fb_helper_cfb_copyarea,
--	.fb_imageblit = drm_fb_helper_cfb_imageblit,
--	.fb_pan_display = psbfb_pan,
--	.fb_mmap = psbfb_mmap,
--};
--
- static const struct fb_ops psbfb_unaccel_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
-@@ -312,8 +280,6 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
- 	int ret;
- 	struct gtt_range *backing;
- 	u32 bpp, depth;
--	int gtt_roll = 0;
--	int pitch_lines = 0;
- 
- 	mode_cmd.width = sizes->surface_width;
- 	mode_cmd.height = sizes->surface_height;
-@@ -324,50 +290,15 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
- 	if (bpp == 24)
- 		bpp = 32;
- 
--	do {
--		/*
--		 * Acceleration via the GTT requires pitch to be
--		 * power of two aligned. Preferably page but less
--		 * is ok with some fonts
--		 */
--        	mode_cmd.pitches[0] =  ALIGN(mode_cmd.width * ((bpp + 7) / 8), 4096 >> pitch_lines);
--
--        	size = mode_cmd.pitches[0] * mode_cmd.height;
--        	size = ALIGN(size, PAGE_SIZE);
--
--		/* Allocate the fb in the GTT with stolen page backing */
--		backing = psbfb_alloc(dev, size);
--
--		if (pitch_lines)
--			pitch_lines *= 2;
--		else
--			pitch_lines = 1;
--		gtt_roll++;
--	} while (backing == NULL && pitch_lines <= 16);
--
--	/* The final pitch we accepted if we succeeded */
--	pitch_lines /= 2;
--
--	if (backing == NULL) {
--		/*
--		 *	We couldn't get the space we wanted, fall back to the
--		 *	display engine requirement instead.  The HW requires
--		 *	the pitch to be 64 byte aligned
--		 */
--
--		gtt_roll = 0;	/* Don't use GTT accelerated scrolling */
--		pitch_lines = 64;
--
--		mode_cmd.pitches[0] =  ALIGN(mode_cmd.width * ((bpp + 7) / 8), 64);
--
--		size = mode_cmd.pitches[0] * mode_cmd.height;
--		size = ALIGN(size, PAGE_SIZE);
--
--		/* Allocate the framebuffer in the GTT with stolen page backing */
--		backing = psbfb_alloc(dev, size);
--		if (backing == NULL)
--			return -ENOMEM;
--	}
-+	mode_cmd.pitches[0] = ALIGN(mode_cmd.width * DIV_ROUND_UP(bpp, 8), 64);
-+
-+	size = mode_cmd.pitches[0] * mode_cmd.height;
-+	size = ALIGN(size, PAGE_SIZE);
-+
-+	/* Allocate the framebuffer in the GTT with stolen page backing */
-+	backing = psbfb_alloc(dev, size);
-+	if (backing == NULL)
-+		return -ENOMEM;
- 
- 	memset(dev_priv->vram_addr + backing->offset, 0, size);
- 
-@@ -387,17 +318,14 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
- 
- 	fb_helper->fb = fb;
- 
--	if (dev_priv->ops->accel_2d && pitch_lines > 8)	/* 2D engine */
-+	if (dev_priv->ops->accel_2d)	/* 2D engine */
- 		info->fbops = &psbfb_ops;
--	else if (gtt_roll) {	/* GTT rolling seems best */
--		info->fbops = &psbfb_roll_ops;
--		info->flags |= FBINFO_HWACCEL_YPAN;
--	} else	/* Software */
-+	else	/* Software */
- 		info->fbops = &psbfb_unaccel_ops;
- 
- 	info->fix.smem_start = dev->mode_config.fb_base;
- 	info->fix.smem_len = size;
--	info->fix.ywrapstep = gtt_roll;
-+	info->fix.ywrapstep = 0;
- 	info->fix.ypanstep = 0;
- 
- 	/* Accessed stolen memory directly */
-diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
-index 9278bcfad1bf..d246b1f70366 100644
---- a/drivers/gpu/drm/gma500/gtt.c
-+++ b/drivers/gpu/drm/gma500/gtt.c
-@@ -96,16 +96,12 @@ static int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r,
- 	}
- 
- 	/* Write our page entries into the GTT itself */
--	for (i = r->roll; i < r->npage; i++) {
--		pte = psb_gtt_mask_pte(page_to_pfn(r->pages[i]),
--				       PSB_MMU_CACHED_MEMORY);
--		iowrite32(pte, gtt_slot++);
--	}
--	for (i = 0; i < r->roll; i++) {
-+	for (i = 0; i < r->npage; i++) {
- 		pte = psb_gtt_mask_pte(page_to_pfn(r->pages[i]),
- 				       PSB_MMU_CACHED_MEMORY);
- 		iowrite32(pte, gtt_slot++);
- 	}
-+
- 	/* Make sure all the entries are set before we return */
- 	ioread32(gtt_slot - 1);
- 
-@@ -140,49 +136,6 @@ static void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r)
- 	set_pages_array_wb(r->pages, r->npage);
- }
- 
--/**
-- *	psb_gtt_roll	-	set scrolling position
-- *	@dev: our DRM device
-- *	@r: the gtt mapping we are using
-- *	@roll: roll offset
-- *
-- *	Roll an existing pinned mapping by moving the pages through the GTT.
-- *	This allows us to implement hardware scrolling on the consoles without
-- *	a 2D engine
-- */
--void psb_gtt_roll(struct drm_device *dev, struct gtt_range *r, int roll)
--{
--	u32 __iomem *gtt_slot;
--	u32 pte;
--	int i;
--
--	if (roll >= r->npage) {
--		WARN_ON(1);
--		return;
--	}
--
--	r->roll = roll;
--
--	/* Not currently in the GTT - no worry we will write the mapping at
--	   the right position when it gets pinned */
--	if (!r->stolen && !r->in_gart)
--		return;
--
--	gtt_slot = psb_gtt_entry(dev, r);
--
--	for (i = r->roll; i < r->npage; i++) {
--		pte = psb_gtt_mask_pte(page_to_pfn(r->pages[i]),
--				       PSB_MMU_CACHED_MEMORY);
--		iowrite32(pte, gtt_slot++);
--	}
--	for (i = 0; i < r->roll; i++) {
--		pte = psb_gtt_mask_pte(page_to_pfn(r->pages[i]),
--				       PSB_MMU_CACHED_MEMORY);
--		iowrite32(pte, gtt_slot++);
--	}
--	ioread32(gtt_slot - 1);
--}
--
- /**
-  *	psb_gtt_attach_pages	-	attach and pin GEM pages
-  *	@gt: the gtt range
-@@ -346,7 +299,6 @@ struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
- 	gt->resource.name = name;
- 	gt->stolen = backed;
- 	gt->in_gart = backed;
--	gt->roll = 0;
- 	/* Ensure this is set for non GEM objects */
- 	gt->gem.dev = dev;
- 	ret = allocate_resource(dev_priv->gtt_mem, &gt->resource,
-diff --git a/drivers/gpu/drm/gma500/gtt.h b/drivers/gpu/drm/gma500/gtt.h
-index 3cf190295ad3..2bf165849ebe 100644
---- a/drivers/gpu/drm/gma500/gtt.h
-+++ b/drivers/gpu/drm/gma500/gtt.h
-@@ -37,7 +37,6 @@ struct gtt_range {
- 	bool mmapping;			/* Is mmappable */
- 	struct page **pages;		/* Backing pages if present */
- 	int npage;			/* Number of backing pages */
--	int roll;			/* Roll applied to the GTT entries */
- };
- 
- #define to_gtt_range(x) container_of(x, struct gtt_range, gem)
-@@ -49,7 +48,5 @@ extern void psb_gtt_kref_put(struct gtt_range *gt);
- extern void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt);
- extern int psb_gtt_pin(struct gtt_range *gt);
- extern void psb_gtt_unpin(struct gtt_range *gt);
--extern void psb_gtt_roll(struct drm_device *dev,
--					struct gtt_range *gt, int roll);
- extern int psb_gtt_restore(struct drm_device *dev);
- #endif
--- 
-2.28.0
-
+>
+> I have no specific interest in the drm drivers, this is just part of a
+> larger work to enable more of the W=1 options across the kernel
+> by default, after all the existing warnings are addressed.
+>
+>        Arnd
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
