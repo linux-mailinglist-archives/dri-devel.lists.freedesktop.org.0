@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE9829D1F9
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 20:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA5129D1FB
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 20:58:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A4016E334;
-	Wed, 28 Oct 2020 19:56:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F896E3C1;
+	Wed, 28 Oct 2020 19:58:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7616E334
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 19:56:10 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id f7so831724oib.4
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 12:56:10 -0700 (PDT)
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB8DB6E3C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 19:58:07 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id o14so277758otj.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 12:58:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4/jRtjflB3FOXE8tWLebJmZXQcQDgbUGyYXnWDHMhFw=;
- b=HezzhLUgZyCPNLIs/d3xL14ndLiU3FDih8baQjxTIzucorbX3xZA/sANE7v96gfn2u
- ujbgT8BX5jxbB0YB53HR2lr73aC7/ZTdPq+DhQvgSyCF+1kMPsTnDjZ0cvVkHcogRbyh
- CvC4Ptamg5lstIgELvMJGVQpCv7DScrul4O8s=
+ :cc; bh=IzGFYe0nvbjrAeQ1YGLbXpu26Wc5OrEzBpgSP72OTZE=;
+ b=IbrdKaer1oz3lB6otvi6JMKX2C1+erS1Bn6qEkAZTXR4nqydHt4Lfrums0QjfZr804
+ 2qSxQmPrOwNSXzHqa4CI/n1qIF8Ig/wvZJ1rhdFp1TnB6b3jyFcxwP1kdHN6FUvgSLED
+ j1jePyg5Y/jDoSPjr4k6b3CgWB/0bMEH6TwrU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4/jRtjflB3FOXE8tWLebJmZXQcQDgbUGyYXnWDHMhFw=;
- b=G8Co0i4UgfJbuE8gMp5R0ce8KqmYZ4Fq5izTdIZZZo1UFGAOMz3Vy01yo00aFBL3WJ
- rN4DEBpVD8QJT/kWIXkJU+VT2vwpuOH+8CwSjdbo/MKq6NByTLiDc7PEHUhpfg3S1+nw
- oD6P7EOCYQfTihpF8dXj9iolbZKsaqz4kBBerIfXaDWLsQVhAB55YQhH78Mnz+6kEc5m
- G5xFuGRrdRy/gNI2C4koF7z6cv3wzifqY11PTtne3M0EFyz6HuKou6h58OYy5YS5r2p7
- nfDOY1mAzD3fgp34TUzrGrHsWNK4Ba+g5pF7Wxn3aoFxrNt9J0l7oTaHO4WLE6Ppt8ep
- F9QA==
-X-Gm-Message-State: AOAM5315K0oxV9M8+z9PR0JO3S4XnTc5CKDVp00PRelcvZ813sRuBMU7
- l7yhKu1Up1pMydhPUo+Ew/MbGTcI6od1XrmHeLmoag==
-X-Google-Smtp-Source: ABdhPJy3Fb7yGQ6INQZe6hvfVlG/wkVqyEK6JzPi4QAyciptAFDqG06CHpvm+ayF9ZZwYvUocVw2evUt3oB0C8rAHRQ=
-X-Received: by 2002:aca:39d6:: with SMTP id g205mr510311oia.14.1603914970160; 
- Wed, 28 Oct 2020 12:56:10 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=IzGFYe0nvbjrAeQ1YGLbXpu26Wc5OrEzBpgSP72OTZE=;
+ b=bWd/OtAz4RUSSul0eb8exqUYN/FMPmTFc9yIB2LP7OQgD+JcH2Ow2HibKwM7mQP0v4
+ /hDDBhNA50dqmsoMr9YWd6x+mCZKa3GCnogFtvZaZ8qyjZl9vgoIr7kkmQHSanaY/AoL
+ BEDkGjvtuec4Pj2IBAaXvONtqnG+qV7AqbXjdKUuZi2r7+2VTukTilMff7ad0FrzvdGm
+ 0awNp6DqxXSOQVt4nYQ8YfCf6DoW5/VTfGKJXx84Q8apw8g4nzYmvMUGIaU2K9FqfpyK
+ u/UMG4+iiVnIAjvJyTMXu1L6+Ewo8+puhCWLuq2Yk0VRBNESZLb60+xHOi9nkIIE7cn/
+ K5vw==
+X-Gm-Message-State: AOAM530XQD6t50Zrc3tYSKjzVPKPguOYT+WOxbB20A1f/u23upRvCHsz
+ QmpG47/fIiUmfwzSYpkuKJmsF02R1DPSwb3psRMgrQ==
+X-Google-Smtp-Source: ABdhPJzOcH+sWrQY1XBRDmK1H+9LbAf4p9j3EQkezWQ8iu8twrBjpuktkfHrPo1DkISrwDtFAuscuK3NMcuWuv7+OuQ=
+X-Received: by 2002:a05:6830:1c3c:: with SMTP id
+ f28mr749100ote.188.1603915087219; 
+ Wed, 28 Oct 2020 12:58:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201028160600.3752105-1-daniel.vetter@ffwll.ch>
- <470585bd-74de-d652-928b-b03fe3bd8614@suse.de>
-In-Reply-To: <470585bd-74de-d652-928b-b03fe3bd8614@suse.de>
+ <20201028185029.GA683411@ravnborg.org>
+In-Reply-To: <20201028185029.GA683411@ravnborg.org>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 28 Oct 2020 20:55:59 +0100
-Message-ID: <CAKMK7uEgn1ZMDpk=hnm7KODVBjUnNYiTsm-O-mDeuGRBi8qYxg@mail.gmail.com>
+Date: Wed, 28 Oct 2020 20:57:55 +0100
+Message-ID: <CAKMK7uGBf7Revnr80n2jtBKht_3M7hoKskGhcEhOz5HqeMVB0g@mail.gmail.com>
 Subject: Re: [PATCH] fbcon: Disable accelerated scrolling
-To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,123 +71,133 @@ Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Nathan Chancellor <natechancellor@gmail.com>,
  Jiri Slaby <jirislaby@kernel.org>, Peter Rosin <peda@axentia.se>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBPY3QgMjgsIDIwMjAgYXQgODowMiBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMjguMTAuMjAgdW0gMTc6MDYgc2No
-cmllYiBEYW5pZWwgVmV0dGVyOgo+ID4gU28gZXZlciBzaW5jZSBzeXpib3QgZGlzY292ZXJlZCBm
-YmNvbiwgd2UgaGF2ZSBzb2xpZCBwcm9vZiB0aGF0IGl0J3MKPiA+IGZ1bGwgb2YgYnVncy4gQW5k
-IG9mdGVuIHRoZSBzb2x1dGlvbiBpcyB0byBqdXN0IGRlbGV0ZSBjb2RlIGFuZCByZW1vdmUKPiA+
-IGZlYXR1cmVzLCBlLmcuICA1MDE0NTQ3NGY2ZWYgKCJmYmNvbjogcmVtb3ZlIHNvZnQgc2Nyb2xs
-YmFjayBjb2RlIikuCj4gPgo+ID4gTm93IHRoZSBwcm9ibGVtIGlzIHRoYXQgbW9zdCBtb2Rlcm4t
-aXNoIGRyaXZlcnMgcmVhbGx5IG9ubHkgdHJlYXQKPiA+IGZiY29uIGFzIGFuIGR1bWIga2VybmVs
-IGNvbnNvbGUgdW50aWwgdXNlcnNwYWNlIHRha2VzIG92ZXIsIGFuZCBPb3BzCj4gPiBwcmludGVy
-IGZvciBzb21lIGVtZXJnZW5jaWVzLiBMb29raW5nIGF0IGRybSBkcml2ZXJzIGFuZCB0aGUgYmFz
-aWMKPiA+IHZlc2EvZWZpIGZiZGV2IGRyaXZlcnMgc2hvd3MgdGhhdCBvbmx5IDMgZHJpdmVycyBz
-dXBwb3J0IGFueSBraW5kIG9mCj4gPiBhY2NlbGVyYXRpb246Cj4gPgo+ID4gLSBub3V2ZWF1LCBz
-ZWVtcyB0byBiZSBlbmFibGVkIGJ5IGRlZmF1bHQKPiA+IC0gb21hcGRybSwgd2hlbiBhIERNTSBy
-ZW1hcHBlciBleGlzdHMgdXNpbmcgcmVtYXBwZXIgcmV3cml0aW5nIGZvcgo+ID4gICB5L3hwYW5u
-aW5nCj4gPiAtIGdtYTUwMCwgYnV0IHRoYXQgaXMgZ2V0dGluZyBkZWxldGVkIG5vdyBmb3IgdGhl
-IEdUVCByZW1hcHBlciB0cmljaywKPiA+ICAgYW5kIHRoZSBhY2NlbGVyYXRlZCBjb3B5YXJlYSBu
-ZXZlciBzZXQgdGhlIEZCSU5GT19IV0FDQ0VMX0NPUFlBUkVBCj4gPiAgIGZsYWcsIHNvIHVudXNl
-ZCAoYW5kIGNvdWxkIGJlIGRlbGV0ZWQgYWxyZWFkeSBJIHRoaW5rKS4KPiA+Cj4gPiBObyBvdGhl
-ciBkcml2ZXIgc3VwcG9ydGVzIGFjY2VsZXJhdGVkIGZiY29uLiBBbmQgZmJjb24gaXMgdGhlIG9u
-bHkKPiA+IHVzZXIgb2YgdGhpcyBhY2NlbCBjb2RlIChpdCdzIG5vdCBleHBvc2VkIGFzIHVhcGkg
-dGhyb3VnaCBpb2N0bHMpLAo+ID4gd2hpY2ggbWVhbnMgd2UgY291bGQgZ2FyYmFnZSBjb2xsZWN0
-IGZhaXJseSBlbm9ybW91cyBhbW91bnRzIG9mIGNvZGUKPiA+IGlmIHdlIGtpbGwgdGhpcy4KPiA+
-Cj4gPiBQbHVzIGJlY2F1c2Ugc3l6Ym90IG9ubHkgcnVucyBvbiB2aXJ0dWFsIGhhcmR3YXJlLCBh
-bmQgbm9uZSBvZiB0aGUKPiA+IGRyaXZlcnMgZm9yIHRoYXQgaGF2ZSBhY2NlbGVyYXRpb24sIHdl
-J2QgcmVtb3ZlIGEgaHVnZSBnYXAgaW4gdGVzdGluZy4KPiA+IEFuZCB0aGVyZSdzIG5vIG90aGVy
-IGV2ZW4gcmVtb3RlbHkgY29tcHJlaGVuc2l2ZSB0ZXN0aW5nIGFzaWRlIGZyb20KPiA+IHN5emJv
-dC4KPiA+Cj4gPiBUaGlzIHBhdGNoIGhlcmUganVzdCBkaXNhYmxlcyB0aGUgYWNjZWxlcmF0aW9u
-IGNvZGUgYnkgYWx3YXlzCj4gPiByZWRyYXdpbmcgd2hlbiBzY3JvbGxpbmcuIFRoZSBwbGFuIGlz
-IHRoYXQgb25jZSB0aGlzIGhhcyBiZWVuIG1lcmdlZAo+ID4gZm9yIHdlbGwgb3ZlciBhIHllYXIg
-aW4gcmVsZWFzZWQga2VybmVscywgd2UgY2FuIHN0YXJ0IHRvIGdvIGFyb3VuZAo+ID4gYW5kIGRl
-bGV0ZSBhIGxvdCBvZiBjb2RlLgo+Cj4gV2h5IHdhaXQgYSB5ZWFyPyBJJ2Qgc2F5IGRlbGV0ZSBl
-YXJseSwgZGVsZXRlIG9mdGVuLiA7KQo+Cj4gPgo+ID4gQ2M6IEJhcnRsb21pZWogWm9sbmllcmtp
-ZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KPiA+IENjOiBHcmVnIEtyb2FoLUhhcnRt
-YW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgo+ID4gQ2M6IExpbnVzIFRvcnZhbGRzIDx0
-b3J2YWxkc0BsaW51eC1mb3VuZGF0aW9uLm9yZz4KPiA+IENjOiBCZW4gU2tlZ2dzIDxic2tlZ2dz
-QHJlZGhhdC5jb20+Cj4gPiBDYzogbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IENj
-OiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPgo+ID4gQ2M6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gPiBDYzogSmlyaSBTbGFieSA8amlyaXNs
-YWJ5QGtlcm5lbC5vcmc+Cj4gPiBDYzogIkd1c3Rhdm8gQS4gUi4gU2lsdmEiIDxndXN0YXZvYXJz
-QGtlcm5lbC5vcmc+Cj4gPiBDYzogVGV0c3VvIEhhbmRhIDxwZW5ndWluLWtlcm5lbEBJLWxvdmUu
-U0FLVVJBLm5lLmpwPgo+ID4gQ2M6IFBlaWxpbiBZZSA8eWVwZWlsaW4uY3NAZ21haWwuY29tPgo+
-ID4gQ2M6IEdlb3JnZSBLZW5uZWR5IDxnZW9yZ2Uua2VubmVkeUBvcmFjbGUuY29tPgo+ID4gQ2M6
-IE5hdGhhbiBDaGFuY2VsbG9yIDxuYXRlY2hhbmNlbGxvckBnbWFpbC5jb20+Cj4gPiBDYzogUGV0
-ZXIgUm9zaW4gPHBlZGFAYXhlbnRpYS5zZT4KPiA+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0
-ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+ID4gLS0tCj4gPiAgZHJpdmVycy92aWRlby9m
-YmRldi9jb3JlL2ZiY29uLmMgfCAzOCArKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+
-ID4gIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDMxIGRlbGV0aW9ucygtKQo+ID4K
-PiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJjb24uYyBiL2RyaXZl
-cnMvdmlkZW8vZmJkZXYvY29yZS9mYmNvbi5jCj4gPiBpbmRleCBjZWY0Mzc4MTdiMGQuLmQ3NGNj
-YmJiMjliYiAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYmNvbi5j
-Cj4gPiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJjb24uYwo+ID4gQEAgLTExNDcs
-MTEgKzExNDcsMTMgQEAgc3RhdGljIHZvaWQgZmJjb25faW5pdChzdHJ1Y3QgdmNfZGF0YSAqdmMs
-IGludCBpbml0KQo+ID4KPiA+ICAgICAgIG9wcy0+Z3JhcGhpY3MgPSAwOwo+ID4KPiA+IC0gICAg
-IGlmICgoY2FwICYgRkJJTkZPX0hXQUNDRUxfQ09QWUFSRUEpICYmCj4gPiAtICAgICAgICAgIShj
-YXAgJiBGQklORk9fSFdBQ0NFTF9ESVNBQkxFRCkpCj4gPiAtICAgICAgICAgICAgIHAtPnNjcm9s
-bG1vZGUgPSBTQ1JPTExfTU9WRTsKPiA+IC0gICAgIGVsc2UgLyogZGVmYXVsdCB0byBzb21ldGhp
-bmcgc2FmZSAqLwo+ID4gLSAgICAgICAgICAgICBwLT5zY3JvbGxtb2RlID0gU0NST0xMX1JFRFJB
-VzsKPiA+ICsgICAgIC8qCj4gPiArICAgICAgKiBObyBtb3JlIGh3IGFjY2VsZXJhdGlvbiBmb3Ig
-ZmJjb24uCj4gPiArICAgICAgKgo+ID4gKyAgICAgICogRklYTUU6IEdhcmFiZ2UgY29sbGVjdCBh
-bGwgdGhlIG5vdyBkZWFkIGNvZGUgYWZ0ZXIgc3VmZmljaWVudCB0aW1lCj4gPiArICAgICAgKiBo
-YXMgcGFzc2VkLgo+ID4gKyAgICAgICovCj4gPiArICAgICBwLT5zY3JvbGxtb2RlID0gU0NST0xM
-X1JFRFJBVzsKPgo+IEkganVzdCBncmVwcGVkIGZvciBzY3JvbGxtb2RlIGFuZCB0aGVyZSBhcmVu
-J3QgbWFueSBwbGFjZXMgdGhhdCB1c2UgaXQuCj4gQ291bGQgeW91IHJlbW92ZSBpdCBhcyB3ZWxs
-PwoKUmVtb3Zpbmcgc2Nyb2xsbW9kZSB3aWxsIHN0YXJ0IHRoZSBkZWxldGUgZmVhc3QuIEluIGZi
-Y29uIGFsb25lIEkKdGhpbmsgd2UgY2FuIGRyb3AgaGFsZiB0aGUgY29kZS4KLURhbmllbAoKPgo+
-IEluIGFueSBjYXNlCj4KPiBSZXZpZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
-YW5uQHN1c2UuZGU+Cj4KPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPgo+ID4KPiA+ICAgICAgIC8q
-Cj4gPiAgICAgICAgKiAgKytndWVudGhlcjogY29uc29sZS5jOnZjX2FsbG9jYXRlKCkgcmVsaWVz
-IG9uIGluaXRpYWxpemluZwo+ID4gQEAgLTE5NjEsNyArMTk2Myw2IEBAIHN0YXRpYyB2b2lkIHVw
-ZGF0ZXNjcm9sbG1vZGUoc3RydWN0IGZiY29uX2Rpc3BsYXkgKnAsCj4gPiAgewo+ID4gICAgICAg
-c3RydWN0IGZiY29uX29wcyAqb3BzID0gaW5mby0+ZmJjb25fcGFyOwo+ID4gICAgICAgaW50IGZo
-ID0gdmMtPnZjX2ZvbnQuaGVpZ2h0Owo+ID4gLSAgICAgaW50IGNhcCA9IGluZm8tPmZsYWdzOwo+
-ID4gICAgICAgdTE2IHQgPSAwOwo+ID4gICAgICAgaW50IHlwYW4gPSBGQkNPTl9TV0FQKG9wcy0+
-cm90YXRlLCBpbmZvLT5maXgueXBhbnN0ZXAsCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIGluZm8tPmZpeC54cGFuc3RlcCk7Cj4gPiBAQCAtMTk2OSwzNyArMTk3MCwxMiBAQCBz
-dGF0aWMgdm9pZCB1cGRhdGVzY3JvbGxtb2RlKHN0cnVjdCBmYmNvbl9kaXNwbGF5ICpwLAo+ID4g
-ICAgICAgaW50IHlyZXMgPSBGQkNPTl9TV0FQKG9wcy0+cm90YXRlLCBpbmZvLT52YXIueXJlcywg
-aW5mby0+dmFyLnhyZXMpOwo+ID4gICAgICAgaW50IHZ5cmVzID0gRkJDT05fU1dBUChvcHMtPnJv
-dGF0ZSwgaW5mby0+dmFyLnlyZXNfdmlydHVhbCwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIGluZm8tPnZhci54cmVzX3ZpcnR1YWwpOwo+ID4gLSAgICAgaW50IGdvb2RfcGFu
-ID0gKGNhcCAmIEZCSU5GT19IV0FDQ0VMX1lQQU4pICYmCj4gPiAtICAgICAgICAgICAgIGRpdmlk
-ZXMoeXBhbiwgdmMtPnZjX2ZvbnQuaGVpZ2h0KSAmJiB2eXJlcyA+IHlyZXM7Cj4gPiAtICAgICBp
-bnQgZ29vZF93cmFwID0gKGNhcCAmIEZCSU5GT19IV0FDQ0VMX1lXUkFQKSAmJgo+ID4gLSAgICAg
-ICAgICAgICBkaXZpZGVzKHl3cmFwLCB2Yy0+dmNfZm9udC5oZWlnaHQpICYmCj4gPiAtICAgICAg
-ICAgICAgIGRpdmlkZXModmMtPnZjX2ZvbnQuaGVpZ2h0LCB2eXJlcykgJiYKPiA+IC0gICAgICAg
-ICAgICAgZGl2aWRlcyh2Yy0+dmNfZm9udC5oZWlnaHQsIHlyZXMpOwo+ID4gLSAgICAgaW50IHJl
-YWRpbmdfZmFzdCA9IGNhcCAmIEZCSU5GT19SRUFEU19GQVNUOwo+ID4gLSAgICAgaW50IGZhc3Rf
-Y29weWFyZWEgPSAoY2FwICYgRkJJTkZPX0hXQUNDRUxfQ09QWUFSRUEpICYmCj4gPiAtICAgICAg
-ICAgICAgICEoY2FwICYgRkJJTkZPX0hXQUNDRUxfRElTQUJMRUQpOwo+ID4gLSAgICAgaW50IGZh
-c3RfaW1hZ2VibGl0ID0gKGNhcCAmIEZCSU5GT19IV0FDQ0VMX0lNQUdFQkxJVCkgJiYKPiA+IC0g
-ICAgICAgICAgICAgIShjYXAgJiBGQklORk9fSFdBQ0NFTF9ESVNBQkxFRCk7Cj4gPgo+ID4gICAg
-ICAgcC0+dnJvd3MgPSB2eXJlcy9maDsKPiA+ICAgICAgIGlmICh5cmVzID4gKGZoICogKHZjLT52
-Y19yb3dzICsgMSkpKQo+ID4gICAgICAgICAgICAgICBwLT52cm93cyAtPSAoeXJlcyAtIChmaCAq
-IHZjLT52Y19yb3dzKSkgLyBmaDsKPiA+ICAgICAgIGlmICgoeXJlcyAlIGZoKSAmJiAodnlyZXMg
-JSBmaCA8IHlyZXMgJSBmaCkpCj4gPiAgICAgICAgICAgICAgIHAtPnZyb3dzLS07Cj4gPiAtCj4g
-PiAtICAgICBpZiAoZ29vZF93cmFwIHx8IGdvb2RfcGFuKSB7Cj4gPiAtICAgICAgICAgICAgIGlm
-IChyZWFkaW5nX2Zhc3QgfHwgZmFzdF9jb3B5YXJlYSkKPiA+IC0gICAgICAgICAgICAgICAgICAg
-ICBwLT5zY3JvbGxtb2RlID0gZ29vZF93cmFwID8KPiA+IC0gICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIFNDUk9MTF9XUkFQX01PVkUgOiBTQ1JPTExfUEFOX01PVkU7Cj4gPiAtICAgICAgICAg
-ICAgIGVsc2UKPiA+IC0gICAgICAgICAgICAgICAgICAgICBwLT5zY3JvbGxtb2RlID0gZ29vZF93
-cmFwID8gU0NST0xMX1JFRFJBVyA6Cj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICBT
-Q1JPTExfUEFOX1JFRFJBVzsKPiA+IC0gICAgIH0gZWxzZSB7Cj4gPiAtICAgICAgICAgICAgIGlm
-IChyZWFkaW5nX2Zhc3QgfHwgKGZhc3RfY29weWFyZWEgJiYgIWZhc3RfaW1hZ2VibGl0KSkKPiA+
-IC0gICAgICAgICAgICAgICAgICAgICBwLT5zY3JvbGxtb2RlID0gU0NST0xMX01PVkU7Cj4gPiAt
-ICAgICAgICAgICAgIGVsc2UKPiA+IC0gICAgICAgICAgICAgICAgICAgICBwLT5zY3JvbGxtb2Rl
-ID0gU0NST0xMX1JFRFJBVzsKPiA+IC0gICAgIH0KPiA+ICB9Cj4gPgo+ID4gICNkZWZpbmUgUElU
-Q0godykgKCgodykgKyA3KSA+PiAzKQo+ID4KPgo+IC0tCj4gVGhvbWFzIFppbW1lcm1hbm4KPiBH
-cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJICj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4gKEhSQiAz
-NjgwOSwgQUcgTsO8cm5iZXJnKQo+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZm
-ZXIKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
-aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+On Wed, Oct 28, 2020 at 7:50 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Daniel.
+>
+> On Wed, Oct 28, 2020 at 05:06:00PM +0100, Daniel Vetter wrote:
+> > So ever since syzbot discovered fbcon, we have solid proof that it's
+> > full of bugs. And often the solution is to just delete code and remove
+> > features, e.g.  50145474f6ef ("fbcon: remove soft scrollback code").
+> >
+> > Now the problem is that most modern-ish drivers really only treat
+> > fbcon as an dumb kernel console until userspace takes over, and Oops
+> > printer for some emergencies. Looking at drm drivers and the basic
+> > vesa/efi fbdev drivers shows that only 3 drivers support any kind of
+> > acceleration:
+> >
+> > - nouveau, seems to be enabled by default
+> > - omapdrm, when a DMM remapper exists using remapper rewriting for
+> >   y/xpanning
+> > - gma500, but that is getting deleted now for the GTT remapper trick,
+> >   and the accelerated copyarea never set the FBINFO_HWACCEL_COPYAREA
+> >   flag, so unused (and could be deleted already I think).
+> >
+> > No other driver supportes accelerated fbcon. And fbcon is the only
+> > user of this accel code (it's not exposed as uapi through ioctls),
+> > which means we could garbage collect fairly enormous amounts of code
+> > if we kill this.
+> >
+> > Plus because syzbot only runs on virtual hardware, and none of the
+> > drivers for that have acceleration, we'd remove a huge gap in testing.
+> > And there's no other even remotely comprehensive testing aside from
+> > syzbot.
+> >
+> > This patch here just disables the acceleration code by always
+> > redrawing when scrolling. The plan is that once this has been merged
+> > for well over a year in released kernels, we can start to go around
+> > and delete a lot of code.
+>
+> See below for a warning fix.
+>
+> Some figures from trying to toss accel code out from a few fbdev drivers:
+>
+>  drivers/video/fbdev/cirrusfb.c | 300 +----------------------------------------
+>  1 file changed, 4 insertions(+), 296 deletions(-)
+>
+>  drivers/video/fbdev/aty/radeon_accel.c | 174 ---------------------------------
+>  drivers/video/fbdev/aty/radeon_base.c  |  43 ++------
+>  drivers/video/fbdev/aty/radeon_pm.c    |   7 --
+>  drivers/video/fbdev/aty/radeonfb.h     |   3 -
+>  4 files changed, 7 insertions(+), 220 deletions(-)
+>
+> This may open up the discussion if the right course of action would be
+> to drop the drivers in favour of drm counterparts - but thats another
+> story.
+
+Yeah I think we can start deleting drivers for which we have drm
+drivers which are mostly feature parity and see whether anyone pipes
+up. There's always going to be the odd corner case (like apparently
+the fbdev ati driver works better on some ppc machines than the drm
+one).
+
+The thing is, we can't delete the entire accel code with this, I think
+only fb_copyarea goes away. The other hooks I think still have some
+users.
+-Daniel
+
+>
+>         Sam
+>
+> > @@ -1961,7 +1963,6 @@ static void updatescrollmode(struct fbcon_display *p,
+> >  {
+> >       struct fbcon_ops *ops = info->fbcon_par;
+> >       int fh = vc->vc_font.height;
+> > -     int cap = info->flags;
+> >       u16 t = 0;
+> >       int ypan = FBCON_SWAP(ops->rotate, info->fix.ypanstep,
+> >                                 info->fix.xpanstep);
+> > @@ -1969,37 +1970,12 @@ static void updatescrollmode(struct fbcon_display *p,
+> >       int yres = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+> >       int vyres = FBCON_SWAP(ops->rotate, info->var.yres_virtual,
+> >                                  info->var.xres_virtual);
+> > -     int good_pan = (cap & FBINFO_HWACCEL_YPAN) &&
+> > -             divides(ypan, vc->vc_font.height) && vyres > yres;
+> > -     int good_wrap = (cap & FBINFO_HWACCEL_YWRAP) &&
+> > -             divides(ywrap, vc->vc_font.height) &&
+> > -             divides(vc->vc_font.height, vyres) &&
+> > -             divides(vc->vc_font.height, yres);
+> > -     int reading_fast = cap & FBINFO_READS_FAST;
+> > -     int fast_copyarea = (cap & FBINFO_HWACCEL_COPYAREA) &&
+> > -             !(cap & FBINFO_HWACCEL_DISABLED);
+> > -     int fast_imageblit = (cap & FBINFO_HWACCEL_IMAGEBLIT) &&
+> > -             !(cap & FBINFO_HWACCEL_DISABLED);
+>
+> Some bot will likely tell you that this causes warnings.
+> At least it did in my sparc64 build.
+>
+> Fix:
+>
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 398914e035e9..e8b009c621d8 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -2150,10 +2150,6 @@ static void updatescrollmode(struct fbcon_display *p,
+>  {
+>         struct fbcon_ops *ops = info->fbcon_par;
+>         int fh = vc->vc_font.height;
+> -       u16 t = 0;
+> -       int ypan = FBCON_SWAP(ops->rotate, info->fix.ypanstep,
+> -                                 info->fix.xpanstep);
+> -       int ywrap = FBCON_SWAP(ops->rotate, info->fix.ywrapstep, t);
+>         int yres = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+>         int vyres = FBCON_SWAP(ops->rotate, info->var.yres_virtual,
+>                                    info->var.xres_virtual);
+>
+>
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
