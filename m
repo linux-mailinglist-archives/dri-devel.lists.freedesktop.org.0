@@ -2,63 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C6929CF98
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 11:57:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E113D29CFB2
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 12:29:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED936EC5E;
-	Wed, 28 Oct 2020 10:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D226EC85;
+	Wed, 28 Oct 2020 11:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67ADA6EC5E
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 10:57:38 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id g19so1137925pji.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 03:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=W33YKVE+vIQUjqJmcEzgED3JxXxgJJnTqejIz5dWMio=;
- b=Hy4ATO4/8bpMwbG9MepKQdZG8/CTf1/4URUhZZcmbcdWvW8+gkJ6cAXoyIwHrFIPTG
- ph2he7bXY8k2pSLmYEZgpOpWlep9MeKw4VWXCdPayFqCN/QzcXzph26cbhGIMNKVkPoX
- XjTfYkGXonGwT3mBLeJG8PqiJNAErVxFMoJ9vz/9LsRmSAVvCxLTSrC/iR0NgA9MZ8QY
- 4p37kPfhvWgpLp2517tIc3KmbGgehxrWRETTxFwC31QI9ZMO4iskheUBicyPAK7kvHS6
- tpKR71qatexkU73Utm71Opjb8YHXxeBdlTjUDuKoP/T0wFnOL0/KjJzJfPtNDR5C7HVg
- bWRA==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0335C6EC85
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 11:29:21 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id e2so4415823wme.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 04:29:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WLWDWfUn62HuyKL78MLrBuM1P4gEN0IVPMugnmjyIpc=;
+ b=Oj55s1u+HirbuDDCtgGf2TCwNQs1t7Hb/dfEAbtoX4rp6Vi9YOyYi0ZR6vyFEJnv46
+ srMzjKdpNzPMuK/b/uwsPoV8xLsInM+031sEoA5Uns+jUhqfFFLnA1zctrfKyId7XHGc
+ IbDB6x5ghe+8hsKenVf6Dwci2fYo3m0yskyWc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=W33YKVE+vIQUjqJmcEzgED3JxXxgJJnTqejIz5dWMio=;
- b=rO8LXuEUDappGXDGqGhoZfed4X80gJ1WlyBfCTSLbDRojd4yNSsSUPqVD4d0aKkcvf
- lFQrN1fvVc7LqoouKjx/ZiC6ZWt3htj/wT38Vk8AcKzqurbXst9V3afOElxdzXKPZy27
- 2jNThYVsJFEZWEpR6ShHcgpa1Yy09KX8w3zU+UKmy5K9RLwnmCQ/FWH1Dye8O+Ahy3qF
- bfI6mAi0vp1+M/taWpDUE0Ngg42jTcyPqxUTzG8rt0FxxOATMHkfesrIV6XpnDl2Rlep
- cAKDvDhTNcuQ99Wz697AAq/q5P6Ngsmr3IdKCD7JT6erEq5TTkRSzA9h5f9CU3/jR8Rh
- Ot0g==
-X-Gm-Message-State: AOAM5325iYbBBl43cSvqJ7R1hPv+v6wsEMx5iJ2PjNgO8kpRMqWh2YIn
- qUwjs9+Q/9jHBQZ+EL5yKw==
-X-Google-Smtp-Source: ABdhPJx7TI8kNqRv/CrbnxiDniRSurjnwwLGWS8CtOJHMecJHTWQceZLiEtKvb0qCu+u9Y22egpfOQ==
-X-Received: by 2002:a17:90b:20a:: with SMTP id
- fy10mr6294642pjb.20.1603882658040; 
- Wed, 28 Oct 2020 03:57:38 -0700 (PDT)
-Received: from localhost.localdomain (n11212042025.netvigator.com.
- [112.120.42.25])
- by smtp.gmail.com with ESMTPSA id i24sm5377303pfd.15.2020.10.28.03.57.33
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=WLWDWfUn62HuyKL78MLrBuM1P4gEN0IVPMugnmjyIpc=;
+ b=fhcprrZ1vQSvGnbN9FRt9FK3gvuzeeBuYuBzVRt3UKGUc7KUV5lK99+fd+RE4QTlmA
+ OBkvJyzxClCefar0wzSDlTwGTbGyDeJ1CmCSJxG5H7hZXx09Lrje/tr8GACy794hJ0Xw
+ mI78oubyvBFkfTx1JvFhcmcFCbVBjetzzGRYu9pCPWwDBu08kn8F7/B4MjSN2HZeP+rG
+ JJ8GuE26sb4JHsUMhcGowBLxfebXA4ulj1kHuBWWkR4z3ti3uThaGuDXdc7H7fOBR91v
+ gPzLnWQfd3aJ3E8NQm6ZrRv21VbYkgsLX1xM4xjS0eb45CMRZgvOFRwfuEePYwT0H/4n
+ XIqw==
+X-Gm-Message-State: AOAM530YQOnciF1UJ8FiE8IfjBZoD36m3dB0rTk+sMHCV6N0L8BFQ+H0
+ ACJf9RoizxWepqArLuUz8dgcxQ==
+X-Google-Smtp-Source: ABdhPJz+EU8YlisomHF2zSjkLF+2zPf9qTQiMauCyQazYiNEgL02k8jKGZP/kZkcr+tV3wxSwpQU7g==
+X-Received: by 2002:a7b:cbc8:: with SMTP id n8mr7567498wmi.186.1603884560710; 
+ Wed, 28 Oct 2020 04:29:20 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id g5sm5698229wmi.4.2020.10.28.04.29.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 03:57:37 -0700 (PDT)
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>
-Subject: [PATCH v2 2/5] Fonts: Make font size unsigned in font_desc
-Date: Wed, 28 Oct 2020 06:56:47 -0400
-Message-Id: <20201028105647.1210161-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
-References: <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
+ Wed, 28 Oct 2020 04:29:19 -0700 (PDT)
+Date: Wed, 28 Oct 2020 12:29:17 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 1/1] drm/vc4: drv: Add error handding for bind
+Message-ID: <20201028112917.GW401619@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, eric@anholt.net,
+ airlied@linux.ie, robh+dt@kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org,
+ bcm-kernel-feedback-list@broadcom.com,
+ dave.stevenson@raspberrypi.com, sungguk.na@samsung.com
+References: <20201027041442.30352-1-hoegeun.kwon@samsung.com>
+ <CGME20201027041535epcas1p489bbfe80b461f1e5c5deca1a571f1f35@epcas1p4.samsung.com>
+ <20201027041442.30352-2-hoegeun.kwon@samsung.com>
+ <20201027145431.zasv2oiydglz3n63@gilmour.lan>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201027145431.zasv2oiydglz3n63@gilmour.lan>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,61 +76,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jiri Slaby <jirislaby@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>
+Cc: devicetree@vger.kernel.org, sungguk.na@samsung.com,
+ dave.stevenson@raspberrypi.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-`width` and `height` are defined as unsigned in our UAPI font descriptor
-`struct console_font`. Make them unsigned in our kernel font descriptor
-`struct font_desc`, too.
+On Tue, Oct 27, 2020 at 03:54:31PM +0100, Maxime Ripard wrote:
+> Hi,
+> 
+> On Tue, Oct 27, 2020 at 01:14:42PM +0900, Hoegeun Kwon wrote:
+> > There is a problem that if vc4_drm bind fails, a memory leak occurs on
+> > the drm_property_create side. Add error handding for drm_mode_config.
+> > 
+> > Signed-off-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> 
+> Applied, thanks!
 
-Also, change the corresponding printk() format identifiers from `%d` to
-`%u`, in sti_select_fbfont().
-
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
----
-Change in v2:
-  - Mention `struct console_font` in the commit message. (Suggested by
-    Daniel Vetter <daniel@ffwll.ch>)
-
- drivers/video/console/sticore.c | 2 +-
- include/linux/font.h            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/video/console/sticore.c b/drivers/video/console/sticore.c
-index 6a26a364f9bd..d1bb5915082b 100644
---- a/drivers/video/console/sticore.c
-+++ b/drivers/video/console/sticore.c
-@@ -502,7 +502,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
- 	if (!fbfont)
- 		return NULL;
- 
--	pr_info("STI selected %dx%d framebuffer font %s for sticon\n",
-+	pr_info("STI selected %ux%u framebuffer font %s for sticon\n",
- 			fbfont->width, fbfont->height, fbfont->name);
- 			
- 	bpc = ((fbfont->width+7)/8) * fbfont->height; 
-diff --git a/include/linux/font.h b/include/linux/font.h
-index b5b312c19e46..4f50d736ea72 100644
---- a/include/linux/font.h
-+++ b/include/linux/font.h
-@@ -16,7 +16,7 @@
- struct font_desc {
-     int idx;
-     const char *name;
--    int width, height;
-+    unsigned int width, height;
-     const void *data;
-     int pref;
- };
+Switching over to drmm_ version of this would also be good I think.
+Together with the devm_ version for allocating the drm_device you could
+delete a pile of that fragile cleanup code.
+-Daniel
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
