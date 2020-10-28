@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6473329E60F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 09:14:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A0529E5F1
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 09:13:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3636E89D;
-	Thu, 29 Oct 2020 08:14:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA466E863;
+	Thu, 29 Oct 2020 08:12:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1241E6E512
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 12:41:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B8E46E513
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 12:41:12 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7CA9658012D;
- Wed, 28 Oct 2020 08:41:10 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 28 Oct 2020 08:41:10 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id E6100580143;
+ Wed, 28 Oct 2020 08:41:11 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 28 Oct 2020 08:41:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=IkmeIQpmF+jfh
- U/2m4u3cBU/jAxQu6NxvXUChDBnViU=; b=MnG6587tUm95xoi+Rgmokp/3mZ59A
- EPa79QE8rW3gbh75nmKwXXCbD97HrBaQMyoq/PT3UcJEPO0Ebpl35laBrqaRv94q
- ipqo4jhXDy5r8CWJIb+3a448o1dCljNw1p/gOD29udsrynP5OjzGPKY6/GH8Wn5A
- ae0561NGPLCgBj/FadzVBxI77mpL4PDzN12t1DY7yuD14IBCktM90avl/JcIzosK
- vvFLHoizCCZwgXu+8insFgU6uiXXflrvDi2/tyXG3dgE8St1/1nH5V5/XByd7EvM
- ryprLl0ygbaV8YtbJVfOc68gNRMWiuFnzTlHHthQMEYRWlLVJ9YptSZxQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=zHv8g/0wGKqhI
+ RffMNPMMWCiBMbhGrdlj6tIrzrXJ6E=; b=FJ8cSKxDlNFUI6KpsIX76jHZezgM6
+ IyQdNK1ncTM7Sf8w/HafpsgNyNv+Sl8kwkvtLX/2JBe66W8AG0rdVXdt58vEFcxX
+ 6USUTm6sLirWvpfRpvsXSkAyte3DAl3X8qlYM2jXlrdPow00m4UlgvzAn4EbSlTX
+ xZkJSafC9arWXKHuYdyD+aRkVDYxDCUaj8cJc+rQ7VMUrqfWXTL245WCquCDiVJf
+ ivMAcAN58d8PeaPgeuTfk3+vFbq1nr2eTLru6jOaTMC0tbYP8UeZzcUqUfL4RXW6
+ XjLXWvS3zDJGiOYfVmtUxvoXm6M1RcrI9A4Vw1KXaRDQ9GbaWH4buvYGg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=IkmeIQpmF+jfhU/2m4u3cBU/jAxQu6NxvXUChDBnViU=; b=ZdVXbQgs
- 4ItRi9FR/Qbv6dbRBhuXnRSDEHNzYf9qeKW7/i9wbXyC94/4kbsUxQzZJIimQ7Y1
- f6pZykqR+P08u8vvkF9t6H1jpE26cSPULsZTnxftfBUnYRyblVfpgkgoeLbpkV11
- nHNB+HnAClH2nXXfruVEHaC/VLuXtm+zkB335jHUcD36zwXnZWi2c5E7U23YGHvE
- DNkV0gEYKaIENY7AqN8QlL5emk3QJdCk5mPaGKHLSEjXzjpNIOGqiWrrFlYsboyb
- hzcp+r7EFj6X+9pYm3NFOLQt+qdlzylDgTZsN7I6naic1MaHQo6MYr+tsmZodZi/
- EgXIPNg5ODEuMQ==
-X-ME-Sender: <xms:5maZXwJ-IEMtNBumHxiughYhhX3TPCvQMpIODNV8sqx6cRgnLr117w>
- <xme:5maZXwKP2fO_O9K1Q8QJHiaRnq8KceIXohoT2yYurT_o5Tn4XUUhczFaj_4zZoHE8
- DsujBUfgzaHA8qSyk0>
+ fm1; bh=zHv8g/0wGKqhIRffMNPMMWCiBMbhGrdlj6tIrzrXJ6E=; b=NJ04lXZo
+ PDQ01HRaEgy1tKgDzwVm265HS6wXTfE/YUyGE7VlwlxXFy6BfriJwO2kfUYa51VA
+ 8WYC3XYb3oE2Sscl3cDw3F4ryTi6fRjAxJ+mlIpGE4apJM5s2fzxyYL/sjTsfg5g
+ JgsNOQ9z9wfhMUFNsGb9epmReVdziJeMj4m+dCaoQgpoRmzMIkqQgWEKabzYLZRJ
+ RgyGJwQTImJDEan6WWNbvIPZCuAkXpDmQadBUwEAEHC+4eMmCnr7d1uOJrIUw8bW
+ PikQ9omRjqrbKiarPayfq5e+ATHnh3STVhhdF0ua4BP3cAKQLFpmzzMevgJrm1Uq
+ 1bfvL/XPEd7a7g==
+X-ME-Sender: <xms:52aZX7oyr59RjpSNeW7zG6_vCvCgO3jZQB5bPk80g7PjguYbUBbvdA>
+ <xme:52aZX1rRmbxGrMETep--poHWDqp5V3N7t0amPF-fftIq_6tma0_CmtEDTXuhpUWou
+ Z1DT6E-Cbd66ls7D40>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrledugdegvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeefnecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:5maZXwsIVtOvLhh99iJkBDM1FF6vuO0URfOi4qAGS-TpB2vnDRHkCw>
- <xmx:5maZX9a64n_GdRynKn_t7fquVPI4E6Rgp1ReJXeXk7APhO6U-OqVzA>
- <xmx:5maZX3aV8TQ4rgPIpS7yNddajq56bCHIz6C-mMUCHBC8Pal9z-fa9A>
- <xmx:5maZX4KjVSbyK9ucJaVdsUrIYhGcfCMCO72KKZyuxERwTeqt7Bns2g>
+X-ME-Proxy: <xmx:52aZX4NX7YGmaC03wnOV3raLv6e2RrwwDcgg0HERA3K9m0-HNFROAQ>
+ <xmx:52aZX-5gVRr5notOEkQ2jY0fGYsag2H5wZdNGeQL31GtApGtd15QeA>
+ <xmx:52aZX67dG-eu27ku4oM8TN_g5sa3hHynPGxvY6-vhpzDpF7vb1zQKA>
+ <xmx:52aZX9reonLGWujmVuinncvs7jDd9qaT2usmrV0CDXMm_tZ8B70t0Q>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id EDBCD3280059;
- Wed, 28 Oct 2020 08:41:09 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 568003064686;
+ Wed, 28 Oct 2020 08:41:11 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>,
@@ -64,10 +64,9 @@ To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 3/7] drm/vc4: kms: Split the HVS muxing check in a separate
- function
-Date: Wed, 28 Oct 2020 13:41:00 +0100
-Message-Id: <1f97f4d1dbe6801d6bbdff2667f6a2f0068c21c7.1603888799.git-series.maxime@cerno.tech>
+Subject: [PATCH v2 4/7] drm/vc4: kms: Document the muxing corner cases
+Date: Wed, 28 Oct 2020 13:41:01 +0100
+Message-Id: <aa88b754887b0a53b33e6a2447a09ff50281fd54.1603888799.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.3eb3532def69f3610b18104e45b7274bbdc1b0a0.1603888799.git-series.maxime@cerno.tech>
 References: <cover.3eb3532def69f3610b18104e45b7274bbdc1b0a0.1603888799.git-series.maxime@cerno.tech>
@@ -95,54 +94,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code that assigns HVS channels during atomic_check is starting to grow
-a bit big, let's move it into a separate function.
+We've had a number of muxing corner-cases with specific ways to reproduce
+them, so let's document them to make sure they aren't lost and introduce
+regressions later on.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_kms.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_kms.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 80378c74fcd6..4aa0577bd055 100644
+index 4aa0577bd055..b0043abec16d 100644
 --- a/drivers/gpu/drm/vc4/vc4_kms.c
 +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -612,13 +612,13 @@ static const struct drm_private_state_funcs vc4_load_tracker_state_funcs = {
+@@ -612,6 +612,28 @@ static const struct drm_private_state_funcs vc4_load_tracker_state_funcs = {
  };
  
  
--static int
--vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
-+static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
-+				      struct drm_atomic_state *state)
++/*
++ * The BCM2711 HVS has up to 7 output connected to the pixelvalves and
++ * the TXP (and therefore all the CRTCs found on that platform).
++ *
++ * The naive (and our initial) implementation would just iterate over
++ * all the active CRTCs, try to find a suitable FIFO, and then remove it
++ * from the available FIFOs pool. However, there's a few corner cases
++ * that need to be considered:
++ *
++ * - When running in a dual-display setup (so with two CRTCs involved),
++ *   we can update the state of a single CRTC (for example by changing
++ *   its mode using xrandr under X11) without affecting the other. In
++ *   this case, the other CRTC wouldn't be in the state at all, so we
++ *   need to consider all the running CRTCs in the DRM device to assign
++ *   a FIFO, not just the one in the state.
++ *
++ * - Since we need the pixelvalve to be disabled and enabled back when
++ *   the FIFO is changed, we should keep the FIFO assigned for as long
++ *   as the CRTC is enabled, only considering it free again once that
++ *   CRTC has been disabled. This can be tested by booting X11 on a
++ *   single display, and changing the resolution down and then back up.
++ */
+ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+ 				      struct drm_atomic_state *state)
  {
- 	unsigned long unassigned_channels = GENMASK(HVS_NUM_CHANNELS - 1, 0);
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct drm_crtc *crtc;
--	int i, ret;
-+	unsigned int i;
- 
- 	/*
- 	 * Since the HVS FIFOs are shared across all the pixelvalves and
-@@ -691,6 +691,18 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 		}
- 	}
- 
-+	return 0;
-+}
-+
-+static int
-+vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
-+{
-+	int ret;
-+
-+	ret = vc4_pv_muxing_atomic_check(dev, state);
-+	if (ret)
-+		return ret;
-+
- 	ret = vc4_ctm_atomic_check(dev, state);
- 	if (ret < 0)
- 		return ret;
 -- 
 git-series 0.9.1
 _______________________________________________
