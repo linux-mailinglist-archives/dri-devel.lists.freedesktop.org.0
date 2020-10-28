@@ -1,67 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6CB29CF88
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 11:36:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C6929CF98
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 11:57:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51E796E4E6;
-	Wed, 28 Oct 2020 10:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BED936EC5E;
+	Wed, 28 Oct 2020 10:57:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.codeweavers.com (mail.codeweavers.com [50.203.203.244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 799256E4E6
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 10:36:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Srb/P3TggdjoWimaiei1N5W864q7xL8T0CSkk+91TeY=; b=eGJO9dHQ0ny4TrLKjO2qmEX5jX
- JbLzPgnG8ncYGgrs4gFgZqbih5rkQuNdfT+DL4IXysC7Mu18jV9gjGhXdvcK4LLqnH36d+8SdS1h3
- PK2k8M435hWXW4VEqNgXh1OkhSWzEFA8I13+Herzuq0qzWxS7Ro3vhtwODjgw9kPbswg=;
-Received: from [10.69.141.123]
- by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <pgofman@codeweavers.com>)
- id 1kXioa-0007H1-CB; Wed, 28 Oct 2020 05:36:26 -0500
-Subject: Re: [PATCH libdrm] xf86drm.c: Use integer logarithm.
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Pekka Paalanen <ppaalanen@gmail.com>
-References: <20201026131120.1068959-1-pgofman@codeweavers.com>
- <20201028101842.041e8a02@eldfell>
- <e41dc6bd-b32b-7876-fefd-168088353b5c@codeweavers.com>
- <310cc402-bba0-6bcd-84f5-db58d687cd88@daenzer.net>
-From: Paul Gofman <pgofman@codeweavers.com>
-Message-ID: <f2ac50a6-68d5-4803-ed88-302eeb1c353a@codeweavers.com>
-Date: Wed, 28 Oct 2020 13:36:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67ADA6EC5E
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 10:57:38 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id g19so1137925pji.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 03:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=W33YKVE+vIQUjqJmcEzgED3JxXxgJJnTqejIz5dWMio=;
+ b=Hy4ATO4/8bpMwbG9MepKQdZG8/CTf1/4URUhZZcmbcdWvW8+gkJ6cAXoyIwHrFIPTG
+ ph2he7bXY8k2pSLmYEZgpOpWlep9MeKw4VWXCdPayFqCN/QzcXzph26cbhGIMNKVkPoX
+ XjTfYkGXonGwT3mBLeJG8PqiJNAErVxFMoJ9vz/9LsRmSAVvCxLTSrC/iR0NgA9MZ8QY
+ 4p37kPfhvWgpLp2517tIc3KmbGgehxrWRETTxFwC31QI9ZMO4iskheUBicyPAK7kvHS6
+ tpKR71qatexkU73Utm71Opjb8YHXxeBdlTjUDuKoP/T0wFnOL0/KjJzJfPtNDR5C7HVg
+ bWRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=W33YKVE+vIQUjqJmcEzgED3JxXxgJJnTqejIz5dWMio=;
+ b=rO8LXuEUDappGXDGqGhoZfed4X80gJ1WlyBfCTSLbDRojd4yNSsSUPqVD4d0aKkcvf
+ lFQrN1fvVc7LqoouKjx/ZiC6ZWt3htj/wT38Vk8AcKzqurbXst9V3afOElxdzXKPZy27
+ 2jNThYVsJFEZWEpR6ShHcgpa1Yy09KX8w3zU+UKmy5K9RLwnmCQ/FWH1Dye8O+Ahy3qF
+ bfI6mAi0vp1+M/taWpDUE0Ngg42jTcyPqxUTzG8rt0FxxOATMHkfesrIV6XpnDl2Rlep
+ cAKDvDhTNcuQ99Wz697AAq/q5P6Ngsmr3IdKCD7JT6erEq5TTkRSzA9h5f9CU3/jR8Rh
+ Ot0g==
+X-Gm-Message-State: AOAM5325iYbBBl43cSvqJ7R1hPv+v6wsEMx5iJ2PjNgO8kpRMqWh2YIn
+ qUwjs9+Q/9jHBQZ+EL5yKw==
+X-Google-Smtp-Source: ABdhPJx7TI8kNqRv/CrbnxiDniRSurjnwwLGWS8CtOJHMecJHTWQceZLiEtKvb0qCu+u9Y22egpfOQ==
+X-Received: by 2002:a17:90b:20a:: with SMTP id
+ fy10mr6294642pjb.20.1603882658040; 
+ Wed, 28 Oct 2020 03:57:38 -0700 (PDT)
+Received: from localhost.localdomain (n11212042025.netvigator.com.
+ [112.120.42.25])
+ by smtp.gmail.com with ESMTPSA id i24sm5377303pfd.15.2020.10.28.03.57.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Oct 2020 03:57:37 -0700 (PDT)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>
+Subject: [PATCH v2 2/5] Fonts: Make font size unsigned in font_desc
+Date: Wed, 28 Oct 2020 06:56:47 -0400
+Message-Id: <20201028105647.1210161-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
+References: <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <310cc402-bba0-6bcd-84f5-db58d687cd88@daenzer.net>
-Content-Language: en-GB
-X-Spam-Score: -41.5
-X-Spam-Report: Spam detection software, running on the system "mail.codeweavers.com",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- 
- Content preview:  On 10/28/20 13:30, Michel Dänzer wrote: > On 2020-10-28 11:09
-    a.m., Paul Gofman wrote: >> On 10/28/20 11:18, Pekka Paalanen wrote: >>>
-   >>>>   +static unsigned log2_int(unsigned x) >>>> +{ >>>> +   [...] 
- 
- Content analysis details:   (-41.5 points, 5.0 required)
- 
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -0.0 USER_IN_WELCOMELIST    user is listed in 'welcomelist_from'
-  -20 USER_IN_WHITELIST      DEPRECATED: See USER_IN_WELCOMELIST
-  -20 ALL_TRUSTED            Passed through trusted hosts only via SMTP
- -0.5 BAYES_00               BODY: Bayes spam probability is 0 to 1%
-                             [score: 0.0000]
- -2.2 NICE_REPLY_A           Looks like a legit reply (A)
-  1.2 AWL                    AWL: Adjusted score from AWL reputation of From: address
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,30 +71,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jiri Slaby <jirislaby@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTAvMjgvMjAgMTM6MzAsIE1pY2hlbCBEw6RuemVyIHdyb3RlOgo+IE9uIDIwMjAtMTAtMjgg
-MTE6MDkgYS5tLiwgUGF1bCBHb2ZtYW4gd3JvdGU6Cj4+IE9uIDEwLzI4LzIwIDExOjE4LCBQZWtr
-YSBQYWFsYW5lbiB3cm90ZToKPj4+Cj4+Pj4gwqAgK3N0YXRpYyB1bnNpZ25lZCBsb2cyX2ludCh1
-bnNpZ25lZCB4KQo+Pj4+ICt7Cj4+Pj4gK8KgwqDCoCB1bnNpZ25lZCBsOwo+Pj4+ICsKPj4+PiAr
-wqDCoMKgIGlmICh4IDwgMikgewo+Pj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4+PiAr
-wqDCoMKgIH0KPj4+PiArwqDCoMKgIGZvciAobCA9IDI7IDsgbCsrKSB7Cj4+Pj4gK8KgwqDCoMKg
-wqDCoMKgIGlmICgodW5zaWduZWQpKDEgPDwgbCkgPiB4KSB7Cj4+PiBIaSwKPj4+Cj4+PiB3b3Vs
-ZG4ndCB0aGlzIGxvb3AgZmFpbCB0byBlbmQgd2hlbiB4ID49IDB4ODAwMDAwMDA/Cj4+Pgo+Pj4g
-U3VyZSwgc3VjaCB2YWx1ZSBwcm9iYWJseSBjYW5ub3Qgb2NjdXIgd2hlcmUgdGhpcyBpcyBjdXJy
-ZW50bHkgdXNlZCwKPj4+IGJ1dCBpdCBzZWVtcyBsaWtlIGEgbGFuZG1pbmUgZm9yIHRoZSBuZXh0
-IGRldmVsb3BlciB0byBzdGVwIG9uLgo+Pj4KPj4gSW5kZWVkLCB0aGFua3MuIEkndmUgc2VudCB0
-aGUgcGF0Y2hlcyBmb3IgY29uc2lkZXJhdGlvbiB3aGljaCBhdm9pZAo+PiBmdW5jdGlvbiBkdXBs
-aWNhdGlvbiBhbmQgcG90ZW50aWFsbHkgaW5maW5pdGUgbG9vcC4KPgo+IGxpYmRybSB1c2VzIEdp
-dExhYiBtZXJnZSByZXF1ZXN0cyBub3c6Cj4gaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3Jn
-L21lc2EvZHJtLy0vbWVyZ2VfcmVxdWVzdHMKPgo+Ckkgc2VlLCB0aGFua3MuIEkgd2FzIGZvbGxv
-d2luZyB0aGUgaW5zdHJ1Y3Rpb25zIGluIENPTlRSSUJVVElORy5yc3QuCgpEbyB5b3UgdGhpbmsg
-SSBzaG91bGQgcHJvY2VlZCB3aXRoIG1lcmdlIHJlcXVlc3QgZm9yIHRoZXNlIHBhdGNoZXMgb3IK
-dGhvc2UgYWxyZWFkeSBzZW50IGNvdWxkIGJlIGNvbnNpZGVyZWQgdGhpcyB3YXk/CgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+`width` and `height` are defined as unsigned in our UAPI font descriptor
+`struct console_font`. Make them unsigned in our kernel font descriptor
+`struct font_desc`, too.
+
+Also, change the corresponding printk() format identifiers from `%d` to
+`%u`, in sti_select_fbfont().
+
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+Change in v2:
+  - Mention `struct console_font` in the commit message. (Suggested by
+    Daniel Vetter <daniel@ffwll.ch>)
+
+ drivers/video/console/sticore.c | 2 +-
+ include/linux/font.h            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/video/console/sticore.c b/drivers/video/console/sticore.c
+index 6a26a364f9bd..d1bb5915082b 100644
+--- a/drivers/video/console/sticore.c
++++ b/drivers/video/console/sticore.c
+@@ -502,7 +502,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
+ 	if (!fbfont)
+ 		return NULL;
+ 
+-	pr_info("STI selected %dx%d framebuffer font %s for sticon\n",
++	pr_info("STI selected %ux%u framebuffer font %s for sticon\n",
+ 			fbfont->width, fbfont->height, fbfont->name);
+ 			
+ 	bpc = ((fbfont->width+7)/8) * fbfont->height; 
+diff --git a/include/linux/font.h b/include/linux/font.h
+index b5b312c19e46..4f50d736ea72 100644
+--- a/include/linux/font.h
++++ b/include/linux/font.h
+@@ -16,7 +16,7 @@
+ struct font_desc {
+     int idx;
+     const char *name;
+-    int width, height;
++    unsigned int width, height;
+     const void *data;
+     int pref;
+ };
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
