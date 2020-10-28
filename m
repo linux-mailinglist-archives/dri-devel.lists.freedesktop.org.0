@@ -2,58 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471E129CEF1
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9351E29CEF0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:18:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE2196E497;
-	Wed, 28 Oct 2020 08:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97C6F6E48C;
+	Wed, 28 Oct 2020 08:18:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B0456E497
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 08:18:54 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id h6so6105762lfj.3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 01:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=ns4WCI74gHudVhGKsDYKAzLy17ar1SfLmReThzeM/TI=;
- b=tlcg/YHJ+IR3T5VvjyCxmLEEQor/6T+eZL5PEGwrlqYwAZ0hpMnFDT8/rHMfPgu5Zp
- k/G7L+XJDd3XHhzN5wemAy3u4c5SgJxzvRwlTgqKhLDmmhsePyXfT4ohsHC+44KqeZhx
- RnRR9dfPotJst0mdvsmj/jQV2jgbsrfIbBftBYdk1qGnf/+rMdAtOniYBqTpFHB/+4DH
- S3vnTzSRIaxkTolf1ArcI0djI1C5jpp5+Af7KXO4i7i7SbkOTzojQocn56y8PkT2d9V9
- 3kKuilrrEpCvc9EcmInkiYaXvzPQIGgU61NQHm/ihFIVXUPKyu+nl+cAiC2nQKTkj69N
- OKcg==
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE5C86E48C
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 08:18:48 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id w14so643568wrs.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 01:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MqJgj12KEJs6fU7vsaZp1Zad0GwpjvOq3iDuYwNSKEM=;
+ b=HbMnmzUIdW65cArOXl4cxhjxhl24W4BkuF46r+l9KuAA489q1/INMfhCTAZa/qP9tr
+ Qf3JV0B6pUcyx3bmwSbfeOu7c2cPnvNE1GQQPQwdSS6LFqUq1In36GW+vrCrB7ELPscs
+ klqGfM+scER373h2wgZbQQOdGQdWIM9OCaK44=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=ns4WCI74gHudVhGKsDYKAzLy17ar1SfLmReThzeM/TI=;
- b=Yc1seh5z+ldxlNoutWggHyB/g03L3P+aO+QkJsxaAIO+k4aXhVPThr8CtmxGVKoffI
- gJ/hj+sjnrR2WUHRRYR3AmIqR2ZeIoE95CsV9gnkuj0xqUHFP8qVsqZHfzNYtD/Qumge
- 9XzHOe+plokb23Zt+9u2MCR/xd7Db/A7NQGb0q58VRK1T1xFuao5fmAB/i9O2b/IH9VF
- HUFuHjCrmvHD9cwTm2CmPaavHRd34/jB0C1JBf18Pv1tw3TrNuIriLOYVmy1p78oy9OU
- YnlDOuq9+dz3L3snSh61e0lOFjYYF9LOuOtjWLDJ8cwAM1+zRH9NsLflhJAjT+aNCyVj
- u+MA==
-X-Gm-Message-State: AOAM530g9lJj9O5Lyb/KqWusKUOBY26/Lu4jDdMeb1jx0vA41iU7LZHY
- W7qiNdmimJ03rTZ9j+v5qaw=
-X-Google-Smtp-Source: ABdhPJyUdPDX2MSrUBcAwrUBk3tDYdJo0h0lo7xWXfb7XWHpoZFYwFyaieZtbX00VZGGg8jXX4bccQ==
-X-Received: by 2002:a05:6512:20a:: with SMTP id
- a10mr2211151lfo.128.1603873133363; 
- Wed, 28 Oct 2020 01:18:53 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id r3sm443069lfm.287.2020.10.28.01.18.52
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=MqJgj12KEJs6fU7vsaZp1Zad0GwpjvOq3iDuYwNSKEM=;
+ b=GvZQ8kJ1vpcYfbJXUgkqZroTogqmx/XPQPDJu5o4pRhL53+W7tSpokhaPDANaPojWf
+ gBM4IMoOnmzpRUMc2YqPeypt0u+mZ7R1gq2W1roDvz4OUtgKrv5SPgRCPbB0+IBhsM+j
+ B3uLHnfQzSZ3mhWi+ljNAaFrU9qnbzhbAZzYnR7fwd1dAaPFQBk+SsJYsQ2nD4pfowZ/
+ nyRDv0m2EZMAuRZKgjSMhsoElXOXtkKr/qiKpWxk/MpzJn3HG4o/rkiOsbiEwJlmemKK
+ BzFEJnF1CxGvImRtlMjgq5DJnDPlEyBYlvRPLKzpEc8fCLGbfgBBwjbgqtbLSxD6+5r9
+ GQZQ==
+X-Gm-Message-State: AOAM530bCZ0qCdiT4ML4x/DlSyomPbWR1KsPylDY1+8WCPY1J7cOPwX/
+ v+Vw+aJGwvN81vF1FIe1272v8Q==
+X-Google-Smtp-Source: ABdhPJwbS8Eg9TtDj0k/jB3qA+LrlhDy+5dZr0SvO23CrdBwVE/Fau9mDKVPDFQwkwvE41EP0TOEUQ==
+X-Received: by 2002:adf:fe48:: with SMTP id m8mr7296470wrs.127.1603873127564; 
+ Wed, 28 Oct 2020 01:18:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j17sm5657301wrw.68.2020.10.28.01.18.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 01:18:52 -0700 (PDT)
-Date: Wed, 28 Oct 2020 10:18:42 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Paul Gofman <pgofman@codeweavers.com>
-Subject: Re: [PATCH libdrm] xf86drm.c: Use integer logarithm.
-Message-ID: <20201028101842.041e8a02@eldfell>
-In-Reply-To: <20201026131120.1068959-1-pgofman@codeweavers.com>
-References: <20201026131120.1068959-1-pgofman@codeweavers.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ Wed, 28 Oct 2020 01:18:46 -0700 (PDT)
+Date: Wed, 28 Oct 2020 09:18:44 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [PATCH 2/5] Fonts: Make font size unsigned in font_desc
+Message-ID: <20201028081844.GS401619@phenom.ffwll.local>
+Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jiri Slaby <jirislaby@kernel.org>, linux-parisc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1603788511.git.yepeilin.cs@gmail.com>
+ <cb5bb49a33ff54fef41e719ee9d301a6a73c5f9c.1603788512.git.yepeilin.cs@gmail.com>
+ <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
+ <20201027185058.GM401619@phenom.ffwll.local>
+ <20201028054307.GA1205568@PWN>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201028054307.GA1205568@PWN>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,122 +77,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1557316393=="
+Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Jiri Slaby <jirislaby@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1557316393==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/I8L6J1XiMnGPq8hal.4Bv/="; protocol="application/pgp-signature"
+On Wed, Oct 28, 2020 at 01:43:07AM -0400, Peilin Ye wrote:
+> On Tue, Oct 27, 2020 at 07:50:58PM +0100, Daniel Vetter wrote:
+> > On Tue, Oct 27, 2020 at 12:33:05PM -0400, Peilin Ye wrote:
+> > > It is improper to define `width` and `height` as signed in `struct
+> > > font_desc`. Make them unsigned. Also, change the corresponding printk()
+> > > format identifiers from `%d` to `%u`, in sti_select_fbfont().
+> > > 
+> > > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> > 
+> > I'm not entirely sure of the motivation here ... height/width should never
+> > ever be even close to the limit here. Or have you seen integer math that
+> > could potentially go wrong if we go with unsigned instead of int?
+> 
+> Oh... No, I have not. I just thought we shouldn't represent a length
+> using a signed value. Also, width and height in console_font are
+> unsigned int - that shouldn't matter that much though.
 
---Sig_/I8L6J1XiMnGPq8hal.4Bv/=
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Oh this is actually a good reason, since that's the uapi structure. And so
+using the exact same signedness should help a bit with accidental casting
+bugs.
 
-On Mon, 26 Oct 2020 16:11:20 +0300
-Paul Gofman <pgofman@codeweavers.com> wrote:
+If you mention this in the commit message I think this is good to go.
+-Daniel
 
-> log() is affected by FP control word and can provide inaccurate result.
->=20
-> Fixes Killer Instinct under Wine not being able to find AMD vulkan
-> device.
->=20
-> Signed-off-by: Paul Gofman <pgofman@codeweavers.com>
-> ---
->     With the rounding mode the application sets (unsigned int)log2(4) is =
-1.
->     The log2_int() implemetation is copied from radeon/radeon_surface.c.
->=20
->  xf86drm.c | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
->=20
-> diff --git a/xf86drm.c b/xf86drm.c
-> index 50a6f092..dbb7c14b 100644
-> --- a/xf86drm.c
-> +++ b/xf86drm.c
-> @@ -124,6 +124,22 @@ static drmServerInfoPtr drm_server_info;
->  static bool drmNodeIsDRM(int maj, int min);
->  static char *drmGetMinorNameForFD(int fd, int type);
-> =20
-> +static unsigned log2_int(unsigned x)
-> +{
-> +    unsigned l;
-> +
-> +    if (x < 2) {
-> +        return 0;
-> +    }
-> +    for (l =3D 2; ; l++) {
-> +        if ((unsigned)(1 << l) > x) {
+> 
+> [3/5] doesn't hunk properly without this patch, I'll send a v2 for [3/5]
+> soon.
+> 
+> Peilin
+> 
 
-Hi,
-
-wouldn't this loop fail to end when x >=3D 0x80000000?
-
-Sure, such value probably cannot occur where this is currently used,
-but it seems like a landmine for the next developer to step on.
-
-
-Thanks,
-pq
-
-> +            return l - 1;
-> +        }
-> +    }
-> +    return 0;
-> +}
-> +
-> +
->  drm_public void drmSetServerInfo(drmServerInfoPtr info)
->  {
->      drm_server_info =3D info;
-> @@ -4001,7 +4017,7 @@ static void drmFoldDuplicatedDevices(drmDevicePtr l=
-ocal_devices[], int count)
->          for (j =3D i + 1; j < count; j++) {
->              if (drmDevicesEqual(local_devices[i], local_devices[j])) {
->                  local_devices[i]->available_nodes |=3D local_devices[j]-=
->available_nodes;
-> -                node_type =3D log2(local_devices[j]->available_nodes);
-> +                node_type =3D log2_int(local_devices[j]->available_nodes=
-);
->                  memcpy(local_devices[i]->nodes[node_type],
->                         local_devices[j]->nodes[node_type], drmGetMaxNode=
-Name());
->                  drmFreeDevice(&local_devices[j]);
-
-
---Sig_/I8L6J1XiMnGPq8hal.4Bv/=
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl+ZKWIACgkQI1/ltBGq
-qqeGxw//ffxTeytgZpaFfXIciwOXO9PI7GLIU/YTGHLs+H8mKEfy+Aq+xN74rLXF
-HXjVYYaswLBsvAkhSq12KaYtbXQKHvXrWXfljAQzOOSJ2ZUcRwBTYASR5AdJW5Qz
-hBh4cPLj1PYKGBJiIokK8AbF/E5D4L5r8dGxgamj/R9q0WFB1Mbz6U7U5zaH9TRj
-FeV4TUe8OPGRSexDdIdx50O7bUdtlIkPVOh1YuKCzUEpoGkEQMRwhr+5L1QGTVmU
-hKdQjxb+4n/aW6dyQy4UDVk3dc9vb/ZCMOwivYHEHL39KIAVC7Ck+kSxUwKv+5Et
-ZP1XEET3dCRWu0sa4YxsMijU6OubjNK+5oCFfTJxjXotR63xN9oSacG9wqZI3ksi
-143W4i5FI+8D+AFUQOXHq7XGzS98ekbxC7vkRmHH1cwY7Y//iXJfoiIuZsU39hEK
-olln45BiKuvHcOA5tU7+egK2DQPud1Eh8WRKrfJoPqVZX1ZUlgx5mTjbZjg360qa
-TFsclm0/aHCgdgDaxqcybXe71vIYrD0Q1aTMAdZawgLbKCY7U1AaNOHkxcvAb8Dr
-BscPTyAou/d5ZPl0bMVAkLuSVRhHhcfv+vwNbfdeDoOOacd2PPEQ0b7hOeQbpFY0
-Qaqp81mEri38yyK36DQM0RP5vrUtVqj4YgnSsRxe5nR3BlrYGAc=
-=cbIy
------END PGP SIGNATURE-----
-
---Sig_/I8L6J1XiMnGPq8hal.4Bv/=--
-
---===============1557316393==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1557316393==--
