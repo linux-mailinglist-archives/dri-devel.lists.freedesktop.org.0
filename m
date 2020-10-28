@@ -1,122 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1818329D153
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 18:29:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE40F29D181
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 19:40:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A49726E25B;
-	Wed, 28 Oct 2020 17:29:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFE846E16D;
+	Wed, 28 Oct 2020 18:40:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE9C6E25B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 17:29:45 +0000 (UTC)
-IronPort-SDR: 8RHs7dutOYZcJFom2flC57I5LVV+ar7aH2dYU7fClgj1BnSqKjNKZ0KXMqKc5fyZek59xcoiKa
- YaaZwbskz96w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9788"; a="147585266"
-X-IronPort-AV: E=Sophos;i="5.77,427,1596524400"; d="scan'208";a="147585266"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2020 10:29:44 -0700
-IronPort-SDR: j5q9IatIeKztG9YyzB3dNHRMdzHcv0wPsqth57OqsI+hvc1iG0ELGh26UD3SYzzBh4wIRHRiN7
- el47s9JBoPwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,427,1596524400"; d="scan'208";a="536317369"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga005.jf.intel.com with ESMTP; 28 Oct 2020 10:29:44 -0700
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 28 Oct 2020 10:29:44 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 28 Oct 2020 10:29:43 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 28 Oct 2020 10:29:43 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Wed, 28 Oct 2020 10:29:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LfnelnuoowrD5+fzPQ8ce0ciBhoK+lACla1qebFXOPMqwQ6zZZm4D1j3gZa5Y6bZhR31UQtwROzL2scD+DE4gVx/qvsiwU8Sw4selSSJR5BUhIqaR45eMvIQtDpsmvDDQxX3VjZdqfRsmkrJt9RVu/KqYVN+x6qUJUaxWB2J8rSo7BjZUnm64VGpPDk5ugyipeljnZ+ruEetGc6LmaIoxwblxQ+SjfoAiyu7UUhD4WXlLYnfms5/uDO49LEGcJu9KLD+yvN45/OVcBFEKH/iwIczrVwnCduKWDKRmW+PsGP3rAAasmgW/h+iainW/g0PCJWHIdtODHdzbKAOTTpBwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qm7Rgepx3eWMDZplMQs9ZBb5mcqJTMM8ZuTcCucv9kk=;
- b=UzziR+8YRN8D75bF++B9xolO6sc1EnqdMQl7ZbhDeBbp0397I9emRpfZJvHaSmhamYk66HwVxIstbriKAfWalEM12Xlva54xqxldUDVfOZptdktWZYMgHu2Vg/yTxRDYGQ8hVsVTDgWyf+0VPjbNLANx7PPJY6kPrbmRV4J8pP9S9usGRt33MaIMYfv1Ym71mlc4UpG6sVZpkc4GY68lxOnIiIOOLtPkjsdBn85NgV7x7eSxgl4FjC8NYhSj18O9/7hs8h2fNhwkZE56Yv/5n4g5xAAVfvj/Bu2BgJoay3Gb1H7o/vXKwaOLQ8pYY35DTxJEnKixhv7WMMb3X6Zvng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qm7Rgepx3eWMDZplMQs9ZBb5mcqJTMM8ZuTcCucv9kk=;
- b=ryZQK9TOnNB0arKgSSnvai2bohoavdQ0WzdYJjVQUKAfttmKve2GlqquaKd97Y/2lC3OBzKbb2JulezcXX5pEf72EmYZD7MEiNERjNecEXPDq/3aBR0kSulEy529zpDgTD1qoTgEQmdf0VoM/C8yr1QgLHcZHIC+UixCHAVr6kA=
-Received: from DM6PR11MB4548.namprd11.prod.outlook.com (2603:10b6:5:2ad::13)
- by DM6PR11MB3385.namprd11.prod.outlook.com (2603:10b6:5:c::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3477.24; Wed, 28 Oct 2020 17:29:07 +0000
-Received: from DM6PR11MB4548.namprd11.prod.outlook.com
- ([fe80::cdc4:d8fd:445e:bc26]) by DM6PR11MB4548.namprd11.prod.outlook.com
- ([fe80::cdc4:d8fd:445e:bc26%7]) with mapi id 15.20.3499.018; Wed, 28 Oct 2020
- 17:29:07 +0000
-From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: RE: [PATCH v6 4/4] RDMA/mlx5: Support dma-buf based userspace memory
- region
-Thread-Topic: [PATCH v6 4/4] RDMA/mlx5: Support dma-buf based userspace memory
- region
-Thread-Index: AQHWqVlO00pepJSOH0mSukfnEwOLTqmr5x0AgAABPICAAVW5AIAADIYw
-Date: Wed, 28 Oct 2020 17:29:06 +0000
-Message-ID: <DM6PR11MB4548C30C3A399B4DBE479BA0E5170@DM6PR11MB4548.namprd11.prod.outlook.com>
-References: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
- <1603471201-32588-5-git-send-email-jianxin.xiong@intel.com>
- <20201027200816.GX36674@ziepe.ca>
- <MW3PR11MB45559D700788EFFE08E9B639E5160@MW3PR11MB4555.namprd11.prod.outlook.com>
- <20201028163546.GY36674@ziepe.ca>
-In-Reply-To: <20201028163546.GY36674@ziepe.ca>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: ziepe.ca; dkim=none (message not signed)
- header.d=none;ziepe.ca; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.53.14.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: eba3d813-50f2-4f66-3aa9-08d87b66f931
-x-ms-traffictypediagnostic: DM6PR11MB3385:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR11MB33851B7477E2FFF8BABB5F61E5170@DM6PR11MB3385.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wCcip8jLJck6yzHw9+Il85mPWPFBmv0A/YRD842BBpyjCvpJtEys0w1YZkeCFXcAiAshEZyS+PmzzaYgkdIeLw51xP2f5wfvInKssMGFB0Fdpxx7Sw8gRidiucBeo2b8+gZnqvL3pQugTDIiXogwMoJzIKWc4eQPFvk6ruTIIIYGGtbtAkamF4DXiwS2LgzWThiCdb5AcKfNPhCjfBjC2YM+92tDxxr1jTS37wonaTnSSNj/RFVO3Dw1zqSWtCRMAx6e67Te5aklTx9cRjZDLIuHDrYBjqH71W7xXOTglaZFmjGTnD+M8Q/nLHiwNfZtyEcl34a5vcBGqFWI5a2yIA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB4548.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39860400002)(136003)(376002)(346002)(186003)(7696005)(6916009)(6506007)(55016002)(4326008)(83380400001)(66556008)(64756008)(71200400001)(26005)(53546011)(8676002)(86362001)(54906003)(2906002)(33656002)(8936002)(52536014)(316002)(66446008)(478600001)(76116006)(107886003)(9686003)(66946007)(66476007)(5660300002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: WPl/PNEuWwvsXN6aMjSmUk1wlZ8BCjoBqIWjkwn96WqFl3ZvH5JBTHwfFRKtE+wVC6YeLGo0VErXTtGmGzDgifRM4DT+ZP2elPO+X5bv2rEmpFkdzi78ozHFoC6I426zBXt/AEnhXJuudUoa3AanWadmgUcBSlOzh3Lu0EHfMO7a1KRjbpZWCJDSPJzBpS+NK9SaMMcfDUDkIozNPBEWS1hvINgBBt0zdPkKZgfYaUF6op8JgUmchM/i/mC9rDg7WCF3m48dG2bekaunnmpuc6AtVzn8Yldii9fr3fui6W1vMn8miNM2vguoJZX+EatRCVdAaeVGmh/ZA2yvHm4rJPTonZ0U5jUz9J1Im53Uy3JbWmhb24CueGAnwjkPcl+Iq8ykHTxPK5gOEF8LajH1s4kTg65DjCM5Rm8R8zrLyP4nvlEb3hp2N9D38X9RhLf8mMTDZadZh0QzL34BWDc/b8okESMVzhoCIu7P5SyRcWB3vuB9IgMo0ONTqubYk6k3b34GQUiX76mpNw/kY1YTfxrKuRXbSTYz3YqhCfGtwHRrEVQ4vwFAO//2vVNN4pACZiNL5h40alqeu+kNUWnVIiJQeOGtWsSoue8he34tiNm3QJCy1e2Qe2W3eO0gUWvYPc/78fkz6geAFbqo6K5/vg==
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C59526E16D
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 18:40:30 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id s9so161936wro.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 11:40:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nMCdu9Rzb/ndcD48Tcjh9B2LFonFTQlfv9eH4WIE5/E=;
+ b=F0MCnNXxvfO8m+8X6ysd9pz9RNST9ee2OunsJBFhJ1jACU0VNPR7jRqTcr42Em1B/N
+ 4RkfEXr/avMA+O9xcQ2WiJud6Px7h8GMje+np40dqlpRDSKXgimNhQtHUuAPltPhyb11
+ 5fbAF7gudEUJdH7kFcywq06bqCQv1F5USJd8E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=nMCdu9Rzb/ndcD48Tcjh9B2LFonFTQlfv9eH4WIE5/E=;
+ b=LL+iVkK+8CFs2vmva2dRQtcfnPCsXrDUL6FVXDl+0Lv1oMjgn5ETptFTfsF5LE7NPU
+ YjOCGzDrBlSSqOQJeCBOt/6CI+ZJuQK0LsklIP52q63tT2wKFYdF1ldOZ25+oy/RcK+2
+ I6N9C1jd/D+d4xS98GxEfL39sY0l1phrNxBWi7S1WFQCgOTBWkobm5mFNRLyHLlImwOh
+ RmajSaKBwfFqcPAkLfrOlFlGj6CIpAcdCnnLVBVMfpYqYEkBwtL1W6U3UykfwW62NmSK
+ ryb5/ofn6FBeMcz7IS/KdFP0uhU9o1Secso4YCdjrjY0YoFut+Def9XQEutg/7/cESNO
+ z/IQ==
+X-Gm-Message-State: AOAM531jBP+6Recfsj+APNzRjsPXwfGO8TFs+pq6R+jPFRqAt9rkpNeA
+ dRydHrMe5EtB7LZgg8QunVPvVQ==
+X-Google-Smtp-Source: ABdhPJyrBDGD6E9I6oqu06SgLOB/cJ7qVsKtWh9rtNK4o2kg9zioPQMWZFyxGdfWYjPLun8Im926hQ==
+X-Received: by 2002:adf:e685:: with SMTP id r5mr841525wrm.340.1603910429440;
+ Wed, 28 Oct 2020 11:40:29 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f7sm597277wrx.64.2020.10.28.11.40.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Oct 2020 11:40:28 -0700 (PDT)
+Date: Wed, 28 Oct 2020 19:40:26 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [PATCH v2 2/5] Fonts: Make font size unsigned in font_desc
+Message-ID: <20201028184026.GX401619@phenom.ffwll.local>
+Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jiri Slaby <jirislaby@kernel.org>, linux-parisc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
+ <20201028105647.1210161-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4548.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eba3d813-50f2-4f66-3aa9-08d87b66f931
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2020 17:29:06.9374 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eOwXcoNVguCNbkoJPMiy+Nd517fUajvzJMk3YsR2jxSmsKv6y1A1x+uUNWfP2Jv25pBeyVDP+lNh3vFO/k1r8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3385
-X-OriginatorOrg: intel.com
+Content-Disposition: inline
+In-Reply-To: <20201028105647.1210161-1-yepeilin.cs@gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,85 +74,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Doug
- Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -----Original Message-----
-> From: Jason Gunthorpe <jgg@ziepe.ca>
-> Sent: Wednesday, October 28, 2020 9:36 AM
-> To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Leon Romanovsky
-> <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel
-> <daniel.vetter@intel.com>
-> Subject: Re: [PATCH v6 4/4] RDMA/mlx5: Support dma-buf based userspace memory region
+On Wed, Oct 28, 2020 at 06:56:47AM -0400, Peilin Ye wrote:
+> `width` and `height` are defined as unsigned in our UAPI font descriptor
+> `struct console_font`. Make them unsigned in our kernel font descriptor
+> `struct font_desc`, too.
 > 
-> On Tue, Oct 27, 2020 at 08:33:52PM +0000, Xiong, Jianxin wrote:
-> > > > @@ -801,6 +816,52 @@ static int pagefault_implicit_mr(struct mlx5_ib_mr *imr,
-> > > >   * Returns:
-> > > >   *  -EFAULT: The io_virt->bcnt is not within the MR, it covers pages that are
-> > > >   *           not accessible, or the MR is no longer valid.
-> > > > + *  -EAGAIN: The operation should be retried
-> > > > + *
-> > > > + *  >0: Number of pages mapped
-> > > > + */
-> > > > +static int pagefault_dmabuf_mr(struct mlx5_ib_mr *mr, struct ib_umem *umem,
-> > > > +			       u64 io_virt, size_t bcnt, u32 *bytes_mapped,
-> > > > +			       u32 flags)
-> > > > +{
-> > > > +	struct ib_umem_dmabuf *umem_dmabuf = to_ib_umem_dmabuf(umem);
-> > > > +	u64 user_va;
-> > > > +	u64 end;
-> > > > +	int npages;
-> > > > +	int err;
-> > > > +
-> > > > +	if (unlikely(io_virt < mr->mmkey.iova))
-> > > > +		return -EFAULT;
-> > > > +	if (check_add_overflow(io_virt - mr->mmkey.iova,
-> > > > +			       (u64)umem->address, &user_va))
-> > > > +		return -EFAULT;
-> > > > +	/* Overflow has alreddy been checked at the umem creation time */
-> > > > +	end = umem->address + umem->length;
-> > > > +	if (unlikely(user_va >= end || end  - user_va < bcnt))
-> > > > +		return -EFAULT;
-> > >
-> > > Why duplicate this sequence? Caller does it
-> >
-> > The sequence in the caller is for umem_odp only.
+> Also, change the corresponding printk() format identifiers from `%d` to
+> `%u`, in sti_select_fbfont().
 > 
-> Nothing about umem_odp in this code though??
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
 
-The code in the caller uses ib_umem_end(odp) instead of the 'end' here, but we
-can consolidate that with some minor changes.
-  
+Pushed to drm-misc-next, thanks for the patch.
+-Daniel
+
+> ---
+> Change in v2:
+>   - Mention `struct console_font` in the commit message. (Suggested by
+>     Daniel Vetter <daniel@ffwll.ch>)
 > 
-> > > >  	/* prefetch with write-access must be supported by the MR */
-> > > >  	if (advice == IB_UVERBS_ADVISE_MR_ADVICE_PREFETCH_WRITE &&
-> > > > -	    !odp->umem.writable)
-> > > > +	    !mr->umem->writable)
-> > >
-> > > ??
+>  drivers/video/console/sticore.c | 2 +-
+>  include/linux/font.h            | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> > There is no need to use umem_odp here, mr->umem is the same as &odp->umem.
-> > This change makes the code works for both umem_odp and umem_dmabuf.
-> 
-> Ok
-> 
-> Can you please also think about how to test this? I very much prefer to see new pyverbs tests for new APIs.
-> 
-> Distros are running the rdma-core test suite, if you want this to work widely we need a public test for it.
+> diff --git a/drivers/video/console/sticore.c b/drivers/video/console/sticore.c
+> index 6a26a364f9bd..d1bb5915082b 100644
+> --- a/drivers/video/console/sticore.c
+> +++ b/drivers/video/console/sticore.c
+> @@ -502,7 +502,7 @@ sti_select_fbfont(struct sti_cooked_rom *cooked_rom, const char *fbfont_name)
+>  	if (!fbfont)
+>  		return NULL;
+>  
+> -	pr_info("STI selected %dx%d framebuffer font %s for sticon\n",
+> +	pr_info("STI selected %ux%u framebuffer font %s for sticon\n",
+>  			fbfont->width, fbfont->height, fbfont->name);
+>  			
+>  	bpc = ((fbfont->width+7)/8) * fbfont->height; 
+> diff --git a/include/linux/font.h b/include/linux/font.h
+> index b5b312c19e46..4f50d736ea72 100644
+> --- a/include/linux/font.h
+> +++ b/include/linux/font.h
+> @@ -16,7 +16,7 @@
+>  struct font_desc {
+>      int idx;
+>      const char *name;
+> -    int width, height;
+> +    unsigned int width, height;
+>      const void *data;
+>      int pref;
+>  };
+> -- 
+> 2.25.1
 > 
 
-Will look into that.
-
-> Thanks,
-> Jason
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
