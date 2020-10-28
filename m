@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95DE829D009
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 14:30:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B63229D019
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 14:40:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 134916E517;
-	Wed, 28 Oct 2020 13:30:52 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D8726E517
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 13:30:51 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id a9so1889319wrg.12
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 06:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W5Ax3LBB3MaDs1VNveAhKnujcR2I/QqmbY5PUOksVSA=;
- b=Xz5lJP9PVYMJ839Z2eQD9nTSk0WPo+iALxRWVFigznIBGNnByN/6iqN320/zj1PXPQ
- z7RER+qgqoSL/vo7XEmcphpXxn7hC3BupY4Y3zgZI+pGNVDb9/3jShXX6o80V6RVAM3N
- ULDFZZSQdnUTDEVMVZ8bThWmpmb5U+auqe+KLAlZfwZvk+Q1EjHmc7G75WtJpvfqwHDs
- FqXkL63XAAyo7Apu63htaS/tx6QPq1bbbfLZ0+EscwdH1qzElqYnK17zevFXMKfnh8+4
- O2ZieHwP/le7hRcz06i8uIsQDecXa6eGpqFGoVMB08I7olh6x/TEMi9knVGWeXP1ol3p
- 52mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W5Ax3LBB3MaDs1VNveAhKnujcR2I/QqmbY5PUOksVSA=;
- b=nXaq3ZvLO8n1DLbO8ay9ucDcMpnUBTqK/Ib9y/mZ00aStEK774EPdJlumDN24yWfDY
- FWbm/eSEr2tMvqKXj4ow/EVFgV2Rr75qb8Be20jKTN0UBj8ybqdAkWmVKw1gJ7jDtM4/
- ++01EIOnrRRqZiGa/Sr35MezSe9QQ8G4SQbfIh3Qet/9iT1lg4n5EVbtC/VEHXDgo2DQ
- sLHhwW7SF9Q9mse/BR2N3vceUQCi8x3l3cF/pGQmr0D5tmCUd6XXpfW+CrOQJfctR+3m
- Pr8ddC770RYCtegkms2Fr3Msht+b1LeObav/XOId45SEQWI315TgqSSx6jjqCM28j2pP
- O8wQ==
-X-Gm-Message-State: AOAM530nt5xMaCM3Ja+9kf/tHRyKmh7bh/clu4cRRAkoWEd3m2Et0Uru
- IaFdK7jNjvpoBaDjqF1FcQ1+LV6/+3OADWMFZu4UwQ==
-X-Google-Smtp-Source: ABdhPJyy6IXth0grY9TvlAj7pXiRysD/Em+vWPKSc1toQZQ/d5rOI+hnXAj2R8TNHM730gGC1A/Uv4jxb3aQ0WsiQ7U=
-X-Received: by 2002:a05:6000:1185:: with SMTP id
- g5mr3552473wrx.42.1603891850012; 
- Wed, 28 Oct 2020 06:30:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200708144555.718404-1-maxime@cerno.tech>
-In-Reply-To: <20200708144555.718404-1-maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 28 Oct 2020 13:30:32 +0000
-Message-ID: <CAPY8ntDgx67bba2NtNVToEZaLrX5cmrdTB51=0L7qV5F5UOJiw@mail.gmail.com>
-Subject: Re: [PATCH] drm/vc4: hdmi: Add a name to the codec DAI component
-To: Maxime Ripard <maxime@cerno.tech>
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6CBE6E10B;
+	Wed, 28 Oct 2020 13:40:08 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF9E6E10B
+ for <dri-devel@freedesktop.org>; Wed, 28 Oct 2020 13:40:07 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1603892407; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=sBoFYXBRNRnfc1p/HZHYw4mb1ypcZrZ4ev80XM6oef4=;
+ b=BqAA9Z+lcvdKPbb2qCbGFX9egVy5Tdq+/f6O3R4fjVQTv0jeOdodi8OMGu5EkmvkHYL9xPml
+ syZ1RuGpW2b8uZ4hCHNvZyooj+gAuHEU2F9zOBv8ghr6Fs9Fuir5KGcE+gGzGq/WEiU18pVy
+ a3GLRlFFm29KAODds2t7PFvOwzQ=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5f9974b609df41a6c48d00b6 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Oct 2020 13:40:06
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id CBF9BC43387; Wed, 28 Oct 2020 13:40:05 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from akhilpo-linux.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1BA3CC433F0;
+ Wed, 28 Oct 2020 13:40:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1BA3CC433F0
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v3 1/3] drm/msm: Add support for GPU cooling
+Date: Wed, 28 Oct 2020 19:09:52 +0530
+Message-Id: <1603892395-3570-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,47 +64,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dianders@chromium.org, mka@chromium.org, dri-devel@freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+Register GPU as a devfreq cooling device so that it can be passively
+cooled by the thermal framework.
 
-On Wed, 8 Jul 2020 at 15:46, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Since the components for a given device in ASoC are identified by their
-> name, it makes sense to add one even though it's not strictly necessary.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
+Changes in v3:
+	1. Minor fix in binding documentation (RobH)
+Changes in v2:
+	1. Update the dt bindings documentation
+ drivers/gpu/drm/msm/msm_gpu.c | 12 ++++++++++++
+ drivers/gpu/drm/msm/msm_gpu.h |  2 ++
+ 2 files changed, 14 insertions(+)
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index 55d1648..9f9db46 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -14,6 +14,7 @@
+ #include <generated/utsrelease.h>
+ #include <linux/string_helpers.h>
+ #include <linux/devfreq.h>
++#include <linux/devfreq_cooling.h>
+ #include <linux/devcoredump.h>
+ #include <linux/sched/task.h>
+ 
+@@ -107,9 +108,18 @@ static void msm_devfreq_init(struct msm_gpu *gpu)
+ 	if (IS_ERR(gpu->devfreq.devfreq)) {
+ 		DRM_DEV_ERROR(&gpu->pdev->dev, "Couldn't initialize GPU devfreq\n");
+ 		gpu->devfreq.devfreq = NULL;
++		return;
+ 	}
+ 
+ 	devfreq_suspend_device(gpu->devfreq.devfreq);
++
++	gpu->cooling = of_devfreq_cooling_register(gpu->pdev->dev.of_node,
++			gpu->devfreq.devfreq);
++	if (IS_ERR(gpu->cooling)) {
++		DRM_DEV_ERROR(&gpu->pdev->dev,
++				"Couldn't register GPU cooling device\n");
++		gpu->cooling = NULL;
++	}
+ }
+ 
+ static int enable_pwrrail(struct msm_gpu *gpu)
+@@ -1005,4 +1015,6 @@ void msm_gpu_cleanup(struct msm_gpu *gpu)
+ 		gpu->aspace->mmu->funcs->detach(gpu->aspace->mmu);
+ 		msm_gem_address_space_put(gpu->aspace);
+ 	}
++
++	devfreq_cooling_unregister(gpu->cooling);
+ }
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 6c9e1fd..9a8f20d 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -147,6 +147,8 @@ struct msm_gpu {
+ 	struct msm_gpu_state *crashstate;
+ 	/* True if the hardware supports expanded apriv (a650 and newer) */
+ 	bool hw_apriv;
++
++	struct thermal_cooling_device *cooling;
+ };
+ 
+ static inline struct msm_gpu *dev_to_gpu(struct device *dev)
+-- 
+2.7.4
 
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 15a11cd4de25..a057db0d9baa 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -983,6 +983,7 @@ static const struct snd_soc_dapm_route vc4_hdmi_audio_routes[] = {
->  };
->
->  static const struct snd_soc_component_driver vc4_hdmi_audio_component_drv = {
-> +       .name                   = "vc4-hdmi-codec-dai-component",
->         .controls               = vc4_hdmi_audio_controls,
->         .num_controls           = ARRAY_SIZE(vc4_hdmi_audio_controls),
->         .dapm_widgets           = vc4_hdmi_audio_widgets,
-> --
-> 2.26.2
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
