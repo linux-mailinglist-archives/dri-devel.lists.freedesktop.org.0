@@ -1,72 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE81129CEA7
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E8529CEB3
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2746EC61;
-	Wed, 28 Oct 2020 08:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B74016EB94;
+	Wed, 28 Oct 2020 08:06:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1076D6E0F7
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 21:34:54 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 931105803F4;
- Tue, 27 Oct 2020 17:34:52 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Tue, 27 Oct 2020 17:34:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=CezU/dgj5+5orBpUNPrDSyKMRKG
- 0im0x8YN75ut3nvo=; b=sbDvA38lKlV3Myf7YFDHWT7g2d8dUkSuLFD84ZYAKVL
- +WVldz6qL8WCE/Uzj/8+qUDzbCPMi+9cWfJqcbSksccvEX3RgUk47VrQDf3OM245
- MmVU1MNmNfLhlqthIV7RebrjsLy/hiifeGuaxtA0upHDVNPOmmzDQxUHWE9fRKoP
- XhTUHdQwW4e6VKEFw9ULtKSrk1s25lG7ZZ8E1eZWqCZgFe+oxQ4yEJwMfKwLjh0B
- UwUc6kYieyzS2KrAQJYWbz+t2f+I3OZfiQ7H///vrEfkTfTF58Qy2DcYrTLsVM0d
- mvKufPfT6xnXYZLeZGAaV6p2xn+Cxk6UL5Rs2HE8SQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=CezU/d
- gj5+5orBpUNPrDSyKMRKG0im0x8YN75ut3nvo=; b=Nz1cpbLS25Dw7CsQif2C2s
- RL8tHiZ3e1Lws1hPpcYS/IqnDMc8ZFiB6DVrhLn7N3q2ZiKuuQPNcOUTpleRJwzM
- HPp9eOlAsgC7U44TeBzu07VNrNB1i3bTW3zvOF1iZmv/0cwznnqGeUnahoz+8+yf
- Sc+E9U5kgLNjkU0fI5/zJK+1E9oXClS9OnF6G2g+RXe3Pyl+cPZfTCfIMqBeZsuE
- 030++v/mKaaqcfcbOetaknwSmDWnj9MwfSQ3jlJhgfAmGSVsDZIaesE6LQyFMfOT
- 58hHeYHkcoxepRbjEPRoLncUyPcNA6ZC/ktwtUJV82xMz2q9L40Il9kS0cZxCMdw
- ==
-X-ME-Sender: <xms:eZKYXwNy_8kp7QIDC_165xZQOn5t2Kd2IQqBiWOLkjMO2xLUqCicXA>
- <xme:eZKYX29Z7H5lh_RmePqHVxOQipDdsCBfknwF25LWPnFgzOhH32zZvUCS_mRjxxA0o
- -8I_nEmMeznNVLdVAM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgdduhedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:eZKYX3QmsA5eVPmhEes7rjlMCGTku1exXMkHulPUewAUKk5dtwOmYQ>
- <xmx:eZKYX4sDYNMH5lYzPGbxXyLheQSAo_tpKVIN1V6JigvzQuS438Iyuw>
- <xmx:eZKYX4coeE2inv7SzSVoH1U94EzJOsgbxQq1RBBuVM40aG2Wr16J0Q>
- <xmx:fJKYX5XqZSmy_VErqnXBPkdDc_HVlz8MsSpIdmc2KMWeLJTScVauow>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 6712E3280060;
- Tue, 27 Oct 2020 17:34:49 -0400 (EDT)
-Date: Tue, 27 Oct 2020 22:34:47 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] drm/vc4: hdmi: Avoid sleeping in atomic context
-Message-ID: <20201027213447.3fhnkqqik3pbhw5d@gilmour.lan>
-References: <20201027101558.427256-1-maxime@cerno.tech>
+X-Greylist: delayed 516 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Oct 2020 03:35:02 UTC
+Received: from kvm5.telegraphics.com.au (kvm5.telegraphics.com.au
+ [98.124.60.144])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 24C1B6EC7F;
+ Wed, 28 Oct 2020 03:35:02 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by kvm5.telegraphics.com.au (Postfix) with ESMTP id A654929A58;
+ Tue, 27 Oct 2020 23:26:19 -0400 (EDT)
+Date: Wed, 28 Oct 2020 14:26:12 +1100 (AEDT)
+From: Finn Thain <fthain@telegraphics.com.au>
+To: Tom Rix <trix@redhat.com>
+Subject: Re: [RFC] clang tooling cleanups
+In-Reply-To: <20201027164255.1573301-1-trix@redhat.com>
+Message-ID: <alpine.LNX.2.23.453.2010281344120.31@nippy.intranet>
+References: <20201027164255.1573301-1-trix@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201027101558.427256-1-maxime@cerno.tech>
-X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:30 +0000
+X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,85 +39,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Phil Elwell <phil@raspberrypi.com>
-Content-Type: multipart/mixed; boundary="===============0404251980=="
+Cc: alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-rtc@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-rdma@vger.kernel.org, qat-linux@intel.com, amd-gfx@lists.freedesktop.org,
+ clang-built-linux@googlegroups.com, linux-pm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-nfs@vger.kernel.org, netdev@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+ linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0404251980==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rg67p2rixirimeqk"
-Content-Disposition: inline
+On Tue, 27 Oct 2020, trix@redhat.com wrote:
 
+> This rfc will describe
+> An upcoming treewide cleanup.
+> How clang tooling was used to programatically do the clean up.
+> Solicit opinions on how to generally use clang tooling.
+> 
 
---rg67p2rixirimeqk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This tooling is very impressive. It makes possible an idea that I had a 
+while ago, to help make code review more efficient. It works like this. 
 
-On Tue, Oct 27, 2020 at 11:15:58AM +0100, Maxime Ripard wrote:
-> When running the trigger hook, ALSA by default will take a spinlock, and
-> thus will run the trigger hook in atomic context.
->=20
-> However, our HDMI driver will send the infoframes as part of the trigger
-> hook, and part of that process is to wait for a bit to be cleared for up =
-to
-> 100ms. To be nicer to the system, that wait has some usleep_range that
-> interact poorly with the atomic context.
->=20
-> There's several ways we can fix this, but the more obvious one is to make
-> ALSA take a mutex instead by setting the nonatomic flag on the DAI link.
-> That doesn't work though, since now the cyclic callback installed by the
-> dmaengine helpers in ALSA will take a mutex, while that callback is run by
-> dmaengine's virt-chan code in a tasklet where sleeping is not allowed
-> either.
->=20
-> Given the delay we need to poll the bit for, changing the usleep_range for
-> a udelay and keep running it from a context where interrupts are disabled
-> is not really a good option either.
->=20
-> However, we can move the infoframe setup code in the hw_params hook, like
-> is usually done in other HDMI controllers, that isn't protected by a
-> spinlock and thus where we can sleep. Infoframes will be sent on a regular
-> basis anyway, and since hw_params is where the audio parameters that end =
-up
-> in the infoframes are setup, this also makes a bit more sense.
->=20
-> Fixes: bb7d78568814 ("drm/vc4: Add HDMI audio support")
-> Suggested-by: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Suppose a patch, p, is the difference between the new tree, n, and the old 
+tree, o. That is, p = n - o.
 
-Applied to drm-misc-fixes
+Now let clang-tidy be the transformation 't'. This gets you a much more 
+readable patch submission, P = t(n) - t(o).
 
-Maxime
+The only difficulty is that, if I submit P intead of p then 'git am' will 
+probably reject it. This is solved by a little tooling around git, such 
+that, should a patch P fail to apply, the relevant files are automatically 
+reformatted with the officially endorsed transformation t, to generate a 
+minimal cleanup patch, such that P can be automatically applied on top.
 
---rg67p2rixirimeqk
-Content-Type: application/pgp-signature; name="signature.asc"
+If the patch submission process required* that every patch submission was 
+generated like P and not like p, it would immediately eliminate all 
+clean-up patches from the workload of all reviewers, and also make the 
+reviewers' job easier because all submissions are now formatted correctly, 
+and also avoid time lost to round-trips, such as, "you can have a 
+reviewed-by if you respin to fix some minor style issues".
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5iSdwAKCRDj7w1vZxhR
-xe5LAQD2z4jrHFI7lepdfsHTZyw73NdLCmF62GCIDGYB6AmypgD+KFUl+5dP9Xj/
-iu2xv69jA6EvGgqK5hY1OaSNYbOXrwg=
-=sECL
------END PGP SIGNATURE-----
-
---rg67p2rixirimeqk--
-
---===============0404251980==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+* Enforcing this, e.g. with checkpatch, is slightly more complicated, but 
+it works the same way: generate a minimal cleanup patch for the relevant 
+files, apply the patch-to-be-submitted, and finally confirm that the 
+modified files are unchanged under t.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0404251980==--
