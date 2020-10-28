@@ -1,65 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC6C29CF7E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 11:31:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6CB29CF88
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 11:36:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F38A6EC69;
-	Wed, 28 Oct 2020 10:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E796E4E6;
+	Wed, 28 Oct 2020 10:36:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A935A6EC6A
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 10:31:04 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id 15so2492721pgd.12
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 03:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Q2w0GJP+O24zlClsx6Zd9yJQfOlv+kG1yF/TN+Wun14=;
- b=n5x+LUX2iOSa9A1Ozlkg4pr/k5hWJnKWLWekiVdEHyz16IbWcYLK5XhIxltZ7k4Wp3
- vJ6VwZsa2HTmIvjsJbsOaDp8NwxAvELwDzeav6QYQqDfAy7YbNqfa3GrdkRWSfitq1bQ
- JKnm1rC6ubNYvLGylAs8E9v3WRC8dQfrQcUBDi9+m5W2wNEc5WBTFBbZAw1SrNAyQiR0
- 985XTzcK7/EGV279NJLpxcy5w2l1x+MFZCueGBlsGvcDAZ3Q/of1Qk2NYPRKkEGnS7CG
- EuOurqQcrXotkY7o+MOGAYUOJtgDlvHXMyCzwZbnwjp6S7+3kQYi7xhqWAynaSWXp0no
- l2sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Q2w0GJP+O24zlClsx6Zd9yJQfOlv+kG1yF/TN+Wun14=;
- b=qgqVo3L/GnPDD7AB94W5piz7TsGs94OohhiFC5X2XNl4iB99aDJqPr7hOEF+eD0jT1
- mHVXXK8DiNlM+mRYzUQnGIjdRP3kODwjvIxgyQWs01Y04Y8HJrcz2AAexoSueEz1kHTv
- RpEAV0+YzFgwfkzATeOWEnibwulvvuZ7z4fsyfPLFmH16MKbutWLkq+7AVxn7/u8v9zI
- dnhm/e2FsXXtLlqeFxI8MXSjnpCFRxjFXcalKAfpx7s1zxn70l33y71Bo/+fuZmNAanX
- ePITl/ki5BKz6Fak6GQs7t1ZQvvpjG9nLWDRtC83Uyao7CBmWlIpxk1Dl3Gou0PBNeXU
- w+Rw==
-X-Gm-Message-State: AOAM5323j3mDcrXCh/DaBEEIqy768uESRjWR/FuSGkYTuc7nqdiAEl8k
- lLZGkpULJ0Dm6qyHA4+0ZA==
-X-Google-Smtp-Source: ABdhPJyKmvi+wrim6ggQx3fuKG0hwNY5mHGUXX+rZcx02E6mWjNckXz9MyfFa4GcSkcckzQuBqpKtw==
-X-Received: by 2002:a62:b515:0:b029:155:95e8:fbed with SMTP id
- y21-20020a62b5150000b029015595e8fbedmr6479066pfe.49.1603881064332; 
- Wed, 28 Oct 2020 03:31:04 -0700 (PDT)
-Received: from PWN (n11212042025.netvigator.com. [112.120.42.25])
- by smtp.gmail.com with ESMTPSA id il17sm4149183pjb.39.2020.10.28.03.31.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 03:31:03 -0700 (PDT)
-Date: Wed, 28 Oct 2020 06:30:50 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 2/5] Fonts: Make font size unsigned in font_desc
-Message-ID: <20201028103050.GA1209391@PWN>
-References: <cover.1603788511.git.yepeilin.cs@gmail.com>
- <cb5bb49a33ff54fef41e719ee9d301a6a73c5f9c.1603788512.git.yepeilin.cs@gmail.com>
- <54f7d42e07eca2a2f13669575a9de88023ebc1ac.1603788512.git.yepeilin.cs@gmail.com>
- <20201027185058.GM401619@phenom.ffwll.local>
- <20201028054307.GA1205568@PWN>
- <20201028081844.GS401619@phenom.ffwll.local>
+Received: from mail.codeweavers.com (mail.codeweavers.com [50.203.203.244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799256E4E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 10:36:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Srb/P3TggdjoWimaiei1N5W864q7xL8T0CSkk+91TeY=; b=eGJO9dHQ0ny4TrLKjO2qmEX5jX
+ JbLzPgnG8ncYGgrs4gFgZqbih5rkQuNdfT+DL4IXysC7Mu18jV9gjGhXdvcK4LLqnH36d+8SdS1h3
+ PK2k8M435hWXW4VEqNgXh1OkhSWzEFA8I13+Herzuq0qzWxS7Ro3vhtwODjgw9kPbswg=;
+Received: from [10.69.141.123]
+ by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <pgofman@codeweavers.com>)
+ id 1kXioa-0007H1-CB; Wed, 28 Oct 2020 05:36:26 -0500
+Subject: Re: [PATCH libdrm] xf86drm.c: Use integer logarithm.
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Pekka Paalanen <ppaalanen@gmail.com>
+References: <20201026131120.1068959-1-pgofman@codeweavers.com>
+ <20201028101842.041e8a02@eldfell>
+ <e41dc6bd-b32b-7876-fefd-168088353b5c@codeweavers.com>
+ <310cc402-bba0-6bcd-84f5-db58d687cd88@daenzer.net>
+From: Paul Gofman <pgofman@codeweavers.com>
+Message-ID: <f2ac50a6-68d5-4803-ed88-302eeb1c353a@codeweavers.com>
+Date: Wed, 28 Oct 2020 13:36:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201028081844.GS401619@phenom.ffwll.local>
+In-Reply-To: <310cc402-bba0-6bcd-84f5-db58d687cd88@daenzer.net>
+Content-Language: en-GB
+X-Spam-Score: -41.5
+X-Spam-Report: Spam detection software, running on the system "mail.codeweavers.com",
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ the administrator of that system for details.
+ 
+ Content preview:  On 10/28/20 13:30, Michel Dänzer wrote: > On 2020-10-28 11:09
+    a.m., Paul Gofman wrote: >> On 10/28/20 11:18, Pekka Paalanen wrote: >>>
+   >>>>   +static unsigned log2_int(unsigned x) >>>> +{ >>>> +   [...] 
+ 
+ Content analysis details:   (-41.5 points, 5.0 required)
+ 
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -0.0 USER_IN_WELCOMELIST    user is listed in 'welcomelist_from'
+  -20 USER_IN_WHITELIST      DEPRECATED: See USER_IN_WELCOMELIST
+  -20 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+ -0.5 BAYES_00               BODY: Bayes spam probability is 0 to 1%
+                             [score: 0.0000]
+ -2.2 NICE_REPLY_A           Looks like a legit reply (A)
+  1.2 AWL                    AWL: Adjusted score from AWL reputation of From: address
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,50 +74,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-parisc@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Jiri Slaby <jirislaby@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 28, 2020 at 09:18:44AM +0100, Daniel Vetter wrote:
-> On Wed, Oct 28, 2020 at 01:43:07AM -0400, Peilin Ye wrote:
-> > On Tue, Oct 27, 2020 at 07:50:58PM +0100, Daniel Vetter wrote:
-> > > On Tue, Oct 27, 2020 at 12:33:05PM -0400, Peilin Ye wrote:
-> > > > It is improper to define `width` and `height` as signed in `struct
-> > > > font_desc`. Make them unsigned. Also, change the corresponding printk()
-> > > > format identifiers from `%d` to `%u`, in sti_select_fbfont().
-> > > > 
-> > > > Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-> > > 
-> > > I'm not entirely sure of the motivation here ... height/width should never
-> > > ever be even close to the limit here. Or have you seen integer math that
-> > > could potentially go wrong if we go with unsigned instead of int?
-> > 
-> > Oh... No, I have not. I just thought we shouldn't represent a length
-> > using a signed value. Also, width and height in console_font are
-> > unsigned int - that shouldn't matter that much though.
-> 
-> Oh this is actually a good reason, since that's the uapi structure. And so
-> using the exact same signedness should help a bit with accidental casting
-> bugs.
-> 
-> If you mention this in the commit message I think this is good to go.
-
-Ah, I see, v2 on the way. Please ignore [v2 3/5], that doesn't hunk with
-this patch in effect...
-
-One newbie question, should I mention in the commit message, if a patch
-depends on another patch in the series in order to hunk properly?
-
-Peilin
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTAvMjgvMjAgMTM6MzAsIE1pY2hlbCBEw6RuemVyIHdyb3RlOgo+IE9uIDIwMjAtMTAtMjgg
+MTE6MDkgYS5tLiwgUGF1bCBHb2ZtYW4gd3JvdGU6Cj4+IE9uIDEwLzI4LzIwIDExOjE4LCBQZWtr
+YSBQYWFsYW5lbiB3cm90ZToKPj4+Cj4+Pj4gwqAgK3N0YXRpYyB1bnNpZ25lZCBsb2cyX2ludCh1
+bnNpZ25lZCB4KQo+Pj4+ICt7Cj4+Pj4gK8KgwqDCoCB1bnNpZ25lZCBsOwo+Pj4+ICsKPj4+PiAr
+wqDCoMKgIGlmICh4IDwgMikgewo+Pj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4+PiAr
+wqDCoMKgIH0KPj4+PiArwqDCoMKgIGZvciAobCA9IDI7IDsgbCsrKSB7Cj4+Pj4gK8KgwqDCoMKg
+wqDCoMKgIGlmICgodW5zaWduZWQpKDEgPDwgbCkgPiB4KSB7Cj4+PiBIaSwKPj4+Cj4+PiB3b3Vs
+ZG4ndCB0aGlzIGxvb3AgZmFpbCB0byBlbmQgd2hlbiB4ID49IDB4ODAwMDAwMDA/Cj4+Pgo+Pj4g
+U3VyZSwgc3VjaCB2YWx1ZSBwcm9iYWJseSBjYW5ub3Qgb2NjdXIgd2hlcmUgdGhpcyBpcyBjdXJy
+ZW50bHkgdXNlZCwKPj4+IGJ1dCBpdCBzZWVtcyBsaWtlIGEgbGFuZG1pbmUgZm9yIHRoZSBuZXh0
+IGRldmVsb3BlciB0byBzdGVwIG9uLgo+Pj4KPj4gSW5kZWVkLCB0aGFua3MuIEkndmUgc2VudCB0
+aGUgcGF0Y2hlcyBmb3IgY29uc2lkZXJhdGlvbiB3aGljaCBhdm9pZAo+PiBmdW5jdGlvbiBkdXBs
+aWNhdGlvbiBhbmQgcG90ZW50aWFsbHkgaW5maW5pdGUgbG9vcC4KPgo+IGxpYmRybSB1c2VzIEdp
+dExhYiBtZXJnZSByZXF1ZXN0cyBub3c6Cj4gaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3Jn
+L21lc2EvZHJtLy0vbWVyZ2VfcmVxdWVzdHMKPgo+Ckkgc2VlLCB0aGFua3MuIEkgd2FzIGZvbGxv
+d2luZyB0aGUgaW5zdHJ1Y3Rpb25zIGluIENPTlRSSUJVVElORy5yc3QuCgpEbyB5b3UgdGhpbmsg
+SSBzaG91bGQgcHJvY2VlZCB3aXRoIG1lcmdlIHJlcXVlc3QgZm9yIHRoZXNlIHBhdGNoZXMgb3IK
+dGhvc2UgYWxyZWFkeSBzZW50IGNvdWxkIGJlIGNvbnNpZGVyZWQgdGhpcyB3YXk/CgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
