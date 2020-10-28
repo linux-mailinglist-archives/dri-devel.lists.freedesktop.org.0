@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB8D29CEC5
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E872829CEB7
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECE036EC9C;
-	Wed, 28 Oct 2020 08:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF366EC4E;
+	Wed, 28 Oct 2020 08:06:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4F0C6E488
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 06:44:27 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id z1so564348plo.12
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 23:44:27 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97AE46E488
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 06:44:35 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id o3so2190197pgr.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Oct 2020 23:44:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lRIVhEzHo1XPH6PloaXFLB5fbBAOJPEuMdhJUY10d78=;
- b=iYOIaz1lxvCXYXcNu+M4bI10tLNyS4M9A6CZD5JmtScTgP2CA5ampy0XyQktbCzrM4
- ceakwVehkdY/LSqm0tglgrQrFLMxrSzd5TaJyZKvXoxWuCkMqFjxHRfXCvUmBxOEeBC4
- 57vXFD6qCgSo0XOh4N70icprcdVJJu/U6FPp6uXalYDeubBNbKCFyhWyXlWYOhTrXmN9
- 111vfz9NNBLBF7Gvxfc/9K/YkdW9/DtxWCkRM4yC8iaExAzHBgoBCqSQKPVxk1WH76am
- qq8qlPNy71RraDWoum8l5+HopRZsSa/Bw0h5Sj+YvUecZ8GJsT/tllUFSCBCz7Jp1CjQ
- mmCg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=DBtuKQbqQFVugOwxtfWUi7hhbBNFTZTu4rZZoWsSSOw=;
+ b=Pdjp840SYs7UCdJ/A+6FMvTsWNPqC9dcSyVdlZ/v8Sw+MSDzxJCJjQLoFVBml/22V6
+ 8/O2ShytMQkGmtAcyUJ/KnPUm4EIKO5zO65gLADPS33qCZtbfy+SROhhrug9kRGrQyKv
+ r64RW30AxdtBu10xVQ2G+PQTXAOHK66yWnPPZFwp8MidX2MXkVhSwL1ndp/Hc7XJQgGS
+ adfwjXsMTB0Ue0DlNCbS2ORXkKZ8J27wcwemhCzyVIvwrb3U1UbDmjQ5tOTQvU48dmP9
+ aajyg727fiHbdFfcBQoiIjv2vG49Dll4KuxiiUhYMDHb3i4tQpQCJ+OWI+5tr6Eu+8Q6
+ 4xxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lRIVhEzHo1XPH6PloaXFLB5fbBAOJPEuMdhJUY10d78=;
- b=OjJcy3vVqK+a5pA16gjaCqEaj6FVsVnjg3HmeRO7TJHhOdSpyimJUb2xq25459gMcO
- K0CeaKJmiUx5buscwDGrmOTEUScokJEZyu8pbl1jgh4nFr3tPkTAQw9DGiTpsNlIxQHg
- o0fPi40hTxQS8Fsv0y02pOJAT8vsHcfx/nev16vzltMX1FNp/hLE4Kav3jtjqvWriZGG
- +fu98Kyp016jaZP6gXyBXpoSqFpwK/Hl2neQ9uK8GnjtZKTxJRUlY0RQo65fTnp+Sw4J
- ktVL6ZJ1mOOJ+sA/IHCadS3eueLFYqH9l+JIig5Qnr45OYulzBhwnTRMHQx+uWJYOtOC
- FY7g==
-X-Gm-Message-State: AOAM532pwPPZAUYGISY+qCLv8dBLzlLNteuuoPj+aeIG/Ph7GCtS5faI
- JMvzqCvq+IjeR4aHcHKmXc4GTA==
-X-Google-Smtp-Source: ABdhPJxsjXO4BzH/gTE1g7vUyycm0va7CGlKvoKvhDoyNRMPGXbtCie5OuI0yJ2/DOj01voeRbrUHg==
-X-Received: by 2002:a17:90a:f3d4:: with SMTP id
- ha20mr5577064pjb.28.1603867467388; 
- Tue, 27 Oct 2020 23:44:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=DBtuKQbqQFVugOwxtfWUi7hhbBNFTZTu4rZZoWsSSOw=;
+ b=II5cK/kpjdY9vARIz1oBPDjBFIETFikZUNZzWd/ZiiuvjbZYyUNLr6mNpNOBCrU0P4
+ 4GsaIfJm1tW3tNOYCJg4qYoJGjsFPH1yfP4iJR+VbOPRTL3R2PAqrxxosSrwM79IsuNw
+ J9De6yHzl0dEhqO6P8NAOmtq2ESMG4PExKP4jApt1O/Uuyr7LKs0jTwgTMeWoXJd1IdN
+ rSM6AZs1iG4q6gGfOH7LfYH4CXUU3DbweuJVEqk6UYWG3B7GFN0H5D+GmSuJxvTyORHI
+ eTRoc32OCyCftYVxOBjtaQzLktfvZ6+31s2pYUuVjwmPukl6MiLfoazkgKjpTNZnIczq
+ l2Hg==
+X-Gm-Message-State: AOAM5324v6VpKLgA6nzwkHg49XtS3kfnXkykO+zgBr9g9/V/kvx0UsCR
+ 1XQ65UZV4Qw8ClIIlloFJwh+gA==
+X-Google-Smtp-Source: ABdhPJyNIenHf7Vrl5iCg74QqRyLREcDKUNbEamTEBa/L8UfaHR40zNHFUDJyHuv281eFBsDS8mIzg==
+X-Received: by 2002:aa7:808a:0:b029:160:167d:d332 with SMTP id
+ v10-20020aa7808a0000b0290160167dd332mr6340101pff.1.1603867475214; 
+ Tue, 27 Oct 2020 23:44:35 -0700 (PDT)
 Received: from localhost ([122.181.54.133])
- by smtp.gmail.com with ESMTPSA id t10sm3948706pjr.37.2020.10.27.23.44.25
+ by smtp.gmail.com with ESMTPSA id t13sm4900602pfc.1.2020.10.27.23.44.34
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Oct 2020 23:44:26 -0700 (PDT)
+ Tue, 27 Oct 2020 23:44:34 -0700 (PDT)
 From: Viresh Kumar <viresh.kumar@linaro.org>
-To: robdclark@gmail.com, Qiang Yu <yuq825@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH V2 Resend 1/2] drm/lima: Unconditionally call
+To: robdclark@gmail.com,
+	Sean Paul <sean@poorly.run>
+Subject: [PATCH V2 Resend 2/2] drm/msm: Unconditionally call
  dev_pm_opp_of_remove_table()
-Date: Wed, 28 Oct 2020 12:14:21 +0530
-Message-Id: <c995335d16d8b4b4ff47b1273869c33e14782b32.1603867405.git.viresh.kumar@linaro.org>
+Date: Wed, 28 Oct 2020 12:14:22 +0530
+Message-Id: <f48fcf417bd727f685f34b6f9243fe6239b0d686.1603867405.git.viresh.kumar@linaro.org>
 X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
+In-Reply-To: <c995335d16d8b4b4ff47b1273869c33e14782b32.1603867405.git.viresh.kumar@linaro.org>
+References: <c995335d16d8b4b4ff47b1273869c33e14782b32.1603867405.git.viresh.kumar@linaro.org>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:31 +0000
+X-Mailman-Approved-At: Wed, 28 Oct 2020 08:06:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,9 +70,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, lima@lists.freedesktop.org,
+Cc: Vincent Guittot <vincent.guittot@linaro.org>,
  Viresh Kumar <viresh.kumar@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -81,52 +84,105 @@ find the OPP table with error -ENODEV (i.e. OPP table not present for
 the device). And we can call dev_pm_opp_of_remove_table()
 unconditionally here.
 
-Reviewed-by: Qiang Yu <yuq825@gmail.com>
+While at it, also create a label to put clkname.
+
 Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
 ---
-V2: Applied Reviewed by tag.
+V2:
+- Compare with -ENODEV only for failures.
+- Create new label to put clkname.
 ---
- drivers/gpu/drm/lima/lima_devfreq.c | 6 +-----
- drivers/gpu/drm/lima/lima_devfreq.h | 1 -
- 2 files changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 14 +++++---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  1 -
+ drivers/gpu/drm/msm/dsi/dsi_host.c      |  8 ++------
+ 3 files changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
-index bbe02817721b..cd290d866a04 100644
---- a/drivers/gpu/drm/lima/lima_devfreq.c
-+++ b/drivers/gpu/drm/lima/lima_devfreq.c
-@@ -105,10 +105,7 @@ void lima_devfreq_fini(struct lima_device *ldev)
- 		devfreq->devfreq = NULL;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index d93c44f6996d..fe127c2f5505 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1091,12 +1091,9 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
+ 		return PTR_ERR(dpu_kms->opp_table);
+ 	/* OPP table is optional */
+ 	ret = dev_pm_opp_of_add_table(dev);
+-	if (!ret) {
+-		dpu_kms->has_opp_table = true;
+-	} else if (ret != -ENODEV) {
++	if (ret && ret != -ENODEV) {
+ 		dev_err(dev, "invalid OPP table in device tree\n");
+-		dev_pm_opp_put_clkname(dpu_kms->opp_table);
+-		return ret;
++		goto put_clkname;
  	}
  
--	if (devfreq->opp_of_table_added) {
--		dev_pm_opp_of_remove_table(ldev->dev);
--		devfreq->opp_of_table_added = false;
--	}
-+	dev_pm_opp_of_remove_table(ldev->dev);
+ 	mp = &dpu_kms->mp;
+@@ -1118,8 +1115,8 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
+ 	priv->kms = &dpu_kms->base;
+ 	return ret;
+ err:
+-	if (dpu_kms->has_opp_table)
+-		dev_pm_opp_of_remove_table(dev);
++	dev_pm_opp_of_remove_table(dev);
++put_clkname:
+ 	dev_pm_opp_put_clkname(dpu_kms->opp_table);
+ 	return ret;
+ }
+@@ -1137,8 +1134,7 @@ static void dpu_unbind(struct device *dev, struct device *master, void *data)
+ 	if (dpu_kms->rpm_enabled)
+ 		pm_runtime_disable(&pdev->dev);
  
- 	if (devfreq->regulators_opp_table) {
- 		dev_pm_opp_put_regulators(devfreq->regulators_opp_table);
-@@ -162,7 +159,6 @@ int lima_devfreq_init(struct lima_device *ldev)
- 	ret = dev_pm_opp_of_add_table(dev);
- 	if (ret)
- 		goto err_fini;
--	ldevfreq->opp_of_table_added = true;
+-	if (dpu_kms->has_opp_table)
+-		dev_pm_opp_of_remove_table(dev);
++	dev_pm_opp_of_remove_table(dev);
+ 	dev_pm_opp_put_clkname(dpu_kms->opp_table);
+ }
  
- 	lima_devfreq_reset(ldevfreq);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+index 1c0e4c0c9ffb..d6717d6672f7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+@@ -131,7 +131,6 @@ struct dpu_kms {
+ 	bool rpm_enabled;
  
-diff --git a/drivers/gpu/drm/lima/lima_devfreq.h b/drivers/gpu/drm/lima/lima_devfreq.h
-index 5eed2975a375..2d9b3008ce77 100644
---- a/drivers/gpu/drm/lima/lima_devfreq.h
-+++ b/drivers/gpu/drm/lima/lima_devfreq.h
-@@ -18,7 +18,6 @@ struct lima_devfreq {
- 	struct opp_table *clkname_opp_table;
- 	struct opp_table *regulators_opp_table;
- 	struct thermal_cooling_device *cooling;
--	bool opp_of_table_added;
+ 	struct opp_table *opp_table;
+-	bool has_opp_table;
  
- 	ktime_t busy_time;
- 	ktime_t idle_time;
+ 	struct dss_module_power mp;
+ 
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index b17ac6c27554..4335fe33250c 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -113,7 +113,6 @@ struct msm_dsi_host {
+ 	struct clk *byte_intf_clk;
+ 
+ 	struct opp_table *opp_table;
+-	bool has_opp_table;
+ 
+ 	u32 byte_clk_rate;
+ 	u32 pixel_clk_rate;
+@@ -1891,9 +1890,7 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 		return PTR_ERR(msm_host->opp_table);
+ 	/* OPP table is optional */
+ 	ret = dev_pm_opp_of_add_table(&pdev->dev);
+-	if (!ret) {
+-		msm_host->has_opp_table = true;
+-	} else if (ret != -ENODEV) {
++	if (ret && ret != -ENODEV) {
+ 		dev_err(&pdev->dev, "invalid OPP table in device tree\n");
+ 		dev_pm_opp_put_clkname(msm_host->opp_table);
+ 		return ret;
+@@ -1934,8 +1931,7 @@ void msm_dsi_host_destroy(struct mipi_dsi_host *host)
+ 	mutex_destroy(&msm_host->cmd_mutex);
+ 	mutex_destroy(&msm_host->dev_mutex);
+ 
+-	if (msm_host->has_opp_table)
+-		dev_pm_opp_of_remove_table(&msm_host->pdev->dev);
++	dev_pm_opp_of_remove_table(&msm_host->pdev->dev);
+ 	dev_pm_opp_put_clkname(msm_host->opp_table);
+ 	pm_runtime_disable(&msm_host->pdev->dev);
+ }
 -- 
 2.25.0.rc1.19.g042ed3e048af
 
