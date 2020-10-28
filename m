@@ -1,34 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCBC29CF0F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:44:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9770E29CF10
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Oct 2020 09:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 308EA6E4AA;
-	Wed, 28 Oct 2020 08:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B62246E4AE;
+	Wed, 28 Oct 2020 08:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1EF6E4AA
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 08:44:21 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AC78B1F447F5;
- Wed, 28 Oct 2020 08:44:18 +0000 (GMT)
-Date: Wed, 28 Oct 2020 09:44:15 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/shme-helpers: Fix dma_buf_mmap forwarding bug
-Message-ID: <20201028094415.7a7782b8@collabora.com>
-In-Reply-To: <20201027214922.3566743-1-daniel.vetter@ffwll.ch>
-References: <20201027214922.3566743-1-daniel.vetter@ffwll.ch>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1726E4AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Oct 2020 08:47:17 +0000 (UTC)
+Received: from kernel.org (unknown [87.70.96.83])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 50EBD2465E;
+ Wed, 28 Oct 2020 08:47:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603874836;
+ bh=QEXxMmSUj2Vd+E59vReAFx2mSILQlDhT0GF7L4nT79k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qaRJrHspISAML2s3M6ow+As8fnofPQBijjHMbHMdR+I3658FQOTlnTwjnXNz0MlyX
+ aAw8A460MACJ1IDHW1x+02Uv9Atn0b3fP/Jb97ArZSIbrkmzQ92h9/ls1ePhoOhjJH
+ 6jiwMskK6vWDnhTMrSRMXIc62N90Wg6wJ7a8TvRg=
+Date: Wed, 28 Oct 2020 10:47:03 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH 1/8] mm: slab: provide krealloc_array()
+Message-ID: <20201028084703.GC1428094@kernel.org>
+References: <20201027121725.24660-1-brgl@bgdev.pl>
+ <20201027121725.24660-2-brgl@bgdev.pl>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201027121725.24660-2-brgl@bgdev.pl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,88 +46,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>, piotr.oniszczuk@gmail.com,
- Daniel Vetter <daniel.vetter@intel.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, stable@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Gustavo Padovan <gustavo@padovan.org>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, linux-mm@kvack.org,
+ Christoph Lameter <cl@linux.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ David Rientjes <rientjes@google.com>,
+ virtualization@lists.linux-foundation.org, Jason Wang <jasowang@redhat.com>,
+ linux-media@vger.kernel.org, Robert Richter <rric@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linaro-mm-sig@lists.linaro.org,
+ linux-gpio@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-edac@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, netdev@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ Pekka Enberg <penberg@kernel.org>, James Morse <james.morse@arm.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyNyBPY3QgMjAyMCAyMjo0OToyMiArMDEwMApEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGZmd2xsLmNoPiB3cm90ZToKCj4gV2hlbiB3ZSBmb3J3YXJkIGFuIG1tYXAgdG8gdGhl
-IGRtYV9idWYgZXhwb3J0ZXIsIHRoZXkgZ2V0IHRvIG93bgo+IGV2ZXJ5dGhpbmcuIFVuZm9ydHVu
-YXRlbHkgZHJtX2dlbV9tbWFwX29iaigpIG92ZXJ3cm90ZQo+IHZtYS0+dm1fcHJpdmF0ZV9kYXRh
-IGFmdGVyIHRoZSBkcml2ZXIgY2FsbGJhY2ssIHdyZWFraW5nIHRoZQo+IGV4cG9ydGVyIGNvbXBs
-ZXRlLiBUaGlzIHdhcyBub3RpY2VkIGJlY2F1c2UgdmIyX2NvbW1vbl92bV9jbG9zZSBibGV3Cj4g
-dXAgb24gbWFsaSBncHUgd2l0aCBwYW5mcm9zdCBhZnRlciBjb21taXQgMjZkM2FjM2NiMDRkCj4g
-KCJkcm0vc2htZW0taGVscGVyczogUmVkaXJlY3QgbW1hcCBmb3IgaW1wb3J0ZWQgZG1hLWJ1ZiIp
-Lgo+IAo+IFVuZm9ydHVuYXRlbHkgZHJtX2dlbV9tbWFwX29iaiBhbHNvIGFjcXVpcmVzIGEgc3Vy
-cGx1cyByZWZlcmVuY2UgdGhhdAo+IHdlIG5lZWQgdG8gZHJvcCBpbiBzaG1lbSBoZWxwZXJzLCB3
-aGljaCBpcyBhIGJpdCBvZiBhIG1pc2xheWVyCj4gc2l0dWF0aW9uLiBNYXliZSB0aGUgZW50aXJl
-IGRtYV9idWZfbW1hcCBmb3J3YXJkaW5nIHNob3VsZCBiZSBwdWxsZWQKPiBpbnRvIGNvcmUgZ2Vt
-IGNvZGUuCj4gCj4gTm90ZSB0aGF0IHRoZSBvbmx5IHR3byBvdGhlciBkcml2ZXJzIHdoaWNoIGZv
-cndhcmQgbW1hcCBpbiB0aGVpciBvd24KPiBjb2RlIChldG5hdml2IGFuZCBleHlub3MpIGdldCB0
-aGlzIHNvbWV3aGF0IHJpZ2h0IGJ5IG92ZXJ3cml0aW5nIHRoZQo+IGdlbSBtbWFwIGNvZGUuIEJ1
-dCB0aGV5IHNlZW0gdG8gc3RpbGwgaGF2ZSB0aGUgbGVhay4gVGhpcyBtaWdodCBiZSBhCj4gZ29v
-ZCBleGN1c2UgdG8gbW92ZSB0aGVzZSBkcml2ZXJzIG92ZXIgdG8gc2htZW0gaGVscGVycyBjb21w
-bGV0ZWx5Lgo+IAo+IE5vdGUgdG8gc3RhYmxlIHRlYW06IFRoZXJlJ3MgYSB0cml2aWFsIGNvbnRl
-eHQgY29uZmxpY3Qgd2l0aAo+IGQ2OTNkZWY0ZmQxYyAoImRybTogUmVtb3ZlIG9ic29sZXRlIEdF
-TSBhbmQgUFJJTUUgY2FsbGJhY2tzIGZyb20KPiBzdHJ1Y3QgZHJtX2RyaXZlciIpLiBJJ20gYXNz
-dW1pbmcgaXQncyBjbGVhciB3aGVyZSB0byBwdXQgdGhlIGZpcnN0Cj4gaHVuaywgb3RoZXJ3aXNl
-IEkgY2FuIHNlbmQgYSA1LjkgdmVyc2lvbiBvZiB0aGlzLgo+IAo+IENjOiBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQu
-c2Vtd2FsQGxpbmFyby5vcmc+Cj4gQ2M6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4
-LmRlPgo+IENjOiBSdXNzZWxsIEtpbmcgPGxpbnV4K2V0bmF2aXZAYXJtbGludXgub3JnLnVrPgo+
-IENjOiBDaHJpc3RpYW4gR21laW5lciA8Y2hyaXN0aWFuLmdtZWluZXJAZ21haWwuY29tPgo+IENj
-OiBJbmtpIERhZSA8aW5raS5kYWVAc2Ftc3VuZy5jb20+Cj4gQ2M6IEpvb255b3VuZyBTaGltIDxq
-eTA5MjIuc2hpbUBzYW1zdW5nLmNvbT4KPiBDYzogU2V1bmctV29vIEtpbSA8c3cwMzEyLmtpbUBz
-YW1zdW5nLmNvbT4KPiBDYzogS3l1bmdtaW4gUGFyayA8a3l1bmdtaW4ucGFya0BzYW1zdW5nLmNv
-bT4KPiBGaXhlczogMjZkM2FjM2NiMDRkICgiZHJtL3NobWVtLWhlbHBlcnM6IFJlZGlyZWN0IG1t
-YXAgZm9yIGltcG9ydGVkIGRtYS1idWYiKQo+IENjOiBCb3JpcyBCcmV6aWxsb24gPGJvcmlzLmJy
-ZXppbGxvbkBjb2xsYWJvcmEuY29tPgoKUmV2aWV3ZWQtYnk6IEJvcmlzIEJyZXppbGxvbiA8Ym9y
-aXMuYnJlemlsbG9uQGNvbGxhYm9yYS5jb20+Cgo+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4KPiBDYzogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+
-Cj4gQ2M6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6
-IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+IENjOiA8c3RhYmxlQHZnZXIua2VybmVs
-Lm9yZz4gIyB2NS45Kwo+IFJlcG9ydGVkLWFuZC10ZXN0ZWQtYnk6IHBpb3RyLm9uaXN6Y3p1a0Bn
-bWFpbC5jb20KPiBDYzogcGlvdHIub25pc3pjenVrQGdtYWlsLmNvbQo+IFNpZ25lZC1vZmYtYnk6
-IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJz
-L2dwdS9kcm0vZHJtX2dlbS5jICAgICAgICAgICAgICB8IDQgKystLQo+ICBkcml2ZXJzL2dwdS9k
-cm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYyB8IDcgKysrKysrLQo+ICAyIGZpbGVzIGNoYW5nZWQs
-IDggaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMKPiBpbmRleCAx
-ZGE2N2QzNGU1NWQuLmQ1ODYwNjhmNTUwOSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2dlbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYwo+IEBAIC0xMDc2LDYg
-KzEwNzYsOCBAQCBpbnQgZHJtX2dlbV9tbWFwX29iaihzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9i
-aiwgdW5zaWduZWQgbG9uZyBvYmpfc2l6ZSwKPiAgCSAqLwo+ICAJZHJtX2dlbV9vYmplY3RfZ2V0
-KG9iaik7Cj4gIAo+ICsJdm1hLT52bV9wcml2YXRlX2RhdGEgPSBvYmo7Cj4gKwo+ICAJaWYgKG9i
-ai0+ZnVuY3MtPm1tYXApIHsKPiAgCQlyZXQgPSBvYmotPmZ1bmNzLT5tbWFwKG9iaiwgdm1hKTsK
-PiAgCQlpZiAocmV0KSB7Cj4gQEAgLTEwOTYsOCArMTA5OCw2IEBAIGludCBkcm1fZ2VtX21tYXBf
-b2JqKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCB1bnNpZ25lZCBsb25nIG9ial9zaXplLAo+
-ICAJCXZtYS0+dm1fcGFnZV9wcm90ID0gcGdwcm90X2RlY3J5cHRlZCh2bWEtPnZtX3BhZ2VfcHJv
-dCk7Cj4gIAl9Cj4gIAo+IC0Jdm1hLT52bV9wcml2YXRlX2RhdGEgPSBvYmo7Cj4gLQo+ICAJcmV0
-dXJuIDA7Cj4gIH0KPiAgRVhQT1JUX1NZTUJPTChkcm1fZ2VtX21tYXBfb2JqKTsKPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYwo+IGluZGV4IGZiMTFkZjdhY2VkNS4uODIzM2Jk
-YTQ2OTJmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBl
-ci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMKPiBAQCAt
-NTk4LDggKzU5OCwxMyBAQCBpbnQgZHJtX2dlbV9zaG1lbV9tbWFwKHN0cnVjdCBkcm1fZ2VtX29i
-amVjdCAqb2JqLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkKPiAgCS8qIFJlbW92ZSB0aGUg
-ZmFrZSBvZmZzZXQgKi8KPiAgCXZtYS0+dm1fcGdvZmYgLT0gZHJtX3ZtYV9ub2RlX3N0YXJ0KCZv
-YmotPnZtYV9ub2RlKTsKPiAgCj4gLQlpZiAob2JqLT5pbXBvcnRfYXR0YWNoKQo+ICsJaWYgKG9i
-ai0+aW1wb3J0X2F0dGFjaCkgewo+ICsJCS8qIERyb3AgdGhlIHJlZmVyZW5jZSBkcm1fZ2VtX21t
-YXBfb2JqKCkgYWNxdWlyZWQuKi8KPiArCQlkcm1fZ2VtX29iamVjdF9wdXQob2JqKTsKPiArCQl2
-bWEtPnZtX3ByaXZhdGVfZGF0YSA9IE5VTEw7Cj4gKwo+ICAJCXJldHVybiBkbWFfYnVmX21tYXAo
-b2JqLT5kbWFfYnVmLCB2bWEsIDApOwo+ICsJfQo+ICAKPiAgCXNobWVtID0gdG9fZHJtX2dlbV9z
-aG1lbV9vYmoob2JqKTsKPiAgCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+On Tue, Oct 27, 2020 at 01:17:18PM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> 
+> When allocating an array of elements, users should check for
+> multiplication overflow or preferably use one of the provided helpers
+> like: kmalloc_array().
+> 
+> There's no krealloc_array() counterpart but there are many users who use
+> regular krealloc() to reallocate arrays. Let's provide an actual
+> krealloc_array() implementation.
+> 
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> ---
+>  include/linux/slab.h | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index dd6897f62010..0e6683affee7 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -592,6 +592,17 @@ static inline void *kmalloc_array(size_t n, size_t size, gfp_t flags)
+>  	return __kmalloc(bytes, flags);
+>  }
+>  
+
+Can you please add kernel-doc here and a word or two about this function
+to Documentation/core-api/memory-allocation.rst?
+
+> +static __must_check inline void *
+> +krealloc_array(void *p, size_t new_n, size_t new_size, gfp_t flags)
+> +{
+> +	size_t bytes;
+> +
+> +	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
+> +		return NULL;
+> +
+> +	return krealloc(p, bytes, flags);
+> +}
+> +
+>  /**
+>   * kcalloc - allocate memory for an array. The memory is set to zero.
+>   * @n: number of elements.
+> -- 
+> 2.29.1
+> 
+> 
+
+-- 
+Sincerely yours,
+Mike.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
