@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20D029FFB5
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB36B29FFA6
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:23:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3ADF6E98C;
-	Fri, 30 Oct 2020 08:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 118B66E9A4;
+	Fri, 30 Oct 2020 08:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F37616E8CF
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 19:01:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5744A6E8CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 19:01:15 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 69ADD5807F9;
- Thu, 29 Oct 2020 15:01:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 29 Oct 2020 15:01:13 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id C30B55807F6;
+ Thu, 29 Oct 2020 15:01:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 29 Oct 2020 15:01:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=c5Q85KyiNucov
- r00X8xQCnw2lhLdOXIjBmibM4kFAXA=; b=qWA48SNUEhCnWWun7Q1BUPHs4lpa5
- XOUThMoArpHrkmePRHvqdsRpfp+L662p7jp93ILxbTXPCImi/w/iOuv8VqSO+cPW
- CBGe7fhcaLjL5+1rB2drtcnxF2GCybQC9CwF8WmSwNB2cUjuOHZtn9oQYNzQUrGX
- YccR8XCDROcNjVvauC7jCjtsVqyzP/dtKtXCDc7cGP9A+nn6+3PeykxV3mRMRvCr
- /g93eJryvG0MoCQeL+Urw/qZFjxOR893f3Ix7ggAcMDyEDaH76IezcEVN4/IDJsf
- tNq+Xr7iCkziAoe3u9Y4rcmbFL2OAA8WPe+FeEljEDXooE2UNPY9YfHUg==
+ :mime-version:content-transfer-encoding; s=fm1; bh=FGRcmC4+CTr3X
+ uP9csnxf5aCWsAbiQHvvYN4KkFNZxI=; b=cmbUQx1xE34fSMrubYZPOGQi8ePOr
+ 8FXA3TZvptl1cGdpkZITMyj7jOT7ndRDjpnsZ0v76GW8lGTnXYT3R4UznWBeoRIg
+ yrXujfgAqDn1GyT4Xtf8pyxihetz8fUSnBsDacxW/WUH5U46A6rpftOlSUQpF6M+
+ Lyh+NYneJZOBIEOsyHK7QIJFfUtDDU5ZdpI1SubNd4egzcTp+X6xhj6JCrqp/4In
+ rU0fG+/JIT3ZeBIzSCmshlry49zwIOfzXRlMYnh7Ey+WcuFh4EVqN7WyRJukL0XU
+ U/THztZE1at8IWAWviSF9SYiZh+goU96+esqrOU5h0CDVgLgAXLnVt6mA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=c5Q85KyiNucovr00X8xQCnw2lhLdOXIjBmibM4kFAXA=; b=TddfqbA0
- Z01cTkGtFe9ReIMkQnC6YmYAWuvD+2wC8xXjbzpfjmGenFGoYkulYbEOc+m3jM9K
- w9StLnk5EXhnDcIFNlZM8WjD3HgAtCMXZ92sNlVbafuP9zUvJ4KixEJCJb0vAG8G
- 2EioN1ClZKttzQ3oL37j6wZsH8fCBP74zf74LktOYY/ekuMsth8tecU0DBATbOC3
- pXzS1iAzV5mZAxuojprQzEfNNrqZ+036GXz+1cBSXpYaJca31VORXbjSkRjGvwjp
- h0hO3k7DZjSyoJLI0Wst6SoCRMokZmDR5fF7M2E/rrxfiCLvei4+pN2gYRUpqwM2
- 0sddR4WiylKqNA==
-X-ME-Sender: <xms:eRGbX9D7i9mLJzSViJmpHY2rV0XWikLfW94ef_NyytwiczEKq6omCA>
- <xme:eRGbX7gzjTCTf_rMAQTT86qD0EawqSl6vLla2DWNY6IbdoadxVCv2HWry_1MmyrVL
- O0msCYKviYxhJwVqew>
+ fm1; bh=FGRcmC4+CTr3XuP9csnxf5aCWsAbiQHvvYN4KkFNZxI=; b=kPVODnrj
+ UMvPtcbgJP/F83jqFRf8ZtpWlhWllzBEbg1tXq3g2kugVuT+66oP0UnlS+mcOoJ7
+ 1FUc1CO0pRk+ZekjdyjJ/4f8W/HojfFMQu5fQ726F+adPJn0npz0rIyldG5qH0FX
+ epksE2XSXr86LeJOCj/XSieDKePLBz2Xrh+JNMFvsb1DnHacS2IxplINFSaqPVCZ
+ 8qKxUdMYtZqcO0GWtddkP6lVCuXQzYQfyffkdIMKoYvMlnoR2gLmU+VpNucG56iG
+ BJLczZQZOju1Ph0JaVb03gWG6lciRqNH5JsKIO7retlg4Ca4vNCQvNawAb2fsDUR
+ eRjPl1hJ7l+HiQ==
+X-ME-Sender: <xms:ehGbX97rivW_SXA8vLsqzfmEytCHJ35XDQUZ_xihLkYQ7U5Lwx-kZA>
+ <xme:ehGbX679rZhPtfVzyLpRo-gvpXQmHUBsATy-N1Aht-2E_ca8WVcs5vPSnQhHPWKZ8
+ K2nk1UjcneCSBs5zN8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleefgdduudelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,22 +49,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleefgdduudelucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:eRGbX4mtlr0hI5V-aW9mqdXNXpW1pPmadQDNt8kGkKbmufRwb8cEng>
- <xmx:eRGbX3xlQCYbfPJEabgo4iz7y5457LCsE0BK6kbil9srp6RELuJwoA>
- <xmx:eRGbXyRiLHdfTUbG4r1A0L9KFVjCsZMS3rzVRVeqaQs7MdLRkJT-BA>
- <xmx:eRGbX1EKYIpev5BmHCBBW3yfnjOeKqzQD5xAH9IFtjhg45A9OrJe7w>
+X-ME-Proxy: <xmx:ehGbX0evxwsYmeHeucghaDudCr6EshJkk_dTIdk4S5Aty6ixdotUeg>
+ <xmx:ehGbX2LX1td0o6TldKmij50toSuqUKHYgMSwZqoyscgpo2Ok9qNPfg>
+ <xmx:ehGbXxKFl7Ks8WYUkzLEls1gOK5iot7j2-pS8WNYY-PEwS2SlrDuLw>
+ <xmx:ehGbX4_37ND76HWOQLStZZiRWNDgrANVgAxVs992pygwwXsV8AA4uQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id BC82C328005D;
- Thu, 29 Oct 2020 15:01:12 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 348FC3064610;
+ Thu, 29 Oct 2020 15:01:14 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH 5/6] drm/vc4: Use devm_drm_dev_alloc
-Date: Thu, 29 Oct 2020 20:01:03 +0100
-Message-Id: <20201029190104.2181730-5-maxime@cerno.tech>
+Subject: [PATCH 6/6] drm/vc4: kms: Add functions to create the state objects
+Date: Thu, 29 Oct 2020 20:01:04 +0100
+Message-Id: <20201029190104.2181730-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201029190104.2181730-1-maxime@cerno.tech>
 References: <20201029190104.2181730-1-maxime@cerno.tech>
@@ -90,224 +90,141 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We can simplify a bit the bind code, its error path and unbind by using
-the managed devm_drm_dev_alloc function.
+In order to make the vc4_kms_load code and error path a bit easier to
+read and extend, add functions to create state objects, and use managed
+actions to cleanup if needed.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_bo.c  |  4 ++--
- drivers/gpu/drm/vc4/vc4_drv.c | 27 ++++++++++-----------------
- drivers/gpu/drm/vc4/vc4_drv.h |  4 ++--
- drivers/gpu/drm/vc4/vc4_gem.c | 10 +++++-----
- drivers/gpu/drm/vc4/vc4_v3d.c | 12 ++++++------
- 5 files changed, 25 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.c |  3 --
+ drivers/gpu/drm/vc4/vc4_kms.c | 78 +++++++++++++++++++++++++----------
+ 2 files changed, 57 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 730d5775ab42..74129dc78875 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -468,7 +468,7 @@ struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t unaligned_size,
- 	}
- 
- 	if (IS_ERR(cma_obj)) {
--		struct drm_printer p = drm_info_printer(vc4->dev->dev);
-+		struct drm_printer p = drm_info_printer(vc4->base.dev);
- 		DRM_ERROR("Failed to allocate from CMA:\n");
- 		vc4_bo_stats_print(&p, vc4);
- 		return ERR_PTR(-ENOMEM);
-@@ -609,7 +609,7 @@ static void vc4_bo_cache_time_work(struct work_struct *work)
- {
- 	struct vc4_dev *vc4 =
- 		container_of(work, struct vc4_dev, bo_cache.time_work);
--	struct drm_device *dev = vc4->dev;
-+	struct drm_device *dev = &vc4->base;
- 
- 	mutex_lock(&vc4->bo_lock);
- 	vc4_bo_cache_free_old(dev);
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index ab873e27aa0e..6e037fbaa090 100644
+index 6e037fbaa090..08c1cc225045 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.c
 +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -245,41 +245,37 @@ static int vc4_drm_bind(struct device *dev)
+@@ -312,9 +312,6 @@ static void vc4_drm_unbind(struct device *dev)
+ 	drm_dev_unregister(drm);
  
- 	dev->coherent_dma_mask = DMA_BIT_MASK(32);
- 
--	vc4 = devm_kzalloc(dev, sizeof(*vc4), GFP_KERNEL);
--	if (!vc4)
--		return -ENOMEM;
+ 	drm_atomic_helper_shutdown(drm);
 -
- 	/* If VC4 V3D is missing, don't advertise render nodes. */
- 	node = of_find_matching_node_and_match(NULL, vc4_v3d_dt_match, NULL);
- 	if (!node || !of_device_is_available(node))
- 		vc4_drm_driver.driver_features &= ~DRIVER_RENDER;
- 	of_node_put(node);
- 
--	drm = drm_dev_alloc(&vc4_drm_driver, dev);
--	if (IS_ERR(drm))
--		return PTR_ERR(drm);
-+	vc4 = devm_drm_dev_alloc(dev, &vc4_drm_driver, struct vc4_dev, base);
-+	if (IS_ERR(vc4))
-+		return PTR_ERR(vc4);
-+
-+	drm = &vc4->base;
- 	platform_set_drvdata(pdev, drm);
--	vc4->dev = drm;
--	drm->dev_private = vc4;
- 	INIT_LIST_HEAD(&vc4->debugfs_list);
- 
- 	mutex_init(&vc4->bin_bo_lock);
- 
- 	ret = vc4_bo_cache_init(drm);
- 	if (ret)
--		goto dev_put;
-+		return ret;
- 
- 	ret = drmm_mode_config_init(drm);
- 	if (ret)
--		goto dev_put;
-+		return ret;
- 
- 	ret = vc4_gem_init(drm);
- 	if (ret)
--		goto dev_put;
-+		return ret;
- 
- 	ret = component_bind_all(dev, drm);
- 	if (ret)
--		goto dev_put;
-+		return ret;
- 
- 	ret = vc4_plane_create_additional_planes(drm);
- 	if (ret)
-@@ -304,8 +300,7 @@ static int vc4_drm_bind(struct device *dev)
- 
- unbind_all:
- 	component_unbind_all(dev, drm);
--dev_put:
--	drm_dev_put(drm);
-+
- 	return ret;
- }
- 
-@@ -320,8 +315,6 @@ static void vc4_drm_unbind(struct device *dev)
- 
- 	drm_atomic_private_obj_fini(&vc4->load_tracker);
- 	drm_atomic_private_obj_fini(&vc4->ctm_manager);
--
--	drm_dev_put(drm);
+-	drm_atomic_private_obj_fini(&vc4->load_tracker);
+-	drm_atomic_private_obj_fini(&vc4->ctm_manager);
  }
  
  static const struct component_master_ops vc4_drm_ops = {
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index b1a038df00f3..f8a1426be14a 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -72,7 +72,7 @@ struct vc4_perfmon {
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 708099a24406..fbfb0698073e 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -93,6 +93,29 @@ static const struct drm_private_state_funcs vc4_ctm_state_funcs = {
+ 	.atomic_destroy_state = vc4_ctm_destroy_state,
  };
  
- struct vc4_dev {
--	struct drm_device *dev;
-+	struct drm_device base;
- 
- 	struct vc4_hvs *hvs;
- 	struct vc4_v3d *v3d;
-@@ -235,7 +235,7 @@ struct vc4_dev {
- static inline struct vc4_dev *
- to_vc4_dev(struct drm_device *dev)
++static void vc4_ctm_obj_fini(struct drm_device *dev, void *unused)
++{
++	struct vc4_dev *vc4 = to_vc4_dev(dev);
++
++	drm_atomic_private_obj_fini(&vc4->ctm_manager);
++}
++
++static int vc4_ctm_obj_init(struct vc4_dev *vc4)
++{
++	struct vc4_ctm_state *ctm_state;
++
++	drm_modeset_lock_init(&vc4->ctm_state_lock);
++
++	ctm_state = kzalloc(sizeof(*ctm_state), GFP_KERNEL);
++	if (!ctm_state)
++		return -ENOMEM;
++
++	drm_atomic_private_obj_init(vc4->dev, &vc4->ctm_manager, &ctm_state->base,
++				    &vc4_ctm_state_funcs);
++
++	return drmm_add_action(&vc4->base, vc4_ctm_obj_fini, NULL);
++}
++
+ /* Converts a DRM S31.32 value to the HW S0.9 format. */
+ static u16 vc4_ctm_s31_32_to_s0_9(u64 in)
  {
--	return (struct vc4_dev *)dev->dev_private;
-+	return container_of(dev, struct vc4_dev, base);
- }
+@@ -609,6 +632,34 @@ static const struct drm_private_state_funcs vc4_load_tracker_state_funcs = {
+ 	.atomic_destroy_state = vc4_load_tracker_destroy_state,
+ };
  
- struct vc4_bo {
-diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-index 071626ad8551..c4bf96c8cef6 100644
---- a/drivers/gpu/drm/vc4/vc4_gem.c
-+++ b/drivers/gpu/drm/vc4/vc4_gem.c
-@@ -314,16 +314,16 @@ vc4_reset_work(struct work_struct *work)
- 	struct vc4_dev *vc4 =
- 		container_of(work, struct vc4_dev, hangcheck.reset_work);
++static void vc4_load_tracker_obj_fini(struct drm_device *dev, void *unused)
++{
++	struct vc4_dev *vc4 = to_vc4_dev(dev);
++
++	if (!vc4->load_tracker_available)
++		return 0;
++
++	drm_atomic_private_obj_fini(&vc4->load_tracker);
++}
++
++static int vc4_load_tracker_obj_init(struct vc4_dev *vc4)
++{
++	struct vc4_load_tracker_state *load_state;
++
++	if (!vc4->load_tracker_available)
++		return 0;
++
++	load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
++	if (!load_state)
++		return -ENOMEM;
++
++	drm_atomic_private_obj_init(vc4->dev, &vc4->load_tracker,
++				    &load_state->base,
++				    &vc4_load_tracker_state_funcs);
++
++	return drmm_add_action(&vc4->base, vc4_load_tracker_obj_fini, NULL);
++}
++
+ #define NUM_OUTPUTS  6
+ #define NUM_CHANNELS 3
  
--	vc4_save_hang_state(vc4->dev);
-+	vc4_save_hang_state(&vc4->base);
- 
--	vc4_reset(vc4->dev);
-+	vc4_reset(&vc4->base);
- }
- 
- static void
- vc4_hangcheck_elapsed(struct timer_list *t)
+@@ -711,8 +762,6 @@ static const struct drm_mode_config_funcs vc4_mode_funcs = {
+ int vc4_kms_load(struct drm_device *dev)
  {
- 	struct vc4_dev *vc4 = from_timer(vc4, t, hangcheck.timer);
--	struct drm_device *dev = vc4->dev;
-+	struct drm_device *dev = &vc4->base;
- 	uint32_t ct0ca, ct1ca;
- 	unsigned long irqflags;
- 	struct vc4_exec_info *bin_exec, *render_exec;
-@@ -1000,7 +1000,7 @@ vc4_job_handle_completed(struct vc4_dev *vc4)
- 		list_del(&exec->head);
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+-	struct vc4_ctm_state *ctm_state;
+-	struct vc4_load_tracker_state *load_state;
+ 	bool is_vc5 = of_device_is_compatible(dev->dev->of_node,
+ 					      "brcm,bcm2711-vc5");
+ 	int ret;
+@@ -751,26 +800,13 @@ int vc4_kms_load(struct drm_device *dev)
+ 	dev->mode_config.async_page_flip = true;
+ 	dev->mode_config.allow_fb_modifiers = true;
  
- 		spin_unlock_irqrestore(&vc4->job_lock, irqflags);
--		vc4_complete_exec(vc4->dev, exec);
-+		vc4_complete_exec(&vc4->base, exec);
- 		spin_lock_irqsave(&vc4->job_lock, irqflags);
- 	}
+-	drm_modeset_lock_init(&vc4->ctm_state_lock);
++	ret = vc4_ctm_obj_init(vc4);
++	if (ret)
++		return ret;
  
-@@ -1258,7 +1258,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
- 	return 0;
+-	ctm_state = kzalloc(sizeof(*ctm_state), GFP_KERNEL);
+-	if (!ctm_state)
+-		return -ENOMEM;
+-
+-	drm_atomic_private_obj_init(dev, &vc4->ctm_manager, &ctm_state->base,
+-				    &vc4_ctm_state_funcs);
+-
+-	if (vc4->load_tracker_available) {
+-		load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
+-		if (!load_state) {
+-			drm_atomic_private_obj_fini(&vc4->ctm_manager);
+-			return -ENOMEM;
+-		}
+-
+-		drm_atomic_private_obj_init(dev, &vc4->load_tracker,
+-					    &load_state->base,
+-					    &vc4_load_tracker_state_funcs);
+-	}
++	ret = vc4_load_tracker_obj_init(vc4);
++	if (ret)
++		return ret;
  
- fail:
--	vc4_complete_exec(vc4->dev, exec);
-+	vc4_complete_exec(&vc4->base, exec);
+ 	drm_mode_config_reset(dev);
  
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index f7ab979721b3..65d0dac69b0b 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -168,7 +168,7 @@ static void vc4_v3d_init_hw(struct drm_device *dev)
- 
- int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
- {
--	struct drm_device *dev = vc4->dev;
-+	struct drm_device *dev = &vc4->base;
- 	unsigned long irqflags;
- 	int slot;
- 	uint64_t seqno = 0;
-@@ -246,7 +246,7 @@ static int bin_bo_alloc(struct vc4_dev *vc4)
- 	INIT_LIST_HEAD(&list);
- 
- 	while (true) {
--		struct vc4_bo *bo = vc4_bo_create(vc4->dev, size, true,
-+		struct vc4_bo *bo = vc4_bo_create(&vc4->base, size, true,
- 						  VC4_BO_TYPE_BIN);
- 
- 		if (IS_ERR(bo)) {
-@@ -361,7 +361,7 @@ static int vc4_v3d_runtime_suspend(struct device *dev)
- 	struct vc4_v3d *v3d = dev_get_drvdata(dev);
- 	struct vc4_dev *vc4 = v3d->vc4;
- 
--	vc4_irq_uninstall(vc4->dev);
-+	vc4_irq_uninstall(&vc4->base);
- 
- 	clk_disable_unprepare(v3d->clk);
- 
-@@ -378,11 +378,11 @@ static int vc4_v3d_runtime_resume(struct device *dev)
- 	if (ret != 0)
- 		return ret;
- 
--	vc4_v3d_init_hw(vc4->dev);
-+	vc4_v3d_init_hw(&vc4->base);
- 
- 	/* We disabled the IRQ as part of vc4_irq_uninstall in suspend. */
--	enable_irq(vc4->dev->irq);
--	vc4_irq_postinstall(vc4->dev);
-+	enable_irq(vc4->base.irq);
-+	vc4_irq_postinstall(&vc4->base);
- 
- 	return 0;
- }
 -- 
 2.26.2
 
