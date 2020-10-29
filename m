@@ -2,43 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F64829F68A
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 22:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7F429F6D1
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 22:28:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2652D6E904;
-	Thu, 29 Oct 2020 21:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B75E6E8FB;
+	Thu, 29 Oct 2020 21:28:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6F826E904
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 21:00:27 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209939] radeontop causes kernel panic
-Date: Thu, 29 Oct 2020 21:00:27 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209939-2300-lrJMRPvZV4@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209939-2300@https.bugzilla.kernel.org/>
-References: <bug-209939-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA2136E8FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 21:28:45 +0000 (UTC)
+IronPort-SDR: etQrC7huJwzbEO4gcDeHFcg/u7+V934PbkGE5v6gLj+vpSa1x/F4UWqPm1XL9ASqM0zoq1x1SS
+ Uocl2tkA6YRQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9789"; a="165928977"
+X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; d="scan'208";a="165928977"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2020 14:28:45 -0700
+IronPort-SDR: p97XMIP2d9WnBdfTnYb4pYy/CE9BTzSJ6zGGutJ166NhuvtIRWdD5D1Gk5zGgxAWuAGfYlPtJ3
+ lvrj2v43nnfg==
+X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; d="scan'208";a="469282791"
+Received: from nschweme-mobl.amr.corp.intel.com (HELO
+ achrisan-DESK2.amr.corp.intel.com) ([10.254.34.96])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 29 Oct 2020 14:28:44 -0700
+From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	anitha.chrisanthus@intel.com
+Subject: [PATCH v10 0/6] Add support for KeemBay DRM driver
+Date: Thu, 29 Oct 2020 14:27:51 -0700
+Message-Id: <1604006877-20092-1-git-send-email-anitha.chrisanthus@intel.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,20 +47,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: edmund.j.dea@intel.com, sam@ravnborg.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209939
+This is a new DRM driver for Intel's KeemBay SOC.
+The SoC couples an ARM Cortex A53 CPU with an Intel
+Movidius VPU.
 
---- Comment #3 from Alex Deucher (alexdeucher@gmail.com) ---
-Does setting amdgpu.ppfeaturemask=0xffff3fff on the kernel command line in grub
-fix it?
+This driver is tested with the KMB EVM board which is the refernce baord
+for Keem Bay SOC. The SOC's display pipeline is as follows
+
++--------------+    +---------+    +-----------------------+
+|LCD controller| -> |Mipi DSI | -> |Mipi to HDMI Converter |
++--------------+    +---------+    +-----------------------+
+
+LCD controller and Mipi DSI transmitter are part of the SOC and
+mipi to HDMI converter is ADV7535 for KMB EVM board.
+
+The DRM driver is a basic KMS atomic modesetting display driver and
+has no 2D or 3D graphics.It calls into the ADV bridge driver at
+the connector level.
+
+Only 1080p resolution and single plane is supported at this time.
+The usecase is for debugging video and camera outputs.
+
+Device tree patches are under review here
+https://lore.kernel.org/linux-arm-kernel/20200708175020.194436-1-daniele.alessandrelli@linux.intel.com/T/
+
+Changes since v1:
+- Removed redundant license text, updated license
+- Rearranged include blocks
+- renamed global vars and removed extern in c
+- Used upclassing for dev_private
+- Used drm_dev_init in drm device create
+- minor cleanups
+
+Changes since v2:
+- squashed all commits to a single commit
+- logging changed to drm_info, drm_dbg etc.
+- used devm_drm_dev_alloc()
+- removed commented out sections and general cleanup
+
+Changes since v3:
+- renamed dev_p to kmb
+- moved clocks under kmb_clock, consolidated clk initializations
+- use drmm functions
+- use DRM_GEM_CMA_DRIVER_OPS_VMAP
+- more cleanups
+
+Changes since v4:
+- corrected spellings
+
+Changes since v5:
+- corrected checkpatch warnings/checks
+   -Please ignore checkpatch checks on Camelcase - this is how it is
+   named in the databook
+   - Please ignore checkpatch warnings on misspelled for hsa, dout,
+   widthn etc. - they are spelled as in the databook
+   - Please ignore checkpatch checks on macro arguments reuse -
+   its confirmed ok
+
+Changes since v6:
+- review changes Sam Ravnborg and Thomas Zimmerman
+	split patch into 4 parts, part1 register definitions, part2 display
+	driver files, part3 mipi dsi, part4 build files (Sam)
+	removed kmb_crtc.h kmb_crtc_cleanup (Thomas)
+	renamed mode_set, kmb_load, inlined unload (Thomas)
+	moved remaining logging to drm_*(Thomas)
+	re-orged driver initialization (Thomas)
+	moved plane_status to drm_private (Sam)
+	removed unnecessary logs and defines and ifdef codes (Sam)
+	split dphy_init_sequence smaller (Sam)
+	removed redundant checks in kmb_dsi (Sam)
+	changed kmb_dsi_init to drm_bridge_connector_init and
+	drm_connector_attach_encoder to bridge's connector (Sam)
+	call helper_check in plane_atomic_check (Sam)
+	renamed set to get for bpp and format functions(Sam)
+	use drm helper functions for reset, duplicate/destroy state instead
+	of kmb functions (Sam)
+	removed kmb_priv from kmb_plane and removed kmb_plane_state (Sam)
+
+Changes since v7:
+- tested with 5.9 kernel and made the following changes
+        get clk_pll0 from display node in dt  
+        call drm_bridge_attach with DRM_BRIDGE_ATTACH_NO_CONNECTOR
+        Also added Maintainer entry	
+
+Changes since v8:
+	DT review changes (Rob)
+	renamed kmb_dsi_hw_init to kmb_dsi_mode_set (Daniel V)
+	moved csc_coef_lcd to plane.c (Daniel Vetter)
+	call drm_atomic_helper_shutdown in remove (Daniel V)
+	use drm_crtc_handle_vblank (Daniel V)
+	renamed kmb_dsi_hw_init to kmb_dsi_mode_set (Daniel V)
+	complimentary changes to device tree changes (Rob)
+	removed redundant definitions in kmb_dsi.h
+
+Changes since v9:
+	Review changes from Sam Ravnborg which are:
+	DT is separated to display and Mipi DSI as per Sam suggestion and the
+	driver has changes to reflect this separation. Also most of the
+	MIPI DSI code is isolated and separated from the main driver, worked 
+	closely with Sam on these changes. This split is to ease review and
+	driver is only buildable after the last patch (build files).
+
+	call drm_crtc_arm_vblank_event in atomic_flush (Daniel V)
+	moved global vars to kmb_private and added locks (Daniel V)
+	added comments to clarify empty dsi host functions (Daniel V)
+
+Anitha Chrisanthus (6):
+  dt-bindings: display: Add support for Intel KeemBay Display
+  dt-bindings: display: bridge: Intel KeemBay DSI
+  drm/kmb: Keem Bay driver register definition
+  drm/kmb: Add support for KeemBay Display
+  drm/kmb: Mipi DSI part of the display driver
+  drm/kmb: Build files for KeemBay Display driver
+
+ .../bindings/display/bridge/intel,keembay-dsi.yaml |  101 ++
+ .../bindings/display/intel,keembay-display.yaml    |   75 +
+ MAINTAINERS                                        |    7 +
+ drivers/gpu/drm/Kconfig                            |    2 +
+ drivers/gpu/drm/Makefile                           |    1 +
+ drivers/gpu/drm/kmb/Kconfig                        |   12 +
+ drivers/gpu/drm/kmb/Makefile                       |    2 +
+ drivers/gpu/drm/kmb/kmb_crtc.c                     |  232 +++
+ drivers/gpu/drm/kmb/kmb_drv.c                      |  603 ++++++++
+ drivers/gpu/drm/kmb/kmb_drv.h                      |  109 ++
+ drivers/gpu/drm/kmb/kmb_dsi.c                      | 1540 ++++++++++++++++++++
+ drivers/gpu/drm/kmb/kmb_dsi.h                      |  387 +++++
+ drivers/gpu/drm/kmb/kmb_plane.c                    |  490 +++++++
+ drivers/gpu/drm/kmb/kmb_plane.h                    |   99 ++
+ drivers/gpu/drm/kmb/kmb_regs.h                     |  725 +++++++++
+ 15 files changed, 4385 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/intel,keembay-display.yaml
+ create mode 100644 drivers/gpu/drm/kmb/Kconfig
+ create mode 100644 drivers/gpu/drm/kmb/Makefile
+ create mode 100644 drivers/gpu/drm/kmb/kmb_crtc.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_regs.h
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
