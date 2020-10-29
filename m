@@ -2,66 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3C129FFCA
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:24:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1FF29FFB9
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:24:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6476ECF8;
-	Fri, 30 Oct 2020 08:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA2E6ECE4;
+	Fri, 30 Oct 2020 08:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB73E8979D;
- Thu, 29 Oct 2020 17:34:19 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8554A5807BA;
- Thu, 29 Oct 2020 13:34:17 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 29 Oct 2020 13:34:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm1; bh=xlulBW6qtswo/tKkVkQKjGduxgACGtB+xRBMnDnD7Ro=; b=bAyoeb1c
- X9CRvHMESP0xOr6KlIK+a2AnKNhdWPVdtDQh3l4j/UNlJfzZUmxqIXKyr2o9u2CM
- 8UH6HEHqwrSW2jkFKTX95CBM+BNYlkQ6b3cPC8fAV8K56Fqac/ekZhO4KyMugq38
- xv6hIgjP4ffTDsN8wuqxHqy+ItO3UJMc6dyio3FfxnDR3JhQtUtqMZqoQn62SkEp
- 0hl6NuOqcbnlS2lpAHNbfTczdYS06jDP1o64zvIIrvnhQlf6kaF7AOb2y97/5/MT
- 1AdtRk8RkX4wrphDPLebE1Cr7WCn7KYm+jByXLhLwMCPBD7fkWNpkJJkZ9kXxFrh
- Bx0dclc0aXFeNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; bh=xlulBW6qtswo/tKkVkQKjGduxgACG
- tB+xRBMnDnD7Ro=; b=JrMRo7Z33JFXPjq8SK35SCpb/rESEvHq+qu9UDdGvxm8l
- 03aFBkJi4Xb2md914e88ITvJr8hJjha9gPzdvlLUvzAgXnwsJq5Pi0AmtjKwAifR
- RYM73aUsZYg+WzlrufRpXn8exiorUNdoKRy+7s4KkZwpTOZ2EsaTZ14bDJa1oP+r
- +3gOER59aCqIGMT2HBCuqBiFGWLg8mgtAbUPdpTrJc59n2lxITY1MsJM95rWNC0e
- lpHXwDxbL4znLUD2eT7wTolZQ1Ja82jYUgdxarmfmDJDV2kPAWcsNDr+vjaaWmIo
- lk2jJDxqN4TSJ16Fm4rTPUCledCO5nZursM6/8KEw==
-X-ME-Sender: <xms:GP2aXznYtNqZBYbUgnfCraV5qVNAzvPPOxVnwF0P5HXajmUrgjWB_Q>
- <xme:GP2aX21ixaPy1b5UFine5qXaYNhbNNZzetrddytJRmB8l6So_d5duWcA8crxm2aw_
- 6HwWJe4c7P6M8i1PV8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleefgddutdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfggtggusehgtderredttddunecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhephfehtefggeekteffueeileekfeegteetfffggfekleehkeffvedvgedtieetvddu
- necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeltddrkeelrd
- eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
- mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:GP2aX5ouVUskCKRa7fNJA1P9Q78rBbYh5j5XTe5reF-xmhuhZbv2Zw>
- <xmx:GP2aX7mf_mEod2SSePsNq3R7Hd5_vHOHa-G_5JSAWlxO4Z72ih1Bmg>
- <xmx:GP2aXx38uWWCV5ulWpBmYbrLRfnaMQmp2Kvxxs5ad2Ie8IT_9Q7diQ>
- <xmx:Gf2aX6LxdOAIWMGCUtK39agX6ZpH-7cQowFuIECxxSBLFkCZ82BKbQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 44B643064685;
- Thu, 29 Oct 2020 13:34:16 -0400 (EDT)
-Date: Thu, 29 Oct 2020 18:34:14 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20201029173414.fxrl5jacsdwqheto@gilmour.lan>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB616E8A7
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 17:43:31 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 81904B1F6;
+ Thu, 29 Oct 2020 17:43:29 +0000 (UTC)
+Message-ID: <4d0028fdf797abd99f95d627e60e9322caa52596.camel@suse.de>
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: Add a property to deal
+ with WiFi coexistence
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>, 
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>,  Eric Anholt <eric@anholt.net>
+Date: Thu, 29 Oct 2020 18:43:27 +0100
+In-Reply-To: <20201029134018.1948636-1-maxime@cerno.tech>
+References: <20201029134018.1948636-1-maxime@cerno.tech>
+User-Agent: Evolution 3.36.5 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 30 Oct 2020 08:23:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,126 +43,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0732148472=="
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0956412106=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0732148472==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="w5rl6nb5txzhq5tc"
-Content-Disposition: inline
+--===============0956412106==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-dPeDp453d8U7UvrUEare"
 
 
---w5rl6nb5txzhq5tc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--=-dPeDp453d8U7UvrUEare
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Dave, Daniel,
+Hi maxime,
 
-Here's the first round of fixes for drm-misc
+On Thu, 2020-10-29 at 14:40 +0100, Maxime Ripard wrote:
+> The RaspberryPi4 has both a WiFi chip and HDMI outputs capable of doing
+> 4k. Unfortunately, the 1440p resolution at 60Hz has a TMDS rate on the
+> HDMI cable right in the middle of the first Wifi channel.
+>=20
+> Add a property to our HDMI controller, that could be reused by other
+> similar HDMI controllers, to allow the OS to take whatever measure is
+> necessary to avoid that crosstalk.
+>=20
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> ---
+>=20
+> Changes from v1:
+>   - Renamed the property
+>   - Split it into a separate patch
+> ---
+>  .../devicetree/bindings/display/brcm,bcm2711-hdmi.yaml      | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.=
+yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> index 03a76729d26c..7ce06f9f9f8e 100644
+> --- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> @@ -76,6 +76,12 @@ properties:
+>    resets:
+>      maxItems: 1
+> =20
+> +  wifi-2.4ghz-coexistence:
 
-Maxime
+I see you already renamed the property, but I can't seem to find v1 of the
+series online. Sorry if this is redundant:
 
-drm-misc-fixes-2020-10-29:
-First round of drm-misc-fixes with a couple of leftovers from
-drm-misc-fixes next.
+I wonder if it'd make sense to prefix the property like this:
+"raspberrypi,wifi-2.4ghz-coexistence." I tend to associate the lack of pref=
+ix
+with generic properties, and also thought it was a rule. Although I may hav=
+e as
+well imagined it.
 
-Some reset fixes for the mantix panel, some fixes for a scaler issue on
-sun4i, many kernel-doc fixes and various fixes for vc4 (mostly HDMI audio
-related)
-The following changes since commit 3650b228f83adda7e5ee532e2b90429c03f7b9ec:
+Other than that the series looks OK to me.
 
-  Linux 5.10-rc1 (2020-10-25 15:14:11 -0700)
+Regards,
+Nicolas
 
-are available in the Git repository at:
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2020-10-29
 
-for you to fetch changes up to 5066f42c7d3c7766c16ba6e73da514af04d43ff7:
-
-  drm/vc4: Rework the structure conversion functions (2020-10-29 10:26:04 +=
-0100)
-
-----------------------------------------------------------------
-First round of drm-misc-fixes with a couple of leftovers from
-drm-misc-fixes next.
-
-Some reset fixes for the mantix panel, some fixes for a scaler issue on
-sun4i, many kernel-doc fixes and various fixes for vc4 (mostly HDMI audio
-related)
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      drm/v3d: Fix double free in v3d_submit_cl_ioctl()
-
-Daniel Vetter (1):
-      drm/shme-helpers: Fix dma_buf_mmap forwarding bug
-
-Guido G=FCnther (3):
-      drm/panel: mantix: Don't dereference NULL mode
-      drm/panel: mantix: Fix panel reset
-      dt-binding: display: Require two resets on mantix panel
-
-Hoegeun Kwon (1):
-      drm/vc4: drv: Add error handding for bind
-
-Mauro Carvalho Chehab (7):
-      drm: kernel-doc: document drm_dp_set_subconnector_property() params
-      drm/dp: fix kernel-doc warnings at drm_dp_helper.c
-      drm/dp: fix a kernel-doc issue at drm_edid.c
-      drm: drm_edid: remove a duplicated kernel-doc declaration
-      drm: kernel-doc: add description for a new function parameter
-      drm: kernel-doc: drm_dp_helper.h: fix a typo
-      drm: drm_print.h: fix kernel-doc markups
-
-Maxime Ripard (7):
-      Merge remote-tracking branch 'drm-misc/drm-misc-next-fixes' into drm-=
-misc-fixes
-      drm/sun4i: frontend: Rework a bit the phase data
-      drm/sun4i: frontend: Reuse the ch0 phase for RGB formats
-      drm/sun4i: frontend: Fix the scaler phase on A33
-      drm/vc4: hdmi: Avoid sleeping in atomic context
-      drm/vc4: hdmi: Add a name to the codec DAI component
-      drm/vc4: Rework the structure conversion functions
-
- .../display/panel/mantix,mlaf057we51-x.yaml        |  4 +++
- drivers/gpu/drm/drm_dp_helper.c                    | 12 +++++++-
- drivers/gpu/drm/drm_edid.c                         |  2 +-
- drivers/gpu/drm/drm_gem.c                          |  4 +--
- drivers/gpu/drm/drm_gem_shmem_helper.c             |  7 ++++-
- drivers/gpu/drm/drm_prime.c                        |  1 +
- drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c   | 25 ++++++++++-----
- drivers/gpu/drm/sun4i/sun4i_frontend.c             | 36 ++++++------------=
-----
- drivers/gpu/drm/sun4i/sun4i_frontend.h             |  6 +---
- drivers/gpu/drm/v3d/v3d_gem.c                      |  1 -
- drivers/gpu/drm/vc4/vc4_drv.c                      |  1 +
- drivers/gpu/drm/vc4/vc4_drv.h                      | 12 ++++----
- drivers/gpu/drm/vc4/vc4_hdmi.c                     |  6 ++--
- include/drm/drm_dp_helper.h                        |  2 +-
- include/drm/drm_edid.h                             |  7 -----
- include/drm/drm_print.h                            | 20 ++++++++++--
- 16 files changed, 82 insertions(+), 64 deletions(-)
-
---w5rl6nb5txzhq5tc
+--=-dPeDp453d8U7UvrUEare
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5r9FgAKCRDj7w1vZxhR
-xcSfAP9xe4gEsmmNMIAxz/Del1vUHqbKvQfOt9KZiNhC1dcZUwD/ZMR9mXkKDQtV
-DYv1GB0BnpgmUpw09pfUFUzabuw7LwQ=
-=vCQW
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl+a/z8ACgkQlfZmHno8
+x/5GrAf+MH12IZ/4lseflFpGeeMrCiugkwqN+ahurTG44SM+ZoJwj9FcD3Nf9u+b
+2S1EKBR1FOiAfPHZtXhymtS7TvF1K6csxAU8CrJwRCfEKDo0OI/p4Ly9/CipwLOT
+GLh2Qvet66N+1Ak3bJ6fpeBgCrG4dQm4W0pWhmNA98s2KzR40/jVOq/O/uQ5x7xf
+xl+YcfJ+130d4z8QTlHkAnOvOczvj03Iowewavd0oh5R7zq//6OCNoADLVfY0gJP
+5UF7BuhYg8nYGu2LwOL+jB5SroZ0eFRNZvLxxOtl4C7oPdemvYI57OYDQHA9PqTi
+EIx+MbXjqVxn+BdfzKmrGY+ZNEJBQA==
+=VVnt
 -----END PGP SIGNATURE-----
 
---w5rl6nb5txzhq5tc--
+--=-dPeDp453d8U7UvrUEare--
 
---===============0732148472==
+
+--===============0956412106==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -206,4 +143,5 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0732148472==--
+--===============0956412106==--
+
