@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD2329E8B3
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 11:14:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9468229E8B4
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 11:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 612CF6E0DA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D61226EC8E;
 	Thu, 29 Oct 2020 10:14:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C43FD6E0D5
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 10:14:35 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id n15so2126518wrq.2
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 03:14:35 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7ED56E8D4
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 10:14:36 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id k10so766401wrw.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 03:14:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hcTLZ2yKK96GFuoPUjznyBclo5QRYnziyGLhW90e3O4=;
- b=NyVHPv2zKHzdERLC6pqqXwy85clGahU4+F/XjYswlDBKwBuOY5hb9I+e9ypTAfHFcw
- MsIkwQxu1uubWrzk4P7u3I2jUlPLjKbf9SEd28ngpAwoZlysvoQtL5rrG83Z5hM4n6Ty
- PnIPIl9rWDxge1ruLDPWJjbv2lOK3ZTcp2KjI=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3xLwqavLEfI6S7Sf/hHTcoVdcW3yZU6lj17X6N8jmZ8=;
+ b=VAhn0MwNmRFS/TtR43HG81BRDZNgyhJR7nupYDtYveCVblI/Ru9c3VDS4k6dOEG+ow
+ xFykCXZYviJf/d/N+7r5OdFI1Gk2/419w3SgnCws3Y/x4NtfsdFWBvctOG0CVLNv3nlt
+ CAyKmcCcNiyqMC6kiGzaUUGv1zcFKKviS8EOs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hcTLZ2yKK96GFuoPUjznyBclo5QRYnziyGLhW90e3O4=;
- b=oMguAZpNgWKUPxc24jzoPseZxd5EAz+NbKIf4Hao96m+/nn1ynFdXE7LXie6wq2G1M
- znkQmtWsnQNoDlOnhsgPtCSBvmx41m1UgqZpmPNGC/2aU0GY7CHfD8BFUtu/Q4DqkqH0
- ghr+ofjlU2oiNswc5Dexs50NfgCLuGl8GgmyAigy1pf0WMWfLD8f4bmrPHo+VrU+KA36
- n6mHmXPJOepwN+8oTaM6mxrILFNd4+Re4bVj37cno3tgCKO9aMs060G5f3w5IZfqjp9X
- DeH2juRCG8Qy2CvLWbXIIJqxzgHSVk6dt8ThVmuMxFSdeN0izWWqbcScwotfLe6iwtm/
- OWGw==
-X-Gm-Message-State: AOAM530Fvas0QkkX7UgEDclNjTavL1ZACrlfChQuA1mzw37uC+SOw9xu
- jfXaEAIgdT5PYeHj8D2wR7+qIAVx54yWZQjH
-X-Google-Smtp-Source: ABdhPJwnK+gULUD5BG90hKSqZvcJncaKHCvOiqEh1gQBFItnOc3iJPhpVVW1EIMXm/R+dCjabwye9Q==
-X-Received: by 2002:adf:bb43:: with SMTP id x3mr4632017wrg.250.1603966473983; 
- Thu, 29 Oct 2020 03:14:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3xLwqavLEfI6S7Sf/hHTcoVdcW3yZU6lj17X6N8jmZ8=;
+ b=AaNa3JtvKWIP4KOBZdP1XG93vHGTG5VfPZkZPcSpiDgP69sVQS4MvrrX6l7AvQKjYl
+ Ma+0oAoryujF+krlB2bAgI6c3XIeLZCxf0Q2WY0J2tEVYwAwx3ulauj7m/wVRdoVZbWc
+ zYijJUQDJqNNd2rOtQFyNtWLuIeJK2tDluqqGuS8OLOvzKC6Unq3i0hkTVGH3ZWhQIUU
+ qJIUj/H4mZfKFCy+VwrVri/ZQgPQkIno3sQdEWMW2yb1BYEch5PmVxhG4BxAYyOx4/Oa
+ CWpkkFZJxbcaGynVF6NNXyuF5lgva5gMwAXKvOgAiUzWla27/soe34bKW+4iKw/ILzjU
+ 5l6Q==
+X-Gm-Message-State: AOAM533KOYhRgVEVRKPjFm2/UE0Hquj41l9aBy75XB/f9Gp9FJhYtGbc
+ ZOEPR9so71puX8lB7rg+7TRDzzSwktdCNKkb
+X-Google-Smtp-Source: ABdhPJxk3YZuHT7HzHvs6syH8na4CI09hYCFjsNS/ZxeXdHm2mAJRYXON2CS4G2brpLGbIdmGyAkUA==
+X-Received: by 2002:adf:c3c2:: with SMTP id d2mr4703353wrg.191.1603966475106; 
+ Thu, 29 Oct 2020 03:14:35 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e5sm3897753wrw.93.2020.10.29.03.14.32
+ by smtp.gmail.com with ESMTPSA id e5sm3897753wrw.93.2020.10.29.03.14.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 03:14:33 -0700 (PDT)
+ Thu, 29 Oct 2020 03:14:34 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/3] fbcon: Disable accelerated scrolling
-Date: Thu, 29 Oct 2020 11:14:26 +0100
-Message-Id: <20201029101428.4058311-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH 2/3] fbcon: Drop EXPORT_SYMBOL
+Date: Thu, 29 Oct 2020 11:14:27 +0100
+Message-Id: <20201029101428.4058311-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201029101428.4058311-1-daniel.vetter@ffwll.ch>
+References: <20201029101428.4058311-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,184 +63,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: George Kennedy <george.kennedy@oracle.com>, Sam Ravnborg <sam@ravnborg.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Peter Rosin <peda@axentia.se>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Ben Skeggs <bskeggs@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, nouveau@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>
+ Peilin Ye <yepeilin.cs@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Jiri Slaby <jirislaby@kernel.org>,
+ Helge Deller <deller@gmx.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So ever since syzbot discovered fbcon, we have solid proof that it's
-full of bugs. And often the solution is to just delete code and remove
-features, e.g.  50145474f6ef ("fbcon: remove soft scrollback code").
+Every since
 
-Now the problem is that most modern-ish drivers really only treat
-fbcon as an dumb kernel console until userspace takes over, and Oops
-printer for some emergencies. Looking at drm drivers and the basic
-vesa/efi fbdev drivers shows that only 3 drivers support any kind of
-acceleration:
+commit 6104c37094e729f3d4ce65797002112735d49cd1
+Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Tue Aug 1 17:32:07 2017 +0200
 
-- nouveau, seems to be enabled by default
-- omapdrm, when a DMM remapper exists using remapper rewriting for
-  y/xpanning
-- gma500, but that is getting deleted now for the GTT remapper trick,
-  and the accelerated copyarea never set the FBINFO_HWACCEL_COPYAREA
-  flag, so unused (and could be deleted already I think).
+    fbcon: Make fbcon a built-time depency for fbdev
 
-No other driver supportes accelerated fbcon. And fbcon is the only
-user of this accel code (it's not exposed as uapi through ioctls),
-which means we could garbage collect fairly enormous amounts of code
-if we kill this.
+these are no longer distinct loadable modules, so exporting symbols is
+kinda pointless.
 
-Plus because syzbot only runs on virtual hardware, and none of the
-drivers for that have acceleration, we'd remove a huge gap in testing.
-And there's no other even remotely comprehensive testing aside from
-syzbot.
-
-This patch here just disables the acceleration code by always
-redrawing when scrolling. The plan is that once this has been merged
-for well over a year in released kernels, we can start to go around
-and delete a lot of code.
-
-v2:
-- Drop a few more unused local variables, somehow I missed the
-compiler warnings (Sam)
-- Fix typo in comment (Jiri)
-- add a todo entry for the cleanup (Thomas)
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Jiri Slaby <jirislaby@kernel.org>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: nouveau@lists.freedesktop.org
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jiri Slaby <jirislaby@kernel.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Peilin Ye <yepeilin.cs@gmail.com>
-Cc: George Kennedy <george.kennedy@oracle.com>
-Cc: Nathan Chancellor <natechancellor@gmail.com>
-Cc: Peter Rosin <peda@axentia.se>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Peilin Ye <yepeilin.cs@gmail.com>
 ---
- Documentation/gpu/todo.rst       | 18 ++++++++++++++
- drivers/video/fbdev/core/fbcon.c | 42 ++++++--------------------------
- 2 files changed, 25 insertions(+), 35 deletions(-)
+ drivers/video/fbdev/core/bitblit.c      | 3 ---
+ drivers/video/fbdev/core/fbcon_ccw.c    | 1 -
+ drivers/video/fbdev/core/fbcon_cw.c     | 1 -
+ drivers/video/fbdev/core/fbcon_rotate.c | 1 -
+ drivers/video/fbdev/core/fbcon_ud.c     | 1 -
+ drivers/video/fbdev/core/softcursor.c   | 2 --
+ drivers/video/fbdev/core/tileblit.c     | 2 --
+ 7 files changed, 11 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 6b224ef14455..bec99341a904 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -277,6 +277,24 @@ Contact: Daniel Vetter, Noralf Tronnes
- 
- Level: Advanced
- 
-+Garbage collect fbdev scrolling acceleration
-+--------------------------------------------
-+
-+Scroll acceleration is disabled in fbcon by hard-wiring p->scrollmode =
-+SCROLL_REDRAW. There's a ton of code this will allow us to remove:
-+- lots of code in fbcon.c
-+- a bunch of the hooks in fbcon_ops, maybe the remaining hooks could be called
-+  directly instead of the function table (with a switch on p->rotate)
-+- fb_copyarea is unused after this, and can be deleted from all drivers
-+
-+Note that not all acceleration code can be deleted, since clearing and cursor
-+support is still accelerated, which might be good candidates for further
-+deletion projects.
-+
-+Contact: Daniel Vetter
-+
-+Level: Intermediate
-+
- idr_init_base()
- ---------------
- 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index cef437817b0d..a68253485244 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -1147,11 +1147,13 @@ static void fbcon_init(struct vc_data *vc, int init)
- 
- 	ops->graphics = 0;
- 
--	if ((cap & FBINFO_HWACCEL_COPYAREA) &&
--	    !(cap & FBINFO_HWACCEL_DISABLED))
--		p->scrollmode = SCROLL_MOVE;
--	else /* default to something safe */
--		p->scrollmode = SCROLL_REDRAW;
-+	/*
-+	 * No more hw acceleration for fbcon.
-+	 *
-+	 * FIXME: Garbage collect all the now dead code after sufficient time
-+	 * has passed.
-+	 */
-+	p->scrollmode = SCROLL_REDRAW;
- 
- 	/*
- 	 *  ++guenther: console.c:vc_allocate() relies on initializing
-@@ -1961,45 +1963,15 @@ static void updatescrollmode(struct fbcon_display *p,
- {
- 	struct fbcon_ops *ops = info->fbcon_par;
- 	int fh = vc->vc_font.height;
--	int cap = info->flags;
--	u16 t = 0;
--	int ypan = FBCON_SWAP(ops->rotate, info->fix.ypanstep,
--				  info->fix.xpanstep);
--	int ywrap = FBCON_SWAP(ops->rotate, info->fix.ywrapstep, t);
- 	int yres = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
- 	int vyres = FBCON_SWAP(ops->rotate, info->var.yres_virtual,
- 				   info->var.xres_virtual);
--	int good_pan = (cap & FBINFO_HWACCEL_YPAN) &&
--		divides(ypan, vc->vc_font.height) && vyres > yres;
--	int good_wrap = (cap & FBINFO_HWACCEL_YWRAP) &&
--		divides(ywrap, vc->vc_font.height) &&
--		divides(vc->vc_font.height, vyres) &&
--		divides(vc->vc_font.height, yres);
--	int reading_fast = cap & FBINFO_READS_FAST;
--	int fast_copyarea = (cap & FBINFO_HWACCEL_COPYAREA) &&
--		!(cap & FBINFO_HWACCEL_DISABLED);
--	int fast_imageblit = (cap & FBINFO_HWACCEL_IMAGEBLIT) &&
--		!(cap & FBINFO_HWACCEL_DISABLED);
- 
- 	p->vrows = vyres/fh;
- 	if (yres > (fh * (vc->vc_rows + 1)))
- 		p->vrows -= (yres - (fh * vc->vc_rows)) / fh;
- 	if ((yres % fh) && (vyres % fh < yres % fh))
- 		p->vrows--;
--
--	if (good_wrap || good_pan) {
--		if (reading_fast || fast_copyarea)
--			p->scrollmode = good_wrap ?
--				SCROLL_WRAP_MOVE : SCROLL_PAN_MOVE;
--		else
--			p->scrollmode = good_wrap ? SCROLL_REDRAW :
--				SCROLL_PAN_REDRAW;
--	} else {
--		if (reading_fast || (fast_copyarea && !fast_imageblit))
--			p->scrollmode = SCROLL_MOVE;
--		else
--			p->scrollmode = SCROLL_REDRAW;
--	}
+diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
+index 9725ecd1255b..f98e8f298bc1 100644
+--- a/drivers/video/fbdev/core/bitblit.c
++++ b/drivers/video/fbdev/core/bitblit.c
+@@ -404,6 +404,3 @@ void fbcon_set_bitops(struct fbcon_ops *ops)
+ 	if (ops->rotate)
+ 		fbcon_set_rotate(ops);
  }
- 
- #define PITCH(w) (((w) + 7) >> 3)
+-
+-EXPORT_SYMBOL(fbcon_set_bitops);
+-
+diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev/core/fbcon_ccw.c
+index bbd869efd03b..9cd2c4b05c32 100644
+--- a/drivers/video/fbdev/core/fbcon_ccw.c
++++ b/drivers/video/fbdev/core/fbcon_ccw.c
+@@ -409,4 +409,3 @@ void fbcon_rotate_ccw(struct fbcon_ops *ops)
+ 	ops->cursor = ccw_cursor;
+ 	ops->update_start = ccw_update_start;
+ }
+-EXPORT_SYMBOL(fbcon_rotate_ccw);
+diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/core/fbcon_cw.c
+index a34cbe8e9874..88d89fad3f05 100644
+--- a/drivers/video/fbdev/core/fbcon_cw.c
++++ b/drivers/video/fbdev/core/fbcon_cw.c
+@@ -392,4 +392,3 @@ void fbcon_rotate_cw(struct fbcon_ops *ops)
+ 	ops->cursor = cw_cursor;
+ 	ops->update_start = cw_update_start;
+ }
+-EXPORT_SYMBOL(fbcon_rotate_cw);
+diff --git a/drivers/video/fbdev/core/fbcon_rotate.c b/drivers/video/fbdev/core/fbcon_rotate.c
+index ac72d4f85f7d..df6b469aa2c2 100644
+--- a/drivers/video/fbdev/core/fbcon_rotate.c
++++ b/drivers/video/fbdev/core/fbcon_rotate.c
+@@ -110,4 +110,3 @@ void fbcon_set_rotate(struct fbcon_ops *ops)
+ 		break;
+ 	}
+ }
+-EXPORT_SYMBOL(fbcon_set_rotate);
+diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/core/fbcon_ud.c
+index 199cbc7abe35..8d5e66b1bdfb 100644
+--- a/drivers/video/fbdev/core/fbcon_ud.c
++++ b/drivers/video/fbdev/core/fbcon_ud.c
+@@ -436,4 +436,3 @@ void fbcon_rotate_ud(struct fbcon_ops *ops)
+ 	ops->cursor = ud_cursor;
+ 	ops->update_start = ud_update_start;
+ }
+-EXPORT_SYMBOL(fbcon_rotate_ud);
+diff --git a/drivers/video/fbdev/core/softcursor.c b/drivers/video/fbdev/core/softcursor.c
+index fc93f254498e..29e5b21cf373 100644
+--- a/drivers/video/fbdev/core/softcursor.c
++++ b/drivers/video/fbdev/core/softcursor.c
+@@ -74,5 +74,3 @@ int soft_cursor(struct fb_info *info, struct fb_cursor *cursor)
+ 	info->fbops->fb_imageblit(info, image);
+ 	return 0;
+ }
+-
+-EXPORT_SYMBOL(soft_cursor);
+diff --git a/drivers/video/fbdev/core/tileblit.c b/drivers/video/fbdev/core/tileblit.c
+index 628fe5e010c0..7539ae9040f8 100644
+--- a/drivers/video/fbdev/core/tileblit.c
++++ b/drivers/video/fbdev/core/tileblit.c
+@@ -151,5 +151,3 @@ void fbcon_set_tileops(struct vc_data *vc, struct fb_info *info)
+ 		info->tileops->fb_settile(info, &map);
+ 	}
+ }
+-
+-EXPORT_SYMBOL(fbcon_set_tileops);
 -- 
 2.28.0
 
