@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9F929F66A
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 21:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4327429F67A
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 21:55:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B857A6E901;
-	Thu, 29 Oct 2020 20:48:45 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 774636E901
- for <dri-devel@freedesktop.org>; Thu, 29 Oct 2020 20:48:44 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id o3so3317313pgr.11
- for <dri-devel@freedesktop.org>; Thu, 29 Oct 2020 13:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7jTNHive/FLwf9ZZT3i6CSw/O2mDxcoGdERzu325nls=;
- b=S1eLSOvxPle2SWTXmcWkjdxAG8gKeMEQNERefUSZtQOj35IZKWi6zQ3XA/x7yozwz8
- SuJqxRhbB4i6YZ/pUVv4PdoQ6A/WOXxwmF1BPT1/90DX/CA1WzuJ0SBOp9PqwSiCKXSH
- F0G3QbbwVleLe5Wk2wNrW1vW/731JkCOacLvw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7jTNHive/FLwf9ZZT3i6CSw/O2mDxcoGdERzu325nls=;
- b=DU2IlE5HKhcbuOTGQ67B0VWBUXGBjU1z3KUFCx0Y4kg3VE64jS0eTTt9md63wiu4B0
- HlOpLsGgwRlScC9GKncaFcfNBxp7Gm367rJrmGUqfAbxHyuU/ELTdd0TLM62zOoFAfAa
- D+yJ3+QgPCyGXRWO/EE7tmrGkBpqq1eR9UUXYOiAOgXXScHXXbUjWY3E6/0kjqVM1gl9
- O/Jl2UoITXfuZs5utGHtUJ3/Q7UjTrOYgEPoRrUGyjj5z0ms3StY9jo3Q5WZ4Q7H2KFk
- A2WlRmBcdpsb6DzeOJkpfX+M3KIx3oQhw1zEUyE9OHumqZO8CGPVnc6K7TidrmlTiXDw
- Tgtw==
-X-Gm-Message-State: AOAM532ApsphjsrSq2b8HwYv3bsmE7uVxFbIbfz6tAMkL6erVast58IV
- mVy1w2+oTq/mh5J3ccWH2ej1Ww==
-X-Google-Smtp-Source: ABdhPJyNFMcPbWUco+Y+QNwEzgo/c6cxhTHy+B3buEgXZaS5imhK9G19CfKi/1d1jqh/zqA5P53RtQ==
-X-Received: by 2002:a17:90a:6984:: with SMTP id
- s4mr1082688pjj.206.1604004524081; 
- Thu, 29 Oct 2020 13:48:44 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
- by smtp.gmail.com with ESMTPSA id e5sm808565pjd.0.2020.10.29.13.48.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Oct 2020 13:48:43 -0700 (PDT)
-Date: Thu, 29 Oct 2020 13:48:42 -0700
-From: mka@chromium.org
-To: Akhil P Oommen <akhilpo@codeaurora.org>
-Subject: Re: [v4,1/3] drm/msm: Add support for GPU cooling
-Message-ID: <20201029204842.GC1855806@google.com>
-References: <1603958841-20233-1-git-send-email-akhilpo@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 707E76E902;
+	Thu, 29 Oct 2020 20:55:17 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 824406E902
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 20:55:16 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1604004916; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=IvT094o+bw1ADvmBPN9gouqbGIGTEAEKXJ7h9ttqJTY=;
+ b=bK16y6Cwhz51fFGV22E4JZdKDYZqLOPgMIVh+3BZ4t1ICIxRgHt7Zvfbh6BNwkhUqHjvtIjh
+ e3pUO5UBCNTWvLyi4WUfr5Eym/MQ2hqZsD0nrHly1rmW2BSrOnZf4F4nxbNf9aFiRAZF/U6C
+ L5hmgoTnmt9oAqRTP76Skfab6Cw=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 5f9b2c338335df16570b58e5 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 29 Oct 2020 20:55:15
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id A342EC433FE; Thu, 29 Oct 2020 20:55:15 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6A6B6C433C8;
+ Thu, 29 Oct 2020 20:55:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6A6B6C433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=abhinavk@codeaurora.org
+From: Abhinav Kumar <abhinavk@codeaurora.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/dp: do not notify audio subsystem if sink doesn't
+ support audio
+Date: Thu, 29 Oct 2020 13:55:09 -0700
+Message-Id: <20201029205509.13192-1-abhinavk@codeaurora.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1603958841-20233-1-git-send-email-akhilpo@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,36 +67,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dianders@chromium.org, linux-kernel@vger.kernel.org, dri-devel@freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
+ swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
+ tanmay@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org, cychiang@chromium.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 29, 2020 at 01:37:19PM +0530, Akhil P Oommen wrote:
-> Register GPU as a devfreq cooling device so that it can be passively
-> cooled by the thermal framework.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+For sinks that do not support audio, there is no need to notify
+audio subsystem of the connection event.
 
-Wait, I did not post a 'Reviewed-by' tag for this patch!
+This will make sure that audio routes only to the primary display
+when connected to such sinks.
 
-I think the patch should be ok, but I'm still not super happy
-about the resource management involving devfreq in general (see
-discussion on https://patchwork.freedesktop.org/patch/394291/?series=82476&rev=1).
-It's not really something introduced by this patch, but if it ever
-gets fixed releasing the cooling device at the end of
-msm_gpu_cleanup() after everything else might cause trouble.
+Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-In summary, I'm supportive of landing this patch, but reluctant to
-'sign it off' because of the above.
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 4a5735564be2..d970980b0ca5 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -555,8 +555,16 @@ static int dp_connect_pending_timeout(struct dp_display_private *dp, u32 data)
+ static void dp_display_handle_plugged_change(struct msm_dp *dp_display,
+ 		bool plugged)
+ {
+-	if (dp_display->plugged_cb && dp_display->codec_dev)
+-		dp_display->plugged_cb(dp_display->codec_dev, plugged);
++	struct dp_display_private *dp;
++
++	dp = container_of(g_dp_display,
++			struct dp_display_private, dp_display);
++
++	if (dp_display->plugged_cb && dp_display->codec_dev) {
++		/* notify audio subsystem only if sink supports audio */
++		if (dp->audio_supported)
++			dp_display->plugged_cb(dp_display->codec_dev, plugged);
++	}
+ }
+ 
+ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-In any case:
-
-Tested-by: Matthias Kaehlcke <mka@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
