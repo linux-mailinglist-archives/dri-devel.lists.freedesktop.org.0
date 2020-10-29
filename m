@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2020D29F8B8
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 23:55:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2468429F8C0
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 23:58:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 245366E922;
-	Thu, 29 Oct 2020 22:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 281726E924;
+	Thu, 29 Oct 2020 22:58:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6518D6E922
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 22:55:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 779F36E924
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 22:58:20 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3C0550E;
- Thu, 29 Oct 2020 23:55:31 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D4C8A50E;
+ Thu, 29 Oct 2020 23:58:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604012132;
- bh=ovDHuKXXAmDXvjIT2eq7pyOlaQsk/HVLGY9nfJAOUnc=;
+ s=mail; t=1604012299;
+ bh=PTVUL1WXwVs1ktyUsDKxyKEeNoRKT/lKQOuh7jfstVc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dTL1EZlwzD/YQHty2EZ5ys4Hx/x1TqbF7jESYkfmno19NiP2AISmg2XOzdONlNllU
- SuMu6Pu1iJJetHhQHr41zscmsN/saSZiVj7wQxx0M5lmO7VMboQyiiETgUYc/rL/A5
- NrDvPAsrIhtOFYaVInZ3pNRBieMbFyv+FDYPAsjM=
-Date: Fri, 30 Oct 2020 00:54:43 +0200
+ b=mJK78Jeia/rlPvAqB7+8nODfvpJLbxvRm7MHLdHobi8i3OQpICZY5EMD+WI4GSLWn
+ oUtreubCh/Ld12XuF7/DUvXWoE4wipCzIYonsPPFrnUTYFvWJM+VpFuLcuuJaG25ZQ
+ IfRy1T/oEDoKVDkmhJLd4hKVhPobdK4l1QraBOwg=
+Date: Fri, 30 Oct 2020 00:57:30 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Nikhil Devshatwar <nikhil.nd@ti.com>
-Subject: Re: [PATCH 1/5] drm/tidss: Move to newer connector model
-Message-ID: <20201029225443.GJ15024@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/5] drm/tidss: Set bus_format correctly from
+ bridge/connector
+Message-ID: <20201029225730.GK15024@pendragon.ideasonboard.com>
 References: <20201016103917.26838-1-nikhil.nd@ti.com>
- <20201016103917.26838-2-nikhil.nd@ti.com>
+ <20201016103917.26838-3-nikhil.nd@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201016103917.26838-2-nikhil.nd@ti.com>
+In-Reply-To: <20201016103917.26838-3-nikhil.nd@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,85 +58,60 @@ Hi Nikhil,
 
 Thank you for the patch.
 
-On Fri, Oct 16, 2020 at 04:09:13PM +0530, Nikhil Devshatwar wrote:
-> To be able to support connector operations across multiple
-> bridges, it is recommended that the connector should be
-> created by the SoC driver instead of the bridges.
+On Fri, Oct 16, 2020 at 04:09:14PM +0530, Nikhil Devshatwar wrote:
+> When there is a chain of bridges attached to the encoder,
+> the bus_format should be ideally set from the input format of the
+> first bridge in the chain.
 > 
-> Modify the tidss modesetting initialization sequence to
-> create the connector and attach bridges with flag
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> Use the bridge state to get the negotiated bus_format.
+> If the bridge does not support format negotiation, error out
+> and fail.
 > 
 > Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 > ---
->  drivers/gpu/drm/tidss/tidss_drv.h |  3 +++
->  drivers/gpu/drm/tidss/tidss_kms.c | 15 ++++++++++++++-
->  2 files changed, 17 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/tidss/tidss_encoder.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-> index 7de4bba52e6f..cfbf85a4d92b 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.h
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
-> @@ -27,6 +27,9 @@ struct tidss_device {
->  	unsigned int num_planes;
->  	struct drm_plane *planes[TIDSS_MAX_PLANES];
+> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
+> index e278a9c89476..ae7f134754b7 100644
+> --- a/drivers/gpu/drm/tidss/tidss_encoder.c
+> +++ b/drivers/gpu/drm/tidss/tidss_encoder.c
+> @@ -22,6 +22,7 @@ static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
+>  	struct drm_device *ddev = encoder->dev;
+>  	struct tidss_crtc_state *tcrtc_state = to_tidss_crtc_state(crtc_state);
+>  	struct drm_display_info *di = &conn_state->connector->display_info;
+> +	struct drm_bridge_state *bstate;
+>  	struct drm_bridge *bridge;
+>  	bool bus_flags_set = false;
 >  
-> +	unsigned int num_connectors;
-> +	struct drm_connector *connectors[TIDSS_MAX_PORTS];
-> +
->  	spinlock_t wait_lock;	/* protects the irq masks */
->  	dispc_irq_t irq_mask;	/* enabled irqs in addition to wait_list */
->  };
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> index 09485c7f0d6f..51c24b4a6a21 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> @@ -7,6 +7,7 @@
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_bridge_connector.h>
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_fb_cma_helper.h>
->  #include <drm/drm_fb_helper.h>
-> @@ -192,6 +193,7 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
->  	for (i = 0; i < num_pipes; ++i) {
->  		struct tidss_plane *tplane;
->  		struct tidss_crtc *tcrtc;
-> +		struct drm_connector *connector;
->  		struct drm_encoder *enc;
->  		u32 hw_plane_id = feat->vid_order[tidss->num_planes];
->  		int ret;
-> @@ -222,11 +224,22 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
->  			return PTR_ERR(enc);
->  		}
->  
-> -		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL, 0);
-> +		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL,
-> +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->  		if (ret) {
->  			dev_err(tidss->dev, "bridge attach failed: %d\n", ret);
->  			return ret;
->  		}
-> +
-> +		connector = drm_bridge_connector_init(&tidss->ddev, enc);
-> +		if (IS_ERR(connector)) {
-> +			dev_err(tidss->dev, "bridge_connector create failed\n");
-> +			return PTR_ERR(connector);
-> +		}
-> +
-> +		tidss->connectors[tidss->num_connectors++] = connector;
-> +
-> +		drm_connector_attach_encoder(connector, enc);
-
-Apart from the issue reported by Tomi, the patch looks goood to me. Fix
-this fixed, and the series reordered to move this to the end,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> @@ -41,14 +42,19 @@ static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
+>  		break;
 >  	}
 >  
->  	/* create overlay planes of the leftover planes */
+> -	if (!di->bus_formats || di->num_bus_formats == 0)  {
+> -		dev_err(ddev->dev, "%s: No bus_formats in connected display\n",
+> -			__func__);
+> +	/* Copy the bus_format from the input_bus_format of first bridge */
+> +	bridge = drm_bridge_chain_get_first_bridge(encoder);
+> +	bstate = drm_atomic_get_new_bridge_state(crtc_state->state, bridge);
+> +	if (bstate)
+> +		tcrtc_state->bus_format = bstate->input_bus_cfg.format;
+> +
+> +	if (tcrtc_state->bus_format == 0 ||
+> +	    tcrtc_state->bus_format == MEDIA_BUS_FMT_FIXED) {
+> +
+> +		dev_err(ddev->dev, "Bridge connected to the encoder did not specify media bus format\n");
+>  		return -EINVAL;
+>  	}
+>  
+> -	// XXX any cleaner way to set bus format and flags?
+> -	tcrtc_state->bus_format = di->bus_formats[0];
+>  	if (!bus_flags_set)
+>  		tcrtc_state->bus_flags = di->bus_flags;
+
+Shouldn't the flags also be retrieved from the bridge state ?
+
+>  
 
 -- 
 Regards,
