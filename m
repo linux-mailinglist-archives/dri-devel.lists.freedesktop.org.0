@@ -2,54 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0404829E8B8
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 11:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50E329E944
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 11:47:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071BA6ECA3;
-	Thu, 29 Oct 2020 10:14:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91FD36ECA7;
+	Thu, 29 Oct 2020 10:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D610C6E8D4
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 10:14:37 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id i1so2133660wro.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 03:14:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NH1wgxZzmNr+f4f/izYOW3Kn2sqLIMMHcPJO+vFYPj8=;
- b=Hkxe6zs+S5dTbcwUFC1+X5+n49A/SNSvIY83JbI54r1aawzTNDh5eYWpvB4WVQ91tB
- krPLqS63geCdVbXeMPHR+G6sOa+/n9rlBSdBs0haU3LWOIezU0gcsY0Jqby2ilee5eJt
- lLT7Oth/y1jCjqPGrmzJ0jBhsSuR5H3bwiXjU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NH1wgxZzmNr+f4f/izYOW3Kn2sqLIMMHcPJO+vFYPj8=;
- b=G+BOg50g/FtvxscoFFBXhcMjt2l5/3dmM684yNPVhahdBBw/nPzyEjNqxuhkOBDyp0
- qLI2VcNiBzfM0hrrQSVOM5uf9SZOhTJO4GD6N/Rzpl//3IGR9fZ6dixUvt8m0hG1Fcju
- yg8/W3Y+1Kjgl7n/HT7LFkFPf5NUgL3tM7nITzx/IrrGykZ9zSxaOnTiHsmVtgfnVvbG
- 9HVur1PX6g9oPTlXAxBGufpF/roiNJIY3QlhQNrmKTVl1gsSXyRN2RhFS7vChfpoJXOm
- S6FOg18PhVzl5DTbPCd7L+F5se8YfpN5SYis1dZbqGaI8Zz3L7HBTAUj6yGikjILtrxz
- WKDw==
-X-Gm-Message-State: AOAM532n21gLxFBy9Xs+iQfaOkECYJt8LiWAIUqUGz3jVwNHgr3ekcFD
- Glk/bcrTKC8OANKAxeRUW0iXfxImsg4Cg/hr
-X-Google-Smtp-Source: ABdhPJwKhZUv0/sxV9eMLtbW41ionD/GZOnsN7WT3fFy3s7vVW47Q/DgBSrBxSdS4kDGU3LeYplh0A==
-X-Received: by 2002:adf:ecc8:: with SMTP id s8mr4370597wro.328.1603966476296; 
- Thu, 29 Oct 2020 03:14:36 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e5sm3897753wrw.93.2020.10.29.03.14.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 03:14:35 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/3] drm/qxl: Remove fbcon acceleration leftovers
-Date: Thu, 29 Oct 2020 11:14:28 +0100
-Message-Id: <20201029101428.4058311-3-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201029101428.4058311-1-daniel.vetter@ffwll.ch>
-References: <20201029101428.4058311-1-daniel.vetter@ffwll.ch>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 341316EB97
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 10:47:39 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 82CF01F45954;
+ Thu, 29 Oct 2020 10:47:37 +0000 (GMT)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH v2] drm/panfrost: Fix a race in the job timeout handling
+ (again)
+Date: Thu, 29 Oct 2020 11:47:32 +0100
+Message-Id: <20201029104732.293437-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,54 +40,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: spice-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These are leftovers from 13aff184ed9f ("drm/qxl: remove dead qxl fbdev
-emulation code").
+In our last attempt to fix races in the panfrost_job_timedout() path we
+overlooked the case where a re-submitted job immediately triggers a
+fault. This lead to a situation where we try to stop a scheduler that's
+not resumed yet and lose the 'timedout' event without restarting the
+timeout, thus blocking the whole queue.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: virtualization@lists.linux-foundation.org
-Cc: spice-devel@lists.freedesktop.org
+Let's fix that by tracking timeouts occurring between the
+drm_sched_resubmit_jobs() and drm_sched_start() calls.
+
+v2:
+- Fix another race (reported by Steven)
+
+Fixes: 1a11a88cfd9a ("drm/panfrost: Fix job timeout handling")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/qxl/qxl_drv.h | 14 --------------
- 1 file changed, 14 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_job.c | 61 +++++++++++++++++--------
+ 1 file changed, 43 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
-index 3602e8b34189..86eee66ecbad 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.h
-+++ b/drivers/gpu/drm/qxl/qxl_drv.h
-@@ -166,20 +166,6 @@ struct qxl_drm_image {
- 	struct list_head chunk_list;
- };
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index d0469e944143..0f9a34f5c6d0 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -26,6 +26,7 @@
+ struct panfrost_queue_state {
+ 	struct drm_gpu_scheduler sched;
+ 	bool stopped;
++	bool timedout;
+ 	struct mutex lock;
+ 	u64 fence_context;
+ 	u64 emit_seqno;
+@@ -383,11 +384,33 @@ static bool panfrost_scheduler_stop(struct panfrost_queue_state *queue,
+ 		queue->stopped = true;
+ 		stopped = true;
+ 	}
++	queue->timedout = true;
+ 	mutex_unlock(&queue->lock);
  
--struct qxl_fb_image {
--	struct qxl_device *qdev;
--	uint32_t pseudo_palette[16];
--	struct fb_image fb_image;
--	uint32_t visual;
--};
+ 	return stopped;
+ }
+ 
++static void panfrost_scheduler_start(struct panfrost_queue_state *queue)
++{
++	if (WARN_ON(!queue->stopped))
++		return;
++
++	mutex_lock(&queue->lock);
++	drm_sched_start(&queue->sched, true);
++
++	/*
++	 * We might have missed fault-timeouts (AKA immediate timeouts) while
++	 * the scheduler was stopped. Let's fake a new fault to trigger an
++	 * immediate reset.
++	 */
++	if (queue->timedout)
++		drm_sched_fault(&queue->sched);
++
++	queue->timedout = false;
++	queue->stopped = false;
++	mutex_unlock(&queue->lock);
++}
++
+ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+ {
+ 	struct panfrost_job *job = to_panfrost_job(sched_job);
+@@ -422,27 +445,20 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+ 		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
+ 
+ 		/*
+-		 * If the queue is still active, make sure we wait for any
+-		 * pending timeouts.
++		 * Stop the scheduler and wait for any pending timeout handler
++		 * to return.
+ 		 */
+-		if (!pfdev->js->queue[i].stopped)
++		panfrost_scheduler_stop(&pfdev->js->queue[i], NULL);
++		if (i != js)
+ 			cancel_delayed_work_sync(&sched->work_tdr);
+ 
+ 		/*
+-		 * If the scheduler was not already stopped, there's a tiny
+-		 * chance a timeout has expired just before we stopped it, and
+-		 * drm_sched_stop() does not flush pending works. Let's flush
+-		 * them now so the timeout handler doesn't get called in the
+-		 * middle of a reset.
++		 * We do another stop after cancel_delayed_work_sync() to make
++		 * sure we don't race against another thread finishing its
++		 * reset (the restart queue steps are not protected by the
++		 * reset lock).
+ 		 */
+-		if (panfrost_scheduler_stop(&pfdev->js->queue[i], NULL))
+-			cancel_delayed_work_sync(&sched->work_tdr);
 -
--struct qxl_draw_fill {
--	struct qxl_device *qdev;
--	struct qxl_rect rect;
--	uint32_t color;
--	uint16_t rop;
--};
--
- /*
-  * Debugfs
-  */
+-		/*
+-		 * Now that we cancelled the pending timeouts, we can safely
+-		 * reset the stopped state.
+-		 */
+-		pfdev->js->queue[i].stopped = false;
++		panfrost_scheduler_stop(&pfdev->js->queue[i], NULL);
+ 	}
+ 
+ 	spin_lock_irqsave(&pfdev->js->job_lock, flags);
+@@ -457,14 +473,23 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+ 
+ 	panfrost_device_reset(pfdev);
+ 
+-	for (i = 0; i < NUM_JOB_SLOTS; i++)
++	for (i = 0; i < NUM_JOB_SLOTS; i++) {
++		/*
++		 * The GPU is idle, and the scheduler is stopped, we can safely
++		 * reset the ->timedout state without taking any lock. We need
++		 * to do that before calling drm_sched_resubmit_jobs() though,
++		 * because the resubmission might trigger immediate faults
++		 * which we want to catch.
++		 */
++		pfdev->js->queue[i].timedout = false;
+ 		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
++	}
+ 
+ 	mutex_unlock(&pfdev->reset_lock);
+ 
+ 	/* restart scheduler after GPU is usable again */
+ 	for (i = 0; i < NUM_JOB_SLOTS; i++)
+-		drm_sched_start(&pfdev->js->queue[i].sched, true);
++		panfrost_scheduler_start(&pfdev->js->queue[i]);
+ }
+ 
+ static const struct drm_sched_backend_ops panfrost_sched_ops = {
 -- 
-2.28.0
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
