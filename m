@@ -2,58 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA3E29F402
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 19:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0208829F405
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 19:23:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8F56E8CB;
-	Thu, 29 Oct 2020 18:20:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 461DE6E8B7;
+	Thu, 29 Oct 2020 18:23:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 073AC6E8D9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 18:20:59 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id l8so744292wmg.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 11:20:58 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 824336E5BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 18:23:00 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id d3so741918wma.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 11:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=rUvFewj78zazz9v88M20C4ahSp4GZVp9VtdQYcKFKAg=;
- b=H/Y7xO1wfsyQhxJl3e1hzDghMncQnGz0jIP5Iveb1dE8S6mhAMtmuz9SBikZZRyiLv
- Eyk4Y2ye1unBIOlOLm3vC+uYu+qFcfzcWfYfYjXQzwWx3DLAEFpxkIGmr6ELsxIDU8rz
- FGsy7ENdDR4QnTVDUuIVc7irJ7PEe0N17zsdA=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WptYepIxvUtBGbdfe98byMus1rF84W8IHfRhIetB8kE=;
+ b=RQBKJR+7mIXmVt2BzbUwRmfEBlPWlq+vo62QPLGc5veKhuZtO2NmyOyX6KqEa1cc/V
+ Pz9XOpHJ6eo/sdS5lsc4BUAU+00BrTZ5SZd1Y9nLLzCOZ4x68BFzBDGCOdzdT1K9ldrC
+ yGPHEjqMynYomFJgV0EfMfpmEf+0TFA+yueS8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=rUvFewj78zazz9v88M20C4ahSp4GZVp9VtdQYcKFKAg=;
- b=Hd7nSrhUav5RBQrxfihDioQfBUw8DvFfrprwZ0drG2U+jTTQ0NUIDa9a8qkq3fQqco
- RJzzKHz37+iQxeX9/tU95zBlg4pIgOu4H5XMAsXqX331X3T54cpx9llhwDig737+c8/6
- Nm66NQdeL03FB2NKWHGUaBSGTSKjchAarrjxDaP9Cry1qoHyaICXBHgWMtz8iuFP3QIO
- qfhVtf9rrMFK3MXN5lPqa3t/qEKGYNgT7GPkXQRt5DL9NrQK94ZK10GWEKWOoEUYev0b
- UU1XfBq8ulbQbiKF9WHsGLvL4R2XaPEhv6QONuUIFm7p7MPRjDleYXvnpz7elxBFP72X
- IHGA==
-X-Gm-Message-State: AOAM5301Wt2sqF7l/+DpVgXXUFzkII8wPW10qwOA0TyTc6WdFzUt7z/L
- H/fx4iIFOHMdeRb0BD1AYajuTA==
-X-Google-Smtp-Source: ABdhPJzn+l6jKHwyQDGTtsckcMdFKnDcYrUly+8CSDk2BKw7si9QF+sMJc3+tgPG2nPDbJ1PAkx1cQ==
-X-Received: by 2002:a1c:ac87:: with SMTP id v129mr84886wme.119.1603995657591; 
- Thu, 29 Oct 2020 11:20:57 -0700 (PDT)
+ bh=WptYepIxvUtBGbdfe98byMus1rF84W8IHfRhIetB8kE=;
+ b=RyV8g+SeKZ6ayiOUZgORoHawue7m1/Ei/mf2kFQ9EX0kcXEU6gxKWe0JL2yypHuGjA
+ oIUTwsymyGanDH4w+ccW+b3QN4B+Wkg4s+icDJtxFhs/Gey9C0G3jEdv9Sb4fWFbGo41
+ 2qK01cohHUoEEDylU0Qi6OZe3kqBRGUHOJCjja0XmtXd5bUqAo0TATmk8HFGPfzmM/oa
+ KLHPsjvHvM7/LRPJm5Ykn/JCwmgUUNa9n1NDjygQ6eADNbzsa6E57a/v/Y4eVMrnHw1/
+ COinPFRtDTWcoE3MxEqcrh3WD+Ani9gydxwf0Ps50aLqIq0iEop4ELiKQb9cn+KB2Fvk
+ Y+mg==
+X-Gm-Message-State: AOAM533k/wA3abYBUo784mOPUfhqU6KSfkazQr0E+ulTTUUWoNO5CW4a
+ sffSbCCL9SdCmsXPylC+ogNsPw==
+X-Google-Smtp-Source: ABdhPJyp95YENdHwZ66lxLNl0XS2/n4giFjn2XgtRCJ954OsgnABOBSWtRN3hojBXjSHm5FxATl9fQ==
+X-Received: by 2002:a1c:7c1a:: with SMTP id x26mr170768wmc.4.1603995779199;
+ Thu, 29 Oct 2020 11:22:59 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q7sm6520441wrr.39.2020.10.29.11.20.56
+ by smtp.gmail.com with ESMTPSA id o184sm1025591wmo.37.2020.10.29.11.22.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 11:20:56 -0700 (PDT)
-Date: Thu, 29 Oct 2020 19:20:54 +0100
+ Thu, 29 Oct 2020 11:22:58 -0700 (PDT)
+Date: Thu, 29 Oct 2020 19:22:56 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [RFC PATCH 2/2] drm: etnaviv: Unmap gems on gem_close
-Message-ID: <20201029182054.GC401619@phenom.ffwll.local>
-References: <cover.1603981111.git.agx@sigxcpu.org>
- <a92da13ed190e6d49550b78dadad3c0003ef6881.1603981111.git.agx@sigxcpu.org>
- <8a354530944e6a606212fe537c689ec20422a954.camel@pengutronix.de>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v4 23/23] drm/msm: Don't implicit-sync if only a single
+ ring
+Message-ID: <20201029182256.GD401619@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Rob Clark <robdclark@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Sean Paul <sean@poorly.run>
+References: <20201023165136.561680-1-robdclark@gmail.com>
+ <20201023165136.561680-24-robdclark@gmail.com>
+ <d0fb714b99f13bea6000ecd17fba324433782ae5.camel@pengutronix.de>
+ <CAF6AEGsf=pJ5H4guvL-+AAkK0PwCZ5g9k3K=7UPYzFmr02ReoA@mail.gmail.com>
+ <20201026093405.GG401619@phenom.ffwll.local>
+ <CAKMK7uHK27hMu+zSR0O35gR-Nq-JDXpXWBFXPBcXUhOi_3AKnw@mail.gmail.com>
+ <CAF6AEGsSY2WtQ33mSZFmju7bSkjP3Zsi2vBnGDy35+YFCWu7qw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8a354530944e6a606212fe537c689ec20422a954.camel@pengutronix.de>
+In-Reply-To: <CAF6AEGsSY2WtQ33mSZFmju7bSkjP3Zsi2vBnGDy35+YFCWu7qw@mail.gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,165 +82,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 29, 2020 at 03:38:21PM +0100, Lucas Stach wrote:
-> Hi Guido,
-> =
+On Thu, Oct 29, 2020 at 09:59:09AM -0700, Rob Clark wrote:
+> On Thu, Oct 29, 2020 at 9:14 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, Oct 26, 2020 at 10:34 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Fri, Oct 23, 2020 at 08:49:14PM -0700, Rob Clark wrote:
+> > > > On Fri, Oct 23, 2020 at 11:20 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+> > > > >
+> > > > > On Fr, 2020-10-23 at 09:51 -0700, Rob Clark wrote:
+> > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > >
+> > > > > > If there is only a single ring (no-preemption), everything is FIFO order
+> > > > > > and there is no need to implicit-sync.
+> > > > > >
+> > > > > > Mesa should probably just always use MSM_SUBMIT_NO_IMPLICIT, as behavior
+> > > > > > is undefined when fences are not used to synchronize buffer usage across
+> > > > > > contexts (which is the only case where multiple different priority rings
+> > > > > > could come into play).
+> > > > >
+> > > > > Really, doesn't this break cross-device implicit sync? Okay, you may
+> > > > > not have many peripherals that rely on implicit sync on devices where
+> > > > > Adreno is usually found, but it seems rather heavy-handed.
+> > > > >
+> > > > > Wouldn't it be better to only ignore fences from your own ring context
+> > > > > in the implicit sync, like we do in the common DRM scheduler
+> > > > > (drm_sched_dependency_optimized)?
+> > > >
+> > > > we already do this.. as was discussed on an earlier iteration of this patchset
+> > > >
+> > > > But I'm not aware of any other non-gpu related implicit sync use-case
+> > > > (even on imx devices where display is decoupled from gpu).. I'll
+> > > > revert the patch if someone comes up with one, but otherwise lets let
+> > > > the implicit sync baggage die
+> > >
+> > > The thing is, dma_resv won't die, even if implicit sync is dead. We're
+> > > using internally for activity tracking and memory management. If you don't
+> > > set these, then we can't share generic code with msm, and I think everyone
+> > > inventing their own memory management is a bit a mistake.
+> > >
+> > > Now you only kill the implicit write sync stuff here, but I'm not sure
+> > > that's worth much since you still install all the read fences for
+> > > consistency. And if userspace doesn't want to be synced, they can set the
+> > > flag and do this on their own: I think you should be able to achieve
+> > > exactly the same thing in mesa.
+> > >
+> > > Aside: If you're worried about overhead, you can do O(1) submit if you
+> > > manage your ppgtt like amdgpu does.
+> >
+> > So just remember a use-case which is maybe a bit yucky, but it is
+> > actually possible to implement race-free. If you have implicit sync.
+> >
+> > There's screen-capture tool in mplayer and obs which capture your
+> > compositor by running getfb2 in a loop. It works, and after some
+> > initial screaming I realized it does actually work race-free. If you
+> > have implicit sync.
+> >
+> > I really don't think you can sunset this, as much as you want to. And
+> > sunsetting it inconsistently is probably the worst.
+> 
+> For the case where you only have a single ring, as long as it is
+> importing the fb in to egl to read it (which it would need to do to
+> get a linear view), this would still all work
 
-> Am Donnerstag, den 29.10.2020, 15:20 +0100 schrieb Guido G=FCnther:
-> > So far the unmap from gpu address space only happened when dropping the
-> > last ref in gem_free_object_unlocked, however that is skipped if there's
-> > still multiple handles to the same GEM object.
-> > =
+Hm right we still have the implicit sync of the ringbuffer. At least until
+you add a submit scheduler to msm ...
 
-> > Since userspace (here mesa) in the case of softpin hands back the memory
-> > region to the pool of available GPU virtual memory closing the handle
-> > via DRM_IOCTL_GEM_CLOSE this can lead to etnaviv_iommu_insert_exact
-> > failing later since userspace thinks the vaddr is available while the
-> > kernel thinks it isn't making the submit fail like
-> > =
+> (but I may drop this patch because it is just a micro-optimization and
+> seems to cause more confusion)
 
-> >   [E] submit failed: -14 (No space left on device) (etna_cmd_stream_flu=
-sh:244)
-> > =
-
-> > Fix this by unmapping the memory via the .gem_close_object callback.
-> > =
-
-> > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_drv.c |  1 +
-> >  drivers/gpu/drm/etnaviv/etnaviv_drv.h |  1 +
-> >  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 32 +++++++++++++++++++++++++++
-> >  3 files changed, 34 insertions(+)
-> > =
-
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/et=
-naviv/etnaviv_drv.c
-> > index a9a3afaef9a1..fdcc6405068c 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > @@ -491,6 +491,7 @@ static struct drm_driver etnaviv_drm_driver =3D {
-> >  	.open               =3D etnaviv_open,
-> >  	.postclose           =3D etnaviv_postclose,
-> >  	.gem_free_object_unlocked =3D etnaviv_gem_free_object,
-> > +	.gem_close_object   =3D etnaviv_gem_close_object,
-> >  	.gem_vm_ops         =3D &vm_ops,
-> >  	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
-> >  	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/et=
-naviv/etnaviv_drv.h
-> > index 4d8dc9236e5f..2226a9af0d63 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > @@ -65,6 +65,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, =
-u32 op,
-> >  		struct drm_etnaviv_timespec *timeout);
-> >  int etnaviv_gem_cpu_fini(struct drm_gem_object *obj);
-> >  void etnaviv_gem_free_object(struct drm_gem_object *obj);
-> > +void etnaviv_gem_close_object(struct drm_gem_object *obj, struct drm_f=
-ile *file);
-> >  int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *fi=
-le,
-> >  		u32 size, u32 flags, u32 *handle);
-> >  int etnaviv_gem_new_userptr(struct drm_device *dev, struct drm_file *f=
-ile,
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/et=
-naviv/etnaviv_gem.c
-> > index f06e19e7be04..5aec4a23c77e 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> > @@ -515,6 +515,38 @@ static const struct etnaviv_gem_ops etnaviv_gem_sh=
-mem_ops =3D {
-> >  	.mmap =3D etnaviv_gem_mmap_obj,
-> >  };
-> >  =
-
-> > +void etnaviv_gem_close_object(struct drm_gem_object *obj, struct drm_f=
-ile *unused)
-> > +{
-> > +	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
-> > +	struct etnaviv_vram_mapping *mapping, *tmp;
-> > +
-> > +	/* Handle this via etnaviv_gem_free_object */
-> > +	if (obj->handle_count =3D=3D 1)
-> > +		return;
-> > +
-> > +	WARN_ON(is_active(etnaviv_obj));
-> > +
-> > +	/*
-> > +	 * userspace wants to release the handle so we need to remove
-> > +	 * the mapping from the gpu's virtual address space to stay
-> > +	 * in sync.
-> > +	 */
-> > +	list_for_each_entry_safe(mapping, tmp, &etnaviv_obj->vram_list,
-> > +				 obj_node) {
-> > +		struct etnaviv_iommu_context *context =3D mapping->context;
-> > +
-> > +		WARN_ON(mapping->use);
-> > +
-> > +		if (context) {
-> > +			etnaviv_iommu_unmap_gem(context, mapping);
-> > +			etnaviv_iommu_context_put(context);
-> =
-
-> I see the issue you are trying to fix here, but this is not a viable
-> fix. While userspace may close the handle, the GPU may still be
-> processing jobs referening the BO, so we can't just unmap it from the
-> address space.
-> =
-
-> I think what we need to do here is waiting for the current jobs/fences
-> of the BO when we hit the case where userspace tries to assign a new
-> address to the BO. Basically wait for current jobs -> unamp from the
-> address space -> map at new userspace assigned address.
-
-Yeah was about to say the same. There's two solutions to this:
-- let the kernel manage the VA space. This is what amdgpu does in some
-  cases (but still no relocations)
-- pipeline the VA/PTE updates in your driver, because userspace has a
-  somewhat hard time figuring out when a buffer is done. Doing that would
-  either at complexity or stalls when the kernel is doing all the tracking
-  already anyway. Minimal fix is to do what Lucas explained above, but
-  importantly with the kernel solution we have the option to fully
-  pipeline everything and avoid stalls. I think this is what everyone else
-  who lets userspace manage VA does in their kernel side.
-
+Yeah I'd say without numbers to justify it it feels a bit on thin ice :-)
 -Daniel
 
+> 
+> BR,
+> -R
+> 
+> 
+> > -Daniel
+> >
+> > > -Daniel
+> > >
+> > > >
+> > > > BR,
+> > > > -R
+> > > >
+> > > >
+> > > >
+> > > > >
+> > > > > Regards,
+> > > > > Lucas
+> > > > >
+> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > > Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/msm/msm_gem_submit.c | 7 ++++---
+> > > > > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > > > index d04c349d8112..b6babc7f9bb8 100644
+> > > > > > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > > > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > > > @@ -283,7 +283,7 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
+> > > > > >       return ret;
+> > > > > >  }
+> > > > > >
+> > > > > > -static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+> > > > > > +static int submit_fence_sync(struct msm_gem_submit *submit, bool implicit_sync)
+> > > > > >  {
+> > > > > >       int i, ret = 0;
+> > > > > >
+> > > > > > @@ -303,7 +303,7 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+> > > > > >                               return ret;
+> > > > > >               }
+> > > > > >
+> > > > > > -             if (no_implicit)
+> > > > > > +             if (!implicit_sync)
+> > > > > >                       continue;
+> > > > > >
+> > > > > >               ret = msm_gem_sync_object(&msm_obj->base, submit->ring->fctx,
+> > > > > > @@ -774,7 +774,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> > > > > >       if (ret)
+> > > > > >               goto out;
+> > > > > >
+> > > > > > -     ret = submit_fence_sync(submit, !!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
+> > > > > > +     ret = submit_fence_sync(submit, (gpu->nr_rings > 1) &&
+> > > > > > +                     !(args->flags & MSM_SUBMIT_NO_IMPLICIT));
+> > > > > >       if (ret)
+> > > > > >               goto out;
+> > > > > >
+> > > > >
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+> >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
-
-
-
-> =
-
-> Regards,
-> Lucas
-> =
-
-> > +		}
-> > +
-> > +		list_del(&mapping->obj_node);
-> > +		kfree(mapping);
-> > +	}
-> > +}
-> > +
-> >  void etnaviv_gem_free_object(struct drm_gem_object *obj)
-> >  {
-> >  	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
-> =
-
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
