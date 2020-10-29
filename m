@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B92429F0DA
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 17:11:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E6329F0E9
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 17:14:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EC6C6E8C6;
-	Thu, 29 Oct 2020 16:11:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B7BF6E8CA;
+	Thu, 29 Oct 2020 16:14:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
- [IPv6:2607:f8b0:4864:20::944])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80CE26E8C6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 16:11:50 +0000 (UTC)
-Received: by mail-ua1-x944.google.com with SMTP id t15so855083ual.6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 09:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACC66E8CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 16:14:40 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id o14so2807736otj.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 09:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MpdXRaHjhy22m2xPQ/mv08yTyf2gnU4AXsIatzMELM8=;
- b=YD5e3dH5w4KeVngaPn/rXDpipIyZ4twtKANlVvMnENs7daGWmLLAebfeBr4D+owVvo
- JmJN8bzwRSoSNY19EkWT7Gr+MLs6dMX+5hOfdBFihvOWtVjROHyoTNx8HfnP6UE20NBW
- CuPn2AeXXNaEUiMryrgndrtZ0UR4qAD5fHzek=
+ :cc; bh=i6etDFeKtUj+RtB8Hig0oByEs1X05vnGUjehBWAxKJ0=;
+ b=JM8mmzrw2EIMWTSgXhoxYpNCZD/kbBIkLatmDmz6EvmNi2aHE4F5HWIEBMT2e9rVtj
+ vee/pN885rxskj/y1aYzLuGj96hMCkTeA2H/K/mcI8cd1j3f4cM0kyZJoUbF43HcTN45
+ RnviYKwKrR5iq9ojbuj7d/uUu290M4d1GlwPM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MpdXRaHjhy22m2xPQ/mv08yTyf2gnU4AXsIatzMELM8=;
- b=ny/Q/MDqjmTpKu1+r+ue0eFKh5tBe9q22Z/a7MZ2xI7JfaTJEmY8ifOXG9pS7A+d8N
- A0/MBwiH1FCqQ+8onw1XNGPqN3ofzRc4VPK+csBicH13GhR0G1jXpu0mzaGBXHTZ7K5Q
- tWzi7zVWiZtxaxUk4S6dLyOndttyfbU7iwrlSZ65KcwE1YUAZpxtuP4X4l8Z8D1xZw12
- ojFm49txALLjL9V/E/Z2146dDF0uguWJLUIZa9Y85hqcd+myIw1VPZM06VlDIuSD6Co0
- WWiRnaYSj/LpKYBultcYh3eJI5LknrckHFpWMRkUVtgaOKPq/xEYTDjqQSvs4cDl3xkL
- MEmw==
-X-Gm-Message-State: AOAM530d+qixSxRayaxcU6K8hjv37Qwxd2us5QSqm7OMr1PGXLwDSf19
- XPnFp3pG/OskASWjD2dQBMC66Nr/o87IaQ==
-X-Google-Smtp-Source: ABdhPJyh7afIoT+nB8Jxz95BpC/q9Chep/wMTAEruIEW1tkIziBTBYcv5mvrJKAI+mtbms5Mz17leQ==
-X-Received: by 2002:ab0:4e0e:: with SMTP id g14mr3405436uah.19.1603987909589; 
- Thu, 29 Oct 2020 09:11:49 -0700 (PDT)
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com.
- [209.85.221.176])
- by smtp.gmail.com with ESMTPSA id d12sm378353vkf.10.2020.10.29.09.11.48
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Oct 2020 09:11:48 -0700 (PDT)
-Received: by mail-vk1-f176.google.com with SMTP id m3so810495vki.12
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 09:11:48 -0700 (PDT)
-X-Received: by 2002:a1f:2ed2:: with SMTP id u201mr3808913vku.7.1603987908290; 
- Thu, 29 Oct 2020 09:11:48 -0700 (PDT)
+ bh=i6etDFeKtUj+RtB8Hig0oByEs1X05vnGUjehBWAxKJ0=;
+ b=RKKhXzVnQg3XxSlDvu58li9w8wJ8Lxay4399ZrZBuDNL7H+cp3r2mTq+9Uf4Z6xqw8
+ 0QNAbQzm421wNbu/QkvmqtbxIteid6g0kdBDJigchXHi75yUTLvR78i0kIzFWtI3mbQC
+ 4SVGQvSGQcZaPenVUZOxODaBHx0WGA6hePQrk09hw/25tBiLe2d/4oWuv4XEunDX2W7W
+ NL22OoLqc8WKn50UT6mc1ID8kPyYR3RJhl5JpF67JDrOZGbOMi/DA35Z3EYwYF7O93bR
+ aURZrKWJtPC5c8ngEcJxEO0IGWcq7uDYGjHTknhNQz8sfi7MrpBBENhKdN7rj7faa9AM
+ p1ng==
+X-Gm-Message-State: AOAM532G7Jm1+r0fSo5JBs0lKyoWKZhu6GEn0FeWGPeC15ZqrjvZ7Xgn
+ pJKUmTW8IfvqJLGWOaTwhCTPfVYChGInMLHz5jjVig==
+X-Google-Smtp-Source: ABdhPJzPHzC8UIBm63CxXaV40WY8W+RrSlKqzKbRX+dYTIIbYWElVjSUdt4KiCZJrMjvPqNqDV5P/bOU4CfJH1rKOi0=
+X-Received: by 2002:a9d:6e81:: with SMTP id a1mr3667472otr.303.1603988079536; 
+ Thu, 29 Oct 2020 09:14:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201029011154.1515687-1-swboyd@chromium.org>
- <20201029011154.1515687-4-swboyd@chromium.org>
-In-Reply-To: <20201029011154.1515687-4-swboyd@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 29 Oct 2020 09:11:37 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WScyFsu-QDWofXaAFd6-Qdvdb7WQMio2kQ9v6DvqKynA@mail.gmail.com>
-Message-ID: <CAD=FV=WScyFsu-QDWofXaAFd6-Qdvdb7WQMio2kQ9v6DvqKynA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
-To: Stephen Boyd <swboyd@chromium.org>
+References: <20201023165136.561680-1-robdclark@gmail.com>
+ <20201023165136.561680-24-robdclark@gmail.com>
+ <d0fb714b99f13bea6000ecd17fba324433782ae5.camel@pengutronix.de>
+ <CAF6AEGsf=pJ5H4guvL-+AAkK0PwCZ5g9k3K=7UPYzFmr02ReoA@mail.gmail.com>
+ <20201026093405.GG401619@phenom.ffwll.local>
+In-Reply-To: <20201026093405.GG401619@phenom.ffwll.local>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 29 Oct 2020 17:14:28 +0100
+Message-ID: <CAKMK7uHK27hMu+zSR0O35gR-Nq-JDXpXWBFXPBcXUhOi_3AKnw@mail.gmail.com>
+Subject: Re: [PATCH v4 23/23] drm/msm: Don't implicit-sync if only a single
+ ring
+To: Rob Clark <robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,37 +62,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, Oct 28, 2020 at 6:12 PM Stephen Boyd <swboyd@chromium.org> wrote:
+On Mon, Oct 26, 2020 at 10:34 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 >
-> Use the DDC connection to read the EDID from the eDP panel instead of
-> relying on the panel to tell us the modes.
+> On Fri, Oct 23, 2020 at 08:49:14PM -0700, Rob Clark wrote:
+> > On Fri, Oct 23, 2020 at 11:20 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+> > >
+> > > On Fr, 2020-10-23 at 09:51 -0700, Rob Clark wrote:
+> > > > From: Rob Clark <robdclark@chromium.org>
+> > > >
+> > > > If there is only a single ring (no-preemption), everything is FIFO order
+> > > > and there is no need to implicit-sync.
+> > > >
+> > > > Mesa should probably just always use MSM_SUBMIT_NO_IMPLICIT, as behavior
+> > > > is undefined when fences are not used to synchronize buffer usage across
+> > > > contexts (which is the only case where multiple different priority rings
+> > > > could come into play).
+> > >
+> > > Really, doesn't this break cross-device implicit sync? Okay, you may
+> > > not have many peripherals that rely on implicit sync on devices where
+> > > Adreno is usually found, but it seems rather heavy-handed.
+> > >
+> > > Wouldn't it be better to only ignore fences from your own ring context
+> > > in the implicit sync, like we do in the common DRM scheduler
+> > > (drm_sched_dependency_optimized)?
+> >
+> > we already do this.. as was discussed on an earlier iteration of this patchset
+> >
+> > But I'm not aware of any other non-gpu related implicit sync use-case
+> > (even on imx devices where display is decoupled from gpu).. I'll
+> > revert the patch if someone comes up with one, but otherwise lets let
+> > the implicit sync baggage die
 >
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> Cc: Sean Paul <seanpaul@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
+> The thing is, dma_resv won't die, even if implicit sync is dead. We're
+> using internally for activity tracking and memory management. If you don't
+> set these, then we can't share generic code with msm, and I think everyone
+> inventing their own memory management is a bit a mistake.
+>
+> Now you only kill the implicit write sync stuff here, but I'm not sure
+> that's worth much since you still install all the read fences for
+> consistency. And if userspace doesn't want to be synced, they can set the
+> flag and do this on their own: I think you should be able to achieve
+> exactly the same thing in mesa.
+>
+> Aside: If you're worried about overhead, you can do O(1) submit if you
+> manage your ppgtt like amdgpu does.
 
-Since we already did some early reviews off-list, it's not a surprise
-that I have no comments.  ;-)
+So just remember a use-case which is maybe a bit yucky, but it is
+actually possible to implement race-free. If you have implicit sync.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+There's screen-capture tool in mplayer and obs which capture your
+compositor by running getfb2 in a loop. It works, and after some
+initial screaming I realized it does actually work race-free. If you
+have implicit sync.
+
+I really don't think you can sunset this, as much as you want to. And
+sunsetting it inconsistently is probably the worst.
+-Daniel
+
+> -Daniel
+>
+> >
+> > BR,
+> > -R
+> >
+> >
+> >
+> > >
+> > > Regards,
+> > > Lucas
+> > >
+> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
+> > > > ---
+> > > >  drivers/gpu/drm/msm/msm_gem_submit.c | 7 ++++---
+> > > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > index d04c349d8112..b6babc7f9bb8 100644
+> > > > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> > > > @@ -283,7 +283,7 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
+> > > >       return ret;
+> > > >  }
+> > > >
+> > > > -static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+> > > > +static int submit_fence_sync(struct msm_gem_submit *submit, bool implicit_sync)
+> > > >  {
+> > > >       int i, ret = 0;
+> > > >
+> > > > @@ -303,7 +303,7 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+> > > >                               return ret;
+> > > >               }
+> > > >
+> > > > -             if (no_implicit)
+> > > > +             if (!implicit_sync)
+> > > >                       continue;
+> > > >
+> > > >               ret = msm_gem_sync_object(&msm_obj->base, submit->ring->fctx,
+> > > > @@ -774,7 +774,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+> > > >       if (ret)
+> > > >               goto out;
+> > > >
+> > > > -     ret = submit_fence_sync(submit, !!(args->flags & MSM_SUBMIT_NO_IMPLICIT));
+> > > > +     ret = submit_fence_sync(submit, (gpu->nr_rings > 1) &&
+> > > > +                     !(args->flags & MSM_SUBMIT_NO_IMPLICIT));
+> > > >       if (ret)
+> > > >               goto out;
+> > > >
+> > >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
