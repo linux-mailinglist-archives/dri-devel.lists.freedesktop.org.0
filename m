@@ -2,42 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34A229EE75
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 15:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AAD29EFC0
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 16:27:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93FA76E8B5;
-	Thu, 29 Oct 2020 14:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60F566ECE2;
+	Thu, 29 Oct 2020 15:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B038C6E8B5
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 14:38:35 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1kY94J-0007Rw-Lp; Thu, 29 Oct 2020 15:38:23 +0100
-Message-ID: <8a354530944e6a606212fe537c689ec20422a954.camel@pengutronix.de>
-Subject: Re: [RFC PATCH 2/2] drm: etnaviv: Unmap gems on gem_close
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>,  David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Thu, 29 Oct 2020 15:38:21 +0100
-In-Reply-To: <a92da13ed190e6d49550b78dadad3c0003ef6881.1603981111.git.agx@sigxcpu.org>
-References: <cover.1603981111.git.agx@sigxcpu.org>
- <a92da13ed190e6d49550b78dadad3c0003ef6881.1603981111.git.agx@sigxcpu.org>
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D1696ECE2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 15:27:54 +0000 (UTC)
+Received: from DESKTOP-GFFITBK.localdomain (218-161-90-76.HINET-IP.hinet.net
+ [218.161.90.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B7F2E206F4;
+ Thu, 29 Oct 2020 15:27:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603985273;
+ bh=5Dwq9VBI7Qs1RjpdmmRJuv1bZLk0Qmz9ychYpZvyTz8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=aUc0qQBvuDFYnjIMpiu0ud1L8YbtRoaWvwBA4Cpx2ZaGdlxa0Wvux37wNwqvRymUP
+ vnQPcq1hpkqVgGnTYIM/o1T97V4UbpyO/DmmdT7iT3RnBxW7u8o/mkBmHIvve4iEND
+ A63kVVBJpthPyCxew7wgDk942dv+oXuTTKhf7oAg=
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>
+Subject: [PATCH 0/3] Move Mediatek MIPI DSI PHY driver from DRM folder to PHY
+ folder
+Date: Thu, 29 Oct 2020 23:26:59 +0800
+Message-Id: <20201029152702.533-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,87 +47,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgR3VpZG8sCgpBbSBEb25uZXJzdGFnLCBkZW4gMjkuMTAuMjAyMCwgMTU6MjAgKzAxMDAgc2No
-cmllYiBHdWlkbyBHw7xudGhlcjoKPiBTbyBmYXIgdGhlIHVubWFwIGZyb20gZ3B1IGFkZHJlc3Mg
-c3BhY2Ugb25seSBoYXBwZW5lZCB3aGVuIGRyb3BwaW5nIHRoZQo+IGxhc3QgcmVmIGluIGdlbV9m
-cmVlX29iamVjdF91bmxvY2tlZCwgaG93ZXZlciB0aGF0IGlzIHNraXBwZWQgaWYgdGhlcmUncwo+
-IHN0aWxsIG11bHRpcGxlIGhhbmRsZXMgdG8gdGhlIHNhbWUgR0VNIG9iamVjdC4KPiAKPiBTaW5j
-ZSB1c2Vyc3BhY2UgKGhlcmUgbWVzYSkgaW4gdGhlIGNhc2Ugb2Ygc29mdHBpbiBoYW5kcyBiYWNr
-IHRoZSBtZW1vcnkKPiByZWdpb24gdG8gdGhlIHBvb2wgb2YgYXZhaWxhYmxlIEdQVSB2aXJ0dWFs
-IG1lbW9yeSBjbG9zaW5nIHRoZSBoYW5kbGUKPiB2aWEgRFJNX0lPQ1RMX0dFTV9DTE9TRSB0aGlz
-IGNhbiBsZWFkIHRvIGV0bmF2aXZfaW9tbXVfaW5zZXJ0X2V4YWN0Cj4gZmFpbGluZyBsYXRlciBz
-aW5jZSB1c2Vyc3BhY2UgdGhpbmtzIHRoZSB2YWRkciBpcyBhdmFpbGFibGUgd2hpbGUgdGhlCj4g
-a2VybmVsIHRoaW5rcyBpdCBpc24ndCBtYWtpbmcgdGhlIHN1Ym1pdCBmYWlsIGxpa2UKPiAKPiAg
-IFtFXSBzdWJtaXQgZmFpbGVkOiAtMTQgKE5vIHNwYWNlIGxlZnQgb24gZGV2aWNlKSAoZXRuYV9j
-bWRfc3RyZWFtX2ZsdXNoOjI0NCkKPiAKPiBGaXggdGhpcyBieSB1bm1hcHBpbmcgdGhlIG1lbW9y
-eSB2aWEgdGhlIC5nZW1fY2xvc2Vfb2JqZWN0IGNhbGxiYWNrLgo+IAo+IFNpZ25lZC1vZmYtYnk6
-IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMgfCAgMSArCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2
-L2V0bmF2aXZfZHJ2LmggfCAgMSArCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
-Z2VtLmMgfCAzMiArKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgMyBmaWxlcyBjaGFuZ2Vk
-LCAzNCBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5j
-Cj4gaW5kZXggYTlhM2FmYWVmOWExLi5mZGNjNjQwNTA2OGMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9l
-dG5hdml2L2V0bmF2aXZfZHJ2LmMKPiBAQCAtNDkxLDYgKzQ5MSw3IEBAIHN0YXRpYyBzdHJ1Y3Qg
-ZHJtX2RyaXZlciBldG5hdml2X2RybV9kcml2ZXIgPSB7Cj4gIAkub3BlbiAgICAgICAgICAgICAg
-ID0gZXRuYXZpdl9vcGVuLAo+ICAJLnBvc3RjbG9zZSAgICAgICAgICAgPSBldG5hdml2X3Bvc3Rj
-bG9zZSwKPiAgCS5nZW1fZnJlZV9vYmplY3RfdW5sb2NrZWQgPSBldG5hdml2X2dlbV9mcmVlX29i
-amVjdCwKPiArCS5nZW1fY2xvc2Vfb2JqZWN0ICAgPSBldG5hdml2X2dlbV9jbG9zZV9vYmplY3Qs
-Cj4gIAkuZ2VtX3ZtX29wcyAgICAgICAgID0gJnZtX29wcywKPiAgCS5wcmltZV9oYW5kbGVfdG9f
-ZmQgPSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZCwKPiAgCS5wcmltZV9mZF90b19oYW5kbGUg
-PSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSwKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2
-aXZfZHJ2LmgKPiBpbmRleCA0ZDhkYzkyMzZlNWYuLjIyMjZhOWFmMGQ2MyAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5oCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuaAo+IEBAIC02NSw2ICs2NSw3IEBAIGludCBldG5h
-dml2X2dlbV9jcHVfcHJlcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgdTMyIG9wLAo+ICAJ
-CXN0cnVjdCBkcm1fZXRuYXZpdl90aW1lc3BlYyAqdGltZW91dCk7Cj4gIGludCBldG5hdml2X2dl
-bV9jcHVfZmluaShzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7Cj4gIHZvaWQgZXRuYXZpdl9n
-ZW1fZnJlZV9vYmplY3Qoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+ICt2b2lkIGV0bmF2
-aXZfZ2VtX2Nsb3NlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IGRy
-bV9maWxlICpmaWxlKTsKPiAgaW50IGV0bmF2aXZfZ2VtX25ld19oYW5kbGUoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiwgc3RydWN0IGRybV9maWxlICpmaWxlLAo+ICAJCXUzMiBzaXplLCB1MzIgZmxh
-Z3MsIHUzMiAqaGFuZGxlKTsKPiAgaW50IGV0bmF2aXZfZ2VtX25ld191c2VycHRyKHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfZ2VtLmMKPiBpbmRleCBmMDZlMTllN2JlMDQuLjVhZWM0YTIzYzc3ZSAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYwo+IEBAIC01MTUsNiArNTE1LDM4
-IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZXRuYXZpdl9nZW1fb3BzIGV0bmF2aXZfZ2VtX3NobWVt
-X29wcyA9IHsKPiAgCS5tbWFwID0gZXRuYXZpdl9nZW1fbW1hcF9vYmosCj4gIH07Cj4gIAo+ICt2
-b2lkIGV0bmF2aXZfZ2VtX2Nsb3NlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwg
-c3RydWN0IGRybV9maWxlICp1bnVzZWQpCj4gK3sKPiArCXN0cnVjdCBldG5hdml2X2dlbV9vYmpl
-Y3QgKmV0bmF2aXZfb2JqID0gdG9fZXRuYXZpdl9ibyhvYmopOwo+ICsJc3RydWN0IGV0bmF2aXZf
-dnJhbV9tYXBwaW5nICptYXBwaW5nLCAqdG1wOwo+ICsKPiArCS8qIEhhbmRsZSB0aGlzIHZpYSBl
-dG5hdml2X2dlbV9mcmVlX29iamVjdCAqLwo+ICsJaWYgKG9iai0+aGFuZGxlX2NvdW50ID09IDEp
-Cj4gKwkJcmV0dXJuOwo+ICsKPiArCVdBUk5fT04oaXNfYWN0aXZlKGV0bmF2aXZfb2JqKSk7Cj4g
-Kwo+ICsJLyoKPiArCSAqIHVzZXJzcGFjZSB3YW50cyB0byByZWxlYXNlIHRoZSBoYW5kbGUgc28g
-d2UgbmVlZCB0byByZW1vdmUKPiArCSAqIHRoZSBtYXBwaW5nIGZyb20gdGhlIGdwdSdzIHZpcnR1
-YWwgYWRkcmVzcyBzcGFjZSB0byBzdGF5Cj4gKwkgKiBpbiBzeW5jLgo+ICsJICovCj4gKwlsaXN0
-X2Zvcl9lYWNoX2VudHJ5X3NhZmUobWFwcGluZywgdG1wLCAmZXRuYXZpdl9vYmotPnZyYW1fbGlz
-dCwKPiArCQkJCSBvYmpfbm9kZSkgewo+ICsJCXN0cnVjdCBldG5hdml2X2lvbW11X2NvbnRleHQg
-KmNvbnRleHQgPSBtYXBwaW5nLT5jb250ZXh0Owo+ICsKPiArCQlXQVJOX09OKG1hcHBpbmctPnVz
-ZSk7Cj4gKwo+ICsJCWlmIChjb250ZXh0KSB7Cj4gKwkJCWV0bmF2aXZfaW9tbXVfdW5tYXBfZ2Vt
-KGNvbnRleHQsIG1hcHBpbmcpOwo+ICsJCQlldG5hdml2X2lvbW11X2NvbnRleHRfcHV0KGNvbnRl
-eHQpOwoKSSBzZWUgdGhlIGlzc3VlIHlvdSBhcmUgdHJ5aW5nIHRvIGZpeCBoZXJlLCBidXQgdGhp
-cyBpcyBub3QgYSB2aWFibGUKZml4LiBXaGlsZSB1c2Vyc3BhY2UgbWF5IGNsb3NlIHRoZSBoYW5k
-bGUsIHRoZSBHUFUgbWF5IHN0aWxsIGJlCnByb2Nlc3Npbmcgam9icyByZWZlcmVuaW5nIHRoZSBC
-Tywgc28gd2UgY2FuJ3QganVzdCB1bm1hcCBpdCBmcm9tIHRoZQphZGRyZXNzIHNwYWNlLgoKSSB0
-aGluayB3aGF0IHdlIG5lZWQgdG8gZG8gaGVyZSBpcyB3YWl0aW5nIGZvciB0aGUgY3VycmVudCBq
-b2JzL2ZlbmNlcwpvZiB0aGUgQk8gd2hlbiB3ZSBoaXQgdGhlIGNhc2Ugd2hlcmUgdXNlcnNwYWNl
-IHRyaWVzIHRvIGFzc2lnbiBhIG5ldwphZGRyZXNzIHRvIHRoZSBCTy4gQmFzaWNhbGx5IHdhaXQg
-Zm9yIGN1cnJlbnQgam9icyAtPiB1bmFtcCBmcm9tIHRoZQphZGRyZXNzIHNwYWNlIC0+IG1hcCBh
-dCBuZXcgdXNlcnNwYWNlIGFzc2lnbmVkIGFkZHJlc3MuCgpSZWdhcmRzLApMdWNhcwoKPiArCQl9
-Cj4gKwo+ICsJCWxpc3RfZGVsKCZtYXBwaW5nLT5vYmpfbm9kZSk7Cj4gKwkJa2ZyZWUobWFwcGlu
-Zyk7Cj4gKwl9Cj4gK30KPiArCj4gIHZvaWQgZXRuYXZpdl9nZW1fZnJlZV9vYmplY3Qoc3RydWN0
-IGRybV9nZW1fb2JqZWN0ICpvYmopCj4gIHsKPiAgCXN0cnVjdCBldG5hdml2X2dlbV9vYmplY3Qg
-KmV0bmF2aXZfb2JqID0gdG9fZXRuYXZpdl9ibyhvYmopOwoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+mtk_mipi_dsi_phy is currently placed inside mediatek drm driver, but it's
+more suitable to place a phy driver into phy driver folder, so move
+mtk_mipi_dsi_phy driver into phy driver folder.
+
+Chun-Kuang Hu (3):
+  drm/mediatek: Separate mtk_mipi_tx to an independent module
+  phy: mediatek: Move mtk_mipi_dsi_phy driver into drivers/phy/mediatek
+    folder
+  MAINTAINERS: add files for Mediatek DRM drivers
+
+ MAINTAINERS                                                | 1 +
+ drivers/gpu/drm/mediatek/Kconfig                           | 1 +
+ drivers/gpu/drm/mediatek/Makefile                          | 3 ---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c                     | 1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h                     | 1 -
+ drivers/phy/mediatek/Kconfig                               | 7 +++++++
+ drivers/phy/mediatek/Makefile                              | 5 +++++
+ .../mediatek/phy-mtk-mipi-dsi-mt8173.c}                    | 2 +-
+ .../mediatek/phy-mtk-mipi-dsi-mt8183.c}                    | 2 +-
+ .../mtk_mipi_tx.c => phy/mediatek/phy-mtk-mipi-dsi.c}      | 5 ++++-
+ .../mtk_mipi_tx.h => phy/mediatek/phy-mtk-mipi-dsi.h}      | 0
+ 11 files changed, 20 insertions(+), 8 deletions(-)
+ rename drivers/{gpu/drm/mediatek/mtk_mt8173_mipi_tx.c => phy/mediatek/phy-mtk-mipi-dsi-mt8173.c} (99%)
+ rename drivers/{gpu/drm/mediatek/mtk_mt8183_mipi_tx.c => phy/mediatek/phy-mtk-mipi-dsi-mt8183.c} (99%)
+ rename drivers/{gpu/drm/mediatek/mtk_mipi_tx.c => phy/mediatek/phy-mtk-mipi-dsi.c} (97%)
+ rename drivers/{gpu/drm/mediatek/mtk_mipi_tx.h => phy/mediatek/phy-mtk-mipi-dsi.h} (100%)
+
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
