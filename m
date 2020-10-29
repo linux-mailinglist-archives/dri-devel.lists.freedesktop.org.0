@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8777229E9E0
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 12:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD7129EA45
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 12:13:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA706ECA9;
-	Thu, 29 Oct 2020 11:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A421C6ECB2;
+	Thu, 29 Oct 2020 11:13:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4536ECA9
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 11:02:36 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 00E2A2072D;
- Thu, 29 Oct 2020 11:02:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603969356;
- bh=HkZvAn5MjVZOthJYyfmXpbjUnjLgxWPIT1sDs9FNYU0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RoxVHBr5/s0q8Ly0B0NSmsykQw88I3WBCRzmng+S2FJgp6T/ET8/DF/+i7OxNsVE2
- Y1MafCmeaHTwcImhbeEzzjMY7nmTSmd29izdq9kWZ45Lt0Wmw3snYgz9hSlPXndgWM
- rROr5/yoKDUFWWoX71syakVRiqSghZj2/7ahci/w=
-Date: Thu, 29 Oct 2020 12:03:26 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Subject: Re: [PATCH 1/1] video: fbdev: fix divide error in fbcon_switch
-Message-ID: <20201029110326.GC3840801@kroah.com>
-References: <20201021235758.59993-1-saeed.mirzamohammadi@oracle.com>
- <ad87c5c1-061d-8a81-7b2c-43a8687a464f@suse.de>
- <3294C797-1BBB-4410-812B-4A4BB813F002@oracle.com>
- <20201027062217.GE206502@kroah.com>
- <2DA9AE6D-93D6-4142-9FC4-EEACB92B7203@oracle.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 852076ECB1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 11:13:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603970005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zIaJu7FAw8dfZKVBgnoDacf5K6Q+ovY8+WxFh0DYprM=;
+ b=EAzsN1yZBqTt1/Vj0nMLTihVC412L8+W0dfflFx/HJtJANmb2PFqXPdqxNwq1C5K0nmblG
+ S6d0518AKaW8QyBilfEhPj85DNQJEnGf8YunuwnYkaEh8r9oIBDPXg+mOYzePWioDYhL8K
+ du9Mgt1OEDRIPAFdf1aPBF7OfhykykM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-192-koXZ2FOkOZe8sI_qzCfRWQ-1; Thu, 29 Oct 2020 07:13:21 -0400
+X-MC-Unique: koXZ2FOkOZe8sI_qzCfRWQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 640BA108597B;
+ Thu, 29 Oct 2020 11:13:20 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3740C7515B;
+ Thu, 29 Oct 2020 11:13:01 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 020BB9D0D; Thu, 29 Oct 2020 12:13:00 +0100 (CET)
+Date: Thu, 29 Oct 2020 12:13:00 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 3/3] drm/qxl: Remove fbcon acceleration leftovers
+Message-ID: <20201029111300.p2vld6qc4e2q53xy@sirius.home.kraxel.org>
+References: <20201029101428.4058311-1-daniel.vetter@ffwll.ch>
+ <20201029101428.4058311-3-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+In-Reply-To: <20201029101428.4058311-3-daniel.vetter@ffwll.ch>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-In-Reply-To: <2DA9AE6D-93D6-4142-9FC4-EEACB92B7203@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,25 +65,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com,
- jani.nikula@intel.com, daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, gustavoars@kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, akpm@linux-foundation.org,
- rppt@kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Dave Airlie <airlied@redhat.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org, spice-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBPY3QgMjcsIDIwMjAgYXQgMTA6MTI6NDlBTSAtMDcwMCwgU2FlZWQgTWlyemFtb2hh
-bW1hZGkgd3JvdGU6Cj4gSGkgR3JlZywKPiAKPiBTb3JyeSBmb3IgdGhlIGNvbmZ1c2lvbi4gSeKA
-mW0gcmVxdWVzdGluZyBzdGFibGUgbWFpbnRhaW5lcnMgdG8gY2hlcnJ5LXBpY2sgdGhpcyBwYXRj
-aCBpbnRvIHN0YWJsZSA1LjQgYW5kIDUuOC4KPiBjb21taXQgY2MwNzA1N2M3Yzg4ZmI4ZWZmM2Ix
-OTkxMTMxZGVkMGYwYmNmYTdlMwo+IEF1dGhvcjogU2FlZWQgTWlyemFtb2hhbW1hZGkgPHNhZWVk
-Lm1pcnphbW9oYW1tYWRpQG9yYWNsZS5jb20+Cj4gRGF0ZTogICBXZWQgT2N0IDIxIDE2OjU3OjU4
-IDIwMjAgLTA3MDAKPiAKPiAgICAgdmlkZW86IGZiZGV2OiBmaXggZGl2aWRlIGVycm9yIGluIGZi
-Y29uX3N3aXRjaAoKSSBkbyBub3Qgc2VlIHRoYXQgY29tbWl0IGluIExpbnVzJ3MgdHJlZSwgZG8g
-eW91PwoKY29uZnVzZWQsCgpncmVnIGstaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+On Thu, Oct 29, 2020 at 11:14:28AM +0100, Daniel Vetter wrote:
+> These are leftovers from 13aff184ed9f ("drm/qxl: remove dead qxl fbdev
+> emulation code").
+
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
