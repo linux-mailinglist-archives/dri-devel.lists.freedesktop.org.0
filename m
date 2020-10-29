@@ -1,56 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D322529DE13
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 01:49:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5582C29E047
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 02:18:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3256E14F;
-	Thu, 29 Oct 2020 00:49:53 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D94B66E14F
- for <dri-devel@freedesktop.org>; Thu, 29 Oct 2020 00:49:51 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id c20so897144pfr.8
- for <dri-devel@freedesktop.org>; Wed, 28 Oct 2020 17:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=QjqMc7l+70GPiHEtdcLDE2w5wxCubKj+e+9vvDhN4jw=;
- b=KWesP9d25XLLiCMeDoho0aDAfWKj5ghD7xuB9bZ/rz7fD2ZttLECup+c3B9hOey+de
- moHDsKZEfVZM/JNlZYMtKT3rx8fgMoLiz62UGRQXQk6zoHpZaStlCtIJNNz5EFLWD5o0
- zBTVsxNKNkaI6yNaolffTZybUeJVIAtd622/M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QjqMc7l+70GPiHEtdcLDE2w5wxCubKj+e+9vvDhN4jw=;
- b=p9Vd5XOMxib1b4U4pYXPebRdAdqe6MFRr/d+owVPfm5WGjzkaJRN5hqvTEPJOvuGcR
- V5v6CDBbl2Mg+JLqi/PLRtYnFHgl9xYIYD4/TDoSXRZjlnKtYrxoFWAIqWHiXZIGygEb
- EIn2XaAfqUA+2bOB+iOw6lGWFwRa7v3JrZuESQwdt+yJ8ozSxzZwkR92YWBoKC8Lq7zJ
- iucceLF3pbLvAWm5aVwWMwUfCEQWL0+zgnJqrEboI8QUQGJxVPdOIacdmAltnoGCd+Kz
- wHmF/jQWleWMtII7sbFg3cybFcjqSSIpGC7heBJv6pYx7TNPMOvTX4osBqv7pSYxTIQ9
- HFIg==
-X-Gm-Message-State: AOAM533olDAqXGj1Kbart13EYOTgWKtOATU1Me756RhoqsIiOKxXsRW5
- /tGKm121fDQThG6b2lNpTLs9ag==
-X-Google-Smtp-Source: ABdhPJwEq/sau27VV7p4hVDzceI1BjScm1N5vyp0R9X8+H9CxHrUZkAC08SATGsvPL31v7pDv5VeSw==
-X-Received: by 2002:a63:f502:: with SMTP id w2mr1727045pgh.186.1603932591575; 
- Wed, 28 Oct 2020 17:49:51 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
- by smtp.gmail.com with ESMTPSA id 17sm789966pfj.49.2020.10.28.17.49.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Oct 2020 17:49:51 -0700 (PDT)
-Date: Wed, 28 Oct 2020 17:49:49 -0700
-From: mka@chromium.org
-To: Akhil P Oommen <akhilpo@codeaurora.org>
-Subject: Re: [v3,3/3] dt-bindings: drm/msm/gpu: Add cooling device support
-Message-ID: <20201029004949.GB1855806@google.com>
-References: <1603892395-3570-3-git-send-email-akhilpo@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id A98F96E823;
+	Thu, 29 Oct 2020 01:18:16 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A066E47A;
+ Thu, 29 Oct 2020 01:18:14 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CM6y71X4Yz9s0b;
+ Thu, 29 Oct 2020 12:18:05 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1603934291;
+ bh=b9wJS3nbAyZxMqjtljWotEpr2D5lHXOSdWj9oai4MXQ=;
+ h=Date:From:To:Cc:Subject:From;
+ b=TrGWt2XrpCTnwhyit4+PYTRMuHyGPddji07e/02rtX1DwoJ2Fwjl7o25gnUFm/XyK
+ yonpwRBeHH16eXnqW9qbXjxcKZcCA+76uiAwkS5Xc7baVLVaT/Bq9ANSgXHDTFzj0T
+ w76UO9LBWS3sGxfMpJusIO+PjTcnHSi+6nd7D9ewAXfY24wrGi6LhKrwqbwhzNuSkS
+ DO3BvZ9/a4qJ/Jm4AarqMpcZWqgoHKuYxFlAden1uKX0D1IDdY/HpQo60bMDuAwDjY
+ 5tWugoU1nvh/knq0Z1wvcd9Bxpr+Sdh5XPWZQgm4prOv91VUdq9kNrQrl32rDRzuak
+ ohAGcJ0+a0VLQ==
+Date: Thu, 29 Oct 2020 12:18:01 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-misc tree with the
+ drm-misc-fixes tree
+Message-ID: <20201029121801.205e6e34@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1603892395-3570-3-git-send-email-akhilpo@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,58 +48,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dianders@chromium.org, linux-kernel@vger.kernel.org, dri-devel@freedesktop.org,
- freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: multipart/mixed; boundary="===============0872961907=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 28, 2020 at 07:09:54PM +0530, Akhil P Oommen wrote:
-> Add cooling device support to gpu. A cooling device is bound to a
-> thermal zone to allow thermal mitigation.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
-> ---
->  Documentation/devicetree/bindings/display/msm/gpu.txt | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.txt b/Documentation/devicetree/bindings/display/msm/gpu.txt
-> index 1af0ff1..090dcb3 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gpu.txt
-> +++ b/Documentation/devicetree/bindings/display/msm/gpu.txt
-> @@ -39,6 +39,10 @@ Required properties:
->          a4xx Snapdragon SoCs. See
->          Documentation/devicetree/bindings/sram/qcom,ocmem.yaml.
->  
-> +Optional properties:
-> +- #cooling-cells: The value must be 2. For details, please refer
-> +	Documentation/devicetree/bindings/thermal/thermal-cooling-devices.yaml.
-> +
->  Example 3xx/4xx:
->  
->  / {
-> @@ -61,6 +65,7 @@ Example 3xx/4xx:
->  		power-domains = <&mmcc OXILICX_GDSC>;
->  		operating-points-v2 = <&gpu_opp_table>;
->  		iommus = <&gpu_iommu 0>;
-> +		#cooling-cells = <2>;
->  	};
->  
->  	gpu_sram: ocmem@fdd00000 {
-> @@ -98,6 +103,8 @@ Example a6xx (with GMU):
->  		reg = <0x5000000 0x40000>, <0x509e000 0x10>;
->  		reg-names = "kgsl_3d0_reg_memory", "cx_mem";
->  
-> +		#cooling-cells = <2>;
-> +
->  		/*
->  		 * Look ma, no clocks! The GPU clocks and power are
->  		 * controlled entirely by the GMU
+--===============0872961907==
+Content-Type: multipart/signed; boundary="Sig_/eU5nSNYdUr8Mw9jM3kranNC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+--Sig_/eU5nSNYdUr8Mw9jM3kranNC
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+Today's linux-next merge of the drm-misc tree got a conflict in:
+
+  drivers/gpu/drm/drm_gem.c
+
+between commit:
+
+  f49a51bfdc8e ("drm/shme-helpers: Fix dma_buf_mmap forwarding bug")
+
+from the drm-misc-fixes tree and commit:
+
+  d693def4fd1c ("drm: Remove obsolete GEM and PRIME callbacks from struct d=
+rm_driver")
+
+from the drm-misc tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/drm_gem.c
+index 69c2c079d803,1da67d34e55d..000000000000
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@@ -1085,9 -1076,7 +1076,9 @@@ int drm_gem_mmap_obj(struct drm_gem_obj
+  	 */
+  	drm_gem_object_get(obj);
+ =20
+ +	vma->vm_private_data =3D obj;
+ +
+- 	if (obj->funcs && obj->funcs->mmap) {
++ 	if (obj->funcs->mmap) {
+  		ret =3D obj->funcs->mmap(obj, vma);
+  		if (ret) {
+  			drm_gem_object_put(obj);
+
+--Sig_/eU5nSNYdUr8Mw9jM3kranNC
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+aGEkACgkQAVBC80lX
+0GzrUgf/RQeU2mi6hs0UPwt+oP5FUCiRHXbk3B1VVPzT1VT//NX/H4yYgGwvrWFp
+g6/lxV8j52eTSI29H1wTA+8ZBrgmCd5NZ1+BOLobaJmF50cvq2TephizSk5mmOIw
+uPY0863i0jtrdZHiwtw4wVl7RBTX5I7x9PFZOpYrOxsjfMdDtBMNh3TrpgoORbYE
+qz/Dd4awTaD4k7Mz+NZSs4iTIv4jtxPzTYMQbAx7jFaUuBkPJvKz+/UkuDvk7FWo
+58DGw1N+rLQB85dm8G7hcU1VTxdv95x6pBRTd/aK/hnty9H3zct94LXV0uKwjDC+
+g4tvpJk9tyGmCyUBRzvaSQXJZVmuLg==
+=zUl5
+-----END PGP SIGNATURE-----
+
+--Sig_/eU5nSNYdUr8Mw9jM3kranNC--
+
+--===============0872961907==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0872961907==--
