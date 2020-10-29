@@ -2,108 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72AB29DDBE
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 01:41:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D322529DE13
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 01:49:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE5789DEA;
-	Thu, 29 Oct 2020 00:41:45 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2085.outbound.protection.outlook.com [40.107.223.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1627989DEA
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 00:41:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HS3EhHv8RKhRizufB8LokR8ZM/vcx4p8xX6oT4h83min6lvRzJ3W4DtUKsMJ71GBwe36HxFcgNkO3Nom7MqI8OwtD61uHkZKlaomurfv3wazqroyMR3oGLaX5ELqcSFCtdVNWi5RZbXdtiX9w8EkCT2r7gneyO90x6Bu+8d+mE6Ya5F+Pw6I7aEI5UMtj/7xESCUTIlZui8Fi7g4MIOu399GC1hB+65kWSv+eHEPPBz6i3RTU+eSHOAcWi/hVTDIgsccHJQUlWQg4TiTW3rVE0hgeAAXUZTRmuwUb3V6xyejlWrnKVw66VFuriGHNUtNDECoq1CsTaMxH8EXyPkGwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nNvsL21tRc7/5MBmilRptxDFb9ql9zyJAT6JugDtZa8=;
- b=WzZxX2KFlFsx8UdBfb0gTqZXGapPKXbeUa6JUhTLoTujWvGZRSkOaa23IqDob7ANeA7F32QoC1jnV67EkuIgWw28OABqLbRG+Lyj0ncPFRHtJN4Mz2F1JGSKvzl79jf1An6zOQEzmK3/CBdX4oNlZod3ViN+txzdNI1WY24c1BYZebyvOiHM1OtblwPX/zEFbgus4hGgmcQwoF/W2YKr6GJD3LPJQPMYiGHN6lnhzrxMchRF+GiXVKGnivlFtFyWu9mSAJgH6pYRsD7867uoxjuD2X2nT5xuZrU620wNSiKG18VCikzfBSFT0LGaKsGBC1hcHowSrJYZo4BkdBeT5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nNvsL21tRc7/5MBmilRptxDFb9ql9zyJAT6JugDtZa8=;
- b=gzzzlhR1cj471vIM8rGLddHFWpXSRyMN/tVjqxfQb9p0/Quq1O3wjRNMWJbBfMOvakMaMVQzyetLlCM/Yx9K8vAtHGtHGkNTmplcZl4nhq2s1ECgDhcnJ+qRmm5CMi1Pb361DKBmjRuQOtXFXTUrlNEkXs0WwiAKRE6rlW0dwjg=
-Received: from DM5PR16CA0037.namprd16.prod.outlook.com (2603:10b6:4:15::23) by
- BYAPR02MB3925.namprd02.prod.outlook.com (2603:10b6:a02:f9::26) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.19; Thu, 29 Oct 2020 00:41:42 +0000
-Received: from CY1NAM02FT063.eop-nam02.prod.protection.outlook.com
- (2603:10b6:4:15:cafe::40) by DM5PR16CA0037.outlook.office365.com
- (2603:10b6:4:15::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
- Transport; Thu, 29 Oct 2020 00:41:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT063.mail.protection.outlook.com (10.152.75.161) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3499.20 via Frontend Transport; Thu, 29 Oct 2020 00:41:42 +0000
-Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Wed, 28 Oct 2020 17:41:40 -0700
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Wed, 28 Oct 2020 17:41:40 -0700
-Envelope-to: hyunk@xilinx.com, hyun.kwon@xilinx.com, daniel@ffwll.ch,
- laurent.pinchart@ideasonboard.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, peter.ujfalusi@ti.com,
- linux-kernel@vger.kernel.org
-Received: from [172.19.75.82] (port=55728 helo=xsjsycl40.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <hyun.kwon@xilinx.com>)
- id 1kXw0a-0004Ez-J7; Wed, 28 Oct 2020 17:41:40 -0700
-Received: by xsjsycl40.xilinx.com (Postfix, from userid 13638)
- id 87207352755; Wed, 28 Oct 2020 17:41:40 -0700 (PDT)
-Date: Wed, 28 Oct 2020 17:41:40 -0700
-From: Hyun Kwon <hyun.kwon@xilinx.com>
-To: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Subject: Re: [PATCH] drm: xlnx: Use dma_request_chan for DMA channel request
-Message-ID: <20201029004140.GA2849549@xilinx.com>
-References: <20201023094602.5630-1-peter.ujfalusi@ti.com>
- <20201028013602.GA2416810@xilinx.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3256E14F;
+	Thu, 29 Oct 2020 00:49:53 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D94B66E14F
+ for <dri-devel@freedesktop.org>; Thu, 29 Oct 2020 00:49:51 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id c20so897144pfr.8
+ for <dri-devel@freedesktop.org>; Wed, 28 Oct 2020 17:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QjqMc7l+70GPiHEtdcLDE2w5wxCubKj+e+9vvDhN4jw=;
+ b=KWesP9d25XLLiCMeDoho0aDAfWKj5ghD7xuB9bZ/rz7fD2ZttLECup+c3B9hOey+de
+ moHDsKZEfVZM/JNlZYMtKT3rx8fgMoLiz62UGRQXQk6zoHpZaStlCtIJNNz5EFLWD5o0
+ zBTVsxNKNkaI6yNaolffTZybUeJVIAtd622/M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QjqMc7l+70GPiHEtdcLDE2w5wxCubKj+e+9vvDhN4jw=;
+ b=p9Vd5XOMxib1b4U4pYXPebRdAdqe6MFRr/d+owVPfm5WGjzkaJRN5hqvTEPJOvuGcR
+ V5v6CDBbl2Mg+JLqi/PLRtYnFHgl9xYIYD4/TDoSXRZjlnKtYrxoFWAIqWHiXZIGygEb
+ EIn2XaAfqUA+2bOB+iOw6lGWFwRa7v3JrZuESQwdt+yJ8ozSxzZwkR92YWBoKC8Lq7zJ
+ iucceLF3pbLvAWm5aVwWMwUfCEQWL0+zgnJqrEboI8QUQGJxVPdOIacdmAltnoGCd+Kz
+ wHmF/jQWleWMtII7sbFg3cybFcjqSSIpGC7heBJv6pYx7TNPMOvTX4osBqv7pSYxTIQ9
+ HFIg==
+X-Gm-Message-State: AOAM533olDAqXGj1Kbart13EYOTgWKtOATU1Me756RhoqsIiOKxXsRW5
+ /tGKm121fDQThG6b2lNpTLs9ag==
+X-Google-Smtp-Source: ABdhPJwEq/sau27VV7p4hVDzceI1BjScm1N5vyp0R9X8+H9CxHrUZkAC08SATGsvPL31v7pDv5VeSw==
+X-Received: by 2002:a63:f502:: with SMTP id w2mr1727045pgh.186.1603932591575; 
+ Wed, 28 Oct 2020 17:49:51 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:f693:9fff:fef4:e70a])
+ by smtp.gmail.com with ESMTPSA id 17sm789966pfj.49.2020.10.28.17.49.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Oct 2020 17:49:51 -0700 (PDT)
+Date: Wed, 28 Oct 2020 17:49:49 -0700
+From: mka@chromium.org
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [v3,3/3] dt-bindings: drm/msm/gpu: Add cooling device support
+Message-ID: <20201029004949.GB1855806@google.com>
+References: <1603892395-3570-3-git-send-email-akhilpo@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201028013602.GA2416810@xilinx.com>
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ea539b13-ff4f-46db-7cc5-08d87ba367a2
-X-MS-TrafficTypeDiagnostic: BYAPR02MB3925:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB39257C1DE10F494CFB424C62D6140@BYAPR02MB3925.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:619;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3WSrvh04YUPlWZ8ovN+XN7UDZiXSerP5eHih6JM7j8wtXnG24Liev2+lTweu/dFTcm6Cdq865y1BrSlavmUOnymFRxe9SQt3vJbBy06UwxDUGY/yRf6eaJeOcm2XAT0iovBoKySdgW+ZTNpqkhkf/JZiT79cBe1N4shHLtBd/fR6lWb6SUd5uPTGJ4z+Fsakgr8pdpY3i6yIsTZcT2xquPnhOX6ntANZ/6Qq0mxHh6BqzK/HtbLRyithMBLrnvcHyZYRK7IT9U19j83KKiy6OPMq01+Kh3nTeRizL8Si56ZYoHWsYQuyKx6zVooND7L0yr49QPr46PGBVF3jB5clVfOtJqrRvPet+qw3KYvkolWWWJjxyZaMAuVpc8o2zj4eKzbgCJVnF/m0oc+E9kE6KlSZujO4ld79EZOkqTrj9vI=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(346002)(136003)(39860400002)(376002)(396003)(46966005)(44832011)(36906005)(316002)(336012)(8936002)(356005)(54906003)(478600001)(70206006)(36756003)(5660300002)(6266002)(2906002)(42186006)(70586007)(33656002)(47076004)(4326008)(82310400003)(26005)(82740400003)(8676002)(426003)(1076003)(6916009)(107886003)(186003)(7636003)(83380400001)(2616005)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2020 00:41:42.0729 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea539b13-ff4f-46db-7cc5-08d87ba367a2
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT063.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB3925
+In-Reply-To: <1603892395-3570-3-git-send-email-akhilpo@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,73 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dianders@chromium.org, linux-kernel@vger.kernel.org, dri-devel@freedesktop.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 27, 2020 at 06:36:02PM -0700, Hyun Kwon wrote:
-> Hi Peter,
+On Wed, Oct 28, 2020 at 07:09:54PM +0530, Akhil P Oommen wrote:
+> Add cooling device support to gpu. A cooling device is bound to a
+> thermal zone to allow thermal mitigation.
 > 
-> Thanks for the patch.
+> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> ---
+>  Documentation/devicetree/bindings/display/msm/gpu.txt | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> On Fri, Oct 23, 2020 at 02:46:02AM -0700, Peter Ujfalusi wrote:
-> > There is no need to use the of_dma_request_slave_channel() directly as
-> > dma_request_chan() is going to try to get the channel via OF as well.
-> > 
-> > Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
-> 
-> So now dma_request_chan() has sysfs / debugfs registrations, and this looks
-> good to me. I'll commit this within next couple days and keep it posted here.
-> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.txt b/Documentation/devicetree/bindings/display/msm/gpu.txt
+> index 1af0ff1..090dcb3 100644
+> --- a/Documentation/devicetree/bindings/display/msm/gpu.txt
+> +++ b/Documentation/devicetree/bindings/display/msm/gpu.txt
+> @@ -39,6 +39,10 @@ Required properties:
+>          a4xx Snapdragon SoCs. See
+>          Documentation/devicetree/bindings/sram/qcom,ocmem.yaml.
+>  
+> +Optional properties:
+> +- #cooling-cells: The value must be 2. For details, please refer
+> +	Documentation/devicetree/bindings/thermal/thermal-cooling-devices.yaml.
+> +
+>  Example 3xx/4xx:
+>  
+>  / {
+> @@ -61,6 +65,7 @@ Example 3xx/4xx:
+>  		power-domains = <&mmcc OXILICX_GDSC>;
+>  		operating-points-v2 = <&gpu_opp_table>;
+>  		iommus = <&gpu_iommu 0>;
+> +		#cooling-cells = <2>;
+>  	};
+>  
+>  	gpu_sram: ocmem@fdd00000 {
+> @@ -98,6 +103,8 @@ Example a6xx (with GMU):
+>  		reg = <0x5000000 0x40000>, <0x509e000 0x10>;
+>  		reg-names = "kgsl_3d0_reg_memory", "cx_mem";
+>  
+> +		#cooling-cells = <2>;
+> +
+>  		/*
+>  		 * Look ma, no clocks! The GPU clocks and power are
+>  		 * controlled entirely by the GMU
 
-Applied to drm-misc-next.
-
-Thanks!
-
--hyun
-
-
-> Thanks,
-> -hyun
-> 
-> > ---
-> >  drivers/gpu/drm/xlnx/zynqmp_disp.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> > index 98bd48f13fd1..a4405d081aca 100644
-> > --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> > +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> > @@ -28,7 +28,6 @@
-> >  #include <linux/dmaengine.h>
-> >  #include <linux/module.h>
-> >  #include <linux/of.h>
-> > -#include <linux/of_dma.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/pm_runtime.h>
-> >  #include <linux/spinlock.h>
-> > @@ -1316,8 +1315,7 @@ static int zynqmp_disp_layer_request_dma(struct zynqmp_disp *disp,
-> >  
-> >  		snprintf(dma_channel_name, sizeof(dma_channel_name),
-> >  			 "%s%u", dma_names[layer->id], i);
-> > -		dma->chan = of_dma_request_slave_channel(disp->dev->of_node,
-> > -							 dma_channel_name);
-> > +		dma->chan = dma_request_chan(disp->dev, dma_channel_name);
-> >  		if (IS_ERR(dma->chan)) {
-> >  			dev_err(disp->dev, "failed to request dma channel\n");
-> >  			ret = PTR_ERR(dma->chan);
-> > -- 
-> > Peter
-> > 
-> > Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> > Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-> > 
+Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
