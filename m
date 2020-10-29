@@ -1,41 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5582C29E047
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 02:18:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B1529E376
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 06:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A98F96E823;
-	Thu, 29 Oct 2020 01:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 070716E5C6;
+	Thu, 29 Oct 2020 05:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A066E47A;
- Thu, 29 Oct 2020 01:18:14 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4CM6y71X4Yz9s0b;
- Thu, 29 Oct 2020 12:18:05 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1603934291;
- bh=b9wJS3nbAyZxMqjtljWotEpr2D5lHXOSdWj9oai4MXQ=;
- h=Date:From:To:Cc:Subject:From;
- b=TrGWt2XrpCTnwhyit4+PYTRMuHyGPddji07e/02rtX1DwoJ2Fwjl7o25gnUFm/XyK
- yonpwRBeHH16eXnqW9qbXjxcKZcCA+76uiAwkS5Xc7baVLVaT/Bq9ANSgXHDTFzj0T
- w76UO9LBWS3sGxfMpJusIO+PjTcnHSi+6nd7D9ewAXfY24wrGi6LhKrwqbwhzNuSkS
- DO3BvZ9/a4qJ/Jm4AarqMpcZWqgoHKuYxFlAden1uKX0D1IDdY/HpQo60bMDuAwDjY
- 5tWugoU1nvh/knq0Z1wvcd9Bxpr+Sdh5XPWZQgm4prOv91VUdq9kNrQrl32rDRzuak
- ohAGcJ0+a0VLQ==
-Date: Thu, 29 Oct 2020 12:18:01 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with the
- drm-misc-fixes tree
-Message-ID: <20201029121801.205e6e34@canb.auug.org.au>
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+ [209.85.218.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A363B6E5C6;
+ Thu, 29 Oct 2020 05:42:43 +0000 (UTC)
+Received: by mail-ej1-f65.google.com with SMTP id s15so2130985ejf.8;
+ Wed, 28 Oct 2020 22:42:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+zwvXGGP7Jimw9hLxGRvlejwQWtm5slzhppTkFSUgrc=;
+ b=WbKSErVuGINgwsUDsevjbskrR0bSgOXC883odHRey+2/Qdy9DJZXr+39F8s16FMGfk
+ ZZwQMHirjCYJRv0Y6OV87CPs6YQ/MfYuq3h/jQbxYg428P2CoWqhTxWk32HKTWXzsaBu
+ EThAmmiDmnqWr7ULAX2NYJhIC4zI4o12dPYtcsmxD5Too5tLvODIfE85CtNxgIU8NRt4
+ 9zz1KwmunnZ61m6jFxP5kdAYcQMV229KkhuRi6DagQSLNY2QnfEaUpOYjK5CtyJw6f9V
+ /eOL4Hob9W0xMXb6bE4Eo+A9xdVuvseaUdoF5aAj6fwgSUdSNsRKjT4BTvKGmM7OpC3b
+ KOkg==
+X-Gm-Message-State: AOAM530F5l3h7OwWCYsP4sNynGkcIGaJJlN9WkJMsHnmpTGhUenj2vio
+ YdgRHcXbjcljXR9NwlMceXw=
+X-Google-Smtp-Source: ABdhPJw5i2GtoHk0Z+/903xc3/UHEIgOGT7HU6IhTnJrybfyZcqMoiA/N78eBzz/0tY3oFIdhSNfSA==
+X-Received: by 2002:a17:906:ce5c:: with SMTP id
+ se28mr2290239ejb.365.1603950162313; 
+ Wed, 28 Oct 2020 22:42:42 -0700 (PDT)
+Received: from ?IPv6:2a0b:e7c0:0:107::49? ([2a0b:e7c0:0:107::49])
+ by smtp.gmail.com with ESMTPSA id m19sm840452eda.72.2020.10.28.22.42.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Oct 2020 22:42:41 -0700 (PDT)
+Subject: Re: [PATCH] fbcon: Disable accelerated scrolling
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20201028160600.3752105-1-daniel.vetter@ffwll.ch>
+From: Jiri Slaby <jirislaby@kernel.org>
+Message-ID: <997267e5-40c1-2aaf-235a-ff14f2d101e6@kernel.org>
+Date: Thu, 29 Oct 2020 06:42:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
+In-Reply-To: <20201028160600.3752105-1-daniel.vetter@ffwll.ch>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,93 +61,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============0872961907=="
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ nouveau@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Peter Rosin <peda@axentia.se>, George Kennedy <george.kennedy@oracle.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Peilin Ye <yepeilin.cs@gmail.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0872961907==
-Content-Type: multipart/signed; boundary="Sig_/eU5nSNYdUr8Mw9jM3kranNC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+On 28. 10. 20, 17:06, Daniel Vetter wrote:
+> So ever since syzbot discovered fbcon, we have solid proof that it's
+> full of bugs. And often the solution is to just delete code and remove
+> features, e.g.  50145474f6ef ("fbcon: remove soft scrollback code").
+...
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -1147,11 +1147,13 @@ static void fbcon_init(struct vc_data *vc, int init)
+>   
+>   	ops->graphics = 0;
+>   
+> -	if ((cap & FBINFO_HWACCEL_COPYAREA) &&
+> -	    !(cap & FBINFO_HWACCEL_DISABLED))
+> -		p->scrollmode = SCROLL_MOVE;
+> -	else /* default to something safe */
+> -		p->scrollmode = SCROLL_REDRAW;
+> +	/*
+> +	 * No more hw acceleration for fbcon.
+> +	 *
+> +	 * FIXME: Garabge collect all the now dead code after sufficient time
 
---Sig_/eU5nSNYdUr8Mw9jM3kranNC
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+If you go this non-invasive path, then only a nit here: "Garbage"
 
-Hi all,
-
-Today's linux-next merge of the drm-misc tree got a conflict in:
-
-  drivers/gpu/drm/drm_gem.c
-
-between commit:
-
-  f49a51bfdc8e ("drm/shme-helpers: Fix dma_buf_mmap forwarding bug")
-
-from the drm-misc-fixes tree and commit:
-
-  d693def4fd1c ("drm: Remove obsolete GEM and PRIME callbacks from struct d=
-rm_driver")
-
-from the drm-misc tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/drm_gem.c
-index 69c2c079d803,1da67d34e55d..000000000000
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@@ -1085,9 -1076,7 +1076,9 @@@ int drm_gem_mmap_obj(struct drm_gem_obj
-  	 */
-  	drm_gem_object_get(obj);
- =20
- +	vma->vm_private_data =3D obj;
- +
-- 	if (obj->funcs && obj->funcs->mmap) {
-+ 	if (obj->funcs->mmap) {
-  		ret =3D obj->funcs->mmap(obj, vma);
-  		if (ret) {
-  			drm_gem_object_put(obj);
-
---Sig_/eU5nSNYdUr8Mw9jM3kranNC
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+aGEkACgkQAVBC80lX
-0GzrUgf/RQeU2mi6hs0UPwt+oP5FUCiRHXbk3B1VVPzT1VT//NX/H4yYgGwvrWFp
-g6/lxV8j52eTSI29H1wTA+8ZBrgmCd5NZ1+BOLobaJmF50cvq2TephizSk5mmOIw
-uPY0863i0jtrdZHiwtw4wVl7RBTX5I7x9PFZOpYrOxsjfMdDtBMNh3TrpgoORbYE
-qz/Dd4awTaD4k7Mz+NZSs4iTIv4jtxPzTYMQbAx7jFaUuBkPJvKz+/UkuDvk7FWo
-58DGw1N+rLQB85dm8G7hcU1VTxdv95x6pBRTd/aK/hnty9H3zct94LXV0uKwjDC+
-g4tvpJk9tyGmCyUBRzvaSQXJZVmuLg==
-=zUl5
------END PGP SIGNATURE-----
-
---Sig_/eU5nSNYdUr8Mw9jM3kranNC--
-
---===============0872961907==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+thanks,
+-- 
+js
+suse labs
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0872961907==--
