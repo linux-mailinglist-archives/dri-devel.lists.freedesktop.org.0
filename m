@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394AD29FFD2
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:25:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DBC29FF96
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:23:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0F06ECFF;
-	Fri, 30 Oct 2020 08:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C893C6E983;
+	Fri, 30 Oct 2020 08:23:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C16D16E8AC;
- Thu, 29 Oct 2020 11:48:09 +0000 (UTC)
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CMNx14k5pz15NWj;
- Thu, 29 Oct 2020 19:48:05 +0800 (CST)
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B73676ECB3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 11:58:57 +0000 (UTC)
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CMP9W0qlLzhcjb;
+ Thu, 29 Oct 2020 19:58:55 +0800 (CST)
 Received: from linux-lmwb.huawei.com (10.175.103.112) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 29 Oct 2020 19:47:55 +0800
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 29 Oct 2020 19:58:45 +0800
 From: Zou Wei <zou_wei@huawei.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/amdgpu/swsmu: Remove unused static struct
- 'navi10_i2c_algo'
-Date: Thu, 29 Oct 2020 19:59:54 +0800
-Message-ID: <1603972794-64534-1-git-send-email-zou_wei@huawei.com>
+To: <sumit.semwal@linaro.org>, <benjamin.gaignard@linaro.org>,
+ <lmark@codeaurora.org>, <labbott@redhat.com>, <Brian.Starkey@arm.com>,
+ <john.stultz@linaro.org>, <christian.koenig@amd.com>
+Subject: [PATCH -next] dma-buf: heaps: Make sys_heap static
+Date: Thu, 29 Oct 2020 20:10:43 +0800
+Message-ID: <1603973443-64798-1-git-send-email-zou_wei@huawei.com>
 X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
 X-Originating-IP: [10.175.103.112]
@@ -42,33 +42,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zou Wei <zou_wei@huawei.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linaro-mm-sig@lists.linaro.org, Zou Wei <zou_wei@huawei.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6Cgpkcml2ZXJz
-L2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9wbS9zd3NtdS9zbXUxMS9uYXZpMTBfcHB0LmM6MjUyNzoz
-NToKd2FybmluZzog4oCYbmF2aTEwX2kyY19hbGdv4oCZIApkZWZpbmVkIGJ1dCBub3QgdXNlZCBb
-LVd1bnVzZWQtY29uc3QtdmFyaWFibGU9XQogc3RhdGljIGNvbnN0IHN0cnVjdCBpMmNfYWxnb3Jp
-dGhtIG5hdmkxMF9pMmNfYWxnbyA9IHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBefn5+fn5+fn5+fn5+fn4KClJlcG9ydGVkLWJ5OiBIdWxrIFJvYm90IDxodWxrY2lAaHVhd2Vp
-LmNvbT4KU2lnbmVkLW9mZi1ieTogWm91IFdlaSA8em91X3dlaUBodWF3ZWkuY29tPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS9hbWQvcG0vc3dzbXUvc211MTEvbmF2aTEwX3BwdC5jIHwgNiAtLS0tLS0K
-IDEgZmlsZSBjaGFuZ2VkLCA2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9hbWQvcG0vc3dzbXUvc211MTEvbmF2aTEwX3BwdC5jIGIvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9wbS9zd3NtdS9zbXUxMS9uYXZpMTBfcHB0LmMKaW5kZXggZWYxYTYyZS4uYmVjNjNmMiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3NtdS9zbXUxMS9uYXZpMTBfcHB0LmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3NtdS9zbXUxMS9uYXZpMTBfcHB0LmMKQEAg
-LTI1MjMsMTIgKzI1MjMsNiBAQCBzdGF0aWMgdTMyIG5hdmkxMF9pMmNfZnVuYyhzdHJ1Y3QgaTJj
-X2FkYXB0ZXIgKmFkYXApCiAJcmV0dXJuIEkyQ19GVU5DX0kyQyB8IEkyQ19GVU5DX1NNQlVTX0VN
-VUw7CiB9CiAKLQotc3RhdGljIGNvbnN0IHN0cnVjdCBpMmNfYWxnb3JpdGhtIG5hdmkxMF9pMmNf
-YWxnbyA9IHsKLQkubWFzdGVyX3hmZXIgPSBuYXZpMTBfaTJjX3hmZXIsCi0JLmZ1bmN0aW9uYWxp
-dHkgPSBuYXZpMTBfaTJjX2Z1bmMsCi19OwotCiBzdGF0aWMgc3NpemVfdCBuYXZpMTBfZ2V0X2dw
-dV9tZXRyaWNzKHN0cnVjdCBzbXVfY29udGV4dCAqc211LAogCQkJCSAgICAgIHZvaWQgKip0YWJs
-ZSkKIHsKLS0gCjIuNi4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+Fix the following sparse warning:
+
+drivers/dma-buf/heaps/system_heap.c:23:17: warning: symbol 'sys_heap' was not declared. Should it be static?
+
+sys_heap has only call within system_heap.c
+It should be static
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
+---
+ drivers/dma-buf/heaps/system_heap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 0bf688e..41502bf 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -20,7 +20,7 @@
+ 
+ #include "heap-helpers.h"
+ 
+-struct dma_heap *sys_heap;
++static struct dma_heap *sys_heap;
+ 
+ static void system_heap_free(struct heap_helper_buffer *buffer)
+ {
+-- 
+2.6.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
