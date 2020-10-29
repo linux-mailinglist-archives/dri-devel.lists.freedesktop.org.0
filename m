@@ -2,47 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7401829ECC2
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 14:22:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C6C29ECBE
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 14:22:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2B8C6ECC2;
-	Thu, 29 Oct 2020 13:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBAAD6E8B1;
+	Thu, 29 Oct 2020 13:22:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27B086ECC2
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 13:22:36 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7FF2120809
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 13:22:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603977755;
- bh=SSqEczktkXqJPCkYJd5JJVd8x3QTRgXyJPz9DieXvI4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=n0vFVgEuizL/dTUyl+wJFfcFZMUwk+0j4zhPJs5vSe4XjhlYhsY0EfpbaEQTylhWt
- Cubd0FfxN5Ee2oJDXYXEOxUZlwmqAWAKdT/7JjFbdX+nfd/dDeF2qeDk5f6rU5tvO4
- 3Skh01R/yatRbFl/JN9wAt8ukwMHssGIzImAfJzg=
-Received: by mail-ed1-f50.google.com with SMTP id g25so2193347edm.6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 06:22:35 -0700 (PDT)
-X-Gm-Message-State: AOAM530M6g4hOYnZDFxazrh9agiqdlU5IWecA6jnhHJ1Vn1dakfPnMRA
- +ep8Cs3HdBvP4gwijhgab5Egwu2BHn81UhCicw==
-X-Google-Smtp-Source: ABdhPJwDHdKRH0zxp2zdI0rhG8MdiqpEtBhgAHcNHzUa5A/NrM0N2+qgtroMDJUvOVjURs3Jt16EVSasoziDTaYiQJ8=
-X-Received: by 2002:aa7:cb1a:: with SMTP id s26mr3896896edt.219.1603977753903; 
- Thu, 29 Oct 2020 06:22:33 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64EDC6E8B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 13:22:24 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209939] New: radeontop causes kernel panic
+Date: Thu, 29 Oct 2020 13:22:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: janpieter.sollie@edpnet.be
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-209939-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20201013100625.13056-1-jitao.shi@mediatek.com>
- <20201013100625.13056-2-jitao.shi@mediatek.com>
-In-Reply-To: <20201013100625.13056-2-jitao.shi@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 29 Oct 2020 21:22:19 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_800OtqtJCtCAYS2Kcw7QLp-ojv63mNu8TS1aunTOsHGQ@mail.gmail.com>
-Message-ID: <CAAOTY_800OtqtJCtCAYS2Kcw7QLp-ojv63mNu8TS1aunTOsHGQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/1] drm/mediatek: dsi: fix scrolling of panel with
- small hfp or hbp
-To: Jitao Shi <jitao.shi@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,128 +51,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- srv_heupstream <srv_heupstream@mediatek.com>, David Airlie <airlied@linux.ie>,
- huijuan.xie@mediatek.com, stonea168@163.com,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, cawa.cheng@mediatek.com,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
- eddie.huang@mediatek.com, Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEppdGFvOgoKSml0YW8gU2hpIDxqaXRhby5zaGlAbWVkaWF0ZWsuY29tPiDmlrwgMjAyMOW5
-tDEw5pyIMTPml6Ug6YCx5LqMIOS4i+WNiDY6MDblr6vpgZPvvJoKPgo+IFJlcGxhY2UgaG9yaXpv
-bnRhbF9iYWNrcG9yY2hfYnl0ZSB3aXRoIHZtLT5oYmFja19wb3JjaCAqIGJwcCB0byBhb3ZpZAo+
-IGZsb3dpbmcganVkZ2VtZW50IG5lZ2F0aXZlIG51bWJlci4KPgo+IGlmICgodm0tPmhmcm9udF9w
-b3JjaCAqIGRzaV90bXBfYnVmX2JwcCArIGhvcml6b250YWxfYmFja3BvcmNoX2J5dGUpID4KPiAg
-ICAgICAgIGRhdGFfcGh5X2N5Y2xlcyAqIGRzaS0+bGFuZXMgKyBkZWx0YSkKPgo+IFNpZ25lZC1v
-ZmYtYnk6IEppdGFvIFNoaSA8aml0YW8uc2hpQG1lZGlhdGVrLmNvbT4KPiAtLS0KPiAgZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyB8IDY1ICsrKysrKysrKysrKysrKy0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCA0MCBk
-ZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2RzaS5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+IGluZGV4IDgwYjdh
-MDgyZTg3NC4uZGRkZGY2OWViZWFmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZHNpLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5j
-Cj4gQEAgLTQ0NSw2ICs0NDUsNyBAQCBzdGF0aWMgdm9pZCBtdGtfZHNpX2NvbmZpZ192ZG9fdGlt
-aW5nKHN0cnVjdCBtdGtfZHNpICpkc2kpCj4gICAgICAgICB1MzIgaG9yaXpvbnRhbF9iYWNrcG9y
-Y2hfYnl0ZTsKPiAgICAgICAgIHUzMiBob3Jpem9udGFsX2Zyb250cG9yY2hfYnl0ZTsKPiAgICAg
-ICAgIHUzMiBkc2lfdG1wX2J1Zl9icHAsIGRhdGFfcGh5X2N5Y2xlczsKPiArICAgICAgIHUzMiBk
-ZWx0YTsKPiAgICAgICAgIHN0cnVjdCBtdGtfcGh5X3RpbWluZyAqdGltaW5nID0gJmRzaS0+cGh5
-X3RpbWluZzsKPgo+ICAgICAgICAgc3RydWN0IHZpZGVvbW9kZSAqdm0gPSAmZHNpLT52bTsKPiBA
-QCAtNDY2LDUwICs0NjcsMzQgQEAgc3RhdGljIHZvaWQgbXRrX2RzaV9jb25maWdfdmRvX3RpbWlu
-ZyhzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+ICAgICAgICAgaG9yaXpvbnRhbF9zeW5jX2FjdGl2ZV9i
-eXRlID0gKHZtLT5oc3luY19sZW4gKiBkc2lfdG1wX2J1Zl9icHAgLSAxMCk7Cj4KPiAgICAgICAg
-IGlmIChkc2ktPm1vZGVfZmxhZ3MgJiBNSVBJX0RTSV9NT0RFX1ZJREVPX1NZTkNfUFVMU0UpCj4g
-LSAgICAgICAgICAgICAgIGhvcml6b250YWxfYmFja3BvcmNoX2J5dGUgPSB2bS0+aGJhY2tfcG9y
-Y2ggKiBkc2lfdG1wX2J1Zl9icHA7Cj4gKyAgICAgICAgICAgICAgIGhvcml6b250YWxfYmFja3Bv
-cmNoX2J5dGUgPQo+ICsgICAgICAgICAgICAgICAgICAgICAgICh2bS0+aGJhY2tfcG9yY2ggKiBk
-c2lfdG1wX2J1Zl9icHAgLSAxMCk7Cj4gICAgICAgICBlbHNlCj4gLSAgICAgICAgICAgICAgIGhv
-cml6b250YWxfYmFja3BvcmNoX2J5dGUgPSAodm0tPmhiYWNrX3BvcmNoICsgdm0tPmhzeW5jX2xl
-bikgKgo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZHNpX3Rt
-cF9idWZfYnBwOwo+ICsgICAgICAgICAgICAgICBob3Jpem9udGFsX2JhY2twb3JjaF9ieXRlID0g
-KCh2bS0+aGJhY2tfcG9yY2ggKyB2bS0+aHN5bmNfbGVuKSAqCj4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgZHNpX3RtcF9idWZfYnBwIC0gMTApOwo+Cj4gICAgICAgICBkYXRhX3BoeV9jeWNsZXMg
-PSB0aW1pbmctPmxweCArIHRpbWluZy0+ZGFfaHNfcHJlcGFyZSArCj4gLSAgICAgICAgICAgICAg
-ICAgICAgICAgICB0aW1pbmctPmRhX2hzX3plcm8gKyB0aW1pbmctPmRhX2hzX2V4aXQ7Cj4gLQo+
-IC0gICAgICAgaWYgKGRzaS0+bW9kZV9mbGFncyAmIE1JUElfRFNJX01PREVfVklERU9fQlVSU1Qp
-IHsKPiAtICAgICAgICAgICAgICAgaWYgKCh2bS0+aGZyb250X3BvcmNoICsgdm0tPmhiYWNrX3Bv
-cmNoKSAqIGRzaV90bXBfYnVmX2JwcCA+Cj4gLSAgICAgICAgICAgICAgICAgICBkYXRhX3BoeV9j
-eWNsZXMgKiBkc2ktPmxhbmVzICsgMTgpIHsKPiAtICAgICAgICAgICAgICAgICAgICAgICBob3Jp
-em9udGFsX2Zyb250cG9yY2hfYnl0ZSA9Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB2bS0+aGZyb250X3BvcmNoICogZHNpX3RtcF9idWZfYnBwIC0KPiAtICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIChkYXRhX3BoeV9jeWNsZXMgKiBkc2ktPmxhbmVzICsgMTgpICoKPiAt
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZtLT5oZnJvbnRfcG9yY2ggLwo+IC0gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgKHZtLT5oZnJvbnRfcG9yY2ggKyB2bS0+aGJhY2tf
-cG9yY2gpOwo+IC0KPiAtICAgICAgICAgICAgICAgICAgICAgICBob3Jpem9udGFsX2JhY2twb3Jj
-aF9ieXRlID0KPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGhvcml6b250YWxfYmFj
-a3BvcmNoX2J5dGUgLQo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKGRhdGFfcGh5
-X2N5Y2xlcyAqIGRzaS0+bGFuZXMgKyAxOCkgKgo+IC0gICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgdm0tPmhiYWNrX3BvcmNoIC8KPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICh2bS0+aGZyb250X3BvcmNoICsgdm0tPmhiYWNrX3BvcmNoKTsKPiAtICAgICAgICAgICAgICAg
-fSBlbHNlIHsKPiAtICAgICAgICAgICAgICAgICAgICAgICBEUk1fV0FSTigiSEZQIGxlc3MgdGhh
-biBkLXBoeSwgRlBTIHdpbGwgdW5kZXIgNjBIelxuIik7Cj4gLSAgICAgICAgICAgICAgICAgICAg
-ICAgaG9yaXpvbnRhbF9mcm9udHBvcmNoX2J5dGUgPSB2bS0+aGZyb250X3BvcmNoICoKPiAtICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRzaV90bXBf
-YnVmX2JwcDsKPiAtICAgICAgICAgICAgICAgfQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
-dGltaW5nLT5kYV9oc196ZXJvICsgdGltaW5nLT5kYV9oc19leGl0ICsgMzsKPiArCj4gKyAgICAg
-ICBkZWx0YSA9IChkc2ktPm1vZGVfZmxhZ3MgJiBNSVBJX0RTSV9NT0RFX1ZJREVPX0JVUlNUKSA/
-IDE4IDogMTI7Cj4gKwo+ICsgICAgICAgaWYgKCh2bS0+aGZyb250X3BvcmNoICogZHNpX3RtcF9i
-dWZfYnBwICsgaG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0ZSkgPgo+ICsgICAgICAgICAgIGRhdGFf
-cGh5X2N5Y2xlcyAqIGRzaS0+bGFuZXMgKyBkZWx0YSkgewo+ICsgICAgICAgICAgICAgICBob3Jp
-em9udGFsX2Zyb250cG9yY2hfYnl0ZSA9Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgdm0tPmhm
-cm9udF9wb3JjaCAqIGRzaV90bXBfYnVmX2JwcCAtCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
-KGRhdGFfcGh5X2N5Y2xlcyAqIGRzaS0+bGFuZXMgKyBkZWx0YSkgKgo+ICsgICAgICAgICAgICAg
-ICAgICAgICAgIHZtLT5oZnJvbnRfcG9yY2ggLwo+ICsgICAgICAgICAgICAgICAgICAgICAgICh2
-bS0+aGZyb250X3BvcmNoICsgdm0tPmhiYWNrX3BvcmNoKTsKPiArCj4gKyAgICAgICAgICAgICAg
-IGhvcml6b250YWxfYmFja3BvcmNoX2J5dGUgPQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGhv
-cml6b250YWxfYmFja3BvcmNoX2J5dGUgLQo+ICsgICAgICAgICAgICAgICAgICAgICAgIChkYXRh
-X3BoeV9jeWNsZXMgKiBkc2ktPmxhbmVzICsgZGVsdGEpICoKPiArICAgICAgICAgICAgICAgICAg
-ICAgICB2bS0+aGJhY2tfcG9yY2ggLwo+ICsgICAgICAgICAgICAgICAgICAgICAgICh2bS0+aGZy
-b250X3BvcmNoICsgdm0tPmhiYWNrX3BvcmNoKTsKPiAgICAgICAgIH0gZWxzZSB7Cj4gLSAgICAg
-ICAgICAgICAgIGlmICgodm0tPmhmcm9udF9wb3JjaCArIHZtLT5oYmFja19wb3JjaCkgKiBkc2lf
-dG1wX2J1Zl9icHAgPgo+IC0gICAgICAgICAgICAgICAgICAgZGF0YV9waHlfY3ljbGVzICogZHNp
-LT5sYW5lcyArIDEyKSB7Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgaG9yaXpvbnRhbF9mcm9u
-dHBvcmNoX2J5dGUgPQo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdm0tPmhmcm9u
-dF9wb3JjaCAqIGRzaV90bXBfYnVmX2JwcCAtCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAoZGF0YV9waHlfY3ljbGVzICogZHNpLT5sYW5lcyArIDEyKSAqCj4gLSAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB2bS0+aGZyb250X3BvcmNoIC8KPiAtICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICh2bS0+aGZyb250X3BvcmNoICsgdm0tPmhiYWNrX3BvcmNoKTsKPiAt
-ICAgICAgICAgICAgICAgICAgICAgICBob3Jpem9udGFsX2JhY2twb3JjaF9ieXRlID0gaG9yaXpv
-bnRhbF9iYWNrcG9yY2hfYnl0ZSAtCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAo
-ZGF0YV9waHlfY3ljbGVzICogZHNpLT5sYW5lcyArIDEyKSAqCj4gLSAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB2bS0+aGJhY2tfcG9yY2ggLwo+IC0gICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgKHZtLT5oZnJvbnRfcG9yY2ggKyB2bS0+aGJhY2tfcG9yY2gpOwo+IC0gICAgICAg
-ICAgICAgICB9IGVsc2Ugewo+IC0gICAgICAgICAgICAgICAgICAgICAgIERSTV9XQVJOKCJIRlAg
-bGVzcyB0aGFuIGQtcGh5LCBGUFMgd2lsbCB1bmRlciA2MEh6XG4iKTsKPiAtICAgICAgICAgICAg
-ICAgICAgICAgICBob3Jpem9udGFsX2Zyb250cG9yY2hfYnl0ZSA9IHZtLT5oZnJvbnRfcG9yY2gg
-Kgo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ZHNpX3RtcF9idWZfYnBwOwo+IC0gICAgICAgICAgICAgICB9Cj4gKyAgICAgICAgICAgICAgIERS
-TV9XQVJOKCJIRlAgKyBIQlAgbGVzcyB0aGFuIGQtcGh5LCBGUFMgd2lsbCB1bmRlciA2MEh6XG4i
-KTsKPiArICAgICAgICAgICAgICAgaG9yaXpvbnRhbF9mcm9udHBvcmNoX2J5dGUgPSB2bS0+aGZy
-b250X3BvcmNoICoKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBkc2lfdG1wX2J1Zl9icHA7CgpJJ3ZlIGFwcGxpZWQgdGhpcyBwYXRjaCwgYnV0IHNtYWxsIGhi
-cCBoYXMgcHJvYmxlbSBiZWNhdXNlCmhvcml6b250YWxfYmFja3BvcmNoX2J5dGUgPCAwLgpJIHRy
-eSB0byBtb2RpZnkgdGhpcyBwYXRjaCBhY2NvcmRpbmcgdG8gdHdvIGFzc3VtcHRpb246CgoxLiBo
-b3Jpem9udGFsX2JhY2twb3JjaF9ieXRlIHNob3VsZCBiZSBzbWFsbGVyIHRoYW4gKHZtLT5oYmFj
-a19wb3JjaCArCnZtLT5oc3luY19sZW4pICogZHNpX3RtcF9idWZfYnBwIGF0IGxlYXN0IDEwLgoy
-LiBob3Jpem9udGFsX2JhY2twb3JjaF9ieXRlIHNob3VsZCA+PSAwLgoKQWNjb3JkaW5nIHRvIHRo
-ZXNlIHR3byBhc3N1bXB0aW9uLCBJJ3ZlIGEgcGF0Y2ggWzFdLiBNeSBrZXkgcG9pbnQgaXMKdGhh
-dCBJIHVzZSBob3Jpem9udGFsX2JhY2twb3JjaF9ieXRlIHRvIGNhbGN1bGF0ZSB0aGUgcmF0aW8g
-dG8Kc3VidHJhY3QgaXQuIElzIG15IGFzc3VtcHRpb24gY29ycmVjdD8KSWYgbm90LCBwbGVhc2Ug
-ZXhwbGFpbiB3aHkgZG8geW91IGNhbGN1bGF0ZSBpbiB0aGlzIHdheSwgc28gd2UgY291bGQKZmlu
-ZCBvdXQgaG93IHRvIHNvbHZlIHRoaXMgcHJvYmxlbS4KClsxXSBodHRwczovL2Nocm9taXVtLXJl
-dmlldy5nb29nbGVzb3VyY2UuY29tL2MvY2hyb21pdW1vcy90aGlyZF9wYXJ0eS9rZXJuZWwvKy8y
-NTA2OTkyCgpSZWdhcmRzLApDaHVuLUt1YW5nLgoKPiAgICAgICAgIH0KPgo+ICAgICAgICAgd3Jp
-dGVsKGhvcml6b250YWxfc3luY19hY3RpdmVfYnl0ZSwgZHNpLT5yZWdzICsgRFNJX0hTQV9XQyk7
-Cj4gLS0KPiAyLjEyLjUKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+https://bugzilla.kernel.org/show_bug.cgi?id=209939
+
+            Bug ID: 209939
+           Summary: radeontop causes kernel panic
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.9.1
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: janpieter.sollie@edpnet.be
+        Regression: No
+
+Created attachment 293297
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293297&action=edit
+kernel .config file of 3 PCs
+
+(view 3 .config files)
+> PC1: problem pc, Ryzen 2400GE APU with Vega 11 and 5.9.1 kernel (Xorg
+> running)
+> PC2: working pc, ryzen V1605 APU with vega 8 and 5.8.14 kernel (Xorg running)
+> PC3: working pc, Threadripper 1950 + Fiji GPU and 5.9.1 kernel (CLI only)
+
+As the subject states: on PC1, the kernel can't handle the radeontop program,
+one way or another, these methods work / do not on PC1:
+> - while hardware-accelerated content is running, panic
+> - When in console mode, it's fine
+> - when switching from console to X, it's fine for a few moments
+> - when trying it early (X running sddm, radeontop via ssh), panic
+
+with *panic*, I mean: the PC does not react anymore: the num lock trigger is no
+longer working, no input is accepted, the clock on the GUI does not change
+anymore, no SSH.
+
+I tried everything:
+> - pstore is empty
+> - dd if=/dev/kmsg of=/dev/sdb1 & while [ 1]; do echo s > /proc/sysrq-trigger;
+> sleep 10; done & radeontop (and pulling it out of this partition afterwards)
+
+The mainboard does not have a RS232 port, so debugging this way is not
+possible;
+also, I doubt I'd be able to use KDB if the screen stucks at GUI mode ...
+
+If I can do anything to gather more info, let me know
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
