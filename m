@@ -2,34 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCB429F496
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 20:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1848629F4AC
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Oct 2020 20:15:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBDC66E8CF;
-	Thu, 29 Oct 2020 19:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E47DB6E8D0;
+	Thu, 29 Oct 2020 19:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E14AF6E8CF
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 19:13:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DCB86E8D0;
+ Thu, 29 Oct 2020 19:15:54 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8AED1B817;
- Thu, 29 Oct 2020 19:13:08 +0000 (UTC)
-Subject: Re: [PATCH] drm/hisilicon: Adding a const declaration to an invariant
- construct
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-References: <1603955505-43942-1-git-send-email-tiantao6@hisilicon.com>
+ by mx2.suse.de (Postfix) with ESMTP id 41613B80A;
+ Thu, 29 Oct 2020 19:15:53 +0000 (UTC)
+Subject: Re: [PATCH 2/3] fbcon: Drop EXPORT_SYMBOL
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20201029101428.4058311-1-daniel.vetter@ffwll.ch>
+ <20201029101428.4058311-2-daniel.vetter@ffwll.ch>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <40055cdc-c8eb-c71e-f362-51edbfd5970f@suse.de>
-Date: Thu, 29 Oct 2020 20:13:07 +0100
+Message-ID: <a2dc73bf-0385-4aee-9779-1a2f2aa57b85@suse.de>
+Date: Thu, 29 Oct 2020 20:15:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.3
 MIME-Version: 1.0
-In-Reply-To: <1603955505-43942-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <20201029101428.4058311-2-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,84 +40,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2134814771=="
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Helge Deller <deller@gmx.de>, Daniel Vetter <daniel.vetter@intel.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>
+Content-Type: multipart/mixed; boundary="===============0660436271=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2134814771==
+--===============0660436271==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="0qAEaciWReSAur6uMnGDdzpAk0mHt0335"
+ boundary="qNf1VZdj1EWP3Vxj3yPYOQPak3aurh5oG"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0qAEaciWReSAur6uMnGDdzpAk0mHt0335
-Content-Type: multipart/mixed; boundary="l8Z9qrI2a1VTzBVPE8t5NgKiwxnE3Til2";
+--qNf1VZdj1EWP3Vxj3yPYOQPak3aurh5oG
+Content-Type: multipart/mixed; boundary="xrmx4BmzuNRbQAbWEcQ48WKh5oAp49hcS";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
- kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-Message-ID: <40055cdc-c8eb-c71e-f362-51edbfd5970f@suse.de>
-Subject: Re: [PATCH] drm/hisilicon: Adding a const declaration to an invariant
- construct
-References: <1603955505-43942-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1603955505-43942-1-git-send-email-tiantao6@hisilicon.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Peilin Ye <yepeilin.cs@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Jiri Slaby <jirislaby@kernel.org>,
+ Helge Deller <deller@gmx.de>
+Message-ID: <a2dc73bf-0385-4aee-9779-1a2f2aa57b85@suse.de>
+Subject: Re: [PATCH 2/3] fbcon: Drop EXPORT_SYMBOL
+References: <20201029101428.4058311-1-daniel.vetter@ffwll.ch>
+ <20201029101428.4058311-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201029101428.4058311-2-daniel.vetter@ffwll.ch>
 
---l8Z9qrI2a1VTzBVPE8t5NgKiwxnE3Til2
+--xrmx4BmzuNRbQAbWEcQ48WKh5oAp49hcS
 Content-Type: multipart/mixed;
- boundary="------------4FE2B866322B727289E4B1EB"
+ boundary="------------885F3C2B0B98341265DA9BA7"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------4FE2B866322B727289E4B1EB
+--------------885F3C2B0B98341265DA9BA7
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi
 
-Am 29.10.20 um 08:11 schrieb Tian Tao:
-> Some constructs cannot be changed after being assigned a value,
-> so add const declarations to invariant constructs.
+
+Am 29.10.20 um 11:14 schrieb Daniel Vetter:
+> Every since
 >=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> commit 6104c37094e729f3d4ce65797002112735d49cd1
+> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Date:   Tue Aug 1 17:32:07 2017 +0200
+>=20
+>     fbcon: Make fbcon a built-time depency for fbdev
+>=20
+> these are no longer distinct loadable modules, so exporting symbols is
+> kinda pointless.
+>=20
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Peilin Ye <yepeilin.cs@gmail.com>
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c  | 2 +-
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  drivers/video/fbdev/core/bitblit.c      | 3 ---
+>  drivers/video/fbdev/core/fbcon_ccw.c    | 1 -
+>  drivers/video/fbdev/core/fbcon_cw.c     | 1 -
+>  drivers/video/fbdev/core/fbcon_rotate.c | 1 -
+>  drivers/video/fbdev/core/fbcon_ud.c     | 1 -
+>  drivers/video/fbdev/core/softcursor.c   | 2 --
+>  drivers/video/fbdev/core/tileblit.c     | 2 --
+>  7 files changed, 11 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/g=
-pu/drm/hisilicon/hibmc/hibmc_drm_de.c
-> index a1eabad..ef18b47 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-> @@ -139,7 +139,7 @@ static const u32 channel_formats1[] =3D {
->  	DRM_FORMAT_ABGR8888
->  };
-> =20
-> -static struct drm_plane_funcs hibmc_plane_funcs =3D {
-> +static const struct drm_plane_funcs hibmc_plane_funcs =3D {
->  	.update_plane	=3D drm_atomic_helper_update_plane,
->  	.disable_plane	=3D drm_atomic_helper_disable_plane,
->  	.destroy =3D drm_plane_cleanup,
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
-gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index 0c1b40d..fee6fe8 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -369,7 +369,7 @@ static void hibmc_pci_remove(struct pci_dev *pdev)
->  	drm_dev_put(dev);
+> diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/c=
+ore/bitblit.c
+> index 9725ecd1255b..f98e8f298bc1 100644
+> --- a/drivers/video/fbdev/core/bitblit.c
+> +++ b/drivers/video/fbdev/core/bitblit.c
+> @@ -404,6 +404,3 @@ void fbcon_set_bitops(struct fbcon_ops *ops)
+>  	if (ops->rotate)
+>  		fbcon_set_rotate(ops);
 >  }
-> =20
-> -static struct pci_device_id hibmc_pci_table[] =3D {
-> +static const struct pci_device_id hibmc_pci_table[] =3D {
->  	{ PCI_VDEVICE(HUAWEI, 0x1711) },
->  	{0,}
->  };
+> -
+> -EXPORT_SYMBOL(fbcon_set_bitops);
+> -
+> diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev=
+/core/fbcon_ccw.c
+> index bbd869efd03b..9cd2c4b05c32 100644
+> --- a/drivers/video/fbdev/core/fbcon_ccw.c
+> +++ b/drivers/video/fbdev/core/fbcon_ccw.c
+> @@ -409,4 +409,3 @@ void fbcon_rotate_ccw(struct fbcon_ops *ops)
+>  	ops->cursor =3D ccw_cursor;
+>  	ops->update_start =3D ccw_update_start;
+>  }
+> -EXPORT_SYMBOL(fbcon_rotate_ccw);
+> diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/=
+core/fbcon_cw.c
+> index a34cbe8e9874..88d89fad3f05 100644
+> --- a/drivers/video/fbdev/core/fbcon_cw.c
+> +++ b/drivers/video/fbdev/core/fbcon_cw.c
+> @@ -392,4 +392,3 @@ void fbcon_rotate_cw(struct fbcon_ops *ops)
+>  	ops->cursor =3D cw_cursor;
+>  	ops->update_start =3D cw_update_start;
+>  }
+> -EXPORT_SYMBOL(fbcon_rotate_cw);
+> diff --git a/drivers/video/fbdev/core/fbcon_rotate.c b/drivers/video/fb=
+dev/core/fbcon_rotate.c
+> index ac72d4f85f7d..df6b469aa2c2 100644
+> --- a/drivers/video/fbdev/core/fbcon_rotate.c
+> +++ b/drivers/video/fbdev/core/fbcon_rotate.c
+> @@ -110,4 +110,3 @@ void fbcon_set_rotate(struct fbcon_ops *ops)
+>  		break;
+>  	}
+>  }
+> -EXPORT_SYMBOL(fbcon_set_rotate);
+> diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/=
+core/fbcon_ud.c
+> index 199cbc7abe35..8d5e66b1bdfb 100644
+> --- a/drivers/video/fbdev/core/fbcon_ud.c
+> +++ b/drivers/video/fbdev/core/fbcon_ud.c
+> @@ -436,4 +436,3 @@ void fbcon_rotate_ud(struct fbcon_ops *ops)
+>  	ops->cursor =3D ud_cursor;
+>  	ops->update_start =3D ud_update_start;
+>  }
+> -EXPORT_SYMBOL(fbcon_rotate_ud);
+> diff --git a/drivers/video/fbdev/core/softcursor.c b/drivers/video/fbde=
+v/core/softcursor.c
+> index fc93f254498e..29e5b21cf373 100644
+> --- a/drivers/video/fbdev/core/softcursor.c
+> +++ b/drivers/video/fbdev/core/softcursor.c
+> @@ -74,5 +74,3 @@ int soft_cursor(struct fb_info *info, struct fb_curso=
+r *cursor)
+>  	info->fbops->fb_imageblit(info, image);
+>  	return 0;
+>  }
+> -
+> -EXPORT_SYMBOL(soft_cursor);
+> diff --git a/drivers/video/fbdev/core/tileblit.c b/drivers/video/fbdev/=
+core/tileblit.c
+> index 628fe5e010c0..7539ae9040f8 100644
+> --- a/drivers/video/fbdev/core/tileblit.c
+> +++ b/drivers/video/fbdev/core/tileblit.c
+> @@ -151,5 +151,3 @@ void fbcon_set_tileops(struct vc_data *vc, struct f=
+b_info *info)
+>  		info->tileops->fb_settile(info, &map);
+>  	}
+>  }
+> -
+> -EXPORT_SYMBOL(fbcon_set_tileops);
 >=20
 
 --=20
@@ -130,7 +204,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------4FE2B866322B727289E4B1EB
+--------------885F3C2B0B98341265DA9BA7
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -249,29 +323,29 @@ yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
 =3DmxFq
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------4FE2B866322B727289E4B1EB--
+--------------885F3C2B0B98341265DA9BA7--
 
---l8Z9qrI2a1VTzBVPE8t5NgKiwxnE3Til2--
+--xrmx4BmzuNRbQAbWEcQ48WKh5oAp49hcS--
 
---0qAEaciWReSAur6uMnGDdzpAk0mHt0335
+--qNf1VZdj1EWP3Vxj3yPYOQPak3aurh5oG
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+bFEMFAwAAAAAACgkQaA3BHVMLeiOX
-DQf/ZPdCdWZtSN6qOhm7NGvUHRHxV5XkIhyWWoF42rwlu9R+UmChQ9W+tNNOzsvIn+AcFC1Yun4y
-TVtQdyjnHDWsuM4q9Vm2YudY98GZ+4wOQe4q9BvvJi8dMqdF7Ic97+65JykBtCyh/5Z3Jiod5diB
-Wi40cotzIHhj+1guUupKwT9W0pkpK/2Attb87F8o35nGlnh+KIgg/DOfp27xuIUdLR9SBSxQzM0C
-nZj+3eNf+60GAa1H5X0ncFBn6oZXVFIqvgi571kI1zMHHABf0DKMWfVaNBeuVpDn1S6GHfWYi5AP
-wo3MPaG8Li0mbBg/D7W3MRKSeOCbh4zDqjOsgBLPZw==
-=9hb7
+wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+bFOgFAwAAAAAACgkQaA3BHVMLeiPA
+SQgAhb1BDzMFJgzVcYtyraODs3M24M+JKJJHO7i973Ruhvl9QW4hHyeFY7sVSJOM8JhgeXANDZk5
+Yiw+RZO9LD/lpk5Jwle9cuw7Xveqc4LFEcRP2ZLu1KXXuZlQMeDfglJGcP3XzPdRtEZvqF5pfgWp
+TXT+laPx3Q6AtCrj/o8WXbooUrQtOZ5mME6A2C5LU08QQ8uRTftKYhBvU0tMDcRwblBR+rXYB4ll
+S2r/vXUHJFXpa0OFZ8/NTRgZ8+yCEhIYx5wJykYZhMJZxrfMNmn0Mz8IKKHO1pDr26C54RLyc9zj
+jcmbqudtUtMzjPr7OlSgcwNOBvlnGotWuPCYCNJz+A==
+=Uj2s
 -----END PGP SIGNATURE-----
 
---0qAEaciWReSAur6uMnGDdzpAk0mHt0335--
+--qNf1VZdj1EWP3Vxj3yPYOQPak3aurh5oG--
 
---===============2134814771==
+--===============0660436271==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -282,4 +356,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2134814771==--
+--===============0660436271==--
