@@ -1,62 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F922A0177
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 10:33:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0B32A0190
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 10:38:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 354FF6ED25;
-	Fri, 30 Oct 2020 09:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6224A6E99E;
+	Fri, 30 Oct 2020 09:38:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE2816ED27
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 09:33:52 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id n15so5711440wrq.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 02:33:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=bN+va5VakPXz6dru4bzRmyKQr9Sy6E2k3rTQnPn0hGY=;
- b=aNDg1rx4UOHO4+f26L7Wgqzyn68eMIRYfjOJV61X99Xez6vmO7qPu6B7ao2NueQfOR
- FIUeKE0j6iY6kzN/ZjK4s1SvIgDawYJwvV8sFeAwE9g1+uPTpM3iHC/EQH5dYlSlPWlP
- 9MgPr7qhsKpessy4rfvVDguMSTvjRKXytQNp4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bN+va5VakPXz6dru4bzRmyKQr9Sy6E2k3rTQnPn0hGY=;
- b=IiNFFvsjnpzJPfIKu3z4TNkKdYvfxZvR0GFbpA0lCjuf2PuzayGO8ZjI66HazbpZ1/
- L69MU/ll5wFx3fauQnn02hiSp2MWicRw8QtBzRriKp3WTVWBxpl2xJ7sHLzpSamc+Pup
- GjdQRt44A8bs9x2izTRcHTzwRLi3iXRVxDSQmvSN62k1axexZ0W9iykjxL4dC6c3uQb1
- pfqnjls1s58B5XTGo3mB9+/GAJ5jQYil+i/YYxAvmrJcWPw3hAnJfkGog92a/Qnk+rot
- KA6STKFpK6it9M7wKnkUQlQIp7g9ftYfalveQEJqvTSJ4KDQGw7YoErxl6IMldZ3V2/8
- HxVQ==
-X-Gm-Message-State: AOAM533mNnuy/nm4SWoDh8SddUBEZZcDHJ/elkGY1radsfPUlZdNlfLY
- UAbAxMGr65+pmXYExdsABr/bnds5MLWQlapU
-X-Google-Smtp-Source: ABdhPJxoLqSYaV5XCzdLp5lyJ8AtnrmuxqHP5BngWDuhMvKAuCJ1sF5EDm7WcCLjtzE+wn4JG5F21g==
-X-Received: by 2002:adf:e582:: with SMTP id l2mr1859741wrm.293.1604050431580; 
- Fri, 30 Oct 2020 02:33:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c10sm1360531wrx.13.2020.10.30.02.33.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 02:33:50 -0700 (PDT)
-Date: Fri, 30 Oct 2020 10:33:48 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lucas Stach <l.stach@pengutronix.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 806F06E99E
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 09:38:20 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1kYQrR-0005lZ-Ng; Fri, 30 Oct 2020 10:38:17 +0100
+Message-ID: <74aa35ccf7b917083e9c310f57301d4e01cac205.camel@pengutronix.de>
 Subject: Re: [RFC PATCH 2/2] drm: etnaviv: Unmap gems on gem_close
-Message-ID: <20201030093348.GJ401619@phenom.ffwll.local>
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 30 Oct 2020 10:38:16 +0100
+In-Reply-To: <20201030093348.GJ401619@phenom.ffwll.local>
 References: <cover.1603981111.git.agx@sigxcpu.org>
  <a92da13ed190e6d49550b78dadad3c0003ef6881.1603981111.git.agx@sigxcpu.org>
  <8a354530944e6a606212fe537c689ec20422a954.camel@pengutronix.de>
  <20201029182054.GC401619@phenom.ffwll.local>
  <f8ee093c78fc99ef087e84441b8b8c79836d563d.camel@pengutronix.de>
+ <20201030093348.GJ401619@phenom.ffwll.local>
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <f8ee093c78fc99ef087e84441b8b8c79836d563d.camel@pengutronix.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,174 +51,139 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 30, 2020 at 10:19:54AM +0100, Lucas Stach wrote:
-> Am Donnerstag, den 29.10.2020, 19:20 +0100 schrieb Daniel Vetter:
-> > On Thu, Oct 29, 2020 at 03:38:21PM +0100, Lucas Stach wrote:
-> > > Hi Guido,
-> > > =
-
-> > > Am Donnerstag, den 29.10.2020, 15:20 +0100 schrieb Guido G=FCnther:
-> > > > So far the unmap from gpu address space only happened when dropping=
- the
-> > > > last ref in gem_free_object_unlocked, however that is skipped if th=
-ere's
-> > > > still multiple handles to the same GEM object.
-> > > > =
-
-> > > > Since userspace (here mesa) in the case of softpin hands back the m=
-emory
-> > > > region to the pool of available GPU virtual memory closing the hand=
-le
-> > > > via DRM_IOCTL_GEM_CLOSE this can lead to etnaviv_iommu_insert_exact
-> > > > failing later since userspace thinks the vaddr is available while t=
-he
-> > > > kernel thinks it isn't making the submit fail like
-> > > > =
-
-> > > >   [E] submit failed: -14 (No space left on device) (etna_cmd_stream=
-_flush:244)
-> > > > =
-
-> > > > Fix this by unmapping the memory via the .gem_close_object callback.
-> > > > =
-
-> > > > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
-> > > > ---
-> > > >  drivers/gpu/drm/etnaviv/etnaviv_drv.c |  1 +
-> > > >  drivers/gpu/drm/etnaviv/etnaviv_drv.h |  1 +
-> > > >  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 32 +++++++++++++++++++++++=
-++++
-> > > >  3 files changed, 34 insertions(+)
-> > > > =
-
-> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/dr=
-m/etnaviv/etnaviv_drv.c
-> > > > index a9a3afaef9a1..fdcc6405068c 100644
-> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > > > @@ -491,6 +491,7 @@ static struct drm_driver etnaviv_drm_driver =3D=
- {
-> > > >  	.open               =3D etnaviv_open,
-> > > >  	.postclose           =3D etnaviv_postclose,
-> > > >  	.gem_free_object_unlocked =3D etnaviv_gem_free_object,
-> > > > +	.gem_close_object   =3D etnaviv_gem_close_object,
-> > > >  	.gem_vm_ops         =3D &vm_ops,
-> > > >  	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
-> > > >  	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
-> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/dr=
-m/etnaviv/etnaviv_drv.h
-> > > > index 4d8dc9236e5f..2226a9af0d63 100644
-> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > > > @@ -65,6 +65,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *o=
-bj, u32 op,
-> > > >  		struct drm_etnaviv_timespec *timeout);
-> > > >  int etnaviv_gem_cpu_fini(struct drm_gem_object *obj);
-> > > >  void etnaviv_gem_free_object(struct drm_gem_object *obj);
-> > > > +void etnaviv_gem_close_object(struct drm_gem_object *obj, struct d=
-rm_file *file);
-> > > >  int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file=
- *file,
-> > > >  		u32 size, u32 flags, u32 *handle);
-> > > >  int etnaviv_gem_new_userptr(struct drm_device *dev, struct drm_fil=
-e *file,
-> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/dr=
-m/etnaviv/etnaviv_gem.c
-> > > > index f06e19e7be04..5aec4a23c77e 100644
-> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> > > > @@ -515,6 +515,38 @@ static const struct etnaviv_gem_ops etnaviv_ge=
-m_shmem_ops =3D {
-> > > >  	.mmap =3D etnaviv_gem_mmap_obj,
-> > > >  };
-> > > >  =
-
-> > > > +void etnaviv_gem_close_object(struct drm_gem_object *obj, struct d=
-rm_file *unused)
-> > > > +{
-> > > > +	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
-> > > > +	struct etnaviv_vram_mapping *mapping, *tmp;
-> > > > +
-> > > > +	/* Handle this via etnaviv_gem_free_object */
-> > > > +	if (obj->handle_count =3D=3D 1)
-> > > > +		return;
-> > > > +
-> > > > +	WARN_ON(is_active(etnaviv_obj));
-> > > > +
-> > > > +	/*
-> > > > +	 * userspace wants to release the handle so we need to remove
-> > > > +	 * the mapping from the gpu's virtual address space to stay
-> > > > +	 * in sync.
-> > > > +	 */
-> > > > +	list_for_each_entry_safe(mapping, tmp, &etnaviv_obj->vram_list,
-> > > > +				 obj_node) {
-> > > > +		struct etnaviv_iommu_context *context =3D mapping->context;
-> > > > +
-> > > > +		WARN_ON(mapping->use);
-> > > > +
-> > > > +		if (context) {
-> > > > +			etnaviv_iommu_unmap_gem(context, mapping);
-> > > > +			etnaviv_iommu_context_put(context);
-> > > =
-
-> > > I see the issue you are trying to fix here, but this is not a viable
-> > > fix. While userspace may close the handle, the GPU may still be
-> > > processing jobs referening the BO, so we can't just unmap it from the
-> > > address space.
-> > > =
-
-> > > I think what we need to do here is waiting for the current jobs/fences
-> > > of the BO when we hit the case where userspace tries to assign a new
-> > > address to the BO. Basically wait for current jobs -> unamp from the
-> > > address space -> map at new userspace assigned address.
-> > =
-
-> > Yeah was about to say the same. There's two solutions to this:
-> > - let the kernel manage the VA space. This is what amdgpu does in some
-> >   cases (but still no relocations)
-> > - pipeline the VA/PTE updates in your driver, because userspace has a
-> >   somewhat hard time figuring out when a buffer is done. Doing that wou=
-ld
-> >   either at complexity or stalls when the kernel is doing all the track=
-ing
-> >   already anyway. Minimal fix is to do what Lucas explained above, but
-> >   importantly with the kernel solution we have the option to fully
-> >   pipeline everything and avoid stalls. I think this is what everyone e=
-lse
-> >   who lets userspace manage VA does in their kernel side.
-> =
-
-> I thought a bit more about this and the issue is only about userspace
-> reusing regions of its _private_ address space, before they are GPU
-> inactive. So the problem of tracking BO active for figuring out when it
-> is safe to close the handle (and thus forget about the last placement
-> of the BO in the AS) goes from "is this BO globally active anywhere?"
-> to "is this BO still active in one of the jobs I submitted?", which is
-> not hard at all for the userspace to figure out.
-> =
-
-> With this in mind I think we can reasonably declare the kernel behavior
-> of rejecting the submit as okay and just add the tiny bit of userspace
-> fencing needed for the userspace driver to not close the handle until
-> the last submit referencing this BO has finished.
-
-Hm why don't you have the same issue for shared buffers? Are these handled
-with relocs?
--Daniel
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gRnJlaXRhZywgZGVuIDMwLjEwLjIwMjAsIDEwOjMzICswMTAwIHNjaHJpZWIgRGFuaWVsIFZl
+dHRlcjoKPiBPbiBGcmksIE9jdCAzMCwgMjAyMCBhdCAxMDoxOTo1NEFNICswMTAwLCBMdWNhcyBT
+dGFjaCB3cm90ZToKPiA+IEFtIERvbm5lcnN0YWcsIGRlbiAyOS4xMC4yMDIwLCAxOToyMCArMDEw
+MCBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPiA+IE9uIFRodSwgT2N0IDI5LCAyMDIwIGF0IDAz
+OjM4OjIxUE0gKzAxMDAsIEx1Y2FzIFN0YWNoIHdyb3RlOgo+ID4gPiA+IEhpIEd1aWRvLAo+ID4g
+PiA+IAo+ID4gPiA+IEFtIERvbm5lcnN0YWcsIGRlbiAyOS4xMC4yMDIwLCAxNToyMCArMDEwMCBz
+Y2hyaWViIEd1aWRvIEfDvG50aGVyOgo+ID4gPiA+ID4gU28gZmFyIHRoZSB1bm1hcCBmcm9tIGdw
+dSBhZGRyZXNzIHNwYWNlIG9ubHkgaGFwcGVuZWQgd2hlbiBkcm9wcGluZyB0aGUKPiA+ID4gPiA+
+IGxhc3QgcmVmIGluIGdlbV9mcmVlX29iamVjdF91bmxvY2tlZCwgaG93ZXZlciB0aGF0IGlzIHNr
+aXBwZWQgaWYgdGhlcmUncwo+ID4gPiA+ID4gc3RpbGwgbXVsdGlwbGUgaGFuZGxlcyB0byB0aGUg
+c2FtZSBHRU0gb2JqZWN0Lgo+ID4gPiA+ID4gCj4gPiA+ID4gPiBTaW5jZSB1c2Vyc3BhY2UgKGhl
+cmUgbWVzYSkgaW4gdGhlIGNhc2Ugb2Ygc29mdHBpbiBoYW5kcyBiYWNrIHRoZSBtZW1vcnkKPiA+
+ID4gPiA+IHJlZ2lvbiB0byB0aGUgcG9vbCBvZiBhdmFpbGFibGUgR1BVIHZpcnR1YWwgbWVtb3J5
+IGNsb3NpbmcgdGhlIGhhbmRsZQo+ID4gPiA+ID4gdmlhIERSTV9JT0NUTF9HRU1fQ0xPU0UgdGhp
+cyBjYW4gbGVhZCB0byBldG5hdml2X2lvbW11X2luc2VydF9leGFjdAo+ID4gPiA+ID4gZmFpbGlu
+ZyBsYXRlciBzaW5jZSB1c2Vyc3BhY2UgdGhpbmtzIHRoZSB2YWRkciBpcyBhdmFpbGFibGUgd2hp
+bGUgdGhlCj4gPiA+ID4gPiBrZXJuZWwgdGhpbmtzIGl0IGlzbid0IG1ha2luZyB0aGUgc3VibWl0
+IGZhaWwgbGlrZQo+ID4gPiA+ID4gCj4gPiA+ID4gPiAgIFtFXSBzdWJtaXQgZmFpbGVkOiAtMTQg
+KE5vIHNwYWNlIGxlZnQgb24gZGV2aWNlKSAoZXRuYV9jbWRfc3RyZWFtX2ZsdXNoOjI0NCkKPiA+
+ID4gPiA+IAo+ID4gPiA+ID4gRml4IHRoaXMgYnkgdW5tYXBwaW5nIHRoZSBtZW1vcnkgdmlhIHRo
+ZSAuZ2VtX2Nsb3NlX29iamVjdCBjYWxsYmFjay4KPiA+ID4gPiA+IAo+ID4gPiA+ID4gU2lnbmVk
+LW9mZi1ieTogR3VpZG8gR8O8bnRoZXIgPGFneEBzaWd4Y3B1Lm9yZz4KPiA+ID4gPiA+IC0tLQo+
+ID4gPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmMgfCAgMSArCj4g
+PiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuaCB8ICAxICsKPiA+
+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jIHwgMzIgKysrKysr
+KysrKysrKysrKysrKysrKysrKysrCj4gPiA+ID4gPiAgMyBmaWxlcyBjaGFuZ2VkLCAzNCBpbnNl
+cnRpb25zKCspCj4gPiA+ID4gPiAKPiA+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vZXRuYXZpdi9ldG5hdml2X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZp
+dl9kcnYuYwo+ID4gPiA+ID4gaW5kZXggYTlhM2FmYWVmOWExLi5mZGNjNjQwNTA2OGMgMTAwNjQ0
+Cj4gPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5jCj4g
+PiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5jCj4gPiA+
+ID4gPiBAQCAtNDkxLDYgKzQ5MSw3IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBldG5hdml2
+X2RybV9kcml2ZXIgPSB7Cj4gPiA+ID4gPiAgCS5vcGVuICAgICAgICAgICAgICAgPSBldG5hdml2
+X29wZW4sCj4gPiA+ID4gPiAgCS5wb3N0Y2xvc2UgICAgICAgICAgID0gZXRuYXZpdl9wb3N0Y2xv
+c2UsCj4gPiA+ID4gPiAgCS5nZW1fZnJlZV9vYmplY3RfdW5sb2NrZWQgPSBldG5hdml2X2dlbV9m
+cmVlX29iamVjdCwKPiA+ID4gPiA+ICsJLmdlbV9jbG9zZV9vYmplY3QgICA9IGV0bmF2aXZfZ2Vt
+X2Nsb3NlX29iamVjdCwKPiA+ID4gPiA+ICAJLmdlbV92bV9vcHMgICAgICAgICA9ICZ2bV9vcHMs
+Cj4gPiA+ID4gPiAgCS5wcmltZV9oYW5kbGVfdG9fZmQgPSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90
+b19mZCwKPiA+ID4gPiA+ICAJLnByaW1lX2ZkX3RvX2hhbmRsZSA9IGRybV9nZW1fcHJpbWVfZmRf
+dG9faGFuZGxlLAo+ID4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2
+L2V0bmF2aXZfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5oCj4g
+PiA+ID4gPiBpbmRleCA0ZDhkYzkyMzZlNWYuLjIyMjZhOWFmMGQ2MyAxMDA2NDQKPiA+ID4gPiA+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmgKPiA+ID4gPiA+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmgKPiA+ID4gPiA+IEBAIC02
+NSw2ICs2NSw3IEBAIGludCBldG5hdml2X2dlbV9jcHVfcHJlcChzdHJ1Y3QgZHJtX2dlbV9vYmpl
+Y3QgKm9iaiwgdTMyIG9wLAo+ID4gPiA+ID4gIAkJc3RydWN0IGRybV9ldG5hdml2X3RpbWVzcGVj
+ICp0aW1lb3V0KTsKPiA+ID4gPiA+ICBpbnQgZXRuYXZpdl9nZW1fY3B1X2Zpbmkoc3RydWN0IGRy
+bV9nZW1fb2JqZWN0ICpvYmopOwo+ID4gPiA+ID4gIHZvaWQgZXRuYXZpdl9nZW1fZnJlZV9vYmpl
+Y3Qoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+ID4gPiA+ID4gK3ZvaWQgZXRuYXZpdl9n
+ZW1fY2xvc2Vfb2JqZWN0KHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3QgZHJtX2Zp
+bGUgKmZpbGUpOwo+ID4gPiA+ID4gIGludCBldG5hdml2X2dlbV9uZXdfaGFuZGxlKHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwKPiA+ID4gPiA+ICAJCXUzMiBz
+aXplLCB1MzIgZmxhZ3MsIHUzMiAqaGFuZGxlKTsKPiA+ID4gPiA+ICBpbnQgZXRuYXZpdl9nZW1f
+bmV3X3VzZXJwdHIoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRybV9maWxlICpmaWxl
+LAo+ID4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
+Z2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jCj4gPiA+ID4gPiBp
+bmRleCBmMDZlMTllN2JlMDQuLjVhZWM0YTIzYzc3ZSAxMDA2NDQKPiA+ID4gPiA+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtLmMKPiA+ID4gPiA+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtLmMKPiA+ID4gPiA+IEBAIC01MTUsNiArNTE1
+LDM4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZXRuYXZpdl9nZW1fb3BzIGV0bmF2aXZfZ2VtX3No
+bWVtX29wcyA9IHsKPiA+ID4gPiA+ICAJLm1tYXAgPSBldG5hdml2X2dlbV9tbWFwX29iaiwKPiA+
+ID4gPiA+ICB9Owo+ID4gPiA+ID4gIAo+ID4gPiA+ID4gK3ZvaWQgZXRuYXZpdl9nZW1fY2xvc2Vf
+b2JqZWN0KHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3QgZHJtX2ZpbGUgKnVudXNl
+ZCkKPiA+ID4gPiA+ICt7Cj4gPiA+ID4gPiArCXN0cnVjdCBldG5hdml2X2dlbV9vYmplY3QgKmV0
+bmF2aXZfb2JqID0gdG9fZXRuYXZpdl9ibyhvYmopOwo+ID4gPiA+ID4gKwlzdHJ1Y3QgZXRuYXZp
+dl92cmFtX21hcHBpbmcgKm1hcHBpbmcsICp0bXA7Cj4gPiA+ID4gPiArCj4gPiA+ID4gPiArCS8q
+IEhhbmRsZSB0aGlzIHZpYSBldG5hdml2X2dlbV9mcmVlX29iamVjdCAqLwo+ID4gPiA+ID4gKwlp
+ZiAob2JqLT5oYW5kbGVfY291bnQgPT0gMSkKPiA+ID4gPiA+ICsJCXJldHVybjsKPiA+ID4gPiA+
+ICsKPiA+ID4gPiA+ICsJV0FSTl9PTihpc19hY3RpdmUoZXRuYXZpdl9vYmopKTsKPiA+ID4gPiA+
+ICsKPiA+ID4gPiA+ICsJLyoKPiA+ID4gPiA+ICsJICogdXNlcnNwYWNlIHdhbnRzIHRvIHJlbGVh
+c2UgdGhlIGhhbmRsZSBzbyB3ZSBuZWVkIHRvIHJlbW92ZQo+ID4gPiA+ID4gKwkgKiB0aGUgbWFw
+cGluZyBmcm9tIHRoZSBncHUncyB2aXJ0dWFsIGFkZHJlc3Mgc3BhY2UgdG8gc3RheQo+ID4gPiA+
+ID4gKwkgKiBpbiBzeW5jLgo+ID4gPiA+ID4gKwkgKi8KPiA+ID4gPiA+ICsJbGlzdF9mb3JfZWFj
+aF9lbnRyeV9zYWZlKG1hcHBpbmcsIHRtcCwgJmV0bmF2aXZfb2JqLT52cmFtX2xpc3QsCj4gPiA+
+ID4gPiArCQkJCSBvYmpfbm9kZSkgewo+ID4gPiA+ID4gKwkJc3RydWN0IGV0bmF2aXZfaW9tbXVf
+Y29udGV4dCAqY29udGV4dCA9IG1hcHBpbmctPmNvbnRleHQ7Cj4gPiA+ID4gPiArCj4gPiA+ID4g
+PiArCQlXQVJOX09OKG1hcHBpbmctPnVzZSk7Cj4gPiA+ID4gPiArCj4gPiA+ID4gPiArCQlpZiAo
+Y29udGV4dCkgewo+ID4gPiA+ID4gKwkJCWV0bmF2aXZfaW9tbXVfdW5tYXBfZ2VtKGNvbnRleHQs
+IG1hcHBpbmcpOwo+ID4gPiA+ID4gKwkJCWV0bmF2aXZfaW9tbXVfY29udGV4dF9wdXQoY29udGV4
+dCk7Cj4gPiA+ID4gCj4gPiA+ID4gSSBzZWUgdGhlIGlzc3VlIHlvdSBhcmUgdHJ5aW5nIHRvIGZp
+eCBoZXJlLCBidXQgdGhpcyBpcyBub3QgYSB2aWFibGUKPiA+ID4gPiBmaXguIFdoaWxlIHVzZXJz
+cGFjZSBtYXkgY2xvc2UgdGhlIGhhbmRsZSwgdGhlIEdQVSBtYXkgc3RpbGwgYmUKPiA+ID4gPiBw
+cm9jZXNzaW5nIGpvYnMgcmVmZXJlbmluZyB0aGUgQk8sIHNvIHdlIGNhbid0IGp1c3QgdW5tYXAg
+aXQgZnJvbSB0aGUKPiA+ID4gPiBhZGRyZXNzIHNwYWNlLgo+ID4gPiA+IAo+ID4gPiA+IEkgdGhp
+bmsgd2hhdCB3ZSBuZWVkIHRvIGRvIGhlcmUgaXMgd2FpdGluZyBmb3IgdGhlIGN1cnJlbnQgam9i
+cy9mZW5jZXMKPiA+ID4gPiBvZiB0aGUgQk8gd2hlbiB3ZSBoaXQgdGhlIGNhc2Ugd2hlcmUgdXNl
+cnNwYWNlIHRyaWVzIHRvIGFzc2lnbiBhIG5ldwo+ID4gPiA+IGFkZHJlc3MgdG8gdGhlIEJPLiBC
+YXNpY2FsbHkgd2FpdCBmb3IgY3VycmVudCBqb2JzIC0+IHVuYW1wIGZyb20gdGhlCj4gPiA+ID4g
+YWRkcmVzcyBzcGFjZSAtPiBtYXAgYXQgbmV3IHVzZXJzcGFjZSBhc3NpZ25lZCBhZGRyZXNzLgo+
+ID4gPiAKPiA+ID4gWWVhaCB3YXMgYWJvdXQgdG8gc2F5IHRoZSBzYW1lLiBUaGVyZSdzIHR3byBz
+b2x1dGlvbnMgdG8gdGhpczoKPiA+ID4gLSBsZXQgdGhlIGtlcm5lbCBtYW5hZ2UgdGhlIFZBIHNw
+YWNlLiBUaGlzIGlzIHdoYXQgYW1kZ3B1IGRvZXMgaW4gc29tZQo+ID4gPiAgIGNhc2VzIChidXQg
+c3RpbGwgbm8gcmVsb2NhdGlvbnMpCj4gPiA+IC0gcGlwZWxpbmUgdGhlIFZBL1BURSB1cGRhdGVz
+IGluIHlvdXIgZHJpdmVyLCBiZWNhdXNlIHVzZXJzcGFjZSBoYXMgYQo+ID4gPiAgIHNvbWV3aGF0
+IGhhcmQgdGltZSBmaWd1cmluZyBvdXQgd2hlbiBhIGJ1ZmZlciBpcyBkb25lLiBEb2luZyB0aGF0
+IHdvdWxkCj4gPiA+ICAgZWl0aGVyIGF0IGNvbXBsZXhpdHkgb3Igc3RhbGxzIHdoZW4gdGhlIGtl
+cm5lbCBpcyBkb2luZyBhbGwgdGhlIHRyYWNraW5nCj4gPiA+ICAgYWxyZWFkeSBhbnl3YXkuIE1p
+bmltYWwgZml4IGlzIHRvIGRvIHdoYXQgTHVjYXMgZXhwbGFpbmVkIGFib3ZlLCBidXQKPiA+ID4g
+ICBpbXBvcnRhbnRseSB3aXRoIHRoZSBrZXJuZWwgc29sdXRpb24gd2UgaGF2ZSB0aGUgb3B0aW9u
+IHRvIGZ1bGx5Cj4gPiA+ICAgcGlwZWxpbmUgZXZlcnl0aGluZyBhbmQgYXZvaWQgc3RhbGxzLiBJ
+IHRoaW5rIHRoaXMgaXMgd2hhdCBldmVyeW9uZSBlbHNlCj4gPiA+ICAgd2hvIGxldHMgdXNlcnNw
+YWNlIG1hbmFnZSBWQSBkb2VzIGluIHRoZWlyIGtlcm5lbCBzaWRlLgo+ID4gCj4gPiBJIHRob3Vn
+aHQgYSBiaXQgbW9yZSBhYm91dCB0aGlzIGFuZCB0aGUgaXNzdWUgaXMgb25seSBhYm91dCB1c2Vy
+c3BhY2UKPiA+IHJldXNpbmcgcmVnaW9ucyBvZiBpdHMgX3ByaXZhdGVfIGFkZHJlc3Mgc3BhY2Us
+IGJlZm9yZSB0aGV5IGFyZSBHUFUKPiA+IGluYWN0aXZlLiBTbyB0aGUgcHJvYmxlbSBvZiB0cmFj
+a2luZyBCTyBhY3RpdmUgZm9yIGZpZ3VyaW5nIG91dCB3aGVuIGl0Cj4gPiBpcyBzYWZlIHRvIGNs
+b3NlIHRoZSBoYW5kbGUgKGFuZCB0aHVzIGZvcmdldCBhYm91dCB0aGUgbGFzdCBwbGFjZW1lbnQK
+PiA+IG9mIHRoZSBCTyBpbiB0aGUgQVMpIGdvZXMgZnJvbSAiaXMgdGhpcyBCTyBnbG9iYWxseSBh
+Y3RpdmUgYW55d2hlcmU/Igo+ID4gdG8gImlzIHRoaXMgQk8gc3RpbGwgYWN0aXZlIGluIG9uZSBv
+ZiB0aGUgam9icyBJIHN1Ym1pdHRlZD8iLCB3aGljaCBpcwo+ID4gbm90IGhhcmQgYXQgYWxsIGZv
+ciB0aGUgdXNlcnNwYWNlIHRvIGZpZ3VyZSBvdXQuCj4gPiAKPiA+IFdpdGggdGhpcyBpbiBtaW5k
+IEkgdGhpbmsgd2UgY2FuIHJlYXNvbmFibHkgZGVjbGFyZSB0aGUga2VybmVsIGJlaGF2aW9yCj4g
+PiBvZiByZWplY3RpbmcgdGhlIHN1Ym1pdCBhcyBva2F5IGFuZCBqdXN0IGFkZCB0aGUgdGlueSBi
+aXQgb2YgdXNlcnNwYWNlCj4gPiBmZW5jaW5nIG5lZWRlZCBmb3IgdGhlIHVzZXJzcGFjZSBkcml2
+ZXIgdG8gbm90IGNsb3NlIHRoZSBoYW5kbGUgdW50aWwKPiA+IHRoZSBsYXN0IHN1Ym1pdCByZWZl
+cmVuY2luZyB0aGlzIEJPIGhhcyBmaW5pc2hlZC4KPiAKPiBIbSB3aHkgZG9uJ3QgeW91IGhhdmUg
+dGhlIHNhbWUgaXNzdWUgZm9yIHNoYXJlZCBidWZmZXJzPyBBcmUgdGhlc2UgaGFuZGxlZAo+IHdp
+dGggcmVsb2NzPwoKV2hhdCdzIGNsYXNoaW5nIGhlcmUgaXMgdGhlIG1hcHBpbmcgaW4gdGhlIHBy
+aXZhdGUgYWRkcmVzcyBzcGFjZS4KU2hhcmVkIGJ1ZmZlcnMgYXJlIG1hcHBlZCBzZXBhcmF0ZWx5
+IGluIHRoZSBhZGRyZXNzIHNwYWNlIG9mIGVhY2gKY2xpZW50LiBTbyBmb3IgdGhlIGlzc3VlIG9m
+IHVubWFwcGluZyBhbmQgcmV1c2luZyB0aGUgc3BvdCBpbiB0aGUKYWRkcmVzcyBzcGFjZSB3ZSBv
+bmx5IGNhcmUgYWJvdXQgdGhlIGJ1ZmZlciBiZWluZyBhY3RpdmUgZm9yIHRoYXQKc2luZ2xlIGNs
+aWVudCwgd2UgZG9uJ3QgbmVlZCB0byBjYXJlIGFib3V0IHRoZSBidWZmZXIgcG90ZW50aWFsbHkg
+c3RpbGwKYmVpbmcgYWN0aXZlIHdpdGggYW5vdGhlciBjbGllbnQsIGFzIHRoaXMgd29uJ3QgaHVy
+dCB1cyBoZXJlLgoKUmVnYXJkcywKTHVjYXMKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
