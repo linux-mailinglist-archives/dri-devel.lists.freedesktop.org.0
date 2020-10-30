@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173352A0097
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:59:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FF72A009D
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 10:01:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9AB06E9CD;
-	Fri, 30 Oct 2020 08:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4056ED13;
+	Fri, 30 Oct 2020 09:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 582196E9CD
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 08:59:35 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id p22so2123465wmg.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 01:59:35 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 383AE6ED14
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 09:01:00 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id g12so5545817wrp.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 02:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=9ROGplUbZs7e1OJlVaZe98NOhP1EfRYzA6qupe/+nLU=;
- b=AoEKwFGhyB5gZS4CzG2eFqu3hhdK6JNE0R2CziU+UsBBQzDLpaoLqpV/yTfeEe9VXg
- NujTJ5OzBgeooFbOja1gIQ7R0bGMDinYormiXOl3jDG79VMCoSPoSHGmejmsn/HwRbxT
- Q9dxIC5bG+ycP0kJKA/B4Y4BGUJjP6UOOuZQc=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=lS9cLVa7ki23Q9hV5df0gycL8TDk+suWHefN1yZAvQI=;
+ b=bLdnNBx991+fEL6unEVZ8c1nk/xvgTVbXjcGKB4Q1eS8ZXJnv4P81WNLlCMOuLhg2k
+ 5tqLuwqfha9zMuCOR/TA3MM7zyxv6R0rOWeVT17ffLEMAtqLBJUOOacmfSchNaD+7hBx
+ S867tbVvqUZFuoI/p3WrDfaDtGzjnmGbF0xsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9ROGplUbZs7e1OJlVaZe98NOhP1EfRYzA6qupe/+nLU=;
- b=csgyciQvydvo5+buxXtUCFfLEYd3MILH4uvNaBV4n8BIXzQ1eRImLbQVWnMoMvFnFX
- kC2tHVGbqAoH1ONbj2nPCX+Z9Pn5XGmuQQG3eg1m1kvIMu1q1ZyW3FryKRYftapM/4bq
- kKOg+ulZ2x3UloaiQr7cKJQ7u2F1urAi1BC0a6Buo47xBkOfQAD/t+Qdv/kjHss+CClU
- 0S7UJQVzBHniqVxzyKeCeRgi7gbAHCpmknHPV8+VhkjHHyfEOc2StOF6j2+rODARXBtM
- OHxgqNn/Nk6Hio0pjnpoXYWJnanTeqmBTDrovSwO7vZgy0ErgW5+RAnGTgTH+ioSlA+3
- B5Rg==
-X-Gm-Message-State: AOAM5323JjwuUdijDnMNy9q76lqcf79oq62IOdlhgvuq8bqVp0SrNfAr
- K1HuxlpkrcTim9wuAxQjkbkY5g==
-X-Google-Smtp-Source: ABdhPJw/JsGj0APPXKGrGy5Gpvx/CdsJoh2PIE1ZJTzvhaR5RtOnMCTpIwes6Y9+ba3oU4ms7R847w==
-X-Received: by 2002:a1c:4888:: with SMTP id v130mr537147wma.84.1604048374029; 
- Fri, 30 Oct 2020 01:59:34 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=lS9cLVa7ki23Q9hV5df0gycL8TDk+suWHefN1yZAvQI=;
+ b=FSFLZn1QocFXS6JT9OunDcTVy9SGISH4pPxkznVX8FcQPVJ8bS+OTvlt0Pj39LIRWQ
+ qiumiXv2pLmqzvvkPwWBwDm3BYgaMgHWvqvWZnp1yNay9uUSerKuiwjgrVBAzyGNWCNy
+ 3jaW8PERiWo2s5/AFo7Sfdn/NUrfn+5F3hkcq3pLerWObvPlqD4t48gngWHVnaUnMUkm
+ l2R21Wx9HtBDuID6d2s2gpOODm2crtz3WX69bDYfLsd+evDKUev/yAIJyihH+DNVgQp+
+ JB/9WWWx9lzXe7jhTrarfFV1nWU59q0x+raaiWeubnBdlsg6+YlXo1+BRrQKQla91VZD
+ JDjA==
+X-Gm-Message-State: AOAM532WDOuKr7uFECzN2Bzx3s8ProyUamPKFB2xqaaHyVM1+eHnME77
+ 1Mm+ySxVLFfOW+rj8VNhI9/orw==
+X-Google-Smtp-Source: ABdhPJwQxYTb0APmo+jOySsAO8r2hc4ifYBDW46GYqt577jI7TaikEFfn1bTiE9MXKtJM6IQK25iZA==
+X-Received: by 2002:adf:ab05:: with SMTP id q5mr1682043wrc.32.1604048458831;
+ Fri, 30 Oct 2020 02:00:58 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 26sm3937880wmk.42.2020.10.30.01.59.32
+ by smtp.gmail.com with ESMTPSA id f17sm3978456wmh.10.2020.10.30.02.00.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 01:59:33 -0700 (PDT)
-Date: Fri, 30 Oct 2020 09:59:31 +0100
+ Fri, 30 Oct 2020 02:00:58 -0700 (PDT)
+Date: Fri, 30 Oct 2020 10:00:56 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 6/6] drm/vc4: kms: Add functions to create the state
- objects
-Message-ID: <20201030085931.GF401619@phenom.ffwll.local>
-References: <20201029190104.2181730-1-maxime@cerno.tech>
- <20201029190104.2181730-6-maxime@cerno.tech>
+To: Abhinav Kumar <abhinavk@codeaurora.org>
+Subject: Re: [PATCH v2 1/4] drm: allow drm_atomic_print_state() to accept any
+ drm_printer
+Message-ID: <20201030090056.GG401619@phenom.ffwll.local>
+References: <20201030010101.4345-1-abhinavk@codeaurora.org>
+ <20201030010101.4345-2-abhinavk@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201029190104.2181730-6-maxime@cerno.tech>
+In-Reply-To: <20201030010101.4345-2-abhinavk@codeaurora.org>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,175 +67,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kernel test robot <lkp@intel.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, khsieh@codeaurora.org,
+ seanpaul@chromium.org, tanmay@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 29, 2020 at 08:01:04PM +0100, Maxime Ripard wrote:
-> In order to make the vc4_kms_load code and error path a bit easier to
-> read and extend, add functions to create state objects, and use managed
-> actions to cleanup if needed.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On Thu, Oct 29, 2020 at 06:00:58PM -0700, Abhinav Kumar wrote:
+> Currently drm_atomic_print_state() internally allocates and uses a
+> drm_info printer. Allow it to accept any drm_printer type so that
+> the API can be leveraged even for taking drm snapshot.
+> =
 
-Nice. With an s/drmm_add_action/drmm_add_action_or_reset/ over the entire
-series:
+> Rename the drm_atomic_print_state() to drm_atomic_print_new_state()
+> so that it reflects its functionality better.
+> =
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> changes in v2:
+> - Rename the function drm_atomic_print_state to
+>   drm_atomic_print_new_state and update the commit text
+> - Fix kbot errors
+> - Add kernel doc for the newly exported function
+> =
 
-btw there's a series pending from imx people (Philip Zabel iirc) to add
-drmm support for modeset objects. I think that would really help clean up
-vc4. Or well make it slightly less buggy, since atm you're using
-devm_kzalloc, which strictly speaking, frees the memory too early.
-
-Anyway this here looks all nice.
--Daniel
-
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
 > ---
->  drivers/gpu/drm/vc4/vc4_drv.c |  3 --
->  drivers/gpu/drm/vc4/vc4_kms.c | 78 +++++++++++++++++++++++++----------
->  2 files changed, 57 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index 6e037fbaa090..08c1cc225045 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -312,9 +312,6 @@ static void vc4_drm_unbind(struct device *dev)
->  	drm_dev_unregister(drm);
->  
->  	drm_atomic_helper_shutdown(drm);
-> -
-> -	drm_atomic_private_obj_fini(&vc4->load_tracker);
-> -	drm_atomic_private_obj_fini(&vc4->ctm_manager);
->  }
->  
->  static const struct component_master_ops vc4_drm_ops = {
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> index 708099a24406..fbfb0698073e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -93,6 +93,29 @@ static const struct drm_private_state_funcs vc4_ctm_state_funcs = {
->  	.atomic_destroy_state = vc4_ctm_destroy_state,
->  };
->  
-> +static void vc4_ctm_obj_fini(struct drm_device *dev, void *unused)
-> +{
-> +	struct vc4_dev *vc4 = to_vc4_dev(dev);
-> +
-> +	drm_atomic_private_obj_fini(&vc4->ctm_manager);
-> +}
-> +
-> +static int vc4_ctm_obj_init(struct vc4_dev *vc4)
-> +{
-> +	struct vc4_ctm_state *ctm_state;
-> +
-> +	drm_modeset_lock_init(&vc4->ctm_state_lock);
-> +
-> +	ctm_state = kzalloc(sizeof(*ctm_state), GFP_KERNEL);
-> +	if (!ctm_state)
-> +		return -ENOMEM;
-> +
-> +	drm_atomic_private_obj_init(vc4->dev, &vc4->ctm_manager, &ctm_state->base,
-> +				    &vc4_ctm_state_funcs);
-> +
-> +	return drmm_add_action(&vc4->base, vc4_ctm_obj_fini, NULL);
-> +}
-> +
->  /* Converts a DRM S31.32 value to the HW S0.9 format. */
->  static u16 vc4_ctm_s31_32_to_s0_9(u64 in)
->  {
-> @@ -609,6 +632,34 @@ static const struct drm_private_state_funcs vc4_load_tracker_state_funcs = {
->  	.atomic_destroy_state = vc4_load_tracker_destroy_state,
->  };
->  
-> +static void vc4_load_tracker_obj_fini(struct drm_device *dev, void *unused)
-> +{
-> +	struct vc4_dev *vc4 = to_vc4_dev(dev);
-> +
-> +	if (!vc4->load_tracker_available)
-> +		return 0;
-> +
-> +	drm_atomic_private_obj_fini(&vc4->load_tracker);
-> +}
-> +
-> +static int vc4_load_tracker_obj_init(struct vc4_dev *vc4)
-> +{
-> +	struct vc4_load_tracker_state *load_state;
-> +
-> +	if (!vc4->load_tracker_available)
-> +		return 0;
-> +
-> +	load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
-> +	if (!load_state)
-> +		return -ENOMEM;
-> +
-> +	drm_atomic_private_obj_init(vc4->dev, &vc4->load_tracker,
-> +				    &load_state->base,
-> +				    &vc4_load_tracker_state_funcs);
-> +
-> +	return drmm_add_action(&vc4->base, vc4_load_tracker_obj_fini, NULL);
-> +}
-> +
->  #define NUM_OUTPUTS  6
->  #define NUM_CHANNELS 3
->  
-> @@ -711,8 +762,6 @@ static const struct drm_mode_config_funcs vc4_mode_funcs = {
->  int vc4_kms_load(struct drm_device *dev)
->  {
->  	struct vc4_dev *vc4 = to_vc4_dev(dev);
-> -	struct vc4_ctm_state *ctm_state;
-> -	struct vc4_load_tracker_state *load_state;
->  	bool is_vc5 = of_device_is_compatible(dev->dev->of_node,
->  					      "brcm,bcm2711-vc5");
->  	int ret;
-> @@ -751,26 +800,13 @@ int vc4_kms_load(struct drm_device *dev)
->  	dev->mode_config.async_page_flip = true;
->  	dev->mode_config.allow_fb_modifiers = true;
->  
-> -	drm_modeset_lock_init(&vc4->ctm_state_lock);
-> +	ret = vc4_ctm_obj_init(vc4);
-> +	if (ret)
-> +		return ret;
->  
-> -	ctm_state = kzalloc(sizeof(*ctm_state), GFP_KERNEL);
-> -	if (!ctm_state)
-> -		return -ENOMEM;
-> -
-> -	drm_atomic_private_obj_init(dev, &vc4->ctm_manager, &ctm_state->base,
-> -				    &vc4_ctm_state_funcs);
-> -
-> -	if (vc4->load_tracker_available) {
-> -		load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
-> -		if (!load_state) {
-> -			drm_atomic_private_obj_fini(&vc4->ctm_manager);
-> -			return -ENOMEM;
-> -		}
-> -
-> -		drm_atomic_private_obj_init(dev, &vc4->load_tracker,
-> -					    &load_state->base,
-> -					    &vc4_load_tracker_state_funcs);
-> -	}
-> +	ret = vc4_load_tracker_obj_init(vc4);
-> +	if (ret)
-> +		return ret;
->  
->  	drm_mode_config_reset(dev);
->  
-> -- 
-> 2.26.2
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  drivers/gpu/drm/drm_atomic.c                  | 29 +++++++++++++++----
+>  drivers/gpu/drm/drm_atomic_uapi.c             |  4 ++-
+>  drivers/gpu/drm/drm_crtc_internal.h           |  4 ++-
+>  .../gpu/drm/selftests/test-drm_framebuffer.c  |  1 +
+>  4 files changed, 31 insertions(+), 7 deletions(-)
+> =
 
--- 
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 58527f151984..5df7b67ced78 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -1,6 +1,7 @@
+>  /*
+>   * Copyright (C) 2014 Red Hat
+>   * Copyright (C) 2014 Intel Corp.
+> + * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+>   *
+>   * Permission is hereby granted, free of charge, to any person obtaining=
+ a
+>   * copy of this software and associated documentation files (the "Softwa=
+re"),
+> @@ -1543,9 +1544,21 @@ int __drm_atomic_helper_set_config(struct drm_mode=
+_set *set,
+>  }
+>  EXPORT_SYMBOL(__drm_atomic_helper_set_config);
+>  =
+
+> -void drm_atomic_print_state(const struct drm_atomic_state *state)
+> +/**
+> + * drm_atomic_print_new_state - prints drm atomic state
+> + * @state: atomic configuration to check
+> + * @p: drm printer
+> + *
+> + * This functions prints the drm atomic state snapshot using the drm pri=
+nter
+> + * which is passed to it. This snapshot can be used for debugging purpos=
+es.
+> + *
+> + * Note that this function looks into the new state objects and hence it=
+s not
+> + * safe to be used after the call to drm_atomic_helper_commit_hw_done().
+> + *
+
+Empty line here in the docs. With that removed.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> + */
+> +void drm_atomic_print_new_state(const struct drm_atomic_state *state,
+> +		struct drm_printer *p)
+>  {
+> -	struct drm_printer p =3D drm_info_printer(state->dev->dev);
+>  	struct drm_plane *plane;
+>  	struct drm_plane_state *plane_state;
+>  	struct drm_crtc *crtc;
+> @@ -1554,17 +1567,23 @@ void drm_atomic_print_state(const struct drm_atom=
+ic_state *state)
+>  	struct drm_connector_state *connector_state;
+>  	int i;
+>  =
+
+> +	if (!p) {
+> +		DRM_ERROR("invalid drm printer\n");
+> +		return;
+> +	}
+> +
+>  	DRM_DEBUG_ATOMIC("checking %p\n", state);
+>  =
+
+>  	for_each_new_plane_in_state(state, plane, plane_state, i)
+> -		drm_atomic_plane_print_state(&p, plane_state);
+> +		drm_atomic_plane_print_state(p, plane_state);
+>  =
+
+>  	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
+> -		drm_atomic_crtc_print_state(&p, crtc_state);
+> +		drm_atomic_crtc_print_state(p, crtc_state);
+>  =
+
+>  	for_each_new_connector_in_state(state, connector, connector_state, i)
+> -		drm_atomic_connector_print_state(&p, connector_state);
+> +		drm_atomic_connector_print_state(p, connector_state);
+>  }
+> +EXPORT_SYMBOL(drm_atomic_print_new_state);
+>  =
+
+>  static void __drm_state_dump(struct drm_device *dev, struct drm_printer =
+*p,
+>  			     bool take_locks)
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
+ic_uapi.c
+> index 25c269bc4681..b4b3cb28a8ea 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -2,6 +2,7 @@
+>   * Copyright (C) 2014 Red Hat
+>   * Copyright (C) 2014 Intel Corp.
+>   * Copyright (C) 2018 Intel Corp.
+> + * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+>   *
+>   * Permission is hereby granted, free of charge, to any person obtaining=
+ a
+>   * copy of this software and associated documentation files (the "Softwa=
+re"),
+> @@ -1294,6 +1295,7 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>  	struct drm_out_fence_state *fence_state;
+>  	int ret =3D 0;
+>  	unsigned int i, j, num_fences;
+> +	struct drm_printer p =3D drm_info_printer(dev->dev);
+>  =
+
+>  	/* disallow for drivers not supporting atomic: */
+>  	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
+> @@ -1413,7 +1415,7 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>  		ret =3D drm_atomic_nonblocking_commit(state);
+>  	} else {
+>  		if (drm_debug_enabled(DRM_UT_STATE))
+> -			drm_atomic_print_state(state);
+> +			drm_atomic_print_new_state(state, &p);
+>  =
+
+>  		ret =3D drm_atomic_commit(state);
+>  	}
+> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_cr=
+tc_internal.h
+> index da96b2f64d7e..2bd56ec9fb0e 100644
+> --- a/drivers/gpu/drm/drm_crtc_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+> @@ -5,6 +5,7 @@
+>   *   Jesse Barnes <jesse.barnes@intel.com>
+>   * Copyright =A9 2014 Intel Corporation
+>   *   Daniel Vetter <daniel.vetter@ffwll.ch>
+> + * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+>   *
+>   * Permission is hereby granted, free of charge, to any person obtaining=
+ a
+>   * copy of this software and associated documentation files (the "Softwa=
+re"),
+> @@ -233,7 +234,8 @@ int __drm_atomic_helper_disable_plane(struct drm_plan=
+e *plane,
+>  int __drm_atomic_helper_set_config(struct drm_mode_set *set,
+>  				   struct drm_atomic_state *state);
+>  =
+
+> -void drm_atomic_print_state(const struct drm_atomic_state *state);
+> +void drm_atomic_print_new_state(const struct drm_atomic_state *state,
+> +		struct drm_printer *p);
+>  =
+
+>  /* drm_atomic_uapi.c */
+>  int drm_atomic_connector_commit_dpms(struct drm_atomic_state *state,
+> diff --git a/drivers/gpu/drm/selftests/test-drm_framebuffer.c b/drivers/g=
+pu/drm/selftests/test-drm_framebuffer.c
+> index 2d29ea6f92e2..9296c68cbe71 100644
+> --- a/drivers/gpu/drm/selftests/test-drm_framebuffer.c
+> +++ b/drivers/gpu/drm/selftests/test-drm_framebuffer.c
+> @@ -8,6 +8,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_mode.h>
+>  #include <drm/drm_fourcc.h>
+> +#include <drm/drm_print.h>
+>  =
+
+>  #include "../drm_crtc_internal.h"
+>  =
+
+> -- =
+
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+> =
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
