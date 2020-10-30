@@ -2,55 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9E02A206A
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 789732A206D
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 458696EB20;
-	Sun,  1 Nov 2020 17:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE42F6EB2F;
+	Sun,  1 Nov 2020 17:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C287C6E064
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 22:06:36 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1604095596; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=lGkiIC6aCmxVlnP+kS5/v1V4Xiy5BR0zSGoVebzuAD4=;
- b=E9guYytSgnxz+YfFRC4FZjFKfdVJlcOjC8LR5JWa5UuOByoIzCdTTfTHPmblsP3cFlxheByw
- r88fkmC8HN/a1VEza1O/Dejstv/5JlaXHnqDg78hg5W7NSwOCvKrL16Pb7BWyy/P0ORgX0xb
- IMqCOsIf2fmJkyaSpYzyI3O2aLM=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5f9c8e6b0875fb8daad516dd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 30 Oct 2020 22:06:35
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id D73BBC43385; Fri, 30 Oct 2020 22:06:34 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id F1979C433C8;
- Fri, 30 Oct 2020 22:06:33 +0000 (UTC)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87D106EEBA
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 23:13:49 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id m8so2541115ljj.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 16:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vaA+T5tHs3ugLEg4WgA+ZnP+FdPWA5G8q51SBunf3P8=;
+ b=ayHzA9bxYYxnsSZ7EhltVKQ2JbLqL+7bZqQH9Bxbrbv/70NQua4yYPV8lY5cTpbS2I
+ 7g6YDGHgUnwC14iHjv/8X/UFmK2lR9a5QAGym10WG42DkhQ9Q0UBGw9Xs7D54oAWFn2w
+ rpmfY+FCq4OD2RElXatQkwhyrOHTDqrc9GU2EMfMi4tCFFUS4wTP3a6MIemnzcO2jg9x
+ 6gQ5pvlL/cwSMaQSVpTsrX/L8u7LhbCy5NKX8zrDgG+n18Z0x+VgKw2HqEq8JYpOFlrG
+ QQY7tDVzBPcTd2yYljfyccP55sJNnZ/pZEOXkE7urwvPQyyvrHNnzWixCtiCwamGJ7+B
+ Pe5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vaA+T5tHs3ugLEg4WgA+ZnP+FdPWA5G8q51SBunf3P8=;
+ b=E0oGaym8bhXCnh9+MJSCy2RPQNeahD5GlZYhCmDc2ioQbp3J8tZNlQia9n6bDD/9ja
+ DcyeLRgwrRhvG65Mao/iONz9N52ClkLTacwnG2lWU+/qemeEbWIWmKOhujy4zzs8wQAH
+ lu1v9mQBIhPnv+fCxte/z7N/Y+b/NCafYRzVJ8KlBSnyyazrPfJvlPDyTZCfkirAY71d
+ fWzYL8J/WexOCZiYo6ICTxHntSxxyopFeQ+azComV5F7yB99/u18M0bCygOvzUXtwd+B
+ BJrtk6yyOyGVp6r1mXm8k3KvEtrf8mViORgiEbzs1oO/KA34Sebbh9VQ//hZPHcQHYs0
+ InJw==
+X-Gm-Message-State: AOAM532c0TCBFUud86T59vt5r++65KbR5pB8XkOXCD0blFsOIEfBn31X
+ agfrFcv3BF4X1KYWd1MMSLs=
+X-Google-Smtp-Source: ABdhPJzY5Ndi78+o6ubMxaCqgE1ZdYjt/EwFHanf+HIdcKgOHE7AXb+ZaRltRhXm/XFl68fy74qLow==
+X-Received: by 2002:a2e:94d0:: with SMTP id r16mr1940414ljh.292.1604099627781; 
+ Fri, 30 Oct 2020 16:13:47 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-177.dynamic.spd-mgts.ru.
+ [109.252.193.177])
+ by smtp.googlemail.com with ESMTPSA id a9sm772943lfl.70.2020.10.30.16.13.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Oct 2020 16:13:46 -0700 (PDT)
+Subject: Re: [PATCH v3 19/20] drm/tegra: Implement new UAPI
+To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
+ <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20201007171238.1795964-1-mperttunen@nvidia.com>
+ <20201007171238.1795964-20-mperttunen@nvidia.com>
+ <dd13ec2c-1e01-ca61-656c-b23b156b100f@gmail.com>
+ <b33a5084-7dc3-a865-2f36-274ecebf2ee7@kapsi.fi>
+ <1f3267a9-37b4-2cff-08a2-2ca7c905ce01@gmail.com>
+ <6a7b4d4e-8d4a-416e-9789-45282b44bce5@kapsi.fi>
+ <48f5bbac-3955-c227-dbe1-d987b4ec5bd0@gmail.com>
+ <414b4943-265d-3735-c115-d54469018d8c@kapsi.fi>
+ <e8afd710-de37-f1c5-f61c-ed97c07370bf@gmail.com>
+ <6ef6337d-3bb5-bbba-f39c-6de1722ddc44@kapsi.fi>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0f1c8226-4960-aa35-9436-2361fc8fb6ae@gmail.com>
+Date: Sat, 31 Oct 2020 02:13:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Date: Fri, 30 Oct 2020 15:06:33 -0700
-From: khsieh@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH] drm/msm/dp: skip checking LINK_STATUS_UPDATED bit
-In-Reply-To: <160323215566.884498.14018580767640192186@swboyd.mtv.corp.google.com>
-References: <20201020165959.7441-1-khsieh@codeaurora.org>
- <160323215566.884498.14018580767640192186@swboyd.mtv.corp.google.com>
-Message-ID: <546018237be3f05b4eb33c916ed1d939@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <6ef6337d-3bb5-bbba-f39c-6de1722ddc44@kapsi.fi>
+Content-Language: en-US
 X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,116 +82,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, sean@poorly.run
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-20 15:15, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2020-10-20 09:59:59)
->> No need to check LINK_STATuS_UPDATED bit before
-> 
-> LINK_STATUS_UPDATED?
-> 
->> return 6 bytes of link status during link training.
-> 
-> Why?
-> 
->> This patch also fix phy compliance test link rate
->> conversion error.
-> 
-> How?
-> 
->> 
->> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->> ---
-> 
-> Any Fixes: tag?
-> 
->>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 20 ++++++--------------
->>  drivers/gpu/drm/msm/dp/dp_link.c | 24 +++++++++++-------------
->>  2 files changed, 17 insertions(+), 27 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index 6bdaec778c4c..76e891c91c6e 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -1061,23 +1061,15 @@ static bool dp_ctrl_train_pattern_set(struct 
->> dp_ctrl_private *ctrl,
->>  static int dp_ctrl_read_link_status(struct dp_ctrl_private *ctrl,
->>                                     u8 *link_status)
->>  {
->> -       int len = 0;
->> -       u32 const offset = DP_LANE_ALIGN_STATUS_UPDATED - 
->> DP_LANE0_1_STATUS;
->> -       u32 link_status_read_max_retries = 100;
->> -
->> -       while (--link_status_read_max_retries) {
->> -               len = drm_dp_dpcd_read_link_status(ctrl->aux,
->> -                       link_status);
->> -               if (len != DP_LINK_STATUS_SIZE) {
->> -                       DRM_ERROR("DP link status read failed, err: 
->> %d\n", len);
->> -                       return len;
->> -               }
->> +       int ret = 0, len;
->> 
->> -               if (!(link_status[offset] & DP_LINK_STATUS_UPDATED))
->> -                       return 0;
->> +       len = drm_dp_dpcd_read_link_status(ctrl->aux, link_status);
->> +       if (len != DP_LINK_STATUS_SIZE) {
->> +               DRM_ERROR("DP link status read failed, err: %d\n", 
->> len);
->> +               ret = len;
-> 
-> Could this be positive if the len is greater than 0 but not
-> DP_LINK_STATUS_SIZE? Maybe the check should be len < 0? We certainly
-> don't want to return some smaller size from this function, right?
-> 
-
-no, it should be exactly the byte number requested to read.
-otherwise, it should be failed and will re read at next run.
-
->>         }
->> 
->> -       return -ETIMEDOUT;
->> +       return ret;
->>  }
->> 
->>  static int dp_ctrl_link_train_1(struct dp_ctrl_private *ctrl,
->> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c 
->> b/drivers/gpu/drm/msm/dp/dp_link.c
->> index c811da515fb3..58d65daae3b3 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_link.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
->> @@ -773,7 +773,8 @@ static int 
->> dp_link_process_link_training_request(struct dp_link_private *link)
->>                         link->request.test_lane_count);
->> 
->>         link->dp_link.link_params.num_lanes = 
->> link->request.test_lane_count;
->> -       link->dp_link.link_params.rate = link->request.test_link_rate;
->> +       link->dp_link.link_params.rate =
->> +               
->> drm_dp_bw_code_to_link_rate(link->request.test_link_rate);
-> 
-> Why are we storing bw_code in test_link_rate? This looks very 
-> confusing.
-
-Test_link_rate contains link rate from dpcd read. it need to be convert 
-to real
-rate by timing 2.7Mb before start phy compliance test.
-
-> 
->> 
->>         return 0;
->>  }
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MjguMTAuMjAyMCAxMjo1NCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gT24gMTAvMjcv
+MjAgOTowNiBQTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+PiAyNi4xMC4yMDIwIDEyOjExLCBN
+aWtrbyBQZXJ0dHVuZW4g0L/QuNGI0LXRgjoKPj4+Pgo+Pj4+IFRoZSBmaXJzdCBwYXRjaGVzIHNo
+b3VsZCBiZSB0aGUgb25lcyB0aGF0IGFyZSByZWxldmFudCB0byB0aGUgZXhpc3RpbmcKPj4+PiB1
+c2Vyc3BhY2UgY29kZSwgbGlrZSBzdXBwb3J0IGZvciB0aGUgd2FpdHMuCj4+Pgo+Pj4gQ2FuIHlv
+dSBlbGFib3JhdGUgd2hhdCB5b3UgbWVhbiBieSB0aGlzPwo+Pgo+PiBBbGwgZmVhdHVyZXMgdGhh
+dCBkb24ndCBoYXZlIGFuIGltbWVkaWF0ZSByZWFsIHVzZS1jYXNlIHNob3VsZCBiZSBwbGFjZWQK
+Pj4gbGF0ZXIgaW4gdGhlIHNlcmllcyBiZWNhdXNlIHdlIG1heSBkZWZlciBtZXJnaW5nIG9mIHRo
+b3NlIHBhdGNoZXMgdW50aWwKPj4gd2Ugd2lsbCBzZWUgdXNlcnNwYWNlIHRoYXQgdXNlcyB0aG9z
+ZSBmZWF0dXJlcyBzaW5jZSB3ZSBjYW4ndCByZWFsbHkKPj4gZGVjaWRlIHdoZXRoZXIgdGhlc2Ug
+YXJlIGRlY2lzaW9ucyB0aGF0IHdlIHdvbid0IHJlZ3JldCBsYXRlciBvbiwgb25seQo+PiBwcmFj
+dGljYWwgYXBwbGljYXRpb24gY2FuIGNvbmZpcm0gdGhlIGNvcnJlY3RuZXNzLgo+IAo+IEkgd2Fz
+IG1vcmUgcmVmZXJyaW5nIHRvIHRoZSAic3VwcG9ydCBmb3Igd2FpdHMiIHBhcnQsIHNob3VsZCBo
+YXZlCj4gY2xhcmlmaWVkIHRoYXQuCgpUaGUgInN1cHBvcnQgZm9yIHdhaXRzIiBpcyBzdXBwb3J0
+IGZvciB0aGUgV0FJVF9TWU5DUFQgY29tbWFuZCBleHBvc2VkCnRvIHVzZXJzcGFjZSwgd2hpY2gg
+d2UgY291bGQgdXRpbGl6ZSByaWdodCBub3cuCgo+Pj4+IFBhcnRpYWwgbWFwcGluZ3Mgc2hvdWxk
+IGJlIGEgc2VwYXJhdGUgZmVhdHVyZSBiZWNhdXNlIGl0J3MgYQo+Pj4+IHF1ZXN0aW9uYWJsZSBm
+ZWF0dXJlIHRoYXQgbmVlZHMgdG8gYmUgcHJvdmVkIGJ5IGEgcmVhbCB1c2Vyc3BhY2UgZmlyc3Qu
+Cj4+Pj4gTWF5YmUgaXQgd291bGQgYmUgZXZlbiBiZXR0ZXIgdG8gZHJvcCBpdCBmb3IgdGhlIHN0
+YXJ0ZXIsIHRvIGVhc2UKPj4+PiByZXZpZXdpbmcuCj4+Pgo+Pj4gQ29uc2lkZXJpbmcgdGhhdCB0
+aGUgIm5vLW9wIiBzdXBwb3J0IGZvciBpdCAobWFwIHRoZSB3aG9sZSBidWZmZXIgYnV0Cj4+PiBq
+dXN0IGtlZXAgdHJhY2sgb2YgdGhlIHN0YXJ0aW5nIG9mZnNldCkgaXMgb25seSBhIGNvdXBsZSBv
+ZiBsaW5lcywgSSdkCj4+PiBsaWtlIHRvIGtlZXAgaXQgaW4uCj4+Cj4+IFRoZXJlIGlzIG5vIHRy
+YWNraW5nIGluIHRoZSBjdXJyZW50IGNvZGUgd2hpY2ggcHJldmVudHMgdGhlIGR1cGxpY2F0ZWQK
+Pj4gbWFwcGluZ3MsIHdpbGwgd2UgbmVlZCB0byBjYXJlIGFib3V0IGl0PyBUaGlzIGEgYml0IHRv
+byBxdWVzdGlvbmFibGUKPj4gZmVhdHVyZSBmb3Igbm93LCBJTU8uIEknZCBsaWtlIHRvIHNlZSBp
+dCBhcyBhIHNlcGFyYXRlIHBhdGNoLgo+IAo+IEkgZG9uJ3QgdGhpbmsgdGhlcmUgaXMgYW55IG5l
+ZWQgdG8gc3BlY2lhbCBjYXNlIGR1cGxpY2F0ZWQgbWFwcGluZ3MuIEkKPiB0aGluayB0aGlzIGlz
+IGEgcHJldHR5IG9idmlvdXMgZmVhdHVyZSB0byBoYXZlLCBidXQgSSBjYW4gcmVuYW1lIHRoZW0g
+dG8KPiByZXNlcnZlZDAgYW5kIHJlc2VydmVkMSBhbmQgcmVxdWlyZSB0aGF0IHJlc2VydmVkMCBp
+cyB6ZXJvIGFuZCByZXNlcnZlZDEKPiBpcyB0aGUgc2l6ZSBvZiB0aGUgcGFzc2VkIEdFTSBvYmpl
+Y3QuCgpJJ20gbm93IGNvbmNlcm5lZCBhYm91dCB0aGUgcmVzZXJ2ZWQgZmllbGRzIGFmdGVyIHNl
+ZWluZyB0aGlzIHJlcGx5IGZyb20KRGFuaWVsIFZldHRlcjoKCmh0dHBzOi8vd3d3Lm1haWwtYXJj
+aGl2ZS5jb20vbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcvbXNnMzYzMjQuaHRtbAoKSWYg
+RFJNIElPQ1RMIHN0cnVjdHMgYXJlIHplcm8tZXh0ZW5kZWQsIHRoZW4gcGVyaGFwcyB3ZSB3b24n
+dCBuZWVkIHRvCnJlc2VydmUgYW55dGhpbmc/Cgo+PiAuLi4KPj4+PiBJJ2QgbGlrZSB0byBzZWUg
+dGhlIERSTV9TQ0hFRCBhbmQgc3luY29iaiBzdXBwb3J0LiBJIGNhbiBoZWxwIHlvdSB3aXRoCj4+
+Pj4gaXQgaWYgaXQncyBvdXQgb2YgeW91cnMgc2NvcGUgZm9yIG5vdy4KPj4+Pgo+Pj4KPj4+IEkg
+YWxyZWFkeSB3cm90ZSBzb21lIGNvZGUgZm9yIHN5bmNvYmogSSBjYW4gcHJvYmFibHkgcHVsbCBp
+bi4gUmVnYXJkaW5nCj4+PiBEUk1fU0NIRUQsIGhlbHAgaXMgYWNjZXB0ZWQuIEhvd2V2ZXIsIHdl
+IHNob3VsZCBrZWVwIHVzaW5nIHRoZSBoYXJkd2FyZQo+Pj4gc2NoZWR1bGVyLCBhbmQgY29uc2lk
+ZXJpbmcgaXQncyBhIGJpZ2dlciBwaWVjZSBvZiB3b3JrLCBsZXQncyBub3QgYmxvY2sKPj4+IHRo
+aXMgc2VyaWVzIG9uIGl0Lgo+Pgo+PiBJJ2QgbGlrZSB0byBzZWUgYWxsIHRoZSBjdXN0b20gSU9D
+VExzIHRvIGJlIGRlcHJlY2F0ZWQgYW5kIHJlcGxhY2VkIHdpdGgKPj4gdGhlIGdlbmVyaWMgRFJN
+IEFQSSB3aGVyZXZlciBwb3NzaWJsZS4gSGVuY2UsIEkgdGhpbmsgaXQgc2hvdWxkIGJlIGEKPj4g
+bWFuZGF0b3J5IGZlYXR1cmVzIHRoYXQgd2UgbmVlZCB0byBmb2N1cyBvbi4gVGhlIGN1cnJlbnQg
+V0lQIHVzZXJzcGFjZQo+PiBhbHJlYWR5IHVzZXMgYW5kIHJlbGllcyBvbiBEUk1fU0NIRUQuCj4+
+Cj4gCj4gRnJvbSBteSBwb2ludCBvZiB2aWV3LCB0aGUgQUJJIG5lZWRzIHRvIGJlIGRlc2lnbmVk
+IHN1Y2ggdGhhdCBpdCBjYW4KPiByZXBsYWNlIHdoYXQgd2UgaGF2ZSBkb3duc3RyZWFtLCBpLmUu
+IGl0IG5lZWRzIHRvIHN1cHBvcnQgdGhlIHVzZWNhc2VzCj4gdGhlIGRvd25zdHJlYW0gbnZob3N0
+IEFCSSBzdXBwb3J0cyBjdXJyZW50bHkuIE90aGVyd2lzZSB0aGVyZSBpcyBubwo+IG1pZ3JhdGlv
+biBwYXRoIHRvIHVwc3RyZWFtIGFuZCBpdCdzIG5vdCB3b3J0aCBpdCBmb3IgbWUgdG8gd29yayBv
+biB0aGlzLgoKVGhlIGRvd25zdHJlYW0gbmVlZHMgc2hvdWxkIGJlIGlycmVsZXZhbnQgZm9yIHRo
+ZSB1cHN0cmVhbSwgcGxlYXNlIHJlYWQKdGhpczoKCmh0dHBzOi8vZHJpLmZyZWVkZXNrdG9wLm9y
+Zy9kb2NzL2RybS9ncHUvZHJtLXVhcGkuaHRtbCNvcGVuLXNvdXJjZS11c2Vyc3BhY2UtcmVxdWly
+ZW1lbnRzCgpJdCBtYXkgaGFwcGVuIHRoYXQgc29tZSBvZiB0aGUgZG93bnN0cmVhbSBmZWF0dXJl
+cyBjb3VsZCBiZWNvbWUgdXNlZnVsCmZvciB1cHN0cmVhbSwgYnV0IHdlIGRvbid0IGtub3cgdW50
+aWwgd2Ugd2lsbCBzZWUgdGhlIGZ1bGwgdXNlcnNwYWNlIGNvZGUuCgpXZSBkb24ndCBoYXZlIGEg
+Y29tcHJlaGVuc2l2ZSB1c2Vyc3BhY2Ugd2hpY2ggY291bGQgdXRpbGl6ZSBhbGwgdGhlIG5ldwpm
+ZWF0dXJlcyBhbmQgdGhhdCdzIHdoeSB1cHN0cmVhbSBkcml2ZXIgaGFzIGJlZW4gc3RhZ25hdGVk
+IGZvciBtYW55CnllYXJzIG5vdy4gVGhlIGdyYXRlLWRyaXZlcnMgd291bGQgZ3JlYXRseSBiZW5l
+Zml0IGZyb20gdGhlIHVwZGF0ZWQgQUJJLApidXQgSSB0aGluayB0aGF0IHdlIG5lZWQgYXQgbGVh
+c3QgYSB1c2FibGUgbWVzYSBkcml2ZXIgZmlyc3QsIHRoYXQncyB3aHkKSSBoYXZlbid0IGJvdGhl
+cmVkIHRvIHVwc3RyZWFtIGFueXRoaW5nIGZyb20gdGhlIFdJUCBVQVBJIHYyLgoKSW4gb3JkZXIg
+dG8gdXBzdHJlYW0gbmV3IFVBUEkgZmVhdHVyZXMgd2Ugd2lsbCBuZWVkOgoKICAxLiBIYXJkd2Fy
+ZSBzcGVjcyAoZnJvbSB2ZW5kb3Igb3IgcmV2ZXJzZS1lbmdpbmVlcmVkKS4KICAyLiBSZWdyZXNz
+aW9uIHRlc3RzLgogIDMuIEEgbm9uLXRveSBvcGVuc291cmNlIHVzZXJzcGFjZS4KCj4gQWx0aG91
+Z2gsIEkgZG9uJ3Qgc2VlIHdoYXQgdGhpcyBBQkkgaXMgbWlzc2luZyB0aGF0IHlvdXIgdXNlcnNw
+YWNlIHdvdWxkCj4gcmVseSBvbi4gRG9lcyBpdCBzdWJtaXQgam9icyBpbiByZXZlcnNlIG9yZGVy
+IHRoYXQgd291bGQgZGVhZGxvY2sgaWYKPiBkcm1fc2NoZWQgZGlkbid0IHJlb3JkZXIgdGhlbSBi
+YXNlZCBvbiBwcmVmZW5jZXMsIG9yIHNvbWV0aGluZz8KCkl0J3MgdGhlIG9wcG9zaXRlLCB3ZSBk
+b24ndCBoYXZlIHVzZXJzcGFjZSB3aGljaCBuZWVkcyBtYWpvcml0eSBvZiB0aGUKcHJvcG9zZWQg
+QUJJLiBUaGlzIG5lZWRzIHRvIGJlIGZpeGVkIGJlZm9yZSB3ZSBjb3VsZCBzZXJpb3VzbHkgY29u
+c2lkZXIKbWVyZ2luZyB0aGUgbmV3IGZlYXR1cmVzLgoKSSdtIHByZXR0eSBzdXJlIHRoYXQgeW91
+IHdhcyBhbHJlYWR5IGF3YXJlIGFib3V0IGFsbCB0aGUgdXBzdHJlYW1pbmcKcmVxdWlyZW1lbnRz
+IGFuZCB3ZSB3aWxsIHNlZSB0aGUgdXNhYmxlIG9wZW5zb3VyY2UgdXNlcnNwYWNlIGF0IHNvbWUK
+cG9pbnQsIGNvcnJlY3Q/CgpGb3Igbm93IGl0IHdpbGwgYmUgZ29vZCB0byBoYXZlIHRoaXMgc2Vy
+aWVzIGluIGEgZm9ybSBvZiBhCndvcmstaW4tcHJvZ3Jlc3MgcGF0Y2hlcywgY29udGludWluZyB0
+byBkaXNjdXNzIGFuZCB1cGRhdGUgaXQuIE1lYW53aGlsZQp3ZSB3aWxsIG5lZWQgdG8gd29yayBv
+biB0aGUgdXNlcnNwYWNlIHBhcnQgYXMgd2VsbCwgd2hpY2ggaXMgYSBtdWNoCmJpZ2dlciBibG9j
+a2VyLgoKPiBTb2Z0d2FyZS1iYXNlZCBzY2hlZHVsaW5nIG1pZ2h0IG1ha2Ugc2Vuc2UgaW4gc2l0
+dWF0aW9ucyB3aGVyZSB0aGUKPiBjaGFubmVsIGlzIHNoYXJlZCBieSBhbGwgcHJvY2Vzc2VzLCBi
+dXQgYXQgbGVhc3QgZm9yIG1vZGVybiBjaGlwcyB0aGF0Cj4gYXJlIGRlc2lnbmVkIHRvIHVzZSBo
+YXJkd2FyZSBzY2hlZHVsaW5nLCBJIHdhbnQgdG8gdXNlIHRoYXQgY2FwYWJpbGl0eS4KClRoZSBz
+b2Z0d2FyZS1iYXNlZCBzY2hlZHVsaW5nIGlzIGluZGVlZCBuZWVkZWQgZm9yIHRoZSBvbGRlciBT
+b0NzIGluCm9yZGVyIG5vdCB0byBibG9jayBoYXJkd2FyZSBjaGFubmVscyBhbmQgam9iLXN1Ym1p
+c3Npb24gY29kZSBwYXRocy4KTWF5YmUgaXQgY291bGQgYmVjb21lIHVzZWZ1bCBmb3IgYSBuZXdl
+ciBTb0NzIGFzIHdlbGwgb25jZSB3ZSB3aWxsIGdldApjbG9zZXIgdG8gYSB1c2FibGUgdXNlcnNw
+YWNlIDopCgpJdCB3aWxsIGJlIGdyZWF0IHRvIGhhdmUgdGhlIGhhcmR3YXJlLWJhc2VkIHNjaGVk
+dWxpbmcgc3VwcG9ydGVkLCBidXQgSQphc3N1bWUgdGhhdCBpdCBuZWVkcyB0byBiZSBkb25lIG9u
+IHRvcCBvZiBEUk1fU0NIRUQuIFRoaXMgc2hvdWxkIGFsbG93CnVzIHRvIHJlbW92ZSBhbGwgdGhl
+IGJ1Z2d5IGhvc3QxeCdzIHB1c2hidWZmZXIgbG9ja2luZyBjb2RlICh3aGljaCBpcwprbm93biB0
+byBkZWFkbG9jaykgYW5kIHN1cHBvcnQgYSBub24taG9zdDF4IGZlbmNlcyBmb3IgZnJlZS4KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
