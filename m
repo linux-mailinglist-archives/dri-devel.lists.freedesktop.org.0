@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D8729FFA0
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDAB829FFB6
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 325BF6E998;
-	Fri, 30 Oct 2020 08:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E46D6E9C2;
+	Fri, 30 Oct 2020 08:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7B156E948;
- Fri, 30 Oct 2020 03:22:52 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id o3so4005434pgr.11;
- Thu, 29 Oct 2020 20:22:52 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A36A6E948;
+ Fri, 30 Oct 2020 03:27:31 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id o3so4013948pgr.11;
+ Thu, 29 Oct 2020 20:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=qBvjZd1NQE+Opu2oXBohKdYFGkxmEuNNU11hjYVYnCQ=;
- b=Mj33b48h76F1dSMxppcMSK6G6p3jotJKxzTrYojGUxfEpvhTrFPdTY+HPZoV2gq4oJ
- h+0vUFVO+e7BWDVQgOVC+R2T284CGbNoAAo+6ZYFsnOjZml55tKAFQ78cH3A15oJEZVG
- mrujRZtGJyCFgMx3FPZyX51iESlyui7nGtxqcddwonAsLZgt8dav4aFYBqgk71eEFUzL
- n2dOdvx+xZU5afm/QgSBfDbLIW7cbGz77YROOkiUFUc9acef+jknLNCe4n+Fc/2MIj3L
- iq760Cb4WVXRxzHf61KnVYP4HVfscx/HGeX/hkGimxhD2UZcbmv6WlkH5dxV34/JJVP3
- LIDA==
+ bh=bnHvCuE87pUUeamFRrdRkC3/PfrKdLRFG6Yr9LjsnHU=;
+ b=nRD8AmlOqJ8JayRjEopJ5gsIvdMeLsA6FdS+XJv2WFxcMo/+k7r9F5ErGu6fOFW8AQ
+ RTdDljKeM5HQDBummdsxSpQUh3IjjRVzi87ByrvD2MkiJrhTmGRT35F+7aLPWD7+sidl
+ Kv9plJtGdW2FL9gT2gv5Ri69CUQrpxWgieYZM2uZXZmUt431/qypzu54jCsKUAFsG7nQ
+ f07ABRL0UayrZZsHvk1NfDvTzhRtiL4uBs/K5SGIIB+6Q6gbcI+mcfKw7kTPV7Owsq+X
+ 3bI33+X8zHRUpqf0Ehk6Q9xJQkjcVMbWirQ45OILc08QA7/bdbhZjg8RTuOpUyERvQDE
+ 7dWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
  :content-disposition;
- bh=qBvjZd1NQE+Opu2oXBohKdYFGkxmEuNNU11hjYVYnCQ=;
- b=NpUkf2HbMlSWGf9FnWyJOqwU75nzFIYx32oXhG5OZcHwS+bcTe2EDrhvJzuwPZMemC
- t3rstPTT/Gx2Hig+YOiL5xD0HVMrDpzbh2cmMHvEhhFrLhOgqmbrecEKJpiWMc13rPX0
- uH1fJo/t9RKa8h7feXa1OqBSJU+TftgJv9PWvsUX+kolxgqGLUwOETESdluU1wJ8MgYI
- lAReabIGi+yEQ6I7u3iGeamN0QBe0wjcVgy1GgyOmu4WNKkSLf9GNXY96+s83Qhg03QQ
- /Wctm+dcamAS9yMKeYwKN7FJ5ATp6v+N/ePq+LiKFyvXE9n3SxIFVrm//8qU2KHq236B
- D/Zg==
-X-Gm-Message-State: AOAM531bgwYQfyqgr6Wz6Af/LF8we8f7YnpMDdyrFaB62oIfrYTneXZm
- jOAEhOCpOXl+CUX0G+VAgiA=
-X-Google-Smtp-Source: ABdhPJyrvqLEAX4zvr4eTeY6PHbOJQStYG9uu59XSfJnfnWLOEyPgXFp1yJk3y8FgbIJaX3YgghUYw==
-X-Received: by 2002:a63:ec57:: with SMTP id r23mr374312pgj.257.1604028172484; 
- Thu, 29 Oct 2020 20:22:52 -0700 (PDT)
+ bh=bnHvCuE87pUUeamFRrdRkC3/PfrKdLRFG6Yr9LjsnHU=;
+ b=QarEImy42AkKvKi1O/4BIiTRMg8FTRR93f4mPozjObc90TjcoxShWkcdEZ+jX26veP
+ I0p1YuKSoK/T46HriVMH0AGOcw3RyNfb63cq1n0udw3PiLLpk0l10E7NmX3+2YXmBxVs
+ vs0V8c2zgvXG2WO4PCG/sYGISl6K5LTKClpzmYUfFgzWl9khcGbc+cHnAxjJ5a5F5nHq
+ 0cOvLW+b9knwQgdAXU5af3zwB+pqLRhKY+lserdmy0d13wTtddhGkk4ZnTHlka5U4qWY
+ 7bWLUAGl4CeGO4nMAyVcdw/fqXOk/3TU38KhEDGnzfmwiU5iWC8zvjsMfZRYkxW2pAaL
+ rE/w==
+X-Gm-Message-State: AOAM53240IalZGtD+0ZHbl2upqixeapLM6acBh/U+m/Isy5lXcsr7tWX
+ 4WhZ5T6QJa3+erFpWRWwc90=
+X-Google-Smtp-Source: ABdhPJwsO/zwvK0kUCMTFALpAm2G4TaQ+/FtpdQPfUSL8E1dywEkU+dfQeT0it8MKkuUba3+AQFDIg==
+X-Received: by 2002:a17:90b:3658:: with SMTP id
+ nh24mr310667pjb.177.1604028451119; 
+ Thu, 29 Oct 2020 20:27:31 -0700 (PDT)
 Received: from my--box ([103.98.79.70])
- by smtp.gmail.com with ESMTPSA id 92sm1313206pjv.32.2020.10.29.20.22.48
+ by smtp.gmail.com with ESMTPSA id z66sm4274336pfb.109.2020.10.29.20.27.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 20:22:51 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:52:45 +0530
+ Thu, 29 Oct 2020 20:27:30 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:57:25 +0530
 From: Deepak R Varma <mh12gx2825@gmail.com>
 To: outreachy-kernel@googlegroups.com,
  Alex Deucher <alexander.deucher@amd.com>,
@@ -52,9 +53,9 @@ To: outreachy-kernel@googlegroups.com,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: use DEFINE_DEBUGFS_ATTRIBUTE with
+Subject: [PATCH] drm/amd/pm: use DEFINE_DEBUGFS_ATTRIBUTE with
  debugfs_create_file_unsafe()
-Message-ID: <20201030032245.GA274478@my--box>
+Message-ID: <20201030032725.GA274689@my--box>
 MIME-Version: 1.0
 Content-Disposition: inline
 X-Mailman-Approved-At: Fri, 30 Oct 2020 08:23:17 +0000
@@ -88,53 +89,28 @@ Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
 ---
 Please Note: This is a Outreachy project task patch.
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c  | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index 2d125b8b15ee..f076b1ba7319 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -1551,29 +1551,29 @@ static int amdgpu_debugfs_sclk_set(void *data, u64 val)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
+index 740e2fc7a034..1e79baab753e 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
+@@ -252,12 +252,11 @@ static int init_powerplay_table_information(
+ 	phm_copy_clock_limits_array(hwmgr, &pptable_information->power_saving_clock_max, powerplay_table->PowerSavingClockMax, ATOM_VEGA12_PPCLOCK_COUNT);
+ 	phm_copy_clock_limits_array(hwmgr, &pptable_information->power_saving_clock_min, powerplay_table->PowerSavingClockMin, ATOM_VEGA12_PPCLOCK_COUNT);
  
--DEFINE_SIMPLE_ATTRIBUTE(fops_ib_preempt, NULL,
--			amdgpu_debugfs_ib_preempt, "%llu\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(fops_ib_preempt, NULL,
-+			 amdgpu_debugfs_ib_preempt, "%llu\n");
+-	pptable_information->smc_pptable = kmalloc(sizeof(PPTable_t), GFP_KERNEL);
++	pptable_information->smc_pptable = kmemdup(&(powerplay_table->smcPPTable),
++						   sizeof(PPTable_t), GFP_KERNEL);
+ 	if (pptable_information->smc_pptable == NULL)
+ 		return -ENOMEM;
  
--DEFINE_SIMPLE_ATTRIBUTE(fops_sclk_set, NULL,
--			amdgpu_debugfs_sclk_set, "%llu\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(fops_sclk_set, NULL,
-+			 amdgpu_debugfs_sclk_set, "%llu\n");
+-	memcpy(pptable_information->smc_pptable, &(powerplay_table->smcPPTable), sizeof(PPTable_t));
+-
+ 	result = append_vbios_pptable(hwmgr, (pptable_information->smc_pptable));
  
- int amdgpu_debugfs_init(struct amdgpu_device *adev)
- {
- 	int r, i;
- 
- 	adev->debugfs_preempt =
--		debugfs_create_file("amdgpu_preempt_ib", 0600,
--				    adev_to_drm(adev)->primary->debugfs_root, adev,
--				    &fops_ib_preempt);
-+		debugfs_create_file_unsafe("amdgpu_preempt_ib", 0600,
-+					   adev_to_drm(adev)->primary->debugfs_root, adev,
-+					   &fops_ib_preempt);
- 	if (!(adev->debugfs_preempt)) {
- 		DRM_ERROR("unable to create amdgpu_preempt_ib debugsfs file\n");
- 		return -EIO;
- 	}
- 
- 	adev->smu.debugfs_sclk =
--		debugfs_create_file("amdgpu_force_sclk", 0200,
--				    adev_to_drm(adev)->primary->debugfs_root, adev,
--				    &fops_sclk_set);
-+		debugfs_create_file_unsafe("amdgpu_force_sclk", 0200,
-+					   adev_to_drm(adev)->primary->debugfs_root, adev,
-+					   &fops_sclk_set);
- 	if (!(adev->smu.debugfs_sclk)) {
- 		DRM_ERROR("unable to create amdgpu_set_sclk debugsfs file\n");
- 		return -EIO;
+ 	return result;
 -- 
 2.25.1
 
