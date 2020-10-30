@@ -2,119 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF88C2A2085
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8222A2077
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB6BD6EB4B;
-	Sun,  1 Nov 2020 17:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 639AA6EB3A;
+	Sun,  1 Nov 2020 17:38:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9BB86E030
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 09:35:58 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f9bde880000>; Fri, 30 Oct 2020 02:36:08 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 30 Oct
- 2020 09:35:42 +0000
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by HQMAIL101.nvidia.com (172.20.187.10) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Fri, 30 Oct 2020 09:35:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bz6F5eI34fR78jmjHwgRDj2MrjMar1EJrrObQ1EGCu87LX+jBzXVlj7lA9wfLY/xR0YOPfNF0/ugExg77qefuGT8wtynSbRSUSLZayUQP//RMUvc1Hc6zhgtVMKGY1WszHb379gFA9n3ixYLc2bmgADa+l9gf66Vl616y6/IMj7+Xy+6+xo6g52i9DzELnqgwgNmVzbZjycfo2R3J+69wG8Y1x3jmcysk6N9NsckBVzHrNnccBOgu0otogbA+nL50j7RLrqeyE6cpV8Kxpw2JvXQ5cOb1ZoFMoQ6DpzrMs2DHcznUdznHXfudc2kkbmwJjUK0lexF7OxEpFmzm1+OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dWTAd7opkAERURr3qxfuOLB8iQ03YIm60A46/6r37+A=;
- b=XdkbgJGXSNnUqkFhstXLSmPoXPIBsGNV9Hkv/lJJNUWh1VP65DxXHL4DdPMW5rT+ud1m1g4qy9SbL6uWnVaBb6Wb5uJ20YWSYuzLuYpUuxIoOuXxykl2sw8auAmdgNyT9p3West+wuaPN+G/t2pHwZ1pjkn0tvrHSfHchIDV5vkElQc28pYXjsYBBHWXVR5CS+evRb0WTVTm/uA9daWUj+epvQ5F6z6lVaEXRijvIcp1HLHpgY2eRgM6VhmZHz5CjViMqripI8MUPm5iQblPEZSV2JZV7dWZsfbcS2xw9BZYqnVCdN1rDhX/CcFey2D83qwa5oKxpCbrmyvtmjMeQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BY5PR12MB4322.namprd12.prod.outlook.com (2603:10b6:a03:20a::20)
- by BYAPR12MB3173.namprd12.prod.outlook.com (2603:10b6:a03:13d::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19; Fri, 30 Oct
- 2020 09:35:40 +0000
-Received: from BY5PR12MB4322.namprd12.prod.outlook.com
- ([fe80::3c25:6e4c:d506:6105]) by BY5PR12MB4322.namprd12.prod.outlook.com
- ([fe80::3c25:6e4c:d506:6105%5]) with mapi id 15.20.3499.029; Fri, 30 Oct 2020
- 09:35:40 +0000
-From: Parav Pandit <parav@nvidia.com>
-To: "hch@lst.de" <hch@lst.de>
-Subject: RE: WARNING in dma_map_page_attrs
-Thread-Topic: WARNING in dma_map_page_attrs
-Thread-Index: AQHWqbLPPEPI9mnwmUSeVEeL/Zim3qmnD9kAgAJKk0CAAcOagIAATcGAgAHhEQCAAp+JsA==
-Date: Fri, 30 Oct 2020 09:35:40 +0000
-Message-ID: <BY5PR12MB4322B3F74495D950A2DF59FCDC150@BY5PR12MB4322.namprd12.prod.outlook.com>
-References: <000000000000335adc05b23300f6@google.com>
- <000000000000a0f8a305b261fe4a@google.com>
- <20201024111516.59abc9ec@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
- <BY5PR12MB4322CC03CE0D34B83269676ADC190@BY5PR12MB4322.namprd12.prod.outlook.com>
- <20201027081103.GA22877@lst.de>
- <BY5PR12MB43221380BB0259FF0693BB0CDC160@BY5PR12MB4322.namprd12.prod.outlook.com>
- <20201028173108.GA10135@lst.de>
-In-Reply-To: <20201028173108.GA10135@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
-x-originating-ip: [49.207.200.190]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e7d9918c-bfb9-4581-240e-08d87cb72a78
-x-ms-traffictypediagnostic: BYAPR12MB3173:
-x-microsoft-antispam-prvs: <BYAPR12MB31738EAE4736D98E391A6F93DC150@BYAPR12MB3173.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:923;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OhdeXHUxt2FA/MFFECvZtby02BvFWOngEalRKPhMwX7HXiqNroxcJLH5avg7jEwRNj8T7QcAjflq3zZZgU46DF/q8unaxtbltdYq/VBZ2G/8KA4KrP3m3113umtKplIrTfbKcx01If97Jc7LpDaF+1oP9U20b8E+G9AhWAeTiFSR5ZTL9hFKEg4ht8ECpprlp0laZSh3HQ4l9RvYmuwliXdbJQnYgxU5Fz27qkVAkoMw35vBBOeCnz05nTGpUQwHcIeBYTrfGvEJktySPmrV4mjzhAUXHOpR8E6Rn4WOon5vis9DVqKHXovRR0P+3U4LNUOMdraOr7YsmekOr4nsOg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR12MB4322.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(366004)(376002)(346002)(136003)(2906002)(6916009)(7416002)(7116003)(52536014)(66446008)(7696005)(55016002)(9686003)(64756008)(66476007)(8676002)(316002)(54906003)(76116006)(66556008)(66946007)(5660300002)(8936002)(55236004)(71200400001)(186003)(26005)(6506007)(86362001)(83380400001)(4326008)(33656002)(478600001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: OjRmIRgh21a33RTAnR76YfN2xHA8BZkMcAiad1IcQRsDJiZcD5dk8eh6YHRgSzDbMB1wRx+d8MFrnTUHwkAoO9hmQcIRgxahirs4LrUnI0jVMa29bam4d8XXijmeQ450a36S1sjfErWxIGvCMmE/IfQwDY0Tfk4tk09uuWPheBPyEJlNI8o7jPcz8+3RytdqhBVLqbEJN6aPaY657b8HZV5IsnfzmdfQgaW7l/KxP+ppOwY/vp9TGsJqbKLau7rtcDCzUekrgHgmqZ+lg0zVpi+An0oR3Z97Oe6142/VMjFV+FF4wTiU8gvpWirSe59BrtTUiG15WhU9rbXBVTWdtc0D4Zbe5tkumxIMb5hj2UllnOh7/l5CIg+ZxrYxsWzhLG8JNUnrnN2YWx+LsJn+o4+4YqMFmqgXw7YAJsycP5slRTEJ3Q564dwfmd8ldp5HFArvh/EfFOjhJgjeI0JMP5gqrMY2hiSxlgMqE1w8PJmG2iW6OOQxPfdCgwxRsEMpx4ZxT6xj3wJjDWchx3N7lVBoQonvoTea86BfuhAdv0/NffR6n5gndOllyjU/t/y41QGRlXCJl5yBW+ostT2sReWBdyw3MXQG/kitAjjl5ecopDgyCn2U0SCh72hlOyQyAD+vjgXmCpUcdVCHAmct4w==
-x-ms-exchange-transport-forked: True
+Received: from mail2-relais-roc.national.inria.fr
+ (mail2-relais-roc.national.inria.fr [192.134.164.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DEE66E0CC;
+ Fri, 30 Oct 2020 10:20:05 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.77,432,1596492000"; d="scan'208";a="475004550"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+ by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 30 Oct 2020 11:20:03 +0100
+Date: Fri, 30 Oct 2020 11:20:03 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [Outreachy kernel] [PATCH] drm/amdgpu: use
+ DEFINE_DEBUGFS_ATTRIBUTE with debugfs_create_file_unsafe()
+In-Reply-To: <20201030082425.GA1619669@kroah.com>
+Message-ID: <alpine.DEB.2.22.394.2010301118560.2733@hadrien>
+References: <20201030032245.GA274478@my--box>
+ <20201030071120.GA1493629@kroah.com> <20201030075716.GA6976@my--box>
+ <20201030080316.GA1612206@kroah.com>
+ <CACAkLupMiH9z4g7WLJ7t-N089_M6QGX6HkPQUATu4VCxDeFAKw@mail.gmail.com>
+ <20201030082425.GA1619669@kroah.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4322.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7d9918c-bfb9-4581-240e-08d87cb72a78
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2020 09:35:40.4718 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CgHH+xAEN3e0xCD5oZ2wfdo63z7HVx5VtnIRjdiE2mTEDQAy8PSxd1ZyFSdVDbU12jS0GpPLURBpLCaBx/9vRA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3173
-X-OriginatorOrg: Nvidia.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1604050568; bh=dWTAd7opkAERURr3qxfuOLB8iQ03YIm60A46/6r37+A=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:From:To:
- CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:References:
- In-Reply-To:Accept-Language:Content-Language:X-MS-Has-Attach:
- X-MS-TNEF-Correlator:authentication-results:x-originating-ip:
- x-ms-publictraffictype:x-ms-office365-filtering-correlation-id:
- x-ms-traffictypediagnostic:x-microsoft-antispam-prvs:
- x-ms-oob-tlc-oobclassifiers:x-ms-exchange-senderadcheck:
- x-microsoft-antispam:x-microsoft-antispam-message-info:
- x-forefront-antispam-report:x-ms-exchange-antispam-messagedata:
- x-ms-exchange-transport-forked:Content-Type:
- Content-Transfer-Encoding:MIME-Version:
- X-MS-Exchange-CrossTenant-AuthAs:
- X-MS-Exchange-CrossTenant-AuthSource:
- X-MS-Exchange-CrossTenant-Network-Message-Id:
- X-MS-Exchange-CrossTenant-originalarrivaltime:
- X-MS-Exchange-CrossTenant-fromentityheader:
- X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
- X-MS-Exchange-CrossTenant-userprincipalname:
- X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
- b=KpW0208/lrHOJ6KvcoQdxl5iC32O7tO9okXla0wPDR+Zw97Z69XRc+q0SguKpq2l+
- 0HIUs7u10Q/R4JrQhZcnUJ3AsVThXAlCyEu/zZJDviU8s5xAq7OaaT6mX5f5R3UWSN
- hcBvKcGyVANGHQW+IMY5xAYxPesySJunXDBfaOBL493f8+W00AAZEVlOcNMVz9zxTE
- V3Dq3HOqIGL0N4p/l+fO/+E3MfunBccgCtHF1G8FR86KUVu7f2C5kuLRHqPoub5VZx
- imiXBkInc2RZBp/wUdKF3rTxisShqrbEU0cM4kIvv1HSH5tgjMCCsH8THMFQe4U4S8
- 8d+s/cqIgi82Q==
 X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -128,21 +45,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linaro-mm-sig-owner@lists.linaro.org"
- <linaro-mm-sig-owner@lists.linaro.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>,
- Jakub Kicinski <kuba@kernel.org>,
- "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Sumera Priyadarsini <sylphrenadin@gmail.com>,
+ Deepak R Varma <mh12gx2825@gmail.com>, David Airlie <airlied@linux.ie>,
+ daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, melissa.srw@gmail.com,
+ Outreachy <outreachy-kernel@googlegroups.com>, nicstange@gmail.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -150,50 +59,116 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-> From: hch@lst.de <hch@lst.de>
-> Sent: Wednesday, October 28, 2020 11:01 PM
-> 
-> On Tue, Oct 27, 2020 at 12:52:30PM +0000, Parav Pandit wrote:
+On Fri, 30 Oct 2020, Greg KH wrote:
+
+> On Fri, Oct 30, 2020 at 01:47:05PM +0530, Sumera Priyadarsini wrote:
+> > On Fri, 30 Oct, 2020, 1:32 PM Greg KH, <gregkh@linuxfoundation.org> wrote:
 > >
-> > > From: hch@lst.de <hch@lst.de>
-> > > Sent: Tuesday, October 27, 2020 1:41 PM
-> > >
-> > > On Mon, Oct 26, 2020 at 05:23:48AM +0000, Parav Pandit wrote:
-> > > > Hi Christoph,
-> > > >
-> > > > > From: Jakub Kicinski <kuba@kernel.org>
-> > > > > Sent: Saturday, October 24, 2020 11:45 PM
-> > > > >
-> > > > > CC: rdma, looks like rdma from the stack trace
-> > > > >
-> > > > > On Fri, 23 Oct 2020 20:07:17 -0700 syzbot wrote:
-> > > > > > syzbot has found a reproducer for the following issue on:
+> > > On Fri, Oct 30, 2020 at 01:27:16PM +0530, Deepak R Varma wrote:
+> > > > On Fri, Oct 30, 2020 at 08:11:20AM +0100, Greg KH wrote:
+> > > > > On Fri, Oct 30, 2020 at 08:52:45AM +0530, Deepak R Varma wrote:
+> > > > > > Using DEFINE_DEBUGFS_ATTRIBUTE macro with
+> > > debugfs_create_file_unsafe()
+> > > > > > function in place of the debugfs_create_file() function will make the
+> > > > > > file operation struct "reset" aware of the file's lifetime.
+> > > Additional
+> > > > > > details here:
+> > > https://lists.archive.carbon60.com/linux/kernel/2369498
 > > > > > >
-> > > > > > HEAD commit:    3cb12d27 Merge tag 'net-5.10-rc1' of
-> > > git://git.kernel.org/..
+> > > > > > Issue reported by Coccinelle script:
+> > > > > > scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+> > > > > >
+> > > > > > Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+> > > > > > ---
+> > > > > > Please Note: This is a Outreachy project task patch.
+> > > > > >
+> > > > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 20
+> > > ++++++++++----------
+> > > > > >  1 file changed, 10 insertions(+), 10 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > > b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > > > > > index 2d125b8b15ee..f076b1ba7319 100644
+> > > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > > > > > @@ -1551,29 +1551,29 @@ static int amdgpu_debugfs_sclk_set(void
+> > > *data, u64 val)
+> > > > > >   return 0;
+> > > > > >  }
+> > > > > >
+> > > > > > -DEFINE_SIMPLE_ATTRIBUTE(fops_ib_preempt, NULL,
+> > > > > > -                 amdgpu_debugfs_ib_preempt, "%llu\n");
+> > > > > > +DEFINE_DEBUGFS_ATTRIBUTE(fops_ib_preempt, NULL,
+> > > > > > +                  amdgpu_debugfs_ib_preempt, "%llu\n");
+> > > > >
+> > > > > Are you sure this is ok?  Do these devices need this additional
+> > > > > "protection"?  Do they have the problem that these macros were written
+> > > > > for?
+> > > > >
+> > > > > Same for the other patches you just submitted here, I think you need to
+> > > > > somehow "prove" that these changes are necessary, checkpatch isn't able
+> > > > > to determine this all the time.
 > > > >
-> > > > In [1] you mentioned that dma_mask should not be set for
-> dma_virt_ops.
-> > > > So patch [2] removed it.
-> > > >
-> > > > But check to validate the dma mask for all dma_ops was added in [3].
-> > > >
-> > > > What is the right way? Did I misunderstood your comment about
-> > > dma_mask in [1]?
+> > > > Hi Greg,
+> > > > Based on my understanding, the current function debugfs_create_file()
+> > > > adds an overhead of lifetime managing proxy for such fop structs. This
+> > > > should be applicable to these set of drivers as well. Hence I think this
+> > > > change will be useful.
 > > >
-> > > No, I did not say we don't need the mask.  I said copying over the
-> > > various dma-related fields from the parent is bogus.
+> > > Why do these drivers need these changes?  Are these files dynamically
+> > > removed from the system at random times?
 > > >
-> > > I think rxe (and ther other drivers/infiniband/sw drivers) need a
-> > > simple dma_coerce_mask_and_coherent and nothing else.
+> > > There is a reason we didn't just do a global search/replace for this in
+> > > the kernel when the new functions were added, so I don't know why
+> > > checkpatch is now saying it must be done.
+> > >
 > >
-> > I see. Does below fix make sense?
-> > Is DMA_MASK_NONE correct?
-> 
-> DMA_MASK_NONE is gone in 5.10.  I think you want DMA_BIT_MASK(64).
-> That isn't actually correct for 32-bit platforms, but good enough.
-Ok. thanks for the input.
-Sending updated fix to set 64-bit mask for 64-bit platform and 32-bit mask otherwise.
+> > Hi,
+> >
+> > Sorry to jump in on the thread this way, but what exactly does a 'lifetime
+> > managing proxy' for file operations mean? I am trying to understand how
+> > DEFINE_DEBUGFS_ATTRIBUTE changes things wrt debug_ fs file operations but
+> > can't find many resources. :(
+>
+> It means that the debugfs core can handle debugfs files being removed
+> from the system while they are still open when they were created by a
+> driver/module that is now unloaded from memory.
+>
+> This is only an issue for drivers that manage devices that have unknown
+> lifespans (i.e. they can be yanked out of the system at any time, and
+> the memory for those debugfs files can be freed).
+>
+> For the entire DRM/GPU subsystem, I strongly doubt this is the case.
+>
+> > Please let me know if I should be asking this in a different mailing
+> > list/irc instead.
+> >
+> > The change seems to be suggested by a coccinelle script.
+>
+> I know, and I don't think that script knows the nuances behind this, as,
+> again, we would have just done a global search/replace for this when the
+> debugfs fixes went into the kernel.
+
+The script comes from Nicolai Stange <nicstange@gmail.com>.
+
+If there are some precise considerations that make the change likely to be
+useful, then the script can be changed.
+
+If the script is not helpful, then it can be removed.
+
+julia
+
+
+>
+> thanks,
+>
+> greg k-h
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/20201030082425.GA1619669%40kroah.com.
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
