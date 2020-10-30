@@ -1,64 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3C72A0788
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 15:11:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9362A07A3
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 15:17:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D074E6E9AA;
-	Fri, 30 Oct 2020 14:11:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC976EDDA;
+	Fri, 30 Oct 2020 14:17:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FB276E9AA
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 14:11:33 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id dk16so8225505ejb.12
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 07:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fGLh8FE7n+kGnPiOSCfCu+B491Brb7ePqBRZY6cItBg=;
- b=LH6iU5G+qAZ4T7sqXNGE44q/WiF+g2smHT8tK2NZZq846wCXnKZVs/i0NAbqwfc9xk
- 21Yj3MNkwi0ukryfrHB9hVgWhM+cdTTWfsDLp+g3D7Iig02N7iwYOeg6SfA5q4dylm2H
- zlOSbk28N2b27zmw/TwjqgMUPI5sLxmAXsXzk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fGLh8FE7n+kGnPiOSCfCu+B491Brb7ePqBRZY6cItBg=;
- b=UkBDVpyS9bP2LhZPAyT2/+P48ElA860tc/eCzIaGpVcn+zVmXtesVLLYK7kTH8x9Cr
- f4gVD2idR9+CAdxLXYq6EWZm66y83HgwD0bWJKuKOImgGyuVi/YkU6565YhGx+i2yp9z
- CaCfWJzYudj7XI92lDerFar/ROqMhNY/AILWuRGS/fc0f/rx99p+vO9oC/Z6csw2G7sd
- xhJtkCbr4omJF1Ue/jHLIX/4oA/xhukTS60nEnamxURwXkSE0djcDl3V8c+HWTpZO9je
- cpDLsEy2AQzEZLLbo3HqLVzQczVuCo8dXO6IJqtc4ZuxCpaKaizmGA6EWSMZwhNiu3ts
- Gm1Q==
-X-Gm-Message-State: AOAM533sYAusKiIxTCtAT24geFgvamaWMzoZqJNuWqeHFDs4//y3ZuKd
- kiY8+nOBJy3LtnMHFlBUtA4sbsgW64793A==
-X-Google-Smtp-Source: ABdhPJzxyv41SJ3ydeG1XDiH8zZ5B6u6l3luAaOb0bG2CwLhDB15SE9EVvzTeFAKxbaRrFAGNlvP+g==
-X-Received: by 2002:a17:906:84a:: with SMTP id
- f10mr2607122ejd.93.1604067091411; 
- Fri, 30 Oct 2020 07:11:31 -0700 (PDT)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com.
- [209.85.221.48])
- by smtp.gmail.com with ESMTPSA id j3sm3207993edh.25.2020.10.30.07.11.25
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Oct 2020 07:11:26 -0700 (PDT)
-Received: by mail-wr1-f48.google.com with SMTP id s9so6607689wro.8
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 07:11:25 -0700 (PDT)
-X-Received: by 2002:adf:e892:: with SMTP id d18mr3615109wrm.103.1604067085454; 
- Fri, 30 Oct 2020 07:11:25 -0700 (PDT)
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 150196EDDA;
+ Fri, 30 Oct 2020 14:17:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 8EFCDFB03;
+ Fri, 30 Oct 2020 15:17:38 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5RT3Dr6ncZMs; Fri, 30 Oct 2020 15:17:36 +0100 (CET)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 103304463D; Fri, 30 Oct 2020 15:17:35 +0100 (CET)
+Date: Fri, 30 Oct 2020 15:17:35 +0100
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [RFC PATCH 2/2] drm: etnaviv: Unmap gems on gem_close
+Message-ID: <20201030141735.GA62306@bogon.m.sigxcpu.org>
+References: <cover.1603981111.git.agx@sigxcpu.org>
+ <a92da13ed190e6d49550b78dadad3c0003ef6881.1603981111.git.agx@sigxcpu.org>
+ <8a354530944e6a606212fe537c689ec20422a954.camel@pengutronix.de>
+ <20201029182054.GC401619@phenom.ffwll.local>
+ <f8ee093c78fc99ef087e84441b8b8c79836d563d.camel@pengutronix.de>
 MIME-Version: 1.0
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
- <20201030100815.2269-6-daniel.vetter@ffwll.ch>
-In-Reply-To: <20201030100815.2269-6-daniel.vetter@ffwll.ch>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Fri, 30 Oct 2020 15:11:14 +0100
-X-Gmail-Original-Message-ID: <CAAFQd5ANOAzVf+tC1iYKXeY0ALahtYrG7xtKHXHmvv1xh7si3g@mail.gmail.com>
-Message-ID: <CAAFQd5ANOAzVf+tC1iYKXeY0ALahtYrG7xtKHXHmvv1xh7si3g@mail.gmail.com>
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <f8ee093c78fc99ef087e84441b8b8c79836d563d.camel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,154 +46,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Pawel Osciak <pawel@osciak.com>, kvm <kvm@vger.kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Dan Williams <dan.j.williams@intel.com>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBPY3QgMzAsIDIwMjAgYXQgMTE6MDggQU0gRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
-dHRlckBmZndsbC5jaD4gd3JvdGU6Cj4KPiBUaGlzIGlzIHVzZWQgYnkgbWVkaWEvdmlkZWJ1ZjIg
-Zm9yIHBlcnNpc3RlbnQgZG1hIG1hcHBpbmdzLCBub3QganVzdAo+IGZvciBhIHNpbmdsZSBkbWEg
-b3BlcmF0aW9uIGFuZCB0aGVuIGZyZWVkIGFnYWluLCBzbyBuZWVkcwo+IEZPTExfTE9OR1RFUk0u
-Cj4KPiBVbmZvcnR1bmF0ZWx5IGN1cnJlbnQgcHVwX2xvY2tlZCBkb2Vzbid0IHN1cHBvcnQgRk9M
-TF9MT05HVEVSTSBkdWUgdG8KPiBsb2NraW5nIGlzc3Vlcy4gUmV3b3JrIHRoZSBjb2RlIHRvIHB1
-bGwgdGhlIHB1cCBwYXRoIG91dCBmcm9tIHRoZQo+IG1tYXBfc2VtIGNyaXRpY2FsIHNlY3Rpb24g
-YXMgc3VnZ2VzdGVkIGJ5IEphc29uLgo+Cj4gQnkgcmVseWluZyBlbnRpcmVseSBvbiB0aGUgdm1h
-IGNoZWNrcyBpbiBwaW5fdXNlcl9wYWdlcyBhbmQgZm9sbG93X3Bmbgo+IChmb3Igdm1fZmxhZ3Mg
-YW5kIHZtYV9pc19mc2RheCkgd2UgY2FuIGFsc28gc3RyZWFtbGluZSB0aGUgY29kZSBhIGxvdC4K
-Pgo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29t
-Pgo+IENjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5jYT4KPiBDYzogUGF3ZWwgT3NjaWFr
-IDxwYXdlbEBvc2NpYWsuY29tPgo+IENjOiBNYXJlayBTenlwcm93c2tpIDxtLnN6eXByb3dza2lA
-c2Ftc3VuZy5jb20+Cj4gQ2M6IEt5dW5nbWluIFBhcmsgPGt5dW5nbWluLnBhcmtAc2Ftc3VuZy5j
-b20+Cj4gQ2M6IFRvbWFzeiBGaWdhIDx0ZmlnYUBjaHJvbWl1bS5vcmc+Cj4gQ2M6IE1hdXJvIENh
-cnZhbGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPgo+IENjOiBBbmRyZXcgTW9ydG9uIDxh
-a3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPgo+IENjOiBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52
-aWRpYS5jb20+Cj4gQ2M6IErDqXLDtG1lIEdsaXNzZSA8amdsaXNzZUByZWRoYXQuY29tPgo+IENj
-OiBKYW4gS2FyYSA8amFja0BzdXNlLmN6Pgo+IENjOiBEYW4gV2lsbGlhbXMgPGRhbi5qLndpbGxp
-YW1zQGludGVsLmNvbT4KPiBDYzogbGludXgtbW1Aa3ZhY2sub3JnCj4gQ2M6IGxpbnV4LWFybS1r
-ZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+IENjOiBsaW51eC1zYW1zdW5nLXNvY0B2Z2VyLmtl
-cm5lbC5vcmcKPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCj4gU2lnbmVkLW9mZi1i
-eTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiAtLQo+IHYyOiBTdHJl
-YW1saW5lIHRoZSBjb2RlIGFuZCBmdXJ0aGVyIHNpbXBsaWZ5IHRoZSBsb29wIGNoZWNrcyAoSmFz
-b24pCj4KPiB2NTogUmV2aWV3IGZyb20gVG9tYXN6Ogo+IC0gZml4IHBhZ2UgY291bnRpbmcgZm9y
-IHRoZSBmb2xsb3dfcGZuIGNhc2UgYnkgcmVzZXR0aW5nIHJldAo+IC0gZHJvcCBndXBfZmxhZ3Mg
-cGFyYW1hdGVyLCBub3cgdW51c2VkCj4gLS0tCj4gIC4uLi9tZWRpYS9jb21tb24vdmlkZW9idWYy
-L3ZpZGVvYnVmMi1tZW1vcHMuYyB8ICAzICstCj4gIGluY2x1ZGUvbGludXgvbW0uaCAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8ICAyICstCj4gIG1tL2ZyYW1lX3ZlY3Rvci5jICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8IDUzICsrKysrKy0tLS0tLS0tLS0tLS0KPiAgMyBmaWxlcyBj
-aGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspLCAzOSBkZWxldGlvbnMoLSkKPgoKVGhhbmtzLCBsb29r
-cyBnb29kIHRvIG1lIG5vdy4KCkFja2VkLWJ5OiBUb21hc3ogRmlnYSA8dGZpZ2FAY2hyb21pdW0u
-b3JnPgoKRnJvbSByZWFkaW5nIHRoZSBjb2RlLCB0aGlzIGlzIHF1aXRlIHVubGlrZWx5IHRvIGlu
-dHJvZHVjZSBhbnkKYmVoYXZpb3IgY2hhbmdlcywgYnV0IGp1c3QgdG8gYmUgc2FmZSwgZGlkIHlv
-dSBoYXZlIGEgY2hhbmNlIHRvIHRlc3QKdGhpcyB3aXRoIHNvbWUgVjRMMiBkcml2ZXI/CgpCZXN0
-IHJlZ2FyZHMsClRvbWFzegoKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9jb21tb24vdmlk
-ZW9idWYyL3ZpZGVvYnVmMi1tZW1vcHMuYyBiL2RyaXZlcnMvbWVkaWEvY29tbW9uL3ZpZGVvYnVm
-Mi92aWRlb2J1ZjItbWVtb3BzLmMKPiBpbmRleCA2ZTllMDUxNTNmNGUuLjlkZDZjMjcxNjJmNCAx
-MDA2NDQKPiAtLS0gYS9kcml2ZXJzL21lZGlhL2NvbW1vbi92aWRlb2J1ZjIvdmlkZW9idWYyLW1l
-bW9wcy5jCj4gKysrIGIvZHJpdmVycy9tZWRpYS9jb21tb24vdmlkZW9idWYyL3ZpZGVvYnVmMi1t
-ZW1vcHMuYwo+IEBAIC00MCw3ICs0MCw2IEBAIHN0cnVjdCBmcmFtZV92ZWN0b3IgKnZiMl9jcmVh
-dGVfZnJhbWV2ZWModW5zaWduZWQgbG9uZyBzdGFydCwKPiAgICAgICAgIHVuc2lnbmVkIGxvbmcg
-Zmlyc3QsIGxhc3Q7Cj4gICAgICAgICB1bnNpZ25lZCBsb25nIG5yOwo+ICAgICAgICAgc3RydWN0
-IGZyYW1lX3ZlY3RvciAqdmVjOwo+IC0gICAgICAgdW5zaWduZWQgaW50IGZsYWdzID0gRk9MTF9G
-T1JDRSB8IEZPTExfV1JJVEU7Cj4KPiAgICAgICAgIGZpcnN0ID0gc3RhcnQgPj4gUEFHRV9TSElG
-VDsKPiAgICAgICAgIGxhc3QgPSAoc3RhcnQgKyBsZW5ndGggLSAxKSA+PiBQQUdFX1NISUZUOwo+
-IEBAIC00OCw3ICs0Nyw3IEBAIHN0cnVjdCBmcmFtZV92ZWN0b3IgKnZiMl9jcmVhdGVfZnJhbWV2
-ZWModW5zaWduZWQgbG9uZyBzdGFydCwKPiAgICAgICAgIHZlYyA9IGZyYW1lX3ZlY3Rvcl9jcmVh
-dGUobnIpOwo+ICAgICAgICAgaWYgKCF2ZWMpCj4gICAgICAgICAgICAgICAgIHJldHVybiBFUlJf
-UFRSKC1FTk9NRU0pOwo+IC0gICAgICAgcmV0ID0gZ2V0X3ZhZGRyX2ZyYW1lcyhzdGFydCAmIFBB
-R0VfTUFTSywgbnIsIGZsYWdzLCB2ZWMpOwo+ICsgICAgICAgcmV0ID0gZ2V0X3ZhZGRyX2ZyYW1l
-cyhzdGFydCAmIFBBR0VfTUFTSywgbnIsIHZlYyk7Cj4gICAgICAgICBpZiAocmV0IDwgMCkKPiAg
-ICAgICAgICAgICAgICAgZ290byBvdXRfZGVzdHJveTsKPiAgICAgICAgIC8qIFdlIGFjY2VwdCBv
-bmx5IGNvbXBsZXRlIHNldCBvZiBQRk5zICovCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgv
-bW0uaCBiL2luY2x1ZGUvbGludXgvbW0uaAo+IGluZGV4IGVmMzYwZmU3MGFhZi4uZDZiOGUzMGRj
-ZTJlIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvbGludXgvbW0uaAo+ICsrKyBiL2luY2x1ZGUvbGlu
-dXgvbW0uaAo+IEBAIC0xNzY1LDcgKzE3NjUsNyBAQCBzdHJ1Y3QgZnJhbWVfdmVjdG9yIHsKPiAg
-c3RydWN0IGZyYW1lX3ZlY3RvciAqZnJhbWVfdmVjdG9yX2NyZWF0ZSh1bnNpZ25lZCBpbnQgbnJf
-ZnJhbWVzKTsKPiAgdm9pZCBmcmFtZV92ZWN0b3JfZGVzdHJveShzdHJ1Y3QgZnJhbWVfdmVjdG9y
-ICp2ZWMpOwo+ICBpbnQgZ2V0X3ZhZGRyX2ZyYW1lcyh1bnNpZ25lZCBsb25nIHN0YXJ0LCB1bnNp
-Z25lZCBpbnQgbnJfcGZucywKPiAtICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgZ3Vw
-X2ZsYWdzLCBzdHJ1Y3QgZnJhbWVfdmVjdG9yICp2ZWMpOwo+ICsgICAgICAgICAgICAgICAgICAg
-IHN0cnVjdCBmcmFtZV92ZWN0b3IgKnZlYyk7Cj4gIHZvaWQgcHV0X3ZhZGRyX2ZyYW1lcyhzdHJ1
-Y3QgZnJhbWVfdmVjdG9yICp2ZWMpOwo+ICBpbnQgZnJhbWVfdmVjdG9yX3RvX3BhZ2VzKHN0cnVj
-dCBmcmFtZV92ZWN0b3IgKnZlYyk7Cj4gIHZvaWQgZnJhbWVfdmVjdG9yX3RvX3BmbnMoc3RydWN0
-IGZyYW1lX3ZlY3RvciAqdmVjKTsKPiBkaWZmIC0tZ2l0IGEvbW0vZnJhbWVfdmVjdG9yLmMgYi9t
-bS9mcmFtZV92ZWN0b3IuYwo+IGluZGV4IDEwZjgyZDU2NDNiNi4uZjhjMzRiODk1Yzc2IDEwMDY0
-NAo+IC0tLSBhL21tL2ZyYW1lX3ZlY3Rvci5jCj4gKysrIGIvbW0vZnJhbWVfdmVjdG9yLmMKPiBA
-QCAtMzIsMTMgKzMyLDEyIEBACj4gICAqIFRoaXMgZnVuY3Rpb24gdGFrZXMgY2FyZSBvZiBncmFi
-YmluZyBtbWFwX2xvY2sgYXMgbmVjZXNzYXJ5Lgo+ICAgKi8KPiAgaW50IGdldF92YWRkcl9mcmFt
-ZXModW5zaWduZWQgbG9uZyBzdGFydCwgdW5zaWduZWQgaW50IG5yX2ZyYW1lcywKPiAtICAgICAg
-ICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgZ3VwX2ZsYWdzLCBzdHJ1Y3QgZnJhbWVfdmVjdG9y
-ICp2ZWMpCj4gKyAgICAgICAgICAgICAgICAgICAgc3RydWN0IGZyYW1lX3ZlY3RvciAqdmVjKQo+
-ICB7Cj4gICAgICAgICBzdHJ1Y3QgbW1fc3RydWN0ICptbSA9IGN1cnJlbnQtPm1tOwo+ICAgICAg
-ICAgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWE7Cj4gICAgICAgICBpbnQgcmV0ID0gMDsKPiAg
-ICAgICAgIGludCBlcnI7Cj4gLSAgICAgICBpbnQgbG9ja2VkOwo+Cj4gICAgICAgICBpZiAobnJf
-ZnJhbWVzID09IDApCj4gICAgICAgICAgICAgICAgIHJldHVybiAwOwo+IEBAIC00OCw0MCArNDcs
-MjYgQEAgaW50IGdldF92YWRkcl9mcmFtZXModW5zaWduZWQgbG9uZyBzdGFydCwgdW5zaWduZWQg
-aW50IG5yX2ZyYW1lcywKPgo+ICAgICAgICAgc3RhcnQgPSB1bnRhZ2dlZF9hZGRyKHN0YXJ0KTsK
-Pgo+IC0gICAgICAgbW1hcF9yZWFkX2xvY2sobW0pOwo+IC0gICAgICAgbG9ja2VkID0gMTsKPiAt
-ICAgICAgIHZtYSA9IGZpbmRfdm1hX2ludGVyc2VjdGlvbihtbSwgc3RhcnQsIHN0YXJ0ICsgMSk7
-Cj4gLSAgICAgICBpZiAoIXZtYSkgewo+IC0gICAgICAgICAgICAgICByZXQgPSAtRUZBVUxUOwo+
-IC0gICAgICAgICAgICAgICBnb3RvIG91dDsKPiAtICAgICAgIH0KPiAtCj4gLSAgICAgICAvKgo+
-IC0gICAgICAgICogV2hpbGUgZ2V0X3ZhZGRyX2ZyYW1lcygpIGNvdWxkIGJlIHVzZWQgZm9yIHRy
-YW5zaWVudCAoa2VybmVsCj4gLSAgICAgICAgKiBjb250cm9sbGVkIGxpZmV0aW1lKSBwaW5uaW5n
-IG9mIG1lbW9yeSBwYWdlcyBhbGwgY3VycmVudAo+IC0gICAgICAgICogdXNlcnMgZXN0YWJsaXNo
-IGxvbmcgdGVybSAodXNlcnNwYWNlIGNvbnRyb2xsZWQgbGlmZXRpbWUpCj4gLSAgICAgICAgKiBw
-YWdlIHBpbm5pbmcuIFRyZWF0IGdldF92YWRkcl9mcmFtZXMoKSBsaWtlCj4gLSAgICAgICAgKiBn
-ZXRfdXNlcl9wYWdlc19sb25ndGVybSgpIGFuZCBkaXNhbGxvdyBpdCBmb3IgZmlsZXN5c3RlbS1k
-YXgKPiAtICAgICAgICAqIG1hcHBpbmdzLgo+IC0gICAgICAgICovCj4gLSAgICAgICBpZiAodm1h
-X2lzX2ZzZGF4KHZtYSkpIHsKPiAtICAgICAgICAgICAgICAgcmV0ID0gLUVPUE5PVFNVUFA7Cj4g
-LSAgICAgICAgICAgICAgIGdvdG8gb3V0Owo+IC0gICAgICAgfQo+IC0KPiAtICAgICAgIGlmICgh
-KHZtYS0+dm1fZmxhZ3MgJiAoVk1fSU8gfCBWTV9QRk5NQVApKSkgewo+ICsgICAgICAgcmV0ID0g
-cGluX3VzZXJfcGFnZXNfZmFzdChzdGFydCwgbnJfZnJhbWVzLAo+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBGT0xMX0ZPUkNFIHwgRk9MTF9XUklURSB8IEZPTExfTE9OR1RFUk0s
-Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChzdHJ1Y3QgcGFnZSAqKikodmVj
-LT5wdHJzKSk7Cj4gKyAgICAgICBpZiAocmV0ID4gMCkgewo+ICAgICAgICAgICAgICAgICB2ZWMt
-PmdvdF9yZWYgPSB0cnVlOwo+ICAgICAgICAgICAgICAgICB2ZWMtPmlzX3BmbnMgPSBmYWxzZTsK
-PiAtICAgICAgICAgICAgICAgcmV0ID0gcGluX3VzZXJfcGFnZXNfbG9ja2VkKHN0YXJ0LCBucl9m
-cmFtZXMsCj4gLSAgICAgICAgICAgICAgICAgICAgICAgZ3VwX2ZsYWdzLCAoc3RydWN0IHBhZ2Ug
-KiopKHZlYy0+cHRycyksICZsb2NrZWQpOwo+IC0gICAgICAgICAgICAgICBnb3RvIG91dDsKPiAr
-ICAgICAgICAgICAgICAgZ290byBvdXRfdW5sb2NrZWQ7Cj4gICAgICAgICB9Cj4KPiArICAgICAg
-IG1tYXBfcmVhZF9sb2NrKG1tKTsKPiAgICAgICAgIHZlYy0+Z290X3JlZiA9IGZhbHNlOwo+ICAg
-ICAgICAgdmVjLT5pc19wZm5zID0gdHJ1ZTsKPiArICAgICAgIHJldCA9IDA7Cj4gICAgICAgICBk
-byB7Cj4gICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgKm51bXMgPSBmcmFtZV92ZWN0b3Jf
-cGZucyh2ZWMpOwo+Cj4gKyAgICAgICAgICAgICAgIHZtYSA9IGZpbmRfdm1hX2ludGVyc2VjdGlv
-bihtbSwgc3RhcnQsIHN0YXJ0ICsgMSk7Cj4gKyAgICAgICAgICAgICAgIGlmICghdm1hKQo+ICsg
-ICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOwo+ICsKPiAgICAgICAgICAgICAgICAgd2hpbGUg
-KHJldCA8IG5yX2ZyYW1lcyAmJiBzdGFydCArIFBBR0VfU0laRSA8PSB2bWEtPnZtX2VuZCkgewo+
-ICAgICAgICAgICAgICAgICAgICAgICAgIGVyciA9IGZvbGxvd19wZm4odm1hLCBzdGFydCwgJm51
-bXNbcmV0XSk7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgaWYgKGVycikgewo+IEBAIC05Miwx
-NyArNzcsMTMgQEAgaW50IGdldF92YWRkcl9mcmFtZXModW5zaWduZWQgbG9uZyBzdGFydCwgdW5z
-aWduZWQgaW50IG5yX2ZyYW1lcywKPiAgICAgICAgICAgICAgICAgICAgICAgICBzdGFydCArPSBQ
-QUdFX1NJWkU7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgcmV0Kys7Cj4gICAgICAgICAgICAg
-ICAgIH0KPiAtICAgICAgICAgICAgICAgLyoKPiAtICAgICAgICAgICAgICAgICogV2Ugc3RvcCBp
-ZiB3ZSBoYXZlIGVub3VnaCBwYWdlcyBvciBpZiBWTUEgZG9lc24ndCBjb21wbGV0ZWx5Cj4gLSAg
-ICAgICAgICAgICAgICAqIGNvdmVyIHRoZSB0YWlsIHBhZ2UuCj4gLSAgICAgICAgICAgICAgICAq
-Lwo+IC0gICAgICAgICAgICAgICBpZiAocmV0ID49IG5yX2ZyYW1lcyB8fCBzdGFydCA8IHZtYS0+
-dm1fZW5kKQo+ICsgICAgICAgICAgICAgICAvKiBCYWlsIG91dCBpZiBWTUEgZG9lc24ndCBjb21w
-bGV0ZWx5IGNvdmVyIHRoZSB0YWlsIHBhZ2UuICovCj4gKyAgICAgICAgICAgICAgIGlmIChzdGFy
-dCA8IHZtYS0+dm1fZW5kKQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOwo+IC0gICAg
-ICAgICAgICAgICB2bWEgPSBmaW5kX3ZtYV9pbnRlcnNlY3Rpb24obW0sIHN0YXJ0LCBzdGFydCAr
-IDEpOwo+IC0gICAgICAgfSB3aGlsZSAodm1hICYmIHZtYS0+dm1fZmxhZ3MgJiAoVk1fSU8gfCBW
-TV9QRk5NQVApKTsKPiArICAgICAgIH0gd2hpbGUgKHJldCA8IG5yX2ZyYW1lcyk7Cj4gIG91dDoK
-PiAtICAgICAgIGlmIChsb2NrZWQpCj4gLSAgICAgICAgICAgICAgIG1tYXBfcmVhZF91bmxvY2so
-bW0pOwo+ICsgICAgICAgbW1hcF9yZWFkX3VubG9jayhtbSk7Cj4gK291dF91bmxvY2tlZDoKPiAg
-ICAgICAgIGlmICghcmV0KQo+ICAgICAgICAgICAgICAgICByZXQgPSAtRUZBVUxUOwo+ICAgICAg
-ICAgaWYgKHJldCA+IDApCj4gLS0KPiAyLjI4LjAKPgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi,
+On Fri, Oct 30, 2020 at 10:19:54AM +0100, Lucas Stach wrote:
+> Am Donnerstag, den 29.10.2020, 19:20 +0100 schrieb Daniel Vetter:
+> > On Thu, Oct 29, 2020 at 03:38:21PM +0100, Lucas Stach wrote:
+> > > Hi Guido,
+> > > =
+
+> > > Am Donnerstag, den 29.10.2020, 15:20 +0100 schrieb Guido G=FCnther:
+> > > > So far the unmap from gpu address space only happened when dropping=
+ the
+> > > > last ref in gem_free_object_unlocked, however that is skipped if th=
+ere's
+> > > > still multiple handles to the same GEM object.
+> > > > =
+
+> > > > Since userspace (here mesa) in the case of softpin hands back the m=
+emory
+> > > > region to the pool of available GPU virtual memory closing the hand=
+le
+> > > > via DRM_IOCTL_GEM_CLOSE this can lead to etnaviv_iommu_insert_exact
+> > > > failing later since userspace thinks the vaddr is available while t=
+he
+> > > > kernel thinks it isn't making the submit fail like
+> > > > =
+
+> > > >   [E] submit failed: -14 (No space left on device) (etna_cmd_stream=
+_flush:244)
+> > > > =
+
+> > > > Fix this by unmapping the memory via the .gem_close_object callback.
+> > > > =
+
+> > > > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
+> > > > ---
+> > > >  drivers/gpu/drm/etnaviv/etnaviv_drv.c |  1 +
+> > > >  drivers/gpu/drm/etnaviv/etnaviv_drv.h |  1 +
+> > > >  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 32 +++++++++++++++++++++++=
+++++
+> > > >  3 files changed, 34 insertions(+)
+> > > > =
+
+> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/dr=
+m/etnaviv/etnaviv_drv.c
+> > > > index a9a3afaef9a1..fdcc6405068c 100644
+> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > > > @@ -491,6 +491,7 @@ static struct drm_driver etnaviv_drm_driver =3D=
+ {
+> > > >  	.open               =3D etnaviv_open,
+> > > >  	.postclose           =3D etnaviv_postclose,
+> > > >  	.gem_free_object_unlocked =3D etnaviv_gem_free_object,
+> > > > +	.gem_close_object   =3D etnaviv_gem_close_object,
+> > > >  	.gem_vm_ops         =3D &vm_ops,
+> > > >  	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
+> > > >  	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
+> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/dr=
+m/etnaviv/etnaviv_drv.h
+> > > > index 4d8dc9236e5f..2226a9af0d63 100644
+> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> > > > @@ -65,6 +65,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *o=
+bj, u32 op,
+> > > >  		struct drm_etnaviv_timespec *timeout);
+> > > >  int etnaviv_gem_cpu_fini(struct drm_gem_object *obj);
+> > > >  void etnaviv_gem_free_object(struct drm_gem_object *obj);
+> > > > +void etnaviv_gem_close_object(struct drm_gem_object *obj, struct d=
+rm_file *file);
+> > > >  int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file=
+ *file,
+> > > >  		u32 size, u32 flags, u32 *handle);
+> > > >  int etnaviv_gem_new_userptr(struct drm_device *dev, struct drm_fil=
+e *file,
+> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/dr=
+m/etnaviv/etnaviv_gem.c
+> > > > index f06e19e7be04..5aec4a23c77e 100644
+> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> > > > @@ -515,6 +515,38 @@ static const struct etnaviv_gem_ops etnaviv_ge=
+m_shmem_ops =3D {
+> > > >  	.mmap =3D etnaviv_gem_mmap_obj,
+> > > >  };
+> > > >  =
+
+> > > > +void etnaviv_gem_close_object(struct drm_gem_object *obj, struct d=
+rm_file *unused)
+> > > > +{
+> > > > +	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj);
+> > > > +	struct etnaviv_vram_mapping *mapping, *tmp;
+> > > > +
+> > > > +	/* Handle this via etnaviv_gem_free_object */
+> > > > +	if (obj->handle_count =3D=3D 1)
+> > > > +		return;
+> > > > +
+> > > > +	WARN_ON(is_active(etnaviv_obj));
+> > > > +
+> > > > +	/*
+> > > > +	 * userspace wants to release the handle so we need to remove
+> > > > +	 * the mapping from the gpu's virtual address space to stay
+> > > > +	 * in sync.
+> > > > +	 */
+> > > > +	list_for_each_entry_safe(mapping, tmp, &etnaviv_obj->vram_list,
+> > > > +				 obj_node) {
+> > > > +		struct etnaviv_iommu_context *context =3D mapping->context;
+> > > > +
+> > > > +		WARN_ON(mapping->use);
+> > > > +
+> > > > +		if (context) {
+> > > > +			etnaviv_iommu_unmap_gem(context, mapping);
+> > > > +			etnaviv_iommu_context_put(context);
+> > > =
+
+> > > I see the issue you are trying to fix here, but this is not a viable
+> > > fix. While userspace may close the handle, the GPU may still be
+> > > processing jobs referening the BO, so we can't just unmap it from the
+> > > address space.
+> > > =
+
+> > > I think what we need to do here is waiting for the current jobs/fences
+> > > of the BO when we hit the case where userspace tries to assign a new
+> > > address to the BO. Basically wait for current jobs -> unamp from the
+> > > address space -> map at new userspace assigned address.
+> > =
+
+> > Yeah was about to say the same. There's two solutions to this:
+> > - let the kernel manage the VA space. This is what amdgpu does in some
+> >   cases (but still no relocations)
+> > - pipeline the VA/PTE updates in your driver, because userspace has a
+> >   somewhat hard time figuring out when a buffer is done. Doing that wou=
+ld
+> >   either at complexity or stalls when the kernel is doing all the track=
+ing
+> >   already anyway. Minimal fix is to do what Lucas explained above, but
+> >   importantly with the kernel solution we have the option to fully
+> >   pipeline everything and avoid stalls. I think this is what everyone e=
+lse
+> >   who lets userspace manage VA does in their kernel side.
+> =
+
+> I thought a bit more about this and the issue is only about userspace
+> reusing regions of its _private_ address space, before they are GPU
+> inactive. So the problem of tracking BO active for figuring out when it
+> is safe to close the handle (and thus forget about the last placement
+> of the BO in the AS) goes from "is this BO globally active anywhere?"
+> to "is this BO still active in one of the jobs I submitted?", which is
+> not hard at all for the userspace to figure out.
+
+It's about private address space, yes.
+  =
+
+> With this in mind I think we can reasonably declare the kernel behavior
+> of rejecting the submit as okay and just add the tiny bit of userspace
+> fencing needed for the userspace driver to not close the handle until
+> the last submit referencing this BO has finished.
+
+Sounds reasonable, i'll have a look.
+Cheers,
+ -- Guido
+
+> =
+
+> Regards,
+> Lucas
+> =
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
