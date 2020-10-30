@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4A72A0008
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAC82A0023
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:35:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 776B36ED09;
-	Fri, 30 Oct 2020 08:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D996ED11;
+	Fri, 30 Oct 2020 08:35:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D11B6ED09
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 08:32:44 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id c16so2134947wmd.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 01:32:44 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13E416ED11
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 08:35:57 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id n18so5490921wrs.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 01:35:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BITkCuC500ODL0JuP2zuzkod4jXg6I7qRZoNH9poNhI=;
- b=zYJXgTzijAJG74A0uh7COJBsHV4eLlN9MgjOixTTGOFM9aFNSI+0YAe2uMxjw+T2DA
- 3Zx0oXc6el4rAYrDCAh2OJA7RbcemuFcl02RTwDpfKmXT/MBLoz1zcrs0hahY+rZE87r
- Jmd9mwTC8LvLsdHJh7qLYjNsbN0L3jRFdbJyICdtJj3lYcxz4xRH//ESMkgTnmbj7/0R
- Ynb2j5ziPoS7hGb5C5PbRfyj4Ia6YgRW8oXkjPfTVEsZaIsmycWbJcH8KWwlZowJ9jNK
- i+90oYS2+aL4Cqsvws9eWbQyY/PsHk5HLVDvzeASsL/dNZRgraKBNx27rw4kwHUjp95b
- +ptw==
+ bh=rE68cjce4XRvDV6JRle6Jd0Z7ZMr90aNCIICZPcJBd8=;
+ b=vajKLjCyzd51GDbN+HO7KRvmXFW/4Y5YN8aMFcnoNhz3nkgNIZME4b9Xq/8MPtrUIf
+ b0JS4GqzTbWdNOvdNuNyWAofd+6GHTXqGER4BQZTczbvnRT9QqtZ6HgxKF/29v1LBEDF
+ jovNdMDVnAJYmWnZyZW9WTBQdz7UxkgPei+PbBxZwXafwe8IZY0nGTNZnp8RmQsoGlhk
+ EayPhECNuWV246d7c9TTEvnuKhiDwdvH1hJDaQ573Y/MK8VU6XMSk8f+/x/F14yoVLoK
+ PDKECLKT1xV2AbrqzdEQljY9LkA5ODldev4ntBhUT35NHKmTAWGMCE/1pN9K6LKu/SNG
+ CWjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=BITkCuC500ODL0JuP2zuzkod4jXg6I7qRZoNH9poNhI=;
- b=MSx2n8qEjT6bDhweEsC29lLLtm3WDFn/9rAGYDcpfz7/KgtyiYLBBwxtafflo5TkTh
- zdUsndQoKZAYJ6oIYLU8y2DWg6jd+viGGEYrY9acS0HMTymI4hi+sDBSiyNZOJqyXIIX
- 6V2wqTV3KGJVStqmmWTixaNk+4KepgkzR0NVQNF+B4SRLWg9qtaYHGfxl5WgdGF0Xx58
- 8tY8xh3CRMVY5vIJnEtEZPAlkQS5pMsJsrCLHDgYg7RHS7XO7BOX5vu+h8qtRwHuOQ30
- 9pyZiF4TqkxFhqaJtNIWrttP9tOMsMTMtYMBDJUzlodmMaavnRrwwbPiEBqjNuf3+5Iv
- t/tQ==
-X-Gm-Message-State: AOAM532jbhBzslBlGyqZTaFZ4euyhxrg29oGA3fNY4gpqs/cqfOP3I3t
- dstwTVuBISy1fjmRyC4Q/zgIF7Ie9Co8DQ==
-X-Google-Smtp-Source: ABdhPJxzvlf91k/wDaPdEbEN9fcm+qAlvu8eKpNZHpHZUZmNz2cK7hhoQiC6eF2h7P8TByQkbBNdoA==
-X-Received: by 2002:a1c:f209:: with SMTP id s9mr1237516wmc.115.1604046762834; 
- Fri, 30 Oct 2020 01:32:42 -0700 (PDT)
-Received: from [172.20.10.7] ([37.166.148.232])
- by smtp.gmail.com with ESMTPSA id s9sm11129286wrf.90.2020.10.30.01.32.40
+ bh=rE68cjce4XRvDV6JRle6Jd0Z7ZMr90aNCIICZPcJBd8=;
+ b=WLQAQ6CJXMrw5gGLDXr3gHxqRlPCXmpg+RjaXBYiN4OTCHA1trhz2d6ARAzYRyURzv
+ GZjBACiizAGBxpb2fZ/Ob1f3Nouzk2g4utSmm9OX0u0B61c9LXTGWbObvJcoItR+fY51
+ ASN5067YaEgGjLqpy06JJUY6k1DT/e/fSU2EPmWOF0JWwnRzhqpL9dvSx4CT6d1LTOdF
+ RP1G9ja5drxqgVcfFM4Bbph35yiKza72xvQBg81CIpptPd5umvdhNjSfjvxSRk4ZXH8y
+ 3IbH89Ikx11EJmfd9V/g8X2AVK8mMVkOSDE5FiNXcGov0qbWsFT+XASDzW1jH14ABPjc
+ E8MA==
+X-Gm-Message-State: AOAM5331yduGq2DqBZrwYGxJlw7l5+MPQ6Q1csP+1fFhGcGT4UC0hSFP
+ bGX3JDl+gg8IH/q71GxVdejLlw==
+X-Google-Smtp-Source: ABdhPJwvkN2e6w8bZMTaqlzu2z3rIIE3bfLHePEpljizROmNpEUwQErsKwE7iy4/63nAfTYyuZGshw==
+X-Received: by 2002:adf:bb07:: with SMTP id r7mr1713321wrg.150.1604046955618; 
+ Fri, 30 Oct 2020 01:35:55 -0700 (PDT)
+Received: from [172.20.10.7] ([37.166.29.192])
+ by smtp.gmail.com with ESMTPSA id a3sm3897660wmb.46.2020.10.30.01.35.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Oct 2020 01:32:41 -0700 (PDT)
-Subject: Re: [PATCH v10 2/6] dt-bindings: display: bridge: Intel KeemBay DSI
-To: Sam Ravnborg <sam@ravnborg.org>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-References: <1604006877-20092-1-git-send-email-anitha.chrisanthus@intel.com>
- <1604006877-20092-3-git-send-email-anitha.chrisanthus@intel.com>
- <20201029222225.GB904738@ravnborg.org>
+ Fri, 30 Oct 2020 01:35:54 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] drm: panfrost: Coherency support
+To: Robin Murphy <robin.murphy@arm.com>, will@kernel.org, robh@kernel.org,
+ tomeu.vizoso@collabora.com, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, khilman@baylibre.com, jbrunet@baylibre.com
+References: <cover.1600780574.git.robin.murphy@arm.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -105,12 +104,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <8e19356f-1394-45ed-1a20-95c1c9fd740f@baylibre.com>
-Date: Fri, 30 Oct 2020 09:32:39 +0100
+Message-ID: <5295845a-daa9-373c-58db-7ab91b50530e@baylibre.com>
+Date: Fri, 30 Oct 2020 09:35:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201029222225.GB904738@ravnborg.org>
+In-Reply-To: <cover.1600780574.git.robin.murphy@arm.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,157 +123,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: edmund.j.dea@intel.com, dri-devel@lists.freedesktop.org
+Cc: linux-amlogic@lists.infradead.org, iommu@lists.linux-foundation.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/10/2020 23:22, Sam Ravnborg wrote:
-> Hi Anitha.
+On 22/09/2020 16:16, Robin Murphy wrote:
+> Hi all,
 > 
-> On Thu, Oct 29, 2020 at 02:27:53PM -0700, Anitha Chrisanthus wrote:
->> This patch adds bindings for Intel KeemBay MIPI DSI
->>
->> Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
->> Cc: Sam Ravnborg <sam@ravnborg.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Here's a quick v2 with the tags so far picked up and some inline
+> commentary about the shareability domains for the pagetable code.
 > 
-> This again matches my understanding of the HW - good.
+> Robin.
 > 
-> One small nit below, with that addressed:
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-Same, this one is good, Thanks.
-
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
-
-
 > 
->> ---
->>  .../bindings/display/bridge/intel,keembay-dsi.yaml | 101 +++++++++++++++++++++
->>  1 file changed, 101 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
->> new file mode 100644
->> index 0000000..4cef64e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
->> @@ -0,0 +1,101 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/bridge/intel,keembay-dsi.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Devicetree bindings for Intel Keem Bay mipi dsi controller
->> +
->> +maintainers:
->> +  - Anitha Chrisanthus <anitha.chrisanthus@intel.com>
->> +  - Edmond J Dea <edmund.j.dea@intel.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: intel,keembay-dsi
->> +
->> +  reg:
->> +    items:
->> +      - description: MIPI registers range
->> +
->> +  reg-names:
->> +    items:
->> +      - const: mipi
->> +
->> +  clocks:
->> +    items:
->> +      - description: MIPI DSI clock
->> +      - description: MIPI DSI econfig clock
->> +      - description: MIPI DSI config clock
->> +
->> +  clock-names:
->> +    items:
->> +      - const: clk_mipi
->> +      - const: clk_mipi_ecfg
->> +      - const: clk_mipi_cfg
->> +
->> +  ports:
->> +    type: object
->> +
->> +    properties:
->> +      '#address-cells':
->> +       const: 1
->> +
->> +      '#size-cells':
->> +       const: 0
->> +
->> +      port@0:
->> +        type: object
->> +        description: MIPI DSI input port.
->> +
->> +      port@1:
->> +        type: object
->> +        description: DSI output port to adv7535.
-> Drop the mention of adv7535 - the DT decide what the port is connected
-> to.
+> Robin Murphy (3):
+>   iommu/io-pgtable-arm: Support coherency for Mali LPAE
+>   drm/panfrost: Support cache-coherent integrations
+>   arm64: dts: meson: Describe G12b GPU as coherent
 > 
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +    additionalProperties: false
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - clocks
->> +  - clock-names
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    mipi-dsi@20900000 {
->> +        compatible = "intel,keembay-dsi";
->> +        reg = <0x20900000 0x4000>;
->> +        reg-names = "mipi";
->> +        clocks = <&scmi_clk 0x86>,
->> +                 <&scmi_clk 0x88>,
->> +                 <&scmi_clk 0x89>;
->> +        clock-names = "clk_mipi", "clk_mipi_ecfg",
->> +                      "clk_mipi_cfg";
->> +
->> +        ports {
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
->> +            port@0 {
->> +                reg = <0>;
->> +                dsi_in: endpoint {
->> +                    remote-endpoint = <&disp_out>;
->> +                };
->> +            };
->> +
->> +            port@1 {
->> +                reg = <1>;
->> +                dsi_out: endpoint {
->> +                    remote-endpoint = <&adv7535_input>;
->> +                };
->> +            };
->> +        };
->> +    };
->> -- 
->> 2.7.4
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  arch/arm64/boot/dts/amlogic/meson-g12b.dtsi |  4 ++++
+>  drivers/gpu/drm/panfrost/panfrost_device.h  |  1 +
+>  drivers/gpu/drm/panfrost/panfrost_drv.c     |  2 ++
+>  drivers/gpu/drm/panfrost/panfrost_gem.c     |  2 ++
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c     |  1 +
+>  drivers/iommu/io-pgtable-arm.c              | 11 ++++++++++-
+>  6 files changed, 20 insertions(+), 1 deletion(-)
 > 
 
+Applying to drm-misc-next
+
+Thanks !
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
