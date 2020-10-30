@@ -2,36 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0B12A039B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 12:02:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F5E2A03B1
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 12:08:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 643706ED72;
-	Fri, 30 Oct 2020 11:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F23426EDAD;
+	Fri, 30 Oct 2020 11:07:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id DC5B06ED72
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 11:02:39 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B43E139F;
- Fri, 30 Oct 2020 04:02:39 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D2B23F719;
- Fri, 30 Oct 2020 04:02:38 -0700 (PDT)
-Subject: Re: [PATCH] drm/panfrost: Move the GPU reset bits outside the timeout
- handler
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20201030070826.582969-1-boris.brezillon@collabora.com>
- <8185209b-b943-c1b8-90d8-fee894f6f829@arm.com>
- <20201030112826.1b182709@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <83cc9b88-18ae-ee38-670e-505d3103b64d@arm.com>
-Date: Fri, 30 Oct 2020 11:02:28 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACDB66EDAD
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 11:07:57 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id a7so7321158lfk.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 04:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=iWNGjA9MPIhJYkU0XJf0oB5wFDF8YI6oEqOsitG2U5E=;
+ b=jE8NEhqsu8SRMoFnOXlj2dajf1Ac05qLG7c1wmEU8Hids1CRalV0IaPYeZV5yPIK2F
+ i8RsYXBKAW4wqSXTRziEGJ0yRWHqpXWecGLvUgJf0ZhOvJzExudC4m98h6Qat01oi1Cm
+ e6NBu0M4xGMAub5a/kEs6zYneKsDcN3I8MOcGPTn4VAspAXDghZCz6lsx8dPDSiAgyyq
+ 8j1esYwCy3RTNLKB0yA1QnIbW/J7dNoBDBbsYTqtOo7+t/YgWGwnP6wiJK7iUURVEsHB
+ WxWzr6/Oii2DX3/16sH/0RfasH9qdBhJz+QNoGajUoseDD+EXblKLSkJ3/Q/xfP3JSnm
+ eqvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=iWNGjA9MPIhJYkU0XJf0oB5wFDF8YI6oEqOsitG2U5E=;
+ b=a4G6s3XyNhvnukVU9xJZfLj7NzYm11LdYjM8OMTNiXT6xfgBX0Gb4ijRtNfLrg6ikY
+ lUldjlDFFoj4TrSU+/em7fJNInlEMXLHV2QvZ0vx5K8IKbygZl4s9UfWk5wNYhE8oGfx
+ fmLCiyhT+jf1PtX8taAkeR+XUCqzd2Aw8qEoJDecG+MxVAi1id5Ut+VtrSQrUmuPe+La
+ m0HJiZTEPBdFRNbXxqi1O/Azb9/nBs1LELi61Rcl0JX/IkBaUvnYH2ho9GSApcN/9Eai
+ 3nOu4ur0gIOA0TkSjJPkQ/cx6gmFfrA3+/aqgr760jS+IjS4TiG9Y/rvRKT1Ndh3jpAx
+ /fGA==
+X-Gm-Message-State: AOAM532J6jPqtOpBuCUgJJgdWBiYR/Gaxxf5ZJLNQFD9jeUk/YzmZ4Ux
+ ZteuMmZvNA0oUCTLAlfOb04=
+X-Google-Smtp-Source: ABdhPJzMIiqe2k+13hnY9osfdwCq6luig375AtiNXnSMF+X6nS/M1VaxzFn4CJNVrN4iPi9wPxm+kw==
+X-Received: by 2002:a19:7f86:: with SMTP id a128mr674740lfd.359.1604056076135; 
+ Fri, 30 Oct 2020 04:07:56 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id f24sm592012lfh.73.2020.10.30.04.07.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Oct 2020 04:07:55 -0700 (PDT)
+Date: Fri, 30 Oct 2020 13:07:39 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Paul Gofman <pgofman@codeweavers.com>
+Subject: Re: [PATCH libdrm 2/2] include: Avoid potentially infinite loop in
+ log2_int().
+Message-ID: <20201030130739.0e6770c6@eldfell>
+In-Reply-To: <20201028100602.168752-2-pgofman@codeweavers.com>
+References: <20201028100602.168752-1-pgofman@codeweavers.com>
+ <20201028100602.168752-2-pgofman@codeweavers.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201030112826.1b182709@collabora.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,287 +67,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0538098686=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/10/2020 10:28, Boris Brezillon wrote:
-> On Fri, 30 Oct 2020 10:00:07 +0000
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> On 30/10/2020 07:08, Boris Brezillon wrote:
->>> We've fixed many races in panfrost_job_timedout() but some remain.
->>> Instead of trying to fix it again, let's simplify the logic and move
->>> the reset bits to a separate work scheduled when one of the queue
->>> reports a timeout.
->>>
->>> Fixes: 1a11a88cfd9a ("drm/panfrost: Fix job timeout handling")
->>> Cc: <stable@vger.kernel.org>
->>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> ---
->>>    drivers/gpu/drm/panfrost/panfrost_device.c |   1 -
->>>    drivers/gpu/drm/panfrost/panfrost_device.h |   6 +-
->>>    drivers/gpu/drm/panfrost/panfrost_job.c    | 130 ++++++++++++---------
->>>    3 files changed, 82 insertions(+), 55 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
->>> index ea8d31863c50..a83b2ff5837a 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
->>> @@ -200,7 +200,6 @@ int panfrost_device_init(struct panfrost_device *pfdev)
->>>    	struct resource *res;
->>>    
->>>    	mutex_init(&pfdev->sched_lock);
->>> -	mutex_init(&pfdev->reset_lock);
->>>    	INIT_LIST_HEAD(&pfdev->scheduled_jobs);
->>>    	INIT_LIST_HEAD(&pfdev->as_lru_list);
->>>    
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
->>> index 2e9cbd1c4a58..67f9f66904be 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
->>> @@ -105,7 +105,11 @@ struct panfrost_device {
->>>    	struct panfrost_perfcnt *perfcnt;
->>>    
->>>    	struct mutex sched_lock;
->>> -	struct mutex reset_lock;
->>> +
->>> +	struct {
->>> +		struct work_struct work;
->>> +		atomic_t pending;
->>> +	} reset;
->>>    
->>>    	struct mutex shrinker_lock;
->>>    	struct list_head shrinker_list;
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> index d0469e944143..745ee9563a54 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> @@ -20,6 +20,8 @@
->>>    #include "panfrost_gpu.h"
->>>    #include "panfrost_mmu.h"
->>>    
->>> +#define JOB_TIMEOUT_MS 500
->>> +
->>>    #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
->>>    #define job_read(dev, reg) readl(dev->iomem + (reg))
->>>    
->>> @@ -382,19 +384,37 @@ static bool panfrost_scheduler_stop(struct panfrost_queue_state *queue,
->>>    			drm_sched_increase_karma(bad);
->>>    		queue->stopped = true;
->>>    		stopped = true;
->>> +
->>> +		/*
->>> +		 * Set the timeout to max so the timer doesn't get started
->>> +		 * when we return from the timeout handler (restored in
->>> +		 * panfrost_scheduler_start()).
->>> +		 */
->>> +		queue->sched.timeout = MAX_SCHEDULE_TIMEOUT;
->>>    	}
->>>    	mutex_unlock(&queue->lock);
->>>    
->>>    	return stopped;
->>>    }
->>>    
->>> +static void panfrost_scheduler_start(struct panfrost_queue_state *queue)
->>> +{
->>> +	if (WARN_ON(!queue->stopped))
->>> +		return;
->>> +
->>> +	mutex_lock(&queue->lock);
->>> +	/* Restore the original timeout before starting the scheduler. */
->>> +	queue->sched.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS);
->>> +	drm_sched_start(&queue->sched, true);
->>> +	queue->stopped = false;
->>> +	mutex_unlock(&queue->lock);
->>> +}
->>> +
->>>    static void panfrost_job_timedout(struct drm_sched_job *sched_job)
->>>    {
->>>    	struct panfrost_job *job = to_panfrost_job(sched_job);
->>>    	struct panfrost_device *pfdev = job->pfdev;
->>>    	int js = panfrost_job_get_slot(job);
->>> -	unsigned long flags;
->>> -	int i;
->>>    
->>>    	/*
->>>    	 * If the GPU managed to complete this jobs fence, the timeout is
->>> @@ -415,56 +435,9 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
->>>    	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
->>>    		return;
->>>    
->>> -	if (!mutex_trylock(&pfdev->reset_lock))
->>> -		return;
->>> -
->>> -	for (i = 0; i < NUM_JOB_SLOTS; i++) {
->>> -		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
->>> -
->>> -		/*
->>> -		 * If the queue is still active, make sure we wait for any
->>> -		 * pending timeouts.
->>> -		 */
->>> -		if (!pfdev->js->queue[i].stopped)
->>> -			cancel_delayed_work_sync(&sched->work_tdr);
->>> -
->>> -		/*
->>> -		 * If the scheduler was not already stopped, there's a tiny
->>> -		 * chance a timeout has expired just before we stopped it, and
->>> -		 * drm_sched_stop() does not flush pending works. Let's flush
->>> -		 * them now so the timeout handler doesn't get called in the
->>> -		 * middle of a reset.
->>> -		 */
->>> -		if (panfrost_scheduler_stop(&pfdev->js->queue[i], NULL))
->>> -			cancel_delayed_work_sync(&sched->work_tdr);
->>> -
->>> -		/*
->>> -		 * Now that we cancelled the pending timeouts, we can safely
->>> -		 * reset the stopped state.
->>> -		 */
->>> -		pfdev->js->queue[i].stopped = false;
->>> -	}
->>> -
->>> -	spin_lock_irqsave(&pfdev->js->job_lock, flags);
->>> -	for (i = 0; i < NUM_JOB_SLOTS; i++) {
->>> -		if (pfdev->jobs[i]) {
->>> -			pm_runtime_put_noidle(pfdev->dev);
->>> -			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
->>> -			pfdev->jobs[i] = NULL;
->>> -		}
->>> -	}
->>> -	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
->>> -
->>> -	panfrost_device_reset(pfdev);
->>> -
->>> -	for (i = 0; i < NUM_JOB_SLOTS; i++)
->>> -		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
->>> -
->>> -	mutex_unlock(&pfdev->reset_lock);
->>> -
->>> -	/* restart scheduler after GPU is usable again */
->>> -	for (i = 0; i < NUM_JOB_SLOTS; i++)
->>> -		drm_sched_start(&pfdev->js->queue[i].sched, true);
->>> +	/* Schedule a reset. */
->>> +	atomic_set(&pfdev->reset.pending, 1);
->>
->> Maybe I'm missing something, but I can't work out what setting
->> reset.pending here gives us. See below.
->>
->>> +	schedule_work(&pfdev->reset.work);
->>>    }
->>>    
->>>    static const struct drm_sched_backend_ops panfrost_sched_ops = {
->>> @@ -531,11 +504,62 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
->>>    	return IRQ_HANDLED;
->>>    }
->>>    
->>> +static void panfrost_reset(struct work_struct *work)
->>> +{
->>> +	struct panfrost_device *pfdev = container_of(work,
->>> +						     struct panfrost_device,
->>> +						     reset.work);
->>> +	unsigned long flags;
->>> +	unsigned int i;
->>> +
->>> +	if (!atomic_read(&pfdev->reset.pending))
->>> +		return;
->>
->> AFAICT the only time this return will be hit is in the following case:
->>
->> CPU 0                     |  CPU 1
->> --------------------------+-------------------
->> job_timedout()            |
->> panfrost_reset()          |
->>    ...                      | job_timedout()
->>    - atomic_set(pending, 0) | ...
->>                             | if (!atomic_read()) - returns early
-> 
-> AFAICT a work can only be scheduled on one workqueue, IOW, it can't run
-> on 2 CPUs simultaneously, and your example seems to imply that it can
-> (both 'atomic_set(pending, 0)' and 'if (!atomic_read()) - returns
-> early' are done in the reset handler).
+--===============0538098686==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/LGSHXuZQZG_Kcs8idKTW.0W"; protocol="application/pgp-signature"
 
-Ah, I knew I was missing something! You're right, by default a work 
-cannot simulatenously run on two CPUs.
+--Sig_/LGSHXuZQZG_Kcs8idKTW.0W
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
->>
->> However, reordering that a little we can see it can fail:
->>
->> CPU 0                     |  CPU 1
->> --------------------------+-------------------
->> job_timedout()            |
->>    ...                      |
->> panfrost_reset()          |
->>    ...                      | job_timedout()
->>    ...                      | panfrost_reset()
->>    ...                      | if (atomic_read()) - doesn't return early
->>    - atomic_set(pending, 0) | ...
->>
->> I don't see anything which prevents the second scenario, so this pending
->> flag doesn't seem to be stopping any race condition.
->>
->> What am I missing?
-> 
-> The pending state is just here to overcome the lack of cancel_work():
-> if we schedule a reset while the reset handler is running, this handler
-> will be called again just after it returns, but we only need to reset
-> the GPU again if the timeout handler scheduled the reset work after the
-> GPU has been reset and queues have been restarted.
+On Wed, 28 Oct 2020 13:06:02 +0300
+Paul Gofman <pgofman@codeweavers.com> wrote:
 
-Got it.
+> Signed-off-by: Paul Gofman <pgofman@codeweavers.com>
+> ---
+>  util_math.h | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/util_math.h b/util_math.h
+> index e2fa95f5..f6bbe192 100644
+> --- a/util_math.h
+> +++ b/util_math.h
+> @@ -38,6 +38,9 @@ static inline unsigned log2_int(unsigned x)
+>      if (x < 2) {
+>          return 0;
+>      }
+> +    if (x & 0x80000000) {
+> +        return 31;
+> +    }
+>      for (l =3D 2; ; l++) {
+>          if ((unsigned)(1 << l) > x) {
+>              return l - 1;
 
->>
->> I would have expected something more along the lines of:
->>
->> 	/* Schedule a reset */
->> 	if (atomic_cmpxchg(&pfdev->reset.pending, 0, 1)) {
->> 		/* Reset already in progress */
->> 		return;
->> 	}
->> 	schedule_work(&pfdev->reset.work);
->>
->> What do you think?
-> 
-> That would work too, and allows us to get rid of the atomic_read() in
-> the reset handler. I'll go for this version. This being said, I'm pretty
-> sure my version was safe too ;-).
+Hi,
 
-Yes, I think you're right. Somehow I'd got it into my head that it must 
-be a race between CPUs in the reset worker that you were trying to solve.
+I guess that does it, but it seems quite a lot of code that could be
+a two-liner:
+http://graphics.stanford.edu/~seander/bithacks.html#IntegerLogObvious
 
->>
->> Also FYI I applied this on top of my panfrost-dev branch and managed to
->> hit the following splat. I haven't yet got to the bottom of it, so it
->> might well be an unrelated bug. At first glance this looks like the job
->> is managing to outlive the MMU context it's tied to.
-> 
-> Hm, I think I don't see those because I have "drm/panfrost: Make sure
-> MMU context lifetime is not bound to panfrost_priv" applied. We should
-> really work on a proper fix for that problem, or maybe apply the
-> proposed fix until we have time to work on a better solution.
 
-Yes, a bit of investigation showed that my hack for the same problem was 
-tripped up by the deferring of the reset onto a workqueue. So the 
-problem was just that my hack wasn't complete.
+Thanks,
+pq
 
-As I see it there are basically two options: extend the MMU context 
-lifetime (see your fix above) or block the close of a scheduler entity 
-until all it's jobs have finished (see [1] for my hackish attempt).
+--Sig_/LGSHXuZQZG_Kcs8idKTW.0W
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-I'm somewhat puzzled how other drivers handle this safely. Killing off 
-the jobs before closing the context seems logical, but the DRM scheduler 
-doesn't seem to provide support for that. Extending the MMU context 
-lifetime works, but has the unfortunate side-effect of keeping zombie 
-jobs running for a short while after the process owning them has gone.
+-----BEGIN PGP SIGNATURE-----
 
-Steve
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl+b8/sACgkQI1/ltBGq
+qqcVbg/8CBbb0WBurKN/gC8o5TgF2TWLJ9wCtsFTV0GlXqvTOnxqqVMw49/7wzKI
+KNdveOMijVKhdxXKb3Lzz6Fh44YQSJ/lYhPYf6XDOi3ki3vjj9eN3+Bl3lh6/ky8
+oxbACDhdAG/f0UIwB+FU13jyVl3oTc8vknIsKaznvRFz+FhaT14b4aD4I0IIKiNt
+gUhb7lJPJoc7a/Mo0r2odbaGTOZovEGTNWFN+bv1f/8G/XzknoMttZ6JaUI35xHw
+dyOc0DT77b8luiGojY+Gb9HOIOmvqhd7Y4F6u5vaM8wkyrNue5Owb0F6gdZBTYOE
+dtYI+mWKDyi/zD+XKotPDaIOwq3X7e9qtAbpgfbDmDyEd/JXhTkNfn93q6YLRgnC
+IiPpLgeOKyUhBYfeeAn17g+P3argK5HyVMFHCtdkShnTiMYeNHc3Zd7heso4ilTr
+M1+mqho4YWOToCtmbou91CS6agG9RZVBDTh9C4F/p6VLrtctjtm0BSbqHQKNTurK
+p+aZ6gsU30GB4WbbS4i6neaZLni7ImM+ywMB4ERU66BkMrSnCgw+zN7YJt2sBLsw
+xxbFGS1iYxrGLo/jvAnNcaLvBZ9HireZdMfp9YKBuMGPS4yJ2V/z50/EClaG8o+I
+Nx1clZ0HnpjA5R9JWdkk/+EVD6M7Ged/qffqFMVu+j1N7xsdfsk=
+=vFOf
+-----END PGP SIGNATURE-----
 
-[1] 
-https://gitlab.arm.com/linux-arm/linux-sp/-/commit/0bb29aaad61a9fb39d1f4efc555965376615d9bf
+--Sig_/LGSHXuZQZG_Kcs8idKTW.0W--
+
+--===============0538098686==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0538098686==--
