@@ -2,73 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861F72A207D
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7272F2A206F
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7FC66EB43;
-	Sun,  1 Nov 2020 17:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C3ED6EB28;
+	Sun,  1 Nov 2020 17:36:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C6616E9A3;
- Fri, 30 Oct 2020 12:55:53 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id f38so5139567pgm.2;
- Fri, 30 Oct 2020 05:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=EY5jmWEppGIZD3OkVY+PrUIlVBuLQJBSLFzS0cv2zkM=;
- b=WgQp7Qjiipq8bte2F1/XmxDPy678VMaI9Ka5i4CJlLM1plIBKrrKgJM3nLT34PINBr
- WQqbuvEeg3MK45EaLtALAiEFpwYzprg/RILN3PrXmHXJw+muwSjEQb96/fU5VB4f2aIx
- F5Dc0u6qNHTOwdeyVq4EuGaO311NqjR1yN4CzUH9vwhcJ1i8BWtCyMTDFAAku5fV0+AR
- ohvpHctMTeVrBOpe6ZOnao1AWQCz9Wxl64XuYx1ivWMi6e/weY8eQ38/voa3ATTB7w5v
- i4RqN64uuTgCOCNOQYLDNr6/g4Tz8x6axhvES1vtSHJfiabDIELHfktcq8S/dEad9nlV
- rY5Q==
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36CB6EDA3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 13:55:30 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id d25so6934909ljc.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 06:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jEivHHHppW7lKJKSPaA2MJ5onUInG0PkEmmlb+QvN6w=;
+ b=htnlI/L0D+pPOTdEbli9XM5YC/psfkjbq7r2oMpqoiWUyoGis/mQCEbr+t/EYnCc0C
+ 979OuGH5bYgzBKnrAZ+6W/E9f8qxwnMYapNv/omy8Qu0E8Kl/hTiOV7lCqN6IO5UnunT
+ NxcGVEHKW10cbrwjW1aZruyU5AZBiQMBUk4eqkDEuUAPTwx6I9fwI/lcf0DLlxKmAqd9
+ h/2cux67cuo3A8zYwyrO1C8WkMGu+vQ+PZLLmHgnDcaDrSwwI/gadVOGF/UAbi1m0aHW
+ VNdn7TuImE3850PXxcNtzDgyo/tY3iFAlD8ssbcY6jKuBtHYCWz7dSVAyVXroKxDXxL9
+ DWMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=EY5jmWEppGIZD3OkVY+PrUIlVBuLQJBSLFzS0cv2zkM=;
- b=Sgqwn8n/FlyRMMbKApdlOQN+oZV9ZDmvzcaL0GQrs5MtakMuIzmXOUP7/cf35/D2xV
- 054G6xy4LhX8w88JOU6Btfi2as9QwVCedYPiTcUGhYOo3+DVIFsjWpbyNzIVxvfPE7xL
- +dsuuB74aTOITfl0URAYPK76Ux294ABDo8mf8QiCm38dhMDKheRemTnc46G7AvwRhrDQ
- LX3PzE1McG4TlTfwS1bqbJw7rq6lVujnnqVfE/Q60jLudzyxsTozvGlIZmV8aoEtyj/w
- MFIhfiWBNokCum7GC+C7PAG+8abu4RJJBlAcoS5fBFxN2DCFxXH41ezGB+Zu/hlaLQtR
- wzFg==
-X-Gm-Message-State: AOAM532V3oNZNqlBawBKtZIyYoDsoOz/M++el2OMTi6GOhAMdvLtubOy
- p4JZfdkCgIz6thjM0+bkGMU=
-X-Google-Smtp-Source: ABdhPJzoSJ653ZkGK6/QfvAF19ZEAnwk6sJbWIaUpunnUSpAkaJGC9hruc/dZwTt/I6cHpg1CdQcOA==
-X-Received: by 2002:a17:90a:fa09:: with SMTP id
- cm9mr2840218pjb.162.1604062552599; 
- Fri, 30 Oct 2020 05:55:52 -0700 (PDT)
-Received: from my--box ([103.98.79.70])
- by smtp.gmail.com with ESMTPSA id w19sm6220886pff.6.2020.10.30.05.55.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:55:52 -0700 (PDT)
-Date: Fri, 30 Oct 2020 18:25:45 +0530
-From: Deepak R Varma <mh12gx2825@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- outreachy-kernel@googlegroups.com,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@linux.ie>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- melissa.srw@gmail.com
-Subject: Re: [Outreachy kernel] [PATCH] drm/amdgpu: use
- DEFINE_DEBUGFS_ATTRIBUTE with debugfs_create_file_unsafe()
-Message-ID: <20201030125545.GA12671@my--box>
-References: <20201030032245.GA274478@my--box>
- <20201030071120.GA1493629@kroah.com>
- <20201030075716.GA6976@my--box>
- <5a7d8e8d-8db5-ff56-6448-3f1cefc11ef8@amd.com>
- <20201030082518.GB1619669@kroah.com>
- <20201030091521.GH401619@phenom.ffwll.local>
- <20201030092457.GI401619@phenom.ffwll.local>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jEivHHHppW7lKJKSPaA2MJ5onUInG0PkEmmlb+QvN6w=;
+ b=jrS5lYW/ShsZNIcanjeSUu06C+HNBwcvPwnXZOu7yznAr/zXtJsgdQ0HSagHdFNl0E
+ qWu+6YHrPffiM0A/tQZ0CI8o0aS/xL/5DHBcIfa7eHbH6gJXEUy3p8hHsuz1c7mUMDQx
+ zo63LtTmSt8LBOkA0KRXkjGdDECe4caAxHfsxEu5C3zZcfhZfE6HnGH/zpWokPxuwX2p
+ SMfaQT1ybEvw60AQz+le7EmsZZ9UNfx9rooi5ahkQGkFzms0C902BGq57fcQXCUXx14E
+ VU9cdOn5rLZeDQpKDhs/NclzBzTrm7Jx77Fy+IWpX9zF4EnSChoIkF1ktyqBnvNphaII
+ HtcQ==
+X-Gm-Message-State: AOAM531Hbijbbyl16gynujdLrxTc0l5FfpKtFpXfOtbLcvjJLJkp6C+2
+ fA73haf+48hMQdNMEss3tqAf1Q==
+X-Google-Smtp-Source: ABdhPJxcxVFBXD2WZ2FNbzFXyybMDQDLxJSVhSrScs29gB2Kab/Nk1XvOZiqO64RPpB7wOWcP8lo6Q==
+X-Received: by 2002:a05:651c:1343:: with SMTP id
+ j3mr1071034ljb.336.1604066129156; 
+ Fri, 30 Oct 2020 06:55:29 -0700 (PDT)
+Received: from [192.168.1.211] ([188.162.64.225])
+ by smtp.gmail.com with ESMTPSA id b15sm696918ljp.117.2020.10.30.06.55.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Oct 2020 06:55:28 -0700 (PDT)
+Subject: Re: [PATCH] drm/msm/dsi: save PLL registers across first PHY reset
+To: benl@squareup.com, robdclark@gmail.com, sean@poorly.run
+References: <010101750064e17e-3db0087e-fc37-494d-aac9-2c2b9b0a7c5b-000000@us-west-2.amazonses.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <508ae9e2-5240-2f43-6c97-493bb7d9fbe8@linaro.org>
+Date: Fri, 30 Oct 2020 16:55:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201030092457.GI401619@phenom.ffwll.local>
+In-Reply-To: <010101750064e17e-3db0087e-fc37-494d-aac9-2c2b9b0a7c5b-000000@us-west-2.amazonses.com>
+Content-Language: en-GB
 X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,173 +71,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mh12gx2825@gmail.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Anibal Limon <anibal.limon@linaro.org>,
+ Harigovindan P <harigovi@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konradybcio@gmail.com>, zhengbin <zhengbin13@huawei.com>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 30, 2020 at 10:24:57AM +0100, Daniel Vetter wrote:
-> On Fri, Oct 30, 2020 at 10:15:21AM +0100, Daniel Vetter wrote:
-> > On Fri, Oct 30, 2020 at 09:25:18AM +0100, Greg KH wrote:
-> > > On Fri, Oct 30, 2020 at 09:00:04AM +0100, Christian K=F6nig wrote:
-> > > > Am 30.10.20 um 08:57 schrieb Deepak R Varma:
-> > > > > On Fri, Oct 30, 2020 at 08:11:20AM +0100, Greg KH wrote:
-> > > > > > On Fri, Oct 30, 2020 at 08:52:45AM +0530, Deepak R Varma wrote:
-> > > > > > > Using DEFINE_DEBUGFS_ATTRIBUTE macro with debugfs_create_file=
-_unsafe()
-> > > > > > > function in place of the debugfs_create_file() function will =
-make the
-> > > > > > > file operation struct "reset" aware of the file's lifetime. A=
-dditional
-> > > > > > > details here: https://nam11.safelinks.protection.outlook.com/=
-?url=3Dhttps%3A%2F%2Flists.archive.carbon60.com%2Flinux%2Fkernel%2F2369498&=
-amp;data=3D04%7C01%7Cchristian.koenig%40amd.com%7Cddd7a6ac8164415a639708d87=
-ca97004%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637396414464384011%7CU=
-nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC=
-JXVCI6Mn0%3D%7C1000&amp;sdata=3Do6GOHvMxNMuOPlC4nhDyURCHBLqfQZhYQq%2BiIMt3D=
-3s%3D&amp;reserved=3D0
-> > > > > > > =
+Hello,
 
-> > > > > > > Issue reported by Coccinelle script:
-> > > > > > > scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> > > > > > > =
+On 07/10/2020 03:10, benl-kernelpatches@squareup.com wrote:
+> From: Benjamin Li <benl@squareup.com>
+> 
+> Take advantage of previously-added support for persisting PLL
+> registers across DSI PHY disable/enable cycles (see 328e1a6
+> 'drm/msm/dsi: Save/Restore PLL status across PHY reset') to
+> support persisting across the very first DSI PHY enable at
+> boot.
 
-> > > > > > > Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
-> > > > > > > ---
-> > > > > > > Please Note: This is a Outreachy project task patch.
-> > > > > > > =
+Interesting enough, this breaks exactly on 8016. On DB410c with latest 
+bootloader and w/o splash screen this patch causes boot freeze. Without 
+this patch the board would successfully boot with display routed to HDMI.
 
-> > > > > > >   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 20 ++++++++++=
-----------
-> > > > > > >   1 file changed, 10 insertions(+), 10 deletions(-)
-> > > > > > > =
-
-> > > > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/dr=
-ivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > > > > > > index 2d125b8b15ee..f076b1ba7319 100644
-> > > > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > > > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > > > > > > @@ -1551,29 +1551,29 @@ static int amdgpu_debugfs_sclk_set(vo=
-id *data, u64 val)
-> > > > > > >   	return 0;
-> > > > > > >   }
-> > > > > > > -DEFINE_SIMPLE_ATTRIBUTE(fops_ib_preempt, NULL,
-> > > > > > > -			amdgpu_debugfs_ib_preempt, "%llu\n");
-> > > > > > > +DEFINE_DEBUGFS_ATTRIBUTE(fops_ib_preempt, NULL,
-> > > > > > > +			 amdgpu_debugfs_ib_preempt, "%llu\n");
-> > > > > > Are you sure this is ok?  Do these devices need this additional
-> > > > > > "protection"?  Do they have the problem that these macros were =
-written
-> > > > > > for?
-> > > > > > =
-
-> > > > > > Same for the other patches you just submitted here, I think you=
- need to
-> > > > > > somehow "prove" that these changes are necessary, checkpatch is=
-n't able
-> > > > > > to determine this all the time.
-> > > > > Hi Greg,
-> > > > > Based on my understanding, the current function debugfs_create_fi=
-le()
-> > > > > adds an overhead of lifetime managing proxy for such fop structs.=
- This
-> > > > > should be applicable to these set of drivers as well. Hence I thi=
-nk this
-> > > > > change will be useful.
-> > > > =
-
-> > > > Well since this is only created once per device instance I don't re=
-ally care
-> > > > about this little overhead.
-> > > > =
-
-> > > > But what exactly is debugfs doing or not doing here?
-> > > =
-
-> > > It is trying to save drivers from having debugfs files open that point
-> > > to memory that can go away at any time.  For graphics devices, I doubt
-> > > that is the case.
-> > =
-
-> > So for anything we add/remove we have two-stage cleanup
-> > =
-
-> > 1. drm_dev_unregister (or drm_connector_unregisters, those are the only
-> > two hotunpluggable things we have) unregister all the uapi interfaces.
-> > This deletes all the sysfs and debugfs files.
-> > =
-
-> > 2. Once all the references to the underlying object disappear from the
-> > kernel, we free up the data structure.
-> > =
-
-> > Now for chardev and similar uapi, we hold full references for open file=
-s.
-> > But for sysfs and debugfs we assume that those uapi layers will make su=
-re
-> > that after we deleted the files in step 1 all access through these
-> > functions are guaranteed to have finished. If that's not the case, then=
- we
-> > need to rework our refcounting and also refcount the underlying drm
-> > structure (drm_device or drm_connector) from sysfs/debugfs files.
-> > =
-
-> > Now I tried to look at the patch Deepak references, and I'm not really
-> > clear what changes. Or whether we made a wrong assumption previously ab=
-out
-> > what debugfs/sysfs guarantee when we delete the files.
-> =
-
-> I read some more code and kerneldoc, and I still have no idea what this
-> new _unsafe variant is used for. Only ones I've found seem to use
-> debugfs_file_get/put like the normal variant, to protect against
-> concurrently removed files due to hotunplug. Which is kinda what we've
-> been expecting debugfs to do for us.
-> =
-
-> What's a use-case for _unsafe _without_ debugfs_file_get/put?
-> =
-
-> Decently confused me over here doesn't get this.
-> -Daniel
-
-Hi All,
-Thank you for your comments. I was not anticipating this to be such a
-offbeat patch. Pardon my growing understanding.
-
-Please suggest if I can evaluate the change proposed  to confirm if this is
-a meaningful change.
-
-Thank you again!
-./drv
+> The bootloader may have left the PLL registers in a non-default
+> state. For example, for dsi_pll_28nm.c on 8x16/8x39, the byte
+> clock mux's power-on reset configuration is to bypass DIV1, but
+> depending on bandwidth requirements[1] the bootloader may have
+> set the DIV1 path.
+> 
+> When the byte clock mux is registered with the generic clock
+> framework at probe time, the framework reads & caches the value
+> of the mux bit field (the initial clock parent). After PHY enable,
+> when clk_set_rate is called on the byte clock, the framework
+> assumes there is no need to reparent, and doesn't re-write the
+> mux bit field. But PHY enable resets PLL registers, so the mux
+> bit field actually silently reverted to the DIV1 bypass path.
+> This causes the byte clock to be off by a factor of e.g. 2 for
+> our tested WXGA panel.
+> 
+> The above issue manifests as the display not working and a
+> constant stream of FIFO/LP0 contention errors.
+> 
+> [1] The specific requirement for triggering the DIV1 path (and
+> thus this issue) on 28nm is a panel with pixel clock <116.7MHz
+> (one-third the minimum VCO setting). FHD/1080p (~145MHz) is fine,
+> WXGA/1280x800 (~75MHz) is not.
+> 
+> Signed-off-by: Benjamin Li <benl@squareup.com>
+> ---
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> index 009f5b843dd1..139b4a5aaf86 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> @@ -621,6 +621,22 @@ static int dsi_phy_driver_probe(struct platform_device *pdev)
+>   		phy->pll = NULL;
+>   	}
+>   
+> +	/*
+> +	 * As explained in msm_dsi_phy_enable, resetting the DSI PHY (as done
+> +	 * in dsi_mgr_phy_enable) silently changes its PLL registers to power-on
+> +	 * defaults, but the generic clock framework manages and caches several
+> +	 * of the PLL registers. It initializes these caches at registration
+> +	 * time via register read.
+> +	 *
+> +	 * As a result, we need to save DSI PLL registers once at probe in order
+> +	 * for the first call to msm_dsi_phy_enable to successfully bring PLL
+> +	 * registers back in line with what the generic clock framework expects.
+> +	 *
+> +	 * Subsequent PLL restores during msm_dsi_phy_enable will always be
+> +	 * paired with PLL saves in msm_dsi_phy_disable.
+> +	 */
+> +	msm_dsi_pll_save_state(phy->pll);
+> +
+>   	dsi_phy_disable_resource(phy);
+>   
+>   	platform_set_drvdata(pdev, phy);
+> 
 
 
-> =
-
-> > -Daniel
-> > =
-
-> > > =
-
-> > > thanks,
-> > > =
-
-> > > greg k-h
-> > =
-
-> > -- =
-
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> =
-
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+-- 
+With best wishes
+Dmitry
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
