@@ -2,34 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE9E29FF95
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EEB29FFD0
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:25:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5C66E97D;
-	Fri, 30 Oct 2020 08:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66AD26ECFB;
+	Fri, 30 Oct 2020 08:25:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93E3E6E948
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 01:28:47 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CMl7w4RQpz70H1;
- Fri, 30 Oct 2020 09:28:44 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 30 Oct 2020 09:28:33 +0800
-From: Qinglang Miao <miaoqinglang@huawei.com>
-To: Thierry Reding <thierry.reding@gmail.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter
- <jonathanh@nvidia.com>
-Subject: [PATCH] drm/tegra: sor: fix missing clk_disable_unprepare() on error
- in tegra_sor_init
-Date: Fri, 30 Oct 2020 09:34:24 +0800
-Message-ID: <20201030013424.53995-1-miaoqinglang@huawei.com>
-X-Mailer: git-send-email 2.20.1
+Received: from r3-17.sinamail.sina.com.cn (r3-17.sinamail.sina.com.cn
+ [202.108.3.17])
+ by gabe.freedesktop.org (Postfix) with SMTP id D2BA86E935
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 02:34:39 +0000 (UTC)
+Received: from unknown (HELO localhost.localdomain)([103.193.190.174])
+ by sina.com with ESMTP
+ id 5F9B7BB900032D97; Fri, 30 Oct 2020 10:34:35 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+X-SMAIL-MID: 45875249283506
+From: Hillf Danton <hdanton@sina.com>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH v4 5/7] dma-buf: system_heap: Allocate higher order pages
+ if available
+Date: Fri, 30 Oct 2020 10:34:27 +0800
+Message-Id: <20201030023427.3078-1-hdanton@sina.com>
+In-Reply-To: <n>
+References: <n>
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 30 Oct 2020 08:23:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,56 +41,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Qinglang Miao <miaoqinglang@huawei.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: James Jones <jajones@nvidia.com>, Robin Murphy <robin.murphy@arm.com>,
+ Liam Mark <lmark@codeaurora.org>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the missing clk_disable_unprepare() before return
-from tegra_sor_init() in the error handling case.
+On Thu, 29 Oct 2020 12:34:51 -0700 John Stultz wrote:
+> 
+> As for your comment on HPAGE_PMD_ORDER (9 on arm64/arm) and
+> PAGE_ALLOC_COSTLY_ORDER(3), I'm not totally sure I understand your
+> question? Are you suggesting those values would be more natural orders
+> to choose from?
 
-Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
----
- drivers/gpu/drm/tegra/sor.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index e88a17c29..0103e8c16 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3145,6 +3145,7 @@ static int tegra_sor_init(struct host1x_client *client)
- 		if (err < 0) {
- 			dev_err(sor->dev, "failed to deassert SOR reset: %d\n",
- 				err);
-+			clk_disable_unprepare(sor->clk);
- 			return err;
- 		}
- 
-@@ -3152,12 +3153,17 @@ static int tegra_sor_init(struct host1x_client *client)
- 	}
- 
- 	err = clk_prepare_enable(sor->clk_safe);
--	if (err < 0)
-+	if (err < 0) {
-+		clk_disable_unprepare(sor->clk);
- 		return err;
-+	}
- 
- 	err = clk_prepare_enable(sor->clk_dp);
--	if (err < 0)
-+	if (err < 0) {
-+		clk_disable_unprepare(sor->clk_safe);
-+		clk_disable_unprepare(sor->clk);
- 		return err;
-+	}
- 
- 	return 0;
- }
--- 
-2.23.0
-
+The numbers, 9 and 3, are not magic themselves but under the mm diretory
+they draw more attentions than others do. Sometimes it would take two
+minutes for me to work out that HPAGE_PMD_ORDER does not mean 1MiB, on
+platforms like arm64 or not.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
