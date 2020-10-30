@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA5429FC31
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 04:30:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4F129FC3B
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 04:35:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0035C6E948;
-	Fri, 30 Oct 2020 03:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 780696E94A;
+	Fri, 30 Oct 2020 03:35:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFB836E948
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 03:30:17 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id k65so5356035oih.8
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 20:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1F36E94A;
+ Fri, 30 Oct 2020 03:35:12 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id n15so4963529wrq.2;
+ Thu, 29 Oct 2020 20:35:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6oMY9pxFypCz+sF9iqPwWsJbC9qvwpmj8H4dhF+NfdQ=;
- b=Cm2BCBaE0HkCTyOU/fbadFmrRd5FXxeBg8UMkDSDS1j6UyRSiTx5urdd8HHKLA6zHR
- hY06B2HqNpN+dCebixLmWfx7eJpaIQ4VrKXtvWStO+woq17+xkAiZkij8073l2qZVMfM
- /yge+eZBZQbEZ/DBrYRiyEwSv4qYPr5cGlc8O/WbKQmnfcMStPl+g4wLrSNImh8CLwEI
- 32NkObz9twkgzIWYkvMls7X2hNLrhSJiqi21XNx9Ccop5rYvlKeKtv+Okwy0RirNRC9k
- UhOiE8R4dvHFjQ6CydKSNwMesYjB2yeiEnVXHYw6SK2UD0VGcyum+RxmbZdvVbJBb7FG
- MbOA==
+ :cc; bh=059naSWfurNn2aUNwcfHXakrr4O73rHmWhbtYJ5BFu4=;
+ b=sN1W6qxW83FwgI/hiYVad7M010tIqNjEifXVM+igY/j76qLOP+HDuyUAJ6lxaOiQgm
+ 1RoOtyvcl48nwtECpAlxj5kTcUZ3v6GYXEJSw6dzSLsIYJiXcC7igmcZNR+LptJtiEt8
+ CkANG3NRGkZ0yQdx/gJD4g8D38NJEqYqJzqvH1pu9W7NzzzpFn3sNyp+o4vQ1Fv8v6HY
+ Ew7T/W6oYINd/0Xa6czUH3zJ4b8wG52IH/6H5mLnpoBmcoj6EooUcpFKXeWXw5TpEAbQ
+ fYLLezTyHmttOcx3xHgcToQmzn8o3+ArxM3sBIh6Y3aSU2Bykydo5p7Lqpy1VKTtK8ej
+ VNpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6oMY9pxFypCz+sF9iqPwWsJbC9qvwpmj8H4dhF+NfdQ=;
- b=PrqqyX8GT8cJQi1mkmaOaiiB/5NDECfKac6hCcnjbQ1rMK2xAD6ACbZISOcFtkLRjk
- kzP14T8FsXyTw40NW3v74VGdrl7CBYtwNSa0dyDrEKkjmcvWPiUOsJYnAJ4ZSME3bO/x
- UAz8DdYqltZK82dN7j9El9XVEQ5qAnHpPjrwC/S5iU2McNXgETke8sJOQGcmVnTu9r9C
- VdowHGTzo6QNqPmrzHMgM70BBGnRn2TGBucNZJZBLvqK0heJfp4ihSkm3NX4s7SRYDyi
- 2OdSBlsyiDZzsaSF4PLMRRYz2jqBxXZxyNvFBhmRiPJY9tYqd41KRxiUZaoOsSTq6McS
- dVxw==
-X-Gm-Message-State: AOAM530Ip1qN44vrfKU/r9/uS1XGZ92Dwswvp92CVjwkc029JbF98+/k
- s6Rqe06kXYZbAGZB2NQXq+uHYtkpfrzEEYxCqonqLQ==
-X-Google-Smtp-Source: ABdhPJyoYlDfNB9INSs49MENv3IRsfUKToKB7mwBdmNjsIcA5aDVVdbolYFcxBttTKe/8dItjxvA3P8hwe661BVNN2c=
-X-Received: by 2002:aca:1a07:: with SMTP id a7mr224448oia.169.1604028616954;
- Thu, 29 Oct 2020 20:30:16 -0700 (PDT)
+ bh=059naSWfurNn2aUNwcfHXakrr4O73rHmWhbtYJ5BFu4=;
+ b=CiEiwiaKleOyECgQHF07hZzK5whwB2yuN/R1DKbOgMn+F1gZ6cFMIJGPNboj9q4dHN
+ YySI4GHWNm0MZnefRNZUxmfE5LnUleHu3hxmgL9ASsGDSqTpbLIEAPF2KqVTUDlAtxnt
+ kqlSUO57a8KsZL9YGZLVUKE+xipSrQlQAYFQ6jeiIq/8TontYAwKzowQC7nEEr2w2euY
+ K8yWBrYtjGM6aHwr0NYHKSHWeS4nu8QNjQ7x9oRa6HHZsE2D1Uu39plUS+QYO3ItE+nB
+ Dc8RPRSwHA7sQqZg4Dak72G+/PjPpiefltpWMx/QGrHwsnPTCmtRg/qI3uX5Z43fRZEa
+ V5kw==
+X-Gm-Message-State: AOAM533flHydkmAF6j58lSkkFkr9lBoyIBHmDe+MCbby4XmvCuaMIxnV
+ uznq3TwhLanyvrWp+pnrG0eyNxYzHyoJvUSXrPs=
+X-Google-Smtp-Source: ABdhPJxtD4X3iywmdZ0jW00LyhYdLNA9SC1N0Wv3820HxFdKXhmI67dXiwkKIzDvwYFHMjfvbJonG6MpaIIsHpqNNg4=
+X-Received: by 2002:adf:f181:: with SMTP id h1mr331178wro.374.1604028910967;
+ Thu, 29 Oct 2020 20:35:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201030023427.3078-1-hdanton@sina.com>
-In-Reply-To: <20201030023427.3078-1-hdanton@sina.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Thu, 29 Oct 2020 20:30:04 -0700
-Message-ID: <CALAqxLU1=vScNWfxc-Ji9F_cY311z8GuFLiFT0q0PrDyJVxViA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] dma-buf: system_heap: Allocate higher order pages
- if available
-To: Hillf Danton <hdanton@sina.com>
+References: <20201027190726.1588801-1-trix@redhat.com>
+In-Reply-To: <20201027190726.1588801-1-trix@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 29 Oct 2020 23:34:59 -0400
+Message-ID: <CADnq5_NbX+6bn13MzfEwFF86NB+Y8QsToiPZ21LfQgYXube1Pg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: remove unneeded semicolon
+To: trix@redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,37 +60,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Jones <jajones@nvidia.com>, Robin Murphy <robin.murphy@arm.com>,
- Liam Mark <lmark@codeaurora.org>, lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- linux-media <linux-media@vger.kernel.org>
+Cc: "Kim, Jonathan" <jonathan.kim@amd.com>,
+ Joseph Greathouse <Joseph.Greathouse@amd.com>, "Chen,
+ Guchun" <guchun.chen@amd.com>, Dave Airlie <airlied@linux.ie>, "Kuehling,
+ Felix" <Felix.Kuehling@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+ Harish Kasiviswanathan <harish.kasiviswanathan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ zhengbin <zhengbin13@huawei.com>, "Tuikov, Luben" <luben.tuikov@amd.com>,
+ "Stanley.Yang" <Stanley.Yang@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, John Clements <john.clements@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, Dennis Li <Dennis.Li@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 29, 2020 at 7:34 PM Hillf Danton <hdanton@sina.com> wrote:
-> On Thu, 29 Oct 2020 12:34:51 -0700 John Stultz wrote:
-> > As for your comment on HPAGE_PMD_ORDER (9 on arm64/arm) and
-> > PAGE_ALLOC_COSTLY_ORDER(3), I'm not totally sure I understand your
-> > question? Are you suggesting those values would be more natural orders
-> > to choose from?
+Applied.  I dropped the first hunk as that fix had already been
+submitted by someone else.
+
+Alex
+
+On Tue, Oct 27, 2020 at 3:07 PM <trix@redhat.com> wrote:
 >
-> The numbers, 9 and 3, are not magic themselves but under the mm diretory
-> they draw more attentions than others do. Sometimes it would take two
-> minutes for me to work out that HPAGE_PMD_ORDER does not mean 1MiB, on
-> platforms like arm64 or not.
-
-Yes, I can say it took me longer than two minutes to dig around and
-work out HPAGE_PMD_ORDER for my last reply.  :)
-
-Though I'm still a bit unsure if you are proposing something more than
-just a comment to explain why order 8 and order 4 allocations are used
-in my patch? Please let me know if so.
-
-thanks
--john
+> From: Tom Rix <trix@redhat.com>
+>
+> A semicolon is not needed after a switch statement.
+>
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> index 1b213c4ddfcb..19c0a3655228 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> @@ -654,7 +654,7 @@ int amdgpu_pmu_init(struct amdgpu_device *adev)
+>
+>         default:
+>                 return 0;
+> -       };
+> +       }
+>
+>         return ret;
+>  }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> index 8bf6a7c056bc..a61cf8cfbfc3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> @@ -953,7 +953,7 @@ static char *amdgpu_ras_badpage_flags_str(unsigned int flags)
+>         case AMDGPU_RAS_RETIRE_PAGE_FAULT:
+>         default:
+>                 return "F";
+> -       };
+> +       }
+>  }
+>
+>  /**
+> --
+> 2.18.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
