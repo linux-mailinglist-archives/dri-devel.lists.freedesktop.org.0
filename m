@@ -2,73 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789732A206D
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560692A206C
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE42F6EB2F;
-	Sun,  1 Nov 2020 17:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC3646EB2B;
+	Sun,  1 Nov 2020 17:36:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87D106EEBA
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 23:13:49 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id m8so2541115ljj.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 16:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vaA+T5tHs3ugLEg4WgA+ZnP+FdPWA5G8q51SBunf3P8=;
- b=ayHzA9bxYYxnsSZ7EhltVKQ2JbLqL+7bZqQH9Bxbrbv/70NQua4yYPV8lY5cTpbS2I
- 7g6YDGHgUnwC14iHjv/8X/UFmK2lR9a5QAGym10WG42DkhQ9Q0UBGw9Xs7D54oAWFn2w
- rpmfY+FCq4OD2RElXatQkwhyrOHTDqrc9GU2EMfMi4tCFFUS4wTP3a6MIemnzcO2jg9x
- 6gQ5pvlL/cwSMaQSVpTsrX/L8u7LhbCy5NKX8zrDgG+n18Z0x+VgKw2HqEq8JYpOFlrG
- QQY7tDVzBPcTd2yYljfyccP55sJNnZ/pZEOXkE7urwvPQyyvrHNnzWixCtiCwamGJ7+B
- Pe5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vaA+T5tHs3ugLEg4WgA+ZnP+FdPWA5G8q51SBunf3P8=;
- b=E0oGaym8bhXCnh9+MJSCy2RPQNeahD5GlZYhCmDc2ioQbp3J8tZNlQia9n6bDD/9ja
- DcyeLRgwrRhvG65Mao/iONz9N52ClkLTacwnG2lWU+/qemeEbWIWmKOhujy4zzs8wQAH
- lu1v9mQBIhPnv+fCxte/z7N/Y+b/NCafYRzVJ8KlBSnyyazrPfJvlPDyTZCfkirAY71d
- fWzYL8J/WexOCZiYo6ICTxHntSxxyopFeQ+azComV5F7yB99/u18M0bCygOvzUXtwd+B
- BJrtk6yyOyGVp6r1mXm8k3KvEtrf8mViORgiEbzs1oO/KA34Sebbh9VQ//hZPHcQHYs0
- InJw==
-X-Gm-Message-State: AOAM532c0TCBFUud86T59vt5r++65KbR5pB8XkOXCD0blFsOIEfBn31X
- agfrFcv3BF4X1KYWd1MMSLs=
-X-Google-Smtp-Source: ABdhPJzY5Ndi78+o6ubMxaCqgE1ZdYjt/EwFHanf+HIdcKgOHE7AXb+ZaRltRhXm/XFl68fy74qLow==
-X-Received: by 2002:a2e:94d0:: with SMTP id r16mr1940414ljh.292.1604099627781; 
- Fri, 30 Oct 2020 16:13:47 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-193-177.dynamic.spd-mgts.ru.
- [109.252.193.177])
- by smtp.googlemail.com with ESMTPSA id a9sm772943lfl.70.2020.10.30.16.13.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Oct 2020 16:13:46 -0700 (PDT)
-Subject: Re: [PATCH v3 19/20] drm/tegra: Implement new UAPI
-To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
- <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <20201007171238.1795964-1-mperttunen@nvidia.com>
- <20201007171238.1795964-20-mperttunen@nvidia.com>
- <dd13ec2c-1e01-ca61-656c-b23b156b100f@gmail.com>
- <b33a5084-7dc3-a865-2f36-274ecebf2ee7@kapsi.fi>
- <1f3267a9-37b4-2cff-08a2-2ca7c905ce01@gmail.com>
- <6a7b4d4e-8d4a-416e-9789-45282b44bce5@kapsi.fi>
- <48f5bbac-3955-c227-dbe1-d987b4ec5bd0@gmail.com>
- <414b4943-265d-3735-c115-d54469018d8c@kapsi.fi>
- <e8afd710-de37-f1c5-f61c-ed97c07370bf@gmail.com>
- <6ef6337d-3bb5-bbba-f39c-6de1722ddc44@kapsi.fi>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0f1c8226-4960-aa35-9436-2361fc8fb6ae@gmail.com>
-Date: Sat, 31 Oct 2020 02:13:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C46336EEAD
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 23:23:22 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1604100203; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=BLdO/YyUeVr9H8mVh5lP1ZN3Iw/7BuwJ8Kl9rrPhSww=;
+ b=YbhmWzXa6sjUZB5GMcAbyk4PsTlVQK1HusUeylWvTcOBecpJVYxcrRtdm/KvDTc4tVLQwnMX
+ PwzVL+1Bqags9SI2GuA0mW3x5bDQPOiF/9udTqm/feg35GyXnC0FlFI4zp/njfLF6dyqVhBp
+ /UKDtVRBaYWVA4AAxultzqsMcy8=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 5f9ca0551df7f5f83ce22212 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 30 Oct 2020 23:23:01
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id DABEDC433FF; Fri, 30 Oct 2020 23:23:01 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4DACFC433C8;
+ Fri, 30 Oct 2020 23:23:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4DACFC433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com,
+	sean@poorly.run,
+	swboyd@chromium.org
+Subject: [PATCH] drm/msm/dp: deinitialize mainlink if link training failedo
+Date: Fri, 30 Oct 2020 16:22:53 -0700
+Message-Id: <20201030232253.11049-1-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <6ef6337d-3bb5-bbba-f39c-6de1722ddc44@kapsi.fi>
-Content-Language: en-US
 X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,106 +68,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: rnayak@codeaurora.org, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjguMTAuMjAyMCAxMjo1NCwgTWlra28gUGVydHR1bmVuINC/0LjRiNC10YI6Cj4gT24gMTAvMjcv
-MjAgOTowNiBQTSwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+PiAyNi4xMC4yMDIwIDEyOjExLCBN
-aWtrbyBQZXJ0dHVuZW4g0L/QuNGI0LXRgjoKPj4+Pgo+Pj4+IFRoZSBmaXJzdCBwYXRjaGVzIHNo
-b3VsZCBiZSB0aGUgb25lcyB0aGF0IGFyZSByZWxldmFudCB0byB0aGUgZXhpc3RpbmcKPj4+PiB1
-c2Vyc3BhY2UgY29kZSwgbGlrZSBzdXBwb3J0IGZvciB0aGUgd2FpdHMuCj4+Pgo+Pj4gQ2FuIHlv
-dSBlbGFib3JhdGUgd2hhdCB5b3UgbWVhbiBieSB0aGlzPwo+Pgo+PiBBbGwgZmVhdHVyZXMgdGhh
-dCBkb24ndCBoYXZlIGFuIGltbWVkaWF0ZSByZWFsIHVzZS1jYXNlIHNob3VsZCBiZSBwbGFjZWQK
-Pj4gbGF0ZXIgaW4gdGhlIHNlcmllcyBiZWNhdXNlIHdlIG1heSBkZWZlciBtZXJnaW5nIG9mIHRo
-b3NlIHBhdGNoZXMgdW50aWwKPj4gd2Ugd2lsbCBzZWUgdXNlcnNwYWNlIHRoYXQgdXNlcyB0aG9z
-ZSBmZWF0dXJlcyBzaW5jZSB3ZSBjYW4ndCByZWFsbHkKPj4gZGVjaWRlIHdoZXRoZXIgdGhlc2Ug
-YXJlIGRlY2lzaW9ucyB0aGF0IHdlIHdvbid0IHJlZ3JldCBsYXRlciBvbiwgb25seQo+PiBwcmFj
-dGljYWwgYXBwbGljYXRpb24gY2FuIGNvbmZpcm0gdGhlIGNvcnJlY3RuZXNzLgo+IAo+IEkgd2Fz
-IG1vcmUgcmVmZXJyaW5nIHRvIHRoZSAic3VwcG9ydCBmb3Igd2FpdHMiIHBhcnQsIHNob3VsZCBo
-YXZlCj4gY2xhcmlmaWVkIHRoYXQuCgpUaGUgInN1cHBvcnQgZm9yIHdhaXRzIiBpcyBzdXBwb3J0
-IGZvciB0aGUgV0FJVF9TWU5DUFQgY29tbWFuZCBleHBvc2VkCnRvIHVzZXJzcGFjZSwgd2hpY2gg
-d2UgY291bGQgdXRpbGl6ZSByaWdodCBub3cuCgo+Pj4+IFBhcnRpYWwgbWFwcGluZ3Mgc2hvdWxk
-IGJlIGEgc2VwYXJhdGUgZmVhdHVyZSBiZWNhdXNlIGl0J3MgYQo+Pj4+IHF1ZXN0aW9uYWJsZSBm
-ZWF0dXJlIHRoYXQgbmVlZHMgdG8gYmUgcHJvdmVkIGJ5IGEgcmVhbCB1c2Vyc3BhY2UgZmlyc3Qu
-Cj4+Pj4gTWF5YmUgaXQgd291bGQgYmUgZXZlbiBiZXR0ZXIgdG8gZHJvcCBpdCBmb3IgdGhlIHN0
-YXJ0ZXIsIHRvIGVhc2UKPj4+PiByZXZpZXdpbmcuCj4+Pgo+Pj4gQ29uc2lkZXJpbmcgdGhhdCB0
-aGUgIm5vLW9wIiBzdXBwb3J0IGZvciBpdCAobWFwIHRoZSB3aG9sZSBidWZmZXIgYnV0Cj4+PiBq
-dXN0IGtlZXAgdHJhY2sgb2YgdGhlIHN0YXJ0aW5nIG9mZnNldCkgaXMgb25seSBhIGNvdXBsZSBv
-ZiBsaW5lcywgSSdkCj4+PiBsaWtlIHRvIGtlZXAgaXQgaW4uCj4+Cj4+IFRoZXJlIGlzIG5vIHRy
-YWNraW5nIGluIHRoZSBjdXJyZW50IGNvZGUgd2hpY2ggcHJldmVudHMgdGhlIGR1cGxpY2F0ZWQK
-Pj4gbWFwcGluZ3MsIHdpbGwgd2UgbmVlZCB0byBjYXJlIGFib3V0IGl0PyBUaGlzIGEgYml0IHRv
-byBxdWVzdGlvbmFibGUKPj4gZmVhdHVyZSBmb3Igbm93LCBJTU8uIEknZCBsaWtlIHRvIHNlZSBp
-dCBhcyBhIHNlcGFyYXRlIHBhdGNoLgo+IAo+IEkgZG9uJ3QgdGhpbmsgdGhlcmUgaXMgYW55IG5l
-ZWQgdG8gc3BlY2lhbCBjYXNlIGR1cGxpY2F0ZWQgbWFwcGluZ3MuIEkKPiB0aGluayB0aGlzIGlz
-IGEgcHJldHR5IG9idmlvdXMgZmVhdHVyZSB0byBoYXZlLCBidXQgSSBjYW4gcmVuYW1lIHRoZW0g
-dG8KPiByZXNlcnZlZDAgYW5kIHJlc2VydmVkMSBhbmQgcmVxdWlyZSB0aGF0IHJlc2VydmVkMCBp
-cyB6ZXJvIGFuZCByZXNlcnZlZDEKPiBpcyB0aGUgc2l6ZSBvZiB0aGUgcGFzc2VkIEdFTSBvYmpl
-Y3QuCgpJJ20gbm93IGNvbmNlcm5lZCBhYm91dCB0aGUgcmVzZXJ2ZWQgZmllbGRzIGFmdGVyIHNl
-ZWluZyB0aGlzIHJlcGx5IGZyb20KRGFuaWVsIFZldHRlcjoKCmh0dHBzOi8vd3d3Lm1haWwtYXJj
-aGl2ZS5jb20vbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcvbXNnMzYzMjQuaHRtbAoKSWYg
-RFJNIElPQ1RMIHN0cnVjdHMgYXJlIHplcm8tZXh0ZW5kZWQsIHRoZW4gcGVyaGFwcyB3ZSB3b24n
-dCBuZWVkIHRvCnJlc2VydmUgYW55dGhpbmc/Cgo+PiAuLi4KPj4+PiBJJ2QgbGlrZSB0byBzZWUg
-dGhlIERSTV9TQ0hFRCBhbmQgc3luY29iaiBzdXBwb3J0LiBJIGNhbiBoZWxwIHlvdSB3aXRoCj4+
-Pj4gaXQgaWYgaXQncyBvdXQgb2YgeW91cnMgc2NvcGUgZm9yIG5vdy4KPj4+Pgo+Pj4KPj4+IEkg
-YWxyZWFkeSB3cm90ZSBzb21lIGNvZGUgZm9yIHN5bmNvYmogSSBjYW4gcHJvYmFibHkgcHVsbCBp
-bi4gUmVnYXJkaW5nCj4+PiBEUk1fU0NIRUQsIGhlbHAgaXMgYWNjZXB0ZWQuIEhvd2V2ZXIsIHdl
-IHNob3VsZCBrZWVwIHVzaW5nIHRoZSBoYXJkd2FyZQo+Pj4gc2NoZWR1bGVyLCBhbmQgY29uc2lk
-ZXJpbmcgaXQncyBhIGJpZ2dlciBwaWVjZSBvZiB3b3JrLCBsZXQncyBub3QgYmxvY2sKPj4+IHRo
-aXMgc2VyaWVzIG9uIGl0Lgo+Pgo+PiBJJ2QgbGlrZSB0byBzZWUgYWxsIHRoZSBjdXN0b20gSU9D
-VExzIHRvIGJlIGRlcHJlY2F0ZWQgYW5kIHJlcGxhY2VkIHdpdGgKPj4gdGhlIGdlbmVyaWMgRFJN
-IEFQSSB3aGVyZXZlciBwb3NzaWJsZS4gSGVuY2UsIEkgdGhpbmsgaXQgc2hvdWxkIGJlIGEKPj4g
-bWFuZGF0b3J5IGZlYXR1cmVzIHRoYXQgd2UgbmVlZCB0byBmb2N1cyBvbi4gVGhlIGN1cnJlbnQg
-V0lQIHVzZXJzcGFjZQo+PiBhbHJlYWR5IHVzZXMgYW5kIHJlbGllcyBvbiBEUk1fU0NIRUQuCj4+
-Cj4gCj4gRnJvbSBteSBwb2ludCBvZiB2aWV3LCB0aGUgQUJJIG5lZWRzIHRvIGJlIGRlc2lnbmVk
-IHN1Y2ggdGhhdCBpdCBjYW4KPiByZXBsYWNlIHdoYXQgd2UgaGF2ZSBkb3duc3RyZWFtLCBpLmUu
-IGl0IG5lZWRzIHRvIHN1cHBvcnQgdGhlIHVzZWNhc2VzCj4gdGhlIGRvd25zdHJlYW0gbnZob3N0
-IEFCSSBzdXBwb3J0cyBjdXJyZW50bHkuIE90aGVyd2lzZSB0aGVyZSBpcyBubwo+IG1pZ3JhdGlv
-biBwYXRoIHRvIHVwc3RyZWFtIGFuZCBpdCdzIG5vdCB3b3J0aCBpdCBmb3IgbWUgdG8gd29yayBv
-biB0aGlzLgoKVGhlIGRvd25zdHJlYW0gbmVlZHMgc2hvdWxkIGJlIGlycmVsZXZhbnQgZm9yIHRo
-ZSB1cHN0cmVhbSwgcGxlYXNlIHJlYWQKdGhpczoKCmh0dHBzOi8vZHJpLmZyZWVkZXNrdG9wLm9y
-Zy9kb2NzL2RybS9ncHUvZHJtLXVhcGkuaHRtbCNvcGVuLXNvdXJjZS11c2Vyc3BhY2UtcmVxdWly
-ZW1lbnRzCgpJdCBtYXkgaGFwcGVuIHRoYXQgc29tZSBvZiB0aGUgZG93bnN0cmVhbSBmZWF0dXJl
-cyBjb3VsZCBiZWNvbWUgdXNlZnVsCmZvciB1cHN0cmVhbSwgYnV0IHdlIGRvbid0IGtub3cgdW50
-aWwgd2Ugd2lsbCBzZWUgdGhlIGZ1bGwgdXNlcnNwYWNlIGNvZGUuCgpXZSBkb24ndCBoYXZlIGEg
-Y29tcHJlaGVuc2l2ZSB1c2Vyc3BhY2Ugd2hpY2ggY291bGQgdXRpbGl6ZSBhbGwgdGhlIG5ldwpm
-ZWF0dXJlcyBhbmQgdGhhdCdzIHdoeSB1cHN0cmVhbSBkcml2ZXIgaGFzIGJlZW4gc3RhZ25hdGVk
-IGZvciBtYW55CnllYXJzIG5vdy4gVGhlIGdyYXRlLWRyaXZlcnMgd291bGQgZ3JlYXRseSBiZW5l
-Zml0IGZyb20gdGhlIHVwZGF0ZWQgQUJJLApidXQgSSB0aGluayB0aGF0IHdlIG5lZWQgYXQgbGVh
-c3QgYSB1c2FibGUgbWVzYSBkcml2ZXIgZmlyc3QsIHRoYXQncyB3aHkKSSBoYXZlbid0IGJvdGhl
-cmVkIHRvIHVwc3RyZWFtIGFueXRoaW5nIGZyb20gdGhlIFdJUCBVQVBJIHYyLgoKSW4gb3JkZXIg
-dG8gdXBzdHJlYW0gbmV3IFVBUEkgZmVhdHVyZXMgd2Ugd2lsbCBuZWVkOgoKICAxLiBIYXJkd2Fy
-ZSBzcGVjcyAoZnJvbSB2ZW5kb3Igb3IgcmV2ZXJzZS1lbmdpbmVlcmVkKS4KICAyLiBSZWdyZXNz
-aW9uIHRlc3RzLgogIDMuIEEgbm9uLXRveSBvcGVuc291cmNlIHVzZXJzcGFjZS4KCj4gQWx0aG91
-Z2gsIEkgZG9uJ3Qgc2VlIHdoYXQgdGhpcyBBQkkgaXMgbWlzc2luZyB0aGF0IHlvdXIgdXNlcnNw
-YWNlIHdvdWxkCj4gcmVseSBvbi4gRG9lcyBpdCBzdWJtaXQgam9icyBpbiByZXZlcnNlIG9yZGVy
-IHRoYXQgd291bGQgZGVhZGxvY2sgaWYKPiBkcm1fc2NoZWQgZGlkbid0IHJlb3JkZXIgdGhlbSBi
-YXNlZCBvbiBwcmVmZW5jZXMsIG9yIHNvbWV0aGluZz8KCkl0J3MgdGhlIG9wcG9zaXRlLCB3ZSBk
-b24ndCBoYXZlIHVzZXJzcGFjZSB3aGljaCBuZWVkcyBtYWpvcml0eSBvZiB0aGUKcHJvcG9zZWQg
-QUJJLiBUaGlzIG5lZWRzIHRvIGJlIGZpeGVkIGJlZm9yZSB3ZSBjb3VsZCBzZXJpb3VzbHkgY29u
-c2lkZXIKbWVyZ2luZyB0aGUgbmV3IGZlYXR1cmVzLgoKSSdtIHByZXR0eSBzdXJlIHRoYXQgeW91
-IHdhcyBhbHJlYWR5IGF3YXJlIGFib3V0IGFsbCB0aGUgdXBzdHJlYW1pbmcKcmVxdWlyZW1lbnRz
-IGFuZCB3ZSB3aWxsIHNlZSB0aGUgdXNhYmxlIG9wZW5zb3VyY2UgdXNlcnNwYWNlIGF0IHNvbWUK
-cG9pbnQsIGNvcnJlY3Q/CgpGb3Igbm93IGl0IHdpbGwgYmUgZ29vZCB0byBoYXZlIHRoaXMgc2Vy
-aWVzIGluIGEgZm9ybSBvZiBhCndvcmstaW4tcHJvZ3Jlc3MgcGF0Y2hlcywgY29udGludWluZyB0
-byBkaXNjdXNzIGFuZCB1cGRhdGUgaXQuIE1lYW53aGlsZQp3ZSB3aWxsIG5lZWQgdG8gd29yayBv
-biB0aGUgdXNlcnNwYWNlIHBhcnQgYXMgd2VsbCwgd2hpY2ggaXMgYSBtdWNoCmJpZ2dlciBibG9j
-a2VyLgoKPiBTb2Z0d2FyZS1iYXNlZCBzY2hlZHVsaW5nIG1pZ2h0IG1ha2Ugc2Vuc2UgaW4gc2l0
-dWF0aW9ucyB3aGVyZSB0aGUKPiBjaGFubmVsIGlzIHNoYXJlZCBieSBhbGwgcHJvY2Vzc2VzLCBi
-dXQgYXQgbGVhc3QgZm9yIG1vZGVybiBjaGlwcyB0aGF0Cj4gYXJlIGRlc2lnbmVkIHRvIHVzZSBo
-YXJkd2FyZSBzY2hlZHVsaW5nLCBJIHdhbnQgdG8gdXNlIHRoYXQgY2FwYWJpbGl0eS4KClRoZSBz
-b2Z0d2FyZS1iYXNlZCBzY2hlZHVsaW5nIGlzIGluZGVlZCBuZWVkZWQgZm9yIHRoZSBvbGRlciBT
-b0NzIGluCm9yZGVyIG5vdCB0byBibG9jayBoYXJkd2FyZSBjaGFubmVscyBhbmQgam9iLXN1Ym1p
-c3Npb24gY29kZSBwYXRocy4KTWF5YmUgaXQgY291bGQgYmVjb21lIHVzZWZ1bCBmb3IgYSBuZXdl
-ciBTb0NzIGFzIHdlbGwgb25jZSB3ZSB3aWxsIGdldApjbG9zZXIgdG8gYSB1c2FibGUgdXNlcnNw
-YWNlIDopCgpJdCB3aWxsIGJlIGdyZWF0IHRvIGhhdmUgdGhlIGhhcmR3YXJlLWJhc2VkIHNjaGVk
-dWxpbmcgc3VwcG9ydGVkLCBidXQgSQphc3N1bWUgdGhhdCBpdCBuZWVkcyB0byBiZSBkb25lIG9u
-IHRvcCBvZiBEUk1fU0NIRUQuIFRoaXMgc2hvdWxkIGFsbG93CnVzIHRvIHJlbW92ZSBhbGwgdGhl
-IGJ1Z2d5IGhvc3QxeCdzIHB1c2hidWZmZXIgbG9ja2luZyBjb2RlICh3aGljaCBpcwprbm93biB0
-byBkZWFkbG9jaykgYW5kIHN1cHBvcnQgYSBub24taG9zdDF4IGZlbmNlcyBmb3IgZnJlZS4KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+DP compo phy have to be enable to start link training. When
+link training failed phy need to be disabled so that next
+link trainng can be proceed smoothly at next plug in. This
+patch de initialize mainlink to disable phy if link training
+failed. This prevent system crash due to
+disp_cc_mdss_dp_link_intf_clk stuck at "off" state.  This patch
+also perform checking power_on flag at dp_display_enable() and
+dp_display_disable() to avoid crashing when unplug cable while
+display is off.
+
+Fixes: fdaf9a5e3c15 (drm/msm/dp: fixes wrong connection state caused by failure of link train
+
+Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 34 +++++++++++++++++++++++++++--
+ drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++++++++
+ 2 files changed, 45 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index cee161c8ecc6..904698dfc7f7 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1468,6 +1468,29 @@ static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
+ 	return ret;
+ }
+ 
++static int dp_ctrl_deinitialize_mainlink(struct dp_ctrl_private *ctrl)
++{
++	struct dp_io *dp_io;
++	struct phy *phy;
++	int ret = 0;
++
++	dp_io = &ctrl->parser->io;
++	phy = dp_io->phy;
++
++	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
++
++	dp_catalog_ctrl_reset(ctrl->catalog);
++
++	ret = dp_power_clk_enable(ctrl->power, DP_CTRL_PM, false);
++	if (ret)
++		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
++
++	phy_power_off(phy);
++	phy_exit(phy);
++
++	return -ECONNRESET;
++}
++
+ static int dp_ctrl_link_maintenance(struct dp_ctrl_private *ctrl)
+ {
+ 	int ret = 0;
+@@ -1648,8 +1671,7 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 	if (rc)
+ 		return rc;
+ 
+-	while (--link_train_max_retries &&
+-		!atomic_read(&ctrl->dp_ctrl.aborted)) {
++	while (--link_train_max_retries) {
+ 		rc = dp_ctrl_reinitialize_mainlink(ctrl);
+ 		if (rc) {
+ 			DRM_ERROR("Failed to reinitialize mainlink. rc=%d\n",
+@@ -1664,6 +1686,9 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 			break;
+ 		} else if (training_step == DP_TRAINING_1) {
+ 			/* link train_1 failed */
++			if (!dp_catalog_hpd_get_state_status(ctrl->catalog))
++				break;		/* link cable unplugged */
++
+ 			rc = dp_ctrl_link_rate_down_shift(ctrl);
+ 			if (rc < 0) { /* already in RBR = 1.6G */
+ 				if (cr.lane_0_1 & DP_LANE0_1_CR_DONE) {
+@@ -1683,6 +1708,9 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 			}
+ 		} else if (training_step == DP_TRAINING_2) {
+ 			/* link train_2 failed, lower lane rate */
++			if (!dp_catalog_hpd_get_state_status(ctrl->catalog))
++				break;		/* link cable unplugged */
++
+ 			rc = dp_ctrl_link_lane_down_shift(ctrl);
+ 			if (rc < 0) {
+ 				/* end with failure */
+@@ -1703,6 +1731,8 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 	 */
+ 	if (rc == 0)  /* link train successfully */
+ 		dp_ctrl_push_idle(dp_ctrl);
++	else
++		rc = dp_ctrl_deinitialize_mainlink(ctrl);
+ 
+ 	return rc;
+ }
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 3eb0d428abf7..13b66266cd69 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -529,6 +529,11 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+ 	if (ret) {	/* link train failed */
+ 		hpd->hpd_high = 0;
+ 		dp->hpd_state = ST_DISCONNECTED;
++
++		if (ret == -ECONNRESET) { /* cable unplugged */
++			dp->core_initialized = false;
++		}
++
+ 	} else {
+ 		/* start sentinel checking in case of missing uevent */
+ 		dp_add_event(dp, EV_CONNECT_PENDING_TIMEOUT, 0, tout);
+@@ -794,6 +799,11 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
+ 
+ 	dp_display = g_dp_display;
+ 
++	if (dp_display->power_on) {
++		DRM_DEBUG_DP("Link already setup, return\n");
++		return 0;
++	}
++
+ 	rc = dp_ctrl_on_stream(dp->ctrl);
+ 	if (!rc)
+ 		dp_display->power_on = true;
+@@ -826,6 +836,9 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
+ 
+ 	dp_display = g_dp_display;
+ 
++	if (!dp_display->power_on)
++		return -EINVAL;
++
+ 	/* wait only if audio was enabled */
+ 	if (dp_display->audio_enabled) {
+ 		if (!wait_for_completion_timeout(&dp->audio_comp,
+
+base-commit: fd4a29bed29b3d8f15942fdf77e7a0a52796d836
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
