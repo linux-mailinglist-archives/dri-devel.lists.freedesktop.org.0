@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C1929FC3E
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 04:36:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F4129FC42
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 04:45:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E52F6E94E;
-	Fri, 30 Oct 2020 03:36:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 659316E94B;
+	Fri, 30 Oct 2020 03:45:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 426B36E94E;
- Fri, 30 Oct 2020 03:36:15 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id c16so1688603wmd.2;
- Thu, 29 Oct 2020 20:36:15 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 769136E94B;
+ Fri, 30 Oct 2020 03:45:00 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id w14so4930482wrs.9;
+ Thu, 29 Oct 2020 20:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WpTdrDRkqx2HX8+Ao111ZZvDGbkWV2lswjjfmR4K1dg=;
- b=c5sOUUNO35F+/uRRrQWpGRjzlAaWaPvjaRgOYEytNZzbhfNaEGmMAejM6C7j5X0nR8
- LdUAIS7lMnpDHHkYwEnYs/Q+/ahDCNV0mQhDOw5UTiEbu13xLRT17AiwT2P5x86QWDbg
- kiEW4igiK5g0LV90sxAu8I4k6Cfi0o2BOn82hjqRBfLNZQ5HSYDi0JabNlP4Axy2R59v
- aCSA0hRmc0AuJYDO0Om98ySQfY8PHzZq1TGD8pFOEcMRdjIsmxZxusgUhu/HFVAOUpjl
- jjJFVjKpDOYhF+WNGBUFlY9t5hAoDLghEf6jbhrYNibOBowTthy/NIvIbZLwTT6MR5oD
- CWrQ==
+ :cc; bh=CqRQo1k+LyBootWHIaIxWjANkP7ifh1D8uGLNtgxfI4=;
+ b=NfiTO9tOxd9P308/HhlATOrmcqAD62BLyB79f+18OkTCEA10hoCvxR7zLfUXi5/+kp
+ KldGo5NtKuI+jcxjVy8Gqr02bkHtRt9CHRs4hiiazCClbDwj+ENrxo4mvlry36WvX2XG
+ Hfc9cuTHpbt6ectqZUDDpS0EPNxCUjTISiweYb4ETvTml0blH6j96nYm9au7/26Sndje
+ sof5VpViWl/mpTMcsb0obaLPyri3JwFbPh21iSHQHUVLkIqCZXI2MuwteDJOD6YHS4Uh
+ +rZtkkm6S0uUzkjSruu0NHg0Ac0fjVw5fIbTeTtUOzLHPGcjaMC4qA3CN6xaTp9fwL+9
+ ZDag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=WpTdrDRkqx2HX8+Ao111ZZvDGbkWV2lswjjfmR4K1dg=;
- b=of74b104J1wxIh4a6AtnbTfMf90x53BikorzZf0fzxwhE6KIOWH0zloYxYQW594aCh
- 1FzPTUihNHiV0+BTIQ3N7n3749MfSpddeOPA51fRgRWSa0b/+8pZJ1B6xjXIxlQaSVw8
- WxWCaVuMeTnfEI5O/C9UhG/MLBJr9YERbzKv8LptD1eaQQkeS+5s/O5frxns+1k8SDhs
- RbqksW2G29LOBu+HY6Kg3aYATwJOsPYqw4sJ7b29Nd1V7h0uAJDb471GTpuugrVo76k2
- YurKBUIIJwp51dIKAbX/X1OJYhOMhxmBXm4ig6K5JMSSX4aC7X0L58njDR+bZYc/5Sse
- f26A==
-X-Gm-Message-State: AOAM530QsIqKoj3dyjVNAI/U0RD+wtb+PYVhloZYEQAuRSK9C8W5fLdu
- mjhBgi1A5elsuUSLKK+izC1YzqAr2M+bToTAv6U=
-X-Google-Smtp-Source: ABdhPJzlszIwtuyR37tOF74yRqXeK392gG6mumSjaKF07bpgrRkjdTgLuooTCjjPn1TPiCczetwbTzYAENFdaix/rIQ=
-X-Received: by 2002:a1c:e403:: with SMTP id b3mr194500wmh.79.1604028973927;
- Thu, 29 Oct 2020 20:36:13 -0700 (PDT)
+ bh=CqRQo1k+LyBootWHIaIxWjANkP7ifh1D8uGLNtgxfI4=;
+ b=arhw7eWwCnNEMDekHK6hqsz5ONNUDZS5FswtwL/1sP6k40BEOgNTGqvXCEhCuSWXo5
+ d7957bDspnSkqIi0hTXrryBb3jUruOMdx0seBjfjljw2CKFmvIzUxULHjeuTGEcCavPr
+ WS/DiX6EEwwtaN9Gn+T2ly9tgjyLWAOKhTIbbZgX5NjcSQNtEAdSDKkuCbUApED7UTqL
+ Br/TnbiuJuWqEGCyiSi50pO+rYwNC+ss4UqLP+M9sK4PkUhmcgpMLzOhe++8DErlFDCa
+ aULMh3sKwf6KVR2jXNlyDpPGwG90b9xaYnJYPHvA+nOYQRjxdxYcRxN5qfupLPwdRsLL
+ iOJg==
+X-Gm-Message-State: AOAM530uBjEVyP2nuhs2qPdha9PEWaKG6Asrj7NMACWZ48useUHqTWwP
+ kQynsA3UXB/HfZ8qCQ6/lcJQfJKI7vNsY4YeaEA=
+X-Google-Smtp-Source: ABdhPJyZsaTRPa6cjCtyjtMW3tmQylPLGZh/UEBXCyh2htGgoNYKtpTOtToxkbQ8qz6xDinhIr5w6dbXejWAKDUGNhw=
+X-Received: by 2002:adf:dd8f:: with SMTP id x15mr401458wrl.124.1604029499181; 
+ Thu, 29 Oct 2020 20:44:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201027200708.1596235-1-trix@redhat.com>
-In-Reply-To: <20201027200708.1596235-1-trix@redhat.com>
+References: <20201026210039.3884312-1-arnd@kernel.org>
+ <20201026210039.3884312-2-arnd@kernel.org>
+In-Reply-To: <20201026210039.3884312-2-arnd@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 29 Oct 2020 23:36:02 -0400
-Message-ID: <CADnq5_OrW7UR9a-UFq_OhVE445L0jr9EKeyaG47s1nhO2tDi8w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: remove unneeded semicolon
-To: trix@redhat.com
+Date: Thu, 29 Oct 2020 23:44:47 -0400
+Message-ID: <CADnq5_OORogMPV6zrEPGNGJ-jEamkzymdGTyHetrF_9xvoVx_w@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm/amdgpu: fix incorrect enum type
+To: Arnd Bergmann <arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,17 +61,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Charlene Liu <Charlene.Liu@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, joseph.gravenor@amd.com,
- "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, Anthony Koo <Anthony.Koo@amd.com>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>, Wenjing Liu <Wenjing.Liu@amd.com>,
- Igor.Kravchenko@amd.com, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Dave Airlie <airlied@linux.ie>, "Cheng, Tony" <Tony.Cheng@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Colin Ian King <colin.king@canonical.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: jinlong zhang <jinlong.zhang@amd.com>,
+ David Galiffi <david.galiffi@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ Leo Li <sunpeng.li@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Hersen Wu <hersenxs.wu@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ abdoulaye berthe <abdoulaye.berthe@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Martin Tsai <martin.tsai@amd.com>,
+ Jun Lei <Jun.Lei@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -80,45 +82,48 @@ Applied.  Thanks!
 
 Alex
 
-On Tue, Oct 27, 2020 at 4:07 PM <trix@redhat.com> wrote:
+On Mon, Oct 26, 2020 at 5:01 PM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> From: Tom Rix <trix@redhat.com>
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> A semicolon is not needed after a switch statement.
+> core_link_write_dpcd() returns enum dc_status, not ddc_result:
 >
-> Signed-off-by: Tom Rix <trix@redhat.com>
+> display/dc/core/dc_link_dp.c: In function 'dp_set_panel_mode':
+> display/dc/core/dc_link_dp.c:4237:11: warning: implicit conversion from 'enum dc_status' to 'enum ddc_result'
+> [-Wenum-conversion]
+>
+> Avoid the warning by using the correct enum in the caller.
+>
+> Fixes: 0b226322434c ("drm/amd/display: Synchronous DisplayPort Link Training")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c | 2 +-
->  drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.c     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
-> index 7b4b2304bbff..5feb804af4be 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
-> @@ -858,7 +858,7 @@ static struct clock_source *find_matching_pll(
->                 return pool->clock_sources[DCE112_CLK_SRC_PLL5];
->         default:
->                 return NULL;
-> -       };
-> +       }
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> index ff1e9963ec7a..98464886341f 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> @@ -4230,7 +4230,7 @@ void dp_set_panel_mode(struct dc_link *link, enum dp_panel_mode panel_mode)
 >
->         return 0;
->  }
-> diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.c
-> index fb6a19d020f9..ee5230ccf3c4 100644
-> --- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.c
-> +++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp_log.c
-> @@ -280,6 +280,6 @@ char *mod_hdcp_state_id_to_str(int32_t id)
->                 return "D2_A9_VALIDATE_STREAM_READY";
->         default:
->                 return "UNKNOWN_STATE_ID";
-> -       };
-> +       }
->  }
+>                 if (edp_config_set.bits.PANEL_MODE_EDP
+>                         != panel_mode_edp) {
+> -                       enum ddc_result result = DDC_RESULT_UNKNOWN;
+> +                       enum dc_status result = DC_ERROR_UNEXPECTED;
 >
+>                         edp_config_set.bits.PANEL_MODE_EDP =
+>                         panel_mode_edp;
+> @@ -4240,7 +4240,7 @@ void dp_set_panel_mode(struct dc_link *link, enum dp_panel_mode panel_mode)
+>                                 &edp_config_set.raw,
+>                                 sizeof(edp_config_set.raw));
+>
+> -                       ASSERT(result == DDC_RESULT_SUCESSFULL);
+> +                       ASSERT(result == DC_OK);
+>                 }
+>         }
+>         DC_LOG_DETECTION_DP_CAPS("Link: %d eDP panel mode supported: %d "
 > --
-> 2.18.1
+> 2.27.0
 >
 > _______________________________________________
 > dri-devel mailing list
