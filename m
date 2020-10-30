@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F68629FFB1
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:24:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DB729FFBC
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:24:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 165D36E986;
-	Fri, 30 Oct 2020 08:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4FC86ECF7;
+	Fri, 30 Oct 2020 08:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D29EB897FB
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 03:34:03 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id n16so4025573pgv.13
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 20:34:03 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 228436E94C;
+ Fri, 30 Oct 2020 04:04:06 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id g12so4095048pgm.8;
+ Thu, 29 Oct 2020 21:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=0dmV/CR2ixHQrxpfc1u4wESPQI/4+pG75mm91eKFO/I=;
- b=cGHq059jOI/OKifCzdFXyVg+UBZQHuv/ZQ2se7LpOBjz9fKNLXGdVF8hhSX10jzUFl
- trKUJ3ukZIF0xbFq8ydvkaiDgQHrxpVyKOjzYlvGHmJMtWJ1bvPkMNvlwAu/x+P8w8Ao
- RUs7HLtG/Xw736RQRnqTD6ygZyxTkjS2DScxRQz5H2x2Dz4op/hOenaz2bRTZMabYYTf
- iN/VmACa0OmHa3+Mt9LqTpM+j4mGBwiMWXStiEX+0/i+JJ68fXVcKi8WYB556GZJylmm
- tHzBBV6n+bKZiHSwQH0jab0Unt1kdesZRk7AvagO8eVt6BHsBVNlh4Hfnx0L/86APmX8
- si2Q==
+ bh=omeX/7USjZZ0bCTBjHGOVLTjZl1oqWJzp7gUz7b6h8o=;
+ b=nDvPvTn9phgjic1rYziuxJbM/OAHLhdXJG7ZM3/oaHXZLLEojGVPRr0/dOJEMOX2ZV
+ 0y48gTkP0J6wfHakJaZv98m/RyzH64FNDGl4ALrV2KM0/WaO9GWXgd60CUeWwwTgZd9x
+ OwQYnx4Jv+QedwVrqKomnqgBSkiMcVlKi+DDXHX4aEeYmacKedUyw4sfEn2NK2gooOAW
+ UUng2XwfDd6pkqZjUw9pOpsV8BXzcYBMYGqGFu+80jE1qe25+6V+wsPRSdQkpdAXnQQN
+ 9ksbWoIOgpNjOQYJQIpN/EEZBgTd8eMZ5xqHhYPSPdH0UiU2VOZ5eOZ6WszqRidIbY3A
+ /BOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
  :content-disposition;
- bh=0dmV/CR2ixHQrxpfc1u4wESPQI/4+pG75mm91eKFO/I=;
- b=P1og05vm5zIGnYUTXdJNKBgtrp6KdHQ1PeJGljWJB40SpEEnX3IKWTDuEceEIn3Qlv
- zlzCinmvyun+dUbszARnmTTARLUUmoPzuT+sY/1e4Ra4rMoKIIic7GHwM3+oCr9aKifS
- G4XIfTIWVpMqBIHAA2mK1RYbD/+xnLnVNfHb3h5kKjpSWWSTNfJza+bYmBmWfH4dyIKO
- yzbdK8/hf+4XOjJyB+0pxggTV7ZSkA6JwXhtEFW+44+ixdNs3l0Q5Wqh5wMJ7CfizSi4
- ok9b2fvcNFNLHfYdW6WqOmhZjCdGhxfs7TYuV+sZE3gSdfKZSSKdowlftVFKEMmkLMW3
- OeBw==
-X-Gm-Message-State: AOAM530Ag9RFIHRIkxTWQ2uH0++Sm0/SrYfU9SfobxyvkWeEKY1GMjHv
- FvmufUEryA3QZCew3r0bz7U=
-X-Google-Smtp-Source: ABdhPJygkP1YEs01A252TcskXebd1Ann3fBmrJQ+e+HCwnue7s3XOdZxU4n3Hu6M9H8S8X6wE/AQYQ==
-X-Received: by 2002:a65:688a:: with SMTP id e10mr394514pgt.347.1604028843566; 
- Thu, 29 Oct 2020 20:34:03 -0700 (PDT)
+ bh=omeX/7USjZZ0bCTBjHGOVLTjZl1oqWJzp7gUz7b6h8o=;
+ b=AAYVBi6x8snrJoy7nRAHyTbNGbog+iyU6tV1qEBe5lnQyOp4WqXigqW1mHV5OMHSSJ
+ YzwB/cjg/drWIaEhdvTUO8Qv7b8haFMTP15OE0nhszBhMpCtaaqM7zsPQnzmd6hUNTTX
+ n8Fg7hdi/xvDF2QQHXn1heKFmC2zBcDneSe38bbKsv5ZuhMZY4Gmljbbp7ThV2op8Fpn
+ bBNVfnKyKWOlK4Vq1q4AHM5PggWjqKPg7NRhPNAJDJkXRePqWdC1XFX4Hw6qqiM8jOm/
+ qzdk2uiRYzGyAlJkLV06RXh+CduJx6Y/tK3wcv2lGSG12irzFq1E3gwRvn3XnHeE8bVj
+ Z1rA==
+X-Gm-Message-State: AOAM531T6sdKkd9U09X5EaBwfLHlR6d63llwkJNEQCkun2IXLIv+GAbq
+ PnvolNxojGsLIKP0G4KwTNg=
+X-Google-Smtp-Source: ABdhPJwln0YHLlt3cQgyT3IiP+FDpP1bJ7gzY5729HwxsrRS9rA7GRyYw5IR8mCvUPP0U5gk7iKY8g==
+X-Received: by 2002:a63:5152:: with SMTP id r18mr458807pgl.381.1604030645846; 
+ Thu, 29 Oct 2020 21:04:05 -0700 (PDT)
 Received: from my--box ([103.98.79.70])
- by smtp.gmail.com with ESMTPSA id bo16sm1326504pjb.41.2020.10.29.20.34.00
+ by smtp.gmail.com with ESMTPSA id j2sm4048182pgi.48.2020.10.29.21.04.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 20:34:03 -0700 (PDT)
-Date: Fri, 30 Oct 2020 09:03:57 +0530
+ Thu, 29 Oct 2020 21:04:05 -0700 (PDT)
+Date: Fri, 30 Oct 2020 09:33:59 +0530
 From: Deepak R Varma <mh12gx2825@gmail.com>
 To: outreachy-kernel@googlegroups.com,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Vincent Abriou <vincent.abriou@st.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/sti: use DEFINE_DEBUGFS_ATTRIBUTE with
- debugfs_create_file_unsafe()
-Message-ID: <20201030033357.GA275168@my--box>
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/amd/pm: replace kmalloc+memcpy by kmemdup
+Message-ID: <20201030040359.GA276414@my--box>
 MIME-Version: 1.0
 Content-Disposition: inline
 X-Mailman-Approved-At: Fri, 30 Oct 2020 08:23:17 +0000
@@ -75,47 +75,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using DEFINE_DEBUGFS_ATTRIBUTE macro with debugfs_create_file_unsafe()
-function in place of the debugfs_create_file() function will make the
-file operation struct "reset" aware of the file's lifetime. Additional
-details here: https://lists.archive.carbon60.com/linux/kernel/2369498
-
-Issue reported by Coccinelle script:
-scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+Use kmemdup() for instructions using kmalloc() + memcpy(). More
+information here: https://lwn.net/Articles/198928/
+Issue reported by coccinelle script: scripts/coccinelle/api/memdup.cocci
 
 Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
 ---
+Changes since v1:
+   - Update patch subject and log message to match proposed change.
+   
 Please Note: This is a Outreachy project task patch.
 
- drivers/gpu/drm/sti/sti_drv.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c  | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-index 3f54efa36098..18c6639e4dbf 100644
---- a/drivers/gpu/drm/sti/sti_drv.c
-+++ b/drivers/gpu/drm/sti/sti_drv.c
-@@ -68,8 +68,8 @@ static int sti_drm_fps_set(void *data, u64 val)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
+index 740e2fc7a034..1e79baab753e 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
+@@ -252,12 +252,11 @@ static int init_powerplay_table_information(
+ 	phm_copy_clock_limits_array(hwmgr, &pptable_information->power_saving_clock_max, powerplay_table->PowerSavingClockMax, ATOM_VEGA12_PPCLOCK_COUNT);
+ 	phm_copy_clock_limits_array(hwmgr, &pptable_information->power_saving_clock_min, powerplay_table->PowerSavingClockMin, ATOM_VEGA12_PPCLOCK_COUNT);
  
--DEFINE_SIMPLE_ATTRIBUTE(sti_drm_fps_fops,
--			sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(sti_drm_fps_fops, sti_drm_fps_get,
-+			 sti_drm_fps_set, "%llu\n");
+-	pptable_information->smc_pptable = kmalloc(sizeof(PPTable_t), GFP_KERNEL);
++	pptable_information->smc_pptable = kmemdup(&(powerplay_table->smcPPTable),
++						   sizeof(PPTable_t), GFP_KERNEL);
+ 	if (pptable_information->smc_pptable == NULL)
+ 		return -ENOMEM;
  
- static int sti_drm_fps_dbg_show(struct seq_file *s, void *data)
- {
-@@ -98,8 +98,8 @@ static void sti_drm_dbg_init(struct drm_minor *minor)
- 				 ARRAY_SIZE(sti_drm_dbg_list),
- 				 minor->debugfs_root, minor);
+-	memcpy(pptable_information->smc_pptable, &(powerplay_table->smcPPTable), sizeof(PPTable_t));
+-
+ 	result = append_vbios_pptable(hwmgr, (pptable_information->smc_pptable));
  
--	debugfs_create_file("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
--			    minor->dev, &sti_drm_fps_fops);
-+	debugfs_create_file_unsafe("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
-+				   minor->dev, &sti_drm_fps_fops);
- 
- 	DRM_INFO("%s: debugfs installed\n", DRIVER_NAME);
- }
+ 	return result;
 -- 
 2.25.1
 
