@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDAB829FFB6
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:24:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1FA29FFA1
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:23:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E46D6E9C2;
-	Fri, 30 Oct 2020 08:23:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D546E996;
+	Fri, 30 Oct 2020 08:23:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A36A6E948;
- Fri, 30 Oct 2020 03:27:31 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id o3so4013948pgr.11;
- Thu, 29 Oct 2020 20:27:31 -0700 (PDT)
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1D83897FB;
+ Fri, 30 Oct 2020 03:29:52 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id z24so4049442pgk.3;
+ Thu, 29 Oct 2020 20:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=bnHvCuE87pUUeamFRrdRkC3/PfrKdLRFG6Yr9LjsnHU=;
- b=nRD8AmlOqJ8JayRjEopJ5gsIvdMeLsA6FdS+XJv2WFxcMo/+k7r9F5ErGu6fOFW8AQ
- RTdDljKeM5HQDBummdsxSpQUh3IjjRVzi87ByrvD2MkiJrhTmGRT35F+7aLPWD7+sidl
- Kv9plJtGdW2FL9gT2gv5Ri69CUQrpxWgieYZM2uZXZmUt431/qypzu54jCsKUAFsG7nQ
- f07ABRL0UayrZZsHvk1NfDvTzhRtiL4uBs/K5SGIIB+6Q6gbcI+mcfKw7kTPV7Owsq+X
- 3bI33+X8zHRUpqf0Ehk6Q9xJQkjcVMbWirQ45OILc08QA7/bdbhZjg8RTuOpUyERvQDE
- 7dWw==
+ bh=kNFigGmlnT8RRi6z0sCPMt5Zg63u/lv6a6WCx8xI9/k=;
+ b=mq0/8Qy7Ve6u00MU6iGI3ZON19U0Xh/nF42bdR7N8KoIOexf6e9uuP1lJ7aPL9gxUF
+ /6hU8zFSrMi6wE7MgmKYzth/P3AAHrFx3hiCLQqn74BJsqXoEznfDAxOU5bUjLpHiriW
+ +xvNTLfTgQB/aH1BCeDHWPLsRnuRkZqcguv6AiS45T+8S70dPK3t9d1Z5D89aEvbA36h
+ SSN0kZRpx6bb/PIB4Mg9d0IvpLH3k8tMjtCqBHy9vjRtvysTEcMkFXvrsqVhBh/S1tVI
+ a9I2R3URX8Eno+U2bihtbF7TL09mAfmAwplYxtkDUuWuhZ8HRtLZLiCIVNjSul1ss+1T
+ towA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
  :content-disposition;
- bh=bnHvCuE87pUUeamFRrdRkC3/PfrKdLRFG6Yr9LjsnHU=;
- b=QarEImy42AkKvKi1O/4BIiTRMg8FTRR93f4mPozjObc90TjcoxShWkcdEZ+jX26veP
- I0p1YuKSoK/T46HriVMH0AGOcw3RyNfb63cq1n0udw3PiLLpk0l10E7NmX3+2YXmBxVs
- vs0V8c2zgvXG2WO4PCG/sYGISl6K5LTKClpzmYUfFgzWl9khcGbc+cHnAxjJ5a5F5nHq
- 0cOvLW+b9knwQgdAXU5af3zwB+pqLRhKY+lserdmy0d13wTtddhGkk4ZnTHlka5U4qWY
- 7bWLUAGl4CeGO4nMAyVcdw/fqXOk/3TU38KhEDGnzfmwiU5iWC8zvjsMfZRYkxW2pAaL
- rE/w==
-X-Gm-Message-State: AOAM53240IalZGtD+0ZHbl2upqixeapLM6acBh/U+m/Isy5lXcsr7tWX
- 4WhZ5T6QJa3+erFpWRWwc90=
-X-Google-Smtp-Source: ABdhPJwsO/zwvK0kUCMTFALpAm2G4TaQ+/FtpdQPfUSL8E1dywEkU+dfQeT0it8MKkuUba3+AQFDIg==
-X-Received: by 2002:a17:90b:3658:: with SMTP id
- nh24mr310667pjb.177.1604028451119; 
- Thu, 29 Oct 2020 20:27:31 -0700 (PDT)
+ bh=kNFigGmlnT8RRi6z0sCPMt5Zg63u/lv6a6WCx8xI9/k=;
+ b=bH9RVvtRdTLI0/bTH8F8FjaOUDQSflQWomkphsvtXxv+SQlIkNsmy7iLu3VtKeGhMu
+ 5itmlPJsTvZPVzVJMqvmRgZH9/U4OgvDfySLiq/ah3t74SgngZ6akCGpHTEgAjcVYSvD
+ tlSNPxWJFeaFdHyqCOnfOPFikidiKBZWnVh4FKT19WPW6P2AK2XQmKBGaxW9rdZA/jVP
+ twf4JxnZ8xPJriaQXwQ8MVB1s6N8NQLDF18LDfF1gz0l4rdk32oS5VeH3LElcXPFoVmz
+ Ulz8SwTqRJCgobQBC2nC5cpAinXRrdBFvswPsCFGb2AeqwkDcrurDgSTOjZ5Tgf3SSO/
+ wnLw==
+X-Gm-Message-State: AOAM532++Q4Hw0s46W1R39jyrnU/JZFXoPiYF7Nkr+08Kjv6ednU0Rwv
+ ZjDkFUMRSuA2xJ6RvsBjOm8=
+X-Google-Smtp-Source: ABdhPJwIVMjw39qjT1TY0hYU+IjXwoIA0G3zsE2DQwL6bJLjQU34JC8Hiwe282UUBVpaiq3XeYJhvQ==
+X-Received: by 2002:a63:c053:: with SMTP id z19mr393466pgi.418.1604028592566; 
+ Thu, 29 Oct 2020 20:29:52 -0700 (PDT)
 Received: from my--box ([103.98.79.70])
- by smtp.gmail.com with ESMTPSA id z66sm4274336pfb.109.2020.10.29.20.27.27
+ by smtp.gmail.com with ESMTPSA id b16sm220933pju.16.2020.10.29.20.29.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 20:27:30 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:57:25 +0530
+ Thu, 29 Oct 2020 20:29:52 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:59:45 +0530
 From: Deepak R Varma <mh12gx2825@gmail.com>
-To: outreachy-kernel@googlegroups.com,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+To: outreachy-kernel@googlegroups.com, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd/pm: use DEFINE_DEBUGFS_ATTRIBUTE with
+Subject: [PATCH] drm/i915/gvt: use DEFINE_DEBUGFS_ATTRIBUTE with
  debugfs_create_file_unsafe()
-Message-ID: <20201030032725.GA274689@my--box>
+Message-ID: <20201030032945.GA274850@my--box>
 MIME-Version: 1.0
 Content-Disposition: inline
 X-Mailman-Approved-At: Fri, 30 Oct 2020 08:23:17 +0000
@@ -89,28 +90,36 @@ Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
 ---
 Please Note: This is a Outreachy project task patch.
 
- .../gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c  | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gvt/debugfs.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
-index 740e2fc7a034..1e79baab753e 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_processpptables.c
-@@ -252,12 +252,11 @@ static int init_powerplay_table_information(
- 	phm_copy_clock_limits_array(hwmgr, &pptable_information->power_saving_clock_max, powerplay_table->PowerSavingClockMax, ATOM_VEGA12_PPCLOCK_COUNT);
- 	phm_copy_clock_limits_array(hwmgr, &pptable_information->power_saving_clock_min, powerplay_table->PowerSavingClockMin, ATOM_VEGA12_PPCLOCK_COUNT);
+diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
+index 62e6a14ad58e..18adfa2d5f5b 100644
+--- a/drivers/gpu/drm/i915/gvt/debugfs.c
++++ b/drivers/gpu/drm/i915/gvt/debugfs.c
+@@ -147,9 +147,8 @@ vgpu_scan_nonprivbb_set(void *data, u64 val)
+ 	return 0;
+ }
  
--	pptable_information->smc_pptable = kmalloc(sizeof(PPTable_t), GFP_KERNEL);
-+	pptable_information->smc_pptable = kmemdup(&(powerplay_table->smcPPTable),
-+						   sizeof(PPTable_t), GFP_KERNEL);
- 	if (pptable_information->smc_pptable == NULL)
- 		return -ENOMEM;
+-DEFINE_SIMPLE_ATTRIBUTE(vgpu_scan_nonprivbb_fops,
+-			vgpu_scan_nonprivbb_get, vgpu_scan_nonprivbb_set,
+-			"0x%llx\n");
++DEFINE_DEBUGFS_ATTRIBUTE(vgpu_scan_nonprivbb_fops, vgpu_scan_nonprivbb_get,
++			 vgpu_scan_nonprivbb_set, "0x%llx\n");
  
--	memcpy(pptable_information->smc_pptable, &(powerplay_table->smcPPTable), sizeof(PPTable_t));
--
- 	result = append_vbios_pptable(hwmgr, (pptable_information->smc_pptable));
+ /**
+  * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
+@@ -165,8 +164,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
+ 	debugfs_create_bool("active", 0444, vgpu->debugfs, &vgpu->active);
+ 	debugfs_create_file("mmio_diff", 0444, vgpu->debugfs, vgpu,
+ 			    &vgpu_mmio_diff_fops);
+-	debugfs_create_file("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
+-			    &vgpu_scan_nonprivbb_fops);
++	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
++				   &vgpu_scan_nonprivbb_fops);
+ }
  
- 	return result;
+ /**
 -- 
 2.25.1
 
