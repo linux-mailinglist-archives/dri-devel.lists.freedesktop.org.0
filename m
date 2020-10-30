@@ -2,35 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B1A2A062B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 14:06:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950B32A062C
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 14:06:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E76C6EDCC;
-	Fri, 30 Oct 2020 13:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF3FE6EDCA;
+	Fri, 30 Oct 2020 13:06:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.codeweavers.com (mail.codeweavers.com [50.203.203.244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACE0C6EDCA
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 13:06:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B7B56EDCA
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 13:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wKrBf53RJXx9ENvWtzFDVN64d/gXTamYX0tnzIH5hO0=; b=UFFE93LLP02OYSZMXglQz9jOcS
- RZG+qYjh8LV6woW6KaVSrQkMYlQK3SLg6qzCArR2SN1c/1GwJuwTqjC/dGNyErSXqE/xvV3aDmPFx
- XveJAJFhGl+Mfhm4eSBWDjyQrZ405kwfsWAPd8XfhQod5Ed855JRnawtMou9WMbwzyB0=;
+ References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=R2/ghOpOjvgrCGIYN63OqPcGbiz0fn9E7LgbNQCb4hs=; b=kZFM86jcrj7ul4/iUDPbgAn+PG
+ zajC2fNkiqwCfhZpYWkq92JawuK+9Zr0kJbBbjTPE47PqYUGCPtvgQqdSSh8w0lecFcUR3rMgP9+W
+ JSOr/MdGULGCTP8DpWwuxVtNJ8qfY4Bf/q/Ey0hPOPgqLvEQ9uOny1ZIRXaloOchtYMQ=;
 Received: from [10.69.141.123] (helo=dell.localdomain)
  by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <pgofman@codeweavers.com>)
- id 1kYU6t-0005At-N3; Fri, 30 Oct 2020 08:06:33 -0500
+ id 1kYU76-0005At-6S; Fri, 30 Oct 2020 08:06:42 -0500
 From: Paul Gofman <pgofman@codeweavers.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v2 1/2] include: Factor out log2_int() function.
-Date: Fri, 30 Oct 2020 16:06:11 +0300
-Message-Id: <20201030130612.590543-1-pgofman@codeweavers.com>
+Subject: [PATCH libdrm v2 2/2] include: Avoid potentially infinite loop in
+ log2_int().
+Date: Fri, 30 Oct 2020 16:06:12 +0300
+Message-Id: <20201030130612.590543-2-pgofman@codeweavers.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201030130612.590543-1-pgofman@codeweavers.com>
+References: <20201030130612.590543-1-pgofman@codeweavers.com>
 MIME-Version: 1.0
 X-Spam-Score: -40.5
 X-Spam-Report: Spam detection software,
@@ -40,9 +43,10 @@ X-Spam-Report: Spam detection software,
  similar future email.  If you have any questions, see
  the administrator of that system for details.
  Content preview: Signed-off-by: Paul Gofman <pgofman@codeweavers.com> --- v2:
- - no changes. radeon/radeon_surface.c | 20 + util_math.h | 14 ++++++++++++++
- xf86drm.c | 16 3 files changed, 15 insertions(+), 35 deletions(-) 
- Content analysis details:   (-40.5 points, 5.0 required)
+ - simplify log2_int implementation. util_math.h | 15 +++++ 1 file changed,
+ 5 insertions(+), 10 deletions(-) diff --git a/util_math.h b/util_math.h index
+ e2fa95f5..32297349 100644 --- a/util_math.h +++ b/util_math.h @@ -33, 16 +33,
+ 11 @@ Content analysis details:   (-40.5 points, 5.0 required)
  pts rule name              description
  ---- ---------------------- --------------------------------------------------
  -0.0 USER_IN_WELCOMELIST    user is listed in 'welcomelist_from'
@@ -72,93 +76,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Signed-off-by: Paul Gofman <pgofman@codeweavers.com>
 ---
 v2:
-    - no changes.
+    - simplify log2_int implementation.
 
- radeon/radeon_surface.c | 20 +-------------------
- util_math.h             | 14 ++++++++++++++
- xf86drm.c               | 16 ----------------
- 3 files changed, 15 insertions(+), 35 deletions(-)
+ util_math.h | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/radeon/radeon_surface.c b/radeon/radeon_surface.c
-index ea0a27a9..c59dcc83 100644
---- a/radeon/radeon_surface.c
-+++ b/radeon/radeon_surface.c
-@@ -38,6 +38,7 @@
- #include "xf86drm.h"
- #include "radeon_drm.h"
- #include "radeon_surface.h"
-+#include "util_math.h"
- 
- #define CIK_TILE_MODE_COLOR_2D			14
- #define CIK_TILE_MODE_COLOR_2D_SCANOUT		10
-@@ -47,10 +48,6 @@
- #define CIK_TILE_MODE_DEPTH_STENCIL_2D_TILESPLIT_512      3
- #define CIK_TILE_MODE_DEPTH_STENCIL_2D_TILESPLIT_ROW_SIZE 4
- 
--#define ALIGN(value, alignment) (((value) + alignment - 1) & ~(alignment - 1))
--#define MAX2(A, B)              ((A) > (B) ? (A) : (B))
--#define MIN2(A, B)              ((A) < (B) ? (A) : (B))
--
- /* keep this private */
- enum radeon_family {
-     CHIP_UNKNOWN,
-@@ -887,21 +884,6 @@ static int eg_surface_init(struct radeon_surface_manager *surf_man,
-     return r;
- }
- 
--static unsigned log2_int(unsigned x)
--{
--    unsigned l;
--
--    if (x < 2) {
--        return 0;
--    }
--    for (l = 2; ; l++) {
--        if ((unsigned)(1 << l) > x) {
--            return l - 1;
--        }
--    }
--    return 0;
--}
--
- /* compute best tile_split, bankw, bankh, mtilea
-  * depending on surface
-  */
 diff --git a/util_math.h b/util_math.h
-index 35bf4512..e2fa95f5 100644
+index e2fa95f5..32297349 100644
 --- a/util_math.h
 +++ b/util_math.h
-@@ -31,4 +31,18 @@
- #define __align_mask(value, mask)  (((value) + (mask)) & ~(mask))
- #define ALIGN(value, alignment)    __align_mask(value, (__typeof__(value))((alignment) - 1))
+@@ -33,16 +33,11 @@
  
-+static inline unsigned log2_int(unsigned x)
-+{
-+    unsigned l;
-+
-+    if (x < 2) {
-+        return 0;
-+    }
-+    for (l = 2; ; l++) {
-+        if ((unsigned)(1 << l) > x) {
-+            return l - 1;
-+        }
-+    }
-+    return 0;
-+}
- #endif /*_UTIL_MATH_H_*/
-diff --git a/xf86drm.c b/xf86drm.c
-index dbb7c14b..ca4738e1 100644
---- a/xf86drm.c
-+++ b/xf86drm.c
-@@ -124,22 +124,6 @@ static drmServerInfoPtr drm_server_info;
- static bool drmNodeIsDRM(int maj, int min);
- static char *drmGetMinorNameForFD(int fd, int type);
- 
--static unsigned log2_int(unsigned x)
--{
+ static inline unsigned log2_int(unsigned x)
+ {
 -    unsigned l;
--
++    unsigned l = 0;
+ 
 -    if (x < 2) {
 -        return 0;
 -    }
@@ -168,12 +101,12 @@ index dbb7c14b..ca4738e1 100644
 -        }
 -    }
 -    return 0;
--}
--
--
- drm_public void drmSetServerInfo(drmServerInfoPtr info)
- {
-     drm_server_info = info;
++    while (x >>= 1)
++      ++l;
++
++    return l;
+ }
+ #endif /*_UTIL_MATH_H_*/
 -- 
 2.28.0
 
