@@ -2,53 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9F029FCA6
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 05:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F4329FCC2
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 05:42:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1F2F6E94F;
-	Fri, 30 Oct 2020 04:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCCD46E94C;
+	Fri, 30 Oct 2020 04:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B53C16E94F;
- Fri, 30 Oct 2020 04:15:51 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id k21so2519338wmi.1;
- Thu, 29 Oct 2020 21:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BqWBGxp83tXBly8ZHVM6eJ0MtxhFupmftKu7NV/OBXU=;
- b=IC4UPPAraPaFBL01yPA31xu/1JnYIZLD2Zb8bHtgPnFS1fkrboUlvaF7A1g1CETk1U
- aA4c51rNES2T7YczUU3hL21wRB7DXzJz3MEPy7XrTmw0Jt3V3Mse/Kj8DKOtyMmIl9GJ
- i/OYoRR8ZYklJTFxTYilS3tSY0Orf5nONcbZ0s+hotGD+cw1VQCL7V9eZgh7pdO0zi2D
- nqjeYX2EpcgR9v2E0gijfUByEDDqRo0f8Q1XrQX+23XrR4l0CBoxwt5wzNVctkRBpCYR
- Hx33UJdV7HQR+MCZ0yWv4GQxGsehskZS981FlGT986u1b0Kxmo9wFVOuns36BJuyohH/
- u3gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BqWBGxp83tXBly8ZHVM6eJ0MtxhFupmftKu7NV/OBXU=;
- b=TObqAiCzo+4In3PIxIA1PSQML6/IMZUQMJaJaRx2dUNe8GgfjDrqOl8P0JON98NKgp
- Jo8ch/tkX3wqQ7SIzKvJIa3zXBvrMonjSdJzvczam48A2PbQcKilkCG0FZYFApfBEQjL
- SBMwe5DlmVhGVvzGIEoIf99C3bkZ1/9yyQDDBhOEwDSwMq0SKX+4f9A2z8nCAOmImW/I
- D5F0dH0qRhysAgGLv59SOZpaeVY3HlQdYRMpc58YtnEpHHeu5+wck257xLDzv6lwhFgT
- izeM/+XBGpXrTuDOUdu/2Kon14EArQxkQazWmxz77QFHa3lZy27oJTKevYf+N2W7qYCL
- OH4Q==
-X-Gm-Message-State: AOAM533YCnRAtUym5urGUfdyowgc7zi8T4DcgBcCxUViJqyzlFYGAvlW
- kUxMCFK/jsbCgw6eMaqoyhah8o9d8E7m5LOK4Vo=
-X-Google-Smtp-Source: ABdhPJxEbj4ViG6nx+9BHcArb72+dptqPezIyx9BdE/F9YYCz5xQc1TZuRt+lxUttX6q3ieThBBuPMwGgeNM4Sc8HwY=
-X-Received: by 2002:a05:600c:25a:: with SMTP id 26mr327725wmj.39.1604031350500; 
- Thu, 29 Oct 2020 21:15:50 -0700 (PDT)
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7D0F6E94C
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 04:42:39 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CMqRc1FlGz9sRk;
+ Fri, 30 Oct 2020 15:42:35 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1604032956;
+ bh=S3YMp7b5yrasOitOCPPY9e7x0id+Eiy1kDQ3HIg2K7A=;
+ h=Date:From:To:Cc:Subject:From;
+ b=OYl7Gsgmvyq1I6muFfAXvIzUyhaDRyZuSZIpKPqGCd4a1K9WXT5Z27X1SA3eH64/j
+ FsDDXRcsK5QMubJKevbn2+yOsKIe+JqOHIdb7v6t43uFRxftekK4ntiFzv5YBD+159
+ Rh+qOMBL6qXAIhConZL3j4tSWT8s67lbFVnftdInYWmiONdTbLfI0fr+Rz3JMzkxVG
+ 8HOZah8tz2N025wfeWV89JWa1p23x0x9H8hULFJzS8cPh7NgbwmcJd5xSoK7fl7t/b
+ x5qSoZtLG7Cg/s8DBQlMcG1R5NgFh+UPWaTfcHqILy7RoyXom0k77OzYcMWJ/X6mAX
+ Df2NPKvPucfww==
+Date: Fri, 30 Oct 2020 15:42:35 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: Fixes tag needs some work in the drm-fixes tree
+Message-ID: <20201030154235.22883451@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20201029094346.14185-1-unixbhaskar@gmail.com>
-In-Reply-To: <20201029094346.14185-1-unixbhaskar@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 30 Oct 2020 00:15:39 -0400
-Message-ID: <CADnq5_Ooq5zdskLceuBgkFoYux3mTkhTsv=bLWLadoMH6Mz22g@mail.gmail.com>
-Subject: Re: [PATCH] drivers: amdgpu: Correct spelling defalut to default in
- comment
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,53 +46,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1736903139=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+--===============1736903139==
+Content-Type: multipart/signed; boundary="Sig_/Dt2HVgGTKOBxdPmM25D6GsT";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Alex
+--Sig_/Dt2HVgGTKOBxdPmM25D6GsT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 29, 2020 at 9:17 AM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
->
-> Correct spelling in one of the comment.
->
-> s/defalut/default/p
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> ---
->  CCing Greg becasue it touched drivers file. Trivial though.
->
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> index 8cd646eef096..cdc8dd220a77 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> @@ -556,7 +556,7 @@ static ssize_t dp_phy_test_pattern_debugfs_write(struct file *f, const char __us
->         bool disable_hpd = false;
->         bool valid_test_pattern = false;
->         uint8_t param_nums = 0;
-> -       /* init with defalut 80bit custom pattern */
-> +       /* init with default 80bit custom pattern */
->         uint8_t custom_pattern[10] = {
->                         0x1f, 0x7c, 0xf0, 0xc1, 0x07,
->                         0x1f, 0x7c, 0xf0, 0xc1, 0x07
-> --
-> 2.26.2
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+Hi all,
+
+In commit
+
+  65d437b83b2b ("drm/amdgpu/pm: fix the fan speed in fan1_input in manual m=
+ode for navi1x")
+
+Fixes tag
+
+  Fixes: 3033e9f1c2de ("drm/amdgpu/swsmu: handle manual fan readback on SMU=
+11")
+
+has these problem(s):
+
+  - Target SHA1 does not exist
+
+Mayne you meant
+
+Fixes: f6eb433954bf ("drm/amdgpu/swsmu: handle manual fan readback on SMU11=
+")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/Dt2HVgGTKOBxdPmM25D6GsT
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+bmbsACgkQAVBC80lX
+0GwnAggAkyQwyKmWvAL/cq5oL0oY4vImsKhN1zcnpJO+N/mrkt1xCN86E0zDSGRb
+nBMDexFjOa8Mu490MxCXfHJzdCpbFYSf6i63Ub3YFFulI/PHa1VTn8UaZN+TQUlZ
+U68m3eIX2gMNMtpo27tabRTNWaVP1pC1whYsOVwCik3sme5WKCzNNL69tnJvmTiy
+6/CV2+t4i2nM3Lf3LkCQNxM3QkEgfwE+QCx1eEpE8RsWoK3SKYx/PjgFb7SUTZ+x
+4/X2r0k2kQsqEovimzPvc7IZcKwU50bf2HL+CNagYSnSXORwgaVowJ2rhIS2ggwB
+ZuXjaeBThL/nqjwZMhVdT+KvfG7l5A==
+=salw
+-----END PGP SIGNATURE-----
+
+--Sig_/Dt2HVgGTKOBxdPmM25D6GsT--
+
+--===============1736903139==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1736903139==--
