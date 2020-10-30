@@ -2,59 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F5E2A03B1
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 12:08:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95B12A03BE
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 12:10:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F23426EDAD;
-	Fri, 30 Oct 2020 11:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F366EDB7;
+	Fri, 30 Oct 2020 11:10:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACDB66EDAD
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 11:07:57 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id a7so7321158lfk.9
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 04:07:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=iWNGjA9MPIhJYkU0XJf0oB5wFDF8YI6oEqOsitG2U5E=;
- b=jE8NEhqsu8SRMoFnOXlj2dajf1Ac05qLG7c1wmEU8Hids1CRalV0IaPYeZV5yPIK2F
- i8RsYXBKAW4wqSXTRziEGJ0yRWHqpXWecGLvUgJf0ZhOvJzExudC4m98h6Qat01oi1Cm
- e6NBu0M4xGMAub5a/kEs6zYneKsDcN3I8MOcGPTn4VAspAXDghZCz6lsx8dPDSiAgyyq
- 8j1esYwCy3RTNLKB0yA1QnIbW/J7dNoBDBbsYTqtOo7+t/YgWGwnP6wiJK7iUURVEsHB
- WxWzr6/Oii2DX3/16sH/0RfasH9qdBhJz+QNoGajUoseDD+EXblKLSkJ3/Q/xfP3JSnm
- eqvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=iWNGjA9MPIhJYkU0XJf0oB5wFDF8YI6oEqOsitG2U5E=;
- b=a4G6s3XyNhvnukVU9xJZfLj7NzYm11LdYjM8OMTNiXT6xfgBX0Gb4ijRtNfLrg6ikY
- lUldjlDFFoj4TrSU+/em7fJNInlEMXLHV2QvZ0vx5K8IKbygZl4s9UfWk5wNYhE8oGfx
- fmLCiyhT+jf1PtX8taAkeR+XUCqzd2Aw8qEoJDecG+MxVAi1id5Ut+VtrSQrUmuPe+La
- m0HJiZTEPBdFRNbXxqi1O/Azb9/nBs1LELi61Rcl0JX/IkBaUvnYH2ho9GSApcN/9Eai
- 3nOu4ur0gIOA0TkSjJPkQ/cx6gmFfrA3+/aqgr760jS+IjS4TiG9Y/rvRKT1Ndh3jpAx
- /fGA==
-X-Gm-Message-State: AOAM532J6jPqtOpBuCUgJJgdWBiYR/Gaxxf5ZJLNQFD9jeUk/YzmZ4Ux
- ZteuMmZvNA0oUCTLAlfOb04=
-X-Google-Smtp-Source: ABdhPJzMIiqe2k+13hnY9osfdwCq6luig375AtiNXnSMF+X6nS/M1VaxzFn4CJNVrN4iPi9wPxm+kw==
-X-Received: by 2002:a19:7f86:: with SMTP id a128mr674740lfd.359.1604056076135; 
- Fri, 30 Oct 2020 04:07:56 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id f24sm592012lfh.73.2020.10.30.04.07.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 04:07:55 -0700 (PDT)
-Date: Fri, 30 Oct 2020 13:07:39 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Paul Gofman <pgofman@codeweavers.com>
-Subject: Re: [PATCH libdrm 2/2] include: Avoid potentially infinite loop in
- log2_int().
-Message-ID: <20201030130739.0e6770c6@eldfell>
-In-Reply-To: <20201028100602.168752-2-pgofman@codeweavers.com>
-References: <20201028100602.168752-1-pgofman@codeweavers.com>
- <20201028100602.168752-2-pgofman@codeweavers.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D89DF6EDB7
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 11:10:23 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D298139F;
+ Fri, 30 Oct 2020 04:10:23 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 497013F719;
+ Fri, 30 Oct 2020 04:10:22 -0700 (PDT)
+Subject: Re: [PATCH v2] drm/panfrost: Move the GPU reset bits outside the
+ timeout handler
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
+References: <20201030105336.764009-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <ac3a8649-a7de-0eb0-0fb5-cbef9c710c76@arm.com>
+Date: Fri, 30 Oct 2020 11:10:17 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201030105336.764009-1-boris.brezillon@collabora.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,84 +45,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0538098686=="
+Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0538098686==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/LGSHXuZQZG_Kcs8idKTW.0W"; protocol="application/pgp-signature"
+On 30/10/2020 10:53, Boris Brezillon wrote:
+> We've fixed many races in panfrost_job_timedout() but some remain.
+> Instead of trying to fix it again, let's simplify the logic and move
+> the reset bits to a separate work scheduled when one of the queue
+> reports a timeout.
+> 
+> v2:
+> - Use atomic_cmpxchg() to conditionally schedule the reset work (Steven Privce)
+> 
+> Fixes: 1a11a88cfd9a ("drm/panfrost: Fix job timeout handling")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
---Sig_/LGSHXuZQZG_Kcs8idKTW.0W
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+LGTM!
 
-On Wed, 28 Oct 2020 13:06:02 +0300
-Paul Gofman <pgofman@codeweavers.com> wrote:
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-> Signed-off-by: Paul Gofman <pgofman@codeweavers.com>
 > ---
->  util_math.h | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/util_math.h b/util_math.h
-> index e2fa95f5..f6bbe192 100644
-> --- a/util_math.h
-> +++ b/util_math.h
-> @@ -38,6 +38,9 @@ static inline unsigned log2_int(unsigned x)
->      if (x < 2) {
->          return 0;
->      }
-> +    if (x & 0x80000000) {
-> +        return 31;
-> +    }
->      for (l =3D 2; ; l++) {
->          if ((unsigned)(1 << l) > x) {
->              return l - 1;
-
-Hi,
-
-I guess that does it, but it seems quite a lot of code that could be
-a two-liner:
-http://graphics.stanford.edu/~seander/bithacks.html#IntegerLogObvious
-
-
-Thanks,
-pq
-
---Sig_/LGSHXuZQZG_Kcs8idKTW.0W
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl+b8/sACgkQI1/ltBGq
-qqcVbg/8CBbb0WBurKN/gC8o5TgF2TWLJ9wCtsFTV0GlXqvTOnxqqVMw49/7wzKI
-KNdveOMijVKhdxXKb3Lzz6Fh44YQSJ/lYhPYf6XDOi3ki3vjj9eN3+Bl3lh6/ky8
-oxbACDhdAG/f0UIwB+FU13jyVl3oTc8vknIsKaznvRFz+FhaT14b4aD4I0IIKiNt
-gUhb7lJPJoc7a/Mo0r2odbaGTOZovEGTNWFN+bv1f/8G/XzknoMttZ6JaUI35xHw
-dyOc0DT77b8luiGojY+Gb9HOIOmvqhd7Y4F6u5vaM8wkyrNue5Owb0F6gdZBTYOE
-dtYI+mWKDyi/zD+XKotPDaIOwq3X7e9qtAbpgfbDmDyEd/JXhTkNfn93q6YLRgnC
-IiPpLgeOKyUhBYfeeAn17g+P3argK5HyVMFHCtdkShnTiMYeNHc3Zd7heso4ilTr
-M1+mqho4YWOToCtmbou91CS6agG9RZVBDTh9C4F/p6VLrtctjtm0BSbqHQKNTurK
-p+aZ6gsU30GB4WbbS4i6neaZLni7ImM+ywMB4ERU66BkMrSnCgw+zN7YJt2sBLsw
-xxbFGS1iYxrGLo/jvAnNcaLvBZ9HireZdMfp9YKBuMGPS4yJ2V/z50/EClaG8o+I
-Nx1clZ0HnpjA5R9JWdkk/+EVD6M7Ged/qffqFMVu+j1N7xsdfsk=
-=vFOf
------END PGP SIGNATURE-----
-
---Sig_/LGSHXuZQZG_Kcs8idKTW.0W--
-
---===============0538098686==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+>   drivers/gpu/drm/panfrost/panfrost_device.c |   1 -
+>   drivers/gpu/drm/panfrost/panfrost_device.h |   6 +-
+>   drivers/gpu/drm/panfrost/panfrost_job.c    | 127 ++++++++++++---------
+>   3 files changed, 79 insertions(+), 55 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index ea8d31863c50..a83b2ff5837a 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -200,7 +200,6 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+>   	struct resource *res;
+>   
+>   	mutex_init(&pfdev->sched_lock);
+> -	mutex_init(&pfdev->reset_lock);
+>   	INIT_LIST_HEAD(&pfdev->scheduled_jobs);
+>   	INIT_LIST_HEAD(&pfdev->as_lru_list);
+>   
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 140e004a3790..597cf1459b0a 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -106,7 +106,11 @@ struct panfrost_device {
+>   	struct panfrost_perfcnt *perfcnt;
+>   
+>   	struct mutex sched_lock;
+> -	struct mutex reset_lock;
+> +
+> +	struct {
+> +		struct work_struct work;
+> +		atomic_t pending;
+> +	} reset;
+>   
+>   	struct mutex shrinker_lock;
+>   	struct list_head shrinker_list;
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 4902bc6624c8..14c11293791e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -20,6 +20,8 @@
+>   #include "panfrost_gpu.h"
+>   #include "panfrost_mmu.h"
+>   
+> +#define JOB_TIMEOUT_MS 500
+> +
+>   #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+>   #define job_read(dev, reg) readl(dev->iomem + (reg))
+>   
+> @@ -382,19 +384,37 @@ static bool panfrost_scheduler_stop(struct panfrost_queue_state *queue,
+>   			drm_sched_increase_karma(bad);
+>   		queue->stopped = true;
+>   		stopped = true;
+> +
+> +		/*
+> +		 * Set the timeout to max so the timer doesn't get started
+> +		 * when we return from the timeout handler (restored in
+> +		 * panfrost_scheduler_start()).
+> +		 */
+> +		queue->sched.timeout = MAX_SCHEDULE_TIMEOUT;
+>   	}
+>   	mutex_unlock(&queue->lock);
+>   
+>   	return stopped;
+>   }
+>   
+> +static void panfrost_scheduler_start(struct panfrost_queue_state *queue)
+> +{
+> +	if (WARN_ON(!queue->stopped))
+> +		return;
+> +
+> +	mutex_lock(&queue->lock);
+> +	/* Restore the original timeout before starting the scheduler. */
+> +	queue->sched.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS);
+> +	drm_sched_start(&queue->sched, true);
+> +	queue->stopped = false;
+> +	mutex_unlock(&queue->lock);
+> +}
+> +
+>   static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+>   {
+>   	struct panfrost_job *job = to_panfrost_job(sched_job);
+>   	struct panfrost_device *pfdev = job->pfdev;
+>   	int js = panfrost_job_get_slot(job);
+> -	unsigned long flags;
+> -	int i;
+>   
+>   	/*
+>   	 * If the GPU managed to complete this jobs fence, the timeout is
+> @@ -415,56 +435,9 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+>   	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
+>   		return;
+>   
+> -	if (!mutex_trylock(&pfdev->reset_lock))
+> -		return;
+> -
+> -	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> -		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
+> -
+> -		/*
+> -		 * If the queue is still active, make sure we wait for any
+> -		 * pending timeouts.
+> -		 */
+> -		if (!pfdev->js->queue[i].stopped)
+> -			cancel_delayed_work_sync(&sched->work_tdr);
+> -
+> -		/*
+> -		 * If the scheduler was not already stopped, there's a tiny
+> -		 * chance a timeout has expired just before we stopped it, and
+> -		 * drm_sched_stop() does not flush pending works. Let's flush
+> -		 * them now so the timeout handler doesn't get called in the
+> -		 * middle of a reset.
+> -		 */
+> -		if (panfrost_scheduler_stop(&pfdev->js->queue[i], NULL))
+> -			cancel_delayed_work_sync(&sched->work_tdr);
+> -
+> -		/*
+> -		 * Now that we cancelled the pending timeouts, we can safely
+> -		 * reset the stopped state.
+> -		 */
+> -		pfdev->js->queue[i].stopped = false;
+> -	}
+> -
+> -	spin_lock_irqsave(&pfdev->js->job_lock, flags);
+> -	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> -		if (pfdev->jobs[i]) {
+> -			pm_runtime_put_noidle(pfdev->dev);
+> -			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
+> -			pfdev->jobs[i] = NULL;
+> -		}
+> -	}
+> -	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
+> -
+> -	panfrost_device_reset(pfdev);
+> -
+> -	for (i = 0; i < NUM_JOB_SLOTS; i++)
+> -		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
+> -
+> -	mutex_unlock(&pfdev->reset_lock);
+> -
+> -	/* restart scheduler after GPU is usable again */
+> -	for (i = 0; i < NUM_JOB_SLOTS; i++)
+> -		drm_sched_start(&pfdev->js->queue[i].sched, true);
+> +	/* Schedule a reset if there's no reset in progress. */
+> +	if (!atomic_cmpxchg(&pfdev->reset.pending, 0, 1))
+> +		schedule_work(&pfdev->reset.work);
+>   }
+>   
+>   static const struct drm_sched_backend_ops panfrost_sched_ops = {
+> @@ -531,11 +504,59 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
+>   	return IRQ_HANDLED;
+>   }
+>   
+> +static void panfrost_reset(struct work_struct *work)
+> +{
+> +	struct panfrost_device *pfdev = container_of(work,
+> +						     struct panfrost_device,
+> +						     reset.work);
+> +	unsigned long flags;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> +		/*
+> +		 * We want pending timeouts to be handled before we attempt
+> +		 * to stop the scheduler. If we don't do that and the timeout
+> +		 * handler is in flight, it might have removed the bad job
+> +		 * from the list, and we'll lose this job if the reset handler
+> +		 * enters the critical section in panfrost_scheduler_stop()
+> +		 * before the timeout handler.
+> +		 *
+> +		 * Timeout is set to max to make sure the timer is not
+> +		 * restarted after the cancellation.
+> +		 */
+> +		pfdev->js->queue[i].sched.timeout = MAX_SCHEDULE_TIMEOUT;
+> +		cancel_delayed_work_sync(&pfdev->js->queue[i].sched.work_tdr);
+> +		panfrost_scheduler_stop(&pfdev->js->queue[i], NULL);
+> +	}
+> +
+> +	/* All timers have been stopped, we can safely reset the pending state. */
+> +	atomic_set(&pfdev->reset.pending, 0);
+> +
+> +	spin_lock_irqsave(&pfdev->js->job_lock, flags);
+> +	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> +		if (pfdev->jobs[i]) {
+> +			pm_runtime_put_noidle(pfdev->dev);
+> +			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
+> +			pfdev->jobs[i] = NULL;
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
+> +
+> +	panfrost_device_reset(pfdev);
+> +
+> +	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> +		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
+> +		panfrost_scheduler_start(&pfdev->js->queue[i]);
+> +	}
+> +}
+> +
+>   int panfrost_job_init(struct panfrost_device *pfdev)
+>   {
+>   	struct panfrost_job_slot *js;
+>   	int ret, j, irq;
+>   
+> +	INIT_WORK(&pfdev->reset.work, panfrost_reset);
+> +
+>   	pfdev->js = js = devm_kzalloc(pfdev->dev, sizeof(*js), GFP_KERNEL);
+>   	if (!js)
+>   		return -ENOMEM;
+> @@ -560,7 +581,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>   
+>   		ret = drm_sched_init(&js->queue[j].sched,
+>   				     &panfrost_sched_ops,
+> -				     1, 0, msecs_to_jiffies(500),
+> +				     1, 0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+>   				     "pan_js");
+>   		if (ret) {
+>   			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0538098686==--
