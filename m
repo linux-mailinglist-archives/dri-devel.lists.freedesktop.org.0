@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBF22A0212
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 11:04:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B97C12A0225
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 11:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D19189C89;
-	Fri, 30 Oct 2020 10:04:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD9C6ED74;
+	Fri, 30 Oct 2020 10:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A88836ED74
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 10:04:17 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id x7so5797757wrl.3
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 03:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gQH8tfnS5gABqR+rI2vYNKDqWdjjH0cmP3e9KTBgftU=;
- b=B9rJTdT06fBjkoaC4E33GsRL6XklEaCtgE6RSNGKr1R6NIN6tshFsvlrm73+qDotTs
- TgtMR2VLSrECST5bfnSTgKL7Wgi9dLvx0b+wOp98ZwTdU4Ui8lhbwxRwAvAFaXlLlBUv
- kIF79xh7rAnLeAmFUb7OH8iS2qmajJB6f90j1t67g5Zqi8ZvFcvZqslE0Nw79PSToAvD
- N9OdQRnS+ec6wQ18zcvo4xYOB+MrwDVlSeHj5ODLObBC4OqIgDsKYG4VpZ7Zwf1s+0XG
- E8uv8pTzD1YjF2GLDWWylcwx+GDZ++SmMtTJoKDLvlekOLEjOvRKbLbn1NSmNnF0g7r5
- ocZw==
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2606ED74
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 10:08:38 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id t9so5752492wrq.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 03:08:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oyVNIJTztKiRHheNSQoUfnLRDya4SJw9IE1Vxl86s7c=;
+ b=Ghb99UprNaKvFH2nWksoxxcjJMtuQ7UBnEvdaqQ2Xt27pEUza+n/3VR0T/qCjTsgrw
+ pnOgvc7R/Us4ABF8mAoJmL0AdohhbtFrlQIZHCXvlxhr3ShQwZsUCHMdPOY4nT2sPNV2
+ 3n2sDDQkLekRqiTyUq6gRYR6GdNDanQomtL14=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=gQH8tfnS5gABqR+rI2vYNKDqWdjjH0cmP3e9KTBgftU=;
- b=syLS8k6wi89Kg0MtYPgjLD2Ey5sVD6/1hwDL+sz+9CMpHFGNe9p7c+zBgOKR6UWVYh
- wKxRk8LGdv1G57YrZBEN+ID6QbJwWHuYfSOJR9qi0oKqAh2OL5FlLiUW9RX+83Y4SHli
- dIEJTh2Z6m5QwCgSRROY6003D2UbVfXT1KePigAAxOnr035Iy7qPN3sSfpnHjIUdDAd0
- lmUsxBLMYiF6AYrOvmKrCq8rETrxThaEUUkQ00p7KvklyGTT7ICa9tMV8Kqn25oFIfDZ
- 4c7ocRHbdB+JaobxTFLXeIs5CPmiD6tvyZPwNjA75YemHzSLWth1EEJgwrzPaZ5d+JXM
- kdNA==
-X-Gm-Message-State: AOAM530qLsjsulDN/NUv+7ueVLS+rpC2kwYJbn5Rt1a/OM5xb4cBYhEl
- SiVSpypA8JRgnh2kLRW0TlaiJw==
-X-Google-Smtp-Source: ABdhPJyiqwsuWF8oCOJ2p5mgrL1UOBEF3qjVNKqZ9hb80Q/uxO4LXY5WvIi3i2M6psl12Cn+2MTVIQ==
-X-Received: by 2002:a5d:40c3:: with SMTP id b3mr2187416wrq.157.1604052256376; 
- Fri, 30 Oct 2020 03:04:16 -0700 (PDT)
-Received: from [192.168.86.34]
- (cpc86377-aztw32-2-0-cust226.18-1.cable.virginm.net. [92.233.226.227])
- by smtp.googlemail.com with ESMTPSA id h8sm7699531wro.14.2020.10.30.03.04.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 30 Oct 2020 03:04:15 -0700 (PDT)
-Subject: Re: [PATCH v2 19/39] docs: ABI: stable: make files ReST compatible
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <cover.1604042072.git.mchehab+huawei@kernel.org>
- <467a0dfbcdf00db710a629d3fe4a2563750339d8.1604042072.git.mchehab+huawei@kernel.org>
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Message-ID: <bc393307-d7dc-1666-f25c-6d756ebf5993@linaro.org>
-Date: Fri, 30 Oct 2020 10:04:13 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ bh=oyVNIJTztKiRHheNSQoUfnLRDya4SJw9IE1Vxl86s7c=;
+ b=FDGLzr2y7/9pyQYuOkWio3whIc6jCkPQAfbVtH4dcZz4BCOihWvyNdxPkdCyZwjFhN
+ 5o1EUhVQFxe1eytYKn4vd7PxRRaVcvZVGTT2VJedoh2ysKBniOlp09hiIhGVr+0XqL/T
+ J4voXhoxvSOxEUpkQOvJrgxu3VoTsm3zAkQK5+lzXFZUAh3Y2LVBJvsmj0NtGYWETGm0
+ IaF6yj/lrjXG4ku/eUP1OhP8pwi7nVc7ZsADS7PtT40ddwM1YlIC5RJZ8+FQm9NJ+xwu
+ eBSasZ50W5W/llZmR3XhE0oGKOf0pnJLbXKMFrqxuLR6AYKTkX9NegHEUHEaHE182Zl3
+ yBSg==
+X-Gm-Message-State: AOAM53338Mg5nMe9n/yk/DQ7VB9oJwnIjza2cxUhFmz5nMvMSki6+Bxv
+ JpMqMFPssQGQ/6Ex9deHCxrH0FH5toUt7uZX
+X-Google-Smtp-Source: ABdhPJw0H9VR4VRiDyzFX/cH5pwaV8XuDt6bBdU2cQb4UZ7RdbthoCu2zTbDyFJZiy6ZQIc6vY++Ww==
+X-Received: by 2002:adf:f80a:: with SMTP id s10mr2082685wrp.275.1604052517093; 
+ Fri, 30 Oct 2020 03:08:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v189sm4430947wmg.14.2020.10.30.03.08.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Oct 2020 03:08:35 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 00/15] follow_pfn and other iomap races
+Date: Fri, 30 Oct 2020 11:08:00 +0100
+Message-Id: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <467a0dfbcdf00db710a629d3fe4a2563750339d8.1604042072.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,58 +62,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, Jerry Snitselaar <jsnitsel@redhat.com>,
- dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
- Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Michael Ellerman <mpe@ellerman.id.au>, Jason Gunthorpe <jgg@ziepe.ca>,
- xen-devel@lists.xenproject.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, Juergen Gross <jgross@suse.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jarkko Sakkinen <jarkko@kernel.org>,
- Vaibhav Jain <vaibhav@linux.ibm.com>,
- Johannes Berg <johannes@sipsolutions.net>, linuxppc-dev@lists.ozlabs.org
+Cc: linux-samsung-soc@vger.kernel.org, kvm@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-mm@kvack.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi all
 
+Another update of my patch series to clamp down a bunch of races and gaps
+around follow_pfn and other access to iomem mmaps. Previous version:
 
-On 30/10/2020 07:40, Mauro Carvalho Chehab wrote:
-> Several entries at the stable ABI files won't parse if we pass
-> them directly to the ReST output.
-> 
-> Adjust them, in order to allow adding their contents as-is at
-> the stable ABI book.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   Documentation/ABI/stable/firewire-cdev        |  4 +
->   Documentation/ABI/stable/sysfs-acpi-pmprofile | 22 +++--
->   Documentation/ABI/stable/sysfs-bus-firewire   |  3 +
->   Documentation/ABI/stable/sysfs-bus-nvmem      | 19 ++--
+v1: https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
+v2: https://lore.kernel.org/dri-devel/20201009075934.3509076-1-daniel.vetter@ffwll.ch
+v3: https://lore.kernel.org/dri-devel/20201021085655.1192025-1-daniel.vetter@ffwll.ch/
+v4: https://lore.kernel.org/dri-devel/20201026105818.2585306-1-daniel.vetter@ffwll.ch/
 
-for nvmem parts:
+And the discussion that sparked this journey:
 
-Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
 
---srini
+Changes in v5:
+- Tomasz found some issues in the media patches
+- Polish suggested by Christoph for the unsafe_follow_pfn patch
 
->   Documentation/ABI/stable/sysfs-bus-usb        |  6 +-
->   .../ABI/stable/sysfs-class-backlight          |  1 +
->   .../ABI/stable/sysfs-class-infiniband         | 93 +++++++++++++------
->   Documentation/ABI/stable/sysfs-class-rfkill   | 13 ++-
->   Documentation/ABI/stable/sysfs-class-tpm      | 90 +++++++++---------
->   Documentation/ABI/stable/sysfs-devices        |  5 +-
->   Documentation/ABI/stable/sysfs-driver-ib_srp  |  1 +
->   .../ABI/stable/sysfs-firmware-efi-vars        |  4 +
->   .../ABI/stable/sysfs-firmware-opal-dump       |  5 +
->   .../ABI/stable/sysfs-firmware-opal-elog       |  2 +
->   Documentation/ABI/stable/sysfs-hypervisor-xen |  3 +
->   Documentation/ABI/stable/vdso                 |  5 +-
->   16 files changed, 176 insertions(+), 100 deletions(-)
-> 
+Changes in v4:
+- Drop the s390 patch, that was very stand-alone and now queued up to land
+  through s390 trees.
+- Comment polish per Dan's review.
+
+Changes in v3:
+- Bunch of polish all over, no functional changes aside from one barrier
+  in the resource code, for consistency.
+- A few more r-b tags.
+
+Changes in v2:
+- tons of small polish&fixes all over, thanks to all the reviewers who
+  spotted issues
+- I managed to test at least the generic_access_phys and pci mmap revoke
+  stuff with a few gdb sessions using our i915 debug tools (hence now also
+  the drm/i915 patch to properly request all the pci bar regions)
+- reworked approach for the pci mmap revoke: Infrastructure moved into
+  kernel/resource.c, address_space mapping is now set up at open time for
+  everyone (which required some sysfs changes). Does indeed look a lot
+  cleaner and a lot less invasive than I feared at first.
+
+I feel like this is ready for some wider soaking. Since the remaining bits
+are all kinda connnected probably simplest if it all goes through -mm.
+
+Cheers, Daniel
+
+Daniel Vetter (15):
+  drm/exynos: Stop using frame_vector helpers
+  drm/exynos: Use FOLL_LONGTERM for g2d cmdlists
+  misc/habana: Stop using frame_vector helpers
+  misc/habana: Use FOLL_LONGTERM for userptr
+  mm/frame-vector: Use FOLL_LONGTERM
+  media: videobuf2: Move frame_vector into media subsystem
+  mm: Close race in generic_access_phys
+  mm: Add unsafe_follow_pfn
+  media/videbuf1|2: Mark follow_pfn usage as unsafe
+  vfio/type1: Mark follow_pfn as unsafe
+  PCI: Obey iomem restrictions for procfs mmap
+  /dev/mem: Only set filp->f_mapping
+  resource: Move devmem revoke code to resource framework
+  sysfs: Support zapping of binary attr mmaps
+  PCI: Revoke mappings like devmem
+
+ drivers/char/mem.c                            |  86 +--------------
+ drivers/gpu/drm/exynos/Kconfig                |   1 -
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       |  48 ++++-----
+ drivers/media/common/videobuf2/Kconfig        |   1 -
+ drivers/media/common/videobuf2/Makefile       |   1 +
+ .../media/common/videobuf2}/frame_vector.c    |  57 ++++------
+ .../media/common/videobuf2/videobuf2-memops.c |   3 +-
+ drivers/media/platform/omap/Kconfig           |   1 -
+ drivers/media/v4l2-core/videobuf-dma-contig.c |   2 +-
+ drivers/misc/habanalabs/Kconfig               |   1 -
+ drivers/misc/habanalabs/common/habanalabs.h   |   6 +-
+ drivers/misc/habanalabs/common/memory.c       |  50 ++++-----
+ drivers/pci/pci-sysfs.c                       |   4 +
+ drivers/pci/proc.c                            |   6 ++
+ drivers/vfio/vfio_iommu_type1.c               |   4 +-
+ fs/sysfs/file.c                               |  11 ++
+ include/linux/ioport.h                        |   6 +-
+ include/linux/mm.h                            |  47 +-------
+ include/linux/sysfs.h                         |   2 +
+ include/media/frame_vector.h                  |  47 ++++++++
+ include/media/videobuf2-core.h                |   1 +
+ kernel/resource.c                             | 101 +++++++++++++++++-
+ mm/Kconfig                                    |   3 -
+ mm/Makefile                                   |   1 -
+ mm/memory.c                                   |  80 +++++++++++++-
+ mm/nommu.c                                    |  27 ++++-
+ security/Kconfig                              |  13 +++
+ 27 files changed, 360 insertions(+), 250 deletions(-)
+ rename {mm => drivers/media/common/videobuf2}/frame_vector.c (84%)
+ create mode 100644 include/media/frame_vector.h
+
+-- 
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
