@@ -1,63 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F99C29FCF5
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 06:07:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2665E29FE3A
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 08:08:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A610B6E951;
-	Fri, 30 Oct 2020 05:07:43 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBCD46E951
- for <dri-devel@freedesktop.org>; Fri, 30 Oct 2020 05:07:41 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1604034461; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=i5EXSp5H1+wjz49bdX5MmWjfxCCpbPKZqpGfcNnScpk=;
- b=M5h1ksk5SK/qzx1j/dQ0i85eR6+91T4CSAtWvBS6Ldmzd0A/txNveIsev0CUij1tnhJhxYWs
- 7lF3RdH8lkIaIXEuqTqZCE735168zAHRoBEBFwkuagjPfMmnPY775tpiu19VUwUI0AuKfUhH
- lDbVy1N4qVfn/r8XYePJpJHDPCA=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5f9b9f9c59fd12ae18a9eade (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 30 Oct 2020 05:07:40
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 4A805C433C9; Fri, 30 Oct 2020 05:07:40 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.2 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.9] (unknown [61.3.219.238])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 6E70BC433C6;
- Fri, 30 Oct 2020 05:07:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6E70BC433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [v4,1/3] drm/msm: Add support for GPU cooling
-To: mka@chromium.org
-References: <1603958841-20233-1-git-send-email-akhilpo@codeaurora.org>
- <20201029204842.GC1855806@google.com>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <3d99a0e0-765d-0d89-37ed-0f0999580c1b@codeaurora.org>
-Date: Fri, 30 Oct 2020 10:37:34 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+	by gabe.freedesktop.org (Postfix) with ESMTP id 947346E02C;
+	Fri, 30 Oct 2020 07:08:34 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 406B36E02C
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 07:08:33 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C99901F45955;
+ Fri, 30 Oct 2020 07:08:31 +0000 (GMT)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH] drm/panfrost: Move the GPU reset bits outside the timeout
+ handler
+Date: Fri, 30 Oct 2020 08:08:26 +0100
+Message-Id: <20201030070826.582969-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201029204842.GC1855806@google.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,46 +41,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dianders@chromium.org, linux-kernel@vger.kernel.org, dri-devel@freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/30/2020 2:18 AM, mka@chromium.org wrote:
-> On Thu, Oct 29, 2020 at 01:37:19PM +0530, Akhil P Oommen wrote:
->> Register GPU as a devfreq cooling device so that it can be passively
->> cooled by the thermal framework.
->>
->> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
->> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-> 
-> Wait, I did not post a 'Reviewed-by' tag for this patch!
-> 
-> I think the patch should be ok, but I'm still not super happy
-> about the resource management involving devfreq in general (see
-> discussion on https://patchwork.freedesktop.org/patch/394291/?series=82476&rev=1).
-> It's not really something introduced by this patch, but if it ever
-> gets fixed releasing the cooling device at the end of
-> msm_gpu_cleanup() after everything else might cause trouble.
-> 
-> In summary, I'm supportive of landing this patch, but reluctant to
-> 'sign it off' because of the above.
-> 
-> In any case:
-> 
-> Tested-by: Matthias Kaehlcke <mka@chromium.org>
-Sorry, Matthias. My mistake. You shared the reviewed tag for the 
-dt-bindings update. Will fix this ASAP. Thanks for verifying this.
+We've fixed many races in panfrost_job_timedout() but some remain.
+Instead of trying to fix it again, let's simplify the logic and move
+the reset bits to a separate work scheduled when one of the queue
+reports a timeout.
 
--Akhil.
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
+Fixes: 1a11a88cfd9a ("drm/panfrost: Fix job timeout handling")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_device.c |   1 -
+ drivers/gpu/drm/panfrost/panfrost_device.h |   6 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c    | 130 ++++++++++++---------
+ 3 files changed, 82 insertions(+), 55 deletions(-)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+index ea8d31863c50..a83b2ff5837a 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.c
++++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+@@ -200,7 +200,6 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+ 	struct resource *res;
+ 
+ 	mutex_init(&pfdev->sched_lock);
+-	mutex_init(&pfdev->reset_lock);
+ 	INIT_LIST_HEAD(&pfdev->scheduled_jobs);
+ 	INIT_LIST_HEAD(&pfdev->as_lru_list);
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 2e9cbd1c4a58..67f9f66904be 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -105,7 +105,11 @@ struct panfrost_device {
+ 	struct panfrost_perfcnt *perfcnt;
+ 
+ 	struct mutex sched_lock;
+-	struct mutex reset_lock;
++
++	struct {
++		struct work_struct work;
++		atomic_t pending;
++	} reset;
+ 
+ 	struct mutex shrinker_lock;
+ 	struct list_head shrinker_list;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index d0469e944143..745ee9563a54 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -20,6 +20,8 @@
+ #include "panfrost_gpu.h"
+ #include "panfrost_mmu.h"
+ 
++#define JOB_TIMEOUT_MS 500
++
+ #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+ #define job_read(dev, reg) readl(dev->iomem + (reg))
+ 
+@@ -382,19 +384,37 @@ static bool panfrost_scheduler_stop(struct panfrost_queue_state *queue,
+ 			drm_sched_increase_karma(bad);
+ 		queue->stopped = true;
+ 		stopped = true;
++
++		/*
++		 * Set the timeout to max so the timer doesn't get started
++		 * when we return from the timeout handler (restored in
++		 * panfrost_scheduler_start()).
++		 */
++		queue->sched.timeout = MAX_SCHEDULE_TIMEOUT;
+ 	}
+ 	mutex_unlock(&queue->lock);
+ 
+ 	return stopped;
+ }
+ 
++static void panfrost_scheduler_start(struct panfrost_queue_state *queue)
++{
++	if (WARN_ON(!queue->stopped))
++		return;
++
++	mutex_lock(&queue->lock);
++	/* Restore the original timeout before starting the scheduler. */
++	queue->sched.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS);
++	drm_sched_start(&queue->sched, true);
++	queue->stopped = false;
++	mutex_unlock(&queue->lock);
++}
++
+ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+ {
+ 	struct panfrost_job *job = to_panfrost_job(sched_job);
+ 	struct panfrost_device *pfdev = job->pfdev;
+ 	int js = panfrost_job_get_slot(job);
+-	unsigned long flags;
+-	int i;
+ 
+ 	/*
+ 	 * If the GPU managed to complete this jobs fence, the timeout is
+@@ -415,56 +435,9 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+ 	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
+ 		return;
+ 
+-	if (!mutex_trylock(&pfdev->reset_lock))
+-		return;
+-
+-	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+-		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
+-
+-		/*
+-		 * If the queue is still active, make sure we wait for any
+-		 * pending timeouts.
+-		 */
+-		if (!pfdev->js->queue[i].stopped)
+-			cancel_delayed_work_sync(&sched->work_tdr);
+-
+-		/*
+-		 * If the scheduler was not already stopped, there's a tiny
+-		 * chance a timeout has expired just before we stopped it, and
+-		 * drm_sched_stop() does not flush pending works. Let's flush
+-		 * them now so the timeout handler doesn't get called in the
+-		 * middle of a reset.
+-		 */
+-		if (panfrost_scheduler_stop(&pfdev->js->queue[i], NULL))
+-			cancel_delayed_work_sync(&sched->work_tdr);
+-
+-		/*
+-		 * Now that we cancelled the pending timeouts, we can safely
+-		 * reset the stopped state.
+-		 */
+-		pfdev->js->queue[i].stopped = false;
+-	}
+-
+-	spin_lock_irqsave(&pfdev->js->job_lock, flags);
+-	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+-		if (pfdev->jobs[i]) {
+-			pm_runtime_put_noidle(pfdev->dev);
+-			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
+-			pfdev->jobs[i] = NULL;
+-		}
+-	}
+-	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
+-
+-	panfrost_device_reset(pfdev);
+-
+-	for (i = 0; i < NUM_JOB_SLOTS; i++)
+-		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
+-
+-	mutex_unlock(&pfdev->reset_lock);
+-
+-	/* restart scheduler after GPU is usable again */
+-	for (i = 0; i < NUM_JOB_SLOTS; i++)
+-		drm_sched_start(&pfdev->js->queue[i].sched, true);
++	/* Schedule a reset. */
++	atomic_set(&pfdev->reset.pending, 1);
++	schedule_work(&pfdev->reset.work);
+ }
+ 
+ static const struct drm_sched_backend_ops panfrost_sched_ops = {
+@@ -531,11 +504,62 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
++static void panfrost_reset(struct work_struct *work)
++{
++	struct panfrost_device *pfdev = container_of(work,
++						     struct panfrost_device,
++						     reset.work);
++	unsigned long flags;
++	unsigned int i;
++
++	if (!atomic_read(&pfdev->reset.pending))
++		return;
++
++	for (i = 0; i < NUM_JOB_SLOTS; i++) {
++		/*
++		 * We want pending timeouts to be handled before we attempt
++		 * to stop the scheduler. If we don't do that and the timeout
++		 * handler is in flight, it might have removed the bad job
++		 * from the list, and we'll lose this job if the reset handler
++		 * enters the critical section in panfrost_scheduler_stop()
++		 * before the timeout handler.
++		 *
++		 * Timeout is set to max to make sure the timer is not
++		 * restarted after the cancellation.
++		 */
++		pfdev->js->queue[i].sched.timeout = MAX_SCHEDULE_TIMEOUT;
++		cancel_delayed_work_sync(&pfdev->js->queue[i].sched.work_tdr);
++		panfrost_scheduler_stop(&pfdev->js->queue[i], NULL);
++	}
++
++	/* All timers have been stopped, we can safely reset the pending state. */
++	atomic_set(&pfdev->reset.pending, 0);
++
++	spin_lock_irqsave(&pfdev->js->job_lock, flags);
++	for (i = 0; i < NUM_JOB_SLOTS; i++) {
++		if (pfdev->jobs[i]) {
++			pm_runtime_put_noidle(pfdev->dev);
++			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
++			pfdev->jobs[i] = NULL;
++		}
++	}
++	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
++
++	panfrost_device_reset(pfdev);
++
++	for (i = 0; i < NUM_JOB_SLOTS; i++) {
++		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
++		panfrost_scheduler_start(&pfdev->js->queue[i]);
++	}
++}
++
+ int panfrost_job_init(struct panfrost_device *pfdev)
+ {
+ 	struct panfrost_job_slot *js;
+ 	int ret, j, irq;
+ 
++	INIT_WORK(&pfdev->reset.work, panfrost_reset);
++
+ 	pfdev->js = js = devm_kzalloc(pfdev->dev, sizeof(*js), GFP_KERNEL);
+ 	if (!js)
+ 		return -ENOMEM;
+@@ -558,7 +582,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+ 
+ 		ret = drm_sched_init(&js->queue[j].sched,
+ 				     &panfrost_sched_ops,
+-				     1, 0, msecs_to_jiffies(500),
++				     1, 0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+ 				     "pan_js");
+ 		if (ret) {
+ 			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
