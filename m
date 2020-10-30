@@ -2,35 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1162A02D4
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 11:28:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1822A0312
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 11:41:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD9C6E0CC;
-	Fri, 30 Oct 2020 10:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFF46E120;
+	Fri, 30 Oct 2020 10:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27DAB6E0CC
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 10:28:33 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B82341F45E58;
- Fri, 30 Oct 2020 10:28:31 +0000 (GMT)
-Date: Fri, 30 Oct 2020 11:28:26 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] drm/panfrost: Move the GPU reset bits outside the
- timeout handler
-Message-ID: <20201030112826.1b182709@collabora.com>
-In-Reply-To: <8185209b-b943-c1b8-90d8-fee894f6f829@arm.com>
-References: <20201030070826.582969-1-boris.brezillon@collabora.com>
- <8185209b-b943-c1b8-90d8-fee894f6f829@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FFCA6E120;
+ Fri, 30 Oct 2020 10:41:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C23wqxG4E0vqnvkc223Ufl3LSV8aOpOiHBkuVE9/Z1ACcDoDQGEVl6YmxUg37/dR1jyzQ+DUsF0+Std9g5cNN6pCcWLWg1jqJfVY4LWJGmjHiw4ql4kt9t8qGn8G61UzoBGzECPHd2pr+TtO4OxvCa3wjf2A4TGa8UlaW/j7qzbxp0mgJ7g5RYtgJlxVA049XyGl5v4rjraXu/3gGhuu36/KuoR8uHm2ElrJ7uVMsw50NGr8dXIEronf0/av/G9CJsDFGUxuOOmAXU9VpXM4AfCG4bn0ZtJ8PIAWMmYA6OOFlg/TxCNn6rPLagayGy0VTy83JWBWZEyc8pV4IuisMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Py+OBGo/7Gda+yx3lRAzGc5c0q9c0n4Bi3qfeTrbkj8=;
+ b=Y4gBNJW5C738K8K6E/bzS/1VwxlHQ2yN5Wt+23zZPHF8igoiMrnvgJlH50woWkJ5FKlZ425bisGY38Gy9k4KJAw0Y0lqVOhUOBFoTFcpICEpk0R6gqlNB+9rV2zP8v112YLlc/gL83rOe5ZsQd4+DgrparTKRGuLR4O24WYx3Zuqjumk1DYRMkPwVhAuhmkI5ONvoPJ4jyQqj87O3V7ZzZNGlVd7xxjypt5TGt1BZARHFWTIYPJ8iXPsBbAH705JjD+UXXdgBPC0iL8gAObhaqpNIU56Kh5THgSld/XpHO14dSybhcu6/RNbRQShibUZDNmdVwN4fJIzIb0/Ys8iqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Py+OBGo/7Gda+yx3lRAzGc5c0q9c0n4Bi3qfeTrbkj8=;
+ b=HbsFADWFYMAABStK+7OBiphpkAdFOJ5JxhsmVyrDo4oLnlkj0iF1dfddCyT8N67bhJ5NE28Eg9aF5s2ncCJjPsWyh0i3l109jtjhkg5Q9QeayspHjuym1AM1PRz857R/GQAVqjIqiytUULPRFw1BKi+t8FVHKXS+tf/7YWl+rq4=
+Received: from DM5PR12MB1708.namprd12.prod.outlook.com (2603:10b6:3:10e::22)
+ by DM5PR12MB1164.namprd12.prod.outlook.com (2603:10b6:3:77::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Fri, 30 Oct
+ 2020 10:41:40 +0000
+Received: from DM5PR12MB1708.namprd12.prod.outlook.com
+ ([fe80::61a5:a549:4cac:37e3]) by DM5PR12MB1708.namprd12.prod.outlook.com
+ ([fe80::61a5:a549:4cac:37e3%7]) with mapi id 15.20.3477.028; Fri, 30 Oct 2020
+ 10:41:39 +0000
+From: "Liu, Monk" <Monk.Liu@amd.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH 3/5] drm/amdgpu: Paper over the drm_driver mangling for
+ virt
+Thread-Topic: [PATCH 3/5] drm/amdgpu: Paper over the drm_driver mangling for
+ virt
+Thread-Index: AQHWrqUBnG21I9Wv/EK8BtTdrQGgi6mv9LTw
+Date: Fri, 30 Oct 2020 10:41:39 +0000
+Message-ID: <DM5PR12MB1708CC019EE615AA6B3D8A0184150@DM5PR12MB1708.namprd12.prod.outlook.com>
+References: <20201030101104.2503-1-daniel.vetter@ffwll.ch>
+ <20201030101104.2503-3-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201030101104.2503-3-daniel.vetter@ffwll.ch>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=31f27173-df72-4ffa-994c-0000292b9224;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
+ Use Only - Unrestricted;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-10-30T10:39:52Z;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [58.247.170.242]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 38d1e0de-5c8a-4557-e7ed-08d87cc06265
+x-ms-traffictypediagnostic: DM5PR12MB1164:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR12MB1164562E2AFD1368B07EBBFC84150@DM5PR12MB1164.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Y86SssQiO2WFeuJOA/0wc+t3IBpBH5SkcBbn8MKWH3Sn8mYAdCANU1DxBiQybuUHP/zrVNQ+w6O8amTmksJJ/7SeQNrvc1VgbrjYdqa1H1YIXfrCJYFNBnl509tUUiBwCoPCfWQ9+fBeCVYQ712m8Mn4omRcD3bCkHrvPtAwY5xrJRDmy8mBDd9czUFBh6dYeLy375EsWDDzxTxJ5KeH8XG5ktBVqEsWSKY9jEyAnu9yZ7OCR+GbumjM93LypJOikgUucQVhIOQ6tsBIuck3cmvjD08Z4n1s3KS33TAaAtp64FHgE+i2RHKhVuWVGTjWuqBBFt3r77TnJM+AqQroNg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1708.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(186003)(5660300002)(4326008)(33656002)(316002)(26005)(54906003)(110136005)(86362001)(478600001)(55016002)(9686003)(8676002)(83380400001)(66476007)(66446008)(2906002)(71200400001)(52536014)(6506007)(7696005)(53546011)(66556008)(66574015)(8936002)(76116006)(64756008)(66946007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: h2b//W//tIW2PbihgKs5+imqEldlBwseHGBShUmbJQSoiPeBE5nzqyJ+mfEjSKfD6zUvsipzKWX8xuZzgrv/dDNEWpMe5m2RX2LKfRQWWTtlvnOczzcHghrDJH67GWjOiqAM+2JKx43Xga+PpOucj8dZ0QWiXrhVWxKQMCmQtd/MQmPERAINcUr/u1/17gtu//IGT4lOczxOo9/v9wwzu91P3LcKnxZDPmQnMSJ5e20Hoj/YGHtXUjyufN9iyyqXd2U6YhC6cbo4P7URGpxAEh4Dzu6zFuNxLTFJFVhgtQT7GTUiN9vdl4rYvhJpq/IZdPh1ClgziMagysFbWVVqaWeTji53Pp8iVs46kz/HIE4cREsRSpBg0GHxAgZJITFnFvxTxZfe8YKnTwctGiyw9csUvRPyfupgZaLVMTMziQDutQFiXWaHMjsNPCLx2Ruz9pQor1imN7JevBcVAvT5l8SOaBLp7KwR0I2JnzxB1dmBdLHXlMPC0C+lA6ddnGqtfCmv4dvtGbcNgqYaBnLpO58507T6bu0HtCdBoezwEIhFOyHwK54D3igOP5z1gFZrIBrqUtlrhe3ojqpmBSAjB4qvmMRebAbDIAnHedI/ZTB7vLn8V3wF3k/2BmGm2coCxPxSFzh0J45kKzJ8Klf0gw==
 MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1708.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38d1e0de-5c8a-4557-e7ed-08d87cc06265
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2020 10:41:39.7736 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FU2lR9XsXn20vnrZabF3mzqjCQJJ8y86xqL1T33Jgwem+IIrEePfv9cvzuLBuyB6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,338 +103,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Gong, Curry" <Curry.Gong@amd.com>, "Zhang, Bokun" <Bokun.Zhang@amd.com>,
+ "Kuehling, 
+ Felix" <Felix.Kuehling@amd.com>, "Sheng, Wenhui" <Wenhui.Sheng@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>, "Liu,
+ Shaoyun" <Shaoyun.Liu@amd.com>, "Tuikov, Luben" <Luben.Tuikov@amd.com>, "Yang,
+ Stanley" <Stanley.Yang@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Deucher, 
+ Alexander" <Alexander.Deucher@amd.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Yintian Tao <yttao@amd.com>, "Quan, Evan" <Evan.Quan@amd.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>, "Li,
+ Dennis" <Dennis.Li@amd.com>, "Zhang, Hawking" <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 30 Oct 2020 10:00:07 +0000
-Steven Price <steven.price@arm.com> wrote:
-
-> On 30/10/2020 07:08, Boris Brezillon wrote:
-> > We've fixed many races in panfrost_job_timedout() but some remain.
-> > Instead of trying to fix it again, let's simplify the logic and move
-> > the reset bits to a separate work scheduled when one of the queue
-> > reports a timeout.
-> > 
-> > Fixes: 1a11a88cfd9a ("drm/panfrost: Fix job timeout handling")
-> > Cc: <stable@vger.kernel.org>
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >   drivers/gpu/drm/panfrost/panfrost_device.c |   1 -
-> >   drivers/gpu/drm/panfrost/panfrost_device.h |   6 +-
-> >   drivers/gpu/drm/panfrost/panfrost_job.c    | 130 ++++++++++++---------
-> >   3 files changed, 82 insertions(+), 55 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > index ea8d31863c50..a83b2ff5837a 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> > @@ -200,7 +200,6 @@ int panfrost_device_init(struct panfrost_device *pfdev)
-> >   	struct resource *res;
-> >   
-> >   	mutex_init(&pfdev->sched_lock);
-> > -	mutex_init(&pfdev->reset_lock);
-> >   	INIT_LIST_HEAD(&pfdev->scheduled_jobs);
-> >   	INIT_LIST_HEAD(&pfdev->as_lru_list);
-> >   
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> > index 2e9cbd1c4a58..67f9f66904be 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> > @@ -105,7 +105,11 @@ struct panfrost_device {
-> >   	struct panfrost_perfcnt *perfcnt;
-> >   
-> >   	struct mutex sched_lock;
-> > -	struct mutex reset_lock;
-> > +
-> > +	struct {
-> > +		struct work_struct work;
-> > +		atomic_t pending;
-> > +	} reset;
-> >   
-> >   	struct mutex shrinker_lock;
-> >   	struct list_head shrinker_list;
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> > index d0469e944143..745ee9563a54 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> > @@ -20,6 +20,8 @@
-> >   #include "panfrost_gpu.h"
-> >   #include "panfrost_mmu.h"
-> >   
-> > +#define JOB_TIMEOUT_MS 500
-> > +
-> >   #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
-> >   #define job_read(dev, reg) readl(dev->iomem + (reg))
-> >   
-> > @@ -382,19 +384,37 @@ static bool panfrost_scheduler_stop(struct panfrost_queue_state *queue,
-> >   			drm_sched_increase_karma(bad);
-> >   		queue->stopped = true;
-> >   		stopped = true;
-> > +
-> > +		/*
-> > +		 * Set the timeout to max so the timer doesn't get started
-> > +		 * when we return from the timeout handler (restored in
-> > +		 * panfrost_scheduler_start()).
-> > +		 */
-> > +		queue->sched.timeout = MAX_SCHEDULE_TIMEOUT;
-> >   	}
-> >   	mutex_unlock(&queue->lock);
-> >   
-> >   	return stopped;
-> >   }
-> >   
-> > +static void panfrost_scheduler_start(struct panfrost_queue_state *queue)
-> > +{
-> > +	if (WARN_ON(!queue->stopped))
-> > +		return;
-> > +
-> > +	mutex_lock(&queue->lock);
-> > +	/* Restore the original timeout before starting the scheduler. */
-> > +	queue->sched.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS);
-> > +	drm_sched_start(&queue->sched, true);
-> > +	queue->stopped = false;
-> > +	mutex_unlock(&queue->lock);
-> > +}
-> > +
-> >   static void panfrost_job_timedout(struct drm_sched_job *sched_job)
-> >   {
-> >   	struct panfrost_job *job = to_panfrost_job(sched_job);
-> >   	struct panfrost_device *pfdev = job->pfdev;
-> >   	int js = panfrost_job_get_slot(job);
-> > -	unsigned long flags;
-> > -	int i;
-> >   
-> >   	/*
-> >   	 * If the GPU managed to complete this jobs fence, the timeout is
-> > @@ -415,56 +435,9 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
-> >   	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
-> >   		return;
-> >   
-> > -	if (!mutex_trylock(&pfdev->reset_lock))
-> > -		return;
-> > -
-> > -	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-> > -		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
-> > -
-> > -		/*
-> > -		 * If the queue is still active, make sure we wait for any
-> > -		 * pending timeouts.
-> > -		 */
-> > -		if (!pfdev->js->queue[i].stopped)
-> > -			cancel_delayed_work_sync(&sched->work_tdr);
-> > -
-> > -		/*
-> > -		 * If the scheduler was not already stopped, there's a tiny
-> > -		 * chance a timeout has expired just before we stopped it, and
-> > -		 * drm_sched_stop() does not flush pending works. Let's flush
-> > -		 * them now so the timeout handler doesn't get called in the
-> > -		 * middle of a reset.
-> > -		 */
-> > -		if (panfrost_scheduler_stop(&pfdev->js->queue[i], NULL))
-> > -			cancel_delayed_work_sync(&sched->work_tdr);
-> > -
-> > -		/*
-> > -		 * Now that we cancelled the pending timeouts, we can safely
-> > -		 * reset the stopped state.
-> > -		 */
-> > -		pfdev->js->queue[i].stopped = false;
-> > -	}
-> > -
-> > -	spin_lock_irqsave(&pfdev->js->job_lock, flags);
-> > -	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-> > -		if (pfdev->jobs[i]) {
-> > -			pm_runtime_put_noidle(pfdev->dev);
-> > -			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
-> > -			pfdev->jobs[i] = NULL;
-> > -		}
-> > -	}
-> > -	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
-> > -
-> > -	panfrost_device_reset(pfdev);
-> > -
-> > -	for (i = 0; i < NUM_JOB_SLOTS; i++)
-> > -		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
-> > -
-> > -	mutex_unlock(&pfdev->reset_lock);
-> > -
-> > -	/* restart scheduler after GPU is usable again */
-> > -	for (i = 0; i < NUM_JOB_SLOTS; i++)
-> > -		drm_sched_start(&pfdev->js->queue[i].sched, true);
-> > +	/* Schedule a reset. */
-> > +	atomic_set(&pfdev->reset.pending, 1);  
-> 
-> Maybe I'm missing something, but I can't work out what setting 
-> reset.pending here gives us. See below.
-> 
-> > +	schedule_work(&pfdev->reset.work);
-> >   }
-> >   
-> >   static const struct drm_sched_backend_ops panfrost_sched_ops = {
-> > @@ -531,11 +504,62 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
-> >   	return IRQ_HANDLED;
-> >   }
-> >   
-> > +static void panfrost_reset(struct work_struct *work)
-> > +{
-> > +	struct panfrost_device *pfdev = container_of(work,
-> > +						     struct panfrost_device,
-> > +						     reset.work);
-> > +	unsigned long flags;
-> > +	unsigned int i;
-> > +
-> > +	if (!atomic_read(&pfdev->reset.pending))
-> > +		return;  
-> 
-> AFAICT the only time this return will be hit is in the following case:
-> 
-> CPU 0                     |  CPU 1
-> --------------------------+-------------------
-> job_timedout()            |
-> panfrost_reset()          |
->   ...                      | job_timedout()
->   - atomic_set(pending, 0) | ...
->                            | if (!atomic_read()) - returns early
-
-AFAICT a work can only be scheduled on one workqueue, IOW, it can't run
-on 2 CPUs simultaneously, and your example seems to imply that it can
-(both 'atomic_set(pending, 0)' and 'if (!atomic_read()) - returns
-early' are done in the reset handler).
-
-> 
-> However, reordering that a little we can see it can fail:
-> 
-> CPU 0                     |  CPU 1
-> --------------------------+-------------------
-> job_timedout()            |
->   ...                      |
-> panfrost_reset()          |
->   ...                      | job_timedout()
->   ...                      | panfrost_reset()
->   ...                      | if (atomic_read()) - doesn't return early
->   - atomic_set(pending, 0) | ...
-> 
-> I don't see anything which prevents the second scenario, so this pending 
-> flag doesn't seem to be stopping any race condition.
-> 
-> What am I missing?
-
-The pending state is just here to overcome the lack of cancel_work():
-if we schedule a reset while the reset handler is running, this handler
-will be called again just after it returns, but we only need to reset
-the GPU again if the timeout handler scheduled the reset work after the
-GPU has been reset and queues have been restarted.
-
-> 
-> I would have expected something more along the lines of:
-> 
-> 	/* Schedule a reset */
-> 	if (atomic_cmpxchg(&pfdev->reset.pending, 0, 1)) {
-> 		/* Reset already in progress */
-> 		return;
-> 	}
-> 	schedule_work(&pfdev->reset.work);
-> 
-> What do you think?
-
-That would work too, and allows us to get rid of the atomic_read() in
-the reset handler. I'll go for this version. This being said, I'm pretty
-sure my version was safe too ;-).
-
-> 
-> Also FYI I applied this on top of my panfrost-dev branch and managed to 
-> hit the following splat. I haven't yet got to the bottom of it, so it 
-> might well be an unrelated bug. At first glance this looks like the job 
-> is managing to outlive the MMU context it's tied to.
-
-Hm, I think I don't see those because I have "drm/panfrost: Make sure
-MMU context lifetime is not bound to panfrost_priv" applied. We should
-really work on a proper fix for that problem, or maybe apply the
-proposed fix until we have time to work on a better solution.
-
-> 
-> Steve
-> 
-> [  554.032998] ------------[ cut here ]------------
-> [  554.035169] Unable to handle kernel NULL pointer dereference at 
-> virtual address 00000104
-> [  554.035199] pgd = a3e6a38a
-> [  554.035214] [00000104] *pgd=00000000
-> [  554.035238] Internal error: Oops: 805 [#1] SMP ARM
-> [  554.035245] Modules linked in: panfrost gpu_sched
-> [  554.035265] CPU: 1 PID: 59 Comm: kworker/1:2 Not tainted 5.9.0-rc5+ #14
-> [  554.035271] Hardware name: Rockchip (Device Tree)
-> [  554.035305] Workqueue: events panfrost_reset [panfrost]
-> [  554.035336] PC is at panfrost_mmu_as_get+0x7c/0x270 [panfrost]
-> [  554.035363] LR is at panfrost_mmu_as_get+0x3c/0x270 [panfrost]
-> [  554.035371] pc : [<bf00e65c>]    lr : [<bf00e61c>]    psr: 800f0013
-> [  554.035378] sp : ecfdfe40  ip : 00000000  fp : 02f79000
-> [  554.035384] r10: 00000000  r9 : eb748d68  r8 : eb748d3c
-> [  554.035390] r7 : 00000001  r6 : eb442200  r5 : 00000001  r4 : eb748c40
-> [  554.035398] r3 : eb442244  r2 : 00000122  r1 : 00000100  r0 : eb442240
-> [  554.035406] Flags: Nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM 
-> Segment none
-> [  554.035415] Control: 10c5387d  Table: 2bb6406a  DAC: 00000051
-> [  554.035423] Process kworker/1:2 (pid: 59, stack limit = 0x4caadad3)
-> [  554.035430] Stack: (0xecfdfe40 to 0xecfe0000)
-> [  554.035445] fe40: 600f0013 ee1cdd24 ee1cdd24 c07934f0 00000001 
-> eb748c40 e96c8400 00000080
-> [  554.035458] fe60: 00000001 000018e0 e97d6480 00000000 02f79000 
-> bf00d3bc 00000006 00000000
-> [  554.035471] fe80: 00000005 00000000 c0d08ec8 ecfdfeb4 00000000 
-> ffffe000 eb81421c e96c8400
-> [  554.035483] fea0: eb814400 eac71d80 eb814278 00000000 00000238 
-> eb814418 00000000 bf000f40
-> [  554.035496] fec0: 83f5c473 eb748dd8 eb81421c 00000238 00000001 
-> 00000000 00000238 bf0122de
-> [  554.035509] fee0: eb814040 bf00d088 bf00cf68 ecf94680 eefa5f40 
-> eb748dd8 c0dd62a7 eefa9400
-> [  554.035521] ff00: 00000000 00000000 00000001 c013a6b4 00000001 
-> 00000000 c013a608 83f5c473
-> [  554.035534] ff20: ffffe000 c0d08ec8 bf0144f4 c126d4e0 00000000 
-> bf012441 00000000 83f5c473
-> [  554.035547] ff40: 00000000 ecf94680 ecf94694 eefa5f40 ecfde000 
-> eefa5f78 c0d05d00 c0deece8
-> [  554.035560] ff60: 00000000 c013b1a0 00000000 eea2f300 ecfde000 
-> ecf95540 c013af74 ecf94680
-> [  554.035573] ff80: eea49ea4 eea2f344 00000000 c0140a80 ecf95540 
-> c0140958 00000000 00000000
-> [  554.035584] ffa0: 00000000 00000000 00000000 c0100114 00000000 
-> 00000000 00000000 00000000
-> [  554.035596] ffc0: 00000000 00000000 00000000 00000000 00000000 
-> 00000000 00000000 00000000
-> [  554.035607] ffe0: 00000000 00000000 00000000 00000000 00000013 
-> 00000000 00000000 00000000
-> [  554.035663] [<bf00e65c>] (panfrost_mmu_as_get [panfrost]) from 
-> [<bf00d3bc>] (panfrost_job_run+0x19c/0x2b4 [panfrost])
-> [  554.035717] [<bf00d3bc>] (panfrost_job_run [panfrost]) from 
-> [<bf000f40>] (drm_sched_resubmit_jobs+0x88/0xc4 [gpu_sched])
-> [  554.035771] [<bf000f40>] (drm_sched_resubmit_jobs [gpu_sched]) from 
-> [<bf00d088>] (panfrost_reset+0x120/0x190 [panfrost])
-> [  554.035809] [<bf00d088>] (panfrost_reset [panfrost]) from 
-> [<c013a6b4>] (process_one_work+0x238/0x53c)
-> [  554.035823] [<c013a6b4>] (process_one_work) from [<c013b1a0>] 
-> (worker_thread+0x22c/0x2e0)
-> [  554.035838] [<c013b1a0>] (worker_thread) from [<c0140a80>] 
-> (kthread+0x128/0x138)
-> [  554.035854] [<c0140a80>] (kthread) from [<c0100114>] 
-> (ret_from_fork+0x14/0x20)
-> [  554.035864] Exception stack(0xecfdffb0 to 0xecfdfff8)
-> [  554.043775] WARNING: CPU: 0 PID: 350 at drivers/gpu/drm/drm_mm.c:999 
-> panfrost_postclose+0x28/0x34 [panfrost]
-> [  554.050065] ffa0:                                     00000000 
-> 00000000 00000000 00000000
-> [  554.050077] ffc0: 00000000 00000000 00000000 00000000 00000000 
-> 00000000 00000000 00000000
-> [  554.050087] ffe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> [  554.050101] Code: eb44454b e5962048 e2863044 e5961044 (e5812004)
-> [  554.050178] ---[ end trace 220c904d56e775c9 ]---
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEludGVybmFsIERpc3RyaWJ1dGlvbiBPbmx5XQ0KDQpX
+aGF0J3MgdGhlIHB1cnBvc2Ugb2YgdGhlIHBhdGNoIHNldHMNCg0KZS5nLjogd2hhdCBidWcgY2Fu
+IHRob3NlIDUgcGF0Y2hlcyBmaXggb3Igd2hhdCBmZWF0dXJlIHByb3ZpZGVkDQoNCmZvciB0aGlz
+IHBhcnRpY3VsYXIgb25lICgzLzUpIEkgZGlkbid0IHNlZSBob3cgaXQgaGVscGZ1bCwgY291bGQg
+eW91IGdpdmUgYSBiYWNrZ3JvdW5kICA/DQoNCnRoYW5rcw0KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXw0KTW9uayBMaXV8R1BVIFZpcnR1YWxpemF0aW9uIFRlYW0gfEFNRA0K
+DQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBEYW5pZWwgVmV0dGVyIDxkYW5p
+ZWwudmV0dGVyQGZmd2xsLmNoPg0KU2VudDogRnJpZGF5LCBPY3RvYmVyIDMwLCAyMDIwIDY6MTEg
+UE0NClRvOiBEUkkgRGV2ZWxvcG1lbnQgPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+
+DQpDYzogSW50ZWwgR3JhcGhpY3MgRGV2ZWxvcG1lbnQgPGludGVsLWdmeEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmc+OyBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPjsgRGV1Y2hl
+ciwgQWxleGFuZGVyIDxBbGV4YW5kZXIuRGV1Y2hlckBhbWQuY29tPjsgS29lbmlnLCBDaHJpc3Rp
+YW4gPENocmlzdGlhbi5Lb2VuaWdAYW1kLmNvbT47IFF1YW4sIEV2YW4gPEV2YW4uUXVhbkBhbWQu
+Y29tPjsgS3VlaGxpbmcsIEZlbGl4IDxGZWxpeC5LdWVobGluZ0BhbWQuY29tPjsgWmhhbmcsIEhh
+d2tpbmcgPEhhd2tpbmcuWmhhbmdAYW1kLmNvbT47IEdyb2R6b3Zza3ksIEFuZHJleSA8QW5kcmV5
+Lkdyb2R6b3Zza3lAYW1kLmNvbT47IFR1aWtvdiwgTHViZW4gPEx1YmVuLlR1aWtvdkBhbWQuY29t
+PjsgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+OyBMaXUsIE1vbmsgPE1v
+bmsuTGl1QGFtZC5jb20+OyBZaW50aWFuIFRhbyA8eXR0YW9AYW1kLmNvbT47IExpLCBEZW5uaXMg
+PERlbm5pcy5MaUBhbWQuY29tPjsgTGl1LCBTaGFveXVuIDxTaGFveXVuLkxpdUBhbWQuY29tPjsg
+WmhhbmcsIEJva3VuIDxCb2t1bi5aaGFuZ0BhbWQuY29tPjsgWWFuZywgU3RhbmxleSA8U3Rhbmxl
+eS5ZYW5nQGFtZC5jb20+OyBTaGVuZywgV2VuaHVpIDxXZW5odWkuU2hlbmdAYW1kLmNvbT47IEdv
+bmcsIEN1cnJ5IDxDdXJyeS5Hb25nQGFtZC5jb20+OyBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
+dGVyQGludGVsLmNvbT4NClN1YmplY3Q6IFtQQVRDSCAzLzVdIGRybS9hbWRncHU6IFBhcGVyIG92
+ZXIgdGhlIGRybV9kcml2ZXIgbWFuZ2xpbmcgZm9yIHZpcnQNCg0KUHJlcCB3b3JrIHRvIG1ha2Ug
+ZHJtX2RldmljZS0+ZHJpdmVyIGNvbnN0Lg0KDQpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVy
+IDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPg0KQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRl
+dWNoZXJAYW1kLmNvbT4NCkNjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2VuaWdA
+YW1kLmNvbT4NCkNjOiBFdmFuIFF1YW4gPGV2YW4ucXVhbkBhbWQuY29tPg0KQ2M6IEZlbGl4IEt1
+ZWhsaW5nIDxGZWxpeC5LdWVobGluZ0BhbWQuY29tPg0KQ2M6IEhhd2tpbmcgWmhhbmcgPEhhd2tp
+bmcuWmhhbmdAYW1kLmNvbT4NCkNjOiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5Lmdyb2R6b3Zz
+a3lAYW1kLmNvbT4NCkNjOiBMdWJlbiBUdWlrb3YgPGx1YmVuLnR1aWtvdkBhbWQuY29tPg0KQ2M6
+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KQ2M6IE1vbmsgTGl1IDxN
+b25rLkxpdUBhbWQuY29tPg0KQ2M6IFlpbnRpYW4gVGFvIDx5dHRhb0BhbWQuY29tPg0KQ2M6IERl
+bm5pcyBMaSA8RGVubmlzLkxpQGFtZC5jb20+DQpDYzogc2hhb3l1bmwgPHNoYW95dW4ubGl1QGFt
+ZC5jb20+DQpDYzogQm9rdW4gWmhhbmcgPEJva3VuLlpoYW5nQGFtZC5jb20+DQpDYzogIlN0YW5s
+ZXkuWWFuZyIgPFN0YW5sZXkuWWFuZ0BhbWQuY29tPg0KQ2M6IFdlbmh1aSBTaGVuZyA8V2VuaHVp
+LlNoZW5nQGFtZC5jb20+DQpDYzogY2hlbiBnb25nIDxjdXJyeS5nb25nQGFtZC5jb20+DQpTaWdu
+ZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4NCi0tLQ0K
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyAgfCAgOCArKysrLS0tLSAg
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZpcnQuYyB8IDEyICsrKysrKysrKysr
+LQ0KIDIgZmlsZXMgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkNCg0K
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYw0KaW5kZXggMDI0YzNiNzBiMWFh
+Li4zZDMzN2YxM2FlNGUgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHVfZHJ2LmMNCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYu
+Yw0KQEAgLTEwOTMsNyArMTA5Myw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9p
+ZCBwY2lpZGxpc3RbXSA9IHsNCg0KIE1PRFVMRV9ERVZJQ0VfVEFCTEUocGNpLCBwY2lpZGxpc3Qp
+Ow0KDQotc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGttc19kcml2ZXI7DQorc3RydWN0IGRybV9k
+cml2ZXIgYW1kZ3B1X2ttc19kcml2ZXI7DQoNCiBzdGF0aWMgaW50IGFtZGdwdV9wY2lfcHJvYmUo
+c3RydWN0IHBjaV9kZXYgKnBkZXYsDQogICAgIGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkICpl
+bnQpIEBAIC0xMTY0LDcgKzExNjQsNyBAQCBzdGF0aWMgaW50IGFtZGdwdV9wY2lfcHJvYmUoc3Ry
+dWN0IHBjaV9kZXYgKnBkZXYsDQogaWYgKHJldCkNCiByZXR1cm4gcmV0Ow0KDQotYWRldiA9IGRl
+dm1fZHJtX2Rldl9hbGxvYygmcGRldi0+ZGV2LCAma21zX2RyaXZlciwgdHlwZW9mKCphZGV2KSwg
+ZGRldik7DQorYWRldiA9IGRldm1fZHJtX2Rldl9hbGxvYygmcGRldi0+ZGV2LCAmYW1kZ3B1X2tt
+c19kcml2ZXIsDQordHlwZW9mKCphZGV2KSwgZGRldik7DQogaWYgKElTX0VSUihhZGV2KSkNCiBy
+ZXR1cm4gUFRSX0VSUihhZGV2KTsNCg0KQEAgLTE1MDgsNyArMTUwOCw3IEBAIGludCBhbWRncHVf
+ZmlsZV90b19mcHJpdihzdHJ1Y3QgZmlsZSAqZmlscCwgc3RydWN0IGFtZGdwdV9mcHJpdiAqKmZw
+cml2KQ0KIHJldHVybiAwOw0KIH0NCg0KLXN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBrbXNfZHJp
+dmVyID0gew0KK3N0cnVjdCBkcm1fZHJpdmVyIGFtZGdwdV9rbXNfZHJpdmVyID0gew0KIC5kcml2
+ZXJfZmVhdHVyZXMgPQ0KICAgICBEUklWRVJfQVRPTUlDIHwNCiAgICAgRFJJVkVSX0dFTSB8DQpA
+QCAtMTU3MSw3ICsxNTcxLDcgQEAgc3RhdGljIGludCBfX2luaXQgYW1kZ3B1X2luaXQodm9pZCkN
+CiBnb3RvIGVycm9yX2ZlbmNlOw0KDQogRFJNX0lORk8oImFtZGdwdSBrZXJuZWwgbW9kZXNldHRp
+bmcgZW5hYmxlZC5cbiIpOw0KLWttc19kcml2ZXIubnVtX2lvY3RscyA9IGFtZGdwdV9tYXhfa21z
+X2lvY3RsOw0KK2FtZGdwdV9rbXNfZHJpdmVyLm51bV9pb2N0bHMgPSBhbWRncHVfbWF4X2ttc19p
+b2N0bDsNCiBhbWRncHVfcmVnaXN0ZXJfYXRweF9oYW5kbGVyKCk7DQoNCiAvKiBJZ25vcmUgS0ZE
+IGluaXQgZmFpbHVyZXMuIE5vcm1hbCB3aGVuIENPTkZJR19IU0FfQU1EIGlzIG5vdCBzZXQuICov
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdmlydC5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3ZpcnQuYw0KaW5kZXggZDBhZWE1ZTM5
+NTMxLi5kZGU0YzQ0OWMyODQgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfdmlydC5jDQorKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
+dmlydC5jDQpAQCAtNDUsMTMgKzQ1LDIzIEBAIGJvb2wgYW1kZ3B1X3ZpcnRfbW1pb19ibG9ja2Vk
+KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KQ0KIHJldHVybiBSUkVHMzJfTk9fS0lRKDB4YzA0
+MCkgPT0gMHhmZmZmZmZmZjsgIH0NCg0KK2V4dGVybiBzdHJ1Y3QgZHJtX2RyaXZlciBhbWRncHVf
+a21zX2RyaXZlcjsNCisNCiB2b2lkIGFtZGdwdV92aXJ0X2luaXRfc2V0dGluZyhzdHJ1Y3QgYW1k
+Z3B1X2RldmljZSAqYWRldikgIHsNCiAvKiBlbmFibGUgdmlydHVhbCBkaXNwbGF5ICovDQogaWYg
+KGFkZXYtPm1vZGVfaW5mby5udW1fY3J0YyA9PSAwKQ0KIGFkZXYtPm1vZGVfaW5mby5udW1fY3J0
+YyA9IDE7DQogYWRldi0+ZW5hYmxlX3ZpcnR1YWxfZGlzcGxheSA9IHRydWU7DQotYWRldl90b19k
+cm0oYWRldiktPmRyaXZlci0+ZHJpdmVyX2ZlYXR1cmVzICY9IH5EUklWRVJfQVRPTUlDOw0KKw0K
+Ky8qDQorICogRklYTUU6IEVpdGhlciBtYWtlIHZpcnQgc3VwcG9ydCBhdG9taWMgb3IgbWFrZSBz
+dXJlIHlvdSBoYXZlIHR3bw0KKyAqIGRybV9kcml2ZXIgc3RydWN0cywgdGhlc2Uga2luZCBvZiB0
+cmlja3MgYXJlIG9ubHkgb2sgd2hlbiB0aGVyZSdzDQorICogZ3VhcmFudGVlZCBvbmx5IGEgc2lu
+Z2xlIGRldmljZSBwZXIgc3lzdGVtLiBUaGlzIHNob3VsZCBhbHNvIGJlIGRvbmUNCisgKiBiZWZv
+cmUgc3RydWN0IGRybV9kZXZpY2UgaXMgaW5pdGlhbGl6ZWQuDQorICovDQorYW1kZ3B1X2ttc19k
+cml2ZXIuZHJpdmVyX2ZlYXR1cmVzICY9IH5EUklWRVJfQVRPTUlDOw0KKw0KIGFkZXYtPmNnX2Zs
+YWdzID0gMDsNCiBhZGV2LT5wZ19mbGFncyA9IDA7DQogfQ0KLS0NCjIuMjguMA0KDQpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
