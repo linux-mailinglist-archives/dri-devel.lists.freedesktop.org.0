@@ -2,41 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA522A006F
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EDC2A0086
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:56:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 111826ED17;
-	Fri, 30 Oct 2020 08:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C4126E04A;
+	Fri, 30 Oct 2020 08:56:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D2C6ED17
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 08:52:18 +0000 (UTC)
-Date: Fri, 30 Oct 2020 08:52:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1604047935;
- bh=95JjZRfJrv2Btzh5dq+TWcbQv2ZkjC2FponeKNttJdM=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=coPd44oDDfEnL/L6fEhnI0On7F3cRE/BdkB/nC3DBwfzx2X62Um3c87jYYs7Gn73F
- 3eEx8QhHI/H57crmYPfkVEVkeru6UMJoJCZfMTDGDSu6S7eCo40OF7SUfUXUERgxXC
- BqdnpvNyn3ctY5SLGAEwf1QbXGZ8BLjc2ZGmVgN7M0xcCYPUxsXAx21RyWvauacbZ1
- pkaBL3Pk3ue/EXjLW55h1Ilx9GQ7/MNbrQCp3lJ6fZhBQ5sqcE9mzfAL5dGqn53gEn
- r2TfLeQEocHO3tNn5wnuHsE8a2FBdhvvpgYl3y7ftmsUP7u971gMh1e2Yl/6Bz749m
- b+pnl8CqGd1kw==
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [systemd-devel] DisplayPort display non-persistent device naming
-Message-ID: <BLmZP2Ol6VMDxu1BMFIsEsum0LcQmAIx2a3LXTBctSzGEHuv5Wanhijgn5RJFSHUtkRbLN7BXIzvSN3NqIfjvgNCCnOeiQFCj4hVUqgRk2M=@emersion.fr>
-In-Reply-To: <20201030100901.51272cd9@eldfell>
-References: <d23c3db1-1ae9-3f23-23a9-4d5d912c5108@gmail.com>
- <20201030100901.51272cd9@eldfell>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF1CD6E04A
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 08:56:40 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id w1so5568843wrm.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 01:56:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Xv94TD+Wz+qFlHRj1eF6lW3RTboLo+eylNXU68uehyM=;
+ b=YsJmlG/HFMVq7R+lbK2IEWG3q96YKjKj/hLgzUTHgVwiPqzEVm90HLnCSN9G23yaR4
+ ssaGW10qUoi1TuNNKkb/p1t3yVky44QhgQDcx7rDfMVPDAO+rdUe91NegZgg0HEiFUEf
+ KnIRfBQjWh+OBO9Je3lj2PFU+KpSok7zUai88=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Xv94TD+Wz+qFlHRj1eF6lW3RTboLo+eylNXU68uehyM=;
+ b=SoSc7s1B09mcQCyZsLKaE5PecfpO+vX/89jTcJ5HXqykczZ4/Cuo3gqeeunHrnc97c
+ rNQkL3jelXxUYC8rjZ7f2YjlRCeyp1Z/wgiWXzNrR9qHuQErvceyHS8o6/DYj7yprV1d
+ xp6jcEEMLw3Jp/EnBuP66V7tjHvbWTsmD5eSc6ExK+hAjaFLzrWVb0YgpRaEDuPHSP11
+ KQlZm+kMAPWqrem+CJOh3tx3N7T4fRnV0KlwWvQ8c+lUCEgdvUCKtQsHiNW2/48p6MaS
+ HTbr0MBOVXJveZiR09rqfvKKPeq9pPSUdsBDCU6PaAQEdSTD3IuoJPAU43Wv3fJN1+X1
+ Nhgw==
+X-Gm-Message-State: AOAM533kjZWsfL/9kf5mEb/gkRMXBg2GDjTt4ictfx43F6L1x5j3FXqV
+ fCeYqFpzZ3lh9uGWO56B9MU8MsSf1CUwgk5T
+X-Google-Smtp-Source: ABdhPJxNn1cigfBNCeYCIIS95vkvY6bnlYXekZsr+B50SeqCxD/aT9YV0a6DdLhYLYSBVvpBQpyGrA==
+X-Received: by 2002:adf:ce8a:: with SMTP id r10mr1791976wrn.188.1604048199645; 
+ Fri, 30 Oct 2020 01:56:39 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u3sm12640314wme.0.2020.10.30.01.56.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Oct 2020 01:56:38 -0700 (PDT)
+Date: Fri, 30 Oct 2020 09:56:36 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 1/6] drm/vc4: bo: Add a managed action to cleanup the cache
+Message-ID: <20201030085636.GE401619@phenom.ffwll.local>
+References: <20201029190104.2181730-1-maxime@cerno.tech>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <20201029190104.2181730-1-maxime@cerno.tech>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,59 +64,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Marcin Kocur <marcin2006@gmail.com>, "systemd-devel@lists.freedesktop.org"
- <systemd-devel@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpZGF5LCBPY3RvYmVyIDMwLCAyMDIwIDk6MDkgQU0sIFBla2thIFBhYWxhbmVuIDxwcGFh
-bGFuZW5AZ21haWwuY29tPiB3cm90ZToKCj4gT24gVGh1LCAyOSBPY3QgMjAyMCAyMTo1MzozNCAr
-MDEwMAo+IE1hcmNpbiBLb2N1ciBtYXJjaW4yMDA2QGdtYWlsLmNvbSB3cm90ZToKPgo+ID4gSGVs
-bG8sCj4gPiB0aGlzIGlzIHRoZSBvdXRwdXQgb2YgdHVybmluZyBvZmYgYW5kIG9uIG15IGRpc3Bs
-YXkgKHVzaW5nIHBvd2VyIGJ1dHRvbik6Cj4KPiAuLi4KPgo+ID4gVGhlIG1vbml0b3Igd2FzIHZp
-c2libGUgaW4geHJhbmRyIGFzIERQLTIsIGFmdGVyIHBvd2VyIG9mZiBhbmQgb24gaXQncwo+ID4g
-dmlzaWJsZSBhcyBEUC0zIChEUC0yIGlzIHN0aWxsIHRoZXJlICJkaXNjb25uZWN0ZWQiKS4KPiA+
-IEl0J3MgdHJvdWJsZXNvbWUgZm9yOgo+ID4KPiA+IC0gICBHVUkgZGlzcGxheSBjb25maWd1cmF0
-b3JzCj4gPgo+ID4gLSAgIHNjcmlwdGluZwo+ID4KPiA+IC0gICBmb3IgWG9yZyBjb25maWd1cmF0
-aW9uIHdoaWNoIHN0b3BzIHRvIHdvcms6Cj4gPgo+ID4KPiA+IFNlY3Rpb24gIk1vbml0b3IiCj4g
-PiDCoMKgwqAgSWRlbnRpZmllcsKgICJEUC0yIgo+ID4gwqDCoMKgIE9wdGlvbsKgwqDCoMKgwqAg
-IlByaW1hcnkiICJ0cnVlIgo+ID4gRW5kU2VjdGlvbgo+ID4gSXMgdGhpcyBhIGJ1ZyBvciBhIGZl
-YXR1cmU/Cj4KPiBIaSwKPgo+IHRoaXMgaXMgaG93IHRoZSBrZXJuZWwgRFJNIHN1Yi1zeXN0ZW0g
-d29ya3MuIFRoZSBjb25uZWN0b3IgbmFtZXMgYXJlCj4gbm90IHBlcnNpc3RlbnQgaW4gZ2VuZXJh
-bCwganVzdCBsaWtlIHlvdSBjYW4ndCBleHBlY3QgdGhhdCB0aGUgc2FtZSBnZngKPiBjYXJkIGFw
-cGVhcnMgYWx3YXlzIGF0IHRoZSBzYW1lIC9kZXYvZHJpL2NhcmROIG5vZGUgaWYgeW91IGhhdmUK
-PiBzZXZlcmFsLiBCeSBkZWZhdWx0LCBjYXJkTiBub2RlcyBhcmUgYXNzaWduZWQgaW4gdGhlIG9y
-ZGVyIG9mIHdoaWNoCj4gZHJpdmVyIGluc3RhbmNlIGhhcHBlbnMgdG8gaW5pdGlhbGl6ZSBmaXJz
-dCBhbmQgaXQgY2FuIGJlIHJhbmRvbS4KPgo+IFVzdWFsbHkgaGFyZC13aXJlZCAoaW4gaGFyZHdh
-cmUpIGNvbm5lY3RvcnMganVzdCBoYXBwZW4gdG8gYWx3YXlzIGJlCj4gZGlzY292ZXJlZCBpbiB0
-aGUgc2FtZSBvcmRlciwgYW5kIGlmIHlvdSBvbmx5IGhhdmUgYSBzaW5nbGUgZ2Z4IGNhcmQgaW4K
-PiB5b3VyIG1hY2hpbmUsIHRoZSBjb25uZWN0b3IgbmFtaW5nIGlzIHByYWN0aWNhbGx5IHBlcnNp
-c3RlbnQuIFRoaXMgaXMKPiBhbiBhY2NpZGVudC4gSXQgaXMgbm90IGd1YXJhbnRlZWQgaWYgeW91
-IGhhdmUgbXVsdGlwbGUgY2FyZHMgb3IgeW91Cj4gaGF2ZSBNU1QgY29ubmVjdG9ycy4KPgo+IE1T
-VCBjb25uZWN0b3JzIGNhbiBhcHBlYXIgYW5kIGRpc2FwcGVhciBkeW5hbWljYWxseS4gVGhlcmUg
-aXMgYSBLTVMKPiBwcm9wZXJ0eSB0aGF0IGF0dGVtcHRzIHRvIHJlZmxlY3Qgc29tZXRoaW5nIGFi
-b3V0IHRoZSBNU1QgdG9wb2xvZ3kgc28KPiB0aGF0IHlvdSBtaWdodCBoYXZlIHNvbWUgaG9wZSB0
-byBtYXRjaCBhICJjb25uZWN0b3IiLCBidXQgdGhpcyBpcyBub3QKPiBpbiB0aGUgY29ubmVjdG9y
-IG5hbWUuIFRoZSBjb25jZXB0IG9mIGEgcGVyc2lzdGVudCBjb25uZWN0b3IgaXMKPiBwcm9ibGVt
-YXRpYyBpZiB0aGUgY29ubmVjdG9yIGlzIGluIGEgTVNUIG1vbml0b3IgZm9yIGRhaXN5LWNoYWlu
-aW5nCj4gbW9yZSBtb25pdG9ycyAtIHlvdSBjYW4gYWx3YXlzIHVucGx1ZyB0aGUgZmlyc3QgbW9u
-aXRvciBtYWtpbmcgdGhlCj4gY29ubmVjdG9yIGRpc2FwcGVhciAobm90IGp1c3QgYmVjb21lIGRp
-c2Nvbm5lY3RlZCkuCj4KPiBJZiB5b3Ugd2FudCByZWxpYWJsZSBtb25pdG9yIG1hdGNoaW5nLCBt
-b25pdG9yIHNlcmlhbCBudW1iZXIgKGlmCj4gcHJlc2VudCkgd291bGQgYmUgYSBtb3JlIHJlbGlh
-YmxlIG1ldGhvZC4gSSdtIG5vdCBzdXJlIFhvcmcgY29uZmlnIGhhcwo+IG1hdGNoaW5nIHJ1bGVz
-IGZvciB0aGF0IHRob3VnaCwgYnV0IEkgc3VwcG9zZSBSYW5kUiBiYXNlZCBjb25maWd1cmF0aW9u
-Cj4gdXRpbGl0aWVzIGNvdWxkIGRvIGl0Lgo+Cj4gSWYgeW91IHdhbnQgdG8gZGlzY3VzcyB0aGlz
-IGZ1cnRoZXIsIGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QgaXMgdGhlCj4gcGxhY2UgLSBDYydkLiBO
-b3RoaW5nIHRvIGRvIHdpdGggc3lzdGVtZCBoZXJlLCBub3IgZXZlbiB3aXRoIHVkZXYuCgpJZiB5
-b3UgcmVhbGx5IHdhbnQgdG8gcmVsaWFibHkgbWF0Y2ggdGhlIHBoeXNpY2FsIGNvbm5lY3Rvciwg
-dGhpcwpwcm9wb3NhbCBmcm9tIFZpbGxlIG1heSBoZWxwOgoKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTktSnVuZS8yMjE5MDIuaHRtbAoKSW4gZmFj
-dCwgTVNUIGNvbm5lY3RvcnMgYWxyZWFkeSBhbGwgaGF2ZSBhIFBBVEggcHJvcC4gV2hhdCB3ZSdy
-ZQptaXNzaW5nIGlzIGEgUEFUSCBwcm9wIGZvciBvdGhlciBjb25uZWN0b3JzIGFzIHdlbGwuCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Oct 29, 2020 at 08:00:59PM +0100, Maxime Ripard wrote:
+> The BO cache needs to be cleaned up using vc4_bo_cache_destroy, but it's
+> not used consistently (vc4_drv's bind calls it in its error path, but
+> doesn't in unbind), and we can make that automatic through a managed
+> action. Let's remove the requirement to call vc4_bo_cache_destroy.
+> 
+> Fixes: c826a6e10644 ("drm/vc4: Add a BO cache.")
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/vc4/vc4_bo.c  | 5 +++--
+>  drivers/gpu/drm/vc4/vc4_drv.c | 1 -
+>  drivers/gpu/drm/vc4/vc4_drv.h | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+> index f432278173cd..730d5775ab42 100644
+> --- a/drivers/gpu/drm/vc4/vc4_bo.c
+> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
+> @@ -1024,6 +1024,7 @@ int vc4_get_tiling_ioctl(struct drm_device *dev, void *data,
+>  	return 0;
+>  }
+>  
+> +static void vc4_bo_cache_destroy(struct drm_device *dev, void *unused);
+>  int vc4_bo_cache_init(struct drm_device *dev)
+>  {
+>  	struct vc4_dev *vc4 = to_vc4_dev(dev);
+> @@ -1052,10 +1053,10 @@ int vc4_bo_cache_init(struct drm_device *dev)
+>  	INIT_WORK(&vc4->bo_cache.time_work, vc4_bo_cache_time_work);
+>  	timer_setup(&vc4->bo_cache.time_timer, vc4_bo_cache_time_timer, 0);
+>  
+> -	return 0;
+> +	return drmm_add_action(dev, vc4_bo_cache_destroy, NULL);
+
+I think you want drmm_add_action_or_reset here, same in the other patches.
+
+Otherwise if drmm_add_action fails, you leak the thing you just set up.
+-Daniel
+
+>  }
+>  
+> -void vc4_bo_cache_destroy(struct drm_device *dev)
+> +static void vc4_bo_cache_destroy(struct drm_device *dev, void *unused)
+>  {
+>  	struct vc4_dev *vc4 = to_vc4_dev(dev);
+>  	int i;
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+> index 8f10f609e4f8..eb3fcd8232b5 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.c
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
+> @@ -303,7 +303,6 @@ static int vc4_drm_bind(struct device *dev)
+>  gem_destroy:
+>  	vc4_gem_destroy(drm);
+>  	drm_mode_config_cleanup(drm);
+> -	vc4_bo_cache_destroy(drm);
+>  dev_put:
+>  	drm_dev_put(drm);
+>  	return ret;
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index 836fdca5e643..3a989e8b39a2 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -14,6 +14,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_managed.h>
+>  #include <drm/drm_mm.h>
+>  #include <drm/drm_modeset_lock.h>
+>  
+> @@ -808,7 +809,6 @@ struct drm_gem_object *vc4_prime_import_sg_table(struct drm_device *dev,
+>  						 struct sg_table *sgt);
+>  void *vc4_prime_vmap(struct drm_gem_object *obj);
+>  int vc4_bo_cache_init(struct drm_device *dev);
+> -void vc4_bo_cache_destroy(struct drm_device *dev);
+>  int vc4_bo_inc_usecnt(struct vc4_bo *bo);
+>  void vc4_bo_dec_usecnt(struct vc4_bo *bo);
+>  void vc4_bo_add_to_purgeable_pool(struct vc4_bo *bo);
+> -- 
+> 2.26.2
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
