@@ -1,41 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B682A011B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 10:20:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0F72A015F
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 10:25:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A84AF6ED1B;
-	Fri, 30 Oct 2020 09:20:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA2EF89D40;
+	Fri, 30 Oct 2020 09:25:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9F86ED26
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 09:20:02 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1kYQZg-0003Bt-85; Fri, 30 Oct 2020 10:19:56 +0100
-Message-ID: <f8ee093c78fc99ef087e84441b8b8c79836d563d.camel@pengutronix.de>
-Subject: Re: [RFC PATCH 2/2] drm: etnaviv: Unmap gems on gem_close
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 30 Oct 2020 10:19:54 +0100
-In-Reply-To: <20201029182054.GC401619@phenom.ffwll.local>
-References: <cover.1603981111.git.agx@sigxcpu.org>
- <a92da13ed190e6d49550b78dadad3c0003ef6881.1603981111.git.agx@sigxcpu.org>
- <8a354530944e6a606212fe537c689ec20422a954.camel@pengutronix.de>
- <20201029182054.GC401619@phenom.ffwll.local>
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90D7689D40
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 09:25:01 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id e2so2279638wme.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 02:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=lr95YjmxfBMQgyUuKRsKu2us1sAP1mxiJZKWtC6RQLE=;
+ b=J7c4uO3oFnVEICxe8V4NrJjJtpvezAbH4Hnr1BGHvgDeOFSERTJJk/DwplkhhnEqy9
+ gsk0k8raBxS9hZRbzo+tr8t9Dk5T6j0noOY+90TyNK1xWKM0eZMyQJIHckNemEjavWGJ
+ dH6rskih7R8r2jYNF4tDicyiGmBFKIxSwmTag=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=lr95YjmxfBMQgyUuKRsKu2us1sAP1mxiJZKWtC6RQLE=;
+ b=qNxf1NOa5CypzfLr31fMhnQeuaQG7nEw1tV4F/eW2lfh6x0fBp/qMvS+/RAT0bQGDL
+ r3tQ08SVD4BL209E3cO/KuL9irLFpfLH/iNAZSKIXocEXee5YGhLlCil1PrLHWTaJ2IZ
+ ElKYa1KAbrnT3DDQMPzJdjEWHMQAnyXot9pqg6SFgwQUfntUOGPbVRSr6wEW3fYPvxzU
+ 8Foc5AKrnz+/lfYd8LKUSqBhAGR0GM4cQHcVKvMoydv7nW04SJEbK4sfP+Fwsdlg3M1X
+ 2ohkBLx6/MxmXenZRGqGD+mO7L2Z6r5UkJEwttw+MmUMfCofdY2YpeMavoc/w/P/QWQ+
+ MYTg==
+X-Gm-Message-State: AOAM530qZoNy2rqziKIGGMPFWmpwqRNC//k6yNQPHnJZALYc8FiPJpCR
+ MRyAgVrkE+qjBEfj8ICBEwMJlg==
+X-Google-Smtp-Source: ABdhPJzCjMEsph+rgXwaN/TbnJTQc9xZPv4MlevNFQZPghkhmWJxtTUdg+b4UkW0Zd6TJSzHqwwt0w==
+X-Received: by 2002:a05:600c:218a:: with SMTP id
+ e10mr1482019wme.7.1604049900279; 
+ Fri, 30 Oct 2020 02:25:00 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t1sm9436244wrs.48.2020.10.30.02.24.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Oct 2020 02:24:59 -0700 (PDT)
+Date: Fri, 30 Oct 2020 10:24:57 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Greg KH <gregkh@linuxfoundation.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Deepak R Varma <mh12gx2825@gmail.com>, outreachy-kernel@googlegroups.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@linux.ie>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ melissa.srw@gmail.com
+Subject: Re: [Outreachy kernel] [PATCH] drm/amdgpu: use
+ DEFINE_DEBUGFS_ATTRIBUTE with debugfs_create_file_unsafe()
+Message-ID: <20201030092457.GI401619@phenom.ffwll.local>
+Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Deepak R Varma <mh12gx2825@gmail.com>,
+ outreachy-kernel@googlegroups.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@linux.ie>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ melissa.srw@gmail.com
+References: <20201030032245.GA274478@my--box>
+ <20201030071120.GA1493629@kroah.com>
+ <20201030075716.GA6976@my--box>
+ <5a7d8e8d-8db5-ff56-6448-3f1cefc11ef8@amd.com>
+ <20201030082518.GB1619669@kroah.com>
+ <20201030091521.GH401619@phenom.ffwll.local>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <20201030091521.GH401619@phenom.ffwll.local>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,121 +86,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gRG9ubmVyc3RhZywgZGVuIDI5LjEwLjIwMjAsIDE5OjIwICswMTAwIHNjaHJpZWIgRGFuaWVs
-IFZldHRlcjoKPiBPbiBUaHUsIE9jdCAyOSwgMjAyMCBhdCAwMzozODoyMVBNICswMTAwLCBMdWNh
-cyBTdGFjaCB3cm90ZToKPiA+IEhpIEd1aWRvLAo+ID4gCj4gPiBBbSBEb25uZXJzdGFnLCBkZW4g
-MjkuMTAuMjAyMCwgMTU6MjAgKzAxMDAgc2NocmllYiBHdWlkbyBHw7xudGhlcjoKPiA+ID4gU28g
-ZmFyIHRoZSB1bm1hcCBmcm9tIGdwdSBhZGRyZXNzIHNwYWNlIG9ubHkgaGFwcGVuZWQgd2hlbiBk
-cm9wcGluZyB0aGUKPiA+ID4gbGFzdCByZWYgaW4gZ2VtX2ZyZWVfb2JqZWN0X3VubG9ja2VkLCBo
-b3dldmVyIHRoYXQgaXMgc2tpcHBlZCBpZiB0aGVyZSdzCj4gPiA+IHN0aWxsIG11bHRpcGxlIGhh
-bmRsZXMgdG8gdGhlIHNhbWUgR0VNIG9iamVjdC4KPiA+ID4gCj4gPiA+IFNpbmNlIHVzZXJzcGFj
-ZSAoaGVyZSBtZXNhKSBpbiB0aGUgY2FzZSBvZiBzb2Z0cGluIGhhbmRzIGJhY2sgdGhlIG1lbW9y
-eQo+ID4gPiByZWdpb24gdG8gdGhlIHBvb2wgb2YgYXZhaWxhYmxlIEdQVSB2aXJ0dWFsIG1lbW9y
-eSBjbG9zaW5nIHRoZSBoYW5kbGUKPiA+ID4gdmlhIERSTV9JT0NUTF9HRU1fQ0xPU0UgdGhpcyBj
-YW4gbGVhZCB0byBldG5hdml2X2lvbW11X2luc2VydF9leGFjdAo+ID4gPiBmYWlsaW5nIGxhdGVy
-IHNpbmNlIHVzZXJzcGFjZSB0aGlua3MgdGhlIHZhZGRyIGlzIGF2YWlsYWJsZSB3aGlsZSB0aGUK
-PiA+ID4ga2VybmVsIHRoaW5rcyBpdCBpc24ndCBtYWtpbmcgdGhlIHN1Ym1pdCBmYWlsIGxpa2UK
-PiA+ID4gCj4gPiA+ICAgW0VdIHN1Ym1pdCBmYWlsZWQ6IC0xNCAoTm8gc3BhY2UgbGVmdCBvbiBk
-ZXZpY2UpIChldG5hX2NtZF9zdHJlYW1fZmx1c2g6MjQ0KQo+ID4gPiAKPiA+ID4gRml4IHRoaXMg
-YnkgdW5tYXBwaW5nIHRoZSBtZW1vcnkgdmlhIHRoZSAuZ2VtX2Nsb3NlX29iamVjdCBjYWxsYmFj
-ay4KPiA+ID4gCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNw
-dS5vcmc+Cj4gPiA+IC0tLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9k
-cnYuYyB8ICAxICsKPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2Lmgg
-fCAgMSArCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jIHwgMzIg
-KysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDM0IGlu
-c2VydGlvbnMoKykKPiA+ID4gCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRu
-YXZpdi9ldG5hdml2X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYu
-Ywo+ID4gPiBpbmRleCBhOWEzYWZhZWY5YTEuLmZkY2M2NDA1MDY4YyAxMDA2NDQKPiA+ID4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kcnYuYwo+ID4gPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5jCj4gPiA+IEBAIC00OTEsNiArNDkxLDcg
-QEAgc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGV0bmF2aXZfZHJtX2RyaXZlciA9IHsKPiA+ID4g
-IAkub3BlbiAgICAgICAgICAgICAgID0gZXRuYXZpdl9vcGVuLAo+ID4gPiAgCS5wb3N0Y2xvc2Ug
-ICAgICAgICAgID0gZXRuYXZpdl9wb3N0Y2xvc2UsCj4gPiA+ICAJLmdlbV9mcmVlX29iamVjdF91
-bmxvY2tlZCA9IGV0bmF2aXZfZ2VtX2ZyZWVfb2JqZWN0LAo+ID4gPiArCS5nZW1fY2xvc2Vfb2Jq
-ZWN0ICAgPSBldG5hdml2X2dlbV9jbG9zZV9vYmplY3QsCj4gPiA+ICAJLmdlbV92bV9vcHMgICAg
-ICAgICA9ICZ2bV9vcHMsCj4gPiA+ICAJLnByaW1lX2hhbmRsZV90b19mZCA9IGRybV9nZW1fcHJp
-bWVfaGFuZGxlX3RvX2ZkLAo+ID4gPiAgCS5wcmltZV9mZF90b19oYW5kbGUgPSBkcm1fZ2VtX3By
-aW1lX2ZkX3RvX2hhbmRsZSwKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5o
-Cj4gPiA+IGluZGV4IDRkOGRjOTIzNmU1Zi4uMjIyNmE5YWYwZDYzIDEwMDY0NAo+ID4gPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5oCj4gPiA+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHJ2LmgKPiA+ID4gQEAgLTY1LDYgKzY1LDcgQEAg
-aW50IGV0bmF2aXZfZ2VtX2NwdV9wcmVwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCB1MzIg
-b3AsCj4gPiA+ICAJCXN0cnVjdCBkcm1fZXRuYXZpdl90aW1lc3BlYyAqdGltZW91dCk7Cj4gPiA+
-ICBpbnQgZXRuYXZpdl9nZW1fY3B1X2Zpbmkoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+
-ID4gPiAgdm9pZCBldG5hdml2X2dlbV9mcmVlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3Qg
-Km9iaik7Cj4gPiA+ICt2b2lkIGV0bmF2aXZfZ2VtX2Nsb3NlX29iamVjdChzdHJ1Y3QgZHJtX2dl
-bV9vYmplY3QgKm9iaiwgc3RydWN0IGRybV9maWxlICpmaWxlKTsKPiA+ID4gIGludCBldG5hdml2
-X2dlbV9uZXdfaGFuZGxlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fZmlsZSAq
-ZmlsZSwKPiA+ID4gIAkJdTMyIHNpemUsIHUzMiBmbGFncywgdTMyICpoYW5kbGUpOwo+ID4gPiAg
-aW50IGV0bmF2aXZfZ2VtX25ld191c2VycHRyKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVj
-dCBkcm1fZmlsZSAqZmlsZSwKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5j
-Cj4gPiA+IGluZGV4IGYwNmUxOWU3YmUwNC4uNWFlYzRhMjNjNzdlIDEwMDY0NAo+ID4gPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dlbS5jCj4gPiA+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtLmMKPiA+ID4gQEAgLTUxNSw2ICs1MTUsMzgg
-QEAgc3RhdGljIGNvbnN0IHN0cnVjdCBldG5hdml2X2dlbV9vcHMgZXRuYXZpdl9nZW1fc2htZW1f
-b3BzID0gewo+ID4gPiAgCS5tbWFwID0gZXRuYXZpdl9nZW1fbW1hcF9vYmosCj4gPiA+ICB9Owo+
-ID4gPiAgCj4gPiA+ICt2b2lkIGV0bmF2aXZfZ2VtX2Nsb3NlX29iamVjdChzdHJ1Y3QgZHJtX2dl
-bV9vYmplY3QgKm9iaiwgc3RydWN0IGRybV9maWxlICp1bnVzZWQpCj4gPiA+ICt7Cj4gPiA+ICsJ
-c3RydWN0IGV0bmF2aXZfZ2VtX29iamVjdCAqZXRuYXZpdl9vYmogPSB0b19ldG5hdml2X2JvKG9i
-aik7Cj4gPiA+ICsJc3RydWN0IGV0bmF2aXZfdnJhbV9tYXBwaW5nICptYXBwaW5nLCAqdG1wOwo+
-ID4gPiArCj4gPiA+ICsJLyogSGFuZGxlIHRoaXMgdmlhIGV0bmF2aXZfZ2VtX2ZyZWVfb2JqZWN0
-ICovCj4gPiA+ICsJaWYgKG9iai0+aGFuZGxlX2NvdW50ID09IDEpCj4gPiA+ICsJCXJldHVybjsK
-PiA+ID4gKwo+ID4gPiArCVdBUk5fT04oaXNfYWN0aXZlKGV0bmF2aXZfb2JqKSk7Cj4gPiA+ICsK
-PiA+ID4gKwkvKgo+ID4gPiArCSAqIHVzZXJzcGFjZSB3YW50cyB0byByZWxlYXNlIHRoZSBoYW5k
-bGUgc28gd2UgbmVlZCB0byByZW1vdmUKPiA+ID4gKwkgKiB0aGUgbWFwcGluZyBmcm9tIHRoZSBn
-cHUncyB2aXJ0dWFsIGFkZHJlc3Mgc3BhY2UgdG8gc3RheQo+ID4gPiArCSAqIGluIHN5bmMuCj4g
-PiA+ICsJICovCj4gPiA+ICsJbGlzdF9mb3JfZWFjaF9lbnRyeV9zYWZlKG1hcHBpbmcsIHRtcCwg
-JmV0bmF2aXZfb2JqLT52cmFtX2xpc3QsCj4gPiA+ICsJCQkJIG9ial9ub2RlKSB7Cj4gPiA+ICsJ
-CXN0cnVjdCBldG5hdml2X2lvbW11X2NvbnRleHQgKmNvbnRleHQgPSBtYXBwaW5nLT5jb250ZXh0
-Owo+ID4gPiArCj4gPiA+ICsJCVdBUk5fT04obWFwcGluZy0+dXNlKTsKPiA+ID4gKwo+ID4gPiAr
-CQlpZiAoY29udGV4dCkgewo+ID4gPiArCQkJZXRuYXZpdl9pb21tdV91bm1hcF9nZW0oY29udGV4
-dCwgbWFwcGluZyk7Cj4gPiA+ICsJCQlldG5hdml2X2lvbW11X2NvbnRleHRfcHV0KGNvbnRleHQp
-Owo+ID4gCj4gPiBJIHNlZSB0aGUgaXNzdWUgeW91IGFyZSB0cnlpbmcgdG8gZml4IGhlcmUsIGJ1
-dCB0aGlzIGlzIG5vdCBhIHZpYWJsZQo+ID4gZml4LiBXaGlsZSB1c2Vyc3BhY2UgbWF5IGNsb3Nl
-IHRoZSBoYW5kbGUsIHRoZSBHUFUgbWF5IHN0aWxsIGJlCj4gPiBwcm9jZXNzaW5nIGpvYnMgcmVm
-ZXJlbmluZyB0aGUgQk8sIHNvIHdlIGNhbid0IGp1c3QgdW5tYXAgaXQgZnJvbSB0aGUKPiA+IGFk
-ZHJlc3Mgc3BhY2UuCj4gPiAKPiA+IEkgdGhpbmsgd2hhdCB3ZSBuZWVkIHRvIGRvIGhlcmUgaXMg
-d2FpdGluZyBmb3IgdGhlIGN1cnJlbnQgam9icy9mZW5jZXMKPiA+IG9mIHRoZSBCTyB3aGVuIHdl
-IGhpdCB0aGUgY2FzZSB3aGVyZSB1c2Vyc3BhY2UgdHJpZXMgdG8gYXNzaWduIGEgbmV3Cj4gPiBh
-ZGRyZXNzIHRvIHRoZSBCTy4gQmFzaWNhbGx5IHdhaXQgZm9yIGN1cnJlbnQgam9icyAtPiB1bmFt
-cCBmcm9tIHRoZQo+ID4gYWRkcmVzcyBzcGFjZSAtPiBtYXAgYXQgbmV3IHVzZXJzcGFjZSBhc3Np
-Z25lZCBhZGRyZXNzLgo+IAo+IFllYWggd2FzIGFib3V0IHRvIHNheSB0aGUgc2FtZS4gVGhlcmUn
-cyB0d28gc29sdXRpb25zIHRvIHRoaXM6Cj4gLSBsZXQgdGhlIGtlcm5lbCBtYW5hZ2UgdGhlIFZB
-IHNwYWNlLiBUaGlzIGlzIHdoYXQgYW1kZ3B1IGRvZXMgaW4gc29tZQo+ICAgY2FzZXMgKGJ1dCBz
-dGlsbCBubyByZWxvY2F0aW9ucykKPiAtIHBpcGVsaW5lIHRoZSBWQS9QVEUgdXBkYXRlcyBpbiB5
-b3VyIGRyaXZlciwgYmVjYXVzZSB1c2Vyc3BhY2UgaGFzIGEKPiAgIHNvbWV3aGF0IGhhcmQgdGlt
-ZSBmaWd1cmluZyBvdXQgd2hlbiBhIGJ1ZmZlciBpcyBkb25lLiBEb2luZyB0aGF0IHdvdWxkCj4g
-ICBlaXRoZXIgYXQgY29tcGxleGl0eSBvciBzdGFsbHMgd2hlbiB0aGUga2VybmVsIGlzIGRvaW5n
-IGFsbCB0aGUgdHJhY2tpbmcKPiAgIGFscmVhZHkgYW55d2F5LiBNaW5pbWFsIGZpeCBpcyB0byBk
-byB3aGF0IEx1Y2FzIGV4cGxhaW5lZCBhYm92ZSwgYnV0Cj4gICBpbXBvcnRhbnRseSB3aXRoIHRo
-ZSBrZXJuZWwgc29sdXRpb24gd2UgaGF2ZSB0aGUgb3B0aW9uIHRvIGZ1bGx5Cj4gICBwaXBlbGlu
-ZSBldmVyeXRoaW5nIGFuZCBhdm9pZCBzdGFsbHMuIEkgdGhpbmsgdGhpcyBpcyB3aGF0IGV2ZXJ5
-b25lIGVsc2UKPiAgIHdobyBsZXRzIHVzZXJzcGFjZSBtYW5hZ2UgVkEgZG9lcyBpbiB0aGVpciBr
-ZXJuZWwgc2lkZS4KCkkgdGhvdWdodCBhIGJpdCBtb3JlIGFib3V0IHRoaXMgYW5kIHRoZSBpc3N1
-ZSBpcyBvbmx5IGFib3V0IHVzZXJzcGFjZQpyZXVzaW5nIHJlZ2lvbnMgb2YgaXRzIF9wcml2YXRl
-XyBhZGRyZXNzIHNwYWNlLCBiZWZvcmUgdGhleSBhcmUgR1BVCmluYWN0aXZlLiBTbyB0aGUgcHJv
-YmxlbSBvZiB0cmFja2luZyBCTyBhY3RpdmUgZm9yIGZpZ3VyaW5nIG91dCB3aGVuIGl0CmlzIHNh
-ZmUgdG8gY2xvc2UgdGhlIGhhbmRsZSAoYW5kIHRodXMgZm9yZ2V0IGFib3V0IHRoZSBsYXN0IHBs
-YWNlbWVudApvZiB0aGUgQk8gaW4gdGhlIEFTKSBnb2VzIGZyb20gImlzIHRoaXMgQk8gZ2xvYmFs
-bHkgYWN0aXZlIGFueXdoZXJlPyIKdG8gImlzIHRoaXMgQk8gc3RpbGwgYWN0aXZlIGluIG9uZSBv
-ZiB0aGUgam9icyBJIHN1Ym1pdHRlZD8iLCB3aGljaCBpcwpub3QgaGFyZCBhdCBhbGwgZm9yIHRo
-ZSB1c2Vyc3BhY2UgdG8gZmlndXJlIG91dC4KCldpdGggdGhpcyBpbiBtaW5kIEkgdGhpbmsgd2Ug
-Y2FuIHJlYXNvbmFibHkgZGVjbGFyZSB0aGUga2VybmVsIGJlaGF2aW9yCm9mIHJlamVjdGluZyB0
-aGUgc3VibWl0IGFzIG9rYXkgYW5kIGp1c3QgYWRkIHRoZSB0aW55IGJpdCBvZiB1c2Vyc3BhY2UK
-ZmVuY2luZyBuZWVkZWQgZm9yIHRoZSB1c2Vyc3BhY2UgZHJpdmVyIHRvIG5vdCBjbG9zZSB0aGUg
-aGFuZGxlIHVudGlsCnRoZSBsYXN0IHN1Ym1pdCByZWZlcmVuY2luZyB0aGlzIEJPIGhhcyBmaW5p
-c2hlZC4KClJlZ2FyZHMsCkx1Y2FzCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+On Fri, Oct 30, 2020 at 10:15:21AM +0100, Daniel Vetter wrote:
+> On Fri, Oct 30, 2020 at 09:25:18AM +0100, Greg KH wrote:
+> > On Fri, Oct 30, 2020 at 09:00:04AM +0100, Christian K=F6nig wrote:
+> > > Am 30.10.20 um 08:57 schrieb Deepak R Varma:
+> > > > On Fri, Oct 30, 2020 at 08:11:20AM +0100, Greg KH wrote:
+> > > > > On Fri, Oct 30, 2020 at 08:52:45AM +0530, Deepak R Varma wrote:
+> > > > > > Using DEFINE_DEBUGFS_ATTRIBUTE macro with debugfs_create_file_u=
+nsafe()
+> > > > > > function in place of the debugfs_create_file() function will ma=
+ke the
+> > > > > > file operation struct "reset" aware of the file's lifetime. Add=
+itional
+> > > > > > details here: https://nam11.safelinks.protection.outlook.com/?u=
+rl=3Dhttps%3A%2F%2Flists.archive.carbon60.com%2Flinux%2Fkernel%2F2369498&am=
+p;data=3D04%7C01%7Cchristian.koenig%40amd.com%7Cddd7a6ac8164415a639708d87ca=
+97004%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637396414464384011%7CUnk=
+nown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJX=
+VCI6Mn0%3D%7C1000&amp;sdata=3Do6GOHvMxNMuOPlC4nhDyURCHBLqfQZhYQq%2BiIMt3D3s=
+%3D&amp;reserved=3D0
+> > > > > > =
+
+> > > > > > Issue reported by Coccinelle script:
+> > > > > > scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
+> > > > > > =
+
+> > > > > > Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+> > > > > > ---
+> > > > > > Please Note: This is a Outreachy project task patch.
+> > > > > > =
+
+> > > > > >   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 20 ++++++++++--=
+--------
+> > > > > >   1 file changed, 10 insertions(+), 10 deletions(-)
+> > > > > > =
+
+> > > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/driv=
+ers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > > > > > index 2d125b8b15ee..f076b1ba7319 100644
+> > > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > > > > > @@ -1551,29 +1551,29 @@ static int amdgpu_debugfs_sclk_set(void=
+ *data, u64 val)
+> > > > > >   	return 0;
+> > > > > >   }
+> > > > > > -DEFINE_SIMPLE_ATTRIBUTE(fops_ib_preempt, NULL,
+> > > > > > -			amdgpu_debugfs_ib_preempt, "%llu\n");
+> > > > > > +DEFINE_DEBUGFS_ATTRIBUTE(fops_ib_preempt, NULL,
+> > > > > > +			 amdgpu_debugfs_ib_preempt, "%llu\n");
+> > > > > Are you sure this is ok?  Do these devices need this additional
+> > > > > "protection"?  Do they have the problem that these macros were wr=
+itten
+> > > > > for?
+> > > > > =
+
+> > > > > Same for the other patches you just submitted here, I think you n=
+eed to
+> > > > > somehow "prove" that these changes are necessary, checkpatch isn'=
+t able
+> > > > > to determine this all the time.
+> > > > Hi Greg,
+> > > > Based on my understanding, the current function debugfs_create_file=
+()
+> > > > adds an overhead of lifetime managing proxy for such fop structs. T=
+his
+> > > > should be applicable to these set of drivers as well. Hence I think=
+ this
+> > > > change will be useful.
+> > > =
+
+> > > Well since this is only created once per device instance I don't real=
+ly care
+> > > about this little overhead.
+> > > =
+
+> > > But what exactly is debugfs doing or not doing here?
+> > =
+
+> > It is trying to save drivers from having debugfs files open that point
+> > to memory that can go away at any time.  For graphics devices, I doubt
+> > that is the case.
+> =
+
+> So for anything we add/remove we have two-stage cleanup
+> =
+
+> 1. drm_dev_unregister (or drm_connector_unregisters, those are the only
+> two hotunpluggable things we have) unregister all the uapi interfaces.
+> This deletes all the sysfs and debugfs files.
+> =
+
+> 2. Once all the references to the underlying object disappear from the
+> kernel, we free up the data structure.
+> =
+
+> Now for chardev and similar uapi, we hold full references for open files.
+> But for sysfs and debugfs we assume that those uapi layers will make sure
+> that after we deleted the files in step 1 all access through these
+> functions are guaranteed to have finished. If that's not the case, then we
+> need to rework our refcounting and also refcount the underlying drm
+> structure (drm_device or drm_connector) from sysfs/debugfs files.
+> =
+
+> Now I tried to look at the patch Deepak references, and I'm not really
+> clear what changes. Or whether we made a wrong assumption previously about
+> what debugfs/sysfs guarantee when we delete the files.
+
+I read some more code and kerneldoc, and I still have no idea what this
+new _unsafe variant is used for. Only ones I've found seem to use
+debugfs_file_get/put like the normal variant, to protect against
+concurrently removed files due to hotunplug. Which is kinda what we've
+been expecting debugfs to do for us.
+
+What's a use-case for _unsafe _without_ debugfs_file_get/put?
+
+Decently confused me over here doesn't get this.
+-Daniel
+
+> -Daniel
+> =
+
+> > =
+
+> > thanks,
+> > =
+
+> > greg k-h
+> =
+
+> -- =
+
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
