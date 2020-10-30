@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECDC29FFD7
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:25:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8276B29FFC4
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 09:24:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B93E6ECFC;
-	Fri, 30 Oct 2020 08:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3EB76E991;
+	Fri, 30 Oct 2020 08:23:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 454706E948
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 01:17:46 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id b12so2183912plr.4
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 18:17:46 -0700 (PDT)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDDDC6E946
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 01:18:02 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id x23so2177207plr.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Oct 2020 18:18:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GixG0AIp4K7aEPxnTMoVGo349E06hix+8APGiCAeVDg=;
- b=iwMP8439b+n/zanp2YSKeVm2e2FnXGqeUWQWVL6rDTBnQ6ZDMxsP46JOVZy3kVytvW
- PlBUV0FNHeHnwbMaSf6TrNY4GTuZ0jMBpg+PNxkFhORmf9Ms14sCxRlkzGfyipzDDUUc
- 6eMaNyhn664iSTNGNXje17gI7xJ+vfdImlqCM=
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=6/T1bgNMX0hc7obLwVMGSAc+uvcAnq6mB6Znj0RpZj4=;
+ b=QamlEIUF04NHqrdOLu3HlEqGIxbCZMTeDWZLaOyYYaIwjgG8bPGY97mDz5SRffykgk
+ 2LM0B+k0EopunO8G3uCNnT2utfRb2DJLAu5QC2Rr5GXAS4KCAIj2l99cM+qo0uSjUUyW
+ pSDHp/0eK9Ihzh/cFLxsrz3uNL+EFPjLYL9fw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GixG0AIp4K7aEPxnTMoVGo349E06hix+8APGiCAeVDg=;
- b=tjKblE391CZyVsG0vqm+5bSfm6oFWrZ8WbeM10b5OPZ+NGCo/6KqBWSD4IbwTIga7z
- ytBIjR5BRQIMwGQ9Cx7rCoh38d2iXUsY89Mw7cjRNeNhv+D0di2VK9/7BdLNta3YGWE+
- pXrLSxfHCEXBsjWvcM0atATOeJCxLM5QlrhGNkaHWduxjM58xNVZ80Mmxuc0IsOtuhgJ
- ZMmtSPp9ChkmdmogE659PXPnvAU3zvJK+xtQI8X1XtyFHLIe4j9iCkfHldvwn5udNCxX
- pwecUOk+rANiAn4krZH4lLeHvhdQV2F2b159zVSyI8gJiaDrJjeqnWloMVoiT7dB/5kN
- Lgcw==
-X-Gm-Message-State: AOAM533yF6R9Xkgno16WbehHupdqXTKSRDsekG7JQVI8Je8wv7lEZ7nv
- NsvVpL9PQOqPIyKJFd6JmpZP0Q==
-X-Google-Smtp-Source: ABdhPJxYudIQ2YVqBE67sdMqELFeQMtHqfxicmXnHIedGvx0yL8cZqg6wE6FyG3S/ifYAoRVHpQBgA==
-X-Received: by 2002:a17:902:b7c2:b029:d6:f71:38d5 with SMTP id
- v2-20020a170902b7c2b02900d60f7138d5mr6341002plz.1.1604020665929; 
- Thu, 29 Oct 2020 18:17:45 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id z26sm4477854pfq.131.2020.10.29.18.17.44
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=6/T1bgNMX0hc7obLwVMGSAc+uvcAnq6mB6Znj0RpZj4=;
+ b=owpJrRO0D8hDX5hla/10UszznNtTHyiwetec/yszgjjmXrKukUsePPHFLhlbsnp/PI
+ SugUODqUM8nmmS6ZBTG7kzqKsNAqDzL6guZQpiy5/PYG3xZT1y/ulPjS9/klmnHJWlC5
+ L46bBL8vGvk9vZEDn7bL+UkieAzQrxn8lA6TKWIqudHvONe1a1a3qrxG76GJaUOlj3Mg
+ dO1ji+GUmD1To04YeGL4QL45wZFnE/DJ6xq5CnnhA3ykGea8c3zt078LE/lcMva0JsL+
+ A9hejhUE4gNVfUy3AUoCic+XND3ELhqmX1L8Vieg1SQTv+Uez1S6h3ZFmEzn+4kEE2FX
+ Agrw==
+X-Gm-Message-State: AOAM532ZVm46A/HW080f9OOlb18oyI+/POdLWKYG6jbV+ylTF/tbH0bF
+ ZGWE5n5q9va6GxYOnf8kDH86/w==
+X-Google-Smtp-Source: ABdhPJzZFC3ctMbDZuoSYzO/annVO2MRDdW3xmvpRDz3KMTE+zxuQLBGDVnn8zI8L/vzvVOAlnwIYg==
+X-Received: by 2002:a17:902:780f:b029:d6:3413:9fe8 with SMTP id
+ p15-20020a170902780fb02900d634139fe8mr6827287pll.46.1604020682572; 
+ Thu, 29 Oct 2020 18:18:02 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
+ by smtp.gmail.com with ESMTPSA id a10sm1061409pjq.17.2020.10.29.18.18.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 18:17:45 -0700 (PDT)
+ Thu, 29 Oct 2020 18:18:01 -0700 (PDT)
+MIME-Version: 1.0
+In-Reply-To: <20201029011154.1515687-2-swboyd@chromium.org>
+References: <20201029011154.1515687-1-swboyd@chromium.org>
+ <20201029011154.1515687-2-swboyd@chromium.org>
+Subject: Re: [PATCH 1/4] drm/bridge: ti-sn65dsi86: Combine register accesses
+ in ti_sn_aux_transfer()
 From: Stephen Boyd <swboyd@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH v2 4/4] drm/bridge: ti-sn65dsi86: Update reply on aux failures
-Date: Thu, 29 Oct 2020 18:17:38 -0700
-Message-Id: <20201030011738.2028313-5-swboyd@chromium.org>
-X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-In-Reply-To: <20201030011738.2028313-1-swboyd@chromium.org>
-References: <20201030011738.2028313-1-swboyd@chromium.org>
-MIME-Version: 1.0
+Date: Thu, 29 Oct 2020 18:18:00 -0700
+Message-ID: <160402068056.884498.17274332256355831549@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-Mailman-Approved-At: Fri, 30 Oct 2020 08:23:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,91 +78,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We should be setting the drm_dp_aux_msg::reply field if a NACK or a
-SHORT reply happens. Update the error bit handling logic in
-ti_sn_aux_transfer() to handle these cases and notify upper layers that
-such errors have happened. This helps the retry logic understand that a
-timeout has happened, or to shorten the read length if the panel isn't
-able to handle the longest read possible.
+Quoting Stephen Boyd (2020-10-28 18:11:51)
+> @@ -72,6 +74,7 @@
+>  #define SN_AUX_ADDR_19_16_REG                  0x74
+>  #define SN_AUX_ADDR_15_8_REG                   0x75
+>  #define SN_AUX_ADDR_7_0_REG                    0x76
+> +#define SN_AUX_ADDR_MASK                       GENMASK(19, 0)
+>  #define SN_AUX_LENGTH_REG                      0x77
+>  #define SN_AUX_CMD_REG                         0x78
+>  #define  AUX_CMD_SEND                          BIT(0)
+> @@ -841,11 +844,13 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+>         struct ti_sn_bridge *pdata = aux_to_ti_sn_bridge(aux);
+>         u32 request = msg->request & ~DP_AUX_I2C_MOT;
+>         u32 request_val = AUX_CMD_REQ(msg->request);
+> -       u8 *buf = (u8 *)msg->buffer;
+> +       u8 *buf = msg->buffer;
+> +       unsigned int len = msg->size;
+>         unsigned int val;
+> -       int ret, i;
+> +       int ret;
+> +       u8 addr_len[SN_AUX_LENGTH_REG + 1 - SN_AUX_ADDR_19_16_REG];
 
-Note: I don't have any hardware that exhibits these code paths so this
-is written based on reading the datasheet for this bridge and inspecting
-the code and how this is called.
-
-Changes in v2:
- - Handle WRITE_STATUS_UPDATE properly
-
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-Cc: Sean Paul <seanpaul@chromium.org>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 36 ++++++++++++++++++++++++---
- 1 file changed, 32 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index f86934fd6cc8..984ea41deca8 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -873,10 +873,16 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 		return -EINVAL;
- 
- 	switch (request) {
-+	case DP_AUX_I2C_WRITE_STATUS_UPDATE:
-+		/* WRITE_STATUS_UPDATE only matters for request_val */
-+		request &= ~DP_AUX_I2C_WRITE_STATUS_UPDATE;
-+		fallthrough;
- 	case DP_AUX_NATIVE_WRITE:
- 	case DP_AUX_I2C_WRITE:
- 	case DP_AUX_NATIVE_READ:
- 	case DP_AUX_I2C_READ:
-+		/* Assume it's good */
-+		msg->reply = 0;
- 		break;
- 	default:
- 		return -EINVAL;
-@@ -909,10 +915,32 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
- 	ret = regmap_read(pdata->regmap, SN_AUX_CMD_STATUS_REG, &val);
- 	if (ret)
- 		return ret;
--	else if ((val & AUX_IRQ_STATUS_NAT_I2C_FAIL)
--		 || (val & AUX_IRQ_STATUS_AUX_RPLY_TOUT)
--		 || (val & AUX_IRQ_STATUS_AUX_SHORT))
--		return -ENXIO;
-+
-+	if (val & AUX_IRQ_STATUS_AUX_RPLY_TOUT) {
-+		/*
-+		 * The hardware tried the message seven times per the DP spec
-+		 * but it hit a timeout. We ignore defers here because they're
-+		 * handled in hardware.
-+		 */
-+		return -ETIMEDOUT;
-+	}
-+	if (val & AUX_IRQ_STATUS_AUX_SHORT) {
-+		ret = regmap_read(pdata->regmap, SN_AUX_LENGTH_REG, &len);
-+		if (ret)
-+			return ret;
-+	} else if (val & AUX_IRQ_STATUS_NAT_I2C_FAIL) {
-+		switch (request) {
-+		case DP_AUX_I2C_WRITE:
-+		case DP_AUX_I2C_READ:
-+			msg->reply |= DP_AUX_I2C_REPLY_NACK;
-+			break;
-+		case DP_AUX_NATIVE_READ:
-+		case DP_AUX_NATIVE_WRITE:
-+			msg->reply |= DP_AUX_NATIVE_REPLY_NACK;
-+			break;
-+		}
-+		return 0;
-+	}
- 
- 	if (request == DP_AUX_NATIVE_WRITE || request == DP_AUX_I2C_WRITE ||
- 	    len == 0)
--- 
-Sent by a computer, using git, on the internet
-
+I realize now that the SN_AUX_CMD_REG is also here and it has a "go bit"
+in it. We can combine another register write here by writing out the
+address, length, and request in one go. I rolled that into v2.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
