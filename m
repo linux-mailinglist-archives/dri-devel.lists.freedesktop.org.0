@@ -2,45 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C362A1722
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Oct 2020 12:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 919C82A1734
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Oct 2020 13:12:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C096E17C;
-	Sat, 31 Oct 2020 11:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E39136E0FB;
+	Sat, 31 Oct 2020 12:12:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0067.hostedemail.com
- [216.40.44.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 059B26E098;
- Sat, 31 Oct 2020 11:52:55 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay01.hostedemail.com (Postfix) with ESMTP id 7E2E8100E7B42;
- Sat, 31 Oct 2020 11:52:53 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2194:2199:2393:2525:2553:2560:2563:2682:2685:2693:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3000:3022:3138:3139:3140:3141:3142:3352:3622:3865:3866:3870:3871:3872:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:5007:6119:7903:7904:9025:10004:10400:10471:10848:11026:11232:11473:11658:11914:12043:12114:12219:12297:12438:12555:12740:12760:12895:13069:13255:13311:13357:13439:14181:14659:14721:21080:21627:30054:30070:30074:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:75, LUA_SUMMARY:none
-X-HE-Tag: hate63_1d141c52729e
-X-Filterd-Recvd-Size: 2182
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf07.hostedemail.com (Postfix) with ESMTPA;
- Sat, 31 Oct 2020 11:52:51 +0000 (UTC)
-Message-ID: <0b818156537f354904938f437cbb9dd02e765653.camel@perches.com>
-Subject: Re: [Outreachy kernel] [PATCH] drm/amdgpu: use
- DEFINE_DEBUGFS_ATTRIBUTE with debugfs_create_file_unsafe()
-From: Joe Perches <joe@perches.com>
-To: Greg KH <gregkh@linuxfoundation.org>, Deepak R Varma <mh12gx2825@gmail.com>
-Date: Sat, 31 Oct 2020 04:52:50 -0700
-In-Reply-To: <20201030080316.GA1612206@kroah.com>
-References: <20201030032245.GA274478@my--box>
- <20201030071120.GA1493629@kroah.com> <20201030075716.GA6976@my--box>
- <20201030080316.GA1612206@kroah.com>
-User-Agent: Evolution 3.38.1-1 
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1E56E0FB
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 12:12:04 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id w23so5102387wmi.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 05:12:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=NA2mk2ojzZgcrMT2zOu7idEhtXsilJ2RZg5gFMOuQu0=;
+ b=rgT37NYQH0JrZ+w9kmDmvHaorzrQsZ38syQpEBuQRDiiWk+YdlfpmT2ghXW0hyI+Np
+ gYqV2T2D1/Dgy21YLv5rah1aqTH157Jntx0NRRWBZVHHsy48hV7i8Zyl7y0hxN3eI5OE
+ 5j7zAJYcFIR929YPdFEhJFR62g5T5kPflirWj1MYEYiwfcOEW08itezE8o7j6ukzLFdM
+ j8+OSvyd1fhZTspdn5Zv7PlihrwpwvS4I4Fw5SEQWu7kiOEkw4WRPA5mohNnEM/eZ0qF
+ 06gGa6HdJkOxh8UIwxjqM0QoGN/jO8MAVd7fhHvng566QJMUisknYQt+/+LVHz/2+dvL
+ tuBg==
+X-Gm-Message-State: AOAM530ruLINMB2o/lm9+78cWAP8Nqnu6Ox4lCcP02zuU227CswIxKa9
+ KK+M99oZv+WTRXn0AtIZI3w=
+X-Google-Smtp-Source: ABdhPJzxJPowOvxVIGz2k7PdLFq9XdeI2/pqi8+tEqW8uyXw33OGR632eyR2MsZ3cnVcMWXiIVpgvg==
+X-Received: by 2002:a1c:750b:: with SMTP id o11mr8099208wmc.32.1604146322961; 
+ Sat, 31 Oct 2020 05:12:02 -0700 (PDT)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+ by smtp.googlemail.com with ESMTPSA id m8sm14272394wrw.17.2020.10.31.05.12.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 31 Oct 2020 05:12:01 -0700 (PDT)
+Date: Sat, 31 Oct 2020 13:12:00 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: Re: [PATCH v7 1/6] dt-bindings: devfreq: Add documentation for the
+ interconnect properties
+Message-ID: <20201031121200.GA9399@kozik-lap>
+References: <20201030125149.8227-1-s.nawrocki@samsung.com>
+ <CGME20201030125257eucas1p29c6b018cfcdda337b2b3d2a496f0c830@eucas1p2.samsung.com>
+ <20201030125149.8227-2-s.nawrocki@samsung.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201030125149.8227-2-s.nawrocki@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,35 +60,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, daniel.vetter@ffwll.ch,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- melissa.srw@gmail.com, outreachy-kernel@googlegroups.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ b.zolnierkie@samsung.com, linux-pm@vger.kernel.org, sw0312.kim@samsung.com,
+ a.swigon@samsung.com, robh+dt@kernel.org, linux-kernel@vger.kernel.org,
+ cw00.choi@samsung.com, myungjoo.ham@samsung.com,
+ dri-devel@lists.freedesktop.org, georgi.djakov@linaro.org,
+ m.szyprowski@samsung.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2020-10-30 at 09:03 +0100, Greg KH wrote:
-> On Fri, Oct 30, 2020 at 01:27:16PM +0530, Deepak R Varma wrote:
-> > On Fri, Oct 30, 2020 at 08:11:20AM +0100, Greg KH wrote:
-> > > On Fri, Oct 30, 2020 at 08:52:45AM +0530, Deepak R Varma wrote:
-> > > > Using DEFINE_DEBUGFS_ATTRIBUTE macro with debugfs_create_file_unsafe()
-> > > > function in place of the debugfs_create_file() function will make the
-> > > > file operation struct "reset" aware of the file's lifetime. Additional
-> > > > details here: https://lists.archive.carbon60.com/linux/kernel/2369498
-> > > > 
-> > > > Issue reported by Coccinelle script:
-> > > > scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-[]
-> There is a reason we didn't just do a global search/replace for this in
-> the kernel when the new functions were added, so I don't know why
-> checkpatch is now saying it must be done.
-
-I think it's not a checkpatch warning here.
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBPY3QgMzAsIDIwMjAgYXQgMDE6NTE6NDRQTSArMDEwMCwgU3lsd2VzdGVyIE5hd3Jv
+Y2tpIHdyb3RlOgo+IEFkZCBkb2N1bWVudGF0aW9uIGZvciBuZXcgb3B0aW9uYWwgcHJvcGVydGll
+cyBpbiB0aGUgZXh5bm9zIGJ1cyBub2RlczoKPiBpbnRlcmNvbm5lY3RzLCAjaW50ZXJjb25uZWN0
+LWNlbGxzLCBzYW1zdW5nLGRhdGEtY2xvY2stcmF0aW8uCj4gVGhlc2UgcHJvcGVydGllcyBhbGxv
+dyB0byBzcGVjaWZ5IHRoZSBTb0MgaW50ZXJjb25uZWN0IHN0cnVjdHVyZSB3aGljaAo+IHRoZW4g
+YWxsb3dzIHRoZSBpbnRlcmNvbm5lY3QgY29uc3VtZXIgZGV2aWNlcyB0byByZXF1ZXN0IHNwZWNp
+ZmljCj4gYmFuZHdpZHRoIHJlcXVpcmVtZW50cy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBcnR1ciDF
+mndpZ2/FhCA8YS5zd2lnb25Ac2Ftc3VuZy5jb20+Cj4gU2lnbmVkLW9mZi1ieTogU3lsd2VzdGVy
+IE5hd3JvY2tpIDxzLm5hd3JvY2tpQHNhbXN1bmcuY29tPgo+IC0tLQo+IENoYW5nZXMgZm9yIHY3
+Ogo+ICAtIGJ1cy13aWR0aCBwcm9wZXJ0eSByZXBsYWNlZCB3aXRoIHNhbXN1bmcsZGF0YS1jbG9j
+ay1yYXRpbywKPiAgLSB0aGUgaW50ZXJjb25uZWN0IGNvbnN1bWVyIGJpbmRpbmdzIHVzZWQgaW5z
+dGVhZCBvZiB2ZW5kb3Igc3BlY2lmaWMKPiAgICBwcm9wZXJ0aWVzCj4gCj4gQ2hhbmdlcyBmb3Ig
+djY6Cj4gIC0gYWRkZWQgZHRzIGV4YW1wbGUgb2YgYnVzIGhpZXJhcmNoeSBkZWZpbml0aW9uIGFu
+ZCB0aGUgaW50ZXJjb25uZWN0Cj4gICAgY29uc3VtZXIsCj4gIC0gYWRkZWQgbmV3IGJ1cy13aWR0
+aCBwcm9wZXJ0eS4KPiAKPiBDaGFuZ2VzIGZvciB2NToKPiAgLSBleHlub3MsaW50ZXJjb25uZWN0
+LXBhcmVudC1ub2RlIHJlbmFtZWQgdG8gc2Ftc3VuZyxpbnRlcmNvbm5lY3QtcGFyZW50Cj4gLS0t
+Cj4gIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2RldmZyZXEvZXh5bm9zLWJ1cy50eHQgICAgIHwg
+NjggKysrKysrKysrKysrKysrKysrKysrLQo+ICAxIGZpbGUgY2hhbmdlZCwgNjYgaW5zZXJ0aW9u
+cygrKSwgMiBkZWxldGlvbnMoLSkKPiAKCkFja2VkLWJ5OiBLcnp5c3p0b2YgS296bG93c2tpIDxr
+cnprQGtlcm5lbC5vcmc+CgpCZXN0IHJlZ2FyZHMsCktyenlzenRvZgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
