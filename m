@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E272A2062
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E85042A205C
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5306EB36;
-	Sun,  1 Nov 2020 17:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3F86EB18;
+	Sun,  1 Nov 2020 17:36:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2-relais-roc.national.inria.fr
- (mail2-relais-roc.national.inria.fr [192.134.164.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 909CC6E0E8;
- Sat, 31 Oct 2020 12:01:10 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.77,437,1596492000"; d="scan'208";a="475164141"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
- by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2020 13:01:08 +0100
-Date: Sat, 31 Oct 2020 13:01:08 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Joe Perches <joe@perches.com>
-Subject: Re: [Outreachy kernel] [PATCH] drm/amdgpu: use
- DEFINE_DEBUGFS_ATTRIBUTE with debugfs_create_file_unsafe()
-In-Reply-To: <0b818156537f354904938f437cbb9dd02e765653.camel@perches.com>
-Message-ID: <alpine.DEB.2.22.394.2010311300530.2733@hadrien>
-References: <20201030032245.GA274478@my--box>
- <20201030071120.GA1493629@kroah.com> <20201030075716.GA6976@my--box>
- <20201030080316.GA1612206@kroah.com>
- <0b818156537f354904938f437cbb9dd02e765653.camel@perches.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC1C06E0F3
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 12:32:30 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CNdqF3r0mzhd6G;
+ Sat, 31 Oct 2020 20:32:25 +0800 (CST)
+Received: from [10.174.176.180] (10.174.176.180) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Sat, 31 Oct 2020 20:32:23 +0800
+Subject: Re: [PATCH] drm/bridge: tpd12s015: Fix irq registering in
+ tpd12s015_probe
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20201031031648.42368-1-yuehaibing@huawei.com>
+ <20201031071936.GA1044557@ravnborg.org>
+From: Yuehaibing <yuehaibing@huawei.com>
+Message-ID: <24de298a-1b0b-8b2b-41c6-f68b1f5e1637@huawei.com>
+Date: Sat, 31 Oct 2020 20:32:23 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
+In-Reply-To: <20201031071936.GA1044557@ravnborg.org>
+X-Originating-IP: [10.174.176.180]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,49 +45,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak R Varma <mh12gx2825@gmail.com>, David Airlie <airlied@linux.ie>,
- Greg KH <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, melissa.srw@gmail.com,
- outreachy-kernel@googlegroups.com, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, Alex Deucher <alexander.deucher@amd.com>,
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, airlied@linux.ie,
+ narmstrong@baylibre.com, sebastian.reichel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ a.hajda@samsung.com, tomi.valkeinen@ti.com, Laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2020/10/31 15:19, Sam Ravnborg wrote:
+> Hi YueHaibing
+> 
+> Thanks for the fix. Appreciated but please update as per comments below.
+> 
+> On Sat, Oct 31, 2020 at 11:16:48AM +0800, YueHaibing wrote:
+>> gpiod_to_irq() return negative value in case of error,
+>> the existing code handle negative error codes wrongly.
+>>
+>> Fixes: cff5e6f7e83f ("drm/bridge: Add driver for the TI TPD12S015 HDMI level shifter")
+>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>> ---
+>>  drivers/gpu/drm/bridge/ti-tpd12s015.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/ti-tpd12s015.c b/drivers/gpu/drm/bridge/ti-tpd12s015.c
+>> index 514cbf0eac75..a18d5197c16c 100644
+>> --- a/drivers/gpu/drm/bridge/ti-tpd12s015.c
+>> +++ b/drivers/gpu/drm/bridge/ti-tpd12s015.c
+>> @@ -160,7 +160,7 @@ static int tpd12s015_probe(struct platform_device *pdev)
+>>  
+>>  	/* Register the IRQ if the HPD GPIO is IRQ-capable. */
+>>  	tpd->hpd_irq = gpiod_to_irq(tpd->hpd_gpio);
+>> -	if (tpd->hpd_irq) {
+>> +	if (tpd->hpd_irq > 0) {
+>>  		ret = devm_request_threaded_irq(&pdev->dev, tpd->hpd_irq, NULL,
+>>  						tpd12s015_hpd_isr,
+>>  						IRQF_TRIGGER_RISING |
+> 
+> The current implmentation will skip devm_request_threaded_irq() in case
+> or error - but continue with the rest of the function. So the
+> driver fails to return an error code.
+> 
+> In case of error (negative value) then return early with that error
 
+Agree, will resubmit.
 
-On Sat, 31 Oct 2020, Joe Perches wrote:
+> value. If gpiod_to_irq() returns 0 assume this is a valid irq and let
+> the code continue.
 
-> On Fri, 2020-10-30 at 09:03 +0100, Greg KH wrote:
-> > On Fri, Oct 30, 2020 at 01:27:16PM +0530, Deepak R Varma wrote:
-> > > On Fri, Oct 30, 2020 at 08:11:20AM +0100, Greg KH wrote:
-> > > > On Fri, Oct 30, 2020 at 08:52:45AM +0530, Deepak R Varma wrote:
-> > > > > Using DEFINE_DEBUGFS_ATTRIBUTE macro with debugfs_create_file_unsafe()
-> > > > > function in place of the debugfs_create_file() function will make the
-> > > > > file operation struct "reset" aware of the file's lifetime. Additional
-> > > > > details here: https://lists.archive.carbon60.com/linux/kernel/2369498
-> > > > >
-> > > > > Issue reported by Coccinelle script:
-> > > > > scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> []
-> > There is a reason we didn't just do a global search/replace for this in
-> > the kernel when the new functions were added, so I don't know why
-> > checkpatch is now saying it must be done.
->
-> I think it's not a checkpatch warning here.
+gpiod_to_irq() never returns 0, so no need check this.
 
-That is correct, it's a coccinelle script.
-
-julia
-
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/0b818156537f354904938f437cbb9dd02e765653.camel%40perches.com.
->
+> 
+> Please fix and re-submit - or tell me if I am mistaken.
+> 
+> 	Sam
+> .
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
