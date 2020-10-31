@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C69D2A1771
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Oct 2020 13:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8FB52A1774
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Oct 2020 13:47:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2296E214;
-	Sat, 31 Oct 2020 12:44:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ADB06E223;
+	Sat, 31 Oct 2020 12:47:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
  [209.85.221.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C4DA6E214
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 12:44:20 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id g12so9275522wrp.10
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 05:44:20 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 633A86E223
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 12:47:21 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id n18so9313979wrs.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 05:47:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=IR5TWVh/PM8cmgKLWET7kM8jaE+hyDMzn6+0+c1GNUE=;
- b=fAB3SxCQNfEUCnjAgCWgm9CbtUy5Nd+3q0YPosvNkSHqVSdKSBHwB3/tny/avCZbut
- SiMkDFgciW5ZjfwJH7q5WLQiaITTlhWkL08oao8qL4CUsoOaKWwt4ETIqL5GlHk/CBq+
- zqPoIBS2otU+kMr22G2OOMA7oFiu4+/xLHZgqdu22WgrL1U4zyWmMdvj8sxKbHu33jYW
- M2LFBpBvoh0gvYzkxQfYNOBuz7i47blYsQd84ZXRKycKrPaUQEJKXfJaXb6qEDNg0SNJ
- KgxO9TygXCS24V5mTpJC2rrjQUzhzxOx1lnu/w1QH00/eBri8Pm3vYMNlRFQ97ha4sYX
- 163Q==
-X-Gm-Message-State: AOAM530de+nw8f7RmN9oNAjsy5z7O7GcUCZeq6uH7JrJXbBoRbpXFw6X
- WTOHYc7duX7a6YN4b1ssE5I=
-X-Google-Smtp-Source: ABdhPJyNFPLhOwZHLatq0yb281uqv5It6hSSKp564zq6To39BLY7zNY0fFgwUyWFccY2+oiiolmIFw==
-X-Received: by 2002:adf:ef02:: with SMTP id e2mr8755737wro.381.1604148258750; 
- Sat, 31 Oct 2020 05:44:18 -0700 (PDT)
+ bh=+gL7Op3KIBpBphNR+C9mEgS569nJZM4vxaFbpSVbwWo=;
+ b=J5ivzsAH2WWE26CxYUEmyBeeBSIjTy0+xZ42ZMvZImV5abmTLGLUd/EmQ3PkMHrKqS
+ xXx1MfXPCJ6JI3PYShId27do/jXgXsSPdv9ztji6ROH8zYvh30pLKYaAnXY+rI320866
+ rogxib9WJOqLoZy08enXgUXKaVyJwC+IAhvMhyVnGLrsR9pRCeOwBVa72M+sDStz41Lj
+ M4kHlz/r1c0gEKJjTaNF+bQk7hoE+zMcVaa14jQPINFGc8QNKkxriIB8LvA4TUuco0U7
+ tdlIJBuxyYI+r78gDxpBaNnhbPaa9lWelsX/mw8Q5XpCrfZZcsrSpZrvbLGROSo9vcLt
+ b74A==
+X-Gm-Message-State: AOAM532VRQn0F6UDuGVYu0yya38obxT227jwZQ0viObQoEo1LaOPjHZy
+ I/XAnhvVkSFLqxzy6Ako+fY=
+X-Google-Smtp-Source: ABdhPJw1A1ifmpqW7/JFaic2H98/NtqftCnqT8ZvJegvWDAd8dPgFRVj/GRP3niiuT1wpM0cIHmxrA==
+X-Received: by 2002:adf:9204:: with SMTP id 4mr1764068wrj.241.1604148440070;
+ Sat, 31 Oct 2020 05:47:20 -0700 (PDT)
 Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id g14sm14745459wrx.22.2020.10.31.05.44.16
+ by smtp.googlemail.com with ESMTPSA id 4sm14367078wrp.58.2020.10.31.05.47.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Oct 2020 05:44:16 -0700 (PDT)
-Date: Sat, 31 Oct 2020 13:44:15 +0100
+ Sat, 31 Oct 2020 05:47:18 -0700 (PDT)
+Date: Sat, 31 Oct 2020 13:47:17 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Sylwester Nawrocki <s.nawrocki@samsung.com>
 Subject: Re: [PATCH v7 6/6] drm: exynos: mixer: Add interconnect support
-Message-ID: <20201031124415.GD9399@kozik-lap>
+Message-ID: <20201031124717.GE9399@kozik-lap>
 References: <20201030125149.8227-1-s.nawrocki@samsung.com>
  <CGME20201030125308eucas1p14ae969ae1d5549d422c478aa54d3311e@eucas1p1.samsung.com>
  <20201030125149.8227-7-s.nawrocki@samsung.com>
@@ -105,8 +105,14 @@ Zy4gZHVyaW5nIHN3aXRjaGluZyBmcm9tIHR3byBwbGFuZXMgdG8KPiAgICBhIHNpbmdsZSBwbGFu
 ZSBvcGVyYXRpb24uCj4gCj4gQ2hhbmdlcyBmb3IgdjU6Cj4gIC0gcmVuYW1lZCBzb2NfcGF0aCB2
 YXJpYWJsZSB0byBpY2NfcGF0aAo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5v
 c19taXhlci5jIHwgMTQ2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0KPiAgMSBm
-aWxlIGNoYW5nZWQsIDEzOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQo+IAoKQWNrZWQt
-Ynk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4KCkJlc3QgcmVnYXJkcywK
-S3J6eXN6dG9mCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+aWxlIGNoYW5nZWQsIDEzOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQoKClsuLi5dCgo+
+IEBAIC0xMjIzLDE5ICsxMzMwLDMzIEBAIHN0YXRpYyBpbnQgbWl4ZXJfcHJvYmUoc3RydWN0IHBs
+YXRmb3JtX2RldmljZSAqcGRldikKPiAgCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZwZGV2LT5kZXY7
+Cj4gIAljb25zdCBzdHJ1Y3QgbWl4ZXJfZHJ2X2RhdGEgKmRydjsKPiAgCXN0cnVjdCBtaXhlcl9j
+b250ZXh0ICpjdHg7Cj4gKwlzdHJ1Y3QgaWNjX3BhdGggKnBhdGg7Cj4gIAlpbnQgcmV0Owo+ICAK
+PiArCS8qCj4gKwkgKiBSZXR1cm5zIE5VTEwgaWYgQ09ORklHX0lOVEVSQ09OTkVDVCBpcyBkaXNh
+YmxlZC4KCllvdSBjb3VsZCBhZGQgaGVyZToKb3IgaWYgImludGVyY29ubmVjdHMiIHByb3BlcnR5
+IGRvZXMgbm90IGV4aXN0LgoKQmVzdCByZWdhcmRzLApLcnp5c3p0b2YKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
