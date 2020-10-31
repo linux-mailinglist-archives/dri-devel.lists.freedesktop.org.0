@@ -1,42 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65632A1006
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Oct 2020 22:15:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A33EE2A132B
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Oct 2020 03:55:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6FD66EE58;
-	Fri, 30 Oct 2020 21:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7202C6E0CF;
+	Sat, 31 Oct 2020 02:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA806EE58
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Oct 2020 21:15:43 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 3AED320020;
- Fri, 30 Oct 2020 22:15:41 +0100 (CET)
-Date: Fri, 30 Oct 2020 22:15:39 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH v10 1/6] dt-bindings: display: Add support for Intel
- KeemBay Display
-Message-ID: <20201030211539.GB1003403@ravnborg.org>
-References: <1604006877-20092-1-git-send-email-anitha.chrisanthus@intel.com>
- <1604006877-20092-2-git-send-email-anitha.chrisanthus@intel.com>
- <20201029222046.GA904738@ravnborg.org>
- <b30439f7-b77e-9ca8-57e9-16cf417da0cf@baylibre.com>
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5896D6E0CF
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 02:55:30 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f9cd2220000>; Fri, 30 Oct 2020 19:55:30 -0700
+Received: from [10.2.58.85] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 31 Oct
+ 2020 02:55:18 +0000
+Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
+ <dri-devel@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
+ <20201030100815.2269-6-daniel.vetter@ffwll.ch>
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com>
+Date: Fri, 30 Oct 2020 19:55:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b30439f7-b77e-9ca8-57e9-16cf417da0cf@baylibre.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8 a=gEfo2CItAAAA:8
- a=VwQbUJbxAAAA:8 a=UqCG9HQmAAAA:8 a=JMrbOBnKXx3fq-GIs1UA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=sptkURWiP4Gy88Gu7hUp:22
- a=AjGcO6oz07-iQ99wixmX:22
+In-Reply-To: <20201030100815.2269-6-daniel.vetter@ffwll.ch>
+Content-Language: en-US
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604112930; bh=kIbuOrZMF2YQAWfUPs6gkqYbyNybPPlpG1DHBddVTeI=;
+ h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=AtOxaAfNPVF2Y8gZFgz8BlJTCY2WnS/ll/uZOpZY6ZM3sYeZDX0wsWzg9kbJTYbtL
+ uIT7SI94Nu0DAKox4tjTnJcLN8XQH4afRazJUVETQXmRDSkforw/ZyajpCSjQdhakD
+ V5TkHQG1hyUHjxO5/EziqQ5QU5HsvmsdLhy0c2pJ17Ik4sdOeRb9MDZW7AgVbI6HUp
+ khbiVPlvAQBqPZreVxuJwdPBCd0dFyD9l044fmdbRBxITLNtDeDmPV0I8qXzaQGtcL
+ 05gwU5zD1T2KQ11VFOtz4tXHAh7iSeMGU/Zo8kgIrMlYShlD2P3PVWKbYJ1hjOt5Cc
+ x4G0lu6VoJy1w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,114 +58,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>, edmund.j.dea@intel.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-samsung-soc@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Pawel Osciak <pawel@osciak.com>, kvm@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Tomasz Figa <tfiga@chromium.org>, linux-mm@kvack.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil.
-
-On Fri, Oct 30, 2020 at 09:31:36AM +0100, Neil Armstrong wrote:
-> Hi,
-> 
-> On 29/10/2020 23:20, Sam Ravnborg wrote:
-> > Hi Anitha.
-> > 
-> > On Thu, Oct 29, 2020 at 02:27:52PM -0700, Anitha Chrisanthus wrote:
-> >> This patch adds bindings for Intel KeemBay Display
-> >>
-> >> v2: review changes from Rob Herring
-> >> v3: review changes from Sam Ravnborg (removed mipi dsi entries, and
-> >>     encoder entry, connect port to dsi)
-> >>     MSSCAM is part of the display submodule and its used to reset LCD
-> >>     and MIPI DSI clocks, so its best to be on this device tree.
-> >>
-> >> Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> >> Cc: Sam Ravnborg <sam@ravnborg.org>
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Cc: Daniel Vetter <daniel@ffwll.ch>
-> > 
-> > Looks good - and the split betwwen the display and the mipi<->dsi parts
-> > matches the understanding of the HW I have developed.
-> > 
-> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> >> ---
-> >>  .../bindings/display/intel,keembay-display.yaml    | 75 ++++++++++++++++++++++
-> >>  1 file changed, 75 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/display/intel,keembay-display.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/display/intel,keembay-display.yaml b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
-> >> new file mode 100644
-> >> index 0000000..8a8effe
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
-> >> @@ -0,0 +1,75 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/display/intel,keembay-display.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Devicetree bindings for Intel Keem Bay display controller
-> >> +
-> >> +maintainers:
-> >> +  - Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> >> +  - Edmond J Dea <edmund.j.dea@intel.com>
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: intel,keembay-display
-> >> +
-> >> +  reg:
-> >> +    items:
-> >> +      - description: LCD registers range
-> >> +      - description: Msscam registers range
-> >> +
-> 
-> Indeed the split is much better, but as you replied on http://lore.kernel.org/r/BY5PR11MB41827DE07436DD0454E24E6E8C0A0@BY5PR11MB4182.namprd11.prod.outlook.com
-> the msscam seems to be shared with the camera subsystem block, if this is the case it should be handled.
-> 
-> If it's a shared register block, it could be defined as a "syscon" used by both subsystems.
-
-I think I got it now.
-
-msscam is used to enable clocks both for the display driver and the
-mipi-dsi part.
-
-So it should be pulled in to a dedicated node - for example like this:
-
-mssscam: msscam@20910000 {
-	compatible = "intel,keembay-msscam", "syscon";
-	reg = <0x20910000, 0x30>;
-	reg-io-width = <4>;
-};
-
-And ofc we need a binding file for that.
-
-
-And then we could have code like this in the display driver:
-	regmap *msscam = syscon_regmap_lookup_by_compatible("intel,keembay-msscam");
-	if (IS_ERR(msscam))
-		tell-and goto-out;
-
-	regmap_write(msscam, MSS_LCD_MIPI_CFG, 1);
-	regmap_write(msscam, MSS_LOOPBACK_CFG, 0);
-
-And then in the kmb_dsi part:
-	regmap *msscam = syscon_regmap_lookup_by_compatible("intel,keembay-msscam");
-	if (IS_ERR(msscam))
-		tell-and goto-out;
-
-	regmap_write(msscam, MSS_MIPI_CIF_CFG, 1);
-
-
-Did I finally get it?
-
-	Sam
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTAvMzAvMjAgMzowOCBBTSwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBUaGlzIGlzIHVzZWQg
+YnkgbWVkaWEvdmlkZWJ1ZjIgZm9yIHBlcnNpc3RlbnQgZG1hIG1hcHBpbmdzLCBub3QganVzdAo+
+IGZvciBhIHNpbmdsZSBkbWEgb3BlcmF0aW9uIGFuZCB0aGVuIGZyZWVkIGFnYWluLCBzbyBuZWVk
+cwo+IEZPTExfTE9OR1RFUk0uCj4gCj4gVW5mb3J0dW5hdGVseSBjdXJyZW50IHB1cF9sb2NrZWQg
+ZG9lc24ndCBzdXBwb3J0IEZPTExfTE9OR1RFUk0gZHVlIHRvCj4gbG9ja2luZyBpc3N1ZXMuIFJl
+d29yayB0aGUgY29kZSB0byBwdWxsIHRoZSBwdXAgcGF0aCBvdXQgZnJvbSB0aGUKPiBtbWFwX3Nl
+bSBjcml0aWNhbCBzZWN0aW9uIGFzIHN1Z2dlc3RlZCBieSBKYXNvbi4KPiAKPiBCeSByZWx5aW5n
+IGVudGlyZWx5IG9uIHRoZSB2bWEgY2hlY2tzIGluIHBpbl91c2VyX3BhZ2VzIGFuZCBmb2xsb3df
+cGZuCgpUaGVyZSBhcmUgdm1hIGNoZWNrcyBpbiBwaW5fdXNlcl9wYWdlcygpLCBidXQgdGhpcyBw
+YXRjaCBjaGFuZ2VzIHRoaW5ncwp0byBjYWxsIHBpbl91c2VyX3BhZ2VzX2Zhc3QoKS4gQW5kIHRo
+YXQgZG9lcyBub3QgaGF2ZSB0aGUgdm1hIGNoZWNrcy4KTW9yZSBiZWxvdyBhYm91dCB0aGlzOgoK
+PiAoZm9yIHZtX2ZsYWdzIGFuZCB2bWFfaXNfZnNkYXgpIHdlIGNhbiBhbHNvIHN0cmVhbWxpbmUg
+dGhlIGNvZGUgYSBsb3QuCj4gCj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+LnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IEphc29uIEd1bnRob3JwZSA8amdnQHppZXBlLmNhPgo+
+IENjOiBQYXdlbCBPc2NpYWsgPHBhd2VsQG9zY2lhay5jb20+Cj4gQ2M6IE1hcmVrIFN6eXByb3dz
+a2kgPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4KPiBDYzogS3l1bmdtaW4gUGFyayA8a3l1bmdt
+aW4ucGFya0BzYW1zdW5nLmNvbT4KPiBDYzogVG9tYXN6IEZpZ2EgPHRmaWdhQGNocm9taXVtLm9y
+Zz4KPiBDYzogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiQGtlcm5lbC5vcmc+Cj4gQ2M6
+IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+Cj4gQ2M6IEpvaG4gSHVi
+YmFyZCA8amh1YmJhcmRAbnZpZGlhLmNvbT4KPiBDYzogSsOpcsO0bWUgR2xpc3NlIDxqZ2xpc3Nl
+QHJlZGhhdC5jb20+Cj4gQ2M6IEphbiBLYXJhIDxqYWNrQHN1c2UuY3o+Cj4gQ2M6IERhbiBXaWxs
+aWFtcyA8ZGFuLmoud2lsbGlhbXNAaW50ZWwuY29tPgo+IENjOiBsaW51eC1tbUBrdmFjay5vcmcK
+PiBDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gQ2M6IGxpbnV4LXNh
+bXN1bmctc29jQHZnZXIua2VybmVsLm9yZwo+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5v
+cmcKPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNo
+Pgo+IC0tCj4gdjI6IFN0cmVhbWxpbmUgdGhlIGNvZGUgYW5kIGZ1cnRoZXIgc2ltcGxpZnkgdGhl
+IGxvb3AgY2hlY2tzIChKYXNvbikKPiAKPiB2NTogUmV2aWV3IGZyb20gVG9tYXN6Ogo+IC0gZml4
+IHBhZ2UgY291bnRpbmcgZm9yIHRoZSBmb2xsb3dfcGZuIGNhc2UgYnkgcmVzZXR0aW5nIHJldAo+
+IC0gZHJvcCBndXBfZmxhZ3MgcGFyYW1hdGVyLCBub3cgdW51c2VkCj4gLS0tCj4gICAuLi4vbWVk
+aWEvY29tbW9uL3ZpZGVvYnVmMi92aWRlb2J1ZjItbWVtb3BzLmMgfCAgMyArLQo+ICAgaW5jbHVk
+ZS9saW51eC9tbS5oICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAgIG1tL2Zy
+YW1lX3ZlY3Rvci5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDUzICsrKysrKy0tLS0t
+LS0tLS0tLS0KPiAgIDMgZmlsZXMgY2hhbmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwgMzkgZGVsZXRp
+b25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvY29tbW9uL3ZpZGVvYnVmMi92
+aWRlb2J1ZjItbWVtb3BzLmMgYi9kcml2ZXJzL21lZGlhL2NvbW1vbi92aWRlb2J1ZjIvdmlkZW9i
+dWYyLW1lbW9wcy5jCj4gaW5kZXggNmU5ZTA1MTUzZjRlLi45ZGQ2YzI3MTYyZjQgMTAwNjQ0Cj4g
+LS0tIGEvZHJpdmVycy9tZWRpYS9jb21tb24vdmlkZW9idWYyL3ZpZGVvYnVmMi1tZW1vcHMuYwo+
+ICsrKyBiL2RyaXZlcnMvbWVkaWEvY29tbW9uL3ZpZGVvYnVmMi92aWRlb2J1ZjItbWVtb3BzLmMK
+PiBAQCAtNDAsNyArNDAsNiBAQCBzdHJ1Y3QgZnJhbWVfdmVjdG9yICp2YjJfY3JlYXRlX2ZyYW1l
+dmVjKHVuc2lnbmVkIGxvbmcgc3RhcnQsCj4gICAJdW5zaWduZWQgbG9uZyBmaXJzdCwgbGFzdDsK
+PiAgIAl1bnNpZ25lZCBsb25nIG5yOwo+ICAgCXN0cnVjdCBmcmFtZV92ZWN0b3IgKnZlYzsKPiAt
+CXVuc2lnbmVkIGludCBmbGFncyA9IEZPTExfRk9SQ0UgfCBGT0xMX1dSSVRFOwo+ICAgCj4gICAJ
+Zmlyc3QgPSBzdGFydCA+PiBQQUdFX1NISUZUOwo+ICAgCWxhc3QgPSAoc3RhcnQgKyBsZW5ndGgg
+LSAxKSA+PiBQQUdFX1NISUZUOwo+IEBAIC00OCw3ICs0Nyw3IEBAIHN0cnVjdCBmcmFtZV92ZWN0
+b3IgKnZiMl9jcmVhdGVfZnJhbWV2ZWModW5zaWduZWQgbG9uZyBzdGFydCwKPiAgIAl2ZWMgPSBm
+cmFtZV92ZWN0b3JfY3JlYXRlKG5yKTsKPiAgIAlpZiAoIXZlYykKPiAgIAkJcmV0dXJuIEVSUl9Q
+VFIoLUVOT01FTSk7Cj4gLQlyZXQgPSBnZXRfdmFkZHJfZnJhbWVzKHN0YXJ0ICYgUEFHRV9NQVNL
+LCBuciwgZmxhZ3MsIHZlYyk7Cj4gKwlyZXQgPSBnZXRfdmFkZHJfZnJhbWVzKHN0YXJ0ICYgUEFH
+RV9NQVNLLCBuciwgdmVjKTsKPiAgIAlpZiAocmV0IDwgMCkKPiAgIAkJZ290byBvdXRfZGVzdHJv
+eTsKPiAgIAkvKiBXZSBhY2NlcHQgb25seSBjb21wbGV0ZSBzZXQgb2YgUEZOcyAqLwo+IGRpZmYg
+LS1naXQgYS9pbmNsdWRlL2xpbnV4L21tLmggYi9pbmNsdWRlL2xpbnV4L21tLmgKPiBpbmRleCBl
+ZjM2MGZlNzBhYWYuLmQ2YjhlMzBkY2UyZSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2xpbnV4L21t
+LmgKPiArKysgYi9pbmNsdWRlL2xpbnV4L21tLmgKPiBAQCAtMTc2NSw3ICsxNzY1LDcgQEAgc3Ry
+dWN0IGZyYW1lX3ZlY3RvciB7Cj4gICBzdHJ1Y3QgZnJhbWVfdmVjdG9yICpmcmFtZV92ZWN0b3Jf
+Y3JlYXRlKHVuc2lnbmVkIGludCBucl9mcmFtZXMpOwo+ICAgdm9pZCBmcmFtZV92ZWN0b3JfZGVz
+dHJveShzdHJ1Y3QgZnJhbWVfdmVjdG9yICp2ZWMpOwo+ICAgaW50IGdldF92YWRkcl9mcmFtZXMo
+dW5zaWduZWQgbG9uZyBzdGFydCwgdW5zaWduZWQgaW50IG5yX3BmbnMsCj4gLQkJICAgICB1bnNp
+Z25lZCBpbnQgZ3VwX2ZsYWdzLCBzdHJ1Y3QgZnJhbWVfdmVjdG9yICp2ZWMpOwo+ICsJCSAgICAg
+c3RydWN0IGZyYW1lX3ZlY3RvciAqdmVjKTsKPiAgIHZvaWQgcHV0X3ZhZGRyX2ZyYW1lcyhzdHJ1
+Y3QgZnJhbWVfdmVjdG9yICp2ZWMpOwo+ICAgaW50IGZyYW1lX3ZlY3Rvcl90b19wYWdlcyhzdHJ1
+Y3QgZnJhbWVfdmVjdG9yICp2ZWMpOwo+ICAgdm9pZCBmcmFtZV92ZWN0b3JfdG9fcGZucyhzdHJ1
+Y3QgZnJhbWVfdmVjdG9yICp2ZWMpOwo+IGRpZmYgLS1naXQgYS9tbS9mcmFtZV92ZWN0b3IuYyBi
+L21tL2ZyYW1lX3ZlY3Rvci5jCj4gaW5kZXggMTBmODJkNTY0M2I2Li5mOGMzNGI4OTVjNzYgMTAw
+NjQ0Cj4gLS0tIGEvbW0vZnJhbWVfdmVjdG9yLmMKPiArKysgYi9tbS9mcmFtZV92ZWN0b3IuYwo+
+IEBAIC0zMiwxMyArMzIsMTIgQEAKPiAgICAqIFRoaXMgZnVuY3Rpb24gdGFrZXMgY2FyZSBvZiBn
+cmFiYmluZyBtbWFwX2xvY2sgYXMgbmVjZXNzYXJ5Lgo+ICAgICovCj4gICBpbnQgZ2V0X3ZhZGRy
+X2ZyYW1lcyh1bnNpZ25lZCBsb25nIHN0YXJ0LCB1bnNpZ25lZCBpbnQgbnJfZnJhbWVzLAo+IC0J
+CSAgICAgdW5zaWduZWQgaW50IGd1cF9mbGFncywgc3RydWN0IGZyYW1lX3ZlY3RvciAqdmVjKQo+
+ICsJCSAgICAgc3RydWN0IGZyYW1lX3ZlY3RvciAqdmVjKQo+ICAgewo+ICAgCXN0cnVjdCBtbV9z
+dHJ1Y3QgKm1tID0gY3VycmVudC0+bW07Cj4gICAJc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWE7
+Cj4gICAJaW50IHJldCA9IDA7Cj4gICAJaW50IGVycjsKPiAtCWludCBsb2NrZWQ7Cj4gICAKPiAg
+IAlpZiAobnJfZnJhbWVzID09IDApCj4gICAJCXJldHVybiAwOwo+IEBAIC00OCw0MCArNDcsMjYg
+QEAgaW50IGdldF92YWRkcl9mcmFtZXModW5zaWduZWQgbG9uZyBzdGFydCwgdW5zaWduZWQgaW50
+IG5yX2ZyYW1lcywKPiAgIAo+ICAgCXN0YXJ0ID0gdW50YWdnZWRfYWRkcihzdGFydCk7Cj4gICAK
+PiAtCW1tYXBfcmVhZF9sb2NrKG1tKTsKPiAtCWxvY2tlZCA9IDE7Cj4gLQl2bWEgPSBmaW5kX3Zt
+YV9pbnRlcnNlY3Rpb24obW0sIHN0YXJ0LCBzdGFydCArIDEpOwo+IC0JaWYgKCF2bWEpIHsKPiAt
+CQlyZXQgPSAtRUZBVUxUOwo+IC0JCWdvdG8gb3V0Owo+IC0JfQo+IC0KPiAtCS8qCj4gLQkgKiBX
+aGlsZSBnZXRfdmFkZHJfZnJhbWVzKCkgY291bGQgYmUgdXNlZCBmb3IgdHJhbnNpZW50IChrZXJu
+ZWwKPiAtCSAqIGNvbnRyb2xsZWQgbGlmZXRpbWUpIHBpbm5pbmcgb2YgbWVtb3J5IHBhZ2VzIGFs
+bCBjdXJyZW50Cj4gLQkgKiB1c2VycyBlc3RhYmxpc2ggbG9uZyB0ZXJtICh1c2Vyc3BhY2UgY29u
+dHJvbGxlZCBsaWZldGltZSkKPiAtCSAqIHBhZ2UgcGlubmluZy4gVHJlYXQgZ2V0X3ZhZGRyX2Zy
+YW1lcygpIGxpa2UKPiAtCSAqIGdldF91c2VyX3BhZ2VzX2xvbmd0ZXJtKCkgYW5kIGRpc2FsbG93
+IGl0IGZvciBmaWxlc3lzdGVtLWRheAo+IC0JICogbWFwcGluZ3MuCj4gLQkgKi8KPiAtCWlmICh2
+bWFfaXNfZnNkYXgodm1hKSkgewo+IC0JCXJldCA9IC1FT1BOT1RTVVBQOwo+IC0JCWdvdG8gb3V0
+Owo+IC0JfQo+IC0KPiAtCWlmICghKHZtYS0+dm1fZmxhZ3MgJiAoVk1fSU8gfCBWTV9QRk5NQVAp
+KSkgewoKQnkgcmVtb3ZpbmcgdGhpcyBjaGVjayBmcm9tIHRoaXMgbG9jYXRpb24sIGFuZCBjaGFu
+Z2luZyBmcm9tCnBpbl91c2VyX3BhZ2VzX2xvY2tlZCgpIHRvIHBpbl91c2VyX3BhZ2VzX2Zhc3Qo
+KSwgSSAqdGhpbmsqIHdlIGVuZCB1cApsb3NpbmcgdGhlIGNoZWNrIGVudGlyZWx5LiBJcyB0aGF0
+IGludGVuZGVkPyBJZiBzbyBpdCBjb3VsZCB1c2UgYSBjb21tZW50CnNvbWV3aGVyZSB0byBleHBs
+YWluIHdoeS4KCnRoYW5rcywKLS0gCkpvaG4gSHViYmFyZApOVklESUEKCj4gKwlyZXQgPSBwaW5f
+dXNlcl9wYWdlc19mYXN0KHN0YXJ0LCBucl9mcmFtZXMsCj4gKwkJCQkgIEZPTExfRk9SQ0UgfCBG
+T0xMX1dSSVRFIHwgRk9MTF9MT05HVEVSTSwKPiArCQkJCSAgKHN0cnVjdCBwYWdlICoqKSh2ZWMt
+PnB0cnMpKTsKPiArCWlmIChyZXQgPiAwKSB7Cj4gICAJCXZlYy0+Z290X3JlZiA9IHRydWU7Cj4g
+ICAJCXZlYy0+aXNfcGZucyA9IGZhbHNlOwo+IC0JCXJldCA9IHBpbl91c2VyX3BhZ2VzX2xvY2tl
+ZChzdGFydCwgbnJfZnJhbWVzLAo+IC0JCQlndXBfZmxhZ3MsIChzdHJ1Y3QgcGFnZSAqKikodmVj
+LT5wdHJzKSwgJmxvY2tlZCk7Cj4gLQkJZ290byBvdXQ7Cj4gKwkJZ290byBvdXRfdW5sb2NrZWQ7
+Cj4gICAJfQo+ICAgCj4gKwltbWFwX3JlYWRfbG9jayhtbSk7Cj4gICAJdmVjLT5nb3RfcmVmID0g
+ZmFsc2U7Cj4gICAJdmVjLT5pc19wZm5zID0gdHJ1ZTsKPiArCXJldCA9IDA7Cj4gICAJZG8gewo+
+ICAgCQl1bnNpZ25lZCBsb25nICpudW1zID0gZnJhbWVfdmVjdG9yX3BmbnModmVjKTsKPiAgIAo+
+ICsJCXZtYSA9IGZpbmRfdm1hX2ludGVyc2VjdGlvbihtbSwgc3RhcnQsIHN0YXJ0ICsgMSk7Cj4g
+KwkJaWYgKCF2bWEpCj4gKwkJCWJyZWFrOwo+ICsKPiAgIAkJd2hpbGUgKHJldCA8IG5yX2ZyYW1l
+cyAmJiBzdGFydCArIFBBR0VfU0laRSA8PSB2bWEtPnZtX2VuZCkgewo+ICAgCQkJZXJyID0gZm9s
+bG93X3Bmbih2bWEsIHN0YXJ0LCAmbnVtc1tyZXRdKTsKPiAgIAkJCWlmIChlcnIpIHsKPiBAQCAt
+OTIsMTcgKzc3LDEzIEBAIGludCBnZXRfdmFkZHJfZnJhbWVzKHVuc2lnbmVkIGxvbmcgc3RhcnQs
+IHVuc2lnbmVkIGludCBucl9mcmFtZXMsCj4gICAJCQlzdGFydCArPSBQQUdFX1NJWkU7Cj4gICAJ
+CQlyZXQrKzsKPiAgIAkJfQo+IC0JCS8qCj4gLQkJICogV2Ugc3RvcCBpZiB3ZSBoYXZlIGVub3Vn
+aCBwYWdlcyBvciBpZiBWTUEgZG9lc24ndCBjb21wbGV0ZWx5Cj4gLQkJICogY292ZXIgdGhlIHRh
+aWwgcGFnZS4KPiAtCQkgKi8KPiAtCQlpZiAocmV0ID49IG5yX2ZyYW1lcyB8fCBzdGFydCA8IHZt
+YS0+dm1fZW5kKQo+ICsJCS8qIEJhaWwgb3V0IGlmIFZNQSBkb2Vzbid0IGNvbXBsZXRlbHkgY292
+ZXIgdGhlIHRhaWwgcGFnZS4gKi8KPiArCQlpZiAoc3RhcnQgPCB2bWEtPnZtX2VuZCkKPiAgIAkJ
+CWJyZWFrOwo+IC0JCXZtYSA9IGZpbmRfdm1hX2ludGVyc2VjdGlvbihtbSwgc3RhcnQsIHN0YXJ0
+ICsgMSk7Cj4gLQl9IHdoaWxlICh2bWEgJiYgdm1hLT52bV9mbGFncyAmIChWTV9JTyB8IFZNX1BG
+Tk1BUCkpOwo+ICsJfSB3aGlsZSAocmV0IDwgbnJfZnJhbWVzKTsKPiAgIG91dDoKPiAtCWlmIChs
+b2NrZWQpCj4gLQkJbW1hcF9yZWFkX3VubG9jayhtbSk7Cj4gKwltbWFwX3JlYWRfdW5sb2NrKG1t
+KTsKPiArb3V0X3VubG9ja2VkOgo+ICAgCWlmICghcmV0KQo+ICAgCQlyZXQgPSAtRUZBVUxUOwo+
+ICAgCWlmIChyZXQgPiAwKQo+IAoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
