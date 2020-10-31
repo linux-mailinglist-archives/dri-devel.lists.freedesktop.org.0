@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CB242A1417
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Oct 2020 09:01:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DC72A1544
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Oct 2020 11:33:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA916E176;
-	Sat, 31 Oct 2020 08:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90EF36E20C;
+	Sat, 31 Oct 2020 10:33:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 071B36E176
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 08:01:42 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 4322F20022;
- Sat, 31 Oct 2020 09:01:39 +0100 (CET)
-Date: Sat, 31 Oct 2020 09:01:37 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Lubomir Rintel <lkundrak@v3.sk>
-Subject: Re: [PATCH v6 2/2] drm/bridge: hx8837: add a Himax HX8837 display
- controller driver
-Message-ID: <20201031080137.GB1044557@ravnborg.org>
-References: <20201030030800.1036888-1-lkundrak@v3.sk>
- <20201030030800.1036888-3-lkundrak@v3.sk>
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Sat, 31 Oct 2020 10:33:11 UTC
+Received: from andre.telenet-ops.be (andre.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67CFE6E1ED
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Oct 2020 10:33:11 +0000 (UTC)
+Received: from ramsan.of.borg ([84.195.186.194])
+ by andre.telenet-ops.be with bizsmtp
+ id maTw2300K4C55Sk01aTwST; Sat, 31 Oct 2020 11:28:07 +0100
+Received: from geert (helo=localhost)
+ by ramsan.of.borg with local-esmtp (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1kYo72-001aqJ-33; Sat, 31 Oct 2020 11:27:56 +0100
+Date: Sat, 31 Oct 2020 11:27:56 +0100 (CET)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] fbcon: Disable accelerated scrolling
+In-Reply-To: <20201029132229.4068359-1-daniel.vetter@ffwll.ch>
+Message-ID: <alpine.DEB.2.22.394.2010311116530.379363@ramsan.of.borg>
+References: <20201029101428.4058311-1-daniel.vetter@ffwll.ch>
+ <20201029132229.4068359-1-daniel.vetter@ffwll.ch>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201030030800.1036888-3-lkundrak@v3.sk>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=Op-mwl0xAAAA:8 a=YTiKu0AdvXNqoZNr570A:9
- a=CjuIK1q_8ugA:10 a=_kNtSFdpYmJUICABlfa3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,454 +44,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-fbdev@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Peilin Ye <yepeilin.cs@gmail.com>, George Kennedy <george.kennedy@oracle.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, nouveau@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Nathan Chancellor <natechancellor@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Peter Rosin <peda@axentia.se>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lubomir.
+ 	Hi Daniel,
 
-On Fri, Oct 30, 2020 at 04:08:00AM +0100, Lubomir Rintel wrote:
-> Himax HX8837 is used to drive the LCD panel on OLPC platforms.
-> 
-> It controls the panel backlight and is able to refresh it when the LCD
-> controller (and the rest of the plaform) is powered off.
-> 
-> It also converts regular RGB color data from the LCDC so that it looks
-> reasonable on the OLPC LCD panel with a monochromatic layer on top of a
-> layer that can either reflect light (b/w sunlight readable mode) or light
-> pattern of red, green and blue pixels.
-> 
-> At this point, the driver is rather basic. The self-refresh mode is not
-> supported. There's no way of independently controlling the color swizzling,
-> antialiasing or b/w conversion, but it probably isn't too useful either.
-> 
-> There's another driver for the same hardware on OLPC XO-1.5 and XO-1.75
-> in drivers/staging/olpc_dcon. The display on that hardware doesn't utilize
-> DRM, so this driver doesn't replace the other one yet.
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> 
+CC linux-fbdev
+
+Thanks for your patch!
+
+On Thu, 29 Oct 2020, Daniel Vetter wrote:
+> So ever since syzbot discovered fbcon, we have solid proof that it's
+> full of bugs. And often the solution is to just delete code and remove
+> features, e.g.  50145474f6ef ("fbcon: remove soft scrollback code").
+>
+> Now the problem is that most modern-ish drivers really only treat
+> fbcon as an dumb kernel console until userspace takes over, and Oops
+> printer for some emergencies. Looking at drm drivers and the basic
+> vesa/efi fbdev drivers shows that only 3 drivers support any kind of
+> acceleration:
+>
+> - nouveau, seems to be enabled by default
+> - omapdrm, when a DMM remapper exists using remapper rewriting for
+>  y/xpanning
+> - gma500, but that is getting deleted now for the GTT remapper trick,
+>  and the accelerated copyarea never set the FBINFO_HWACCEL_COPYAREA
+>  flag, so unused (and could be deleted already I think).
+>
+> No other driver supportes accelerated fbcon. And fbcon is the only
+> user of this accel code (it's not exposed as uapi through ioctls),
+> which means we could garbage collect fairly enormous amounts of code
+> if we kill this.
+
+"git grep FBINFO_HWACCEL_COPYAREA" shows me there are 32 more drivers
+using acceleration under drivers/video/fbdev/.
+
+> Plus because syzbot only runs on virtual hardware, and none of the
+> drivers for that have acceleration, we'd remove a huge gap in testing.
+> And there's no other even remotely comprehensive testing aside from
+> syzbot.
+
+That sounds like a great argument to remove all hardware drivers from
+the kernel ;-)
+Seriously, how hard can it be to add "software-accelerated" acceleration
+hooks to drivers/video/fbdev/vfb.c, to enable syzbot to exercise the
+core acceleration code paths?
+
+> This patch here just disables the acceleration code by always
+> redrawing when scrolling. The plan is that once this has been merged
+> for well over a year in released kernels, we can start to go around
+> and delete a lot of code.
+
+Have you benchmarked the performance impact on traditional fbdev
+drivers?
+
+Thanks!
+
+> v2:
+> - Drop a few more unused local variables, somehow I missed the
+> compiler warnings (Sam)
+> - Fix typo in comment (Jiri)
+> - add a todo entry for the cleanup (Thomas)
+>
+> v3: Remove more unused variables (0day)
+>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: nouveau@lists.freedesktop.org
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: Peilin Ye <yepeilin.cs@gmail.com>
+> Cc: George Kennedy <george.kennedy@oracle.com>
+> Cc: Nathan Chancellor <natechancellor@gmail.com>
+> Cc: Peter Rosin <peda@axentia.se>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > ---
-> Changes since v5:
-> (All based on feedback from Sam Ravnborg)
-> - Fix indentation in Kconfig
-> - Sort #includes
-> - Use a constant for max brightness instead of a literal
-> - Remove struct drm_panel from priv data
-> - Use dev_err() instead of DRM_ERROR
-> - Replace direct use of backlight props.brightness with
->   backlight_get_brightness()
-> - Document sentinels with { /* sentinel */ }
-> - Remove unsetting of panel->backlight
-
-Thanks, I missed a few things during the last round, so here is a few
-more comments. Only very trivial things but lets get them fixed before
-we add the driver to drm-misc-next.
-
-	Sam
-
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index ef91646441b16..881780719af7c 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -48,6 +48,19 @@ config DRM_DISPLAY_CONNECTOR
->  	  on ARM-based platforms. Saying Y here when this driver is not needed
->  	  will not cause any issue.
->  
-> +config DRM_HIMAX_HX8837
-> +	tristate "HiMax HX8837 OLPC Display Controller"
-> +	depends on OF
-> +	depends on OLPC || ARCH_MMP || COMPILE_TEST
-> +	select DRM_KMS_HELPER
-> +	select BACKLIGHT_LCD_SUPPORT
-Unknown symbol - "git grep BACKLIGHT_LCD_SUPPORT" only turned up one
-unrelated hit.
-
-> +	select BACKLIGHT_CLASS_DEVICE
-Please use a depends - using select on a symbol with a prompt is always
-wrong. Yeah, I know you then need to enable backlight to see this
-driver. Sorry, but this is the best we can do now.
-Many other drivers can cope with depends here.
-
-> +	help
-> +	  Enable support for HiMax HX8837 Display Controller as found in the
-> +	  OLPC XO laptops.
+> Documentation/gpu/todo.rst       | 18 +++++++++++++
+> drivers/video/fbdev/core/fbcon.c | 45 ++++++--------------------------
+> 2 files changed, 26 insertions(+), 37 deletions(-)
+>
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 6b224ef14455..bec99341a904 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -277,6 +277,24 @@ Contact: Daniel Vetter, Noralf Tronnes
+>
+> Level: Advanced
+>
+> +Garbage collect fbdev scrolling acceleration
+> +--------------------------------------------
 > +
-> +	  If your laptop doesn't have green ears, say "N"
-I like this last comment :-)
-
+> +Scroll acceleration is disabled in fbcon by hard-wiring p->scrollmode =
+> +SCROLL_REDRAW. There's a ton of code this will allow us to remove:
+> +- lots of code in fbcon.c
+> +- a bunch of the hooks in fbcon_ops, maybe the remaining hooks could be called
+> +  directly instead of the function table (with a switch on p->rotate)
+> +- fb_copyarea is unused after this, and can be deleted from all drivers
 > +
->  config DRM_LONTIUM_LT9611
->  	tristate "Lontium LT9611 DSI/HDMI bridge"
->  	select SND_SOC_HDMI_CODEC if SND_SOC
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 2b3aff104e466..21f72df3260db 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -2,6 +2,7 @@
->  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
->  obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
->  obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
-> +obj-$(CONFIG_DRM_HIMAX_HX8837) += himax-hx8837.o
->  obj-$(CONFIG_DRM_LONTIUM_LT9611) += lontium-lt9611.o
->  obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
->  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
-> diff --git a/drivers/gpu/drm/bridge/himax-hx8837.c b/drivers/gpu/drm/bridge/himax-hx8837.c
-> new file mode 100644
-> index 0000000000000..f472e16cc331d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/himax-hx8837.c
-> @@ -0,0 +1,330 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * HiMax HX8837 Display Controller Driver
-> + *
-> + * Datasheet: http://wiki.laptop.org/images/0/09/DCON_datasheet_HX8837-A.pdf
-> + *
-> + * Copyright (C) 2020 Lubomir Rintel
-> + */
+> +Note that not all acceleration code can be deleted, since clearing and cursor
+> +support is still accelerated, which might be good candidates for further
+> +deletion projects.
 > +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_panel.h>
-> +#include <drm/drm_print.h>
-drm_print.h is no longer used and should be dropped.
-
-> +#include <drm/drm_probe_helper.h>
+> +Contact: Daniel Vetter
 > +
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
+> +Level: Intermediate
 > +
-> +#define bridge_to_hx8837_priv(x) \
-> +	container_of(x, struct hx8837_priv, bridge)
-> +
-> +/* DCON registers */
-> +enum {
-> +	DCON_REG_ID		= 0x00,
-> +	DCON_REG_MODE		= 0x01,
-> +	DCON_REG_HRES		= 0x02,
-> +	DCON_REG_HTOTAL		= 0x03,
-> +	DCON_REG_HSYNC_WIDTH	= 0x04,
-> +	DCON_REG_VRES		= 0x05,
-> +	DCON_REG_VTOTAL		= 0x06,
-> +	DCON_REG_VSYNC_WIDTH	= 0x07,
-> +	DCON_REG_TIMEOUT	= 0x08,
-> +	DCON_REG_SCAN_INT	= 0x09,
-> +	DCON_REG_BRIGHT		= 0x0a,
-> +	DCON_REG_MEM_OPT_A	= 0x41,
-> +	DCON_REG_MEM_OPT_B	= 0x42,
-> +};
-> +
-> +/* DCON_REG_MODE */
-> +enum {
-> +	MODE_PASSTHRU		= BIT(0),
-> +	MODE_SLEEP		= BIT(1),
-> +	MODE_SLEEP_AUTO		= BIT(2),
-> +	MODE_BL_ENABLE		= BIT(3),
-> +	MODE_BLANK		= BIT(4),
-> +	MODE_CSWIZZLE		= BIT(5),
-> +	MODE_COL_AA		= BIT(6),
-> +	MODE_MONO_LUMA		= BIT(7),
-> +	MODE_SCAN_INT		= BIT(8),
-> +	MODE_CLOCKDIV		= BIT(9),
-> +	MODE_DEBUG		= BIT(14),
-> +	MODE_SELFTEST		= BIT(15),
-> +};
-> +
-> +/* DCON_REG_BRIGHT */
-> +enum {
-> +	BRIGHT_MASK		= GENMASK(7, 0),
-> +};
-> +
-> +struct hx8837_priv {
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	struct gpio_desc *load_gpio;
-> +
-> +	struct drm_bridge *panel_bridge;
-> +	struct drm_bridge bridge;
-> +};
-> +
-> +static int hx8837_bridge_attach(struct drm_bridge *bridge,
-> +				enum drm_bridge_attach_flags flags)
-> +{
-> +	struct hx8837_priv *priv = bridge_to_hx8837_priv(bridge);
-> +
-> +	return drm_bridge_attach(bridge->encoder, priv->panel_bridge,
-> +				 bridge, flags);
-> +}
-> +
-> +static enum drm_mode_status hx8837_bridge_mode_valid(
-> +				struct drm_bridge *bridge,
-> +				const struct drm_display_info *info,
-> +				const struct drm_display_mode *mode)
-> +{
-> +	if (mode->hdisplay > 0xffff)
-> +		return MODE_BAD_HVALUE;
-> +	if (mode->htotal > 0xffff)
-> +		return MODE_BAD_HVALUE;
-> +	if (mode->hsync_start - mode->hdisplay > 0xff)
-> +		return MODE_HBLANK_WIDE;
-> +	if (mode->hsync_end - mode->hsync_start > 0xff)
-> +		return MODE_HSYNC_WIDE;
-> +	if (mode->vdisplay > 0xffff)
-> +		return MODE_BAD_VVALUE;
-> +	if (mode->vtotal > 0xffff)
-> +		return MODE_BAD_VVALUE;
-> +	if (mode->vsync_start - mode->vdisplay > 0xff)
-> +		return MODE_VBLANK_WIDE;
-> +	if (mode->vsync_end - mode->vsync_start > 0xff)
-> +		return MODE_VSYNC_WIDE;
-> +
-> +	return MODE_OK;
-> +}
-> +
-> +static void hx8837_bridge_disable(struct drm_bridge *bridge)
-> +{
-> +	struct hx8837_priv *priv = bridge_to_hx8837_priv(bridge);
+> idr_init_base()
+> ---------------
+>
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index cef437817b0d..8d1ae973041a 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -1033,7 +1033,7 @@ static void fbcon_init(struct vc_data *vc, int init)
+> 	struct vc_data *svc = *default_mode;
+> 	struct fbcon_display *t, *p = &fb_display[vc->vc_num];
+> 	int logo = 1, new_rows, new_cols, rows, cols, charcnt = 256;
+> -	int cap, ret;
 > +	int ret;
-> +
-> +	ret = gpiod_direction_output(priv->load_gpio, 0);
-> +	if (ret)
-> +		dev_err(priv->dev, "error enabling the dcon load: %d\n", ret);
-I assume this is disabling the dcon load - so text needs an update
-
-> +
-> +	ret = regmap_update_bits(priv->regmap, DCON_REG_MODE,
-> +					       MODE_PASSTHRU |
-> +					       MODE_SLEEP,
-> +					       MODE_PASSTHRU |
-> +					       MODE_SLEEP);
-> +	if (ret)
-> +		dev_err(priv->dev, "error disabling the dcon: %d\n", ret);
-> +}
-> +
-> +static void hx8837_bridge_enable(struct drm_bridge *bridge)
-> +{
-> +	struct hx8837_priv *priv = bridge_to_hx8837_priv(bridge);
-> +	int ret;
-> +
-> +	ret = regmap_update_bits(priv->regmap, DCON_REG_MODE,
-> +					       MODE_PASSTHRU |
-> +					       MODE_SLEEP |
-> +					       MODE_SLEEP_AUTO |
-> +					       MODE_BLANK |
-> +					       MODE_SCAN_INT |
-> +					       MODE_CLOCKDIV |
-> +					       MODE_DEBUG |
-> +					       MODE_SELFTEST,
-> +					       MODE_PASSTHRU);
-> +	if (ret)
-> +		dev_err(priv->dev, "error enabling the dcon: %d\n", ret);
-> +
-> +	ret = gpiod_direction_output(priv->load_gpio, 1);
-> +	if (ret)
-> +		dev_err(priv->dev, "error enabling the dcon load: %d\n", ret);
-> +}
-> +
-> +static void hx8837_bridge_mode_set(struct drm_bridge *bridge,
-> +			   const struct drm_display_mode *mode,
-> +			   const struct drm_display_mode *adjusted_mode)
-> +{
-> +	struct hx8837_priv *priv = bridge_to_hx8837_priv(bridge);
-> +
-> +	regmap_write(priv->regmap, DCON_REG_HRES, mode->hdisplay);
-> +	regmap_write(priv->regmap, DCON_REG_HTOTAL, mode->htotal);
-> +	regmap_write(priv->regmap, DCON_REG_HSYNC_WIDTH,
-> +			(mode->hsync_start - mode->hdisplay) << 8 |
-> +			(mode->hsync_end - mode->hsync_start));
-> +	regmap_write(priv->regmap, DCON_REG_VRES, mode->vdisplay);
-> +	regmap_write(priv->regmap, DCON_REG_VTOTAL, mode->vtotal);
-> +	regmap_write(priv->regmap, DCON_REG_VSYNC_WIDTH,
-> +			(mode->vsync_start - mode->vdisplay) << 8 |
-> +			(mode->vsync_end - mode->vsync_start));
-> +}
-> +
-> +static const struct drm_bridge_funcs hx8837_bridge_funcs = {
-> +	.attach = hx8837_bridge_attach,
-> +	.mode_valid = hx8837_bridge_mode_valid,
-> +	.disable = hx8837_bridge_disable,
-> +	.enable = hx8837_bridge_enable,
-> +	.mode_set = hx8837_bridge_mode_set,
-> +};
-> +
-> +static int hx8837_bl_update_status(struct backlight_device *bl)
-> +{
-> +	struct hx8837_priv *priv = bl_get_data(bl);
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	ret = regmap_update_bits(priv->regmap, DCON_REG_BRIGHT,
-> +					       BRIGHT_MASK,
-> +					       backlight_get_brightness(bl));
-> +	if (ret) {
-> +		dev_err(&bl->dev, "error setting the backlight: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (backlight_get_brightness(bl))
-> +		val = MODE_CSWIZZLE | MODE_COL_AA;
-> +	else
-> +		val = MODE_MONO_LUMA;
-> +
-> +	ret = regmap_update_bits(priv->regmap, DCON_REG_MODE,
-> +					       MODE_CSWIZZLE |
-> +					       MODE_COL_AA |
-> +					       MODE_MONO_LUMA,
-> +					       val);
-> +	if (ret) {
-> +		dev_err(&bl->dev, "error setting color mode: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct backlight_ops hx8837_bl_ops = {
-> +	.update_status = hx8837_bl_update_status,
-> +};
-> +
-> +static const struct regmap_config hx8837_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 16,
-> +	.max_register = 0x4c,
-> +	.val_format_endian = REGMAP_ENDIAN_LITTLE,
-> +};
-> +
-> +static int hx8837_probe(struct i2c_client *client,
-> +			const struct i2c_device_id *id)
-> +{
-> +	struct backlight_properties bl_props = {
-> +		.type = BACKLIGHT_RAW,
-> +		.max_brightness = BRIGHT_MASK,
-> +	};
-I have recently learned we shall also always set the scale.
-This is missing in many drivers - but please do it here.
-
-> +	struct device *dev = &client->dev;
-> +	struct backlight_device *bl;
-> +	struct hx8837_priv *priv;
-> +	struct drm_panel *panel;
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	dev_set_drvdata(dev, priv);
-> +	priv->dev = dev;
-> +
-> +	priv->load_gpio = devm_gpiod_get(dev, "load", GPIOD_ASIS);
-> +	if (IS_ERR(priv->load_gpio))
-> +		return PTR_ERR(priv->load_gpio);
-> +
-> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, -1, &panel, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (panel->backlight) {
-> +		dev_err(dev, "the panel already has a backlight controller\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	priv->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> +	if (IS_ERR(priv->panel_bridge))
-> +		return PTR_ERR(priv->panel_bridge);
-> +
-> +	priv->regmap = devm_regmap_init_i2c(client, &hx8837_regmap_config);
-> +	if (IS_ERR(priv->regmap)) {
-> +		dev_err(dev, "regmap init failed\n");
-regmap_init_i2c failed?
-
-> +		return PTR_ERR(priv->regmap);
-> +	}
-> +
-> +	ret = regmap_read(priv->regmap, DCON_REG_ID, &val);
-> +	if (ret < 0) {
-> +		dev_err(dev, "error reading the model id: %d\n", ret);
-> +		return ret;
-> +	}
-> +	if ((val & 0xff00) != 0xdc00) {
-> +		dev_err(dev, "the device is not a hx8837\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = regmap_read(priv->regmap, DCON_REG_BRIGHT, &val);
-> +	if (ret < 0) {
-> +		dev_err(&bl->dev, "error getting the backlight: %d\n", ret);
-> +		return ret;
-> +	}
-> +	bl_props.brightness = val & 0xf;
-> +
-> +	bl = devm_backlight_device_register(dev, dev_name(dev), dev, priv,
-> +					    &hx8837_bl_ops, &bl_props);
-> +	if (IS_ERR(bl)) {
-> +		dev_err(dev, "failed to register backlight\n");
-> +		return PTR_ERR(bl);
-> +	}
-> +
-> +	panel->backlight = bl;
-> +
-> +	INIT_LIST_HEAD(&priv->bridge.list);
-> +	priv->bridge.funcs = &hx8837_bridge_funcs;
-> +	priv->bridge.of_node = dev->of_node;
-> +	drm_bridge_add(&priv->bridge);
-> +
-> +	dev_info(dev, "HiMax HX8837 Display Controller Driver\n");
-Debug - not needed
-> +	return 0;
-> +}
-> +
-> +static int hx8837_remove(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct hx8837_priv *priv = dev_get_drvdata(dev);
-> +
-> +	drm_bridge_remove(&priv->bridge);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id hx8837_dt_ids[] = {
-> +	{ .compatible = "himax,hx8837", },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, hx8837_dt_ids);
-> +
-> +static const struct i2c_device_id hx8837_ids[] = {
-> +	{ "hx8837", 0 },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, hx8837_ids);
-> +
-> +static struct i2c_driver hx8837_driver = {
-> +	.probe = hx8837_probe,
-> +	.remove = hx8837_remove,
-> +	.driver = {
-> +		.name = "hx8837",
-> +		.of_match_table = of_match_ptr(hx8837_dt_ids),
-> +	},
-> +	.id_table = hx8837_ids,
-> +};
-> +
-> +module_i2c_driver(hx8837_driver);
-> +
-> +MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
-> +MODULE_DESCRIPTION("HiMax HX8837 Display Controller Driver");
-> +MODULE_LICENSE("GPL");
+>
+> 	if (WARN_ON(info_idx == -1))
+> 	    return;
+> @@ -1042,7 +1042,6 @@ static void fbcon_init(struct vc_data *vc, int init)
+> 		con2fb_map[vc->vc_num] = info_idx;
+>
+> 	info = registered_fb[con2fb_map[vc->vc_num]];
+> -	cap = info->flags;
+>
+> 	if (logo_shown < 0 && console_loglevel <= CONSOLE_LOGLEVEL_QUIET)
+> 		logo_shown = FBCON_LOGO_DONTSHOW;
+> @@ -1147,11 +1146,13 @@ static void fbcon_init(struct vc_data *vc, int init)
+>
+> 	ops->graphics = 0;
+>
+> -	if ((cap & FBINFO_HWACCEL_COPYAREA) &&
+> -	    !(cap & FBINFO_HWACCEL_DISABLED))
+> -		p->scrollmode = SCROLL_MOVE;
+> -	else /* default to something safe */
+> -		p->scrollmode = SCROLL_REDRAW;
+> +	/*
+> +	 * No more hw acceleration for fbcon.
+> +	 *
+> +	 * FIXME: Garbage collect all the now dead code after sufficient time
+> +	 * has passed.
+> +	 */
+> +	p->scrollmode = SCROLL_REDRAW;
+>
+> 	/*
+> 	 *  ++guenther: console.c:vc_allocate() relies on initializing
+> @@ -1961,45 +1962,15 @@ static void updatescrollmode(struct fbcon_display *p,
+> {
+> 	struct fbcon_ops *ops = info->fbcon_par;
+> 	int fh = vc->vc_font.height;
+> -	int cap = info->flags;
+> -	u16 t = 0;
+> -	int ypan = FBCON_SWAP(ops->rotate, info->fix.ypanstep,
+> -				  info->fix.xpanstep);
+> -	int ywrap = FBCON_SWAP(ops->rotate, info->fix.ywrapstep, t);
+> 	int yres = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+> 	int vyres = FBCON_SWAP(ops->rotate, info->var.yres_virtual,
+> 				   info->var.xres_virtual);
+> -	int good_pan = (cap & FBINFO_HWACCEL_YPAN) &&
+> -		divides(ypan, vc->vc_font.height) && vyres > yres;
+> -	int good_wrap = (cap & FBINFO_HWACCEL_YWRAP) &&
+> -		divides(ywrap, vc->vc_font.height) &&
+> -		divides(vc->vc_font.height, vyres) &&
+> -		divides(vc->vc_font.height, yres);
+> -	int reading_fast = cap & FBINFO_READS_FAST;
+> -	int fast_copyarea = (cap & FBINFO_HWACCEL_COPYAREA) &&
+> -		!(cap & FBINFO_HWACCEL_DISABLED);
+> -	int fast_imageblit = (cap & FBINFO_HWACCEL_IMAGEBLIT) &&
+> -		!(cap & FBINFO_HWACCEL_DISABLED);
+>
+> 	p->vrows = vyres/fh;
+> 	if (yres > (fh * (vc->vc_rows + 1)))
+> 		p->vrows -= (yres - (fh * vc->vc_rows)) / fh;
+> 	if ((yres % fh) && (vyres % fh < yres % fh))
+> 		p->vrows--;
+> -
+> -	if (good_wrap || good_pan) {
+> -		if (reading_fast || fast_copyarea)
+> -			p->scrollmode = good_wrap ?
+> -				SCROLL_WRAP_MOVE : SCROLL_PAN_MOVE;
+> -		else
+> -			p->scrollmode = good_wrap ? SCROLL_REDRAW :
+> -				SCROLL_PAN_REDRAW;
+> -	} else {
+> -		if (reading_fast || (fast_copyarea && !fast_imageblit))
+> -			p->scrollmode = SCROLL_MOVE;
+> -		else
+> -			p->scrollmode = SCROLL_REDRAW;
+> -	}
+> }
+>
+> #define PITCH(w) (((w) + 7) >> 3)
 > -- 
 > 2.28.0
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
