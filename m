@@ -2,47 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339422A1C65
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 07:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3A72A1C66
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 07:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C87B96E18E;
-	Sun,  1 Nov 2020 06:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 978166EA6A;
+	Sun,  1 Nov 2020 06:16:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C96B16E18E;
- Sun,  1 Nov 2020 06:06:20 +0000 (UTC)
-IronPort-SDR: xr8suicvqLkBiQ125/gWSXkppbdIN5cdhPDDQenJhdJ+rjjj2ak4T9/vbVASW8ndkv/HAeyy8p
- 3aVBytEdkCKQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9791"; a="230405415"
-X-IronPort-AV: E=Sophos;i="5.77,440,1596524400"; d="scan'208";a="230405415"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2020 23:06:20 -0700
-IronPort-SDR: LnGQ+E3Cd+MPsHufEKnT7wxo0BMxxpxiYpec/fxIFpcpockXn0P8NRtYYK5E5IzdntRSO5VVUu
- YElbD2nCs2Jg==
-X-IronPort-AV: E=Sophos;i="5.77,440,1596524400"; d="scan'208";a="537571568"
-Received: from aknautiy-mobl.gar.corp.intel.com (HELO [10.215.177.133])
- ([10.215.177.133])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2020 23:06:17 -0700
-Subject: Re: [RFC 06/13] drm/i915: Check for FRL training before DP Link
- training
-To: "Shankar, Uma" <uma.shankar@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20201015105259.27934-1-ankit.k.nautiyal@intel.com>
- <20201015105259.27934-7-ankit.k.nautiyal@intel.com>
- <5ca574e0aac34b8e8f39ef17d2610672@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-Message-ID: <7876fd54-5ea8-3e2b-6e89-206b06d63cb5@intel.com>
-Date: Sun, 1 Nov 2020 11:36:14 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC756EA6A
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 06:15:59 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209987] New: Memory leak in
+ amdgpu_dm_update_connector_after_detect
+Date: Sun, 01 Nov 2020 06:15:59 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lstarnes1024@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-209987-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <5ca574e0aac34b8e8f39ef17d2610672@intel.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,88 +52,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma,
- Swati2" <swati2.sharma@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=209987
 
-On 10/19/2020 3:51 AM, Shankar, Uma wrote:
->
->> -----Original Message-----
->> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
->> Sent: Thursday, October 15, 2020 4:23 PM
->> To: intel-gfx@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
->> Kulkarni, Vandita <vandita.kulkarni@intel.com>; ville.syrjala@linux.intel.com;
->> Sharma, Swati2 <swati2.sharma@intel.com>
->> Subject: [RFC 06/13] drm/i915: Check for FRL training before DP Link training
->>
->> This patch calls functions to check FRL training requirements for an HDMI2.1 sink,
->> when connected through PCON.
->> The call is made before the DP link training. In case FRL is not required or failure
->> during FRL training, the TMDS mode is selected for the pcon.
->>
->> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->> ---
->>   drivers/gpu/drm/i915/display/intel_ddi.c | 2 ++
->> drivers/gpu/drm/i915/display/intel_dp.c  | 2 ++
->>   2 files changed, 4 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c
->> b/drivers/gpu/drm/i915/display/intel_ddi.c
->> index bb0b9930958f..1834e5de60a7 100644
->> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
->> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
->> @@ -3484,6 +3484,8 @@ static void tgl_ddi_pre_enable_dp(struct
->> intel_atomic_state *state,
->>   if (!is_mst)
->>   intel_dp_sink_dpms(intel_dp, DRM_MODE_DPMS_ON);
->>
->> +intel_dp_check_frl_training(intel_dp);
-> Good to move it near start_link_training to stay consistent with rest of the calls.
+            Bug ID: 209987
+           Summary: Memory leak in amdgpu_dm_update_connector_after_detect
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.9.1
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: lstarnes1024@gmail.com
+        Regression: No
 
+Created attachment 293341
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293341&action=edit
+/sys/kernel/debug/kmemleak
 
-Alright. Will take care in the next version.
+It looks like there's a memory leak in
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:amdgpu_dm_update_connector_after_detect.
+It appears to be calling drm_add_edid_modes, which indirectly calling ito
+either do_detailed_mode or drm_mode_duplicate.
 
-Thanks & Regards,
+This has caused me to run out of memory a handful of times, which could only be
+resolved by rebooting.
 
-Ankit
+I only experienced this after upgrading to 5.9.1, and it looks like commit
+b24bdc37d03a0478189e20a50286092840f414fa added the call to drm_add_edid_modes
+in amdgpu_dm_update_connector_after_detect.
 
-
->
->> +
->>   intel_dp_sink_set_decompression_state(intel_dp, crtc_state, true);
->>   /*
->>    * DDI FEC: "anticipates enabling FEC encoding sets the FEC_READY bit
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
->> b/drivers/gpu/drm/i915/display/intel_dp.c
->> index c1342b5e7781..668165dd2b1a 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> @@ -4206,6 +4206,7 @@ static void intel_enable_dp(struct intel_atomic_state
->> *state,
->>
->>   intel_dp_sink_dpms(intel_dp, DRM_MODE_DPMS_ON);
->>   intel_dp_configure_protocol_converter(intel_dp);
->> +intel_dp_check_frl_training(intel_dp);
->>   intel_dp_start_link_train(intel_dp, pipe_config);
->>   intel_dp_stop_link_train(intel_dp, pipe_config);
->>
->> @@ -6127,6 +6128,7 @@ int intel_dp_retrain_link(struct intel_encoder
->> *encoder,
->>       !intel_dp_mst_is_master_trans(crtc_state))
->>   continue;
->>
->> +intel_dp_check_frl_training(intel_dp);
->>   intel_dp_start_link_train(intel_dp, crtc_state);
->>   intel_dp_stop_link_train(intel_dp, crtc_state);
->>   break;
->> --
->> 2.17.1
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
