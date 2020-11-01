@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A9E2A1D19
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 11:14:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B371A2A1D22
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 11:14:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619A36EA87;
-	Sun,  1 Nov 2020 10:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F12A6EA94;
+	Sun,  1 Nov 2020 10:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6ED6EA87;
- Sun,  1 Nov 2020 10:13:51 +0000 (UTC)
-IronPort-SDR: V5R1uJKbNiu9h+gXYYAnQLMR/zYCyBnxJeAkPVW1REIwPCsxM6asvYFMD29xItps++0/vAaCZ1
- djOVWAY31gqQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9791"; a="166190491"
-X-IronPort-AV: E=Sophos;i="5.77,441,1596524400"; d="scan'208";a="166190491"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307696EA8F;
+ Sun,  1 Nov 2020 10:14:01 +0000 (UTC)
+IronPort-SDR: f7JIaMpjH+cR+SHODKgVhqG5OuvJCBx9gdVszBwzER3HvhGfCZHfNH1AHSCOIP6bT/p2+Q0+qF
+ NCctlni0dYWg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9791"; a="166190493"
+X-IronPort-AV: E=Sophos;i="5.77,441,1596524400"; d="scan'208";a="166190493"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2020 02:13:50 -0800
-IronPort-SDR: 3uKBX6QfrU45mOCFRKjV19LHl8amJGGioT4v0+68jAd5aRwCNLS0o98mk8yOA36pjOjp9y93h+
- cmNbsED5tPqw==
+ 01 Nov 2020 02:13:53 -0800
+IronPort-SDR: Vu1rUa4aHUeJGT0J8KSPyNUgfcxGO0J7gGhwj2LkC0ejF7mKOCBfIZmtglcL8lVWESbrNpi/PP
+ iWFg6GBF8IOA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,441,1596524400"; d="scan'208";a="425738562"
+X-IronPort-AV: E=Sophos;i="5.77,441,1596524400"; d="scan'208";a="425738570"
 Received: from linux-akn.iind.intel.com ([10.223.34.148])
- by fmsmga001.fm.intel.com with ESMTP; 01 Nov 2020 02:13:49 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 01 Nov 2020 02:13:51 -0800
 From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 03/13] drm/edid: Parse DSC1.2 cap fields from HFVSDB block
-Date: Sun,  1 Nov 2020 15:36:47 +0530
-Message-Id: <20201101100657.12087-4-ankit.k.nautiyal@intel.com>
+Subject: [PATCH v2 04/13] drm/dp_helper: Add Helpers for FRL Link Training
+ support for DP-HDMI2.1 PCON
+Date: Sun,  1 Nov 2020 15:36:48 +0530
+Message-Id: <20201101100657.12087-5-ankit.k.nautiyal@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201101100657.12087-1-ankit.k.nautiyal@intel.com>
 References: <20201101100657.12087-1-ankit.k.nautiyal@intel.com>
@@ -55,157 +56,435 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch parses HFVSDB fields for DSC1.2 capabilities of an
-HDMI2.1 sink. These fields are required by a source to understand the
-DSC capability of the sink, to set appropriate PPS parameters,
-before transmitting compressed data stream.
+This patch adds support for configuring a PCON device,
+connected as a DP branched device to enable FRL Link training
+with a HDMI2.1 + sink.
 
-v2: Addressed following issues as suggested by Uma Shankar:
--Added a new struct for hdmi dsc cap
--Fixed bugs in macros usage.
+v2: Fixed typos and addressed other review comments from Uma Shankar.
+-changed the commit message for better clarity (Uma Shankar)
+-removed unnecessary argument supplied to a drm helper function.
+-fixed return value for max frl read from pcon.
 
 Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c  | 59 +++++++++++++++++++++++++++++++++++++
- include/drm/drm_connector.h | 43 +++++++++++++++++++++++++++
- 2 files changed, 102 insertions(+)
+ drivers/gpu/drm/drm_dp_helper.c | 302 ++++++++++++++++++++++++++++++++
+ include/drm/drm_dp_helper.h     |  81 +++++++++
+ 2 files changed, 383 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 26797868ea5b..feaf2d7659a4 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -4939,11 +4939,70 @@ static void drm_parse_hdmi_forum_vsdb(struct drm_connector *connector,
- 
- 	if (hf_vsdb[7]) {
- 		u8 max_frl_rate;
-+		u8 dsc_max_frl_rate;
-+		u8 dsc_max_slices;
-+		struct drm_hdmi_dsc_cap *hdmi_dsc = &hdmi->dsc_cap;
- 
- 		DRM_DEBUG_KMS("hdmi_21 sink detected. parsing edid\n");
- 		max_frl_rate = (hf_vsdb[7] & DRM_EDID_MAX_FRL_RATE_MASK) >> 4;
- 		drm_get_max_frl_rate(max_frl_rate, &hdmi->max_lanes,
- 				&hdmi->max_frl_rate_per_lane);
-+		hdmi_dsc->v_1p2 = hf_vsdb[11] & DRM_EDID_DSC_1P2;
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 14ddf28ecac0..b67580294c4e 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -2591,3 +2591,305 @@ void drm_dp_vsc_sdp_log(const char *level, struct device *dev,
+ #undef DP_SDP_LOG
+ }
+ EXPORT_SYMBOL(drm_dp_vsc_sdp_log);
 +
-+		if (hdmi_dsc->v_1p2) {
-+			hdmi_dsc->native_420 = hf_vsdb[11] & DRM_EDID_DSC_NATIVE_420;
-+			hdmi_dsc->all_bpp = hf_vsdb[11] & DRM_EDID_DSC_ALL_BPP;
-+
-+			if (hf_vsdb[11] & DRM_EDID_DSC_16BPC)
-+				hdmi_dsc->bpc_supported = 16;
-+			else if (hf_vsdb[11] & DRM_EDID_DSC_12BPC)
-+				hdmi_dsc->bpc_supported = 12;
-+			else if (hf_vsdb[11] & DRM_EDID_DSC_10BPC)
-+				hdmi_dsc->bpc_supported = 10;
-+			else
-+				hdmi_dsc->bpc_supported = 0;
-+
-+			dsc_max_frl_rate = (hf_vsdb[12] & DRM_EDID_DSC_MAX_FRL_RATE_MASK) >> 4;
-+			drm_get_max_frl_rate(dsc_max_frl_rate, &hdmi_dsc->max_lanes,
-+					&hdmi_dsc->max_frl_rate_per_lane);
-+			hdmi_dsc->total_chunk_kbytes = hf_vsdb[13] & DRM_EDID_DSC_TOTAL_CHUNK_KBYTES;
-+
-+			dsc_max_slices = hf_vsdb[12] & DRM_EDID_DSC_MAX_SLICES;
-+			switch (dsc_max_slices) {
-+			case 1:
-+				hdmi_dsc->max_slices = 1;
-+				hdmi_dsc->clk_per_slice = 340;
-+				break;
-+			case 2:
-+				hdmi_dsc->max_slices = 2;
-+				hdmi_dsc->clk_per_slice = 340;
-+				break;
-+			case 3:
-+				hdmi_dsc->max_slices = 4;
-+				hdmi_dsc->clk_per_slice = 340;
-+				break;
-+			case 4:
-+				hdmi_dsc->max_slices = 8;
-+				hdmi_dsc->clk_per_slice = 340;
-+				break;
-+			case 5:
-+				hdmi_dsc->max_slices = 8;
-+				hdmi_dsc->clk_per_slice = 400;
-+				break;
-+			case 6:
-+				hdmi_dsc->max_slices = 12;
-+				hdmi_dsc->clk_per_slice = 400;
-+				break;
-+			case 7:
-+				hdmi_dsc->max_slices = 16;
-+				hdmi_dsc->clk_per_slice = 400;
-+				break;
-+			case 0:
-+			default:
-+				hdmi_dsc->max_slices = 0;
-+				hdmi_dsc->clk_per_slice = 0;
-+			}
-+		}
- 	}
- 
- 	drm_parse_ycbcr420_deep_color_info(connector, hf_vsdb);
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index f351bf10c076..06d24e36268e 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -175,6 +175,46 @@ struct drm_scdc {
- 	struct drm_scrambling scrambling;
- };
- 
 +/**
-+ * struct drm_hdmi_dsc_cap - DSC capabilities of HDMI sink
++ * drm_dp_get_pcon_max_frl_bw() - maximum frl supported by PCON
++ * @dpcd: DisplayPort configuration data
++ * @port_cap: port capabilities
 + *
-+ * Describes the DSC support provided by HDMI 2.1 sink.
-+ * The information is fetched fom additional HFVSDB blocks defined
-+ * for HDMI 2.1.
-+ */
-+struct drm_hdmi_dsc_cap {
-+	/** @v_1p2: flag for dsc1.2 version support by sink */
-+	bool v_1p2;
++ * Returns maximum frl bandwidth supported by PCON in GBPS,
++ * returns 0 if not supported.
++ **/
++int drm_dp_get_pcon_max_frl_bw(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
++			       const u8 port_cap[4])
++{
++	int bw;
++	u8 buf;
 +
-+	/** @native_420: Does sink support DSC with 4:2:0 compression */
-+	bool native_420;
++	buf = port_cap[2];
++	bw = buf & DP_PCON_MAX_FRL_BW;
 +
-+	/**
-+	 * @all_bpp: Does sink support all bpp with 4:4:4: or 4:2:2
-+	 * compressed formats
-+	 */
-+	bool all_bpp;
++	switch (bw) {
++	case DP_PCON_MAX_9GBPS:
++		return 9;
++	case DP_PCON_MAX_18GBPS:
++		return 18;
++	case DP_PCON_MAX_24GBPS:
++		return 24;
++	case DP_PCON_MAX_32GBPS:
++		return 32;
++	case DP_PCON_MAX_40GBPS:
++		return 40;
++	case DP_PCON_MAX_48GBPS:
++		return 48;
++	case DP_PCON_MAX_0GBPS:
++	default:
++		return 0;
++	}
 +
-+	/**
-+	 * @bpc_supported: compressed bpc supported by sink : 10, 12 or 16 bpc
-+	 */
-+	u8 bpc_supported;
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_get_pcon_max_frl_bw);
 +
-+	/** @max_slices: maximum number of Horizontal slices supported by */
-+	u8 max_slices;
++/**
++ * drm_dp_get_hdmi_sink_max_frl_bw() - maximum frl supported by HDMI Sink
++ * @aux: DisplayPort AUX channel
++ *
++ * Returns maximum frl bandwidth supported by HDMI in Gbps on success,
++ * returns 0, if not supported.
++ **/
++int drm_dp_get_hdmi_sink_max_frl_bw(struct drm_dp_aux *aux)
++{
++	u8 buf;
++	int bw, ret;
 +
-+	/** @clk_per_slice : max pixel clock in MHz supported per slice */
-+	int clk_per_slice;
++	ret = drm_dp_dpcd_readb(aux, DP_PCON_HDMI_SINK, &buf);
++	if (ret < 0)
++		return 0;
++	bw = buf & DP_HDMI_SINK_LINK_BW;
 +
-+	/** @max_lanes : dsc max lanes supported for Fixed rate Link training */
-+	u8 max_lanes;
++	switch (bw) {
++	case DP_HDMI_SINK_BW_9GBPS:
++		return 9;
++	case DP_HDMI_SINK_BW_18GBPS:
++		return 18;
++	case DP_HDMI_SINK_BW_24GBPS:
++		return 24;
++	case DP_HDMI_SINK_BW_32GBPS:
++		return 32;
++	case DP_HDMI_SINK_BW_40GBPS:
++		return 40;
++	case DP_HDMI_SINK_BW_48GBPS:
++		return 48;
++	case DP_HDMI_SINK_BW_0GBPS:
++	default:
++		return 0;
++	}
 +
-+	/** @max_frl_rate_per_lane : maximum frl rate with DSC per lane */
-+	u8 max_frl_rate_per_lane;
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_get_hdmi_sink_max_frl_bw);
 +
-+	/** @total_chunk_kbytes: max size of chunks in KBs supported per line*/
-+	u8 total_chunk_kbytes;
-+};
++/**
++ * drm_dp_pcon_frl_prepare() - Prepare PCON for FRL.
++ * @aux: DisplayPort AUX channel
++ *
++ * Returns 0 if success, else returns negative error code.
++ **/
++int drm_dp_pcon_frl_prepare(struct drm_dp_aux *aux, bool enable_frl_ready_hpd)
++{
++	int ret;
++	u8 buf = DP_PCON_ENABLE_SOURCE_CTL_MODE |
++		 DP_PCON_ENABLE_LINK_FRL_MODE;
++
++	if (enable_frl_ready_hpd)
++		buf |= DP_PCON_ENABLE_HPD_READY;
++
++	ret = drm_dp_dpcd_writeb(aux, DP_PCON_HDMI_LINK_CONFIG_1, buf);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_dp_pcon_frl_prepare);
++
++/**
++ * drm_dp_pcon_is_frl_ready() - Is PCON ready for FRL
++ * @aux: DisplayPort AUX channel
++ *
++ * Returns true if success, else returns false.
++ **/
++bool drm_dp_pcon_is_frl_ready(struct drm_dp_aux *aux)
++{
++	int ret;
++	u8 buf;
++
++	ret = drm_dp_dpcd_readb(aux, DP_PCON_HDMI_TX_LINK_STATUS, &buf);
++	if (ret < 0)
++		return false;
++
++	if (buf & DP_PCON_FRL_READY)
++		return true;
++
++	return false;
++}
++EXPORT_SYMBOL(drm_dp_pcon_is_frl_ready);
++
++/**
++ * drm_dp_pcon_frl_configure_1() - Set HDMI LINK Configuration-Step1
++ * @aux: DisplayPort AUX channel
++ * @max_frl_gbps: maximum frl bw to be configured between PCON and HDMI sink
++ * @concurrent_mode: true if concurrent mode or operation is required,
++ * false otherwise.
++ *
++ * Returns 0 if success, else returns negative error code.
++ **/
++
++int drm_dp_pcon_frl_configure_1(struct drm_dp_aux *aux, int max_frl_gbps,
++				bool concurrent_mode)
++{
++	int ret;
++	u8 buf;
++
++	ret = drm_dp_dpcd_readb(aux, DP_PCON_HDMI_LINK_CONFIG_1, &buf);
++	if (ret < 0)
++		return ret;
++
++	if (concurrent_mode)
++		buf |= DP_PCON_ENABLE_CONCURRENT_LINK;
++	else
++		buf &= ~DP_PCON_ENABLE_CONCURRENT_LINK;
++
++	switch (max_frl_gbps) {
++	case 9:
++		buf |=  DP_PCON_ENABLE_MAX_BW_9GBPS;
++		break;
++	case 18:
++		buf |=  DP_PCON_ENABLE_MAX_BW_18GBPS;
++		break;
++	case 24:
++		buf |=  DP_PCON_ENABLE_MAX_BW_24GBPS;
++		break;
++	case 32:
++		buf |=  DP_PCON_ENABLE_MAX_BW_32GBPS;
++		break;
++	case 40:
++		buf |=  DP_PCON_ENABLE_MAX_BW_40GBPS;
++		break;
++	case 48:
++		buf |=  DP_PCON_ENABLE_MAX_BW_48GBPS;
++		break;
++	case 0:
++		buf |=  DP_PCON_ENABLE_MAX_BW_0GBPS;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	ret = drm_dp_dpcd_writeb(aux, DP_PCON_HDMI_LINK_CONFIG_1, buf);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_pcon_frl_configure_1);
++
++/**
++ * drm_dp_pcon_frl_configure_2() - Set HDMI Link configuration Step-2
++ * @aux: DisplayPort AUX channel
++ * @max_frl_mask : Max FRL BW to be tried by the PCON with HDMI Sink
++ * @extended_train_mode : true for Extended Mode, false for Normal Mode.
++ * In Normal mode, the PCON tries each frl bw from the max_frl_mask starting
++ * from min, and stops when link training is successful. In Extended mode, all
++ * frl bw selected in the mask are trained by the PCON.
++ *
++ * Returns 0 if success, else returns negative error code.
++ **/
++int drm_dp_pcon_frl_configure_2(struct drm_dp_aux *aux, int max_frl_mask,
++				bool extended_train_mode)
++{
++	int ret;
++	u8 buf = max_frl_mask;
++
++	if (extended_train_mode)
++		buf |= DP_PCON_FRL_LINK_TRAIN_EXTENDED;
++
++	ret = drm_dp_dpcd_writeb(aux, DP_PCON_HDMI_LINK_CONFIG_2, buf);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_pcon_frl_configure_2);
++
++/**
++ * drm_dp_pcon_reset_frl_config() - Re-Set HDMI Link configuration.
++ * @aux: DisplayPort AUX channel
++ *
++ * Returns 0 if success, else returns negative error code.
++ **/
++int drm_dp_pcon_reset_frl_config(struct drm_dp_aux *aux)
++{
++	int ret;
++
++	ret = drm_dp_dpcd_writeb(aux, DP_PCON_HDMI_LINK_CONFIG_1, 0x0);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_pcon_reset_frl_config);
++
++/**
++ * drm_dp_pcon_frl_enable() - Enable HDMI link through FRL
++ * @aux: DisplayPort AUX channel
++ *
++ * Returns 0 if success, else returns negative error code.
++ **/
++int drm_dp_pcon_frl_enable(struct drm_dp_aux *aux)
++{
++	int ret;
++	u8 buf = 0;
++
++	ret = drm_dp_dpcd_readb(aux, DP_PCON_HDMI_LINK_CONFIG_1, &buf);
++	if (ret < 0)
++		return ret;
++	if (!(buf & DP_PCON_ENABLE_SOURCE_CTL_MODE)) {
++		DRM_DEBUG_KMS("PCON in Autonomous mode, can't enable FRL\n");
++		return -EINVAL;
++	}
++	buf |= DP_PCON_ENABLE_HDMI_LINK;
++	ret = drm_dp_dpcd_writeb(aux, DP_PCON_HDMI_LINK_CONFIG_1, buf);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_dp_pcon_frl_enable);
++
++/**
++ * drm_dp_pcon_hdmi_link_active() - check if the PCON HDMI LINK status is active.
++ * @aux: DisplayPort AUX channel
++ *
++ * Returns true if link is active else returns false.
++ **/
++bool drm_dp_pcon_hdmi_link_active(struct drm_dp_aux *aux)
++{
++	u8 buf;
++	int ret;
++
++	ret = drm_dp_dpcd_readb(aux, DP_PCON_HDMI_TX_LINK_STATUS, &buf);
++	if (ret < 0)
++		return false;
++
++	return buf & DP_PCON_HDMI_TX_LINK_ACTIVE;
++}
++EXPORT_SYMBOL(drm_dp_pcon_hdmi_link_active);
++
++/**
++ * drm_dp_pcon_hdmi_link_mode() - get the PCON HDMI LINK MODE
++ * @aux: DisplayPort AUX channel
++ * @frl_trained_mask: pointer to store bitmask of the trained bw configuration.
++ * Valid only if the MODE returned is FRL. For Normal Link training mode
++ * only 1 of the bits will be set, but in case of Extended mode, more than
++ * one bits can be set.
++ *
++ * Returns the link mode : TMDS or FRL on success, else returns negative error
++ * code.
++ **/
++int drm_dp_pcon_hdmi_link_mode(struct drm_dp_aux *aux, u8 *frl_trained_mask)
++{
++	u8 buf;
++	int mode;
++	int ret;
++
++	ret = drm_dp_dpcd_readb(aux, DP_PCON_HDMI_POST_FRL_STATUS, &buf);
++	if (ret < 0)
++		return ret;
++
++	mode = buf & DP_PCON_HDMI_LINK_MODE;
++
++	if (frl_trained_mask && DP_PCON_HDMI_MODE_FRL == mode)
++		*frl_trained_mask = (buf & DP_PCON_HDMI_FRL_TRAINED_BW) >> 1;
++
++	return mode;
++}
++EXPORT_SYMBOL(drm_dp_pcon_hdmi_link_mode);
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index f55a9d1320ca..e2ed6bfaae89 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -411,6 +411,17 @@ struct drm_device;
+ # define DP_DS_10BPC		            1
+ # define DP_DS_12BPC		            2
+ # define DP_DS_16BPC		            3
++/* HDMI2.1 PCON FRL CONFIGURATION */
++# define DP_PCON_MAX_FRL_BW                 (7 << 2)
++# define DP_PCON_MAX_0GBPS                  (0 << 2)
++# define DP_PCON_MAX_9GBPS                  (1 << 2)
++# define DP_PCON_MAX_18GBPS                 (2 << 2)
++# define DP_PCON_MAX_24GBPS                 (3 << 2)
++# define DP_PCON_MAX_32GBPS                 (4 << 2)
++# define DP_PCON_MAX_40GBPS                 (5 << 2)
++# define DP_PCON_MAX_48GBPS                 (6 << 2)
++# define DP_PCON_SOURCE_CTL_MODE            (1 << 5)
++
+ /* offset 3 for DVI */
+ # define DP_DS_DVI_DUAL_LINK		    (1 << 1)
+ # define DP_DS_DVI_HIGH_COLOR_DEPTH	    (1 << 2)
+@@ -1053,6 +1064,61 @@ struct drm_device;
+ #define DP_CEC_RX_MESSAGE_BUFFER               0x3010
+ #define DP_CEC_TX_MESSAGE_BUFFER               0x3020
+ #define DP_CEC_MESSAGE_BUFFER_LENGTH             0x10
++/* PROTOCOL CONVERSION HDMI SINK */
++#define DP_PCON_HDMI_SINK                      0x3035
++# define DP_HDMI_SINK_LINK_BW                  (7 << 0)
++# define DP_HDMI_SINK_BW_0GBPS		       0
++# define DP_HDMI_SINK_BW_9GBPS		       1
++# define DP_HDMI_SINK_BW_18GBPS		       2
++# define DP_HDMI_SINK_BW_24GBPS		       3
++# define DP_HDMI_SINK_BW_32GBPS		       4
++# define DP_HDMI_SINK_BW_40GBPS		       5
++# define DP_HDMI_SINK_BW_48GBPS		       6
++
++/* PCON CONFIGURE-1 FRL FOR HDMI SINK */
++#define DP_PCON_HDMI_LINK_CONFIG_1             0x305A
++# define DP_PCON_ENABLE_MAX_FRL_BW             (7 << 0)
++# define DP_PCON_ENABLE_MAX_BW_0GBPS	       0
++# define DP_PCON_ENABLE_MAX_BW_9GBPS	       1
++# define DP_PCON_ENABLE_MAX_BW_18GBPS	       2
++# define DP_PCON_ENABLE_MAX_BW_24GBPS	       3
++# define DP_PCON_ENABLE_MAX_BW_32GBPS	       4
++# define DP_PCON_ENABLE_MAX_BW_40GBPS	       5
++# define DP_PCON_ENABLE_MAX_BW_48GBPS	       6
++# define DP_PCON_ENABLE_SOURCE_CTL_MODE       (1 << 3)
++# define DP_PCON_ENABLE_CONCURRENT_LINK       (1 << 4)
++# define DP_PCON_ENABLE_LINK_FRL_MODE         (1 << 5)
++# define DP_PCON_ENABLE_HPD_READY	      (1 << 6)
++# define DP_PCON_ENABLE_HDMI_LINK             (1 << 7)
++
++/* PCON CONFIGURE-2 FRL FOR HDMI SINK */
++#define DP_PCON_HDMI_LINK_CONFIG_2            0x305B
++# define DP_PCON_MAX_LINK_BW_MASK             (0x3F << 0)
++# define DP_PCON_FRL_BW_MASK_9GBPS            (1 << 0)
++# define DP_PCON_FRL_BW_MASK_18GBPS           (1 << 1)
++# define DP_PCON_FRL_BW_MASK_24GBPS           (1 << 2)
++# define DP_PCON_FRL_BW_MASK_32GBPS           (1 << 3)
++# define DP_PCON_FRL_BW_MASK_40GBPS           (1 << 4)
++# define DP_PCON_FRL_BW_MASK_48GBPS           (1 << 5)
++# define DP_PCON_FRL_LINK_TRAIN_EXTENDED      (1 << 6)
++
++/* PCON HDMI LINK STATUS */
++#define DP_PCON_HDMI_TX_LINK_STATUS           0x303B
++# define DP_PCON_HDMI_TX_LINK_ACTIVE          (1 << 0)
++# define DP_PCON_FRL_READY		      (1 << 1)
++
++/* PCON HDMI POST FRL STATUS */
++#define DP_PCON_HDMI_POST_FRL_STATUS          0x3036
++# define DP_PCON_HDMI_LINK_MODE               (1 << 0)
++# define DP_PCON_HDMI_MODE_TMDS               0
++# define DP_PCON_HDMI_MODE_FRL                1
++# define DP_PCON_HDMI_FRL_TRAINED_BW          (0x3F << 1)
++# define DP_PCON_FRL_TRAINED_BW_9GBPS	      (1 << 1)
++# define DP_PCON_FRL_TRAINED_BW_18GBPS	      (1 << 2)
++# define DP_PCON_FRL_TRAINED_BW_24GBPS	      (1 << 3)
++# define DP_PCON_FRL_TRAINED_BW_32GBPS	      (1 << 4)
++# define DP_PCON_FRL_TRAINED_BW_40GBPS	      (1 << 5)
++# define DP_PCON_FRL_TRAINED_BW_48GBPS	      (1 << 6)
  
- /**
-  * struct drm_hdmi_info - runtime information about the connected HDMI sink
-@@ -213,6 +253,9 @@ struct drm_hdmi_info {
- 
- 	/** @max_lanes: supported by sink */
- 	u8 max_lanes;
+ #define DP_PROTOCOL_CONVERTER_CONTROL_0		0x3050 /* DP 1.3 */
+ # define DP_HDMI_DVI_OUTPUT_CONFIG		(1 << 0) /* DP 1.3 */
+@@ -1967,4 +2033,19 @@ int drm_dp_get_phy_test_pattern(struct drm_dp_aux *aux,
+ 				struct drm_dp_phy_test_params *data);
+ int drm_dp_set_phy_test_pattern(struct drm_dp_aux *aux,
+ 				struct drm_dp_phy_test_params *data, u8 dp_rev);
++int drm_dp_get_pcon_max_frl_bw(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
++			       const u8 port_cap[4]);
++int drm_dp_get_hdmi_sink_max_frl_bw(struct drm_dp_aux *aux);
++int drm_dp_pcon_frl_prepare(struct drm_dp_aux *aux, bool enable_frl_ready_hpd);
++bool drm_dp_pcon_is_frl_ready(struct drm_dp_aux *aux);
++int drm_dp_pcon_frl_configure_1(struct drm_dp_aux *aux, int max_frl_gbps,
++				bool concurrent_mode);
++int drm_dp_pcon_frl_configure_2(struct drm_dp_aux *aux, int max_frl_mask,
++				bool extended_train_mode);
++int drm_dp_pcon_reset_frl_config(struct drm_dp_aux *aux);
++int drm_dp_pcon_frl_enable(struct drm_dp_aux *aux);
 +
-+	/** @dsc_cap: DSC capabilities of the sink */
-+	struct drm_hdmi_dsc_cap dsc_cap;
- };
- 
- /**
++bool drm_dp_pcon_hdmi_link_active(struct drm_dp_aux *aux);
++int drm_dp_pcon_hdmi_link_mode(struct drm_dp_aux *aux, u8 *frl_trained_mask);
++
+ #endif /* _DRM_DP_HELPER_H_ */
 -- 
 2.17.1
 
