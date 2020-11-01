@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A13D2A207E
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2821C2A2076
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A75EA6EB27;
-	Sun,  1 Nov 2020 17:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1313D6EB25;
+	Sun,  1 Nov 2020 17:38:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D20FF6E1B7
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 14:12:44 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id 23so12094701ljv.7
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Nov 2020 06:12:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=REz7RPg2i02sVn5unh+ejD4RRDVKEN7sf6CTpP8ALEc=;
- b=XIySwbqwwWK+H07YdaRn27fLru1bo4Dez13BPQ7ix6EB/sGw/tnwV+eIYqXBMG1iJQ
- eNxQuFSPTOeShlcgCkryhP7JQEUKAOQ3ACRMWDC+JK1/ULlD50xlY3vVtToswKJRFnTB
- LHN/C8X+aO6ALXRC3oVmNfNewiaIj5Qq7DzFimDqgYV/yYp+EaLc5HPz6T/K/KoUdu7W
- rmO6ibHNbvVBiR52XOepxbf8DsFmORuPprPmJtOzbuV37SaJmwlZKeQ1bTjOB1EsAdaj
- vJx/5Feo9XftQF6H6Od7OKSsnFPww6gcKhFcleg0OsBo2beMyoNoYOYTEL6D4n5Uq/LN
- RYDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=REz7RPg2i02sVn5unh+ejD4RRDVKEN7sf6CTpP8ALEc=;
- b=Agq4T0hJ3SV1oPqZm8ef8O6LHtfHI9Kh8RZmOChR49zlUZAJbKtM4yzK5KVUOfpvsS
- 3isTM7fxP3bZr8SrBWeiR2FR6jhoAXjksc2ySPTXVJ9rvN+RFVL0S1kALqsIsOiTj2eG
- SEyZ5mzOWlJ86xQc9VNvUWeXdhCt7fIjcaYW+wuRxQq9X85XWu+cuKbE9nHlRnM9lCmq
- GO7SeY8xt1niu77IETEQ2WZdAaRf4xaGA2feYQPbIcwsgGR+hHEFDhu4uyp+ON8asfXB
- Ydbq8ZXXZFTVw5N1Hn2WtYTj+Xb9LdtKn2qaecfL3D17uAO1RoExpeE65BhkffgYr0gg
- vUPw==
-X-Gm-Message-State: AOAM530U5z/FNJRxKsTgHmEDE928KT3Ei8GWPA0le0yTgqG4iMGJnDnT
- MtU9UZ/bf/aJ3zpqGfnrnFA=
-X-Google-Smtp-Source: ABdhPJxhAHCxnZhPTqKRzzn3oyVPFxXaMw4VchPE5jombOYQPEfMRZfjVrf1wOOg7FNtEz7hvm2v0A==
-X-Received: by 2002:a2e:8145:: with SMTP id t5mr5051440ljg.311.1604239963242; 
- Sun, 01 Nov 2020 06:12:43 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-177.dynamic.spd-mgts.ru.
- [109.252.193.177])
- by smtp.googlemail.com with ESMTPSA id a11sm1425557lfi.305.2020.11.01.06.12.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Nov 2020 06:12:42 -0800 (PST)
-Subject: Re: [PATCH v6 49/52] PM / devfreq: tegra20: Convert to EMC_STAT
- driver, support interconnect and device-tree
-To: cwchoi00@gmail.com
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-50-digetx@gmail.com>
- <CAGTfZH0KxyZYLZ_AgM7Lr+4s35kaWJp1AenpZ-o_FRLCCHC+6A@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0ffa84f6-625e-807c-e9af-7a67f0fe48e7@gmail.com>
-Date: Sun, 1 Nov 2020 17:12:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com
+ [148.163.147.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 672DA6E0BC
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 15:01:30 +0000 (UTC)
+Received: from pps.filterd (m0134422.ppops.net [127.0.0.1])
+ by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0A1EgrGU020387; Sun, 1 Nov 2020 14:42:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version; s=pps0720;
+ bh=yv27s7RCBX/TWQjfzBWzQfYgerna7orjR+8Y7ZUqguI=;
+ b=bjNLOQV5RV9jjfxMpG3nFxY0LXe/XIeyukJ+GfkwB++Mcbo1UX3z7ZhUTsw8rEAb+z/n
+ QeqD43pRxexMm5y5S/CTyqg8fIDJPlqftnQWT6sq6nq6U4uwNDREYx9Rb9OYfSf7Ej4J
+ VS7msfjhWcdH5yDIJsX+I8Sbe+9c8/nz8Xmk6NWLLqXrfYY0fgtHPHhtmv/1esPy4ef3
+ MhfAZkOfYNmvvZsx58PtA33zB5m4WQhy7onvx7IEN5G84AXE42/9VyzVjuBX09/i5OcE
+ ExeNu9jRcEs60zXVFzqtuepUWGcYC7ecslfNa1MSHzwbH5HRMnGKE00cgsGu+T055F8p gw== 
+Received: from g9t5008.houston.hpe.com (g9t5008.houston.hpe.com [15.241.48.72])
+ by mx0b-002e3701.pphosted.com with ESMTP id 34hhn5b68e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 01 Nov 2020 14:42:53 +0000
+Received: from g4t3433.houston.hpecorp.net (g4t3433.houston.hpecorp.net
+ [16.208.49.245])
+ by g9t5008.houston.hpe.com (Postfix) with ESMTP id F3C7A53;
+ Sun,  1 Nov 2020 14:42:50 +0000 (UTC)
+Received: from rfwz62.ftc.rdlabs.hpecorp.net (rfwz62.americas.hpqcorp.net
+ [10.33.237.8])
+ by g4t3433.houston.hpecorp.net (Postfix) with ESMTP id 74F1949;
+ Sun,  1 Nov 2020 14:42:49 +0000 (UTC)
+From: rwright@hpe.com
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, hdegoede@redhat.com,
+ wambui.karugax@gmail.com, chris@chris-wilson.co.uk,
+ matthew.auld@intel.com, akeem.g.abodunrin@intel.com,
+ prathap.kumar.valsan@intel.com, mika.kuoppala@linux.intel.com,
+ rwright@hpe.com
+Subject: [PATCH v3 0/3] Reduce context clear batch size to avoid gpu hang
+Date: Sun,  1 Nov 2020 07:42:41 -0700
+Message-Id: <20201101144244.10086-1-rwright@hpe.com>
+X-Mailer: git-send-email 2.17.1
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <CAGTfZH0KxyZYLZ_AgM7Lr+4s35kaWJp1AenpZ-o_FRLCCHC+6A@mail.gmail.com>
-Content-Language: en-US
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-01_05:2020-10-30,
+ 2020-11-01 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=915
+ suspectscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 phishscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011010120
 X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,40 +74,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Linux PM list <linux-pm@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
- devicetree <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDEuMTEuMjAyMCAxNjozMSwgQ2hhbndvbyBDaG9pINC/0LjRiNC10YI6Cj4gSGkgRG1pdHJ5LAo+
-IAo+IFRoaXMgcGF0Y2ggY29udGFpbnMgdGhlIHRocmVlIGZlYXR1cmVzIGFzIGZvbGxvd2luZzoK
-PiAxLiBVc2UgaW50ZXJjb25uZWN0IGludGVyZmFjZSBmb3IgY29udHJvbGxpbmcgdGhlIGNsb2Nr
-IGluc3RlYWQgb2YKPiBjb250cm9sbGluZyBpdCBkaXJlY2x0eQo+IDIuIFVzZSBFTUNfU1RBVCBp
-bnN0ZWFkIG9mIElNQ19TVEFUCj4gMy4gQ2hhbmdlIHBvbGxpbmdfaW50ZXJ2YWwgYW5kIHVwdGhy
-ZXNob2xkIGZvciBtb3JlIGZhc3QgcmVzcG9uc2l2ZW5lc3MKPiAKPiBJIHRoaW5rIHlvdSBuZWVk
-IHRvIG1ha2UgdGhlIHNlcGFyYXRlIHBhdGNoZXMgZm9yIGVhY2ggcm9sZS4KPiBCdXQsIGlmIGl0
-IGlzIGRpZmZpY3VsdCBvciBub3QgcHJvcGVyIHRvIHNwbGl0IG91dCAxLDIgcm9sZXMsIHlvdSBj
-YW4KPiBtYWtlIHR3byBwYXRjaGVzIGZvciAxLDIgYW5kIDMgcm9sZXMuCgpIZWxsbyBDaGFud29v
-LAoKV2Ugd2lsbCBwcm9iYWJseSBtb3ZlIHRoZSBUZWdyYTIwIEVNQ19TVEFUIGRldmZyZXEgZHJp
-dmVyIGludG8gdGhlCm1lbW9yeSBkcml2ZXIgYW5kIHJlbW92ZSB0aGUgb2xkZXIgSU1DX1NUQVQg
-ZHJpdmVyIGluIHY3LCBsaWtlIGl0IHdhcwpzdWdnZXN0ZWQgYnkgVGhpZXJyeSBSZWRpbmcuIFRo
-aXMgd2lsbCBiZSBhIG11Y2ggbGVzcyBpbnZhc2l2ZSBjb2RlIGNoYW5nZS4KCj4gQWxzbywgaWYg
-eW91IHdhbnQgdG8gZ2V0IG1vcmUgcmVzcG9uc2l2ZW5lc3MsIHlvdSBjb3VsZCB1c2UgZGVsYXll
-ZCB0aW1lcgo+IGluc3RlYWQgb2YgZGVmZXJyYWJsZSB0aW1lciBieSBlZGl0aW5nIHRoZSBkZXZm
-cmVxX2Rldl9wcm9maWxlIHN0cnVjdHVyZS4KClRoYW5rcywgSSdsbCB0cnkgdGhlIGRlZmVycmFi
-bGUgdGltZXIuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Randy Wright <rwright@hpe.com>
+
+For several months, I've been experiencing GPU hangs when  starting
+Cinnamon on an HP Pavilion Mini 300-020 if I try to run an upstream
+kernel.  I reported this recently in
+https://gitlab.freedesktop.org/drm/intel/-/issues/2413 where I have
+attached the requested evidence including the state collected from
+/sys/class/drm/card0/error and debug output from dmesg.
+
+I ran a bisect to find the problem, which indicates this is the
+troublesome commit:
+
+  [47f8253d2b8947d79fd3196bf96c1959c0f25f20] drm/i915/gen7: Clear all EU/L3 residual contexts
+
+The nature of that commit suggested to me that reducing the
+batch size used in the context clear operation might help this
+relatively low-powered system to avoid the hang.... and it did!
+I simply forced this system to take the smaller batch length that is
+already used for non-Haswell systems.
+
+The first two versions of this patch were posted as RFC
+patches to the Intel-gfx list, implementing the same
+algorithmic change in function batch_get_defaults,
+but without employing a properly constructed quirk.
+
+I've now cleaned up the patch to employ a new QUIRK_RENDERCLEAR_REDUCED.
+The quirk is presently set only for the aforementioned HP Pavilion Mini
+300-020.  The patch now touches three files to define the quirk, set it,
+and then check for it in function batch_get_defaults.
+
+Randy Wright (3):
+  drm/i915: Introduce quirk QUIRK_RENDERCLEAR_REDUCED
+  drm/i915/display: Add function quirk_renderclear_reduced
+  drm/i915/gt: Force reduced batch size if new QUIRK_RENDERCLEAR_REDUCED
+    is set.
+
+ drivers/gpu/drm/i915/display/intel_quirks.c | 13 +++++++++++++
+ drivers/gpu/drm/i915/gt/gen7_renderclear.c  |  2 +-
+ drivers/gpu/drm/i915/i915_drv.h             |  1 +
+ 3 files changed, 15 insertions(+), 1 deletion(-)
+
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
