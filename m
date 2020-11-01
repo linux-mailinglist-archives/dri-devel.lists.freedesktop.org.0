@@ -2,26 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921872A2074
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D95AB2A2070
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70A4C6EB3F;
-	Sun,  1 Nov 2020 17:37:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9EBA6EB1C;
+	Sun,  1 Nov 2020 17:36:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21F4C6E07D
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 09:32:44 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 4/4] drm/panel: Add ABT Y030XX067A 3.0" 320x480 panel
-Date: Sun,  1 Nov 2020 09:31:50 +0000
-Message-Id: <20201101093150.8071-5-paul@crapouillou.net>
-In-Reply-To: <20201101093150.8071-1-paul@crapouillou.net>
-References: <20201101093150.8071-1-paul@crapouillou.net>
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C37A6E1B8
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 10:32:55 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id l2so13625183lfk.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Nov 2020 02:32:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=somia-fi.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XccLLBP9fbRYIFzEXKVSu/gBJa6cdMsyr2qn7Nbznok=;
+ b=WwwV+CZl0NVtbCCh/l8XgYPXAFhUHgNsHltaOXJGKtTvTglrbNZbWRtUuEwc0hbGdt
+ qsCJSM5z2o+axm2vx0NKfKdx7cu9JsH8ZWbxdiSN1fmmTEiTLdtxcaC7iQ33gcBBGdlb
+ Kz7Ua5HmTR1xDMN4qaohI/9TqjGHd0YJ6WDwTBQSwpm4UKTPZLXv3avbi/RJTbpuKgx2
+ U41eXekBeFPjVKQdCQW4G93sMykidUcnfcLKXpRXTCQ7bMIFxHfPoQdClUHyXSYrQlTt
+ gJt3zKO4ml5cAaoa3b1vk+l6KwQsqOBrhSrz/hN1WumVQoSjzkVtvsHVJn5oBaGZS2y6
+ w0Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XccLLBP9fbRYIFzEXKVSu/gBJa6cdMsyr2qn7Nbznok=;
+ b=unxQCDw+i51Rjd5S1awJnnXOqBzQw3XA36C2Ka6ZogNfO5FUImA/klFhMO02EDdFdF
+ HDV006TPRedBho+G5KgzcoIn3/P5g2ZWaLDGuWir/61uFhDzZ09iFLCRMWvv7fooFj2S
+ qoYJFHtnRhkYphkAdyx5E5OFnlqkq7iBV6IPaQsHz0zzOvQaL7P+UakCKC2Am+B70Pf0
+ b5tzx0Vprgepm2gFLEKedFxC9BbZzICYtM670wXH3+5+S763JtipTx+Q5bllUL4pjj43
+ oVQ0AFdch1x6GaxWimqjCkWi9Xs5ymzlL0o8UlNZh9BW/1Hou5yGPjRvwffp0ixp+uO7
+ U+aA==
+X-Gm-Message-State: AOAM533WMEppDZFZV0BxeOJT9dEQs0A5yE6EIiySc2Du3kIyRPfQqdeF
+ 3WoLbwWQhTRfuVq1uzYaIFCnHg==
+X-Google-Smtp-Source: ABdhPJzVLNrNcDLn6wEEouuMkd8Z++tSxcYxH3ylGbIuf4MrUF2yQHmMz/+jFeFirOfZDR+sMtJdjA==
+X-Received: by 2002:a19:83c9:: with SMTP id f192mr3746517lfd.148.1604226773613; 
+ Sun, 01 Nov 2020 02:32:53 -0800 (PST)
+Received: from ubuntu (cable-hki-50dc37-152.dhcp.inet.fi. [80.220.55.152])
+ by smtp.gmail.com with ESMTPSA id s7sm1628612ljc.10.2020.11.01.02.32.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Nov 2020 02:32:53 -0800 (PST)
+From: Hassan Shahbazi <hassan.shahbazi@somia.fi>
+X-Google-Original-From: Hassan Shahbazi <hassan@ninchat.com>
+Date: Sun, 1 Nov 2020 12:32:44 +0200
+To: Greg KH <greg@kroah.com>
+Subject: Re: [PATCH] staging: fbtft: fb_watterott: fix usleep_range is
+ preferred over udelay
+Message-ID: <20201101103244.GA284952@ubuntu>
+References: <20201101002010.278537-1-hassan@ninchat.com>
+ <20201101063948.GB432418@kroah.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:56 +0000
+Content-Disposition: inline
+In-Reply-To: <20201101063948.GB432418@kroah.com>
+X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -34,432 +71,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
- od@zcrc.me, Christophe Branchereau <cbranchereau@gmail.com>
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the ShenZhen Asia Better Technology Ltd. Y030XX067A 3.0"
-320x480 IPS panel.
+On Sun, Nov 01, 2020 at 07:39:48AM +0100, Greg KH wrote:
+> On Sun, Nov 01, 2020 at 02:20:10AM +0200, Hassan Shahbazi wrote:
+> > Fix the checkpath.pl issue on fb_watterott.c. write_vmem and
+> > write_vmem_8bit functions are within non-atomic context and can
+> > safely use usleep_range.
+> > see Documentation/timers/timers-howto.txt
+> > 
+> > Signed-off-by: Hassan Shahbazi <hassan@ninchat.com>
+> > ---
+> >  drivers/staging/fbtft/fb_watterott.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/fbtft/fb_watterott.c b/drivers/staging/fbtft/fb_watterott.c
+> > index 76b25df376b8..afcc86a17995 100644
+> > --- a/drivers/staging/fbtft/fb_watterott.c
+> > +++ b/drivers/staging/fbtft/fb_watterott.c
+> > @@ -84,7 +84,7 @@ static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
+> >  			par->txbuf.buf, 10 + par->info->fix.line_length);
+> >  		if (ret < 0)
+> >  			return ret;
+> > -		udelay(300);
+> > +		usleep_range(300, 310);
+> >  	}
+> >  
+> >  	return 0;
+> > @@ -124,7 +124,7 @@ static int write_vmem_8bit(struct fbtft_par *par, size_t offset, size_t len)
+> >  			par->txbuf.buf, 10 + par->info->var.xres);
+> >  		if (ret < 0)
+> >  			return ret;
+> > -		udelay(700);
+> > +		usleep_range(700, 710);
+> 
+> How do you know that these ranges are ok?  Are you able to test these
+> changes with real hardware?
+> 
+> thanks,
+> 
+> greg k-h
 
-This panel can be found in the YLM RG-280M, RG-300 and RG-99 handheld
-gaming consoles. While being 320x480, it is actually a horizontal 4:3
-panel with non-square pixels.
+No, I don't have the hardware to test with. I just used the current
+value as the minimum and added an epsilon to it for the maximum
+param.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
----
- drivers/gpu/drm/panel/Kconfig                |   9 +
- drivers/gpu/drm/panel/Makefile               |   1 +
- drivers/gpu/drm/panel/panel-abt-y030xx067a.c | 363 +++++++++++++++++++
- 3 files changed, 373 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index e386524b2d77..7fe22b4c8aa2 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -8,6 +8,15 @@ config DRM_PANEL
- menu "Display Panels"
- 	depends on DRM && DRM_PANEL
- 
-+config DRM_PANEL_ABT_Y030XX067A
-+	tristate "ABT Y030XX067A 320x480 LCD panel"
-+	depends on OF && SPI
-+	select REGMAP_SPI
-+	help
-+	  Say Y here to enable support for the Asia Better Technology Ltd.
-+	  Y030XX067A 320x480 3.0" panel as found in the YLM RG-280M, RG-300
-+	  and RG-99 handheld gaming consoles.
-+
- config DRM_PANEL_ARM_VERSATILE
- 	tristate "ARM Versatile panel driver"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index d1f8cc572f37..78b77ba4d458 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_DRM_PANEL_ABT_Y030XX067A) += panel-abt-y030xx067a.o
- obj-$(CONFIG_DRM_PANEL_ARM_VERSATILE) += panel-arm-versatile.o
- obj-$(CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596) += panel-asus-z00t-tm5p5-n35596.o
- obj-$(CONFIG_DRM_PANEL_BOE_HIMAX8279D) += panel-boe-himax8279d.o
-diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-new file mode 100644
-index 000000000000..2d8794d495d0
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-@@ -0,0 +1,363 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Asia Better Technology Ltd. Y030XX067A IPS LCD panel driver
-+ *
-+ * Copyright (C) 2020, Paul Cercueil <paul@crapouillou.net>
-+ * Copyright (C) 2020, Christophe Branchereau <cbranchereau@gmail.com>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/spi/spi.h>
-+
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+#define REG00_VBRT_CTRL(val)		(val)
-+
-+#define REG01_COM_DC(val)		(val)
-+
-+#define REG02_DA_CONTRAST(val)		(val)
-+#define REG02_VESA_SEL(val)		((val) << 5)
-+#define REG02_COMDC_SW			BIT(7)
-+
-+#define REG03_VPOSITION(val)		(val)
-+#define REG03_BSMOUNT			BIT(5)
-+#define REG03_COMTST			BIT(6)
-+#define REG03_HPOSITION1		BIT(7)
-+
-+#define REG04_HPOSITION1(val)		(val)
-+
-+#define REG05_CLIP			BIT(0)
-+#define REG05_NVM_VREFRESH		BIT(1)
-+#define REG05_SLFR			BIT(2)
-+#define REG05_SLBRCHARGE(val)		((val) << 3)
-+#define REG05_PRECHARGE_LEVEL(val)	((val) << 6)
-+
-+#define REG06_TEST5			BIT(0)
-+#define REG06_SLDWN			BIT(1)
-+#define REG06_SLRGT			BIT(2)
-+#define REG06_TEST2			BIT(3)
-+#define REG06_XPSAVE			BIT(4)
-+#define REG06_GAMMA_SEL(val)		((val) << 5)
-+#define REG06_NT			BIT(7)
-+
-+#define REG07_TEST1			BIT(0)
-+#define REG07_HDVD_POL			BIT(1)
-+#define REG07_CK_POL			BIT(2)
-+#define REG07_TEST3			BIT(3)
-+#define REG07_TEST4			BIT(4)
-+#define REG07_480_LINEMASK		BIT(5)
-+#define REG07_AMPTST(val)		((val) << 6)
-+
-+#define REG08_SLHRC(val)		(val)
-+#define REG08_CLOCK_DIV(val)		((val) << 2)
-+#define REG08_PANEL(val)		((val) << 5)
-+
-+#define REG09_SUB_BRIGHT_R(val)		(val)
-+#define REG09_NW_NB			BIT(6)
-+#define REG09_IPCON			BIT(7)
-+
-+#define REG0A_SUB_BRIGHT_B(val)		(val)
-+#define REG0A_PAIR			BIT(6)
-+#define REG0A_DE_SEL			BIT(7)
-+
-+#define REG0B_MBK_POSITION(val)		(val)
-+#define REG0B_HD_FREERUN		BIT(4)
-+#define REG0B_VD_FREERUN		BIT(5)
-+#define REG0B_YUV2BIN(val)		((val) << 6)
-+
-+#define REG0C_CONTRAST_R(val)		(val)
-+#define REG0C_DOUBLEREAD		BIT(7)
-+
-+#define REG0D_CONTRAST_G(val)		(val)
-+#define REG0D_RGB_YUV			BIT(7)
-+
-+#define REG0E_CONTRAST_B(val)		(val)
-+#define REG0E_PIXELCOLORDRIVE		BIT(7)
-+
-+#define REG0F_ASPECT			BIT(0)
-+#define REG0F_OVERSCAN(val)		((val) << 1)
-+#define REG0F_FRAMEWIDTH(val)		((val) << 3)
-+
-+#define REG10_BRIGHT(val)		(val)
-+
-+#define REG11_SIG_GAIN(val)		(val)
-+#define REG11_SIGC_CNTL			BIT(6)
-+#define REG11_SIGC_POL			BIT(7)
-+
-+#define REG12_COLOR(val)		(val)
-+#define REG12_PWCKSEL(val)		((val) << 6)
-+
-+#define REG13_4096LEVEL_CNTL(val)	(val)
-+#define REG13_SL4096(val)		((val) << 4)
-+#define REG13_LIMITER_CONTROL		BIT(7)
-+
-+#define REG14_PANEL_TEST(val)		(val)
-+
-+#define REG15_NVM_LINK0			BIT(0)
-+#define REG15_NVM_LINK1			BIT(1)
-+#define REG15_NVM_LINK2			BIT(2)
-+#define REG15_NVM_LINK3			BIT(3)
-+#define REG15_NVM_LINK4			BIT(4)
-+#define REG15_NVM_LINK5			BIT(5)
-+#define REG15_NVM_LINK6			BIT(6)
-+#define REG15_NVM_LINK7			BIT(7)
-+
-+struct y030xx067a_info {
-+	const struct drm_display_mode *display_modes;
-+	unsigned int num_modes;
-+	u16 width_mm, height_mm;
-+	u32 bus_format, bus_flags;
-+};
-+
-+struct y030xx067a {
-+	struct drm_panel panel;
-+	struct spi_device *spi;
-+	struct regmap *map;
-+
-+	const struct y030xx067a_info *panel_info;
-+
-+	struct regulator *supply;
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+static inline struct y030xx067a *to_y030xx067a(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct y030xx067a, panel);
-+}
-+
-+static const struct reg_sequence y030xx067a_init_sequence[] = {
-+	{ 0x00, REG00_VBRT_CTRL(0x7f) },
-+	{ 0x01, REG01_COM_DC(0x3c) },
-+	{ 0x02, REG02_VESA_SEL(0x3) | REG02_DA_CONTRAST(0x1f) },
-+	{ 0x03, REG03_VPOSITION(0x0a) },
-+	{ 0x04, REG04_HPOSITION1(0xd2) },
-+	{ 0x05, REG05_CLIP | REG05_NVM_VREFRESH | REG05_SLBRCHARGE(0x2) },
-+	{ 0x06, REG06_XPSAVE | REG06_NT },
-+	{ 0x07, 0 },
-+	{ 0x08, REG08_PANEL(0x1) | REG08_CLOCK_DIV(0x2) },
-+	{ 0x09, REG09_SUB_BRIGHT_R(0x20) },
-+	{ 0x0a, REG0A_SUB_BRIGHT_B(0x20) },
-+	{ 0x0b, REG0B_HD_FREERUN | REG0B_VD_FREERUN },
-+	{ 0x0c, REG0C_CONTRAST_R(0x10) },
-+	{ 0x0d, REG0D_CONTRAST_G(0x10) },
-+	{ 0x0e, REG0E_CONTRAST_B(0x10) },
-+	{ 0x0f, 0 },
-+	{ 0x10, REG10_BRIGHT(0x7f) },
-+	{ 0x11, REG11_SIGC_CNTL | REG11_SIG_GAIN(0x3f) },
-+	{ 0x12, REG12_COLOR(0x20) | REG12_PWCKSEL(0x1) },
-+	{ 0x13, REG13_4096LEVEL_CNTL(0x8) },
-+	{ 0x14, 0 },
-+	{ 0x15, 0 },
-+};
-+
-+static int y030xx067a_prepare(struct drm_panel *panel)
-+{
-+	struct y030xx067a *priv = to_y030xx067a(panel);
-+	struct device *dev = &priv->spi->dev;
-+	int err;
-+
-+	err = regulator_enable(priv->supply);
-+	if (err) {
-+		dev_err(dev, "Failed to enable power supply: %d\n", err);
-+		return err;
-+	}
-+
-+	/* Reset the chip */
-+	gpiod_set_value_cansleep(priv->reset_gpio, 1);
-+	usleep_range(1000, 20000);
-+	gpiod_set_value_cansleep(priv->reset_gpio, 0);
-+	usleep_range(1000, 20000);
-+
-+	err = regmap_multi_reg_write(priv->map, y030xx067a_init_sequence,
-+				     ARRAY_SIZE(y030xx067a_init_sequence));
-+	if (err) {
-+		dev_err(dev, "Failed to init registers: %d\n", err);
-+		goto err_disable_regulator;
-+	}
-+
-+	msleep(120);
-+
-+	return 0;
-+
-+err_disable_regulator:
-+	regulator_disable(priv->supply);
-+	return err;
-+}
-+
-+static int y030xx067a_unprepare(struct drm_panel *panel)
-+{
-+	struct y030xx067a *priv = to_y030xx067a(panel);
-+
-+	gpiod_set_value_cansleep(priv->reset_gpio, 1);
-+	regulator_disable(priv->supply);
-+
-+	return 0;
-+}
-+
-+static int y030xx067a_get_modes(struct drm_panel *panel,
-+				struct drm_connector *connector)
-+{
-+	struct y030xx067a *priv = to_y030xx067a(panel);
-+	const struct y030xx067a_info *panel_info = priv->panel_info;
-+	struct drm_display_mode *mode;
-+	unsigned int i;
-+
-+	for (i = 0; i < panel_info->num_modes; i++) {
-+		mode = drm_mode_duplicate(connector->dev,
-+					  &panel_info->display_modes[i]);
-+		if (!mode)
-+			return -ENOMEM;
-+
-+		drm_mode_set_name(mode);
-+
-+		mode->type = DRM_MODE_TYPE_DRIVER;
-+		if (panel_info->num_modes == 1)
-+			mode->type |= DRM_MODE_TYPE_PREFERRED;
-+
-+		drm_mode_probed_add(connector, mode);
-+	}
-+
-+	connector->display_info.bpc = 8;
-+	connector->display_info.width_mm = panel_info->width_mm;
-+	connector->display_info.height_mm = panel_info->height_mm;
-+
-+	drm_display_info_set_bus_formats(&connector->display_info,
-+					 &panel_info->bus_format, 1);
-+	connector->display_info.bus_flags = panel_info->bus_flags;
-+
-+	return panel_info->num_modes;
-+}
-+
-+static const struct drm_panel_funcs y030xx067a_funcs = {
-+	.prepare	= y030xx067a_prepare,
-+	.unprepare	= y030xx067a_unprepare,
-+	.get_modes	= y030xx067a_get_modes,
-+};
-+
-+static const struct regmap_config y030xx067a_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0x15,
-+};
-+
-+static int y030xx067a_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct y030xx067a *priv;
-+	int err;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->spi = spi;
-+	spi_set_drvdata(spi, priv);
-+
-+	priv->map = devm_regmap_init_spi(spi, &y030xx067a_regmap_config);
-+	if (IS_ERR(priv->map)) {
-+		dev_err(dev, "Unable to init regmap\n");
-+		return PTR_ERR(priv->map);
-+	}
-+
-+	priv->panel_info = of_device_get_match_data(dev);
-+	if (!priv->panel_info)
-+		return -EINVAL;
-+
-+	priv->supply = devm_regulator_get(dev, "power");
-+	if (IS_ERR(priv->supply)) {
-+		dev_err(dev, "Failed to get power supply\n");
-+		return PTR_ERR(priv->supply);
-+	}
-+
-+	priv->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->reset_gpio)) {
-+		dev_err(dev, "Failed to get reset GPIO\n");
-+		return PTR_ERR(priv->reset_gpio);
-+	}
-+
-+	drm_panel_init(&priv->panel, dev, &y030xx067a_funcs,
-+		       DRM_MODE_CONNECTOR_DPI);
-+
-+	err = drm_panel_of_backlight(&priv->panel);
-+	if (err)
-+		return err;
-+
-+	drm_panel_add(&priv->panel);
-+
-+	return 0;
-+}
-+
-+static int y030xx067a_remove(struct spi_device *spi)
-+{
-+	struct y030xx067a *priv = spi_get_drvdata(spi);
-+
-+	drm_panel_remove(&priv->panel);
-+	drm_panel_disable(&priv->panel);
-+	drm_panel_unprepare(&priv->panel);
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode y030xx067a_modes[] = {
-+	{ /* 60 Hz */
-+		.clock = 14400,
-+		.hdisplay = 320,
-+		.hsync_start = 320 + 10,
-+		.hsync_end = 320 + 10 + 37,
-+		.htotal = 320 + 10 + 37 + 33,
-+		.vdisplay = 480,
-+		.vsync_start = 480 + 84,
-+		.vsync_end = 480 + 84 + 20,
-+		.vtotal = 480 + 84 + 20 + 16,
-+		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	},
-+	{ /* 50 Hz */
-+		.clock = 12000,
-+		.hdisplay = 320,
-+		.hsync_start = 320 + 10,
-+		.hsync_end = 320 + 10 + 37,
-+		.htotal = 320 + 10 + 37 + 33,
-+		.vdisplay = 480,
-+		.vsync_start = 480 + 84,
-+		.vsync_end = 480 + 84 + 20,
-+		.vtotal = 480 + 84 + 20 + 16,
-+		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	},
-+};
-+
-+static const struct y030xx067a_info y030xx067a_info = {
-+	.display_modes = y030xx067a_modes,
-+	.num_modes = ARRAY_SIZE(y030xx067a_modes),
-+	.width_mm = 69,
-+	.height_mm = 51,
-+	.bus_format = MEDIA_BUS_FMT_RGB888_3X8_DELTA,
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE | DRM_BUS_FLAG_DE_LOW,
-+};
-+
-+static const struct of_device_id y030xx067a_of_match[] = {
-+	{ .compatible = "abt,y030xx067a", .data = &y030xx067a_info },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, y030xx067a_of_match);
-+
-+static struct spi_driver y030xx067a_driver = {
-+	.driver = {
-+		.name = "abt-y030xx067a",
-+		.of_match_table = y030xx067a_of_match,
-+	},
-+	.probe = y030xx067a_probe,
-+	.remove = y030xx067a_remove,
-+};
-+module_spi_driver(y030xx067a_driver);
-+
-+MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
-+MODULE_AUTHOR("Christophe Branchereau <cbranchereau@gmail.com>");
-+MODULE_LICENSE("GPL v2");
--- 
-2.28.0
-
+best, hassan shahbazi
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
