@@ -1,56 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674512A2238
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 23:50:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E863F2A2249
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 00:08:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3F86E0EB;
-	Sun,  1 Nov 2020 22:50:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87B686E0E9;
+	Sun,  1 Nov 2020 23:08:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B95AF6E0E9
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 22:50:51 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id x1so12829935oic.13
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Nov 2020 14:50:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pdhVdjH4UPXfNm2B9wz97S0y5FEVQjORqgP/hjfyELk=;
- b=N+FiI/TjB17uuMEjHbtlYgfqr67JyvQdfUvENJ6Tu9jgBnhFksgVI1B1bSh4kayrlc
- ut6ADQ25S61GZ7vGAGY+cV2a5rpDcSxW44xIcpssZsKP1W1mHWMm/Pb2C49fCbray3L7
- bv5W7Xj5Yp8/jFpRQKu1Kh5gGZ+2VffeRzJpQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pdhVdjH4UPXfNm2B9wz97S0y5FEVQjORqgP/hjfyELk=;
- b=MMb8uFRBha/gKkEoMzWsi8w7PZcK8oaNaQw1/VpV8GPRtOQQu5KQZTD2kjKMzm0hjO
- ckxD/USmLoetJF1wPbnfEfjH2Bu3B8HTo8atgWzxEMilGuUBCo5q83ludW1ktoSDDPZh
- dD7tqOMJfHMkTgujTLs+ShuoiI2W1r8637FBCHJvrrEHd5RFI0OIpumcXSc67wNdVZig
- r0dBZ5ygvBjMK9qKzWm9DUkDvAZ2yNuLkkUY3FQgWtwlRGjwZAulQ5yW4icNmkDNgMns
- SiJuLiqv48e/nj+s/UGABbo0RAlXDoyYFiasaB88PXmuqaH5X8WPsq1WFR5HE+VVSZFS
- AULw==
-X-Gm-Message-State: AOAM533gMvl6Z2BHtBPXHxozj2sjX0ctLyzdIQhPWNdMA0Q3GRLRj9C5
- QTVK+xgMVjQ6MT1ODkkAfRbRm1+eKkd9vFYqabHe0w==
-X-Google-Smtp-Source: ABdhPJzLb78IT0nCdkmIC7PYQ65zXPZF00BPjYDjAoRd2daX4skiLxKATnZB8c9mfKicLLzXjreG8SL3MgC9cv5xaZU=
-X-Received: by 2002:aca:b141:: with SMTP id a62mr7775906oif.101.1604271050682; 
- Sun, 01 Nov 2020 14:50:50 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2757F6E0E9
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 23:08:44 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 733B9223AB
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 23:08:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604272123;
+ bh=Daf3cedAfsWFZ8LaPoAP0BurQA0TaRmQuvz1zCMuTcM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=SlAfecU94oWlViEtb8HXVqRLPwAaM7y0hULWhzBRZvJ6woHCrsnwrudqiEMagtxyl
+ MgXJamUlYW1EhaG7GZDCLvQVkqfuXOkq7wB6qp6vaL1b0ws3YciVJb7FmqIv45s8Kh
+ 216iAfzBMushIicISpvJEAQ+OvgQ3vgsC6dU8kNI=
+Received: by mail-ej1-f43.google.com with SMTP id dk16so15824843ejb.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Nov 2020 15:08:43 -0800 (PST)
+X-Gm-Message-State: AOAM5313C3Y2zlNc32HkdnDcfotninwsvdC/0rkWMj7LoxosWTYr0D6H
+ wURmGOKZPjpIEky5EjSeY5F4AH+SGgZnQ7meSg==
+X-Google-Smtp-Source: ABdhPJwwVYRVtfleTE1rDFQyKE26UbeEsl9z6niI/v8LCfBDJtkI4L3ysCoHGFUcrnxlM1TnjgHman6q8lDmpg7qjts=
+X-Received: by 2002:a17:906:5a96:: with SMTP id
+ l22mr12666847ejq.303.1604272121876; 
+ Sun, 01 Nov 2020 15:08:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
- <20201030100815.2269-6-daniel.vetter@ffwll.ch>
- <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com>
- <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
- <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
- <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
- <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
-In-Reply-To: <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Sun, 1 Nov 2020 23:50:39 +0100
-Message-ID: <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To: John Hubbard <jhubbard@nvidia.com>
+References: <20201029152702.533-1-chunkuang.hu@kernel.org>
+ <20201029152702.533-3-chunkuang.hu@kernel.org>
+ <1604039049.31607.13.camel@mhfsdcap03>
+In-Reply-To: <1604039049.31607.13.camel@mhfsdcap03>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 2 Nov 2020 07:08:30 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8Nf=Lh_JDojKY3oHdTigO=i+BHuvVA+9hYXCzgu-2Cfg@mail.gmail.com>
+Message-ID: <CAAOTY_8Nf=Lh_JDojKY3oHdTigO=i+BHuvVA+9hYXCzgu-2Cfg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] phy: mediatek: Move mtk_mipi_dsi_phy driver into
+ drivers/phy/mediatek folder
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,160 +57,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
- Pawel Osciak <pawel@osciak.com>, KVM list <kvm@vger.kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Tomasz Figa <tfiga@chromium.org>, Linux MM <linux-mm@kvack.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 1, 2020 at 10:13 PM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 11/1/20 2:30 AM, Daniel Vetter wrote:
-> > On Sun, Nov 1, 2020 at 6:22 AM John Hubbard <jhubbard@nvidia.com> wrote:
-> >>
-> >> On 10/31/20 7:45 AM, Daniel Vetter wrote:
-> >>> On Sat, Oct 31, 2020 at 3:55 AM John Hubbard <jhubbard@nvidia.com> wrote:
-> >>>> On 10/30/20 3:08 AM, Daniel Vetter wrote:
-> >> ...
-> >>>> By removing this check from this location, and changing from
-> >>>> pin_user_pages_locked() to pin_user_pages_fast(), I *think* we end up
-> >>>> losing the check entirely. Is that intended? If so it could use a comment
-> >>>> somewhere to explain why.
-> >>>
-> >>> Yeah this wasn't intentional. I think I needed to drop the _locked
-> >>> version to prep for FOLL_LONGTERM, and figured _fast is always better.
-> >>> But I didn't realize that _fast doesn't have the vma checks, gup.c got
-> >>> me a bit confused.
-> >>
-> >> Actually, I thought that the change to _fast was a very nice touch, btw.
-> >>
-> >>>
-> >>> I'll remedy this in all the patches where this applies (because a
-> >>> VM_IO | VM_PFNMAP can point at struct page backed memory, and that
-> >>> exact use-case is what we want to stop with the unsafe_follow_pfn work
-> >>> since it wreaks things like cma or security).
-> >>>
-> >>> Aside: I do wonder whether the lack for that check isn't a problem.
-> >>> VM_IO | VM_PFNMAP generally means driver managed, which means the
-> >>> driver isn't going to consult the page pin count or anything like that
-> >>> (at least not necessarily) when revoking or moving that memory, since
-> >>> we're assuming it's totally under driver control. So if pup_fast can
-> >>> get into such a mapping, we might have a problem.
-> >>> -Daniel
-> >>>
-> >>
-> >> Yes. I don't know why that check is missing from the _fast path.
-> >> Probably just an oversight, seeing as how it's in the slow path. Maybe
-> >> the appropriate response here is to add a separate patch that adds the
-> >> check.
-> >>
-> >> I wonder if I'm overlooking something, but it certainly seems correct to
-> >> do that.
-> >
-> > You'll need the mmap_sem to get at the vma to be able to do this
-> > check. If you add that to _fast, you made it as fast as the slow one.
->
-> Arggh, yes of course. Strike that, please. :)
->
-> > Plus there's _fast_only due to locking recurion issues in fast-paths
-> > (I assume, I didn't check all the callers).
-> >
-> > I'm just wondering whether we have a bug somewhere with device
-> > drivers. For CMA regions we always check in try_grab_page, but for dax
->
-> OK, so here you're talking about a different bug than the VM_IO | VM_PFNMAP
-> pages, I think. This is about the "FOLL_LONGTERM + CMA + gup/pup _fast"
-> combination that is not allowed, right?
-
-Yeah sorry, I got distracted reading code and noticed we might have
-another issue.
-
-> For that: try_grab_page() doesn't check anything, but try_grab_compound_head()
-> does, but only for pup_fast, not gup_fast. That was added by commit
-> df3a0a21b698d ("mm/gup: fix omission of check on FOLL_LONGTERM in gup fast
-> path") in April.
->
-> I recall that the patch was just plugging a very specific hole, as opposed
-> to locking down the API against mistakes or confused callers. And it does
-> seem that there are some holes.
-
-Yup that's the one I've found.
-
-> > I'm not seeing where the checks in the _fast fastpaths are, and that
-> > all still leaves random device driver mappings behind which aren't
-> > backed by CMA but still point to something with a struct page behind
-> > it. I'm probably just missing something, but no idea what.
-> > -Daniel
-> >
->
-> Certainly we've established that we can't check VMA flags by that time,
-> so I'm not sure that there is much we can check by the time we get to
-> gup/pup _fast. Seems like the device drivers have to avoid calling _fast
-> with pages that live in VM_IO | VM_PFNMAP, by design, right? Or maybe
-> you're talking about CMA checks only?
-
-It's not device drivers, but everyone else. At least my understanding
-is that VM_IO | VM_PFNMAP means "even if it happens to be backed by a
-struct page, do not treat it like normal memory". And gup/pup_fast
-happily break that. I tried to chase the history of that test, didn't
-turn up anything I understood much:
-
-commit 1ff8038988adecfde71d82c0597727fc239d4e8c
-Author: Linus Torvalds <torvalds@g5.osdl.org>
-Date:   Mon Dec 12 16:24:33 2005 -0800
-
-   get_user_pages: don't try to follow PFNMAP pages
-
-   Nick Piggin points out that a few drivers play games with VM_IO (why?
-   who knows..) and thus a pfn-remapped area may not have that bit set even
-   if remap_pfn_range() set it originally.
-
-   So make it explicit in get_user_pages() that we don't follow VM_PFNMAP
-   pages, since pretty much by definition they do not have a "struct page"
-   associated with them.
-
-   Signed-off-by: Linus Torvalds <torvalds@osdl.org>
-
-diff --git a/mm/memory.c b/mm/memory.c
-index 47c533eaa072..d22f78c8a381 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -1009,7 +1009,7 @@ int get_user_pages(struct task_struct *tsk,
-struct mm_struct *mm,
-                       continue;
-               }
-
--               if (!vma || (vma->vm_flags & VM_IO)
-+               if (!vma || (vma->vm_flags & (VM_IO | VM_PFNMAP))
-                               || !(vm_flags & vma->vm_flags))
-                       return i ? : -EFAULT;
-
-
-The VM_IO check is kinda lost in pre-history.
-
-tbh I have no idea what the various variants of pup/gup are supposed
-to be doing vs. these VMA flags in the various cases. Just smells a
-bit like potential trouble due to randomly pinning stuff without the
-owner of that memory having an idea what's going on.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+KyBWaW5vZDoKCkhpLCBDaHVuZmVuZzoKCkNodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVuQG1lZGlh
+dGVrLmNvbT4g5pa8IDIwMjDlubQxMOaciDMw5pelIOmAseS6lCDkuIvljYgyOjI05a+r6YGT77ya
+Cj4KPiBPbiBUaHUsIDIwMjAtMTAtMjkgYXQgMjM6MjcgKzA4MDAsIENodW4tS3VhbmcgSHUgd3Jv
+dGU6Cj4gPiBtdGtfbWlwaV9kc2lfcGh5IGlzIGN1cnJlbnRseSBwbGFjZWQgaW5zaWRlIG1lZGlh
+dGVrIGRybSBkcml2ZXIsIGJ1dCBpdCdzCj4gPiBtb3JlIHN1aXRhYmxlIHRvIHBsYWNlIGEgcGh5
+IGRyaXZlciBpbnRvIHBoeSBkcml2ZXIgZm9sZGVyLCBzbyBtb3ZlCj4gPiBtdGtfbWlwaV9kc2lf
+cGh5IGRyaXZlciBpbnRvIHBoeSBkcml2ZXIgZm9sZGVyLgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6
+IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPgo+ID4gLS0tCj4gPiAgZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgICAgICB8
+IDcgLS0tLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9NYWtlZmlsZSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgfCA2IC0tLS0tLQo+ID4gIGRyaXZlcnMvcGh5L21lZGlhdGVrL0tj
+b25maWcgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCA3ICsrKysrKysKPiA+ICBkcml2
+ZXJzL3BoeS9tZWRpYXRlay9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
+NSArKysrKwo+ID4gIC4uLi9tZWRpYXRlay9waHktbXRrLW1pcGktZHNpLW10ODE3My5jfSAgICAg
+ICAgICAgICAgICAgICAgfCAyICstCj4gPiAgLi4uL21lZGlhdGVrL3BoeS1tdGstbWlwaS1kc2kt
+bXQ4MTgzLmN9ICAgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+ICAuLi4vbXRrX21pcGlfdHgu
+YyA9PiBwaHkvbWVkaWF0ZWsvcGh5LW10ay1taXBpLWRzaS5jfSAgICAgIHwgMiArLQo+ID4gIC4u
+Li9tdGtfbWlwaV90eC5oID0+IHBoeS9tZWRpYXRlay9waHktbXRrLW1pcGktZHNpLmh9ICAgICAg
+fCAwCj4gPiAgOCBmaWxlcyBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAxNiBkZWxldGlvbnMo
+LSkKPiA+ICByZW5hbWUgZHJpdmVycy97Z3B1L2RybS9tZWRpYXRlay9tdGtfbXQ4MTczX21pcGlf
+dHguYyA9PiBwaHkvbWVkaWF0ZWsvcGh5LW10ay1taXBpLWRzaS1tdDgxNzMuY30gKDk5JSkKPiA+
+ICByZW5hbWUgZHJpdmVycy97Z3B1L2RybS9tZWRpYXRlay9tdGtfbXQ4MTgzX21pcGlfdHguYyA9
+PiBwaHkvbWVkaWF0ZWsvcGh5LW10ay1taXBpLWRzaS1tdDgxODMuY30gKDk5JSkKPiA+ICByZW5h
+bWUgZHJpdmVycy97Z3B1L2RybS9tZWRpYXRlay9tdGtfbWlwaV90eC5jID0+IHBoeS9tZWRpYXRl
+ay9waHktbXRrLW1pcGktZHNpLmN9ICg5OSUpCj4gPiAgcmVuYW1lIGRyaXZlcnMve2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX21pcGlfdHguaCA9PiBwaHkvbWVkaWF0ZWsvcGh5LW10ay1taXBpLWRzaS5o
+fSAoMTAwJSkKPgo+IFJldmlld2VkLWJ5OiBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1bkBtZWRp
+YXRlay5jb20+CgpJIHdvdWxkIGxpa2UgdG8gYXBwbHkgdGhlIHdob2xlIHNlcmllcyBpbnRvIG15
+IHRyZWUsIHdvdWxkIHlvdSBwbGVhc2UKZ2l2ZSBhbiBhY2tlZC1ieSB0YWcgb24gdGhpcyBwYXRj
+aCwgc28gSSBjb3VsZCBhcHBseSB0aGlzIHBhdGNoIGludG8KbXkgdHJlZS4KClJlZ2FyZHMsCkNo
+dW4tS3VhbmcuCgo+Cj4gUGxlYXNlIGFkZCBwaHkgbWFpbnRhbmluZXIgIlZpbm9kIEtvdWwgPHZr
+b3VsQGtlcm5lbC5vcmc+Igo+Cj4gVGhhbmtzCj4KPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvS2Nv
+bmZpZwo+ID4gaW5kZXggMjRjNDg5MGE2ZTY1Li4yOTc2ZDIxZTlhMzQgMTAwNjQ0Cj4gPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvS2NvbmZpZwo+ID4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL21lZGlhdGVrL0tjb25maWcKPiA+IEBAIC0yOCwxMCArMjgsMyBAQCBjb25maWcgRFJNX01F
+RElBVEVLX0hETUkKPiA+ICAgICAgIHNlbGVjdCBQSFlfTVRLX0hETUkKPiA+ICAgICAgIGhlbHAK
+PiA+ICAgICAgICAgRFJNL0tNUyBIRE1JIGRyaXZlciBmb3IgTWVkaWF0ZWsgU29Dcwo+ID4gLQo+
+ID4gLWNvbmZpZyBQSFlfTVRLX01JUElfRFNJCj4gPiAtICAgICB0cmlzdGF0ZSAiTWVkaWF0ZWsg
+TUlQSS1EU0ktUEhZIERyaXZlciIKPiA+IC0gICAgIGRlcGVuZHMgb24gQVJDSF9NRURJQVRFSyAm
+JiBPRgo+ID4gLSAgICAgc2VsZWN0IEdFTkVSSUNfUEhZCj4gPiAtICAgICBoZWxwCj4gPiAtICAg
+ICAgIFN1cHBvcnQgTUlQSSBEU0kgUEhZIGZvciBNZWRpYXRlayBTb0NzLgo+ID4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9NYWtlZmlsZQo+ID4gaW5kZXggYmFhMTg4MDAwNTQzLi5hODkyZWRlYzU1NjMgMTAw
+NjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvTWFrZWZpbGUKPiA+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9NYWtlZmlsZQo+ID4gQEAgLTE5LDkgKzE5LDMgQEAg
+bWVkaWF0ZWstZHJtLWhkbWktb2JqcyA6PSBtdGtfY2VjLm8gXAo+ID4gICAgICAgICAgICAgICAg
+ICAgICAgICAgbXRrX2hkbWlfZGRjLm8KPiA+Cj4gPiAgb2JqLSQoQ09ORklHX0RSTV9NRURJQVRF
+S19IRE1JKSArPSBtZWRpYXRlay1kcm0taGRtaS5vCj4gPiAtCj4gPiAtcGh5LW10ay1taXBpLWRz
+aS1kcnYtb2JqcyA6PSBtdGtfbWlwaV90eC5vIFwKPiA+IC0gICAgICAgICAgICAgICAgICAgICAg
+ICAgIG10a19tdDgxNzNfbWlwaV90eC5vIFwKPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAg
+IG10a19tdDgxODNfbWlwaV90eC5vCj4gPiAtCj4gPiAtb2JqLSQoQ09ORklHX1BIWV9NVEtfTUlQ
+SV9EU0kpICs9IHBoeS1tdGstbWlwaS1kc2ktZHJ2Lm8KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L3BoeS9tZWRpYXRlay9LY29uZmlnIGIvZHJpdmVycy9waHkvbWVkaWF0ZWsvS2NvbmZpZwo+ID4g
+aW5kZXggNTBjNWU5MzA2ZTE5Li41NzRiOGU2Mzk4ZDIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJz
+L3BoeS9tZWRpYXRlay9LY29uZmlnCj4gPiArKysgYi9kcml2ZXJzL3BoeS9tZWRpYXRlay9LY29u
+ZmlnCj4gPiBAQCAtNDIsMyArNDIsMTAgQEAgY29uZmlnIFBIWV9NVEtfSERNSQo+ID4gICAgICAg
+c2VsZWN0IEdFTkVSSUNfUEhZCj4gPiAgICAgICBoZWxwCj4gPiAgICAgICAgIFN1cHBvcnQgSERN
+SSBQSFkgZm9yIE1lZGlhdGVrIFNvQ3MuCj4gPiArCj4gPiArY29uZmlnIFBIWV9NVEtfTUlQSV9E
+U0kKPiA+ICsgICAgIHRyaXN0YXRlICJNZWRpYVRlayBNSVBJLURTSSBEcml2ZXIiCj4gPiArICAg
+ICBkZXBlbmRzIG9uIEFSQ0hfTUVESUFURUsgJiYgT0YKPiA+ICsgICAgIHNlbGVjdCBHRU5FUklD
+X1BIWQo+ID4gKyAgICAgaGVscAo+ID4gKyAgICAgICBTdXBwb3J0IE1JUEkgRFNJIGZvciBNZWRp
+YXRlayBTb0NzLgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvcGh5L21lZGlhdGVrL01ha2VmaWxl
+IGIvZHJpdmVycy9waHkvbWVkaWF0ZWsvTWFrZWZpbGUKPiA+IGluZGV4IDYzMjVlMzg3MDllZC4u
+YWNlNjYwZmJlZDNhIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9waHkvbWVkaWF0ZWsvTWFrZWZp
+bGUKPiA+ICsrKyBiL2RyaXZlcnMvcGh5L21lZGlhdGVrL01ha2VmaWxlCj4gPiBAQCAtMTEsMyAr
+MTEsOCBAQCBwaHktbXRrLWhkbWktZHJ2LXkgICAgICAgICAgICAgICAgICA6PSBwaHktbXRrLWhk
+bWkubwo+ID4gIHBoeS1tdGstaGRtaS1kcnYteSAgICAgICAgICAgICAgICAgICArPSBwaHktbXRr
+LWhkbWktbXQyNzAxLm8KPiA+ICBwaHktbXRrLWhkbWktZHJ2LXkgICAgICAgICAgICAgICAgICAg
+Kz0gcGh5LW10ay1oZG1pLW10ODE3My5vCj4gPiAgb2JqLSQoQ09ORklHX1BIWV9NVEtfSERNSSkg
+ICAgICAgICAgICs9IHBoeS1tdGstaGRtaS1kcnYubwo+ID4gKwo+ID4gK3BoeS1tdGstbWlwaS1k
+c2ktZHJ2LXkgICAgICAgICAgICAgICAgICAgICAgIDo9IHBoeS1tdGstbWlwaS1kc2kubwo+ID4g
+K3BoeS1tdGstbWlwaS1kc2ktZHJ2LXkgICAgICAgICAgICAgICAgICAgICAgICs9IHBoeS1tdGst
+bWlwaS1kc2ktbXQ4MTczLm8KPiA+ICtwaHktbXRrLW1pcGktZHNpLWRydi15ICAgICAgICAgICAg
+ICAgICAgICAgICArPSBwaHktbXRrLW1pcGktZHNpLW10ODE4My5vCj4gPiArb2JqLSQoQ09ORklH
+X1BIWV9NVEtfTUlQSV9EU0kpICAgICAgICAgICAgICAgKz0gcGh5LW10ay1taXBpLWRzaS1kcnYu
+bwo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXQ4MTczX21p
+cGlfdHguYyBiL2RyaXZlcnMvcGh5L21lZGlhdGVrL3BoeS1tdGstbWlwaS1kc2ktbXQ4MTczLmMK
+PiA+IHNpbWlsYXJpdHkgaW5kZXggOTklCj4gPiByZW5hbWUgZnJvbSBkcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX210ODE3M19taXBpX3R4LmMKPiA+IHJlbmFtZSB0byBkcml2ZXJzL3BoeS9t
+ZWRpYXRlay9waHktbXRrLW1pcGktZHNpLW10ODE3My5jCj4gPiBpbmRleCBmMThkYjE0ZDhiNjMu
+LjdhODQ3OTU0NTk0ZiAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
+dGtfbXQ4MTczX21pcGlfdHguYwo+ID4gKysrIGIvZHJpdmVycy9waHkvbWVkaWF0ZWsvcGh5LW10
+ay1taXBpLWRzaS1tdDgxNzMuYwo+ID4gQEAgLTQsNyArNCw3IEBACj4gPiAgICogQXV0aG9yOiBq
+aXRhby5zaGkgPGppdGFvLnNoaUBtZWRpYXRlay5jb20+Cj4gPiAgICovCj4gPgo+ID4gLSNpbmNs
+dWRlICJtdGtfbWlwaV90eC5oIgo+ID4gKyNpbmNsdWRlICJwaHktbXRrLW1pcGktZHNpLmgiCj4g
+Pgo+ID4gICNkZWZpbmUgTUlQSVRYX0RTSV9DT04gICAgICAgICAgICAgICAweDAwCj4gPiAgI2Rl
+ZmluZSBSR19EU0lfTERPQ09SRV9FTiAgICAgICAgICAgIEJJVCgwKQo+ID4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXQ4MTgzX21pcGlfdHguYyBiL2RyaXZlcnMv
+cGh5L21lZGlhdGVrL3BoeS1tdGstbWlwaS1kc2ktbXQ4MTgzLmMKPiA+IHNpbWlsYXJpdHkgaW5k
+ZXggOTklCj4gPiByZW5hbWUgZnJvbSBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX210ODE4
+M19taXBpX3R4LmMKPiA+IHJlbmFtZSB0byBkcml2ZXJzL3BoeS9tZWRpYXRlay9waHktbXRrLW1p
+cGktZHNpLW10ODE4My5jCj4gPiBpbmRleCA5ZjNlNTVhZWViYjIuLjk5MTA4NDI2ZDU3YyAxMDA2
+NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXQ4MTgzX21pcGlfdHgu
+Ywo+ID4gKysrIGIvZHJpdmVycy9waHkvbWVkaWF0ZWsvcGh5LW10ay1taXBpLWRzaS1tdDgxODMu
+Ywo+ID4gQEAgLTQsNyArNCw3IEBACj4gPiAgICogQXV0aG9yOiBqaXRhby5zaGkgPGppdGFvLnNo
+aUBtZWRpYXRlay5jb20+Cj4gPiAgICovCj4gPgo+ID4gLSNpbmNsdWRlICJtdGtfbWlwaV90eC5o
+Igo+ID4gKyNpbmNsdWRlICJwaHktbXRrLW1pcGktZHNpLmgiCj4gPgo+ID4gICNkZWZpbmUgTUlQ
+SVRYX0xBTkVfQ09OICAgICAgICAgICAgICAweDAwMGMKPiA+ICAjZGVmaW5lIFJHX0RTSV9DUEhZ
+X1QxRFJWX0VOICAgICAgICAgQklUKDApCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19taXBpX3R4LmMgYi9kcml2ZXJzL3BoeS9tZWRpYXRlay9waHktbXRrLW1p
+cGktZHNpLmMKPiA+IHNpbWlsYXJpdHkgaW5kZXggOTklCj4gPiByZW5hbWUgZnJvbSBkcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX21pcGlfdHguYwo+ID4gcmVuYW1lIHRvIGRyaXZlcnMvcGh5
+L21lZGlhdGVrL3BoeS1tdGstbWlwaS1kc2kuYwo+ID4gaW5kZXggZjJhODkyZTE2YzI3Li4xOGM0
+ODEyNTFmMDQgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX21p
+cGlfdHguYwo+ID4gKysrIGIvZHJpdmVycy9waHkvbWVkaWF0ZWsvcGh5LW10ay1taXBpLWRzaS5j
+Cj4gPiBAQCAtMyw3ICszLDcgQEAKPiA+ICAgKiBDb3B5cmlnaHQgKGMpIDIwMTUgTWVkaWFUZWsg
+SW5jLgo+ID4gICAqLwo+ID4KPiA+IC0jaW5jbHVkZSAibXRrX21pcGlfdHguaCIKPiA+ICsjaW5j
+bHVkZSAicGh5LW10ay1taXBpLWRzaS5oIgo+ID4KPiA+ICBpbmxpbmUgc3RydWN0IG10a19taXBp
+X3R4ICptdGtfbWlwaV90eF9mcm9tX2Nsa19odyhzdHJ1Y3QgY2xrX2h3ICpodykKPiA+ICB7Cj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19taXBpX3R4LmggYi9k
+cml2ZXJzL3BoeS9tZWRpYXRlay9waHktbXRrLW1pcGktZHNpLmgKPiA+IHNpbWlsYXJpdHkgaW5k
+ZXggMTAwJQo+ID4gcmVuYW1lIGZyb20gZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19taXBp
+X3R4LmgKPiA+IHJlbmFtZSB0byBkcml2ZXJzL3BoeS9tZWRpYXRlay9waHktbXRrLW1pcGktZHNp
+LmgKPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
