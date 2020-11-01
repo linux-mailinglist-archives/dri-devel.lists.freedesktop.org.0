@@ -2,47 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5D12A1C6B
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 07:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6302A1C76
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 07:40:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF48A6E199;
-	Sun,  1 Nov 2020 06:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0CF16E075;
+	Sun,  1 Nov 2020 06:39:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A8E26E199;
- Sun,  1 Nov 2020 06:26:39 +0000 (UTC)
-IronPort-SDR: B2nqL198e706+Z/ap+07FQQrSZlB5VAmhkQCn8Cv685qq2JgZjDr5oLgjQgomrps2uwzigj5KY
- KKMGcyQtjgFg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9791"; a="232945122"
-X-IronPort-AV: E=Sophos;i="5.77,440,1596524400"; d="scan'208";a="232945122"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2020 23:26:38 -0700
-IronPort-SDR: jbjgbDLZLy3t8uL85Lz54ssjsjlWOaAuQLjCT/10NLLtMHeGupFSFZN9kHod5PLGfDBdfKxI/E
- yMcWkYxfZvuA==
-X-IronPort-AV: E=Sophos;i="5.77,440,1596524400"; d="scan'208";a="537576864"
-Received: from aknautiy-mobl.gar.corp.intel.com (HELO [10.215.177.133])
- ([10.215.177.133])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Oct 2020 23:26:36 -0700
-Subject: Re: [RFC 08/13] drm/i915: Add support for enabling link status and
- recovery
-To: "Shankar, Uma" <uma.shankar@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20201015105259.27934-1-ankit.k.nautiyal@intel.com>
- <20201015105259.27934-9-ankit.k.nautiyal@intel.com>
- <7de8d75aab0e42cf9fba4e7945304b5e@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-Message-ID: <50a23471-7d75-43af-5278-8000b6b0fdb4@intel.com>
-Date: Sun, 1 Nov 2020 11:56:34 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C6F96E075
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 06:39:56 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 657205C00D2;
+ Sun,  1 Nov 2020 01:39:53 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Sun, 01 Nov 2020 01:39:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=7Zy0X9cj7Iuwxadae5N9eX4bb1H
+ i9Y8mnSqXOcU/JUk=; b=qi/OP1CXEcnqt48j+cMmSklPmbsXQ9Lc+7KQ3yaLluh
+ z95VcVTsbXMgDCMF1pGz5nQPEyD5x21tsHMaQwv+FkHySGW9mOd0HH5zUwqpxG1N
+ GXs6LVzjpwFPrQ2KuFYoW0AjYsQvC6H4cLoAasNGBsjPOJ73IY6cDUNYRMyAP46x
+ feJcnPf9krddAndxwAWzabn1pgoQbf5K2dkurDxy8qlewPT/ebvM62KdN+ot+N1H
+ whVo0ipOsTchQWXgLOdQAvFt/U55TGunAYfixVUvxHXGhpoQhUvDViQR8Zc9mM0M
+ g7giKmjjoe+fb5GaMbuBw0ssMrMfdgTbHrX8GR6+b2w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7Zy0X9
+ cj7Iuwxadae5N9eX4bb1Hi9Y8mnSqXOcU/JUk=; b=oMHJDuYDI618yXvuYWeUbh
+ NRSpJm/JZTExp8Ldc9f1DVK54AGxsPN5OR8gykt3GO64tCw7U4QapbRAK9g6FZHv
+ J7SoS75pWkdy4tVJg7Nb/eoCErPhoZI6Ix4FXJI+lxi3+yPWgswl5/1X6BccYRzq
+ RuTtzfh8LF22peFtiig86cVrB2W0bTh1MbfmXZUa/RcnYlWvG9j++YkI7vgWpOWw
+ FneXFITo5bPzd/hRFDIiNNF2+UcjfFJLgMTBw9/rzjltnnYCJPGrPkbhXAbOxCYa
+ J1t2dGx2mMysK6NVEd9iaadPNxJyusi+lJ2K2IvImc60XIKnwJihxthFuaTZZWZQ
+ ==
+X-ME-Sender: <xms:NlieX_pLMI9e84s7pWZYL6oQxr77CJ22cOyr3tFp9A8u-J83lC54fw>
+ <xme:NlieX5oRQXoEtVdaBLXff3hewe8gcyidDe00V8CLGP_03ITcpdO8StBS42t2zFogG
+ uV2YwT1gr54Lw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleekgdeliecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+ jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
+ ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
+ keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+ hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:NlieX8My3UDK1FU4lESxjYtH74C_B9C2Fqw20PzJRIdl0zo5qALhuw>
+ <xmx:NlieXy47cYTTolVAmk8P28r46e-HN-CI-P-wuwzmQU_HY09BVGnsFg>
+ <xmx:NlieX-5KDc5UkSqK3AbTH0cInFmtBjKDhr9xbbrIVBJigQXJyLprQg>
+ <xmx:OVieX52WP77hziVEKRQYWkOGSx3H-eYTp1l2y_OlDxBLb5sUkTPG2w>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 441463064680;
+ Sun,  1 Nov 2020 01:39:50 -0500 (EST)
+Date: Sun, 1 Nov 2020 07:39:48 +0100
+From: Greg KH <greg@kroah.com>
+To: Hassan Shahbazi <hassan.shahbazi@somia.fi>
+Subject: Re: [PATCH] staging: fbtft: fb_watterott: fix usleep_range is
+ preferred over udelay
+Message-ID: <20201101063948.GB432418@kroah.com>
+References: <20201101002010.278537-1-hassan@ninchat.com>
 MIME-Version: 1.0
-In-Reply-To: <7de8d75aab0e42cf9fba4e7945304b5e@intel.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201101002010.278537-1-hassan@ninchat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,102 +78,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma,
- Swati2" <swati2.sharma@intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Hassan Shahbazi <hassan@ninchat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDEwLzE5LzIwMjAgNDoxOSBBTSwgU2hhbmthciwgVW1hIHdyb3RlOgo+Cj4+IC0tLS0tT3Jp
-Z2luYWwgTWVzc2FnZS0tLS0tCj4+IEZyb206IE5hdXRpeWFsLCBBbmtpdCBLIDxhbmtpdC5rLm5h
-dXRpeWFsQGludGVsLmNvbT4KPj4gU2VudDogVGh1cnNkYXksIE9jdG9iZXIgMTUsIDIwMjAgNDoy
-MyBQTQo+PiBUbzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBDYzogZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgU2hhbmthciwgVW1hIDx1bWEuc2hhbmthckBpbnRl
-bC5jb20+Owo+PiBLdWxrYXJuaSwgVmFuZGl0YSA8dmFuZGl0YS5rdWxrYXJuaUBpbnRlbC5jb20+
-OyB2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbTsKPj4gU2hhcm1hLCBTd2F0aTIgPHN3YXRp
-Mi5zaGFybWFAaW50ZWwuY29tPgo+PiBTdWJqZWN0OiBbUkZDIDA4LzEzXSBkcm0vaTkxNTogQWRk
-IHN1cHBvcnQgZm9yIGVuYWJsaW5nIGxpbmsgc3RhdHVzIGFuZCByZWNvdmVyeQo+Pgo+PiBGcm9t
-OiBTd2F0aSBTaGFybWEgPHN3YXRpMi5zaGFybWFAaW50ZWwuY29tPgo+Pgo+PiBJbiB0aGlzIHBh
-dGNoIGVuYWJsZWQgc3VwcG9ydCBmb3IgbGluayBzdGF0dXMgYW5kIHJlY292ZXJ5IGluIGk5MTUg
-ZHJpdmVyLiBIRE1JCj4+IGxpbmsgbG9zcyBpbmRpY2F0aW9uIHRvIHVwc3RyZWFtIERQIHNvdXJj
-ZSBpcyBpbmRpY2F0ZWQgdmlhIElSUV9IUEQuIFRoaXMgaXMKPj4gZm9sbG93ZWQgYnkgcmVhZGlu
-ZyBvZiBIRE1JIGxpbmsgY29uZmlndXJhdGlvbiBzdGF0dXMKPj4gKEhETUlfVFhfTElOS19BQ1RJ
-VkVfU1RBVFVTKS4gSWYgdGhlIFBDT04g4oaSIEhETUkgMi4xIGxpbmsgc3RhdHVzIGlzIG9mZjsK
-Pj4gcmVpbml0aWF0ZSBmcmwgbGluayB0cmFpbmluZyB0byByZWNvdmVyLgo+PiBBbHNvLCBIRE1J
-IEZSTCBsaW5rIGVycm9yIGNvdW50IHJhbmdlIGZvciBlYWNoIGluZGl2aWR1YWwgRlJMIGFjdGl2
-ZSBsYW5lIGlzCj4+IGluZGljYXRlZCBieSBET1dOU1RSRUFNX0hETUlfRVJST1JfU1RBVFVTX0xO
-IHJlZ2lzdGVycy4KPj4KPj4gU2lnbmVkLW9mZi1ieTogU3dhdGkgU2hhcm1hIDxzd2F0aTIuc2hh
-cm1hQGludGVsLmNvbT4KPj4gU2lnbmVkLW9mZi1ieTogQW5raXQgTmF1dGl5YWwgPGFua2l0Lmsu
-bmF1dGl5YWxAaW50ZWwuY29tPgo+PiAtLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
-bGF5L2ludGVsX2RwLmMgfCA0NyArKysrKysrKysrKysrKysrKysrKysrKy0tCj4+ICAgMSBmaWxl
-IGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPj4gYi9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPj4gaW5kZXggNjY4MTY1ZGQyYjFhLi5l
-NmM0Y2I4NDRlMzcgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfZHAuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rw
-LmMKPj4gQEAgLTU5NTUsNiArNTk1NSwyOSBAQCBpbnRlbF9kcF9jaGVja19tc3Rfc3RhdHVzKHN0
-cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCj4+ICAgcmV0dXJuIGxpbmtfb2s7Cj4+ICAgfQo+Pgo+
-PiArc3RhdGljIHZvaWQKPj4gK2ludGVsX2RwX2hhbmRsZV9oZG1pX2xpbmtfc3RhdHVzX2NoYW5n
-ZShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKSB7Cj4+ICtib29sIGlzX2FjdGl2ZTsKPj4gK3U4
-IGJ1ZiA9IDA7Cj4+ICsKPj4gK2lzX2FjdGl2ZSA9IGRybV9kcF9wY29uX2hkbWlfbGlua19hY3Rp
-dmUoJmludGVsX2RwLT5hdXgpOwo+PiAraWYgKGludGVsX2RwLT5mcmwuaXNfdHJhaW5lZCAmJiAh
-aXNfYWN0aXZlKSB7Cj4+ICtpZiAoZHJtX2RwX2RwY2RfcmVhZGIoJmludGVsX2RwLT5hdXgsCj4+
-IERQX1BDT05fSERNSV9MSU5LX0NPTkZJR18xLCAmYnVmKSA8IDApCj4+ICtyZXR1cm47Cj4+ICsK
-Pj4gK2J1ZiAmPSAgfkRQX1BDT05fRU5BQkxFX0hETUlfTElOSzsKPj4gK2lmIChkcm1fZHBfZHBj
-ZF93cml0ZWIoJmludGVsX2RwLT5hdXgsCj4+IERQX1BDT05fSERNSV9MSU5LX0NPTkZJR18xLCBi
-dWYpIDwgMCkKPj4gK3JldHVybjsKPj4gKwo+PiAraW50ZWxfZHAtPmZybC5pc190cmFpbmVkID0g
-ZmFsc2U7Cj4+ICtpbnRlbF9kcC0+ZnJsLnRyYWluZWRfcmF0ZV9nYnBzID0gMDsKPj4gKwo+PiAr
-aW50ZWxfZHBfY2hlY2tfZnJsX3RyYWluaW5nKGludGVsX2RwKTsKPj4gK2RybV9kcF9wY29uX2hk
-bWlfZnJsX2xpbmtfZXJyb3JfY291bnQoJmludGVsX2RwLT5hdXgsCj4+ICZpbnRlbF9kcC0+YXR0
-YWNoZWRfY29ubmVjdG9yLT5iYXNlKTsKPiBKdXN0IHByaW50aW5nIHRoZSBlcnJvciBoZXJlIG1h
-eSBub3QgaGVscCBpbiByZWNvdmVyeS4gSWYgRlJMIGlzIGZhaWxpbmcgbWF5IGJlIGEgVE1EUyBm
-YWxsYmFjayBzaG91bGQgYmUKPiBhdHRlbXB0ZWQuIEFsc28gZXJyb3IgY291bnQgc2hvdWxkIGJl
-IHJldHVybmVkIGluc3RlYWQgb2YganVzdCBhIHByaW50LgoKVGhlIGZ1bmN0aW9uIGRwX2NoZWNr
-X2ZybF90cmFpbmluZygpIHdpbGwgcmVzdGFydCB0aGUgRlJMIGxpbmsgdHJhaW5pbmcgCmlmIHJl
-cXVpcmVkIGFuZCBmYWxsIGJhY2sgdG8gVE1EUyBpZiBGUkwgZG9lcyBub3Qgc3VjY2VlZC4KClRo
-ZSBmdW5jdGlvbiBmb3IgZXJyb3IgY291bnQgc2hvdWxkIGJlIGZpcnN0IGFuZCBsYXRlciB0aGUg
-ZnJsIHRyYWluaW5nIApzaG91bGQgYmUgY2hlY2tlZC4gV2lsbCBmaXggdGhpcyBpbiBuZXh0IHBh
-dGNoIHZlcnNpb24uCgpUaGUgZXJyb3IgY291bnRzIHdpbGwgYmUgZGlmZmVyZW50IGZvciBkaWZm
-ZXJlbnQgbGFuZXMsIHNvIElNSE8sIHRoaXMgCmluZm9ybWF0aW9uIGlzIG1vcmUgZm9yIGRlYnVn
-Z2luZy4gTm90IHN1cmUsIGlmIHdlIGNhbgoKdXNlIHRoaXMgdG8gdGFrZSBhbnkgY29ycmVjdGl2
-ZSBhY3Rpb24uCgoKPj4gK30KPj4gK30KPj4gKwo+PiAgIHN0YXRpYyBib29sCj4+ICAgaW50ZWxf
-ZHBfbmVlZHNfbGlua19yZXRyYWluKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApICB7IEBAIC02
-MzIwLDcgKzYzNDMsNwo+PiBAQCBpbnRlbF9kcF9ob3RwbHVnKHN0cnVjdCBpbnRlbF9lbmNvZGVy
-ICplbmNvZGVyLAo+PiAgIHJldHVybiBzdGF0ZTsKPj4gICB9Cj4+Cj4+IC1zdGF0aWMgdm9pZCBp
-bnRlbF9kcF9jaGVja19zZXJ2aWNlX2lycShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKQo+PiAr
-c3RhdGljIHZvaWQgaW50ZWxfZHBfY2hlY2tfZGV2aWNlX3NlcnZpY2VfaXJxKHN0cnVjdCBpbnRl
-bF9kcAo+PiArKmludGVsX2RwKQo+PiAgIHsKPj4gICBzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAq
-aTkxNSA9IGRwX3RvX2k5MTUoaW50ZWxfZHApOwo+PiAgIHU4IHZhbDsKPj4gQEAgLTYzNDQsNiAr
-NjM2NywyMyBAQCBzdGF0aWMgdm9pZCBpbnRlbF9kcF9jaGVja19zZXJ2aWNlX2lycShzdHJ1Y3Qg
-aW50ZWxfZHAKPj4gKmludGVsX2RwKQo+PiAgIGRybV9kYmdfa21zKCZpOTE1LT5kcm0sICJTaW5r
-IHNwZWNpZmljIGlycSB1bmhhbmRsZWRcbiIpOyAgfQo+Pgo+PiArc3RhdGljIHZvaWQgaW50ZWxf
-ZHBfY2hlY2tfbGlua19zZXJ2aWNlX2lycShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKQo+PiAr
-ewo+PiArdTggdmFsOwo+PiArCj4+ICtpZiAoaW50ZWxfZHAtPmRwY2RbRFBfRFBDRF9SRVZdIDwg
-MHgxMSkKPj4gK3JldHVybjsKPj4gKwo+PiAraWYgKGRybV9kcF9kcGNkX3JlYWRiKCZpbnRlbF9k
-cC0+YXV4LAo+PiArICAgICAgRFBfTElOS19TRVJWSUNFX0lSUV9WRUNUT1JfRVNJMCwgJnZhbCkg
-IT0gMSB8fAo+PiAhdmFsKQo+IEFuIGVycm9yIG1lc3NhZ2Ugd291bGQgYmUgaGFuZHkgaGVyZS4K
-CgpBbHJpZ2h0LCB3aWxsIGJlIGFkZGluZyBhcHByb3ByaWF0ZSBlcnJvciBtZXNzYWdlIGhlcmUu
-Cgo+Cj4+ICtyZXR1cm47Cj4+ICsKPj4gK2RybV9kcF9kcGNkX3dyaXRlYigmaW50ZWxfZHAtPmF1
-eCwKPj4gRFBfTElOS19TRVJWSUNFX0lSUV9WRUNUT1JfRVNJMCwKPj4gK3ZhbCk7Cj4gQ2hlY2sg
-Zm9yIGVycm9yIG1lc3NhZ2UgaGVyZS4KCkFzIG1lbnRpb25lZCBhYm92ZSwgd2lsbCB0YWtlIGNh
-cmUgaW4gbmV4dCB2ZXJzaW9uLgoKVGhhbmtzICYgUmVnYXJkcywKCkFua2l0CgoKPgo+PiArCj4+
-ICtpZiAodmFsICYgSERNSV9MSU5LX1NUQVRVU19DSEFOR0VEKQo+PiAraW50ZWxfZHBfaGFuZGxl
-X2hkbWlfbGlua19zdGF0dXNfY2hhbmdlKGludGVsX2RwKTsKPj4gK30KPj4gKwo+PiAgIC8qCj4+
-ICAgICogQWNjb3JkaW5nIHRvIERQIHNwZWMKPj4gICAgKiA1LjEuMjoKPj4gQEAgLTYzODMsNyAr
-NjQyMyw4IEBAIGludGVsX2RwX3Nob3J0X3B1bHNlKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAp
-Cj4+ICAgcmV0dXJuIGZhbHNlOwo+PiAgIH0KPj4KPj4gLWludGVsX2RwX2NoZWNrX3NlcnZpY2Vf
-aXJxKGludGVsX2RwKTsKPj4gK2ludGVsX2RwX2NoZWNrX2RldmljZV9zZXJ2aWNlX2lycShpbnRl
-bF9kcCk7Cj4+ICtpbnRlbF9kcF9jaGVja19saW5rX3NlcnZpY2VfaXJxKGludGVsX2RwKTsKPj4K
-Pj4gICAvKiBIYW5kbGUgQ0VDIGludGVycnVwdHMsIGlmIGFueSAqLwo+PiAgIGRybV9kcF9jZWNf
-aXJxKCZpbnRlbF9kcC0+YXV4KTsKPj4gQEAgLTY4MTUsNyArNjg1Niw3IEBAIGludGVsX2RwX2Rl
-dGVjdChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+PiAgICAgICB0b19pbnRlbF9j
-b25uZWN0b3IoY29ubmVjdG9yKS0+ZGV0ZWN0X2VkaWQpCj4+ICAgc3RhdHVzID0gY29ubmVjdG9y
-X3N0YXR1c19jb25uZWN0ZWQ7Cj4+Cj4+IC1pbnRlbF9kcF9jaGVja19zZXJ2aWNlX2lycShpbnRl
-bF9kcCk7Cj4+ICtpbnRlbF9kcF9jaGVja19kZXZpY2Vfc2VydmljZV9pcnEoaW50ZWxfZHApOwo+
-Pgo+PiAgIG91dDoKPj4gICBpZiAoc3RhdHVzICE9IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVk
-ICYmICFpbnRlbF9kcC0+aXNfbXN0KQo+PiAtLQo+PiAyLjE3LjEKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Sun, Nov 01, 2020 at 02:20:10AM +0200, Hassan Shahbazi wrote:
+> Fix the checkpath.pl issue on fb_watterott.c. write_vmem and
+> write_vmem_8bit functions are within non-atomic context and can
+> safely use usleep_range.
+> see Documentation/timers/timers-howto.txt
+> 
+> Signed-off-by: Hassan Shahbazi <hassan@ninchat.com>
+> ---
+>  drivers/staging/fbtft/fb_watterott.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/fbtft/fb_watterott.c b/drivers/staging/fbtft/fb_watterott.c
+> index 76b25df376b8..afcc86a17995 100644
+> --- a/drivers/staging/fbtft/fb_watterott.c
+> +++ b/drivers/staging/fbtft/fb_watterott.c
+> @@ -84,7 +84,7 @@ static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
+>  			par->txbuf.buf, 10 + par->info->fix.line_length);
+>  		if (ret < 0)
+>  			return ret;
+> -		udelay(300);
+> +		usleep_range(300, 310);
+>  	}
+>  
+>  	return 0;
+> @@ -124,7 +124,7 @@ static int write_vmem_8bit(struct fbtft_par *par, size_t offset, size_t len)
+>  			par->txbuf.buf, 10 + par->info->var.xres);
+>  		if (ret < 0)
+>  			return ret;
+> -		udelay(700);
+> +		usleep_range(700, 710);
+
+How do you know that these ranges are ok?  Are you able to test these
+changes with real hardware?
+
+thanks,
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
