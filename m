@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95AB2A2070
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:37:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A13D2A207E
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9EBA6EB1C;
-	Sun,  1 Nov 2020 17:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A75EA6EB27;
+	Sun,  1 Nov 2020 17:38:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C37A6E1B8
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 10:32:55 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id l2so13625183lfk.0
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Nov 2020 02:32:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=somia-fi.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=XccLLBP9fbRYIFzEXKVSu/gBJa6cdMsyr2qn7Nbznok=;
- b=WwwV+CZl0NVtbCCh/l8XgYPXAFhUHgNsHltaOXJGKtTvTglrbNZbWRtUuEwc0hbGdt
- qsCJSM5z2o+axm2vx0NKfKdx7cu9JsH8ZWbxdiSN1fmmTEiTLdtxcaC7iQ33gcBBGdlb
- Kz7Ua5HmTR1xDMN4qaohI/9TqjGHd0YJ6WDwTBQSwpm4UKTPZLXv3avbi/RJTbpuKgx2
- U41eXekBeFPjVKQdCQW4G93sMykidUcnfcLKXpRXTCQ7bMIFxHfPoQdClUHyXSYrQlTt
- gJt3zKO4ml5cAaoa3b1vk+l6KwQsqOBrhSrz/hN1WumVQoSjzkVtvsHVJn5oBaGZS2y6
- w0Nw==
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D20FF6E1B7
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 14:12:44 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id 23so12094701ljv.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 01 Nov 2020 06:12:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=REz7RPg2i02sVn5unh+ejD4RRDVKEN7sf6CTpP8ALEc=;
+ b=XIySwbqwwWK+H07YdaRn27fLru1bo4Dez13BPQ7ix6EB/sGw/tnwV+eIYqXBMG1iJQ
+ eNxQuFSPTOeShlcgCkryhP7JQEUKAOQ3ACRMWDC+JK1/ULlD50xlY3vVtToswKJRFnTB
+ LHN/C8X+aO6ALXRC3oVmNfNewiaIj5Qq7DzFimDqgYV/yYp+EaLc5HPz6T/K/KoUdu7W
+ rmO6ibHNbvVBiR52XOepxbf8DsFmORuPprPmJtOzbuV37SaJmwlZKeQ1bTjOB1EsAdaj
+ vJx/5Feo9XftQF6H6Od7OKSsnFPww6gcKhFcleg0OsBo2beMyoNoYOYTEL6D4n5Uq/LN
+ RYDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XccLLBP9fbRYIFzEXKVSu/gBJa6cdMsyr2qn7Nbznok=;
- b=unxQCDw+i51Rjd5S1awJnnXOqBzQw3XA36C2Ka6ZogNfO5FUImA/klFhMO02EDdFdF
- HDV006TPRedBho+G5KgzcoIn3/P5g2ZWaLDGuWir/61uFhDzZ09iFLCRMWvv7fooFj2S
- qoYJFHtnRhkYphkAdyx5E5OFnlqkq7iBV6IPaQsHz0zzOvQaL7P+UakCKC2Am+B70Pf0
- b5tzx0Vprgepm2gFLEKedFxC9BbZzICYtM670wXH3+5+S763JtipTx+Q5bllUL4pjj43
- oVQ0AFdch1x6GaxWimqjCkWi9Xs5ymzlL0o8UlNZh9BW/1Hou5yGPjRvwffp0ixp+uO7
- U+aA==
-X-Gm-Message-State: AOAM533WMEppDZFZV0BxeOJT9dEQs0A5yE6EIiySc2Du3kIyRPfQqdeF
- 3WoLbwWQhTRfuVq1uzYaIFCnHg==
-X-Google-Smtp-Source: ABdhPJzVLNrNcDLn6wEEouuMkd8Z++tSxcYxH3ylGbIuf4MrUF2yQHmMz/+jFeFirOfZDR+sMtJdjA==
-X-Received: by 2002:a19:83c9:: with SMTP id f192mr3746517lfd.148.1604226773613; 
- Sun, 01 Nov 2020 02:32:53 -0800 (PST)
-Received: from ubuntu (cable-hki-50dc37-152.dhcp.inet.fi. [80.220.55.152])
- by smtp.gmail.com with ESMTPSA id s7sm1628612ljc.10.2020.11.01.02.32.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Nov 2020 02:32:53 -0800 (PST)
-From: Hassan Shahbazi <hassan.shahbazi@somia.fi>
-X-Google-Original-From: Hassan Shahbazi <hassan@ninchat.com>
-Date: Sun, 1 Nov 2020 12:32:44 +0200
-To: Greg KH <greg@kroah.com>
-Subject: Re: [PATCH] staging: fbtft: fb_watterott: fix usleep_range is
- preferred over udelay
-Message-ID: <20201101103244.GA284952@ubuntu>
-References: <20201101002010.278537-1-hassan@ninchat.com>
- <20201101063948.GB432418@kroah.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=REz7RPg2i02sVn5unh+ejD4RRDVKEN7sf6CTpP8ALEc=;
+ b=Agq4T0hJ3SV1oPqZm8ef8O6LHtfHI9Kh8RZmOChR49zlUZAJbKtM4yzK5KVUOfpvsS
+ 3isTM7fxP3bZr8SrBWeiR2FR6jhoAXjksc2ySPTXVJ9rvN+RFVL0S1kALqsIsOiTj2eG
+ SEyZ5mzOWlJ86xQc9VNvUWeXdhCt7fIjcaYW+wuRxQq9X85XWu+cuKbE9nHlRnM9lCmq
+ GO7SeY8xt1niu77IETEQ2WZdAaRf4xaGA2feYQPbIcwsgGR+hHEFDhu4uyp+ON8asfXB
+ Ydbq8ZXXZFTVw5N1Hn2WtYTj+Xb9LdtKn2qaecfL3D17uAO1RoExpeE65BhkffgYr0gg
+ vUPw==
+X-Gm-Message-State: AOAM530U5z/FNJRxKsTgHmEDE928KT3Ei8GWPA0le0yTgqG4iMGJnDnT
+ MtU9UZ/bf/aJ3zpqGfnrnFA=
+X-Google-Smtp-Source: ABdhPJxhAHCxnZhPTqKRzzn3oyVPFxXaMw4VchPE5jombOYQPEfMRZfjVrf1wOOg7FNtEz7hvm2v0A==
+X-Received: by 2002:a2e:8145:: with SMTP id t5mr5051440ljg.311.1604239963242; 
+ Sun, 01 Nov 2020 06:12:43 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-177.dynamic.spd-mgts.ru.
+ [109.252.193.177])
+ by smtp.googlemail.com with ESMTPSA id a11sm1425557lfi.305.2020.11.01.06.12.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 01 Nov 2020 06:12:42 -0800 (PST)
+Subject: Re: [PATCH v6 49/52] PM / devfreq: tegra20: Convert to EMC_STAT
+ driver, support interconnect and device-tree
+To: cwchoi00@gmail.com
+References: <20201025221735.3062-1-digetx@gmail.com>
+ <20201025221735.3062-50-digetx@gmail.com>
+ <CAGTfZH0KxyZYLZ_AgM7Lr+4s35kaWJp1AenpZ-o_FRLCCHC+6A@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0ffa84f6-625e-807c-e9af-7a67f0fe48e7@gmail.com>
+Date: Sun, 1 Nov 2020 17:12:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201101063948.GB432418@kroah.com>
-X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:57 +0000
+In-Reply-To: <CAGTfZH0KxyZYLZ_AgM7Lr+4s35kaWJp1AenpZ-o_FRLCCHC+6A@mail.gmail.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,58 +74,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
+ devicetree <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 01, 2020 at 07:39:48AM +0100, Greg KH wrote:
-> On Sun, Nov 01, 2020 at 02:20:10AM +0200, Hassan Shahbazi wrote:
-> > Fix the checkpath.pl issue on fb_watterott.c. write_vmem and
-> > write_vmem_8bit functions are within non-atomic context and can
-> > safely use usleep_range.
-> > see Documentation/timers/timers-howto.txt
-> > 
-> > Signed-off-by: Hassan Shahbazi <hassan@ninchat.com>
-> > ---
-> >  drivers/staging/fbtft/fb_watterott.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/fbtft/fb_watterott.c b/drivers/staging/fbtft/fb_watterott.c
-> > index 76b25df376b8..afcc86a17995 100644
-> > --- a/drivers/staging/fbtft/fb_watterott.c
-> > +++ b/drivers/staging/fbtft/fb_watterott.c
-> > @@ -84,7 +84,7 @@ static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
-> >  			par->txbuf.buf, 10 + par->info->fix.line_length);
-> >  		if (ret < 0)
-> >  			return ret;
-> > -		udelay(300);
-> > +		usleep_range(300, 310);
-> >  	}
-> >  
-> >  	return 0;
-> > @@ -124,7 +124,7 @@ static int write_vmem_8bit(struct fbtft_par *par, size_t offset, size_t len)
-> >  			par->txbuf.buf, 10 + par->info->var.xres);
-> >  		if (ret < 0)
-> >  			return ret;
-> > -		udelay(700);
-> > +		usleep_range(700, 710);
-> 
-> How do you know that these ranges are ok?  Are you able to test these
-> changes with real hardware?
-> 
-> thanks,
-> 
-> greg k-h
-
-No, I don't have the hardware to test with. I just used the current
-value as the minimum and added an epsilon to it for the maximum
-param.
-
-best, hassan shahbazi
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDEuMTEuMjAyMCAxNjozMSwgQ2hhbndvbyBDaG9pINC/0LjRiNC10YI6Cj4gSGkgRG1pdHJ5LAo+
+IAo+IFRoaXMgcGF0Y2ggY29udGFpbnMgdGhlIHRocmVlIGZlYXR1cmVzIGFzIGZvbGxvd2luZzoK
+PiAxLiBVc2UgaW50ZXJjb25uZWN0IGludGVyZmFjZSBmb3IgY29udHJvbGxpbmcgdGhlIGNsb2Nr
+IGluc3RlYWQgb2YKPiBjb250cm9sbGluZyBpdCBkaXJlY2x0eQo+IDIuIFVzZSBFTUNfU1RBVCBp
+bnN0ZWFkIG9mIElNQ19TVEFUCj4gMy4gQ2hhbmdlIHBvbGxpbmdfaW50ZXJ2YWwgYW5kIHVwdGhy
+ZXNob2xkIGZvciBtb3JlIGZhc3QgcmVzcG9uc2l2ZW5lc3MKPiAKPiBJIHRoaW5rIHlvdSBuZWVk
+IHRvIG1ha2UgdGhlIHNlcGFyYXRlIHBhdGNoZXMgZm9yIGVhY2ggcm9sZS4KPiBCdXQsIGlmIGl0
+IGlzIGRpZmZpY3VsdCBvciBub3QgcHJvcGVyIHRvIHNwbGl0IG91dCAxLDIgcm9sZXMsIHlvdSBj
+YW4KPiBtYWtlIHR3byBwYXRjaGVzIGZvciAxLDIgYW5kIDMgcm9sZXMuCgpIZWxsbyBDaGFud29v
+LAoKV2Ugd2lsbCBwcm9iYWJseSBtb3ZlIHRoZSBUZWdyYTIwIEVNQ19TVEFUIGRldmZyZXEgZHJp
+dmVyIGludG8gdGhlCm1lbW9yeSBkcml2ZXIgYW5kIHJlbW92ZSB0aGUgb2xkZXIgSU1DX1NUQVQg
+ZHJpdmVyIGluIHY3LCBsaWtlIGl0IHdhcwpzdWdnZXN0ZWQgYnkgVGhpZXJyeSBSZWRpbmcuIFRo
+aXMgd2lsbCBiZSBhIG11Y2ggbGVzcyBpbnZhc2l2ZSBjb2RlIGNoYW5nZS4KCj4gQWxzbywgaWYg
+eW91IHdhbnQgdG8gZ2V0IG1vcmUgcmVzcG9uc2l2ZW5lc3MsIHlvdSBjb3VsZCB1c2UgZGVsYXll
+ZCB0aW1lcgo+IGluc3RlYWQgb2YgZGVmZXJyYWJsZSB0aW1lciBieSBlZGl0aW5nIHRoZSBkZXZm
+cmVxX2Rldl9wcm9maWxlIHN0cnVjdHVyZS4KClRoYW5rcywgSSdsbCB0cnkgdGhlIGRlZmVycmFi
+bGUgdGltZXIuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
