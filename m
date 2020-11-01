@@ -2,68 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDB02A207B
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893A12A2084
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E2C6EB3D;
-	Sun,  1 Nov 2020 17:38:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 861746EB48;
+	Sun,  1 Nov 2020 17:38:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E0188065
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 15:49:19 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id h6so14174613lfj.3
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Nov 2020 07:49:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+IMMWwTBpIuU34muTgua4oEKfGJdORV+B0XtK66fJrc=;
- b=CH53aYEYM+ZxNJAYZtHdmiWk27hMZvw57vtMxIUKweWLPnQ1zL8KTxXSLLaQP6pJ6H
- CUeC1l9MqRH+Nno4rcVnD6fZ9Tr/yDkBUk4cu2wdh8Dji0FhT7jXrEc+4pL9X/ptuPD3
- Hb3Sys5CXMsgTzKwZGJouWzFlc41nQfJ6NftUYNSEAqjIPus7ZcGWGTmt0HXysGzbVp6
- aQ+4zxSgXSuvGkWWcGlJhJMNyo1BiZxfp+Ku9L/APZSBgeE61Xkp9p4kL6htxBH2WzZ6
- 4R90X1KyAl1/KNdI99Z0ZX1Le9FoJabWU2LXGilSKg8cj1/R8jCESOeHWYofOZLaWOAB
- o3tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+IMMWwTBpIuU34muTgua4oEKfGJdORV+B0XtK66fJrc=;
- b=gAL0Eo5oXrg9YQqfqm0w3TUmMwvzqMjsS49xUuXm5KOxC6jnRPm1Gav6Q1tau0D8fs
- 7R2wIhlw5QkDHAqN4AC2YFqWiISrSZYBqflU9PIR9/QzygYvSBUGExdSUpL4SFZicUIX
- 4WKhqft0kRlwUqMN9Morjjb8nzm5vPuk7HcjNeef697IjtFPBQ7xxWE3C6ga148xeyHJ
- MVafc23v0TbogwwkEytUjZd8T9QtbHszobMc7mIege1Ag2S4fdKCvEeVof9usoQkitKJ
- bro3uSBNAxwVQ8K2tC2Of16SdAk2n9/E/95aPJ0jJw3zISdXHWe5XUT/NbulX1Y50bRJ
- mxlg==
-X-Gm-Message-State: AOAM5314nwU4PHAmAc6ddfbB5pR+C3nkE2SkNF+x/qlFF1/R3Rn4Mcwo
- gVl+L2OLXnY6BZ/phamiQEA=
-X-Google-Smtp-Source: ABdhPJyfbmcSEmTMH443D7OLJRec3W7yiy/1SR2NX2guVnd/pVsXQbN96ATE9WOlpP88kx03VxbOzQ==
-X-Received: by 2002:a19:414b:: with SMTP id o72mr4634104lfa.23.1604245757706; 
- Sun, 01 Nov 2020 07:49:17 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-177.dynamic.spd-mgts.ru.
- [109.252.193.177])
- by smtp.googlemail.com with ESMTPSA id 196sm1571873lfg.209.2020.11.01.07.49.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Nov 2020 07:49:17 -0800 (PST)
-Subject: Re: [PATCH v6 51/52] PM / devfreq: tegra30: Support interconnect and
- OPPs from device-tree
-To: cwchoi00@gmail.com
-References: <20201025221735.3062-1-digetx@gmail.com>
- <20201025221735.3062-52-digetx@gmail.com>
- <CAGTfZH1PV4r-pD=zTKD71nQb5+UobJKa5mBv-Nb2ZgSubkscjA@mail.gmail.com>
- <2ebd184c-60e8-19e2-9965-19481ced1c70@gmail.com>
- <CAGTfZH0=6R02euOR3JHgA0iLq5++Yvp3Z_wBCEs7bzkfuorEFQ@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5f5a22b1-4d01-5698-1bca-6bcc66c55e6f@gmail.com>
-Date: Sun, 1 Nov 2020 18:49:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 594C66EB25
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 17:37:46 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id BFF278048A;
+ Sun,  1 Nov 2020 18:37:42 +0100 (CET)
+Date: Sun, 1 Nov 2020 18:37:41 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v2 0/4] drm/bridge: ti-sn65dsi86: Support EDID reading
+Message-ID: <20201101173741.GA1293305@ravnborg.org>
+References: <20201030011738.2028313-1-swboyd@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <CAGTfZH0=6R02euOR3JHgA0iLq5++Yvp3Z_wBCEs7bzkfuorEFQ@mail.gmail.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Sun, 01 Nov 2020 17:36:56 +0000
+Content-Disposition: inline
+In-Reply-To: <20201030011738.2028313-1-swboyd@chromium.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VafZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=cm27Pg_UAAAA:8 a=P1BnusSwAAAA:8
+ a=RwHePtW7AAAA:8 a=e5mUnYsNAAAA:8 a=umv6ho0nhVORNbC8ZGUA:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=xmb-EsYY8bH0VWELuYED:22
+ a=D0XLA9XvdZm18NrgonBM:22 a=FqraQwd7dyEg5dwJgZJs:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,34 +46,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Linux PM list <linux-pm@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
- devicetree <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDEuMTEuMjAyMCAxODo0NCwgQ2hhbndvbyBDaG9pINC/0LjRiNC10YI6Cj4+IE9QUCBjb3JlIHdp
-bGwgdHJ5IHRvIGdyYWIgdGhlIGNsb2NrIHJlZmVyZW5jZSBmb3IgdGhlIHRhYmxlIGFuZCBpdCBt
-YXkKPj4gY2F1c2UgRVBST0JFX0RFRkVSLiBBbHRob3VnaCwgaXQgc2hvdWxkbid0IGhhcHBlbiBo
-ZXJlIGJlY2F1c2Ugd2UgaGF2ZQo+PiBkZXZtX2Nsa19nZXQoKSBiZWZvcmUgdGhlIGdldF9vcHBf
-dGFibGUoKSwgaGVuY2Ugc2VlbXMgdGhlIGRlZmVycmVkCj4+IHByb2JlIGluZGVlZCBzaG91bGRu
-J3QgaGFwcGVuIGluIHRoaXMgY2FzZS4KPiBJdCBpcyBteSBtaXNzaW5nIHBvaW50LiBJZiB0aGVy
-ZSwgeW91J3JlIHJpZ2h0Lgo+IENvdWxkIHlvdSBwcm92aWRlIHRoZSBjb2RlIHBvaW50IHRvIGNo
-ZWNrIHRoZSBjbG9jayByZWZlcmVuY2Ugb24gdGhlIE9QUCBjb3JlPwoKUGxlYXNlIHNlZSBpdCBo
-ZXJlOgoKaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUuMTAtcmMxL3NvdXJjZS9k
-cml2ZXJzL29wcC9jb3JlLmMjTDExMDEKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+Hi Stephen.
+
+On Thu, Oct 29, 2020 at 06:17:34PM -0700, Stephen Boyd wrote:
+> This patch series cleans up the DDC code a little bit so that
+> it is more efficient time wise and supports grabbing the EDID
+> of the eDP panel over the aux channel. I timed this on a board
+> I have on my desk and it takes about 20ms to grab the EDID out
+> of the panel and make sure it is valid.
+> 
+> The first two patches seem less controversial so I stuck them at
+> the beginning. The third patch does the EDID reading and caches
+> it so we don't have to keep grabbing it over and over again. And
+> finally the last patch updates the reply field so that short
+> reads and nacks over the channel are reflected properly instead of
+> treating them as some sort of error that can't be discerned.
+> 
+> Stephen Boyd (4):
+>   drm/bridge: ti-sn65dsi86: Combine register accesses in
+>     ti_sn_aux_transfer()
+>   drm/bridge: ti-sn65dsi86: Make polling a busy loop
+>   drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
+>   drm/bridge: ti-sn65dsi86: Update reply on aux failures
+
+Series looks good. You can add my a-b on the full series.
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+I can apply after Douglas have had a look at the patches he did not r-b
+yet.
+
+Any chance we can convince you to prepare this bridge driver for use in
+a chained bridge setup where the connector is created by the display
+driver and uses drm_bridge_funcs?
+
+First step wuld be to introduce the use of a panel_bridge.
+Then add get_edid to drm_bridge_funcs and maybe more helpers.
+
+Then natural final step would be to move connector creation to the
+display driver - see how other uses drm_bridge_connector_init() to do so
+- it is relatively simple.
+
+Should be doable - and reach out if you need some help.
+
+	Sam
+
+
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 108 ++++++++++++++++++--------
+>  1 file changed, 75 insertions(+), 33 deletions(-)
+> 
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> 
+> base-commit: 3650b228f83adda7e5ee532e2b90429c03f7b9ec
+> -- 
+> Sent by a computer, using git, on the internet
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
