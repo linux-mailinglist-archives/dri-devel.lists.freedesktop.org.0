@@ -2,38 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D402A1DE0
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 13:29:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A629F2A1E0C
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 13:53:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3165A6EAAC;
-	Sun,  1 Nov 2020 12:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C51E6E054;
+	Sun,  1 Nov 2020 12:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 257B66EAAC
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 12:29:04 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
+X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
+ Sun, 01 Nov 2020 12:53:07 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net
+ [IPv6:2001:a60:0:28:0:1:25:1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36E606E054
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 12:53:07 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4CPG5d20zcz1rtjY;
+ Sun,  1 Nov 2020 13:47:01 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4CPG5d1MqBz1sM9M;
+ Sun,  1 Nov 2020 13:47:01 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id Ig0SONeTa5NA; Sun,  1 Nov 2020 13:47:00 +0100 (CET)
+X-Auth-Info: rWAnbs54NaVbibQXufUmUAJGXRnQRHb+LcbVq5T8Dj/F5uXrVJx8CxCxlp05sPIv
+Received: from igel.home (ppp-46-244-171-138.dynamic.mnet-online.de
+ [46.244.171.138])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 39B0020022;
- Sun,  1 Nov 2020 13:29:02 +0100 (CET)
-Date: Sun, 1 Nov 2020 13:29:00 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 2/4] dt-bindings: display: Add ABT Y030XX067A panel
- bindings
-Message-ID: <20201101122900.GB1269759@ravnborg.org>
-References: <20201101093150.8071-1-paul@crapouillou.net>
- <20201101093150.8071-3-paul@crapouillou.net>
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Sun,  1 Nov 2020 13:47:00 +0100 (CET)
+Received: by igel.home (Postfix, from userid 1000)
+ id E0FD52C0C39; Sun,  1 Nov 2020 13:46:59 +0100 (CET)
+From: Andreas Schwab <schwab@linux-m68k.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH/RFC v2] video: fbdev: atari: Fix TT High video mode
+References: <20201101102941.2891076-1-geert@linux-m68k.org>
+ <20201101112915.GB1263673@ravnborg.org>
+X-Yow: ..  someone in DAYTON, Ohio is selling USED CARPETS to a SERBO-CROATIAN
+Date: Sun, 01 Nov 2020 13:46:59 +0100
+In-Reply-To: <20201101112915.GB1263673@ravnborg.org> (Sam Ravnborg's message
+ of "Sun, 1 Nov 2020 12:29:15 +0100")
+Message-ID: <874km91by4.fsf@igel.home>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201101093150.8071-3-paul@crapouillou.net>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8 a=gEfo2CItAAAA:8
- a=Lqvclo0UE7ZJoC8b96MA:9 a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22
- a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,105 +59,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, od@zcrc.me, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Christophe Branchereau <cbranchereau@gmail.com>
+Cc: Michael Schmitz <schmitzmic@gmail.com>, linux-fbdev@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-m68k@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 01, 2020 at 09:31:48AM +0000, Paul Cercueil wrote:
-> The Asia Better Technology (ABT) Y030XX067A panel is a 3.0" 320x480
-> 24-bit IPS LCD panel. Its particularity is that it has non-square pixels
-> (as it is 4:3 for a resolution of 320x480), and that it requires odd
-> lines to be sent as RGB and even lines to be sent as GRB on its 8-bit
-> bus.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  .../display/panel/abt,y030xx067a.yaml         | 54 +++++++++++++++++++
->  1 file changed, 54 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml b/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
-> new file mode 100644
-> index 000000000000..6407e8bf45fa
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
-> @@ -0,0 +1,54 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/abt,y030xx067a.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Asia Better Technology 3.0" (320x480 pixels) 24-bit IPS LCD panel
-> +
-> +description: |
-> +  The panel must obey the rules for a SPI slave device as specified in
-> +  spi/spi-controller.yaml
-> +
-> +maintainers:
-> +  - Paul Cercueil <paul@crapouillou.net>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: abt,y030xx067a
-> +
-> +  backlight: true
-> +  port: true
-> +  power-supply: true
-> +  reg: true
-> +  reset-gpios: true
+On Nov 01 2020, Sam Ravnborg wrote:
 
-The binding is missing:
-required:
-  - compatible
-  - reg
-  - power-supply
-  - reset-gpios
-  - ...
+> Hi Geert.
+>
+> On Sun, Nov 01, 2020 at 11:29:41AM +0100, Geert Uytterhoeven wrote:
+>> The horizontal resolution (640) for the TT High video mode (1280x960) is
+>> definitely bogus.  While fixing that, correct the timings to match the
+>> TTM195 service manual.
+>> 
+>> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>> ---
+>> Untested on actual hardware, hence the RFC.
+>> 
+>> v2:
+>>   - Use correct base.
+>> ---
+>>  drivers/video/fbdev/atafb.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/drivers/video/fbdev/atafb.c b/drivers/video/fbdev/atafb.c
+>> index f253daa05d9d3872..5ecf3ec9f94cb720 100644
+>> --- a/drivers/video/fbdev/atafb.c
+>> +++ b/drivers/video/fbdev/atafb.c
+>> @@ -495,8 +495,8 @@ static struct fb_videomode atafb_modedb[] __initdata = {
+>>  		"tt-mid", 60, 640, 480, 31041, 120, 100, 8, 16, 140, 30,
+>>  		0, FB_VMODE_NONINTERLACED | FB_VMODE_YWRAP
+>>  	}, {
+>> -		/* 1280x960, 29 kHz, 60 Hz (TT high) */
+>> -		"tt-high", 57, 640, 960, 31041, 120, 100, 8, 16, 140, 30,
+>> +		/* 1280x960, 72 kHz, 72 Hz (TT high) */
+>> +		"tt-high", 57, 1280, 960, 7761, 260, 60, 36, 4, 192, 4,
+>>  		0, FB_VMODE_NONINTERLACED | FB_VMODE_YWRAP
+>
+> Well-spotted. The change of 640 => 1280 is surely right.
+> I have a harder time understanding why the change of pixclock from 31041
+> to 7761 is correct. All other modes have a pixclock close to or equal
+> to 32000 - so it looks strange this one is off.
 
-additionalProperties: false
+According to the Profibuch the pixclock should be about 95000.
 
-So r-b only with these added.
+Andreas.
 
-	Sam
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        panel@0 {
-> +            compatible = "abt,y030xx067a";
-> +            reg = <0>;
-> +
-> +            spi-max-frequency = <3125000>;
-> +
-> +            reset-gpios = <&gpe 2 GPIO_ACTIVE_LOW>;
-> +
-> +            backlight = <&backlight>;
-> +            power-supply = <&vcc>;
-> +
-> +            port {
-> +                panel_input: endpoint {
-> +                    remote-endpoint = <&panel_output>;
-> +                };
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.28.0
+-- 
+Andreas Schwab, schwab@linux-m68k.org
+GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
+"And now for something completely different."
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
