@@ -1,39 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893A12A2084
-	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA962A208B
+	for <lists+dri-devel@lfdr.de>; Sun,  1 Nov 2020 18:38:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 861746EB48;
-	Sun,  1 Nov 2020 17:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87F306EB49;
+	Sun,  1 Nov 2020 17:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 594C66EB25
- for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 17:37:46 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 923036EB4D
+ for <dri-devel@lists.freedesktop.org>; Sun,  1 Nov 2020 17:38:31 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id BFF278048A;
- Sun,  1 Nov 2020 18:37:42 +0100 (CET)
-Date: Sun, 1 Nov 2020 18:37:41 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH v2 0/4] drm/bridge: ti-sn65dsi86: Support EDID reading
-Message-ID: <20201101173741.GA1293305@ravnborg.org>
-References: <20201030011738.2028313-1-swboyd@chromium.org>
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 57FC71F44AA6;
+ Sun,  1 Nov 2020 17:38:20 +0000 (GMT)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH] drm/panfrost: Remove unused variables in panfrost_job_close()
+Date: Sun,  1 Nov 2020 18:38:17 +0100
+Message-Id: <20201101173817.831769-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201030011738.2028313-1-swboyd@chromium.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VafZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=cm27Pg_UAAAA:8 a=P1BnusSwAAAA:8
- a=RwHePtW7AAAA:8 a=e5mUnYsNAAAA:8 a=umv6ho0nhVORNbC8ZGUA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=xmb-EsYY8bH0VWELuYED:22
- a=D0XLA9XvdZm18NrgonBM:22 a=FqraQwd7dyEg5dwJgZJs:22
- a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,79 +40,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen.
+Commit a17d609e3e21 ("drm/panfrost: Don't corrupt the queue mutex on
+open/close") left unused variables behind, thus generating a warning
+at compilation time. Remove those variables.
 
-On Thu, Oct 29, 2020 at 06:17:34PM -0700, Stephen Boyd wrote:
-> This patch series cleans up the DDC code a little bit so that
-> it is more efficient time wise and supports grabbing the EDID
-> of the eDP panel over the aux channel. I timed this on a board
-> I have on my desk and it takes about 20ms to grab the EDID out
-> of the panel and make sure it is valid.
-> 
-> The first two patches seem less controversial so I stuck them at
-> the beginning. The third patch does the EDID reading and caches
-> it so we don't have to keep grabbing it over and over again. And
-> finally the last patch updates the reply field so that short
-> reads and nacks over the channel are reflected properly instead of
-> treating them as some sort of error that can't be discerned.
-> 
-> Stephen Boyd (4):
->   drm/bridge: ti-sn65dsi86: Combine register accesses in
->     ti_sn_aux_transfer()
->   drm/bridge: ti-sn65dsi86: Make polling a busy loop
->   drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
->   drm/bridge: ti-sn65dsi86: Update reply on aux failures
+Fixes: a17d609e3e21 ("drm/panfrost: Don't corrupt the queue mutex on open/close")
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+My bad, I didn't notice this warning when rebasing Steven's patch on
+top of drm-misc-next :-/
+---
+ drivers/gpu/drm/panfrost/panfrost_job.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Series looks good. You can add my a-b on the full series.
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 14c11293791e..d58e5fe12cab 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -634,8 +634,6 @@ int panfrost_job_open(struct panfrost_file_priv *panfrost_priv)
+ 
+ void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
+ {
+-	struct panfrost_device *pfdev = panfrost_priv->pfdev;
+-	struct panfrost_job_slot *js = pfdev->js;
+ 	int i;
+ 
+ 	for (i = 0; i < NUM_JOB_SLOTS; i++)
+-- 
+2.26.2
 
-I can apply after Douglas have had a look at the patches he did not r-b
-yet.
-
-Any chance we can convince you to prepare this bridge driver for use in
-a chained bridge setup where the connector is created by the display
-driver and uses drm_bridge_funcs?
-
-First step wuld be to introduce the use of a panel_bridge.
-Then add get_edid to drm_bridge_funcs and maybe more helpers.
-
-Then natural final step would be to move connector creation to the
-display driver - see how other uses drm_bridge_connector_init() to do so
-- it is relatively simple.
-
-Should be doable - and reach out if you need some help.
-
-	Sam
-
-
-> 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 108 ++++++++++++++++++--------
->  1 file changed, 75 insertions(+), 33 deletions(-)
-> 
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> Cc: Sean Paul <seanpaul@chromium.org>
-> 
-> base-commit: 3650b228f83adda7e5ee532e2b90429c03f7b9ec
-> -- 
-> Sent by a computer, using git, on the internet
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
