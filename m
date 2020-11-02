@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE202A24E9
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 07:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202282A2524
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 08:25:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A128D6E03E;
-	Mon,  2 Nov 2020 06:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FD066E10D;
+	Mon,  2 Nov 2020 07:25:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D786E03E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 06:57:28 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A26vCQF053237;
- Mon, 2 Nov 2020 00:57:12 -0600
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC946E10D
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 07:25:24 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A27PLg5073882;
+ Mon, 2 Nov 2020 01:25:21 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604300232;
- bh=JTo7kayqjYwO3duP000M0zTm0U8KiaUdPxQC6iPTFn0=;
+ s=ti-com-17Q1; t=1604301921;
+ bh=T49Ll0TNMW2tVaT6eBJIbRqBWQ+Mz6fbnURVgElvpZg=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=W6bNXynCngzCaYOzXnPt064BEkoP2UUCFr61trX9YBs+EWa0x7B8w8ftw/jVcdA9s
- +eEXRAH70lwlREVbBbGtiO528L8m9i6rVg04xJCzYO1cZ8P5RVgLB3X8KGaISaWjSB
- ZPSalIL2hd1I8OIJUpmW95TnauFqzhApn+uiLxwY=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A26vCS6000379
+ b=ETOBV4U/+PBhoDueLMIWcES/Z3ZFlhKgpCiSJmISm2d22QWgVPXBDQyU1/BhrgK2r
+ qGX39Rz0iKQW0xYDog+I57vZTVaMwM2iPQ5Khf99lv7PaFlarWq8vmlTboYtSkTO/4
+ o5sXIOcA05LTxlLn4EKSIgt9zCY/h8hBUNQFpq+4=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A27PLuw065968
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 2 Nov 2020 00:57:12 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 2 Nov 2020 01:25:21 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 2 Nov
- 2020 00:57:11 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 01:25:21 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 2 Nov 2020 00:57:11 -0600
+ Frontend Transport; Mon, 2 Nov 2020 01:25:21 -0600
 Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A26v9js028321;
- Mon, 2 Nov 2020 00:57:09 -0600
-Subject: Re: [PATCH] drm/bridge: tpd12s015: Fix irq registering in
- tpd12s015_probe
-To: Sam Ravnborg <sam@ravnborg.org>, YueHaibing <yuehaibing@huawei.com>
-References: <20201031031648.42368-1-yuehaibing@huawei.com>
- <20201031071936.GA1044557@ravnborg.org>
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A27PJur076314;
+ Mon, 2 Nov 2020 01:25:20 -0600
+Subject: Re: [PATCH 5/5] drm/bridge: mhdp8564: Support format negotiation
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Nikhil Devshatwar
+ <nikhil.nd@ti.com>
+References: <20201016103917.26838-1-nikhil.nd@ti.com>
+ <20201016103917.26838-6-nikhil.nd@ti.com>
+ <20201029223955.GG15024@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <57bfde5b-aee1-c15f-896a-63033e86d9a2@ti.com>
-Date: Mon, 2 Nov 2020 08:57:08 +0200
+Message-ID: <46b3ac3e-b6f5-bc2c-de29-9bf227959f46@ti.com>
+Date: Mon, 2 Nov 2020 09:25:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201031071936.GA1044557@ravnborg.org>
+In-Reply-To: <20201029223955.GG15024@pendragon.ideasonboard.com>
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,53 +64,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, airlied@linux.ie,
- narmstrong@baylibre.com, sebastian.reichel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com
+Cc: Sekhar Nori <nsekhar@ti.com>, dri-devel@lists.freedesktop.org,
+ Swapnil Jakhade <sjakhade@cadence.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/10/2020 09:19, Sam Ravnborg wrote:
-> Hi YueHaibing
+On 30/10/2020 00:39, Laurent Pinchart wrote:
+> Hi Nikhil,
 > 
-> Thanks for the fix. Appreciated but please update as per comments below.
+> Thank you for the patch.
 > 
-> On Sat, Oct 31, 2020 at 11:16:48AM +0800, YueHaibing wrote:
->> gpiod_to_irq() return negative value in case of error,
->> the existing code handle negative error codes wrongly.
+> On Fri, Oct 16, 2020 at 04:09:17PM +0530, Nikhil Devshatwar wrote:
+>> With new connector model, mhdp bridge will not create the connector and
+>> SoC driver will rely on format negotiation to setup the encoder format.
 >>
->> Fixes: cff5e6f7e83f ("drm/bridge: Add driver for the TI TPD12S015 HDMI level shifter")
->> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>> Support format negotiations hooks in the drm_bridge_funcs.
+>> Support a single format for input.
+>>
+>> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 >> ---
->>  drivers/gpu/drm/bridge/ti-tpd12s015.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 29 +++++++++++++++++++
+>>  1 file changed, 29 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/bridge/ti-tpd12s015.c b/drivers/gpu/drm/bridge/ti-tpd12s015.c
->> index 514cbf0eac75..a18d5197c16c 100644
->> --- a/drivers/gpu/drm/bridge/ti-tpd12s015.c
->> +++ b/drivers/gpu/drm/bridge/ti-tpd12s015.c
->> @@ -160,7 +160,7 @@ static int tpd12s015_probe(struct platform_device *pdev)
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> index d0c65610ebb5..230f6e28f82f 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> @@ -2078,6 +2078,34 @@ cdns_mhdp_bridge_atomic_reset(struct drm_bridge *bridge)
+>>  	return &cdns_mhdp_state->base;
+>>  }
 >>  
->>  	/* Register the IRQ if the HPD GPIO is IRQ-capable. */
->>  	tpd->hpd_irq = gpiod_to_irq(tpd->hpd_gpio);
->> -	if (tpd->hpd_irq) {
->> +	if (tpd->hpd_irq > 0) {
->>  		ret = devm_request_threaded_irq(&pdev->dev, tpd->hpd_irq, NULL,
->>  						tpd12s015_hpd_isr,
->>  						IRQF_TRIGGER_RISING |
+>> +static u32 *cdns_mhdp_get_input_bus_fmts(struct drm_bridge *bridge,
+>> +				      struct drm_bridge_state *bridge_state,
+>> +				      struct drm_crtc_state *crtc_state,
+>> +				      struct drm_connector_state *conn_state,
+>> +				      u32 output_fmt,
+>> +				      unsigned int *num_input_fmts)
+>> +{
+>> +	u32 *input_fmts;
+>> +	u32 default_bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
 > 
-> The current implmentation will skip devm_request_threaded_irq() in case
-> or error - but continue with the rest of the function. So the
-> driver fails to return an error code.
+> Display port supports quite a few different formats. See my reply to
+> 4/5, except it's worse in the DP case :-) Especially given that multiple
+> displays need to be taken into account. I'm afraid we need to decide how
+> to map media bus formats to different DP use cases, possibly adding new
+> bus formats as part of this exercise, and then revisit this patch.
 
-That is intended. If the HPD gpio supports IRQs (gpiod_to_irq returns a valid number), we use the
-IRQ. If it doesn't (gpiod_to_irq returns an error), it gets polled via detect(). Both are ok.
+I agree with the points you make here and for the tfp410 patch, but the point of these patches are
+just to keep drivers working with the new connector model.
 
-I don't know if the gpiod_to_irq never returning 0 is something we should rely on. The docs say
-gpiod_to_irq returns the irq number or an error, so I think checking for >= 0 matches the docs better.
+With the old model both tfp410 and mhdp create their own connector, and set the input bus format to
+connector's display_info. With the new model, that doesn't happen and there's no bus format, and so
+the display controller fails.
+
+I see these more as fixes than implementing new features.
+
+Nikhil, I think the output_fmt at the moment should always be FMT_FIXED. Maybe we can just check for
+that.
 
  Tomi
 
