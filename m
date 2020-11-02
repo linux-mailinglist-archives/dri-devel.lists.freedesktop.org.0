@@ -1,27 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9922A2BD3
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 14:44:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 422722A2BD7
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 14:44:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 371F36EB84;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2856EB88;
 	Mon,  2 Nov 2020 13:43:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07BA86E48E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 10:19:37 +0000 (UTC)
-Date: Mon, 02 Nov 2020 10:19:21 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 2/4] dt-bindings: display: Add ABT Y030XX067A
- =?UTF-8?Q?panel=0D=0A?= bindings
-To: Sam Ravnborg <sam@ravnborg.org>
-Message-Id: <9CZ5JQ.CWYPSJ8EDOW4@crapouillou.net>
-In-Reply-To: <20201101122900.GB1269759@ravnborg.org>
-References: <20201101093150.8071-1-paul@crapouillou.net>
- <20201101093150.8071-3-paul@crapouillou.net>
- <20201101122900.GB1269759@ravnborg.org>
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A83316E4AF
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 11:11:36 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 7044AFDB;
+ Mon,  2 Nov 2020 06:08:11 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 02 Nov 2020 06:08:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=V0Uz7vlzKIvnIlOQtX+J4fapG0
+ LP/f9Q0ZgeLirlhg0=; b=sqoxb9MuH+NE0i/RGh7XJhC6VtqLH7ps7YBTFKbdjP
+ qIjOd0yIhGkngQ6cs+KxNmZ3lE8mUy1V5meI+TsAO35pfTgCCh+DGuDTnn7GQL+x
+ RydFoWOIX3LUBjpZsp67S42qsCDU8X9nOllHobs8zvnne5792OmSH/C6ugmCudci
+ b91zvUz4LsZkmzplDTy+ysYu5pwOzzaoeSh3kAl4aMr6tMuBCOVdlZehs6S0hRur
+ lsv4UY8OLQmL5rNz6VgLW4cmPpzNwyEuVbYtGzmSaFAboR4wVrId7AOPXPiWNiyT
+ oB1JU2r2DjMendsQF3JFLXFNiTnSwXgT2nA3ILIrnlgg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=V0Uz7vlzKIvnIlOQt
+ X+J4fapG0LP/f9Q0ZgeLirlhg0=; b=l59bbQxn3psO8qSm6V/SL/Py5HGzcvhdn
+ jV4w5hJWD6naxzwpEugo5T5MyxqXLN5lTH1XkpEHz60jCacxW82WmcKzT/lPXTkX
+ lzTrY930t5HpNFvCnltwL36E2RsmjIhjSMnhmg2EUqS2pOPSQxMMfjNOk3tqghJp
+ sMP8NiI3+3NTLqkLT3mrofZ0iZXFWPQBKRSCKu05cRbLlXQLx8GaZ74fht+6kgmO
+ 1/M4SKaXctDNRECVZ37KgREc/k8Ma4IJBxy9a3Od+6FBpTOruFIpBo64vW8NtahE
+ Nh19vDfGqmQQz2vnFyTuTkygZdzvFtr5OeQSQlEr7stWnfotFFQdg==
+X-ME-Sender: <xms:meifX2jh1pCpMcGBRrEJByS1JJgXgv1-x7kjrB75kGVBRr6I1e8SrA>
+ <xme:meifX3CF1_3GLBkexLxZWemVtb1na2ySau2dMznGQ7Gwi32cqa9lu10WX9iBtntO7
+ t_DTR1r9teNqz8-9Ug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtuddgvdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhephfefhfehkeejueehhffhvdfgiedukedutdegveeifefhieeuvdduuddvgfeffedu
+ necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeltddrkeelrd
+ eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:meifX-HIRtGNBrgSGL98V2tw1Iqp0_HWKGhUf6iBfdEXDzdtbXICzg>
+ <xmx:meifX_QZ7UXP3-1Eik5Z0FdGg3QDZZTAjusERVtPOCB1dECzfbLSRg>
+ <xmx:meifXzwJeYzDl0i6IWk4Th4rJyTPvDZEEVVwrpu_mDEF2tbp9I_U5w>
+ <xmx:m-ifX-qobw5HWgJTkF0IMvZu5cIZjOZyfJijqEwJ7_fxParhJoMPvw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id BBD5B328005A;
+ Mon,  2 Nov 2020 06:08:08 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PATCH] drm/nouveau/ttm: Add limits.h
+Date: Mon,  2 Nov 2020 12:08:06 +0100
+Message-Id: <20201102110806.429002-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 02 Nov 2020 13:43:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -36,143 +78,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, od@zcrc.me, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Christophe Branchereau <cbranchereau@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+It seems that a recent commit broke the nouveau compilation when swiotlb is
+disabled (which is the case on our ARM defconfig for example).
 
+Daniel says
 
-Le dim. 1 nov. 2020 =E0 13:29, Sam Ravnborg <sam@ravnborg.org> a =E9crit :
-> On Sun, Nov 01, 2020 at 09:31:48AM +0000, Paul Cercueil wrote:
->>  The Asia Better Technology (ABT) Y030XX067A panel is a 3.0" 320x480
->>  24-bit IPS LCD panel. Its particularity is that it has non-square =
+"""
+Since the proper fix is maybe stuck in the usual "drm abuses swiotlb
+internals" bikeshed, maybe best if we push a fix to including limits.h
+in nouveau and call it done?
+"""
 
->> pixels
->>  (as it is 4:3 for a resolution of 320x480), and that it requires odd
->>  lines to be sent as RGB and even lines to be sent as GRB on its =
+So let's go down the simplest path to fix our build, and goes back to it
+later if needed.
 
->> 8-bit
->>  bus.
->> =
+Link: https://patchwork.freedesktop.org/patch/397835/
+Fixes: 4dbafbd30aef ("drm/nouveu: fix swiotlb include")
+Acked-by: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/nouveau/nouveau_ttm.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->>   .../display/panel/abt,y030xx067a.yaml         | 54 =
-
->> +++++++++++++++++++
->>   1 file changed, 54 insertions(+)
->>   create mode 100644 =
-
->> Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
->> =
-
->>  diff --git =
-
->> a/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml =
-
->> b/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
->>  new file mode 100644
->>  index 000000000000..6407e8bf45fa
->>  --- /dev/null
->>  +++ =
-
->> b/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
->>  @@ -0,0 +1,54 @@
->>  +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>  +%YAML 1.2
->>  +---
->>  +$id: =
-
->> http://devicetree.org/schemas/display/panel/abt,y030xx067a.yaml#
->>  +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>  +
->>  +title: Asia Better Technology 3.0" (320x480 pixels) 24-bit IPS LCD =
-
->> panel
->>  +
->>  +description: |
->>  +  The panel must obey the rules for a SPI slave device as =
-
->> specified in
->>  +  spi/spi-controller.yaml
->>  +
->>  +maintainers:
->>  +  - Paul Cercueil <paul@crapouillou.net>
->>  +
->>  +allOf:
->>  +  - $ref: panel-common.yaml#
->>  +
->>  +properties:
->>  +  compatible:
->>  +    const: abt,y030xx067a
->>  +
->>  +  backlight: true
->>  +  port: true
->>  +  power-supply: true
->>  +  reg: true
->>  +  reset-gpios: true
-> =
-
-> The binding is missing:
-> required:
->   - compatible
->   - reg
->   - power-supply
->   - reset-gpios
->   - ...
-> =
-
-> additionalProperties: false
-> =
-
-> So r-b only with these added.
-
-Stupid mistake, sorry about that.
-
-I'll V2.
-
--Paul
-
-> =
-
-> 	Sam
-> =
-
->>  +
->>  +examples:
->>  +  - |
->>  +    #include <dt-bindings/gpio/gpio.h>
->>  +
->>  +    spi {
->>  +        #address-cells =3D <1>;
->>  +        #size-cells =3D <0>;
->>  +
->>  +        panel@0 {
->>  +            compatible =3D "abt,y030xx067a";
->>  +            reg =3D <0>;
->>  +
->>  +            spi-max-frequency =3D <3125000>;
->>  +
->>  +            reset-gpios =3D <&gpe 2 GPIO_ACTIVE_LOW>;
->>  +
->>  +            backlight =3D <&backlight>;
->>  +            power-supply =3D <&vcc>;
->>  +
->>  +            port {
->>  +                panel_input: endpoint {
->>  +                    remote-endpoint =3D <&panel_output>;
->>  +                };
->>  +            };
->>  +        };
->>  +    };
->>  --
->>  2.28.0
-
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+index 2bf36229dd57..a37bc3d7b38b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+@@ -23,6 +23,7 @@
+  * USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
+ 
++#include <linux/limits.h>
+ #include <linux/swiotlb.h>
+ 
+ #include "nouveau_drv.h"
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
