@@ -1,42 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060112A362C
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 22:56:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5262A3636
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 22:59:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 956186E558;
-	Mon,  2 Nov 2020 21:56:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEE8F6E40A;
+	Mon,  2 Nov 2020 21:59:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 565916E558
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 21:56:29 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3EDBF583;
- Mon,  2 Nov 2020 22:56:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604354187;
- bh=89P0rtmbvGghV/QE8F8hRIZpDj6Er59rua00pGU1HKk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tfJzoGe7SDaqyeXt7EcNjKen2Xu/hoZRTpKea4JxoyJrLVwuvdFpgnnN1zD8nq7Vw
- WEjhR1WD42k79W/o9mmE8pQeKbcdQKlsBtlRa6npDcXSHEh2YaJeL7DOg3iiKdwxvq
- x76hSFJgfXbusuqBu3xDU00Qak9bBBGXXcoI5U6Q=
-Date: Mon, 2 Nov 2020 23:55:39 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH v2 3/4] drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
-Message-ID: <20201102215539.GF3971@pendragon.ideasonboard.com>
-References: <20201030011738.2028313-1-swboyd@chromium.org>
- <20201030011738.2028313-4-swboyd@chromium.org>
- <20201101192027.GA7612@pendragon.ideasonboard.com>
- <CAD=FV=VKTS7G9a3x8iHg=eWRFtrcwKBdwbdtynmHhV4KPCnDKQ@mail.gmail.com>
- <160433869233.884498.1989382962614280308@swboyd.mtv.corp.google.com>
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9AF16E40A
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 21:59:41 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id d9so10276328oib.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 13:59:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2tlgrX0K0Vy+ZK2RU6+dKp7rmFUpdiDwSkOCxazfILQ=;
+ b=jvrsBUUhWjBYBRf9PTnSvHChgVloQZYlmSHPohx0dHd73t+BYrbLx2GMjmAs2bDw8T
+ iRK+1faLaOQSerM1FCjUWL3SV++PT/zgrGCvNK1ZtLWOKzBgbfXV47b3rGLi+ADPrlcI
+ ItnOTwNOODhKPnaEFtUUq1hrci08QDkPf4Mv8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2tlgrX0K0Vy+ZK2RU6+dKp7rmFUpdiDwSkOCxazfILQ=;
+ b=ZU4bz6Pk3s3etc8IZ84mJZ3C2VQk0+yPg7obk44RPEqDgNKw9Z4NSMhmll7zJzSJDT
+ nKWw/EqJuWK+U2ga0/g28E2wcZb6PfFGFfFKQQpRL8Ey+LfZFto1HrByKQ8W+0bBMdHo
+ xyBqAtBgiEgtPdTKC7WHO5LtQ8Y7/Ec3Z1HQNJX/S7wToF8VqTRA21vPoIKCsC7nyb6g
+ WvnSQAkCu13K/maI2C6WNDATbvdVc6APKZa6f/XeW9PhZa8yjGjABRY2cQoinHKLyCsF
+ Q6Hoivz2K+Vnt/i2gl1bmWSTbBOlbf7kHpOMinzxy4ajWSZjbLcoHPZy+0ldUqUZ8VpE
+ PD7g==
+X-Gm-Message-State: AOAM530uN4RQPtn89p62UKo+g/ky4gfoPn2VmcPu2FGrXJD5blUGPvKC
+ EoYCs0IyaycrgCTwIQ8QyirB7+0qsOXL3ngaQv6KRA==
+X-Google-Smtp-Source: ABdhPJyaU//w4Xg+7sz+YC0Hg+SDFiSf7P0eLscSeTPoG98pKXo2MDt7Y/5YtVVGNQpiAiMcAo9GLuVqhVSP8jB6y4o=
+X-Received: by 2002:aca:39d6:: with SMTP id g205mr176442oia.14.1604354381126; 
+ Mon, 02 Nov 2020 13:59:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <160433869233.884498.1989382962614280308@swboyd.mtv.corp.google.com>
+References: <20201102081508.GA104814@mwanda>
+ <MW3PR11MB4555588F506D774990798A47E5100@MW3PR11MB4555.namprd11.prod.outlook.com>
+In-Reply-To: <MW3PR11MB4555588F506D774990798A47E5100@MW3PR11MB4555.namprd11.prod.outlook.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 2 Nov 2020 22:59:29 +0100
+Message-ID: <CAKMK7uG4MC_uT=kqXT-wZJR=kox6TW0aa3JOA7idnOa1SGNrkQ@mail.gmail.com>
+Subject: Re: [bug report] dma-buf: Clarify that dma-buf sg lists are page
+ aligned
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,92 +59,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Doug Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Sean Paul <seanpaul@chromium.org>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
+On Mon, Nov 2, 2020 at 10:33 PM Xiong, Jianxin <jianxin.xiong@intel.com> wrote:
+>
+> Hi Dan,
+>
+> Thanks for reporting the bug. I see what was missing. Am I supposed to submit a patch to
+> replace the original patch or just to fix this bug?
 
-On Mon, Nov 02, 2020 at 09:38:12AM -0800, Stephen Boyd wrote:
-> Quoting Doug Anderson (2020-11-02 08:06:14)
-> > On Sun, Nov 1, 2020 at 11:21 AM Laurent Pinchart wrote:
-> > > On Thu, Oct 29, 2020 at 06:17:37PM -0700, Stephen Boyd wrote:
-> > > > @@ -265,6 +267,23 @@ connector_to_ti_sn_bridge(struct drm_connector *connector)
-> > > >  static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
-> > > >  {
-> > > >       struct ti_sn_bridge *pdata = connector_to_ti_sn_bridge(connector);
-> > > > +     struct edid *edid = pdata->edid;
-> > > > +     int num, ret;
-> > > > +
-> > > > +     if (!edid) {
-> > > > +             pm_runtime_get_sync(pdata->dev);
-> > > > +             edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
-> > > > +             pm_runtime_put(pdata->dev);
-> > > > +     }
-> > >
-> > > Do we need to cache the EDID ? It seems like something that should be
-> > > done by the DRM core (well, caching modes in that case), not by
-> > > individual bridge drivers.
-> > 
-> > I can take the blame for the fact that it does caching, since I
-> > requested it in early reviews.  In general boot speed is pretty
-> > important to me and each read of the EDID take 20 ms.  There are
-> > definitely several calls to get the EDID during a normal bootup.
-> > Stephen did a little more digging into exactly what was causing all
-> > these calls and can chime in, 
-> 
-> In ChromeOS we get modes a couple times and then whenever we connect or
-> disconnect a DP cable for external display we also get modes. It seems
-> that we also run modetest at boot but I'm not sure why we do that. I
-> think it is to gather diagnostic data for all the EDIDs on the device at
-> boot so we know what all is connected.
-> 
-> > but in general until we can eliminate
-> > the extra calls it seems like it'd be nice to keep the caching?  This
-> > bridge chip is intended for use for eDP for internal panels, so there
-> > should be no downside to caching.  If we can later optimize the DRM
-> > core, we can fix this and a pre-existing driver that does the same
-> > type of caching (analogix-anx6345.c) at the same time?
-> 
-> I'd like to add the caching somewhere in the core (maybe the bridge
-> connector code?) but I don't know what the logic should be. Is it eDP
-> and if not hpd notify then cache all the time and if it is eDP and hpd
-> notify then cache once hpd notify says detected and drop cache when no
-> longer detected?
-> 
-> 	if (eDP) {
-> 		if (!hpd)
-> 			cache();
-> 		else if (hpd_detected()) {
-> 			cache();
-> 		else if (!hpd_detected()) {
-> 			drop_cache();
-> 		}
-> 	}
-> 
-> I thought that EDID could change and HPD can be pulsed to notify that it
-> should be read again.
+drm-misc-next doesn't rebase (except in emergencies), so please follow
+up with a fixup patch that references the one already merged with
+Fixes: line and everything else.
 
-I think we should expose a flag tells the panel is fixed instead of
-making it a special case of eDP, as other panel types could benefit from
-the same mechanism. Otherwise, yes, I think it's really about caching
-the EDID the first time we read it, and then reusing it. The question is
-who should convert EDID to modes. At the moment bridge drivers do so,
-and we're migrating to drm_bridge_connector for most cases. That would
-be a candidate location to cache EDID. The DRM core would be another
-one, but in that case we may need to also cache the modes.
+Thanks, Daniel
+
+>
+> Jianxin
+>
+> > -----Original Message-----
+> > From: Dan Carpenter <dan.carpenter@oracle.com>
+> > Sent: Monday, November 02, 2020 12:15 AM
+> > To: Xiong, Jianxin <jianxin.xiong@intel.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Subject: [bug report] dma-buf: Clarify that dma-buf sg lists are page aligned
+> >
+> > Hello Jianxin Xiong,
+> >
+> > The patch ac80cd17a615: "dma-buf: Clarify that dma-buf sg lists are page aligned" from Oct 14, 2020, leads to the following static checker
+> > warning:
+> >
+> >       drivers/dma-buf/dma-buf.c:917 dma_buf_map_attachment()
+> >       error: 'sg_table' dereferencing possible ERR_PTR()
+> >
+> > drivers/dma-buf/dma-buf.c
+> >    897          sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
+> >    898          if (!sg_table)
+> >    899                  sg_table = ERR_PTR(-ENOMEM);
+> >    900
+> >    901          if (IS_ERR(sg_table) && dma_buf_is_dynamic(attach->dmabuf) &&
+> >    902               !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+> >    903                  dma_buf_unpin(attach);
+> >    904
+> >    905          if (!IS_ERR(sg_table) && attach->dmabuf->ops->cache_sgt_mapping) {
+> >                     ^^^^^^^^^^^^^^^^^
+> >
+> >    906                  attach->sgt = sg_table;
+> >    907                  attach->dir = direction;
+> >    908          }
+> >    909
+> >    910  #ifdef CONFIG_DMA_API_DEBUG
+> >    911          {
+> >    912                  struct scatterlist *sg;
+> >    913                  u64 addr;
+> >    914                  int len;
+> >    915                  int i;
+> >    916
+> >    917                  for_each_sgtable_dma_sg(sg_table, sg, i) {
+> >                                                 ^^^^^^^^^ Not checked here.
+> >
+> >    918                          addr = sg_dma_address(sg);
+> >    919                          len = sg_dma_len(sg);
+> >    920                          if (!PAGE_ALIGNED(addr) || !PAGE_ALIGNED(len)) {
+> >    921                                  pr_debug("%s: addr %llx or len %x is not page aligned!\n",
+> >    922                                           __func__, addr, len);
+> >    923                          }
+> >    924                  }
+> >    925          }
+> >    926  #endif /* CONFIG_DMA_API_DEBUG */
+> >
+> > regards,
+> > dan carpenter
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
