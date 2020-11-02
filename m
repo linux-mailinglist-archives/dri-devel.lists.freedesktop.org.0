@@ -1,64 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4672E2A3EA5
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9032A3E6C
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:14:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 104616EC33;
-	Tue,  3 Nov 2020 08:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 685116EBAC;
+	Tue,  3 Nov 2020 08:14:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCAA46EB87;
- Mon,  2 Nov 2020 19:38:29 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id o129so12040574pfb.1;
- Mon, 02 Nov 2020 11:38:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=0j6o5IOXi9QCY4rzpYV2c+ym2ifBD5NBqGCfA07Vm74=;
- b=L+AjpdoGoATYswlcQZhH4mqTxzzmDQvbcl+DXWmCC3hNnZMM+5uhN9ZB7j2A9gBxct
- SvlaNuQKR2lVpeFNyVAF0KnG3UZTlAjwOs/aCsxyCWUjqf5vvxJOPOXkbLC8ysSLyA0c
- aoY2nQkuizoHzMasFTP/0WustlerkjlON5jj6neaMmbxYc1Pyh70xUsTHC/K0iy5+MSu
- mY7aI4BnxhtYak5yK7AFJcJf8sNBdE9JU5b888xr7DAvZpkrC0Ht6C/dQBacZvgRg8pv
- rIerePPn6aUVFuFWFvOyEmcSQcqWXCk7Pyu60+APYH8adIG4ZHCkGH6IlyEtmzgBPaaV
- Y5Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0j6o5IOXi9QCY4rzpYV2c+ym2ifBD5NBqGCfA07Vm74=;
- b=Z7dj2v9HzrQOrJph+ySm7rstK9afWVt4cFJCskm9BeLqLkgO2u60m23eS9eL3K0Ojx
- WhkeiKSdyaMRyUitL1c7etyVvb+wEOWUe9focU0zCMVftVbUO6tTBGUix9g6DNdfRO0m
- NPJOwSCokfe4ZHmkGVmA1YRisSifaMrD7Xjua5VyRzjs5uBxGZ0W17pAVsu7LKnW2HKb
- P9KBFGyVSRnfJSnxCC9ipcGAbRnMkT2AvxA7zLIKfNRtA2UTu1XIOEvHqp8W0iFK8Vwq
- usnXi/6V5APE5LmNHN9g9gKubg/FacRZseaL+9/aR9EYxfV7YU6KH5x4NRoCw3/qsN8W
- Ne0g==
-X-Gm-Message-State: AOAM533ktZBjQmO4oaH/CsCT42madMweYFmy8+ZaS8r6676Oh1RxG2rN
- aKL7WLDm/gHI+naYMcAUf8s=
-X-Google-Smtp-Source: ABdhPJzv9XHaWF7iKhvLYB3sajkHQCPPJDccyaXCoDOLYSCHbFivdvNuvOqFfpiT3T1VA25ibfNArg==
-X-Received: by 2002:a63:160b:: with SMTP id w11mr14557370pgl.110.1604345909343; 
- Mon, 02 Nov 2020 11:38:29 -0800 (PST)
-Received: from localhost ([160.202.157.3])
- by smtp.gmail.com with ESMTPSA id q5sm267634pjj.26.2020.11.02.11.38.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 11:38:29 -0800 (PST)
-Date: Tue, 3 Nov 2020 01:08:23 +0530
-From: Deepak R Varma <mh12gx2825@gmail.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] drm/amdgpu: use "*" adjacent to data name
-Message-ID: <59ffb58ca0d30ababc611ebc414e816902cc1b77.1604345594.git.mh12gx2825@gmail.com>
-References: <6ad41a97d7805124d2e31c70d96c846cf0d21524.1604345594.git.mh12gx2825@gmail.com>
-MIME-Version: 1.0
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com
+ [148.163.147.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDA306E12C;
+ Mon,  2 Nov 2020 19:57:25 +0000 (UTC)
+Received: from pps.filterd (m0148663.ppops.net [127.0.0.1])
+ by mx0a-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0A2JnjMh005906; Mon, 2 Nov 2020 19:57:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com;
+ h=date : from : to : cc :
+ subject : message-id : reply-to : references : content-type : in-reply-to
+ : mime-version; s=pps0720;
+ bh=wWs0BUEJ4QSNrRzIaVowN9j/D52jMAm5Em0ykihOTZQ=;
+ b=VNiX8vb822xLllVx1v3z5RrsyJUjBMeJ6tcgV+g2nFh3NLk2UMzjHNNQ3CTzo88LOnfq
+ LljI1H9HSQQ5cKKYs7MIqptbZWYzV9b8gar9mi/notjhsenBE6pVBf/9LWqbz7sktRok
+ eEZxw71kE3LcPaX5elJp8FGaMmGH3vECknTOiBlEwzy53RImjLycd2j6kJi8m5J+DiPW
+ +wYwOQurL4OkyCiA75OG90aMfKkh2Zp8HdelJ/yKYgIj0E9ZO1O+TFcHMeSypGrqf6XX
+ OLAXpCbT3uR4UfiowjKqlIhq0oAOsqsBjjeDG+8BzQLXwwHt9B0lVrODNIk6hueMupJw Cg== 
+Received: from g4t3426.houston.hpe.com (g4t3426.houston.hpe.com
+ [15.241.140.75])
+ by mx0a-002e3701.pphosted.com with ESMTP id 34hht5d6fj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 02 Nov 2020 19:57:14 +0000
+Received: from g4t3433.houston.hpecorp.net (g4t3433.houston.hpecorp.net
+ [16.208.49.245])
+ by g4t3426.houston.hpe.com (Postfix) with ESMTP id A1DD154;
+ Mon,  2 Nov 2020 19:57:12 +0000 (UTC)
+Received: from rfwz62 (rfwz62.americas.hpqcorp.net [10.33.237.8])
+ by g4t3433.houston.hpecorp.net (Postfix) with ESMTP id 413E046;
+ Mon,  2 Nov 2020 19:57:11 +0000 (UTC)
+Date: Mon, 2 Nov 2020 12:57:11 -0700
+From: rwright@hpe.com
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3 0/3] Reduce context clear batch size to avoid gpu hang
+Message-ID: <20201102195710.GA12790@rfwz62>
+References: <20201101174132.10513-1-rwright@hpe.com>
+ <8cdf0dd0-2a2f-bae9-71ea-89a88fdb14a5@redhat.com>
 Content-Disposition: inline
-In-Reply-To: <6ad41a97d7805124d2e31c70d96c846cf0d21524.1604345594.git.mh12gx2825@gmail.com>
-X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
+In-Reply-To: <8cdf0dd0-2a2f-bae9-71ea-89a88fdb14a5@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-02_13:2020-11-02,
+ 2020-11-02 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 mlxscore=0
+ mlxlogscore=999 lowpriorityscore=0 adultscore=0 phishscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011020151
+X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,149 +73,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, gregkh@linuxfoundation.org, mh12gx2825@gmail.com,
- daniel.vetter@ffwll.ch
+Reply-To: rwright@hpe.com
+Cc: dri-devel@lists.freedesktop.org, airlied@linux.ie,
+ mika.kuoppala@linux.intel.com, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, christian.koenig@amd.com,
+ linux-media@vger.kernel.org, matthew.auld@intel.com, rodrigo.vivi@intel.com,
+ akeem.g.abodunrin@intel.com, chris@chris-wilson.co.uk,
+ prathap.kumar.valsan@intel.com, wambui.karugax@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When declaring pointer data, the "*" symbol should be used adjacent to
-the data name as per the coding standards. This resolves following
-issues reported by checkpatch script:
-	ERROR: "foo *   bar" should be "foo *bar"
-	ERROR: "foo * bar" should be "foo *bar"
-	ERROR: "foo*            bar" should be "foo *bar"
-	ERROR: "(foo*)" should be "(foo *)"
+On Mon, Nov 02, 2020 at 10:48:54AM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 11/1/20 6:41 PM, rwright@hpe.com wrote:
+> > From: Randy Wright <rwright@hpe.com>
+> > 
+> > For several months, I've been experiencing GPU hangs when  starting
+> > Cinnamon on an HP Pavilion Mini 300-020 if I try to run an upstream
+> > kernel.  I reported this recently in
+> > https://gitlab.freedesktop.org/drm/intel/-/issues/2413 where I have
+> > attached the requested evidence including the state collected from
+> > /sys/class/drm/card0/error and debug output from dmesg.
+> > 
+> > I ran a bisect to find the problem, which indicates this is the
+> > troublesome commit:
+> > 
+> >   [47f8253d2b8947d79fd3196bf96c1959c0f25f20] drm/i915/gen7: Clear all EU/L3 residual contexts
+> > ...
+> > I've now cleaned up the patch to employ a new QUIRK_RENDERCLEAR_REDUCED.
+> > The quirk is presently set only for the aforementioned HP Pavilion Mini
+> > 300-020.  The patch now touches three files to define the quirk, set it,
+> > and then check for it in function batch_get_defaults.
+> 
+> Note I'm not really an i915 dev.
+> 
+> With that said I do wonder if we should not use the
+> reduced batch size in a lot more cases, the machine in question uses a
+> 3558U CPU if the iGPU of that CPU has this issue, then I would expect
+> pretty much all Haswell U models (at a minimum) to have this issue.
+> 
+> So solving this with a quirk for just the HP Pavilion Mini 300-020
+> seems wrong to me. I think we need a more generic way of enabling
+> the reduced batch size. I even wonder if we should not simply use
+> it everywhere. Since you do have a proper Haswell CPU, I guess
+> it being an U model makes the hang easier to trigger, but I suspect
+> the higher TPD ones may also still be susceptible ...
+> 
+> Regards,
+> 
+> Hans
+> 
 
-Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/atom.c         | 16 ++++++++--------
- drivers/gpu/drm/amd/amdgpu/atombios_i2c.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c     |  4 ++--
- drivers/gpu/drm/amd/amdgpu/mes_v10_1.c    |  2 +-
- drivers/gpu/drm/amd/amdgpu/psp_v11_0.c    |  2 +-
- 5 files changed, 13 insertions(+), 13 deletions(-)
+Hi Hans,
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
-index 46c00ee580b1..515890f4f5a0 100644
---- a/drivers/gpu/drm/amd/amdgpu/atom.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atom.c
-@@ -67,8 +67,8 @@ typedef struct {
- } atom_exec_context;
- 
- int amdgpu_atom_debug;
--static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t * params);
--int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t * params);
-+static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t *params);
-+int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t *params);
- 
- static uint32_t atom_arg_mask[8] =
- 	{ 0xFFFFFFFF, 0xFFFF, 0xFFFF00, 0xFFFF0000, 0xFF, 0xFF00, 0xFF0000,
-@@ -1201,7 +1201,7 @@ static struct {
- 	atom_op_div32, ATOM_ARG_WS},
- };
- 
--static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t * params)
-+static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t *params)
- {
- 	int base = CU16(ctx->cmd_table + 4 + 2 * index);
- 	int len, ws, ps, ptr;
-@@ -1262,7 +1262,7 @@ static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index,
- 	return ret;
- }
- 
--int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t * params)
-+int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t *params)
- {
- 	int r;
- 
-@@ -1388,8 +1388,8 @@ void amdgpu_atom_destroy(struct atom_context *ctx)
- }
- 
- bool amdgpu_atom_parse_data_header(struct atom_context *ctx, int index,
--			    uint16_t * size, uint8_t * frev, uint8_t * crev,
--			    uint16_t * data_start)
-+			    uint16_t *size, uint8_t *frev, uint8_t *crev,
-+			    uint16_t *data_start)
- {
- 	int offset = index * 2 + 4;
- 	int idx = CU16(ctx->data_table + offset);
-@@ -1408,8 +1408,8 @@ bool amdgpu_atom_parse_data_header(struct atom_context *ctx, int index,
- 	return true;
- }
- 
--bool amdgpu_atom_parse_cmd_header(struct atom_context *ctx, int index, uint8_t * frev,
--			   uint8_t * crev)
-+bool amdgpu_atom_parse_cmd_header(struct atom_context *ctx, int index, uint8_t *frev,
-+			   uint8_t *crev)
- {
- 	int offset = index * 2 + 4;
- 	int idx = CU16(ctx->cmd_table + offset);
-diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_i2c.c b/drivers/gpu/drm/amd/amdgpu/atombios_i2c.c
-index 09a538465ffd..af0335535f82 100644
---- a/drivers/gpu/drm/amd/amdgpu/atombios_i2c.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atombios_i2c.c
-@@ -159,7 +159,7 @@ u32 amdgpu_atombios_i2c_func(struct i2c_adapter *adap)
- 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
- }
- 
--void amdgpu_atombios_i2c_channel_trans(struct amdgpu_device* adev, u8 slave_addr, u8 line_number, u8 offset, u8 data)
-+void amdgpu_atombios_i2c_channel_trans(struct amdgpu_device *adev, u8 slave_addr, u8 line_number, u8 offset, u8 data)
- {
- 	PROCESS_I2C_CHANNEL_TRANSACTION_PS_ALLOCATION args;
- 	int index = GetIndexIntoMasterTable(COMMAND, ProcessI2cChannelTransaction);
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-index 48f98c750956..e96ab5325af5 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-@@ -5167,7 +5167,7 @@ static void gfx_v9_0_ring_set_wptr_gfx(struct amdgpu_ring *ring)
- 
- 	if (ring->use_doorbell) {
- 		/* XXX check if swapping is necessary on BE */
--		atomic64_set((atomic64_t*)&adev->wb.wb[ring->wptr_offs], ring->wptr);
-+		atomic64_set((atomic64_t *)&adev->wb.wb[ring->wptr_offs], ring->wptr);
- 		WDOORBELL64(ring->doorbell_index, ring->wptr);
- 	} else {
- 		WREG32_SOC15(GC, 0, mmCP_RB0_WPTR, lower_32_bits(ring->wptr));
-@@ -5353,7 +5353,7 @@ static void gfx_v9_0_ring_set_wptr_compute(struct amdgpu_ring *ring)
- 
- 	/* XXX check if swapping is necessary on BE */
- 	if (ring->use_doorbell) {
--		atomic64_set((atomic64_t*)&adev->wb.wb[ring->wptr_offs], ring->wptr);
-+		atomic64_set((atomic64_t *)&adev->wb.wb[ring->wptr_offs], ring->wptr);
- 		WDOORBELL64(ring->doorbell_index, ring->wptr);
- 	} else{
- 		BUG(); /* only DOORBELL method supported on gfx9 now */
-diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c b/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
-index 1c22d8393b21..985e454463e1 100644
---- a/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
-+++ b/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
-@@ -46,7 +46,7 @@ static void mes_v10_1_ring_set_wptr(struct amdgpu_ring *ring)
- 	struct amdgpu_device *adev = ring->adev;
- 
- 	if (ring->use_doorbell) {
--		atomic64_set((atomic64_t*)&adev->wb.wb[ring->wptr_offs],
-+		atomic64_set((atomic64_t *)&adev->wb.wb[ring->wptr_offs],
- 			     ring->wptr);
- 		WDOORBELL64(ring->doorbell_index, ring->wptr);
- 	} else {
-diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
-index 6c5d9612abcb..d521ca0f3afa 100644
---- a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
-@@ -615,7 +615,7 @@ static int psp_v11_0_memory_training_send_msg(struct psp_context *psp, int msg)
- static int psp_v11_0_memory_training(struct psp_context *psp, uint32_t ops)
- {
- 	struct psp_memory_training_context *ctx = &psp->mem_train_ctx;
--	uint32_t *pcache = (uint32_t*)ctx->sys_cache;
-+	uint32_t *pcache = (uint32_t *)ctx->sys_cache;
- 	struct amdgpu_device *adev = psp->adev;
- 	uint32_t p2c_header[4];
- 	uint32_t sz;
--- 
-2.25.1
+As you noted, the 3558U cpu is one of the least powerful processors
+to be designated as a Haswell, but there are others at the low end
+of the Haswell architecture that I also suspect might exhibit
+similar problems.
 
+That leads me to think that more gpu hangs like mine will be reported
+when commit 47f8253d makes its way into widely used kernels. And that's
+why I chose to implement a quirk that would allow enrolling other
+systems as they are identified.
+
+Your remark about applying the reduced batch size in all cases certainly
+would simplify the patch.   However, I don't have any other systems
+using the i915 driver on which I could try to measure the putative
+performance penalty of reducing the batch size on a system that worked
+properly with the large size.   So I couldn't thoroughly investigate
+the consequences of a broader change.
+
+That said, if the i915 maintainers respond in favor of the simpler
+unconditional reduction of the batch size, I will be glad to
+propose a much simpler version of my patch.
+
+I probably should clarify that this patch is to resolve a problem on a
+personally owned system that I use at home.  It is not related to a
+problem with any of HPE's products, and so I don't have a lab full of
+systems using the i915 driver on which I can test a change that would
+have an effect many products.  The consumer products like Pavilions
+stayed with HP when HPE split from HP five years ago.
+
+--
+Randy Wright            Usmail: Hewlett Packard Enterprise
+Email: rwright@hpe.com          Servers Linux Enablement
+Phone: (970) 898-0998           3404 E. Harmony Rd, Mailstop 36
+                                Fort Collins, CO 80528-9599 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
