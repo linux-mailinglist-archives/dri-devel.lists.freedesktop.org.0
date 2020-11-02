@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766F72A3702
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 00:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AFD2A374F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 00:50:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A19CA6E588;
-	Mon,  2 Nov 2020 23:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B94D86E598;
+	Mon,  2 Nov 2020 23:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6F86E57A;
- Mon,  2 Nov 2020 23:14:41 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id 23so2009573wmg.1;
- Mon, 02 Nov 2020 15:14:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Yd/yHPwpX3j/PkBKgMI4UlExzusZQuxmftwkBiDfwd0=;
- b=Hp/PzG2nBC1gTiutjecqG6sDMBWHpgxt68CWrv7FKoC2KpclVQi5DiALbyOH/UcWEE
- pQXKbYe/q6R7+nfsAwBRSWgf6LEXMHlbzywmE9ffoTe5xjvyaVB9nGgsq4MnnZnf3F7s
- wOPYrOWMdoiPXfr+yVkOhf3z5JyZm0BSSJFj2WGltz5ZwHfd3v6p8bAs2G/TfvXs1wEA
- tKbJBU1HxsqBWxSZc/HBWRLZWDFDclhHUrPTST+38gO/i9jnWdaBaEQ6qQp7T/bCml11
- G5ahd5unJCmCcd0EL39PVQDFmIUVJQKmFjLpOUCpt4LGTRpkOg0yVog98tDRygh2Xky1
- aMZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Yd/yHPwpX3j/PkBKgMI4UlExzusZQuxmftwkBiDfwd0=;
- b=Fy7FoOXK9wuwZdumvShSRhIoIASP/Yv316JkpQ8my/FYgDzNkP7B8JUg7+9eOnHHa5
- nrNo0RPZ52OgyMRdj+RJ0rkwaWy6m4jsxO2SvCSWhoiOKxHUzogxv1v9X8Td7XMIhJNM
- Kj6GMXatzEOdE8m2oyn4baeeqTO3MjbKYnf8Z39OhroochtjvWh07CwhTizdO4XAa1wQ
- ozcoYtj8+HZ0+h7qYm2LPWbL+rWOikj/vSSSuVClBDrdwHzn0JQcJUKGrQYi5A+a8t9g
- poPsHNUK3RKXdmNqOwQve7F3CByng+2HEGrlUon4DdW2tAg3fHBGCeZeYfMZIYHDROcy
- VmqA==
-X-Gm-Message-State: AOAM532E33mUtH19u2o5sQIdmsDNK4tUCBsKrqERJATErcpLNX/1Bgkw
- 29HH5X/UA7tEn1FTap8juxgJuCAgBUe0BCzwfKQ=
-X-Google-Smtp-Source: ABdhPJwIDGZ0F593ZCG0Vdco3dS8P/GZ41McoEEBcPXuBq07neKqHo16c1wS1lmeymA//w36H1H4T5Bb6rszi0gxHKE=
-X-Received: by 2002:a1c:8194:: with SMTP id c142mr440404wmd.94.1604358880548; 
- Mon, 02 Nov 2020 15:14:40 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3271B6E598
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 23:50:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1604361043;
+ bh=0odSNWU3uqM11t6LEvwL2jIVxZtW4lzSgSl4X4aZQ+g=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=BXgybCKKq/aCh5kJp04ksVk5nlrEUeq9V2lgJ5QnC/A3Ra2Z0bVZ68YyaXs3yCdDQ
+ PLDHvVMvau3krWvFPHxhLbQgtomdQkCqKiItRZvRd7TYHp1j3jFmbf3fb0sc3+cqjw
+ zBctntdY/w4dpqmbCxIR/tcYwaI7Q9I0l3Q8YwlI=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [173.228.6.223] ([173.228.6.223]) by web-mail.gmx.net
+ (3c-app-mailcom-bs01.server.lan [172.19.170.58]) (via HTTP); Tue, 3 Nov
+ 2020 00:50:43 +0100
 MIME-Version: 1.0
-References: <20201030232324.11170-1-khsieh@codeaurora.org>
- <160434536802.884498.16389146296525781476@swboyd.mtv.corp.google.com>
-In-Reply-To: <160434536802.884498.16389146296525781476@swboyd.mtv.corp.google.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 2 Nov 2020 15:16:13 -0800
-Message-ID: <CAF6AEGu9pbRxncwVyRt9q=Gw1yOggj7Jg_zd+Y-rMZD=khmatw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: promote irq_hpd handle to handle link
- trainign correctly
-To: Stephen Boyd <swboyd@chromium.org>
+Message-ID: <trinity-0d015aed-dc82-456d-9640-de541eafed45-1604361043510@3c-app-mailcom-bs01>
+From: Kevin Brace <kevinbrace@gmx.com>
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Why is atomic_disable callback's plane->state->crtc sometimes null?
+Date: Tue, 3 Nov 2020 00:50:43 +0100
+Importance: normal
+Sensitivity: Normal
+X-Priority: 3
+X-Provags-ID: V03:K1:wSeC25wiUdTDrC0PS9o1wzKex4ouw/HZ8za7rVfl5ii0ZEclHOzShgFGFQYf93Scao1x4
+ 0zJVDEwfFz4AevUL4IJRNLdshedVo4WJrxOA6D7zUkMA35GUbA0AhVnxC9aDbdFFhLrRP0q2ksqr
+ hPWcOkLadwzddZjbx93l7DhAdfxSHj2ufFZyUTj2A1OH3rlrh9R2DcRsgUQ2VE/8/hAsRg8sBz+k
+ F3Fl1QA30h2S+ZpfJaSqasgJqjoI+/g46DzFN+EDR4BdP9A6j70utLm0S3NUFDjOfi3oO+s9u/op
+ dw=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:B9uENZc9v/M=:zAwGlVBlFM8CUkxXZjb6gh
+ qRGFQZJPyVHyeYYppyZ7xRTFUeagmo00Dj7D1WFKViLyt1Ze2YHJzZw1dmPrnyMO23bBqNQsR
+ SqqzcXNpIPQUBNeiMthtY5dZlrGGZ+njGd+AjHsV/HLF7vtArgNTuL4/C7DaEkZ9xsV3Fxi0T
+ pdKjbSRjwRGUBxJGb+XVO1KKCgm3N4Fr1IsJv0Yw8RoTmm6wv8N+CwQLxOAOUgETuiXpHE/e5
+ lXNUafJD4VsutM9cWDyWAlS9iqRogl4y4RanianFoAm88VsjDGZo4ZTchSNf+Kgnh6nJertNB
+ J08Z8SCYAel5BXLVOUGWUvZz6hxzus3CJqa7mjeq6MqylvcXSQq5qq2btgGPZCwK3oe/2CEyO
+ VwjUaEz9PnE27OT3GL5mHOWW3VAQx6DcbW+YmZViTaaiT3uRCS9aaKmKh1GkGDWN+GFa0ixTj
+ optOpfCA0lftlxqkWZulGWygWt/b/wtAwleUui2flBXWfLh9KNC3woKMB4U3TcEvuM9yPtZkD
+ WFlzigcRek9eM+8LgR4wOGOHN2Qp5nMTVOEljI1pItGbkUkPnmlamg2U61WDVM4ev73UMC2+h
+ UFDhykObj3T44=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,97 +60,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Rajendra Nayak <rnayak@codeaurora.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, Kuogee Hsieh <khsieh@codeaurora.org>,
- Tanmay Shah <tanmay@codeaurora.org>, aravindh@codeaurora.org,
- Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 2, 2020 at 11:29 AM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Subject has a typo in "training".
->
-> Quoting Kuogee Hsieh (2020-10-30 16:23:24)
-> > Some dongles, such as Apple, required link training done at irq_hpd
->
-> s/required/require/
->
-> > request instead of plugin request. This patch promote irq_hpd hanlder
->
-> s/hanlder/handler/
->
-> > to handle link training and setup hpd_state correctly.
-> >
-> > Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-> > ---
->
-> Any Fixes tag?
->
-> >  drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++++++++--
-> >  1 file changed, 18 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> > index 13b66266cd69..55627530957c 100644
-> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> > @@ -483,10 +485,24 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
-> >                 return -ENODEV;
-> >         }
-> >
-> > +       hpd = dp->usbpd;
-> > +
-> >         /* check for any test request issued by sink */
-> >         rc = dp_link_process_request(dp->link);
-> > -       if (!rc)
-> > -               dp_display_handle_irq_hpd(dp);
-> > +       if (!rc) {
-> > +               sink_request = dp->link->sink_request;
-> > +               if (sink_request & DS_PORT_STATUS_CHANGED) {
-> > +                       dp->hpd_state = ST_CONNECT_PENDING;
-> > +                       hpd->hpd_high = 1;
-> > +               }
-> > +
-> > +               rc = dp_display_handle_irq_hpd(dp);
-> > +
-> > +               if (rc && sink_request & DS_PORT_STATUS_CHANGED) {
->
-> Can you add parenthesis around this?
->
->                 if (rc && (sink_request & DS_PORT_STATUS_CHANGED)) {
->
->
-> I honestly don't know what's going on in this patch. It talks about
-> making link training happen during irq hpd handler but this is the
-> attention handler and we're checking port status changed? This is
-> related? The code is really not clear.
->
-> > +                       hpd->hpd_high = 0;
-> > +                       dp->hpd_state = ST_DISCONNECTED;
-> > +               }
-> > +       }
-> >
-> >         return rc;
-> >  }
-> >
-> > base-commit: 0e162b10644605428cd2596c12f8ed410cf9d2d9
->
-> What commit is this?
+Hi,
 
-Note that I skipped over a few dp related patches yesterday while
-starting to pull things into msm-next-staging.
+First, I will like to thank those who gave me hints on how to proceed with getting rid of an unwanted double allocation of visible portion of the frame buffer.
 
-Kuogee, when you send the next version can you make sure it is based
-against v5.10-rc or msm-next-staging?
+https://lists.freedesktop.org/archives/dri-devel/2020-October/283452.html
 
-BR,
--R
+I may repost the question later to the mailing list based on the feedback I received.
+    After a few more days of trying, I finally got my prototype OpenChrome DRM atomic modesetting code barely working for both primary and cursor planes (cursor plane was not working previously).
+I finally figured out what was causing the freeze, and in fact, I am writing this e-mail from the very computer that has the experimental code running.
+The code itself is still quite unstable that standby resume is not working and VT (Virtual Terminal) is broken, but X Server is working fine just with a few minor weird artifact lines on the right and bottom edges of the screen.
+Anyway, the question I have here (and I am assuming that Daniel Vetter will give me an explanation) is that I noticed that for cursor plane's atomic_disable callback, plane->state->crtc is null or sometimes null.
+Why is this?
+Assuming that plane->state->crtc will not be null was one the reason why the code was not working, so I will like to know the reason.
+
+Regards,
+
+Kevin Brace
+Brace Computer Laboratory blog
+https://bracecomputerlab.com
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
