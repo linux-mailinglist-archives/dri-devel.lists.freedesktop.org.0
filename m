@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83FC42A3EAB
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3392A3E78
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 564806EC4D;
-	Tue,  3 Nov 2020 08:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B186EC1C;
+	Tue,  3 Nov 2020 08:14:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01CA06E117
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 18:11:50 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id w4so1244289pgg.13
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 10:11:50 -0800 (PST)
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A10C6E145
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 18:11:52 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id r10so11457452pgb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 10:11:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Wmiepruc3iCJr4t5GLBvdMshT7V+umkWxaVmydO1lC4=;
- b=fVmd9hMhFPFDmgKxG8aw6065UP1hSU/+jbR6rqxTwx/DSXw79TIDaPRljmz6icQrm1
- uBRIf71eV6DvEk8ouKaza4Ltfyj22EVXwwWA2zQjQlUyW4XzOjYRXhGZGjJ6ftKq4IVW
- bXWL44Dc7D4VkY/mAwUA2eutPQ29fy5+u89qw=
+ bh=65bWdgXbJUHSY9klg8B4g7EQCn2RPfl2U/2hJDHKOAE=;
+ b=U5rpbbu/Wrv4XZAFMnegfITISy/o8wRmSAZfJOKn2097owuIhcuSadcJxcjRhHssNw
+ uWobnKuds82uuRwIxhpeoRAIUz/L2h8mFs0pBKxMQMw3/H0kbLH/uzvxxw0BdJvQxvgt
+ ubiXu+AQ4Ylqn8AHKEJgXa96iJHyoSqCZU0rk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Wmiepruc3iCJr4t5GLBvdMshT7V+umkWxaVmydO1lC4=;
- b=m0ilN7bRCvzmjQtU05Hr0BzYW4xvAyhUHb/hvF2hqwIzddFtvbxZDBNq4t4r9KSIBe
- j+DlBJth5X6C2b2BbY94WzjG/wdXug0djLEczytBmqMB/yQaAPKnWOVly62V9N4hVif3
- l4FAm2fLu5ccOvHrheNOAIEkomOrS8lqO4mpkQ8U9UqG0gzV6gnNyOS1WjcZpwLCzKCq
- e4t+3hpLhuk7Nr5//6VG+vIaCcAAjPGj+ZgUzEtPvBZz/hp+t3VDv9kUmWqHDm5nV/8T
- aw9ZaVx1HipOg5PJgwCMnlr8+/RYkE/06fukxPJ5xayKqLoAf43sVUPi1Trx9vxe2s8D
- ZsIw==
-X-Gm-Message-State: AOAM532x0E8ny5Y5SfSVQPm4ubsVTtXwL7QTnsvgg7v/79bEEkVjc7Bo
- /pbFamvkGU6Og5Wx1R5hBGW4JQ==
-X-Google-Smtp-Source: ABdhPJwO3c4Yqrm1FRtcJ/zbXYcRSTGx9Oc3tVdBrijhZfe5jOUT/yxF5wd9HV8D0noQX6iFg1QgHw==
-X-Received: by 2002:a63:a1d:: with SMTP id 29mr14072488pgk.162.1604340710699; 
- Mon, 02 Nov 2020 10:11:50 -0800 (PST)
+ bh=65bWdgXbJUHSY9klg8B4g7EQCn2RPfl2U/2hJDHKOAE=;
+ b=pR8R4OVnpMDV1l8+Y2gyQPUA75p2kvCR9Z4n4K9g8L8xCFyxhiDxgMMo+KeSwkvOBi
+ 9Yi/Y64igm8Y19i4l9zAVAXq+C8K+qHnqmjNSqrREfrDvdnYQ54lJLC17IySCr2XzAny
+ 2OBC31tq5BA4zGuP+Q+6QbFb3neucruIx163se5wirYbKa/pQRyQZmS0Ojv/shbxHrsv
+ qR/xxiMhbQQqEiR9G8LtfaSJOanOmVBHUI3pnaOeeVD2nD9elRNMOKp+7gfZfj4y6OKj
+ +JOb3vpWXRixjZgD2bXUtUUYejJeY3QjLdMZ1DWQKtfW1SV0UE90qa9YMDFcESDhDEJv
+ /apg==
+X-Gm-Message-State: AOAM531VXoWZTXmDrzqqt3m3FIgerHmDfWNrF+WSVimBBMMh/eixaKeE
+ aPBwnfI9WXlgyTyHnNmryR+7uw==
+X-Google-Smtp-Source: ABdhPJyiqLw//JRe3xdwfiASEB6IO86bTA3ip32CFqcGAv0wzGc0q3Li+IksqOKphIfp6NeiyysU1w==
+X-Received: by 2002:a62:d44b:0:b029:162:67f0:3c56 with SMTP id
+ u11-20020a62d44b0000b029016267f03c56mr22037823pfl.55.1604340711929; 
+ Mon, 02 Nov 2020 10:11:51 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id b17sm13175640pgb.94.2020.11.02.10.11.49
+ by smtp.gmail.com with ESMTPSA id b17sm13175640pgb.94.2020.11.02.10.11.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 10:11:50 -0800 (PST)
+ Mon, 02 Nov 2020 10:11:51 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v3 3/4] drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
-Date: Mon,  2 Nov 2020 10:11:43 -0800
-Message-Id: <20201102181144.3469197-4-swboyd@chromium.org>
+Subject: [PATCH v3 4/4] drm/bridge: ti-sn65dsi86: Update reply on aux failures
+Date: Mon,  2 Nov 2020 10:11:44 -0800
+Message-Id: <20201102181144.3469197-5-swboyd@chromium.org>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
 In-Reply-To: <20201102181144.3469197-1-swboyd@chromium.org>
 References: <20201102181144.3469197-1-swboyd@chromium.org>
@@ -74,72 +75,94 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the DDC connection to read the EDID from the eDP panel instead of
-relying on the panel to tell us the modes.
+We should be setting the drm_dp_aux_msg::reply field if a NACK or a
+SHORT reply happens. Update the error bit handling logic in
+ti_sn_aux_transfer() to handle these cases and notify upper layers that
+such errors have happened. This helps the retry logic understand that a
+timeout has happened, or to shorten the read length if the panel isn't
+able to handle the longest read possible.
+
+Note: I don't have any hardware that exhibits these code paths so this
+is written based on reading the datasheet for this bridge and inspecting
+the code and how this is called.
+
+Changes in v2:
+ - Move WRITE_STATUS_UPDATE check from case to assignment
+
+Changes in v2:
+ - Handle WRITE_STATUS_UPDATE properly
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Cc: Jonas Karlman <jonas@kwiboo.se>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>
 Cc: Sean Paul <seanpaul@chromium.org>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 35 +++++++++++++++++++++++----
+ 1 file changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 8276fa50138f..6b6e98ca2881 100644
+index 6b6e98ca2881..3a758c706b70 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -119,6 +119,7 @@
-  * @debugfs:      Used for managing our debugfs.
-  * @host_node:    Remote DSI node.
-  * @dsi:          Our MIPI DSI source.
-+ * @edid:         Detected EDID of eDP panel.
-  * @refclk:       Our reference clock.
-  * @panel:        Our panel.
-  * @enable_gpio:  The GPIO we toggle to enable the bridge.
-@@ -144,6 +145,7 @@ struct ti_sn_bridge {
- 	struct drm_bridge		bridge;
- 	struct drm_connector		connector;
- 	struct dentry			*debugfs;
-+	struct edid			*edid;
- 	struct device_node		*host_node;
- 	struct mipi_dsi_device		*dsi;
- 	struct clk			*refclk;
-@@ -265,6 +267,23 @@ connector_to_ti_sn_bridge(struct drm_connector *connector)
- static int ti_sn_bridge_connector_get_modes(struct drm_connector *connector)
+@@ -861,7 +861,7 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+ 				  struct drm_dp_aux_msg *msg)
  {
- 	struct ti_sn_bridge *pdata = connector_to_ti_sn_bridge(connector);
-+	struct edid *edid = pdata->edid;
-+	int num, ret;
-+
-+	if (!edid) {
-+		pm_runtime_get_sync(pdata->dev);
-+		edid = pdata->edid = drm_get_edid(connector, &pdata->aux.ddc);
-+		pm_runtime_put(pdata->dev);
-+	}
-+
-+	if (edid && drm_edid_is_valid(edid)) {
-+		ret = drm_connector_update_edid_property(connector, edid);
-+		if (!ret) {
-+			num = drm_add_edid_modes(connector, edid);
-+			if (num)
-+				return num;
-+		}
-+	}
- 
- 	return drm_panel_get_modes(pdata->panel, connector);
- }
-@@ -1245,6 +1264,7 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
- 	if (!pdata)
+ 	struct ti_sn_bridge *pdata = aux_to_ti_sn_bridge(aux);
+-	u32 request = msg->request & ~DP_AUX_I2C_MOT;
++	u32 request = msg->request & ~(DP_AUX_I2C_MOT | DP_AUX_I2C_WRITE_STATUS_UPDATE);
+ 	u32 request_val = AUX_CMD_REQ(msg->request);
+ 	u8 *buf = msg->buffer;
+ 	unsigned int len = msg->size;
+@@ -878,6 +878,8 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+ 	case DP_AUX_NATIVE_READ:
+ 	case DP_AUX_I2C_READ:
+ 		regmap_write(pdata->regmap, SN_AUX_CMD_REG, request_val);
++		/* Assume it's good */
++		msg->reply = 0;
+ 		break;
+ 	default:
  		return -EINVAL;
+@@ -909,10 +911,33 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
+ 	ret = regmap_read(pdata->regmap, SN_AUX_CMD_STATUS_REG, &val);
+ 	if (ret)
+ 		return ret;
+-	else if ((val & AUX_IRQ_STATUS_NAT_I2C_FAIL)
+-		 || (val & AUX_IRQ_STATUS_AUX_RPLY_TOUT)
+-		 || (val & AUX_IRQ_STATUS_AUX_SHORT))
+-		return -ENXIO;
++
++	if (val & AUX_IRQ_STATUS_AUX_RPLY_TOUT) {
++		/*
++		 * The hardware tried the message seven times per the DP spec
++		 * but it hit a timeout. We ignore defers here because they're
++		 * handled in hardware.
++		 */
++		return -ETIMEDOUT;
++	}
++
++	if (val & AUX_IRQ_STATUS_AUX_SHORT) {
++		ret = regmap_read(pdata->regmap, SN_AUX_LENGTH_REG, &len);
++		if (ret)
++			return ret;
++	} else if (val & AUX_IRQ_STATUS_NAT_I2C_FAIL) {
++		switch (request) {
++		case DP_AUX_I2C_WRITE:
++		case DP_AUX_I2C_READ:
++			msg->reply |= DP_AUX_I2C_REPLY_NACK;
++			break;
++		case DP_AUX_NATIVE_READ:
++		case DP_AUX_NATIVE_WRITE:
++			msg->reply |= DP_AUX_NATIVE_REPLY_NACK;
++			break;
++		}
++		return 0;
++	}
  
-+	kfree(pdata->edid);
- 	ti_sn_debugfs_remove(pdata);
- 
- 	of_node_put(pdata->host_node);
+ 	if (request == DP_AUX_NATIVE_WRITE || request == DP_AUX_I2C_WRITE ||
+ 	    len == 0)
 -- 
 Sent by a computer, using git, on the internet
 
