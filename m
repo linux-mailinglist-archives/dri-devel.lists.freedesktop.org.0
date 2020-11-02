@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F842A3E98
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1DA2A3E7F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A923A6EC4A;
-	Tue,  3 Nov 2020 08:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 371EE6EC18;
+	Tue,  3 Nov 2020 08:14:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0611E6E591
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 22:07:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B49036E58A
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 22:07:41 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 3/5] drm: Add and export function drm_gem_cma_mmap_noncoherent
-Date: Mon,  2 Nov 2020 22:06:49 +0000
-Message-Id: <20201102220651.22069-4-paul@crapouillou.net>
+Subject: [PATCH 4/5] drm: Add and export function drm_gem_cma_sync_data
+Date: Mon,  2 Nov 2020 22:06:50 +0000
+Message-Id: <20201102220651.22069-5-paul@crapouillou.net>
 In-Reply-To: <20201102220651.22069-1-paul@crapouillou.net>
 References: <20201102220651.22069-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -42,78 +42,99 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This function can be used by drivers that need to mmap dumb buffers
-created with non-coherent backing memory.
+This function can be used by drivers that use damage clips and have
+CMA GEM objects backed by non-coherent memory. Calling this function
+in a plane's .atomic_update ensures that all the data in the backing
+memory have been written to RAM.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/drm_gem_cma_helper.c | 39 ++++++++++++++++++++++++++++
- include/drm/drm_gem_cma_helper.h     |  2 ++
- 2 files changed, 41 insertions(+)
+ drivers/gpu/drm/drm_gem_cma_helper.c | 43 ++++++++++++++++++++++++++++
+ include/drm/drm_gem_cma_helper.h     |  5 ++++
+ 2 files changed, 48 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 3bdd67795e20..4ed63f4896bd 100644
+index 4ed63f4896bd..74bff6d45d4e 100644
 --- a/drivers/gpu/drm/drm_gem_cma_helper.c
 +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -387,6 +387,45 @@ int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma)
- }
- EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
+@@ -17,9 +17,14 @@
+ #include <linux/slab.h>
  
-+/**
-+ * drm_gem_cma_mmap_noncoherent - memory-map a CMA GEM object with
-+ *     non-coherent cache attribute
-+ * @filp: file object
-+ * @vma: VMA for the area to be mapped
-+ *
-+ * Just like drm_gem_cma_mmap, but for a GEM object backed by non-coherent
-+ * memory.
-+ *
-+ * Returns:
-+ * 0 on success or a negative error code on failure.
-+ */
-+int drm_gem_cma_mmap_noncoherent(struct file *filp, struct vm_area_struct *vma)
-+{
-+	struct drm_gem_cma_object *cma_obj;
-+	int ret;
-+
-+	ret = drm_gem_mmap(filp, vma);
-+	if (ret)
-+		return ret;
-+
-+	cma_obj = to_drm_gem_cma_obj(vma->vm_private_data);
-+
-+	/*
-+	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
-+	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
-+	 * the whole buffer.
-+	 */
-+	vma->vm_flags &= ~VM_PFNMAP;
-+	vma->vm_pgoff = 0;
-+	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-+
-+	return remap_pfn_range(vma, vma->vm_start,
-+			       cma_obj->paddr >> PAGE_SHIFT,
-+			       vma->vm_end - vma->vm_start,
-+			       vma->vm_page_prot);
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_cma_mmap_noncoherent);
-+
- #ifndef CONFIG_MMU
+ #include <drm/drm.h>
++#include <drm/drm_damage_helper.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_fb_cma_helper.h>
++#include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_cma_helper.h>
++#include <drm/drm_plane.h>
+ #include <drm/drm_vma_manager.h>
+ 
  /**
-  * drm_gem_cma_get_unmapped_area - propose address for mapping in noMMU cases
+@@ -742,3 +747,41 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *dev,
+ 	return obj;
+ }
+ EXPORT_SYMBOL(drm_gem_cma_prime_import_sg_table_vmap);
++
++/**
++ * drm_gem_cma_sync_data - Sync GEM object to non-coherent backing memory
++ * @dev: DRM device
++ * @old_state: Old plane state
++ * @state: New plane state
++ *
++ * This function can be used by drivers that use damage clips and have
++ * CMA GEM objects backed by non-coherent memory. Calling this function
++ * in a plane's .atomic_update ensures that all the data in the backing
++ * memory have been written to RAM.
++ */
++void drm_gem_cma_sync_data(struct device *dev,
++			   struct drm_plane_state *old_state,
++			   struct drm_plane_state *state)
++{
++	const struct drm_format_info *finfo = state->fb->format;
++	struct drm_atomic_helper_damage_iter iter;
++	unsigned int offset, i;
++	struct drm_rect clip;
++	dma_addr_t daddr;
++
++	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
++
++	drm_atomic_for_each_plane_damage(&iter, &clip) {
++		for (i = 0; i < finfo->num_planes; i++) {
++			daddr = drm_fb_cma_get_gem_addr(state->fb, state, i);
++
++			/* Ignore x1/x2 values, invalidate complete lines */
++			offset = clip.y1 * state->fb->pitches[i];
++
++			dma_sync_single_for_device(dev, daddr + offset,
++				       (clip.y2 - clip.y1) * state->fb->pitches[i],
++				       DMA_TO_DEVICE);
++		}
++	}
++}
++EXPORT_SYMBOL_GPL(drm_gem_cma_sync_data);
 diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-index d0e6a1cd0950..6b01ad5581c3 100644
+index 6b01ad5581c3..9bdba4ce65ba 100644
 --- a/include/drm/drm_gem_cma_helper.h
 +++ b/include/drm/drm_gem_cma_helper.h
-@@ -83,6 +83,8 @@ int drm_gem_cma_dumb_create_noncoherent(struct drm_file *file_priv,
- /* set vm_flags and we can change the VM attribute to other one at here */
- int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma);
+@@ -7,6 +7,7 @@
+ #include <drm/drm_gem.h>
  
-+int drm_gem_cma_mmap_noncoherent(struct file *filep, struct vm_area_struct *vma);
+ struct drm_mode_create_dumb;
++struct drm_plane_state;
+ 
+ /**
+  * struct drm_gem_cma_object - GEM object backed by CMA memory allocations
+@@ -200,4 +201,8 @@ drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *drm,
+ 				       struct dma_buf_attachment *attach,
+ 				       struct sg_table *sgt);
+ 
++void drm_gem_cma_sync_data(struct device *dev,
++			   struct drm_plane_state *old_state,
++			   struct drm_plane_state *state);
 +
- /* allocate physical memory */
- struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
- 					      size_t size);
+ #endif /* __DRM_GEM_CMA_HELPER_H__ */
 -- 
 2.28.0
 
