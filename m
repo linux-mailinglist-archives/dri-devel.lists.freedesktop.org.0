@@ -1,68 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F032A2D8B
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 16:03:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C352A2D8D
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 16:04:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 937D16E52F;
-	Mon,  2 Nov 2020 15:03:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ECC06E536;
+	Mon,  2 Nov 2020 15:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 107546E52F
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:03:28 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id d142so1083434wmd.4
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:03:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=dJViYluzyjRZysYd1WNbgOJn/HhY4VHwfAV/4FIXe6w=;
- b=XXugjq9A63BNiHXr+V09ATFS1VCLYo6+jafx7iEYz+bNK/A3Inwv1tHlE2ah80+PUz
- vXrgo9y71KREm6//ajlYEXzC77w4nJOGJW8hKWKCXx5gEcLwLj6xhfN/kPPM2wnbrbMS
- x+iN+q3xNMVON7cpextfccfCQbZ2AfH8mshfE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=dJViYluzyjRZysYd1WNbgOJn/HhY4VHwfAV/4FIXe6w=;
- b=kNuxBBtzBRVZ01j/CjmT2VXJ4MqCzzd6a2WuRuzc1UJur0X6m+8URcV38B/6+Bvjw0
- Xp0h/obmuHxdM9nAxkKBTyjuIAySMKYQ8FBUWOYVYkjkuH9fek/DcoO9JcgKNQrDb03n
- /bQ1y1FliKMUA+BvxYAasv/K0ZN+yMIivawtdmZq1zIa58xl1jFEVM8FHYhlzsLcJ4AX
- O5yU19k3gWWPdbvKicccbX/diiUsauXVKCEUEkzZxG4juKgv/wZ47j1xfJ+tVy3wdqwS
- 7b/sXr9Z/ogik2P902aVZIz67DC2Lue/a10bEUJJEIshRtezG4zbB3SBAm+/mfxJL5xl
- 8pjg==
-X-Gm-Message-State: AOAM530pcZnlVIpbNPjflWRAAcpkTJrj9O8Jt7y0ykW1EyEhtFvWEaMm
- pTLeEqjbemnvfBo2bKPWaZDwyA==
-X-Google-Smtp-Source: ABdhPJxcXU2IVisDLOi1mXtv8okUtL8WOu9oDyx1FEypZo3YXEvPMBplDp1qDpoRWh0iWKvk3twfhA==
-X-Received: by 2002:a05:600c:216:: with SMTP id
- 22mr17360409wmi.149.1604329406704; 
- Mon, 02 Nov 2020 07:03:26 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j127sm16037075wma.31.2020.11.02.07.03.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 07:03:25 -0800 (PST)
-Date: Mon, 2 Nov 2020 16:03:24 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-Subject: Re: [PATCH 3/5 v2] Fonts: Add charcount field to font_desc
-Message-ID: <20201102150324.GU401619@phenom.ffwll.local>
-Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Sven Schneider <s.schneider@arkona-technologies.de>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <6c28279a10dbe7a7e5ac3e3a8dd7c67f8d63a9f2.1603788512.git.yepeilin.cs@gmail.com>
- <20201028060533.1206307-1-yepeilin.cs@gmail.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B6F6E536;
+ Mon,  2 Nov 2020 15:04:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Aff/p/WSfn7PolgUJYrqZhkHSpx5EVRGHIE+Qbk3qdZ/6wKgkpBOA5mmAQXfrcVrMG9gFvJcD4b+j2afRDVCfV+/squLuNnQvuUd/SRUxMDeEPa2SE+e8MUoHYk4JTH5oz9pYCK1I4zjAvbYZkKYz6cDoXektkXyR8UBrhLn6HYcM//eg7YmZKoC4DpYl188VNDJAkbppxCB8l3Bo4SwL8rOlcRf5O/SbNE76X6WdDK88ilsfKPI+m4mRKlA5aTWoO5ImFqfTGZwlUpkQf3hafD3vjSNlVoeAeDSOQ6le3AQeU3I5fEn+fJXk26nFuQp6xFz3E0nurasbi965Ls8gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EPcDgzZQ/T5oKoMzCGZPMVA8bjRJeswUiU+uAHBKuXo=;
+ b=d1l6Y/9EMGhRGnhWik3+exiVh3lasa8EMBeDJvCq7H8oriWNFCQPZB/Pbad8tTo5a82CSgEILPXNaWkeUiQK/WUFiql4AEkOMgyzJ1zcD1+visruiBpkRgv2/xJaoCN5IZUyPvMBOu8ayEsBdbL2Yh14qCp0kJt4GWz2gSwxEzEaz1PAHvZw4BhcUXN9BMk3qcHOBh6GXMhk7AC7GHKxiP+cbTj3fFUKZXgG6WzeKtmLwwmpfVV/u3bVjUfH18tevABmVoIvxaUnV/lTf0Mn0vxXltjO3fFy1Ld5BV8Kj1hsLoRZf/uGv2sCY6nHFMG+uiYA/5yAXh2h/MM5mNFH3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EPcDgzZQ/T5oKoMzCGZPMVA8bjRJeswUiU+uAHBKuXo=;
+ b=JpPObkMNvG5lgKuXlZ+j7pl5bGsFcYaTB0B2AfSjy/kMxnmkTFw7lN6vXts306KjBi1AwzUlREF8rrWquSBhG5cJeVy3yL+TEMDK8exwnkAyJXOsX2ZqVFNRs12xs7PAa04cTj4VTx3vE539K4lEVAA7e75HXtF6LBhUbtm3T90=
+Authentication-Results: vivo.com; dkim=none (message not signed)
+ header.d=none;vivo.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB2577.namprd12.prod.outlook.com (2603:10b6:207:42::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.29; Mon, 2 Nov
+ 2020 15:03:55 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3499.030; Mon, 2 Nov 2020
+ 15:03:54 +0000
+Subject: Re: [PATCH] drm/amd: move DRM_ERROR log out of the mutex protect area
+To: Bernard Zhao <bernard@vivo.com>, Alex Deucher
+ <alexander.deucher@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Evan Quan <evan.quan@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, Xiaojie Yuan <xiaojie.yuan@amd.com>,
+ Changfeng <Changfeng.Zhu@amd.com>, Dave Airlie <airlied@redhat.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20201102031423.4033-1-bernard@vivo.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <70145097-6157-dc62-3da6-3ba0b6cadb82@amd.com>
+Date: Mon, 2 Nov 2020 16:03:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201102031423.4033-1-bernard@vivo.com>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR10CA0105.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:e6::22) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201028060533.1206307-1-yepeilin.cs@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR10CA0105.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Mon, 2 Nov 2020 15:03:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 0765ab72-fc54-4c5f-2b0a-08d87f408345
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2577:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB2577AA7C65FD40842DFB808983100@BL0PR12MB2577.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ydX2KHXjbAvogww72MJgmJo5DaQyElzozYOcBJvz06hXqz+wI/aFzTaD0ZuomOq70/sVY6QG5IOW0LkFa/dof0IzcR6s9QlgLFaMelua3pD+vcYp4+Od0u/Z8m1vbqOyBjIpl6j1sDC7ltzW7RHZDt4Mhgb1WB9K2XK5cRCVrMhSWmbgZE8NqZY2QiQvEpY7affXG0DJ7HHTyJhzlQp2Semo/p+6lfGOkGFOqeeUNJFJhKeg4ThCck7766Azc76PkOEryu7375R8SF45jQroiTwaEXBhY6V6S5fbX2qM4+G3p9axl8lReXHESwv8pyR3vSEK+gfPooznnLo/Yo4rnAZVgH6NQovMNqQgmVQOkC+z2Z1TQHJ4hECNULAeoR0mafVPhmuW3pPhx56OxO8mFA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(39860400002)(366004)(346002)(396003)(2906002)(86362001)(8676002)(4326008)(31696002)(31686004)(8936002)(52116002)(5660300002)(6486002)(110136005)(36756003)(478600001)(66946007)(66476007)(186003)(66556008)(6666004)(83380400001)(316002)(2616005)(16526019)(921003)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: KvWLE7lqeebwzalIXVRwGnOSywM2DLsxx0yaCO10zM1YDBbRv8JKbAdm+ikrgKrxC6afG9DbhwWDNlFjqwTSVuGleMHZd4Q9epval5SUD2Gj3wgAoEZ8ZQ3Bw+SAHNwtBrFL1eMSpvLat2wTsflOzYVzRuDdw8OFXKo5KdvlrfHhdqXRKgh2rm6CYUtH6322q3tP+cjRY9K7bHbuMTZzCid37z0F5HoTWVTuSJpKfi4RholGOyrUXxD0iCh8Q0OSdFz/rQN/WolGA6sLG8zxTMy6xdbqcNcMolLq5ilC8IvDKJ44AkLJNyPmjt4XFaybq1N5ulqB3DAvZyMiJgRaiugKGgS92qultqRfDmRHx0o/tWtzMNC8/+EcNeir7vc+2I7xrgzY4DdjKS1S2FCuxLsEerRU2DaYMoSq+4lQ5kgMtIuYNgkS69NOikzGHRWOZiZgKUPX4kdamP3n4FEIYCCYwFdv+3dVSs3bDVCqpQgArcX3OR/I72SfBehEG02tTt00FwubL7u/5hRC+G2aC96kJb0ItBjvDnUKbttcw46LqZJmQfDBso2qc/03c89GzzGO6b4mBsGyO5cAOnnFoBANioaYU8gLXKSiVQZ3gmCNFpiA8wwMGTkaMmwSJgQ/oZ4EZwnvrY/8Xkui57XdJE5kfmmgHL+6ajgg/nIlGYTONhK9vhfYjW8XGtXyYTRbjnnsToNZsHV5sKThf+nTRw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0765ab72-fc54-4c5f-2b0a-08d87f408345
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2020 15:03:54.6168 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m24IgMpyvk+SVQhVCRsQlkylV5Lyezgziwnoc4qRvhhlhUDW8PT5qIh1GhDIjUd8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2577
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,230 +104,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sven Schneider <s.schneider@arkona-technologies.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: opensource.kernel@vivo.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 28, 2020 at 02:05:33AM -0400, Peilin Ye wrote:
-> Subsystems are assuming the number of characters of our built-in fonts.
-> Include that information in our kernel font descriptor, `struct
-> font_desc`.
-> 
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Am 02.11.20 um 04:14 schrieb Bernard Zhao:
+> In function amdgpu_register_gpu_instance, there is no need to
+> protect DRM_ERROR in mutex mgpu_info.mutex.
+> This change is to make the code to run a bit fast.
+
+NAK, performance for an error path in module load is pretty much irrelevant.
+
+This just looks like a random unnecessary code change to me.
+
+Regards,
+Christian.
+
+>
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
 > ---
-> Change in v2:
->   - Rebase onto 5.10-rc1.
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index efda38349a03..cc61b0a5b8d1 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -104,8 +104,8 @@ void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
+>   	mutex_lock(&mgpu_info.mutex);
+>   
+>   	if (mgpu_info.num_gpu >= MAX_GPU_INSTANCE) {
+> -		DRM_ERROR("Cannot register more gpu instance\n");
+>   		mutex_unlock(&mgpu_info.mutex);
+> +		DRM_ERROR("Cannot register more gpu instance\n");
+>   		return;
+>   	}
+>   
 
-Hm there's a tiny conflict now with this because of the unsigned vs signed
-discussion we've had.
-
-Can you please rebase the remaining 3 patches onto linux-next or
-drm-misc-next or so and then resubmit?
-
-Thanks, Daniel
-
-> 
->  include/linux/font.h       | 1 +
->  lib/fonts/font_10x18.c     | 1 +
->  lib/fonts/font_6x10.c      | 1 +
->  lib/fonts/font_6x11.c      | 1 +
->  lib/fonts/font_6x8.c       | 1 +
->  lib/fonts/font_7x14.c      | 1 +
->  lib/fonts/font_8x16.c      | 1 +
->  lib/fonts/font_8x8.c       | 1 +
->  lib/fonts/font_acorn_8x8.c | 1 +
->  lib/fonts/font_mini_4x6.c  | 1 +
->  lib/fonts/font_pearl_8x8.c | 1 +
->  lib/fonts/font_sun12x22.c  | 1 +
->  lib/fonts/font_sun8x16.c   | 1 +
->  lib/fonts/font_ter16x32.c  | 1 +
->  14 files changed, 14 insertions(+)
-> 
-> diff --git a/include/linux/font.h b/include/linux/font.h
-> index b5b312c19e46..54e60ad2252b 100644
-> --- a/include/linux/font.h
-> +++ b/include/linux/font.h
-> @@ -17,6 +17,7 @@ struct font_desc {
->      int idx;
->      const char *name;
->      int width, height;
-> +    unsigned int charcount;
->      const void *data;
->      int pref;
->  };
-> diff --git a/lib/fonts/font_10x18.c b/lib/fonts/font_10x18.c
-> index 0e2deac97da0..4096c6562494 100644
-> --- a/lib/fonts/font_10x18.c
-> +++ b/lib/fonts/font_10x18.c
-> @@ -5137,6 +5137,7 @@ const struct font_desc font_10x18 = {
->  	.name	= "10x18",
->  	.width	= 10,
->  	.height	= 18,
-> +	.charcount = 256,
->  	.data	= fontdata_10x18.data,
->  #ifdef __sparc__
->  	.pref	= 5,
-> diff --git a/lib/fonts/font_6x10.c b/lib/fonts/font_6x10.c
-> index 87da8acd07db..32786674cf65 100644
-> --- a/lib/fonts/font_6x10.c
-> +++ b/lib/fonts/font_6x10.c
-> @@ -3083,6 +3083,7 @@ const struct font_desc font_6x10 = {
->  	.name	= "6x10",
->  	.width	= 6,
->  	.height	= 10,
-> +	.charcount = 256,
->  	.data	= fontdata_6x10.data,
->  	.pref	= 0,
->  };
-> diff --git a/lib/fonts/font_6x11.c b/lib/fonts/font_6x11.c
-> index 5e975dfa10a5..81e4a3aed44a 100644
-> --- a/lib/fonts/font_6x11.c
-> +++ b/lib/fonts/font_6x11.c
-> @@ -3346,6 +3346,7 @@ const struct font_desc font_vga_6x11 = {
->  	.name	= "ProFont6x11",
->  	.width	= 6,
->  	.height	= 11,
-> +	.charcount = 256,
->  	.data	= fontdata_6x11.data,
->  	/* Try avoiding this font if possible unless on MAC */
->  	.pref	= -2000,
-> diff --git a/lib/fonts/font_6x8.c b/lib/fonts/font_6x8.c
-> index 700039a9ceae..5618ae7ef9fa 100644
-> --- a/lib/fonts/font_6x8.c
-> +++ b/lib/fonts/font_6x8.c
-> @@ -2571,6 +2571,7 @@ const struct font_desc font_6x8 = {
->  	.name	= "6x8",
->  	.width	= 6,
->  	.height	= 8,
-> +	.charcount = 256,
->  	.data	= fontdata_6x8.data,
->  	.pref	= 0,
->  };
-> diff --git a/lib/fonts/font_7x14.c b/lib/fonts/font_7x14.c
-> index 86d298f38505..7708e73d491f 100644
-> --- a/lib/fonts/font_7x14.c
-> +++ b/lib/fonts/font_7x14.c
-> @@ -4113,6 +4113,7 @@ const struct font_desc font_7x14 = {
->  	.name	= "7x14",
->  	.width	= 7,
->  	.height	= 14,
-> +	.charcount = 256,
->  	.data	= fontdata_7x14.data,
->  	.pref	= 0,
->  };
-> diff --git a/lib/fonts/font_8x16.c b/lib/fonts/font_8x16.c
-> index 37cedd36ca5e..74125d3570cf 100644
-> --- a/lib/fonts/font_8x16.c
-> +++ b/lib/fonts/font_8x16.c
-> @@ -4627,6 +4627,7 @@ const struct font_desc font_vga_8x16 = {
->  	.name	= "VGA8x16",
->  	.width	= 8,
->  	.height	= 16,
-> +	.charcount = 256,
->  	.data	= fontdata_8x16.data,
->  	.pref	= 0,
->  };
-> diff --git a/lib/fonts/font_8x8.c b/lib/fonts/font_8x8.c
-> index 8ab695538395..96da4bb31ae4 100644
-> --- a/lib/fonts/font_8x8.c
-> +++ b/lib/fonts/font_8x8.c
-> @@ -2578,6 +2578,7 @@ const struct font_desc font_vga_8x8 = {
->  	.name	= "VGA8x8",
->  	.width	= 8,
->  	.height	= 8,
-> +	.charcount = 256,
->  	.data	= fontdata_8x8.data,
->  	.pref	= 0,
->  };
-> diff --git a/lib/fonts/font_acorn_8x8.c b/lib/fonts/font_acorn_8x8.c
-> index 069b3e80c434..ba74053fec7b 100644
-> --- a/lib/fonts/font_acorn_8x8.c
-> +++ b/lib/fonts/font_acorn_8x8.c
-> @@ -270,6 +270,7 @@ const struct font_desc font_acorn_8x8 = {
->  	.name	= "Acorn8x8",
->  	.width	= 8,
->  	.height	= 8,
-> +	.charcount = 256,
->  	.data	= acorndata_8x8.data,
->  #ifdef CONFIG_ARCH_ACORN
->  	.pref	= 20,
-> diff --git a/lib/fonts/font_mini_4x6.c b/lib/fonts/font_mini_4x6.c
-> index 1449876c6a27..637708e8c67e 100644
-> --- a/lib/fonts/font_mini_4x6.c
-> +++ b/lib/fonts/font_mini_4x6.c
-> @@ -2152,6 +2152,7 @@ const struct font_desc font_mini_4x6 = {
->  	.name	= "MINI4x6",
->  	.width	= 4,
->  	.height	= 6,
-> +	.charcount = 256,
->  	.data	= fontdata_mini_4x6.data,
->  	.pref	= 3,
->  };
-> diff --git a/lib/fonts/font_pearl_8x8.c b/lib/fonts/font_pearl_8x8.c
-> index 32d65551e7ed..06cde43c7bd2 100644
-> --- a/lib/fonts/font_pearl_8x8.c
-> +++ b/lib/fonts/font_pearl_8x8.c
-> @@ -2582,6 +2582,7 @@ const struct font_desc font_pearl_8x8 = {
->  	.name	= "PEARL8x8",
->  	.width	= 8,
->  	.height	= 8,
-> +	.charcount = 256,
->  	.data	= fontdata_pearl8x8.data,
->  	.pref	= 2,
->  };
-> diff --git a/lib/fonts/font_sun12x22.c b/lib/fonts/font_sun12x22.c
-> index 641a6b4dca42..d0290d79df2c 100644
-> --- a/lib/fonts/font_sun12x22.c
-> +++ b/lib/fonts/font_sun12x22.c
-> @@ -6156,6 +6156,7 @@ const struct font_desc font_sun_12x22 = {
->  	.name	= "SUN12x22",
->  	.width	= 12,
->  	.height	= 22,
-> +	.charcount = 256,
->  	.data	= fontdata_sun12x22.data,
->  #ifdef __sparc__
->  	.pref	= 5,
-> diff --git a/lib/fonts/font_sun8x16.c b/lib/fonts/font_sun8x16.c
-> index 193fe6d988e0..7d83760354a6 100644
-> --- a/lib/fonts/font_sun8x16.c
-> +++ b/lib/fonts/font_sun8x16.c
-> @@ -268,6 +268,7 @@ const struct font_desc font_sun_8x16 = {
->  	.name	= "SUN8x16",
->  	.width	= 8,
->  	.height	= 16,
-> +	.charcount = 256,
->  	.data	= fontdata_sun8x16.data,
->  #ifdef __sparc__
->  	.pref	= 10,
-> diff --git a/lib/fonts/font_ter16x32.c b/lib/fonts/font_ter16x32.c
-> index 91b9c283bd9c..a2cc25b9f8e3 100644
-> --- a/lib/fonts/font_ter16x32.c
-> +++ b/lib/fonts/font_ter16x32.c
-> @@ -2062,6 +2062,7 @@ const struct font_desc font_ter_16x32 = {
->  	.name	= "TER16x32",
->  	.width	= 16,
->  	.height = 32,
-> +	.charcount = 256,
->  	.data	= fontdata_ter16x32.data,
->  #ifdef __sparc__
->  	.pref	= 5,
-> -- 
-> 2.25.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
