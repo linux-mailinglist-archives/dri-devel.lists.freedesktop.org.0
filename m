@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA482A25F9
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 09:20:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856B12A2624
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 09:32:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCA7B6E215;
-	Mon,  2 Nov 2020 08:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 931016E233;
+	Mon,  2 Nov 2020 08:32:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF246E215
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 08:20:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25DE56E233
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 08:32:05 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6132EABDE;
- Mon,  2 Nov 2020 08:20:09 +0000 (UTC)
-Subject: Re: [PATCH] gpu/drm: delete same check in if condition
-To: Bernard Zhao <bernard@vivo.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ by mx2.suse.de (Postfix) with ESMTP id CD2DCABDE;
+ Mon,  2 Nov 2020 08:32:03 +0000 (UTC)
+Subject: Re: [PATCH] drm/hisilicon: Remove redundant null check
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
  linux-kernel@vger.kernel.org
-References: <20201102030736.3833-1-bernard@vivo.com>
+References: <1604050046-64539-1-git-send-email-tiantao6@hisilicon.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <44218b05-7a3e-2e22-d836-d7eb22d89d45@suse.de>
-Date: Mon, 2 Nov 2020 09:20:08 +0100
+Message-ID: <2dbbbad0-53cf-52cc-3b6b-0d1547f7e085@suse.de>
+Date: Mon, 2 Nov 2020 09:32:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.3
 MIME-Version: 1.0
-In-Reply-To: <20201102030736.3833-1-bernard@vivo.com>
+In-Reply-To: <1604050046-64539-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,78 +41,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com
-Content-Type: multipart/mixed; boundary="===============1736157411=="
+Content-Type: multipart/mixed; boundary="===============0215443140=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1736157411==
+--===============0215443140==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="iR6yRUrmHIFeO3F07WSYQk20oY8lt5hYw"
+ boundary="GG3f7Y2eERuYSbnl6cHoMimInb8e6Z3t6"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---iR6yRUrmHIFeO3F07WSYQk20oY8lt5hYw
-Content-Type: multipart/mixed; boundary="IQVAG7BoXHTW6xfbd8OOcGR5tI6dL30BU";
+--GG3f7Y2eERuYSbnl6cHoMimInb8e6Z3t6
+Content-Type: multipart/mixed; boundary="5Z6OlDIPhV62ZDpqx4X6ncdGEnM9XEs9t";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Bernard Zhao <bernard@vivo.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
  linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-Message-ID: <44218b05-7a3e-2e22-d836-d7eb22d89d45@suse.de>
-Subject: Re: [PATCH] gpu/drm: delete same check in if condition
-References: <20201102030736.3833-1-bernard@vivo.com>
-In-Reply-To: <20201102030736.3833-1-bernard@vivo.com>
+Message-ID: <2dbbbad0-53cf-52cc-3b6b-0d1547f7e085@suse.de>
+Subject: Re: [PATCH] drm/hisilicon: Remove redundant null check
+References: <1604050046-64539-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1604050046-64539-1-git-send-email-tiantao6@hisilicon.com>
 
---IQVAG7BoXHTW6xfbd8OOcGR5tI6dL30BU
+--5Z6OlDIPhV62ZDpqx4X6ncdGEnM9XEs9t
 Content-Type: multipart/mixed;
- boundary="------------7BCA7E0ADECDD6DF0439EFBD"
+ boundary="------------71E224E117BB3D2BEC5C76EF"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------7BCA7E0ADECDD6DF0439EFBD
+--------------71E224E117BB3D2BEC5C76EF
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 02.11.20 um 04:07 schrieb Bernard Zhao:
-> In function drm_bridge_connector_get_modes_edid, drm_edid_is_valid
-> will check weather (!edid), no need to check again in the if
-> branch.
+Am 30.10.20 um 10:27 schrieb Tian Tao:
+> drm_irq_uninstall can handle the case where dev->irq_enable is false,
+> so Remove redundant null check.
 >=20
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
+gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> index 0c1b40d..b71589b1 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> @@ -246,13 +246,13 @@ static int hibmc_unload(struct drm_device *dev)
+> =20
+>  	drm_atomic_helper_shutdown(dev);
+> =20
+> -	if (dev->irq_enabled)
+> -		drm_irq_uninstall(dev);
+> -
+> +	drm_irq_uninstall(dev);
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Removing this check would at least result in an error, [1] so rather
+leave it in for now.
 
-Thanks! I'll add the patch to drm-misc-next.
+Instead, we could discuss if drm_irq_install() should become a managed
+interface.
 
 Best regards
 Thomas
 
-> ---
->  drivers/gpu/drm/drm_bridge_connector.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/d=
-rm_bridge_connector.c
-> index a58cbde59c34..791379816837 100644
-> --- a/drivers/gpu/drm/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> @@ -241,7 +241,7 @@ static int drm_bridge_connector_get_modes_edid(stru=
-ct drm_connector *connector,
->  		goto no_edid;
+[1]
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_irq.c#=
+L201
+
+>  	pci_disable_msi(dev->pdev);
+> +
+>  	hibmc_kms_fini(priv);
+>  	hibmc_mm_fini(priv);
+>  	dev->dev_private =3D NULL;
+> +
+>  	return 0;
+>  }
 > =20
->  	edid =3D bridge->funcs->get_edid(bridge, connector);
-> -	if (!edid || !drm_edid_is_valid(edid)) {
-> +	if (!drm_edid_is_valid(edid)) {
->  		kfree(edid);
->  		goto no_edid;
->  	}
 >=20
 
 --=20
@@ -124,7 +132,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------7BCA7E0ADECDD6DF0439EFBD
+--------------71E224E117BB3D2BEC5C76EF
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -243,29 +251,29 @@ yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
 =3DmxFq
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------7BCA7E0ADECDD6DF0439EFBD--
+--------------71E224E117BB3D2BEC5C76EF--
 
---IQVAG7BoXHTW6xfbd8OOcGR5tI6dL30BU--
+--5Z6OlDIPhV62ZDpqx4X6ncdGEnM9XEs9t--
 
---iR6yRUrmHIFeO3F07WSYQk20oY8lt5hYw
+--GG3f7Y2eERuYSbnl6cHoMimInb8e6Z3t6
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+fwTgFAwAAAAAACgkQaA3BHVMLeiMT
-9Af/Ykrmf+cnItN/dwCvrf46xA4sdB+C6eH5VNK4u9RxX/wof6RZOu2RcNODZnWGxCO9ewTDzU1L
-1xNvZdp0qmCxjWGEqSvi69Lqar8UoICF9iDapSZVNtkQe7VJxX6edOHVReyem9cFLFh00NWk0xby
-XdlBAefmS7EVXHEl+WG6/oenBt8hQDrlHolmtxp9k+wLIxDcv1PqszXdX/y5j/uaVjSWJLhTVdrB
-DEoBkEI75XuU7LhDQbR8C0o5XOgtqevmMnrzHCmhzR+Ap3i1JpKpZdcFlRECEK/GPMMpU7MYQ24a
-Xk65Z+qJ1QoAZMpp07rNE7q5kxZ0yEeZ8qZDKcwUtw==
-=Zx/b
+wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+fxAMFAwAAAAAACgkQaA3BHVMLeiP3
+6ggAsbL3f+Y51lRijGscM5kyx0FmThD3C2iGSmudbf/yxayXZV1AmLE/bg52LPbnp7IJCUr9H+Cd
+z0ydcymrq4RAH1oowrIJaP756l05DnzaMW5MyljwL6Tova4zsBhYblL0MKLSOZdEQObzvjGTQ8bu
+8roJCYyk6uvAIzkoO0V2aYy885qnxpanr/6055ET2Dzk62HnW2An+HWWle2x+kXMUpzKrP1aWRnf
+3YpYNoD59p+78t6xxdt+cTTjZwHEwgnhQnnbHAENtkycw2XoOnAUaGi89XQO12jchumUkOSQlepX
+Q4XlRddf6D+cBKIOBKzbcFstgDiAe1IHDyUS+dogHw==
+=Odm4
 -----END PGP SIGNATURE-----
 
---iR6yRUrmHIFeO3F07WSYQk20oY8lt5hYw--
+--GG3f7Y2eERuYSbnl6cHoMimInb8e6Z3t6--
 
---===============1736157411==
+--===============0215443140==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -276,4 +284,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1736157411==--
+--===============0215443140==--
