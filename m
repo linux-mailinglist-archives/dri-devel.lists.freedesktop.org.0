@@ -2,60 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906472A3E97
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685EE2A3E9D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81FEE6EC2A;
-	Tue,  3 Nov 2020 08:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5209B6EC34;
+	Tue,  3 Nov 2020 08:14:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2D0E6E2C8;
- Mon,  2 Nov 2020 18:41:54 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id z24so11559308pgk.3;
- Mon, 02 Nov 2020 10:41:54 -0800 (PST)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C50736E47E
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 18:52:39 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id r10so11556946pgb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 10:52:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=uX2j6BTsDsDmpfeekKFS6duLUjm424lsGMqXT4y60ag=;
- b=rMqgtwuy5gD+utEZVzx4U+OKxKZfzgAso2fI0Yr74Ryq8G65Frfn8pbfHJGvou9bpj
- Tyr9mGQeXJvFwGgx0kkoNsNbrWfqOYrxKlCEdnDPfXxb/o2IAkkMudeNW40oeLl0zqVQ
- PS/DMw1hMbXNNYNxolpYZMGp68QDxM6LCuRWgf7XMoKr/RYUByZLoVPyc3OplZV43zTo
- 0YwgOq5ZGArljQ9pobSQz1RJCVPceQ4Jng/w4ycgeNRCYEaO34wS7pBA+du948kHUxnS
- 7od99l/cs9GhooDEaI58YHPUfMQBsxs/KfkstQg2B+p22G4jFDbFedq9r/uy4Fipo4Qf
- Xaxg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=HK3WmJW6u7M5Vx/m49h+Vsg1q0S7SYUSgOeAa79ZZJk=;
+ b=aFwIY8EW04InPVpjr7nipH18G4FAvswDmuqXCLLvRJjfVAYOc7qSxRnzhEC2rjfdc7
+ xJWHaMe0AYzP6PUFnRMr7E0DVDwNN9l9YuIygAuViSk9uOzcoJybD3wYAmsnMlYhgKWV
+ FTYNjgdhdw3VBoLrZhgl1rhLzi8TrQ5cEXIWic3oZ/bSWbeuHdonVlWSkBW/GUpizCN8
+ ONphXj05E2sTYjX/NawxS/mtdKGBKrDsGtvN4tgUjwrWo8PJbZV9AyN4Oai1nU/9az1k
+ DXLfiw811jl5BAOzvT4w7EqrLaStaH/ww0+oOhwMNNSLpQsrtH9L/jg0lSvwFSRUTxdt
+ xmCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=uX2j6BTsDsDmpfeekKFS6duLUjm424lsGMqXT4y60ag=;
- b=HqHXSEK11F+jMXiC9MTZDQdXVnF3Jeqf9oY8+7IvIINqr2PRGX+mbCz6GRSWUohKij
- bECMc5SFuT8r/37EStRrnDtL3YFjNtFrhDEFzTcE6KkMq220iwVbghcFh55Vm3D37VQa
- jQFOAiaw0tpxJqAyRM7TU57ykhprY0iZ7QUhfScqrdjjO0sgSZv6iBMQ8OcrUF7x1e59
- XigxDmPT1dmrbXna9Ap3rYdzrNFEO1g4zPB8wHVQfOy5NUz0F2D9eAsJYqGzQIuJfm8j
- 4QQDOvnVoQBkUtOTosTGLXUKha+ClUlCUgC4QOeTocSCQLXhjY3uSaFvBIdYLuolu6gf
- 7XaA==
-X-Gm-Message-State: AOAM5317IhJcEt2ZJqMFuAaWtbPxCNx9abKI/ME3yBZjUR4mOJhWqsBL
- ipuTd1s9mzmfgkqLAxG8lSI=
-X-Google-Smtp-Source: ABdhPJxVTiek04noTjU9GhU1+83S9V6Fm2v8nawdUGGy18yNrKkctDFNKL3bNrq+vflGQ1SHFhJt7g==
-X-Received: by 2002:a17:90b:ec9:: with SMTP id
- gz9mr2068967pjb.105.1604342514622; 
- Mon, 02 Nov 2020 10:41:54 -0800 (PST)
-Received: from localhost ([160.202.157.3])
- by smtp.gmail.com with ESMTPSA id v24sm13205004pgi.91.2020.11.02.10.41.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 10:41:54 -0800 (PST)
-Date: Tue, 3 Nov 2020 00:11:47 +0530
-From: Deepak R Varma <mh12gx2825@gmail.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: do not initialise global variables to 0 or NULL
-Message-ID: <20201102184147.GA42288@localhost>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=HK3WmJW6u7M5Vx/m49h+Vsg1q0S7SYUSgOeAa79ZZJk=;
+ b=BKxboSShkT0jDYp54DdRJqtON57GuOKyTN1BUYUrjHI9YFVxO/JHm9wYCDTalfESZR
+ 6VbVZpUhrKtIwSD8QiZG/J1UymNwu+de7UwBVYdeALAsamW6gzjb1aZcIa93FVBIQfkz
+ GK1sr/6eFsmyjluZjccMRLmzXEj/Z1Ux2Wo5T+k8vN3fLgUptgplrnzZvcjxz2MEUXCF
+ rNv/MpFZJpKbiDPLsl4hWVImGZI40mEqYZVvAy+YwypopFt9lZlwp5Xu0dDmvvZXDnEa
+ Ppkqvf23oJQQyzZWYzOJojjJT++ERWv7DpXvX3fWU/grhgJP05QA51Gsle9Q4hUn07k7
+ rw/A==
+X-Gm-Message-State: AOAM5339gA0Pf1PgVyDWrW/oRTcyKVdYrIWh1AAegPqQQEXCCG8UWQNA
+ vt4LFlvlFlp4AroXtcQnXu/m2cR2eck=
+X-Google-Smtp-Source: ABdhPJxZFZg9a0x6Bf+IQte8IWMpeNM5Kh+wMkhnG24E8lYn1AFwZwa988kzNa4zMg3YHRzGP/ldnA==
+X-Received: by 2002:a17:90a:a505:: with SMTP id
+ a5mr18272328pjq.76.1604343159258; 
+ Mon, 02 Nov 2020 10:52:39 -0800 (PST)
+Received: from ?IPv6:2001:df0:0:200c:bd11:f10f:c2c8:538d?
+ ([2001:df0:0:200c:bd11:f10f:c2c8:538d])
+ by smtp.gmail.com with ESMTPSA id e2sm210215pjw.13.2020.11.02.10.52.36
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 02 Nov 2020 10:52:38 -0800 (PST)
+Subject: Re: [PATCH/RFC v2] video: fbdev: atari: Fix TT High video mode
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Andreas Schwab <schwab@linux-m68k.org>
+References: <20201101102941.2891076-1-geert@linux-m68k.org>
+ <20201101112915.GB1263673@ravnborg.org> <874km91by4.fsf@igel.home>
+ <CAMuHMdUMF4R91Nt6mv9Tqz0zSaNh7AV8mghUoKL+uO-_PUH2aQ@mail.gmail.com>
+From: Michael Schmitz <schmitzmic@gmail.com>
+Message-ID: <609bf047-2c4a-393e-75f6-c86f748682dc@gmail.com>
+Date: Tue, 3 Nov 2020 07:52:34 +1300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
+In-Reply-To: <CAMuHMdUMF4R91Nt6mv9Tqz0zSaNh7AV8mghUoKL+uO-_PUH2aQ@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,137 +75,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, gregkh@linuxfoundation.org, mh12gx2825@gmail.com,
- daniel.vetter@ffwll.ch
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Linux/m68k <linux-m68k@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initializing global variable to 0 or NULL is not necessary and should
-be avoided. Issue reported by checkpatch script as:
-ERROR: do not initialise globals to 0 (or NULL).
-
-Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 46 ++++++++++++-------------
- drivers/gpu/drm/amd/amdgpu/atom.c       |  4 +--
- 2 files changed, 25 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 8ab6126ff70c..6de94c46bc91 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -94,16 +94,16 @@
- #define KMS_DRIVER_MINOR	40
- #define KMS_DRIVER_PATCHLEVEL	0
- 
--int amdgpu_vram_limit = 0;
--int amdgpu_vis_vram_limit = 0;
-+int amdgpu_vram_limit;
-+int amdgpu_vis_vram_limit;
- int amdgpu_gart_size = -1; /* auto */
- int amdgpu_gtt_size = -1; /* auto */
- int amdgpu_moverate = -1; /* auto */
--int amdgpu_benchmarking = 0;
--int amdgpu_testing = 0;
-+int amdgpu_benchmarking;
-+int amdgpu_testing;
- int amdgpu_audio = -1;
--int amdgpu_disp_priority = 0;
--int amdgpu_hw_i2c = 0;
-+int amdgpu_disp_priority;
-+int amdgpu_hw_i2c;
- int amdgpu_pcie_gen2 = -1;
- int amdgpu_msi = -1;
- char amdgpu_lockup_timeout[AMDGPU_MAX_TIMEOUT_PARAM_LENGTH];
-@@ -113,43 +113,43 @@ int amdgpu_aspm = -1;
- int amdgpu_runtime_pm = -1;
- uint amdgpu_ip_block_mask = 0xffffffff;
- int amdgpu_bapm = -1;
--int amdgpu_deep_color = 0;
-+int amdgpu_deep_color;
- int amdgpu_vm_size = -1;
- int amdgpu_vm_fragment_size = -1;
- int amdgpu_vm_block_size = -1;
--int amdgpu_vm_fault_stop = 0;
--int amdgpu_vm_debug = 0;
-+int amdgpu_vm_fault_stop;
-+int amdgpu_vm_debug;
- int amdgpu_vm_update_mode = -1;
--int amdgpu_exp_hw_support = 0;
-+int amdgpu_exp_hw_support;
- int amdgpu_dc = -1;
- int amdgpu_sched_jobs = 32;
- int amdgpu_sched_hw_submission = 2;
--uint amdgpu_pcie_gen_cap = 0;
--uint amdgpu_pcie_lane_cap = 0;
-+uint amdgpu_pcie_gen_cap;
-+uint amdgpu_pcie_lane_cap;
- uint amdgpu_cg_mask = 0xffffffff;
- uint amdgpu_pg_mask = 0xffffffff;
- uint amdgpu_sdma_phase_quantum = 32;
--char *amdgpu_disable_cu = NULL;
--char *amdgpu_virtual_display = NULL;
-+char *amdgpu_disable_cu;
-+char *amdgpu_virtual_display;
- /* OverDrive(bit 14) disabled by default*/
- uint amdgpu_pp_feature_mask = 0xffffbfff;
--uint amdgpu_force_long_training = 0;
--int amdgpu_job_hang_limit = 0;
-+uint amdgpu_force_long_training;
-+int amdgpu_job_hang_limit;
- int amdgpu_lbpw = -1;
- int amdgpu_compute_multipipe = -1;
- int amdgpu_gpu_recovery = -1; /* auto */
--int amdgpu_emu_mode = 0;
--uint amdgpu_smu_memory_pool_size = 0;
-+int amdgpu_emu_mode;
-+uint amdgpu_smu_memory_pool_size;
- /* FBC (bit 0) disabled by default*/
--uint amdgpu_dc_feature_mask = 0;
--uint amdgpu_dc_debug_mask = 0;
-+uint amdgpu_dc_feature_mask;
-+uint amdgpu_dc_debug_mask;
- int amdgpu_async_gfx_ring = 1;
--int amdgpu_mcbp = 0;
-+int amdgpu_mcbp;
- int amdgpu_discovery = -1;
--int amdgpu_mes = 0;
-+int amdgpu_mes;
- int amdgpu_noretry = -1;
- int amdgpu_force_asic_type = -1;
--int amdgpu_tmz = 0;
-+int amdgpu_tmz;
- int amdgpu_reset_method = -1; /* auto */
- int amdgpu_num_kcq = -1;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
-index 696e97ab77eb..46c00ee580b1 100644
---- a/drivers/gpu/drm/amd/amdgpu/atom.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atom.c
-@@ -66,7 +66,7 @@ typedef struct {
- 	bool abort;
- } atom_exec_context;
- 
--int amdgpu_atom_debug = 0;
-+int amdgpu_atom_debug;
- static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t * params);
- int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t * params);
- 
-@@ -88,7 +88,7 @@ static int atom_dst_to_src[8][4] = {
- };
- static int atom_def_dst[8] = { 0, 0, 1, 2, 0, 1, 2, 3 };
- 
--static int debug_depth = 0;
-+static int debug_depth;
- #ifdef ATOM_DEBUG
- static void debug_print_spaces(int n)
- {
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgR2VlcnQsCgpPbiAyLzExLzIwIDk6MzkgUE0sIEdlZXJ0IFV5dHRlcmhvZXZlbiB3cm90ZToK
+PiBIaSBBbmRyZWFzLAo+Cj4gT24gU3VuLCBOb3YgMSwgMjAyMCBhdCAxOjQ3IFBNIEFuZHJlYXMg
+U2Nod2FiIDxzY2h3YWJAbGludXgtbTY4ay5vcmc+IHdyb3RlOgo+PiBPbiBOb3YgMDEgMjAyMCwg
+U2FtIFJhdm5ib3JnIHdyb3RlOgo+Pj4gT24gU3VuLCBOb3YgMDEsIDIwMjAgYXQgMTE6Mjk6NDFB
+TSArMDEwMCwgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOgo+Pj4+IFRoZSBob3Jpem9udGFsIHJl
+c29sdXRpb24gKDY0MCkgZm9yIHRoZSBUVCBIaWdoIHZpZGVvIG1vZGUgKDEyODB4OTYwKSBpcwo+
+Pj4+IGRlZmluaXRlbHkgYm9ndXMuICBXaGlsZSBmaXhpbmcgdGhhdCwgY29ycmVjdCB0aGUgdGlt
+aW5ncyB0byBtYXRjaCB0aGUKPj4+PiBUVE0xOTUgc2VydmljZSBtYW51YWwuCj4+Pj4KPj4+PiBT
+aWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3JnPgo+
+Pj4+IC0tLQo+Pj4+IFVudGVzdGVkIG9uIGFjdHVhbCBoYXJkd2FyZSwgaGVuY2UgdGhlIFJGQy4K
+Pj4+Pgo+Pj4+IHYyOgo+Pj4+ICAgIC0gVXNlIGNvcnJlY3QgYmFzZS4KPj4+PiAtLS0KPj4+PiAg
+IGRyaXZlcnMvdmlkZW8vZmJkZXYvYXRhZmIuYyB8IDQgKystLQo+Pj4+ICAgMSBmaWxlIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPj4+Pgo+Pj4+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2F0YWZiLmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2F0YWZi
+LmMKPj4+PiBpbmRleCBmMjUzZGFhMDVkOWQzODcyLi41ZWNmM2VjOWY5NGNiNzIwIDEwMDY0NAo+
+Pj4+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvYXRhZmIuYwo+Pj4+ICsrKyBiL2RyaXZlcnMv
+dmlkZW8vZmJkZXYvYXRhZmIuYwo+Pj4+IEBAIC00OTUsOCArNDk1LDggQEAgc3RhdGljIHN0cnVj
+dCBmYl92aWRlb21vZGUgYXRhZmJfbW9kZWRiW10gX19pbml0ZGF0YSA9IHsKPj4+PiAgICAgICAg
+ICAgICAgICJ0dC1taWQiLCA2MCwgNjQwLCA0ODAsIDMxMDQxLCAxMjAsIDEwMCwgOCwgMTYsIDE0
+MCwgMzAsCj4+Pj4gICAgICAgICAgICAgICAwLCBGQl9WTU9ERV9OT05JTlRFUkxBQ0VEIHwgRkJf
+Vk1PREVfWVdSQVAKPj4+PiAgICAgICB9LCB7Cj4+Pj4gLSAgICAgICAgICAgIC8qIDEyODB4OTYw
+LCAyOSBrSHosIDYwIEh6IChUVCBoaWdoKSAqLwo+Pj4+IC0gICAgICAgICAgICAidHQtaGlnaCIs
+IDU3LCA2NDAsIDk2MCwgMzEwNDEsIDEyMCwgMTAwLCA4LCAxNiwgMTQwLCAzMCwKPj4+PiArICAg
+ICAgICAgICAgLyogMTI4MHg5NjAsIDcyIGtIeiwgNzIgSHogKFRUIGhpZ2gpICovCj4+Pj4gKyAg
+ICAgICAgICAgICJ0dC1oaWdoIiwgNTcsIDEyODAsIDk2MCwgNzc2MSwgMjYwLCA2MCwgMzYsIDQs
+IDE5MiwgNCwKPj4+PiAgICAgICAgICAgICAgIDAsIEZCX1ZNT0RFX05PTklOVEVSTEFDRUQgfCBG
+Ql9WTU9ERV9ZV1JBUAo+Pj4gV2VsbC1zcG90dGVkLiBUaGUgY2hhbmdlIG9mIDY0MCA9PiAxMjgw
+IGlzIHN1cmVseSByaWdodC4KPiBUQkgsIEkgc3BvdHRlZCB0aGF0IDcgeWVhcnMgYWdvLCBidXQg
+bmV2ZXIgZ290IHRvIGxvb2tpbmcgdXAgYW5kIGNhbGN1bGF0aW5nCj4gdGhlIG90aGVyIHZhbHVl
+cy4uLgoKTG9va3MgbGlrZSBvbmUgb2YgbXkgY29weSZwYXN0ZSBlcnJvcnMgdGhhdCB3ZW50IHVu
+ZGV0ZWN0ZWQgZm9yIHRvbyBsb25nLi4uCkkgc2VlbSB0byBoYXZlIGNvcGllZCB0aGUgdHQtbWlk
+IHZhbHVlcyBhYm92ZSBpbiB0aGF0IGNhc2UuCgpOZWVkIHRvIGdvIGJhY2sgdG8gdGhlIG9sZCBk
+cml2ZXIgdG8gc2VlIHdoYXQgaGFkIGJlZW4gdXNlZCB0aGVyZS4gQSBxdWljayBkaWZmIGRpZG4n
+dCBzaG93IGFueXRoaW5nIHVzZWZ1bC4KCj4+PiBJIGhhdmUgYSBoYXJkZXIgdGltZSB1bmRlcnN0
+YW5kaW5nIHdoeSB0aGUgY2hhbmdlIG9mIHBpeGNsb2NrIGZyb20gMzEwNDEKPj4+IHRvIDc3NjEg
+aXMgY29ycmVjdC4gQWxsIG90aGVyIG1vZGVzIGhhdmUgYSBwaXhjbG9jayBjbG9zZSB0byBvciBl
+cXVhbAo+Pj4gdG8gMzIwMDAgLSBzbyBpdCBsb29rcyBzdHJhbmdlIHRoaXMgb25lIGlzIG9mZi4K
+PiAzMjAwMCBwcyBpcyAzMS4yNSBNSHouIExvb2tzIGxpa2UgdGhlc2UgYXJlIGJvZ3VzLCB0b28s
+IGFuZCBvbmx5Cj4gdGhlIFZHQSBhbmQgRmFsY29uIHZpZGVvIG1vZGVzIGFyZSBjb3JyZWN0PwoK
+VGhlc2Ugd2VyZSB0aGUgb25seSBvbmVzIEkgY291bGQgdGVzdCAoaGF2ZW4ndCBzZWVuIGEgVFQg
+aW4gMjAgeWVhcnMpLiAKQXQgdGhlIHRpbWUgSSB3b3JrZWQgb24gdGhlIEF0YXJpIEZCIGRyaXZl
+ciwgSSBkaWRuJ3QgaGF2ZSBhY2Nlc3MgdG8gdGhlIApQcm9maWJ1Y2ggZWl0aGVyLgoKQXMgQW5k
+cmVhcyBtZW50aW9uZWQsIHRoZSBGYWxjb24gKG9yIGV4dGVybmFsKSBoYXJkd2FyZSBpcyB0aGUg
+b25seSBvbmUgCnRoYXQgY2FuIGJlIHByb2dyYW1tZWQgZnJlZWx5LCBzbyB3ZSBuZWVkIHRvIHdv
+cmsgZnJvbSB0aGUgOTUgTUh6IApwaXhjbG9jayBBbmRyZWFzIGZvdW5kLiBUaGF0J3MgMTAuNSBu
+cyBhcHByb3guCgoxMC41IG5zICogMTI4MCAqIDk2MCAob21pdHRpbmcgSEJMIGFuZCBWQkwgdGlt
+aW5nKSBnaXZlcyA3NyBIeiByZWZyZXNoIApzbyBJIGRvbid0IHRoaW5rIDk1IE1IeiBmb3IgNzIg
+SHogcmVmcmVzaCBhcmUgdW5yZWFzb25hYmxlLgoKTmVlZCB0byBsb29rIHVwIHdoYXQgYWxsIHRo
+ZSBvdGhlciBudW1iZXJzIGluIHRoZSBtb2RlIGVudHJ5IG1lYW4gbm93IC4uLgoKQ2hlZXJzLAoK
+IMKgwqDCoCBNaWNoYWVsCgoKPgo+PiBBY2NvcmRpbmcgdG8gdGhlIFByb2ZpYnVjaCB0aGUgcGl4
+Y2xvY2sgc2hvdWxkIGJlIGFib3V0IDk1MDAwLgo+IDk1IG5zPyBUaGF0J3MgYSAxMC41IE1IeiBw
+aXhlbCBjbG9jaz8gRGVmaW5pdGVseSB0b28gbG93Lgo+IFRoZSBUVE0xOTUgbWFudWFsIHNheXMg
+MTI4Ljg1IE1Iei4KPgo+IEdye29ldGplLGVldGluZ31zLAo+Cj4gICAgICAgICAgICAgICAgICAg
+ICAgICAgIEdlZXJ0Cj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
