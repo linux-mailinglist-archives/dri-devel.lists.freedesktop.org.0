@@ -1,38 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF032A2651
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 09:42:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4172A2657
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 09:45:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3EE56E440;
-	Mon,  2 Nov 2020 08:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D62A6E42A;
+	Mon,  2 Nov 2020 08:45:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D76EE6E439
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 08:42:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A176101E;
- Mon,  2 Nov 2020 00:42:51 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27BC73F718;
- Mon,  2 Nov 2020 00:42:50 -0800 (PST)
-Subject: Re: [PATCH] drm/panfrost: Fix a deadlock between the shrinker and
- madvise path
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20201101174016.839110-1-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <12019a24-239e-6d51-316c-b5438e5af892@arm.com>
-Date: Mon, 2 Nov 2020 08:42:49 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8E86E42A
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 08:45:24 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F08051F44A7F;
+ Mon,  2 Nov 2020 08:45:22 +0000 (GMT)
+Date: Mon, 2 Nov 2020 09:45:20 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v2] drm/panfrost: Move the GPU reset bits outside the
+ timeout handler
+Message-ID: <20201102094520.66f62b2a@collabora.com>
+In-Reply-To: <7c840f9f-a6cb-af80-0c21-da5608e00fbb@arm.com>
+References: <20201030105336.764009-1-boris.brezillon@collabora.com>
+ <7c840f9f-a6cb-af80-0c21-da5608e00fbb@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201101174016.839110-1-boris.brezillon@collabora.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,100 +43,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Hewitt <christianshewitt@gmail.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, Steven Price <steven.price@arm.com>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/11/2020 17:40, Boris Brezillon wrote:
-> panfrost_ioctl_madvise() and panfrost_gem_purge() acquire the mappings
-> and shmem locks in different orders, thus leading to a potential
-> the mappings lock first.
-> 
-> Fixes: bdefca2d8dc0 ("drm/panfrost: Add the panfrost_gem_mapping concept")
-> Cc: <stable@vger.kernel.org>
-> Cc: Christian Hewitt <christianshewitt@gmail.com>
-> Reported-by: Christian Hewitt <christianshewitt@gmail.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Fri, 30 Oct 2020 14:29:32 +0000
+Robin Murphy <robin.murphy@arm.com> wrote:
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+> On 2020-10-30 10:53, Boris Brezillon wrote:
+> [...]
+> > +	/* Schedule a reset if there's no reset in progress. */
+> > +	if (!atomic_cmpxchg(&pfdev->reset.pending, 0, 1))  
+> 
+> Nit: this could just be a simple xchg with 1 - you don't need the 
+> compare aspect, since setting it to true when it was already true is 
+> still harmless ;)
 
-> ---
->   drivers/gpu/drm/panfrost/panfrost_gem.c          |  4 +---
->   drivers/gpu/drm/panfrost/panfrost_gem.h          |  2 +-
->   drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c | 14 +++++++++++---
->   3 files changed, 13 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index cdf1a8754eba..0c0243eaee81 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -105,14 +105,12 @@ void panfrost_gem_mapping_put(struct panfrost_gem_mapping *mapping)
->   	kref_put(&mapping->refcount, panfrost_gem_mapping_release);
->   }
->   
-> -void panfrost_gem_teardown_mappings(struct panfrost_gem_object *bo)
-> +void panfrost_gem_teardown_mappings_locked(struct panfrost_gem_object *bo)
->   {
->   	struct panfrost_gem_mapping *mapping;
->   
-> -	mutex_lock(&bo->mappings.lock);
->   	list_for_each_entry(mapping, &bo->mappings.list, node)
->   		panfrost_gem_teardown_mapping(mapping);
-> -	mutex_unlock(&bo->mappings.lock);
->   }
->   
->   int panfrost_gem_open(struct drm_gem_object *obj, struct drm_file *file_priv)
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> index b3517ff9630c..8088d5fd8480 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> @@ -82,7 +82,7 @@ struct panfrost_gem_mapping *
->   panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
->   			 struct panfrost_file_priv *priv);
->   void panfrost_gem_mapping_put(struct panfrost_gem_mapping *mapping);
-> -void panfrost_gem_teardown_mappings(struct panfrost_gem_object *bo);
-> +void panfrost_gem_teardown_mappings_locked(struct panfrost_gem_object *bo);
->   
->   void panfrost_gem_shrinker_init(struct drm_device *dev);
->   void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> index 288e46c40673..1b9f68d8e9aa 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-> @@ -40,18 +40,26 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
->   {
->   	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
->   	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-> +	bool ret = false;
->   
->   	if (atomic_read(&bo->gpu_usecount))
->   		return false;
->   
-> -	if (!mutex_trylock(&shmem->pages_lock))
-> +	if (!mutex_trylock(&bo->mappings.lock))
->   		return false;
->   
-> -	panfrost_gem_teardown_mappings(bo);
-> +	if (!mutex_trylock(&shmem->pages_lock))
-> +		goto unlock_mappings;
-> +
-> +	panfrost_gem_teardown_mappings_locked(bo);
->   	drm_gem_shmem_purge_locked(obj);
-> +	ret = true;
->   
->   	mutex_unlock(&shmem->pages_lock);
-> -	return true;
-> +
-> +unlock_mappings:
-> +	mutex_unlock(&bo->mappings.lock);
-> +	return ret;
->   }
->   
->   static unsigned long
-> 
+Yep, I'll post a new version using atomic_xchg() here.
+
+Thanks,
+
+Boris
 
 _______________________________________________
 dri-devel mailing list
