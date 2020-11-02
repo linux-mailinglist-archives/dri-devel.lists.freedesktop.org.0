@@ -1,36 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55362A2703
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 10:29:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 381492A271F
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 10:37:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E43376E452;
-	Mon,  2 Nov 2020 09:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF3946E0A1;
+	Mon,  2 Nov 2020 09:37:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A90CD6E452
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 09:29:12 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C476101E;
- Mon,  2 Nov 2020 01:29:12 -0800 (PST)
-Received: from [192.168.1.79] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5AC263F718;
- Mon,  2 Nov 2020 01:29:10 -0800 (PST)
-Subject: Re: [PATCH -next] drm/panfrost: Fix unused variable warning
-To: Zou Wei <zou_wei@huawei.com>, robh@kernel.org,
- tomeu.vizoso@collabora.com, alyssa.rosenzweig@collabora.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <1604309599-10078-1-git-send-email-zou_wei@huawei.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <8729ad8d-31db-c7cd-e962-a0f7db6891b3@arm.com>
-Date: Mon, 2 Nov 2020 09:29:08 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 174636E0A1
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 09:37:15 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id y14so10586091pfp.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 01:37:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=q4LWjOQb48RbMvuqunvROMBYqbWJviRmRbs1farYf+o=;
+ b=Ouivo3WkaZWDdXarHlxfc76m/TrdvxXtNjxs/qxYSq5z1VkleGC5Biq3uMuBsyswOw
+ sewYi9DabhWO7RN0Qvtwl9XEYrmkScHJrmHPoSUlYwXuGUrsfb7uYXvkM4O+iHn6kqh+
+ MYJIDi6A4Ufxb+P5QQUIB2ztW1TBwwoaxRAWXfj904qfJAiNKy6X2oafViYxJR1oq5qT
+ fgm9qCtv3huwI6tLzKwUE8+0Xu9caqDo2RTNhA7Fx8KTtWLom/JvHNfI2YHgAwodKNxn
+ sGmDA0j9bSydLptOUNPWxXJzv5RZcEvHgWExANOO60Sn8cR6+dxA/yNo3PdA8jR5DQcU
+ +1Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=q4LWjOQb48RbMvuqunvROMBYqbWJviRmRbs1farYf+o=;
+ b=h6E99Q29cw3TTRZsbaYOyLkXKSaXspOC2EVfnFVbIe/2uuf4h59BDWpHYfcmQfb6wz
+ 24uWJ9XeBxZZJFJEEJmfMUjkrNEZW0vJ3zVScY108/hD3pgPyKydQ41hJKoNP8/gFTSm
+ Kp8rQEEhmUK6zis81FOdG8AkXNK3U1l9dVQYB1xzXf0Dcmzyd74avX1YCK+pAsKV5LFS
+ RcaERZTtWs/tIt0FC3E3ZcyDrEoogiqELbpDP6iT4+mFvwlNieLWI9q5YXUJpSa13rl2
+ PkdHXi2xStorLdYf4/uFSmmCGUUCoLXPcsm0CzBBIaaRcKFgrpd2jdsIEecqbc2Pqd1e
+ C58g==
+X-Gm-Message-State: AOAM530ww/oGNd3I7riGs8p7QyCzpFDWzekhleYh9nxTWa85MxATTNbU
+ UV8pwMxYQh6JhxDuRWlJbg==
+X-Google-Smtp-Source: ABdhPJzsH5NB3PxiruEjGrp4JTwVXQZfViSpD41UawE+gLt4Mib6M7rMtc3KzqmkqFgSe0xUpuE/iA==
+X-Received: by 2002:a62:1991:0:b029:155:f476:2462 with SMTP id
+ 139-20020a6219910000b0290155f4762462mr21521857pfz.43.1604309834682; 
+ Mon, 02 Nov 2020 01:37:14 -0800 (PST)
+Received: from localhost.localdomain (59-125-13-244.HINET-IP.hinet.net.
+ [59.125.13.244])
+ by smtp.gmail.com with ESMTPSA id 199sm5566013pgg.18.2020.11.02.01.37.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Nov 2020 01:37:13 -0800 (PST)
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Thomas Winischhofer <thomas@winischhofer.net>
+Subject: [PATCH v2 1/2] console: Remove dummy con_font_op() callback
+ implementations
+Date: Mon,  2 Nov 2020 04:36:05 -0500
+Message-Id: <c5563eeea36aae7bd72ea2e985bc610d585ece40.1604306433.git.yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <c5563eeea36aae7bd72ea2e985bc610d585ece40.1604128639.git.yepeilin.cs@gmail.com>
+References: <c5563eeea36aae7bd72ea2e985bc610d585ece40.1604128639.git.yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1604309599-10078-1-git-send-email-zou_wei@huawei.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,32 +72,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-fbdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ Nicolas Pitre <nico@fluxnic.net>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ George Kennedy <george.kennedy@oracle.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Nathan Chancellor <natechancellor@gmail.com>, Peter Rosin <peda@axentia.se>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDIvMTEvMjAyMCAwOTozMywgWm91IFdlaSB3cm90ZToKPiBGaXhlcyB0aGUgZm9sbG93aW5n
-IFc9MSBrZXJuZWwgYnVpbGQgd2FybmluZzoKPiAKPiAuL3BhbmZyb3N0X2pvYi5jOjYxNzoyODog
-d2FybmluZzogdW51c2VkIHZhcmlhYmxlIOKAmGpz4oCZIFstV3VudXNlZC12YXJpYWJsZV0KPiAg
-ICBzdHJ1Y3QgcGFuZnJvc3Rfam9iX3Nsb3QgKmpzID0gcGZkZXYtPmpzOwo+ICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgXn4KPiAKPiBSZXBvcnRlZC1ieTogSHVsayBSb2JvdCA8aHVsa2Np
-QGh1YXdlaS5jb20+Cj4gU2lnbmVkLW9mZi1ieTogWm91IFdlaSA8em91X3dlaUBodWF3ZWkuY29t
-PgoKQm9yaXMgcG9zdGVkIGFuIGlkZW50aWNhbCBwYXRjaCBlYXJsaWVyOgoKaHR0cHM6Ly9sb3Jl
-Lmtlcm5lbC5vcmcvci8yMDIwMTEwMTE3MzgxNy44MzE3NjktMS1ib3Jpcy5icmV6aWxsb24lNDBj
-b2xsYWJvcmEuY29tCgpTdGV2ZQoKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9w
-YW5mcm9zdF9qb2IuYyB8IDIgLS0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQo+
-IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rfam9iLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rfam9iLmMKPiBpbmRleCA0OTAyYmM2
-Li5lNzViN2QyIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9z
-dF9qb2IuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9qb2IuYwo+
-IEBAIC02MTMsOCArNjEzLDYgQEAgaW50IHBhbmZyb3N0X2pvYl9vcGVuKHN0cnVjdCBwYW5mcm9z
-dF9maWxlX3ByaXYgKnBhbmZyb3N0X3ByaXYpCj4gICAKPiAgIHZvaWQgcGFuZnJvc3Rfam9iX2Ns
-b3NlKHN0cnVjdCBwYW5mcm9zdF9maWxlX3ByaXYgKnBhbmZyb3N0X3ByaXYpCj4gICB7Cj4gLQlz
-dHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldiA9IHBhbmZyb3N0X3ByaXYtPnBmZGV2Owo+IC0J
-c3RydWN0IHBhbmZyb3N0X2pvYl9zbG90ICpqcyA9IHBmZGV2LT5qczsKPiAgIAlpbnQgaTsKPiAg
-IAo+ICAgCWZvciAoaSA9IDA7IGkgPCBOVU1fSk9CX1NMT1RTOyBpKyspCj4gCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+`struct console_font` is a UAPI structure, thus ideally should not be
+used for kernel internal abstraction. Remove some dummy .con_font_set,
+.con_font_default and .con_font_copy `struct consw` callback
+implementations, to make it cleaner.
+
+Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+Change in v2:
+  - [v2 2/2] no longer Cc: stable, so do not Cc: stable
+
+Context: https://lore.kernel.org/lkml/CAKMK7uFY2zv0adjKJ_ORVFT7Zzwn075MaU0rEU7_FuqENLR=UA@mail.gmail.com/
+
+ drivers/usb/misc/sisusbvga/sisusb_con.c | 21 ---------------------
+ drivers/video/console/dummycon.c        | 20 --------------------
+ 2 files changed, 41 deletions(-)
+
+diff --git a/drivers/usb/misc/sisusbvga/sisusb_con.c b/drivers/usb/misc/sisusbvga/sisusb_con.c
+index c63e545fb105..dfa0d5ce6012 100644
+--- a/drivers/usb/misc/sisusbvga/sisusb_con.c
++++ b/drivers/usb/misc/sisusbvga/sisusb_con.c
+@@ -1345,24 +1345,6 @@ static int sisusbdummycon_blank(struct vc_data *vc, int blank, int mode_switch)
+ 	return 0;
+ }
+ 
+-static int sisusbdummycon_font_set(struct vc_data *vc,
+-				   struct console_font *font,
+-				   unsigned int flags)
+-{
+-	return 0;
+-}
+-
+-static int sisusbdummycon_font_default(struct vc_data *vc,
+-				       struct console_font *font, char *name)
+-{
+-	return 0;
+-}
+-
+-static int sisusbdummycon_font_copy(struct vc_data *vc, int con)
+-{
+-	return 0;
+-}
+-
+ static const struct consw sisusb_dummy_con = {
+ 	.owner =		THIS_MODULE,
+ 	.con_startup =		sisusbdummycon_startup,
+@@ -1375,9 +1357,6 @@ static const struct consw sisusb_dummy_con = {
+ 	.con_scroll =		sisusbdummycon_scroll,
+ 	.con_switch =		sisusbdummycon_switch,
+ 	.con_blank =		sisusbdummycon_blank,
+-	.con_font_set =		sisusbdummycon_font_set,
+-	.con_font_default =	sisusbdummycon_font_default,
+-	.con_font_copy =	sisusbdummycon_font_copy,
+ };
+ 
+ int
+diff --git a/drivers/video/console/dummycon.c b/drivers/video/console/dummycon.c
+index 2a0d0bda7faa..f1711b2f9ff0 100644
+--- a/drivers/video/console/dummycon.c
++++ b/drivers/video/console/dummycon.c
+@@ -124,23 +124,6 @@ static int dummycon_switch(struct vc_data *vc)
+ 	return 0;
+ }
+ 
+-static int dummycon_font_set(struct vc_data *vc, struct console_font *font,
+-			     unsigned int flags)
+-{
+-	return 0;
+-}
+-
+-static int dummycon_font_default(struct vc_data *vc,
+-				 struct console_font *font, char *name)
+-{
+-	return 0;
+-}
+-
+-static int dummycon_font_copy(struct vc_data *vc, int con)
+-{
+-	return 0;
+-}
+-
+ /*
+  *  The console `switch' structure for the dummy console
+  *
+@@ -159,8 +142,5 @@ const struct consw dummy_con = {
+ 	.con_scroll =	dummycon_scroll,
+ 	.con_switch =	dummycon_switch,
+ 	.con_blank =	dummycon_blank,
+-	.con_font_set =	dummycon_font_set,
+-	.con_font_default =	dummycon_font_default,
+-	.con_font_copy =	dummycon_font_copy,
+ };
+ EXPORT_SYMBOL_GPL(dummy_con);
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
