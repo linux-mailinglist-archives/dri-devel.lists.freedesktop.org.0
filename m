@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3C02A3E92
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F282A3E74
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7896EC19;
-	Tue,  3 Nov 2020 08:14:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0871E6EBFF;
+	Tue,  3 Nov 2020 08:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A30DA6E554
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:20:54 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id d142so1146276wmd.4
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:20:54 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95B6A6E554
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:20:56 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id p19so1478856wmg.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:20:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/Z+wwi/tFfEYyTBQIvrIHI75+eOD/rtT/HKhEUnLNfQ=;
- b=e5kjyidWL8cmpiZH3KN4gbQ7mPV2yzGx2nkYanw2be0opJ+Vz0F/h7+cASkSpyPvft
- Cq/QKHKgAn39kkunAelTRvo6+t//6O8sFAxBBIWVN/D/sXHLN0TcApD154vCBfBKfHLt
- cLayxxCVPglJdryRP0qymWqoSldB8VezR3ze+ww/h6mL64irtmyW1Iv/4QeMsHgFEmU1
- EnCxPQadIxfRrkqDHNb0AWnJ/TDZd1tbaPxP67i/kRiJU0AadmF8tkFzS5SiBFs65eHd
- s2porevmNAwd7EJUylR58be5iKdfMpI6Ofog3Lr78MGsAlfmarg/IAiyvFrSdsneofbm
- aJMQ==
+ bh=J57Co4keOJLPpkOAtm30WeNaGboSbDo7KGbxSzSraLw=;
+ b=WjUcLw8gDcHIiMrch+N57kyIWhFBESoNnwJbo8ozbR4u2s7V8dYOCGUGcrdCQs0A8c
+ eQ33JQCo7FlLI/BSLX3oyaROh6lCmluXX5jsXGGHEInxOXk5kMdE5EkChmFgZmNwn3eb
+ RwlsVtsZQHldyPx0J11ujW5fXjWbCiWcVuULMO77gCNRB/nW03qXSgrnoTEFhuGMBnUK
+ sL+IQo1YUMwYJSK40SS6mEwNb1VtEI53RpcVxfuMkInp0D3aXlaGqbYsVindMPO71Ke3
+ cZCq5fRNyBPIQZcN+ygz0gPhtpG7oZ2WlcrEtOMJ/4DQH9LXLeCfvwg9MCDRBNLrjhq/
+ 00Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/Z+wwi/tFfEYyTBQIvrIHI75+eOD/rtT/HKhEUnLNfQ=;
- b=RUcmggluLJViZrmx+525ZPuLh6+VbaNwMGR+EHK4tmViY09ik9rhxoP3JWyxbL/O0P
- j3Lf2h8/3G4/Mju6y3lrtihpGDypDNIK0xMgeo/j+6MEIBs+PtPPJoDcgXK/K9xgTvox
- Oj4Eabcu9d28Lc30T5QFmN8sdr/w3kdw++VXleavqjxfqhA41D/WE9T+/h6tvrD2LNj5
- CUWFx7kh9H+LfpDgdtE5KXjvdYvc2vbq3JDaeUK8bXMW8DKHyBNStY9pGlm2/7t5dm3J
- H8YG7eWh9u4L9FHJLxNzT2tCIldLN+cshzzR0hZ+C0lrrF3fgEin9w1cnUxvgEqS8wRn
- bz6A==
-X-Gm-Message-State: AOAM5319Zj6Sl07YtUuk409VPQa4f13DdjJPQH3WnvE8OkrOWIhDxl0c
- 1mjBIEzPx9ymEe/d79q4USVrtw==
-X-Google-Smtp-Source: ABdhPJwLl/Yb+dmot3Qj9GobH6d2VSIEqfIwMoXbr9WYE4ZivqBC7akLVHb/L/C2gNGglG2Ytc/IgQ==
-X-Received: by 2002:a1c:1906:: with SMTP id 6mr17871137wmz.87.1604330453311;
- Mon, 02 Nov 2020 07:20:53 -0800 (PST)
+ bh=J57Co4keOJLPpkOAtm30WeNaGboSbDo7KGbxSzSraLw=;
+ b=kCXeLWV4CWM0ElKwa169LU72KWtiol7HDtHOW0z/Xv4JdoQxyi4nx1pAZ0Agz6P4t2
+ 4E+I0EoynVKTVNYgi03h/yaEIpFewlAeXTM5Pj762Vn03lM+966DHV9xBmmX/GLnPr+f
+ wZJj8IQO7u/gyNC6EDLR61Bms+3KaU1+wXkFM5SJoICvSgGDfbyH4VtMLVYGNVq5vqJN
+ IZ+oD9aqD93gTmasKxeScJQ7IkPjdc2j21+T2+Q6Uhfj4mjTT1UtxEVwzdQj/0Juj4C0
+ +aTWjQrg5C/HbMaHLld9GX7Jo5KXgzobmpwU1MidcZHND4O286BVMOKea13Ov4Jxp4BO
+ Zwcw==
+X-Gm-Message-State: AOAM530tFPrKA6wsdqzVO6+qYXVnA9CaWa9FXNL29mTWcfPyZgcB8UB7
+ 9CPsLxDnLTWOIWVHoMxjJtZDlQ==
+X-Google-Smtp-Source: ABdhPJzrGRLOF2/QgV4EgJsGUrSZ+4C2XU14++PTKK4DegXurFNGMqip9Gki2NGq2KA3LkM7jho+gA==
+X-Received: by 2002:a1c:4646:: with SMTP id t67mr18816040wma.40.1604330455334; 
+ Mon, 02 Nov 2020 07:20:55 -0800 (PST)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr.
  [90.8.158.167])
- by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.51
+ by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 07:20:52 -0800 (PST)
+ Mon, 02 Nov 2020 07:20:54 -0800 (PST)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
@@ -66,9 +66,9 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v2 6/8] drm: atomic: use krealloc_array()
-Date: Mon,  2 Nov 2020 16:20:35 +0100
-Message-Id: <20201102152037.963-7-brgl@bgdev.pl>
+Subject: [PATCH v2 7/8] hwtracing: intel: use krealloc_array()
+Date: Mon,  2 Nov 2020 16:20:36 +0100
+Message-Id: <20201102152037.963-8-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201102152037.963-1-brgl@bgdev.pl>
 References: <20201102152037.963-1-brgl@bgdev.pl>
@@ -90,7 +90,6 @@ Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org, linux-mm@kvack.org,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
  linaro-mm-sig@lists.linaro.org, linux-gpio@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-media@vger.kernel.org,
  linux-edac@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
@@ -104,25 +103,23 @@ Use the helper that checks for overflows internally instead of manually
 calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/drm_atomic.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/hwtracing/intel_th/msu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 58527f151984..09ad6a2ec17b 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -960,7 +960,8 @@ drm_atomic_get_connector_state(struct drm_atomic_state *state,
- 		struct __drm_connnectors_state *c;
- 		int alloc = max(index + 1, config->num_connector);
+diff --git a/drivers/hwtracing/intel_th/msu.c b/drivers/hwtracing/intel_th/msu.c
+index 3a77551fb4fc..7d95242db900 100644
+--- a/drivers/hwtracing/intel_th/msu.c
++++ b/drivers/hwtracing/intel_th/msu.c
+@@ -2002,7 +2002,7 @@ nr_pages_store(struct device *dev, struct device_attribute *attr,
+ 		}
  
--		c = krealloc(state->connectors, alloc * sizeof(*state->connectors), GFP_KERNEL);
-+		c = krealloc_array(state->connectors, alloc,
-+				   sizeof(*state->connectors), GFP_KERNEL);
- 		if (!c)
- 			return ERR_PTR(-ENOMEM);
- 
+ 		nr_wins++;
+-		rewin = krealloc(win, sizeof(*win) * nr_wins, GFP_KERNEL);
++		rewin = krealloc_array(win, nr_wins, sizeof(*win), GFP_KERNEL);
+ 		if (!rewin) {
+ 			kfree(win);
+ 			return -ENOMEM;
 -- 
 2.29.1
 
