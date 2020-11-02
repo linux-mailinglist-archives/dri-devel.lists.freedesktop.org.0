@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1232A3E7A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED56A2A3E9F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC2766EC14;
-	Tue,  3 Nov 2020 08:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 662EB6EC29;
+	Tue,  3 Nov 2020 08:14:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 820326E093
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 17:06:41 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id t22so7116559plr.9
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 09:06:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=ESh9xtdAgdP17+IlQOl8SchaQP1wByfvx2mtwCrql2Q=;
- b=X4DuJJO0/gEJdfLQm0/YE9Y2l9ZhKtY5Whhq2yImpVUTGKCiG2r0WVGyUFoVbJELm0
- LPmnoj1qViMSnbrVTZa3YlJxORw9Cxk4h/6jPyeDD7BV6b3PHq4EyLWx721+H44mT1+K
- ZBy4zvIIkSSMS0k9A5cRioGINRzvU1KBwGgS8=
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B56D16E093
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 17:08:04 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id g19so3833445otp.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 09:08:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=h835lHTQAu95wxA6PWFRRi1Mf/8MD2a5rJ3lZGCt1cc=;
+ b=JXzV2p0vzQ8oWk1hcaXFG0FvtdrXkV2dRVgA/IbVQE/hgmv5n5pCVIvX3ESBoyvRGf
+ tgtfY7MWJUbRHG067Bs69792lkKZW5h9t+tEeDcB6BRq9PRAy76YtZ1WQ93f5nn5qQkz
+ h/9uGzvP827kIjRUVNnANCl7bQ4nnsPVFpKVQknecDyRFRRGcqSTOfEjWdipbFNiKj9K
+ 6/v0/FxOSV95gWgZNzOpV+sb61Bq0be7/mu8AiAVV3H916cU3YOXRmnVEShMx06rfuXz
+ B42vxCATidn5x/xPrejMPvHKUB+LnQe0ofCsZgj42RK/AQoodaBKYalUoN9NELtSuyav
+ 4l6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=ESh9xtdAgdP17+IlQOl8SchaQP1wByfvx2mtwCrql2Q=;
- b=dUCnfd2P+9NuDmsYa2DPCcCXvngfAteWskbHyk+r/knQn753RUMI31uTeHKOnuBnhK
- BwjF+V7SS/NcvnTGMfA3KtQCTFminPK+BTSRuSWwEue2zdhdR0BCGrjBwGR3NKAOrBxQ
- l70jKauei0RnakZkFSRkKykMbz21gQCF3RUtFV7uNtAEDf++Bh7AJ3qqH5nRDmM6+zTv
- uwCSNjJ94RDEA49Qfn4Ummf8ZxVOAhMzEKKDTpIyvvTmroQyXC0tmWi5VMOPCWFCWFCw
- MzIoepb+tsd/DIGByga6hcTC1M+euStSGwDdsJtImmhBeNTW3b+3hmK07B2703ppFb3K
- vHTw==
-X-Gm-Message-State: AOAM533OgGHXYWZKTkOwbRMTjvjFqZseqL8OpLoeJEqs05yq5eehQ49x
- HGnGOa7xnSGTa2Dk0JdN+vnRDg==
-X-Google-Smtp-Source: ABdhPJxYfBE1SCamXj3nnapq9Wu8zWTv9R/9QOz630Xs5i8P2iZSQmvZci0pOSsNYwW2B9nmgp+aZA==
-X-Received: by 2002:a17:902:8649:b029:d6:d1e7:e78b with SMTP id
- y9-20020a1709028649b02900d6d1e7e78bmr4135219plt.63.1604336801123; 
- Mon, 02 Nov 2020 09:06:41 -0800 (PST)
-Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
- by smtp.gmail.com with ESMTPSA id 12sm5476052pfh.88.2020.11.02.09.06.40
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=h835lHTQAu95wxA6PWFRRi1Mf/8MD2a5rJ3lZGCt1cc=;
+ b=oy44szPIYL/c2A3XKIiyISEW2exjk4bnY7abbtSSZPHlOZOpM+Kj+0yXKoCAbuN1OA
+ uWEdZ8WIOQBPcBaHiRKAdGEKMWatI+Wm4QcNKpsrxtHaccHOxj5qbFsacRS+Lk9hoRLa
+ xOQwpPK1fZHnnl9sYsCfPiP7+kjl00mduFothoavjC6J+gGmuuoxIOoHZrnmNB+btnEp
+ z3PN7C9P5mhdm5Ks1g8F6n5e0FAdNlPsJ0O5oVaXnPuxo8PbzJoftUj3UX7RaR/F3GHO
+ xgpwFYjpvN7l51cNvQ+TMb7o+JYhed4bCGxX0cyDRVBwSvtPRLAQb0lQUvcsQRoIzgcb
+ nzHQ==
+X-Gm-Message-State: AOAM5305y63r0wI6U0M3YS0qbuJupDoBdpa8ciizm7sfSNtrGFz7Pzs+
+ 2f6vcjtV63pCgfrPQrkS81ed7g==
+X-Google-Smtp-Source: ABdhPJwPghsbeLdlR1n488K/KOrm0Vc5OL56hGZgaK6freCCeb7B/2DFK47J9LaHVmCOZ7tOA3hd9g==
+X-Received: by 2002:a05:6830:2018:: with SMTP id
+ e24mr13147614otp.278.1604336883838; 
+ Mon, 02 Nov 2020 09:08:03 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id y22sm3560488ooa.2.2020.11.02.09.08.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:06:40 -0800 (PST)
-MIME-Version: 1.0
-In-Reply-To: <CAD=FV=VHvL4A3U==CECbgkfvRcy51v4cSBjodvRGA2463L+CZQ@mail.gmail.com>
-References: <20201030011738.2028313-1-swboyd@chromium.org>
- <20201030011738.2028313-2-swboyd@chromium.org>
- <CAD=FV=VHvL4A3U==CECbgkfvRcy51v4cSBjodvRGA2463L+CZQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/bridge: ti-sn65dsi86: Combine register
- accesses in ti_sn_aux_transfer()
-From: Stephen Boyd <swboyd@chromium.org>
+ Mon, 02 Nov 2020 09:08:03 -0800 (PST)
+Date: Mon, 2 Nov 2020 11:08:01 -0600
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Doug Anderson <dianders@chromium.org>
-Date: Mon, 02 Nov 2020 09:06:38 -0800
-Message-ID: <160433679882.884498.16765038474501300057@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi86: Replace
+ #pwm-cells
+Message-ID: <20201102170801.GI3151@builder.lan>
+References: <20200930223532.77755-1-bjorn.andersson@linaro.org>
+ <20200930223532.77755-2-bjorn.andersson@linaro.org>
+ <CAD=FV=Unu-PH_RThi3xRF1HUADN2PqcVAOin0O0yo0gcGRWCDQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=Unu-PH_RThi3xRF1HUADN2PqcVAOin0O0yo0gcGRWCDQ@mail.gmail.com>
 X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,58 +72,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Doug Anderson (2020-11-02 08:18:47)
+On Fri 02 Oct 15:42 CDT 2020, Doug Anderson wrote:
+
 > Hi,
 > 
-> On Thu, Oct 29, 2020 at 6:17 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> On Wed, Sep 30, 2020 at 3:40 PM Bjorn Andersson
+> <bjorn.andersson@linaro.org> wrote:
 > >
-> > These register reads and writes are sometimes directly next to each
-> > other in the register address space. Let's use regmap bulk read/write
-> > APIs to get the data with one transfer instead of multiple i2c
-> > transfers. This helps cut down on the number of transfers in the case of
-> > something like reading an EDID where we read in blocks of 16 bytes at a
-> > time and the last for loop here is sending an i2c transfer for each of
-> > those 16 bytes, one at a time. Ouch!
+> > While the signal on GPIO4 to drive the backlight controller indeed is
+> > pulse width modulated its purpose is specifically to control the
+> > brightness of a backlight.
+> 
+> I'm a bit on the fence about this.  I guess you're doing this because
+> it avoids some -EPROBE_DEFER cycles in Linux?  It does seem to have a
+> few downsides, though.
+> 
+
+No, the reason for exposing a backlight is that while the thing
+certainly is a PWM signal, the description of it and the registers
+available to control it surely seems "backlight" to me.
+
+In particular No, the reason for exposing a backlight is that while
+while the thing certainly is a PWM signal, the description of it and the
+registers available to control it surely seems "backlight" to me.
+
+> 1. It means a bit of re-inventing the wheel.  It's not a very big
+> wheel, though, I'll give you.  ...but it's still something.
+> 
+
+The main problem I saw with exposing this as a PWM was the fact that we
+have both period and frequency to control...
+
+> 2. I'm not sure why you'd want to, but in theory one could use this
+> PWM for some other purposes.  It really is just a generic PWM.  Your
+> change prevents that.
+> 
+
+...and in the even that you use it as a "generic" PWM I'd expect that
+the specified period is related to the frequency of the signal. But the
+period is documented to be related to the number of brightness steps of
+the panel.
+
+> 
+> 
+> > Drop the #pwm-cells and instead expose a new property to configure the
+> > granularity of the backlight PWM signal.
 > >
-> > Changes in v2:
-> >  - Combined AUX_CMD register write
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > ---
+> >  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml | 9 ++++++---
+> >  1 file changed, 6 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+> > index f8622bd0f61e..e380218b4646 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+> > @@ -66,9 +66,12 @@ properties:
+> >        1-based to match the datasheet.  See ../../gpio/gpio.txt for more
+> >        information.
+> >
+> > -  '#pwm-cells':
+> > -    const: 1
+> > -    description: See ../../pwm/pwm.yaml for description of the cell formats.
+> > +  ti,backlight-scale:
+> > +    description:
+> > +      The granularity of brightness for the PWM signal provided on GPIO4, if
+> > +      this property is specified.
+> > +    minimum: 0
+> > +    maximum: 65535
 > 
-> The change from v1 to v2 makes me slightly nervous, though I guess
-> it's fine.  Specifically, all the examples in the datasheet show
-> programming the CMD before the ADDR and LEN.  This change will make it
-> programmed after.  Since there's a separate START bit I guess it's OK,
-> though.  Nothing in the datasheet explicitly says that the order in
-> the examples is the only order that will work...
-
-Hmmm now that you mention it the SEND bit is explicitly being cleared in
-the programming sequence by being there at the start. If I want to
-combine that with the adjacent register writes then I should make sure
-that the SEND bit is cleared at the beginning. Otherwise the hardware
-may be in the middle of a transaction if the previous transaction is
-still running, i.e. a timeout where the SEND bit never cleared.
-
-I think we should go back to the previous patch I had here. Combining
-this register write is wrong. If anything, we should clear the SEND bit
-on a timeout and make sure during probe that this bit is clear and then
-drop the programming of this register from this function entirely. That
-would reduce the sequence by one register, but is more complicated vs.
-just making sure it has the clear bit here to begin with.
-
+> A few issues here:
 > 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 1. Maybe call this "num-steps" instead of backlight-scale.  That's
+> essentially what it is, right?  Saying how many discrete steps you're
+> allowing in your backlight?
+> 
 
-Thanks, but I'll send another round picking up acks and such and your
-previous review tag on the v1 of this patch.
+That would work, I had it as "max-brightness" for a while as well. But I
+reverted to backlight-scale, because that's the name used in the
+datasheet.
+
+I'm fine with whatever color of the shed though :)
+
+> 2. IMO you need the PWM frequency specified, since it can actually
+> matter.  NOTE: once you have the PWM frequency specified, you could
+> imagine automatically figuring out what "num-steps" was.  Really you'd
+> want it to be the largest possible value you could achieve with your
+> hardware at the specified frequency.  There's no advantage (is there?)
+> of providing fewer steps to the backlight client.
+> 
+
+I guess there's no problem in having a "num-steps" that is unrelated to
+the number of brightness steps of the panel - but I did distinguish them
+because the datasheet clearly does so.
+
+> 3. Some backlights are specified inverted.  It looks like this maps
+> nicely to the bridge chip, which has a bit for it.  Probably nice to
+> expose this?
+> 
+
+Yes, that should be covered.
+
+> Of course, if we were just exposing the PWM directly to Linux we could
+> just use the PWM backlight driver and it'd all magically work.  ;-)
+> 
+
+Please help me figure out how to properly expose this in the PWM api and
+I'll be happy to respin it using this - as you say my wheel does look
+pretty similar...
+
+Regards,
+Bjorn
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
