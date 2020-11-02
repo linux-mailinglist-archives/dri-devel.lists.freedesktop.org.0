@@ -2,65 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C482A2591
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 08:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52092A2592
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 08:49:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6276E40B;
-	Mon,  2 Nov 2020 07:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14E176E408;
+	Mon,  2 Nov 2020 07:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C3376E405;
- Mon,  2 Nov 2020 07:49:10 +0000 (UTC)
-IronPort-SDR: TpT6rxiJFIrno7D2XXwfPM4OAOoQnQ/jjExr3kDlDkyllBr/nOV3C/Ge8MRaiaaLeHSXoZSdTs
- tcGONdUhvT2w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9792"; a="186678259"
-X-IronPort-AV: E=Sophos;i="5.77,444,1596524400"; d="scan'208";a="186678259"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2020 23:49:10 -0800
-IronPort-SDR: NNK3AzHA/QYKXV98YjX/HNJjfxHXgFizq1/kScGH/5kfkN5swizfuy//Mszczmr8L7aDmKFId7
- RY1BMVXdL4OA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,444,1596524400"; d="scan'208";a="526596477"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by fmsmga006.fm.intel.com with ESMTP; 01 Nov 2020 23:49:10 -0800
-Received: from bgsmsx601.gar.corp.intel.com (10.109.78.80) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sun, 1 Nov 2020 23:49:08 -0800
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX601.gar.corp.intel.com (10.109.78.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 2 Nov 2020 13:19:06 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Mon, 2 Nov 2020 13:19:06 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: "Gupta, Anshuman" <anshuman.gupta@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v4 12/16] drm/i915/hdcp: MST streams support in hdcp
- port_data
-Thread-Topic: [PATCH v4 12/16] drm/i915/hdcp: MST streams support in hdcp
- port_data
-Thread-Index: AQHWrIIiZf0Cg5knWUOhTeDMoFtKlKm0gCfg
-Date: Mon, 2 Nov 2020 07:49:06 +0000
-Message-ID: <6125c9171eb2452e9fd2e73861f43294@intel.com>
-References: <20201027164208.10026-1-anshuman.gupta@intel.com>
- <20201027164208.10026-13-anshuman.gupta@intel.com>
-In-Reply-To: <20201027164208.10026-13-anshuman.gupta@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.223.10.1]
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CAB16E408
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 07:49:38 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BB52CACD8;
+ Mon,  2 Nov 2020 07:49:36 +0000 (UTC)
+Subject: Re: [PATCH] drm/nouveu: fix swiotlb include
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20201030111301.13458-1-christian.koenig@amd.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <facad96f-b85b-0ea3-9648-01ef1912debe@suse.de>
+Date: Mon, 2 Nov 2020 08:49:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
+In-Reply-To: <20201030111301.13458-1-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,289 +39,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>, "Li, 
- Juston" <juston.li@intel.com>, "Gupta, Anshuman" <anshuman.gupta@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: sfr@canb.auug.org.au
+Content-Type: multipart/mixed; boundary="===============1992181375=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1992181375==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="WD28b48xTEpHvkSkTnjbCH0LeXHPLH2Y7"
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--WD28b48xTEpHvkSkTnjbCH0LeXHPLH2Y7
+Content-Type: multipart/mixed; boundary="g9FnI5VQNPGU7Ob66ABy6H17LF3QqG1Fv";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Cc: sfr@canb.auug.org.au
+Message-ID: <facad96f-b85b-0ea3-9648-01ef1912debe@suse.de>
+Subject: Re: [PATCH] drm/nouveu: fix swiotlb include
+References: <20201030111301.13458-1-christian.koenig@amd.com>
+In-Reply-To: <20201030111301.13458-1-christian.koenig@amd.com>
 
-> -----Original Message-----
-> From: Anshuman Gupta <anshuman.gupta@intel.com>
-> Sent: Tuesday, October 27, 2020 10:12 PM
-> To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> Cc: seanpaul@chromium.org; Nikula, Jani <jani.nikula@intel.com>; C,
-> Ramalingam <ramalingam.c@intel.com>; Li, Juston <juston.li@intel.com>;
-> Shankar, Uma <uma.shankar@intel.com>; Gupta, Anshuman
-> <anshuman.gupta@intel.com>
-> Subject: [PATCH v4 12/16] drm/i915/hdcp: MST streams support in hdcp
-> port_data
-> 
-> Add support for multiple mst stream in hdcp port data which will be used by
-> RepeaterAuthStreamManage msg and HDCP 2.2 security f/w for m' validation.
-> 
-> v2:
-> Init the hdcp port data k for HDMI/DP SST strem.
-> 
-> v3:
-> Cosmetic changes. [Uma]
+--g9FnI5VQNPGU7Ob66ABy6H17LF3QqG1Fv
+Content-Type: multipart/mixed;
+ boundary="------------4A0F629771AABD2D25824825"
+Content-Language: en-US
 
-Looks Good to me.
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+This is a multi-part message in MIME format.
+--------------4A0F629771AABD2D25824825
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+Hi
+
+Am 30.10.20 um 12:13 schrieb Christian K=C3=B6nig:
+> The check for swiotlb has moved to nouveu_ttm.c, but we forgot to move
+
+s/nouveu/nouveau
+
+here and in the subject line.
+
+Best regards
+Thomas
+
+> the include as well.
+>=20
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 > ---
->  .../drm/i915/display/intel_display_types.h    |   4 +-
->  drivers/gpu/drm/i915/display/intel_hdcp.c     | 103 +++++++++++++++---
->  2 files changed, 92 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
-> b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 749c3a7e0b45..24e0067c2e7c 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1445,10 +1445,12 @@ struct intel_digital_port {
->  	enum phy_fia tc_phy_fia;
->  	u8 tc_phy_fia_idx;
-> 
-> -	/* protects num_hdcp_streams reference count, port_data */
-> +	/* protects num_hdcp_streams reference count, port_data and
-> port_auth
-> +*/
->  	struct mutex hdcp_mutex;
->  	/* the number of pipes using HDCP signalling out of this port */
->  	unsigned int num_hdcp_streams;
-> +	/* port HDCP auth status */
-> +	bool port_auth;
->  	/* HDCP port data need to pass to security f/w */
->  	struct hdcp_port_data port_data;
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index a5ec4f72f50f..1df6d4a23476 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -26,6 +26,64 @@
->  #define KEY_LOAD_TRIES	5
->  #define HDCP2_LC_RETRY_CNT			3
-> 
-> +static int intel_conn_to_vcpi(struct intel_connector *connector) {
-> +	/* For HDMI this is forced to be 0x0. For DP SST also this is 0x0. */
-> +	return connector->port	? connector->port->vcpi.vcpi : 0;
-> +}
+>  drivers/gpu/drm/nouveau/nouveau_bo.c  | 1 -
+>  drivers/gpu/drm/nouveau/nouveau_ttm.c | 3 +++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nou=
+veau/nouveau_bo.c
+> index 746c06ed195b..8133377d865d 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> @@ -28,7 +28,6 @@
+>   */
+> =20
+>  #include <linux/dma-mapping.h>
+> -#include <linux/swiotlb.h>
+> =20
+>  #include "nouveau_drv.h"
+>  #include "nouveau_chan.h"
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/no=
+uveau/nouveau_ttm.c
+> index d696d882c9eb..2bf36229dd57 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+> @@ -22,6 +22,9 @@
+>   * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE =
+OR THE
+>   * USE OR OTHER DEALINGS IN THE SOFTWARE.
+>   */
 > +
-> +static int
-> +intel_hdcp_required_content_stream(struct intel_digital_port *dig_port)
-> +{
-> +	struct drm_connector_list_iter conn_iter;
-> +	struct intel_digital_port *conn_dig_port;
-> +	struct intel_connector *connector;
-> +	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> +	struct hdcp_port_data *data = &dig_port->port_data;
-> +	bool enforce_type0 = false;
-> +	int k;
+> +#include <linux/swiotlb.h>
 > +
-> +	if (dig_port->port_auth)
-> +		return 0;
-> +
-> +	drm_connector_list_iter_begin(&i915->drm, &conn_iter);
-> +	for_each_intel_connector_iter(connector, &conn_iter) {
-> +		if (!intel_encoder_is_mst(intel_attached_encoder(connector)))
-> +			continue;
-> +
-> +		conn_dig_port = intel_attached_dig_port(connector);
-> +		if (conn_dig_port != dig_port)
-> +			continue;
-> +
-> +		if (connector->base.status == connector_status_disconnected)
-> +			continue;
-> +
-> +		if (!enforce_type0 && !intel_hdcp2_capable(connector))
-> +			enforce_type0 = true;
-> +
-> +		data->streams[data->k].stream_id =
-> intel_conn_to_vcpi(connector);
-> +		data->k++;
-> +
-> +		/* if there is only one active stream */
-> +		if (dig_port->dp.active_mst_links <= 1)
-> +			break;
-> +	}
-> +	drm_connector_list_iter_end(&conn_iter);
-> +
-> +	if (drm_WARN_ON(&i915->drm, data->k > INTEL_NUM_PIPES(i915) ||
-> data->k == 0))
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Apply common protection level across all streams in DP MST Topology.
-> +	 * Use highest supported content type for all streams in DP MST
-> Topology.
-> +	 */
-> +	for (k = 0; k < data->k; k++)
-> +		data->streams[k].stream_type =
-> +			enforce_type0 ? DRM_MODE_HDCP_CONTENT_TYPE0 :
-> +DRM_MODE_HDCP_CONTENT_TYPE1;
-> +
-> +	return 0;
-> +}
-> +
->  static
->  bool intel_hdcp_is_ksv_valid(u8 *ksv)
->  {
-> @@ -1474,13 +1532,14 @@ static
->  int _hdcp2_propagate_stream_management_info(struct intel_connector
-> *connector)  {
->  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
-> +	struct hdcp_port_data *data = &dig_port->port_data;
->  	struct intel_hdcp *hdcp = &connector->hdcp;
->  	union {
->  		struct hdcp2_rep_stream_manage stream_manage;
->  		struct hdcp2_rep_stream_ready stream_ready;
->  	} msgs;
->  	const struct intel_hdcp_shim *shim = hdcp->shim;
-> -	int ret;
-> +	int ret, streams_size_delta, i;
-> 
->  	if (connector->hdcp.seq_num_m > HDCP_2_2_SEQ_NUM_MAX)
->  		return -ERANGE;
-> @@ -1489,16 +1548,18 @@ int
-> _hdcp2_propagate_stream_management_info(struct intel_connector
-> *connector)
->  	msgs.stream_manage.msg_id = HDCP_2_2_REP_STREAM_MANAGE;
->  	drm_hdcp_cpu_to_be24(msgs.stream_manage.seq_num_m, hdcp-
-> >seq_num_m);
-> 
-> -	/* K no of streams is fixed as 1. Stored as big-endian. */
-> -	msgs.stream_manage.k = cpu_to_be16(1);
-> +	msgs.stream_manage.k = cpu_to_be16(data->k);
-> 
-> -	/* For HDMI this is forced to be 0x0. For DP SST also this is 0x0. */
-> -	msgs.stream_manage.streams[0].stream_id = 0;
-> -	msgs.stream_manage.streams[0].stream_type = hdcp->content_type;
-> +	for (i = 0; i < data->k; i++) {
-> +		msgs.stream_manage.streams[i].stream_id = data-
-> >streams[i].stream_id;
-> +		msgs.stream_manage.streams[i].stream_type = data-
-> >streams[i].stream_type;
-> +	}
-> 
-> +	streams_size_delta = (HDCP_2_2_MAX_CONTENT_STREAMS_CNT - data-
-> >k) *
-> +				sizeof(struct hdcp2_streamid_type);
->  	/* Send it to Repeater */
->  	ret = shim->write_2_2_msg(dig_port, &msgs.stream_manage,
-> -				  sizeof(msgs.stream_manage));
-> +				  sizeof(msgs.stream_manage) -
-> streams_size_delta);
->  	if (ret < 0)
->  		goto out;
-> 
-> @@ -1507,8 +1568,7 @@ int
-> _hdcp2_propagate_stream_management_info(struct intel_connector
-> *connector)
->  	if (ret < 0)
->  		goto out;
-> 
-> -	dig_port->port_data.seq_num_m = hdcp->seq_num_m;
-> -	dig_port->port_data.streams[0].stream_type = hdcp->content_type;
-> +	data->seq_num_m = hdcp->seq_num_m;
-> 
->  	ret = hdcp2_verify_mprime(connector, &msgs.stream_ready);
-> 
-> @@ -1669,6 +1729,7 @@ static int hdcp2_enable_encryption(struct
-> intel_connector *connector)
->  						 port),
->  				    LINK_ENCRYPTION_STATUS,
-> 
-> HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS);
-> +	dig_port->port_auth = true;
-> 
->  	return ret;
->  }
-> @@ -1743,11 +1804,9 @@ static int hdcp2_authenticate_and_encrypt(struct
-> intel_connector *connector)  {
->  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> -	struct hdcp_port_data *data = &dig_port->port_data;
-> -	struct intel_hdcp *hdcp = &connector->hdcp;
-> -	int ret, i, tries = 3;
-> +	int ret = 0, i, tries = 3;
-> 
-> -	for (i = 0; i < tries; i++) {
-> +	for (i = 0; i < tries && !dig_port->port_auth; i++) {
->  		ret = hdcp2_authenticate_sink(connector);
->  		if (!ret) {
->  			ret =
-> hdcp2_propagate_stream_management_info(connector);
-> @@ -1757,7 +1816,7 @@ static int hdcp2_authenticate_and_encrypt(struct
-> intel_connector *connector)
->  					    ret);
->  				break;
->  			}
-> -			data->streams[0].stream_type = hdcp->content_type;
-> +
->  			ret = hdcp2_authenticate_port(connector);
->  			if (!ret)
->  				break;
-> @@ -1792,7 +1851,9 @@ static int hdcp2_authenticate_and_encrypt(struct
-> intel_connector *connector)
-> 
->  static int _intel_hdcp2_enable(struct intel_connector *connector)  {
-> +	struct intel_digital_port *dig_port =
-> +intel_attached_dig_port(connector);
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	struct hdcp_port_data *data = &dig_port->port_data;
->  	struct intel_hdcp *hdcp = &connector->hdcp;
->  	int ret;
-> 
-> @@ -1800,6 +1861,16 @@ static int _intel_hdcp2_enable(struct intel_connector
-> *connector)
->  		    connector->base.name, connector->base.base.id,
->  		    hdcp->content_type);
-> 
-> +	/* Stream which requires encryption */
-> +	if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
-> +		data->k = 1;
-> +		data->streams[0].stream_type = hdcp->content_type;
-> +	} else {
-> +		ret = intel_hdcp_required_content_stream(dig_port);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	ret = hdcp2_authenticate_and_encrypt(connector);
->  	if (ret) {
->  		drm_dbg_kms(&i915->drm, "HDCP2 Type%d  Enabling Failed.
-> (%d)\n", @@ -1817,7 +1888,9 @@ static int _intel_hdcp2_enable(struct
-> intel_connector *connector)
-> 
->  static int _intel_hdcp2_disable(struct intel_connector *connector)  {
-> +	struct intel_digital_port *dig_port =
-> +intel_attached_dig_port(connector);
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	struct hdcp_port_data *data = &dig_port->port_data;
->  	int ret;
-> 
->  	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being Disabled\n", @@ -
-> 1829,6 +1902,8 @@ static int _intel_hdcp2_disable(struct intel_connector
-> *connector)
->  		drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
-> 
->  	connector->hdcp.hdcp2_encrypted = false;
-> +	dig_port->port_auth = false;
-> +	data->k = 0;
-> 
->  	return ret;
->  }
-> --
-> 2.26.2
+>  #include "nouveau_drv.h"
+>  #include "nouveau_gem.h"
+>  #include "nouveau_mem.h"
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+--------------4A0F629771AABD2D25824825
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0x680DC11D530B7A23.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="OpenPGP_0x680DC11D530B7A23.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
+H47
+fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
+bqP
+5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
+z9E
+ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
+nEm
+imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
+W1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
+BYC
+AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
+Onf
+G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
+GJm
+DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
++1Q
+DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
+p8n
+91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
+zF1
+CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
+gUC
+WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
+IiL
++he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
+42f
+CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
+Urj
+EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
+45N
+GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
+Tpy
+Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
+u5r
+A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
+/N8
+GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
+j0g
+voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
+bZM
+RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
+zWw
+iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
+Xy9
+RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
+c0n
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+wsCOBBMBCAA4AhsDBQsJC=
+AcC
+BhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl78SF4ACgkQaA3BH=
+VML
+eiOpGAgAih6C1OnWms/N8eBMC4Q93y/nyywe5vCL22Dr1rwgn6Iw2jOGziJSi7zhY4sEk2NKJ=
+5cd
+lFrx8mP//b+xO4AGffwBD0Vwpf38Hj2Gt0KjpzRYccqqU+tJPO5c0pjI52ZIV3+kOEFvYGfkN=
+PHE
+flE+b81T8L2dSXCLtj4WAGUM1rmHn3bCYl+/RwkB+8XnoL5AvrmMcU4Uhb3FJpM4DHExccYkd=
+eSL
+ojBppOCztBCUpBx3le+8QPVvAvJDuur4wRmjk3sjKClAwzeqoYyUKcN3JDdb3mt3QcJal9rSh=
+VEI
+7B25IvfmEbs42oGm8GPzPkaNJu3gcska+l5PSTfurNETGsJdBBARAgAdFiEEJ+jjpp87z/+5L=
+Y5q
+LnehMBH108IFAls6HVcACgkQLnehMBH108LTkACgjLQdDYMENi6BDjY/gd/LF9lMi8oAnR+o0=
+FwE
+Vb1K1tEMQ/1x+k1U6/xgwsBzBBABCAAdFiEEHl2YIZkIo5VO2MxYqlA7ya4PR6cFAls58bMAC=
+gkQ
+qlA7ya4PR6cvTAgAzY1N5QMKh8ECRtYcZNmilyV59uHTEY9hAR+203JqWnSGfUKtU7s6xfl5O=
+NGq
+DI5rULk4Cw2CEIzg9Sat+/lxn36w2f1tEznS5Vb0gVGWrzDAFjj7tB6MnmCzsNb/S1kgxnqJM=
+Yor
+RYQ7uB3Yr2Fdp08FJxN0ipd5YfzaZ6KoSWcRAv4r1R4ZQGuS77URAg7HDOIrBMOVO+HIn7GYQ=
+qPS
+5ZFw5yXbvEtL1c5Y8Zdw1AG2VmEXx78TWQVG3kI8/lQF1QI3yrJ1Rp2x5eK9I0OJihv13IlIW=
+3sb
+QGrj9pxF63kA20ZFaynzFglBGiyxExYvTD0/xKIhzYhj8mtCunPb2cLAcwQQAQgAHRYhBLsjb=
+bex
+nu/GyEcdaKfzfBmMOTGBBQJbOjLAAAoJEKfzfBmMOTGBBoMIALIW4EtBY28tPwZMOpN/+ARPO=
+a2g
+Qzpivw7iNtiDTnGIXMCoxly1CybfMdqTHYmuKbEO9AlFAlDOnkgInsn8E65IvgUTVI95Ah+Ob=
+iPI
+FkYc/9a+AexPl7f5kI9489k77eKtqtMpWFpo/vROmRroSw4JnM7ovwPq1QOSHExfTKbLunzD1=
+i3V
+4PShSZ6bGsp1LW6Wk0lRMHDuAk3xsyjBWfJwSbrCe3E6OsLG7BuQqEUt2fR6NxdDRSR9tQUp9=
+Tri
+AYG5LndmUzxeU6FAQjD8Wt1ezOFH5ODcCDXfRyYmE6uCGA4EvO8l9R3o68NPlUjPRAZsCbxJa=
+UAg
+iazX1nyQGwvOwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHU=
+E9e
+osYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+q=
+bU6
+3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWWG=
+KdD
+egUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lvhFXod=
+NFM
+AgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsAEQEAAcLAf=
+AQY
+AQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkDwmcAAAoJEGgNwR1TC3ojp=
+fcI
+AInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2h9ifw9Nf2TjCZ6AMvC3thAN0r=
+FDj
+55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxUn+LSiRrOdywn6erjxRi9EYTVLCHcD=
+hBE
+jKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uIaMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU=
+2y3
+ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBWHE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/t=
+sZv
+yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
+=3DmxFq
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------4A0F629771AABD2D25824825--
+
+--g9FnI5VQNPGU7Ob66ABy6H17LF3QqG1Fv--
+
+--WD28b48xTEpHvkSkTnjbCH0LeXHPLH2Y7
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+fug8FAwAAAAAACgkQaA3BHVMLeiMf
+OwgAw3coo4/kKdnAmJsKRWLODpKEdCXMPpCuuyDGwtnPg+AbUtAmVJKQlBnSVRoe3xRQP/58eHSS
+8OxcUkYaC3F5vNkP0xggEKs3n8OGtqqwwXD1Yqr90Uks+geTuMXjWiBGAQL9HPZSyBJ7tQG59QNg
+vxMNicBWOVLqRDmDb3gQAT4tRWE37LSAcJG+YrzY123+nee0QVtC6UgbIhwvUdFmsw9JEfZjoZtF
+6lm1WWJavG7RybyhB+bC8RSxwDVF2wKPbgxD1r6WgJAy/kgSzzxmEFWuV49UkUktGj+Fr7c2rFiL
+eAHIyPfze7Y+vQH8AWzHsOk3X6tZWhI06ztU4RxFWw==
+=Vay0
+-----END PGP SIGNATURE-----
+
+--WD28b48xTEpHvkSkTnjbCH0LeXHPLH2Y7--
+
+--===============1992181375==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1992181375==--
