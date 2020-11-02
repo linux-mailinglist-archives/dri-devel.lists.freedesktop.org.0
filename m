@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9067E2A3E69
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:14:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F272A3E8F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EBE16EBA1;
-	Tue,  3 Nov 2020 08:14:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 662C16EC28;
+	Tue,  3 Nov 2020 08:14:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B02306E52D
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:20:48 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id n15so15102807wrq.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:20:48 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACB876E542
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:20:50 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id c9so8228872wml.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:20:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m2ikj+dhQ1Zeha09QctzFr3Pm7l2AwdyE1EcOPpxBQc=;
- b=oJDk04WZntZBUbAydrL0ALwZvx6qsFnM0UTwP7yjzGp9SneSLAZ43tbdB/bF7oQqW3
- iiuSouFoG62GGcADtc8azAKYtDYI0ZnCIVLXLENOWEvJtP9dEhgy+GyDXB3JKS+l2fGx
- bxF0NSqOMUp/P8+SkU3s5luJjeEhP2lfKWf+pC10hdkDrEXp60OzkmeLn09PzpY01EkY
- MwgDB4TUg62M7QnU/rsSmTQOq5JnBOcV5FU9fgHyN1JZK6xeFZDJ6PchjKtIM6/g/M7c
- AXXVv6RED3VXkyertnMsUGPB/xvLGiikQh4Jzj9aP3M/2EMPl4c4y4bnyySk5m25IxHj
- ZNxg==
+ bh=iECHQmtOjlKNpXGH67tnBHQ9XW515B1GPzEiiSpCWAs=;
+ b=gVI6AXHj1TR9hrfeYHb9dFp1mjew1HU6tCdihy0BU74lIamhYA7I2Voy1vdbHNesjR
+ p/9fN/OWbbHskwd+E8JR5E7mlF2yPwnRyYtplyTXp1xuKHzcS1KZmAQ11HYDiDqqk7yd
+ tY/OlfBK/MIoUqiunGYPPRAv9qXuTyoKnb4oe0deS/0lvO8WRDkT4MMl7YYdbRLIjP6A
+ WZTM13vo3qiWMFhDQgKf19/bBsn2+22jmj9vBOz0Wr1g2h4AsIo5xnYen4guGQ+vuB7M
+ tIBujecjdmcR/Z2ixrsAyoeQ+6Gr/0jPL5uAk5wnvtIcZr9YQMnQKa+inwhetM8theTJ
+ LUMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m2ikj+dhQ1Zeha09QctzFr3Pm7l2AwdyE1EcOPpxBQc=;
- b=Bjah0JQsPziLGOexQyvdUh85uGY3JwpR3bNI3ErAg7ANlfEax/WqnVB2pW69J0z1/w
- IumKT2WuPYNwvVv6J+DfqBksHZp0xwD0CLJVU9rjLBeFC4NG1QMVmz1qNO25nkpV5HGH
- zDmzDd8sTE+48keEfQ86ffwuFD1I6YK3HYTLdr0B/q2NFiYK/HJhQg37RAGlbf01nY5L
- NPzBKyZU0BPkh2cdklkADt25O2G4cgusL+zxrZvh+Q1T91qWaJTpbtb/4xmolkLudFou
- CLsrclTZFVaH9CotjEJqVRnyjXYMVWSEWezDRPqVtA4c8igMmkkT1V1m2cnGLXbFtRJ8
- PNXA==
-X-Gm-Message-State: AOAM53331b++1HhyML/oGef5W3Fncjs419wwZObIg3CBp8XTBe2Wuf3v
- edmZm7ehcHgNcZMW32EbAgaotw==
-X-Google-Smtp-Source: ABdhPJwvKcFeOxhAGZIOl2LHYhbvs+cPksUqs/XQ2W4u8LoRrqAy/FNPpiVpDIX+qAcFGl6qizbLQA==
-X-Received: by 2002:adf:ce12:: with SMTP id p18mr20784973wrn.52.1604330447426; 
- Mon, 02 Nov 2020 07:20:47 -0800 (PST)
+ bh=iECHQmtOjlKNpXGH67tnBHQ9XW515B1GPzEiiSpCWAs=;
+ b=XO9dwSalWfIh3inXeeKeIfkRF/0Espo2+bDQTAlLUyNfLHI1hNGNV2JdyilzWsjgDZ
+ RHx6hVHZYIwEo7mPZndGGT3q2ij6lwgQ7vnXczJ2X/Z7WrWM0I1lYMg3DGAUyfbosxVo
+ kZJDoygZfzHFc11nQ0lv/hLWh+YoDcK3myp2Gb/wRSImoyBsPIissBL7FnRfM406bRH6
+ +z+Rh5iO0EPJWxgErMQVYrTbUaobEHQsixjhz0ORkzZvXkx+ETm9napSo7OgXaZn9UgH
+ E+UKyIVFTjyJYj9wtkUN9t6ussMA0gYig5SgTmFuBTHNQCLDr234YYrgnGwhen+9t2Hp
+ AYNQ==
+X-Gm-Message-State: AOAM531Ym3Dyb0Jsg9Drr+lroplsUqCTTZWdgOfp29Dk8dA1aE2rjorq
+ 3sDDfcLi2E8D1R39qMSrlL8fnQ==
+X-Google-Smtp-Source: ABdhPJx9fmpXAPU0JQHKuUawZdLrOPu5JMkxXUw7mS4v/KP1pdXlJ+GdMVgsN3hdsL/yk/nVdd3HMQ==
+X-Received: by 2002:a05:600c:1497:: with SMTP id
+ c23mr13426695wmh.95.1604330449377; 
+ Mon, 02 Nov 2020 07:20:49 -0800 (PST)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr.
  [90.8.158.167])
- by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.45
+ by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 07:20:46 -0800 (PST)
+ Mon, 02 Nov 2020 07:20:48 -0800 (PST)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
@@ -66,9 +67,9 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v2 3/8] vhost: vringh: use krealloc_array()
-Date: Mon,  2 Nov 2020 16:20:32 +0100
-Message-Id: <20201102152037.963-4-brgl@bgdev.pl>
+Subject: [PATCH v2 4/8] pinctrl: use krealloc_array()
+Date: Mon,  2 Nov 2020 16:20:33 +0100
+Message-Id: <20201102152037.963-5-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201102152037.963-1-brgl@bgdev.pl>
 References: <20201102152037.963-1-brgl@bgdev.pl>
@@ -103,25 +104,24 @@ Use the helper that checks for overflows internally instead of manually
 calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/vhost/vringh.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/pinctrl/pinctrl-utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/vhost/vringh.c b/drivers/vhost/vringh.c
-index 8bd8b403f087..08a0e1c842df 100644
---- a/drivers/vhost/vringh.c
-+++ b/drivers/vhost/vringh.c
-@@ -198,7 +198,8 @@ static int resize_iovec(struct vringh_kiov *iov, gfp_t gfp)
+diff --git a/drivers/pinctrl/pinctrl-utils.c b/drivers/pinctrl/pinctrl-utils.c
+index f2bcbf62c03d..93df0d4c0a24 100644
+--- a/drivers/pinctrl/pinctrl-utils.c
++++ b/drivers/pinctrl/pinctrl-utils.c
+@@ -39,7 +39,7 @@ int pinctrl_utils_reserve_map(struct pinctrl_dev *pctldev,
+ 	if (old_num >= new_num)
+ 		return 0;
  
- 	flag = (iov->max_num & VRINGH_IOV_ALLOCATED);
- 	if (flag)
--		new = krealloc(iov->iov, new_num * sizeof(struct iovec), gfp);
-+		new = krealloc_array(iov->iov, new_num,
-+				     sizeof(struct iovec), gfp);
- 	else {
- 		new = kmalloc_array(new_num, sizeof(struct iovec), gfp);
- 		if (new) {
+-	new_map = krealloc(*map, sizeof(*new_map) * new_num, GFP_KERNEL);
++	new_map = krealloc_array(*map, new_num, sizeof(*new_map), GFP_KERNEL);
+ 	if (!new_map) {
+ 		dev_err(pctldev->dev, "krealloc(map) failed\n");
+ 		return -ENOMEM;
 -- 
 2.29.1
 
