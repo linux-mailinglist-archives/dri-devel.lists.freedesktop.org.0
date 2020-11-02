@@ -1,36 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C49A2A26B6
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 10:11:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB842A26F9
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 10:28:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F1B6E0D9;
-	Mon,  2 Nov 2020 09:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4F836E44C;
+	Mon,  2 Nov 2020 09:28:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D7D046E0D9
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 09:11:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 78F84101E;
- Mon,  2 Nov 2020 01:11:45 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4083C3F718;
- Mon,  2 Nov 2020 01:11:44 -0800 (PST)
-Subject: Re: [PATCH] drm/panfrost: Add support for non-existent reset node
-To: Yejune Deng <yejune.deng@gmail.com>, robh@kernel.org,
- tomeu.vizoso@collabora.com, alyssa.rosenzweig@collabora.com,
- airlied@linux.ie, daniel@ffwll.ch, p.zabel@pengutronix.de
-References: <1604307289-32110-1-git-send-email-yejune.deng@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <64fb3d99-d42b-6135-0670-ab50205714ad@arm.com>
-Date: Mon, 2 Nov 2020 09:11:43 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 039D46E44E
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 09:28:47 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id l36so4008223ota.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 01:28:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IbNuq3s1vVpD8H3QOsjV0sGqJ/Z7oSAbbkfkZvy1XHk=;
+ b=ZwDmKsJx7x9H4A6oxnKV/0mfK5ZFxB3a1aM7tsS3KQVWBTroULG54b+/X/QAb8xkd8
+ w60J0bsQvWMfAe1GP1j5aHGhevycwGs1eXOS5XmS9e1DzJwaERv34oRwd/zUc5NH25It
+ evwbcfSzmlipcIbMmq2HHokuvcx7O5RLmy0O4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IbNuq3s1vVpD8H3QOsjV0sGqJ/Z7oSAbbkfkZvy1XHk=;
+ b=PiYihoAOCJ3quVrr6oqKOH3E9LoZOHH7/J5Ekgn9Jt9cz/WrzRLTP8uDalDb//NF40
+ 3NlESTQMuw9PQZykj8972d147VZ2mL0SwRY1SAbKgPaBa3WXWT1ljZQJwIYm/84lZso1
+ ORjxuw6yTH5E5CgOVJlrzVGIaUouME/gwphftvCUAdfa/zv9ymBNijvduBkobJ4yOh5A
+ xpvipMQf12pmeLCFuxiKdoxhrECKhRrINGeyQ97wcjgVVzbEv0/L/9MMmYX3oCTQARck
+ 51fk/1hu8ZvmlUcgt5gm50lkwjCXuMwJRJ1SEaRC4PEb1BdcN6bSBF7T9y00Na13Vu+Z
+ 5qJg==
+X-Gm-Message-State: AOAM532GqKlHdG6/1Mf7WLhvEd3EG6FkY0qThwTsmNXj2k+LEKKRIODr
+ 8K8YZO63WO3wOU7jedHaegnYuSNomh3QTzW/GUdo8A==
+X-Google-Smtp-Source: ABdhPJw4HWb5RIkueETRBm8Fwwh31WuQZ8e/6YOS+9xABgykOarqawuOiAF2wFN7DrH/qvVU5QujD60r3ppsBeugVQ4=
+X-Received: by 2002:a9d:6e81:: with SMTP id a1mr10863311otr.303.1604309326237; 
+ Mon, 02 Nov 2020 01:28:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1604307289-32110-1-git-send-email-yejune.deng@gmail.com>
-Content-Language: en-GB
+References: <20201102124327.2f82b2a7@canb.auug.org.au>
+In-Reply-To: <20201102124327.2f82b2a7@canb.auug.org.au>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 2 Nov 2020 10:28:34 +0100
+Message-ID: <CAKMK7uHopZfa1vJ2++OQC8z=GKdDcJ=9=sKWJAcSfguec2UgyA@mail.gmail.com>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Christoph Hellwig <hch@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,69 +58,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Joerg Roedel <jroedel@suse.de>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/11/2020 08:54, Yejune Deng wrote:
-> Some dts hasn't no reset node, is should ok.
-> 
-> Signed-off-by: Yejune Deng <yejune.deng@gmail.com>
+On Mon, Nov 2, 2020 at 2:43 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>
+> Hi all,
+>
+> After merging the drm-misc tree, today's linux-next build (arm
+> multi_v7_defconfig) failed like this:
+>
+> In file included from drivers/gpu/drm/nouveau/nouveau_ttm.c:26:
+> include/linux/swiotlb.h: In function 'swiotlb_max_mapping_size':
+> include/linux/swiotlb.h:99:9: error: 'SIZE_MAX' undeclared (first use in this function)
+>    99 |  return SIZE_MAX;
+>       |         ^~~~~~~~
+> include/linux/swiotlb.h:7:1: note: 'SIZE_MAX' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+>     6 | #include <linux/init.h>
+>   +++ |+#include <stdint.h>
+>     7 | #include <linux/types.h>
+> include/linux/swiotlb.h:99:9: note: each undeclared identifier is reported only once for each function it appears in
+>    99 |  return SIZE_MAX;
+>       |         ^~~~~~~~
+>
+> Caused by commit
+>
+>   abe420bfae52 ("swiotlb: Introduce swiotlb_max_mapping_size()")
+>
+> but only exposed by commit
+>
+>   4dbafbd30aef ("drm/nouveu: fix swiotlb include")
+>
+> I applied the following fix for today:
+>
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Mon, 2 Nov 2020 12:34:57 +1100
+> Subject: [PATCH] swiotlb: using SIZE_MAX needs limits.h included
+>
+> Fixes: abe420bfae52 ("swiotlb: Introduce swiotlb_max_mapping_size()")
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+
+I think simplest if this lands through dma-api tree into current -rc
+kernels. Or should we just put this into drm-misc-next since that's
+where the problem shows up? Christoph, any preference from dma-api
+side?
+-Daniel
+
 > ---
->   drivers/gpu/drm/panfrost/panfrost_device.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index ea8d318..a982878 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -18,7 +18,12 @@
->   
->   static int panfrost_reset_init(struct panfrost_device *pfdev)
->   {
-> -	pfdev->rstc = devm_reset_control_array_get(pfdev->dev, false, true);
-> +	pfdev->rstc = devm_reset_control_array_get_optional_exclusive(pfdev->dev);
+>  include/linux/swiotlb.h | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+> index 513913ff7486..ed9de7855d3b 100644
+> --- a/include/linux/swiotlb.h
+> +++ b/include/linux/swiotlb.h
+> @@ -5,6 +5,9 @@
+>  #include <linux/dma-direction.h>
+>  #include <linux/init.h>
+>  #include <linux/types.h>
+> +#ifndef CONFIG_SWIOTLB
+> +#include <linux/limits.h>
+> +#endif
+>
+>  struct device;
+>  struct page;
+> --
+> 2.28.0
+>
+> --
+> Cheers,
+> Stephen Rothwell
 
-This change is fine - it should have no functional change and makes the 
-code more readable.
 
-> +	if (!pfdev->rstc) {
-> +		dev_info(pfdev->dev, "reset does not exist\n");
 
-I don't think this output is particularly useful.
-
-> +		return 0;
-
-The early return isn't necessary. IS_ERR(NULL) is false, and 
-reset_control_deassert() deals fine with NULL, so the path below would 
-be fine.
-
-> +	}
-> +
->   	if (IS_ERR(pfdev->rstc)) {
->   		dev_err(pfdev->dev, "get reset failed %ld\n", PTR_ERR(pfdev->rstc));
->   		return PTR_ERR(pfdev->rstc);
-> @@ -29,7 +34,8 @@ static int panfrost_reset_init(struct panfrost_device *pfdev)
->   
->   static void panfrost_reset_fini(struct panfrost_device *pfdev)
->   {
-> -	reset_control_assert(pfdev->rstc);
-> +	if (pfdev->rstc)
-> +		reset_control_assert(pfdev->rstc);
-
-reset_control_assert() deals fine with a NULL input, so this is unneeded.
-
->   }
->   
->   static int panfrost_clk_init(struct panfrost_device *pfdev)
-> 
-
-Have you actually seen a problem on a platform without a reset node - it 
-works fine for me and I can't see any functional change with this patch.
-
-Steve
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
