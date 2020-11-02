@@ -1,117 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAB52A265F
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 09:48:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D312A2689
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 10:03:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 350836E432;
-	Mon,  2 Nov 2020 08:47:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D42AC6E439;
+	Mon,  2 Nov 2020 09:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB4916E432
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 08:47:55 +0000 (UTC)
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20201102084753epoutp01f236958625dfad2fa4946ad9956ceefb~DpJoMUlEx1527015270epoutp01b
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 08:47:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20201102084753epoutp01f236958625dfad2fa4946ad9956ceefb~DpJoMUlEx1527015270epoutp01b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1604306873;
- bh=/bnu/0qo3lN16kPYHsNV5BiekHwkhPETqWU1mTDKQzE=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=AdJKIE36zexo+Qo7dsEG+ImoydJVNFojQP7SL/f7Wd8dzURwholvvzBBr9ERiY7rv
- k76XYyMj5UkLTAup4Axx/46zqSDlhIqZK0w/0kUWZAaDkdVS7KvmHDPtsvw3ZqiyMN
- aEQQuTthBcTdd6QNqD+T3YH8Y51ho9acqvGzGCoQ=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTP id
- 20201102084753epcas1p4983e466eb38185fc28a187f3fee36605~DpJnst24e2724827248epcas1p4l;
- Mon,  2 Nov 2020 08:47:53 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.155]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4CPmlB1fQ6zMqYkZ; Mon,  2 Nov
- 2020 08:47:50 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
- epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- BA.96.63458.6B7CF9F5; Mon,  2 Nov 2020 17:47:50 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20201102084749epcas1p1aeb630e6e04858c2b9d69b40786c11d2~DpJkS30JU1333413334epcas1p1y;
- Mon,  2 Nov 2020 08:47:49 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20201102084749epsmtrp1e75a3b0dc16755e0fa42d1376c9a3d49~DpJkR3V6h2520825208epsmtrp1r;
- Mon,  2 Nov 2020 08:47:49 +0000 (GMT)
-X-AuditID: b6c32a36-6c9ff7000000f7e2-32-5f9fc7b672dd
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 69.F0.08745.5B7CF9F5; Mon,  2 Nov 2020 17:47:49 +0900 (KST)
-Received: from [10.113.111.64] (unknown [10.113.111.64]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20201102084749epsmtip11c31135b4bd5c4787a9e2bcdf3d0fe1a~DpJj2H2kI0760207602epsmtip1I;
- Mon,  2 Nov 2020 08:47:49 +0000 (GMT)
-Subject: Re: [PATCH v2 7/7] drm/vc4: kms: Don't disable the muxing of an
- active CRTC
-To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Eric Anholt <eric@anholt.net>
-From: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-Message-ID: <19c6fec6-c118-6229-f683-e180ce2631b4@samsung.com>
-Date: Mon, 2 Nov 2020 17:47:04 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23EE46E439
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 09:03:42 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id C3E89AF76;
+ Mon,  2 Nov 2020 09:03:40 +0000 (UTC)
+To: "tiantao (H)" <tiantao6@huawei.com>, Tian Tao <tiantao6@hisilicon.com>,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1604050046-64539-1-git-send-email-tiantao6@hisilicon.com>
+ <2dbbbad0-53cf-52cc-3b6b-0d1547f7e085@suse.de>
+ <f41cbcb3-d08a-7d3f-530c-a0cb3f9e3801@huawei.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/hisilicon: Remove redundant null check
+Message-ID: <b3656895-42a5-ff20-a695-dccaf1992938@suse.de>
+Date: Mon, 2 Nov 2020 10:03:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
-In-Reply-To: <469ead5de989938fcf079505cbc232a620e713bc.1603888799.git-series.maxime@cerno.tech>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxTVxjGc+69vb1FO68FxhluCJ1iwIGUUnZxwmYG7CYuG1Nj0LjVBu5a
- BrS1hQ3URWyGAQZinQTotOCgIUH5WEX5qDBFGLA5HFFApazI1wYTmPIRcIOt7cWM/573Pb/3
- POc5J4dABae4nkSCMoXRKGVJQtwFu37bLzDgekeJNOiPaYLK6+5CqKq8doyquFONUlMXyzCq
- pK2bQ92fn8Gpm6fuAar4yb84NVORg1PmkT4OpR+o5VKXnl7DKFN/D0IVLa4AqvrRnziV2dzG
- pYYLbICqe6LnvCOgdTM/4vQV4xVAG2y/4LS1+y5ONxoGuXTZjQmENldm43T9whCHNnZ9RNu+
- 7kDoq+Un6cz25xh9pq4S0Fd/Pk7Pmr1iNhxK3KVgZPGMxptRxqniE5TycOGefdJ3pZLQIFGA
- KIx6U+itlCUz4cLI92MCohOS7GGF3p/LklLtrRiZVivcEbFLo0pNYbwVKm1KuJBRxyepw9SB
- WlmyNlUpD4xTJe8UBQUFS+zgkUTFxIU2TD0hSjs7XsDNAJe35QAeAckQ+FVGDZoDXAgB2QDg
- g8xSwBbPADSfM+JsMQvgd7Y+7ouRsQXL6kITgBbLYw5bTAHYt5CDOyhX8gA0jXQ6KTdyFIHl
- I7POjVHShsCmrn7UQeFkAJzP7Uccmk9GwFu9LU4PjNwCqwpHnH138iBsHJvgssxG2FU8ijk0
- j5TCxbFOJ4OSm2H91AWU1R7w0WgJ4jCDZAUP5vaaUPbgkfBaTS5gtSuc7KhbDeQJJ/JPr2ot
- vF88ibHDGQDm679dXRDDH0zf2Hcl7A5+sKZpB9v2gY1/XwSs8Utwej6X40AgyYdZpwUs4gvH
- M25yWP0q/CmvAmE1DXt1Ouws8DGsiWZYE8ewJo7hf+NSgFWClxm1NlnOaEXq4LUPbgbOv+Af
- 2gDOTf0V2AoQArQCSKBCN/6Jg0apgB8vSz/GaFRSTWoSo20FEvtl61FP9ziV/TMpU6QiSbBY
- LKZCRKESkUjowf9ne5ZUQMplKUwiw6gZzYs5hOB5ZiBviQj9ls+Klr6QpBlzrdnPV7aKi+fE
- fgWo3+xwrCX+RshT//JweP6NpaMfuFt5c6NG3qfVn6Cq3S6Fr8Qu790bwa/ar9zqm+dVG5A1
- IB+wvPf7mUk3X2MPuRDuetmQXVtfPv1h2vnti2R7kWR58o66cGD9nk3W9ZqyDenzJ3/Fxf7p
- z8Y/jqa9KqqXSdrW+PDel1XDB47s23b4tXV3rZtjwvCGId91asvDZv1KZXVsdNQDYrfwkOKo
- 68LbPS26E8fqVh6X7pyL2jBk7qnUuHd2a6OOb7rkM7msoJbzdbpIz9tF0ybGI7rl9bzfAt0G
- W+VepsP7mzfmjAajJc2E9dbg90tCTKuQifxRjVb2H1RAuMuUBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLIsWRmVeSWpSXmKPExsWy7bCSnO7W4/PjDY51ylr0njvJZLG29yiL
- xfIz65gt3s5dzGIx/8g5VosrX9+zWRxovMxoMfPNfzaL98u72Cw2Pb7GajHx9gZ2i4Uft7JY
- LL1+kclixo9/jBbrbr1ms2jde4Td4tHU+4wWW95MZHUQ8mh6f4zNY828NYwes+6fZfO4c+48
- m8fOWXfZPRbvecnksWlVJ5vH9m8PWD3mnQz0uN99nMlj85J6j9ajv1g8+rasYvTYfLra4/Mm
- uQD+KC6blNSczLLUIn27BK6Ml3OOsBS8NKyY8GwqewPjavUuRk4OCQETiaffdrOB2EICOxgl
- 2uYrQ8RlJFb1b2HtYuQAsoUlDh8u7mLkAip5zSgx9+BzJpAaYYEwiaWPT7CBJEQEnjBJzDr3
- BMxhFrjPJHHn5Wo2iJZeJok9O6ayg7SwCehKfO25DtbOK2AncfDqPrA4i4CKxNrpj5lA1okK
- RErs3GEJUSIocXLmExYQm1MgXuLH0xNgrcwCZhLzNj9khrDlJba/nQNli0vcejKfaQKj0Cwk
- 7bOQtMxC0jILScsCRpZVjJKpBcW56bnFhgVGeanlesWJucWleel6yfm5mxjBKUBLawfjnlUf
- 9A4xMnEwHmKU4GBWEuGtiZwXL8SbklhZlVqUH19UmpNafIhRmoNFSZz366yFcUIC6Yklqdmp
- qQWpRTBZJg5OqQYmkU77uDsnlzlMkV2bbzHrzKR7E8xT7b8Y+epcenUyPuHj5AvbHO98eDjz
- 2a9Fdlmia15duNipNjPo8zLLLWarefWtwu9683nOXph0XW9Cg8t7tqWe8yaZayz48/2mQ4mj
- +6kvp+aIsm/XFV5Y+Ss37n3M0ytNnas1Wd5pvOKYw1C257P6FfUn+zWZtsem8HAp39w/P+tL
- vOuzm1OW9S8rkGp/VPhUIvGKgLD+9LrTXx8G7/N91cxkLHZPKPmFZn71+zV/lt3TWzDzVDrH
- M0eVd/qvDs4x0cx0yts6pya59PN7RZa5L52kki8qZnOaJ7A+Lgvs3vNErf+olYaIDLvGkV/9
- eUUR5R02bdaPF5bcVWIpzkg01GIuKk4EAEabK6VwAwAA
-X-CMS-MailID: 20201102084749epcas1p1aeb630e6e04858c2b9d69b40786c11d2
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20201029081313epcas1p165edbd0c8e54d978a8130f5fb9d2a422
-References: <cover.3eb3532def69f3610b18104e45b7274bbdc1b0a0.1603888799.git-series.maxime@cerno.tech>
- <CGME20201029081313epcas1p165edbd0c8e54d978a8130f5fb9d2a422@epcas1p1.samsung.com>
- <469ead5de989938fcf079505cbc232a620e713bc.1603888799.git-series.maxime@cerno.tech>
+In-Reply-To: <f41cbcb3-d08a-7d3f-530c-a0cb3f9e3801@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,198 +44,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1621050258=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1621050258==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="nC81PDEybwZjXz3IETPWRNQOHINn0ZgaC"
 
-Thanks for V2 patch.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--nC81PDEybwZjXz3IETPWRNQOHINn0ZgaC
+Content-Type: multipart/mixed; boundary="o50ajk3HyjBF76lkxY84lrMRnSAvAtvRW";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: "tiantao (H)" <tiantao6@huawei.com>, Tian Tao <tiantao6@hisilicon.com>,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <b3656895-42a5-ff20-a695-dccaf1992938@suse.de>
+Subject: Re: [PATCH] drm/hisilicon: Remove redundant null check
+References: <1604050046-64539-1-git-send-email-tiantao6@hisilicon.com>
+ <2dbbbad0-53cf-52cc-3b6b-0d1547f7e085@suse.de>
+ <f41cbcb3-d08a-7d3f-530c-a0cb3f9e3801@huawei.com>
+In-Reply-To: <f41cbcb3-d08a-7d3f-530c-a0cb3f9e3801@huawei.com>
 
+--o50ajk3HyjBF76lkxY84lrMRnSAvAtvRW
+Content-Type: multipart/mixed;
+ boundary="------------4A01C9511A8AC4D5BDE5BE76"
+Content-Language: en-US
 
-On 10/28/20 9:41 PM, Maxime Ripard wrote:
-> The current HVS muxing code will consider the CRTCs in a given state to
-> setup their muxing in the HVS, and disable the other CRTCs muxes.
->
-> However, it's valid to only update a single CRTC with a state, and in this
-> situation we would mux out a CRTC that was enabled but left untouched by
-> the new state.
->
-> Fix this by setting a flag on the CRTC state when the muxing has been
-> changed, and only change the muxing configuration when that flag is there.
->
-> Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatically")
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->   drivers/gpu/drm/vc4/vc4_drv.h |  1 +-
->   drivers/gpu/drm/vc4/vc4_kms.c | 84 +++++++++++++++++++++---------------
->   2 files changed, 50 insertions(+), 35 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index c6208b040f77..c074c0538e57 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -523,6 +523,7 @@ struct vc4_crtc_state {
->   	struct drm_mm_node mm;
->   	bool feed_txp;
->   	bool txp_armed;
-> +	bool needs_muxing;
->   	unsigned int assigned_channel;
->   
->   	struct {
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-> index 2aa726b7422c..409aeb19d210 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -224,10 +224,7 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_dev *vc4,
->   {
->   	struct drm_crtc_state *crtc_state;
->   	struct drm_crtc *crtc;
-> -	unsigned char dsp2_mux = 0;
-> -	unsigned char dsp3_mux = 3;
-> -	unsigned char dsp4_mux = 3;
-> -	unsigned char dsp5_mux = 3;
-> +	unsigned char mux;
->   	unsigned int i;
->   	u32 reg;
->   
-> @@ -235,50 +232,59 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_dev *vc4,
->   		struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc_state);
->   		struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
->   
-> -		if (!crtc_state->active)
-> +		if (!vc4_state->needs_muxing)
->   			continue;
->   
->   		switch (vc4_crtc->data->hvs_output) {
->   		case 2:
-> -			dsp2_mux = (vc4_state->assigned_channel == 2) ? 0 : 1;
-> +			mux = (vc4_state->assigned_channel == 2) ? 0 : 1;
-> +			reg = HVS_READ(SCALER_DISPECTRL);
-> +			HVS_WRITE(SCALER_DISPECTRL,
-> +				  (reg & ~SCALER_DISPECTRL_DSP2_MUX_MASK) |
-> +				  VC4_SET_FIELD(mux, SCALER_DISPECTRL_DSP2_MUX));
->   			break;
->   
->   		case 3:
-> -			dsp3_mux = vc4_state->assigned_channel;
-> +			if (vc4_state->assigned_channel == VC4_HVS_CHANNEL_DISABLED)
-> +				mux = 3;
-> +			else
-> +				mux = vc4_state->assigned_channel;
-> +
-> +			reg = HVS_READ(SCALER_DISPCTRL);
-> +			HVS_WRITE(SCALER_DISPCTRL,
-> +				  (reg & ~SCALER_DISPCTRL_DSP3_MUX_MASK) |
-> +				  VC4_SET_FIELD(mux, SCALER_DISPCTRL_DSP3_MUX));
->   			break;
->   
->   		case 4:
-> -			dsp4_mux = vc4_state->assigned_channel;
-> +			if (vc4_state->assigned_channel == VC4_HVS_CHANNEL_DISABLED)
-> +				mux = 3;
-> +			else
-> +				mux = vc4_state->assigned_channel;
-> +
-> +			reg = HVS_READ(SCALER_DISPEOLN);
-> +			HVS_WRITE(SCALER_DISPEOLN,
-> +				  (reg & ~SCALER_DISPEOLN_DSP4_MUX_MASK) |
-> +				  VC4_SET_FIELD(mux, SCALER_DISPEOLN_DSP4_MUX));
-> +
->   			break;
->   
->   		case 5:
-> -			dsp5_mux = vc4_state->assigned_channel;
-> +			if (vc4_state->assigned_channel == VC4_HVS_CHANNEL_DISABLED)
-> +				mux = 3;
-> +			else
-> +				mux = vc4_state->assigned_channel;
-> +
-> +			reg = HVS_READ(SCALER_DISPDITHER);
-> +			HVS_WRITE(SCALER_DISPDITHER,
-> +				  (reg & ~SCALER_DISPDITHER_DSP5_MUX_MASK) |
-> +				  VC4_SET_FIELD(mux, SCALER_DISPDITHER_DSP5_MUX));
->   			break;
->   
->   		default:
->   			break;
->   		}
->   	}
-> -
-> -	reg = HVS_READ(SCALER_DISPECTRL);
-> -	HVS_WRITE(SCALER_DISPECTRL,
-> -		  (reg & ~SCALER_DISPECTRL_DSP2_MUX_MASK) |
-> -		  VC4_SET_FIELD(dsp2_mux, SCALER_DISPECTRL_DSP2_MUX));
-> -
-> -	reg = HVS_READ(SCALER_DISPCTRL);
-> -	HVS_WRITE(SCALER_DISPCTRL,
-> -		  (reg & ~SCALER_DISPCTRL_DSP3_MUX_MASK) |
-> -		  VC4_SET_FIELD(dsp3_mux, SCALER_DISPCTRL_DSP3_MUX));
-> -
-> -	reg = HVS_READ(SCALER_DISPEOLN);
-> -	HVS_WRITE(SCALER_DISPEOLN,
-> -		  (reg & ~SCALER_DISPEOLN_DSP4_MUX_MASK) |
-> -		  VC4_SET_FIELD(dsp4_mux, SCALER_DISPEOLN_DSP4_MUX));
-> -
-> -	reg = HVS_READ(SCALER_DISPDITHER);
-> -	HVS_WRITE(SCALER_DISPDITHER,
-> -		  (reg & ~SCALER_DISPDITHER_DSP5_MUX_MASK) |
-> -		  VC4_SET_FIELD(dsp5_mux, SCALER_DISPDITHER_DSP5_MUX));
->   }
->   
->   static void
-> @@ -769,21 +775,29 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
->   		return -EINVAL;
->   
->   	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
-> +		struct vc4_crtc_state *old_vc4_crtc_state =
-> +			to_vc4_crtc_state(old_crtc_state);
+This is a multi-part message in MIME format.
+--------------4A01C9511A8AC4D5BDE5BE76
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-In my opinion, the old_vc4_crtc_state definition is better to move to 
-patch6.
-Build error occurs in patch6 because old_vc4_crtc_state is used in patch6.
+Hi
 
+Am 02.11.20 um 09:46 schrieb tiantao (H):
+>=20
+>=20
+> =E5=9C=A8 2020/11/2 16:32, Thomas Zimmermann =E5=86=99=E9=81=93:
+>> Hi
+>>
+>> Am 30.10.20 um 10:27 schrieb Tian Tao:
+>>> drm_irq_uninstall can handle the case where dev->irq_enable is false,=
 
-Best regards,
-Hoegeun
+>>> so Remove redundant null check.
+>>>
+>>> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+>>> ---
+>>> =C2=A0 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 6 +++---
+>>> =C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>>> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>>> index 0c1b40d..b71589b1 100644
+>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>>> @@ -246,13 +246,13 @@ static int hibmc_unload(struct drm_device *dev)=
 
->   		struct vc4_crtc_state *new_vc4_crtc_state =
->   			to_vc4_crtc_state(new_crtc_state);
->   		struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
->   		unsigned int matching_channels;
->   
-> -		if (old_crtc_state->enable && !new_crtc_state->enable) {
-> -			hvs_state->unassigned_channels |= BIT(old_vc4_crtc_state->assigned_channel);
-> -			new_vc4_crtc_state->assigned_channel = VC4_HVS_CHANNEL_DISABLED;
-> +		/* Nothing to do here, let's skip it */
-> +		if ((old_crtc_state->enable && new_crtc_state->enable) ||
-> +		    (!old_crtc_state->enable && !new_crtc_state->enable)) {
-> +			new_vc4_crtc_state->needs_muxing = false;
-> +			continue;
->   		}
->   
-> -		if (!new_crtc_state->enable)
-> -			continue;
-> +		/* Muxing will need to be modified, mark it as such */
-> +		new_vc4_crtc_state->needs_muxing = true;
->   
-> -		if (new_vc4_crtc_state->assigned_channel != VC4_HVS_CHANNEL_DISABLED)
-> +		/* If we're disabling our CRTC, we put back our channel */
-> +		if (old_crtc_state->enable && !new_crtc_state->enable) {
-> +			hvs_state->unassigned_channels |= BIT(old_vc4_crtc_state->assigned_channel);
-> +			new_vc4_crtc_state->assigned_channel = VC4_HVS_CHANNEL_DISABLED;
->   			continue;
-> +		}
->   
->   		/*
->   		 * The problem we have to solve here is that we have
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_atomic_helper_shutdown(dev)=
+;
+>>> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (dev->irq_enabled)
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_irq_uninstall(dev);
+>>> -
+>>> +=C2=A0=C2=A0=C2=A0 drm_irq_uninstall(dev);
+>>
+>> Removing this check would at least result in an error, [1] so rather
+>> leave it in for now.
+>>
+> Now there seems to be no driver to check the return value of
+> drm_irq_uninstall
+
+True. No clean-up code should ever fail. But currently, it's not handled
+by drm_irq_uninstall().
+
+A better fix would be to have drm_irq_uninstall() return early with a
+warning if IRQs are disabled. And for most drivers, a managed version of
+drm_irq_install() would be useful.
+
+Best regards
+Thomas
+
+>> Instead, we could discuss if drm_irq_install() should become a managed=
+
+>> interface.
+>=20
+> Codes like the following
+> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+> index 09d6e9e..572357c 100644
+> --- a/drivers/gpu/drm/drm_irq.c
+> +++ b/drivers/gpu/drm/drm_irq.c
+> @@ -172,6 +172,9 @@ int drm_irq_uninstall(struct drm_device *dev)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool irq_enabled;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int i;
+>=20
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if(!dev->irq_enabled || !dev)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 return 0;
+>=20
+>>
+>> Best regards
+>> Thomas
+>>
+>> [1]
+>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_irq=
+=2Ec#L201
+>>
+>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_disable_msi(dev->pdev);
+>>> +
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hibmc_kms_fini(priv);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hibmc_mm_fini(priv);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->dev_private =3D NULL;
+>>> +
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>> =C2=A0 }
+>>> =C2=A0
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+--------------4A01C9511A8AC4D5BDE5BE76
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0x680DC11D530B7A23.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="OpenPGP_0x680DC11D530B7A23.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
+H47
+fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
+bqP
+5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
+z9E
+ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
+nEm
+imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
+W1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
+BYC
+AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
+Onf
+G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
+GJm
+DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
++1Q
+DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
+p8n
+91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
+zF1
+CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
+gUC
+WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
+IiL
++he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
+42f
+CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
+Urj
+EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
+45N
+GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
+Tpy
+Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
+u5r
+A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
+/N8
+GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
+j0g
+voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
+bZM
+RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
+zWw
+iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
+Xy9
+RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
+c0n
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+wsCOBBMBCAA4AhsDBQsJC=
+AcC
+BhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl78SF4ACgkQaA3BH=
+VML
+eiOpGAgAih6C1OnWms/N8eBMC4Q93y/nyywe5vCL22Dr1rwgn6Iw2jOGziJSi7zhY4sEk2NKJ=
+5cd
+lFrx8mP//b+xO4AGffwBD0Vwpf38Hj2Gt0KjpzRYccqqU+tJPO5c0pjI52ZIV3+kOEFvYGfkN=
+PHE
+flE+b81T8L2dSXCLtj4WAGUM1rmHn3bCYl+/RwkB+8XnoL5AvrmMcU4Uhb3FJpM4DHExccYkd=
+eSL
+ojBppOCztBCUpBx3le+8QPVvAvJDuur4wRmjk3sjKClAwzeqoYyUKcN3JDdb3mt3QcJal9rSh=
+VEI
+7B25IvfmEbs42oGm8GPzPkaNJu3gcska+l5PSTfurNETGsJdBBARAgAdFiEEJ+jjpp87z/+5L=
+Y5q
+LnehMBH108IFAls6HVcACgkQLnehMBH108LTkACgjLQdDYMENi6BDjY/gd/LF9lMi8oAnR+o0=
+FwE
+Vb1K1tEMQ/1x+k1U6/xgwsBzBBABCAAdFiEEHl2YIZkIo5VO2MxYqlA7ya4PR6cFAls58bMAC=
+gkQ
+qlA7ya4PR6cvTAgAzY1N5QMKh8ECRtYcZNmilyV59uHTEY9hAR+203JqWnSGfUKtU7s6xfl5O=
+NGq
+DI5rULk4Cw2CEIzg9Sat+/lxn36w2f1tEznS5Vb0gVGWrzDAFjj7tB6MnmCzsNb/S1kgxnqJM=
+Yor
+RYQ7uB3Yr2Fdp08FJxN0ipd5YfzaZ6KoSWcRAv4r1R4ZQGuS77URAg7HDOIrBMOVO+HIn7GYQ=
+qPS
+5ZFw5yXbvEtL1c5Y8Zdw1AG2VmEXx78TWQVG3kI8/lQF1QI3yrJ1Rp2x5eK9I0OJihv13IlIW=
+3sb
+QGrj9pxF63kA20ZFaynzFglBGiyxExYvTD0/xKIhzYhj8mtCunPb2cLAcwQQAQgAHRYhBLsjb=
+bex
+nu/GyEcdaKfzfBmMOTGBBQJbOjLAAAoJEKfzfBmMOTGBBoMIALIW4EtBY28tPwZMOpN/+ARPO=
+a2g
+Qzpivw7iNtiDTnGIXMCoxly1CybfMdqTHYmuKbEO9AlFAlDOnkgInsn8E65IvgUTVI95Ah+Ob=
+iPI
+FkYc/9a+AexPl7f5kI9489k77eKtqtMpWFpo/vROmRroSw4JnM7ovwPq1QOSHExfTKbLunzD1=
+i3V
+4PShSZ6bGsp1LW6Wk0lRMHDuAk3xsyjBWfJwSbrCe3E6OsLG7BuQqEUt2fR6NxdDRSR9tQUp9=
+Tri
+AYG5LndmUzxeU6FAQjD8Wt1ezOFH5ODcCDXfRyYmE6uCGA4EvO8l9R3o68NPlUjPRAZsCbxJa=
+UAg
+iazX1nyQGwvOwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHU=
+E9e
+osYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+q=
+bU6
+3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWWG=
+KdD
+egUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lvhFXod=
+NFM
+AgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsAEQEAAcLAf=
+AQY
+AQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkDwmcAAAoJEGgNwR1TC3ojp=
+fcI
+AInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2h9ifw9Nf2TjCZ6AMvC3thAN0r=
+FDj
+55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxUn+LSiRrOdywn6erjxRi9EYTVLCHcD=
+hBE
+jKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uIaMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU=
+2y3
+ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBWHE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/t=
+sZv
+yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
+=3DmxFq
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------4A01C9511A8AC4D5BDE5BE76--
+
+--o50ajk3HyjBF76lkxY84lrMRnSAvAtvRW--
+
+--nC81PDEybwZjXz3IETPWRNQOHINn0ZgaC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+fy2sFAwAAAAAACgkQaA3BHVMLeiO1
+sAgAsfTQ1kDhvhxkFA3EDUCxofomUA5dGyuB3VBR1ZZOFIOYMQvClCEbEgFE/iLYQrBS+fl76WRL
+0JSwJx9KCghloM61gbodWwu7B//VkibgAwdeLQ725I/i8LRTnoTcfHT9xUIBCjmfYERTUTu2gRhd
+ItVyZbapb5oR7WEfQfmUMdofCuscjWWIeds5cgv4HpqacGbj4FyZZmE/9a5ro/ZWk6YMRTzb18ng
+wYblpMPxSR0XiAxnfxQ7YOD1GelON+5254U6MiHElZkTHZrcbZHngoSFm37In0TH8jBbx4IgrB0k
+iommW6k8E2C3C4+BB8UdvkbA2IdFNChGggPI4bNG0w==
+=qLpj
+-----END PGP SIGNATURE-----
+
+--nC81PDEybwZjXz3IETPWRNQOHINn0ZgaC--
+
+--===============1621050258==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1621050258==--
