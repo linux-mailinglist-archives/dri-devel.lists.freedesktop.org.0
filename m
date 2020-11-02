@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16622A3EB6
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4672E2A3EA5
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2C66EC1B;
-	Tue,  3 Nov 2020 08:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 104616EC33;
+	Tue,  3 Nov 2020 08:14:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26E3A6EB87;
- Mon,  2 Nov 2020 19:37:19 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id c20so12021986pfr.8;
- Mon, 02 Nov 2020 11:37:19 -0800 (PST)
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCAA46EB87;
+ Mon,  2 Nov 2020 19:38:29 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id o129so12040574pfb.1;
+ Mon, 02 Nov 2020 11:38:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=ZRihqyzxKN6U53cyWaF4ykM/A4JEQRA8PuaspMJ28/U=;
- b=VhV2/b0kSjyvBF4e0P4CQ5ONfSRjjh03eqMR7TWjGb2DMvlf2BS2zxkz2Q5FmsyY10
- uoFdIjVEjkWIUK304LYPJpu8qEepNb+QZOdQ4guwaUzEDm3BK2MImLmHEZM/z+PXeGf3
- UugCgwCO+fc7EMuJ8g/rB7AkPjCH6QjD/tmQDZ9U37Cz445UH2u1QqpbzC5fHxsLXT1a
- PJIt4Gu4RQY0KqD7Jf/bOTiFsR+endW0Bs8RjFtEGSE8ec1v9ZhWQxV8g9s190jQF73R
- a//sRCiH7j/76oi1f4R/XPDQxPjN7hh4iz+a49Dhc+qnZ5Ze/fH1qoPRdk8Rr9Lqx6MM
- Dr9w==
+ bh=0j6o5IOXi9QCY4rzpYV2c+ym2ifBD5NBqGCfA07Vm74=;
+ b=L+AjpdoGoATYswlcQZhH4mqTxzzmDQvbcl+DXWmCC3hNnZMM+5uhN9ZB7j2A9gBxct
+ SvlaNuQKR2lVpeFNyVAF0KnG3UZTlAjwOs/aCsxyCWUjqf5vvxJOPOXkbLC8ysSLyA0c
+ aoY2nQkuizoHzMasFTP/0WustlerkjlON5jj6neaMmbxYc1Pyh70xUsTHC/K0iy5+MSu
+ mY7aI4BnxhtYak5yK7AFJcJf8sNBdE9JU5b888xr7DAvZpkrC0Ht6C/dQBacZvgRg8pv
+ rIerePPn6aUVFuFWFvOyEmcSQcqWXCk7Pyu60+APYH8adIG4ZHCkGH6IlyEtmzgBPaaV
+ Y5Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ZRihqyzxKN6U53cyWaF4ykM/A4JEQRA8PuaspMJ28/U=;
- b=WWgNuFyWiQoA5K9lllHpRLrWTN5HJp59++LaiKg1I+syQPfZNewCVOWaJ19CTrk3nU
- FGIlypAi8CpJkocXA8BEpwvNPnxHWn0g2CRthdgHKoRwAU5fYlkUYEVZR6A0vaOZgH0A
- pOq0prpxzfgG441kooWAyXPOqUA5dPTLiRB/xioxtxPAORfIhZxeNRtiBQZPIvmDXIid
- F8rYLt1RgwjAYvHvAfBV7AnyLV7CcYXn8jCaTuSYCeFoLul85OfYySa4Xgz9guWTYj+7
- MoRprrlqgF1iNZwJU11ZzK7dpC22xiy/xMtSer6gD6Bz84hjGyrqCk+PeXRiiykwocFC
- 6L+A==
-X-Gm-Message-State: AOAM531/td//Ngh61qfEK0vJyj1MZyBftTKnQdhFlzfqTyfdmNxxAq4/
- K8VYonp0lZWY6wL9PiaA9wE=
-X-Google-Smtp-Source: ABdhPJyLgjD7bJnvvyrbjxV+BHQ7+L86eu03s5YSvuL5SC0cqxuyHRSD0O7ld1sCZlob1kHkDpqXIQ==
-X-Received: by 2002:a63:443:: with SMTP id 64mr2826982pge.127.1604345838819;
- Mon, 02 Nov 2020 11:37:18 -0800 (PST)
+ bh=0j6o5IOXi9QCY4rzpYV2c+ym2ifBD5NBqGCfA07Vm74=;
+ b=Z7dj2v9HzrQOrJph+ySm7rstK9afWVt4cFJCskm9BeLqLkgO2u60m23eS9eL3K0Ojx
+ WhkeiKSdyaMRyUitL1c7etyVvb+wEOWUe9focU0zCMVftVbUO6tTBGUix9g6DNdfRO0m
+ NPJOwSCokfe4ZHmkGVmA1YRisSifaMrD7Xjua5VyRzjs5uBxGZ0W17pAVsu7LKnW2HKb
+ P9KBFGyVSRnfJSnxCC9ipcGAbRnMkT2AvxA7zLIKfNRtA2UTu1XIOEvHqp8W0iFK8Vwq
+ usnXi/6V5APE5LmNHN9g9gKubg/FacRZseaL+9/aR9EYxfV7YU6KH5x4NRoCw3/qsN8W
+ Ne0g==
+X-Gm-Message-State: AOAM533ktZBjQmO4oaH/CsCT42madMweYFmy8+ZaS8r6676Oh1RxG2rN
+ aKL7WLDm/gHI+naYMcAUf8s=
+X-Google-Smtp-Source: ABdhPJzv9XHaWF7iKhvLYB3sajkHQCPPJDccyaXCoDOLYSCHbFivdvNuvOqFfpiT3T1VA25ibfNArg==
+X-Received: by 2002:a63:160b:: with SMTP id w11mr14557370pgl.110.1604345909343; 
+ Mon, 02 Nov 2020 11:38:29 -0800 (PST)
 Received: from localhost ([160.202.157.3])
- by smtp.gmail.com with ESMTPSA id a23sm3166795pgv.35.2020.11.02.11.37.15
+ by smtp.gmail.com with ESMTPSA id q5sm267634pjj.26.2020.11.02.11.38.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 11:37:18 -0800 (PST)
-Date: Tue, 3 Nov 2020 01:07:12 +0530
+ Mon, 02 Nov 2020 11:38:29 -0800 (PST)
+Date: Tue, 3 Nov 2020 01:08:23 +0530
 From: Deepak R Varma <mh12gx2825@gmail.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] drm/amdgpu/amdgpu: use "*" adjacent to data name
-Message-ID: <a42902031c797779324031367818a06df6b660ab.1604345594.git.mh12gx2825@gmail.com>
+Subject: [PATCH 6/6] drm/amdgpu: use "*" adjacent to data name
+Message-ID: <59ffb58ca0d30ababc611ebc414e816902cc1b77.1604345594.git.mh12gx2825@gmail.com>
 References: <6ad41a97d7805124d2e31c70d96c846cf0d21524.1604345594.git.mh12gx2825@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <6ad41a97d7805124d2e31c70d96c846cf0d21524.1604345594.git.mh12gx2825@gmail.com>
-X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:24 +0000
+X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,225 +88,129 @@ issues reported by checkpatch script:
 
 Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c     |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c           |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c          |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c          | 14 +++++++-------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c         |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_test.c         |  8 ++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c          |  6 +++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c        |  4 ++--
- 9 files changed, 21 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/atom.c         | 16 ++++++++--------
+ drivers/gpu/drm/amd/amdgpu/atombios_i2c.c |  2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c     |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/mes_v10_1.c    |  2 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v11_0.c    |  2 +-
+ 5 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-index 469352e2d6ec..86add0f4ea4d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-@@ -1401,7 +1401,7 @@ static ATOM_VOLTAGE_OBJECT_V3 *amdgpu_atombios_lookup_voltage_object_v3(ATOM_VOL
+diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
+index 46c00ee580b1..515890f4f5a0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atom.c
++++ b/drivers/gpu/drm/amd/amdgpu/atom.c
+@@ -67,8 +67,8 @@ typedef struct {
+ } atom_exec_context;
+ 
+ int amdgpu_atom_debug;
+-static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t * params);
+-int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t * params);
++static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t *params);
++int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t *params);
+ 
+ static uint32_t atom_arg_mask[8] =
+ 	{ 0xFFFFFFFF, 0xFFFF, 0xFFFF00, 0xFFFF0000, 0xFF, 0xFF00, 0xFF0000,
+@@ -1201,7 +1201,7 @@ static struct {
+ 	atom_op_div32, ATOM_ARG_WS},
+ };
+ 
+-static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t * params)
++static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t *params)
  {
- 	u32 size = le16_to_cpu(v3->sHeader.usStructureSize);
- 	u32 offset = offsetof(ATOM_VOLTAGE_OBJECT_INFO_V3_1, asVoltageObj[0]);
--	u8 *start = (u8*)v3;
-+	u8 *start = (u8 *)v3;
+ 	int base = CU16(ctx->cmd_table + 4 + 2 * index);
+ 	int len, ws, ps, ptr;
+@@ -1262,7 +1262,7 @@ static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index,
+ 	return ret;
+ }
  
- 	while (offset < size) {
- 		ATOM_VOLTAGE_OBJECT_V3 *vo = (ATOM_VOLTAGE_OBJECT_V3 *)(start + offset);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-index b4df6460e45a..70da779a4ba7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-@@ -70,7 +70,7 @@ int amdgpu_atomfirmware_allocate_fb_scratch(struct amdgpu_device *adev)
- 	struct atom_context *ctx = adev->mode_info.atom_context;
- 	int index = get_index_into_master_table(atom_master_list_of_data_tables_v2_1,
- 						vram_usagebyfirmware);
--	struct vram_usagebyfirmware_v2_1 *	firmware_usage;
-+	struct vram_usagebyfirmware_v2_1 *firmware_usage;
- 	uint32_t start_addr, size;
- 	uint16_t data_offset;
- 	int usage_bytes = 0;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 309464a8c06b..79342976fa76 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1461,7 +1461,7 @@ int amdgpu_cs_fence_to_handle_ioctl(struct drm_device *dev, void *data,
- 		dma_fence_put(fence);
- 		if (r)
- 			return r;
--		r = drm_syncobj_get_fd(syncobj, (int*)&info->out.handle);
-+		r = drm_syncobj_get_fd(syncobj, (int *)&info->out.handle);
- 		drm_syncobj_put(syncobj);
- 		return r;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-index c80d8339f58c..6efdd5f6427e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-@@ -450,7 +450,7 @@ int amdgpu_ctx_put(struct amdgpu_ctx *ctx)
- 
- void amdgpu_ctx_add_fence(struct amdgpu_ctx *ctx,
- 			  struct drm_sched_entity *entity,
--			  struct dma_fence *fence, uint64_t* handle)
-+			  struct dma_fence *fence, uint64_t *handle)
+-int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t * params)
++int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t *params)
  {
- 	struct amdgpu_ctx_entity *centity = to_amdgpu_ctx_entity(entity);
- 	uint64_t seq = centity->sequence;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index c3b1b27df153..73f563b65a15 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -806,7 +806,7 @@ int psp_xgmi_get_hive_id(struct psp_context *psp, uint64_t *hive_id)
- 	struct ta_xgmi_shared_memory *xgmi_cmd;
- 	int ret;
+ 	int r;
  
--	xgmi_cmd = (struct ta_xgmi_shared_memory*)psp->xgmi_context.xgmi_shared_buf;
-+	xgmi_cmd = (struct ta_xgmi_shared_memory *)psp->xgmi_context.xgmi_shared_buf;
- 	memset(xgmi_cmd, 0, sizeof(struct ta_xgmi_shared_memory));
+@@ -1388,8 +1388,8 @@ void amdgpu_atom_destroy(struct atom_context *ctx)
+ }
  
- 	xgmi_cmd->cmd_id = TA_COMMAND_XGMI__GET_HIVE_ID;
-@@ -826,7 +826,7 @@ int psp_xgmi_get_node_id(struct psp_context *psp, uint64_t *node_id)
- 	struct ta_xgmi_shared_memory *xgmi_cmd;
- 	int ret;
- 
--	xgmi_cmd = (struct ta_xgmi_shared_memory*)psp->xgmi_context.xgmi_shared_buf;
-+	xgmi_cmd = (struct ta_xgmi_shared_memory *)psp->xgmi_context.xgmi_shared_buf;
- 	memset(xgmi_cmd, 0, sizeof(struct ta_xgmi_shared_memory));
- 
- 	xgmi_cmd->cmd_id = TA_COMMAND_XGMI__GET_NODE_ID;
-@@ -854,7 +854,7 @@ int psp_xgmi_get_topology_info(struct psp_context *psp,
- 	if (!topology || topology->num_nodes > TA_XGMI__MAX_CONNECTED_NODES)
- 		return -EINVAL;
- 
--	xgmi_cmd = (struct ta_xgmi_shared_memory*)psp->xgmi_context.xgmi_shared_buf;
-+	xgmi_cmd = (struct ta_xgmi_shared_memory *)psp->xgmi_context.xgmi_shared_buf;
- 	memset(xgmi_cmd, 0, sizeof(struct ta_xgmi_shared_memory));
- 
- 	/* Fill in the shared memory with topology information as input */
-@@ -898,7 +898,7 @@ int psp_xgmi_set_topology_info(struct psp_context *psp,
- 	if (!topology || topology->num_nodes > TA_XGMI__MAX_CONNECTED_NODES)
- 		return -EINVAL;
- 
--	xgmi_cmd = (struct ta_xgmi_shared_memory*)psp->xgmi_context.xgmi_shared_buf;
-+	xgmi_cmd = (struct ta_xgmi_shared_memory *)psp->xgmi_context.xgmi_shared_buf;
- 	memset(xgmi_cmd, 0, sizeof(struct ta_xgmi_shared_memory));
- 
- 	topology_info_input = &xgmi_cmd->xgmi_in_message.get_topology_info;
-@@ -962,7 +962,7 @@ static int psp_ras_load(struct psp_context *psp)
- 	ret = psp_cmd_submit_buf(psp, NULL, cmd,
- 			psp->fence_buf_mc_addr);
- 
--	ras_cmd = (struct ta_ras_shared_memory*)psp->ras.ras_shared_buf;
-+	ras_cmd = (struct ta_ras_shared_memory *)psp->ras.ras_shared_buf;
- 
- 	if (!ret) {
- 		psp->ras.session_id = cmd->resp.session_id;
-@@ -1884,7 +1884,7 @@ static int psp_execute_np_fw_load(struct psp_context *psp,
- static int psp_load_smu_fw(struct psp_context *psp)
+ bool amdgpu_atom_parse_data_header(struct atom_context *ctx, int index,
+-			    uint16_t * size, uint8_t * frev, uint8_t * crev,
+-			    uint16_t * data_start)
++			    uint16_t *size, uint8_t *frev, uint8_t *crev,
++			    uint16_t *data_start)
  {
- 	int ret;
--	struct amdgpu_device* adev = psp->adev;
-+	struct amdgpu_device *adev = psp->adev;
- 	struct amdgpu_firmware_info *ucode =
- 			&adev->firmware.ucode[AMDGPU_UCODE_ID_SMC];
- 	struct amdgpu_ras *ras = psp->ras.ras;
-@@ -1950,7 +1950,7 @@ static int psp_np_fw_load(struct psp_context *psp)
+ 	int offset = index * 2 + 4;
+ 	int idx = CU16(ctx->data_table + offset);
+@@ -1408,8 +1408,8 @@ bool amdgpu_atom_parse_data_header(struct atom_context *ctx, int index,
+ 	return true;
+ }
+ 
+-bool amdgpu_atom_parse_cmd_header(struct atom_context *ctx, int index, uint8_t * frev,
+-			   uint8_t * crev)
++bool amdgpu_atom_parse_cmd_header(struct atom_context *ctx, int index, uint8_t *frev,
++			   uint8_t *crev)
  {
- 	int i, ret;
- 	struct amdgpu_firmware_info *ucode;
--	struct amdgpu_device* adev = psp->adev;
-+	struct amdgpu_device *adev = psp->adev;
+ 	int offset = index * 2 + 4;
+ 	int idx = CU16(ctx->cmd_table + offset);
+diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_i2c.c b/drivers/gpu/drm/amd/amdgpu/atombios_i2c.c
+index 09a538465ffd..af0335535f82 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atombios_i2c.c
++++ b/drivers/gpu/drm/amd/amdgpu/atombios_i2c.c
+@@ -159,7 +159,7 @@ u32 amdgpu_atombios_i2c_func(struct i2c_adapter *adap)
+ 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
+ }
  
- 	if (psp->autoload_supported &&
- 	    !psp->pmfw_centralized_cstate_management) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-index 15ee13c3bd9e..2697b250dc32 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-@@ -396,7 +396,7 @@ static ssize_t amdgpu_debugfs_ring_read(struct file *f, char __user *buf,
- 			return result;
- 
- 		value = ring->ring[(*pos - 12)/4];
--		r = put_user(value, (uint32_t*)buf);
-+		r = put_user(value, (uint32_t *)buf);
- 		if (r)
- 			return r;
- 		buf += 4;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_test.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_test.c
-index 2f4d5ca9894f..6042b3b81a4c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_test.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_test.c
-@@ -157,10 +157,10 @@ static void amdgpu_do_test_moves(struct amdgpu_device *adev)
- 					  i, *vram_start, gart_start,
- 					  (unsigned long long)
- 					  (gart_addr - adev->gmc.gart_start +
--					   (void*)gart_start - gtt_map),
-+					   (void *)gart_start - gtt_map),
- 					  (unsigned long long)
- 					  (vram_addr - adev->gmc.vram_start +
--					   (void*)gart_start - gtt_map));
-+					   (void *)gart_start - gtt_map));
- 				amdgpu_bo_kunmap(vram_obj);
- 				goto out_lclean_unpin;
- 			}
-@@ -203,10 +203,10 @@ static void amdgpu_do_test_moves(struct amdgpu_device *adev)
- 					  i, *gart_start, vram_start,
- 					  (unsigned long long)
- 					  (vram_addr - adev->gmc.vram_start +
--					   (void*)vram_start - vram_map),
-+					   (void *)vram_start - vram_map),
- 					  (unsigned long long)
- 					  (gart_addr - adev->gmc.gart_start +
--					   (void*)vram_start - vram_map));
-+					   (void *)vram_start - vram_map));
- 				amdgpu_bo_kunmap(gtt_obj[i]);
- 				goto out_lclean_unpin;
- 			}
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index a5b466d3248c..4c705a89cf9b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -1112,7 +1112,7 @@ static int amdgpu_ttm_backend_bind(struct ttm_bo_device *bdev,
- 				   struct ttm_resource *bo_mem)
+-void amdgpu_atombios_i2c_channel_trans(struct amdgpu_device* adev, u8 slave_addr, u8 line_number, u8 offset, u8 data)
++void amdgpu_atombios_i2c_channel_trans(struct amdgpu_device *adev, u8 slave_addr, u8 line_number, u8 offset, u8 data)
  {
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
--	struct amdgpu_ttm_tt *gtt = (void*)ttm;
-+	struct amdgpu_ttm_tt *gtt = (void *)ttm;
- 	uint64_t flags;
- 	int r = 0;
+ 	PROCESS_I2C_CHANNEL_TRANSACTION_PS_ALLOCATION args;
+ 	int index = GetIndexIntoMasterTable(COMMAND, ProcessI2cChannelTransaction);
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index 48f98c750956..e96ab5325af5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -5167,7 +5167,7 @@ static void gfx_v9_0_ring_set_wptr_gfx(struct amdgpu_ring *ring)
  
-@@ -1171,7 +1171,7 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
+ 	if (ring->use_doorbell) {
+ 		/* XXX check if swapping is necessary on BE */
+-		atomic64_set((atomic64_t*)&adev->wb.wb[ring->wptr_offs], ring->wptr);
++		atomic64_set((atomic64_t *)&adev->wb.wb[ring->wptr_offs], ring->wptr);
+ 		WDOORBELL64(ring->doorbell_index, ring->wptr);
+ 	} else {
+ 		WREG32_SOC15(GC, 0, mmCP_RB0_WPTR, lower_32_bits(ring->wptr));
+@@ -5353,7 +5353,7 @@ static void gfx_v9_0_ring_set_wptr_compute(struct amdgpu_ring *ring)
+ 
+ 	/* XXX check if swapping is necessary on BE */
+ 	if (ring->use_doorbell) {
+-		atomic64_set((atomic64_t*)&adev->wb.wb[ring->wptr_offs], ring->wptr);
++		atomic64_set((atomic64_t *)&adev->wb.wb[ring->wptr_offs], ring->wptr);
+ 		WDOORBELL64(ring->doorbell_index, ring->wptr);
+ 	} else{
+ 		BUG(); /* only DOORBELL method supported on gfx9 now */
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c b/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
+index 1c22d8393b21..985e454463e1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
++++ b/drivers/gpu/drm/amd/amdgpu/mes_v10_1.c
+@@ -46,7 +46,7 @@ static void mes_v10_1_ring_set_wptr(struct amdgpu_ring *ring)
+ 	struct amdgpu_device *adev = ring->adev;
+ 
+ 	if (ring->use_doorbell) {
+-		atomic64_set((atomic64_t*)&adev->wb.wb[ring->wptr_offs],
++		atomic64_set((atomic64_t *)&adev->wb.wb[ring->wptr_offs],
+ 			     ring->wptr);
+ 		WDOORBELL64(ring->doorbell_index, ring->wptr);
+ 	} else {
+diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+index 6c5d9612abcb..d521ca0f3afa 100644
+--- a/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/psp_v11_0.c
+@@ -615,7 +615,7 @@ static int psp_v11_0_memory_training_send_msg(struct psp_context *psp, int msg)
+ static int psp_v11_0_memory_training(struct psp_context *psp, uint32_t ops)
  {
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
- 	struct ttm_operation_ctx ctx = { false, false };
--	struct amdgpu_ttm_tt *gtt = (void*)bo->ttm;
-+	struct amdgpu_ttm_tt *gtt = (void *)bo->ttm;
- 	struct ttm_resource tmp;
- 	struct ttm_placement placement;
- 	struct ttm_place placements;
-@@ -1433,7 +1433,7 @@ int amdgpu_ttm_tt_set_userptr(struct ttm_buffer_object *bo,
- 			return -ENOMEM;
- 	}
- 
--	gtt = (void*)bo->ttm;
-+	gtt = (void *)bo->ttm;
- 	gtt->userptr = addr;
- 	gtt->userflags = flags;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-index b313ce4c3e97..54182c4b3e33 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-@@ -586,8 +586,8 @@ static int amdgpu_ucode_patch_jt(struct amdgpu_firmware_info *ucode,
- {
- 	const struct gfx_firmware_header_v1_0 *header = NULL;
- 	const struct common_firmware_header *comm_hdr = NULL;
--	uint8_t* src_addr = NULL;
--	uint8_t* dst_addr = NULL;
-+	uint8_t *src_addr = NULL;
-+	uint8_t *dst_addr = NULL;
- 
- 	if (NULL == ucode->fw)
- 		return 0;
+ 	struct psp_memory_training_context *ctx = &psp->mem_train_ctx;
+-	uint32_t *pcache = (uint32_t*)ctx->sys_cache;
++	uint32_t *pcache = (uint32_t *)ctx->sys_cache;
+ 	struct amdgpu_device *adev = psp->adev;
+ 	uint32_t p2c_header[4];
+ 	uint32_t sz;
 -- 
 2.25.1
 
