@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F282A3E74
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6EA62A3E95
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0871E6EBFF;
-	Tue,  3 Nov 2020 08:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05AF86EC3A;
+	Tue,  3 Nov 2020 08:14:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95B6A6E554
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:20:56 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id p19so1478856wmg.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:20:56 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B98616E554
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:20:58 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id d142so1146515wmd.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:20:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J57Co4keOJLPpkOAtm30WeNaGboSbDo7KGbxSzSraLw=;
- b=WjUcLw8gDcHIiMrch+N57kyIWhFBESoNnwJbo8ozbR4u2s7V8dYOCGUGcrdCQs0A8c
- eQ33JQCo7FlLI/BSLX3oyaROh6lCmluXX5jsXGGHEInxOXk5kMdE5EkChmFgZmNwn3eb
- RwlsVtsZQHldyPx0J11ujW5fXjWbCiWcVuULMO77gCNRB/nW03qXSgrnoTEFhuGMBnUK
- sL+IQo1YUMwYJSK40SS6mEwNb1VtEI53RpcVxfuMkInp0D3aXlaGqbYsVindMPO71Ke3
- cZCq5fRNyBPIQZcN+ygz0gPhtpG7oZ2WlcrEtOMJ/4DQH9LXLeCfvwg9MCDRBNLrjhq/
- 00Rg==
+ bh=T2w+mckzOvrR699h8x/Xo77oVyHlYkQYkZ/tcGlQNKA=;
+ b=s1X5Rn6M3uEqYAtmP0kMjZBhh9+T3p5FrLN+EMPkAgjibT+uR/uD2Ngl5VYCdQB9ij
+ cQ6fxK8h+9iDfacQPynKZ5VyW7F6bKG7h/Mn2H7upcsowgEdGzkDXW0ZeoKAxWlZFX5x
+ pqI6X7Y1SxJBUvvLsIqozUVcIl4kjDlk/82AQ/NKJkAUAZxchqqk6ZD/i9gwMOE04t7b
+ WEkSas1VOVRvcMuWMty1ScX6mRMpJB2pYQQLO7hPytPI/lP2lQ51TXcmMAV2jxgLlrYn
+ 9vORg+bb2oQsagTOeapcQPmylm4ykQl2cpkCX5KomC0i7s4Qx+hD5CK4/4R0xv0vDrV1
+ 0OBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J57Co4keOJLPpkOAtm30WeNaGboSbDo7KGbxSzSraLw=;
- b=kCXeLWV4CWM0ElKwa169LU72KWtiol7HDtHOW0z/Xv4JdoQxyi4nx1pAZ0Agz6P4t2
- 4E+I0EoynVKTVNYgi03h/yaEIpFewlAeXTM5Pj762Vn03lM+966DHV9xBmmX/GLnPr+f
- wZJj8IQO7u/gyNC6EDLR61Bms+3KaU1+wXkFM5SJoICvSgGDfbyH4VtMLVYGNVq5vqJN
- IZ+oD9aqD93gTmasKxeScJQ7IkPjdc2j21+T2+Q6Uhfj4mjTT1UtxEVwzdQj/0Juj4C0
- +aTWjQrg5C/HbMaHLld9GX7Jo5KXgzobmpwU1MidcZHND4O286BVMOKea13Ov4Jxp4BO
- Zwcw==
-X-Gm-Message-State: AOAM530tFPrKA6wsdqzVO6+qYXVnA9CaWa9FXNL29mTWcfPyZgcB8UB7
- 9CPsLxDnLTWOIWVHoMxjJtZDlQ==
-X-Google-Smtp-Source: ABdhPJzrGRLOF2/QgV4EgJsGUrSZ+4C2XU14++PTKK4DegXurFNGMqip9Gki2NGq2KA3LkM7jho+gA==
-X-Received: by 2002:a1c:4646:: with SMTP id t67mr18816040wma.40.1604330455334; 
- Mon, 02 Nov 2020 07:20:55 -0800 (PST)
+ bh=T2w+mckzOvrR699h8x/Xo77oVyHlYkQYkZ/tcGlQNKA=;
+ b=ew0i0Qv5vSxKeVKR91+6L5RnRdU0oSvHnoKE5Esj+aLvUrMkp4TU+GZyqLo6rV2RQe
+ JTmuNrK+vF89U3kzWUMq9JIiVRQ7/nJn041+kUU9UoghR3ILWa3bgpNkYDUmF9fvhUeK
+ XU9nChEd5vakIlZQXjoLDZBO7ZAHaGy68KNJsZ3MKFfC3yfIV4/2Wn8gQT34Y1JrRrI6
+ 0gyL/o5glHHOEziDbqmuhb7/HPEa27IeBF+RY/B/osgrt3CMEp00zl2VTSwBQ5tHAfU5
+ fXBbmCjLR1y01O5TCitnekhEFxPvv5f2gIApDlUrtELn49hHrTIfmUMsnDGzrmVB6S7H
+ IqRQ==
+X-Gm-Message-State: AOAM530dhvvlLVVhvjjSpUhVDHGsM1ksqTSIw/b+sQwbWwD0k+29SKKN
+ j1sgpsNjIZcFk+i5Bc0v1QE0lA==
+X-Google-Smtp-Source: ABdhPJyD2xFNQ0mA6fkAF0MmLHKBRwPoEVnTSJcs4kw8eo3aVlf+gVmqgA5IOaVwyXiBRsxgcVYV4w==
+X-Received: by 2002:a1c:68c1:: with SMTP id d184mr17928489wmc.74.1604330457481; 
+ Mon, 02 Nov 2020 07:20:57 -0800 (PST)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr.
  [90.8.158.167])
- by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.53
+ by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 07:20:54 -0800 (PST)
+ Mon, 02 Nov 2020 07:20:56 -0800 (PST)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
@@ -66,9 +66,9 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v2 7/8] hwtracing: intel: use krealloc_array()
-Date: Mon,  2 Nov 2020 16:20:36 +0100
-Message-Id: <20201102152037.963-8-brgl@bgdev.pl>
+Subject: [PATCH v2 8/8] dma-buf: use krealloc_array()
+Date: Mon,  2 Nov 2020 16:20:37 +0100
+Message-Id: <20201102152037.963-9-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201102152037.963-1-brgl@bgdev.pl>
 References: <20201102152037.963-1-brgl@bgdev.pl>
@@ -92,38 +92,27 @@ Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org, linux-mm@kvack.org,
  linaro-mm-sig@lists.linaro.org, linux-gpio@vger.kernel.org,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-media@vger.kernel.org,
  linux-edac@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-
-Use the helper that checks for overflows internally instead of manually
-calculating the size of the new array.
-
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
----
- drivers/hwtracing/intel_th/msu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hwtracing/intel_th/msu.c b/drivers/hwtracing/intel_th/msu.c
-index 3a77551fb4fc..7d95242db900 100644
---- a/drivers/hwtracing/intel_th/msu.c
-+++ b/drivers/hwtracing/intel_th/msu.c
-@@ -2002,7 +2002,7 @@ nr_pages_store(struct device *dev, struct device_attribute *attr,
- 		}
- 
- 		nr_wins++;
--		rewin = krealloc(win, sizeof(*win) * nr_wins, GFP_KERNEL);
-+		rewin = krealloc_array(win, nr_wins, sizeof(*win), GFP_KERNEL);
- 		if (!rewin) {
- 			kfree(win);
- 			return -ENOMEM;
--- 
-2.29.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogQmFydG9zeiBHb2xhc3pld3NraSA8YmdvbGFzemV3c2tpQGJheWxpYnJlLmNvbT4KClVz
+ZSB0aGUgaGVscGVyIHRoYXQgY2hlY2tzIGZvciBvdmVyZmxvd3MgaW50ZXJuYWxseSBpbnN0ZWFk
+IG9mIG1hbnVhbGx5CmNhbGN1bGF0aW5nIHRoZSBzaXplIG9mIHRoZSBuZXcgYXJyYXkuCgpTaWdu
+ZWQtb2ZmLWJ5OiBCYXJ0b3N6IEdvbGFzemV3c2tpIDxiZ29sYXN6ZXdza2lAYmF5bGlicmUuY29t
+PgpBY2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgot
+LS0KIGRyaXZlcnMvZG1hLWJ1Zi9zeW5jX2ZpbGUuYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQs
+IDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2Rt
+YS1idWYvc3luY19maWxlLmMgYi9kcml2ZXJzL2RtYS1idWYvc3luY19maWxlLmMKaW5kZXggNWE1
+YTFkYTAxYTAwLi4yOTI1ZWEwM2VlZjAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9zeW5j
+X2ZpbGUuYworKysgYi9kcml2ZXJzL2RtYS1idWYvc3luY19maWxlLmMKQEAgLTI3MCw4ICsyNzAs
+OCBAQCBzdGF0aWMgc3RydWN0IHN5bmNfZmlsZSAqc3luY19maWxlX21lcmdlKGNvbnN0IGNoYXIg
+Km5hbWUsIHN0cnVjdCBzeW5jX2ZpbGUgKmEsCiAJCWZlbmNlc1tpKytdID0gZG1hX2ZlbmNlX2dl
+dChhX2ZlbmNlc1swXSk7CiAKIAlpZiAobnVtX2ZlbmNlcyA+IGkpIHsKLQkJbmZlbmNlcyA9IGty
+ZWFsbG9jKGZlbmNlcywgaSAqIHNpemVvZigqZmVuY2VzKSwKLQkJCQkgIEdGUF9LRVJORUwpOwor
+CQluZmVuY2VzID0ga3JlYWxsb2NfYXJyYXkoZmVuY2VzLCBpLAorCQkJCQkgc2l6ZW9mKCpmZW5j
+ZXMpLCBHRlBfS0VSTkVMKTsKIAkJaWYgKCFuZmVuY2VzKQogCQkJZ290byBlcnI7CiAKLS0gCjIu
+MjkuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
