@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6BE2A36F3
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 00:11:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 766F72A3702
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 00:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C54926E58A;
-	Mon,  2 Nov 2020 23:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A19CA6E588;
+	Mon,  2 Nov 2020 23:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 083A56E58A
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 23:11:49 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1604358713; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=En/Cnk9Ng/CJjRYhctsLDRpGraxUvj7QK4a1BqVJxzE=;
- b=gwGd1kIJq+QMfYNPIZ+c/es3/7/HCwmZtzLKGHjKOGxG06IaxsJyVtyzk3XQfra3IXkjUVWz
- tnyH26AFgqWDws4nEmmbY4ssY9ah7ioYnZG6pZ9H3JMYS5AR+kmhKoaJNk6UheUB5YjkEHLz
- MrkC1uc8qn4PFHcj/I7tqo3mGsw=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5fa0923075bebe827aa2cfe1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 02 Nov 2020 23:11:44
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 7EC43C433CB; Mon,  2 Nov 2020 23:11:43 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 9FC23C433C6;
- Mon,  2 Nov 2020 23:11:42 +0000 (UTC)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6F86E57A;
+ Mon,  2 Nov 2020 23:14:41 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id 23so2009573wmg.1;
+ Mon, 02 Nov 2020 15:14:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Yd/yHPwpX3j/PkBKgMI4UlExzusZQuxmftwkBiDfwd0=;
+ b=Hp/PzG2nBC1gTiutjecqG6sDMBWHpgxt68CWrv7FKoC2KpclVQi5DiALbyOH/UcWEE
+ pQXKbYe/q6R7+nfsAwBRSWgf6LEXMHlbzywmE9ffoTe5xjvyaVB9nGgsq4MnnZnf3F7s
+ wOPYrOWMdoiPXfr+yVkOhf3z5JyZm0BSSJFj2WGltz5ZwHfd3v6p8bAs2G/TfvXs1wEA
+ tKbJBU1HxsqBWxSZc/HBWRLZWDFDclhHUrPTST+38gO/i9jnWdaBaEQ6qQp7T/bCml11
+ G5ahd5unJCmCcd0EL39PVQDFmIUVJQKmFjLpOUCpt4LGTRpkOg0yVog98tDRygh2Xky1
+ aMZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Yd/yHPwpX3j/PkBKgMI4UlExzusZQuxmftwkBiDfwd0=;
+ b=Fy7FoOXK9wuwZdumvShSRhIoIASP/Yv316JkpQ8my/FYgDzNkP7B8JUg7+9eOnHHa5
+ nrNo0RPZ52OgyMRdj+RJ0rkwaWy6m4jsxO2SvCSWhoiOKxHUzogxv1v9X8Td7XMIhJNM
+ Kj6GMXatzEOdE8m2oyn4baeeqTO3MjbKYnf8Z39OhroochtjvWh07CwhTizdO4XAa1wQ
+ ozcoYtj8+HZ0+h7qYm2LPWbL+rWOikj/vSSSuVClBDrdwHzn0JQcJUKGrQYi5A+a8t9g
+ poPsHNUK3RKXdmNqOwQve7F3CByng+2HEGrlUon4DdW2tAg3fHBGCeZeYfMZIYHDROcy
+ VmqA==
+X-Gm-Message-State: AOAM532E33mUtH19u2o5sQIdmsDNK4tUCBsKrqERJATErcpLNX/1Bgkw
+ 29HH5X/UA7tEn1FTap8juxgJuCAgBUe0BCzwfKQ=
+X-Google-Smtp-Source: ABdhPJwIDGZ0F593ZCG0Vdco3dS8P/GZ41McoEEBcPXuBq07neKqHo16c1wS1lmeymA//w36H1H4T5Bb6rszi0gxHKE=
+X-Received: by 2002:a1c:8194:: with SMTP id c142mr440404wmd.94.1604358880548; 
+ Mon, 02 Nov 2020 15:14:40 -0800 (PST)
 MIME-Version: 1.0
-Date: Mon, 02 Nov 2020 15:11:42 -0800
-From: abhinavk@codeaurora.org
+References: <20201030232324.11170-1-khsieh@codeaurora.org>
+ <160434536802.884498.16389146296525781476@swboyd.mtv.corp.google.com>
+In-Reply-To: <160434536802.884498.16389146296525781476@swboyd.mtv.corp.google.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 2 Nov 2020 15:16:13 -0800
+Message-ID: <CAF6AEGu9pbRxncwVyRt9q=Gw1yOggj7Jg_zd+Y-rMZD=khmatw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: promote irq_hpd handle to handle link
+ trainign correctly
 To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [Freedreno] [PATCH] drm/msm/dp: do not notify audio subsystem if
- sink doesn't support audio
-In-Reply-To: <160435838669.884498.2757039786150233129@swboyd.mtv.corp.google.com>
-References: <20201029205509.13192-1-abhinavk@codeaurora.org>
- <160435199458.884498.6173218904854698184@swboyd.mtv.corp.google.com>
- <99476b913b8b6ed28fc7af8e80c6db52@codeaurora.org>
- <160435838669.884498.2757039786150233129@swboyd.mtv.corp.google.com>
-Message-ID: <3810d7c00f038cd7a6330144bb496cbc@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,80 +62,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- khsieh@codeaurora.org, seanpaul@chromium.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
- cychiang@chromium.org
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Rajendra Nayak <rnayak@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Kuogee Hsieh <khsieh@codeaurora.org>,
+ Tanmay Shah <tanmay@codeaurora.org>, aravindh@codeaurora.org,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen
+On Mon, Nov 2, 2020 at 11:29 AM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Subject has a typo in "training".
+>
+> Quoting Kuogee Hsieh (2020-10-30 16:23:24)
+> > Some dongles, such as Apple, required link training done at irq_hpd
+>
+> s/required/require/
+>
+> > request instead of plugin request. This patch promote irq_hpd hanlder
+>
+> s/hanlder/handler/
+>
+> > to handle link training and setup hpd_state correctly.
+> >
+> > Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> > ---
+>
+> Any Fixes tag?
+>
+> >  drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++++++++--
+> >  1 file changed, 18 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > index 13b66266cd69..55627530957c 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > @@ -483,10 +485,24 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
+> >                 return -ENODEV;
+> >         }
+> >
+> > +       hpd = dp->usbpd;
+> > +
+> >         /* check for any test request issued by sink */
+> >         rc = dp_link_process_request(dp->link);
+> > -       if (!rc)
+> > -               dp_display_handle_irq_hpd(dp);
+> > +       if (!rc) {
+> > +               sink_request = dp->link->sink_request;
+> > +               if (sink_request & DS_PORT_STATUS_CHANGED) {
+> > +                       dp->hpd_state = ST_CONNECT_PENDING;
+> > +                       hpd->hpd_high = 1;
+> > +               }
+> > +
+> > +               rc = dp_display_handle_irq_hpd(dp);
+> > +
+> > +               if (rc && sink_request & DS_PORT_STATUS_CHANGED) {
+>
+> Can you add parenthesis around this?
+>
+>                 if (rc && (sink_request & DS_PORT_STATUS_CHANGED)) {
+>
+>
+> I honestly don't know what's going on in this patch. It talks about
+> making link training happen during irq hpd handler but this is the
+> attention handler and we're checking port status changed? This is
+> related? The code is really not clear.
+>
+> > +                       hpd->hpd_high = 0;
+> > +                       dp->hpd_state = ST_DISCONNECTED;
+> > +               }
+> > +       }
+> >
+> >         return rc;
+> >  }
+> >
+> > base-commit: 0e162b10644605428cd2596c12f8ed410cf9d2d9
+>
+> What commit is this?
 
-On 2020-11-02 15:06, Stephen Boyd wrote:
-> Quoting abhinavk@codeaurora.org (2020-11-02 14:43:33)
->> Hi Stephen
->> 
->> Thanks for the review.
->> 
->> On 2020-11-02 13:19, Stephen Boyd wrote:
->> > Quoting Abhinav Kumar (2020-10-29 13:55:09)
->> >> For sinks that do not support audio, there is no need to notify
->> >> audio subsystem of the connection event.
->> >>
->> >> This will make sure that audio routes only to the primary display
->> >> when connected to such sinks.
->> >>
->> >
->> > Does this need a Fixes tag? Or it's just an optimization patch?
->> This is an unhandled corner case ( VGA dongle ) for DP audio and will
->> make
->> sure we do not switch audio output from primary to external when
->> connected to
->> a sink which does not support audio.
->> I thought of adding a fixes tag pointing to
->> https://patchwork.freedesktop.org/patch/390236/.
->> But at the same time, thought this can go in as a standlone patch as
->> well.
->> If you think its required, I will add the fixes tag pointing to the 
->> base
->> audio patch.
-> 
-> Yeah Fixes is nice so we know what is fixed.
-Ok sure, will include it.
-> 
->> >
->> >> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
->> >> ---
->> >>  drivers/gpu/drm/msm/dp/dp_display.c | 12 ++++++++++--
->> >>  1 file changed, 10 insertions(+), 2 deletions(-)
->> >>
->> >> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
->> >> b/drivers/gpu/drm/msm/dp/dp_display.c
->> >> index 4a5735564be2..d970980b0ca5 100644
->> >> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> >> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> >> @@ -555,8 +555,16 @@ static int dp_connect_pending_timeout(struct
->> >> dp_display_private *dp, u32 data)
->> >>  static void dp_display_handle_plugged_change(struct msm_dp
->> >> *dp_display,
->> >>                 bool plugged)
->> >>  {
->> >> -       if (dp_display->plugged_cb && dp_display->codec_dev)
->> >> -               dp_display->plugged_cb(dp_display->codec_dev,
->> >> plugged);
->> >> +       struct dp_display_private *dp;
->> >> +
->> >> +       dp = container_of(g_dp_display,
->> >
->> > What is g_dp_display? I guess this doesn't compile?
->> g_dp_display is the global dp_display pointer in the dp_display.c 
->> file.
->> It does compile.
-> 
-> Oh gross. Can we not use it if dp_display points to it?
-Ok sure, will get it from dp_display
+Note that I skipped over a few dp related patches yesterday while
+starting to pull things into msm-next-staging.
+
+Kuogee, when you send the next version can you make sure it is based
+against v5.10-rc or msm-next-staging?
+
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
