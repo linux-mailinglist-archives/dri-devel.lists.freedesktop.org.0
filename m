@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DDD2A2D53
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 15:49:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED872A2D83
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 16:01:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3A86E50D;
-	Mon,  2 Nov 2020 14:49:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5282E6E182;
+	Mon,  2 Nov 2020 15:01:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4550C6E52E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 14:49:25 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id 13so9670097wmf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 06:49:25 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4901E6E182
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:01:12 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id g12so14952174wrp.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:01:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=eWPSTQ3LyHRATFWSmNrhaF+4O+LGE489CHQSWVvIakQ=;
- b=EYaEVplljEOVq2w2k+Y6BXIiI7Vfv1pSWBIA+xAnno6DFFMsikJaHm5gJKlCVe4oNL
- SB2tE9qxLCaHEH/TTvabzX3NLPbaSxHeFniMk9SgFJOjSUF3ibflTJaIq4+LtEtYMIz9
- ipn2ttrvnId8SW0J8MhV7x85Sx+aHqz/21AdA=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WiKxYzK+jbj0BuX+QRcJTUAvMklQZTPB1Oi95Mt8zqU=;
+ b=VJfz9q4AgyrOyX3slQP+GydH6MLnuK7fuRp7qc+U7anvOtX32v9wPX4OhypDOQWRGa
+ TN53cCg5TYwhCm3g/scOOC/F8eqICxcTEUcXKAXpIbkn7T6UO4e/DdW62rzHIJHUxFiS
+ N4jCTkxnqGHWiTKuVnw0XCp2yGwKU3uZZQbzg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eWPSTQ3LyHRATFWSmNrhaF+4O+LGE489CHQSWVvIakQ=;
- b=F29WOt/Myg7NVkmYNHL6vwDJwXVhAWWRpGTbHk4ChQN9lY4BBifnqZIRfUlLMDb3PC
- qgSBr5RAtPam2jp5jxpT/QmRl/K3E4dKCGbx3YMfbnfxkpyeIUlf9tjYj8CWNaPbPybk
- v2jvhWc254wOJVuVIHYmN8fVIlthKHMnG4fmVvWpsKJz2DvQ0KfEhXGEPBBUyuQLsw85
- fxHNfD7qF5pMuBwjfzP1UNc4jplag8wUcSxy8iPj0GhXTwL9gVs5qhAEZ93G60HEdOZG
- CekEN8f6OdLTX8wzBFvU95LjHuqQ/6gyrXfs9wlj1xQxHfAqyRBD7GmRZdb6PC8yEFe8
- wNFQ==
-X-Gm-Message-State: AOAM530pK5XewyIUbPQV9cA2JM1vwo1d5TqypRf5x1xJqNd47EN4u/ZQ
- CDvvhEjPcGaB7xfC0GcD9rLjHA==
-X-Google-Smtp-Source: ABdhPJx61R08kqYlbeAzGt1hVvEsgHasNzxVslBvrG1yqRmR0TnkXDcIQp++Tx0H8mvrszOhyYUHWQ==
-X-Received: by 2002:a1c:4b18:: with SMTP id y24mr10715678wma.154.1604328563837; 
- Mon, 02 Nov 2020 06:49:23 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=WiKxYzK+jbj0BuX+QRcJTUAvMklQZTPB1Oi95Mt8zqU=;
+ b=qaBorD9otQy0PExYRZ4+ytGFrMD4x55m4Xl7x+1QtxuCo8EeV1+HDUj9QgCV6JGRAL
+ rVFEHA0Ijr2Qrb5AKu28SvX1yOt7guoncunC8HPVjo2GxpePrpp74FlQuz0EaFBFExHo
+ /gh46bz05/9axneL0VYP8/6GfCSsgWeztzH/wZORGbqh9VVFsO7HpCjeSDCWw4iL6zRL
+ 8QaMdHNVWAK34mJlekh4nx3HlEe57Fn3BHQp06ehGxa1SSRfZKJ6wu1g2k0te3Ku6h3F
+ Ui1i0fBL6pS2gLz0UKX6SC7qwm2Mdcl7dL6p96Ajf3t/IoCjEDWlFOWwzsCD5iLXxdvd
+ Rxwg==
+X-Gm-Message-State: AOAM531cM/kPgYs3ZTnJP6j+FDk60hq/ZuFX4ZEyVET7So5JoURJJfLP
+ okIZLz6bo8cmY5ZcaN663RoY5w==
+X-Google-Smtp-Source: ABdhPJxbkH5RpRNzyZyYob/58tkcuhXAZIJ26Wq9kMXmqkZN8byLcKycFNmqrLorrMhHL4N7nkHUIg==
+X-Received: by 2002:adf:80c8:: with SMTP id 66mr21310992wrl.415.1604329270887; 
+ Mon, 02 Nov 2020 07:01:10 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z14sm16312474wmc.15.2020.11.02.06.49.22
+ by smtp.gmail.com with ESMTPSA id f4sm22491807wrq.54.2020.11.02.07.01.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 06:49:22 -0800 (PST)
-Date: Mon, 2 Nov 2020 15:49:20 +0100
+ Mon, 02 Nov 2020 07:01:09 -0800 (PST)
+Date: Mon, 2 Nov 2020 16:01:07 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH] drm: Remove SCATTERLIST_MAX_SEGMENT
-Message-ID: <20201102144920.GS401619@phenom.ffwll.local>
-References: <0-v1-44733fccd781+13d-rm_scatterlist_max_jgg@nvidia.com>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [PATCH 0/5] Preparation work for using font_desc in vc_data
+Message-ID: <20201102150107.GT401619@phenom.ffwll.local>
+Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jiri Slaby <jirislaby@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1603788511.git.yepeilin.cs@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0-v1-44733fccd781+13d-rm_scatterlist_max_jgg@nvidia.com>
+In-Reply-To: <cover.1603788511.git.yepeilin.cs@gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,130 +70,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
- Roland Scheidegger <sroland@vmware.com>, intel-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Qian Cai <cai@lca.pw>, Christoph Hellwig <hch@lst.de>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 28, 2020 at 04:15:26PM -0300, Jason Gunthorpe wrote:
-> Since commit 9a40401cfa13 ("lib/scatterlist: Do not limit max_segment to
-> PAGE_ALIGNED values") the max_segment input to sg_alloc_table_from_pages()
-> does not have to be any special value. The new algorithm will always
-> create something less than what the user provides. Thus eliminate this
-> confusing constant.
+On Tue, Oct 27, 2020 at 12:27:35PM -0400, Peilin Ye wrote:
+> Hi Daniel, Hi Greg, Hi all,
 > 
-> - vmwgfx should use the HW capability, not mix in the OS page size for
->   calling dma_set_max_seg_size()
-> 
-> - i915 uses i915_sg_segment_size() both for sg_alloc_table_from_pages
->   and for some open coded sgl construction. This doesn't change the value
->   since rounddown(size, UINT_MAX) == SCATTERLIST_MAX_SEGMENT
-> 
-> - drm_prime_pages_to_sg uses it as a default if max_segment is zero,
->   UINT_MAX is fine to use directly.
-> 
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Thomas Hellstrom <thellstrom@vmware.com>
-> Cc: Qian Cai <cai@lca.pw>
-> Cc: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>
-> Suggested-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> We are planning to use `font_desc` instead of `console_font` in `vc_data`,
+> and this is just some prep work for it. It doesn't do much, but at least
+> it removes two "FIXME"s in fbcon.c :)
 
-Merged to drm-misc-next, thanks for your patch.
+Btw nitpeek on how you submit patches: The threading you're using here is
+"deep" i.e. every patch is  reply to the previous patch. The usual thing
+is flat, i.e. all patches are replies to the cover letter.
+
+I think only very old versions of git had the former as a default, so not
+sure what's going on. But the deep threading makes piecing the
+conversation together quite a bit harder, at least here in mutt.
 -Daniel
 
-> ---
->  drivers/gpu/drm/drm_prime.c             | 4 ++--
->  drivers/gpu/drm/i915/i915_scatterlist.h | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 3 +--
->  include/linux/scatterlist.h             | 6 ------
->  tools/testing/scatterlist/main.c        | 2 +-
->  5 files changed, 5 insertions(+), 12 deletions(-)
+
 > 
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index d6808f678db541..c3693e5e8b74b0 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -816,8 +816,8 @@ struct sg_table *drm_prime_pages_to_sg(struct drm_device *dev,
->  
->  	if (dev)
->  		max_segment = dma_max_mapping_size(dev->dev);
-> -	if (max_segment == 0 || max_segment > SCATTERLIST_MAX_SEGMENT)
-> -		max_segment = SCATTERLIST_MAX_SEGMENT;
-> +	if (max_segment == 0)
-> +		max_segment = UINT_MAX;
->  	sge = __sg_alloc_table_from_pages(sg, pages, nr_pages, 0,
->  					  nr_pages << PAGE_SHIFT,
->  					  max_segment,
-> diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
-> index b7b59328cb76ab..883dd8d09d6bf2 100644
-> --- a/drivers/gpu/drm/i915/i915_scatterlist.h
-> +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
-> @@ -112,7 +112,7 @@ static inline unsigned int i915_sg_segment_size(void)
->  	unsigned int size = swiotlb_max_segment();
->  
->  	if (size == 0)
-> -		return SCATTERLIST_MAX_SEGMENT;
-> +		size = UINT_MAX;
->  
->  	size = rounddown(size, PAGE_SIZE);
->  	/* swiotlb_max_segment_size can return 1 byte when it means one page. */
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> index 31e3e5c9f36223..c1817f1a3006e0 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -792,8 +792,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
->  	if (unlikely(ret != 0))
->  		goto out_err0;
->  
-> -	dma_set_max_seg_size(dev->dev, min_t(unsigned int, U32_MAX & PAGE_MASK,
-> -					     SCATTERLIST_MAX_SEGMENT));
-> +	dma_set_max_seg_size(dev->dev, U32_MAX);
->  
->  	if (dev_priv->capabilities & SVGA_CAP_GMR2) {
->  		DRM_INFO("Max GMR ids is %u\n",
-> diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-> index 36c47e7e66a203..6f70572b2938be 100644
-> --- a/include/linux/scatterlist.h
-> +++ b/include/linux/scatterlist.h
-> @@ -18,12 +18,6 @@ struct scatterlist {
->  #endif
->  };
->  
-> -/*
-> - * Since the above length field is an unsigned int, below we define the maximum
-> - * length in bytes that can be stored in one scatterlist entry.
-> - */
-> -#define SCATTERLIST_MAX_SEGMENT (UINT_MAX & PAGE_MASK)
-> -
->  /*
->   * These macros should be used after a dma_map_sg call has been done
->   * to get bus addresses of each of the SG entries and their lengths.
-> diff --git a/tools/testing/scatterlist/main.c b/tools/testing/scatterlist/main.c
-> index b2c7e9f7b8d3dc..d264bf853034bd 100644
-> --- a/tools/testing/scatterlist/main.c
-> +++ b/tools/testing/scatterlist/main.c
-> @@ -50,7 +50,7 @@ static void fail(struct test *test, struct sg_table *st, const char *cond)
->  
->  int main(void)
->  {
-> -	const unsigned int sgmax = SCATTERLIST_MAX_SEGMENT;
-> +	const unsigned int sgmax = UINT_MAX;
->  	struct test *test, tests[] = {
->  		{ -EINVAL, 1, pfn(0), PAGE_SIZE, PAGE_SIZE + 1, 1 },
->  		{ -EINVAL, 1, pfn(0), PAGE_SIZE, 0, 1 },
+> Peilin Ye (5):
+> [1/5] fbdev/atafb: Remove unused extern variables
+> 
+>   Searching for `fontdata` gave me this in fbdev/atafb.c:
+> 
+>   extern unsigned char fontdata_8x8[];
+>   extern unsigned char fontdata_8x16[];
+> 
+>   ...which freaked me out, since in 6735b4632def ("Fonts: Support
+>   FONT_EXTRA_WORDS macros for built-in fonts") I changed them from char
+>   arrays to structures, in lib/fonts/. Fortunately it turns out these
+>   extern variables have nothing to do with lib/fonts/, and are not being
+>   used anywhere, so remove them for less confusion.
+> 
+>   m68k cross-compiled.
+> 
+> [2/5] Fonts: Make font size unsigned in font_desc
+> 
+>   Our goal is to use `font_desc` "everywhere" in the kernel, and signed
+>   `width` and `height` is inappropriate.
+> 
+>   Also, change some printk() format identifiers in console/sticore.c from
+>   `%d` to `%u`. parisc cross-compiled.
+> 
+> [3/5] Fonts: Add charcount field to font_desc
+> 
+>   Add `unsigned int charcount` to `font_desc`, and update each of our 13
+>   built-in fonts.
+> 
+> [4/5] fbcon: Avoid hard-coding built-in font charcount
+> [5/5] parisc/sticore: Avoid hard-coding built-in font charcount
+> 
+>   Everyone (tty, fbcon, sticore, etc.) is assuming that all built-in fonts
+>   have 256 characters, and is using hard-coded 256 or 255 everywhere.
+>   These two patches removes some of them. [5/5] is parisc cross-compiled.
+> 
+>   Now is a good time to review all find_font() and get_default_font()
+>   callers:
+> 
+>   drivers/media/pci/solo6x10/solo6x10-enc.c      133 const struct font_desc *vga = find_font("VGA8x16");
+>   drivers/media/test-drivers/vimc/vimc-core.c    268 const struct font_desc *font = find_font("VGA8x16");
+>   drivers/media/test-drivers/vivid/vivid-core.c 1928 const struct font_desc *font = find_font("VGA8x16");
+>   drivers/usb/misc/sisusbvga/sisusb.c           2285 myfont = find_font("VGA8x16");
+>     * These 4 only care about font VGA8x16, so let them be for now;
+> 
+>   drivers/video/console/sticore.c                499 fbfont = find_font(fbfont_name);
+>   drivers/video/console/sticore.c                501 fbfont = get_default_font(1024,768, ~(u32)0, ~(u32)0);
+>     * Uses 255 and 256, (hopefully) cleaned up by [5/5];
+> 
+>   drivers/video/fbdev/core/fbcon.c               999 if (!fontname[0] || !(font = find_font(fontname)))
+>   drivers/video/fbdev/core/fbcon.c              1000 font = get_default_font(info->var.xres,
+>   drivers/video/fbdev/core/fbcon.c              1078 if (!fontname[0] || !(font = find_font(fontname)))
+>   drivers/video/fbdev/core/fbcon.c              1079 font = get_default_font(info->var.xres,
+>     * Use 256, cleaned up by [4/5];
+> 
+>   drivers/video/fbdev/core/fbcon.c              2548 else if (!(f = find_font(name)))
+>   drivers/video/fbdev/core/fbcon.c              2546 f = get_default_font(info->var.xres, info->var.yres,
+>     * Uses 256 but no easy fix. I'll clean this up after making
+>       fbcon_do_set_font() pass a `font_desc` as parameter;
+> 
+>   drivers/firmware/efi/earlycon.c               234 font = get_default_font(xres, yres, -1, -1);
+>     * Does not care about charcount.
+> 
+> Thank you!
+> Peilin Ye
+> 
+>  drivers/video/console/sticore.c  | 10 +++++-----
+>  drivers/video/fbdev/atafb.c      |  8 --------
+>  drivers/video/fbdev/core/fbcon.c |  5 ++---
+>  include/linux/font.h             |  3 ++-
+>  lib/fonts/font_10x18.c           |  1 +
+>  lib/fonts/font_6x10.c            |  1 +
+>  lib/fonts/font_6x11.c            |  1 +
+>  lib/fonts/font_6x8.c             |  1 +
+>  lib/fonts/font_7x14.c            |  1 +
+>  lib/fonts/font_8x16.c            |  1 +
+>  lib/fonts/font_8x8.c             |  1 +
+>  lib/fonts/font_acorn_8x8.c       |  1 +
+>  lib/fonts/font_mini_4x6.c        |  1 +
+>  lib/fonts/font_pearl_8x8.c       |  1 +
+>  lib/fonts/font_sun12x22.c        |  1 +
+>  lib/fonts/font_sun8x16.c         |  1 +
+>  lib/fonts/font_ter16x32.c        |  1 +
+>  17 files changed, 22 insertions(+), 17 deletions(-)
+> 
 > -- 
-> 2.28.0
+> 2.25.1
 > 
 
 -- 
