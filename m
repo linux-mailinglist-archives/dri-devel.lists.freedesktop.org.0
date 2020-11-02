@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161642A3EA8
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA4D2A3E87
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25AD96EC40;
-	Tue,  3 Nov 2020 08:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC5566EC4B;
+	Tue,  3 Nov 2020 08:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5BF6EB87;
- Mon,  2 Nov 2020 19:36:18 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id b3so12051746pfo.2;
- Mon, 02 Nov 2020 11:36:18 -0800 (PST)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 648A86EB87;
+ Mon,  2 Nov 2020 19:36:48 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id t22so7335044plr.9;
+ Mon, 02 Nov 2020 11:36:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=s/DA9Kue9Ve8AC+uOhIa4hc4aaK5zLqpc50nqJdELt0=;
- b=aZL3CEeYk7iVAX0nfTGvMN0yre2qpny9PFNowwuO3SUgxkSiMTlFEb9wI/TaQDhwIP
- yK1l6mGwUoJI12pkoIJEzLUgOutjpgu8N7YR0bG9DGkkBm+JE1tEBdsqT2CXMyImLwUz
- nHH4Oq+Nbg2+ONavgNNYaJcIbFTlRxVehiMXerS39NPsVAznTdA0AvVNDK8E0u0O3kVn
- iSRFQzF3w5JoqoMEOTaZcfb8aWR+tbn/iRVF20L8agcCY7cxSUpwWr+1XYrmJwOIgkHT
- v7aV/za6H4URGmN0ExXJ+Sp6hQf6kFtB9g+pfvFIq64ad2Lv0z/L2qdSQ6b+cEnlTeyH
- FzlA==
+ bh=MHfdGffEtslcisUCbmOeWSW1VApIiY4Mb7acBIRPvyE=;
+ b=iiUFqfdjvBU7bcdjzspXUShhRDTCbo5dH9vmWRO78vkNOfrSrhFjNBpCGfr1Azs5ks
+ HbyvxeWs2SsrmO00bICt8cKMJ94AW7vJBmCryOcaIzSrk2JW65JRoJI/iohRUVqX/ZbW
+ 5p5W590hKKaSGXe4ACQsa4trr7+U7kpTjjqsnaz4m8/a2WpIvCrAHbMq6r4DX4ywfYwY
+ 8T3jHAdSTGdDp4CRPuuUhgy8l5lZLkyfSgvkmNvxwWE5u6AZUipFZt/wWq/AYuNUnmKa
+ AjSvPFKBAiFVe5Z4q26aKtdrPLzGjmu2MoeOZsIE/fMEbwZveMOUrK08jypD/OiTS8kE
+ kc2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=s/DA9Kue9Ve8AC+uOhIa4hc4aaK5zLqpc50nqJdELt0=;
- b=Msi8qwTZEXuJdx1wvMECJpc2qYMlrpwYDWgPC6uEJI/FAbIt58oscSYf0RSGf3ynk3
- s7R9oOC6ct2sojLKJJOtUkAh0pISmG6NVwUKqaQzsGTP9E0o9xgoImkc1XM4958fQhe0
- ybNt8kNKWldrz5pEvrxJcUbC+J3czxHZkOstRkPPy0regP7NRt6l2B22vreKoS6rk+uM
- KR/hktNDRtg7WiX9D+cOlLkBDOK6kdsqvGAjZ0cEt2jnfp5PolJyURTVi0eXnOCpe3s+
- 4LdAqFpuQ3WK85TxyCmeEnrfZR/aXgGrVGCwRLcHoHljZl62h7lJ0rjB/p8fhHXXus0l
- kxyQ==
-X-Gm-Message-State: AOAM533LsPYEfMGmv4VkPu+4SWNvbxUvhwXs7Xjd/sYdCXq2kJj9KOcs
- 9kdN3DOjsx0qP2hxuLZYaC0=
-X-Google-Smtp-Source: ABdhPJxGtFsHxqpHVik0XMgKD5oDUq7RYiD8rabDGWVXAqIBZBXqVhXo4Th8ZmALaNcYTdhpQGbbhw==
-X-Received: by 2002:aa7:8287:0:b029:142:2501:39ec with SMTP id
- s7-20020aa782870000b0290142250139ecmr22201598pfm.59.1604345777761; 
- Mon, 02 Nov 2020 11:36:17 -0800 (PST)
+ bh=MHfdGffEtslcisUCbmOeWSW1VApIiY4Mb7acBIRPvyE=;
+ b=XGx4lkBA6yjiaXv8R2A5CNmQPh1yN8gqpJSa2m/e9+AFmPWvqLaaHsDY6mKIf67iYE
+ oGyeYPV/p/KLmgTaK6PIyIhZ5ghkZvWRNtTM4y1J5qPBKF8oRkA5WzZfN6PsPkBcchf0
+ NBf/rANepqbHI3heI2gUXkkwA+t41vhSp3q+mxIdeFhva9qt8/KygMbKDLMWAEkP1L+s
+ WSgFvzDB/95A78ptbgYfzDYjY1OW9yVKrr/Ghn0EM5KQPScGug4GHtTw3WeBBGTYKcXS
+ R1pN/jvGvZSDSU/XyVaPr6FitHIycdC4m7VLVqARlsrvquj1rFXulwTDq+PHYwaGNJf/
+ KKdA==
+X-Gm-Message-State: AOAM533VuSFO0OfR7xPLznVfqjun7FS2MtGQdWQd6maKSOOJ6zhN6mmi
+ x5+nVDVxmSkaphWsPFlNZrg=
+X-Google-Smtp-Source: ABdhPJzy9xZcX3I40BwODb2//W/PYSgeWE+3SkP23N7SQ/GgoBHF6dG7cSBPJUz/BgsgMYp9ZiqYXg==
+X-Received: by 2002:a17:902:525:b029:d1:920c:c200 with SMTP id
+ 34-20020a1709020525b02900d1920cc200mr22502370plf.25.1604345808083; 
+ Mon, 02 Nov 2020 11:36:48 -0800 (PST)
 Received: from localhost ([160.202.157.3])
- by smtp.gmail.com with ESMTPSA id gb13sm241681pjb.55.2020.11.02.11.36.14
+ by smtp.gmail.com with ESMTPSA id y5sm8213522pfc.165.2020.11.02.11.36.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 11:36:17 -0800 (PST)
-Date: Tue, 3 Nov 2020 01:06:11 +0530
+ Mon, 02 Nov 2020 11:36:47 -0800 (PST)
+Date: Tue, 3 Nov 2020 01:06:41 +0530
 From: Deepak R Varma <mh12gx2825@gmail.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 3/6] drm/amdgpu/jpeg: use "*" adjacent to data name
-Message-ID: <cc3d07cfc8480f9f812d801f66ee9dee5674c662.1604345594.git.mh12gx2825@gmail.com>
+Subject: [PATCH 4/6] drm/amdgpu/sdma: use "*" adjacent to data name
+Message-ID: <38e48a03d83e2c6bda3f3b71a1d09ca4a27b40ff.1604345594.git.mh12gx2825@gmail.com>
 References: <6ad41a97d7805124d2e31c70d96c846cf0d21524.1604345594.git.mh12gx2825@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -89,95 +89,58 @@ issues reported by checkpatch script:
 
 Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c | 6 +++---
- drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c | 4 ++--
- drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c | 6 +++---
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c | 6 +++---
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
-index 7b1a18cbafc4..6b80dcea80ec 100644
---- a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
-@@ -247,7 +247,7 @@ static int jpeg_v2_0_disable_power_gating(struct amdgpu_device *adev)
- 	return 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
+index 86fb1eddf5a6..d1150c33d02e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
+@@ -568,7 +568,7 @@ static void sdma_v4_0_destroy_inst_ctx(struct amdgpu_device *adev)
+ 			break;
+ 	}
+ 
+-	memset((void*)adev->sdma.instance, 0,
++	memset((void *)adev->sdma.instance, 0,
+ 		sizeof(struct amdgpu_sdma_instance) * AMDGPU_MAX_SDMA_INSTANCES);
  }
  
--static int jpeg_v2_0_enable_power_gating(struct amdgpu_device* adev)
-+static int jpeg_v2_0_enable_power_gating(struct amdgpu_device *adev)
- {
- 	if (adev->pg_flags & AMD_PG_SUPPORT_JPEG) {
- 		uint32_t data;
-@@ -274,7 +274,7 @@ static int jpeg_v2_0_enable_power_gating(struct amdgpu_device* adev)
- 	return 0;
+@@ -639,8 +639,8 @@ static int sdma_v4_0_init_microcode(struct amdgpu_device *adev)
+ 		if (adev->asic_type == CHIP_ARCTURUS) {
+ 			/* Acturus will leverage the same FW memory
+ 			   for every SDMA instance */
+-			memcpy((void*)&adev->sdma.instance[i],
+-			       (void*)&adev->sdma.instance[0],
++			memcpy((void *)&adev->sdma.instance[i],
++			       (void *)&adev->sdma.instance[0],
+ 			       sizeof(struct amdgpu_sdma_instance));
+ 		}
+ 		else {
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+index 9f3952723c63..90c47f1801fd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+@@ -124,7 +124,7 @@ static void sdma_v5_2_destroy_inst_ctx(struct amdgpu_device *adev)
+ 			break;
+ 	}
+ 
+-	memset((void*)adev->sdma.instance, 0,
++	memset((void *)adev->sdma.instance, 0,
+ 	       sizeof(struct amdgpu_sdma_instance) * AMDGPU_MAX_SDMA_INSTANCES);
  }
  
--static void jpeg_v2_0_disable_clock_gating(struct amdgpu_device* adev)
-+static void jpeg_v2_0_disable_clock_gating(struct amdgpu_device *adev)
- {
- 	uint32_t data;
- 
-@@ -297,7 +297,7 @@ static void jpeg_v2_0_disable_clock_gating(struct amdgpu_device* adev)
- 	WREG32_SOC15(JPEG, 0, mmJPEG_CGC_GATE, data);
- }
- 
--static void jpeg_v2_0_enable_clock_gating(struct amdgpu_device* adev)
-+static void jpeg_v2_0_enable_clock_gating(struct amdgpu_device *adev)
- {
- 	uint32_t data;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c
-index 845306f63cdb..c6724a0e0c43 100644
---- a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c
-+++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c
-@@ -247,7 +247,7 @@ static int jpeg_v2_5_resume(void *handle)
- 	return r;
- }
- 
--static void jpeg_v2_5_disable_clock_gating(struct amdgpu_device* adev, int inst)
-+static void jpeg_v2_5_disable_clock_gating(struct amdgpu_device *adev, int inst)
- {
- 	uint32_t data;
- 
-@@ -276,7 +276,7 @@ static void jpeg_v2_5_disable_clock_gating(struct amdgpu_device* adev, int inst)
- 	WREG32_SOC15(JPEG, inst, mmJPEG_CGC_CTRL, data);
- }
- 
--static void jpeg_v2_5_enable_clock_gating(struct amdgpu_device* adev, int inst)
-+static void jpeg_v2_5_enable_clock_gating(struct amdgpu_device *adev, int inst)
- {
- 	uint32_t data;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c b/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c
-index 3a0dff53654d..e8fbb2a0de34 100644
---- a/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c
-@@ -213,7 +213,7 @@ static int jpeg_v3_0_resume(void *handle)
- 	return r;
- }
- 
--static void jpeg_v3_0_disable_clock_gating(struct amdgpu_device* adev)
-+static void jpeg_v3_0_disable_clock_gating(struct amdgpu_device *adev)
- {
- 	uint32_t data = 0;
- 
-@@ -243,7 +243,7 @@ static void jpeg_v3_0_disable_clock_gating(struct amdgpu_device* adev)
- 	WREG32_SOC15(JPEG, 0, mmJPEG_CGC_CTRL, data);
- }
- 
--static void jpeg_v3_0_enable_clock_gating(struct amdgpu_device* adev)
-+static void jpeg_v3_0_enable_clock_gating(struct amdgpu_device *adev)
- {
- 	uint32_t data = 0;
- 
-@@ -286,7 +286,7 @@ static int jpeg_v3_0_disable_static_power_gating(struct amdgpu_device *adev)
- 	return 0;
- }
- 
--static int jpeg_v3_0_enable_static_power_gating(struct amdgpu_device* adev)
-+static int jpeg_v3_0_enable_static_power_gating(struct amdgpu_device *adev)
- {
- 	/* enable anti hang mechanism */
- 	WREG32_P(SOC15_REG_OFFSET(JPEG, 0, mmUVD_JPEG_POWER_STATUS),
+@@ -177,8 +177,8 @@ static int sdma_v5_2_init_microcode(struct amdgpu_device *adev)
+ 	for (i = 1; i < adev->sdma.num_instances; i++) {
+ 		if (adev->asic_type == CHIP_SIENNA_CICHLID ||
+ 		    adev->asic_type == CHIP_NAVY_FLOUNDER) {
+-			memcpy((void*)&adev->sdma.instance[i],
+-			       (void*)&adev->sdma.instance[0],
++			memcpy((void *)&adev->sdma.instance[i],
++			       (void *)&adev->sdma.instance[0],
+ 			       sizeof(struct amdgpu_sdma_instance));
+ 		} else {
+ 			snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_sdma%d.bin", chip_name, i);
 -- 
 2.25.1
 
