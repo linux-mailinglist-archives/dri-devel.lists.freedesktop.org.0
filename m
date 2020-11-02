@@ -2,32 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C6A2A2AF2
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 13:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A872A2AFB
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 13:50:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29EA16E4D2;
-	Mon,  2 Nov 2020 12:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 158766E4E6;
+	Mon,  2 Nov 2020 12:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTP id DCD6F6E4D2
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 12:48:53 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 338E1AD2F;
- Mon,  2 Nov 2020 12:48:53 +0000 (UTC)
-To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <1604320685-14995-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/irq: Modify the return value type of drm_irq_uninstall
-Message-ID: <7a06d5ba-27c6-0762-662c-fee1f8ddbc2e@suse.de>
-Date: Mon, 2 Nov 2020 13:48:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62D346E4E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 12:50:08 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id 9so14522230oir.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 04:50:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DVNWMcSPBU/g3zZ0d7Ty6wn9ZQIqa7Ev7ZHlpwXCmBQ=;
+ b=B4Lj3toPyX/Xr2LDmsaOigbkPOiDNU+v6+7DlkkVC0IQKtYIqNMjnptbFaAN8bIZib
+ hvlVficvO+0hgZZ0WgiEPMLRKdoRFyLig9NZJSWHcrTcI6yOklbgKea08JkYcdR4Zyuc
+ myNEgsjbAIApvPmYeP1Oig3qsomIGg0+t+RuQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DVNWMcSPBU/g3zZ0d7Ty6wn9ZQIqa7Ev7ZHlpwXCmBQ=;
+ b=AM9v+8xn6IkOIa8OokjCN/F3TxaY5oQHZPbEOzSOo3HeFZUhZ5sqt9ob5VHhi55/2f
+ hv3OInbXFZJ/sf2APTtl8OKGLkT0ZURmYAHOF2V/efrX/NxayQ2XqO2w2ySV6dMUrEdq
+ lx2cE9dNx7bs5GXTnmsFQTT5ad9Wps6dPuggrNssZls07oYyJTSAH5RVD9v4RR6vL0oW
+ 6Ju1d/u2pFE7EVNLSWptRETps0KaIZHM4U3CiecjD1COgocOrJiOQozde4F5fIquiAt1
+ QJCsRclD3QgRAYAQIfW8IpKcSLVTI1OJ89UdVMaL7vozBKbeG5bKKp50uAZKhWrBi1iQ
+ Wpwg==
+X-Gm-Message-State: AOAM532RQxUfcBlOYvfHLmjwgHQkYCFXJ4xTIMixm+hiDQVz7mopMx0h
+ i+T5Ilas5aJr6ynolLrGDavAdfq969/PbtGEeOcSCQ==
+X-Google-Smtp-Source: ABdhPJzqDVhbufH+N07+JlgKSDoNc0BnU9IRqV0qCWdx/pKOKeFQ7AP7HSoS48uIaVTvrHgcFWkaQ4RdR8eNvCRpwx0=
+X-Received: by 2002:aca:cc01:: with SMTP id c1mr10114388oig.128.1604321407714; 
+ Mon, 02 Nov 2020 04:50:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1604320685-14995-1-git-send-email-tiantao6@hisilicon.com>
+References: <20201102110806.429002-1-maxime@cerno.tech>
+ <20201102111853.ltghqv3dh3th4v7e@gilmour.lan>
+In-Reply-To: <20201102111853.ltghqv3dh3th4v7e@gilmour.lan>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 2 Nov 2020 13:49:56 +0100
+Message-ID: <CAKMK7uHeCzj8A1YzOVhaOzaEOb-vReuLq-B-61faeBwQLZh5rQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/ttm: Add limits.h
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,292 +58,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0840782789=="
+Cc: David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0840782789==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="pNL9s8LzMQyxYjwvIIICYOvoK2xUAFNB7"
+On Mon, Nov 2, 2020 at 12:18 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Mon, Nov 02, 2020 at 12:08:06PM +0100, Maxime Ripard wrote:
+> > It seems that a recent commit broke the nouveau compilation when swiotlb is
+> > disabled (which is the case on our ARM defconfig for example).
+> >
+> > Daniel says
+> >
+> > """
+> > Since the proper fix is maybe stuck in the usual "drm abuses swiotlb
+> > internals" bikeshed, maybe best if we push a fix to including limits.h
+> > in nouveau and call it done?
+> > """
+> >
+> > So let's go down the simplest path to fix our build, and goes back to it
+> > later if needed.
+> >
+> > Link: https://patchwork.freedesktop.org/patch/397835/
+> > Fixes: 4dbafbd30aef ("drm/nouveu: fix swiotlb include")
+> > Acked-by: Daniel Vetter <daniel@ffwll.ch>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>
+> Note that I misunderstood what Daniel was saying on IRC and ended up
+> pushing that patch in drm-misc-next. We can revert it if needed.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---pNL9s8LzMQyxYjwvIIICYOvoK2xUAFNB7
-Content-Type: multipart/mixed; boundary="zUrKldaiE4wYCbmdXWeHQQDP8XTMyngjv";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <7a06d5ba-27c6-0762-662c-fee1f8ddbc2e@suse.de>
-Subject: Re: [PATCH] drm/irq: Modify the return value type of
- drm_irq_uninstall
-References: <1604320685-14995-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1604320685-14995-1-git-send-email-tiantao6@hisilicon.com>
+Yeah I guess I shouldn't ack patches without seeing the commit message
+first  and all that :-) Code imo still fine, other bits maybe
+suboptimal:
+- Even in emergency for reverts or so, patch should still go to the
+m-l, as fyi. That's why dim checks for the Link: tag, which should
+point at that submission, not something else.
+- The Link: tag here should have been a References: or so, since
+that's for related discussions and other material.
+- sfr's mail would have been good as a References: too, plus including
+his explanation for what's going on
+- Also maybe some notes why we're rushing here, since there's a few
+patches stuck behind the backmerge.
+- Reported-by: credits for sfr would have been nice.
 
---zUrKldaiE4wYCbmdXWeHQQDP8XTMyngjv
-Content-Type: multipart/mixed;
- boundary="------------FEFB031F471706665CB01F21"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------FEFB031F471706665CB01F21
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 02.11.20 um 13:38 schrieb Tian Tao:
-> There is no driver to use the return value of drm_irq_uninstal,
-> so modify the return value type of drm_irq_uninstal to void.
->=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> ---
->  drivers/gpu/drm/drm_irq.c | 13 ++++++-------
->  include/drm/drm_irq.h     |  2 +-
->  2 files changed, 7 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
-> index 7537a3d..45e6471 100644
-> --- a/drivers/gpu/drm/drm_irq.c
-> +++ b/drivers/gpu/drm/drm_irq.c
-> @@ -166,14 +166,14 @@ EXPORT_SYMBOL(drm_irq_install);
->   * Returns:
->   * Zero on success or a negative error code on failure.
->   */
-> -int drm_irq_uninstall(struct drm_device *dev)
-> +void drm_irq_uninstall(struct drm_device *dev)
->  {
->  	unsigned long irqflags;
->  	bool irq_enabled;
->  	int i;
-> =20
->  	if (!dev->irq_enabled || !dev)
-> -		return 0;
-> +		return;
-> =20
->  	irq_enabled =3D dev->irq_enabled;
->  	dev->irq_enabled =3D false;
-> @@ -200,8 +200,8 @@ int drm_irq_uninstall(struct drm_device *dev)
->  		spin_unlock_irqrestore(&dev->vbl_lock, irqflags);
->  	}
-> =20
-> -	if (!irq_enabled)
-> -		return -EINVAL;
-> +	if (!drm_WARN_ON(dev, !irq_enabled))
-> +		return;
-> =20
->  	DRM_DEBUG("irq=3D%d\n", dev->irq);
-> =20
-> @@ -213,7 +213,6 @@ int drm_irq_uninstall(struct drm_device *dev)
-> =20
->  	free_irq(dev->irq, dev);
-> =20
-> -	return 0;
->  }
->  EXPORT_SYMBOL(drm_irq_uninstall);
-> =20
-> @@ -250,10 +249,10 @@ int drm_legacy_irq_control(struct drm_device *dev=
-, void *data,
->  		return ret;
->  	case DRM_UNINST_HANDLER:
->  		mutex_lock(&dev->struct_mutex);
-> -		ret =3D drm_irq_uninstall(dev);
-> +		drm_irq_uninstall(dev);
-
-Oh, there actually is a user of this result! I grep'ed for this but
-didn't see it. I'm sorry for misleading you here.
-
-This is ioctl code and who which program depends on it.So we cannot
-actually drop the result code.
-
-I'll just ack your original patch, or you could add the managed
-interface that I described and convert hibmc to it. Your choice, let me
-know.
-
-Best regards
-Thomas
-
->  		mutex_unlock(&dev->struct_mutex);
-> =20
-> -		return ret;
-> +		return 0;
->  	default:
->  		return -EINVAL;
->  	}
-> diff --git a/include/drm/drm_irq.h b/include/drm/drm_irq.h
-> index d77f6e6..d9f6ec0 100644
-> --- a/include/drm/drm_irq.h
-> +++ b/include/drm/drm_irq.h
-> @@ -27,6 +27,6 @@
->  struct drm_device;
-> =20
->  int drm_irq_install(struct drm_device *dev, int irq);
-> -int drm_irq_uninstall(struct drm_device *dev);
-> +void drm_irq_uninstall(struct drm_device *dev);
-> =20
->  #endif
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
---------------FEFB031F471706665CB01F21
-Content-Type: application/pgp-keys;
- name="OpenPGP_0x680DC11D530B7A23.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="OpenPGP_0x680DC11D530B7A23.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
-H47
-fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
-bqP
-5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
-z9E
-ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
-nEm
-imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
-W1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
-BYC
-AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
-Onf
-G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
-GJm
-DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
-+1Q
-DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
-p8n
-91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
-zF1
-CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
-gUC
-WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
-IiL
-+he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
-42f
-CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
-Urj
-EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
-45N
-GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
-Tpy
-Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
-u5r
-A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
-/N8
-GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
-j0g
-voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
-bZM
-RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
-zWw
-iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
-Xy9
-RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
-c0n
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+wsCOBBMBCAA4AhsDBQsJC=
-AcC
-BhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl78SF4ACgkQaA3BH=
-VML
-eiOpGAgAih6C1OnWms/N8eBMC4Q93y/nyywe5vCL22Dr1rwgn6Iw2jOGziJSi7zhY4sEk2NKJ=
-5cd
-lFrx8mP//b+xO4AGffwBD0Vwpf38Hj2Gt0KjpzRYccqqU+tJPO5c0pjI52ZIV3+kOEFvYGfkN=
-PHE
-flE+b81T8L2dSXCLtj4WAGUM1rmHn3bCYl+/RwkB+8XnoL5AvrmMcU4Uhb3FJpM4DHExccYkd=
-eSL
-ojBppOCztBCUpBx3le+8QPVvAvJDuur4wRmjk3sjKClAwzeqoYyUKcN3JDdb3mt3QcJal9rSh=
-VEI
-7B25IvfmEbs42oGm8GPzPkaNJu3gcska+l5PSTfurNETGsJdBBARAgAdFiEEJ+jjpp87z/+5L=
-Y5q
-LnehMBH108IFAls6HVcACgkQLnehMBH108LTkACgjLQdDYMENi6BDjY/gd/LF9lMi8oAnR+o0=
-FwE
-Vb1K1tEMQ/1x+k1U6/xgwsBzBBABCAAdFiEEHl2YIZkIo5VO2MxYqlA7ya4PR6cFAls58bMAC=
-gkQ
-qlA7ya4PR6cvTAgAzY1N5QMKh8ECRtYcZNmilyV59uHTEY9hAR+203JqWnSGfUKtU7s6xfl5O=
-NGq
-DI5rULk4Cw2CEIzg9Sat+/lxn36w2f1tEznS5Vb0gVGWrzDAFjj7tB6MnmCzsNb/S1kgxnqJM=
-Yor
-RYQ7uB3Yr2Fdp08FJxN0ipd5YfzaZ6KoSWcRAv4r1R4ZQGuS77URAg7HDOIrBMOVO+HIn7GYQ=
-qPS
-5ZFw5yXbvEtL1c5Y8Zdw1AG2VmEXx78TWQVG3kI8/lQF1QI3yrJ1Rp2x5eK9I0OJihv13IlIW=
-3sb
-QGrj9pxF63kA20ZFaynzFglBGiyxExYvTD0/xKIhzYhj8mtCunPb2cLAcwQQAQgAHRYhBLsjb=
-bex
-nu/GyEcdaKfzfBmMOTGBBQJbOjLAAAoJEKfzfBmMOTGBBoMIALIW4EtBY28tPwZMOpN/+ARPO=
-a2g
-Qzpivw7iNtiDTnGIXMCoxly1CybfMdqTHYmuKbEO9AlFAlDOnkgInsn8E65IvgUTVI95Ah+Ob=
-iPI
-FkYc/9a+AexPl7f5kI9489k77eKtqtMpWFpo/vROmRroSw4JnM7ovwPq1QOSHExfTKbLunzD1=
-i3V
-4PShSZ6bGsp1LW6Wk0lRMHDuAk3xsyjBWfJwSbrCe3E6OsLG7BuQqEUt2fR6NxdDRSR9tQUp9=
-Tri
-AYG5LndmUzxeU6FAQjD8Wt1ezOFH5ODcCDXfRyYmE6uCGA4EvO8l9R3o68NPlUjPRAZsCbxJa=
-UAg
-iazX1nyQGwvOwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHU=
-E9e
-osYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+q=
-bU6
-3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWWG=
-KdD
-egUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lvhFXod=
-NFM
-AgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsAEQEAAcLAf=
-AQY
-AQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkDwmcAAAoJEGgNwR1TC3ojp=
-fcI
-AInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2h9ifw9Nf2TjCZ6AMvC3thAN0r=
-FDj
-55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxUn+LSiRrOdywn6erjxRi9EYTVLCHcD=
-hBE
-jKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uIaMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU=
-2y3
-ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBWHE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/t=
-sZv
-yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
-=3DmxFq
------END PGP PUBLIC KEY BLOCK-----
-
---------------FEFB031F471706665CB01F21--
-
---zUrKldaiE4wYCbmdXWeHQQDP8XTMyngjv--
-
---pNL9s8LzMQyxYjwvIIICYOvoK2xUAFNB7
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+gADQFAwAAAAAACgkQaA3BHVMLeiP/
-fAgAjCYwOKfZx/Xur3Xvy3zmWAY8vUIw0vkARZq2qfIfqTaj+9j79BtThpXDVrClDbmrkZqHysGP
-3IfQ79uxV9j2AemBce4obyDzEdWZZA/Pqh+E0pRrWsXeBKATXsAcafcaR5DZ3M9vuQVwBIf2MC41
-XwCcn4K4vGn+Ii/GqVQ9Y/VvqtSZV1NYsrrCyin07YyMdOtbjrRKLlIuUJELYSTFok1NRbrSOu0H
-xcMBqPwEf47Nbvik5ujj1bhg3T933eTNNpfdiJKb2jO0vMp2TLr896i03mMgVywKgnhHn54UDtzs
-Yp1LyaB/k5G1Wm5d8LyEzwOxPZ6R3kONS75RjcT5OA==
-=caXP
------END PGP SIGNATURE-----
-
---pNL9s8LzMQyxYjwvIIICYOvoK2xUAFNB7--
-
---===============0840782789==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Anyway, it's done, so that's all for next time around.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0840782789==--
