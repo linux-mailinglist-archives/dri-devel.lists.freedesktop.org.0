@@ -2,36 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9A22A2281
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 01:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AAB2A22C9
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 02:43:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF1956E0F8;
-	Mon,  2 Nov 2020 00:04:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98D9B6E101;
+	Mon,  2 Nov 2020 01:43:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B896E0F8
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 00:04:55 +0000 (UTC)
-Received: from DESKTOP-GFFITBK.localdomain (218-161-90-76.HINET-IP.hinet.net
- [218.161.90.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F168D22265;
- Mon,  2 Nov 2020 00:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604275495;
- bh=7AwFlpNAUGBzP3ut3qPs5PVqzUstVwf0/NRb3gDYugY=;
- h=From:To:Cc:Subject:Date:From;
- b=PaQYm0Apw0b1uVPrlYldPeQcIsd0vyIEF+Ax3YEYu7h3JrARZyCab506PYGK8upgh
- sHy+C7pbjubmEIdFbkxca9+iYQKFoSbrNy0XReoaSnoMRtvUgVvx+FeW01mRdjNEdv
- h1wCl3Z7gzllr0twgxxzu7O03WEHcDlJ49ZWzQTo=
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v2] soc / drm: mediatek: cmdq: Remove timeout handler in
- helper function
-Date: Mon,  2 Nov 2020 08:04:38 +0800
-Message-Id: <20201102000438.29225-1-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.17.1
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0E56E101;
+ Mon,  2 Nov 2020 01:43:33 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CPbKX75Bbz9sVM;
+ Mon,  2 Nov 2020 12:43:28 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1604281410;
+ bh=UZJnKassjurkUYFn1LtRDB9BZRJJwQe2Tnjaoo+5sn4=;
+ h=Date:From:To:Cc:Subject:From;
+ b=qJJ77BWKgBSEYT1T0APFfbFUmxFDp1zG+Xl0da8byynuYDWHynqj2B3frfb6OIj1I
+ BZkDmLDZACg3kYkE6Bnl+1CVlTbGKvii/aJT4rrz3oxQUbXrQgoabudv0QqA3e9/85
+ cP8KSzulqTqbVH6a/4/U5NHS2H+V1S6mNizZJ8N6l2AONn6AlG4mzBiiRRyDWGJdCx
+ udpa7J9FmDXxP/yDS+Q13Uo1ubpKKCPNEu737132g75XlevRlrySViqUEYa7ADM/L7
+ LbkM8OQffJmpFnWLc7Ljtpva2YOkbQC67ONYcC5MHfKWOmbgF0oRusuDuicdWZuaN/
+ 5KKSxL0Np484A==
+Date: Mon, 2 Nov 2020 12:43:27 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20201102124327.2f82b2a7@canb.auug.org.au>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,188 +47,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Joerg Roedel <jroedel@suse.de>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: multipart/mixed; boundary="===============0206207039=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For each client driver, its timeout handler need to dump hardware register
-or its state machine information, and their way to detect timeout are
-also different, so remove timeout handler in helper function and
-let client driver implement its own timeout handler.
+--===============0206207039==
+Content-Type: multipart/signed; boundary="Sig_/+6=teLWTuoxG+moGZWw9H_h";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+--Sig_/+6=teLWTuoxG+moGZWw9H_h
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+After merging the drm-misc tree, today's linux-next build (arm
+multi_v7_defconfig) failed like this:
+
+In file included from drivers/gpu/drm/nouveau/nouveau_ttm.c:26:
+include/linux/swiotlb.h: In function 'swiotlb_max_mapping_size':
+include/linux/swiotlb.h:99:9: error: 'SIZE_MAX' undeclared (first use in th=
+is function)
+   99 |  return SIZE_MAX;
+      |         ^~~~~~~~
+include/linux/swiotlb.h:7:1: note: 'SIZE_MAX' is defined in header '<stdint=
+.h>'; did you forget to '#include <stdint.h>'?
+    6 | #include <linux/init.h>
+  +++ |+#include <stdint.h>
+    7 | #include <linux/types.h>
+include/linux/swiotlb.h:99:9: note: each undeclared identifier is reported =
+only once for each function it appears in
+   99 |  return SIZE_MAX;
+      |         ^~~~~~~~
+
+Caused by commit
+
+  abe420bfae52 ("swiotlb: Introduce swiotlb_max_mapping_size()")
+
+but only exposed by commit
+
+  4dbafbd30aef ("drm/nouveu: fix swiotlb include")
+
+I applied the following fix for today:
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Mon, 2 Nov 2020 12:34:57 +1100
+Subject: [PATCH] swiotlb: using SIZE_MAX needs limits.h included
+
+Fixes: abe420bfae52 ("swiotlb: Introduce swiotlb_max_mapping_size()")
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
 ---
-v1 is one patch in series "Mediatek DRM driver detect CMDQ execution
-timeout by vblank IRQ", but according to Jassi's suggestion [1], send 
-each patch in different series. 
+ include/linux/swiotlb.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-[2] is an example that different client has different way to calculate
-timeout. Some client driver care about each packet's execution time, but
-some client driver care about the total execution time for all packets.
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index 513913ff7486..ed9de7855d3b 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -5,6 +5,9 @@
+ #include <linux/dma-direction.h>
+ #include <linux/init.h>
+ #include <linux/types.h>
++#ifndef CONFIG_SWIOTLB
++#include <linux/limits.h>
++#endif
+=20
+ struct device;
+ struct page;
+--=20
+2.28.0
 
-[1]
-https://patchwork.kernel.org/project/linux-mediatek/cover/20200927230422.11610-1-chunkuang.hu@kernel.org/
-[2]
-https://patchwork.kernel.org/project/linux-mediatek/patch/20201022094152.17662-1-houlong.wei@mediatek.com/
+--=20
+Cheers,
+Stephen Rothwell
 
-Changes in v2:
-1. Rebase onto Linux 5.10-rc1
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c |  3 +-
- drivers/soc/mediatek/mtk-cmdq-helper.c  | 41 +------------------------
- include/linux/soc/mediatek/mtk-cmdq.h   | 10 +-----
- 3 files changed, 3 insertions(+), 51 deletions(-)
+--Sig_/+6=teLWTuoxG+moGZWw9H_h
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index ac038572164d..4be5d1fccf2e 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -824,8 +824,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	mtk_crtc->cmdq_client =
- 			cmdq_mbox_create(mtk_crtc->mmsys_dev,
--					 drm_crtc_index(&mtk_crtc->base),
--					 2000);
-+					 drm_crtc_index(&mtk_crtc->base));
- 	if (IS_ERR(mtk_crtc->cmdq_client)) {
- 		dev_dbg(dev, "mtk_crtc %d failed to create mailbox client, writing register by CPU now\n",
- 			drm_crtc_index(&mtk_crtc->base));
-diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index 505651b0d715..280d3bd9f675 100644
---- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-+++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -70,14 +70,7 @@ int cmdq_dev_get_client_reg(struct device *dev,
- }
- EXPORT_SYMBOL(cmdq_dev_get_client_reg);
- 
--static void cmdq_client_timeout(struct timer_list *t)
--{
--	struct cmdq_client *client = from_timer(client, t, timer);
--
--	dev_err(client->client.dev, "cmdq timeout!\n");
--}
--
--struct cmdq_client *cmdq_mbox_create(struct device *dev, int index, u32 timeout)
-+struct cmdq_client *cmdq_mbox_create(struct device *dev, int index)
- {
- 	struct cmdq_client *client;
- 
-@@ -85,12 +78,6 @@ struct cmdq_client *cmdq_mbox_create(struct device *dev, int index, u32 timeout)
- 	if (!client)
- 		return (struct cmdq_client *)-ENOMEM;
- 
--	client->timeout_ms = timeout;
--	if (timeout != CMDQ_NO_TIMEOUT) {
--		spin_lock_init(&client->lock);
--		timer_setup(&client->timer, cmdq_client_timeout, 0);
--	}
--	client->pkt_cnt = 0;
- 	client->client.dev = dev;
- 	client->client.tx_block = false;
- 	client->client.knows_txdone = true;
-@@ -112,11 +99,6 @@ EXPORT_SYMBOL(cmdq_mbox_create);
- 
- void cmdq_mbox_destroy(struct cmdq_client *client)
- {
--	if (client->timeout_ms != CMDQ_NO_TIMEOUT) {
--		spin_lock(&client->lock);
--		del_timer_sync(&client->timer);
--		spin_unlock(&client->lock);
--	}
- 	mbox_free_channel(client->chan);
- 	kfree(client);
- }
-@@ -449,18 +431,6 @@ static void cmdq_pkt_flush_async_cb(struct cmdq_cb_data data)
- 	struct cmdq_task_cb *cb = &pkt->cb;
- 	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
- 
--	if (client->timeout_ms != CMDQ_NO_TIMEOUT) {
--		unsigned long flags = 0;
--
--		spin_lock_irqsave(&client->lock, flags);
--		if (--client->pkt_cnt == 0)
--			del_timer(&client->timer);
--		else
--			mod_timer(&client->timer, jiffies +
--				  msecs_to_jiffies(client->timeout_ms));
--		spin_unlock_irqrestore(&client->lock, flags);
--	}
--
- 	dma_sync_single_for_cpu(client->chan->mbox->dev, pkt->pa_base,
- 				pkt->cmd_buf_size, DMA_TO_DEVICE);
- 	if (cb->cb) {
-@@ -473,7 +443,6 @@ int cmdq_pkt_flush_async(struct cmdq_pkt *pkt, cmdq_async_flush_cb cb,
- 			 void *data)
- {
- 	int err;
--	unsigned long flags = 0;
- 	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
- 
- 	pkt->cb.cb = cb;
-@@ -484,14 +453,6 @@ int cmdq_pkt_flush_async(struct cmdq_pkt *pkt, cmdq_async_flush_cb cb,
- 	dma_sync_single_for_device(client->chan->mbox->dev, pkt->pa_base,
- 				   pkt->cmd_buf_size, DMA_TO_DEVICE);
- 
--	if (client->timeout_ms != CMDQ_NO_TIMEOUT) {
--		spin_lock_irqsave(&client->lock, flags);
--		if (client->pkt_cnt++ == 0)
--			mod_timer(&client->timer, jiffies +
--				  msecs_to_jiffies(client->timeout_ms));
--		spin_unlock_irqrestore(&client->lock, flags);
--	}
--
- 	err = mbox_send_message(client->chan, pkt);
- 	if (err < 0)
- 		return err;
-diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 960704d75994..8e9996610978 100644
---- a/include/linux/soc/mediatek/mtk-cmdq.h
-+++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -11,7 +11,6 @@
- #include <linux/mailbox/mtk-cmdq-mailbox.h>
- #include <linux/timer.h>
- 
--#define CMDQ_NO_TIMEOUT		0xffffffffu
- #define CMDQ_ADDR_HIGH(addr)	((u32)(((addr) >> 16) & GENMASK(31, 0)))
- #define CMDQ_ADDR_LOW(addr)	((u16)(addr) | BIT(1))
- 
-@@ -24,12 +23,8 @@ struct cmdq_client_reg {
- };
- 
- struct cmdq_client {
--	spinlock_t lock;
--	u32 pkt_cnt;
- 	struct mbox_client client;
- 	struct mbox_chan *chan;
--	struct timer_list timer;
--	u32 timeout_ms; /* in unit of microsecond */
- };
- 
- /**
-@@ -51,13 +46,10 @@ int cmdq_dev_get_client_reg(struct device *dev,
-  * cmdq_mbox_create() - create CMDQ mailbox client and channel
-  * @dev:	device of CMDQ mailbox client
-  * @index:	index of CMDQ mailbox channel
-- * @timeout:	timeout of a pkt execution by GCE, in unit of microsecond, set
-- *		CMDQ_NO_TIMEOUT if a timer is not used.
-  *
-  * Return: CMDQ mailbox client pointer
-  */
--struct cmdq_client *cmdq_mbox_create(struct device *dev, int index,
--				     u32 timeout);
-+struct cmdq_client *cmdq_mbox_create(struct device *dev, int index);
- 
- /**
-  * cmdq_mbox_destroy() - destroy CMDQ mailbox client and channel
--- 
-2.17.1
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+fZD8ACgkQAVBC80lX
+0Gy4Ewf/Xax561099MjSc01Qu4bldqQsUT2wm0XpotqdqEpG3jwA8Ixs1ZaKsvtL
+nh2037AUrfl1VhjwWYw9kKulwOjN4aCRF+Ek7FblCuCH4yJryxMfyxSwFmHLr1p1
+Y95gO09HP/mFLPVt1BHIcUU/0BY98vd0I1D2EaZB1GpniqwX4tg79Mad1C4293ub
+vhWq2Ql+4HMHYoXdy7MZQ6+Q0Vr4Dn09HLLZGCyLFguHlVmUkdQmXjXjuqU/eIDy
+l3SEfaxSxJNDfGDwPLaKUUUVZCKroxGArj8pHTW8VWByPxnYu+W12seT13eFu7e7
+oVruhcMLwfxJG/jqHqd6kdhZ4YSvrQ==
+=h4wL
+-----END PGP SIGNATURE-----
+
+--Sig_/+6=teLWTuoxG+moGZWw9H_h--
+
+--===============0206207039==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0206207039==--
