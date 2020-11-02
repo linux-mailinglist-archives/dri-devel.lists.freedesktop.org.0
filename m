@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2542A2DE9
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 16:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACA82A2E5C
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 16:31:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6036E528;
-	Mon,  2 Nov 2020 15:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95FCF6E4F9;
+	Mon,  2 Nov 2020 15:31:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98BB26E51D
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:16:56 +0000 (UTC)
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com
- [209.85.161.45])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3FB5921556
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:16:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604330216;
- bh=yP5ad19T/ppc5q2Q/5Wap6MCI9njobwI6whxSL+tNXY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=j5N288RoUs+Q8RBesEm+xULxsWmTAUBl6WNIRZuofCMjKdoxJYgwf+P3GRxFnIlpx
- YQtm8rZYQHdjTbZzW9xn/cTknwHidXJApQUmjOB9rqecrBqQ20daCbUlBMCphKqkcK
- OJYy8AbY8V40XbBDRSzRoIbFTsl+BoFgS3m+bsLI=
-Received: by mail-oo1-f45.google.com with SMTP id j6so3431715oot.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:16:56 -0800 (PST)
-X-Gm-Message-State: AOAM531eRKn8VfNasN7WmJqOtWI/tlQX8R5Z+fm8MyIvsmvULSO8MabH
- h2P3hkbdB54H3PkIEkpy1uz3d6jFTP2VrnJMgg==
-X-Google-Smtp-Source: ABdhPJzW7xeOVEFMzWpRxtrBTS6WzfltwfkMk+iDyl8fx2VQXrXcwe+E6ElzwUTFe1nZ0+1ny5cg2UKMr3MQJBn8hbY=
-X-Received: by 2002:a4a:dcc8:: with SMTP id h8mr12294617oou.81.1604330215640; 
- Mon, 02 Nov 2020 07:16:55 -0800 (PST)
-MIME-Version: 1.0
-References: <1604006877-20092-1-git-send-email-anitha.chrisanthus@intel.com>
- <1604006877-20092-2-git-send-email-anitha.chrisanthus@intel.com>
- <20201029222046.GA904738@ravnborg.org>
- <b30439f7-b77e-9ca8-57e9-16cf417da0cf@baylibre.com>
- <20201030211539.GB1003403@ravnborg.org>
-In-Reply-To: <20201030211539.GB1003403@ravnborg.org>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1156D6E4F9
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 15:31:37 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id 32so12961788otm.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 07:31:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VkT+mPMaNNQ1uOKIaMs+kRmIM51v2J/yVY8GqjEu4z8=;
+ b=ZOt4Cfi9uz9qiCEOtIsgljV9GneypOknvb+3FMHF2/qhFH81Nz4Ur/0tjLKuitKiMM
+ QXXkhIPy9waj0332vzLOTv6X1o5QoqlxyHoA9sFN3ObjRkV9fHfn0/ZlBUeCEdeVBL97
+ zYMhKqiIF0y6+yIHwyK/y3tnIFRnBg7u3vVdneCnrCBBlip9HYig36dTsDaFh2fP3wpO
+ aLB06t5H40RoPl6wx4dZyzu2K/EuV++MwpOSx9LgTTeTFozm4g+XgEKMEx4O6iKagUax
+ YqSZVw++GAZVTKg52EG8jr7X6zvzn5Z3jIXU3Z7Ur9b+pFv3LX7/+ucHQwDc+2ZasKNV
+ 3hXQ==
+X-Gm-Message-State: AOAM532sSH4CckOK816Pn2ZzXHsaApzK4Ac85HYfu54nmUWFGcwYMLGy
+ fFA/o+N4ZWlL7zrabJ8KLA==
+X-Google-Smtp-Source: ABdhPJzSjtrS3V+u2N9M3si1fuHKu8kg2Sm7lQ8cTJN5U0K1HL/CUzmbAhyLo5Opyy+1m9o5Fnc/zg==
+X-Received: by 2002:a05:6830:16c2:: with SMTP id
+ l2mr13167027otr.255.1604331096459; 
+ Mon, 02 Nov 2020 07:31:36 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id t83sm3500406oie.58.2020.11.02.07.31.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Nov 2020 07:31:35 -0800 (PST)
+Received: (nullmailer pid 3927926 invoked by uid 1000);
+ Mon, 02 Nov 2020 15:31:35 -0000
+Date: Mon, 2 Nov 2020 09:31:35 -0600
 From: Rob Herring <robh@kernel.org>
-Date: Mon, 2 Nov 2020 09:16:43 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKFXDP921nGrO9o+RjMLnYLBiyagQmUUZFb10QJgu8kZQ@mail.gmail.com>
-Message-ID: <CAL_JsqKFXDP921nGrO9o+RjMLnYLBiyagQmUUZFb10QJgu8kZQ@mail.gmail.com>
-Subject: Re: [PATCH v10 1/6] dt-bindings: display: Add support for Intel
- KeemBay Display
-To: Sam Ravnborg <sam@ravnborg.org>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2 3/3] dt-bindings: dt-bindings: display: simple: Add
+ BOE NV110WTM-N61
+Message-ID: <20201102153135.GA3927896@bogus>
+References: <20201028155617.v2.1.I31c4f8b111dbef1ab658f206764655ae983bc560@changeid>
+ <20201028155617.v2.3.I28d9e32b3cc0aae980ecc39d364263a3f9871298@changeid>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201028155617.v2.3.I28d9e32b3cc0aae980ecc39d364263a3f9871298@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,125 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>, "Dea,
- Edmund J" <edmund.j.dea@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>
+Cc: robdclark@chromium.org, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 30, 2020 at 4:15 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Neil.
->
-> On Fri, Oct 30, 2020 at 09:31:36AM +0100, Neil Armstrong wrote:
-> > Hi,
-> >
-> > On 29/10/2020 23:20, Sam Ravnborg wrote:
-> > > Hi Anitha.
-> > >
-> > > On Thu, Oct 29, 2020 at 02:27:52PM -0700, Anitha Chrisanthus wrote:
-> > >> This patch adds bindings for Intel KeemBay Display
-> > >>
-> > >> v2: review changes from Rob Herring
-> > >> v3: review changes from Sam Ravnborg (removed mipi dsi entries, and
-> > >>     encoder entry, connect port to dsi)
-> > >>     MSSCAM is part of the display submodule and its used to reset LCD
-> > >>     and MIPI DSI clocks, so its best to be on this device tree.
-> > >>
-> > >> Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> > >> Cc: Sam Ravnborg <sam@ravnborg.org>
-> > >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > >> Cc: Daniel Vetter <daniel@ffwll.ch>
-> > >
-> > > Looks good - and the split betwwen the display and the mipi<->dsi parts
-> > > matches the understanding of the HW I have developed.
-> > >
-> > > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> > >
-> > >> ---
-> > >>  .../bindings/display/intel,keembay-display.yaml    | 75 ++++++++++++++++++++++
-> > >>  1 file changed, 75 insertions(+)
-> > >>  create mode 100644 Documentation/devicetree/bindings/display/intel,keembay-display.yaml
-> > >>
-> > >> diff --git a/Documentation/devicetree/bindings/display/intel,keembay-display.yaml b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
-> > >> new file mode 100644
-> > >> index 0000000..8a8effe
-> > >> --- /dev/null
-> > >> +++ b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
-> > >> @@ -0,0 +1,75 @@
-> > >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > >> +%YAML 1.2
-> > >> +---
-> > >> +$id: http://devicetree.org/schemas/display/intel,keembay-display.yaml#
-> > >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > >> +
-> > >> +title: Devicetree bindings for Intel Keem Bay display controller
-> > >> +
-> > >> +maintainers:
-> > >> +  - Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> > >> +  - Edmond J Dea <edmund.j.dea@intel.com>
-> > >> +
-> > >> +properties:
-> > >> +  compatible:
-> > >> +    const: intel,keembay-display
-> > >> +
-> > >> +  reg:
-> > >> +    items:
-> > >> +      - description: LCD registers range
-> > >> +      - description: Msscam registers range
-> > >> +
-> >
-> > Indeed the split is much better, but as you replied on http://lore.kernel.org/r/BY5PR11MB41827DE07436DD0454E24E6E8C0A0@BY5PR11MB4182.namprd11.prod.outlook.com
-> > the msscam seems to be shared with the camera subsystem block, if this is the case it should be handled.
-> >
-> > If it's a shared register block, it could be defined as a "syscon" used by both subsystems.
->
-> I think I got it now.
->
-> msscam is used to enable clocks both for the display driver and the
-> mipi-dsi part.
+On Wed, 28 Oct 2020 15:58:03 -0700, Douglas Anderson wrote:
+> Add yet another eDP panel.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> 
+> (no changes since v1)
+> 
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-If just clocks, then the msscam should be a clock provider possibly.
-If not, then the below looks right.
-
->
-> So it should be pulled in to a dedicated node - for example like this:
->
-> mssscam: msscam@20910000 {
->         compatible = "intel,keembay-msscam", "syscon";
->         reg = <0x20910000, 0x30>;
->         reg-io-width = <4>;
-> };
->
-> And ofc we need a binding file for that.
->
->
-> And then we could have code like this in the display driver:
->         regmap *msscam = syscon_regmap_lookup_by_compatible("intel,keembay-msscam");
->         if (IS_ERR(msscam))
->                 tell-and goto-out;
->
->         regmap_write(msscam, MSS_LCD_MIPI_CFG, 1);
->         regmap_write(msscam, MSS_LOOPBACK_CFG, 0);
->
-> And then in the kmb_dsi part:
->         regmap *msscam = syscon_regmap_lookup_by_compatible("intel,keembay-msscam");
->         if (IS_ERR(msscam))
->                 tell-and goto-out;
->
->         regmap_write(msscam, MSS_MIPI_CIF_CFG, 1);
->
->
-> Did I finally get it?
->
->         Sam
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
