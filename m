@@ -1,47 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E442A3E8E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 960F72A3E6B
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:14:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD8F6EC37;
-	Tue,  3 Nov 2020 08:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B67906EBA4;
+	Tue,  3 Nov 2020 08:14:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85DD06E53C
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 16:09:23 +0000 (UTC)
-IronPort-SDR: YpLvjLDWTOTDiNeuBevotYDblGKxuy+1mejFhXVLmF8PzCsBXGVUc/xDbFY9j9a/L18Su6W+5r
- sMzXBl0uazbA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="168124208"
-X-IronPort-AV: E=Sophos;i="5.77,445,1596524400"; d="scan'208";a="168124208"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2020 08:09:23 -0800
-IronPort-SDR: uAmx+dUdaysdZ8K1ZgB/geKvq5lS0JI21tbuv4XFXThi2WCN7w4HiDrVU0NNXviB6iE/0DR06f
- TbeWixYEDTxw==
-X-IronPort-AV: E=Sophos;i="5.77,445,1596524400"; d="scan'208";a="352851467"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2020 08:09:15 -0800
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1kZcPQ-003FnO-49; Mon, 02 Nov 2020 18:10:16 +0200
-Date: Mon, 2 Nov 2020 18:10:16 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v2 8/8] dma-buf: use krealloc_array()
-Message-ID: <20201102161016.GN4077@smile.fi.intel.com>
-References: <20201102152037.963-1-brgl@bgdev.pl>
- <20201102152037.963-9-brgl@bgdev.pl>
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36BD96E566
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 16:29:16 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id A610312FC;
+ Mon,  2 Nov 2020 11:29:13 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 02 Nov 2020 11:29:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=5gr58/6D7W2RvnvZ4djQs5m84E
+ 8morhuCwLoYR4/U8E=; b=da7ZisBluM/RoKKrSB5URcEgdTElnkFyybBZOifIjh
+ el8PRWJTM2mlW7J7BuidSmOXEJSjSqAW6kIzd3WgUT809qif9Nny1Be4zvkL1RAb
+ 3f0w9Ed8s9swTCKZcLW7A5eAHYP8EYX58K4Ho/Hm+G1G+leRIgRdVH5fPxHnMULv
+ DMqqdWXWMbYm515oM9f6Y/ETSNAmEa2EnBWn65Q7UCbjGhlb/9daK51DZXvZ6F9e
+ VxKcLQ3VfVOCZJ1JtBrEynXvZoIreorcbcVkC4RwIuZXC56mdgNvm0PPG3ST34fa
+ kcytYtWrJHrgvDFo18w30DK7ahQOFcZPKu11cuBCIXDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=5gr58/6D7W2RvnvZ4
+ djQs5m84E8morhuCwLoYR4/U8E=; b=g6oB51MjhkfB5M8GBQKba5o3L5WvWohNg
+ 2bDI5SYsOsFlpVwjg69F48aW/BOi799D4oFK2p/4zvt4y5PnPcWiTCVrzwNjjH/Z
+ OZaspQ6UOlTnXL+f7Omu7UQzjX2hROptNXDbI9ZNbu4CDI1nrSOMOTnR5I2yAYoF
+ EFvaahg3/kVcdVPX9z+PH8L+baZFxqIgNMgMUiJn6COMiCdZKWeq5T5D7NUqhc/w
+ 4xmiqhpIr/d04f1q2p+uclVbaCpBEtl/gF0QideqzhOBUv80P5KvBj7LFdzjV/Ey
+ f5n4JukEUNzEC83CHywh6hLzufL6RdTVD8Ovr/N0xiJt0cqwE/pzQ==
+X-ME-Sender: <xms:1zOgX0Rd4xjxQ-c7Rp9Gotsx2L-v7CUKJmiA64KtJZL2VisVKNzVMw>
+ <xme:1zOgXxzqPxmXvsIX1YOW66BSKp80nb0plNCIURXwODpBC20q4yPE1arxbGlvaoMPy
+ aPAxb-N9QQGPL22UDM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtuddgkeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepjeffheduvddvvdelhfegleelfffgieejvdehgfeijedtieeuteejteefueekjeeg
+ necukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:1zOgXx0uvD05UHto1RKCTTgRh894Y6ssXlkZIM1Cj0MTeiiI7uhBbg>
+ <xmx:1zOgX4AcLUj3JixTpgcGeE2HKxWrLDttcC4NGakr6sZzaoGvTGu-GA>
+ <xmx:1zOgX9jmE8WX7sZaQzIQLXIigFXwV2A98yxwJO2MvY0oE-2Chl_gJA>
+ <xmx:2TOgX9fS1vykuB9P7Dcp1ysOhi_APw5h7Iuu7UKkhoAplweXsnaF5A>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 75D683280060;
+ Mon,  2 Nov 2020 11:29:11 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH] drm/vc4: drv: Remove unused variable
+Date: Mon,  2 Nov 2020 17:29:08 +0100
+Message-Id: <20201102162908.1436567-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201102152037.963-9-brgl@bgdev.pl>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:24 +0000
+X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,48 +78,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
- Gustavo Padovan <gustavo@padovan.org>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, linux-mm@kvack.org,
- Christoph Lameter <cl@linux.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- David Rientjes <rientjes@google.com>,
- virtualization@lists.linux-foundation.org, Jason Wang <jasowang@redhat.com>,
- linux-media@vger.kernel.org, Robert Richter <rric@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linaro-mm-sig@lists.linaro.org,
- linux-gpio@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, linux-edac@vger.kernel.org,
- Tony Luck <tony.luck@intel.com>, netdev@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- Pekka Enberg <penberg@kernel.org>, James Morse <james.morse@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 02, 2020 at 04:20:37PM +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> Use the helper that checks for overflows internally instead of manually
-> calculating the size of the new array.
+The commit dcda7c28bff2 ("drm/vc4: kms: Add functions to create the state
+objects") removed the last users of the vc4 variable, but didn't remove
+that variable resulting in a warning.
 
-...
+Fixes: dcda7c28bff2 ("drm/vc4: kms: Add functions to create the state objects")
+Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_drv.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-> +		nfences = krealloc_array(fences, i,
-> +					 sizeof(*fences), GFP_KERNEL);
-
-On 80 position is closing parenthesis, which, I think, makes it okay to put on
-one line.
-
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 08c1cc225045..2cd97a39c286 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -307,7 +307,6 @@ static int vc4_drm_bind(struct device *dev)
+ static void vc4_drm_unbind(struct device *dev)
+ {
+ 	struct drm_device *drm = dev_get_drvdata(dev);
+-	struct vc4_dev *vc4 = to_vc4_dev(drm);
+ 
+ 	drm_dev_unregister(drm);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
