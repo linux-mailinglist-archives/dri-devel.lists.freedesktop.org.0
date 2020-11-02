@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2A22A3E9A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906472A3E97
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE1A6EC21;
-	Tue,  3 Nov 2020 08:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81FEE6EC2A;
+	Tue,  3 Nov 2020 08:14:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com
- [IPv6:2607:f8b0:4864:20::c41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBF276E1BD
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 18:21:47 +0000 (UTC)
-Received: by mail-oo1-xc41.google.com with SMTP id v123so3578811ooa.5
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 10:21:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=xRQ0CcPYOKhYGnMLgxmXXhFo34bjmKd0lXwyZmV5goY=;
- b=pMjqPLADOae/tAXYMIGENJtu4YmHlq1z4uQT2H7/S8VZEulMPLPBOCVMkQLErEAkN5
- 7cWln7Ih2Toagjj9H1v1zRPCVbc0HJcUxAGANyLOn/FfBQIY6fVM625nfDDkQ8XVfYlt
- KzlErXfYI4xN/QyURH2sX/suWRpDJ85f/bVDNjh7qr0dt6UKRvOp5y5WCo0XYR/8cJWO
- 5+fYnIL1JeDTDm5ySd2ULLIZdPrwE1wGCXPAZRDjSps8bM/lpJsO0ZRExJn4bk8Fj8+q
- rxv/GTkNF5526s06R3YUsCDLmjcfYXyZzPtYUaUXIeIwIqzX+MfeT7RN0g5vZbeVsl/F
- N8JQ==
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2D0E6E2C8;
+ Mon,  2 Nov 2020 18:41:54 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id z24so11559308pgk.3;
+ Mon, 02 Nov 2020 10:41:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=uX2j6BTsDsDmpfeekKFS6duLUjm424lsGMqXT4y60ag=;
+ b=rMqgtwuy5gD+utEZVzx4U+OKxKZfzgAso2fI0Yr74Ryq8G65Frfn8pbfHJGvou9bpj
+ Tyr9mGQeXJvFwGgx0kkoNsNbrWfqOYrxKlCEdnDPfXxb/o2IAkkMudeNW40oeLl0zqVQ
+ PS/DMw1hMbXNNYNxolpYZMGp68QDxM6LCuRWgf7XMoKr/RYUByZLoVPyc3OplZV43zTo
+ 0YwgOq5ZGArljQ9pobSQz1RJCVPceQ4Jng/w4ycgeNRCYEaO34wS7pBA+du948kHUxnS
+ 7od99l/cs9GhooDEaI58YHPUfMQBsxs/KfkstQg2B+p22G4jFDbFedq9r/uy4Fipo4Qf
+ Xaxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xRQ0CcPYOKhYGnMLgxmXXhFo34bjmKd0lXwyZmV5goY=;
- b=So+k6EtFg+EHONz2K+SDAsjRNnFUZTZFRf+juDo+JraxoALkWiqvnbJIPykjP1mfzk
- 0mDuevO0XV+9UPF1jzpMCAW+EyB9yi8BMDelnUjrye4D/KpAwJQJb9fZtJGz0tHaB/rM
- FAsKPuV/sOvUUUYxjQrXfLAb8q4TRofoiR5rfdkeMhFW7kpgTmlNCwJri7rtD99jPH0c
- Bba0SptQ/UQLGIonJt3vHxDzm5HPHg7RZ+oDj3uF9cBA6SPbJ0+P6tRnSGXjGCiONKYy
- I3MI1Fb4Ti0tKRpIaQPvheR38Kigic/epuufMVZTaDJfhamwc0+38JMQ0d6xDDmFz72f
- DjBw==
-X-Gm-Message-State: AOAM530gIANjAyejblHs31RIE2JUevCzL8Rouh3LRkraa35UUFcn/d+o
- KAqtMel6A5Yb1EK5AZH6bEeYug==
-X-Google-Smtp-Source: ABdhPJzMMVGvhuvlkpsuzCCvBxYHqtTOzTsVqRH582t2kvcDB0+hJcsYmcZrjoWbMCQ9LZ/9XEzZBg==
-X-Received: by 2002:a4a:d554:: with SMTP id q20mr12886552oos.23.1604341306983; 
- Mon, 02 Nov 2020 10:21:46 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id b8sm3555544oov.29.2020.11.02.10.21.45
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=uX2j6BTsDsDmpfeekKFS6duLUjm424lsGMqXT4y60ag=;
+ b=HqHXSEK11F+jMXiC9MTZDQdXVnF3Jeqf9oY8+7IvIINqr2PRGX+mbCz6GRSWUohKij
+ bECMc5SFuT8r/37EStRrnDtL3YFjNtFrhDEFzTcE6KkMq220iwVbghcFh55Vm3D37VQa
+ jQFOAiaw0tpxJqAyRM7TU57ykhprY0iZ7QUhfScqrdjjO0sgSZv6iBMQ8OcrUF7x1e59
+ XigxDmPT1dmrbXna9Ap3rYdzrNFEO1g4zPB8wHVQfOy5NUz0F2D9eAsJYqGzQIuJfm8j
+ 4QQDOvnVoQBkUtOTosTGLXUKha+ClUlCUgC4QOeTocSCQLXhjY3uSaFvBIdYLuolu6gf
+ 7XaA==
+X-Gm-Message-State: AOAM5317IhJcEt2ZJqMFuAaWtbPxCNx9abKI/ME3yBZjUR4mOJhWqsBL
+ ipuTd1s9mzmfgkqLAxG8lSI=
+X-Google-Smtp-Source: ABdhPJxVTiek04noTjU9GhU1+83S9V6Fm2v8nawdUGGy18yNrKkctDFNKL3bNrq+vflGQ1SHFhJt7g==
+X-Received: by 2002:a17:90b:ec9:: with SMTP id
+ gz9mr2068967pjb.105.1604342514622; 
+ Mon, 02 Nov 2020 10:41:54 -0800 (PST)
+Received: from localhost ([160.202.157.3])
+ by smtp.gmail.com with ESMTPSA id v24sm13205004pgi.91.2020.11.02.10.41.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 10:21:46 -0800 (PST)
-Date: Mon, 2 Nov 2020 12:21:44 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/dpu: fix clock scaling on non-sc7180 board
-Message-ID: <20201102182144.GK3151@builder.lan>
-References: <20201027102304.945424-1-dmitry.baryshkov@linaro.org>
+ Mon, 02 Nov 2020 10:41:54 -0800 (PST)
+Date: Tue, 3 Nov 2020 00:11:47 +0530
+From: Deepak R Varma <mh12gx2825@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amdgpu: do not initialise global variables to 0 or NULL
+Message-ID: <20201102184147.GA42288@localhost>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201027102304.945424-1-dmitry.baryshkov@linaro.org>
 X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,64 +69,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kalyan Thota <kalyan_t@codeaurora.org>, Sean Paul <sean@poorly.run>
+Cc: melissa.srw@gmail.com, gregkh@linuxfoundation.org, mh12gx2825@gmail.com,
+ daniel.vetter@ffwll.ch
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 27 Oct 05:23 CDT 2020, Dmitry Baryshkov wrote:
+Initializing global variable to 0 or NULL is not necessary and should
+be avoided. Issue reported by checkpatch script as:
+ERROR: do not initialise globals to 0 (or NULL).
 
-> c33b7c0389e1 ("drm/msm/dpu: add support for clk and bw scaling for
-> display") has added support for handling bandwidth voting in kms path in
-> addition to old mdss path. However this broke all other platforms since
-> _dpu_core_perf_crtc_update_bus() will now error out instead of properly
-> calculating bandwidth and core clocks. Fix
-> _dpu_core_perf_crtc_update_bus() to just skip bandwidth setting instead
-> of returning an error in case kms->num_paths == 0 (MDSS is used for
-> bandwidth management).
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 46 ++++++++++++-------------
+ drivers/gpu/drm/amd/amdgpu/atom.c       |  4 +--
+ 2 files changed, 25 insertions(+), 25 deletions(-)
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 8ab6126ff70c..6de94c46bc91 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -94,16 +94,16 @@
+ #define KMS_DRIVER_MINOR	40
+ #define KMS_DRIVER_PATCHLEVEL	0
+ 
+-int amdgpu_vram_limit = 0;
+-int amdgpu_vis_vram_limit = 0;
++int amdgpu_vram_limit;
++int amdgpu_vis_vram_limit;
+ int amdgpu_gart_size = -1; /* auto */
+ int amdgpu_gtt_size = -1; /* auto */
+ int amdgpu_moverate = -1; /* auto */
+-int amdgpu_benchmarking = 0;
+-int amdgpu_testing = 0;
++int amdgpu_benchmarking;
++int amdgpu_testing;
+ int amdgpu_audio = -1;
+-int amdgpu_disp_priority = 0;
+-int amdgpu_hw_i2c = 0;
++int amdgpu_disp_priority;
++int amdgpu_hw_i2c;
+ int amdgpu_pcie_gen2 = -1;
+ int amdgpu_msi = -1;
+ char amdgpu_lockup_timeout[AMDGPU_MAX_TIMEOUT_PARAM_LENGTH];
+@@ -113,43 +113,43 @@ int amdgpu_aspm = -1;
+ int amdgpu_runtime_pm = -1;
+ uint amdgpu_ip_block_mask = 0xffffffff;
+ int amdgpu_bapm = -1;
+-int amdgpu_deep_color = 0;
++int amdgpu_deep_color;
+ int amdgpu_vm_size = -1;
+ int amdgpu_vm_fragment_size = -1;
+ int amdgpu_vm_block_size = -1;
+-int amdgpu_vm_fault_stop = 0;
+-int amdgpu_vm_debug = 0;
++int amdgpu_vm_fault_stop;
++int amdgpu_vm_debug;
+ int amdgpu_vm_update_mode = -1;
+-int amdgpu_exp_hw_support = 0;
++int amdgpu_exp_hw_support;
+ int amdgpu_dc = -1;
+ int amdgpu_sched_jobs = 32;
+ int amdgpu_sched_hw_submission = 2;
+-uint amdgpu_pcie_gen_cap = 0;
+-uint amdgpu_pcie_lane_cap = 0;
++uint amdgpu_pcie_gen_cap;
++uint amdgpu_pcie_lane_cap;
+ uint amdgpu_cg_mask = 0xffffffff;
+ uint amdgpu_pg_mask = 0xffffffff;
+ uint amdgpu_sdma_phase_quantum = 32;
+-char *amdgpu_disable_cu = NULL;
+-char *amdgpu_virtual_display = NULL;
++char *amdgpu_disable_cu;
++char *amdgpu_virtual_display;
+ /* OverDrive(bit 14) disabled by default*/
+ uint amdgpu_pp_feature_mask = 0xffffbfff;
+-uint amdgpu_force_long_training = 0;
+-int amdgpu_job_hang_limit = 0;
++uint amdgpu_force_long_training;
++int amdgpu_job_hang_limit;
+ int amdgpu_lbpw = -1;
+ int amdgpu_compute_multipipe = -1;
+ int amdgpu_gpu_recovery = -1; /* auto */
+-int amdgpu_emu_mode = 0;
+-uint amdgpu_smu_memory_pool_size = 0;
++int amdgpu_emu_mode;
++uint amdgpu_smu_memory_pool_size;
+ /* FBC (bit 0) disabled by default*/
+-uint amdgpu_dc_feature_mask = 0;
+-uint amdgpu_dc_debug_mask = 0;
++uint amdgpu_dc_feature_mask;
++uint amdgpu_dc_debug_mask;
+ int amdgpu_async_gfx_ring = 1;
+-int amdgpu_mcbp = 0;
++int amdgpu_mcbp;
+ int amdgpu_discovery = -1;
+-int amdgpu_mes = 0;
++int amdgpu_mes;
+ int amdgpu_noretry = -1;
+ int amdgpu_force_asic_type = -1;
+-int amdgpu_tmz = 0;
++int amdgpu_tmz;
+ int amdgpu_reset_method = -1; /* auto */
+ int amdgpu_num_kcq = -1;
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
+index 696e97ab77eb..46c00ee580b1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atom.c
++++ b/drivers/gpu/drm/amd/amdgpu/atom.c
+@@ -66,7 +66,7 @@ typedef struct {
+ 	bool abort;
+ } atom_exec_context;
+ 
+-int amdgpu_atom_debug = 0;
++int amdgpu_atom_debug;
+ static int amdgpu_atom_execute_table_locked(struct atom_context *ctx, int index, uint32_t * params);
+ int amdgpu_atom_execute_table(struct atom_context *ctx, int index, uint32_t * params);
+ 
+@@ -88,7 +88,7 @@ static int atom_dst_to_src[8][4] = {
+ };
+ static int atom_def_dst[8] = { 0, 0, 1, 2, 0, 1, 2, 3 };
+ 
+-static int debug_depth = 0;
++static int debug_depth;
+ #ifdef ATOM_DEBUG
+ static void debug_print_spaces(int n)
+ {
+-- 
+2.25.1
 
-Thanks Dmitry,
-Bjorn
-
-> Fixes: c33b7c0389e1 ("drm/msm/dpu: add support for clk and bw scaling for display")
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> index 393858ef8a83..37c8270681c2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> @@ -219,9 +219,6 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
->  	int i, ret = 0;
->  	u64 avg_bw;
->  
-> -	if (!kms->num_paths)
-> -		return -EINVAL;
-> -
->  	drm_for_each_crtc(tmp_crtc, crtc->dev) {
->  		if (tmp_crtc->enabled &&
->  			curr_client_type ==
-> @@ -239,6 +236,9 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
->  		}
->  	}
->  
-> +	if (!kms->num_paths)
-> +		return 0;
-> +
->  	avg_bw = perf.bw_ctl;
->  	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
->  
-> -- 
-> 2.28.0
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
