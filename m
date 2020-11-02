@@ -1,65 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9B42A3EA1
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE69A2A3E6D
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:14:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A44C6EC3B;
-	Tue,  3 Nov 2020 08:14:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F5C6EBA6;
+	Tue,  3 Nov 2020 08:14:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C90D6E47E
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 18:53:28 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id o21so13278993ejb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 10:53:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GlGtTyawZz1U+foaHuQJleVoISpzv2DwJ6xp8D1Hwk4=;
- b=dIaNxAccndYlWhHDapF/MDgfnKgAGECRY/zIOGm650eR7riKJDY+LJNCZbF3ThLlRr
- +jEuZq6zopeOu3FTISuAv02VhSA429Uhgs7h9o100X+Jy67bARpU0p7k6SJahy6TgPZQ
- vl8C5qfffPSjxCQ+Z0E5TUGJki8xexMTou9E0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GlGtTyawZz1U+foaHuQJleVoISpzv2DwJ6xp8D1Hwk4=;
- b=NJVUVgr/b+vMz/llbl701peQlT5890iqG14w+XBouyeWe/Q+NEYYywELqWkRHkhgsd
- V+TEtYCLzQmzzJIi0UTskx2G/w879PW5YybSkyAiZ/+CDhXZn6RCJ+A7DFgIUfOuCLUb
- flGTOffNPytNUnd8QddE1bs73Y+SgWvoapUPMp8PymUiyUyhcP31uE6NdcwphGHvB+fm
- tIHPiEgUg5c5U4zQL8eIYkEfsS/eBZOgXAC+OPrHbwYQKVm6e+7AvKZHWcFG4gUtSYQq
- 2NWN0CuxgnB7OXz98fNH9ITIty1WgYnu8zJfCf+ASBX/XEZznecImWHjXD2KHOTbsyb6
- 3d8A==
-X-Gm-Message-State: AOAM5319I2xxBBhjWPsKOJPqz5yXTnOSmuPSjD6Q32b36G6v6JKsLfAV
- XutG2d0Pj+ljnWWgGayeB7n20uvcIU0Bvw==
-X-Google-Smtp-Source: ABdhPJwXuug8PUI8dOJhkp7fScA1+1vdCMKN66foGomXJOmRBsw9snWFs/jUQCTkTL2/Vi10pfrLAw==
-X-Received: by 2002:a17:906:d92c:: with SMTP id
- rn12mr14034953ejb.472.1604343206555; 
- Mon, 02 Nov 2020 10:53:26 -0800 (PST)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com.
- [209.85.208.43])
- by smtp.gmail.com with ESMTPSA id t3sm10649917edv.59.2020.11.02.10.53.25
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Nov 2020 10:53:25 -0800 (PST)
-Received: by mail-ed1-f43.google.com with SMTP id a71so10047059edf.9
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 10:53:25 -0800 (PST)
-X-Received: by 2002:a05:6402:a57:: with SMTP id
- bt23mr6977135edb.62.1604343204920; 
- Mon, 02 Nov 2020 10:53:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20201022050445.930403-1-amstan@chromium.org>
- <20201021220404.v3.3.I4dcea1c90e9da3902d466033aa73351e19e49c49@changeid>
- <20201028151210.7e765hbq2k7i3url@holly.lan>
-In-Reply-To: <20201028151210.7e765hbq2k7i3url@holly.lan>
-From: Alexandru M Stan <amstan@chromium.org>
-Date: Mon, 2 Nov 2020 10:52:49 -0800
-X-Gmail-Original-Message-ID: <CAHNYxRy4hg4rZsc-xi3MzK+RapMq76+=hGj0_E-aGcFUPB1wMA@mail.gmail.com>
-Message-ID: <CAHNYxRy4hg4rZsc-xi3MzK+RapMq76+=hGj0_E-aGcFUPB1wMA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] backlight: pwm_bl: Fix interpolation
-To: Daniel Thompson <daniel.thompson@linaro.org>
+X-Greylist: delayed 364 seconds by postgrey-1.36 at gabe;
+ Mon, 02 Nov 2020 19:01:03 UTC
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A737A6E50C
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 19:01:03 +0000 (UTC)
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 02 Nov 2020 10:54:58 -0800
+X-QCInternal: smtphost
+Received: from veeras-linux.qualcomm.com ([10.134.68.137])
+ by ironmsg01-sd.qualcomm.com with ESMTP; 02 Nov 2020 10:54:58 -0800
+Received: by veeras-linux.qualcomm.com (Postfix, from userid 330320)
+ id 3A2A22192E; Mon,  2 Nov 2020 10:54:58 -0800 (PST)
+From: Veera Sundaram Sankaran <veeras@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ sumit.semwal@linaro.org, gustavo@padovan.org
+Subject: [PATCH 1/2] dma-fence: allow signaling drivers to set fence timestamp
+Date: Mon,  2 Nov 2020 10:54:45 -0800
+Message-Id: <1604343286-3262-1-git-send-email-veeras@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,86 +42,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, Douglas Anderson <dianders@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andy Gross <agross@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Lee Jones <lee.jones@linaro.org>, Matthias Kaehlcke <mka@chromium.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+Cc: pdhaval@codeaurora.org, Veera Sundaram Sankaran <veeras@codeaurora.org>,
+ abhinavk@codeaurora.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 28, 2020 at 8:12 AM Daniel Thompson
-<daniel.thompson@linaro.org> wrote:
->
-> On Wed, Oct 21, 2020 at 10:04:45PM -0700, Alexandru Stan wrote:
-> > The previous behavior was a little unexpected, its properties/problems:
-> > 1. It was designed to generate strictly increasing values (no repeats)
-> > 2. It had quantization errors when calculating step size. Resulting in
-> > unexpected jumps near the end of some segments.
-> >
-> > Example settings:
-> >       brightness-levels = <0 1 2 4 8 16 32 64 128 256>;
-> >       num-interpolated-steps = <16>;
-> >
-> > Whenever num-interpolated-steps was larger than the distance
-> > between 2 consecutive brightness levels the table would get really
-> > discontinuous. The slope of the interpolation would stick with
-> > integers only and if it was 0 the whole line segment would get skipped.
-> >
-> > The distances between 1 2 4 and 8 would be 1 (property #1 fighting us),
-> > and only starting with 16 it would start to interpolate properly.
-> >
-> > Property #1 is not enough. The goal here is more than just monotonically
-> > increasing. We should still care about the shape of the curve. Repeated
-> > points might be desired if we're in the part of the curve where we want
-> > to go slow (aka slope near 0).
-> >
-> > Problem #2 is plainly a bug. Imagine if the 64 entry was 63 instead,
-> > the calculated slope on the 32-63 segment will be almost half as it
-> > should be.
-> >
-> > The most expected and simplest algorithm for interpolation is linear
-> > interpolation, which would handle both problems.
-> > Let's just implement that!
-> >
-> > Take pairs of points from the brightness-levels array and linearly
-> > interpolate between them. On the X axis (what userspace sees) we'll
-> > now have equally sized intervals (num-interpolated-steps sized,
-> > as opposed to before where we were at the mercy of quantization).
-> >
-> > END
->
-> INTERESTING.
->
-> I guess this a copy 'n paste error from some internal log book?
-> Better removed... but I won't lose sleep over it.
+Some drivers have hardware capability to get the precise timestamp of
+certain events based on which the fences are triggered. This allows it
+to set accurate timestamp factoring out any software and IRQ latencies.
+Move the timestamp parameter out of union in dma_fence struct to allow
+signaling drivers to set it. If the parameter is not set, ktime_get is
+used to set the current time to fence timestamp during dma_fence_signal.
 
-Sorry! Yeah, I mistakenly duplicated the "END" line in patman.
+Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+---
+ drivers/dma-buf/dma-fence.c | 18 ++++++++++--------
+ include/linux/dma-fence.h   | 15 +++------------
+ 2 files changed, 13 insertions(+), 20 deletions(-)
 
->
->
-> > Signed-off-by: Alexandru Stan <amstan@chromium.org>
->
-> I've waited a bit to see how strong the feelings were w.r.t. getting rid
-> of the division from the table initialization. It was something I was
-> aware of during an earlier review but it was below my personal nitpicking
-> threshold (which could be badly calibrated... hence waiting). However
-> it's all been quiet so:
->
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
->
->
-> Daniel.
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 43624b4..7cef49a 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -4,6 +4,7 @@
+  *
+  * Copyright (C) 2012 Canonical Ltd
+  * Copyright (C) 2012 Texas Instruments
++ * Copyright (c) 2020 The Linux Foundation. All rights reserved.
+  *
+  * Authors:
+  * Rob Clark <robdclark@gmail.com>
+@@ -329,7 +330,6 @@ void __dma_fence_might_wait(void)
+ int dma_fence_signal_locked(struct dma_fence *fence)
+ {
+ 	struct dma_fence_cb *cur, *tmp;
+-	struct list_head cb_list;
+ 
+ 	lockdep_assert_held(fence->lock);
+ 
+@@ -337,16 +337,18 @@ int dma_fence_signal_locked(struct dma_fence *fence)
+ 				      &fence->flags)))
+ 		return -EINVAL;
+ 
+-	/* Stash the cb_list before replacing it with the timestamp */
+-	list_replace(&fence->cb_list, &cb_list);
+-
+-	fence->timestamp = ktime_get();
++	/* set current time, if not set by signaling driver */
++	if (!fence->timestamp)
++		fence->timestamp = ktime_get();
+ 	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
+ 	trace_dma_fence_signaled(fence);
+ 
+-	list_for_each_entry_safe(cur, tmp, &cb_list, node) {
+-		INIT_LIST_HEAD(&cur->node);
+-		cur->func(fence, cur);
++	if (!list_empty(&fence->cb_list)) {
++		list_for_each_entry_safe(cur, tmp, &fence->cb_list, node) {
++			INIT_LIST_HEAD(&cur->node);
++			cur->func(fence, cur);
++		}
++		INIT_LIST_HEAD(&fence->cb_list);
+ 	}
+ 
+ 	return 0;
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 09e23ad..a9eebaf 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -4,6 +4,7 @@
+  *
+  * Copyright (C) 2012 Canonical Ltd
+  * Copyright (C) 2012 Texas Instruments
++ * Copyright (c) 2020 The Linux Foundation. All rights reserved.
+  *
+  * Authors:
+  * Rob Clark <robdclark@gmail.com>
+@@ -70,26 +71,16 @@ struct dma_fence {
+ 	 * release the fence it is unused. No one should be adding to the
+ 	 * cb_list that they don't themselves hold a reference for.
+ 	 *
+-	 * The lifetime of the timestamp is similarly tied to both the
+-	 * rcu freelist and the cb_list. The timestamp is only set upon
+-	 * signaling while simultaneously notifying the cb_list. Ergo, we
+-	 * only use either the cb_list of timestamp. Upon destruction,
+-	 * neither are accessible, and so we can use the rcu. This means
+-	 * that the cb_list is *only* valid until the signal bit is set,
+-	 * and to read either you *must* hold a reference to the fence,
+-	 * and not just the rcu_read_lock.
+-	 *
+ 	 * Listed in chronological order.
+ 	 */
+ 	union {
+ 		struct list_head cb_list;
+-		/* @cb_list replaced by @timestamp on dma_fence_signal() */
+-		ktime_t timestamp;
+-		/* @timestamp replaced by @rcu on dma_fence_release() */
++		/* @cb_list replaced by @rcu on dma_fence_release() */
+ 		struct rcu_head rcu;
+ 	};
+ 	u64 context;
+ 	u64 seqno;
++	ktime_t timestamp;
+ 	unsigned long flags;
+ 	struct kref refcount;
+ 	int error;
+-- 
+2.7.4
 
-
-Alexandru Stan (amstan)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
