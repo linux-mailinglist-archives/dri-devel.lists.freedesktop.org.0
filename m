@@ -1,64 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED56A2A3E9F
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 464A42A3E7E
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 662EB6EC29;
-	Tue,  3 Nov 2020 08:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 128F16EC1A;
+	Tue,  3 Nov 2020 08:14:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B56D16E093
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 17:08:04 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id g19so3833445otp.13
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 09:08:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=h835lHTQAu95wxA6PWFRRi1Mf/8MD2a5rJ3lZGCt1cc=;
- b=JXzV2p0vzQ8oWk1hcaXFG0FvtdrXkV2dRVgA/IbVQE/hgmv5n5pCVIvX3ESBoyvRGf
- tgtfY7MWJUbRHG067Bs69792lkKZW5h9t+tEeDcB6BRq9PRAy76YtZ1WQ93f5nn5qQkz
- h/9uGzvP827kIjRUVNnANCl7bQ4nnsPVFpKVQknecDyRFRRGcqSTOfEjWdipbFNiKj9K
- 6/v0/FxOSV95gWgZNzOpV+sb61Bq0be7/mu8AiAVV3H916cU3YOXRmnVEShMx06rfuXz
- B42vxCATidn5x/xPrejMPvHKUB+LnQe0ofCsZgj42RK/AQoodaBKYalUoN9NELtSuyav
- 4l6Q==
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3FE6E093
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 17:09:24 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id g11so621013pll.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 09:09:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=VqiKVe2OHLmU5JAf22RJzOSV9uu3Tp5oES/Ka+XZU48=;
+ b=E+GXv1xhCIFEzwW4SU0iieWzqTiYdPYfZF6FA2tz6ySZFh1DEj0TtTVOvRllE4Y+Zg
+ 3FIeqIKXsy3OCMw12k0bjJZ79kpcoZnH5cFiu0RdpC7ciFct3ko4skYK+BTqTLmaqoUp
+ jYNEdNCK5gPrswQ77HOQQVSQR0xPt/gAyFjTw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=h835lHTQAu95wxA6PWFRRi1Mf/8MD2a5rJ3lZGCt1cc=;
- b=oy44szPIYL/c2A3XKIiyISEW2exjk4bnY7abbtSSZPHlOZOpM+Kj+0yXKoCAbuN1OA
- uWEdZ8WIOQBPcBaHiRKAdGEKMWatI+Wm4QcNKpsrxtHaccHOxj5qbFsacRS+Lk9hoRLa
- xOQwpPK1fZHnnl9sYsCfPiP7+kjl00mduFothoavjC6J+gGmuuoxIOoHZrnmNB+btnEp
- z3PN7C9P5mhdm5Ks1g8F6n5e0FAdNlPsJ0O5oVaXnPuxo8PbzJoftUj3UX7RaR/F3GHO
- xgpwFYjpvN7l51cNvQ+TMb7o+JYhed4bCGxX0cyDRVBwSvtPRLAQb0lQUvcsQRoIzgcb
- nzHQ==
-X-Gm-Message-State: AOAM5305y63r0wI6U0M3YS0qbuJupDoBdpa8ciizm7sfSNtrGFz7Pzs+
- 2f6vcjtV63pCgfrPQrkS81ed7g==
-X-Google-Smtp-Source: ABdhPJwPghsbeLdlR1n488K/KOrm0Vc5OL56hGZgaK6freCCeb7B/2DFK47J9LaHVmCOZ7tOA3hd9g==
-X-Received: by 2002:a05:6830:2018:: with SMTP id
- e24mr13147614otp.278.1604336883838; 
- Mon, 02 Nov 2020 09:08:03 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id y22sm3560488ooa.2.2020.11.02.09.08.02
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=VqiKVe2OHLmU5JAf22RJzOSV9uu3Tp5oES/Ka+XZU48=;
+ b=Yu2MaT/s/gHj6Vkj18ohulkFb+YLm2OlShovhTx7Swx9z+OvWCszuJ344Ds4AbszTe
+ Z4V+4/aa79dAP6CNdOCNW/vuFJrOhBZ4cF+Mc+Sb1Q0Hc00ZvUtDjEpTaFjy7LWdxllR
+ co0Fd9sycLWgD7B7SpcxmFyMt5lLPRM9uqv3oV7VwCZHH0IgzzfHCb+sEBE3SU1mcFdj
+ TtHOntHa7y9ilGCEayrlUuZxn4XKZbm+owOEefQKKzV6av7APk64X/TjbWNVe2vI9d7S
+ 9Z5HEAq1caZ6INkLiqK1Mos19ryrn5EUygswYBGJVSjbDRVrslX2Bv2vtMvD058WWvdL
+ /KlQ==
+X-Gm-Message-State: AOAM5329WTF0cOgDyImycygrpFTPRb5dKEY8IzfQ1px3rlJJnkRUehUH
+ sUs7jlerUpoDioFyXO3wlUKTjw==
+X-Google-Smtp-Source: ABdhPJw8zB5/xSM90Q8TpAiNu3BRaZP596eYjK1Ir/3iDyBzYNs4HvGpVlbgKbb6uPSonDX/JXU8Fw==
+X-Received: by 2002:a17:902:ba96:b029:d5:f36b:44af with SMTP id
+ k22-20020a170902ba96b02900d5f36b44afmr20995122pls.51.1604336963252; 
+ Mon, 02 Nov 2020 09:09:23 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
+ by smtp.gmail.com with ESMTPSA id i11sm7619662pfd.211.2020.11.02.09.09.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:08:03 -0800 (PST)
-Date: Mon, 2 Nov 2020 11:08:01 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi86: Replace
- #pwm-cells
-Message-ID: <20201102170801.GI3151@builder.lan>
-References: <20200930223532.77755-1-bjorn.andersson@linaro.org>
- <20200930223532.77755-2-bjorn.andersson@linaro.org>
- <CAD=FV=Unu-PH_RThi3xRF1HUADN2PqcVAOin0O0yo0gcGRWCDQ@mail.gmail.com>
+ Mon, 02 Nov 2020 09:09:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=Unu-PH_RThi3xRF1HUADN2PqcVAOin0O0yo0gcGRWCDQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=V3kktCrwvMBeOy1dnQGYuV-ZUGX81+upRZacfzxjceFg@mail.gmail.com>
+References: <20201030011738.2028313-1-swboyd@chromium.org>
+ <20201101173741.GA1293305@ravnborg.org>
+ <CAD=FV=V3kktCrwvMBeOy1dnQGYuV-ZUGX81+upRZacfzxjceFg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] drm/bridge: ti-sn65dsi86: Support EDID reading
+From: Stephen Boyd <swboyd@chromium.org>
+To: Doug Anderson <dianders@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
+Date: Mon, 02 Nov 2020 09:09:21 -0800
+Message-ID: <160433696138.884498.1206890596724384092@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,130 +68,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
+ Sean Paul <seanpaul@chromium.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 02 Oct 15:42 CDT 2020, Doug Anderson wrote:
-
+Quoting Doug Anderson (2020-11-02 08:37:21)
 > Hi,
 > 
-> On Wed, Sep 30, 2020 at 3:40 PM Bjorn Andersson
-> <bjorn.andersson@linaro.org> wrote:
+> On Sun, Nov 1, 2020 at 9:37 AM Sam Ravnborg <sam@ravnborg.org> wrote:
 > >
-> > While the signal on GPIO4 to drive the backlight controller indeed is
-> > pulse width modulated its purpose is specifically to control the
-> > brightness of a backlight.
-> 
-> I'm a bit on the fence about this.  I guess you're doing this because
-> it avoids some -EPROBE_DEFER cycles in Linux?  It does seem to have a
-> few downsides, though.
-> 
-
-No, the reason for exposing a backlight is that while the thing
-certainly is a PWM signal, the description of it and the registers
-available to control it surely seems "backlight" to me.
-
-In particular No, the reason for exposing a backlight is that while
-while the thing certainly is a PWM signal, the description of it and the
-registers available to control it surely seems "backlight" to me.
-
-> 1. It means a bit of re-inventing the wheel.  It's not a very big
-> wheel, though, I'll give you.  ...but it's still something.
-> 
-
-The main problem I saw with exposing this as a PWM was the fact that we
-have both period and frequency to control...
-
-> 2. I'm not sure why you'd want to, but in theory one could use this
-> PWM for some other purposes.  It really is just a generic PWM.  Your
-> change prevents that.
-> 
-
-...and in the even that you use it as a "generic" PWM I'd expect that
-the specified period is related to the frequency of the signal. But the
-period is documented to be related to the number of brightness steps of
-the panel.
-
-> 
-> 
-> > Drop the #pwm-cells and instead expose a new property to configure the
-> > granularity of the backlight PWM signal.
+> > Hi Stephen.
 > >
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > ---
-> >  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
+> > On Thu, Oct 29, 2020 at 06:17:34PM -0700, Stephen Boyd wrote:
+> > > This patch series cleans up the DDC code a little bit so that
+> > > it is more efficient time wise and supports grabbing the EDID
+> > > of the eDP panel over the aux channel. I timed this on a board
+> > > I have on my desk and it takes about 20ms to grab the EDID out
+> > > of the panel and make sure it is valid.
+> > >
+> > > The first two patches seem less controversial so I stuck them at
+> > > the beginning. The third patch does the EDID reading and caches
+> > > it so we don't have to keep grabbing it over and over again. And
+> > > finally the last patch updates the reply field so that short
+> > > reads and nacks over the channel are reflected properly instead of
+> > > treating them as some sort of error that can't be discerned.
+> > >
+> > > Stephen Boyd (4):
+> > >   drm/bridge: ti-sn65dsi86: Combine register accesses in
+> > >     ti_sn_aux_transfer()
+> > >   drm/bridge: ti-sn65dsi86: Make polling a busy loop
+> > >   drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
+> > >   drm/bridge: ti-sn65dsi86: Update reply on aux failures
 > >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> > index f8622bd0f61e..e380218b4646 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-> > @@ -66,9 +66,12 @@ properties:
-> >        1-based to match the datasheet.  See ../../gpio/gpio.txt for more
-> >        information.
+> > Series looks good. You can add my a-b on the full series.
+> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
 > >
-> > -  '#pwm-cells':
-> > -    const: 1
-> > -    description: See ../../pwm/pwm.yaml for description of the cell formats.
-> > +  ti,backlight-scale:
-> > +    description:
-> > +      The granularity of brightness for the PWM signal provided on GPIO4, if
-> > +      this property is specified.
-> > +    minimum: 0
-> > +    maximum: 65535
+> > I can apply after Douglas have had a look at the patches he did not r-b
+> > yet.
 > 
-> A few issues here:
-> 
-> 1. Maybe call this "num-steps" instead of backlight-scale.  That's
-> essentially what it is, right?  Saying how many discrete steps you're
-> allowing in your backlight?
-> 
+> They look fine to me now assuming that Stepehn has tested patch #1
+> enough that we're confident that the slight change in ordering isn't
+> going to mess anything up.
 
-That would work, I had it as "max-brightness" for a while as well. But I
-reverted to backlight-scale, because that's the name used in the
-datasheet.
-
-I'm fine with whatever color of the shed though :)
-
-> 2. IMO you need the PWM frequency specified, since it can actually
-> matter.  NOTE: once you have the PWM frequency specified, you could
-> imagine automatically figuring out what "num-steps" was.  Really you'd
-> want it to be the largest possible value you could achieve with your
-> hardware at the specified frequency.  There's no advantage (is there?)
-> of providing fewer steps to the backlight client.
-> 
-
-I guess there's no problem in having a "num-steps" that is unrelated to
-the number of brightness steps of the panel - but I did distinguish them
-because the datasheet clearly does so.
-
-> 3. Some backlights are specified inverted.  It looks like this maps
-> nicely to the bridge chip, which has a bit for it.  Probably nice to
-> expose this?
-> 
-
-Yes, that should be covered.
-
-> Of course, if we were just exposing the PWM directly to Linux we could
-> just use the PWM backlight driver and it'd all magically work.  ;-)
-> 
-
-Please help me figure out how to properly expose this in the PWM api and
-I'll be happy to respin it using this - as you say my wheel does look
-pretty similar...
-
-Regards,
-Bjorn
+I did test it but the test isn't thorough enough to cover the timeout
+case. I'll resend with v1 of this patch and pick up acks and include
+Sam on To line.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
