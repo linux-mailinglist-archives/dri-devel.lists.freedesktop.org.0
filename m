@@ -2,51 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52CFF2A2B31
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 14:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27C52A2B50
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 14:18:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C5496E4F8;
-	Mon,  2 Nov 2020 13:06:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C78746E516;
+	Mon,  2 Nov 2020 13:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 018C96E4F8
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 13:06:08 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id k3so627588otp.12
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 05:06:08 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D976E516
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 13:18:01 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id k10so13215312wrw.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 05:18:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2/hjiFH0B9Q3ykrTLKDujEfwlflwsnnMdf4eXbqtBq0=;
- b=kqLlBbdBLdM9E9l4Z/tAufCYUu0NkXVfjfIVXJ9n7LJwtkh3I493LbGY6zgMAyeQHi
- PQ+vXlcxdxV25WHxZ0hbgxaGi201PXbcKakIglAKSd7TUu1W8bll0kfo8xgPccXlLOwU
- 84GDyWx6jTzt+yW7m5QndjJl+ow23aU1ty9Nw=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZIqlXIfq5xntoWvtlW/vms8/Ik9yB8yy1Md20jy3FIk=;
+ b=Y+lbD3NHv9Q1Lrb7kALnmHYZdWbOYJQB/m92V7HhsnJ6fNbnXexP0ImpltLcUHlvfB
+ aU1f+LpfFv0KvE+Dsz1YWjx157GNjrNPqw4E3IeQjluM1zvHNoiSMQ82LXCYBq735EQ3
+ YcCNyOr4U98q+sQmG+QUY6ngTjl6FIcgBW4Do=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2/hjiFH0B9Q3ykrTLKDujEfwlflwsnnMdf4eXbqtBq0=;
- b=Xtkoae8U/AKFAtG0uYQAC4fmLEMWnejy/njWZsD0eAoTE8z0fryVJlJqA9IOPdJvdT
- zmgB2G+R3fxnEGrkrUTvzZFaeP2IWwDZ7ZM8A3pmWBzqypCFqUmvWGYW0yw2+y4U2ywv
- rEB1UNCMhpfBPGq6qskyFvqafVeXnW9cfDASE281lyLBan9sop4OVRWBlMCBYrcyyyEe
- zT8EzvtvWdA7dqYPrtLAUGoLOW1KcgQYvXoXKcbAGxDSbw8fbLXBCeq93OCSOhKLxy83
- nzL5ObAMCfnqf3tBQKDOVzpyE3THmRHwbdpuJAOn+3OQVbqjUIfNrJMNixlsYJHOAVdh
- ZI4w==
-X-Gm-Message-State: AOAM531HvcbYdDWMJs/LkMuTLUtmlZnhLI1DTc5cUykn1YPWXcZVnsn9
- K98R1FM4NUF+IfO15Vae5fEkl8yNCpgObnabDTei5w==
-X-Google-Smtp-Source: ABdhPJw8HtpII5BMuhTclMxahYAuNFjFns0/EtzQP3saIy9P3gjs1R0sy/x48y4BR+lCGaC+jX1/f/DGBrzsBBL394I=
-X-Received: by 2002:a9d:6e81:: with SMTP id a1mr11389339otr.303.1604322368373; 
- Mon, 02 Nov 2020 05:06:08 -0800 (PST)
-MIME-Version: 1.0
-References: <1604320685-14995-1-git-send-email-tiantao6@hisilicon.com>
- <7a06d5ba-27c6-0762-662c-fee1f8ddbc2e@suse.de>
-In-Reply-To: <7a06d5ba-27c6-0762-662c-fee1f8ddbc2e@suse.de>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ZIqlXIfq5xntoWvtlW/vms8/Ik9yB8yy1Md20jy3FIk=;
+ b=bhC5iMH6eB8gFKjgrlhPbS5SZltzpaIOEeUQM6q/JGhGspipvHEx+MpwsEuFzyTCfr
+ sh0r8PGMESgEjQCj8S/KGM3gYNGt7PF6eLqQ9V+kCQNt4BFe1C6GzZC7pCkfVk0JLuzd
+ S7IyHXWEfqJMRMxkHbXxzazUaFkgS+DlSJTYVlvEKLB5U5FxuojQHgTmzSCuS/pBdHBl
+ AZlSKWfa5hIvSAzbR872dJ7TB4o08pDy31n+ybzm4OaDj4D/apxGQqDSzBaSFInLhsB5
+ woZth2f4W7QT8E8ucsfq15bvTmG02wElXLtW1YrPj4zfnAb72HfiXX/M89odEr/+O9kT
+ AUUw==
+X-Gm-Message-State: AOAM531cc7XapXs2jH1JPD7gk2GB9upKLjrQF4LM70goXorjsFHKf76f
+ BY3T38Ey7qcpfCipucWOWv6TjA==
+X-Google-Smtp-Source: ABdhPJyF8C0k5C9m1IBd3mC8j+J2oYVicusKVxv/pcvu+M/KQmTyp1FmZoIuTyrXSE77eDAz5OhP9w==
+X-Received: by 2002:adf:e9cc:: with SMTP id l12mr14613849wrn.248.1604323080359; 
+ Mon, 02 Nov 2020 05:18:00 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z14sm16017863wmc.15.2020.11.02.05.17.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Nov 2020 05:17:59 -0800 (PST)
+Date: Mon, 2 Nov 2020 14:17:57 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 2 Nov 2020 14:05:56 +0100
-Message-ID: <CAKMK7uF2+D0ZxwnxuQ9NOhSH5g96zyCiEw4Nc-4j54eTf+9wKg@mail.gmail.com>
-Subject: Re: [PATCH] drm/irq: Modify the return value type of drm_irq_uninstall
-To: Thomas Zimmermann <tzimmermann@suse.de>
+To: Bernard <bernard@vivo.com>
+Subject: Re: Re: [PATCH] gpu/drm: make crtc check before new_connector circle
+Message-ID: <20201102131757.GP401619@phenom.ffwll.local>
+Mail-Followup-To: Bernard <bernard@vivo.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+References: <20201102101724.GO401619@phenom.ffwll.local>
+ <APsA*wDGDQPaL*xHM6wdLqpj.3.1604322810049.Hmail.bernard@vivo.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <APsA*wDGDQPaL*xHM6wdLqpj.3.1604322810049.Hmail.bernard@vivo.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,79 +72,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Tian Tao <tiantao6@hisilicon.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMiwgMjAyMCBhdCAxOjQ4IFBNIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
-bWFubkBzdXNlLmRlPiB3cm90ZToKPgo+IEhpCj4KPiBBbSAwMi4xMS4yMCB1bSAxMzozOCBzY2hy
-aWViIFRpYW4gVGFvOgo+ID4gVGhlcmUgaXMgbm8gZHJpdmVyIHRvIHVzZSB0aGUgcmV0dXJuIHZh
-bHVlIG9mIGRybV9pcnFfdW5pbnN0YWwsCj4gPiBzbyBtb2RpZnkgdGhlIHJldHVybiB2YWx1ZSB0
-eXBlIG9mIGRybV9pcnFfdW5pbnN0YWwgdG8gdm9pZC4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBU
-aWFuIFRhbyA8dGlhbnRhbzZAaGlzaWxpY29uLmNvbT4KPiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1
-L2RybS9kcm1faXJxLmMgfCAxMyArKysrKystLS0tLS0tCj4gPiAgaW5jbHVkZS9kcm0vZHJtX2ly
-cS5oICAgICB8ICAyICstCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDgg
-ZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1faXJx
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2lycS5jCj4gPiBpbmRleCA3NTM3YTNkLi40NWU2NDcx
-IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9pcnEuYwo+ID4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2RybV9pcnEuYwo+ID4gQEAgLTE2NiwxNCArMTY2LDE0IEBAIEVYUE9SVF9T
-WU1CT0woZHJtX2lycV9pbnN0YWxsKTsKPiA+ICAgKiBSZXR1cm5zOgo+ID4gICAqIFplcm8gb24g
-c3VjY2VzcyBvciBhIG5lZ2F0aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KPiA+ICAgKi8KPiA+
-IC1pbnQgZHJtX2lycV91bmluc3RhbGwoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiA+ICt2b2lk
-IGRybV9pcnFfdW5pbnN0YWxsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4gPiAgewo+ID4gICAg
-ICAgdW5zaWduZWQgbG9uZyBpcnFmbGFnczsKPiA+ICAgICAgIGJvb2wgaXJxX2VuYWJsZWQ7Cj4g
-PiAgICAgICBpbnQgaTsKPiA+Cj4gPiAgICAgICBpZiAoIWRldi0+aXJxX2VuYWJsZWQgfHwgIWRl
-dikKPiA+IC0gICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPiArICAgICAgICAgICAgIHJldHVybjsK
-PiA+Cj4gPiAgICAgICBpcnFfZW5hYmxlZCA9IGRldi0+aXJxX2VuYWJsZWQ7Cj4gPiAgICAgICBk
-ZXYtPmlycV9lbmFibGVkID0gZmFsc2U7Cj4gPiBAQCAtMjAwLDggKzIwMCw4IEBAIGludCBkcm1f
-aXJxX3VuaW5zdGFsbChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQo+ID4gICAgICAgICAgICAgICBz
-cGluX3VubG9ja19pcnFyZXN0b3JlKCZkZXYtPnZibF9sb2NrLCBpcnFmbGFncyk7Cj4gPiAgICAg
-ICB9Cj4gPgo+ID4gLSAgICAgaWYgKCFpcnFfZW5hYmxlZCkKPiA+IC0gICAgICAgICAgICAgcmV0
-dXJuIC1FSU5WQUw7Cj4gPiArICAgICBpZiAoIWRybV9XQVJOX09OKGRldiwgIWlycV9lbmFibGVk
-KSkKPiA+ICsgICAgICAgICAgICAgcmV0dXJuOwo+ID4KPiA+ICAgICAgIERSTV9ERUJVRygiaXJx
-PSVkXG4iLCBkZXYtPmlycSk7Cj4gPgo+ID4gQEAgLTIxMyw3ICsyMTMsNiBAQCBpbnQgZHJtX2ly
-cV91bmluc3RhbGwoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiA+Cj4gPiAgICAgICBmcmVlX2ly
-cShkZXYtPmlycSwgZGV2KTsKPiA+Cj4gPiAtICAgICByZXR1cm4gMDsKPiA+ICB9Cj4gPiAgRVhQ
-T1JUX1NZTUJPTChkcm1faXJxX3VuaW5zdGFsbCk7Cj4gPgo+ID4gQEAgLTI1MCwxMCArMjQ5LDEw
-IEBAIGludCBkcm1fbGVnYWN5X2lycV9jb250cm9sKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZv
-aWQgKmRhdGEsCj4gPiAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gPiAgICAgICBjYXNlIERS
-TV9VTklOU1RfSEFORExFUjoKPiA+ICAgICAgICAgICAgICAgbXV0ZXhfbG9jaygmZGV2LT5zdHJ1
-Y3RfbXV0ZXgpOwo+ID4gLSAgICAgICAgICAgICByZXQgPSBkcm1faXJxX3VuaW5zdGFsbChkZXYp
-Owo+ID4gKyAgICAgICAgICAgICBkcm1faXJxX3VuaW5zdGFsbChkZXYpOwo+Cj4gT2gsIHRoZXJl
-IGFjdHVhbGx5IGlzIGEgdXNlciBvZiB0aGlzIHJlc3VsdCEgSSBncmVwJ2VkIGZvciB0aGlzIGJ1
-dAo+IGRpZG4ndCBzZWUgaXQuIEknbSBzb3JyeSBmb3IgbWlzbGVhZGluZyB5b3UgaGVyZS4KPgo+
-IFRoaXMgaXMgaW9jdGwgY29kZSBhbmQgd2hvIHdoaWNoIHByb2dyYW0gZGVwZW5kcyBvbiBpdC5T
-byB3ZSBjYW5ub3QKPiBhY3R1YWxseSBkcm9wIHRoZSByZXN1bHQgY29kZS4KPgo+IEknbGwganVz
-dCBhY2sgeW91ciBvcmlnaW5hbCBwYXRjaCwgb3IgeW91IGNvdWxkIGFkZCB0aGUgbWFuYWdlZAo+
-IGludGVyZmFjZSB0aGF0IEkgZGVzY3JpYmVkIGFuZCBjb252ZXJ0IGhpYm1jIHRvIGl0LiBZb3Vy
-IGNob2ljZSwgbGV0IG1lCj4ga25vdy4KCkl0J3Mgb2xkIFVNUyBndW5rLCBubyBvbmUgY2FyZXMg
-Oi0pCgpJZiB5b3UncmUgcGFyYW5vaWQsIG1ha2UgYW4gaW50ZXJuYWwgX19kcm1faXJxX3VuaW5z
-dGFsbCBmdW5jdGlvbgp3aGljaCBrZWVwcyB0aGUgcmV0dXJuIHZhbHVlLiBCdXQgd2hhdCB3ZSBw
-cm9iYWJseSB3YW50IGhlcmUgaXMgdG8KanVzdCBzcGxpdCB0aGlzIHVwIGludG8gMiBmdW5jdGlv
-bnMsIGRybV9sZWdhY3lfaXJxX3VuaW5zdGFsbCwgd2hpY2gKZG9lcyB0aGUgdmFsaWRhdGlvbiBh
-bmQgYWRkaXRpb25hbCBjaGVjaywgYW5kIHRoZW4gY2FsbHMKZHJtX2lycV91bmluc3RhbGwsIHdo
-aWNoIGlzIGZvciBrbXMgZHJpdmVycywgYW5kIHdoaWNoIGp1c3QgaGFzIGEKV0FSTl9PTighZGV2
-LT5pcnFfaW5zdGFsbGVkKSBvciBzbyB0byBjYXRjaCBkcml2ZXIgYnVncy4KLURhbmllbAoKPgo+
-IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+Cj4gPiAgICAgICAgICAgICAgIG11dGV4X3VubG9jaygm
-ZGV2LT5zdHJ1Y3RfbXV0ZXgpOwo+ID4KPiA+IC0gICAgICAgICAgICAgcmV0dXJuIHJldDsKPiA+
-ICsgICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPiAgICAgICBkZWZhdWx0Ogo+ID4gICAgICAgICAg
-ICAgICByZXR1cm4gLUVJTlZBTDsKPiA+ICAgICAgIH0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRl
-L2RybS9kcm1faXJxLmggYi9pbmNsdWRlL2RybS9kcm1faXJxLmgKPiA+IGluZGV4IGQ3N2Y2ZTYu
-LmQ5ZjZlYzAgMTAwNjQ0Cj4gPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1faXJxLmgKPiA+ICsrKyBi
-L2luY2x1ZGUvZHJtL2RybV9pcnEuaAo+ID4gQEAgLTI3LDYgKzI3LDYgQEAKPiA+ICBzdHJ1Y3Qg
-ZHJtX2RldmljZTsKPiA+Cj4gPiAgaW50IGRybV9pcnFfaW5zdGFsbChzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2LCBpbnQgaXJxKTsKPiA+IC1pbnQgZHJtX2lycV91bmluc3RhbGwoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldik7Cj4gPiArdm9pZCBkcm1faXJxX3VuaW5zdGFsbChzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2KTsKPiA+Cj4gPiAgI2VuZGlmCj4gPgo+Cj4gLS0KPiBUaG9tYXMgWmltbWVybWFubgo+
-IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
-YW55IEdtYkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKPiAoSFJC
-IDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7Zy
-ZmZlcgoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9y
-YXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+On Mon, Nov 02, 2020 at 09:13:30PM +0800, Bernard wrote:
+> 
+> 
+> From: Daniel Vetter <daniel@ffwll.ch>
+> Date: 2020-11-02 18:17:24
+> To:  Bernard Zhao <bernard@vivo.com>
+> Cc:  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,Maxime Ripard <mripard@kernel.org>,Thomas Zimmermann <tzimmermann@suse.de>,David Airlie <airlied@linux.ie>,Daniel Vetter <daniel@ffwll.ch>,dri-devel@lists.freedesktop.org,linux-kernel@vger.kernel.org,opensource.kernel@vivo.com
+> Subject: Re: [PATCH] gpu/drm: make crtc check before new_connector circle>On Sun, Nov 01, 2020 at 06:58:51PM -0800, Bernard Zhao wrote:
+> >> In function prepare_signaling, crtc check (c==0) is not related
+> >> with the next new_connector circle, maybe we can put the crtc
+> >> check just after the crtc circle and before new_connector circle.
+> >> This change is to make the code to run a bit first.
+> >
+> >I'm a bit confused here with your explanation, I'm not understanding why
+> >you do this change ... Can you pls elaborate? Maybe give an example or
+> >something of the problem this patch solves, that often helps.
+> >
+> >Thanks, Daniel
+> 
+> Hi:
+> 
+> This change is to make the function return error earlier when run into the error branch:
+> if (c == 0 && (arg->flags & DRM_MODE_PAGE_FLIP_EVENT))
+>     return -EINVAL;
+> There two main FOR circles in this function, and the second FOR circle
+> never changes the if condition("(c == 0 && (arg->flags &
+> DRM_MODE_PAGE_FLIP_EVENT))") variable`s value, like c & arg->flags.  So
+> I think maybe we can check this condition before the second for circle,
+> and return the error earlier when run into this error branch.
+
+Ah ok. Makes sense, but this case is only ever hit for bad userspace that
+got something wrong, so I'm not sure we should optimize for this. And with
+this we kinda bury this fairly important check in the middle, so I don't
+think it improves code readability.
+-Daniel
+
+> 
+> BR//Bernard
+> 
+> >> 
+> >> Signed-off-by: Bernard Zhao <bernard@vivo.com>
+> >> ---
+> >>  drivers/gpu/drm/drm_atomic_uapi.c | 13 ++++++-------
+> >>  1 file changed, 6 insertions(+), 7 deletions(-)
+> >> 
+> >> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> >> index 25c269bc4681..566110996474 100644
+> >> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> >> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> >> @@ -1182,6 +1182,12 @@ static int prepare_signaling(struct drm_device *dev,
+> >>  
+> >>  		c++;
+> >>  	}
+> >> +	/*
+> >> +	 * Having this flag means user mode pends on event which will never
+> >> +	 * reach due to lack of at least one CRTC for signaling
+> >> +	 */
+> >> +	if (c == 0 && (arg->flags & DRM_MODE_PAGE_FLIP_EVENT))
+> >> +		return -EINVAL;
+> >>  
+> >>  	for_each_new_connector_in_state(state, conn, conn_state, i) {
+> >>  		struct drm_writeback_connector *wb_conn;
+> >> @@ -1220,13 +1226,6 @@ static int prepare_signaling(struct drm_device *dev,
+> >>  		conn_state->writeback_job->out_fence = fence;
+> >>  	}
+> >>  
+> >> -	/*
+> >> -	 * Having this flag means user mode pends on event which will never
+> >> -	 * reach due to lack of at least one CRTC for signaling
+> >> -	 */
+> >> -	if (c == 0 && (arg->flags & DRM_MODE_PAGE_FLIP_EVENT))
+> >> -		return -EINVAL;
+> >> -
+> >>  	return 0;
+> >>  }
+> >>  
+> >> -- 
+> >> 2.29.0
+> >> 
+> >
+> >-- 
+> >Daniel Vetter
+> >Software Engineer, Intel Corporation
+> >http://blog.ffwll.ch
+> 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
