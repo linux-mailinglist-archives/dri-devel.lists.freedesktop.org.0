@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8AA22A3E94
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161642A3EA8
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 856706EC30;
-	Tue,  3 Nov 2020 08:14:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25AD96EC40;
+	Tue,  3 Nov 2020 08:14:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C9B66E575;
- Mon,  2 Nov 2020 19:35:33 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id f21so7336744plr.5;
- Mon, 02 Nov 2020 11:35:33 -0800 (PST)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5BF6EB87;
+ Mon,  2 Nov 2020 19:36:18 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id b3so12051746pfo.2;
+ Mon, 02 Nov 2020 11:36:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=2lbMlvM7aWGVHz4uVqI/5p5HZNqB6mCF18RFUVjf3IE=;
- b=i96sEWF+S8v5jjYJ2xNOpF2zGVRZAJkShGc54QxYUawVtICygWu5WTCoiCbQEzV+ur
- QvC3b2fo/4rZLGPGVaun1J/ktqTfl03ws0QjCMa1DTDdhm9hzamk4Pm6kfJE5h/wxv20
- csYlAvfdf+hh8WhkA1+6o6gi1uKShtzN1EdgEMn7FGsNoiz/ojY7TCcSY+VpGtezZFx9
- n7IL3oeFrmx18T4jcC00s+UUndq3+xsZFTXohM/4Wg5C3hCV4hneZ6RN/h2hSwFxjCpX
- 2knpV3917P4KHvRl8IhS5uZxhohOtk2TKI2v2r2Ec4J8pgtLkuGkYl3nf9RmQEmi0paT
- CxOQ==
+ bh=s/DA9Kue9Ve8AC+uOhIa4hc4aaK5zLqpc50nqJdELt0=;
+ b=aZL3CEeYk7iVAX0nfTGvMN0yre2qpny9PFNowwuO3SUgxkSiMTlFEb9wI/TaQDhwIP
+ yK1l6mGwUoJI12pkoIJEzLUgOutjpgu8N7YR0bG9DGkkBm+JE1tEBdsqT2CXMyImLwUz
+ nHH4Oq+Nbg2+ONavgNNYaJcIbFTlRxVehiMXerS39NPsVAznTdA0AvVNDK8E0u0O3kVn
+ iSRFQzF3w5JoqoMEOTaZcfb8aWR+tbn/iRVF20L8agcCY7cxSUpwWr+1XYrmJwOIgkHT
+ v7aV/za6H4URGmN0ExXJ+Sp6hQf6kFtB9g+pfvFIq64ad2Lv0z/L2qdSQ6b+cEnlTeyH
+ FzlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=2lbMlvM7aWGVHz4uVqI/5p5HZNqB6mCF18RFUVjf3IE=;
- b=HwKVjYnaYN5zpOaA5KSnohtOa//rGneOHhLyIFsp1+H7QZcD1OKTa0ciIul4oMLCCQ
- 6cbEHSq80FKEvUR/+GEenUBN32HobmOinb//vrzxNPFCY/JaEonbCf9bo3TSkPKrkr8N
- J78BuKea/Lx1xzMwQ7IzEkp2wH+8Qre5+/ndSrHuVrTjY1fI7aiV9UOE6+ihYImZwuEV
- KjRNP9NlcJPcxOJHnvnkbEcIjZeT/jlh1cOChjHbkoaP/35oNM3GOU4i+SEybbJqgVwQ
- 6AcWcezxMACw2VY0U4aZRWSnaCD1JLb5MRWiKqDALfMnBq4uYd1Xj13GA3lyjtNM4TEh
- eyNQ==
-X-Gm-Message-State: AOAM5336mFb2fJiZqwyowzwpVNkOmSsClhNoRTA8rO+obXradLvVB6yC
- W8czXjO8voY66FVTRsACMq0=
-X-Google-Smtp-Source: ABdhPJxTjvCKuO1rp6ybPQ0KppAeZO2klLbBN64AHYKjstw2UMMyvJMBmN7RiFHs1EgkUYWlcrAWkA==
-X-Received: by 2002:a17:902:324:b029:d6:ba15:90bc with SMTP id
- 33-20020a1709020324b02900d6ba1590bcmr10902741pld.29.1604345731743; 
- Mon, 02 Nov 2020 11:35:31 -0800 (PST)
+ bh=s/DA9Kue9Ve8AC+uOhIa4hc4aaK5zLqpc50nqJdELt0=;
+ b=Msi8qwTZEXuJdx1wvMECJpc2qYMlrpwYDWgPC6uEJI/FAbIt58oscSYf0RSGf3ynk3
+ s7R9oOC6ct2sojLKJJOtUkAh0pISmG6NVwUKqaQzsGTP9E0o9xgoImkc1XM4958fQhe0
+ ybNt8kNKWldrz5pEvrxJcUbC+J3czxHZkOstRkPPy0regP7NRt6l2B22vreKoS6rk+uM
+ KR/hktNDRtg7WiX9D+cOlLkBDOK6kdsqvGAjZ0cEt2jnfp5PolJyURTVi0eXnOCpe3s+
+ 4LdAqFpuQ3WK85TxyCmeEnrfZR/aXgGrVGCwRLcHoHljZl62h7lJ0rjB/p8fhHXXus0l
+ kxyQ==
+X-Gm-Message-State: AOAM533LsPYEfMGmv4VkPu+4SWNvbxUvhwXs7Xjd/sYdCXq2kJj9KOcs
+ 9kdN3DOjsx0qP2hxuLZYaC0=
+X-Google-Smtp-Source: ABdhPJxGtFsHxqpHVik0XMgKD5oDUq7RYiD8rabDGWVXAqIBZBXqVhXo4Th8ZmALaNcYTdhpQGbbhw==
+X-Received: by 2002:aa7:8287:0:b029:142:2501:39ec with SMTP id
+ s7-20020aa782870000b0290142250139ecmr22201598pfm.59.1604345777761; 
+ Mon, 02 Nov 2020 11:36:17 -0800 (PST)
 Received: from localhost ([160.202.157.3])
- by smtp.gmail.com with ESMTPSA id g85sm14651760pfb.4.2020.11.02.11.35.28
+ by smtp.gmail.com with ESMTPSA id gb13sm241681pjb.55.2020.11.02.11.36.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 11:35:31 -0800 (PST)
-Date: Tue, 3 Nov 2020 01:05:25 +0530
+ Mon, 02 Nov 2020 11:36:17 -0800 (PST)
+Date: Tue, 3 Nov 2020 01:06:11 +0530
 From: Deepak R Varma <mh12gx2825@gmail.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 2/6] drm/amdgpu/umc: use "*" adjacent to data name
-Message-ID: <32f014be6bb816aa37b4c0670d2ee990ce596b60.1604345594.git.mh12gx2825@gmail.com>
+Subject: [PATCH 3/6] drm/amdgpu/jpeg: use "*" adjacent to data name
+Message-ID: <cc3d07cfc8480f9f812d801f66ee9dee5674c662.1604345594.git.mh12gx2825@gmail.com>
 References: <6ad41a97d7805124d2e31c70d96c846cf0d21524.1604345594.git.mh12gx2825@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -89,54 +89,95 @@ issues reported by checkpatch script:
 
 Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/umc_v6_1.c | 4 ++--
- drivers/gpu/drm/amd/amdgpu/umc_v8_7.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c | 6 +++---
+ drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c | 4 ++--
+ drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c | 6 +++---
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/umc_v6_1.c b/drivers/gpu/drm/amd/amdgpu/umc_v6_1.c
-index 5288617ca552..96d7769609f4 100644
---- a/drivers/gpu/drm/amd/amdgpu/umc_v6_1.c
-+++ b/drivers/gpu/drm/amd/amdgpu/umc_v6_1.c
-@@ -253,7 +253,7 @@ static void umc_v6_1_querry_uncorrectable_error_count(struct amdgpu_device *adev
- static void umc_v6_1_query_ras_error_count(struct amdgpu_device *adev,
- 					   void *ras_error_status)
- {
--	struct ras_err_data* err_data = (struct ras_err_data*)ras_error_status;
-+	struct ras_err_data *err_data = (struct ras_err_data *)ras_error_status;
+diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
+index 7b1a18cbafc4..6b80dcea80ec 100644
+--- a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
+@@ -247,7 +247,7 @@ static int jpeg_v2_0_disable_power_gating(struct amdgpu_device *adev)
+ 	return 0;
+ }
  
- 	uint32_t umc_inst        = 0;
- 	uint32_t ch_inst         = 0;
-@@ -368,7 +368,7 @@ static void umc_v6_1_query_error_address(struct amdgpu_device *adev,
- static void umc_v6_1_query_ras_error_address(struct amdgpu_device *adev,
- 					     void *ras_error_status)
+-static int jpeg_v2_0_enable_power_gating(struct amdgpu_device* adev)
++static int jpeg_v2_0_enable_power_gating(struct amdgpu_device *adev)
  {
--	struct ras_err_data* err_data = (struct ras_err_data*)ras_error_status;
-+	struct ras_err_data *err_data = (struct ras_err_data *)ras_error_status;
+ 	if (adev->pg_flags & AMD_PG_SUPPORT_JPEG) {
+ 		uint32_t data;
+@@ -274,7 +274,7 @@ static int jpeg_v2_0_enable_power_gating(struct amdgpu_device* adev)
+ 	return 0;
+ }
  
- 	uint32_t umc_inst        = 0;
- 	uint32_t ch_inst         = 0;
-diff --git a/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c b/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c
-index 5665c77a9d58..a064c097690c 100644
---- a/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c
-+++ b/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c
-@@ -170,7 +170,7 @@ static void umc_v8_7_querry_uncorrectable_error_count(struct amdgpu_device *adev
- static void umc_v8_7_query_ras_error_count(struct amdgpu_device *adev,
- 					   void *ras_error_status)
+-static void jpeg_v2_0_disable_clock_gating(struct amdgpu_device* adev)
++static void jpeg_v2_0_disable_clock_gating(struct amdgpu_device *adev)
  {
--	struct ras_err_data* err_data = (struct ras_err_data*)ras_error_status;
-+	struct ras_err_data *err_data = (struct ras_err_data *)ras_error_status;
+ 	uint32_t data;
  
- 	uint32_t umc_inst        = 0;
- 	uint32_t ch_inst         = 0;
-@@ -260,7 +260,7 @@ static void umc_v8_7_query_error_address(struct amdgpu_device *adev,
- static void umc_v8_7_query_ras_error_address(struct amdgpu_device *adev,
- 					     void *ras_error_status)
+@@ -297,7 +297,7 @@ static void jpeg_v2_0_disable_clock_gating(struct amdgpu_device* adev)
+ 	WREG32_SOC15(JPEG, 0, mmJPEG_CGC_GATE, data);
+ }
+ 
+-static void jpeg_v2_0_enable_clock_gating(struct amdgpu_device* adev)
++static void jpeg_v2_0_enable_clock_gating(struct amdgpu_device *adev)
  {
--	struct ras_err_data* err_data = (struct ras_err_data*)ras_error_status;
-+	struct ras_err_data *err_data = (struct ras_err_data *)ras_error_status;
+ 	uint32_t data;
  
- 	uint32_t umc_inst        = 0;
- 	uint32_t ch_inst         = 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c
+index 845306f63cdb..c6724a0e0c43 100644
+--- a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c
++++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_5.c
+@@ -247,7 +247,7 @@ static int jpeg_v2_5_resume(void *handle)
+ 	return r;
+ }
+ 
+-static void jpeg_v2_5_disable_clock_gating(struct amdgpu_device* adev, int inst)
++static void jpeg_v2_5_disable_clock_gating(struct amdgpu_device *adev, int inst)
+ {
+ 	uint32_t data;
+ 
+@@ -276,7 +276,7 @@ static void jpeg_v2_5_disable_clock_gating(struct amdgpu_device* adev, int inst)
+ 	WREG32_SOC15(JPEG, inst, mmJPEG_CGC_CTRL, data);
+ }
+ 
+-static void jpeg_v2_5_enable_clock_gating(struct amdgpu_device* adev, int inst)
++static void jpeg_v2_5_enable_clock_gating(struct amdgpu_device *adev, int inst)
+ {
+ 	uint32_t data;
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c b/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c
+index 3a0dff53654d..e8fbb2a0de34 100644
+--- a/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c
+@@ -213,7 +213,7 @@ static int jpeg_v3_0_resume(void *handle)
+ 	return r;
+ }
+ 
+-static void jpeg_v3_0_disable_clock_gating(struct amdgpu_device* adev)
++static void jpeg_v3_0_disable_clock_gating(struct amdgpu_device *adev)
+ {
+ 	uint32_t data = 0;
+ 
+@@ -243,7 +243,7 @@ static void jpeg_v3_0_disable_clock_gating(struct amdgpu_device* adev)
+ 	WREG32_SOC15(JPEG, 0, mmJPEG_CGC_CTRL, data);
+ }
+ 
+-static void jpeg_v3_0_enable_clock_gating(struct amdgpu_device* adev)
++static void jpeg_v3_0_enable_clock_gating(struct amdgpu_device *adev)
+ {
+ 	uint32_t data = 0;
+ 
+@@ -286,7 +286,7 @@ static int jpeg_v3_0_disable_static_power_gating(struct amdgpu_device *adev)
+ 	return 0;
+ }
+ 
+-static int jpeg_v3_0_enable_static_power_gating(struct amdgpu_device* adev)
++static int jpeg_v3_0_enable_static_power_gating(struct amdgpu_device *adev)
+ {
+ 	/* enable anti hang mechanism */
+ 	WREG32_P(SOC15_REG_OFFSET(JPEG, 0, mmUVD_JPEG_POWER_STATUS),
 -- 
 2.25.1
 
