@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2059D2A3370
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 19:58:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5FA2A3381
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 20:00:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF5966E25B;
-	Mon,  2 Nov 2020 18:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C0F6E505;
+	Mon,  2 Nov 2020 19:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B07E66E25B;
- Mon,  2 Nov 2020 18:58:08 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id 33so5060012wrl.7;
- Mon, 02 Nov 2020 10:58:08 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19C456E47E;
+ Mon,  2 Nov 2020 19:00:27 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id e2so10526944wme.1;
+ Mon, 02 Nov 2020 11:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XxeRfZAIWbudLvp9kWivxncFadrsvxo56vZJQ20jKs4=;
- b=kOusrNgTcZm1MxA3iSkro72CMD3oLdxo8P3rycLbCduVu8veVm0Za2ckbpRMXgneNS
- t0jAYOqI7qTcxjAbWh1edM/wwKBrnQVG0pEqHbK5AXtsQtNn2FH01tkDKBQuth2FHmES
- 1BLS7z9rEV8/45Df9hWoCjIpdKYTDYoD/OgjAsmv+udkLzBYvOHhzn4fUeHhZLhszA56
- 5oYxXxKI86lgXMqPyA2qC5+e6lkz/cQtUo+6y3RZgK5AOTJ8GnqXLMTaRtPqwc4HKm1q
- WaoE72ypwkyIN8H9zt/dpOTz8lQeDuqulJqnCyfmCuJPMipsIqEfEHkm9ThmeiVeNWk+
- hlPQ==
+ :cc; bh=F52hESqbsB1MPJOrdkRKIslrWAc4TnNYL/WsFrJgJKw=;
+ b=toR2HRVdMm7mruxLONthC9XCLQ2NZM7kvv76jNtete8uCBDGb7+45cxZPdkRDrH59n
+ mn2jusHu9DC1CUcCHVwWrwrx9yQo08XLXrLovUsOY5/VwQ6fZZt1KTBDX5NmBVMIkDJ/
+ EqzMvk5nkdMc/DdJ3rJLd0EEbCXCRxhE6F4DpSADFhnaACYbCq0Hnc2XlDtBEEdM65eK
+ mEBe1NZXRRvstr8m9KiSpO7zQoHflmYdRbRXgRC4upO1zH0T0LlMuSyVJXcvmbZwW+F8
+ OFSAa6P+DaJTq+YT2/qF24jsGzErQR+Di5uTo15pZT5amGCHl13xKVdMKuoS8iWJur+C
+ ptag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XxeRfZAIWbudLvp9kWivxncFadrsvxo56vZJQ20jKs4=;
- b=FDIaO9CSSp+TuKbc4NY7FlIj0/QR4XV31rOS3BHgMAFCucX9uvbWmqer498XNwDfdF
- JMBrV/ZENY74WnmetzQPsTFtCQccyj+aKmBZgF2OVNw5IoitIxJ4ceHE3o+j+jSTNAzg
- LKImvFTWJeCUersLNBX11Y0Qcl38Bmygo/xs9sN+EjAb8AZ80coosF1mzoZfV3LnyVSh
- rG3OOKs0ZJiiSiU/iQzjymaxIavjY4NVZUTNAvGzGnDDRcua3bZfpnoch5IC/PumO3P0
- 2vzCGSQqlIeen0Rcg5K9O5K3z6UnNBUi+QAAfViUN7q05DPWWTqB+2M5NLFf8WWHW/YZ
- 7ODg==
-X-Gm-Message-State: AOAM531dgp9SeT3Pr48KNANmtzobvJJoH1D5xOaZQ7a+qdFNw82+1UIW
- RmCJdMspBVTUhqyVyc92jh8KAPqltX7tfaqAgYc=
-X-Google-Smtp-Source: ABdhPJxvq18UhGQenFga2zX3xGzDEm+8E1qLSRDidKYDfnqifZoOx6NvrWF8WShy3ONm0wckJIZeC2DOkSqQ6RsC+og=
-X-Received: by 2002:adf:dd8f:: with SMTP id x15mr23253688wrl.124.1604343487472; 
- Mon, 02 Nov 2020 10:58:07 -0800 (PST)
+ bh=F52hESqbsB1MPJOrdkRKIslrWAc4TnNYL/WsFrJgJKw=;
+ b=HK+Qg6tcreIy3wqx7Rq5fhz7s8kdhMKHkCR/cv3lYPxcvpM0tuRcDlQIsJcivoa7n1
+ fmbX9IbxN6kUfRYw/p22lBCorfpNbuWsMMCydlZ0c4zLVKhwQYFnXS54F5ajtb0jfY1V
+ Le30GDy/GBgT3D0qAgcJvKz1JBfFKkCBKZG4ZuU/kP883lQLXXmXvAeEkkYKUMvB1PGW
+ iU+CWQwlfFf6Xg/yjE6joowRPx1Ec9sb/32B3Ggg6G8UaYkAHUzDE9G2W8ydG9aD4Yho
+ d4ylPlc9Yfxqqc/R8y628Y1GN7LA9eGcZP/jfx4bQbhABT3UHprmPmigrE+d9F3mD1Hy
+ UzgQ==
+X-Gm-Message-State: AOAM533DXxHqD/6/GScyEXjdZSson/k8jBhkpV5v7SV6D6dIv5Vt0vXS
+ x9keUdQFNQKEJOCCt8fx5+W1/xXSE+stcQ3NLJE=
+X-Google-Smtp-Source: ABdhPJytQUYMUMSyXdcmVlTI70Lb9uFFEdcAtoiyeavU7SDPkzfzLliepONejZLqlw/MJVxGDHVXT7e6qiW+8huN4SQ=
+X-Received: by 2002:a05:600c:25a:: with SMTP id
+ 26mr19186350wmj.39.1604343625759; 
+ Mon, 02 Nov 2020 11:00:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20201102125747.6420-1-bernard@vivo.com>
-In-Reply-To: <20201102125747.6420-1-bernard@vivo.com>
+References: <20201102141654.699468-1-colin.king@canonical.com>
+In-Reply-To: <20201102141654.699468-1-colin.king@canonical.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 2 Nov 2020 13:57:56 -0500
-Message-ID: <CADnq5_PwBLibCGs_feeUGnJrTs1=2ezW_kyev=-aXm3V15QNUg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd: fix typoes
-To: Bernard Zhao <bernard@vivo.com>
+Date: Mon, 2 Nov 2020 14:00:14 -0500
+Message-ID: <CADnq5_NJ=X1A+R5rHCvLZAXWpAL-3YiN_ksrzY8Kjuaoj1ybeg@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amdgpu: fix spelling mistake: "Successed" ->
+ "Succeeded"
+To: Colin King <colin.king@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,13 +62,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Leo Li <sunpeng.li@amd.com>,
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
  LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, zhengbin <zhengbin13@huawei.com>,
- David Airlie <airlied@linux.ie>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Colin Ian King <colin.king@canonical.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -77,30 +77,32 @@ Applied.  Thanks!
 
 Alex
 
-On Mon, Nov 2, 2020 at 8:43 AM Bernard Zhao <bernard@vivo.com> wrote:
+On Mon, Nov 2, 2020 at 9:17 AM Colin King <colin.king@canonical.com> wrote:
 >
-> Fix typoes.
+> From: Colin Ian King <colin.king@canonical.com>
 >
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
+> There is a spelling mistake in a deb_dbg message. Fix it.
+>
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
-> index 2c6db379afae..e994d233aa21 100644
-> --- a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
-> +++ b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
-> @@ -1980,7 +1980,7 @@ static void calculate_bandwidth(
->         else {
->                 data->latency_for_non_mcifwr_clients = bw_int_to_fixed(0);
->         }
-> -       /*dmif mc urgent latency suppported in high sclk and yclk*/
-> +       /*dmif mc urgent latency supported in high sclk and yclk*/
->         data->dmifmc_urgent_latency_supported_in_high_sclk_and_yclk = bw_div((bw_sub(data->min_read_buffer_size_in_time, data->dmif_burst_time[high][s_high])), data->total_dmifmc_urgent_trips);
->         /*dram speed/p-state change margin*/
->         /*in the multi-display case the nb p-state change watermark cannot exceed the average lb size plus the dmif size or the cursor dcp buffer size*/
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> index 28a5c0d21b71..c99c2180785f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> @@ -296,7 +296,7 @@ static void amdgpu_vram_mgr_do_reserve(struct ttm_resource_manager *man)
+>                 if (drm_mm_reserve_node(mm, &rsv->mm_node))
+>                         continue;
+>
+> -               dev_dbg(adev->dev, "Reservation 0x%llx - %lld, Successed\n",
+> +               dev_dbg(adev->dev, "Reservation 0x%llx - %lld, Succeeded\n",
+>                         rsv->mm_node.start, rsv->mm_node.size);
+>
+>                 vis_usage = amdgpu_vram_mgr_vis_size(adev, &rsv->mm_node);
 > --
-> 2.29.0
+> 2.27.0
 >
 > _______________________________________________
 > dri-devel mailing list
