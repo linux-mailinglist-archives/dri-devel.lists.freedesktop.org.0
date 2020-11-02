@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681982A2581
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 08:45:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7979A2A2585
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 08:45:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 509B46E39B;
-	Mon,  2 Nov 2020 07:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D09456E3E5;
+	Mon,  2 Nov 2020 07:45:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3076E372;
- Mon,  2 Nov 2020 07:45:08 +0000 (UTC)
-IronPort-SDR: /sjdp67yU3YlryuNc1tOeFyA96R68JSpZaDBYPRvlSxGU2dm1JO6yu0JZPF3cQOds2/ershUYi
- 2RGZKxMhntiQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9792"; a="186677923"
-X-IronPort-AV: E=Sophos;i="5.77,444,1596524400"; d="scan'208";a="186677923"
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99AF16E3AC;
+ Mon,  2 Nov 2020 07:45:55 +0000 (UTC)
+IronPort-SDR: uSg9GlnICVHdx2DnIiCPXbvyGPfqOB5bG+ATpG3xG2z0hITm/B0wlBzKyvLsyegsKdacZ50dl2
+ G78QPooyiTRA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9792"; a="155835050"
+X-IronPort-AV: E=Sophos;i="5.77,444,1596524400"; d="scan'208";a="155835050"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Nov 2020 23:45:07 -0800
-IronPort-SDR: Oc7Q1HmUABtMr9yhbk6hxAlNQOxHrlv9wZlz9WHt0Q7JNJMFHytGecb5KY5uf1z6pQAs/M54Nr
- 56FRhG+u6WSQ==
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2020 23:45:51 -0800
+IronPort-SDR: kWJrYsoiApzk52ydBvVskui384n9Tk7pCJvMgrh/T//m3VJCJ5+hoxsfqkbhs5IeZYEin8PKqQ
+ 5iXtQPTFJsnA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,444,1596524400"; d="scan'208";a="351928181"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by orsmga008.jf.intel.com with ESMTP; 01 Nov 2020 23:45:07 -0800
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.77,444,1596524400"; d="scan'208";a="319983759"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga003.jf.intel.com with ESMTP; 01 Nov 2020 23:45:51 -0800
+Received: from bgsmsx606.gar.corp.intel.com (10.67.234.8) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sun, 1 Nov 2020 23:45:06 -0800
+ 15.1.1713.5; Sun, 1 Nov 2020 23:45:50 -0800
 Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX604.gar.corp.intel.com (10.67.234.6) with Microsoft SMTP Server
+ BGSMSX606.gar.corp.intel.com (10.67.234.8) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 2 Nov 2020 13:15:04 +0530
+ 15.1.1713.5; Mon, 2 Nov 2020 13:15:48 +0530
 Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
  BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Mon, 2 Nov 2020 13:15:03 +0530
+ Mon, 2 Nov 2020 13:15:48 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Gupta, Anshuman" <anshuman.gupta@intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v4 01/16] drm/i915/hdcp: Update CP property in update_pipe
-Thread-Topic: [PATCH v4 01/16] drm/i915/hdcp: Update CP property in update_pipe
-Thread-Index: AQHWrIIOZ3bWs4Tv/kKcY+GJjlJ/JKm0fu3Q
-Date: Mon, 2 Nov 2020 07:45:03 +0000
-Message-ID: <e662833055df4b8cacf999b2f6ec603b@intel.com>
+Subject: RE: [PATCH v4 02/16] drm/i915/hdcp: Get conn while content_type
+ changed
+Thread-Topic: [PATCH v4 02/16] drm/i915/hdcp: Get conn while content_type
+ changed
+Thread-Index: AQHWrIIPF+KW1CKjikGa5zfcO8Maeqm0f0gg
+Date: Mon, 2 Nov 2020 07:45:48 +0000
+Message-ID: <7814e5d3e7a248e0a39ef0e8777d79e9@intel.com>
 References: <20201027164208.10026-1-anshuman.gupta@intel.com>
- <20201027164208.10026-2-anshuman.gupta@intel.com>
-In-Reply-To: <20201027164208.10026-2-anshuman.gupta@intel.com>
+ <20201027164208.10026-3-anshuman.gupta@intel.com>
+In-Reply-To: <20201027164208.10026-3-anshuman.gupta@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -89,64 +91,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > Ramalingam <ramalingam.c@intel.com>; Li, Juston <juston.li@intel.com>;
 > Shankar, Uma <uma.shankar@intel.com>; Gupta, Anshuman
 > <anshuman.gupta@intel.com>
-> Subject: [PATCH v4 01/16] drm/i915/hdcp: Update CP property in update_pipe
+> Subject: [PATCH v4 02/16] drm/i915/hdcp: Get conn while content_type changed
 > 
-> When crtc state need_modeset is true it is not necessary it is going to be a real
-> modeset, it can turns to be a fastset instead of modeset.
-> This turns content protection property to be DESIRED and hdcp update_pipe left
-> with property to be in DESIRED state but actual hdcp->value was ENABLED.
-> 
-> This issue is caught with DP MST setup, where we have multiple connector in
-> same DP_MST topology. When disabling HDCP on one of DP MST connector leads
-> to set the crtc state need_modeset to true for all other crtc driving the other DP-
-> MST topology connectors.
-> This turns up other DP MST connectors CP property to be DESIRED despite the
-> actual hdcp->value is ENABLED.
-> Above scenario fails the DP MST HDCP IGT test, disabling HDCP on one MST
-> stream should not cause to disable HDCP on another MST stream on same DP
-> MST topology.
-> 
-> v2:
-> Fix WARN_ON(connector->base.registration_state ==
-> DRM_CONNECTOR_REGISTERED)
-> v3:
-> Commit log improvement. [Uma]
-> Added a comment before scheduling prop_work. [Uma]
+> Get DRM connector reference count while scheduling a prop work to avoid any
+> possible destroy of DRM connector when it is in DRM_CONNECTOR_REGISTERED
+> state.
 
 Looks Good to me.
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
- 
-> Fixes: 33f9a623bfc6 ("drm/i915/hdcp: Update CP as per the kernel internal
-> state")
+
+> Fixes: a6597faa2d59 ("drm/i915: Protect workers against disappearing
+> connectors")
+> Cc: Sean Paul <seanpaul@chromium.org>
 > Cc: Ramalingam C <ramalingam.c@intel.com>
 > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_hdcp.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/gpu/drm/i915/display/intel_hdcp.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c
 > b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index b2a4bbcfdcd2..eee8263405b9 100644
+> index eee8263405b9..b9d8825e2bb1 100644
 > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
 > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -2221,6 +2221,14 @@ void intel_hdcp_update_pipe(struct
-> intel_atomic_state *state,
->  		desired_and_not_enabled =
->  			hdcp->value !=
-> DRM_MODE_CONTENT_PROTECTION_ENABLED;
+> @@ -2210,6 +2210,7 @@ void intel_hdcp_update_pipe(struct intel_atomic_state
+> *state,
+>  	if (content_protection_type_changed) {
+>  		mutex_lock(&hdcp->mutex);
+>  		hdcp->value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+> +		drm_connector_get(&connector->base);
+>  		schedule_work(&hdcp->prop_work);
 >  		mutex_unlock(&hdcp->mutex);
-> +		/*
-> +		 * If HDCP already ENABLED and CP property is DESIRED, schedule
-> +		 * prop_work to update correct CP property to user space.
-> +		 */
-> +		if (!desired_and_not_enabled &&
-> !content_protection_type_changed) {
-> +			drm_connector_get(&connector->base);
-> +			schedule_work(&hdcp->prop_work);
-> +		}
 >  	}
-> 
->  	if (desired_and_not_enabled || content_protection_type_changed)
 > --
 > 2.26.2
 
