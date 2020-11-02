@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5FA2A3381
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 20:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A711C2A339A
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 20:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8C0F6E505;
-	Mon,  2 Nov 2020 19:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA2A26E52A;
+	Mon,  2 Nov 2020 19:04:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19C456E47E;
- Mon,  2 Nov 2020 19:00:27 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id e2so10526944wme.1;
- Mon, 02 Nov 2020 11:00:27 -0800 (PST)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEFD66E52A;
+ Mon,  2 Nov 2020 19:04:41 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id i16so10459584wrv.1;
+ Mon, 02 Nov 2020 11:04:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F52hESqbsB1MPJOrdkRKIslrWAc4TnNYL/WsFrJgJKw=;
- b=toR2HRVdMm7mruxLONthC9XCLQ2NZM7kvv76jNtete8uCBDGb7+45cxZPdkRDrH59n
- mn2jusHu9DC1CUcCHVwWrwrx9yQo08XLXrLovUsOY5/VwQ6fZZt1KTBDX5NmBVMIkDJ/
- EqzMvk5nkdMc/DdJ3rJLd0EEbCXCRxhE6F4DpSADFhnaACYbCq0Hnc2XlDtBEEdM65eK
- mEBe1NZXRRvstr8m9KiSpO7zQoHflmYdRbRXgRC4upO1zH0T0LlMuSyVJXcvmbZwW+F8
- OFSAa6P+DaJTq+YT2/qF24jsGzErQR+Di5uTo15pZT5amGCHl13xKVdMKuoS8iWJur+C
- ptag==
+ :cc:content-transfer-encoding;
+ bh=Tf+lyKd6cxKdsDnu3FRIUy9U8nKGczUdtHTnDfNA6uk=;
+ b=N88QPtjKr3lnoHDVn2ua8QmK+rTC4K1TDQ/67elgh7OvoyWwbfTLhBzeBR5rTpatH1
+ v6v77w7acB2WFkVXtjdS7JXSqvbobWCYDMLW64nI3L2ClZ53hMTzpqxxYznu0S54Pl4r
+ 2EQWY+jZ4K4eEJ5ibYmRLuFe0EsSbFv8o03orKXY3NogDsoREZumC/abc6mpLHYbTCyy
+ K3w7Skdcf/jdS9yl6fyZwp4dwmJyGUoTXRc+gylIzKnTKNaXrPpBHTiiLccZ8XzRwweU
+ cRpB2FFk/SetlnTkO501C5ffSMH99MXWZg5ZYC3luCSRrgrlFLJ7+bHtEJ5GOQPmrx2T
+ Flww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=F52hESqbsB1MPJOrdkRKIslrWAc4TnNYL/WsFrJgJKw=;
- b=HK+Qg6tcreIy3wqx7Rq5fhz7s8kdhMKHkCR/cv3lYPxcvpM0tuRcDlQIsJcivoa7n1
- fmbX9IbxN6kUfRYw/p22lBCorfpNbuWsMMCydlZ0c4zLVKhwQYFnXS54F5ajtb0jfY1V
- Le30GDy/GBgT3D0qAgcJvKz1JBfFKkCBKZG4ZuU/kP883lQLXXmXvAeEkkYKUMvB1PGW
- iU+CWQwlfFf6Xg/yjE6joowRPx1Ec9sb/32B3Ggg6G8UaYkAHUzDE9G2W8ydG9aD4Yho
- d4ylPlc9Yfxqqc/R8y628Y1GN7LA9eGcZP/jfx4bQbhABT3UHprmPmigrE+d9F3mD1Hy
- UzgQ==
-X-Gm-Message-State: AOAM533DXxHqD/6/GScyEXjdZSson/k8jBhkpV5v7SV6D6dIv5Vt0vXS
- x9keUdQFNQKEJOCCt8fx5+W1/xXSE+stcQ3NLJE=
-X-Google-Smtp-Source: ABdhPJytQUYMUMSyXdcmVlTI70Lb9uFFEdcAtoiyeavU7SDPkzfzLliepONejZLqlw/MJVxGDHVXT7e6qiW+8huN4SQ=
-X-Received: by 2002:a05:600c:25a:: with SMTP id
- 26mr19186350wmj.39.1604343625759; 
- Mon, 02 Nov 2020 11:00:25 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Tf+lyKd6cxKdsDnu3FRIUy9U8nKGczUdtHTnDfNA6uk=;
+ b=gGDMBlGO0udPXfgqxwwrMUHK7v0PRSCjGsEuaO7rDLsNPiDje+QtaSyFGPLn0PxIY7
+ 3LOAhX7ghpU0b+DQMZoG584fWz4VH5g5ASxmZG0nkyPURxmaDG3di7IaCv//I5GKz9TF
+ 2Uw4r8AGjTAxYRfifR7l53x1jNf4tz4loBPPqNnO3xKC5R0vYv1T6sKkxKy3xdfUUKqs
+ crd/1s7XbhGp+tDfsiy2iXyxdkaOnnOvPxIkNfk330psfEGjxn3I5zqmPEBiuVEmz3+b
+ sZX26vO7cVVm+Ns5a5oCHqIDYKrs8XYDLihjs3f0iqLJcK2Vorzd2cgOel22Xe8stk/L
+ bbyA==
+X-Gm-Message-State: AOAM533XP+U6rq2wu8f4FgRL2D303Q+MC5lX0H1rCQemfTIqrOl3Q6bs
+ UP0/6dbl3F8oY9v49+9XYA14cyYmNTU0514uFUU=
+X-Google-Smtp-Source: ABdhPJwCdf6HK3BRONaxMlEO4sSZeGYlPQnVf6qELCEGG0Uy0dyaWX4udRuSFsUD6PPBSk5N9pJGkL5k6E56Pd6EU24=
+X-Received: by 2002:adf:dd8f:: with SMTP id x15mr23289868wrl.124.1604343880677; 
+ Mon, 02 Nov 2020 11:04:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20201102141654.699468-1-colin.king@canonical.com>
-In-Reply-To: <20201102141654.699468-1-colin.king@canonical.com>
+References: <1604318927-11896-1-git-send-email-zou_wei@huawei.com>
+In-Reply-To: <1604318927-11896-1-git-send-email-zou_wei@huawei.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 2 Nov 2020 14:00:14 -0500
-Message-ID: <CADnq5_NJ=X1A+R5rHCvLZAXWpAL-3YiN_ksrzY8Kjuaoj1ybeg@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amdgpu: fix spelling mistake: "Successed" ->
- "Succeeded"
-To: Colin King <colin.king@canonical.com>
+Date: Mon, 2 Nov 2020 14:04:29 -0500
+Message-ID: <CADnq5_OLB62R9NA_n6JW5vJQPANmBXD6DapMvP74i=amevxE1Q@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/pm: remove unused variable
+To: Zou Wei <zou_wei@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +61,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+Cc: Xiaojian Du <Xiaojian.Du@amd.com>, Dave Airlie <airlied@linux.ie>,
  LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Mon, Nov 2, 2020 at 9:17 AM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> There is a spelling mistake in a deb_dbg message. Fix it.
->
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> index 28a5c0d21b71..c99c2180785f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> @@ -296,7 +296,7 @@ static void amdgpu_vram_mgr_do_reserve(struct ttm_resource_manager *man)
->                 if (drm_mm_reserve_node(mm, &rsv->mm_node))
->                         continue;
->
-> -               dev_dbg(adev->dev, "Reservation 0x%llx - %lld, Successed\n",
-> +               dev_dbg(adev->dev, "Reservation 0x%llx - %lld, Succeeded\n",
->                         rsv->mm_node.start, rsv->mm_node.size);
->
->                 vis_usage = amdgpu_vram_mgr_vis_size(adev, &rsv->mm_node);
-> --
-> 2.27.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBOb3YgMiwgMjAyMCBhdCA4OjQ0IEFNIFpvdSBXZWkgPHpvdV93ZWlAaHVhd2VpLmNv
+bT4gd3JvdGU6Cj4KPiBGaXggdmFyaWFibGUgc2V0IGJ1dCBub3QgdXNlZCBjb21waWxhdGlvbiB3
+YXJuaW5nOgo+Cj4gLi92YW5nb2doX3BwdC5jOjM5Nzo2OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhy
+ZXTigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KPiAgIGlu
+dCByZXQgPSAwOwo+ICAgICAgIF5+fgo+CgpNYXliZSB5b3UgaGF2ZSBhbiBvbGRlciB2ZXJzaW9u
+IG9mIHRoZSBjb2RlPyAgSXQncyBjdXJyZW50bHkgdXNlZC4KCkFsZXgKCgo+IFJlcG9ydGVkLWJ5
+OiBIdWxrIFJvYm90IDxodWxrY2lAaHVhd2VpLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBab3UgV2Vp
+IDx6b3Vfd2VpQGh1YXdlaS5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG0vc3dz
+bXUvc211MTEvdmFuZ29naF9wcHQuYyB8IDIgLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgZGVsZXRp
+b25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3NtdS9zbXUx
+MS92YW5nb2doX3BwdC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9zd3NtdS9zbXUxMS92YW5n
+b2doX3BwdC5jCj4gaW5kZXggNmUyNjAyNS4uMzU1YWRlNSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vYW1kL3BtL3N3c211L3NtdTExL3ZhbmdvZ2hfcHB0LmMKPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vYW1kL3BtL3N3c211L3NtdTExL3ZhbmdvZ2hfcHB0LmMKPiBAQCAtMzk0LDggKzM5
+NCw2IEBAIHN0YXRpYyBpbnQgdmFuZ29naF9nZXRfY3VycmVudF9hY3Rpdml0eV9wZXJjZW50KHN0
+cnVjdCBzbXVfY29udGV4dCAqc211LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgZW51bSBhbWRfcHBfc2Vuc29ycyBzZW5zb3IsCj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1aW50MzJfdCAqdmFsdWUpCj4gIHsK
+PiAtICAgICAgIGludCByZXQgPSAwOwo+IC0KPiAgICAgICAgIGlmICghdmFsdWUpCj4gICAgICAg
+ICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+Cj4gLS0KPiAyLjYuMgo+Cj4gX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
