@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CF82A2FD3
-	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 17:30:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6202A2FED
+	for <lists+dri-devel@lfdr.de>; Mon,  2 Nov 2020 17:37:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A497F6E52C;
-	Mon,  2 Nov 2020 16:30:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF066E107;
+	Mon,  2 Nov 2020 16:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 928406E52C
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 16:30:49 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id y10so3065846vkl.5
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 08:30:49 -0800 (PST)
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 987626E107
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 16:37:34 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id h5so7804955vsp.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 08:37:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sREWGA01ccOZZ+Ac51fB5ORg2kfgSZpXJMerDUOeHQU=;
- b=QYCxrHXxOIzJRxoAyAIb0dG0Gl0FXPKT7ruPaIvINw1xlkDTkX4uUBFDqf2YFMeZOI
- 9mcgE/JXeOyT2MlShJ4MxRdtqhxjf6do0o6f7koqGRhIfzaXzKXlKHkx9WDf5pYYVP2i
- uEuI7tqTsgV9KOGrWFC00ME+3sIQYj9ymedsc=
+ :cc; bh=ovcjCIOpEfV1hqgQxS2QKiT2OQ1ZSCW/4Q1xN3dJVgs=;
+ b=UzxkgOqrCuwNQptJpjds/vbFdVftn+vsaKBt+OKdu5fA0iysZmmnM3ZO1zgHfFfPJf
+ T+q0GQO9iZp3k+UyuSTmlGNIBqYZnQrVMxWpoz1b34lqx+TbsG/RE5GhpsGUDDnDyMtd
+ oj0l/C9Bcly2821At1syMoRBFjBiS4kXUtPMY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=sREWGA01ccOZZ+Ac51fB5ORg2kfgSZpXJMerDUOeHQU=;
- b=XLEk/5OIYWAj1ZLbtgydNIUsYcGPyLj+p83TSr6B3u6UnsC5JF4QQgltXFGv7FdtWs
- MPGgFt02LSM+bkWjASJaqyEsr8xhW3qpUP229ruuC8ARTQHG94kYRf4+ChPPFSesf9Dk
- OBivN4HXgE3ZjCwwMlHX6JAiG4kVWZ/pe3i5n2M2kr2ua52aP1rdHyKUDAS87+BFV5js
- qeil5Wt6xl3dc3Gpa0APHcE3m7EqIXdNjhrOrxSEG1X543eMnqKEr7rAPRBUxx8hhXK6
- 0ozOAnhXm6Qp9qBb+DarU5z5DQlaCl2Vb117bnqtS0PP8+C7XDZoiyLWbuFMCcrcdZ8o
- hb0A==
-X-Gm-Message-State: AOAM532pjfRU4JiV8Jtme3E9O2ncvaQ2EGB9nXNOqktGk1x5VAMwE+qd
- uVbYE8KUkiCIjTly6i1cpr615i3A5m4Y8Q==
-X-Google-Smtp-Source: ABdhPJyOOLPHxfBRD34UXCNnXtr4y5z5WIYP2yO0SuG/QIHuG4gzx0WI76yUUlq0IljvTKlORoqOsA==
-X-Received: by 2002:a1f:fe49:: with SMTP id l70mr13549618vki.10.1604334648387; 
- Mon, 02 Nov 2020 08:30:48 -0800 (PST)
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com.
- [209.85.221.176])
- by smtp.gmail.com with ESMTPSA id t10sm1890928vkc.51.2020.11.02.08.30.47
+ bh=ovcjCIOpEfV1hqgQxS2QKiT2OQ1ZSCW/4Q1xN3dJVgs=;
+ b=GA+pNfKFZ59CMub/tfHprH+rzc5Cobe3325hRLywiahtT9MpBwaWeCyL/vDzHeBTp7
+ hri7qcObfQ8pTdeFgce+z5lRG2VzyND8/evJdOA21zNAzK+Rt1lFVtMEc3azs+mPj5iz
+ OmfmTKmQR5wcKgIZyj4+2beaKU8fnaf8RmkvIG0PEAtLx2REDSaA1zj2pHwnI+abI4YU
+ ++H9Ks1FQeO85rCJ6RUuC2WmCcQPfVOqD+S3NENfJJsbeCumb86E0n8KyWN1yY6MF1aV
+ 4Jp0aw8HLx/ybTxLges1xt6JWUd2QiS7Lwe4hWcCfEtTbTYRayqkydgr5d8Aj8F7IBYI
+ k6oQ==
+X-Gm-Message-State: AOAM530sTg10aXSU/evmuIq4IrL/k9bmlY5oRQaPNjMA59Wfv22T/aO9
+ zwqK0tHOWSbEyIAzajg1JKMRlO7BurB2Cg==
+X-Google-Smtp-Source: ABdhPJz67CaXGmWOF3boPA3ETiWkA7XH3+pteb7HCqEXccPTZUMGVv7b2aVvL4foWk4A/2+ZDWOpKg==
+X-Received: by 2002:a67:8e4a:: with SMTP id q71mr15810921vsd.1.1604335053509; 
+ Mon, 02 Nov 2020 08:37:33 -0800 (PST)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com.
+ [209.85.221.172])
+ by smtp.gmail.com with ESMTPSA id n16sm2271138vsk.17.2020.11.02.08.37.32
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Nov 2020 08:30:47 -0800 (PST)
-Received: by mail-vk1-f176.google.com with SMTP id p16so3059556vkf.13
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 08:30:47 -0800 (PST)
-X-Received: by 2002:a1f:8a:: with SMTP id 132mr3074242vka.17.1604334646803;
- Mon, 02 Nov 2020 08:30:46 -0800 (PST)
+ Mon, 02 Nov 2020 08:37:32 -0800 (PST)
+Received: by mail-vk1-f172.google.com with SMTP id p16so3064586vkf.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 08:37:32 -0800 (PST)
+X-Received: by 2002:ac5:c885:: with SMTP id n5mr13399838vkl.21.1604335052255; 
+ Mon, 02 Nov 2020 08:37:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20201030011738.2028313-1-swboyd@chromium.org>
- <20201030011738.2028313-5-swboyd@chromium.org>
-In-Reply-To: <20201030011738.2028313-5-swboyd@chromium.org>
+ <20201101173741.GA1293305@ravnborg.org>
+In-Reply-To: <20201101173741.GA1293305@ravnborg.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 2 Nov 2020 08:30:35 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UgFBiRNY7mJtciPt21=G4Em564z6p9VhLF-n-3DcQtJg@mail.gmail.com>
-Message-ID: <CAD=FV=UgFBiRNY7mJtciPt21=G4Em564z6p9VhLF-n-3DcQtJg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/bridge: ti-sn65dsi86: Update reply on aux
- failures
-To: Stephen Boyd <swboyd@chromium.org>
+Date: Mon, 2 Nov 2020 08:37:21 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=V3kktCrwvMBeOy1dnQGYuV-ZUGX81+upRZacfzxjceFg@mail.gmail.com>
+Message-ID: <CAD=FV=V3kktCrwvMBeOy1dnQGYuV-ZUGX81+upRZacfzxjceFg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] drm/bridge: ti-sn65dsi86: Support EDID reading
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,11 +69,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Vinod Koul <vkoul@kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -82,37 +84,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Oct 29, 2020 at 6:17 PM Stephen Boyd <swboyd@chromium.org> wrote:
+On Sun, Nov 1, 2020 at 9:37 AM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> We should be setting the drm_dp_aux_msg::reply field if a NACK or a
-> SHORT reply happens. Update the error bit handling logic in
-> ti_sn_aux_transfer() to handle these cases and notify upper layers that
-> such errors have happened. This helps the retry logic understand that a
-> timeout has happened, or to shorten the read length if the panel isn't
-> able to handle the longest read possible.
+> Hi Stephen.
 >
-> Note: I don't have any hardware that exhibits these code paths so this
-> is written based on reading the datasheet for this bridge and inspecting
-> the code and how this is called.
+> On Thu, Oct 29, 2020 at 06:17:34PM -0700, Stephen Boyd wrote:
+> > This patch series cleans up the DDC code a little bit so that
+> > it is more efficient time wise and supports grabbing the EDID
+> > of the eDP panel over the aux channel. I timed this on a board
+> > I have on my desk and it takes about 20ms to grab the EDID out
+> > of the panel and make sure it is valid.
+> >
+> > The first two patches seem less controversial so I stuck them at
+> > the beginning. The third patch does the EDID reading and caches
+> > it so we don't have to keep grabbing it over and over again. And
+> > finally the last patch updates the reply field so that short
+> > reads and nacks over the channel are reflected properly instead of
+> > treating them as some sort of error that can't be discerned.
+> >
+> > Stephen Boyd (4):
+> >   drm/bridge: ti-sn65dsi86: Combine register accesses in
+> >     ti_sn_aux_transfer()
+> >   drm/bridge: ti-sn65dsi86: Make polling a busy loop
+> >   drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
+> >   drm/bridge: ti-sn65dsi86: Update reply on aux failures
 >
-> Changes in v2:
->  - Handle WRITE_STATUS_UPDATE properly
+> Series looks good. You can add my a-b on the full series.
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 >
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> Cc: Sean Paul <seanpaul@chromium.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 36 ++++++++++++++++++++++++---
->  1 file changed, 32 insertions(+), 4 deletions(-)
+> I can apply after Douglas have had a look at the patches he did not r-b
+> yet.
 
-This looks right to me, now.  Hopefully if/when someone ends up with
-hardware that exercises these codepaths they'll at least be in a
-better state and maybe they will all just work!  :-)
+They look fine to me now assuming that Stepehn has tested patch #1
+enough that we're confident that the slight change in ordering isn't
+going to mess anything up.  Laurent also had comments about caching
+the EDID on patch #3.  If he feels strongly about getting rid of that,
+it'll need another spin and we'll just have to suck up the small boot
+time penalty until we can find a solution in the core.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+> Any chance we can convince you to prepare this bridge driver for use in
+> a chained bridge setup where the connector is created by the display
+> driver and uses drm_bridge_funcs?
+>
+> First step wuld be to introduce the use of a panel_bridge.
+> Then add get_edid to drm_bridge_funcs and maybe more helpers.
+>
+> Then natural final step would be to move connector creation to the
+> display driver - see how other uses drm_bridge_connector_init() to do so
+> - it is relatively simple.
+>
+> Should be doable - and reach out if you need some help.
+
+At some point I think Vinod tried to prepare a patch for this and I
+tried it, but it didn't just work.  I spent an hour or so poking at it
+and I couldn't quite figure out why and I couldn't find enough other
+examples to compare against to see what was wrong...  That was a few
+months ago, though.  Maybe things are in a better shape now?
+
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
