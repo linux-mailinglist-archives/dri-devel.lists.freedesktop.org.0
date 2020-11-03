@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005432A387E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:19:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0583D2A387F
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:19:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C73216E7E5;
-	Tue,  3 Nov 2020 01:19:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AFA96E5B4;
+	Tue,  3 Nov 2020 01:19:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCEED6E7E5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 01:19:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBCA16E7EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 01:19:43 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 64D2022409;
- Tue,  3 Nov 2020 01:19:37 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CC2142242C;
+ Tue,  3 Nov 2020 01:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604366378;
- bh=D+wgFMn4tlK0bm7tvRQma4fuh9IrlVKzo6Q9ar8FvAo=;
+ s=default; t=1604366383;
+ bh=gdMGDMwySHdmXhfimYPXmMMVR+X1bgogAYC8Oh5fkF0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ujAelctSTZ9vdI3XW+zTYz9rLrWoza6TpM+f3NikZCRxkJKQgj6EZpqe7c8ASZEB+
- aGOOPsWG7rTVlbyADJZPAzrAHudgyXt4eytyBx6XW5di9zfK8tV7430QR5x8nqkvZj
- dSeJkTMoHUFr8KRhwZbHn0Ff1iqjWh9YTXxYltSg=
+ b=gWGsTCgs8BfaKsppthsZpS3AVGaRmtQkDjQRZ9oHIYJfOsh2G9yIf22kYpHgCb+Y3
+ cpqlbNSBgfKqoVobm8dTgYqo4mEaJVymDAUgPhfCYe+ysbOJ9p4db9N45kx0AIWy2v
+ D/Em9PPq+vWRvNaP6GXZsCcIsA+mfvRDkvk0NMkc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 07/29] hyperv_fb: Update screen_info after
- removing old framebuffer
-Date: Mon,  2 Nov 2020 20:19:06 -0500
-Message-Id: <20201103011928.183145-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 11/29] drm/sun4i: frontend: Rework a bit the phase
+ data
+Date: Mon,  2 Nov 2020 20:19:10 -0500
+Message-Id: <20201103011928.183145-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201103011928.183145-1-sashal@kernel.org>
 References: <20201103011928.183145-1-sashal@kernel.org>
@@ -50,65 +50,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
- Wei Hu <weh@microsoft.com>, Kairui Song <kasong@redhat.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jake Oshins <jakeo@microsoft.com>, Stephen Hemminger <sthemmin@microsoft.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Ingo Molnar <mingo@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kairui Song <kasong@redhat.com>
+From: Maxime Ripard <maxime@cerno.tech>
 
-[ Upstream commit 3cb73bc3fa2a3cb80b88aa63b48409939e0d996b ]
+[ Upstream commit 84c971b356379c621df595bd00c3114579dfa59f ]
 
-On gen2 HyperV VM, hyperv_fb will remove the old framebuffer, and the
-new allocated framebuffer address could be at a differnt location,
-and it might be no longer a VGA framebuffer.
+The scaler filter phase setup in the allwinner kernel has two different
+cases for setting up the scaler filter, the first one using different phase
+parameters for the two channels, and the second one reusing the first
+channel parameters on the second channel.
 
-Update screen_info so that after kexec the kernel won't try to reuse
-the old invalid/stale framebuffer address as VGA, corrupting memory.
+The allwinner kernel has a third option where the horizontal phase of the
+second channel will be set to a different value than the vertical one (and
+seems like it's the same value than one used on the first channel).
+However, that code path seems to never be taken, so we can ignore it for
+now, and it's essentially what we're doing so far as well.
 
-[ mingo: Tidied up the changelog. ]
+Since we will have always the same values across each components of the
+filter setup for a given channel, we can simplify a bit our frontend
+structure by only storing the phase value we want to apply to a given
+channel.
 
-Signed-off-by: Kairui Song <kasong@redhat.com>
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Cc: Dexuan Cui <decui@microsoft.com>
-Cc: Jake Oshins <jakeo@microsoft.com>
-Cc: Wei Hu <weh@microsoft.com>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Link: https://lore.kernel.org/r/20201014092429.1415040-3-kasong@redhat.com
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Acked-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Link: https://patchwork.freedesktop.org/patch/msgid/20201015093642.261440-1-maxime@cerno.tech
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/hyperv_fb.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/sun4i/sun4i_frontend.c | 34 ++++++--------------------
+ drivers/gpu/drm/sun4i/sun4i_frontend.h |  6 +----
+ 2 files changed, 9 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index e4c3c8b65da44..4235ea7a6c40c 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -1114,8 +1114,15 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- getmem_done:
- 	remove_conflicting_framebuffers(info->apertures,
- 					KBUILD_MODNAME, false);
--	if (!gen2vm)
-+
-+	if (gen2vm) {
-+		/* framebuffer is reallocated, clear screen_info to avoid misuse from kexec */
-+		screen_info.lfb_size = 0;
-+		screen_info.lfb_base = 0;
-+		screen_info.orig_video_isVGA = 0;
-+	} else {
- 		pci_dev_put(pdev);
-+	}
- 	kfree(info->apertures);
+diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
+index ec2a032e07b97..7462801b1fa8e 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
+@@ -443,17 +443,17 @@ int sun4i_frontend_update_formats(struct sun4i_frontend *frontend,
+ 	 * related to the scaler FIR filter phase parameters.
+ 	 */
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH0_HORZPHASE_REG,
+-		     frontend->data->ch_phase[0].horzphase);
++		     frontend->data->ch_phase[0]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH1_HORZPHASE_REG,
+-		     frontend->data->ch_phase[1].horzphase);
++		     frontend->data->ch_phase[1]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH0_VERTPHASE0_REG,
+-		     frontend->data->ch_phase[0].vertphase[0]);
++		     frontend->data->ch_phase[0]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH1_VERTPHASE0_REG,
+-		     frontend->data->ch_phase[1].vertphase[0]);
++		     frontend->data->ch_phase[1]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH0_VERTPHASE1_REG,
+-		     frontend->data->ch_phase[0].vertphase[1]);
++		     frontend->data->ch_phase[0]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH1_VERTPHASE1_REG,
+-		     frontend->data->ch_phase[1].vertphase[1]);
++		     frontend->data->ch_phase[1]);
  
- 	return 0;
+ 	/*
+ 	 * Checking the input format is sufficient since we currently only
+@@ -687,30 +687,12 @@ static const struct dev_pm_ops sun4i_frontend_pm_ops = {
+ };
+ 
+ static const struct sun4i_frontend_data sun4i_a10_frontend = {
+-	.ch_phase		= {
+-		{
+-			.horzphase = 0,
+-			.vertphase = { 0, 0 },
+-		},
+-		{
+-			.horzphase = 0xfc000,
+-			.vertphase = { 0xfc000, 0xfc000 },
+-		},
+-	},
++	.ch_phase		= { 0x000, 0xfc000 },
+ 	.has_coef_rdy		= true,
+ };
+ 
+ static const struct sun4i_frontend_data sun8i_a33_frontend = {
+-	.ch_phase		= {
+-		{
+-			.horzphase = 0x400,
+-			.vertphase = { 0x400, 0x400 },
+-		},
+-		{
+-			.horzphase = 0x400,
+-			.vertphase = { 0x400, 0x400 },
+-		},
+-	},
++	.ch_phase		= { 0x400, 0x400 },
+ 	.has_coef_access_ctrl	= true,
+ };
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.h b/drivers/gpu/drm/sun4i/sun4i_frontend.h
+index 0c382c1ddb0fe..2e7b76e50c2ba 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_frontend.h
++++ b/drivers/gpu/drm/sun4i/sun4i_frontend.h
+@@ -115,11 +115,7 @@ struct reset_control;
+ struct sun4i_frontend_data {
+ 	bool	has_coef_access_ctrl;
+ 	bool	has_coef_rdy;
+-
+-	struct {
+-		u32	horzphase;
+-		u32	vertphase[2];
+-	} ch_phase[2];
++	u32	ch_phase[2];
+ };
+ 
+ struct sun4i_frontend {
 -- 
 2.27.0
 
