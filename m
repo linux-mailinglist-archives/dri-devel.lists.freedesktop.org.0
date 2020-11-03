@@ -1,56 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE4A2A5F88
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCD12A5F87
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA726F3D1;
-	Wed,  4 Nov 2020 08:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3734E6F3D8;
+	Wed,  4 Nov 2020 08:22:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4DE6E8C8
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 17:34:28 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1604424872; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=chZXK7LKaQWhsJngmSxlrn5Gd7QZePP6oMaO/PyNsGc=;
- b=KEvb5zMdnIX1ans/ouhDwCYgBPRbDY/2+V0sbhje3otlVXQCWST+a4Ths5fftGwmxZhsZmMH
- Xy2i2ci+OHDVmdb88GvegWq0wQXhDpqZE/Dxhd6U/M9tszfIqXRSdQzofsUkqso9s/X0tJhu
- QOIjod+v7dq8TaIrBP+tE6UG5/k=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 5fa194991037425ce1dcc2ea (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 03 Nov 2020 17:34:17
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1D89FC43387; Tue,  3 Nov 2020 17:34:17 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 9A700C433C9;
- Tue,  3 Nov 2020 17:34:15 +0000 (UTC)
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A29486ECE0;
+ Tue,  3 Nov 2020 19:00:23 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1604430021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p7vA0Pp8Yw32NcCmeGMglrNZNTsusNNmUR0JbokXn0s=;
+ b=Wh43mnWM8kdYti+K6Ejg70IQfa+GmZ8DCSo20FQE/hkLNmxVT4iphQnlk6m40FPrmWktQO
+ 8ayXKz0ztE1cqx/iEhmcbhojQh9yCHEkFANOGr1w8fGEwrPOcrWAWxi/OenSb5evTEILWa
+ oclhRZDu2W0eltn+sc+1j25HCEzKjNSXz+4io/CbYUyMFuxTbNnNJEiCm1jMBn8PGej5s3
+ E3JpbZR0aFWpI6lV+SZv22HUNUyPWbXG8oMYz+BmJikgi+ivLhTWpXqqgXf53DcJR+Ltrn
+ dCfpJUdQQNPCTgPlSMPzbs0whzNCaCVS/fZbTm34UVovthqkFff3qyFpeY0sbA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1604430021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p7vA0Pp8Yw32NcCmeGMglrNZNTsusNNmUR0JbokXn0s=;
+ b=STcwQ6RaI64DeextSGHfCvrA9zLqnmZlfhd6kn3GgHfcpWRfVbJIkhHpoM7lA8B8jXR4lp
+ QBLUYE/euA+zomCg==
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [patch V3 22/37] highmem: High implementation details and
+ document API
+In-Reply-To: <CAHk-=wg2D_yjgKYkXCybD3uf0dtwYh6HxZ9BQJfV5t+EBqLGQQ@mail.gmail.com>
+References: <20201103092712.714480842@linutronix.de>
+ <20201103095858.827582066@linutronix.de>
+ <CAHk-=wg2D_yjgKYkXCybD3uf0dtwYh6HxZ9BQJfV5t+EBqLGQQ@mail.gmail.com>
+Date: Tue, 03 Nov 2020 20:00:20 +0100
+Message-ID: <87y2ji1d17.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Date: Tue, 03 Nov 2020 09:34:15 -0800
-From: khsieh@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH] drm/msm/dp: deinitialize mainlink if link training failedo
-In-Reply-To: <160435078857.884498.13223713108695196370@swboyd.mtv.corp.google.com>
-References: <20201030232253.11049-1-khsieh@codeaurora.org>
- <160435078857.884498.13223713108695196370@swboyd.mtv.corp.google.com>
-Message-ID: <e2d080eb8c5b0efaaa7e97ac19451f57@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,218 +55,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, rnayak@codeaurora.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, tanmay@codeaurora.org,
- aravindh@codeaurora.org, sean@poorly.run
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
+ Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-mips@vger.kernel.org,
+ Ben Segall <bsegall@google.com>, Chris Mason <clm@fb.com>,
+ Huang Rui <ray.huang@amd.com>, Paul Mackerras <paulus@samba.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ linux-sparc <sparclinux@vger.kernel.org>, Vincent Chen <deanbo422@gmail.com>,
+ Christoph Hellwig <hch@lst.de>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul McKenney <paulmck@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Mel Gorman <mgorman@suse.de>, nouveau@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ Ben Skeggs <bskeggs@redhat.com>, linux-xtensa@linux-xtensa.org,
+ Arnd Bergmann <arnd@arndb.de>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Roland Scheidegger <sroland@vmware.com>, Josef Bacik <josef@toxicpanda.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, spice-devel@lists.freedesktop.org,
+ David Sterba <dsterba@suse.com>, virtualization@lists.linux-foundation.org,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
+ Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
+ Christian Koenig <christian.koenig@amd.com>, Benjamin LaHaise <bcrl@kvack.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ linux-btrfs <linux-btrfs@vger.kernel.org>, Greentime Hu <green.hu@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-11-02 12:59, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2020-10-30 16:22:53)
->> DP compo phy have to be enable to start link training. When
->> link training failed phy need to be disabled so that next
->> link trainng can be proceed smoothly at next plug in. This
-> 
-> s/trainng/training/
-> 
->> patch de initialize mainlink to disable phy if link training
-> 
-> s/de/de-/
-> 
->> failed. This prevent system crash due to
->> disp_cc_mdss_dp_link_intf_clk stuck at "off" state.  This patch
->> also perform checking power_on flag at dp_display_enable() and
->> dp_display_disable() to avoid crashing when unplug cable while
->> display is off.
->> 
->> Fixes: fdaf9a5e3c15 (drm/msm/dp: fixes wrong connection state caused 
->> by failure of link train
->> 
-> 
-> Drop newline please.
-> 
->> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->> ---
-> 
-> Can you send this as a patch series? There were three patches sent near
-> each other and presumably they're related.
-> 
->>  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 34 
->> +++++++++++++++++++++++++++--
->>  drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++++++++
->>  2 files changed, 45 insertions(+), 2 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index cee161c8ecc6..904698dfc7f7 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -1468,6 +1468,29 @@ static int dp_ctrl_reinitialize_mainlink(struct 
->> dp_ctrl_private *ctrl)
->>         return ret;
->>  }
->> 
->> +static int dp_ctrl_deinitialize_mainlink(struct dp_ctrl_private 
->> *ctrl)
->> +{
->> +       struct dp_io *dp_io;
->> +       struct phy *phy;
->> +       int ret = 0;
-> 
-> Please drop this initialization to 0.
-> 
->> +
->> +       dp_io = &ctrl->parser->io;
->> +       phy = dp_io->phy;
->> +
->> +       dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
->> +
->> +       dp_catalog_ctrl_reset(ctrl->catalog);
->> +
->> +       ret = dp_power_clk_enable(ctrl->power, DP_CTRL_PM, false);
-> 
-> As it's overwritten here.
-> 
->> +       if (ret)
->> +               DRM_ERROR("Failed to disable link clocks. ret=%d\n", 
->> ret);
->> +
->> +       phy_power_off(phy);
->> +       phy_exit(phy);
->> +
->> +       return -ECONNRESET;
-> 
-> Isn't this an error for networking connections getting reset? Really it
-> should return 0 because it didn't fail.
-> 
->> +}
->> +
->>  static int dp_ctrl_link_maintenance(struct dp_ctrl_private *ctrl)
->>  {
->>         int ret = 0;
->> @@ -1648,8 +1671,7 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->>         if (rc)
->>                 return rc;
->> 
->> -       while (--link_train_max_retries &&
->> -               !atomic_read(&ctrl->dp_ctrl.aborted)) {
->> +       while (--link_train_max_retries) {
->>                 rc = dp_ctrl_reinitialize_mainlink(ctrl);
->>                 if (rc) {
->>                         DRM_ERROR("Failed to reinitialize mainlink. 
->> rc=%d\n",
->> @@ -1664,6 +1686,9 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->>                         break;
->>                 } else if (training_step == DP_TRAINING_1) {
->>                         /* link train_1 failed */
->> +                       if 
->> (!dp_catalog_hpd_get_state_status(ctrl->catalog))
->> +                               break;          /* link cable 
->> unplugged */
->> +
->>                         rc = dp_ctrl_link_rate_down_shift(ctrl);
->>                         if (rc < 0) { /* already in RBR = 1.6G */
->>                                 if (cr.lane_0_1 & DP_LANE0_1_CR_DONE) 
->> {
->> @@ -1683,6 +1708,9 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->>                         }
->>                 } else if (training_step == DP_TRAINING_2) {
->>                         /* link train_2 failed, lower lane rate */
->> +                       if 
->> (!dp_catalog_hpd_get_state_status(ctrl->catalog))
-> 
-> Maybe make a function called dp_catalog_link_disconnected()? Then the
-> comment isn't needed.
-> 
->> +                               break;          /* link cable 
->> unplugged */
->> +
->>                         rc = dp_ctrl_link_lane_down_shift(ctrl);
->>                         if (rc < 0) {
->>                                 /* end with failure */
->> @@ -1703,6 +1731,8 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->>          */
->>         if (rc == 0)  /* link train successfully */
->>                 dp_ctrl_push_idle(dp_ctrl);
->> +       else
->> +               rc = dp_ctrl_deinitialize_mainlink(ctrl);
-> 
-> So if it fails we deinitialize and then return success? Shouldn't we
-> keep the error code from the link train attempt instead of overwrite it
-> with (most likely) zero? I see that it returns -ECONNRESET but that's
-> really odd and seeing this code here means you have to look at the
-> function to figure out that it's still returning an error code. Please
-> don't do that, just ignore the error code from this function.
-> 
-There are two possible failure cases at plugin request, link training 
-failed  and read dpcd/edid failed.
-It does not need to enable phy/pll to perform aux read/write from/to 
-dpcd or edid.
-on the other hand, phy/pll need to be enabled to perform link training. 
-If link training failed,
-then phy/pll need to be disabled so that phy/pll can be enabled next 
-link training correctly.
-Link training failed error has to be propagated back to the top caller 
-so that dp_display_host_init()
-will be called again at next plugin request.
+On Tue, Nov 03 2020 at 09:48, Linus Torvalds wrote:
+> I have no complaints about the patch, but it strikes me that if people
+> want to actually have much better debug coverage, this is where it
+> should be (I like the "every other address" thing too, don't get me
+> wrong).
+>
+> In particular, instead of these PageHighMem(page) tests, I think
+> something like this would be better:
+>
+>    #ifdef CONFIG_DEBUG_HIGHMEM
+>      #define page_use_kmap(page) ((page),1)
+>    #else
+>      #define page_use_kmap(page) PageHighMem(page)
+>    #endif
+>
+> adn then replace those "if (!PageHighMem(page))" tests with "if
+> (!page_use_kmap())" instead.
+>
+> IOW, in debug mode, it would _always_ remap the page, whether it's
+> highmem or not. That would really stress the highmem code and find any
+> fragilities.
+
+Yes, that makes a lot of sense. We just have to avoid that for the
+architectures with aliasing issues.
+
+> Anyway, this is all sepatrate from the series, which still looks fine
+> to me. Just a reaction to seeing the patch, and Thomas' earlier
+> mention that the highmem debugging doesn't actually do much.
+
+Right, forcing it for both kmap and kmap_local is straight forward. I'll
+cook a patch on top for that.
+
+Thanks,
+
+        tglx
 
 
->> 
->>         return rc;
->>  }
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->> b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 3eb0d428abf7..13b66266cd69 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -529,6 +529,11 @@ static int dp_hpd_plug_handle(struct 
->> dp_display_private *dp, u32 data)
->>         if (ret) {      /* link train failed */
->>                 hpd->hpd_high = 0;
->>                 dp->hpd_state = ST_DISCONNECTED;
->> +
->> +               if (ret == -ECONNRESET) { /* cable unplugged */
->> +                       dp->core_initialized = false;
->> +               }
-> 
-> Style: Drop braces on single line if statements.
-> 
->> +
->>         } else {
->>                 /* start sentinel checking in case of missing uevent 
->> */
->>                 dp_add_event(dp, EV_CONNECT_PENDING_TIMEOUT, 0, tout);
->> @@ -794,6 +799,11 @@ static int dp_display_enable(struct 
->> dp_display_private *dp, u32 data)
->> 
->>         dp_display = g_dp_display;
->> 
->> +       if (dp_display->power_on) {
->> +               DRM_DEBUG_DP("Link already setup, return\n");
->> +               return 0;
->> +       }
->> +
->>         rc = dp_ctrl_on_stream(dp->ctrl);
->>         if (!rc)
->>                 dp_display->power_on = true;
->> @@ -826,6 +836,9 @@ static int dp_display_disable(struct 
->> dp_display_private *dp, u32 data)
->> 
->>         dp_display = g_dp_display;
->> 
->> +       if (!dp_display->power_on)
->> +               return -EINVAL;
->> +
->>         /* wait only if audio was enabled */
->>         if (dp_display->audio_enabled) {
->>                 if (!wait_for_completion_timeout(&dp->audio_comp,
->> 
->> base-commit: fd4a29bed29b3d8f15942fdf77e7a0a52796d836
-> 
-> What is this commit?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
