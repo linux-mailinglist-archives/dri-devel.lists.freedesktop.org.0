@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC462A5F83
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8990C2A5F7F
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:23:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2AD6F38C;
-	Wed,  4 Nov 2020 08:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71C236F3D0;
+	Wed,  4 Nov 2020 08:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0110A6EC2D;
- Tue,  3 Nov 2020 10:33:27 +0000 (UTC)
-Message-Id: <20201103095856.870272797@linutronix.de>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33CD06EC5E;
+ Tue,  3 Nov 2020 10:33:30 +0000 (UTC)
+Message-Id: <20201103095856.979798613@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399606;
+ s=2020; t=1604399607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=mHGaObavEXdpklPpAdB/Vc9tQphwJ4HtjtNI7fLm1v8=;
- b=IBayNHLC8hDXJPq5spbDcH2wKyiWbuyexwHwfVt89VcAakRhxfizYqbQCAAKER9L/0L/m1
- Kn6tmBkR3xWZrx6tJ/BA5rsYN4HGNPFD48Ua4frK3vrnlVg9aLM4m5aIJw9ym5mSbN61k5
- EHHJS0+GcvKD5mXRHapBzJaiaTtrRGQL9/oIkA+EXvVydTfP9WAjd4wBDbJghjylU6Hl+v
- cbUiIXxIilBIpfO0gAqBvTDU+ZaYnr+9b9dZHzEpb1hZtXN8oqnkWtU4heJMQKd9pbhu3F
- Udw+2wxDQStY2AooCfpVR6WbhoIEGNiJw2A//IRPpAYo18WAjI/Kj422cg4K+A==
+ bh=oF4DYonwtBNvmWHcqJ3amZKMdxENJ+WTSLMv3+rtHDM=;
+ b=b6UWG1RXLdBy2bRiDY0A2P6zUTcJ5Ww3Hloamuegv/bL3cd0Jtr2ttgYbbJrW5BYak/rkk
+ PIZxdNYfysNFn3hkTOqqRZTgj7HKUJeNhycoOe7m3Id4B0EFsqDbR5SzgKvmyNco7YPeDJ
+ 7zGBcL24S5tqjz5nUv65X7+akcl8LQTNORQzEg/iFXRbEmU8I/BDt33Ieg2A5XD5DrODpw
+ Mks84NTPIQAyqEH3f2oDzt/ae9t4w9OMJO+I7JYrxIGeYRIj6k6PPK6tR2mIaKluksa7bD
+ OXSaYC6IDAc3KYdm99Ww55f3jctY1IJoZnRNbxPldLZF+7xYm+DqO5Hw2kBfKA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399606;
+ s=2020e; t=1604399607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=mHGaObavEXdpklPpAdB/Vc9tQphwJ4HtjtNI7fLm1v8=;
- b=ZQ5pkdX4DsEbSRpww8iUtueplpi1akZRVpDjtrypi3SvuIOi8H/SrYDmUdCkGKxD3wiqTh
- yikxYY0p6mIHukBQ==
-Date: Tue, 03 Nov 2020 10:27:15 +0100
+ bh=oF4DYonwtBNvmWHcqJ3amZKMdxENJ+WTSLMv3+rtHDM=;
+ b=7x5E7bhvi7aofzhhPh9QlETURgTfsCteOpP5xZ/APbluJpgTom1zgixNGKJtT0nUZF2P72
+ bnhVHwiHvnfzpbCg==
+Date: Tue, 03 Nov 2020 10:27:16 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 03/37] fs: Remove asm/kmap_types.h includes
+Subject: [patch V3 04/37] sh/highmem: Remove all traces of unused cruft
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
@@ -55,7 +55,7 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  Peter Zijlstra <peterz@infradead.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
+ Ben Segall <bsegall@google.com>, Chris Mason <clm@fb.com>,
  Huang Rui <ray.huang@amd.com>, Paul Mackerras <paulus@samba.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Bristot de Oliveira <bristot@redhat.com>, sparclinux@vger.kernel.org,
@@ -79,7 +79,7 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
  Michal Simek <monstr@monstr.eu>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Chris Mason <clm@fb.com>,
+ Nick Hu <nickhu@andestech.com>, linux-mm@kvack.org,
  Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
  Christian Koenig <christian.koenig@amd.com>, Benjamin LaHaise <bcrl@kvack.org>,
  linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
@@ -90,42 +90,82 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Historical leftovers from the time where kmap() had fixed slots.
+For whatever reasons SH has highmem bits all over the place but does
+not enable it via Kconfig. Remove the bitrot.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Benjamin LaHaise <bcrl@kvack.org>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-aio@kvack.org
-Cc: Chris Mason <clm@fb.com>
-Cc: Josef Bacik <josef@toxicpanda.com>
-Cc: David Sterba <dsterba@suse.com>
-Cc: linux-btrfs@vger.kernel.org
 ---
- fs/aio.c         |    1 -
- fs/btrfs/ctree.h |    1 -
- 2 files changed, 2 deletions(-)
+ arch/sh/include/asm/fixmap.h     |    8 --------
+ arch/sh/include/asm/kmap_types.h |   15 ---------------
+ arch/sh/mm/init.c                |    8 --------
+ 3 files changed, 31 deletions(-)
 
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -43,7 +43,6 @@
- #include <linux/mount.h>
- #include <linux/pseudo_fs.h>
- 
+--- a/arch/sh/include/asm/fixmap.h
++++ b/arch/sh/include/asm/fixmap.h
+@@ -13,9 +13,6 @@
+ #include <linux/kernel.h>
+ #include <linux/threads.h>
+ #include <asm/page.h>
+-#ifdef CONFIG_HIGHMEM
 -#include <asm/kmap_types.h>
- #include <linux/uaccess.h>
- #include <linux/nospec.h>
+-#endif
  
---- a/fs/btrfs/ctree.h
-+++ b/fs/btrfs/ctree.h
-@@ -17,7 +17,6 @@
- #include <linux/wait.h>
- #include <linux/slab.h>
- #include <trace/events/btrfs.h>
--#include <asm/kmap_types.h>
- #include <asm/unaligned.h>
- #include <linux/pagemap.h>
- #include <linux/btrfs.h>
+ /*
+  * Here we define all the compile-time 'special' virtual
+@@ -53,11 +50,6 @@ enum fixed_addresses {
+ 	FIX_CMAP_BEGIN,
+ 	FIX_CMAP_END = FIX_CMAP_BEGIN + (FIX_N_COLOURS * NR_CPUS) - 1,
+ 
+-#ifdef CONFIG_HIGHMEM
+-	FIX_KMAP_BEGIN,	/* reserved pte's for temporary kernel mappings */
+-	FIX_KMAP_END = FIX_KMAP_BEGIN + (KM_TYPE_NR * NR_CPUS) - 1,
+-#endif
+-
+ #ifdef CONFIG_IOREMAP_FIXED
+ 	/*
+ 	 * FIX_IOREMAP entries are useful for mapping physical address
+--- a/arch/sh/include/asm/kmap_types.h
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef __SH_KMAP_TYPES_H
+-#define __SH_KMAP_TYPES_H
+-
+-/* Dummy header just to define km_type. */
+-
+-#ifdef CONFIG_DEBUG_HIGHMEM
+-#define  __WITH_KM_FENCE
+-#endif
+-
+-#include <asm-generic/kmap_types.h>
+-
+-#undef __WITH_KM_FENCE
+-
+-#endif
+--- a/arch/sh/mm/init.c
++++ b/arch/sh/mm/init.c
+@@ -362,9 +362,6 @@ void __init mem_init(void)
+ 	mem_init_print_info(NULL);
+ 	pr_info("virtual kernel memory layout:\n"
+ 		"    fixmap  : 0x%08lx - 0x%08lx   (%4ld kB)\n"
+-#ifdef CONFIG_HIGHMEM
+-		"    pkmap   : 0x%08lx - 0x%08lx   (%4ld kB)\n"
+-#endif
+ 		"    vmalloc : 0x%08lx - 0x%08lx   (%4ld MB)\n"
+ 		"    lowmem  : 0x%08lx - 0x%08lx   (%4ld MB) (cached)\n"
+ #ifdef CONFIG_UNCACHED_MAPPING
+@@ -376,11 +373,6 @@ void __init mem_init(void)
+ 		FIXADDR_START, FIXADDR_TOP,
+ 		(FIXADDR_TOP - FIXADDR_START) >> 10,
+ 
+-#ifdef CONFIG_HIGHMEM
+-		PKMAP_BASE, PKMAP_BASE+LAST_PKMAP*PAGE_SIZE,
+-		(LAST_PKMAP*PAGE_SIZE) >> 10,
+-#endif
+-
+ 		(unsigned long)VMALLOC_START, VMALLOC_END,
+ 		(VMALLOC_END - VMALLOC_START) >> 20,
+ 
 
 _______________________________________________
 dri-devel mailing list
