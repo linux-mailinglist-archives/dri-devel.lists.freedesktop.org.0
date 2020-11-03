@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA662A5F5F
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D51E2A5F85
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2550189B46;
-	Wed,  4 Nov 2020 08:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2E76F3B5;
+	Wed,  4 Nov 2020 08:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC0A76EC3C;
- Tue,  3 Nov 2020 10:33:25 +0000 (UTC)
-Message-Id: <20201103095856.595767588@linutronix.de>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93D986EC44;
+ Tue,  3 Nov 2020 10:33:26 +0000 (UTC)
+Message-Id: <20201103095856.732891880@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399603;
+ s=2020; t=1604399605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=i3kbbtl9EePeHW2/ft3bZDh5NUwHcPcZYxbBfPjNZc8=;
- b=pFNBIUaUf/b+er6ZJJKFPRaV2u4PtSdJsN8nQKFW+3bXEIGGzauhyZgtOmkXMrq1suOcr7
- NcENhiNwm9wv4CatQ10cEcB/Hga7PsNIkM2NHzGMcjMO0pPAyOZDvNyIJoXLKsL1vmgsip
- aGloHmLDgrw+W4wL2vfGcSgi1keU2rGsBVoiLE6uxlSAbx8JfmJeKHVkcIWqPXtrdAIc+T
- /vDeotqyoJPGfzQAcXVKUcZWQA64kJReuOK5qjoOZ2yJB18jBRKtjvtQBw3wHTXNfLKG8L
- eC+4mOqr3aswQyLp4fDizQxCFpjS2lhKgFUx0jY2VcwOKrUeYn31Z+o4PrrUkg==
+ bh=3HwBsgFv26sFcL/ZrR5QT7IdhKdyl722jNSTyAsMfhU=;
+ b=rvT54BmES001fwkPfhre2195ODFh8EFwDZYAlKQRhVHUBxAXrQ4jz+GuDaq+7kANpwhtIs
+ Odqznja1AON6wOyHEpYXOzN884r1utS39bCLsxNEulHhg56wkK85myPaXmlcyC0Iwy9aJH
+ 7H/5d1lmCAyZsRrJM2yBsjEdO5LEmhyrq2wZg4iXyHs50gJQuJK3//uDTtWi4cGXwQajhE
+ 6zcImoXr01WpyQwaIvad1lc/klKtM4lT0KI/sOHFnGRyhXmWoqmmzQFg3YIBBqGRZ2BmRY
+ OjwLotmGcs5kT4ELYX86H43ZMMJAy6wm+tJXkQgUfKkVJUPub5l/USgVgx610A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399603;
+ s=2020e; t=1604399605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=i3kbbtl9EePeHW2/ft3bZDh5NUwHcPcZYxbBfPjNZc8=;
- b=vJq9Z56+nB4hb6l6NzZWsUYvY6gKGZm9NfNVMELVLZameB9s0fxKXRavsDsjIUrnG3aw2e
- hJoPkAXyDaK+qQBw==
-Date: Tue, 03 Nov 2020 10:27:13 +0100
+ bh=3HwBsgFv26sFcL/ZrR5QT7IdhKdyl722jNSTyAsMfhU=;
+ b=lkKBWdK1CIWHPlUI77sykNxUAemFnakZTPVr751NgUw5N/WO+Qg52P9pTni6F4JYuE0eLl
+ 4W0KlbICECLDLgCA==
+Date: Tue, 03 Nov 2020 10:27:14 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 01/37] mm/highmem: Un-EXPORT __kmap_atomic_idx()
+Subject: [patch V3 02/37] highmem: Remove unused functions
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
@@ -90,27 +90,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nothing in modules can use that.
+Nothing uses totalhigh_pages_dec() and totalhigh_pages_set().
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org
 ---
- mm/highmem.c |    2 --
- 1 file changed, 2 deletions(-)
+V3: New patch
+---
+ include/linux/highmem.h |   10 ----------
+ 1 file changed, 10 deletions(-)
 
---- a/mm/highmem.c
-+++ b/mm/highmem.c
-@@ -108,8 +108,6 @@ static inline wait_queue_head_t *get_pkm
- atomic_long_t _totalhigh_pages __read_mostly;
- EXPORT_SYMBOL(_totalhigh_pages);
+--- a/include/linux/highmem.h
++++ b/include/linux/highmem.h
+@@ -104,21 +104,11 @@ static inline void totalhigh_pages_inc(v
+ 	atomic_long_inc(&_totalhigh_pages);
+ }
  
--EXPORT_PER_CPU_SYMBOL(__kmap_atomic_idx);
+-static inline void totalhigh_pages_dec(void)
+-{
+-	atomic_long_dec(&_totalhigh_pages);
+-}
 -
- unsigned int nr_free_highpages (void)
+ static inline void totalhigh_pages_add(long count)
  {
- 	struct zone *zone;
+ 	atomic_long_add(count, &_totalhigh_pages);
+ }
+ 
+-static inline void totalhigh_pages_set(long val)
+-{
+-	atomic_long_set(&_totalhigh_pages, val);
+-}
+-
+ void kmap_flush_unused(void);
+ 
+ struct page *kmap_to_page(void *addr);
 
 _______________________________________________
 dri-devel mailing list
