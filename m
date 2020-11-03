@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3453F2A5F91
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E672A5F51
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:22:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 962DF6F3DC;
-	Wed,  4 Nov 2020 08:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAE9A89491;
+	Wed,  4 Nov 2020 08:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DAB46E0A5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 08:11:01 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id h22so11849978wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 00:11:01 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C67BB6E851
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 08:29:32 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id h22so11898143wmb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 00:29:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:autocrypt:message-id:date
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IdpvY3vnaHaD1F97XwauJjhuWBuAAnyJbZWUZsOfYIU=;
- b=o/lYcogsCxglhqmUdOWe0mVbuMYgm+696ln9cDs0FwKWIQToTKL+VTH57ieU/ATbYG
- WVorhWY5rLIFydEs2Cc9bHf/ORwndSoLCL3b9Z8y6u3vZLohzRq8BGKj/n74RlX9ILVP
- HHcP2wpFHpjVD8TAQy1ysGwNxbB0AVGXGPUoXiUtA7hI6FzjVZjIopfHsrUl3eh+uw8y
- MnokL/RLQRmtnKMxfrANV6K6/hqjnSn15XsjqnXpPGDpdirZCWKYpZhkT2xHr8E7zuh4
- +/Mpe0crtfFnLK7qHBhT7bm9xpL1ptDV1IkmMkgvD8WdrDzqqHrRbRc+bYGm1pBM8EIT
- yPIA==
+ bh=wORoPEJyqMGn3vtLbYDCbkYsPLmForeYHOgaBK21yhA=;
+ b=oQKT3A1GYk56SnBqLXlaHM2gkXQbMt+5LzOsXKkPe7f5iT+ommKDvr29trOE+HWtpL
+ khfpzrlSZdTjkkVV0W4dSprwdmQzFceuAdsnQW6RFsWvBcPJ6nvvk6v5kvOEl3a/40Ab
+ Et19n4498gNc6appXAmiCqCuxMv59Ck0S8twpWaEVwnbtkRLID37AB0gRacovLUW7xMK
+ NIEAeA0DISixUQs4a/1DLJ+naj8UnJPXxHvIU7SubcLZDIqkYylFSA+X2n6jzAgRm9kA
+ MdwHIDeqojeWl7QbBnO+OPeUWkO7NTCkWpVBW2HjFm949tN0yVinkj/ERrw+Lo4/GsyY
+ JZ9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IdpvY3vnaHaD1F97XwauJjhuWBuAAnyJbZWUZsOfYIU=;
- b=Mn4SFJ4DzAWp/oj+XxIrroFYxZ+mTXc7ag35roy8MJpv7G9Nxu2r0gQFL/PxtlFohf
- YmO349n4BL/ZZ4xWqG32bmHMtwZzYdzKcqZw9GCsrBDKdB8y4UayOzZcKk42rrUSROOV
- 7cloyknLftK0TWmA2A3R/cN05iHnPDfOYoWMgvv0aLJ9w8T6o9deunwOHswc0VJZl3Yl
- TYhkaHD3NpoJ/iTCr0yA+XCUSMCW4P0ZNasCKewjlGFYkQIDn+kX+rqJjfH/RElRrRhk
- U9vsYB5eS5NiqJSOZc8t1AwD8c56FYyxV3977VQOxIZI45QngPSkMMUZ9SiultNnFfK9
- +tKw==
-X-Gm-Message-State: AOAM532ilebNLVhq+8s0mxPpe3eqnSZ+rK+DYHEmQcncb+zac2U5H+9e
- IqisgLihbkCMyGCnzcboy4rCQigQppuNMw==
-X-Google-Smtp-Source: ABdhPJznyfH5Fysxc+b+rJCGR0FORQrMIC5CSZyZl0VHqCzJY5ZMpqAAP02BQlCEerKUyIxg4RHemg==
-X-Received: by 2002:a1c:b346:: with SMTP id c67mr2181585wmf.60.1604391059673; 
- Tue, 03 Nov 2020 00:10:59 -0800 (PST)
+ bh=wORoPEJyqMGn3vtLbYDCbkYsPLmForeYHOgaBK21yhA=;
+ b=b4x13gEX3iD8KSG0KYXnG992gp4HMiqrPC99LxNW0cCqU9zgJmwrD6tY4WbnZr9KyP
+ nJ8PnJP+bMF0NjnM0NecXymMhyq8he+mhge88KBIjIoEmWkhUVcGoYz6ZsFnw5kBHXyt
+ BhvNETt5yyRcd/Zvgdp6l71YghCMAPYlra2fuS9/aVM3xiDR2QHurPSCzyoxwZsz1zTm
+ jLn9LBaGE4ojS9mYjzR7Nue9aQObuBuHc5iXAeJaZvszsH4fFQHv8ozhn+Y44nDktHn6
+ 0T5YWtqUVE1JrRqVKkE3JVywXdl3AcEvwV/v7YWIIa9W+J8d2yYgO/N2DunKGahKXYDS
+ A2mg==
+X-Gm-Message-State: AOAM531sH/MxlJ6+LO5AkDEYayXD3AImhnSgLwicv5QkRzJTXJwubkDg
+ XUFQ5swfkm3UxPoCfDEYVY8oevtvz6ZsSQ==
+X-Google-Smtp-Source: ABdhPJyuCr4bpmvzRQ+OyNyar0XW6jAidB2r0Vx7Hc9VycIyrAEpHv4hQX0NBBSmEJRjFmvMlxz8BA==
+X-Received: by 2002:a1c:5f42:: with SMTP id t63mr2195051wmb.19.1604392171229; 
+ Tue, 03 Nov 2020 00:29:31 -0800 (PST)
 Received: from [10.44.66.8] ([212.45.67.2])
- by smtp.googlemail.com with ESMTPSA id h7sm25054331wrt.45.2020.11.03.00.10.57
+ by smtp.googlemail.com with ESMTPSA id k22sm2121288wmi.34.2020.11.03.00.29.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 00:10:59 -0800 (PST)
-Subject: Re: [PATCH v7 2/6] interconnect: Add generic interconnect driver for
- Exynos SoCs
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>, cw00.choi@samsung.com,
- krzk@kernel.org
-References: <20201030125149.8227-1-s.nawrocki@samsung.com>
- <CGME20201030125301eucas1p218b0e654cb4c826b05280f28836da8d9@eucas1p2.samsung.com>
- <20201030125149.8227-3-s.nawrocki@samsung.com>
+ Tue, 03 Nov 2020 00:29:30 -0800 (PST)
+Subject: Re: [PATCH v7 0/6] Exynos: Simple QoS for exynos-bus using
+ interconnect
+To: Chanwoo Choi <cw00.choi@samsung.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>
+References: <CGME20201030125221eucas1p14e525f75c4b8dadae04144ce7684d776@eucas1p1.samsung.com>
+ <20201030125149.8227-1-s.nawrocki@samsung.com>
+ <b586c2b7-9ca1-e641-b70c-27493ffd05e0@samsung.com>
 From: Georgi Djakov <georgi.djakov@linaro.org>
 Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
  xsFNBFjTuRcBEACyAOVzghvyN19Sa/Nit4LPBWkICi5W20p6bwiZvdjhtuh50H5q4ktyxJtp
@@ -97,10 +97,10 @@ Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
  7ayYJIXFqjl/X0KBcCbiAl4vbdBw1bqFnO4zd1lMXKVoa29UHqby4MPbQhjWNVv9kqp8A39+
  E9xw890l1xdERkjVKX6IEJu2hf7X3MMl9tOjBK6MvdOUxvh1bNNmXh7OlBL1MpJYY/ydIm3B
  KEmKjLDvB0pePJkdTw==
-Message-ID: <2f243097-7b8c-9b39-989d-a36d226ecd23@linaro.org>
-Date: Tue, 3 Nov 2020 10:11:00 +0200
+Message-ID: <9285e2d4-f2fa-92f2-ba25-832f32f77d78@linaro.org>
+Date: Tue, 3 Nov 2020 10:29:32 +0200
 MIME-Version: 1.0
-In-Reply-To: <20201030125149.8227-3-s.nawrocki@samsung.com>
+In-Reply-To: <b586c2b7-9ca1-e641-b70c-27493ffd05e0@samsung.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,78 +116,111 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- b.zolnierkie@samsung.com, linux-pm@vger.kernel.org, sw0312.kim@samsung.com,
- a.swigon@samsung.com, robh+dt@kernel.org, linux-kernel@vger.kernel.org,
- myungjoo.ham@samsung.com, dri-devel@lists.freedesktop.org,
- m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
+ linux-pm@vger.kernel.org, sw0312.kim@samsung.com, a.swigon@samsung.com,
+ robh+dt@kernel.org, linux-kernel@vger.kernel.org, myungjoo.ham@samsung.com,
+ krzk@kernel.org, m.szyprowski@samsung.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU3lsd2VzdGVyLAoKVGhhbmsgeW91IGZvciByZWZyZXNoaW5nIHRoZSBwYXRjaHNldCEKCk9u
-IDEwLzMwLzIwIDE0OjUxLCBTeWx3ZXN0ZXIgTmF3cm9ja2kgd3JvdGU6Cj4gVGhpcyBwYXRjaCBh
-ZGRzIGEgZ2VuZXJpYyBpbnRlcmNvbm5lY3QgZHJpdmVyIGZvciBFeHlub3MgU29DcyBpbiBvcmRl
-cgo+IHRvIHByb3ZpZGUgaW50ZXJjb25uZWN0IGZ1bmN0aW9uYWxpdHkgZm9yIGVhY2ggInNhbXN1
-bmcsZXh5bm9zLWJ1cyIKPiBjb21wYXRpYmxlIGRldmljZS4KPiAKPiBUaGUgU29DIHRvcG9sb2d5
-IGlzIGEgZ3JhcGggKG9yIG1vcmUgc3BlY2lmaWNhbGx5LCBhIHRyZWUpIGFuZCBpdHMKPiBlZGdl
-cyBhcmUgc3BlY2lmaWVkIHVzaW5nIHRoZSAnc2Ftc3VuZyxpbnRlcmNvbm5lY3QtcGFyZW50JyBp
-biB0aGUKPiBEVC4gRHVlIHRvIHVuc3BlY2lmaWVkIHJlbGF0aXZlIHByb2Jpbmcgb3JkZXIsIC1F
-UFJPQkVfREVGRVIgbWF5IGJlCj4gcHJvcGFnYXRlZCB0byBlbnN1cmUgdGhhdCB0aGUgcGFyZW50
-IGlzIHByb2JlZCBiZWZvcmUgaXRzIGNoaWxkcmVuLgo+IAo+IEVhY2ggYnVzIGlzIG5vdyBhbiBp
-bnRlcmNvbm5lY3QgcHJvdmlkZXIgYW5kIGFuIGludGVyY29ubmVjdCBub2RlIGFzCj4gd2VsbCAo
-Y2YuIERvY3VtZW50YXRpb24vaW50ZXJjb25uZWN0L2ludGVyY29ubmVjdC5yc3QpLCBpLmUuIGV2
-ZXJ5IGJ1cwo+IHJlZ2lzdGVycyBpdHNlbGYgYXMgYSBub2RlLiBOb2RlIElEcyBhcmUgbm90IGhh
-cmRjb2RlZCBidXQgcmF0aGVyCj4gYXNzaWduZWQgZHluYW1pY2FsbHkgYXQgcnVudGltZS4gVGhp
-cyBhcHByb2FjaCBhbGxvd3MgZm9yIHVzaW5nIHRoaXMKPiBkcml2ZXIgd2l0aCB2YXJpb3VzIEV4
-eW5vcyBTb0NzLgo+IAo+IEZyZXF1ZW5jaWVzIHJlcXVlc3RlZCB2aWEgdGhlIGludGVyY29ubmVj
-dCBBUEkgZm9yIGEgZ2l2ZW4gbm9kZSBhcmUKPiBwcm9wYWdhdGVkIHRvIGRldmZyZXEgdXNpbmcg
-ZGV2X3BtX3Fvc191cGRhdGVfcmVxdWVzdCgpLiBQbGVhc2Ugbm90ZQo+IHRoYXQgaXQgaXMgbm90
-IGFuIGVycm9yIHdoZW4gQ09ORklHX0lOVEVSQ09OTkVDVCBpcyAnbicsIGluIHdoaWNoCj4gY2Fz
-ZSBhbGwgaW50ZXJjb25uZWN0IEFQSSBmdW5jdGlvbnMgYXJlIG5vLW9wLgo+IAo+IFRoZSBidXMt
-d2lkdGggRFQgcHJvcGVydHkgaXMgdG8gZGV0ZXJtaW5lIHRoZSBpbnRlcmNvbm5lY3QgZGF0YQo+
-IHdpZHRoIGFuZCB0cmFzbGF0ZSByZXF1ZXN0ZWQgYmFuZHdpZHRoIHRvIGNsb2NrIGZyZXF1ZW5j
-eSBmb3IgZWFjaAo+IGJ1cy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBcnR1ciDFmndpZ2/FhCA8YS5z
-d2lnb25Ac2Ftc3VuZy5jb20+Cj4gU2lnbmVkLW9mZi1ieTogU3lsd2VzdGVyIE5hd3JvY2tpIDxz
-Lm5hd3JvY2tpQHNhbXN1bmcuY29tPgo+IC0tLQo+IENoYW5nZXMgZm9yIHY3Ogo+ICAtIGFkanVz
-dGVkIHRvIHRoZSBEVCBwcm9wZXJ0eSBjaGFuZ2VzOiAiaW50ZXJjb25uZWN0cyIgaW5zdGVhZAo+
-ICAgIG9mICJzYW1zdW5nLGludGVyY29ubmVjdC1wYXJlbnQiLCAic2Ftc3VuZyxkYXRhLWNsay1y
-YXRpbyIKPiAgICBpbnN0ZWFkIG9mICJidXMtd2lkdGgiLAo+ICAtIGFkYXB0YXRpb24gdG8gb2Zf
-aWNjX2dldF9mcm9tX3Byb3ZpZGVyKCkgZnVuY3Rpb24gY2hhbmdlcwo+ICAgIGluIHY1LjEwLXJj
-MS4KPiAKPiBDaGFuZ2VzIGZvciB2NjoKPiAgLSBjb3JyZWN0ZWQgb2Zfbm9kZSBkZXJlZmVyZW5j
-aW5nIGluIGV4eW5vc19pY2NfZ2V0X3BhcmVudCgpCj4gICAgZnVuY3Rpb24sCj4gIC0gY29ycmVj
-dGVkIGluaXRpYWxpemF0aW9uIG9mIGljY19ub2RlLT5uYW1lIHNvIGFzIHRvIGF2b2lkCj4gICAg
-ZGlyZWN0IG9mX25vZGUtPm5hbWUgZGVyZWZlcmVuY2luZywKPiAgLSBhZGRlZCBwYXJzaW5nIG9m
-IGJ1cy13aWR0aCBEVCBwcm9wZXJ0eS4KPiAKPiBDaGFuZ2VzIGZvciB2NToKPiAgLSBhZGp1c3Qg
-dG8gcmVuYW1lZCBleHlub3MsaW50ZXJjb25uZWN0LXBhcmVudC1ub2RlIHByb3BlcnR5LAo+ICAt
-IHVzZSBhdXRvbWF0aWNhbGx5IGdlbmVyYXRlZCBwbGF0Zm9ybSBkZXZpY2UgaWQgYXMgdGhlIGlu
-dGVyY29uZWN0Cj4gICAgbm9kZSBpZCBpbnN0ZWFkIG9mIGEgbm93IHVuYXZhaWxhYmxlIGRldmZy
-ZXEtPmlkIGZpZWxkLAo+ICAtIGFkZCBpY2NfIHByZWZpeCB0byBzb21lIHZhcmlhYmxlcyB0byBt
-YWtlIHRoZSBjb2RlIG1vcmUgc2VsZi1jb21tZW50aW5nLAo+ICAtIHVzZSBpY2Nfbm9kZXNfcmVt
-b3ZlKCkgaW5zdGVhZCBvZiBpY2Nfbm9kZV9kZWwoKSArIGljY19ub2RlX2Rlc3Ryb3koKSwKPiAg
-LSBhZGp1c3QgdG8gZXh5bm9zLGludGVyY29ubmVjdC1wYXJlbnQtbm9kZSBwcm9wZXJ0eSByZW5h
-bWUgdG8KPiAgICBzYW1zdW5nLGludGVyY29ubmVjdC1wYXJlbnQsCj4gIC0gY29udmVydGVkIHRv
-IGEgc2VwYXJhdGUgcGxhdGZvcm0gZHJpdmVyIGluIGRyaXZlcnMvaW50ZXJjb25uZWN0Lgo+IAo+
-IC0tLQo+ICBkcml2ZXJzL2ludGVyY29ubmVjdC9LY29uZmlnICAgICAgICAgfCAgIDEgKwo+ICBk
-cml2ZXJzL2ludGVyY29ubmVjdC9NYWtlZmlsZSAgICAgICAgfCAgIDEgKwo+ICBkcml2ZXJzL2lu
-dGVyY29ubmVjdC9leHlub3MvS2NvbmZpZyAgfCAgIDYgKysKPiAgZHJpdmVycy9pbnRlcmNvbm5l
-Y3QvZXh5bm9zL01ha2VmaWxlIHwgICA0ICsKPiAgZHJpdmVycy9pbnRlcmNvbm5lY3QvZXh5bm9z
-L2V4eW5vcy5jIHwgMTk4ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gIDUg
-ZmlsZXMgY2hhbmdlZCwgMjEwIGluc2VydGlvbnMoKykKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRy
-aXZlcnMvaW50ZXJjb25uZWN0L2V4eW5vcy9LY29uZmlnCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBk
-cml2ZXJzL2ludGVyY29ubmVjdC9leHlub3MvTWFrZWZpbGUKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0
-IGRyaXZlcnMvaW50ZXJjb25uZWN0L2V4eW5vcy9leHlub3MuYwo+IApbLi5dCj4gKwo+ICtzdGF0
-aWMgc3RydWN0IHBsYXRmb3JtX2RyaXZlciBleHlub3NfZ2VuZXJpY19pY2NfZHJpdmVyID0gewo+
-ICsJLmRyaXZlciA9IHsKPiArCQkubmFtZSA9ICJleHlub3MtZ2VuZXJpYy1pY2MiLAoKSSB0aGlu
-ayB0aGF0IHlvdSB3aWxsIG5lZWQgdGhpczoKCQkuc3luY19zdGF0ZSA9IGljY19zeW5jX3N0YXRl
-LAoKVGhhbmtzLApHZW9yZ2kKCj4gKwl9LAo+ICsJLnByb2JlID0gZXh5bm9zX2dlbmVyaWNfaWNj
-X3Byb2JlLAo+ICsJLnJlbW92ZSA9IGV4eW5vc19nZW5lcmljX2ljY19yZW1vdmUsCj4gK307Cj4g
-K21vZHVsZV9wbGF0Zm9ybV9kcml2ZXIoZXh5bm9zX2dlbmVyaWNfaWNjX2RyaXZlcik7Cj4gKwo+
-ICtNT0RVTEVfREVTQ1JJUFRJT04oIkV4eW5vcyBnZW5lcmljIGludGVyY29ubmVjdCBkcml2ZXIi
-KTsKPiArTU9EVUxFX0FVVEhPUigiQXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHNhbXN1bmcuY29t
-PiIpOwo+ICtNT0RVTEVfQVVUSE9SKCJTeWx3ZXN0ZXIgTmF3cm9ja2kgPHMubmF3cm9ja2lAc2Ft
-c3VuZy5jb20+Iik7Cj4gK01PRFVMRV9MSUNFTlNFKCJHUEwgdjIiKTsKPiArTU9EVUxFX0FMSUFT
-KCJwbGF0Zm9ybTpleHlub3MtZ2VuZXJpYy1pY2MiKTsKPiAKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Chanwoo and Sylwester,
+
+On 11/3/20 09:54, Chanwoo Choi wrote:
+> Hi Sylwester,
+> 
+> When I tested this patchset on Odroid-U3,
+> After setting 0 bps by interconnect[1][2],
+> the frequency of devfreq devs sustain the high frequency
+> according to the pm qos request.
+> 
+> So, I try to find the cause of this situation.
+> In result, it seems that interconnect exynos driver
+> updates the pm qos request to devfreq device
+> during the kernel booting. Do you know why the exynos
+> interconnect driver request the pm qos during probe
+> without the mixer request?
+
+That's probably because of the sync_state support, that was introduced
+recently. The icc_sync_state callback needs to be added to the driver
+(i just left a comment on that patch), and then check again if it works.
+
+The idea of the sync_state is that there could be multiple users of a
+path and we must wait for all consumers to tell their bandwidth needs.
+Otherwise the first consumer may lower the bandwidth or disable a path
+needed for another consumer (driver), which has not probed yet. So we
+maintain a floor bandwidth until everyone has probed. By default the floor
+bandwidth is INT_MAX, but can be overridden by implementing the get_bw()
+callback.
+
+Thanks,
+Georgi
+
+> 
+> PS. The passive governor has a bug related to PM_QOS interface.
+> So, I posted the patch[4].
+> 
+> 
+> [1] interconnect_graph
+> root@localhost:~# cat /sys/kernel/debug/interconnect/interconnect_graph 
+> digraph {
+>         rankdir = LR
+>         node [shape = record]
+>         subgraph cluster_1 {
+>                 label = "soc:bus_dmc"
+>                 "2:bus_dmc" [label="2:bus_dmc
+>                         |avg_bw=0kBps
+>                         |peak_bw=0kBps"]
+>         }
+>         subgraph cluster_2 {
+>                 label = "soc:bus_leftbus"
+>                 "3:bus_leftbus" [label="3:bus_leftbus
+>                         |avg_bw=0kBps
+>                         |peak_bw=0kBps"]
+>         }
+>         subgraph cluster_3 {
+>                 label = "soc:bus_display"
+>                 "4:bus_display" [label="4:bus_display
+>                         |avg_bw=0kBps
+>                         |peak_bw=0kBps"]
+>         }
+>         "3:bus_leftbus" -> "2:bus_dmc"
+>         "4:bus_display" -> "3:bus_leftbus"
+> 
+> 
+> [2] interconnect_summary
+> root@localhost:~# cat /sys/kernel/debug/interconnect/interconnect_summary 
+>  node                                  tag          avg         peak
+> --------------------------------------------------------------------
+> bus_dmc                                               0            0
+>   12c10000.mixer                         0            0            0
+> bus_leftbus                                           0            0
+>   12c10000.mixer                         0            0            0
+> bus_display                                           0            0
+>   12c10000.mixer                         0            0            0
+> 
+> 
+> [3] devfreq_summary
+> root@localhost:~# cat /sys/kernel/debug/devfreq/devfreq_summary 
+> dev                            parent_dev                     governor        timer      polling_ms  cur_freq_Hz  min_freq_Hz  max_freq_Hz
+> ------------------------------ ------------------------------ --------------- ---------- ---------- ------------ ------------ ------------
+> soc:bus_dmc                    null                           simple_ondemand deferrable         50    400000000    400000000    400000000
+> soc:bus_acp                    soc:bus_dmc                    passive         null                0    267000000    100000000    267000000
+> soc:bus_c2c                    soc:bus_dmc                    passive         null                0    400000000    100000000    400000000
+> soc:bus_leftbus                null                           simple_ondemand deferrable         50    200000000    200000000    200000000
+> soc:bus_rightbus               soc:bus_leftbus                passive         null                0    200000000    100000000    200000000
+> soc:bus_display                soc:bus_leftbus                passive         null                0    200000000    200000000    200000000
+> soc:bus_fsys                   soc:bus_leftbus                passive         null                0    134000000    100000000    134000000
+> soc:bus_peri                   soc:bus_leftbus                passive         null                0    100000000     50000000    100000000
+> soc:bus_mfc                    soc:bus_leftbus                passive         null                0    200000000    100000000    200000000
+> 
+> 
+> [4] PM / devfreq: passive: Update frequency when start governor
+> https://patchwork.kernel.org/project/linux-pm/patch/20201103070646.18687-1-cw00.choi@samsung.com/
+> 
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
