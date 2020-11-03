@@ -2,38 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490732A5F57
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20F72A5F50
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:22:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 804F689AFF;
-	Wed,  4 Nov 2020 08:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE13895B6;
+	Wed,  4 Nov 2020 08:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BF0D6E859
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 08:57:54 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CQNwF6ySjz71qv;
- Tue,  3 Nov 2020 16:57:49 +0800 (CST)
-Received: from [127.0.0.1] (10.57.60.129) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Tue, 3 Nov 2020
- 16:57:45 +0800
-Subject: Re: [PATCH v2] drm: Add the new api to install irq
-To: Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao
- <tiantao6@hisilicon.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
- <8af4223a-037e-7093-cac3-0061aa7b8025@suse.de>
-From: "tiantao (H)" <tiantao6@huawei.com>
-Message-ID: <29e7eeb5-de7b-89bd-b710-38c00e3c7b54@huawei.com>
-Date: Tue, 3 Nov 2020 16:57:45 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 536E06E88F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 09:15:45 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id DCF98B74;
+ Tue,  3 Nov 2020 04:15:41 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 03 Nov 2020 04:15:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=1tNn1pikOw7tZKuEny9hLuZOdNy
+ TZCg4qSMmCCjVhK4=; b=lrqfhwXkww8bOrTefozcqRhyUsUfOyJhYrA38aVP2Aq
+ VELQr5eIMHpGL0/qSCkI0/p3kJatzR4eN2I1ahWWxOhq3gsRwrBVIimYFq9RaFnr
+ Nor7Px4qgxM//Lbj3sU2r/RQtSOQXrDmObBbodPPzLuooytbKSEMlD0bcs+QypKP
+ eb22w7m7sGNmNuL9Aq5he82281XLEBHUNVdkJIiQ8gFvB1kK1xgOnfkP6902s1WT
+ ylC7Y5oBF5VGk50mUtRXjseFqf2ytrPSIHm+rR52vN1fa7i8nNcA9p0To/kH5eai
+ asWKyrEroz60Ptvjou32ZAcmeXUevWSQnmUPIwqdZVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=1tNn1p
+ ikOw7tZKuEny9hLuZOdNyTZCg4qSMmCCjVhK4=; b=SyT6nfnFZvw43mK5SRIhz9
+ jAwp06bGa1lE9E79HewyOXk9GXmM61OpGoN7n9OP+I/fRWIlaziPMxtfsKP95/rV
+ kGOJJ9a+j/KOKnQWhWqgoGcIiZih04fhVJsaMzVBh0xg8qK5c448/uOY0XDtVi8t
+ Eggt3rnmnPVvtWoNdXHoETkL5UK1afcQpXKabJzB2Y2TtHwwXsVZ9sPHfQo+wBkJ
+ 0Z8rtUaJdRLXRyjMNHy2/mlAujFwLj2LpkY5b8a3lLf2EqVtpIPRxGhxSRaGD9ZA
+ RLBunUMM2VNYbAZGLthB524p3tFCllojJa44j362CEUWtkTT+wvVgYnmyxu/Vv2w
+ ==
+X-ME-Sender: <xms:vB-hX_oetdGm8t199iExKBMu6vTYWW_wHDyt5RfGIr1_4HLpqFWiuQ>
+ <xme:vB-hX5roYKbuUNuaT-nsovo5tJWK2iEZ09YGeRgmwpQWk_g4XGex2iysTZTsCsPcP
+ FcvRk_s2d1Gzp0Ji4Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtfedgtddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:vB-hX8O9ldm84epMnLj8VlxnxzHGsfHnl1auUYb8erP8R3SQylAQQg>
+ <xmx:vB-hXy5q5nvRgWNcyyWqaSEkQJmq7dnMPweaytsjZKSNRoq9FOAmbg>
+ <xmx:vB-hX-5NLMfp6hry0i-ubyu4SKJ1aPKq5SIKG_Z4uH3kITksqt7sqQ>
+ <xmx:vR-hX50xglK7p-64SD84ZvhfbFkvz4vYHLT6ICXTBzsjykITcokqyQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id C93C63280059;
+ Tue,  3 Nov 2020 04:15:39 -0500 (EST)
+Date: Tue, 3 Nov 2020 10:15:37 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/vc4: drv: Remove unused variable
+Message-ID: <20201103091537.4n55enltcd4eejyo@gilmour.lan>
+References: <20201102162908.1436567-1-maxime@cerno.tech>
+ <20201102204538.GV401619@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <8af4223a-037e-7093-cac3-0061aa7b8025@suse.de>
-X-Originating-IP: [10.57.60.129]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20201102204538.GV401619@phenom.ffwll.local>
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,58 +79,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============0174052200=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgrlnKggMjAyMC8xMS8zIDE1OjU2LCBUaG9tYXMgWmltbWVybWFubiDlhpnpgZM6Cj4gSGkKPiAK
-PiBUaGFua3MsIHRoZSBjb2RlIGxvb2tzIGdvb2QgYWxyZWFkeS4gVGhlcmUganVzdCBhcmUgYSBm
-ZXcgbml0cyBiZWxvdy4KPiAKVGhhbmtzIGZvciB0aGUgaGVscCB3aXRoIHRoZSByZXZpZXcgY29k
-ZS4KQWRkIHRoZSBuZXcgYXBpIGRldm1fZHJtX2lycV9pbnN0YWxsIGFuZCBoaW1iYyB1c2UgdGhl
-IG5ldyBpbnRlcmZhY2UgYXMgCm9uZSBwYXRjaCBvciB0d28/Cgo+IEFtIDAzLjExLjIwIHVtIDAz
-OjEwIHNjaHJpZWIgVGlhbiBUYW86Cj4+IEFkZCBuZXcgYXBpIGRldm1fZHJtX2lycV9pbnN0YWxs
-KCkgdG8gcmVnaXN0ZXIgaW50ZXJydXB0cywKPj4gbm8gbmVlZCB0byBjYWxsIGRybV9pcnFfdW5p
-bnN0YWxsKCkgd2hlbiB0aGUgZHJtIG1vZHVsZSBpcyByZW1vdmVkLgo+Pgo+PiB2MjoKPj4gZml4
-ZWQgdGhlIHdyb25nIHBhcmFtZXRlci4KPj4KPj4gU2lnbmVkLW9mZi1ieTogVGlhbiBUYW8gPHRp
-YW50YW82QGhpc2lsaWNvbi5jb20+Cj4+IC0tLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2
-LmMgfCAyMyArKysrKysrKysrKysrKysrKysrKysrKwo+PiAgIGluY2x1ZGUvZHJtL2RybV9kcnYu
-aCAgICAgfCAgMyArKy0KPj4gICAyIGZpbGVzIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDEg
-ZGVsZXRpb24oLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jCj4+IGluZGV4IGNkMTYyZDQuLjBmZTUyNDMgMTAw
-NjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMKPj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2RybV9kcnYuYwo+IAo+IFRoZSBpbXBsZW1lbnRhdGlvbiBzaG91bGQgcmF0aGVyIGdv
-IHRvIGRybV9pcnEuYwo+IAo+PiBAQCAtMzksNiArMzksNyBAQAo+PiAgICNpbmNsdWRlIDxkcm0v
-ZHJtX2NvbG9yX21nbXQuaD4KPj4gICAjaW5jbHVkZSA8ZHJtL2RybV9kcnYuaD4KPj4gICAjaW5j
-bHVkZSA8ZHJtL2RybV9maWxlLmg+Cj4+ICsjaW5jbHVkZSA8ZHJtL2RybV9pcnEuaD4KPj4gICAj
-aW5jbHVkZSA8ZHJtL2RybV9tYW5hZ2VkLmg+Cj4+ICAgI2luY2x1ZGUgPGRybS9kcm1fbW9kZV9v
-YmplY3QuaD4KPj4gICAjaW5jbHVkZSA8ZHJtL2RybV9wcmludC5oPgo+PiBAQCAtNjc4LDYgKzY3
-OSwyOCBAQCBzdGF0aWMgaW50IGRldm1fZHJtX2Rldl9pbml0KHN0cnVjdCBkZXZpY2UgKnBhcmVu
-dCwKPj4gICAJcmV0dXJuIHJldDsKPj4gICB9Cj4+ICAgCj4+ICtzdGF0aWMgdm9pZCBkZXZtX2Ry
-bV9kZXZfaXJxX3VuaW5zdGFsbCh2b2lkICpkYXRhKQo+PiArewo+PiArCWRybV9pcnFfdW5pbnN0
-YWxsKGRhdGEpOwo+PiArfQo+PiArCj4+ICtpbnQgZGV2bV9kcm1faXJxX2luc3RhbGwoc3RydWN0
-IGRldmljZSAqcGFyZW50LAo+PiArCQkJIHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIGludCBpcnEp
-Cj4+ICt7Cj4+ICsJaW50IHJldDsKPj4gKwo+PiArCXJldCA9IGRybV9pcnFfaW5zdGFsbChkZXYs
-IGlycSk7Cj4+ICsJaWYgKHJldCkKPj4gKwkJcmV0dXJuIHJldDsKPj4gKwo+PiArCXJldCA9IGRl
-dm1fYWRkX2FjdGlvbihwYXJlbnQsIGRldm1fZHJtX2Rldl9pcnFfdW5pbnN0YWxsLCBkZXYpOwo+
-PiArCWlmIChyZXQpCj4+ICsJCWRldm1fZHJtX2Rldl9pcnFfdW5pbnN0YWxsKGRldik7Cj4+ICsK
-Pj4gKwlyZXR1cm4gcmV0Owo+PiArfQo+PiArRVhQT1JUX1NZTUJPTChkZXZtX2RybV9pcnFfaW5z
-dGFsbCk7Cj4+ICsKPj4gICB2b2lkICpfX2Rldm1fZHJtX2Rldl9hbGxvYyhzdHJ1Y3QgZGV2aWNl
-ICpwYXJlbnQsIHN0cnVjdCBkcm1fZHJpdmVyICpkcml2ZXIsCj4+ICAgCQkJICAgc2l6ZV90IHNp
-emUsIHNpemVfdCBvZmZzZXQpCj4+ICAgewo+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJt
-X2Rydi5oIGIvaW5jbHVkZS9kcm0vZHJtX2Rydi5oCj4+IGluZGV4IDAyMzA3NjIuLmZlYzE3NzYg
-MTAwNjQ0Cj4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcnYuaAo+PiArKysgYi9pbmNsdWRlL2Ry
-bS9kcm1fZHJ2LmgKPiAKPiBBbmQgdGhlIGRlY2xhcmF0aW9uIHNob3VsZCBnbyB0byBkcm1faXJx
-LmgKPiAKPiBXZSBnZW5lcmFsbHkgZG9uJ3QgbWVyZ2UgdW51c2VkIGNvZGUsIHNvIHlvdSBzaG91
-bGQgY29udmVydCBhdCBsZWFzdCBvbmUKPiBLTVMgZHJpdmVyLCBzYXkgaGlibWMsIHRvIHVzZSB0
-aGUgbmV3IGludGVyZmFjZS4KPiAKPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPiAKPj4gQEAgLTUx
-Myw3ICs1MTMsOCBAQCBzdHJ1Y3QgZHJtX2RyaXZlciB7Cj4+ICAgCj4+ICAgdm9pZCAqX19kZXZt
-X2RybV9kZXZfYWxsb2Moc3RydWN0IGRldmljZSAqcGFyZW50LCBzdHJ1Y3QgZHJtX2RyaXZlciAq
-ZHJpdmVyLAo+PiAgIAkJCSAgIHNpemVfdCBzaXplLCBzaXplX3Qgb2Zmc2V0KTsKPj4gLQo+PiAr
-aW50IGRldm1fZHJtX2lycV9pbnN0YWxsKHN0cnVjdCBkZXZpY2UgKnBhcmVudCwgc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwKPj4gKwkJCSBpbnQgaXJxKTsKPj4gICAvKioKPj4gICAgKiBkZXZtX2Ry
-bV9kZXZfYWxsb2MgLSBSZXNvdXJjZSBtYW5hZ2VkIGFsbG9jYXRpb24gb2YgYSAmZHJtX2Rldmlj
-ZSBpbnN0YW5jZQo+PiAgICAqIEBwYXJlbnQ6IFBhcmVudCBkZXZpY2Ugb2JqZWN0Cj4+Cj4gCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+--===============0174052200==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ejmzyeoplaefgufw"
+Content-Disposition: inline
+
+
+--ejmzyeoplaefgufw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Nov 02, 2020 at 09:45:38PM +0100, Daniel Vetter wrote:
+> On Mon, Nov 02, 2020 at 05:29:08PM +0100, Maxime Ripard wrote:
+> > The commit dcda7c28bff2 ("drm/vc4: kms: Add functions to create the sta=
+te
+> > objects") removed the last users of the vc4 variable, but didn't remove
+> > that variable resulting in a warning.
+> >=20
+> > Fixes: dcda7c28bff2 ("drm/vc4: kms: Add functions to create the state o=
+bjects")
+> > Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Applied, thanks!
+Maxime
+
+--ejmzyeoplaefgufw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX6EfuQAKCRDj7w1vZxhR
+xUVkAQDWKebs8NWluz66EYfhVeJKhI7DKNQGPXEFIVJdSQklXQD9F9wgASRe1ald
+yQPPExMu7ZwTtReTnUxUzsWwhnJqnQY=
+=eD/v
+-----END PGP SIGNATURE-----
+
+--ejmzyeoplaefgufw--
+
+--===============0174052200==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0174052200==--
