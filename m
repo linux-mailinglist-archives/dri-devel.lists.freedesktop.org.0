@@ -2,54 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366F42A3E53
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:04:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397BB2A3E61
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:14:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CD206EB9D;
-	Tue,  3 Nov 2020 08:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 187C36E0A5;
+	Tue,  3 Nov 2020 08:13:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC2446EBA4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 08:04:30 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A384OHI124261;
- Tue, 3 Nov 2020 02:04:24 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604390664;
- bh=HSH6w98vZ5KUzWOPpRJA2krlz2qkBQvm0lL/aJtWvbM=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=fWvjUoTWpg02A1fZ+k8xuzaKxDcPZN2jSLLQVraVPPG6qDZ5mEO5Hi1SXxZPm+KGA
- cHqLxIuRBr2kw0AgJPeDl062l2AHS2/Rp4A3NOoz7uzqgtDKCXvQy1z8tq0CVZ0U6R
- 0vDD3O9iqUe+2K+yXS4GBgwBaKurxMYIsdYfIYvI=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A384ORL112707
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 3 Nov 2020 02:04:24 -0600
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 3 Nov
- 2020 02:04:23 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 3 Nov 2020 02:04:23 -0600
-Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A3849ex095622;
- Tue, 3 Nov 2020 02:04:21 -0600
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: <dri-devel@lists.freedesktop.org>, Jyri Sarha <jsarha@ti.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Nikhil Devshatwar
- <nikhil.nd@ti.com>
-Subject: [PATCH v2 5/5] drm/omap: Enable COLOR_ENCODING and COLOR_RANGE
- properties for planes
-Date: Tue, 3 Nov 2020 10:03:10 +0200
-Message-ID: <20201103080310.164453-6-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201103080310.164453-1-tomi.valkeinen@ti.com>
-References: <20201103080310.164453-1-tomi.valkeinen@ti.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F37B06E0A5
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 08:13:54 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5FE351F4531C;
+ Tue,  3 Nov 2020 08:13:53 +0000 (GMT)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH v3] drm/panfrost: Move the GPU reset bits outside the timeout
+ handler
+Date: Tue,  3 Nov 2020 09:13:47 +0100
+Message-Id: <20201103081347.1000139-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,281 +40,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Sekhar Nori <nsekhar@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jyri Sarha <jsarha@ti.com>
+We've fixed many races in panfrost_job_timedout() but some remain.
+Instead of trying to fix it again, let's simplify the logic and move
+the reset bits to a separate work scheduled when one of the queue
+reports a timeout.
 
-Adds support for COLOR_ENCODING and COLOR_RANGE properties to
-omap_plane.c and dispc.c. The supported encodings and ranges are
-presets are:
+v3:
+- Replace the atomic_cmpxchg() by an atomic_xchg() (Robin Murphy)
+- Add Steven's R-b
 
-For COLOR_ENCODING:
-- YCbCr BT.601 (default)
-- YCbCr BT.709
+v2:
+- Use atomic_cmpxchg() to conditionally schedule the reset work (Steven Price)
 
-For COLOR_RANGE:
-- YCbCr limited range
-- YCbCr full range (default)
-
-Signed-off-by: Jyri Sarha <jsarha@ti.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Fixes: 1a11a88cfd9a ("drm/panfrost: Fix job timeout handling")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dispc.c   | 104 ++++++++++++++++----------
- drivers/gpu/drm/omapdrm/dss/omapdss.h |   4 +
- drivers/gpu/drm/omapdrm/omap_plane.c  |  30 ++++++++
- 3 files changed, 97 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_device.c |   1 -
+ drivers/gpu/drm/panfrost/panfrost_device.h |   6 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c    | 127 ++++++++++++---------
+ 3 files changed, 79 insertions(+), 55 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
-index 48593932bddf..bf0c9d293077 100644
---- a/drivers/gpu/drm/omapdrm/dss/dispc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
-@@ -874,50 +874,67 @@ static void dispc_ovl_write_color_conv_coef(struct dispc_device *dispc,
- #undef CVAL
- }
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+index ea8d31863c50..a83b2ff5837a 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.c
++++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+@@ -200,7 +200,6 @@ int panfrost_device_init(struct panfrost_device *pfdev)
+ 	struct resource *res;
  
--static void dispc_wb_write_color_conv_coef(struct dispc_device *dispc,
--					   const struct csc_coef_rgb2yuv *ct)
--{
--	const enum omap_plane_id plane = OMAP_DSS_WB;
--
--#define CVAL(x, y) (FLD_VAL(x, 26, 16) | FLD_VAL(y, 10, 0))
-+/* YUV -> RGB, ITU-R BT.601, full range */
-+static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_full = {
-+	256,   0,  358,		/* ry, rcb, rcr |1.000  0.000  1.402|*/
-+	256, -88, -182,		/* gy, gcb, gcr |1.000 -0.344 -0.714|*/
-+	256, 452,    0,		/* by, bcb, bcr |1.000  1.772  0.000|*/
-+	true,			/* full range */
-+};
+ 	mutex_init(&pfdev->sched_lock);
+-	mutex_init(&pfdev->reset_lock);
+ 	INIT_LIST_HEAD(&pfdev->scheduled_jobs);
+ 	INIT_LIST_HEAD(&pfdev->as_lru_list);
  
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 0), CVAL(ct->yg,  ct->yr));
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 1), CVAL(ct->crr, ct->yb));
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 2), CVAL(ct->crb, ct->crg));
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 3), CVAL(ct->cbg, ct->cbr));
--	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 4), CVAL(0, ct->cbb));
-+/* YUV -> RGB, ITU-R BT.601, limited range */
-+static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_lim = {
-+	298,    0,  409,	/* ry, rcb, rcr |1.164  0.000  1.596|*/
-+	298, -100, -208,	/* gy, gcb, gcr |1.164 -0.392 -0.813|*/
-+	298,  516,    0,	/* by, bcb, bcr |1.164  2.017  0.000|*/
-+	false,			/* limited range */
-+};
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 140e004a3790..597cf1459b0a 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -106,7 +106,11 @@ struct panfrost_device {
+ 	struct panfrost_perfcnt *perfcnt;
  
--	REG_FLD_MOD(dispc, DISPC_OVL_ATTRIBUTES(plane), ct->full_range, 11, 11);
-+/* YUV -> RGB, ITU-R BT.709, full range */
-+static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt709_full = {
-+	256,    0,  402,        /* ry, rcb, rcr |1.000  0.000  1.570|*/
-+	256,  -48, -120,        /* gy, gcb, gcr |1.000 -0.187 -0.467|*/
-+	256,  475,    0,        /* by, bcb, bcr |1.000  1.856  0.000|*/
-+	true,                   /* full range */
-+};
- 
--#undef CVAL
--}
-+/* YUV -> RGB, ITU-R BT.709, limited range */
-+static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt709_lim = {
-+	298,    0,  459,	/* ry, rcb, rcr |1.164  0.000  1.793|*/
-+	298,  -55, -136,	/* gy, gcb, gcr |1.164 -0.213 -0.533|*/
-+	298,  541,    0,	/* by, bcb, bcr |1.164  2.112  0.000|*/
-+	false,			/* limited range */
-+};
- 
--static void dispc_setup_color_conv_coef(struct dispc_device *dispc)
-+static int dispc_ovl_set_csc(struct dispc_device *dispc,
-+			     enum omap_plane_id plane,
-+			     enum drm_color_encoding color_encoding,
-+			     enum drm_color_range color_range)
- {
--	int i;
--	int num_ovl = dispc_get_num_ovls(dispc);
--
--	/* YUV -> RGB, ITU-R BT.601, limited range */
--	const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_lim = {
--		298,    0,  409,	/* ry, rcb, rcr */
--		298, -100, -208,	/* gy, gcb, gcr */
--		298,  516,    0,	/* by, bcb, bcr */
--		false,			/* limited range */
--	};
-+	const struct csc_coef_yuv2rgb *csc;
- 
--	/* RGB -> YUV, ITU-R BT.601, limited range */
--	const struct csc_coef_rgb2yuv coefs_rgb2yuv_bt601_lim = {
--		 66, 129,  25,		/* yr,   yg,  yb */
--		-38, -74, 112,		/* cbr, cbg, cbb */
--		112, -94, -18,		/* crr, crg, crb */
--		false,			/* limited range */
--	};
-+	switch (color_encoding) {
-+	case DRM_COLOR_YCBCR_BT601:
-+		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
-+			csc = &coefs_yuv2rgb_bt601_full;
-+		else
-+			csc = &coefs_yuv2rgb_bt601_lim;
-+		break;
-+	case DRM_COLOR_YCBCR_BT709:
-+		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
-+			csc = &coefs_yuv2rgb_bt709_full;
-+		else
-+			csc = &coefs_yuv2rgb_bt709_lim;
-+		break;
-+	default:
-+		DSSERR("Unsupported CSC mode %d for plane %d\n",
-+		       color_encoding, plane);
-+		return -EINVAL;
-+	}
- 
--	for (i = 1; i < num_ovl; i++)
--		dispc_ovl_write_color_conv_coef(dispc, i, &coefs_yuv2rgb_bt601_lim);
-+	dispc_ovl_write_color_conv_coef(dispc, plane, csc);
- 
--	if (dispc->feat->has_writeback)
--		dispc_wb_write_color_conv_coef(dispc, &coefs_rgb2yuv_bt601_lim);
-+	return 0;
- }
- 
- static void dispc_ovl_set_ba0(struct dispc_device *dispc,
-@@ -2598,7 +2615,9 @@ static int dispc_ovl_setup_common(struct dispc_device *dispc,
- 				  u8 pre_mult_alpha, u8 global_alpha,
- 				  enum omap_dss_rotation_type rotation_type,
- 				  bool replication, const struct videomode *vm,
--				  bool mem_to_mem)
-+				  bool mem_to_mem,
-+				  enum drm_color_encoding color_encoding,
-+				  enum drm_color_range color_range)
- {
- 	bool five_taps = true;
- 	bool fieldmode = false;
-@@ -2747,6 +2766,9 @@ static int dispc_ovl_setup_common(struct dispc_device *dispc,
- 				      fieldmode, fourcc, rotation);
- 		dispc_ovl_set_output_size(dispc, plane, out_width, out_height);
- 		dispc_ovl_set_vid_color_conv(dispc, plane, cconv);
+ 	struct mutex sched_lock;
+-	struct mutex reset_lock;
 +
-+		if (plane != OMAP_DSS_WB)
-+			dispc_ovl_set_csc(dispc, plane, color_encoding, color_range);
++	struct {
++		struct work_struct work;
++		atomic_t pending;
++	} reset;
+ 
+ 	struct mutex shrinker_lock;
+ 	struct list_head shrinker_list;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 4902bc6624c8..9691d6248f6d 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -20,6 +20,8 @@
+ #include "panfrost_gpu.h"
+ #include "panfrost_mmu.h"
+ 
++#define JOB_TIMEOUT_MS 500
++
+ #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+ #define job_read(dev, reg) readl(dev->iomem + (reg))
+ 
+@@ -382,19 +384,37 @@ static bool panfrost_scheduler_stop(struct panfrost_queue_state *queue,
+ 			drm_sched_increase_karma(bad);
+ 		queue->stopped = true;
+ 		stopped = true;
++
++		/*
++		 * Set the timeout to max so the timer doesn't get started
++		 * when we return from the timeout handler (restored in
++		 * panfrost_scheduler_start()).
++		 */
++		queue->sched.timeout = MAX_SCHEDULE_TIMEOUT;
  	}
+ 	mutex_unlock(&queue->lock);
  
- 	dispc_ovl_set_rotation_attrs(dispc, plane, rotation, rotation_type,
-@@ -2783,7 +2805,8 @@ static int dispc_ovl_setup(struct dispc_device *dispc,
- 		oi->screen_width, oi->pos_x, oi->pos_y, oi->width, oi->height,
- 		oi->out_width, oi->out_height, oi->fourcc, oi->rotation,
- 		oi->zorder, oi->pre_mult_alpha, oi->global_alpha,
--		oi->rotation_type, replication, vm, mem_to_mem);
-+		oi->rotation_type, replication, vm, mem_to_mem,
-+		oi->color_encoding, oi->color_range);
- 
- 	return r;
- }
-@@ -2816,7 +2839,8 @@ static int dispc_wb_setup(struct dispc_device *dispc,
- 		wi->buf_width, pos_x, pos_y, in_width, in_height, wi->width,
- 		wi->height, wi->fourcc, wi->rotation, zorder,
- 		wi->pre_mult_alpha, global_alpha, wi->rotation_type,
--		replication, vm, mem_to_mem);
-+		replication, vm, mem_to_mem, DRM_COLOR_YCBCR_BT601,
-+		DRM_COLOR_YCBCR_LIMITED_RANGE);
- 	if (r)
- 		return r;
- 
-@@ -3927,8 +3951,6 @@ static void _omap_dispc_initial_config(struct dispc_device *dispc)
- 	    dispc->feat->has_gamma_table)
- 		REG_FLD_MOD(dispc, DISPC_CONFIG, 1, 9, 9);
- 
--	dispc_setup_color_conv_coef(dispc);
--
- 	dispc_set_loadmode(dispc, OMAP_DSS_LOAD_FRAME_ONLY);
- 
- 	dispc_init_fifos(dispc);
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 8e9a2019f173..816424eb2d41 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -7,6 +7,7 @@
- #ifndef __OMAP_DRM_DSS_H
- #define __OMAP_DRM_DSS_H
- 
-+#include <drm/drm_color_mgmt.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_mode.h>
- #include <linux/device.h>
-@@ -243,6 +244,9 @@ struct omap_overlay_info {
- 	u8 global_alpha;
- 	u8 pre_mult_alpha;
- 	u8 zorder;
-+
-+	enum drm_color_encoding color_encoding;
-+	enum drm_color_range color_range;
- };
- 
- struct omap_overlay_manager_info {
-diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-index 73ec99819a3d..1f433fb5f207 100644
---- a/drivers/gpu/drm/omapdrm/omap_plane.c
-+++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-@@ -59,6 +59,8 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
- 		info.pre_mult_alpha = 1;
- 	else
- 		info.pre_mult_alpha = 0;
-+	info.color_encoding = state->color_encoding;
-+	info.color_range = state->color_range;
- 
- 	/* update scanout: */
- 	omap_framebuffer_update_scanout(state->fb, state, &info);
-@@ -189,6 +191,8 @@ static void omap_plane_reset(struct drm_plane *plane)
- 	 */
- 	plane->state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY
- 			   ? 0 : omap_plane->id;
-+	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
-+	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
+ 	return stopped;
  }
  
- static int omap_plane_atomic_set_property(struct drm_plane *plane,
-@@ -232,6 +236,23 @@ static const struct drm_plane_funcs omap_plane_funcs = {
- 	.atomic_get_property = omap_plane_atomic_get_property,
- };
- 
-+static bool omap_plane_supports_yuv(struct drm_plane *plane)
++static void panfrost_scheduler_start(struct panfrost_queue_state *queue)
 +{
-+	struct omap_drm_private *priv = plane->dev->dev_private;
-+	struct omap_plane *omap_plane = to_omap_plane(plane);
-+	const u32 *formats =
-+		priv->dispc_ops->ovl_get_color_modes(priv->dispc, omap_plane->id);
-+	u32 i;
++	if (WARN_ON(!queue->stopped))
++		return;
 +
-+	for (i = 0; formats[i]; i++)
-+		if (formats[i] == DRM_FORMAT_YUYV ||
-+		    formats[i] == DRM_FORMAT_UYVY ||
-+		    formats[i] == DRM_FORMAT_NV12)
-+			return true;
-+
-+	return false;
++	mutex_lock(&queue->lock);
++	/* Restore the original timeout before starting the scheduler. */
++	queue->sched.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS);
++	drm_sched_start(&queue->sched, true);
++	queue->stopped = false;
++	mutex_unlock(&queue->lock);
 +}
 +
- static const char *plane_id_to_name[] = {
- 	[OMAP_DSS_GFX] = "gfx",
- 	[OMAP_DSS_VIDEO1] = "vid1",
-@@ -293,6 +314,15 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
- 	drm_plane_create_blend_mode_property(plane, BIT(DRM_MODE_BLEND_PREMULTI) |
- 					     BIT(DRM_MODE_BLEND_COVERAGE));
+ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+ {
+ 	struct panfrost_job *job = to_panfrost_job(sched_job);
+ 	struct panfrost_device *pfdev = job->pfdev;
+ 	int js = panfrost_job_get_slot(job);
+-	unsigned long flags;
+-	int i;
  
-+	if (omap_plane_supports_yuv(plane))
-+		drm_plane_create_color_properties(plane,
-+						  BIT(DRM_COLOR_YCBCR_BT601) |
-+						  BIT(DRM_COLOR_YCBCR_BT709),
-+						  BIT(DRM_COLOR_YCBCR_FULL_RANGE) |
-+						  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE),
-+						  DRM_COLOR_YCBCR_BT601,
-+						  DRM_COLOR_YCBCR_FULL_RANGE);
+ 	/*
+ 	 * If the GPU managed to complete this jobs fence, the timeout is
+@@ -415,56 +435,9 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+ 	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
+ 		return;
+ 
+-	if (!mutex_trylock(&pfdev->reset_lock))
+-		return;
+-
+-	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+-		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
+-
+-		/*
+-		 * If the queue is still active, make sure we wait for any
+-		 * pending timeouts.
+-		 */
+-		if (!pfdev->js->queue[i].stopped)
+-			cancel_delayed_work_sync(&sched->work_tdr);
+-
+-		/*
+-		 * If the scheduler was not already stopped, there's a tiny
+-		 * chance a timeout has expired just before we stopped it, and
+-		 * drm_sched_stop() does not flush pending works. Let's flush
+-		 * them now so the timeout handler doesn't get called in the
+-		 * middle of a reset.
+-		 */
+-		if (panfrost_scheduler_stop(&pfdev->js->queue[i], NULL))
+-			cancel_delayed_work_sync(&sched->work_tdr);
+-
+-		/*
+-		 * Now that we cancelled the pending timeouts, we can safely
+-		 * reset the stopped state.
+-		 */
+-		pfdev->js->queue[i].stopped = false;
+-	}
+-
+-	spin_lock_irqsave(&pfdev->js->job_lock, flags);
+-	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+-		if (pfdev->jobs[i]) {
+-			pm_runtime_put_noidle(pfdev->dev);
+-			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
+-			pfdev->jobs[i] = NULL;
+-		}
+-	}
+-	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
+-
+-	panfrost_device_reset(pfdev);
+-
+-	for (i = 0; i < NUM_JOB_SLOTS; i++)
+-		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
+-
+-	mutex_unlock(&pfdev->reset_lock);
+-
+-	/* restart scheduler after GPU is usable again */
+-	for (i = 0; i < NUM_JOB_SLOTS; i++)
+-		drm_sched_start(&pfdev->js->queue[i].sched, true);
++	/* Schedule a reset if there's no reset in progress. */
++	if (!atomic_xchg(&pfdev->reset.pending, 1))
++		schedule_work(&pfdev->reset.work);
+ }
+ 
+ static const struct drm_sched_backend_ops panfrost_sched_ops = {
+@@ -531,11 +504,59 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
++static void panfrost_reset(struct work_struct *work)
++{
++	struct panfrost_device *pfdev = container_of(work,
++						     struct panfrost_device,
++						     reset.work);
++	unsigned long flags;
++	unsigned int i;
 +
- 	return plane;
++	for (i = 0; i < NUM_JOB_SLOTS; i++) {
++		/*
++		 * We want pending timeouts to be handled before we attempt
++		 * to stop the scheduler. If we don't do that and the timeout
++		 * handler is in flight, it might have removed the bad job
++		 * from the list, and we'll lose this job if the reset handler
++		 * enters the critical section in panfrost_scheduler_stop()
++		 * before the timeout handler.
++		 *
++		 * Timeout is set to max to make sure the timer is not
++		 * restarted after the cancellation.
++		 */
++		pfdev->js->queue[i].sched.timeout = MAX_SCHEDULE_TIMEOUT;
++		cancel_delayed_work_sync(&pfdev->js->queue[i].sched.work_tdr);
++		panfrost_scheduler_stop(&pfdev->js->queue[i], NULL);
++	}
++
++	/* All timers have been stopped, we can safely reset the pending state. */
++	atomic_set(&pfdev->reset.pending, 0);
++
++	spin_lock_irqsave(&pfdev->js->job_lock, flags);
++	for (i = 0; i < NUM_JOB_SLOTS; i++) {
++		if (pfdev->jobs[i]) {
++			pm_runtime_put_noidle(pfdev->dev);
++			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
++			pfdev->jobs[i] = NULL;
++		}
++	}
++	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
++
++	panfrost_device_reset(pfdev);
++
++	for (i = 0; i < NUM_JOB_SLOTS; i++) {
++		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
++		panfrost_scheduler_start(&pfdev->js->queue[i]);
++	}
++}
++
+ int panfrost_job_init(struct panfrost_device *pfdev)
+ {
+ 	struct panfrost_job_slot *js;
+ 	int ret, j, irq;
  
- error:
++	INIT_WORK(&pfdev->reset.work, panfrost_reset);
++
+ 	pfdev->js = js = devm_kzalloc(pfdev->dev, sizeof(*js), GFP_KERNEL);
+ 	if (!js)
+ 		return -ENOMEM;
+@@ -560,7 +581,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+ 
+ 		ret = drm_sched_init(&js->queue[j].sched,
+ 				     &panfrost_sched_ops,
+-				     1, 0, msecs_to_jiffies(500),
++				     1, 0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+ 				     "pan_js");
+ 		if (ret) {
+ 			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
