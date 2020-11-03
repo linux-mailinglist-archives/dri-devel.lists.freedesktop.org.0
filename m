@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24152A38AD
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:20:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B157E2A38AF
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:21:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D87F46E82D;
-	Tue,  3 Nov 2020 01:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C09676EB9E;
+	Tue,  3 Nov 2020 01:21:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABFFC6E82D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 01:20:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFFFB6EAC5
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 01:21:06 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E396A2242E;
- Tue,  3 Nov 2020 01:20:51 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id F3F962242F;
+ Tue,  3 Nov 2020 01:21:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604366452;
- bh=Ljkxul3PjWR1Ye/+v0w7PoNPVh2U3HP/n/ZIQZbjAVc=;
+ s=default; t=1604366466;
+ bh=+qzEpUJCxxfNzA2GNjkjNiRKONZh93YWfqAcks8ltew=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2aKAVkwQr3fai7KvMzs4kuXI8stfzxlW7VyF6WQ1AZxaP0agQDN7/2ns/+OaDLBns
- YlcuIkTP/zVflnP/c9+BjPsaEGYZV5iJTghXqI1JewCWJyOw3WrYUgXFgCFxBWEHwG
- x+vMxtBuyq2eoanP39Gp18ciNc2GjzgtOOL0+VoU=
+ b=CP2Ne6ftxh0rYcq4SOH+yS1Tyo0js3RBQra8lhaxxrSJjlnBUJ2lybRNb3K7qDnnS
+ PzZqJ8nasXuqqwH133q7W7kKGQcmekpDmUnvTUiTrr51BVxU5ASCGVdtqBulB7xg3h
+ 5tYDrZ/ayW8W5sZKvGgavhV7D3pl6EzWxmbbXFWw=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/11] drm/vc4: drv: Add error handding for bind
-Date: Mon,  2 Nov 2020 20:20:38 -0500
-Message-Id: <20201103012039.183672-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 09/10] drm/vc4: drv: Add error handding for bind
+Date: Mon,  2 Nov 2020 20:20:53 -0500
+Message-Id: <20201103012054.183811-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201103012039.183672-1-sashal@kernel.org>
-References: <20201103012039.183672-1-sashal@kernel.org>
+In-Reply-To: <20201103012054.183811-1-sashal@kernel.org>
+References: <20201103012054.183811-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,17 +72,17 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 04270a14fcaaf..868dd1ef3b693 100644
+index 1c96edcb302be..028dc2819a368 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.c
 +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -312,6 +312,7 @@ static int vc4_drm_bind(struct device *dev)
+@@ -283,6 +283,7 @@ static int vc4_drm_bind(struct device *dev)
  	component_unbind_all(dev, drm);
  gem_destroy:
  	vc4_gem_destroy(drm);
 +	drm_mode_config_cleanup(drm);
  	vc4_bo_cache_destroy(drm);
- dev_put:
- 	drm_dev_put(drm);
+ dev_unref:
+ 	drm_dev_unref(drm);
 -- 
 2.27.0
 
