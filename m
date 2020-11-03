@@ -1,39 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9090B2A5244
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 21:49:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3182A51B9
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 21:43:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACE36E8DB;
-	Tue,  3 Nov 2020 20:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568EA6E8EF;
+	Tue,  3 Nov 2020 20:43:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 102BB6E8DB
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 20:49:25 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 64561223FD;
- Tue,  3 Nov 2020 20:49:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604436564;
- bh=H/bahLUtNGlRGYIevvmapEfWHWWFAfHpFt8kL4xiXQA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fZNhfo31Yy6TcO9SQ1wjM64U4BOIlj6Wt1UcsqvtLGLHktjT5qTQnj1D5bHJoSzzL
- 5urSeXgEO6V+Fn0upevWsZXDInHEwJQUSmzbVXFBSRsRXI0GAFJwPZhSFWRnGbWQCs
- 5dLw7muACcI7fKTFgepnuXq0aF8vAxYvRb32Aa58=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.9 267/391] drm/shme-helpers: Fix dma_buf_mmap forwarding bug
-Date: Tue,  3 Nov 2020 21:35:18 +0100
-Message-Id: <20201103203405.042055538@linuxfoundation.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201103203348.153465465@linuxfoundation.org>
-References: <20201103203348.153465465@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com
+ [IPv6:2607:f8b0:4864:20::c43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 992D46E8EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 20:43:29 +0000 (UTC)
+Received: by mail-oo1-xc43.google.com with SMTP id q1so79055oot.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 12:43:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kSY0DxD+eau5mAS1+HBkE5F6ICipfBymbriKN2JUq/U=;
+ b=I7iIgaEHbf7T/nZIBZPQbHGIsASyGTgNJhgmmpCVSh2o6SezpHc6emio1VjkNo9XzX
+ Kp/uui+y6Ua1deq7MMK4v5gOKcRDAxoF/fd+Ey7PlSoyRQnOonrzRcZT2kGWBiQsM4jO
+ d3BHLvpWjotWnYqtZp6MqJXSa4wekIehPXysc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kSY0DxD+eau5mAS1+HBkE5F6ICipfBymbriKN2JUq/U=;
+ b=L7tFy3LbBExjhfchvLbVbJCHgSgvOAShmsMrQKEBQlS3VSZ6Q5qCJ+u01+DofyRk/D
+ vQ1Rtjqe9+QuIQLPA/6qXj2EmkHVGpebanaK3uw6RKCpl49k2NMbi/fcclItFgX/Wz1W
+ WXd6COnvE0CRiBWrQhExSefI+qu94jXqUHAZzPWTyQSvfr9kuhb6pbTz/2DyUDate+wS
+ Nbk9GPlkx8PcTQ1V34qujKz/YFmf/kvxdkJ5xsTlZvbDHkk4e3wygotPmFJcQ2w3asdT
+ cI+6NkLrMtIJXKsGgu4P3hcQhMbO+G3dtWPrkZKpvZhJyMQ5fC1PTMOaMCplBuD4MYe4
+ DW1g==
+X-Gm-Message-State: AOAM530tVebuObvGLhp746syo3vn+KS/x0wFBo/xWS+0RNZe3yFxJT5+
+ LyxacWIIHlw0Gx06CygphxvAmCS/SYh1feTzE0plbQ==
+X-Google-Smtp-Source: ABdhPJxsFGFffuy6LR33Wih708OKY57tO/nDe7YQYylAyHFJdbFno8SE6ErEvHNen00gQ1lQz1ZUJvIuwf+5S9gqq9o=
+X-Received: by 2002:a4a:b503:: with SMTP id r3mr16491239ooo.28.1604436208859; 
+ Tue, 03 Nov 2020 12:43:28 -0800 (PST)
 MIME-Version: 1.0
+References: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
+ <1603471201-32588-2-git-send-email-jianxin.xiong@intel.com>
+ <20201023164911.GF401619@phenom.ffwll.local> <20201023182005.GP36674@ziepe.ca>
+ <CAKMK7uEZYdtwHKchNwiFjuYJDjA+F+qDgw64TNkchjp4uYUr6g@mail.gmail.com>
+ <MW3PR11MB45553600E8A141CCDE52FABDE5110@MW3PR11MB4555.namprd11.prod.outlook.com>
+In-Reply-To: <MW3PR11MB45553600E8A141CCDE52FABDE5110@MW3PR11MB4555.namprd11.prod.outlook.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 3 Nov 2020 21:43:17 +0100
+Message-ID: <CAKMK7uFMAiv27oRi98nAvx15M6jniUEb+hhe3mrY3mdYtzsmLg@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user
+ memory region
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,80 +62,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>, piotr.oniszczuk@gmail.com,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, stable@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KCmNvbW1pdCBmNDlh
-NTFiZmRjOGVhNzE3Yzk3Y2NkNGNjOThiN2U2ZGFhYTU1NTNhIHVwc3RyZWFtLgoKV2hlbiB3ZSBm
-b3J3YXJkIGFuIG1tYXAgdG8gdGhlIGRtYV9idWYgZXhwb3J0ZXIsIHRoZXkgZ2V0IHRvIG93bgpl
-dmVyeXRoaW5nLiBVbmZvcnR1bmF0ZWx5IGRybV9nZW1fbW1hcF9vYmooKSBvdmVyd3JvdGUKdm1h
-LT52bV9wcml2YXRlX2RhdGEgYWZ0ZXIgdGhlIGRyaXZlciBjYWxsYmFjaywgd3JlYWtpbmcgdGhl
-CmV4cG9ydGVyIGNvbXBsZXRlLiBUaGlzIHdhcyBub3RpY2VkIGJlY2F1c2UgdmIyX2NvbW1vbl92
-bV9jbG9zZSBibGV3CnVwIG9uIG1hbGkgZ3B1IHdpdGggcGFuZnJvc3QgYWZ0ZXIgY29tbWl0IDI2
-ZDNhYzNjYjA0ZAooImRybS9zaG1lbS1oZWxwZXJzOiBSZWRpcmVjdCBtbWFwIGZvciBpbXBvcnRl
-ZCBkbWEtYnVmIikuCgpVbmZvcnR1bmF0ZWx5IGRybV9nZW1fbW1hcF9vYmogYWxzbyBhY3F1aXJl
-cyBhIHN1cnBsdXMgcmVmZXJlbmNlIHRoYXQKd2UgbmVlZCB0byBkcm9wIGluIHNobWVtIGhlbHBl
-cnMsIHdoaWNoIGlzIGEgYml0IG9mIGEgbWlzbGF5ZXIKc2l0dWF0aW9uLiBNYXliZSB0aGUgZW50
-aXJlIGRtYV9idWZfbW1hcCBmb3J3YXJkaW5nIHNob3VsZCBiZSBwdWxsZWQKaW50byBjb3JlIGdl
-bSBjb2RlLgoKTm90ZSB0aGF0IHRoZSBvbmx5IHR3byBvdGhlciBkcml2ZXJzIHdoaWNoIGZvcndh
-cmQgbW1hcCBpbiB0aGVpciBvd24KY29kZSAoZXRuYXZpdiBhbmQgZXh5bm9zKSBnZXQgdGhpcyBz
-b21ld2hhdCByaWdodCBieSBvdmVyd3JpdGluZyB0aGUKZ2VtIG1tYXAgY29kZS4gQnV0IHRoZXkg
-c2VlbSB0byBzdGlsbCBoYXZlIHRoZSBsZWFrLiBUaGlzIG1pZ2h0IGJlIGEKZ29vZCBleGN1c2Ug
-dG8gbW92ZSB0aGVzZSBkcml2ZXJzIG92ZXIgdG8gc2htZW0gaGVscGVycyBjb21wbGV0ZWx5LgoK
-UmV2aWV3ZWQtYnk6IEJvcmlzIEJyZXppbGxvbiA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9yYS5j
-b20+CkFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
-CkNjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkNjOiBTdW1p
-dCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgpDYzogTHVjYXMgU3RhY2ggPGwuc3Rh
-Y2hAcGVuZ3V0cm9uaXguZGU+CkNjOiBSdXNzZWxsIEtpbmcgPGxpbnV4K2V0bmF2aXZAYXJtbGlu
-dXgub3JnLnVrPgpDYzogQ2hyaXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5nbWVpbmVyQGdtYWls
-LmNvbT4KQ2M6IElua2kgRGFlIDxpbmtpLmRhZUBzYW1zdW5nLmNvbT4KQ2M6IEpvb255b3VuZyBT
-aGltIDxqeTA5MjIuc2hpbUBzYW1zdW5nLmNvbT4KQ2M6IFNldW5nLVdvbyBLaW0gPHN3MDMxMi5r
-aW1Ac2Ftc3VuZy5jb20+CkNjOiBLeXVuZ21pbiBQYXJrIDxreXVuZ21pbi5wYXJrQHNhbXN1bmcu
-Y29tPgpGaXhlczogMjZkM2FjM2NiMDRkICgiZHJtL3NobWVtLWhlbHBlcnM6IFJlZGlyZWN0IG1t
-YXAgZm9yIGltcG9ydGVkIGRtYS1idWYiKQpDYzogQm9yaXMgQnJlemlsbG9uIDxib3Jpcy5icmV6
-aWxsb25AY29sbGFib3JhLmNvbT4KQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
-dXNlLmRlPgpDYzogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+CkNjOiBSb2IgSGVy
-cmluZyA8cm9iaEBrZXJuZWwub3JnPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCkNjOiBsaW5hcm8tbW0tc2lnQGxpc3Rz
-LmxpbmFyby5vcmcKQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY1LjkrClJlcG9ydGVk
-LWFuZC10ZXN0ZWQtYnk6IHBpb3RyLm9uaXN6Y3p1a0BnbWFpbC5jb20KQ2M6IHBpb3RyLm9uaXN6
-Y3p1a0BnbWFpbC5jb20KU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRl
-ckBpbnRlbC5jb20+Ckxpbms6IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRj
-aC9tc2dpZC8yMDIwMTAyNzIxNDkyMi4zNTY2NzQzLTEtZGFuaWVsLnZldHRlckBmZndsbC5jaApT
-aWduZWQtb2ZmLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24u
-b3JnPgoKLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jICAgICAgICAgICAgICB8ICAgIDQg
-KystLQogZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMgfCAgICA3ICsrKysr
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQoKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dl
-bS5jCkBAIC0xMDg1LDYgKzEwODUsOCBAQCBpbnQgZHJtX2dlbV9tbWFwX29iaihzdHJ1Y3QgZHJt
-X2dlbV9vYmplCiAJICovCiAJZHJtX2dlbV9vYmplY3RfZ2V0KG9iaik7CiAKKwl2bWEtPnZtX3By
-aXZhdGVfZGF0YSA9IG9iajsKKwogCWlmIChvYmotPmZ1bmNzICYmIG9iai0+ZnVuY3MtPm1tYXAp
-IHsKIAkJcmV0ID0gb2JqLT5mdW5jcy0+bW1hcChvYmosIHZtYSk7CiAJCWlmIChyZXQpIHsKQEAg
-LTExMDcsOCArMTEwOSw2IEBAIGludCBkcm1fZ2VtX21tYXBfb2JqKHN0cnVjdCBkcm1fZ2VtX29i
-amUKIAkJdm1hLT52bV9wYWdlX3Byb3QgPSBwZ3Byb3RfZGVjcnlwdGVkKHZtYS0+dm1fcGFnZV9w
-cm90KTsKIAl9CiAKLQl2bWEtPnZtX3ByaXZhdGVfZGF0YSA9IG9iajsKLQogCXJldHVybiAwOwog
-fQogRVhQT1JUX1NZTUJPTChkcm1fZ2VtX21tYXBfb2JqKTsKLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2RybV9nZW1fc2htZW1faGVscGVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2ht
-ZW1faGVscGVyLmMKQEAgLTU5NCw4ICs1OTQsMTMgQEAgaW50IGRybV9nZW1fc2htZW1fbW1hcChz
-dHJ1Y3QgZHJtX2dlbV9vYgogCS8qIFJlbW92ZSB0aGUgZmFrZSBvZmZzZXQgKi8KIAl2bWEtPnZt
-X3Bnb2ZmIC09IGRybV92bWFfbm9kZV9zdGFydCgmb2JqLT52bWFfbm9kZSk7CiAKLQlpZiAob2Jq
-LT5pbXBvcnRfYXR0YWNoKQorCWlmIChvYmotPmltcG9ydF9hdHRhY2gpIHsKKwkJLyogRHJvcCB0
-aGUgcmVmZXJlbmNlIGRybV9nZW1fbW1hcF9vYmooKSBhY3F1aXJlZC4qLworCQlkcm1fZ2VtX29i
-amVjdF9wdXQob2JqKTsKKwkJdm1hLT52bV9wcml2YXRlX2RhdGEgPSBOVUxMOworCiAJCXJldHVy
-biBkbWFfYnVmX21tYXAob2JqLT5kbWFfYnVmLCB2bWEsIDApOworCX0KIAogCXNobWVtID0gdG9f
-ZHJtX2dlbV9zaG1lbV9vYmoob2JqKTsKIAoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Nov 3, 2020 at 6:36 PM Xiong, Jianxin <jianxin.xiong@intel.com> wrote:
+>
+>
+> > -----Original Message-----
+> > From: Daniel Vetter <daniel@ffwll.ch>
+> > Sent: Friday, October 23, 2020 6:45 PM
+> > To: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Xiong, Jianxin <jianxin.xiong@intel.com>; linux-rdma <linux-rdma@vger.kernel.org>; dri-devel <dri-devel@lists.freedesktop.org>; Leon
+> > Romanovsky <leon@kernel.org>; Doug Ledford <dledford@redhat.com>; Vetter, Daniel <daniel.vetter@intel.com>; Christian Koenig
+> > <christian.koenig@amd.com>
+> > Subject: Re: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user memory region
+> >
+> > > > > +
+> > > > > +#ifdef CONFIG_DMA_VIRT_OPS
+> > > > > +   if (device->dma_device->dma_ops == &dma_virt_ops)
+> > > > > +           return ERR_PTR(-EINVAL); #endif
+> > > >
+> > > > Maybe I'm confused, but should we have this check in dma_buf_attach,
+> > > > or at least in dma_buf_dynamic_attach? The p2pdma functions use that
+> > > > too, and I can't imagine how zerocopy should work (which is like the
+> > > > entire point of
+> > > > dma-buf) when we have dma_virt_ops.
+> > >
+> > > The problem is we have RDMA drivers that assume SGL's have a valid
+> > > struct page, and these hacky/wrong P2P sgls that DMABUF creates cannot
+> > > be passed into those drivers.
+> > >
+> > > But maybe this is just a 'drivers are using it wrong' if they call
+> > > this function and expect struct pages..
+> > >
+> > > The check in the p2p stuff was done to avoid this too, but it was on a
+> > > different flow.
+> >
+> > Yeah definitely don't call dma_buf_map_attachment and expect a page back. In practice you'll get a page back fairly often, but I don't think
+> > we want to bake that in, maybe we eventually get to non-hacky dma_addr_t only sgl.
+> >
+> > What I'm wondering is whether dma_buf_attach shouldn't reject such devices directly, instead of each importer having to do that.
+>
+> Come back here to see if consensus can be reached on who should do the check. My
+> thinking is that it could be over restrictive for dma_buf_attach to always reject
+> dma_virt_ops. According to dma-buf documentation the back storage would be
+> moved to system area upon mapping unless p2p is requested and can be supported
+> by the exporter. The sg_list for system memory would have struct page present.
+
+So I'm not clear on what this dma_virt_ops stuff is for, but if it's
+an entirely virtual device with cpu access, then you shouldn't do
+dma_buf_map_attachment, and then peek at the struct page in the sgl.
+Instead you need to use dma_buf_vmap/vunmap and
+dma_buf_begin/end_cpu_access. Otherwise the coherency managed is all
+potentially busted. Also note that cpu access from the kernel to
+dma-buf is a rather niche feature (only some usb device drivers use
+it), so expect warts.
+
+If this is the case, then I think dma_buf_attach should check for this
+and reject such imports, since that's an importer bug.
+
+If it's otoh something rdma specific, then I guess rdma checking for this is ok.
+
+As a third option, if it's something about the connectivity between
+the importing and exporting device, then this should be checked in the
+->attach callback the exporter can provide, like the p2p check. The
+idea here is that for device specific remapping units (mostly found
+ond SoC, and not something like a standard iommu managed by the
+dma-api), some of which can even do funny stuff like rotation of 2d
+images, can be access by some, but not other. And only the exporter is
+aware of these restrictions.
+
+Now I dunno which case this one here is.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
