@@ -1,113 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210842A3FF2
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 10:26:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 685322A4068
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 10:36:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31E3A6E892;
-	Tue,  3 Nov 2020 09:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE5DF6E891;
+	Tue,  3 Nov 2020 09:36:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F33E6E892
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 09:26:26 +0000 (UTC)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20201103092624epoutp0341b62e15567ee8fab52f6a20b6223691~D9UiqcfIF0986609866epoutp03A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 09:26:24 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20201103092624epoutp0341b62e15567ee8fab52f6a20b6223691~D9UiqcfIF0986609866epoutp03A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1604395584;
- bh=xxXAuVLnvvEigU4dHlqA7WtN2zrSv6gHDky4J6f+6JA=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=FXMvHxB/FQNdSxeQJeGCnagUe0gnwgtRfR0JEC0CWPuLA51+TU2X+dbJKLgoKUj87
- Nu4qvHRamQGRsjJNT+evnwSkBo9QlZpvPp48/idLOpOjcoY4Z/tBmtysRMEZMhYstB
- NySVDOQ6k09x/M4B3It8PnpgeWKtllayiN8lh6jI=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20201103092624epcas1p25a0dd944a4e24d03cbdb234741610b1c~D9UiXsK_n1805818058epcas1p2S;
- Tue,  3 Nov 2020 09:26:24 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.154]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 4CQPY874l5zMqYkf; Tue,  3 Nov
- 2020 09:26:20 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
- epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 99.4E.63458.C3221AF5; Tue,  3 Nov 2020 18:26:20 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20201103092620epcas1p2c4bf8c4a69e2f328f0abceef7cbfb12d~D9Ue17KtO1053710537epcas1p2c;
- Tue,  3 Nov 2020 09:26:20 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20201103092620epsmtrp2654869d726a38db9c46bc7cb8cfbae7e~D9Ue1IVRh2378623786epsmtrp25;
- Tue,  3 Nov 2020 09:26:20 +0000 (GMT)
-X-AuditID: b6c32a36-6dfff7000000f7e2-f9-5fa1223c8c62
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 4B.C3.13470.C3221AF5; Tue,  3 Nov 2020 18:26:20 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20201103092620epsmtip271da5f19f243cbbe70103a4aea3d2e18~D9Uej2plA0458704587epsmtip2e;
- Tue,  3 Nov 2020 09:26:20 +0000 (GMT)
-Subject: Re: [PATCH v7 1/6] dt-bindings: devfreq: Add documentation for the
- interconnect properties
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>, georgi.djakov@linaro.org,
- krzk@kernel.org
-From: Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <2213a69c-1483-6840-28a4-ab7ca84d55bb@samsung.com>
-Date: Tue, 3 Nov 2020 18:40:18 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
- Thunderbird/59.0
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 358FB6E891
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 09:36:37 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id BE1F62004C;
+ Tue,  3 Nov 2020 10:36:33 +0100 (CET)
+Date: Tue, 3 Nov 2020 10:36:32 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Tian Tao <tiantao6@hisilicon.com>
+Subject: Re: [PATCH v2] drm: Add the new api to install irq
+Message-ID: <20201103093632.GA1474335@ravnborg.org>
+References: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
 MIME-Version: 1.0
-In-Reply-To: <20201030125149.8227-2-s.nawrocki@samsung.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPJsWRmVeSWpSXmKPExsWy7bCmrq6N0sJ4g3kfzSzuz2tltNg4Yz2r
- xfwj51gtrnx9z2Yxfe8mNotJ9yewWJw/v4Hd4vKuOWwWn3uPMFrMOL+PyWLtkbvsFrcbV7BZ
- tO49wm5x+E07q8WMyS/ZHPg9Nq3qZPO4c20Pm8f97uNMHn1bVjF6fN4kF8AalW2TkZqYklqk
- kJqXnJ+SmZduq+QdHO8cb2pmYKhraGlhrqSQl5ibaqvk4hOg65aZA3SukkJZYk4pUCggsbhY
- Sd/Opii/tCRVISO/uMRWKbUgJafAskCvODG3uDQvXS85P9fK0MDAyBSoMCE748ffvSwF71Qr
- NiyYwN7A2CrXxcjJISFgIvHr/U7GLkYuDiGBHYwSb5c/h3I+MUp8PHSeHcL5xiix/uNfNpiW
- hm8vWCASexkltrSvgap6zyhx8M0vFpAqYYFUidnbNwF1cHCICMRIrH8XARJmFjjBJHHkjiCI
- zSagJbH/xQ2wofwCihJXfzxmBCnnFbCT2PFWGyTMIqAisWrmY7CJogJhEie3tTCC2LwCghIn
- Zz4Bi3MKWEssvfGICWK8uMStJ/OhbHmJ5q2zmUFOkxC4wSGx6sNFRogHXCTWLn/LCmELS7w6
- voUdwpaS+PxuL9ST1RIrTx5hg2juAHpy/wWoBmOJ/UsnM4EcyiygKbF+lz5EWFFi5++5jBCL
- +STefe1hBSmREOCV6GgTgihRlrj84C4ThC0psbi9k20Co9IsJO/MQvLCLCQvzEJYtoCRZRWj
- WGpBcW56arFhgRFyZG9iBKdkLbMdjJPeftA7xMjEwXiIUYKDWUmEtyZyXrwQb0piZVVqUX58
- UWlOavEhRlNgAE9klhJNzgdmhbySeENTI2NjYwsTQzNTQ0Mlcd4/2h3xQgLpiSWp2ampBalF
- MH1MHJxSDUyp9+9trDDx7eZ7a/GqIG7Kgb5Cxk5eOe401un/10oLC91jbryTqjtTsc84xefz
- u8b73iatSe+ceiLdQ46Yzz2eovSL4cYPmZi//NJ/76ncPLxaY6OJ6ScT1ZV/Xrc9EIiNl/h7
- 5DvTFtv8Rf7sz6wm+139/EPlYVSJ1oYkm/0dl6b/+iA+OZP57rf6GfsZ7mvNvCy77b/zyqNt
- Cz6EiDjWnrow3yZ5yuI3Jx9t65H/NVcg4UDbzD/OUXfVZsrsn71ussXSHYf1UwTeT4jOklhw
- cE6s2XKTFbsYWLf4ZV3WS/53Vf3khtdW5QYtASf/ebE1Ll+7d3thwJaiWPvbF+Ldw5c0JeQf
- fMUTPznzkM8XJZbijERDLeai4kQAPZ7HGVIEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNIsWRmVeSWpSXmKPExsWy7bCSvK6N0sJ4gxuNChb357UyWmycsZ7V
- Yv6Rc6wWV76+Z7OYvncTm8Wk+xNYLM6f38BucXnXHDaLz71HGC1mnN/HZLH2yF12i9uNK9gs
- WvceYbc4/Kad1WLG5JdsDvwem1Z1snncubaHzeN+93Emj74tqxg9Pm+SC2CN4rJJSc3JLEst
- 0rdL4Mr48XcvS8E71YoNCyawNzC2ynUxcnJICJhINHx7wdLFyMUhJLCbUWLpxBYWiISkxLSL
- R5m7GDmAbGGJw4eLIWreMkqceHOXCaRGWCBVYvb2TWwgtohAjMSpybPABjELnGCS+LjqARNE
- x35GidWbfoJVsQloSex/cQPM5hdQlLj64zEjyAZeATuJHW+1QcIsAioSq2Y+BjtCVCBMYueS
- x2DLeAUEJU7OfAIW5xSwllh64xFYnFlAXeLPvEvMELa4xK0n86Hi8hLNW2czT2AUnoWkfRaS
- lllIWmYhaVnAyLKKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0L10vOT93EyM4PrU0dzBuX/VB7xAj
- EwfjIUYJDmYlEd6ayHnxQrwpiZVVqUX58UWlOanFhxilOViUxHlvFC6MExJITyxJzU5NLUgt
- gskycXBKNTAFu3k6KbeaPf2/pftHYvFWF+OiuaeUzBUYZy14W9q04viUxLyDi7d7nvtrm7L/
- 1dzw9E8PixvjG6V19W7+tHiyTeLqhbk6b0T8Z8xWXMuef271fsWSuYw/3C7+azE4lXzdxcB9
- q76w9P89xSeZBI9fUzl+wypDZObafhVl+RcPOK8wLud/fPaqhCHnhrfOt2Tm8zH2XwifOL1/
- vZbU+46irJaDkUvmrXZ5VJLM0Kq2xYbPxykjuWHjYfZfZ7af/tIxo+tN8pIdBw/2HnWN616+
- 12c1x+mfpVG9IprLV4m1VGzX4SiYoPan9NUKXq9r/POD2R3eVAfx3DN+e2n3n6sT1hiU9Rmv
- P3ho7qQoo8mblViKMxINtZiLihMBqljVrD4DAAA=
-X-CMS-MailID: 20201103092620epcas1p2c4bf8c4a69e2f328f0abceef7cbfb12d
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20201030125257eucas1p29c6b018cfcdda337b2b3d2a496f0c830
-References: <20201030125149.8227-1-s.nawrocki@samsung.com>
- <CGME20201030125257eucas1p29c6b018cfcdda337b2b3d2a496f0c830@eucas1p2.samsung.com>
- <20201030125149.8227-2-s.nawrocki@samsung.com>
+Content-Disposition: inline
+In-Reply-To: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=BTeA3XvPAAAA:8 a=3yVtim9A5VgNDfYo_gMA:9
+ a=CjuIK1q_8ugA:10 a=tafbbOV3vt1XuEhzTjGK:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,99 +43,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- b.zolnierkie@samsung.com, linux-pm@vger.kernel.org, sw0312.kim@samsung.com,
- a.swigon@samsung.com, robh+dt@kernel.org, linux-kernel@vger.kernel.org,
- myungjoo.ham@samsung.com, dri-devel@lists.freedesktop.org,
- m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU3lsd2VzdGVyLAoKVGhpcyBwYXRjaCBjb250YWlucyBvbmUgdHlwby4KCk9uIDEwLzMwLzIw
-IDk6NTEgUE0sIFN5bHdlc3RlciBOYXdyb2NraSB3cm90ZToKPiBBZGQgZG9jdW1lbnRhdGlvbiBm
-b3IgbmV3IG9wdGlvbmFsIHByb3BlcnRpZXMgaW4gdGhlIGV4eW5vcyBidXMgbm9kZXM6Cj4gaW50
-ZXJjb25uZWN0cywgI2ludGVyY29ubmVjdC1jZWxscywgc2Ftc3VuZyxkYXRhLWNsb2NrLXJhdGlv
-Lgo+IFRoZXNlIHByb3BlcnRpZXMgYWxsb3cgdG8gc3BlY2lmeSB0aGUgU29DIGludGVyY29ubmVj
-dCBzdHJ1Y3R1cmUgd2hpY2gKPiB0aGVuIGFsbG93cyB0aGUgaW50ZXJjb25uZWN0IGNvbnN1bWVy
-IGRldmljZXMgdG8gcmVxdWVzdCBzcGVjaWZpYwo+IGJhbmR3aWR0aCByZXF1aXJlbWVudHMuCj4g
-Cj4gU2lnbmVkLW9mZi1ieTogQXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHNhbXN1bmcuY29tPgo+
-IFNpZ25lZC1vZmYtYnk6IFN5bHdlc3RlciBOYXdyb2NraSA8cy5uYXdyb2NraUBzYW1zdW5nLmNv
-bT4KPiAtLS0KPiBDaGFuZ2VzIGZvciB2NzoKPiAgLSBidXMtd2lkdGggcHJvcGVydHkgcmVwbGFj
-ZWQgd2l0aCBzYW1zdW5nLGRhdGEtY2xvY2stcmF0aW8sCj4gIC0gdGhlIGludGVyY29ubmVjdCBj
-b25zdW1lciBiaW5kaW5ncyB1c2VkIGluc3RlYWQgb2YgdmVuZG9yIHNwZWNpZmljCj4gICAgcHJv
-cGVydGllcwo+IAo+IENoYW5nZXMgZm9yIHY2Ogo+ICAtIGFkZGVkIGR0cyBleGFtcGxlIG9mIGJ1
-cyBoaWVyYXJjaHkgZGVmaW5pdGlvbiBhbmQgdGhlIGludGVyY29ubmVjdAo+ICAgIGNvbnN1bWVy
-LAo+ICAtIGFkZGVkIG5ldyBidXMtd2lkdGggcHJvcGVydHkuCj4gCj4gQ2hhbmdlcyBmb3IgdjU6
-Cj4gIC0gZXh5bm9zLGludGVyY29ubmVjdC1wYXJlbnQtbm9kZSByZW5hbWVkIHRvIHNhbXN1bmcs
-aW50ZXJjb25uZWN0LXBhcmVudAo+IC0tLQo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9kZXZm
-cmVxL2V4eW5vcy1idXMudHh0ICAgICB8IDY4ICsrKysrKysrKysrKysrKysrKysrKy0KPiAgMSBm
-aWxlIGNoYW5nZWQsIDY2IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAt
-LWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kZXZmcmVxL2V4eW5vcy1i
-dXMudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2RldmZyZXEvZXh5bm9z
-LWJ1cy50eHQKPiBpbmRleCBlNzFmNzUyLi5lMzQxNzVjIDEwMDY0NAo+IC0tLSBhL0RvY3VtZW50
-YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kZXZmcmVxL2V4eW5vcy1idXMudHh0Cj4gKysrIGIv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2RldmZyZXEvZXh5bm9zLWJ1cy50eHQK
-PiBAQCAtNTEsNiArNTEsMTYgQEAgT3B0aW9uYWwgcHJvcGVydGllcyBvbmx5IGZvciBwYXJlbnQg
-YnVzIGRldmljZToKPiAgLSBleHlub3Msc2F0dXJhdGlvbi1yYXRpbzogdGhlIHBlcmNlbnRhZ2Ug
-dmFsdWUgd2hpY2ggaXMgdXNlZCB0byBjYWxpYnJhdGUKPiAgCQkJdGhlIHBlcmZvcm1hbmNlIGNv
-dW50IGFnYWluc3QgdG90YWwgY3ljbGUgY291bnQuCj4gIAo+ICtPcHRpb25hbCBwcm9wZXJ0aWVz
-IGZvciBpbnRlcmNvbm5lY3QgZnVuY3Rpb25hbGl0eSAoUW9TIGZyZXF1ZW5jeSBjb25zdHJhaW50
-cyk6Cj4gKy0gI2ludGVyY29ubmVjdC1jZWxsczogc2hvdWxkIGJlIDAuCj4gKy0gaW50ZXJjb25u
-ZWN0czogYXMgZG9jdW1lbnRlZCBpbiAuLi9pbnRlcmNvbm5lY3QudHh0LCBkZXNjcmliZXMgYSBw
-YXRoCj4gKyAgYXQgdGhlIGhpZ2hlciBsZXZlbCBpbnRlcmNvbm5lY3RzIHVzZWQgYnkgdGhpcyBp
-bnRlcmNvbm5lY3QgcHJvdmlkZXIuCj4gKyAgSWYgdGhpcyBpbnRlcmNvbm5lY3QgcHJvdmlkZXIg
-aXMgYSBwYXJlbnQgb2YgYSB0b3AgbGV2ZWwgaW50ZXJjb25uZWN0Cj4gKyAgcHJvdmlkZXIgdGhl
-IHByb3BlcnR5IGNvbnRhaW5zIG9ubHkgb25lIHBoYW5kbGUuCj4gKwo+ICstIHNhbXN1bmcsZGF0
-YS1jbG9jay1yYXRpbzogcmF0aW8gb2YgdGhlIGRhdGEgdHJvdWdocHV0IGluIEIvcyB0byBtaW5p
-bXVtIGRhdGEKCnMvdHJvdWdocHV0L3Rocm91Z2hwdXQKCj4gKyAgIGNsb2NrIGZyZXF1ZW5jeSBp
-biBIeiwgZGVmYXVsdCB2YWx1ZSBpcyA4IHdoZW4gdGhpcyBwcm9wZXJ0eSBpcyBtaXNzaW5nLgo+
-ICsKPiAgRGV0YWlsZWQgY29ycmVsYXRpb24gYmV0d2VlbiBzdWItYmxvY2tzIGFuZCBwb3dlciBs
-aW5lIGFjY29yZGluZyB0byBFeHlub3MgU29DOgo+ICAtIEluIGNhc2Ugb2YgRXh5bm9zMzI1MCwg
-dGhlcmUgYXJlIHR3byBwb3dlciBsaW5lIGFzIGZvbGxvd2luZzoKPiAgCVZERF9NSUYgfC0tLSBE
-TUMKPiBAQCAtMTM1LDcgKzE0NSw3IEBAIERldGFpbGVkIGNvcnJlbGF0aW9uIGJldHdlZW4gc3Vi
-LWJsb2NrcyBhbmQgcG93ZXIgbGluZSBhY2NvcmRpbmcgdG8gRXh5bm9zIFNvQzoKPiAgCQl8LS0t
-IFBFUklDIChGaXhlZCBjbG9jayByYXRlKQo+ICAJCXwtLS0gRlNZUyAgKEZpeGVkIGNsb2NrIHJh
-dGUpCj4gIAo+IC1FeGFtcGxlMToKPiArRXhhbXBsZSAxOgo+ICAJU2hvdyB0aGUgQVhJIGJ1c2Vz
-IG9mIEV4eW5vczMyNTAgU29DLiBFeHlub3MzMjUwIGRpdmlkZXMgdGhlIGJ1c2VzIHRvCj4gIAlw
-b3dlciBsaW5lIChyZWd1bGF0b3IpLiBUaGUgTUlGIChNZW1vcnkgSW50ZXJmYWNlKSBBWEkgYnVz
-IGlzIHVzZWQgdG8KPiAgCXRyYW5zZmVyIGRhdGEgYmV0d2VlbiBEUkFNIGFuZCBDUFUgYW5kIHVz
-ZXMgdGhlIFZERF9NSUYgcmVndWxhdG9yLgo+IEBAIC0xODQsNyArMTk0LDcgQEAgRXhhbXBsZTE6
-Cj4gIAl8TDUgICB8MjAwMDAwIHwyMDAwMDAgIHw0MDAwMDAgfDMwMDAwMCB8ICAgICAgIHx8MTAw
-MDAwMCB8Cj4gIAktLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tCj4gIAo+IC1FeGFtcGxlMiA6Cj4gK0V4YW1wbGUgMjoKPiAgCVRoZSBidXMg
-b2YgRE1DIChEeW5hbWljIE1lbW9yeSBDb250cm9sbGVyKSBibG9jayBpbiBleHlub3MzMjUwLmR0
-c2kKPiAgCWlzIGxpc3RlZCBiZWxvdzoKPiAgCj4gQEAgLTQxOSwzICs0MjksNTcgQEAgRXhhbXBs
-ZTIgOgo+ICAJCWRldmZyZXEgPSA8JmJ1c19sZWZ0YnVzPjsKPiAgCQlzdGF0dXMgPSAib2theSI7
-Cj4gIAl9Owo+ICsKPiArRXhhbXBsZSAzOgo+ICsJQW4gaW50ZXJjb25uZWN0IHBhdGggImJ1c19k
-aXNwbGF5IC0tIGJ1c19sZWZ0YnVzIC0tIGJ1c19kbWMiIG9uCj4gKwlFeHlub3M0NDEyIFNvQyB3
-aXRoIHZpZGVvIG1peGVyIGFzIGFuIGludGVyY29ubmVjdCBjb25zdW1lciBkZXZpY2UuCj4gKwo+
-ICsJc29jIHsKPiArCQlidXNfZG1jOiBidXNfZG1jIHsKPiArCQkJY29tcGF0aWJsZSA9ICJzYW1z
-dW5nLGV4eW5vcy1idXMiOwo+ICsJCQljbG9ja3MgPSA8JmNsb2NrIENMS19ESVZfRE1DPjsKPiAr
-CQkJY2xvY2stbmFtZXMgPSAiYnVzIjsKPiArCQkJb3BlcmF0aW5nLXBvaW50cy12MiA9IDwmYnVz
-X2RtY19vcHBfdGFibGU+Owo+ICsJCQlzYW1zdW5nLGRhdGEtY2xvY2stcmF0aW8gPSA8ND47Cj4g
-KwkJCSNpbnRlcmNvbm5lY3QtY2VsbHMgPSA8MD47Cj4gKwkJfTsKPiArCj4gKwkJYnVzX2xlZnRi
-dXM6IGJ1c19sZWZ0YnVzIHsKPiArCQkJY29tcGF0aWJsZSA9ICJzYW1zdW5nLGV4eW5vcy1idXMi
-Owo+ICsJCQljbG9ja3MgPSA8JmNsb2NrIENMS19ESVZfR0RMPjsKPiArCQkJY2xvY2stbmFtZXMg
-PSAiYnVzIjsKPiArCQkJb3BlcmF0aW5nLXBvaW50cy12MiA9IDwmYnVzX2xlZnRidXNfb3BwX3Rh
-YmxlPjsKPiArCQkJI2ludGVyY29ubmVjdC1jZWxscyA9IDwwPjsKPiArCQkJaW50ZXJjb25uZWN0
-cyA9IDwmYnVzX2RtYz47Cj4gKwkJfTsKPiArCj4gKwkJYnVzX2Rpc3BsYXk6IGJ1c19kaXNwbGF5
-IHsKPiArCQkJY29tcGF0aWJsZSA9ICJzYW1zdW5nLGV4eW5vcy1idXMiOwo+ICsJCQljbG9ja3Mg
-PSA8JmNsb2NrIENMS19BQ0xLMTYwPjsKPiArCQkJY2xvY2stbmFtZXMgPSAiYnVzIjsKPiArCQkJ
-b3BlcmF0aW5nLXBvaW50cy12MiA9IDwmYnVzX2Rpc3BsYXlfb3BwX3RhYmxlPjsKPiArCQkJI2lu
-dGVyY29ubmVjdC1jZWxscyA9IDwwPjsKPiArCQkJaW50ZXJjb25uZWN0cyA9IDwmYnVzX2xlZnRi
-dXMgJmJ1c19kbWM+OwoKQWJvdXQgYWRkaW5nIHR3byBpY2Nfbm9kZSwgSSBxdWVyaWVkIHlvdSBv
-biBwYXRjaDIuCgo+ICsJCX07Cj4gKwo+ICsJCWJ1c19kbWNfb3BwX3RhYmxlOiBvcHBfdGFibGUx
-IHsKPiArCQkJY29tcGF0aWJsZSA9ICJvcGVyYXRpbmctcG9pbnRzLXYyIjsKPiArCQkJLyogLi4u
-ICovCj4gKwkJfQo+ICsKPiArCQlidXNfbGVmdGJ1c19vcHBfdGFibGU6IG9wcF90YWJsZTMgewo+
-ICsJCQljb21wYXRpYmxlID0gIm9wZXJhdGluZy1wb2ludHMtdjIiOwo+ICsJCQkvKiAuLi4gKi8K
-PiArCQl9Owo+ICsKPiArCQlidXNfZGlzcGxheV9vcHBfdGFibGU6IG9wcF90YWJsZTQgewo+ICsJ
-CQljb21wYXRpYmxlID0gIm9wZXJhdGluZy1wb2ludHMtdjIiOwo+ICsJCQkvKiAuLiAqLwo+ICsJ
-CX07Cj4gKwo+ICsJCSZtaXhlciB7Cj4gKwkJCWNvbXBhdGlibGUgPSAic2Ftc3VuZyxleHlub3M0
-MjEyLW1peGVyIjsKPiArCQkJaW50ZXJjb25uZWN0cyA9IDwmYnVzX2Rpc3BsYXkgJmJ1c19kbWM+
-Owo+ICsJCQkvKiAuLi4gKi8KPiArCQl9Owo+ICsJfTsKPiAKCgotLSAKQmVzdCBSZWdhcmRzLApD
-aGFud29vIENob2kKU2Ftc3VuZyBFbGVjdHJvbmljcwpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Tian.
+
+Good to see more infrastructure support so one does not have to think about cleanup.
+
+On Tue, Nov 03, 2020 at 10:10:41AM +0800, Tian Tao wrote:
+> Add new api devm_drm_irq_install() to register interrupts,
+> no need to call drm_irq_uninstall() when the drm module is removed.
+> 
+> v2:
+> fixed the wrong parameter.
+> 
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> ---
+>  drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
+>  include/drm/drm_drv.h     |  3 ++-
+>  2 files changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index cd162d4..0fe5243 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -39,6 +39,7 @@
+>  #include <drm/drm_color_mgmt.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_irq.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_mode_object.h>
+>  #include <drm/drm_print.h>
+> @@ -678,6 +679,28 @@ static int devm_drm_dev_init(struct device *parent,
+>  	return ret;
+>  }
+>  
+> +static void devm_drm_dev_irq_uninstall(void *data)
+devm_drm_irq_uninstall??
+It matches other names if you drop the _dev part.
+
+> +{
+> +	drm_irq_uninstall(data);
+> +}
+> +
+> +int devm_drm_irq_install(struct device *parent,
+> +			 struct drm_device *dev, int irq)
+As this is an exported function please add appropriate kernel-doc
+documentation. It should for example explain that there is no need to
+uninstall as this is done automagically.
+
+> +{
+> +	int ret;
+> +
+> +	ret = drm_irq_install(dev, irq);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = devm_add_action(parent, devm_drm_dev_irq_uninstall, dev);
+> +	if (ret)
+> +		devm_drm_dev_irq_uninstall(dev);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(devm_drm_irq_install);
+
+The above are in addition to Thomas' feedback.
+
+	Sam
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
