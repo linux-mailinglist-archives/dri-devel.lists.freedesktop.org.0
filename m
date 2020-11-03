@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D952A4070
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 10:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFEE2A4074
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 10:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E566E898;
-	Tue,  3 Nov 2020 09:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6927A6E894;
+	Tue,  3 Nov 2020 09:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7CF6E894
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 09:36:57 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id n18so17716130wrs.5
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 01:36:57 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF4D6E894
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 09:37:54 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id x7so17749953wrl.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 01:37:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Y6lf9igQOuopXaJsW8bl6rvQoWNxewPFA+o+/f+Bszw=;
- b=1cFUvacvrbuyC61M+ZwvGvSGOW+N7423JCn6Y+nsRZ48JRauMMEZRkJrtICdEmV67G
- +obE5BIYeTI/EjCKFa8/1VdNFs4yMtVAPNqlcjuCKwMQ/ciTp10HoVLs7PhoHHPMAJ/f
- Oj2y9i5m3ai7FCNV0APfda/I6CIIaiml0D/SwNtitbomRjhSka2lk2bg8mMNPBNz0ZRT
- HR1OTExMCFVBgGV04lQ0uOjSQ3Zp9MwcG1P66ogdGyrofu8/Y/7mXB08AQhtp8acHBo5
- 9iArvgAl0YqvP3tMrFUS7c+wc9j5bAEjpoibbGexAXnEL1pOTK6scgtRhwswJJeFsFxZ
- JAMQ==
+ bh=OS+w5BVFhHeuMCG06V3T2xebILf8mlHn8RwM5pbLZ/o=;
+ b=B9TkvJpirwS28C/4P0t1Y/guI+l7knxMqh5LgY2M0g4f9vlU4SZKVNB9XSQMr8A82N
+ Lpr/bIT7ERno481/Z/Hy02rpm9mkLi3/WqinR6AYZ2m7I52DskfYu7D7WNHpqWmftOft
+ yZmNz6b2cF1iJAyE75Nh/UDPkNvEPBMDqdlsPzjbCukM6wownmzL6Nw7iHmGV/xCe93I
+ EtTNDJaCI/3fa4EEygWWuYj6aJUstVNHGlFlhoUQ2Idb934tRqNHOEixrAsrcaqu5NQ1
+ CSX9bXrcM4g/LKmTRVEfvSTDzMRVGyNavF9S+9YBiKXgqfMhklxvQEOKzexMsIhmL35z
+ UX/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Y6lf9igQOuopXaJsW8bl6rvQoWNxewPFA+o+/f+Bszw=;
- b=nmIX1NtNggsx1sGM0yOYuR428quFaaDL+Kzo9s2GWFZ8K3PLPYcOoR7IZusJ2FltCI
- GFo8Y1agYeMC8n3mbkRHmV8wumZUYCzy1fbsSHAt3K0fupVxkCuz0pMDyTXQlM1f2tyM
- E/ic6nTNDs7p2ZSqMO8G3rBdUQc2HT+bfDnsK7QiYE05ajgifIDarPJyPOy35txbCPeF
- 4DzM6l5t7JDBnFEb9M/NMRyOIdFVjojOv9SX7vRzAnY7u4UYAhP2WOxsyfu7OjvD+oV6
- E5817q40YlGfbpVx4W7zBLfR3CfQ0egRyoQ+y/OfCoT0NqeYZGfKODhj3hgQciM/bzJi
- rVFg==
-X-Gm-Message-State: AOAM531G76scxIoeT7KIWE0OGYVddGA+mHf0WicHwXxnd4AWnVWAdxX4
- ik1ELn7IEp+Th31+iHHmlvHc6SH+3hndAWhD
-X-Google-Smtp-Source: ABdhPJzZejtrePtxd2tBkrSmmFx8cv49TO7H31nt2J9F71q4Qr927Xv5hCENDkiNLK2jIfe/8FA7ag==
-X-Received: by 2002:a05:6000:104c:: with SMTP id
- c12mr24406285wrx.133.1604396215550; 
- Tue, 03 Nov 2020 01:36:55 -0800 (PST)
+ bh=OS+w5BVFhHeuMCG06V3T2xebILf8mlHn8RwM5pbLZ/o=;
+ b=ReXih3RJ8Q/oNHEaItF62S98q0N3cauKVroiIBDKnbxYgexqQnkFmHa4ErVBINnDO2
+ Hv9d3RaNfquarquToMkxyri/YVd8ZpHHJdxkjD8kZ3On9ROlz/h9SheqBTh7xlsmrcaB
+ YLjpRZKw4wNloPEZhkzaSduUWF1Wa6ZHbamZlS0D2G9ro2IeA94ZT+TX9Ybdxm1CG/6Y
+ 2VtaAs5j8wIz87Hg5WdLQiQMilFD7cBizodBgmJhksQhDqxBtcMKblu/sua7zLtt4CHS
+ 09+VASFHwK0nShedvsVFHEyVrg29lBZICtqB2lsN02qiaL2rQgHxnPWDfOX/pMXM0fbE
+ gF1g==
+X-Gm-Message-State: AOAM532UqHPBogYtekcUBmRqzK6BGPrIRHbOMbQO4ICzD8F/Sor05xCc
+ t3KcApmeO9I23j6YduvibJjbOCOEVN0ZWi0N
+X-Google-Smtp-Source: ABdhPJzAL2wRZguedS2iyzJpkEPD4blYW4GU/Nz/Zup6J1iBwrEwo9vFHggtARcIP2Xl3eJxUqPfAg==
+X-Received: by 2002:adf:f584:: with SMTP id f4mr24028916wro.383.1604396272423; 
+ Tue, 03 Nov 2020 01:37:52 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:3d8d:fb08:21c9:faa3?
  ([2a01:e35:2ec0:82b0:3d8d:fb08:21c9:faa3])
- by smtp.gmail.com with ESMTPSA id 90sm6615868wrl.30.2020.11.03.01.36.54
+ by smtp.gmail.com with ESMTPSA id r1sm26935679wro.18.2020.11.03.01.37.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 01:36:54 -0800 (PST)
+ Tue, 03 Nov 2020 01:37:51 -0800 (PST)
 Subject: Re: [PATCH v10 1/6] dt-bindings: display: Add support for Intel
  KeemBay Display
-To: Rob Herring <robh@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
 References: <1604006877-20092-1-git-send-email-anitha.chrisanthus@intel.com>
  <1604006877-20092-2-git-send-email-anitha.chrisanthus@intel.com>
  <20201029222046.GA904738@ravnborg.org>
@@ -60,7 +59,7 @@ References: <1604006877-20092-1-git-send-email-anitha.chrisanthus@intel.com>
  <20201030211539.GB1003403@ravnborg.org>
  <CAL_JsqKFXDP921nGrO9o+RjMLnYLBiyagQmUUZFb10QJgu8kZQ@mail.gmail.com>
  <bcca48b9-5baa-2842-a6f0-23a2b668272a@baylibre.com>
- <CAL_JsqKek2WtQfBMhiX5qFTQJEVpYEXW7pHA3TZM-yjb550VqQ@mail.gmail.com>
+ <20201102180406.GA1404335@ravnborg.org>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -112,12 +111,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <1d60eded-c151-72f6-9489-ec87c627d0a8@baylibre.com>
-Date: Tue, 3 Nov 2020 10:36:53 +0100
+Message-ID: <2f1b7ced-5bec-cb52-3d08-5dae61adf4ab@baylibre.com>
+Date: Tue, 3 Nov 2020 10:37:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKek2WtQfBMhiX5qFTQJEVpYEXW7pHA3TZM-yjb550VqQ@mail.gmail.com>
+In-Reply-To: <20201102180406.GA1404335@ravnborg.org>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -132,46 +131,16 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>, "Dea,
- Edmund J" <edmund.j.dea@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Edmund J" <edmund.j.dea@intel.com>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/11/2020 03:02, Rob Herring wrote:
-> On Mon, Nov 2, 2020 at 10:38 AM Neil Armstrong <narmstrong@baylibre.com> wrote:
->>
->> On 02/11/2020 16:16, Rob Herring wrote:
->>> On Fri, Oct 30, 2020 at 4:15 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->>>>
->>>> Hi Neil.
->>>>
->>>> On Fri, Oct 30, 2020 at 09:31:36AM +0100, Neil Armstrong wrote:
->>>>> Hi,
->>>>>
->>>>> On 29/10/2020 23:20, Sam Ravnborg wrote:
->>>>>> Hi Anitha.
->>>>>>
->>>>>> On Thu, Oct 29, 2020 at 02:27:52PM -0700, Anitha Chrisanthus wrote:
->>>>>>> This patch adds bindings for Intel KeemBay Display
->>>>>>>
->>>>>>> v2: review changes from Rob Herring
->>>>>>> v3: review changes from Sam Ravnborg (removed mipi dsi entries, and
->>>>>>>     encoder entry, connect port to dsi)
->>>>>>>     MSSCAM is part of the display submodule and its used to reset LCD
->>>>>>>     and MIPI DSI clocks, so its best to be on this device tree.
->>>>>>>
->>>>>>> Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
->>>>>>> Cc: Sam Ravnborg <sam@ravnborg.org>
->>>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>>>>>
->>>>>> Looks good - and the split betwwen the display and the mipi<->dsi parts
->>>>>> matches the understanding of the HW I have developed.
->>>>>>
->>>>>> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
->>>>>>
+On 02/11/2020 19:04, Sam Ravnborg wrote:
+> Hi Neil.
+> 
 >>>>>>> ---
 >>>>>>>  .../bindings/display/intel,keembay-display.yaml    | 75 ++++++++++++++++++++++
 >>>>>>>  1 file changed, 75 insertions(+)
@@ -217,40 +186,23 @@ On 03/11/2020 03:02, Rob Herring wrote:
 >>>
 >>> If just clocks, then the msscam should be a clock provider possibly.
 >>> If not, then the below looks right.
->>
->> I agree
->>
->>>
->>>>
->>>> So it should be pulled in to a dedicated node - for example like this:
->>>>
->>>> mssscam: msscam@20910000 {
->>>>         compatible = "intel,keembay-msscam", "syscon";
->>>>         reg = <0x20910000, 0x30>;
->>>>         reg-io-width = <4>;
->>>> };
->>>>
->>>> And ofc we need a binding file for that.
->>>>
->>>>
->>>> And then we could have code like this in the display driver:
->>>>         regmap *msscam = syscon_regmap_lookup_by_compatible("intel,keembay-msscam");
->>>>         if (IS_ERR(msscam))
->>>>                 tell-and goto-out;
->>
->> It's better to use a phandle in the display node, instead of looking for compatible nodes.
 > 
-> No, you don't need it in DT unless there's more than one instance or
-> other parameters needed like register offsets/masks. The above is
-> actually faster too walking a list rather than a phandle look up
-> (though the phandle cache now may make it faster).
+> I am feeling a little clueless here - sorry.
+> 
+> Can you help with any example that does this?
+> 
+> Everything I looked up in bindings/clock/ had a "#clock-cells" which is
+> not relevant for msscam - or so I think at least.
 
-A phandle makes the dependency explicit, anyway it's only an advice.
+Looking at the code make it clear it's not relevant to implement it as clock controller.
+
+The syscon is enough.
 
 Neil
 
 > 
-> Rob
+> 
+> 	Sam
 > 
 
 _______________________________________________
