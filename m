@@ -2,32 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6382A3E1F
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 08:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C812A3E2A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 08:57:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32D226EB95;
-	Tue,  3 Nov 2020 07:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 744936E856;
+	Tue,  3 Nov 2020 07:57:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTP id 395676EAC5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 07:56:46 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 780FFAC92;
- Tue,  3 Nov 2020 07:56:45 +0000 (UTC)
-Subject: Re: [PATCH v2] drm: Add the new api to install irq
-To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <8af4223a-037e-7093-cac3-0061aa7b8025@suse.de>
-Date: Tue, 3 Nov 2020 08:56:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2084.outbound.protection.outlook.com [40.107.102.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D49636E84E
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 07:57:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X+lHH4t5qmI9MeFcPhusKfcCbaH9m4AXhPh8K+fxphFdKY9zwD1d5DJ2Kns+nzVCPWiOW5gQ8Cb9vufseMPZbAq++ijtFLmflCukHYTK+tMoAhpsX2ccHpw3EB4CvcQRJFxC7cTOdPe+q+Seosg+Q3j0YmF/LFY8ptzklWSPXveKtwF7muAQ0gIcznxBD4K+k83fhN/odWeJiyjPHtVuu1WkfTU3QCgvmIXvSttrJ3RzN/AWOv8gOVyBJ2bDbbUJ3YoB2Glt22+/yIhDRg4lYhP+Uws2LNf4NDkYf1Zy/ApShuLkPv5rmrRiFmOmnNaxqrhlVb8zWhrvQgTbfCedVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F80JcsvPpHN5dwo7nEL3rbuUF3RfCtyEQo6vHs1h0cc=;
+ b=UlR/LTNp3k8yKvOfK53tEgSjgVLOX0cbP0H2H7hk4AimxsPqbBrVaFsYkT3lcn0Q89Xxu1w0bS0lGB8sCyYRfHvZbyTztDprTwP9rYNAukN3RbdrPpWckzjFc/9Z6af836FAYDuZgEY2rI+0LbDIZUxgoLxOngzhTMMlFrjh/o+70iepl/QGZuc0uuyXoTgxRG7S1YKzteRqjDK97mXQ71FjL7MNo28Eh2SDyLFx4mRBYfVCv/aP0xEB7TGByUY69KTuR9Wbj/7JRMhQ6xhX/8lrnxxhq9Bc5Nztt20sylRiFHfQpOcjG1dzCBqY3QhcBxyAWc7ZbwMJumaujXFy/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F80JcsvPpHN5dwo7nEL3rbuUF3RfCtyEQo6vHs1h0cc=;
+ b=bi8e1LErU9ZevG8NMLXW30+Aww9gFJ2cLCzWFK1wDNf2ZaslvaYzxwEFFvP557e8HWeA1syRoAbcoDoJaKw8yNJmozwbui5Nh2Wbm0BjsxtYZBexnGmJ5nPp6CFTIpFCGSQMwLC/xfAlkYpb6tagIGVPzSFocwXx6kIb1C6CQ5o=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4222.namprd12.prod.outlook.com (2603:10b6:208:19a::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 3 Nov
+ 2020 07:57:20 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
+ 07:57:20 +0000
+Subject: Re: [PATCH] dma-buf: Fix static checker warning
+To: Jianxin Xiong <jianxin.xiong@intel.com>, dri-devel@lists.freedesktop.org
+References: <1604375518-145511-1-git-send-email-jianxin.xiong@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <e44d5574-904c-b8c3-51b1-8f967e6a92fe@amd.com>
+Date: Tue, 3 Nov 2020 08:57:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <1604375518-145511-1-git-send-email-jianxin.xiong@intel.com>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM9P192CA0023.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21d::28) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-In-Reply-To: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM9P192CA0023.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21d::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.19 via Frontend Transport; Tue, 3 Nov 2020 07:57:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 471006e9-bb6d-40f8-3b06-08d87fce170a
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4222:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB422266EE674B0A326823CA2B83110@MN2PR12MB4222.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:131;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dWdqQaikcLIt36Ar2RxmtWPT87ZPO6rl1C1CJBsIxmJ3ZoI8ps23tKrT38IuKpVsYS3losKRVY2gLsVz4HD5wSyrlEJNUQYFkhQdNFwPulA+TmO3ZmMLNr77yU8ZjqiMo+k6/usGGmaTiNBlcvKaw6gHz+9035IAc2EhA27PxuvP3AMBt98wxefBOZzl+7J7j1s18zZrw2b7qy6r/79dLm4Z6vgygSh0vHgDFyqlzKMIkBh2QJk2t3Ic021CHcgmZoL6wFM3N2GW9kxTJcGHmTlMywf9d/fvNzRipY8B4oSTqk/eAL1YVJSe5CZOlPaztSvvckGV+wwfew9pRbsVn6KOz23xfQ1fAVnaLRaYVrbyV2wsmbjdDpDGWFeYefO/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(396003)(376002)(346002)(136003)(83380400001)(66476007)(36756003)(2906002)(31696002)(8676002)(66574015)(66556008)(8936002)(31686004)(86362001)(5660300002)(66946007)(6486002)(4326008)(478600001)(52116002)(6666004)(186003)(54906003)(316002)(16526019)(2616005)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: PJiObkyqiOjNW+r0uARK86a7JyyTCkFLUwgcsAGyYt8PHnocUI84FP+4opSm4NyAPshJFyDkkW4jCDY/UhSiNWdRzkr75im5vLGlULR4SKR4q8sNtEXjyOO7obc/O/Rcb7ZaQbnfhI5XuIyFKSswKBpCjjWDbBKWgbS9cpCtrz9V2a0phWCt1lZHcmkPBHZx9IO4RvWYw8EmzQKUaaKrYBb1miOQ5yZPKEnXXt3YczMXGtv3sngz9BmRvcx3ZZRAnP56VQf/reX7Rc/WII+92UOeLCfs+fKz8ELBuHkFlFzvAT4pDHqqmtKCyo1LGYUBYZanEUjFOuiaHV5p68gch0E3ovjuJvnXVFzZxbmBBDbVQtR5byukeDJ4QIDaec86nyx3n7GR7crZjzSrMCKB9Phfz3E4Z0//NwtauzSEsbLkQZQ39PGQ8QVut5/gF4pTCzEkeQV17veO00hBCfaoFabLxq01vxjSqfcRyfPl72eQXgPwHJGiKsdkrboLuQN3goGpeDqaADBlJMaVj3Vq4y0l7cD+m7wCm5yo/pJapivnkayUXwxqAqK53W4cbq4CL2JKV1xYtn0afHX/gnmk0gtxBprNUBwzuVNSbkziyDj00LxfDGDP6myoFOYGX7nriY1Diqh8M9k/sL6VQju3kB6TYjBr1rZESfrBUUa4YHmlVnw0BQTBV9Wvh4ausU4kCrImkTFiiqbjF7r/nVotAw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 471006e9-bb6d-40f8-3b06-08d87fce170a
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 07:57:20.2260 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1UrTRRHGxw+tNbkFyw59rPgq5DpTJ8z9xepLuR0vQWXa1znEvhX9G58btlwx0cQt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4222
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,288 +96,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0955483142=="
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0955483142==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="HxxY8KzooMOT3d8n2k1dRkjsH8YAtBmzT"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---HxxY8KzooMOT3d8n2k1dRkjsH8YAtBmzT
-Content-Type: multipart/mixed; boundary="k7bPgVrGGrgR8ilIo0SrXjKf0VZNQ4qbz";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <8af4223a-037e-7093-cac3-0061aa7b8025@suse.de>
-Subject: Re: [PATCH v2] drm: Add the new api to install irq
-References: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
-
---k7bPgVrGGrgR8ilIo0SrXjKf0VZNQ4qbz
-Content-Type: multipart/mixed;
- boundary="------------24BEE0AC4249E8BF9ABF047A"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------24BEE0AC4249E8BF9ABF047A
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Thanks, the code looks good already. There just are a few nits below.
-
-Am 03.11.20 um 03:10 schrieb Tian Tao:
-> Add new api devm_drm_irq_install() to register interrupts,
-> no need to call drm_irq_uninstall() when the drm module is removed.
->=20
-> v2:
-> fixed the wrong parameter.
->=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> ---
->  drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
->  include/drm/drm_drv.h     |  3 ++-
->  2 files changed, 25 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index cd162d4..0fe5243 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-
-The implementation should rather go to drm_irq.c
-
-> @@ -39,6 +39,7 @@
->  #include <drm/drm_color_mgmt.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_irq.h>
->  #include <drm/drm_managed.h>
->  #include <drm/drm_mode_object.h>
->  #include <drm/drm_print.h>
-> @@ -678,6 +679,28 @@ static int devm_drm_dev_init(struct device *parent=
-,
->  	return ret;
->  }
-> =20
-> +static void devm_drm_dev_irq_uninstall(void *data)
-> +{
-> +	drm_irq_uninstall(data);
-> +}
-> +
-> +int devm_drm_irq_install(struct device *parent,
-> +			 struct drm_device *dev, int irq)
-> +{
-> +	int ret;
-> +
-> +	ret =3D drm_irq_install(dev, irq);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D devm_add_action(parent, devm_drm_dev_irq_uninstall, dev);
-> +	if (ret)
-> +		devm_drm_dev_irq_uninstall(dev);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(devm_drm_irq_install);
-> +
->  void *__devm_drm_dev_alloc(struct device *parent, struct drm_driver *d=
-river,
->  			   size_t size, size_t offset)
->  {
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 0230762..fec1776 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-
-And the declaration should go to drm_irq.h
-
-We generally don't merge unused code, so you should convert at least one
-KMS driver, say hibmc, to use the new interface.
-
-Best regards
-Thomas
-
-> @@ -513,7 +513,8 @@ struct drm_driver {
-> =20
->  void *__devm_drm_dev_alloc(struct device *parent, struct drm_driver *d=
-river,
->  			   size_t size, size_t offset);
-> -
-> +int devm_drm_irq_install(struct device *parent, struct drm_device *dev=
-,
-> +			 int irq);
->  /**
->   * devm_drm_dev_alloc - Resource managed allocation of a &drm_device i=
-nstance
->   * @parent: Parent device object
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
---------------24BEE0AC4249E8BF9ABF047A
-Content-Type: application/pgp-keys;
- name="OpenPGP_0x680DC11D530B7A23.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="OpenPGP_0x680DC11D530B7A23.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
-H47
-fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
-bqP
-5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
-z9E
-ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
-nEm
-imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
-W1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
-BYC
-AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
-Onf
-G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
-GJm
-DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
-+1Q
-DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
-p8n
-91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
-zF1
-CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
-gUC
-WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
-IiL
-+he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
-42f
-CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
-Urj
-EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
-45N
-GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
-Tpy
-Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
-u5r
-A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
-/N8
-GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
-j0g
-voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
-bZM
-RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
-zWw
-iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
-Xy9
-RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
-c0n
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+wsCOBBMBCAA4AhsDBQsJC=
-AcC
-BhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl78SF4ACgkQaA3BH=
-VML
-eiOpGAgAih6C1OnWms/N8eBMC4Q93y/nyywe5vCL22Dr1rwgn6Iw2jOGziJSi7zhY4sEk2NKJ=
-5cd
-lFrx8mP//b+xO4AGffwBD0Vwpf38Hj2Gt0KjpzRYccqqU+tJPO5c0pjI52ZIV3+kOEFvYGfkN=
-PHE
-flE+b81T8L2dSXCLtj4WAGUM1rmHn3bCYl+/RwkB+8XnoL5AvrmMcU4Uhb3FJpM4DHExccYkd=
-eSL
-ojBppOCztBCUpBx3le+8QPVvAvJDuur4wRmjk3sjKClAwzeqoYyUKcN3JDdb3mt3QcJal9rSh=
-VEI
-7B25IvfmEbs42oGm8GPzPkaNJu3gcska+l5PSTfurNETGsJdBBARAgAdFiEEJ+jjpp87z/+5L=
-Y5q
-LnehMBH108IFAls6HVcACgkQLnehMBH108LTkACgjLQdDYMENi6BDjY/gd/LF9lMi8oAnR+o0=
-FwE
-Vb1K1tEMQ/1x+k1U6/xgwsBzBBABCAAdFiEEHl2YIZkIo5VO2MxYqlA7ya4PR6cFAls58bMAC=
-gkQ
-qlA7ya4PR6cvTAgAzY1N5QMKh8ECRtYcZNmilyV59uHTEY9hAR+203JqWnSGfUKtU7s6xfl5O=
-NGq
-DI5rULk4Cw2CEIzg9Sat+/lxn36w2f1tEznS5Vb0gVGWrzDAFjj7tB6MnmCzsNb/S1kgxnqJM=
-Yor
-RYQ7uB3Yr2Fdp08FJxN0ipd5YfzaZ6KoSWcRAv4r1R4ZQGuS77URAg7HDOIrBMOVO+HIn7GYQ=
-qPS
-5ZFw5yXbvEtL1c5Y8Zdw1AG2VmEXx78TWQVG3kI8/lQF1QI3yrJ1Rp2x5eK9I0OJihv13IlIW=
-3sb
-QGrj9pxF63kA20ZFaynzFglBGiyxExYvTD0/xKIhzYhj8mtCunPb2cLAcwQQAQgAHRYhBLsjb=
-bex
-nu/GyEcdaKfzfBmMOTGBBQJbOjLAAAoJEKfzfBmMOTGBBoMIALIW4EtBY28tPwZMOpN/+ARPO=
-a2g
-Qzpivw7iNtiDTnGIXMCoxly1CybfMdqTHYmuKbEO9AlFAlDOnkgInsn8E65IvgUTVI95Ah+Ob=
-iPI
-FkYc/9a+AexPl7f5kI9489k77eKtqtMpWFpo/vROmRroSw4JnM7ovwPq1QOSHExfTKbLunzD1=
-i3V
-4PShSZ6bGsp1LW6Wk0lRMHDuAk3xsyjBWfJwSbrCe3E6OsLG7BuQqEUt2fR6NxdDRSR9tQUp9=
-Tri
-AYG5LndmUzxeU6FAQjD8Wt1ezOFH5ODcCDXfRyYmE6uCGA4EvO8l9R3o68NPlUjPRAZsCbxJa=
-UAg
-iazX1nyQGwvOwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHU=
-E9e
-osYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+q=
-bU6
-3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWWG=
-KdD
-egUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lvhFXod=
-NFM
-AgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsAEQEAAcLAf=
-AQY
-AQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkDwmcAAAoJEGgNwR1TC3ojp=
-fcI
-AInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2h9ifw9Nf2TjCZ6AMvC3thAN0r=
-FDj
-55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxUn+LSiRrOdywn6erjxRi9EYTVLCHcD=
-hBE
-jKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uIaMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU=
-2y3
-ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBWHE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/t=
-sZv
-yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
-=3DmxFq
------END PGP PUBLIC KEY BLOCK-----
-
---------------24BEE0AC4249E8BF9ABF047A--
-
---k7bPgVrGGrgR8ilIo0SrXjKf0VZNQ4qbz--
-
---HxxY8KzooMOT3d8n2k1dRkjsH8YAtBmzT
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+hDTwFAwAAAAAACgkQaA3BHVMLeiPI
-fQf/YfpWH6ml7W1PVp7E3x90ODJSWXzDhaBLltLNFjacC6ErWlRcK1amvzMCX29T5lspThiRcwuM
-s4pBBEqbjke9ISKYNfEYIWrf5sackri1sJVHTDTGtUdvKX9+/g1xiNCLNW6GmchgedpruOblo0Lg
-ZNYXvWAKMUEc+HVvjQErB158QhtDfdhcfnno0r7TX1u1faPCQ0NFVKtipaMfWsq7T0ZltbpYfTpT
-IV+hpEi9xLVIZHtuUKVumFOXCgeLKKVn46+OmLFYZQ4CAkjyddw0i1mmYe+NFboGD8KhkC9Yll1L
-jdx/GQYzdJNuQ9u/nM7Xbk0NV2421gzeIGI9fTb11A==
-=Yiwf
------END PGP SIGNATURE-----
-
---HxxY8KzooMOT3d8n2k1dRkjsH8YAtBmzT--
-
---===============0955483142==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0955483142==--
+QW0gMDMuMTEuMjAgdW0gMDQ6NTEgc2NocmllYiBKaWFueGluIFhpb25nOgo+IEhlcmUgaXMgdGhl
+IHdhcm5pbmcgbWVzc2FnZToKPgo+IAlkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jOjkxNyBkbWFf
+YnVmX21hcF9hdHRhY2htZW50KCkKPiAJZXJyb3I6ICdzZ190YWJsZScgZGVyZWZlcmVuY2luZyBw
+b3NzaWJsZSBFUlJfUFRSKCkKPgo+IEZpeCBieSBhZGRpbmcgZXJyb3IgY2hlY2tpbmcgYmVmb3Jl
+IGRlcmVmZXJlbmNpbmcgdGhlIHBvaW50ZXIuCj4KPiBGaXhlczogYWM4MGNkMTdhNjE1ICgiZG1h
+LWJ1ZjogQ2xhcmlmeSB0aGF0IGRtYS1idWYgc2cgbGlzdHMgYXJlIHBhZ2UgYWxpZ25lZCIpCj4g
+UmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KPiBT
+aWduZWQtb2ZmLWJ5OiBKaWFueGluIFhpb25nIDxqaWFueGluLnhpb25nQGludGVsLmNvbT4KClJl
+dmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CgpE
+byB5b3UgaGF2ZSBjb21taXQgYWNjZXNzIHRvIGRybS1taXNjLW5leHQgb3Igc2hvdWxkIEkgcHVz
+aCBpdD8KCj4gLS0tCj4gICBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIHwgMiArLQo+ICAgMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4KPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMK
+PiBpbmRleCA1NTZmNjJlLi4wZWI4MGMxIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9k
+bWEtYnVmLmMKPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gQEAgLTkwOCw3ICs5
+MDgsNyBAQCBzdHJ1Y3Qgc2dfdGFibGUgKmRtYV9idWZfbWFwX2F0dGFjaG1lbnQoc3RydWN0IGRt
+YV9idWZfYXR0YWNobWVudCAqYXR0YWNoLAo+ICAgCX0KPiAgIAo+ICAgI2lmZGVmIENPTkZJR19E
+TUFfQVBJX0RFQlVHCj4gLQl7Cj4gKwlpZiAoIUlTX0VSUihzZ190YWJsZSkpIHsKPiAgIAkJc3Ry
+dWN0IHNjYXR0ZXJsaXN0ICpzZzsKPiAgIAkJdTY0IGFkZHI7Cj4gICAJCWludCBsZW47CgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
