@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE572A3889
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:20:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7C92A388E
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:20:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB1856E7E2;
-	Tue,  3 Nov 2020 01:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 296C16E81B;
+	Tue,  3 Nov 2020 01:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37A656E819;
- Tue,  3 Nov 2020 01:20:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5890D6E819;
+ Tue,  3 Nov 2020 01:20:05 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3928E222EC;
- Tue,  3 Nov 2020 01:20:03 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6E7322242A;
+ Tue,  3 Nov 2020 01:20:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604366404;
- bh=3flJ2YpOER0BtHU7ikQidLHUoVl8B+cojCjv+JWAPpw=;
+ s=default; t=1604366405;
+ bh=z3wYUGwaURyhH08VRvPERKJPQl/ha/XMsq5Ddssd09w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cAgJA4BBeUg+ydr0YSPv3xPr8N4ews5uuTCdMhWbCR+X0bunn6440QJjWTiRJ4/iB
- N3jnQBp6hbnHBOczLMCwZM9UH8iXhYSByoApK8waqM6FQqH7O67ClB7Ohdc3A221ux
- jSxcMwegWP2a3MV0k2EQpKz4BVddGh1Dl7Cd/FJI=
+ b=Gz7cDxoN2InxDj5tDbxnZIcD1/jMAOyF04f1C3yD5w+TJmKgWqq9i/uLxT5Oxuz6J
+ raNGIszG1lsisWq7NoSBKAS9b9To39ZrhK/zhGrWd+YW/TJs7HiQQk6eibBrpT/kd9
+ xOcAAR+wV1oqi44yQcBOauFCg0qbDrUG/jLGd3H4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 27/29] drm/nouveau/nouveau: fix the start/end
- range for migration
-Date: Mon,  2 Nov 2020 20:19:26 -0500
-Message-Id: <20201103011928.183145-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 28/29] drm/nouveau/gem: fix "refcount_t: underflow;
+ use-after-free"
+Date: Mon,  2 Nov 2020 20:19:27 -0500
+Message-Id: <20201103011928.183145-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201103011928.183145-1-sashal@kernel.org>
 References: <20201103011928.183145-1-sashal@kernel.org>
@@ -51,77 +51,40 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- Ralph Campbell <rcampbell@nvidia.com>, Ben Skeggs <bskeggs@redhat.com>,
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Karol Herbst <kherbst@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ralph Campbell <rcampbell@nvidia.com>
+From: Karol Herbst <kherbst@redhat.com>
 
-[ Upstream commit cfa736f5a6f31ca8a05459b5720aac030247ad1b ]
+[ Upstream commit 925681454d7b557d404b5d28ef4469fac1b2e105 ]
 
-The user level OpenCL code shouldn't have to align start and end
-addresses to a page boundary. That is better handled in the nouveau
-driver. The npages field is also redundant since it can be computed
-from the start and end addresses.
+we can't use nouveau_bo_ref here as no ttm object was allocated and
+nouveau_bo_ref mainly deals with that. Simply deallocate the object.
 
-Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
 Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_svm.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_gem.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index 6586d9d398740..11b7cc3625cf8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -116,11 +116,11 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
- 	struct nouveau_cli *cli = nouveau_cli(file_priv);
- 	struct drm_nouveau_svm_bind *args = data;
- 	unsigned target, cmd, priority;
--	unsigned long addr, end, size;
-+	unsigned long addr, end;
- 	struct mm_struct *mm;
- 
- 	args->va_start &= PAGE_MASK;
--	args->va_end &= PAGE_MASK;
-+	args->va_end = ALIGN(args->va_end, PAGE_SIZE);
- 
- 	/* Sanity check arguments */
- 	if (args->reserved0 || args->reserved1)
-@@ -129,8 +129,6 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
- 		return -EINVAL;
- 	if (args->va_start >= args->va_end)
- 		return -EINVAL;
--	if (!args->npages)
--		return -EINVAL;
- 
- 	cmd = args->header >> NOUVEAU_SVM_BIND_COMMAND_SHIFT;
- 	cmd &= NOUVEAU_SVM_BIND_COMMAND_MASK;
-@@ -162,12 +160,6 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
- 	if (args->stride)
- 		return -EINVAL;
- 
--	size = ((unsigned long)args->npages) << PAGE_SHIFT;
--	if ((args->va_start + size) <= args->va_start)
--		return -EINVAL;
--	if ((args->va_start + size) > args->va_end)
--		return -EINVAL;
--
- 	/*
- 	 * Ok we are ask to do something sane, for now we only support migrate
- 	 * commands but we will add things like memory policy (what to do on
-@@ -182,7 +174,7 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index c5ee5b7364a09..ee5fec1ad9a46 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -197,7 +197,8 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, int align, uint32_t domain,
+ 	 * to the caller, instead of a normal nouveau_bo ttm reference. */
+ 	ret = drm_gem_object_init(drm->dev, &nvbo->bo.base, size);
+ 	if (ret) {
+-		nouveau_bo_ref(NULL, &nvbo);
++		drm_gem_object_release(&nvbo->bo.base);
++		kfree(nvbo);
+ 		return ret;
  	}
- 
--	for (addr = args->va_start, end = args->va_start + size; addr < end;) {
-+	for (addr = args->va_start, end = args->va_end; addr < end;) {
- 		struct vm_area_struct *vma;
- 		unsigned long next;
  
 -- 
 2.27.0
