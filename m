@@ -1,64 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D8D2A3EAC
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 748352A3E9C
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D0F6EC5C;
-	Tue,  3 Nov 2020 08:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77AB06EC48;
+	Tue,  3 Nov 2020 08:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C8C6E41A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 03:49:12 +0000 (UTC)
-Received: from mail-pg1-f198.google.com ([209.85.215.198])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <koba.ko@canonical.com>) id 1kZnJm-0002Ss-Tt
- for dri-devel@lists.freedesktop.org; Tue, 03 Nov 2020 03:49:11 +0000
-Received: by mail-pg1-f198.google.com with SMTP id c9so7638282pgk.10
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 19:49:10 -0800 (PST)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CEBB6E027
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 05:21:06 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id y16so17668742ljk.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 21:21:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9qUicjP+v0HaQMZynXCSs8AooRA15wIyKRPujWnHwXA=;
+ b=gTLt9LU4dNi71Ach/3FommeyVFcloj4FE0O5y/oJtVmUFbk2YKaHnhJCks2FSFu3eU
+ WZW30LZTgHPxVlQ6t3tbL9TyKmHKz6Sa00kHMADyxTIlFyOsonfafAkKbo52YOBFgj6L
+ b35McKkPBbWzABNMKgL/+FR4PzXgZGuG0TtfKxrkok0T8j9jawqkAyYyxkAlpeHa3bJp
+ eem30aERkMDUcLS4n8znrEzGnTkT+ETACzW6oRAFCE0e8Bl6LavZyAJeWp2tXtMlmD6P
+ U1g0hpHjwWJ2xZQqFd5rhX0ZepMrMcteNQicmatSQW6jFgy/0welWHyPYZ6nqgm241u2
+ XlaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=RliCu92b3IQig0c2jWKF3VuVRgf8DqyL8AZCCs07qII=;
- b=ZY9wufSsq+xrZ8R8Q4Fvemn+h3cnFyRY2PGlfXG7SrQkB7KkNDVomF2dHNRTPxolKE
- QynepUfa/Iy7uCpyZVY7sKtVN4MbEzGXSSF6DWYNQtclcsq/3xOfqFLfEy+bS0BBgqh4
- I0PUZFfR/CCF6OuPBJMpa9iHqxGGqTPa8ze42WG1dF3xCMxiGTySwBCIm+zxT9++bDKa
- uIfbVbBIQ/AgYM2GNs7VbWaJrFbvLug+KfK/KY+qwLJ4YPk84vhC3o3Dly5KXGuEI9Hf
- I9t6bWCiAbQB1SsjUPfjlfKy0saPfKCiDO5Wlo7lUAKMrpZfy0+0FdJujtz5NWPDm81r
- CSbw==
-X-Gm-Message-State: AOAM530uGQnAgd0PiroCZQ3N9/LfX0QORMl2sPTbakU8bvI/pi840eAr
- rdJppkIR8c3cENan/6KtMCnFtbLcVRxuIAMvC5PyRU6vruNnV8j5pJP1RsSYS/scawPVIld5DZf
- e4VJSxtynQAg4VVlJ0Pd6MJKO+uUB9y9b8BmDh1Zn+6G6+A==
-X-Received: by 2002:a17:90a:9dcb:: with SMTP id
- x11mr1573630pjv.132.1604375349510; 
- Mon, 02 Nov 2020 19:49:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxxMUJNCcKeQ5cbFEtLT37uvAni0nkfgOfDYBkeExp0+DP5RBRtEs3L8WFEYJXQpLDtt7bPZA==
-X-Received: by 2002:a17:90a:9dcb:: with SMTP id
- x11mr1573609pjv.132.1604375349231; 
- Mon, 02 Nov 2020 19:49:09 -0800 (PST)
-Received: from canonical.com (61-220-137-37.HINET-IP.hinet.net.
- [61.220.137.37])
- by smtp.gmail.com with ESMTPSA id jy19sm1072088pjb.9.2020.11.02.19.49.08
+ bh=9qUicjP+v0HaQMZynXCSs8AooRA15wIyKRPujWnHwXA=;
+ b=gBDyvoNOJeFHTXcl3bOkWDM+/nuuG7yvxRmSE/4ifhiXA69RNzFgVkF44HWa0G0wIO
+ HO4cO8WNVgQESRV/DPF+cB6QQuKHGmYRe3cyhC+lOxaJgV9qtr5RaWLlXfy5pFWo2LKn
+ GeNbsDa339kDy8cETUK5LJkd9W5brdj23PSDwEKt0kJmMsOtg/ypNmKy0N0CSnsH/Kia
+ DCAPLCxAcqDJeKXmXNVetc3QY8CGXVjZE6OFUMDNQRAxvebeJmaUmIPtJmHWdT+YKkT1
+ kXWFk+fo8oAjo/GC4Sq/QM49pH2T02yoII0DZxHXkGhPsaRzYHew1hO+RMpdVGaIc8C8
+ OyKw==
+X-Gm-Message-State: AOAM533QvXpXmoYUIrbru97L3IVrAKiOWdTMkiMyYdq+6HOoZKnFWzgt
+ /eTcxsEiPmI/rAip+ofrvL8Ihg==
+X-Google-Smtp-Source: ABdhPJy7kXRfNzR867c0ewzrxViD/OGfhbRsiHJBS6wEA43Csv4zRqJrzCC/fEeTIRM8PWj9wRJ6YA==
+X-Received: by 2002:a2e:7217:: with SMTP id n23mr8067777ljc.43.1604380865255; 
+ Mon, 02 Nov 2020 21:21:05 -0800 (PST)
+Received: from eriador.lan ([94.25.229.254])
+ by smtp.gmail.com with ESMTPSA id d26sm3649474ljj.102.2020.11.02.21.21.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 19:49:08 -0800 (PST)
-From: Koba Ko <koba.ko@canonical.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "drm/dp_mst: Retrieve extended DPCD caps for topology
- manager"
-Date: Tue,  3 Nov 2020 11:49:07 +0800
-Message-Id: <20201103034907.72129-1-koba.ko@canonical.com>
-X-Mailer: git-send-email 2.25.1
+ Mon, 02 Nov 2020 21:21:04 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Jonathan Marek <jonathan@marek.ca>
+Subject: [PATCH] drm/msm/dpu: enable DSPP support on SM8[12]50
+Date: Tue,  3 Nov 2020 08:21:02 +0300
+Message-Id: <20201103052102.1465314-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:24 +0000
+X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,43 +66,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Harigovindan P <harigovi@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit ad44c03208e46b83e4ae3269e32c9e524aa71cf8.
+Add support for color correction sub block on SM8150 and SM8250.
 
-Currently DRM driver assume the source device caps is higher than the MST device
-caps. With this commit, this statement would be broken.
-
-e.g. the source device only support DP1.2 and the mst device support DP1.4.
-
-Signed-off-by: Koba Ko <koba.ko@canonical.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/drm_dp_mst_topology.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 26 +++++++++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   |  3 +--
+ 2 files changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 153b6065ba29..e87542533640 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -3686,10 +3686,9 @@ int drm_dp_mst_topology_mgr_set_mst(struct drm_dp_mst_topology_mgr *mgr, bool ms
- 		WARN_ON(mgr->mst_primary);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index bb1add2e49dd..240a21c5e5fe 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -466,9 +466,9 @@ static const struct dpu_lm_cfg sc7180_lm[] = {
  
- 		/* get dpcd info */
--		ret = drm_dp_read_dpcd_caps(mgr->aux, mgr->dpcd);
--		if (ret < 0) {
--			drm_dbg_kms(mgr->dev, "%s: failed to read DPCD, ret %d\n",
--				    mgr->aux->name, ret);
-+		ret = drm_dp_dpcd_read(mgr->aux, DP_DPCD_REV, mgr->dpcd, DP_RECEIVER_CAP_SIZE);
-+		if (ret != DP_RECEIVER_CAP_SIZE) {
-+			DRM_DEBUG_KMS("failed to read DPCD\n");
- 			goto out_unlock;
+ static const struct dpu_lm_cfg sm8150_lm[] = {
+ 	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
+-		&sdm845_lm_sblk, PINGPONG_0, LM_1, 0),
++		&sdm845_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
+ 	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
+-		&sdm845_lm_sblk, PINGPONG_1, LM_0, 0),
++		&sdm845_lm_sblk, PINGPONG_1, LM_0, DSPP_1),
+ 	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
+ 		&sdm845_lm_sblk, PINGPONG_2, LM_3, 0),
+ 	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
+@@ -487,16 +487,28 @@ static const struct dpu_dspp_sub_blks sc7180_dspp_sblk = {
+ 		.len = 0x90, .version = 0x10000},
+ };
+ 
+-#define DSPP_BLK(_name, _id, _base) \
++static const struct dpu_dspp_sub_blks sm8150_dspp_sblk = {
++	.pcc = {.id = DPU_DSPP_PCC, .base = 0x1700,
++		.len = 0x90, .version = 0x40000},
++};
++
++#define DSPP_BLK(_name, _id, _base, _sblk) \
+ 		{\
+ 		.name = _name, .id = _id, \
+ 		.base = _base, .len = 0x1800, \
+ 		.features = DSPP_SC7180_MASK, \
+-		.sblk = &sc7180_dspp_sblk \
++		.sblk = _sblk \
  		}
  
+ static const struct dpu_dspp_cfg sc7180_dspp[] = {
+-	DSPP_BLK("dspp_0", DSPP_0, 0x54000),
++	DSPP_BLK("dspp_0", DSPP_0, 0x54000, &sc7180_dspp_sblk),
++};
++
++static const struct dpu_dspp_cfg sm8150_dspp[] = {
++	DSPP_BLK("dspp_0", DSPP_0, 0x54000, &sm8150_dspp_sblk),
++	DSPP_BLK("dspp_1", DSPP_1, 0x56000, &sm8150_dspp_sblk),
++	DSPP_BLK("dspp_2", DSPP_2, 0x58000, &sm8150_dspp_sblk),
++	DSPP_BLK("dspp_3", DSPP_3, 0x5a000, &sm8150_dspp_sblk),
+ };
+ 
+ /*************************************************************
+@@ -888,6 +900,8 @@ static void sm8150_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+ 		.sspp = sdm845_sspp,
+ 		.mixer_count = ARRAY_SIZE(sm8150_lm),
+ 		.mixer = sm8150_lm,
++		.dspp_count = ARRAY_SIZE(sm8150_dspp),
++		.dspp = sm8150_dspp,
+ 		.pingpong_count = ARRAY_SIZE(sm8150_pp),
+ 		.pingpong = sm8150_pp,
+ 		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
+@@ -919,6 +933,8 @@ static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+ 		.sspp = sm8250_sspp,
+ 		.mixer_count = ARRAY_SIZE(sm8150_lm),
+ 		.mixer = sm8150_lm,
++		.dspp_count = ARRAY_SIZE(sm8150_dspp),
++		.dspp = sm8150_dspp,
+ 		.pingpong_count = ARRAY_SIZE(sm8150_pp),
+ 		.pingpong = sm8150_pp,
+ 		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+index a7a24539921f..e42f901a7de5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+@@ -57,8 +57,7 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
+ static void _setup_dspp_ops(struct dpu_hw_dspp *c,
+ 		unsigned long features)
+ {
+-	if (test_bit(DPU_DSPP_PCC, &features) &&
+-		IS_SC7180_TARGET(c->hw.hwversion))
++	if (test_bit(DPU_DSPP_PCC, &features))
+ 		c->ops.setup_pcc = dpu_setup_dspp_pcc;
+ }
+ 
 -- 
-2.17.1
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
