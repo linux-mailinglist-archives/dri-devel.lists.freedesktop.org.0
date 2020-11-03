@@ -1,49 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11162A3CAB
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 07:15:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA60D2A3CBD
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 07:23:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 692266E32F;
-	Tue,  3 Nov 2020 06:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 917FC6E4AD;
+	Tue,  3 Nov 2020 06:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C38D86E32F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 06:15:42 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5fa0f5910000>; Mon, 02 Nov 2020 22:15:45 -0800
-Received: from [10.2.49.167] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Nov
- 2020 06:15:40 +0000
-Subject: Re: [resource] 22b17dc667: Kernel panic - not syncing: Fatal exception
-To: lkp <lkp@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20201103060649.GA30210@xsang-OptiPlex-9020>
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <1ec0dee9-e1bb-9cf1-a8c2-ad1e294c5acf@nvidia.com>
-Date: Mon, 2 Nov 2020 22:15:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 065BB6E4AD
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 06:23:25 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A36NMvW176189;
+ Tue, 3 Nov 2020 06:23:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=lZOHWPsincrv3NJRwbyRUhrikhjn5Ipqz57akT+/cGM=;
+ b=M2PhN13z8RPLxK3ntNez/oevTIL6/voiO9lbqxViJqjJk4uxT55zupkRtOrKNt2KsVOm
+ Aa8Eo5IPBMG6OGi2n5swsHYtN0B4ox2g+BLXzrAU+cAdGDE7W2nuVXVKWHYjNY4DBOnh
+ fk6VGJE5CmHJpn4c9UNEOU+9cTz+7tJ/oimxXwjU4vkwf13ziJ8CwRtT5lKHfnXHFR17
+ pmkDCzB6g1NnHvlsncLIEjNnkXayZiWcVMVWrpbvhdMiA/xdYu72LYsrSJIRo3n6X18s
+ kgPn4+KhakCsRDnhM6xHOZkOHBeUi273czpZfk0zpWC0gVGbRTXIKhJSu3m9y2XLwXQz ig== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 34hhvc7g5s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 03 Nov 2020 06:23:22 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A36ARhO087681;
+ Tue, 3 Nov 2020 06:23:21 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 34hw0ge65w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 03 Nov 2020 06:23:21 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0A36NL6b023284;
+ Tue, 3 Nov 2020 06:23:21 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 02 Nov 2020 22:23:20 -0800
+Date: Tue, 3 Nov 2020 09:23:13 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+Subject: Re: [bug report] dma-buf: Clarify that dma-buf sg lists are page
+ aligned
+Message-ID: <20201103062313.GB18329@kadam>
+References: <20201102081508.GA104814@mwanda>
+ <MW3PR11MB4555588F506D774990798A47E5100@MW3PR11MB4555.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20201103060649.GA30210@xsang-OptiPlex-9020>
-Content-Language: en-US
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1604384145; bh=HHKB/RdS8zOAOPLdFEq5BHCD+y3I+0AFVJdR07v4b2Y=;
- h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
- MIME-Version:In-Reply-To:Content-Type:Content-Language:
- Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
- b=JwOwCwijT1kVCiMMH7uWO3V38VR6sMEcYyvq67pbbu3hJ+DPHKUtnJqETyaxHWRIT
- m2xUbsYFpKxlfg5ce1M6aG2etyTc++fQlJpwIDZWLn2afx9gbk7WaClnMP3sVhQoZ8
- 6GX9VHqqwD16fLg9I8hpx/8ZVIUAUWLvE6NhWo/ec4JhNV5HDtMZvF+W1nUgdeeJgj
- Lf169WBQDhKmaXdFsKjUUEguegA0pS0aJO/LCDltQmzs+qKxkCMXJuxbSt9jQh2/0J
- MeNCr8rseweUGqS7xAMB0+C5n0ZbF66TmR81JNS1sc11HJPPRlRgDtnh3xYDv/DVXI
- oKrB4bDrDJhGw==
+Content-Disposition: inline
+In-Reply-To: <MW3PR11MB4555588F506D774990798A47E5100@MW3PR11MB4555.namprd11.prod.outlook.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9793
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ adultscore=0 bulkscore=0
+ mlxscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011030046
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9793
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
+ bulkscore=0 phishscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011030047
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,144 +80,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Jan Kara <jack@suse.cz>,
- Kees Cook <keescook@chromium.org>, kvm@vger.kernel.org, Jason
- Gunthorpe <jgg@ziepe.ca>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Hildenbrand <david@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-mm@kvack.org,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, lkp@lists.01.org,
- Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/2/20 10:06 PM, lkp wrote:
-> Greeting,
+On Mon, Nov 02, 2020 at 09:33:08PM +0000, Xiong, Jianxin wrote:
+> Hi Dan,
 > 
-> FYI, we noticed the following commit (built with gcc-9):
-> 
-> commit: 22b17dc667d36418ccabb9c668c4b489185fb40a ("[PATCH v5 13/15] resource: Move devmem revoke code to resource framework")
-> url: https://github.com/0day-ci/linux/commits/Daniel-Vetter/follow_pfn-and-other-iomap-races/20201030-181112
-> base: git://linuxtv.org/media_tree.git master
-> 
-> in testcase: fsmark
-> version: fsmark-x86_64-3.3-1_20201007
-> with following parameters:
-> 
-> 	iterations: 1x
-> 	nr_threads: 1t
-> 	disk: 1BRD_48G
-> 	fs: f2fs
-> 	fs2: nfsv4
-> 	filesize: 4M
-> 	test_size: 40G
-> 	sync_method: NoSync
-> 	cpufreq_governor: performance
-> 	ucode: 0x5002f01
-> 
-> test-description: The fsmark is a file system benchmark to test synchronous write workloads, for example, mail servers workload.
-> test-url: https://sourceforge.net/projects/fsmark/
-> 
-> 
-> on test machine: 192 threads Intel(R) Xeon(R) Platinum 9242 CPU @ 2.30GHz with 192G memory
-> 
-> caused below changes (please refer to attached dmesg/kmsg for entire log/backtrace):
-> 
+> Thanks for reporting the bug. I see what was missing. Am I supposed to submit a patch to
+> replace the original patch or just to fix this bug?
 > 
 
-Yep, this is the same crash that I saw. And the .config also has
+Once the patch has been applied, then it's too late to replace it.  Just
+send a patch to fix it.
 
-   # CONFIG_IO_STRICT_DEVMEM is not set
+regards,
+dan carpenter
 
-so it all makes sense.
-
-
-> If you fix the issue, kindly add following tag
-> Reported-by: kernel test robot <lkp@intel.com>
+> Jianxin 
 > 
-> 
-> [   28.644165] systemd[1]: RTC configured in localtime, applying delta of 0 minutes to system time.
-> 
-> [   28.699473] #PF: supervisor read access in kernel mode
-> [   28.704611] #PF: error_code(0x0000) - not-present page
-> [   28.709749] PGD 0 P4D 0
-> [   28.712291] Oops: 0000 [#1] SMP NOPTI
-> [   28.715956] CPU: 0 PID: 1 Comm: systemd Not tainted 5.10.0-rc1-00015-g22b17dc667d3 #1
-> [   28.723793] RIP: 0010:do_dentry_open+0x1c9/0x360
-> [   28.728410] Code: 84 82 01 00 00 81 ca 00 00 04 00 89 53 44 48 8b 83 f0 00 00 00 81 63 40 3f fc ff ff 48 8d bb 98 00 00 00 c7 43 34 00 00 00 00 <48> 8b 00 48 8b 70 30 e8 2b cb f4 ff f6 43 41 40 74 5a 48 8b 83 f0
-> [   28.747157] RSP: 0018:ffffc9000006fcc8 EFLAGS: 00010206
-> [   28.752380] RAX: 0000000000000000 RBX: ffff8881502ad400 RCX: 0000000000000000
-> [   28.759506] RDX: 00000000000a201d RSI: ffffffff8284d260 RDI: ffff8881502ad498
-> [   28.766639] RBP: ffff88a485a06490 R08: 0000000000000000 R09: ffffffff8284d260
-> [   28.773769] R10: ffffc9000006fcc8 R11: 756c6176006d656d R12: 0000000000000000
-> [   28.780895] R13: ffffffff8133ddc0 R14: ffff8881502ad410 R15: ffff8881502ad400
-> [   28.788028] FS:  00007ff54afa1940(0000) GS:ffff888c4f600000(0000) knlGS:0000000000000000
-> [   28.796113] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   28.801858] CR2: 0000000000000000 CR3: 0000000100120003 CR4: 00000000007706f0
-> [   28.808983] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [   28.816114] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> [   28.823239] PKRU: 55555554
-> [   28.825952] Call Trace:
-> [   28.828412]  path_openat+0xaa8/0x10a0
-> [   28.832073]  do_filp_open+0x91/0x100
-> [   28.835653]  ? acpi_os_wait_semaphore+0x48/0x80
-> [   28.840186]  ? __check_object_size+0x136/0x160
-> [   28.844631]  do_sys_openat2+0x20d/0x2e0
-> [   28.848470]  do_sys_open+0x44/0x80
-> [   28.851878]  do_syscall_64+0x33/0x40
-> [   28.855457]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [   28.860509] RIP: 0033:0x7ff54c1521ae
-> [   28.864086] Code: 25 00 00 41 00 3d 00 00 41 00 74 48 48 8d 05 59 65 0d 00 8b 00 85 c0 75 69 89 f2 b8 01 01 00 00 48 89 fe bf 9c ff ff ff 0f 05 <48> 3d 00 f0 ff ff 0f 87 a6 00 00 00 48 8b 4c 24 28 64 48 33 0c 25
-> [   28.882833] RSP: 002b:00007ffd1c9586d0 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-> [   28.890399] RAX: ffffffffffffffda RBX: 00007ffd1c9587d0 RCX: 00007ff54c1521ae
-> [   28.897531] RDX: 0000000000080000 RSI: 00007ff54bfa0e5a RDI: 00000000ffffff9c
-> [   28.904662] RBP: 00007ffd1c9587d8 R08: 000000000000021f R09: 000055f837cf4290
-> [   28.911796] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000056dd9000
-> [   28.918927] R13: 00000000ffffffff R14: 00007ffd1c9587d0 R15: 0000000000000002
-> [   28.926060] Modules linked in: ip_tables
-> [   28.929986] CR2: 0000000000000000
-> mDebian GNU/Linu
-> [   28.933416] ---[ end trace 94e4f9aa3df66098 ]---
-> [   28.939355] RIP: 0010:do_dentry_open+0x1c9/0x360
-> [   28.943975] Code: 84 82 01 00 00 81 ca 00 00 04 00 89 53 44 48 8b 83 f0 00 00 00 81 63 40 3f fc ff ff 48 8d bb 98 00 00 00 c7 43 34 00 00 00 00 <48> 8b 00 48 8b 70 30 e8 2b cb f4 ff f6 43 41 40 74 5a 48 8b 83 f0
-> [   28.962721] RSP: 0018:ffffc9000006fcc8 EFLAGS: 00010206
-> [   28.967948] RAX: 0000000000000000 RBX: ffff8881502ad400 RCX: 0000000000000000
-> [   28.975079] RDX: 00000000000a201d RSI: ffffffff8284d260 RDI: ffff8881502ad498
-> [   28.982211] RBP: ffff88a485a06490 R08: 0000000000000000 R09: ffffffff8284d260
-> [   28.989337] R10: ffffc9000006fcc8 R11: 756c6176006d656d R12: 0000000000000000
-> [   28.996467] R13: ffffffff8133ddc0 R14: ffff8881502ad410 R15: ffff8881502ad400
-> [   29.003592] FS:  00007ff54afa1940(0000) GS:ffff888c4f600000(0000) knlGS:0000000000000000
-> [   29.011668] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   29.017409] CR2: 0000000000000000 CR3: 0000000100120003 CR4: 00000000007706f0
-> [   29.024539] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [   29.031671] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> [   29.038804] PKRU: 55555554
-> [   29.041508] Kernel panic - not syncing: Fatal exception
-> ACPI MEMORY or I/O RESET_REG.
-> 
-> 
-> To reproduce:
-> 
->          git clone https://github.com/intel/lkp-tests.git
->          cd lkp-tests
->          bin/lkp install job.yaml  # job file is attached in this email
->          bin/lkp run     job.yaml
-> 
-> 
-> 
-> Thanks,
-> oliver.sang@intel.com
-> 
-
-thanks,
--- 
-John Hubbard
-NVIDIA
+> > -----Original Message-----
+> > From: Dan Carpenter <dan.carpenter@oracle.com>
+> > Sent: Monday, November 02, 2020 12:15 AM
+> > To: Xiong, Jianxin <jianxin.xiong@intel.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Subject: [bug report] dma-buf: Clarify that dma-buf sg lists are page aligned
+> > 
+> > Hello Jianxin Xiong,
+> > 
+> > The patch ac80cd17a615: "dma-buf: Clarify that dma-buf sg lists are page aligned" from Oct 14, 2020, leads to the following static checker
+> > warning:
+> > 
+> > 	drivers/dma-buf/dma-buf.c:917 dma_buf_map_attachment()
+> > 	error: 'sg_table' dereferencing possible ERR_PTR()
+> > 
+> > drivers/dma-buf/dma-buf.c
+> >    897          sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
+> >    898          if (!sg_table)
+> >    899                  sg_table = ERR_PTR(-ENOMEM);
+> >    900
+> >    901          if (IS_ERR(sg_table) && dma_buf_is_dynamic(attach->dmabuf) &&
+> >    902               !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+> >    903                  dma_buf_unpin(attach);
+> >    904
+> >    905          if (!IS_ERR(sg_table) && attach->dmabuf->ops->cache_sgt_mapping) {
+> >                     ^^^^^^^^^^^^^^^^^
+> > 
+> >    906                  attach->sgt = sg_table;
+> >    907                  attach->dir = direction;
+> >    908          }
+> >    909
+> >    910  #ifdef CONFIG_DMA_API_DEBUG
+> >    911          {
+> >    912                  struct scatterlist *sg;
+> >    913                  u64 addr;
+> >    914                  int len;
+> >    915                  int i;
+> >    916
+> >    917                  for_each_sgtable_dma_sg(sg_table, sg, i) {
+> >                                                 ^^^^^^^^^ Not checked here.
+> > 
+> >    918                          addr = sg_dma_address(sg);
+> >    919                          len = sg_dma_len(sg);
+> >    920                          if (!PAGE_ALIGNED(addr) || !PAGE_ALIGNED(len)) {
+> >    921                                  pr_debug("%s: addr %llx or len %x is not page aligned!\n",
+> >    922                                           __func__, addr, len);
+> >    923                          }
+> >    924                  }
+> >    925          }
+> >    926  #endif /* CONFIG_DMA_API_DEBUG */
+> > 
+> > regards,
+> > dan carpenter
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
