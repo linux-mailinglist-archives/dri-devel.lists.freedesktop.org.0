@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45792A3868
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:19:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97ED02A386A
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:19:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFD566E7D7;
-	Tue,  3 Nov 2020 01:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 540D76E7DA;
+	Tue,  3 Nov 2020 01:19:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECB446E7D1;
- Tue,  3 Nov 2020 01:19:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88C046E7DA;
+ Tue,  3 Nov 2020 01:19:14 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CD9E8223EA;
- Tue,  3 Nov 2020 01:19:10 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 83FCC223EA;
+ Tue,  3 Nov 2020 01:19:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604366351;
- bh=QIZEqvD2h/I2HvtgB4hTMz3vjJb6nXdCQk+CbZKlPBQ=;
+ s=default; t=1604366354;
+ bh=IAyK6rwbXaedPokaEbAQ1fGa2dVLGXqgJwZU377OoBg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=w9ayF3aMkYh8JXsS0JBMdnaS0ZK+HFVC/+WdNwOhBqRYD+lHYJges+7iglV9QeWKM
- PmeqfgkCQDRTWSfxqZG/+547rCUfSsq0822lvzjgHkkrwdeK7DaUadMBD2TYYDWr6Y
- bsEFb8r6xNg2OKsHMcC+Pl9adUa848VQZAKnuXdo=
+ b=VazkdwKeQSpbRuy7wwfADyG3nxIBuSUeDeQ7eo9fI8ti1U3rTG9fCZQT/3qCqiOKn
+ yVEysyo8ab6Un3ulZ0RYaXlDzP6u5dxTnDmf9U/a0sYn1At2EZCTp1NyYbdDxCHPq+
+ Q9Zt9OTjg6jiX8OpRXWEtk086yvT+OzlGeJ42s6o=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 23/35] drm/amd/display: Fixed panic during
- seamless boot.
-Date: Mon,  2 Nov 2020 20:18:28 -0500
-Message-Id: <20201103011840.182814-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.9 25/35] drm/amd/display: adding
+ ddc_gpio_vga_reg_list to ddc reg def'ns
+Date: Mon,  2 Nov 2020 20:18:30 -0500
+Message-Id: <20201103011840.182814-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201103011840.182814-1-sashal@kernel.org>
 References: <20201103011840.182814-1-sashal@kernel.org>
@@ -50,48 +50,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Galiffi <David.Galiffi@amd.com>,
- amd-gfx@lists.freedesktop.org, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
+ Martin Leung <martin.leung@amd.com>, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Galiffi <David.Galiffi@amd.com>
+From: Martin Leung <martin.leung@amd.com>
 
-[ Upstream commit 866e09f0110c6e86071954033e3067975946592a ]
+[ Upstream commit a1d2afc5dde29a943d32bf92eb0408c9f19541fc ]
 
-[why]
-get_pixel_clk_frequency_100hz is undefined in clock_source_funcs.
+why:
+oem-related ddc read/write fails without these regs
 
-[how]
-set function pointer: ".get_pixel_clk_frequency_100hz = get_pixel_clk_frequency_100hz"
+how:
+copy from hw_factory_dcn20.c
 
-Signed-off-by: David Galiffi <David.Galiffi@amd.com>
-Reviewed-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Signed-off-by: Martin Leung <martin.leung@amd.com>
 Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
-index 9cc65dc1970f8..49ae5ff12da63 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
-@@ -1149,7 +1149,8 @@ static uint32_t dcn3_get_pix_clk_dividers(
- static const struct clock_source_funcs dcn3_clk_src_funcs = {
- 	.cs_power_down = dce110_clock_source_power_down,
- 	.program_pix_clk = dcn3_program_pix_clk,
--	.get_pix_clk_dividers = dcn3_get_pix_clk_dividers
-+	.get_pix_clk_dividers = dcn3_get_pix_clk_dividers,
-+	.get_pixel_clk_frequency_100hz = get_pixel_clk_frequency_100hz
+diff --git a/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c b/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c
+index 7e7fb65721073..9d3665f88c523 100644
+--- a/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c
++++ b/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c
+@@ -117,6 +117,12 @@ static const struct ddc_registers ddc_data_regs_dcn[] = {
+ 	ddc_data_regs_dcn2(4),
+ 	ddc_data_regs_dcn2(5),
+ 	ddc_data_regs_dcn2(6),
++	{
++			DDC_GPIO_VGA_REG_LIST(DATA),
++			.ddc_setup = 0,
++			.phy_aux_cntl = 0,
++			.dc_gpio_aux_ctrl_5 = 0
++	}
  };
- #endif
- /*****************************************/
+ 
+ static const struct ddc_registers ddc_clk_regs_dcn[] = {
+@@ -126,6 +132,12 @@ static const struct ddc_registers ddc_clk_regs_dcn[] = {
+ 	ddc_clk_regs_dcn2(4),
+ 	ddc_clk_regs_dcn2(5),
+ 	ddc_clk_regs_dcn2(6),
++	{
++			DDC_GPIO_VGA_REG_LIST(CLK),
++			.ddc_setup = 0,
++			.phy_aux_cntl = 0,
++			.dc_gpio_aux_ctrl_5 = 0
++	}
+ };
+ 
+ static const struct ddc_sh_mask ddc_shift[] = {
 -- 
 2.27.0
 
