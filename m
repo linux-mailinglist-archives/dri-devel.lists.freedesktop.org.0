@@ -2,30 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DE82A445A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 12:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F9F2A4473
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 12:44:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07016EC6F;
-	Tue,  3 Nov 2020 11:35:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 716C66EB97;
+	Tue,  3 Nov 2020 11:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTP id 95B7B6EC6A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 11:35:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E45FAAC23;
- Tue,  3 Nov 2020 11:34:59 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: hdegoede@redhat.com, airlied@linux.ie, daniel@ffwll.ch, sean@poorly.run,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: [PATCH v3 2/2] drm/udl: Retrieve USB device from struct drm_device.dev
-Date: Tue,  3 Nov 2020 12:34:56 +0100
-Message-Id: <20201103113456.3066-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20201103113456.3066-1-tzimmermann@suse.de>
-References: <20201103113456.3066-1-tzimmermann@suse.de>
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F7B6EB97
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 11:44:32 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fa142a10000>; Tue, 03 Nov 2020 03:44:33 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Nov
+ 2020 11:44:30 +0000
+Received: from localhost.localdomain (10.124.1.5) by mail.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Tue, 3 Nov 2020 11:44:28 +0000
+From: Jon Hunter <jonathanh@nvidia.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH] drm/tegra: sor: Don't warn on probe deferral
+Date: Tue, 3 Nov 2020 11:44:26 +0000
+Message-ID: <20201103114426.546626-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-NVConfidentiality: public
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604403873; bh=rntxA0RjiInWM7/UTBNFjUV2RmVmdlOjNbvWUA83d2k=;
+ h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+ X-NVConfidentiality:Content-Transfer-Encoding:Content-Type;
+ b=GzuMlUZRznf3zmicrEnhFp66Z3L2nqtM0k2iO74oWhwGqAIK4e9MP8OCn9S97FDBY
+ xjosivdSGxtLe2svkx3zLl8NoEmxIu8pmWFug7k0JST6aEIyHPRASGayVM1O8oFENj
+ Ea6RqZkpJTvfwzGZ9zXPioLWjIsMy/azDvZX8LvBLPuwbw4tSXZ6tW5Ozgc/VZWTN4
+ EHMF2dhMVlwif71tCTsnqxJRZzG268oTyM4eYBwc4vQCUkx2IV4CshYublAk36Gr0Q
+ F9wxTQobiFqs4GB7ctFG3v7zwx2TaqKR7JRITffDNW60+bXwfo2ZlkFBjV+i3YDOnw
+ DhfO07VVuRYpw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,191 +52,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>,
+ linux-tegra@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the driver's udev field in favor of struct drm_device.dev. No
-functional changes made.
+Deferred probe is an expected return value for tegra_output_probe().
+Given that the driver deals with it properly, there's no need to output
+a warning that may potentially confuse users.
 
-v3:
-	* upcast dev with udl_to_usb_device()
-v2:
-	* upcast dev with drm_dev_get_usb_device()
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 ---
- drivers/gpu/drm/udl/udl_connector.c |  8 ++++----
- drivers/gpu/drm/udl/udl_drv.c       |  3 ---
- drivers/gpu/drm/udl/udl_drv.h       |  6 +++++-
- drivers/gpu/drm/udl/udl_main.c      | 23 ++++++++++++-----------
- 4 files changed, 21 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/tegra/sor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
-index cdc1c42e1669..3750fd216131 100644
---- a/drivers/gpu/drm/udl/udl_connector.c
-+++ b/drivers/gpu/drm/udl/udl_connector.c
-@@ -20,6 +20,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
- 	int ret, i;
- 	u8 *read_buff;
- 	struct udl_device *udl = data;
-+	struct usb_device *udev = udl_to_usb_device(udl);
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index e88a17c2937f..5a232055b8cc 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -3765,7 +3765,7 @@ static int tegra_sor_probe(struct platform_device *pdev)
  
- 	read_buff = kmalloc(2, GFP_KERNEL);
- 	if (!read_buff)
-@@ -27,10 +28,9 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
+ 	err = tegra_output_probe(&sor->output);
+ 	if (err < 0) {
+-		dev_err(&pdev->dev, "failed to probe output: %d\n", err);
++		dev_err_probe(&pdev->dev, "failed to probe output: %d\n", err);
+ 		return err;
+ 	}
  
- 	for (i = 0; i < len; i++) {
- 		int bval = (i + block * EDID_LENGTH) << 8;
--		ret = usb_control_msg(udl->udev,
--				      usb_rcvctrlpipe(udl->udev, 0),
--					  (0x02), (0x80 | (0x02 << 5)), bval,
--					  0xA1, read_buff, 2, HZ);
-+		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
-+				      0x02, (0x80 | (0x02 << 5)), bval,
-+				      0xA1, read_buff, 2, HZ);
- 		if (ret < 1) {
- 			DRM_ERROR("Read EDID byte %d failed err %x\n", i, ret);
- 			kfree(read_buff);
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index 96d4317a2c1b..993469d152da 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -53,7 +53,6 @@ static struct drm_driver driver = {
- 
- static struct udl_device *udl_driver_create(struct usb_interface *interface)
- {
--	struct usb_device *udev = interface_to_usbdev(interface);
- 	struct udl_device *udl;
- 	int r;
- 
-@@ -62,8 +61,6 @@ static struct udl_device *udl_driver_create(struct usb_interface *interface)
- 	if (IS_ERR(udl))
- 		return udl;
- 
--	udl->udev = udev;
--
- 	r = udl_init(udl);
- 	if (r)
- 		return ERR_PTR(r);
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index b1461f30780b..875e73551ae9 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -50,7 +50,6 @@ struct urb_list {
- struct udl_device {
- 	struct drm_device drm;
- 	struct device *dev;
--	struct usb_device *udev;
- 
- 	struct drm_simple_display_pipe display_pipe;
- 
-@@ -66,6 +65,11 @@ struct udl_device {
- 
- #define to_udl(x) container_of(x, struct udl_device, drm)
- 
-+static inline struct usb_device *udl_to_usb_device(struct udl_device *udl)
-+{
-+	return interface_to_usbdev(to_usb_interface(udl->drm.dev));
-+}
-+
- /* modeset */
- int udl_modeset_init(struct drm_device *dev);
- struct drm_connector *udl_connector_init(struct drm_device *dev);
-diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-index f5d27f2a5654..0e2a376cb075 100644
---- a/drivers/gpu/drm/udl/udl_main.c
-+++ b/drivers/gpu/drm/udl/udl_main.c
-@@ -26,10 +26,9 @@
- #define GET_URB_TIMEOUT	HZ
- #define FREE_URB_TIMEOUT (HZ*2)
- 
--static int udl_parse_vendor_descriptor(struct drm_device *dev,
--				       struct usb_device *usbdev)
-+static int udl_parse_vendor_descriptor(struct udl_device *udl)
- {
--	struct udl_device *udl = to_udl(dev);
-+	struct usb_device *udev = udl_to_usb_device(udl);
- 	char *desc;
- 	char *buf;
- 	char *desc_end;
-@@ -41,7 +40,7 @@ static int udl_parse_vendor_descriptor(struct drm_device *dev,
- 		return false;
- 	desc = buf;
- 
--	total_len = usb_get_descriptor(usbdev, 0x5f, /* vendor specific */
-+	total_len = usb_get_descriptor(udev, 0x5f, /* vendor specific */
- 				    0, desc, MAX_VENDOR_DESCRIPTOR_SIZE);
- 	if (total_len > 5) {
- 		DRM_INFO("vendor descriptor length:%x data:%11ph\n",
-@@ -98,19 +97,20 @@ static int udl_parse_vendor_descriptor(struct drm_device *dev,
-  */
- static int udl_select_std_channel(struct udl_device *udl)
- {
--	int ret;
- 	static const u8 set_def_chn[] = {0x57, 0xCD, 0xDC, 0xA7,
- 					 0x1C, 0x88, 0x5E, 0x15,
- 					 0x60, 0xFE, 0xC6, 0x97,
- 					 0x16, 0x3D, 0x47, 0xF2};
-+
- 	void *sendbuf;
-+	int ret;
-+	struct usb_device *udev = udl_to_usb_device(udl);
- 
- 	sendbuf = kmemdup(set_def_chn, sizeof(set_def_chn), GFP_KERNEL);
- 	if (!sendbuf)
- 		return -ENOMEM;
- 
--	ret = usb_control_msg(udl->udev,
--			      usb_sndctrlpipe(udl->udev, 0),
-+	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
- 			      NR_USB_REQUEST_CHANNEL,
- 			      (USB_DIR_OUT | USB_TYPE_VENDOR), 0, 0,
- 			      sendbuf, sizeof(set_def_chn),
-@@ -202,6 +202,7 @@ static int udl_alloc_urb_list(struct drm_device *dev, int count, size_t size)
- 	struct urb_node *unode;
- 	char *buf;
- 	size_t wanted_size = count * size;
-+	struct usb_device *udev = udl_to_usb_device(udl);
- 
- 	spin_lock_init(&udl->urbs.lock);
- 
-@@ -229,7 +230,7 @@ static int udl_alloc_urb_list(struct drm_device *dev, int count, size_t size)
- 		}
- 		unode->urb = urb;
- 
--		buf = usb_alloc_coherent(udl->udev, size, GFP_KERNEL,
-+		buf = usb_alloc_coherent(udev, size, GFP_KERNEL,
- 					 &urb->transfer_dma);
- 		if (!buf) {
- 			kfree(unode);
-@@ -243,8 +244,8 @@ static int udl_alloc_urb_list(struct drm_device *dev, int count, size_t size)
- 		}
- 
- 		/* urb->transfer_buffer_length set to actual before submit */
--		usb_fill_bulk_urb(urb, udl->udev, usb_sndbulkpipe(udl->udev, 1),
--			buf, size, udl_urb_completion, unode);
-+		usb_fill_bulk_urb(urb, udev, usb_sndbulkpipe(udev, 1),
-+				  buf, size, udl_urb_completion, unode);
- 		urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
- 
- 		list_add_tail(&unode->entry, &udl->urbs.list);
-@@ -316,7 +317,7 @@ int udl_init(struct udl_device *udl)
- 
- 	mutex_init(&udl->gem_lock);
- 
--	if (!udl_parse_vendor_descriptor(dev, udl->udev)) {
-+	if (!udl_parse_vendor_descriptor(udl)) {
- 		ret = -ENODEV;
- 		DRM_ERROR("firmware not recognized. Assume incompatible device\n");
- 		goto err;
 -- 
-2.29.0
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
