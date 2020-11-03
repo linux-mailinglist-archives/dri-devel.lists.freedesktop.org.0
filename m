@@ -2,47 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B932A59DC
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 23:15:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8AB2A59F3
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 23:18:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 582FC6E904;
-	Tue,  3 Nov 2020 22:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F24746E90D;
+	Tue,  3 Nov 2020 22:18:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1CD6E904
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 22:15:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604441725;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=SXIMwG+24v0kPGbcpgSikfVX/4K8JgtSXH6lhtDLzEo=;
- b=VpWUt+9pjvA88nFEUqeyCF9yjZrgWqazWcIk/CBjBTXKHG4rLjwCDs5v1c8D19aWSSAhn7
- 1QAB50G4z+SYI2VG5Os4BzGzwmdYrzp65AE3L9v81ydFTEkPzYYByFGJ8gcU2T605Epc6Z
- 7JQYKgShRrgnmUgAsKUPP+1NlXovYkE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-UmyNEj-5PHqDzrZS2RN4Wg-1; Tue, 03 Nov 2020 17:15:22 -0500
-X-MC-Unique: UmyNEj-5PHqDzrZS2RN4Wg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A11A7803F46;
- Tue,  3 Nov 2020 22:15:19 +0000 (UTC)
-Received: from Whitewolf.lyude.net (ovpn-119-236.rdu2.redhat.com
- [10.10.119.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E505960BF1;
- Tue,  3 Nov 2020 22:15:14 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/edid: Fix uninitialized variable in drm_cvt_modes()
-Date: Tue,  3 Nov 2020 17:15:10 -0500
-Message-Id: <20201103221510.575827-1-lyude@redhat.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D7C46E90C;
+ Tue,  3 Nov 2020 22:18:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ly5FOKLg4umd2zhbCBiZ0tNDOAJsM5STe+gVvXvdr0MI2OegfYug8wyARx/0f/7zQOxod6ayNU0zDXNlDXk9OLmWH3UWB9Pz6c27DzwOr4TP9tubkj/VSR7D0qNvNpyZasFl3d3uIGq+PH8YDkQxXyZe1xaVHCWh4EnMmIu6Ie/IqvqR0WLWcFsuFQ3AAswz3qKn6I9oITHP3Oka6KlC6DLeMIEXynnMyiva5bGYurjnW40nqFJu3EHvDmUVi0IQFhKaRCyDglACXy80opdutDxGiGt8iWasav0ehpDtIsi8+9Ai7YOoT3zkNbge8TZQxfNy+1Os0dl2+mgmSmPVTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3KoQpjHiJSesvatha777R3L8rqz9wbPwhaMGhEn5TBY=;
+ b=lAxWfqmuFZCCu5mg01u3ZHQR/StCoBI4eftmwhbANC7k5MCRMpvVcpkreLSQmCwZpjJykH04FoGqa6q+CfJj1KNB8dPDGe6+JsuEmv3StgJ8DYuRsvAbpQ0Oau+ERPLytX/+UdLLqYTGlIykwi9nbh/8po8eSOEkVGBWBDYGd/FbM9i1EuoCek5HvhgcyGeJ3ud0/Ha2eFeyIH40Xk+WpOCLEij6jqp8VBzbmtsbV5KReM7j6yZWKMgH57XdtUzS2cyR/3MlA8QyHyp5XH3K+p8slCN+YSBzIvL7GnrKxDXfSSl+IozoZIjVk38ue3dtEI3uDiPIEJ5YsFkJmULzWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3KoQpjHiJSesvatha777R3L8rqz9wbPwhaMGhEn5TBY=;
+ b=mJquWZTe9W9tB79DJkqoDBg+jkjEESd3uXWFeJk7raMJ7pDoZag/6NNX1ABkdiLZzQScBDUX/fNNsAhn1+KlN2YUMSq1kZEGV5+J67Ri6iNUgl1mDKdInHMNwXiDye37Nt9CvlTEz9FkiBZG0tf5aeEgBBFq+JeuGN8iDGe1HeA=
+Authentication-Results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com (2603:10b6:5:1ce::21)
+ by DM5PR12MB1356.namprd12.prod.outlook.com (2603:10b6:3:74::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.29; Tue, 3 Nov
+ 2020 22:18:45 +0000
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::935:a67:59f8:7067]) by DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::935:a67:59f8:7067%7]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
+ 22:18:45 +0000
+Subject: Re: [PATCH] drm/amdgpu/virt: fix handling of the atomic flag
+To: Alex Deucher <alexdeucher@gmail.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20201103215450.815572-1-alexander.deucher@amd.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+Message-ID: <4a8ad93c-d090-c3b4-3ca6-bddd7912efe1@amd.com>
+Date: Tue, 3 Nov 2020 17:18:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+In-Reply-To: <20201103215450.815572-1-alexander.deucher@amd.com>
+Content-Language: en-GB
+X-Originating-IP: [165.204.55.250]
+X-ClientProxiedBy: YT1PR01CA0031.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::44)
+ To DM6PR12MB3962.namprd12.prod.outlook.com
+ (2603:10b6:5:1ce::21)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (165.204.55.250) by
+ YT1PR01CA0031.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::44) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.19 via Frontend Transport; Tue, 3 Nov 2020 22:18:45 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 189023db-8728-4abf-fa37-08d880466ddf
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1356:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1356BD67D37686250767840999110@DM5PR12MB1356.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MH+twBZjpX+0PUZ6Y5WVzxfMzVMljVtFmP+k0OZoBPMyTD43ZnOmOL7OlFB+64X8UzSCLhJPlWBcPCooGYUHSZzrDOCXbqRWTaEK9nw2fR+EDcUQ/qfOF9rgOHKqT31KsdWuCzpUh501nPRoBB2Rn9o5vGGetiOExCbg5o1JKvLCeKI0MWh/s9R/vliXWaLi3WoNy+89KaFdW3cY+BVIqfUvLQhqyIx1ZT5t4ec5MyyIfPo+/SdDDZI/TfaTxKw9kUSeePgqgIajujNFqJKf6rjVhQe7EWsqCBt3GfOChPVns3EsZk3eI1FMYkN8NSI+j7wal1V1+9nMeEovRI8cKETM19LoV2iKapJ7SHlIFqpZRZzaleI33/tcq3t4qhHY
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3962.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(346002)(396003)(366004)(39860400002)(2906002)(6512007)(8676002)(5660300002)(4326008)(31696002)(6506007)(86362001)(8936002)(31686004)(53546011)(52116002)(6486002)(478600001)(36756003)(26005)(66556008)(66946007)(83380400001)(66476007)(956004)(186003)(44832011)(2616005)(316002)(16526019)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: Lddgu1U8I9tcPuP2R/tntgQ9s3nzA4x6yVq0t/bTTk5PeYYYPSezuMPXYajdu4JyBex9QzDJqjup4EJ4daHKAtRbgnaB7KeftaTHJbTy+v8Xqe+poaZYjH5GabJHobSzkziGVtHfm+7XzXMnu1COuLHdrns/YKC1k56eV3oE7DPru7uQhVqsMX40BFqfxtqmmSdjxsDZTrSdliXZJW+8pTaiZv7Kknl4s/joKdHRxudWnJTQO91HE5CpkjnE0QwHRCqCJ8ZQeQWzvZIdH0Vg/JKGVqFx+fWbmYbbqnympZpYYWgd1YmgPi3BaU3Gsgja0XHThQOIG2FJkubNZcmPWvKAVBCEL9TzJLZMdrQwaKaNfONa3wT9J4cmS3m9FUzlyxgXM9PmAD0TXd7la5iVrBLzv95t1cd9CuNUFyHUO/LX1rADqAYNRQMwohZiqA7o6ugy3baX74CGCFE6h6/7FGmhhWV7I3lasL9IRVmbpNERsTJOtY8EjdsPkbTQUBIvTaUoPXL9PSps5D2RVhHli6Hf2DvHyHQhwG7lEjmvuxqcb77GiR2MI1HCzUMeNwBUkWUyEehG0apn7YLX7igfkBfa9b6tKIhY0YhF/H1Z9U1DMlyaRSoW0y5doWd8hMx132eHZvvMVpHcPM7QAugjsA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 189023db-8728-4abf-fa37-08d880466ddf
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3962.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 22:18:45.5374 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uXVjAC9lCsWkMkfvcwd3lub/bX41uSixDT6KM+hbWwXrUzZNVupaYhsLOe2oHVOv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1356
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,65 +97,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, David Airlie <airlied@linux.ie>,
- Chao Yu <chao@kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Kalle Valo <kvalo@codeaurora.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Kees Cook <keescook@chromium.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>, daniel.vetter@ffwll.ch
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Noticed this when trying to compile with -Wall on a kernel fork. We potentially
-don't set width here, which causes the compiler to complain about width
-potentially being uninitialized in drm_cvt_modes(). So, let's fix that.
+On 2020-11-03 4:54 p.m., Alex Deucher wrote:
+> Use the per device drm driver feature flags rather than the
+> global one.  This way we can make the drm driver struct const.
+> 
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 
-Changes since v1:
-* Don't emit an error as this code isn't reachable, just mark it as such
+Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
+Yeah, that's a good change.
 
-Cc: <stable@vger.kernel.org> # v5.9+
-Fixes: 3f649ab728cd ("treewide: Remove uninitialized_var() usage")
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/drm_edid.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Regards,
+Luben
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 631125b46e04..0643b98c6383 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3094,6 +3094,7 @@ static int drm_cvt_modes(struct drm_connector *connector,
- 
- 	for (i = 0; i < 4; i++) {
- 		int width, height;
-+		u8 cvt_aspect_ratio;
- 
- 		cvt = &(timing->data.other_data.data.cvt[i]);
- 
-@@ -3101,7 +3102,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
- 			continue;
- 
- 		height = (cvt->code[0] + ((cvt->code[1] & 0xf0) << 4) + 1) * 2;
--		switch (cvt->code[1] & 0x0c) {
-+		cvt_aspect_ratio = cvt->code[1] & 0x0c;
-+		switch (cvt_aspect_ratio) {
- 		case 0x00:
- 			width = height * 4 / 3;
- 			break;
-@@ -3114,6 +3116,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
- 		case 0x0c:
- 			width = height * 15 / 9;
- 			break;
-+		default:
-+			unreachable();
- 		}
- 
- 		for (j = 1; j < 5; j++) {
--- 
-2.28.0
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+> index d0aea5e39531..8aff6ef50f91 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
+> @@ -47,11 +47,13 @@ bool amdgpu_virt_mmio_blocked(struct amdgpu_device *adev)
+>  
+>  void amdgpu_virt_init_setting(struct amdgpu_device *adev)
+>  {
+> +	struct drm_device *ddev = adev_to_drm(adev);
+> +
+>  	/* enable virtual display */
+>  	if (adev->mode_info.num_crtc == 0)
+>  		adev->mode_info.num_crtc = 1;
+>  	adev->enable_virtual_display = true;
+> -	adev_to_drm(adev)->driver->driver_features &= ~DRIVER_ATOMIC;
+> +	ddev->driver_features &= ~DRIVER_ATOMIC;
+>  	adev->cg_flags = 0;
+>  	adev->pg_flags = 0;
+>  }
+> 
 
 _______________________________________________
 dri-devel mailing list
