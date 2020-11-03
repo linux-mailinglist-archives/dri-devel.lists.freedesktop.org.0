@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473D52A38A3
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:20:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5F92A38A5
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:20:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E366E81E;
-	Tue,  3 Nov 2020 01:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8902F6E81C;
+	Tue,  3 Nov 2020 01:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1246E7D1
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 01:20:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 005846E81C;
+ Tue,  3 Nov 2020 01:20:26 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 620D422447;
- Tue,  3 Nov 2020 01:20:20 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B0E3522450;
+ Tue,  3 Nov 2020 01:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604366421;
- bh=gLHIgoD2vt9hPiX3wLzXW2G/zO/wNF9ivi/BFLeyUOg=;
+ s=default; t=1604366426;
+ bh=w3XSLbQKJ+HIL3jkeZ8JuUVfadS9KyAHq1LR8TcQRkU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u9cY/0viONAI6LOhVSFdTyZn/LkGO1/keGs+NaqzHU2iMH86itzGnfyqtZE7Cq+7e
- oR3V1nBN62NgjM0+7ysLXEmsTu8l6PJ7bulxQRDMELG+hzH60Lj7qJlLbh+hUkO6uT
- A3vEgXrJJQjKnoBqrjT2VC0131BaN7AmLn46wCzg=
+ b=niLL1ujX8yUHr/cyu+j7P2xoRZijWG51zwCVU3+3+V+Tsc3EEyIPWCjNzT9f8Q6yf
+ 1J/yCTKmF+xAa5/DSnRfkcJEI4trNT95z7Nzi7tHUQotx0pkYqJzDBYrTBBQh0b56G
+ JOK9cV2vOjgKJjTqkZfl5clEFeg6ltLs/hGxMfEg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 10/24] drm/sun4i: frontend: Fix the scaler phase
- on A33
-Date: Mon,  2 Nov 2020 20:19:53 -0500
-Message-Id: <20201103012007.183429-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 14/24] drm/amdgpu: add DID for navi10 blockchain
+ SKU
+Date: Mon,  2 Nov 2020 20:19:57 -0500
+Message-Id: <20201103012007.183429-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201103012007.183429-1-sashal@kernel.org>
 References: <20201103012007.183429-1-sashal@kernel.org>
@@ -50,42 +50,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Guchun Chen <guchun.chen@amd.com>,
+ "Tianci.Yin" <tianci.yin@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard <maxime@cerno.tech>
+From: "Tianci.Yin" <tianci.yin@amd.com>
 
-[ Upstream commit e3190b5e9462067714d267c40d8c8c1d0463dda3 ]
+[ Upstream commit 8942881144a7365143f196f5eafed24783a424a3 ]
 
-The A33 has a different phase parameter in the Allwinner BSP on the
-channel1 than the one currently applied. Fix this.
-
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Acked-by: Jernej Skrabec <jernej.skrabec@siol.net>
-Link: https://patchwork.freedesktop.org/patch/msgid/20201015093642.261440-3-maxime@cerno.tech
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Guchun Chen <guchun.chen@amd.com>
+Signed-off-by: Tianci.Yin <tianci.yin@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun4i_frontend.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-index c4959d9e16391..7186ba73d8e14 100644
---- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-@@ -694,7 +694,7 @@ static const struct sun4i_frontend_data sun4i_a10_frontend = {
- };
- 
- static const struct sun4i_frontend_data sun8i_a33_frontend = {
--	.ch_phase		= { 0x400, 0x400 },
-+	.ch_phase		= { 0x400, 0xfc400 },
- 	.has_coef_access_ctrl	= true,
- };
- 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index fa2c0f29ad4de..e8e1720104160 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -1011,6 +1011,7 @@ static const struct pci_device_id pciidlist[] = {
+ 	{0x1002, 0x7319, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
+ 	{0x1002, 0x731A, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
+ 	{0x1002, 0x731B, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
++	{0x1002, 0x731E, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
+ 	{0x1002, 0x731F, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
+ 	/* Navi14 */
+ 	{0x1002, 0x7340, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI14},
 -- 
 2.27.0
 
