@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97ED02A386A
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:19:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9182A3870
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:19:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 540D76E7DA;
-	Tue,  3 Nov 2020 01:19:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73A5E6E14F;
+	Tue,  3 Nov 2020 01:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88C046E7DA;
- Tue,  3 Nov 2020 01:19:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEA026E14F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 01:19:20 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 83FCC223EA;
- Tue,  3 Nov 2020 01:19:13 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id F0F7B223C7;
+ Tue,  3 Nov 2020 01:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604366354;
- bh=IAyK6rwbXaedPokaEbAQ1fGa2dVLGXqgJwZU377OoBg=;
+ s=default; t=1604366360;
+ bh=oXlw0sds8OBpAbuRT1r3BD4nyWUh0fJiKDc4ixL3VTo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VazkdwKeQSpbRuy7wwfADyG3nxIBuSUeDeQ7eo9fI8ti1U3rTG9fCZQT/3qCqiOKn
- yVEysyo8ab6Un3ulZ0RYaXlDzP6u5dxTnDmf9U/a0sYn1At2EZCTp1NyYbdDxCHPq+
- Q9Zt9OTjg6jiX8OpRXWEtk086yvT+OzlGeJ42s6o=
+ b=fPKzYLcGgAlwAdX3OKFECL+HF8AbnU/3HpG4gm2VTdd6vLlI+3ElWc6uClaoYYD37
+ LRTJ66obn8K14vOjZdWFStluMT0t+BZ3lsYjH6uhqz9dAITqPuLwmXgk45gD4258ul
+ 01+8fz/8gp7DDw3unIxAfLsLwElgkytNCU8Gp+xs=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 25/35] drm/amd/display: adding
- ddc_gpio_vga_reg_list to ddc reg def'ns
-Date: Mon,  2 Nov 2020 20:18:30 -0500
-Message-Id: <20201103011840.182814-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.9 30/35] drm/vc4: drv: Add error handding for bind
+Date: Mon,  2 Nov 2020 20:18:35 -0500
+Message-Id: <20201103011840.182814-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201103011840.182814-1-sashal@kernel.org>
 References: <20201103011840.182814-1-sashal@kernel.org>
@@ -50,62 +49,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
- Martin Leung <martin.leung@amd.com>, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Leung <martin.leung@amd.com>
+From: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 
-[ Upstream commit a1d2afc5dde29a943d32bf92eb0408c9f19541fc ]
+[ Upstream commit 9ce0af3e9573fb84c4c807183d13ea2a68271e4b ]
 
-why:
-oem-related ddc read/write fails without these regs
+There is a problem that if vc4_drm bind fails, a memory leak occurs on
+the drm_property_create side. Add error handding for drm_mode_config.
 
-how:
-copy from hw_factory_dcn20.c
-
-Signed-off-by: Martin Leung <martin.leung@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20201027041442.30352-2-hoegeun.kwon@samsung.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/vc4/vc4_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c b/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c
-index 7e7fb65721073..9d3665f88c523 100644
---- a/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c
-+++ b/drivers/gpu/drm/amd/display/dc/gpio/dcn30/hw_factory_dcn30.c
-@@ -117,6 +117,12 @@ static const struct ddc_registers ddc_data_regs_dcn[] = {
- 	ddc_data_regs_dcn2(4),
- 	ddc_data_regs_dcn2(5),
- 	ddc_data_regs_dcn2(6),
-+	{
-+			DDC_GPIO_VGA_REG_LIST(DATA),
-+			.ddc_setup = 0,
-+			.phy_aux_cntl = 0,
-+			.dc_gpio_aux_ctrl_5 = 0
-+	}
- };
- 
- static const struct ddc_registers ddc_clk_regs_dcn[] = {
-@@ -126,6 +132,12 @@ static const struct ddc_registers ddc_clk_regs_dcn[] = {
- 	ddc_clk_regs_dcn2(4),
- 	ddc_clk_regs_dcn2(5),
- 	ddc_clk_regs_dcn2(6),
-+	{
-+			DDC_GPIO_VGA_REG_LIST(CLK),
-+			.ddc_setup = 0,
-+			.phy_aux_cntl = 0,
-+			.dc_gpio_aux_ctrl_5 = 0
-+	}
- };
- 
- static const struct ddc_sh_mask ddc_shift[] = {
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 38343d2fb4fb4..f6995e7f6eb6e 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -310,6 +310,7 @@ static int vc4_drm_bind(struct device *dev)
+ 	component_unbind_all(dev, drm);
+ gem_destroy:
+ 	vc4_gem_destroy(drm);
++	drm_mode_config_cleanup(drm);
+ 	vc4_bo_cache_destroy(drm);
+ dev_put:
+ 	drm_dev_put(drm);
 -- 
 2.27.0
 
