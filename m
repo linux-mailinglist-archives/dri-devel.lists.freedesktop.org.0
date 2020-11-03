@@ -2,37 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE6B2A3B14
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 04:38:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D87B2A3B59
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 05:14:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C3E6E155;
-	Tue,  3 Nov 2020 03:38:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F7206E082;
+	Tue,  3 Nov 2020 04:14:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E57A6E82F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 03:38:05 +0000 (UTC)
-IronPort-SDR: vUq5qprJXc8qUkN7stxoXHzI4T0MasP97s728nmF/XDoBAZUrMvuDaIs9u5Rii6kBp+8lSUMFf
- InKVRifI/TUw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="233163225"
-X-IronPort-AV: E=Sophos;i="5.77,446,1596524400"; d="scan'208";a="233163225"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2020 19:38:04 -0800
-IronPort-SDR: YZtzvHiXwGgrng1OEHaydIOog74tass7MzRCPiqTDyZrXzNcRMvU0R5aab09MRZwM1DtkM3Oc3
- OIeXfcIl/3KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,446,1596524400"; d="scan'208";a="325087546"
-Received: from cst-dev.jf.intel.com ([10.23.221.69])
- by orsmga006.jf.intel.com with ESMTP; 02 Nov 2020 19:38:04 -0800
-From: Jianxin Xiong <jianxin.xiong@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dma-buf: Fix static checker warning
-Date: Mon,  2 Nov 2020 19:51:58 -0800
-Message-Id: <1604375518-145511-1-git-send-email-jianxin.xiong@intel.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from smtprelay.hostedemail.com (smtprelay0228.hostedemail.com
+ [216.40.44.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9B696E082
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 04:14:24 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id 3C52818223256;
+ Tue,  3 Nov 2020 04:14:23 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2693:2828:2893:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3872:3874:4321:5007:6119:6737:6738:6742:7576:7903:8603:10004:10400:10848:11232:11658:11914:12048:12297:12740:12760:12895:13069:13160:13229:13311:13357:13439:14181:14659:14721:21080:21451:21611:21627:21740:30054:30070:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:2, LUA_SUMMARY:none
+X-HE-Tag: low21_3f05160272b5
+X-Filterd-Recvd-Size: 2781
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf05.hostedemail.com (Postfix) with ESMTPA;
+ Tue,  3 Nov 2020 04:14:17 +0000 (UTC)
+Message-ID: <21d80265fccfcb5d76851c84d1c2d88e0421ab85.camel@perches.com>
+Subject: Re: [PATCH v2 0/8] slab: provide and use krealloc_array()
+From: Joe Perches <joe@perches.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>,  Gustavo Padovan <gustavo@padovan.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Borislav Petkov <bp@alien8.de>, Tony
+ Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>, Robert
+ Richter <rric@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Linus Walleij
+ <linus.walleij@linaro.org>,  "Michael S . Tsirkin" <mst@redhat.com>, Jason
+ Wang <jasowang@redhat.com>, Christoph Lameter <cl@linux.com>, Pekka Enberg
+ <penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
+ <iamjoonsoo.kim@lge.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Date: Mon, 02 Nov 2020 20:14:16 -0800
+In-Reply-To: <20201102152037.963-1-brgl@bgdev.pl>
+References: <20201102152037.963-1-brgl@bgdev.pl>
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,44 +65,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
-MIME-Version: 1.0
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-gpio@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-media@vger.kernel.org,
+ linux-edac@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Here is the warning message:
+On Mon, 2020-11-02 at 16:20 +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> 
+> Andy brought to my attention the fact that users allocating an array of
+> equally sized elements should check if the size multiplication doesn't
+> overflow. This is why we have helpers like kmalloc_array().
+> 
+> However we don't have krealloc_array() equivalent and there are many
+> users who do their own multiplication when calling krealloc() for arrays.
+> 
+> This series provides krealloc_array() and uses it in a couple places.
 
-	drivers/dma-buf/dma-buf.c:917 dma_buf_map_attachment()
-	error: 'sg_table' dereferencing possible ERR_PTR()
+My concern about this is a possible assumption that __GFP_ZERO will
+work, and as far as I know, it will not.
 
-Fix by adding error checking before dereferencing the pointer.
-
-Fixes: ac80cd17a615 ("dma-buf: Clarify that dma-buf sg lists are page aligned")
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
----
- drivers/dma-buf/dma-buf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 556f62e..0eb80c1 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -908,7 +908,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
- 	}
- 
- #ifdef CONFIG_DMA_API_DEBUG
--	{
-+	if (!IS_ERR(sg_table)) {
- 		struct scatterlist *sg;
- 		u64 addr;
- 		int len;
--- 
-1.8.3.1
 
 _______________________________________________
 dri-devel mailing list
