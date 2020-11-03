@@ -2,30 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFCB2A4278
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 11:37:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE452A41E7
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 11:31:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9B3A6EC5E;
-	Tue,  3 Nov 2020 10:37:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD616EC16;
+	Tue,  3 Nov 2020 10:31:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTP id BF7DB6E0A2
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 10:37:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1BC62AD09;
- Tue,  3 Nov 2020 10:37:00 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: hdegoede@redhat.com, airlied@linux.ie, daniel@ffwll.ch, sean@poorly.run,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: [PATCH v2 3/3] drm/udl: Retrieve USB device from struct drm_device.dev
-Date: Tue,  3 Nov 2020 11:36:56 +0100
-Message-Id: <20201103103656.17768-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20201103103656.17768-1-tzimmermann@suse.de>
-References: <20201103103656.17768-1-tzimmermann@suse.de>
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 975C46EC16
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 10:31:21 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20201103103119epoutp04a85e2b48948c6f15110fac2b368a916b~D_NN3KcON0777207772epoutp04H
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 10:31:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20201103103119epoutp04a85e2b48948c6f15110fac2b368a916b~D_NN3KcON0777207772epoutp04H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1604399479;
+ bh=FW4v5Qk+v0rEB3R/uVy5H75voYSsQhwx6F256sIO5Vk=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=Cb1guEW6V/c1PPxGlW5E7v0b4qZ80+fL9lUMb4Ue0Mc8uxvDHq9p1XLneWOzFQpKZ
+ Rj0dIhnvbQXO8WCgU4MjAdUaSRqmLUZw0b3JikmxFxmX4EGDTGP1psEvLA072vjkmb
+ nBBO2it2hRWcBJRi8LGlxwgCBeObrXWmvXRzOAPY=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20201103103118epcas1p2dff3d380e9e3f7a5aafb8effa2c4eb95~D_NNaz_HY1937119371epcas1p29;
+ Tue,  3 Nov 2020 10:31:18 +0000 (GMT)
+Received: from epsmges1p5.samsung.com (unknown [182.195.40.157]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4CQR042j80zMqYkY; Tue,  3 Nov
+ 2020 10:31:16 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
+ DD.1B.09577.47131AF5; Tue,  3 Nov 2020 19:31:16 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20201103103115epcas1p43681a136582c659db56bcb9d13b5af35~D_NKbm0cU1841018410epcas1p4v;
+ Tue,  3 Nov 2020 10:31:15 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20201103103115epsmtrp214d83039b80e993159fa9bf99aa08989~D_NKavn-Y2534225342epsmtrp2R;
+ Tue,  3 Nov 2020 10:31:15 +0000 (GMT)
+X-AuditID: b6c32a39-c13ff70000002569-55-5fa1317465aa
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ A5.5B.08745.37131AF5; Tue,  3 Nov 2020 19:31:15 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20201103103115epsmtip22f3e2821c707d5a32a84c9c4b3114954~D_NKHX9DZ0628706287epsmtip21;
+ Tue,  3 Nov 2020 10:31:15 +0000 (GMT)
+Subject: Re: [PATCH v7 3/6] PM / devfreq: exynos-bus: Add registration of
+ interconnect child device
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>, georgi.djakov@linaro.org,
+ krzk@kernel.org
+From: Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <522dd3d8-7c76-92c6-ab1e-7e04797b3e9f@samsung.com>
+Date: Tue, 3 Nov 2020 19:45:13 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+ Thunderbird/59.0
 MIME-Version: 1.0
+In-Reply-To: <20201030125149.8227-4-s.nawrocki@samsung.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLJsWRmVeSWpSXmKPExsWy7bCmgW6J4cJ4g+Z/Ahb357UyWmycsZ7V
+ Yv6Rc6wWV76+Z7OYvncTm8Wk+xNYLM6f38BucXnXHDaLz71HGC1mnN/HZLH2yF12i9uNK9gs
+ WvceYbc4/Kad1WLG5JdsDvwem1Z1snncubaHzeN+93Emj74tqxg9Pm+SC2CNyrbJSE1MSS1S
+ SM1Lzk/JzEu3VfIOjneONzUzMNQ1tLQwV1LIS8xNtVVy8QnQdcvMATpXSaEsMacUKBSQWFys
+ pG9nU5RfWpKqkJFfXGKrlFqQklNgWaBXnJhbXJqXrpecn2tlaGBgZApUmJCd8fbBVsaCE8IV
+ PU+mMjcwHufvYuTkkBAwkVj4djpbFyMXh5DADkaJXS/+QzmfGCVuLpjCBOF8ZpT4tu89excj
+ B1hL8087iPguRonmNZegit4zSty+tIQNZK6wQKrE0undjCANIgIxEuvfRYCEmQVOMEkcuSMI
+ YrMJaEnsf3EDrJxfQFHi6o/HYOW8AnYSL1fkgZgsAioSE3/6gVSICoRJnNzWwghi8woISpyc
+ +YQFxOYUsJY4ve4vO8R0cYlbT+YzQdjyEtvfzmEGuUxC4AaHxNLnbcwQH7tI9G+YyAZhC0u8
+ Or6FHcKWkvj8bi9UvFpi5ckjbBDNHYwSW/ZfYIVIGEvsXzqZCeQ4ZgFNifW79CHCihI7f89l
+ hFjMJ/Huaw8rJKh4JTrahCBKlCUuP7jLBGFLSixu72SbwKg0C8k7s5C8MAvJC7MQli1gZFnF
+ KJZaUJybnlpsWGCKHNWbGMHpWMtyB+P0tx/0DjEycTAeYpTgYFYS4a2JnBcvxJuSWFmVWpQf
+ X1Sak1p8iNEUGL4TmaVEk/OBGSGvJN7Q1MjY2NjCxNDM1NBQSZz3j3ZHvJBAemJJanZqakFq
+ EUwfEwenVAOT/8FbWdv2r773ueorl8/O3+77ak8tUq0vvMez8PkETmOO4I7vNrVx0XG7957r
+ m3BF/nzjvZ16U1dsUnWT9lqUXeMYOE1DsOzVwTUvFlwV6y/kNHs+MfSt07TrTY7GmyQfH0zj
+ eCxT7R3CdH3XTN/qoxPSlZV06/NvBa5yT1yWy1rqt02ks91X7riIV5LYi9W7w7bvvyJXYdYv
+ lLzvJWviv13fZJRzUzTOt/QeWq79U07vVkjkmtfTTWJua66y4epwZi5iv3qWPXVeWNKfwGrB
+ U4sSU814zqbMjuObppzD7TpJqrX/9NL5h42Orvk660XR3pe/7x/SOuDY9rQiJ6934SOWi+Yr
+ TV5NDzjls9NaiaU4I9FQi7moOBEAdgb88lAEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRmVeSWpSXmKPExsWy7bCSvG6x4cJ4g92nVC3uz2tltNg4Yz2r
+ xfwj51gtrnx9z2Yxfe8mNotJ9yewWJw/v4Hd4vKuOWwWn3uPMFrMOL+PyWLtkbvsFrcbV7BZ
+ tO49wm5x+E07q8WMyS/ZHPg9Nq3qZPO4c20Pm8f97uNMHn1bVjF6fN4kF8AaxWWTkpqTWZZa
+ pG+XwJXx9sFWxoITwhU9T6YyNzAe5+9i5OCQEDCRaP5p18XIxSEksINRYu+k++xdjJxAcUmJ
+ aRePMkPUCEscPlwMUfOWUeLkzhNsIDXCAqkSS6d3M4LYIgIxEqcmz2IBKWIWOMEk8XHVAyaI
+ jv2MEh/X7gerYhPQktj/4gZYN7+AosTVH48ZQTbwCthJvFyRB2KyCKhITPzpB1IhKhAmsXPJ
+ YyYQm1dAUOLkzCcsIDangLXE6XV/we5kFlCX+DPvEjOELS5x68l8JghbXmL72znMExiFZyFp
+ n4WkZRaSlllIWhYwsqxilEwtKM5Nzy02LDDKSy3XK07MLS7NS9dLzs/dxAiOTS2tHYx7Vn3Q
+ O8TIxMF4iFGCg1lJhLcmcl68EG9KYmVValF+fFFpTmrxIUZpDhYlcd6vsxbGCQmkJ5akZqem
+ FqQWwWSZODilGpjmVYT9Xn06KjNK1XR5z0dRe2Obo9M5PQUShU7PnGr8ctNjtwjdv3MKk4w+
+ alwx+NztdVOHZzrz/h1cDDKr+41v/antlRKN6fbsXviu0C7ZeEECB0+326GlEm07z5x0N533
+ k+NGu9jfBQVRu7J2bBBq4ftz77jXUaWNRnNdMx+fF/nvUTnfWEyE+UKStf/m/oNmE16f/b/2
+ 0ILvml2ya6smRkcL3Vxp0ynwnHXG25rMU79UymY38+4+kNijLOiQ+u7hdB27tyeeHdGamTgl
+ uOjds7kJlaGtF9XPsV7YrsTk8FJkvmDu+VUZ97WrzhnUVkbY/hSsFiiykhV40TTJKjZQ/Y/u
+ FzG2uMI7WU19q5VYijMSDbWYi4oTAYw9etM8AwAA
+X-CMS-MailID: 20201103103115epcas1p43681a136582c659db56bcb9d13b5af35
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20201030125303eucas1p14a9de4111ffafc1870527abdea0994c9
+References: <20201030125149.8227-1-s.nawrocki@samsung.com>
+ <CGME20201030125303eucas1p14a9de4111ffafc1870527abdea0994c9@eucas1p1.samsung.com>
+ <20201030125149.8227-4-s.nawrocki@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,192 +120,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ b.zolnierkie@samsung.com, linux-pm@vger.kernel.org, sw0312.kim@samsung.com,
+ a.swigon@samsung.com, robh+dt@kernel.org, linux-kernel@vger.kernel.org,
+ myungjoo.ham@samsung.com, dri-devel@lists.freedesktop.org,
+ m.szyprowski@samsung.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the driver's udev field in favor of struct drm_device.dev. No
-functional changes made.
+Hi Sylwester,
 
-v2:
-	* upcast dev with drm_dev_get_usb_device()
+On 10/30/20 9:51 PM, Sylwester Nawrocki wrote:
+> This patch adds registration of a child platform device for the exynos
+> interconnect driver. It is assumed that the interconnect provider will
+> only be needed when #interconnect-cells property is present in the bus
+> DT node, hence the child device will be created only when such a property
+> is present.
+> 
+> Signed-off-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+> ---
+> Changes for v7, v6:
+>  - none.
+> 
+> Changes for v5:
+>  - new patch.
+> ---
+>  drivers/devfreq/exynos-bus.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/udl/udl_connector.c |  9 +++++----
- drivers/gpu/drm/udl/udl_drv.c       |  3 ---
- drivers/gpu/drm/udl/udl_drv.h       |  1 -
- drivers/gpu/drm/udl/udl_main.c      | 25 ++++++++++++++-----------
- 4 files changed, 19 insertions(+), 19 deletions(-)
+We don't need to  add 'select INTERCONNECT_EXYNOS' in Kconfig?
+Do you want to remain it as optional according to user?
 
-diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
-index cdc1c42e1669..487e03e1727c 100644
---- a/drivers/gpu/drm/udl/udl_connector.c
-+++ b/drivers/gpu/drm/udl/udl_connector.c
-@@ -10,6 +10,7 @@
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_usb_helper.h>
- 
- #include "udl_connector.h"
- #include "udl_drv.h"
-@@ -20,6 +21,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
- 	int ret, i;
- 	u8 *read_buff;
- 	struct udl_device *udl = data;
-+	struct usb_device *udev = drm_dev_get_usb_device(&udl->drm);
- 
- 	read_buff = kmalloc(2, GFP_KERNEL);
- 	if (!read_buff)
-@@ -27,10 +29,9 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
- 
- 	for (i = 0; i < len; i++) {
- 		int bval = (i + block * EDID_LENGTH) << 8;
--		ret = usb_control_msg(udl->udev,
--				      usb_rcvctrlpipe(udl->udev, 0),
--					  (0x02), (0x80 | (0x02 << 5)), bval,
--					  0xA1, read_buff, 2, HZ);
-+		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
-+				      0x02, (0x80 | (0x02 << 5)), bval,
-+				      0xA1, read_buff, 2, HZ);
- 		if (ret < 1) {
- 			DRM_ERROR("Read EDID byte %d failed err %x\n", i, ret);
- 			kfree(read_buff);
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index 96d4317a2c1b..993469d152da 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -53,7 +53,6 @@ static struct drm_driver driver = {
- 
- static struct udl_device *udl_driver_create(struct usb_interface *interface)
- {
--	struct usb_device *udev = interface_to_usbdev(interface);
- 	struct udl_device *udl;
- 	int r;
- 
-@@ -62,8 +61,6 @@ static struct udl_device *udl_driver_create(struct usb_interface *interface)
- 	if (IS_ERR(udl))
- 		return udl;
- 
--	udl->udev = udev;
--
- 	r = udl_init(udl);
- 	if (r)
- 		return ERR_PTR(r);
-diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
-index b1461f30780b..889bfa21deb0 100644
---- a/drivers/gpu/drm/udl/udl_drv.h
-+++ b/drivers/gpu/drm/udl/udl_drv.h
-@@ -50,7 +50,6 @@ struct urb_list {
- struct udl_device {
- 	struct drm_device drm;
- 	struct device *dev;
--	struct usb_device *udev;
- 
- 	struct drm_simple_display_pipe display_pipe;
- 
-diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
-index f5d27f2a5654..208505a39ace 100644
---- a/drivers/gpu/drm/udl/udl_main.c
-+++ b/drivers/gpu/drm/udl/udl_main.c
-@@ -11,6 +11,7 @@
- #include <drm/drm.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-+#include <drm/drm_usb_helper.h>
- 
- #include "udl_drv.h"
- 
-@@ -26,10 +27,10 @@
- #define GET_URB_TIMEOUT	HZ
- #define FREE_URB_TIMEOUT (HZ*2)
- 
--static int udl_parse_vendor_descriptor(struct drm_device *dev,
--				       struct usb_device *usbdev)
-+static int udl_parse_vendor_descriptor(struct udl_device *udl)
- {
--	struct udl_device *udl = to_udl(dev);
-+	struct drm_device *dev = &udl->drm;
-+	struct usb_device *udev = drm_dev_get_usb_device(dev);
- 	char *desc;
- 	char *buf;
- 	char *desc_end;
-@@ -41,7 +42,7 @@ static int udl_parse_vendor_descriptor(struct drm_device *dev,
- 		return false;
- 	desc = buf;
- 
--	total_len = usb_get_descriptor(usbdev, 0x5f, /* vendor specific */
-+	total_len = usb_get_descriptor(udev, 0x5f, /* vendor specific */
- 				    0, desc, MAX_VENDOR_DESCRIPTOR_SIZE);
- 	if (total_len > 5) {
- 		DRM_INFO("vendor descriptor length:%x data:%11ph\n",
-@@ -98,19 +99,20 @@ static int udl_parse_vendor_descriptor(struct drm_device *dev,
-  */
- static int udl_select_std_channel(struct udl_device *udl)
- {
--	int ret;
- 	static const u8 set_def_chn[] = {0x57, 0xCD, 0xDC, 0xA7,
- 					 0x1C, 0x88, 0x5E, 0x15,
- 					 0x60, 0xFE, 0xC6, 0x97,
- 					 0x16, 0x3D, 0x47, 0xF2};
-+
- 	void *sendbuf;
-+	int ret;
-+	struct usb_device *udev = drm_dev_get_usb_device(&udl->drm);
- 
- 	sendbuf = kmemdup(set_def_chn, sizeof(set_def_chn), GFP_KERNEL);
- 	if (!sendbuf)
- 		return -ENOMEM;
- 
--	ret = usb_control_msg(udl->udev,
--			      usb_sndctrlpipe(udl->udev, 0),
-+	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
- 			      NR_USB_REQUEST_CHANNEL,
- 			      (USB_DIR_OUT | USB_TYPE_VENDOR), 0, 0,
- 			      sendbuf, sizeof(set_def_chn),
-@@ -202,6 +204,7 @@ static int udl_alloc_urb_list(struct drm_device *dev, int count, size_t size)
- 	struct urb_node *unode;
- 	char *buf;
- 	size_t wanted_size = count * size;
-+	struct usb_device *udev = drm_dev_get_usb_device(&udl->drm);
- 
- 	spin_lock_init(&udl->urbs.lock);
- 
-@@ -229,7 +232,7 @@ static int udl_alloc_urb_list(struct drm_device *dev, int count, size_t size)
- 		}
- 		unode->urb = urb;
- 
--		buf = usb_alloc_coherent(udl->udev, size, GFP_KERNEL,
-+		buf = usb_alloc_coherent(udev, size, GFP_KERNEL,
- 					 &urb->transfer_dma);
- 		if (!buf) {
- 			kfree(unode);
-@@ -243,8 +246,8 @@ static int udl_alloc_urb_list(struct drm_device *dev, int count, size_t size)
- 		}
- 
- 		/* urb->transfer_buffer_length set to actual before submit */
--		usb_fill_bulk_urb(urb, udl->udev, usb_sndbulkpipe(udl->udev, 1),
--			buf, size, udl_urb_completion, unode);
-+		usb_fill_bulk_urb(urb, udev, usb_sndbulkpipe(udev, 1),
-+				  buf, size, udl_urb_completion, unode);
- 		urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
- 
- 		list_add_tail(&unode->entry, &udl->urbs.list);
-@@ -316,7 +319,7 @@ int udl_init(struct udl_device *udl)
- 
- 	mutex_init(&udl->gem_lock);
- 
--	if (!udl_parse_vendor_descriptor(dev, udl->udev)) {
-+	if (!udl_parse_vendor_descriptor(udl)) {
- 		ret = -ENODEV;
- 		DRM_ERROR("firmware not recognized. Assume incompatible device\n");
- 		goto err;
+> 
+> diff --git a/drivers/devfreq/exynos-bus.c b/drivers/devfreq/exynos-bus.c
+> index 1e684a4..ee300ee 100644
+> --- a/drivers/devfreq/exynos-bus.c
+> +++ b/drivers/devfreq/exynos-bus.c
+> @@ -24,6 +24,7 @@
+>  
+>  struct exynos_bus {
+>  	struct device *dev;
+> +	struct platform_device *icc_pdev;
+>  
+>  	struct devfreq *devfreq;
+>  	struct devfreq_event_dev **edev;
+> @@ -156,6 +157,8 @@ static void exynos_bus_exit(struct device *dev)
+>  	if (ret < 0)
+>  		dev_warn(dev, "failed to disable the devfreq-event devices\n");
+>  
+> +	platform_device_unregister(bus->icc_pdev);
+> +
+>  	dev_pm_opp_of_remove_table(dev);
+>  	clk_disable_unprepare(bus->clk);
+>  	if (bus->opp_table) {
+> @@ -168,6 +171,8 @@ static void exynos_bus_passive_exit(struct device *dev)
+>  {
+>  	struct exynos_bus *bus = dev_get_drvdata(dev);
+>  
+> +	platform_device_unregister(bus->icc_pdev);
+> +
+>  	dev_pm_opp_of_remove_table(dev);
+>  	clk_disable_unprepare(bus->clk);
+>  }
+> @@ -432,6 +437,18 @@ static int exynos_bus_probe(struct platform_device *pdev)
+>  	if (ret < 0)
+>  		goto err;
+>  
+> +	/* Create child platform device for the interconnect provider */
+> +	if (of_get_property(dev->of_node, "#interconnect-cells", NULL)) {
+> +		    bus->icc_pdev = platform_device_register_data(
+> +						dev, "exynos-generic-icc",
+> +						PLATFORM_DEVID_AUTO, NULL, 0);
+> +
+> +		    if (IS_ERR(bus->icc_pdev)) {
+> +			    ret = PTR_ERR(bus->icc_pdev);
+> +			    goto err;
+> +		    }
+> +	}
+> +
+>  	max_state = bus->devfreq->profile->max_state;
+>  	min_freq = (bus->devfreq->profile->freq_table[0] / 1000);
+>  	max_freq = (bus->devfreq->profile->freq_table[max_state - 1] / 1000);
+> 
+
+
 -- 
-2.29.0
-
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
