@@ -1,62 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BEC92A59F8
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 23:20:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B222A5A07
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 23:21:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61E446E911;
-	Tue,  3 Nov 2020 22:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA4E6E906;
+	Tue,  3 Nov 2020 22:21:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 404616E910
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 22:20:17 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id l28so24364909lfp.10
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 14:20:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shutemov-name.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=QGOEhKsA2OwG13b5gtkFmoIkhKN0Tzb9Yz1d9AT63nE=;
- b=K1bjUKfX51b5qotZAiYNouvyUDtkH7cr0GZdA9qNvLxnxk0L95HdWtEl4yID/8o5ew
- T3cOoBhbIgYJiILZSN1Gkm6ujI/dJvD646mMVFkHQTe+FXEtf56MJl63OFZVE0HgAo+C
- THbItY64tC1LOig9tvos2ldGnH5k9hJgJyjTDn6okS2HvL5MnpeLV212jQcBuFLWpA7E
- vOBc9Ip7M5kKzR3yMVQ/AIGzLN0OYO96I5bqwTMcX3Rrt64kA2xf3/s70Hl8EPeZX4RW
- qKDjdLro3yz/JG3KXODfBo9EqPCkpwkWwZ1eAMjCDcrpY+J5h1ESvJjKNPMqEub0pwr8
- Ho9A==
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+ [209.85.217.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B32C16E906
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 22:21:55 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id x11so7760403vsx.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 14:21:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QGOEhKsA2OwG13b5gtkFmoIkhKN0Tzb9Yz1d9AT63nE=;
- b=iWjDqn872rHVpUWUcy+/ArKDptK+Q2Q5fqobknrvtMbaP+VKzKLdHeRwaYIyNsI9Qt
- XRkawbMCiGkWCwr8FvdHijTrR1PpdIkt8JVPH2/nrg0z9Cq2bMGqAWaOuS2I4x5HbX+S
- ch822jYWQL14cwybDLi2DcRM7IwJamsAq6kdq0AhTr7jEBnjsjJyiYNAAOw7G2Yf29zv
- ooA+Ie/Z5EcAzuzCh6UkMiywipDswGEkIrvYXfMjPYqpK/+bnEzNLJSllpsAGhsxtg8w
- 1MpLo4gnH4qDxQwILPMcver6kSZPpuW9r7cwazsJ4xr/KSPTe2vi2t6x3jF7CnXXEkG0
- S/Sw==
-X-Gm-Message-State: AOAM533X1zz/i1AQHP6EmcakpG5QKvxIe3P769py5Cc8lF0vjtQg9fqc
- Ga05LUKt3yfYLMPbD7RN6kSGJw==
-X-Google-Smtp-Source: ABdhPJxRFm8qsXfpAv3oTL3woMRlKjMmcXF45qhzM91T8QG4fQEQSZWh7OW4c9/IsFKaaVMgS6bfEg==
-X-Received: by 2002:ac2:59d1:: with SMTP id x17mr8553159lfn.142.1604442015603; 
- Tue, 03 Nov 2020 14:20:15 -0800 (PST)
-Received: from box.localdomain ([86.57.175.117])
- by smtp.gmail.com with ESMTPSA id q5sm3728627lfe.262.2020.11.03.14.20.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 14:20:15 -0800 (PST)
-Received: by box.localdomain (Postfix, from userid 1000)
- id E18A7101FC2; Wed,  4 Nov 2020 01:20:13 +0300 (+03)
-Date: Wed, 4 Nov 2020 01:20:13 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Dave Airlie <airlied@gmail.com>, Lyude Paul <lyude@redhat.com>
-Subject: Re: [git pull] drm next pull for 5.10-rc1
-Message-ID: <20201103222013.hypmzlq7uuqufe76@box>
-References: <CAPM=9txyMmW1DWhS--SuYQu4qDK1GPzgHJwxbAfhHT=hUsPODA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ystGsVRRSLNIp7DU6AxtzDMYZFgSTFYVKgOF4oPJhUs=;
+ b=V53tju+wVrbxsuqZN0WlOuaAYezdmLGoyX4E1akAPD2cZopyMe343gpe2RlVxhhubj
+ ferLmFFPolLq5ctx+foYPd3SZIijDNLA76njMPmpUyZvqOlQVeGVVJ32Uf8H6z+DsS5B
+ EurAtK/wDuPkCSjJ3Q2ez7s6MjkPmkJYwQuttgskGU+I4C0ueqQvAZ5pFaIGLocKP/9N
+ XulbOcRfwZj2Nj0hoUxF1u8nonGuT13zOEKywP2sQw2P6nY1Jwljd1lZ5KqXk/2fiBNr
+ beO0C2h4+H3N1Gk5r7YLQSkeuuKOsV39ewnZPdYEY2LF3hyJGA4pgPceFJQ4YlCnAhwj
+ Aqtg==
+X-Gm-Message-State: AOAM5336QTzACMrle8Rojy1xVcdBFfdLdTHo8Ja3pSD68JfERkbwHH/o
+ kfQvqzRuvL8heFyoFIDlUAC4zqJCigOt9WT/SxI=
+X-Google-Smtp-Source: ABdhPJx+6wzHKdabHgncagBkljWabHvhFprI3xGnbyk5I/SRAbasPwnXsBl4ELjrlBl2/q+vZ8AkpOF/VPVeRiX/WEE=
+X-Received: by 2002:a67:2883:: with SMTP id o125mr20678367vso.46.1604442114870; 
+ Tue, 03 Nov 2020 14:21:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAPM=9txyMmW1DWhS--SuYQu4qDK1GPzgHJwxbAfhHT=hUsPODA@mail.gmail.com>
+References: <20201103221510.575827-1-lyude@redhat.com>
+In-Reply-To: <20201103221510.575827-1-lyude@redhat.com>
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Tue, 3 Nov 2020 17:21:43 -0500
+Message-ID: <CAKb7Uvhr8Cvd+kfw0Rcee-Nrtdg9y3JhGPeNsJjVEDcWXnVxxw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/edid: Fix uninitialized variable in drm_cvt_modes()
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,49 +51,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Leon Romanovsky <leon@kernel.org>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chao Yu <chao@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "# 3.9+" <stable@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Kalle Valo <kvalo@codeaurora.org>, Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 15, 2020 at 11:33:08AM +1000, Dave Airlie wrote:
->       drm/nouveau/kms: Search for encoders' connectors properly
+On Tue, Nov 3, 2020 at 5:15 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> Noticed this when trying to compile with -Wall on a kernel fork. We potentially
+> don't set width here, which causes the compiler to complain about width
+> potentially being uninitialized in drm_cvt_modes(). So, let's fix that.
+>
+> Changes since v1:
+> * Don't emit an error as this code isn't reachable, just mark it as such
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+>
+> Cc: <stable@vger.kernel.org> # v5.9+
+> Fixes: 3f649ab728cd ("treewide: Remove uninitialized_var() usage")
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 631125b46e04..0643b98c6383 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3094,6 +3094,7 @@ static int drm_cvt_modes(struct drm_connector *connector,
+>
+>         for (i = 0; i < 4; i++) {
+>                 int width, height;
+> +               u8 cvt_aspect_ratio;
+>
+>                 cvt = &(timing->data.other_data.data.cvt[i]);
+>
+> @@ -3101,7 +3102,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
+>                         continue;
+>
+>                 height = (cvt->code[0] + ((cvt->code[1] & 0xf0) << 4) + 1) * 2;
+> -               switch (cvt->code[1] & 0x0c) {
+> +               cvt_aspect_ratio = cvt->code[1] & 0x0c;
 
-This commit (09838c4efe9a) broke boot for me. These two hunks in
-particular:
+The temp var doesn't do anything now right? Previously you were using
+it in the print, but now you can drop these two hunks, I think?
 
-@ -2066,7 +2120,7 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
-                          outp->clr.mask, outp->set.mask);
+  -ilia
 
-                if (outp->clr.mask) {
--                       help->disable(encoder);
-+                       help->atomic_disable(encoder, state);
-                        interlock[NV50_DISP_INTERLOCK_CORE] |= 1;
-                        if (outp->flush_disable) {
-                                nv50_disp_atomic_commit_wndw(state, interlock);
-@@ -2105,7 +2159,7 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
-                          outp->set.mask, outp->clr.mask);
-
-                if (outp->set.mask) {
--                       help->enable(encoder);
-+                       help->atomic_enable(encoder, state);
-                        interlock[NV50_DISP_INTERLOCK_CORE] = 1;
-                }
-
-
-I hacked up patch to use help->disable/help->enable if atomic_ versions
-are NULL. It worked.
-
-In my setup I stepped onto nv50_msto_help->atomic_enable == NULL. But
-there are two more drm_encoder_helper_funcs in dispnv50/disp.c that don't
-have atomic_enable/disable set: nv50_dac_help, nv50_pior_help.
-
--- 
- Kirill A. Shutemov
+> +               switch (cvt_aspect_ratio) {
+>                 case 0x00:
+>                         width = height * 4 / 3;
+>                         break;
+> @@ -3114,6 +3116,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
+>                 case 0x0c:
+>                         width = height * 15 / 9;
+>                         break;
+> +               default:
+> +                       unreachable();
+>                 }
+>
+>                 for (j = 1; j < 5; j++) {
+> --
+> 2.28.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
