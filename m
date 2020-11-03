@@ -1,37 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB722A4423
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 12:25:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 705CF2A4449
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 12:31:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA016E17E;
-	Tue,  3 Nov 2020 11:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8316E85F;
+	Tue,  3 Nov 2020 11:31:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTP id A08D36E17E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 11:25:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8BBEF6E85F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 11:30:59 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DF21EAC1D;
- Tue,  3 Nov 2020 11:25:06 +0000 (UTC)
-Subject: Re: [PATCH v2] drm: Add the new api to install irq
-To: Maxime Ripard <maxime@cerno.tech>, Tian Tao <tiantao6@hisilicon.com>,
- maarten.lankhorst@linux.intel.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
- <20201103095205.ywabphbc2xbop6ae@gilmour.lan>
- <f89640fb-6994-76dc-7862-a3b26b67dc24@suse.de>
- <20201103103832.gwjqf4urrn5y7zk5@gilmour.lan>
- <20201103105508.GD401619@phenom.ffwll.local>
+ by mx2.suse.de (Postfix) with ESMTP id D5BFDAC8C;
+ Tue,  3 Nov 2020 11:30:58 +0000 (UTC)
+Subject: Re: [PATCH v2 0/3] drm: Store USB device in struct drm_device
+To: Hans de Goede <hdegoede@redhat.com>, airlied@linux.ie, daniel@ffwll.ch,
+ sean@poorly.run, maarten.lankhorst@linux.intel.com, mripard@kernel.org
+References: <20201103103656.17768-1-tzimmermann@suse.de>
+ <635668cb-089b-9d56-7866-d28de61bce32@redhat.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <2c364588-7636-f6ad-4cc6-0800088c511b@suse.de>
-Date: Tue, 3 Nov 2020 12:25:06 +0100
+Message-ID: <fc86b5dc-d853-8514-bd94-496a19b85bde@suse.de>
+Date: Tue, 3 Nov 2020 12:30:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.3
 MIME-Version: 1.0
-In-Reply-To: <20201103105508.GD401619@phenom.ffwll.local>
+In-Reply-To: <635668cb-089b-9d56-7866-d28de61bce32@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,177 +40,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0394695563=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1715034159=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0394695563==
+--===============1715034159==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="5LSsijeK7KHgvnRkUzZ9NEzitCfgQn3Pw"
+ boundary="aMjuCYZWJpEAXX36zeVnHAywzzuV1iUAy"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---5LSsijeK7KHgvnRkUzZ9NEzitCfgQn3Pw
-Content-Type: multipart/mixed; boundary="Czdo1FlAG8DIhR8jE7vYvuPmh8aUCxXJc";
+--aMjuCYZWJpEAXX36zeVnHAywzzuV1iUAy
+Content-Type: multipart/mixed; boundary="Z9EADnR0sBfPUFcR1f3WLaQKbPtFVBzx4";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Tian Tao <tiantao6@hisilicon.com>,
- maarten.lankhorst@linux.intel.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <2c364588-7636-f6ad-4cc6-0800088c511b@suse.de>
-Subject: Re: [PATCH v2] drm: Add the new api to install irq
-References: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
- <20201103095205.ywabphbc2xbop6ae@gilmour.lan>
- <f89640fb-6994-76dc-7862-a3b26b67dc24@suse.de>
- <20201103103832.gwjqf4urrn5y7zk5@gilmour.lan>
- <20201103105508.GD401619@phenom.ffwll.local>
-In-Reply-To: <20201103105508.GD401619@phenom.ffwll.local>
+To: Hans de Goede <hdegoede@redhat.com>, airlied@linux.ie, daniel@ffwll.ch,
+ sean@poorly.run, maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <fc86b5dc-d853-8514-bd94-496a19b85bde@suse.de>
+Subject: Re: [PATCH v2 0/3] drm: Store USB device in struct drm_device
+References: <20201103103656.17768-1-tzimmermann@suse.de>
+ <635668cb-089b-9d56-7866-d28de61bce32@redhat.com>
+In-Reply-To: <635668cb-089b-9d56-7866-d28de61bce32@redhat.com>
 
---Czdo1FlAG8DIhR8jE7vYvuPmh8aUCxXJc
+--Z9EADnR0sBfPUFcR1f3WLaQKbPtFVBzx4
 Content-Type: multipart/mixed;
- boundary="------------C4996FC9A130449310220429"
+ boundary="------------FDEC133ACA36FB487B526F39"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------C4996FC9A130449310220429
+--------------FDEC133ACA36FB487B526F39
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 03.11.20 um 11:55 schrieb Daniel Vetter:
-> On Tue, Nov 03, 2020 at 11:38:32AM +0100, Maxime Ripard wrote:
->> On Tue, Nov 03, 2020 at 11:10:27AM +0100, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 03.11.20 um 10:52 schrieb Maxime Ripard:
->>>> On Tue, Nov 03, 2020 at 10:10:41AM +0800, Tian Tao wrote:
->>>>> Add new api devm_drm_irq_install() to register interrupts,
->>>>> no need to call drm_irq_uninstall() when the drm module is removed.=
-
->>>>>
->>>>> v2:
->>>>> fixed the wrong parameter.
->>>>>
->>>>> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
->>>>> ---
->>>>>  drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
->>>>>  include/drm/drm_drv.h     |  3 ++-
->>>>>  2 files changed, 25 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->>>>> index cd162d4..0fe5243 100644
->>>>> --- a/drivers/gpu/drm/drm_drv.c
->>>>> +++ b/drivers/gpu/drm/drm_drv.c
->>>>> @@ -39,6 +39,7 @@
->>>>>  #include <drm/drm_color_mgmt.h>
->>>>>  #include <drm/drm_drv.h>
->>>>>  #include <drm/drm_file.h>
->>>>> +#include <drm/drm_irq.h>
->>>>>  #include <drm/drm_managed.h>
->>>>>  #include <drm/drm_mode_object.h>
->>>>>  #include <drm/drm_print.h>
->>>>> @@ -678,6 +679,28 @@ static int devm_drm_dev_init(struct device *pa=
-rent,
->>>>>  	return ret;
->>>>>  }
->>>>> =20
->>>>> +static void devm_drm_dev_irq_uninstall(void *data)
->>>>> +{
->>>>> +	drm_irq_uninstall(data);
->>>>> +}
->>>>> +
->>>>> +int devm_drm_irq_install(struct device *parent,
->>>>> +			 struct drm_device *dev, int irq)
->>>>> +{
->>>>> +	int ret;
->>>>> +
->>>>> +	ret =3D drm_irq_install(dev, irq);
->>>>> +	if (ret)
->>>>> +		return ret;
->>>>> +
->>>>> +	ret =3D devm_add_action(parent, devm_drm_dev_irq_uninstall, dev);=
-
->>>>> +	if (ret)
->>>>> +		devm_drm_dev_irq_uninstall(dev);
->>>>> +
->>>>> +	return ret;
->>>>> +}
->>>>> +EXPORT_SYMBOL(devm_drm_irq_install);
->>>>> +
->>>>
->>>> Shouldn't we tie the IRQ to the drm device (so with drmm_add_action)=
-
->>>> instead of tying it to the underlying device?
->>>
->>> If the HW device goes away, there won't be any more interrupts. So it=
-'s
->>> similar to devm_ functions for I/O memory. Why would you use the drmm=
-_
->>> interface?
+Am 03.11.20 um 12:09 schrieb Hans de Goede:
+> Hi,
+>=20
+> On 11/3/20 11:36 AM, Thomas Zimmermann wrote:
+>> The drivers gm12u320 and udl operate on USB devices. They leave the PC=
+I
+>> device in struct drm_device empty and store the USB device in their ow=
+n
+>> driver structure. It's expected that DRM core and helpers only touch t=
+he
+>> PCI-device field for actual PCI devices.
 >>
->> drm_irq_install/uninstall do more that just calling request_irq and
->> free_irq though, they will also run (among other things) the irq-relat=
-ed
->> hooks in the drm driver (irq_preinstall, irq_postinstall irq_uninstall=
-)
->> and wake anything waiting for a vblank to occur, so we need the DRM
->> device and driver to still be around when we run drm_irq_uninstall.
->> That's why (I assume) you have to pass the drm_device as an argument a=
-nd
->> not simply the device.
->=20
-> drm_device is guaranteed to outlive devm_, plus the hooks are meant to
-> shut down hw. hw isn't around anymore when we do drmm_ cleanup, at leas=
-t
-> not in full generality.
->=20
->> This probably works in most case since you would allocate the drm_devi=
-ce
->> with devm_drm_dev_alloc, and then run drm_irq_install, so in the undoi=
-ng
->> phase you would have first drm_irq_uninstall to run, and everything is=
-
->> fine.
+>> Fix this special case by upcasting struct drm_device.dev to the USB
+>> device. The drivers' udev variables are being removed.
 >>
->> However, if one doesn't use devm_drm_dev_alloc but would use
->> devm_drm_irq_install, you would have first remove being called that
->> would free the drm device, and then drm_irq_uninstall which will use a=
-
->> free'd pointer.
+>> v2:
+>> 	* upcast USB device from struct drm_device.dev (Daniel)
+>>
+>> Thomas Zimmermann (3):
+>>   drm: Add USB helpers
+>>   drm/tiny/gm12u320: Retrieve USB device from struct drm_device.dev
+>>   drm/udl: Retrieve USB device from struct drm_device.dev
 >=20
-> Don't do that, it's broken :-)
+> Thanks.
+>=20
+> The entire series looks good to me:
+>=20
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-Umm, I just saw that hibmc doesn't use devm_drm_dev_alloc. So maybe we
-have to convert it first before using the managed irq function. OTOH
-converting it is a good idea in any case, so why not. :)
+Thanks!
+
+>=20
+> Note you may want to wait with pushing this to drm-misc until the
+> first patch gets at least one other review.
+
+Following Daniel's request, I'll drop the first patch and put the helper
+into the drivers.
+
+>=20
+> Or at least give others some time to possibly react :)
+
+Sure, I'll merge it later this week.
 
 Best regards
 Thomas
 
 >=20
->> So yeah, even though the interrupt line itself is tied to the device,
->> all the logic we have around the interrupt that is dealt with in
->> drm_irq_install is really tied to the drm_device. And since we tie the=
-
->> life of drm_device to its underlying device already (either implicitly=
-
->> through devm_drm_dev_alloc, or explictly through manual allocation in
->> probe and free in remove) we can't end up in a situation where the
->> drm_device outlives its device.
+> Regards,
 >=20
-> Most drivers get their drm_device lifetime completely wrong. That's why=
- I
-> typed drmm_ stuff. So this isn't a surprise at all, but it might motive=
-ate
-> a bunch more people to fix this up correctly.
+> Hans
 >=20
-> Also, these drm_irq functions are 100% optional helpers (should maybe
-> rename them to make this clearer) for modern drivers. They're only buil=
-t
-> in for DRIVER_LEGACY, because hysterical raisins.
-> -Daniel
+>=20
+>=20
+>=20
+>>
+>>  Documentation/gpu/drm-internals.rst |  5 +++
+>>  drivers/gpu/drm/tiny/gm12u320.c     | 52 +++++++++++++---------------=
+-
+>>  drivers/gpu/drm/udl/udl_connector.c |  9 ++---
+>>  drivers/gpu/drm/udl/udl_drv.c       |  3 --
+>>  drivers/gpu/drm/udl/udl_drv.h       |  1 -
+>>  drivers/gpu/drm/udl/udl_main.c      | 25 ++++++++------
+>>  include/drm/drm_usb_helper.h        | 25 ++++++++++++++
+>>  7 files changed, 73 insertions(+), 47 deletions(-)
+>>  create mode 100644 include/drm/drm_usb_helper.h
+>>
+>> --
+>> 2.29.0
+>>
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >=20
 
 --=20
@@ -225,7 +161,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------C4996FC9A130449310220429
+--------------FDEC133ACA36FB487B526F39
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -344,29 +280,29 @@ yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
 =3DmxFq
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------C4996FC9A130449310220429--
+--------------FDEC133ACA36FB487B526F39--
 
---Czdo1FlAG8DIhR8jE7vYvuPmh8aUCxXJc--
+--Z9EADnR0sBfPUFcR1f3WLaQKbPtFVBzx4--
 
---5LSsijeK7KHgvnRkUzZ9NEzitCfgQn3Pw
+--aMjuCYZWJpEAXX36zeVnHAywzzuV1iUAy
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+hPhIFAwAAAAAACgkQaA3BHVMLeiN1
-fwgAjrgfVwmeFrDXgucCDcgTvsby9165ldAlkbbvMWfSOPZJoiHyiACOc5L54vBS423XkPq/Dxc3
-o5OJI1EEQM39dJe7GvliD0iX1fIChtvGL8zMIhFx/3fKrScxwMnlsfFsk/X77jCwQyyS8wXFPCx5
-VxXkBCELrcOUdO+sp/8wWkp5jUJ3DH7S/VjeClm4PkQjiFNSYqdM79WPbi0SHJ9B+wQErUl6CcqY
-j9GCnB4JtRoUDgGM+swFuWNl87UrgM5FmZtnHBBjVyRGwPleTEPpBlGjVcbwRQujZPy/MMOPuf/a
-E8egl/1PJMwXA5FApBPUCnQCxOhnF4xHWUJC0GA9OA==
-=ntRd
+wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+hP3IFAwAAAAAACgkQaA3BHVMLeiMj
+9Af/f5j/Dg4uQGQlG+uc9xaDVUEvx8OTePy0xGaiLfyUBugglak/sm60s63fDzlmafPASlVgKYQc
+j6tb7JTdN2MCVdgRGInOz0cdAsmfIr58BoXI7UkFxOFjjkurJHHPn7ZDT0Ti5PMXKiUhT9kQ3mjl
+/NO/msemXWdNzl4b5VWXAWfyWQhbDvW3U/qlKSILLXOQdWgY9gHUArMu3RnKvrylzB3bATmJi+ic
+jPwyHgEA1O5fr0bduwshyYAJBACt4m7yOyB8x8G+0FtaANun3ndyNrGpMsQkpROF995wZXbwf25r
+CqPblDLEnR9tQmcwiJhYIVuAyoP/ZD4gMaboMSn5cA==
+=EpD4
 -----END PGP SIGNATURE-----
 
---5LSsijeK7KHgvnRkUzZ9NEzitCfgQn3Pw--
+--aMjuCYZWJpEAXX36zeVnHAywzzuV1iUAy--
 
---===============0394695563==
+--===============1715034159==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -377,4 +313,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0394695563==--
+--===============1715034159==--
