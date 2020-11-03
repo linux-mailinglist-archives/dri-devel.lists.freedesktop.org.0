@@ -2,57 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748352A3E9C
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D1F2A3E93
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:15:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77AB06EC48;
-	Tue,  3 Nov 2020 08:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E58F76EC3D;
+	Tue,  3 Nov 2020 08:14:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CEBB6E027
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 05:21:06 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id y16so17668742ljk.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 21:21:06 -0800 (PST)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE5196E027
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 05:47:19 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id t22so8037381plr.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 21:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9qUicjP+v0HaQMZynXCSs8AooRA15wIyKRPujWnHwXA=;
- b=gTLt9LU4dNi71Ach/3FommeyVFcloj4FE0O5y/oJtVmUFbk2YKaHnhJCks2FSFu3eU
- WZW30LZTgHPxVlQ6t3tbL9TyKmHKz6Sa00kHMADyxTIlFyOsonfafAkKbo52YOBFgj6L
- b35McKkPBbWzABNMKgL/+FR4PzXgZGuG0TtfKxrkok0T8j9jawqkAyYyxkAlpeHa3bJp
- eem30aERkMDUcLS4n8znrEzGnTkT+ETACzW6oRAFCE0e8Bl6LavZyAJeWp2tXtMlmD6P
- U1g0hpHjwWJ2xZQqFd5rhX0ZepMrMcteNQicmatSQW6jFgy/0welWHyPYZ6nqgm241u2
- XlaA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=wKHMeBJ7HB8kaIi/ChT9IdtHhkbmgmqmq8Ca+RXUM4Q=;
+ b=VZXDHtEGHjAf7Yak4JNPB3TB6267NMXR+146A1bnK7feF1c8NNuDtcIOxiM8KgfJzT
+ xUvCerLXHlXMloGzQsvccrQfo9/6cFgJA4EUGlSLDMoIxWkDTrAAlK8O30Fpmmlns5q6
+ Vk14A9lFw3r4oHjvbJol59T8JlMPk2yGcOMxSZCqLKwqDy/ehXtMkPVF0X3fV7qWNyNh
+ KWy+NBjZfxru3Ewddb74DtuiVi0KTyXlIbTfEQEmFEuePWiqP9C+/H6lbhK0hC2Sk+a8
+ VoiVlHftgmOzumnygzFU1w+N1gwbmMDIS/Mqg0HHoz37fTkGTrzMPPFYkY2MD1+dW36q
+ LLvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9qUicjP+v0HaQMZynXCSs8AooRA15wIyKRPujWnHwXA=;
- b=gBDyvoNOJeFHTXcl3bOkWDM+/nuuG7yvxRmSE/4ifhiXA69RNzFgVkF44HWa0G0wIO
- HO4cO8WNVgQESRV/DPF+cB6QQuKHGmYRe3cyhC+lOxaJgV9qtr5RaWLlXfy5pFWo2LKn
- GeNbsDa339kDy8cETUK5LJkd9W5brdj23PSDwEKt0kJmMsOtg/ypNmKy0N0CSnsH/Kia
- DCAPLCxAcqDJeKXmXNVetc3QY8CGXVjZE6OFUMDNQRAxvebeJmaUmIPtJmHWdT+YKkT1
- kXWFk+fo8oAjo/GC4Sq/QM49pH2T02yoII0DZxHXkGhPsaRzYHew1hO+RMpdVGaIc8C8
- OyKw==
-X-Gm-Message-State: AOAM533QvXpXmoYUIrbru97L3IVrAKiOWdTMkiMyYdq+6HOoZKnFWzgt
- /eTcxsEiPmI/rAip+ofrvL8Ihg==
-X-Google-Smtp-Source: ABdhPJy7kXRfNzR867c0ewzrxViD/OGfhbRsiHJBS6wEA43Csv4zRqJrzCC/fEeTIRM8PWj9wRJ6YA==
-X-Received: by 2002:a2e:7217:: with SMTP id n23mr8067777ljc.43.1604380865255; 
- Mon, 02 Nov 2020 21:21:05 -0800 (PST)
-Received: from eriador.lan ([94.25.229.254])
- by smtp.gmail.com with ESMTPSA id d26sm3649474ljj.102.2020.11.02.21.21.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 21:21:04 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Jonathan Marek <jonathan@marek.ca>
-Subject: [PATCH] drm/msm/dpu: enable DSPP support on SM8[12]50
-Date: Tue,  3 Nov 2020 08:21:02 +0300
-Message-Id: <20201103052102.1465314-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.28.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=wKHMeBJ7HB8kaIi/ChT9IdtHhkbmgmqmq8Ca+RXUM4Q=;
+ b=NRtNS0KkxgUQlMqp+k3LTdspGR2DY5fVbi48692qDVeCMoYbVMALFHZAPlJ2u5r9DI
+ 0qvn/CakiYfNFPdA4fyW1C7koHhAkwyv+a/Yc5fmYK+gZiosOegbHzVJXW4x69EN3ZkH
+ DaJCXAAIx0c2wmviJAMA/5PPWYONFb5acSTcwsdM3i+FsKbqHqQoSDnhsuqL73sKsp3B
+ b6khlxrGCzKeWBv/qHr+UgHnKsQhmihD2otjXmFeqb9RGBpi7PNvaDbTBhmqNlWwx1Jd
+ i0rIqDUvXYOtBLeiF8/MPdd+PJbARP+uPJERXNhttqMis8B5buEm6iTI6i9QB2VjnYG/
+ CI1Q==
+X-Gm-Message-State: AOAM531EeGIwOOvIpjS9JE7swB1/guSaC3tnTDbW1IbSwPSvvgPb6gQ/
+ KmnuNT/AAU1mGcowjQ4Belx5Bw==
+X-Google-Smtp-Source: ABdhPJwsNqhX2FzrkX0gNclVTETovDS95JPRUA8wffUnhM4f7cA1FnDx4jSTzq6/A2hFCWSnnSc4aQ==
+X-Received: by 2002:a17:902:8490:b029:d6:d165:fde with SMTP id
+ c16-20020a1709028490b02900d6d1650fdemr6435454plo.73.1604382439293; 
+ Mon, 02 Nov 2020 21:47:19 -0800 (PST)
+Received: from localhost ([122.172.12.172])
+ by smtp.gmail.com with ESMTPSA id mt2sm1455427pjb.7.2020.11.02.21.47.17
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 02 Nov 2020 21:47:17 -0800 (PST)
+Date: Tue, 3 Nov 2020 11:17:15 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2 07/22] drm/msm: Do rpm get sooner in the submit path
+Message-ID: <20201103054715.4l5j57pyjz6zd6ed@vireshk-i7>
+References: <20201012020958.229288-8-robdclark@gmail.com>
+ <20201012143555.GA438822@phenom.ffwll.local>
+ <CAF6AEGstGtBswUUiyHxT2cCm8NwZekDnMzD0J_pQH37GwS=LiA@mail.gmail.com>
+ <20201020090729.qgqish5kqamhvatj@vireshk-i7>
+ <CAKMK7uHAgVUPHOPxDdt3LeAWqokxfuzqjZj4qqFkoKxFbRbRrg@mail.gmail.com>
+ <20201020112413.xbk2vow2kgjky3pb@vireshk-i7>
+ <CAF6AEGsCj-AtFozn8d1xiNNFNbuMJ0UxS-eMhBVXiQ7rKahKnQ@mail.gmail.com>
+ <20201022080644.2ck4okrxygmkuatn@vireshk-i7>
+ <CAF6AEGv6RMCsK4yp-W2d1mVTMcEiiwFGAb+V8rYLhDdMhqP80Q@mail.gmail.com>
+ <20201027113532.nriqqws7gdcu5su6@vireshk-i7>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201027113532.nriqqws7gdcu5su6@vireshk-i7>
+User-Agent: NeoMutt/20180716-391-311a52
 X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,106 +78,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, Harigovindan P <harigovi@codeaurora.org>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, "Menon, Nishanth" <nm@ti.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for color correction sub block on SM8150 and SM8250.
+On 27-10-20, 17:05, Viresh Kumar wrote:
+> It isn't that straight forward unfortunately, we need to make sure the
+> table doesn't get allocated for the same device twice, so
+> find+allocate needs to happen within a locked region.
+> 
+> I have taken, not so straight forward, approach to fixing this issue,
+> lets see if this fixes it or not.
+> 
+> -------------------------8<-------------------------
+> 
+> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+> index 4ac4e7ce6b8b..6f4a73a6391f 100644
+> --- a/drivers/opp/core.c
+> +++ b/drivers/opp/core.c
+> @@ -29,6 +29,8 @@
+>  LIST_HEAD(opp_tables);
+>  /* Lock to allow exclusive modification to the device and opp lists */
+>  DEFINE_MUTEX(opp_table_lock);
+> +/* Flag indicating that opp_tables list is being updated at the moment */
+> +static bool opp_tables_busy;
+>  
+>  static struct opp_device *_find_opp_dev(const struct device *dev,
+>  					struct opp_table *opp_table)
+> @@ -1036,8 +1038,8 @@ static void _remove_opp_dev(struct opp_device *opp_dev,
+>  	kfree(opp_dev);
+>  }
+>  
+> -static struct opp_device *_add_opp_dev_unlocked(const struct device *dev,
+> -						struct opp_table *opp_table)
+> +struct opp_device *_add_opp_dev(const struct device *dev,
+> +				struct opp_table *opp_table)
+>  {
+>  	struct opp_device *opp_dev;
+>  
+> @@ -1048,7 +1050,9 @@ static struct opp_device *_add_opp_dev_unlocked(const struct device *dev,
+>  	/* Initialize opp-dev */
+>  	opp_dev->dev = dev;
+>  
+> +	mutex_lock(&opp_table->lock);
+>  	list_add(&opp_dev->node, &opp_table->dev_list);
+> +	mutex_unlock(&opp_table->lock);
+>  
+>  	/* Create debugfs entries for the opp_table */
+>  	opp_debug_register(opp_dev, opp_table);
+> @@ -1056,18 +1060,6 @@ static struct opp_device *_add_opp_dev_unlocked(const struct device *dev,
+>  	return opp_dev;
+>  }
+>  
+> -struct opp_device *_add_opp_dev(const struct device *dev,
+> -				struct opp_table *opp_table)
+> -{
+> -	struct opp_device *opp_dev;
+> -
+> -	mutex_lock(&opp_table->lock);
+> -	opp_dev = _add_opp_dev_unlocked(dev, opp_table);
+> -	mutex_unlock(&opp_table->lock);
+> -
+> -	return opp_dev;
+> -}
+> -
+>  static struct opp_table *_allocate_opp_table(struct device *dev, int index)
+>  {
+>  	struct opp_table *opp_table;
+> @@ -1121,8 +1113,6 @@ static struct opp_table *_allocate_opp_table(struct device *dev, int index)
+>  	INIT_LIST_HEAD(&opp_table->opp_list);
+>  	kref_init(&opp_table->kref);
+>  
+> -	/* Secure the device table modification */
+> -	list_add(&opp_table->node, &opp_tables);
+>  	return opp_table;
+>  
+>  err:
+> @@ -1135,27 +1125,64 @@ void _get_opp_table_kref(struct opp_table *opp_table)
+>  	kref_get(&opp_table->kref);
+>  }
+>  
+> +/*
+> + * We need to make sure that the OPP table for a device doesn't get added twice,
+> + * if this routine gets called in parallel with the same device pointer.
+> + *
+> + * The simplest way to enforce that is to perform everything (find existing
+> + * table and if not found, create a new one) under the opp_table_lock, so only
+> + * one creator gets access to the same. But that expands the critical section
+> + * under the lock and may end up causing circular dependencies with frameworks
+> + * like debugfs, interconnect or clock framework as they may be direct or
+> + * indirect users of OPP core.
+> + *
+> + * And for that reason we have to go for a bit tricky implementation here, which
+> + * uses the opp_tables_busy flag to indicate if another creator is in the middle
+> + * of adding an OPP table and others should wait for it to finish.
+> + */
+>  static struct opp_table *_opp_get_opp_table(struct device *dev, int index)
+>  {
+>  	struct opp_table *opp_table;
+>  
+> -	/* Hold our table modification lock here */
+> +again:
+>  	mutex_lock(&opp_table_lock);
+>  
+>  	opp_table = _find_opp_table_unlocked(dev);
+>  	if (!IS_ERR(opp_table))
+>  		goto unlock;
+>  
+> +	/*
+> +	 * The opp_tables list or an OPP table's dev_list is getting updated by
+> +	 * another user, wait for it to finish.
+> +	 */
+> +	if (unlikely(opp_tables_busy)) {
+> +		mutex_unlock(&opp_table_lock);
+> +		cpu_relax();
+> +		goto again;
+> +	}
+> +
+> +	opp_tables_busy = true;
+>  	opp_table = _managed_opp(dev, index);
+> +
+> +	/* Drop the lock to reduce the size of critical section */
+> +	mutex_unlock(&opp_table_lock);
+> +
+>  	if (opp_table) {
+> -		if (!_add_opp_dev_unlocked(dev, opp_table)) {
+> +		if (!_add_opp_dev(dev, opp_table)) {
+>  			dev_pm_opp_put_opp_table(opp_table);
+>  			opp_table = ERR_PTR(-ENOMEM);
+>  		}
+> -		goto unlock;
+> +
+> +		mutex_lock(&opp_table_lock);
+> +	} else {
+> +		opp_table = _allocate_opp_table(dev, index);
+> +
+> +		mutex_lock(&opp_table_lock);
+> +		if (!IS_ERR(opp_table))
+> +			list_add(&opp_table->node, &opp_tables);
+>  	}
+>  
+> -	opp_table = _allocate_opp_table(dev, index);
+> +	opp_tables_busy = false;
+>  
+>  unlock:
+>  	mutex_unlock(&opp_table_lock);
+> @@ -1181,6 +1208,10 @@ static void _opp_table_kref_release(struct kref *kref)
+>  	struct opp_device *opp_dev, *temp;
+>  	int i;
+>  
+> +	/* Drop the lock as soon as we can */
+> +	list_del(&opp_table->node);
+> +	mutex_unlock(&opp_table_lock);
+> +
+>  	_of_clear_opp_table(opp_table);
+>  
+>  	/* Release clk */
+> @@ -1208,10 +1239,7 @@ static void _opp_table_kref_release(struct kref *kref)
+>  
+>  	mutex_destroy(&opp_table->genpd_virt_dev_lock);
+>  	mutex_destroy(&opp_table->lock);
+> -	list_del(&opp_table->node);
+>  	kfree(opp_table);
+> -
+> -	mutex_unlock(&opp_table_lock);
+>  }
+>  
+>  void dev_pm_opp_put_opp_table(struct opp_table *opp_table)
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 26 +++++++++++++++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   |  3 +--
- 2 files changed, 22 insertions(+), 7 deletions(-)
+Rob, Ping.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index bb1add2e49dd..240a21c5e5fe 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -466,9 +466,9 @@ static const struct dpu_lm_cfg sc7180_lm[] = {
- 
- static const struct dpu_lm_cfg sm8150_lm[] = {
- 	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
--		&sdm845_lm_sblk, PINGPONG_0, LM_1, 0),
-+		&sdm845_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
- 	LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
--		&sdm845_lm_sblk, PINGPONG_1, LM_0, 0),
-+		&sdm845_lm_sblk, PINGPONG_1, LM_0, DSPP_1),
- 	LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
- 		&sdm845_lm_sblk, PINGPONG_2, LM_3, 0),
- 	LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
-@@ -487,16 +487,28 @@ static const struct dpu_dspp_sub_blks sc7180_dspp_sblk = {
- 		.len = 0x90, .version = 0x10000},
- };
- 
--#define DSPP_BLK(_name, _id, _base) \
-+static const struct dpu_dspp_sub_blks sm8150_dspp_sblk = {
-+	.pcc = {.id = DPU_DSPP_PCC, .base = 0x1700,
-+		.len = 0x90, .version = 0x40000},
-+};
-+
-+#define DSPP_BLK(_name, _id, _base, _sblk) \
- 		{\
- 		.name = _name, .id = _id, \
- 		.base = _base, .len = 0x1800, \
- 		.features = DSPP_SC7180_MASK, \
--		.sblk = &sc7180_dspp_sblk \
-+		.sblk = _sblk \
- 		}
- 
- static const struct dpu_dspp_cfg sc7180_dspp[] = {
--	DSPP_BLK("dspp_0", DSPP_0, 0x54000),
-+	DSPP_BLK("dspp_0", DSPP_0, 0x54000, &sc7180_dspp_sblk),
-+};
-+
-+static const struct dpu_dspp_cfg sm8150_dspp[] = {
-+	DSPP_BLK("dspp_0", DSPP_0, 0x54000, &sm8150_dspp_sblk),
-+	DSPP_BLK("dspp_1", DSPP_1, 0x56000, &sm8150_dspp_sblk),
-+	DSPP_BLK("dspp_2", DSPP_2, 0x58000, &sm8150_dspp_sblk),
-+	DSPP_BLK("dspp_3", DSPP_3, 0x5a000, &sm8150_dspp_sblk),
- };
- 
- /*************************************************************
-@@ -888,6 +900,8 @@ static void sm8150_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 		.sspp = sdm845_sspp,
- 		.mixer_count = ARRAY_SIZE(sm8150_lm),
- 		.mixer = sm8150_lm,
-+		.dspp_count = ARRAY_SIZE(sm8150_dspp),
-+		.dspp = sm8150_dspp,
- 		.pingpong_count = ARRAY_SIZE(sm8150_pp),
- 		.pingpong = sm8150_pp,
- 		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-@@ -919,6 +933,8 @@ static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 		.sspp = sm8250_sspp,
- 		.mixer_count = ARRAY_SIZE(sm8150_lm),
- 		.mixer = sm8150_lm,
-+		.dspp_count = ARRAY_SIZE(sm8150_dspp),
-+		.dspp = sm8150_dspp,
- 		.pingpong_count = ARRAY_SIZE(sm8150_pp),
- 		.pingpong = sm8150_pp,
- 		.merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-index a7a24539921f..e42f901a7de5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-@@ -57,8 +57,7 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
- static void _setup_dspp_ops(struct dpu_hw_dspp *c,
- 		unsigned long features)
- {
--	if (test_bit(DPU_DSPP_PCC, &features) &&
--		IS_SC7180_TARGET(c->hw.hwversion))
-+	if (test_bit(DPU_DSPP_PCC, &features))
- 		c->ops.setup_pcc = dpu_setup_dspp_pcc;
- }
- 
 -- 
-2.28.0
-
+viresh
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
