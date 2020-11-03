@@ -1,72 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200152A5F93
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3810F2A5F55
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:22:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2605F6F3EA;
-	Wed,  4 Nov 2020 08:23:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF14F894EA;
+	Wed,  4 Nov 2020 08:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9436E866
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 10:08:02 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id E66DBAA1;
- Tue,  3 Nov 2020 05:08:01 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 03 Nov 2020 05:08:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=5ldSgRt2nJaUnCvKYi8wizGE0zd
- CFaN3dun5/ObZwQs=; b=cjqPKpfXVOwrGyXJS1CoupVp1AteNcCSvdcBeyWgW0/
- qkh+Co3IK/meFeAk7+1jSxVkz7xKh2ItLTFHX972zBgCsby50Tr6oa6dX8fFFuCn
- RYbhNyzhFBpadzCd+kj1zt5vMv/Ns5dUNW4+5fItUb5qrTxRkJO7qToGI6uc2OqV
- tyg1TWoLmvcA8xijF+VW3Ks8UXj9m0mUJyhtN4zjkdPHDeL6ZI7VVhnnh9LDonwE
- dR56kHLRsynu7n8gFPasIm+D9tcALWWeUKJ1b5U7qgVjICbXETA8C5P4rCXT2CwB
- G0Q1QbJLj8nzrvt0r7JPelHZITnkZpWDBofZrgCVexg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=5ldSgR
- t2nJaUnCvKYi8wizGE0zdCFaN3dun5/ObZwQs=; b=qWLCGo6rsOafcuRu6rBCCs
- S9fvVQaRQIqKhO/DQTjo2ckgOl2/Qzifx/LIWxnVdPeOay0/685yEIXcbCizay8G
- S1T/eb2VVhmI8hNfzFJ+Yc+uTpLAHTKhDoLR1GPQuXObjHkzppK0kpNE1jG3pCjv
- UG6kTwDRRy/P5jju6MEZ/lp4Ae6eehjtW/CveQUn03rG/OmW8Xcag1gL+c/Lpaq0
- KXKu69Ln4SSc196XzPsb82Xh7oqqQ0IMSGkkImJRrGaYBoLP6tHNepBAf+q2ryGT
- 8pHg0/E6sh/UVSy+gJCSf/Ab6PowkQysMQJITbeJEgQBL/dtllfV+zc56T0O+gQQ
- ==
-X-ME-Sender: <xms:ASyhX6muzcTqskOWYHfK3Rgx_OhbhsltTyHaBSpdqr6YRbH-LJhmXg>
- <xme:ASyhXx1QQXBp6rHDYWXsNCALcpoDjgGaDL5QI5SJF0iCH3AXUmkzKBQ0sO-xWTp8T
- -1ELiY9u0e_LHyk5qg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtfedguddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
- gfevnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ASyhX4qC5XEPJjkHznVsYVA41S130AOu09GZQ6k_-nRywQfh3ML0Hg>
- <xmx:ASyhX-n8G_oMSdfitdwjx6SrG1h9Tki_lW2LDVDF9Fq4fA6fFVTWSw>
- <xmx:ASyhX43JMxSIuD2cVo-cFPCduDMt2CYZ6F5Avxrp1ri3p4wQ3G9etw>
- <xmx:ASyhX1xxVGLG_IrXmBaroD7c-GOTFZS2evE3sIPg3pEkOvwLGDGBtw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 17B1F3064674;
- Tue,  3 Nov 2020 05:08:01 -0500 (EST)
-Date: Tue, 3 Nov 2020 11:07:59 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 3/3] drm: Use the state pointer directly in atomic_check
-Message-ID: <20201103100759.wunjg4ru2av2gk6c@gilmour.lan>
-References: <20201102133834.1176740-1-maxime@cerno.tech>
- <20201102133834.1176740-3-maxime@cerno.tech>
- <20201102160604.GO6112@intel.com>
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6216E8A8
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 10:12:14 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id g15so869832ilc.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 02:12:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=b9Ktpm35fisVuHEhjhohgaqyboE8BmrrMoCITk9vnK8=;
+ b=0kZJ8Rb9+0/H3MVDUevyCTWAc1pKYDKmZzYacQKCMmC/UQ66qmBgifq30qeC2iVztI
+ ATPY1knKGSXDzJ6+Nm3tm3Ffn81WkUy/sBCmPfD94FibScrq8/Ui+9TUYldHJ7pcnk1t
+ gx+nhhl2zwwSRNNGE6X3g+mK8ICIfWN15TzWFBAm2Ac+Fnp/Nc7mvMvQxol3TgeHLuHe
+ fB2HlcDfVoQUKXEDUTDlyUi1MwQ1IJbHWYhRPhxFdctoJ/ps1THqNVawMwUkgd/uHgQv
+ AYOBJizY9XV1L84dWspkXE7W+jTkhJPV/Ws9WaUAfWMNJujPYu+ExPkpZXByTNBy8wKU
+ VaOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=b9Ktpm35fisVuHEhjhohgaqyboE8BmrrMoCITk9vnK8=;
+ b=OezqJTtjxHePnXey7TlURyacHqNpvEPxw28y/E1ZSO/1Aofm5pzO1f++jnrgGucpUU
+ CS/HLMealdVmK/a+QQ+XIaJKaMTLRsIRtlEFiEeBLCRAT1KEwr9zBcQJs0Ue9KkEirFb
+ WYSMcMoHWnhDf4d55JUMJ9PmUupDbbAjOwtOX+FM/1/d4YzY6pHv/VUcLVeTO6afn2nc
+ ppduKox6Nc8bpaB43X7a679FFTiumSmXGcHC7buh+rLSaKemjuqTfKNtPLWEYtwI7FaS
+ cYPxaANnGMb85Q9oxLYk4iD6+9RYmHnwe2l/W8tDkGPNF6szInNhsDAhQI00m7ptFZtt
+ 9xbw==
+X-Gm-Message-State: AOAM531/0yH7x6CjRj675zf1YbTfOsrx0X3KrgIXEf88coKFGk5PcyUl
+ ghlnFzpX55pDOJjlObcBcueewLlSOsjyVjpdf6JXmw==
+X-Google-Smtp-Source: ABdhPJxXaKRnidyqbx6iUG254lVJzvxaSAJ3Y8t7tBOtYCNJcNKDXTe4r/tIo6bcU8qIdoqImm6tntmYdwdU1LT5yRY=
+X-Received: by 2002:a05:6e02:926:: with SMTP id
+ o6mr14285653ilt.287.1604398333472; 
+ Tue, 03 Nov 2020 02:12:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201102160604.GO6112@intel.com>
+References: <20201102152037.963-1-brgl@bgdev.pl>
+ <21d80265fccfcb5d76851c84d1c2d88e0421ab85.camel@perches.com>
+In-Reply-To: <21d80265fccfcb5d76851c84d1c2d88e0421ab85.camel@perches.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 3 Nov 2020 11:12:02 +0100
+Message-ID: <CAMRc=Me4-4Cmoq3UdpYEEhERP6fvt97bEJsZYhrcFSQf+a_voA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] slab: provide and use krealloc_array()
+To: Joe Perches <joe@perches.com>
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,101 +64,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============1483012516=="
+Cc: Linux-ALSA <alsa-devel@alsa-project.org>, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jaroslav Kysela <perex@perex.cz>, linux-mm@kvack.org,
+ Christoph Lameter <cl@linux.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ David Rientjes <rientjes@google.com>,
+ virtualization@lists.linux-foundation.org, Jason Wang <jasowang@redhat.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Robert Richter <rric@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linaro-mm-sig@lists.linaro.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Borislav Petkov <bp@alien8.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-edac@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, netdev <netdev@vger.kernel.org>,
+ Takashi Iwai <tiwai@suse.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Pekka Enberg <penberg@kernel.org>, James Morse <james.morse@arm.com>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Nov 3, 2020 at 5:14 AM Joe Perches <joe@perches.com> wrote:
+>
+> On Mon, 2020-11-02 at 16:20 +0100, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > Andy brought to my attention the fact that users allocating an array of
+> > equally sized elements should check if the size multiplication doesn't
+> > overflow. This is why we have helpers like kmalloc_array().
+> >
+> > However we don't have krealloc_array() equivalent and there are many
+> > users who do their own multiplication when calling krealloc() for arrays.
+> >
+> > This series provides krealloc_array() and uses it in a couple places.
+>
+> My concern about this is a possible assumption that __GFP_ZERO will
+> work, and as far as I know, it will not.
+>
 
---===============1483012516==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="et4xfibc243bf7u5"
-Content-Disposition: inline
+Yeah so I had this concern for devm_krealloc() and even sent a patch
+that extended it to honor __GFP_ZERO before I noticed that regular
+krealloc() silently ignores __GFP_ZERO. I'm not sure if this is on
+purpose. Maybe we should either make krealloc() honor __GFP_ZERO or
+explicitly state in its documentation that it ignores it?
 
+This concern isn't really related to this patch as such - it's more of
+a general krealloc() inconsistency.
 
---et4xfibc243bf7u5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Nov 02, 2020 at 06:06:04PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Mon, Nov 02, 2020 at 02:38:34PM +0100, Maxime Ripard wrote:
-> > Now that atomic_check takes the global atomic state as a parameter, we
-> > don't need to go through the pointer in the CRTC state.
-> >=20
-> > This was done using the following coccinelle script:
-> >=20
-> > @ crtc_atomic_func @
-> > identifier helpers;
-> > identifier func;
-> > @@
-> >=20
-> > static struct drm_crtc_helper_funcs helpers =3D {
-> > 	...,
-> > 	.atomic_check =3D func,
-> > 	...,
-> > };
-> >=20
-> > @@
-> > identifier crtc_atomic_func.func;
-> > identifier crtc, state;
-> > @@
-> >=20
-> >   func(struct drm_crtc *crtc, struct drm_atomic_state *state) {
-> >   ...
-> > - struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(s=
-tate, crtc);
-> >   ... when !=3D crtc_state
-> > - crtc_state->state
-> > + state
-> >   ...
-> >  }
-> >=20
-> > @@
-> > struct drm_crtc_state *crtc_state;
-> > identifier crtc_atomic_func.func;
-> > identifier crtc, state;
-> > @@
-> >=20
-> >   func(struct drm_crtc *crtc, struct drm_atomic_state *state) {
-> >   ...
-> > - crtc_state->state
-> > + state
-> >   ...
-> >  }
-> >=20
-> > Suggested-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> lgtm
-> Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-
-Applied, thanks!
-Maxime
-
---et4xfibc243bf7u5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX6Er/wAKCRDj7w1vZxhR
-xfOwAQDgMtSnE4cGivPentogU8zu1KfPcgZ+Y8IeK12nDmnJvgEA1REwDEHtWxHR
-w8gUlWmGQoln/mSunkttPo57QJlafwI=
-=jTgD
------END PGP SIGNATURE-----
-
---et4xfibc243bf7u5--
-
---===============1483012516==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Bartosz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1483012516==--
