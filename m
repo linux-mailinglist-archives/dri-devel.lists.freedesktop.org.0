@@ -1,61 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345062A4C17
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 17:59:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 715AA2A4C46
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 18:06:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 535686E8B4;
-	Tue,  3 Nov 2020 16:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBB606E8BC;
+	Tue,  3 Nov 2020 17:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 045C66E8B4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 16:58:55 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id h62so20308wme.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 08:58:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=HqZuOp1IITKuiPPZaNsPGJeGO0RvbPcrP3kFi4nxuE8=;
- b=YyYsWNkrDNuDCpBgKSwGff4dnxBPuEnHIujXjJob4UwYR9oZMzoahOm0S6UDEuelBp
- 0JiaTPUTaGdcEPBqTBiLK9gZ4wGWog+PhgUGKPaMeD1SiQ2wOFNxmx0YcsNVl6p7Ts70
- 551GO9y9V1INFtKFyblT/ajtDwMRnyAH0sn2Fho/SZHEx/7sOvp7W0PLVuSpozEVODbX
- hzVklKagnDgIDsk7B0+YcYDLkWtyuGeMdIU0FNNIegNuaGtGTMYaezd7GKzoEcvn8Cmj
- SbhGqB/vLR3JSCyd8MgiN8b6EHd80yEgW1FgS8tQS2Sn/MpCEsXGba6CRvT1hFrUzWDr
- xwOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HqZuOp1IITKuiPPZaNsPGJeGO0RvbPcrP3kFi4nxuE8=;
- b=YvpmeKMcxKPcN5loFJb0Qx6Ns7WATgdaVb9IrKytJCJBcsVGUSByETODYaq137BUbs
- fBE+fA/CltlCssQG2M4kcEjAV4UUoxktcOQcpgbhJct8UGuKpcmbaE9iYnIyuS8FPrDs
- gHir0Aqt/l6Z1eILjqGXwqb3S2BNjHbSvXrbfhwCNb6tzCDruwusmhi1JC6WPBQDD/EN
- 86EVzebvW3DNzE1CgyRYIPML8lv6s4xwt/QqGUg7K/SPH1RNF1O3LFX8bb5b775/R4l5
- QkxCDVn1mKxW66pqwoJz4YitpH9BA6rS2QwgPPCbpEwJQVg9lcyUuulnhlKXxGiSgEEv
- IKYQ==
-X-Gm-Message-State: AOAM5337njGbN+7UpiX2NZoGOmGqRgXJUuB2c70gV6KxBC567CmAaXO7
- Qm7tzxTSYiZH9JqIVR7sCSR9TA==
-X-Google-Smtp-Source: ABdhPJyKFVzDM1bYQ7reHvRRi8XCIV24MNoWqNViuGekTs+HNbjzL62ZGEz0MRy0rZGLpTKBpe5IdQ==
-X-Received: by 2002:a7b:c201:: with SMTP id x1mr100113wmi.42.1604422734274;
- Tue, 03 Nov 2020 08:58:54 -0800 (PST)
-Received: from holly.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id g14sm26953238wrx.22.2020.11.03.08.58.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 08:58:53 -0800 (PST)
-Date: Tue, 3 Nov 2020 16:58:51 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v3] MAINTAINERS: add Dan Murphy as TI LP8xxx drivers
- maintainer
-Message-ID: <20201103165851.uabbg4zazofyis62@holly.lan>
-References: <20201103162832.14085-1-krzk@kernel.org>
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27DB36E8BC
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 17:06:16 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fa18e060000>; Tue, 03 Nov 2020 09:06:14 -0800
+Received: from [10.26.45.122] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Nov
+ 2020 17:06:13 +0000
+Subject: Re: [PATCH] drm/tegra: sor: Don't warn on probe deferral
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20201103114426.546626-1-jonathanh@nvidia.com>
+From: Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <cc0e6f6e-2e06-81b3-38b8-fbdc5c772658@nvidia.com>
+Date: Tue, 3 Nov 2020 17:06:11 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201103162832.14085-1-krzk@kernel.org>
+In-Reply-To: <20201103114426.546626-1-jonathanh@nvidia.com>
+Content-Language: en-US
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604423174; bh=wLq1VK2L7j+qzIJOsu91q3Us07fpe99UhftzABkPUJw=;
+ h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=bzkNQpyjQa6zoWrV4LtF9I/xCCgR5HgfDSoaKMcSTx+viezL7EssCm7uAx4gsHtGw
+ 6BO59p5M9FkbGxoE4K3MWb9TMiv1h3dS+YqX4c+04R+l7xUxlPSbLoZuKCIjC1s+Sh
+ k05cflTwL/pLCWRwWuDKXv9SzBdxo+cJYHMcoPl5kvFi0Rq/0Q/DPgu7XMSHYV0Wrb
+ Zx/wNP8oyB58cUBEjZnQG4CPoDPNVTxL1oUs79AK6Opy955M6utfl6JEur7Q49Yg0J
+ gIjZGozkIyfITji3Vnhp62NPQkSU08Ya95av0aI85LZY5h0IpEjCNp24L3gMLfRmFb
+ 7Q7tMx9aIRD1A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,49 +56,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-iio@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Mark Brown <broonie@kernel.org>, linux-pm@vger.kernel.org,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Liam Girdwood <lgirdwood@gmail.com>, Thierry Reding <thierry.reding@gmail.com>,
- Dan Murphy <dmurphy@ti.com>, Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
- Jonathan Cameron <jic23@kernel.org>
+Cc: David Airlie <airlied@linux.ie>, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 03, 2020 at 05:28:32PM +0100, Krzysztof Kozlowski wrote:
-> Milo Kim's email in TI bounces with permanent error (550: Invalid
-> recipient).  Last email from him on LKML was in 2017.  Move Milo Kim to
-> credits and add Dan Murphy from TI to look after:
->  - TI LP855x backlight driver,
->  - TI LP8727 charger driver,
->  - TI LP8788 MFD (ADC, LEDs, charger and regulator) drivers.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Acked-by: Dan Murphy <dmurphy@ti.com>
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Acked-by: Sebastian Reichel <sre@kernel.org>
 
+On 03/11/2020 11:44, Jon Hunter wrote:
+> Deferred probe is an expected return value for tegra_output_probe().
+> Given that the driver deals with it properly, there's no need to output
+> a warning that may potentially confuse users.
 > 
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
 > ---
+>  drivers/gpu/drm/tegra/sor.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Dear Lee,
-> 
-> Could you take care about this patch?
+> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> index e88a17c2937f..5a232055b8cc 100644
+> --- a/drivers/gpu/drm/tegra/sor.c
+> +++ b/drivers/gpu/drm/tegra/sor.c
+> @@ -3765,7 +3765,7 @@ static int tegra_sor_probe(struct platform_device *pdev)
+>  
+>  	err = tegra_output_probe(&sor->output);
+>  	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to probe output: %d\n", err);
+> +		dev_err_probe(&pdev->dev, "failed to probe output: %d\n", err);
+>  		return err;
+>  	}
 
-Just in case Lee wants it:
-Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+Sorry this is not right. I will fix this in V2.
 
+Jon
 
-Daniel.
+-- 
+nvpublic
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
