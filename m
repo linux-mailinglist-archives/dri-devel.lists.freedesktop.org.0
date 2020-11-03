@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0042A5F63
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:23:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D370C2A5F54
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:22:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D57989BF0;
-	Wed,  4 Nov 2020 08:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8029A8946E;
+	Wed,  4 Nov 2020 08:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCE06EC72;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34EE26EC6C;
  Tue,  3 Nov 2020 10:33:53 +0000 (UTC)
-Message-Id: <20201103095858.625310005@linutronix.de>
+Message-Id: <20201103095858.734064977@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399627;
+ s=2020; t=1604399629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=u8HY47nQ1rEETIi4/9zdfAjblKurxchJCqLvsv7KpOQ=;
- b=UIhQ3Idxk6DjqiC6Zp5rc4N6iIwQmApwpEz7EKu7hqb91V0vjErMVftYE/lIlYUApLaISa
- 3ccLnmNasdVRHOr19A+0USX+WAAkZZIjUMJdOqwtST6bwLR8FfbnRoR8LKumRrrftbirYG
- 0l6PZFPBhGEyltNl2guOKD+Y7j8W02bAqqHBZavnWH3Paom7PdVcbI5qxqWz6ddv36DWCP
- zm4P6Knv2IQI5zIUHr2mvjLgLvmtINMaZyEWkyzXbaMNAnE91CmwDx3Mp24quHVVlblvyj
- fuGwVAaCvcmIe9Q95benYVD1y+pfol/PFOUqRXxGybqy2IC6v/D7p/hCR6+Rig==
+ bh=GQtIeN+bNrXtdDJbIY1/lT5u2Qlmlecyg45ylimAqeo=;
+ b=otNm1FLhC7ruMh7oNXQtNETNU6+54RFk+t2LyeEF9d9+kDoZ9Kh8ZPgA+UB8A6JQ1ZXrGj
+ 0TPeQl8iy37SQzf3hhxJ0YH8tjvvuOPaAqFoJKHafSPmEiutw0Ud/5TB6XtJVn4M9v5QlN
+ Kc0YPCEkVxgY8QSHdaCi6xZgLgOgc1LgMVaGrZjI4AUGq0ZlUKuDX4Xk4y+i0m9xE3dk86
+ 7GNBZMVBc/q+vRf7Zxdqgcl3bL7dPvuY81X2pyGhr1m48UNO2c+I7V2+wunozMP8FhvNCm
+ gkFktETWxncmi0cgpUqLzaSL8knV0VimchG0Urhi5o5DvILy9hDHjs2CmUtXqQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399627;
+ s=2020e; t=1604399629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=u8HY47nQ1rEETIi4/9zdfAjblKurxchJCqLvsv7KpOQ=;
- b=Wh1ctmmSJLQbhvGkIjkjFlpjReRcEPXXdhQjfh9QkvigubCQPDmw4DWcX/N5g5dqM9hpPg
- QWU4PaI/uom22gDQ==
-Date: Tue, 03 Nov 2020 10:27:32 +0100
+ bh=GQtIeN+bNrXtdDJbIY1/lT5u2Qlmlecyg45ylimAqeo=;
+ b=aDUoEgUsKRf0mAVHG33KZuw3tdfR+OUYkG1a4FnTBJVD3Vb06TvF7LUgRRezOsbA4xMida
+ qFHqtJWvRi1kHPBw==
+Date: Tue, 03 Nov 2020 10:27:33 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 20/37] io-mapping: Cleanup atomic iomap 
+Subject: [patch V3 21/37] Documentation/io-mapping: Remove outdated blurb
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
@@ -90,82 +90,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch the atomic iomap implementation over to kmap_local and stick the
-preempt/pagefault mechanics into the generic code similar to the
-kmap_atomic variants.
-
-Rename the x86 map function in preparation for a non-atomic variant.
+The implementation details in the documentation are outdated and not really
+helpful. Remove them.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
-V2: New patch to make review easier
+V3: New patch
 ---
- arch/x86/include/asm/iomap.h |    9 +--------
- arch/x86/mm/iomap_32.c       |    6 ++----
- include/linux/io-mapping.h   |    8 ++++++--
- 3 files changed, 9 insertions(+), 14 deletions(-)
+ Documentation/driver-api/io-mapping.rst |   22 ----------------------
+ 1 file changed, 22 deletions(-)
 
---- a/arch/x86/include/asm/iomap.h
-+++ b/arch/x86/include/asm/iomap.h
-@@ -13,14 +13,7 @@
- #include <asm/cacheflush.h>
- #include <asm/tlbflush.h>
+--- a/Documentation/driver-api/io-mapping.rst
++++ b/Documentation/driver-api/io-mapping.rst
+@@ -73,25 +73,3 @@ for pages mapped with io_mapping_map_wc.
+ At driver close time, the io_mapping object must be freed::
  
--void __iomem *iomap_atomic_pfn_prot(unsigned long pfn, pgprot_t prot);
+ 	void io_mapping_free(struct io_mapping *mapping)
 -
--static inline void iounmap_atomic(void __iomem *vaddr)
--{
--	kunmap_local_indexed((void __force *)vaddr);
--	pagefault_enable();
--	preempt_enable();
--}
-+void __iomem *__iomap_local_pfn_prot(unsigned long pfn, pgprot_t prot);
- 
- int iomap_create_wc(resource_size_t base, unsigned long size, pgprot_t *prot);
- 
---- a/arch/x86/mm/iomap_32.c
-+++ b/arch/x86/mm/iomap_32.c
-@@ -44,7 +44,7 @@ void iomap_free(resource_size_t base, un
- }
- EXPORT_SYMBOL_GPL(iomap_free);
- 
--void __iomem *iomap_atomic_pfn_prot(unsigned long pfn, pgprot_t prot)
-+void __iomem *__iomap_local_pfn_prot(unsigned long pfn, pgprot_t prot)
- {
- 	/*
- 	 * For non-PAT systems, translate non-WB request to UC- just in
-@@ -60,8 +60,6 @@ void __iomem *iomap_atomic_pfn_prot(unsi
- 	/* Filter out unsupported __PAGE_KERNEL* bits: */
- 	pgprot_val(prot) &= __default_kernel_pte_mask;
- 
--	preempt_disable();
--	pagefault_disable();
- 	return (void __force __iomem *)__kmap_local_pfn_prot(pfn, prot);
- }
--EXPORT_SYMBOL_GPL(iomap_atomic_pfn_prot);
-+EXPORT_SYMBOL_GPL(__iomap_local_pfn_prot);
---- a/include/linux/io-mapping.h
-+++ b/include/linux/io-mapping.h
-@@ -69,13 +69,17 @@ io_mapping_map_atomic_wc(struct io_mappi
- 
- 	BUG_ON(offset >= mapping->size);
- 	phys_addr = mapping->base + offset;
--	return iomap_atomic_pfn_prot(PHYS_PFN(phys_addr), mapping->prot);
-+	preempt_disable();
-+	pagefault_disable();
-+	return __iomap_local_pfn_prot(PHYS_PFN(phys_addr), mapping->prot);
- }
- 
- static inline void
- io_mapping_unmap_atomic(void __iomem *vaddr)
- {
--	iounmap_atomic(vaddr);
-+	kunmap_local_indexed((void __force *)vaddr);
-+	pagefault_enable();
-+	preempt_enable();
- }
- 
- static inline void __iomem *
+-Current Implementation
+-======================
+-
+-The initial implementation of these functions uses existing mapping
+-mechanisms and so provides only an abstraction layer and no new
+-functionality.
+-
+-On 64-bit processors, io_mapping_create_wc calls ioremap_wc for the whole
+-range, creating a permanent kernel-visible mapping to the resource. The
+-map_atomic and map functions add the requested offset to the base of the
+-virtual address returned by ioremap_wc.
+-
+-On 32-bit processors with HIGHMEM defined, io_mapping_map_atomic_wc uses
+-kmap_atomic_pfn to map the specified page in an atomic fashion;
+-kmap_atomic_pfn isn't really supposed to be used with device pages, but it
+-provides an efficient mapping for this usage.
+-
+-On 32-bit processors without HIGHMEM defined, io_mapping_map_atomic_wc and
+-io_mapping_map_wc both use ioremap_wc, a terribly inefficient function which
+-performs an IPI to inform all processors about the new mapping. This results
+-in a significant performance penalty.
 
 _______________________________________________
 dri-devel mailing list
