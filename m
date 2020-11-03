@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6852A5F8C
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146552A5F5B
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:23:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBF46F3F3;
-	Wed,  4 Nov 2020 08:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3B889202;
+	Wed,  4 Nov 2020 08:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB9D6EC66;
- Tue,  3 Nov 2020 10:33:44 +0000 (UTC)
-Message-Id: <20201103095858.087635810@linutronix.de>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64FA46EC6C;
+ Tue,  3 Nov 2020 10:33:46 +0000 (UTC)
+Message-Id: <20201103095858.197568209@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399621;
+ s=2020; t=1604399623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=YX1PQTg2CYVli1gLl/q/qvYrCCx4yPjMZdQxpvOqb9s=;
- b=MzJQcnG7Hz+WnVjX/QphXqk0O0bntgN2gsDf5VGJElp4uliYNV4uOsp61pvjfprfC1w4ug
- dUbF1RL8+Cu7sxJNUd9ZE8BFMV4FMMQD7/dOCUsFl6P5RAvpA5qXrBZSNX4j+rYl1XPxUX
- AQIet4Bc0OzU01D4QqlmvIM8+8k06Btx8LRzmF7O20bC7xf0DwMZHAevt7fKp9hsN9QXm+
- iYKgejtDUgeX5WI+XWYUcgomj3zK5CtFEMlm7xWZmGSw/JwnrrN1VxLJ+3RuXXGUPW3Ctg
- Q1T9R/QFfU90UseKtdt/fOqZIuGj9SDYUse5TaGxhoXL1Sd2qLzKpxO3B3qNrg==
+ bh=Tgz+f/RcorCuT8bNMsZauaIBOIRSsQ7kii5gllfIPL4=;
+ b=jhQNw+8fHVyluJRJFhVSJCvjJII3kUo/luxv8yauLhUVzRwXLYk2NysYfWipwbtyeJD6cC
+ BQcLEgh0qsTcs7uAWW6OE97xEs2dFg1JRVrT8mu5HbpL8XTVwD4sBamM7cS4FXA7Y8Md1H
+ erGeRi3jYHVHfm6PMVowO16BziwTwFPbfQDApYhEOC745fUAns+2PI9xCCKFNS5aKh0yTo
+ nuY4w43jb9xmgkcKrWD+mIBOYHK8PGwMDKpFQrkAgRLVkZjg492AJ9bEiacdf67DY+E7cP
+ L58hkWujw/X+Ap7S+oNpLy4N8ph7qxqXy3rR/w9UrVR22BXBJ+IpiY4q9A6HHw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399621;
+ s=2020e; t=1604399623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=YX1PQTg2CYVli1gLl/q/qvYrCCx4yPjMZdQxpvOqb9s=;
- b=XmR8b31tbj1X0jVmftUMRFaXdEEDXToDqeXdj1/uIDvKxc37xVtwQREP5R4agOV29YcpEU
- 4J+a/Nz2vYvNhIDw==
-Date: Tue, 03 Nov 2020 10:27:27 +0100
+ bh=Tgz+f/RcorCuT8bNMsZauaIBOIRSsQ7kii5gllfIPL4=;
+ b=Rk3mmhOJuG0Rq/0wckekvm/k4pUZhPyqSR54DJIQdgC94PuCPoFDbQ3szESSL0xM5qcaFi
+ QAJJpoEPeYfd2xBw==
+Date: Tue, 03 Nov 2020 10:27:28 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 15/37] powerpc/mm/highmem: Switch to generic kmap atomic
+Subject: [patch V3 16/37] sparc/mm/highmem: Switch to generic kmap atomic
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
@@ -60,16 +60,16 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Bristot de Oliveira <bristot@redhat.com>, sparclinux@vger.kernel.org,
  Vincent Chen <deanbo422@gmail.com>, Christoph Hellwig <hch@lst.de>,
- Vincent Guittot <vincent.guittot@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- linux-csky@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
- David Airlie <airlied@linux.ie>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul McKenney <paulmck@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
  VMware Graphics <linux-graphics-maintainer@vmware.com>,
  Mel Gorman <mgorman@suse.de>, nouveau@lists.freedesktop.org,
  Dave Airlie <airlied@redhat.com>, linux-snps-arc@lists.infradead.org,
  Ben Skeggs <bskeggs@redhat.com>, linux-xtensa@linux-xtensa.org,
- Paul McKenney <paulmck@kernel.org>, intel-gfx@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
  Roland Scheidegger <sroland@vmware.com>, Josef Bacik <josef@toxicpanda.com>,
  Steven Rostedt <rostedt@goodmis.org>,
  Linus Torvalds <torvalds@linuxfoundation.org>,
@@ -93,145 +93,174 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 No reason having the same code in every architecture
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: linuxppc-dev@lists.ozlabs.org
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: sparclinux@vger.kernel.org
 ---
 V3: Remove the kmap types cruft
 ---
- arch/powerpc/Kconfig                  |    1 
- arch/powerpc/include/asm/fixmap.h     |    4 +-
- arch/powerpc/include/asm/highmem.h    |    7 ++-
- arch/powerpc/include/asm/kmap_types.h |   13 ------
- arch/powerpc/mm/Makefile              |    1 
- arch/powerpc/mm/highmem.c             |   67 ----------------------------------
- arch/powerpc/mm/mem.c                 |    7 ---
- 7 files changed, 8 insertions(+), 92 deletions(-)
+ arch/sparc/Kconfig                  |    1 
+ arch/sparc/include/asm/highmem.h    |    8 +-
+ arch/sparc/include/asm/kmap_types.h |   11 ---
+ arch/sparc/include/asm/vaddrs.h     |    4 -
+ arch/sparc/mm/Makefile              |    3 
+ arch/sparc/mm/highmem.c             |  115 ------------------------------------
+ arch/sparc/mm/srmmu.c               |    2 
+ 7 files changed, 8 insertions(+), 136 deletions(-)
 
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -409,6 +409,7 @@ menu "Kernel options"
+--- a/arch/sparc/Kconfig
++++ b/arch/sparc/Kconfig
+@@ -139,6 +139,7 @@ config MMU
  config HIGHMEM
- 	bool "High memory support"
- 	depends on PPC32
+ 	bool
+ 	default y if SPARC32
 +	select KMAP_LOCAL
  
- source "kernel/Kconfig.hz"
- 
---- a/arch/powerpc/include/asm/fixmap.h
-+++ b/arch/powerpc/include/asm/fixmap.h
-@@ -20,7 +20,7 @@
- #include <asm/page.h>
- #ifdef CONFIG_HIGHMEM
- #include <linux/threads.h>
--#include <asm/kmap_types.h>
-+#include <asm/kmap_size.h>
- #endif
- 
- #ifdef CONFIG_KASAN
-@@ -55,7 +55,7 @@ enum fixed_addresses {
- 	FIX_EARLY_DEBUG_BASE = FIX_EARLY_DEBUG_TOP+(ALIGN(SZ_128K, PAGE_SIZE)/PAGE_SIZE)-1,
- #ifdef CONFIG_HIGHMEM
- 	FIX_KMAP_BEGIN,	/* reserved pte's for temporary kernel mappings */
--	FIX_KMAP_END = FIX_KMAP_BEGIN+(KM_TYPE_NR*NR_CPUS)-1,
-+	FIX_KMAP_END = FIX_KMAP_BEGIN + (KM_MAX_IDX * NR_CPUS) - 1,
- #endif
- #ifdef CONFIG_PPC_8xx
- 	/* For IMMR we need an aligned 512K area */
---- a/arch/powerpc/include/asm/highmem.h
-+++ b/arch/powerpc/include/asm/highmem.h
-@@ -24,12 +24,10 @@
- #ifdef __KERNEL__
- 
+ config ZONE_DMA
+ 	bool
+--- a/arch/sparc/include/asm/highmem.h
++++ b/arch/sparc/include/asm/highmem.h
+@@ -24,7 +24,6 @@
  #include <linux/interrupt.h>
+ #include <linux/pgtable.h>
+ #include <asm/vaddrs.h>
 -#include <asm/kmap_types.h>
- #include <asm/cacheflush.h>
- #include <asm/page.h>
- #include <asm/fixmap.h>
+ #include <asm/pgtsrmmu.h>
  
--extern pte_t *kmap_pte;
+ /* declarations for highmem.c */
+@@ -33,8 +32,6 @@ extern unsigned long highstart_pfn, high
+ #define kmap_prot __pgprot(SRMMU_ET_PTE | SRMMU_PRIV | SRMMU_CACHE)
  extern pte_t *pkmap_page_table;
  
+-void kmap_init(void) __init;
+-
  /*
-@@ -60,6 +58,11 @@ extern pte_t *pkmap_page_table;
+  * Right now we initialize only a single pte table. It can be extended
+  * easily, subsequent pte tables have to be allocated in one physical
+@@ -53,6 +50,11 @@ void kmap_init(void) __init;
  
  #define flush_cache_kmaps()	flush_cache_all()
  
-+#define arch_kmap_local_post_map(vaddr, pteval)	\
-+	local_flush_tlb_page(NULL, vaddr)
-+#define arch_kmap_local_post_unmap(vaddr)	\
-+	local_flush_tlb_page(NULL, vaddr)
++/* FIXME: Use __flush_tlb_one(vaddr) instead of flush_cache_all() -- Anton */
++#define arch_kmap_local_post_map(vaddr, pteval)	flush_cache_all()
++#define arch_kmap_local_post_unmap(vaddr)	flush_cache_all()
++
 +
  #endif /* __KERNEL__ */
  
  #endif /* _ASM_HIGHMEM_H */
---- a/arch/powerpc/include/asm/kmap_types.h
+--- a/arch/sparc/include/asm/kmap_types.h
 +++ /dev/null
-@@ -1,13 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--#ifndef _ASM_POWERPC_KMAP_TYPES_H
--#define _ASM_POWERPC_KMAP_TYPES_H
+@@ -1,11 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef _ASM_KMAP_TYPES_H
+-#define _ASM_KMAP_TYPES_H
 -
--#ifdef __KERNEL__
--
--/*
+-/* Dummy header just to define km_type.  None of this
+- * is actually used on sparc.  -DaveM
 - */
 -
--#define KM_TYPE_NR 16
+-#include <asm-generic/kmap_types.h>
 -
--#endif	/* __KERNEL__ */
--#endif	/* _ASM_POWERPC_KMAP_TYPES_H */
---- a/arch/powerpc/mm/Makefile
-+++ b/arch/powerpc/mm/Makefile
-@@ -16,7 +16,6 @@ obj-$(CONFIG_NEED_MULTIPLE_NODES) += num
- obj-$(CONFIG_PPC_MM_SLICES)	+= slice.o
- obj-$(CONFIG_HUGETLB_PAGE)	+= hugetlbpage.o
- obj-$(CONFIG_NOT_COHERENT_CACHE) += dma-noncoherent.o
--obj-$(CONFIG_HIGHMEM)		+= highmem.o
- obj-$(CONFIG_PPC_COPRO_BASE)	+= copro_fault.o
- obj-$(CONFIG_PPC_PTDUMP)	+= ptdump/
- obj-$(CONFIG_KASAN)		+= kasan/
---- a/arch/powerpc/mm/highmem.c
+-#endif
+--- a/arch/sparc/include/asm/vaddrs.h
++++ b/arch/sparc/include/asm/vaddrs.h
+@@ -32,13 +32,13 @@
+ #define SRMMU_NOCACHE_ALCRATIO	64	/* 256 pages per 64MB of system RAM */
+ 
+ #ifndef __ASSEMBLY__
+-#include <asm/kmap_types.h>
++#include <asm/kmap_size.h>
+ 
+ enum fixed_addresses {
+ 	FIX_HOLE,
+ #ifdef CONFIG_HIGHMEM
+ 	FIX_KMAP_BEGIN,
+-	FIX_KMAP_END = (KM_TYPE_NR * NR_CPUS),
++	FIX_KMAP_END = (KM_MAX_IDX * NR_CPUS),
+ #endif
+ 	__end_of_fixed_addresses
+ };
+--- a/arch/sparc/mm/Makefile
++++ b/arch/sparc/mm/Makefile
+@@ -15,6 +15,3 @@ obj-$(CONFIG_SPARC32)   += leon_mm.o
+ 
+ # Only used by sparc64
+ obj-$(CONFIG_HUGETLB_PAGE) += hugetlbpage.o
+-
+-# Only used by sparc32
+-obj-$(CONFIG_HIGHMEM)   += highmem.o
+--- a/arch/sparc/mm/highmem.c
 +++ /dev/null
-@@ -1,67 +0,0 @@
+@@ -1,115 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0
 -/*
-- * highmem.c: virtual kernel memory mappings for high memory
+- *  highmem.c: virtual kernel memory mappings for high memory
 - *
-- * PowerPC version, stolen from the i386 version.
+- *  Provides kernel-static versions of atomic kmap functions originally
+- *  found as inlines in include/asm-sparc/highmem.h.  These became
+- *  needed as kmap_atomic() and kunmap_atomic() started getting
+- *  called from within modules.
+- *  -- Tomas Szepe <szepe@pinerecords.com>, September 2002
 - *
-- * Used in CONFIG_HIGHMEM systems for memory pages which
-- * are not addressable by direct kernel virtual addresses.
-- *
-- * Copyright (C) 1999 Gerhard Wichert, Siemens AG
-- *		      Gerhard.Wichert@pdb.siemens.de
-- *
-- *
-- * Redesigned the x86 32-bit VM architecture to deal with
-- * up to 16 Terrabyte physical memory. With current x86 CPUs
-- * we now support up to 64 Gigabytes physical RAM.
-- *
-- * Copyright (C) 1999 Ingo Molnar <mingo@redhat.com>
-- *
-- * Reworked for PowerPC by various contributors. Moved from
-- * highmem.h by Benjamin Herrenschmidt (c) 2009 IBM Corp.
+- *  But kmap_atomic() and kunmap_atomic() cannot be inlined in
+- *  modules because they are loaded with btfixup-ped functions.
 - */
 -
+-/*
+- * The use of kmap_atomic/kunmap_atomic is discouraged - kmap/kunmap
+- * gives a more generic (and caching) interface. But kmap_atomic can
+- * be used in IRQ contexts, so in some (very limited) cases we need it.
+- *
+- * XXX This is an old text. Actually, it's good to use atomic kmaps,
+- * provided you remember that they are atomic and not try to sleep
+- * with a kmap taken, much like a spinlock. Non-atomic kmaps are
+- * shared by CPUs, and so precious, and establishing them requires IPI.
+- * Atomic kmaps are lightweight and we may have NCPUS more of them.
+- */
 -#include <linux/highmem.h>
--#include <linux/module.h>
+-#include <linux/export.h>
+-#include <linux/mm.h>
+-
+-#include <asm/cacheflush.h>
+-#include <asm/tlbflush.h>
+-#include <asm/vaddrs.h>
+-
+-static pte_t *kmap_pte;
+-
+-void __init kmap_init(void)
+-{
+-	unsigned long address = __fix_to_virt(FIX_KMAP_BEGIN);
+-
+-        /* cache the first kmap pte */
+-        kmap_pte = virt_to_kpte(address);
+-}
 -
 -void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
 -{
 -	unsigned long vaddr;
--	int idx, type;
+-	long idx, type;
 -
 -	type = kmap_atomic_idx_push();
 -	idx = type + KM_TYPE_NR*smp_processor_id();
 -	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
--	WARN_ON(IS_ENABLED(CONFIG_DEBUG_HIGHMEM) && !pte_none(*(kmap_pte - idx)));
--	__set_pte_at(&init_mm, vaddr, kmap_pte-idx, mk_pte(page, prot), 1);
--	local_flush_tlb_page(NULL, vaddr);
+-
+-/* XXX Fix - Anton */
+-#if 0
+-	__flush_cache_one(vaddr);
+-#else
+-	flush_cache_all();
+-#endif
+-
+-#ifdef CONFIG_DEBUG_HIGHMEM
+-	BUG_ON(!pte_none(*(kmap_pte-idx)));
+-#endif
+-	set_pte(kmap_pte-idx, mk_pte(page, prot));
+-/* XXX Fix - Anton */
+-#if 0
+-	__flush_tlb_one(vaddr);
+-#else
+-	flush_tlb_all();
+-#endif
 -
 -	return (void*) vaddr;
 -}
@@ -240,51 +269,55 @@ V3: Remove the kmap types cruft
 -void kunmap_atomic_high(void *kvaddr)
 -{
 -	unsigned long vaddr = (unsigned long) kvaddr & PAGE_MASK;
+-	int type;
 -
--	if (vaddr < __fix_to_virt(FIX_KMAP_END))
+-	if (vaddr < FIXADDR_START)
 -		return;
 -
--	if (IS_ENABLED(CONFIG_DEBUG_HIGHMEM)) {
--		int type = kmap_atomic_idx();
--		unsigned int idx;
+-	type = kmap_atomic_idx();
+-
+-#ifdef CONFIG_DEBUG_HIGHMEM
+-	{
+-		unsigned long idx;
 -
 -		idx = type + KM_TYPE_NR * smp_processor_id();
--		WARN_ON(vaddr != __fix_to_virt(FIX_KMAP_BEGIN + idx));
+-		BUG_ON(vaddr != __fix_to_virt(FIX_KMAP_BEGIN+idx));
+-
+-		/* XXX Fix - Anton */
+-#if 0
+-		__flush_cache_one(vaddr);
+-#else
+-		flush_cache_all();
+-#endif
 -
 -		/*
 -		 * force other mappings to Oops if they'll try to access
 -		 * this pte without first remap it
 -		 */
 -		pte_clear(&init_mm, vaddr, kmap_pte-idx);
--		local_flush_tlb_page(NULL, vaddr);
+-		/* XXX Fix - Anton */
+-#if 0
+-		__flush_tlb_one(vaddr);
+-#else
+-		flush_tlb_all();
+-#endif
 -	}
+-#endif
 -
 -	kmap_atomic_idx_pop();
 -}
 -EXPORT_SYMBOL(kunmap_atomic_high);
---- a/arch/powerpc/mm/mem.c
-+++ b/arch/powerpc/mm/mem.c
-@@ -61,11 +61,6 @@
- unsigned long long memory_limit;
- bool init_mem_is_free;
+--- a/arch/sparc/mm/srmmu.c
++++ b/arch/sparc/mm/srmmu.c
+@@ -971,8 +971,6 @@ void __init srmmu_paging_init(void)
  
--#ifdef CONFIG_HIGHMEM
--pte_t *kmap_pte;
--EXPORT_SYMBOL(kmap_pte);
--#endif
+ 	sparc_context_init(num_contexts);
+ 
+-	kmap_init();
 -
- pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
- 			      unsigned long size, pgprot_t vma_prot)
- {
-@@ -235,8 +230,6 @@ void __init paging_init(void)
+ 	{
+ 		unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0 };
  
- 	map_kernel_page(PKMAP_BASE, 0, __pgprot(0));	/* XXX gross */
- 	pkmap_page_table = virt_to_kpte(PKMAP_BASE);
--
--	kmap_pte = virt_to_kpte(__fix_to_virt(FIX_KMAP_BEGIN));
- #endif /* CONFIG_HIGHMEM */
- 
- 	printk(KERN_DEBUG "Top of RAM: 0x%llx, Total RAM: 0x%llx\n",
 
 _______________________________________________
 dri-devel mailing list
