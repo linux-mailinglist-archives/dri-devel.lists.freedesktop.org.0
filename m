@@ -1,80 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CA12A5F94
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4372A5F7D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:23:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D2E6F3F5;
-	Wed,  4 Nov 2020 08:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18F4D6F3C0;
+	Wed,  4 Nov 2020 08:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTP id 918B66E427;
- Tue,  3 Nov 2020 11:13:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 91F77AD89;
- Tue,  3 Nov 2020 11:13:48 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
- id D95E0DA7D2; Tue,  3 Nov 2020 12:12:08 +0100 (CET)
-Date: Tue, 3 Nov 2020 12:12:08 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch V3 03/37] fs: Remove asm/kmap_types.h includes
-Message-ID: <20201103111208.GL6756@suse.cz>
-Mail-Followup-To: dsterba@suse.cz, Thomas Gleixner <tglx@linutronix.de>,
- LKML <linux-kernel@vger.kernel.org>,
- Linus Torvalds <torvalds@linuxfoundation.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Paul McKenney <paulmck@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Benjamin LaHaise <bcrl@kvack.org>, linux-fsdevel@vger.kernel.org,
- linux-aio@kvack.org, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- linux-btrfs@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- x86@kernel.org, Vineet Gupta <vgupta@synopsys.com>,
- linux-snps-arc@lists.infradead.org,
- Russell King <linux@armlinux.org.uk>, Arnd Bergmann <arnd@arndb.de>,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-mips@vger.kernel.org, Nick Hu <nickhu@andestech.com>,
- Greentime Hu <green.hu@gmail.com>,
- Vincent Chen <deanbo422@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Paul Mackerras <paulus@samba.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>, sparclinux@vger.kernel.org,
- Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
- linux-xtensa@linux-xtensa.org, Ingo Molnar <mingo@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
- Daniel Bristot de Oliveira <bristot@redhat.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>,
- Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- nouveau@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20201103092712.714480842@linutronix.de>
- <20201103095856.870272797@linutronix.de>
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3FD36E85F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 11:25:27 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 09888B17;
+ Tue,  3 Nov 2020 06:25:26 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 03 Nov 2020 06:25:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=9K7ZUeG7Ei19ZU1lw4LTHV9xBo3
+ MS7gvaamZszlYvNM=; b=ZStu7JyNauLjo9d/Oy5VlNq2SAK77bUhJ7UpsF8Yly4
+ HfN8Wwk+J2pmmYe4cAQw7Cz/tiSvDWsDfbh0dk7cg7WTZeKBWsvYAX4p6XcUAtgr
+ Z+Jt52dmaF1dQt2nHEkrGdjfcOwPKU4+/e2Q4NrXhS8Qi5EUI7udpDm3kIo1y/DP
+ HBnUaadCvgzu4RgcH3lcqMV9euCTvZ9ZA3KwpWKVpEwTsjyut0l3tmODlqJqtaE9
+ FZ6VjOBWsOFI1OjmY6iAYRZYOEaSRsfJAgl4bopm0tuJeTqZvjqmnICdQ+/ytoiX
+ 4LtSAIax8SVhgeRiwmkzEMG1dCsgSAnCjN2wNQhxtkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9K7ZUe
+ G7Ei19ZU1lw4LTHV9xBo3MS7gvaamZszlYvNM=; b=qMTZjzWjOEHjSDRK8zNZOr
+ rPZ5yXql14hB9cohmRodzmeUTT0xlaWlrO4HMZraKjm42W2mE0iXfsEV2vhz/8L/
+ hS2mI2U68SAVLMMRwE/X99gVAiKO0RUxfH+ds5fZ6r9D5XOdWDW2hElSXlcMvaIO
+ eLxVdq7vGeZzyV+fddLX7V2QKjfHpCFntkBv2u4FAbuqhxvC2t3StzfYNTMpUmS1
+ f+Ms4y2kAdRTSsLhgZUrUTc7iHOYdKBew+UWIBD040FKW2Yyk+tm5jfl2AmjAeLI
+ EeHNKklWMNtr3jt0CeRWgOu3ydNSve/MpQXnW7bID5Bf3cX1wJ/pM/lnA3D+D4IQ
+ ==
+X-ME-Sender: <xms:JT6hX_EG6gCQGNhdE85reDGadtEBndkMDRC90II7iO6HzD8uIucbDQ>
+ <xme:JT6hX8WWA1JJlVYtRJ3TEhJo2_vIqg3-OHas67F-Mvn6Jrc1-8mgLIh1FQAE69APE
+ ky_xfJGGnV0eZXrGR8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtfedgvdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:JT6hXxKI-O8-tm0204s9Vus9ma0NXGP4JS_ExJowCoc1JQblHIL70g>
+ <xmx:JT6hX9GHjcg3d1ULD3Ll7t35vt-c3I9W-5iO9-Ca4iJUE1twtXSdKg>
+ <xmx:JT6hX1VeODsZXLg2PaYEE6Na3E8G5qkR0fv3lxfMZvvSWzOVxm2wCg>
+ <xmx:Jj6hX4R3rKY71yb72QHHlmVChY0NE562J3yTuQbqkDQCcK_Wx9_Ubg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id E0DCC3280064;
+ Tue,  3 Nov 2020 06:25:24 -0500 (EST)
+Date: Tue, 3 Nov 2020 12:25:22 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao <tiantao6@hisilicon.com>,
+ maarten.lankhorst@linux.intel.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm: Add the new api to install irq
+Message-ID: <20201103112522.oescqpkrzbwohhnq@gilmour.lan>
+References: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
+ <20201103095205.ywabphbc2xbop6ae@gilmour.lan>
+ <f89640fb-6994-76dc-7862-a3b26b67dc24@suse.de>
+ <20201103103832.gwjqf4urrn5y7zk5@gilmour.lan>
+ <20201103105508.GD401619@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201103095856.870272797@linutronix.de>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+In-Reply-To: <20201103105508.GD401619@phenom.ffwll.local>
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,75 +84,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
-Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
- Peter Zijlstra <peterz@infradead.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
- Huang Rui <ray.huang@amd.com>, Paul Mackerras <paulus@samba.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Bristot de Oliveira <bristot@redhat.com>, sparclinux@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Vincent Chen <deanbo422@gmail.com>,
- Christoph Hellwig <hch@lst.de>, Vincent Guittot <vincent.guittot@linaro.org>,
- Paul McKenney <paulmck@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
- Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Mel Gorman <mgorman@suse.de>, nouveau@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>, linux-snps-arc@lists.infradead.org,
- Ben Skeggs <bskeggs@redhat.com>, linux-xtensa@linux-xtensa.org,
- Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
- Roland Scheidegger <sroland@vmware.com>, Josef Bacik <josef@toxicpanda.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Linus Torvalds <torvalds@linuxfoundation.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, spice-devel@lists.freedesktop.org,
- David Sterba <dsterba@suse.com>, virtualization@lists.linux-foundation.org,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, Chris Mason <clm@fb.com>,
- Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
- Christian Koenig <christian.koenig@amd.com>, Benjamin LaHaise <bcrl@kvack.org>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>,
- linux-btrfs@vger.kernel.org, Greentime Hu <green.hu@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============2007902277=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 03, 2020 at 10:27:15AM +0100, Thomas Gleixner wrote:
-> Historical leftovers from the time where kmap() had fixed slots.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Benjamin LaHaise <bcrl@kvack.org>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: linux-aio@kvack.org
-> Cc: Chris Mason <clm@fb.com>
-> Cc: Josef Bacik <josef@toxicpanda.com>
-> Cc: David Sterba <dsterba@suse.com>
 
-Acked-by: David Sterba <dsterba@suse.com>
+--===============2007902277==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="w6qgqecl3tuig3lx"
+Content-Disposition: inline
 
-For the btrfs bits
 
->  fs/btrfs/ctree.h |    1 -
+--w6qgqecl3tuig3lx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> --- a/fs/btrfs/ctree.h
-> +++ b/fs/btrfs/ctree.h
-> @@ -17,7 +17,6 @@
->  #include <linux/wait.h>
->  #include <linux/slab.h>
->  #include <trace/events/btrfs.h>
-> -#include <asm/kmap_types.h>
->  #include <asm/unaligned.h>
->  #include <linux/pagemap.h>
->  #include <linux/btrfs.h>
+Hi!
+
+On Tue, Nov 03, 2020 at 11:55:08AM +0100, Daniel Vetter wrote:
+> On Tue, Nov 03, 2020 at 11:38:32AM +0100, Maxime Ripard wrote:
+> > On Tue, Nov 03, 2020 at 11:10:27AM +0100, Thomas Zimmermann wrote:
+> > > Hi
+> > >=20
+> > > Am 03.11.20 um 10:52 schrieb Maxime Ripard:
+> > > > On Tue, Nov 03, 2020 at 10:10:41AM +0800, Tian Tao wrote:
+> > > >> Add new api devm_drm_irq_install() to register interrupts,
+> > > >> no need to call drm_irq_uninstall() when the drm module is removed.
+> > > >>
+> > > >> v2:
+> > > >> fixed the wrong parameter.
+> > > >>
+> > > >> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> > > >> ---
+> > > >>  drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
+> > > >>  include/drm/drm_drv.h     |  3 ++-
+> > > >>  2 files changed, 25 insertions(+), 1 deletion(-)
+> > > >>
+> > > >> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > > >> index cd162d4..0fe5243 100644
+> > > >> --- a/drivers/gpu/drm/drm_drv.c
+> > > >> +++ b/drivers/gpu/drm/drm_drv.c
+> > > >> @@ -39,6 +39,7 @@
+> > > >>  #include <drm/drm_color_mgmt.h>
+> > > >>  #include <drm/drm_drv.h>
+> > > >>  #include <drm/drm_file.h>
+> > > >> +#include <drm/drm_irq.h>
+> > > >>  #include <drm/drm_managed.h>
+> > > >>  #include <drm/drm_mode_object.h>
+> > > >>  #include <drm/drm_print.h>
+> > > >> @@ -678,6 +679,28 @@ static int devm_drm_dev_init(struct device *p=
+arent,
+> > > >>  	return ret;
+> > > >>  }
+> > > >> =20
+> > > >> +static void devm_drm_dev_irq_uninstall(void *data)
+> > > >> +{
+> > > >> +	drm_irq_uninstall(data);
+> > > >> +}
+> > > >> +
+> > > >> +int devm_drm_irq_install(struct device *parent,
+> > > >> +			 struct drm_device *dev, int irq)
+> > > >> +{
+> > > >> +	int ret;
+> > > >> +
+> > > >> +	ret =3D drm_irq_install(dev, irq);
+> > > >> +	if (ret)
+> > > >> +		return ret;
+> > > >> +
+> > > >> +	ret =3D devm_add_action(parent, devm_drm_dev_irq_uninstall, dev);
+> > > >> +	if (ret)
+> > > >> +		devm_drm_dev_irq_uninstall(dev);
+> > > >> +
+> > > >> +	return ret;
+> > > >> +}
+> > > >> +EXPORT_SYMBOL(devm_drm_irq_install);
+> > > >> +
+> > > >=20
+> > > > Shouldn't we tie the IRQ to the drm device (so with drmm_add_action)
+> > > > instead of tying it to the underlying device?
+> > >=20
+> > > If the HW device goes away, there won't be any more interrupts. So it=
+'s
+> > > similar to devm_ functions for I/O memory. Why would you use the drmm_
+> > > interface?
+> >=20
+> > drm_irq_install/uninstall do more that just calling request_irq and
+> > free_irq though, they will also run (among other things) the irq-related
+> > hooks in the drm driver (irq_preinstall, irq_postinstall irq_uninstall)
+> > and wake anything waiting for a vblank to occur, so we need the DRM
+> > device and driver to still be around when we run drm_irq_uninstall.
+> > That's why (I assume) you have to pass the drm_device as an argument and
+> > not simply the device.
+>=20
+> drm_device is guaranteed to outlive devm_, plus the hooks are meant to
+> shut down hw. hw isn't around anymore when we do drmm_ cleanup, at least
+> not in full generality.
+
+drm_dev_put is either called through devm or in remove / unbind, and the
+drm_device takes a reference on its parent device, so how can the
+drm_device outlive its parent device?
+
+> > This probably works in most case since you would allocate the drm_device
+> > with devm_drm_dev_alloc, and then run drm_irq_install, so in the undoing
+> > phase you would have first drm_irq_uninstall to run, and everything is
+> > fine.
+> >=20
+> > However, if one doesn't use devm_drm_dev_alloc but would use
+> > devm_drm_irq_install, you would have first remove being called that
+> > would free the drm device, and then drm_irq_uninstall which will use a
+> > free'd pointer.
+>=20
+> Don't do that, it's broken :-)
+
+Well, yeah it's usually a pretty bad situation, but if we can fix it for
+free it doesn't hurt?
+
+Maxime
+
+--w6qgqecl3tuig3lx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX6E+IgAKCRDj7w1vZxhR
+xek5AP0SMGil1aZhgogOLSvo2WtgLW3tKgKD4MVdLNpykAcXswEAmr8AwkzvO7Sk
+hbQN0dAM7pUC2KnH4glLBzIZsHccxAk=
+=NZuN
+-----END PGP SIGNATURE-----
+
+--w6qgqecl3tuig3lx--
+
+--===============2007902277==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2007902277==--
