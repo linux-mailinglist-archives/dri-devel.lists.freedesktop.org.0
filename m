@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D51E2A5F85
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC462A5F83
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2E76F3B5;
-	Wed,  4 Nov 2020 08:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2AD6F38C;
+	Wed,  4 Nov 2020 08:22:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D986EC44;
- Tue,  3 Nov 2020 10:33:26 +0000 (UTC)
-Message-Id: <20201103095856.732891880@linutronix.de>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0110A6EC2D;
+ Tue,  3 Nov 2020 10:33:27 +0000 (UTC)
+Message-Id: <20201103095856.870272797@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1604399605;
+ s=2020; t=1604399606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=3HwBsgFv26sFcL/ZrR5QT7IdhKdyl722jNSTyAsMfhU=;
- b=rvT54BmES001fwkPfhre2195ODFh8EFwDZYAlKQRhVHUBxAXrQ4jz+GuDaq+7kANpwhtIs
- Odqznja1AON6wOyHEpYXOzN884r1utS39bCLsxNEulHhg56wkK85myPaXmlcyC0Iwy9aJH
- 7H/5d1lmCAyZsRrJM2yBsjEdO5LEmhyrq2wZg4iXyHs50gJQuJK3//uDTtWi4cGXwQajhE
- 6zcImoXr01WpyQwaIvad1lc/klKtM4lT0KI/sOHFnGRyhXmWoqmmzQFg3YIBBqGRZ2BmRY
- OjwLotmGcs5kT4ELYX86H43ZMMJAy6wm+tJXkQgUfKkVJUPub5l/USgVgx610A==
+ bh=mHGaObavEXdpklPpAdB/Vc9tQphwJ4HtjtNI7fLm1v8=;
+ b=IBayNHLC8hDXJPq5spbDcH2wKyiWbuyexwHwfVt89VcAakRhxfizYqbQCAAKER9L/0L/m1
+ Kn6tmBkR3xWZrx6tJ/BA5rsYN4HGNPFD48Ua4frK3vrnlVg9aLM4m5aIJw9ym5mSbN61k5
+ EHHJS0+GcvKD5mXRHapBzJaiaTtrRGQL9/oIkA+EXvVydTfP9WAjd4wBDbJghjylU6Hl+v
+ cbUiIXxIilBIpfO0gAqBvTDU+ZaYnr+9b9dZHzEpb1hZtXN8oqnkWtU4heJMQKd9pbhu3F
+ Udw+2wxDQStY2AooCfpVR6WbhoIEGNiJw2A//IRPpAYo18WAjI/Kj422cg4K+A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1604399605;
+ s=2020e; t=1604399606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=3HwBsgFv26sFcL/ZrR5QT7IdhKdyl722jNSTyAsMfhU=;
- b=lkKBWdK1CIWHPlUI77sykNxUAemFnakZTPVr751NgUw5N/WO+Qg52P9pTni6F4JYuE0eLl
- 4W0KlbICECLDLgCA==
-Date: Tue, 03 Nov 2020 10:27:14 +0100
+ bh=mHGaObavEXdpklPpAdB/Vc9tQphwJ4HtjtNI7fLm1v8=;
+ b=ZQ5pkdX4DsEbSRpww8iUtueplpi1akZRVpDjtrypi3SvuIOi8H/SrYDmUdCkGKxD3wiqTh
+ yikxYY0p6mIHukBQ==
+Date: Tue, 03 Nov 2020 10:27:15 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V3 02/37] highmem: Remove unused functions
+Subject: [patch V3 03/37] fs: Remove asm/kmap_types.h includes
 References: <20201103092712.714480842@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
@@ -55,7 +55,7 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  Peter Zijlstra <peterz@infradead.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Ben Segall <bsegall@google.com>, Chris Mason <clm@fb.com>,
+ Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
  Huang Rui <ray.huang@amd.com>, Paul Mackerras <paulus@samba.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Bristot de Oliveira <bristot@redhat.com>, sparclinux@vger.kernel.org,
@@ -79,7 +79,7 @@ Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio@kvack.org,
  linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
  Michal Simek <monstr@monstr.eu>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Nick Hu <nickhu@andestech.com>, linux-mm@kvack.org,
+ Nick Hu <nickhu@andestech.com>, Chris Mason <clm@fb.com>,
  Vineet Gupta <vgupta@synopsys.com>, linux-mips@vger.kernel.org,
  Christian Koenig <christian.koenig@amd.com>, Benjamin LaHaise <bcrl@kvack.org>,
  linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
@@ -90,39 +90,42 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nothing uses totalhigh_pages_dec() and totalhigh_pages_set().
+Historical leftovers from the time where kmap() had fixed slots.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Benjamin LaHaise <bcrl@kvack.org>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-aio@kvack.org
+Cc: Chris Mason <clm@fb.com>
+Cc: Josef Bacik <josef@toxicpanda.com>
+Cc: David Sterba <dsterba@suse.com>
+Cc: linux-btrfs@vger.kernel.org
 ---
-V3: New patch
----
- include/linux/highmem.h |   10 ----------
- 1 file changed, 10 deletions(-)
+ fs/aio.c         |    1 -
+ fs/btrfs/ctree.h |    1 -
+ 2 files changed, 2 deletions(-)
 
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -104,21 +104,11 @@ static inline void totalhigh_pages_inc(v
- 	atomic_long_inc(&_totalhigh_pages);
- }
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -43,7 +43,6 @@
+ #include <linux/mount.h>
+ #include <linux/pseudo_fs.h>
  
--static inline void totalhigh_pages_dec(void)
--{
--	atomic_long_dec(&_totalhigh_pages);
--}
--
- static inline void totalhigh_pages_add(long count)
- {
- 	atomic_long_add(count, &_totalhigh_pages);
- }
+-#include <asm/kmap_types.h>
+ #include <linux/uaccess.h>
+ #include <linux/nospec.h>
  
--static inline void totalhigh_pages_set(long val)
--{
--	atomic_long_set(&_totalhigh_pages, val);
--}
--
- void kmap_flush_unused(void);
- 
- struct page *kmap_to_page(void *addr);
+--- a/fs/btrfs/ctree.h
++++ b/fs/btrfs/ctree.h
+@@ -17,7 +17,6 @@
+ #include <linux/wait.h>
+ #include <linux/slab.h>
+ #include <trace/events/btrfs.h>
+-#include <asm/kmap_types.h>
+ #include <asm/unaligned.h>
+ #include <linux/pagemap.h>
+ #include <linux/btrfs.h>
 
 _______________________________________________
 dri-devel mailing list
