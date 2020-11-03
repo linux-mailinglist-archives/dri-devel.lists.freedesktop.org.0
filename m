@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7C92A388E
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:20:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAD32A38A2
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:20:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 296C16E81B;
-	Tue,  3 Nov 2020 01:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEF6F6E7D1;
+	Tue,  3 Nov 2020 01:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5890D6E819;
- Tue,  3 Nov 2020 01:20:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE99A6E81C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 01:20:18 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6E7322242A;
- Tue,  3 Nov 2020 01:20:04 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DB7D122460;
+ Tue,  3 Nov 2020 01:20:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604366405;
- bh=z3wYUGwaURyhH08VRvPERKJPQl/ha/XMsq5Ddssd09w=;
+ s=default; t=1604366418;
+ bh=gdMGDMwySHdmXhfimYPXmMMVR+X1bgogAYC8Oh5fkF0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Gz7cDxoN2InxDj5tDbxnZIcD1/jMAOyF04f1C3yD5w+TJmKgWqq9i/uLxT5Oxuz6J
- raNGIszG1lsisWq7NoSBKAS9b9To39ZrhK/zhGrWd+YW/TJs7HiQQk6eibBrpT/kd9
- xOcAAR+wV1oqi44yQcBOauFCg0qbDrUG/jLGd3H4=
+ b=RA+5XxcRymd8tFPGbw6CqA4gJ7mHc/odk4bzMSAS5w1dKxM3ljVMANRIsNd48e/7a
+ W6x8Df795N6c+2QMDwGYvYFHXuAYAxPc7KtQi/i0wF1NXQXBnFgrxQhspp4STn3R9M
+ zgh2hLic8pMGhH9gxdaprWhKxu7DRH3Tr3vkARI8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 28/29] drm/nouveau/gem: fix "refcount_t: underflow;
- use-after-free"
-Date: Mon,  2 Nov 2020 20:19:27 -0500
-Message-Id: <20201103011928.183145-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 08/24] drm/sun4i: frontend: Rework a bit the phase
+ data
+Date: Mon,  2 Nov 2020 20:19:51 -0500
+Message-Id: <20201103012007.183429-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201103011928.183145-1-sashal@kernel.org>
-References: <20201103011928.183145-1-sashal@kernel.org>
+In-Reply-To: <20201103012007.183429-1-sashal@kernel.org>
+References: <20201103012007.183429-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,42 +50,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>
+Cc: Sasha Levin <sashal@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karol Herbst <kherbst@redhat.com>
+From: Maxime Ripard <maxime@cerno.tech>
 
-[ Upstream commit 925681454d7b557d404b5d28ef4469fac1b2e105 ]
+[ Upstream commit 84c971b356379c621df595bd00c3114579dfa59f ]
 
-we can't use nouveau_bo_ref here as no ttm object was allocated and
-nouveau_bo_ref mainly deals with that. Simply deallocate the object.
+The scaler filter phase setup in the allwinner kernel has two different
+cases for setting up the scaler filter, the first one using different phase
+parameters for the two channels, and the second one reusing the first
+channel parameters on the second channel.
 
-Signed-off-by: Karol Herbst <kherbst@redhat.com>
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+The allwinner kernel has a third option where the horizontal phase of the
+second channel will be set to a different value than the vertical one (and
+seems like it's the same value than one used on the first channel).
+However, that code path seems to never be taken, so we can ignore it for
+now, and it's essentially what we're doing so far as well.
+
+Since we will have always the same values across each components of the
+filter setup for a given channel, we can simplify a bit our frontend
+structure by only storing the phase value we want to apply to a given
+channel.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Acked-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Link: https://patchwork.freedesktop.org/patch/msgid/20201015093642.261440-1-maxime@cerno.tech
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_gem.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/sun4i/sun4i_frontend.c | 34 ++++++--------------------
+ drivers/gpu/drm/sun4i/sun4i_frontend.h |  6 +----
+ 2 files changed, 9 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-index c5ee5b7364a09..ee5fec1ad9a46 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -197,7 +197,8 @@ nouveau_gem_new(struct nouveau_cli *cli, u64 size, int align, uint32_t domain,
- 	 * to the caller, instead of a normal nouveau_bo ttm reference. */
- 	ret = drm_gem_object_init(drm->dev, &nvbo->bo.base, size);
- 	if (ret) {
--		nouveau_bo_ref(NULL, &nvbo);
-+		drm_gem_object_release(&nvbo->bo.base);
-+		kfree(nvbo);
- 		return ret;
- 	}
+diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
+index ec2a032e07b97..7462801b1fa8e 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
+@@ -443,17 +443,17 @@ int sun4i_frontend_update_formats(struct sun4i_frontend *frontend,
+ 	 * related to the scaler FIR filter phase parameters.
+ 	 */
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH0_HORZPHASE_REG,
+-		     frontend->data->ch_phase[0].horzphase);
++		     frontend->data->ch_phase[0]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH1_HORZPHASE_REG,
+-		     frontend->data->ch_phase[1].horzphase);
++		     frontend->data->ch_phase[1]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH0_VERTPHASE0_REG,
+-		     frontend->data->ch_phase[0].vertphase[0]);
++		     frontend->data->ch_phase[0]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH1_VERTPHASE0_REG,
+-		     frontend->data->ch_phase[1].vertphase[0]);
++		     frontend->data->ch_phase[1]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH0_VERTPHASE1_REG,
+-		     frontend->data->ch_phase[0].vertphase[1]);
++		     frontend->data->ch_phase[0]);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_CH1_VERTPHASE1_REG,
+-		     frontend->data->ch_phase[1].vertphase[1]);
++		     frontend->data->ch_phase[1]);
  
+ 	/*
+ 	 * Checking the input format is sufficient since we currently only
+@@ -687,30 +687,12 @@ static const struct dev_pm_ops sun4i_frontend_pm_ops = {
+ };
+ 
+ static const struct sun4i_frontend_data sun4i_a10_frontend = {
+-	.ch_phase		= {
+-		{
+-			.horzphase = 0,
+-			.vertphase = { 0, 0 },
+-		},
+-		{
+-			.horzphase = 0xfc000,
+-			.vertphase = { 0xfc000, 0xfc000 },
+-		},
+-	},
++	.ch_phase		= { 0x000, 0xfc000 },
+ 	.has_coef_rdy		= true,
+ };
+ 
+ static const struct sun4i_frontend_data sun8i_a33_frontend = {
+-	.ch_phase		= {
+-		{
+-			.horzphase = 0x400,
+-			.vertphase = { 0x400, 0x400 },
+-		},
+-		{
+-			.horzphase = 0x400,
+-			.vertphase = { 0x400, 0x400 },
+-		},
+-	},
++	.ch_phase		= { 0x400, 0x400 },
+ 	.has_coef_access_ctrl	= true,
+ };
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.h b/drivers/gpu/drm/sun4i/sun4i_frontend.h
+index 0c382c1ddb0fe..2e7b76e50c2ba 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_frontend.h
++++ b/drivers/gpu/drm/sun4i/sun4i_frontend.h
+@@ -115,11 +115,7 @@ struct reset_control;
+ struct sun4i_frontend_data {
+ 	bool	has_coef_access_ctrl;
+ 	bool	has_coef_rdy;
+-
+-	struct {
+-		u32	horzphase;
+-		u32	vertphase[2];
+-	} ch_phase[2];
++	u32	ch_phase[2];
+ };
+ 
+ struct sun4i_frontend {
 -- 
 2.27.0
 
