@@ -1,107 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E672A5F51
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:22:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2852A5F45
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:22:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAE9A89491;
-	Wed,  4 Nov 2020 08:22:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD97089190;
+	Wed,  4 Nov 2020 08:22:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C67BB6E851
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 08:29:32 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id h22so11898143wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 00:29:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:autocrypt:message-id:date
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wORoPEJyqMGn3vtLbYDCbkYsPLmForeYHOgaBK21yhA=;
- b=oQKT3A1GYk56SnBqLXlaHM2gkXQbMt+5LzOsXKkPe7f5iT+ommKDvr29trOE+HWtpL
- khfpzrlSZdTjkkVV0W4dSprwdmQzFceuAdsnQW6RFsWvBcPJ6nvvk6v5kvOEl3a/40Ab
- Et19n4498gNc6appXAmiCqCuxMv59Ck0S8twpWaEVwnbtkRLID37AB0gRacovLUW7xMK
- NIEAeA0DISixUQs4a/1DLJ+naj8UnJPXxHvIU7SubcLZDIqkYylFSA+X2n6jzAgRm9kA
- MdwHIDeqojeWl7QbBnO+OPeUWkO7NTCkWpVBW2HjFm949tN0yVinkj/ERrw+Lo4/GsyY
- JZ9Q==
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
+ [IPv6:2607:f8b0:4864:20::f44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2A06E863;
+ Tue,  3 Nov 2020 08:43:10 +0000 (UTC)
+Received: by mail-qv1-xf44.google.com with SMTP id 63so7403146qva.7;
+ Tue, 03 Nov 2020 00:43:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Z0mO+fR43zuY/JcDUH+zcK6mTwVOdRn/VTkzy7OxOxc=;
+ b=bDBGVNqiZ4hfl0pxKQoMYGQB+TN38zDxMh4/6H7udQXhNkSnE4vzQuyxF0Api3W8Lf
+ TmKDgU0xInAAaLKtBgzGglJ6dyc1NwDXqrczSJvFEDYNOX+6BXznGV35yaCi9xvHAUgm
+ O53NMILA+auRcvBSPn8f96Ci2twCw+mUuE4XocA1WJlHAqauoz5IpSrtyHgpdY3nFTyW
+ 9HrlUW3hjbZzsJF1K2b1z0f9qv6wAzzvhxfhOw/krVWKZ/mKvIglDlN+L24B9v4FBREc
+ zSzLFZsXPlU6cOxg39mAtUFY0vZY8pVOMS13SG16exSUibxqwLbTTV0oF3N/xcDPmxx4
+ mkUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wORoPEJyqMGn3vtLbYDCbkYsPLmForeYHOgaBK21yhA=;
- b=b4x13gEX3iD8KSG0KYXnG992gp4HMiqrPC99LxNW0cCqU9zgJmwrD6tY4WbnZr9KyP
- nJ8PnJP+bMF0NjnM0NecXymMhyq8he+mhge88KBIjIoEmWkhUVcGoYz6ZsFnw5kBHXyt
- BhvNETt5yyRcd/Zvgdp6l71YghCMAPYlra2fuS9/aVM3xiDR2QHurPSCzyoxwZsz1zTm
- jLn9LBaGE4ojS9mYjzR7Nue9aQObuBuHc5iXAeJaZvszsH4fFQHv8ozhn+Y44nDktHn6
- 0T5YWtqUVE1JrRqVKkE3JVywXdl3AcEvwV/v7YWIIa9W+J8d2yYgO/N2DunKGahKXYDS
- A2mg==
-X-Gm-Message-State: AOAM531sH/MxlJ6+LO5AkDEYayXD3AImhnSgLwicv5QkRzJTXJwubkDg
- XUFQ5swfkm3UxPoCfDEYVY8oevtvz6ZsSQ==
-X-Google-Smtp-Source: ABdhPJyuCr4bpmvzRQ+OyNyar0XW6jAidB2r0Vx7Hc9VycIyrAEpHv4hQX0NBBSmEJRjFmvMlxz8BA==
-X-Received: by 2002:a1c:5f42:: with SMTP id t63mr2195051wmb.19.1604392171229; 
- Tue, 03 Nov 2020 00:29:31 -0800 (PST)
-Received: from [10.44.66.8] ([212.45.67.2])
- by smtp.googlemail.com with ESMTPSA id k22sm2121288wmi.34.2020.11.03.00.29.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 00:29:30 -0800 (PST)
-Subject: Re: [PATCH v7 0/6] Exynos: Simple QoS for exynos-bus using
- interconnect
-To: Chanwoo Choi <cw00.choi@samsung.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>
-References: <CGME20201030125221eucas1p14e525f75c4b8dadae04144ce7684d776@eucas1p1.samsung.com>
- <20201030125149.8227-1-s.nawrocki@samsung.com>
- <b586c2b7-9ca1-e641-b70c-27493ffd05e0@samsung.com>
-From: Georgi Djakov <georgi.djakov@linaro.org>
-Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
- 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
- KEmKjLDvB0pePJkdTw==
-Message-ID: <9285e2d4-f2fa-92f2-ba25-832f32f77d78@linaro.org>
-Date: Tue, 3 Nov 2020 10:29:32 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Z0mO+fR43zuY/JcDUH+zcK6mTwVOdRn/VTkzy7OxOxc=;
+ b=Iec5lsfzYln3SNnlsaH+L4lqc6/gSq83UCUDluBAduO2N7et4GHYxdgoS58LONl6Rd
+ jAKRhLPRZwrV1ipPCbZSowmTIDa/5xbTXuY8Tc11PgLxOKpIgoCB0Uf9DhXrqQ1nNYSD
+ k1wMWH6aFzHipr8wdDpovG7njv23SbL4K250diSNNQlSNKAwA0/kFemUYOt9IVmO2Dn7
+ KfqR0YHHRg2rOeiIfdmlkbFksMJZm57t+MAMCC9I+seUJnIDkbIxUnIZ8paxpKELHRUe
+ MNci8tguYo8b95uvH21g4xMz1rng/wnASd00V2vPb96Y9AHepTO+IaBfI7gP9Ccgjeaw
+ V88g==
+X-Gm-Message-State: AOAM530I11ZDfnuEh49URiE+P6oW0VzyWJOhsZ0/3Uhofb2pJHZQK1Pe
+ mFuqUSFABNV7a4bst/bXFklXPdyMvJEgOSkq6LA=
+X-Google-Smtp-Source: ABdhPJyBATWNmN5SIQHZ0f2xrCgfxFjMAr3RKi3Q+RRdg71ltSdhD6ZyPWi569WiZoGR0hChV73l+dbS6g9fH64Eli4=
+X-Received: by 2002:ad4:560d:: with SMTP id ca13mr26865990qvb.2.1604392989457; 
+ Tue, 03 Nov 2020 00:43:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <b586c2b7-9ca1-e641-b70c-27493ffd05e0@samsung.com>
-Content-Language: en-US
+References: <20201013124725.2394-1-alexander.kapshuk@gmail.com>
+In-Reply-To: <20201013124725.2394-1-alexander.kapshuk@gmail.com>
+From: Alexander Kapshuk <alexander.kapshuk@gmail.com>
+Date: Tue, 3 Nov 2020 10:42:32 +0200
+Message-ID: <CAJ1xhMWXMgcLj1_ibdSG7dgh9iaMt33pOhU5Xe4jEjhz6wSGWg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/nouveau/kms: Fix NULL pointer dereference in
+ nouveau_connector_detect_depth
+To: Lyude Paul <lyude@redhat.com>, Ben Skeggs <bskeggs@redhat.com>
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,111 +63,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org, sw0312.kim@samsung.com, a.swigon@samsung.com,
- robh+dt@kernel.org, linux-kernel@vger.kernel.org, myungjoo.ham@samsung.com,
- krzk@kernel.org, m.szyprowski@samsung.com
+Cc: Dave Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux-Next <linux-next@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chanwoo and Sylwester,
-
-On 11/3/20 09:54, Chanwoo Choi wrote:
-> Hi Sylwester,
-> 
-> When I tested this patchset on Odroid-U3,
-> After setting 0 bps by interconnect[1][2],
-> the frequency of devfreq devs sustain the high frequency
-> according to the pm qos request.
-> 
-> So, I try to find the cause of this situation.
-> In result, it seems that interconnect exynos driver
-> updates the pm qos request to devfreq device
-> during the kernel booting. Do you know why the exynos
-> interconnect driver request the pm qos during probe
-> without the mixer request?
-
-That's probably because of the sync_state support, that was introduced
-recently. The icc_sync_state callback needs to be added to the driver
-(i just left a comment on that patch), and then check again if it works.
-
-The idea of the sync_state is that there could be multiple users of a
-path and we must wait for all consumers to tell their bandwidth needs.
-Otherwise the first consumer may lower the bandwidth or disable a path
-needed for another consumer (driver), which has not probed yet. So we
-maintain a floor bandwidth until everyone has probed. By default the floor
-bandwidth is INT_MAX, but can be overridden by implementing the get_bw()
-callback.
-
-Thanks,
-Georgi
-
-> 
-> PS. The passive governor has a bug related to PM_QOS interface.
-> So, I posted the patch[4].
-> 
-> 
-> [1] interconnect_graph
-> root@localhost:~# cat /sys/kernel/debug/interconnect/interconnect_graph 
-> digraph {
->         rankdir = LR
->         node [shape = record]
->         subgraph cluster_1 {
->                 label = "soc:bus_dmc"
->                 "2:bus_dmc" [label="2:bus_dmc
->                         |avg_bw=0kBps
->                         |peak_bw=0kBps"]
+On Tue, Oct 13, 2020 at 3:47 PM Alexander Kapshuk
+<alexander.kapshuk@gmail.com> wrote:
+>
+> This oops manifests itself on the following hardware:
+> 01:00.0 VGA compatible controller: NVIDIA Corporation G98M [GeForce G 103M] (rev a1)
+>
+> Oct 09 14:17:46 lp-sasha kernel: BUG: kernel NULL pointer dereference, address: 0000000000000000
+> Oct 09 14:17:46 lp-sasha kernel: #PF: supervisor read access in kernel mode
+> Oct 09 14:17:46 lp-sasha kernel: #PF: error_code(0x0000) - not-present page
+> Oct 09 14:17:46 lp-sasha kernel: PGD 0 P4D 0
+> Oct 09 14:17:46 lp-sasha kernel: Oops: 0000 [#1] SMP PTI
+> Oct 09 14:17:46 lp-sasha kernel: CPU: 1 PID: 191 Comm: systemd-udevd Not tainted 5.9.0-rc8-next-20201009 #38
+> Oct 09 14:17:46 lp-sasha kernel: Hardware name: Hewlett-Packard Compaq Presario CQ61 Notebook PC/306A, BIOS F.03 03/23/2009
+> Oct 09 14:17:46 lp-sasha kernel: RIP: 0010:nouveau_connector_detect_depth+0x71/0xc0 [nouveau]
+> Oct 09 14:17:46 lp-sasha kernel: Code: 0a 00 00 48 8b 49 48 c7 87 b8 00 00 00 06 00 00 00 80 b9 4d 0a 00 00 00 75 1e 83 fa 41 75 05 48 85 c0 75 29 8b 81 10 0d 00 00 <39> 06 7c 25 f6 81 14 0d 00 00 02 75 b7 c3 80 b9 0c 0d 00 00 00 75
+> Oct 09 14:17:46 lp-sasha kernel: RSP: 0018:ffffc9000028f8c0 EFLAGS: 00010297
+> Oct 09 14:17:46 lp-sasha kernel: RAX: 0000000000014c08 RBX: ffff8880369d4000 RCX: ffff8880369d3000
+> Oct 09 14:17:46 lp-sasha kernel: RDX: 0000000000000040 RSI: 0000000000000000 RDI: ffff8880369d4000
+> Oct 09 14:17:46 lp-sasha kernel: RBP: ffff88800601cc00 R08: ffff8880051da298 R09: ffffffff8226201a
+> Oct 09 14:17:46 lp-sasha kernel: R10: ffff88800469aa80 R11: ffff888004c84ff8 R12: 0000000000000000
+> Oct 09 14:17:46 lp-sasha kernel: R13: ffff8880051da000 R14: 0000000000002000 R15: 0000000000000003
+> Oct 09 14:17:46 lp-sasha kernel: FS:  00007fd0192b3440(0000) GS:ffff8880bc900000(0000) knlGS:0000000000000000
+> Oct 09 14:17:46 lp-sasha kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> Oct 09 14:17:46 lp-sasha kernel: CR2: 0000000000000000 CR3: 0000000004976000 CR4: 00000000000006e0
+> Oct 09 14:17:46 lp-sasha kernel: Call Trace:
+> Oct 09 14:17:46 lp-sasha kernel:  nouveau_connector_get_modes+0x1e6/0x240 [nouveau]
+> Oct 09 14:17:46 lp-sasha kernel:  ? kfree+0xb9/0x240
+> Oct 09 14:17:46 lp-sasha kernel:  ? drm_connector_list_iter_next+0x7c/0xa0
+> Oct 09 14:17:46 lp-sasha kernel:  drm_helper_probe_single_connector_modes+0x1ba/0x7c0
+> Oct 09 14:17:46 lp-sasha kernel:  drm_client_modeset_probe+0x27e/0x1360
+> Oct 09 14:17:46 lp-sasha kernel:  ? nvif_object_sclass_put+0xc/0x20 [nouveau]
+> Oct 09 14:17:46 lp-sasha kernel:  ? nouveau_cli_init+0x3cc/0x440 [nouveau]
+> Oct 09 14:17:46 lp-sasha kernel:  ? ktime_get_mono_fast_ns+0x49/0xa0
+> Oct 09 14:17:46 lp-sasha kernel:  ? nouveau_drm_open+0x4e/0x180 [nouveau]
+> Oct 09 14:17:46 lp-sasha kernel:  __drm_fb_helper_initial_config_and_unlock+0x3f/0x4a0
+> Oct 09 14:17:46 lp-sasha kernel:  ? drm_file_alloc+0x18f/0x260
+> Oct 09 14:17:46 lp-sasha kernel:  ? mutex_lock+0x9/0x40
+> Oct 09 14:17:46 lp-sasha kernel:  ? drm_client_init+0x110/0x160
+> Oct 09 14:17:46 lp-sasha kernel:  nouveau_fbcon_init+0x14d/0x1c0 [nouveau]
+> Oct 09 14:17:46 lp-sasha kernel:  nouveau_drm_device_init+0x1c0/0x880 [nouveau]
+> Oct 09 14:17:46 lp-sasha kernel:  nouveau_drm_probe+0x11a/0x1e0 [nouveau]
+> Oct 09 14:17:46 lp-sasha kernel:  pci_device_probe+0xcd/0x140
+> Oct 09 14:17:46 lp-sasha kernel:  really_probe+0xd8/0x400
+> Oct 09 14:17:46 lp-sasha kernel:  driver_probe_device+0x4a/0xa0
+> Oct 09 14:17:46 lp-sasha kernel:  device_driver_attach+0x9c/0xc0
+> Oct 09 14:17:46 lp-sasha kernel:  __driver_attach+0x6f/0x100
+> Oct 09 14:17:46 lp-sasha kernel:  ? device_driver_attach+0xc0/0xc0
+> Oct 09 14:17:46 lp-sasha kernel:  bus_for_each_dev+0x75/0xc0
+> Oct 09 14:17:46 lp-sasha kernel:  bus_add_driver+0x106/0x1c0
+> Oct 09 14:17:46 lp-sasha kernel:  driver_register+0x86/0xe0
+> Oct 09 14:17:46 lp-sasha kernel:  ? 0xffffffffa044e000
+> Oct 09 14:17:46 lp-sasha kernel:  do_one_initcall+0x48/0x1e0
+> Oct 09 14:17:46 lp-sasha kernel:  ? _cond_resched+0x11/0x60
+> Oct 09 14:17:46 lp-sasha kernel:  ? kmem_cache_alloc_trace+0x19c/0x1e0
+> Oct 09 14:17:46 lp-sasha kernel:  do_init_module+0x57/0x220
+> Oct 09 14:17:46 lp-sasha kernel:  __do_sys_finit_module+0xa0/0xe0
+> Oct 09 14:17:46 lp-sasha kernel:  do_syscall_64+0x33/0x40
+> Oct 09 14:17:46 lp-sasha kernel:  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> Oct 09 14:17:46 lp-sasha kernel: RIP: 0033:0x7fd01a060d5d
+> Oct 09 14:17:46 lp-sasha kernel: Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d e3 70 0c 00 f7 d8 64 89 01 48
+> Oct 09 14:17:46 lp-sasha kernel: RSP: 002b:00007ffc8ad38a98 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+> Oct 09 14:17:46 lp-sasha kernel: RAX: ffffffffffffffda RBX: 0000563f6e7fd530 RCX: 00007fd01a060d5d
+> Oct 09 14:17:46 lp-sasha kernel: RDX: 0000000000000000 RSI: 00007fd01a19f95d RDI: 000000000000000f
+> Oct 09 14:17:46 lp-sasha kernel: RBP: 0000000000020000 R08: 0000000000000000 R09: 0000000000000007
+> Oct 09 14:17:46 lp-sasha kernel: R10: 000000000000000f R11: 0000000000000246 R12: 00007fd01a19f95d
+> Oct 09 14:17:46 lp-sasha kernel: R13: 0000000000000000 R14: 0000563f6e7fbc10 R15: 0000563f6e7fd530
+> Oct 09 14:17:46 lp-sasha kernel: Modules linked in: nouveau(+) ttm xt_string xt_mark xt_LOG vgem v4l2_dv_timings uvcvideo ulpi udf ts_kmp ts_fsm ts_bm snd_aloop sil164 qat_dh895xccvf nf_nat_sip nf_nat_irc nf_nat_ftp nf_nat nf_log_ipv6 nf_log_ipv4 nf_log_common ltc2990 lcd intel_qat input_leds i2c_mux gspca_main videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc drivetemp cuse fuse crc_itu_t coretemp ch7006 ath5k ath algif_hash
+> Oct 09 14:17:46 lp-sasha kernel: CR2: 0000000000000000
+> Oct 09 14:17:46 lp-sasha kernel: ---[ end trace 0ddafe218ad30017 ]---
+> Oct 09 14:17:46 lp-sasha kernel: RIP: 0010:nouveau_connector_detect_depth+0x71/0xc0 [nouveau]
+> Oct 09 14:17:46 lp-sasha kernel: Code: 0a 00 00 48 8b 49 48 c7 87 b8 00 00 00 06 00 00 00 80 b9 4d 0a 00 00 00 75 1e 83 fa 41 75 05 48 85 c0 75 29 8b 81 10 0d 00 00 <39> 06 7c 25 f6 81 14 0d 00 00 02 75 b7 c3 80 b9 0c 0d 00 00 00 75
+> Oct 09 14:17:46 lp-sasha kernel: RSP: 0018:ffffc9000028f8c0 EFLAGS: 00010297
+> Oct 09 14:17:46 lp-sasha kernel: RAX: 0000000000014c08 RBX: ffff8880369d4000 RCX: ffff8880369d3000
+> Oct 09 14:17:46 lp-sasha kernel: RDX: 0000000000000040 RSI: 0000000000000000 RDI: ffff8880369d4000
+> Oct 09 14:17:46 lp-sasha kernel: RBP: ffff88800601cc00 R08: ffff8880051da298 R09: ffffffff8226201a
+> Oct 09 14:17:46 lp-sasha kernel: R10: ffff88800469aa80 R11: ffff888004c84ff8 R12: 0000000000000000
+> Oct 09 14:17:46 lp-sasha kernel: R13: ffff8880051da000 R14: 0000000000002000 R15: 0000000000000003
+> Oct 09 14:17:46 lp-sasha kernel: FS:  00007fd0192b3440(0000) GS:ffff8880bc900000(0000) knlGS:0000000000000000
+> Oct 09 14:17:46 lp-sasha kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> Oct 09 14:17:46 lp-sasha kernel: CR2: 0000000000000000 CR3: 0000000004976000 CR4: 00000000000006e0
+>
+> The disassembly:
+> Code: 0a 00 00 48 8b 49 48 c7 87 b8 00 00 00 06 00 00 00 80 b9 4d 0a 00 00 00 75 1e 83 fa 41 75 05 48 85 c0 75 29 8b 81 10 0d 00 00 <39> 06 7c 25 f6 81 14 0d 00 00 02 75 b7 c3 80 b9 0c 0d 00 00 00 75
+> All code
+> ========
+>    0:   0a 00                   or     (%rax),%al
+>    2:   00 48 8b                add    %cl,-0x75(%rax)
+>    5:   49                      rex.WB
+>    6:   48 c7 87 b8 00 00 00    movq   $0x6,0xb8(%rdi)
+>    d:   06 00 00 00
+>   11:   80 b9 4d 0a 00 00 00    cmpb   $0x0,0xa4d(%rcx)
+>   18:   75 1e                   jne    0x38
+>   1a:   83 fa 41                cmp    $0x41,%edx
+>   1d:   75 05                   jne    0x24
+>   1f:   48 85 c0                test   %rax,%rax
+>   22:   75 29                   jne    0x4d
+>   24:   8b 81 10 0d 00 00       mov    0xd10(%rcx),%eax
+>   2a:*  39 06                   cmp    %eax,(%rsi)              <-- trapping instruction
+>   2c:   7c 25                   jl     0x53
+>   2e:   f6 81 14 0d 00 00 02    testb  $0x2,0xd14(%rcx)
+>   35:   75 b7                   jne    0xffffffffffffffee
+>   37:   c3                      retq
+>   38:   80 b9 0c 0d 00 00 00    cmpb   $0x0,0xd0c(%rcx)
+>   3f:   75                      .byte 0x75
+>
+> Code starting with the faulting instruction
+> ===========================================
+>    0:   39 06                   cmp    %eax,(%rsi)
+>    2:   7c 25                   jl     0x29
+>    4:   f6 81 14 0d 00 00 02    testb  $0x2,0xd14(%rcx)
+>    b:   75 b7                   jne    0xffffffffffffffc4
+>    d:   c3                      retq
+>    e:   80 b9 0c 0d 00 00 00    cmpb   $0x0,0xd0c(%rcx)
+>   15:   75                      .byte 0x75
+>
+> objdump -SF --disassemble=nouveau_connector_detect_depth
+> [...]
+>         if (nv_connector->edid &&
+>    c85e1:       83 fa 41                cmp    $0x41,%edx
+>    c85e4:       75 05                   jne    c85eb <nouveau_connector_detect_depth+0x6b> (File Offset: 0xc866b)
+>    c85e6:       48 85 c0                test   %rax,%rax
+>    c85e9:       75 29                   jne    c8614 <nouveau_connector_detect_depth+0x94> (File Offset: 0xc8694)
+>             nv_connector->type == DCB_CONNECTOR_LVDS_SPWG)
+>                 duallink = ((u8 *)nv_connector->edid)[121] == 2;
+>         else
+>                 duallink = mode->clock >= bios->fp.duallink_transition_clk;
+>
+>         if ((!duallink && (bios->fp.strapless_is_24bit & 1)) ||
+>    c85eb:       8b 81 10 0d 00 00       mov    0xd10(%rcx),%eax
+>    c85f1:       39 06                   cmp    %eax,(%rsi)
+>    c85f3:       7c 25                   jl     c861a <nouveau_connector_detect_depth+0x9a> (File Offset: 0xc869a)
+>             ( duallink && (bios->fp.strapless_is_24bit & 2)))
+>    c85f5:       f6 81 14 0d 00 00 02    testb  $0x2,0xd14(%rcx)
+>    c85fc:       75 b7                   jne    c85b5 <nouveau_connector_detect_depth+0x35> (File Offset: 0xc8635)
+>                 connector->display_info.bpc = 8;
+> [...]
+>
+> % scripts/faddr2line /lib/modules/5.9.0-rc8-next-20201009/kernel/drivers/gpu/drm/nouveau/nouveau.ko nouveau_connector_detect_depth+0x71/0xc0
+> nouveau_connector_detect_depth+0x71/0xc0:
+> nouveau_connector_detect_depth at /home/sasha/linux-next/drivers/gpu/drm/nouveau/nouveau_connector.c:891
+>
+> It is actually line 889. See the disassembly below.
+> 889                     duallink = mode->clock >= bios->fp.duallink_transition_clk;
+>
+> The NULL pointer being dereferenced is mode.
+>
+> Git bisect has identified the following commit as bad:
+> f28e32d3906e drm/nouveau/kms: Don't change EDID when it hasn't actually changed
+>
+> Here is the chain of events that causes the oops.
+> On entry to nouveau_connector_detect_lvds, edid is set to NULL.  The call
+> to nouveau_connector_detect sets nv_connector->edid to valid memory,
+> with status set to connector_status_connected and the flow of execution
+> branching to the out label.
+>
+> The subsequent call to nouveau_connector_set_edid erronously clears
+> nv_connector->edid, via the local edid pointer which remains set to NULL.
+>
+> Fix this by setting edid to the value of the just acquired
+> nv_connector->edid and executing the body of nouveau_connector_set_edid
+> only if nv_connector->edid and edid point to different memory addresses
+> thus preventing nv_connector->edid from being turned into a dangling
+> pointer.
+>
+> Fixes: f28e32d3906e ("drm/nouveau/kms: Don't change EDID when it hasn't actually changed")
+> Signed-off-by: Alexander Kapshuk <alexander.kapshuk@gmail.com>
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
+> ---
+> v2:
+> -----
+> - nouveau_connector_set_edid updated to do the (nv_connector->edid
+> != edid) check instead of open coding it in nouveau_connector_detect_lvds
+> - added Reviewed-by: from Lyude Paul
+>
+>  drivers/gpu/drm/nouveau/nouveau_connector.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> index 49dd0cbc332f..5eb322276be7 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> @@ -532,11 +532,13 @@ static void
+>  nouveau_connector_set_edid(struct nouveau_connector *nv_connector,
+>                            struct edid *edid)
+>  {
+> -       struct edid *old_edid = nv_connector->edid;
+> +       if (nv_connector->edid != edid) {
+> +               struct edid *old_edid = nv_connector->edid;
+>
+> -       drm_connector_update_edid_property(&nv_connector->base, edid);
+> -       kfree(old_edid);
+> -       nv_connector->edid = edid;
+> +               drm_connector_update_edid_property(&nv_connector->base, edid);
+> +               kfree(old_edid);
+> +               nv_connector->edid = edid;
+> +       }
+>  }
+>
+>  static enum drm_connector_status
+> @@ -669,8 +671,10 @@ nouveau_connector_detect_lvds(struct drm_connector *connector, bool force)
+>         /* Try retrieving EDID via DDC */
+>         if (!drm->vbios.fp_no_ddc) {
+>                 status = nouveau_connector_detect(connector, force);
+> -               if (status == connector_status_connected)
+> +               if (status == connector_status_connected) {
+> +                       edid = nv_connector->edid;
+>                         goto out;
+> +               }
 >         }
->         subgraph cluster_2 {
->                 label = "soc:bus_leftbus"
->                 "3:bus_leftbus" [label="3:bus_leftbus
->                         |avg_bw=0kBps
->                         |peak_bw=0kBps"]
->         }
->         subgraph cluster_3 {
->                 label = "soc:bus_display"
->                 "4:bus_display" [label="4:bus_display
->                         |avg_bw=0kBps
->                         |peak_bw=0kBps"]
->         }
->         "3:bus_leftbus" -> "2:bus_dmc"
->         "4:bus_display" -> "3:bus_leftbus"
-> 
-> 
-> [2] interconnect_summary
-> root@localhost:~# cat /sys/kernel/debug/interconnect/interconnect_summary 
->  node                                  tag          avg         peak
-> --------------------------------------------------------------------
-> bus_dmc                                               0            0
->   12c10000.mixer                         0            0            0
-> bus_leftbus                                           0            0
->   12c10000.mixer                         0            0            0
-> bus_display                                           0            0
->   12c10000.mixer                         0            0            0
-> 
-> 
-> [3] devfreq_summary
-> root@localhost:~# cat /sys/kernel/debug/devfreq/devfreq_summary 
-> dev                            parent_dev                     governor        timer      polling_ms  cur_freq_Hz  min_freq_Hz  max_freq_Hz
-> ------------------------------ ------------------------------ --------------- ---------- ---------- ------------ ------------ ------------
-> soc:bus_dmc                    null                           simple_ondemand deferrable         50    400000000    400000000    400000000
-> soc:bus_acp                    soc:bus_dmc                    passive         null                0    267000000    100000000    267000000
-> soc:bus_c2c                    soc:bus_dmc                    passive         null                0    400000000    100000000    400000000
-> soc:bus_leftbus                null                           simple_ondemand deferrable         50    200000000    200000000    200000000
-> soc:bus_rightbus               soc:bus_leftbus                passive         null                0    200000000    100000000    200000000
-> soc:bus_display                soc:bus_leftbus                passive         null                0    200000000    200000000    200000000
-> soc:bus_fsys                   soc:bus_leftbus                passive         null                0    134000000    100000000    134000000
-> soc:bus_peri                   soc:bus_leftbus                passive         null                0    100000000     50000000    100000000
-> soc:bus_mfc                    soc:bus_leftbus                passive         null                0    200000000    100000000    200000000
-> 
-> 
-> [4] PM / devfreq: passive: Update frequency when start governor
-> https://patchwork.kernel.org/project/linux-pm/patch/20201103070646.18687-1-cw00.choi@samsung.com/
-> 
-> 
+>
+>         /* On some laptops (Sony, i'm looking at you) there appears to
+> --
+> 2.28.0
+>
+
+Thought I'd ask about the status of this patch.
+Is there an intention to queue it up for subsequent inclusion at some stage?
+Thanks.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
