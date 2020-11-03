@@ -2,36 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C942A44B7
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 13:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93762A4503
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 13:25:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF1C6E8D3;
-	Tue,  3 Nov 2020 12:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A29C6EC73;
+	Tue,  3 Nov 2020 12:25:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD436E8D3
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 12:02:25 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E47B91F45647;
- Tue,  3 Nov 2020 12:02:23 +0000 (GMT)
-Date: Tue, 3 Nov 2020 13:02:21 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3] drm/panfrost: Move the GPU reset bits outside the
- timeout handler
-Message-ID: <20201103130221.3367da07@collabora.com>
-In-Reply-To: <20201103110847.GG401619@phenom.ffwll.local>
-References: <20201103081347.1000139-1-boris.brezillon@collabora.com>
- <20201103102540.GB401619@phenom.ffwll.local>
- <20201103120326.10037005@collabora.com>
- <20201103110847.GG401619@phenom.ffwll.local>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9E06EC73;
+ Tue,  3 Nov 2020 12:25:46 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B7EE724101;
+ Tue,  3 Nov 2020 12:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604406346;
+ bh=JnG9AEM3urtQJZbyh27ncRK5xtNjXhkMpT9pLY6ruAw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=1mtdK2dSQdS/K56+WquRZ8OWcsGdMtHmqIVFEMzZQi4+6uzgYEqYBwm+18gTL0/sS
+ b59ZZ2pDtOE21j/UNcPbpblqLEOIaPKuGZCQHZmbdojGfOXKR1R7EH2TxZ9KkuU3wq
+ iHFZuvtgo7ShOczv8vAXd79g6XKfxQVOX3Rurk14=
+Received: by mail-wr1-f51.google.com with SMTP id a9so18312372wrg.12;
+ Tue, 03 Nov 2020 04:25:45 -0800 (PST)
+X-Gm-Message-State: AOAM533maafVJQHRxJJZaJEdSe567IU1i36D7C7y2SmbrRV8XodsVoWn
+ mvVShz2IkRfSOdgp3uL6R2xmKXX6erF+Fzj+gGA=
+X-Google-Smtp-Source: ABdhPJzaMTU0V4sDEP7WFi1D19pueRl5ySNY/GA/QmiGvW8mi19ZpCI6gDmcGIwe2rHXpOPoRB6cN5TL6gD3Vvt/QEU=
+X-Received: by 2002:adf:eb4f:: with SMTP id u15mr19654094wrn.165.1604406343518; 
+ Tue, 03 Nov 2020 04:25:43 -0800 (PST)
 MIME-Version: 1.0
+References: <20201103092712.714480842@linutronix.de>
+ <20201103095857.078043987@linutronix.de>
+In-Reply-To: <20201103095857.078043987@linutronix.de>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Tue, 3 Nov 2020 13:25:27 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3q1O=vTLHpjkufNhspj+OJFn0BkMD6XaPZvN_0D+=FFQ@mail.gmail.com>
+Message-ID: <CAK8P3a3q1O=vTLHpjkufNhspj+OJFn0BkMD6XaPZvN_0D+=FFQ@mail.gmail.com>
+Subject: Re: [patch V3 05/37] asm-generic: Provide kmap_size.h
+To: Thomas Gleixner <tglx@linutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,74 +54,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, linux-aio <linux-aio@kvack.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ Ben Segall <bsegall@google.com>, Chris Mason <clm@fb.com>,
+ Huang Rui <ray.huang@amd.com>, Paul Mackerras <paulus@samba.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ sparclinux <sparclinux@vger.kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vincent Chen <deanbo422@gmail.com>, Christoph Hellwig <hch@lst.de>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Paul McKenney <paulmck@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, linux-csky@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, David Airlie <airlied@linux.ie>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Mel Gorman <mgorman@suse.de>, ML nouveau <nouveau@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ Ben Skeggs <bskeggs@redhat.com>, linux-xtensa@linux-xtensa.org,
+ Arnd Bergmann <arnd@arndb.de>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Roland Scheidegger <sroland@vmware.com>, Josef Bacik <josef@toxicpanda.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Linus Torvalds <torvalds@linuxfoundation.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, spice-devel@lists.freedesktop.org,
+ David Sterba <dsterba@suse.com>, virtualization@lists.linux-foundation.org,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chris Zankel <chris@zankel.net>, Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Nick Hu <nickhu@andestech.com>, Linux-MM <linux-mm@kvack.org>,
+ Vineet Gupta <vgupta@synopsys.com>, LKML <linux-kernel@vger.kernel.org>,
+ Christian Koenig <christian.koenig@amd.com>, Benjamin LaHaise <bcrl@kvack.org>,
+ Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ linux-btrfs <linux-btrfs@vger.kernel.org>, Greentime Hu <green.hu@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 3 Nov 2020 12:08:47 +0100
-Daniel Vetter <daniel@ffwll.ch> wrote:
+On Tue, Nov 3, 2020 at 10:27 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> kmap_types.h is a misnomer because the old atomic MAP based array does not
+> exist anymore and the whole indirection of architectures including
+> kmap_types.h is inconinstent and does not allow to provide guard page
+> debugging for this misfeature.
+>
+> Add a common header file which defines the mapping stack size for all
+> architectures. Will be used when converting architectures over to a
+> generic kmap_local/atomic implementation.
+>
+> The array size is chosen with the following constraints in mind:
+>
+>     - The deepest nest level in one context is 3 according to code
+>       inspection.
+>
+>     - The worst case nesting for the upcoming reemptible version would be:
+>
+>       2 maps in task context and a fault inside
+>       2 maps in the fault handler
+>       3 maps in softirq
+>       2 maps in interrupt
+>
+> So a total of 16 is sufficient and probably overestimated.
+>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
-> On Tue, Nov 03, 2020 at 12:03:26PM +0100, Boris Brezillon wrote:
-> > On Tue, 3 Nov 2020 11:25:40 +0100
-> > Daniel Vetter <daniel@ffwll.ch> wrote:
-> >   
-> > > On Tue, Nov 03, 2020 at 09:13:47AM +0100, Boris Brezillon wrote:  
-> > > > We've fixed many races in panfrost_job_timedout() but some remain.
-> > > > Instead of trying to fix it again, let's simplify the logic and move
-> > > > the reset bits to a separate work scheduled when one of the queue
-> > > > reports a timeout.
-> > > > 
-> > > > v3:
-> > > > - Replace the atomic_cmpxchg() by an atomic_xchg() (Robin Murphy)
-> > > > - Add Steven's R-b
-> > > > 
-> > > > v2:
-> > > > - Use atomic_cmpxchg() to conditionally schedule the reset work (Steven Price)
-> > > > 
-> > > > Fixes: 1a11a88cfd9a ("drm/panfrost: Fix job timeout handling")
-> > > > Cc: <stable@vger.kernel.org>
-> > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > Reviewed-by: Steven Price <steven.price@arm.com>    
-> > > 
-> > > Sprinkling the dma_fence annotations over this would be really nice ...  
-> > 
-> > You mean something like that?  
-> 
-> That's just the irq annotations, i.e. the one that's already guaranteed by
-> the irq vs. locks checks. So this does nothing.
-> 
-> What I mean is annotating your new reset work (it's part of the critical
-> path to complete batches, since it's holding up other batches that are
-> stuck in the scheduler still), and the drm/scheduler annotations I've
-> floated a while ago. The drm/scheduler annotations are stuck somewhat for
-> lack of feedback from any of the driver teams using it though :-/
-> 
-> The thing is pulling something out into a worker of it's own generally
-> doesn't fix any deadlocks, it just hides them from lockdep.
-
-Hm, except that's not exactly a deadlock we were trying to fix here (as
-in, not a situation where 2 threads try to acquire locks in different
-orders), just a situation where the scheduler stops dequeuing jobs
-because it ends up in an inconsistent state (which is caused by a
-bad/lack-of synchronization between timeout handlers). The problem here
-is that we have 3 schedulers (one per HW queue) but when a timeout
-occurs on one of them, we need to reset them all, thus requiring some
-synchronization between the different timeout works. Moving the reset
-logic to a separate work simplifies the synchronization.
-
-> So it would be
-> good to make sure lockdep can see through your maze again.
-
-Okay, but it's not clear to me which part of the panfrost_reset()
-function should be annotated. I mean, I probably call functions that
-can signal fences, but I don't call dma_signal_fence() directly. Are
-callers of the dma_sched_xxx() helpers expected to place such
-annotations?
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
