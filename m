@@ -2,52 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53AFD2A374F
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 00:50:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E302A37C4
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 01:31:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B94D86E598;
-	Mon,  2 Nov 2020 23:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF086E0D0;
+	Tue,  3 Nov 2020 00:31:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3271B6E598
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Nov 2020 23:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1604361043;
- bh=0odSNWU3uqM11t6LEvwL2jIVxZtW4lzSgSl4X4aZQ+g=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=BXgybCKKq/aCh5kJp04ksVk5nlrEUeq9V2lgJ5QnC/A3Ra2Z0bVZ68YyaXs3yCdDQ
- PLDHvVMvau3krWvFPHxhLbQgtomdQkCqKiItRZvRd7TYHp1j3jFmbf3fb0sc3+cqjw
- zBctntdY/w4dpqmbCxIR/tcYwaI7Q9I0l3Q8YwlI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [173.228.6.223] ([173.228.6.223]) by web-mail.gmx.net
- (3c-app-mailcom-bs01.server.lan [172.19.170.58]) (via HTTP); Tue, 3 Nov
- 2020 00:50:43 +0100
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F22CF6E0D0;
+ Tue,  3 Nov 2020 00:31:39 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CQ9gy0WJCz9sRR;
+ Tue,  3 Nov 2020 11:31:22 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1604363497;
+ bh=abFiyo/RifuMQVqMIhH00amB1yormpJhfqr9G5pJa74=;
+ h=Date:From:To:Cc:Subject:From;
+ b=EHYEdXwcf9uUh/CupNFo4xDhY0prmaZWJFlUYvdZu1Gl304yd0qg4NLSlfoXalgwK
+ yzAgrU4ad8RGQ6PiQQBYNlnRTSGgeEgvdFBEpYGsn/jz3VVf8OhuH0vvBgsbWk3cej
+ XnExO0LBywlM15X4Njrsbfh+fUzZ4YRzHuSrjB/xWyeCzBVOns+rO64v5XxOair4Y3
+ QMXci3CAooj0g1YbrdjSziALvJPriaDmgCZltLqOc7o0pItQ1GTSEF0f+rpzs1/NQR
+ 9mxYltd0HTm7XdbDyq7HaspwW5Ij44XSBRsSY4qCcSKAvMMd9eoFmc8YE8EusGaFcN
+ WPBgvllj6aDGA==
+Date: Tue, 3 Nov 2020 11:31:21 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warning after merge of the drm-misc-fixes tree
+Message-ID: <20201103113121.4f1ffe17@canb.auug.org.au>
 MIME-Version: 1.0
-Message-ID: <trinity-0d015aed-dc82-456d-9640-de541eafed45-1604361043510@3c-app-mailcom-bs01>
-From: Kevin Brace <kevinbrace@gmx.com>
-To: dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Why is atomic_disable callback's plane->state->crtc sometimes null?
-Date: Tue, 3 Nov 2020 00:50:43 +0100
-Importance: normal
-Sensitivity: Normal
-X-Priority: 3
-X-Provags-ID: V03:K1:wSeC25wiUdTDrC0PS9o1wzKex4ouw/HZ8za7rVfl5ii0ZEclHOzShgFGFQYf93Scao1x4
- 0zJVDEwfFz4AevUL4IJRNLdshedVo4WJrxOA6D7zUkMA35GUbA0AhVnxC9aDbdFFhLrRP0q2ksqr
- hPWcOkLadwzddZjbx93l7DhAdfxSHj2ufFZyUTj2A1OH3rlrh9R2DcRsgUQ2VE/8/hAsRg8sBz+k
- F3Fl1QA30h2S+ZpfJaSqasgJqjoI+/g46DzFN+EDR4BdP9A6j70utLm0S3NUFDjOfi3oO+s9u/op
- dw=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:B9uENZc9v/M=:zAwGlVBlFM8CUkxXZjb6gh
- qRGFQZJPyVHyeYYppyZ7xRTFUeagmo00Dj7D1WFKViLyt1Ze2YHJzZw1dmPrnyMO23bBqNQsR
- SqqzcXNpIPQUBNeiMthtY5dZlrGGZ+njGd+AjHsV/HLF7vtArgNTuL4/C7DaEkZ9xsV3Fxi0T
- pdKjbSRjwRGUBxJGb+XVO1KKCgm3N4Fr1IsJv0Yw8RoTmm6wv8N+CwQLxOAOUgETuiXpHE/e5
- lXNUafJD4VsutM9cWDyWAlS9iqRogl4y4RanianFoAm88VsjDGZo4ZTchSNf+Kgnh6nJertNB
- J08Z8SCYAel5BXLVOUGWUvZz6hxzus3CJqa7mjeq6MqylvcXSQq5qq2btgGPZCwK3oe/2CEyO
- VwjUaEz9PnE27OT3GL5mHOWW3VAQx6DcbW+YmZViTaaiT3uRCS9aaKmKh1GkGDWN+GFa0ixTj
- optOpfCA0lftlxqkWZulGWygWt/b/wtAwleUui2flBXWfLh9KNC3woKMB4U3TcEvuM9yPtZkD
- WFlzigcRek9eM+8LgR4wOGOHN2Qp5nMTVOEljI1pItGbkUkPnmlamg2U61WDVM4ev73UMC2+h
- UFDhykObj3T44=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +47,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0233191728=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--===============0233191728==
+Content-Type: multipart/signed; boundary="Sig_/gJqgW8ibeandfWFBKfAJJxB";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-First, I will like to thank those who gave me hints on how to proceed with getting rid of an unwanted double allocation of visible portion of the frame buffer.
+--Sig_/gJqgW8ibeandfWFBKfAJJxB
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-https://lists.freedesktop.org/archives/dri-devel/2020-October/283452.html
+Hi all,
 
-I may repost the question later to the mailing list based on the feedback I received.
-    After a few more days of trying, I finally got my prototype OpenChrome DRM atomic modesetting code barely working for both primary and cursor planes (cursor plane was not working previously).
-I finally figured out what was causing the freeze, and in fact, I am writing this e-mail from the very computer that has the experimental code running.
-The code itself is still quite unstable that standby resume is not working and VT (Virtual Terminal) is broken, but X Server is working fine just with a few minor weird artifact lines on the right and bottom edges of the screen.
-Anyway, the question I have here (and I am assuming that Daniel Vetter will give me an explanation) is that I noticed that for cursor plane's atomic_disable callback, plane->state->crtc is null or sometimes null.
-Why is this?
-Assuming that plane->state->crtc will not be null was one the reason why the code was not working, so I will like to know the reason.
+After merging the drm-misc-fixes tree, today's linux-next build (arm
+multi_v7_defconfig) produced this warning:
 
-Regards,
+drivers/gpu/drm/vc4/vc4_drv.c: In function 'vc4_drm_unbind':
+drivers/gpu/drm/vc4/vc4_drv.c:322:18: warning: unused variable 'vc4' [-Wunu=
+sed-variable]
+  322 |  struct vc4_dev *vc4 =3D to_vc4_dev(drm);
+      |                  ^~~
 
-Kevin Brace
-Brace Computer Laboratory blog
-https://bracecomputerlab.com
+Introduced by commit
+
+  dcda7c28bff2 ("drm/vc4: kms: Add functions to create the state objects")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/gJqgW8ibeandfWFBKfAJJxB
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+gpNkACgkQAVBC80lX
+0GzObAf9ELauIfurBLxpumwv/j7hYeA/o36O9sxR7KMYt/GU0Wf6N2v9s5jxS8nP
+kECfAc743DU2tB6ruz4LhM5Ftz/Bl1gIP0fkgjN9dx3dvBUSN17iyVJTkriSm+Pw
+wEHzVUhbZA0jDRL6+KceMBRbiijlrnjfeQ41yiEbLt7NX7zKoOwXwN/yXAAF11/Y
+z/urYPtssjKfOXTca/DbC27hE9N/voIII80qODgj4zDFD4N4UY5n/UBMyDrEUcc4
+BqF7pshekl9aSlRKODh3NIRP9D7CXij4ClP/Oz3mnX9F8ZiD0ma/SKBBoD6Vbqwi
+XIPcQ0x9tC6LyjM3EEuhtsHOgLE5yQ==
+=23z8
+-----END PGP SIGNATURE-----
+
+--Sig_/gJqgW8ibeandfWFBKfAJJxB--
+
+--===============0233191728==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0233191728==--
