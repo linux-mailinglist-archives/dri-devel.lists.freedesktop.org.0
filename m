@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2D52A5032
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 20:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41302A5034
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 20:35:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C626E8D0;
-	Tue,  3 Nov 2020 19:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B0B6E8EB;
+	Tue,  3 Nov 2020 19:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0606E8D7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC5D6E8D0
  for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 19:34:55 +0000 (UTC)
-IronPort-SDR: M6id70RQQa2eioCC+79z3qYhn+pJstnTbmf7boo0vMUdloDYS85Z7PaSHdVpQlRpo83dZBBz9t
- mSk2vlKizv5w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9794"; a="156101999"
-X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; d="scan'208";a="156101999"
+IronPort-SDR: SKMCyjy3cyPjCKu1WuyBIg/osCI1hCIZ1dHVc3Y6MH15tkWAaJfnEYfC4H7itU68AuFlOVmyfD
+ d+IGv+qqRZLA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9794"; a="156102002"
+X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; d="scan'208";a="156102002"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2020 11:34:54 -0800
-IronPort-SDR: hapBggNc2y6sDow6AutJpbNizMIflBBF+egKrCmShxL3FiCHPYE5kElxPJwZ6EF6weMv0z718Z
- SfDN5rSrspwA==
-X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; d="scan'208";a="538610990"
+ 03 Nov 2020 11:34:55 -0800
+IronPort-SDR: QAZGdFwTfNigmWyUQSUK5dYdqnAIlWjTc5CfZaGwsAoCsU9vzpCrJ2QeB+88Xvb8iZeTo2B9XG
+ zTB5E2UltBvA==
+X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; d="scan'208";a="538610994"
 Received: from adamreyx-mobl.amr.corp.intel.com (HELO
  achrisan-DESK2.amr.corp.intel.com) ([10.254.36.83])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
@@ -31,9 +31,9 @@ Received: from adamreyx-mobl.amr.corp.intel.com (HELO
 From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	anitha.chrisanthus@intel.com
-Subject: [PATCH v11 2/7] dt-bindings: display: Intel KeemBay MSSCAM
-Date: Tue,  3 Nov 2020 11:34:28 -0800
-Message-Id: <1604432073-15933-3-git-send-email-anitha.chrisanthus@intel.com>
+Subject: [PATCH v11 3/7] dt-bindings: display: bridge: Intel KeemBay DSI
+Date: Tue,  3 Nov 2020 11:34:29 -0800
+Message-Id: <1604432073-15933-4-git-send-email-anitha.chrisanthus@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1604432073-15933-1-git-send-email-anitha.chrisanthus@intel.com>
 References: <1604432073-15933-1-git-send-email-anitha.chrisanthus@intel.com>
@@ -56,30 +56,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch add bindings for Intel KeemBay MSSCAM syscon
+This patch adds bindings for Intel KeemBay MIPI DSI
+
+v2: corrected description for port
 
 Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Rob Herring <robh@kernel.org>
 ---
- .../bindings/display/intel,keembay-msscam.yaml     | 36 ++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
+ .../bindings/display/bridge/intel,keembay-dsi.yaml | 101 +++++++++++++++++++++
+ 1 file changed, 101 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml b/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
+diff --git a/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
 new file mode 100644
-index 0000000..10ed8d5
+index 0000000..ab5be26
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
-@@ -0,0 +1,36 @@
++++ b/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
+@@ -0,0 +1,101 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/intel,keembay-msscam.yaml#
++$id: http://devicetree.org/schemas/display/bridge/intel,keembay-dsi.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Devicetree bindings for Intel Keem Bay MSSCAM
++title: Devicetree bindings for Intel Keem Bay mipi dsi controller
 +
 +maintainers:
 +  - Anitha Chrisanthus <anitha.chrisanthus@intel.com>
@@ -87,27 +92,92 @@ index 0000000..10ed8d5
 +
 +properties:
 +  compatible:
-+    const: intel,keembay-msscam, syscon
++    const: intel,keembay-dsi
 +
 +  reg:
-+    maxItems: 1
++    items:
++      - description: MIPI registers range
 +
-+  reg-io-width:
-+    const: 4
++  reg-names:
++    items:
++      - const: mipi
++
++  clocks:
++    items:
++      - description: MIPI DSI clock
++      - description: MIPI DSI econfig clock
++      - description: MIPI DSI config clock
++
++  clock-names:
++    items:
++      - const: clk_mipi
++      - const: clk_mipi_ecfg
++      - const: clk_mipi_cfg
++
++  ports:
++    type: object
++
++    properties:
++      '#address-cells':
++       const: 1
++
++      '#size-cells':
++       const: 0
++
++      port@0:
++        type: object
++        description: MIPI DSI input port.
++
++      port@1:
++        type: object
++        description: DSI output port.
++
++    required:
++      - port@0
++      - port@1
++
++    additionalProperties: false
 +
 +required:
 +  - compatible
 +  - reg
-+  - reg-io-width
++  - reg-names
++  - clocks
++  - clock-names
++  - ports
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    msscam:msscam@20910000 {
-+        compatible = "intel,keembay-msscam", "syscon";
-+        reg = <0x20910000 0x30>;
-+        reg-io-width = <4>;
++    mipi-dsi@20900000 {
++        compatible = "intel,keembay-dsi";
++        reg = <0x20900000 0x4000>;
++        reg-names = "mipi";
++        clocks = <&scmi_clk 0x86>,
++                 <&scmi_clk 0x88>,
++                 <&scmi_clk 0x89>;
++        clock-names = "clk_mipi", "clk_mipi_ecfg",
++                      "clk_mipi_cfg";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                dsi_in: endpoint {
++                    remote-endpoint = <&disp_out>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++                dsi_out: endpoint {
++                    remote-endpoint = <&adv7535_input>;
++                };
++            };
++        };
 +    };
 -- 
 2.7.4
