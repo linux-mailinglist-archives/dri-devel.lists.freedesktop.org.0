@@ -1,123 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFEE2A4074
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 10:37:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53EFA2A4142
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 11:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6927A6E894;
-	Tue,  3 Nov 2020 09:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 377FB6E8AE;
+	Tue,  3 Nov 2020 10:10:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF4D6E894
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 09:37:54 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id x7so17749953wrl.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 01:37:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OS+w5BVFhHeuMCG06V3T2xebILf8mlHn8RwM5pbLZ/o=;
- b=B9TkvJpirwS28C/4P0t1Y/guI+l7knxMqh5LgY2M0g4f9vlU4SZKVNB9XSQMr8A82N
- Lpr/bIT7ERno481/Z/Hy02rpm9mkLi3/WqinR6AYZ2m7I52DskfYu7D7WNHpqWmftOft
- yZmNz6b2cF1iJAyE75Nh/UDPkNvEPBMDqdlsPzjbCukM6wownmzL6Nw7iHmGV/xCe93I
- EtTNDJaCI/3fa4EEygWWuYj6aJUstVNHGlFlhoUQ2Idb934tRqNHOEixrAsrcaqu5NQ1
- CSX9bXrcM4g/LKmTRVEfvSTDzMRVGyNavF9S+9YBiKXgqfMhklxvQEOKzexMsIhmL35z
- UX/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=OS+w5BVFhHeuMCG06V3T2xebILf8mlHn8RwM5pbLZ/o=;
- b=ReXih3RJ8Q/oNHEaItF62S98q0N3cauKVroiIBDKnbxYgexqQnkFmHa4ErVBINnDO2
- Hv9d3RaNfquarquToMkxyri/YVd8ZpHHJdxkjD8kZ3On9ROlz/h9SheqBTh7xlsmrcaB
- YLjpRZKw4wNloPEZhkzaSduUWF1Wa6ZHbamZlS0D2G9ro2IeA94ZT+TX9Ybdxm1CG/6Y
- 2VtaAs5j8wIz87Hg5WdLQiQMilFD7cBizodBgmJhksQhDqxBtcMKblu/sua7zLtt4CHS
- 09+VASFHwK0nShedvsVFHEyVrg29lBZICtqB2lsN02qiaL2rQgHxnPWDfOX/pMXM0fbE
- gF1g==
-X-Gm-Message-State: AOAM532UqHPBogYtekcUBmRqzK6BGPrIRHbOMbQO4ICzD8F/Sor05xCc
- t3KcApmeO9I23j6YduvibJjbOCOEVN0ZWi0N
-X-Google-Smtp-Source: ABdhPJzAL2wRZguedS2iyzJpkEPD4blYW4GU/Nz/Zup6J1iBwrEwo9vFHggtARcIP2Xl3eJxUqPfAg==
-X-Received: by 2002:adf:f584:: with SMTP id f4mr24028916wro.383.1604396272423; 
- Tue, 03 Nov 2020 01:37:52 -0800 (PST)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:3d8d:fb08:21c9:faa3?
- ([2a01:e35:2ec0:82b0:3d8d:fb08:21c9:faa3])
- by smtp.gmail.com with ESMTPSA id r1sm26935679wro.18.2020.11.03.01.37.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 01:37:51 -0800 (PST)
-Subject: Re: [PATCH v10 1/6] dt-bindings: display: Add support for Intel
- KeemBay Display
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <1604006877-20092-1-git-send-email-anitha.chrisanthus@intel.com>
- <1604006877-20092-2-git-send-email-anitha.chrisanthus@intel.com>
- <20201029222046.GA904738@ravnborg.org>
- <b30439f7-b77e-9ca8-57e9-16cf417da0cf@baylibre.com>
- <20201030211539.GB1003403@ravnborg.org>
- <CAL_JsqKFXDP921nGrO9o+RjMLnYLBiyagQmUUZFb10QJgu8kZQ@mail.gmail.com>
- <bcca48b9-5baa-2842-a6f0-23a2b668272a@baylibre.com>
- <20201102180406.GA1404335@ravnborg.org>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <2f1b7ced-5bec-cb52-3d08-5dae61adf4ab@baylibre.com>
-Date: Tue, 3 Nov 2020 10:37:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A11B86E8B9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 10:10:29 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E8379B25A;
+ Tue,  3 Nov 2020 10:10:28 +0000 (UTC)
+Subject: Re: [PATCH v2] drm: Add the new api to install irq
+To: Maxime Ripard <maxime@cerno.tech>, Tian Tao <tiantao6@hisilicon.com>
+References: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
+ <20201103095205.ywabphbc2xbop6ae@gilmour.lan>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <f89640fb-6994-76dc-7862-a3b26b67dc24@suse.de>
+Date: Tue, 3 Nov 2020 11:10:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
-In-Reply-To: <20201102180406.GA1404335@ravnborg.org>
-Content-Language: en-US
+In-Reply-To: <20201103095205.ywabphbc2xbop6ae@gilmour.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,82 +39,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>, "Dea,
- Edmund J" <edmund.j.dea@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0443765796=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/11/2020 19:04, Sam Ravnborg wrote:
-> Hi Neil.
-> 
->>>>>>> ---
->>>>>>>  .../bindings/display/intel,keembay-display.yaml    | 75 ++++++++++++++++++++++
->>>>>>>  1 file changed, 75 insertions(+)
->>>>>>>  create mode 100644 Documentation/devicetree/bindings/display/intel,keembay-display.yaml
->>>>>>>
->>>>>>> diff --git a/Documentation/devicetree/bindings/display/intel,keembay-display.yaml b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
->>>>>>> new file mode 100644
->>>>>>> index 0000000..8a8effe
->>>>>>> --- /dev/null
->>>>>>> +++ b/Documentation/devicetree/bindings/display/intel,keembay-display.yaml
->>>>>>> @@ -0,0 +1,75 @@
->>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>>>> +%YAML 1.2
->>>>>>> +---
->>>>>>> +$id: http://devicetree.org/schemas/display/intel,keembay-display.yaml#
->>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>>> +
->>>>>>> +title: Devicetree bindings for Intel Keem Bay display controller
->>>>>>> +
->>>>>>> +maintainers:
->>>>>>> +  - Anitha Chrisanthus <anitha.chrisanthus@intel.com>
->>>>>>> +  - Edmond J Dea <edmund.j.dea@intel.com>
->>>>>>> +
->>>>>>> +properties:
->>>>>>> +  compatible:
->>>>>>> +    const: intel,keembay-display
->>>>>>> +
->>>>>>> +  reg:
->>>>>>> +    items:
->>>>>>> +      - description: LCD registers range
->>>>>>> +      - description: Msscam registers range
->>>>>>> +
->>>>>
->>>>> Indeed the split is much better, but as you replied on http://lore.kernel.org/r/BY5PR11MB41827DE07436DD0454E24E6E8C0A0@BY5PR11MB4182.namprd11.prod.outlook.com
->>>>> the msscam seems to be shared with the camera subsystem block, if this is the case it should be handled.
->>>>>
->>>>> If it's a shared register block, it could be defined as a "syscon" used by both subsystems.
->>>>
->>>> I think I got it now.
->>>>
->>>> msscam is used to enable clocks both for the display driver and the
->>>> mipi-dsi part.
->>>
->>> If just clocks, then the msscam should be a clock provider possibly.
->>> If not, then the below looks right.
-> 
-> I am feeling a little clueless here - sorry.
-> 
-> Can you help with any example that does this?
-> 
-> Everything I looked up in bindings/clock/ had a "#clock-cells" which is
-> not relevant for msscam - or so I think at least.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0443765796==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="FU7mnlwETgRbLovU3AewaduaroZzVhXkj"
 
-Looking at the code make it clear it's not relevant to implement it as clock controller.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--FU7mnlwETgRbLovU3AewaduaroZzVhXkj
+Content-Type: multipart/mixed; boundary="BGgRSz0oZsNvwplsQK6OORixiTXp9FXPm";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Tian Tao <tiantao6@hisilicon.com>
+Cc: maarten.lankhorst@linux.intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-ID: <f89640fb-6994-76dc-7862-a3b26b67dc24@suse.de>
+Subject: Re: [PATCH v2] drm: Add the new api to install irq
+References: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
+ <20201103095205.ywabphbc2xbop6ae@gilmour.lan>
+In-Reply-To: <20201103095205.ywabphbc2xbop6ae@gilmour.lan>
 
-The syscon is enough.
+--BGgRSz0oZsNvwplsQK6OORixiTXp9FXPm
+Content-Type: multipart/mixed;
+ boundary="------------BD605D75E2053D3D8E1B4445"
+Content-Language: en-US
 
-Neil
+This is a multi-part message in MIME format.
+--------------BD605D75E2053D3D8E1B4445
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> 
-> 	Sam
-> 
+Hi
+
+Am 03.11.20 um 10:52 schrieb Maxime Ripard:
+> On Tue, Nov 03, 2020 at 10:10:41AM +0800, Tian Tao wrote:
+>> Add new api devm_drm_irq_install() to register interrupts,
+>> no need to call drm_irq_uninstall() when the drm module is removed.
+>>
+>> v2:
+>> fixed the wrong parameter.
+>>
+>> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+>> ---
+>>  drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
+>>  include/drm/drm_drv.h     |  3 ++-
+>>  2 files changed, 25 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>> index cd162d4..0fe5243 100644
+>> --- a/drivers/gpu/drm/drm_drv.c
+>> +++ b/drivers/gpu/drm/drm_drv.c
+>> @@ -39,6 +39,7 @@
+>>  #include <drm/drm_color_mgmt.h>
+>>  #include <drm/drm_drv.h>
+>>  #include <drm/drm_file.h>
+>> +#include <drm/drm_irq.h>
+>>  #include <drm/drm_managed.h>
+>>  #include <drm/drm_mode_object.h>
+>>  #include <drm/drm_print.h>
+>> @@ -678,6 +679,28 @@ static int devm_drm_dev_init(struct device *paren=
+t,
+>>  	return ret;
+>>  }
+>> =20
+>> +static void devm_drm_dev_irq_uninstall(void *data)
+>> +{
+>> +	drm_irq_uninstall(data);
+>> +}
+>> +
+>> +int devm_drm_irq_install(struct device *parent,
+>> +			 struct drm_device *dev, int irq)
+>> +{
+>> +	int ret;
+>> +
+>> +	ret =3D drm_irq_install(dev, irq);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret =3D devm_add_action(parent, devm_drm_dev_irq_uninstall, dev);
+>> +	if (ret)
+>> +		devm_drm_dev_irq_uninstall(dev);
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL(devm_drm_irq_install);
+>> +
+>=20
+> Shouldn't we tie the IRQ to the drm device (so with drmm_add_action)
+> instead of tying it to the underlying device?
+
+If the HW device goes away, there won't be any more interrupts. So it's
+similar to devm_ functions for I/O memory. Why would you use the drmm_
+interface?
+
+Best regards
+Thomas
+
+>=20
+> Maxime
+>>
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+
+--------------BD605D75E2053D3D8E1B4445
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0x680DC11D530B7A23.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="OpenPGP_0x680DC11D530B7A23.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
+H47
+fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
+bqP
+5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
+z9E
+ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
+nEm
+imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
+W1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
+BYC
+AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
+Onf
+G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
+GJm
+DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
++1Q
+DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
+p8n
+91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
+zF1
+CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
+gUC
+WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
+IiL
++he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
+42f
+CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
+Urj
+EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
+45N
+GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
+Tpy
+Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
+u5r
+A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
+/N8
+GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
+j0g
+voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
+bZM
+RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
+zWw
+iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
+Xy9
+RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
+c0n
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+wsCOBBMBCAA4AhsDBQsJC=
+AcC
+BhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl78SF4ACgkQaA3BH=
+VML
+eiOpGAgAih6C1OnWms/N8eBMC4Q93y/nyywe5vCL22Dr1rwgn6Iw2jOGziJSi7zhY4sEk2NKJ=
+5cd
+lFrx8mP//b+xO4AGffwBD0Vwpf38Hj2Gt0KjpzRYccqqU+tJPO5c0pjI52ZIV3+kOEFvYGfkN=
+PHE
+flE+b81T8L2dSXCLtj4WAGUM1rmHn3bCYl+/RwkB+8XnoL5AvrmMcU4Uhb3FJpM4DHExccYkd=
+eSL
+ojBppOCztBCUpBx3le+8QPVvAvJDuur4wRmjk3sjKClAwzeqoYyUKcN3JDdb3mt3QcJal9rSh=
+VEI
+7B25IvfmEbs42oGm8GPzPkaNJu3gcska+l5PSTfurNETGsJdBBARAgAdFiEEJ+jjpp87z/+5L=
+Y5q
+LnehMBH108IFAls6HVcACgkQLnehMBH108LTkACgjLQdDYMENi6BDjY/gd/LF9lMi8oAnR+o0=
+FwE
+Vb1K1tEMQ/1x+k1U6/xgwsBzBBABCAAdFiEEHl2YIZkIo5VO2MxYqlA7ya4PR6cFAls58bMAC=
+gkQ
+qlA7ya4PR6cvTAgAzY1N5QMKh8ECRtYcZNmilyV59uHTEY9hAR+203JqWnSGfUKtU7s6xfl5O=
+NGq
+DI5rULk4Cw2CEIzg9Sat+/lxn36w2f1tEznS5Vb0gVGWrzDAFjj7tB6MnmCzsNb/S1kgxnqJM=
+Yor
+RYQ7uB3Yr2Fdp08FJxN0ipd5YfzaZ6KoSWcRAv4r1R4ZQGuS77URAg7HDOIrBMOVO+HIn7GYQ=
+qPS
+5ZFw5yXbvEtL1c5Y8Zdw1AG2VmEXx78TWQVG3kI8/lQF1QI3yrJ1Rp2x5eK9I0OJihv13IlIW=
+3sb
+QGrj9pxF63kA20ZFaynzFglBGiyxExYvTD0/xKIhzYhj8mtCunPb2cLAcwQQAQgAHRYhBLsjb=
+bex
+nu/GyEcdaKfzfBmMOTGBBQJbOjLAAAoJEKfzfBmMOTGBBoMIALIW4EtBY28tPwZMOpN/+ARPO=
+a2g
+Qzpivw7iNtiDTnGIXMCoxly1CybfMdqTHYmuKbEO9AlFAlDOnkgInsn8E65IvgUTVI95Ah+Ob=
+iPI
+FkYc/9a+AexPl7f5kI9489k77eKtqtMpWFpo/vROmRroSw4JnM7ovwPq1QOSHExfTKbLunzD1=
+i3V
+4PShSZ6bGsp1LW6Wk0lRMHDuAk3xsyjBWfJwSbrCe3E6OsLG7BuQqEUt2fR6NxdDRSR9tQUp9=
+Tri
+AYG5LndmUzxeU6FAQjD8Wt1ezOFH5ODcCDXfRyYmE6uCGA4EvO8l9R3o68NPlUjPRAZsCbxJa=
+UAg
+iazX1nyQGwvOwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHU=
+E9e
+osYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+q=
+bU6
+3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWWG=
+KdD
+egUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lvhFXod=
+NFM
+AgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsAEQEAAcLAf=
+AQY
+AQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkDwmcAAAoJEGgNwR1TC3ojp=
+fcI
+AInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2h9ifw9Nf2TjCZ6AMvC3thAN0r=
+FDj
+55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxUn+LSiRrOdywn6erjxRi9EYTVLCHcD=
+hBE
+jKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uIaMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU=
+2y3
+ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBWHE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/t=
+sZv
+yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
+=3DmxFq
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------BD605D75E2053D3D8E1B4445--
+
+--BGgRSz0oZsNvwplsQK6OORixiTXp9FXPm--
+
+--FU7mnlwETgRbLovU3AewaduaroZzVhXkj
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+hLJMFAwAAAAAACgkQaA3BHVMLeiMk
+0gf/XkKbWdEstEYgDM9PSqlcsoDDnuH6pQ61c+TwaLN1sioLGqF/m0eCXxtWxfdGuIfEhnEY27dU
+NdxErnmr+5XiwshCBCFojIhaIaSp9RHDyBxjn+cPIXO4pdZ1QWuNzDGHjFPCcrlXsi7JW6l39x8P
+FDZOQwq1P/BjCKK+DjZHST58OLPX125Rm0dW5lJq7gGqsaq2VexmV5SIiCf0hixhDlpew6jYSeVY
+Urv/JOPzigDh+EKvJp+y5C4VC3xaHpiEREmp2c9rwHJ6R3+4tgGJTrKhMi+YPz7n8VkeDaTbdogS
+Z5qJ7RytqNPUq0V6X3BD64R+2YNpLNQxrEVkJdZ6JQ==
+=a4Um
+-----END PGP SIGNATURE-----
+
+--FU7mnlwETgRbLovU3AewaduaroZzVhXkj--
+
+--===============0443765796==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0443765796==--
