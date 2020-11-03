@@ -1,60 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B22FC2A43BC
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 12:08:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CFBB2A43BE
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 12:09:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 635E16E3B7;
-	Tue,  3 Nov 2020 11:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50CC06E8C2;
+	Tue,  3 Nov 2020 11:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A84C46E3B7
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 11:08:51 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id h22so12370289wmb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 03:08:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=XeBi6ALE7giUjkja8M9G6EY6GTINE8ijRP7xdqDtyEc=;
- b=W6/6CBR9dGL9xtQMFIHuFY2u3TUbz/9anygbLkyU0JtbGaUErnNGiRl/xho40GiNdE
- iz0DIL1Fa17239Iuq29Kt6WAycT8wNg7Q0aA8zblTXRBF9CoRsS9qI3S7/Gr4od1KC8F
- nU57IAUNe1zJOgkhoQ7PO8031dlUWlP+I0/wg=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1CF16E8C2
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 11:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604401760;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7syIlfjqS9VeQqY6A8EUbFPVxeHgJTVBfVyCcYrOJos=;
+ b=gdqO+TLW36Sb63MGskufCgQYvOY25qpGykjJ2kMKn5IkwbgrMRTZibANIZM9lnitT76B1H
+ MJZAnDRL+vq9oEICf31x4Kr4EkXBb+j9k2ThwdY2a+KCEhtUK5vywxo/bVeKfjlnvt7KPZ
+ BCTsSjRZvyJf39nfjDKRj7t32ntWKY8=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-5okHltyKO22I8wdp2k2Wag-1; Tue, 03 Nov 2020 06:09:19 -0500
+X-MC-Unique: 5okHltyKO22I8wdp2k2Wag-1
+Received: by mail-ed1-f71.google.com with SMTP id k2so4062138edv.15
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 03:09:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XeBi6ALE7giUjkja8M9G6EY6GTINE8ijRP7xdqDtyEc=;
- b=cJBCSvdPBrj15XXAsUb1eS+rJ7GXAHgJ9RLfXBVihb4hOdirXm5BEAIUp95cqSRE0h
- qNuuxZvfolrmEUCtTvWqqxHWDgv6G3AegCt1D8urC2eCT+PMLzpH2OF+XbG4GmQU++OH
- G0/3/pIh+fu2hhlpvuIszewDdhgSGqJbIjKvqKLqO6CJBTSVI57DYTHBWIEmiUMswt/s
- hpkT/XCh+kbN32Gq5AM5Of0d2LK+yeqKKu/xMBN74i5L7xWtzZUAyPraJPozl1zUwPbX
- 70o8TTxiD/UaOTR50khHaxnLsBfSxID9urEOyo/prRLbSqvY2MhcosMfnuWpY4fhtogT
- iPzw==
-X-Gm-Message-State: AOAM531g7fNVjMOxrzWRgHe6dJLtHHtPL3drea8BObX4tphZnbZZqhBk
- Ve9/KDOEeJPtP5ismSHZoSwkYh94OjkKghnj
-X-Google-Smtp-Source: ABdhPJzqCrMIt19shYM7yXoul6WALo/kJKLEzcJYdefyUaCZ9Pm7J9+b3bH4HAOYyaBdgukK3QNhfg==
-X-Received: by 2002:a7b:c3d5:: with SMTP id t21mr2842222wmj.37.1604401730371; 
- Tue, 03 Nov 2020 03:08:50 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o184sm2534443wmo.37.2020.11.03.03.08.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 03:08:49 -0800 (PST)
-Date: Tue, 3 Nov 2020 12:08:47 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v3] drm/panfrost: Move the GPU reset bits outside the
- timeout handler
-Message-ID: <20201103110847.GG401619@phenom.ffwll.local>
-References: <20201103081347.1000139-1-boris.brezillon@collabora.com>
- <20201103102540.GB401619@phenom.ffwll.local>
- <20201103120326.10037005@collabora.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7syIlfjqS9VeQqY6A8EUbFPVxeHgJTVBfVyCcYrOJos=;
+ b=DhfVaFYjf/FzSLfN3AdiE2ujKc1XvnBLeLvjrjOEddyGREv1lHLzrD3eFVsjhvekTF
+ OXTUr/OXH45NSJw7h8j7JTx/yiw8wM+JP7Riidy2LBD+GJVqWze4swVSUbaCGVNXKULR
+ zV0wpGlJBTSo2n5DJUYalIFSxDZtdphJK0Nwi02OhcpNQn/sHkDfCQWZHILwthas2oLa
+ 8WznUaq36m85JGdqYfOiq7T2/6S3IlkMMdesTEWmqJfmBWkLUu3WE4nOiNdrJhFMWwAZ
+ faF//dhO6mtQQs2lev2K6Sq0ns0RSfSlQv6SphDI4OIBdZZwVr5tty3fWqsnauhKm2hQ
+ eYmA==
+X-Gm-Message-State: AOAM531tNF6HsPO8thGfy1CXaH4xy4SZECQH5ieZJwaIgceKIbaqGC1T
+ c+4jBB6a+RriDNX97pfNPbKBuhXqpBr+AoHeLxPywZS5TVUVVADhuAdZsQ1nhuSJOIAtkYhyo+Y
+ tVXAdXZH6ZKjx2HqJmD4cVyZLCHWw
+X-Received: by 2002:a05:6402:2d7:: with SMTP id
+ b23mr20343233edx.196.1604401757355; 
+ Tue, 03 Nov 2020 03:09:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxADHhC3xGIhF5Bi5BJh5UmG8tVovnwyvYawNbiYdOJwfEbe5JxKQFZYqVkhWAGiPh/sVuXvw==
+X-Received: by 2002:a05:6402:2d7:: with SMTP id
+ b23mr20343226edx.196.1604401757199; 
+ Tue, 03 Nov 2020 03:09:17 -0800 (PST)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+ by smtp.gmail.com with ESMTPSA id h24sm7679226ejg.15.2020.11.03.03.09.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Nov 2020 03:09:16 -0800 (PST)
+Subject: Re: [PATCH v2 0/3] drm: Store USB device in struct drm_device
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
+ daniel@ffwll.ch, sean@poorly.run, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org
+References: <20201103103656.17768-1-tzimmermann@suse.de>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <635668cb-089b-9d56-7866-d28de61bce32@redhat.com>
+Date: Tue, 3 Nov 2020 12:09:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201103120326.10037005@collabora.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201103103656.17768-1-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,96 +86,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 03, 2020 at 12:03:26PM +0100, Boris Brezillon wrote:
-> On Tue, 3 Nov 2020 11:25:40 +0100
-> Daniel Vetter <daniel@ffwll.ch> wrote:
+Hi,
+
+On 11/3/20 11:36 AM, Thomas Zimmermann wrote:
+> The drivers gm12u320 and udl operate on USB devices. They leave the PCI
+> device in struct drm_device empty and store the USB device in their own
+> driver structure. It's expected that DRM core and helpers only touch the
+> PCI-device field for actual PCI devices.
 > 
-> > On Tue, Nov 03, 2020 at 09:13:47AM +0100, Boris Brezillon wrote:
-> > > We've fixed many races in panfrost_job_timedout() but some remain.
-> > > Instead of trying to fix it again, let's simplify the logic and move
-> > > the reset bits to a separate work scheduled when one of the queue
-> > > reports a timeout.
-> > > 
-> > > v3:
-> > > - Replace the atomic_cmpxchg() by an atomic_xchg() (Robin Murphy)
-> > > - Add Steven's R-b
-> > > 
-> > > v2:
-> > > - Use atomic_cmpxchg() to conditionally schedule the reset work (Steven Price)
-> > > 
-> > > Fixes: 1a11a88cfd9a ("drm/panfrost: Fix job timeout handling")
-> > > Cc: <stable@vger.kernel.org>
-> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > Reviewed-by: Steven Price <steven.price@arm.com>  
-> > 
-> > Sprinkling the dma_fence annotations over this would be really nice ...
+> Fix this special case by upcasting struct drm_device.dev to the USB
+> device. The drivers' udev variables are being removed.
 > 
-> You mean something like that?
+> v2:
+> 	* upcast USB device from struct drm_device.dev (Daniel)
+> 
+> Thomas Zimmermann (3):
+>   drm: Add USB helpers
+>   drm/tiny/gm12u320: Retrieve USB device from struct drm_device.dev
+>   drm/udl: Retrieve USB device from struct drm_device.dev
 
-That's just the irq annotations, i.e. the one that's already guaranteed by
-the irq vs. locks checks. So this does nothing.
+Thanks.
 
-What I mean is annotating your new reset work (it's part of the critical
-path to complete batches, since it's holding up other batches that are
-stuck in the scheduler still), and the drm/scheduler annotations I've
-floated a while ago. The drm/scheduler annotations are stuck somewhat for
-lack of feedback from any of the driver teams using it though :-/
+The entire series looks good to me:
 
-The thing is pulling something out into a worker of it's own generally
-doesn't fix any deadlocks, it just hides them from lockdep. So it would be
-good to make sure lockdep can see through your maze again.
--Daniel
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Note you may want to wait with pushing this to drm-misc until the
+first patch gets at least one other review.
+
+Or at least give others some time to possibly react :)
+
+Regards,
+
+Hans
+
+
+
 
 > 
-> --->8---
-> From 4f90ee2972eaec0332833ff6f9ea078acbfa899a Mon Sep 17 00:00:00 2001
-> From: Boris Brezillon <boris.brezillon@collabora.com>
-> Date: Tue, 3 Nov 2020 12:01:09 +0100
-> Subject: [PATCH] drm/panfrost: Annotate dma_fence signalling
+>  Documentation/gpu/drm-internals.rst |  5 +++
+>  drivers/gpu/drm/tiny/gm12u320.c     | 52 +++++++++++++----------------
+>  drivers/gpu/drm/udl/udl_connector.c |  9 ++---
+>  drivers/gpu/drm/udl/udl_drv.c       |  3 --
+>  drivers/gpu/drm/udl/udl_drv.h       |  1 -
+>  drivers/gpu/drm/udl/udl_main.c      | 25 ++++++++------
+>  include/drm/drm_usb_helper.h        | 25 ++++++++++++++
+>  7 files changed, 73 insertions(+), 47 deletions(-)
+>  create mode 100644 include/drm/drm_usb_helper.h
 > 
-> Annotate dma_fence signalling to help lockdep catch deadlocks.
+> --
+> 2.29.0
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_job.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 569a099dc10e..046cb3677332 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -482,7 +482,9 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
->  
->  		if (status & JOB_INT_MASK_DONE(j)) {
->  			struct panfrost_job *job;
-> +			bool cookie;
->  
-> +			cookie = dma_fence_begin_signalling();
->  			spin_lock(&pfdev->js->job_lock);
->  			job = pfdev->jobs[j];
->  			/* Only NULL if job timeout occurred */
-> @@ -496,6 +498,7 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
->  				pm_runtime_put_autosuspend(pfdev->dev);
->  			}
->  			spin_unlock(&pfdev->js->job_lock);
-> +			dma_fence_end_signalling(cookie);
->  		}
->  
->  		status &= ~mask;
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
