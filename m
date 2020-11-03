@@ -1,39 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904D72A54A1
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 22:13:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3738E2A5663
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 22:28:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5FC76E8CC;
-	Tue,  3 Nov 2020 21:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 381DD6E8F4;
+	Tue,  3 Nov 2020 21:28:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC3F96E8CC
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 21:13:14 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 014C36E8F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 21:28:41 +0000 (UTC)
+Received: from localhost (230.sub-72-107-127.myvzw.com [72.107.127.230])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 1579320061;
- Tue,  3 Nov 2020 22:13:10 +0100 (CET)
-Date: Tue, 3 Nov 2020 22:13:09 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Subject: Re: [PATCH v11 2/7] dt-bindings: display: Intel KeemBay MSSCAM
-Message-ID: <20201103211309.GA1523958@ravnborg.org>
-References: <1604432073-15933-1-git-send-email-anitha.chrisanthus@intel.com>
- <1604432073-15933-3-git-send-email-anitha.chrisanthus@intel.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id 8D35D2074B;
+ Tue,  3 Nov 2020 21:28:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604438921;
+ bh=8ytUCsyZVeF3ujFgYm5L1sW7UkyVhphiOKLK38YXOJo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=r3rNM/R7N18tFkDui7jKc1s7Rf1w4AGB0oy4QLfqljsFx0cgfbQoVLb4YXPv8FJ21
+ 3GOcK6tXRCXbaRCS5TJewrPlPhPnEk4+UMQFmaSlDABV6b/XkOfyrQcMw74G4iOpe0
+ oHBd90d8NCZ7lRYb6RIVYqEyC0t2dJj32/rqukig=
+Date: Tue, 3 Nov 2020 15:28:40 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
+Message-ID: <20201103212840.GA266427@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1604432073-15933-3-git-send-email-anitha.chrisanthus@intel.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=7gkXJVJtAAAA:8 a=IpJZQVW2AAAA:8
- a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=FSSKQYRyFT3z3PS9pIMA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=IawgGOuG5U0WyFbmm1f5:22
- a=AjGcO6oz07-iQ99wixmX:22 a=sptkURWiP4Gy88Gu7hUp:22
+In-Reply-To: <20201030100815.2269-12-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,88 +44,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: edmund.j.dea@intel.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-samsung-soc@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, kvm@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Anitha.
+On Fri, Oct 30, 2020 at 11:08:11AM +0100, Daniel Vetter wrote:
+> There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
+> files, and the old proc interface. Two check against
+> iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
+> this starts to matter, since we don't want random userspace having
+> access to PCI BARs while a driver is loaded and using it.
+> =
 
-On Tue, Nov 03, 2020 at 11:34:28AM -0800, Anitha Chrisanthus wrote:
-> This patch add bindings for Intel KeemBay MSSCAM syscon
-> 
-> Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Rob Herring <robh@kernel.org>
+> Fix this by adding the same iomem_is_exclusive() check we already have
+> on the sysfs side in pci_mmap_resource().
+> =
+
+> References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+
+This is OK with me but it looks like IORESOURCE_EXCLUSIVE is currently
+only used in a few places:
+
+  e1000_probe() calls pci_request_selected_regions_exclusive(),
+  ne_pci_probe() calls pci_request_regions_exclusive(),
+  vmbus_allocate_mmio() calls request_mem_region_exclusive()
+
+which raises the question of whether it's worth keeping
+IORESOURCE_EXCLUSIVE at all.  I'm totally fine with removing it
+completely.
+
+But if you want it,
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> Cc: J=E9r=F4me Glisse <jglisse@redhat.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: linux-mm@kvack.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: linux-pci@vger.kernel.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> --
+> v2: Improve commit message (Bjorn)
 > ---
->  .../bindings/display/intel,keembay-msscam.yaml     | 36 ++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml b/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
-> new file mode 100644
-> index 0000000..10ed8d5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
-> @@ -0,0 +1,36 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/intel,keembay-msscam.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Devicetree bindings for Intel Keem Bay MSSCAM
+>  drivers/pci/proc.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> =
 
-Here I had expected a short description of what it is used for.
-And maybe even an explanation for the msscam abbrevation it this can be
-made public.
+> diff --git a/drivers/pci/proc.c b/drivers/pci/proc.c
+> index d35186b01d98..3a2f90beb4cb 100644
+> --- a/drivers/pci/proc.c
+> +++ b/drivers/pci/proc.c
+> @@ -274,6 +274,11 @@ static int proc_bus_pci_mmap(struct file *file, stru=
+ct vm_area_struct *vma)
+>  		else
+>  			return -EINVAL;
+>  	}
+> +
+> +	if (dev->resource[i].flags & IORESOURCE_MEM &&
+> +	    iomem_is_exclusive(dev->resource[i].start))
+> +		return -EINVAL;
+> +
+>  	ret =3D pci_mmap_page_range(dev, i, vma,
+>  				  fpriv->mmap_state, write_combine);
+>  	if (ret < 0)
+> -- =
 
-> +
-> +maintainers:
-> +  - Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-> +  - Edmond J Dea <edmund.j.dea@intel.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: intel,keembay-msscam, syscon
+> 2.28.0
+> =
 
-This will not work - it needs to look something like:
-  compatible:
-    items:
-      - const: intel,keembay-msscam
-      - const: syscon
-
-See for example arm/freescale/fsl,imx7ulp-sim.yaml
-
-Other than the above it looks good.
-
-	Sam
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reg-io-width:
-> +    const: 4
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-io-width
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    msscam:msscam@20910000 {
-> +        compatible = "intel,keembay-msscam", "syscon";
-> +        reg = <0x20910000 0x30>;
-> +        reg-io-width = <4>;
-> +    };
-> -- 
-> 2.7.4
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
