@@ -1,58 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662D12A3E99
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBE62A3EB2
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 09:16:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3670E6EC0C;
-	Tue,  3 Nov 2020 08:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4F76EC01;
+	Tue,  3 Nov 2020 08:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6B606E12E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 01:48:18 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id y14so12794078pfp.13
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Nov 2020 17:48:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=5EIMo7DxVzETY+pG6N2VOmD4ZlvliKSM4a22Hu2QQ48=;
- b=fXj6yVnrjATl4yzOmF8SeuWcDHokvLyDOA9gNus+5EJPaBM8nh9k6ICwimPjI3qgXf
- cKCVLcRL7aDjj6AV6zbqKGfxOUX33Uo7b9zGDhwuUwqmAppIqJG4HWKkB2At85rDQwHQ
- 5hp77OXQlG2fOT5aVL+jVh865J8qiS5qIntdhjf+M9XNZWa4xwHIjtgBfLCfv6g+OHd0
- kN0EGusmYo7atm7zJLSRyW/kmVv4lk1d8ng3Cml92uRjipBzrEVhys30xFjScWrOcJod
- Ry2446Mdrpb+hb0eslvlWIwMrimH+vcfzyel7kE9XVrM7tT2qPFvu14Kj4a+l9I9a7U6
- SUrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=5EIMo7DxVzETY+pG6N2VOmD4ZlvliKSM4a22Hu2QQ48=;
- b=leVMOAPuVl8oh3p3LPgS1UJwhev/VvoGziQ5HtaikYJCMxm9uYAmzCiHCxJDuBf+98
- OOBVlaAHzNCFqTYiE5bwiMk4f5yWnAJOMeunbeoVaOWztiDIKxeygji4Yyaue/dOFT+y
- ALGmw9MnN/SMfyvHErYxndZfyYcmkIsapx2tBviaMfM8iI4ErQdii3vqBWvG9icKyl0d
- aOEHW6bvwVn9txcW1ij2LV7Alg3MUdPSTfVkXMtTP2Urk/OuxrG2X3pcpAmlxWyumIa0
- EprsP/cviNwT+cZ8Pje3vXOTuCj7JjXKJQwWqbL3Zhb9gpkvFmUa9e7UmSmtkJlMu9G6
- ybEg==
-X-Gm-Message-State: AOAM533uInU69xanoeUsYkMj97BfUj6DJtLZwFihzMrECytrBW69KD2Q
- GQdc4BOQhdXBZXDX8xw03aU=
-X-Google-Smtp-Source: ABdhPJymKxSyrKlw1UwO8ZciKzlDDzf+/NC9/Q0LwxMITtm/wiRcdZ591EWsFW/nphuY8npCUMQLkg==
-X-Received: by 2002:a62:ce08:0:b029:156:4427:4b29 with SMTP id
- y8-20020a62ce080000b029015644274b29mr24039920pfg.70.1604368098289; 
- Mon, 02 Nov 2020 17:48:18 -0800 (PST)
-Received: from localhost.localdomain ([8.210.202.142])
- by smtp.gmail.com with ESMTPSA id 22sm780144pjw.34.2020.11.02.17.48.15
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 02 Nov 2020 17:48:17 -0800 (PST)
-From: Yejune Deng <yejune.deng@gmail.com>
-To: robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, airlied@linux.ie, daniel@ffwll.ch,
- p.zabel@pengutronix.de
-Subject: [PATCH] drm/panfrost: Replace devm_reset_control_array_get()
-Date: Tue,  3 Nov 2020 09:48:02 +0800
-Message-Id: <1604368082-6032-1-git-send-email-yejune.deng@gmail.com>
-X-Mailer: git-send-email 1.9.1
-X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:24 +0000
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD1FA6E82B
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 02:10:14 +0000 (UTC)
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CQCsp16FYz72SN;
+ Tue,  3 Nov 2020 10:10:06 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 3 Nov 2020 10:10:05 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] drm: Add the new api to install irq
+Date: Tue, 3 Nov 2020 10:10:41 +0800
+Message-ID: <1604369441-65254-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Tue, 03 Nov 2020 08:14:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,36 +42,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- yejune.deng@gmail.com
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_reset_control_array_get_optional_exclusive() looks more readable
+Add new api devm_drm_irq_install() to register interrupts,
+no need to call drm_irq_uninstall() when the drm module is removed.
 
-Signed-off-by: Yejune Deng <yejune.deng@gmail.com>
+v2:
+fixed the wrong parameter.
+
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_drv.c | 23 +++++++++++++++++++++++
+ include/drm/drm_drv.h     |  3 ++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index ea8d318..1daf932 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -18,7 +18,7 @@
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index cd162d4..0fe5243 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -39,6 +39,7 @@
+ #include <drm/drm_color_mgmt.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
++#include <drm/drm_irq.h>
+ #include <drm/drm_managed.h>
+ #include <drm/drm_mode_object.h>
+ #include <drm/drm_print.h>
+@@ -678,6 +679,28 @@ static int devm_drm_dev_init(struct device *parent,
+ 	return ret;
+ }
  
- static int panfrost_reset_init(struct panfrost_device *pfdev)
++static void devm_drm_dev_irq_uninstall(void *data)
++{
++	drm_irq_uninstall(data);
++}
++
++int devm_drm_irq_install(struct device *parent,
++			 struct drm_device *dev, int irq)
++{
++	int ret;
++
++	ret = drm_irq_install(dev, irq);
++	if (ret)
++		return ret;
++
++	ret = devm_add_action(parent, devm_drm_dev_irq_uninstall, dev);
++	if (ret)
++		devm_drm_dev_irq_uninstall(dev);
++
++	return ret;
++}
++EXPORT_SYMBOL(devm_drm_irq_install);
++
+ void *__devm_drm_dev_alloc(struct device *parent, struct drm_driver *driver,
+ 			   size_t size, size_t offset)
  {
--	pfdev->rstc = devm_reset_control_array_get(pfdev->dev, false, true);
-+	pfdev->rstc = devm_reset_control_array_get_optional_exclusive(pfdev->dev);
- 	if (IS_ERR(pfdev->rstc)) {
- 		dev_err(pfdev->dev, "get reset failed %ld\n", PTR_ERR(pfdev->rstc));
- 		return PTR_ERR(pfdev->rstc);
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index 0230762..fec1776 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -513,7 +513,8 @@ struct drm_driver {
+ 
+ void *__devm_drm_dev_alloc(struct device *parent, struct drm_driver *driver,
+ 			   size_t size, size_t offset);
+-
++int devm_drm_irq_install(struct device *parent, struct drm_device *dev,
++			 int irq);
+ /**
+  * devm_drm_dev_alloc - Resource managed allocation of a &drm_device instance
+  * @parent: Parent device object
 -- 
-1.9.1
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
