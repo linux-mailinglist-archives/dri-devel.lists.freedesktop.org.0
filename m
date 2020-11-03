@@ -1,58 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D87B2A3B59
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 05:14:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E782A3CA4
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 07:11:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F7206E082;
-	Tue,  3 Nov 2020 04:14:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723C56E027;
+	Tue,  3 Nov 2020 06:11:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0228.hostedemail.com
- [216.40.44.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B696E082
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 04:14:24 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay06.hostedemail.com (Postfix) with ESMTP id 3C52818223256;
- Tue,  3 Nov 2020 04:14:23 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2693:2828:2893:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3872:3874:4321:5007:6119:6737:6738:6742:7576:7903:8603:10004:10400:10848:11232:11658:11914:12048:12297:12740:12760:12895:13069:13160:13229:13311:13357:13439:14181:14659:14721:21080:21451:21611:21627:21740:30054:30070:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:2, LUA_SUMMARY:none
-X-HE-Tag: low21_3f05160272b5
-X-Filterd-Recvd-Size: 2781
-Received: from XPS-9350.home (unknown [47.151.133.149])
- (Authenticated sender: joe@perches.com)
- by omf05.hostedemail.com (Postfix) with ESMTPA;
- Tue,  3 Nov 2020 04:14:17 +0000 (UTC)
-Message-ID: <21d80265fccfcb5d76851c84d1c2d88e0421ab85.camel@perches.com>
-Subject: Re: [PATCH v2 0/8] slab: provide and use krealloc_array()
-From: Joe Perches <joe@perches.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Sumit Semwal
- <sumit.semwal@linaro.org>,  Gustavo Padovan <gustavo@padovan.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Borislav Petkov <bp@alien8.de>, Tony
- Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>, Robert
- Richter <rric@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Linus Walleij
- <linus.walleij@linaro.org>,  "Michael S . Tsirkin" <mst@redhat.com>, Jason
- Wang <jasowang@redhat.com>, Christoph Lameter <cl@linux.com>, Pekka Enberg
- <penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
- <iamjoonsoo.kim@lge.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Date: Mon, 02 Nov 2020 20:14:16 -0800
-In-Reply-To: <20201102152037.963-1-brgl@bgdev.pl>
-References: <20201102152037.963-1-brgl@bgdev.pl>
-User-Agent: Evolution 3.38.1-1 
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E2DA6E027
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 06:11:21 +0000 (UTC)
+Received: from localhost (unknown [122.179.37.237])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 07AFF22277;
+ Tue,  3 Nov 2020 06:11:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604383880;
+ bh=23DogF8cxNuHcdZPQ5HVx3IcI+ys/4JhUq4kkNZX/js=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mLXMYcoHk5jc5ulnuVbydiNUa9ym5FjoC4EufLQc59nmscXYde/WxczCKMjm14LoE
+ U5RkcSAbE1C1Tg/1c3ZogjOS4A5wTgfNkPC8u8i+wey/llOfwZMoZxFNebaX19xFQa
+ 3bh+2GP3a6HeNvheTdab9Zbg0QqRzM7fgQdso0EM=
+Date: Tue, 3 Nov 2020 11:41:16 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2 0/4] drm/bridge: ti-sn65dsi86: Support EDID reading
+Message-ID: <20201103061116.GD2621@vkoul-mobl>
+References: <20201030011738.2028313-1-swboyd@chromium.org>
+ <20201101173741.GA1293305@ravnborg.org>
+ <CAD=FV=V3kktCrwvMBeOy1dnQGYuV-ZUGX81+upRZacfzxjceFg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=V3kktCrwvMBeOy1dnQGYuV-ZUGX81+upRZacfzxjceFg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,33 +47,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org, linux-mm@kvack.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-gpio@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-media@vger.kernel.org,
- linux-edac@vger.kernel.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-11-02 at 16:20 +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> Andy brought to my attention the fact that users allocating an array of
-> equally sized elements should check if the size multiplication doesn't
-> overflow. This is why we have helpers like kmalloc_array().
-> 
-> However we don't have krealloc_array() equivalent and there are many
-> users who do their own multiplication when calling krealloc() for arrays.
-> 
-> This series provides krealloc_array() and uses it in a couple places.
+Hi,
 
-My concern about this is a possible assumption that __GFP_ZERO will
-work, and as far as I know, it will not.
+Thanks Doug for adding me
 
+On 02-11-20, 08:37, Doug Anderson wrote:
+> > On Thu, Oct 29, 2020 at 06:17:34PM -0700, Stephen Boyd wrote:
 
+> > Any chance we can convince you to prepare this bridge driver for use in
+> > a chained bridge setup where the connector is created by the display
+> > driver and uses drm_bridge_funcs?
+> >
+> > First step wuld be to introduce the use of a panel_bridge.
+> > Then add get_edid to drm_bridge_funcs and maybe more helpers.
+> >
+> > Then natural final step would be to move connector creation to the
+> > display driver - see how other uses drm_bridge_connector_init() to do so
+> > - it is relatively simple.
+> >
+> > Should be doable - and reach out if you need some help.
+
+Yes it is and doable and you find this at [1], would need a rebase
+though.
+
+> At some point I think Vinod tried to prepare a patch for this and I
+> tried it, but it didn't just work.  I spent an hour or so poking at it
+> and I couldn't quite figure out why and I couldn't find enough other
+> examples to compare against to see what was wrong...  That was a few
+> months ago, though.  Maybe things are in a better shape now?
+
+It worked fine for me on Rb3 and db410c where we had HDMI connector. I
+don't have a panel device to test and Bjorn tried to help out with a bit
+of testing. This didn't work on the laptop, that is why I haven't posted
+it yet.
+
+This has conversion of msm driver and bridge drivers lt9611, adv7511 and
+ti-sn65dsi86.
+
+[1]: https://git.linaro.org/people/vinod.koul/kernel.git/log/?h=wip/msm_bridges_no_conn
+
+Thanks
+-- 
+~Vinod
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
