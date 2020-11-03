@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5987C2A3882
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:19:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F04DC2A3884
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 02:19:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3E816E7F5;
-	Tue,  3 Nov 2020 01:19:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 077EC6E80B;
+	Tue,  3 Nov 2020 01:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 551566E7F5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 01:19:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FEF66E802;
+ Tue,  3 Nov 2020 01:19:54 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 827302242A;
- Tue,  3 Nov 2020 01:19:46 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4FA44222B9;
+ Tue,  3 Nov 2020 01:19:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604366387;
- bh=8/XxZrMWmbEm2u/T/j5IpGZgB8+swR5JPrIqQL/u2ME=;
+ s=default; t=1604366394;
+ bh=f1GRbt55qiif67QZPihpz2cm6/Q8TPfTlQf37UMm5B8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Yad/Fm/Q2vEIEWX1UpKUFJCTaXf6QWKhykdEkjAOteRCT90QS+3ttvpHTLDzz7EeE
- Bsuuo+/0yum1Cjs4NFn1nTHOB/veFBeCS+1BQb4nsvORfwGgdc4i5iea15ax0BkZx2
- WbS6e5O7uqi2wCng4llVwzvPMyOaIEoOKTi9JGRE=
+ b=dK579iD4jNTPmpEGs9qwZT3x+LX4uyF1TFvTlFGEz41vD1fzHWI6jevgr2yMYV4tv
+ 0LtplW5GNLnulrtXNDBJH6IDxG4M9sLnAVzjilJzTKV97qLHzloA99tbTWcMuwYMlY
+ mcXe+5x2fEz7Pulb9FjPgg27W/J1wM93OdIhcyY4=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 14/29] drm/v3d: Fix double free in
- v3d_submit_cl_ioctl()
-Date: Mon,  2 Nov 2020 20:19:13 -0500
-Message-Id: <20201103011928.183145-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 19/29] drm/amdgpu: add DID for navi10 blockchain
+ SKU
+Date: Mon,  2 Nov 2020 20:19:18 -0500
+Message-Id: <20201103011928.183145-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201103011928.183145-1-sashal@kernel.org>
 References: <20201103011928.183145-1-sashal@kernel.org>
@@ -50,40 +50,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Sasha Levin <sashal@kernel.org>, Guchun Chen <guchun.chen@amd.com>,
+ "Tianci.Yin" <tianci.yin@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: "Tianci.Yin" <tianci.yin@amd.com>
 
-[ Upstream commit 897dbea6b716c0f2c5bcd4ba1eb4d809caba290c ]
+[ Upstream commit 8942881144a7365143f196f5eafed24783a424a3 ]
 
-Originally this error path used to leak "bin" but then we accidentally
-applied two separate commits to fix it and ended up with a double free.
-
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20201026094905.GA1634423@mwanda
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Guchun Chen <guchun.chen@amd.com>
+Signed-off-by: Tianci.Yin <tianci.yin@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/v3d/v3d_gem.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 09a7639cf161f..0e0f1cc3e283a 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -568,7 +568,6 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 		ret = v3d_job_init(v3d, file_priv, &bin->base,
- 				   v3d_job_free, args->in_sync_bcl);
- 		if (ret) {
--			kfree(bin);
- 			v3d_job_put(&render->base);
- 			kfree(bin);
- 			return ret;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index d73924e35a57e..92844ba2c9c4e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -1016,6 +1016,7 @@ static const struct pci_device_id pciidlist[] = {
+ 	{0x1002, 0x7319, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
+ 	{0x1002, 0x731A, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
+ 	{0x1002, 0x731B, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
++	{0x1002, 0x731E, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
+ 	{0x1002, 0x731F, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI10},
+ 	/* Navi14 */
+ 	{0x1002, 0x7340, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_NAVI14},
 -- 
 2.27.0
 
