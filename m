@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06AE2A59B3
-	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 23:09:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B932A59DC
+	for <lists+dri-devel@lfdr.de>; Tue,  3 Nov 2020 23:15:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C21146E903;
-	Tue,  3 Nov 2020 22:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 582FC6E904;
+	Tue,  3 Nov 2020 22:15:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E884289C6E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 22:09:47 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id a15so11363337edy.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 14:09:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WO1e+L++wPESWfr9nzOE54SCt7afrEsmsB9fEuoYvbI=;
- b=T+/A6+J62VDvQMKYPtVg2CtBW5xawhHVZqWOERIyixTczN4MfytqxhoJQJOcs2790L
- sj4ZJgiKijp3n63RZQtMlQ3es9rYo1weSDlwxcJm5Ag+lH4tps5I28z8LxvfwKmYtzJJ
- /7ODS6RyMh7GrhkYAYzKWrZUgtjo08ShY2d8lFIlqSiQY56zEC4lJ332rH1cpQ0Jikk9
- 7t5YiToX4pGXA3cBIa8hr/lWANYeeU9HgWErCB0IiUFAAt6bSVSfurD3RBJy3BliIelp
- YL3WFMt/TsTNhYtMeHyiS4JaRXQkTDS7Em1++6Jk3gmVGF0kwFa501K00ou4nDd0zP9v
- pO8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WO1e+L++wPESWfr9nzOE54SCt7afrEsmsB9fEuoYvbI=;
- b=ROBXMcGX+g9xw/FQMqHNRrczi6/Z3r1aKJoV9R5EWr31NZasopmd/A1oS/BpTr25aF
- gNah7bcJZk4OpfeYwEG8Oz6EMxk7BmjeWxsKeScAQCdkHfapN+NMmHwwnOW8dY0F4iFe
- pUFosBEc9jRhAXo2lIws8iBDW30t0iBCSrERTPurjoHazrz9mJZpIfbEwTQ0idxrgpU8
- dxh0iQzOpZ76qyNCvAB4Z7cs2t7udaNjxtzpc0BmCkAh3W1nheYfZB8ccWQ+0XNmdIZN
- XM+WynPDVVQlgzHIpFnLF9mJSrdrigXhOrz/5RVPL2AuaUpUpzCBcsHzcbki1Z/nqach
- wwPw==
-X-Gm-Message-State: AOAM533JFs9+gniwxg5VuhqZpW4/HAsC9s3kYwH9Xbr8t58GzIeVG2uT
- nPqxkMeZ/psEv6Pl8Y1UkHyqn0FID2SsCLc1P9+c7Q==
-X-Google-Smtp-Source: ABdhPJz1NDE7PM2O7672wRWt1a0mL/+PL68eDdfq2Oj69hckQbQldL+V0lbGY3zFDyAcHIRlbnAQxlg/ZySh5dCl9Ns=
-X-Received: by 2002:aa7:d843:: with SMTP id f3mr24583081eds.354.1604441386651; 
- Tue, 03 Nov 2020 14:09:46 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1CD6E904
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 22:15:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604441725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SXIMwG+24v0kPGbcpgSikfVX/4K8JgtSXH6lhtDLzEo=;
+ b=VpWUt+9pjvA88nFEUqeyCF9yjZrgWqazWcIk/CBjBTXKHG4rLjwCDs5v1c8D19aWSSAhn7
+ 1QAB50G4z+SYI2VG5Os4BzGzwmdYrzp65AE3L9v81ydFTEkPzYYByFGJ8gcU2T605Epc6Z
+ 7JQYKgShRrgnmUgAsKUPP+1NlXovYkE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-UmyNEj-5PHqDzrZS2RN4Wg-1; Tue, 03 Nov 2020 17:15:22 -0500
+X-MC-Unique: UmyNEj-5PHqDzrZS2RN4Wg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A11A7803F46;
+ Tue,  3 Nov 2020 22:15:19 +0000 (UTC)
+Received: from Whitewolf.lyude.net (ovpn-119-236.rdu2.redhat.com
+ [10.10.119.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E505960BF1;
+ Tue,  3 Nov 2020 22:15:14 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/edid: Fix uninitialized variable in drm_cvt_modes()
+Date: Tue,  3 Nov 2020 17:15:10 -0500
+Message-Id: <20201103221510.575827-1-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20201030100815.2269-12-daniel.vetter@ffwll.ch>
- <20201103212840.GA266427@bjorn-Precision-5520>
-In-Reply-To: <20201103212840.GA266427@bjorn-Precision-5520>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Tue, 3 Nov 2020 14:09:35 -0800
-Message-ID: <CAPcyv4jCGxWG0opLv4VzBRk5iLwu6CRse4DwF-otWkfXoGWe6A@mail.gmail.com>
-Subject: Re: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
-To: Bjorn Helgaas <helgaas@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +55,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Linux PCI <linux-pci@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Leon Romanovsky <leon@kernel.org>, David Airlie <airlied@linux.ie>,
+ Chao Yu <chao@kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Kalle Valo <kvalo@codeaurora.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 3, 2020 at 1:28 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Fri, Oct 30, 2020 at 11:08:11AM +0100, Daniel Vetter wrote:
-> > There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
-> > files, and the old proc interface. Two check against
-> > iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
-> > this starts to matter, since we don't want random userspace having
-> > access to PCI BARs while a driver is loaded and using it.
-> >
-> > Fix this by adding the same iomem_is_exclusive() check we already have
-> > on the sysfs side in pci_mmap_resource().
-> >
-> > References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->
-> This is OK with me but it looks like IORESOURCE_EXCLUSIVE is currently
-> only used in a few places:
->
->   e1000_probe() calls pci_request_selected_regions_exclusive(),
->   ne_pci_probe() calls pci_request_regions_exclusive(),
->   vmbus_allocate_mmio() calls request_mem_region_exclusive()
->
-> which raises the question of whether it's worth keeping
-> IORESOURCE_EXCLUSIVE at all.  I'm totally fine with removing it
-> completely.
+Noticed this when trying to compile with -Wall on a kernel fork. We potentially
+don't set width here, which causes the compiler to complain about width
+potentially being uninitialized in drm_cvt_modes(). So, let's fix that.
 
-Now that CONFIG_IO_STRICT_DEVMEM upgrades IORESOURCE_BUSY to
-IORESOURCE_EXCLUSIVE semantics the latter has lost its meaning so I'd
-be in favor of removing it as well.
+Changes since v1:
+* Don't emit an error as this code isn't reachable, just mark it as such
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+
+Cc: <stable@vger.kernel.org> # v5.9+
+Fixes: 3f649ab728cd ("treewide: Remove uninitialized_var() usage")
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+---
+ drivers/gpu/drm/drm_edid.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 631125b46e04..0643b98c6383 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -3094,6 +3094,7 @@ static int drm_cvt_modes(struct drm_connector *connector,
+ 
+ 	for (i = 0; i < 4; i++) {
+ 		int width, height;
++		u8 cvt_aspect_ratio;
+ 
+ 		cvt = &(timing->data.other_data.data.cvt[i]);
+ 
+@@ -3101,7 +3102,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
+ 			continue;
+ 
+ 		height = (cvt->code[0] + ((cvt->code[1] & 0xf0) << 4) + 1) * 2;
+-		switch (cvt->code[1] & 0x0c) {
++		cvt_aspect_ratio = cvt->code[1] & 0x0c;
++		switch (cvt_aspect_ratio) {
+ 		case 0x00:
+ 			width = height * 4 / 3;
+ 			break;
+@@ -3114,6 +3116,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
+ 		case 0x0c:
+ 			width = height * 15 / 9;
+ 			break;
++		default:
++			unreachable();
+ 		}
+ 
+ 		for (j = 1; j < 5; j++) {
+-- 
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
