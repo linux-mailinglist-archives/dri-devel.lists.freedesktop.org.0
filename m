@@ -1,37 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF4E22A6A5D
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 17:50:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 586CA2A6A66
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 17:50:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48D6B6E1F6;
-	Wed,  4 Nov 2020 16:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81E8389DB9;
+	Wed,  4 Nov 2020 16:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E086E249
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 16:50:19 +0000 (UTC)
-Received: from localhost (230.sub-72-107-127.myvzw.com [72.107.127.230])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 01712206CA;
- Wed,  4 Nov 2020 16:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604508619;
- bh=KzXcQsv6oXQiPT6pQbTFR35Ks2A09AmGg4NdOMxDZU4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=C3pX6cmo6q8mwyEj5GO30o1K3DmrMhjsd197OHFiySwAIRZVIm3gcmWDrE+eCPQYz
- sPh4rcY/+zTADvqe8t10fQKgN6B/uva7r/Rm33jjbBhTlqD9gCI3SGCFFhZSFec0de
- QvdkQtLCYpZ8r9E77lkRpGYf+6s0+xBDMYsFK0NQ=
-Date: Wed, 4 Nov 2020 10:50:17 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
-Message-ID: <20201104165017.GA352206@bjorn-Precision-5520>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A76A89DB9
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 16:50:45 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id y12so22789850wrp.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 08:50:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RcZE+F0xLfrdUe3r18uG2gKVVr07Jo/tSCiOs/hSrt4=;
+ b=cXsNhHjYVdbdCvwiNuXe4XE/BV1n5zdYf5OjkIvg3H05OrP3XAy8f6li2lRmqW7RG0
+ PTFTfA9L/e2M8RNY0mABPssZXBaCVM1ztvVZ9QYWY+DK1wie3xW86ZS5F3FS4azaNaY9
+ Tbug3URvxJSQN7wXhTy5ztj9SYyGWwQtqmkwo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RcZE+F0xLfrdUe3r18uG2gKVVr07Jo/tSCiOs/hSrt4=;
+ b=iR0ohQUCGRzfCqzlLcYgodwja6Xgd9aHqCHruUJAuIYkthNcFQ7pdPuOAA60suFI7l
+ XPfYDGli0LcCZ4ChpGOztGRDcgWjfvp+Ryj7kFf+q8ScLEjDFSU13TnBdujyetQyBhgZ
+ tJEuNMI3fNTwlPdZ1Rva6IRyt22aMIQUc/mBm4JuK3lWY2gkJaugeaTxwfHrGboHEEy4
+ XLsfrlEgBIQ01mDYI3/3me/K1y9tOaElzLODoDtnEhwa5XWpTwBwO72miN545Kl3TWOt
+ HTymMZD+yA3gt3H2AWzt4m7vI18F0S4TDsdEk5yaIqBwMiM8gGgvR/5GmraUaJ0kbKWe
+ ccUw==
+X-Gm-Message-State: AOAM533J4XiVH12diXQML8XddaMFsLjXdNpLMiqx5LGRWb72KZXgY7v1
+ GzBRbp3UR73mJf35w4SJUWBedqVyMnQJHpqx
+X-Google-Smtp-Source: ABdhPJzuLILn+R7WKqUa0SIJdj5+eZRmpyobhGOvNwhp4ceddsVgJMI3W7RKOG7pT86u1nTLk/LfDw==
+X-Received: by 2002:a5d:54d0:: with SMTP id x16mr32648655wrv.75.1604508643986; 
+ Wed, 04 Nov 2020 08:50:43 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y187sm3011723wmg.33.2020.11.04.08.50.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Nov 2020 08:50:43 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/ttm: don't set page->mapping
+Date: Wed,  4 Nov 2020 17:50:30 +0100
+Message-Id: <20201104165030.2005167-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uF0QjesaNs97N-G8cZkXuAmFgcmTfHvoCP94br_WVcV6Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,85 +61,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Linux PCI <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Thomas Hellstrom <thellstrom@vmware.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Huang Rui <ray.huang@amd.com>,
+ Brian Paul <brianp@vmware.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 09:44:04AM +0100, Daniel Vetter wrote:
-> On Tue, Nov 3, 2020 at 11:09 PM Dan Williams <dan.j.williams@intel.com> wrote:
-> > On Tue, Nov 3, 2020 at 1:28 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > On Fri, Oct 30, 2020 at 11:08:11AM +0100, Daniel Vetter wrote:
-> > > > There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
-> > > > files, and the old proc interface. Two check against
-> > > > iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
-> > > > this starts to matter, since we don't want random userspace having
-> > > > access to PCI BARs while a driver is loaded and using it.
-> > > >
-> > > > Fix this by adding the same iomem_is_exclusive() check we already have
-> > > > on the sysfs side in pci_mmap_resource().
-> > > >
-> > > > References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
-> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > >
-> > > This is OK with me but it looks like IORESOURCE_EXCLUSIVE is currently
-> > > only used in a few places:
-> > >
-> > >   e1000_probe() calls pci_request_selected_regions_exclusive(),
-> > >   ne_pci_probe() calls pci_request_regions_exclusive(),
-> > >   vmbus_allocate_mmio() calls request_mem_region_exclusive()
-> > >
-> > > which raises the question of whether it's worth keeping
-> > > IORESOURCE_EXCLUSIVE at all.  I'm totally fine with removing it
-> > > completely.
-> >
-> > Now that CONFIG_IO_STRICT_DEVMEM upgrades IORESOURCE_BUSY to
-> > IORESOURCE_EXCLUSIVE semantics the latter has lost its meaning so I'd
-> > be in favor of removing it as well.
-> 
-> Still has some value since it enforces exclusive access even if the
-> config isn't enabled, and iirc e1000 had some fun with userspace tools
-> clobbering the firmware and bricking the chip.
+Random observation while trying to review Christian's patch series to
+stop looking at struct page for dma-buf imports.
 
-There's *some* value; I'm just skeptical since only three drivers use
-it.
+This was originally added in
 
-IORESOURCE_EXCLUSIVE is from e8de1481fd71 ("resource: allow MMIO
-exclusivity for device drivers"), and the commit message says this is
-only active when CONFIG_STRICT_DEVMEM is set.  I didn't check to see
-whether that's still true.
+commit 58aa6622d32af7d2c08d45085f44c54554a16ed7
+Author: Thomas Hellstrom <thellstrom@vmware.com>
+Date:   Fri Jan 3 11:47:23 2014 +0100
 
-That commit adds a bunch of wrappers and "__"-prefixed functions to
-pass the IORESOURCE_EXCLUSIVE flag around.  That's a fair bit of
-uglification for three drivers.
+    drm/ttm: Correctly set page mapping and -index members
 
-> Another thing I kinda wondered, since pci maintainer is here: At least
-> in drivers/gpu I see very few drivers explicitly requestion regions
-> (this might be a historical artifact due to the shadow attach stuff
-> before we had real modesetting drivers). And pci core doesn't do that
-> either, even when a driver is bound. Is this intentional, or
-> should/could we do better? Since drivers work happily without
-> reserving regions I don't think "the drivers need to remember to do
-> this" will ever really work out well.
+    Needed for some vm operations; most notably unmap_mapping_range() with
+    even_cows = 0.
 
-You're right, many drivers don't call pci_request_regions().  Maybe we
-could do better, but I haven't looked into that recently.  There is a
-related note in Documentation/PCI/pci.rst that's been there for a long
-time (it refers to "pci_request_resources()", which has never existed
-AFAICT).  I'm certainly open to proposals.
+    Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
+    Reviewed-by: Brian Paul <brianp@vmware.com>
+
+but we do not have a single caller of unmap_mapping_range with
+even_cows == 0. And all the gem drivers don't do this, so another
+small thing we could standardize between drm and ttm drivers.
+
+Plus I don't really see a need for unamp_mapping_range where we don't
+want to indiscriminately shoot down all ptes.
+
+Cc: Thomas Hellstrom <thellstrom@vmware.com>
+Cc: Brian Paul <brianp@vmware.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_tt.c | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 8861a74ac335..438ea43fd8c1 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -291,17 +291,6 @@ int ttm_tt_swapout(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+ 	return ret;
+ }
+ 
+-static void ttm_tt_add_mapping(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+-{
+-	pgoff_t i;
+-
+-	if (ttm->page_flags & TTM_PAGE_FLAG_SG)
+-		return;
+-
+-	for (i = 0; i < ttm->num_pages; ++i)
+-		ttm->pages[i]->mapping = bdev->dev_mapping;
+-}
+-
+ int ttm_tt_populate(struct ttm_bo_device *bdev,
+ 		    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+ {
+@@ -320,7 +309,6 @@ int ttm_tt_populate(struct ttm_bo_device *bdev,
+ 	if (ret)
+ 		return ret;
+ 
+-	ttm_tt_add_mapping(bdev, ttm);
+ 	ttm->page_flags |= TTM_PAGE_FLAG_PRIV_POPULATED;
+ 	if (unlikely(ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
+ 		ret = ttm_tt_swapin(ttm);
+-- 
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
