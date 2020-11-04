@@ -2,68 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25CC2A5F0E
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E92942A5F92
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 740C489359;
-	Wed,  4 Nov 2020 08:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA14D6F3E4;
+	Wed,  4 Nov 2020 08:23:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC94289359
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 08:03:20 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id s25so14510095ejy.6
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 00:03:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=lSHGlcZONhf6qBQExAcS/zcrqWFtE8KDWWdwXpyQQ+o=;
- b=JQRa+YZuAJZjt1g7TC9uAoHYTcFw/40zCiI/3Bz628T8dyzU/yCN5jgd/Etdq+GbEH
- rvQ0wwkqSkrFz6SZ+s29kV53j3Ij6xInhh5wd2YonabzH3OIqagnV3Y/fwYlJGUIsbju
- M6Pgp2sRf+Jk2ZRChyJYcGR/I0zh9K3Rl6el5aeVgdm0J8zJkqP5jgFK3OycNIjnoidP
- GdBR+n1qZJtM6kAiVsUJ4iPzD4JNOEnxhbkijpte9JvvDa/5TM/FLLZ573iv+9j6gIM6
- I7tnIrRTbVArZ2dr8ZpE/5Cpmo4V7ibsFSprrAEKDa5kJlkpzbHvcUOw6a6iEgUHUr/2
- z5xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=lSHGlcZONhf6qBQExAcS/zcrqWFtE8KDWWdwXpyQQ+o=;
- b=JE5QoUh2aogub6rwV7vsO2nB95aHloeM5HLPLRlCmEB4z5SHAOJ1BAQEZtem4D2R5m
- 2RW5gs0Gm5UtzQdV2Rp7yLVenov/aaQsPWzn/f+dDcsxI3KMUepNWFuyKQPa1gFPGA6W
- dEE4T7gSV0f2xJfBrGJw5NroyZ5ebXRcEaxDY9wQ0VawvFd4YGu2JPKG1uAwa1N9xVtD
- 0N6UpbUEoSfNL33xdKl62a8QF+x4DlAwVOJxQC68jF1FCcVFlkctetzPo0wxuxrrzBhY
- n6VHbwjyv88BUHuEvwfoK1wfyeNiz50LLQr8frhFot2V4dUX4WHY5Y/1cvaKxaXaerRu
- RJJQ==
-X-Gm-Message-State: AOAM531bCyRMtkl7mpzegmqc3Y7QEaIkUmaPBazM2mo95adn26UnxYfC
- Q7JZ1rFk5WbuBcks/WifPxY=
-X-Google-Smtp-Source: ABdhPJyYf7wTm7PCR+aDC0KR0zCSeQg/FQpbVuARHDgbDgaGw2ovwStfe5mIvBm9OL1gpSoTMbbB9g==
-X-Received: by 2002:a17:906:c1d4:: with SMTP id
- bw20mr23369417ejb.91.1604476999489; 
- Wed, 04 Nov 2020 00:03:19 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id f25sm600558edr.53.2020.11.04.00.03.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Nov 2020 00:03:18 -0800 (PST)
-Subject: Re: [PATCH 1/2] mm: mmap: fix fput in error path v2
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: akpm@linux-foundation.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- chris@chris-wilson.co.uk, airlied@redhat.com, daniel@ffwll.ch,
- sumit.semwal@linaro.org, willy@infradead.org, jhubbard@nvidia.com,
- jgg@ziepe.ca, linmiaohe@huawei.com
-References: <20201012085203.56119-1-christian.koenig@amd.com>
-Message-ID: <be6d248d-01d4-f2a3-5e33-7f311daef0b7@gmail.com>
-Date: Wed, 4 Nov 2020 09:03:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr70052.outbound.protection.outlook.com [40.107.7.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 904898913D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 08:09:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BodiwkWvA47CRmDvJJlyJnOO8oc412N+rz7zzDs1GJzQ0aR013OLx/8bZ96vv9T4kc/JVfla/SElpmIh5ot5dxB+hZF120oC8llwRjuHL27RKmn55MnwHw2CtoCFN2o+vRSEu8h18/t42klu3S2iitBLX8Ys4DQVxFn7Ng+V6ChGR69CpR9bmPBWT5PW/m8C1ko38tUo+aXgL69Idikyxy6/bAKB74ZJmUUInKsQ+qy0pv2dPmhKIxPrwgD2LIn0QPOAKNzLUo3ko7jlsAux7g5+QrL1s+BrBUt4QPKIviRTnRbvgLTruUdAuUHtqCSjsYQjIO3QmKzxBVimysIdng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dD7HLGOEVvHtEzS/Umpfulkyd5BGLMBy5MS5Ys7WrqU=;
+ b=FWo/8+SDKf1gK8K/3WRD5H04DGlfcoJ7Ym3cVFYpJZ9IOK+KBgdBRJYbegl9BOtz9P/URFcUSvPGJK88WgYDXl5aldnZvyu8EwFZqDuEEu2DWGq3MnYLncWpeazNylq9285/P6944m+jl3IKKrsbIk1osY2vccKRONSLPWAC3X5aeJQEhaBY6UBJmYZHab51+rn9NokLLMioU49qqBwYCMQRGZ6uqsP3WUZ1/NS1+wrozFpLMRO8dfC8SXWZ8fyH5ol4k/20PY8oyd0CGuTwLu3En1lbsikWqCnckp/SIE/033g5sR+mM8gXDO1fmtg/764iUzTnZ56+F9eQPr3klA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dD7HLGOEVvHtEzS/Umpfulkyd5BGLMBy5MS5Ys7WrqU=;
+ b=A+bpkmTsOYaOrtSivLMpXhj8v7QIAG4q4+nFF4m9OPbqf+A7hX1jVtYAarFiqq4bovwUAIAU86t2gWedxC/eMyWebhY9EIP7Nz1tPBShCFqcpUPwj4G6D9dU/kOZaNrYmPwpFlu60jjUdeV5k4tjh/C3miHgcc+zSrrhoL5YPw0=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR04MB2975.eurprd04.prod.outlook.com (2603:10a6:802:9::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.29; Wed, 4 Nov
+ 2020 08:09:52 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::e171:19c1:b07f:53db]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::e171:19c1:b07f:53db%7]) with mapi id 15.20.3499.032; Wed, 4 Nov 2020
+ 08:09:52 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: panel-simple: Allow optional 'ports'
+ property
+Date: Wed,  4 Nov 2020 16:03:37 +0800
+Message-Id: <1604477017-17642-1-git-send-email-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: SG2PR01CA0143.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:8f::23) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-In-Reply-To: <20201012085203.56119-1-christian.koenig@amd.com>
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (119.31.174.66) by
+ SG2PR01CA0143.apcprd01.prod.exchangelabs.com (2603:1096:4:8f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3499.18 via Frontend
+ Transport; Wed, 4 Nov 2020 08:09:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 95670477-12a2-436f-a509-08d88099019d
+X-MS-TrafficTypeDiagnostic: VI1PR04MB2975:
+X-Microsoft-Antispam-PRVS: <VI1PR04MB2975488652CAE3D93E2D046E98EF0@VI1PR04MB2975.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bzzvWuXLmY4uzP3GM3YVX8gZGH4s7dOJeGvID3PWHTEDHuYeaNy/Hp1elHeLYxp96VIyeWjFWaogX2htC97++t2quNPXSaZyxXRZkN5I6ahNYM3C98bBInr6qhXDsYQyE9m5um4KVIgqTrhwr8WrqGYWffdVnWR0qYsC2ZjOcgRwvo56kobjUiSJ0S7UZofGDPyNhaljZ/S2I4K/y2NkGUGDDNYy9UlyfxSSaMie628eApmA/HF/cCi7paEm3kLOPu89sJw+S/mmo56SC5VM9ZzDRLG2nu79MkyvkUlTzMrC3wsNlXGdiZBRm+2ncO9i7knGiwJt+G+qowUTgGVP/78IWeI/9pytp4iWeszvQOGIcuysQeg4nF1yJLsUDfUW
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(366004)(376002)(346002)(39860400002)(5660300002)(86362001)(69590400008)(26005)(66946007)(186003)(66476007)(6506007)(66556008)(16526019)(4326008)(478600001)(54906003)(36756003)(8936002)(52116002)(2906002)(6512007)(6666004)(956004)(6486002)(8676002)(83380400001)(2616005)(316002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: /X0nQ6HmA0iEGl6OWWeT+hDyAOQjx6yzh57sSeygbzZe+Wv8ZIGi74dPHYGMGfFo7ncFRH9+v7ERyroagfOG6TssL5EXdL1iJNq9QCmi7O5TVODb0ZURtd0TaJeaooh3OlzTN+T03Y5aRe1267KjJxD+yJsciQuI1szjx/LwUcuBDwi8sHyqrRT7wGJb2IuGKJ92F25GVZITeYhz1CpPJdReRw5Yi1ux/Oo0kk8MCQZZTntWr86ucC9EUJK+5rkPiAz8BRLQK0q3x3iSwyYK0sXoxU/2OJiI89TQdwgNVrjLvaHs0Cfv8d1wtprc5Z2e6XwdZuQabv3xoJ91X0hMMn/783jA1nROSJeksKxO+IEFIgQzxtxDOMee2j7Ye0/cfN1Uq9hus7R2YvNKGvcrDvBqyjSTI9QYAyfkal8x5iTJXl3MYmrGhbO0Esc9jvwz06qEEfW4RneV3b/T6cFkwA+5XHwuCBiLCOrHOp36LtAViyzBJKuuis3jsFSvzwJsjo0nnOb+mgXPvaLn1wHLcL+Xq6B11rlvw+gRTXiZXJfS60M/q0WqusxDW2CypDtA1xxZrSLVfQ+hKlNoZSwEVB25S2Y66orhPgmmUKVigPNxyJ0LMoeDt7pYWR0KLBmX/XA0bMAxJV/5d5Xym6SSWw==
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95670477-12a2-436f-a509-08d88099019d
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2020 08:09:52.2153 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kv248lZOWdTC3HQJzXaOugxgDtX/BR/6W5LMjdIfrb1IxDamVpgWSosy3cS4nngkIp8QjD1g9e6v6q/EFezI0w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB2975
+X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,52 +95,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SWYgbm9ib2R5IGNvbWVzIHVwIHdpdGggYW4gb2JqZWN0aW9ucyBJJ20gZ29pbmcgdG8gbWVyZ2Ug
-dGhhdCB0aHJvdWdoIApkcm0tbWlzYy1uZXh0LgoKVGhhbmtzLApDaHJpc3RpYW4uCgpBbSAxMi4x
-MC4yMCB1bSAxMDo1MiBzY2hyaWViIENocmlzdGlhbiBLw7ZuaWc6Cj4gUGF0Y2ggIjQ5NWMxMGNj
-MWMwYyBDSFJPTUlVTTogZG1hLWJ1ZjogcmVzdG9yZSBhcmdzLi4uIgo+IGFkZHMgYSB3b3JrYXJv
-dW5kIGZvciBhIGJ1ZyBpbiBtbWFwX3JlZ2lvbi4KPgo+IEFzIHRoZSBjb21tZW50IHN0YXRlcyAt
-Pm1tYXAoKSBjYWxsYmFjayBjYW4gY2hhbmdlCj4gdm1hLT52bV9maWxlIGFuZCBzbyB3ZSBtaWdo
-dCBjYWxsIGZwdXQoKSBvbiB0aGUgd3JvbmcgZmlsZS4KPgo+IFJldmVydCB0aGUgd29ya2Fyb3Vu
-ZCBhbmQgcHJvcGVyIGZpeCB0aGlzIGluIG1tYXBfcmVnaW9uLgo+Cj4gdjI6IGRyb3AgdGhlIGV4
-dHJhIGlmIGluIGRtYV9idWZfbW1hcCBhcyB3ZWxsCj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3Rp
-YW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gUmV2aWV3ZWQtYnk6IEphc29u
-IEd1bnRob3JwZSA8amdnQG52aWRpYS5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2RtYS1idWYvZG1h
-LWJ1Zi5jIHwgMjAgKysrLS0tLS0tLS0tLS0tLS0tLS0KPiAgIG1tL21tYXAuYyAgICAgICAgICAg
-ICAgICAgfCAgMiArLQo+ICAgMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDE4IGRl
-bGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgYi9k
-cml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gaW5kZXggYTZiYTRkNTk4ZjBlLi4wODYzMGQwNTdj
-ZjIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+ICsrKyBiL2RyaXZl
-cnMvZG1hLWJ1Zi9kbWEtYnVmLmMKPiBAQCAtMTE0Myw5ICsxMTQzLDYgQEAgRVhQT1JUX1NZTUJP
-TF9HUEwoZG1hX2J1Zl9lbmRfY3B1X2FjY2Vzcyk7Cj4gICBpbnQgZG1hX2J1Zl9tbWFwKHN0cnVj
-dCBkbWFfYnVmICpkbWFidWYsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLAo+ICAgCQkgdW5z
-aWduZWQgbG9uZyBwZ29mZikKPiAgIHsKPiAtCXN0cnVjdCBmaWxlICpvbGRmaWxlOwo+IC0JaW50
-IHJldDsKPiAtCj4gICAJaWYgKFdBUk5fT04oIWRtYWJ1ZiB8fCAhdm1hKSkKPiAgIAkJcmV0dXJu
-IC1FSU5WQUw7Cj4gICAKPiBAQCAtMTE2MywyMiArMTE2MCwxMSBAQCBpbnQgZG1hX2J1Zl9tbWFw
-KHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLAo+ICAg
-CQlyZXR1cm4gLUVJTlZBTDsKPiAgIAo+ICAgCS8qIHJlYWRqdXN0IHRoZSB2bWEgKi8KPiAtCWdl
-dF9maWxlKGRtYWJ1Zi0+ZmlsZSk7Cj4gLQlvbGRmaWxlID0gdm1hLT52bV9maWxlOwo+IC0Jdm1h
-LT52bV9maWxlID0gZG1hYnVmLT5maWxlOwo+ICsJZnB1dCh2bWEtPnZtX2ZpbGUpOwo+ICsJdm1h
-LT52bV9maWxlID0gZ2V0X2ZpbGUoZG1hYnVmLT5maWxlKTsKPiAgIAl2bWEtPnZtX3Bnb2ZmID0g
-cGdvZmY7Cj4gICAKPiAtCXJldCA9IGRtYWJ1Zi0+b3BzLT5tbWFwKGRtYWJ1Ziwgdm1hKTsKPiAt
-CWlmIChyZXQpIHsKPiAtCQkvKiByZXN0b3JlIG9sZCBwYXJhbWV0ZXJzIG9uIGZhaWx1cmUgKi8K
-PiAtCQl2bWEtPnZtX2ZpbGUgPSBvbGRmaWxlOwo+IC0JCWZwdXQoZG1hYnVmLT5maWxlKTsKPiAt
-CX0gZWxzZSB7Cj4gLQkJaWYgKG9sZGZpbGUpCj4gLQkJCWZwdXQob2xkZmlsZSk7Cj4gLQl9Cj4g
-LQlyZXR1cm4gcmV0Owo+IC0KPiArCXJldHVybiBkbWFidWYtPm9wcy0+bW1hcChkbWFidWYsIHZt
-YSk7Cj4gICB9Cj4gICBFWFBPUlRfU1lNQk9MX0dQTChkbWFfYnVmX21tYXApOwo+ICAgCj4gZGlm
-ZiAtLWdpdCBhL21tL21tYXAuYyBiL21tL21tYXAuYwo+IGluZGV4IDQwMjQ4ZDg0YWQ1Zi4uM2Ey
-NjcwZDczMzU1IDEwMDY0NAo+IC0tLSBhL21tL21tYXAuYwo+ICsrKyBiL21tL21tYXAuYwo+IEBA
-IC0xODUyLDggKzE4NTIsOCBAQCB1bnNpZ25lZCBsb25nIG1tYXBfcmVnaW9uKHN0cnVjdCBmaWxl
-ICpmaWxlLCB1bnNpZ25lZCBsb25nIGFkZHIsCj4gICAJcmV0dXJuIGFkZHI7Cj4gICAKPiAgIHVu
-bWFwX2FuZF9mcmVlX3ZtYToKPiArCWZwdXQodm1hLT52bV9maWxlKTsKPiAgIAl2bWEtPnZtX2Zp
-bGUgPSBOVUxMOwo+IC0JZnB1dChmaWxlKTsKPiAgIAo+ICAgCS8qIFVuZG8gYW55IHBhcnRpYWwg
-bWFwcGluZyBkb25lIGJ5IGEgZGV2aWNlIGRyaXZlci4gKi8KPiAgIAl1bm1hcF9yZWdpb24obW0s
-IHZtYSwgcHJldiwgdm1hLT52bV9zdGFydCwgdm1hLT52bV9lbmQpOwoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Some simple panels have dual LVDS interfaces which receive even and odd
+pixels respectively, like 'nlt,nl192108ac18-02d' and 'koe,tx26d202vm0bwa'.
+So, let's allow optional 'ports' property so that pixel order can be got
+via drm_of_lvds_get_dual_link_pixel_order() if it's child nodes 'port@0'
+and 'port@1' contain 'dual-lvds-even-pixels' and 'dual-lvds-odd-pixels'
+properties respectively.
+
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rob Herring <robh+dt@kernel.org>
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+ Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index f9750b0..5ccb22b 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -288,6 +288,7 @@ properties:
+   backlight: true
+   enable-gpios: true
+   port: true
++  ports: true
+   power-supply: true
+ 
+ additionalProperties: false
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
