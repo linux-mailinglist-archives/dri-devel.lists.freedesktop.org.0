@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EB82A6F49
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 21:58:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F28C2A6F47
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 21:56:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC516E832;
-	Wed,  4 Nov 2020 20:58:11 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
- [IPv6:2607:f8b0:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F36CC6E4EA;
- Wed,  4 Nov 2020 20:58:09 +0000 (UTC)
-Received: by mail-il1-x132.google.com with SMTP id k1so20532543ilc.10;
- Wed, 04 Nov 2020 12:58:09 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19B856E804;
+	Wed,  4 Nov 2020 20:56:31 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A8396E4EA
+ for <dri-devel@freedesktop.org>; Wed,  4 Nov 2020 20:56:30 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id c16so3599099wmd.2
+ for <dri-devel@freedesktop.org>; Wed, 04 Nov 2020 12:56:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2mQ0+39xJoUtJ2IyP38ffqk9w6BYGnAk8szztrcGC94=;
- b=fFNedZuG3rvpKUAJOzH8VlRxZbOeaeO9jL1DgNDRynPvsiUuPh278JAeRYFpVAfSXm
- OP6dfdcd5/Ad7O/4FXWyzgJns9q9/4hN+z3q9IiyYH1QPi2Wttj/yVO3NsnLvpsOJ2/n
- TLW9fq7FSl4+bkUF6PfufsS+6ZFj5nIVopSVWq2jOxsXX56vwj1EINbNyvO/R4YMULbI
- oJT0LsMHUzqBXQwkfDuoQrEO5eKLxKcZq/ZsI9m0yczhIK0HgBk2NktT6uixwyVovrv+
- dXkTEZ003MWY30i1uY0k5hJ57NlszayorZAa3jwOS90PdRuCGSkpmjHI0ZO5D0ROXFzJ
- OPUg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QMz5XuaiSl2y5K3brn4ts6zliBq11tCQumna2ZD9gwg=;
+ b=SJZCCPmggjEI3WSwrNv12XAc3V0t974Tjot8SwxaA5JGO+QOStpAbOhFhtiOnvu3+b
+ yDmvlIEjwUlHMqAk6tS7kx2Qn/mqVpTUdCuw5s3eGDyx7Vb24Qw2cFAfifbhXvThB0ZM
+ BkWEexz8mfawPufJKrMmmu/9sSa/MRKxNzi89UxCf4muNRFC4TCnUGWO8tNRMdmsC8pg
+ or8u3PCTPuOksBmF7KDKEUr48DlKDlLhC7Lh8g1wgErBO7P+nwB9Du48eX7kwvB8Xfmo
+ vuVoztUap4U9Xp6HUDM0NntBsB2YTmI3MTxTeP6eeIIi68YzsWMwgNkaDJQqVN1B9jl2
+ cznQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2mQ0+39xJoUtJ2IyP38ffqk9w6BYGnAk8szztrcGC94=;
- b=CpzEuQFZEHJJf0SOmCZtPv4KYs0aARj13/7eg9Za78ASU9QjBcvQbEy1HUD2nSBDxn
- rux0aX0QQGcFQHvmUiY9yNT2PbtBov5J+9whkRyYvzYqBdbL7cNIeNJ4HuLvAIaVDXs5
- DreBysLZMlfzaz5sVIDCvT3EPllDWv9M81mHLpsLwtyYrimzxi1W0LWn5ARcr9c//cwq
- DCqoGBqk9KxCrGLMq2+o2bzHcPwTd+yRixg3famTqitmzdRb07XtfuUZVC7jobPek0ai
- z5FuQVy8CMPrGKS7DUKjJmPbkfZsvrWyEtyyyrrC2vnXkMsjBI8ckHdTol4L8VPeFSLW
- kmng==
-X-Gm-Message-State: AOAM531Zcb2eRGLO6tBkPFN4pk7gK3fsyJb576G58QBFRd5bTBOPkIGj
- xUu6getIObMEXBEmBj4qIRTpmCBdK8A=
-X-Google-Smtp-Source: ABdhPJwWR2SMsPrMii/bWZL/LKquzCsUTqnMTkizxTOK4Dia9T3CbQej92xfAI8njHNXQeiHr13Uzw==
-X-Received: by 2002:a92:3312:: with SMTP id a18mr14558060ilf.165.1604523489003; 
- Wed, 04 Nov 2020 12:58:09 -0800 (PST)
-Received: from localhost.localdomain ([71.219.66.138])
- by smtp.gmail.com with ESMTPSA id n4sm1693132iox.6.2020.11.04.12.58.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 12:58:08 -0800 (PST)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu, amdkfd drm-fixes-5.10
-Date: Wed,  4 Nov 2020 15:57:41 -0500
-Message-Id: <20201104205741.4100-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.25.4
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QMz5XuaiSl2y5K3brn4ts6zliBq11tCQumna2ZD9gwg=;
+ b=EJt0A5d28XQ07MhX8lMUEXSmuNpz+LEni9DBBumuA5qgXviMzUGFvPByvqM+nXtO1U
+ +RgctL/U/0W6qoO57Cn6I0pepkMt26NtZ+ShglJvJ3TligcBsToeJm1ztAebRh/Ls551
+ wxiyXbvRkQcZ/YZtbYShRy6qtgzyj5Zo9jVOMow37KcSoeaMCTbeH0eUbXm+IF9l7Z4P
+ /tBjExn0h9Z31GkuMhU5Z4u1llRVjrad6RWGPOCGUyX2jVJq6OoerphshEPV9SIg/T/t
+ UJuK3xJu/amNLmxRcpZVaSWAaykLvD8jCl9gfKypxHCCzkzToHzoyYw04Qqik4+PJz6y
+ d9Jg==
+X-Gm-Message-State: AOAM532/Kmo0Blx5NHi6kTGD+O21rhfqEMqQ3XgL02v/4tm6+iKmEZIX
+ 4B7d0CKc6Jt952f6XZANMZPsWbT6w43Wo0ATqco=
+X-Google-Smtp-Source: ABdhPJwZj9HwapeVTBuX6MbvmCI10ccxfb2V7iPfEujOr2zcUHGnUhcVOI4/pc/YpbPMBdEWvizQ7MVVagmsgcK7PJE=
+X-Received: by 2002:a7b:c145:: with SMTP id z5mr2246798wmi.164.1604523387717; 
+ Wed, 04 Nov 2020 12:56:27 -0800 (PST)
 MIME-Version: 1.0
+References: <1604054832-3114-1-git-send-email-akhilpo@codeaurora.org>
+ <1604054832-3114-3-git-send-email-akhilpo@codeaurora.org>
+ <20201104200300.GA4036650@bogus>
+In-Reply-To: <20201104200300.GA4036650@bogus>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 4 Nov 2020 12:58:02 -0800
+Message-ID: <CAF6AEGvj34MbnRS+A432AhOwMuL2BtTXJ+AD+zQ9w0_meV_-gw@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v5 3/3] dt-bindings: drm/msm/gpu: Add cooling
+ device support
+To: Rob Herring <robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,122 +63,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, Matthias Kaehlcke <mka@chromium.org>,
+ dri-devel@freedesktop.org, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Wed, Nov 4, 2020 at 12:03 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Fri, 30 Oct 2020 16:17:12 +0530, Akhil P Oommen wrote:
+> > Add cooling device support to gpu. A cooling device is bound to a
+> > thermal zone to allow thermal mitigation.
+> >
+> > Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> > Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+> > ---
+> >  Documentation/devicetree/bindings/display/msm/gpu.txt | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+>
+>
+> Please add Acked-by/Reviewed-by tags when posting new versions. However,
+> there's no need to repost patches *only* to add the tags. The upstream
+> maintainer will do that for acks received on the version they apply.
+>
+> If a tag was not added on purpose, please state why and what changed.
+>
 
-Fixes for 5.10.  The support for green sardine is not exactly a fix, but the
-changes are a minimal delta relative to renoir and should not affect any
-other asics.
 
-The following changes since commit 7babd126327b8b5a3904d2f8f01c95235801af2a:
+Thanks Rob
 
-  Merge tag 'drm-intel-fixes-2020-10-29' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2020-10-30 11:54:11 +1000)
+I've copied over your ack from the previous version.. but yes, it
+definitely makes my life easier when patch senders do this for me ;-)
 
-are available in the Git repository at:
-
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.10-2020-11-04
-
-for you to fetch changes up to 4241b0411c60a97f87a25ff4da92dac53beb3039:
-
-  drm/amdgpu/display: remove DRM_AMD_DC_GREEN_SARDINE (2020-11-04 08:43:50 -0500)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.10-2020-11-04:
-
-amdgpu:
-- Add support for more navi1x SKUs
-- Fix for suspend on CI dGPUs
-- VCN DPG fix for Picasso
-- Sienna Cichlid fixes
-- Polaris DPM fix
-- Add support for Green Sardine
-
-amdkfd:
-- Fix an allocation failure check
-
-MAINTAINERS:
-- Fix path for amdgpu power management
-
-----------------------------------------------------------------
-Aaron Liu (1):
-      drm/amdgpu: enable green_sardine_asd.bin loading (v2)
-
-Alex Deucher (4):
-      drm/amdgpu/powerplay: Only apply optimized mclk dpm policy on polaris
-      drm/amdgpu/swsmu: remove duplicate call to smu_set_default_dpm_table
-      drm/amdgpu: add Green_Sardine APU flag
-      drm/amdgpu/display: remove DRM_AMD_DC_GREEN_SARDINE
-
-Evan Quan (5):
-      drm/amdgpu: perform srbm soft reset always on SDMA resume
-      drm/amd/pm: correct the baco reset sequence for CI ASICs
-      drm/amd/pm: enable baco reset for Hawaii
-      drm/amd/pm: perform SMC reset on suspend/hibernation
-      drm/amd/pm: do not use ixFEATURE_STATUS for checking smc running
-
-Flora Cui (2):
-      drm/amdgpu: disable DCN and VCN for Navi14 0x7340/C9 SKU
-      drm/amdgpu: rename nv_is_headless_sku()
-
-Joe Perches (1):
-      MAINTAINERS: Update AMD POWERPLAY pattern
-
-John Clements (1):
-      drm/amdgpu: resolved ASD loading issue on sienna
-
-Kent Russell (1):
-      amdkfd: Check kvmalloc return before memcpy
-
-Likun Gao (1):
-      drm/amdgpu: update golden setting for sienna_cichlid
-
-Prike Liang (4):
-      drm/amdgpu: add green_sardine support for gpu_info and ip block setting (v2)
-      drm/amdgpu: add soc15 common ip block support for green_sardine (v3)
-      drm/amdgpu: add gfx support for green_sardine (v2)
-      drm/amdgpu/sdma: add sdma engine support for green_sardine (v2)
-
-Roman Li (2):
-      drm/amd/display: Add green_sardine support to DC
-      drm/amd/display: Add green_sardine support to DM
-
-Thong Thai (1):
-      drm/amdgpu: enable vcn support for green_sardine (v2)
-
-Veerabadhran Gopalakrishnan (1):
-      amd/amdgpu: Disable VCN DPG mode for Picasso
-
- MAINTAINERS                                        |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  6 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  8 ++++-
- drivers/gpu/drm/amd/amdgpu/cik.c                   |  4 ++-
- drivers/gpu/drm/amd/amdgpu/cik_sdma.c              | 27 ++++++++---------
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  4 +++
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              | 12 +++++++-
- drivers/gpu/drm/amd/amdgpu/nv.c                    | 11 +++----
- drivers/gpu/drm/amd/amdgpu/psp_v12_0.c             |  6 +++-
- drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |  6 +++-
- drivers/gpu/drm/amd/amdgpu/soc15.c                 | 14 ++++++---
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |  2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  6 ++++
- drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c   |  5 ++++
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  2 ++
- drivers/gpu/drm/amd/display/include/dal_asic_id.h  |  4 +++
- drivers/gpu/drm/amd/include/amd_shared.h           |  1 +
- drivers/gpu/drm/amd/pm/inc/hwmgr.h                 |  1 +
- drivers/gpu/drm/amd/pm/inc/smumgr.h                |  2 ++
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/ci_baco.c   |  7 +++--
- .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    | 34 ++++++++++++++--------
- .../gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c    | 29 +++++++++++++++---
- drivers/gpu/drm/amd/pm/powerplay/smumgr/smumgr.c   |  8 +++++
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          | 11 -------
- 25 files changed, 151 insertions(+), 62 deletions(-)
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
