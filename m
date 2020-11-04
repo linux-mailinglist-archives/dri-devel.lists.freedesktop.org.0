@@ -1,37 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9742A6B41
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 18:00:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F22B12A6B4B
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 18:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3502E6E152;
-	Wed,  4 Nov 2020 17:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35F586E1CF;
+	Wed,  4 Nov 2020 17:01:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
- [185.70.40.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB5348984E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 17:00:17 +0000 (UTC)
-Date: Wed, 04 Nov 2020 17:00:08 +0000
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
+ [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C3C6E1CF
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 17:01:53 +0000 (UTC)
+Date: Wed, 04 Nov 2020 17:01:40 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1604509214;
- bh=8Y6IOQF8x9TD8K60g9sGIFUH2y7pNsmE5Vb3F55yZmY=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=fWAiLRzrBTBMkBZAIQ6TfIOBAvcmuMbtGtwQUI+wD7nAuozg0pFjFkF/wpSJcEO7z
- tkl4fEZR3JBWZR+6IpbDdKf27+OxtU6h9OonLAb9jtJxxwE/VK13i/mvFG+qqK7a+1
- oKoGrFIsUVSTtdLUDeanaF5uOg7e1/mvCElbsumh0+lDT4DRCsBC2JQqNdh18Zt17i
- eUp+xpRWfqo0ESkS7sCmgEdbpWtt5WnVz2h5nEaiH46xTuKKPz4vGoE8vTmij3zgu0
- yS7IEXwEwCv2QfJ6ySinN4eesHFR1IjI5GMh+9ZpZ8QPk1LivbQO+wHAjr3b9sCi3a
- kSDkvDRQZbI2g==
-To: Daniel Stone <daniel@fooishbar.org>
+ s=protonmail2; t=1604509311;
+ bh=aYiyAH7Zl3pPT2cWAXu5uPwI40tWiAmMM3NeFAypRd0=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=B3y26Ro9Rcv+EwRTEFSIkKCFrD3QzA8mzF8WAdWwlbpacjLb1hXf3FdUqT6Wcc7Se
+ Y41sMvbSbaUGoOIw1x0Xnj/+MXcU8UIPGYtbDN16FnXmjw64scHcNINOwBIGXwXuUU
+ Z2qhvJOQaP4ZJMg7Q3zLOo0fQodqH+nJYwqFiuhWxORoLwo4yAkXEq2cL5NQMXJ+7o
+ o4WY8cJfUCJTKljjHdWnkXYAY4caeHHuS+cRp280NxulimaRP/uW5/yQb4XnQn2Emh
+ qVj2cCKec/J74QVH0wq3gI++uBW07YTd+x8URVW1IWbGpQ8jSg7Dkuv96jdvJPA/fi
+ cN6PnIyx2UfZA==
+To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: document that blobs are ref'counted
-Message-ID: <8qD21GTemX83u27d3yFWMmHvAL2uGgX_u2aWHHTMc7asFmEpZVRNwL1e9c9Bd3tkY_QZIm2D_21bdkBYxY-GouVreUeG0bNlZKhZa0yKXqg=@emersion.fr>
-In-Reply-To: <CAPj87rNaL8Uu+=QVwQRRpS3r1LL1sPsQZpgpowm-HZ3Z=hMYLQ@mail.gmail.com>
-References: <HNBtgIoryEkrMD_i_O5qy-HyxoyMYWSziPwHQQn9LYoOL8Ds5o7gvqMqz-Y0v7GZDqcYzBLC3d3KPfO37nRCl1doMWeQjKyHYv_pYFxYZ24=@emersion.fr>
- <qhVMa7YWDnEiufs2_tBn6d3idpWpj2A5cqvDHL94SdZeGfVsdZCdlKlKGKRN0MfJDGZ4PJthZ86C1Xqncp7jcdiEq2eKVMLFIm1uAKRDEkA=@emersion.fr>
- <CAPj87rNaL8Uu+=QVwQRRpS3r1LL1sPsQZpgpowm-HZ3Z=hMYLQ@mail.gmail.com>
+Subject: [PATCH v2] drm: document that blobs are ref'counted
+Message-ID: <wgav99DTGfubfVPiurrydQEiyufYpxlJQZ0wJMWYBQ@cp7-web-042.plabs.ch>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
@@ -51,32 +47,33 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Simon Ser <contact@emersion.fr>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sunday, November 1, 2020 10:07 PM, Daniel Stone <daniel@fooishbar.org> wrote:
-
-> > Daniel, does this patch look good to you?
->
-> Unsure which Daniel you meant
-
-I was thinking of Daniel Vetter :P
-
-> but I would probably instead say:
-> 'Userspace can release blobs as soon as they do not need to refer to
-> them by their blob object ID. For instance, if you are using a MODE_ID
-> blob in an atomic commit and you will not make another commit reusing
-> the same ID, you can destroy the blob as soon as the commit has been
-> issued, without waiting for it to complete.'
-
-But thanks! That sounds much better and avoids using the term
-"reference counting" (which is nice because it's an internal detail).
-
-Sending a v2 now.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VXNlci1zcGFjZSBkb2Vzbid0IG5lZWQgdG8ga2VlcCB0cmFjayBvZiBibG9icyB0aGF0IG1pZ2h0
+IGJlIGluIHVzZSBieQp0aGUga2VybmVsLiBVc2VyLXNwYWNlIGNhbiBqdXN0IGRlc3Ryb3kgYmxv
+YnMgYXMgc29vbiBhcyB0aGV5IGRvbid0IG5lZWQKdGhlbSBhbnltb3JlLgoKU2lnbmVkLW9mZi1i
+eTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwg
+U3RvbmUgPGRhbmllbEBmb29pc2hiYXIub3JnPgpSZXZpZXdlZC1ieTogSm9uYXMgw4VkYWhsIDxq
+YWRhaGxAZ21haWwuY29tPgpDYzogUGVra2EgUGFhbGFuZW4gPHBwYWFsYW5lbkBnbWFpbC5jb20+
+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Ci0tLQogaW5jbHVkZS91YXBpL2Ry
+bS9kcm1fbW9kZS5oIHwgNiArKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykK
+CmRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL2RybV9tb2RlLmggYi9pbmNsdWRlL3VhcGkv
+ZHJtL2RybV9tb2RlLmgKaW5kZXggODYzZWRhMDQ4MjY1Li41YWQxMGFiMmE1NzcgMTAwNjQ0Ci0t
+LSBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtX21vZGUuaAorKysgYi9pbmNsdWRlL3VhcGkvZHJtL2Ry
+bV9tb2RlLmgKQEAgLTkyNCw2ICs5MjQsMTIgQEAgc3RydWN0IGRybV9tb2RlX2NyZWF0ZV9ibG9i
+IHsKICAqIHN0cnVjdCBkcm1fbW9kZV9kZXN0cm95X2Jsb2IgLSBEZXN0cm95IHVzZXIgYmxvYgog
+ICogQGJsb2JfaWQ6IGJsb2JfaWQgdG8gZGVzdHJveQogICogRGVzdHJveSBhIHVzZXItY3JlYXRl
+ZCBibG9iIHByb3BlcnR5LgorICoKKyAqIFVzZXItc3BhY2UgY2FuIHJlbGVhc2UgYmxvYnMgYXMg
+c29vbiBhcyB0aGV5IGRvIG5vdCBuZWVkIHRvIHJlZmVyIHRvIHRoZW0gYnkKKyAqIHRoZWlyIGJs
+b2Igb2JqZWN0IElELiAgRm9yIGluc3RhbmNlLCBpZiB5b3UgYXJlIHVzaW5nIGEgTU9ERV9JRCBi
+bG9iIGluIGFuCisgKiBhdG9taWMgY29tbWl0IGFuZCB5b3Ugd2lsbCBub3QgbWFrZSBhbm90aGVy
+IGNvbW1pdCByZS11c2luZyB0aGUgc2FtZSBJRCwgeW91CisgKiBjYW4gZGVzdHJveSB0aGUgYmxv
+YiBhcyBzb29uIGFzIHRoZSBjb21taXQgaGFzIGJlZW4gaXNzdWVkLCB3aXRob3V0IHdhaXRpbmcK
+KyAqIGZvciBpdCB0byBjb21wbGV0ZS4KICAqLwogc3RydWN0IGRybV9tb2RlX2Rlc3Ryb3lfYmxv
+YiB7CiAJX191MzIgYmxvYl9pZDsKLS0gCjIuMjkuMgoKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
