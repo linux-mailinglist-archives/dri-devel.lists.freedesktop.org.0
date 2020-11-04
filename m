@@ -1,42 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF062A78C5
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:20:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D58042A7926
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB42F6E9AD;
-	Thu,  5 Nov 2020 08:20:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BDE06EA36;
+	Thu,  5 Nov 2020 08:21:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11ABE6E0E3
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 12:52:15 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4CR64F6dy5z1rxXl;
- Wed,  4 Nov 2020 13:52:13 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4CR64F5JHDz1qwm0;
- Wed,  4 Nov 2020 13:52:13 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id yRjIT8PYsG6G; Wed,  4 Nov 2020 13:52:12 +0100 (CET)
-X-Auth-Info: 330ErkJ8ipbWk2iQgph/8v29aMRCJ8Rgq1daKFr7MdI=
-Received: from localhost.localdomain (ip-89-176-112-137.net.upcbroadband.cz
- [89.176.112.137])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Wed,  4 Nov 2020 13:52:12 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] drm/stm: Enable RPM during fbdev registration
-Date: Wed,  4 Nov 2020 13:52:00 +0100
-Message-Id: <20201104125200.259639-1-marex@denx.de>
-X-Mailer: git-send-email 2.28.0
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD87F6ED0F
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 14:00:26 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id z6so19343594qkz.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 06:00:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=J6Nw3097qL1FGBO59AefdNEIbSIDtL/HHl1l69CFDp8=;
+ b=Wan5zLNCc03uOg3crmJFeRaNbOEA+qwrbKwCY9LDkg1fZnFvzGEBwk4V+VLFOn5oKx
+ tmcyGIKCw4+CD/juWp2ijPQPLgAyQG0AhFaLumt8mFw7D817cQkKUY2w7oYalFQSRaiQ
+ Vb/ptf8IpP3WfnK3UuZPUxBAXkXY6PqsAqGNVYoZolg0yUEgsR1Di4PcNN7C/aUr2Q/R
+ O0ZcNPr6tO0Ab4yQ9aVnuDw44g3gsPath6hDrZSj4xe9Loas/o/6/OXlQjyqG2MFoi+n
+ R3zy4MV988W7+StxSAydki/+D4rJ/lZx0EB7vwQbsli0N+fpB6onleBpY6HTFL+CpY9E
+ jiFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=J6Nw3097qL1FGBO59AefdNEIbSIDtL/HHl1l69CFDp8=;
+ b=sU5rOjODTpbu6W4zDGPYbW0I6AnzvE3sWZCtS+ZaNVXJQhH3ge+Mqr7dOxVkJuzXs2
+ 3uXnAsR9b0dU0tRF0gkv7wtEgSxfCpbae2G1JmgUfr8pRSdS0UyaSJEAwHNuF1PrtBT9
+ +jKnFK+B4KWOqvJ0AUo+L6+xaQgMt3cmrlHlIKT3nFndsY1Nx2lS5Z0wJ6cnHHs2TziP
+ 0OPswrAQjW5MOEfQXp9vGwQu0Aw3tB6B/Ml6FBaLn2NyOfRo1PZqS4qufVvsmu1aBKgv
+ oCxaXIWx48qnLFBvGM4O/sD3M9K/NXySmSWs9e0ZHKNWJw12MRiiNixqxZsgSWrnEBMs
+ AHuQ==
+X-Gm-Message-State: AOAM533Sxf1Sy488Q8eznl+hFWJ+VjrFVgMT7bTqnpgRy6HtL2XY77iv
+ FfvpBV2DmWbC281WrtX2fafEnQ==
+X-Google-Smtp-Source: ABdhPJz06+PUPTCOD5MO6YcYJfu8e1guRGyarj130cNdAlQFDKce0Oko/G5bRBr5wbl0qK0lrF7Apg==
+X-Received: by 2002:a37:4ccf:: with SMTP id
+ z198mr26929935qka.348.1604498425743; 
+ Wed, 04 Nov 2020 06:00:25 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id y3sm131855qto.2.2020.11.04.06.00.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Nov 2020 06:00:24 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kaJKp-00GVgS-9E; Wed, 04 Nov 2020 10:00:23 -0400
+Date: Wed, 4 Nov 2020 10:00:23 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
+Message-ID: <20201104140023.GQ36674@ziepe.ca>
+References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
+ <20201030100815.2269-6-daniel.vetter@ffwll.ch>
+ <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com>
+ <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
+ <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
+ <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
+ <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
+ <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 05 Nov 2020 08:20:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,44 +79,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Alexandre Torgue <alexandre.torgue@st.com>,
- Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Yannick=20Fertr=C3=A9?= <yannick.fertre@st.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Benjamin Gaignard <benjamin.gaignard@st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Pawel Osciak <pawel@osciak.com>, KVM list <kvm@vger.kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomasz Figa <tfiga@chromium.org>, Linux MM <linux-mm@kvack.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RW5hYmxlIHJ1bnRpbWUgUE0gYmVmb3JlIHJlZ2lzdGVyaW5nIHRoZSBmYmRldiBlbXVsYXRpb24g
-YW5kIGRpc2FibGUgaXQKYWZ0ZXJ3YXJkLCBvdGhlcndpc2UgcmVnaXN0ZXIgYWNjZXNzIHRvIHRo
-ZSBMVERDIElQIGR1cmluZyB0aGUgZmJkZXYKZW11bGF0aW9uIHJlZ2lzdHJhdGlvbiBtaWdodCBo
-YW5nIHRoZSBzeXN0ZW0uCgpUaGUgcHJvYmxlbSBoYXBwZW5zIGJlY2F1c2UgUlBNIGlzIGFjdGl2
-YXRlZCBhdCB0aGUgZW5kIG9mIGx0ZGNfbG9hZCgpLApidXQgdGhlIGZiZGV2IGVtdWxhdGlvbiBy
-ZWdpc3RyYXRpb24gaGFwcGVucyBvbmx5IGFmdGVyIHRoYXQsIGFuZCBlbmRzCnVwIGNhbGxpbmcg
-bHRkY19jcnRjX21vZGVfc2V0X25vZmIoKSwgd2hpY2ggY2hlY2tzIHdoZXRoZXIgUlBNIGlzIGFj
-dGl2ZQphbmQgb25seSBpZiBpdCBpcyBub3QgYWN0aXZlLCBjYWxscyBwbV9ydW50aW1lX2dldF9z
-eW5jKCkgdG8gZW5hYmxlIHRoZQpjbG9jayBhbmQgc28gb24uIElmIHRoZSBjbG9jayBhcmUgbm90
-IGVuYWJsZWQsIGFueSByZWdpc3RlciBhY2Nlc3MgaW4KbHRkY19jcnRjX21vZGVfc2V0X25vZmIo
-KSBjb3VsZCBoYW5nIHRoZSBwbGF0Zm9ybSBjb21wbGV0ZWx5LgoKVGhpcyBwYXRjaCBtYWtlcyBz
-dXJlIHRoYXQgbHRkY19jcnRjX21vZGVfc2V0X25vZmIoKSBpcyBjYWxsZWQgd2l0aGluCnBtX3J1
-bnRpbWVfZ2V0X3N5bmMoKSwgc28gd2l0aCBjbG9jayBlbmFibGVkLgoKU2lnbmVkLW9mZi1ieTog
-TWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+CkNjOiBBbGV4YW5kcmUgVG9yZ3VlIDxhbGV4YW5k
-cmUudG9yZ3VlQHN0LmNvbT4KQ2M6IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFy
-ZEBzdC5jb20+CkNjOiBQaGlsaXBwZSBDb3JudSA8cGhpbGlwcGUuY29ybnVAc3QuY29tPgpDYzog
-WWFubmljayBGZXJ0csOpIDx5YW5uaWNrLmZlcnRyZUBzdC5jb20+CkNjOiBkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5v
-cmcKQ2M6IGxpbnV4LXN0bTMyQHN0LW1kLW1haWxtYW4uc3Rvcm1yZXBseS5jb20KLS0tCiBkcml2
-ZXJzL2dwdS9kcm0vc3RtL2Rydi5jIHwgMiArKwogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9u
-cygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdG0vZHJ2LmMgYi9kcml2ZXJzL2dw
-dS9kcm0vc3RtL2Rydi5jCmluZGV4IDQxMTEwM2YwMTNlMi4uZDg5MjFlZGM4M2RiIDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vc3RtL2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdG0v
-ZHJ2LmMKQEAgLTE5Nyw3ICsxOTcsOSBAQCBzdGF0aWMgaW50IHN0bV9kcm1fcGxhdGZvcm1fcHJv
-YmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKIAlpZiAocmV0KQogCQlnb3RvIGVycl9w
-dXQ7CiAKKwlwbV9ydW50aW1lX2dldF9zeW5jKGRkZXYtPmRldik7CiAJZHJtX2ZiZGV2X2dlbmVy
-aWNfc2V0dXAoZGRldiwgMTYpOworCXBtX3J1bnRpbWVfcHV0X3N5bmMoZGRldi0+ZGV2KTsKIAog
-CXJldHVybiAwOwogCi0tIAoyLjI4LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+On Sun, Nov 01, 2020 at 11:50:39PM +0100, Daniel Vetter wrote:
+
+> It's not device drivers, but everyone else. At least my understanding
+> is that VM_IO | VM_PFNMAP means "even if it happens to be backed by a
+> struct page, do not treat it like normal memory". And gup/pup_fast
+> happily break that. I tried to chase the history of that test, didn't
+> turn up anything I understood much:
+
+VM_IO isn't suppose do thave struct pages, so how can gup_fast return
+them?
+
+I thought some magic in the PTE flags excluded this?
+
+Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
