@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0752A791F
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C22D2A7902
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:21:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 855EE6EA21;
-	Thu,  5 Nov 2020 08:21:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 488926E9E1;
+	Thu,  5 Nov 2020 08:20:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D23B6E060
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:00 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id v19so310983lji.5
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:00 -0800 (PST)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDFB66E84A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:01 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id l10so319059lji.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xyl6mwFdE15+t57cfnIytHG3Se38ipqIkKmYax6Z3Mg=;
- b=njurvPV7mYqVLXzLgzJMnQSBEnKE98oQKN4wK2dwEEIUDD7c6TRaSrw/9vciyz9XTc
- r0YOhwlcgm49SWqw8X9FydGAuWL+Unq90UFrxUtioI7SBGMjW3CXqGJug3RcWkA/s5yn
- XXyOv3T/tJxeU3RYP1xk3msgeJ/bxdzuK7URw+UQfBWoEZNEc1GTjxs+RSNpBzQz9Vvx
- T+BIa1HbzcDoiEXmaykCEP46kmiCL7189E89By+ope+D0L/TnKptWT+CPx5PYg+3BvjO
- jCwwYbCrTJce2YM5Px34gOTd06YKcy1A+u5agSc+RfC46gLInyC/nzLICGe4dtLWb3l0
- byVg==
+ bh=tp9Yqrg3ShDWskF8okk8dyCecDIPmsRhr05c/t0mOxA=;
+ b=NdQEwwdMZ/yJ8OPkD9uloM0o9Ugj2c5ieJ8wp9NIAg4kjdkCRrrp6Ude1JYuYIY5el
+ cQ6T9hxjtsLOMggnGayrIGviTd5zP5TmyeAhR19Q9fq/kaJCXx7OBuhnTCeqhvfrSguA
+ Rv4ks7q4ok1WjbMowL1f6z63nyrF+GmoOHEaAOUS5Fxj/XKxQW14PgoN1eaL3naw79IX
+ aLkXyfnX2RmIvqjqe6TajXkhlx2gBtY4zoXde/weS+BuPwWztMj9RUDljXw++NeoX+21
+ CEVubhkQvuVQyjMvWVwLaZygJnsPTNBVNntcOhwNXbHdInAh8pVfdkI0IC9sCjSOa/LH
+ qo2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xyl6mwFdE15+t57cfnIytHG3Se38ipqIkKmYax6Z3Mg=;
- b=uDlVINZe/JDzef8HPfa71xXENnHzU50ydqaFbM0StwafW2MMkXcyW4Pa/JZjKRG4zb
- vfsklrVP2SwGk57iZFwpeZb46rnxcZ5cTzZaLZiaPstyySpL7zpid/pu6HD8TUKkb/v+
- TCdDW8EXq0iEf3rWTGn4H+cbUnbIj8qkczeqEuIPhyCfuxDGHJNk7yhLEt43XVUnGxbM
- ypYW7R2VQ6F1XmeCbPXeEEFGqDE6QHSOUlPQo5/6AuCnCVp51h224E15e9/ynuaayvin
- W90mRkYSdiaAB26GJcjyT01LwX6aEFaoxqLtMsfHEV2RM4PEKxPyaRKJTnqQI4Xt9R1t
- iOYA==
-X-Gm-Message-State: AOAM530iEM+jC0dzIr42HpQFTS1vtyY6LqbbNJE018nSz5VKd31uPUUd
- GO7l1e8oPQi2Xx4g9V//A34=
-X-Google-Smtp-Source: ABdhPJxyfUR5ytzjzRHO8KNVIYAL6OAR8JGEl8Y8hPTg36jXTHsV0rP3oD6HDz+Wf6BvR5Q/lM5EBw==
-X-Received: by 2002:a2e:9909:: with SMTP id v9mr136172lji.429.1604533498850;
- Wed, 04 Nov 2020 15:44:58 -0800 (PST)
+ bh=tp9Yqrg3ShDWskF8okk8dyCecDIPmsRhr05c/t0mOxA=;
+ b=NR3pga8rsgraNFRXOWS5ogo43nlpJlQ1VIDwQNQvJ2o5UVU4qZB95ZEaJnQZXCEWS6
+ LKwKpWNMneWFriuZQinwyKH9IFqnu1FPqYvejnjYX3ahd/SzqpCXWZLBcWJH/r+NnYQo
+ bGDv6zXqI6VTMYFo7upOS1cJ2wCVNohWzli/6YqBPFu8/SIqcXjucH/ftmtXtM/7r/UB
+ 70+XIZS7DvTkABxHxaXumUQ7mgFZ90xdJhgGLzwlk6waa1Qz4OpVTw8i2XvbrElZoq9x
+ BxC8g96OoZrz/IUe996aghLKxPSPYYx7Da9y0KHy+dVLKNp/qD570WAhJ62IocNLTh6j
+ iNCQ==
+X-Gm-Message-State: AOAM531iKFVnlJNvc3Rz2R3xLXsuB50T9e6XMsBDB7bEKZGFusI32iSf
+ 0LQKar9BhUegXosT9Bc1siE=
+X-Google-Smtp-Source: ABdhPJyMzZS8yFbdeuBZmLEvuZcRuMGo/R+/3Gh1ylV5XVZW8SAuxgU/GPnV+T1exBhvuYiAMbxSkQ==
+X-Received: by 2002:a05:651c:32a:: with SMTP id
+ b10mr125604ljp.256.1604533500240; 
+ Wed, 04 Nov 2020 15:45:00 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru.
  [109.252.192.83])
- by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.44.57
+ by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.44.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 15:44:58 -0800 (PST)
+ Wed, 04 Nov 2020 15:44:59 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -61,10 +62,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
  Peter Geis <pgwipeout@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>
-Subject: [PATCH v1 02/30] dt-bindings: mmc: tegra: Document OPP and voltage
+Subject: [PATCH v1 03/30] dt-bindings: pwm: tegra: Document OPP and voltage
  regulator properties
-Date: Thu,  5 Nov 2020 02:43:59 +0300
-Message-Id: <20201104234427.26477-3-digetx@gmail.com>
+Date: Thu,  5 Nov 2020 02:44:00 +0300
+Message-Id: <20201104234427.26477-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
 References: <20201104234427.26477-1-digetx@gmail.com>
@@ -93,23 +94,24 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Document new DVFS OPP table and voltage regulator properties of the
-SDHCI controller.
+PWM controller.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../devicetree/bindings/mmc/nvidia,tegra20-sdhci.txt | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../devicetree/bindings/pwm/nvidia,tegra20-pwm.txt  | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.txt b/Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.txt
-index 96c0b1440c9c..1beb0416ae5f 100644
---- a/Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.txt
-+++ b/Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.txt
-@@ -31,6 +31,16 @@ Required properties:
- 
- Optional properties:
- - power-gpios : Specify GPIOs for power control
-+- operating-points-v2: See ../bindings/opp/opp.txt for details.
-+- core-supply: Phandle of voltage regulator of the SoC "core" power domain.
+diff --git a/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt b/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
+index 74c41e34c3b6..d4d1c44a2c04 100644
+--- a/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
++++ b/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.txt
+@@ -32,6 +32,17 @@ The PWM node will have following optional properties.
+ pinctrl-names:	Pin state names. Must be "default" and "sleep".
+ pinctrl-0:	phandle for the default/active state of pin configurations.
+ pinctrl-1:	phandle for the sleep state of pin configurations.
++core-supply:	phandle for voltage regulator of the SoC "core" power domain.
++
++operating-points-v2: see ../bindings/opp/opp.txt for details.
 +
 +For each opp entry in 'operating-points-v2' table:
 +- opp-supported-hw: One bitfield indicating:
@@ -121,15 +123,15 @@ index 96c0b1440c9c..1beb0416ae5f 100644
  
  Example:
  
-@@ -45,6 +55,8 @@ sdhci@c8000200 {
- 	wp-gpios = <&gpio 57 0>; /* gpio PH1 */
- 	power-gpios = <&gpio 155 0>; /* gpio PT3 */
- 	bus-width = <8>;
-+	operating-points-v2 = <&dvfs_opp_table>;
-+	core-supply = <&vdd_core>;
- };
+@@ -42,6 +53,8 @@ Example:
+ 		clocks = <&tegra_car 17>;
+ 		resets = <&tegra_car 17>;
+ 		reset-names = "pwm";
++		operating-points-v2 = <&dvfs_opp_table>;
++		core-supply = <&vdd_core>;
+ 	};
  
- Optional properties for Tegra210, Tegra186 and Tegra194:
+ 
 -- 
 2.27.0
 
