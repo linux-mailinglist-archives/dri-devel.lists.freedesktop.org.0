@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB2B2A6E8D
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 21:12:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6EB82A6F49
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 21:58:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E2E96E220;
-	Wed,  4 Nov 2020 20:12:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC516E832;
+	Wed,  4 Nov 2020 20:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8837E6E220
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 20:12:28 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id f93so13111680qtb.10
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 12:12:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rEEEXt1os4uvlr5FpRnmuBcc7L7msKpqjcsUXwjQF/c=;
- b=DLnfeD9J1ORdQ1bfs5+3AntXSfjpW/03OlgMKpfMczcb0Yo31gAQmfKmU/MxwQ17Tz
- p8ZagfXHFsC1dHS6FW5fSkhChMKNOPBoZuaf0P1ssilDHMYkmfYcvMK/N4bu0vQXK3wy
- c2tGk1nId5n4tetbAX3T+IoXKixnSiRJU2P+RgF0i9/MzM9vLJQC4pR4SHkQIDhJjOCm
- nI9uYdoL8DUDIOHzXzueS+XUGj/Xv/0E4OLEq6oqPKUHmkx/sfooqnKn5e06EiNpsCvu
- pIeS4Ja9kfYHVEpTmDFGZ6rRJqSaQZ+CUMbWPT9DrPeXAPhB8c08+nN3zrd9Xy424Dsr
- vK5Q==
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36CC6E4EA;
+ Wed,  4 Nov 2020 20:58:09 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id k1so20532543ilc.10;
+ Wed, 04 Nov 2020 12:58:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2mQ0+39xJoUtJ2IyP38ffqk9w6BYGnAk8szztrcGC94=;
+ b=fFNedZuG3rvpKUAJOzH8VlRxZbOeaeO9jL1DgNDRynPvsiUuPh278JAeRYFpVAfSXm
+ OP6dfdcd5/Ad7O/4FXWyzgJns9q9/4hN+z3q9IiyYH1QPi2Wttj/yVO3NsnLvpsOJ2/n
+ TLW9fq7FSl4+bkUF6PfufsS+6ZFj5nIVopSVWq2jOxsXX56vwj1EINbNyvO/R4YMULbI
+ oJT0LsMHUzqBXQwkfDuoQrEO5eKLxKcZq/ZsI9m0yczhIK0HgBk2NktT6uixwyVovrv+
+ dXkTEZ003MWY30i1uY0k5hJ57NlszayorZAa3jwOS90PdRuCGSkpmjHI0ZO5D0ROXFzJ
+ OPUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rEEEXt1os4uvlr5FpRnmuBcc7L7msKpqjcsUXwjQF/c=;
- b=fMoXTwNfjezFR2jmdEsHXZtlK9LKMh2gstpnAlS08sSi6dwlahULar117VSMtsTrVE
- 78gwu6A4KtNhEHca9xGHoBQM/MYyJw7l9hyqUxgi4HIw1ZLn/Dy/M6wGYrV9lJglnwJN
- U8OpQNMjwK+DFZdwFGpP4Fa86K2Gxk6Mrr9NLqnKPV7fgPD2t+W9oo+dNsXXJrEbWJKU
- QiSJzTjG4whuIHEb4eZE4kwP7Jp52y/lwD/0GfGN70VWdJ0meLyVLxOh4wlFtdPkSiOo
- dN6euGu7xh1MmqT5AOCwi1w2vjt+5eNk9dyDesOiqsEqXXpl4myy/r1yuQBBb093MEP9
- JuFw==
-X-Gm-Message-State: AOAM530/4srAS0RF+PJFtcaMUQts1LsdgnCYN1t0f4v5nydLwC2O3btP
- 7Z4nd4GuCZHRjpiGbiiZ1Z6y00xFg4DhAhnzczjdVA==
-X-Google-Smtp-Source: ABdhPJyImQ0VMkgJ13gDdAbq5pEtNIjA5jffxfB/P+jRlJioL0jIF2z8jDtJ1zF31+FQiHcdLBXSWIzDRip6n19HrNg=
-X-Received: by 2002:ac8:4b79:: with SMTP id g25mr21823130qts.19.1604520747497; 
- Wed, 04 Nov 2020 12:12:27 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2mQ0+39xJoUtJ2IyP38ffqk9w6BYGnAk8szztrcGC94=;
+ b=CpzEuQFZEHJJf0SOmCZtPv4KYs0aARj13/7eg9Za78ASU9QjBcvQbEy1HUD2nSBDxn
+ rux0aX0QQGcFQHvmUiY9yNT2PbtBov5J+9whkRyYvzYqBdbL7cNIeNJ4HuLvAIaVDXs5
+ DreBysLZMlfzaz5sVIDCvT3EPllDWv9M81mHLpsLwtyYrimzxi1W0LWn5ARcr9c//cwq
+ DCqoGBqk9KxCrGLMq2+o2bzHcPwTd+yRixg3famTqitmzdRb07XtfuUZVC7jobPek0ai
+ z5FuQVy8CMPrGKS7DUKjJmPbkfZsvrWyEtyyyrrC2vnXkMsjBI8ckHdTol4L8VPeFSLW
+ kmng==
+X-Gm-Message-State: AOAM531Zcb2eRGLO6tBkPFN4pk7gK3fsyJb576G58QBFRd5bTBOPkIGj
+ xUu6getIObMEXBEmBj4qIRTpmCBdK8A=
+X-Google-Smtp-Source: ABdhPJwWR2SMsPrMii/bWZL/LKquzCsUTqnMTkizxTOK4Dia9T3CbQej92xfAI8njHNXQeiHr13Uzw==
+X-Received: by 2002:a92:3312:: with SMTP id a18mr14558060ilf.165.1604523489003; 
+ Wed, 04 Nov 2020 12:58:09 -0800 (PST)
+Received: from localhost.localdomain ([71.219.66.138])
+ by smtp.gmail.com with ESMTPSA id n4sm1693132iox.6.2020.11.04.12.58.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Nov 2020 12:58:08 -0800 (PST)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [pull] amdgpu, amdkfd drm-fixes-5.10
+Date: Wed,  4 Nov 2020 15:57:41 -0500
+Message-Id: <20201104205741.4100-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <CAKMK7uF0QjesaNs97N-G8cZkXuAmFgcmTfHvoCP94br_WVcV6Q@mail.gmail.com>
- <20201104165017.GA352206@bjorn-Precision-5520>
-In-Reply-To: <20201104165017.GA352206@bjorn-Precision-5520>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Wed, 4 Nov 2020 12:12:15 -0800
-Message-ID: <CAPcyv4idORJzHVD2vCOnO3REqWHKVn_-otOzTBf0HhcWq4iJRQ@mail.gmail.com>
-Subject: Re: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
-To: Bjorn Helgaas <helgaas@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,94 +66,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
- KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Linux PCI <linux-pci@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 4, 2020 at 8:50 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Wed, Nov 04, 2020 at 09:44:04AM +0100, Daniel Vetter wrote:
-> > On Tue, Nov 3, 2020 at 11:09 PM Dan Williams <dan.j.williams@intel.com> wrote:
-> > > On Tue, Nov 3, 2020 at 1:28 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > > On Fri, Oct 30, 2020 at 11:08:11AM +0100, Daniel Vetter wrote:
-> > > > > There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
-> > > > > files, and the old proc interface. Two check against
-> > > > > iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
-> > > > > this starts to matter, since we don't want random userspace having
-> > > > > access to PCI BARs while a driver is loaded and using it.
-> > > > >
-> > > > > Fix this by adding the same iomem_is_exclusive() check we already have
-> > > > > on the sysfs side in pci_mmap_resource().
-> > > > >
-> > > > > References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
-> > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > >
-> > > > This is OK with me but it looks like IORESOURCE_EXCLUSIVE is currently
-> > > > only used in a few places:
-> > > >
-> > > >   e1000_probe() calls pci_request_selected_regions_exclusive(),
-> > > >   ne_pci_probe() calls pci_request_regions_exclusive(),
-> > > >   vmbus_allocate_mmio() calls request_mem_region_exclusive()
-> > > >
-> > > > which raises the question of whether it's worth keeping
-> > > > IORESOURCE_EXCLUSIVE at all.  I'm totally fine with removing it
-> > > > completely.
-> > >
-> > > Now that CONFIG_IO_STRICT_DEVMEM upgrades IORESOURCE_BUSY to
-> > > IORESOURCE_EXCLUSIVE semantics the latter has lost its meaning so I'd
-> > > be in favor of removing it as well.
-> >
-> > Still has some value since it enforces exclusive access even if the
-> > config isn't enabled, and iirc e1000 had some fun with userspace tools
-> > clobbering the firmware and bricking the chip.
->
-> There's *some* value; I'm just skeptical since only three drivers use
-> it.
->
-> IORESOURCE_EXCLUSIVE is from e8de1481fd71 ("resource: allow MMIO
-> exclusivity for device drivers"), and the commit message says this is
-> only active when CONFIG_STRICT_DEVMEM is set.  I didn't check to see
-> whether that's still true.
->
-> That commit adds a bunch of wrappers and "__"-prefixed functions to
-> pass the IORESOURCE_EXCLUSIVE flag around.  That's a fair bit of
-> uglification for three drivers.
->
-> > Another thing I kinda wondered, since pci maintainer is here: At least
-> > in drivers/gpu I see very few drivers explicitly requestion regions
-> > (this might be a historical artifact due to the shadow attach stuff
-> > before we had real modesetting drivers). And pci core doesn't do that
-> > either, even when a driver is bound. Is this intentional, or
-> > should/could we do better? Since drivers work happily without
-> > reserving regions I don't think "the drivers need to remember to do
-> > this" will ever really work out well.
->
-> You're right, many drivers don't call pci_request_regions().  Maybe we
-> could do better, but I haven't looked into that recently.  There is a
-> related note in Documentation/PCI/pci.rst that's been there for a long
-> time (it refers to "pci_request_resources()", which has never existed
-> AFAICT).  I'm certainly open to proposals.
+Hi Dave, Daniel,
 
-It seems a bug that the kernel permits MMIO regions with side effects
-to be ioremap()'ed without request_mem_region() on the resource. I
-wonder how much log spam would happen if ioremap() reported whenever a
-non-IORESOURE_BUSY range was passed to it? The current state of
-affairs to trust *remap users to have claimed their remap target seems
-too ingrained to unwind now.
+Fixes for 5.10.  The support for green sardine is not exactly a fix, but the
+changes are a minimal delta relative to renoir and should not affect any
+other asics.
+
+The following changes since commit 7babd126327b8b5a3904d2f8f01c95235801af2a:
+
+  Merge tag 'drm-intel-fixes-2020-10-29' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2020-10-30 11:54:11 +1000)
+
+are available in the Git repository at:
+
+  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.10-2020-11-04
+
+for you to fetch changes up to 4241b0411c60a97f87a25ff4da92dac53beb3039:
+
+  drm/amdgpu/display: remove DRM_AMD_DC_GREEN_SARDINE (2020-11-04 08:43:50 -0500)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.10-2020-11-04:
+
+amdgpu:
+- Add support for more navi1x SKUs
+- Fix for suspend on CI dGPUs
+- VCN DPG fix for Picasso
+- Sienna Cichlid fixes
+- Polaris DPM fix
+- Add support for Green Sardine
+
+amdkfd:
+- Fix an allocation failure check
+
+MAINTAINERS:
+- Fix path for amdgpu power management
+
+----------------------------------------------------------------
+Aaron Liu (1):
+      drm/amdgpu: enable green_sardine_asd.bin loading (v2)
+
+Alex Deucher (4):
+      drm/amdgpu/powerplay: Only apply optimized mclk dpm policy on polaris
+      drm/amdgpu/swsmu: remove duplicate call to smu_set_default_dpm_table
+      drm/amdgpu: add Green_Sardine APU flag
+      drm/amdgpu/display: remove DRM_AMD_DC_GREEN_SARDINE
+
+Evan Quan (5):
+      drm/amdgpu: perform srbm soft reset always on SDMA resume
+      drm/amd/pm: correct the baco reset sequence for CI ASICs
+      drm/amd/pm: enable baco reset for Hawaii
+      drm/amd/pm: perform SMC reset on suspend/hibernation
+      drm/amd/pm: do not use ixFEATURE_STATUS for checking smc running
+
+Flora Cui (2):
+      drm/amdgpu: disable DCN and VCN for Navi14 0x7340/C9 SKU
+      drm/amdgpu: rename nv_is_headless_sku()
+
+Joe Perches (1):
+      MAINTAINERS: Update AMD POWERPLAY pattern
+
+John Clements (1):
+      drm/amdgpu: resolved ASD loading issue on sienna
+
+Kent Russell (1):
+      amdkfd: Check kvmalloc return before memcpy
+
+Likun Gao (1):
+      drm/amdgpu: update golden setting for sienna_cichlid
+
+Prike Liang (4):
+      drm/amdgpu: add green_sardine support for gpu_info and ip block setting (v2)
+      drm/amdgpu: add soc15 common ip block support for green_sardine (v3)
+      drm/amdgpu: add gfx support for green_sardine (v2)
+      drm/amdgpu/sdma: add sdma engine support for green_sardine (v2)
+
+Roman Li (2):
+      drm/amd/display: Add green_sardine support to DC
+      drm/amd/display: Add green_sardine support to DM
+
+Thong Thai (1):
+      drm/amdgpu: enable vcn support for green_sardine (v2)
+
+Veerabadhran Gopalakrishnan (1):
+      amd/amdgpu: Disable VCN DPG mode for Picasso
+
+ MAINTAINERS                                        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  6 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  8 ++++-
+ drivers/gpu/drm/amd/amdgpu/cik.c                   |  4 ++-
+ drivers/gpu/drm/amd/amdgpu/cik_sdma.c              | 27 ++++++++---------
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  4 +++
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              | 12 +++++++-
+ drivers/gpu/drm/amd/amdgpu/nv.c                    | 11 +++----
+ drivers/gpu/drm/amd/amdgpu/psp_v12_0.c             |  6 +++-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |  6 +++-
+ drivers/gpu/drm/amd/amdgpu/soc15.c                 | 14 ++++++---
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |  2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  6 ++++
+ drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c   |  5 ++++
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  2 ++
+ drivers/gpu/drm/amd/display/include/dal_asic_id.h  |  4 +++
+ drivers/gpu/drm/amd/include/amd_shared.h           |  1 +
+ drivers/gpu/drm/amd/pm/inc/hwmgr.h                 |  1 +
+ drivers/gpu/drm/amd/pm/inc/smumgr.h                |  2 ++
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/ci_baco.c   |  7 +++--
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    | 34 ++++++++++++++--------
+ .../gpu/drm/amd/pm/powerplay/smumgr/ci_smumgr.c    | 29 +++++++++++++++---
+ drivers/gpu/drm/amd/pm/powerplay/smumgr/smumgr.c   |  8 +++++
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          | 11 -------
+ 25 files changed, 151 insertions(+), 62 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
