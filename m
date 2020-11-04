@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204A62A790F
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8542A7901
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:21:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057EE6E9E5;
-	Thu,  5 Nov 2020 08:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 875456E9D2;
+	Thu,  5 Nov 2020 08:20:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 890306E850
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:36 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id b1so136303lfp.11
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:36 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC7B6E852
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:37 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id s30so179268lfc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Gi4Ws1VebKSodZ1aFskWWEY2ENCBRhjpkPkVyE+JZ/s=;
- b=ZVGF415ceJ5cr2f9Gly+jv4fzQXLlFJzBRcuR2zD4WvgH5zsluXpWCU+Qj1Ax6ZhVf
- 1u0lOZIC13jnHSZyF8YgC9LapKlkjSE2olp5X0VAkAmOHo47oGiOd5KA51jau/9+1r5Q
- ZeTQKEqrAXOCG4BSyhIC6+s49wRDSmdZMvycdRKpjqSje66qxlJOfAn1erQ73TtXXuaZ
- iSCWRvM8IOOU+neCqee3lOhq+/lqVKY3CF0lloOJSA1gj7ifC6+jn0RNW/R6aoa+9wD+
- dgu4HpFxYtEPUrSRWIfoyjVSloujlYPyvV4oLCDPZxUQsNdkHeXL2lcu1JDT6N4vPELD
- 54yA==
+ bh=JWa430PVIqmJIbeD7KBt0TZCN2r4IZvUOeKukZUULSM=;
+ b=eN4h8wmKVmc98I8VpVQD05mgPsSKIV8roZRuvQUi3EOcizAEVMxhK4XcKenNODUP57
+ Rxze2zWAWjLCIfL2dNIRIGywZvC28Gu+MslIDgcQBiINpAIgA8ayEvdgAWeaNJS/UoUw
+ AF/ln6R+1zf+7IT8b1pPX6qDWo8FajvGF+vv4uuipo2sXIA3JUzx7p8u+ktEcwm1o1pg
+ 8EzDhwuYDylAakt40bWirCp8sipi2Klh9G/IBYON5H8zDXGqS29eR/JqRCTc9dW4pVKR
+ y1mExIRa9//FQnuJ5e8gfTLqClqNg3UUpnvkCzqL0KLmGCs6gxB1ftFcHku0KNIwUxDo
+ VvhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Gi4Ws1VebKSodZ1aFskWWEY2ENCBRhjpkPkVyE+JZ/s=;
- b=PMnoTFReOkBSSBJBBQoLQjj0uZ5qY8D8BGnZ5K7GWsosBxC2+re42gPDJoMahChOPm
- iVTfk2ZLrt2oxAWkvOr4aivfHWthePoZILqb/OccmWnvsEqsmm72ZtfG11hEe7aWJqlE
- t4Rn6qOrsTtCnr1b9FdWzpPTNxkcvL20xplU6FisQJpRuxisQ3ifZgLDNRqTnrYvaXgp
- /rVcCYTC/nHLcmpurYyX8wGxkDdDhS8Xpg+Id/vx1zwLwbxkSXOuLCExkSyL7SAgS1uJ
- oEjHbuU8TgkkNr6AU90z0fyjEJkNxluMLuMqENfAOdS0QqwEgnWAx6hHsBNGIBm+06zM
- zx8g==
-X-Gm-Message-State: AOAM5320dp95iCr4gYfS7nbWM2G68pWfm687FnxI7dnK5CAdOJpIZc57
- dpd8alFT17qKvTWkJX7Y5bk=
-X-Google-Smtp-Source: ABdhPJxSINEdNTI8WAS9/8DNtowjH/ui3U9cyprfFygiShmm4vwewOoOOmbkqukzpRnxz4FsJYlb2g==
-X-Received: by 2002:ac2:5498:: with SMTP id t24mr69465lfk.12.1604533535051;
- Wed, 04 Nov 2020 15:45:35 -0800 (PST)
+ bh=JWa430PVIqmJIbeD7KBt0TZCN2r4IZvUOeKukZUULSM=;
+ b=g8jPgGGxtHzvup1LTPzGSwB+ezLIlUiWlnxVxI+K8IphpVFGYnaDiOkN6P69XUf28y
+ 7qNBMHXOFGpE/lk7DHnaZCt/EcXIU5yKrDqwMDxVQP7epcoqbKY6yga/3AZPUq/Ys5L3
+ N2oeQKkhmYW97HbiXd/VAT27feE3VeZ4WjrLI+bZ3iw8hKlqnpsu0LHTU/vFnhCzLGqe
+ GBAK9m9m8SNK948etPqSmjO2gQlRqzVouQFf/NdlNHdsommWOa9LuR0y6mjWSi8R51VZ
+ b53/UOZ6IaOlwevho0r067wkr2ENYAXMoDRv4wpW/ekUBvvsmgt9/jRxGcYltT8zVA02
+ IJKA==
+X-Gm-Message-State: AOAM530FrftteekTC1/imXSLfuAmqURn17F1MlM3lZRdjF1BjdPEDiPh
+ DUe9YwIf0rOVvpwJmc1bVrk=
+X-Google-Smtp-Source: ABdhPJz6df+Ge/OfH/yyY6XjwgEffIPjNRxtB5oKKiqUFuVW6jG9sorT54nuDmLv0xSqhkTx9fOGHg==
+X-Received: by 2002:a05:6512:3388:: with SMTP id
+ h8mr60396lfg.318.1604533536417; 
+ Wed, 04 Nov 2020 15:45:36 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru.
  [109.252.192.83])
- by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.33
+ by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 15:45:34 -0800 (PST)
+ Wed, 04 Nov 2020 15:45:35 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -61,10 +62,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
  Peter Geis <pgwipeout@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>
-Subject: [PATCH v1 28/30] ARM: tegra: acer-a500: Add voltage supplies to
+Subject: [PATCH v1 29/30] ARM: tegra: cardhu-a04: Add voltage supplies to
  DVFS-capable devices
-Date: Thu,  5 Nov 2020 02:44:25 +0300
-Message-Id: <20201104234427.26477-29-digetx@gmail.com>
+Date: Thu,  5 Nov 2020 02:44:26 +0300
+Message-Id: <20201104234427.26477-30-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
 References: <20201104234427.26477-1-digetx@gmail.com>
@@ -93,124 +94,75 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Add voltage supplies to DVFS-capable devices in order to enable
-system-wide voltage scaling and allow CORE/RTC regulators to go lower.
+system-wide voltage scaling.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../boot/dts/tegra20-acer-a500-picasso.dts    | 30 +++++++++++++++++--
- 1 file changed, 28 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/tegra30-cardhu-a04.dts | 44 ++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index b4ed88802387..5ab6872cd84c 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -60,7 +60,19 @@ linux,cma@30000000 {
+diff --git a/arch/arm/boot/dts/tegra30-cardhu-a04.dts b/arch/arm/boot/dts/tegra30-cardhu-a04.dts
+index c1c0ca628af1..7149e5594537 100644
+--- a/arch/arm/boot/dts/tegra30-cardhu-a04.dts
++++ b/arch/arm/boot/dts/tegra30-cardhu-a04.dts
+@@ -93,6 +93,34 @@ vdd_bl2_reg: regulator@106 {
+ 		gpio = <&gpio TEGRA_GPIO(DD, 0) GPIO_ACTIVE_HIGH>;
  	};
  
- 	host1x@50000000 {
-+		core-supply = <&vdd_core>;
++	host1x@50000000 {
++		core-supply = <&vddcore_reg>;
 +
 +		gr2d@54140000 {
-+			core-supply = <&vdd_core>;
++			core-supply = <&vddcore_reg>;
 +		};
 +
 +		gr3d@54180000 {
-+			core-supply = <&vdd_core>;
++			core-supply = <&vddcore_reg>;
 +		};
 +
- 		dc@54200000 {
-+			core-supply = <&vdd_core>;
++		dc@54200000 {
++			core-supply = <&vddcore_reg>;
++		};
 +
- 			rgb {
- 				status = "okay";
- 
-@@ -73,12 +85,17 @@ lcd_output: endpoint {
- 			};
- 		};
- 
 +		dc@54240000 {
-+			core-supply = <&vdd_core>;
++			core-supply = <&vddcore_reg>;
 +		};
-+
- 		hdmi@54280000 {
- 			status = "okay";
- 
- 			vdd-supply = <&hdmi_vdd_reg>;
- 			pll-supply = <&hdmi_pll_reg>;
- 			hdmi-supply = <&vdd_5v0_sys>;
-+			core-supply = <&vdd_core>;
- 
- 			nvidia,ddc-i2c-bus = <&hdmi_ddc>;
- 			nvidia,hpd-gpio = <&gpio TEGRA_GPIO(N, 7)
-@@ -86,6 +103,10 @@ hdmi@54280000 {
- 		};
- 	};
- 
-+	vde@6001a000 {
-+		core-supply = <&vdd_core>;
 +	};
 +
- 	pinmux@70000014 {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&state_default>;
-@@ -565,7 +586,7 @@ sys_reg: sys {
- 
- 				vdd_core: sm0 {
- 					regulator-name = "vdd_sm0,vdd_core";
--					regulator-min-microvolt = <1200000>;
-+					regulator-min-microvolt = <950000>;
- 					regulator-max-microvolt = <1300000>;
- 					regulator-coupled-with = <&rtc_vdd &vdd_cpu>;
- 					regulator-coupled-max-spread = <170000 550000>;
-@@ -606,7 +627,7 @@ ldo1 {
- 
- 				rtc_vdd: ldo2 {
- 					regulator-name = "vdd_ldo2,vdd_rtc";
--					regulator-min-microvolt = <1200000>;
-+					regulator-min-microvolt = <950000>;
- 					regulator-max-microvolt = <1300000>;
- 					regulator-coupled-with = <&vdd_core &vdd_cpu>;
- 					regulator-coupled-max-spread = <170000 550000>;
-@@ -696,6 +717,7 @@ usb@c5000000 {
- 		compatible = "nvidia,tegra20-udc";
- 		status = "okay";
- 		dr_mode = "peripheral";
-+		core-supply = <&vdd_core>;
++	vde@6001a000 {
++		core-supply = <&vddcore_reg>;
++	};
++
++	pwm: pwm@7000a000 {
++		core-supply = <&vddcore_reg>;
++	};
++
+ 	i2c@7000d000 {
+ 		pmic: tps65911@2d {
+ 			regulators {
+@@ -117,6 +145,22 @@ vddcore_reg: tps62361@60 {
+ 		};
  	};
  
- 	usb-phy@c5000000 {
-@@ -709,6 +731,7 @@ usb-phy@c5000000 {
- 
- 	usb@c5008000 {
- 		status = "okay";
-+		core-supply = <&vdd_core>;
- 	};
- 
- 	usb-phy@c5008000 {
-@@ -746,6 +769,7 @@ sdmmc1: mmc@c8000000 {
- 		non-removable;
- 
- 		mmc-pwrseq = <&brcm_wifi_pwrseq>;
-+		core-supply = <&vdd_core>;
- 		vmmc-supply = <&vdd_3v3_sys>;
- 		vqmmc-supply = <&vdd_3v3_sys>;
- 
-@@ -764,6 +788,7 @@ sdmmc3: mmc@c8000400 {
- 		bus-width = <4>;
- 		cd-gpios = <&gpio TEGRA_GPIO(I, 5) GPIO_ACTIVE_LOW>;
- 		power-gpios = <&gpio TEGRA_GPIO(I, 6) GPIO_ACTIVE_HIGH>;
-+		core-supply = <&vdd_core>;
- 		vmmc-supply = <&vdd_3v3_sys>;
- 		vqmmc-supply = <&vdd_3v3_sys>;
- 	};
-@@ -771,6 +796,7 @@ sdmmc3: mmc@c8000400 {
- 	sdmmc4: mmc@c8000600 {
- 		status = "okay";
- 		bus-width = <8>;
-+		core-supply = <&vdd_core>;
- 		vmmc-supply = <&vcore_emmc>;
- 		vqmmc-supply = <&vdd_3v3_sys>;
- 		non-removable;
++	memory-controller@7000f400 {
++		core-supply = <&vddcore_reg>;
++	};
++
++	mmc@78000000 {
++		core-supply = <&vddcore_reg>;
++	};
++
++	mmc@78000600 {
++		core-supply = <&vddcore_reg>;
++	};
++
++	usb@7d008000 {
++		core-supply = <&vddcore_reg>;
++	};
++
+ 	cpus {
+ 		cpu0: cpu@0 {
+ 			cpu-supply = <&vddctrl_reg>;
 -- 
 2.27.0
 
