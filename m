@@ -1,87 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92942A5F92
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3562A5F71
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:23:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA14D6F3E4;
-	Wed,  4 Nov 2020 08:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 068786E02C;
+	Wed,  4 Nov 2020 08:22:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr70052.outbound.protection.outlook.com [40.107.7.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 904898913D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 08:09:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BodiwkWvA47CRmDvJJlyJnOO8oc412N+rz7zzDs1GJzQ0aR013OLx/8bZ96vv9T4kc/JVfla/SElpmIh5ot5dxB+hZF120oC8llwRjuHL27RKmn55MnwHw2CtoCFN2o+vRSEu8h18/t42klu3S2iitBLX8Ys4DQVxFn7Ng+V6ChGR69CpR9bmPBWT5PW/m8C1ko38tUo+aXgL69Idikyxy6/bAKB74ZJmUUInKsQ+qy0pv2dPmhKIxPrwgD2LIn0QPOAKNzLUo3ko7jlsAux7g5+QrL1s+BrBUt4QPKIviRTnRbvgLTruUdAuUHtqCSjsYQjIO3QmKzxBVimysIdng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dD7HLGOEVvHtEzS/Umpfulkyd5BGLMBy5MS5Ys7WrqU=;
- b=FWo/8+SDKf1gK8K/3WRD5H04DGlfcoJ7Ym3cVFYpJZ9IOK+KBgdBRJYbegl9BOtz9P/URFcUSvPGJK88WgYDXl5aldnZvyu8EwFZqDuEEu2DWGq3MnYLncWpeazNylq9285/P6944m+jl3IKKrsbIk1osY2vccKRONSLPWAC3X5aeJQEhaBY6UBJmYZHab51+rn9NokLLMioU49qqBwYCMQRGZ6uqsP3WUZ1/NS1+wrozFpLMRO8dfC8SXWZ8fyH5ol4k/20PY8oyd0CGuTwLu3En1lbsikWqCnckp/SIE/033g5sR+mM8gXDO1fmtg/764iUzTnZ56+F9eQPr3klA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dD7HLGOEVvHtEzS/Umpfulkyd5BGLMBy5MS5Ys7WrqU=;
- b=A+bpkmTsOYaOrtSivLMpXhj8v7QIAG4q4+nFF4m9OPbqf+A7hX1jVtYAarFiqq4bovwUAIAU86t2gWedxC/eMyWebhY9EIP7Nz1tPBShCFqcpUPwj4G6D9dU/kOZaNrYmPwpFlu60jjUdeV5k4tjh/C3miHgcc+zSrrhoL5YPw0=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB2975.eurprd04.prod.outlook.com (2603:10a6:802:9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.29; Wed, 4 Nov
- 2020 08:09:52 +0000
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::e171:19c1:b07f:53db]) by VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::e171:19c1:b07f:53db%7]) with mapi id 15.20.3499.032; Wed, 4 Nov 2020
- 08:09:52 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: display: panel-simple: Allow optional 'ports'
- property
-Date: Wed,  4 Nov 2020 16:03:37 +0800
-Message-Id: <1604477017-17642-1-git-send-email-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR01CA0143.apcprd01.prod.exchangelabs.com
- (2603:1096:4:8f::23) To VI1PR04MB3983.eurprd04.prod.outlook.com
- (2603:10a6:803:4c::16)
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C223689DA7
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 08:14:19 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id A455BFDD;
+ Wed,  4 Nov 2020 03:14:16 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 04 Nov 2020 03:14:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=XXFAaRSb32pxervJ1Zv7TKZ0W1s
+ w+VVFPoX3IFt124k=; b=iCwoYVLLUuVNNTENXSZz+PtAZLQH0NKPIcbefvT6PAz
+ 8tNPUABoqO+CJOiPRKxLT77evcmvx99BOPBIVjGOlUnMc2ahCWKNczXUMNhN1Qy1
+ 6WLapO/of98Ad3Y5qA0R0QuxhGJss8NWIdpN2yIoCetNyZ4W5GlO3sf1RhBlGPpd
+ L7fOWZDcMH00O6m9ZkuW02wWh+jm1eCkVAB4uLXOV0991EDg9x6rEwE2LasMz2D1
+ mzFmFDXzdZ4DOBt0TfuGpqNACvWEefe3T4ta178S7CSXR6g8tGx772bOSvIBh3pk
+ X63RPUU9PmFv5GTiH5jWMSm6zYnwMV1zzhk4JqkvqQw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=XXFAaR
+ Sb32pxervJ1Zv7TKZ0W1sw+VVFPoX3IFt124k=; b=paXXPDf3g4w2iHpy7gvEr+
+ WWbQX+cocXbs7LnYqP7myPSy9nGA2kWSgaoH3ExVLATUNre/rDp/eVzzWw5kmA6M
+ xsIXpAYV4C/ja7niS/cqY2FARy5nQksloiNyA4hwoDyHwwQ4xtLDZrB+3XTZuahw
+ t+bSL4JaBeIdKgCjZ2tbiS72uVSk7IS3yysiY/75OJfW+IrSIwD0Vht8QfJBTXNq
+ OGrLs/N+9jSiXf/jCGMhqFbsB/J8yMdUZecKW58h9h9IhK618if6bktxR/NlFHpk
+ brV+Jw09uzy2XJS+3QcqTS19CNhGnN3fhPcV4MAV6GRMSR6UQMfbEX5ar45KetWQ
+ ==
+X-ME-Sender: <xms:1mKiX9Uw7IzIEenw8GEh7Bxgnf68CeebqvVMP6DXsP8SIwOfA_FNcQ>
+ <xme:1mKiX9lEwja08z2fB_8rYkMXpeBD7OUQeWBugc8CE-SmCSKFfTzeShMJeoA790gyx
+ 1GKXcwAgfhDClQ_jdc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtgedguddugecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:1mKiX5ae_ncy_0iLL_K73gy0kfa6uzRxio7UfwfhB0QcC_NGb9PBdg>
+ <xmx:1mKiXwW2D2UVSmXop5Vr6IM_Q_Q4HzsadzAwj-ZzTN_tzDm1_ZGyxA>
+ <xmx:1mKiX3nCGITQ660Ht2PtiifK258kb2m8rUY6OPWDIih-t34sHfHtjQ>
+ <xmx:2GKiX1W3mvCko0ApKlkI6NDW5jRTTxv-cEEqAhfUsb-yXNDsSgxF3A>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D3DE3328037B;
+ Wed,  4 Nov 2020 03:14:13 -0500 (EST)
+Date: Wed, 4 Nov 2020 09:14:11 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: use of dma_direct_set_offset in (allwinner) drivers
+Message-ID: <20201104081411.bnt5kixgunaczbzj@gilmour.lan>
+References: <20201103095538.GA19136@lst.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.66) by
- SG2PR01CA0143.apcprd01.prod.exchangelabs.com (2603:1096:4:8f::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3499.18 via Frontend
- Transport; Wed, 4 Nov 2020 08:09:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 95670477-12a2-436f-a509-08d88099019d
-X-MS-TrafficTypeDiagnostic: VI1PR04MB2975:
-X-Microsoft-Antispam-PRVS: <VI1PR04MB2975488652CAE3D93E2D046E98EF0@VI1PR04MB2975.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bzzvWuXLmY4uzP3GM3YVX8gZGH4s7dOJeGvID3PWHTEDHuYeaNy/Hp1elHeLYxp96VIyeWjFWaogX2htC97++t2quNPXSaZyxXRZkN5I6ahNYM3C98bBInr6qhXDsYQyE9m5um4KVIgqTrhwr8WrqGYWffdVnWR0qYsC2ZjOcgRwvo56kobjUiSJ0S7UZofGDPyNhaljZ/S2I4K/y2NkGUGDDNYy9UlyfxSSaMie628eApmA/HF/cCi7paEm3kLOPu89sJw+S/mmo56SC5VM9ZzDRLG2nu79MkyvkUlTzMrC3wsNlXGdiZBRm+2ncO9i7knGiwJt+G+qowUTgGVP/78IWeI/9pytp4iWeszvQOGIcuysQeg4nF1yJLsUDfUW
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(366004)(376002)(346002)(39860400002)(5660300002)(86362001)(69590400008)(26005)(66946007)(186003)(66476007)(6506007)(66556008)(16526019)(4326008)(478600001)(54906003)(36756003)(8936002)(52116002)(2906002)(6512007)(6666004)(956004)(6486002)(8676002)(83380400001)(2616005)(316002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: /X0nQ6HmA0iEGl6OWWeT+hDyAOQjx6yzh57sSeygbzZe+Wv8ZIGi74dPHYGMGfFo7ncFRH9+v7ERyroagfOG6TssL5EXdL1iJNq9QCmi7O5TVODb0ZURtd0TaJeaooh3OlzTN+T03Y5aRe1267KjJxD+yJsciQuI1szjx/LwUcuBDwi8sHyqrRT7wGJb2IuGKJ92F25GVZITeYhz1CpPJdReRw5Yi1ux/Oo0kk8MCQZZTntWr86ucC9EUJK+5rkPiAz8BRLQK0q3x3iSwyYK0sXoxU/2OJiI89TQdwgNVrjLvaHs0Cfv8d1wtprc5Z2e6XwdZuQabv3xoJ91X0hMMn/783jA1nROSJeksKxO+IEFIgQzxtxDOMee2j7Ye0/cfN1Uq9hus7R2YvNKGvcrDvBqyjSTI9QYAyfkal8x5iTJXl3MYmrGhbO0Esc9jvwz06qEEfW4RneV3b/T6cFkwA+5XHwuCBiLCOrHOp36LtAViyzBJKuuis3jsFSvzwJsjo0nnOb+mgXPvaLn1wHLcL+Xq6B11rlvw+gRTXiZXJfS60M/q0WqusxDW2CypDtA1xxZrSLVfQ+hKlNoZSwEVB25S2Y66orhPgmmUKVigPNxyJ0LMoeDt7pYWR0KLBmX/XA0bMAxJV/5d5Xym6SSWw==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95670477-12a2-436f-a509-08d88099019d
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2020 08:09:52.2153 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kv248lZOWdTC3HQJzXaOugxgDtX/BR/6W5LMjdIfrb1IxDamVpgWSosy3cS4nngkIp8QjD1g9e6v6q/EFezI0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB2975
+In-Reply-To: <20201103095538.GA19136@lst.de>
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,46 +78,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, iommu@lists.linux-foundation.org,
+ Yong Deng <yong.deng@magewell.com>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0062415509=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some simple panels have dual LVDS interfaces which receive even and odd
-pixels respectively, like 'nlt,nl192108ac18-02d' and 'koe,tx26d202vm0bwa'.
-So, let's allow optional 'ports' property so that pixel order can be got
-via drm_of_lvds_get_dual_link_pixel_order() if it's child nodes 'port@0'
-and 'port@1' contain 'dual-lvds-even-pixels' and 'dual-lvds-odd-pixels'
-properties respectively.
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Rob Herring <robh+dt@kernel.org>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 1 +
- 1 file changed, 1 insertion(+)
+--===============0062415509==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="dpottggxee74tnew"
+Content-Disposition: inline
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index f9750b0..5ccb22b 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -288,6 +288,7 @@ properties:
-   backlight: true
-   enable-gpios: true
-   port: true
-+  ports: true
-   power-supply: true
- 
- additionalProperties: false
--- 
-2.7.4
+
+--dpottggxee74tnew
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Christoph,
+
+On Tue, Nov 03, 2020 at 10:55:38AM +0100, Christoph Hellwig wrote:
+> Linux 5.10-rc1 switched from having a single dma offset in struct device
+> to a set of DMA ranges, and introduced a new helper to set them,
+> dma_direct_set_offset.
+>=20
+> This in fact surfaced that a bunch of drivers that violate our layering
+> and set the offset from drivers, which meant we had to reluctantly
+> export the symbol to set up the DMA range.
+>=20
+> The drivers are:
+>=20
+> drivers/gpu/drm/sun4i/sun4i_backend.c
+>=20
+>   This just use dma_direct_set_offset as a fallback.  Is there any good
+>   reason to not just kill off the fallback?
+>=20
+> drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+>=20
+>   Same as above.
+
+So, the history of this is:
+
+  - We initially introduced the support for those two controllers
+    assuming that there was a direct mapping between the physical and
+    DMA addresses. It turns out it didn't and the DMA accesses were
+    going through a secondary, dedicated, bus that didn't have the same
+    mapping of the RAM than the CPU.
+
+    4690803b09c6 ("drm/sun4i: backend: Offset layer buffer address by DRAM =
+starting address")
+
+  - This dedicated bus is undocumented and barely used in the vendor
+    kernel so this was overlooked, and it's fairly hard to get infos on
+    it for all the SoCs we support. We added the DT support for it
+    though on some SoCs we had enough infos to do so:
+
+    c43a4469402f ("dt-bindings: interconnect: Add a dma interconnect name")
+    22f88e311399 ("ARM: dts: sun5i: Add the MBUS controller")
+
+    This explains the check on the interconnect property
+
+  - However, due to the stable DT rule, we still need to operate without
+    regressions on older DTs that wouldn't have that property (and for
+    SoCs we haven't figured out). Hence the fallback.
+
+> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+>=20
+>   This driver unconditionally sets the offset.  Why can't we do this
+>   in the device tree?
+>=20
+> drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+>=20
+>   Same as above.
+>
+
+We should make those two match the previous ones, but we'll have the
+same issue here eventually. Most likely they were never ran on an SoC
+for which we have the MBUS figured out.
+
+Maxime
+
+--dpottggxee74tnew
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX6Ji0wAKCRDj7w1vZxhR
+xfhqAQCGVXPQjuqueGxzvosMw+xeQPBqXhmwv85fYyeue+LdyAEA32seUuD5LvjK
+NYOXbQBiz2tBS6ESieNJ73KOZrgtHgs=
+=h/j1
+-----END PGP SIGNATURE-----
+
+--dpottggxee74tnew--
+
+--===============0062415509==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0062415509==--
