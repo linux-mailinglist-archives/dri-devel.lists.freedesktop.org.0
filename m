@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A63F2A78CB
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:20:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0882A78E4
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66C556E9C0;
-	Thu,  5 Nov 2020 08:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 911B86E9E4;
+	Thu,  5 Nov 2020 08:20:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF9A89DB9
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 16:49:48 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id s30so5745436lfc.4
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 08:49:48 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A72056E23B
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 16:49:49 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id t13so23633719ljk.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 08:49:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RsEiBNqevS137X8EgsTINN66YSPI6dqy0hGSUXN1Nl4=;
- b=l0gsx/WOIi+QcOSWIQOGjzVyqftIJLUglBlpPJ+plhlETQraCIxv2lVoACM/kgHZxa
- siE771TZn8MJ6Xi6lXvO2L0NXhWsDbevsF/Z8vfotFQbjb/3YZwUi0idR6s1e39T1T3N
- c9Qt0/JexF7OHne5CT/8NdKAx6zc6qhNgCRc7YajWDLGoRidLr24pGHvZgMYgqgr9/pS
- 2lEXNGHw9o2ltXvvPv0yzy1Awe/1+MilQwzp1RCyXnlIsJnPhXQ4YA6EjflowAYuVWyO
- i7iyg17ZOs7yHYNNhzVZX5JTcHeCkFmnWFjad7pnt6HCMcY5PKx9xZJMJGuZgEtCKkjZ
- HwSw==
+ bh=d/Sk3dwc3ZzPQh0+4njd7Ejlh1IFm+rB1ccMwqr+vGE=;
+ b=l3LKe/mpPu0S8/dCOq6M2kz5lSPjJIkDiZkJ392mXO0421xd0wR0g+uOXZu3Dp6GNh
+ tig0xwfVmcWuRwSddNabK0tKmD9eiUiHmMnpBBpYyQsiolkHs6ybryKNoGIVmvUoj6mT
+ ZoVdAYiceuqcnDB8+mK/Y52+5BOgvmMeR8RuFYe5GfwIbOlNfG7+BJWLe6WZpsli+6Pf
+ JdpL/bqxj2ePobj0I6x+B4d6skuRAUZdvSHHxJhupeFc3dDdE3n0DFN/kYXJWmBqH0GV
+ 6PBYnodpQBz72zJUvr33uIEYqRK5w81me4rBiefPXZLOBAHDnuZCa6+wdwuq0NWJzPtm
+ LWEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RsEiBNqevS137X8EgsTINN66YSPI6dqy0hGSUXN1Nl4=;
- b=HUi2MvVd2rrnj0x4k+yull0vlAscVt01H5zjX5GaAoRKEYbdV+dqYQSFMg1TbOdw6S
- nZ4IdX8EaXfWSi7ulB4x+ymC2wTC/aEK233Icbg+/jXJjMnxMDp+WWe9y4xweAnDio45
- yZGMtUawa85fzlTpEPx+z2L00E2J3ju+Wa7hsjoW7WTF2kleY282/b1cpEPx/4jfKSJG
- dsKdnEX1NZqs07dxh1BhfjPIv78/h7+qbswmwL2vRe+N8H6ZcTexdNL97HkkFGiTNwtE
- GHZ8QHCvmpHgXb0oER1744IXYZcoWK1IVTWpgCSPO/XI0SW5V44SxHTwaPV7GjQIq+K7
- gfZg==
-X-Gm-Message-State: AOAM532jj4G5/Oe7eqSZjbfdDwcQU9tydwgT2WrLyL39hNKiTKhNapoj
- tCv6a2DqtmQnYoP+gTdp6oQ=
-X-Google-Smtp-Source: ABdhPJz8Dwjo5uSb78kKmSUyVRABa9SgfHctcnMFRcKzAvnBpwfjqTfXnzmZYZRynjQu1olS+RUcQQ==
-X-Received: by 2002:a19:e014:: with SMTP id x20mr9473796lfg.444.1604508586969; 
- Wed, 04 Nov 2020 08:49:46 -0800 (PST)
+ bh=d/Sk3dwc3ZzPQh0+4njd7Ejlh1IFm+rB1ccMwqr+vGE=;
+ b=FGxWOwwEM6z84GS1SG1RPT6dwIu7BW/lF+S5uhxOIABLDYi+/uz9EFpyIDe3OcGP6J
+ sWIQ5qNaN4efh9vyJloEDmmWVUiOYf4MtTwzSG/vBZUui1bwxnS/JiOLFnZNwKz0ZA/o
+ kDQ0zmVbGHO7XR9156qbK00K1zUI/Ylv/0yosT0J8ozqhp9B02sTL5jZZFjlXPrnLieX
+ WjRflhSSwJog+nRvxGp4gDtErOpmXTi0hIh8mAPCBH4+8MbNzXw1Ili29qUcoNNvPc8c
+ jx5GL9R27G4zJBYKAOva4uTVOBkpq2BtRLi2I+FvwfvbGj7OdiR9jIeKOl7x5vEz6lIg
+ I0+g==
+X-Gm-Message-State: AOAM531PlzfsdgKQ2k33+TGJqYrNCHNjWbjjZ80pcyBUz84lxFk2rHzy
+ Ei2cjMXP8ErOf4nTzYtBfUc=
+X-Google-Smtp-Source: ABdhPJzOM97kyPaLdS5FBsoSI5pNCOmFXgHHRAlsYMvgYsazvVkHm7oOeCMGO/mgd30CUSSL1TDgdg==
+X-Received: by 2002:a2e:3a08:: with SMTP id h8mr11610597lja.125.1604508588138; 
+ Wed, 04 Nov 2020 08:49:48 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru.
  [109.252.192.83])
- by smtp.gmail.com with ESMTPSA id m2sm454587lfo.25.2020.11.04.08.49.45
+ by smtp.gmail.com with ESMTPSA id m2sm454587lfo.25.2020.11.04.08.49.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 08:49:46 -0800 (PST)
+ Wed, 04 Nov 2020 08:49:47 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,10 +58,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v7 14/47] dt-bindings: memory: tegra124: emc: Document OPP
- table and voltage regulator
-Date: Wed,  4 Nov 2020 19:48:50 +0300
-Message-Id: <20201104164923.21238-15-digetx@gmail.com>
+Subject: [PATCH v7 15/47] dt-bindings: tegra30-actmon: Document OPP and
+ interconnect properties
+Date: Wed,  4 Nov 2020 19:48:51 +0300
+Message-Id: <20201104164923.21238-16-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104164923.21238-1-digetx@gmail.com>
 References: <20201104164923.21238-1-digetx@gmail.com>
@@ -87,54 +87,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document new OPP table and voltage regulator properties which are needed
-for supporting dynamic voltage-frequency scaling of the memory controller.
-Some boards may have a fixed core voltage regulator, hence it's optional
-because frequency scaling still may be desired.
+Document EMC DFS OPP table and interconnect paths that will be used
+for scaling of system's memory bandwidth based on memory utilization
+statistics. Previously ACTMON was supposed to drive EMC clock rate
+directly, but now it should do it using interconnect framework in order
+to support shared voltage scaling in addition to the frequency scaling.
 
 Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../memory-controllers/nvidia,tegra124-emc.yaml      | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../arm/tegra/nvidia,tegra30-actmon.txt       | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
-index ac00832ceac1..09bde65e1955 100644
---- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra124-emc.yaml
-@@ -37,6 +37,15 @@ properties:
-     description:
-       phandle of the memory controller node
- 
-+  core-supply:
-+    description:
-+      Phandle of voltage regulator of the SoC "core" power domain.
+diff --git a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra30-actmon.txt b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra30-actmon.txt
+index ea670a5d7ee3..897eedfa2bc8 100644
+--- a/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra30-actmon.txt
++++ b/Documentation/devicetree/bindings/arm/tegra/nvidia,tegra30-actmon.txt
+@@ -18,8 +18,30 @@ clock-names. See ../../clock/clock-bindings.txt for details.
+ ../../reset/reset.txt for details.
+ - reset-names: Must include the following entries:
+   - actmon
++- operating-points-v2: See ../bindings/opp/opp.txt for details.
++- interconnects: Should contain entries for memory clients sitting on
++                 MC->EMC memory interconnect path.
++- interconnect-names: Should include name of the interconnect path for each
++                      interconnect entry. Consult TRM documentation for
++                      information about available memory clients, see MEMORY
++                      CONTROLLER section.
 +
-+  operating-points-v2:
-+    description:
-+      Should contain freqs and voltages and opp-supported-hw property, which
-+      is a bitfield indicating SoC speedo ID mask.
++For each opp entry in 'operating-points-v2' table:
++- opp-supported-hw: bitfield indicating SoC speedo ID mask
++- opp-peak-kBps: peak bandwidth of the memory channel
+ 
+ Example:
++	dfs_opp_table: opp-table {
++		compatible = "operating-points-v2";
 +
- patternProperties:
-   "^emc-timings-[0-9]+$":
-     type: object
-@@ -331,6 +340,7 @@ required:
-   - clock-names
-   - nvidia,memory-controller
-   - "#interconnect-cells"
-+  - operating-points-v2
- 
- additionalProperties: false
- 
-@@ -359,6 +369,8 @@ examples:
-         clock-names = "emc";
- 
-         nvidia,memory-controller = <&mc>;
-+        operating-points-v2 = <&dvfs_opp_table>;
-+        core-supply = <&vdd_core>;
- 
-         #interconnect-cells = <0>;
- 
++		opp@12750000 {
++			opp-hz = /bits/ 64 <12750000>;
++			opp-supported-hw = <0x000F>;
++			opp-peak-kBps = <51000>;
++		};
++		...
++	};
++
+ 	actmon@6000c800 {
+ 		compatible = "nvidia,tegra124-actmon";
+ 		reg = <0x0 0x6000c800 0x0 0x400>;
+@@ -29,4 +51,7 @@ Example:
+ 		clock-names = "actmon", "emc";
+ 		resets = <&tegra_car 119>;
+ 		reset-names = "actmon";
++		operating-points-v2 = <&dfs_opp_table>;
++		interconnects = <&mc TEGRA124_MC_MPCORER &emc>;
++		interconnect-names = "cpu";
+ 	};
 -- 
 2.27.0
 
