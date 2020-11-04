@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB402A78C7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C7F2A7903
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:21:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F7186E9B0;
-	Thu,  5 Nov 2020 08:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 625A56EA19;
+	Thu,  5 Nov 2020 08:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 487B26E23D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 16:50:11 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id l2so28080867lfk.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 08:50:11 -0800 (PST)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEC76E23F
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 16:50:12 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id 11so4151698ljf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 08:50:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xT24YybZ9ESCUzYgdGCxIPBX3gyhxeGvxD42woUTjp4=;
- b=tnVjUemha3ft441R6cHZarZDnvpO3jI+yLR26WM4VdGva6bOHWI1NSLO+Zp3h/iOr3
- uE9svPHNVMKaQoLP/0ekpVZ0tKKI9Hw0dSaImzIqUCcrRzDbn9VUmanH6I0TzpBBxstZ
- WtckXa9nAXWgwhVlOsECB5/M90E7JkP8MTobICLfHGcQd9aa3qOWJhYoJwIaZ+1u+SLg
- eaVbg9YBU3pgbUQQCdgaUpULNa1ujdp4tQX2uPEeM4ricWugMwxgfaIUJ4uy+LbNvGtx
- BdUFMFJ3NuP+QGTgxgGunCYHimKMyL3jlIG/pyqj/2hfVmhghKjLoj/eWumXn7E6O5Bx
- IWKw==
+ bh=+L0AgvSgV5zDZENr7ejMUrE6rVWnjdgbzZcfj8MC1EU=;
+ b=aaTnuWIBAYS6ZP47JBoKRlAsA772cm0hBjPv5pmD2n/04rtLXynK4/jbMzXYWIdbfj
+ ECtqSozu0pCQb/R+fw6CjFP7fapfZhOOS2wJK6cwhfLgWTGZ8aw5+mmoFtF/wXi0sX4G
+ SPVXVdYyjVL0XzK1YHCtaMTyrq21NFCoHd2x7iYe6NPEZf4uGGIacsKCuOXxLSPrKlkZ
+ o9uGZE9fyP6/KvhsBlBC/NN6NBkQdxagl7eI6Nn9fTOVPuK3RIFX8vJ0Cb161CANu7mU
+ a98rRJiNKa4z8ehr/FUT5T27M77a3ZVyopRMqrVfkwTwJaBQtZRbACG2L/IlDDOCAcvO
+ r6Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xT24YybZ9ESCUzYgdGCxIPBX3gyhxeGvxD42woUTjp4=;
- b=IACINJ16G5gWtLb20KF4Ll+Lz1jkziUm22GrWeTnhLR9ZLxk6/TiutyIti0Tfkdsbx
- 6fBoDJeTDHZnnFzKQdosT5/cLhFMqW5YfxuNORDcuYO7QooCY+9qSX94DyRfs6+a8vcv
- zLtbsz5rXM6BSAl4BXAJCU4Jy3dkqURVIXdnXbxQrXHP+R/jTORHBnRwkBH1Q5Ff0fsh
- nGp+zGVW8kYKdAWF1M9ap7m8YxwVSc/dUELISOmP6v5sAY4SpP749YOQ822M0a/Tiybi
- /Pg4Lg0GsjK29TG9bBvKPVqdX8bbX1SmxPX/+PpsjnmOqywEKuLjiysyFtOvAoK2J5bM
- 02ZA==
-X-Gm-Message-State: AOAM530wLh2LRtN2nL/cG5lM2V31cpOmcPwvjOX1HqdAaE4gYXxdikYv
- c8K5MYd1s+MvT+/LUXFNPKs=
-X-Google-Smtp-Source: ABdhPJzBVgcu5tqRSkCoQPWfnMYlkh8Bf1SUYRqiEau5NByTFy2W61uGqqDNsNINaJKset+Q4hRvdg==
-X-Received: by 2002:a19:3fd6:: with SMTP id m205mr9540980lfa.1.1604508609726; 
- Wed, 04 Nov 2020 08:50:09 -0800 (PST)
+ bh=+L0AgvSgV5zDZENr7ejMUrE6rVWnjdgbzZcfj8MC1EU=;
+ b=X6JEhAiWRV1cUhmkZj0tuF/ibHdwdhPql+VNZn3gM14mU1mJu4Pr+z8I9gThkqg0yR
+ HD00WJ60kEYNHIFgRX7WFf0c1BdaYyWN6JG1x9PSjWW+1tr0uTwdSGebRLOfZe2U6FgJ
+ m9DvnbxXMH21+8MXiZpBs2qf1VvgGNWOFgjohts82Z7NlC5kd2jGuH7y7DhVT393coIW
+ o2Np2fY0KiTCffC0/4VJRL0rqg65c+LZWF8a/8SneiNQlhwtyCz4vqHsgN4erODAbQDr
+ 0fEvSW+pKy7Ss6yaj8HkMyR5Kn7l3cwxTC1R8N2GtNoAuiZiyJ/leqHOodbzq88eAUSi
+ CUaA==
+X-Gm-Message-State: AOAM533X2YMgkHymfN6bLm7/OYCq9qVMzLAYvsF/e8bizmsovxnwYs6I
+ bINz+hBSi6S9rAB+4jB5+sA=
+X-Google-Smtp-Source: ABdhPJzeadT0yI0FNCvFtGTGtufHtqnn4HTJnoQtVHPu3f+CnHkT3aKeYE1g2GZ5oC149b6TW41ZFQ==
+X-Received: by 2002:a2e:b04a:: with SMTP id d10mr193119ljl.85.1604508610928;
+ Wed, 04 Nov 2020 08:50:10 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru.
  [109.252.192.83])
- by smtp.gmail.com with ESMTPSA id m2sm454587lfo.25.2020.11.04.08.50.08
+ by smtp.gmail.com with ESMTPSA id m2sm454587lfo.25.2020.11.04.08.50.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 08:50:09 -0800 (PST)
+ Wed, 04 Nov 2020 08:50:10 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,9 +58,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v7 33/47] memory: tegra20-emc: Make driver modular
-Date: Wed,  4 Nov 2020 19:49:09 +0300
-Message-Id: <20201104164923.21238-34-digetx@gmail.com>
+Subject: [PATCH v7 34/47] memory: tegra20-emc: Continue probing if timings are
+ missing in device-tree
+Date: Wed,  4 Nov 2020 19:49:10 +0300
+Message-Id: <20201104164923.21238-35-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104164923.21238-1-digetx@gmail.com>
 References: <20201104164923.21238-1-digetx@gmail.com>
@@ -86,69 +87,87 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add modularization support to the Tegra20 EMC driver, which now can be
-compiled as a loadable kernel module.
+EMC driver will become mandatory after turning it into interconnect
+provider because interconnect users, like display controller driver, will
+fail to probe using newer device-trees that have interconnect properties.
+Thus make EMC driver to probe even if timings are missing in device-tree.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/memory/tegra/Kconfig       |  2 +-
- drivers/memory/tegra/tegra20-emc.c | 17 ++++++++++++-----
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ drivers/memory/tegra/tegra20-emc.c | 34 ++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/memory/tegra/Kconfig b/drivers/memory/tegra/Kconfig
-index b38e5255effe..ff426747cd7d 100644
---- a/drivers/memory/tegra/Kconfig
-+++ b/drivers/memory/tegra/Kconfig
-@@ -9,7 +9,7 @@ config TEGRA_MC
- 	  NVIDIA Tegra SoCs.
- 
- config TEGRA20_EMC
--	bool "NVIDIA Tegra20 External Memory Controller driver"
-+	tristate "NVIDIA Tegra20 External Memory Controller driver"
- 	default y
- 	depends on ARCH_TEGRA_2x_SOC
- 	help
 diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
-index c9fe58a724ee..88619e3ec435 100644
+index 88619e3ec435..a49658d217a7 100644
 --- a/drivers/memory/tegra/tegra20-emc.c
 +++ b/drivers/memory/tegra/tegra20-emc.c
-@@ -721,6 +721,13 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, emc);
- 	tegra_emc_debugfs_init(emc);
+@@ -383,6 +383,11 @@ tegra_emc_find_node_by_ram_code(struct device *dev)
+ 	u32 value, ram_code;
+ 	int err;
  
-+	/*
-+	 * Don't allow the kernel module to be unloaded. Unloading adds some
-+	 * extra complexity which doesn't really worth the effort in a case of
-+	 * this driver.
-+	 */
-+	try_module_get(THIS_MODULE);
++	if (of_get_child_count(dev->of_node) == 0) {
++		dev_info(dev, "device-tree doesn't have memory timings\n");
++		return NULL;
++	}
 +
- 	return 0;
+ 	if (!of_property_read_bool(dev->of_node, "nvidia,use-ram-code"))
+ 		return of_node_get(dev->of_node);
  
- unset_cb:
-@@ -733,6 +740,7 @@ static const struct of_device_id tegra_emc_of_match[] = {
- 	{ .compatible = "nvidia,tegra20-emc", },
- 	{},
- };
-+MODULE_DEVICE_TABLE(of, tegra_emc_of_match);
+@@ -451,6 +456,9 @@ static long emc_round_rate(unsigned long rate,
+ 	struct tegra_emc *emc = arg;
+ 	unsigned int i;
  
- static struct platform_driver tegra_emc_driver = {
- 	.probe = tegra_emc_probe,
-@@ -742,9 +750,8 @@ static struct platform_driver tegra_emc_driver = {
- 		.suppress_bind_attrs = true,
- 	},
- };
-+module_platform_driver(tegra_emc_driver);
++	if (!emc->num_timings)
++		return clk_get_rate(emc->clk);
++
+ 	min_rate = min(min_rate, emc->timings[emc->num_timings - 1].rate);
  
--static int __init tegra_emc_init(void)
--{
--	return platform_driver_register(&tegra_emc_driver);
--}
--subsys_initcall(tegra_emc_init);
-+MODULE_AUTHOR("Dmitry Osipenko <digetx@gmail.com>");
-+MODULE_DESCRIPTION("NVIDIA Tegra20 EMC driver");
-+MODULE_LICENSE("GPL v2");
+ 	for (i = 0; i < emc->num_timings; i++) {
+@@ -656,36 +664,26 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	struct tegra_emc *emc;
+ 	int irq, err;
+ 
+-	/* driver has nothing to do in a case of memory timing absence */
+-	if (of_get_child_count(pdev->dev.of_node) == 0) {
+-		dev_info(&pdev->dev,
+-			 "EMC device tree node doesn't have memory timings\n");
+-		return 0;
+-	}
+-
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0) {
+ 		dev_err(&pdev->dev, "please update your device tree\n");
+ 		return irq;
+ 	}
+ 
+-	np = tegra_emc_find_node_by_ram_code(&pdev->dev);
+-	if (!np)
+-		return -EINVAL;
+-
+ 	emc = devm_kzalloc(&pdev->dev, sizeof(*emc), GFP_KERNEL);
+-	if (!emc) {
+-		of_node_put(np);
++	if (!emc)
+ 		return -ENOMEM;
+-	}
+ 
+ 	emc->clk_nb.notifier_call = tegra_emc_clk_change_notify;
+ 	emc->dev = &pdev->dev;
+ 
+-	err = tegra_emc_load_timings_from_dt(emc, np);
+-	of_node_put(np);
+-	if (err)
+-		return err;
++	np = tegra_emc_find_node_by_ram_code(&pdev->dev);
++	if (np) {
++		err = tegra_emc_load_timings_from_dt(emc, np);
++		of_node_put(np);
++		if (err)
++			return err;
++	}
+ 
+ 	emc->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(emc->regs))
 -- 
 2.27.0
 
