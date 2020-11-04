@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE3A2A78E3
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684752A7919
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 222CA6EA0A;
-	Thu,  5 Nov 2020 08:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53E8C6EA13;
+	Thu,  5 Nov 2020 08:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72BB76E21A
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 16:49:41 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id v19so18768119lji.5
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 08:49:41 -0800 (PST)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E0796E21A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 16:49:42 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id l28so27977520lfp.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 08:49:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0FVv3BbkAu5vijvZy0/g8D/gSJwLwAaxtQyTiLpi4B8=;
- b=DEbFYKMcdoH48FN2/uyXUSKvK0hCwgs9jDu+ko+KosDrC62VOnUtAL/3lEG+UwTtTP
- CRRI84LwRW1IqzJ1qVLNHGzelsTrjKI13WiIYf0t9MJXDrgYs+LdiblQYIbQ5YiaSa78
- R/fC75sA6xgcPx0AjKdHm+/jXFgBrxjsxXQocUq38LrRsEDQaMN2eRB1gAr9bHzI0ye6
- p4yCRU+itdACg1YMCB4JYW0hYdlNm2I0VbGJUr1Se3mSy+LasQ9xc0LG1Mnl/knF9Xkh
- nGf7OUjL1fNakCeZSqPOavJMScyiXtPR9huMzU6AmR+yQZlDnbSbYeJgptPGZQR5GjT5
- mz5g==
+ bh=13zJHfR9di8Ydxi+LOybO5H+JCALzXt2g6wK8WiSzjg=;
+ b=t+6XmamOufud85gfyMGuCbFRnXH/pka7+DXkYhQq3VCFFSEvuLsvT/RYOOG2zit/v+
+ DH/OLrTipaYalni61+oeoO3/7u84O5R5Phy9YzK2RevmSVcp2gnlyfZfAhm7h4/ZH8cd
+ 7DpxAk2by+O/uw6YAq8CfQYoCdQ7umQiL8Zzf+xuUMXXYMUpTKZDso8ez+UT2MVdbbr7
+ 7piRmA6pTCTWJxwwNiFAWxGPBZWfbwBU6mCWoo+b06xnj05+hqgiklRggG3uEah/2aqz
+ Rj0ADEcNQAJ2XRayKBWGOhvMriNvkkapI1ud+5e1wQ/jr0Lcs3IUVjwrTb6+uaBT2JZX
+ Ee7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0FVv3BbkAu5vijvZy0/g8D/gSJwLwAaxtQyTiLpi4B8=;
- b=qGH5UnaMHYFISuBADyhvIY47XTuXM6gQUZHKrMA9G3B49lr4OWtrhMaoTt3hy+Ciu+
- qkxfcDrAVGxFT1V8f+BYYOSMkL7xWQa+3jJ5a+CZrEg9aL0chEKkpaAfDRfZdQMWELAt
- 8jfxCtjt99Y5bgGiSjlhT/py0HQBl5G1c/dS3mmhiXHMY3CCzwNC5Lvv3+jrB4o1ztoc
- uHhFsVgX4GoBRC8TuwXptVlTXKbVUckPj2gZ1lqPQg594dLacCzAJ4nYBqJyQ4MHlJBK
- bpSyHWadMHtaukbdIqHll3m96R8PzYw393kFYtrQvmgqDOEulXkBvKz5WxgPehVWapBZ
- imAg==
-X-Gm-Message-State: AOAM533x8dyEu+7PG5Rieap/vj/9/s+63Cb7n8gt148kaqpEIADsPiyy
- fAslnvU2x7KZwArPAkxlFG0=
-X-Google-Smtp-Source: ABdhPJwyAlb0a8HWHX8gVPMOoMubt/guWwT7XX6botKnEiM48IOWNSbdR9Xn4p979LWrEeFoDHl99w==
-X-Received: by 2002:a2e:580a:: with SMTP id m10mr2371255ljb.167.1604508579935; 
- Wed, 04 Nov 2020 08:49:39 -0800 (PST)
+ bh=13zJHfR9di8Ydxi+LOybO5H+JCALzXt2g6wK8WiSzjg=;
+ b=lfEUSjPoALF2OHI5zS7rPl19zj2kkZNtpnetIg6id+t9W/Qcf5LE559pktVn0D8xnH
+ dQMDoJpXnrhVx+dmJBWFnQiuL/xJdrI6aCtCFWewBlc0eD+27ZYndsSRJ6pXFnXhNOjE
+ BLT1XElAkVaTyiBZxlk8wo7om30QuDOduuXYXyspIFhJUSh9Hch1B+yciUPaHRinfk2j
+ /T/Vd5nKpTQ/DQcjmfhUdXEHnWc87e5R57SrFZNmhcv/hXrVH696a3y6rfnMHAx4QMt+
+ tAaU5a1Sz8qmbgOfhNub8frGqtTofZ/s2OXCyQT4+Ust7AmYHpaG4G2kLjvlSLDFhuTN
+ JpUA==
+X-Gm-Message-State: AOAM532c24qgTibrhKQJ6xyg0B8VaCPz0xGbKQDC1wZin8rHZ/Lq85dB
+ htNnn2s8L7PZS1Ah+1qHX9dyQ3h5K8g=
+X-Google-Smtp-Source: ABdhPJx3MXf1ifZHHtSGhKEXSuUOoWS5aH6HQ2rKgpVEkQPSr1h0IPaDi1gyerE0+/GxhDL58Mu8tQ==
+X-Received: by 2002:ac2:592f:: with SMTP id v15mr6582641lfi.512.1604508581136; 
+ Wed, 04 Nov 2020 08:49:41 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru.
  [109.252.192.83])
- by smtp.gmail.com with ESMTPSA id m2sm454587lfo.25.2020.11.04.08.49.38
+ by smtp.gmail.com with ESMTPSA id m2sm454587lfo.25.2020.11.04.08.49.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 08:49:39 -0800 (PST)
+ Wed, 04 Nov 2020 08:49:40 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,10 +58,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v7 08/47] dt-bindings: memory: tegra20: emc: Document OPP
- table and voltage regulator
-Date: Wed,  4 Nov 2020 19:48:44 +0300
-Message-Id: <20201104164923.21238-9-digetx@gmail.com>
+Subject: [PATCH v7 09/47] dt-bindings: memory: tegra30: mc: Document new
+ interconnect property
+Date: Wed,  4 Nov 2020 19:48:45 +0300
+Message-Id: <20201104164923.21238-10-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104164923.21238-1-digetx@gmail.com>
 References: <20201104164923.21238-1-digetx@gmail.com>
@@ -87,57 +87,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SoC core voltage can't be changed without taking into account the
-clock rate of External Memory Controller. Document OPP table that will
-be used for dynamic voltage frequency scaling, taking into account EMC
-voltage requirement. Document optional core voltage regulator, which is
-optional because some boards may have a fixed core regulator and still
-frequency scaling may be desired to have.
+Memory controller is interconnected with memory clients and with the
+External Memory Controller. Document new interconnect property which
+turns memory controller into interconnect provider.
 
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../memory-controllers/nvidia,tegra20-emc.txt    | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ .../bindings/memory-controllers/nvidia,tegra30-mc.yaml       | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-index 82bc5b2ae7e5..67ac8d1297da 100644
---- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-+++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-emc.txt
-@@ -14,11 +14,25 @@ Properties:
- - clocks : Should contain EMC clock.
- - nvidia,memory-controller : Phandle of the Memory Controller node.
- - #interconnect-cells : Should be 0.
-+- operating-points-v2: See ../bindings/opp/opp.txt for details.
+diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
+index 84fd57bcf0dc..5436e6d420bc 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra30-mc.yaml
+@@ -57,6 +57,9 @@ properties:
+   "#iommu-cells":
+     const: 1
+ 
++  "#interconnect-cells":
++    const: 1
 +
-+Optional properties:
-+- core-supply: Phandle of voltage regulator of the SoC "core" power domain.
+ patternProperties:
+   "^emc-timings-[0-9]+$":
+     type: object
+@@ -120,6 +123,7 @@ required:
+   - clock-names
+   - "#reset-cells"
+   - "#iommu-cells"
++  - "#interconnect-cells"
  
- Child device nodes describe the memory settings for different configurations and clock rates.
+ additionalProperties: false
  
- Example:
+@@ -135,6 +139,7 @@ examples:
  
-+	opp_table: opp-table {
-+		compatible = "operating-points-v2";
-+
-+		opp@36000000 {
-+			opp-microvolt = <950000 950000 1300000>;
-+			opp-hz = /bits/ 64 <36000000>;
-+		};
-+		...
-+	};
-+
- 	memory-controller@7000f400 {
- 		#address-cells = < 1 >;
- 		#size-cells = < 0 >;
-@@ -28,6 +42,8 @@ Example:
- 		interrupts = <0 78 0x04>;
- 		clocks = <&tegra_car TEGRA20_CLK_EMC>;
- 		nvidia,memory-controller = <&mc>;
-+		core-supply = <&core_vdd_reg>;
-+		operating-points-v2 = <&opp_table>;
- 	}
+         #iommu-cells = <1>;
+         #reset-cells = <1>;
++        #interconnect-cells = <1>;
  
- 
+         emc-timings-1 {
+             nvidia,ram-code = <1>;
 -- 
 2.27.0
 
