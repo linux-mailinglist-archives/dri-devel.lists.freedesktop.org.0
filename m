@@ -1,55 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BAC22A6B95
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 18:24:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E37C52A6BE1
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 18:38:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D5A6E15E;
-	Wed,  4 Nov 2020 17:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB986E0CA;
+	Wed,  4 Nov 2020 17:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F3826E15E;
- Wed,  4 Nov 2020 17:24:51 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id n15so22971471wrq.2;
- Wed, 04 Nov 2020 09:24:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2t6bsOvcaKKa8aR9J8fbfDJiM/7JPVfDs636SBMVeQg=;
- b=oqswMzax2NZZWri8s+7sGggS2Z+ar/36vEeNk36cbDsmy1CY3nBah1lCxd1L/24Kit
- +eAnPGyMvdMn2c+CZxHiSavR4e8HpFo4WUOawJOnSTGxEUltgSv/M36sKB0PIickks8o
- EqbPTlbU40dcDX5LeK7g21AnU0f0LLlOQp8hIv4yCQK6axPIarhcLoCBBQvPNUxtGH3T
- 1XvlQLxcfJ8ywZof2f4IMr5RAvLFsULLg6fyyqsPoFe01tjO6aOj8j73YpSIOnLBlx4s
- EOJMxrQbQ0cr9NPxHzMs3bu+4JV+WGcYelcvhTyBCTruWVbEpvYBF0JIvhA/xsD4ivpV
- vY1Q==
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36BB06E0CA
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 17:38:04 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id x7so22985449wrl.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 09:38:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=1Uq05JHaAUVx9vyz+vgRmmzwKCL7BFrV7nV2QiqnhUo=;
+ b=gUDl2HAUPgUdrASzoWgsoG1915/uk+kPyMsKTpacNVoUKt625M+aICjM72qzTQoFZh
+ WHM8fO6zf2fqm4QMwOGwXSUA/mCLyXKy3tqnWCAr0ioYWdKr6+4EB0Xmig9k0YK5S8Al
+ 0ypD8tC8ZNxouXBZJhNRv7DSfd3m9d76K3m6g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2t6bsOvcaKKa8aR9J8fbfDJiM/7JPVfDs636SBMVeQg=;
- b=YkNOKF+XZrREsttyyJdpRXS50hzXWzmuuu4goguYybL435TJVDh5qRl+V080YalWJi
- nKnjI9NDPVyjAW8AHqX99Cq50DM2q/e/mX9sF+Zsf3btw1F/M/ovxFJUM2XJ4rf4t0HY
- OisC3/6+8YsQ75TdqfgqJhaBA+3v1YDuwxbW7kh89TtOQpIfXD8LajIOswrB0CLEb6xL
- KVWyVBHjko8bMi7aDtJLXeBV1BuAwUixgaROawZzXQ26bxKSMTy1xs5N6ahLlOfe/ojX
- 6tAuMvvdW67u+7yP+etQO3Pot82VlLgGiMt/qs+TqoKJa6bJMXdABxalk/y0Bnmu21wk
- Dg2Q==
-X-Gm-Message-State: AOAM530ZRq35bbUPJlEEN3h7EB6/CSFsxrLUitQLiJ/F5BUUtSO4QZq2
- mDqKPsGLkLrVBcB6mWouqhxDQ8/qMcTVisvuG0I=
-X-Google-Smtp-Source: ABdhPJyCoTGhdf3bFvQiuuwVj6l+bkeSchp/yzLV6WBnd0fB4fTk+dADo/wtaXwoaSS9CpQtn69K1BCKxbfXS+Rrcb4=
-X-Received: by 2002:a5d:640d:: with SMTP id z13mr32281679wru.28.1604510690248; 
- Wed, 04 Nov 2020 09:24:50 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=1Uq05JHaAUVx9vyz+vgRmmzwKCL7BFrV7nV2QiqnhUo=;
+ b=NGbsoFTeG5u7J+Jr8lGJinpCpio9ADfRQ5P9yozhRzSEL5oETvChXy5NV2lQ4QSib4
+ 7aqxDhsA/ROllvi7OnIv859iJsxLoBtaHvGQ66Rp3G0gNRnGctqUyG5YhHgDD4Ja0NNf
+ Ubrxw/WF7UpSriKikgMjyAxCM5DfgSrZFlwtBGkTRnitZ3Cvzel60RymHa/bQ/pz0K3G
+ Q4706OkhBYg7xKTybukVrdB/beH9K4sfNMBHxVMS1hvm+RGbF8Ee3i7HrVm9Gc1tjkqQ
+ Sd/LeSb3qHTJ/1QJHj9ACRVDairH8bswace4o2jE1Zb5kLE9ZQhycfiqo4X5510JAeuy
+ gPKw==
+X-Gm-Message-State: AOAM5338kEr7byKEBoo2qcJJGo6UhJM1zh7nL7mAAFGAo0a+FfU4ozwi
+ 6S16BSA+Ob0k+4F3yYBO1EReQw==
+X-Google-Smtp-Source: ABdhPJwzb2CT42AJSs03QdhIYq2K+rWZZWi1HCi6exb1rCeyFsGxsjQ5uyiZJ/Z9gk1gZjlG2wDKfg==
+X-Received: by 2002:a05:6000:36f:: with SMTP id
+ f15mr33167936wrf.78.1604511482916; 
+ Wed, 04 Nov 2020 09:38:02 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u5sm3024637wml.13.2020.11.04.09.38.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Nov 2020 09:38:02 -0800 (PST)
+Date: Wed, 4 Nov 2020 18:38:00 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/4] drm/radeon: stop using pages with
+ drm_prime_sg_to_page_addr_arrays
+Message-ID: <20201104173800.GP401619@phenom.ffwll.local>
+References: <20201104130024.264974-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-References: <20201030010101.4345-1-abhinavk@codeaurora.org>
- <20201030010101.4345-4-abhinavk@codeaurora.org>
-In-Reply-To: <20201030010101.4345-4-abhinavk@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 4 Nov 2020 09:26:24 -0800
-Message-ID: <CAF6AEGseHWb43jx0HzqL0aZSGMeijnXcv2eOi7oU9d8peAQOVA@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v2 3/4] drm/msm: register the base address
- with dpu_dbg module
-To: Abhinav Kumar <abhinavk@codeaurora.org>
+Content-Disposition: inline
+In-Reply-To: <20201104130024.264974-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,114 +67,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <khsieh@codeaurora.org>,
- Sean Paul <seanpaul@chromium.org>, Tanmay Shah <tanmay@codeaurora.org>,
- aravindh@codeaurora.org, freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 29, 2020 at 6:01 PM Abhinav Kumar <abhinavk@codeaurora.org> wrote:
->
-> Register the base address of various dpu sub-modules with the
-> dpu_dbg module so that it can be dumped out during error scenarios.
->
-> changes in v2:
->  - Fix an issue where the same dsi client was getting registered
->    multiple times to the dpu_dbg module
->
-> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+On Wed, Nov 04, 2020 at 02:00:21PM +0100, Christian K=F6nig wrote:
+> This is deprecated.
+> =
+
+> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+
+So I tried to prove to myself that ttm doesn't access ->pages for these
+cases, and kinda couldn't. We still seem to allocate the pages array and
+all that, and there's lots of code using ->pages all over. And between
+ttm_bo_type_sg and TTM_PAGE_FLAG_SG I didn't manage to chase a whole lot
+of paths to their full conclusion.
+
+So I reduced my ambitions and wanted to prove that at least for dma-buf
+imports aka ttm_bo_type_sg, we're guaranteed that we don't try to mmap
+these to userspace. And also failed to find that check.
+
+btw this is across all drivers, mostly ttm code, not radeon specific.
+
+So conclusion, still a mess here that at least I can't see throug clearly
+:-/ here =3D ttm_tt and the entire backing storage handling and everything
+that ties into it. Probably the area that still has the most midlayer feel
+to ttm with all the refactoring in-flight in still.
+
+tldr; tried to review patches 1-3, gave up.
+
+Cheers, Daniel
+
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_dbg.c       |  4 +--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  6 ++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   |  7 +++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |  5 +++-
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |  6 ++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  8 +++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  7 ++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 12 +++++++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  4 ++-
->  drivers/gpu/drm/msm/dp/dp_catalog.c           | 12 +++++++++
->  drivers/gpu/drm/msm/dp/dp_catalog.h           |  4 +++
->  drivers/gpu/drm/msm/dp/dp_display.c           |  2 ++
->  drivers/gpu/drm/msm/dsi/dsi.c                 |  1 +
->  drivers/gpu/drm/msm/dsi/dsi.h                 |  1 +
->  drivers/gpu/drm/msm/dsi/dsi_host.c            | 15 ++++++++++-
->  drivers/gpu/drm/msm/msm_drv.c                 | 26 ++++++++++++++++++-
->  drivers/gpu/drm/msm/msm_drv.h                 |  3 ++-
->  17 files changed, 108 insertions(+), 15 deletions(-)
->
+>  drivers/gpu/drm/radeon/radeon_ttm.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> =
 
-[snip]
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
+/radeon_ttm.c
+> index 95038ac3382e..f41fcee35f70 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -494,8 +494,8 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_bo_de=
+vice *bdev, struct ttm_tt *
+>  	if (r)
+>  		goto release_sg;
+>  =
 
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index f6fb0187388f..df505a3d53e8 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -17,8 +17,8 @@
->  #include <drm/drm_prime.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_vblank.h>
-> -#include "dpu_dbg.h"
->
-> +#include "dpu_dbg.h"
->  #include "msm_drv.h"
->  #include "msm_debugfs.h"
->  #include "msm_fence.h"
-> @@ -166,6 +166,24 @@ void __iomem *msm_ioremap_quiet(struct platform_device *pdev, const char *name,
->         return _msm_ioremap(pdev, name, dbgname, true);
->  }
->
-> +unsigned long msm_iomap_size(struct platform_device *pdev, const char *name)
-> +{
-> +       struct resource *res;
-> +
-> +       if (name)
-> +               res = platform_get_resource_byname(pdev, IORESOURCE_MEM, name);
-> +       else
-> +               res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +
-> +       if (!res) {
-> +               dev_dbg(&pdev->dev, "failed to get memory resource: %s\n",
-> +                               name);
-> +               return 0;
-> +       }
-> +
-> +       return resource_size(res);
-> +}
-> +
->  void msm_writel(u32 data, void __iomem *addr)
->  {
->         if (reglog)
-> @@ -535,6 +553,8 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
->         if (ret)
->                 goto err_msm_uninit;
->
-> +       dpu_dbg_register_drm_dev(ddev);
-> +
->         drm_mode_config_reset(ddev);
->
->  #ifdef CONFIG_DRM_FBDEV_EMULATION
-> @@ -1282,6 +1302,10 @@ static int msm_pdev_probe(struct platform_device *pdev)
->         int ret;
->
->         if (get_mdp_ver(pdev)) {
-> +               ret = dpu_dbg_init(&pdev->dev);
-> +               if (ret)
-> +                       pr_err("dpu_dbg_init failed ret = %d\n", ret);
-> +
->                 ret = add_display_components(&pdev->dev, &match);
->                 if (ret)
->                         return ret;
+> -	drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
+> -					 gtt->ttm.dma_address, ttm->num_pages);
+> +	drm_prime_sg_to_page_addr_arrays(ttm->sg, NULL, gtt->ttm.dma_address,
+> +					 ttm->num_pages);
+>  =
 
-I'm a bit skeptical about where you are registering/initializing dpu
-dbg.. what happens on mdp4/mdp5 devices?
+>  	return 0;
+>  =
 
-BR,
--R
+> @@ -673,8 +673,9 @@ static int radeon_ttm_tt_populate(struct ttm_bo_devic=
+e *bdev,
+>  	}
+>  =
+
+>  	if (slave && ttm->sg) {
+> -		drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
+> -						 gtt->ttm.dma_address, ttm->num_pages);
+> +		drm_prime_sg_to_page_addr_arrays(ttm->sg, NULL,
+> +						 gtt->ttm.dma_address,
+> +						 ttm->num_pages);
+>  		return 0;
+>  	}
+>  =
+
+> -- =
+
+> 2.25.1
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
