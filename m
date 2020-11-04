@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFF92A5F5D
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:23:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25CC2A5F0E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:03:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0993D89D3E;
-	Wed,  4 Nov 2020 08:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 740C489359;
+	Wed,  4 Nov 2020 08:03:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA0A6E926
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 03:04:00 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id c20so16098737pfr.8
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 19:04:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=M+7yANrvElG7vvXiOwG93dIUVBVs3AW4QD34DhOvCCI=;
- b=btFJkwgN45cTDxVtmE+Vf/+i4KTd+QJ7t7NUxCyZTE8m1tbcZbzqjNbBGYprvd57iN
- UShejiWVREUTlyzMsd8UIEC1n3FLdTx5oKihlzv2zQeOYrsmRCZgIbcc6awaLDRftLtE
- zXyerpEX+lcba+6EjdtoMaErPXzcXtWX9M4Y9iH8f2tOBVl07bUpcttN9jtz5woiWfKs
- E+NHYqOnfFZuFluN5f3wZdCPeP0xl5bojj8vXL3BjMJXkdIgBBDDevUeORWDZDPkDzVZ
- H2onAvXjL0GO/VwttnAAAPMr+4GLy0YLVKE1PsLXoA6a+UqtctBYVCJ+sIAt5sIl2M7Z
- d8QQ==
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC94289359
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 08:03:20 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id s25so14510095ejy.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 00:03:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=lSHGlcZONhf6qBQExAcS/zcrqWFtE8KDWWdwXpyQQ+o=;
+ b=JQRa+YZuAJZjt1g7TC9uAoHYTcFw/40zCiI/3Bz628T8dyzU/yCN5jgd/Etdq+GbEH
+ rvQ0wwkqSkrFz6SZ+s29kV53j3Ij6xInhh5wd2YonabzH3OIqagnV3Y/fwYlJGUIsbju
+ M6Pgp2sRf+Jk2ZRChyJYcGR/I0zh9K3Rl6el5aeVgdm0J8zJkqP5jgFK3OycNIjnoidP
+ GdBR+n1qZJtM6kAiVsUJ4iPzD4JNOEnxhbkijpte9JvvDa/5TM/FLLZ573iv+9j6gIM6
+ I7tnIrRTbVArZ2dr8ZpE/5Cpmo4V7ibsFSprrAEKDa5kJlkpzbHvcUOw6a6iEgUHUr/2
+ z5xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=M+7yANrvElG7vvXiOwG93dIUVBVs3AW4QD34DhOvCCI=;
- b=mGYTQ58ZYtwL0nGX+Zi8liPZ0mVAjFuav+hyEA47CFyScb4bkf5D/S9MUdMnjzlwjL
- q+ElDje0ruWZc7W/oVRPfC6TI3AAjkJ1Dm3j/HypWCqWdYfJt5kYqIHfrgVtxpJCMXNZ
- jZCMJWVB7JmoLNFme88zZZZs00rAB5zgsxh2riwnZ9lTj9+Jvi1MSKLsHTTZ25mJGuiD
- +W/S19XKSUjAUXa/O9F2UkSZXR8bezGyclMqyCBKtf56efERhTZqf+/ff3LkUZ//1syo
- 9TXRWoT5csEt/iaYlSBoYujEj5K8+9szFzktf5QNZmK/jO3hRlApO44mKl6hzLVXMY5U
- wGkQ==
-X-Gm-Message-State: AOAM531NW7FO8mAkQJ8pjv0iW9xFtwJ0MhCP8rcivJopu2Xc1VUt5uyV
- FmomlmIzmHnWmjTcRKU5QWQt7g==
-X-Google-Smtp-Source: ABdhPJye/niTkH7khNS36zvZ3Ubb6lzZ6FDeMgMpWSwwwaQ4FeRK9FDZcZ/yYMErd1iByJeq4uoX+A==
-X-Received: by 2002:a17:90a:5882:: with SMTP id
- j2mr2156165pji.177.1604459039793; 
- Tue, 03 Nov 2020 19:03:59 -0800 (PST)
-Received: from localhost ([122.172.12.172])
- by smtp.gmail.com with ESMTPSA id n64sm491754pfn.134.2020.11.03.19.03.57
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 03 Nov 2020 19:03:58 -0800 (PST)
-Date: Wed, 4 Nov 2020 08:33:53 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 07/22] drm/msm: Do rpm get sooner in the submit path
-Message-ID: <20201104030353.ny7zvakgb4fsye6r@vireshk-i7>
-References: <CAF6AEGstGtBswUUiyHxT2cCm8NwZekDnMzD0J_pQH37GwS=LiA@mail.gmail.com>
- <20201020090729.qgqish5kqamhvatj@vireshk-i7>
- <CAKMK7uHAgVUPHOPxDdt3LeAWqokxfuzqjZj4qqFkoKxFbRbRrg@mail.gmail.com>
- <20201020112413.xbk2vow2kgjky3pb@vireshk-i7>
- <CAF6AEGsCj-AtFozn8d1xiNNFNbuMJ0UxS-eMhBVXiQ7rKahKnQ@mail.gmail.com>
- <20201022080644.2ck4okrxygmkuatn@vireshk-i7>
- <CAF6AEGv6RMCsK4yp-W2d1mVTMcEiiwFGAb+V8rYLhDdMhqP80Q@mail.gmail.com>
- <20201027113532.nriqqws7gdcu5su6@vireshk-i7>
- <20201103054715.4l5j57pyjz6zd6ed@vireshk-i7>
- <CAF6AEGtgUVXm6Wwod0FC38g91Q8CotLFSoC4NmXx7GzcA=1mOA@mail.gmail.com>
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=lSHGlcZONhf6qBQExAcS/zcrqWFtE8KDWWdwXpyQQ+o=;
+ b=JE5QoUh2aogub6rwV7vsO2nB95aHloeM5HLPLRlCmEB4z5SHAOJ1BAQEZtem4D2R5m
+ 2RW5gs0Gm5UtzQdV2Rp7yLVenov/aaQsPWzn/f+dDcsxI3KMUepNWFuyKQPa1gFPGA6W
+ dEE4T7gSV0f2xJfBrGJw5NroyZ5ebXRcEaxDY9wQ0VawvFd4YGu2JPKG1uAwa1N9xVtD
+ 0N6UpbUEoSfNL33xdKl62a8QF+x4DlAwVOJxQC68jF1FCcVFlkctetzPo0wxuxrrzBhY
+ n6VHbwjyv88BUHuEvwfoK1wfyeNiz50LLQr8frhFot2V4dUX4WHY5Y/1cvaKxaXaerRu
+ RJJQ==
+X-Gm-Message-State: AOAM531bCyRMtkl7mpzegmqc3Y7QEaIkUmaPBazM2mo95adn26UnxYfC
+ Q7JZ1rFk5WbuBcks/WifPxY=
+X-Google-Smtp-Source: ABdhPJyYf7wTm7PCR+aDC0KR0zCSeQg/FQpbVuARHDgbDgaGw2ovwStfe5mIvBm9OL1gpSoTMbbB9g==
+X-Received: by 2002:a17:906:c1d4:: with SMTP id
+ bw20mr23369417ejb.91.1604476999489; 
+ Wed, 04 Nov 2020 00:03:19 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id f25sm600558edr.53.2020.11.04.00.03.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Nov 2020 00:03:18 -0800 (PST)
+Subject: Re: [PATCH 1/2] mm: mmap: fix fput in error path v2
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: akpm@linux-foundation.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ chris@chris-wilson.co.uk, airlied@redhat.com, daniel@ffwll.ch,
+ sumit.semwal@linaro.org, willy@infradead.org, jhubbard@nvidia.com,
+ jgg@ziepe.ca, linmiaohe@huawei.com
+References: <20201012085203.56119-1-christian.koenig@amd.com>
+Message-ID: <be6d248d-01d4-f2a3-5e33-7f311daef0b7@gmail.com>
+Date: Wed, 4 Nov 2020 09:03:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGtgUVXm6Wwod0FC38g91Q8CotLFSoC4NmXx7GzcA=1mOA@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
-X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
+In-Reply-To: <20201012085203.56119-1-christian.koenig@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,37 +76,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, "Menon, Nishanth" <nm@ti.com>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03-11-20, 08:50, Rob Clark wrote:
-> sorry, it didn't apply cleanly (which I guess is due to some other
-> dependencies that need to be picked back to v5.4 product kernel), and
-> due to some other things I'm in middle of debugging I didn't have time
-> yet to switch to v5.10-rc or look at what else needs to
-> cherry-picked..
-> 
-> If you could, pushing a branch with this patch somewhere would be a
-> bit easier to work with (ie. fetch && cherry-pick is easier to deal
-> with than picking things from list)
-
-It has been in linux-next for a few days. Here is the HEAD to pick
-from. There are few patches there since rc1.
-
-commit 203e29749cc0 ("opp: Allocate the OPP table outside of opp_table_lock")
-
--- 
-viresh
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SWYgbm9ib2R5IGNvbWVzIHVwIHdpdGggYW4gb2JqZWN0aW9ucyBJJ20gZ29pbmcgdG8gbWVyZ2Ug
+dGhhdCB0aHJvdWdoIApkcm0tbWlzYy1uZXh0LgoKVGhhbmtzLApDaHJpc3RpYW4uCgpBbSAxMi4x
+MC4yMCB1bSAxMDo1MiBzY2hyaWViIENocmlzdGlhbiBLw7ZuaWc6Cj4gUGF0Y2ggIjQ5NWMxMGNj
+MWMwYyBDSFJPTUlVTTogZG1hLWJ1ZjogcmVzdG9yZSBhcmdzLi4uIgo+IGFkZHMgYSB3b3JrYXJv
+dW5kIGZvciBhIGJ1ZyBpbiBtbWFwX3JlZ2lvbi4KPgo+IEFzIHRoZSBjb21tZW50IHN0YXRlcyAt
+Pm1tYXAoKSBjYWxsYmFjayBjYW4gY2hhbmdlCj4gdm1hLT52bV9maWxlIGFuZCBzbyB3ZSBtaWdo
+dCBjYWxsIGZwdXQoKSBvbiB0aGUgd3JvbmcgZmlsZS4KPgo+IFJldmVydCB0aGUgd29ya2Fyb3Vu
+ZCBhbmQgcHJvcGVyIGZpeCB0aGlzIGluIG1tYXBfcmVnaW9uLgo+Cj4gdjI6IGRyb3AgdGhlIGV4
+dHJhIGlmIGluIGRtYV9idWZfbW1hcCBhcyB3ZWxsCj4KPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3Rp
+YW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gUmV2aWV3ZWQtYnk6IEphc29u
+IEd1bnRob3JwZSA8amdnQG52aWRpYS5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2RtYS1idWYvZG1h
+LWJ1Zi5jIHwgMjAgKysrLS0tLS0tLS0tLS0tLS0tLS0KPiAgIG1tL21tYXAuYyAgICAgICAgICAg
+ICAgICAgfCAgMiArLQo+ICAgMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDE4IGRl
+bGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgYi9k
+cml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gaW5kZXggYTZiYTRkNTk4ZjBlLi4wODYzMGQwNTdj
+ZjIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+ICsrKyBiL2RyaXZl
+cnMvZG1hLWJ1Zi9kbWEtYnVmLmMKPiBAQCAtMTE0Myw5ICsxMTQzLDYgQEAgRVhQT1JUX1NZTUJP
+TF9HUEwoZG1hX2J1Zl9lbmRfY3B1X2FjY2Vzcyk7Cj4gICBpbnQgZG1hX2J1Zl9tbWFwKHN0cnVj
+dCBkbWFfYnVmICpkbWFidWYsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLAo+ICAgCQkgdW5z
+aWduZWQgbG9uZyBwZ29mZikKPiAgIHsKPiAtCXN0cnVjdCBmaWxlICpvbGRmaWxlOwo+IC0JaW50
+IHJldDsKPiAtCj4gICAJaWYgKFdBUk5fT04oIWRtYWJ1ZiB8fCAhdm1hKSkKPiAgIAkJcmV0dXJu
+IC1FSU5WQUw7Cj4gICAKPiBAQCAtMTE2MywyMiArMTE2MCwxMSBAQCBpbnQgZG1hX2J1Zl9tbWFw
+KHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLAo+ICAg
+CQlyZXR1cm4gLUVJTlZBTDsKPiAgIAo+ICAgCS8qIHJlYWRqdXN0IHRoZSB2bWEgKi8KPiAtCWdl
+dF9maWxlKGRtYWJ1Zi0+ZmlsZSk7Cj4gLQlvbGRmaWxlID0gdm1hLT52bV9maWxlOwo+IC0Jdm1h
+LT52bV9maWxlID0gZG1hYnVmLT5maWxlOwo+ICsJZnB1dCh2bWEtPnZtX2ZpbGUpOwo+ICsJdm1h
+LT52bV9maWxlID0gZ2V0X2ZpbGUoZG1hYnVmLT5maWxlKTsKPiAgIAl2bWEtPnZtX3Bnb2ZmID0g
+cGdvZmY7Cj4gICAKPiAtCXJldCA9IGRtYWJ1Zi0+b3BzLT5tbWFwKGRtYWJ1Ziwgdm1hKTsKPiAt
+CWlmIChyZXQpIHsKPiAtCQkvKiByZXN0b3JlIG9sZCBwYXJhbWV0ZXJzIG9uIGZhaWx1cmUgKi8K
+PiAtCQl2bWEtPnZtX2ZpbGUgPSBvbGRmaWxlOwo+IC0JCWZwdXQoZG1hYnVmLT5maWxlKTsKPiAt
+CX0gZWxzZSB7Cj4gLQkJaWYgKG9sZGZpbGUpCj4gLQkJCWZwdXQob2xkZmlsZSk7Cj4gLQl9Cj4g
+LQlyZXR1cm4gcmV0Owo+IC0KPiArCXJldHVybiBkbWFidWYtPm9wcy0+bW1hcChkbWFidWYsIHZt
+YSk7Cj4gICB9Cj4gICBFWFBPUlRfU1lNQk9MX0dQTChkbWFfYnVmX21tYXApOwo+ICAgCj4gZGlm
+ZiAtLWdpdCBhL21tL21tYXAuYyBiL21tL21tYXAuYwo+IGluZGV4IDQwMjQ4ZDg0YWQ1Zi4uM2Ey
+NjcwZDczMzU1IDEwMDY0NAo+IC0tLSBhL21tL21tYXAuYwo+ICsrKyBiL21tL21tYXAuYwo+IEBA
+IC0xODUyLDggKzE4NTIsOCBAQCB1bnNpZ25lZCBsb25nIG1tYXBfcmVnaW9uKHN0cnVjdCBmaWxl
+ICpmaWxlLCB1bnNpZ25lZCBsb25nIGFkZHIsCj4gICAJcmV0dXJuIGFkZHI7Cj4gICAKPiAgIHVu
+bWFwX2FuZF9mcmVlX3ZtYToKPiArCWZwdXQodm1hLT52bV9maWxlKTsKPiAgIAl2bWEtPnZtX2Zp
+bGUgPSBOVUxMOwo+IC0JZnB1dChmaWxlKTsKPiAgIAo+ICAgCS8qIFVuZG8gYW55IHBhcnRpYWwg
+bWFwcGluZyBkb25lIGJ5IGEgZGV2aWNlIGRyaXZlci4gKi8KPiAgIAl1bm1hcF9yZWdpb24obW0s
+IHZtYSwgcHJldiwgdm1hLT52bV9zdGFydCwgdm1hLT52bV9lbmQpOwoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
