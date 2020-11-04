@@ -1,64 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913192A641A
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 13:19:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A652A641B
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 13:19:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A80146ECF2;
-	Wed,  4 Nov 2020 12:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 665DD6ECF3;
+	Wed,  4 Nov 2020 12:19:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC62882D0
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 10:49:19 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id o13so14147614ljj.11
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 02:49:18 -0800 (PST)
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7783B6E120
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 11:23:44 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id 13so17037849pfy.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 03:23:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hW9JciFa2DMWNwaN8kCGLx85t5PIMbOk3IaZH3qou+A=;
- b=Q5pwsc4CIjBxOiXbSFkw5Dl/kuHxM5HDSgOHCjpUtbrGAALGo8K1fD7gOTqLKFCAmm
- MFVeiKOG2tUB8iv2hhg8ZSBaDI5vPNfissEl0aXiKtostfXerKPvm5ob2PyCeotWCmL3
- dkTHzG8ZkgpbrBy7umJzKVIHdWfPAKm3bf03idMqvClQvPIYDAjySacuItkuc4KZ/BJA
- 8hlFWHpYVsyodU/dI4b9KCPK+WKN6ZaQXfZ1ci9LfAwLo4qYgLSY5DirgxoK1w97IMbB
- NToV3J/yOgd7+bgodp1FZ43G7KVWke5dpIUfZekhdAjrMg/++BIhjSQRy1bcrbTMAJWy
- BSOg==
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=iqkBaJQMLLSn3M5HmvPZvenF0ZnDsvHIodeI0SDkoT8=;
+ b=i4duuCrk/C/kCdN+uiu8Xnb+j6jKczFmUUIPRXjAfuVWaZB2Gml9H9Ha69fjVptjYw
+ DMK9FNY7Bkrth+tuQRbQeLvalByoN6jGboe2A4zJ+q5veX3xpobZMbgXN47gapnbD16i
+ lC44L8z9qMiRs+XpGwu3OTtItGJzwmRgzrXS+QuL3CXaEtUg9R5c3u1lmtPkYIESywlg
+ HDTqbJD/ZBGIPRSxZtFrT+R6btkLgUF6eoSKlLSj61xDwy8VEfFCns6eHgxHm9h6A7Yz
+ 96jZFy1JXOn/iF5NHyuadGS0TmBnMPgimmYFuLE9VF90z55yR2uGUzAkVfGNdBZ+Onpu
+ 4YMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hW9JciFa2DMWNwaN8kCGLx85t5PIMbOk3IaZH3qou+A=;
- b=qhj1ydCZuKEF4nOwXi3WsDdKbGUIFpNgZSpQQLt3SXGTlkPX47TIR0S7fdlL+Kf0HC
- nrK3hCBCiXEMjyY/C1GbWTl45FIK+nggYlplxh8163KSqK5qPJroZonOMJgi6WC0P2KE
- 5G50dU3fsYLJ4fZIod8JqzDOlLGJCs39sFh4Z0bWU9BonxA57wQXPmktS9gYH/Pzx1Zh
- KinSjrcLjF53Qud+BGp2ToBGYQwzBODbG9sQccXx6pr0BEIJk2SwdLMiX9s9/HQ8JxM3
- m9IK8QNXXfzD3BsJ3ajWiwimHgnaHGXKlJyFnMC+UBghCoIBs9gQDhPUZSB5+EsA44uz
- OAWg==
-X-Gm-Message-State: AOAM533epfbaVcO4GsfZ6kXD56xTCt+pOJP6K1WjfiYgjli6mqo+VcXq
- CqDFCLtt6JcVBMfPssiuc70=
-X-Google-Smtp-Source: ABdhPJzzLUKlILds5RKowUnpmArH4wHItQ9txy25FaUm1y8574Xkf4n6JLnrEn8ms7n5JDphgTdq0Q==
-X-Received: by 2002:a2e:9cc9:: with SMTP id g9mr10866780ljj.20.1604486957372; 
- Wed, 04 Nov 2020 02:49:17 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-83.dynamic.spd-mgts.ru.
- [109.252.192.83])
- by smtp.googlemail.com with ESMTPSA id w29sm19857lfc.49.2020.11.04.02.49.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Nov 2020 02:49:16 -0800 (PST)
-Subject: Re: [PATCH V2] drm/tegra: sor: Don't warn on probe deferral
-To: Jon Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>
-References: <20201104092328.659169-1-jonathanh@nvidia.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <420d8e9e-47d5-0d46-a774-a47bcb52bdeb@gmail.com>
-Date: Wed, 4 Nov 2020 13:49:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=iqkBaJQMLLSn3M5HmvPZvenF0ZnDsvHIodeI0SDkoT8=;
+ b=IMFibJJNWzbv2cTQl1JkaT0cuwJJTRg1jIDti69d6I0QK0EnpMit3LHAyNvHJPQOT9
+ N35u7sLx/rcCQRyOleZXGfOmk0oqFbU05dbh5GJF4jZ3lQcNXeMK0MTz89J9JqK6VZBm
+ aeZyifmV95rwnW3hzSeJanRKdNpdwQXNjvkTvIRlQszDBTfaq05QuTMskPtzh41SSeyE
+ SJt2vdDcBUhvAfHY1V9f6Hghg+woN/pKnKU64+buWQiRKqbwJP5AviOOvJN6Dt62esK3
+ yXyW11lIXEKDahHSeliWAYN0IAHeTnFAgZ8ReNEUj8DWImy0ZN1Izcqe/g+ranY3aIpK
+ jGJA==
+X-Gm-Message-State: AOAM531ifLjnvHvL8WAELi+Dyg1N4xdKn3oZYrCJ1YZgb6P1acE8JmJf
+ q6Cgzff6Pb7E/3qSh35nxl9h25VHvWA=
+X-Google-Smtp-Source: ABdhPJyKmZjy9APbGyGtvptrvKgWNDj/kqACD/0WC+F/YjahNzBVhU+zKwToLUf548ioNlkmRcPEHw==
+X-Received: by 2002:a17:90a:8c89:: with SMTP id
+ b9mr4097017pjo.34.1604489024128; 
+ Wed, 04 Nov 2020 03:23:44 -0800 (PST)
+Received: from localhost ([160.202.157.3])
+ by smtp.gmail.com with ESMTPSA id n64sm2182055pfn.134.2020.11.04.03.23.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Nov 2020 03:23:43 -0800 (PST)
+Date: Wed, 4 Nov 2020 16:53:38 +0530
+From: Deepak R Varma <mh12gx2825@gmail.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/vgm: replace idr_init() by idr_init_base()
+Message-ID: <20201104112338.GA29271@localhost>
 MIME-Version: 1.0
-In-Reply-To: <20201104092328.659169-1-jonathanh@nvidia.com>
-Content-Language: en-US
+Content-Disposition: inline
 X-Mailman-Approved-At: Wed, 04 Nov 2020 12:19:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,34 +66,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mh12gx2825@gmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDQuMTEuMjAyMCAxMjoyMywgSm9uIEh1bnRlciDQv9C40YjQtdGCOgo+IERlZmVycmVkIHByb2Jl
-IGlzIGFuIGV4cGVjdGVkIHJldHVybiB2YWx1ZSBmb3IgdGVncmFfb3V0cHV0X3Byb2JlKCkuCj4g
-R2l2ZW4gdGhhdCB0aGUgZHJpdmVyIGRlYWxzIHdpdGggaXQgcHJvcGVybHksIHRoZXJlJ3Mgbm8g
-bmVlZCB0byBvdXRwdXQKPiBhIHdhcm5pbmcgdGhhdCBtYXkgcG90ZW50aWFsbHkgY29uZnVzZSB1
-c2Vycy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKb24gSHVudGVyIDxqb25hdGhhbmhAbnZpZGlhLmNv
-bT4KPiAtLS0KPiAKPiBDaGFuZ2VzIHNpbmNlIFYxOgo+IC0gVGhpcyB0aW1lLCBJIGFjdHVhbGx5
-IHZhbGlkYXRlZCBpdCEKPiAKPiAgZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3Nvci5jIHwgNyArKyst
-LS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4g
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYyBiL2RyaXZlcnMvZ3B1
-L2RybS90ZWdyYS9zb3IuYwo+IGluZGV4IGU4OGExN2MyOTM3Zi4uODk4YTgwY2EzN2ZhIDEwMDY0
-NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9zb3IuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS90ZWdyYS9zb3IuYwo+IEBAIC0zNzY0LDEwICszNzY0LDkgQEAgc3RhdGljIGludCB0ZWdy
-YV9zb3JfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgCQlyZXR1cm4gZXJy
-Owo+ICAKPiAgCWVyciA9IHRlZ3JhX291dHB1dF9wcm9iZSgmc29yLT5vdXRwdXQpOwo+IC0JaWYg
-KGVyciA8IDApIHsKPiAtCQlkZXZfZXJyKCZwZGV2LT5kZXYsICJmYWlsZWQgdG8gcHJvYmUgb3V0
-cHV0OiAlZFxuIiwgZXJyKTsKPiAtCQlyZXR1cm4gZXJyOwo+IC0JfQo+ICsJaWYgKGVyciA8IDAp
-Cj4gKwkJcmV0dXJuIGRldl9lcnJfcHJvYmUoJnBkZXYtPmRldiwgZXJyLAo+ICsJCQkJICAgICAi
-ZmFpbGVkIHRvIHByb2JlIG91dHB1dDogJWRcbiIsIGVycik7CgpIZWxsbyBKb24sCgpUaGVyZSBp
-cyBubyBuZWVkIHRvIGR1cGxpY2F0ZSB0aGUgZXJyb3IgY29kZSBpbiB0aGUgbWVzc2FnZSBbMV0u
-IFBlcmhhcHMKd29ydGggbWFraW5nIGEgdjM/IDopCgpbMV0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxp
-bi5jb20vbGludXgvdjUuMTAtcmMyL3NvdXJjZS9kcml2ZXJzL2Jhc2UvY29yZS5jI0w0MjQwCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+idr_init() uses base 0 which is an invalid identifier. The new function
+idr_init_base allows IDR to set the ID lookup from base 1. This avoids
+all lookups that otherwise starts from 0 since 0 is always unused.
+
+References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
+
+Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+---
+ drivers/gpu/drm/vgem/vgem_fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+index 17f32f550dd9..2902dc6e64fa 100644
+--- a/drivers/gpu/drm/vgem/vgem_fence.c
++++ b/drivers/gpu/drm/vgem/vgem_fence.c
+@@ -233,7 +233,7 @@ int vgem_fence_signal_ioctl(struct drm_device *dev,
+ int vgem_fence_open(struct vgem_file *vfile)
+ {
+ 	mutex_init(&vfile->fence_mutex);
+-	idr_init(&vfile->fence_idr);
++	idr_init_base(&vfile->fence_idr, 1);
+ 
+ 	return 0;
+ }
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
