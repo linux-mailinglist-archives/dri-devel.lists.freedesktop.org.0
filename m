@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974BA2A78F2
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:21:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906CB2A791E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A7BD6EA0D;
-	Thu,  5 Nov 2020 08:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F321A6EA1D;
+	Thu,  5 Nov 2020 08:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD5B16E852
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:22 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id 23so300836ljv.7
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:22 -0800 (PST)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307336E852
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:24 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id l28so142517lfp.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tYmWkaHosByI64aAoFLlLhjUXs+kckBxEWCVl+oFpnc=;
- b=cTrA1BoDRRykWx9zrvi5obCOxdvzunJb1sNBzUS/mcjrUtEa0+OzONd+O15pGvdZ0z
- zBeH778gsYKpZq7LRWlM5Vt1qWg20PxNUNt+/Lo6XsZZ6IkpZ4J/oi07gvnEN5zw0V2g
- hDv6oetsgS1Flk+b2d7xMVPsKRtN0xrZ0ZbREvLURa2UCDa0InHRAL3btrYjlBHrQf9x
- kab0o7jG9XmfeqisiGfq9zO8Eku/FIApF0E/cp6z/UTnE9ZCvjpmwu7ZmMdmC2/OcSts
- FLwsPBTrlhfC/v/RcZ5Aw9Wvv9Fbo9xc4HLrPGRT6zaGcrg2jicEtdmO54vZ7kS60J68
- bqOg==
+ bh=K4ppSJ2AddiWlYFoXxNcKR4PjL1fbbIp7DTjiauGM84=;
+ b=EmmuvuSmP6Fa/cTkfXz6esVgu/dKOVA1/YN/iBuMZXJoX/Jp7RGrqxfrlw76fNS5DP
+ 9HqYlXwBQY6pR1l1tR7Gw9x9I9v3tmnVyOMr72aUQedkkGB7Ikt0lxbPNhxtDotVl8Fb
+ CNMr0fVrG9QXE8eD7au3cyWnkq/Q1IRf+imGCKFLGf8RIV8q82GK6y3nuLeNnzYi+3VQ
+ WwUHFsZfMbtHXf9sU5MuaINqod0n9zqPPfAfcJId5LgYGPyGDILDKVFp6kqDqlGEwn6m
+ 2V2d43+Nz+kv50TfcfFmfyXI56YcKOjIIGEvD4TKWR2pLjIB81j+Pm0u9PJ1odfvPcsC
+ XPfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tYmWkaHosByI64aAoFLlLhjUXs+kckBxEWCVl+oFpnc=;
- b=O6QtBZI9SZao/A+WNeSjydNm+AObmEsYcjo1NYjK7r5kGto2sjhL5jlnk5UNjag5kn
- BclWzf7Wbn65PSOYauxvi6udhwCR4Ur5lh0CG7z4iuqR8kkAGWQqdTTQPnUFgE89b5go
- Ni1TGsQ/JM4Ha3yrmJVzTIsfq2lGB01xDRH+9jgYo22Gvtjd1Sl2bZC36FL8sw3P/qDb
- aQHgDfsHvqGr7Ei6O1icLLYICmDUmGwp+X2GpKmNdCAnWJVUIF0oNlm2Fufxp26Gu3Lf
- mYT0sO66AAkwkXVeH8NbRvz09LjrVnk1tplY1wOs/2KeZCws+akEWYAxYFy0Zfppxn9B
- 2xYw==
-X-Gm-Message-State: AOAM531e+Ujkm0r7pE6N0LHkSWR+Un2ZfL+MsG7v5bi4xo/9Nlsh7GkT
- EK9ie6qMIqw3Rz5pn7DZbpQ=
-X-Google-Smtp-Source: ABdhPJzB7OlTS2WBx4RcVvxyMeKXhRQqSie6w2ltFjOQXHq4Xe9ynHa2INELgNdxnVC+IqPTlugvxQ==
-X-Received: by 2002:a2e:7018:: with SMTP id l24mr134995ljc.313.1604533521220; 
- Wed, 04 Nov 2020 15:45:21 -0800 (PST)
+ bh=K4ppSJ2AddiWlYFoXxNcKR4PjL1fbbIp7DTjiauGM84=;
+ b=WXmd0VSln3OFtWxSrgFRWeDyo5IOFbhBumsKYrJagBMDmxDNPbhjUn+JAoDZ6pRtLt
+ 2wbtccTYbqoc0SF5If6lawzPyLuc71cvgSRKkM0oi9jv/BHuUiWyEn1HJ9Yd+/w9meYl
+ R8BiTNOWuMHLnlzOM12pPbSIAgNBrVfCRkTfTp/2TbKrZasSE/Gph4bHLdmN49D/XjrL
+ cFB7cb2XgI6dF8uEDnoTdBcl98tYtVwzKhl8PMpiR8ukwxkJdfSI6gBFIR4ca4O7P4HB
+ sCsdmu3FWvpNL1RytAvLsl48IZl9NMa45rkFeuYVyejN8WmKIpbTO5EwIMNs+iUvPzvz
+ rmWw==
+X-Gm-Message-State: AOAM530rEJBOxr4ThT25YzVOJB4tGcQoXljbp+t/SaK2aCZtB37gRhwr
+ 5QaobSgCK/Xae42uJyYnazg=
+X-Google-Smtp-Source: ABdhPJwoUckU/OtDGClkUV9r7wohhz53xU2YerU2E5Yqaah5RWdN/EQJAtLpDZOcGR7DGknOuKbMuw==
+X-Received: by 2002:a05:6512:1109:: with SMTP id
+ l9mr48492lfg.251.1604533522603; 
+ Wed, 04 Nov 2020 15:45:22 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru.
  [109.252.192.83])
- by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.19
+ by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 15:45:20 -0800 (PST)
+ Wed, 04 Nov 2020 15:45:22 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -61,9 +62,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
  Peter Geis <pgwipeout@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>
-Subject: [PATCH v1 18/30] pwm: tegra: Support OPP and core voltage scaling
-Date: Thu,  5 Nov 2020 02:44:15 +0300
-Message-Id: <20201104234427.26477-19-digetx@gmail.com>
+Subject: [PATCH v1 19/30] media: staging: tegra-vde: Support OPP and SoC core
+ voltage scaling
+Date: Thu,  5 Nov 2020 02:44:16 +0300
+Message-Id: <20201104234427.26477-20-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
 References: <20201104234427.26477-1-digetx@gmail.com>
@@ -91,121 +93,96 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add OPP and SoC core voltage scaling support to the Tegra PWM driver.
-This is required for enabling system-wide DVFS on older Tegra SoCs.
+Add initial OPP and SoC core voltage scaling support to the video
+decoder driver. This is required for enabling system-wide DVFS on
+older Tegra SoCs.
 
 Tested-by: Peter Geis <pgwipeout@gmail.com>
 Tested-by: Nicolas Chauvet <kwizart@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/pwm/Kconfig     |  1 +
- drivers/pwm/pwm-tegra.c | 84 +++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 82 insertions(+), 3 deletions(-)
+ drivers/staging/media/tegra-vde/Kconfig |   1 +
+ drivers/staging/media/tegra-vde/vde.c   | 127 ++++++++++++++++++++++++
+ drivers/staging/media/tegra-vde/vde.h   |   1 +
+ 3 files changed, 129 insertions(+)
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index 63be5362fd3a..61d35ef759f2 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -509,6 +509,7 @@ config PWM_SUN4I
- config PWM_TEGRA
- 	tristate "NVIDIA Tegra PWM support"
+diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+index 0dc78afd09e0..0ebfe5b07a30 100644
+--- a/drivers/staging/media/tegra-vde/Kconfig
++++ b/drivers/staging/media/tegra-vde/Kconfig
+@@ -4,6 +4,7 @@ config TEGRA_VDE
  	depends on ARCH_TEGRA || COMPILE_TEST
+ 	select DMA_SHARED_BUFFER
+ 	select IOMMU_IOVA
 +	select PM_OPP
+ 	select SRAM
  	help
- 	  Generic PWM framework driver for the PWFM controller found on NVIDIA
- 	  Tegra SoCs.
-diff --git a/drivers/pwm/pwm-tegra.c b/drivers/pwm/pwm-tegra.c
-index 1daf591025c0..96c253127ff3 100644
---- a/drivers/pwm/pwm-tegra.c
-+++ b/drivers/pwm/pwm-tegra.c
-@@ -42,12 +42,15 @@
+ 	    Say Y here to enable support for the NVIDIA Tegra video decoder
+diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+index 28845b5bafaf..9ad43a862eef 100644
+--- a/drivers/staging/media/tegra-vde/vde.c
++++ b/drivers/staging/media/tegra-vde/vde.c
+@@ -15,11 +15,13 @@
+ #include <linux/miscdevice.h>
  #include <linux/module.h>
- #include <linux/of.h>
  #include <linux/of_device.h>
 +#include <linux/pm_opp.h>
- #include <linux/pwm.h>
- #include <linux/platform_device.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/slab.h>
+ #include <linux/pm_runtime.h>
  #include <linux/reset.h>
+ #include <linux/slab.h>
+ #include <linux/uaccess.h>
  
-+#include <soc/tegra/common.h>
++#include <soc/tegra/fuse.h>
+ #include <soc/tegra/pmc.h>
+ 
+ #include "uapi.h"
+@@ -926,6 +928,9 @@ static __maybe_unused int tegra_vde_runtime_suspend(struct device *dev)
+ 
+ 	clk_disable_unprepare(vde->clk);
+ 
++	/* remove performance/voltage vote */
++	dev_pm_opp_set_rate(dev, 0);
 +
- #define PWM_ENABLE	(1 << 31)
- #define PWM_DUTY_WIDTH	8
- #define PWM_DUTY_SHIFT	16
-@@ -145,7 +148,7 @@ static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
- 		required_clk_rate =
- 			(NSEC_PER_SEC / period_ns) << PWM_DUTY_WIDTH;
- 
--		err = clk_set_rate(pc->clk, required_clk_rate);
-+		err = dev_pm_opp_set_rate(pc->dev, required_clk_rate);
- 		if (err < 0)
- 			return -EINVAL;
- 
-@@ -181,6 +184,10 @@ static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
- 	 * before writing the register. Otherwise, keep it enabled.
- 	 */
- 	if (!pwm_is_enabled(pwm)) {
-+		err = dev_pm_opp_set_rate(pc->dev, pc->clk_rate);
-+		if (err < 0)
-+			return err;
-+
- 		err = clk_prepare_enable(pc->clk);
- 		if (err < 0)
- 			return err;
-@@ -191,9 +198,12 @@ static int tegra_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
- 
- 	/*
- 	 * If the PWM is not enabled, turn the clock off again to save power.
-+	 * Remove OPP performance/voltage vote after disabling the clock.
- 	 */
--	if (!pwm_is_enabled(pwm))
-+	if (!pwm_is_enabled(pwm)) {
- 		clk_disable_unprepare(pc->clk);
-+		dev_pm_opp_set_rate(pc->dev, 0);
-+	}
- 
  	return 0;
  }
-@@ -204,6 +214,10 @@ static int tegra_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
- 	int rc = 0;
- 	u32 val;
  
-+	rc = dev_pm_opp_set_rate(pc->dev, pc->clk_rate);
-+	if (rc < 0)
-+		return rc;
+@@ -934,6 +939,12 @@ static __maybe_unused int tegra_vde_runtime_resume(struct device *dev)
+ 	struct tegra_vde *vde = dev_get_drvdata(dev);
+ 	int err;
+ 
++	err = dev_pm_opp_set_rate(dev, vde->default_clk_rate);
++	if (err) {
++		dev_err(dev, "Failed to set clock rate: %d\n", err);
++		return err;
++	}
 +
- 	rc = clk_prepare_enable(pc->clk);
- 	if (rc < 0)
- 		return rc;
-@@ -225,6 +239,7 @@ static void tegra_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
- 	pwm_writel(pc, pwm->hwpwm, val);
- 
- 	clk_disable_unprepare(pc->clk);
-+	dev_pm_opp_set_rate(pc->dev, 0);
+ 	err = tegra_powergate_sequence_power_up(TEGRA_POWERGATE_VDEC,
+ 						vde->clk, vde->rst);
+ 	if (err) {
+@@ -944,6 +955,118 @@ static __maybe_unused int tegra_vde_runtime_resume(struct device *dev)
+ 	return 0;
  }
  
- static const struct pwm_ops tegra_pwm_ops = {
-@@ -234,6 +249,60 @@ static const struct pwm_ops tegra_pwm_ops = {
- 	.owner = THIS_MODULE,
- };
- 
-+static void tegra_pwm_deinit_opp_table(void *data)
++static void tegra_vde_deinit_opp_table(void *data)
 +{
 +	struct device *dev = data;
 +	struct opp_table *opp_table;
 +
 +	opp_table = dev_pm_opp_get_opp_table(dev);
 +	dev_pm_opp_of_remove_table(dev);
++	dev_pm_opp_put_supported_hw(opp_table);
 +	dev_pm_opp_put_regulators(opp_table);
 +	dev_pm_opp_put_opp_table(opp_table);
 +}
 +
-+static int devm_tegra_pwm_init_opp_table(struct device *dev)
++static int devm_tegra_vde_init_opp_table(struct device *dev,
++					 struct tegra_vde *vde)
 +{
-+	struct opp_table *opp_table;
++	struct opp_table *opp_table, *hw_opp_table;
 +	const char *rname = "core";
++	struct dev_pm_opp *opp;
++	unsigned long rate;
++	u32 hw_version;
 +	int err;
 +
 +	/* voltage scaling is optional */
@@ -216,71 +193,114 @@ index 1daf591025c0..96c253127ff3 100644
 +
 +	if (IS_ERR(opp_table))
 +		return dev_err_probe(dev, PTR_ERR(opp_table),
-+				     "failed to prepare OPP table\n");
++				     "Failed to prepare OPP table\n");
++
++	if (of_machine_is_compatible("nvidia,tegra20"))
++		hw_version = BIT(tegra_sku_info.soc_process_id);
++	else
++		hw_version = BIT(tegra_sku_info.soc_speedo_id);
++
++	hw_opp_table = dev_pm_opp_set_supported_hw(dev, &hw_version, 1);
++	err = PTR_ERR_OR_ZERO(hw_opp_table);
++	if (err) {
++		dev_err(dev, "Failed to set supported HW: %d\n", err);
++		goto put_table;
++	}
 +
 +	/*
 +	 * OPP table presence is optional and we want the set_rate() of OPP
 +	 * API to work similarly to clk_set_rate() if table is missing in a
 +	 * device-tree.  The add_table() errors out if OPP is missing in DT.
++	 *
++	 * Clock rate should be pre-initialized (i.e. it's non-zero) either
++	 * by clock driver or by assigned clocks in a device-tree.
 +	 */
-+	if (device_property_present(dev, "operating-points-v2")) {
-+		err = dev_pm_opp_of_add_table(dev);
-+		if (err) {
-+			dev_err(dev, "failed to add OPP table: %d\n", err);
-+			goto put_table;
-+		}
++	if (!device_property_present(dev, "operating-points-v2")) {
++		vde->default_clk_rate = clk_get_rate(vde->clk);
++		goto add_action;
 +	}
 +
-+	err = devm_add_action(dev, tegra_pwm_deinit_opp_table, dev);
++	err = dev_pm_opp_of_add_table(dev);
++	if (err) {
++		dev_err(dev, "Failed to add OPP table: %d\n", err);
++		goto put_hw;
++	}
++
++	/*
++	 * If voltage regulator presents, then we could select the fastest
++	 * clock rate, but driver doesn't support frequency scaling yet,
++	 * hence the top freq OPP may vote for a very high voltage that will
++	 * produce lot's of heat.  Let's select OPP for the current/default
++	 * rate for now.
++	 *
++	 * Clock rate should be pre-initialized (i.e. it's non-zero) either
++	 * by clock driver or by assigned clocks in a device-tree.
++	 */
++	rate = clk_get_rate(vde->clk);
++
++	/* find suitable OPP for the clock rate supportable by SoC */
++	opp = dev_pm_opp_find_freq_ceil(dev, &rate);
++
++	if (opp == ERR_PTR(-ERANGE))
++		opp = dev_pm_opp_find_freq_floor(dev, &rate);
++
++	err = PTR_ERR_OR_ZERO(opp);
++	if (err) {
++		dev_err(dev, "failed to get OPP for %ld Hz: %d\n",
++			rate, err);
++		goto remove_table;
++	}
++
++	dev_pm_opp_put(opp);
++
++	vde->default_clk_rate = clk_round_rate(vde->clk, rate);
++
++add_action:
++	err = devm_add_action(dev, tegra_vde_deinit_opp_table, dev);
 +	if (err)
 +		goto remove_table;
++
++	dev_info(dev, "OPP HW ver. 0x%x, clock rate %lu MHz\n",
++		 hw_version, vde->default_clk_rate / 1000000);
 +
 +	return 0;
 +
 +remove_table:
 +	dev_pm_opp_of_remove_table(dev);
++put_hw:
++	dev_pm_opp_put_supported_hw(opp_table);
 +put_table:
 +	dev_pm_opp_put_regulators(opp_table);
 +
 +	return err;
 +}
 +
- static int tegra_pwm_probe(struct platform_device *pdev)
+ static int tegra_vde_probe(struct platform_device *pdev)
  {
- 	struct tegra_pwm_chip *pwm;
-@@ -258,8 +327,12 @@ static int tegra_pwm_probe(struct platform_device *pdev)
- 	if (IS_ERR(pwm->clk))
- 		return PTR_ERR(pwm->clk);
- 
-+	ret = devm_tegra_pwm_init_opp_table(&pdev->dev);
-+	if (ret)
-+		return ret;
-+
- 	/* Set maximum frequency of the IP */
--	ret = clk_set_rate(pwm->clk, pwm->soc->max_frequency);
-+	ret = dev_pm_opp_set_rate(pwm->dev, pwm->soc->max_frequency);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to set max frequency: %d\n", ret);
- 		return ret;
-@@ -309,6 +382,10 @@ static int tegra_pwm_remove(struct platform_device *pdev)
- 	if (WARN_ON(!pc))
- 		return -ENODEV;
- 
-+	err = dev_pm_opp_set_rate(pc->dev, pc->clk_rate);
-+	if (err < 0)
-+		return err;
-+
- 	err = clk_prepare_enable(pc->clk);
- 	if (err < 0)
+ 	struct device *dev = &pdev->dev;
+@@ -1024,6 +1147,10 @@ static int tegra_vde_probe(struct platform_device *pdev)
  		return err;
-@@ -375,6 +452,7 @@ static struct platform_driver tegra_pwm_driver = {
- 		.name = "tegra-pwm",
- 		.of_match_table = tegra_pwm_of_match,
- 		.pm = &tegra_pwm_pm_ops,
-+		.sync_state = tegra_soc_device_sync_state,
- 	},
- 	.probe = tegra_pwm_probe,
- 	.remove = tegra_pwm_remove,
+ 	}
+ 
++	err = devm_tegra_vde_init_opp_table(dev, vde);
++	if (err)
++		return dev_err_probe(dev, err, "Failed to initialize OPP\n");
++
+ 	vde->iram_pool = of_gen_pool_get(dev->of_node, "iram", 0);
+ 	if (!vde->iram_pool) {
+ 		dev_err(dev, "Could not get IRAM pool\n");
+diff --git a/drivers/staging/media/tegra-vde/vde.h b/drivers/staging/media/tegra-vde/vde.h
+index 5561291b0c88..da83c2d6af8b 100644
+--- a/drivers/staging/media/tegra-vde/vde.h
++++ b/drivers/staging/media/tegra-vde/vde.h
+@@ -48,6 +48,7 @@ struct tegra_vde {
+ 	struct iova_domain iova;
+ 	struct iova *iova_resv_static_addresses;
+ 	struct iova *iova_resv_last_page;
++	unsigned long default_clk_rate;
+ 	dma_addr_t iram_lists_addr;
+ 	u32 *iram;
+ };
 -- 
 2.27.0
 
