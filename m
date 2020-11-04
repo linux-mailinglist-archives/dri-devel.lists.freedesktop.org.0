@@ -1,78 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C7A2A6FFE
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 22:58:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8DC2A6FE9
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 22:52:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7539089C68;
-	Wed,  4 Nov 2020 21:58:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E059D6E043;
+	Wed,  4 Nov 2020 21:52:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F15B789C68
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 21:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604527098;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7mjZwPLaDvRK7gqbusRFvnTm5i/SsM/Ov+R4VsFUYjM=;
- b=FpmTyS7JpBsTwNj92aNC6kvFU0ApWGIZeuUD0mSt0pImtTlOERDtLQmJHlJs2aoSGtQWnm
- 2IvJHhNmy0a3PxqSzumK+himQUc3wT+14ZZ9rIZF8g4pnAj2MM5CU5gGFVr6ArAD4m7Quj
- QE6afuEppcC3958IF19j9hqkdyDOr0Y=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-G6pZ-NYiPJ27vLNo3aoLRA-1; Wed, 04 Nov 2020 16:58:16 -0500
-X-MC-Unique: G6pZ-NYiPJ27vLNo3aoLRA-1
-Received: by mail-qt1-f200.google.com with SMTP id h16so11232542qtr.8
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 13:58:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=7mjZwPLaDvRK7gqbusRFvnTm5i/SsM/Ov+R4VsFUYjM=;
- b=Z3a7HvDQEsnlv9SfODT2QgjPOKz/Fi70XBRV23NfJhOh3i0xDUJ7CqYExNN8EkP+zz
- mfQ7MUMvdVv/nwxvW+iCjbqGgX5KtjBVV1TVLg5b0N1u0I+c90UPoTPvW+SMLLJ9W8gb
- XT+o+UVHLuE/sExGyYJAcFqoMLKqQ3R7e/IxVpbm0TF1E5eZGzdhB7oCTXAj8LhUHinV
- D2Hpdpd/swmacBiJDhlSo1G7nUHNYiRdg/7RQg7Ig1GcZkKgfx5xL2QMovBLctaBD5pb
- hTIQpJ68ILSEDO6QEqQlUIUM/sOrPKR6BAYlbCUdYFiZ5SdBnEflZCyl3m8vpiqWMp2V
- s3dg==
-X-Gm-Message-State: AOAM533INZ41NmH7bWZMnPbPI8hvGzbNhk0dYJ3YL0V0QfAH29cf641c
- Rp0j01IPKP7qd+nCWtQMgAzLqXiVA5VWkikAA6rQPbfmEoiOB+4OeS7jpPsAw3CP1pL4DHvS+QE
- pcvEn85cZjCI826OR8rvhLCR3Hcd0
-X-Received: by 2002:a05:6214:943:: with SMTP id
- dn3mr33862203qvb.45.1604527095997; 
- Wed, 04 Nov 2020 13:58:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyxSZm4vplpN0Yy5FprMLUzwx1P8wIztIZ0XeZy6PFsHKkN0jK/iuyznPLC3n2hCWarebqwgw==
-X-Received: by 2002:a05:6214:943:: with SMTP id
- dn3mr33862190qvb.45.1604527095807; 
- Wed, 04 Nov 2020 13:58:15 -0800 (PST)
-Received: from Whitewolf.lyude.net
- (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id q7sm1153656qtd.49.2020.11.04.13.58.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 13:58:15 -0800 (PST)
-Message-ID: <71dc852e52bfeafc8c03a6fa3cd5f3cdd4eb6609.camel@redhat.com>
-Subject: Re: [git pull] drm next pull for 5.10-rc1
-From: Lyude Paul <lyude@redhat.com>
-To: "Kirill A. Shutemov" <kirill@shutemov.name>, Dave Airlie
- <airlied@gmail.com>
-Date: Wed, 04 Nov 2020 16:58:14 -0500
-In-Reply-To: <20201103222013.hypmzlq7uuqufe76@box>
-References: <CAPM=9txyMmW1DWhS--SuYQu4qDK1GPzgHJwxbAfhHT=hUsPODA@mail.gmail.com>
- <20201103222013.hypmzlq7uuqufe76@box>
-Organization: Red Hat
-User-Agent: Evolution 3.38.1 (3.38.1-1.fc33)
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11120891C5
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 21:52:41 +0000 (UTC)
+IronPort-SDR: RrDOSCfCLUw0h9UXbfSGjkqzcs+EhdISMKR5tumv0Fa9yH6CZoAPEk83W+oy7QOxSmimKUQAb0
+ 5hBGNSXuYYVQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="157067598"
+X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; d="scan'208";a="157067598"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2020 13:52:39 -0800
+IronPort-SDR: FVDkebcP37MiQLgGVuue3XxmTJ98QaWBptcstqZuXSrz3sM6nJPauDKbzZr5+XXAZ4wvzuQcAg
+ Cmm4bSwmEXPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; d="scan'208";a="337019368"
+Received: from cst-dev.jf.intel.com ([10.23.221.69])
+ by orsmga002.jf.intel.com with ESMTP; 04 Nov 2020 13:52:39 -0800
+From: Jianxin Xiong <jianxin.xiong@intel.com>
+To: linux-rdma@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 0/5] RDMA: Add dma-buf support
+Date: Wed,  4 Nov 2020 14:06:30 -0800
+Message-Id: <1604527595-39736-1-git-send-email-jianxin.xiong@intel.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,54 +46,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QUNLLCBJIHdpbGwgc2VuZCBvdXQgYSBwYXRjaCBmb3IgdGhpcyBhc2FwCgpPbiBXZWQsIDIwMjAt
-MTEtMDQgYXQgMDE6MjAgKzAzMDAsIEtpcmlsbCBBLiBTaHV0ZW1vdiB3cm90ZToKPiBPbiBUaHUs
-IE9jdCAxNSwgMjAyMCBhdCAxMTozMzowOEFNICsxMDAwLCBEYXZlIEFpcmxpZSB3cm90ZToKPiA+
-IMKgwqDCoMKgwqAgZHJtL25vdXZlYXUva21zOiBTZWFyY2ggZm9yIGVuY29kZXJzJyBjb25uZWN0
-b3JzIHByb3Blcmx5Cj4gCj4gVGhpcyBjb21taXQgKDA5ODM4YzRlZmU5YSkgYnJva2UgYm9vdCBm
-b3IgbWUuIFRoZXNlIHR3byBodW5rcyBpbgo+IHBhcnRpY3VsYXI6Cj4gCj4gQCAtMjA2Niw3ICsy
-MTIwLDcgQEAgbnY1MF9kaXNwX2F0b21pY19jb21taXRfdGFpbChzdHJ1Y3QgZHJtX2F0b21pY19z
-dGF0ZQo+ICpzdGF0ZSkKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBvdXRwLT5jbHIubWFzaywgb3V0cC0+c2V0Lm1hc2spOwo+IAo+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAob3V0cC0+Y2xyLm1hc2spIHsKPiAtwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaGVscC0+ZGlzYWJsZShlbmNvZGVy
-KTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaGVscC0+
-YXRvbWljX2Rpc2FibGUoZW5jb2Rlciwgc3RhdGUpOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW50ZXJsb2NrW05WNTBfRElTUF9JTlRFUkxPQ0tfQ09S
-RV0gfD0gMTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGlmIChvdXRwLT5mbHVzaF9kaXNhYmxlKSB7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbnY1MF9kaXNwX2F0b21pY19jb21t
-aXRfd25kdyhzdGF0ZSwKPiBpbnRlcmxvY2spOwo+IEBAIC0yMTA1LDcgKzIxNTksNyBAQCBudjUw
-X2Rpc3BfYXRvbWljX2NvbW1pdF90YWlsKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlCj4gKnN0YXRl
-KQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG91
-dHAtPnNldC5tYXNrLCBvdXRwLT5jbHIubWFzayk7Cj4gCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGlmIChvdXRwLT5zZXQubWFzaykgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBoZWxwLT5lbmFibGUoZW5jb2Rlcik7Cj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhlbHAtPmF0b21pY19lbmFibGUo
-ZW5jb2Rlciwgc3RhdGUpOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgaW50ZXJsb2NrW05WNTBfRElTUF9JTlRFUkxPQ0tfQ09SRV0gPSAxOwo+IMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9Cj4gCj4gCj4gSSBoYWNrZWQgdXAgcGF0Y2ggdG8g
-dXNlIGhlbHAtPmRpc2FibGUvaGVscC0+ZW5hYmxlIGlmIGF0b21pY18gdmVyc2lvbnMKPiBhcmUg
-TlVMTC4gSXQgd29ya2VkLgo+IAo+IEluIG15IHNldHVwIEkgc3RlcHBlZCBvbnRvIG52NTBfbXN0
-b19oZWxwLT5hdG9taWNfZW5hYmxlID09IE5VTEwuIEJ1dAo+IHRoZXJlIGFyZSB0d28gbW9yZSBk
-cm1fZW5jb2Rlcl9oZWxwZXJfZnVuY3MgaW4gZGlzcG52NTAvZGlzcC5jIHRoYXQgZG9uJ3QKPiBo
-YXZlIGF0b21pY19lbmFibGUvZGlzYWJsZSBzZXQ6IG52NTBfZGFjX2hlbHAsIG52NTBfcGlvcl9o
-ZWxwLgo+IAoKLS0gClNpbmNlcmVseSwKICAgTHl1ZGUgUGF1bCAoc2hlL2hlcikKICAgU29mdHdh
-cmUgRW5naW5lZXIgYXQgUmVkIEhhdAogICAKTm90ZTogSSBkZWFsIHdpdGggYSBsb3Qgb2YgZW1h
-aWxzIGFuZCBoYXZlIGEgbG90IG9mIGJ1Z3Mgb24gbXkgcGxhdGUuIElmIHlvdSd2ZQphc2tlZCBt
-ZSBhIHF1ZXN0aW9uLCBhcmUgd2FpdGluZyBmb3IgYSByZXZpZXcvbWVyZ2Ugb24gYSBwYXRjaCwg
-ZXRjLiBhbmQgSQpoYXZlbid0IHJlc3BvbmRlZCBpbiBhIHdoaWxlLCBwbGVhc2UgZmVlbCBmcmVl
-IHRvIHNlbmQgbWUgYW5vdGhlciBlbWFpbCB0byBjaGVjawpvbiBteSBzdGF0dXMuIEkgZG9uJ3Qg
-Yml0ZSEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This is the seventh version of the patch set. Changelog:
+
+v7:
+* Rebase on top of latest mlx5 MR patch series
+* Slice dma-buf sg list at runtime instead of creating a new list
+* Preload the buffer page mapping when the MR is created
+* Move the 'dma_virt_ops' check into dma_buf_dynamic_attach()
+
+v6: https://www.spinics.net/lists/linux-rdma/msg96923.html
+* Move the dma-buf invalidation callback from the core to the device
+  driver
+* Move mapping update from work queue to pagefault handler
+* Add dma-buf based MRs to the xarray of mmkeys so that the pagefault
+  handler can be reached
+* Update the new driver method and uverbs command signature by changing
+  the paramter 'addr' to 'offset'
+* Modify the sg list returned from dma_buf_map_attachment() based on
+  the parameters 'offset' and 'length'
+* Don't import dma-buf if 'dma_virt_ops' is used by the dma device
+* The patch that clarifies dma-buf sg lists alignment has landed at
+  https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ac80cd17a615
+  and thus is no longer included with this set
+
+v5: https://www.spinics.net/lists/linux-rdma/msg96786.html
+* Fix a few warnings reported by kernel test robot:
+    - no previous prototype for function 'ib_umem_dmabuf_release' 
+    - no previous prototype for function 'ib_umem_dmabuf_map_pages'
+    - comparison of distinct pointer types in 'check_add_overflow'
+* Add comment for the wait between getting the dma-buf sg tagle and
+  updating the NIC page table
+
+v4: https://www.spinics.net/lists/linux-rdma/msg96767.html
+* Add a new ib_device method reg_user_mr_dmabuf() instead of expanding
+  the existing method reg_user_mr()
+* Use a separate code flow for dma-buf instead of adding special cases
+  to the ODP memory region code path
+* In invalidation callback, new mapping is updated as whole using work
+  queue instead of being updated in page granularity in the page fault
+  handler
+* Use dma_resv_get_excl() and dma_fence_wait() to ensure the content of
+  the pages have been moved to the new location before the new mapping
+  is programmed into the NIC
+* Add code to the ODP page fault handler to check the mapping status
+* The new access flag added in v3 is removed.
+* The checking for on-demand paging support in the new uverbs command
+  is removed because it is implied by implementing the new ib_device
+  method
+* Clarify that dma-buf sg lists are page aligned
+
+v3: https://www.spinics.net/lists/linux-rdma/msg96330.html
+* Use dma_buf_dynamic_attach() instead of dma_buf_attach()
+* Use on-demand paging mechanism to avoid pinning the GPU memory
+* Instead of adding a new parameter to the device method for memory
+  registration, pass all the attributes including the file descriptor
+  as a structure
+* Define a new access flag for dma-buf based memory region
+* Check for on-demand paging support in the new uverbs command
+
+v2: https://www.spinics.net/lists/linux-rdma/msg93643.html
+* The Kconfig option is removed. There is no dependence issue since
+  dma-buf driver is always enabled.
+* The declaration of new data structure and functions is reorganized to
+  minimize the visibility of the changes.
+* The new uverbs command now goes through ioctl() instead of write().
+* The rereg functionality is removed.
+* Instead of adding new device method for dma-buf specific registration,
+  existing method is extended to accept an extra parameter. 
+* The correct function is now used for address range checking. 
+
+v1: https://www.spinics.net/lists/linux-rdma/msg90720.html
+* The initial patch set
+* Implement core functions for importing and mapping dma-buf
+* Use dma-buf static attach interface
+* Add two ib_device methods reg_user_mr_fd() and rereg_user_mr_fd()
+* Add two uverbs commands via the write() interface
+* Add Kconfig option
+* Add dma-buf support to mlx5 device
+
+When enabled, an RDMA capable NIC can perform peer-to-peer transactions
+over PCIe to access the local memory located on another device. This can
+often lead to better performance than using a system memory buffer for
+RDMA and copying data between the buffer and device memory.
+
+Current kernel RDMA stack uses get_user_pages() to pin the physical
+pages backing the user buffer and uses dma_map_sg_attrs() to get the
+dma addresses for memory access. This usually doesn't work for peer
+device memory due to the lack of associated page structures.
+
+Several mechanisms exist today to facilitate device memory access.
+
+ZONE_DEVICE is a new zone for device memory in the memory management
+subsystem. It allows pages from device memory being described with
+specialized page structures, but what can be done with these page
+structures may be different from system memory. ZONE_DEVICE is further
+specialized into multiple memory types, such as one type for PCI
+p2pmem/p2pdma and one type for HMM.
+
+PCI p2pmem/p2pdma uses ZONE_DEVICE to represent device memory residing
+in a PCI BAR and provides a set of calls to publish, discover, allocate,
+and map such memory for peer-to-peer transactions. One feature of the
+API is that the buffer is allocated by the side that does the DMA
+transfer. This works well with the storage usage case, but is awkward
+with GPU-NIC communication, where typically the buffer is allocated by
+the GPU driver rather than the NIC driver.
+
+Heterogeneous Memory Management (HMM) utilizes mmu_interval_notifier
+and ZONE_DEVICE to support shared virtual address space and page
+migration between system memory and device memory. HMM doesn't support
+pinning device memory because pages located on device must be able to
+migrate to system memory when accessed by CPU. Peer-to-peer access
+is currently not supported by HMM.
+
+Dma-buf is a standard mechanism for sharing buffers among different
+device drivers. The buffer to be shared is exported by the owning
+driver and imported by the driver that wants to use it. The exporter
+provides a set of ops that the importer can call to pin and map the
+buffer. In addition, a file descriptor can be associated with a dma-
+buf object as the handle that can be passed to user space.
+
+This patch series adds dma-buf importer role to the RDMA driver in
+attempt to support RDMA using device memory such as GPU VRAM. Dma-buf is
+chosen for a few reasons: first, the API is relatively simple and allows
+a lot of flexibility in implementing the buffer manipulation ops.
+Second, it doesn't require page structure. Third, dma-buf is already
+supported in many GPU drivers. However, we are aware that existing GPU
+drivers don't allow pinning device memory via the dma-buf interface.
+Pinning would simply cause the backing storage to migrate to system RAM.
+True peer-to-peer access is only possible using dynamic attach, which
+requires on-demand paging support from the NIC to work. For this reason,
+this series only works with ODP capable NICs.
+
+This series consists of five patches. The first patch adds the common
+code for importing dma-buf from a file descriptor and mapping the
+dma-buf pages. Patch 2 add the new driver method reg_user_mr_dmabuf().
+Patch 3 adds a new uverbs command for registering dma-buf based memory
+region. Patch 4 adds dma-buf support to the mlx5 driver. Patch 5 adds
+code to dma_buf_dynamic_attach() to check the importer device for use
+of dma_virt_ops and reject the request if so.
+
+Related user space RDMA library changes will be provided as a separate
+patch series.
+
+Jianxin Xiong (5):
+  RDMA/umem: Support importing dma-buf as user memory region
+  RDMA/core: Add device method for registering dma-buf based memory
+    region
+  RDMA/uverbs: Add uverbs command for dma-buf based MR registration
+  RDMA/mlx5: Support dma-buf based userspace memory region
+  dma-buf: Reject attach request from importers that use dma_virt_ops
+
+ drivers/dma-buf/dma-buf.c                     |   5 +
+ drivers/infiniband/core/Makefile              |   2 +-
+ drivers/infiniband/core/device.c              |   1 +
+ drivers/infiniband/core/umem.c                |   7 ++
+ drivers/infiniband/core/umem_dmabuf.c         | 131 ++++++++++++++++++++++++++
+ drivers/infiniband/core/umem_dmabuf.h         |  11 +++
+ drivers/infiniband/core/uverbs_std_types_mr.c | 112 ++++++++++++++++++++++
+ drivers/infiniband/hw/mlx5/main.c             |   2 +
+ drivers/infiniband/hw/mlx5/mlx5_ib.h          |  18 ++++
+ drivers/infiniband/hw/mlx5/mr.c               | 123 +++++++++++++++++++++++-
+ drivers/infiniband/hw/mlx5/odp.c              | 105 +++++++++++++++++++--
+ include/rdma/ib_umem.h                        |  35 ++++++-
+ include/rdma/ib_verbs.h                       |   6 +-
+ include/uapi/rdma/ib_user_ioctl_cmds.h        |  14 +++
+ 14 files changed, 557 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/infiniband/core/umem_dmabuf.c
+ create mode 100644 drivers/infiniband/core/umem_dmabuf.h
+
+-- 
+1.8.3.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
