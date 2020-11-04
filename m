@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B139C2A6849
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 16:54:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 216172A6860
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 16:54:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C56B6E056;
-	Wed,  4 Nov 2020 15:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF3C89D7F;
+	Wed,  4 Nov 2020 15:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B41156E056
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 15:54:16 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id p1so3423622wrf.12
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 07:54:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=cpjrvx5xa5Fub2SmSs5NxCIt1AtREI63BVQTX9fsjLc=;
- b=kmf1Z0yeNpYCwPXqysU9kiSujnzjdXKIk8+vE0x44SjNDiibKhNKdvM5DYwJvPv9BP
- uyTmaIN6g08I7LE1TSotYiRlsqez5OlMd8VdA7Wvqt1o94N7yywzGxi18DlbPu2frcbU
- UPX4K6ffl5hpw/wWewB4vegS9SjGz/YB1Sag9vLtCsmWpxdvdjJLW4LZUj09EXiUZd15
- BCZWtGxHuAJBWzgOusXVeUzhNClzoyi4/4FJDp8BdlfPbeMW9yVwD21iRSg8e0O6iycV
- QKF+XTr/zgsxmxz8jW9vwtA3usnrYac8tlSTIij782QzZwWQGrv1xkhb0om5/c81EElx
- ZmwQ==
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2988589D7F
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 15:54:31 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id 79so12264546otc.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 07:54:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=y5iSM0n3L7+OTVROVCVTwu3uWAzU5mN6qUkDTEIh4do=;
+ b=PitcG0uAHrmeOMZWf07+5nFovh7kr7Adgn3pV0IjFTvWK31RX96qNAX9Ks5Dh/x/M1
+ BTJhllHwgJtYkqu+DoGQVr+zvfuKEAes8E2EKiqu7lnWd/wgVh9ipY9g1P/exu8Ll0XH
+ MlM5Nev4kEpw3fiAkWDQeeOa/AbBbn0nfEjrM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=cpjrvx5xa5Fub2SmSs5NxCIt1AtREI63BVQTX9fsjLc=;
- b=mxeSNqBJmXSHwwwsQCxFA0BM4sBoV+dNIZqR+BLQJDgWEsjWBuOqoKpspj/g0TgV0H
- 3BL3CPwPtXhw/BiZSSPg93+dejMHQ6GmWqxA4XwyZN/c3UvTiVdFEiSKhAoTOpq7lsak
- Tl3JotciwkTBuG4Ho1LpRup1lTw8rLt4EFEquRJe8iIoIpnUOn+jTq84rV3MHDP1ZBxX
- vnUiZOG242uOktP6FxKncfmZV+88qcPvkF+D6IROsGXWuj+zvWJIaJalBqbH8Yp5bgxC
- 8Y+Jaha3yqIkBmTex4niCFFcuCdbCsObsnPVZYzrfm3Gl5YiL2GdxMTPonWny8U6Jj7R
- 7jfg==
-X-Gm-Message-State: AOAM532L8zado3pEpb1pRrRDIB/wiZv8rP3EeCalQ8vnpTkRg/X5eJP/
- 30bTo1GzJfGliR3Xoxajnm+Fiw==
-X-Google-Smtp-Source: ABdhPJwrgUZlnu1TW1h3xBXhxKSzhI+viPcm0Js1YrAFKDpqC8wX2kbdVSVE5rj9s6G+jL0loLWHTA==
-X-Received: by 2002:adf:dd90:: with SMTP id x16mr19148018wrl.47.1604505255361; 
- Wed, 04 Nov 2020 07:54:15 -0800 (PST)
-Received: from dell ([91.110.221.242])
- by smtp.gmail.com with ESMTPSA id w11sm3022885wmg.36.2020.11.04.07.54.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 07:54:14 -0800 (PST)
-Date: Wed, 4 Nov 2020 15:54:12 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Alexandru Stan <amstan@chromium.org>
-Subject: Re: [PATCH v3 3/3] backlight: pwm_bl: Fix interpolation
-Message-ID: <20201104155412.GR4488@dell>
-References: <20201022050445.930403-1-amstan@chromium.org>
- <20201021220404.v3.3.I4dcea1c90e9da3902d466033aa73351e19e49c49@changeid>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y5iSM0n3L7+OTVROVCVTwu3uWAzU5mN6qUkDTEIh4do=;
+ b=odmH5to13tbmjDKnMAINk+Jvpv/koshwqMigJ8iuUW41+1fuBsaL2SYIvReaNSk3lo
+ 6M4A00+RUUcnD6p8rwUX+XBwFLfKiV4Dv51SGxUfdFTbTH7qUN62BhALzZXYpFVxH2HG
+ DTHDKzEL1koggcefyXLOON4FuSJ7qynFzhd4KYiK2n/iJHoR8dkrU2YMMtb18+DQif/y
+ ei9+GgNswFMgaLV+5IZS15GmN0zic7eB1m3gKJ5zEs7B0kMZgU/Z6IsFhSIO9JcaCk7u
+ r34gGGaPtocYW9T+H5bXxbqRmVoN9dyme5+BPV81I9aCwygK6Bbf5FeMNBaHW0u/Hd3r
+ GCKA==
+X-Gm-Message-State: AOAM532nZp+mbNUjT9iixEQjMon33nriGc3dnEacHJ4XX8hyyzeHzTkO
+ 3x6njj1Iod3jXMw/kG82lFyz2pQ73XgY8uPKBq5voA==
+X-Google-Smtp-Source: ABdhPJwFTZ6h8d4LZSz0ZdASZtc67ts9b22F6yGqx4swNCRA+uz1tGrz0fV1z6m2B8vN3lXuyoPJEYkFgolkB9M18jE=
+X-Received: by 2002:a9d:3b4:: with SMTP id f49mr18846565otf.188.1604505270511; 
+ Wed, 04 Nov 2020 07:54:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201021220404.v3.3.I4dcea1c90e9da3902d466033aa73351e19e49c49@changeid>
+References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
+ <20201030100815.2269-6-daniel.vetter@ffwll.ch>
+ <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com>
+ <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
+ <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
+ <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
+ <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
+ <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
+ <20201104140023.GQ36674@ziepe.ca>
+In-Reply-To: <20201104140023.GQ36674@ziepe.ca>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 4 Nov 2020 16:54:19 +0100
+Message-ID: <CAKMK7uH69hsFjYUkjg1aTh5f=q_3eswMSS5feFs6+ovz586+0A@mail.gmail.com>
+Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,57 +65,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, Douglas Anderson <dianders@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andy Gross <agross@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Matthias Kaehlcke <mka@chromium.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+ Pawel Osciak <pawel@osciak.com>, KVM list <kvm@vger.kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomasz Figa <tfiga@chromium.org>, Linux MM <linux-mm@kvack.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMSBPY3QgMjAyMCwgQWxleGFuZHJ1IFN0YW4gd3JvdGU6Cgo+IFRoZSBwcmV2aW91
-cyBiZWhhdmlvciB3YXMgYSBsaXR0bGUgdW5leHBlY3RlZCwgaXRzIHByb3BlcnRpZXMvcHJvYmxl
-bXM6Cj4gMS4gSXQgd2FzIGRlc2lnbmVkIHRvIGdlbmVyYXRlIHN0cmljdGx5IGluY3JlYXNpbmcg
-dmFsdWVzIChubyByZXBlYXRzKQo+IDIuIEl0IGhhZCBxdWFudGl6YXRpb24gZXJyb3JzIHdoZW4g
-Y2FsY3VsYXRpbmcgc3RlcCBzaXplLiBSZXN1bHRpbmcgaW4KPiB1bmV4cGVjdGVkIGp1bXBzIG5l
-YXIgdGhlIGVuZCBvZiBzb21lIHNlZ21lbnRzLgo+IAo+IEV4YW1wbGUgc2V0dGluZ3M6Cj4gCWJy
-aWdodG5lc3MtbGV2ZWxzID0gPDAgMSAyIDQgOCAxNiAzMiA2NCAxMjggMjU2PjsKPiAJbnVtLWlu
-dGVycG9sYXRlZC1zdGVwcyA9IDwxNj47Cj4gCj4gV2hlbmV2ZXIgbnVtLWludGVycG9sYXRlZC1z
-dGVwcyB3YXMgbGFyZ2VyIHRoYW4gdGhlIGRpc3RhbmNlCj4gYmV0d2VlbiAyIGNvbnNlY3V0aXZl
-IGJyaWdodG5lc3MgbGV2ZWxzIHRoZSB0YWJsZSB3b3VsZCBnZXQgcmVhbGx5Cj4gZGlzY29udGlu
-dW91cy4gVGhlIHNsb3BlIG9mIHRoZSBpbnRlcnBvbGF0aW9uIHdvdWxkIHN0aWNrIHdpdGgKPiBp
-bnRlZ2VycyBvbmx5IGFuZCBpZiBpdCB3YXMgMCB0aGUgd2hvbGUgbGluZSBzZWdtZW50IHdvdWxk
-IGdldCBza2lwcGVkLgo+IAo+IFRoZSBkaXN0YW5jZXMgYmV0d2VlbiAxIDIgNCBhbmQgOCB3b3Vs
-ZCBiZSAxIChwcm9wZXJ0eSAjMSBmaWdodGluZyB1cyksCj4gYW5kIG9ubHkgc3RhcnRpbmcgd2l0
-aCAxNiBpdCB3b3VsZCBzdGFydCB0byBpbnRlcnBvbGF0ZSBwcm9wZXJseS4KPiAKPiBQcm9wZXJ0
-eSAjMSBpcyBub3QgZW5vdWdoLiBUaGUgZ29hbCBoZXJlIGlzIG1vcmUgdGhhbiBqdXN0IG1vbm90
-b25pY2FsbHkKPiBpbmNyZWFzaW5nLiBXZSBzaG91bGQgc3RpbGwgY2FyZSBhYm91dCB0aGUgc2hh
-cGUgb2YgdGhlIGN1cnZlLiBSZXBlYXRlZAo+IHBvaW50cyBtaWdodCBiZSBkZXNpcmVkIGlmIHdl
-J3JlIGluIHRoZSBwYXJ0IG9mIHRoZSBjdXJ2ZSB3aGVyZSB3ZSB3YW50Cj4gdG8gZ28gc2xvdyAo
-YWthIHNsb3BlIG5lYXIgMCkuCj4gCj4gUHJvYmxlbSAjMiBpcyBwbGFpbmx5IGEgYnVnLiBJbWFn
-aW5lIGlmIHRoZSA2NCBlbnRyeSB3YXMgNjMgaW5zdGVhZCwKPiB0aGUgY2FsY3VsYXRlZCBzbG9w
-ZSBvbiB0aGUgMzItNjMgc2VnbWVudCB3aWxsIGJlIGFsbW9zdCBoYWxmIGFzIGl0Cj4gc2hvdWxk
-IGJlLgo+IAo+IFRoZSBtb3N0IGV4cGVjdGVkIGFuZCBzaW1wbGVzdCBhbGdvcml0aG0gZm9yIGlu
-dGVycG9sYXRpb24gaXMgbGluZWFyCj4gaW50ZXJwb2xhdGlvbiwgd2hpY2ggd291bGQgaGFuZGxl
-IGJvdGggcHJvYmxlbXMuCj4gTGV0J3MganVzdCBpbXBsZW1lbnQgdGhhdCEKPiAKPiBUYWtlIHBh
-aXJzIG9mIHBvaW50cyBmcm9tIHRoZSBicmlnaHRuZXNzLWxldmVscyBhcnJheSBhbmQgbGluZWFy
-bHkKPiBpbnRlcnBvbGF0ZSBiZXR3ZWVuIHRoZW0uIE9uIHRoZSBYIGF4aXMgKHdoYXQgdXNlcnNw
-YWNlIHNlZXMpIHdlJ2xsCj4gbm93IGhhdmUgZXF1YWxseSBzaXplZCBpbnRlcnZhbHMgKG51bS1p
-bnRlcnBvbGF0ZWQtc3RlcHMgc2l6ZWQsCj4gYXMgb3Bwb3NlZCB0byBiZWZvcmUgd2hlcmUgd2Ug
-d2VyZSBhdCB0aGUgbWVyY3kgb2YgcXVhbnRpemF0aW9uKS4KPiAKPiBFTkQKCkkgcmVtb3ZlZCB0
-aGlzLgoKPiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kcnUgU3RhbiA8YW1zdGFuQGNocm9taXVtLm9y
-Zz4KPiAtLS0KPiAKPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcHdtX2JsLmMgfCA3MCArKysr
-KysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMzEgaW5zZXJ0
-aW9ucygrKSwgMzkgZGVsZXRpb25zKC0pCgpBcHBsaWVkLCB0aGFua3MuCgotLSAKTGVlIEpvbmVz
-IFvmnY7nkLzmlq9dClNlbmlvciBUZWNobmljYWwgTGVhZCAtIERldmVsb3BlciBTZXJ2aWNlcwpM
-aW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQXJtIFNvQ3MKRm9sbG93IExp
-bmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Nov 4, 2020 at 3:00 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Sun, Nov 01, 2020 at 11:50:39PM +0100, Daniel Vetter wrote:
+>
+> > It's not device drivers, but everyone else. At least my understanding
+> > is that VM_IO | VM_PFNMAP means "even if it happens to be backed by a
+> > struct page, do not treat it like normal memory". And gup/pup_fast
+> > happily break that. I tried to chase the history of that test, didn't
+> > turn up anything I understood much:
+>
+> VM_IO isn't suppose do thave struct pages, so how can gup_fast return
+> them?
+>
+> I thought some magic in the PTE flags excluded this?
+
+I don't really have a box here, but dma_mmap_attrs() and friends to
+mmap dma_alloc_coherent memory is set up as VM_IO | VM_PFNMAP (it's
+actually enforced since underneath it uses remap_pfn_range), and
+usually (except if it's pre-cma carveout) that's just normal struct
+page backed memory. Sometimes from a cma region (so will be caught by
+the cma page check), but if you have an iommu to make it
+device-contiguous, that's not needed.
+
+I think only some architectures have a special io pte flag, and those
+are only used for real mmio access. And I think the popular ones all
+don't. But that stuff is really not my expertise, just some drive-by
+reading I've done to understand how the pci mmap stuff works (which is
+special in yet other ways I think).
+
+So probably I'm missing something, but I'm not seeing anything that
+prevents this from coming out of a  pup/gup_fast.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
