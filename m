@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A652A641B
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 13:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D6D2A6418
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 13:19:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 665DD6ECF3;
-	Wed,  4 Nov 2020 12:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CAAF6ECEE;
+	Wed,  4 Nov 2020 12:19:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7783B6E120
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 11:23:44 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id 13so17037849pfy.4
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 03:23:44 -0800 (PST)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B87F6ECEF;
+ Wed,  4 Nov 2020 12:15:40 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id z24so16478014pgk.3;
+ Wed, 04 Nov 2020 04:15:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=iqkBaJQMLLSn3M5HmvPZvenF0ZnDsvHIodeI0SDkoT8=;
- b=i4duuCrk/C/kCdN+uiu8Xnb+j6jKczFmUUIPRXjAfuVWaZB2Gml9H9Ha69fjVptjYw
- DMK9FNY7Bkrth+tuQRbQeLvalByoN6jGboe2A4zJ+q5veX3xpobZMbgXN47gapnbD16i
- lC44L8z9qMiRs+XpGwu3OTtItGJzwmRgzrXS+QuL3CXaEtUg9R5c3u1lmtPkYIESywlg
- HDTqbJD/ZBGIPRSxZtFrT+R6btkLgUF6eoSKlLSj61xDwy8VEfFCns6eHgxHm9h6A7Yz
- 96jZFy1JXOn/iF5NHyuadGS0TmBnMPgimmYFuLE9VF90z55yR2uGUzAkVfGNdBZ+Onpu
- 4YMQ==
+ bh=R1J0AH9WgS50lM8FwPFZLpnnKAWRIzjyzvCVb6eH6q8=;
+ b=LffQLyBZWSLKygNLU7+9ISrE6hdj+29LZSoL0kyavnd4iP2nJS5rzih3teg/MmzDOI
+ etr9Q6zhdypa6G6uLRqZBItq/2pMojDYu/CjACz7rP2vKA08T9L6dplm4GqhxaeoSY+J
+ q7A4ff/S0+SJj7ElQ1+sCmHfqiIomlZ7Uh9pFY538e3Gy+H9qrVIaS7Gu+ISrp8Nieuc
+ 7kK9PMUcSJrQRJga18KcWxpYaSOs4aRxa4vy/N9y+HEsHvbifQuMhP3qoKO2AAYyJqmD
+ hVSFOZfs6WeKCLsj9Y4JnYmNy4Sl74UFf/0uRlPfAmStzyzR2/gCTW6FHEYmvU3hJlgJ
+ 6KLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
  :content-disposition;
- bh=iqkBaJQMLLSn3M5HmvPZvenF0ZnDsvHIodeI0SDkoT8=;
- b=IMFibJJNWzbv2cTQl1JkaT0cuwJJTRg1jIDti69d6I0QK0EnpMit3LHAyNvHJPQOT9
- N35u7sLx/rcCQRyOleZXGfOmk0oqFbU05dbh5GJF4jZ3lQcNXeMK0MTz89J9JqK6VZBm
- aeZyifmV95rwnW3hzSeJanRKdNpdwQXNjvkTvIRlQszDBTfaq05QuTMskPtzh41SSeyE
- SJt2vdDcBUhvAfHY1V9f6Hghg+woN/pKnKU64+buWQiRKqbwJP5AviOOvJN6Dt62esK3
- yXyW11lIXEKDahHSeliWAYN0IAHeTnFAgZ8ReNEUj8DWImy0ZN1Izcqe/g+ranY3aIpK
- jGJA==
-X-Gm-Message-State: AOAM531ifLjnvHvL8WAELi+Dyg1N4xdKn3oZYrCJ1YZgb6P1acE8JmJf
- q6Cgzff6Pb7E/3qSh35nxl9h25VHvWA=
-X-Google-Smtp-Source: ABdhPJyKmZjy9APbGyGtvptrvKgWNDj/kqACD/0WC+F/YjahNzBVhU+zKwToLUf548ioNlkmRcPEHw==
-X-Received: by 2002:a17:90a:8c89:: with SMTP id
- b9mr4097017pjo.34.1604489024128; 
- Wed, 04 Nov 2020 03:23:44 -0800 (PST)
+ bh=R1J0AH9WgS50lM8FwPFZLpnnKAWRIzjyzvCVb6eH6q8=;
+ b=rdk00KCXR3ZLcK6LghUrFjGXrR/Chr04oBICQGFRZzYcSnTVFOn8L40Ag/c11htKDK
+ 8QaWm/wc1TLMslwEGMeOFBusiqsNWiqjFBER9IDRc7uIGFnUjj0cZcjeOL6yY2teNkfu
+ EX71SUJjYQI8IQgF9n2Te+qT1fGyEaFHjYJKtkrevDRbM9kgCiHnTEMT4XZkRWP0AdzZ
+ +kjgOMnibtAdYIJpkyTz2jOSSF+8fJPpuiU9lbWYbXWq9ztgKWy3AShkWwsWxyi/aTyV
+ ahgbcWrafoZ+gV2o2ZBiI/MGgATCMp3Ji3yRnHoXh57WDzLU5xmOS3aq8lzx8T0sz9qH
+ a+eQ==
+X-Gm-Message-State: AOAM532UVmMj/zV0hjXonsPn3eterjgVu8fWMv+8MD3UL8vyGSCpJ5EG
+ sMa/2SVZ4uOVqoHtSIemGL4=
+X-Google-Smtp-Source: ABdhPJw8errMDs0Q21bOu5QpwF/Z3BYb7nDU4hdkJcP574gWqsGLZYHxZtFlddpR0ij7IWk1qxo48A==
+X-Received: by 2002:a17:90a:5884:: with SMTP id j4mr3973377pji.7.1604492139788; 
+ Wed, 04 Nov 2020 04:15:39 -0800 (PST)
 Received: from localhost ([160.202.157.3])
- by smtp.gmail.com with ESMTPSA id n64sm2182055pfn.134.2020.11.04.03.23.41
+ by smtp.gmail.com with ESMTPSA id x4sm2288322pfm.98.2020.11.04.04.15.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 03:23:43 -0800 (PST)
-Date: Wed, 4 Nov 2020 16:53:38 +0530
+ Wed, 04 Nov 2020 04:15:39 -0800 (PST)
+Date: Wed, 4 Nov 2020 17:45:32 +0530
 From: Deepak R Varma <mh12gx2825@gmail.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/vgm: replace idr_init() by idr_init_base()
-Message-ID: <20201104112338.GA29271@localhost>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915/gvt: replace idr_init() by idr_init_base()
+Message-ID: <20201104121532.GA48202@localhost>
 MIME-Version: 1.0
 Content-Disposition: inline
 X-Mailman-Approved-At: Wed, 04 Nov 2020 12:19:32 +0000
@@ -80,22 +85,36 @@ References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
 
 Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
 ---
- drivers/gpu/drm/vgem/vgem_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gvt/gvt.c  | 2 +-
+ drivers/gpu/drm/i915/gvt/vgpu.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
-index 17f32f550dd9..2902dc6e64fa 100644
---- a/drivers/gpu/drm/vgem/vgem_fence.c
-+++ b/drivers/gpu/drm/vgem/vgem_fence.c
-@@ -233,7 +233,7 @@ int vgem_fence_signal_ioctl(struct drm_device *dev,
- int vgem_fence_open(struct vgem_file *vfile)
- {
- 	mutex_init(&vfile->fence_mutex);
--	idr_init(&vfile->fence_idr);
-+	idr_init_base(&vfile->fence_idr, 1);
+diff --git a/drivers/gpu/drm/i915/gvt/gvt.c b/drivers/gpu/drm/i915/gvt/gvt.c
+index c7c561237883..45b492edbb19 100644
+--- a/drivers/gpu/drm/i915/gvt/gvt.c
++++ b/drivers/gpu/drm/i915/gvt/gvt.c
+@@ -312,7 +312,7 @@ int intel_gvt_init_device(struct drm_i915_private *i915)
  
- 	return 0;
- }
+ 	gvt_dbg_core("init gvt device\n");
+ 
+-	idr_init(&gvt->vgpu_idr);
++	idr_init_base(&gvt->vgpu_idr, 1);
+ 	spin_lock_init(&gvt->scheduler.mmio_context_lock);
+ 	mutex_init(&gvt->lock);
+ 	mutex_init(&gvt->sched_lock);
+diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
+index f6d7e33c7099..1c8e63f84134 100644
+--- a/drivers/gpu/drm/i915/gvt/vgpu.c
++++ b/drivers/gpu/drm/i915/gvt/vgpu.c
+@@ -393,7 +393,7 @@ static struct intel_vgpu *__intel_gvt_create_vgpu(struct intel_gvt *gvt,
+ 	mutex_init(&vgpu->dmabuf_lock);
+ 	INIT_LIST_HEAD(&vgpu->dmabuf_obj_list_head);
+ 	INIT_RADIX_TREE(&vgpu->page_track_tree, GFP_KERNEL);
+-	idr_init(&vgpu->object_idr);
++	idr_init_base(&vgpu->object_idr, 1);
+ 	intel_vgpu_init_cfg_space(vgpu, param->primary);
+ 	vgpu->d3_entered = false;
+ 
 -- 
 2.25.1
 
