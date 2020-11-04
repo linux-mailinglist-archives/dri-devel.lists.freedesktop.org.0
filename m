@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37C52A6BE1
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 18:38:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D402A6CB1
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 19:32:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB986E0CA;
-	Wed,  4 Nov 2020 17:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6E06E22B;
+	Wed,  4 Nov 2020 18:32:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36BB06E0CA
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 17:38:04 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id x7so22985449wrl.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 09:38:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=1Uq05JHaAUVx9vyz+vgRmmzwKCL7BFrV7nV2QiqnhUo=;
- b=gUDl2HAUPgUdrASzoWgsoG1915/uk+kPyMsKTpacNVoUKt625M+aICjM72qzTQoFZh
- WHM8fO6zf2fqm4QMwOGwXSUA/mCLyXKy3tqnWCAr0ioYWdKr6+4EB0Xmig9k0YK5S8Al
- 0ypD8tC8ZNxouXBZJhNRv7DSfd3m9d76K3m6g=
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B08866E20A
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 18:32:08 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id n11so20244848ota.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 10:32:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=1Uq05JHaAUVx9vyz+vgRmmzwKCL7BFrV7nV2QiqnhUo=;
- b=NGbsoFTeG5u7J+Jr8lGJinpCpio9ADfRQ5P9yozhRzSEL5oETvChXy5NV2lQ4QSib4
- 7aqxDhsA/ROllvi7OnIv859iJsxLoBtaHvGQ66Rp3G0gNRnGctqUyG5YhHgDD4Ja0NNf
- Ubrxw/WF7UpSriKikgMjyAxCM5DfgSrZFlwtBGkTRnitZ3Cvzel60RymHa/bQ/pz0K3G
- Q4706OkhBYg7xKTybukVrdB/beH9K4sfNMBHxVMS1hvm+RGbF8Ee3i7HrVm9Gc1tjkqQ
- Sd/LeSb3qHTJ/1QJHj9ACRVDairH8bswace4o2jE1Zb5kLE9ZQhycfiqo4X5510JAeuy
- gPKw==
-X-Gm-Message-State: AOAM5338kEr7byKEBoo2qcJJGo6UhJM1zh7nL7mAAFGAo0a+FfU4ozwi
- 6S16BSA+Ob0k+4F3yYBO1EReQw==
-X-Google-Smtp-Source: ABdhPJwzb2CT42AJSs03QdhIYq2K+rWZZWi1HCi6exb1rCeyFsGxsjQ5uyiZJ/Z9gk1gZjlG2wDKfg==
-X-Received: by 2002:a05:6000:36f:: with SMTP id
- f15mr33167936wrf.78.1604511482916; 
- Wed, 04 Nov 2020 09:38:02 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u5sm3024637wml.13.2020.11.04.09.38.01
+ :mime-version:content-disposition:in-reply-to;
+ bh=oghSgZxFlVBv7JU4WB3s/OwRzfJOnjFiQ7TPHojsDUU=;
+ b=sFMy+9DGZsfZ+a4RoCiFgvu92vYliZx8GS8xhYo97QEmkjyfb/2Ihmt2A+o9BbyVXm
+ fPJ579uUopbJO/XZjpr5XaPHFQd5ShROpFirUHMXZokzsYrxqh0nfWoqZGX61cVTyNFS
+ C1/pIkyUGMbxZKwNFqfAwBC0KsEOqzyTszpg8z4VQifXOCYlXOOuh0AXf7l/nvLXjUeS
+ Dg0PgJT07k53Wxt1sHrhFCtOw1w/p1IgVRJnVhpf1SfdbrGlt05kig0l6i5Zkk8AKg7x
+ PgHuKN7EiNt4KDXubuOObb0iEuwF4tqpy6SujlfzxIWcnikns+AORzfgzeGdMP4Nf8HZ
+ 0lOw==
+X-Gm-Message-State: AOAM533pw+n4KrSg7YNePrwqyVj2gzhy+qQfsuOE+q91ATLwwqZFou40
+ 4mLnrberAiTTO6B2d6nlNw==
+X-Google-Smtp-Source: ABdhPJytEnCxIKIlfBfza+NMnBCBgry1XIIkp5fTiGzOjNZ/aBg1i1I8QrMf2ufeUpbIQjxyFPOseA==
+X-Received: by 2002:a9d:649:: with SMTP id 67mr20405397otn.233.1604514728036; 
+ Wed, 04 Nov 2020 10:32:08 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id 186sm742366ooe.20.2020.11.04.10.32.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 09:38:02 -0800 (PST)
-Date: Wed, 4 Nov 2020 18:38:00 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 1/4] drm/radeon: stop using pages with
- drm_prime_sg_to_page_addr_arrays
-Message-ID: <20201104173800.GP401619@phenom.ffwll.local>
-References: <20201104130024.264974-1-christian.koenig@amd.com>
+ Wed, 04 Nov 2020 10:32:07 -0800 (PST)
+Received: (nullmailer pid 3914664 invoked by uid 1000);
+ Wed, 04 Nov 2020 18:32:06 -0000
+Date: Wed, 4 Nov 2020 12:32:06 -0600
+From: Rob Herring <robh@kernel.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v7 1/3] dt-bindings: display: Document the Xylon LogiCVC
+ display controller
+Message-ID: <20201104183206.GA3913864@bogus>
+References: <20201102155308.142691-1-paul.kocialkowski@bootlin.com>
+ <20201102155308.142691-2-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104130024.264974-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201102155308.142691-2-paul.kocialkowski@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,94 +60,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 02:00:21PM +0100, Christian K=F6nig wrote:
-> This is deprecated.
-> =
-
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-
-So I tried to prove to myself that ttm doesn't access ->pages for these
-cases, and kinda couldn't. We still seem to allocate the pages array and
-all that, and there's lots of code using ->pages all over. And between
-ttm_bo_type_sg and TTM_PAGE_FLAG_SG I didn't manage to chase a whole lot
-of paths to their full conclusion.
-
-So I reduced my ambitions and wanted to prove that at least for dma-buf
-imports aka ttm_bo_type_sg, we're guaranteed that we don't try to mmap
-these to userspace. And also failed to find that check.
-
-btw this is across all drivers, mostly ttm code, not radeon specific.
-
-So conclusion, still a mess here that at least I can't see throug clearly
-:-/ here =3D ttm_tt and the entire backing storage handling and everything
-that ties into it. Probably the area that still has the most midlayer feel
-to ttm with all the refactoring in-flight in still.
-
-tldr; tried to review patches 1-3, gave up.
-
-Cheers, Daniel
-
+On Mon, 02 Nov 2020 16:53:06 +0100, Paul Kocialkowski wrote:
+> The Xylon LogiCVC is a display controller implemented as programmable
+> logic in Xilinx FPGAs.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/gpu/drm/radeon/radeon_ttm.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> =
+>  .../display/xylon,logicvc-display.yaml        | 313 ++++++++++++++++++
+>  1 file changed, 313 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
+> 
 
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
-/radeon_ttm.c
-> index 95038ac3382e..f41fcee35f70 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -494,8 +494,8 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_bo_de=
-vice *bdev, struct ttm_tt *
->  	if (r)
->  		goto release_sg;
->  =
 
-> -	drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
-> -					 gtt->ttm.dma_address, ttm->num_pages);
-> +	drm_prime_sg_to_page_addr_arrays(ttm->sg, NULL, gtt->ttm.dma_address,
-> +					 ttm->num_pages);
->  =
+My bot found errors running 'make dt_binding_check' on your patch:
 
->  	return 0;
->  =
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml:117:6: [warning] wrong indentation: expected 4 but found 5 (indentation)
 
-> @@ -673,8 +673,9 @@ static int radeon_ttm_tt_populate(struct ttm_bo_devic=
-e *bdev,
->  	}
->  =
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/xylon,logicvc-display.example.dt.yaml: logicvc@43c00000: 'display-engine@0' does not match any of the regexes: '^gpio@[0-9a-f]+$', 'pinctrl-[0-9]+'
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/xylon,logicvc.yaml
 
->  	if (slave && ttm->sg) {
-> -		drm_prime_sg_to_page_addr_arrays(ttm->sg, ttm->pages,
-> -						 gtt->ttm.dma_address, ttm->num_pages);
-> +		drm_prime_sg_to_page_addr_arrays(ttm->sg, NULL,
-> +						 gtt->ttm.dma_address,
-> +						 ttm->num_pages);
->  		return 0;
->  	}
->  =
 
-> -- =
+See https://patchwork.ozlabs.org/patch/1392340
 
-> 2.25.1
-> =
+The base for the patch is generally the last rc1. Any dependencies
+should be noted.
 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
--- =
+pip3 install dtschema --upgrade
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Please check and re-submit.
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
